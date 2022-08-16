@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40F4595E49
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 16:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 128DD595E93
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 16:51:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3108210E43B;
-	Tue, 16 Aug 2022 14:25:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76DCA113741;
+	Tue, 16 Aug 2022 14:51:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A28DA10E43B;
- Tue, 16 Aug 2022 14:25:33 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id r141so4780558iod.4;
- Tue, 16 Aug 2022 07:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=hlPqld0MkkDzkP6nlR9+xwe5ym6yN7qtcrF+O0hs2y8=;
- b=hhVXCUBxtngsOXAc6MKLkbqPptQ7caYH5YoYz2TsHCZipiu4nB29ljNurOc4WPWzPW
- MKo0WvLARZDo7zmak1U7qrJRQGZY2nuEfNDIyp3qhsQJH63Am9rDKPpYCNg9Njwt8E+T
- kkz7fH0b+PvbqqQxyp1Hqlw/MvWlGDdWRxq+h5cp4jqYQVwiK4rf5afli4fdqfiFe55B
- 32rP5fbB3A/l0fbZKr6FqUaoruUWBKCOxh1WnaAalrQPPtNVrMdSw8GMEQipYOEKyVcY
- 4OS9ujSuNDmzZZSSWm4EnJ2fPyJq5xr5V2yjx3bikhUe0j6rgFtCKyE5sJYgf9GY4yoP
- 5SkA==
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
+ [209.85.210.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B710A18B89A
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 14:50:50 +0000 (UTC)
+Received: by mail-ot1-f51.google.com with SMTP id
+ h9-20020a9d5549000000b0063727299bb4so7570113oti.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 07:50:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=hlPqld0MkkDzkP6nlR9+xwe5ym6yN7qtcrF+O0hs2y8=;
- b=7pgRX/J5iek7YmK6yYa4HjxV2sszyvUgJje7pWxfjrGeUJEBqmUTMX7oU5PVm2f1df
- ayHAiPTHYxxxSHl6fU2S1AhJMC3YLwBz3N3sQGUYkVd86CeJjmSOJ7C5Cy2eeL/m0OUL
- ut0mQ9jmtvXTuexu/JkM+WsyH8uyuNCVpcl7seCDbBVo+mbSRytuJASubH412C2CKYyM
- E3yXInV5VoBD7cuuXAxwB6ZCF2A1gKI1V7yR6yhYv1BK29kKmC3fVLx0Vpo49leJAeoW
- uepZCtI2eGHORUW/YfluLDG1vXWYjSi7FG5JqRFz4+0QPk7qtXf/T67LYNpbTLa9iv75
- 2oMQ==
-X-Gm-Message-State: ACgBeo0kcACxnirONslkU7CYvK0WMwLOVp5PiI4x9dFN/LWlv2w/S9me
- 1xR/VPrgPNyCxxy9Ic6x+obnGIyKbRBDAo+Igvk=
-X-Google-Smtp-Source: AA6agR4xEs1XMyR1EW/f5TP3OUKn5DGc+mwcUXNgPFGPvWU/puhG5LB5XDjy/1yi/N+effprNDe6LAh/XgDwkBH0SD4=
-X-Received: by 2002:a05:6638:25d6:b0:342:916c:d59a with SMTP id
- u22-20020a05663825d600b00342916cd59amr9425579jat.51.1660659932782; Tue, 16
- Aug 2022 07:25:32 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=Glu8BOq83InxmgivOsliME3h0KPUgqBt+ApKY1f8Hz8=;
+ b=0PjKAYr6MTL2McuPRSf5Lw25HTBA3f5Ahax2AreL907u7PV/BT9O+lByh2/doDQVXj
+ dxBALlf0VYLuBjCquCWxJd0pebc5oSpViVB4BewZdtVKVROz2K3Yj4xoN9DKDwvp6ORX
+ hRxJGqQkd2qegbQVkLghcWEwkI0USK8w2WnW0DSH9ce3Xh+k92YrVAZhL4UHK4SBhWg1
+ Qwda09DeYyygk5i8R4mwbtt7uDMAzenw7O2PvnhIiiD/6X0Kv6jSmYtmLpLoexdslOAK
+ AsWDeDCtKcvQY4teFR7ZqN7O9PgryZARDpUV22+LG3tPi1tdwZfyr42NNPmA6Cp2pwUu
+ 3a1A==
+X-Gm-Message-State: ACgBeo0XFUohZoSg2sLvK4zMP0Pfj7tvnfweLRDNjwK8zzB8uqs140Tt
+ /j05RMBgE8/04GOyWwDQ5/FH5S3oqDPkig==
+X-Google-Smtp-Source: AA6agR5Ijl8EV1gBokVfZoM+XcExIMe9DPh562XtBO73BpMXbRat5fk49epsAIcXdRKpYzGG4S0Obg==
+X-Received: by 2002:a9d:5f8e:0:b0:638:87d9:11ed with SMTP id
+ g14-20020a9d5f8e000000b0063887d911edmr6114685oti.354.1660661449737; 
+ Tue, 16 Aug 2022 07:50:49 -0700 (PDT)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com.
+ [209.85.161.51]) by smtp.gmail.com with ESMTPSA id
+ t42-20020a05687060aa00b0010e20d0b2e3sm2066827oae.44.2022.08.16.07.50.49
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Aug 2022 07:50:49 -0700 (PDT)
+Received: by mail-oo1-f51.google.com with SMTP id
+ j42-20020a4a88ad000000b00442fbe0a601so1840523ooa.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 07:50:49 -0700 (PDT)
+X-Received: by 2002:a81:658:0:b0:334:a23e:6caa with SMTP id
+ 85-20020a810658000000b00334a23e6caamr31311ywg.283.1660661036761; Tue, 16 Aug
+ 2022 07:43:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220815211516.3169470-1-robdclark@gmail.com>
- <20220815211516.3169470-2-robdclark@gmail.com>
- <327c77d5-5812-a158-6c9f-c68e15a5a6b4@amd.com>
-In-Reply-To: <327c77d5-5812-a158-6c9f-c68e15a5a6b4@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 16 Aug 2022 07:26:04 -0700
-Message-ID: <CAF6AEGu3oxM+EX_FsLpw4m0KouMyFMLN=AGGbf=6TVQGkJ7jQg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dma-buf: Add ioctl to query mmap coherency/cache
- info
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
+ <20220816132040.uwirtjm5yr6rdd3q@houat>
+ <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
+ <20220816141116.5nuszmilqv2exdb3@houat>
+In-Reply-To: <20220816141116.5nuszmilqv2exdb3@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 16 Aug 2022 16:43:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
+Message-ID: <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,344 +72,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 16, 2022 at 1:27 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 15.08.22 um 23:15 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > This is a fairly narrowly focused interface, providing a way for a VMM
-> > in userspace to tell the guest kernel what pgprot settings to use when
-> > mapping a buffer to guest userspace.
-> >
-> > For buffers that get mapped into guest userspace, virglrenderer returns
-> > a dma-buf fd to the VMM (crosvm or qemu).  In addition to mapping the
-> > pages into the guest VM, it needs to report to drm/virtio in the guest
-> > the cache settings to use for guest userspace.  In particular, on some
-> > architectures, creating aliased mappings with different cache attribute=
-s
-> > is frowned upon, so it is important that the guest mappings have the
-> > same cache attributes as any potential host mappings.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> > v2: Combine with coherency, as that is a related concept.. and it is
-> >      relevant to the VMM whether coherent access without the SYNC ioctl
-> >      is possible; set map_info at export time to make it more clear
-> >      that it applies for the lifetime of the dma-buf (for any mmap
-> >      created via the dma-buf)
->
-> Well, exactly that's a conceptual NAK from my side.
->
-> The caching information can change at any time. For CPU mappings even
-> without further notice from the exporter.
+Hi Maxime,
 
-You should look before you criticize, as I left you a way out.. the
-idea was that DMA_BUF_MAP_INCOHERENT should indicate that the buffer
-cannot be mapped to the guest.  We could ofc add more DMA_BUF_MAP_*
-values if something else would suit you better.  But the goal is to
-give the VMM enough information to dtrt, or return an error if mapping
-to guest is not possible.  That seems better than assuming mapping to
-guest will work and guessing about cache attrs
+On Tue, Aug 16, 2022 at 4:11 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Tue, Aug 16, 2022 at 03:29:07PM +0200, Geert Uytterhoeven wrote:
+> > On Tue, Aug 16, 2022 at 3:20 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > On Fri, Aug 12, 2022 at 03:25:18PM +0200, Geert Uytterhoeven wrote:
+> > > > > --- a/drivers/gpu/drm/drm_connector.c
+> > > > > +++ b/drivers/gpu/drm/drm_connector.c
+> > > > > @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+> > > > >   * 0 on success or a negative error code on failure.
+> > > > >   */
+> > > > >  int drm_mode_create_tv_properties(struct drm_device *dev,
+> > > > > +                                 unsigned int supported_tv_norms,
+> > > > >                                   unsigned int num_modes,
+> > > > >                                   const char * const modes[])
+> > > > >  {
+> > > > > +       static const struct drm_prop_enum_list tv_norm_values[] = {
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-443" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-60" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-K1" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L" },
+> > > >
+> > > > The above are analog standards, with a variable horizontal resolution.
+> > > >
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" },
+> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i" },
+> > > >
+> > > > The above are digital standards, with a fixed resolution.
+> > >
+> > > Are they?
+> > >
+> > > It's not clear to me from looking at nouveau, but I was under the
+> > > impression that they were modes for a component output, so CEA 770.3. I
+> > > don't have the spec though, so I can't check.
+> >
+> > Oh right, I forgot about analog HD over component, where you can use
+> > other pixel clocks than in the digital standard.
+> >
+> > > > You seem to have missed "hd1080p"?
+> > >
+> > > Nobody is using it. If we ever have a driver that uses it I think we can
+> > > add it.
+> >
+> > The PS3 supports 1080p over component
+> > https://manuals.playstation.net/document/en/ps3/current/settings/videooutput.html
+>
+> Yeah, and iirc the Xbox360 did too, but what I meant by nobody is using
+> it is that there's no driver using it currently.
 
-BR,
--R
+OK, it can be added later.
 
-> If the hardware can't use the caching information from the host CPU page
-> tables directly then that pretty much completely breaks the concept that
-> the exporter is responsible for setting up those page tables.
+> > > > In addition, "hd720p", "hd080i", and "hd1080p" are available in both 50
+> > > > and 60 (actually 59.94) Hz, while "hd1080p" can also use 24 or 25 Hz.
+> > >
+> > > It looks like nouveau only exposes modes for 480p at 59.94Hz, 576p at
+> > > 50Hz, 720p at 60Hz, 1080i at 30Hz.
+> >
+> > PS3 supports both 50 and 60 Hz (same link above).
 >
-> Regards,
-> Christian.
+> I'm probably wary on this, but I'd rather stay at feature parity for
+> this series. There's already plenty of occasion to screw up something
+> that I'd rather not introduce new stuff I haven't been able to test :)
 >
-> >
-> >   drivers/dma-buf/dma-buf.c    | 63 +++++++++++++++++++++++++++------
-> >   include/linux/dma-buf.h      | 11 ++++++
-> >   include/uapi/linux/dma-buf.h | 68 +++++++++++++++++++++++++++++++++++=
-+
-> >   3 files changed, 132 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 32f55640890c..262c4706f721 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -125,6 +125,32 @@ static struct file_system_type dma_buf_fs_type =3D=
- {
-> >       .kill_sb =3D kill_anon_super,
-> >   };
-> >
-> > +static int __dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struc=
-t *vma)
-> > +{
-> > +     int ret;
-> > +
-> > +     /* check if buffer supports mmap */
-> > +     if (!dmabuf->ops->mmap)
-> > +             return -EINVAL;
-> > +
-> > +     ret =3D dmabuf->ops->mmap(dmabuf, vma);
-> > +
-> > +     /*
-> > +      * If the exporter claims to support coherent access, ensure the
-> > +      * pgprot flags match the claim.
-> > +      */
-> > +     if ((dmabuf->map_info !=3D DMA_BUF_MAP_INCOHERENT) && !ret) {
-> > +             pgprot_t wc_prot =3D pgprot_writecombine(vma->vm_page_pro=
-t);
-> > +             if (dmabuf->map_info =3D=3D DMA_BUF_COHERENT_WC) {
-> > +                     WARN_ON_ONCE(pgprot_val(vma->vm_page_prot) !=3D p=
-gprot_val(wc_prot));
-> > +             } else {
-> > +                     WARN_ON_ONCE(pgprot_val(vma->vm_page_prot) =3D=3D=
- pgprot_val(wc_prot));
-> > +             }
-> > +     }
-> > +
-> > +     return ret;
-> > +}
-> > +
-> >   static int dma_buf_mmap_internal(struct file *file, struct vm_area_st=
-ruct *vma)
-> >   {
-> >       struct dma_buf *dmabuf;
-> > @@ -134,16 +160,12 @@ static int dma_buf_mmap_internal(struct file *fil=
-e, struct vm_area_struct *vma)
-> >
-> >       dmabuf =3D file->private_data;
-> >
-> > -     /* check if buffer supports mmap */
-> > -     if (!dmabuf->ops->mmap)
-> > -             return -EINVAL;
-> > -
-> >       /* check for overflowing the buffer's size */
-> >       if (vma->vm_pgoff + vma_pages(vma) >
-> >           dmabuf->size >> PAGE_SHIFT)
-> >               return -EINVAL;
-> >
-> > -     return dmabuf->ops->mmap(dmabuf, vma);
-> > +     return __dma_buf_mmap(dmabuf, vma);
-> >   }
-> >
-> >   static loff_t dma_buf_llseek(struct file *file, loff_t offset, int wh=
-ence)
-> > @@ -326,6 +348,27 @@ static long dma_buf_set_name(struct dma_buf *dmabu=
-f, const char __user *buf)
-> >       return 0;
-> >   }
-> >
-> > +static long dma_buf_info(struct dma_buf *dmabuf, void __user *uarg)
-> > +{
-> > +     struct dma_buf_info arg;
-> > +
-> > +     if (copy_from_user(&arg, uarg, sizeof(arg)))
-> > +             return -EFAULT;
-> > +
-> > +     switch (arg.param) {
-> > +     case DMA_BUF_INFO_MAP_INFO:
-> > +             arg.value =3D dmabuf->map_info;
-> > +             break;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     if (copy_to_user(uarg, &arg, sizeof(arg)))
-> > +             return -EFAULT;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> >   static long dma_buf_ioctl(struct file *file,
-> >                         unsigned int cmd, unsigned long arg)
-> >   {
-> > @@ -369,6 +412,9 @@ static long dma_buf_ioctl(struct file *file,
-> >       case DMA_BUF_SET_NAME_B:
-> >               return dma_buf_set_name(dmabuf, (const char __user *)arg)=
-;
-> >
-> > +     case DMA_BUF_IOCTL_INFO:
-> > +             return dma_buf_info(dmabuf, (void __user *)arg);
-> > +
-> >       default:
-> >               return -ENOTTY;
-> >       }
-> > @@ -530,6 +576,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
-> >       dmabuf->priv =3D exp_info->priv;
-> >       dmabuf->ops =3D exp_info->ops;
-> >       dmabuf->size =3D exp_info->size;
-> > +     dmabuf->map_info =3D exp_info->map_info;
-> >       dmabuf->exp_name =3D exp_info->exp_name;
-> >       dmabuf->owner =3D exp_info->owner;
-> >       spin_lock_init(&dmabuf->name_lock);
-> > @@ -1245,10 +1292,6 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct =
-vm_area_struct *vma,
-> >       if (WARN_ON(!dmabuf || !vma))
-> >               return -EINVAL;
-> >
-> > -     /* check if buffer supports mmap */
-> > -     if (!dmabuf->ops->mmap)
-> > -             return -EINVAL;
-> > -
-> >       /* check for offset overflow */
-> >       if (pgoff + vma_pages(vma) < pgoff)
-> >               return -EOVERFLOW;
-> > @@ -1262,7 +1305,7 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct v=
-m_area_struct *vma,
-> >       vma_set_file(vma, dmabuf->file);
-> >       vma->vm_pgoff =3D pgoff;
-> >
-> > -     return dmabuf->ops->mmap(dmabuf, vma);
-> > +     return __dma_buf_mmap(dmabuf, vma);
-> >   }
-> >   EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
-> >
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 71731796c8c3..37923c8d5c24 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -23,6 +23,8 @@
-> >   #include <linux/dma-fence.h>
-> >   #include <linux/wait.h>
-> >
-> > +#include <uapi/linux/dma-buf.h>
-> > +
-> >   struct device;
-> >   struct dma_buf;
-> >   struct dma_buf_attachment;
-> > @@ -307,6 +309,13 @@ struct dma_buf {
-> >        */
-> >       size_t size;
-> >
-> > +     /**
-> > +      * @map_info:
-> > +      *
-> > +      * CPU mapping/coherency information for the buffer.
-> > +      */
-> > +     enum dma_buf_map_info map_info;
-> > +
-> >       /**
-> >        * @file:
-> >        *
-> > @@ -533,6 +542,7 @@ struct dma_buf_attachment {
-> >    * @ops:    Attach allocator-defined dma buf ops to the new buffer
-> >    * @size:   Size of the buffer - invariant over the lifetime of the b=
-uffer
-> >    * @flags:  mode flags for the file
-> > + * @map_info:        CPU mapping/coherency information for the buffer
-> >    * @resv:   reservation-object, NULL to allocate default one
-> >    * @priv:   Attach private data of allocator to this buffer
-> >    *
-> > @@ -545,6 +555,7 @@ struct dma_buf_export_info {
-> >       const struct dma_buf_ops *ops;
-> >       size_t size;
-> >       int flags;
-> > +     enum dma_buf_map_info map_info;
-> >       struct dma_resv *resv;
-> >       void *priv;
-> >   };
-> > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.=
-h
-> > index b1523cb8ab30..07b403ffdb43 100644
-> > --- a/include/uapi/linux/dma-buf.h
-> > +++ b/include/uapi/linux/dma-buf.h
-> > @@ -85,6 +85,72 @@ struct dma_buf_sync {
-> >
-> >   #define DMA_BUF_NAME_LEN    32
-> >
-> > +/**
-> > + * enum dma_buf_map_info - CPU mapping info
-> > + *
-> > + * This enum describes coherency of a userspace mapping of the dmabuf.
-> > + *
-> > + * Importing devices should check dma_buf::map_info flag and reject an
-> > + * import if unsupported.  For example, if the exporting device uses
-> > + * @DMA_BUF_COHERENT_CACHED but the importing device does not support
-> > + * CPU cache coherency, the dma-buf import should fail.
-> > + */
-> > +enum dma_buf_map_info {
-> > +     /**
-> > +      * @DMA_BUF_MAP_INCOHERENT: CPU mapping is incoherent.
-> > +      *
-> > +      * Use of DMA_BUF_IOCTL_SYNC is required for CPU managed coherene=
-ncy.
-> > +      */
-> > +     DMA_BUF_MAP_INCOHERENT,
-> > +
-> > +     /**
-> > +      * @DMA_BUF_COHERENT_WC: CPU mapping is coherent but not cached.
-> > +      *
-> > +      * A cpu mmap'ing is coherent, and DMA_BUF_IOCTL_SYNC is not requ=
-ired.
-> > +      * However fences may be still required for synchronizing access.=
-  Ie.
-> > +      * coherency can only be relied upon by an explicit-fencing users=
-pace.
-> > +      * An implicit-sync userspace must still use DMA_BUF_IOCTL_SYNC.
-> > +      *
-> > +      * The cpu mapping is writecombine.
-> > +      */
-> > +     DMA_BUF_COHERENT_WC,
-> > +
-> > +     /**
-> > +      * @DMA_BUF_COHERENT_CACHED: CPU mapping is coherent and CPU cach=
-ed.
-> > +      *
-> > +      * A cpu mmap'ing is coherent, and DMA_BUF_IOCTL_SYNC is not requ=
-ired.
-> > +      * However fences may be still required for synchronizing access.=
-  Ie.
-> > +      * coherency can only be relied upon by an explicit-fencing users=
-pace.
-> > +      * An implicit-sync userspace must still use DMA_BUF_IOCTL_SYNC.
-> > +      *
-> > +      * The cpu mapping is cached.
-> > +      */
-> > +     DMA_BUF_COHERENT_CACHED,
-> > +};
-> > +
-> > +/**
-> > + * struct dma_buf_info - Query info about the buffer.
-> > + */
-> > +struct dma_buf_info {
-> > +
-> > +#define DMA_BUF_INFO_MAP_INFO    1
-> > +
-> > +     /**
-> > +      * @param: Which param to query
-> > +      *
-> > +      * DMA_BUF_INFO_MAP_INFO:
-> > +      *     Returns enum dma_buf_map_info, describing the coherency an=
-d
-> > +      *     caching of a CPU mapping of the buffer.
-> > +      */
-> > +     __u32 param;
-> > +     __u32 pad;
-> > +
-> > +     /**
-> > +      * @value: Return value of the query.
-> > +      */
-> > +     __u64 value;
-> > +};
-> > +
-> >   #define DMA_BUF_BASE                'b'
-> >   #define DMA_BUF_IOCTL_SYNC  _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync=
-)
-> >
-> > @@ -95,4 +161,6 @@ struct dma_buf_sync {
-> >   #define DMA_BUF_SET_NAME_A  _IOW(DMA_BUF_BASE, 1, __u32)
-> >   #define DMA_BUF_SET_NAME_B  _IOW(DMA_BUF_BASE, 1, __u64)
-> >
-> > +#define DMA_BUF_IOCTL_INFO   _IOWR(DMA_BUF_BASE, 2, struct dma_buf_inf=
-o)
-> > +
-> >   #endif
+> Provided we can easily extend it to support these additional features of
+> course :)
 >
+> > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
+> > > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
+> > > > 09/35] drm/modes: Move named modes parsing to a separate function", as
+> > > > currently a named mode and a refresh rate can't be specified both.
+> > >
+> > > I think the former would make more sense. It simplifies a bit the
+> > > parser, and we're going to use a named mode anyway.
+> > >
+> > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+> > > > command-line option" uses a separate "tv_mode" option, and not the main
+> > > > mode name, I think you want to add them here.
+> > >
+> > > It's a separate story I think, we could have a named mode hd720p50,
+> > > which would be equivalent to 1280x720,tv_mode=hd720p
+> >
+> > So where's the field rate in "1280x720,tv_mode=hd720p"?
+>
+> Yeah, sorry I meant 1280x720@50,tv_mode=hd720p
+
+Above you said "I think the former would make more sense", so that
+should be "1280x720,tv_mode=hd720p50"?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
