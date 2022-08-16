@@ -1,58 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB995962ED
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 21:14:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3CB59633B
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 21:35:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1283F10EE4B;
-	Tue, 16 Aug 2022 19:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBA5510FC0D;
+	Tue, 16 Aug 2022 19:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
- [IPv6:2607:f8b0:4864:20::736])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E01510ED00;
- Tue, 16 Aug 2022 19:14:23 +0000 (UTC)
-Received: by mail-qk1-x736.google.com with SMTP id t11so8859703qkt.6;
- Tue, 16 Aug 2022 12:14:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=2na/qB5N5lOlz/8+8KgAPgP6/03l17atLw+bjUACA4E=;
- b=AhVwvbHPjpgNhznL0xXQDP0pjy95GODO2qConQ5goFMxmO7dcnYhSBdyOBzgVSDStF
- 8X5YzJVisV16LefelAQPvYcpthjdfCfmvKYKCHwrSoQAhvZMKMhRzYlmd8ND5DUQMJRj
- FgpqNl8gSsZb/noBFZy5isTbkEL3aFXKI6Xk0pL/qOokRiBLI1NhpUMdgwfEUeqGYyIp
- 68RFy8SbgxJxYEbi/lfbgLWR0CZ7K1QdWrpo2AnZ8ow5mC4B+lNujLzDE7suc4Dr8NyD
- SIjju3gofVbuE9CA2FCQKDmgrl6XfShsqfGFsW0HoLu5WwRjUakR0uFgHcu2yQH9JsmN
- swSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=2na/qB5N5lOlz/8+8KgAPgP6/03l17atLw+bjUACA4E=;
- b=W87KNB0rvG1ZOrFjGEJXtUDsHHMHXboVfNxt1CAiS4sjFp4FXzAOYeoiTyFVZAtr0+
- FBhXeqp0Rfe9reWx2I4gF0EF03Cvg/WVrTtXbUTEw2TgdfHCE9GIXeWxG7IGhGkzTruF
- Qw9my+1IjAOYLYRpU9bkFs7tK3J94GLAUhGHULiRaz+VQ1mqYBxvYFYIh4Y/WGIY3590
- BmdmOFWeYvMn1DCmYiSBuN9rBP5Wu5wPilxwobekkT0l6EeUOzmnFPnlGNEwFiJlhTtA
- y9prxGYJs4hqYhBCKTNrYoDMGnPCik1eJRpzTkoTv7s4xboA/b1RgLhQN6B9vRhZxOYa
- 6knA==
-X-Gm-Message-State: ACgBeo0edz23QMUaCYGqy0TqtbZ/75GJ2mYrCJ7eawea7gMYFy/ABMyi
- r4lnyyV4oOPiw4N54x6l4JgHHSiCn4MDFZe2T4w=
-X-Google-Smtp-Source: AA6agR7dEIBdG3yyFdlI9pBUKJupoTPoXeKG6ePOm01R7wXlVXUEz+bpz6TJvi97Hxb85z/1563pKyaYXDgQQz4eZpU=
-X-Received: by 2002:a05:620a:4249:b0:6b6:7b2f:4d94 with SMTP id
- w9-20020a05620a424900b006b67b2f4d94mr16183527qko.580.1660677262335; Tue, 16
- Aug 2022 12:14:22 -0700 (PDT)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8187B10FDA8
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 19:35:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=N6mMsJ2BCoZ712tXYE1aSGPGNeJ3vya4PzRd0XZ/7z4=; b=mkdC9S+GC1GHSWx19K+4TdMmER
+ +j47uiu8lrqvMS5wURYrQe1KY/jjKtcogGtFftBAgONXOmNAHUEtcdni2lmlHFhBJdQgzfLotEXha
+ RzXlBd/j7Q4WkgCnDT+shmx64gOtYKWUW11GsVSizEDMn9k6FtAFz/KCbeRIlSQAypwwb26/zvrzw
+ iDpciw7w/M/mda8dsgDl4CyavM3ZIvj3a+oesW8ZNNe0PDIF8EYWx+Rz6B5VmqJcyqPtWSD1KfoHs
+ 8Cb6a4zY6MlPYr5xGh7o7XQSDPTI3GUBIZ2DTdPlWWbASB/a1lz43G96gEpqdNVlRytGBDMguuINE
+ oaftHmJQ==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=58447)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oO2Lb-00029A-Be; Tue, 16 Aug 2022 21:35:31 +0200
+Message-ID: <be9b6b71-fa2a-3290-2bce-901342e01981@tronnes.org>
+Date: Tue, 16 Aug 2022 21:35:24 +0200
 MIME-Version: 1.0
-References: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
- <be6f1ce4-46b1-7a80-230c-b99f203ce8ad@riseup.net>
- <CABXGCsMFYnE+Wn2EAWuC8DSVj=TVprj6ABZwRK-hXcw-1hnMyw@mail.gmail.com>
-In-Reply-To: <CABXGCsMFYnE+Wn2EAWuC8DSVj=TVprj6ABZwRK-hXcw-1hnMyw@mail.gmail.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Wed, 17 Aug 2022 00:14:11 +0500
-Message-ID: <CABXGCsMpGabZ32j_ObEHa_har2W8M8RWuqnx3d=yJT2NX_ztNg@mail.gmail.com>
-Subject: Re: [BUG][5.20] refcount_t: underflow; use-after-free
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <9fdecae2-80ad-6212-0522-7dccf9fb57be@tronnes.org>
+ <20220816082612.grebxql5ynnfnvfd@houat>
+ <ea6ebdda-f779-78af-1ffd-bd86d715077f@tronnes.org>
+ <20220816094922.oqhrhefv327zo2ou@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220816094922.oqhrhefv327zo2ou@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,108 +59,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 15, 2022 at 3:37 PM Mikhail Gavrilov
-<mikhail.v.gavrilov@gmail.com> wrote:
->
-> Thanks, I tested this patch.
-> But with this patch use-after-free problem happening in another place:
-
-Does anyone have an idea why the second use-after-free happened?
-From the trace I don't understand which code is related.
-I don't quite understand what the "Workqueue" entry in the trace means.
-
-[ 408.358737] ------------[ cut here ]------------
-[ 408.358743] refcount_t: underflow; use-after-free.
-[ 408.358760] WARNING: CPU: 9 PID: 62 at lib/refcount.c:28
-refcount_warn_saturate+0xba/0x110
-[ 408.358769] Modules linked in: uinput snd_seq_dummy rfcomm
-snd_hrtimer nft_objref nf_conntrack_netbios_ns nf_conntrack_broadcast
-nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
-nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
-nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink
-qrtr bnep sunrpc binfmt_misc snd_seq_midi snd_seq_midi_event mt76x2u
-mt76x2_common snd_hda_codec_realtek mt76x02_usb snd_hda_codec_generic
-iwlmvm snd_hda_codec_hdmi mt76_usb intel_rapl_msr snd_hda_intel
-mt76x02_lib intel_rapl_common snd_intel_dspcfg snd_intel_sdw_acpi mt76
-snd_hda_codec vfat fat snd_usb_audio snd_hda_core edac_mce_amd
-mac80211 snd_usbmidi_lib snd_hwdep snd_rawmidi mc snd_seq btusb
-kvm_amd iwlwifi snd_seq_device btrtl btbcm libarc4 btintel eeepc_wmi
-snd_pcm iwlmei kvm btmtk asus_wmi ledtrig_audio irqbypass joydev
-snd_timer sparse_keymap bluetooth platform_profile rapl cfg80211 snd
-video wmi_bmof soundcore i2c_piix4 k10temp rfkill mei
-[ 408.358853] asus_ec_sensors acpi_cpufreq zram hid_logitech_hidpp
-amdgpu igb dca drm_ttm_helper ttm iommu_v2 crct10dif_pclmul gpu_sched
-crc32_pclmul ucsi_ccg crc32c_intel drm_buddy nvme typec_ucsi
-drm_display_helper ghash_clmulni_intel ccp typec nvme_core sp5100_tco
-cec wmi ip6_tables ip_tables fuse
-[ 408.358880] Unloaded tainted modules: amd64_edac():1 amd64_edac():1
-amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
-amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
-amd64_edac():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-pcc_cpufreq():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
-amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
-amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-pcc_cpufreq():1 pcc_cpufreq():1 fjes():1 pcc_cpufreq():1 fjes():1
-[ 408.358953] pcc_cpufreq():1 pcc_cpufreq():1 fjes():1 pcc_cpufreq():1
-fjes():1 fjes():1 fjes():1 fjes():1 fjes():1
-[ 408.358967] CPU: 9 PID: 62 Comm: kworker/9:0 Tainted: G W L -------
---- 6.0.0-0.rc1.13.fc38.x86_64+debug #1
-[ 408.358971] Hardware name: System manufacturer System Product
-Name/ROG STRIX X570-I GAMING, BIOS 4403 04/27/2022
-[ 408.358974] Workqueue: events drm_sched_entity_kill_jobs_work [gpu_sched]
-[ 408.358982] RIP: 0010:refcount_warn_saturate+0xba/0x110
-[ 408.358987] Code: 01 01 e8 d9 59 6f 00 0f 0b e9 a2 46 a5 00 80 3d 3e
-7e be 01 00 75 85 48 c7 c7 70 99 8e 92 c6 05 2e 7e be 01 01 e8 b6 59
-6f 00 <0f> 0b e9 7f 46 a5 00 80 3d 19 7e be 01 00 0f 85 5e ff ff ff 48
-c7
-[ 408.358990] RSP: 0018:ffffb124003efe60 EFLAGS: 00010286
-[ 408.358994] RAX: 0000000000000026 RBX: ffff9987a025d428 RCX: 0000000000000000
-[ 408.358997] RDX: 0000000000000001 RSI: ffffffff928d0754 RDI: 00000000ffffffff
-[ 408.358999] RBP: ffff9994e4ff5600 R08: 0000000000000000 R09: ffffb124003efd10
-[ 408.359001] R10: 0000000000000003 R11: ffff99952e2fffe8 R12: ffff9994e4ffc800
-[ 408.359004] R13: ffff998600228cc0 R14: ffff9994e4ffc805 R15: ffff9987a025d430
-[ 408.359006] FS: 0000000000000000(0000) GS:ffff9994e4e00000(0000)
-knlGS:0000000000000000
-[ 408.359009] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 408.359012] CR2: 000027ac39e78000 CR3: 00000001a66d8000 CR4: 0000000000350ee0
-[ 408.359015] Call Trace:
-[ 408.359017] <TASK>
-[ 408.359020] process_one_work+0x2a0/0x600
-[ 408.359032] worker_thread+0x4f/0x3a0
-[ 408.359036] ? process_one_work+0x600/0x600
-[ 408.359039] kthread+0xf5/0x120
-[ 408.359044] ? kthread_complete_and_exit+0x20/0x20
-[ 408.359049] ret_from_fork+0x22/0x30
-[ 408.359061] </TASK>
-[ 408.359063] irq event stamp: 5468
-[ 408.359064] hardirqs last enabled at (5467): [<ffffffff91f2b9e4>]
-_raw_spin_unlock_irq+0x24/0x50
-[ 408.359071] hardirqs last disabled at (5468): [<ffffffff91f22d8c>]
-__schedule+0xe2c/0x16d0
-[ 408.359076] softirqs last enabled at (2482): [<ffffffff917acc28>]
-rht_deferred_worker+0x708/0xc00
-[ 408.359079] softirqs last disabled at (2480): [<ffffffff917ac717>]
-rht_deferred_worker+0x1f7/0xc00
-[ 408.359082] ---[ end trace 0000000000000000 ]---
 
 
-Full kernel log is here: https://pastebin.com/Lam9CRLV
+Den 16.08.2022 11.49, skrev Maxime Ripard:
+> On Tue, Aug 16, 2022 at 11:42:20AM +0200, Noralf Trønnes wrote:
+>>
+>>
+>> Den 16.08.2022 10.26, skrev Maxime Ripard:
+>>> Hi,
+>>>
+>>> On Mon, Aug 08, 2022 at 02:44:56PM +0200, Noralf Trønnes wrote:
+>>>> Den 29.07.2022 18.34, skrev Maxime Ripard:
+>>>>> The TV mode property has been around for a while now to select and get the
+>>>>> current TV mode output on an analog TV connector.
+>>>>>
+>>>>> Despite that property name being generic, its content isn't and has been
+>>>>> driver-specific which makes it hard to build any generic behaviour on top
+>>>>> of it, both in kernel and user-space.
+>>>>>
+>>>>> Let's create a new bitmask tv norm property, that can contain any of the
+>>>>> analog TV standards currently supported by kernel drivers. Each driver can
+>>>>> then pass in a bitmask of the modes it supports.
+>>>>>
+>>>>> We'll then be able to phase out the older tv mode property.
+>>>>>
+>>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>>>>
+>>>>
+>>>> Please also update Documentation/gpu/kms-properties.csv
+>>>>
+>>>> Requirements for adding a new property is found in
+>>>> Documentation/gpu/drm-kms.rst
+>>>
+>>> I knew this was going to be raised at some point, so I'm glad it's that
+>>> early :)
+>>>
+>>> I really don't know what to do there. If we stick by our usual rules,
+>>> then we can't have any of that work merged.
+>>>
+>>> However, I think the status quo is not really satisfactory either.
+>>> Indeed, we have a property, that doesn't follow those requirements
+>>> either, with a driver-specific content, and that stands in the way of
+>>> fixes and further improvements at both the core framework and driver
+>>> levels.
+>>>
+>>> So having that new property still seems like a net improvement at the
+>>> driver, framework and uAPI levels, even if it's not entirely following
+>>> the requirements we have in place.
+>>>
+>>> Even more so since, realistically, those kind of interfaces will never
+>>> get any new development on the user-space side of things, it's
+>>> considered by everyone as legacy.
+>>>
+>>> This also is something we need to support at some point if we want to
+>>> completely deprecate the fbdev drivers and provide decent alternatives
+>>> in KMS.
+>>>
+>>> So yeah, strictly speaking, we would not qualify for our requirements
+>>> there. I still think we have a strong case for an exception though.
+>>
+>> Which requirements would that be? The only one I can see is the
+>> documentation and maybe an IGT test.
+> 
+> This is the one I had in mind
+> https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
+> 
 
--- 
-Best Regards,
-Mike Gavrilov.
+Oh right, I had forgotten about that one.
+
+One benefit of having a userspace implementation is that it increases
+the chance of widespread adoption having a working implementation to
+look at. I don't think the reason tv.mode is not used anywhere (that I
+know of) is because the driver picks the enum values resulting in no
+standard names. It's a niche thing and way down on the todo list.
+nouveau and ch7006 has a tv_norm module parameter which certainly
+doesn't help in moving people/projects over to the DRM property
+(downstream rpi also has it now).
+
+mpv[1] is a commandline media player that after a quick look might be a
+candidate for implementing the property without too much effort.
+
+How do you test the property? I've used modetest but I can only change
+to a tv.mode that matches the current display mode. I can't switch from
+ntsc to pal for instance.
+
+I have tried changing mode on rpi-5.15 (which I will switch to for the
+gud gadget), but I always end up with flip timeouts when changing the value:
+
+$ cat /proc/cpuinfo | grep Model
+Model           : Raspberry Pi 4 Model B Rev 1.1
+$ uname -a
+Linux pi4t 5.15.56-v7l+ #1575 SMP Fri Jul 22 20:29:46 BST 2022 armv7l
+GNU/Linux
+$ sudo dmesg -C
+$ modetest -M vc4 -s 45:720x480i -w 45:mode:1
+setting mode 720x480i-29.97Hz on connectors 45, crtc 73
+failed to set gamma: Function not implemented
+
+$ dmesg
+$ modetest -M vc4 -s 45:720x480i -w 45:mode:0
+setting mode 720x480i-29.97Hz on connectors 45, crtc 73
+failed to set gamma: Function not implemented
+
+$ dmesg
+[   95.193059] [drm:drm_atomic_helper_wait_for_flip_done
+[drm_kms_helper]] *ERROR* [CRTC:73:crtc-1] flip_done timed out
+[  105.433112] [drm:drm_crtc_commit_wait [drm]] *ERROR* flip_done timed out
+[  105.433519] [drm:drm_atomic_helper_wait_for_dependencies
+[drm_kms_helper]] *ERROR* [CRTC:73:crtc-1] commit wait timed out
+[  115.673095] [drm:drm_crtc_commit_wait [drm]] *ERROR* flip_done timed out
+[  115.673498] [drm:drm_atomic_helper_wait_for_dependencies
+[drm_kms_helper]] *ERROR* [PLANE:63:plane-1] commit wait timed out
+[  125.913106] [drm:drm_crtc_commit_wait [drm]] *ERROR* flip_done timed out
+[  125.913510] vc4-drm gpu: [drm] *ERROR* Timed out waiting for commit
+[  136.153411] [drm:drm_atomic_helper_wait_for_flip_done
+[drm_kms_helper]] *ERROR* [CRTC:73:crtc-1] flip_done timed out
+
+I doesn't help to reload vc4, I have to reboot to get it working again.
+I get this when reloading:
+[  776.799784] vc4_vec fec13000.vec: Unbalanced pm_runtime_enable!
+
+I know this was working in rpi-5.10 on the Pi Zero (Pi4 tvout using vc4
+did not work at all when I tried).
+
+
+Noralf.
+
+[1] https://mpv.io/
+    https://github.com/mpv-player/mpv/blob/master/video/out/drm_common.c
+    https://github.com/mpv-player/mpv/blob/master/video/out/drm_atomic.c
