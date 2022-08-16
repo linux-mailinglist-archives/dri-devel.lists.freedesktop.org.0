@@ -2,77 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855A25963CC
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 22:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 102AA596430
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 23:06:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E97310E17B;
-	Tue, 16 Aug 2022 20:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A938310E138;
+	Tue, 16 Aug 2022 21:06:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED5F410E17B
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 20:40:00 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27GKQWsO001199;
- Tue, 16 Aug 2022 20:39:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : to : cc : from : subject : content-type :
- content-transfer-encoding; s=qcppdkim1;
- bh=fxPvanH4qeBVh2aZXacr3twnFRomdbTwosccx73kWus=;
- b=GAxzEeB9Je887taMm/C3Y6+mEPelnEBsZTdS5ir79sWaEeKsKifbbefniv/ZVwUSEqVm
- mbHAwhC/Yeueym6aKukGgOOiP1MBUDpM04UcnuLLYYgvXDE031CTL8YOmU4E4IW7o+x7
- hAYV1P6tAsVyLrHKim8W6rFQjx6L+dY3mjyRYYUlOBAUvjDKTHGsPEQi1As4LnjWdie5
- d4CslhXzh8ligvnZygwBwEOgaHHxm0K8M0DcWrCEPLVhuos8ciUPTJjjM3buY2giTdDs
- Eb1w0RTStllQ6+BfwnbGfx9v9y82+rlKk8aupKe1w+K45xkE+IIm4lsD2Tl/KVy8SNGH sg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j06c0tn60-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Aug 2022 20:39:55 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
- [10.47.97.222])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27GKdsOk012363
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Aug 2022 20:39:54 GMT
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 16 Aug 2022 13:39:54 -0700
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 16 Aug
- 2022 13:39:53 -0700
-Message-ID: <7e047ee0-0243-d9d4-f0bc-7ed19ed33c19@quicinc.com>
-Date: Tue, 16 Aug 2022 14:39:52 -0600
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A60AB10E0D9;
+ Tue, 16 Aug 2022 21:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660683977; x=1692219977;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=EIr1juTtvFbl3G7D6BGoHem5dTsyCHBzoQV/fy1pPwE=;
+ b=G6pcfXHeNwwiIMIxuWriczvdRbxb9BKzfdyaoJqu736U+NRidZm0Jk4y
+ JiAi2kc3DcpiUPQDLV8uvHBxsvWIZkMCPxQbVAH/ZhV5zmg5gj9hxyqLF
+ kJkPFZGxq9NN6oMIb1iwuALZFsWj6XRxdaO9IQSzJbFqbOez4bhRWjEd7
+ zk37JIr/CqGTDR/q7CNRABm1bRw4Rm22F/ovsSNB8IFMvP9XNIV+JVbXG
+ yGjCqRo5+CPahcAjSFSBvCbPKC2zyi/to7+htRK5SIbXh4Mm5ZwhaPJrQ
+ QbWUjfGCwTCmP9lwcaH2IaKlrxJTqReVaLq4zXkzXCuINJzpPuXm8VdZj w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="292325486"
+X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; d="scan'208";a="292325486"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2022 14:06:17 -0700
+X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; d="scan'208";a="733440960"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2022 14:06:17 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 2/2] drm/i915/dg2: Add additional tuning settings
+Date: Tue, 16 Aug 2022 14:06:01 -0700
+Message-Id: <20220816210601.2041572-2-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220816210601.2041572-1-matthew.d.roper@intel.com>
+References: <20220816210601.2041572-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Content-Language: en-US
-To: <tj@kernel.org>, <lizefan.x@bytedance.com>, <cgroups@vger.kernel.org>,
- <hannes@cmpxchg.org>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: GPU device resource reservations with cgroups?
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: F6JGtFf7UBmS0kSYJwVIEAQK6aGvdabZ
-X-Proofpoint-GUID: F6JGtFf7UBmS0kSYJwVIEAQK6aGvdabZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-16_08,2022-08-16_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- priorityscore=1501 mlxlogscore=999 impostorscore=0 clxscore=1011
- suspectscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208160076
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,89 +55,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, Carl Vanderlip <quic_carlv@quicinc.com>,
- tjmercier@google.com
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello cgroup experts,
+Some additional MMIO tuning settings have appeared in the bspec's
+performance tuning guide section.
 
-I have a GPU device [1] that supports organizing its resources for the 
-purposes of supporting containers.  I am attempting to determine how to 
-represent this in the upstream kernel, and I wonder if it fits in cgroups.
+One of the tuning settings here is also documented as formal workaround
+Wa_22012654132 for some steppings of DG2.  However the tuning setting
+applies to all DG2 variants and steppings, making it a superset of the
+workaround.
 
-The device itself has a number of resource types – compute cores, 
-memory, bus replicators, semaphores, and dma channels.  Any particular 
-workload may consume some set of these resources.  For example, a 
-workload may consume two compute cores, 1GB of memory, one dma channel, 
-but no semaphores and no bus replicators.
+v2:
+ - Move DRAW_WATERMARK to engine workaround section.  It only moves into
+   the engine context on future platforms.  (Lucas)
+ - CHICKEN_RASTER_2 needs to be handled as a masked register.  (Lucas)
 
-By default all of the resources are in a global pool.  This global pool 
-is managed by the device firmware.  Linux makes a request to the 
-firmware to load a workload.  The firmware reads the resource 
-requirements from the workload itself, and then checks the global pool. 
-If the global pool contains sufficient resources to satisfy the needs of 
-the workload, the firmware assigns the required resources from the 
-global pool to the workload.  If there are insufficient resources, the 
-workload request from Linux is rejected.
+Bspec: 68331
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  8 ++++++
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 27 ++++++++++++++-------
+ 2 files changed, 26 insertions(+), 9 deletions(-)
 
-Some users may want to share the device between multiple containers, but 
-provide device level isolation between those containers.  For example, a 
-user may have 4 workloads to run, one per container, and each workload 
-takes 1/4th of the set of compute cores.  The user would like to reserve 
-sets of compute cores for each container so that container X always has 
-the expected set of resources available, and if container Y 
-malfunctions, it cannot “steal” resources from container X.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index b3b49f6d6d1c..f64fafe28f72 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -259,6 +259,9 @@
+ #define   GEN9_PREEMPT_GPGPU_COMMAND_LEVEL	GEN9_PREEMPT_GPGPU_LEVEL(1, 0)
+ #define   GEN9_PREEMPT_GPGPU_LEVEL_MASK		GEN9_PREEMPT_GPGPU_LEVEL(1, 1)
+ 
++#define DRAW_WATERMARK				_MMIO(0x26c0)
++#define   VERT_WM_VAL				REG_GENMASK(9, 0)
++
+ #define GEN12_GLOBAL_MOCS(i)			_MMIO(0x4000 + (i) * 4) /* Global MOCS regs */
+ 
+ #define RENDER_HWS_PGA_GEN7			_MMIO(0x4080)
+@@ -374,6 +377,9 @@
+ #define CHICKEN_RASTER_1			_MMIO(0x6204)
+ #define   DIS_SF_ROUND_NEAREST_EVEN		REG_BIT(8)
+ 
++#define CHICKEN_RASTER_2			_MMIO(0x6208)
++#define   TBIMR_FAST_CLIP			REG_BIT(5)
++
+ #define VFLSKPD					_MMIO(0x62a8)
+ #define   DIS_OVER_FETCH_CACHE			REG_BIT(1)
+ #define   DIS_MULT_MISS_RD_SQUASH		REG_BIT(0)
+@@ -1124,6 +1130,8 @@
+ 
+ #define RT_CTRL					_MMIO(0xe530)
+ #define   DIS_NULL_QUERY			REG_BIT(10)
++#define   STACKID_CTRL				REG_GENMASK(6, 5)
++#define   STACKID_CTRL_512			REG_FIELD_PREP(STACKID_CTRL, 0x2)
+ 
+ #define EU_PERF_CNTL1				_MMIO(0xe558)
+ #define EU_PERF_CNTL5				_MMIO(0xe55c)
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index a68d279b01f0..31e129329fb0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -568,6 +568,7 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
+ static void dg2_ctx_gt_tuning_init(struct intel_engine_cs *engine,
+ 				   struct i915_wa_list *wal)
+ {
++	wa_masked_en(wal, CHICKEN_RASTER_2, TBIMR_FAST_CLIP);
+ 	wa_write_clr_set(wal, GEN11_L3SQCREG5, L3_PWM_TIMER_INIT_VAL_MASK,
+ 			 REG_FIELD_PREP(L3_PWM_TIMER_INIT_VAL_MASK, 0x7f));
+ 	wa_add(wal,
+@@ -2195,15 +2196,6 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 		wa_write_or(wal, XEHP_L3NODEARBCFG, XEHP_LNESPARE);
+ 	}
+ 
+-	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_A0, STEP_C0) ||
+-	    IS_DG2_G11(i915)) {
+-		/* Wa_22012654132:dg2 */
+-		wa_add(wal, GEN10_CACHE_MODE_SS, 0,
+-		       _MASKED_BIT_ENABLE(ENABLE_PREFETCH_INTO_IC),
+-		       0 /* write-only, so skip validation */,
+-		       true);
+-	}
+-
+ 	/* Wa_14013202645:dg2 */
+ 	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_B0, STEP_C0) ||
+ 	    IS_DG2_GRAPHICS_STEP(i915, G11, STEP_A0, STEP_B0))
+@@ -2692,6 +2684,23 @@ add_render_compute_tuning_settings(struct drm_i915_private *i915,
+ 
+ 	if (IS_DG2(i915)) {
+ 		wa_write_or(wal, XEHP_L3SCQREG7, BLEND_FILL_CACHING_OPT_DIS);
++		wa_write_clr_set(wal, RT_CTRL, STACKID_CTRL, STACKID_CTRL_512);
++		wa_write_clr_set(wal, DRAW_WATERMARK, VERT_WM_VAL,
++				 REG_FIELD_PREP(VERT_WM_VAL, 0x3FF));
++
++		/*
++		 * This is also listed as Wa_22012654132 for certain DG2
++		 * steppings, but the tuning setting programming is a superset
++		 * since it applies to all DG2 variants and steppings.
++		 *
++		 * Note that register 0xE420 is write-only and cannot be read
++		 * back for verification on DG2 (due to Wa_14012342262), so
++		 * we need to explicitly skip the readback.
++		 */
++		wa_add(wal, GEN10_CACHE_MODE_SS, 0,
++		       _MASKED_BIT_ENABLE(ENABLE_PREFETCH_INTO_IC),
++		       0 /* write-only, so skip validation */,
++		       true);
+ 	}
+ }
+ 
+-- 
+2.37.1
 
-To support this, the firmware supports a concept of partitioning.  A 
-partition is a pool of resources which are removed from the global pool, 
-and pre-assigned to the partition’s pool.  A workload can then be run 
-from within a partition, and it consumes resources from that partition’s 
-pool instead of from the global pool.  The firmware manages creating 
-partitions and assigning resources to them.
-
-Partitions do not nest.
-
-In the above user example, the user can create 4 partitions, and divide 
-up the compute cores among them.  Then the user can assign each 
-individual container their own individual partition.  Each container 
-would be limited to the resources within it’s assigned partition, but 
-also that container would have exclusive access to those resources. 
-This essentially provides isolation, and some Quality of Service (QoS).
-
-How this is currently implemented (in downstream), is perhaps not ideal. 
-  A privileged daemon process reads a configuration file which defines 
-the number of partitions, and the set of resources assigned to each. 
-That daemon makes requests to the firmware to create the partitions, and 
-gets a unique ID for each.  Then the daemon makes a request to the 
-driver to create a “shadow device”, which is a child dev node.  The 
-driver verifies with the firmware that the partition ID is valid, and 
-then creates the dev node.  Internally the driver associates this shadow 
-device with the partition ID so that each request to the firmware is 
-tagged with the partition ID by the driver.  This tagging allows the 
-firmware to determine that a request is targeted for a specific 
-partition.  Finally, the shadow device is passed into the container, 
-instead of the normal dev node.  The userspace within the container 
-operates the shadow device normally.
-
-One concern with the current implementation is that it is possible to 
-create a large number of partitions.  Since each partition is 
-represented by a shadow device dev node, this can create a large number 
-of dev nodes and exhaust the minor number space.
-
-I wonder if this functionality is better represented by a cgroup. 
-Instead of creating a dev node for the partition, we can just run the 
-container process within the cgroup.  However it doesn’t look like 
-cgroups have a concept of resource reservation.  It is just a limit.  If 
-that impression is accurate, then I struggle to see how to provide the 
-desired isolation as some entity not under the cgroup could consume all 
-of the device resources, leaving the containers unable to perform their 
-tasks.
-
-So, cgroup experts, does this sound like something that should be 
-represented by a cgroup, or is cgroup the wrong mechanism for this usecase?
-
-[1] - 
-https://lore.kernel.org/all/1660588956-24027-1-git-send-email-quic_jhugo@quicinc.com/
