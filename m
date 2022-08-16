@@ -1,63 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2959A595DB0
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:50:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D9E595DC2
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:52:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6B66AD475;
-	Tue, 16 Aug 2022 13:49:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5A8ADADE;
+	Tue, 16 Aug 2022 13:51:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 858C5AD3A8
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:48:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 27D141FD80;
- Tue, 16 Aug 2022 13:48:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1660657736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RVIeL9w3lqG1ZlHJzBuUXSuWnKj3OXLmo/kqTu5gfKo=;
- b=t6L1CTpHj18L3p1TplIR4VUPiplGNWuqM+iA8sQG2xUxbbSkesCABlo2duy5lkmjo1Bubb
- MQ3DIMllQ/GX/UlnptyBvuiqdQNPWLtliSRVgA7VN0yj7cUU8f1OWOeNT4fXV+BRbboanF
- 49hl3TaOMt8HZg8Yoq3pAbt332NVxLw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1660657736;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RVIeL9w3lqG1ZlHJzBuUXSuWnKj3OXLmo/kqTu5gfKo=;
- b=cJ5eb/Uc8QS32TF3qbC1HI9gI9ssI1V2rYPBUhR/7WZaY4kYhtAR91eUufrPqXAuBhI+Cp
- B6HD+fn6yMv1FFDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C917B139B7;
- Tue, 16 Aug 2022 13:48:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aMXZL0eg+2KOcwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 16 Aug 2022 13:48:55 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, sam@ravnborg.org, noralf@tronnes.org, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- emma@anholt.net, kamlesh.gurudasani@gmail.com, david@lechnology.com
-Subject: [PATCH v2 4/4] drm/format-helper: Add drm_fb_build_fourcc_list()
- helper
-Date: Tue, 16 Aug 2022 15:48:53 +0200
-Message-Id: <20220816134853.12468-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220816134853.12468-1-tzimmermann@suse.de>
-References: <20220816134853.12468-1-tzimmermann@suse.de>
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A849AD948
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:51:08 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 419555801CF;
+ Tue, 16 Aug 2022 09:51:08 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 16 Aug 2022 09:51:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1660657868; x=1660665068; bh=yuVLbrrN+N
+ 1iK12i7DUjM6pGqTkdcihboprTmt6Byjw=; b=odX2548XwGXoGeKNs0MbkWaSSx
+ lfpsoLA8A8tZ3+XRhAbG1K21dnqkAYavMxd5ydxZzSSazv9h7PvZWs3oaJqIVzdA
+ RfmZLhQ6h0EfZpOr1x+wr6wcBilxBz5VUTfO6oIvSod3iW4DRW9iZAY5JWrBRVWy
+ 8RbA1h9nm3vFyOx+F+XZ3Oi0Ew0Vp7PsnmwPJmo+2pX+i+6ZJpekDYbdmpGtfVCo
+ 3VAKjkXEUHf0bOEZYobFiUnvijuSsqOZ7WAeqXo3nvUpCPV8fn3snx0SW0lCtRGR
+ 3K7tv7ETwiQEhEEeQLinpzolbgJNH5qkXFL+wVcSjhd7ht2J/SWD6yDSAvuw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1660657868; x=1660665068; bh=yuVLbrrN+N1iK12i7DUjM6pGqTkd
+ cihboprTmt6Byjw=; b=A1Si8qi+Laz5mf39bB95eWK9Z9k4Uwq/ARX10hcF5KoC
+ rsCZ4h4myKe7lFZDNiG31Mst8v4bkATp+OYda5/B48kbYWQ2u0KmB9codo9djrHe
+ yTOUZjbJZyB8E2j3I25Q+pbwyeqoVuqgfw6Eb/Ta82kHO4XwYxUPaMPA+8XxwcC+
+ bTV1VisVVgUolSf0+JPD6hqwLHiiFwPXAG/3ChEFsyvxGYNAfSU1zvmJVn9fuQJm
+ kxGz4+rdbVp3wtvdqh8E4B2HCDmNbzxD8l1XRhP9sDDFyjJPZjCwbnP9t0tfssr5
+ yfc8ortuZ8OiMn3m0oboGq9/2l0bSlAJDth5K7vXyQ==
+X-ME-Sender: <xms:y6D7Yi5dGJhRTsSGZBa9vyukMq9hYKB9U0_RHpfh03QgEetm5byqvg>
+ <xme:y6D7Yr4cdbgoEw_0L-SdM11M8wG7DlbMGgv-7R9rQA-mUT5LaO75CFlSi5iBSgWaD
+ __y_zatS_jJqtm1Es0>
+X-ME-Received: <xmr:y6D7YhdJOPym6auR3F3LbUaT7Gw7xA6ooEFtcT0WCjCINXg2WimtbPEekYY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgjedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:y6D7YvI0uY1gs0_NlIylruE9Zs-XXwZlX_P_FEl_My6SPc7HLEwL4A>
+ <xmx:y6D7YmK7yKTdmpQmBSGQH2Y4I_GTRd_KRzJGnECTVLhPLnKVUgehWw>
+ <xmx:y6D7YgxxEL2lavOAuWvzDdfmduCHGRSf9UhoPNKAuLZ7cRiW3e-2BA>
+ <xmx:zKD7Ym6mGad4cGanjPeIgtE-CDNYjoT7Vt1767fMSgxfM1B86VJUWQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Aug 2022 09:51:06 -0400 (EDT)
+Date: Tue, 16 Aug 2022 15:51:05 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+ command-line option
+Message-ID: <20220816135105.goztqjzqqhhigytd@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
+ <CAMuHMdXizN9OgXgxwdFc1gpnhZof-SZrCH8PczEiJrtYpB62Ow@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="oapqvc3fwa7skyps"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXizN9OgXgxwdFc1gpnhZof-SZrCH8PczEiJrtYpB62Ow@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,244 +85,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_fb_build_fourcc_list() function that builds a list of supported
-formats from native and emulated ones. Helpful for all drivers that do
-format conversion as part of their plane updates. Update current caller.
 
-v2:
-	* use u32 instead of uint32_t (Sam)
-	* print a warning if output array is too small (Sam)
-	* comment fixes (Sam)
+--oapqvc3fwa7skyps
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/gpu/drm/drm_format_helper.c | 103 ++++++++++++++++++++++++++++
- drivers/gpu/drm/tiny/simpledrm.c    |  47 ++-----------
- include/drm/drm_format_helper.h     |  11 ++-
- 3 files changed, 118 insertions(+), 43 deletions(-)
+On Fri, Aug 12, 2022 at 03:31:19PM +0200, Geert Uytterhoeven wrote:
+> Hi Maxime,
+>=20
+> On Fri, Jul 29, 2022 at 6:37 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > Our new tv mode option allows to specify the TV mode from a property.
+> > However, it can still be useful, for example to avoid any boot time
+> > artifact, to set that property directly from the kernel command line.
+> >
+> > Let's add some code to allow it, and some unit tests to exercise that c=
+ode.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Thanks for your patch!
+>=20
+> > --- a/drivers/gpu/drm/drm_modes.c
+> > +++ b/drivers/gpu/drm/drm_modes.c
+> > @@ -1677,6 +1677,80 @@ static int drm_mode_parse_panel_orientation(cons=
+t char *delim,
+> >         return 0;
+> >  }
+> >
+> > +#define TV_OPTION_EQUAL(value, len, option) \
+> > +       ((strlen(option) =3D=3D len) && !strncmp(value, option, len))
+> > +
+> > +static int drm_mode_parse_tv_mode(const char *delim,
+> > +                                 struct drm_cmdline_mode *mode)
+> > +{
+> > +       const char *value;
+> > +       unsigned int len;
+> > +
+> > +       if (*delim !=3D '=3D')
+> > +               return -EINVAL;
+> > +
+> > +       value =3D delim + 1;
+> > +       delim =3D strchr(value, ',');
+> > +       if (!delim)
+> > +               delim =3D value + strlen(value);
+> > +
+> > +       len =3D delim - value;
+> > +       if (TV_OPTION_EQUAL(value, len, "NTSC-443"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_443;
+> > +       else if (TV_OPTION_EQUAL(value, len, "NTSC-J"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_J;
+> > +       else if (TV_OPTION_EQUAL(value, len, "NTSC-M"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_M;
+>=20
+> [...]
+>=20
+> You already have the array tv_norm_values[] from "[PATCH v1 05/35]
+> drm/connector: Add TV standard property". Can't you export that, and
+> loop over that array instead?
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 56642816fdff..fe1db7dbda3f 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -793,3 +793,106 @@ void drm_fb_xrgb8888_to_mono(struct iosys_map *dst, const unsigned int *dst_pitc
- 	kfree(src32);
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_mono);
-+
-+static bool is_listed_fourcc(const uint32_t *fourccs, size_t nfourccs, uint32_t fourcc)
-+{
-+	const uint32_t *fourccs_end = fourccs + nfourccs;
-+
-+	while (fourccs < fourccs_end) {
-+		if (*fourccs == fourcc)
-+			return true;
-+		++fourccs;
-+	}
-+	return false;
-+}
-+
-+/**
-+ * drm_fb_build_fourcc_list - Filters a list of supported color formats against
-+ *                            the device's native formats
-+ * @dev: DRM device
-+ * @native_fourccs: 4CC codes of natively supported color formats
-+ * @native_nfourccs: The number of entries in @native_fourccs
-+ * @extra_fourccs: 4CC codes of additionally supported color formats
-+ * @extra_nfourccs: The number of entries in @extra_fourccs
-+ * @fourccs_out: Returns 4CC codes of supported color formats
-+ * @nfourccs_out: The number of available entries in @fourccs_out
-+ *
-+ * This function create a list of supported color format from natively
-+ * supported formats and the emulated formats.
-+ * At a minimum, most userspace programs expect at least support for
-+ * XRGB8888 on the primary plane. Devices that have to emulate the
-+ * format, and possibly others, can use drm_fb_build_fourcc_list() to
-+ * create a list of supported color formats. The returned list can
-+ * be handed over to drm_universal_plane_init() et al. Native formats
-+ * will go before emulated formats. Other heuristics might be applied
-+ * to optimize the order. Formats near the beginning of the list are
-+ * usually preferred over formats near the end of the list.
-+ *
-+ * Returns:
-+ * The number of color-formats 4CC codes returned in @fourccs_out.
-+ */
-+size_t drm_fb_build_fourcc_list(struct drm_device *dev,
-+				const u32 *native_fourccs, size_t native_nfourccs,
-+				const u32 *extra_fourccs, size_t extra_nfourccs,
-+				u32 *fourccs_out, size_t nfourccs_out)
-+{
-+	u32 *fourccs = fourccs_out;
-+	const u32 *fourccs_end = fourccs_out + nfourccs_out;
-+	bool found_native = false;
-+	size_t nfourccs, i;
-+
-+	/*
-+	 * The device's native formats go first.
-+	 */
-+
-+	nfourccs = min_t(size_t, native_nfourccs, nfourccs_out);
-+
-+	for (i = 0; i < nfourccs; ++i) {
-+		u32 fourcc = native_fourccs[i];
-+
-+		drm_dbg_kms(dev, "adding native format %p4cc\n", &fourcc);
-+
-+		if (!found_native)
-+			found_native = is_listed_fourcc(extra_fourccs, extra_nfourccs, fourcc);
-+		*fourccs = fourcc;
-+		++fourccs;
-+	}
-+
-+	/*
-+	 * The plane's atomic_update helper converts the framebuffer's color format
-+	 * to a native format when copying to device memory.
-+	 *
-+	 * If there is not a single format supported by both, device and
-+	 * driver, the native formats are likely not supported by the conversion
-+	 * helpers. Therefore *only* support the native formats and add a
-+	 * conversion helper ASAP.
-+	 */
-+	if (!found_native) {
-+		drm_warn(dev, "Format conversion helpers required to add extra formats.\n");
-+		goto out;
-+	}
-+
-+	/*
-+	 * The extra formats, emulated by the driver, go second.
-+	 */
-+
-+	nfourccs = min_t(size_t, extra_nfourccs, fourccs_end - fourccs);
-+
-+	for (i = 0; i < nfourccs; ++i) {
-+		u32 fourcc = extra_fourccs[i];
-+
-+		if (is_listed_fourcc(native_fourccs, native_nfourccs, fourcc))
-+			continue; /* native formats already went first */
-+		*fourccs = fourcc;
-+		++fourccs;
-+	}
-+
-+	if (nfourccs < extra_nfourccs) {
-+		drm_warn(dev, "Format buffer too small. %zu trailing formats dropped.\n",
-+			 extra_nfourccs - nfourccs);
-+	}
-+
-+out:
-+	return fourccs - fourccs_out;
-+}
-+EXPORT_SYMBOL(drm_fb_build_fourcc_list);
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 404290760c60..777ccd250871 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -644,45 +644,6 @@ static struct drm_display_mode simpledrm_mode(unsigned int width,
- 	return mode;
- }
- 
--static const uint32_t *simpledrm_device_formats(struct simpledrm_device *sdev,
--						size_t *nformats_out)
--{
--	struct drm_device *dev = &sdev->dev;
--	size_t i;
--
--	if (sdev->nformats)
--		goto out; /* don't rebuild list on recurring calls */
--
--	/* native format goes first */
--	sdev->formats[0] = sdev->format->format;
--	sdev->nformats = 1;
--
--	/* default formats go second */
--	for (i = 0; i < ARRAY_SIZE(simpledrm_primary_plane_formats); ++i) {
--		if (simpledrm_primary_plane_formats[i] == sdev->format->format)
--			continue; /* native format already went first */
--		sdev->formats[sdev->nformats] = simpledrm_primary_plane_formats[i];
--		sdev->nformats++;
--	}
--
--	/*
--	 * TODO: The simpledrm driver converts framebuffers to the native
--	 * format when copying them to device memory. If there are more
--	 * formats listed than supported by the driver, the native format
--	 * is not supported by the conversion helpers. Therefore *only*
--	 * support the native format and add a conversion helper ASAP.
--	 */
--	if (drm_WARN_ONCE(dev, i != sdev->nformats,
--			  "format conversion helpers required for %p4cc",
--			  &sdev->format->format)) {
--		sdev->nformats = 1;
--	}
--
--out:
--	*nformats_out = sdev->nformats;
--	return sdev->formats;
--}
--
- static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 							struct platform_device *pdev)
- {
-@@ -699,7 +660,6 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 	struct drm_encoder *encoder;
- 	struct drm_connector *connector;
- 	unsigned long max_width, max_height;
--	const uint32_t *formats;
- 	size_t nformats;
- 	int ret;
- 
-@@ -811,11 +771,14 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 
- 	/* Primary plane */
- 
--	formats = simpledrm_device_formats(sdev, &nformats);
-+	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
-+					    simpledrm_primary_plane_formats,
-+					    ARRAY_SIZE(simpledrm_primary_plane_formats),
-+					    sdev->formats, ARRAY_SIZE(sdev->formats));
- 
- 	primary_plane = &sdev->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0, &simpledrm_primary_plane_funcs,
--				       formats, nformats,
-+				       sdev->formats, nformats,
- 				       simpledrm_primary_plane_format_modifiers,
- 				       DRM_PLANE_TYPE_PRIMARY, NULL);
- 	if (ret)
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index caa181194335..eb5c98cf82b8 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -6,11 +6,15 @@
- #ifndef __LINUX_DRM_FORMAT_HELPER_H
- #define __LINUX_DRM_FORMAT_HELPER_H
- 
--struct iosys_map;
-+#include <linux/types.h>
-+
-+struct drm_device;
- struct drm_format_info;
- struct drm_framebuffer;
- struct drm_rect;
- 
-+struct iosys_map;
-+
- unsigned int drm_fb_clip_offset(unsigned int pitch, const struct drm_format_info *format,
- 				const struct drm_rect *clip);
- 
-@@ -44,4 +48,9 @@ void drm_fb_xrgb8888_to_mono(struct iosys_map *dst, const unsigned int *dst_pitc
- 			     const struct iosys_map *src, const struct drm_framebuffer *fb,
- 			     const struct drm_rect *clip);
- 
-+size_t drm_fb_build_fourcc_list(struct drm_device *dev,
-+				const u32 *native_fourccs, size_t native_nfourccs,
-+				const u32 *extra_fourccs, size_t extra_nfourccs,
-+				u32 *fourccs_out, size_t nfourccs_out);
-+
- #endif /* __LINUX_DRM_FORMAT_HELPER_H */
--- 
-2.37.1
+I'm not sure, the command line doesn't follow the same conventions than
+the property names for a number of conventions, but at the same time we
+should try to keep it as consistent as possible...
 
+Then again, Jani and Thomas didn't seem too fond about exposing data as
+part of the API, so I'm not sure how we could expose that properly.
+
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD480I"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD480I;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD480P"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD480P;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD576I"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD576I;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD576P"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD576P;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD720P"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD720P;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD1080I"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD1080I;
+>=20
+> The names in tv_norm_values[] use lower-case, while you use upper-case
+> here.
+
+Indeed, I'll fix it, thanks!
+Maxime
+
+--oapqvc3fwa7skyps
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvugyAAKCRDj7w1vZxhR
+xYVoAQDFAMNuU1dbZgCiVBYUf+Y13tqfHCtlOuPYmSb6Gmh3xgEAgXYxzEcBWNLK
+j9bSNzYbE9lp+H3MaLuAPoiaBAXIRQE=
+=szbm
+-----END PGP SIGNATURE-----
+
+--oapqvc3fwa7skyps--
