@@ -2,50 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96971595F83
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 17:46:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CE4595F99
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 17:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B262B10E4CE;
-	Tue, 16 Aug 2022 15:46:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C86C68F9C2;
+	Tue, 16 Aug 2022 15:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75BE68BB29;
- Tue, 16 Aug 2022 15:45:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660664759; x=1692200759;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=+iQ63kE0PzIS7sChTLoQskV1wRb2XpAS+UEE3rIsNUQ=;
- b=NKKihUOTAJZNCGtfot/xF21RR06i8jIPaxmJGJkE6Cah9RWwIvcVivYt
- kNsEe4nv9sGQVZeCf/FOPFH2Kb0y6ZXc8t/Q7rLb+4QjFWvmLReiTkJyW
- sIUqdjvAIoCESY76DtAIC0rkh4kESDr4Xkt/+aUGupqkOCkWvyZ2Erezf
- N4lE7438O/bDyFsibuY7la6loqvYsglzkrh2/FkC9SUzY2grC7LDxUKIY
- OUD5AWzydgaQyeOuQNyoXyGe+I1WVJndyheaiODSsnUxiMyg7Rg5xmTm/
- rpk518xr0LUxu0FmxXyI5VvsLxdX8r+l+J4+v1UcfQ865H4Uo1j83Fu5G A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="356257354"
-X-IronPort-AV: E=Sophos;i="5.93,241,1654585200"; d="scan'208";a="356257354"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2022 08:45:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,241,1654585200"; d="scan'208";a="675265674"
-Received: from lkp-server02.sh.intel.com (HELO 81d7e1ade3ba) ([10.239.97.151])
- by fmsmga004.fm.intel.com with ESMTP; 16 Aug 2022 08:45:56 -0700
-Received: from kbuild by 81d7e1ade3ba with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oNylP-00002s-2Y;
- Tue, 16 Aug 2022 15:45:55 +0000
-Date: Tue, 16 Aug 2022 23:45:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- e1084bacab44f570691c0fdaa1259acf93ed0098
-Message-ID: <62fbbba7.FTVctBJTzk0OdnQC%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 317FD8F9C2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 15:50:05 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 3BB98580406;
+ Tue, 16 Aug 2022 11:50:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Tue, 16 Aug 2022 11:50:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1660665002; x=1660672202; bh=uDbm7d0qwz
+ 4pvPmD2wfHPxR0S82D7wURNJkfQ0Lpz5Y=; b=GrGNwQalKlm7CiiXRQTu6nzxia
+ lNKtaztECVkRYFzsHTJHj89rIUrFwmUoIAoU6cJBFaQWmYAlSbs72tAWQNugKR+5
+ fy+pwZh3Pqnf77LvpxJwQMVxPIbzko1in8QqqTq+UPfeY7lLQ6biUGk+L9cIViw3
+ dlBa7d4wAJ899T83CjTK5L7HCpXJ5hC3P6SAxNxLTbsJG7r6j1XtwIzmSAmBAgPr
+ qHeDdfI0vnQoZTewzKMqqWeuXReBK/uE0n87Tj4Q2TA8nkk/GBNIuSLi6uDX55cJ
+ LYMS8tDRI5GSus2De0i/aGfUAR1eGlY2dNy8FrY4rsX149VV+f/y+gH7PIzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1660665002; x=1660672202; bh=uDbm7d0qwz4pvPmD2wfHPxR0S82D
+ 7wURNJkfQ0Lpz5Y=; b=UN35GHbGXMmB42WjDX7dQmoYxakSQnjIoMD8v58QKWSK
+ l1U/RN4AoVWqPbmEc7+QW6Ic0R2k1xYqYZ+ABLRAQngyQ9CPunkrW3XlEW8TBiOV
+ QByLAPrEXFfZnpGVKsbOJZ+UkxHiAO2fVeFfFONW9TgbKjGpp7uSThAzOcUmdYxS
+ +LSivv2AfFmQKzXkIlbUUS9Jp+NLTsMY/1dJT04GjGqSWVI20Ip9yyK4Ly8N8Qln
+ CVKvXnIdTAPHDZxe68Noi6reLm5fzRbYKoISeOPTFcSSx1VXm0Hrs57BU9wDJ67l
+ vP4NRKjx5E2vJmRENMpSu+7tSrtHjEKTvf9UR4bn6w==
+X-ME-Sender: <xms:p7z7YvWgoNrTPVlF091lQmiOGp0_-rnmiTWXAjM2vdj3cAg8qjbQKw>
+ <xme:p7z7YnnC0oYCO0Fas4pAOneqx8Kv0fVU9-535wQ_bLn_El-PCQBcBHtUx8ff9DWPv
+ 3W9YJgwOHqat-hYysc>
+X-ME-Received: <xmr:p7z7YrbbYe_EjXLt8SwM-1CQRz41ek1Bh4RaQduH7e4kEnS8r6vLZdbt__Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgleehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:p7z7YqV8u3zjGwpyFN9h4ZerxWD9iD-890iBPzSDfxmvewlX2yP7RA>
+ <xmx:p7z7YpkUMMgT4Y3SmDtzAe42LdqQr_uEi7fiHCNYE81r9tqXWmjBbw>
+ <xmx:p7z7YnfX7JrTZsCzX9iW8-Z1i2O_nxMGIfLKZGuQYRVb2fiQ227MFA>
+ <xmx:qrz7YrVZSph2gnyH9vEwdblGdGfop_tCyNPS_3YKedhfZsCPGGXCrA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Aug 2022 11:49:59 -0400 (EDT)
+Date: Tue, 16 Aug 2022 17:49:56 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Message-ID: <20220816154956.pkdpxmmw27mia5ix@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
+ <20220816132040.uwirtjm5yr6rdd3q@houat>
+ <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
+ <20220816141116.5nuszmilqv2exdb3@houat>
+ <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="txot7fjmru2r6vem"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,145 +88,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: e1084bacab44f570691c0fdaa1259acf93ed0098  Add linux-next specific files for 20220816
 
-Error/Warning reports:
+--txot7fjmru2r6vem
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://lore.kernel.org/linux-doc/202208162058.7apPivKL-lkp@intel.com
+On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
+> > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60")=
+, or
+> > > > > handle them through "@<refresh>".  The latter would impact "[PATC=
+H v1
+> > > > > 09/35] drm/modes: Move named modes parsing to a separate function=
+", as
+> > > > > currently a named mode and a refresh rate can't be specified both.
+> > > >
+> > > > I think the former would make more sense. It simplifies a bit the
+> > > > parser, and we're going to use a named mode anyway.
+> > > >
+> > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as=
+ a
+> > > > > command-line option" uses a separate "tv_mode" option, and not th=
+e main
+> > > > > mode name, I think you want to add them here.
+> > > >
+> > > > It's a separate story I think, we could have a named mode hd720p50,
+> > > > which would be equivalent to 1280x720,tv_mode=3Dhd720p
+> > >
+> > > So where's the field rate in "1280x720,tv_mode=3Dhd720p"?
+> >
+> > Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
+>=20
+> Above you said "I think the former would make more sense", so that
+> should be "1280x720,tv_mode=3Dhd720p50"?
 
-Error/Warning: (recently discovered and may have been fixed)
+No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=3Dhd720p
+and 60Hz would be hd720p60 or 1280x720@60,tv_mode=3Dhd720p
 
-Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/gpio/gpio-xilinx.txt
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1046:5: warning: no previous prototype for 'fill_dc_scaling_info' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1222:6: warning: no previous prototype for 'handle_cursor_update' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:152:6: warning: no previous prototype for 'modifier_has_dcc' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1576:5: warning: no previous prototype for 'amdgpu_dm_plane_init' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:157:10: warning: no previous prototype for 'modifier_gfx9_swizzle_mode' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:752:5: warning: no previous prototype for 'fill_plane_buffer_attributes' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:83:31: warning: no previous prototype for 'amd_get_format_info' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:88:6: warning: no previous prototype for 'fill_blending_from_plane_state' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:992:5: warning: no previous prototype for 'dm_plane_helper_check_state' [-Wmissing-prototypes]
-drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:905:28: warning: variable 'top' set but not used [-Wunused-but-set-variable]
-include/linux/random.h:25:46: error: 'latent_entropy' undeclared (first use in this function); did you mean 'add_latent_entropy'?
+Maxime
 
-Error/Warning ids grouped by kconfigs:
+--txot7fjmru2r6vem
+Content-Type: application/pgp-signature; name="signature.asc"
 
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
-|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
-|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
-|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
-|-- arm-defconfig
-|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
-|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
+-----BEGIN PGP SIGNATURE-----
 
-elapsed time: 697m
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvu8pAAKCRDj7w1vZxhR
+xeBJAQDkJDuBb9NT3t74aPA6633aiSdZ5T/VyRAsiD1bq7XLFgD/ZVFyws0xlUf2
+pztAVRTUkSu7seGcOJ3pPbEwOnqabwU=
+=6Lb9
+-----END PGP SIGNATURE-----
 
-configs tested: 48
-configs skipped: 3
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-powerpc                           allnoconfig
-x86_64                           rhel-8.3-kvm
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-sh                               allmodconfig
-x86_64                           rhel-8.3-syz
-powerpc                          allmodconfig
-mips                             allyesconfig
-arm                           h3600_defconfig
-arm                                 defconfig
-m68k                        m5272c3_defconfig
-arm                      integrator_defconfig
-mips                          rb532_defconfig
-m68k                        m5307c3_defconfig
-mips                         bigsur_defconfig
-riscv                    nommu_k210_defconfig
-arm                         at91_dt_defconfig
-powerpc                      chrp32_defconfig
-xtensa                generic_kc705_defconfig
-sh                            shmin_defconfig
-powerpc                     redwood_defconfig
-xtensa                              defconfig
-xtensa                  nommu_kc705_defconfig
-sh                        sh7785lcr_defconfig
-powerpc                     sequoia_defconfig
-arm                           corgi_defconfig
-ia64                      gensparse_defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-ia64                             allmodconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-alpha                            allyesconfig
-arc                              allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-
-clang tested configs:
-powerpc                      acadia_defconfig
-mips                          rm200_defconfig
-arm                       versatile_defconfig
-powerpc                 mpc8560_ads_defconfig
-arm                        multi_v5_defconfig
-powerpc                      ppc64e_defconfig
-arm                        spear3xx_defconfig
-arm                         lpc32xx_defconfig
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--txot7fjmru2r6vem--
