@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1055946FF
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 01:46:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E397D594EDF
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 04:53:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7B5D3D61;
-	Mon, 15 Aug 2022 23:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE5D5DA1A8;
+	Tue, 16 Aug 2022 02:53:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C671D74D9;
- Mon, 15 Aug 2022 23:46:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660607190; x=1692143190;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=EIr1juTtvFbl3G7D6BGoHem5dTsyCHBzoQV/fy1pPwE=;
- b=SfLF2I5zze5eHniB++WbcEsK52t1Cy+tYvSPgx40RA8bzzQ/MbOKJKLr
- 56ujLo1ZXz4PjTUrjBvj1lCAlucGWZzOHjRPK0mwIeNLxo8zFdisq0qDx
- 4E2tspZAa1awshu3DMV8Ft362qgxvunuNJmZEPB/6r41Jwjlrf5GEyk3B
- 8Q4On6EeBN5caowFB3+O4c/RVNI7k3t5uk3mSCDH78g8pm9+/arz2RVc5
- pmq9Yan9t98U4bc4G4sCEt9VnHkdvufdrY3etv2DnGUcWVI/137gN31ra
- qwWPsV9EURY529POi+FnkpIXDL8fY8NNYUYaAVXIc64ZByRihyqE6EMKG w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="378374353"
-X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; d="scan'208";a="378374353"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2022 16:46:29 -0700
-X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; d="scan'208";a="583076913"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2022 16:46:28 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/i915/dg2: Add additional tuning settings
-Date: Mon, 15 Aug 2022 16:46:14 -0700
-Message-Id: <20220815234614.1480645-1-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220815224257.gaqujr324en5jygf@ldmartin-desk2.lan>
-References: <20220815224257.gaqujr324en5jygf@ldmartin-desk2.lan>
+Received: from smtp-relay-canonical-0.canonical.com
+ (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4A4BDA18A;
+ Tue, 16 Aug 2022 02:53:10 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.101.196.174])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 832BB3F0C6; 
+ Tue, 16 Aug 2022 02:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1660618389;
+ bh=IQLHeSHMCgVndEybNXy3VEpy6W3eNIybZWGGP1wHszU=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+ b=JKzWmfhnLy7p+XWRftjo55h4+OEj/1ovUfur4+PYJ8YkxvpB5MfEWaDR9WZXVVGeL
+ oWSS0jQ5KPFiirXbOkySLddOYxRWeCO8UwVm0rO9TyB1Kx61jzqCQew0boTcklHG/X
+ WmaFe1Bbu6Un4U0SBPOQ87JdVyS5Zot1PEJHjoMSTqOKzJeVMzCBiS7Wovvp6NZFWo
+ QdSa/Hxxx0qzVFovhz1ojJ7WlXi8vQvI4EGhbbs0F1/4IGw4SfNISBnLM0tn4PSb/Y
+ rqRn8I3SwT1zk0ywcNZS1XBsWsMGH/toefKJv4/qjkpSvSWZBTX6tKCxzh346VG/fT
+ sSaiDteA7uhzQ==
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com
+Subject: [PATCH] drm/i915: Switch TGL-H DP-IN to dGFX when it's supported
+Date: Tue, 16 Aug 2022 10:52:16 +0800
+Message-Id: <20220816025217.618181-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,119 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>, Zenghui Yu <yuzenghui@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some additional MMIO tuning settings have appeared in the bspec's
-performance tuning guide section.
+On mobile workstations like HP ZBook Fury G8, iGFX's DP-IN can switch to
+dGFX so external monitors are routed to dGFX, and more monitors can be
+supported as result.
 
-One of the tuning settings here is also documented as formal workaround
-Wa_22012654132 for some steppings of DG2.  However the tuning setting
-applies to all DG2 variants and steppings, making it a superset of the
-workaround.
+To switch the DP-IN to dGFX, the driver needs to invoke _DSM function 20
+on intel_dsm_guid2. This method is described in Intel document 632107.
 
-v2:
- - Move DRAW_WATERMARK to engine workaround section.  It only moves into
-   the engine context on future platforms.  (Lucas)
- - CHICKEN_RASTER_2 needs to be handled as a masked register.  (Lucas)
-
-Bspec: 68331
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  8 ++++++
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 27 ++++++++++++++-------
- 2 files changed, 26 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/display/intel_acpi.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index b3b49f6d6d1c..f64fafe28f72 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -259,6 +259,9 @@
- #define   GEN9_PREEMPT_GPGPU_COMMAND_LEVEL	GEN9_PREEMPT_GPGPU_LEVEL(1, 0)
- #define   GEN9_PREEMPT_GPGPU_LEVEL_MASK		GEN9_PREEMPT_GPGPU_LEVEL(1, 1)
+diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+index e78430001f077..3bd5930e2769b 100644
+--- a/drivers/gpu/drm/i915/display/intel_acpi.c
++++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+@@ -20,6 +20,7 @@ static const guid_t intel_dsm_guid =
+ 		  0xa8, 0x54, 0x0f, 0x13, 0x17, 0xb0, 0x1c, 0x2c);
  
-+#define DRAW_WATERMARK				_MMIO(0x26c0)
-+#define   VERT_WM_VAL				REG_GENMASK(9, 0)
+ #define INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED 0 /* No args */
++#define INTEL_DSM_FN_DP_IN_SWITCH_TO_DGFX 20 /* No args */
+ 
+ static const guid_t intel_dsm_guid2 =
+ 	GUID_INIT(0x3e5b41c6, 0xeb1d, 0x4260,
+@@ -187,6 +188,7 @@ void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915)
+ 	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+ 	acpi_handle dhandle;
+ 	union acpi_object *obj;
++	int supported = 0;
+ 
+ 	dhandle = ACPI_HANDLE(&pdev->dev);
+ 	if (!dhandle)
+@@ -194,8 +196,22 @@ void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915)
+ 
+ 	obj = acpi_evaluate_dsm(dhandle, &intel_dsm_guid2, INTEL_DSM_REVISION_ID,
+ 				INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED, NULL);
+-	if (obj)
++	if (obj) {
++		if (obj->type == ACPI_TYPE_INTEGER)
++			supported = obj->integer.value;
 +
- #define GEN12_GLOBAL_MOCS(i)			_MMIO(0x4000 + (i) * 4) /* Global MOCS regs */
- 
- #define RENDER_HWS_PGA_GEN7			_MMIO(0x4080)
-@@ -374,6 +377,9 @@
- #define CHICKEN_RASTER_1			_MMIO(0x6204)
- #define   DIS_SF_ROUND_NEAREST_EVEN		REG_BIT(8)
- 
-+#define CHICKEN_RASTER_2			_MMIO(0x6208)
-+#define   TBIMR_FAST_CLIP			REG_BIT(5)
+ 		ACPI_FREE(obj);
++	}
 +
- #define VFLSKPD					_MMIO(0x62a8)
- #define   DIS_OVER_FETCH_CACHE			REG_BIT(1)
- #define   DIS_MULT_MISS_RD_SQUASH		REG_BIT(0)
-@@ -1124,6 +1130,8 @@
- 
- #define RT_CTRL					_MMIO(0xe530)
- #define   DIS_NULL_QUERY			REG_BIT(10)
-+#define   STACKID_CTRL				REG_GENMASK(6, 5)
-+#define   STACKID_CTRL_512			REG_FIELD_PREP(STACKID_CTRL, 0x2)
- 
- #define EU_PERF_CNTL1				_MMIO(0xe558)
- #define EU_PERF_CNTL5				_MMIO(0xe55c)
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index a68d279b01f0..31e129329fb0 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -568,6 +568,7 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
- static void dg2_ctx_gt_tuning_init(struct intel_engine_cs *engine,
- 				   struct i915_wa_list *wal)
- {
-+	wa_masked_en(wal, CHICKEN_RASTER_2, TBIMR_FAST_CLIP);
- 	wa_write_clr_set(wal, GEN11_L3SQCREG5, L3_PWM_TIMER_INIT_VAL_MASK,
- 			 REG_FIELD_PREP(L3_PWM_TIMER_INIT_VAL_MASK, 0x7f));
- 	wa_add(wal,
-@@ -2195,15 +2196,6 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 		wa_write_or(wal, XEHP_L3NODEARBCFG, XEHP_LNESPARE);
- 	}
- 
--	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_A0, STEP_C0) ||
--	    IS_DG2_G11(i915)) {
--		/* Wa_22012654132:dg2 */
--		wa_add(wal, GEN10_CACHE_MODE_SS, 0,
--		       _MASKED_BIT_ENABLE(ENABLE_PREFETCH_INTO_IC),
--		       0 /* write-only, so skip validation */,
--		       true);
--	}
--
- 	/* Wa_14013202645:dg2 */
- 	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_B0, STEP_C0) ||
- 	    IS_DG2_GRAPHICS_STEP(i915, G11, STEP_A0, STEP_B0))
-@@ -2692,6 +2684,23 @@ add_render_compute_tuning_settings(struct drm_i915_private *i915,
- 
- 	if (IS_DG2(i915)) {
- 		wa_write_or(wal, XEHP_L3SCQREG7, BLEND_FILL_CACHING_OPT_DIS);
-+		wa_write_clr_set(wal, RT_CTRL, STACKID_CTRL, STACKID_CTRL_512);
-+		wa_write_clr_set(wal, DRAW_WATERMARK, VERT_WM_VAL,
-+				 REG_FIELD_PREP(VERT_WM_VAL, 0x3FF));
-+
-+		/*
-+		 * This is also listed as Wa_22012654132 for certain DG2
-+		 * steppings, but the tuning setting programming is a superset
-+		 * since it applies to all DG2 variants and steppings.
-+		 *
-+		 * Note that register 0xE420 is write-only and cannot be read
-+		 * back for verification on DG2 (due to Wa_14012342262), so
-+		 * we need to explicitly skip the readback.
-+		 */
-+		wa_add(wal, GEN10_CACHE_MODE_SS, 0,
-+		       _MASKED_BIT_ENABLE(ENABLE_PREFETCH_INTO_IC),
-+		       0 /* write-only, so skip validation */,
-+		       true);
- 	}
++	/* Tiger Lake H DP-IN Boot Time Switching from iGfx to dGfx */
++	if (supported & BIT(20)) {
++		obj = acpi_evaluate_dsm(dhandle, &intel_dsm_guid2,
++					INTEL_DSM_REVISION_ID,
++					INTEL_DSM_FN_DP_IN_SWITCH_TO_DGFX,
++					NULL);
++		if (obj)
++			ACPI_FREE(obj);
++	}
  }
  
+ /*
 -- 
-2.37.1
+2.36.1
 
