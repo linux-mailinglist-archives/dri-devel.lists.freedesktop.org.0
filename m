@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5135A00C8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FE75A00DB
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:58:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2238ABEF94;
-	Wed, 24 Aug 2022 17:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FFFA12BA1A;
+	Wed, 24 Aug 2022 17:58:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7456994F32
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 15:37:03 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 370543471E;
- Tue, 16 Aug 2022 15:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1660664222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SLnZ81N68p1pCRNQDGd4aZufCAeqClMy0Swaf735zVw=;
- b=0s5Av3B6KNoTHWiXK0NNOTDIFFCPmJxC10giYosPgbzQ9XaTPEeSeooEAhZEOceNA1DUnW
- y52NTaKnpXJf2ifIe8hNUx1kN/F7ePk2JJiRKjNrM9Nrrzze3316Oak3/a49OqhGhjrqXL
- 4itUSqKO/x0HtNvnd7ODcDUEpjF1w1s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1660664222;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SLnZ81N68p1pCRNQDGd4aZufCAeqClMy0Swaf735zVw=;
- b=ZSGd0x1axx4rukLQ6BtzKxJXIm47o4Cjh1gbmvA0yxcm04X0oUDw1Wno4dWnGhuOCapt8H
- eDGrXdHzQroZo2AQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D35DC139B7;
- Tue, 16 Aug 2022 15:37:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4DnbMp25+2LKJAAAMHmgww
- (envelope-from <tiwai@suse.de>); Tue, 16 Aug 2022 15:37:01 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 04/12] Revert "drm/udl: Kill pending URBs at suspend and
- disconnect"
-Date: Tue, 16 Aug 2022 17:36:47 +0200
-Message-Id: <20220816153655.27526-5-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220816153655.27526-1-tiwai@suse.de>
-References: <20220816153655.27526-1-tiwai@suse.de>
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+ [209.85.166.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC7518B941
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 17:21:50 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id m9so931412ili.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 10:21:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=P7Z+4nprkvModK2oQu0YRid7XHVVPycAnssgkVYTrss=;
+ b=yX+5sGezngXzpdVq/bA0PTiVnaG225NW3X75l102LOT8T82UMFGkSWLp7sAc2QV6He
+ cWQ2vM/1FqgHcZEhFlP6nitpW+pbiGcVOs4OJaJVfDu8Naqv9gnbOQekZrRmrH/nsbDH
+ uWDqOdwLK1GiXhd2KsGR8ptFYHDhmf5RgPqUstCsqZW3ZZwUSmkNwDHREkyih49CHgXu
+ GvEevwLui1FEXy/lss9wuwjD9gTHkX0KTMO1L0Fp12Zr7pYS2/uDRThL/K0Vw54ODe3r
+ qLhqdWC1FUisLQbZD6fBqAT7sEZDbq2Wa85LMi5+nAWdzRVsxE3BvtI6I+tFb1GHetUE
+ gk3g==
+X-Gm-Message-State: ACgBeo1EiTLnnv3XBSm0hrtc7FOIM9qy8l7ISBI0shP7/MzdLGJv6QGC
+ nmPf9MTTVfLk4YrM32UAOg==
+X-Google-Smtp-Source: AA6agR54seig41K6leAp26Lk+3yNKZZNjH4AvGpX9uT+AQUdLlhdQIcUP1zQ+2s+w9YHVCdHVoNQ/Q==
+X-Received: by 2002:a05:6e02:2167:b0:2e5:cb31:f453 with SMTP id
+ s7-20020a056e02216700b002e5cb31f453mr4086715ilv.179.1660670509264; 
+ Tue, 16 Aug 2022 10:21:49 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id
+ o9-20020a05660213c900b0067a338211b3sm6434100iov.3.2022.08.16.10.21.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Aug 2022 10:21:48 -0700 (PDT)
+Received: (nullmailer pid 2406272 invoked by uid 1000);
+ Tue, 16 Aug 2022 17:21:47 -0000
+Date: Tue, 16 Aug 2022 11:21:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Subject: Re: [PATCH] dt-bindings: display: simple: Add Multi-Inno Technology
+ MI0800FT-9 panel
+Message-ID: <20220816172147.GA2406219-robh@kernel.org>
+References: <20220812114600.4895-1-cniedermaier@dh-electronics.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220812114600.4895-1-cniedermaier@dh-electronics.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,126 +62,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts the recent fix commit
-  e25d5954264d ("drm/udl: Kill pending URBs at suspend and disconnect")
-as it turned out to lead to potential hangup at a disconnection, and
-it doesn't help much for suspend/resume problem, either.
+On Fri, 12 Aug 2022 13:46:00 +0200, Christoph Niedermaier wrote:
+> Add Multi-Inno Technology MI0800FT-9 8" 800x600 DPI panel
+> compatible string.
+> 
+> Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+>  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/gpu/drm/udl/udl_drv.h     |  2 --
- drivers/gpu/drm/udl/udl_main.c    | 25 +++----------------------
- drivers/gpu/drm/udl/udl_modeset.c |  2 --
- 3 files changed, 3 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index 37c14b0ff1fc..5923d2e02bc8 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -39,7 +39,6 @@ struct urb_node {
- 
- struct urb_list {
- 	struct list_head list;
--	struct list_head in_flight;
- 	spinlock_t lock;
- 	wait_queue_head_t sleep;
- 	int available;
-@@ -85,7 +84,6 @@ static inline struct urb *udl_get_urb(struct drm_device *dev)
- 
- int udl_submit_urb(struct drm_device *dev, struct urb *urb, size_t len);
- int udl_sync_pending_urbs(struct drm_device *dev);
--void udl_kill_pending_urbs(struct drm_device *dev);
- void udl_urb_completion(struct urb *urb);
- 
- int udl_init(struct udl_device *udl);
-diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-index 7d1e6bbc165c..a9f6b710b254 100644
---- a/drivers/gpu/drm/udl/udl_main.c
-+++ b/drivers/gpu/drm/udl/udl_main.c
-@@ -135,7 +135,7 @@ void udl_urb_completion(struct urb *urb)
- 	urb->transfer_buffer_length = udl->urbs.size; /* reset to actual */
- 
- 	spin_lock_irqsave(&udl->urbs.lock, flags);
--	list_move(&unode->entry, &udl->urbs.list);
-+	list_add_tail(&unode->entry, &udl->urbs.list);
- 	udl->urbs.available++;
- 	spin_unlock_irqrestore(&udl->urbs.lock, flags);
- 
-@@ -180,7 +180,6 @@ static int udl_alloc_urb_list(struct drm_device *dev, int count, size_t size)
- retry:
- 	udl->urbs.size = size;
- 	INIT_LIST_HEAD(&udl->urbs.list);
--	INIT_LIST_HEAD(&udl->urbs.in_flight);
- 
- 	init_waitqueue_head(&udl->urbs.sleep);
- 	udl->urbs.count = 0;
-@@ -247,7 +246,7 @@ struct urb *udl_get_urb_timeout(struct drm_device *dev, long timeout)
- 	}
- 
- 	unode = list_first_entry(&udl->urbs.list, struct urb_node, entry);
--	list_move(&unode->entry, &udl->urbs.in_flight);
-+	list_del_init(&unode->entry);
- 	udl->urbs.available--;
- 
- unlock:
-@@ -281,7 +280,7 @@ int udl_sync_pending_urbs(struct drm_device *dev)
- 	spin_lock_irq(&udl->urbs.lock);
- 	/* 2 seconds as a sane timeout */
- 	if (!wait_event_lock_irq_timeout(udl->urbs.sleep,
--					 list_empty(&udl->urbs.in_flight),
-+					 udl->urbs.available == udl->urbs.count,
- 					 udl->urbs.lock,
- 					 msecs_to_jiffies(2000)))
- 		ret = -ETIMEDOUT;
-@@ -289,23 +288,6 @@ int udl_sync_pending_urbs(struct drm_device *dev)
- 	return ret;
- }
- 
--/* kill pending URBs */
--void udl_kill_pending_urbs(struct drm_device *dev)
--{
--	struct udl_device *udl = to_udl(dev);
--	struct urb_node *unode;
--
--	spin_lock_irq(&udl->urbs.lock);
--	while (!list_empty(&udl->urbs.in_flight)) {
--		unode = list_first_entry(&udl->urbs.in_flight,
--					 struct urb_node, entry);
--		spin_unlock_irq(&udl->urbs.lock);
--		usb_kill_urb(unode->urb);
--		spin_lock_irq(&udl->urbs.lock);
--	}
--	spin_unlock_irq(&udl->urbs.lock);
--}
--
- int udl_init(struct udl_device *udl)
- {
- 	struct drm_device *dev = &udl->drm;
-@@ -354,7 +336,6 @@ int udl_drop_usb(struct drm_device *dev)
- {
- 	struct udl_device *udl = to_udl(dev);
- 
--	udl_kill_pending_urbs(dev);
- 	udl_free_urb_list(dev);
- 	put_device(udl->dmadev);
- 	udl->dmadev = NULL;
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 187aba2d7825..c34d564773a3 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -398,8 +398,6 @@ udl_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
- 	struct urb *urb;
- 	char *buf;
- 
--	udl_kill_pending_urbs(dev);
--
- 	urb = udl_get_urb(dev);
- 	if (!urb)
- 		return;
--- 
-2.35.3
-
+Acked-by: Rob Herring <robh@kernel.org>
