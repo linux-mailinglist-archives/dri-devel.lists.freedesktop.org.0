@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D5A595D83
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BF5595DA3
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:47:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8E6A65CF;
-	Tue, 16 Aug 2022 13:38:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59C27ACDF6;
+	Tue, 16 Aug 2022 13:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B633AB6AB
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:38:12 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 595151FD0A;
- Tue, 16 Aug 2022 13:38:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1660657091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aZLu5KSi81xZan6RzbNfzRh3iulAOibogWhDEkWaWtM=;
- b=FVOS8rHmoMC8l9M6N5yWx7iBuhL1XhHntKjCWBY9Gj20WZRgsNAA7JGt/cHTWsvOoQr2D4
- t+dK4JiF/2ovLIjWm8EBzq1y44ETtGkb4b7emvYrvxbO5YcsxT7GoiedUM5pDmXboxidAz
- MBMlWonwRW12nEoPx+jmqSRM+4Qr8Xs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1660657091;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aZLu5KSi81xZan6RzbNfzRh3iulAOibogWhDEkWaWtM=;
- b=yDjdtcsT+6cEC8SzoG7eWYxCrzwmibg0nGL6rTFlHR4N8/9kU0P2mxdgIYCX+800bJZp1W
- Nu8o3TrkEBNUILAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E3ECB139B7;
- Tue, 16 Aug 2022 13:38:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QkMHNsKd+2I4bgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 16 Aug 2022 13:38:10 +0000
-Message-ID: <8a8d3049-be58-65d7-a80d-07fe223a3481@suse.de>
-Date: Tue, 16 Aug 2022 15:38:10 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F0CD98E90
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:46:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660657603;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=p5OSIpWT90frefg7xGzBYHPg0+V86mBzdAKs9FXoz/g=;
+ b=NTagCNoHMDOIKsqwYHwpF/o7RAF8iKGgVB22FEYk8kNs3dwPC2OpDS6tvR73O1wCuGgGUM
+ MDBikhQC5sfytrMt3D+wcD0ZyFsJ9t1tThTcr4z1LODQe6kBtXZquBWcWx7VvYie6I1v4R
+ czf/sykJmo8mPwebkof8Ebo2metbvhs=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-488-qIVtFHspP-mwOLBR2a19aA-1; Tue, 16 Aug 2022 09:46:42 -0400
+X-MC-Unique: qIVtFHspP-mwOLBR2a19aA-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ d18-20020ab03192000000b0038785905f99so3140288uan.16
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 06:46:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=p5OSIpWT90frefg7xGzBYHPg0+V86mBzdAKs9FXoz/g=;
+ b=ftZx6GnjrDoG6e400ofWrNGQjB7hqks1o9Eqc5B4QNDyXiM/9rG9o1xzP6UXx31mT5
+ P3cHghyI56rUcrbGCzn5EGy5N78RjeIXjcjq8+5Vy+J1HkvQM4TG1IeyKykftzmXfYoR
+ Blv/gCI0TjMZ6EylddtmR8z8TitStJSDm2fIvfGP/FhdVnVi/z7SCXcD+LeqOOpuxH7t
+ Px6G1zJ8YK8p3PFPtpWuKPL0217xSZi4gC1vf19HvZQhuGlgkXlSvlZdzjSPC9a1125p
+ lDvmsPCql1anAmdtUCWP17drAHoo7ZGhYJJVXhBqjWcaJuO95Wqe7XBSr1QKkU9cdc3e
+ LfoQ==
+X-Gm-Message-State: ACgBeo2kynj/ArdXLksGva1AOYor40gL4s44EMFuoN0nKtliS5qOZ/ck
+ PHuc/gl0ZOWKvlZnWcsvRnppu58Qi685L2WNqS2WLcHC03PGKg4kbqWHTzrL8m1cHUBKXnIrieZ
+ EOs1HsTbMp9fCc4Wv4GKe04Q4agFM
+X-Received: by 2002:a05:6102:3d24:b0:388:4323:8e78 with SMTP id
+ i36-20020a0561023d2400b0038843238e78mr8492052vsv.86.1660657601136; 
+ Tue, 16 Aug 2022 06:46:41 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7dYbwWeCNwNJfUHQbDiDlC8h6iUJ+La5uDCvvn1TuftLxbb9HVYmT4vCD5UcNhSSTnlyNyGQ==
+X-Received: by 2002:a05:6102:3d24:b0:388:4323:8e78 with SMTP id
+ i36-20020a0561023d2400b0038843238e78mr8492037vsv.86.1660657600840; 
+ Tue, 16 Aug 2022 06:46:40 -0700 (PDT)
+Received: from minerva.. ([181.120.137.43]) by smtp.gmail.com with ESMTPSA id
+ g11-20020ab0130b000000b0038275916987sm7116550uae.14.2022.08.16.06.46.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Aug 2022 06:46:40 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v4] drm/msm: Make .remove and .shutdown HW shutdown consistent
+Date: Tue, 16 Aug 2022 15:46:12 +0200
+Message-Id: <20220816134612.916527-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.0
-Subject: Re: [PATCH 4/4] drm/format-helper: Add drm_fb_build_fourcc_list()
- helper
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20220810112053.19547-1-tzimmermann@suse.de>
- <20220810112053.19547-5-tzimmermann@suse.de> <YvaZzIPv09Uj2C0D@ravnborg.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <YvaZzIPv09Uj2C0D@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------6tv7gfLbb6g9HQ4kfzmfcGdx"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,247 +78,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: david@lechnology.com, emma@anholt.net, airlied@linux.ie, javierm@redhat.com,
- noralf@tronnes.org, dri-devel@lists.freedesktop.org,
- kamlesh.gurudasani@gmail.com
+Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------6tv7gfLbb6g9HQ4kfzmfcGdx
-Content-Type: multipart/mixed; boundary="------------FvE50bJL1iGXMfgDr5Za8RwM";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: javierm@redhat.com, noralf@tronnes.org, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- emma@anholt.net, kamlesh.gurudasani@gmail.com, david@lechnology.com,
- dri-devel@lists.freedesktop.org
-Message-ID: <8a8d3049-be58-65d7-a80d-07fe223a3481@suse.de>
-Subject: Re: [PATCH 4/4] drm/format-helper: Add drm_fb_build_fourcc_list()
- helper
-References: <20220810112053.19547-1-tzimmermann@suse.de>
- <20220810112053.19547-5-tzimmermann@suse.de> <YvaZzIPv09Uj2C0D@ravnborg.org>
-In-Reply-To: <YvaZzIPv09Uj2C0D@ravnborg.org>
+Drivers' .remove and .shutdown callbacks are executed on different code
+paths. The former is called when a device is removed from the bus, while
+the latter is called at system shutdown time to quiesce the device.
 
---------------FvE50bJL1iGXMfgDr5Za8RwM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+This means that some overlap exists between the two, because both have to
+take care of properly shutting down the hardware. But currently the logic
+used in these two callbacks isn't consistent in msm drivers, which could
+lead to kernel panic.
 
-SGkNCg0KQW0gMTIuMDguMjIgdW0gMjA6MTkgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
-IFRob21hcywNCj4gDQo+IE9uIFdlZCwgQXVnIDEwLCAyMDIyIGF0IDAxOjIwOjUzUE0gKzAy
-MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gQWRkIGRybV9mYl9idWlsZF9mb3Vy
-Y2NfbGlzdCgpIGZ1bmN0aW9uIHRoYXQgYnVpbGRzIGEgbGlzdCBvZiBzdXBwb3J0ZWQNCj4+
-IGZvcm1hdHMgZnJvbSBuYXRpdmUgYW5kIGVtdWxhdGVkIG9uZXMuIEhlbHBmdWwgZm9yIGFs
-bCBkcml2ZXJzIHRoYXQgZG8NCj4+IGZvcm1hdCBjb252ZXJzaW9uIGFzIHBhcnQgb2YgdGhl
-aXIgcGxhbmUgdXBkYXRlcy4gVXBkYXRlIGN1cnJlbnQgY2FsbGVyLg0KPj4NCj4+IFNpZ25l
-ZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiAN
-Cj4gQSBmZXcgY29tbWVudHMgaW4gdGhlIGZvbGxvd2luZy4gQ29uc2lkZXIgdG8gYWRkIHRo
-ZSB3YXJuaW5nIGFuZCB3aXRoIGl0DQo+IGFkZGVkIG9yIG5vdDoNCj4gUmV2aWV3ZWQtYnk6
-IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4NCj4gDQo+PiAtLS0NCj4+ICAgZHJp
-dmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMgfCA5NCArKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKw0KPj4gICBkcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYyAg
-ICB8IDQ3ICsrLS0tLS0tLS0tLS0tLQ0KPj4gICBpbmNsdWRlL2RybS9kcm1fZm9ybWF0X2hl
-bHBlci5oICAgICB8IDExICsrKy0NCj4+ICAgMyBmaWxlcyBjaGFuZ2VkLCAxMDkgaW5zZXJ0
-aW9ucygrKSwgNDMgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fZm9ybWF0X2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3Jt
-YXRfaGVscGVyLmMNCj4+IGluZGV4IDU2NjQyODE2ZmRmZi4uZGNhNTUzMTYxNWYzIDEwMDY0
-NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMNCj4+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9ybWF0X2hlbHBlci5jDQo+PiBAQCAtNzkzLDMg
-Kzc5Myw5NyBAQCB2b2lkIGRybV9mYl94cmdiODg4OF90b19tb25vKHN0cnVjdCBpb3N5c19t
-YXAgKmRzdCwgY29uc3QgdW5zaWduZWQgaW50ICpkc3RfcGl0Yw0KPj4gICAJa2ZyZWUoc3Jj
-MzIpOw0KPj4gICB9DQo+PiAgIEVYUE9SVF9TWU1CT0woZHJtX2ZiX3hyZ2I4ODg4X3RvX21v
-bm8pOw0KPj4gKw0KPj4gK3N0YXRpYyBib29sIGlzX2xpc3RlZF9mb3VyY2MoY29uc3QgdWlu
-dDMyX3QgKmZvdXJjY3MsIHNpemVfdCBuZm91cmNjcywgdWludDMyX3QgZm91cmNjKQ0KPj4g
-K3sNCj4+ICsJY29uc3QgdWludDMyX3QgKmZvdXJjY3NfZW5kID0gZm91cmNjcyArIG5mb3Vy
-Y2NzOw0KPj4gKw0KPj4gKwl3aGlsZSAoZm91cmNjcyA8IGZvdXJjY3NfZW5kKSB7DQo+PiAr
-CQlpZiAoKmZvdXJjY3MgPT0gZm91cmNjKQ0KPj4gKwkJCXJldHVybiB0cnVlOw0KPj4gKwkJ
-Kytmb3VyY2NzOw0KPj4gKwl9DQo+PiArCXJldHVybiBmYWxzZTsNCj4+ICt9DQo+PiArDQo+
-PiArLyoqDQo+PiArICogZHJtX2ZiX2J1aWxkX2ZvdXJjY19saXN0IC0gRmlsdGVycyBhIGxp
-c3Qgb2Ygc3VwcG9ydGVkIGNvbG9yIGZvcm1hdHMgYWdhaW5zdA0KPj4gKyAqICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHRoZSBkZXZpY2UncyBuYXRpdmUgZm9ybWF0cw0KPj4gKyAq
-IEBkZXY6IERSTSBkZXZpY2UNCj4+ICsgKiBAbmF0aXZlX2ZvdXJjY3M6IDRDQyBjb2RlcyBv
-ZiBuYXRpdmVseSBzdXBwb3J0ZWQgY29sb3IgZm9ybWF0cw0KPj4gKyAqIEBuYXRpdmVfbmZv
-dXJjY3M6IFRoZSBudW1iZXIgb2YgZW50cmllcyBpbiBAbmF0aXZlX2ZvdXJjY3MNCj4+ICsg
-KiBAZXh0cmFfZm91cmNjczogNENDIGNvZGVzIG9mIGFkZGl0aW9uYWxseSBzdXBwb3J0ZWQg
-Y29sb3IgZm9ybWF0cw0KPj4gKyAqIEBleHRyYV9uZm91cmNjczogVGhlIG51bWJlciBvZiBl
-bnRyaWVzIGluIEBleHRyYV9mb3VyY2NzDQo+PiArICogQGZvdXJjY3Nfb3V0OiBSZXR1cm5z
-IDRDQyBjb2RlcyBvZiBzdXBwb3J0ZWQgY29sb3IgZm9ybWF0cw0KPj4gKyAqIEBuZm91cmNj
-c19vdXQ6IFRoZSBudW1iZXIgb2YgYXZhaWxhYmxlIGVudHJpZXMgaW4gQGZvdXJjY3Nfb3V0
-DQo+PiArICoNCj4+ICsgKiBUaGlzIGZ1bmN0aW9uIGNyZWF0ZSBhIGxpc3Qgb2Ygc3VwcG9y
-dGVkIGNvbG9yIGZvcm1hdCBmcm9tIG5hdGl2ZWx5DQo+PiArICogc3VwcG9ydGVkIGZvcm1h
-dHMgYW5kIHRoZSBlbXVsYXRlZCBmb3JtYXRzLiAgKg0KPiBTdHJheSAnKicgYXQgdGhlIGVu
-ZCBvZiB0aGUgbGluZS4NCj4gDQo+PiArICogQXQgYSBtaW5pbXVtLCBtb3N0IHVzZXJzcGFj
-ZSBwcm9ncmFtcyBleHBlY3QgYXQgbGVhc3Qgc3VwcG9ydCBmb3INCj4+ICsgKiBYUkdCODg4
-OCBvbiB0aGUgcHJpbWFyeSBwbGFuZS4gRGV2aWNlcyB0aGF0IGhhdmUgdG8gZW11bGF0ZSB0
-aGUNCj4+ICsgKiBmb3JtYXQsIGFuZCBwb3NzaWJseSBvdGhlcnMsIGNhbiB1c2UgZHJtX2Zi
-X2J1aWxkX2ZvdXJjY19saXN0KCkgdG8NCj4+ICsgKiBjcmVhdGUgYSBsaXN0IG9mIHN1cHBv
-cnRlZCBjb2xvciBmb3JtYXRzLiBUaGUgcmV0dXJuZWQgbGlzdCBjYW4NCj4+ICsgKiBiZSBo
-YW5kZWQgb3ZlciB0byBkcm1fdW5pdmVyc2FsX3BsYW5lX2luaXQoKSBldCBhbC4gTmF0aXZl
-IGZvcm1hdHMNCj4+ICsgKiB3aWxsIGdvIGJlZm9yZSBlbXVsYXRlZCBmb3JtYXRzLiBPdGhl
-ciBoZXVyaXN0aWNzIG1pZ2h0IGJlIGFwcGxpZWQNCj4+ICsgKiB0byBvcHRpbWl6ZSB0aGUg
-b3JkZXIuIEZvcm1hdHMgbmVhciB0aGUgYmVnaW5uaW5nIG9mIHRoZSBsaXN0IGFyZQ0KPj4g
-KyAqIHVzdWFsbHkgcHJlZmVycmVkIG92ZXIgZm9ybWF0cyBuZWFyIHRoZSBlbmQgb2YgdGhl
-IGxpc3QuDQo+PiArICoNCj4+ICsgKiBSZXR1cm5zOg0KPj4gKyAqIFRoZSBudW1iZXIgb2Yg
-Y29sb3ItZm9ybWF0cyA0Q0MgY29kZXMgcmV0dXJuZWQgaW4gQGZvdXJjY3Nfb3V0Lg0KPj4g
-KyAqLw0KPj4gK3NpemVfdCBkcm1fZmJfYnVpbGRfZm91cmNjX2xpc3Qoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiwNCj4+ICsJCQkJY29uc3QgdWludDMyX3QgKm5hdGl2ZV9mb3VyY2NzLCBz
-aXplX3QgbmF0aXZlX25mb3VyY2NzLA0KPj4gKwkJCQljb25zdCB1aW50MzJfdCAqZXh0cmFf
-Zm91cmNjcywgc2l6ZV90IGV4dHJhX25mb3VyY2NzLA0KPj4gKwkJCQl1aW50MzJfdCAqZm91
-cmNjc19vdXQsIHNpemVfdCBuZm91cmNjc19vdXQpDQo+IA0KPiBkcm1fZm91cmNjLmMgdXNl
-cyB0aGUgdHlwZSB1MzIgZm9yIGZvdXJjYyBjb2Rlcywgd2h5IG5vIGdvIHdpdGggdGhlIHNh
-bWUNCj4gaGVyZT8NCj4gDQo+IEkgd2lzaCB3ZSBoYWQgYSBiZXR0ZXIgd2F5IHRvIGV4cHJl
-c3MgdGhhdCB3ZSBoYXZlIGEgbGlzdCBvZiBmb3VyY2MNCj4gY29kZXMsIGZvciBleGFtcGxl
-IHVzaW5nIGxpc3RfaGVhZC4gQnV0IGl0IGlzIGEgYmFkIG1pc21hdGNoIHdpdGgNCj4gdGhl
-IGN1cnJlbnQgZHJtX3VuaXZlcnNhbF9wbGFuZV9pbml0KCkgaW1wbGVtZW50YXRpb24uDQoN
-CkkndmUgY2hhbmdlZCB0aGUgY29kZSB0byB1MzIuIHN0cnVjdCBsaXN0X2hlYWQgaXMgc29t
-ZXdoYXQgb3ZlcmhlYWQtaXNoLCANCmJ1dCBJJ2QgbGlrZSB0byBzZWUgYSAnZm91cmNjX3Qn
-IHR5cGVkZWYgb2YgdGhlIHUzMi4NCg0KPiANCj4gVGhlIGZvcm1hdCBuZWdvdGlhdGlvbiBv
-cGVyYXRpb24gaW4gdGhlIGJyaWRnZXMgY291bGQgYmVuZWZpdCB0b28uDQo+IA0KPj4gK3sN
-Cj4+ICsJdWludDMyX3QgKmZvdXJjY3MgPSBmb3VyY2NzX291dDsNCj4+ICsJY29uc3QgdWlu
-dDMyX3QgKmZvdXJjY3NfZW5kID0gZm91cmNjc19vdXQgKyBuZm91cmNjc19vdXQ7DQo+PiAr
-CWJvb2wgZm91bmRfbmF0aXZlID0gZmFsc2U7DQo+PiArCXNpemVfdCBuZm91cmNjcywgaTsN
-Cj4+ICsNCj4+ICsJLyogbmF0aXZlIGZvcm1hdHMgZ28gZmlyc3QgKi8NCj4+ICsNCj4gRHJv
-cCBleHRyYSBsaW5lLCBjYXBpdGFsIHN0YXJ0DQo+PiArCW5mb3VyY2NzID0gbWluX3Qoc2l6
-ZV90LCBuYXRpdmVfbmZvdXJjY3MsIG5mb3VyY2NzX291dCk7DQo+PiArDQo+PiArCWZvciAo
-aSA9IDA7IGkgPCBuZm91cmNjczsgKytpKSB7DQo+PiArCQl1aW50MzJfdCBmb3VyY2MgPSBu
-YXRpdmVfZm91cmNjc1tpXTsNCj4+ICsNCj4+ICsJCWRybV9kYmdfa21zKGRldiwgImFkZGlu
-ZyBuYXRpdmUgZm9ybWF0ICVwNGNjXG4iLCAmZm91cmNjKTsNCj4+ICsNCj4+ICsJCWlmICgh
-Zm91bmRfbmF0aXZlKQ0KPj4gKwkJCWZvdW5kX25hdGl2ZSA9IGlzX2xpc3RlZF9mb3VyY2Mo
-ZXh0cmFfZm91cmNjcywgZXh0cmFfbmZvdXJjY3MsIGZvdXJjYyk7DQo+PiArCQkqZm91cmNj
-cyA9IGZvdXJjYzsNCj4+ICsJCSsrZm91cmNjczsNCj4+ICsJfQ0KPj4gKw0KPj4gKwkvKg0K
-Pj4gKwkgKiBUaGUgcGxhbmUncyBhdG9taWNfdXBkYXRlIGhlbHBlciBjb252ZXJ0cyB0aGUg
-ZnJhbWVidWZmZXIncyBjb2xvciBmb3JtYXQNCj4+ICsJICogdG8gdGhlIG5hdGl2ZSBmb3Jt
-YXQgd2hlbiBjb3B5aW5nIHRoZW0gdG8gZGV2aWNlIG1lbW9yeS4NCj4+ICsJICoNCj4+ICsJ
-ICogSWYgdGhlcmUgaXMgbm90IGEgc2luZ2xlIGZvcm1hdCBzdXBwb3J0ZWQgYnkgYm90aCwg
-ZGV2aWNlIGFuZA0KPj4gKwkgKiBwbGFuZSwgdGhlIG5hdGl2ZSBmb3JtYXRzIGFyZSBsaWtl
-bHkgbm90IHN1cHBvcnRlZCBieSB0aGUgY29udmVyc2lvbg0KPj4gKwkgKiBoZWxwZXJzLiBU
-aGVyZWZvcmUgKm9ubHkqIHN1cHBvcnQgdGhlIG5hdGl2ZSBmb3JtYXRzIGFuZCBhZGQgYQ0K
-Pj4gKwkgKiBjb252ZXJzaW9uIGhlbHBlciBBU0FQLg0KPj4gKwkgKi8NCj4gRGVzcGl0ZSB0
-aGUgbmljZSBjb21tZW50IEkgaGFkIHRvIHRoaW5rIHR3aWNlLiBJbiB0aGUgZW5kIEkgYWdy
-ZWUgd2l0aA0KPiB0aGlzLg0KPiANCj4+ICsJaWYgKCFmb3VuZF9uYXRpdmUpIHsNCj4+ICsJ
-CWRybV93YXJuKGRldiwgImZvcm1hdCBjb252ZXJzaW9uIGhlbHBlcnMgcmVxdWlyZWQgdG8g
-YWRkIGV4dHJhIGZvcm1hdHNcbiIpOw0KPj4gKwkJZ290byBvdXQ7DQo+PiArCX0NCj4+ICsN
-Cj4+ICsJLyogZXh0cmEgZm9ybWF0cyBnbyBzZWNvbmQgKi8NCj4+ICsNCj4gRHJvcCBleHRy
-YSBsaW5lLCBjYXBpdGFsIHN0YXJ0Lg0KPj4gKwluZm91cmNjcyA9IG1pbl90KHNpemVfdCwg
-ZXh0cmFfbmZvdXJjY3MsIGZvdXJjY3NfZW5kIC0gZm91cmNjcyk7DQo+PiArDQo+PiArCWZv
-ciAoaSA9IDA7IGkgPCBuZm91cmNjczsgKytpKSB7DQo+PiArCQl1aW50MzJfdCBmb3VyY2Mg
-PSBleHRyYV9mb3VyY2NzW2ldOw0KPj4gKw0KPj4gKwkJaWYgKGlzX2xpc3RlZF9mb3VyY2Mo
-bmF0aXZlX2ZvdXJjY3MsIG5hdGl2ZV9uZm91cmNjcywgZm91cmNjKSkNCj4+ICsJCQljb250
-aW51ZTsgLyogbmF0aXZlIGZvcm1hdHMgYWxyZWFkeSB3ZW50IGZpcnN0ICovDQo+PiArCQkq
-Zm91cmNjcyA9IGZvdXJjYzsNCj4+ICsJCSsrZm91cmNjczsNCj4+ICsJfQ0KPj4gKw0KPj4g
-K291dDoNCj4+ICsJcmV0dXJuIGZvdXJjY3MgLSBmb3VyY2NzX291dDsNCj4+ICt9DQo+IEl0
-IHdvdWxkIGJlIHBydWRlbnQgdG8gd2FybiBpZiB0aGUgc3VwcGxpZWQgZm91cmNjc19vdXQg
-YXJyYXkgaXMgdG9vDQo+IHNtYWxsIHRvIHRoZSBwcm92aWRlZCBpbnB1dCBmb3JtYXRzLiBz
-aW1wbGVkcm0gaXMgYWJvdXQgdG8gaGl0IHRoZSBsaW1pdC4NCg0KR29vZCBpZGVhLiBJJ3Zl
-IGFkZGVkIGEgd2FybmluZy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4+ICtF
-WFBPUlRfU1lNQk9MKGRybV9mYl9idWlsZF9mb3VyY2NfbGlzdCk7DQo+PiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-dGlueS9zaW1wbGVkcm0uYw0KPj4gaW5kZXggY2M1MDkxNTRiMjk2Li43OWM5ZmQ2YmVkZjAg
-MTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4+IEBAIC02NDQsNDUg
-KzY0NCw2IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBzaW1wbGVkcm1fbW9k
-ZSh1bnNpZ25lZCBpbnQgd2lkdGgsDQo+PiAgIAlyZXR1cm4gbW9kZTsNCj4+ICAgfQ0KPj4g
-ICANCj4+IC1zdGF0aWMgY29uc3QgdWludDMyX3QgKnNpbXBsZWRybV9kZXZpY2VfZm9ybWF0
-cyhzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldiwNCj4+IC0JCQkJCQlzaXplX3QgKm5m
-b3JtYXRzX291dCkNCj4+IC17DQo+PiAtCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSAmc2Rl
-di0+ZGV2Ow0KPj4gLQlzaXplX3QgaTsNCj4+IC0NCj4+IC0JaWYgKHNkZXYtPm5mb3JtYXRz
-KQ0KPj4gLQkJZ290byBvdXQ7IC8qIGRvbid0IHJlYnVpbGQgbGlzdCBvbiByZWN1cnJpbmcg
-Y2FsbHMgKi8NCj4+IC0NCj4+IC0JLyogbmF0aXZlIGZvcm1hdCBnb2VzIGZpcnN0ICovDQo+
-PiAtCXNkZXYtPmZvcm1hdHNbMF0gPSBzZGV2LT5mb3JtYXQtPmZvcm1hdDsNCj4+IC0Jc2Rl
-di0+bmZvcm1hdHMgPSAxOw0KPj4gLQ0KPj4gLQkvKiBkZWZhdWx0IGZvcm1hdHMgZ28gc2Vj
-b25kICovDQo+PiAtCWZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKHNpbXBsZWRybV9wcmlt
-YXJ5X3BsYW5lX2Zvcm1hdHMpOyArK2kpIHsNCj4+IC0JCWlmIChzaW1wbGVkcm1fcHJpbWFy
-eV9wbGFuZV9mb3JtYXRzW2ldID09IHNkZXYtPmZvcm1hdC0+Zm9ybWF0KQ0KPj4gLQkJCWNv
-bnRpbnVlOyAvKiBuYXRpdmUgZm9ybWF0IGFscmVhZHkgd2VudCBmaXJzdCAqLw0KPj4gLQkJ
-c2Rldi0+Zm9ybWF0c1tzZGV2LT5uZm9ybWF0c10gPSBzaW1wbGVkcm1fcHJpbWFyeV9wbGFu
-ZV9mb3JtYXRzW2ldOw0KPj4gLQkJc2Rldi0+bmZvcm1hdHMrKzsNCj4+IC0JfQ0KPj4gLQ0K
-Pj4gLQkvKg0KPj4gLQkgKiBUT0RPOiBUaGUgc2ltcGxlZHJtIGRyaXZlciBjb252ZXJ0cyBm
-cmFtZWJ1ZmZlcnMgdG8gdGhlIG5hdGl2ZQ0KPj4gLQkgKiBmb3JtYXQgd2hlbiBjb3B5aW5n
-IHRoZW0gdG8gZGV2aWNlIG1lbW9yeS4gSWYgdGhlcmUgYXJlIG1vcmUNCj4+IC0JICogZm9y
-bWF0cyBsaXN0ZWQgdGhhbiBzdXBwb3J0ZWQgYnkgdGhlIGRyaXZlciwgdGhlIG5hdGl2ZSBm
-b3JtYXQNCj4+IC0JICogaXMgbm90IHN1cHBvcnRlZCBieSB0aGUgY29udmVyc2lvbiBoZWxw
-ZXJzLiBUaGVyZWZvcmUgKm9ubHkqDQo+PiAtCSAqIHN1cHBvcnQgdGhlIG5hdGl2ZSBmb3Jt
-YXQgYW5kIGFkZCBhIGNvbnZlcnNpb24gaGVscGVyIEFTQVAuDQo+PiAtCSAqLw0KPj4gLQlp
-ZiAoZHJtX1dBUk5fT05DRShkZXYsIGkgIT0gc2Rldi0+bmZvcm1hdHMsDQo+PiAtCQkJICAi
-Zm9ybWF0IGNvbnZlcnNpb24gaGVscGVycyByZXF1aXJlZCBmb3IgJXA0Y2MiLA0KPj4gLQkJ
-CSAgJnNkZXYtPmZvcm1hdC0+Zm9ybWF0KSkgew0KPj4gLQkJc2Rldi0+bmZvcm1hdHMgPSAx
-Ow0KPj4gLQl9DQo+PiAtDQo+PiAtb3V0Og0KPj4gLQkqbmZvcm1hdHNfb3V0ID0gc2Rldi0+
-bmZvcm1hdHM7DQo+PiAtCXJldHVybiBzZGV2LT5mb3JtYXRzOw0KPj4gLX0NCj4+IC0NCj4+
-ICAgc3RhdGljIHN0cnVjdCBzaW1wbGVkcm1fZGV2aWNlICpzaW1wbGVkcm1fZGV2aWNlX2Ny
-ZWF0ZShzdHJ1Y3QgZHJtX2RyaXZlciAqZHJ2LA0KPj4gICAJCQkJCQkJc3RydWN0IHBsYXRm
-b3JtX2RldmljZSAqcGRldikNCj4+ICAgew0KPj4gQEAgLTY5OSw3ICs2NjAsNiBAQCBzdGF0
-aWMgc3RydWN0IHNpbXBsZWRybV9kZXZpY2UgKnNpbXBsZWRybV9kZXZpY2VfY3JlYXRlKHN0
-cnVjdCBkcm1fZHJpdmVyICpkcnYsDQo+PiAgIAlzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29k
-ZXI7DQo+PiAgIAlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yOw0KPj4gICAJdW5z
-aWduZWQgbG9uZyBtYXhfd2lkdGgsIG1heF9oZWlnaHQ7DQo+PiAtCWNvbnN0IHVpbnQzMl90
-ICpmb3JtYXRzOw0KPj4gICAJc2l6ZV90IG5mb3JtYXRzOw0KPj4gICAJaW50IHJldDsNCj4+
-ICAgDQo+PiBAQCAtODExLDExICs3NzEsMTQgQEAgc3RhdGljIHN0cnVjdCBzaW1wbGVkcm1f
-ZGV2aWNlICpzaW1wbGVkcm1fZGV2aWNlX2NyZWF0ZShzdHJ1Y3QgZHJtX2RyaXZlciAqZHJ2
-LA0KPj4gICANCj4+ICAgCS8qIFByaW1hcnkgcGxhbmUgKi8NCj4+ICAgDQo+PiAtCWZvcm1h
-dHMgPSBzaW1wbGVkcm1fZGV2aWNlX2Zvcm1hdHMoc2RldiwgJm5mb3JtYXRzKTsNCj4+ICsJ
-bmZvcm1hdHMgPSBkcm1fZmJfYnVpbGRfZm91cmNjX2xpc3QoZGV2LCAmZm9ybWF0LT5mb3Jt
-YXQsIDEsDQo+PiArCQkJCQkgICAgc2ltcGxlZHJtX3ByaW1hcnlfcGxhbmVfZm9ybWF0cywN
-Cj4+ICsJCQkJCSAgICBBUlJBWV9TSVpFKHNpbXBsZWRybV9wcmltYXJ5X3BsYW5lX2Zvcm1h
-dHMpLA0KPj4gKwkJCQkJICAgIHNkZXYtPmZvcm1hdHMsIEFSUkFZX1NJWkUoc2Rldi0+Zm9y
-bWF0cykpOw0KPiBzaW1wbGVkcm1fcHJpbWFyeV9wbGFuZV9mb3JtYXRzIGlzIDYgbG9uZywg
-d2l0aCBhIHRvZG8gdG8gYWRkIDIgbW9yZS4NCj4gU28gdGhlIGN1cnJlbnQgYXJyYXkgb2Yg
-OCBpbiBzZGV2LT5mb3JtYXRzIGlzIGJpZyBlbm91Z2ggZm9yIG5vdy4NCj4gDQo+IA0KPj4g
-ICANCj4+ICAgCXByaW1hcnlfcGxhbmUgPSAmc2Rldi0+cHJpbWFyeV9wbGFuZTsNCj4+ICAg
-CXJldCA9IGRybV91bml2ZXJzYWxfcGxhbmVfaW5pdChkZXYsIHByaW1hcnlfcGxhbmUsIDAs
-ICZzaW1wbGVkcm1fcHJpbWFyeV9wbGFuZV9mdW5jcywNCj4+IC0JCQkJICAgICAgIGZvcm1h
-dHMsIG5mb3JtYXRzLA0KPj4gKwkJCQkgICAgICAgc2Rldi0+Zm9ybWF0cywgbmZvcm1hdHMs
-DQo+PiAgIAkJCQkgICAgICAgc2ltcGxlZHJtX3ByaW1hcnlfcGxhbmVfZm9ybWF0X21vZGlm
-aWVycywNCj4+ICAgCQkJCSAgICAgICBEUk1fUExBTkVfVFlQRV9QUklNQVJZLCBOVUxMKTsN
-Cj4+ICAgCWlmIChyZXQpDQo+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2Zvcm1h
-dF9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmgNCj4+IGluZGV4
-IGNhYTE4MTE5NDMzNS4uMzMyNzg4NzBlMGQ4IDEwMDY0NA0KPj4gLS0tIGEvaW5jbHVkZS9k
-cm0vZHJtX2Zvcm1hdF9oZWxwZXIuaA0KPj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2Zvcm1h
-dF9oZWxwZXIuaA0KPj4gQEAgLTYsMTEgKzYsMTUgQEANCj4+ICAgI2lmbmRlZiBfX0xJTlVY
-X0RSTV9GT1JNQVRfSEVMUEVSX0gNCj4+ICAgI2RlZmluZSBfX0xJTlVYX0RSTV9GT1JNQVRf
-SEVMUEVSX0gNCj4+ICAgDQo+PiAtc3RydWN0IGlvc3lzX21hcDsNCj4+ICsjaW5jbHVkZSA8
-bGludXgvdHlwZXMuaD4NCj4+ICsNCj4+ICtzdHJ1Y3QgZHJtX2RldmljZTsNCj4+ICAgc3Ry
-dWN0IGRybV9mb3JtYXRfaW5mbzsNCj4+ICAgc3RydWN0IGRybV9mcmFtZWJ1ZmZlcjsNCj4+
-ICAgc3RydWN0IGRybV9yZWN0Ow0KPj4gICANCj4+ICtzdHJ1Y3QgaW9zeXNfbWFwOw0KPj4g
-Kw0KPj4gICB1bnNpZ25lZCBpbnQgZHJtX2ZiX2NsaXBfb2Zmc2V0KHVuc2lnbmVkIGludCBw
-aXRjaCwgY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0LA0KPj4gICAJCQkJ
-Y29uc3Qgc3RydWN0IGRybV9yZWN0ICpjbGlwKTsNCj4+ICAgDQo+PiBAQCAtNDQsNCArNDgs
-OSBAQCB2b2lkIGRybV9mYl94cmdiODg4OF90b19tb25vKHN0cnVjdCBpb3N5c19tYXAgKmRz
-dCwgY29uc3QgdW5zaWduZWQgaW50ICpkc3RfcGl0Yw0KPj4gICAJCQkgICAgIGNvbnN0IHN0
-cnVjdCBpb3N5c19tYXAgKnNyYywgY29uc3Qgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIs
-DQo+PiAgIAkJCSAgICAgY29uc3Qgc3RydWN0IGRybV9yZWN0ICpjbGlwKTsNCj4+ICAgDQo+
-PiArc2l6ZV90IGRybV9mYl9idWlsZF9mb3VyY2NfbGlzdChzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LA0KPj4gKwkJCQljb25zdCB1aW50MzJfdCAqbmF0aXZlX2ZvdXJjY3MsIHNpemVfdCBu
-YXRpdmVfbmZvdXJjY3MsDQo+PiArCQkJCWNvbnN0IHVpbnQzMl90ICpleHRyYV9mb3VyY2Nz
-LCBzaXplX3QgZXh0cmFfbmZvdXJjY3MsDQo+PiArCQkJCXVpbnQzMl90ICpmb3VyY2NzX291
-dCwgc2l6ZV90IG5mb3VyY2NzX291dCk7DQo+PiArDQo+PiAgICNlbmRpZiAvKiBfX0xJTlVY
-X0RSTV9GT1JNQVRfSEVMUEVSX0ggKi8NCj4+IC0tIA0KPj4gMi4zNy4xDQoNCi0tIA0KVGhv
-bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
-cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
-ZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8
-aHJlcjogSXZvIFRvdGV2DQo=
+For example, on .remove the component is deleted and its .unbind callback
+leads to the hardware being shutdown but only if the DRM device has been
+marked as registered.
 
---------------FvE50bJL1iGXMfgDr5Za8RwM--
+That check doesn't exist in the .shutdown logic and this can lead to the
+driver calling drm_atomic_helper_shutdown() for a DRM device that hasn't
+been properly initialized.
 
---------------6tv7gfLbb6g9HQ4kfzmfcGdx
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+A situation like this can happen if drivers for expected sub-devices fail
+to probe, since the .bind callback will never be executed. If that is the
+case, drm_atomic_helper_shutdown() will attempt to take mutexes that are
+only initialized if drm_mode_config_init() is called during a device bind.
 
------BEGIN PGP SIGNATURE-----
+This bug was attempted to be fixed in commit 623f279c7781 ("drm/msm: fix
+shutdown hook in case GPU components failed to bind"), but unfortunately
+it still happens in some cases as the one mentioned above, i.e:
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmL7ncIFAwAAAAAACgkQlh/E3EQov+Dj
-bQ/+MquniWRRjn7QcAIYdknwQ33UVdqHrD9dmMcacu3uT4OiOvHWN3OCeWZKfgQsgAkoRBdHV/j7
-+7VOOwQaFfz857TtaXkts/YhHJbLWEq+MTe5lzhrMgl5kkNVnHYqI+hnurByEBXz+l1X8ysCPQWW
-veQq5wcsziBXzlBcRgQ6V04dbXs/16lPmZPjkyC64QWPu8iSFrM459Tl4aV5ulsSW+1nJA3Ayvjo
-2iO8MxejsqEGn4oVaBwlK54qIjpDTxTM9jAqL1m8+0nD5SxFU8VPahvUR4v1y3gjnMtchnW2QpmA
-A1hPvocHh8LqrHIulyK26ifszgot+r6uWzl59D5KtKexNEW9eUPwNDQHg7yTy9NCBJ13Zr5TzpGL
-QNyZ0PSryjaIQx9qMQSN1wWtt1HIyxikY8UrLAQaqHl+H26XQpwuNzRJvpAVcsnHbLF2C7Bv2svU
-a7a2+lWFO9absy+O03jGVeq0lY7qwQZUgPuyA1zyDjIvu7sC2AfRoO946Y/krbM05YyXJGuzN32G
-O5MgfqXXMKZd0qT1nfL7pGuGaejR5bte1jxNTxuyaIFA9KuyBvj/we4GJJZ4wr9hQpJgd84zJFgZ
-Tl6K0z1I3jEdyYbojPBC3rd3oF1rrV13OQomUMxXHQ+QZ7hp+D7xzHbbzkmXplsJ8PFez/R078Kv
-iZQ=
-=ljLA
------END PGP SIGNATURE-----
+  systemd-shutdown[1]: Powering off.
+  kvm: exiting hardware virtualization
+  platform wifi-firmware.0: Removing from iommu group 12
+  platform video-firmware.0: Removing from iommu group 10
+  ------------[ cut here ]------------
+  WARNING: CPU: 6 PID: 1 at drivers/gpu/drm/drm_modeset_lock.c:317 drm_modeset_lock_all_ctx+0x3c4/0x3d0
+  ...
+  Hardware name: Google CoachZ (rev3+) (DT)
+  pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+  pc : drm_modeset_lock_all_ctx+0x3c4/0x3d0
+  lr : drm_modeset_lock_all_ctx+0x48/0x3d0
+  sp : ffff80000805bb80
+  x29: ffff80000805bb80 x28: ffff327c00128000 x27: 0000000000000000
+  x26: 0000000000000000 x25: 0000000000000001 x24: ffffc95d820ec030
+  x23: ffff327c00bbd090 x22: ffffc95d8215eca0 x21: ffff327c039c5800
+  x20: ffff327c039c5988 x19: ffff80000805bbe8 x18: 0000000000000034
+  x17: 000000040044ffff x16: ffffc95d80cac920 x15: 0000000000000000
+  x14: 0000000000000315 x13: 0000000000000315 x12: 0000000000000000
+  x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+  x8 : ffff80000805bc28 x7 : 0000000000000000 x6 : 0000000000000000
+  x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+  x2 : ffff327c00128000 x1 : 0000000000000000 x0 : ffff327c039c59b0
+  Call trace:
+   drm_modeset_lock_all_ctx+0x3c4/0x3d0
+   drm_atomic_helper_shutdown+0x70/0x134
+   msm_drv_shutdown+0x30/0x40
+   platform_shutdown+0x28/0x40
+   device_shutdown+0x148/0x350
+   kernel_power_off+0x38/0x80
+   __do_sys_reboot+0x288/0x2c0
+   __arm64_sys_reboot+0x28/0x34
+   invoke_syscall+0x48/0x114
+   el0_svc_common.constprop.0+0x44/0xec
+   do_el0_svc+0x2c/0xc0
+   el0_svc+0x2c/0x84
+   el0t_64_sync_handler+0x11c/0x150
+   el0t_64_sync+0x18c/0x190
+  ---[ end trace 0000000000000000 ]---
+  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000018
+  Mem abort info:
+    ESR = 0x0000000096000004
+    EC = 0x25: DABT (current EL), IL = 32 bits
+    SET = 0, FnV = 0
+    EA = 0, S1PTW = 0
+    FSC = 0x04: level 0 translation fault
+  Data abort info:
+    ISV = 0, ISS = 0x00000004
+    CM = 0, WnR = 0
+  user pgtable: 4k pages, 48-bit VAs, pgdp=000000010eab1000
+  [0000000000000018] pgd=0000000000000000, p4d=0000000000000000
+  Internal error: Oops: 96000004 [#1] PREEMPT SMP
+  ...
+  Hardware name: Google CoachZ (rev3+) (DT)
+  pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+  pc : ww_mutex_lock+0x28/0x32c
+  lr : drm_modeset_lock_all_ctx+0x1b0/0x3d0
+  sp : ffff80000805bb50
+  x29: ffff80000805bb50 x28: ffff327c00128000 x27: 0000000000000000
+  x26: 0000000000000000 x25: 0000000000000001 x24: 0000000000000018
+  x23: ffff80000805bc10 x22: ffff327c039c5ad8 x21: ffff327c039c5800
+  x20: ffff80000805bbe8 x19: 0000000000000018 x18: 0000000000000034
+  x17: 000000040044ffff x16: ffffc95d80cac920 x15: 0000000000000000
+  x14: 0000000000000315 x13: 0000000000000315 x12: 0000000000000000
+  x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+  x8 : ffff80000805bc28 x7 : 0000000000000000 x6 : 0000000000000000
+  x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+  x2 : ffff327c00128000 x1 : 0000000000000000 x0 : 0000000000000018
+  Call trace:
+   ww_mutex_lock+0x28/0x32c
+   drm_modeset_lock_all_ctx+0x1b0/0x3d0
+   drm_atomic_helper_shutdown+0x70/0x134
+   msm_drv_shutdown+0x30/0x40
+   platform_shutdown+0x28/0x40
+   device_shutdown+0x148/0x350
+   kernel_power_off+0x38/0x80
+   __do_sys_reboot+0x288/0x2c0
+   __arm64_sys_reboot+0x28/0x34
+   invoke_syscall+0x48/0x114
+   el0_svc_common.constprop.0+0x44/0xec
+   do_el0_svc+0x2c/0xc0
+   el0_svc+0x2c/0x84
+   el0t_64_sync_handler+0x11c/0x150
+   el0t_64_sync+0x18c/0x190
+  Code: aa0103f4 d503201f d2800001 aa0103e3 (c8e37c02)
+  ---[ end trace 0000000000000000 ]---
+  Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+  Kernel Offset: 0x495d77c00000 from 0xffff800008000000
+  PHYS_OFFSET: 0xffffcd8500000000
+  CPU features: 0x800,00c2a015,19801c82
+  Memory Limit: none
+  ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
 
---------------6tv7gfLbb6g9HQ4kfzmfcGdx--
+Fixes: 9d5cbf5fe46e ("drm/msm: add shutdown support for display platform_driver")
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+
+Changes in v4:
+- Remove the kernel log timestamps and just keep the stacktrace (Abhinav Kumar).
+- Add Abhinav Kumar Reviewed-by tag.
+
+Changes in v3:
+- Drop the msm_shutdown_hw() wrapper and just call drm_atomic_helper_shutdown()
+  in both callbacks (Dmitry Baryshkov).
+- Copy the comment in msm_drm_uninit() to msm_drv_shutdown() (Dmitry Baryshkov).
+
+Changes in v2:
+- Take the registered check out of the msm_shutdown_hw() and make callers to check instead.
+- Make msm_shutdown_hw() an inline function.
+- Add a Fixes: tag.
+
+ drivers/gpu/drm/msm/msm_drv.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 1d0bafedd585..226d8d4629d2 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1242,10 +1242,15 @@ void msm_drv_shutdown(struct platform_device *pdev)
+ 	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+ 	struct drm_device *drm = priv ? priv->dev : NULL;
+ 
+-	if (!priv || !priv->kms)
+-		return;
+-
+-	drm_atomic_helper_shutdown(drm);
++	/*
++	 * Shutdown the hw if we're far enough along where things might be on.
++	 * If we run this too early, we'll end up panicking in any variety of
++	 * places. Since we don't register the drm device until late in
++	 * msm_drm_init, drm_dev->registered is used as an indicator that the
++	 * shutdown will be successful.
++	 */
++	if (drm && drm->registered)
++		drm_atomic_helper_shutdown(drm);
+ }
+ 
+ static struct platform_driver msm_platform_driver = {
+-- 
+2.37.1
+
