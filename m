@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128DD595E93
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 16:51:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05EF595E91
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 16:50:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76DCA113741;
-	Tue, 16 Aug 2022 14:51:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78ABF8B35C;
+	Tue, 16 Aug 2022 14:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B710A18B89A
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 14:50:50 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id
- h9-20020a9d5549000000b0063727299bb4so7570113oti.9
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 07:50:50 -0700 (PDT)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+ [209.85.160.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB818A986E
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 14:49:59 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id e28so8281778qts.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 07:49:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=Glu8BOq83InxmgivOsliME3h0KPUgqBt+ApKY1f8Hz8=;
- b=0PjKAYr6MTL2McuPRSf5Lw25HTBA3f5Ahax2AreL907u7PV/BT9O+lByh2/doDQVXj
- dxBALlf0VYLuBjCquCWxJd0pebc5oSpViVB4BewZdtVKVROz2K3Yj4xoN9DKDwvp6ORX
- hRxJGqQkd2qegbQVkLghcWEwkI0USK8w2WnW0DSH9ce3Xh+k92YrVAZhL4UHK4SBhWg1
- Qwda09DeYyygk5i8R4mwbtt7uDMAzenw7O2PvnhIiiD/6X0Kv6jSmYtmLpLoexdslOAK
- AsWDeDCtKcvQY4teFR7ZqN7O9PgryZARDpUV22+LG3tPi1tdwZfyr42NNPmA6Cp2pwUu
- 3a1A==
-X-Gm-Message-State: ACgBeo0XFUohZoSg2sLvK4zMP0Pfj7tvnfweLRDNjwK8zzB8uqs140Tt
- /j05RMBgE8/04GOyWwDQ5/FH5S3oqDPkig==
-X-Google-Smtp-Source: AA6agR5Ijl8EV1gBokVfZoM+XcExIMe9DPh562XtBO73BpMXbRat5fk49epsAIcXdRKpYzGG4S0Obg==
-X-Received: by 2002:a9d:5f8e:0:b0:638:87d9:11ed with SMTP id
- g14-20020a9d5f8e000000b0063887d911edmr6114685oti.354.1660661449737; 
- Tue, 16 Aug 2022 07:50:49 -0700 (PDT)
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com.
- [209.85.161.51]) by smtp.gmail.com with ESMTPSA id
- t42-20020a05687060aa00b0010e20d0b2e3sm2066827oae.44.2022.08.16.07.50.49
+ bh=tf29XLGj+1bd58LVE065Hm1nPqeAKMph377e+8mce68=;
+ b=Pm9H/6RoDFkk4qMQbygu7dX1qOYaVG+2Z9FPK+xuI505NbYzu8KoIZRzHdAOCVmLyg
+ 4k4NB3o7wP0IEuTTNujYrFjMBIG/HsoMF/PfGE/npgqAK7dI5hoBtX1QPfbPtZXlcfro
+ 0k+97S7YolzwvYLEwI2iDwR3oUuw6qVLMlOIoB9te/NfnYjwvz/HaKInNihdYfDP/VqX
+ oHwQz188bmI9wqVqzXkQblDz5D99BjyjuQzxVV3W+cq7fpo0F25q2+Nai/eyqEXMZlJX
+ efOCg0xrPqMsmy6go8ZFdjHLKRwWbU647lDegpl98FRIcUgyrTXmLPC5iWnn1dUa5MDJ
+ EjIg==
+X-Gm-Message-State: ACgBeo0e1sgq83qoTaba4LVLJARKT+a7ijDG/DD76jiuObduCvTgZH5g
+ XKLyq9taoCDObdGJ/fpeMvCIYkxOJyMZ1g==
+X-Google-Smtp-Source: AA6agR5OfEmW8/Dy6J+XY26me02wmOfWiXl6MSKH+vCUMSMFeAJu1wc1jCSMjOd5CxIdD/2D8y3f2g==
+X-Received: by 2002:ac8:5c0e:0:b0:342:7cba:8fad with SMTP id
+ i14-20020ac85c0e000000b003427cba8fadmr18149869qti.667.1660661398573; 
+ Tue, 16 Aug 2022 07:49:58 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
+ [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
+ t24-20020a37ea18000000b006b9a8fc0c93sm11580265qkj.53.2022.08.16.07.49.58
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Aug 2022 07:50:49 -0700 (PDT)
-Received: by mail-oo1-f51.google.com with SMTP id
- j42-20020a4a88ad000000b00442fbe0a601so1840523ooa.11
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 07:50:49 -0700 (PDT)
-X-Received: by 2002:a81:658:0:b0:334:a23e:6caa with SMTP id
- 85-20020a810658000000b00334a23e6caamr31311ywg.283.1660661036761; Tue, 16 Aug
- 2022 07:43:56 -0700 (PDT)
+ Tue, 16 Aug 2022 07:49:58 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-332fc508d88so87790737b3.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 07:49:58 -0700 (PDT)
+X-Received: by 2002:a81:b812:0:b0:328:68e4:c886 with SMTP id
+ v18-20020a81b812000000b0032868e4c886mr16448315ywe.502.1660661082059; Tue, 16
+ Aug 2022 07:44:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
- <20220816132040.uwirtjm5yr6rdd3q@houat>
- <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
- <20220816141116.5nuszmilqv2exdb3@houat>
-In-Reply-To: <20220816141116.5nuszmilqv2exdb3@houat>
+ <20220728-rpi-analog-tv-properties-v1-9-3d53ae722097@cerno.tech>
+ <CAMuHMdUiMEybnhgxgBXh1Cbv6syVe9iVU=sb17zHM72R8A2Dew@mail.gmail.com>
+ <20220816134624.cmb5s6i6pkdhu3qj@houat>
+In-Reply-To: <20220816134624.cmb5s6i6pkdhu3qj@houat>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 Aug 2022 16:43:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
-Message-ID: <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Date: Tue, 16 Aug 2022 16:44:30 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWMMaGS_pEZ4OTdXn8jvFnx-Rx81qPseGUeGUcSBqys8A@mail.gmail.com>
+Message-ID: <CAMuHMdWMMaGS_pEZ4OTdXn8jvFnx-Rx81qPseGUeGUcSBqys8A@mail.gmail.com>
+Subject: Re: [PATCH v1 09/35] drm/modes: Move named modes parsing to a
+ separate function
 To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,110 +91,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Maxime,
 
-On Tue, Aug 16, 2022 at 4:11 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Tue, Aug 16, 2022 at 03:29:07PM +0200, Geert Uytterhoeven wrote:
-> > On Tue, Aug 16, 2022 at 3:20 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > On Fri, Aug 12, 2022 at 03:25:18PM +0200, Geert Uytterhoeven wrote:
-> > > > > --- a/drivers/gpu/drm/drm_connector.c
-> > > > > +++ b/drivers/gpu/drm/drm_connector.c
-> > > > > @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
-> > > > >   * 0 on success or a negative error code on failure.
-> > > > >   */
-> > > > >  int drm_mode_create_tv_properties(struct drm_device *dev,
-> > > > > +                                 unsigned int supported_tv_norms,
-> > > > >                                   unsigned int num_modes,
-> > > > >                                   const char * const modes[])
-> > > > >  {
-> > > > > +       static const struct drm_prop_enum_list tv_norm_values[] = {
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-443" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-60" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-K1" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L" },
-> > > >
-> > > > The above are analog standards, with a variable horizontal resolution.
-> > > >
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" },
-> > > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i" },
-> > > >
-> > > > The above are digital standards, with a fixed resolution.
+On Tue, Aug 16, 2022 at 3:46 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Fri, Aug 12, 2022 at 03:27:17PM +0200, Geert Uytterhoeven wrote:
+> > On Fri, Jul 29, 2022 at 6:36 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > The current construction of the named mode parsing doesn't allow to extend
+> > > it easily. Let's move it to a separate function so we can add more
+> > > parameters and modes.
 > > >
-> > > Are they?
-> > >
-> > > It's not clear to me from looking at nouveau, but I was under the
-> > > impression that they were modes for a component output, so CEA 770.3. I
-> > > don't have the spec though, so I can't check.
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > >
-> > Oh right, I forgot about analog HD over component, where you can use
-> > other pixel clocks than in the digital standard.
-> >
-> > > > You seem to have missed "hd1080p"?
-> > >
-> > > Nobody is using it. If we ever have a driver that uses it I think we can
-> > > add it.
-> >
-> > The PS3 supports 1080p over component
-> > https://manuals.playstation.net/document/en/ps3/current/settings/videooutput.html
+> > Thanks for your patch, which looks similar to my "[PATCH v2 2/5]
+> > drm/modes: Extract drm_mode_parse_cmdline_named_mode()"
+> > (https://lore.kernel.org/dri-devel/1371554419ae63cb54c2a377db0c1016fcf200bb.1657788997.git.geert@linux-m68k.org
+> > ;-)
 >
-> Yeah, and iirc the Xbox360 did too, but what I meant by nobody is using
-> it is that there's no driver using it currently.
+> Indeed, I forgot about that one, sorry :/
+>
+> I think I'd still prefer to have the check for refresh + named mode
+> outside of the function, since I see them as an "integration" issue, not
+> a parsing one.
+>
+> It's not the named mode parsing that fails, but the fact that we both
+> have a valid refresh and a valid named mode.
+>
+> >
+> > > --- a/drivers/gpu/drm/drm_modes.c
+> > > +++ b/drivers/gpu/drm/drm_modes.c
+> > > @@ -1773,6 +1773,28 @@ static const char * const drm_named_modes_whitelist[] = {
+> > >         "PAL",
+> > >  };
+> > >
+> > > +static bool drm_mode_parse_cmdline_named_mode(const char *name,
+> > > +                                             unsigned int name_end,
+> > > +                                             struct drm_cmdline_mode *cmdline_mode)
+> > > +{
+> > > +       unsigned int i;
+> > > +
+> > > +       for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> > > +               int ret;
+> > > +
+> > > +               ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> > > +               if (ret != name_end)
+> > > +                       continue;
+> > > +
+> > > +               strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]);
+> > > +               cmdline_mode->specified = true;
+> > > +
+> > > +               return true;
+> > > +       }
+> > > +
+> > > +       return false;
+> >
+> > What's the point in returning a value, if it is never checked?
+> > Just make this function return void?
+>
+> Yeah, it's something I went back and forth to between the dev, and it's
+> an artifact.
+>
+> I'll drop that patch, take your version and move the refresh check to
+> drm_mode_parse_command_line_for_connector if that's alright for you?
 
-OK, it can be added later.
-
-> > > > In addition, "hd720p", "hd080i", and "hd1080p" are available in both 50
-> > > > and 60 (actually 59.94) Hz, while "hd1080p" can also use 24 or 25 Hz.
-> > >
-> > > It looks like nouveau only exposes modes for 480p at 59.94Hz, 576p at
-> > > 50Hz, 720p at 60Hz, 1080i at 30Hz.
-> >
-> > PS3 supports both 50 and 60 Hz (same link above).
->
-> I'm probably wary on this, but I'd rather stay at feature parity for
-> this series. There's already plenty of occasion to screw up something
-> that I'd rather not introduce new stuff I haven't been able to test :)
->
-> Provided we can easily extend it to support these additional features of
-> course :)
->
-> > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
-> > > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
-> > > > 09/35] drm/modes: Move named modes parsing to a separate function", as
-> > > > currently a named mode and a refresh rate can't be specified both.
-> > >
-> > > I think the former would make more sense. It simplifies a bit the
-> > > parser, and we're going to use a named mode anyway.
-> > >
-> > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
-> > > > command-line option" uses a separate "tv_mode" option, and not the main
-> > > > mode name, I think you want to add them here.
-> > >
-> > > It's a separate story I think, we could have a named mode hd720p50,
-> > > which would be equivalent to 1280x720,tv_mode=hd720p
-> >
-> > So where's the field rate in "1280x720,tv_mode=hd720p"?
->
-> Yeah, sorry I meant 1280x720@50,tv_mode=hd720p
-
-Above you said "I think the former would make more sense", so that
-should be "1280x720,tv_mode=hd720p50"?
+Fine for me.
 
 Gr{oetje,eeting}s,
 
