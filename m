@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70443595F61
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 17:40:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 146C6595F5B
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 17:39:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD45A9991;
-	Tue, 16 Aug 2022 15:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F222C112A36;
+	Tue, 16 Aug 2022 15:38:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E566970F9
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 15:37:05 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57387970F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 15:37:53 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EEEF334896;
- Tue, 16 Aug 2022 15:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1660664223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pHL34d884vEyAX73WPysjsG0C4Eu/0Wh82cK/d9bHgs=;
- b=LpvOMMdFeC27DfdeWCKELrZn1K42rC2N4C+VuTs9FRM3phQASUxvLIkKarLf6FrdHwSAxw
- pZWYI0r8AzyuNyUq8o6ZaBKrmBsLT1UlN4hD5Df2wUz5Co/KVDq/RAoOF5NUQ5g7hIb7Vo
- Z49QLU/ryCAh8UEDxg/zDwAgtJtIP88=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1660664223;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pHL34d884vEyAX73WPysjsG0C4Eu/0Wh82cK/d9bHgs=;
- b=8tuNAyBSWlX2/W9ZcItds2vi7blLcybomfvi3tUIw2JegsW3vTyUi3+wTPeMoCcmdw0NIU
- cg+h9kn4gfDuALCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D01EB13B1A;
- Tue, 16 Aug 2022 15:37:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SH1JMp+5+2LKJAAAMHmgww
- (envelope-from <tiwai@suse.de>); Tue, 16 Aug 2022 15:37:03 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 12/12] drm/udl: Sync pending URBs at the end of suspend
-Date: Tue, 16 Aug 2022 17:36:55 +0200
-Message-Id: <20220816153655.27526-13-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220816153655.27526-1-tiwai@suse.de>
-References: <20220816153655.27526-1-tiwai@suse.de>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A14D0611E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 15:37:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB39C433D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 15:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660664272;
+ bh=V49dgqu/RAkWRS3001yah3EjBpkjCkpA7y5OPLHrM9Q=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=HM6nA176MfOgvwM4aYzgxrXtkZNsyPzieWFtOM7wfa7Y6HbUs11ekwRDWDVFGGXGw
+ 27V34YIPzdRIqrOl8k53roAb4tMeD5UDDV3RvxJs4/nEufjpEz3ytpRzUlb75UoX7f
+ SROELHAJ8Mbne9KSmP6mgvraDA/lHVPnonXJXTuB2h/9bkscGKgJ5nrdhIZtDpIjEo
+ kBNP11wnL1imt6wjN99dVad9lNWWj9FE1BCqH6GH4kVXnOR+yujHEy4YqWd9AVAx0H
+ WxHwbprxicMp3T+ovVm4DD6URYmFQxUHfQ68vJnbup2ojgM6/H6z1HwLET+nn0RO97
+ fcXe1fZzFaopQ==
+Received: by mail-ua1-f45.google.com with SMTP id f15so4154743uao.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 08:37:51 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2fbvniByVhYkHtQB58UfD+fft0keQVzJLl3XseeW+tB7LlBZOd
+ DQ6c6AGwCV5M+F1YifESCdYaRtw1nhrKmxdY2Q==
+X-Google-Smtp-Source: AA6agR6P6tx9Y0Tb4qmdIdqjNQDONt+9JZtqem7UsItHKI1hbGP9NpYbZ5qL4HTr0AbwT9oos2Tvh2M0MtkHzHMsHgQ=
+X-Received: by 2002:ab0:2b06:0:b0:384:c4af:107c with SMTP id
+ e6-20020ab02b06000000b00384c4af107cmr8599136uar.77.1660664270971; Tue, 16 Aug
+ 2022 08:37:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220805070610.3516-1-peterwu.pub@gmail.com>
+ <20220805070610.3516-7-peterwu.pub@gmail.com>
+ <YvJdpq0MWNPQZw5c@google.com>
+In-Reply-To: <YvJdpq0MWNPQZw5c@google.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 16 Aug 2022 09:37:39 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJriSbJvejCi7n50T-NaOW+GF8yb6Fi4m-GvUkggf-9kw@mail.gmail.com>
+Message-ID: <CAL_JsqJriSbJvejCi7n50T-NaOW+GF8yb6Fi4m-GvUkggf-9kw@mail.gmail.com>
+Subject: Re: [PATCH v7 06/13] dt-bindings: mfd: Add MediaTek MT6370
+To: Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,99 +62,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
+ krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lgirdwood@gmail.com, cy_huang@richtek.com, pavel@ucw.cz,
+ linux-leds@vger.kernel.org, daniel.thompson@linaro.org, deller@gmx.de,
+ Lee Jones <lee@kernel.org>, andy.shevchenko@gmail.com,
+ chunfeng.yun@mediatek.com, linux@roeck-us.net, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, szunichen@gmail.com, chiaen_wu@richtek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ ChiaEn Wu <peterwu.pub@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ jingoohan1@gmail.com, linux-usb@vger.kernel.org, sre@kernel.org,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, broonie@kernel.org,
+ gregkh@linuxfoundation.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's better to perform the sync at the very last of the suspend
-instead of the pipe-disable function, so that we can catch all pending
-URBs (if any).
+On Tue, Aug 9, 2022 at 7:14 AM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> On Fri, 05 Aug 2022, ChiaEn Wu wrote:
+>
+> > From: ChiYuan Huang <cy_huang@richtek.com>
+> >
+> > Add MediaTek MT6370 binding documentation.
+> >
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> > ---
+> >  .../devicetree/bindings/mfd/mediatek,mt6370.yaml   | 280 +++++++++++++++++++++
+> >  include/dt-bindings/iio/adc/mediatek,mt6370_adc.h  |  18 ++
+> >  2 files changed, 298 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+> >  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
+>
+> Applied, thanks.
 
-While we're at it, drop the error code from udl_sync_pending_urb()
-since we basically ignore it; instead, give a clear error message
-indicating a problem.
+Without the backlight schema applied, this is the result:
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/gpu/drm/udl/udl_drv.c     | 8 +++++++-
- drivers/gpu/drm/udl/udl_drv.h     | 2 +-
- drivers/gpu/drm/udl/udl_main.c    | 6 ++----
- drivers/gpu/drm/udl/udl_modeset.c | 2 --
- 4 files changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index 0ba88e5472a9..91effdcefb6d 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -21,8 +21,14 @@ static int udl_usb_suspend(struct usb_interface *interface,
- 			   pm_message_t message)
- {
- 	struct drm_device *dev = usb_get_intfdata(interface);
-+	int ret;
- 
--	return drm_mode_config_helper_suspend(dev);
-+	ret = drm_mode_config_helper_suspend(dev);
-+	if (ret)
-+		return ret;
-+
-+	udl_sync_pending_urbs(dev);
-+	return 0;
- }
- 
- static int udl_usb_resume(struct usb_interface *interface)
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index d943684b5bbb..b4cc7cc568c7 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -77,7 +77,7 @@ struct drm_connector *udl_connector_init(struct drm_device *dev);
- struct urb *udl_get_urb(struct drm_device *dev);
- 
- int udl_submit_urb(struct drm_device *dev, struct urb *urb, size_t len);
--int udl_sync_pending_urbs(struct drm_device *dev);
-+void udl_sync_pending_urbs(struct drm_device *dev);
- void udl_urb_completion(struct urb *urb);
- 
- int udl_init(struct udl_device *udl);
-diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-index c1f4b6199949..df92f6518e1c 100644
---- a/drivers/gpu/drm/udl/udl_main.c
-+++ b/drivers/gpu/drm/udl/udl_main.c
-@@ -294,10 +294,9 @@ int udl_submit_urb(struct drm_device *dev, struct urb *urb, size_t len)
- }
- 
- /* wait until all pending URBs have been processed */
--int udl_sync_pending_urbs(struct drm_device *dev)
-+void udl_sync_pending_urbs(struct drm_device *dev)
- {
- 	struct udl_device *udl = to_udl(dev);
--	int ret = 0;
- 
- 	spin_lock_irq(&udl->urbs.lock);
- 	/* 2 seconds as a sane timeout */
-@@ -305,9 +304,8 @@ int udl_sync_pending_urbs(struct drm_device *dev)
- 					 udl->urbs.available == udl->urbs.count,
- 					 udl->urbs.lock,
- 					 msecs_to_jiffies(2000)))
--		ret = -ETIMEDOUT;
-+		drm_err(dev, "Timeout for syncing pending URBs\n");
- 	spin_unlock_irq(&udl->urbs.lock);
--	return ret;
- }
- 
- int udl_init(struct udl_device *udl)
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index bca31c890108..9d72288d9967 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -391,8 +391,6 @@ udl_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
- 	buf = udl_dummy_render(buf);
- 
- 	udl_submit_urb(dev, urb, buf - (char *)urb->transfer_buffer);
--
--	udl_sync_pending_urbs(dev);
- }
- 
- static void
--- 
-2.35.3
-
+./Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml: Unable
+to find schema file matching $id:
+http://devicetree.org/schemas/leds/backlight/mediatek,mt6370-backlight.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: backlight: False schema does not allow {'compatible':
+['mediatek,mt6370-backlight'], 'mediatek,bled-channel-use': b'\x0f'}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: charger: False schema does not allow {'compatible':
+['mediatek,mt6370-charger'], 'interrupts': [[48], [68], [6]],
+'interrupt-names': ['attach_i', 'uvp_d_evt', 'mivr'], 'io-channels':
+[[1, 5]], 'usb-otg-vbus-regulator': {'regulator-name':
+['mt6370-usb-otg-vbus'], 'regulator-min-microvolt': [[4350000]],
+'regulator-max-microvolt': [[5800000]], 'regulator-min-microamp':
+[[500000]], 'regulator-max-microamp': [[3000000]], 'phandle': [[2]]}}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: tcpc: False schema does not allow {'compatible':
+['mediatek,mt6370-tcpc'], 'interrupts-extended': [[4294967295, 4, 8]],
+'connector': {'compatible': ['usb-c-connector'], 'label': ['USB-C'],
+'vbus-supply': [[2]], 'data-role': ['dual'], 'power-role': ['dual'],
+'try-power-role': ['sink'], 'source-pdos': [[570527844]], 'sink-pdos':
+[[570527944]], 'op-sink-microwatt': [[10000000]], 'ports':
+{'#address-cells': [[1]], '#size-cells': [[0]], 'port@0': {'reg':
+[[0]], 'endpoint': {'remote-endpoint': [[4294967295]]}}, 'port@1':
+{'reg': [[1]], 'endpoint': {'remote-endpoint': [[4294967295]]}},
+'port@2': {'reg': [[2]], 'endpoint': {'remote-endpoint':
+[[4294967295]]}}}}}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: indicator: False schema does not allow {'compatible':
+['mediatek,mt6370-indicator'], '#address-cells': [[1]], '#size-cells':
+[[0]], 'multi-led@0': {'reg': [[0]], 'function': ['indicator'],
+'color': [[9]], 'led-max-microamp': [[24000]], '#address-cells':
+[[1]], '#size-cells': [[0]], 'led@0': {'reg': [[0]], 'color': [[1]]},
+'led@1': {'reg': [[1]], 'color': [[2]]}, 'led@2': {'reg': [[2]],
+'color': [[3]]}}, 'led@3': {'reg': [[3]], 'function': ['indicator'],
+'color': [[0]], 'led-max-microamp': [[6000]]}}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: flashlight: False schema does not allow {'compatible':
+['mediatek,mt6370-flashlight'], '#address-cells': [[1]],
+'#size-cells': [[0]], 'led@0': {'reg': [[0]], 'led-sources': [[0]],
+'function': ['flash'], 'color': [[0]], 'function-enumerator': [[1]],
+'led-max-microamp': [[200000]], 'flash-max-microamp': [[500000]],
+'flash-max-timeout-us': [[1248000]]}, 'led@1': {'reg': [[1]],
+'led-sources': [[1]], 'function': ['flash'], 'color': [[0]],
+'function-enumerator': [[2]], 'led-max-microamp': [[200000]],
+'flash-max-microamp': [[500000]], 'flash-max-timeout-us':
+[[1248000]]}}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+backlight: mediatek,bled-channel-use: b'\x0f' is not of type 'object',
+'array', 'boolean', 'null'
+ From schema: /usr/local/lib/python3.10/dist-packages/dtschema/schemas/dt-core.yaml
