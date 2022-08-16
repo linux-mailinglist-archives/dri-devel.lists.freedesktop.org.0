@@ -1,77 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A7C595D3E
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:27:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB09A595D75
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:35:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F378D113EB8;
-	Tue, 16 Aug 2022 13:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F8810F65E;
+	Tue, 16 Aug 2022 13:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F849BDF7
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:26:43 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5CE8E5803AB;
- Tue, 16 Aug 2022 09:26:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 16 Aug 2022 09:26:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1660656400; x=1660663600; bh=6KRBUJsiPT
- 0Yqq99Qd4HjijhehzFziPzaGTFO/r87og=; b=QVKXFUaEMpeOCZt8CPmRhhx4jD
- n3HREMCFZowMzY7fllUlDBLcOFgCk5+QnKChBKXWzj4AEqHu+UW9YmfiRMf1JPLY
- tnO8lVKSmY5GOZOKcu9vHCq/RxCTZ/djiE3/o1CRLDd6pG/DWZLUcsEWD3MZH+rn
- KGJUAZyv8MdVGcfJQF5Jz/hfTaTIb8aW1PjLZ72Zpjf1hylipdcBvOLHSSnFxMdv
- 2S7TOiToRua6xc+y+DD4OqVGOGbXZDkaRkYHK2K90YJl4HHbGy4YRwHiOVamT9XW
- nSQ8vjTaLT4xEbqWlKUenfk7G0i77ur8LuIEhrmB5Za1tZqqtATUU6e5ofrw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660656400; x=1660663600; bh=6KRBUJsiPT0Yqq99Qd4HjijhehzF
- ziPzaGTFO/r87og=; b=rnH/F/tbCVxd66ER/LqD/NI4fMt6jCC3HQiaoXe71MDc
- fsRO2/lydPWAf9mff+RtOR4aFE2xbHRVN2ixQHawqdcfRQ8RaPuz558KXzcgLwxC
- vT4s0tPlOYXTG7a8/UkuLHbghD3YUHJIUnhBtDlTjIJqjxamY0/lUycST5KHtTSF
- MlgqPz5dZdUNX6h1YlKpywhhPqPhh8c0N4jU49vhU30WVT7NVU5sAbR0P1rRtVej
- 9OfivJneRSU0bVxKyA6vyjL5HugfpAfAsEBu6vG2OMWWIUgbznauiENtLblN0geb
- sG/Q8XjvXl0V8vW+UXiSfWErbVqF4Fpg6QIiLt0JBw==
-X-ME-Sender: <xms:D5v7Yl5sepc90rtkcN8Yxvc9t2Igtf_8EBHb3rdn6367DTXFlg13fg>
- <xme:D5v7Yi60Gi8sTwlranKbbR8CL2rTkixR0SauL1HcDwQ2myzVJ9ZsAHn8ntWlUe9Sm
- 1l7oLSYPlJYMgAIg7c>
-X-ME-Received: <xmr:D5v7YsdjCAJOQTAnxGMmx7gHnjGYQnxRiGfr6XR5O-wNXGhEFGkXY_UM9F8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgieeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:D5v7YuKxjjm6qEV4PpTQNDTztJSQiMStlJW4xKB9WgCmhZE8_9CAug>
- <xmx:D5v7YpKNLuqNCov24bFcAUOxC5qko_CWES6lgkh4XFeRv4Tnu2gglg>
- <xmx:D5v7YnwPgig-ip10xUAcx4onXCfpOKapSef7CM_M_Mlffmrbnh_2lA>
- <xmx:EJv7Yp4NI_C7Ds6uBTK2Hnu5t-cLN6sdVeSktkmVT39y0nOKgTkXOQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 09:26:39 -0400 (EDT)
-Date: Tue, 16 Aug 2022 15:26:36 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
-Message-ID: <20220816132636.3tmwqmrox64pu3lt@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
- <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+ [209.85.222.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA572AB48D
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:34:41 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id t11so8073913qkt.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 06:34:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=hdhYrvwFVCJ/wIIa+DKIK8qp10gL+xmn48+Cm6GZTzY=;
+ b=Iyp0HGvRUEbV8mGD+AYQBDr0mKU1wYJChEWA+Qc5PggNRrQMCIMfrDbYlbmj0ObeGC
+ nJ7FlRT+HJfQKuDi+/jXiK0aYwk9PjVYBhVI53sffxhQuJ9wcqcGz3KdLE7lyHYmPcUN
+ 0ORm6lv4YiUo4rx0aBzqugRhVKqh9a41+U/Phtv/F+F96Ldtq1AQsU5Um4RmQ90q7GX8
+ t0P79XrpS0qfWTKac1tpXKZX3vssyMrFkKL+pCspkoxCGEEJnyE84E6UPW6sMhNV4oQ8
+ F/rekVPdTVQt4IOI0o/jCWD15TpugUQVm+G8pUE5ZPd2ANqLzS4uCuizNaTAgn6m5M8r
+ 3Xlw==
+X-Gm-Message-State: ACgBeo1KRkM2s0+GCvrza4rB3jVW4DpTW52ZnObY0ldN1rTDKuibco/x
+ 6jkr9YthH82JBcJRTPSvJv/hdlUUHRfMzg==
+X-Google-Smtp-Source: AA6agR4c6OLoP4b2tFVIwpPwVaqiP4WOegF4pwQtd2hYLzTMsuBv/1bfC3EATOYJNHtrb5c/lNog/Q==
+X-Received: by 2002:a05:620a:24d4:b0:6bb:760:4b8f with SMTP id
+ m20-20020a05620a24d400b006bb07604b8fmr9044497qkn.83.1660656880192; 
+ Tue, 16 Aug 2022 06:34:40 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com.
+ [209.85.128.181]) by smtp.gmail.com with ESMTPSA id
+ bp44-20020a05620a45ac00b006b9439332e2sm11398157qkb.13.2022.08.16.06.34.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Aug 2022 06:34:40 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-333b049f231so39431817b3.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 06:34:40 -0700 (PDT)
+X-Received: by 2002:a81:502:0:b0:32f:dcc4:146e with SMTP id
+ 2-20020a810502000000b0032fdcc4146emr10322596ywf.316.1660656559751; Tue, 16
+ Aug 2022 06:29:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2tlrvphkdkfvwysw"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
+ <20220816132040.uwirtjm5yr6rdd3q@houat>
+In-Reply-To: <20220816132040.uwirtjm5yr6rdd3q@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 16 Aug 2022 15:29:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
+Message-ID: <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,71 +83,106 @@ Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
---2tlrvphkdkfvwysw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Aug 16, 2022 at 3:20 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Fri, Aug 12, 2022 at 03:25:18PM +0200, Geert Uytterhoeven wrote:
+> > > --- a/drivers/gpu/drm/drm_connector.c
+> > > +++ b/drivers/gpu/drm/drm_connector.c
+> > > @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+> > >   * 0 on success or a negative error code on failure.
+> > >   */
+> > >  int drm_mode_create_tv_properties(struct drm_device *dev,
+> > > +                                 unsigned int supported_tv_norms,
+> > >                                   unsigned int num_modes,
+> > >                                   const char * const modes[])
+> > >  {
+> > > +       static const struct drm_prop_enum_list tv_norm_values[] = {
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-443" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-60" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-K1" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L" },
+> >
+> > The above are analog standards, with a variable horizontal resolution.
+> >
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" },
+> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i" },
+> >
+> > The above are digital standards, with a fixed resolution.
+>
+> Are they?
+>
+> It's not clear to me from looking at nouveau, but I was under the
+> impression that they were modes for a component output, so CEA 770.3. I
+> don't have the spec though, so I can't check.
 
-Hi Geert,
+Oh right, I forgot about analog HD over component, where you can use
+other pixel clocks than in the digital standard.
 
-On Fri, Aug 12, 2022 at 03:18:58PM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> Thanks for your patch!
->=20
-> On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > Multiple drivers (meson, vc4) define the analog TV 525-lines and 625-li=
-nes
-> > modes in the drivers.
->=20
-> Nit: strictly speaking these are not analog modes, but the digital
-> variants (ITU-R BT.656 and DVD-Video D1) of NTSC and PAL, using a
-> 13.5 MHz sampling frequency for pixels.
->=20
-> In analog modes, the only discrete values are the number of lines, and
-> the frame/field rate (fixing the horizontal sync rate when combined).
->=20
-> The number of (in)visible pixels per line depends on the available
-> bandwidth.  In a digital variant (which is anything generated by a
-> digital computer system), the latter depends on the pixel clock, which
-> can wildly differ from the 13.5 MHz used in the BT.656 standard. (e.g.
-> Amiga uses 7.09/14.19/28.38 MHz (PAL) or 7.16/14.32/28.64 MHz (NTSC)).
->=20
-> So I think we probably need some way to generate a PAL/NTSC-compatible
-> mode based not only on resolution, but also on pixel clock.
+> > You seem to have missed "hd1080p"?
+>
+> Nobody is using it. If we ever have a driver that uses it I think we can
+> add it.
 
-This would also fix the comments made by Jani and Thomas, so I quite
-like the idea of it.
+The PS3 supports 1080p over component
+https://manuals.playstation.net/document/en/ps3/current/settings/videooutput.html
 
-I'm struggling a bit to find how would could implement this though.
+> > In addition, "hd720p", "hd080i", and "hd1080p" are available in both 50
+> > and 60 (actually 59.94) Hz, while "hd1080p" can also use 24 or 25 Hz.
+>
+> It looks like nouveau only exposes modes for 480p at 59.94Hz, 576p at
+> 50Hz, 720p at 60Hz, 1080i at 30Hz.
 
-=46rom what you were saying, I guess the prototype would be something like
+PS3 supports both 50 and 60 Hz (same link above).
 
-struct drm_display_mode *drm_create_analog_mode(unsigned int pixel_clock,
-       						unsigned int lines,
-						unsigned int frame_rate)
+> > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
+> > handle them through "@<refresh>".  The latter would impact "[PATCH v1
+> > 09/35] drm/modes: Move named modes parsing to a separate function", as
+> > currently a named mode and a refresh rate can't be specified both.
+>
+> I think the former would make more sense. It simplifies a bit the
+> parser, and we're going to use a named mode anyway.
+>
+> > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+> > command-line option" uses a separate "tv_mode" option, and not the main
+> > mode name, I think you want to add them here.
+>
+> It's a separate story I think, we could have a named mode hd720p50,
+> which would be equivalent to 1280x720,tv_mode=hd720p
 
-But I have zero idea on what the implementation would be. Do you have
-some resources for this you could point me to?
+So where's the field rate in "1280x720,tv_mode=hd720p"?
 
-Thanks
-Maxime
+Gr{oetje,eeting}s,
 
---2tlrvphkdkfvwysw
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvubDAAKCRDj7w1vZxhR
-xZZ+AP0f5hhgfzUf7q/FEIjfZQKIV6tN7iJX9ovg2oPpWOy6wAEA1rruwJYSqo6M
-knKWWD6nHN4r5wgC+HL9aAySp8ehvwE=
-=PTwU
------END PGP SIGNATURE-----
-
---2tlrvphkdkfvwysw--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
