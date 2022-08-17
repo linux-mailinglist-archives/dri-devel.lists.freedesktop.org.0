@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6CB59705B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 16:05:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230D9597107
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 16:26:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A170D9475C;
-	Wed, 17 Aug 2022 14:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE1212BE0E;
+	Wed, 17 Aug 2022 14:26:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BFC5945DF
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 14:04:44 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id mk9so10109018qvb.11
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 07:04:44 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDCB5957DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 14:26:09 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id fy5so24850299ejc.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 07:26:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=dNs0Y6uk1o1u/YxE+m6kIbEgFxc0nJ0f+P3W3OXDipY=;
+ b=mQ3YFFi8eI0c3jIKj4R5lYh4JR7oUjAgyqgMtK5DsZ57U7MU+2Y7eJt4IJl8wVcxlO
+ 7NDknvlVzhqGsIA6famrTdImfQRgQsIyxG5dRVkT8eau5+baFDGCQBFT5zRb8oR+Bjrd
+ NcNBqSSzLJoi3z1ighd685OKzXZMnLMtdtqZc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=4dcyblUn3bURjZBjn5VOr+f2Wy5bXXXMGqJEHlnVqeg=;
- b=t+e8UOr6uM7VdwGvlVuIDVlaKuwWyIIDQBX9+GZzg8iJB783maP3dilWBycZOqxm+m
- eQHNevhGNt5q7suZbmw/PDbX/RiTlN9hbnQ1witlJObS0YqwCha/J3yG/ER7HemhP/M9
- QAWoY5ZTtT1CA5rVjA4bg6LIX9vL/00oLYEg8mBd/YemSUE8vV2OsJLvuzA99YSsHRvt
- 1ey2Ol5OufCKtj4JdgIxo8YbHCls4MnQG/4+C84TZQ7Fk7R5qSmX9i96XeGoxVUg9YW8
- ndfaMiUamCOTB7YdajbV1R5W9BxSWYzM2Hydf2+Yj2jUAXG4WrVg1rNUeOsYfEIRzf/K
- zRkA==
-X-Gm-Message-State: ACgBeo28v3yxtrpTEpvYFqdYnNEyylzkw7FJGrqHG4zao2QGyIxPTQIP
- qDemte8/shOZWHS6ypQ96wtBdcfuibd+qA==
-X-Google-Smtp-Source: AA6agR7xFNNLH/8HyNyKuWOpvmR7Yk8Jk0ZYv8vOeiyU6ELc9R9LlidSZGNSAv4slLcUjMddursnXw==
-X-Received: by 2002:a0c:f3cd:0:b0:496:aab3:e309 with SMTP id
- f13-20020a0cf3cd000000b00496aab3e309mr1846636qvm.78.1660745078752; 
- Wed, 17 Aug 2022 07:04:38 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
- [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
- v2-20020a05620a440200b006bb2cd2f6d1sm8364513qkp.127.2022.08.17.07.04.37
+ bh=dNs0Y6uk1o1u/YxE+m6kIbEgFxc0nJ0f+P3W3OXDipY=;
+ b=W5LmH68n293XpuCCNmQoY59J95+q8mxDZuCb6RtnzNBcPyftYV/1PGy8kwv8eSJN4A
+ HO9lAeOWQL7U6qJJJ0C2wkyywMrysiCaqYOzkXaQEAsg7DLRb1Cm/7AecoXxFCm7dUgT
+ YfJIcbHIPHBtTZEWZdRGZN9ue4qX3fEgrZhg5X2wEkyDADRrNVkqAZIT7ZvG4VMgobY1
+ /+mO8FWlbfLfRgBQ5wBc+Ll8B/taxcSYrq0sbnDuqkJ15ET3/10qDf846gg1LpKpYii6
+ OM6ivrj6moJ6w6WrKdVUHuclfxVr6ZlOmZL6OTIOIk10LZOymLAGz/b6rOjC9Szq7xqQ
+ N1aQ==
+X-Gm-Message-State: ACgBeo1CYXPeSHJVmgfx9GIwm319vah6HTbs/Uvt4zu64c3eBwYvxTOn
+ Oam43SelIia4TCcogbXQnLQfZV9R3QF+UEg+
+X-Google-Smtp-Source: AA6agR5LH0uOXCmp7nX7fl5znp4HF9cqYdkWs+iHh1vKNY3XVS9qiWoIkU9ZkdJ+Z0W96uLkwXFMaQ==
+X-Received: by 2002:a17:907:b19:b0:730:b0d8:750 with SMTP id
+ h25-20020a1709070b1900b00730b0d80750mr16688037ejl.46.1660746368086; 
+ Wed, 17 Aug 2022 07:26:08 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
+ [209.85.221.44]) by smtp.gmail.com with ESMTPSA id
+ g25-20020a170906539900b0072af890f52dsm3053771ejo.88.2022.08.17.07.26.07
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Aug 2022 07:04:37 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-3246910dac3so233319427b3.12
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 07:04:37 -0700 (PDT)
-X-Received: by 2002:a81:f47:0:b0:31f:434b:5ee with SMTP id
- 68-20020a810f47000000b0031f434b05eemr21824312ywp.383.1660745076963; 
- Wed, 17 Aug 2022 07:04:36 -0700 (PDT)
+ Wed, 17 Aug 2022 07:26:07 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id v3so16456682wrp.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 07:26:07 -0700 (PDT)
+X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id
+ b13-20020adff90d000000b0020cde324d35mr14514707wrr.583.1660746366782; Wed, 17
+ Aug 2022 07:26:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220816132040.uwirtjm5yr6rdd3q@houat>
- <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
- <20220816141116.5nuszmilqv2exdb3@houat>
- <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
- <20220816154956.pkdpxmmw27mia5ix@houat>
- <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
- <20220817074710.w4c4xwj7edly2b5p@houat>
- <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
- <20220817111454.pn2iltvyo2drebq7@houat>
- <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
- <20220817131854.jwmhqvhfhp77bbr3@houat>
-In-Reply-To: <20220817131854.jwmhqvhfhp77bbr3@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Aug 2022 16:04:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXrfH9MArXesfNCvqayiq17u7XaqtSvXTNt4V10=obSHQ@mail.gmail.com>
-Message-ID: <CAMuHMdXrfH9MArXesfNCvqayiq17u7XaqtSvXTNt4V10=obSHQ@mail.gmail.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-To: Maxime Ripard <maxime@cerno.tech>
+References: <20220726173824.1166873-1-dianders@chromium.org>
+ <20220726103631.v2.4.Ie85f68215ada39f502a96dcb8a1f3ad977e3f68a@changeid>
+ <CAMSo37XsawRxTnJriLUAwJAj0+ZzpACtMiR_3V7H1H9WXg3T_Q@mail.gmail.com>
+In-Reply-To: <CAMSo37XsawRxTnJriLUAwJAj0+ZzpACtMiR_3V7H1H9WXg3T_Q@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 17 Aug 2022 07:25:54 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V5c0bCOCBvdnqVJ6Sa1XKeg+d7kTEL2Okh4GAL66MGiw@mail.gmail.com>
+Message-ID: <CAD=FV=V5c0bCOCBvdnqVJ6Sa1XKeg+d7kTEL2Okh4GAL66MGiw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] regulator: core: Allow specifying an initial load
+ w/ the bulk API
+To: Yongqin Liu <yongqin.liu@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,88 +75,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ John Stultz <jstultz@google.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi,
 
-On Wed, Aug 17, 2022 at 3:19 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Wed, Aug 17, 2022 at 03:05:52PM +0200, Geert Uytterhoeven wrote:
-> > On Wed, Aug 17, 2022 at 1:15 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeven wrote:
-> > > > On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
-> > > > > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
-> > > > > > > > > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
-> > > > > > > > > > > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
-> > > > > > > > > > > > 09/35] drm/modes: Move named modes parsing to a separate function", as
-> > > > > > > > > > > > currently a named mode and a refresh rate can't be specified both.
-> > > > > > > > > > >
-> > > > > > > > > > > I think the former would make more sense. It simplifies a bit the
-> > > > > > > > > > > parser, and we're going to use a named mode anyway.
-> > > > > > > > > > >
-> > > > > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
-> > > > > > > > > > > > command-line option" uses a separate "tv_mode" option, and not the main
-> > > > > > > > > > > > mode name, I think you want to add them here.
-> > > > > > > > > > >
-> > > > > > > > > > > It's a separate story I think, we could have a named mode hd720p50,
-> > > > > > > > > > > which would be equivalent to 1280x720,tv_mode=hd720p
-> > > > > > > > > >
-> > > > > > > > > > So where's the field rate in "1280x720,tv_mode=hd720p"?
-> > > > > > > > >
-> > > > > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=hd720p
-> > > > > > > >
-> > > > > > > > Above you said "I think the former would make more sense", so that
-> > > > > > > > should be "1280x720,tv_mode=hd720p50"?
-> > > > > > >
-> > > > > > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=hd720p
-> > > > > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=hd720p
-> > > > > >
-> > > > > > I disagree: hd720p50 and hd720p60 are different TV modes.
-> > > > >
-> > > > > I agree, and I don't see how that command-line doesn't express that?
-> > > >
-> > > > Oh, I see what you mean: yes, it expresses that.
-> > > > But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
-> > > > where the TV mode specifies both number of lines and frame rate.
-> > >
-> > > Only if we're using a named mode, and naming is hard :)
-> >
-> > That's not true: "640x480,tv_mode=PAL-N" would give me a mode with
-> > 625 lines and 25 frames/s, "640x480,tv_mode=PAL-M" would give me a
-> > mode with 525 lines and 30 frames/s.
+On Tue, Aug 16, 2022 at 5:58 AM Yongqin Liu <yongqin.liu@linaro.org> wrote:
 >
-> In that series, "640x480,tv_mode=PAL-N" would be rejected as invalid:
+> HI, Douglas
 >
-> https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-14-3d53ae722097@cerno.tech/
+> With this change, I get one kernel panic with my hikey960
+> android-mainline based Android build,
+> if it's reverted, then the build could boot to the home screen successfully.
+> From the log information I shared here, not sure if you have any idea
+> what I could do to have the hikey960
+> build work with this change,
+>
+> The kernel panic is something like this, for details, please check the
+> log here: http://ix.io/47Lq
+>
+> [   10.738042][  T193] adv7511 1-0039: error 0000000000000000: Failed
+> to get supply 'v1p2'
+> [   10.748457][  T194] apexd: Found pre-installed APEX
+> /system/apex/com.android.os.statsd.apex
+> [   10.752908][   T67] Unable to handle kernel read from unreadable
+> memory at virtual address 000000000000004c
+> [   10.753116][    T8] Unable to handle kernel read from unreadable
+> memory at virtual address 0000000000000078
+> [   10.753130][    T8] Mem abort info:
+> [   10.753135][    T8]   ESR = 0x0000000096000005
+> [   10.753142][    T8]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [   10.753152][    T8]   SET = 0, FnV = 0
+> [   10.753159][    T8]   EA = 0, S1PTW = 0
+> [   10.753166][    T8]   FSC = 0x05: level 1 translation fault
+> [   10.753174][    T8] Data abort info:
+> [   10.753179][    T8]   ISV = 0, ISS = 0x00000005
+> [   10.753184][    T8]   CM = 0, WnR = 0
+> [   10.753192][    T8] user pgtable: 4k pages, 39-bit VAs, pgdp=0000000003098000
+> [   10.753204][    T8] [0000000000000078] pgd=0000000000000000,
+> p4d=0000000000000000, pud=0000000000000000
+> [   10.753232][    T8] Internal error: Oops: 96000005 [#1] PREEMPT SMP
+> [   10.753245][    T8] Modules linked in: adv7511(E+) tcpci_rt1711h(E)
+> hci_uart(E) btqca(E) btbcm(E) cpufreq_dt(E) hi3660_i2s(E)
+> hisi_hikey_usb(E) hi6421_pmic_core(E) syscon_reboot_mode(E)
+> reboot_mode(E) hi3660_mailbox(E) dw_mmc_k3(E) hisi_thermal(E)
+> dw_mmc_pltfm(E) dw_mmc(E) kirin_drm(E) snd_soc_simple_card(E)
+> snd_soc_simple_card_utils(E) spi_pl022(E) kirin_dsi(E)
+> phy_hi3660_usb3(E) i2c_designware_platform(E) drm_cma_helper(E)
+> i2c_designware_core(E) mali_kbase(OE) k3dma(E) cma_heap(E)
+> system_heap(E)
+> [   10.753436][    T8] CPU: 2 PID: 8 Comm: kworker/u16:0 Tainted: G
+>        OE      5.19.0-mainline-03487-g86d047950300-dirty #1
+> [   10.753454][    T8] Hardware name: HiKey960 (DT)
+> [   10.753463][    T8] Workqueue: events_unbound async_run_entry_fn
+> [   10.753497][    T8] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT
+> -SSBS BTYPE=--)
+> [   10.753516][    T8] pc : regulator_bulk_enable_async+0x3c/0x98
+> [   10.753540][    T8] lr : async_run_entry_fn+0x30/0xf8
+> [   10.753559][    T8] sp : ffffffc009ed3d20
+> [   10.753567][    T8] x29: ffffffc009ed3d40 x28: 0000000000000402
+> x27: ffffff801ad99828
+> [   10.753592][    T8] x26: ffffff803217b010 x25: 0000000000000002
+> x24: ffffff8003385da8
+> [   10.753617][    T8] x23: ffffff8003385da0 x22: ffffff801ad94805
+> x21: ffffff8003385da0
+> [   10.753642][    T8] x20: 0000000000000000 x19: ffffff8003143d20
+> x18: ffffffc008075028
+> [   10.753667][    T8] x17: 000000040044ffff x16: 0000000000000001
+> x15: 0000000000000010
+> [   10.753691][    T8] x14: 0000000000000000 x13: 0000000000000f58
+> x12: 0000000082355555
+> [   10.753715][    T8] x11: 00006acfbfa2f400 x10: 0000000000000016 x9
+> : 00ffffffffffffff
+> [   10.753740][    T8] x8 : da9ecda1b63b0500 x7 : 0000000000008080 x6
+> : 0000000000000000
+> [   10.753764][    T8] x5 : 0000000000000001 x4 : 0000646e756f626e x3
+> : ffffff801ad99828
+> [   10.753788][    T8] x2 : ffffff8003385da8 x1 : ffffffc009ed3d20 x0
+> : ffffff8003143d20
+> [   10.753812][    T8] Call trace:
+> [   10.753818][    T8]  regulator_bulk_enable_async+0x3c/0x98
+> [   10.753839][    T8]  async_run_entry_fn+0x30/0xf8
+> [   10.753859][    T8]  process_one_work+0x1d0/0x404
+> [   10.753879][    T8]  worker_thread+0x25c/0x43c
+> [   10.753897][    T8]  kthread+0xf0/0x2c0
+> [   10.753912][    T8]  ret_from_fork+0x10/0x20
+> [   10.753940][    T8] Code: f81f83a8 f9400814 a900ffff f90003ff (f9403e95)
+> [   10.753950][    T8] ---[ end trace 0000000000000000 ]---
+> [   10.760621][  T194] apexd: Found pre-installed APEX
+> /system/apex/com.android.permission.capex
+> [   10.767672][   T67] Mem abort info:
+> [   10.779658][  T194] apexd: Found pre-installed APEX
+> /system/apex/com.android.art.capex
+> [   10.783690][   T67]   ESR = 0x0000000096000005
+> [   10.792424][  T194] apexd: Found pre-installed APEX
+> /system/apex/com.android.scheduling.capex
+> [   10.794713][    T8] Kernel panic - not syncing: Oops: Fatal exception
+> [   10.794723][    T8] SMP: stopping secondary CPUs
+> [   10.798141][    T8] Kernel Offset: 0x70000 from 0xffffffc008000000
+> [   10.798150][    T8] PHYS_OFFSET: 0x0
+> [   10.798156][    T8] CPU features: 0x0000,00649020,00001086
+> [   10.798167][    T8] Memory Limit: none
 
-It would become supported once the ideas from thread "[PATCH v1 04/35]
-drm/modes: Introduce 480i and 576i modes" are implemented...
+Are you fixed by the patch ("regulator: core: Fix missing error return
+from regulator_bulk_get()") [1]
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[1] https://lore.kernel.org/r/20220809142738.1.I91625242f137c707bb345c51c80c5ecee02eeff3@changeid
