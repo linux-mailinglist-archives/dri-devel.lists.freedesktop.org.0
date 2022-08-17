@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08624597D14
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 06:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5116597D6F
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 06:31:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95416B5D37;
-	Thu, 18 Aug 2022 04:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BF7BB61F4;
+	Thu, 18 Aug 2022 04:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1868B3869;
- Thu, 18 Aug 2022 04:22:25 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27I3QZ6p003021;
- Thu, 18 Aug 2022 04:22:23 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0967EB61D8;
+ Thu, 18 Aug 2022 04:31:13 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27I0BUEg019114;
+ Thu, 18 Aug 2022 04:31:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=x5l1wkmdsRZBunkWcYFQkbtqD5PkHotLXuooX3FGyRs=;
- b=NOisLO46QDmPhIQL/1OG+UDW+1gESKDhVdPO8ugLrKmV9RSM72PGdG5huThneO68Ob+X
- dQT7dyrF5FU7f5+YpXEJt2sODgewHWz6Ov3+B3jGB5hjBx02SxuzltVL566SEXX/PiM0
- f1urRDiC3l6ZZKIzkMk0mRJhOcvRy7n+p7AoLkfmeLSNApsuLSWmlPAkTaMBpBzexlHl
- c+DRDkkiwbkyvyvQVRMu6IpbU3nQiGMiqSowDQrGk2LugYyTqMAnArFaV1DOzusewgmI
- hp8xb2K6lrMdAY31GHoyRot55VI+IFUcDR6cnuy903WUwXU3xc1P0d8aNWfNy2aQ3jLr dg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=Tl3JCkcvrqyRysK5Yzl7CCNb1u6Nwn4OBsT5VI7+LxE=;
+ b=MTrC9kVpHJoWtSDPAI8fvqRFLhW7DjNmJMP0+LGh0SOY+Ryjv2JOQg0YgGegl7Y9pbYk
+ O+2cqjRP6ypq6sSjeK4c21oMm7KkLK0nDPzeiRkrNK3/xy2RTd0RF0cMw89iq0IXYzth
+ BXuPgOv+rZZwAbF97xTHW6tm5FIocSGZjRg3uNFTQZ50tW9S7AyirGJplVwi5NFcMxc4
+ VjirOw7iXct+5DIeofEmtRdVWu3FJqEu+DRuSamZNx62AeiA4wYe2mPAzJjURUnryPcV
+ eSTa4adpQVH3nfylegYwU7C4CvwQw1wOcG+vkEoSA/rFBAHEbZalPl+G0011YOF+AnNZ 2g== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j0wynkvev-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j0tqccq6q-6
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Aug 2022 04:22:22 +0000
+ Thu, 18 Aug 2022 04:31:08 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27I4HL6j006616
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27I4HJ0w012608
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 18 Aug 2022 04:17:21 GMT
 Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 17 Aug 2022 08:14:45 -0700
+ 15.2.986.22; Wed, 17 Aug 2022 08:14:50 -0700
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 To: freedreno <freedreno@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  Rob Clark <robdclark@gmail.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, "Dmitry
  Baryshkov" <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v4 3/7] drm/msm: Correct pm_runtime votes in recover worker
-Date: Wed, 17 Aug 2022 20:44:16 +0530
-Message-ID: <20220817204224.v4.3.Ib07ecec3d5c17cb0e1efa6fcddaaa019ec2fb556@changeid>
+Subject: [PATCH v4 4/7] drm/msm: Fix cx collapse issue during recovery
+Date: Wed, 17 Aug 2022 20:44:17 +0530
+Message-ID: <20220817204224.v4.4.I4ac27a0b34ea796ce0f938bb509e257516bc6f57@changeid>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1660749261-7602-1-git-send-email-quic_akhilpo@quicinc.com>
 References: <1660749261-7602-1-git-send-email-quic_akhilpo@quicinc.com>
@@ -60,16 +60,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: n0j97RyrkP2uRAYM-3zclLemqE-wo0Z8
-X-Proofpoint-GUID: n0j97RyrkP2uRAYM-3zclLemqE-wo0Z8
+X-Proofpoint-GUID: 33G014pJvOZqS8z6Kx-J5848F7bKY9Lg
+X-Proofpoint-ORIG-GUID: 33G014pJvOZqS8z6Kx-J5848F7bKY9Lg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-18_02,2022-08-16_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 adultscore=0 spamscore=0 malwarescore=0 clxscore=1015
- impostorscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
- mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 malwarescore=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ lowpriorityscore=0 adultscore=0 mlxlogscore=999 suspectscore=0
+ clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2207270000 definitions=main-2208180014
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,40 +92,103 @@ Cc: Jonathan Marek <jonathan@marek.ca>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the scenario where there is one a single submit which is hung, gpu is
-power collapsed when it is retired. Because of this, by the time we call
-reover(), gpu state would be already clear. Fix this by correctly
-managing the pm runtime votes.
+There are some hardware logic under CX domain. For a successful
+recovery, we should ensure cx headswitch collapses to ensure all the
+stale states are cleard out. This is especially true to for a6xx family
+where we can GMU co-processor.
+
+Currently, cx doesn't collapse due to a devlink between gpu and its
+smmu. So the *struct gpu device* needs to be runtime suspended to ensure
+that the iommu driver removes its vote on cx gdsc.
 
 Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 ---
 
-(no changes since v1)
+Changes in v4:
+- Keep active_submit lock across the suspend & resume (Rob)
+- Clear gpu->active_submits to silence a WARN() during runpm suspend (Rob)
 
- drivers/gpu/drm/msm/msm_gpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Changes in v3:
+- Simplied the pm refcount drop since we have just a single refcount now
+for all active submits
 
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 32 +++++++++++++++++++++++++++++---
+ drivers/gpu/drm/msm/msm_gpu.c         |  4 +---
+ 2 files changed, 30 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 42ed9a3..0c8f19e 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1193,7 +1193,7 @@ static void a6xx_recover(struct msm_gpu *gpu)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+-	int i;
++	int i, active_submits;
+ 
+ 	adreno_dump_info(gpu);
+ 
+@@ -1210,8 +1210,34 @@ static void a6xx_recover(struct msm_gpu *gpu)
+ 	 */
+ 	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
+ 
+-	gpu->funcs->pm_suspend(gpu);
+-	gpu->funcs->pm_resume(gpu);
++	pm_runtime_dont_use_autosuspend(&gpu->pdev->dev);
++
++	/* active_submit won't change until we make a submission */
++	mutex_lock(&gpu->active_lock);
++	active_submits = gpu->active_submits;
++
++	/*
++	 * Temporarily clear active_submits count to silence a WARN() in the
++	 * runtime suspend cb
++	 */
++	gpu->active_submits = 0;
++
++	/* Drop the rpm refcount from active submits */
++	if (active_submits)
++		pm_runtime_put(&gpu->pdev->dev);
++
++	/* And the final one from recover worker */
++	pm_runtime_put_sync(&gpu->pdev->dev);
++
++	pm_runtime_use_autosuspend(&gpu->pdev->dev);
++
++	if (active_submits)
++		pm_runtime_get(&gpu->pdev->dev);
++
++	pm_runtime_get_sync(&gpu->pdev->dev);
++
++	gpu->active_submits = active_submits;
++	mutex_unlock(&gpu->active_lock);
+ 
+ 	msm_gpu_hw_init(gpu);
+ }
 diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index e1dd3cc..1945efb 100644
+index 1945efb..07e55a6 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.c
 +++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -398,7 +398,6 @@ static void recover_worker(struct kthread_work *work)
- 	/* Record the crash state */
- 	pm_runtime_get_sync(&gpu->pdev->dev);
- 	msm_gpu_crashstate_capture(gpu, submit, comm, cmd);
--	pm_runtime_put_sync(&gpu->pdev->dev);
+@@ -426,9 +426,7 @@ static void recover_worker(struct kthread_work *work)
+ 		/* retire completed submits, plus the one that hung: */
+ 		retire_submits(gpu);
  
- 	kfree(cmd);
- 	kfree(comm);
-@@ -446,6 +445,8 @@ static void recover_worker(struct kthread_work *work)
+-		pm_runtime_get_sync(&gpu->pdev->dev);
+ 		gpu->funcs->recover(gpu);
+-		pm_runtime_put_sync(&gpu->pdev->dev);
+ 
+ 		/*
+ 		 * Replay all remaining submits starting with highest priority
+@@ -445,7 +443,7 @@ static void recover_worker(struct kthread_work *work)
  		}
  	}
  
-+	pm_runtime_put_sync(&gpu->pdev->dev);
-+
+-	pm_runtime_put_sync(&gpu->pdev->dev);
++	pm_runtime_put(&gpu->pdev->dev);
+ 
  	mutex_unlock(&gpu->lock);
  
- 	msm_gpu_retire(gpu);
 -- 
 2.7.4
 
