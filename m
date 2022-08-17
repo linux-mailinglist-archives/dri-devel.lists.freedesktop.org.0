@@ -2,65 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF23596A78
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 09:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7035B596A5C
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 09:31:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42AC9112112;
-	Wed, 17 Aug 2022 07:38:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3ABC10F35C;
+	Wed, 17 Aug 2022 07:31:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2111610FFA3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 07:38:14 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id h21so9845272qta.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 00:38:14 -0700 (PDT)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3022510F528
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 07:31:34 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id z20so12767781ljq.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 00:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=n866UwlVQsvEsNFKCS8hnoSDwI11hrtsqigMztK4PUg=;
+ b=P5fgpWe4cPrzCJusVO6q5+NjmimvA7suGtowiRgC7IkHvYFbrYfNOz3kmbiEgRSIqR
+ QgY/zeWNw9ClHhckGsh20186cIiVx0tu5qb1/MQKpmVn57BDLMUKxzSjurdDIOXNPfF9
+ 5IO/YzPq2vbW9I7rCdS2atffVlubqHXp64UdJpyhhSFFXOATF0er+Xr7Qyu50X3yQqmG
+ yKAlqqUxb/132vkBY8sqygKsbExmhkXiFF5f3184FqLM5PUWKIXQPVQcLAROrWxq49wn
+ yJBB7rR/yDMrzxwD2y/RBRwuSHD/sLgC2DANofXZdrgQLTWA7aEVVNvKwWhspgrk7z4B
+ TCUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=MoCGxpdBSZqOnL0zHKYLDEdga6g996l84p2nV9SRtCY=;
- b=clKHevPUHY6r2/pNsCdBySDsYHgdl+NnqClp21BSl2xTd2ooyBwiYE5c17JE0+vMot
- H4ZCM2oHtbkVGqM8p5dOhhkaNm4bt2kNjmwNFSFHZwYAlL900M3h1famRFizmxILFhI8
- LkfX4sp2bp3XLrsTcr4DcAq4kXR5Gm1KVDcYGvdHpSL5XEDaRAqUEaD89i8wUDr4dS76
- hYiFEp37xILj2d64kom+ouuTWdBQegk05h6eJePsWVHgIwc+cfZU0Kfr55lkhJKOkCz5
- 3oe6HWgqDkqjFMfuqjbHIO7atmHFybxJ/SW34DNHwaIhPoeeA1dpe6Ub9/Vdf8/7gB4i
- Ndiw==
-X-Gm-Message-State: ACgBeo02OMC3jptZ01BGWUu15ka4s+EuqPfhGM+BFsy4FV/4HHb46kx2
- vQOoS9CCzubCWl1jTJWuv0IGN/u0RLlzZA==
-X-Google-Smtp-Source: AA6agR7gxoR1f6PQV+blUvhef+gh+huHRe/HGPF0vspJjNQm3th2ZhRfuN9qreVFtc0dMkRM0HkVsA==
-X-Received: by 2002:ac8:5a86:0:b0:31e:d114:1964 with SMTP id
- c6-20020ac85a86000000b0031ed1141964mr21336627qtc.572.1660721893125; 
- Wed, 17 Aug 2022 00:38:13 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
- [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
- q10-20020a05620a0d8a00b006b9b319adacsm13687964qkl.126.2022.08.17.00.38.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Aug 2022 00:38:13 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-333a4a5d495so100531257b3.10
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 00:38:12 -0700 (PDT)
-X-Received: by 2002:a25:f06:0:b0:670:1685:d31d with SMTP id
- 6-20020a250f06000000b006701685d31dmr17606473ybp.380.1660721490548; Wed, 17
- Aug 2022 00:31:30 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=n866UwlVQsvEsNFKCS8hnoSDwI11hrtsqigMztK4PUg=;
+ b=Af5zjNVmnWnPkmHqW5Cs3WYdDQs4kQie9TWV8MT+HJ2FHWckeIPI+5K679haD6GjlA
+ 4GjxOf0U571G4qXlMF0el8XSyQkJ/SnQ7Nv3LncZljvfWEhXg3uhq/UqaT+BFj1ndVR2
+ qbqs0g0xOAc5/UlXcBrAS0ZKKeBUR6s645qMFcya9xpYO7XibGhMMFficKnvi/VdwEEo
+ 1AvDQPA22/WQbuL44+13CGfZWznaoilTxZMpqHkjy1REHlojkWCGWHn5G4n0oyiePhN4
+ /2iOi4BIOLaGfrIWKXma529s8xPKTDKzzw5eHa2rUI+EkxH0YpA7o5vnUQAQl46pNTFR
+ yhow==
+X-Gm-Message-State: ACgBeo0RjznWJ7gh6mJyH5VORvUJI/tGJuPGyJ3mfiN0o8mJQh7HB5UN
+ LghFt9dhFWyB+CYGVNx3z4YaGA==
+X-Google-Smtp-Source: AA6agR4ZRa7kPXpKMgSEeReObwfLq016wKe9tLYdc9p31rQ9SyozcH3P6Vxjtg66mc6ooTXwgNS2Ow==
+X-Received: by 2002:a2e:944a:0:b0:24f:10bd:b7e8 with SMTP id
+ o10-20020a2e944a000000b0024f10bdb7e8mr8241865ljh.238.1660721492560; 
+ Wed, 17 Aug 2022 00:31:32 -0700 (PDT)
+Received: from krzk-bin.. (d15l54h48cw7vbh-qr4-4.rev.dnainternet.fi.
+ [2001:14bb:ae:539c:1b1c:14b7:109b:ed76])
+ by smtp.gmail.com with ESMTPSA id
+ j24-20020ac253b8000000b0048b2f079cf7sm1591957lfh.239.2022.08.17.00.31.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Aug 2022 00:31:31 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: linux-samsung-soc@vger.kernel.org, airlied@linux.ie,
+ daniel.lezcano@linaro.org, hdegoede@redhat.com,
+ krzysztof.kozlowski+dt@linaro.org, daniel@ffwll.ch,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lee@kernel.org, robh+dt@kernel.org, cw00.choi@samsung.com,
+ linux-fbdev@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+ broonie@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 1/3] MAINTAINERS: Drop Bartlomiej Zolnierkiewicz
+Date: Wed, 17 Aug 2022 10:31:28 +0300
+Message-Id: <166072148468.30126.5293143761869366053.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220808101526.46556-1-krzysztof.kozlowski@linaro.org>
+References: <20220808101526.46556-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
- <20220816132040.uwirtjm5yr6rdd3q@houat>
- <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
- <20220816141116.5nuszmilqv2exdb3@houat>
- <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
- <20220816154956.pkdpxmmw27mia5ix@houat>
-In-Reply-To: <20220816154956.pkdpxmmw27mia5ix@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Aug 2022 09:31:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
-Message-ID: <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,65 +77,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: bzolnier@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Mon, 8 Aug 2022 13:15:24 +0300, Krzysztof Kozlowski wrote:
+> Bartlomiej's Samsung email address is not working since around last
+> year and there was no follow up patch take over of the drivers, so drop
+> the email from maintainers.
+> 
+> 
 
-On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
-> > > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
-> > > > > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
-> > > > > > 09/35] drm/modes: Move named modes parsing to a separate function", as
-> > > > > > currently a named mode and a refresh rate can't be specified both.
-> > > > >
-> > > > > I think the former would make more sense. It simplifies a bit the
-> > > > > parser, and we're going to use a named mode anyway.
-> > > > >
-> > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
-> > > > > > command-line option" uses a separate "tv_mode" option, and not the main
-> > > > > > mode name, I think you want to add them here.
-> > > > >
-> > > > > It's a separate story I think, we could have a named mode hd720p50,
-> > > > > which would be equivalent to 1280x720,tv_mode=hd720p
-> > > >
-> > > > So where's the field rate in "1280x720,tv_mode=hd720p"?
-> > >
-> > > Yeah, sorry I meant 1280x720@50,tv_mode=hd720p
-> >
-> > Above you said "I think the former would make more sense", so that
-> > should be "1280x720,tv_mode=hd720p50"?
->
-> No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=hd720p
-> and 60Hz would be hd720p60 or 1280x720@60,tv_mode=hd720p
+Applied, thanks!
 
-I disagree: hd720p50 and hd720p60 are different TV modes.
-Treating them the same would be similar to treating unmodulated (e.g.
-component) PAL-N (25 frames/s) and PAL-M (30 frames/s) the same.
+[1/3] MAINTAINERS: Drop Bartlomiej Zolnierkiewicz
+      https://git.kernel.org/krzk/linux/c/20b02590a3f76ee4895a917da28897736b20eda9
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
