@@ -1,82 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6266A596F4B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 15:15:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2EC596F5D
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 15:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B20AE10FB2D;
-	Wed, 17 Aug 2022 13:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 498B69291F;
+	Wed, 17 Aug 2022 13:19:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C4B6926D1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:15:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8646118A8C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:19:01 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id A9A3A2B059AF;
- Wed, 17 Aug 2022 09:14:59 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id EB4E02B059AF;
+ Wed, 17 Aug 2022 09:18:58 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 17 Aug 2022 09:15:01 -0400
+ by compute5.internal (MEProxy); Wed, 17 Aug 2022 09:19:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1660742099; x=1660749299; bh=dUKlPZvVEL
- 3xTGjKVzoEN6kF32lJAtnC40Q+pnqgRfw=; b=IEDcwGBYZLkANXTNyAYKOwp4p1
- mgSuY+T9Ifhc4qWp7gh7XNF3Nwcc/E7l/MKv+if7WM1WotsUeuwRsetP5/OMSwuB
- PH8BanvT7zdMzmlSLSfsSuaUSrDeXiw89jeZ6lRE3oA7UIYAc5fEqx2TaEQGTZzg
- WLC95bXP/c9sNRqP/m7D1ws0NBzlE5GZaRF3DNGVQB078cbWSwrds8ulA4rRWo/c
- R766pDMsHsnoS/ZWZHkw+VF/E7Z1seCJRTx7fW8G4+jxyS1glP6l+lxlfcfMXFgI
- GfYvDrhpo+pkMvKdFfMkpktqITeAkEbKvoFy7R6eG4H70PV+26T276NDgfCA==
+ :subject:to:to; s=fm3; t=1660742338; x=1660749538; bh=l9nnSULWeK
+ Q3XggL/zqDG46qTFmpp//Ck12PCcxE0C4=; b=pF/7j9Cm7g40yrOScl4skNreL2
+ ccqXhCjvRZznSRSF8iv3BsajgJqsSxeejMYry/aJir12Cq0cDvoWOHMKSqK+hrHV
+ /a27Uah7wwi9OZ7JdFLS7io3iwHSZhBkcRbqLKcFYW0VKdkH3qp7RyiNwZl94f1E
+ zUKVdX0Co++619zrN85L7jZYtou5/rFWIReG9TxjiSrtRfHMVALZK0a2dIAiNPey
+ k5xnYjBQ3midyovFl94hMcQQQnartAKyINKT1f2u5iiYyJQebKsLIWShk3lNd5zG
+ iekKZZiB/p9w/dHaCx4QUo+QmNkBoWYG2huX0B7rx5qHpjlU+GQZnHln1NxQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660742099; x=1660749299; bh=dUKlPZvVEL3xTGjKVzoEN6kF32lJ
- AtnC40Q+pnqgRfw=; b=II19VbXx9+ZDrnShqimgJELk3HiJSUS/OzpEvmLv7zEC
- xj4Lzp/6olZ6ZnPiq+LS6ScCbzzhmd0V6Afoz/4J0BCsCaGMsV77GMQhnCENsFVR
- ZWk08BTTT/3eculwIl1GcYdcdVBcq05W9mLXcNbLwjrE6Uz25qcDWArenaJsJKah
- 6KByP9J/duC8dwJn7uCp0VmOUpNVkEO7dxiQQoYvPQ2tUlBPCnUzVtsqu1S749Cn
- D8jEb1S6Dti5QFi2Jb4TMNQS3CQeX3c6nqQTRTOb6bRKnL/RGK0fv0RKHIkjF4X+
- FMr1CZlUtM+A1ZYRYlujzJPN+9+x14Ynnpkjul6iIw==
-X-ME-Sender: <xms:0en8YsM4yoi3AhkBFlLu0vCRqyPRBBqDleky6YeMlrwg_D7THEavaA>
- <xme:0en8Yi9506KPIsYiQvFdLyrGglRMU2AWMsSxwAj5cc_UXBaTvNzYw9G8ql1qYZx8U
- zXPTyyrx7BL5TKqHIU>
-X-ME-Received: <xmr:0en8YjQrn8MrQj3HLuob_i1B4TYomH81Vh9f408syfDYoI3Q-g4pTeaWYg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgiedvucetufdoteggodetrfdotf
+ fm1; t=1660742338; x=1660749538; bh=l9nnSULWeKQ3XggL/zqDG46qTFmp
+ p//Ck12PCcxE0C4=; b=0yq+TQb2k0Ge8C7gWLSDZxUbaft3Y7NQ2c9RLH0PWcT2
+ PiTwPZj2vykG414dYWHWPehc5NXyFhrx3qTMKgDlx50h/Eu1NPTeQS4J/i0EBC9H
+ 766vhkSIScDQvoKRkaqRMENnynoZCLR3D9h5DdZD+n40FTRjKuWenUtAJbtZe4fU
+ oO89K0GrZnhFZ107Ch6BFcgp8mVf5U43254oG8WVsCnSXzedtRo8f5LGWaViy1dW
+ F7W+bIb0hNWZMipRiW9UaIRKzNU5ffBRgnHRZj9R6Nd5RGbwMPcStxkuQrKAv5uS
+ IJOmBt7TDmIRVxsyjLN2TIPOE1t6rTNFwJyi5emdkg==
+X-ME-Sender: <xms:wer8YnbbrLd39px3c8-wsLjK179EcEwMQQhEiu6HjxxNJUOarWEPPw>
+ <xme:wer8YmaRg24-lqp6fTE9m-uwMwtqC10YlWNZ_39X2C8Rxsh6v-fh1gjShzfpwmXUC
+ rP5d0z91KpP4jWVpJI>
+X-ME-Received: <xmr:wer8Yp_kDrgVTos-fv8w0E9iNoNwBk0yHcrZ5lzCWpl0RajwJAbrkO7Vsw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgieefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeevffdvudeivdffffefueejieekvdekvdelieeftedvtdegtdffieetuedt
- ueejgeenucffohhmrghinhepfihikhhiphgvughirgdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:0en8YkuJaXz5lBHugJQtNCpwagkcLdFi_r7whquET1jvJRmyw4vAEg>
- <xmx:0en8YkebsKHy2-I2Rd-JIGKyBNwnHt7D5GBfbnaoP6-5YyWBjxpigA>
- <xmx:0en8Yo2DDryMrTvdiW9lHJdv27mKZBWSWNYY13dcCzTphBbCbgvq3A>
- <xmx:0-n8YoPw0bAB-KGFfPzk-k00fnU5PCKphSUCi23nv2Ut978E6NfbJ_wcOjU>
+ htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
+ geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:wer8YtqdNamwIkeQpl6RDY9VlFq4ChZh4cTgFhI5ay_1mkURX8oJtA>
+ <xmx:wer8YirW4QTJSrqhg96beQy_yHD2Y5kSTvJAHmIGBx83zAVCiSNOhA>
+ <xmx:wer8YjSIMFaX9hU7t1obQrk2WAo2e5DTtnuHUfoKqMTTB6u5v6s1sA>
+ <xmx:wur8YrbocuObCBuPv2KR9L1HKdRIijNGO56ppPQRu5g4IlXgKq4Qh52Cgts>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 09:14:57 -0400 (EDT)
-Date: Wed, 17 Aug 2022 15:14:54 +0200
+ 17 Aug 2022 09:18:56 -0400 (EDT)
+Date: Wed, 17 Aug 2022 15:18:54 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
-Message-ID: <20220817131454.qcuywcuc4ts4hswm@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
- <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
- <20220816132636.3tmwqmrox64pu3lt@houat>
- <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
- <20220817075351.4xpsqdngjgtiqvob@houat>
- <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Message-ID: <20220817131854.jwmhqvhfhp77bbr3@houat>
+References: <20220816132040.uwirtjm5yr6rdd3q@houat>
+ <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
+ <20220816141116.5nuszmilqv2exdb3@houat>
+ <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
+ <20220816154956.pkdpxmmw27mia5ix@houat>
+ <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
+ <20220817074710.w4c4xwj7edly2b5p@houat>
+ <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
+ <20220817111454.pn2iltvyo2drebq7@houat>
+ <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3k2wy2tkfns6fd4i"
+ protocol="application/pgp-signature"; boundary="pwhi6bupdwzq7ldy"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,137 +112,88 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---3k2wy2tkfns6fd4i
-Content-Type: text/plain; charset=iso-8859-1
+--pwhi6bupdwzq7ldy
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 17, 2022 at 10:51:55AM +0200, Geert Uytterhoeven wrote:
-> On Wed, Aug 17, 2022 at 9:54 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Tue, Aug 16, 2022 at 05:00:38PM +0200, Geert Uytterhoeven wrote:
-> > > On Tue, Aug 16, 2022 at 3:26 PM Maxime Ripard <maxime@cerno.tech> wro=
+On Wed, Aug 17, 2022 at 03:05:52PM +0200, Geert Uytterhoeven wrote:
+> Hi Maxime,
+>=20
+> On Wed, Aug 17, 2022 at 1:15 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeven wrote:
+> > > On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wro=
 te:
-> > > > On Fri, Aug 12, 2022 at 03:18:58PM +0200, Geert Uytterhoeven wrote:
-> > > > > On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech>=
+> > > > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
+> > > > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech>=
  wrote:
-> > > > > > Multiple drivers (meson, vc4) define the analog TV 525-lines an=
-d 625-lines
-> > > > > > modes in the drivers.
+> > > > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wr=
+ote:
+> > > > > > > > > > > Either you have to add them here (e.g. "hd720p50" and=
+ "hd720p60"), or
+> > > > > > > > > > > handle them through "@<refresh>".  The latter would i=
+mpact "[PATCH v1
+> > > > > > > > > > > 09/35] drm/modes: Move named modes parsing to a separ=
+ate function", as
+> > > > > > > > > > > currently a named mode and a refresh rate can't be sp=
+ecified both.
+> > > > > > > > > >
+> > > > > > > > > > I think the former would make more sense. It simplifies=
+ a bit the
+> > > > > > > > > > parser, and we're going to use a named mode anyway.
+> > > > > > > > > >
+> > > > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode=
+ property as a
+> > > > > > > > > > > command-line option" uses a separate "tv_mode" option=
+, and not the main
+> > > > > > > > > > > mode name, I think you want to add them here.
+> > > > > > > > > >
+> > > > > > > > > > It's a separate story I think, we could have a named mo=
+de hd720p50,
+> > > > > > > > > > which would be equivalent to 1280x720,tv_mode=3Dhd720p
+> > > > > > > > >
+> > > > > > > > > So where's the field rate in "1280x720,tv_mode=3Dhd720p"?
+> > > > > > > >
+> > > > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
+> > > > > > >
+> > > > > > > Above you said "I think the former would make more sense", so=
+ that
+> > > > > > > should be "1280x720,tv_mode=3Dhd720p50"?
+> > > > > >
+> > > > > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mod=
+e=3Dhd720p
+> > > > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=3Dhd720p
 > > > > >
-> > > > > Nit: strictly speaking these are not analog modes, but the digital
-> > > > > variants (ITU-R BT.656 and DVD-Video D1) of NTSC and PAL, using a
-> > > > > 13.5 MHz sampling frequency for pixels.
-> > > > >
-> > > > > In analog modes, the only discrete values are the number of lines=
-, and
-> > > > > the frame/field rate (fixing the horizontal sync rate when combin=
-ed).
-> > > > >
-> > > > > The number of (in)visible pixels per line depends on the available
-> > > > > bandwidth.  In a digital variant (which is anything generated by a
-> > > > > digital computer system), the latter depends on the pixel clock, =
-which
-> > > > > can wildly differ from the 13.5 MHz used in the BT.656 standard. =
-(e.g.
-> > > > > Amiga uses 7.09/14.19/28.38 MHz (PAL) or 7.16/14.32/28.64 MHz (NT=
-SC)).
-> > > > >
-> > > > > So I think we probably need some way to generate a PAL/NTSC-compa=
-tible
-> > > > > mode based not only on resolution, but also on pixel clock.
+> > > > > I disagree: hd720p50 and hd720p60 are different TV modes.
 > > > >
-> > > > This would also fix the comments made by Jani and Thomas, so I quite
-> > > > like the idea of it.
-> > > >
-> > > > I'm struggling a bit to find how would could implement this though.
-> > > >
-> > > > From what you were saying, I guess the prototype would be something=
- like
-> > > >
-> > > > struct drm_display_mode *drm_create_analog_mode(unsigned int pixel_=
-clock,
-> > > >                                                 unsigned int lines,
-> > > >                                                 unsigned int frame_=
-rate)
-> > > >
-> > > > But I have zero idea on what the implementation would be. Do you ha=
-ve
-> > > > some resources for this you could point me to?
+> > > > I agree, and I don't see how that command-line doesn't express that?
 > > >
-> > > Horizontally, I think you should calculate left/right margins and
-> > > hsync length to yield timings that match those for the BT.656 PAL/NTSC
-> > > modes.  I.e. when a 640x512 mode with a pixel clock of 14 MHz is
-> > > requested, you want to calculate left', right', and hslen' for
-> > >
-> > > | <---- left' ---> | <- 640 pixels -> | <---- right' ---> | <--- hsle=
-n' --> |
-> > >                         @ 14 MHz
-> > >
-> > > so they match the timings for left, right, and hslen for
-> > >
-> > > | <--- left ---> | <--- 720 pixels ---> | <--- right ---> | <--- hsle=
-n ---> |
-> > >                         @ 13.5 MHz
-> > >
-> > > As 640 pixels @ 14 MHz are less wide than 720 pixels @ 13.5 MHz,
-> > > you want to make sure to align the center of the visible part.
+> > > Oh, I see what you mean: yes, it expresses that.
+> > > But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
+> > > where the TV mode specifies both number of lines and frame rate.
 > >
-> > So I guess in that example if we want to center it, left =3D=3D right a=
-nd
-> > left' =3D=3D right'? What about the sync length?
+> > Only if we're using a named mode, and naming is hard :)
 >=20
-> No, left and right are asymmetrical, cfr. front and back porch in
-> https://en.wikipedia.org/wiki/PAL#PAL_signal_details
-> I.e. if the pixel part is reduced, both the left and right margins
-> should be increased by the same amount.
->=20
-> From the table linked above, hslen should be ca. 4.7=B5s (fixed).
+> That's not true: "640x480,tv_mode=3DPAL-N" would give me a mode with
+> 625 lines and 25 frames/s, "640x480,tv_mode=3DPAL-M" would give me a
+> mode with 525 lines and 30 frames/s.
 
-each pixel taking 1 / pixel_clock seconds (assuming pixel_clock is in
-Hz), and thus hslen (in pixels) =3D 4.7 * 10 ^ -6 * pixel_clk, right?
+In that series, "640x480,tv_mode=3DPAL-N" would be rejected as invalid:
 
-> > > Vertically, it's simpler, as the number of lines is discrete.
-> > > You do have to take into account interlace and doublescan, and
-> > > progressive modes with 262/312 lines.
-> >
-> > So we only have to deal with 525 and 625 lines total (without taking
-> > interlace and doublescan into account), right?
->=20
-> Yes.
->=20
-> > I guess we still have the same question, we probably want to center it,
-> > so top =3D=3D bottom, but what about the vsync length?
->=20
-> Unfortunately that table does not mention top and bottom margins.
-> But according to drivers/video/fbdev/amifb.c (see the "Broadcast
-> video timings" comment block and the definitions of the "ntsc-lace"
-> and "pal-lace" video modes), they are asymmetrical, too.
->=20
-> Vsync length is 0.576ms, so that's 9 scan lines (I guess I didn't
-> have that info when I wrote amifb, as I used 4 lines there).
+https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-14-3=
+d53ae722097@cerno.tech/
 
-Thanks, that's some great info already.
-
-It's mentioned though that the settings for NTSC are "straightforward",
-but it's definitely not for me :)
-
-I've looked around and it looks like the entire blanking area is
-supposed to be 40 pixels in interlaced, but I couldn't find anywhere how
-it's supposed to be split between the upper and lower margins and the
-sync period.
-
-Thanks!
 Maxime
 
---3k2wy2tkfns6fd4i
+--pwhi6bupdwzq7ldy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvzpzgAKCRDj7w1vZxhR
-xaliAQCDHSUbOXnRJW+WaaBPo51qOcik941/wbzLlMyQZE7BWAD9EBh9ubEvqwGp
-65TtZrmiJ6qFtpANfbFDnug7CTw2nAQ=
-=yOdY
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvzqvgAKCRDj7w1vZxhR
+xevAAQDN39buWD69Y1UeITS4YCga5URhBHuCskbyb0E4+dbIUQD7BdiRmRfU6P3f
+TcmNW67KPvbwkbPIv57K49HlmhcZ6AQ=
+=egIl
 -----END PGP SIGNATURE-----
 
---3k2wy2tkfns6fd4i--
+--pwhi6bupdwzq7ldy--
