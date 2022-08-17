@@ -1,66 +1,141 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6287259684E
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 06:52:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96519596889
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 07:20:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7765610E60D;
-	Wed, 17 Aug 2022 04:52:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89E8210E8F6;
+	Wed, 17 Aug 2022 05:20:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87FF210E60D
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 04:52:44 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-3321c2a8d4cso150161767b3.5
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 21:52:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=P+P7U2dHcH7HvKdIM34nR5zTB1057uLXCO9nJeUpApE=;
- b=mInliz2MDp3Y2l0zLTVTwFKtILUmFyBlHw3FlaOd6SS7mQ5Eb2y2m04Jw/NqPlQreV
- g5xXktTWhDRD4/VNBp1yizy48nHp/Vok2EuGpI/ddA62h3Sb122HX6Qtf+OP5y1gq3/O
- vo+k/SGsKTuT43xLS5sIT3ECxsBSl1tuT57awW6MoNe2A/poRkUozM+mw4UMv/9UZ3Gh
- JZNp77vAcNzp/IknxliP1A0kf1ShqGpCBiVQUrZLstDWp+N/6KuDVKEEtCSzFChEDE76
- 3ayfxifKTcpccrmxNEZvLX52svkIq5YJ9p7sSTjS8H1T4HpoCbd9+jiNVMC7/10ObMPI
- AzQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=P+P7U2dHcH7HvKdIM34nR5zTB1057uLXCO9nJeUpApE=;
- b=Ngk9/hjTobEtx5WVOZmZl167gHD0aoRJKcm5z4IGu2dci3DdeX1JR6sUyOSc0+CT5n
- XWqoGf9kyObIEzma7kh0vEyXj4yafe02/XhNpunXpbdCvTGVoxSStGrUbGsxBgke/1c8
- oCJpkSSyrvF/znKy1Z3c09TeSYt7q2m1WZQY0aN1ExstUN6XlEFPCSiHwLRuM0hCEjS1
- jjxAXBgdIhZzlUF7XmDR+BEkz2Ail/8mz/HCdsuIJtBsEexXMDxtHlkG5LT/Haml34aj
- uPTil+/FY9C5+3JOfq/+Z4tjdv7C9eULx5nRZ48IBohLt1Pzto1vbp6ipz0XNEVjVDJm
- 5Hzg==
-X-Gm-Message-State: ACgBeo2bRAy5hY3VztUi1bAYPtzB46+zE9VG+T1L84nhR9AjHdmGr94p
- WZ4zgBHjTdtl0fXmbBaJZ9VaxKoAcXbvn/IE6SoKgg==
-X-Google-Smtp-Source: AA6agR4n9oAPiASwsUuBj7VCDanSfJyRQbFukds9m7aRqQZqh5v6CSqLW42Mr30/VlqZmXCPVbQX4WEOqI6qpJpB2kE=
-X-Received: by 2002:a25:2b01:0:b0:68a:6dff:4a87 with SMTP id
- r1-20020a252b01000000b0068a6dff4a87mr7229961ybr.364.1660711963618; Tue, 16
- Aug 2022 21:52:43 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D22BF10E8F6;
+ Wed, 17 Aug 2022 05:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660713603; x=1692249603;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=QSBAcOXXFlLpyIU+XdCjMNnlP2uAAsypdlgIE8p0sWg=;
+ b=jde0ih/JCYFzDOlGjng0Y9f3v63GGJRsPiBgOz7cbOIuwrTrwJysld+3
+ C5djGqfSpxXQkP3RrirIGDaqiOwIoQXyb8HnAfI0FezL4+beDikezjtq8
+ G2nCdhFJ7FT6bZ+cXH+VnrVF39D1cMWvC3f1FOdyzhyXlp2UD3OP/Qqau
+ tjlmaTO8usUoIbEZoWT75norV5vrXQnz4JCPfDfiSwr7Oj8PWdW9fXuBH
+ 0jzTw0JFVWRi++LajmeLTn+a64SVuCZvmIDHwcSGJywUimkkqt/8mJYA+
+ Ll3m+oD8hRaV3Lej+QJltORGEUgPRAzqEhbdO6bort5lyBBXHSm63P05Z Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="272796047"
+X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; d="scan'208";a="272796047"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2022 22:20:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; d="scan'208";a="603770753"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga007.jf.intel.com with ESMTP; 16 Aug 2022 22:20:02 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Tue, 16 Aug 2022 22:20:02 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Tue, 16 Aug 2022 22:20:01 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Tue, 16 Aug 2022 22:20:01 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Tue, 16 Aug 2022 22:20:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L3tSSZu9MdMB023B1VSaV9VdHgomMmaomxuAXdX5s3PvvDV5O0hlykTRFFWoSHFxBcWP6oC02fdxt2iYf/OGoWn5Q9Cqjr1O53eB8+U/SwWPEC2tyPCkjsZfJlqxNN9K34d3g0G50hSNxDXqtrke82vixrnWBhtf3KLes9Ls0Wi2oujRZPnqCyM9l3KAv22Wl91pM98ijYubbTewHrIjr0QTAwQBnRQqP26OmJF10OETCRD8gfPxm0lF0X4vma+jzDbM8GQg45YgBFvUNAMeHWwySvrTy9FcHaBFZMf2GR2DbLqD+YUpqOhjwb0fWD1hMyArP7TPU8jgoA+zax5x/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wPYKs6HswmwaAjFR4TvPN3jMzd/b1tFac9F+0pFHoG0=;
+ b=axHgF69M68V4QH33gj+112ES7JNUSSy3NsahTVtgy8XhOFKEDDjuKmKR8MDT6bdJMW5ijqh9A//1jInXQ+mKgvK6Wrrh4Br1i4o/bMGSYXTgeIvmNcldOAnJRqcZHbp7c2lV3UpA6dolqM6e5QCf4/O5+M+jYV+JTUx658Hpg4KxR8IY8yRNiAyeIfTuryFrekP1IRFk1xtVFKpT844bZhFJKVCYfCwiCHogAwWopZ9ucwPS+ndzpGbnb2Xip8CIQwcmRqFzfmqQvttQ14mOPaTDDuYbeG+h0i+SE5tM8D5VNoQZczEMBESLum0uq92mpkl53DP2BX/y6U1XfRnfEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by BL0PR11MB3185.namprd11.prod.outlook.com (2603:10b6:208:63::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.17; Wed, 17 Aug
+ 2022 05:20:00 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::a012:82da:5edb:513]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::a012:82da:5edb:513%7]) with mapi id 15.20.5525.011; Wed, 17 Aug 2022
+ 05:20:00 +0000
+Date: Tue, 16 Aug 2022 22:19:57 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915/dg2: Add additional tuning
+ settings
+Message-ID: <20220817051957.y2o6bl3lkhztmjtm@ldmartin-desk2.lan>
+X-Patchwork-Hint: comment
+References: <20220816210601.2041572-1-matthew.d.roper@intel.com>
+ <20220816210601.2041572-2-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220816210601.2041572-2-matthew.d.roper@intel.com>
+X-ClientProxiedBy: SJ0PR05CA0145.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::30) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <5b6d3e7f-c638-fdc7-5080-44d34abed610@ideasonboard.com>
- <a3ed3a2c-86ce-1c85-e8aa-c08b54ad1a43@gmail.com>
- <CAMSo37XdZSZUHLWJj373DdtOBA9=uD8SJ7ywWCYF2pU1i4cB_g@mail.gmail.com>
- <ed4fe238-4fcd-1253-658f-18fe1e1f13b0@gmail.com>
- <CAMSo37V3U5nYng77jzSnKH73CTLhGYQJu11Q5wRt289se5nFJw@mail.gmail.com>
- <4128aed0-211a-d12a-6a86-deb4457d39f7@gmail.com>
-In-Reply-To: <4128aed0-211a-d12a-6a86-deb4457d39f7@gmail.com>
-From: Yongqin Liu <yongqin.liu@linaro.org>
-Date: Wed, 17 Aug 2022 12:52:32 +0800
-Message-ID: <CAMSo37W-DePLDP=zk-nY6FGcZuk0QzHj4=usrieyV0TNcNfbXw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
- DMM/TILER
-To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 20252944-7922-423f-8f9c-08da801021b8
+X-MS-TrafficTypeDiagnostic: BL0PR11MB3185:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1x5+a5hoqhIVlpUxpNr5V5jFsczYTTIGghW4Lf27AOowbm4mwKZQeWc5Xk0b4DGo5cZ+9rraWeCVI9VxIMY9JbyVuchstmW8dfUfs+aJHEeptQibs/5X8fTAZfT5oO6tFTNWEiNYypBAZn/UPKTqxB6SkzM+fkkocppSx15OszF0utocGttgVqdNuh8RCzWNvoCyLdDrxP3I+VOTABwDbzEoSZ2gCosZWwm7P/W422heAqHAy781s/l7ZW0ci4aedMcC0m6kmoUNpvOMTBgCPzl1yZKNKS6/DyG4DCow+2L/ysGs124awWMoVu7ESSKc+NFwr8q4avLKiq4IaGOFxGcGkH3r7eR9nLoM8U7g0DyTlNb5KzB3rto8zkVpwcgIADUe4KsPQnqpHaX+1b+nnfs7wIuOO8x4Oosn4xAvH8UWq7qnBxZaT2NnLd1rZj0mEgyGE3vgsW70SymSFjichxu3fbAwSfnGbcpfN4BonCFH10sLOnn81CLgodZkUuZoW8wcKcx2K7J3MLg6iZ9sMuwC4xTNUX4g3hj+QY7fwIunfEEAhKDV0Ar0XcdSvBHEjFTs9ATTRvhQAkSS1dlpHkik2EKzTGqEiLNw5V+GgEOnpeAE+RgufS8/8UtgThr+kfIBoCckqR9FK+Q7y18IR/UKiNk/RAJk+G1ed5Kq0vwvHOYbowrnOJRiIX2A8KhT5DYICtNm6xjxezAbhbAdmgFuVjXYZDZpHr3z9dOkiBlq5V2QOntfUaMaQOrCO/iu
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(366004)(376002)(346002)(136003)(396003)(39860400002)(316002)(6636002)(41300700001)(478600001)(26005)(6512007)(6666004)(9686003)(6506007)(6486002)(2906002)(66476007)(66556008)(66946007)(4326008)(8676002)(450100002)(4744005)(6862004)(8936002)(5660300002)(38100700002)(86362001)(82960400001)(36756003)(186003)(1076003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?elgAKkE5eJQn7NdprpAhgTfcjDQ+zwc66hLOvdpF063cVcyFr6ut4WCw7xsa?=
+ =?us-ascii?Q?E0vAI7dSQHBz/8wGTX9sNnvuJdvTdzGgih+6XcUAQpqv1JnL7SBGJqgm9gz0?=
+ =?us-ascii?Q?4s6Y0eJSUO6fu6qJV/ophniWqxRrdrYCOIWt9mIlkvsHZtM/iVZy8Y3C2uwm?=
+ =?us-ascii?Q?gsfnnhatcr1iy4zlf5Q3JgFdMNEWoz+BwWwa4/8SfTbXxjLz6m77wY1Xkg30?=
+ =?us-ascii?Q?/speRiRsyOAcDYg1hhd5k7sb5OWue56heufOWpZpdSm8qgT0wTgy5JseyXiT?=
+ =?us-ascii?Q?814lyHOn+jDM7GKhV/4Hrugzbx+yn0Zw+/sN4I1CwtCPZqCBM09J0KzSpKEa?=
+ =?us-ascii?Q?WSCMgyKw367NIRNLZKhz40HHs6CI1bN4dz1lKGKdc9v7ZwPe9DiBYlD1dzhN?=
+ =?us-ascii?Q?4oLIvKL6nMGC9lbcIksLnjzoU2Wel8r3V6SxeTEPs6PJclUG+5EtAgHpXRK+?=
+ =?us-ascii?Q?b1+kaqN+y3R64DvOHI0fjjb6gvgSLHkP3eLiyg0l6/XR/NG+XeFV7rGcdLf2?=
+ =?us-ascii?Q?VkS7Ivid9tK3hwa+LP8sW+yJ2RuWCvNLEkjwuNcWFKEu0SoDvr4mmHe8t4jt?=
+ =?us-ascii?Q?mJM0nFyv5Q/gJeAmEy9xAjc+S/261cfFoAZNjtFmctQCthWBHGi5UDS11Axj?=
+ =?us-ascii?Q?ir+95nj/kvUZjT+VpbXjvrmixQeQKyWZr9ZK7JrA/5M0csitsGTy1wwZ5Cb6?=
+ =?us-ascii?Q?Wkz7hlw/OpWBoYQz5u9fOgvqNx4D1xprqCLydMFiTnkX5l3WmzGuNiRYyg1g?=
+ =?us-ascii?Q?XtuoRKyypIAX5w9gkMntklxKW+kYncyc1jEspOHOmrklRbpiN29oLRFSV/AQ?=
+ =?us-ascii?Q?FZpsKgRAiFeKjtBfgroy4jJB9Ko/W+Z6OBhEXTm45YYCtw1ciXk+2nl5SklB?=
+ =?us-ascii?Q?FD/s7G4lnBxeYI5+XFg4TWRJY59TBNqR6eSGmPZbURuD77KHf1pqxI/d1V+0?=
+ =?us-ascii?Q?cSaXm7XgMtXk8XprM+hckz8A7Gq3fVRBK41PyZQtFSi8zvQPSr3snlG4zGr5?=
+ =?us-ascii?Q?GWBzzqVXkyhygaIy5Wtj4TK0oto3rLSCWNbQTMLswzSJNWvxQFzk+h3g3BC/?=
+ =?us-ascii?Q?KzRznRQzfh9txbCkT7dmYmK+Yfvas0Dc2GFsGmj+TYI3OVou7L59VFgKUlU7?=
+ =?us-ascii?Q?3h359U8B3TNoPTMRkm6l73dCJrtZmgSHAHnY0McCLlSGQbcR57FQ7+hUQVoI?=
+ =?us-ascii?Q?sibEZmN9/wkABEdE9IQIK4ruqzxiQHhSDLLtjN/Ry2FbkRxe1ke1GEwTTI2c?=
+ =?us-ascii?Q?iMNllsKNYaEBKNAbUBXuT2JOzr+aqKWkr0XI2RVrcm7t9dDByZc0gB5tijmS?=
+ =?us-ascii?Q?sf1QDccLEzRpAkn9nFc80WbjtEhYwsnvUkkQtu8r7x61YQdemOKP618u7QIU?=
+ =?us-ascii?Q?Zy4bapExgyE8aBbJNIxOe3Q4j0UKU4/+w9wB/4wG4Nns8ulL42au4B8SM1Mq?=
+ =?us-ascii?Q?STMq/wGsYy4/Npggi6Uj3gvOERXCfmYuvw7WFWSGvP65Aow0c4nc7IsrgVsj?=
+ =?us-ascii?Q?zIEXpjbpGn3QSMhXfSeY7tduUJlGgVGi6zo+08hPwGnuxmea0eBD9L1sWee0?=
+ =?us-ascii?Q?bDwNwHbDgQ2dR4nXd0PQmiSMhUEguqh9luE6oKUJIfjg+wMbVMt7P6+gqoT0?=
+ =?us-ascii?Q?0w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20252944-7922-423f-8f9c-08da801021b8
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2022 05:20:00.1328 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /smFdBTBYGpWwVRaNOnKx1UjIqf80otj/uO+1bm+/NpVH8jpS54Q0k6H9GLliYqDqD+d0pjFahO4wq8dDqbk2uKuF2kuu/zrDP1vtupYCr4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB3185
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,233 +148,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Bajjuri, Praneeth" <praneeth@ti.com>, tomba@kernel.org, airlied@linux.ie,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, merlijn@wizzup.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tony@atomide.com, linux-omap@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Ivaylo
-
-On Mon, 15 Aug 2022 at 14:23, Ivaylo Dimitrov
-<ivo.g.dimitrov.75@gmail.com> wrote:
+On Tue, Aug 16, 2022 at 02:06:01PM -0700, Matt Roper wrote:
+>Some additional MMIO tuning settings have appeared in the bspec's
+>performance tuning guide section.
 >
-> Hi Liu,
+>One of the tuning settings here is also documented as formal workaround
+>Wa_22012654132 for some steppings of DG2.  However the tuning setting
+>applies to all DG2 variants and steppings, making it a superset of the
+>workaround.
 >
-> On 14.08.22 =D0=B3. 17:27 =D1=87., Yongqin Liu wrote:
-> > Hi, IvayIo
-> >
-> > Thanks very much for the reply!
-> >
-> > On Sat, 13 Aug 2022 at 14:58, Ivaylo Dimitrov
-> > <ivo.g.dimitrov.75@gmail.com> wrote:
-> >>
-> >> Hi Liu,
-> >>
-> >> On 12.08.22 =D0=B3. 7:35 =D1=87., Yongqin Liu wrote:
-> >>> Hi, Ivaylo, Tomi
-> >>>
-> >>> We have one X15 Android AOSP master build, it could not have the home
-> >>> screen displayed
-> >>> on the hdmi monitor connected with this change, with the following
-> >>> message printed on the serial console
-> >>>       [  607.404205] omapdrm omapdrm.0: Failed to setup plane plane-0
-> >>>       [  607.410522] omapdrm omapdrm.0: Failed to setup plane plane-1
-> >>>       [  607.416381] omapdrm omapdrm.0: Failed to setup plane plane-2
-> >>>       [  607.422088] omapdrm omapdrm.0: Failed to setup plane plane-3
-> >>>
-> >>>      # for details, please check the link here: http://ix.io/47m1
-> >>>
-> >>> It will work with home screen displayed on the hdmi monitor if this
-> >>> change is reverted.
-> >>>
-> >>> Is this the broken problem you talked about here?
-> >>>
-> >>> And could you please give some suggestions on how to have the x15
-> >>> Android build work with this change?
-> >>>
-> >>
-> >> Make sure scanout (i.e. those to be displayed) buffers are actually
-> >> allocated as such - OMAP_BO_SCANOUT flag must be set when calling
-> >> omap_bo_new().
-> >
-> > I am not familiar with this area, I am sorry if I asked quite silly que=
-stions:(
-> > I googled omap_bo_new, and found it's a function of libdrm here[1], is
-> > it what you meant here?
-> >
+>v2:
+> - Move DRAW_WATERMARK to engine workaround section.  It only moves into
+>   the engine context on future platforms.  (Lucas)
+> - CHICKEN_RASTER_2 needs to be handled as a masked register.  (Lucas)
 >
-> Yes, calling this function from userspace ends in kernel code the
-> $subject patch is part of.
->
-> > If it's the omap_bo_new that we should pass OMAP_BO_SCANOUT when it is =
-called,
-> > then is it the correct way to update omap_bo_new to add the OMAP_BO_SCA=
-NOUT flag
-> > before it calls omap_bo_new_impl?
-> >
->
-> omap_bo_new() is fine and does not need any updates/fixes, it is the
-> code that uses it (whoever it is, I am not familiar with the userspace
-> you are using) that shall pass correct flags (third parameter) when
-> calling it.
-
-Sorry, I do not get the point here.
-Like you said, the code that calls omap_bo_new needs to pass OMAP_BO_SCANOU=
-T,
-then IMO omap_bo_new should be the best place to add the OMAP_BO_SCANOUT fl=
-ag,
-(like via flags =3D flags | OMAP_BO_SCANOUT), that could help avoid
-missing the flag by some code,
-and also avoids hacks/changes on the possible blob binaries.
-
-Do I misunderstand somewhere?
-Or is there some case that OMAP_BO_SCANOUT shouldn't be passed when
-omap_bo_new is called?
-
-> BTW you shall really find who and how uses OMAP BO API, in theory it
-> might use ioctls directly and not call omap_bo_xxx functions.
-
-Do you mean the DRM_OMAP_GEM_NEW ioctl api?
-There is no place in the AOSP tree to call that except the
-omap_bo_new_impl function,
-which is called by the omap_bo_new and omap_bo_new_tiled functions.
-The omap_bo_new should not be called with the OMAP_BO_TILED flag,
-while the omap_bo_new_tiled should be called with the OMAP_BO_TILED flag
-
-Regarding to the omap_bo_new function, there are 2 places call it in
-the AOSP tree:
-#1 ./external/libkmsxx/kms++/src/omap/omapframebuffer.cpp
-#2 ./device/ti/beagle_x15/gpu/gralloc.am57x.so
-
-#1 seems not used in AOSP yet, and #2 is one blob binary we do not
-have the source for.
-
-> strace
-> would be your friend there. or gdb, or whatever tools are used on
-> android. Or put some printfs() in omap_bo_new() that output the PID of
-> the calling process, etc.
-
-Thanks a lot for these great suggestions! Will use them when possible.
-
-> > And another question is that, since the userspace(libdrm) will be used
-> > to work with different kernel versions,
-> > like the old 4.14, 4.19, etc, do you think there will be problem to
-> > pass  OMAP_BO_SCANOUT
-> > from the userspace side with the old kernels(which does not have this c=
-hange)?
-> > does this change need to be backported to the old kernel versions?
->
-> There should not be any issue. The changes could be backported if one
-> hits the issues this $series is fixing, but there is no need.
-
-Thanks for the confirmation!
-I just boot-tested with adding OMAP_BO_SCANOUT in the omap_bo_new function,
-and it worked with the current 4.14, 4.19, and the mainline kernels.
-# via adding line "flags =3D flags | OMAP_BO_SCANOUT" in the omap_bo_new fu=
-nction.
-
-> >
-> > And the last question is that, omap_bo_new might be called by some
-> > property binaries what not everyone
-> > could get the source to update, for such case what's your suggestions?
-> >
->
-> Hard to say without knowing what that library would be.
->
-> When I hit issues with closed blobs, sometimes I reverse-engineer them
-> to fix the issue, example:
->
-> https://github.com/maemo-leste/sgx-ddk-um/tree/master/dbm
->
-> This is REed libdbm from sgx-ddk-um 1.17.4948957, that is responsible
-> for allocating BOs (what omap_bo_new() does) but it uses DUMB buffers
-> API, instead of OMAP BO API.
->
-> I guess you are using some older version of sgx-ddk-um, so you may fix
-> in similar way. Or binary patch.
-
-The blob binary that calls omap_bo_new is the gralloc.am57x.so here[2]:
-any suggestions with it?
-# sorry, I am not able to find out how you did the reverse-engineer
-work# with the dbm repository shared here,
-# not sure if you could give some tutorial steps for the similar
-reverse-engineer# work with gralloc.am57x.so
-
-[2]: https://android.googlesource.com/device/ti/beagle-x15/+/refs/heads/mas=
-ter/gpu/gralloc.am57x.so
-
-Thanks,
-Yongqin Liu
-
-> >>> On Thu, 17 Feb 2022 at 23:29, Ivaylo Dimitrov
-> >>> <ivo.g.dimitrov.75@gmail.com> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 17.02.22 =D0=B3. 14:46 =D1=87., Tomi Valkeinen wrote:
-> >>>>> Hi,
-> >>>>>
-> >>>>> On 19/01/2022 12:23, Ivaylo Dimitrov wrote:
-> >>>>>> On devices with DMM, all allocations are done through either DMM o=
-r
-> >>>>>> TILER.
-> >>>>>> DMM/TILER being a limited resource means that such allocations wil=
-l start
-> >>>>>> to fail before actual free memory is exhausted. What is even worse=
- is
-> >>>>>> that
-> >>>>>> with time DMM/TILER space gets fragmented to the point that even i=
-f we
-> >>>>>> have
-> >>>>>> enough free DMM/TILER space and free memory, allocation fails beca=
-use
-> >>>>>> there
-> >>>>>> is no big enough free block in DMM/TILER space.
-> >>>>>>
-> >>>>>> Such failures can be easily observed with OMAP xorg DDX, for examp=
-le -
-> >>>>>> starting few GUI applications (so buffers for their windows are
-> >>>>>> allocated)
-> >>>>>> and then rotating landscape<->portrait while closing and opening n=
-ew
-> >>>>>> windows soon results in allocation failures.
-> >>>>>>
-> >>>>>> Fix that by mapping buffers through DMM/TILER only when really nee=
-ded,
-> >>>>>> like, for scanout buffers.
-> >>>>>
-> >>>>> Doesn't this break users that get a buffer from omapdrm and expect =
-it to
-> >>>>> be contiguous?
-> >>>>>
-> >>>>
-> >>>> If you mean dumb buffer, then no, this does not break users as dumb
-> >>>> buffers are allocated as scanout:
-> >>>>
-> >>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/omapd=
-rm/omap_gem.c#L603
-> >>>>
-> >>>> If you mean omap_bo allocated buffers, then if users want
-> >>>> linear(scanout) buffer, then they request it explicitly by passing
-> >>>> OMAP_BO_SCANOUT.
-> >>>>
-> >>>> Ivo
-> >>>
-> >>>
-> >>>
-> >
-> >
-> >
+>Bspec: 68331
+>Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+>Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
 
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
---=20
-Best Regards,
-Yongqin Liu
----------------------------------------------------------------
-#mailing list
-linaro-android@lists.linaro.org
-http://lists.linaro.org/mailman/listinfo/linaro-android
+Lucas De Marchi
