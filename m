@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544DC5A0141
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 20:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F86B5A0197
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 20:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80E2CBBFE1;
-	Wed, 24 Aug 2022 18:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C887EBFA12;
+	Wed, 24 Aug 2022 18:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE0B8E820
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:31:03 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id f8so2530386wru.13
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 06:31:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc;
- bh=E0iQOazQDO/obbGYZRzh6D7dwqi0LcqsAFY3GtyIoRw=;
- b=DvxtYW38/k0Lm9cACp2Dabef+D2MTdJpxYG8BUjqhqGGndVuajRRfjDrNjZNk4Rt7M
- V8zCSbMxVW/jCs2l/y9kaeCHqz3dA2VWQuDEfkaNh5rMGByjA8aHu+0HwOgPgaGv9cgk
- c1ZqSg8OF+VGXk4zYrj2xRTBLmJOEGPWSSIgZsFDZmt3LMqj+WHxDQrF1Sv3xpn4F4AQ
- UEP0VSi/3cApAnsztS1LpXIj9C2P0Gr9L3i9yzwk3u0Gy4bn2b+hgOWHRQACYXvok6Hn
- cYOLstqE6Y4oLA7nehcusWvm1lEwoFtAg/McDdLC1UzpJ/kYPV7WbsM9Q6nWG4ptwzQF
- lAvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=E0iQOazQDO/obbGYZRzh6D7dwqi0LcqsAFY3GtyIoRw=;
- b=xHv13aI6xrgD8VzckOxaOWg3vd5kbHX9noDUYviQ+yK2ZN6qW4O1mGfaJGLltVUZ0N
- 7QRPQod4951w5DshtH1HB0uBqZPguIPZ3B9D00U4WxLqJxFH4zvlIOcWrofd4gvTc2N3
- vZsu/b7zZMUo/kHsUFmxtLjjxlbMmp3FN9Sr3kF6sMnFGWhU/1fGInSTTQjECVeiIDbI
- MpQhft4sHOxeLCPEImrRSkgaPCOO5lL8fFR4nsmET+AnRxQ4HMlaquFNp8L24suyxPh0
- vxOfVTi0zX9pJuygRMsUgbCJ5JVC+l5SPDby7PYJidHVYAB5+EOivEZ4WSZMqKEcYP/T
- x93A==
-X-Gm-Message-State: ACgBeo2uWfgHICF0TaLx3YkMcOAMHUoel2V300qPC90bBxXU0LrCh4sP
- bsoz1dAnmWedEUoQOLEwgtzizw==
-X-Google-Smtp-Source: AA6agR7WBqTmQBAeJul9q4fCb/OqNE31bC9f+464k9EY/T94d+BYyelwyzCKOSOVr8Hx9EMdHKyrbw==
-X-Received: by 2002:a5d:4283:0:b0:225:2231:3fd0 with SMTP id
- k3-20020a5d4283000000b0022522313fd0mr2348511wrq.382.1660743061896; 
- Wed, 17 Aug 2022 06:31:01 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:a5c:3576:8e69:3edc?
- ([2a01:e0a:982:cbb0:a5c:3576:8e69:3edc])
- by smtp.gmail.com with ESMTPSA id
- g11-20020a05600c4ecb00b003a4c6e67f01sm2634186wmq.6.2022.08.17.06.31.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Aug 2022 06:31:01 -0700 (PDT)
-Message-ID: <3725619d-72c5-5c9d-513b-80bbc727dd07@baylibre.com>
-Date: Wed, 17 Aug 2022 15:31:00 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C145B5B37;
+ Thu, 18 Aug 2022 04:17:27 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27HMKLuH002112;
+ Thu, 18 Aug 2022 04:17:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=OBJV2nhA1m9/wANwwnv2RKvRXTJWsxwd63aHFcrIoW8=;
+ b=bMNqdhczbtGGSDLhB9xX92lLRxerUDcX8wUkliJ9GgCwmE9kDdfjvA6Jb4dYHKxCw0hk
+ BkuBqTS5MWe64Y3w0gIIIxX/G9PGWVjsQXx48xJuSNV/FW319xqfp2RXsSZD2W4OX+Bh
+ 6BQ2Kz4rAPqAXvrgL05SXvMw2YcI3p338qBK0Yl37ctr0fK0CtXa7wTuK8NbP1LOEUkQ
+ 42kpVM7J82d38BND3qbHMclWuo5X1s230hk9RqEw7rewx6TNnD7yo2FhKbpylNX4UCTm
+ 2Q7aXe5OapwdWyFtTXDhIbwGuHO6HtOqT5PFh2FH8xSV9iMO48+v0uocr8Gxsd+FvWTj mQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j181xhcq7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Aug 2022 04:17:22 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27I4HJvb018166
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Aug 2022 04:17:21 GMT
+Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 17 Aug 2022 07:58:26 -0700
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ Rob Clark <robdclark@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, "Stephen
+ Boyd" <swboyd@chromium.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 2/5] clk: qcom: Allow custom reset ops
+Date: Wed, 17 Aug 2022 20:27:51 +0530
+Message-ID: <20220817202609.v2.2.I75baff799a363bbb960376539e3a0f737377c3f1@changeid>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1660748274-39239-1-git-send-email-quic_akhilpo@quicinc.com>
+References: <1660748274-39239-1-git-send-email-quic_akhilpo@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/bridge: sii902x: add support for
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Content-Language: en-US
-To: Dmitry Osipenko <digetx@gmail.com>, andrzej.hajda@intel.com,
- robert.foss@linaro.org, Linus Walleij <linus.walleij@linaro.org>,
- Rob Herring <robh+dt@kernel.org>
-References: <20220113144305.1074389-1-narmstrong@baylibre.com>
- <25976b46-21b4-6e3f-0182-85dd4ca2b654@gmail.com>
- <a4a36360-3f77-17a0-9239-08cb8c08de74@baylibre.com>
- <13bd6440-9a61-d444-518c-f4e8cba0b825@baylibre.com>
- <5a1df5ce-a497-760b-8e2c-130a0e659c0b@gmail.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <5a1df5ce-a497-760b-8e2c-130a0e659c0b@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: jnLXMnw74qtZ4uh9EG--B08m1J7W-B9Q
+X-Proofpoint-ORIG-GUID: jnLXMnw74qtZ4uh9EG--B08m1J7W-B9Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-18_02,2022-08-16_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 clxscore=1015 impostorscore=0 mlxlogscore=999 spamscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208180014
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,127 +83,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
- linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, jonas@kwiboo.se
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>, krzysztof.kozlowski@linaro.org,
+ Andy Gross <agross@kernel.org>, linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/08/2022 02:15, Dmitry Osipenko wrote:
-> 08.08.2022 12:51, Neil Armstrong пишет:
->> On 08/08/2022 11:15, Neil Armstrong wrote:
->>> Hi Dmitry,
->>>
->>> On 31/07/2022 22:07, Dmitry Osipenko wrote:
->>>> 13.01.2022 17:43, Neil Armstrong пишет:
->>>>> This adds support for DRM_BRIDGE_ATTACH_NO_CONNECTOR by adding the
->>>>> bridge get_edid() and detect() callbacks after refactoring the
->>>>> connector
->>>>> get_modes() and connector_detect() callbacks.
->>>>>
->>>>> In order to keep the bridge working, extra code in get_modes() has been
->>>>> moved to more logical places.
->>>>>
->>>>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
->>>>> ---
->>>>>    drivers/gpu/drm/bridge/sii902x.c | 129
->>>>> ++++++++++++++++++++++++-------
->>>
->>> 1 file changed, 99 insertions(+), 30 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/bridge/sii902x.c
->>>>> b/drivers/gpu/drm/bridge/sii902x.c
->>>>> index 89558e581530..65549fbfdc87 100644
->>>>> --- a/drivers/gpu/drm/bridge/sii902x.c
->>>>> +++ b/drivers/gpu/drm/bridge/sii902x.c
->>
->> [...]
->>
->>>>>        }
->>>>> +    endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
->>>>> +    if (endpoint) {
->>>>> +        struct device_node *remote =
->>>>> of_graph_get_remote_port_parent(endpoint);
->>>>> +
->>>>> +        of_node_put(endpoint);
->>>>> +        if (!remote) {
->>>>> +            dev_err(dev, "Endpoint in port@1 unconnected\n");
->>>>> +            return -ENODEV;
->>>>> +        }
->>>>> +
->>>>> +        if (!of_device_is_available(remote)) {
->>>>> +            dev_err(dev, "port@1 remote device is disabled\n");
->>>>> +            of_node_put(remote);
->>>>> +            return -ENODEV;
->>>>> +        }
->>>>> +
->>>>> +        sii902x->next_bridge = of_drm_find_bridge(remote);
->>>>> +        of_node_put(remote);
->>>>> +        if (!sii902x->next_bridge)
->>>>> +            return -EPROBE_DEFER;
->>>>
->>>> Hi,
->>>>
->>>> This patch broke ARM/QEMU vexpress display because of_drm_find_bridge()
->>>> always fail with -EPROBE_DEFER. Reverting this patch returns display
->>>> back. Please fix or revert, thanks in advance.
->>>
->>> Can you share a QEMU cmdline to reproduce ?
->>
->> Actually the vexpress DT has multiple input ports instead of a single
->> input port at @0
->> and an output port at @1 like documented in the bindings:
->>
->> vexpress-v2m.dtsi#L303-L307:
->> ports {
->>      #address-cells = <1>;
->>      #size-cells = <0>;
->>
->>      /*
->>       * Both the core tile and the motherboard routes their output
->>       * pads to this transmitter. The motherboard system controller
->>       * can select one of them as input using a mux register in
->>       * "arm,vexpress-muxfpga". The Vexpress with the CA9 core tile is
->>       * the only platform with this specific set-up.
->>       */
->>      port@0 {
->>          reg = <0>;
->>          dvi_bridge_in_ct: endpoint {
->>              remote-endpoint = <&clcd_pads_ct>;
->>          };
->>      };
->>      port@1 {
->>          reg = <1>;
->>          dvi_bridge_in_mb: endpoint {
->>              remote-endpoint = <&clcd_pads_mb>;
->>          };
->>      };
->> };
->>
->> bindings:
->>    ports:
->>      $ref: /schemas/graph.yaml#/properties/ports
->>
->>      properties:
->>        port@0:
->>          $ref: /schemas/graph.yaml#/properties/port
->>          description: Parallel RGB input port
->>
->>        port@1:
->>          $ref: /schemas/graph.yaml#/properties/port
->>          description: HDMI output port
->>
->>        port@3:
->>          $ref: /schemas/graph.yaml#/properties/port
->>          description: Sound input port
->>
->> The patch is conform to the bindings, the DT was working but is actually
->> not valid.
-> 
-> I haven't looked closely at how to fix this properly, but if we can fix
-> it using of_machine_is_compatible("arm,vexpress") workaround in the
-> driver, then it will be good enough at least as a temporal fix, IMO.
+Allow soc specific clk drivers to specify a custom reset operation. We
+will use this in an upcoming patch to allow gpucc driver to specify a
+differet reset operation for cx_gdsc.
 
-If other maintainers are ok with that, it can be temporary fix until the DT gets fixed.
+Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+---
 
-Neil
+Changes in v2:
+- Return error when a particular custom reset op is not implemented. (Dmitry)
+
+ drivers/clk/qcom/reset.c | 27 +++++++++++++++++++++++++++
+ drivers/clk/qcom/reset.h |  8 ++++++++
+ 2 files changed, 35 insertions(+)
+
+diff --git a/drivers/clk/qcom/reset.c b/drivers/clk/qcom/reset.c
+index 819d194..b7ae4a3 100644
+--- a/drivers/clk/qcom/reset.c
++++ b/drivers/clk/qcom/reset.c
+@@ -13,6 +13,21 @@
+ 
+ static int qcom_reset(struct reset_controller_dev *rcdev, unsigned long id)
+ {
++	struct qcom_reset_controller *rst;
++	const struct qcom_reset_map *map;
++
++	rst = to_qcom_reset_controller(rcdev);
++	map = &rst->reset_map[id];
++
++	if (map->ops && map->ops->reset)
++		return map->ops->reset(map->priv);
++	/*
++	 * If custom ops is implemented but just not this callback, return
++	 * error
++	 */
++	else if (map->ops)
++		return -EOPNOTSUPP;
++
+ 	rcdev->ops->assert(rcdev, id);
+ 	udelay(1);
+ 	rcdev->ops->deassert(rcdev, id);
+@@ -28,6 +43,12 @@ qcom_reset_assert(struct reset_controller_dev *rcdev, unsigned long id)
+ 
+ 	rst = to_qcom_reset_controller(rcdev);
+ 	map = &rst->reset_map[id];
++
++	if (map->ops && map->ops->assert)
++		return map->ops->assert(map->priv);
++	else if (map->ops)
++		return -EOPNOTSUPP;
++
+ 	mask = BIT(map->bit);
+ 
+ 	return regmap_update_bits(rst->regmap, map->reg, mask, mask);
+@@ -42,6 +63,12 @@ qcom_reset_deassert(struct reset_controller_dev *rcdev, unsigned long id)
+ 
+ 	rst = to_qcom_reset_controller(rcdev);
+ 	map = &rst->reset_map[id];
++
++	if (map->ops && map->ops->deassert)
++		return map->ops->deassert(map->priv);
++	else if (map->ops)
++		return -EOPNOTSUPP;
++
+ 	mask = BIT(map->bit);
+ 
+ 	return regmap_update_bits(rst->regmap, map->reg, mask, 0);
+diff --git a/drivers/clk/qcom/reset.h b/drivers/clk/qcom/reset.h
+index 2a08b5e..d4213b4 100644
+--- a/drivers/clk/qcom/reset.h
++++ b/drivers/clk/qcom/reset.h
+@@ -8,9 +8,17 @@
+ 
+ #include <linux/reset-controller.h>
+ 
++struct qcom_reset_ops {
++	int (*reset)(void *priv);
++	int (*assert)(void *priv);
++	int (*deassert)(void *priv);
++};
++
+ struct qcom_reset_map {
+ 	unsigned int reg;
+ 	u8 bit;
++	struct qcom_reset_ops *ops;
++	void *priv;
+ };
+ 
+ struct regmap;
+-- 
+2.7.4
 
