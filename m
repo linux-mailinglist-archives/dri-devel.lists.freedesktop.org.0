@@ -2,68 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0506F5979DA
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 00:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880115979F6
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 01:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3268AF9DB;
-	Wed, 17 Aug 2022 22:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16F2DAFCCE;
+	Wed, 17 Aug 2022 23:08:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4093CAF9A5
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 22:57:53 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-119-13.nat.spd-mgts.ru
- [109.252.119.13])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D8A3B6601A13;
- Wed, 17 Aug 2022 23:57:50 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1660777071;
- bh=TxAbi6e312VFgURSiMw/SYGlkhUqLRcFFtpaFQ+YP6c=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=bVhJ/k51+xGX/7nvmFj9Ku+ALaJV+LAmu2Bewec3le1Rz852ioLPvOSQZjvUUzVDY
- skjSNQfCe4YwezLyU+7KXqp15kUUZG1/j3RH61+VGYWSV5Kk5vQqb4yRCMuHfFD/QP
- BrQSvwPsbb5kDx8m6EViKnJjPv6jOXGVZa6x4WlQBlLUBHX9NmtAYpAaEhZkc+YILu
- +oOctra9txmzzu/PmRtKRMFsn/ZynZBqg09pfanq72QADeKrWPl6W8Ef8DMFPy+py3
- lwvDrCTwzkMCz3Jh/uRc47RGL4ble5AI773heECnaAfoq+nyYfbyjx52ayk6OK2xmZ
- Ewz1pZXJAuR5Q==
-Message-ID: <ff28e1b4-cda2-14b8-b9bf-10706ae52cac@collabora.com>
-Date: Thu, 18 Aug 2022 01:57:48 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Trigger Huang <Trigger.Huang@gmail.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Antonio Caggiano <antonio.caggiano@collabora.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220815095423.11131-1-dmitry.osipenko@collabora.com>
- <8230a356-be38-f228-4a8e-95124e8e8db6@amd.com>
- <134bce02-58d6-8553-bb73-42dfda18a595@collabora.com>
- <8caf3008-dcf3-985a-631e-e019b277c6f0@amd.com>
- <4fcc4739-2da9-1b89-209c-876129604d7d@amd.com>
- <14be3b22-1d60-732b-c695-ddacc6b21055@collabora.com>
- <2df57a30-2afb-23dc-c7f5-f61c113dd5b4@collabora.com>
- <57562db8-bacf-e82d-8417-ab6343c1d2fa@amd.com>
- <86a87de8-24a9-3c53-3ac7-612ca97e41df@collabora.com>
- <8f749cd0-9a04-7c72-6a4f-a42d501e1489@amd.com>
- <5340d876-62b8-8a64-aa6d-7736c2c8710f@collabora.com>
- <594f1013-b925-3c75-be61-2d649f5ca54e@amd.com>
- <6893d5e9-4b60-0efb-2a87-698b1bcda63e@collabora.com>
- <73e5ed8d-0d25-7d44-8fa2-e1d61b1f5a04@amd.com>
- <c9d89644-409e-0363-69f0-a3b8f2ef0ae4@collabora.com>
- <6effcd33-8cc3-a4e0-3608-b9cef7a76da7@collabora.com>
-In-Reply-To: <6effcd33-8cc3-a4e0-3608-b9cef7a76da7@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7C1AAC892
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 23:08:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660777702; x=1692313702;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=04UR7kiKXBQc4LHVWASajk0vpB8u6NxqBiW/D5jzGKE=;
+ b=fKT29Eo4wybeyqjvi6cNjEN3iIrcw9lic9LwRhAMbM2iRRY3DBFDFesd
+ nfReghf64AZ3Ex9I4wGQSCoPXQeQbcQOEEiEPC4gTi0MZrHQYbsmH3OFm
+ /iycuu/xrNuDv6Sus6o5B10kS72qVTq4juGxc4LrO1zMsqi7HBfFwOGA/
+ Lcj5deB5pHSjFLl7tOSVOZ8A839EPlrPLpXHlZFKysvu8GtcsDpFEKQLY
+ 9Lh3AA/QkFhUoEumN5HoYdJbsjt8PJ//gZheGoPY24zy6tFdRp4CO7BhX
+ Ca9KgkuJrKhNz/csTDP8FX5HMKQ3UOTYs6NNXOoynxoffWSeKBgehGMeJ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="279587798"
+X-IronPort-AV: E=Sophos;i="5.93,244,1654585200"; d="scan'208";a="279587798"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2022 16:08:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,244,1654585200"; d="scan'208";a="640640820"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga001.jf.intel.com with ESMTP; 17 Aug 2022 16:08:21 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Wed, 17 Aug 2022 16:08:20 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Wed, 17 Aug 2022 16:08:20 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Wed, 17 Aug 2022 16:08:20 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Wed, 17 Aug 2022 16:08:20 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=doHMCLCXYI2HxUPUzULbOjcaMTczq2mPO11N8mOl7+LAegfDzmxBPfODiFupBl45BoOk18wYAdAIOHgI3rU8UxjZ6BIQe5EpJQctiPuKB+KC83I4zKsFcJhdzc1o2dpnA02xU/k5PD33V/h8VVfblt5/CGDV7WWSTgu73nFhlxT55s44+D/AzFeF2uXAwxb+IxvZ2hQDqWo8+e7aDOsvLmvkcOC/fJoqleWEAgEL7gWFTA25iVg8RZQ3oXpvHpQnbKJBenMu0pO0UTQyS8jcJkBX0xyxEPk1D+7abaQG6iM1vVf7mG+MchpnEgDCt4bx/971ZStb/8ZMoRts5w5vdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZjnHyRWuYsgeDkLrpIp6cE9rRXPrNUcwxkcbsuRjdBk=;
+ b=hpe+cL+EmIA8D3kG1GCdWNiK6/tLzhnl9JLHY1efua3ekxoEfHrrEi+fHO+uLpfHaV1fgV2leZOmh4oKXs1EfURErpvb2yn3DflQlr15z1BXvwM6Sw+APy3/EMoMH9n8/x9taQD3JdYiv4LTDNYt8oRnkkQauDzVFBS7pKATiHq/T0qg5+K4o5LyxbSKSTUtG1cBmNOz9vKQv1Bmt0KRKwahinNTElM5ycQfPr0obQni1n61msuNe5efkvugriVMdyN0XRzp/SbPAnfVOrly2B75N0kt/UuvZlc1qJm9sTgqWzgzR9GSbJZBxGYW9Tzb9p/ZCTRNK0ltJCesSFMjWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
+ MN2PR11MB4190.namprd11.prod.outlook.com (2603:10b6:208:13e::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Wed, 17 Aug
+ 2022 23:08:16 +0000
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::b04c:807c:4ea0:c62e]) by DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::b04c:807c:4ea0:c62e%9]) with mapi id 15.20.5525.010; Wed, 17 Aug 2022
+ 23:08:16 +0000
+From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/3] drm: Use full allocated minor range for DRM
+Date: Thu, 18 Aug 2022 01:05:57 +0200
+Message-ID: <20220817230600.272790-1-michal.winiarski@intel.com>
+X-Mailer: git-send-email 2.37.1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0165.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a2::10) To DM4PR11MB5373.namprd11.prod.outlook.com
+ (2603:10b6:5:394::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 474b2502-af33-4b3c-0e75-08da80a55df8
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4190:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CVSMe9w068Olt1mY1fJYzOxypMbEXNLXbpTOXYUN8v05p4bLw9qVFfPMcukRGnkdlTKlLFDI4/Lg+BzcHpciIpouA9pygO4O2jIw/e245s3Jncy+GqyOrFpQMqwlyTCeN45zvg/rDJTzC9S6NQ/o8hOAS6kj2CiLyOmNZ31Du+bPGsTQMvnAm9WRHDGhVi0YL46ZP35FKljnYxPCmvRq6PWRCPKC0Kknn+2Ag/QJ7E7ffdcIescOh4gi4vFh2kX2QmESgD5zpriLEltO4KzjorCeoro0p8e8sJTrOWjRCdTApHsCD2exrjHI7DoZozNEEh+2DXSTxYdReqhfvMYP9szLtV6b2OIzu6QZOfkqbNtDaw2brtSWOH2IKw2dBHj4Gdh3rBpDdAB+svkEyG+l22GW64HCSCTt6WhQK+6x9r1PZ4YnrFcdHru4vA3fWC8gIw14Aqm6nvhhJMWp/ebiK0/6kq++42TZmnYT1gJNaNUNHs3n6kMtvwGPeGxN7jagdAcMvAWiCaZ6d6z2AHZUbPq/LpjVSr/A6tsjgzyC62WMQHQJkwFrXfJu129x26+MBLr9e11rRor5w1pPKfUC2of84QbvK2s4L3jxZWTBeXHbISDZ89ClbvD4qeaDg7iyhsSMjFJMZTJ2HxQQ0QWnKSJG9efLvG16nbZoQckNkGkJK/3AvRtCdPZ8ahd1ZC6z2N7BCsWP/UQFkVTk8JmGaw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(39860400002)(136003)(396003)(366004)(346002)(376002)(86362001)(82960400001)(38100700002)(4744005)(316002)(54906003)(6916009)(2906002)(66476007)(66556008)(66946007)(4326008)(8676002)(8936002)(5660300002)(2616005)(1076003)(186003)(83380400001)(478600001)(6486002)(41300700001)(6666004)(6512007)(6506007)(26005)(36756003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1VxOUMyMzMyMktrd1VLZEpCUURsUHJDaHZsRko5U2VEQjBoVWFzYktLK3Ew?=
+ =?utf-8?B?b0NqOXR1WE05U1VOd2dubUVJNFJGRDNxMFBQQ1A0WkVMeHgzL2xkeUEzKzFK?=
+ =?utf-8?B?UnNuNTFid0lFL1RzT0Z3Z1NFb0F2ZnI0MnR6RkJlZWVrMkI2R1gwdzhISmRP?=
+ =?utf-8?B?alQvRWhPRkgvWTY0aGZDNFR6MDFzazJrVXFmb2lUOTd4LzlVNmhuSkc3Slpm?=
+ =?utf-8?B?V1JzS3BhNWJGdjZveEhVTFFBb2hGOEN6dXFEVjkxenhWbVZXaEt4ZWMvZDNo?=
+ =?utf-8?B?by8zVmxUUkpwcVdoNzRBdVptUDRLZ3BQbVBSbVFoK1FaU2xtNEw0Z1NrZHd1?=
+ =?utf-8?B?STFYb2VtUklYOEpUeDZJQ1cySllvUTJuUE9IT0ZiZzEyNjcwWUZadElKWW5s?=
+ =?utf-8?B?Rno5RWFkamkrQ3IwVisrUkE0NzM1bWdrR0ZWOTZnYjNhV21wdDQydUsrMFJ1?=
+ =?utf-8?B?NDZWZmhRYms3MDM0ZTFqMDF6bnZrTUE3L3FQSm13ZnlrOWhoQi9qSmFwT3I2?=
+ =?utf-8?B?aWIwdXk3MmVnRDlPSXBSSm1JQVR5WFRxUVFaeHM1UEI5K1lTa01BR1MyQmFY?=
+ =?utf-8?B?VFB1QzhUNHhud1VGU25QT2dHSWc3SGRCblBIRXgvZldkaWYwczhOWjArV0Jw?=
+ =?utf-8?B?WGNicnJsYU9DUEdoQWEvSDB2aGhJL1F1a3ZzdVVaQjNuZ3R2Q2VkNmNhbVdx?=
+ =?utf-8?B?UlBoOW5WM2ZXc3oxQzIwelF4cG9qUFIxT3hVanMwVXJPS3VaWTZwaEhPdmtE?=
+ =?utf-8?B?Q0tYV3F6VWNjSDRnRHAzNkNSVXBQQkpZVkZmSVJIK1JLVE91YktHVXZpNEls?=
+ =?utf-8?B?NTlPRDRzUjg2K3pIbUJpMjk3ek1NR04zWFBTOVpkWFRnRHgvckhEbEZ1clp2?=
+ =?utf-8?B?TzdJTnNpd3RCSXQ2aXhNaDhhUVg0WVowa2liTDFheEw1TTZNTWZxd3hxd2FH?=
+ =?utf-8?B?ODdLT1piQkNJdkNjOHlqN2Y2eEw5V0tJSzcvN3VWQzVpSWhSVGxUV0ZIQVFK?=
+ =?utf-8?B?akhZU3A1bXhNWlBOeEZraU44MSsrR1cvM2YxQVdtZ0ZWWFovbmEyeVpYUlds?=
+ =?utf-8?B?bVcwR2pPaDNMSmg5MndlN3lQeHdSSGpsSzNqQ1k4Z0JIV0VlQUtoRCtYNVFE?=
+ =?utf-8?B?NW9aZno2MUxHVnFmSmFOY29PZGVvbW9qeE9YZkJadGpvK3VnK09SYkx6Sm5o?=
+ =?utf-8?B?ZWZWOGVjNWRWY201dVNLTGZLdHRCdW1yb1AzVzNsQ1I0VzNteTdBMEJZZXJR?=
+ =?utf-8?B?WHRvaERFdE5Hb3NqYjdxeWY3NHVNZTBXajdlMmVhOFBsSnZQUzNDeEhKMDNi?=
+ =?utf-8?B?ZW4vOWQza1NyOE42eG1NR01ITEpxbDVaK2VyblZpc2RKZFRIMlBaRWFsZkEw?=
+ =?utf-8?B?NUkwdlpJVml3WVhEQkZraytqSVl4RnlLcDVOUWcwb1NuNVNEWmlQSUJTakVm?=
+ =?utf-8?B?NlZtbXZMQW8wM29tbCtjZ1R2eEpUQkZhaXpTampzYjdjOFhRdEVVRSswWGlD?=
+ =?utf-8?B?NUpuWTZoTGx5S1hZeGROTDRzbDB1VTU1S1NWT05aOTl1dXNaZHVyOGZIdXJL?=
+ =?utf-8?B?STlEVmxONmtPNmpjNXFEZk0xSWc1dHBwbXpwMTF0QkhUMHZPRllqVkRsVkpo?=
+ =?utf-8?B?a2l4VFRwQUY4NDg0NXNJRzJmYVVrV1k1MGxOZ1hSYmFqSTdhcXRjekU3cHd0?=
+ =?utf-8?B?eWREUmJoVEJsbDV5Yld3a0FGb3R4dFFnUXNPWSthOWZyTkp5RXFkckprSnRL?=
+ =?utf-8?B?b2o5dHJoalBOSTRTM2ZES3hvdmRWeEx5VTlUbG1QLzNBUzFUYjNWQUdUMVow?=
+ =?utf-8?B?L2FNMGc0RDcxMit3TjJtYjd3dTNnWFZoSlNvd0tjZWkyRjdVNlByMHNVbFZ0?=
+ =?utf-8?B?Z215c2NwLzVJVE9Ra3IzWWNjQ1lqTytZekdhN0dRdHpFRjNubU5hWFBMTnhS?=
+ =?utf-8?B?MVFRV2lienEwNnFCUEF2NXJ4c3ppQlVHOVl0SnFJWWZMMlVPQ0piV0NNejBs?=
+ =?utf-8?B?aitBa05lOTFPUU9IaXhTWTZkWEhEMVhJdE9rZjRvVHhWRE10TVVabTBtTCtF?=
+ =?utf-8?B?WUpQNnNLUU1WbnA0WmtrK242MnpEOWJkYlgwVWxPTHYyUmw4S0ZUaVRYRlp0?=
+ =?utf-8?B?eWNuSUFBbDVoR3JYUHd1VFZZZ2hMM0sxb0gxT0VVejhkQ1MzTHhmdmhxVktK?=
+ =?utf-8?B?V3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 474b2502-af33-4b3c-0e75-08da80a55df8
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2022 23:08:16.2092 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yLxArDVY2DKTofHCimYAvCMYPz/rLLBopPZcwwnfsCakWySrGkfpHrxsh1gcpN3xgtPXdol7uR/abx3u05CpLSXYM6hP6wc+D1R5S4yOBZM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4190
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,71 +153,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com
+Cc: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/15/22 18:54, Dmitry Osipenko wrote:
-> On 8/15/22 17:57, Dmitry Osipenko wrote:
->> On 8/15/22 16:53, Christian König wrote:
->>> Am 15.08.22 um 15:45 schrieb Dmitry Osipenko:
->>>> [SNIP]
->>>>> Well that comment sounds like KVM is doing the right thing, so I'm
->>>>> wondering what exactly is going on here.
->>>> KVM actually doesn't hold the page reference, it takes the temporal
->>>> reference during page fault and then drops the reference once page is
->>>> mapped, IIUC. Is it still illegal for TTM? Or there is a possibility for
->>>> a race condition here?
->>>>
->>>
->>> Well the question is why does KVM grab the page reference in the first
->>> place?
->>>
->>> If that is to prevent the mapping from changing then yes that's illegal
->>> and won't work. It can always happen that you grab the address, solve
->>> the fault and then immediately fault again because the address you just
->>> grabbed is invalidated.
->>>
->>> If it's for some other reason than we should probably investigate if we
->>> shouldn't stop doing this.
->>
->> CC: +Paolo Bonzini who introduced this code
->>
->> commit add6a0cd1c5ba51b201e1361b05a5df817083618
->> Author: Paolo Bonzini <pbonzini@redhat.com>
->> Date:   Tue Jun 7 17:51:18 2016 +0200
->>
->>     KVM: MMU: try to fix up page faults before giving up
->>
->>     The vGPU folks would like to trap the first access to a BAR by setting
->>     vm_ops on the VMAs produced by mmap-ing a VFIO device.  The fault
->> handler
->>     then can use remap_pfn_range to place some non-reserved pages in the
->> VMA.
->>
->>     This kind of VM_PFNMAP mapping is not handled by KVM, but follow_pfn
->>     and fixup_user_fault together help supporting it.  The patch also
->> supports
->>     VM_MIXEDMAP vmas where the pfns are not reserved and thus subject to
->>     reference counting.
->>
->> @Paolo,
->> https://lore.kernel.org/dri-devel/73e5ed8d-0d25-7d44-8fa2-e1d61b1f5a04@amd.com/T/#m7647ce5f8c4749599d2c6bc15a2b45f8d8cf8154
->>
-> 
-> If we need to bump the refcount only for VM_MIXEDMAP and not for
-> VM_PFNMAP, then perhaps we could add a flag for that to the kvm_main
-> code that will denote to kvm_release_page_clean whether it needs to put
-> the page?
+64 DRM device nodes is not enough for everyone.
+Upgrade it to 512K (which definitely is more than enough).
+Additionally - one minor tweak around minor IDR locking.
 
-The other variant that kind of works is to mark TTM pages reserved using
-SetPageReserved/ClearPageReserved, telling KVM not to mess with the page
-struct. But the potential consequences of doing this are unclear to me.
+Michał Winiarski (3):
+  drm: Don't reserve minors for control nodes
+  drm: Expand max DRM device number to full MINORBITS
+  drm: Use mutex for minors
 
-Christian, do you think we can do it?
+ drivers/gpu/drm/drm_drv.c | 45 ++++++++++++++++++---------------------
+ include/drm/drm_file.h    |  1 -
+ 2 files changed, 21 insertions(+), 25 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.37.2
+
