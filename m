@@ -1,55 +1,138 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DA65976FF
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 21:43:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F67E5977BE
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 22:18:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09EEA542D;
-	Wed, 17 Aug 2022 19:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B26D5A2E72;
+	Wed, 17 Aug 2022 20:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B54578B79E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 19:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660765272;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v0Wfu+SZ+ikuYM9N7f1Wk4Vi4tH6NDQB171ET2lIA6c=;
- b=jRwvhXk7B1iXUpgKAqi5P3Kmsc9k1B4DcH82qJxPbU0fSHxZsq8SFJMA2vVNpA4pi8ppZX
- Wh9EwlntU4KdxRaXefbewb4Ogc4GDvWI06LDZUph0jbjjLRdaZO3DoMC3+Rf8p6C4DxYNL
- vqPZPUxuukHe2N2McY1oRptZEBys4YE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-NByGEAp3O_-a0RUSpb83xg-1; Wed, 17 Aug 2022 15:41:09 -0400
-X-MC-Unique: NByGEAp3O_-a0RUSpb83xg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6543285A588;
- Wed, 17 Aug 2022 19:41:07 +0000 (UTC)
-Received: from emerald.redhat.com (unknown [10.22.18.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 73145492C3B;
- Wed, 17 Aug 2022 19:41:05 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: [RFC v4 17/17] drm/display/dp_mst: Move all payload info into the
- atomic state
-Date: Wed, 17 Aug 2022 15:38:46 -0400
-Message-Id: <20220817193847.557945-18-lyude@redhat.com>
-In-Reply-To: <20220817193847.557945-1-lyude@redhat.com>
-References: <20220817193847.557945-1-lyude@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2087.outbound.protection.outlook.com [40.107.237.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8994B18A827;
+ Wed, 17 Aug 2022 20:18:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QMVnBVUqsItaR+du2W/u7xrQhIv+nolZ0zgznrjJ0JmPCTX9gGmlERXqQe5cn0a03KeYHd12JJwBGY2aJt4ZmKkcAXJPhEX9sF/T0G1CDd7n4Cj8MboWyDixQCRlmntObz14wrL3MNOl1/WmXO8Ava3EfAUV94I56cUQyXlhb7Tsf9yMYs1gU/EGCGGEo7HI+agzk6JzixKv00rdq3pEOTfkIUfJCuTcD/e254iKy0ur0v3IHWG/UTy5rrClGFueAUEA30qcoI4I0cEsIjy1xMdU5QmFrKJPLMBt/vN0msjoTaijsHdNQjf45wPsTvFSrFlrQ1ZYcYTQ5KS+dN2oXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ew3yU6bBYmVbn6dCpQw9XqirmIV8bvOMM3SK/pRqYk4=;
+ b=bTe7CNLKOirVYAe0KgkVJilrdHOQlGpcjp9xsVcXuui4ILO+OlkDMXA3wxXyCMnHV90dW/cAJXyyYD29pcB4EeYJoK+uwm8ipnA6riN/hEQRGUa6efVHlw3ovtSXhY/8TiVPACTKTCpONcj9dipMAz++Yy/rFCPYXa9Ku671SSyXn9741kA0nTu/x66MRJEWOhHtWd1v4qdTIu7IhVAWhgiqRkIUiBo3xZJiS+d61IVmSLXrjoG9tzivgtbkEuhwbBJ2ZtB9yUFGYf7kydWh7HAyedfMvFbIVTVrHXk32YXueENtE1e/z+RsNkQQiDyDd6AStdrD7L/lonfBqafX/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ew3yU6bBYmVbn6dCpQw9XqirmIV8bvOMM3SK/pRqYk4=;
+ b=YRZn53whxJcmmvA67MYKHgonStKhx1JqjTBjuslVjp9d+hQ20YpopmJsqYevIfdjMkNMXs6xhzonavwTXmSYypa7YgnbTWYIfT9sudp0fDRIqg07pmaV4rx+Rj2uSlyajwQkHWdSnrdpieShPnB0/I2F7Ly75F9gfixTy0keiEaeuDEjQ9lTSqLKP7T4TvovI81YoUH6t1N6pfzW9Ucd5HJLMJWMks0Ie1cQGbuIVh23YGHsuD2asRGxQmCs6JcdzgVyO0RLJaG1mk/MkiIhwP90KWV1QQwYcHxdmL5EBqRmG1QtZGZIAjKTu5kqeMTSY3mGT55FyaxAACHS96BB+A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB2760.namprd12.prod.outlook.com (2603:10b6:a03:72::16)
+ by CY4PR1201MB0246.namprd12.prod.outlook.com (2603:10b6:910:23::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Wed, 17 Aug
+ 2022 20:18:12 +0000
+Received: from BYAPR12MB2760.namprd12.prod.outlook.com
+ ([fe80::21f8:7f65:69f8:c83d]) by BYAPR12MB2760.namprd12.prod.outlook.com
+ ([fe80::21f8:7f65:69f8:c83d%4]) with mapi id 15.20.5504.028; Wed, 17 Aug 2022
+ 20:18:12 +0000
+Subject: Re: [PATCH v2 01/29] ACPI: video: Add
+ acpi_video_backlight_use_native() helper
+To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Xinhui <Xinhui.Pan@amd.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>
+References: <20220712193910.439171-1-hdegoede@redhat.com>
+ <20220712193910.439171-2-hdegoede@redhat.com>
+ <641cb059-48f5-5f05-5ec2-610f1215391c@nvidia.com>
+ <20e4ffcf-2a3a-e671-5f98-1602b78df3cb@nvidia.com>
+ <331ebd23-d2a4-bb33-5462-b9bd3284ab69@redhat.com>
+ <5cfb26a2-ec7b-578e-dc01-79776dc7e0c9@nvidia.com>
+ <94c69af4-5a30-0b80-fce1-64d01858d79b@redhat.com>
+From: Daniel Dadap <ddadap@nvidia.com>
+Message-ID: <98cb14c9-6b9a-9410-98e3-24c31950597d@nvidia.com>
+Date: Wed, 17 Aug 2022 15:18:03 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
+In-Reply-To: <94c69af4-5a30-0b80-fce1-64d01858d79b@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Content-Language: en-US
+X-ClientProxiedBy: DM6PR10CA0022.namprd10.prod.outlook.com
+ (2603:10b6:5:60::35) To BYAPR12MB2760.namprd12.prod.outlook.com
+ (2603:10b6:a03:72::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 77957f54-ab72-489c-18e9-08da808d9b90
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0246:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YCPP6mpJR81xpa6Xelu7+zGA9NUUN37hONkLiiXtinhuDlOCuWzH/aMVGhcTYxhI7/zetDtNnFcmCmCCyaTTxUhESreMMOsXol18lwgrfLFpuEffco6W8l9HgJ3PRdlYHU64LTNHi+/00t0OsH6jJPP6xBy51qQt0gSfSqHB/Hu5HyTSszmCduQJ4DGwrS0oXGFGw0QDkzXnCBL6t9GCJ01Jl4NIfXgKcvHzGet87WXvLsQR/bKGCMYt2tMkZMxfQ4lf6ujLXkBfRznlDB15zugTpaK6BH0486R7DrOiND6eChSNi2LeFRcJs1uDfPDucw2fxS1AjD7Ki74zRVD175WfiLZ8FSgpbVR4jKG7XUlyROE637IzJ1z0kcA6d0pmJArhtm4xv+XzOwbZDxUGNUdzUTxib/npSUZtjzpNmc7XyNrZMO/w5O2wDXCBpgm8B5oqBZ1YK4Z/XW5NjVMXbWpUJp9rpJqD3GICx5BSe0dapSxNkgRhP0wWXDB6ByrT3ku7FNV24b3zoYe2+HpOxAlHIG74nhN4ua9uW6nY6iWm3ko7LbLgltOjvYLmU810Ui38vf/GmKtpJuEzgdj1ZCNebMh2hTNFyDilF4Tt/qCmnYuL9qnmS1VC1AsTudGFKRhP9+mIh3meb60lxkRHlxOcq+tLgDzFDaxA8ZRIsjt0Hm0XKQfxD//Pvt8/KLsNYM5MmI/aUY0KaY75W8XqC9q/kN5DVFjLZGFANfbf5u76uYlrM5kaEs6YyfdhuB8xGG9LUlHf1betBR0nZi9LcuP2TZp7Dnc6RqOtl2pDCzefbRhffVm2E+QGTDa0WKn4
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB2760.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(136003)(346002)(396003)(39860400002)(366004)(2616005)(36756003)(186003)(6512007)(53546011)(26005)(6506007)(6666004)(6486002)(41300700001)(31686004)(478600001)(8676002)(31696002)(86362001)(83380400001)(110136005)(921005)(8936002)(316002)(5660300002)(38100700002)(2906002)(7416002)(30864003)(66556008)(54906003)(66476007)(4326008)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VlEySFNwR0V4dnBIVC9yNFlzMTI4c2szVmFiQVpkTnNYaVRVK3RTS3lKWWZY?=
+ =?utf-8?B?ems1Y2kzUGQyR1lPQnVrZml5RitIMXdMVUdNdFl2aVZZcFdkeXUxUGhrRi9a?=
+ =?utf-8?B?dHRVa2JmY0dmWGNKa2M5U0RMNnFkWG5neHpHR2h0cFRIRWVqZ3dRVi9Ic1Jy?=
+ =?utf-8?B?ZkRDTnIrQTdNNzB0RFBMUUFOeGV6V0FacFhEMjQvVE8vcDl5Ky82dVFvVkxF?=
+ =?utf-8?B?STNWejdQb2VPanUwYk5rQXpmRkhxMXZpMjJRTFBNL2FXYmVlL1FhcTI1b0xX?=
+ =?utf-8?B?UnJ1RzRVSnEyVnUwcVN5TlJwYmpmQkk1QkFHcmRicVRMMDJXbmxpMnkzQSsr?=
+ =?utf-8?B?SXBzMnNvMUgzOFZ3Um1RRmFsWUtvZVNINlZFVnBlLzRKcWNZdjhDLzRsdVlq?=
+ =?utf-8?B?UDRFdFA2RmN4cmh1THlGNEdmeHJ0K2pxL1V1WnpVWER4OTdGaDhqUlZQRkps?=
+ =?utf-8?B?QTVuUUVFWUFJdDhJTmRiT1NOMnJ1bEJIUEVVTklyQUdOQ2V1TkFUNDZmNysv?=
+ =?utf-8?B?akRVQWYvOTJLNFM3b2V2R3BQQTFvR0Uzb0YvbjQ0d0t2SERwelAwNFNSUVM2?=
+ =?utf-8?B?YmxhZkV1bFlCWi9yMVVLR2xFclNLcld1d2lNdlAyYW9wWlhETGJOMFo4dGVw?=
+ =?utf-8?B?RTNpcHIrdHBYOUF3YVZ1eXEzU1djNlRFVFNkRFR1Rm1JYmtIeWtrYWg0R3NB?=
+ =?utf-8?B?VS9hT3BRRGxFYkoraFNreWIvVW0wdFlwSUdrWGkwVGo2OHRVbjdyV3V1a3JP?=
+ =?utf-8?B?Z1FnNjRIK24xMFBmN3VpVFd5RGNDTmpZMS9UWGdPdmxrR042YlQwaTRGMzFH?=
+ =?utf-8?B?SmJ6YndZNk91Ri9vQzFEc2NYUXRUdzhFRG16VDFWOEw0UzlId29EeEl3Nnor?=
+ =?utf-8?B?azFlSExqQy9mTU92WXJmZTFzdjIvTGl3RmZsMmlYWk1ZOUFYOTdzb1grNHhr?=
+ =?utf-8?B?QmhwQ2RuWDArQ3djNmxyOGVVWjJaeGNQNDAzcnVzNXNXeHMxdEtadmxJWVpv?=
+ =?utf-8?B?R1lFbDAvS3ptRUpiNE5wdUNlK1JQRkJvNkZPQ0ltbmVEdGdGNEd4UUpWc1RD?=
+ =?utf-8?B?M0twZDdiQTR5TUdLaXNHQzRQOGJsb0RnOHVwRGFLTy9zMzA1NEQ5cTdPVG1q?=
+ =?utf-8?B?eG5pWERSczl0TWpGbFNibFNBRFJQaXBRbzBiQWZXaWxWTjloY2ZkM2taenZH?=
+ =?utf-8?B?L3ErYkxWV3VYdWtUcFEyM0YyUWovZ21hT1gwamVUYy84YjVWWFN2bk1Yc1pY?=
+ =?utf-8?B?YmE0WVBxN2hJaGVEKzNvTWx4c2ljaGdESzg2Qm1jSndOdlNnOXB1anBVR1hM?=
+ =?utf-8?B?aE92dGdjNkNQQ1NaUWkrcEhHaUJGV00wcVRJbTdGY1F3Z0lBMWppWlFIMkhG?=
+ =?utf-8?B?U3lMTnlXeGgybFhYelNyY2d5Tk9GMjhlZWNrbkFIaENJcldoNzRrN2NsK0FG?=
+ =?utf-8?B?UG0rSEZ2NUtKWVkyY2VLelNuOFpMcVdneFFwN3ZlWkMzV0lIOHd3dFpmS05Z?=
+ =?utf-8?B?aURiL0VSTmo5c2p2RzNnYU1UREVEVE9LNEF6ZU9ERTN5Zjd2cnVQSnY5MWFk?=
+ =?utf-8?B?RFFuVXlHY0gyOXBlTzlCWFI3eTZ3WFZVbWcwaUZnc1AydjZJL3hYa3VTQTFN?=
+ =?utf-8?B?eitRSXNxNm9VNm1EMXJVUURXOEU5RFFldi9scks4NGpHcTF1U2Y5dXg1dTJH?=
+ =?utf-8?B?OWZiMkNXV1BVUGZCNmIrKysrQ1Z2ZEhYb3VBREVmaFk4b1pnaFk5S0FHK1li?=
+ =?utf-8?B?Wlc4L1Y3VFBMKzhPWmNVTVVKcGJEbFY0TWdGcmhVdlJFbFlscjgvaUJ1K0dH?=
+ =?utf-8?B?MWtMVGNTSFdPWFdQOE5sSHJ4VVh6ZmRqWEdsdzhCdjVRYXRrSkc5MWhEcTBK?=
+ =?utf-8?B?UEpNZUo0ZDUyb2NxRzdrbzlhcDNQUDNGL0pYb0JBMjcrUlJZbmZtR2pSbjRh?=
+ =?utf-8?B?Z2NhSzZyYVVuQUVTY3NmbVJDNmJwWHpDb0Y3dU52SEREK3JPN2o4Wm9uK1VS?=
+ =?utf-8?B?QUY0aEdRbjhCYzY5UDNJNVE5ckpOTjJ3OWxmdDBwMHFoT0hxVGM0ZWVqMWs4?=
+ =?utf-8?B?TlNURUNCK1cyUUpVUjFRTTdWRTQzRldzL3QvL1dMMnRlUjMzQWpxeHRMbU02?=
+ =?utf-8?Q?yySjhcFQ4hlktScYfIkabuyOR?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77957f54-ab72-489c-18e9-08da808d9b90
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2760.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2022 20:18:11.9221 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n2/+ov6yS7SZwthV23t+bNrgMnuGT5iIrpyvlFhDAN61qMEIxi28e929u+5imezij/lYmLkRu7zGK7eWXlMZkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0246
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,2551 +145,372 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ian Chen <ian.chen@amd.com>, Karol Herbst <kherbst@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- open list <linux-kernel@vger.kernel.org>, Jun Lei <jun.lei@amd.com>,
- Hangyu Hua <hbh25y@gmail.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Fangzhi Zuo <Jerry.Zuo@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Michael Strauss <michael.strauss@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
- George Shen <george.shen@amd.com>, Dave Airlie <airlied@redhat.com>,
- Juston Li <juston.li@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@intel.com>, Anshuman Gupta <anshuman.gupta@intel.com>,
- Wenjing Liu <wenjing.liu@amd.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- hersen wu <hersenxs.wu@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- "Leo \(Hanghong\) Ma" <hanghong.ma@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>, Sean Paul <sean@poorly.run>,
- He Ying <heying24@huawei.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jude Shih <shenshih@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Roman Li <roman.li@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Claudio Suarez <cssk@net-c.es>, Wayne Lin <Wayne.Lin@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
- Colin Ian King <colin.king@intel.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Fernando Ramos <greenfoo@u92.eu>
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we've finally gotten rid of the non-atomic MST users leftover in
-the kernel, we can finally get rid of all of the legacy payload code we
-have and move as much as possible into the MST atomic state structs. The
-main purpose of this is to make the MST code a lot less confusing to work
-on, as there's a lot of duplicated logic that doesn't really need to be
-here. As well, this should make introducing features like fallback link
-retraining and DSC support far easier.
+On 8/17/22 10:05 AM, Hans de Goede wrote:
+> Hi Daniel,
+>
+> On 8/2/22 18:49, Daniel Dadap wrote:
+>> On 8/2/22 06:31, Hans de Goede wrote:
+>>> Hi Daniel,
+>>>
+>>> On 7/21/22 23:30, Daniel Dadap wrote:
+>>>> On 7/21/22 16:24, Daniel Dadap wrote:
+>>>>> On 7/12/22 14:38, Hans de Goede wrote:
+>>>>>> ATM on x86 laptops where we want userspace to use the acpi_video backlight
+>>>>>> device we often register both the GPU's native backlight device and
+>>>>>> acpi_video's firmware acpi_video# backlight device. This relies on
+>>>>>> userspace preferring firmware type backlight devices over native ones, but
+>>>>>> registering 2 backlight devices for a single display really is undesirable.
+>>>>>>
+>>>>>> On x86 laptops where the native GPU backlight device should be used,
+>>>>>> the registering of other backlight devices is avoided by their drivers
+>>>>>> using acpi_video_get_backlight_type() and only registering their backlight
+>>>>>> if the return value matches their type.
+>>>>>>
+>>>>>> acpi_video_get_backlight_type() uses
+>>>>>> backlight_device_get_by_type(BACKLIGHT_RAW) to determine if a native
+>>>>>> driver is available and will never return native if this returns
+>>>>>> false. This means that the GPU's native backlight registering code
+>>>>>> cannot just call acpi_video_get_backlight_type() to determine if it
+>>>>>> should register its backlight, since acpi_video_get_backlight_type() will
+>>>>>> never return native until the native backlight has already registered.
+>>>>>>
+>>>>>> To fix this add a new internal native function parameter to
+>>>>>> acpi_video_get_backlight_type(), which when set to true will make
+>>>>>> acpi_video_get_backlight_type() behave as if a native backlight has
+>>>>>> already been registered.
+>>>>>>
+>>>>>> And add a new acpi_video_backlight_use_native() helper, which sets this
+>>>>>> to true, for use in native GPU backlight code.
+>>>>>>
+>>>>>> Changes in v2:
+>>>>>> - Replace adding a native parameter to acpi_video_get_backlight_type() with
+>>>>>>      adding a new acpi_video_backlight_use_native() helper.
+>>>>>>
+>>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>>>> ---
+>>>>>>     drivers/acpi/video_detect.c | 24 ++++++++++++++++++++----
+>>>>>>     include/acpi/video.h        |  5 +++++
+>>>>>>     2 files changed, 25 insertions(+), 4 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
+>>>>>> index becc198e4c22..4346c990022d 100644
+>>>>>> --- a/drivers/acpi/video_detect.c
+>>>>>> +++ b/drivers/acpi/video_detect.c
+>>>>>> @@ -17,8 +17,9 @@
+>>>>>>      * Otherwise vendor specific drivers like thinkpad_acpi, asus-laptop,
+>>>>>>      * sony_acpi,... can take care about backlight brightness.
+>>>>>>      *
+>>>>>> - * Backlight drivers can use acpi_video_get_backlight_type() to determine
+>>>>>> - * which driver should handle the backlight.
+>>>>>> + * Backlight drivers can use acpi_video_get_backlight_type() to determine which
+>>>>>> + * driver should handle the backlight. RAW/GPU-driver backlight drivers must
+>>>>>> + * use the acpi_video_backlight_use_native() helper for this.
+>>>>>>      *
+>>>>>>      * If CONFIG_ACPI_VIDEO is neither set as "compiled in" (y) nor as a module (m)
+>>>>>>      * this file will not be compiled and acpi_video_get_backlight_type() will
+>>>>>> @@ -548,9 +549,10 @@ static int acpi_video_backlight_notify(struct notifier_block *nb,
+>>>>>>      * Arguably the native on win8 check should be done first, but that would
+>>>>>>      * be a behavior change, which may causes issues.
+>>>>>>      */
+>>>>>> -enum acpi_backlight_type acpi_video_get_backlight_type(void)
+>>>>>> +static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+>>>>>>     {
+>>>>>>         static DEFINE_MUTEX(init_mutex);
+>>>>>> +    static bool native_available;
+>>>>>>         static bool init_done;
+>>>>>>         static long video_caps;
+>>>>>>     @@ -570,6 +572,8 @@ enum acpi_backlight_type acpi_video_get_backlight_type(void)
+>>>>>>                 backlight_notifier_registered = true;
+>>>>>>             init_done = true;
+>>>>>>         }
+>>>>>> +    if (native)
+>>>>>> +        native_available = true;
+>>>>>>         mutex_unlock(&init_mutex);
+>>>>>>           if (acpi_backlight_cmdline != acpi_backlight_undef)
+>>>>>> @@ -581,13 +585,25 @@ enum acpi_backlight_type acpi_video_get_backlight_type(void)
+>>>>>>         if (!(video_caps & ACPI_VIDEO_BACKLIGHT))
+>>>>>>             return acpi_backlight_vendor;
+>>>>>>     -    if (acpi_osi_is_win8() && backlight_device_get_by_type(BACKLIGHT_RAW))
+>>>>>> +    if (acpi_osi_is_win8() &&
+>>>>>> +        (native_available || backlight_device_get_by_type(BACKLIGHT_RAW)))
+>>>>>>             return acpi_backlight_native;
+>>>>>>           return acpi_backlight_video;
+>>>>> So I ran into a minor problem when testing the NVIDIA proprietary driver against this change set, after checking acpi_video_backlight_use_native() before registering the NVIDIA proprietary driver's backlight handler. Namely, for the case where a user installs the NVIDIA proprietary driver after the video.ko has already registered its backlight handler, we end up with both the firmware and native handlers registered simultaneously, since the ACPI video driver no longer unregisters its backlight handler. In this state, desktop environments end up preferring the registered but non-functional firmware handler from video.ko. (Manually twiddling the sysfs interface for the native NVIDIA handler works fine.) When rebooting the system after installing the NVIDIA proprietary driver, it is able to register its native handler before the delayed work to register the ACPI video backlight handler fires, so we end up with only one (native) handler, and userspace is happy.
+>>>>>
+>>>>> Maybe this will be moot later on, when the existing sysfs interface is deprecated, and it probably isn't a huge deal, since a reboot fixes things (I imagine installing an in-tree DRM/KMS driver on an already running kernel isn't really a thing, which is why this isn't a problem with the in-tree drivers), but would it make sense to unregister the ACPI video backlight handler here before returning acpi_backlight_native? That way, we'll briefly end up with zero backlight handlers rather than briefly ending up with two of them. Not sure if that's really any better, though.
+>>>>>
+>>>> Thinking about this a little more, maybe it's better not to overly complicate things, and just assert that users of the NVIDIA proprietary driver will need to reboot after installation in order to get the backlight working, at least until we get further along in this effort and the backlight interface transitions to the DRM connector property you have proposed.
+>>> Right, this series stops unregistering the acpi_video# /sys/class/backlight
+>>> devices because the idea is to never register them in the first place.
+>>>
+>>> Registering them in the first place causes 2 problems:
+>>>
+>>> 1. It causes userspace to see udev events for the register + unregister
+>>> and by the time the systemd backlight level save/restore helper runs
+>>> from udev the unregister has already happened and it logs ugly errors.
+>>> More in general this kinda racy behavior just is ugly.
+>>>
+>>> 2. On some hw merely registering the backlight device, which I think
+>>> at least tries to retrieve the current level through ACPI, is causing
+>>> issues. So now we have DMI quirks to force the native backlight on
+>>> some devices, even though the heuristics also say native eventually,
+>>> just to avoid the race. Avoiding the add + remove dance allows
+>>> us to drop a bunch of quirks and likely also fixes issues on other
+>>> devices which we don't yet know need the quirk.
+>>
+>> Yes, those sound like good reasons to avoid registering the ACPI video backlight driver wherever possible.
+>>
+>>
+>>> So this patch-set changes the acpi_video.c code to no longer register
+>>> the acpi_video# backlight devices at init time *at all*. Instead native
+>>> drivers are supposed to now call acpi_video_register_backlight()
+>>> when they have found an internal panel. But to avoid this causing
+>>> the acpi_video# backlight devices to not show up at all in some
+>>> cases (e.g. native kms drivers blacklisted) the acpi_video code
+>>> also calls acpi_video_register_backlight() itself after 8 seconds.
+>>>
+>>> I believe this is what you are hitting, the 8 seconds have passed
+>>> before the nvidia driver calls acpi_video_backlight_use_native(),
+>>> so the acpi_video# backlight devices have registered (and no longer
+>>> go away).
+>>>
+>>> This is not only a problem when installing the nvidia binary driver
+>>> for the first time. It can also be a problem if the binary driver
+>>> is not in the initrd and leaving the initrd takes longer then
+>>> 8 seconds, say because of a diskcrypt password. So I believe that
+>>> this really can be a problem with the nvidia binary driver.
+>>
+>> Hmm. I hadn't considered the case of the binary driver being absent from the initrd, and the possibility of the transition out of the initrd happening after the timeout. Yes, this is a bigger problem than the "only after first installing the driver" scenario I ran into.
+>>
+>>
+>>> But I think this is easy to fix. We could make the 8 second
+>>> delay configurable by replacing the ACPI_VIDEO_REGISTER_BACKLIGHT_DELAY
+>>> define with a module-parameter; and we could make "0" as value mean
+>>> that acpi_video.c will never call acpi_video_register_backlight()
+>>> itself.
+>>>
+>>> Since the various (also counting distor packaging) nvidia binary
+>>> driver installers already all modify the kernel commandline to
+>>> blacklist nouveau, then the installers can just also pass this
+>>> parameter and then acpi_video.c will never register the acpi_video#.
+>>
+>> This sounds like a reasonable compromise, but I worry that it may be difficult to determine whether a system definitely doesn't need the ACPI video backlight driver. On the other hand, the last system that I recall personally seeing that did use the ACPI video backlight driver was a little over 10 years ago, so it's possible that there are no systems which use that driver which are supported by current versions of the NVIDIA proprietary driver. I'll have to do some research to determine what types of systems actually used video.ko's backlight driver, unless you happen to know already.
+> Generally the backlight control method / fw interface to use depends
+> on the Era of the laptop:
+>
+> 1. pre Windows XP Era laptops use vendor specific ACPI or SMBIOS interfaces
+>     such as those dealt with by dell-laptop, thinkpad-acpi, etc.
+> 2. Windows XP Era (which ends with Win 8/Vista) laptops used the ACPI video
+>     bus backlight interface
+> 3. Win 8/Vista and later Era laptops use the GPU driver's native backlight
+>     support instead of some firmware interface
+>
+> This is generalizing things a bit. E.g. esp during the transition between
+> the Eras often both Era methods (e.g vendor + acpi-video) would work
+> equally well.
+>
+> So wrt your questions, generally speaking any laptops which were
+> designed for Win8/Vista or newer no longer use the ACPI video
+> interface.
+>
+> So yes it is possible that there are no systems supported by
+> the latest NVIDIA proprietary driver which need ACPI video at
+> all. OTOH on dual-GPU setups with muxes it is not unreasonable
+> for ACPI video to actually be the driver which needs to be
+> used in case e.g. the backlight control is hooked up to the
+> EC so that it does not need to go through the mux. Basically
+> ACPI video Should work well (if the ACPI tables are written
+> properly) in setups where the EC drivers the backlight and
+> where this the GPU driver cannot control it directly. So
+> their might very well be pre nvidia-wmi-ec-backlight laptops
+> which use ACPI video to control the brightness through the EC.
 
-Since the old payload code was pretty gnarly and there's a Lot of changes
-here, I expect this might be a bit difficult to review. So to make things
-as easy as possible for reviewers, I'll sum up how both the old and new
-code worked here (it took me a while to figure this out too!).
 
-The old MST code basically worked by maintaining two different payload
-tables - proposed_vcpis, and payloads. proposed_vcpis would hold the
-modified payload we wanted to push to the topology, while payloads held the
-payload table that was currently programmed in hardware. Modifications to
-proposed_vcpis would be handled through drm_dp_allocate_vcpi(),
-drm_dp_mst_deallocate_vcpi(), and drm_dp_mst_reset_vcpi_slots(). Then, they
-would be pushed via drm_dp_mst_update_payload_step1() and
-drm_dp_mst_update_payload_step2().
+Thanks. My understanding is that EC-driven backlight on muxed systems is 
+always controlled by the interface that the nvidia-wmi-ec-backlight 
+driver uses, but that could be true only for newer designs with NVIDIA 
+discrete GPUs. On older designs the mux was not intended to be switched 
+while a GPU was actively driving the display, so it seems unlikely, but 
+not impossible, that such designs would have seen a need to control the 
+backlight brightness via something other than one of the GPUs.
 
-Furthermore, it's important to note how adding and removing VC payloads
-actually worked with drm_dp_mst_update_payload_step1(). When a VC payload
-is removed from the VC table, all VC payloads which come after the removed
-VC payload's slots must have their time slots shifted towards the start of
-the table. The old code handles this by looping through the entire payload
-table and recomputing the start slot for every payload in the topology from
-scratch. While very much overkill, this ends up doing the right thing
-because we always order the VCPIs for payloads from first to last starting
-timeslot.
 
-It's important to also note that drm_dp_mst_update_payload_step2() isn't
-actually limited to updating a single payload - the driver can use it to
-queue up multiple payload changes so that as many of them can be sent as
-possible before waiting for the ACT. This is -technically- not against
-spec, but as Wayne Lin has pointed out it's not consistently implemented
-correctly in hubs - so it might as well be.
+>>> This does mean that the nvidia binary driver then must call
+>>> acpi_video_register_backlight() when an internal panel is found.
+>>>
+>>> Note the current patches to amdgpu/nouveau skip the calling of
+>>> acpi_video_register_backlight() when
+>>> the acpi_video_backlight_use_native() call returns true and they
+>>> have registered their own backlight. But calling it always is ok
+>>> *as long as the driver is driving the laptops internal panel* !
+>>>
+>>> acpi_video_register_backlight() contains:
+>>>
+>>>          if (acpi_video_get_backlight_type() != acpi_backlight_video)
+>>>                   return 0;
+>>>
+>>> So calling it when a native backlight has already been registered
+>>> is a no-op.
+>>
+>> The NVIDIA proprietary driver will already know when it has registered its own backlight handler, so there probably isn't any need to always call it when driving an internal panel.
+> Ok.
+>
+>> I'll have to double-check to see if we have already determined whether a panel is connected before registering the backlight handler: I am pretty certain that is the case.
+> Yeah registering a backlight handler when there is no internal panel would be weird.
+>
+>> One further potential difficulty that I anticipate is that not all dynamic mux systems use the EC backlight driver (or a similar, GPU-agnostic driver), and rather have whichever GPU happens to be connected at the time be responsible for the backlight. I had initially thought that supporting the EC backlight interface was a requirement for OEMs to implement dynamic mux support, but I recently learned this is not true in all cases. On Windows, this requires coordinating the backlight controls of the two GPU drivers across a mux switch, to load the state of the switched-away-from GPU and set it on the switched-to GPU. I imagine for these systems we may need to do some similar save/restore, probably managed by vga-switcheroo, but it would require having both GPU drivers register their own native backlight handlers (and possibly while one of them is not connected to the panel).
+> Right, systems where the backlight control basically gets muxed from one GPU to the other GPU together with the panel's video-data lines exist. Currently Linux already register both native GPU backlight handlers in this case. e.g. /sys/class/backlight/intel_backlight and /sys/class/backlight/nouveau_bl.
+>
+> Userspace (atleast GNOME) has code which checks which GPU is actually connected to the panel using the panel's drm connector's status on each GPU (only one of which should report connected) and then uses the backlight interface associated with the connected connector.
+>
+>> Dynamic mux switching isn't actually supported on Linux, yet, so we should be able to kick this particular can a little further down the road, but in the meantime we should probably start planning for how best to handle this sort of system under the "only one backlight handler per panel" model. Maybe the vga-switcheroo handler can register its own backlight handler, that then negotiates the actual backlight settings between the relevant GPU drivers, possibly through a new vga-switcheroo client callback. I'll have to think about this a bit more.
+> The "only one backlight handler per panel" model is actualy "only one backlight handler per panel"-connector since the new API uses drm properties on the drm connector object. With 2 GPUs both using their native backlight control there will be 2 connectors and userspace will/must use the one which is actually reporting that it is connected to the panel so this will work fine.
 
-drm_dp_mst_update_payload_step2() is pretty self explanatory and basically
-the same between the old and new code, save for the fact we don't have a
-second step for deleting payloads anymore -and thus rename it to
-drm_dp_mst_add_payload_step2().
 
-The new payload code stores all of the current payload info within the MST
-atomic state and computes as much of the state as possible ahead of time.
-This has the one exception of the starting timeslots for payloads, which
-can't be determined at atomic check time since the starting time slots will
-vary depending on what order CRTCs are enabled in the atomic state - which
-varies from driver to driver. These are still stored in the atomic MST
-state, but are only copied from the old MST state during atomic commit
-time. Likewise, this is when new start slots are determined.
+That is a useful distinction. Would it fall under userspace's 
+reponsibility, then, to keep the brightness level synchronized across 
+drm_connectors that share a panel via a mux when performing a switch? I 
+suppose it's a cleaner design to leave it up to userspace to select 
+which backlight interface to manipulate. That is a harder decision for 
+userspace to make with the existing design, which doesn't cleanly map 
+sysfs backlight interfaces to individual connectors, but if the UAPI is 
+going to change to a drm_connector property, backlight interfaces are 
+obviously strongly correlated with the connectors. I'm not sure how easy 
+it is for userspace to solve the problem of maintaining consistent 
+brightness levels across a mux switch for an OLED panel, where there 
+really isn't a concept of a "backlight" to speak of, but I suppose it 
+wouldn't be any easier to do that in the kernel (e.g. with vga-switcheroo).
 
-Adding/removing payloads now works much more closely to how things are
-described in the spec. When we delete a payload, we loop through the
-current list of payloads and update the start slots for any payloads whose
-time slots came after the payload we just deleted. Determining the starting
-time slots for new payloads being added is done by simply keeping track of
-where the end of the VC table is in
-drm_dp_mst_topology_mgr->next_start_slot. Additionally, it's worth noting
-that we no longer have a single update_payload() function. Instead, we now
-have drm_dp_mst_add_payload_step1|2() and drm_dp_mst_remove_payload(). As
-such, it's now left it up to the driver to figure out when to add or remove
-payloads. The driver already knows when it's disabling/enabling CRTCs, so
-it also already knows when payloads should be added or removed.
 
-Changes since v1:
-* Refactor around all of the completely dead code changes that are
-  happening in amdgpu for some reason when they really shouldn't even be
-  there in the first place… :\
-* Remove mention of sending one ACT per series of payload updates. As Wayne
-  Lin pointed out, there are apparently hubs on the market that don't work
-  correctly with this scheme and require a separate ACT per payload update.
-* Fix accidental drop of mst_mgr.lock - Wayne Lin
-* Remove mentions of allowing multiple ACT updates per payload change,
-  mention that this is a result of vendors not consistently supporting this
-  part of the spec and requiring a unique ACT for each payload change.
-* Get rid of reference to drm_dp_mst_port in DC - turns out I just got
-  myself confused by DC and we don't actually need this.
-Changes since v2:
-* Get rid of fix for not sending payload deallocations if ddps=0 and just
-  go back to wayne's fix
+> If anything the nvidia-wmi-ec-backlight case is a but more tricky, the "only one backlight handler per panel" thing is actually more of a "only one backlight handler per laptop" rule which is intended for (to be written) drm helpers for the new properties to be able to get the handler from the backlight class in the non native case by just taking the first registered backlight handler.
+>
+> This means that in a dual GPU setup with nvidia-wmi-ec-backlight both GPU's panel connector objects will have their brightness properties pointing to / proxying the same backlight class device. Userspace should really be only writing to the one which is actually connected though. I guess we could even enforce this
+> in the kernel and reject brightness property writes on unconnected connectors.
+>
+>>> Please let me know if the proposed solution works for you and
+>>> if you want me to make ACPI_VIDEO_REGISTER_BACKLIGHT_DELAY a
+>>> module-option for the next version.
+>>
+>> I do think it should be workable, apart from the concern I mentioned above about knowing when to set the module option to disable the ACPI video backlight driver.
+> Note the option does not disable the ACPI video backlight driver. It disables the acpi_video code timing out and deciding to go ahead and register its backlight itself (providing that at the moment of timeout acpi_video_get_backlight_type() returns acpi_backlight_video). Any code (e.g. the nvidia binary driver) can still call acpi_video_register_backlight() itself to try and register even if the timeout handling has been disabled.
+>
+> The idea is that without the timeout the probe order looks like this:
+>
+> 1. acpi_video initializes, does not register backlight
+> 2. GPU driver initalizes, it either registers a native backlight handler;
+>     or it calls acpi_video_register_backlight()
+> 3. acpi_video_register_backlight() runs (if called) and calls:
+>     acpi_video_get_backlight_type()
+> 4.1 if acpi_video_get_backlight_type() returns acpi_backlight_video
+>     /sys/class/backlight/acpi_video# is/are registered
+> 4.2 if acpi_video_get_backlight_type() returns somerthing else, e.g.
+>     acpi_backlight_nvidia_wmi_ec, acpi_video_register_backlight()
+>     does nothing
+>
+>
+> The timeout is to ensure that 3. still happens, even if
+> there is no native GPU driver, because of e.g.
+> nomodeset on the kernel cmdline.
+>
+> With the nvidia binary driver, that driver can call
+> acpi_video_register_backlight() if necessary so the timeout
+> is not necessary.
+>
+> I'm currently preparing v3 of this patchset. I'll modify the
+> patch introducing the timeout to make it configurable
+> (with 0 disabling it completely).
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Cc: Wayne Lin <Wayne.Lin@amd.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Imre Deak <imre.deak@intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Sean Paul <sean@poorly.run>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  56 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 104 +--
- .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  84 +-
- .../amd/display/include/link_service_types.h  |   3 +
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 725 ++++++------------
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |  64 +-
- drivers/gpu/drm/i915/display/intel_hdcp.c     |  24 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c       | 163 ++--
- include/drm/display/drm_dp_mst_helper.h       | 177 ++---
- 9 files changed, 526 insertions(+), 874 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 789748739d79..9ab01c58bedb 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6385,6 +6385,7 @@ static int dm_encoder_helper_atomic_check(struct drm_encoder *encoder,
- 	const struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
- 	struct drm_dp_mst_topology_mgr *mst_mgr;
- 	struct drm_dp_mst_port *mst_port;
-+	struct drm_dp_mst_topology_state *mst_state;
- 	enum dc_color_depth color_depth;
- 	int clock, bpp = 0;
- 	bool is_y420 = false;
-@@ -6398,6 +6399,13 @@ static int dm_encoder_helper_atomic_check(struct drm_encoder *encoder,
- 	if (!crtc_state->connectors_changed && !crtc_state->mode_changed)
- 		return 0;
- 
-+	mst_state = drm_atomic_get_mst_topology_state(state, mst_mgr);
-+	if (IS_ERR(mst_state))
-+		return PTR_ERR(mst_state);
-+
-+	if (!mst_state->pbn_div)
-+		mst_state->pbn_div = dm_mst_get_pbn_divider(aconnector->mst_port->dc_link);
-+
- 	if (!state->duplicated) {
- 		int max_bpc = conn_state->max_requested_bpc;
- 		is_y420 = drm_mode_is_420_also(&connector->display_info, adjusted_mode) &&
-@@ -6409,11 +6417,10 @@ static int dm_encoder_helper_atomic_check(struct drm_encoder *encoder,
- 		clock = adjusted_mode->clock;
- 		dm_new_connector_state->pbn = drm_dp_calc_pbn_mode(clock, bpp, false);
- 	}
--	dm_new_connector_state->vcpi_slots = drm_dp_atomic_find_time_slots(state,
--									   mst_mgr,
--									   mst_port,
--									   dm_new_connector_state->pbn,
--									   dm_mst_get_pbn_divider(aconnector->dc_link));
-+
-+	dm_new_connector_state->vcpi_slots =
-+		drm_dp_atomic_find_time_slots(state, mst_mgr, mst_port,
-+					      dm_new_connector_state->pbn);
- 	if (dm_new_connector_state->vcpi_slots < 0) {
- 		DRM_DEBUG_ATOMIC("failed finding vcpi slots: %d\n", (int)dm_new_connector_state->vcpi_slots);
- 		return dm_new_connector_state->vcpi_slots;
-@@ -6483,18 +6490,12 @@ static int dm_update_mst_vcpi_slots_for_dsc(struct drm_atomic_state *state,
- 			dm_conn_state->pbn = pbn;
- 			dm_conn_state->vcpi_slots = slot_num;
- 
--			drm_dp_mst_atomic_enable_dsc(state,
--						     aconnector->port,
--						     dm_conn_state->pbn,
--						     0,
-+			drm_dp_mst_atomic_enable_dsc(state, aconnector->port, dm_conn_state->pbn,
- 						     false);
- 			continue;
- 		}
- 
--		vcpi = drm_dp_mst_atomic_enable_dsc(state,
--						    aconnector->port,
--						    pbn, pbn_div,
--						    true);
-+		vcpi = drm_dp_mst_atomic_enable_dsc(state, aconnector->port, pbn, true);
- 		if (vcpi < 0)
- 			return vcpi;
- 
-@@ -9336,8 +9337,6 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 	struct dm_crtc_state *dm_old_crtc_state, *dm_new_crtc_state;
- #if defined(CONFIG_DRM_AMD_DC_DCN)
- 	struct dsc_mst_fairness_vars vars[MAX_PIPES];
--	struct drm_dp_mst_topology_state *mst_state;
--	struct drm_dp_mst_topology_mgr *mgr;
- #endif
- 
- 	trace_amdgpu_dm_atomic_check_begin(state);
-@@ -9576,33 +9575,6 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 		lock_and_validation_needed = true;
- 	}
- 
--#if defined(CONFIG_DRM_AMD_DC_DCN)
--	/* set the slot info for each mst_state based on the link encoding format */
--	for_each_new_mst_mgr_in_state(state, mgr, mst_state, i) {
--		struct amdgpu_dm_connector *aconnector;
--		struct drm_connector *connector;
--		struct drm_connector_list_iter iter;
--		u8 link_coding_cap;
--
--		if (!mgr->mst_state )
--			continue;
--
--		drm_connector_list_iter_begin(dev, &iter);
--		drm_for_each_connector_iter(connector, &iter) {
--			int id = connector->index;
--
--			if (id == mst_state->mgr->conn_base_id) {
--				aconnector = to_amdgpu_dm_connector(connector);
--				link_coding_cap = dc_link_dp_mst_decide_link_encoding_format(aconnector->dc_link);
--				drm_dp_mst_update_slots(mst_state, link_coding_cap);
--
--				break;
--			}
--		}
--		drm_connector_list_iter_end(&iter);
--
--	}
--#endif
- 	/**
- 	 * Streams and planes are reset when there are changes that affect
- 	 * bandwidth. Anything that affects bandwidth needs to go through
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 77c545e670d5..7fa36ff42c0d 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -27,6 +27,7 @@
- #include <linux/acpi.h>
- #include <linux/i2c.h>
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/amdgpu_drm.h>
- #include <drm/drm_edid.h>
-@@ -154,40 +155,27 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- }
- 
- static void
--fill_dc_mst_payload_table_from_drm(struct amdgpu_dm_connector *aconnector,
--				   struct dc_dp_mst_stream_allocation_table *proposed_table)
-+fill_dc_mst_payload_table_from_drm(struct drm_dp_mst_topology_state *mst_state,
-+				   struct amdgpu_dm_connector *aconnector,
-+				   struct dc_dp_mst_stream_allocation_table *table)
- {
--	int i;
--	struct drm_dp_mst_topology_mgr *mst_mgr =
--			&aconnector->mst_port->mst_mgr;
--
--	mutex_lock(&mst_mgr->payload_lock);
--
--	proposed_table->stream_count = 0;
--
--	/* number of active streams */
--	for (i = 0; i < mst_mgr->max_payloads; i++) {
--		if (mst_mgr->payloads[i].num_slots == 0)
--			break; /* end of vcp_id table */
--
--		ASSERT(mst_mgr->payloads[i].payload_state !=
--				DP_PAYLOAD_DELETE_LOCAL);
--
--		if (mst_mgr->payloads[i].payload_state == DP_PAYLOAD_LOCAL ||
--			mst_mgr->payloads[i].payload_state ==
--					DP_PAYLOAD_REMOTE) {
--
--			struct dc_dp_mst_stream_allocation *sa =
--					&proposed_table->stream_allocations[
--						proposed_table->stream_count];
--
--			sa->slot_count = mst_mgr->payloads[i].num_slots;
--			sa->vcp_id = mst_mgr->proposed_vcpis[i]->vcpi;
--			proposed_table->stream_count++;
--		}
-+	struct dc_dp_mst_stream_allocation_table new_table = { 0 };
-+	struct dc_dp_mst_stream_allocation *sa;
-+	struct drm_dp_mst_atomic_payload *payload;
-+
-+	/* Fill payload info*/
-+	list_for_each_entry(payload, &mst_state->payloads, next) {
-+		if (payload->delete)
-+			continue;
-+
-+		sa = &new_table.stream_allocations[new_table.stream_count];
-+		sa->slot_count = payload->time_slots;
-+		sa->vcp_id = payload->vcpi;
-+		new_table.stream_count++;
- 	}
- 
--	mutex_unlock(&mst_mgr->payload_lock);
-+	/* Overwrite the old table */
-+	*table = new_table;
- }
- 
- void dm_helpers_dp_update_branch_info(
-@@ -205,11 +193,9 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
- 		bool enable)
- {
- 	struct amdgpu_dm_connector *aconnector;
--	struct dm_connector_state *dm_conn_state;
-+	struct drm_dp_mst_topology_state *mst_state;
-+	struct drm_dp_mst_atomic_payload *payload;
- 	struct drm_dp_mst_topology_mgr *mst_mgr;
--	struct drm_dp_mst_port *mst_port;
--	bool ret;
--	u8 link_coding_cap = DP_8b_10b_ENCODING;
- 
- 	aconnector = (struct amdgpu_dm_connector *)stream->dm_stream_context;
- 	/* Accessing the connector state is required for vcpi_slots allocation
-@@ -220,40 +206,21 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
- 	if (!aconnector || !aconnector->mst_port)
- 		return false;
- 
--	dm_conn_state = to_dm_connector_state(aconnector->base.state);
--
- 	mst_mgr = &aconnector->mst_port->mst_mgr;
--
--	if (!mst_mgr->mst_state)
--		return false;
--
--	mst_port = aconnector->port;
--
--#if defined(CONFIG_DRM_AMD_DC_DCN)
--	link_coding_cap = dc_link_dp_mst_decide_link_encoding_format(aconnector->dc_link);
--#endif
--
--	if (enable) {
--
--		ret = drm_dp_mst_allocate_vcpi(mst_mgr, mst_port,
--					       dm_conn_state->pbn,
--					       dm_conn_state->vcpi_slots);
--		if (!ret)
--			return false;
--
--	} else {
--		drm_dp_mst_reset_vcpi_slots(mst_mgr, mst_port);
--	}
-+	mst_state = to_drm_dp_mst_topology_state(mst_mgr->base.state);
- 
- 	/* It's OK for this to fail */
--	drm_dp_update_payload_part1(mst_mgr, (link_coding_cap == DP_CAP_ANSI_128B132B) ? 0:1);
-+	payload = drm_atomic_get_mst_payload_state(mst_state, aconnector->port);
-+	if (enable)
-+		drm_dp_add_payload_part1(mst_mgr, mst_state, payload);
-+	else
-+		drm_dp_remove_payload(mst_mgr, mst_state, payload);
- 
- 	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
- 	 * AUX message. The sequence is slot 1-63 allocated sequence for each
- 	 * stream. AMD ASIC stream slot allocation should follow the same
- 	 * sequence. copy DRM MST allocation to dc */
--
--	fill_dc_mst_payload_table_from_drm(aconnector, proposed_table);
-+	fill_dc_mst_payload_table_from_drm(mst_state, aconnector, proposed_table);
- 
- 	return true;
- }
-@@ -310,8 +277,9 @@ bool dm_helpers_dp_mst_send_payload_allocation(
- 		bool enable)
- {
- 	struct amdgpu_dm_connector *aconnector;
-+	struct drm_dp_mst_topology_state *mst_state;
- 	struct drm_dp_mst_topology_mgr *mst_mgr;
--	struct drm_dp_mst_port *mst_port;
-+	struct drm_dp_mst_atomic_payload *payload;
- 	enum mst_progress_status set_flag = MST_ALLOCATE_NEW_PAYLOAD;
- 	enum mst_progress_status clr_flag = MST_CLEAR_ALLOCATED_PAYLOAD;
- 
-@@ -320,19 +288,16 @@ bool dm_helpers_dp_mst_send_payload_allocation(
- 	if (!aconnector || !aconnector->mst_port)
- 		return false;
- 
--	mst_port = aconnector->port;
--
- 	mst_mgr = &aconnector->mst_port->mst_mgr;
-+	mst_state = to_drm_dp_mst_topology_state(mst_mgr->base.state);
- 
--	if (!mst_mgr->mst_state)
--		return false;
--
-+	payload = drm_atomic_get_mst_payload_state(mst_state, aconnector->port);
- 	if (!enable) {
- 		set_flag = MST_CLEAR_ALLOCATED_PAYLOAD;
- 		clr_flag = MST_ALLOCATE_NEW_PAYLOAD;
- 	}
- 
--	if (drm_dp_update_payload_part2(mst_mgr)) {
-+	if (enable && drm_dp_add_payload_part2(mst_mgr, mst_state->base.state, payload)) {
- 		amdgpu_dm_set_mst_status(&aconnector->mst_status,
- 			set_flag, false);
- 	} else {
-@@ -342,9 +307,6 @@ bool dm_helpers_dp_mst_send_payload_allocation(
- 			clr_flag, false);
- 	}
- 
--	if (!enable)
--		drm_dp_mst_deallocate_vcpi(mst_mgr, mst_port);
--
- 	return true;
- }
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 7a0d6cfa77f5..bd9606307dc7 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -597,15 +597,8 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
- 
- 	dc_link_dp_get_max_link_enc_cap(aconnector->dc_link, &max_link_enc_cap);
- 	aconnector->mst_mgr.cbs = &dm_mst_cbs;
--	drm_dp_mst_topology_mgr_init(
--		&aconnector->mst_mgr,
--		adev_to_drm(dm->adev),
--		&aconnector->dm_dp_aux.aux,
--		16,
--		4,
--		max_link_enc_cap.lane_count,
--		drm_dp_bw_code_to_link_rate(max_link_enc_cap.link_rate),
--		aconnector->connector_id);
-+	drm_dp_mst_topology_mgr_init(&aconnector->mst_mgr, adev_to_drm(dm->adev),
-+				     &aconnector->dm_dp_aux.aux, 16, 4, aconnector->connector_id);
- 
- 	drm_connector_attach_dp_subconnector_property(&aconnector->base);
- }
-@@ -710,6 +703,7 @@ static int bpp_x16_from_pbn(struct dsc_mst_fairness_params param, int pbn)
- }
- 
- static bool increase_dsc_bpp(struct drm_atomic_state *state,
-+			     struct drm_dp_mst_topology_state *mst_state,
- 			     struct dc_link *dc_link,
- 			     struct dsc_mst_fairness_params *params,
- 			     struct dsc_mst_fairness_vars *vars,
-@@ -722,12 +716,9 @@ static bool increase_dsc_bpp(struct drm_atomic_state *state,
- 	int min_initial_slack;
- 	int next_index;
- 	int remaining_to_increase = 0;
--	int pbn_per_timeslot;
- 	int link_timeslots_used;
- 	int fair_pbn_alloc;
- 
--	pbn_per_timeslot = dm_mst_get_pbn_divider(dc_link);
--
- 	for (i = 0; i < count; i++) {
- 		if (vars[i + k].dsc_enabled) {
- 			initial_slack[i] =
-@@ -758,17 +749,17 @@ static bool increase_dsc_bpp(struct drm_atomic_state *state,
- 		link_timeslots_used = 0;
- 
- 		for (i = 0; i < count; i++)
--			link_timeslots_used += DIV_ROUND_UP(vars[i + k].pbn, pbn_per_timeslot);
-+			link_timeslots_used += DIV_ROUND_UP(vars[i + k].pbn, mst_state->pbn_div);
- 
--		fair_pbn_alloc = (63 - link_timeslots_used) / remaining_to_increase * pbn_per_timeslot;
-+		fair_pbn_alloc =
-+			(63 - link_timeslots_used) / remaining_to_increase * mst_state->pbn_div;
- 
- 		if (initial_slack[next_index] > fair_pbn_alloc) {
- 			vars[next_index].pbn += fair_pbn_alloc;
- 			if (drm_dp_atomic_find_time_slots(state,
- 							  params[next_index].port->mgr,
- 							  params[next_index].port,
--							  vars[next_index].pbn,
--							  pbn_per_timeslot) < 0)
-+							  vars[next_index].pbn) < 0)
- 				return false;
- 			if (!drm_dp_mst_atomic_check(state)) {
- 				vars[next_index].bpp_x16 = bpp_x16_from_pbn(params[next_index], vars[next_index].pbn);
-@@ -777,8 +768,7 @@ static bool increase_dsc_bpp(struct drm_atomic_state *state,
- 				if (drm_dp_atomic_find_time_slots(state,
- 								  params[next_index].port->mgr,
- 								  params[next_index].port,
--								  vars[next_index].pbn,
--								  pbn_per_timeslot) < 0)
-+								  vars[next_index].pbn) < 0)
- 					return false;
- 			}
- 		} else {
-@@ -786,8 +776,7 @@ static bool increase_dsc_bpp(struct drm_atomic_state *state,
- 			if (drm_dp_atomic_find_time_slots(state,
- 							  params[next_index].port->mgr,
- 							  params[next_index].port,
--							  vars[next_index].pbn,
--							  pbn_per_timeslot) < 0)
-+							  vars[next_index].pbn) < 0)
- 				return false;
- 			if (!drm_dp_mst_atomic_check(state)) {
- 				vars[next_index].bpp_x16 = params[next_index].bw_range.max_target_bpp_x16;
-@@ -796,8 +785,7 @@ static bool increase_dsc_bpp(struct drm_atomic_state *state,
- 				if (drm_dp_atomic_find_time_slots(state,
- 								  params[next_index].port->mgr,
- 								  params[next_index].port,
--								  vars[next_index].pbn,
--								  pbn_per_timeslot) < 0)
-+								  vars[next_index].pbn) < 0)
- 					return false;
- 			}
- 		}
-@@ -854,8 +842,7 @@ static bool try_disable_dsc(struct drm_atomic_state *state,
- 		if (drm_dp_atomic_find_time_slots(state,
- 						  params[next_index].port->mgr,
- 						  params[next_index].port,
--						  vars[next_index].pbn,
--						  dm_mst_get_pbn_divider(dc_link)) < 0)
-+						  vars[next_index].pbn) < 0)
- 			return false;
- 
- 		if (!drm_dp_mst_atomic_check(state)) {
-@@ -866,8 +853,7 @@ static bool try_disable_dsc(struct drm_atomic_state *state,
- 			if (drm_dp_atomic_find_time_slots(state,
- 							  params[next_index].port->mgr,
- 							  params[next_index].port,
--							  vars[next_index].pbn,
--							  dm_mst_get_pbn_divider(dc_link)) < 0)
-+							  vars[next_index].pbn) < 0)
- 				return false;
- 		}
- 
-@@ -881,17 +867,27 @@ static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
- 					     struct dc_state *dc_state,
- 					     struct dc_link *dc_link,
- 					     struct dsc_mst_fairness_vars *vars,
-+					     struct drm_dp_mst_topology_mgr *mgr,
- 					     int *link_vars_start_index)
- {
--	int i, k;
- 	struct dc_stream_state *stream;
- 	struct dsc_mst_fairness_params params[MAX_PIPES];
- 	struct amdgpu_dm_connector *aconnector;
-+	struct drm_dp_mst_topology_state *mst_state = drm_atomic_get_mst_topology_state(state, mgr);
- 	int count = 0;
-+	int i, k;
- 	bool debugfs_overwrite = false;
- 
- 	memset(params, 0, sizeof(params));
- 
-+	if (IS_ERR(mst_state))
-+		return false;
-+
-+	mst_state->pbn_div = dm_mst_get_pbn_divider(dc_link);
-+#if defined(CONFIG_DRM_AMD_DC_DCN)
-+	drm_dp_mst_update_slots(mst_state, dc_link_dp_mst_decide_link_encoding_format(dc_link));
-+#endif
-+
- 	/* Set up params */
- 	for (i = 0; i < dc_state->stream_count; i++) {
- 		struct dc_dsc_policy dsc_policy = {0};
-@@ -950,11 +946,8 @@ static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
- 		vars[i + k].pbn = kbps_to_peak_pbn(params[i].bw_range.stream_kbps);
- 		vars[i + k].dsc_enabled = false;
- 		vars[i + k].bpp_x16 = 0;
--		if (drm_dp_atomic_find_time_slots(state,
--						  params[i].port->mgr,
--						  params[i].port,
--						  vars[i + k].pbn,
--						  dm_mst_get_pbn_divider(dc_link)) < 0)
-+		if (drm_dp_atomic_find_time_slots(state, params[i].port->mgr, params[i].port,
-+						  vars[i + k].pbn) < 0)
- 			return false;
- 	}
- 	if (!drm_dp_mst_atomic_check(state) && !debugfs_overwrite) {
-@@ -968,21 +961,15 @@ static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
- 			vars[i + k].pbn = kbps_to_peak_pbn(params[i].bw_range.min_kbps);
- 			vars[i + k].dsc_enabled = true;
- 			vars[i + k].bpp_x16 = params[i].bw_range.min_target_bpp_x16;
--			if (drm_dp_atomic_find_time_slots(state,
--							  params[i].port->mgr,
--							  params[i].port,
--							  vars[i + k].pbn,
--							  dm_mst_get_pbn_divider(dc_link)) < 0)
-+			if (drm_dp_atomic_find_time_slots(state, params[i].port->mgr,
-+							  params[i].port, vars[i + k].pbn) < 0)
- 				return false;
- 		} else {
- 			vars[i + k].pbn = kbps_to_peak_pbn(params[i].bw_range.stream_kbps);
- 			vars[i + k].dsc_enabled = false;
- 			vars[i + k].bpp_x16 = 0;
--			if (drm_dp_atomic_find_time_slots(state,
--							  params[i].port->mgr,
--							  params[i].port,
--							  vars[i + k].pbn,
--							  dm_mst_get_pbn_divider(dc_link)) < 0)
-+			if (drm_dp_atomic_find_time_slots(state, params[i].port->mgr,
-+							  params[i].port, vars[i + k].pbn) < 0)
- 				return false;
- 		}
- 	}
-@@ -990,7 +977,7 @@ static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
- 		return false;
- 
- 	/* Optimize degree of compression */
--	if (!increase_dsc_bpp(state, dc_link, params, vars, count, k))
-+	if (!increase_dsc_bpp(state, mst_state, dc_link, params, vars, count, k))
- 		return false;
- 
- 	if (!try_disable_dsc(state, dc_link, params, vars, count, k))
-@@ -1136,8 +1123,9 @@ bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
- 			continue;
- 
- 		mutex_lock(&aconnector->mst_mgr.lock);
--		if (!compute_mst_dsc_configs_for_link(state, dc_state, stream->link,
--			vars, &link_vars_start_index)) {
-+		if (!compute_mst_dsc_configs_for_link(state, dc_state, stream->link, vars,
-+						      &aconnector->mst_mgr,
-+						      &link_vars_start_index)) {
- 			mutex_unlock(&aconnector->mst_mgr.lock);
- 			return false;
- 		}
-@@ -1195,10 +1183,8 @@ static bool
- 			continue;
- 
- 		mutex_lock(&aconnector->mst_mgr.lock);
--		if (!compute_mst_dsc_configs_for_link(state,
--						      dc_state,
--						      stream->link,
--						      vars,
-+		if (!compute_mst_dsc_configs_for_link(state, dc_state, stream->link, vars,
-+						      &aconnector->mst_mgr,
- 						      &link_vars_start_index)) {
- 			mutex_unlock(&aconnector->mst_mgr.lock);
- 			return false;
-diff --git a/drivers/gpu/drm/amd/display/include/link_service_types.h b/drivers/gpu/drm/amd/display/include/link_service_types.h
-index f75ed6f8fcb8..d76ab72baf0c 100644
---- a/drivers/gpu/drm/amd/display/include/link_service_types.h
-+++ b/drivers/gpu/drm/amd/display/include/link_service_types.h
-@@ -251,6 +251,9 @@ union dpcd_training_lane_set {
-  * _ONLY_ be filled out from DM and then passed to DC, do NOT use these for _any_ kind of atomic
-  * state calculations in DM, or you will break something.
-  */
-+
-+struct drm_dp_mst_port;
-+
- /* DP MST stream allocation (payload bandwidth number) */
- struct dc_dp_mst_stream_allocation {
- 	uint8_t vcp_id;
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index c4073d733c59..e0e68c89190f 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -68,8 +68,7 @@ static bool dump_dp_payload_table(struct drm_dp_mst_topology_mgr *mgr,
- static void drm_dp_mst_topology_put_port(struct drm_dp_mst_port *port);
- 
- static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_mgr *mgr,
--				     int id,
--				     struct drm_dp_payload *payload);
-+				     int id, u8 start_slot, u8 num_slots);
- 
- static int drm_dp_send_dpcd_read(struct drm_dp_mst_topology_mgr *mgr,
- 				 struct drm_dp_mst_port *port,
-@@ -1235,57 +1234,6 @@ build_query_stream_enc_status(struct drm_dp_sideband_msg_tx *msg, u8 stream_id,
- 	return 0;
- }
- 
--static int drm_dp_mst_assign_payload_id(struct drm_dp_mst_topology_mgr *mgr,
--					struct drm_dp_vcpi *vcpi)
--{
--	int ret, vcpi_ret;
--
--	mutex_lock(&mgr->payload_lock);
--	ret = find_first_zero_bit(&mgr->payload_mask, mgr->max_payloads + 1);
--	if (ret > mgr->max_payloads) {
--		ret = -EINVAL;
--		drm_dbg_kms(mgr->dev, "out of payload ids %d\n", ret);
--		goto out_unlock;
--	}
--
--	vcpi_ret = find_first_zero_bit(&mgr->vcpi_mask, mgr->max_payloads + 1);
--	if (vcpi_ret > mgr->max_payloads) {
--		ret = -EINVAL;
--		drm_dbg_kms(mgr->dev, "out of vcpi ids %d\n", ret);
--		goto out_unlock;
--	}
--
--	set_bit(ret, &mgr->payload_mask);
--	set_bit(vcpi_ret, &mgr->vcpi_mask);
--	vcpi->vcpi = vcpi_ret + 1;
--	mgr->proposed_vcpis[ret - 1] = vcpi;
--out_unlock:
--	mutex_unlock(&mgr->payload_lock);
--	return ret;
--}
--
--static void drm_dp_mst_put_payload_id(struct drm_dp_mst_topology_mgr *mgr,
--				      int vcpi)
--{
--	int i;
--
--	if (vcpi == 0)
--		return;
--
--	mutex_lock(&mgr->payload_lock);
--	drm_dbg_kms(mgr->dev, "putting payload %d\n", vcpi);
--	clear_bit(vcpi - 1, &mgr->vcpi_mask);
--
--	for (i = 0; i < mgr->max_payloads; i++) {
--		if (mgr->proposed_vcpis[i] &&
--		    mgr->proposed_vcpis[i]->vcpi == vcpi) {
--			mgr->proposed_vcpis[i] = NULL;
--			clear_bit(i + 1, &mgr->payload_mask);
--		}
--	}
--	mutex_unlock(&mgr->payload_lock);
--}
--
- static bool check_txmsg_state(struct drm_dp_mst_topology_mgr *mgr,
- 			      struct drm_dp_sideband_msg_tx *txmsg)
- {
-@@ -1738,7 +1686,7 @@ drm_dp_mst_dump_port_topology_history(struct drm_dp_mst_port *port) {}
- #define save_port_topology_ref(port, type)
- #endif
- 
--static struct drm_dp_mst_atomic_payload *
-+struct drm_dp_mst_atomic_payload *
- drm_atomic_get_mst_payload_state(struct drm_dp_mst_topology_state *state,
- 				 struct drm_dp_mst_port *port)
- {
-@@ -1750,6 +1698,7 @@ drm_atomic_get_mst_payload_state(struct drm_dp_mst_topology_state *state,
- 
- 	return NULL;
- }
-+EXPORT_SYMBOL(drm_atomic_get_mst_payload_state);
- 
- static void drm_dp_destroy_mst_branch_device(struct kref *kref)
- {
-@@ -3252,6 +3201,8 @@ int drm_dp_send_query_stream_enc_status(struct drm_dp_mst_topology_mgr *mgr,
- 		struct drm_dp_mst_port *port,
- 		struct drm_dp_query_stream_enc_status_ack_reply *status)
- {
-+	struct drm_dp_mst_topology_state *state;
-+	struct drm_dp_mst_atomic_payload *payload;
- 	struct drm_dp_sideband_msg_tx *txmsg;
- 	u8 nonce[7];
- 	int ret;
-@@ -3268,6 +3219,10 @@ int drm_dp_send_query_stream_enc_status(struct drm_dp_mst_topology_mgr *mgr,
- 
- 	get_random_bytes(nonce, sizeof(nonce));
- 
-+	drm_modeset_lock(&mgr->base.lock, NULL);
-+	state = to_drm_dp_mst_topology_state(mgr->base.state);
-+	payload = drm_atomic_get_mst_payload_state(state, port);
-+
- 	/*
- 	 * "Source device targets the QUERY_STREAM_ENCRYPTION_STATUS message
- 	 *  transaction at the MST Branch device directly connected to the
-@@ -3275,7 +3230,7 @@ int drm_dp_send_query_stream_enc_status(struct drm_dp_mst_topology_mgr *mgr,
- 	 */
- 	txmsg->dst = mgr->mst_primary;
- 
--	build_query_stream_enc_status(txmsg, port->vcpi.vcpi, nonce);
-+	build_query_stream_enc_status(txmsg, payload->vcpi, nonce);
- 
- 	drm_dp_queue_down_tx(mgr, txmsg);
- 
-@@ -3292,6 +3247,7 @@ int drm_dp_send_query_stream_enc_status(struct drm_dp_mst_topology_mgr *mgr,
- 	memcpy(status, &txmsg->reply.u.enc_status, sizeof(*status));
- 
- out:
-+	drm_modeset_unlock(&mgr->base.lock);
- 	drm_dp_mst_topology_put_port(port);
- out_get_port:
- 	kfree(txmsg);
-@@ -3300,238 +3256,163 @@ int drm_dp_send_query_stream_enc_status(struct drm_dp_mst_topology_mgr *mgr,
- EXPORT_SYMBOL(drm_dp_send_query_stream_enc_status);
- 
- static int drm_dp_create_payload_step1(struct drm_dp_mst_topology_mgr *mgr,
--				       int id,
--				       struct drm_dp_payload *payload)
-+				       struct drm_dp_mst_atomic_payload *payload)
- {
--	int ret;
--
--	ret = drm_dp_dpcd_write_payload(mgr, id, payload);
--	if (ret < 0) {
--		payload->payload_state = 0;
--		return ret;
--	}
--	payload->payload_state = DP_PAYLOAD_LOCAL;
--	return 0;
-+	return drm_dp_dpcd_write_payload(mgr, payload->vcpi, payload->vc_start_slot,
-+					 payload->time_slots);
- }
- 
- static int drm_dp_create_payload_step2(struct drm_dp_mst_topology_mgr *mgr,
--				       struct drm_dp_mst_port *port,
--				       int id,
--				       struct drm_dp_payload *payload)
-+				       struct drm_dp_mst_atomic_payload *payload)
- {
- 	int ret;
-+	struct drm_dp_mst_port *port = drm_dp_mst_topology_get_port_validated(mgr, payload->port);
- 
--	ret = drm_dp_payload_send_msg(mgr, port, id, port->vcpi.pbn);
--	if (ret < 0)
--		return ret;
--	payload->payload_state = DP_PAYLOAD_REMOTE;
-+	if (!port)
-+		return -EIO;
-+
-+	ret = drm_dp_payload_send_msg(mgr, port, payload->vcpi, payload->pbn);
-+	drm_dp_mst_topology_put_port(port);
- 	return ret;
- }
- 
- static int drm_dp_destroy_payload_step1(struct drm_dp_mst_topology_mgr *mgr,
--					struct drm_dp_mst_port *port,
--					int id,
--					struct drm_dp_payload *payload)
-+					struct drm_dp_mst_topology_state *mst_state,
-+					struct drm_dp_mst_atomic_payload *payload)
- {
-+
- 	drm_dbg_kms(mgr->dev, "\n");
--	/* it's okay for these to fail */
--	if (port) {
--		drm_dp_payload_send_msg(mgr, port, id, 0);
--	}
- 
--	drm_dp_dpcd_write_payload(mgr, id, payload);
--	payload->payload_state = DP_PAYLOAD_DELETE_LOCAL;
--	return 0;
--}
-+	/* it's okay for these to fail */
-+	drm_dp_payload_send_msg(mgr, payload->port, payload->vcpi, 0);
-+	drm_dp_dpcd_write_payload(mgr, payload->vcpi, payload->vc_start_slot, 0);
- 
--static int drm_dp_destroy_payload_step2(struct drm_dp_mst_topology_mgr *mgr,
--					int id,
--					struct drm_dp_payload *payload)
--{
--	payload->payload_state = 0;
- 	return 0;
- }
- 
- /**
-- * drm_dp_update_payload_part1() - Execute payload update part 1
-- * @mgr: manager to use.
-- * @start_slot: this is the cur slot
-+ * drm_dp_add_payload_part1() - Execute payload update part 1
-+ * @mgr: Manager to use.
-+ * @mst_state: The MST atomic state
-+ * @payload: The payload to write
-  *
-- * NOTE: start_slot is a temporary workaround for non-atomic drivers,
-- * this will be removed when non-atomic mst helpers are moved out of the helper
-+ * Determines the starting time slot for the given payload, and programs the VCPI for this payload
-+ * into hardware. After calling this, the driver should generate ACT and payload packets.
-  *
-- * This iterates over all proposed virtual channels, and tries to
-- * allocate space in the link for them. For 0->slots transitions,
-- * this step just writes the VCPI to the MST device. For slots->0
-- * transitions, this writes the updated VCPIs and removes the
-- * remote VC payloads.
-- *
-- * after calling this the driver should generate ACT and payload
-- * packets.
-+ * Returns: 0 on success, error code on failure. In the event that this fails,
-+ * @payload.vc_start_slot will also be set to -1.
-  */
--int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr, int start_slot)
-+int drm_dp_add_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
-+			     struct drm_dp_mst_topology_state *mst_state,
-+			     struct drm_dp_mst_atomic_payload *payload)
- {
--	struct drm_dp_payload req_payload;
- 	struct drm_dp_mst_port *port;
--	int i, j;
--	int cur_slots = start_slot;
--	bool skip;
-+	int ret;
- 
--	mutex_lock(&mgr->payload_lock);
--	for (i = 0; i < mgr->max_payloads; i++) {
--		struct drm_dp_vcpi *vcpi = mgr->proposed_vcpis[i];
--		struct drm_dp_payload *payload = &mgr->payloads[i];
--		bool put_port = false;
-+	port = drm_dp_mst_topology_get_port_validated(mgr, payload->port);
-+	if (!port)
-+		return 0;
- 
--		/* solve the current payloads - compare to the hw ones
--		   - update the hw view */
--		req_payload.start_slot = cur_slots;
--		if (vcpi) {
--			port = container_of(vcpi, struct drm_dp_mst_port,
--					    vcpi);
-+	if (mgr->payload_count == 0)
-+		mgr->next_start_slot = mst_state->start_slot;
- 
--			mutex_lock(&mgr->lock);
--			skip = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
--			mutex_unlock(&mgr->lock);
-+	payload->vc_start_slot = mgr->next_start_slot;
- 
--			if (skip) {
--				drm_dbg_kms(mgr->dev,
--					    "Virtual channel %d is not in current topology\n",
--					    i);
--				continue;
--			}
--			/* Validated ports don't matter if we're releasing
--			 * VCPI
--			 */
--			if (vcpi->num_slots) {
--				port = drm_dp_mst_topology_get_port_validated(
--				    mgr, port);
--				if (!port) {
--					if (vcpi->num_slots == payload->num_slots) {
--						cur_slots += vcpi->num_slots;
--						payload->start_slot = req_payload.start_slot;
--						continue;
--					} else {
--						drm_dbg_kms(mgr->dev,
--							    "Fail:set payload to invalid sink");
--						mutex_unlock(&mgr->payload_lock);
--						return -EINVAL;
--					}
--				}
--				put_port = true;
--			}
-+	ret = drm_dp_create_payload_step1(mgr, payload);
-+	drm_dp_mst_topology_put_port(port);
-+	if (ret < 0) {
-+		drm_warn(mgr->dev, "Failed to create MST payload for port %p: %d\n",
-+			 payload->port, ret);
-+		payload->vc_start_slot = -1;
-+		return ret;
-+	}
- 
--			req_payload.num_slots = vcpi->num_slots;
--			req_payload.vcpi = vcpi->vcpi;
--		} else {
--			port = NULL;
--			req_payload.num_slots = 0;
--		}
-+	mgr->payload_count++;
-+	mgr->next_start_slot += payload->time_slots;
- 
--		payload->start_slot = req_payload.start_slot;
--		/* work out what is required to happen with this payload */
--		if (payload->num_slots != req_payload.num_slots) {
--
--			/* need to push an update for this payload */
--			if (req_payload.num_slots) {
--				drm_dp_create_payload_step1(mgr, vcpi->vcpi,
--							    &req_payload);
--				payload->num_slots = req_payload.num_slots;
--				payload->vcpi = req_payload.vcpi;
--
--			} else if (payload->num_slots) {
--				payload->num_slots = 0;
--				drm_dp_destroy_payload_step1(mgr, port,
--							     payload->vcpi,
--							     payload);
--				req_payload.payload_state =
--					payload->payload_state;
--				payload->start_slot = 0;
--			}
--			payload->payload_state = req_payload.payload_state;
--		}
--		cur_slots += req_payload.num_slots;
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_dp_add_payload_part1);
- 
--		if (put_port)
--			drm_dp_mst_topology_put_port(port);
--	}
-+/**
-+ * drm_dp_remove_payload() - Remove an MST payload
-+ * @mgr: Manager to use.
-+ * @mst_state: The MST atomic state
-+ * @payload: The payload to write
-+ *
-+ * Removes a payload from an MST topology if it was successfully assigned a start slot. Also updates
-+ * the starting time slots of all other payloads which would have been shifted towards the start of
-+ * the VC table as a result. After calling this, the driver should generate ACT and payload packets.
-+ */
-+void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
-+			   struct drm_dp_mst_topology_state *mst_state,
-+			   struct drm_dp_mst_atomic_payload *payload)
-+{
-+	struct drm_dp_mst_atomic_payload *pos;
-+	bool send_remove = false;
- 
--	for (i = 0; i < mgr->max_payloads; /* do nothing */) {
--		if (mgr->payloads[i].payload_state != DP_PAYLOAD_DELETE_LOCAL) {
--			i++;
--			continue;
--		}
-+	/* We failed to make the payload, so nothing to do */
-+	if (payload->vc_start_slot == -1)
-+		return;
- 
--		drm_dbg_kms(mgr->dev, "removing payload %d\n", i);
--		for (j = i; j < mgr->max_payloads - 1; j++) {
--			mgr->payloads[j] = mgr->payloads[j + 1];
--			mgr->proposed_vcpis[j] = mgr->proposed_vcpis[j + 1];
-+	mutex_lock(&mgr->lock);
-+	send_remove = drm_dp_mst_port_downstream_of_branch(payload->port, mgr->mst_primary);
-+	mutex_unlock(&mgr->lock);
- 
--			if (mgr->proposed_vcpis[j] &&
--			    mgr->proposed_vcpis[j]->num_slots) {
--				set_bit(j + 1, &mgr->payload_mask);
--			} else {
--				clear_bit(j + 1, &mgr->payload_mask);
--			}
--		}
-+	if (send_remove)
-+		drm_dp_destroy_payload_step1(mgr, mst_state, payload);
-+	else
-+		drm_dbg_kms(mgr->dev, "Payload for VCPI %d not in topology, not sending remove\n",
-+			    payload->vcpi);
- 
--		memset(&mgr->payloads[mgr->max_payloads - 1], 0,
--		       sizeof(struct drm_dp_payload));
--		mgr->proposed_vcpis[mgr->max_payloads - 1] = NULL;
--		clear_bit(mgr->max_payloads, &mgr->payload_mask);
-+	list_for_each_entry(pos, &mst_state->payloads, next) {
-+		if (pos != payload && pos->vc_start_slot > payload->vc_start_slot)
-+			pos->vc_start_slot -= payload->time_slots;
- 	}
--	mutex_unlock(&mgr->payload_lock);
-+	payload->vc_start_slot = -1;
- 
--	return 0;
-+	mgr->payload_count--;
-+	mgr->next_start_slot -= payload->time_slots;
- }
--EXPORT_SYMBOL(drm_dp_update_payload_part1);
-+EXPORT_SYMBOL(drm_dp_remove_payload);
- 
- /**
-- * drm_dp_update_payload_part2() - Execute payload update part 2
-- * @mgr: manager to use.
-+ * drm_dp_add_payload_part2() - Execute payload update part 2
-+ * @mgr: Manager to use.
-+ * @state: The global atomic state
-+ * @payload: The payload to update
-  *
-- * This iterates over all proposed virtual channels, and tries to
-- * allocate space in the link for them. For 0->slots transitions,
-- * this step writes the remote VC payload commands. For slots->0
-- * this just resets some internal state.
-+ * If @payload was successfully assigned a starting time slot by drm_dp_add_payload_part1(), this
-+ * function will send the sideband messages to finish allocating this payload.
-+ *
-+ * Returns: 0 on success, negative error code on failure.
-  */
--int drm_dp_update_payload_part2(struct drm_dp_mst_topology_mgr *mgr)
-+int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
-+			     struct drm_atomic_state *state,
-+			     struct drm_dp_mst_atomic_payload *payload)
- {
--	struct drm_dp_mst_port *port;
--	int i;
- 	int ret = 0;
--	bool skip;
--
--	mutex_lock(&mgr->payload_lock);
--	for (i = 0; i < mgr->max_payloads; i++) {
--
--		if (!mgr->proposed_vcpis[i])
--			continue;
- 
--		port = container_of(mgr->proposed_vcpis[i], struct drm_dp_mst_port, vcpi);
--
--		mutex_lock(&mgr->lock);
--		skip = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
--		mutex_unlock(&mgr->lock);
--
--		if (skip)
--			continue;
-+	/* Skip failed payloads */
-+	if (payload->vc_start_slot == -1) {
-+		drm_dbg_kms(state->dev, "Part 1 of payload creation for %s failed, skipping part 2\n",
-+			    payload->port->connector->name);
-+		return -EIO;
-+	}
- 
--		drm_dbg_kms(mgr->dev, "payload %d %d\n", i, mgr->payloads[i].payload_state);
--		if (mgr->payloads[i].payload_state == DP_PAYLOAD_LOCAL) {
--			ret = drm_dp_create_payload_step2(mgr, port, mgr->proposed_vcpis[i]->vcpi, &mgr->payloads[i]);
--		} else if (mgr->payloads[i].payload_state == DP_PAYLOAD_DELETE_LOCAL) {
--			ret = drm_dp_destroy_payload_step2(mgr, mgr->proposed_vcpis[i]->vcpi, &mgr->payloads[i]);
--		}
--		if (ret) {
--			mutex_unlock(&mgr->payload_lock);
--			return ret;
--		}
-+	ret = drm_dp_create_payload_step2(mgr, payload);
-+	if (ret < 0) {
-+		if (!payload->delete)
-+			drm_err(mgr->dev, "Step 2 of creating MST payload for %p failed: %d\n",
-+				payload->port, ret);
-+		else
-+			drm_dbg_kms(mgr->dev, "Step 2 of removing MST payload for %p failed: %d\n",
-+				    payload->port, ret);
- 	}
--	mutex_unlock(&mgr->payload_lock);
--	return 0;
-+
-+	return ret;
- }
--EXPORT_SYMBOL(drm_dp_update_payload_part2);
-+EXPORT_SYMBOL(drm_dp_add_payload_part2);
- 
- static int drm_dp_send_dpcd_read(struct drm_dp_mst_topology_mgr *mgr,
- 				 struct drm_dp_mst_port *port,
-@@ -3711,7 +3592,6 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
- 	int ret = 0;
- 	struct drm_dp_mst_branch *mstb = NULL;
- 
--	mutex_lock(&mgr->payload_lock);
- 	mutex_lock(&mgr->lock);
- 	if (mst_state == mgr->mst_state)
- 		goto out_unlock;
-@@ -3719,10 +3599,6 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
- 	mgr->mst_state = mst_state;
- 	/* set the device into MST mode */
- 	if (mst_state) {
--		struct drm_dp_payload reset_pay;
--		int lane_count;
--		int link_rate;
--
- 		WARN_ON(mgr->mst_primary);
- 
- 		/* get dpcd info */
-@@ -3733,16 +3609,6 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
- 			goto out_unlock;
- 		}
- 
--		lane_count = min_t(int, mgr->dpcd[2] & DP_MAX_LANE_COUNT_MASK, mgr->max_lane_count);
--		link_rate = min_t(int, drm_dp_bw_code_to_link_rate(mgr->dpcd[1]), mgr->max_link_rate);
--		mgr->pbn_div = drm_dp_get_vc_payload_bw(mgr,
--							link_rate,
--							lane_count);
--		if (mgr->pbn_div == 0) {
--			ret = -EINVAL;
--			goto out_unlock;
--		}
--
- 		/* add initial branch device at LCT 1 */
- 		mstb = drm_dp_add_mst_branch_device(1, NULL);
- 		if (mstb == NULL) {
-@@ -3762,9 +3628,8 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
- 		if (ret < 0)
- 			goto out_unlock;
- 
--		reset_pay.start_slot = 0;
--		reset_pay.num_slots = 0x3f;
--		drm_dp_dpcd_write_payload(mgr, 0, &reset_pay);
-+		/* Write reset payload */
-+		drm_dp_dpcd_write_payload(mgr, 0, 0, 0x3f);
- 
- 		queue_work(system_long_wq, &mgr->work);
- 
-@@ -3776,19 +3641,11 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
- 		/* this can fail if the device is gone */
- 		drm_dp_dpcd_writeb(mgr->aux, DP_MSTM_CTRL, 0);
- 		ret = 0;
--		memset(mgr->payloads, 0,
--		       mgr->max_payloads * sizeof(mgr->payloads[0]));
--		memset(mgr->proposed_vcpis, 0,
--		       mgr->max_payloads * sizeof(mgr->proposed_vcpis[0]));
--		mgr->payload_mask = 0;
--		set_bit(0, &mgr->payload_mask);
--		mgr->vcpi_mask = 0;
- 		mgr->payload_id_table_cleared = false;
- 	}
- 
- out_unlock:
- 	mutex_unlock(&mgr->lock);
--	mutex_unlock(&mgr->payload_lock);
- 	if (mstb)
- 		drm_dp_mst_topology_put_mstb(mstb);
- 	return ret;
-@@ -4307,62 +4164,18 @@ struct edid *drm_dp_mst_get_edid(struct drm_connector *connector, struct drm_dp_
- }
- EXPORT_SYMBOL(drm_dp_mst_get_edid);
- 
--/**
-- * drm_dp_find_vcpi_slots() - Find time slots for this PBN value
-- * @mgr: manager to use
-- * @pbn: payload bandwidth to convert into slots.
-- *
-- * Calculate the number of time slots that will be required for the given PBN
-- * value. This function is deprecated, and should not be used in atomic
-- * drivers.
-- *
-- * RETURNS:
-- * The total slots required for this port, or error.
-- */
--int drm_dp_find_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr,
--			   int pbn)
--{
--	int num_slots;
--
--	num_slots = DIV_ROUND_UP(pbn, mgr->pbn_div);
--
--	/* max. time slots - one slot for MTP header */
--	if (num_slots > 63)
--		return -ENOSPC;
--	return num_slots;
--}
--EXPORT_SYMBOL(drm_dp_find_vcpi_slots);
--
--static int drm_dp_init_vcpi(struct drm_dp_mst_topology_mgr *mgr,
--			    struct drm_dp_vcpi *vcpi, int pbn, int slots)
--{
--	int ret;
--
--	vcpi->pbn = pbn;
--	vcpi->aligned_pbn = slots * mgr->pbn_div;
--	vcpi->num_slots = slots;
--
--	ret = drm_dp_mst_assign_payload_id(mgr, vcpi);
--	if (ret < 0)
--		return ret;
--	return 0;
--}
--
- /**
-  * drm_dp_atomic_find_time_slots() - Find and add time slots to the state
-  * @state: global atomic state
-  * @mgr: MST topology manager for the port
-  * @port: port to find time slots for
-  * @pbn: bandwidth required for the mode in PBN
-- * @pbn_div: divider for DSC mode that takes FEC into account
-  *
-- * Allocates time slots to @port, replacing any previous timeslot allocations it
-- * may have had. Any atomic drivers which support MST must call this function
-- * in their &drm_encoder_helper_funcs.atomic_check() callback to change the
-- * current timeslot allocation for the new state, but only when
-- * &drm_crtc_state.mode_changed or &drm_crtc_state.connectors_changed is set
-- * to ensure compatibility with userspace applications that still use the
-- * legacy modesetting UAPI.
-+ * Allocates time slots to @port, replacing any previous time slot allocations it may
-+ * have had. Any atomic drivers which support MST must call this function in
-+ * their &drm_encoder_helper_funcs.atomic_check() callback unconditionally to
-+ * change the current time slot allocation for the new state, and ensure the MST
-+ * atomic state is added whenever the state of payloads in the topology changes.
-  *
-  * Allocations set by this function are not checked against the bandwidth
-  * restraints of @mgr until the driver calls drm_dp_mst_atomic_check().
-@@ -4381,8 +4194,7 @@ static int drm_dp_init_vcpi(struct drm_dp_mst_topology_mgr *mgr,
-  */
- int drm_dp_atomic_find_time_slots(struct drm_atomic_state *state,
- 				  struct drm_dp_mst_topology_mgr *mgr,
--				  struct drm_dp_mst_port *port, int pbn,
--				  int pbn_div)
-+				  struct drm_dp_mst_port *port, int pbn)
- {
- 	struct drm_dp_mst_topology_state *topology_state;
- 	struct drm_dp_mst_atomic_payload *payload = NULL;
-@@ -4415,10 +4227,7 @@ int drm_dp_atomic_find_time_slots(struct drm_atomic_state *state,
- 		}
- 	}
- 
--	if (pbn_div <= 0)
--		pbn_div = mgr->pbn_div;
--
--	req_slots = DIV_ROUND_UP(pbn, pbn_div);
-+	req_slots = DIV_ROUND_UP(pbn, topology_state->pbn_div);
- 
- 	drm_dbg_atomic(mgr->dev, "[CONNECTOR:%d:%s] [MST PORT:%p] TU %d -> %d\n",
- 		       port->connector->base.id, port->connector->name,
-@@ -4427,7 +4236,7 @@ int drm_dp_atomic_find_time_slots(struct drm_atomic_state *state,
- 		       port->connector->base.id, port->connector->name,
- 		       port, prev_bw, pbn);
- 
--	/* Add the new allocation to the state */
-+	/* Add the new allocation to the state, note the VCPI isn't assigned until the end */
- 	if (!payload) {
- 		payload = kzalloc(sizeof(*payload), GFP_KERNEL);
- 		if (!payload)
-@@ -4435,6 +4244,7 @@ int drm_dp_atomic_find_time_slots(struct drm_atomic_state *state,
- 
- 		drm_dp_mst_get_port_malloc(port);
- 		payload->port = port;
-+		payload->vc_start_slot = -1;
- 		list_add(&payload->next, &topology_state->payloads);
- 	}
- 	payload->time_slots = req_slots;
-@@ -4451,10 +4261,12 @@ EXPORT_SYMBOL(drm_dp_atomic_find_time_slots);
-  * @port: The port to release the time slots from
-  *
-  * Releases any time slots that have been allocated to a port in the atomic
-- * state. Any atomic drivers which support MST must call this function in
-- * their &drm_connector_helper_funcs.atomic_check() callback when the
-- * connector will no longer have VCPI allocated (e.g. because its CRTC was
-- * removed) when it had VCPI allocated in the previous atomic state.
-+ * state. Any atomic drivers which support MST must call this function
-+ * unconditionally in their &drm_connector_helper_funcs.atomic_check() callback.
-+ * This helper will check whether time slots would be released by the new state and
-+ * respond accordingly, along with ensuring the MST state is always added to the
-+ * atomic state whenever a new state would modify the state of payloads on the
-+ * topology.
-  *
-  * It is OK to call this even if @port has been removed from the system.
-  * Additionally, it is OK to call this function multiple times on the same
-@@ -4516,6 +4328,7 @@ int drm_dp_atomic_release_time_slots(struct drm_atomic_state *state,
- 		drm_dp_mst_put_port_malloc(port);
- 		payload->pbn = 0;
- 		payload->delete = true;
-+		topology_state->payload_mask &= ~BIT(payload->vcpi - 1);
- 	}
- 
- 	return 0;
-@@ -4566,7 +4379,8 @@ int drm_dp_mst_atomic_setup_commit(struct drm_atomic_state *state)
- EXPORT_SYMBOL(drm_dp_mst_atomic_setup_commit);
- 
- /**
-- * drm_dp_mst_atomic_wait_for_dependencies() - Wait for all pending commits on MST topologies
-+ * drm_dp_mst_atomic_wait_for_dependencies() - Wait for all pending commits on MST topologies,
-+ * prepare new MST state for commit
-  * @state: global atomic state
-  *
-  * Goes through any MST topologies in this atomic state, and waits for any pending commits which
-@@ -4584,17 +4398,30 @@ EXPORT_SYMBOL(drm_dp_mst_atomic_setup_commit);
-  */
- void drm_dp_mst_atomic_wait_for_dependencies(struct drm_atomic_state *state)
- {
--	struct drm_dp_mst_topology_state *old_mst_state;
-+	struct drm_dp_mst_topology_state *old_mst_state, *new_mst_state;
- 	struct drm_dp_mst_topology_mgr *mgr;
-+	struct drm_dp_mst_atomic_payload *old_payload, *new_payload;
- 	int i, j, ret;
- 
--	for_each_old_mst_mgr_in_state(state, mgr, old_mst_state, i) {
-+	for_each_oldnew_mst_mgr_in_state(state, mgr, old_mst_state, new_mst_state, i) {
- 		for (j = 0; j < old_mst_state->num_commit_deps; j++) {
- 			ret = drm_crtc_commit_wait(old_mst_state->commit_deps[j]);
- 			if (ret < 0)
- 				drm_err(state->dev, "Failed to wait for %s: %d\n",
- 					old_mst_state->commit_deps[j]->crtc->name, ret);
- 		}
-+
-+		/* Now that previous state is committed, it's safe to copy over the start slot
-+		 * assignments
-+		 */
-+		list_for_each_entry(old_payload, &old_mst_state->payloads, next) {
-+			if (old_payload->delete)
-+				continue;
-+
-+			new_payload = drm_atomic_get_mst_payload_state(new_mst_state,
-+								       old_payload->port);
-+			new_payload->vc_start_slot = old_payload->vc_start_slot;
-+		}
- 	}
- }
- EXPORT_SYMBOL(drm_dp_mst_atomic_wait_for_dependencies);
-@@ -4679,119 +4506,8 @@ void drm_dp_mst_update_slots(struct drm_dp_mst_topology_state *mst_state, uint8_
- }
- EXPORT_SYMBOL(drm_dp_mst_update_slots);
- 
--/**
-- * drm_dp_mst_allocate_vcpi() - Allocate a virtual channel
-- * @mgr: manager for this port
-- * @port: port to allocate a virtual channel for.
-- * @pbn: payload bandwidth number to request
-- * @slots: returned number of slots for this PBN.
-- */
--bool drm_dp_mst_allocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
--			      struct drm_dp_mst_port *port, int pbn, int slots)
--{
--	int ret;
--
--	if (slots < 0)
--		return false;
--
--	port = drm_dp_mst_topology_get_port_validated(mgr, port);
--	if (!port)
--		return false;
--
--	if (port->vcpi.vcpi > 0) {
--		drm_dbg_kms(mgr->dev,
--			    "payload: vcpi %d already allocated for pbn %d - requested pbn %d\n",
--			    port->vcpi.vcpi, port->vcpi.pbn, pbn);
--		if (pbn == port->vcpi.pbn) {
--			drm_dp_mst_topology_put_port(port);
--			return true;
--		}
--	}
--
--	ret = drm_dp_init_vcpi(mgr, &port->vcpi, pbn, slots);
--	if (ret) {
--		drm_dbg_kms(mgr->dev, "failed to init time slots=%d ret=%d\n",
--			    DIV_ROUND_UP(pbn, mgr->pbn_div), ret);
--		drm_dp_mst_topology_put_port(port);
--		goto out;
--	}
--	drm_dbg_kms(mgr->dev, "initing vcpi for pbn=%d slots=%d\n", pbn, port->vcpi.num_slots);
--
--	/* Keep port allocated until its payload has been removed */
--	drm_dp_mst_get_port_malloc(port);
--	drm_dp_mst_topology_put_port(port);
--	return true;
--out:
--	return false;
--}
--EXPORT_SYMBOL(drm_dp_mst_allocate_vcpi);
--
--int drm_dp_mst_get_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port)
--{
--	int slots = 0;
--
--	port = drm_dp_mst_topology_get_port_validated(mgr, port);
--	if (!port)
--		return slots;
--
--	slots = port->vcpi.num_slots;
--	drm_dp_mst_topology_put_port(port);
--	return slots;
--}
--EXPORT_SYMBOL(drm_dp_mst_get_vcpi_slots);
--
--/**
-- * drm_dp_mst_reset_vcpi_slots() - Reset number of slots to 0 for VCPI
-- * @mgr: manager for this port
-- * @port: unverified pointer to a port.
-- *
-- * This just resets the number of slots for the ports VCPI for later programming.
-- */
--void drm_dp_mst_reset_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port)
--{
--	/*
--	 * A port with VCPI will remain allocated until its VCPI is
--	 * released, no verified ref needed
--	 */
--
--	port->vcpi.num_slots = 0;
--}
--EXPORT_SYMBOL(drm_dp_mst_reset_vcpi_slots);
--
--/**
-- * drm_dp_mst_deallocate_vcpi() - deallocate a VCPI
-- * @mgr: manager for this port
-- * @port: port to deallocate vcpi for
-- *
-- * This can be called unconditionally, regardless of whether
-- * drm_dp_mst_allocate_vcpi() succeeded or not.
-- */
--void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
--				struct drm_dp_mst_port *port)
--{
--	bool skip;
--
--	if (!port->vcpi.vcpi)
--		return;
--
--	mutex_lock(&mgr->lock);
--	skip = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
--	mutex_unlock(&mgr->lock);
--
--	if (skip)
--		return;
--
--	drm_dp_mst_put_payload_id(mgr, port->vcpi.vcpi);
--	port->vcpi.num_slots = 0;
--	port->vcpi.pbn = 0;
--	port->vcpi.aligned_pbn = 0;
--	port->vcpi.vcpi = 0;
--	drm_dp_mst_put_port_malloc(port);
--}
--EXPORT_SYMBOL(drm_dp_mst_deallocate_vcpi);
--
- static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_mgr *mgr,
--				     int id, struct drm_dp_payload *payload)
-+				     int id, u8 start_slot, u8 num_slots)
- {
- 	u8 payload_alloc[3], status;
- 	int ret;
-@@ -4801,8 +4517,8 @@ static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_mgr *mgr,
- 			   DP_PAYLOAD_TABLE_UPDATED);
- 
- 	payload_alloc[0] = id;
--	payload_alloc[1] = payload->start_slot;
--	payload_alloc[2] = payload->num_slots;
-+	payload_alloc[1] = start_slot;
-+	payload_alloc[2] = num_slots;
- 
- 	ret = drm_dp_dpcd_write(mgr->aux, DP_PAYLOAD_ALLOCATE_SET, payload_alloc, 3);
- 	if (ret != 3) {
-@@ -5017,8 +4733,9 @@ static void fetch_monitor_name(struct drm_dp_mst_topology_mgr *mgr,
- void drm_dp_mst_dump_topology(struct seq_file *m,
- 			      struct drm_dp_mst_topology_mgr *mgr)
- {
--	int i;
--	struct drm_dp_mst_port *port;
-+	struct drm_dp_mst_topology_state *state;
-+	struct drm_dp_mst_atomic_payload *payload;
-+	int i, ret;
- 
- 	mutex_lock(&mgr->lock);
- 	if (mgr->mst_primary)
-@@ -5027,36 +4744,35 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
- 	/* dump VCPIs */
- 	mutex_unlock(&mgr->lock);
- 
--	mutex_lock(&mgr->payload_lock);
--	seq_printf(m, "\n*** VCPI Info ***\n");
--	seq_printf(m, "payload_mask: %lx, vcpi_mask: %lx, max_payloads: %d\n", mgr->payload_mask, mgr->vcpi_mask, mgr->max_payloads);
-+	ret = drm_modeset_lock_single_interruptible(&mgr->base.lock);
-+	if (ret < 0)
-+		return;
- 
--	seq_printf(m, "\n|   idx   |  port # |  vcp_id | # slots |     sink name     |\n");
-+	state = to_drm_dp_mst_topology_state(mgr->base.state);
-+	seq_printf(m, "\n*** Atomic state info ***\n");
-+	seq_printf(m, "payload_mask: %x, max_payloads: %d, start_slot: %u, pbn_div: %d\n",
-+		   state->payload_mask, mgr->max_payloads, state->start_slot, state->pbn_div);
-+
-+	seq_printf(m, "\n| idx | port | vcpi | slots | pbn | dsc |     sink name     |\n");
- 	for (i = 0; i < mgr->max_payloads; i++) {
--		if (mgr->proposed_vcpis[i]) {
-+		list_for_each_entry(payload, &state->payloads, next) {
- 			char name[14];
- 
--			port = container_of(mgr->proposed_vcpis[i], struct drm_dp_mst_port, vcpi);
--			fetch_monitor_name(mgr, port, name, sizeof(name));
--			seq_printf(m, "%10d%10d%10d%10d%20s\n",
-+			if (payload->vcpi != i || payload->delete)
-+				continue;
-+
-+			fetch_monitor_name(mgr, payload->port, name, sizeof(name));
-+			seq_printf(m, " %5d %6d %6d %02d - %02d %5d %5s %19s\n",
- 				   i,
--				   port->port_num,
--				   port->vcpi.vcpi,
--				   port->vcpi.num_slots,
-+				   payload->port->port_num,
-+				   payload->vcpi,
-+				   payload->vc_start_slot,
-+				   payload->vc_start_slot + payload->time_slots - 1,
-+				   payload->pbn,
-+				   payload->dsc_enabled ? "Y" : "N",
- 				   (*name != 0) ? name : "Unknown");
--		} else
--			seq_printf(m, "%6d - Unused\n", i);
--	}
--	seq_printf(m, "\n*** Payload Info ***\n");
--	seq_printf(m, "|   idx   |  state  |  start slot  | # slots |\n");
--	for (i = 0; i < mgr->max_payloads; i++) {
--		seq_printf(m, "%10d%10d%15d%10d\n",
--			   i,
--			   mgr->payloads[i].payload_state,
--			   mgr->payloads[i].start_slot,
--			   mgr->payloads[i].num_slots);
-+		}
- 	}
--	mutex_unlock(&mgr->payload_lock);
- 
- 	seq_printf(m, "\n*** DPCD Info ***\n");
- 	mutex_lock(&mgr->lock);
-@@ -5102,7 +4818,7 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
- 
- out:
- 	mutex_unlock(&mgr->lock);
--
-+	drm_modeset_unlock(&mgr->base.lock);
- }
- EXPORT_SYMBOL(drm_dp_mst_dump_topology);
- 
-@@ -5423,9 +5139,22 @@ drm_dp_mst_atomic_check_payload_alloc_limits(struct drm_dp_mst_topology_mgr *mgr
- 				       mgr, mst_state, mgr->max_payloads);
- 			return -EINVAL;
- 		}
-+
-+		/* Assign a VCPI */
-+		if (!payload->vcpi) {
-+			payload->vcpi = ffz(mst_state->payload_mask) + 1;
-+			drm_dbg_atomic(mgr->dev, "[MST PORT:%p] assigned VCPI #%d\n",
-+				       payload->port, payload->vcpi);
-+			mst_state->payload_mask |= BIT(payload->vcpi - 1);
-+		}
- 	}
--	drm_dbg_atomic(mgr->dev, "[MST MGR:%p] mst state %p TU avail=%d used=%d\n",
--		       mgr, mst_state, avail_slots, mst_state->total_avail_slots - avail_slots);
-+
-+	if (!payload_count)
-+		mst_state->pbn_div = 0;
-+
-+	drm_dbg_atomic(mgr->dev, "[MST MGR:%p] mst state %p TU pbn_div=%d avail=%d used=%d\n",
-+		       mgr, mst_state, mst_state->pbn_div, avail_slots,
-+		       mst_state->total_avail_slots - avail_slots);
- 
- 	return 0;
- }
-@@ -5496,7 +5225,6 @@ EXPORT_SYMBOL(drm_dp_mst_add_affected_dsc_crtcs);
-  * @state: Pointer to the new drm_atomic_state
-  * @port: Pointer to the affected MST Port
-  * @pbn: Newly recalculated bw required for link with DSC enabled
-- * @pbn_div: Divider to calculate correct number of pbn per slot
-  * @enable: Boolean flag to enable or disable DSC on the port
-  *
-  * This function enables DSC on the given Port
-@@ -5507,8 +5235,7 @@ EXPORT_SYMBOL(drm_dp_mst_add_affected_dsc_crtcs);
-  */
- int drm_dp_mst_atomic_enable_dsc(struct drm_atomic_state *state,
- 				 struct drm_dp_mst_port *port,
--				 int pbn, int pbn_div,
--				 bool enable)
-+				 int pbn, bool enable)
- {
- 	struct drm_dp_mst_topology_state *mst_state;
- 	struct drm_dp_mst_atomic_payload *payload;
-@@ -5534,7 +5261,7 @@ int drm_dp_mst_atomic_enable_dsc(struct drm_atomic_state *state,
- 	}
- 
- 	if (enable) {
--		time_slots = drm_dp_atomic_find_time_slots(state, port->mgr, port, pbn, pbn_div);
-+		time_slots = drm_dp_atomic_find_time_slots(state, port->mgr, port, pbn);
- 		drm_dbg_atomic(state->dev,
- 			       "[MST PORT:%p] Enabling DSC flag, reallocating %d time slots on the port\n",
- 			       port, time_slots);
-@@ -5547,6 +5274,7 @@ int drm_dp_mst_atomic_enable_dsc(struct drm_atomic_state *state,
- 	return time_slots;
- }
- EXPORT_SYMBOL(drm_dp_mst_atomic_enable_dsc);
-+
- /**
-  * drm_dp_mst_atomic_check - Check that the new state of an MST topology in an
-  * atomic update is valid
-@@ -5604,7 +5332,6 @@ EXPORT_SYMBOL(drm_dp_mst_topology_state_funcs);
- 
- /**
-  * drm_atomic_get_mst_topology_state: get MST topology state
-- *
-  * @state: global atomic state
-  * @mgr: MST topology manager, also the private object in this case
-  *
-@@ -5623,6 +5350,31 @@ struct drm_dp_mst_topology_state *drm_atomic_get_mst_topology_state(struct drm_a
- }
- EXPORT_SYMBOL(drm_atomic_get_mst_topology_state);
- 
-+/**
-+ * drm_atomic_get_new_mst_topology_state: get new MST topology state in atomic state, if any
-+ * @state: global atomic state
-+ * @mgr: MST topology manager, also the private object in this case
-+ *
-+ * This function wraps drm_atomic_get_priv_obj_state() passing in the MST atomic
-+ * state vtable so that the private object state returned is that of a MST
-+ * topology object.
-+ *
-+ * Returns:
-+ *
-+ * The MST topology state, or NULL if there's no topology state for this MST mgr
-+ * in the global atomic state
-+ */
-+struct drm_dp_mst_topology_state *
-+drm_atomic_get_new_mst_topology_state(struct drm_atomic_state *state,
-+				      struct drm_dp_mst_topology_mgr *mgr)
-+{
-+	struct drm_private_state *priv_state =
-+		drm_atomic_get_new_private_obj_state(state, &mgr->base);
-+
-+	return priv_state ? to_dp_mst_topology_state(priv_state) : NULL;
-+}
-+EXPORT_SYMBOL(drm_atomic_get_new_mst_topology_state);
-+
- /**
-  * drm_dp_mst_topology_mgr_init - initialise a topology manager
-  * @mgr: manager struct to initialise
-@@ -5630,8 +5382,6 @@ EXPORT_SYMBOL(drm_atomic_get_mst_topology_state);
-  * @aux: DP helper aux channel to talk to this device
-  * @max_dpcd_transaction_bytes: hw specific DPCD transaction limit
-  * @max_payloads: maximum number of payloads this GPU can source
-- * @max_lane_count: maximum number of lanes this GPU supports
-- * @max_link_rate: maximum link rate per lane this GPU supports in kHz
-  * @conn_base_id: the connector object ID the MST device is connected to.
-  *
-  * Return 0 for success, or negative error code on failure
-@@ -5639,14 +5389,12 @@ EXPORT_SYMBOL(drm_atomic_get_mst_topology_state);
- int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 				 struct drm_device *dev, struct drm_dp_aux *aux,
- 				 int max_dpcd_transaction_bytes, int max_payloads,
--				 int max_lane_count, int max_link_rate,
- 				 int conn_base_id)
- {
- 	struct drm_dp_mst_topology_state *mst_state;
- 
- 	mutex_init(&mgr->lock);
- 	mutex_init(&mgr->qlock);
--	mutex_init(&mgr->payload_lock);
- 	mutex_init(&mgr->delayed_destroy_lock);
- 	mutex_init(&mgr->up_req_lock);
- 	mutex_init(&mgr->probe_lock);
-@@ -5676,19 +5424,7 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 	mgr->aux = aux;
- 	mgr->max_dpcd_transaction_bytes = max_dpcd_transaction_bytes;
- 	mgr->max_payloads = max_payloads;
--	mgr->max_lane_count = max_lane_count;
--	mgr->max_link_rate = max_link_rate;
- 	mgr->conn_base_id = conn_base_id;
--	if (max_payloads + 1 > sizeof(mgr->payload_mask) * 8 ||
--	    max_payloads + 1 > sizeof(mgr->vcpi_mask) * 8)
--		return -EINVAL;
--	mgr->payloads = kcalloc(max_payloads, sizeof(struct drm_dp_payload), GFP_KERNEL);
--	if (!mgr->payloads)
--		return -ENOMEM;
--	mgr->proposed_vcpis = kcalloc(max_payloads, sizeof(struct drm_dp_vcpi *), GFP_KERNEL);
--	if (!mgr->proposed_vcpis)
--		return -ENOMEM;
--	set_bit(0, &mgr->payload_mask);
- 
- 	mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
- 	if (mst_state == NULL)
-@@ -5721,19 +5457,12 @@ void drm_dp_mst_topology_mgr_destroy(struct drm_dp_mst_topology_mgr *mgr)
- 		destroy_workqueue(mgr->delayed_destroy_wq);
- 		mgr->delayed_destroy_wq = NULL;
- 	}
--	mutex_lock(&mgr->payload_lock);
--	kfree(mgr->payloads);
--	mgr->payloads = NULL;
--	kfree(mgr->proposed_vcpis);
--	mgr->proposed_vcpis = NULL;
--	mutex_unlock(&mgr->payload_lock);
- 	mgr->dev = NULL;
- 	mgr->aux = NULL;
- 	drm_atomic_private_obj_fini(&mgr->base);
- 	mgr->funcs = NULL;
- 
- 	mutex_destroy(&mgr->delayed_destroy_lock);
--	mutex_destroy(&mgr->payload_lock);
- 	mutex_destroy(&mgr->qlock);
- 	mutex_destroy(&mgr->lock);
- 	mutex_destroy(&mgr->up_req_lock);
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 1b067cd73261..13abe2b2170e 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -52,6 +52,7 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
- 	struct drm_atomic_state *state = crtc_state->uapi.state;
- 	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
- 	struct intel_dp *intel_dp = &intel_mst->primary->dp;
-+	struct drm_dp_mst_topology_state *mst_state;
- 	struct intel_connector *connector =
- 		to_intel_connector(conn_state->connector);
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-@@ -60,22 +61,28 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
- 	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CONSTANT_N);
- 	int bpp, slots = -EINVAL;
- 
-+	mst_state = drm_atomic_get_mst_topology_state(state, &intel_dp->mst_mgr);
-+	if (IS_ERR(mst_state))
-+		return PTR_ERR(mst_state);
-+
- 	crtc_state->lane_count = limits->max_lane_count;
- 	crtc_state->port_clock = limits->max_rate;
- 
-+	// TODO: Handle pbn_div changes by adding a new MST helper
-+	if (!mst_state->pbn_div) {
-+		mst_state->pbn_div = drm_dp_get_vc_payload_bw(&intel_dp->mst_mgr,
-+							      limits->max_rate,
-+							      limits->max_lane_count);
-+	}
-+
- 	for (bpp = limits->max_bpp; bpp >= limits->min_bpp; bpp -= 2 * 3) {
- 		crtc_state->pipe_bpp = bpp;
- 
- 		crtc_state->pbn = drm_dp_calc_pbn_mode(adjusted_mode->crtc_clock,
- 						       crtc_state->pipe_bpp,
- 						       false);
--
- 		slots = drm_dp_atomic_find_time_slots(state, &intel_dp->mst_mgr,
--						      connector->port,
--						      crtc_state->pbn,
--						      drm_dp_get_vc_payload_bw(&intel_dp->mst_mgr,
--									       crtc_state->port_clock,
--									       crtc_state->lane_count));
-+						      connector->port, crtc_state->pbn);
- 		if (slots == -EDEADLK)
- 			return slots;
- 		if (slots >= 0)
-@@ -360,21 +367,17 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
- 	struct intel_dp *intel_dp = &dig_port->dp;
- 	struct intel_connector *connector =
- 		to_intel_connector(old_conn_state->connector);
-+	struct drm_dp_mst_topology_state *mst_state =
-+		drm_atomic_get_mst_topology_state(&state->base, &intel_dp->mst_mgr);
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
--	int start_slot = intel_dp_is_uhbr(old_crtc_state) ? 0 : 1;
--	int ret;
- 
- 	drm_dbg_kms(&i915->drm, "active links %d\n",
- 		    intel_dp->active_mst_links);
- 
- 	intel_hdcp_disable(intel_mst->connector);
- 
--	drm_dp_mst_reset_vcpi_slots(&intel_dp->mst_mgr, connector->port);
--
--	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr, start_slot);
--	if (ret) {
--		drm_dbg_kms(&i915->drm, "failed to update payload %d\n", ret);
--	}
-+	drm_dp_remove_payload(&intel_dp->mst_mgr, mst_state,
-+			      drm_atomic_get_mst_payload_state(mst_state, connector->port));
- 
- 	intel_audio_codec_disable(encoder, old_crtc_state, old_conn_state);
- }
-@@ -402,8 +405,6 @@ static void intel_mst_post_disable_dp(struct intel_atomic_state *state,
- 
- 	intel_disable_transcoder(old_crtc_state);
- 
--	drm_dp_update_payload_part2(&intel_dp->mst_mgr);
--
- 	clear_act_sent(encoder, old_crtc_state);
- 
- 	intel_de_rmw(dev_priv, TRANS_DDI_FUNC_CTL(old_crtc_state->cpu_transcoder),
-@@ -411,8 +412,6 @@ static void intel_mst_post_disable_dp(struct intel_atomic_state *state,
- 
- 	wait_for_act_sent(encoder, old_crtc_state);
- 
--	drm_dp_mst_deallocate_vcpi(&intel_dp->mst_mgr, connector->port);
--
- 	intel_ddi_disable_transcoder_func(old_crtc_state);
- 
- 	if (DISPLAY_VER(dev_priv) >= 9)
-@@ -479,7 +478,8 @@ static void intel_mst_pre_enable_dp(struct intel_atomic_state *state,
- 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
- 	struct intel_connector *connector =
- 		to_intel_connector(conn_state->connector);
--	int start_slot = intel_dp_is_uhbr(pipe_config) ? 0 : 1;
-+	struct drm_dp_mst_topology_state *mst_state =
-+		drm_atomic_get_new_mst_topology_state(&state->base, &intel_dp->mst_mgr);
- 	int ret;
- 	bool first_mst_stream;
- 
-@@ -505,16 +505,13 @@ static void intel_mst_pre_enable_dp(struct intel_atomic_state *state,
- 		dig_port->base.pre_enable(state, &dig_port->base,
- 						pipe_config, NULL);
- 
--	ret = drm_dp_mst_allocate_vcpi(&intel_dp->mst_mgr,
--				       connector->port,
--				       pipe_config->pbn,
--				       pipe_config->dp_m_n.tu);
--	if (!ret)
--		drm_err(&dev_priv->drm, "failed to allocate vcpi\n");
--
- 	intel_dp->active_mst_links++;
- 
--	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr, start_slot);
-+	ret = drm_dp_add_payload_part1(&intel_dp->mst_mgr, mst_state,
-+				       drm_atomic_get_mst_payload_state(mst_state, connector->port));
-+	if (ret < 0)
-+		drm_err(&dev_priv->drm, "Failed to create MST payload for %s: %d\n",
-+			connector->base.name, ret);
- 
- 	/*
- 	 * Before Gen 12 this is not done as part of
-@@ -537,7 +534,10 @@ static void intel_mst_enable_dp(struct intel_atomic_state *state,
- 	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
- 	struct intel_digital_port *dig_port = intel_mst->primary;
- 	struct intel_dp *intel_dp = &dig_port->dp;
-+	struct intel_connector *connector = to_intel_connector(conn_state->connector);
- 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	struct drm_dp_mst_topology_state *mst_state =
-+		drm_atomic_get_new_mst_topology_state(&state->base, &intel_dp->mst_mgr);
- 	enum transcoder trans = pipe_config->cpu_transcoder;
- 
- 	drm_WARN_ON(&dev_priv->drm, pipe_config->has_pch_encoder);
-@@ -565,7 +565,8 @@ static void intel_mst_enable_dp(struct intel_atomic_state *state,
- 
- 	wait_for_act_sent(encoder, pipe_config);
- 
--	drm_dp_update_payload_part2(&intel_dp->mst_mgr);
-+	drm_dp_add_payload_part2(&intel_dp->mst_mgr, &state->base,
-+				 drm_atomic_get_mst_payload_state(mst_state, connector->port));
- 
- 	if (DISPLAY_VER(dev_priv) >= 12 && pipe_config->fec_enable)
- 		intel_de_rmw(dev_priv, CHICKEN_TRANS(trans), 0,
-@@ -949,8 +950,6 @@ intel_dp_mst_encoder_init(struct intel_digital_port *dig_port, int conn_base_id)
- 	struct intel_dp *intel_dp = &dig_port->dp;
- 	enum port port = dig_port->base.port;
- 	int ret;
--	int max_source_rate =
--		intel_dp->source_rates[intel_dp->num_source_rates - 1];
- 
- 	if (!HAS_DP_MST(i915) || intel_dp_is_edp(intel_dp))
- 		return 0;
-@@ -966,10 +965,7 @@ intel_dp_mst_encoder_init(struct intel_digital_port *dig_port, int conn_base_id)
- 	/* create encoders */
- 	intel_dp_create_fake_mst_encoders(dig_port);
- 	ret = drm_dp_mst_topology_mgr_init(&intel_dp->mst_mgr, &i915->drm,
--					   &intel_dp->aux, 16, 3,
--					   dig_port->max_lanes,
--					   max_source_rate,
--					   conn_base_id);
-+					   &intel_dp->aux, 16, 3, conn_base_id);
- 	if (ret) {
- 		intel_dp->mst_mgr.cbs = NULL;
- 		return ret;
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index c5e9e86bb4cb..589c30402aa5 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -31,8 +31,30 @@
- 
- static int intel_conn_to_vcpi(struct intel_connector *connector)
- {
-+	struct drm_dp_mst_topology_mgr *mgr;
-+	struct drm_dp_mst_atomic_payload *payload;
-+	struct drm_dp_mst_topology_state *mst_state;
-+	int vcpi = 0;
-+
- 	/* For HDMI this is forced to be 0x0. For DP SST also this is 0x0. */
--	return connector->port	? connector->port->vcpi.vcpi : 0;
-+	if (!connector->port)
-+		return 0;
-+	mgr = connector->port->mgr;
-+
-+	drm_modeset_lock(&mgr->base.lock, NULL);
-+	mst_state = to_drm_dp_mst_topology_state(mgr->base.state);
-+	payload = drm_atomic_get_mst_payload_state(mst_state, connector->port);
-+	if (drm_WARN_ON(mgr->dev, !payload))
-+		goto out;
-+
-+	vcpi = payload->vcpi;
-+	if (drm_WARN_ON(mgr->dev, vcpi < 0)) {
-+		vcpi = 0;
-+		goto out;
-+	}
-+out:
-+	drm_modeset_unlock(&mgr->base.lock);
-+	return vcpi;
- }
- 
- /*
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 7e9a0b50bb42..33c97d510999 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -932,6 +932,7 @@ struct nv50_msto {
- 	struct nv50_head *head;
- 	struct nv50_mstc *mstc;
- 	bool disabled;
-+	bool enabled;
- };
- 
- struct nouveau_encoder *nv50_real_outp(struct drm_encoder *encoder)
-@@ -947,57 +948,37 @@ struct nouveau_encoder *nv50_real_outp(struct drm_encoder *encoder)
- 	return msto->mstc->mstm->outp;
- }
- 
--static struct drm_dp_payload *
--nv50_msto_payload(struct nv50_msto *msto)
--{
--	struct nouveau_drm *drm = nouveau_drm(msto->encoder.dev);
--	struct nv50_mstc *mstc = msto->mstc;
--	struct nv50_mstm *mstm = mstc->mstm;
--	int vcpi = mstc->port->vcpi.vcpi, i;
--
--	WARN_ON(!mutex_is_locked(&mstm->mgr.payload_lock));
--
--	NV_ATOMIC(drm, "%s: vcpi %d\n", msto->encoder.name, vcpi);
--	for (i = 0; i < mstm->mgr.max_payloads; i++) {
--		struct drm_dp_payload *payload = &mstm->mgr.payloads[i];
--		NV_ATOMIC(drm, "%s: %d: vcpi %d start 0x%02x slots 0x%02x\n",
--			  mstm->outp->base.base.name, i, payload->vcpi,
--			  payload->start_slot, payload->num_slots);
--	}
--
--	for (i = 0; i < mstm->mgr.max_payloads; i++) {
--		struct drm_dp_payload *payload = &mstm->mgr.payloads[i];
--		if (payload->vcpi == vcpi)
--			return payload;
--	}
--
--	return NULL;
--}
--
- static void
--nv50_msto_cleanup(struct nv50_msto *msto)
-+nv50_msto_cleanup(struct drm_atomic_state *state,
-+		  struct drm_dp_mst_topology_state *mst_state,
-+		  struct drm_dp_mst_topology_mgr *mgr,
-+		  struct nv50_msto *msto)
- {
- 	struct nouveau_drm *drm = nouveau_drm(msto->encoder.dev);
--	struct nv50_mstc *mstc = msto->mstc;
--	struct nv50_mstm *mstm = mstc->mstm;
--
--	if (!msto->disabled)
--		return;
-+	struct drm_dp_mst_atomic_payload *payload =
-+		drm_atomic_get_mst_payload_state(mst_state, msto->mstc->port);
- 
- 	NV_ATOMIC(drm, "%s: msto cleanup\n", msto->encoder.name);
- 
--	drm_dp_mst_deallocate_vcpi(&mstm->mgr, mstc->port);
--
--	msto->mstc = NULL;
--	msto->disabled = false;
-+	if (msto->disabled) {
-+		msto->mstc = NULL;
-+		msto->disabled = false;
-+	} else if (msto->enabled) {
-+		drm_dp_add_payload_part2(mgr, state, payload);
-+		msto->enabled = false;
-+	}
- }
- 
- static void
--nv50_msto_prepare(struct nv50_msto *msto)
-+nv50_msto_prepare(struct drm_atomic_state *state,
-+		  struct drm_dp_mst_topology_state *mst_state,
-+		  struct drm_dp_mst_topology_mgr *mgr,
-+		  struct nv50_msto *msto)
- {
- 	struct nouveau_drm *drm = nouveau_drm(msto->encoder.dev);
- 	struct nv50_mstc *mstc = msto->mstc;
- 	struct nv50_mstm *mstm = mstc->mstm;
-+	struct drm_dp_mst_atomic_payload *payload;
- 	struct {
- 		struct nv50_disp_mthd_v1 base;
- 		struct nv50_disp_sor_dp_mst_vcpi_v0 vcpi;
-@@ -1009,17 +990,21 @@ nv50_msto_prepare(struct nv50_msto *msto)
- 			       (0x0100 << msto->head->base.index),
- 	};
- 
--	mutex_lock(&mstm->mgr.payload_lock);
--
- 	NV_ATOMIC(drm, "%s: msto prepare\n", msto->encoder.name);
--	if (mstc->port->vcpi.vcpi > 0) {
--		struct drm_dp_payload *payload = nv50_msto_payload(msto);
--		if (payload) {
--			args.vcpi.start_slot = payload->start_slot;
--			args.vcpi.num_slots = payload->num_slots;
--			args.vcpi.pbn = mstc->port->vcpi.pbn;
--			args.vcpi.aligned_pbn = mstc->port->vcpi.aligned_pbn;
--		}
-+
-+	payload = drm_atomic_get_mst_payload_state(mst_state, mstc->port);
-+
-+	// TODO: Figure out if we want to do a better job of handling VCPI allocation failures here?
-+	if (msto->disabled) {
-+		drm_dp_remove_payload(mgr, mst_state, payload);
-+	} else {
-+		if (msto->enabled)
-+			drm_dp_add_payload_part1(mgr, mst_state, payload);
-+
-+		args.vcpi.start_slot = payload->vc_start_slot;
-+		args.vcpi.num_slots = payload->time_slots;
-+		args.vcpi.pbn = payload->pbn;
-+		args.vcpi.aligned_pbn = payload->time_slots * mst_state->pbn_div;
- 	}
- 
- 	NV_ATOMIC(drm, "%s: %s: %02x %02x %04x %04x\n",
-@@ -1028,7 +1013,6 @@ nv50_msto_prepare(struct nv50_msto *msto)
- 		  args.vcpi.pbn, args.vcpi.aligned_pbn);
- 
- 	nvif_mthd(&drm->display->disp.object, 0, &args, sizeof(args));
--	mutex_unlock(&mstm->mgr.payload_lock);
- }
- 
- static int
-@@ -1038,6 +1022,7 @@ nv50_msto_atomic_check(struct drm_encoder *encoder,
- {
- 	struct drm_atomic_state *state = crtc_state->state;
- 	struct drm_connector *connector = conn_state->connector;
-+	struct drm_dp_mst_topology_state *mst_state;
- 	struct nv50_mstc *mstc = nv50_mstc(connector);
- 	struct nv50_mstm *mstm = mstc->mstm;
- 	struct nv50_head_atom *asyh = nv50_head_atom(crtc_state);
-@@ -1065,8 +1050,18 @@ nv50_msto_atomic_check(struct drm_encoder *encoder,
- 						    false);
- 	}
- 
--	slots = drm_dp_atomic_find_time_slots(state, &mstm->mgr, mstc->port,
--					      asyh->dp.pbn, 0);
-+	mst_state = drm_atomic_get_mst_topology_state(state, &mstm->mgr);
-+	if (IS_ERR(mst_state))
-+		return PTR_ERR(mst_state);
-+
-+	if (!mst_state->pbn_div) {
-+		struct nouveau_encoder *outp = mstc->mstm->outp;
-+
-+		mst_state->pbn_div = drm_dp_get_vc_payload_bw(&mstm->mgr,
-+							      outp->dp.link_bw, outp->dp.link_nr);
-+	}
-+
-+	slots = drm_dp_atomic_find_time_slots(state, &mstm->mgr, mstc->port, asyh->dp.pbn);
- 	if (slots < 0)
- 		return slots;
- 
-@@ -1098,7 +1093,6 @@ nv50_msto_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *st
- 	struct drm_connector *connector;
- 	struct drm_connector_list_iter conn_iter;
- 	u8 proto;
--	bool r;
- 
- 	drm_connector_list_iter_begin(encoder->dev, &conn_iter);
- 	drm_for_each_connector_iter(connector, &conn_iter) {
-@@ -1113,10 +1107,6 @@ nv50_msto_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *st
- 	if (WARN_ON(!mstc))
- 		return;
- 
--	r = drm_dp_mst_allocate_vcpi(&mstm->mgr, mstc->port, asyh->dp.pbn, asyh->dp.tu);
--	if (!r)
--		DRM_DEBUG_KMS("Failed to allocate VCPI\n");
--
- 	if (!mstm->links++)
- 		nv50_outp_acquire(mstm->outp, false /*XXX: MST audio.*/);
- 
-@@ -1129,6 +1119,7 @@ nv50_msto_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *st
- 			   nv50_dp_bpc_to_depth(asyh->or.bpc));
- 
- 	msto->mstc = mstc;
-+	msto->enabled = true;
- 	mstm->modified = true;
- }
- 
-@@ -1139,8 +1130,6 @@ nv50_msto_atomic_disable(struct drm_encoder *encoder, struct drm_atomic_state *s
- 	struct nv50_mstc *mstc = msto->mstc;
- 	struct nv50_mstm *mstm = mstc->mstm;
- 
--	drm_dp_mst_reset_vcpi_slots(&mstm->mgr, mstc->port);
--
- 	mstm->outp->update(mstm->outp, msto->head->base.index, NULL, 0, 0);
- 	mstm->modified = true;
- 	if (!--mstm->links)
-@@ -1360,7 +1349,9 @@ nv50_mstc_new(struct nv50_mstm *mstm, struct drm_dp_mst_port *port,
- }
- 
- static void
--nv50_mstm_cleanup(struct nv50_mstm *mstm)
-+nv50_mstm_cleanup(struct drm_atomic_state *state,
-+		  struct drm_dp_mst_topology_state *mst_state,
-+		  struct nv50_mstm *mstm)
- {
- 	struct nouveau_drm *drm = nouveau_drm(mstm->outp->base.base.dev);
- 	struct drm_encoder *encoder;
-@@ -1368,14 +1359,12 @@ nv50_mstm_cleanup(struct nv50_mstm *mstm)
- 	NV_ATOMIC(drm, "%s: mstm cleanup\n", mstm->outp->base.base.name);
- 	drm_dp_check_act_status(&mstm->mgr);
- 
--	drm_dp_update_payload_part2(&mstm->mgr);
--
- 	drm_for_each_encoder(encoder, mstm->outp->base.base.dev) {
- 		if (encoder->encoder_type == DRM_MODE_ENCODER_DPMST) {
- 			struct nv50_msto *msto = nv50_msto(encoder);
- 			struct nv50_mstc *mstc = msto->mstc;
- 			if (mstc && mstc->mstm == mstm)
--				nv50_msto_cleanup(msto);
-+				nv50_msto_cleanup(state, mst_state, &mstm->mgr, msto);
- 		}
- 	}
- 
-@@ -1383,20 +1372,34 @@ nv50_mstm_cleanup(struct nv50_mstm *mstm)
- }
- 
- static void
--nv50_mstm_prepare(struct nv50_mstm *mstm)
-+nv50_mstm_prepare(struct drm_atomic_state *state,
-+		  struct drm_dp_mst_topology_state *mst_state,
-+		  struct nv50_mstm *mstm)
- {
- 	struct nouveau_drm *drm = nouveau_drm(mstm->outp->base.base.dev);
- 	struct drm_encoder *encoder;
- 
- 	NV_ATOMIC(drm, "%s: mstm prepare\n", mstm->outp->base.base.name);
--	drm_dp_update_payload_part1(&mstm->mgr, 1);
- 
-+	/* Disable payloads first */
- 	drm_for_each_encoder(encoder, mstm->outp->base.base.dev) {
- 		if (encoder->encoder_type == DRM_MODE_ENCODER_DPMST) {
- 			struct nv50_msto *msto = nv50_msto(encoder);
- 			struct nv50_mstc *mstc = msto->mstc;
--			if (mstc && mstc->mstm == mstm)
--				nv50_msto_prepare(msto);
-+			if (mstc && mstc->mstm == mstm && msto->disabled)
-+				nv50_msto_prepare(state, mst_state, &mstm->mgr, msto);
-+		}
-+	}
-+
-+	/* Add payloads for new heads, while also updating the start slots of any unmodified (but
-+	 * active) heads that may have had their VC slots shifted left after the previous step
-+	 */
-+	drm_for_each_encoder(encoder, mstm->outp->base.base.dev) {
-+		if (encoder->encoder_type == DRM_MODE_ENCODER_DPMST) {
-+			struct nv50_msto *msto = nv50_msto(encoder);
-+			struct nv50_mstc *mstc = msto->mstc;
-+			if (mstc && mstc->mstm == mstm && !msto->disabled)
-+				nv50_msto_prepare(state, mst_state, &mstm->mgr, msto);
- 		}
- 	}
- 
-@@ -1593,9 +1596,7 @@ nv50_mstm_new(struct nouveau_encoder *outp, struct drm_dp_aux *aux, int aux_max,
- 	mstm->mgr.cbs = &nv50_mstm;
- 
- 	ret = drm_dp_mst_topology_mgr_init(&mstm->mgr, dev, aux, aux_max,
--					   max_payloads, outp->dcb->dpconf.link_nr,
--					   drm_dp_bw_code_to_link_rate(outp->dcb->dpconf.link_bw),
--					   conn_base_id);
-+					   max_payloads, conn_base_id);
- 	if (ret)
- 		return ret;
- 
-@@ -2047,20 +2048,20 @@ nv50_pior_create(struct drm_connector *connector, struct dcb_output *dcbe)
- static void
- nv50_disp_atomic_commit_core(struct drm_atomic_state *state, u32 *interlock)
- {
-+	struct drm_dp_mst_topology_mgr *mgr;
-+	struct drm_dp_mst_topology_state *mst_state;
- 	struct nouveau_drm *drm = nouveau_drm(state->dev);
- 	struct nv50_disp *disp = nv50_disp(drm->dev);
- 	struct nv50_core *core = disp->core;
- 	struct nv50_mstm *mstm;
--	struct drm_encoder *encoder;
-+	int i;
- 
- 	NV_ATOMIC(drm, "commit core %08x\n", interlock[NV50_DISP_INTERLOCK_BASE]);
- 
--	drm_for_each_encoder(encoder, drm->dev) {
--		if (encoder->encoder_type != DRM_MODE_ENCODER_DPMST) {
--			mstm = nouveau_encoder(encoder)->dp.mstm;
--			if (mstm && mstm->modified)
--				nv50_mstm_prepare(mstm);
--		}
-+	for_each_new_mst_mgr_in_state(state, mgr, mst_state, i) {
-+		mstm = nv50_mstm(mgr);
-+		if (mstm->modified)
-+			nv50_mstm_prepare(state, mst_state, mstm);
- 	}
- 
- 	core->func->ntfy_init(disp->sync, NV50_DISP_CORE_NTFY);
-@@ -2069,12 +2070,10 @@ nv50_disp_atomic_commit_core(struct drm_atomic_state *state, u32 *interlock)
- 				       disp->core->chan.base.device))
- 		NV_ERROR(drm, "core notifier timeout\n");
- 
--	drm_for_each_encoder(encoder, drm->dev) {
--		if (encoder->encoder_type != DRM_MODE_ENCODER_DPMST) {
--			mstm = nouveau_encoder(encoder)->dp.mstm;
--			if (mstm && mstm->modified)
--				nv50_mstm_cleanup(mstm);
--		}
-+	for_each_new_mst_mgr_in_state(state, mgr, mst_state, i) {
-+		mstm = nv50_mstm(mgr);
-+		if (mstm->modified)
-+			nv50_mstm_cleanup(state, mst_state, mstm);
- 	}
- }
- 
-diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-index 8b847836a0b4..43f58cef4eec 100644
---- a/include/drm/display/drm_dp_mst_helper.h
-+++ b/include/drm/display/drm_dp_mst_helper.h
-@@ -48,20 +48,6 @@ struct drm_dp_mst_topology_ref_history {
- 
- struct drm_dp_mst_branch;
- 
--/**
-- * struct drm_dp_vcpi - Virtual Channel Payload Identifier
-- * @vcpi: Virtual channel ID.
-- * @pbn: Payload Bandwidth Number for this channel
-- * @aligned_pbn: PBN aligned with slot size
-- * @num_slots: number of slots for this PBN
-- */
--struct drm_dp_vcpi {
--	int vcpi;
--	int pbn;
--	int aligned_pbn;
--	int num_slots;
--};
--
- /**
-  * struct drm_dp_mst_port - MST port
-  * @port_num: port number
-@@ -142,7 +128,6 @@ struct drm_dp_mst_port {
- 	struct drm_dp_aux aux; /* i2c bus for this port? */
- 	struct drm_dp_mst_branch *parent;
- 
--	struct drm_dp_vcpi vcpi;
- 	struct drm_connector *connector;
- 	struct drm_dp_mst_topology_mgr *mgr;
- 
-@@ -527,19 +512,6 @@ struct drm_dp_mst_topology_cbs {
- 	void (*poll_hpd_irq)(struct drm_dp_mst_topology_mgr *mgr);
- };
- 
--#define DP_MAX_PAYLOAD (sizeof(unsigned long) * 8)
--
--#define DP_PAYLOAD_LOCAL 1
--#define DP_PAYLOAD_REMOTE 2
--#define DP_PAYLOAD_DELETE_LOCAL 3
--
--struct drm_dp_payload {
--	int payload_state;
--	int start_slot;
--	int num_slots;
--	int vcpi;
--};
--
- #define to_dp_mst_topology_state(x) container_of(x, struct drm_dp_mst_topology_state, base)
- 
- /**
-@@ -552,6 +524,34 @@ struct drm_dp_mst_atomic_payload {
- 	/** @port: The MST port assigned to this payload */
- 	struct drm_dp_mst_port *port;
- 
-+	/**
-+	 * @vc_start_slot: The time slot that this payload starts on. Because payload start slots
-+	 * can't be determined ahead of time, the contents of this value are UNDEFINED at atomic
-+	 * check time. This shouldn't usually matter, as the start slot should never be relevant for
-+	 * atomic state computations.
-+	 *
-+	 * Since this value is determined at commit time instead of check time, this value is
-+	 * protected by the MST helpers ensuring that async commits operating on the given topology
-+	 * never run in parallel. In the event that a driver does need to read this value (e.g. to
-+	 * inform hardware of the starting timeslot for a payload), the driver may either:
-+	 *
-+	 * * Read this field during the atomic commit after
-+	 *   drm_dp_mst_atomic_wait_for_dependencies() has been called, which will ensure the
-+	 *   previous MST states payload start slots have been copied over to the new state. Note
-+	 *   that a new start slot won't be assigned/removed from this payload until
-+	 *   drm_dp_add_payload_part1()/drm_dp_remove_payload() have been called.
-+	 * * Acquire the MST modesetting lock, and then wait for any pending MST-related commits to
-+	 *   get committed to hardware by calling drm_crtc_commit_wait() on each of the
-+	 *   &drm_crtc_commit structs in &drm_dp_mst_topology_state.commit_deps.
-+	 *
-+	 * If neither of the two above solutions suffice (e.g. the driver needs to read the start
-+	 * slot in the middle of an atomic commit without waiting for some reason), then drivers
-+	 * should cache this value themselves after changing payloads.
-+	 */
-+	s8 vc_start_slot;
-+
-+	/** @vcpi: The Virtual Channel Payload Identifier */
-+	u8 vcpi;
- 	/**
- 	 * @time_slots:
- 	 * The number of timeslots allocated to this payload from the source DP Tx to
-@@ -579,8 +579,6 @@ struct drm_dp_mst_topology_state {
- 	/** @base: Base private state for atomic */
- 	struct drm_private_state base;
- 
--	/** @payloads: The list of payloads being created/destroyed in this state */
--	struct list_head payloads;
- 	/** @mgr: The topology manager */
- 	struct drm_dp_mst_topology_mgr *mgr;
- 
-@@ -597,10 +595,21 @@ struct drm_dp_mst_topology_state {
- 	/** @num_commit_deps: The number of CRTC commits in @commit_deps */
- 	size_t num_commit_deps;
- 
-+	/** @payload_mask: A bitmask of allocated VCPIs, used for VCPI assignments */
-+	u32 payload_mask;
-+	/** @payloads: The list of payloads being created/destroyed in this state */
-+	struct list_head payloads;
-+
- 	/** @total_avail_slots: The total number of slots this topology can handle (63 or 64) */
- 	u8 total_avail_slots;
- 	/** @start_slot: The first usable time slot in this topology (1 or 0) */
- 	u8 start_slot;
-+
-+	/**
-+	 * @pbn_div: The current PBN divisor for this topology. The driver is expected to fill this
-+	 * out itself.
-+	 */
-+	int pbn_div;
- };
- 
- #define to_dp_mst_topology_mgr(x) container_of(x, struct drm_dp_mst_topology_mgr, base)
-@@ -640,14 +649,6 @@ struct drm_dp_mst_topology_mgr {
- 	 * @max_payloads: maximum number of payloads the GPU can generate.
- 	 */
- 	int max_payloads;
--	/**
--	 * @max_lane_count: maximum number of lanes the GPU can drive.
--	 */
--	int max_lane_count;
--	/**
--	 * @max_link_rate: maximum link rate per lane GPU can output, in kHz.
--	 */
--	int max_link_rate;
- 	/**
- 	 * @conn_base_id: DRM connector ID this mgr is connected to. Only used
- 	 * to build the MST connector path value.
-@@ -690,6 +691,20 @@ struct drm_dp_mst_topology_mgr {
- 	 */
- 	bool payload_id_table_cleared : 1;
- 
-+	/**
-+	 * @payload_count: The number of currently active payloads in hardware. This value is only
-+	 * intended to be used internally by MST helpers for payload tracking, and is only safe to
-+	 * read/write from the atomic commit (not check) context.
-+	 */
-+	u8 payload_count;
-+
-+	/**
-+	 * @next_start_slot: The starting timeslot to use for new VC payloads. This value is used
-+	 * internally by MST helpers for payload tracking, and is only safe to read/write from the
-+	 * atomic commit (not check) context.
-+	 */
-+	u8 next_start_slot;
-+
- 	/**
- 	 * @mst_primary: Pointer to the primary/first branch device.
- 	 */
-@@ -703,10 +718,6 @@ struct drm_dp_mst_topology_mgr {
- 	 * @sink_count: Sink count from DEVICE_SERVICE_IRQ_VECTOR_ESI0.
- 	 */
- 	u8 sink_count;
--	/**
--	 * @pbn_div: PBN to slots divisor.
--	 */
--	int pbn_div;
- 
- 	/**
- 	 * @funcs: Atomic helper callbacks
-@@ -723,32 +734,6 @@ struct drm_dp_mst_topology_mgr {
- 	 */
- 	struct list_head tx_msg_downq;
- 
--	/**
--	 * @payload_lock: Protect payload information.
--	 */
--	struct mutex payload_lock;
--	/**
--	 * @proposed_vcpis: Array of pointers for the new VCPI allocation. The
--	 * VCPI structure itself is &drm_dp_mst_port.vcpi, and the size of
--	 * this array is determined by @max_payloads.
--	 */
--	struct drm_dp_vcpi **proposed_vcpis;
--	/**
--	 * @payloads: Array of payloads. The size of this array is determined
--	 * by @max_payloads.
--	 */
--	struct drm_dp_payload *payloads;
--	/**
--	 * @payload_mask: Elements of @payloads actually in use. Since
--	 * reallocation of active outputs isn't possible gaps can be created by
--	 * disabling outputs out of order compared to how they've been enabled.
--	 */
--	unsigned long payload_mask;
--	/**
--	 * @vcpi_mask: Similar to @payload_mask, but for @proposed_vcpis.
--	 */
--	unsigned long vcpi_mask;
--
- 	/**
- 	 * @tx_waitq: Wait to queue stall for the tx worker.
- 	 */
-@@ -820,9 +805,7 @@ struct drm_dp_mst_topology_mgr {
- int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 				 struct drm_device *dev, struct drm_dp_aux *aux,
- 				 int max_dpcd_transaction_bytes,
--				 int max_payloads,
--				 int max_lane_count, int max_link_rate,
--				 int conn_base_id);
-+				 int max_payloads, int conn_base_id);
- 
- void drm_dp_mst_topology_mgr_destroy(struct drm_dp_mst_topology_mgr *mgr);
- 
-@@ -845,28 +828,17 @@ int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
- 
- int drm_dp_calc_pbn_mode(int clock, int bpp, bool dsc);
- 
--bool drm_dp_mst_allocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
--			      struct drm_dp_mst_port *port, int pbn, int slots);
--
--int drm_dp_mst_get_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
--
--
--void drm_dp_mst_reset_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
--
- void drm_dp_mst_update_slots(struct drm_dp_mst_topology_state *mst_state, uint8_t link_encoding_cap);
- 
--void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
--				struct drm_dp_mst_port *port);
--
--
--int drm_dp_find_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr,
--			   int pbn);
--
--
--int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr, int start_slot);
--
--
--int drm_dp_update_payload_part2(struct drm_dp_mst_topology_mgr *mgr);
-+int drm_dp_add_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
-+			     struct drm_dp_mst_topology_state *mst_state,
-+			     struct drm_dp_mst_atomic_payload *payload);
-+int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
-+			     struct drm_atomic_state *state,
-+			     struct drm_dp_mst_atomic_payload *payload);
-+void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
-+			   struct drm_dp_mst_topology_state *mst_state,
-+			   struct drm_dp_mst_atomic_payload *payload);
- 
- int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
- 
-@@ -888,17 +860,22 @@ int drm_dp_mst_connector_late_register(struct drm_connector *connector,
- void drm_dp_mst_connector_early_unregister(struct drm_connector *connector,
- 					   struct drm_dp_mst_port *port);
- 
--struct drm_dp_mst_topology_state *drm_atomic_get_mst_topology_state(struct drm_atomic_state *state,
--								    struct drm_dp_mst_topology_mgr *mgr);
-+struct drm_dp_mst_topology_state *
-+drm_atomic_get_mst_topology_state(struct drm_atomic_state *state,
-+				  struct drm_dp_mst_topology_mgr *mgr);
-+struct drm_dp_mst_topology_state *
-+drm_atomic_get_new_mst_topology_state(struct drm_atomic_state *state,
-+				      struct drm_dp_mst_topology_mgr *mgr);
-+struct drm_dp_mst_atomic_payload *
-+drm_atomic_get_mst_payload_state(struct drm_dp_mst_topology_state *state,
-+				 struct drm_dp_mst_port *port);
- int __must_check
- drm_dp_atomic_find_time_slots(struct drm_atomic_state *state,
- 			      struct drm_dp_mst_topology_mgr *mgr,
--			      struct drm_dp_mst_port *port, int pbn,
--			      int pbn_div);
-+			      struct drm_dp_mst_port *port, int pbn);
- int drm_dp_mst_atomic_enable_dsc(struct drm_atomic_state *state,
- 				 struct drm_dp_mst_port *port,
--				 int pbn, int pbn_div,
--				 bool enable);
-+				 int pbn, bool enable);
- int __must_check
- drm_dp_mst_add_affected_dsc_crtcs(struct drm_atomic_state *state,
- 				  struct drm_dp_mst_topology_mgr *mgr);
-@@ -922,6 +899,12 @@ void drm_dp_mst_put_port_malloc(struct drm_dp_mst_port *port);
- 
- struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port);
- 
-+static inline struct drm_dp_mst_topology_state *
-+to_drm_dp_mst_topology_state(struct drm_private_state *state)
-+{
-+	return container_of(state, struct drm_dp_mst_topology_state, base);
-+}
-+
- extern const struct drm_private_state_funcs drm_dp_mst_topology_state_funcs;
- 
- /**
--- 
-2.37.1
+Okay. That clarification makes sense. Would it be reasonable to disable 
+the timeout by default on systems with Win8 or later _OSI?
 
+
+>>> p.s.
+>>>
+>>> I think that eventually I might even try to make the new
+>>> module-param default to 0 / default to not having acpi_video.c
+>>> do the registering itself ever and see how that goes...
+>> Would the GPU drivers then be responsible for calling acpi_video_register_backlight() again? My understanding was that part of the intention here was to make that no longer necessary.
+> It is actually the other way around, before this patch-set
+> acpi_video_register_backlight() does not exist as a separate
+> step. Before this patch-set the registering is done at
+> acpi_video probe time. At acpi_video probe time it may be
+> unknown if a native GPU driver (which is preferred) might
+> become available later.
+>
+> This patch-set actually makes the registration a separate
+> step, which must be called by the GPU driver driving the panel
+> when its own native backlight control probing is done
+> (and has not resulted in registering its own backlight handler).
+>
+> IOW this patch-set is actually what makes it necessary for
+> the GPU drivers to call acpi_video_register_backlight()
+> (rather then making this no longer necessary).
+>
+> Also see the probe order example I wrote above.
+>
+> The timeout is really just a bandaid to not regress on systems
+> where for some reason there is no native GPU driver to do
+> the registration.
+>
+> I hope this makes things a bit more clear.
+
+
+Yes, thank you. It is much less confusing when I don't have my mental 
+model inside-out and backwards.
+
+
+> Regards,
+>
+> Hans
+>
+>
+>
+>
+>
+>>>>>>     }
+>>>>>> +
+>>>>>> +enum acpi_backlight_type acpi_video_get_backlight_type(void)
+>>>>>> +{
+>>>>>> +    return __acpi_video_get_backlight_type(false);
+>>>>>> +}
+>>>>>>     EXPORT_SYMBOL(acpi_video_get_backlight_type);
+>>>>>>     +bool acpi_video_backlight_use_native(void)
+>>>>>> +{
+>>>>>> +    return __acpi_video_get_backlight_type(true) == acpi_backlight_native;
+>>>>>> +}
+>>>>>> +EXPORT_SYMBOL(acpi_video_backlight_use_native);
+>>>>>> +
+>>>>>>     /*
+>>>>>>      * Set the preferred backlight interface type based on DMI info.
+>>>>>>      * This function allows DMI blacklists to be implemented by external
+>>>>>> diff --git a/include/acpi/video.h b/include/acpi/video.h
+>>>>>> index db8548ff03ce..4705e339c252 100644
+>>>>>> --- a/include/acpi/video.h
+>>>>>> +++ b/include/acpi/video.h
+>>>>>> @@ -56,6 +56,7 @@ extern void acpi_video_unregister(void);
+>>>>>>     extern int acpi_video_get_edid(struct acpi_device *device, int type,
+>>>>>>                        int device_id, void **edid);
+>>>>>>     extern enum acpi_backlight_type acpi_video_get_backlight_type(void);
+>>>>>> +extern bool acpi_video_backlight_use_native(void);
+>>>>>>     extern void acpi_video_set_dmi_backlight_type(enum acpi_backlight_type type);
+>>>>>>     /*
+>>>>>>      * Note: The value returned by acpi_video_handles_brightness_key_presses()
+>>>>>> @@ -77,6 +78,10 @@ static inline enum acpi_backlight_type acpi_video_get_backlight_type(void)
+>>>>>>     {
+>>>>>>         return acpi_backlight_vendor;
+>>>>>>     }
+>>>>>> +static inline bool acpi_video_backlight_use_native(void)
+>>>>>> +{
+>>>>>> +    return true;
+>>>>>> +}
+>>>>>>     static inline void acpi_video_set_dmi_backlight_type(enum acpi_backlight_type type)
+>>>>>>     {
+>>>>>>     }
