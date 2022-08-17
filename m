@@ -2,35 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10EBD596FB9
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 15:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB14596FBA
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 15:28:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C615192EAE;
-	Wed, 17 Aug 2022 13:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2C0292E85;
+	Wed, 17 Aug 2022 13:28:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12D5792E62
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4702192E48
  for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:28:22 +0000 (UTC)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDDC551C;
- Wed, 17 Aug 2022 15:28:19 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 588ED556;
+ Wed, 17 Aug 2022 15:28:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1660742900;
- bh=pPG9xR2VADrihQ1QjDgkkr+NbyjXGQGSM3nnQs0bztw=;
- h=From:To:Cc:Subject:Date:From;
- b=dUlUwwXFD+wtkk30lpD+KOTwykFv4TZLzfT030tF4ZUstDV3BYbQU6Pe69bqAD1uC
- 77m7HTZna4bLiFLDjkNsaTCpA5xDChMyukzcBWIBCmoiwgepa3ADMJE8HfpDV9mEFw
- Rr0yvPkMuqVy/bqAzTYoJuKyOpUqU/d4WsuLjqfI=
+ bh=tysLQNxMFVp6aURZeT7ig0a3UlhEffUcxleMzgjKWl0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=cHBJY1yK/w9RRJhaM2Jdnt4fSnYB0xeiYXw325SJoL+dp+Qdc+gj/hInN6NQLKgf7
+ DmBoV+0lqQ5z5n0Cmv/rKT3ae25gCfwZy9nIZ8tBgOCEr9JvEuiFcxsTgaYJ/KmZfP
+ roYLgG9d4Qu1iU7I4DFR9SsZgx0eBvxVxO9sUE2U=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/3] drm: rcar-du: remove unnecessary include
-Date: Wed, 17 Aug 2022 16:28:01 +0300
-Message-Id: <20220817132803.85373-1-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 2/3] drm: rcar-du: Fix r8a779a0 color issue.
+Date: Wed, 17 Aug 2022 16:28:02 +0300
+Message-Id: <20220817132803.85373-2-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220817132803.85373-1-tomi.valkeinen@ideasonboard.com>
+References: <20220817132803.85373-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,25 +53,84 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-rcar_du_regs.h is not needed by rcar_du_drv.c so drop the include.
+The rcar DU driver on r8a779a0 has a bug causing some specific colors
+getting converted to transparent colors, which then (usually) show as
+black pixels on the screen.
+
+The reason seems to be that the driver sets PnMR_SPIM_ALP bit in
+PnMR.SPIM field, which is an illegal setting on r8a779a0. The
+PnMR_SPIM_EOR bit also illegal.
+
+Add a new feature flag for this (lack of a) feature and make sure the
+bits are zero on r8a779a0.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c   |  3 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h   |  1 +
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c | 16 +++++++++++++---
+ 3 files changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 00ac233a115e..541c202c993a 100644
+index 541c202c993a..a2776f1d6f2c 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -27,7 +27,6 @@
+@@ -506,7 +506,8 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
+ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
+ 	.gen = 3,
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+-		  | RCAR_DU_FEATURE_VSP1_SOURCE,
++		  | RCAR_DU_FEATURE_VSP1_SOURCE
++		  | RCAR_DU_FEATURE_NO_BLENDING,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/* R8A779A0 has two MIPI DSI outputs. */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+index bfad7775d9a1..712389c7b3d0 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+@@ -31,6 +31,7 @@ struct rcar_du_device;
+ #define RCAR_DU_FEATURE_VSP1_SOURCE	BIT(2)	/* Has inputs from VSP1 */
+ #define RCAR_DU_FEATURE_INTERLACED	BIT(3)	/* HW supports interlaced */
+ #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
++#define RCAR_DU_FEATURE_NO_BLENDING	BIT(5)	/* PnMR.SPIM does not have ALP nor EOR bits */
  
- #include "rcar_du_drv.h"
- #include "rcar_du_kms.h"
--#include "rcar_du_regs.h"
+ #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
  
- /* -----------------------------------------------------------------------------
-  * Device Information
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+index 9e1f0cbbf642..2103816807cc 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+@@ -506,8 +506,19 @@ static void rcar_du_plane_setup_format_gen3(struct rcar_du_group *rgrp,
+ 					    unsigned int index,
+ 					    const struct rcar_du_plane_state *state)
+ {
+-	rcar_du_plane_write(rgrp, index, PnMR,
+-			    PnMR_SPIM_TP_OFF | state->format->pnmr);
++	struct rcar_du_device *rcdu = rgrp->dev;
++	u32 pnmr;
++
++	pnmr = state->format->pnmr;
++
++	if (rcdu->info->features & RCAR_DU_FEATURE_NO_BLENDING) {
++		/* No blending. ALP and EOR are not supported */
++		pnmr &= ~(PnMR_SPIM_ALP | PnMR_SPIM_EOR);
++	}
++
++	pnmr |= PnMR_SPIM_TP_OFF;
++
++	rcar_du_plane_write(rgrp, index, PnMR, pnmr);
+ 
+ 	rcar_du_plane_write(rgrp, index, PnDDCR4,
+ 			    state->format->edf | PnDDCR4_CODE);
+@@ -521,7 +532,6 @@ static void rcar_du_plane_setup_format_gen3(struct rcar_du_group *rgrp,
+ 	 * register to 0 to avoid this.
+ 	 */
+ 
+-	/* TODO: Check if alpha-blending should be disabled in PnMR. */
+ 	rcar_du_plane_write(rgrp, index, PnALPHAR, 0);
+ }
+ 
 -- 
 2.34.1
 
