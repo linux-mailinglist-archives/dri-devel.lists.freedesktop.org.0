@@ -1,71 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B087459669D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 03:22:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BAB5966FD
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 03:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2A4210E16E;
-	Wed, 17 Aug 2022 01:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65F5810E09C;
+	Wed, 17 Aug 2022 01:49:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA2D10E282
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 01:22:22 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27H1FN8h025958;
- Wed, 17 Aug 2022 01:22:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=DbH/Gs+eznGn/bnTGliaNfotD1SP1UNDB7aB2feUYzA=;
- b=UuZExw97JE2Mnx40PnL040RtnDfToMayNgQo4BM66C9r8alvnwi3qdu24iv0DciHNPn5
- 7+ZlB074e4r9t72CG3LHuQTNM2zrFKPtgnqG8TX5DXcsT/yGjGd2ZhDfUWzp0hX7EOUL
- p2weQUB9rrfEwLwtJCq91ep2xyI4sOBj5pEQn8sC6cJz4vKUaPJpZzKXYW7VapCd4PyE
- gRxnWKc7VvioLznzIthsRncQxek0Mv1Ywf25BM+TWiVZbmsA6p1MHHtxOKKBuSWyFr5G
- lyRHvHl7jEXivww14v2MmF/0gNas5Uc1lbQhI6ObqNLSYqBFI57r1ZRL08jzCR1BDr6H 2Q== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j08wmb753-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Aug 2022 01:22:13 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27H1MCQZ010574
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Aug 2022 01:22:12 GMT
-Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 16 Aug 2022 18:22:11 -0700
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH libdrm v3 0/2] Add Writeback Support for Modetest
-Date: Tue, 16 Aug 2022 18:21:59 -0700
-Message-ID: <20220817012201.162-1-quic_jesszhan@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D354410E0F5
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 01:49:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660700942;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2TVY8TMJPxioaZBXVec5JdNU9LSGZ0P5etQctTE53pw=;
+ b=fIbenng1hgeLy1jyLghgh4grmwgK/NYJaA6yO8uNVm5oDw7VzxPFELpuYSe87U/eTOjbss
+ 6qgjjhVetLD56wuWHXdowTazrVSGSewNIE5kWHAsyFcW8D8wMVZ30D9fiqREdW2HTh4VeS
+ 7Vz0bI59qqxzuwnh/xtzScRW1aFoP3o=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-208-tguRuzPMPSihu5HGW4CD4A-1; Tue, 16 Aug 2022 21:49:01 -0400
+X-MC-Unique: tguRuzPMPSihu5HGW4CD4A-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ f10-20020a05621400ca00b0047752ce4c5cso5346410qvs.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 18:49:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=2TVY8TMJPxioaZBXVec5JdNU9LSGZ0P5etQctTE53pw=;
+ b=anzFiTa2/+2Lk8+Cqvcxw++3sZYzFsn34KK+bFKwIs1dvXw7yy54x4GfXvSMinFWv6
+ Wld5SuOoHDffnadsRbD6SvSUgKiPtTdwuKJOzdFO6lf4PXYc3KCYULnZjGOAUO4TTnNP
+ rWB1hF29RP30tjYUyOoJZ2y2rlMw1dl+aLwl9M9FPqSOKY7iCHPbyyyT36Fw96oGjZ2f
+ /MnWCzozOWS3R0bxd/XuBtLtVl3xrosOhcgDW0wYCDWJNlQNhjQoFdIUGmeSCBvocW/q
+ JDFLUxHKmslchmmxFIcJ13oGRzKBZ/a/MK/gSK4MBXiEjhASKGk0wBnm3dmPiC/zXWUM
+ AZLQ==
+X-Gm-Message-State: ACgBeo0xbXQIhJOA03ThMWh1yFF3uPUSGY3Ny2A8vRCgu6kv96cXriUt
+ 8LRmSst2tKRB7VxytvXh5tdknp4uq1/+ONp+pu8CiLr7XNcuboPvtytGmZcmvZ9D9quujcOWWXm
+ Yx75Old/tARoF56QKxFYgjnmCOLmbuyeNpKLr2nARPEFq
+X-Received: by 2002:a05:622a:53:b0:344:6f46:9b16 with SMTP id
+ y19-20020a05622a005300b003446f469b16mr5792713qtw.664.1660700941234; 
+ Tue, 16 Aug 2022 18:49:01 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4gHCrR40uV7QffHRDW/lFTeHdJ8qvvyniB8BpRcxgy0lUxNzSjdlNT4AIgpmsDR0LEaZfQGdV3c0pKtV+DBlM=
+X-Received: by 2002:a05:622a:53:b0:344:6f46:9b16 with SMTP id
+ y19-20020a05622a005300b003446f469b16mr5792703qtw.664.1660700940947; Tue, 16
+ Aug 2022 18:49:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: SH69xvNbWddN0VITBV2L6y8DWjFEXxSl
-X-Proofpoint-GUID: SH69xvNbWddN0VITBV2L6y8DWjFEXxSl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-16_08,2022-08-16_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 phishscore=0 malwarescore=0 mlxlogscore=913 impostorscore=0
- clxscore=1011 suspectscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208170004
+References: <20220816025217.618181-1-kai.heng.feng@canonical.com>
+ <CACO55tt=Op=0E94kK+1M8cDXNCk5Tkc=FMR8=OQFc5ohehjwaw@mail.gmail.com>
+ <CAAd53p49X95MKrTDUq92LuHw3y2i09fUA2HEPzM1EcO8xO97Eg@mail.gmail.com>
+In-Reply-To: <CAAd53p49X95MKrTDUq92LuHw3y2i09fUA2HEPzM1EcO8xO97Eg@mail.gmail.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Wed, 17 Aug 2022 03:48:50 +0200
+Message-ID: <CACO55tvgmb4Vog701idDYGuh125S9mjWPXhftxDMZ7hg-nQXBw@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Switch TGL-H DP-IN to dGFX when it's supported
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,48 +76,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_abhinavk@quicinc.com, qdmitry.baryshkov@linaro.org,
- hoegsberg@google.com, Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: tvrtko.ursulin@linux.intel.com,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ Zenghui Yu <yuzenghui@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add writeback support to modetest with the below options:
+On Wed, Aug 17, 2022 at 3:18 AM Kai-Heng Feng
+<kai.heng.feng@canonical.com> wrote:
+>
+> On Wed, Aug 17, 2022 at 2:50 AM Karol Herbst <kherbst@redhat.com> wrote:
+> >
+> > On Tue, Aug 16, 2022 at 4:53 AM Kai-Heng Feng
+> > <kai.heng.feng@canonical.com> wrote:
+> > >
+> > > On mobile workstations like HP ZBook Fury G8, iGFX's DP-IN can switch to
+> > > dGFX so external monitors are routed to dGFX, and more monitors can be
+> > > supported as result.
+> > >
+> > > To switch the DP-IN to dGFX, the driver needs to invoke _DSM function 20
+> > > on intel_dsm_guid2. This method is described in Intel document 632107.
+> > >
+> >
+> > Can we please not do things like this just because?
+>
+> I there's a very good reason to support more external monitors,
+> especially when eDP is already 4K so iGPU don't have enough buffer for
+> more displays.
+>
 
-- Passing in -c will now also show the writeback connector
+well.. they do have it. What's the limit? 3 or 4 4K displays with gen
+11th+? I find conflicting information, but 3 4K displays are no
+problem. It might be if you get to higher refresh rates or something.
 
-- Test a built-in mode on writeback connector
+I know that 2 work quite reliably and I know I can put even more on
+the Intel GPU.
 
-- Test a custom mode from user input on writeback connector
-  Usage: "./modetest -M msm -x <connector_id>:<mode_parameters>
-            -a -P <plane_id>@<crtc_id>:<widthxheight>+0+0@RG24."
-  Refer to --help for exact syntax
+> >
+> > It forces the discrete GPU to be on leading to higher thermal pressure
+> > and power consumption of the system. Lower battery runtime or higher
+> > fan noise is the result. Not everybody wants to use an AC simply just
+> > because they attach an external display.
+>
+> The system is designed in this way.
+>
 
-- Dump the writeback output buffer to bitstream
-  Usage: "./modetest -M msm -s <connector_id>:<widthxheight>
-          -a -o <filepath>
-          -P <plane_id>@<crtc_id>:<widthxheight>+0+0@RG24"
+?!? This makes no sense. If the discrete GPU is turned on, it means
+the system has to cool away more heat, because it consumes more power.
+It then causes louder fans. No idea how a "system design" can just go
+around simple physics...
 
-This currently supports a singular writeback connector.
-This patch also fixes a bug for running modetest with the atomic flag.
+Even the CPU consumes more power, because on some systems it prevents
+deeper package sleeping modes due to the active PCIe bridge
+controller.
 
-Changes made in V2:
-- Added helper method that checks if user pipe has writeback connector
-- Added error message for dump flag if no writeback connector is found
-- Polls on the writeback fence fd until writeback is complete
+But if you have certain systems where you want to enable this behavior
+despite the drawbacks, maybe maintain a list of systems where to apply
+this method?
 
-Changes made in V3:
-- Resolved compiler warnings
-- Defined ETIME to ETIMEDOUT in cases where ETIME is undefined
+> And many (if not all) gaming laptops and mobile workstations use
+> discrete GPU for external monitors.
+> We just recently found out we have to use a switch to make it work.
+>
 
-Rohith Iyer (2):
-  tests/modetest: Allocate drmModeAtomicReq before setting properties
-  tests/modetest: Add support for writeback connector
+yeah some do, and if people buy those, they already deal with loud
+fans and just accept this fact.
 
- tests/modetest/buffers.c  |  19 ++++
- tests/modetest/buffers.h  |   1 +
- tests/modetest/modetest.c | 187 ++++++++++++++++++++++++++++++++++----
- 3 files changed, 187 insertions(+), 20 deletions(-)
+Others might want silent fans... and why do you have to switch? Out of
+the box Intel GPUs support 3 4K displays. I want to see the general
+use case for 4 4K displays.
 
---
-2.35.1
+So what systems are actually affected and do users have the option to
+disable it, if they prefer a more silent system?
+
+> >
+> > If the problem is "we run out of displays" then can we have something
+> > more dynamic, where we are doing this only and only if we run out of
+> > resources to drive as that many displays.
+>
+> This is a boot-time switch, so it's not possible to switch it dynamically.
+>
+
+This makes it even worse.
+
+> >
+> > Most users will be fine with ports being driven by the iGPU. Why hurt
+> > most users, because of some weird special case with mostly only
+> > drawbacks?
+>
+> This is a use case that hardware vendor never bother to test.
+> And this is not a special case - the system is designed to use dGPU
+> for external monitors.
+>
+> Kai-Heng
+>
+
+so instead of hard wiring, they added a software switch to do the same thing?
+
+And then don't bother to test both possibilities?
+
+Anyway.. it doesn't make any sense and this opens up more questions
+than I initially had.
+
+I honestly still don't see the point here and still doubt that
+pleasing a handful of users is worth accepting the drawbacks.
+
+I also have no say if it comes to the i915 driver, but from a user
+perspective none of this makes much sense tbh.
+
+> >
+> > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/display/intel_acpi.c | 18 +++++++++++++++++-
+> > >  1 file changed, 17 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+> > > index e78430001f077..3bd5930e2769b 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_acpi.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+> > > @@ -20,6 +20,7 @@ static const guid_t intel_dsm_guid =
+> > >                   0xa8, 0x54, 0x0f, 0x13, 0x17, 0xb0, 0x1c, 0x2c);
+> > >
+> > >  #define INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED 0 /* No args */
+> > > +#define INTEL_DSM_FN_DP_IN_SWITCH_TO_DGFX 20 /* No args */
+> > >
+> > >  static const guid_t intel_dsm_guid2 =
+> > >         GUID_INIT(0x3e5b41c6, 0xeb1d, 0x4260,
+> > > @@ -187,6 +188,7 @@ void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915)
+> > >         struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+> > >         acpi_handle dhandle;
+> > >         union acpi_object *obj;
+> > > +       int supported = 0;
+> > >
+> > >         dhandle = ACPI_HANDLE(&pdev->dev);
+> > >         if (!dhandle)
+> > > @@ -194,8 +196,22 @@ void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915)
+> > >
+> > >         obj = acpi_evaluate_dsm(dhandle, &intel_dsm_guid2, INTEL_DSM_REVISION_ID,
+> > >                                 INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED, NULL);
+> > > -       if (obj)
+> > > +       if (obj) {
+> > > +               if (obj->type == ACPI_TYPE_INTEGER)
+> > > +                       supported = obj->integer.value;
+> > > +
+> > >                 ACPI_FREE(obj);
+> > > +       }
+> > > +
+> > > +       /* Tiger Lake H DP-IN Boot Time Switching from iGfx to dGfx */
+> > > +       if (supported & BIT(20)) {
+> > > +               obj = acpi_evaluate_dsm(dhandle, &intel_dsm_guid2,
+> > > +                                       INTEL_DSM_REVISION_ID,
+> > > +                                       INTEL_DSM_FN_DP_IN_SWITCH_TO_DGFX,
+> > > +                                       NULL);
+> > > +               if (obj)
+> > > +                       ACPI_FREE(obj);
+> > > +       }
+> > >  }
+> > >
+> > >  /*
+> > > --
+> > > 2.36.1
+> > >
+> >
+>
 
