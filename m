@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36A05A0175
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 20:39:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE4E5A0179
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 20:40:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80599A8E78;
-	Wed, 24 Aug 2022 18:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D782C0CF1;
+	Wed, 24 Aug 2022 18:40:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1586AA07DB
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 20:34:29 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id c185so16564692oia.7
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:34:29 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62893A8636
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 20:53:43 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id y13so26538306ejp.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=Nyn8W0wCSba81gwjrclnwSz99SrDsKvUVdhDOsWRPXk=;
- b=StSfMjgG4+KNVbI5LW+rlwJS16aCF27eduJjDxqU6ksj8M0vXSPNQHVIJn4hW9piKt
- A/Jqz2lUEl9i5BEdwyvpFckZggIWJzy7NFhkCTXL7HK5AXYtkaxErFB+FqURcXE+GQH6
- gv0JCCjhmmfYVD1k83bJ1D2wW+vkIW5Q+agfE=
+ bh=1+XpTLI/st3pL/UMVfxVdHTTNl/6n7HQUGF319MI0IU=;
+ b=LWeIFvQ972maQf3/948nGROrQ/uqLY39NILux/YX/yij//DDfJOUkG1nQJ6gmz+gTm
+ mt6Z7RHYlgh9kTtp86QGSAGzgewxTFuJcYWCfkzx6O30xI56V2DXKKKABUkTg/s+s5IO
+ K4V+NvtxkPE4rvxL0bRx0Z/HcIaJaqrN3Qad8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=Nyn8W0wCSba81gwjrclnwSz99SrDsKvUVdhDOsWRPXk=;
- b=f1Iipq4BTIpqtmESx9m2TMVHBj9eAnFQSeNnI959Y3gjcGIp6bmaGNVcFiZFBmGb40
- /yh66etdOspp5ptfRzOCNfNFhtSBx1K8IGx1GiGM0sykrmioO2sZy7dUITc8y3OVUaDZ
- 7rTRb0k+DVmCe9uH1rXbMu21t6Eev1WBXqwuWhP4zAwAqCC3lHjrQ5kKu5zaj4WAAsvv
- NGXTS5t+dsoNhGYuFLoiVGZvY5Bt1i6VZt5sMZfR5SC3LJWYmZBqhnDiKcbK3SrV0qyZ
- Rom+9IWX6+dFW1DhZgWjrsp2YnlXXPar47a+EKgccVGl7WyoF78Qv+IV8hZffpOjLbls
- rbAA==
-X-Gm-Message-State: ACgBeo15DlshL9gNoM2mbhvNDF9VuG3NkxDSoFmp/EwCpN+RBuPgHgKd
- 7nnQyJCUEIum9Lr8GZrSAVsNxlerpDR/gA==
-X-Google-Smtp-Source: AA6agR60+GpcLNN4G6igOxudrQosGpC4XLnhIHJLEPegByF/VI9LnfQJWRk+/rG2urBXPmUVACj9uw==
-X-Received: by 2002:a05:6808:1520:b0:344:ad75:cb41 with SMTP id
- u32-20020a056808152000b00344ad75cb41mr2316577oiw.283.1660768468440; 
- Wed, 17 Aug 2022 13:34:28 -0700 (PDT)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com.
- [209.85.160.52]) by smtp.gmail.com with ESMTPSA id
- q207-20020a4a33d8000000b0044528e04cdasm3235166ooq.23.2022.08.17.13.34.28
+ bh=1+XpTLI/st3pL/UMVfxVdHTTNl/6n7HQUGF319MI0IU=;
+ b=LU2LvH//jDuDOUUoI6Wm1ETOFIz9VGY+zrYqG6bRO6uvGZBr7vLlFZ5/kFAObxQb8E
+ rCCg1FfSFVFYZgj0X2BDO2tg11hNuNC2reVDS9tU2qvTlWRHIn62qEORIf6ssT9beL1b
+ QLvf+5XjV56SuUAIQik5zs7v6gOfZdsHeltWdiDeAegJHgTMJ5FbBWEtPafpQURAOeWj
+ B6n/F2s60ZPxI4loshWJN/ZsojfR5qBwCLqwYM+UJx8jj9XjKNkgbqb1Kymq5g0AjjDX
+ bVbgF1XvkvWFR04kdphN/t90bMFUxYtMtNwZyH1np4EtD5IX1wKQw8CGXTUSN0YBokr9
+ MI3Q==
+X-Gm-Message-State: ACgBeo11kNnMZ6DzDmNMFIy6AsrrfsmSjyLOH9UjJDNK/6wahaa1UGgU
+ YdeCOHqrjZoOkY38XMWP5LN0/nqjnsB/7zJH
+X-Google-Smtp-Source: AA6agR6Sy9R3DLLoJbebzfDprGTKpYVH19/40zIuv8rLE+hKx1g8CxcqU3LZ4332WoQDXG6+bGG9Xg==
+X-Received: by 2002:a17:907:3d90:b0:730:9300:68aa with SMTP id
+ he16-20020a1709073d9000b00730930068aamr18455050ejc.655.1660769621642; 
+ Wed, 17 Aug 2022 13:53:41 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
+ [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
+ w27-20020a1709060a1b00b0072ed72072aesm7174849ejf.192.2022.08.17.13.53.37
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Aug 2022 13:34:28 -0700 (PDT)
-Received: by mail-oa1-f52.google.com with SMTP id
- 586e51a60fabf-11c59785966so2775173fac.11
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:34:28 -0700 (PDT)
-X-Received: by 2002:a05:6870:d0d4:b0:10d:4a2:2c0e with SMTP id
- k20-20020a056870d0d400b0010d04a22c0emr2720148oaa.232.1660768467647; Wed, 17
- Aug 2022 13:34:27 -0700 (PDT)
+ Wed, 17 Aug 2022 13:53:37 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id r16so8300704wrm.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:53:37 -0700 (PDT)
+X-Received: by 2002:a05:6000:1541:b0:222:cf65:18d7 with SMTP id
+ 1-20020a056000154100b00222cf6518d7mr14840607wry.659.1660769616735; Wed, 17
+ Aug 2022 13:53:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220816064231.60473-1-zhangzekun11@huawei.com>
 In-Reply-To: <20220816064231.60473-1-zhangzekun11@huawei.com>
-From: Brian Norris <briannorris@chromium.org>
-Date: Wed, 17 Aug 2022 13:34:13 -0700
-X-Gmail-Original-Message-ID: <CA+ASDXMGbJSJ2PC_4_2HL_01hO2aDoiWyxmosvtOze43aaeWpw@mail.gmail.com>
-Message-ID: <CA+ASDXMGbJSJ2PC_4_2HL_01hO2aDoiWyxmosvtOze43aaeWpw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 17 Aug 2022 13:53:24 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xxp=YJcweeuzQqkzVoC-uuXgbTREqJTu0RphB4X6B4DQ@mail.gmail.com>
+Message-ID: <CAD=FV=Xxp=YJcweeuzQqkzVoC-uuXgbTREqJTu0RphB4X6B4DQ@mail.gmail.com>
 Subject: Re: [PATCH -next] drm/bridge: Add missing clk_disable_unprepare() in
  analogix_dp_resume()
 To: Zhang Zekun <zhangzekun11@huawei.com>
@@ -74,24 +73,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>,
+Cc: Brian Norris <briannorris@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Doug Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Linux Kernel <linux-kernel@vger.kernel.org>, xuqiang36@huawei.com,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, xuqiang36@huawei.com,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 15, 2022 at 11:46 PM Zhang Zekun <zhangzekun11@huawei.com> wrote:
+Hi,
+
+On Mon, Aug 15, 2022 at 11:45 PM Zhang Zekun <zhangzekun11@huawei.com> wrote:
 >
 > Add the missing clk_disable_unprepare() before return from
 > analogix_dp_resume() in the error handling case.
 >
 > Fixes: 211f276ed3d9 ("drm: bridge: analogix/dp: add panel prepare/unprepare in suspend/resume time")
 > Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
+> ---
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Reviewed-by: Brian Norris <briannorris@chromium.org>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+I'll snooze this and check back in approx 1 week. If someone else
+hasn't already applied it I'll plan to apply it to drm-misc-fixes.
+
+-Doug
