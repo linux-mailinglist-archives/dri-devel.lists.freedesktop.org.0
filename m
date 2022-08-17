@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA88597CCE
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 06:18:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1866F597D0C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 06:18:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C101CB50F6;
-	Thu, 18 Aug 2022 04:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C557B5B57;
+	Thu, 18 Aug 2022 04:17:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9885FB0459;
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24BCFB5B35;
  Thu, 18 Aug 2022 04:17:27 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27I2hVto018386;
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27I3KMjL029516;
  Thu, 18 Aug 2022 04:17:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=EHtGBxEEfsfmnWP4PpzyBBgLU2KALug2bILXvp24eh0=;
- b=Qbu0WQDlkHHqMGugLNLo6b1DYYMN3NkGNeNtIV33DE41BagSxGIXQT0hSDxvvtiFM3jV
- px9WUrAnACoSKEo2FW8oyCR1fA2PaPzPuYKdhnDPtTMUfXAPm6kTrt0pJ4oGv9G6k89S
- 2powAwqwevVvz60n+ayX3SRD2p0EtA/hv5/ZLvx08xm3DNNV9Z7+CjJ/pgtsiHgMTWCN
- zL86hOF3hJXZlTXQ3oPxQav0xl7rmZhSvjMN+n/UJnQBtkfLk+suHXIxdt32ygV/2McY
- VT060MntEY5HplxO1iLT3BIFEIS7hkzIBWl2CqfSJdOg2VW807A/NHgPZe0KzyrcTFTK ww== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=3h1aiXrphk5T2rqN3UBCgmzr+FGo6Il6A5/GglCrd1c=;
+ b=fHEuCiWEGlgh15fqeTQp3Rw/MvaHK1fTO1t4uj5kQRSewaj5HCdxiGZ8OUWsQBipx8wF
+ oPlMkSeaUr+1P4URn/yGMTYtmMcX5ShneHOyX9UteOFnSe3ubwap5YPoDHVcIH2cVMML
+ VcE/zw3LCxw6/dhMc52/vKBzgHaObL7QwtBK9E6Ks5CHLKx5oxiRzogVeFy5e666pgob
+ vHTwjdstI7LcVZh/QultH8QuAtPXXXA8Y/3tnTrjjh0CvS1akfH6YMMIrJFW6qbzr3Er
+ 5YK41ER7+KUCwt5A8gZvMqrOWBEMTqU0XL3Wjo0qDw2ktkOsLeLh+QQc2CdegJhBmlNE pQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j08wmgty7-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j1d8009f3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Aug 2022 04:17:21 +0000
+ Thu, 18 Aug 2022 04:17:22 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27I4HJAf009952
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27I4HJ0r012608
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 18 Aug 2022 04:17:21 GMT
 Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 17 Aug 2022 07:58:36 -0700
+ 15.2.986.22; Wed, 17 Aug 2022 07:58:41 -0700
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 To: freedreno <freedreno@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  Rob Clark <robdclark@gmail.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, "Stephen
  Boyd" <swboyd@chromium.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2 4/5] clk: qcom: gpucc-sc7280: Add cx collapse reset support
-Date: Wed, 17 Aug 2022 20:27:53 +0530
-Message-ID: <20220817202609.v2.4.I5e64ff4b77bb9079eb2edeea8a02585c9e76778f@changeid>
+Subject: [PATCH v2 5/5] arm64: dts: qcom: sc7280: Add Reset support for gpu
+Date: Wed, 17 Aug 2022 20:27:54 +0530
+Message-ID: <20220817202609.v2.5.I6a1fca5d53c886c05ea3e24cd4282d31c9c0cd0b@changeid>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1660748274-39239-1-git-send-email-quic_akhilpo@quicinc.com>
 References: <1660748274-39239-1-git-send-email-quic_akhilpo@quicinc.com>
@@ -60,16 +60,16 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: fqdzOf--2robkilEWfzfRDQmP1UYrOk-
-X-Proofpoint-GUID: fqdzOf--2robkilEWfzfRDQmP1UYrOk-
+X-Proofpoint-GUID: AwGgKFkFnmSILa68FFx3WQfj8w4OP4u0
+X-Proofpoint-ORIG-GUID: AwGgKFkFnmSILa68FFx3WQfj8w4OP4u0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-18_02,2022-08-16_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 impostorscore=0
- clxscore=1015 suspectscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0 spamscore=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ mlxlogscore=999 mlxscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2207270000 definitions=main-2208180014
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,54 +83,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Michael Turquette <mturquette@baylibre.com>,
+Cc: devicetree@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>, krzysztof.kozlowski@linaro.org,
- Andy Gross <agross@kernel.org>, linux-clk@vger.kernel.org
+ Douglas Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow a consumer driver to poll for cx gdsc collapse through Reset
-framework.
+Add support for Reset using GPUCC driver for GPU. This helps to ensure
+that GPU state is reset by making sure that CX head switch is collapsed.
 
 Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 ---
 
-Changes in v2:
-- Minor update to use the updated custom reset ops implementation
+(no changes since v1)
 
- drivers/clk/qcom/gpucc-sc7280.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/clk/qcom/gpucc-sc7280.c b/drivers/clk/qcom/gpucc-sc7280.c
-index 9a832f2..d4bc791 100644
---- a/drivers/clk/qcom/gpucc-sc7280.c
-+++ b/drivers/clk/qcom/gpucc-sc7280.c
-@@ -433,12 +433,22 @@ static const struct regmap_config gpu_cc_sc7280_regmap_config = {
- 	.fast_io = true,
- };
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index e66fc67..f5257d6 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -2243,6 +2243,9 @@
+ 			nvmem-cells = <&gpu_speed_bin>;
+ 			nvmem-cell-names = "speed_bin";
  
-+struct qcom_reset_ops cx_gdsc_reset = {
-+	.reset = gdsc_wait_for_collapse,
-+};
++			resets = <&gpucc GPU_CX_COLLAPSE>;
++			reset-names = "cx_collapse";
 +
-+static const struct qcom_reset_map gpucc_sc7280_resets[] = {
-+	[GPU_CX_COLLAPSE] = { .ops = &cx_gdsc_reset, .priv = &cx_gdsc },
-+};
-+
- static const struct qcom_cc_desc gpu_cc_sc7280_desc = {
- 	.config = &gpu_cc_sc7280_regmap_config,
- 	.clks = gpu_cc_sc7280_clocks,
- 	.num_clks = ARRAY_SIZE(gpu_cc_sc7280_clocks),
- 	.gdscs = gpu_cc_sc7180_gdscs,
- 	.num_gdscs = ARRAY_SIZE(gpu_cc_sc7180_gdscs),
-+	.resets = gpucc_sc7280_resets,
-+	.num_resets = ARRAY_SIZE(gpucc_sc7280_resets),
- };
+ 			gpu_opp_table: opp-table {
+ 				compatible = "operating-points-v2";
  
- static const struct of_device_id gpu_cc_sc7280_match_table[] = {
 -- 
 2.7.4
 
