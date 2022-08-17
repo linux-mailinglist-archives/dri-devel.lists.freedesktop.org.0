@@ -2,60 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7219597542
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 19:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A76597565
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 19:56:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A315A0304;
-	Wed, 17 Aug 2022 17:44:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B12A195E50;
+	Wed, 17 Aug 2022 17:56:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7A2113545;
- Wed, 17 Aug 2022 17:44:29 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id mn10so5844491qvb.10;
- Wed, 17 Aug 2022 10:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=J1wG7I7d+b+Gm+VyG0MNfyyylwWfpwl2Cy4EdEXZgmE=;
- b=awr/Mg1rzWk0nIOZ5LAdsmlvB9rpqeEsKI47+5GLDUuyql/qiF1f5W7HZYKEtY8VJ0
- y6Hh8hgYrykTPfvBfrehe8urf5MwKprP36ovdrWeff3LtKo8kqyk6w2gZBieOf3tTNWD
- SUq0FgVkDBQwtmZV9YzwLUxNv8q1P6iQ/tkIye6Bz7B+oHWbZGpR8mIMOkE0Lug3i+gb
- m/hZb5w223H30yJU642O/yh5ZRfYmxFgZIDIpj+oPIH1Kmcky1eQl31S+Qmthq4TFYd9
- A02A7GK6C/lUN/2f2d9oAOQXdo3Ogm4vRZyuWz/fm8/HS6Py6umuT91YcTdMLHO0C8Np
- HH1w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A42AA0BBE
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 17:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660758969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u6ujo7+tHLDKQ50eag3ScQLxtrPDDWzfQledOoCebFc=;
+ b=OsmDm9J7GuPqzTOB7GMTWeLfn4qZlZZ2OpNR4G7OERev43IIk2HhT8xqh6ix6yS2TZWT+F
+ EdJ07xyF6p8ocL0gc2bcqY743ZN40zFzK0D6KskxwDgjhGefGUoPFYH6MTL6ouAHg4gGI2
+ MVTo/DAi12e51cKcK+a9wkTIRSj+H58=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-512-Y1Y-UaYkNGeb4kQJHrDoHQ-1; Wed, 17 Aug 2022 13:56:06 -0400
+X-MC-Unique: Y1Y-UaYkNGeb4kQJHrDoHQ-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ de4-20020a05620a370400b006a9711bd9f8so12188785qkb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 10:56:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=J1wG7I7d+b+Gm+VyG0MNfyyylwWfpwl2Cy4EdEXZgmE=;
- b=mk+NU80GTLa6bOHoJRey5kSsCYuLV6AR55GDXG3+HwA3bJVuaa/Kx3wbLcOPDRGPvn
- So8zLPIBqNxVnwsiNXlp/H0m/wkrCsqe/BsY/SL6PSJ1Jbi6G+z/qqkLzauIzEiGChUb
- gIeIIIllD4WwMqOapIOl0XbbpE4uWtSAdCRwBpeWrrUa6235WhzGuMbgsNEbAsJBid2J
- 2J07+EBGQiBmZjf06JwYAmKIM2y2yaP6KcaZHimmwSiydMCZX7RzN5qZcyBDj0c3scRD
- COFGoSCASLf7CIy+SRPfp93L+wC4HmeyXRCl1FBBnVfBeYrycACujWvRp1i5wJiRLYK5
- Y+UQ==
-X-Gm-Message-State: ACgBeo3kmhTnOXbK2pH9TVuRrQGNIl07lWbHffROiTy1SAeFY9UN/DKE
- l5GJT57Uf4/42L5TQkju7vRr7ZrNOP7OTuZpi6HRtDyyEavQgaN+sdU=
-X-Google-Smtp-Source: AA6agR5ouYu6T0TO4FpczS1ogVTlBsnrYrz1mco+wpVp+sdwOgGzu10g6mEv2uT5j38gZ0K4fHcm3P5KlpqF2XpIDsQ=
-X-Received: by 2002:a0c:a9ca:0:b0:492:61ca:7fcc with SMTP id
- c10-20020a0ca9ca000000b0049261ca7fccmr13472552qvb.29.1660758268084; Wed, 17
- Aug 2022 10:44:28 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:user-agent:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=u6ujo7+tHLDKQ50eag3ScQLxtrPDDWzfQledOoCebFc=;
+ b=tZLZ8Lmhb3GUHmOvcDNuBv9dLMoE5TNxo++onNOgH6x3zrRmC8Bv745bTPMtY3G0Ay
+ eWJbwPnI0GEYgP9yZcEBn4VI9TBZSgtjG1bClOF7GY44Ax/MKpz9B4FcxH9wuvYManmN
+ epU4OtvX6E/1FUEiEommQBRTsZMhAY8/DOOG8GSmoPZa+tDuNwo6GeEb6CLJq9hfXyQN
+ B42Zvz3H+TWL+uUcwHh1csgNU2i7ipFvwZAQAjWZnAbdvVcGOMMo7Esrltby6jnzbNd7
+ 5lQua97QfKVoEtu5z/qUk1wPSZvDPscER/8UT82aKszAFDfEqOoan8Y3ukfa8sRHcSKH
+ q1Vw==
+X-Gm-Message-State: ACgBeo3PXehYBX3Epb857E01J85u/p+eBMOnocOXkzBAIt34+PnA2PTy
+ fmbQlxdGQE8d7GWTOQiIDAmI0zAtmLx1yqFm9XVAygIMtlZoWVmJ1UNFtGLNjeCa1eJWWBu3VhB
+ aXNq0qJgow8YwB1XotPYNbCEPkwG5
+X-Received: by 2002:a05:620a:269a:b0:6b5:b76c:11c9 with SMTP id
+ c26-20020a05620a269a00b006b5b76c11c9mr19154896qkp.100.1660758966200; 
+ Wed, 17 Aug 2022 10:56:06 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6WDYz+MTlIuAdoJuBIJyS4ztL+6UVgG9kZwAFd70kTJFn9IH7U9Me8NmcInCl8uccQk42Qyg==
+X-Received: by 2002:a05:620a:269a:b0:6b5:b76c:11c9 with SMTP id
+ c26-20020a05620a269a00b006b5b76c11c9mr19154869qkp.100.1660758965899; 
+ Wed, 17 Aug 2022 10:56:05 -0700 (PDT)
+Received: from [192.168.8.138] (pool-100-0-245-4.bstnma.fios.verizon.net.
+ [100.0.245.4]) by smtp.gmail.com with ESMTPSA id
+ 20-20020a370914000000b006b8d1914504sm13417807qkj.22.2022.08.17.10.56.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Aug 2022 10:56:05 -0700 (PDT)
+Message-ID: <35d4da2537d53ade88528dda5668f5b5d2b21e49.camel@redhat.com>
+Subject: Re: [PATCH] drm/i915: Switch TGL-H DP-IN to dGFX when it's supported
+From: Lyude Paul <lyude@redhat.com>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>, Mark Pearson
+ <markpearson@lenovo.com>
+Date: Wed, 17 Aug 2022 13:56:03 -0400
+In-Reply-To: <CAAd53p4GoU6_ExWB=0b3_X7STd2Fnq764QpmzgOEwn3jdCUBxQ@mail.gmail.com>
+References: <20220816025217.618181-1-kai.heng.feng@canonical.com>
+ <87leror4sl.fsf@intel.com>
+ <CAAd53p76ut7QRFdM4NjaRua=Hc4bu9_=7+Q_t8ExJysEAhJf=Q@mail.gmail.com>
+ <b8ebc447ea464371102df765882fc5010cc0c784.camel@redhat.com>
+ <CAAd53p4GoU6_ExWB=0b3_X7STd2Fnq764QpmzgOEwn3jdCUBxQ@mail.gmail.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-References: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
- <be6f1ce4-46b1-7a80-230c-b99f203ce8ad@riseup.net>
- <CABXGCsMFYnE+Wn2EAWuC8DSVj=TVprj6ABZwRK-hXcw-1hnMyw@mail.gmail.com>
- <CABXGCsMpGabZ32j_ObEHa_har2W8M8RWuqnx3d=yJT2NX_ztNg@mail.gmail.com>
- <20220817160751.moqhebkiuiydraka@mail.igalia.com>
-In-Reply-To: <20220817160751.moqhebkiuiydraka@mail.igalia.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Wed, 17 Aug 2022 22:44:17 +0500
-Message-ID: <CABXGCsOM9An-+EeaGWm0OA1FN2p94=BF210Lhy0tiO6ye9onWQ@mail.gmail.com>
-Subject: Re: [BUG][5.20] refcount_t: underflow; use-after-free
-To: Melissa Wen <mwen@igalia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,127 +89,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: tvrtko.ursulin@linux.intel.com,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ Zenghui Yu <yuzenghui@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 17, 2022 at 9:08 PM Melissa Wen <mwen@igalia.com> wrote:
->
-> Hi Mikhail,
->
-> IIUC, you got this second user-after-free by applying the first version
-> of Ma=C3=ADra's patch, right? So, that version was adding another unbalan=
-ced
-> unlock to the cs ioctl flow, but it was solved in the latest version,
-> that you can find here: https://patchwork.freedesktop.org/patch/497680/
-> If this is the situation, can you check this last version?
->
-> Thanks,
->
-> Melissa
+Adding Mark Pearson from Lenovo to this, Mark for reference the original patch
+is here:
 
-With the last version warning "bad unlock balance detected!" was gone,
-but the user-after-free issue remains.
-And again "Workqueue: events drm_sched_entity_kill_jobs_work [gpu_sched]".
+https://patchwork.freedesktop.org/patch/497807/?series=107312&rev=1
 
-[  297.834779] ------------[ cut here ]------------
-[  297.834818] refcount_t: underflow; use-after-free.
-[  297.834831] WARNING: CPU: 30 PID: 2377 at lib/refcount.c:28
-refcount_warn_saturate+0xba/0x110
-[  297.834838] Modules linked in: uinput rfcomm snd_seq_dummy
-snd_hrtimer nft_objref nf_conntrack_netbios_ns nf_conntrack_broadcast
-nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
-nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
-nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink
-qrtr bnep sunrpc binfmt_misc snd_seq_midi snd_seq_midi_event mt76x2u
-mt76x2_common mt76x02_usb mt76_usb mt76x02_lib snd_hda_codec_realtek
-iwlmvm intel_rapl_msr snd_hda_codec_generic snd_hda_codec_hdmi mt76
-vfat fat snd_hda_intel intel_rapl_common mac80211 snd_intel_dspcfg
-snd_intel_sdw_acpi snd_usb_audio snd_hda_codec snd_usbmidi_lib btusb
-edac_mce_amd iwlwifi libarc4 uvcvideo snd_hda_core btrtl snd_rawmidi
-snd_hwdep videobuf2_vmalloc btbcm kvm_amd videobuf2_memops snd_seq
-iwlmei btintel videobuf2_v4l2 eeepc_wmi snd_seq_device
-videobuf2_common btmtk kvm xpad videodev joydev irqbypass snd_pcm
-asus_wmi hid_logitech_hidpp ff_memless cfg80211 bluetooth rapl mc
-[  297.834932]  ledtrig_audio snd_timer sparse_keymap platform_profile
-wmi_bmof snd video pcspkr k10temp i2c_piix4 rfkill soundcore mei
-asus_ec_sensors acpi_cpufreq zram amdgpu drm_ttm_helper ttm
-crct10dif_pclmul crc32_pclmul crc32c_intel iommu_v2 ucsi_ccg gpu_sched
-typec_ucsi drm_buddy ghash_clmulni_intel drm_display_helper ccp igb
-typec sp5100_tco nvme cec nvme_core dca wmi ip6_tables ip_tables fuse
-[  297.834978] Unloaded tainted modules: amd64_edac():1 amd64_edac():1
-amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
-amd64_edac():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
-amd64_edac():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
-pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-amd64_edac():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
-amd64_edac():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
-amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 pcc_cpufreq():1 pcc_cpufreq():1 fjes():1
-[  297.835055]  pcc_cpufreq():1 fjes():1 pcc_cpufreq():1 fjes():1
-pcc_cpufreq():1 fjes():1 fjes():1 fjes():1 fjes():1 fjes():1
-[  297.835071] CPU: 30 PID: 2377 Comm: kworker/30:6 Tainted: G
-W    L    -------  ---
-6.0.0-0.rc1.20220817git3cc40a443a04.14.fc38.x86_64 #1
-[  297.835075] Hardware name: System manufacturer System Product
-Name/ROG STRIX X570-I GAMING, BIOS 4403 04/27/2022
-[  297.835078] Workqueue: events drm_sched_entity_kill_jobs_work [gpu_sched=
-]
-[  297.835085] RIP: 0010:refcount_warn_saturate+0xba/0x110
-[  297.835088] Code: 01 01 e8 59 59 6f 00 0f 0b e9 22 46 a5 00 80 3d
-be 7d be 01 00 75 85 48 c7 c7 c0 99 8e aa c6 05 ae 7d be 01 01 e8 36
-59 6f 00 <0f> 0b e9 ff 45 a5 00 80 3d 99 7d be 01 00 0f 85 5e ff ff ff
-48 c7
-[  297.835091] RSP: 0018:ffffbd3506df7e60 EFLAGS: 00010286
-[  297.835095] RAX: 0000000000000026 RBX: ffff961b250cbc28 RCX: 00000000000=
-00000
-[  297.835097] RDX: 0000000000000001 RSI: ffffffffaa8d07a4 RDI: 00000000fff=
-fffff
-[  297.835100] RBP: ffff96276a3f5600 R08: 0000000000000000 R09: ffffbd3506d=
-f7d10
-[  297.835102] R10: 0000000000000003 R11: ffff9627ae2fffe8 R12: ffff96276a3=
-fc800
-[  297.835105] R13: ffff9618c03e6600 R14: ffff96276a3fc805 R15: ffff961b250=
-cbc30
-[  297.835108] FS:  0000000000000000(0000) GS:ffff96276a200000(0000)
-knlGS:0000000000000000
-[  297.835110] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  297.835113] CR2: 0000621001e4a000 CR3: 000000018d958000 CR4: 00000000003=
-50ee0
-[  297.835116] Call Trace:
-[  297.835118]  <TASK>
-[  297.835121]  process_one_work+0x2a0/0x600
-[  297.835133]  worker_thread+0x4f/0x3a0
-[  297.835139]  ? process_one_work+0x600/0x600
-[  297.835142]  kthread+0xf5/0x120
-[  297.835145]  ? kthread_complete_and_exit+0x20/0x20
-[  297.835151]  ret_from_fork+0x22/0x30
-[  297.835166]  </TASK>
-[  297.835168] irq event stamp: 198245
-[  297.835171] hardirqs last  enabled at (198253):
-[<ffffffffa918ce7e>] __up_console_sem+0x5e/0x70
-[  297.835175] hardirqs last disabled at (198260):
-[<ffffffffa918ce63>] __up_console_sem+0x43/0x70
-[  297.835177] softirqs last  enabled at (196454):
-[<ffffffffa9de3a4e>] addrconf_verify_rtnl+0x23e/0x920
-[  297.835182] softirqs last disabled at (196448):
-[<ffffffffa9de3835>] addrconf_verify_rtnl+0x25/0x920
-[  297.835185] ---[ end trace 0000000000000000 ]---
+Comments from me down below
 
+On Wed, 2022-08-17 at 09:02 +0800, Kai-Heng Feng wrote:
+> On Wed, Aug 17, 2022 at 2:24 AM Lyude Paul <lyude@redhat.com> wrote:
+> > 
+> > On Tue, 2022-08-16 at 19:29 +0800, Kai-Heng Feng wrote:
+> > > On Tue, Aug 16, 2022 at 4:06 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> > > > 
+> > > > On Tue, 16 Aug 2022, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
+> > > > > On mobile workstations like HP ZBook Fury G8, iGFX's DP-IN can switch to
+> > > > > dGFX so external monitors are routed to dGFX, and more monitors can be
+> > > > > supported as result.
+> > > > > 
+> > > > > To switch the DP-IN to dGFX, the driver needs to invoke _DSM function 20
+> > > > > on intel_dsm_guid2. This method is described in Intel document 632107.
+> > 
+> > Is this documentation released anywhere? We've been wondering about these
+> > interfaces for quite a long time, and it would be good to know if there's docs
+> > for this we haven't really been seeing.
+> > 
+> > > > 
+> > > > Is this the policy decision that we want to unconditionally make,
+> > > > though?
+> > > 
+> > > I believes so, so more external monitors can be supported at the same time.
+> > > 
+> > > Kai-Heng
+> > 
+> > Is this for systems with dual Intel GPUs? I ask because if this affects
+> > Intel/Nvidia hybrid systems then this is a huge no from me. Nouveau is able to
+> > support these systems, but at a limited capacity. This would imply that we are
+> > making external displays work for users of the nvidia proprietary driver, at
+> > the expense making external display support for mainline kernel users
+> > substantially worse for people who are using the mainline kernel. Which isn't
+> > a choice we should be making, because nvidia's OOT driver is not a mainline
+> > kernel driver.
+> 
+> Yes it's for Intel/NVIDIA hybrid systems.
+> 
+> The problem is that hardware vendor design the systems to use NVIDIA
+> for external displays, so using external displays on Intel are never
+> tested by the vendors.
+> I don't think that's any good either.
+> 
 
-Fill kernel log: https://pastebin.com/zbbY2zDU
+Sigh, the constant forcing of nvidia hardware into laptops from vendors is
+seriously something I wish they would knock it off with considering they're
+basically the most difficult hardware vendor to work with.
 
---=20
-Best Regards,
-Mike Gavrilov.
+Anyway, if we -need- to route displays through the external GPU then we can.
+But I'd like to at least get convinced first that this is an actual necessity
+we should expect for multiple vendors, or the exception to the rule. Because
+if these laptops are capable of driving displays through Intel, at the moment
+not doing that is a huge downgrade in terms of functionality. -Especially- if
+these machines were already working in the field as-is. Probably worth noting
+I don't think I have yet to actually hear of any complaints about this being
+the case, and I'd like to also make sure this isn't a change being done for
+one or two vendors when most vendors aren't actually doing something like
+this.
+
+Note that for a lot of systems it won't -technically- be a big difference
+since the current situation in the market right now is that a lot of laptops
+will have all their external displays routed through the nvidia GPU and
+nowhere else. It's not great compared to just being able to use the well
+supported Intel GPU for everything though. And if we're controlling display
+routing through ACPI, that implies things aren't directly hooked up and
+someone went through the hassle of adding a display mux - which kind of seems
+like a waste of engineering effort and money if it can't actually be used for
+muxing between the two GPUs. Especially considering that up until very
+recently muxes had more or less been dropped from the majority of laptop
+vendors (I think Dell was an exception for this fwiw).
+
+Mark, since you're from Lenovo can you help to confirm this as well?
+
+Also re: external displays not even working: so then how exactly does the BIOS
+handle this? Is the BIOS changing the routing to the nvidia GPU then switching
+it back right before the OS load? I assume something must have been done to
+make it so that external displays aren't just suddenly broken there.
+
+And re: gsp work being done soon: it's going to be a while unfortunately,
+there's a lot for us to catch up on so it's hard for me to give a precise
+date.
+
+> Kai-Heng
+> 
+> > 
+> > If this is just for Intel/Intel systems though that's probably fine, and it
+> > might also be fine for AMD systems.
+> > 
+> > > 
+> > > > 
+> > > > BR,
+> > > > Jani.
+> > > > 
+> > > > > 
+> > > > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/i915/display/intel_acpi.c | 18 +++++++++++++++++-
+> > > > >  1 file changed, 17 insertions(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+> > > > > index e78430001f077..3bd5930e2769b 100644
+> > > > > --- a/drivers/gpu/drm/i915/display/intel_acpi.c
+> > > > > +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+> > > > > @@ -20,6 +20,7 @@ static const guid_t intel_dsm_guid =
+> > > > >                 0xa8, 0x54, 0x0f, 0x13, 0x17, 0xb0, 0x1c, 0x2c);
+> > > > > 
+> > > > >  #define INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED 0 /* No args */
+> > > > > +#define INTEL_DSM_FN_DP_IN_SWITCH_TO_DGFX 20 /* No args */
+> > > > > 
+> > > > >  static const guid_t intel_dsm_guid2 =
+> > > > >       GUID_INIT(0x3e5b41c6, 0xeb1d, 0x4260,
+> > > > > @@ -187,6 +188,7 @@ void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915)
+> > > > >       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+> > > > >       acpi_handle dhandle;
+> > > > >       union acpi_object *obj;
+> > > > > +     int supported = 0;
+> > > > > 
+> > > > >       dhandle = ACPI_HANDLE(&pdev->dev);
+> > > > >       if (!dhandle)
+> > > > > @@ -194,8 +196,22 @@ void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915)
+> > > > > 
+> > > > >       obj = acpi_evaluate_dsm(dhandle, &intel_dsm_guid2, INTEL_DSM_REVISION_ID,
+> > > > >                               INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED, NULL);
+> > > > > -     if (obj)
+> > > > > +     if (obj) {
+> > > > > +             if (obj->type == ACPI_TYPE_INTEGER)
+> > > > > +                     supported = obj->integer.value;
+> > > > > +
+> > > > >               ACPI_FREE(obj);
+> > > > > +     }
+> > > > > +
+> > > > > +     /* Tiger Lake H DP-IN Boot Time Switching from iGfx to dGfx */
+> > > > > +     if (supported & BIT(20)) {
+> > > > > +             obj = acpi_evaluate_dsm(dhandle, &intel_dsm_guid2,
+> > > > > +                                     INTEL_DSM_REVISION_ID,
+> > > > > +                                     INTEL_DSM_FN_DP_IN_SWITCH_TO_DGFX,
+> > > > > +                                     NULL);
+> > > > > +             if (obj)
+> > > > > +                     ACPI_FREE(obj);
+> > > > > +     }
+> > > > >  }
+> > > > > 
+> > > > >  /*
+> > > > 
+> > > > --
+> > > > Jani Nikula, Intel Open Source Graphics Center
+> > > 
+> > 
+> > --
+> > Cheers,
+> >  Lyude Paul (she/her)
+> >  Software Engineer at Red Hat
+> > 
+> 
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
