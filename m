@@ -1,39 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1645A0140
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 20:18:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 544DC5A0141
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 20:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A854B7901;
-	Wed, 24 Aug 2022 18:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80E2CBBFE1;
+	Wed, 24 Aug 2022 18:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9020392E69
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:28:22 +0000 (UTC)
-Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC67A56D;
- Wed, 17 Aug 2022 15:28:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1660742901;
- bh=isXcyL+hCIy1H1joimjTOXQlpx5PdBX8l2etzmqa9gM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PR3P2D5e0ot1QuoNw8VH0yg+rb5y6lWKK+6u/Efo75gUqgtQMziu54KpQIh/WfTUZ
- fwsen7wM/WlnZ3QMStLNM7gqu/FIJ0xt0zqzR5wpIEsEgFYA+hk7uwOxoibxagCB1J
- 5mWRT/wtgCb+UC9hHcTCS8LF4UE7iqa3b1M9MD6Y=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 3/3] drm: rcar-du: fix DSI enable & disable sequence
-Date: Wed, 17 Aug 2022 16:28:03 +0300
-Message-Id: <20220817132803.85373-3-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220817132803.85373-1-tomi.valkeinen@ideasonboard.com>
-References: <20220817132803.85373-1-tomi.valkeinen@ideasonboard.com>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE0B8E820
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 13:31:03 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id f8so2530386wru.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 06:31:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:from:to:cc;
+ bh=E0iQOazQDO/obbGYZRzh6D7dwqi0LcqsAFY3GtyIoRw=;
+ b=DvxtYW38/k0Lm9cACp2Dabef+D2MTdJpxYG8BUjqhqGGndVuajRRfjDrNjZNk4Rt7M
+ V8zCSbMxVW/jCs2l/y9kaeCHqz3dA2VWQuDEfkaNh5rMGByjA8aHu+0HwOgPgaGv9cgk
+ c1ZqSg8OF+VGXk4zYrj2xRTBLmJOEGPWSSIgZsFDZmt3LMqj+WHxDQrF1Sv3xpn4F4AQ
+ UEP0VSi/3cApAnsztS1LpXIj9C2P0Gr9L3i9yzwk3u0Gy4bn2b+hgOWHRQACYXvok6Hn
+ cYOLstqE6Y4oLA7nehcusWvm1lEwoFtAg/McDdLC1UzpJ/kYPV7WbsM9Q6nWG4ptwzQF
+ lAvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=E0iQOazQDO/obbGYZRzh6D7dwqi0LcqsAFY3GtyIoRw=;
+ b=xHv13aI6xrgD8VzckOxaOWg3vd5kbHX9noDUYviQ+yK2ZN6qW4O1mGfaJGLltVUZ0N
+ 7QRPQod4951w5DshtH1HB0uBqZPguIPZ3B9D00U4WxLqJxFH4zvlIOcWrofd4gvTc2N3
+ vZsu/b7zZMUo/kHsUFmxtLjjxlbMmp3FN9Sr3kF6sMnFGWhU/1fGInSTTQjECVeiIDbI
+ MpQhft4sHOxeLCPEImrRSkgaPCOO5lL8fFR4nsmET+AnRxQ4HMlaquFNp8L24suyxPh0
+ vxOfVTi0zX9pJuygRMsUgbCJ5JVC+l5SPDby7PYJidHVYAB5+EOivEZ4WSZMqKEcYP/T
+ x93A==
+X-Gm-Message-State: ACgBeo2uWfgHICF0TaLx3YkMcOAMHUoel2V300qPC90bBxXU0LrCh4sP
+ bsoz1dAnmWedEUoQOLEwgtzizw==
+X-Google-Smtp-Source: AA6agR7WBqTmQBAeJul9q4fCb/OqNE31bC9f+464k9EY/T94d+BYyelwyzCKOSOVr8Hx9EMdHKyrbw==
+X-Received: by 2002:a5d:4283:0:b0:225:2231:3fd0 with SMTP id
+ k3-20020a5d4283000000b0022522313fd0mr2348511wrq.382.1660743061896; 
+ Wed, 17 Aug 2022 06:31:01 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:a5c:3576:8e69:3edc?
+ ([2a01:e0a:982:cbb0:a5c:3576:8e69:3edc])
+ by smtp.gmail.com with ESMTPSA id
+ g11-20020a05600c4ecb00b003a4c6e67f01sm2634186wmq.6.2022.08.17.06.31.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Aug 2022 06:31:01 -0700 (PDT)
+Message-ID: <3725619d-72c5-5c9d-513b-80bbc727dd07@baylibre.com>
+Date: Wed, 17 Aug 2022 15:31:00 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/bridge: sii902x: add support for
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Content-Language: en-US
+To: Dmitry Osipenko <digetx@gmail.com>, andrzej.hajda@intel.com,
+ robert.foss@linaro.org, Linus Walleij <linus.walleij@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+References: <20220113144305.1074389-1-narmstrong@baylibre.com>
+ <25976b46-21b4-6e3f-0182-85dd4ca2b654@gmail.com>
+ <a4a36360-3f77-17a0-9239-08cb8c08de74@baylibre.com>
+ <13bd6440-9a61-d444-518c-f4e8cba0b825@baylibre.com>
+ <5a1df5ce-a497-760b-8e2c-130a0e659c0b@gmail.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <5a1df5ce-a497-760b-8e2c-130a0e659c0b@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,271 +84,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, jonas@kwiboo.se
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On 15/08/2022 02:15, Dmitry Osipenko wrote:
+> 08.08.2022 12:51, Neil Armstrong пишет:
+>> On 08/08/2022 11:15, Neil Armstrong wrote:
+>>> Hi Dmitry,
+>>>
+>>> On 31/07/2022 22:07, Dmitry Osipenko wrote:
+>>>> 13.01.2022 17:43, Neil Armstrong пишет:
+>>>>> This adds support for DRM_BRIDGE_ATTACH_NO_CONNECTOR by adding the
+>>>>> bridge get_edid() and detect() callbacks after refactoring the
+>>>>> connector
+>>>>> get_modes() and connector_detect() callbacks.
+>>>>>
+>>>>> In order to keep the bridge working, extra code in get_modes() has been
+>>>>> moved to more logical places.
+>>>>>
+>>>>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+>>>>> ---
+>>>>>    drivers/gpu/drm/bridge/sii902x.c | 129
+>>>>> ++++++++++++++++++++++++-------
+>>>
+>>> 1 file changed, 99 insertions(+), 30 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/bridge/sii902x.c
+>>>>> b/drivers/gpu/drm/bridge/sii902x.c
+>>>>> index 89558e581530..65549fbfdc87 100644
+>>>>> --- a/drivers/gpu/drm/bridge/sii902x.c
+>>>>> +++ b/drivers/gpu/drm/bridge/sii902x.c
+>>
+>> [...]
+>>
+>>>>>        }
+>>>>> +    endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
+>>>>> +    if (endpoint) {
+>>>>> +        struct device_node *remote =
+>>>>> of_graph_get_remote_port_parent(endpoint);
+>>>>> +
+>>>>> +        of_node_put(endpoint);
+>>>>> +        if (!remote) {
+>>>>> +            dev_err(dev, "Endpoint in port@1 unconnected\n");
+>>>>> +            return -ENODEV;
+>>>>> +        }
+>>>>> +
+>>>>> +        if (!of_device_is_available(remote)) {
+>>>>> +            dev_err(dev, "port@1 remote device is disabled\n");
+>>>>> +            of_node_put(remote);
+>>>>> +            return -ENODEV;
+>>>>> +        }
+>>>>> +
+>>>>> +        sii902x->next_bridge = of_drm_find_bridge(remote);
+>>>>> +        of_node_put(remote);
+>>>>> +        if (!sii902x->next_bridge)
+>>>>> +            return -EPROBE_DEFER;
+>>>>
+>>>> Hi,
+>>>>
+>>>> This patch broke ARM/QEMU vexpress display because of_drm_find_bridge()
+>>>> always fail with -EPROBE_DEFER. Reverting this patch returns display
+>>>> back. Please fix or revert, thanks in advance.
+>>>
+>>> Can you share a QEMU cmdline to reproduce ?
+>>
+>> Actually the vexpress DT has multiple input ports instead of a single
+>> input port at @0
+>> and an output port at @1 like documented in the bindings:
+>>
+>> vexpress-v2m.dtsi#L303-L307:
+>> ports {
+>>      #address-cells = <1>;
+>>      #size-cells = <0>;
+>>
+>>      /*
+>>       * Both the core tile and the motherboard routes their output
+>>       * pads to this transmitter. The motherboard system controller
+>>       * can select one of them as input using a mux register in
+>>       * "arm,vexpress-muxfpga". The Vexpress with the CA9 core tile is
+>>       * the only platform with this specific set-up.
+>>       */
+>>      port@0 {
+>>          reg = <0>;
+>>          dvi_bridge_in_ct: endpoint {
+>>              remote-endpoint = <&clcd_pads_ct>;
+>>          };
+>>      };
+>>      port@1 {
+>>          reg = <1>;
+>>          dvi_bridge_in_mb: endpoint {
+>>              remote-endpoint = <&clcd_pads_mb>;
+>>          };
+>>      };
+>> };
+>>
+>> bindings:
+>>    ports:
+>>      $ref: /schemas/graph.yaml#/properties/ports
+>>
+>>      properties:
+>>        port@0:
+>>          $ref: /schemas/graph.yaml#/properties/port
+>>          description: Parallel RGB input port
+>>
+>>        port@1:
+>>          $ref: /schemas/graph.yaml#/properties/port
+>>          description: HDMI output port
+>>
+>>        port@3:
+>>          $ref: /schemas/graph.yaml#/properties/port
+>>          description: Sound input port
+>>
+>> The patch is conform to the bindings, the DT was working but is actually
+>> not valid.
+> 
+> I haven't looked closely at how to fix this properly, but if we can fix
+> it using of_machine_is_compatible("arm,vexpress") workaround in the
+> driver, then it will be good enough at least as a temporal fix, IMO.
 
-The rcar crtc depends on the clock provided from the rcar DSI bridge.
-When the DSI bridge is disabled, the clock is stopped, which causes the
-crtc disable to timeout.
+If other maintainers are ok with that, it can be temporary fix until the DT gets fixed.
 
-Also, while I have no issue with the enable, the documentation suggests
-to enable the DSI before the crtc so that the crtc has its clock enabled
-at enable time. This is also not done by the current driver.
-
-To fix this, we need to keep the DSI bridge enabled until the crtc has
-disabled itself, and enable the DSI bridge before crtc enables itself.
-
-Add functions (rcar_mipi_dsi_atomic_early_enable and
-rcar_mipi_dsi_atomic_late_disable) to the rcar DSI bridge driver which
-the rcar driver can use to enable/disable the DSI clock when needed.
-This is similar to what is already done with the rcar LVDS bridge.
-
-Also add a new function, rcar_mipi_dsi_stop_video(), called from
-rcar_mipi_dsi_atomic_enable so that the DSI TX gets disabled at the
-correct time, even if the clocks are still kept enabled.
-
-And, while possibly not strictly needed, clear clock related enable bits
-in rcar_mipi_dsi_atomic_late_disable to mirror the sequence done in
-rcar_mipi_dsi_startup() (via rcar_mipi_dsi_atomic_early_enable).
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c    | 25 +++++++++
- drivers/gpu/drm/rcar-du/rcar_du_drv.h     |  2 +
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  4 ++
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c   | 63 +++++++++++++++++++++--
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h   | 32 ++++++++++++
- 5 files changed, 121 insertions(+), 5 deletions(-)
- create mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index fd3b94649a01..51fd1d99f4e8 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -29,6 +29,7 @@
- #include "rcar_du_regs.h"
- #include "rcar_du_vsp.h"
- #include "rcar_lvds.h"
-+#include "rcar_mipi_dsi.h"
- 
- static u32 rcar_du_crtc_read(struct rcar_du_crtc *rcrtc, u32 reg)
- {
-@@ -733,6 +734,18 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
- 		rcar_cmm_enable(rcrtc->cmm);
- 	rcar_du_crtc_get(rcrtc);
- 
-+	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
-+	    (rstate->outputs &
-+	     (BIT(RCAR_DU_OUTPUT_DSI0) | BIT(RCAR_DU_OUTPUT_DSI1)))) {
-+		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
-+
-+		/*
-+		 * Enable the DSI clock output.
-+		 */
-+
-+		rcar_mipi_dsi_atomic_early_enable(bridge, state);
-+	}
-+
- 	/*
- 	 * On D3/E3 the dot clock is provided by the LVDS encoder attached to
- 	 * the DU channel. We need to enable its clock output explicitly if
-@@ -769,6 +782,18 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
- 	rcar_du_crtc_stop(rcrtc);
- 	rcar_du_crtc_put(rcrtc);
- 
-+	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
-+	    (rstate->outputs &
-+	     (BIT(RCAR_DU_OUTPUT_DSI0) | BIT(RCAR_DU_OUTPUT_DSI1)))) {
-+		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
-+
-+		/*
-+		 * Disable the DSI clock output.
-+		 */
-+
-+		rcar_mipi_dsi_atomic_late_disable(bridge);
-+	}
-+
- 	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
- 	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
- 		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index 712389c7b3d0..5cfa2bb7ad93 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -92,6 +92,7 @@ struct rcar_du_device_info {
- #define RCAR_DU_MAX_GROUPS		DIV_ROUND_UP(RCAR_DU_MAX_CRTCS, 2)
- #define RCAR_DU_MAX_VSPS		4
- #define RCAR_DU_MAX_LVDS		2
-+#define RCAR_DU_MAX_DSI			2
- 
- struct rcar_du_device {
- 	struct device *dev;
-@@ -108,6 +109,7 @@ struct rcar_du_device {
- 	struct platform_device *cmms[RCAR_DU_MAX_CRTCS];
- 	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
- 	struct drm_bridge *lvds[RCAR_DU_MAX_LVDS];
-+	struct drm_bridge *dsi[RCAR_DU_MAX_DSI];
- 
- 	struct {
- 		struct drm_property *colorkey;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index 60d6be78323b..ac93e08e8af4 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -84,6 +84,10 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 		if (output == RCAR_DU_OUTPUT_LVDS0 ||
- 		    output == RCAR_DU_OUTPUT_LVDS1)
- 			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = bridge;
-+
-+		if (output == RCAR_DU_OUTPUT_DSI0 ||
-+		    output == RCAR_DU_OUTPUT_DSI1)
-+			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = bridge;
- 	}
- 
- 	/*
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-index 62f7eb84ab01..1ec40e40fd08 100644
---- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-@@ -542,6 +542,34 @@ static int rcar_mipi_dsi_start_video(struct rcar_mipi_dsi *dsi)
- 	return 0;
- }
- 
-+static void rcar_mipi_dsi_stop_video(struct rcar_mipi_dsi *dsi)
-+{
-+	u32 status;
-+	int ret;
-+
-+	/* Disable transmission in video mode. */
-+	rcar_mipi_dsi_clr(dsi, TXVMCR, TXVMCR_EN_VIDEO);
-+
-+	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-+				!(status & TXVMSR_ACT),
-+				2000, 100000, false, dsi, TXVMSR);
-+	if (ret < 0) {
-+		dev_err(dsi->dev, "Failed to disable video transmission\n");
-+		return;
-+	}
-+
-+	/* Assert video FIFO clear. */
-+	rcar_mipi_dsi_set(dsi, TXVMCR, TXVMCR_VFCLR);
-+
-+	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-+				!(status & TXVMSR_VFRDY),
-+				2000, 100000, false, dsi, TXVMSR);
-+	if (ret < 0) {
-+		dev_err(dsi->dev, "Failed to assert video FIFO clear\n");
-+		return;
-+	}
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Bridge
-  */
-@@ -558,7 +586,22 @@ static int rcar_mipi_dsi_attach(struct drm_bridge *bridge,
- static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- 					struct drm_bridge_state *old_bridge_state)
- {
--	struct drm_atomic_state *state = old_bridge_state->base.state;
-+	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
-+
-+	rcar_mipi_dsi_start_video(dsi);
-+}
-+
-+static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
-+					struct drm_bridge_state *old_bridge_state)
-+{
-+	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
-+
-+	rcar_mipi_dsi_stop_video(dsi);
-+}
-+
-+void rcar_mipi_dsi_atomic_early_enable(struct drm_bridge *bridge,
-+				       struct drm_atomic_state *state)
-+{
- 	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
- 	const struct drm_display_mode *mode;
- 	struct drm_connector *connector;
-@@ -586,8 +629,6 @@ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- 	if (ret < 0)
- 		goto err_dsi_start_hs;
- 
--	rcar_mipi_dsi_start_video(dsi);
--
- 	return;
- 
- err_dsi_start_hs:
-@@ -595,15 +636,27 @@ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- err_dsi_startup:
- 	rcar_mipi_dsi_clk_disable(dsi);
- }
-+EXPORT_SYMBOL_GPL(rcar_mipi_dsi_atomic_early_enable);
- 
--static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
--					 struct drm_bridge_state *old_bridge_state)
-+void rcar_mipi_dsi_atomic_late_disable(struct drm_bridge *bridge)
- {
- 	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
- 
-+	rcar_mipi_dsi_clr(dsi, VCLKEN, VCLKEN_CKEN);
-+
-+	/* Disable DOT clock */
-+	rcar_mipi_dsi_clr(dsi, VCLKSET, VCLKSET_CKEN);
-+
-+	/* CFGCLK disable */
-+	rcar_mipi_dsi_clr(dsi, CFGCLKSET, CFGCLKSET_CKEN);
-+
-+	/* LPCLK disable */
-+	rcar_mipi_dsi_clr(dsi, LPCLKSET, LPCLKSET_CKEN);
-+
- 	rcar_mipi_dsi_shutdown(dsi);
- 	rcar_mipi_dsi_clk_disable(dsi);
- }
-+EXPORT_SYMBOL_GPL(rcar_mipi_dsi_atomic_late_disable);
- 
- static enum drm_mode_status
- rcar_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-new file mode 100644
-index 000000000000..1764abf65a34
---- /dev/null
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * R-Car DSI Encoder
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corporation
-+ *
-+ * Contact: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-+ */
-+
-+#ifndef __RCAR_MIPI_DSI_H__
-+#define __RCAR_MIPI_DSI_H__
-+
-+struct drm_bridge;
-+struct drm_atomic_state;
-+
-+#if IS_ENABLED(CONFIG_DRM_RCAR_MIPI_DSI)
-+void rcar_mipi_dsi_atomic_early_enable(struct drm_bridge *bridge,
-+				       struct drm_atomic_state *state);
-+void rcar_mipi_dsi_atomic_late_disable(struct drm_bridge *bridge);
-+#else
-+static inline void
-+rcar_mipi_dsi_atomic_early_enable(struct drm_bridge *bridge,
-+				  struct drm_atomic_state *state)
-+{
-+}
-+
-+void rcar_mipi_dsi_atomic_late_disable(struct drm_bridge *bridge)
-+{
-+}
-+#endif /* CONFIG_DRM_RCAR_MIPI_DSI */
-+
-+#endif /* __RCAR_MIPI_DSI_H__ */
--- 
-2.34.1
+Neil
 
