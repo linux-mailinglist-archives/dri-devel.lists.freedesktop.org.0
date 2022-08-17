@@ -2,75 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1D2596E40
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 14:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3075596E4E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 14:19:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B42A8F7FF;
-	Wed, 17 Aug 2022 12:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 151E512B60F;
+	Wed, 17 Aug 2022 12:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-1.canonical.com
- (smtp-relay-internal-1.canonical.com [185.125.188.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 967FD8F844
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 12:16:13 +0000 (UTC)
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C2CB8FA7D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 12:19:16 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id EFE0F3F46B
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 12:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1660738571;
- bh=DSb7iQYDJqXj92ygGsNtJZCJ5hZY67yzyY/MzoJmNKE=;
- h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
- To:Cc:Content-Type;
- b=EuYyjt+Mu49AlfPBX+sfQ45Pm1kvq0BegRDhHoskq8KaLbcgIea/pTQOvgTR8/LFY
- fLJVyPrT+4SoOF2FsVRjsNfSi+c27I+7ekCjQADd1BBOppPk9Jtt7e0XhbxP/uR1PX
- t3jIQptK1V8qQC95xXc1/S4v6r2xkfhHfoE07dQ9ROB+qWOz+eGtnRUwpkAYfRln2F
- YRauyoEIlgHlsVa83wPzPXNT2mLz1BLt5ZBdoOmzEmZc2xDGOjuuhxSA48cyPKvuWa
- wowhFE4J3kqQ24Se9FbRITAQXG5EFzkyaPlgS/dBbmvfYTUFNy09qgQK9AEYPaZVif
- F38RrzZr3safg==
-Received: by mail-oo1-f71.google.com with SMTP id
- j29-20020a4a92dd000000b0044aa3238852so4328894ooh.14
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 05:16:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=DSb7iQYDJqXj92ygGsNtJZCJ5hZY67yzyY/MzoJmNKE=;
- b=DtukNwitrMhPKQGfriLbR1J8QWKmLdF5vWrISOnzLEMwQmgR1dtqV4tXF4ThSFGIet
- W4Olx5y45ApbgUwMBHBWgvuJan9lhobAvB4lfxd7k8M5n/EUhj/T2f5kVeUrgAkStvYH
- QbveGa/Hmwqlb2QiB2dY8Dh8V+rb0e1nK/ykyqZ+qBWDbfnMFRbUYS7v1wtv3Iz7kfu0
- /Do/89GKufYBCnbCZkD03025XRu8yC9l4ej5dH3EJjjmOFdTb6SeM7/fkwn7Erv3EJrK
- 6rmutIns/tB6ZpNNV/bgLcaler1WfzU1rhC2/RI3eSud2p8n5TQMLpo/9yj3IOORUtzd
- KG3A==
-X-Gm-Message-State: ACgBeo3iDhx9bVgg6pzzGlU5y8SgFXYo16spq7MHpKDkDXvtYv1Hb3Kh
- gO0fmUDJSWfL8Rb8lIJ40f4a6u/Ke/5wfQAOzaCxhWs2lgUnpzZvumRfg/bQa+vM5qbFbz5gITY
- YYSzBvDcxkWcMSVqEKAUwVeD+ak23ULHfpp5OfqCQm2eAQnexa1gt3rbjWj1BrA==
-X-Received: by 2002:a9d:f05:0:b0:637:1068:1081 with SMTP id
- 5-20020a9d0f05000000b0063710681081mr8767019ott.224.1660738570901; 
- Wed, 17 Aug 2022 05:16:10 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6Z5e/K5f+romlAexEX5pnAcJ6x32GsOIarjF+40/jrQPnGq70CyhTWg+eQG6ziTT55YrNeb9nZ9rmgCxcOdlo=
-X-Received: by 2002:a9d:f05:0:b0:637:1068:1081 with SMTP id
- 5-20020a9d0f05000000b0063710681081mr8767013ott.224.1660738570591; Wed, 17 Aug
- 2022 05:16:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220816025217.618181-1-kai.heng.feng@canonical.com>
- <CACO55tt=Op=0E94kK+1M8cDXNCk5Tkc=FMR8=OQFc5ohehjwaw@mail.gmail.com>
- <CAAd53p49X95MKrTDUq92LuHw3y2i09fUA2HEPzM1EcO8xO97Eg@mail.gmail.com>
- <CACO55tvgmb4Vog701idDYGuh125S9mjWPXhftxDMZ7hg-nQXBw@mail.gmail.com>
- <CAAd53p4W9rjmVJcUasy9hb1Yam+846+Oomvc2r9RMNmWeh_=0w@mail.gmail.com>
- <YvzYGGXils/Gf44d@intel.com>
-In-Reply-To: <YvzYGGXils/Gf44d@intel.com>
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Date: Wed, 17 Aug 2022 20:15:58 +0800
-Message-ID: <CAAd53p49zc2G1KutPMUcUBM3_rbCh9_40e0mdtcZKb+C69QL_Q@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Switch TGL-H DP-IN to dGFX when
- it's supported
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2D706B81D8D;
+ Wed, 17 Aug 2022 12:19:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFD7FC433D6;
+ Wed, 17 Aug 2022 12:19:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660738752;
+ bh=BBTXORGlFEwLgbRuxkkzNMEk2vrtwEdIFHOCs3ywN/0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=pR/Fqpc4qFciyFif+Rz7Y2QU1wPblmLNOUD0NN87Gmz8UpPn1g3rm0bAXA5dTfs33
+ AqfH02QQfopKJx5JzziZnxrQDP4xohcoSzhk5Hp8ItmrhQjEXbPV5gX2RDTRJuH1AY
+ b8Gu8UAdLP4Gj2DHWLrRICkNKd3q/C76ls5hom4lTX20h7Pt9rSFEG8gtl/3Qrb6kZ
+ xFcHDLZK/FNXRKWKYuBfTMETBatSkKQhZCjqR4g0xTQEoDWP2kRbg+uJ38bYhRWLzA
+ T/V2c978rL/8qyhb9ZGzLsBMGgNmzZhjUY9CFNjE3j2TD48GpL6XIbwc/TYAHYJcTB
+ 5xvlEqfxQY6PA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1oOI0s-003j3K-Hy;
+ Wed, 17 Aug 2022 13:19:10 +0100
+Date: Wed, 17 Aug 2022 13:19:10 +0100
+Message-ID: <87r11fvz9d.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 2/3] iommu/dma: Move public interfaces to linux/iommu.h
+In-Reply-To: <9cd99738f52094e6bed44bfee03fa4f288d20695.1660668998.git.robin.murphy@arm.com>
+References: <cover.1660668998.git.robin.murphy@arm.com>
+ <9cd99738f52094e6bed44bfee03fa4f288d20695.1660668998.git.robin.murphy@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: robin.murphy@arm.com, joro@8bytes.org, will@kernel.org,
+ catalin.marinas@arm.com, jean-philippe@linaro.org, inki.dae@samsung.com,
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com, tglx@linutronix.de,
+ alex.williamson@redhat.com, cohuck@redhat.com, iommu@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kvm@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,51 +71,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
- Zenghui Yu <yuzenghui@huawei.com>
+Cc: jean-philippe@linaro.org, kvm@vger.kernel.org, iommu@lists.linux.dev,
+ catalin.marinas@arm.com, joro@8bytes.org, cohuck@redhat.com,
+ sw0312.kim@samsung.com, alex.williamson@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, kyungmin.park@samsung.com, tglx@linutronix.de,
+ will@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 17, 2022 at 7:59 PM Ville Syrj=C3=A4l=C3=A4
-<ville.syrjala@linux.intel.com> wrote:
+On Tue, 16 Aug 2022 18:28:04 +0100,
+Robin Murphy <robin.murphy@arm.com> wrote:
+> 
+> The iommu-dma layer is now mostly encapsulated by iommu_dma_ops, with
+> only a couple more public interfaces left pertaining to MSI integration.
+> Since these depend on the main IOMMU API header anyway, move their
+> declarations there, taking the opportunity to update the half-baked
+> comments to proper kerneldoc along the way.
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+> 
+> Note that iommu_setup_dma_ops() should also become internal in a future
+> phase of the great IOMMU API upheaval - for now as the last bit of true
+> arch code glue I consider it more "necessarily exposed" than "public".
+> 
+>  arch/arm64/mm/dma-mapping.c       |  2 +-
+>  drivers/iommu/dma-iommu.c         | 15 ++++++++++--
+>  drivers/irqchip/irq-gic-v2m.c     |  2 +-
+>  drivers/irqchip/irq-gic-v3-its.c  |  2 +-
+>  drivers/irqchip/irq-gic-v3-mbi.c  |  2 +-
+>  drivers/irqchip/irq-ls-scfg-msi.c |  2 +-
+>  drivers/vfio/vfio_iommu_type1.c   |  1 -
+>  include/linux/dma-iommu.h         | 40 -------------------------------
+>  include/linux/iommu.h             | 36 ++++++++++++++++++++++++++++
+>  9 files changed, 54 insertions(+), 48 deletions(-)
 
-[snipped]
+For the irqchip side:
 
-> I had a quick trawl through some Windows stuff for this and
-> it does seem to do a few extra checks:
-> - platform must be TGL-H (nothing else has the DPin stuff I guess)
-> - OpRegion header must indicate dGPU presence
+Acked-by: Marc Zyngier <maz@kernel.org>
 
-Is the dGPU presence denoted by the return bitmask of
-INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED?
+	M.
 
-IIUC the mask 20 won't be set when dGPU is not present.
-
->
-> Otherwise it does call this DSM uncoditionally on boot/S4 resume
-> so seems like that is the only really validated configuration.
-> Although it does seem to explicitly turn off displays prior to
-> the DSM so that does perhaps indicate that those ports might have
-> also been enabled via the iGPU by the BIOS. Not sure if disabling
-> the ports would work correctly after the DSM or not. If not then
-> the DSM call would need to happen after state readout/sanitization
-> so that we can shut things down gracefully.
->
-> Additionally after the DSM call it scans the FIA TC live state
-> bits to check for DPin usage. Looks like its trying to make sure
-> the driver stops poking at the relevant power wells once in DPin
-> mode. i915 doesn't check that stuff atm so we might end up
-> mangling something while the dGPU is driving the port.
-
-Thanks for investigating this. I am not really familiar with other
-stuffs you mentioned, but I am happy to test any follow-up patch.
-
-Kai-Heng
-
->
-> --
-> Ville Syrj=C3=A4l=C3=A4
-> Intel
+-- 
+Without deviation from the norm, progress is not possible.
