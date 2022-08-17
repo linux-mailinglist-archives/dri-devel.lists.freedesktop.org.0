@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E9D5973D6
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 18:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF92597461
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Aug 2022 18:44:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B913499A29;
-	Wed, 17 Aug 2022 16:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7B1F10E693;
+	Wed, 17 Aug 2022 16:44:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4624C99A10
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Aug 2022 16:12:11 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1oOLeF-0004Ag-27; Wed, 17 Aug 2022 18:12:03 +0200
-Message-ID: <f4483d7d55f1f1f4dcd0ad020840561481aa2fd8.camel@pengutronix.de>
-Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
- heap support
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, Olivier Masse
- <olivier.masse@nxp.com>, "brian.starkey@arm.com" <brian.starkey@arm.com>
-Date: Wed, 17 Aug 2022 18:12:01 +0200
-In-Reply-To: <eef2fc413695cb96a5071627bfe44830f80cfe9e.camel@ndufresne.ca>
-References: <20220805135330.970-1-olivier.masse@nxp.com>
- <20220805135330.970-2-olivier.masse@nxp.com>
- <20220805154139.2qkqxwklufjpsfdx@000377403353>
- <7e61668164f8bf02f6c4ee166e85abc42b5ee958.camel@nxp.com>
- <20220812163922.v7sf3havi5dpgi5u@000377403353>
- <de46324d8fa8fb6a8dda4641e531d30842410744.camel@nxp.com>
- <eef2fc413695cb96a5071627bfe44830f80cfe9e.camel@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90E3A93234;
+ Wed, 17 Aug 2022 16:44:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660754673; x=1692290673;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Nx5mmk70MR2vvj7Oyc43IjGFrUEvYIAc0Um7u/GzS9I=;
+ b=ZUIbwGnD3Sp4O/3D91qCIxgq58a9E/y6o7+K8jF7rypD+7BvcVZG0Z7S
+ PeNm40tmsM3FVODRsLkB9IdP0Q7K1utVJbvT1lTWiML3aUc5EdYqneB2N
+ q441vvG84wkAu+8eC0znEWufx8feYYmT5uOtwHTTVG+IGBHLi0BUgXqEm
+ sbZ70+H8oy0G2Sr5vdNPHuQ0x01k3VPfrypVZH3Ux562q+6StNfdfrbPU
+ jexT06QQo7GOHV7xo1/TaOYzzn7644IFqjjalX1CkOoYg/gsTva7K8Kby
+ 3Uq066M8mUcKVPD7+yLzhBDvccNZYtkcSAqnqKjr6MzeKCdtMJ9WG0Tnt A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="290117539"
+X-IronPort-AV: E=Sophos;i="5.93,243,1654585200"; d="scan'208";a="290117539"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2022 09:44:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,243,1654585200"; d="scan'208";a="696844257"
+Received: from lkp-server02.sh.intel.com (HELO 81d7e1ade3ba) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 17 Aug 2022 09:44:25 -0700
+Received: from kbuild by 81d7e1ade3ba with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oOM9Y-00018A-2W;
+ Wed, 17 Aug 2022 16:44:24 +0000
+Date: Thu, 18 Aug 2022 00:43:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
+ 95d10484d66e54d5c01e36389e9318221fb8f60b
+Message-ID: <62fd1ab9.SkkTg97b0fVLQyM+%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,81 +58,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?ISO-8859-1?Q?Cl=E9ment?= Faure <clement.faure@nxp.com>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "nd@arm.com" <nd@arm.com>, "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: amd-gfx@lists.freedesktop.org, linux-iio@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-crypto@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 17.08.2022 um 10:29 -0400 schrieb Nicolas Dufresne:
-> Hi Folks,
-> 
-> Le mardi 16 août 2022 à 11:20 +0000, Olivier Masse a écrit :
-> > Hi Brian,
-> > 
-> > 
-> > On ven., 2022-08-12 at 17:39 +0100, Brian Starkey wrote:
-> > > Caution: EXT Ema
-> > > 
-> 
-> [...]
-> 
-> > > 
-> > > Interesting, that's not how the devices I've worked on operated.
-> > > 
-> > > Are you saying that you have to have a display controller driver
-> > > running in the TEE to display one of these buffers?
-> > 
-> > In fact the display controller is managing 3 plans : UI, PiP and
-> > video. The video plan is protected in secure as you can see on slide
-> > 11:
-> > https://static.linaro.org/connect/san19/presentations/san19-107.pdf
-> 
-> 
-> 
-> just wanted to highlight that all the WPE/GStreamer bit in this presentation is
-> based on NXP Vendor Media CODEC design, which rely on their own i.MX VPU API. I
-> don't see any effort to extend this to a wider audience. It is not explaining
-> how this can work with a mainline kernel with v4l2 stateful or stateless drivers
-> and generic GStreamer/FFMPEG/Chromium support.
-> 
-> I'm raising this, since I'm worried that no one cares of solving that high level
-> problem from a generic point of view. In that context, any additions to the
-> mainline Linux kernel can only be flawed and will only serves specific vendors
-> and not the larger audience.
-> 
-> Another aspect, is that this design might be bound to a specific (NXP ?)
-> security design. I've learn recently that newer HW is going to use multiple
-> level of MMU (like virtual machines do) to protect the memory rather then
-> marking pages. Will all this work for that too ?
-> 
-I have not looked in any of this for quite a while, but IIRC the plan
-was something like that:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 95d10484d66e54d5c01e36389e9318221fb8f60b  Add linux-next specific files for 20220817
 
-The NXP RDC hardware is able to segment the DDR memory into sections
-and define access policies for all masters in the system. So for
-example for the secure VPU to display controller path you would define
-such a section, where only the VPU is able to write and DCSS is able to
-read from. CPU or other masters are not allowed to use this section.
-This then gets exposed to Linux as a DMA heap. The VPU driver could
-then allocate capture buffers from this heap and share them via dma-buf
-to the DCSS driver.
-Both drivers can live in non-trusted userspace and even the address
-allocation for the DMA heap can be done from Linux. Non-trusted Linux
-kernel/userspace just has no way to access the buffers directly.
+Warning reports:
 
-The more interesting question is on the VPU side: how do you make sure
-that the capture buffer is located in secure memory when the output
-buffer containing the secret bitstream is also in a secure heap? I
-guess you need some kind of TEE application to validate those settings,
-which means you can't give the non-trusted driver direct MMIO access to
-the VPU.
+https://lore.kernel.org/linux-doc/202208162058.7apPivKL-lkp@intel.com
+https://lore.kernel.org/llvm/202207251313.gKhpElEq-lkp@intel.com
 
-Regards,
-Lucas
+Warning: (recently discovered and may have been fixed)
 
+Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/gpio/gpio-xilinx.txt
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1046:5: warning: no previous prototype for 'fill_dc_scaling_info' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1222:6: warning: no previous prototype for 'handle_cursor_update' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:152:6: warning: no previous prototype for 'modifier_has_dcc' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1576:5: warning: no previous prototype for 'amdgpu_dm_plane_init' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:157:10: warning: no previous prototype for 'modifier_gfx9_swizzle_mode' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:752:5: warning: no previous prototype for 'fill_plane_buffer_attributes' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:83:31: warning: no previous prototype for 'amd_get_format_info' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:88:6: warning: no previous prototype for 'fill_blending_from_plane_state' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:992:5: warning: no previous prototype for 'dm_plane_helper_check_state' [-Wmissing-prototypes]
+drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:905:28: warning: variable 'top' set but not used [-Wunused-but-set-variable]
+drivers/iio/accel/bma400_core.c:1091 bma400_activity_event_en() error: uninitialized symbol 'field_value'.
+drivers/iio/cdc/ad7746.c:336:14: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+drivers/platform/mellanox/mlxreg-lc.c:866 mlxreg_lc_probe() warn: passing zero to 'PTR_ERR'
+mm/memory_hotplug.c:343 __add_pages() error: uninitialized symbol 'err'.
+
+Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
+|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
+|-- alpha-randconfig-c023-20220815
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
+|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
+|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
+|-- arm-defconfig
+|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
+|-- arm-randconfig-c002-20220817
+|   `-- drivers-iio-cdc-ad7746.c:warning:use-of-uninitialized-value-unknown-CWE
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
+clang_recent_errors
+`-- mips-omega2p_defconfig
+    `-- lib-crypto-blake2s-selftest.c:warning:stack-frame-size-()-exceeds-limit-()-in-blake2s_selftest
+
+elapsed time: 727m
+
+configs tested: 81
+configs skipped: 2
+
+gcc tested configs:
+um                           x86_64_defconfig
+um                             i386_defconfig
+m68k                        stmark2_defconfig
+microblaze                      mmu_defconfig
+i386                                defconfig
+arm                         nhk8815_defconfig
+x86_64                           rhel-8.3-kvm
+arc                  randconfig-r043-20220815
+x86_64               randconfig-a001-20220815
+x86_64                              defconfig
+arc                               allnoconfig
+i386                 randconfig-a003-20220815
+x86_64                    rhel-8.3-kselftests
+arm                                 defconfig
+sh                        sh7757lcr_defconfig
+x86_64               randconfig-a003-20220815
+x86_64                               rhel-8.3
+alpha                             allnoconfig
+i386                 randconfig-a004-20220815
+mips                             allyesconfig
+csky                              allnoconfig
+riscv                             allnoconfig
+x86_64               randconfig-a002-20220815
+i386                 randconfig-a002-20220815
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20220815
+x86_64                           allyesconfig
+alpha                            allyesconfig
+x86_64               randconfig-a006-20220815
+mips                            gpr_defconfig
+powerpc                          allmodconfig
+x86_64               randconfig-a005-20220815
+i386                 randconfig-a001-20220815
+sh                               allmodconfig
+i386                 randconfig-a006-20220815
+i386                 randconfig-a005-20220815
+x86_64                           rhel-8.3-syz
+m68k                             allmodconfig
+x86_64                          rhel-8.3-func
+arc                              allyesconfig
+x86_64                         rhel-8.3-kunit
+m68k                             allyesconfig
+i386                             allyesconfig
+i386                 randconfig-c001-20220815
+arm                              allyesconfig
+arm                         vf610m4_defconfig
+ia64                      gensparse_defconfig
+parisc64                         alldefconfig
+sh                          landisk_defconfig
+ia64                                defconfig
+powerpc                         wii_defconfig
+sh                                  defconfig
+arm64                            allyesconfig
+ia64                             allmodconfig
+arm                          simpad_defconfig
+sh                           se7750_defconfig
+powerpc                        cell_defconfig
+
+clang tested configs:
+x86_64               randconfig-a013-20220815
+x86_64               randconfig-a012-20220815
+x86_64               randconfig-a011-20220815
+x86_64               randconfig-a014-20220815
+hexagon              randconfig-r041-20220815
+powerpc                     ksi8560_defconfig
+s390                             alldefconfig
+x86_64               randconfig-a016-20220815
+arm                    vt8500_v6_v7_defconfig
+mips                          ath79_defconfig
+s390                 randconfig-r044-20220815
+x86_64               randconfig-a015-20220815
+i386                 randconfig-a012-20220815
+i386                 randconfig-a013-20220815
+hexagon              randconfig-r045-20220815
+i386                 randconfig-a011-20220815
+riscv                randconfig-r042-20220815
+i386                 randconfig-a015-20220815
+i386                 randconfig-a016-20220815
+i386                 randconfig-a014-20220815
+mips                        omega2p_defconfig
+x86_64                          rhel-8.3-rust
+powerpc                 mpc832x_mds_defconfig
+powerpc                      ppc64e_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
