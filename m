@@ -2,138 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44EB5980FA
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 11:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317D7598102
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 11:43:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4349EC897D;
-	Thu, 18 Aug 2022 09:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE23C8C86;
+	Thu, 18 Aug 2022 09:43:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B390C8942
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 09:41:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HAHjXFMQEpsUyhhF1w1z/mJSZF8yzvRznPnFa8BoertMhkPEkz6eLND7yA6Jga3tk+NQSQ/wvN2fp9DLKAFFjaJtMgGTqk4UY9CAAsyN58G0ZfkAHBf8m/ZhltOqqCF3uIEEKaO61sSD49rTryNwMw+g/CqPqw2UYliPjBNMzR4YZn0Gtpycqkh1yJkobvy+AmY4e6EXsSrMK0/PbHT8MtEMP3MZ8hUWsYo7EVKD8T9fCJlIo+1hlUXhjHYJJqi4Gsys4RovREMNZuO9aVPi2yLcTR1rmdckIiL6iPb+cK0hcfEJCYw8cSDygxJwuRU0/TnUFNhrKy94gJ5alxzRdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HdBPYrSTj3WrTTpE0XCge+jc7BgLjh6h6rMVcET5qiM=;
- b=L9qEpTjl1G7xd9DzaLEOahUtohrnnR9+892M45XRM+31tGGYiu2+Uuq69cyPBqzrzVUhgE8cw7G17l4A+2eFkMHcHhaMRG9znKwhZkzYZQYG61H/wUgrVc7/yY30XYQUdvyedsJxEft8iD2mtT/WsKujmpZa1kPjaAwfT6o5ahUkynM4x/oeK4BQ+XTxsxeBPh2jReezGDLVIK89VktBeoITSz4R85fFzaDgNqlTmiW7lwSVyYS8rNdhxKYawzCEc2JypwdRpX22PcG4uRGlT4+UoaB9uGO7vN4e2wbnJE1Sr5wDILWFvSfhSJZrqXsg0vV/Ky/hs3dUHnDvoxZ83w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HdBPYrSTj3WrTTpE0XCge+jc7BgLjh6h6rMVcET5qiM=;
- b=bOjGFHbo+kWlZjDKMyH5nJRosD5tlhA6qepQ6h4ElAjdocRauIpHFO0/YcAY2jYEDfnNKvKzCVc6ivEEhUfXn56y38ZCO4yz84l9rDO7ZJMiSs7hWeK0OEZVuSy01R5zfZUUmabnVkcI//BsVGNE4Gwpx8RrXJ4fjlg9ANtChrY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN2PR12MB3230.namprd12.prod.outlook.com (2603:10b6:208:108::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.19; Thu, 18 Aug
- 2022 09:41:22 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Thu, 18 Aug 2022
- 09:41:22 +0000
-Message-ID: <b1963713-4df6-956f-c16f-81a0cf1a978b@amd.com>
-Date: Thu, 18 Aug 2022 11:41:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Trigger Huang <Trigger.Huang@gmail.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Antonio Caggiano <antonio.caggiano@collabora.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220815095423.11131-1-dmitry.osipenko@collabora.com>
- <8230a356-be38-f228-4a8e-95124e8e8db6@amd.com>
- <134bce02-58d6-8553-bb73-42dfda18a595@collabora.com>
- <8caf3008-dcf3-985a-631e-e019b277c6f0@amd.com>
- <4fcc4739-2da9-1b89-209c-876129604d7d@amd.com>
- <14be3b22-1d60-732b-c695-ddacc6b21055@collabora.com>
- <2df57a30-2afb-23dc-c7f5-f61c113dd5b4@collabora.com>
- <57562db8-bacf-e82d-8417-ab6343c1d2fa@amd.com>
- <86a87de8-24a9-3c53-3ac7-612ca97e41df@collabora.com>
- <8f749cd0-9a04-7c72-6a4f-a42d501e1489@amd.com>
- <5340d876-62b8-8a64-aa6d-7736c2c8710f@collabora.com>
- <594f1013-b925-3c75-be61-2d649f5ca54e@amd.com>
- <6893d5e9-4b60-0efb-2a87-698b1bcda63e@collabora.com>
- <73e5ed8d-0d25-7d44-8fa2-e1d61b1f5a04@amd.com>
- <c9d89644-409e-0363-69f0-a3b8f2ef0ae4@collabora.com>
- <6effcd33-8cc3-a4e0-3608-b9cef7a76da7@collabora.com>
- <ff28e1b4-cda2-14b8-b9bf-10706ae52cac@collabora.com>
- <48b5dd12-b0df-3cc6-a72d-f35156679844@collabora.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <48b5dd12-b0df-3cc6-a72d-f35156679844@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0119.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::17) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F24EC8AA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 09:42:22 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id
+ z30-20020a05660217de00b00688bd42dc1dso577757iox.15
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 02:42:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc;
+ bh=RfNlb6EEPdTfanyFDEnkQRakEnqd8CRS3dNcgk2y8TY=;
+ b=ggKy8DYSMrApNgVPYdUb+rNSgvK0gp98LDiw+kX2e8iZxNlrO0vSc645mZB/Qlun8i
+ iwZrols1Z9VIADqsAq91zRy1iwU/KxX98bgNOHjdCNIdUtXq/ehc1ABWiPBHqUFgMcnL
+ U0CXolRa4sZJN0TIDDgmhlm/6SrkfCyObBZf71AqsLCq7RbPo3JxYvgXnIPfIfl+rrth
+ yHZIrsnkYd6V4BMlGzi+Xzdj86T04hUlsUcMfmbZRV+zqbsr2nlbYwDhpl3gbvVLhBwm
+ b9a2b+6gjWp23bv63E0vsJzaG9MpOyUpE22F5uHmEomiN/IS3rw9tq/vNjrNXhzZbLLq
+ 2prw==
+X-Gm-Message-State: ACgBeo3RoDgM1LkzzMkCHitdULZD8ElDxiSx+xZToRhdaq05O9O7D847
+ pdqr1MmsysT8GyIKWN7F3OYnBkf4V8XyLK0Zi2SZslNnaQhu
+X-Google-Smtp-Source: AA6agR419vM0BcKVltIU2/azbZPIWTdI2ChgLbJc1gPXUbu5C70NzeInaZiqt9pnzn1PSlmneFLcVqyMbIZ6HQa8KdfAc+UERZ0N
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ae2365c8-0189-4d47-509e-08da80fdcf2e
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3230:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: COcJmbnyKVW66i3ZLRmFFNfkWy6jrYJ14uCsdH2TAfHukAdXyzwxsTKoN3wDMR1ZtUhxITlniJkFrHYuTaVjKUFOSVpSaMGDZiLEqOYB4+FS5gxGD2X6ZU9rwk03XYNOFl38slWwMtuiNQPAHSJSJNqOA4UFtm+vGeiTRoXq2Md/w1Gxi+zT9obMXi5Ewqh/AvsiQI5tTNF1Ww1HY6SODevJVsBahOwrSP6ktLM2Hx6NiEtyIJHZLG1cgocpjReGKbXeiu0VVjur7XMUxmCp3WW4NCsRRhhCjosXpJcI3p0Cka+7MDc+vxjzMCU1zC+p8cAkEJJAoARY1hljbe9aulcgwk4Gg5+TABfiQHtwfLqHm4QbrfSTS1QnGL/5ESwk/sos0g9azbQH+UObdRL01BZsifuu58Ij6m33xaEMjg8E69vF9McxXJoRUkC+LTQv2ZyL93gQd/Najjrh2AS0QPLrwF08EBcY04mkVi1NgyOYL6IngKUAB9W5GJ2ZmUfL9XqTX2AkrJ4HN0/UvyYcSFjAM+3EUkkFki+kvffXbVt4d5WNxbNudev3ArOEz/1v2u7mxpEZy0fOdZ/5nal0497D37U57HOy9cRlUz7BngyCeuxaLWGMXQ3xCGrfO5/vOVD7mKVW8MYxBIg7TvYv9fxPtZSPyGX3RNGo7IcMjLStFljr0PSLFniozpeytN2LYX566kx60Wy98J3u/jBN1YrL+WT/AYcChLtWntyljMlBkQsyzBRXtZy7j/lnBrTXsJTToFNsh099neVJCuvAfAJ5H8+Ch2JBMckBlLjsUs9z5xY1UKE//wI5+QCA192WxUwmEjBLAQgbVcXVIpXjeQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(136003)(346002)(376002)(366004)(39860400002)(86362001)(2616005)(38100700002)(186003)(66574015)(83380400001)(8936002)(5660300002)(8676002)(4326008)(66946007)(7416002)(66476007)(66556008)(6666004)(41300700001)(2906002)(478600001)(110136005)(6512007)(26005)(6506007)(53546011)(45080400002)(966005)(316002)(6486002)(31696002)(31686004)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eHJCVmVGaml3dTFQUG9qbk1IYmhrWDFPc3JNQmxVQU1LVXBEelJXbHZwNUVK?=
- =?utf-8?B?SVkydU9hdlg5OTJNb0VpU0xsV2dWeHVvNjlIQmg0VnZkVHQ1N1RHOXBUU2ds?=
- =?utf-8?B?Ymw0d0M0WC9GaGs2RTVyVGxzTmZsZStzUSs0bUhRMDhCSXFycy94ZkFkMUVp?=
- =?utf-8?B?MnlLT1YwM09nV1pxMUhycFViUXRsZjNkdThTcnRDQTdqczZPUWdUQk1BUStC?=
- =?utf-8?B?ejBneFpxMC80Mk5XRFdzY0ZFQ004d1ZPVzd0WEhMREhIcWZDQy9xSTIrU1RK?=
- =?utf-8?B?ZXBnd1RTSFhyZU90a0RaeUZjZkZGc2E4WS9RbTZmaDI5Wmc2dktxeHFFa1pV?=
- =?utf-8?B?VFhKTXdSOGVoQ2tpWW9jRkQwN0tqY0pHcnh3akVVR1NDNFcwU1Q0ZTFlVEpl?=
- =?utf-8?B?MzdUZmEycjJzYndONCtxd2pOK0RrS0VBYUJDODdaaW9aMmZHemlCNkx3aExi?=
- =?utf-8?B?YU41N3pIY0E0aWhXdFo3MVlnK2JuQ2NURlc2b2h4MSsyQ1dlWkExTktpblBr?=
- =?utf-8?B?NFhQZjVkTXY0U0J1UVFGNjYveFZxQ1hLQytMZmE3eVQwVTZ3dHRHZWlwK1F4?=
- =?utf-8?B?eXJHMW12KzI0VnJjWHFQL0RZbC9oT2gveXlDZWhXUDUxaExRTGNQQmtwTjd3?=
- =?utf-8?B?ejVEYTBBT0JjOC9OTU5oQWFqTmsrb0Z4TjdOQTZCMDF0b01YVDJxUTJiZC9q?=
- =?utf-8?B?NnRsclB2eUVkcEdsTUYyWnAxMFZKemc4WlF4Z29CMkFDbEFqYVFjeVFmVjhy?=
- =?utf-8?B?YitYOHMyeTZnQUFNKzZMekE4ZE5uRHJhSHZNSmFiTGlsVGRlR3JGMXVGd3lz?=
- =?utf-8?B?a0lWNGZxVUI1VFIzSDR4NmIrWUZiSFcrenc4ZjlTZ3Z5bzRIOWM5ZkFqZ1Rx?=
- =?utf-8?B?a3haZUJEZC9ncFlhc3NidExyUnhKSjRKVW9odDQ2VXYveDN2UnVabk9CK2xF?=
- =?utf-8?B?Nk91QmczcVBZVGpoMnBjK1hzMlJySkRabmE5WWYzOGlYckRaVmtmSlRaQjNt?=
- =?utf-8?B?SCtMakE1cU0zdWhwaXpCa0tQS3dQK29DTmRMaGdzWEtyVlI1MjhHNXZpeE9Z?=
- =?utf-8?B?aUJnRnhlRGVVdzU5cXhuWmxwVWtMdkd5cFJGaXNGbnNLY3dURnlwK2ZocFNF?=
- =?utf-8?B?c0xRK1lDTU9IQlVrVmtiRkVNcE9BTDFiSEIvTzZoY09tbzZtZWpaMFNBQ2wy?=
- =?utf-8?B?ZVJwaXl6TDJudEtiZDNMWVRITlFQeUViU0x3Mzd0Y0czOHBKUDk3WVRZOUVp?=
- =?utf-8?B?cmtVVG5FeGRqTjlSdUxmZVRyNkY0eTNJUDFhd1dpZTJXY3dDYldlNmNyZHF4?=
- =?utf-8?B?M1EwL09EeWZqdHEzOVExS1FwamZWQUdiN1J2OUhvNkhxYmVkT2NPakowMURM?=
- =?utf-8?B?ZWVnYmwrc2oyQmJYdjRXWUgwZTdXa1dOc013TVF2bEY4YVorU05oczZIOXdP?=
- =?utf-8?B?TTNTMW5rUCtYd2t6VjhWNnRLSmZIT2pQRzIzK3piSlk1WW1RN0NNRGRvRkdB?=
- =?utf-8?B?YXcyaXVqQ3lsUjhHZkNESEdnSjl5NmVlVHJ4TjJlVVl6c3ZIVUVqbTVFeCts?=
- =?utf-8?B?RE50Ym5nV3I3N0JRZkNSbWlpMXNHbVJzNnEvRnJ0OEg1MFVMazRDRXIwT2V3?=
- =?utf-8?B?d1ovYmNzSkFWYWZpZUNVMjN1cWE3ekFaYTJNa2NlY01Bc053SzQ0dXoxSEcw?=
- =?utf-8?B?RFBaR0hidUM1YUptYlVHS1E3Q1NtdXQySU1iMkFVeG9TVm50b3pkTGpRN21m?=
- =?utf-8?B?dWRnQXBabEVhU1Z0c0orUzZkQ3RRSHIrQjdpR3pmRUhOSGwxTGp4VW9HWW5O?=
- =?utf-8?B?S1pUKzRQSWJzc0tCNWtDcHV3ellFWjBNdEhmRVYva1kwVE50UytRS242RnRC?=
- =?utf-8?B?RFppcnBEdU9LcEZwTjBicFpLYkxzY2hBWDQ1a3Fwa0JMQUNJSkd3UWM3b2ZW?=
- =?utf-8?B?TExyVHdmR0FCeWcwTkRDdEdZT3c4UFZsMHNKUTZlUnNYUXd0TFpWc1d2SzVa?=
- =?utf-8?B?Z0pmaFkrdTRKNU54OHo3TkZQS3Z3RUZJeWNEdndxN3ZaOWptb0lUb2tWbk1Q?=
- =?utf-8?B?UkRlN1VEWEY5d3VTUUluNGIwdkdHdVFmeHRObHQzOVVKV29iWTR3dncrbXJs?=
- =?utf-8?Q?eFY9ulELUArMdj1Q9+2hW15lz?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae2365c8-0189-4d47-509e-08da80fdcf2e
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2022 09:41:21.9690 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0lk3gcADAafiKTmeTI/2Mdcv6l5OlHtCnTqf41jlFdxECds9YwOTXyceSPSG+lTE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3230
+X-Received: by 2002:a05:6e02:1e09:b0:2de:f22:9cca with SMTP id
+ g9-20020a056e021e0900b002de0f229ccamr1105678ila.36.1660815742104; Thu, 18 Aug
+ 2022 02:42:22 -0700 (PDT)
+Date: Thu, 18 Aug 2022 02:42:22 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000058792a05e680ccff@google.com>
+Subject: [syzbot] general protection fault in
+ drm_gem_object_handle_put_unlocked
+From: syzbot <syzbot+87b9744712425638eaae@syzkaller.appspotmail.com>
+To: airlied@linux.ie, christian.koenig@amd.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,85 +59,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 18.08.22 um 01:13 schrieb Dmitry Osipenko:
-> On 8/18/22 01:57, Dmitry Osipenko wrote:
->> On 8/15/22 18:54, Dmitry Osipenko wrote:
->>> On 8/15/22 17:57, Dmitry Osipenko wrote:
->>>> On 8/15/22 16:53, Christian König wrote:
->>>>> Am 15.08.22 um 15:45 schrieb Dmitry Osipenko:
->>>>>> [SNIP]
->>>>>>> Well that comment sounds like KVM is doing the right thing, so I'm
->>>>>>> wondering what exactly is going on here.
->>>>>> KVM actually doesn't hold the page reference, it takes the temporal
->>>>>> reference during page fault and then drops the reference once page is
->>>>>> mapped, IIUC. Is it still illegal for TTM? Or there is a possibility for
->>>>>> a race condition here?
->>>>>>
->>>>> Well the question is why does KVM grab the page reference in the first
->>>>> place?
->>>>>
->>>>> If that is to prevent the mapping from changing then yes that's illegal
->>>>> and won't work. It can always happen that you grab the address, solve
->>>>> the fault and then immediately fault again because the address you just
->>>>> grabbed is invalidated.
->>>>>
->>>>> If it's for some other reason than we should probably investigate if we
->>>>> shouldn't stop doing this.
->>>> CC: +Paolo Bonzini who introduced this code
->>>>
->>>> commit add6a0cd1c5ba51b201e1361b05a5df817083618
->>>> Author: Paolo Bonzini <pbonzini@redhat.com>
->>>> Date:   Tue Jun 7 17:51:18 2016 +0200
->>>>
->>>>      KVM: MMU: try to fix up page faults before giving up
->>>>
->>>>      The vGPU folks would like to trap the first access to a BAR by setting
->>>>      vm_ops on the VMAs produced by mmap-ing a VFIO device.  The fault
->>>> handler
->>>>      then can use remap_pfn_range to place some non-reserved pages in the
->>>> VMA.
->>>>
->>>>      This kind of VM_PFNMAP mapping is not handled by KVM, but follow_pfn
->>>>      and fixup_user_fault together help supporting it.  The patch also
->>>> supports
->>>>      VM_MIXEDMAP vmas where the pfns are not reserved and thus subject to
->>>>      reference counting.
->>>>
->>>> @Paolo,
->>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2F73e5ed8d-0d25-7d44-8fa2-e1d61b1f5a04%40amd.com%2FT%2F%23m7647ce5f8c4749599d2c6bc15a2b45f8d8cf8154&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7Cecb0f0eb6c2d43afa15b08da80a625ff%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637963748360952327%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=52Dvisa7p%2BckmBxMvDJFScGSNy9JRPDdnPK05C%2F6n7A%3D&amp;reserved=0
->>>>
->>> If we need to bump the refcount only for VM_MIXEDMAP and not for
->>> VM_PFNMAP, then perhaps we could add a flag for that to the kvm_main
->>> code that will denote to kvm_release_page_clean whether it needs to put
->>> the page?
->> The other variant that kind of works is to mark TTM pages reserved using
->> SetPageReserved/ClearPageReserved, telling KVM not to mess with the page
->> struct. But the potential consequences of doing this are unclear to me.
->>
->> Christian, do you think we can do it?
-> Although, no. It also doesn't work with KVM without additional changes
-> to KVM.
+Hello,
 
-Well my fundamental problem is that I can't fit together why KVM is 
-grabing a page reference in the first place.
+syzbot found the following issue on:
 
-See the idea of the page reference is that you have one reference is 
-that you count the reference so that the memory is not reused while you 
-access it, e.g. for I/O or mapping it into different address spaces etc...
+HEAD commit:    7ebfc85e2cd7 Merge tag 'net-6.0-rc1' of git://git.kernel.o..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=143d292d080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=924833c12349a8c0
+dashboard link: https://syzkaller.appspot.com/bug?extid=87b9744712425638eaae
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-But none of those use cases seem to apply to KVM. If I'm not totally 
-mistaken in KVM you want to make sure that the address space mapping, 
-e.g. the translation between virtual and physical address, don't change 
-while you handle it, but grabbing a page reference is the completely 
-wrong approach for that.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Regards,
-Christian.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+87b9744712425638eaae@syzkaller.appspotmail.com
+
+general protection fault, probably for non-canonical address 0xf0cffc45c000056c: 0000 [#1] PREEMPT SMP KASAN
+KASAN: maybe wild-memory-access in range [0x8680022e00002b60-0x8680022e00002b67]
+CPU: 1 PID: 7930 Comm: syz-executor.2 Not tainted 5.19.0-syzkaller-13930-g7ebfc85e2cd7 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:582 [inline]
+RIP: 0010:__mutex_lock+0xec/0x1350 kernel/locking/mutex.c:747
+Code: d0 7c 08 84 d2 0f 85 58 0f 00 00 8b 15 cd e2 99 07 85 d2 75 29 48 8d 7d 60 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 40 0f 00 00 48 3b 6d 60 0f 85 a5 08 00 00 bf 01
+RSP: 0018:ffffc90002dbfac8 EFLAGS: 00010217
+
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000001
+RDX: 10d00045c000056c RSI: 0000000000000000 RDI: 8680022e00002b65
+RBP: 8680022e00002b05 R08: ffffffff846dcdd0 R09: 0000000000000000
+R10: 00000000ffff8880 R11: 000000000008c07c R12: 0000000000000000
+R13: dffffc0000000000 R14: 00000000ffff8880 R15: ffff888020f75004
+FS:  000055555631e400(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2f322000 CR3: 000000001cdc5000 CR4: 0000000000350ee0
+Call Trace:
+ <TASK>
+ drm_gem_object_handle_put_unlocked+0x90/0x390 drivers/gpu/drm/drm_gem.c:231
+ drm_gem_object_release_handle+0xe3/0x110 drivers/gpu/drm/drm_gem.c:259
+ idr_for_each+0x113/0x220 lib/idr.c:208
+ drm_gem_release+0x22/0x30 drivers/gpu/drm/drm_gem.c:932
+ drm_file_free.part.0+0x805/0xb80 drivers/gpu/drm/drm_file.c:281
+ drm_file_free drivers/gpu/drm/drm_file.c:248 [inline]
+ drm_close_helper.isra.0+0x17d/0x1f0 drivers/gpu/drm/drm_file.c:308
+ drm_release+0x1e6/0x530 drivers/gpu/drm/drm_file.c:495
+ __fput+0x277/0x9d0 fs/file_table.c:320
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:177
+ resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:169 [inline]
+ exit_to_user_mode_prepare+0x23c/0x250 kernel/entry/common.c:201
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
+ syscall_exit_to_user_mode+0x19/0x50 kernel/entry/common.c:294
+ do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f0de2a3bebb
+Code: 0f 05 48 3d 00 f0 ff ff 77 45 c3 0f 1f 40 00 48 83 ec 18 89 7c 24 0c e8 63 fc ff ff 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 a1 fc ff ff 8b 44
+RSP: 002b:00007ffe90db73b0 EFLAGS: 00000293
+ ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000004 RCX: 00007f0de2a3bebb
+RDX: 00007f0de2ba0288 RSI: ffffffffffffffff RDI: 0000000000000003
+RBP: 00007f0de2b9d980 R08: 0000000000000000 R09: 00007f0de2ba0290
+R10: 00007ffe90db74b0 R11: 0000000000000293 R12: 0000000000058518
+R13: 00007ffe90db74b0 R14: 00007f0de2b9bf80 R15: 0000000000000032
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:582 [inline]
+RIP: 0010:__mutex_lock+0xec/0x1350 kernel/locking/mutex.c:747
+Code: d0 7c 08 84 d2 0f 85 58 0f 00 00 8b 15 cd e2 99 07 85 d2 75 29 48 8d 7d 60 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 40 0f 00 00 48 3b 6d 60 0f 85 a5 08 00 00 bf 01
+RSP: 0018:ffffc90002dbfac8 EFLAGS: 00010217
+
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000001
+RDX: 10d00045c000056c RSI: 0000000000000000 RDI: 8680022e00002b65
+RBP: 8680022e00002b05 R08: ffffffff846dcdd0 R09: 0000000000000000
+R10: 00000000ffff8880 R11: 000000000008c07c R12: 0000000000000000
+R13: dffffc0000000000 R14: 00000000ffff8880 R15: ffff888020f75004
+FS:  000055555631e400(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f1f7d27af80 CR3: 000000001cdc5000 CR4: 0000000000350ee0
+----------------
+Code disassembly (best guess):
+   0:	d0 7c 08 84          	sarb   -0x7c(%rax,%rcx,1)
+   4:	d2 0f                	rorb   %cl,(%rdi)
+   6:	85 58 0f             	test   %ebx,0xf(%rax)
+   9:	00 00                	add    %al,(%rax)
+   b:	8b 15 cd e2 99 07    	mov    0x799e2cd(%rip),%edx        # 0x799e2de
+  11:	85 d2                	test   %edx,%edx
+  13:	75 29                	jne    0x3e
+  15:	48 8d 7d 60          	lea    0x60(%rbp),%rdi
+  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  20:	fc ff df
+  23:	48 89 fa             	mov    %rdi,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	0f 85 40 0f 00 00    	jne    0xf74
+  34:	48 3b 6d 60          	cmp    0x60(%rbp),%rbp
+  38:	0f 85 a5 08 00 00    	jne    0x8e3
+  3e:	bf                   	.byte 0xbf
+  3f:	01                   	.byte 0x1
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
