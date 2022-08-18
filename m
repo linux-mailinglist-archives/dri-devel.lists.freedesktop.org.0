@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0346598183
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 12:31:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E581959818C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 12:44:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A75CBED4;
-	Thu, 18 Aug 2022 10:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 820F810EFEB;
+	Thu, 18 Aug 2022 10:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64AE3C0D29;
- Thu, 18 Aug 2022 10:31:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660818687; x=1692354687;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=t8Rq1gQAoemnCUCEVfnVYlyYdtJjUbQsitsuxWe88dw=;
- b=J3IdfxyKPP9Dtfx9jWZhqy1PJIbbnJ4b5LQIS/gvdYLw3p7Pzsn92xJg
- 5YvBQodP1WawwGZkT8cnPELPH9QqCrVKH4MDsEGd4BiI0COmKYTaan33+
- aZbPs7b3RcwFGfZZbjO9l3RzB5Jyr1mOzKyYNnlMS6cBvoHUBpvTexNKR
- umzTF01W/eiS3RbnzItEFYWp6Mu6WCJ/KDXor14i7cxt59GiHMWwWqU4F
- RDUeFailSwegOBWMqrucZjSK4lGZnaGxmKASRhEtIq6JOXlFAMBfLn6cH
- 9gSnEkXe7noX8qfLgENvZmGBMaiIUo5NWVLZuQG3Q+5ZEUNrosH8yHrJh A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="279690784"
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; d="scan'208";a="279690784"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 03:31:26 -0700
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; d="scan'208";a="668048685"
-Received: from mwiniars-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.40.166])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 03:31:23 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Doug Anderson <dianders@chromium.org>, Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [RFC PATCH] drm/edid: Make 144 Hz not preferred on Sharp
- LQ140M1JW46
-In-Reply-To: <CAD=FV=W9sK2dKMnDZmW_ipLGZJFrrvNHz6zHsXVaSCD_u4JpiA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220721152314.RFC.1.Ie333b3e4aff6e4a5b58c4aa805e030e561be8773@changeid>
- <269f2610-425b-f296-dcfc-89bdc2e1d587@quicinc.com>
- <CAD=FV=XSVXasU5PMR2kL0WQjQ458xDePuTGd1m14_v9JO5B6oA@mail.gmail.com>
- <CAF6AEGv_Vikf80v-7ccz90fvGPrk5pV1tOxRoWKxKHYuEW8=aA@mail.gmail.com>
- <5c8ca71c-5f0b-d5f5-9f16-e312dec0d01b@quicinc.com>
- <CAD=FV=UGYV1mZenDCRrbpC+gpE12-Uis7fm_=H3PeEjK=t36yA@mail.gmail.com>
- <20220729075118.ofnpk52tk4usm3n3@penduick>
- <CAD=FV=WUB68-DQ-pAFjGaG-kid33ve4Qc3iqb8OUh61xTBohmg@mail.gmail.com>
- <20220729164136.opucqg64qz4ypmvo@penduick>
- <CAD=FV=UKYksHjuVR27DPdUFFtJrQKB2KbT08qjeYLNW_3y_Mfg@mail.gmail.com>
- <20220815064543.g7loqfb6rtwkookl@houat>
- <CAD=FV=W9sK2dKMnDZmW_ipLGZJFrrvNHz6zHsXVaSCD_u4JpiA@mail.gmail.com>
-Date: Thu, 18 Aug 2022 13:31:21 +0300
-Message-ID: <8735dtq1vq.fsf@intel.com>
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD0A8CCCFC;
+ Thu, 18 Aug 2022 10:44:10 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-3321c2a8d4cso30084447b3.5; 
+ Thu, 18 Aug 2022 03:44:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=/Vg0MiE5047HvBd7kU3Dl8WG5Dtp7QWU7yaZmVgWvE0=;
+ b=XBdxOIbpmad8maPo4XhdSMrnSkrWvg5nakK+efBLeJ5Dhda5817DMJDouZlliduGpJ
+ cMI0PnJAxqFOOFm7rAFqrsLpEcmH508OQg92oOL0rAFnK/+n2gjeWpXrOogkawkZVQG5
+ VP0N7xNN08DQPQ9SY53iFIHOhZ9JvL+U+KSRV4vFswq4WP11k7Zv9KelLOBoU8if2XHk
+ kPiHeI2X96L2Hru8Eyz00HNQHoJG8ymiUmOE1Fe7MKZK3YDF79kwsWd7IhOxIKkwOS8/
+ Jsv2X3wJnmvW8b+JIM6eTV/3XUOoVpybgNG3k4M2OVFKpCCOmcyDe03UYYN7UTmqNTHB
+ pWFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=/Vg0MiE5047HvBd7kU3Dl8WG5Dtp7QWU7yaZmVgWvE0=;
+ b=sd0GrX8jSPUSm2COVsAAtpZce6N1CVJpj2IOnc/pvkbKdUg70g0ub4j7x5V0J6JUFp
+ oPk1fsrLy26q5ZN+7yfwyAEPRf/vd4p6Ma8fXATo+I4sgtE5kvtd7b0DTOPR91gnfvAr
+ Fb8IX2rs+Pv+oYDpBJgYIsVoObDjEe2Pw7oOc7Nv7b26eCpuUyPWoBOsx58pqkuo/1XX
+ 4gIqFm7qaD0FiA8gvMoB/4QG5eKkaqftX1PImh/tLDpcqmdByjsNNrKGDHuInNE4fvmq
+ RA+6fGymzAqqW4WUou5KVlaSUWJXNMq9cJxRliYuzqWoWziMBsttSOrchdaoIsoodRhU
+ e9OA==
+X-Gm-Message-State: ACgBeo2liC5ppynannomCnWvOKMVUf4eZ2E+/HpHihxUWVmK5qlZX7EF
+ vpDjLg8CqxQ5U0sfa1FZ8C+Tc3NCXoZ+4wtQvDU=
+X-Google-Smtp-Source: AA6agR6bpMkfOdg/XRd/QTB2hcWngbdEhqg0DhxaakFttwjPtxVRnCyU9KJocZLjpI5nP8q5uNUBHgiRbNIJ29vaWxM=
+X-Received: by 2002:a5b:845:0:b0:683:6ed7:b3b6 with SMTP id
+ v5-20020a5b0845000000b006836ed7b3b6mr2221253ybq.183.1660819449894; Thu, 18
+ Aug 2022 03:44:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <Yv1lepjhg/6QKyQl@debian>
+ <CADnq5_Od9W1iuzYpsmODOB=Xem97ogeH_t0JrjWC-S8h0XM9fA@mail.gmail.com>
+ <5638aaf1-b808-bdc6-d84a-820f24facea6@infradead.org>
+In-Reply-To: <5638aaf1-b808-bdc6-d84a-820f24facea6@infradead.org>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Thu, 18 Aug 2022 11:43:34 +0100
+Message-ID: <CADVatmNA6-qCJEHNn-gRO6Nx88SsTrPsJn_F5J0NiFhyvijNxA@mail.gmail.com>
+Subject: Re: build failure of next-20220817 for amdgpu
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,72 +66,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- David Airlie <airlied@linux.ie>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- freedreno <freedreno@lists.freedesktop.org>
+ Alex Deucher <alexander.deucher@amd.com>,
+ linux-next <linux-next@vger.kernel.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 Aug 2022, Doug Anderson <dianders@chromium.org> wrote:
-> Hi,
+On Thu, Aug 18, 2022 at 3:09 AM Randy Dunlap <rdunlap@infradead.org> wrote:
 >
-> On Sun, Aug 14, 2022 at 11:46 PM Maxime Ripard <maxime@cerno.tech> wrote:
->>
->> On Fri, Jul 29, 2022 at 12:57:40PM -0700, Doug Anderson wrote:
->> > Hi,
->> >
->> > On Fri, Jul 29, 2022 at 9:41 AM Maxime Ripard <maxime@cerno.tech> wrote:
->> > > You raise some good points, but most of the discussion around that patch
->> > > were mostly around performances, power consumption and so on.
->> > >
->> > > This is very much a policy decision, and if there is some panel where
->> > > the EDID reports 60Hz but is broken, then that panel should be the
->> > > exception to the policy
->> > >
->> > > But doing it for a single panel is just odd
->> >
->> > OK, fair enough. I'll abandon this patch at least as far as mainline
->> > is concerned, then.
->>
->> That wasn't really my point though :)
->>
->> If you think that this change is needed, then we should totally discuss
->> it and I'm not opposed to it.
->>
->> What I don't really like about this patch is that it's about a single
->> panel: if we're doing it we should do it for all the panels.
->>
->> Where we do it can also be discussed, but we should remain consistent
->> there.
 >
-> I was never massively confident about it, which is why I added the
-> "RFC" tag to begin with. ;-) In general I suspect that either change
-> will make people upset. In other words, if we programmatically always
-> try to put the "high refresh rate" first for all displays then people
-> will be upset and if we programmatically always try to put the "60 Hz
-> rate" first then people will be upset. Unless someone wants to stand
-> up and say that one side or the other is wrong, I think we're going to
-> simply leave this up to the whim of individual panels. Someone could
-> stand up and demand that it go one way or the other, but I certainly
-> don't have that clout.
 >
-> The spec, as far as I can tell, says that it's up to the panel vendor
-> to use whatever means they want to decide on the "preferred" refresh
-> rate. Thus, as far as the spec is concerned this decision is made on
-> an individual panel basis. ;-) This was really the justification for
-> why my patch was just on one panel.
+> On 8/17/22 19:01, Alex Deucher wrote:
+> > On Wed, Aug 17, 2022 at 6:03 PM Sudip Mukherjee (Codethink)
+> > <sudipm.mukherjee@gmail.com> wrote:
+> >>
+> >> Hi All,
+> >>
+> >> Not sure if it has been reported, build of next-20220817 fails with the
+> >> error:
+> >>
+> >> ERROR: modpost: "cpu_smallcore_map" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+> >>
+> >> Trying to do a git bisect to find out the offending commit.
+> >>
+> >
+> > Thanks.  I don't see that symbol in the driver at all.  Not sure where
+> > it is coming from.
+> >
 >
-> In any case, as I said I'm OK w/ dropping this. We'll find other ways
-> to work around the issue.
+> It's powerpc only.
+>
+> Sudip, is it non-CONFIG_SMP by any chance?
 
-FWIW, if the EDID reported preferred mode works, I also think that's
-what we should prefer.
+Ohhh.. really sorry for the incomplete report. I should not try to
+mail while travelling.
 
-BR,
-Jani.
-
+The error is seen with powerpc allmodconfig and it has CONFIG_SMP=y.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Regards
+Sudip
