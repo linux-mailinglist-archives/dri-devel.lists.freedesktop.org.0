@@ -1,86 +1,149 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91104598858
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 18:07:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 075B9598894
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 18:20:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C782BC51E;
-	Thu, 18 Aug 2022 16:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC2D10F9D7;
+	Thu, 18 Aug 2022 16:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43860B5B2F;
- Thu, 18 Aug 2022 16:06:42 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27IFrR4d009879;
- Thu, 18 Aug 2022 16:06:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=sjDjAQnJv+oym65id1D4iYi4CjbwvuRwU/uJHJdLZVc=;
- b=Pp+/ajHMJpqLwx3kzQ0CV1LK0jYw1wuPEau1YEW6OcPIIsjdBHth51liaZ767qwm4Fay
- ALCySy+FnAKeUi/ydw9qtr90nS1ZqIJlAJvIUOj28nM80NrxENGHBOxaKAl31369s3Vp
- LR9bk9NwKEkS12W0dhY9FtHlSr1sn3G1hBkoDLJuZIkyVsYtXZT2yvf+c3rlSRF02wh8
- rs6oyEWoN33ZS8cym6b/mQ1N8JWuyxVTORGxecsRhXm62q2F3oxcVsqS3Q4BYZFAXN5I
- CndVSE5D6CRtVicZXkks94CpqX6YQtEg+BJR96B8tIRAfnY3VZ58NDOSCoqHpY5bO61U yA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j0wynp68n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Aug 2022 16:06:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27IG6W8K024383
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Aug 2022 16:06:32 GMT
-Received: from [10.111.166.229] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 18 Aug
- 2022 09:06:29 -0700
-Message-ID: <5d2bd7db-801a-838e-1e47-2cbb9cfe445f@quicinc.com>
-Date: Thu, 18 Aug 2022 09:06:26 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v3] drm/msm/dp: check hpd_state before push idle pattern
- at dp_bridge_disable()
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, <agross@kernel.org>,
- <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
- <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
- <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
-References: <1660159551-13828-1-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n533SUb3Bg=pR8Fhwo-M5qLWiti4nzLR-rSGVAsrXgEYNQ@mail.gmail.com>
- <dbda8bce-2890-e5e3-4052-073a52eb06a6@quicinc.com>
- <CAE-0n51NyrP8CikcK_3wj4EEsurmmSZ4RY3pLhJJmkY2_8wNZw@mail.gmail.com>
- <0641a116-5b58-4305-bf2d-f53dcb747276@quicinc.com>
- <1e792f49-febf-43bf-d828-8ecf99cbeba3@quicinc.com>
- <CAE-0n50QXiJs=k78Tmd7om28MgWChypwC8LPRzF2jx_qB5+0FQ@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAE-0n50QXiJs=k78Tmd7om28MgWChypwC8LPRzF2jx_qB5+0FQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D821410EE5A
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 16:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660839608; x=1692375608;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=dxQ1I04QyYFLDVYPs7G5ILzoFQSbTTioDz8GLRYr5Xk=;
+ b=T/8smA8GWOnYhB4de3Z1uWXW7M958EuEnlJhhX2KBWqWXiypHlPoX1Jo
+ dE595n1d+/LMesod0JG1774touNmWCfNWytFK8bswBl/wO3+4ltpGSb/5
+ lTtdPyRd6RmvJglz00XnCZ89zBDf97ZEXr+QuaVl9zkaIT0AGpjIxB/jj
+ DywW1mb2Y0zcdSuyMZYrV/2eKOtBZpmzqQG8U/vuawdmCL3aOWwv/peVC
+ dfikqLYqJtzBkdgbUfLI5C/4WFSQ/LhhkhNCPXaC+vcLVTKxDWMxubnbR
+ IRqq+M3SF/bgFbL/k4vSXuuRger2oJqkXO4erhNhAfliV56QoeVelAS3l w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="275849135"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="275849135"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2022 09:20:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="668178657"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga008.fm.intel.com with ESMTP; 18 Aug 2022 09:20:05 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Thu, 18 Aug 2022 09:20:04 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Thu, 18 Aug 2022 09:20:04 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Thu, 18 Aug 2022 09:20:04 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.42) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Thu, 18 Aug 2022 09:20:03 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PB9zmqQO7S/eSbmKVv0gM4vjbLT4WpqcZp66ZxlirrVT4FUuxFvslYqcJ+eXX+LqnFIbpjmc+0nanMLpJp+10Qc5MqDuCoT1SfC1F/80GaInAET9+Ucc0HmxJsjMx05hR1NfPpssgJV3kzlskGGwHURDwTtucnHeHnhaMD6xrZQf/uXkyQMXMSa0jWtZt7diwnr8IXH0UuAZoXKvbLMlGAn3YDR1WQ1K0eVi5yry97WRHea5FYPpOh6x7yOEOKxYqgMp9POGjX7IcHkDStQaMj/IPNZlBCg366SSfnKnCwv/Tz+PlUFYiZn7jBZ4qgXmUbMeU5ieLrYRbqxASjoOoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=alq7hF/CdmfDxnz9kXJ2dakQk5ynWnRvM14RJn5mRog=;
+ b=fbokFnbsi+fMJY6gvWhpw5DnCfyqHtdzZC5r25Rlo0S+glIwHJCEDVB9dXVMj6uksa0D9frTsce+bx9hk/iFtO8QkfCHdpUCa6qJyAzVrggNBvfTrThgjQP1CF+GEVd03qnKUYhMblg9W6+49izJfXMWFYN8SGLHjpV/1Ar6r4v/tCvaCdhveRtVk0DK+wXygdDTBh3LGngPVnTy+nlDJuPvAIkK16cMQLsgmXktcUtsQdz8y/YxeuBpe+E+dq1IvdhUGhPVzIxK/MUJYVmU/mygQQCoBBoUhIsUUKvYBVPnVdhFnjLv9QFDA2Ek+G19dhbhNzfJ+R+w0jNcVdGUWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
+ BN0PR11MB5743.namprd11.prod.outlook.com (2603:10b6:408:165::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5525.11; Thu, 18 Aug 2022 16:20:01 +0000
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::b04c:807c:4ea0:c62e]) by DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::b04c:807c:4ea0:c62e%9]) with mapi id 15.20.5546.016; Thu, 18 Aug 2022
+ 16:20:01 +0000
+Date: Thu, 18 Aug 2022 18:19:53 +0200
+From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
+Subject: Re: [PATCH v2 1/2] drm/cmdline-parser: Merge negative tests
+Message-ID: <20220818161953.2kfwu5vrfpuf57kx@nostramo.hardline.pl>
+References: <20220817211236.252091-1-michal.winiarski@intel.com>
+ <cb4263a0-c5bb-bf27-0e06-9b62eff2d1c1@riseup.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: YDa1b5-Qnmed3qS8RnJmromVm4v5x4LQ
-X-Proofpoint-GUID: YDa1b5-Qnmed3qS8RnJmromVm4v5x4LQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-18_12,2022-08-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 adultscore=0 spamscore=0 malwarescore=0 clxscore=1015
- impostorscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
- mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208180059
+In-Reply-To: <cb4263a0-c5bb-bf27-0e06-9b62eff2d1c1@riseup.net>
+X-ClientProxiedBy: FR3P281CA0172.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::10) To DM4PR11MB5373.namprd11.prod.outlook.com
+ (2603:10b6:5:394::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a4d3a795-0f65-42f1-af11-08da81358027
+X-MS-TrafficTypeDiagnostic: BN0PR11MB5743:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gUkpGgCg80ta6HQQHVT65letE4gH8lMhDegd1V+wTDVZkbgxksD31ax5byGzvua/RZDo3nkv95hwyesmloHJIrIkT4sQC9ZNvvlN4kkxQBUmb2IDxA16iAcqHTbbymDwZUMDqfRMV8z1g5AVq6qI8lphRrdADUe7fcFFAQcsVzSDqwQ46EUrpuvp2L+FRoGmc2uvEZrKbUeiWGGqpxl2KA5DnwC+iutsI418+jZysXjHL3bJ8MCQkEKx7U/aVv0nsCJLTDTVK5S0Uh2hWi/zuEZAdw9A81/JWiN7e5zDZ2KmIQlJKYNMWirkhBjMwxxP0Fu4qfxkYQ6TO6/+BzAcZXr10/IxbHibL1S4S0RAETQQPT7HbhU7SaRRN9FSyCcvn/XyAjt9mGTjtNAPbPU1Q/ThYPZpyqOoG2OlNrreDgM7HIbd4NpYskQt7fC3CXsjVlGozgQ0/3c/BHQDtMnfDDhUnfPSGnjWDGqLcTjD7IBFBkLTwj+4ZehtLZxm9N/eLFBG4afgsvm/NFrWJnZVtKAWtBh5R7iyrmkH3pRrVL2xR+crygmAxcJxV1XgMieRTksCGYGyS7+uRw3Smr5KhduzLqk5qz8UtoidOzPgxyF6UFucXvacE5w0jMllj9j+3tv2q2Fc2ipKjOQ5g4EnjD6kk+Wr+HQWsVVtXeNOFBiuvUgVk36cAAL9WS+VWoHrEqV/qT/X4vLczXpKD31ANA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(376002)(39860400002)(136003)(396003)(346002)(366004)(86362001)(82960400001)(66946007)(38100700002)(8676002)(4326008)(66556008)(66476007)(54906003)(6916009)(316002)(2906002)(1076003)(30864003)(186003)(8936002)(6512007)(6506007)(6666004)(9686003)(5660300002)(83380400001)(66574015)(53546011)(6486002)(478600001)(26005)(41300700001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QkRnMkpRL1FjVFNOWGJZdXVadjMwMC93WXhkV2M5Y2J2cjdQcGhzVThoM1NE?=
+ =?utf-8?B?dWxlRXY5RzhJSU11TzkzT1BvNzE3QUp5SnJjMDN6WTFSZDhVenZFZmF4S0NL?=
+ =?utf-8?B?T1JHaXlPNjBxZCtNbDV5WERScDVERG4vVTBYMndoSFlCTTRkQnliNUE5bDhk?=
+ =?utf-8?B?OTdQZFdtL29DUHhjWTFrRkJoRjJjWGhBS3prVDkrSXBCQjZYNjQwd0E4TU5s?=
+ =?utf-8?B?aFpneFFrcVh0eDRUNGlaeUhSaGdzaHV5ZjhkOEpDUzllMnlNVVcxZVUyQ2Ji?=
+ =?utf-8?B?U3pGWHdaSVlWeUJ1bDhYSFJsQm16UVVHcnR0cFIrUW1EYW0rTWVLYU9LTGdW?=
+ =?utf-8?B?NGd4NjBoMi9YK1JzZy9vYjdmcHdURk1zUkVudHBHbHYvRUxHZ3NzOUQ4KzdZ?=
+ =?utf-8?B?TDFybTJ5V0RXQU54MVZYcGhTcE9ZelM0d3BEOGFiM01mV1N3bzVxZ29SRDRo?=
+ =?utf-8?B?bWZkcHRreStXVVZZaVZ0QVd4b1pEZEdpTFppSGtiWFFvOXhkRDVDZTZhSUM4?=
+ =?utf-8?B?TmhENTVDQjNTOFpNWk5wanQ5Z2hSL1NLL1lwcGdidThDMW45S3JobklSMExl?=
+ =?utf-8?B?QUN4U0M0VkpaWkZGd1JBZnppTUtGcFg1NTU0U09CQ3FaZDU4dkxyQkY3YUZ2?=
+ =?utf-8?B?aHNVRSt1RmN2Qlh0RGhFbzA4aHExZFVBVFR2TDd4VTA1a2FacXlYblFRMEYy?=
+ =?utf-8?B?aW0yWDM3UDFTWDlsR3kwOEsxKzdnTWFkaENFRVpUdEhja2FuNUlrSGNnY2Fo?=
+ =?utf-8?B?RTFWcVNNajhSUVJZSWlDeFJpdEtvNlN2RFFIQ0lIeW1ZN1N2MjNwK3ZJdXlj?=
+ =?utf-8?B?Wi9UOEx1VEVycmtxOFNKVEg0WXBqOThsTS9EZjEzN2xHaWRSUnBlVWRVTldF?=
+ =?utf-8?B?cCtaaHNxc0lqVG82L3gvaVFGWlNic09pMDdqZ0dmY281MDJ3enVjQXRabVhF?=
+ =?utf-8?B?QzhEeUcrQmdtcU45UHQ5dVRJV2lHcCt4ZW1NU1hyNU90U1hUdXV5RGZ6ZUtu?=
+ =?utf-8?B?a0V4algyR3RZZ3llRzRTZm9BWGxaME9qN3NrN25wU2JzT0EzSHhrNTE0S0Jl?=
+ =?utf-8?B?dlF5Zy85SytOMkwvajdjODdveC9VakxHZXg2dUI2SEFtV3R4MVJHYmFsRDND?=
+ =?utf-8?B?RStra0k3SUhoVFYxQUoybFY4djFqM2dxSFZlWDJLMlM3SDA1T0tHd0Z2akg1?=
+ =?utf-8?B?OUdxNGVwaGY1VFVVRDdtN3JsMUtTOWxIUU9pK0lTR0ZDYlJHREdpbVFOY0c0?=
+ =?utf-8?B?M09pVjBrakxrZEY0ekVuZUVSdjhNVENBa0Q3WmdlYlVCR0paV0xOWnRFV0Jr?=
+ =?utf-8?B?dXRFZjdvSkltZHRMK2Q4NmFMS0FlSUlqL1U0dHlHSGVQbjdWWU5ZdjBBUjJw?=
+ =?utf-8?B?Zm5FVmxLbmJUbVlyMTEzcGhMZEZNNzNuVG5RbjBJVVJveFNmaGduMjhRamVX?=
+ =?utf-8?B?TVJlQ0FqVzlicy9Oc1A3bVdhWDFza05qQU5tUXErY1cvSmFTYzgrVFZXNEpx?=
+ =?utf-8?B?bWRWSTYwVWdVSUE5S2YyNDlWOWk2M0xXVFZmcXpyYUY5KzRDMGZwMVEybzVN?=
+ =?utf-8?B?R1JydkgxcmV6VkhzOXU3Um9SY0xnTnpzOGVhRkUxMmFKNUxLa0REdFJuTzlD?=
+ =?utf-8?B?WDkvWjBZT1ZVek01TWFBQ3dOSWJ0VVJCMVZiek95QVE4UEhpWEpUL1dxdDhk?=
+ =?utf-8?B?TThTUWVKRmV2Rkx0ZVRwRE82U3Q0SENseUxNV20vby9mMVRhOTRjTTZlRkx2?=
+ =?utf-8?B?eWNOU1REKzZIOWVoc0ZFRjhtMUV6RWJBZUxCNEozQlNqSFRqejZHQzJpOXZX?=
+ =?utf-8?B?a3lOR2R3UDB6dUg5Mnc2RHdTYzNPUUFhWDZSSHlGUU1QNCtlZFYrWDdwR09I?=
+ =?utf-8?B?QTdmSFpKTkdaS3BQZW8yOUswa2dsU0cyWmkvSDVzZk1PZk1kWFFMcmExRGMz?=
+ =?utf-8?B?cHJCRWsvdFpDUzlFZW05RkdoeDBlck5RWmhYU3hXTmJ5WHUrTUhWc2hJL240?=
+ =?utf-8?B?MlgzU0VMcHZ4enZvVDkycVhYTm43OVRucVlBVUVZUnczbUtlbkRIemhRcGtT?=
+ =?utf-8?B?ZGlGcW42UWllaXNqZDlEU3YrYWxsSjUza3RwRXVoTmZ4L1BGejFxQ2lMcDB6?=
+ =?utf-8?B?cUJMcWwwdnMzak1JaGljck45TmhJWnRua0kwYkN6L1FHek01ZDNaMy9DSG5M?=
+ =?utf-8?B?d2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4d3a795-0f65-42f1-af11-08da81358027
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2022 16:20:01.1242 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rtckXORhc0CoHKD8e0ngkfIxrN1nklC1XbSdjIQASDD5igEs6AFh44KtIfIyP69NEyzadKTpoT4loXe1s9jYHLNtkPVwOOlcG6fO8MNLxrQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR11MB5743
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,98 +156,442 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
+ Arthur Grillo <arthur.grillo@usp.br>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen
+On Thu, Aug 18, 2022 at 11:15:39AM -0300, Maíra Canal wrote:
+> 
+> 
+> On 8/17/22 18:12, Michał Winiarski wrote:
+> > Negative tests can be expressed as a single parameterized test case,
+> > which highlights that we're following the same test logic (passing
+> > invalid cmdline and expecting drm_mode_parse_command_line_for_connector
+> > to fail), which improves readability.
+> > 
+> 
+> In order to be consistent to the change on the testcases, you could
+> s/negative/invalid on the commit message also.
 
-On 8/15/2022 10:08 AM, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2022-08-11 08:20:01)
->>
->> On 8/10/2022 6:00 PM, Abhinav Kumar wrote:
->>>
->>> Even then, you do have a valid point. DRM framework should not have
->>> caused the disable path to happen without an enable.
->>>
->>> I went through the stack mentioned in the issue.
->>>
->>> Lets see this part of the stack:
->>>
->>> dp_ctrl_push_idle+0x40/0x88
->>>   dp_bridge_disable+0x24/0x30
->>>   drm_atomic_bridge_chain_disable+0x90/0xbc
->>>   drm_atomic_helper_commit_modeset_disables+0x198/0x444
->>>   msm_atomic_commit_tail+0x1d0/0x374
->>>
->>> In drm_atomic_helper_commit_modeset_disables(), we call
->>> disable_outputs().
->>>
->>> AFAICT, this is the only place which has a protection to not call the
->>> disable() flow if it was not enabled here:
->>>
->>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_atomic_helper.c#L1063
->>>
->>>
->>> But that function is only checking crtc_state->active. Thats set by
->>> the usermode:
->>>
->>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_atomic_uapi.c#L407
->>>
->>>
->>> Now, if usermode sets that to true and then crashed it can bypass this
->>> check and we will crash in the location kuogee is trying to fix.
-> 
-> That seems bad, no? We don't want userspace to be able to crash and then
-> be able to call the disable path when enable never succeeded.
-> 
->>>
->>>  From the issue mentioned in
->>> https://gitlab.freedesktop.org/drm/msm/-/issues/17, the reporter did
->>> mention the usermode crashed.
->>>
->>> So this is my tentative analysis of whats happening here.
->>>
->>> Ideally yes, we should have been protected by the location mentioned
->>> above in disable_outputs() but looks to me due to the above hypothesis
->>> its getting bypassed.
-> 
-> Can you fix the problem there? Not fixing it means that every driver out
-> there has to develop the same "fix", when it could be fixed in the core
-> one time.
-> 
+Already did that - s/passing negative cmdline/passing invalid cmdline.
+The tests are still "negative tests" - in other words, tests that pass invalid
+data, and expect specific error condition to happen. We can't use "invalid
+tests" here, as that has different meaning (broken test).
 
-As per discussion on IRC with Rob, we have pushed another fix for this 
-issue 
-https://lore.kernel.org/all/1660759314-28088-1-git-send-email-quic_khsieh@quicinc.com/.
+We could expand it into:
+"Tests that pass invalid data can be expressed as a single parameterized test
+case (...)"
 
-So, we can drop this one in favor of the other.
+Would that work? Or should we keep it as "negative tests"?
 
-Thanks
+-Michał
 
-Abhinav
-> Ideally drivers are simple. They configure the hardware for what the
-> function pointer is asking for. State management and things like that
-> should be pushed into the core framework so that we don't have to
-> duplicate that multiple times.
 > 
->>>
->>> Thanks
->>>
->>> Abhinav
->>>
->>>
->> Ii sound likes that there is a hole either at user space or drm.
->>
->> But that should not cause dp_bridge_disable() at dp driver to crash.
+> Best Regards,
+> - Maíra Canal
 > 
-> Agreed.
-> 
->>
->> Therefore it is properly to check hdp_state condition at
->> dp_bridge_disable() to prevent it from crashing.
->>
-> 
-> Disagree. Userspace shouldn't be able to get drm into a wedged state.
+> > v2: s/negative/invalid to be consistent with other testcases in DRM
+> > 
+> > Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> > Tested-by: Maíra Canal <mairacanal@riseup.net>
+> > ---
+> >   .../gpu/drm/tests/drm_cmdline_parser_test.c   | 293 ++++++------------
+> >   1 file changed, 103 insertions(+), 190 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
+> > index 59b29cdfdd35..3a46c7d6f2aa 100644
+> > --- a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
+> > +++ b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
+> > @@ -109,24 +109,6 @@ static void drm_cmdline_test_force_d_only(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_OFF);
+> >   }
+> > -static void drm_cmdline_test_margin_only(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "m";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_interlace_only(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "i";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> >   static void drm_cmdline_test_res(struct kunit *test)
+> >   {
+> >   	struct drm_cmdline_mode mode = { };
+> > @@ -149,42 +131,6 @@ static void drm_cmdline_test_res(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
+> >   }
+> > -static void drm_cmdline_test_res_missing_x(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "x480";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_res_missing_y(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "1024x";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_res_bad_y(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "1024xtest";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_res_missing_y_bpp(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "1024x-24";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> >   static void drm_cmdline_test_res_vesa(struct kunit *test)
+> >   {
+> >   	struct drm_cmdline_mode mode = { };
+> > @@ -274,15 +220,6 @@ static void drm_cmdline_test_res_bpp(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
+> >   }
+> > -static void drm_cmdline_test_res_bad_bpp(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "720x480-test";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> >   static void drm_cmdline_test_res_refresh(struct kunit *test)
+> >   {
+> >   	struct drm_cmdline_mode mode = { };
+> > @@ -306,15 +243,6 @@ static void drm_cmdline_test_res_refresh(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
+> >   }
+> > -static void drm_cmdline_test_res_bad_refresh(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "720x480@refresh";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> >   static void drm_cmdline_test_res_bpp_refresh(struct kunit *test)
+> >   {
+> >   	struct drm_cmdline_mode mode = { };
+> > @@ -411,15 +339,6 @@ static void drm_cmdline_test_res_bpp_refresh_force_off(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_OFF);
+> >   }
+> > -static void drm_cmdline_test_res_bpp_refresh_force_on_off(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline =  "720x480-24@60de";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> >   static void drm_cmdline_test_res_bpp_refresh_force_on(struct kunit *test)
+> >   {
+> >   	struct drm_cmdline_mode mode = { };
+> > @@ -563,24 +482,6 @@ static void drm_cmdline_test_res_vesa_margins(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
+> >   }
+> > -static void drm_cmdline_test_res_invalid_mode(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "720x480f";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_res_bpp_wrong_place_mode(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "720x480e-24";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> >   static void drm_cmdline_test_name(struct kunit *test)
+> >   {
+> >   	struct drm_cmdline_mode mode = { };
+> > @@ -608,42 +509,6 @@ static void drm_cmdline_test_name_bpp(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.bpp, 24);
+> >   }
+> > -static void drm_cmdline_test_name_bpp_refresh(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "NTSC-24@60";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_name_refresh(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "NTSC@60";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_name_refresh_wrong_mode(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "NTSC@60m";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_name_refresh_invalid_mode(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "NTSC@60f";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> >   static void drm_cmdline_test_name_option(struct kunit *test)
+> >   {
+> >   	struct drm_cmdline_mode mode = { };
+> > @@ -762,33 +627,6 @@ static void drm_cmdline_test_rotate_270(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
+> >   }
+> > -static void drm_cmdline_test_rotate_multiple(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "720x480,rotate=0,rotate=90";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_rotate_invalid_val(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "720x480,rotate=42";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> > -static void drm_cmdline_test_rotate_truncated(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "720x480,rotate=";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> >   static void drm_cmdline_test_hmirror(struct kunit *test)
+> >   {
+> >   	struct drm_cmdline_mode mode = { };
+> > @@ -885,15 +723,6 @@ static void drm_cmdline_test_multiple_options(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
+> >   }
+> > -static void drm_cmdline_test_invalid_option(struct kunit *test)
+> > -{
+> > -	struct drm_cmdline_mode mode = { };
+> > -	const char *cmdline = "720x480,test=42";
+> > -
+> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
+> > -									   &no_connector, &mode));
+> > -}
+> > -
+> >   static void drm_cmdline_test_bpp_extra_and_option(struct kunit *test)
+> >   {
+> >   	struct drm_cmdline_mode mode = { };
+> > @@ -1006,64 +835,148 @@ static void drm_cmdline_test_panel_orientation(struct kunit *test)
+> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
+> >   }
+> > +struct drm_cmdline_invalid_test {
+> > +	const char *name;
+> > +	const char *cmdline;
+> > +};
+> > +
+> > +static void drm_cmdline_test_invalid(struct kunit *test)
+> > +{
+> > +	const struct drm_cmdline_invalid_test *params = test->param_value;
+> > +	struct drm_cmdline_mode mode = { };
+> > +
+> > +	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(params->cmdline,
+> > +									   &no_connector,
+> > +									   &mode));
+> > +}
+> > +
+> > +static const struct drm_cmdline_invalid_test drm_cmdline_invalid_tests[] = {
+> > +	{
+> > +		.name = "margin_only",
+> > +		.cmdline = "m",
+> > +	},
+> > +	{
+> > +		.name = "interlace_only",
+> > +		.cmdline = "i",
+> > +	},
+> > +	{
+> > +		.name = "res_missing_x",
+> > +		.cmdline = "x480",
+> > +	},
+> > +	{
+> > +		.name = "res_missing_y",
+> > +		.cmdline = "1024x",
+> > +	},
+> > +	{
+> > +		.name = "res_bad_y",
+> > +		.cmdline = "1024xtest",
+> > +	},
+> > +	{
+> > +		.name = "res_missing_y_bpp",
+> > +		.cmdline = "1024x-24",
+> > +	},
+> > +	{
+> > +		.name = "res_bad_bpp",
+> > +		.cmdline = "720x480-test",
+> > +	},
+> > +	{
+> > +		.name = "res_bad_refresh",
+> > +		.cmdline = "720x480@refresh",
+> > +	},
+> > +	{
+> > +		.name = "res_bpp_refresh_force_on_off",
+> > +		.cmdline = "720x480-24@60de",
+> > +	},
+> > +	{
+> > +		.name = "res_invalid_mode",
+> > +		.cmdline = "720x480f",
+> > +	},
+> > +	{
+> > +		.name = "res_bpp_wrong_place_mode",
+> > +		.cmdline = "720x480e-24",
+> > +	},
+> > +	{
+> > +		.name = "name_bpp_refresh",
+> > +		.cmdline = "NTSC-24@60",
+> > +	},
+> > +	{
+> > +		.name = "name_refresh",
+> > +		.cmdline = "NTSC@60",
+> > +	},
+> > +	{
+> > +		.name = "name_refresh_wrong_mode",
+> > +		.cmdline = "NTSC@60m",
+> > +	},
+> > +	{
+> > +		.name = "name_refresh_invalid_mode",
+> > +		.cmdline = "NTSC@60f",
+> > +	},
+> > +	{
+> > +		.name = "rotate_multiple",
+> > +		.cmdline = "720x480,rotate=0,rotate=90",
+> > +	},
+> > +	{
+> > +		.name = "rotate_invalid_val",
+> > +		.cmdline = "720x480,rotate=42",
+> > +	},
+> > +	{
+> > +		.name = "rotate_truncated",
+> > +		.cmdline = "720x480,rotate=",
+> > +	},
+> > +	{
+> > +		.name = "invalid_option",
+> > +		.cmdline = "720x480,test=42",
+> > +	},
+> > +};
+> > +
+> > +static void drm_cmdline_invalid_desc(const struct drm_cmdline_invalid_test *t,
+> > +				     char *desc)
+> > +{
+> > +	sprintf(desc, "%s", t->name);
+> > +}
+> > +
+> > +KUNIT_ARRAY_PARAM(drm_cmdline_invalid, drm_cmdline_invalid_tests, drm_cmdline_invalid_desc);
+> > +
+> >   static struct kunit_case drm_cmdline_parser_tests[] = {
+> >   	KUNIT_CASE(drm_cmdline_test_force_d_only),
+> >   	KUNIT_CASE(drm_cmdline_test_force_D_only_dvi),
+> >   	KUNIT_CASE(drm_cmdline_test_force_D_only_hdmi),
+> >   	KUNIT_CASE(drm_cmdline_test_force_D_only_not_digital),
+> >   	KUNIT_CASE(drm_cmdline_test_force_e_only),
+> > -	KUNIT_CASE(drm_cmdline_test_margin_only),
+> > -	KUNIT_CASE(drm_cmdline_test_interlace_only),
+> >   	KUNIT_CASE(drm_cmdline_test_res),
+> > -	KUNIT_CASE(drm_cmdline_test_res_missing_x),
+> > -	KUNIT_CASE(drm_cmdline_test_res_missing_y),
+> > -	KUNIT_CASE(drm_cmdline_test_res_bad_y),
+> > -	KUNIT_CASE(drm_cmdline_test_res_missing_y_bpp),
+> >   	KUNIT_CASE(drm_cmdline_test_res_vesa),
+> >   	KUNIT_CASE(drm_cmdline_test_res_vesa_rblank),
+> >   	KUNIT_CASE(drm_cmdline_test_res_rblank),
+> >   	KUNIT_CASE(drm_cmdline_test_res_bpp),
+> > -	KUNIT_CASE(drm_cmdline_test_res_bad_bpp),
+> >   	KUNIT_CASE(drm_cmdline_test_res_refresh),
+> > -	KUNIT_CASE(drm_cmdline_test_res_bad_refresh),
+> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh),
+> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_interlaced),
+> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_margins),
+> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_off),
+> > -	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on_off),
+> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on),
+> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on_analog),
+> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on_digital),
+> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_interlaced_margins_force_on),
+> >   	KUNIT_CASE(drm_cmdline_test_res_margins_force_on),
+> >   	KUNIT_CASE(drm_cmdline_test_res_vesa_margins),
+> > -	KUNIT_CASE(drm_cmdline_test_res_invalid_mode),
+> > -	KUNIT_CASE(drm_cmdline_test_res_bpp_wrong_place_mode),
+> >   	KUNIT_CASE(drm_cmdline_test_name),
+> >   	KUNIT_CASE(drm_cmdline_test_name_bpp),
+> > -	KUNIT_CASE(drm_cmdline_test_name_refresh),
+> > -	KUNIT_CASE(drm_cmdline_test_name_bpp_refresh),
+> > -	KUNIT_CASE(drm_cmdline_test_name_refresh_wrong_mode),
+> > -	KUNIT_CASE(drm_cmdline_test_name_refresh_invalid_mode),
+> >   	KUNIT_CASE(drm_cmdline_test_name_option),
+> >   	KUNIT_CASE(drm_cmdline_test_name_bpp_option),
+> >   	KUNIT_CASE(drm_cmdline_test_rotate_0),
+> >   	KUNIT_CASE(drm_cmdline_test_rotate_90),
+> >   	KUNIT_CASE(drm_cmdline_test_rotate_180),
+> >   	KUNIT_CASE(drm_cmdline_test_rotate_270),
+> > -	KUNIT_CASE(drm_cmdline_test_rotate_multiple),
+> > -	KUNIT_CASE(drm_cmdline_test_rotate_invalid_val),
+> > -	KUNIT_CASE(drm_cmdline_test_rotate_truncated),
+> >   	KUNIT_CASE(drm_cmdline_test_hmirror),
+> >   	KUNIT_CASE(drm_cmdline_test_vmirror),
+> >   	KUNIT_CASE(drm_cmdline_test_margin_options),
+> >   	KUNIT_CASE(drm_cmdline_test_multiple_options),
+> > -	KUNIT_CASE(drm_cmdline_test_invalid_option),
+> >   	KUNIT_CASE(drm_cmdline_test_bpp_extra_and_option),
+> >   	KUNIT_CASE(drm_cmdline_test_extra_and_option),
+> >   	KUNIT_CASE(drm_cmdline_test_freestanding_options),
+> >   	KUNIT_CASE(drm_cmdline_test_freestanding_force_e_and_options),
+> >   	KUNIT_CASE(drm_cmdline_test_panel_orientation),
+> > +	KUNIT_CASE_PARAM(drm_cmdline_test_invalid, drm_cmdline_invalid_gen_params),
+> >   	{}
+> >   };
