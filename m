@@ -1,149 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075B9598894
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 18:20:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4B4598938
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 18:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC2D10F9D7;
-	Thu, 18 Aug 2022 16:20:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 283C210E336;
+	Thu, 18 Aug 2022 16:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D821410EE5A
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 16:20:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660839608; x=1692375608;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=dxQ1I04QyYFLDVYPs7G5ILzoFQSbTTioDz8GLRYr5Xk=;
- b=T/8smA8GWOnYhB4de3Z1uWXW7M958EuEnlJhhX2KBWqWXiypHlPoX1Jo
- dE595n1d+/LMesod0JG1774touNmWCfNWytFK8bswBl/wO3+4ltpGSb/5
- lTtdPyRd6RmvJglz00XnCZ89zBDf97ZEXr+QuaVl9zkaIT0AGpjIxB/jj
- DywW1mb2Y0zcdSuyMZYrV/2eKOtBZpmzqQG8U/vuawdmCL3aOWwv/peVC
- dfikqLYqJtzBkdgbUfLI5C/4WFSQ/LhhkhNCPXaC+vcLVTKxDWMxubnbR
- IRqq+M3SF/bgFbL/k4vSXuuRger2oJqkXO4erhNhAfliV56QoeVelAS3l w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="275849135"
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="275849135"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 09:20:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="668178657"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga008.fm.intel.com with ESMTP; 18 Aug 2022 09:20:05 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 18 Aug 2022 09:20:04 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 18 Aug 2022 09:20:04 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Thu, 18 Aug 2022 09:20:04 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.42) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Thu, 18 Aug 2022 09:20:03 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2069.outbound.protection.outlook.com [40.107.100.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A61110E336;
+ Thu, 18 Aug 2022 16:50:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PB9zmqQO7S/eSbmKVv0gM4vjbLT4WpqcZp66ZxlirrVT4FUuxFvslYqcJ+eXX+LqnFIbpjmc+0nanMLpJp+10Qc5MqDuCoT1SfC1F/80GaInAET9+Ucc0HmxJsjMx05hR1NfPpssgJV3kzlskGGwHURDwTtucnHeHnhaMD6xrZQf/uXkyQMXMSa0jWtZt7diwnr8IXH0UuAZoXKvbLMlGAn3YDR1WQ1K0eVi5yry97WRHea5FYPpOh6x7yOEOKxYqgMp9POGjX7IcHkDStQaMj/IPNZlBCg366SSfnKnCwv/Tz+PlUFYiZn7jBZ4qgXmUbMeU5ieLrYRbqxASjoOoQ==
+ b=Tkf27MGOsfSl3o4nlKMoQt4JG5ecK3TGGftAu2UEBHc7BaLAgedrVnvUUpPoGYpBy2QfZ/woWXKH8pZPk5Q//wBnVBzAyu9qJXZ/npMevp6WNdGZkGB1Tp8yqJkjGta2hKLiKxUJuYYToWgH56mz14bsegS1b6yZwGK8s0amPSTa9FybBAA8fAroPI/oqLP8ixRZVNV3yiqrTtQ9HSkr31dd1c6X8KoblCE/V1EXIWLZe2ysYLcMccCNHZJEgSVl5hxUO7yClu3tf8/xMYL7Iu1BcnMA/rJSDx0uFhkQiVzFykVx/5ab00yc/ciBhfrj/azNPt/pl/6CCijPFoz7Dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=alq7hF/CdmfDxnz9kXJ2dakQk5ynWnRvM14RJn5mRog=;
- b=fbokFnbsi+fMJY6gvWhpw5DnCfyqHtdzZC5r25Rlo0S+glIwHJCEDVB9dXVMj6uksa0D9frTsce+bx9hk/iFtO8QkfCHdpUCa6qJyAzVrggNBvfTrThgjQP1CF+GEVd03qnKUYhMblg9W6+49izJfXMWFYN8SGLHjpV/1Ar6r4v/tCvaCdhveRtVk0DK+wXygdDTBh3LGngPVnTy+nlDJuPvAIkK16cMQLsgmXktcUtsQdz8y/YxeuBpe+E+dq1IvdhUGhPVzIxK/MUJYVmU/mygQQCoBBoUhIsUUKvYBVPnVdhFnjLv9QFDA2Ek+G19dhbhNzfJ+R+w0jNcVdGUWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- BN0PR11MB5743.namprd11.prod.outlook.com (2603:10b6:408:165::5) with
+ bh=PjcZNZoSSnwPw2aU/t2SfKERFw+eYc/AXI0WutQOFXQ=;
+ b=E+Z12DmY/2A8xhMkVNzqlqpUoLAbiv7IN7c9pzWH+uqjQgaKZFUbLhCzUzsGUDSIjkR0aydprrrV3eF/OUJFlVaou7tEAkvCKhx3tlLf3D//oXLeaDk5pviNz00M4/s0CG99CJcIv61w1Q7dsPMIoDma54lU20kg+HdYdWHkMpROZO8+KgTN5B3r/EdaA17vsyD0QE6Vl3Hwcco9gaJhwL/DjRrxkq4+d8X2NxPy9fGOy7I5CGu7XDocNZjcuBT1yUQZfSo2anBAK0bR/cvpwbO/fQgGTMJplbE/VnuEvv7REAtHgnR6UOSx3BE/JL2+kFjgfSot7r0Mx7bWm0Ynmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PjcZNZoSSnwPw2aU/t2SfKERFw+eYc/AXI0WutQOFXQ=;
+ b=15Z9dddzz6CGsO5pokvDJn2yrTGn6Jd0tRCBBE167dTGLcqCHFC0LRqYKZFhuCtvEFDwyz5HO4si2KAzqSBarkAppbbUjDY3GcJfghznv6PT3ZSr19DEs+mrfuZx2wjqZArcWYYNMiiZslvmGdW8dnOZ7e7kRVxwTFFxhg8cDL8=
+Received: from DS7PR05CA0057.namprd05.prod.outlook.com (2603:10b6:8:2f::21) by
+ MN2PR12MB3022.namprd12.prod.outlook.com (2603:10b6:208:ce::32) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5525.11; Thu, 18 Aug 2022 16:20:01 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::b04c:807c:4ea0:c62e]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::b04c:807c:4ea0:c62e%9]) with mapi id 15.20.5546.016; Thu, 18 Aug 2022
- 16:20:01 +0000
-Date: Thu, 18 Aug 2022 18:19:53 +0200
-From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
-Subject: Re: [PATCH v2 1/2] drm/cmdline-parser: Merge negative tests
-Message-ID: <20220818161953.2kfwu5vrfpuf57kx@nostramo.hardline.pl>
-References: <20220817211236.252091-1-michal.winiarski@intel.com>
- <cb4263a0-c5bb-bf27-0e06-9b62eff2d1c1@riseup.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cb4263a0-c5bb-bf27-0e06-9b62eff2d1c1@riseup.net>
-X-ClientProxiedBy: FR3P281CA0172.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a0::10) To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+ 15.20.5525.10; Thu, 18 Aug 2022 16:49:56 +0000
+Received: from DM6NAM11FT066.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:8:2f:cafe::34) by DS7PR05CA0057.outlook.office365.com
+ (2603:10b6:8:2f::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.4 via Frontend
+ Transport; Thu, 18 Aug 2022 16:49:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT066.mail.protection.outlook.com (10.13.173.179) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5546.15 via Frontend Transport; Thu, 18 Aug 2022 16:49:55 +0000
+Received: from hamza-pc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 18 Aug
+ 2022 11:49:53 -0500
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/amd/display: fix i386 frame size warning
+Date: Thu, 18 Aug 2022 12:48:47 -0400
+Message-ID: <20220818164848.68729-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a4d3a795-0f65-42f1-af11-08da81358027
-X-MS-TrafficTypeDiagnostic: BN0PR11MB5743:EE_
+X-MS-Office365-Filtering-Correlation-Id: 107670bc-3afd-46ac-68f4-08da8139ae05
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3022:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gUkpGgCg80ta6HQQHVT65letE4gH8lMhDegd1V+wTDVZkbgxksD31ax5byGzvua/RZDo3nkv95hwyesmloHJIrIkT4sQC9ZNvvlN4kkxQBUmb2IDxA16iAcqHTbbymDwZUMDqfRMV8z1g5AVq6qI8lphRrdADUe7fcFFAQcsVzSDqwQ46EUrpuvp2L+FRoGmc2uvEZrKbUeiWGGqpxl2KA5DnwC+iutsI418+jZysXjHL3bJ8MCQkEKx7U/aVv0nsCJLTDTVK5S0Uh2hWi/zuEZAdw9A81/JWiN7e5zDZ2KmIQlJKYNMWirkhBjMwxxP0Fu4qfxkYQ6TO6/+BzAcZXr10/IxbHibL1S4S0RAETQQPT7HbhU7SaRRN9FSyCcvn/XyAjt9mGTjtNAPbPU1Q/ThYPZpyqOoG2OlNrreDgM7HIbd4NpYskQt7fC3CXsjVlGozgQ0/3c/BHQDtMnfDDhUnfPSGnjWDGqLcTjD7IBFBkLTwj+4ZehtLZxm9N/eLFBG4afgsvm/NFrWJnZVtKAWtBh5R7iyrmkH3pRrVL2xR+crygmAxcJxV1XgMieRTksCGYGyS7+uRw3Smr5KhduzLqk5qz8UtoidOzPgxyF6UFucXvacE5w0jMllj9j+3tv2q2Fc2ipKjOQ5g4EnjD6kk+Wr+HQWsVVtXeNOFBiuvUgVk36cAAL9WS+VWoHrEqV/qT/X4vLczXpKD31ANA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(376002)(39860400002)(136003)(396003)(346002)(366004)(86362001)(82960400001)(66946007)(38100700002)(8676002)(4326008)(66556008)(66476007)(54906003)(6916009)(316002)(2906002)(1076003)(30864003)(186003)(8936002)(6512007)(6506007)(6666004)(9686003)(5660300002)(83380400001)(66574015)(53546011)(6486002)(478600001)(26005)(41300700001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QkRnMkpRL1FjVFNOWGJZdXVadjMwMC93WXhkV2M5Y2J2cjdQcGhzVThoM1NE?=
- =?utf-8?B?dWxlRXY5RzhJSU11TzkzT1BvNzE3QUp5SnJjMDN6WTFSZDhVenZFZmF4S0NL?=
- =?utf-8?B?T1JHaXlPNjBxZCtNbDV5WERScDVERG4vVTBYMndoSFlCTTRkQnliNUE5bDhk?=
- =?utf-8?B?OTdQZFdtL29DUHhjWTFrRkJoRjJjWGhBS3prVDkrSXBCQjZYNjQwd0E4TU5s?=
- =?utf-8?B?aFpneFFrcVh0eDRUNGlaeUhSaGdzaHV5ZjhkOEpDUzllMnlNVVcxZVUyQ2Ji?=
- =?utf-8?B?U3pGWHdaSVlWeUJ1bDhYSFJsQm16UVVHcnR0cFIrUW1EYW0rTWVLYU9LTGdW?=
- =?utf-8?B?NGd4NjBoMi9YK1JzZy9vYjdmcHdURk1zUkVudHBHbHYvRUxHZ3NzOUQ4KzdZ?=
- =?utf-8?B?TDFybTJ5V0RXQU54MVZYcGhTcE9ZelM0d3BEOGFiM01mV1N3bzVxZ29SRDRo?=
- =?utf-8?B?bWZkcHRreStXVVZZaVZ0QVd4b1pEZEdpTFppSGtiWFFvOXhkRDVDZTZhSUM4?=
- =?utf-8?B?TmhENTVDQjNTOFpNWk5wanQ5Z2hSL1NLL1lwcGdidThDMW45S3JobklSMExl?=
- =?utf-8?B?QUN4U0M0VkpaWkZGd1JBZnppTUtGcFg1NTU0U09CQ3FaZDU4dkxyQkY3YUZ2?=
- =?utf-8?B?aHNVRSt1RmN2Qlh0RGhFbzA4aHExZFVBVFR2TDd4VTA1a2FacXlYblFRMEYy?=
- =?utf-8?B?aW0yWDM3UDFTWDlsR3kwOEsxKzdnTWFkaENFRVpUdEhja2FuNUlrSGNnY2Fo?=
- =?utf-8?B?RTFWcVNNajhSUVJZSWlDeFJpdEtvNlN2RFFIQ0lIeW1ZN1N2MjNwK3ZJdXlj?=
- =?utf-8?B?Wi9UOEx1VEVycmtxOFNKVEg0WXBqOThsTS9EZjEzN2xHaWRSUnBlVWRVTldF?=
- =?utf-8?B?cCtaaHNxc0lqVG82L3gvaVFGWlNic09pMDdqZ0dmY281MDJ3enVjQXRabVhF?=
- =?utf-8?B?QzhEeUcrQmdtcU45UHQ5dVRJV2lHcCt4ZW1NU1hyNU90U1hUdXV5RGZ6ZUtu?=
- =?utf-8?B?a0V4algyR3RZZ3llRzRTZm9BWGxaME9qN3NrN25wU2JzT0EzSHhrNTE0S0Jl?=
- =?utf-8?B?dlF5Zy85SytOMkwvajdjODdveC9VakxHZXg2dUI2SEFtV3R4MVJHYmFsRDND?=
- =?utf-8?B?RStra0k3SUhoVFYxQUoybFY4djFqM2dxSFZlWDJLMlM3SDA1T0tHd0Z2akg1?=
- =?utf-8?B?OUdxNGVwaGY1VFVVRDdtN3JsMUtTOWxIUU9pK0lTR0ZDYlJHREdpbVFOY0c0?=
- =?utf-8?B?M09pVjBrakxrZEY0ekVuZUVSdjhNVENBa0Q3WmdlYlVCR0paV0xOWnRFV0Jr?=
- =?utf-8?B?dXRFZjdvSkltZHRMK2Q4NmFMS0FlSUlqL1U0dHlHSGVQbjdWWU5ZdjBBUjJw?=
- =?utf-8?B?Zm5FVmxLbmJUbVlyMTEzcGhMZEZNNzNuVG5RbjBJVVJveFNmaGduMjhRamVX?=
- =?utf-8?B?TVJlQ0FqVzlicy9Oc1A3bVdhWDFza05qQU5tUXErY1cvSmFTYzgrVFZXNEpx?=
- =?utf-8?B?bWRWSTYwVWdVSUE5S2YyNDlWOWk2M0xXVFZmcXpyYUY5KzRDMGZwMVEybzVN?=
- =?utf-8?B?R1JydkgxcmV6VkhzOXU3Um9SY0xnTnpzOGVhRkUxMmFKNUxLa0REdFJuTzlD?=
- =?utf-8?B?WDkvWjBZT1ZVek01TWFBQ3dOSWJ0VVJCMVZiek95QVE4UEhpWEpUL1dxdDhk?=
- =?utf-8?B?TThTUWVKRmV2Rkx0ZVRwRE82U3Q0SENseUxNV20vby9mMVRhOTRjTTZlRkx2?=
- =?utf-8?B?eWNOU1REKzZIOWVoc0ZFRjhtMUV6RWJBZUxCNEozQlNqSFRqejZHQzJpOXZX?=
- =?utf-8?B?a3lOR2R3UDB6dUg5Mnc2RHdTYzNPUUFhWDZSSHlGUU1QNCtlZFYrWDdwR09I?=
- =?utf-8?B?QTdmSFpKTkdaS3BQZW8yOUswa2dsU0cyWmkvSDVzZk1PZk1kWFFMcmExRGMz?=
- =?utf-8?B?cHJCRWsvdFpDUzlFZW05RkdoeDBlck5RWmhYU3hXTmJ5WHUrTUhWc2hJL240?=
- =?utf-8?B?MlgzU0VMcHZ4enZvVDkycVhYTm43OVRucVlBVUVZUnczbUtlbkRIemhRcGtT?=
- =?utf-8?B?ZGlGcW42UWllaXNqZDlEU3YrYWxsSjUza3RwRXVoTmZ4L1BGejFxQ2lMcDB6?=
- =?utf-8?B?cUJMcWwwdnMzak1JaGljck45TmhJWnRua0kwYkN6L1FHek01ZDNaMy9DSG5M?=
- =?utf-8?B?d2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4d3a795-0f65-42f1-af11-08da81358027
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2022 16:20:01.1242 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rtckXORhc0CoHKD8e0ngkfIxrN1nklC1XbSdjIQASDD5igEs6AFh44KtIfIyP69NEyzadKTpoT4loXe1s9jYHLNtkPVwOOlcG6fO8MNLxrQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR11MB5743
-X-OriginatorOrg: intel.com
+X-Microsoft-Antispam-Message-Info: w3zIfZ2Z36pVV00KOzl8/hfUVfmPpn+kPRSOwPwxUfO0p06wiA7Zc5zzpfbycXUDPB3vL5SDWdGkpzUErfeRJSheu8LaQTexwcjzBuZYmt7trkUM3DAJd/i17ZXhMB5xJ86e6RJjro4jxF2cr/IFP6nGrgKzfDfEpp0j2hHbbcfhEdmlKwf6SxRyrT3iT4BbsFiuRo6MUhmawItVT9tIUYqpolw13IYF4AsNLHMaRPSUKF5aLT8QdSzPDmL4zryKGjfEo4RGo0noI2LTBx3lJRA4o3Wae+FuulzJGSzv7llnwcXhvYyjUyxK+qo7up5A/MlddTB4YHIqgAWZMcIAn9H4a8EeUThpkLK3cNviO5C3EdCpRqE0A88BQBl+dX0J8XAucjovXmCs9uc5JtI9l0IK3bXAqAZFd3RNq9kBv/pcrTHLXD6vxr4aywqExMqOcT/0SkxXJeZpOxwYHg/f3DvXwF9GsQ273qyYxxDHpJAacwxliw820FNDaO6e8EbNxloMoLNIwbA47bz2H6pW/ambcNCJzrdkHzzpaDt/FdExr73lbES1UIh/Pw6fOkCF72vxG06wNbPRawLC9zq2JoX9ePrfeSGV7h8o0zGFsX7c9sWyZQvCaxIIVaKt/fm3F6aGPkqgKMeNr1q2VJy5DqdnzZcp/kuekPEI180DxFFtLbRD02hDjR9lIkNwCkF8yK7Z4I7CMhqLOzt7GUvXEVUp3ycKgGQIaGVefj8rUo0xmcKkahf3fEO7XMqIX9gi+SUDWMzYjAhPjPFBMRFCbyEtF//iRhTbKLRGVoZThUJO2/e/8VZeVFtfHMSy1btY6ZlRuYps8DPjJdWJR3PnsdULUuNSPgOj6iyi9IImKDU=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(346002)(396003)(39860400002)(136003)(36840700001)(40470700004)(46966006)(426003)(8676002)(356005)(7696005)(36756003)(47076005)(83380400001)(36860700001)(82740400003)(6916009)(82310400005)(40460700003)(54906003)(1076003)(19627235002)(40480700001)(478600001)(26005)(336012)(186003)(6666004)(316002)(41300700001)(16526019)(2616005)(81166007)(30864003)(2906002)(44832011)(86362001)(4326008)(5660300002)(70206006)(8936002)(70586007)(36900700001)(16060500005)(44824005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2022 16:49:55.8118 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 107670bc-3afd-46ac-68f4-08da8139ae05
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT066.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,442 +98,421 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
- Arthur Grillo <arthur.grillo@usp.br>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ amd-gfx@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Nathan Chancellor <nathan@kernel.org>, David Airlie <airlied@linux.ie>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Bing Guo <Bing.Guo@amd.com>, Alex
+ Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 18, 2022 at 11:15:39AM -0300, Maíra Canal wrote:
-> 
-> 
-> On 8/17/22 18:12, Michał Winiarski wrote:
-> > Negative tests can be expressed as a single parameterized test case,
-> > which highlights that we're following the same test logic (passing
-> > invalid cmdline and expecting drm_mode_parse_command_line_for_connector
-> > to fail), which improves readability.
-> > 
-> 
-> In order to be consistent to the change on the testcases, you could
-> s/negative/invalid on the commit message also.
+Addresses the following warning:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/display_mode_vba_30.c:3596:6: error: stack frame size (2092) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Werror,-Wframe-larger-than]
+void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_lib)
+     ^
 
-Already did that - s/passing negative cmdline/passing invalid cmdline.
-The tests are still "negative tests" - in other words, tests that pass invalid
-data, and expect specific error condition to happen. We can't use "invalid
-tests" here, as that has different meaning (broken test).
+UseMinimumDCFCLK() is eating away at
+dml30_ModeSupportAndSystemConfigurationFull()'s stack space, so use a
+pointer to struct vba_vars_st instead of passing lots of large arrays
+as parameters by value.
 
-We could expand it into:
-"Tests that pass invalid data can be expressed as a single parameterized test
-case (...)"
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+ .../dc/dml/dcn30/display_mode_vba_30.c        | 295 ++++--------------
+ 1 file changed, 63 insertions(+), 232 deletions(-)
 
-Would that work? Or should we keep it as "negative tests"?
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+index 876b321b30ca..b7fa003ffe06 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+@@ -396,64 +396,10 @@ static void CalculateUrgentBurstFactor(
+ 
+ static void UseMinimumDCFCLK(
+ 		struct display_mode_lib *mode_lib,
+-		int MaxInterDCNTileRepeaters,
++		struct vba_vars_st *v,
+ 		int MaxPrefetchMode,
+-		double FinalDRAMClockChangeLatency,
+-		double SREnterPlusExitTime,
+-		int ReturnBusWidth,
+-		int RoundTripPingLatencyCycles,
+-		int ReorderingBytes,
+-		int PixelChunkSizeInKByte,
+-		int MetaChunkSize,
+-		bool GPUVMEnable,
+-		int GPUVMMaxPageTableLevels,
+-		bool HostVMEnable,
+-		int NumberOfActivePlanes,
+-		double HostVMMinPageSize,
+-		int HostVMMaxNonCachedPageTableLevels,
+-		bool DynamicMetadataVMEnabled,
+-		enum immediate_flip_requirement ImmediateFlipRequirement,
+-		bool ProgressiveToInterlaceUnitInOPP,
+-		double MaxAveragePercentOfIdealSDPPortBWDisplayCanUseInNormalSystemOperation,
+-		double PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelMixedWithVMData,
+-		double PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyVMDataOnly,
+-		double PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelDataOnly,
+-		int VTotal[],
+-		int VActive[],
+-		int DynamicMetadataTransmittedBytes[],
+-		int DynamicMetadataLinesBeforeActiveRequired[],
+-		bool Interlace[],
+-		double RequiredDPPCLK[][2][DC__NUM_DPP__MAX],
+-		double RequiredDISPCLK[][2],
+-		double UrgLatency[],
+-		unsigned int NoOfDPP[][2][DC__NUM_DPP__MAX],
+-		double ProjectedDCFCLKDeepSleep[][2],
+-		double MaximumVStartup[][2][DC__NUM_DPP__MAX],
+-		double TotalVActivePixelBandwidth[][2],
+-		double TotalVActiveCursorBandwidth[][2],
+-		double TotalMetaRowBandwidth[][2],
+-		double TotalDPTERowBandwidth[][2],
+-		unsigned int TotalNumberOfActiveDPP[][2],
+-		unsigned int TotalNumberOfDCCActiveDPP[][2],
+-		int dpte_group_bytes[],
+-		double PrefetchLinesY[][2][DC__NUM_DPP__MAX],
+-		double PrefetchLinesC[][2][DC__NUM_DPP__MAX],
+-		unsigned int swath_width_luma_ub_all_states[][2][DC__NUM_DPP__MAX],
+-		unsigned int swath_width_chroma_ub_all_states[][2][DC__NUM_DPP__MAX],
+-		int BytePerPixelY[],
+-		int BytePerPixelC[],
+-		int HTotal[],
+-		double PixelClock[],
+-		double PDEAndMetaPTEBytesPerFrame[][2][DC__NUM_DPP__MAX],
+-		double DPTEBytesPerRow[][2][DC__NUM_DPP__MAX],
+-		double MetaRowBytes[][2][DC__NUM_DPP__MAX],
+-		bool DynamicMetadataEnable[],
+-		double VActivePixelBandwidth[][2][DC__NUM_DPP__MAX],
+-		double VActiveCursorBandwidth[][2][DC__NUM_DPP__MAX],
+-		double ReadBandwidthLuma[],
+-		double ReadBandwidthChroma[],
+-		double DCFCLKPerState[],
+-		double DCFCLKState[][2]);
++		int ReorderingBytes);
++
+ static void CalculatePixelDeliveryTimes(
+ 		unsigned int NumberOfActivePlanes,
+ 		double VRatio[],
+@@ -4692,66 +4638,7 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 	}
+ 
+ 	if (v->UseMinimumRequiredDCFCLK == true) {
+-		UseMinimumDCFCLK(
+-				mode_lib,
+-				v->MaxInterDCNTileRepeaters,
+-				MaxPrefetchMode,
+-				v->FinalDRAMClockChangeLatency,
+-				v->SREnterPlusExitTime,
+-				v->ReturnBusWidth,
+-				v->RoundTripPingLatencyCycles,
+-				ReorderingBytes,
+-				v->PixelChunkSizeInKByte,
+-				v->MetaChunkSize,
+-				v->GPUVMEnable,
+-				v->GPUVMMaxPageTableLevels,
+-				v->HostVMEnable,
+-				v->NumberOfActivePlanes,
+-				v->HostVMMinPageSize,
+-				v->HostVMMaxNonCachedPageTableLevels,
+-				v->DynamicMetadataVMEnabled,
+-				v->ImmediateFlipRequirement[0],
+-				v->ProgressiveToInterlaceUnitInOPP,
+-				v->MaxAveragePercentOfIdealSDPPortBWDisplayCanUseInNormalSystemOperation,
+-				v->PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelMixedWithVMData,
+-				v->PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyVMDataOnly,
+-				v->PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelDataOnly,
+-				v->VTotal,
+-				v->VActive,
+-				v->DynamicMetadataTransmittedBytes,
+-				v->DynamicMetadataLinesBeforeActiveRequired,
+-				v->Interlace,
+-				v->RequiredDPPCLK,
+-				v->RequiredDISPCLK,
+-				v->UrgLatency,
+-				v->NoOfDPP,
+-				v->ProjectedDCFCLKDeepSleep,
+-				v->MaximumVStartup,
+-				v->TotalVActivePixelBandwidth,
+-				v->TotalVActiveCursorBandwidth,
+-				v->TotalMetaRowBandwidth,
+-				v->TotalDPTERowBandwidth,
+-				v->TotalNumberOfActiveDPP,
+-				v->TotalNumberOfDCCActiveDPP,
+-				v->dpte_group_bytes,
+-				v->PrefetchLinesY,
+-				v->PrefetchLinesC,
+-				v->swath_width_luma_ub_all_states,
+-				v->swath_width_chroma_ub_all_states,
+-				v->BytePerPixelY,
+-				v->BytePerPixelC,
+-				v->HTotal,
+-				v->PixelClock,
+-				v->PDEAndMetaPTEBytesPerFrame,
+-				v->DPTEBytesPerRow,
+-				v->MetaRowBytes,
+-				v->DynamicMetadataEnable,
+-				v->VActivePixelBandwidth,
+-				v->VActiveCursorBandwidth,
+-				v->ReadBandwidthLuma,
+-				v->ReadBandwidthChroma,
+-				v->DCFCLKPerState,
+-				v->DCFCLKState);
++		UseMinimumDCFCLK(mode_lib, v, MaxPrefetchMode, ReorderingBytes);
+ 
+ 		if (v->ClampMinDCFCLK) {
+ 			/* Clamp calculated values to actual minimum */
+@@ -6610,77 +6497,21 @@ static double CalculateUrgentLatency(
+ 	return ret;
+ }
+ 
+-
+ static void UseMinimumDCFCLK(
+ 		struct display_mode_lib *mode_lib,
+-		int MaxInterDCNTileRepeaters,
++		struct vba_vars_st *v,
+ 		int MaxPrefetchMode,
+-		double FinalDRAMClockChangeLatency,
+-		double SREnterPlusExitTime,
+-		int ReturnBusWidth,
+-		int RoundTripPingLatencyCycles,
+-		int ReorderingBytes,
+-		int PixelChunkSizeInKByte,
+-		int MetaChunkSize,
+-		bool GPUVMEnable,
+-		int GPUVMMaxPageTableLevels,
+-		bool HostVMEnable,
+-		int NumberOfActivePlanes,
+-		double HostVMMinPageSize,
+-		int HostVMMaxNonCachedPageTableLevels,
+-		bool DynamicMetadataVMEnabled,
+-		enum immediate_flip_requirement ImmediateFlipRequirement,
+-		bool ProgressiveToInterlaceUnitInOPP,
+-		double MaxAveragePercentOfIdealSDPPortBWDisplayCanUseInNormalSystemOperation,
+-		double PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelMixedWithVMData,
+-		double PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyVMDataOnly,
+-		double PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelDataOnly,
+-		int VTotal[],
+-		int VActive[],
+-		int DynamicMetadataTransmittedBytes[],
+-		int DynamicMetadataLinesBeforeActiveRequired[],
+-		bool Interlace[],
+-		double RequiredDPPCLK[][2][DC__NUM_DPP__MAX],
+-		double RequiredDISPCLK[][2],
+-		double UrgLatency[],
+-		unsigned int NoOfDPP[][2][DC__NUM_DPP__MAX],
+-		double ProjectedDCFCLKDeepSleep[][2],
+-		double MaximumVStartup[][2][DC__NUM_DPP__MAX],
+-		double TotalVActivePixelBandwidth[][2],
+-		double TotalVActiveCursorBandwidth[][2],
+-		double TotalMetaRowBandwidth[][2],
+-		double TotalDPTERowBandwidth[][2],
+-		unsigned int TotalNumberOfActiveDPP[][2],
+-		unsigned int TotalNumberOfDCCActiveDPP[][2],
+-		int dpte_group_bytes[],
+-		double PrefetchLinesY[][2][DC__NUM_DPP__MAX],
+-		double PrefetchLinesC[][2][DC__NUM_DPP__MAX],
+-		unsigned int swath_width_luma_ub_all_states[][2][DC__NUM_DPP__MAX],
+-		unsigned int swath_width_chroma_ub_all_states[][2][DC__NUM_DPP__MAX],
+-		int BytePerPixelY[],
+-		int BytePerPixelC[],
+-		int HTotal[],
+-		double PixelClock[],
+-		double PDEAndMetaPTEBytesPerFrame[][2][DC__NUM_DPP__MAX],
+-		double DPTEBytesPerRow[][2][DC__NUM_DPP__MAX],
+-		double MetaRowBytes[][2][DC__NUM_DPP__MAX],
+-		bool DynamicMetadataEnable[],
+-		double VActivePixelBandwidth[][2][DC__NUM_DPP__MAX],
+-		double VActiveCursorBandwidth[][2][DC__NUM_DPP__MAX],
+-		double ReadBandwidthLuma[],
+-		double ReadBandwidthChroma[],
+-		double DCFCLKPerState[],
+-		double DCFCLKState[][2])
++		int ReorderingBytes)
+ {
+ 	double   NormalEfficiency = 0;
+ 	double   PTEEfficiency = 0;
+ 	double   TotalMaxPrefetchFlipDPTERowBandwidth[DC__VOLTAGE_STATES][2] = { { 0 } };
+ 	unsigned int i, j, k;
+ 
+-	NormalEfficiency =  (HostVMEnable == true ? PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelMixedWithVMData
+-			: PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelDataOnly) / 100.0;
+-	PTEEfficiency =  (HostVMEnable == true ? PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyVMDataOnly
+-			/ PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelMixedWithVMData : 1.0);
++	NormalEfficiency =  (v->HostVMEnable == true ? v->PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelMixedWithVMData
++			: v->PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelDataOnly) / 100.0;
++	PTEEfficiency =  (v->HostVMEnable == true ? v->PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyVMDataOnly
++			/ v->PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelMixedWithVMData : 1.0);
+ 	for (i = 0; i < mode_lib->soc.num_states; ++i) {
+ 		for (j = 0; j <= 1; ++j) {
+ 			double PixelDCFCLKCyclesRequiredInPrefetch[DC__NUM_DPP__MAX] = { 0 };
+@@ -6698,58 +6529,58 @@ static void UseMinimumDCFCLK(
+ 			double MinimumTvmPlus2Tr0 = 0;
+ 
+ 			TotalMaxPrefetchFlipDPTERowBandwidth[i][j] = 0;
+-			for (k = 0; k < NumberOfActivePlanes; ++k) {
++			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+ 				TotalMaxPrefetchFlipDPTERowBandwidth[i][j] = TotalMaxPrefetchFlipDPTERowBandwidth[i][j]
+-					+ NoOfDPP[i][j][k] * DPTEBytesPerRow[i][j][k] / (15.75 * HTotal[k] / PixelClock[k]);
++					+ v->NoOfDPP[i][j][k] * v->DPTEBytesPerRow[i][j][k] / (15.75 * v->HTotal[k] / v->PixelClock[k]);
+ 			}
+ 
+-			for (k = 0; k <= NumberOfActivePlanes - 1; ++k) {
+-				NoOfDPPState[k] = NoOfDPP[i][j][k];
++			for (k = 0; k <= v->NumberOfActivePlanes - 1; ++k) {
++				NoOfDPPState[k] = v->NoOfDPP[i][j][k];
+ 			}
+ 
+-			MinimumTWait = CalculateTWait(MaxPrefetchMode, FinalDRAMClockChangeLatency, UrgLatency[i], SREnterPlusExitTime);
+-			NonDPTEBandwidth = TotalVActivePixelBandwidth[i][j] + TotalVActiveCursorBandwidth[i][j] + TotalMetaRowBandwidth[i][j];
+-			DPTEBandwidth =  (HostVMEnable == true || ImmediateFlipRequirement == dm_immediate_flip_required) ?
+-					TotalMaxPrefetchFlipDPTERowBandwidth[i][j] : TotalDPTERowBandwidth[i][j];
+-			DCFCLKRequiredForAverageBandwidth = dml_max3(ProjectedDCFCLKDeepSleep[i][j],
+-					(NonDPTEBandwidth + TotalDPTERowBandwidth[i][j]) / ReturnBusWidth / (MaxAveragePercentOfIdealSDPPortBWDisplayCanUseInNormalSystemOperation / 100),
+-					(NonDPTEBandwidth + DPTEBandwidth / PTEEfficiency) / NormalEfficiency / ReturnBusWidth);
+-
+-			ExtraLatencyBytes = CalculateExtraLatencyBytes(ReorderingBytes, TotalNumberOfActiveDPP[i][j], PixelChunkSizeInKByte, TotalNumberOfDCCActiveDPP[i][j],
+-					MetaChunkSize, GPUVMEnable, HostVMEnable, NumberOfActivePlanes, NoOfDPPState, dpte_group_bytes,
+-					PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelMixedWithVMData, PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyVMDataOnly,
+-					HostVMMinPageSize, HostVMMaxNonCachedPageTableLevels);
+-			ExtraLatencyCycles = RoundTripPingLatencyCycles + 32 + ExtraLatencyBytes / NormalEfficiency / ReturnBusWidth;
+-			for (k = 0; k < NumberOfActivePlanes; ++k) {
++			MinimumTWait = CalculateTWait(MaxPrefetchMode, v->FinalDRAMClockChangeLatency, v->UrgLatency[i], v->SREnterPlusExitTime);
++			NonDPTEBandwidth = v->TotalVActivePixelBandwidth[i][j] + v->TotalVActiveCursorBandwidth[i][j] + v->TotalMetaRowBandwidth[i][j];
++			DPTEBandwidth =  (v->HostVMEnable == true || v->ImmediateFlipRequirement[0] == dm_immediate_flip_required) ?
++					TotalMaxPrefetchFlipDPTERowBandwidth[i][j] : v->TotalDPTERowBandwidth[i][j];
++			DCFCLKRequiredForAverageBandwidth = dml_max3(v->ProjectedDCFCLKDeepSleep[i][j],
++					(NonDPTEBandwidth + v->TotalDPTERowBandwidth[i][j]) / v->ReturnBusWidth / (v->MaxAveragePercentOfIdealSDPPortBWDisplayCanUseInNormalSystemOperation / 100),
++					(NonDPTEBandwidth + DPTEBandwidth / PTEEfficiency) / NormalEfficiency / v->ReturnBusWidth);
++
++			ExtraLatencyBytes = CalculateExtraLatencyBytes(ReorderingBytes, v->TotalNumberOfActiveDPP[i][j], v->PixelChunkSizeInKByte, v->TotalNumberOfDCCActiveDPP[i][j],
++					v->MetaChunkSize, v->GPUVMEnable, v->HostVMEnable, v->NumberOfActivePlanes, NoOfDPPState, v->dpte_group_bytes,
++					v->PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixelMixedWithVMData, v->PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyVMDataOnly,
++					v->HostVMMinPageSize, v->HostVMMaxNonCachedPageTableLevels);
++			ExtraLatencyCycles = v->RoundTripPingLatencyCycles + 32 + ExtraLatencyBytes / NormalEfficiency / v->ReturnBusWidth;
++			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+ 				double DCFCLKCyclesRequiredInPrefetch = { 0 };
+ 				double ExpectedPrefetchBWAcceleration = { 0 };
+ 				double PrefetchTime = { 0 };
+ 
+-				PixelDCFCLKCyclesRequiredInPrefetch[k] = (PrefetchLinesY[i][j][k] * swath_width_luma_ub_all_states[i][j][k] * BytePerPixelY[k]
+-					+ PrefetchLinesC[i][j][k] * swath_width_chroma_ub_all_states[i][j][k] * BytePerPixelC[k]) / NormalEfficiency / ReturnBusWidth;
+-				DCFCLKCyclesRequiredInPrefetch = 2 * ExtraLatencyCycles / NoOfDPPState[k] + PDEAndMetaPTEBytesPerFrame[i][j][k] / PTEEfficiency
+-					/ NormalEfficiency / ReturnBusWidth *  (GPUVMMaxPageTableLevels > 2 ? 1 : 0) + 2 * DPTEBytesPerRow[i][j][k] / PTEEfficiency
+-					/ NormalEfficiency / ReturnBusWidth + 2 * MetaRowBytes[i][j][k] / NormalEfficiency / ReturnBusWidth + PixelDCFCLKCyclesRequiredInPrefetch[k];
+-				PrefetchPixelLinesTime[k] = dml_max(PrefetchLinesY[i][j][k], PrefetchLinesC[i][j][k]) * HTotal[k] / PixelClock[k];
+-				ExpectedPrefetchBWAcceleration = (VActivePixelBandwidth[i][j][k] + VActiveCursorBandwidth[i][j][k]) / (ReadBandwidthLuma[k] + ReadBandwidthChroma[k]);
+-				DynamicMetadataVMExtraLatency[k] = (GPUVMEnable == true && DynamicMetadataEnable[k] == true && DynamicMetadataVMEnabled == true) ?
+-						UrgLatency[i] * GPUVMMaxPageTableLevels *  (HostVMEnable == true ? HostVMMaxNonCachedPageTableLevels + 1 : 1) : 0;
+-				PrefetchTime = (MaximumVStartup[i][j][k] - 1) * HTotal[k] / PixelClock[k] - MinimumTWait - UrgLatency[i] * ((GPUVMMaxPageTableLevels <= 2 ? GPUVMMaxPageTableLevels
+-						: GPUVMMaxPageTableLevels - 2) * (HostVMEnable == true ? HostVMMaxNonCachedPageTableLevels + 1 : 1) - 1) - DynamicMetadataVMExtraLatency[k];
++				PixelDCFCLKCyclesRequiredInPrefetch[k] = (v->PrefetchLinesY[i][j][k] * v->swath_width_luma_ub_all_states[i][j][k] * v->BytePerPixelY[k]
++					+ v->PrefetchLinesC[i][j][k] * v->swath_width_chroma_ub_all_states[i][j][k] * v->BytePerPixelC[k]) / NormalEfficiency / v->ReturnBusWidth;
++				DCFCLKCyclesRequiredInPrefetch = 2 * ExtraLatencyCycles / NoOfDPPState[k] + v->PDEAndMetaPTEBytesPerFrame[i][j][k] / PTEEfficiency
++					/ NormalEfficiency / v->ReturnBusWidth *  (v->GPUVMMaxPageTableLevels > 2 ? 1 : 0) + 2 * v->DPTEBytesPerRow[i][j][k] / PTEEfficiency
++					/ NormalEfficiency / v->ReturnBusWidth + 2 * v->MetaRowBytes[i][j][k] / NormalEfficiency / v->ReturnBusWidth + PixelDCFCLKCyclesRequiredInPrefetch[k];
++				PrefetchPixelLinesTime[k] = dml_max(v->PrefetchLinesY[i][j][k], v->PrefetchLinesC[i][j][k]) * v->HTotal[k] / v->PixelClock[k];
++				ExpectedPrefetchBWAcceleration = (v->VActivePixelBandwidth[i][j][k] + v->VActiveCursorBandwidth[i][j][k]) / (v->ReadBandwidthLuma[k] + v->ReadBandwidthChroma[k]);
++				DynamicMetadataVMExtraLatency[k] = (v->GPUVMEnable == true && v->DynamicMetadataEnable[k] == true && v->DynamicMetadataVMEnabled == true) ?
++						v->UrgLatency[i] * v->GPUVMMaxPageTableLevels *  (v->HostVMEnable == true ? v->HostVMMaxNonCachedPageTableLevels + 1 : 1) : 0;
++				PrefetchTime = (v->MaximumVStartup[i][j][k] - 1) * v->HTotal[k] / v->PixelClock[k] - MinimumTWait - v->UrgLatency[i] * ((v->GPUVMMaxPageTableLevels <= 2 ? v->GPUVMMaxPageTableLevels
++						: v->GPUVMMaxPageTableLevels - 2) * (v->HostVMEnable == true ? v->HostVMMaxNonCachedPageTableLevels + 1 : 1) - 1) - DynamicMetadataVMExtraLatency[k];
+ 
+ 				if (PrefetchTime > 0) {
+ 					double ExpectedVRatioPrefetch = { 0 };
+ 					ExpectedVRatioPrefetch = PrefetchPixelLinesTime[k] / (PrefetchTime * PixelDCFCLKCyclesRequiredInPrefetch[k] / DCFCLKCyclesRequiredInPrefetch);
+ 					DCFCLKRequiredForPeakBandwidthPerPlane[k] = NoOfDPPState[k] * PixelDCFCLKCyclesRequiredInPrefetch[k] / PrefetchPixelLinesTime[k]
+ 						* dml_max(1.0, ExpectedVRatioPrefetch) * dml_max(1.0, ExpectedVRatioPrefetch / 4) * ExpectedPrefetchBWAcceleration;
+-					if (HostVMEnable == true || ImmediateFlipRequirement == dm_immediate_flip_required) {
++					if (v->HostVMEnable == true || v->ImmediateFlipRequirement[0] == dm_immediate_flip_required) {
+ 						DCFCLKRequiredForPeakBandwidthPerPlane[k] = DCFCLKRequiredForPeakBandwidthPerPlane[k]
+-							+ NoOfDPPState[k] * DPTEBandwidth / PTEEfficiency / NormalEfficiency / ReturnBusWidth;
++							+ NoOfDPPState[k] * DPTEBandwidth / PTEEfficiency / NormalEfficiency / v->ReturnBusWidth;
+ 					}
+ 				} else {
+-					DCFCLKRequiredForPeakBandwidthPerPlane[k] = DCFCLKPerState[i];
++					DCFCLKRequiredForPeakBandwidthPerPlane[k] = v->DCFCLKPerState[i];
+ 				}
+-				if (DynamicMetadataEnable[k] == true) {
++				if (v->DynamicMetadataEnable[k] == true) {
+ 					double TsetupPipe = { 0 };
+ 					double TdmbfPipe = { 0 };
+ 					double TdmsksPipe = { 0 };
+@@ -6757,49 +6588,49 @@ static void UseMinimumDCFCLK(
+ 					double AllowedTimeForUrgentExtraLatency = { 0 };
+ 
+ 					CalculateDynamicMetadataParameters(
+-							MaxInterDCNTileRepeaters,
+-							RequiredDPPCLK[i][j][k],
+-							RequiredDISPCLK[i][j],
+-							ProjectedDCFCLKDeepSleep[i][j],
+-							PixelClock[k],
+-							HTotal[k],
+-							VTotal[k] - VActive[k],
+-							DynamicMetadataTransmittedBytes[k],
+-							DynamicMetadataLinesBeforeActiveRequired[k],
+-							Interlace[k],
+-							ProgressiveToInterlaceUnitInOPP,
++							v->MaxInterDCNTileRepeaters,
++							v->RequiredDPPCLK[i][j][k],
++							v->RequiredDISPCLK[i][j],
++							v->ProjectedDCFCLKDeepSleep[i][j],
++							v->PixelClock[k],
++							v->HTotal[k],
++							v->VTotal[k] - v->VActive[k],
++							v->DynamicMetadataTransmittedBytes[k],
++							v->DynamicMetadataLinesBeforeActiveRequired[k],
++							v->Interlace[k],
++							v->ProgressiveToInterlaceUnitInOPP,
+ 							&TsetupPipe,
+ 							&TdmbfPipe,
+ 							&TdmecPipe,
+ 							&TdmsksPipe);
+-					AllowedTimeForUrgentExtraLatency = MaximumVStartup[i][j][k] * HTotal[k] / PixelClock[k] - MinimumTWait - TsetupPipe
++					AllowedTimeForUrgentExtraLatency = v->MaximumVStartup[i][j][k] * v->HTotal[k] / v->PixelClock[k] - MinimumTWait - TsetupPipe
+ 							- TdmbfPipe - TdmecPipe - TdmsksPipe - DynamicMetadataVMExtraLatency[k];
+ 					if (AllowedTimeForUrgentExtraLatency > 0) {
+ 						DCFCLKRequiredForPeakBandwidthPerPlane[k] = dml_max(DCFCLKRequiredForPeakBandwidthPerPlane[k],
+ 								ExtraLatencyCycles / AllowedTimeForUrgentExtraLatency);
+ 					} else {
+-						DCFCLKRequiredForPeakBandwidthPerPlane[k] = DCFCLKPerState[i];
++						DCFCLKRequiredForPeakBandwidthPerPlane[k] = v->DCFCLKPerState[i];
+ 					}
+ 				}
+ 			}
+ 			DCFCLKRequiredForPeakBandwidth = 0;
+-			for (k = 0; k <= NumberOfActivePlanes - 1; ++k) {
++			for (k = 0; k <= v->NumberOfActivePlanes - 1; ++k) {
+ 				DCFCLKRequiredForPeakBandwidth = DCFCLKRequiredForPeakBandwidth + DCFCLKRequiredForPeakBandwidthPerPlane[k];
+ 			}
+-			MinimumTvmPlus2Tr0 = UrgLatency[i] * (GPUVMEnable == true ? (HostVMEnable == true ?
+-					(GPUVMMaxPageTableLevels + 2) * (HostVMMaxNonCachedPageTableLevels + 1) - 1 : GPUVMMaxPageTableLevels + 1) : 0);
+-			for (k = 0; k < NumberOfActivePlanes; ++k) {
++			MinimumTvmPlus2Tr0 = v->UrgLatency[i] * (v->GPUVMEnable == true ? (v->HostVMEnable == true ?
++					(v->GPUVMMaxPageTableLevels + 2) * (v->HostVMMaxNonCachedPageTableLevels + 1) - 1 : v->GPUVMMaxPageTableLevels + 1) : 0);
++			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+ 				double MaximumTvmPlus2Tr0PlusTsw = { 0 };
+-				MaximumTvmPlus2Tr0PlusTsw = (MaximumVStartup[i][j][k] - 2) * HTotal[k] / PixelClock[k] - MinimumTWait - DynamicMetadataVMExtraLatency[k];
++				MaximumTvmPlus2Tr0PlusTsw = (v->MaximumVStartup[i][j][k] - 2) * v->HTotal[k] / v->PixelClock[k] - MinimumTWait - DynamicMetadataVMExtraLatency[k];
+ 				if (MaximumTvmPlus2Tr0PlusTsw <= MinimumTvmPlus2Tr0 + PrefetchPixelLinesTime[k] / 4) {
+-					DCFCLKRequiredForPeakBandwidth = DCFCLKPerState[i];
++					DCFCLKRequiredForPeakBandwidth = v->DCFCLKPerState[i];
+ 				} else {
+ 					DCFCLKRequiredForPeakBandwidth = dml_max3(DCFCLKRequiredForPeakBandwidth, 2 * ExtraLatencyCycles
+ 							/ (MaximumTvmPlus2Tr0PlusTsw - MinimumTvmPlus2Tr0 - PrefetchPixelLinesTime[k] / 4),
+ 						(2 * ExtraLatencyCycles + PixelDCFCLKCyclesRequiredInPrefetch[k]) / (MaximumTvmPlus2Tr0PlusTsw - MinimumTvmPlus2Tr0));
+ 				}
+ 			}
+-			DCFCLKState[i][j] = dml_min(DCFCLKPerState[i], 1.05 * (1 + mode_lib->vba.PercentMarginOverMinimumRequiredDCFCLK / 100)
++			v->DCFCLKState[i][j] = dml_min(v->DCFCLKPerState[i], 1.05 * (1 + mode_lib->vba.PercentMarginOverMinimumRequiredDCFCLK / 100)
+ 					* dml_max(DCFCLKRequiredForAverageBandwidth, DCFCLKRequiredForPeakBandwidth));
+ 		}
+ 	}
+-- 
+2.37.1
 
--Michał
-
-> 
-> Best Regards,
-> - Maíra Canal
-> 
-> > v2: s/negative/invalid to be consistent with other testcases in DRM
-> > 
-> > Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> > Tested-by: Maíra Canal <mairacanal@riseup.net>
-> > ---
-> >   .../gpu/drm/tests/drm_cmdline_parser_test.c   | 293 ++++++------------
-> >   1 file changed, 103 insertions(+), 190 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
-> > index 59b29cdfdd35..3a46c7d6f2aa 100644
-> > --- a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
-> > +++ b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
-> > @@ -109,24 +109,6 @@ static void drm_cmdline_test_force_d_only(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_OFF);
-> >   }
-> > -static void drm_cmdline_test_margin_only(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "m";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_interlace_only(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "i";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> >   static void drm_cmdline_test_res(struct kunit *test)
-> >   {
-> >   	struct drm_cmdline_mode mode = { };
-> > @@ -149,42 +131,6 @@ static void drm_cmdline_test_res(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
-> >   }
-> > -static void drm_cmdline_test_res_missing_x(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "x480";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_res_missing_y(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "1024x";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_res_bad_y(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "1024xtest";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_res_missing_y_bpp(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "1024x-24";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> >   static void drm_cmdline_test_res_vesa(struct kunit *test)
-> >   {
-> >   	struct drm_cmdline_mode mode = { };
-> > @@ -274,15 +220,6 @@ static void drm_cmdline_test_res_bpp(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
-> >   }
-> > -static void drm_cmdline_test_res_bad_bpp(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "720x480-test";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> >   static void drm_cmdline_test_res_refresh(struct kunit *test)
-> >   {
-> >   	struct drm_cmdline_mode mode = { };
-> > @@ -306,15 +243,6 @@ static void drm_cmdline_test_res_refresh(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
-> >   }
-> > -static void drm_cmdline_test_res_bad_refresh(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "720x480@refresh";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> >   static void drm_cmdline_test_res_bpp_refresh(struct kunit *test)
-> >   {
-> >   	struct drm_cmdline_mode mode = { };
-> > @@ -411,15 +339,6 @@ static void drm_cmdline_test_res_bpp_refresh_force_off(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_OFF);
-> >   }
-> > -static void drm_cmdline_test_res_bpp_refresh_force_on_off(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline =  "720x480-24@60de";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> >   static void drm_cmdline_test_res_bpp_refresh_force_on(struct kunit *test)
-> >   {
-> >   	struct drm_cmdline_mode mode = { };
-> > @@ -563,24 +482,6 @@ static void drm_cmdline_test_res_vesa_margins(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
-> >   }
-> > -static void drm_cmdline_test_res_invalid_mode(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "720x480f";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_res_bpp_wrong_place_mode(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "720x480e-24";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> >   static void drm_cmdline_test_name(struct kunit *test)
-> >   {
-> >   	struct drm_cmdline_mode mode = { };
-> > @@ -608,42 +509,6 @@ static void drm_cmdline_test_name_bpp(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.bpp, 24);
-> >   }
-> > -static void drm_cmdline_test_name_bpp_refresh(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "NTSC-24@60";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_name_refresh(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "NTSC@60";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_name_refresh_wrong_mode(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "NTSC@60m";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_name_refresh_invalid_mode(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "NTSC@60f";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> >   static void drm_cmdline_test_name_option(struct kunit *test)
-> >   {
-> >   	struct drm_cmdline_mode mode = { };
-> > @@ -762,33 +627,6 @@ static void drm_cmdline_test_rotate_270(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
-> >   }
-> > -static void drm_cmdline_test_rotate_multiple(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "720x480,rotate=0,rotate=90";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_rotate_invalid_val(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "720x480,rotate=42";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> > -static void drm_cmdline_test_rotate_truncated(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "720x480,rotate=";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> >   static void drm_cmdline_test_hmirror(struct kunit *test)
-> >   {
-> >   	struct drm_cmdline_mode mode = { };
-> > @@ -885,15 +723,6 @@ static void drm_cmdline_test_multiple_options(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
-> >   }
-> > -static void drm_cmdline_test_invalid_option(struct kunit *test)
-> > -{
-> > -	struct drm_cmdline_mode mode = { };
-> > -	const char *cmdline = "720x480,test=42";
-> > -
-> > -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> > -									   &no_connector, &mode));
-> > -}
-> > -
-> >   static void drm_cmdline_test_bpp_extra_and_option(struct kunit *test)
-> >   {
-> >   	struct drm_cmdline_mode mode = { };
-> > @@ -1006,64 +835,148 @@ static void drm_cmdline_test_panel_orientation(struct kunit *test)
-> >   	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
-> >   }
-> > +struct drm_cmdline_invalid_test {
-> > +	const char *name;
-> > +	const char *cmdline;
-> > +};
-> > +
-> > +static void drm_cmdline_test_invalid(struct kunit *test)
-> > +{
-> > +	const struct drm_cmdline_invalid_test *params = test->param_value;
-> > +	struct drm_cmdline_mode mode = { };
-> > +
-> > +	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(params->cmdline,
-> > +									   &no_connector,
-> > +									   &mode));
-> > +}
-> > +
-> > +static const struct drm_cmdline_invalid_test drm_cmdline_invalid_tests[] = {
-> > +	{
-> > +		.name = "margin_only",
-> > +		.cmdline = "m",
-> > +	},
-> > +	{
-> > +		.name = "interlace_only",
-> > +		.cmdline = "i",
-> > +	},
-> > +	{
-> > +		.name = "res_missing_x",
-> > +		.cmdline = "x480",
-> > +	},
-> > +	{
-> > +		.name = "res_missing_y",
-> > +		.cmdline = "1024x",
-> > +	},
-> > +	{
-> > +		.name = "res_bad_y",
-> > +		.cmdline = "1024xtest",
-> > +	},
-> > +	{
-> > +		.name = "res_missing_y_bpp",
-> > +		.cmdline = "1024x-24",
-> > +	},
-> > +	{
-> > +		.name = "res_bad_bpp",
-> > +		.cmdline = "720x480-test",
-> > +	},
-> > +	{
-> > +		.name = "res_bad_refresh",
-> > +		.cmdline = "720x480@refresh",
-> > +	},
-> > +	{
-> > +		.name = "res_bpp_refresh_force_on_off",
-> > +		.cmdline = "720x480-24@60de",
-> > +	},
-> > +	{
-> > +		.name = "res_invalid_mode",
-> > +		.cmdline = "720x480f",
-> > +	},
-> > +	{
-> > +		.name = "res_bpp_wrong_place_mode",
-> > +		.cmdline = "720x480e-24",
-> > +	},
-> > +	{
-> > +		.name = "name_bpp_refresh",
-> > +		.cmdline = "NTSC-24@60",
-> > +	},
-> > +	{
-> > +		.name = "name_refresh",
-> > +		.cmdline = "NTSC@60",
-> > +	},
-> > +	{
-> > +		.name = "name_refresh_wrong_mode",
-> > +		.cmdline = "NTSC@60m",
-> > +	},
-> > +	{
-> > +		.name = "name_refresh_invalid_mode",
-> > +		.cmdline = "NTSC@60f",
-> > +	},
-> > +	{
-> > +		.name = "rotate_multiple",
-> > +		.cmdline = "720x480,rotate=0,rotate=90",
-> > +	},
-> > +	{
-> > +		.name = "rotate_invalid_val",
-> > +		.cmdline = "720x480,rotate=42",
-> > +	},
-> > +	{
-> > +		.name = "rotate_truncated",
-> > +		.cmdline = "720x480,rotate=",
-> > +	},
-> > +	{
-> > +		.name = "invalid_option",
-> > +		.cmdline = "720x480,test=42",
-> > +	},
-> > +};
-> > +
-> > +static void drm_cmdline_invalid_desc(const struct drm_cmdline_invalid_test *t,
-> > +				     char *desc)
-> > +{
-> > +	sprintf(desc, "%s", t->name);
-> > +}
-> > +
-> > +KUNIT_ARRAY_PARAM(drm_cmdline_invalid, drm_cmdline_invalid_tests, drm_cmdline_invalid_desc);
-> > +
-> >   static struct kunit_case drm_cmdline_parser_tests[] = {
-> >   	KUNIT_CASE(drm_cmdline_test_force_d_only),
-> >   	KUNIT_CASE(drm_cmdline_test_force_D_only_dvi),
-> >   	KUNIT_CASE(drm_cmdline_test_force_D_only_hdmi),
-> >   	KUNIT_CASE(drm_cmdline_test_force_D_only_not_digital),
-> >   	KUNIT_CASE(drm_cmdline_test_force_e_only),
-> > -	KUNIT_CASE(drm_cmdline_test_margin_only),
-> > -	KUNIT_CASE(drm_cmdline_test_interlace_only),
-> >   	KUNIT_CASE(drm_cmdline_test_res),
-> > -	KUNIT_CASE(drm_cmdline_test_res_missing_x),
-> > -	KUNIT_CASE(drm_cmdline_test_res_missing_y),
-> > -	KUNIT_CASE(drm_cmdline_test_res_bad_y),
-> > -	KUNIT_CASE(drm_cmdline_test_res_missing_y_bpp),
-> >   	KUNIT_CASE(drm_cmdline_test_res_vesa),
-> >   	KUNIT_CASE(drm_cmdline_test_res_vesa_rblank),
-> >   	KUNIT_CASE(drm_cmdline_test_res_rblank),
-> >   	KUNIT_CASE(drm_cmdline_test_res_bpp),
-> > -	KUNIT_CASE(drm_cmdline_test_res_bad_bpp),
-> >   	KUNIT_CASE(drm_cmdline_test_res_refresh),
-> > -	KUNIT_CASE(drm_cmdline_test_res_bad_refresh),
-> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh),
-> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_interlaced),
-> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_margins),
-> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_off),
-> > -	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on_off),
-> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on),
-> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on_analog),
-> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on_digital),
-> >   	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_interlaced_margins_force_on),
-> >   	KUNIT_CASE(drm_cmdline_test_res_margins_force_on),
-> >   	KUNIT_CASE(drm_cmdline_test_res_vesa_margins),
-> > -	KUNIT_CASE(drm_cmdline_test_res_invalid_mode),
-> > -	KUNIT_CASE(drm_cmdline_test_res_bpp_wrong_place_mode),
-> >   	KUNIT_CASE(drm_cmdline_test_name),
-> >   	KUNIT_CASE(drm_cmdline_test_name_bpp),
-> > -	KUNIT_CASE(drm_cmdline_test_name_refresh),
-> > -	KUNIT_CASE(drm_cmdline_test_name_bpp_refresh),
-> > -	KUNIT_CASE(drm_cmdline_test_name_refresh_wrong_mode),
-> > -	KUNIT_CASE(drm_cmdline_test_name_refresh_invalid_mode),
-> >   	KUNIT_CASE(drm_cmdline_test_name_option),
-> >   	KUNIT_CASE(drm_cmdline_test_name_bpp_option),
-> >   	KUNIT_CASE(drm_cmdline_test_rotate_0),
-> >   	KUNIT_CASE(drm_cmdline_test_rotate_90),
-> >   	KUNIT_CASE(drm_cmdline_test_rotate_180),
-> >   	KUNIT_CASE(drm_cmdline_test_rotate_270),
-> > -	KUNIT_CASE(drm_cmdline_test_rotate_multiple),
-> > -	KUNIT_CASE(drm_cmdline_test_rotate_invalid_val),
-> > -	KUNIT_CASE(drm_cmdline_test_rotate_truncated),
-> >   	KUNIT_CASE(drm_cmdline_test_hmirror),
-> >   	KUNIT_CASE(drm_cmdline_test_vmirror),
-> >   	KUNIT_CASE(drm_cmdline_test_margin_options),
-> >   	KUNIT_CASE(drm_cmdline_test_multiple_options),
-> > -	KUNIT_CASE(drm_cmdline_test_invalid_option),
-> >   	KUNIT_CASE(drm_cmdline_test_bpp_extra_and_option),
-> >   	KUNIT_CASE(drm_cmdline_test_extra_and_option),
-> >   	KUNIT_CASE(drm_cmdline_test_freestanding_options),
-> >   	KUNIT_CASE(drm_cmdline_test_freestanding_force_e_and_options),
-> >   	KUNIT_CASE(drm_cmdline_test_panel_orientation),
-> > +	KUNIT_CASE_PARAM(drm_cmdline_test_invalid, drm_cmdline_invalid_gen_params),
-> >   	{}
-> >   };
