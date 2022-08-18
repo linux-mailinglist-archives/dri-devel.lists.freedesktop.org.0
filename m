@@ -1,110 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEFE5982F0
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 14:09:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BB8598339
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 14:41:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BEB914A48E;
-	Thu, 18 Aug 2022 12:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D662CA4C16;
+	Thu, 18 Aug 2022 12:40:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E29888C5A
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 12:05:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jnpYRw8wc/bY4UndihlURVUp2bqn3D9p9Fs+KzfqbQ9pRATt77UHux4nG4cQL69H4jQIJxol3W6QCMXTnXHljziCaAgaxIhGughlucbpSwxxnvmNe493gott2YTJCvkOJPeSninJLgQLI1Dhc1Qddvc9vuVLDiCQUo/DvMjZa4UZhI3llGrE6fFri5ikc2T/MTLbOAqiK+eennhPW7Cx2py3ivTcgrKPmXnhQbEl1F9abE9aIBpEp2aY2bIXf4/PuibOm56v/wK+GY1uIE2Mdb2cKOkr76KbW3839/Q2jm3nyAKUxIjt2UwXhwzGd/vK4RNGZpGZVokdCLNlhEHvxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zP8MSOtF3dL1saDG5XPClaJlssrJanTms9US1iaCdnI=;
- b=gxt9NET9wMTD9VEOF2LlU7OJ7bj0VbWpVS5ulaor7GVT0qWLxdwjzS4R3Zy8wPvWi8SdfaniiDXZUz0dylBBkoorR5YcvE0cD5dwL6STwjASTUaFbl1I8soR8I3UCOqOH5fim4Lo1nj2wKhNM/xXirylMfVc/lVgPVjuOzODIRugrZWmOcMUSkXsMC7zmSDv2HNcXdqzlMj0ABg+Jb5et3TnTQBNGYwR77YlQ6qXOprJ7pSh13AgDkfa935INjn4634OPZbJzHD0pd+9FYbV2UsJe1CKImXnQnHIKOZ2KbA3MmyyUt3TQaVYKmM9HXuy2qcFxhPcvP1RT9/LgaeEww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zP8MSOtF3dL1saDG5XPClaJlssrJanTms9US1iaCdnI=;
- b=GklZkeM3N9hYGfV2quTWXbSI2z6Hx+uv4VmX8fMWRYN6+g98wH9NnXwd4dHEHN1vCSZ3+GotkpnNZORTykv/ImbrDGPv5p6Rng+w6h6A2pcSILc4bSZ/QJFUow+BbQhi4Wwkji3XnDyVYYUy3wmhi+p0DahV6Kqv/YINEF57U8h0zmaNr2ZdbuKfTfNRcxOSOyA88Bxz8FFnjX2BGdI9OrvDV4FsH2lLgPOf2Sg04+I/ZJ9EZ7OeUWGjIGtgR0kK6XIWdEs2qyTfj+TZ4Yq3QBsmOjYgm+QhT066AfOr4Jc/Ug2qhN7agXRxAwOkRx5uBU99kKiSJUgIAOTHHnQlcQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by PH7PR12MB6933.namprd12.prod.outlook.com (2603:10b6:510:1b7::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Thu, 18 Aug
- 2022 12:05:25 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5%6]) with mapi id 15.20.5525.019; Thu, 18 Aug 2022
- 12:05:25 +0000
-Date: Thu, 18 Aug 2022 09:05:24 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Williamson <alex.williamson@redhat.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Cornelia Huck <cohuck@redhat.com>, dri-devel@lists.freedesktop.org,
- kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-media@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH 0/4] Allow MMIO regions to be exported through dma-buf
-Message-ID: <Yv4rBEeUMQyIdEzi@nvidia.com>
-References: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
-X-ClientProxiedBy: BL1PR13CA0156.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::11) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99F91B7604
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 12:39:44 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id D00832B05E6A;
+ Thu, 18 Aug 2022 08:39:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 18 Aug 2022 08:39:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1660826379; x=1660833579; bh=YRrkqYfUey
+ d/afvSZhJ0kvziJy3S8LJDEtRjqUfFPSo=; b=IHz9beHjK6BmV92EOKI1gLLc0M
+ P9t82G2uluVqd7svl2yZLWMAJoeAjLoGLogb98PqFknQRGD1gtJZ6LtiUoi1SBky
+ IDyfMCqUl7rOPRZ/q0daavXQU/hdPPdM+38Le4gYw/FJg+DjGAZSmIuyBS57YrsB
+ e63wCjCvBy8K+nrRoPsw5EnywFBAD8u5plPWclrho6XuiOChzZc609mjM6oqKhQI
+ SWQZT4a8qwcJonb/0eZ6aTEXpRmdN6oTtLBmev2evIFDRvsr9fyiTsd0X1xdVoP2
+ Aq4HbOt2ei1w/d6+L2su/JzudsXQNLB7KETrs2DkncF2s/uqNzDSXvAnYg3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1660826379; x=1660833579; bh=YRrkqYfUeyd/afvSZhJ0kvziJy3S
+ 8LJDEtRjqUfFPSo=; b=qAvK/y25kdOixORQ1DcGPmxPcHWSUKsl3RV+tTDS1EO5
+ NOPj/sCCY7oGDwQwvyJWkJzhPy2M/OOY5ydNH2EDdTJe/u8NLQGUEffJ3ICIDg9z
+ 8Yk7ItX8XgPmjfb5zXPdgWKTuWIoSrYxKdCndlpJivExLPhVOq0KSKs/XGioJy+I
+ HqjVn5aKmUL328f1qyZjr9lU+Ponwbefox24cnMfTYvkq8Cy0/utT+EUWgx7YCW2
+ N5UHkZgC8btjVzhbarvvdtUT9roMh2sottdMTFausmjJdvPjoNC7NNqXf/JSso6c
+ RDM6b/ga/jMLUuMKsEP3dxx6+PrxnKHvw62M20jSBg==
+X-ME-Sender: <xms:CjP-YnGeVVLXM3mzZ2v7VHy6wrITCBDi8qvzdW9m3h4S-iQHge4HEA>
+ <xme:CjP-YkUY8FAcAVAWFOjI3fi74PkJhzACWS0q2oO31_xTk-QBUY7lRUkG4yw09Tiq5
+ ht1P6FoKXVh_KiOL6Q>
+X-ME-Received: <xmr:CjP-YpKrBFnbVIv4SfmxGlO5dZ9yKsaoNXWsZVsdtyKSyjbfZ2VcCUx3wA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehledgvdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpedvfeevudfgvefhtdefjedtfeelheeigfeghfeijedvgfegffevkefggfff
+ ueejtdenucffohhmrghinhephhhinhhnvghrrdhinhhfohenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
+ tghh
+X-ME-Proxy: <xmx:CjP-YlGlnSTXDodYwXRenPdTbe0fyyRAuyKpHoL9iwEKs46SIOyukA>
+ <xmx:CjP-YtXtlRp3s-IM5r0fC_58DTQfQNWdBhMJjzDFUH7UhTxIFe3R-Q>
+ <xmx:CjP-YgM-xnxj1Q2js1x6rE3FxXTBMgsvWAPPM37LKl4j_CxHuIJHhQ>
+ <xmx:CzP-YjHFF5LGbBDa_NV776KyH5859ooLfz0LmsNpe-VwQBt3g9IFmv5w2gQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 18 Aug 2022 08:39:37 -0400 (EDT)
+Date: Thu, 18 Aug 2022 14:39:34 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
+Message-ID: <20220818123934.eim2bfrgbxsmviqx@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
+ <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
+ <20220816132636.3tmwqmrox64pu3lt@houat>
+ <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
+ <20220817075351.4xpsqdngjgtiqvob@houat>
+ <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
+ <20220817131454.qcuywcuc4ts4hswm@houat>
+ <CAMuHMdVPEgnnsY-4uuf=FDJ0YxWpch-0kZWFT_TZfcDvXLtwWQ@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9d963fbd-e890-4481-5913-08da8111ef4e
-X-MS-TrafficTypeDiagnostic: PH7PR12MB6933:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q4PHKi+rkEFdv/HFvFWP94w3f+t0EBS/W2K1nYxHzgUUFazudU6LIfMJHKVs+EivAnvRTY5qzvovzoyQxZhBCeW0kawuki6f8f+0W0OoODjZQEy+zSNEJXJXBQB9KRU7pwlzGka1HXh7eAovxFO72RESts63fzGDnVJ1JK7F/XRNyIs9fC7aU3HzsoFAnAah603saUs9DTbOVfhINsyz9n2Osw9HUHdGjlaW4+rppVOZeSXcZKVIJvHywU+U+NMGKSIFOwxZWfDV95FE3ufRyeya+xuAtzgkATan+LSIShvb9eN1Qfr7TP3wgW/hKrNNEGnkjiNvZo8PjvTBDETwNU8feBdC489zJtPIY4fTmaNcZ8npWHduQrMbURuBQ/fCKXbMlu4Ma7NPBLAbNJ0Q1Bw+RhdAFOc02gH17s2czOA/d8DgL7O+i9WS/0V8K9IqMhgNFA6XP3nJDB+1RhuSbNh4q5Ed0VUifqL4Vz6erN+KvAqeT6mgxYHcuhISlJFw0Ar+LJUzLDnZzo8iPO7dPz6r8I826sCTfj3+E+73q/J47Chn4/dKoq4Ncjn/AWeQBPnQhhnHzvX6SJdeE/Bdtu30bxbR2w0NkRP8LRMKym2BJfxWSLQ2ftBJoC2E//HTME4K9dJsry6SeHWxLTsWQwe0vZ+60QonRq7xhS+3lk9FXKQSO6JBWyIjqxEuFk8AOf0vJeSehCTXP2Jaj+wxH22J+JHeXzkl9bLK2q4gzXmaNeXWhH32m6ZHoS5ADMWHaZEEB6T4kScJ/TiE8ephcuF3bc1ouMlN51dka0ZE4EY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(366004)(396003)(376002)(346002)(136003)(26005)(6506007)(86362001)(186003)(36756003)(2616005)(83380400001)(6512007)(316002)(54906003)(478600001)(966005)(41300700001)(66476007)(8936002)(110136005)(7416002)(66946007)(8676002)(66556008)(4326008)(2906002)(5660300002)(38100700002)(6486002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vkHMa7D5EO3NiucPq8lx0/C1zLj9/nyCpewq32dKFSETP+a44kEg91tPvTRT?=
- =?us-ascii?Q?JaUGQjZGvQIPtc16jmi/f83QOpESOXk6tHy3nfxmVCo2BD12kt/IhbuhI7q1?=
- =?us-ascii?Q?EUA61YPSW7hS3aGJ6+UMcjqWfcO+8Xa0JNrwTllFqvqmI+5v8q0mF021BSux?=
- =?us-ascii?Q?yXVjQrALyE5QSDJDj0bby8KOwPqIHBccU2/fK4t6GCLz3VIZXPwKcSy65yNj?=
- =?us-ascii?Q?JxcFfxc5JS2FGXcPTQ87RC5CzjDKnTWamoe6VQLBk64q1q1ArDiQrSEEqnWS?=
- =?us-ascii?Q?qMBjR5boutfzRJsYBfs4p+viQqKa+kkpTful4g4RAZDXCveg2guMK94jqG5r?=
- =?us-ascii?Q?PhURRtT7AEugXh34xN8uYyKxMRSN05nCwSLveeD3kF5efN9WoObiw22I9M/c?=
- =?us-ascii?Q?l6g75Apva/nbXyCSSo7xomvocDaDS2ENNIHAD49gS+nVZp4Ffkik/g5VRTer?=
- =?us-ascii?Q?QOTDWNa4uDothLx37xDdwZCTrZFogLdmlrOeB8R1ob+ocdvqwK7svWgY11ay?=
- =?us-ascii?Q?OJtYgcPw7zKtvk1/HwYdpeQKiWBIh4kp3irGUHIQWo+uhZsyhE2bx3g0zANG?=
- =?us-ascii?Q?8jrg9B6Vmz/F7Pk/ndh7yLpDV94WfMrf9HOQ009ao8AFN6EQnETVVos6PZpq?=
- =?us-ascii?Q?8fBPTCeOsy7gGMKtctICcACKNOhOgbPqM9LUjxbIFM59TXDIVmWI4FUXE3QT?=
- =?us-ascii?Q?tty4fVmsozr8qfsghg1HpJhZzy5dqtANzow6z1HyVqwIV5rTayC8DXl6D6YN?=
- =?us-ascii?Q?oaICi9bBP3RZDZmRQIwMfjCMabfoyDK9fIyV3ZcLRkf1ILkMm+ZcoMGLulVf?=
- =?us-ascii?Q?4LRxGpy4iZpBCY6K3Bnhs1wmU97VKNiKCw0gaI1AWOyWmePsBGmFcb75hM1O?=
- =?us-ascii?Q?WA2O8u+wcA/SxqOmAQln0T7D5HJTErGnJ67a/gYqw6jXKFR3Bk6fbbsD4Us0?=
- =?us-ascii?Q?cNpalFDeTeCVkleJsru3s2R8LW0KQv9LnhoMHINmIP/e+j9J0JG8KEwhyPI2?=
- =?us-ascii?Q?58NCcpwPOeAeoXhGHTnpIEmVzs1wklCavpvVj9+Fhrv26PkuEN8Ca8Rln7ph?=
- =?us-ascii?Q?0ls2Vb9BOhdxREEcgWXLbs2xP2Gw7sMSpwOybKaZpKl/2PItZwjt/kehJb9x?=
- =?us-ascii?Q?swVlOCyjqCYyg0nnT/0GgNEadBKKrly/k8YsTpaxwAI528h8csq6vmRnSgqZ?=
- =?us-ascii?Q?xuqt+1aKdROfM+NbM5u2SsBfbhj+FJgY8KHdDC0kOxyS5qCh9NfNfhCbRoK4?=
- =?us-ascii?Q?jhMRZU86CFrjwX1yQAaSJqvuTq+rSL03Fjl5fVDFLG9GggdfHdyxIIuZv7hx?=
- =?us-ascii?Q?WvJO3JJ9AoyhkDg0+prPdzwd+CXnYszeFLDOLlvmqBJ5IhAS3YvqsCa7IkqQ?=
- =?us-ascii?Q?lgJd7b/IiM+nz51ToVYxcAE0LsJBg5Po3W42ETpcVGUb6hDHQ1lCScRxzKo4?=
- =?us-ascii?Q?tqy41IwK5LrbP6YaL02BkMY65J7aY7hRDCVa9Mcy9Hvvg8PUhXNc0n4uBfEh?=
- =?us-ascii?Q?K0s7LvQlbL5rMWGxlKJSRacUSX2jfhlHrJqpAbfkRPm/dllBOWLiRC0Oc4q1?=
- =?us-ascii?Q?vi+KhjWDJImxgv/Q4mu57rr/u1L+zYYr1ZUGzEha?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d963fbd-e890-4481-5913-08da8111ef4e
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2022 12:05:25.6912 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EwDkrUNEqB6zt+C+lVIEZShnak/ZfQmaQjnG67ND3AQx8wtfSMc/7yt8bu8GS7fC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6933
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="lcxbafgaqwff7pps"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVPEgnnsY-4uuf=FDJ0YxWpch-0kZWFT_TZfcDvXLtwWQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,50 +91,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Oded Gabbay <ogabbay@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 17, 2022 at 01:11:38PM -0300, Jason Gunthorpe wrote:
-> dma-buf has become a way to safely acquire a handle to non-struct page
-> memory that can still have lifetime controlled by the exporter. Notably
-> RDMA can now import dma-buf FDs and build them into MRs which allows for
-> PCI P2P operations. Extend this to allow vfio-pci to export MMIO memory
-> from PCI device BARs.
-> 
-> This series supports a use case for SPDK where a NVMe device will be owned
-> by SPDK through VFIO but interacting with a RDMA device. The RDMA device
-> may directly access the NVMe CMB or directly manipulate the NVMe device's
-> doorbell using PCI P2P.
-> 
-> However, as a general mechanism, it can support many other scenarios with
-> VFIO. I imagine this dmabuf approach to be usable by iommufd as well for
-> generic and safe P2P mappings.
-> 
-> This series goes after the "Break up ioctl dispatch functions to one
-> function per ioctl" series.
-> 
-> This is on github: https://github.com/jgunthorpe/linux/commits/vfio_dma_buf
-> 
-> Jason Gunthorpe (4):
->   dma-buf: Add dma_buf_try_get()
->   vfio: Add vfio_device_get()
->   vfio_pci: Do not open code pci_try_reset_function()
->   vfio/pci: Allow MMIO regions to be exported through dma-buf
-> 
->  drivers/vfio/pci/Makefile           |   1 +
->  drivers/vfio/pci/vfio_pci_config.c  |  22 ++-
->  drivers/vfio/pci/vfio_pci_core.c    |  33 +++-
->  drivers/vfio/pci/vfio_pci_dma_buf.c | 265 ++++++++++++++++++++++++++++
 
-I forget about this..
+--lcxbafgaqwff7pps
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Alex, do you want to start doing as Linus discused and I will rename
-this new file to "dma_buf.c" ?
+Hi!
 
-Or keep this directory as having the vfio_pci_* prefix for
-consistency?
+On Wed, Aug 17, 2022 at 04:01:48PM +0200, Geert Uytterhoeven wrote:
+> > > > > Vertically, it's simpler, as the number of lines is discrete.
+> > > > > You do have to take into account interlace and doublescan, and
+> > > > > progressive modes with 262/312 lines.
+> > > >
+> > > > So we only have to deal with 525 and 625 lines total (without taking
+> > > > interlace and doublescan into account), right?
+> > >
+> > > Yes.
+> > >
+> > > > I guess we still have the same question, we probably want to center=
+ it,
+> > > > so top =3D=3D bottom, but what about the vsync length?
+> > >
+> > > Unfortunately that table does not mention top and bottom margins.
+> > > But according to drivers/video/fbdev/amifb.c (see the "Broadcast
+> > > video timings" comment block and the definitions of the "ntsc-lace"
+> > > and "pal-lace" video modes), they are asymmetrical, too.
+> > >
+> > > Vsync length is 0.576ms, so that's 9 scan lines (I guess I didn't
+> > > have that info when I wrote amifb, as I used 4 lines there).
+> >
+> > Thanks, that's some great info already.
+> >
+> > It's mentioned though that the settings for NTSC are "straightforward",
+> > but it's definitely not for me :)
+>=20
+> As in NTSC just uses different pixel clock and horizontal/vertical sync
+> rate values...
 
-Jason
+Oh, so the constants differ but the calculation is the same, ack.
+
+> > I've looked around and it looks like the entire blanking area is
+> > supposed to be 40 pixels in interlaced, but I couldn't find anywhere how
+>=20
+> 625 lines - 575[*] visible lines =3D 50 lines.
+>=20
+> [*] BT.656 uses 576 visible lines as that's a multiple of 2, for splitting
+>      a frame in two fields of equal size.
+>=20
+> "visible" is relative, as it includes the overscan region.
+> Some PAL monitors used with computers had knobs to control width/height
+> and position of the screen, so you could make use of most or all of
+> the overscan region
+
+It brings back some memories :)
+
+> but on a real TV you're limited to ca. 640x512 (on PAL) which is what
+> an Amiga used by default (with a 14 MHz pixclock).
+
+> > it's supposed to be split between the upper and lower margins and the
+> > sync period.
+>=20
+> "Field Synchronization of PAL System" on
+> http://martin.hinner.info/vga/pal.html shows the split.
+
+Thanks, that's excellent as well.
+
+I'm mostly done with a function that creates a PAL mode, but I still
+have one question.
+
+If I understand well, the blanking period is made up (interlace) of 16
+pulses for the first field, 14 for the second, each pulse taking half a
+line. That amount to 30 pulses, so 15 lines.
+
+I first assumed that the pre-equalizing pulses would be the back porch,
+the long sync pulses the vsync, and the post-equalizing pulses the front
+porch. But... we're still missing 35 lines to amount to 625 lines, that
+seems to be counted in the field itself (305 lines =3D=3D (575 + 35) / 2)
+
+So I guess my assumption was wrong to begin with.
+
+You seem to have used a fixed vsync in amifb to 4 lines, and I don't
+understand how you come up with the upper and lower margins (or rather,
+how they are linked to what's described in that page)
+
+Maxime
+
+--lcxbafgaqwff7pps
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYv4zBgAKCRDj7w1vZxhR
+xYV3AQDMVX9EP9IeMgn/VC77iWNl8fZWLl3pV3GsUW4BHyIW6QEAnOHXzzmKBAoR
+Ta1eHGvbrbL9eJf0qR3cPhqIhbYH2Q0=
+=lHS5
+-----END PGP SIGNATURE-----
+
+--lcxbafgaqwff7pps--
