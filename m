@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E785A01E4
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4976E5A01E3
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:14:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 802C8C358F;
-	Wed, 24 Aug 2022 19:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E57CC235E;
+	Wed, 24 Aug 2022 19:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B34D710E277;
- Thu, 18 Aug 2022 23:42:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02A0110E2ED;
+ Thu, 18 Aug 2022 23:42:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1660866151; x=1692402151;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xGQDS/i9Ej4d+vuzoYhYvXD0SDdxQY9cGkH9iMkRuCo=;
- b=Uu03HMIetkzhjzdcjMzwV2oYDKj+8DZc5JzvkbVGo7Lk++ggBR3aBUPP
- LCZiN4q6wNlKaz58LHSPOLYq/gvLnhUX79F4AyyauVGru8ZCTmpat12K9
- BwWUm0TDjawPDM3c+Yiju5kG0HM3Cc8wzVz2BysNDZ0qdnqNdHT+IkmkF
- tfAPgPhA6D215uXnTIfCSagGn97lIt1ogDtHIHYR8yuzRLb4FGOcMgH6f
- DPu9mMJ7BnSfPTzMq+SX2bZSjDHcQXfEwrposmMMUjoWXvLDZ+3hehZsw
- UOm9apfwldklTgejpwNYR7lKjXtM1/cMreLOe2NmBx+FOZ0OfszBD9JnV Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="275938519"
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="275938519"
+ bh=w9x3LUIn4oimxR2CE7FJ8TX1PXrOjxZaZM7xDOB9638=;
+ b=fcjcOFhz5bo4V1d6pIuiJ+a3ufir6UGGcqd+DiqaeXQyT8Am8H4Y/qok
+ qmGJ4doT3zy821qVz7cQjuIeO6VcirMb/93MJ6waHQBuIPirAie8Ss2IL
+ knyff3VrwCwurIYNGm8NdLzeZPy/clJ22rzeNVBgQZJj4eQq8sIc5wiaO
+ Ws1O7JZThdRBJKz6W++EajgX9Aml+xG47tG+HdLLIhcWz2M8ei++8ZAwP
+ EBuIy3hq5167E5SeEkXAuHjGNdvR5IGuNDU8OjoMQ6nS+GE1bHknQmbiX
+ Bze0OiI8MSR9NHeRWAMSXWKHg84qqNfkID8tGqfJ9sWX1hRhZN35DwuNd g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="275938517"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="275938517"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Aug 2022 16:42:28 -0700
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="783953291"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="783953293"
 Received: from invictus.jf.intel.com ([10.165.21.205])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Aug 2022 16:42:28 -0700
 From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 08/21] drm/i915/mtl: Add VBT port and AUX_CH mapping
-Date: Thu, 18 Aug 2022 16:41:49 -0700
-Message-Id: <20220818234202.451742-9-radhakrishna.sripada@intel.com>
+Subject: [PATCH v2 09/21] drm/i915/mtl: Add support for MTL in Display Init
+ sequences
+Date: Thu, 18 Aug 2022 16:41:50 -0700
+Message-Id: <20220818234202.451742-10-radhakrishna.sripada@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
 References: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
@@ -59,79 +60,47 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Imre Deak <imre.deak@intel.com>
+The initialization sequence for Meteorlake reuses the sequence for
+icelake for most parts. Some changes viz. reset PICA handshake
+are added.
 
-Add the proper VBT port,AUX_CH -> i915 port,AUX_CH mapping which just
-follows the ADL_P one.
+Bspec: 49189
 
 Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
 Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_bios.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display_power.c | 3 +++
+ drivers/gpu/drm/i915/i915_reg.h                    | 3 ++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
-index 198a2f4920cc..81d6cfbd2615 100644
---- a/drivers/gpu/drm/i915/display/intel_bios.c
-+++ b/drivers/gpu/drm/i915/display/intel_bios.c
-@@ -2420,7 +2420,7 @@ static enum port dvo_port_to_port(struct drm_i915_private *i915,
- 		[PORT_TC4] = { DVO_PORT_HDMII, DVO_PORT_DPI, -1 },
- 	};
+diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
+index f7e8d1ff62cf..9c1fefb2da55 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_power.c
++++ b/drivers/gpu/drm/i915/display/intel_display_power.c
+@@ -1382,6 +1382,9 @@ static void intel_pch_reset_handshake(struct drm_i915_private *dev_priv,
+ 		reset_bits = RESET_PCH_HANDSHAKE_ENABLE;
+ 	}
  
--	if (DISPLAY_VER(i915) == 13)
-+	if (DISPLAY_VER(i915) >= 13)
- 		return __dvo_port_to_port(ARRAY_SIZE(xelpd_port_mapping),
- 					  ARRAY_SIZE(xelpd_port_mapping[0]),
- 					  xelpd_port_mapping,
-@@ -3578,7 +3578,7 @@ enum aux_ch intel_bios_port_aux_ch(struct drm_i915_private *i915,
- 			aux_ch = AUX_CH_C;
- 		break;
- 	case DP_AUX_D:
--		if (DISPLAY_VER(i915) == 13)
-+		if (DISPLAY_VER(i915) >= 13)
- 			aux_ch = AUX_CH_D_XELPD;
- 		else if (IS_ALDERLAKE_S(i915))
- 			aux_ch = AUX_CH_USBC3;
-@@ -3588,7 +3588,7 @@ enum aux_ch intel_bios_port_aux_ch(struct drm_i915_private *i915,
- 			aux_ch = AUX_CH_D;
- 		break;
- 	case DP_AUX_E:
--		if (DISPLAY_VER(i915) == 13)
-+		if (DISPLAY_VER(i915) >= 13)
- 			aux_ch = AUX_CH_E_XELPD;
- 		else if (IS_ALDERLAKE_S(i915))
- 			aux_ch = AUX_CH_USBC4;
-@@ -3596,25 +3596,25 @@ enum aux_ch intel_bios_port_aux_ch(struct drm_i915_private *i915,
- 			aux_ch = AUX_CH_E;
- 		break;
- 	case DP_AUX_F:
--		if (DISPLAY_VER(i915) == 13)
-+		if (DISPLAY_VER(i915) >= 13)
- 			aux_ch = AUX_CH_USBC1;
- 		else
- 			aux_ch = AUX_CH_F;
- 		break;
- 	case DP_AUX_G:
--		if (DISPLAY_VER(i915) == 13)
-+		if (DISPLAY_VER(i915) >= 13)
- 			aux_ch = AUX_CH_USBC2;
- 		else
- 			aux_ch = AUX_CH_G;
- 		break;
- 	case DP_AUX_H:
--		if (DISPLAY_VER(i915) == 13)
-+		if (DISPLAY_VER(i915) >= 13)
- 			aux_ch = AUX_CH_USBC3;
- 		else
- 			aux_ch = AUX_CH_H;
- 		break;
- 	case DP_AUX_I:
--		if (DISPLAY_VER(i915) == 13)
-+		if (DISPLAY_VER(i915) >= 13)
- 			aux_ch = AUX_CH_USBC4;
- 		else
- 			aux_ch = AUX_CH_I;
++	if (DISPLAY_VER(dev_priv) >= 14)
++		reset_bits |= MTL_RESET_PICA_HANDSHAKE_EN;
++
+ 	val = intel_de_read(dev_priv, reg);
+ 
+ 	if (enable)
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 15a53cb5e1ee..e2e9932fa484 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -5821,7 +5821,8 @@
+ 							 _BW_BUDDY1_PAGE_MASK))
+ 
+ #define HSW_NDE_RSTWRN_OPT	_MMIO(0x46408)
+-#define  RESET_PCH_HANDSHAKE_ENABLE	(1 << 4)
++#define  MTL_RESET_PICA_HANDSHAKE_EN	REG_BIT(6)
++#define  RESET_PCH_HANDSHAKE_ENABLE	REG_BIT(4)
+ 
+ #define GEN8_CHICKEN_DCPR_1			_MMIO(0x46430)
+ #define   SKL_SELECT_ALTERNATE_DC_EXIT		REG_BIT(30)
 -- 
 2.25.1
 
