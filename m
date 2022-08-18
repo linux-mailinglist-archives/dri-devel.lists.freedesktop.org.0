@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BEF598BA1
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 20:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF43598B64
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 20:44:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE7210ECF0;
-	Thu, 18 Aug 2022 18:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E84D610E78C;
+	Thu, 18 Aug 2022 18:44:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1186210E2ED
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 18:43:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE83E10E244
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 18:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1660848222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hEJ8SXloggM3M2XutUR+tagT8o5Og49UCIlmmB2kvDg=;
- b=NOBeCjR0BrgS2c3tOEcHBePRx3bVI0VnaWa/OSsK0UK2ghcpyb4k05TlyQQ4YtHyoNajAi
- 23E63jUGMVTfsQrayF3s3mCE+3dr/KwcJBvYKP09SRVCHksf5Ne9TXTkoAoWCSNva1P56+
- V0Ew0Q/521geU8Ph75S8toxt9Ye1yGo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PCSmY8k1Kok4+Y5KifM65gc7LPbBGxwniOYLc7Z6cXs=;
+ b=h6kA0MnJkpltrNHR5BwTQxlZ82+QtT4YRUMLhAWomL/r1H9XoxVCT+WbqEt4olTqKYVsPF
+ b3COKswDX7wQgEr6oW3J6MbaUsy6QiRde2Hi1LdWenPpKEahhXzSbQV37xJOCVXnevR5Pu
+ og6XJByy4YuEkW0uyp87SUygLw11UL8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-412-MYdS7txrO8-_M9phFCn_lA-1; Thu, 18 Aug 2022 14:43:32 -0400
-X-MC-Unique: MYdS7txrO8-_M9phFCn_lA-1
+ us-mta-167-ttxspPBOMsOlwLolhevS1g-1; Thu, 18 Aug 2022 14:43:36 -0400
+X-MC-Unique: ttxspPBOMsOlwLolhevS1g-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 166083815D28;
- Thu, 18 Aug 2022 18:43:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DEB3D101A54E;
+ Thu, 18 Aug 2022 18:43:34 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7767C492C3B;
- Thu, 18 Aug 2022 18:43:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A398492C3B;
+ Thu, 18 Aug 2022 18:43:31 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Ben Skeggs <bskeggs@redhat.com>,
 	Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
@@ -55,10 +55,10 @@ To: Ben Skeggs <bskeggs@redhat.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
 	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v3 04/31] drm/radeon: Don't register backlight when another
- backlight should be used (v3)
-Date: Thu, 18 Aug 2022 20:42:35 +0200
-Message-Id: <20220818184302.10051-5-hdegoede@redhat.com>
+Subject: [PATCH v3 05/31] drm/nouveau: Don't register backlight when another
+ backlight should be used
+Date: Thu, 18 Aug 2022 20:42:36 +0200
+Message-Id: <20220818184302.10051-6-hdegoede@redhat.com>
 In-Reply-To: <20220818184302.10051-1-hdegoede@redhat.com>
 References: <20220818184302.10051-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -93,93 +93,37 @@ Registering 2 backlight devices for a single display really is
 undesirable, don't register the GPU's native backlight device when
 another backlight device should be used.
 
-Changes in v2:
-- To avoid linker errors when amdgpu is builtin and video_detect.c is in
-  a module, select ACPI_VIDEO and its deps if ACPI is enabled.
-  When ACPI is disabled, ACPI_VIDEO is also always disabled, ensuring
-  the stubs from acpi/video.h will be used.
-
-Changes in v3:
-- Use drm_info(drm_dev, "...") to log messages
-- ACPI_VIDEO can now be enabled on non X86 too,
-  adjust the Kconfig changes to match this.
-
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/Kconfig                         | 7 +++++++
- drivers/gpu/drm/radeon/atombios_encoders.c      | 7 +++++++
- drivers/gpu/drm/radeon/radeon_legacy_encoders.c | 7 +++++++
- 3 files changed, 21 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_backlight.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 95ca33938b4a..0471505e951d 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -234,6 +234,13 @@ config DRM_RADEON
- 	select HWMON
- 	select BACKLIGHT_CLASS_DEVICE
- 	select INTERVAL_TREE
-+	# radeon depends on ACPI_VIDEO when ACPI is enabled, for select to work
-+	# ACPI_VIDEO's dependencies must also be selected.
-+	select INPUT if ACPI
-+	select ACPI_VIDEO if ACPI
-+	# On x86 ACPI_VIDEO also needs ACPI_WMI
-+	select X86_PLATFORM_DEVICES if ACPI && X86
-+	select ACPI_WMI if ACPI && X86
- 	help
- 	  Choose this option if you have an ATI Radeon graphics card.  There
- 	  are both PCI and AGP versions.  You don't need to choose this to
-diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm/radeon/atombios_encoders.c
-index c93040e60d04..2b01edea8fe8 100644
---- a/drivers/gpu/drm/radeon/atombios_encoders.c
-+++ b/drivers/gpu/drm/radeon/atombios_encoders.c
-@@ -32,6 +32,8 @@
- #include <drm/drm_file.h>
- #include <drm/radeon_drm.h>
+diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+index a2141d3d9b1d..91c504c7b82c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
++++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+@@ -34,6 +34,8 @@
+ #include <linux/backlight.h>
+ #include <linux/idr.h>
  
 +#include <acpi/video.h>
 +
- #include "atom.h"
- #include "radeon_atombios.h"
- #include "radeon.h"
-@@ -209,6 +211,11 @@ void radeon_atom_backlight_init(struct radeon_encoder *radeon_encoder,
- 	if (!(rdev->mode_info.firmware_flags & ATOM_BIOS_INFO_BL_CONTROLLED_BY_GPU))
- 		return;
+ #include "nouveau_drv.h"
+ #include "nouveau_reg.h"
+ #include "nouveau_encoder.h"
+@@ -405,6 +407,11 @@ nouveau_backlight_init(struct drm_connector *connector)
+ 		goto fail_alloc;
+ 	}
  
 +	if (!acpi_video_backlight_use_native()) {
-+		drm_info(dev, "Skipping radeon atom DIG backlight registration\n");
-+		return;
++		NV_INFO(drm, "Skipping nv_backlight registration\n");
++		goto fail_alloc;
 +	}
 +
- 	pdata = kmalloc(sizeof(struct radeon_backlight_privdata), GFP_KERNEL);
- 	if (!pdata) {
- 		DRM_ERROR("Memory allocation failed\n");
-diff --git a/drivers/gpu/drm/radeon/radeon_legacy_encoders.c b/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
-index 1a66fb969ee7..0cd32c65456c 100644
---- a/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
-+++ b/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
-@@ -33,6 +33,8 @@
- #include <drm/drm_util.h>
- #include <drm/radeon_drm.h>
- 
-+#include <acpi/video.h>
-+
- #include "radeon.h"
- #include "radeon_asic.h"
- #include "radeon_legacy_encoders.h"
-@@ -387,6 +389,11 @@ void radeon_legacy_backlight_init(struct radeon_encoder *radeon_encoder,
- 		return;
- #endif
- 
-+	if (!acpi_video_backlight_use_native()) {
-+		drm_info(dev, "Skipping radeon legacy LVDS backlight registration\n");
-+		return;
-+	}
-+
- 	pdata = kmalloc(sizeof(struct radeon_backlight_privdata), GFP_KERNEL);
- 	if (!pdata) {
- 		DRM_ERROR("Memory allocation failed\n");
+ 	if (!nouveau_get_backlight_name(backlight_name, bl)) {
+ 		NV_ERROR(drm, "Failed to retrieve a unique name for the backlight interface\n");
+ 		goto fail_alloc;
 -- 
 2.37.2
 
