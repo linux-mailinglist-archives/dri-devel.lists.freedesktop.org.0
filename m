@@ -1,35 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4701598EB9
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 23:07:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 409EC598F4B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 23:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 820BE10E885;
-	Thu, 18 Aug 2022 21:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5679F10EDF6;
+	Thu, 18 Aug 2022 21:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
- Thu, 18 Aug 2022 21:06:52 UTC
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C506010ED65
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 21:06:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66E4010EDF6
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 21:17:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
  from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=k1; bh=W17cGhyZCof31/jqq1/AzJYm+5x
- 9xItdgevlD2TeU6Q=; b=iND1ayaiEeF23vqwp2t99AhA21f4S7lSY9mmnfVk27s
- Eoiz57FBw8IMzzVAbWg1E3n367AC6xmyEdKq/EEqw1HhyComafPvAR5WdWCZdRdx
- zQLVGzN0Pzu98VEB3WfV+BmvcSEZ+y+q/mmewCFBgFRjxC1S7OoxuotwNq6ZCkmA
+ :content-transfer-encoding; s=k1; bh=jAGdiy01QjFZdMcr7H4GvPmESRt
+ lhhyjFBPKrBE08G8=; b=DPdnNW+K+4OBDy3EK9Yw4qVPRXZdxcEfrenNKyobftK
+ Eu6+V1T6NJgFMeZJYrpu+LJ9JogvK36qaYT/EvB7R5EwrKHB71/BvTY5JfL/zWL+
+ yTGuYH/dly1rDHNn7nCeLJYxT0hgTpNY4xLYIxDfgQb6WBrN/4kHp+LHuAMrpJEE
  =
-Received: (qmail 3959910 invoked from network); 18 Aug 2022 23:00:09 +0200
+Received: (qmail 3961765 invoked from network); 18 Aug 2022 23:01:19 +0200
 Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 18 Aug 2022 23:00:09 +0200
-X-UD-Smtp-Session: l3s3148p1@Io5CRIrm9OIucref
+ authenticated); 18 Aug 2022 23:01:19 +0200
+X-UD-Smtp-Session: l3s3148p1@fy11SIrmy80ucref
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH] gpu: move from strlcpy with unused retval to strscpy
-Date: Thu, 18 Aug 2022 23:00:07 +0200
-Message-Id: <20220818210008.6721-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH] video: move from strlcpy with unused retval to strscpy
+Date: Thu, 18 Aug 2022 23:01:17 +0200
+Message-Id: <20220818210118.7541-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -45,24 +43,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org,
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
  Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Samuel Holland <samuel@sholland.org>,
- Russell King <linux@armlinux.org.uk>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- intel-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Evan Quan <evan.quan@amd.com>,
- linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Sandy Huang <hjc@rock-chips.com>,
- Robert Foss <robert.foss@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ Alexander Shiyan <shc_work@mail.ru>, Helge Deller <deller@gmx.de>,
+ Russell King <linux@armlinux.org.uk>, NXP Linux Team <linux-imx@nxp.com>,
+ Andres Salomon <dilinger@queued.net>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Thomas Winischhofer <thomas@winischhofer.net>, linux-geode@lists.infradead.org,
+ Hans de Goede <hdegoede@redhat.com>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -73,247 +65,479 @@ Generated by a coccinelle script.
 Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/gpu/drm/amd/amdgpu/atom.c                   | 2 +-
- drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c      | 2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 +++---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 2 +-
- drivers/gpu/drm/display/drm_dp_helper.c             | 2 +-
- drivers/gpu/drm/display/drm_dp_mst_topology.c       | 2 +-
- drivers/gpu/drm/drm_mipi_dsi.c                      | 2 +-
- drivers/gpu/drm/i2c/tda998x_drv.c                   | 2 +-
- drivers/gpu/drm/i915/selftests/i915_perf.c          | 2 +-
- drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c             | 2 +-
- drivers/gpu/drm/radeon/radeon_atombios.c            | 4 ++--
- drivers/gpu/drm/radeon/radeon_combios.c             | 4 ++--
- drivers/gpu/drm/rockchip/inno_hdmi.c                | 2 +-
- drivers/gpu/drm/rockchip/rk3066_hdmi.c              | 2 +-
- drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c              | 2 +-
- 15 files changed, 19 insertions(+), 19 deletions(-)
+ drivers/video/console/sticore.c                | 2 +-
+ drivers/video/fbdev/aty/atyfb_base.c           | 2 +-
+ drivers/video/fbdev/aty/radeon_base.c          | 2 +-
+ drivers/video/fbdev/bw2.c                      | 2 +-
+ drivers/video/fbdev/cirrusfb.c                 | 2 +-
+ drivers/video/fbdev/clps711x-fb.c              | 2 +-
+ drivers/video/fbdev/core/fbcon.c               | 2 +-
+ drivers/video/fbdev/cyber2000fb.c              | 8 ++++----
+ drivers/video/fbdev/ffb.c                      | 2 +-
+ drivers/video/fbdev/geode/gx1fb_core.c         | 6 +++---
+ drivers/video/fbdev/gxt4500.c                  | 2 +-
+ drivers/video/fbdev/i740fb.c                   | 2 +-
+ drivers/video/fbdev/imxfb.c                    | 2 +-
+ drivers/video/fbdev/matrox/matroxfb_base.c     | 6 +++---
+ drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 2 +-
+ drivers/video/fbdev/pxa168fb.c                 | 2 +-
+ drivers/video/fbdev/pxafb.c                    | 2 +-
+ drivers/video/fbdev/s3fb.c                     | 2 +-
+ drivers/video/fbdev/simplefb.c                 | 2 +-
+ drivers/video/fbdev/sis/sis_main.c             | 4 ++--
+ drivers/video/fbdev/sm501fb.c                  | 2 +-
+ drivers/video/fbdev/sstfb.c                    | 2 +-
+ drivers/video/fbdev/sunxvr1000.c               | 2 +-
+ drivers/video/fbdev/sunxvr2500.c               | 2 +-
+ drivers/video/fbdev/sunxvr500.c                | 2 +-
+ drivers/video/fbdev/tcx.c                      | 2 +-
+ drivers/video/fbdev/tdfxfb.c                   | 4 ++--
+ drivers/video/fbdev/tgafb.c                    | 2 +-
+ drivers/video/fbdev/tridentfb.c                | 2 +-
+ 29 files changed, 38 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
-index 1c5d9388ad0b..5f610e9a5f0f 100644
---- a/drivers/gpu/drm/amd/amdgpu/atom.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atom.c
-@@ -1509,7 +1509,7 @@ struct atom_context *amdgpu_atom_parse(struct card_info *card, void *bios)
- 	str = CSTR(idx);
- 	if (*str != '\0') {
- 		pr_info("ATOM BIOS: %s\n", str);
--		strlcpy(ctx->vbios_version, str, sizeof(ctx->vbios_version));
-+		strscpy(ctx->vbios_version, str, sizeof(ctx->vbios_version));
+diff --git a/drivers/video/console/sticore.c b/drivers/video/console/sticore.c
+index bd4dc97d4d34..db568f67e4dc 100644
+--- a/drivers/video/console/sticore.c
++++ b/drivers/video/console/sticore.c
+@@ -290,7 +290,7 @@ static char default_sti_path[21] __read_mostly;
+ static int __init sti_setup(char *str)
+ {
+ 	if (str)
+-		strlcpy (default_sti_path, str, sizeof (default_sti_path));
++		strscpy(default_sti_path, str, sizeof(default_sti_path));
+ 	
+ 	return 1;
+ }
+diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
+index a3e6faed7745..14eb718bd67c 100644
+--- a/drivers/video/fbdev/aty/atyfb_base.c
++++ b/drivers/video/fbdev/aty/atyfb_base.c
+@@ -3891,7 +3891,7 @@ static int __init atyfb_setup(char *options)
+ 			 && (!strncmp(this_opt, "Mach64:", 7))) {
+ 			static unsigned char m64_num;
+ 			static char mach64_str[80];
+-			strlcpy(mach64_str, this_opt + 7, sizeof(mach64_str));
++			strscpy(mach64_str, this_opt + 7, sizeof(mach64_str));
+ 			if (!store_video_par(mach64_str, m64_num)) {
+ 				m64_num++;
+ 				mach64_count = m64_num;
+diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
+index 6851f47613e1..73b07c77a4e1 100644
+--- a/drivers/video/fbdev/aty/radeon_base.c
++++ b/drivers/video/fbdev/aty/radeon_base.c
+@@ -1980,7 +1980,7 @@ static int radeon_set_fbinfo(struct radeonfb_info *rinfo)
+ 	info->screen_base = rinfo->fb_base;
+ 	info->screen_size = rinfo->mapped_vram;
+ 	/* Fill fix common fields */
+-	strlcpy(info->fix.id, rinfo->name, sizeof(info->fix.id));
++	strscpy(info->fix.id, rinfo->name, sizeof(info->fix.id));
+         info->fix.smem_start = rinfo->fb_base_phys;
+         info->fix.smem_len = rinfo->video_ram;
+         info->fix.type = FB_TYPE_PACKED_PIXELS;
+diff --git a/drivers/video/fbdev/bw2.c b/drivers/video/fbdev/bw2.c
+index e7702fe1fe7d..6403ae07970d 100644
+--- a/drivers/video/fbdev/bw2.c
++++ b/drivers/video/fbdev/bw2.c
+@@ -182,7 +182,7 @@ static int bw2_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg)
+ 
+ static void bw2_init_fix(struct fb_info *info, int linebytes)
+ {
+-	strlcpy(info->fix.id, "bwtwo", sizeof(info->fix.id));
++	strscpy(info->fix.id, "bwtwo", sizeof(info->fix.id));
+ 
+ 	info->fix.type = FB_TYPE_PACKED_PIXELS;
+ 	info->fix.visual = FB_VISUAL_MONO01;
+diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
+index a41a75841e10..2a9fa06881b5 100644
+--- a/drivers/video/fbdev/cirrusfb.c
++++ b/drivers/video/fbdev/cirrusfb.c
+@@ -1999,7 +1999,7 @@ static int cirrusfb_set_fbinfo(struct fb_info *info)
  	}
  
- 	atom_rom_header = (struct _ATOM_ROM_HEADER *)CSTR(base);
-diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c
-index d3fe149d8476..81fb4e5dd804 100644
---- a/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c
-+++ b/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c
-@@ -794,7 +794,7 @@ void amdgpu_add_thermal_controller(struct amdgpu_device *adev)
- 				struct i2c_board_info info = { };
- 				const char *name = pp_lib_thermal_controller_names[controller->ucType];
- 				info.addr = controller->ucI2cAddress >> 1;
--				strlcpy(info.type, name, sizeof(info.type));
-+				strscpy(info.type, name, sizeof(info.type));
- 				i2c_new_client_device(&adev->pm.i2c_bus->adapter, &info);
+ 	/* Fill fix common fields */
+-	strlcpy(info->fix.id, cirrusfb_board_info[cinfo->btype].name,
++	strscpy(info->fix.id, cirrusfb_board_info[cinfo->btype].name,
+ 		sizeof(info->fix.id));
+ 
+ 	/* monochrome: only 1 memory plane */
+diff --git a/drivers/video/fbdev/clps711x-fb.c b/drivers/video/fbdev/clps711x-fb.c
+index 771ce1f76951..a1061c2f1640 100644
+--- a/drivers/video/fbdev/clps711x-fb.c
++++ b/drivers/video/fbdev/clps711x-fb.c
+@@ -326,7 +326,7 @@ static int clps711x_fb_probe(struct platform_device *pdev)
+ 	info->var.vmode = FB_VMODE_NONINTERLACED;
+ 	info->fix.type = FB_TYPE_PACKED_PIXELS;
+ 	info->fix.accel = FB_ACCEL_NONE;
+-	strlcpy(info->fix.id, CLPS711X_FB_NAME, sizeof(info->fix.id));
++	strscpy(info->fix.id, CLPS711X_FB_NAME, sizeof(info->fix.id));
+ 	fb_videomode_to_var(&info->var, &cfb->mode);
+ 
+ 	ret = fb_alloc_cmap(&info->cmap, BIT(CLPS711X_FB_BPP_MAX), 0);
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index cf9ac4da0a82..4a032fcf0d14 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -412,7 +412,7 @@ static int __init fb_console_setup(char *this_opt)
+ 
+ 	while ((options = strsep(&this_opt, ",")) != NULL) {
+ 		if (!strncmp(options, "font:", 5)) {
+-			strlcpy(fontname, options + 5, sizeof(fontname));
++			strscpy(fontname, options + 5, sizeof(fontname));
+ 			continue;
+ 		}
+ 		
+diff --git a/drivers/video/fbdev/cyber2000fb.c b/drivers/video/fbdev/cyber2000fb.c
+index d45355b9a58c..8f041f9b14c7 100644
+--- a/drivers/video/fbdev/cyber2000fb.c
++++ b/drivers/video/fbdev/cyber2000fb.c
+@@ -1134,7 +1134,7 @@ int cyber2000fb_attach(struct cyberpro_info *info, int idx)
+ 		info->fb_size	      = int_cfb_info->fb.fix.smem_len;
+ 		info->info	      = int_cfb_info;
+ 
+-		strlcpy(info->dev_name, int_cfb_info->fb.fix.id,
++		strscpy(info->dev_name, int_cfb_info->fb.fix.id,
+ 			sizeof(info->dev_name));
+ 	}
+ 
+@@ -1229,7 +1229,7 @@ static int cyber2000fb_ddc_getsda(void *data)
+ 
+ static int cyber2000fb_setup_ddc_bus(struct cfb_info *cfb)
+ {
+-	strlcpy(cfb->ddc_adapter.name, cfb->fb.fix.id,
++	strscpy(cfb->ddc_adapter.name, cfb->fb.fix.id,
+ 		sizeof(cfb->ddc_adapter.name));
+ 	cfb->ddc_adapter.owner		= THIS_MODULE;
+ 	cfb->ddc_adapter.class		= I2C_CLASS_DDC;
+@@ -1304,7 +1304,7 @@ static int cyber2000fb_i2c_getscl(void *data)
+ 
+ static int cyber2000fb_i2c_register(struct cfb_info *cfb)
+ {
+-	strlcpy(cfb->i2c_adapter.name, cfb->fb.fix.id,
++	strscpy(cfb->i2c_adapter.name, cfb->fb.fix.id,
+ 		sizeof(cfb->i2c_adapter.name));
+ 	cfb->i2c_adapter.owner = THIS_MODULE;
+ 	cfb->i2c_adapter.algo_data = &cfb->i2c_algo;
+@@ -1500,7 +1500,7 @@ static int cyber2000fb_setup(char *options)
+ 		if (strncmp(opt, "font:", 5) == 0) {
+ 			static char default_font_storage[40];
+ 
+-			strlcpy(default_font_storage, opt + 5,
++			strscpy(default_font_storage, opt + 5,
+ 				sizeof(default_font_storage));
+ 			default_font = default_font_storage;
+ 			continue;
+diff --git a/drivers/video/fbdev/ffb.c b/drivers/video/fbdev/ffb.c
+index b3d580e57221..7cba3969a970 100644
+--- a/drivers/video/fbdev/ffb.c
++++ b/drivers/video/fbdev/ffb.c
+@@ -883,7 +883,7 @@ static void ffb_init_fix(struct fb_info *info)
+ 	} else
+ 		ffb_type_name = "Elite 3D";
+ 
+-	strlcpy(info->fix.id, ffb_type_name, sizeof(info->fix.id));
++	strscpy(info->fix.id, ffb_type_name, sizeof(info->fix.id));
+ 
+ 	info->fix.type = FB_TYPE_PACKED_PIXELS;
+ 	info->fix.visual = FB_VISUAL_TRUECOLOR;
+diff --git a/drivers/video/fbdev/geode/gx1fb_core.c b/drivers/video/fbdev/geode/gx1fb_core.c
+index 5d34d89fb665..e41204ecb0e3 100644
+--- a/drivers/video/fbdev/geode/gx1fb_core.c
++++ b/drivers/video/fbdev/geode/gx1fb_core.c
+@@ -410,13 +410,13 @@ static void __init gx1fb_setup(char *options)
+ 			continue;
+ 
+ 		if (!strncmp(this_opt, "mode:", 5))
+-			strlcpy(mode_option, this_opt + 5, sizeof(mode_option));
++			strscpy(mode_option, this_opt + 5, sizeof(mode_option));
+ 		else if (!strncmp(this_opt, "crt:", 4))
+ 			crt_option = !!simple_strtoul(this_opt + 4, NULL, 0);
+ 		else if (!strncmp(this_opt, "panel:", 6))
+-			strlcpy(panel_option, this_opt + 6, sizeof(panel_option));
++			strscpy(panel_option, this_opt + 6, sizeof(panel_option));
+ 		else
+-			strlcpy(mode_option, this_opt, sizeof(mode_option));
++			strscpy(mode_option, this_opt, sizeof(mode_option));
+ 	}
+ }
+ #endif
+diff --git a/drivers/video/fbdev/gxt4500.c b/drivers/video/fbdev/gxt4500.c
+index e5475ae1e158..94588b809ebf 100644
+--- a/drivers/video/fbdev/gxt4500.c
++++ b/drivers/video/fbdev/gxt4500.c
+@@ -650,7 +650,7 @@ static int gxt4500_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	cardtype = ent->driver_data;
+ 	par->refclk_ps = cardinfo[cardtype].refclk_ps;
+ 	info->fix = gxt4500_fix;
+-	strlcpy(info->fix.id, cardinfo[cardtype].cardname,
++	strscpy(info->fix.id, cardinfo[cardtype].cardname,
+ 		sizeof(info->fix.id));
+ 	info->pseudo_palette = par->pseudo_palette;
+ 
+diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
+index 7f09a0daaaa2..bd30d8314b68 100644
+--- a/drivers/video/fbdev/i740fb.c
++++ b/drivers/video/fbdev/i740fb.c
+@@ -159,7 +159,7 @@ static int i740fb_setup_ddc_bus(struct fb_info *info)
+ {
+ 	struct i740fb_par *par = info->par;
+ 
+-	strlcpy(par->ddc_adapter.name, info->fix.id,
++	strscpy(par->ddc_adapter.name, info->fix.id,
+ 		sizeof(par->ddc_adapter.name));
+ 	par->ddc_adapter.owner		= THIS_MODULE;
+ 	par->ddc_adapter.class		= I2C_CLASS_DDC;
+diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
+index d97d7456d15a..94f3bc637fc8 100644
+--- a/drivers/video/fbdev/imxfb.c
++++ b/drivers/video/fbdev/imxfb.c
+@@ -681,7 +681,7 @@ static int imxfb_init_fbinfo(struct platform_device *pdev)
+ 
+ 	fbi->devtype = pdev->id_entry->driver_data;
+ 
+-	strlcpy(info->fix.id, IMX_NAME, sizeof(info->fix.id));
++	strscpy(info->fix.id, IMX_NAME, sizeof(info->fix.id));
+ 
+ 	info->fix.type			= FB_TYPE_PACKED_PIXELS;
+ 	info->fix.type_aux		= 0;
+diff --git a/drivers/video/fbdev/matrox/matroxfb_base.c b/drivers/video/fbdev/matrox/matroxfb_base.c
+index 236521b19daf..68bba2688f4c 100644
+--- a/drivers/video/fbdev/matrox/matroxfb_base.c
++++ b/drivers/video/fbdev/matrox/matroxfb_base.c
+@@ -2383,9 +2383,9 @@ static int __init matroxfb_setup(char *options) {
+ 		else if (!strncmp(this_opt, "mem:", 4))
+ 			mem = simple_strtoul(this_opt+4, NULL, 0);
+ 		else if (!strncmp(this_opt, "mode:", 5))
+-			strlcpy(videomode, this_opt+5, sizeof(videomode));
++			strscpy(videomode, this_opt + 5, sizeof(videomode));
+ 		else if (!strncmp(this_opt, "outputs:", 8))
+-			strlcpy(outputs, this_opt+8, sizeof(outputs));
++			strscpy(outputs, this_opt + 8, sizeof(outputs));
+ 		else if (!strncmp(this_opt, "dfp:", 4)) {
+ 			dfp_type = simple_strtoul(this_opt+4, NULL, 0);
+ 			dfp = 1;
+@@ -2455,7 +2455,7 @@ static int __init matroxfb_setup(char *options) {
+ 			else if (!strcmp(this_opt, "dfp"))
+ 				dfp = value;
+ 			else {
+-				strlcpy(videomode, this_opt, sizeof(videomode));
++				strscpy(videomode, this_opt, sizeof(videomode));
  			}
- 		} else {
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-index 7d2ed0ed2fe2..4efb62bcdb63 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-@@ -542,8 +542,8 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		return ret;
- 
--	strlcpy(card->driver, DRIVER_NAME, sizeof(card->driver));
--	strlcpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
-+	strscpy(card->driver, DRIVER_NAME, sizeof(card->driver));
-+	strscpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
- 	snprintf(card->longname, sizeof(card->longname),
- 		 "%s rev 0x%02x, irq %d", card->shortname, revision,
- 		 data->irq);
-@@ -561,7 +561,7 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
- 
- 	dw->pcm = pcm;
- 	pcm->private_data = dw;
--	strlcpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
-+	strscpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_dw_hdmi_ops);
- 
- 	/*
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 25a60eb4d67c..4f3ae976e677 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -533,7 +533,7 @@ static struct i2c_adapter *dw_hdmi_i2c_adapter(struct dw_hdmi *hdmi)
- 	adap->owner = THIS_MODULE;
- 	adap->dev.parent = hdmi->dev;
- 	adap->algo = &dw_hdmi_algorithm;
--	strlcpy(adap->name, "DesignWare HDMI", sizeof(adap->name));
-+	strscpy(adap->name, "DesignWare HDMI", sizeof(adap->name));
- 	i2c_set_adapdata(adap, hdmi);
- 
- 	ret = i2c_add_adapter(adap);
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index e5bab236b3ae..10a39b36a661 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -2058,7 +2058,7 @@ int drm_dp_aux_register(struct drm_dp_aux *aux)
- 	aux->ddc.owner = THIS_MODULE;
- 	aux->ddc.dev.parent = aux->dev;
- 
--	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev),
-+	strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev),
- 		sizeof(aux->ddc.name));
- 
- 	ret = drm_dp_aux_register_devnode(aux);
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 57e65423e50d..6bdf39937054 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -5780,7 +5780,7 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
- 	aux->ddc.dev.parent = parent_dev;
- 	aux->ddc.dev.of_node = parent_dev->of_node;
- 
--	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(parent_dev),
-+	strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(parent_dev),
- 		sizeof(aux->ddc.name));
- 
- 	return i2c_add_adapter(&aux->ddc);
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index c40bde96cfdf..9820b85a34c7 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -223,7 +223,7 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *host,
- 
- 	dsi->dev.of_node = info->node;
- 	dsi->channel = info->channel;
--	strlcpy(dsi->name, info->type, sizeof(dsi->name));
-+	strscpy(dsi->name, info->type, sizeof(dsi->name));
- 
- 	ret = mipi_dsi_device_add(dsi);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index f8eb6f69be05..d49f0bd8d02c 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -1949,7 +1949,7 @@ static int tda998x_create(struct device *dev)
- 	 * offset.
- 	 */
- 	memset(&cec_info, 0, sizeof(cec_info));
--	strlcpy(cec_info.type, "tda9950", sizeof(cec_info.type));
-+	strscpy(cec_info.type, "tda9950", sizeof(cec_info.type));
- 	cec_info.addr = priv->cec_addr;
- 	cec_info.platform_data = &priv->cec_glue;
- 	cec_info.irq = client->irq;
-diff --git a/drivers/gpu/drm/i915/selftests/i915_perf.c b/drivers/gpu/drm/i915/selftests/i915_perf.c
-index 88db2e3d81d0..8f5285654d7a 100644
---- a/drivers/gpu/drm/i915/selftests/i915_perf.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_perf.c
-@@ -28,7 +28,7 @@ alloc_empty_config(struct i915_perf *perf)
- 	oa_config->perf = perf;
- 	kref_init(&oa_config->ref);
- 
--	strlcpy(oa_config->uuid, TEST_OA_CONFIG_UUID, sizeof(oa_config->uuid));
-+	strscpy(oa_config->uuid, TEST_OA_CONFIG_UUID, sizeof(oa_config->uuid));
- 
- 	mutex_lock(&perf->metrics_lock);
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
-index 6207eac88550..19541d197047 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
-@@ -292,7 +292,7 @@ static int mtk_hdmi_ddc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	strlcpy(ddc->adap.name, "mediatek-hdmi-ddc", sizeof(ddc->adap.name));
-+	strscpy(ddc->adap.name, "mediatek-hdmi-ddc", sizeof(ddc->adap.name));
- 	ddc->adap.owner = THIS_MODULE;
- 	ddc->adap.class = I2C_CLASS_DDC;
- 	ddc->adap.algo = &mtk_hdmi_ddc_algorithm;
-diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/radeon/radeon_atombios.c
-index 28c4413f4dc8..62fbbd6181bc 100644
---- a/drivers/gpu/drm/radeon/radeon_atombios.c
-+++ b/drivers/gpu/drm/radeon/radeon_atombios.c
-@@ -2104,7 +2104,7 @@ static int radeon_atombios_parse_power_table_1_3(struct radeon_device *rdev)
- 			const char *name = thermal_controller_names[power_info->info.
- 								    ucOverdriveThermalController];
- 			info.addr = power_info->info.ucOverdriveControllerAddress >> 1;
--			strlcpy(info.type, name, sizeof(info.type));
-+			strscpy(info.type, name, sizeof(info.type));
- 			i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
  		}
  	}
-@@ -2354,7 +2354,7 @@ static void radeon_atombios_add_pplib_thermal_controller(struct radeon_device *r
- 				struct i2c_board_info info = { };
- 				const char *name = pp_lib_thermal_controller_names[controller->ucType];
- 				info.addr = controller->ucI2cAddress >> 1;
--				strlcpy(info.type, name, sizeof(info.type));
-+				strscpy(info.type, name, sizeof(info.type));
- 				i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
- 			}
- 		} else {
-diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/radeon/radeon_combios.c
-index 783a6b8802d5..795c3667f6d6 100644
---- a/drivers/gpu/drm/radeon/radeon_combios.c
-+++ b/drivers/gpu/drm/radeon/radeon_combios.c
-@@ -2702,7 +2702,7 @@ void radeon_combios_get_power_modes(struct radeon_device *rdev)
- 				struct i2c_board_info info = { };
- 				const char *name = thermal_controller_names[thermal_controller];
- 				info.addr = i2c_addr >> 1;
--				strlcpy(info.type, name, sizeof(info.type));
-+				strscpy(info.type, name, sizeof(info.type));
- 				i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
- 			}
- 		}
-@@ -2719,7 +2719,7 @@ void radeon_combios_get_power_modes(struct radeon_device *rdev)
- 				struct i2c_board_info info = { };
- 				const char *name = "f75375";
- 				info.addr = 0x28;
--				strlcpy(info.type, name, sizeof(info.type));
-+				strscpy(info.type, name, sizeof(info.type));
- 				i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
- 				DRM_INFO("Possible %s thermal controller at 0x%02x\n",
- 					 name, info.addr);
-diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 87b2243ea23e..98ed6cc931d0 100644
---- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -797,7 +797,7 @@ static struct i2c_adapter *inno_hdmi_i2c_adapter(struct inno_hdmi *hdmi)
- 	adap->dev.parent = hdmi->dev;
- 	adap->dev.of_node = hdmi->dev->of_node;
- 	adap->algo = &inno_hdmi_algorithm;
--	strlcpy(adap->name, "Inno HDMI", sizeof(adap->name));
-+	strscpy(adap->name, "Inno HDMI", sizeof(adap->name));
- 	i2c_set_adapdata(adap, hdmi);
+diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
+index afa688e754b9..5ccddcfce722 100644
+--- a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
++++ b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
+@@ -1331,7 +1331,7 @@ static void clear_fb_info(struct fb_info *fbi)
+ {
+ 	memset(&fbi->var, 0, sizeof(fbi->var));
+ 	memset(&fbi->fix, 0, sizeof(fbi->fix));
+-	strlcpy(fbi->fix.id, MODULE_NAME, sizeof(fbi->fix.id));
++	strscpy(fbi->fix.id, MODULE_NAME, sizeof(fbi->fix.id));
+ }
  
- 	ret = i2c_add_adapter(adap);
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index cf2cf51091a3..bf2924730d84 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -730,7 +730,7 @@ static struct i2c_adapter *rk3066_hdmi_i2c_adapter(struct rk3066_hdmi *hdmi)
- 	adap->dev.parent = hdmi->dev;
- 	adap->dev.of_node = hdmi->dev->of_node;
- 	adap->algo = &rk3066_hdmi_algorithm;
--	strlcpy(adap->name, "RK3066 HDMI", sizeof(adap->name));
-+	strscpy(adap->name, "RK3066 HDMI", sizeof(adap->name));
- 	i2c_set_adapdata(adap, hdmi);
+ static int omapfb_free_all_fbmem(struct omapfb2_device *fbdev)
+diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
+index e943300d23e8..d5d0bbd39213 100644
+--- a/drivers/video/fbdev/pxa168fb.c
++++ b/drivers/video/fbdev/pxa168fb.c
+@@ -640,7 +640,7 @@ static int pxa168fb_probe(struct platform_device *pdev)
+ 	info->flags = FBINFO_DEFAULT | FBINFO_PARTIAL_PAN_OK |
+ 		      FBINFO_HWACCEL_XPAN | FBINFO_HWACCEL_YPAN;
+ 	info->node = -1;
+-	strlcpy(info->fix.id, mi->id, 16);
++	strscpy(info->fix.id, mi->id, 16);
+ 	info->fix.type = FB_TYPE_PACKED_PIXELS;
+ 	info->fix.type_aux = 0;
+ 	info->fix.xpanstep = 0;
+diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
+index 66cfc3e9d3cf..696ac5431180 100644
+--- a/drivers/video/fbdev/pxafb.c
++++ b/drivers/video/fbdev/pxafb.c
+@@ -2042,7 +2042,7 @@ static int __init pxafb_setup_options(void)
+ 		return -ENODEV;
  
- 	ret = i2c_add_adapter(adap);
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-index c7d7e9fff91c..d1a65a921f5a 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-@@ -304,7 +304,7 @@ int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi)
- 	adap->owner = THIS_MODULE;
- 	adap->class = I2C_CLASS_DDC;
- 	adap->algo = &sun4i_hdmi_i2c_algorithm;
--	strlcpy(adap->name, "sun4i_hdmi_i2c adapter", sizeof(adap->name));
-+	strscpy(adap->name, "sun4i_hdmi_i2c adapter", sizeof(adap->name));
- 	i2c_set_adapdata(adap, hdmi);
+ 	if (options)
+-		strlcpy(g_options, options, sizeof(g_options));
++		strscpy(g_options, options, sizeof(g_options));
  
- 	ret = i2c_add_adapter(adap);
+ 	return 0;
+ }
+diff --git a/drivers/video/fbdev/s3fb.c b/drivers/video/fbdev/s3fb.c
+index 5069f6f67923..67b63a753cb2 100644
+--- a/drivers/video/fbdev/s3fb.c
++++ b/drivers/video/fbdev/s3fb.c
+@@ -248,7 +248,7 @@ static int s3fb_setup_ddc_bus(struct fb_info *info)
+ {
+ 	struct s3fb_info *par = info->par;
+ 
+-	strlcpy(par->ddc_adapter.name, info->fix.id,
++	strscpy(par->ddc_adapter.name, info->fix.id,
+ 		sizeof(par->ddc_adapter.name));
+ 	par->ddc_adapter.owner		= THIS_MODULE;
+ 	par->ddc_adapter.class		= I2C_CLASS_DDC;
+diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+index cf2a90ecd64e..e770b4a356b5 100644
+--- a/drivers/video/fbdev/simplefb.c
++++ b/drivers/video/fbdev/simplefb.c
+@@ -355,7 +355,7 @@ static int simplefb_regulators_get(struct simplefb_par *par,
+ 		if (!p || p == prop->name)
+ 			continue;
+ 
+-		strlcpy(name, prop->name,
++		strscpy(name, prop->name,
+ 			strlen(prop->name) - strlen(SUPPLY_SUFFIX) + 1);
+ 		regulator = devm_regulator_get_optional(&pdev->dev, name);
+ 		if (IS_ERR(regulator)) {
+diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
+index f28fd69d5eb7..d6bcc9d60b2d 100644
+--- a/drivers/video/fbdev/sis/sis_main.c
++++ b/drivers/video/fbdev/sis/sis_main.c
+@@ -1872,7 +1872,7 @@ sisfb_get_fix(struct fb_fix_screeninfo *fix, int con, struct fb_info *info)
+ 
+ 	memset(fix, 0, sizeof(struct fb_fix_screeninfo));
+ 
+-	strlcpy(fix->id, ivideo->myid, sizeof(fix->id));
++	strscpy(fix->id, ivideo->myid, sizeof(fix->id));
+ 
+ 	mutex_lock(&info->mm_lock);
+ 	fix->smem_start  = ivideo->video_base + ivideo->video_offset;
+@@ -5867,7 +5867,7 @@ static int sisfb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 			ivideo->cardnumber++;
+ 	}
+ 
+-	strlcpy(ivideo->myid, chipinfo->chip_name, sizeof(ivideo->myid));
++	strscpy(ivideo->myid, chipinfo->chip_name, sizeof(ivideo->myid));
+ 
+ 	ivideo->warncount = 0;
+ 	ivideo->chip_id = pdev->device;
+diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
+index 6a52eba64559..fce6cfbadfd6 100644
+--- a/drivers/video/fbdev/sm501fb.c
++++ b/drivers/video/fbdev/sm501fb.c
+@@ -1719,7 +1719,7 @@ static int sm501fb_init_fb(struct fb_info *fb, enum sm501_controller head,
+ 		enable = 0;
+ 	}
+ 
+-	strlcpy(fb->fix.id, fbname, sizeof(fb->fix.id));
++	strscpy(fb->fix.id, fbname, sizeof(fb->fix.id));
+ 
+ 	memcpy(&par->ops,
+ 	       (head == HEAD_CRT) ? &sm501fb_ops_crt : &sm501fb_ops_pnl,
+diff --git a/drivers/video/fbdev/sstfb.c b/drivers/video/fbdev/sstfb.c
+index 27d4b0ace2d6..cd4d640f9477 100644
+--- a/drivers/video/fbdev/sstfb.c
++++ b/drivers/video/fbdev/sstfb.c
+@@ -1382,7 +1382,7 @@ static int sstfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		goto fail;
+ 	}
+ 	sst_get_memsize(info, &fix->smem_len);
+-	strlcpy(fix->id, spec->name, sizeof(fix->id));
++	strscpy(fix->id, spec->name, sizeof(fix->id));
+ 
+ 	printk(KERN_INFO "%s (revision %d) with %s dac\n",
+ 		fix->id, par->revision, par->dac_sw.name);
+diff --git a/drivers/video/fbdev/sunxvr1000.c b/drivers/video/fbdev/sunxvr1000.c
+index 15b079505a00..490bd9a14763 100644
+--- a/drivers/video/fbdev/sunxvr1000.c
++++ b/drivers/video/fbdev/sunxvr1000.c
+@@ -80,7 +80,7 @@ static int gfb_set_fbinfo(struct gfb_info *gp)
+ 	info->pseudo_palette = gp->pseudo_palette;
+ 
+ 	/* Fill fix common fields */
+-	strlcpy(info->fix.id, "gfb", sizeof(info->fix.id));
++	strscpy(info->fix.id, "gfb", sizeof(info->fix.id));
+         info->fix.smem_start = gp->fb_base_phys;
+         info->fix.smem_len = gp->fb_size;
+         info->fix.type = FB_TYPE_PACKED_PIXELS;
+diff --git a/drivers/video/fbdev/sunxvr2500.c b/drivers/video/fbdev/sunxvr2500.c
+index 1d3bacd9d5ac..1279b02234f8 100644
+--- a/drivers/video/fbdev/sunxvr2500.c
++++ b/drivers/video/fbdev/sunxvr2500.c
+@@ -84,7 +84,7 @@ static int s3d_set_fbinfo(struct s3d_info *sp)
+ 	info->pseudo_palette = sp->pseudo_palette;
+ 
+ 	/* Fill fix common fields */
+-	strlcpy(info->fix.id, "s3d", sizeof(info->fix.id));
++	strscpy(info->fix.id, "s3d", sizeof(info->fix.id));
+         info->fix.smem_start = sp->fb_base_phys;
+         info->fix.smem_len = sp->fb_size;
+         info->fix.type = FB_TYPE_PACKED_PIXELS;
+diff --git a/drivers/video/fbdev/sunxvr500.c b/drivers/video/fbdev/sunxvr500.c
+index 9daf17b11106..f7b463633ba0 100644
+--- a/drivers/video/fbdev/sunxvr500.c
++++ b/drivers/video/fbdev/sunxvr500.c
+@@ -207,7 +207,7 @@ static int e3d_set_fbinfo(struct e3d_info *ep)
+ 	info->pseudo_palette = ep->pseudo_palette;
+ 
+ 	/* Fill fix common fields */
+-	strlcpy(info->fix.id, "e3d", sizeof(info->fix.id));
++	strscpy(info->fix.id, "e3d", sizeof(info->fix.id));
+         info->fix.smem_start = ep->fb_base_phys;
+         info->fix.smem_len = ep->fb_size;
+         info->fix.type = FB_TYPE_PACKED_PIXELS;
+diff --git a/drivers/video/fbdev/tcx.c b/drivers/video/fbdev/tcx.c
+index 1638a40fed22..01d87f53324d 100644
+--- a/drivers/video/fbdev/tcx.c
++++ b/drivers/video/fbdev/tcx.c
+@@ -333,7 +333,7 @@ tcx_init_fix(struct fb_info *info, int linebytes)
+ 	else
+ 		tcx_name = "TCX24";
+ 
+-	strlcpy(info->fix.id, tcx_name, sizeof(info->fix.id));
++	strscpy(info->fix.id, tcx_name, sizeof(info->fix.id));
+ 
+ 	info->fix.type = FB_TYPE_PACKED_PIXELS;
+ 	info->fix.visual = FB_VISUAL_PSEUDOCOLOR;
+diff --git a/drivers/video/fbdev/tdfxfb.c b/drivers/video/fbdev/tdfxfb.c
+index 67e37a62b07c..8a8122f8bfeb 100644
+--- a/drivers/video/fbdev/tdfxfb.c
++++ b/drivers/video/fbdev/tdfxfb.c
+@@ -1264,7 +1264,7 @@ static int tdfxfb_setup_ddc_bus(struct tdfxfb_i2c_chan *chan, const char *name,
+ {
+ 	int rc;
+ 
+-	strlcpy(chan->adapter.name, name, sizeof(chan->adapter.name));
++	strscpy(chan->adapter.name, name, sizeof(chan->adapter.name));
+ 	chan->adapter.owner		= THIS_MODULE;
+ 	chan->adapter.class		= I2C_CLASS_DDC;
+ 	chan->adapter.algo_data		= &chan->algo;
+@@ -1293,7 +1293,7 @@ static int tdfxfb_setup_i2c_bus(struct tdfxfb_i2c_chan *chan, const char *name,
+ {
+ 	int rc;
+ 
+-	strlcpy(chan->adapter.name, name, sizeof(chan->adapter.name));
++	strscpy(chan->adapter.name, name, sizeof(chan->adapter.name));
+ 	chan->adapter.owner		= THIS_MODULE;
+ 	chan->adapter.algo_data		= &chan->algo;
+ 	chan->adapter.dev.parent	= dev;
+diff --git a/drivers/video/fbdev/tgafb.c b/drivers/video/fbdev/tgafb.c
+index ae0cf5540636..1fff5fd7ab51 100644
+--- a/drivers/video/fbdev/tgafb.c
++++ b/drivers/video/fbdev/tgafb.c
+@@ -1344,7 +1344,7 @@ tgafb_init_fix(struct fb_info *info)
+ 		memory_size = 16777216;
+ 	}
+ 
+-	strlcpy(info->fix.id, tga_type_name, sizeof(info->fix.id));
++	strscpy(info->fix.id, tga_type_name, sizeof(info->fix.id));
+ 
+ 	info->fix.type = FB_TYPE_PACKED_PIXELS;
+ 	info->fix.type_aux = 0;
+diff --git a/drivers/video/fbdev/tridentfb.c b/drivers/video/fbdev/tridentfb.c
+index 319131bd72cf..cda095420ee8 100644
+--- a/drivers/video/fbdev/tridentfb.c
++++ b/drivers/video/fbdev/tridentfb.c
+@@ -270,7 +270,7 @@ static int tridentfb_setup_ddc_bus(struct fb_info *info)
+ {
+ 	struct tridentfb_par *par = info->par;
+ 
+-	strlcpy(par->ddc_adapter.name, info->fix.id,
++	strscpy(par->ddc_adapter.name, info->fix.id,
+ 		sizeof(par->ddc_adapter.name));
+ 	par->ddc_adapter.owner		= THIS_MODULE;
+ 	par->ddc_adapter.class		= I2C_CLASS_DDC;
 -- 
 2.35.1
 
