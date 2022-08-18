@@ -1,76 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4E4598DCB
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 22:24:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F1C598E27
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 22:37:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D449710EEE2;
-	Thu, 18 Aug 2022 20:24:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A55510E1F1;
+	Thu, 18 Aug 2022 20:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B53910EEBE;
- Thu, 18 Aug 2022 20:23:14 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27IFseMc015415;
- Thu, 18 Aug 2022 20:23:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=7/Dlb7opb1zHeDvNOlDvqLTNKaGONEslYGnrJDLSevg=;
- b=bFKMVOwFLzkM2VSQVIyo81skadGLII1c+trgYqoqskbbT+3d73k80Oy9rWtEPbacp+IK
- zwhsw7scYm4xzN43dR2bit1V1p7Kq30TPtfS+AcBUj3G9/Ge2OKta1HsKflheHQkIfKY
- eE6t2iLLiPqznBIM74qUdHPTaJi6h9LY5opd/q8MQa3CI0gxRMOhAYpSVvWUhYRQtdLa
- rWaoz9qqlcsSa45Je6PQsy4nevQAaTzCHP7PKbQlyucvATbsfYzZh2ef9nwujTmk15mP
- V2n2JYlLOVHxoyPUAAh3bZyv3HoTVDqfIJ3VXA5W/VY/eI+gv/AR2X8O4q3EJiBd4LXL SA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j1d803f61-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Aug 2022 20:23:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27IKNAQe023554
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Aug 2022 20:23:10 GMT
-Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 18 Aug 2022 13:23:04 -0700
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: freedreno <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v5 7/7] drm/msm/a6xx: Handle GMU prepare-slumber hfi failure
-Date: Fri, 19 Aug 2022 01:52:15 +0530
-Message-ID: <20220819015030.v5.7.I54815c7c36b80d4725cd054e536365250454452f@changeid>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1660854135-1667-1-git-send-email-quic_akhilpo@quicinc.com>
-References: <1660854135-1667-1-git-send-email-quic_akhilpo@quicinc.com>
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88E8A10E1F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 20:37:12 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-324ec5a9e97so72403387b3.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 13:37:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=te30C2IAdz2ie8EgRg97JfclKhmQvdhP0CAG9MwGiPg=;
+ b=R8BGKbrQWN9tKOcihZmAg+481uKcV+OrvDznnerC6qC6pL2xBHBXXndxqzS8/fowr1
+ T5dUS5lTNiKtuylWqThnPxXZyZmA4U5WqQBKreC5PqBXUr4X06tW/mJsIL31bXftTA/K
+ w2ETjeB7y1blHFegoa7rqwiJTLATsCgCqBQzDiIYxiFhH878Q9+fEPiQjJ0LwFAWfVYo
+ 8xFz9Rb8CJlseioN5hhIkvKmtKp8vArQ3d8LWeJr5efKz1Mp3lXjXFoEA36g4lpwh+7N
+ C8cVSNP5wnUOI7jYVAcCqbcPFPMvqh3SAlc2k/BGECepzkzCK3/xxk0+dyHkg85IHjrs
+ xylg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=te30C2IAdz2ie8EgRg97JfclKhmQvdhP0CAG9MwGiPg=;
+ b=6IyiBNpdH0kZApjMqWibF40wQ+F1WiHtsCkOHVv33J68SMUZ3TyrYIvudNmxuX16pB
+ YVLJfe2pkfJN71ac+y4Vp/vO6KDFoF21sw5GkwJCZ254P1C2JKLWH3SK7o6r+rYoXOn+
+ 18pYBGBU1K73BGMKid8686pQGvf1uI1tDUQ9bcJ7WlXHMeG0NhegPrJcagXBrRW9cUls
+ 1M/E/F65d8Wka4lp58C9251Y9htREhGkLTkGINapJGpF7Dz+BuRAXaPLvaOkz7O8n8Sy
+ DfgwyEkxc14TxBRz+AElfmcV3Nb1ivm+qLru9nDNvZgS9c3fkbxtH2W51En3mz7vX/uD
+ cUhA==
+X-Gm-Message-State: ACgBeo3QkA7sowv0DSkXESlOZbco66XTZtf21P8YoMlTpZwxTbtnSowW
+ m6J0CPCA4bwE/lYJlhMAaXNSV25B9Zfy+yFQs2o=
+X-Google-Smtp-Source: AA6agR4IbvQyTpxWSObecVxKV+yoUtdTEEwH2SEHW57LLRtwAGw54BL9LoY9/YxK2Eg7HJB+oTRVTzUx3IRAnksYHN0=
+X-Received: by 2002:a81:99d7:0:b0:336:f7d3:8b4b with SMTP id
+ q206-20020a8199d7000000b00336f7d38b4bmr3408213ywg.194.1660855031685; Thu, 18
+ Aug 2022 13:37:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 7-UNUdfGEDKs2BOZkGLE4qVK8kNlPcmt
-X-Proofpoint-ORIG-GUID: 7-UNUdfGEDKs2BOZkGLE4qVK8kNlPcmt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-18_14,2022-08-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- malwarescore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- mlxlogscore=862 mlxscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208180074
+References: <YvvHK2zb1lbm2baU@debian> <20220817071048.4v66zky5qysn45wq@houat>
+In-Reply-To: <20220817071048.4v66zky5qysn45wq@houat>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Thu, 18 Aug 2022 21:36:35 +0100
+Message-ID: <CADVatmOKemXQbRpJeeqR2NbWMkUc9U09xrch=OpDkxFXqbH8XA@mail.gmail.com>
+Subject: Re: drm warning with mainline due to 467e30171b5b ("drm/vc4: hdmi:
+ Move HDMI reset to pm_resume")
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,44 +65,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-kernel@vger.kernel.org,
- Abhinav
- Kumar <quic_abhinavk@quicinc.com>, Douglas Anderson <dianders@chromium.org>,
- Wang Qing <wangqing@vivo.com>, David Airlie <airlied@linux.ie>,
- Matthias Kaehlcke <mka@chromium.org>, Jordan Crouse <jordan@cosmicpenguin.net>,
- Sean Paul <sean@poorly.run>, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Emma Anholt <emma@anholt.net>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When prepare-slumber hfi fails, we should follow a6xx_gmu_force_off()
-sequence.
+On Wed, Aug 17, 2022 at 8:10 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi,
+>
+> On Tue, Aug 16, 2022 at 05:34:51PM +0100, Sudip Mukherjee (Codethink) wrote:
+> > Not sure if it has been reported but the mainline kernel shows a drm warning
+> > on RPI4B.
+> >
+> > [   14.821276] WARNING: CPU: 3 PID: 187 at drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487 vc5_hdmi_reset+0x1f8/0x240 [vc4]
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
----
+<snip>
 
-(no changes since v1)
+> >
+> > git bisect pointed to 467e30171b5b ("drm/vc4: hdmi: Move HDMI reset to pm_resume")
+> > and reverting this commit has fixed the warning.
+> >
+> > I will be happy to test any patch or provide any extra log if needed.
+>
+> We have fixes for this in drm-misc-next that have missed the cut for the
+> merge window:
+>
+> https://lore.kernel.org/all/20220629123510.1915022-38-maxime@cerno.tech/
+> https://lore.kernel.org/all/20220629123510.1915022-39-maxime@cerno.tech/
+>
+> If it fixes it for you, I'll apply it to drm-misc-fixes
 
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Thanks. With these two patches applied on top of the latest mainline,
+I don't see the warning anymore.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index db05942..3d00ef9 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1082,7 +1082,11 @@ static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
- 		a6xx_bus_clear_pending_transactions(adreno_gpu);
- 
- 		/* tell the GMU we want to slumber */
--		a6xx_gmu_notify_slumber(gmu);
-+		ret = a6xx_gmu_notify_slumber(gmu);
-+		if (ret) {
-+			a6xx_gmu_force_off(gmu);
-+			return;
-+		}
- 
- 		ret = gmu_poll_timeout(gmu,
- 			REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS, val,
+Tested-by: Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>
+
+
 -- 
-2.7.4
-
+Regards
+Sudip
