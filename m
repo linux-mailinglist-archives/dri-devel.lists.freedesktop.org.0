@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B83AA5985B8
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 16:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD135985B9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 16:27:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 909799A2A2;
-	Thu, 18 Aug 2022 14:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88EB6C195D;
+	Thu, 18 Aug 2022 14:27:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10D82D8BAF
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 14:25:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6641BB9C83
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 14:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660832719;
+ s=mimecast20190719; t=1660832725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fC9YoAlYaRoz9rMPLE4asKIxjUKxEIVxQJ6T79z28gE=;
- b=XM21bH/1g4wFAKNBeZrYwb+ZSGEJZJuqtmwYpiGb19NYnjPutGSq0LKtF9VLYgJzV/eEC8
- W2aNa+QW8ZwEq29KlQDlS8hY/gBRIeREFAgnWP7urrYLNyKTTg+Us78AWBTlSDS0AjlNrZ
- KuCHC22N4/Gdj3kFvwNt+HZYE35oxVM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jIDqzcZGlp+4QMAFK7ua+1esufE/cwW7LaxUX2qJezI=;
+ b=UaLCl/KDD1co3Hw2lUSWyZMPCUxgKha+JMJOGNAbX6cQSEHclQI/n/rS9gR/+8hvkzPYPo
+ Nw+dHietkOVXlb4goUgm7veEtdN+nzvDbUK0QpXgnSfkmRhuMBfZV0IX42HeyfnqvZzpOV
+ BQuQoLknDYeoW+l7BUK1Y0u9COW2S38=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-OWqI_6zNN1yrtVMK_mhfMQ-1; Thu, 18 Aug 2022 10:25:13 -0400
-X-MC-Unique: OWqI_6zNN1yrtVMK_mhfMQ-1
+ us-mta-448-Vd7tPDnuO9-Q7pC41Cs1Pg-1; Thu, 18 Aug 2022 10:25:18 -0400
+X-MC-Unique: Vd7tPDnuO9-Q7pC41Cs1Pg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47E79811E80;
- Thu, 18 Aug 2022 14:25:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7DD51C05132;
+ Thu, 18 Aug 2022 14:25:17 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52F1DC15BBA;
- Thu, 18 Aug 2022 14:25:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D99D5C15BB8;
+ Thu, 18 Aug 2022 14:25:15 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: linux-hyperv@vger.kernel.org
-Subject: [PATCH v1 1/4] Drivers: hv: Move legacy Hyper-V PCI video device's
- ids to linux/hyperv.h
-Date: Thu, 18 Aug 2022 16:25:05 +0200
-Message-Id: <20220818142508.402273-2-vkuznets@redhat.com>
+Subject: [PATCH v1 3/4] Drivers: hv: Always reserve framebuffer region for
+ Gen1 VMs
+Date: Thu, 18 Aug 2022 16:25:07 +0200
+Message-Id: <20220818142508.402273-4-vkuznets@redhat.com>
 In-Reply-To: <20220818142508.402273-1-vkuznets@redhat.com>
 References: <20220818142508.402273-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -69,63 +69,93 @@ Cc: Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are already two places in kernel with PCI_VENDOR_ID_MICROSOFT/
-PCI_DEVICE_ID_HYPERV_VIDEO and there's a need to use these from core
-Vmbus code. Move the defines to a common header.
+vmbus_reserve_fb() tries reserving framebuffer region iff
+screen_info.lfb_base is set. Gen2 VMs seem to have it set by EFI fb
+but on Gen1 VM it is observed to be zero. In fact, we do not need to
+rely on some other video driver setting it correctly as Gen1 VMs have
+a dedicated PCI device to look at. Both Hyper-V DRM and Hyper-V FB
+drivers get framebuffer base from this PCI device already so Vmbus
+driver can do the same trick.
 
-No functional change.
+Check for legacy PCI video device presence and reserve the whole
+region for framebuffer.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 3 ---
- drivers/video/fbdev/hyperv_fb.c         | 4 ----
- include/linux/hyperv.h                  | 4 ++++
- 3 files changed, 4 insertions(+), 7 deletions(-)
+ drivers/hv/vmbus_drv.c | 47 +++++++++++++++++++++++++++++-------------
+ 1 file changed, 33 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-index 4a8941fa0815..46f6c454b820 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-@@ -23,9 +23,6 @@
- #define DRIVER_MAJOR 1
- #define DRIVER_MINOR 0
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 547ae334e5cd..6edaeefa2c3c 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -35,6 +35,7 @@
+ #include <linux/kernel.h>
+ #include <linux/syscore_ops.h>
+ #include <linux/dma-map-ops.h>
++#include <linux/pci.h>
+ #include <clocksource/hyperv_timer.h>
+ #include "hyperv_vmbus.h"
  
--#define PCI_VENDOR_ID_MICROSOFT 0x1414
--#define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
--
- DEFINE_DRM_GEM_FOPS(hv_fops);
+@@ -2258,26 +2259,44 @@ static int vmbus_acpi_remove(struct acpi_device *device)
  
- static struct drm_driver hyperv_driver = {
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index 886c564787f1..b58b445bb529 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -74,10 +74,6 @@
- #define SYNTHVID_DEPTH_WIN8 32
- #define SYNTHVID_FB_SIZE_WIN8 (8 * 1024 * 1024)
- 
--#define PCI_VENDOR_ID_MICROSOFT 0x1414
--#define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
--
--
- enum pipe_msg_type {
- 	PIPE_MSG_INVALID,
- 	PIPE_MSG_DATA,
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 3b42264333ef..4bb39a8f1af7 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1516,6 +1516,10 @@ void vmbus_free_mmio(resource_size_t start, resource_size_t size);
- 	.guid = GUID_INIT(0xc376c1c3, 0xd276, 0x48d2, 0x90, 0xa9, \
- 			  0xc0, 0x47, 0x48, 0x07, 0x2c, 0x60)
- 
-+/* Legacy Hyper-V PCI video device */
-+#define PCI_VENDOR_ID_MICROSOFT 0x1414
-+#define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
+ static void vmbus_reserve_fb(void)
+ {
+-	int size;
++	resource_size_t start = 0, size;
++	struct pci_dev *pdev;
 +
- /*
-  * Common header for Hyper-V ICs
-  */
++	if (efi_enabled(EFI_BOOT)) {
++		/* Gen2 VM: get FB base from EFI framebuffer */
++		start = screen_info.lfb_base;
++		size = max_t(__u32, screen_info.lfb_size, 0x800000);
++	} else {
++		/* Gen1 VM: get FB base from PCI */
++		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
++				      PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
++		if (!pdev)
++			return;
++
++		if (!(pdev->resource[0].flags & IORESOURCE_MEM))
++			return;
++
++		start = pci_resource_start(pdev, 0);
++		size = pci_resource_len(pdev, 0);
++
++		/*
++		 * Release the PCI device so hyperv_drm or hyperv_fb driver can
++		 * grab it later.
++		 */
++		pci_dev_put(pdev);
++	}
++
++	if (!start)
++		return;
++
+ 	/*
+ 	 * Make a claim for the frame buffer in the resource tree under the
+ 	 * first node, which will be the one below 4GB.  The length seems to
+ 	 * be underreported, particularly in a Generation 1 VM.  So start out
+ 	 * reserving a larger area and make it smaller until it succeeds.
+ 	 */
+-
+-	if (screen_info.lfb_base) {
+-		if (efi_enabled(EFI_BOOT))
+-			size = max_t(__u32, screen_info.lfb_size, 0x800000);
+-		else
+-			size = max_t(__u32, screen_info.lfb_size, 0x4000000);
+-
+-		for (; !fb_mmio && (size >= 0x100000); size >>= 1) {
+-			fb_mmio = __request_region(hyperv_mmio,
+-						   screen_info.lfb_base, size,
+-						   fb_mmio_name, 0);
+-		}
+-	}
++	for (; !fb_mmio && (size >= 0x100000); size >>= 1)
++		fb_mmio = __request_region(hyperv_mmio, start, size, fb_mmio_name, 0);
+ }
+ 
+ /**
 -- 
 2.37.1
 
