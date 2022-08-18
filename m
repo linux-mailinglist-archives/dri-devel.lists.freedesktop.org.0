@@ -2,84 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8219A598793
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 17:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A851559879A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 17:39:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41570BAE45;
-	Thu, 18 Aug 2022 15:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 717B59FC85;
+	Thu, 18 Aug 2022 15:39:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 958DE18A2BE
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 15:34:48 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id E71C52B05E12;
- Thu, 18 Aug 2022 11:34:45 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 18 Aug 2022 11:34:48 -0400
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1D9614BE01
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 15:38:37 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 73EF132009AB;
+ Thu, 18 Aug 2022 11:38:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 18 Aug 2022 11:38:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1660836885; x=1660844085; bh=GAUFg7YBUW
- 3KZkhSrcZm39FqAMhooeWFavdqBj/boSc=; b=S2d51Isqq1Zfi+AxajatuXg8ye
- 15pL9Ze1gddbSMyun1wfS4cpEKeWIg4QYxg+xB0iFEfetn6vHYqxlf9WzmGGlN+s
- TZeMN7EQp1GkuStXBnZG2qlTccm/X0PyJGud3p7yM4we7DLrGm8Jc+3ApxtbKo/+
- oRilxp1otV1Cs0FMSDy/TtSuG0zWrrwGG+cE//gT5H8nuKD6eLXrW1yuFpKXzhzh
- FW+C+gqSSGisQR79QdKt3IGOX74xDqhW+Dg6FS98tGt/7FEXDb+TC497+mHp3Wvu
- jjBF2cpTN/VZh7sjofWUHdRAkdxgOo5ZG0aHPNctYFZ+VNxh6RXq+H6FhtOg==
+ :subject:to:to; s=fm3; t=1660837115; x=1660923515; bh=oaljbVcobV
+ yOplORNbZ1SgF1YbiCHABvu29L5JIUNzY=; b=bJVRJc2WeD3RBHy093SGg9hsaE
+ zUp4uBAxSy658sZTugBXUwA6aKIkukGb6k3zxhMqQ0j8V97qEU3uzunfE8wRVcO+
+ c/3oJzT+Rv1fnGyNXQIkXK/jY7eJzhrMGsSP2EwIK5zQAxaAOMILJoBHivo9r7Xf
+ rGZ2qRRBzatHKVh99GaqC06F3gZCykRQOwaa3D0KJ7ZTBVdz2CeoNSiSzH+5GQe+
+ BUndR9GBc7NEZWNPenicXgYVeadOYqhYHvV/qplXsVyFp8JkdQ4WaL9GukJrpl5g
+ qiXGiOhcq2bWYRk9qfE3NLjIjCflniAeGK0jbRse3Re1tdgy9ITmBOYhnqZQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660836885; x=1660844085; bh=GAUFg7YBUW3KZkhSrcZm39FqAMho
- oeWFavdqBj/boSc=; b=Kxp5Lqvz6W8BPZZDJaChn+WcunwvHAs4cXxk2ZFCRpvL
- aT3+o9AcUrC8ErQZQV+kv2UUd/cXjqJB2OsnxNHU+hrtzDhOAJMp4nL/nkTVn+cn
- 8Fbockon/GbHKurPtThGGaGw3Q2D8K93WX1jv+OPq0HgUJgCIfVKuDNWRZU8qdBp
- T8dD5c1L6YpEiKRFd410q6fiT9N//vW6a7kweZBnAVv2xLMB2u5bvmcmqkrElLuL
- zw8YK4aMx1w2/Kpe/fJ498Xv7NcbRt9K6S7u2eod5uPv3tcJ2o4D3co6M0dAE9AM
- ORR5ViHu7KGwjv7gjBzjr1QZTFQo9PKkxeYU3HuAgA==
-X-ME-Sender: <xms:FVz-Yug9FW1woL7geWS8qqmoJDRnUp2aHH8FWOvGDW9X1lXHCPKRIA>
- <xme:FVz-YvDnfxGsKJFIlVW5CFZUSRqHguTsiMW5PcPFcZpHPkKBr43UIuUSY_i0LUdUR
- -UPlqpeAAdNhcDiAgQ>
-X-ME-Received: <xmr:FVz-YmG5d0ZOMXF9BX3k7krzrQewCtIz5ufXWSmnn5wtrZ5TVJpwJBHKZQ>
+ fm1; t=1660837115; x=1660923515; bh=oaljbVcobVyOplORNbZ1SgF1YbiC
+ HABvu29L5JIUNzY=; b=nwR/FFbq95KszXlCgaw707ExG0bmPZtRcLVcGf7XCC11
+ r9wfj1klVLtNBqF+ppDKC6z4pRdQCCR62RcQRFnZzSXF1Eh8gHE/J+q4z+rkxCc6
+ HwY+MY9bZIqkUfFi8QzbcJF6onxIatUaXj0pqdK76NY4lxRccV+e1OlomZyHcueq
+ GH6pZ+dfJNiK4Gv8U+b4HBEuqWeULDv4I9vyRbpa2AUJVb+8k1gANfF3aAiFKJyW
+ Vjh8+unUQ6vz0JvNUuweQwUKc7PlE4mkBsN+3QVVzNCk+z4exTxw832VLMYiw4kO
+ 4V9Ft2gmV5tyNOprjYY7YqxTv7jqar58dklOmVP1UQ==
+X-ME-Sender: <xms:-1z-Yl7ix1tes2Tw4_UrlvM5N3JDclrEfxcetoboENwmfF8Aqk0HFw>
+ <xme:-1z-Yi7yGSTXO0qEejQSrf31hTV81kmT5YoUI8hjoSJBJ1rMCMXgDYguxknA5arkK
+ Mzbrhy7CUpscmCppT8>
+X-ME-Received: <xmr:-1z-YsfJaczgVGNLv8RVwfkB7HH6nZhiQ7VYoKSuk8M_ACB3NxFFio69eg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehledgieehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
- geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:FVz-YnSA1tnju4aJHmcDxqgaCg3kxgbqJmQmatK29GNwFAYvcrOnbQ>
- <xmx:FVz-Yryt8Lby_Lowy0-0hF0VUexMokyzkCzIMKWWqHs-NuY9_dz17w>
- <xmx:FVz-Yl59x9JsMTie6vtN2IWfBwScA_VRZXPWWvzDgiavVT6Gj1TLIA>
- <xmx:FVz-YihsR4wuttjVpHMeeXUZHnq2FrLkRyXyJv6xL_QIAttgzO9q2sMHQR0>
+ htthgvrhhnpeehleeiieegtdevgfefhfeigeeuueelteetfeeljeeuudekieefgefgjeet
+ hffhteenucffohhmrghinhepshhpihhnihgtshdrnhgvthdpkhgvrhhnvghlrdhorhhgne
+ cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihi
+ mhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:-1z-YuIfq-7QQBPPTtg46T3LVqaO-_JKQ-uYqiJaFdmYpZKnff3hzw>
+ <xmx:-1z-YpJjHfoTyJ1csmIQMFxlSBzAEKPLcfhnyJLNNzCItEvqiz8CYg>
+ <xmx:-1z-Ynwtd81NAPDn4jOUHxeqmp7CnQa_eTC2YQZNdPWCKFx7cxJqbA>
+ <xmx:-1z-Yh-bilvqY5GLA46IZ3lxtEtqZKEDZqpTCnjzr5F3GCs_-r5dtA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Aug 2022 11:34:44 -0400 (EDT)
-Date: Thu, 18 Aug 2022 17:34:42 +0200
+ 18 Aug 2022 11:38:35 -0400 (EDT)
+Date: Thu, 18 Aug 2022 17:38:33 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-Message-ID: <20220818153442.u4knumkfbe7j6zj3@houat>
-References: <20220816154956.pkdpxmmw27mia5ix@houat>
- <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
- <20220817074710.w4c4xwj7edly2b5p@houat>
- <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
- <20220817111454.pn2iltvyo2drebq7@houat>
- <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
- <20220817131854.jwmhqvhfhp77bbr3@houat>
- <CAMuHMdXrfH9MArXesfNCvqayiq17u7XaqtSvXTNt4V10=obSHQ@mail.gmail.com>
- <20220818145436.vqojnhmvhjxdzooe@houat>
- <CAMuHMdW5kTUeg59fym7QxfN5oisTZHWbiAPeSYKJVShZWduJcA@mail.gmail.com>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Subject: Re: [PATCH 23/33] drm/vc4: hdmi: Move HDMI reset to pm_resume
+Message-ID: <20220818153833.ppx2uc7ccqykuwga@houat>
+References: <20220613144800.326124-1-maxime@cerno.tech>
+ <20220613144800.326124-24-maxime@cerno.tech>
+ <ebd018b6-456e-fb22-b075-4da87f50b20b@gmail.com>
+ <c82f57ba-0b60-10a0-d254-da91a32a923d@gmail.com>
+ <abc70ec9-cf6a-3057-0d80-65a3cb81ea2b@i2se.com>
+ <20220815141253.ku5tlwien4lipqn6@houat>
+ <129cc9c4-b99f-cff4-bd16-093441e39a66@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zlk7q2pcgbstxof7"
+ protocol="application/pgp-signature"; boundary="vojox5pgwzzotnsc"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdW5kTUeg59fym7QxfN5oisTZHWbiAPeSYKJVShZWduJcA@mail.gmail.com>
+In-Reply-To: <129cc9c4-b99f-cff4-bd16-093441e39a66@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,149 +89,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dom Cobley <dom@raspberrypi.com>,
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---zlk7q2pcgbstxof7
+--vojox5pgwzzotnsc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 18, 2022 at 05:20:42PM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
+On Mon, Aug 15, 2022 at 09:52:59AM -0700, Florian Fainelli wrote:
+> On 8/15/22 07:12, Maxime Ripard wrote:
+> > On Wed, Aug 10, 2022 at 10:33:48PM +0200, Stefan Wahren wrote:
+> > > Hi Florian,
+> > >=20
+> > > Am 09.08.22 um 21:02 schrieb Florian Fainelli:
+> > > > On 8/4/22 16:11, Florian Fainelli wrote:
+> > > > > On 6/13/22 07:47, Maxime Ripard wrote:
+> > > > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > > >=20
+> > > > > > The BCM2835-37 found in the RaspberryPi 0 to 3 have a power dom=
+ain
+> > > > > > attached to the HDMI block, handled in Linux through runtime_pm.
+> > > > > >=20
+> > > > > > That power domain is shared with the VEC block, so even if we p=
+ut our
+> > > > > > runtime_pm reference in the HDMI driver it would keep being on.=
+ If the
+> > > > > > VEC is disabled though, the power domain would be disabled and =
+we would
+> > > > > > lose any initialization done in our bind implementation.
+> > > > > >=20
+> > > > > > That initialization involves calling the reset function and
+> > > > > > initializing
+> > > > > > the CEC registers.
+> > > > > >=20
+> > > > > > Let's move the initialization to our runtime_resume implementat=
+ion so
+> > > > > > that we initialize everything properly if we ever need to.
+> > > > > >=20
+> > > > > > Fixes: c86b41214362 ("drm/vc4: hdmi: Move the HSM clock enable
+> > > > > > to runtime_pm")
+> > > > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > > >=20
+> > > > > After seeing the same warning as Stefan reported in the link belo=
+w,
+> > > > > but on the Raspberry Pi 4B:
+> > > > >=20
+> > > > > https://www.spinics.net/lists/dri-devel/msg354170.html
+> > > > >=20
+> > > > > a separate bisection effort led me to this commit, before is fine,
+> > > > > after produces 4 warnings during boot, see attached log.
+> > > > >=20
+> > > > > Is there a fix that we can try that would also cover the Raspberry
+> > > > > Pi 4B? Is it possible that this series precipitates the problem:
+> > > > >=20
+> > > > > https://www.spinics.net/lists/arm-kernel/msg984638.html
+> > > >=20
+> > > > Maxime, Dave, anything you would want me to try? Still seeing these
+> > > > warnings with net-next-6.0-11220-g15205c2829ca
+> > >=20
+> > > At first this issue doesn't occur in Linux 5.19. So it's something ne=
+w. I
+> > > was able to reproduce with todays linux-next, but interestingly it do=
+esn't
+> > > occur in drm-misc-next.
+> >=20
+> > Yeah, it should be fixed by
+> > https://lore.kernel.org/all/20220629123510.1915022-38-maxime@cerno.tech/
+> > https://lore.kernel.org/all/20220629123510.1915022-39-maxime@cerno.tech/
+> >=20
+> > Both patches apparently didn't make the cut for the merge window, if it
+> > works for you we can always queue them in drm-misc-fixes
 >=20
-> On Thu, Aug 18, 2022 at 4:54 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Wed, Aug 17, 2022 at 04:04:24PM +0200, Geert Uytterhoeven wrote:
-> > > On Wed, Aug 17, 2022 at 3:19 PM Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> > > > On Wed, Aug 17, 2022 at 03:05:52PM +0200, Geert Uytterhoeven wrote:
-> > > > > On Wed, Aug 17, 2022 at 1:15 PM Maxime Ripard <maxime@cerno.tech>=
- wrote:
-> > > > > > On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeven wr=
-ote:
-> > > > > > > On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.t=
-ech> wrote:
-> > > > > > > > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeve=
-n wrote:
-> > > > > > > > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cer=
-no.tech> wrote:
-> > > > > > > > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterh=
-oeven wrote:
-> > > > > > > > > > > > > > > Either you have to add them here (e.g. "hd720=
-p50" and "hd720p60"), or
-> > > > > > > > > > > > > > > handle them through "@<refresh>".  The latter=
- would impact "[PATCH v1
-> > > > > > > > > > > > > > > 09/35] drm/modes: Move named modes parsing to=
- a separate function", as
-> > > > > > > > > > > > > > > currently a named mode and a refresh rate can=
-'t be specified both.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > I think the former would make more sense. It si=
-mplifies a bit the
-> > > > > > > > > > > > > > parser, and we're going to use a named mode any=
-way.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the=
- tv_mode property as a
-> > > > > > > > > > > > > > > command-line option" uses a separate "tv_mode=
-" option, and not the main
-> > > > > > > > > > > > > > > mode name, I think you want to add them here.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > It's a separate story I think, we could have a =
-named mode hd720p50,
-> > > > > > > > > > > > > > which would be equivalent to 1280x720,tv_mode=
-=3Dhd720p
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > So where's the field rate in "1280x720,tv_mode=3D=
-hd720p"?
-> > > > > > > > > > > >
-> > > > > > > > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
-> > > > > > > > > > >
-> > > > > > > > > > > Above you said "I think the former would make more se=
-nse", so that
-> > > > > > > > > > > should be "1280x720,tv_mode=3Dhd720p50"?
-> > > > > > > > > >
-> > > > > > > > > > No, 720p at 50Hz would be either hd720p50 or 1280x720@5=
-0,tv_mode=3Dhd720p
-> > > > > > > > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=3Dhd7=
-20p
-> > > > > > > > >
-> > > > > > > > > I disagree: hd720p50 and hd720p60 are different TV modes.
-> > > > > > > >
-> > > > > > > > I agree, and I don't see how that command-line doesn't expr=
-ess that?
-> > > > > > >
-> > > > > > > Oh, I see what you mean: yes, it expresses that.
-> > > > > > > But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip=
-] modes,
-> > > > > > > where the TV mode specifies both number of lines and frame ra=
-te.
-> > > > > >
-> > > > > > Only if we're using a named mode, and naming is hard :)
-> > > > >
-> > > > > That's not true: "640x480,tv_mode=3DPAL-N" would give me a mode w=
-ith
-> > > > > 625 lines and 25 frames/s, "640x480,tv_mode=3DPAL-M" would give m=
-e a
-> > > > > mode with 525 lines and 30 frames/s.
-> > > >
-> > > > In that series, "640x480,tv_mode=3DPAL-N" would be rejected as inva=
-lid:
-> > > >
-> > > > https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties=
--v1-14-3d53ae722097@cerno.tech/
-> > >
-> > > It would become supported once the ideas from thread "[PATCH v1 04/35]
-> > > drm/modes: Introduce 480i and 576i modes" are implemented...
-> >
-> > Indeed, but I'm still not sure what your concern is here.
-> > "640x480,tv_mode=3DPAL-N" and "640x480,tv_mode=3DPAL-M" are both fairly
-> > obvious.
-> >
-> > You were initially saying that you had concern over the inconsistency of
-> > NTSC/PAL/SECAM where the TV mode would specify a number of lines and
-> > frame rate, but hd720p50 also specifies a number of line and frame rate?
+> Both of these patches eliminate the warning, I don't have a good set-up y=
+et
+> for ensuring that HDMI/V3dD is functional however:
 >=20
-> My concern is that you want to call the TV mode "hd720p", which
-> does not dictate the frame rate.
-> I would like to have both "720p50" and "720p60", as they do dictate
-> the frame rate, like all the non-hd modes.
+> Tested-by: Florian Fainelli <f.fainelli@gmail.com>
 
-But they don't?
-
-The refresh rate is part of the drm_display_mode, whereas that property
-is metadata and entirely separate from the display mode.
-
-You can even change it without changing the mode at all
+I ended up applying it today (without your Tested-by, since it was partial =
+though)
 
 Maxime
 
---zlk7q2pcgbstxof7
+--vojox5pgwzzotnsc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYv5cEgAKCRDj7w1vZxhR
-xY/lAP4ouRoHdY9bHKZSp+wtASk8iZSUl11mDM3E2bLvkDHbXwEAlugNW44dB/5n
-SVBu8xcbWOl4IqoJVVeIxrn04MiX3ww=
-=N3ll
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYv5c+QAKCRDj7w1vZxhR
+xTwdAP9cDBKz5+KjFktgBfepfYZ3q4xoAOTY0iQtp5fJiwqfawD/VwKYY0JW43CA
+aTi+u0WBxf3mR68cwY8kkRKdFddxAwE=
+=YK+d
 -----END PGP SIGNATURE-----
 
---zlk7q2pcgbstxof7--
+--vojox5pgwzzotnsc--
