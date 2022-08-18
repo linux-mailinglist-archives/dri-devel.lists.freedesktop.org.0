@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AD7598FBD
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 23:47:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B061598FD6
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 00:00:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 662F810EAF9;
-	Thu, 18 Aug 2022 21:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAFE910E42C;
+	Thu, 18 Aug 2022 21:59:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BC3910EAF9
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 21:47:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA9CB10E587
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 21:59:45 +0000 (UTC)
 Received: from notapiano (unknown [70.107.189.129])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
  (Authenticated sender: nfraprado)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D240C66019FB;
- Thu, 18 Aug 2022 22:47:19 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 3F5776601B46;
+ Thu, 18 Aug 2022 22:59:42 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1660859242;
- bh=4gpnxl75xpqaey0GgS05hQ2JXOenf1aNFuT3t037TNI=;
+ s=mail; t=1660859984;
+ bh=Ywr+TRyo5kID6vdf/Ha5uTtV3PhPkoYBPghVaG7zL0A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EBmaQbanWlisUZo1v/tUYoK4/8bd1j2jFm+u8dfqyZyuoSE/phFCvdoPoFPZhKznK
- nPeMwAmGGLT5K17WA4PUxXe0K1C348e+lgDNFTWzgzFIM9aVaP9DzGGaWCova5fRSw
- p4DLeWH/351NFNk74MtG0Pp+P6P+JGvL4vePwP79wuPrh9+HdDpPPAJXlBnQHW3joR
- WfLEjwp6fINYl9EkAFnP+iMaFp318UG778MjeJ/iBvJr4xqscK80dGDR47Id72M6OF
- 3nQzJxx9bIMXimOoL56w8Lt+vvTtpq8SvlxQRYDIKjC2dKF9bEHyy3ghx6TFTQ5gPO
- 97/mIlif/FRJA==
-Date: Thu, 18 Aug 2022 17:47:15 -0400
+ b=BacyDNYOHPFdC53DYZfM88pvN/PGaHbIqwvTh3QEO5GAUjuLicPbqx6QX0Ii6l85M
+ 4DpQHF36npu9SyYbqJ9t4c4WOE3nYiy0FEgmSQZ11QeADi/Eax46U9uloiuIs/oHxb
+ ozgIlBMoHadbXBV3m5FhpMua6z+xlCT7il6RfqygnkNlkn8iG60Gx7X/kAT7JRhefF
+ 9v5bh8XuvBUbB8yuVGBrjpIYcN/TTPxEIERh7DsQpUL7aAzrkTJWsfs4dfbsc4p2Y7
+ RZlsiPQesHSpcs7C5hlXboWxO13XUeYSncO6X/PCO7KkZjTUCS4IIxXERRehbBEKqo
+ Hg9shXZpTpt7w==
+Date: Thu, 18 Aug 2022 17:59:38 -0400
 From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
 To: "Nancy.Lin" <nancy.lin@mediatek.com>
-Subject: Re: [PATCH v25 07/10] soc: mediatek: mmsys: add mmsys for support 64
- reset bits
-Message-ID: <20220818214715.spbyic34szubx3gi@notapiano>
+Subject: Re: [PATCH v25 00/10] Add MediaTek SoC(vdosys1) support for mt8195
+Message-ID: <20220818215938.w6sgdp5tpvf5eert@notapiano>
 References: <20220711075245.10492-1-nancy.lin@mediatek.com>
- <20220711075245.10492-8-nancy.lin@mediatek.com>
+ <0afc69a72a4c55b17f8b626d43a08ad56ada64c5.camel@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220711075245.10492-8-nancy.lin@mediatek.com>
+In-Reply-To: <0afc69a72a4c55b17f8b626d43a08ad56ada64c5.camel@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,53 +68,25 @@ Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nancy,
-
-On Mon, Jul 11, 2022 at 03:52:42PM +0800, Nancy.Lin wrote:
+On Fri, Aug 05, 2022 at 06:04:08PM +0800, Nancy.Lin wrote:
 [..]
->  static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
->  	.clk_driver = "clk-mt2701-mm",
->  	.routes = mmsys_default_routing_table,
-> @@ -86,6 +88,7 @@ static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
->  	.routes = mmsys_default_routing_table,
->  	.num_routes = ARRAY_SIZE(mmsys_default_routing_table),
->  	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
-> +	.num_resets = 32,
->  };
->  
->  static const struct mtk_mmsys_match_data mt8173_mmsys_match_data = {
-> @@ -100,6 +103,7 @@ static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
->  	.routes = mmsys_mt8183_routing_table,
->  	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
->  	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
-> +	.num_resets = 32,
->  };
->  
->  static const struct mtk_mmsys_match_data mt8183_mmsys_match_data = {
-> @@ -114,6 +118,7 @@ static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data = {
->  	.routes = mmsys_mt8186_routing_table,
->  	.num_routes = ARRAY_SIZE(mmsys_mt8186_routing_table),
->  	.sw0_rst_offset = MT8186_MMSYS_SW0_RST_B,
-> +	.num_resets = 32,
->  };
-[..]
-> @@ -351,18 +362,6 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
->  		return ret;
->  	}
->  
-> -	spin_lock_init(&mmsys->lock);
-> -
-> -	mmsys->rcdev.owner = THIS_MODULE;
-> -	mmsys->rcdev.nr_resets = 32;
+> Hello Matthias,
+> 
+> This series is about mmsys configuration of external display path.
+> 
+> It is in version *25*, and it is reviewed by many reviewers, like CK
+> and Angelo.
+> The reset.h is also reviewed by Krzysztof.
+> 
+> This series is also well tested by Rex-BC and Angelo.
 
-The number of resets was previously always set to 32, and now you're instead
-setting it based on num_resets from each machine. The issue is, you're
-forgetting a bunch of them.
+There is actually a silly but breaking bug in this version [1] affecting a lot
+of platforms, including mt8192.
 
-mt8192 didn't get a num_reset, so this commit breaks the display on mt8192 based
-devices. But mt8192 isn't the only one, there are other platforms missing this
-property. Please set num_resets to 32 in every single one of them, otherwise
-there will be display regressions.
+I'll provide a Tested-by tag for mt8192 in the next version, just in case. (If
+you can, please CC me, Nancy).
 
 Thanks,
 Nícolas
+
+[1] https://lore.kernel.org/all/20220818214715.spbyic34szubx3gi@notapiano/
