@@ -1,63 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B845A01BD
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:04:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 095555A01C9
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:07:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FBE6C2CB9;
-	Wed, 24 Aug 2022 19:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AC4BB0D62;
+	Wed, 24 Aug 2022 19:07:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3FB488E9D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 13:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
- q=dns/txt; i=@phytec.de; t=1660826751; x=1663418751;
- h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sFuE9GvKGB4ujTSHCIWIiScJXOM/pRvxv9JHmg8A+n0=;
- b=ZijPX1ELXW8XWrE2tkdHPNVKXjQ8iflO1kCVNxC+pmExGvqMTnH4ms/gjiCS/CL2
- uWv+S1zJF0x2mfFrMucVuceXZ1S63CjPcEyTwjk4+19nQX/alUukZwlrqbxZ47s3
- H/WkP7kkUELPacX3DMQsats+PFJYP9Bgdu2n7ZL3eHU=;
-X-AuditID: ac14000a-833f270000003940-0f-62fe347f0bc5
-Received: from florix.phytec.de (Unknown_Domain [172.25.0.13])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id F4.B6.14656.F743EF26;
- Thu, 18 Aug 2022 14:45:51 +0200 (CEST)
-Received: from lws-dhaller.phytec.de (172.25.0.11) by Florix.phytec.de
- (172.25.0.13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 18 Aug
- 2022 14:45:49 +0200
-From: Dominik Haller <d.haller@phytec.de>
-To: <robh+dt@kernel.org>, <sam@ravnborg.org>, <thierry.reding@gmail.com>,
- <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 2/2] drm/panel: simple: Add EDT ETML1010G0DKA panel
-Date: Thu, 18 Aug 2022 14:45:18 +0200
-Message-ID: <20220818124518.42080-2-d.haller@phytec.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220818124518.42080-1-d.haller@phytec.de>
-References: <20220818124518.42080-1-d.haller@phytec.de>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5307AB99DE
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 14:02:04 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id CC0CDB821A9;
+ Thu, 18 Aug 2022 14:02:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F081C433D6;
+ Thu, 18 Aug 2022 14:01:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660831321;
+ bh=X5DsdljwcA5Tyg1NxEYQreLfQopZHf/UbXzUkOS92bc=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=bl3nBR6RS2+BfzxqoZDCbEKHrp+AnAJ56oPp22ZyvWRA5EpBtpF9zsf4OH+vftyKL
+ laLIZ+cZUehW0ubWQJ7KGgWjuOmWD1UohDsQtt19uMEojUKuS86tgdDukUk8TzObdn
+ 4iGlLlTAwQw73STOhV3kB25p2xH2QnelPLXAFbpO/f26EMO26i++tDVQ9eI1VB4i/t
+ 1/8SrA2E4W3IK7DNEE8cDLkuzVEUNeupqUfcvwvmgWzSZs4eCFzmXTZovOtMx0lrW4
+ cgba0+gEbdIshly2On6gQzRuW62SFeUVjuvUuqEvg5HFX12WoQBB8stZQdGo9aHYlM
+ nbvYXwqRgOBeg==
+From: Mark Brown <broonie@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <cover.1660292316.git.mazziesaccount@gmail.com>
+References: <cover.1660292316.git.mazziesaccount@gmail.com>
+Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
+Message-Id: <166083131403.91659.16911525815673537629.b4-ty@kernel.org>
+Date: Thu, 18 Aug 2022 15:01:54 +0100
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.25.0.11]
-X-ClientProxiedBy: Florix.phytec.de (172.25.0.13) To Florix.phytec.de
- (172.25.0.13)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrELMWRmVeSWpSXmKPExsWyRpKBV7fe5F+SQftBXYv5R86xWlz5+p7N
- ou/FQ2aL1r1H2C1W/NzKaPFz1zwWBzaPnbPusntsWtXJ5nHn2h42j/vdx5k8lky7yubxeZNc
- AFsUl01Kak5mWWqRvl0CV0bTsl6Wgq28FX0dq9gaGL9zdTFyckgImEhc2L2IsYuRi0NIYAmT
- xKnb51ghnKeMEgf/zWUEqWIT0JSYPmkrmC0ikC/R/u0CUBEHB7NAtETviTCQsLCAs8TpDVdY
- QWwWAVWJW0fvM4PYvALmEvf7zzBDLJOXmHnpOzuIzSlgIbHh6xSweiGgmllHPrND1AtKnJz5
- hAXEZgaqb946mxnClpA4+OIFM0Q90Jw13awwM6edew01P1Ri/prv7BMYhWYhGTULyahZSEYt
- YGRexSiUm5mcnVqUma1XkFFZkpqsl5K6iREUDyIMXDsY++Z4HGJk4mA8xCjBwawkwnvjzp8k
- Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4rz3e5gShQTSE0tSs1NTC1KLYLJMHJxSDYxL/3j9j/21
- Pel7/+P76kclr2ctFDDX1Ms9a/nKvtFrkVYJx9opIr/VL18JXCRf9GPF6l0b5P/+dn4Q/6jI
- ePOmr/ccBPZ3qb5JVQud+HTzFznhp8V3ZlQ/Yltq8lbu3vX/7P3ah4+ZhMb27/1lZr/McMY7
- Bt5pG1R/LOTfcMJ4W+fExe/3skfOUWIpzkg01GIuKk4EAD5inO11AgAA
+X-Mailer: b4 0.10.0-dev-fe10a
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,65 +54,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- upstream@phytec.de
+Cc: Miaoqian Lin <linmq006@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org, Nuno Sá <nuno.sa@analog.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, Jonathan Corbet <corbet@lwn.net>, Kevin Hilman <khilman@baylibre.com>, linux-doc@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Lorenzo Bianconi <lorenzo@kernel.org>, Guenter Roeck <linux@roeck-us.net>, Alexandru Ardelean <aardelean@deviqon.com>, Alexandru Tachici <alexandru.tachici@analog.com>, Jean Delvare <jdelvare@suse.com>, Michael Hennerich <Michael.Hennerich@analog.com>, Jonas Karlman <jonas@kwiboo.se>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>, Aswath Govindraju <a-govindr
+ aju@ti.com>, linux-amlogic@lists.infradead.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Johan Hovold <johan+linaro@kernel.org>, linux-hwmon@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the EDT ETML1010G0DKA 10.1" 1280x800 LVDS panel.
+On Fri, 12 Aug 2022 13:08:17 +0300, Matti Vaittinen wrote:
+> Devm helpers for regulator get and enable
+> 
+> First patch in the series is actually just a simple documentation fix
+> which could be taken in as it is now.
+> 
+> A few* drivers seem to use pattern demonstrated by pseudocode:
+> 
+> [...]
 
-Signed-off-by: Dominik Haller <d.haller@phytec.de>
----
- drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+Applied to
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index f9e1f85daef7..9314db24ab51 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1779,6 +1779,32 @@ static const struct panel_desc edt_etml0700y5dha = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct drm_display_mode edt_etml1010g0dka_mode = {
-+	.clock = 70000,
-+	.hdisplay = 1280,
-+	.hsync_start = 1280 + 100,
-+	.hsync_end = 1280 + 100 + 19,
-+	.htotal = 1280 + 100 + 19 + 41,
-+	.vdisplay = 800,
-+	.vsync_start = 800 + 4,
-+	.vsync_end = 800 + 4 + 4,
-+	.vtotal = 800 + 4 + 4 + 15,
-+	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
-+};
-+
-+static const struct panel_desc edt_etml1010g0dka = {
-+	.modes = &edt_etml1010g0dka_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 216,
-+		.height = 135,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct drm_display_mode edt_etmv570g2dhu_mode = {
- 	.clock = 25175,
- 	.hdisplay = 640,
-@@ -4057,6 +4083,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "edt,etml0700y5dha",
- 		.data = &edt_etml0700y5dha,
-+	}, {
-+		.compatible = "edt,etml1010g0dka",
-+		.data = &edt_etml1010g0dka,
- 	}, {
- 		.compatible = "edt,etmv570g2dhu",
- 		.data = &edt_etmv570g2dhu,
--- 
-2.25.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
+Thanks!
+
+[2/7] regulator: Add devm helpers for get and enable
+      commit: da279e6965b3838e99e5c0ab8f76b87bf86b31a5
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
