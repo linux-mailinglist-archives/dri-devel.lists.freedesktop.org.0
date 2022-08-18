@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F245A01E0
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:14:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBEA5A01E1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:14:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88A93C3641;
-	Wed, 24 Aug 2022 19:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D55BA6E4;
+	Wed, 24 Aug 2022 19:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF5F610E07A;
- Thu, 18 Aug 2022 23:03:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C64610E07A;
+ Thu, 18 Aug 2022 23:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660863793; x=1692399793;
+ t=1660863796; x=1692399796;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=IDnHvz9IljbdD3JRfKqIvrmeikuqbuov6yM2qBiPde4=;
- b=iOZ1wta4LvX2J3a5OxwzRI0CU6wiBZBX28zMGrc6/hWG667y4/brRl1e
- 79nXCeX+b6MdeXvIRAHBOBJ7rourhuVoXMHgAw3P68OW23upQT3uV0bYX
- ZT5mkVO61+QMV7UyrZydlVZYPgadXsXitEUcGEk5cRlxeisSqh0QJvz6m
- zdx2H7YpLAD63v7DT2Vact/09djmkKdaSAUdd9x6mnzUlj4omEH712jLE
- b/yzO10FCSdWKhQtUHiCJ8poMXVPEdzv8vDuB3iEEjhS4VUrNKiYGGcmq
- qSmiOXSGT9IN0qMqWR/jvJyJTRdBHxp7i7dGwvfQbj2v3/V3AM6GJ91nS g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="293677528"
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="293677528"
+ bh=AjeV7D52M2bcFGFlVTUKsCuSs9nqXvOj9vZA0hoYLRw=;
+ b=Qx+eiUsKzKoPJEkl/dNY+pvFRARUx1Va3SMOm6ucYkJmFZnCN0hRZjfP
+ WCWQjp9rJnnPtmAw6VmDZnERCnxPV8KneKqM6Z/UyTd4xEqk6xtipyZsE
+ sckBRTL9RQZSWVZjik6WLnGTwOZ8501yahL7tl3YPGOpzqeNaoYwedlx8
+ xMW8aNKkHaDC1xPTX8VCOrh1XnrfXeEn82cDs8+LWHJPdgaWY+aJppj5s
+ oVGbH7CYcunitUNhjQwV82uK/Rf/GKHxDeXYI/omPahVLqmSiO0Qm2Keb
+ bPoPiLGffwvkuHdrhZtplIwj+fw+dol1fX2jrIwKVjLmD1BfkURR6qXfo g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="293677533"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="293677533"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 16:03:13 -0700
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="641042827"
+ 18 Aug 2022 16:03:16 -0700
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="641042841"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 16:03:13 -0700
+ 18 Aug 2022 16:03:15 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 02/15] mei: add support to GSC extended header
-Date: Thu, 18 Aug 2022 16:02:30 -0700
-Message-Id: <20220818230243.3921066-3-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v2 04/15] mei: bus: extend bus API to support command streamer
+ API
+Date: Thu, 18 Aug 2022 16:02:32 -0700
+Message-Id: <20220818230243.3921066-5-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220818230243.3921066-1-daniele.ceraolospurio@intel.com>
 References: <20220818230243.3921066-1-daniele.ceraolospurio@intel.com>
@@ -61,460 +62,189 @@ Cc: Tomas Winkler <tomas.winkler@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomas Winkler <tomas.winkler@intel.com>
+From: Vitaly Lubart <vitaly.lubart@intel.com>
 
-GSC extend header is of variable size and data
-is provided in a sgl list inside the header
-and not in the data buffers, need to enable the path.
+Add mei bus API for sending gsc commands: mei_cldev_send_gsc_command()
 
+The GSC commands are originated in the graphics stack
+and are in form of SGL DMA buffers.
+The GSC commands are synchronous, the response is received
+in the same call on the out sg list buffers.
+The function setups pointers for in and out sg lists in the
+mei sgl extended header and sends it to the firmware.
+
+V2:
+ 1. More detailed commit message
+ 2. Fix typo in the comments
+
+Signed-off-by: Vitaly Lubart <vitaly.lubart@intel.com>
 Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Vitaly Lubart <vitaly.lubart@intel.com>
 ---
- drivers/misc/mei/client.c    | 55 ++++++++++++++++++++++++----------
- drivers/misc/mei/hbm.c       | 13 ++++++++
- drivers/misc/mei/hw-me.c     |  5 +++-
- drivers/misc/mei/hw.h        | 57 ++++++++++++++++++++++++++++++++++++
- drivers/misc/mei/interrupt.c | 47 ++++++++++++++++++++++++-----
- drivers/misc/mei/mei_dev.h   |  3 ++
- 6 files changed, 157 insertions(+), 23 deletions(-)
+ drivers/misc/mei/bus.c     | 125 +++++++++++++++++++++++++++++++++++++
+ include/linux/mei_cl_bus.h |   6 ++
+ 2 files changed, 131 insertions(+)
 
-diff --git a/drivers/misc/mei/client.c b/drivers/misc/mei/client.c
-index e7a16d9b2241..8860a708ed19 100644
---- a/drivers/misc/mei/client.c
-+++ b/drivers/misc/mei/client.c
-@@ -322,6 +322,7 @@ void mei_io_cb_free(struct mei_cl_cb *cb)
- 
- 	list_del(&cb->list);
- 	kfree(cb->buf.data);
-+	kfree(cb->ext_hdr);
- 	kfree(cb);
+diff --git a/drivers/misc/mei/bus.c b/drivers/misc/mei/bus.c
+index 225f0b04c021..fc885ba94b36 100644
+--- a/drivers/misc/mei/bus.c
++++ b/drivers/misc/mei/bus.c
+@@ -838,6 +838,131 @@ int mei_cldev_disable(struct mei_cl_device *cldev)
  }
- 
-@@ -401,6 +402,7 @@ static struct mei_cl_cb *mei_io_cb_init(struct mei_cl *cl,
- 	cb->buf_idx = 0;
- 	cb->fop_type = type;
- 	cb->vtag = 0;
-+	cb->ext_hdr = NULL;
- 
- 	return cb;
- }
-@@ -1740,6 +1742,17 @@ static inline u8 mei_ext_hdr_set_vtag(void *ext, u8 vtag)
- 	return vtag_hdr->hdr.length;
- }
- 
-+static inline bool mei_ext_hdr_is_gsc(struct mei_ext_hdr *ext)
-+{
-+	return ext && ext->type == MEI_EXT_HDR_GSC;
-+}
-+
-+static inline u8 mei_ext_hdr_set_gsc(struct mei_ext_hdr *ext, struct mei_ext_hdr *gsc_hdr)
-+{
-+	memcpy(ext, gsc_hdr, mei_ext_hdr_len(gsc_hdr));
-+	return ext->length;
-+}
-+
- /**
-  * mei_msg_hdr_init - allocate and initialize mei message header
-  *
-@@ -1752,14 +1765,17 @@ static struct mei_msg_hdr *mei_msg_hdr_init(const struct mei_cl_cb *cb)
- 	size_t hdr_len;
- 	struct mei_ext_meta_hdr *meta;
- 	struct mei_msg_hdr *mei_hdr;
--	bool is_ext, is_vtag;
-+	bool is_ext, is_hbm, is_gsc, is_vtag;
-+	struct mei_ext_hdr *next_ext;
- 
- 	if (!cb)
- 		return ERR_PTR(-EINVAL);
- 
- 	/* Extended header for vtag is attached only on the first fragment */
- 	is_vtag = (cb->vtag && cb->buf_idx == 0);
--	is_ext = is_vtag;
-+	is_hbm = cb->cl->me_cl->client_id == 0;
-+	is_gsc = ((!is_hbm) && cb->cl->dev->hbm_f_gsc_supported && mei_ext_hdr_is_gsc(cb->ext_hdr));
-+	is_ext = is_vtag || is_gsc;
- 
- 	/* Compute extended header size */
- 	hdr_len = sizeof(*mei_hdr);
-@@ -1771,6 +1787,9 @@ static struct mei_msg_hdr *mei_msg_hdr_init(const struct mei_cl_cb *cb)
- 	if (is_vtag)
- 		hdr_len += sizeof(struct mei_ext_hdr_vtag);
- 
-+	if (is_gsc)
-+		hdr_len += mei_ext_hdr_len(cb->ext_hdr);
-+
- setup_hdr:
- 	mei_hdr = kzalloc(hdr_len, GFP_KERNEL);
- 	if (!mei_hdr)
-@@ -1785,10 +1804,20 @@ static struct mei_msg_hdr *mei_msg_hdr_init(const struct mei_cl_cb *cb)
- 		goto out;
- 
- 	meta = (struct mei_ext_meta_hdr *)mei_hdr->extension;
-+	meta->size = 0;
-+	next_ext = (struct mei_ext_hdr *)meta->hdrs;
- 	if (is_vtag) {
- 		meta->count++;
--		meta->size += mei_ext_hdr_set_vtag(meta->hdrs, cb->vtag);
-+		meta->size += mei_ext_hdr_set_vtag(next_ext, cb->vtag);
-+		next_ext = mei_ext_next(next_ext);
-+	}
-+
-+	if (is_gsc) {
-+		meta->count++;
-+		meta->size += mei_ext_hdr_set_gsc(next_ext, cb->ext_hdr);
-+		next_ext = mei_ext_next(next_ext);
- 	}
-+
- out:
- 	mei_hdr->length = hdr_len - sizeof(*mei_hdr);
- 	return mei_hdr;
-@@ -1812,14 +1841,14 @@ int mei_cl_irq_write(struct mei_cl *cl, struct mei_cl_cb *cb,
- 	struct mei_msg_hdr *mei_hdr = NULL;
- 	size_t hdr_len;
- 	size_t hbuf_len, dr_len;
--	size_t buf_len;
-+	size_t buf_len = 0;
- 	size_t data_len;
- 	int hbuf_slots;
- 	u32 dr_slots;
- 	u32 dma_len;
- 	int rets;
- 	bool first_chunk;
--	const void *data;
-+	const void *data = NULL;
- 
- 	if (WARN_ON(!cl || !cl->dev))
- 		return -ENODEV;
-@@ -1839,8 +1868,10 @@ int mei_cl_irq_write(struct mei_cl *cl, struct mei_cl_cb *cb,
- 		return 0;
- 	}
- 
--	buf_len = buf->size - cb->buf_idx;
--	data = buf->data + cb->buf_idx;
-+	if (buf->data) {
-+		buf_len = buf->size - cb->buf_idx;
-+		data = buf->data + cb->buf_idx;
-+	}
- 	hbuf_slots = mei_hbuf_empty_slots(dev);
- 	if (hbuf_slots < 0) {
- 		rets = -EOVERFLOW;
-@@ -1858,9 +1889,6 @@ int mei_cl_irq_write(struct mei_cl *cl, struct mei_cl_cb *cb,
- 		goto err;
- 	}
- 
--	cl_dbg(dev, cl, "Extended Header %d vtag = %d\n",
--	       mei_hdr->extended, cb->vtag);
--
- 	hdr_len = sizeof(*mei_hdr) + mei_hdr->length;
- 
- 	/**
-@@ -1889,7 +1917,7 @@ int mei_cl_irq_write(struct mei_cl *cl, struct mei_cl_cb *cb,
- 	}
- 	mei_hdr->length += data_len;
- 
--	if (mei_hdr->dma_ring)
-+	if (mei_hdr->dma_ring && buf->data)
- 		mei_dma_ring_write(dev, buf->data + cb->buf_idx, buf_len);
- 	rets = mei_write_message(dev, mei_hdr, hdr_len, data, data_len);
- 
-@@ -1983,9 +2011,6 @@ ssize_t mei_cl_write(struct mei_cl *cl, struct mei_cl_cb *cb)
- 		goto err;
- 	}
- 
--	cl_dbg(dev, cl, "Extended Header %d vtag = %d\n",
--	       mei_hdr->extended, cb->vtag);
--
- 	hdr_len = sizeof(*mei_hdr) + mei_hdr->length;
- 
- 	if (rets == 0) {
-@@ -2030,7 +2055,7 @@ ssize_t mei_cl_write(struct mei_cl *cl, struct mei_cl_cb *cb)
- 
- 	mei_hdr->length += data_len;
- 
--	if (mei_hdr->dma_ring)
-+	if (mei_hdr->dma_ring && buf->data)
- 		mei_dma_ring_write(dev, buf->data, buf_len);
- 	rets = mei_write_message(dev, mei_hdr, hdr_len, data, data_len);
- 
-diff --git a/drivers/misc/mei/hbm.c b/drivers/misc/mei/hbm.c
-index 708765056af2..86dbcb2022e7 100644
---- a/drivers/misc/mei/hbm.c
-+++ b/drivers/misc/mei/hbm.c
-@@ -340,9 +340,13 @@ static int mei_hbm_capabilities_req(struct mei_device *dev)
- 	req.hbm_cmd = MEI_HBM_CAPABILITIES_REQ_CMD;
- 	if (dev->hbm_f_vt_supported)
- 		req.capability_requested[0] |= HBM_CAP_VT;
-+
- 	if (dev->hbm_f_cd_supported)
- 		req.capability_requested[0] |= HBM_CAP_CD;
- 
-+	if (dev->hbm_f_gsc_supported)
-+		req.capability_requested[0] |= HBM_CAP_GSC;
-+
- 	ret = mei_hbm_write_message(dev, &mei_hdr, &req);
- 	if (ret) {
- 		dev_err(dev->dev,
-@@ -1200,6 +1204,12 @@ static void mei_hbm_config_features(struct mei_device *dev)
- 	     dev->version.minor_version >= HBM_MINOR_VERSION_VT))
- 		dev->hbm_f_vt_supported = 1;
- 
-+	/* GSC support */
-+	if (dev->version.major_version > HBM_MAJOR_VERSION_GSC ||
-+	    (dev->version.major_version == HBM_MAJOR_VERSION_GSC &&
-+	     dev->version.minor_version >= HBM_MINOR_VERSION_GSC))
-+		dev->hbm_f_gsc_supported = 1;
-+
- 	/* Capability message Support */
- 	dev->hbm_f_cap_supported = 0;
- 	if (dev->version.major_version > HBM_MAJOR_VERSION_CAP ||
-@@ -1367,6 +1377,9 @@ int mei_hbm_dispatch(struct mei_device *dev, struct mei_msg_hdr *hdr)
- 		if (!(capability_res->capability_granted[0] & HBM_CAP_CD))
- 			dev->hbm_f_cd_supported = 0;
- 
-+		if (!(capability_res->capability_granted[0] & HBM_CAP_GSC))
-+			dev->hbm_f_gsc_supported = 0;
-+
- 		if (dev->hbm_f_dr_supported) {
- 			if (mei_dmam_ring_alloc(dev))
- 				dev_info(dev->dev, "running w/o dma ring\n");
-diff --git a/drivers/misc/mei/hw-me.c b/drivers/misc/mei/hw-me.c
-index ed3f361fd3a6..a989f5f7a592 100644
---- a/drivers/misc/mei/hw-me.c
-+++ b/drivers/misc/mei/hw-me.c
-@@ -590,7 +590,10 @@ static int mei_me_hbuf_write(struct mei_device *dev,
- 	u32 dw_cnt;
- 	int empty_slots;
- 
--	if (WARN_ON(!hdr || !data || hdr_len & 0x3))
-+	if (WARN_ON(!hdr || hdr_len & 0x3))
-+		return -EINVAL;
-+
-+	if (WARN_ON(!data && data_len))
- 		return -EINVAL;
- 
- 	dev_dbg(dev->dev, MEI_HDR_FMT, MEI_HDR_PRM((struct mei_msg_hdr *)hdr));
-diff --git a/drivers/misc/mei/hw.h b/drivers/misc/mei/hw.h
-index 9381e5c13b4f..d2e3854def5f 100644
---- a/drivers/misc/mei/hw.h
-+++ b/drivers/misc/mei/hw.h
-@@ -92,6 +92,12 @@
- #define HBM_MINOR_VERSION_VT               2
- #define HBM_MAJOR_VERSION_VT               2
- 
-+/*
-+ * MEI version with GSC support
-+ */
-+#define HBM_MINOR_VERSION_GSC              2
-+#define HBM_MAJOR_VERSION_GSC              2
-+
- /*
-  * MEI version with capabilities message support
-  */
-@@ -229,10 +235,12 @@ enum mei_cl_disconnect_status {
-  *
-  * @MEI_EXT_HDR_NONE: sentinel
-  * @MEI_EXT_HDR_VTAG: vtag header
-+ * @MEI_EXT_HDR_GSC: gsc header
-  */
- enum mei_ext_hdr_type {
- 	MEI_EXT_HDR_NONE = 0,
- 	MEI_EXT_HDR_VTAG = 1,
-+	MEI_EXT_HDR_GSC = 2,
- };
- 
- /**
-@@ -305,6 +313,39 @@ static inline bool mei_ext_last(struct mei_ext_meta_hdr *meta,
- 	return (u8 *)ext >= (u8 *)meta + sizeof(*meta) + (meta->size * 4);
- }
- 
-+struct mei_gsc_sgl {
-+	u32 low;
-+	u32 high;
-+	u32 length;
-+} __packed;
-+
-+#define GSC_HECI_MSG_KERNEL 0
-+#define GSC_HECI_MSG_USER   1
-+
-+#define GSC_ADDRESS_TYPE_GTT   0
-+#define GSC_ADDRESS_TYPE_PPGTT 1
-+#define GSC_ADDRESS_TYPE_PHYSICAL_CONTINUOUS 2 /* max of 64K */
-+#define GSC_ADDRESS_TYPE_PHYSICAL_SGL 3
-+
-+struct mei_ext_hdr_gsc_h2f {
-+	struct mei_ext_hdr hdr;
-+	u8                 client_id;
-+	u8                 addr_type;
-+	u32                fence_id;
-+	u8                 input_address_count;
-+	u8                 output_address_count;
-+	u8                 reserved[2];
-+	struct mei_gsc_sgl sgl[];
-+} __packed;
-+
-+struct mei_ext_hdr_gsc_f2h {
-+	struct mei_ext_hdr hdr;
-+	u8                 client_id;
-+	u8                 reserved;
-+	u32                fence_id;
-+	u32                written;
-+} __packed;
-+
- /**
-  * mei_ext_next - following extended header on the TLV list
-  *
-@@ -320,6 +361,18 @@ static inline struct mei_ext_hdr *mei_ext_next(struct mei_ext_hdr *ext)
- 	return (struct mei_ext_hdr *)((u8 *)ext + (ext->length * 4));
- }
+ EXPORT_SYMBOL_GPL(mei_cldev_disable);
  
 +/**
-+ * mei_ext_hdr_len - get ext header length in bytes
++ * mei_cldev_send_gsc_command - sends a gsc command, by sending
++ * a gsl mei message to gsc and receiving reply from gsc
 + *
-+ * @ext: extend header
++ * @cldev: me client device
++ * @client_id: client id to send the command to
++ * @fence_id: fence id to send the command to
++ * @sg_in: scatter gather list containing addresses for rx message buffer
++ * @total_in_len: total length of data in 'in' sg, can be less than the sum of buffers sizes
++ * @sg_out: scatter gather list containing addresses for tx message buffer
 + *
-+ * Return: extend header length in bytes
++ * Return:
++ *  * written size in bytes
++ *  * < 0 on error
 + */
-+static inline u32 mei_ext_hdr_len(struct mei_ext_hdr *ext)
++ssize_t mei_cldev_send_gsc_command(struct mei_cl_device *cldev,
++				   u8 client_id, u32 fence_id,
++				   struct scatterlist *sg_in,
++				   size_t total_in_len,
++				   struct scatterlist *sg_out)
 +{
-+	return  (ext) ? ext->length * sizeof(u32) : 0;
++	struct mei_cl *cl;
++	struct mei_device *bus;
++	ssize_t ret = 0;
++
++	struct mei_ext_hdr_gsc_h2f *ext_hdr;
++	size_t buf_sz = sizeof(struct mei_ext_hdr_gsc_h2f);
++	int sg_out_nents, sg_in_nents;
++	int i;
++	struct scatterlist *sg;
++	struct mei_ext_hdr_gsc_f2h rx_msg;
++	unsigned int sg_len;
++
++	if (!cldev || !sg_in || !sg_out)
++		return -EINVAL;
++
++	cl = cldev->cl;
++	bus = cldev->bus;
++
++	dev_dbg(bus->dev, "client_id %u, fence_id %u\n", client_id, fence_id);
++
++	if (!bus->hbm_f_gsc_supported)
++		return -EOPNOTSUPP;
++
++	sg_out_nents = sg_nents(sg_out);
++	sg_in_nents = sg_nents(sg_in);
++	/* at least one entry in tx and rx sgls must be present */
++	if (sg_out_nents <= 0 || sg_in_nents <= 0)
++		return -EINVAL;
++
++	buf_sz += (sg_out_nents + sg_in_nents) * sizeof(struct mei_gsc_sgl);
++	ext_hdr = kzalloc(buf_sz, GFP_KERNEL);
++	if (!ext_hdr)
++		return -ENOMEM;
++
++	/* construct the GSC message */
++	ext_hdr->hdr.type = MEI_EXT_HDR_GSC;
++	ext_hdr->hdr.length = buf_sz / sizeof(u32); /* length is in dw */
++
++	ext_hdr->client_id = client_id;
++	ext_hdr->addr_type = GSC_ADDRESS_TYPE_PHYSICAL_SGL;
++	ext_hdr->fence_id = fence_id;
++	ext_hdr->input_address_count = sg_in_nents;
++	ext_hdr->output_address_count = sg_out_nents;
++	ext_hdr->reserved[0] = 0;
++	ext_hdr->reserved[1] = 0;
++
++	/* copy in-sgl to the message */
++	for (i = 0, sg = sg_in; i < sg_in_nents; i++, sg++) {
++		ext_hdr->sgl[i].low = lower_32_bits(sg_dma_address(sg));
++		ext_hdr->sgl[i].high = upper_32_bits(sg_dma_address(sg));
++		sg_len = min_t(unsigned int, sg_dma_len(sg), PAGE_SIZE);
++		ext_hdr->sgl[i].length = (sg_len <= total_in_len) ? sg_len : total_in_len;
++		total_in_len -= ext_hdr->sgl[i].length;
++	}
++
++	/* copy out-sgl to the message */
++	for (i = sg_in_nents, sg = sg_out; i < sg_in_nents + sg_out_nents; i++, sg++) {
++		ext_hdr->sgl[i].low = lower_32_bits(sg_dma_address(sg));
++		ext_hdr->sgl[i].high = upper_32_bits(sg_dma_address(sg));
++		sg_len = min_t(unsigned int, sg_dma_len(sg), PAGE_SIZE);
++		ext_hdr->sgl[i].length = sg_len;
++	}
++
++	/* send the message to GSC */
++	ret = __mei_cl_send(cl, (u8 *)ext_hdr, buf_sz, 0, MEI_CL_IO_SGL);
++	if (ret < 0) {
++		dev_err(bus->dev, "__mei_cl_send failed, returned %zd\n", ret);
++		goto end;
++	}
++	if (ret != buf_sz) {
++		dev_err(bus->dev, "__mei_cl_send returned %zd instead of expected %zd\n",
++			ret, buf_sz);
++		ret = -EIO;
++		goto end;
++	}
++
++	/* receive the reply from GSC, note that at this point sg_in should contain the reply */
++	ret = __mei_cl_recv(cl, (u8 *)&rx_msg, sizeof(rx_msg), NULL, MEI_CL_IO_SGL, 0);
++
++	if (ret != sizeof(rx_msg)) {
++		dev_err(bus->dev, "__mei_cl_recv returned %zd instead of expected %zd\n",
++			ret, sizeof(rx_msg));
++		if (ret >= 0)
++			ret = -EIO;
++		goto end;
++	}
++
++	/* check rx_msg.client_id and rx_msg.fence_id match the ones we send */
++	if (rx_msg.client_id != client_id || rx_msg.fence_id != fence_id) {
++		dev_err(bus->dev, "received client_id/fence_id  %u/%u  instead of %u/%u sent\n",
++			rx_msg.client_id, rx_msg.fence_id, client_id, fence_id);
++		ret = -EFAULT;
++		goto end;
++	}
++
++	dev_dbg(bus->dev, "gsc command: successfully written %u bytes\n",  rx_msg.written);
++	ret = rx_msg.written;
++
++end:
++	kfree(ext_hdr);
++	return ret;
 +}
++EXPORT_SYMBOL_GPL(mei_cldev_send_gsc_command);
 +
  /**
-  * struct mei_msg_hdr - MEI BUS Interface Section
+  * mei_cl_device_find - find matching entry in the driver id table
   *
-@@ -682,6 +735,10 @@ struct hbm_dma_ring_ctrl {
+diff --git a/include/linux/mei_cl_bus.h b/include/linux/mei_cl_bus.h
+index df1fab44ea5c..308dc9155ad6 100644
+--- a/include/linux/mei_cl_bus.h
++++ b/include/linux/mei_cl_bus.h
+@@ -8,6 +8,7 @@
+ #include <linux/device.h>
+ #include <linux/uuid.h>
+ #include <linux/mod_devicetable.h>
++#include <linux/scatterlist.h>
  
- /* virtual tag supported */
- #define HBM_CAP_VT BIT(0)
-+
-+/* gsc extended header support */
-+#define HBM_CAP_GSC BIT(1)
-+
- /* client dma supported */
- #define HBM_CAP_CD BIT(2)
+ struct mei_cl_device;
+ struct mei_device;
+@@ -116,6 +117,11 @@ void mei_cldev_set_drvdata(struct mei_cl_device *cldev, void *data);
+ int mei_cldev_enable(struct mei_cl_device *cldev);
+ int mei_cldev_disable(struct mei_cl_device *cldev);
+ bool mei_cldev_enabled(const struct mei_cl_device *cldev);
++ssize_t mei_cldev_send_gsc_command(struct mei_cl_device *cldev,
++				   u8 client_id, u32 fence_id,
++				   struct scatterlist *sg_in,
++				   size_t total_in_len,
++				   struct scatterlist *sg_out);
  
-diff --git a/drivers/misc/mei/interrupt.c b/drivers/misc/mei/interrupt.c
-index 0706322154cb..0a0e984e5673 100644
---- a/drivers/misc/mei/interrupt.c
-+++ b/drivers/misc/mei/interrupt.c
-@@ -98,9 +98,12 @@ static int mei_cl_irq_read_msg(struct mei_cl *cl,
- 	struct mei_device *dev = cl->dev;
- 	struct mei_cl_cb *cb;
- 
-+	struct mei_ext_hdr_vtag *vtag_hdr = NULL;
-+	struct mei_ext_hdr_gsc_f2h *gsc_f2h = NULL;
-+
- 	size_t buf_sz;
- 	u32 length;
--	int ext_len;
-+	u32 ext_len;
- 
- 	length = mei_hdr->length;
- 	ext_len = 0;
-@@ -122,18 +125,24 @@ static int mei_cl_irq_read_msg(struct mei_cl *cl,
- 	}
- 
- 	if (mei_hdr->extended) {
--		struct mei_ext_hdr *ext;
--		struct mei_ext_hdr_vtag *vtag_hdr = NULL;
--
--		ext = mei_ext_begin(meta);
-+		struct mei_ext_hdr *ext = mei_ext_begin(meta);
- 		do {
- 			switch (ext->type) {
- 			case MEI_EXT_HDR_VTAG:
- 				vtag_hdr = (struct mei_ext_hdr_vtag *)ext;
- 				break;
-+			case MEI_EXT_HDR_GSC:
-+				gsc_f2h = (struct mei_ext_hdr_gsc_f2h *)ext;
-+				cb->ext_hdr = kzalloc(sizeof(*gsc_f2h), GFP_KERNEL);
-+				if (!cb->ext_hdr) {
-+					cb->status = -ENOMEM;
-+					goto discard;
-+				}
-+				break;
- 			case MEI_EXT_HDR_NONE:
- 				fallthrough;
- 			default:
-+				cl_err(dev, cl, "unknown extended header\n");
- 				cb->status = -EPROTO;
- 				break;
- 			}
-@@ -141,12 +150,14 @@ static int mei_cl_irq_read_msg(struct mei_cl *cl,
- 			ext = mei_ext_next(ext);
- 		} while (!mei_ext_last(meta, ext));
- 
--		if (!vtag_hdr) {
--			cl_dbg(dev, cl, "vtag not found in extended header.\n");
-+		if (!vtag_hdr && !gsc_f2h) {
-+			cl_dbg(dev, cl, "no vtag or gsc found in extended header.\n");
- 			cb->status = -EPROTO;
- 			goto discard;
- 		}
-+	}
- 
-+	if (vtag_hdr) {
- 		cl_dbg(dev, cl, "vtag: %d\n", vtag_hdr->vtag);
- 		if (cb->vtag && cb->vtag != vtag_hdr->vtag) {
- 			cl_err(dev, cl, "mismatched tag: %d != %d\n",
-@@ -157,6 +168,28 @@ static int mei_cl_irq_read_msg(struct mei_cl *cl,
- 		cb->vtag = vtag_hdr->vtag;
- 	}
- 
-+	if (gsc_f2h) {
-+		u32 ext_hdr_len = mei_ext_hdr_len(&gsc_f2h->hdr);
-+
-+		if (!dev->hbm_f_gsc_supported) {
-+			cl_err(dev, cl, "gsc extended header is not supported\n");
-+			cb->status = -EPROTO;
-+			goto discard;
-+		}
-+
-+		if (length) {
-+			cl_err(dev, cl, "no data allowed in cb with gsc\n");
-+			cb->status = -EPROTO;
-+			goto discard;
-+		}
-+		if (ext_hdr_len > sizeof(*gsc_f2h)) {
-+			cl_err(dev, cl, "gsc extended header is too big %u\n", ext_hdr_len);
-+			cb->status = -EPROTO;
-+			goto discard;
-+		}
-+		memcpy(cb->ext_hdr, gsc_f2h, ext_hdr_len);
-+	}
-+
- 	if (!mei_cl_is_connected(cl)) {
- 		cl_dbg(dev, cl, "not connected\n");
- 		cb->status = -ENODEV;
-diff --git a/drivers/misc/mei/mei_dev.h b/drivers/misc/mei/mei_dev.h
-index 7c508bca9a00..862190b297aa 100644
---- a/drivers/misc/mei/mei_dev.h
-+++ b/drivers/misc/mei/mei_dev.h
-@@ -211,6 +211,7 @@ struct mei_cl_cb {
- 	int status;
- 	u32 internal:1;
- 	u32 blocking:1;
-+	struct mei_ext_hdr *ext_hdr;
- };
- 
- /**
-@@ -487,6 +488,7 @@ struct mei_dev_timeouts {
-  * @hbm_f_vt_supported  : hbm feature vtag supported
-  * @hbm_f_cap_supported : hbm feature capabilities message supported
-  * @hbm_f_cd_supported  : hbm feature client dma supported
-+ * @hbm_f_gsc_supported : hbm feature gsc supported
-  *
-  * @fw_ver : FW versions
-  *
-@@ -578,6 +580,7 @@ struct mei_device {
- 	unsigned int hbm_f_vt_supported:1;
- 	unsigned int hbm_f_cap_supported:1;
- 	unsigned int hbm_f_cd_supported:1;
-+	unsigned int hbm_f_gsc_supported:1;
- 
- 	struct mei_fw_version fw_ver[MEI_MAX_FW_VER_BLOCKS];
- 
+ void *mei_cldev_dma_map(struct mei_cl_device *cldev, u8 buffer_id, size_t size);
+ int mei_cldev_dma_unmap(struct mei_cl_device *cldev);
 -- 
 2.37.2
 
