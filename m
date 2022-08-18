@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CAC598DC8
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 22:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9D7598DE9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 22:25:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9226510F008;
-	Thu, 18 Aug 2022 20:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E76B010E46F;
+	Thu, 18 Aug 2022 20:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B3D410E624;
- Thu, 18 Aug 2022 20:23:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BAFB10EEBE;
+ Thu, 18 Aug 2022 20:23:10 +0000 (UTC)
 Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27IFrp8X004931;
- Thu, 18 Aug 2022 20:22:59 GMT
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27IFrmxo004825;
+ Thu, 18 Aug 2022 20:23:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=Zjal31pio/4HU2RAjvphbmY0ZR1i1UoN7g5gEWFxqyM=;
- b=JND7XcAdpYctMrFXoaGEdQDSv6G0PuxJWsPXbY+lcb1UjUH60Rpi7JMGxwlVKGFXlvqq
- oLxtjkImPOy+R0IS2bN5KcLIV4JXkmQHBv0POnGxR3+pSzyly3SpmxguAkMgqgm9IbSs
- Ed8984/vziIMVUeKPx9X+9xY7sSAIG+RGc/3Ny3ZHsPUQbcwSZT6tjnYYmMPkghdnrgH
- 1995LkYDKJr5jUAZhs6+WVJZa1KeZIpiEMcPoZwSTr4MggVLgwLWCOY8QJj2pU58IQKY
- o3wi1fItGXWnfw9zoOAHlYhxWqHN8tSV6aEzxNjUsR43DyyyDPodpDvil1wxkdnPmZGf Qw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=YP7jiQx6nRcEHsk8HlT10x8CfIauhO1O6L4cwHWK7K0=;
+ b=Od0mEeQzVUSik01XvAo1dY//Ec/FaFDtXQObOvf+d5fYjztkRuJPE3AbwNACFKFhT8Bo
+ AoZYlA41j77QPE+kAiCeklR6+jMHc3R1iVlJDYjQ7zG+s4XxkcwEHR6ngnVqd8jpGxqn
+ qT2SUfmlO25bSExmsT3xfOV28df3FUD2/XF8iLvZUuG5+3sP/APrnWRcMghYORIzqtAg
+ r5fLX4swYFmpiyHjy/nz9JCnXS2fULwJPK9bb4EM1TIlelGZbj3UuCrc9fa37O17Hjd8
+ 4kVsWl7TDwVx73a86/nMibeKI+jyeiQCiQI4JFbaik3U05bAEgX8lamjT3hvDfC3S4zS Cw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j1hbqajk1-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j1hbqajkc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Aug 2022 20:22:59 +0000
+ Thu, 18 Aug 2022 20:23:05 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27IKMwL3006078
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27IKN439027224
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Aug 2022 20:22:58 GMT
+ Thu, 18 Aug 2022 20:23:04 GMT
 Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 18 Aug 2022 13:22:52 -0700
+ 15.2.986.22; Thu, 18 Aug 2022 13:22:58 -0700
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 To: freedreno <freedreno@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  Rob Clark <robdclark@gmail.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, "Dmitry
  Baryshkov" <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v5 5/7] drm/msm/a6xx: Ensure CX collapse during gpu recovery
-Date: Fri, 19 Aug 2022 01:52:13 +0530
-Message-ID: <20220819015030.v5.5.I176567525af2b9439a7e485d0ca130528666a55c@changeid>
+Subject: [PATCH v5 6/7] drm/msm/a6xx: Improve gpu recovery sequence
+Date: Fri, 19 Aug 2022 01:52:14 +0530
+Message-ID: <20220819015030.v5.6.Idf2ba51078e87ae7ceb75cc77a5bd4ff2bd31eab@changeid>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1660854135-1667-1-git-send-email-quic_akhilpo@quicinc.com>
 References: <1660854135-1667-1-git-send-email-quic_akhilpo@quicinc.com>
@@ -60,14 +60,14 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: QXofy9Rzdd5eNSNd35_RfbKChX6qzviG
-X-Proofpoint-ORIG-GUID: QXofy9Rzdd5eNSNd35_RfbKChX6qzviG
+X-Proofpoint-GUID: jM9rVFxepk9EE9ZYn5jCvVSTpD_m1Wat
+X-Proofpoint-ORIG-GUID: jM9rVFxepk9EE9ZYn5jCvVSTpD_m1Wat
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-18_14,2022-08-18_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  suspectscore=0
- mlxlogscore=999 phishscore=0 lowpriorityscore=0 impostorscore=0
+ mlxlogscore=973 phishscore=0 lowpriorityscore=0 impostorscore=0
  bulkscore=0 adultscore=0 priorityscore=1501 clxscore=1015 mlxscore=0
  malwarescore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2207270000 definitions=main-2208180074
@@ -87,102 +87,173 @@ Cc: Jonathan Marek <jonathan@marek.ca>,
  Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-kernel@vger.kernel.org,
  Abhinav
  Kumar <quic_abhinavk@quicinc.com>, Douglas Anderson <dianders@chromium.org>,
- David Airlie <airlied@linux.ie>, Matthias Kaehlcke <mka@chromium.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>
+ Wang Qing <wangqing@vivo.com>, David Airlie <airlied@linux.ie>,
+ Matthias Kaehlcke <mka@chromium.org>, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Sean Paul <sean@poorly.run>, Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because there could be transient votes from other drivers/tz/hyp which
-may keep the cx gdsc enabled, we should poll until cx gdsc collapses.
-We can use the reset framework to poll for cx gdsc collapse from gpucc
-clk driver.
-
-This feature requires support from the platform's gpucc driver.
+We can do a few more things to improve our chance at a successful gpu
+recovery, especially during a hangcheck timeout:
+1. Halt CP and GMU core
+2. Do RBBM GBIF HALT sequence
+3. Do a soft reset of GPU core
 
 Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
 
-Changes in v5:
-- Replace devm_reset_control_get_optional() with
-devm_reset_control_get_optional_exclusive() (Philipp)
+(no changes since v1)
 
-Changes in v3:
-- Use reset interface from gpucc driver to poll for cx gdsc collapse
-  https://patchwork.freedesktop.org/series/106860/
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h |  4 ++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 77 +++++++++++++++++++++--------------
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c |  7 ++++
+ 3 files changed, 58 insertions(+), 30 deletions(-)
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ++++
- drivers/gpu/drm/msm/msm_gpu.c         | 4 ++++
- drivers/gpu/drm/msm/msm_gpu.h         | 4 ++++
- 3 files changed, 12 insertions(+)
-
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx.xml.h b/drivers/gpu/drm/msm/adreno/a6xx.xml.h
+index b03e2c4..beea4a7 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx.xml.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx.xml.h
+@@ -1413,6 +1413,10 @@ static inline uint32_t REG_A6XX_RBBM_PERFCTR_RBBM_SEL(uint32_t i0) { return 0x00
+ 
+ #define REG_A6XX_RBBM_GBIF_CLIENT_QOS_CNTL			0x00000011
+ 
++#define REG_A6XX_RBBM_GBIF_HALT					0x00000016
++
++#define REG_A6XX_RBBM_GBIF_HALT_ACK				0x00000017
++
+ #define REG_A6XX_RBBM_WAIT_FOR_GPU_IDLE_CMD			0x0000001c
+ #define A6XX_RBBM_WAIT_FOR_GPU_IDLE_CMD_WAIT_GPU_IDLE		0x00000001
+ 
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 9f76f5b..db05942 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -869,9 +869,47 @@ static void a6xx_gmu_rpmh_off(struct a6xx_gmu *gmu)
+ 		(val & 1), 100, 1000);
+ }
+ 
++#define GBIF_CLIENT_HALT_MASK             BIT(0)
++#define GBIF_ARB_HALT_MASK                BIT(1)
++
++static void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu)
++{
++	struct msm_gpu *gpu = &adreno_gpu->base;
++
++	if (!a6xx_has_gbif(adreno_gpu)) {
++		gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0xf);
++		spin_until((gpu_read(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL1) &
++								0xf) == 0xf);
++		gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0);
++
++		return;
++	}
++
++	/* Halt the gx side of GBIF */
++	gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 1);
++	spin_until(gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT_ACK) & 1);
++
++	/* Halt new client requests on GBIF */
++	gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_CLIENT_HALT_MASK);
++	spin_until((gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK) &
++			(GBIF_CLIENT_HALT_MASK)) == GBIF_CLIENT_HALT_MASK);
++
++	/* Halt all AXI requests on GBIF */
++	gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_ARB_HALT_MASK);
++	spin_until((gpu_read(gpu,  REG_A6XX_GBIF_HALT_ACK) &
++			(GBIF_ARB_HALT_MASK)) == GBIF_ARB_HALT_MASK);
++
++	/* The GBIF halt needs to be explicitly cleared */
++	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
++}
++
+ /* Force the GMU off in case it isn't responsive */
+ static void a6xx_gmu_force_off(struct a6xx_gmu *gmu)
+ {
++	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
++	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
++	struct msm_gpu *gpu = &adreno_gpu->base;
++
+ 	/* Flush all the queues */
+ 	a6xx_hfi_stop(gmu);
+ 
+@@ -883,6 +921,15 @@ static void a6xx_gmu_force_off(struct a6xx_gmu *gmu)
+ 
+ 	/* Make sure there are no outstanding RPMh votes */
+ 	a6xx_gmu_rpmh_off(gmu);
++
++	/* Halt the gmu cm3 core */
++	gmu_write(gmu, REG_A6XX_GMU_CM3_SYSRESET, 1);
++
++	a6xx_bus_clear_pending_transactions(adreno_gpu);
++
++	/* Reset GPU core blocks */
++	gpu_write(gpu, REG_A6XX_RBBM_SW_RESET_CMD, 1);
++	udelay(100);
+ }
+ 
+ static void a6xx_gmu_set_initial_freq(struct msm_gpu *gpu, struct a6xx_gmu *gmu)
+@@ -1010,36 +1057,6 @@ bool a6xx_gmu_isidle(struct a6xx_gmu *gmu)
+ 	return true;
+ }
+ 
+-#define GBIF_CLIENT_HALT_MASK             BIT(0)
+-#define GBIF_ARB_HALT_MASK                BIT(1)
+-
+-static void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu)
+-{
+-	struct msm_gpu *gpu = &adreno_gpu->base;
+-
+-	if (!a6xx_has_gbif(adreno_gpu)) {
+-		gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0xf);
+-		spin_until((gpu_read(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL1) &
+-								0xf) == 0xf);
+-		gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0);
+-
+-		return;
+-	}
+-
+-	/* Halt new client requests on GBIF */
+-	gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_CLIENT_HALT_MASK);
+-	spin_until((gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK) &
+-			(GBIF_CLIENT_HALT_MASK)) == GBIF_CLIENT_HALT_MASK);
+-
+-	/* Halt all AXI requests on GBIF */
+-	gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_ARB_HALT_MASK);
+-	spin_until((gpu_read(gpu,  REG_A6XX_GBIF_HALT_ACK) &
+-			(GBIF_ARB_HALT_MASK)) == GBIF_ARB_HALT_MASK);
+-
+-	/* The GBIF halt needs to be explicitly cleared */
+-	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
+-}
+-
+ /* Gracefully try to shut down the GMU and by extension the GPU */
+ static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
+ {
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 0c8f19e..0ec4fcd 100644
+index 0ec4fcd..a9335bc 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -10,6 +10,7 @@
+@@ -920,6 +920,10 @@ static int hw_init(struct msm_gpu *gpu)
+ 	/* Make sure the GMU keeps the GPU on while we set it up */
+ 	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
  
- #include <linux/bitfield.h>
- #include <linux/devfreq.h>
-+#include <linux/reset.h>
- #include <linux/soc/qcom/llcc-qcom.h>
- 
- #define GPU_PAS_ID 13
-@@ -1229,6 +1230,9 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	/* And the final one from recover worker */
- 	pm_runtime_put_sync(&gpu->pdev->dev);
- 
-+	/* Call into gpucc driver to poll for cx gdsc collapse */
-+	reset_control_reset(gpu->cx_collapse);
++	/* Clear GBIF halt in case GX domain was not collapsed */
++	if (a6xx_has_gbif(adreno_gpu))
++		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
 +
- 	pm_runtime_use_autosuspend(&gpu->pdev->dev);
+ 	gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
  
- 	if (active_submits)
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 07e55a6..2b6f9d4 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -14,6 +14,7 @@
- #include <generated/utsrelease.h>
- #include <linux/string_helpers.h>
- #include <linux/devcoredump.h>
-+#include <linux/reset.h>
- #include <linux/sched/task.h>
+ 	/*
+@@ -1205,6 +1209,9 @@ static void a6xx_recover(struct msm_gpu *gpu)
+ 	if (hang_debug)
+ 		a6xx_dump(gpu);
  
- /*
-@@ -903,6 +904,9 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	if (IS_ERR(gpu->gpu_cx))
- 		gpu->gpu_cx = NULL;
- 
-+	gpu->cx_collapse = devm_reset_control_get_optional_exclusive(&pdev->dev,
-+			"cx_collapse");
++	/* Halt SQE first */
++	gpu_write(gpu, REG_A6XX_CP_SQE_CNTL, 3);
 +
- 	gpu->pdev = pdev;
- 	platform_set_drvdata(pdev, &gpu->adreno_smmu);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 6def008..ab59fd2 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -13,6 +13,7 @@
- #include <linux/interconnect.h>
- #include <linux/pm_opp.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
- 
- #include "msm_drv.h"
- #include "msm_fence.h"
-@@ -268,6 +269,9 @@ struct msm_gpu {
- 	bool hw_apriv;
- 
- 	struct thermal_cooling_device *cooling;
-+
-+	/* To poll for cx gdsc collapse during gpu recovery */
-+	struct reset_control *cx_collapse;
- };
- 
- static inline struct msm_gpu *dev_to_gpu(struct device *dev)
+ 	/*
+ 	 * Turn off keep alive that might have been enabled by the hang
+ 	 * interrupt
 -- 
 2.7.4
 
