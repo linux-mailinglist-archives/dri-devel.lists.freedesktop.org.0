@@ -2,68 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D31598BF4
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 20:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCEE598BFB
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 20:49:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB2010E95D;
-	Thu, 18 Aug 2022 18:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3639910F5CD;
+	Thu, 18 Aug 2022 18:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE77010EFDD
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 18:45:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660848323;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3SH44BXwktH40KCcDZ9+emR32b1FaNxTyVmnyphrNZ0=;
- b=CTIIk3h3TqDklhMo7iaZ79QwH3QTzilYexsgsJzFRdcU5bwxsqXnUx15/vzZPrhsINjuMw
- 6XRauMaB8aiSVSKWzO1UH5YkyQpEyHQy/Wp5B6HQ8LfZfYwvo8EVbOhkIUT3YJ5cK1ADZy
- TQd7n9J4hpfQ5LquAjUNUWu6NeeYUJg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-LFpjrYx6M1uDx4MF-Xar3w-1; Thu, 18 Aug 2022 14:45:20 -0400
-X-MC-Unique: LFpjrYx6M1uDx4MF-Xar3w-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC54010E1FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 18:47:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 490D285A581;
- Thu, 18 Aug 2022 18:45:18 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A84A7492C3B;
- Thu, 18 Aug 2022 18:45:14 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Ben Skeggs <bskeggs@redhat.com>,
-	Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
-	Daniel Dadap <ddadap@nvidia.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v3 31/31] drm/todo: Add entry about dealing with brightness
- control on devices with > 1 panel
-Date: Thu, 18 Aug 2022 20:43:02 +0200
-Message-Id: <20220818184302.10051-32-hdegoede@redhat.com>
-In-Reply-To: <20220818184302.10051-1-hdegoede@redhat.com>
-References: <20220818184302.10051-1-hdegoede@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4DEB261762
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 18:47:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B4923C433B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 18:47:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660848428;
+ bh=X5GdThkHlv77XcaA2spesAqwTcn2YGPOOkslNAukgx0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=mBIJWu3bmvUovCiVfc+F9Jr0oAlaunbAALTECqXtFTuXogGvSsusvPHDPmztR+oHy
+ DV5bjqvElySm4/Woy/ZYqH/0lHUy2VgOjRqNhNG4csBQDkzrcm7Rd7y8n6tjeQkmz6
+ 3zZD+/nU66Hp2vdYcnXP16A7BFndj+4eZUz9Le1Fvuco37RobUe6VBAXLMk/uWeQCi
+ 7fLtRjFZXQpX9ONlneaPbhZogBuqIe19cjLQ4P8sXaq4GeTxBVX68c+fkbl3Yva1u9
+ E/HXkHsazrsx0eGj/AvCWPL5tk+FyJSPoS5v9fSoBAmAT3rkohH2Rmp5LnAHrRzdF6
+ 8T/zcdOdT3zyw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 9815FC433E9; Thu, 18 Aug 2022 18:47:08 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216376] AMDGPU: display output disables and quickly reenables
+ when switching AVR into/from standby doing HDMI passthrough
+Date: Thu, 18 Aug 2022 18:47:08 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: jlp.bugs@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216376-2300-IENq6mihAX@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216376-2300@https.bugzilla.kernel.org/>
+References: <bug-216376-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,104 +72,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-acpi@vger.kernel.org, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, amd-gfx@lists.freedesktop.org,
- Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an entry summarizing the discussion about dealing with brightness
-control on devices with more then 1 internal panel.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216376
 
-The original discussion can be found here:
-https://lore.kernel.org/dri-devel/20220517152331.16217-1-hdegoede@redhat.com/
+--- Comment #4 from Jure Repinc (jlp.bugs@gmail.com) ---
+If I got it right, the hotplug events are all posted via udev? If so, is it
+correct to use "udevadm monitor --environment --udev" to see these events
+posted to userspace? Or is there somethign better? Just trying to make the =
+best
+sense out of it to try making a workaround and gather as much relevant
+information to report a good bug/feature request with correct info to KDE
+developers.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- Documentation/gpu/todo.rst | 68 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 7634c27ac562..393d218e4a0c 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -679,6 +679,74 @@ Contact: Sam Ravnborg
- 
- Level: Advanced
- 
-+Brightness handling on devices with multiple internal panels
-+============================================================
-+
-+On x86/ACPI devices there can be multiple backlight firmware interfaces:
-+(ACPI) video, vendor specific and others. As well as direct/native (PWM)
-+register programming by the KMS driver.
-+
-+To deal with this backlight drivers used on x86/ACPI call
-+acpi_video_get_backlight_type() which has heuristics (+quirks) to select
-+which backlight interface to use; and backlight drivers which do not match
-+the returned type will not register themselves, so that only one backlight
-+device gets registered (in a single GPU setup, see below).
-+
-+At the moment this more or less assumes that there will only
-+be 1 (internal) panel on a system.
-+
-+On systems with 2 panels this may be a problem, depending on
-+what interface acpi_video_get_backlight_type() selects:
-+
-+1. native: in this case the KMS driver is expected to know which backlight
-+   device belongs to which output so everything should just work.
-+2. video: this does support controlling multiple backlights, but some work
-+   will need to be done to get the output <-> backlight device mapping
-+
-+The above assumes both panels will require the same backlight interface type.
-+Things will break on systems with multiple panels where the 2 panels need
-+a different type of control. E.g. one panel needs ACPI video backlight control,
-+where as the other is using native backlight control. Currently in this case
-+only one of the 2 required backlight devices will get registered, based on
-+the acpi_video_get_backlight_type() return value.
-+
-+If this (theoretical) case ever shows up, then supporting this will need some
-+work. A possible solution here would be to pass a device and connector-name
-+to acpi_video_get_backlight_type() so that it can deal with this.
-+
-+Note in a way we already have a case where userspace sees 2 panels,
-+in dual GPU laptop setups with a mux. On those systems we may see
-+either 2 native backlight devices; or 2 native backlight devices.
-+
-+Userspace already has code to deal with this by detecting if the related
-+panel is active (iow which way the mux between the GPU and the panels
-+points) and then uses that backlight device. Userspace here very much
-+assumes a single panel though. It picks only 1 of the 2 backlight devices
-+and then only uses that one.
-+
-+Note that all userspace code (that I know off) is currently hardcoded
-+to assume a single panel.
-+
-+Before the recent changes to not register multiple (e.g. video + native)
-+/sys/class/backlight devices for a single panel (on a single GPU laptop),
-+userspace would see multiple backlight devices all controlling the same
-+backlight.
-+
-+To deal with this userspace had to always picks one preferred device under
-+/sys/class/backlight and will ignore the others. So to support brightness
-+control on multiple panels userspace will need to be updated too.
-+
-+There are plans to allow brightness control through the KMS API by adding
-+a "display brightness" property to drm_connector objects for panels. This
-+solves a number of issues with the /sys/class/backlight API, including not
-+being able to map a sysfs backlight device to a specific connector. Any
-+userspace changes to add support for brightness control on devices with
-+multiple panels really should build on top of this new KMS property.
-+
-+Contact: Hans de Goede
-+
-+Level: Advanced
-+
- Outside DRM
- ===========
- 
--- 
-2.37.2
+If I use "udevadm monitor --environment --udev" I get the output:
 
+udevadm monitor --environment --udev
+monitor will print the received events for:
+UDEV - the event which udev sends out after rule processing
+
+
+< switching AVR from on to standby mode >
+
+
+UDEV  [35121.304457] change=20=20
+/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0 (drm)
+ACTION=3Dchange
+DEVPATH=3D/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0
+SUBSYSTEM=3Ddrm
+HOTPLUG=3D1
+CONNECTOR=3D74
+DEVNAME=3D/dev/dri/card0
+DEVTYPE=3Ddrm_minor
+SEQNUM=3D12043
+USEC_INITIALIZED=3D4651406
+ID_PATH=3Dpci-0000:01:00.0
+ID_PATH_TAG=3Dpci-0000_01_00_0
+ID_FOR_SEAT=3Ddrm-pci-0000_01_00_0
+MAJOR=3D226
+MINOR=3D0
+DEVLINKS=3D/dev/dri/by-path/pci-0000:01:00.0-card
+TAGS=3D:uaccess:master-of-seat:seat:
+CURRENT_TAGS=3D:uaccess:master-of-seat:seat:
+
+UDEV  [35124.216717] change=20=20
+/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0 (drm)
+ACTION=3Dchange
+DEVPATH=3D/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0
+SUBSYSTEM=3Ddrm
+HOTPLUG=3D1
+CONNECTOR=3D74
+DEVNAME=3D/dev/dri/card0
+DEVTYPE=3Ddrm_minor
+SEQNUM=3D12044
+USEC_INITIALIZED=3D4651406
+ID_PATH=3Dpci-0000:01:00.0
+ID_PATH_TAG=3Dpci-0000_01_00_0
+ID_FOR_SEAT=3Ddrm-pci-0000_01_00_0
+MAJOR=3D226
+MINOR=3D0
+DEVLINKS=3D/dev/dri/by-path/pci-0000:01:00.0-card
+TAGS=3D:uaccess:master-of-seat:seat:
+CURRENT_TAGS=3D:uaccess:master-of-seat:seat:
+
+
+< switching AVR from standby to on mode >
+
+
+UDEV  [35155.373681] change=20=20
+/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0 (drm)
+ACTION=3Dchange
+DEVPATH=3D/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0
+SUBSYSTEM=3Ddrm
+HOTPLUG=3D1
+CONNECTOR=3D74
+DEVNAME=3D/dev/dri/card0
+DEVTYPE=3Ddrm_minor
+SEQNUM=3D12048
+USEC_INITIALIZED=3D4651406
+ID_PATH=3Dpci-0000:01:00.0
+ID_PATH_TAG=3Dpci-0000_01_00_0
+ID_FOR_SEAT=3Ddrm-pci-0000_01_00_0
+MAJOR=3D226
+MINOR=3D0
+DEVLINKS=3D/dev/dri/by-path/pci-0000:01:00.0-card
+TAGS=3D:uaccess:master-of-seat:seat:
+CURRENT_TAGS=3D:uaccess:master-of-seat:seat:
+
+UDEV  [35158.196252] change=20=20
+/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0 (drm)
+ACTION=3Dchange
+DEVPATH=3D/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0
+SUBSYSTEM=3Ddrm
+HOTPLUG=3D1
+CONNECTOR=3D74
+DEVNAME=3D/dev/dri/card0
+DEVTYPE=3Ddrm_minor
+SEQNUM=3D12049
+USEC_INITIALIZED=3D4651406
+ID_PATH=3Dpci-0000:01:00.0
+ID_PATH_TAG=3Dpci-0000_01_00_0
+ID_FOR_SEAT=3Ddrm-pci-0000_01_00_0
+MAJOR=3D226
+MINOR=3D0
+DEVLINKS=3D/dev/dri/by-path/pci-0000:01:00.0-card
+TAGS=3D:uaccess:master-of-seat:seat:
+CURRENT_TAGS=3D:uaccess:master-of-seat:seat:
+
+UDEV  [35158.953569] change=20=20
+/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0 (drm)
+ACTION=3Dchange
+DEVPATH=3D/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0
+SUBSYSTEM=3Ddrm
+HOTPLUG=3D1
+CONNECTOR=3D74
+DEVNAME=3D/dev/dri/card0
+DEVTYPE=3Ddrm_minor
+SEQNUM=3D12050
+USEC_INITIALIZED=3D4651406
+ID_PATH=3Dpci-0000:01:00.0
+ID_PATH_TAG=3Dpci-0000_01_00_0
+ID_FOR_SEAT=3Ddrm-pci-0000_01_00_0
+MAJOR=3D226
+MINOR=3D0
+DEVLINKS=3D/dev/dri/by-path/pci-0000:01:00.0-card
+TAGS=3D:uaccess:master-of-seat:seat:
+CURRENT_TAGS=3D:uaccess:master-of-seat:seat:
+
+UDEV  [35161.036327] change=20=20
+/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0 (drm)
+ACTION=3Dchange
+DEVPATH=3D/devices/pci0000:00/0000:00:01.0/0000:01:00.0/drm/card0
+SUBSYSTEM=3Ddrm
+HOTPLUG=3D1
+CONNECTOR=3D74
+DEVNAME=3D/dev/dri/card0
+DEVTYPE=3Ddrm_minor
+SEQNUM=3D12051
+USEC_INITIALIZED=3D4651406
+ID_PATH=3Dpci-0000:01:00.0
+ID_PATH_TAG=3Dpci-0000_01_00_0
+ID_FOR_SEAT=3Ddrm-pci-0000_01_00_0
+MAJOR=3D226
+MINOR=3D0
+DEVLINKS=3D/dev/dri/by-path/pci-0000:01:00.0-card
+TAGS=3D:uaccess:master-of-seat:seat:
+CURRENT_TAGS=3D:uaccess:master-of-seat:seat:
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
