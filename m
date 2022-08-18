@@ -2,38 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7F55990F3
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 01:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562565990FB
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 01:11:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2627C10E746;
-	Thu, 18 Aug 2022 23:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C088C10EA28;
+	Thu, 18 Aug 2022 23:11:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25A2910E7FB
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 23:08:41 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FED08B;
- Fri, 19 Aug 2022 01:08:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1660864119;
- bh=4PW0JoB03TlII/YoouL7jQizC1IyM+yy8mabacxO+gQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UdH6mVd6rDYDxPUVxru3l0Xei79gzGoJTMrC3IqfTFzlgYczifoyZ+XZI6wN7opwA
- r3rvhu0vH4/QbL6DbYoJIz0EYFn58xavLauFrbdVivwbKWp45Km1qvzifRgxAYK68B
- jU/Gix7Cw+IRHCUy6NrvEM4+iFchBirF0GTZMMwU=
-Date: Fri, 19 Aug 2022 02:08:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hsia-Jun Li <randy.li@synaptics.com>
-Subject: Re: [PATCH 0/2] Add pixel formats used in Synatpics SoC
-Message-ID: <Yv7Gc+mSEXBnV0Oc@pendragon.ideasonboard.com>
-References: <20220808162750.828001-1-randy.li@synaptics.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 427B210E6D9;
+ Thu, 18 Aug 2022 23:11:25 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27IMrC9L011384;
+ Thu, 18 Aug 2022 23:11:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=LwMe9vWTBIKzX8q+kA+JWETXwlgC1hWx7z5/AwjqoIg=;
+ b=AY73Xy/KGHNTwZHgBpUWWLzgqJEXxKfgpJPcf4IVDE+Uk+64Srg7aMZJQ7geeRR5jEqU
+ n8/ewv+FE5/q7ejCN4T/zG8zAlsVBhWLMdwCr13XNupB0VYxbZlFP3viI7HG8EM4u4R5
+ nCH5YK9s7jz/xQcmEJwRLu3DQYNux9lyN71AHg4EPnMkHwu8bM/7UO/ASUmhe92OJH/J
+ mRVvDrxt8mW9ANs9HwOZqTAuOrm+DvD2mg/xPyQos181xnwgD/oEzTPwYwbdHMDQT757
+ hjmp6/TYclBaNJgK9+b4GADEimdCccEH/2D3qL71PQZ9KI0tgHiuLEl4wWFewuagM99Y kw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j1hhp2u79-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Aug 2022 23:11:22 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27INBLMT019869
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Aug 2022 23:11:21 GMT
+Received: from [10.111.166.229] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 18 Aug
+ 2022 16:11:19 -0700
+Message-ID: <eca58cbc-dc7e-98d3-7618-858742b82614@quicinc.com>
+Date: Thu, 18 Aug 2022 16:11:17 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220808162750.828001-1-randy.li@synaptics.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: Set panel orientation when
+ directly connected
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>
+References: <20220706191442.1150634-1-swboyd@chromium.org>
+ <CAD=FV=UrYCwm2ByN_5EN3fq-ayMJNjmWfJ5sooRy51ZiCoMcjA@mail.gmail.com>
+ <CAF6AEGt_J6f1T+-6KtyCrUJrY2fh7Sz10L1AV1FSe8hueGREtQ@mail.gmail.com>
+ <CAD=FV=W+VWtpTKAoyQpYMFteZy8iYB7-o=ACqkjr7YX7uCxZvg@mail.gmail.com>
+ <CAD=FV=W9Gr9MyCg2rsKaA-ssSi5e3W5zO9sC56At+ceN4A2XtA@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAD=FV=W9Gr9MyCg2rsKaA-ssSi5e3W5zO9sC56At+ceN4A2XtA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: FAtIbuZ2YlaJUXcNJf6H83gb0f5mPJda
+X-Proofpoint-ORIG-GUID: FAtIbuZ2YlaJUXcNJf6H83gb0f5mPJda
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-18_16,2022-08-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1011
+ adultscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
+ mlxlogscore=999 spamscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208180085
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,70 +87,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, tfiga@chromium.org,
- sebastian.hesselbarth@gmail.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- sakari.ailus@linux.intel.com, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, ribalda@chromium.org, hverkuil-cisco@xs4all.nl,
- mchehab@kernel.org, jszhang@kernel.org, ezequiel@vanguardiasur.com.ar
+Cc: Sean Paul <sean@poorly.run>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, patches@lists.linux.dev,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsia-Jun,
+Hi Doug
 
-On Tue, Aug 09, 2022 at 12:27:48AM +0800, Hsia-Jun Li wrote:
-> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+On 8/17/2022 1:48 PM, Doug Anderson wrote:
+> Hi,
 > 
-> Those pixel formats are used in Synaptics's VideoSmart series SoCs,
-> likes VS640, VS680.  I just disclose the pixel formats used in the video
-> codecs and display pipeline this time. Actually any device with a MTR
-> module could support those tiled and compressed pixel formats. The more
-> detail about MTR module could be found in the first patch of this serial
-> of mail.
+> On Wed, Jul 20, 2022 at 3:42 PM Doug Anderson <dianders@chromium.org> wrote:
+>>
+>> Hi,
+>>
+>> On Wed, Jul 20, 2022 at 1:46 PM Rob Clark <robdclark@gmail.com> wrote:
+>>>
+>>> On Fri, Jul 8, 2022 at 8:25 AM Doug Anderson <dianders@chromium.org> wrote:
+>>>>
+>>>> Hi,
+>>>>
+>>>> On Wed, Jul 6, 2022 at 12:14 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>>>>>
+>>>>> Set the panel orientation in drm when the panel is directly connected,
+>>>>> i.e. we're not using an external bridge. The external bridge case is
+>>>>> already handled by the panel bridge code, so we only update the path we
+>>>>> take when the panel is directly connected/internal. This silences a
+>>>>> warning splat coming from __drm_mode_object_add() on Wormdingler boards.
+>>>>>
+>>>>> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+>>>>> Cc: Douglas Anderson <dianders@chromium.org>
+>>>>> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+>>>>> ---
+>>>>>
+>>>>> This relies on commit 5e41b01a7808 ("drm/panel: Add an API to allow drm
+>>>>> to set orientation from panel") which is in drm-misc
+>>>>>
+>>>>>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 ++
+>>>>>   1 file changed, 2 insertions(+)
+>>>>
+>>>> I don't personally have objections to this, but (to my understanding)
+>>>> "the future" is that everyone should use panel_bridge. If we made the
+>>>> move to panel_bridge today then we wouldn't need to do this. In
+>>>> general I think panel_bridge would end up letting us delete a bunch of
+>>>> code...
+>>>>
+>>>> See commit 4e5763f03e10 ("drm/bridge: ti-sn65dsi86: Wrap panel with
+>>>> panel-bridge") for when this was done by ti-sn65dsi86.
+>>>>
+>>>> Then again, I spent a small amount of time looking into this and it's
+>>>> definitely non-trivial. Still likely worthwhile, but not worth
+>>>> blocking a tiny fix like this. It also should be fairly obvious that
+>>>> we should delete this when we switch to panel_bridge.
+>>>>
+>>>> Thus:
+>>>>
+>>>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>>>
+>>>> I'll assume that we'll just snooze this commit until drm-misc-next
+>>>> merges into a tree that msm-next is based on, which will probably be
+>>>> the next -rc1. If desired and Acked I could land this in
+>>>> drm-misc-next, but it's probably not worth it?
+>>>
+>>> if you want to land this patch via drm-misc, which might be the
+>>> easier/faster route, then:
+>>>
+>>> Acked-by: Rob Clark <robdclark@gmail.com>
+>>
+>> As per discussion on IRC, I'm not going to apply this to drm-misc-next.
+>>
+>> Given where we are in the cycle landing in drm-misc-next means it
+>> won't be in mainline for a couple versions and I suspect that'll cause
+>> merge conflicts with Dmitry's series [1]. ...and, of course, if
+>> Dmitry's series lands then we don't even need ${SUBJECT} patch...
+>>
+>> So I think the plan is:
+>>
+>> 1. Snooze waiting for the next -rc1 since
+>> drm_connector_set_orientation_from_panel() won't be in mainline until
+>> then.
+>>
+>> 2. If Dmitry's series looks like a long way off, we could land
+>> ${SUBJECT} patch in msm-next as a stopgap fix.
+>>
+>>
+>> [1] https://lore.kernel.org/r/20220711094320.368062-5-dmitry.baryshkov@linaro.org/
 > 
-> We may not be able to post any drivers here in a short time, the most of
-> work in this platform is done in the Trusted Execution Environment and
-> we didn't use the optee framework.
-
-Is that so for the display side too, or only for the video decoder ?
-
-> Please notice that, the memory planes used for video codecs would be 5
-> when the compression is invoked while it would be 4 for display, the
-> extra planes in the video codecs is for the decoding internally usage,
-> it can't append the luma or chroma buffer as many other drivers do,
-> because this buffer could be only accessed by the video codecs itself,
-> it requests a different memory security attributes. Any other reason is
-> described in the v4l pixel formats's patch. I don't know whether a
-> different numbers of memory planes between drm and v4l2 is acceptable.
-
-I don't think that's a problem as such, as long as both the V4L2 and DRM
-formats make sense on their own.
-
-> I only posted the compression fourcc for the v4l2, because it is really
-> hard to put the uncompression version of pixel formats under the fourcc.
-> I would be better that we could have something likes format modifers in
-> drm here.
-
-Agreed, we need modifiers support in V4L2. This has been discussed
-previously ([1]), and a proposal ([2]) has been submitted two years ago,
-it needs to be revived.
-
-[1] https://lore.kernel.org/linux-media/20170821155203.GB38943@e107564-lin.cambridge.arm.com/
-[2] https://lore.kernel.org/linux-media/20200804192939.2251988-1-helen.koike@collabora.com/
-
-> https://synaptics.com/products/multimedia-solutions
+> Just checking up. What's the latest thinking here? Do we want to land
+> Stephen's change as a stopgap?
+> drm_connector_set_orientation_from_panel() is available in v6.0-rc1.
 > 
-> Hsia-Jun(Randy) Li (2):
->   drm/fourcc: Add Synaptics VideoSmart tiled modifiers
->   [WIP]: media: Add Synaptics compressed tiled format
-> 
->  drivers/media/v4l2-core/v4l2-common.c |  1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c  |  2 ++
->  include/uapi/drm/drm_fourcc.h         | 49 +++++++++++++++++++++++++++
->  include/uapi/linux/videodev2.h        |  2 ++
->  4 files changed, 54 insertions(+)
+> -Doug
 
--- 
-Regards,
+As per todays discussion with Rob on IRC, we will start preparing the 
+tree for the next release. So lets drop this one and take the panel 
+bridge change instead since my comments on that were minor and can also 
+be addressed in a follow up change, will take it up and send it over to 
+Rob with some other changes.
 
-Laurent Pinchart
+Thanks
+
+Abhinav
