@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF595A01E2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:14:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E785A01E4
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:14:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC35992A0E;
-	Wed, 24 Aug 2022 19:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 802C8C358F;
+	Wed, 24 Aug 2022 19:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A50810E29F;
- Thu, 18 Aug 2022 23:03:17 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B34D710E277;
+ Thu, 18 Aug 2022 23:42:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660863797; x=1692399797;
+ t=1660866151; x=1692402151;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=niXsVpfGqDcnw/iyz1VZdTDJxGktMtC+b3TKnzJCApE=;
- b=iR0J32naEN64Jf4Bns60Q9jRwCII8ct/M/Yk4JzvlFNcJfxhqqU/zK2d
- cxgI+2q6ut30Qh2oHgwjw9RvcWyWfwv88+eGqKNEjzXh/cM+suIngNO7p
- MGFzGu4d/Cad9Y+zbL2ZrtjDau6jMoOcy60oofZw5T96WgwEfVqWSwPEb
- 1QiBAA0HbnDAgYYqKhgv4/bF44vBUTEPu6+r4ssrq+Mjv0CC/5jRpsPrI
- Pe1D4H4mSRCd1XmT3bHwB30kf3B2ZfFjuIrC8BmN5RIujdinZ76bsMpLz
- G93LHT7IaphR3iq6t5iCZXrGWibqgby7hJgKFu1BcnLvh5RLkE0U3KFZj g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="293677542"
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="293677542"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 16:03:17 -0700
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="641042846"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 16:03:16 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+ bh=xGQDS/i9Ej4d+vuzoYhYvXD0SDdxQY9cGkH9iMkRuCo=;
+ b=Uu03HMIetkzhjzdcjMzwV2oYDKj+8DZc5JzvkbVGo7Lk++ggBR3aBUPP
+ LCZiN4q6wNlKaz58LHSPOLYq/gvLnhUX79F4AyyauVGru8ZCTmpat12K9
+ BwWUm0TDjawPDM3c+Yiju5kG0HM3Cc8wzVz2BysNDZ0qdnqNdHT+IkmkF
+ tfAPgPhA6D215uXnTIfCSagGn97lIt1ogDtHIHYR8yuzRLb4FGOcMgH6f
+ DPu9mMJ7BnSfPTzMq+SX2bZSjDHcQXfEwrposmMMUjoWXvLDZ+3hehZsw
+ UOm9apfwldklTgejpwNYR7lKjXtM1/cMreLOe2NmBx+FOZ0OfszBD9JnV Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="275938519"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="275938519"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2022 16:42:28 -0700
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="783953291"
+Received: from invictus.jf.intel.com ([10.165.21.205])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2022 16:42:28 -0700
+From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 05/15] mei: pxp: add command streamer API to the PXP driver
-Date: Thu, 18 Aug 2022 16:02:33 -0700
-Message-Id: <20220818230243.3921066-6-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220818230243.3921066-1-daniele.ceraolospurio@intel.com>
-References: <20220818230243.3921066-1-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v2 08/21] drm/i915/mtl: Add VBT port and AUX_CH mapping
+Date: Thu, 18 Aug 2022 16:41:49 -0700
+Message-Id: <20220818234202.451742-9-radhakrishna.sripada@intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
+References: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,101 +55,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomas Winkler <tomas.winkler@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Vitaly Lubart <vitaly.lubart@intel.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vitaly Lubart <vitaly.lubart@intel.com>
+From: Imre Deak <imre.deak@intel.com>
 
-The discrete graphics card with GSC firmware
-using command streamer API hence it requires to enhance
-pxp module with the new gsc_command() handler.
+Add the proper VBT port,AUX_CH -> i915 port,AUX_CH mapping which just
+follows the ADL_P one.
 
-The handler is implemented via mei_pxp_gsc_command() which is
-just just a thin wrapper around mei_cldev_send_gsc_command()
-
-V2:
- 1. More detailed commit message
- 2. Fix typo in the comments
-
-Signed-off-by: Vitaly Lubart <vitaly.lubart@intel.com>
-Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 ---
- drivers/misc/mei/pxp/mei_pxp.c       | 28 ++++++++++++++++++++++++++++
- include/drm/i915_pxp_tee_interface.h |  5 +++++
- 2 files changed, 33 insertions(+)
+ drivers/gpu/drm/i915/display/intel_bios.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/misc/mei/pxp/mei_pxp.c b/drivers/misc/mei/pxp/mei_pxp.c
-index 5c39457e3f53..17c5d201603f 100644
---- a/drivers/misc/mei/pxp/mei_pxp.c
-+++ b/drivers/misc/mei/pxp/mei_pxp.c
-@@ -77,10 +77,38 @@ mei_pxp_receive_message(struct device *dev, void *buffer, size_t size)
- 	return byte;
- }
+diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+index 198a2f4920cc..81d6cfbd2615 100644
+--- a/drivers/gpu/drm/i915/display/intel_bios.c
++++ b/drivers/gpu/drm/i915/display/intel_bios.c
+@@ -2420,7 +2420,7 @@ static enum port dvo_port_to_port(struct drm_i915_private *i915,
+ 		[PORT_TC4] = { DVO_PORT_HDMII, DVO_PORT_DPI, -1 },
+ 	};
  
-+/**
-+ * mei_pxp_gsc_command() - sends a gsc command, by sending
-+ * a sgl mei message to gsc and receiving reply from gsc
-+ *
-+ * @dev: device corresponding to the mei_cl_device
-+ * @client_id: client id to send the command to
-+ * @fence_id: fence id to send the command to
-+ * @sg_in: scatter gather list containing addresses for rx message buffer
-+ * @total_in_len: total length of data in 'in' sg, can be less than the sum of buffers sizes
-+ * @sg_out: scatter gather list containing addresses for tx message buffer
-+ *
-+ * Return: bytes sent on Success, <0 on Failure
-+ */
-+static ssize_t mei_pxp_gsc_command(struct device *dev, u8 client_id, u32 fence_id,
-+				   struct scatterlist *sg_in, size_t total_in_len,
-+				   struct scatterlist *sg_out)
-+{
-+	struct mei_cl_device *cldev;
-+
-+	if (!dev || !sg_in || !sg_out)
-+		return -EINVAL;
-+
-+	cldev = to_mei_cl_device(dev);
-+
-+	return mei_cldev_send_gsc_command(cldev, client_id, fence_id, sg_in, total_in_len, sg_out);
-+}
-+
- static const struct i915_pxp_component_ops mei_pxp_ops = {
- 	.owner = THIS_MODULE,
- 	.send = mei_pxp_send_message,
- 	.recv = mei_pxp_receive_message,
-+	.gsc_command = mei_pxp_gsc_command,
- };
- 
- static int mei_component_master_bind(struct device *dev)
-diff --git a/include/drm/i915_pxp_tee_interface.h b/include/drm/i915_pxp_tee_interface.h
-index af593ec64469..67d44a1827f9 100644
---- a/include/drm/i915_pxp_tee_interface.h
-+++ b/include/drm/i915_pxp_tee_interface.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/mutex.h>
- #include <linux/device.h>
-+#include <linux/scatterlist.h>
- 
- /**
-  * struct i915_pxp_component_ops - ops for PXP services.
-@@ -23,6 +24,10 @@ struct i915_pxp_component_ops {
- 
- 	int (*send)(struct device *dev, const void *message, size_t size);
- 	int (*recv)(struct device *dev, void *buffer, size_t size);
-+	ssize_t (*gsc_command)(struct device *dev, u8 client_id, u32 fence_id,
-+			       struct scatterlist *sg_in, size_t total_in_len,
-+			       struct scatterlist *sg_out);
-+
- };
- 
- /**
+-	if (DISPLAY_VER(i915) == 13)
++	if (DISPLAY_VER(i915) >= 13)
+ 		return __dvo_port_to_port(ARRAY_SIZE(xelpd_port_mapping),
+ 					  ARRAY_SIZE(xelpd_port_mapping[0]),
+ 					  xelpd_port_mapping,
+@@ -3578,7 +3578,7 @@ enum aux_ch intel_bios_port_aux_ch(struct drm_i915_private *i915,
+ 			aux_ch = AUX_CH_C;
+ 		break;
+ 	case DP_AUX_D:
+-		if (DISPLAY_VER(i915) == 13)
++		if (DISPLAY_VER(i915) >= 13)
+ 			aux_ch = AUX_CH_D_XELPD;
+ 		else if (IS_ALDERLAKE_S(i915))
+ 			aux_ch = AUX_CH_USBC3;
+@@ -3588,7 +3588,7 @@ enum aux_ch intel_bios_port_aux_ch(struct drm_i915_private *i915,
+ 			aux_ch = AUX_CH_D;
+ 		break;
+ 	case DP_AUX_E:
+-		if (DISPLAY_VER(i915) == 13)
++		if (DISPLAY_VER(i915) >= 13)
+ 			aux_ch = AUX_CH_E_XELPD;
+ 		else if (IS_ALDERLAKE_S(i915))
+ 			aux_ch = AUX_CH_USBC4;
+@@ -3596,25 +3596,25 @@ enum aux_ch intel_bios_port_aux_ch(struct drm_i915_private *i915,
+ 			aux_ch = AUX_CH_E;
+ 		break;
+ 	case DP_AUX_F:
+-		if (DISPLAY_VER(i915) == 13)
++		if (DISPLAY_VER(i915) >= 13)
+ 			aux_ch = AUX_CH_USBC1;
+ 		else
+ 			aux_ch = AUX_CH_F;
+ 		break;
+ 	case DP_AUX_G:
+-		if (DISPLAY_VER(i915) == 13)
++		if (DISPLAY_VER(i915) >= 13)
+ 			aux_ch = AUX_CH_USBC2;
+ 		else
+ 			aux_ch = AUX_CH_G;
+ 		break;
+ 	case DP_AUX_H:
+-		if (DISPLAY_VER(i915) == 13)
++		if (DISPLAY_VER(i915) >= 13)
+ 			aux_ch = AUX_CH_USBC3;
+ 		else
+ 			aux_ch = AUX_CH_H;
+ 		break;
+ 	case DP_AUX_I:
+-		if (DISPLAY_VER(i915) == 13)
++		if (DISPLAY_VER(i915) >= 13)
+ 			aux_ch = AUX_CH_USBC4;
+ 		else
+ 			aux_ch = AUX_CH_I;
 -- 
-2.37.2
+2.25.1
 
