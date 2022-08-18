@@ -1,121 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FCF5981ED
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 13:08:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CAB8598227
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Aug 2022 13:21:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C68D110EAE3;
-	Thu, 18 Aug 2022 11:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A658290E83;
+	Thu, 18 Aug 2022 11:21:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2042.outbound.protection.outlook.com [40.107.101.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ECE412A532
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 11:07:26 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2064.outbound.protection.outlook.com [40.107.220.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E964B6156;
+ Thu, 18 Aug 2022 11:21:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UyPn7w+muA8xnfl73Gsep5MJudZ74qIJ0QYNBNVcDfHCpVGctMGGjKbnjKga8Tuqx7vmrrdtNm98pqWQwbi8OxQzMrnKAmDwmtj42nbRzQzXrxdfq4isN7o4oHXFWT67kmKYDxjemhQBF5qD4xTB29estE+974UrHGEG4JMWX1p90hqOZESuRvM9/l9NNmpfN0zJQP6VVIyKfBdYsqCZJ54ZisFAmOwZVXMmxlctU7mYn4nTWwqqRqkCSmpS15Ngl6L80sldM/Vu5PZJClJ5/1Kx+m8+Q2QfzCmQvq3OSGKsqXqXKKPS2pC8y8bO78A62q9urBWRo3QXTLQOZ5KOYw==
+ b=MDw8wIRMMVyFuccdtWnc+bpV5p+Fsirvp7CRotvikCAwK27Ey70xCJuJOBIyLE5qJj30qihsGNzLxJwcppg6XOqqDlUb+ZDIbE3HsKumEjDCETlC2nk21T/tEB5iV1mlJ6cIjxNdwl7ZHGyZCJ9NxCXzNhZE13Wl2c7G4bl7VkQWfwQu9IAst7Ff/MAZ36S0Lck1t/PlRZNieE96eBPB/EBu6IHSWlK62tdonn6PaO9D44ch2L1hm02SOp11SEF47xGKAHVLl6HNKpd8eDRsxIQtxM7KEcteneuqR6HF0mFwot2O57bjLHY10ktRUWYAb1IjYA4o8CxF2p74BohIZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Us6TlYHLMxPdE4hYt7W9gTHkpE1RbdXfDEq8ZfiRJQM=;
- b=VTW5Qim020aGWqgFA4uSe0HYgHFNHMBckmnX9uoA3rJ0B9Dh+SZghnPwNcftYWJvF/8Intcwt1+xi5B5i+6nFG7RsOO2oCZ8X5EhxZ3P8FsfkK1zjEu2iENDY+zUjHtxymJGBnhUa67HKfib/d34ylEHQKmEwju2uj5dJVSDxiSzXGA5E1AiHhQzldEJeZ6hXVsOSQGmWivXpa2IaMejvMSt0eETdCgIIhhK6gG9D4JstG4oK7uJdef37ZtK7O4nwKSwkUwv6EDT5f0MfRao41LGj2AfgVYXryJ9FsebX9MG219ximHt02Dm+2nqgnUaS7RUF+9ddkmMbWxqAZHQwg==
+ bh=oD2y7hyJaxKfq5jcLwzxgf2pEaQIcaxr7xxQLsmaJVI=;
+ b=RpFR2SWN5GLy5Jp/IRVXXKrXZcBZ4B5rpOMjNuwrg9f3ZGsif9yyz2Ey9eEgvkb+fMcy4k4QSk2e9EOxEQ5Osf3F2wDduvFaBLkem3zdQ72UUuY0wKI7FvgGRHRC9zLjJIOK5tNiW6NjUa9QqF0qEiroVLw6KWGdkbuXFt/tMBcVGbdqv5YdXAPS2xJph+/ml3z8XF++gnLK2F9FQ3o+b4BPXOYCL0APlXRjnFre1E0zx5Z11SfASKDMPM1k7CtIcAoL14NNDKUgfL4qE8+VUKZf0DaMIR9DdF2MSGbpVyCSsQY9vH5834Aw1RhulYcQGNa8xZeXS9HyCLde58z9og==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Us6TlYHLMxPdE4hYt7W9gTHkpE1RbdXfDEq8ZfiRJQM=;
- b=vR1b4yNjpQ7WOoSsV+YPbsRhTK8wer719SV45C1lz/OolKS+ZXFWkeNAP9MJ+I/DhEEW+ER6QYhHUwY94QRdMliMyGwp0PA/LUkHinDGVe3BwWn68XlJ0wQefEnuLhL8QrBIaCW0GNi05rq/o1GtQ8IWvfKtmG6S7nMr1mhjsTo=
+ bh=oD2y7hyJaxKfq5jcLwzxgf2pEaQIcaxr7xxQLsmaJVI=;
+ b=X75l4Zdix2l/RI2JTXijv+zGDqY38UuZR0rzUfZaND+3+aoEDqsDoYmA+OZcBO74c0kRh115RZBZrlkolMFOOmhIPaOt+FsT0LYnlWjuiijh29v4FYM+3iJoiLR0ME6JU3F2zEpbTPip+oFdUbQwH6QCKyXLxWz51+NJCTOgJ9c=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM4PR12MB6277.namprd12.prod.outlook.com (2603:10b6:8:a5::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Thu, 18 Aug
- 2022 11:07:23 +0000
+ by SN6PR12MB2831.namprd12.prod.outlook.com (2603:10b6:805:ec::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.19; Thu, 18 Aug
+ 2022 11:20:59 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Thu, 18 Aug 2022
- 11:07:23 +0000
-Message-ID: <921de79a-9cb3-4217-f079-4b23958a16aa@amd.com>
-Date: Thu, 18 Aug 2022 13:07:16 +0200
+ 11:20:58 +0000
+Message-ID: <973682df-b2e5-020c-98e9-96ec9af214d5@amd.com>
+Date: Thu, 18 Aug 2022 13:20:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 0/4] Allow MMIO regions to be exported through dma-buf
+Subject: Re: [PATCH v2 1/3] dma-buf: Add ioctl to query mmap coherency/cache
+ info
 Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, dri-devel@lists.freedesktop.org,
- kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-media@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>
-References: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
+To: Rob Clark <robdclark@gmail.com>
+References: <20220815211516.3169470-1-robdclark@gmail.com>
+ <20220815211516.3169470-2-robdclark@gmail.com>
+ <327c77d5-5812-a158-6c9f-c68e15a5a6b4@amd.com>
+ <CAF6AEGu3oxM+EX_FsLpw4m0KouMyFMLN=AGGbf=6TVQGkJ7jQg@mail.gmail.com>
+ <6396ccf9-a677-427d-f5f9-12d30ad2197e@amd.com>
+ <CAF6AEGsbc9PuSOyvhnr0ALQiLY9gSBySHyisEOfteZq9NXN0VA@mail.gmail.com>
+ <8afce42b-db0e-9f71-7cd7-2680b6c9a1c9@amd.com>
+ <CAF6AEGvBhx9ZFBzb8dUymhN99HPq7eTyGwVH-Uk9GQr1QjWN+Q@mail.gmail.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
+In-Reply-To: <CAF6AEGvBhx9ZFBzb8dUymhN99HPq7eTyGwVH-Uk9GQr1QjWN+Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR1001CA0018.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:2::31) To BN8PR12MB3587.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR05CA0055.eurprd05.prod.outlook.com
+ (2603:10a6:20b:489::6) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d8de71c2-81f2-4a5a-0758-08da8109d3cf
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6277:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8ab881d-5c49-4395-08ae-08da810bb9c2
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2831:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OafRzBMxtX1br2KNDTkiafwrT5RFEvqSqxyp7OLDrnV3bSsK154GNvuvcbpYGQl2rjikYMRHppRs5PGSYuh41lpsiK2iFOe+CIby4Q4QRQlfukEiQOp6YDbf+BMBVrIRxRQU+4OSSoiXURD2FBl5S9elA5KS4S+8FcHHZf6n7YzYDuNhBxpFhRL00Kinaz9xv5/Dn1WFjzDCAbFBYGO27Z0jUWBKK6sVglwwO5RcpanCkh16GtbjuShKByQnEuWy+XZEKMhwNWjCBRGpMPcX4TPRiiEdgJ/AoA3JW+KpBl4nr0ji48tFBlqkEz/Mr9OO6qTWhVncBSRRLWT4OH8aLhND1yyz3LZT5pvzQ4xTWVfOh9G3YwTyAy7JxLA5i6aIJsCxUmrkNmlnuIzXWUFonn4CJKosCflb1DhV6tTRUwHPilpCL72jdVspP7u3dVJvRPMv4+95hP6CoOH3rt4+j+be5Ra/IEh53Xpct4YcohSkFGrDZfouuxT7xeNNveZkWnIusKLhV+iZh/ZuTgp2b9K5ek+SqFjM7MS9kmUIOQM68Zz4Kv4l96Go7og9Oe7dL6724yUpcDSM3vNDC8IDwv6HmnHA6hYsepaaexOg0i/eNvMDISX0h4pj9En8aCm6UYvepHBXfJ66eD0q4Sc1l5E5p+qwQ3P6QJYBmK1T5T+meDmvW48X8hI+1BSoWqc+HGIFPUJTJfGfcdTz1LecOzBfxEz6wTLZ5YSQy7BNbMSOY0cGOlVjs/ucBdmPXmkCkEORXTL2RjzKD4tFXEUf2NBzS7OdEV7mxPH+u2/SpL5r+DIlUjBzXoWSge6NfgWGThc4tOAbplJsxiaMIZI/KA==
+X-Microsoft-Antispam-Message-Info: wPXTAPgdok2GdG0srqD63BQKGzQ46jjmfTnP1SDmdQ5K6Glz7OD6IgEegUNIlNc7WgkETAApoHkjDLzZTvFnfgIFd0G+rXpGJg7DNyFT9JVCyfcRqUzC/xA6nYmtNVwBPjZzz6Hr2i2sMjxmkbGGBF9RSRFHnUI8WW85fuM1UnlIsHyh/FqZArR6VdxZRadjH4/CZ9nD0mLqZ9aBBN5pY0nA5+s/KySExuBnKtKNQtvGXaAZSi5eFKCFD//RWcwY9j5/BCpbbQYoQsptAbzggyKqmCIfR1PzC+/munL0u3A3vSHZ9XXrr/tQGOFx8kQ9XTqllOZdAVciGlpthPhrzt39ORACgz0lwgmQgfmWtbKbGrTgJ15sdSKlReQqaYXfSiEwEX5KkBJ5iPqhrNUyydV5YCZ6Be61Ffqg7XneU/5x02fATNg0SmcOYdRy9wZ/02qUwnNYD9HsE96vreXNmgspoPt2dH2gZ54PCWpszLWRqLEAD4LcQzKumfaFGrCaUW/uyiA6qybRZ3hhOYgw8TjFm/vgTNCjOQ9VrLu0OBq9LBiWLTCXtCoDDrBiwlonk0OMMT9Y+npmK9m5K7ScQrcDhLqKSyM+zDCsumwf/AyKeuv+f0Fg8HHjRGypRRSPGjJQNLWT+Cg1nGFZXwVyREQbY98KSNOBqk2BK/mQppX1jQqNEyDZ//WynAe9bbHkpdqfxnMvzvEsR2qetiljBsrlLrFz5sclSyTIC/B2jjlmmVXX6ohes+AWIPMq1uDHnlqt28D/FMM9WKUNY4vMySxzsfPB7z+Wf9x23l0s5+U=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(346002)(396003)(39860400002)(376002)(366004)(966005)(41300700001)(54906003)(316002)(478600001)(38100700002)(6486002)(5660300002)(8676002)(66946007)(7416002)(110136005)(66556008)(66476007)(8936002)(2906002)(4326008)(31696002)(36756003)(31686004)(26005)(6506007)(186003)(86362001)(6666004)(2616005)(6512007)(83380400001)(45980500001)(43740500002);
+ SFS:(13230016)(4636009)(396003)(39860400002)(346002)(136003)(376002)(366004)(26005)(6512007)(38100700002)(6666004)(53546011)(2906002)(6506007)(66574015)(186003)(83380400001)(4326008)(66476007)(31686004)(66556008)(8676002)(36756003)(66946007)(478600001)(6486002)(6916009)(54906003)(316002)(31696002)(86362001)(41300700001)(8936002)(30864003)(7416002)(2616005)(5660300002)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1E5L1dPMEtRd1NlbWpTSGRjNmhVaHBUYjltcFZIdEdnb2xjMXBXUm5uNlZO?=
- =?utf-8?B?VFZodHM4V0xtY2Jad1BuMlNPRVQyZGxzZkVjYmRjRU1yY1ZxemI5KzdteWdS?=
- =?utf-8?B?Ri92L0VKVjlKcVlpNWppSVpCbk8wMVRXUGdYNSswdW5WWTlSTGRBQWkwWURZ?=
- =?utf-8?B?QkR1b0NGalErSTJ1aWh4ckN0RHpVSEFvcHVPVW1ZTXlzclI5VVpENFZPNnF2?=
- =?utf-8?B?K1RkREtjRUxlb2t0YTZVUHF1SGpOS0M1S0htd2htaEZ3S3B4TVZrQ2pXU2xu?=
- =?utf-8?B?ZWNHdExKbWpKOFZzeTkvdVpjNWdFOHBGeXg5aTYvalMrQXB0T1o4VzEwUVZ5?=
- =?utf-8?B?dUhlNHQ1aGRxaHkxUlhoL0QwR3dpU2doTyt0QnkzSkZoSVZxVUp1VjVVTUlw?=
- =?utf-8?B?SFc0YjRTTkN0SndMSUFwdktnOHBaRVhMSUtwWmo5MjFzY3VBdE9sZWZMTWRL?=
- =?utf-8?B?L2hUWE5pUXRub1c5cERMcmUya3dxaS9HSHcvSzNmYURUKzczVFluY1ZTSlhE?=
- =?utf-8?B?Wkg2bzByUkxyWVA1c3hLSVBjMXRDSW4xYUxBS0ladXlvaGoxY3RKU3dvQkRO?=
- =?utf-8?B?cE9sdlhVUVpzVTZySlZsYm5jT3EzZy9MRDZQU1dMSDBXUkZQV1lXNkN1dEll?=
- =?utf-8?B?bE1EcjZOSUZ6REo2WW1BT2RVaStXUi9lb1pDdTcyT2dIOHZWKzNKclZYMjBD?=
- =?utf-8?B?SGFZc3RyYjdWUkZZaHJhVEcwbGoxOVhTTS84Q1lVbnBnbFNxQkUxaHdIK3N0?=
- =?utf-8?B?Y3pOZ3l6aE45SDlRQWF6NkRyUkhKM1orS2tsajVNL0UvSUZLNWV1YkNLcWN2?=
- =?utf-8?B?N0VVSkM1dE1Ha2NjT1RXOWwwbzVlUnh4V1FkOGgxb2RRRFgvQ2wrZUl1RGox?=
- =?utf-8?B?bC9McERkc2FDQzJrZi9JVUJ6bzFvUnI2WGVRcGQxNGRQaTlhTGdHeEtKN0kr?=
- =?utf-8?B?d1AyVGhWZHhIazJVZ1VYaGxWTncxUFdLZUlkWFl5MDFtcVplOTZrcHczRm50?=
- =?utf-8?B?aW9JNEVBdnZmSndNZHpBQU85cWhDRHR5cUxhRXJtZ2FjYlp4UEpydTA1V1pt?=
- =?utf-8?B?eDBJZ2RueFhDRmQ3UG9uRGtxMEZycE44UG1NcFNad2p1dXZUN1NRRGtaOUNj?=
- =?utf-8?B?QXZ5ODZqOVhvQ2wwRDRvKytUSlhNbjBLMzd2RTlRRXlZMjU1ZGVqYXM5RnFv?=
- =?utf-8?B?dTUzeDFyU1lKbXNFUFZsb1NFQmU3NXVZeVIzZk1ncVdvYXFHWkNtUk9MQ1lL?=
- =?utf-8?B?bTd2ZDhxWDBZZlRkQW10MzhZcEZ0cC9TZnd4Z1pNcTd5MDZEckh5aXJGZHJl?=
- =?utf-8?B?WkFYb3FSMnBGYlN2UE4xbktiWVFielVkV2lhOFdWM212N21QMFcrbEhKeSts?=
- =?utf-8?B?NkJiQ0tGQ0dYUGJieU9LeU9rTTJRM0FXL2lwYW41dzMwU3c1UTJMTW5IQnFi?=
- =?utf-8?B?MXVrUWppWmR2WlllRjhZckU2dEpZUTExNW5aZjFna280M1A5VGVrTFZwRk1R?=
- =?utf-8?B?dkFtRk14MGRhaHYvNkNOVGw0TlR6U2V0YUs4N0t2MHNIQnlHUlFwUTl3MmdE?=
- =?utf-8?B?WXNvZDh0ak1rL0VBbUxiNkdoclRJVjZtaVVVTnBySWFFOGVQcXhRMnVmQ0lJ?=
- =?utf-8?B?Q2FiRVVsUmptbGZqOFVYMWl5TENwdkJxcytvbkNvR2d6QXN1Z3IzRTg4ZHYz?=
- =?utf-8?B?eGx3TzltR1c5Y1V4bFJWdXNWVkVleThZRFg4dlNLVGQxY3ViWXM2OGZ6R3oz?=
- =?utf-8?B?R2FWTFp1N1BGUFB5RUFESGlLc2h4aVhQSDNQZ1R1aXdndmpoOTFXdk5yaDI5?=
- =?utf-8?B?MXdFc2xJb0orWldTczlCdXJNWnZyWmo3R3F6WFRHZUdOa3VLNXRrOGxxR0ov?=
- =?utf-8?B?eWR5M2dTSzlNa2VRc1U4MStwVHFzdDJCNFp1M0NzSmJJOE9XdkpYTGZ1TzVi?=
- =?utf-8?B?QmJ3SUZ4dFdTcTFPa1BqRjhwQ1I4RFF2MWVCNnpPNVo5ZWtsR245SkxRYUdl?=
- =?utf-8?B?Tithd2dtTURkRFpCb2dnbVJmR1l0S0ZCak01WGF0aVNlQjRYcWp0UEdBNWwx?=
- =?utf-8?B?V1JEd2xYRnpjWTM4dyswT2VTNmlGbURyRVZZZ1VHM2doZHNySWJyU0xhd3Jr?=
- =?utf-8?Q?PXLzKBr3/xa2VgsBTxOH17IoV?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFpkSWZ1Q29wbC9meTl2RFVHQ1lxMmNyRlZOdktFcEwvSFBpc3hkUk1rR1A4?=
+ =?utf-8?B?ZXl1dmc1Qy81WGhUQytFUHp2cTNXRkNLZlczemxuU3JpYVAwNzZaUVpUdXp4?=
+ =?utf-8?B?QTdKS1RHOHdnZE1meG1GaSt3LzNqdW4vQWx6cEx1MU9XUjd4TXV5QlkvNHo1?=
+ =?utf-8?B?UGJDSDBkYkpwdGlrQm1EU3JVSVZCNDl5d0FNaXhWOGYyTkR4blFOYXBCWlhG?=
+ =?utf-8?B?MmF4QkRyZXJxMml3Y200V0RnQjdJTG1FelRKSTJDTkx5c2w5aEo4MVZkRkdY?=
+ =?utf-8?B?YWdoN0ZwSXpxNVAvSGFWTlFpSVZuVlgzdGVmMUdXdy9JWUpQcnUwSnVPR2xO?=
+ =?utf-8?B?RUhiWGhrM0VobWF0WlZUZjFFc2pZL3Y5YkFSRWt1N2xSRnpDRS8ra3o1TTI1?=
+ =?utf-8?B?MlliZTJUbUgvbkNScEt6NnloaXJaNnUwRDdGd0JOSmNtMlNUUXlyWXZoNWZK?=
+ =?utf-8?B?ZWxBS3VTUHIrYUUxTE1pRXRKZWtDa0NGNFZiazdLV2Z0TWkzbjZQTmR0aGNz?=
+ =?utf-8?B?aWdiNHJDNkZ6RVF1QmdkLys3aUlONVQ1TnpTUk5scmloekJkNW1wTGJYOU5i?=
+ =?utf-8?B?UGRMYnNtaVRpL3pUb3FCQUQvN3BmZC8yeHVySDgxMEYvZ2xNL2ZTQTV4b1JX?=
+ =?utf-8?B?RUxMVmQ2YVNpNGNSVDI4bXhyNXhOSGFxMzNlTmhQSHB6S2ZqQnJwNWVFYmJ4?=
+ =?utf-8?B?TlcrT3NwSWtDVnpTQ1RqVk5ZRUt0dmh3NGJxTEZJZ3prZTFqSWpUekxoZXpr?=
+ =?utf-8?B?LzVPc1lZdU5sL21LRjR3QUhlRHBGQWRVOWtNNnJUZEhYN2IwcksxbW1UQlRP?=
+ =?utf-8?B?Wkc2cTdOaXpwbkN5aEh2RnEzMUVIQW00enBrSmxLUU9RSUJ2LysvVDlHb2hX?=
+ =?utf-8?B?SklVVVZYWWlNZU56bHdGcHJDeUdwMTZXV3RjT3F5SEx5aDl6VEdNT2MzcGY1?=
+ =?utf-8?B?RFlObTNTWFh6bHJtby9rNWxBYVZBa25qOXlhSktQN0EwWnU3cHE4SEN5aDZr?=
+ =?utf-8?B?bVp5MEhxU2VIbTE5TkZwazVmcTdGQisyV0pLRk8vZ0MzR2tJY283YjNMUnFO?=
+ =?utf-8?B?M1lFTmV3cE84dTBNQ05ITTRaWStHSnh2Z1crRjNkeDBDYlE3dm5za1hvOE4r?=
+ =?utf-8?B?U3duZlVhbGRpbGg4NExtY0ZTNVRUOU51SzFZOUlPQk9Ic0RUajJMYXp6b1R3?=
+ =?utf-8?B?M3hmSlJ3amE1K3hGKzZ3TEJkTEt3b3AyUFlDRFpvRFpYYnQ3bE5tN2dGS04x?=
+ =?utf-8?B?M0ZtbzhjUGUvS2lnajdERkNmMDR1TE0yNTYxV2lIUFhDNlJyWC9neEZqcldV?=
+ =?utf-8?B?eWU2UmxQUzlIZnJkLzZCYmJZUjIwT3kyazBvVnA0YzkvYnhJRkNId0h0QW01?=
+ =?utf-8?B?UEVmdTYvbE5TWG56eHl2S1Nldkprc3Y3T2JQeVVNZmMwOFYweituSlhmZllh?=
+ =?utf-8?B?YnpvbTg4Vy90QkU5ckEzanhBRjUxZ2lCRWViNHBWYlNIRCs2UWNYS053STNU?=
+ =?utf-8?B?d1d2cy8rcVRkOTZKVS96NTJyTFkrYUVIQ2VOQmRaSHpwL1Y4RyttWFlmUFZu?=
+ =?utf-8?B?QW5DdTAxKzRHSms1YmtheWxXL3VrYzY5ekx1WHhobVFGellNejZrK2dERFZI?=
+ =?utf-8?B?elV6dWJnVWdOZWYzSXJreUVINkFiRVhsRzk0dVFLcnRPWjFPbUV4U2NNVCtj?=
+ =?utf-8?B?S05QUVFyaG4wOFFxSzJkandrbUluSU55R1dJRlYrM3RaSHR3WktybVBUblZ1?=
+ =?utf-8?B?dFozdlQ5VysxdXRYNEJRQnBHUHR5QXJLRWkyQVVOZFBrSm9xZ1ROM0V4anBa?=
+ =?utf-8?B?eHhpN0xQYUcyNjQxY0pkSVVTeWZMM2plajVOV2dyQ1BBUktUQ0Mwb0RjY3h6?=
+ =?utf-8?B?Qkt5SUx6M21VekdZTDA0QkRGREJacFpvYUpENGJnVHhtSWNsVU9ncE1VcGtj?=
+ =?utf-8?B?M3dVR28yTzBodEZyZ3cwUGdWL1cyN2dLTmRQV0tBMHNuV05OUkdEODJJa0wy?=
+ =?utf-8?B?ZTlXU25jUU9GdEpQSDR1T1J5ZzlsQ2ZJL0pQaCtPRUVWaFVrb3lMeHhLc2x0?=
+ =?utf-8?B?TjhQc0lhRlV5NHd5WUhoUmtBMkVKOXRnRTMvUVF4TVE5d0w5NFo3TTRSYkpy?=
+ =?utf-8?Q?EQNtQ0UfKKLfmfh9lwZ1QKEeV?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8de71c2-81f2-4a5a-0758-08da8109d3cf
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8ab881d-5c49-4395-08ae-08da810bb9c2
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2022 11:07:23.6470 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2022 11:20:58.8877 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YuMu0+Njn/1/XlMOZQtongsO2UwgXtWWjqq+oz2u1blxKXH/QkJBmcrLfvWrUqC7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6277
+X-MS-Exchange-CrossTenant-UserPrincipalName: 61cXawhXhjWUhrVEFSRu0KwX/tJM9fZA/+UapiZAj4Q97Ud4rpLUltI+uaa5Owoq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2831
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,65 +132,327 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Oded Gabbay <ogabbay@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.08.22 um 18:11 schrieb Jason Gunthorpe:
-> dma-buf has become a way to safely acquire a handle to non-struct page
-> memory that can still have lifetime controlled by the exporter. Notably
-> RDMA can now import dma-buf FDs and build them into MRs which allows for
-> PCI P2P operations. Extend this to allow vfio-pci to export MMIO memory
-> from PCI device BARs.
->
-> This series supports a use case for SPDK where a NVMe device will be owned
-> by SPDK through VFIO but interacting with a RDMA device. The RDMA device
-> may directly access the NVMe CMB or directly manipulate the NVMe device's
-> doorbell using PCI P2P.
->
-> However, as a general mechanism, it can support many other scenarios with
-> VFIO. I imagine this dmabuf approach to be usable by iommufd as well for
-> generic and safe P2P mappings.
+Am 17.08.22 um 15:44 schrieb Rob Clark:
+> On Wed, Aug 17, 2022 at 2:57 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>> [SNIP]
+>>
+>> The resulting cache attrs from combination of S1 and S2 translation
+>> can differ.  So ideally we setup the S2 pgtables in guest aligned with
+>> host userspace mappings
+>> Well exactly that is not very convincing.
+>>
+>> What you want to do is to use one channel for the address and a
+>> different one for the cache attrs, that's not something I would
+>> recommend doing in general.
+> How would that work.. mmap() is the channel for the address, we'd need
+> to introduce a new syscall that returned additional information?
 
-In general looks good to me, but we really need to get away from using 
-sg_tables for this here.
+The channel for the address is not mmap(), but rather the page faults. 
+mmap() is just the function setting up that channel.
 
-The only thing I'm not 100% convinced of is dma_buf_try_get(), I've seen 
-this incorrectly used so many times that I can't count them any more.
+The page faults then insert both the address as well as the caching 
+attributes (at least on x86).
 
-Would that be somehow avoidable? Or could you at least explain the use 
-case a bit better.
+That we then need to forward the caching attributes manually once more 
+seems really misplaced.
 
-Thanks,
+>> Instead the client pgtables should be setup in a way so that host can
+>> overwrite them.
+> How?  That is completely not how VMs work.  Even if the host knew
+> where the pgtables were and somehow magically knew the various guest
+> userspace VAs, it would be racey.
+
+Well you mentioned that the client page tables can be setup in a way 
+that the host page tables determine what caching to use. As far as I can 
+see this is what we should use here.
+
+Regards,
 Christian.
 
 >
-> This series goes after the "Break up ioctl dispatch functions to one
-> function per ioctl" series.
+> BR,
+> -R
 >
-> This is on github: https://github.com/jgunthorpe/linux/commits/vfio_dma_buf
->
-> Jason Gunthorpe (4):
->    dma-buf: Add dma_buf_try_get()
->    vfio: Add vfio_device_get()
->    vfio_pci: Do not open code pci_try_reset_function()
->    vfio/pci: Allow MMIO regions to be exported through dma-buf
->
->   drivers/vfio/pci/Makefile           |   1 +
->   drivers/vfio/pci/vfio_pci_config.c  |  22 ++-
->   drivers/vfio/pci/vfio_pci_core.c    |  33 +++-
->   drivers/vfio/pci/vfio_pci_dma_buf.c | 265 ++++++++++++++++++++++++++++
->   drivers/vfio/pci/vfio_pci_priv.h    |  24 +++
->   drivers/vfio/vfio_main.c            |   3 +-
->   include/linux/dma-buf.h             |  13 ++
->   include/linux/vfio.h                |   6 +
->   include/linux/vfio_pci_core.h       |   1 +
->   include/uapi/linux/vfio.h           |  18 ++
->   10 files changed, 364 insertions(+), 22 deletions(-)
->   create mode 100644 drivers/vfio/pci/vfio_pci_dma_buf.c
->
->
-> base-commit: 385f0411fcd2780b5273992832cdc8edcd5b8ea9
+>> Regards,
+>> Christian.
+>>
+>>> BR,
+>>> -R
+>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>> BR,
+>>>>> -R
+>>>>>
+>>>>>> If the hardware can't use the caching information from the host CPU page
+>>>>>> tables directly then that pretty much completely breaks the concept that
+>>>>>> the exporter is responsible for setting up those page tables.
+>>>>>>
+>>>>>> Regards,
+>>>>>> Christian.
+>>>>>>
+>>>>>>>      drivers/dma-buf/dma-buf.c    | 63 +++++++++++++++++++++++++++------
+>>>>>>>      include/linux/dma-buf.h      | 11 ++++++
+>>>>>>>      include/uapi/linux/dma-buf.h | 68 ++++++++++++++++++++++++++++++++++++
+>>>>>>>      3 files changed, 132 insertions(+), 10 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>>>>>> index 32f55640890c..262c4706f721 100644
+>>>>>>> --- a/drivers/dma-buf/dma-buf.c
+>>>>>>> +++ b/drivers/dma-buf/dma-buf.c
+>>>>>>> @@ -125,6 +125,32 @@ static struct file_system_type dma_buf_fs_type = {
+>>>>>>>          .kill_sb = kill_anon_super,
+>>>>>>>      };
+>>>>>>>
+>>>>>>> +static int __dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+>>>>>>> +{
+>>>>>>> +     int ret;
+>>>>>>> +
+>>>>>>> +     /* check if buffer supports mmap */
+>>>>>>> +     if (!dmabuf->ops->mmap)
+>>>>>>> +             return -EINVAL;
+>>>>>>> +
+>>>>>>> +     ret = dmabuf->ops->mmap(dmabuf, vma);
+>>>>>>> +
+>>>>>>> +     /*
+>>>>>>> +      * If the exporter claims to support coherent access, ensure the
+>>>>>>> +      * pgprot flags match the claim.
+>>>>>>> +      */
+>>>>>>> +     if ((dmabuf->map_info != DMA_BUF_MAP_INCOHERENT) && !ret) {
+>>>>>>> +             pgprot_t wc_prot = pgprot_writecombine(vma->vm_page_prot);
+>>>>>>> +             if (dmabuf->map_info == DMA_BUF_COHERENT_WC) {
+>>>>>>> +                     WARN_ON_ONCE(pgprot_val(vma->vm_page_prot) != pgprot_val(wc_prot));
+>>>>>>> +             } else {
+>>>>>>> +                     WARN_ON_ONCE(pgprot_val(vma->vm_page_prot) == pgprot_val(wc_prot));
+>>>>>>> +             }
+>>>>>>> +     }
+>>>>>>> +
+>>>>>>> +     return ret;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>>      static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+>>>>>>>      {
+>>>>>>>          struct dma_buf *dmabuf;
+>>>>>>> @@ -134,16 +160,12 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+>>>>>>>
+>>>>>>>          dmabuf = file->private_data;
+>>>>>>>
+>>>>>>> -     /* check if buffer supports mmap */
+>>>>>>> -     if (!dmabuf->ops->mmap)
+>>>>>>> -             return -EINVAL;
+>>>>>>> -
+>>>>>>>          /* check for overflowing the buffer's size */
+>>>>>>>          if (vma->vm_pgoff + vma_pages(vma) >
+>>>>>>>              dmabuf->size >> PAGE_SHIFT)
+>>>>>>>                  return -EINVAL;
+>>>>>>>
+>>>>>>> -     return dmabuf->ops->mmap(dmabuf, vma);
+>>>>>>> +     return __dma_buf_mmap(dmabuf, vma);
+>>>>>>>      }
+>>>>>>>
+>>>>>>>      static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+>>>>>>> @@ -326,6 +348,27 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+>>>>>>>          return 0;
+>>>>>>>      }
+>>>>>>>
+>>>>>>> +static long dma_buf_info(struct dma_buf *dmabuf, void __user *uarg)
+>>>>>>> +{
+>>>>>>> +     struct dma_buf_info arg;
+>>>>>>> +
+>>>>>>> +     if (copy_from_user(&arg, uarg, sizeof(arg)))
+>>>>>>> +             return -EFAULT;
+>>>>>>> +
+>>>>>>> +     switch (arg.param) {
+>>>>>>> +     case DMA_BUF_INFO_MAP_INFO:
+>>>>>>> +             arg.value = dmabuf->map_info;
+>>>>>>> +             break;
+>>>>>>> +     default:
+>>>>>>> +             return -EINVAL;
+>>>>>>> +     }
+>>>>>>> +
+>>>>>>> +     if (copy_to_user(uarg, &arg, sizeof(arg)))
+>>>>>>> +             return -EFAULT;
+>>>>>>> +
+>>>>>>> +     return 0;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>>      static long dma_buf_ioctl(struct file *file,
+>>>>>>>                            unsigned int cmd, unsigned long arg)
+>>>>>>>      {
+>>>>>>> @@ -369,6 +412,9 @@ static long dma_buf_ioctl(struct file *file,
+>>>>>>>          case DMA_BUF_SET_NAME_B:
+>>>>>>>                  return dma_buf_set_name(dmabuf, (const char __user *)arg);
+>>>>>>>
+>>>>>>> +     case DMA_BUF_IOCTL_INFO:
+>>>>>>> +             return dma_buf_info(dmabuf, (void __user *)arg);
+>>>>>>> +
+>>>>>>>          default:
+>>>>>>>                  return -ENOTTY;
+>>>>>>>          }
+>>>>>>> @@ -530,6 +576,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>>>>>>>          dmabuf->priv = exp_info->priv;
+>>>>>>>          dmabuf->ops = exp_info->ops;
+>>>>>>>          dmabuf->size = exp_info->size;
+>>>>>>> +     dmabuf->map_info = exp_info->map_info;
+>>>>>>>          dmabuf->exp_name = exp_info->exp_name;
+>>>>>>>          dmabuf->owner = exp_info->owner;
+>>>>>>>          spin_lock_init(&dmabuf->name_lock);
+>>>>>>> @@ -1245,10 +1292,6 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+>>>>>>>          if (WARN_ON(!dmabuf || !vma))
+>>>>>>>                  return -EINVAL;
+>>>>>>>
+>>>>>>> -     /* check if buffer supports mmap */
+>>>>>>> -     if (!dmabuf->ops->mmap)
+>>>>>>> -             return -EINVAL;
+>>>>>>> -
+>>>>>>>          /* check for offset overflow */
+>>>>>>>          if (pgoff + vma_pages(vma) < pgoff)
+>>>>>>>                  return -EOVERFLOW;
+>>>>>>> @@ -1262,7 +1305,7 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+>>>>>>>          vma_set_file(vma, dmabuf->file);
+>>>>>>>          vma->vm_pgoff = pgoff;
+>>>>>>>
+>>>>>>> -     return dmabuf->ops->mmap(dmabuf, vma);
+>>>>>>> +     return __dma_buf_mmap(dmabuf, vma);
+>>>>>>>      }
+>>>>>>>      EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
+>>>>>>>
+>>>>>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>>>>>>> index 71731796c8c3..37923c8d5c24 100644
+>>>>>>> --- a/include/linux/dma-buf.h
+>>>>>>> +++ b/include/linux/dma-buf.h
+>>>>>>> @@ -23,6 +23,8 @@
+>>>>>>>      #include <linux/dma-fence.h>
+>>>>>>>      #include <linux/wait.h>
+>>>>>>>
+>>>>>>> +#include <uapi/linux/dma-buf.h>
+>>>>>>> +
+>>>>>>>      struct device;
+>>>>>>>      struct dma_buf;
+>>>>>>>      struct dma_buf_attachment;
+>>>>>>> @@ -307,6 +309,13 @@ struct dma_buf {
+>>>>>>>           */
+>>>>>>>          size_t size;
+>>>>>>>
+>>>>>>> +     /**
+>>>>>>> +      * @map_info:
+>>>>>>> +      *
+>>>>>>> +      * CPU mapping/coherency information for the buffer.
+>>>>>>> +      */
+>>>>>>> +     enum dma_buf_map_info map_info;
+>>>>>>> +
+>>>>>>>          /**
+>>>>>>>           * @file:
+>>>>>>>           *
+>>>>>>> @@ -533,6 +542,7 @@ struct dma_buf_attachment {
+>>>>>>>       * @ops:    Attach allocator-defined dma buf ops to the new buffer
+>>>>>>>       * @size:   Size of the buffer - invariant over the lifetime of the buffer
+>>>>>>>       * @flags:  mode flags for the file
+>>>>>>> + * @map_info:        CPU mapping/coherency information for the buffer
+>>>>>>>       * @resv:   reservation-object, NULL to allocate default one
+>>>>>>>       * @priv:   Attach private data of allocator to this buffer
+>>>>>>>       *
+>>>>>>> @@ -545,6 +555,7 @@ struct dma_buf_export_info {
+>>>>>>>          const struct dma_buf_ops *ops;
+>>>>>>>          size_t size;
+>>>>>>>          int flags;
+>>>>>>> +     enum dma_buf_map_info map_info;
+>>>>>>>          struct dma_resv *resv;
+>>>>>>>          void *priv;
+>>>>>>>      };
+>>>>>>> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+>>>>>>> index b1523cb8ab30..07b403ffdb43 100644
+>>>>>>> --- a/include/uapi/linux/dma-buf.h
+>>>>>>> +++ b/include/uapi/linux/dma-buf.h
+>>>>>>> @@ -85,6 +85,72 @@ struct dma_buf_sync {
+>>>>>>>
+>>>>>>>      #define DMA_BUF_NAME_LEN    32
+>>>>>>>
+>>>>>>> +/**
+>>>>>>> + * enum dma_buf_map_info - CPU mapping info
+>>>>>>> + *
+>>>>>>> + * This enum describes coherency of a userspace mapping of the dmabuf.
+>>>>>>> + *
+>>>>>>> + * Importing devices should check dma_buf::map_info flag and reject an
+>>>>>>> + * import if unsupported.  For example, if the exporting device uses
+>>>>>>> + * @DMA_BUF_COHERENT_CACHED but the importing device does not support
+>>>>>>> + * CPU cache coherency, the dma-buf import should fail.
+>>>>>>> + */
+>>>>>>> +enum dma_buf_map_info {
+>>>>>>> +     /**
+>>>>>>> +      * @DMA_BUF_MAP_INCOHERENT: CPU mapping is incoherent.
+>>>>>>> +      *
+>>>>>>> +      * Use of DMA_BUF_IOCTL_SYNC is required for CPU managed coherenency.
+>>>>>>> +      */
+>>>>>>> +     DMA_BUF_MAP_INCOHERENT,
+>>>>>>> +
+>>>>>>> +     /**
+>>>>>>> +      * @DMA_BUF_COHERENT_WC: CPU mapping is coherent but not cached.
+>>>>>>> +      *
+>>>>>>> +      * A cpu mmap'ing is coherent, and DMA_BUF_IOCTL_SYNC is not required.
+>>>>>>> +      * However fences may be still required for synchronizing access.  Ie.
+>>>>>>> +      * coherency can only be relied upon by an explicit-fencing userspace.
+>>>>>>> +      * An implicit-sync userspace must still use DMA_BUF_IOCTL_SYNC.
+>>>>>>> +      *
+>>>>>>> +      * The cpu mapping is writecombine.
+>>>>>>> +      */
+>>>>>>> +     DMA_BUF_COHERENT_WC,
+>>>>>>> +
+>>>>>>> +     /**
+>>>>>>> +      * @DMA_BUF_COHERENT_CACHED: CPU mapping is coherent and CPU cached.
+>>>>>>> +      *
+>>>>>>> +      * A cpu mmap'ing is coherent, and DMA_BUF_IOCTL_SYNC is not required.
+>>>>>>> +      * However fences may be still required for synchronizing access.  Ie.
+>>>>>>> +      * coherency can only be relied upon by an explicit-fencing userspace.
+>>>>>>> +      * An implicit-sync userspace must still use DMA_BUF_IOCTL_SYNC.
+>>>>>>> +      *
+>>>>>>> +      * The cpu mapping is cached.
+>>>>>>> +      */
+>>>>>>> +     DMA_BUF_COHERENT_CACHED,
+>>>>>>> +};
+>>>>>>> +
+>>>>>>> +/**
+>>>>>>> + * struct dma_buf_info - Query info about the buffer.
+>>>>>>> + */
+>>>>>>> +struct dma_buf_info {
+>>>>>>> +
+>>>>>>> +#define DMA_BUF_INFO_MAP_INFO    1
+>>>>>>> +
+>>>>>>> +     /**
+>>>>>>> +      * @param: Which param to query
+>>>>>>> +      *
+>>>>>>> +      * DMA_BUF_INFO_MAP_INFO:
+>>>>>>> +      *     Returns enum dma_buf_map_info, describing the coherency and
+>>>>>>> +      *     caching of a CPU mapping of the buffer.
+>>>>>>> +      */
+>>>>>>> +     __u32 param;
+>>>>>>> +     __u32 pad;
+>>>>>>> +
+>>>>>>> +     /**
+>>>>>>> +      * @value: Return value of the query.
+>>>>>>> +      */
+>>>>>>> +     __u64 value;
+>>>>>>> +};
+>>>>>>> +
+>>>>>>>      #define DMA_BUF_BASE                'b'
+>>>>>>>      #define DMA_BUF_IOCTL_SYNC  _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
+>>>>>>>
+>>>>>>> @@ -95,4 +161,6 @@ struct dma_buf_sync {
+>>>>>>>      #define DMA_BUF_SET_NAME_A  _IOW(DMA_BUF_BASE, 1, __u32)
+>>>>>>>      #define DMA_BUF_SET_NAME_B  _IOW(DMA_BUF_BASE, 1, __u64)
+>>>>>>>
+>>>>>>> +#define DMA_BUF_IOCTL_INFO   _IOWR(DMA_BUF_BASE, 2, struct dma_buf_info)
+>>>>>>> +
+>>>>>>>      #endif
 
