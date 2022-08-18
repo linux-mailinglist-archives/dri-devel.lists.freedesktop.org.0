@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D455259915B
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 01:43:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC809599162
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 01:44:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA3210E9A1;
-	Thu, 18 Aug 2022 23:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8E8A10E536;
+	Thu, 18 Aug 2022 23:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFDCD10E034;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11F6210E361;
  Thu, 18 Aug 2022 23:42:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660866151; x=1692402151;
+ t=1660866152; x=1692402152;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MtFCra1ufjdEZ1lMUAXUIcmSQvC0TpBT4UG0KjhcJi0=;
- b=eN+m23ccKziclRExfUKmxwO4HJPTGpZTBnxOpPnpYewE4IsYgyg0yiUk
- J6jHThxpoLbLl6CGldAwWBlN2jU1eOVyqbhvZmuoeTSC9AY8SB6n3mLIM
- gEhzxtWzI8HGcajPEA/UU/lJyVzDzf7QwyQwMBGj+tShkfPtAV/tGPD8V
- zdlSxiMEqMR6agv0RPlUDOdniMifgjTWKx6kYUz0K7ut+46k8hKJsG7wy
- Ur+0PIQFninqsWc2r+9PZl0Hjmh48FFitbw1yfKRm+eR4cUI6aOqS5We4
- wtvyZebDvymAUnnBT7Ezp57FOFBg+IHSzoEMlf0CSneMUwHUOQwRvjlKY w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="275938521"
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="275938521"
+ bh=zR/nNCKpubf0cgXkGMS+TmgY4vesMO3h8ll5/xTE3kA=;
+ b=BcdVtJGMxr6BnAgXmLdfjvJ3Ao234fH70AQSx0S9Xw8TvErxMrScNCoT
+ XoApqkewV8vGSuCEDub5WI3j8J7AZG2QS5VhG6gQ3cCiVFLw1jCzOYBC6
+ Ed+Z044O5d87U9a9EeLKaHOU5C7YlYRqhffQl0ugvy0D1wE5+UwOif4Xp
+ 48lBuiIHUHoXi0SfK50ycvc6IhKK3xBDXkuhq2LX/HLxXbLVNIi+/wzCt
+ 1We8cALsxEuElKAanzgjhsSZJxdsMSjGR4YvteDGN2UIhu99wqKCMJBzu
+ vuY9WnikXctYNgbvZOrMky9xGjMjQ87xtVH2hg+eXhGshRatilpuILCas Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="275938524"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="275938524"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Aug 2022 16:42:28 -0700
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="783953298"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="783953299"
 Received: from invictus.jf.intel.com ([10.165.21.205])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Aug 2022 16:42:28 -0700
 From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 13/21] drm/i915: Extract wm latency adjustment to its own
- function
-Date: Thu, 18 Aug 2022 16:41:54 -0700
-Message-Id: <20220818234202.451742-14-radhakrishna.sripada@intel.com>
+Subject: [PATCH v2 14/21] drm/i915/mtl: memory latency data from
+ LATENCY_LPX_LPY for WM
+Date: Thu, 18 Aug 2022 16:41:55 -0700
+Message-Id: <20220818234202.451742-15-radhakrishna.sripada@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
 References: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
@@ -60,129 +60,73 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Watermark latency is adjusted in cases when latency is 0us for level
-greater than 1, the subsequent levels are disabled. Extract this logic
-into its own function.
+Since Xe LPD+, Memory latency data are in LATENCY_LPX_LPY registers
+instead of GT driver mailbox.
 
-Suggested-by: Matt Roper <matthew.d.roper@intel.com>
+v2: Use the extracted wm latency adjustment function(Matt)
+
+Bspec: 64608
+
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Original Author: Caz Yokoyama
 Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 ---
- drivers/gpu/drm/i915/intel_pm.c | 88 ++++++++++++++++++---------------
- 1 file changed, 48 insertions(+), 40 deletions(-)
+ drivers/gpu/drm/i915/i915_reg.h |  7 +++++++
+ drivers/gpu/drm/i915/intel_pm.c | 21 ++++++++++++++++++---
+ 2 files changed, 25 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 04a269fa8717..b2d5e1230c25 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -8390,4 +8390,11 @@ enum skl_power_gate {
+ #define GEN12_STATE_ACK_DEBUG		_MMIO(0x20BC)
+ 
+ #define MTL_MEDIA_GSI_BASE		0x380000
++
++#define MTL_LATENCY_LP0_LP1		_MMIO(0x45780)
++#define MTL_LATENCY_LP2_LP3		_MMIO(0x45784)
++#define MTL_LATENCY_LP4_LP5		_MMIO(0x45788)
++#define  MTL_LATENCY_LEVEL0_2_4_MASK	REG_GENMASK(12, 0)
++#define  MTL_LATENCY_LEVEL1_3_5_MASK	REG_GENMASK(28, 16)
++
+ #endif /* _I915_REG_H_ */
 diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index ef7553b494ea..898e56d2eaf7 100644
+index 898e56d2eaf7..fac565d23d57 100644
 --- a/drivers/gpu/drm/i915/intel_pm.c
 +++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -2861,15 +2861,59 @@ static void ilk_compute_wm_level(const struct drm_i915_private *dev_priv,
- 	result->enable = true;
- }
- 
-+static void
-+adjust_wm_latency(u16 wm[], int max_level, int read_latency,
-+		  bool wm_lv_0_adjust_needed)
-+{
-+	int i, level;
-+
-+	/*
-+	 * If a level n (n > 1) has a 0us latency, all levels m (m >= n)
-+	 * need to be disabled. We make sure to sanitize the values out
-+	 * of the punit to satisfy this requirement.
-+	 */
-+	for (level = 1; level <= max_level; level++) {
-+		if (wm[level] == 0) {
-+			for (i = level + 1; i <= max_level; i++)
-+				wm[i] = 0;
-+
-+			max_level = level - 1;
-+			break;
-+		}
-+	}
-+
-+	/*
-+	 * WaWmMemoryReadLatency
-+	 *
-+	 * punit doesn't take into account the read latency so we need
-+	 * to add proper adjustement to each valid level we retrieve
-+	 * from the punit when level 0 response data is 0us.
-+	 */
-+	if (wm[0] == 0) {
-+		for (level = 0; level <= max_level; level++)
-+			wm[level] += read_latency;
-+	}
-+
-+	/*
-+	 * WA Level-0 adjustment for 16GB DIMMs: SKL+
-+	 * If we could not get dimm info enable this WA to prevent from
-+	 * any underrun. If not able to get Dimm info assume 16GB dimm
-+	 * to avoid any underrun.
-+	 */
-+	if (wm_lv_0_adjust_needed)
-+		wm[0] += 1;
-+}
-+
- static void intel_read_wm_latency(struct drm_i915_private *dev_priv,
+@@ -2908,13 +2908,28 @@ static void intel_read_wm_latency(struct drm_i915_private *dev_priv,
  				  u16 wm[])
  {
  	struct intel_uncore *uncore = &dev_priv->uncore;
++	int max_level = ilk_wm_max_level(dev_priv);
  
- 	if (DISPLAY_VER(dev_priv) >= 9) {
-+		int read_latency = DISPLAY_VER(dev_priv) >= 12 ? 3 : 2;
+-	if (DISPLAY_VER(dev_priv) >= 9) {
++	if (DISPLAY_VER(dev_priv) >= 14) {
++		u32 val;
++
++		val = intel_uncore_read(uncore, MTL_LATENCY_LP0_LP1);
++		wm[0] = REG_FIELD_GET(MTL_LATENCY_LEVEL0_2_4_MASK, val);
++		wm[1] = REG_FIELD_GET(MTL_LATENCY_LEVEL1_3_5_MASK, val);
++		val = intel_uncore_read(uncore, MTL_LATENCY_LP2_LP3);
++		wm[2] = REG_FIELD_GET(MTL_LATENCY_LEVEL0_2_4_MASK, val);
++		wm[3] = REG_FIELD_GET(MTL_LATENCY_LEVEL1_3_5_MASK, val);
++		val = intel_uncore_read(uncore, MTL_LATENCY_LP4_LP5);
++		wm[4] = REG_FIELD_GET(MTL_LATENCY_LEVEL0_2_4_MASK, val);
++		wm[5] = REG_FIELD_GET(MTL_LATENCY_LEVEL1_3_5_MASK, val);
++
++		adjust_wm_latency(wm, max_level, 6,
++				  dev_priv->dram_info.wm_lv_0_adjust_needed);
++	} else if (DISPLAY_VER(dev_priv) >= 9) {
+ 		int read_latency = DISPLAY_VER(dev_priv) >= 12 ? 3 : 2;
++		int mult = IS_DG2(dev_priv) ? 2 : 1;
  		u32 val;
--		int ret, i;
--		int level, max_level = ilk_wm_max_level(dev_priv);
-+		int ret;
-+		int max_level = ilk_wm_max_level(dev_priv);
- 		int mult = IS_DG2(dev_priv) ? 2 : 1;
+ 		int ret;
+-		int max_level = ilk_wm_max_level(dev_priv);
+-		int mult = IS_DG2(dev_priv) ? 2 : 1;
  
  		/* read the first set of memory latencies[0:3] */
-@@ -2909,44 +2953,8 @@ static void intel_read_wm_latency(struct drm_i915_private *dev_priv,
- 		wm[7] = ((val >> GEN9_MEM_LATENCY_LEVEL_3_7_SHIFT) &
- 				GEN9_MEM_LATENCY_LEVEL_MASK) * mult;
- 
--		/*
--		 * If a level n (n > 1) has a 0us latency, all levels m (m >= n)
--		 * need to be disabled. We make sure to sanitize the values out
--		 * of the punit to satisfy this requirement.
--		 */
--		for (level = 1; level <= max_level; level++) {
--			if (wm[level] == 0) {
--				for (i = level + 1; i <= max_level; i++)
--					wm[i] = 0;
--
--				max_level = level - 1;
--
--				break;
--			}
--		}
--
--		/*
--		 * WaWmMemoryReadLatency
--		 *
--		 * punit doesn't take into account the read latency so we need
--		 * to add proper adjustement to each valid level we retrieve
--		 * from the punit when level 0 response data is 0us.
--		 */
--		if (wm[0] == 0) {
--			u8 adjust = DISPLAY_VER(dev_priv) >= 12 ? 3 : 2;
--
--			for (level = 0; level <= max_level; level++)
--				wm[level] += adjust;
--		}
--
--		/*
--		 * WA Level-0 adjustment for 16GB DIMMs: SKL+
--		 * If we could not get dimm info enable this WA to prevent from
--		 * any underrun. If not able to get Dimm info assume 16GB dimm
--		 * to avoid any underrun.
--		 */
--		if (dev_priv->dram_info.wm_lv_0_adjust_needed)
--			wm[0] += 1;
-+		adjust_wm_latency(wm, max_level, read_latency,
-+				  dev_priv->dram_info.wm_lv_0_adjust_needed);
- 	} else if (IS_HASWELL(dev_priv) || IS_BROADWELL(dev_priv)) {
- 		u64 sskpd = intel_uncore_read64(uncore, MCH_SSKPD);
- 
+ 		val = 0; /* data0 to be programmed to 0 for first set */
 -- 
 2.25.1
 
