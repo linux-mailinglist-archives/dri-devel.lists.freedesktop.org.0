@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE62E5993E8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 06:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6155599535
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 08:20:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE1610E4DF;
-	Fri, 19 Aug 2022 04:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02C3210E757;
+	Fri, 19 Aug 2022 06:20:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 460D410E4CC
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 04:13:30 +0000 (UTC)
-X-UUID: a63f09ca2c9f4537b6f578f8eb0f0bb8-20220819
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=oi64ZAN56SKAouCD2c1g9twrjMLE3pr2hOeKSFbJBlc=; 
- b=kLqGjSNz8+1XbllMVOPZaqWOF46ITVExEFcvFk97u5dfpFRFZx+vvpwvBsy/woIzSjfSNqW1OwNA6ua5MTVfF15tr2X+7vri2Ybs2VR0Srvr3RkE091dPV7oAQJsr4qCIEyrbRntJrSe9SKSCPzkqvbbE289PujB7VTS4DwCJSg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:698863a8-5ed3-4c7c-bcde-43584b7eef79, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Releas
- e_Ham,ACTION:release,TS:73
-X-CID-INFO: VERSION:1.1.10, REQID:698863a8-5ed3-4c7c-bcde-43584b7eef79, OB:0,
- LOB
- :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Spam_GS9
- 81B3D,ACTION:quarantine,TS:73
-X-CID-META: VersionHash:84eae18, CLOUDID:ee6942af-9535-44a6-aa9b-7f62b79b6ff6,
- C
- OID:d6bf27258396,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:40|20,QS:nil,BEC:nil,COL:0
-X-UUID: a63f09ca2c9f4537b6f578f8eb0f0bb8-20220819
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 240840742; Fri, 19 Aug 2022 12:13:25 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 19 Aug 2022 12:13:24 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Fri, 19 Aug 2022 12:13:24 +0800
-Message-ID: <12062a2e2957113d40b4bf3c1c62d18418b51a12.camel@mediatek.com>
-Subject: Re: [PATCH v25 07/10] soc: mediatek: mmsys: add mmsys for support
- 64 reset bits
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>
-Date: Fri, 19 Aug 2022 12:13:23 +0800
-In-Reply-To: <d7ccb3fb2630c1c0b6dda2990cff72169e5e5d0b.camel@mediatek.com>
-References: <20220711075245.10492-1-nancy.lin@mediatek.com>
- <20220711075245.10492-8-nancy.lin@mediatek.com>
- <20220818214715.spbyic34szubx3gi@notapiano>
- <d7ccb3fb2630c1c0b6dda2990cff72169e5e5d0b.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22705CCD18
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 10:44:33 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ s31-20020a17090a2f2200b001faaf9d92easo4309595pjd.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 03:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=zfVmtS6KYvfWod3rab4fz6qOWga4E5X5CB2HKYlhhHQ=;
+ b=jEGIS+8SyNLsj44iJPWD2f6FwCHwEq/YUUlEAN64vyrvH8958MyzjjRJy7Xs5wV5r6
+ yL+mLLihw3u8AirH32WN4aHlfqLvLeR0pkGRQUSV0+Og3cmWs56c4IAPLZqG3k2Uzc7s
+ /PTEahfh3u7jQfr5N6adgTjW91FkhXlwBN9Y09Dv3pT+SYxff16KvZ2mw52NkiOB1kc7
+ IwWBuTak94mPXTbgsjSB7TRIED/Ouc5GJNUphLIarEj7dqYLKNah/poNTPj8TIJ89h0a
+ pydqUVEtW5VYZWrDd12y+X5WFZCuPx27553kmBvnHqQvoVZ1XU1y6S0g1MkKX2z6TkId
+ QnIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=zfVmtS6KYvfWod3rab4fz6qOWga4E5X5CB2HKYlhhHQ=;
+ b=QJ/aVR4TDmbHhBhz+nvQMOFDnTKtUdfDjAbRyD3eVkLPHSolCuLAMcdsHAuzK+oQMH
+ y3ImuJY6BwGSr+gPJes+AboKc/gKF3JKZAbfaXruQBmpwSU763+sjlBkqqqRU/h8aqCE
+ bCudK+UOEhvgs7H3TWESNbAtIOS/dcJVks++UACMFB8qJdGDz1Yy0GdVoIzjTL20f6bz
+ ESnHr9x4EwavVUCW10E0fOEXLRyS4hy20PhEc4ItLtJ7v8/dZc1nh0s3euyNdxyrOy6m
+ sAhFzpgXZbA19dg/Cx7G2fkh3+djrCwUEZsr6NgJcFF8df+DkRvfLM43CkUuKKiIMvbm
+ iKWw==
+X-Gm-Message-State: ACgBeo1K512EzRhckYSdp2PnqFv5ZKNQI3UHXK+WvmwRNn/UcbGQRanz
+ M7bz09hqbGGLtPdRMN4eDbrepM5pYlXFjsgw
+X-Google-Smtp-Source: AA6agR7lHZ3823Lmmh7dr6wvftnHHB2dspDf/ds2s8lvMtBRMBOEv42heUT6coknD3MT4cHhYH7hyQ==
+X-Received: by 2002:a17:902:6b82:b0:16d:d268:3842 with SMTP id
+ p2-20020a1709026b8200b0016dd2683842mr2194918plk.16.1660819472611; 
+ Thu, 18 Aug 2022 03:44:32 -0700 (PDT)
+Received: from fanta-arch.localdomain
+ (ec2-35-78-114-158.ap-northeast-1.compute.amazonaws.com. [35.78.114.158])
+ by smtp.gmail.com with ESMTPSA id
+ z12-20020aa7990c000000b0052d36feb7fcsm1263220pff.198.2022.08.18.03.44.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Aug 2022 03:44:32 -0700 (PDT)
+From: Letu Ren <fantasquex@gmail.com>
+To: deller@gmx.de,
+	baihaowen@meizu.com
+Subject: [PATCH] fb_pm2: Add a check to avoid potential divide by zero error
+Date: Thu, 18 Aug 2022 18:44:24 +0800
+Message-Id: <20220818104425.35573-1-fantasquex@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MTK: N
+X-Mailman-Approved-At: Fri, 19 Aug 2022 06:20:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,107 +71,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Nathan Chancellor <nathan@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, wim@linux-watchdog.org,
- linux@roeck-us.net, AngeloGioacchino
- Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: zheyuma97@gmail.com, linux-fbdev@vger.kernel.org, fantasquex@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nicolas,
+In `do_fb_ioctl()` of fbmem.c, if cmd is FBIOPUT_VSCREENINFO, var will be
+copied from user, then go through `fb_set_var()` and
+`info->fbops->fb_check_var()` which could may be `pm2fb_check_var()`.
+Along the path, `var->pixclock` won't be modified. This function checks
+whether reciprocal of `var->pixclock` is too high. If `var->pixclock` is
+zero, there will be a divide by zero error. So, it is necessary to check
+whether denominator is zero to avoid crash. As this bug is found by
+Syzkaller, logs are listed below.
 
+divide error in pm2fb_check_var
+Call Trace:
+ <TASK>
+ fb_set_var+0x367/0xeb0 drivers/video/fbdev/core/fbmem.c:1015
+ do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1110
+ fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1189
 
-On Fri, 2022-08-19 at 10:09 +0800, Nancy.Lin wrote:
-> Hi Nicolas,
-> 
-> Thanks for the review.
-> 
-> On Thu, 2022-08-18 at 17:47 -0400, Nícolas F. R. A. Prado wrote:
-> > Hi Nancy,
-> > 
-> > On Mon, Jul 11, 2022 at 03:52:42PM +0800, Nancy.Lin wrote:
-> > [..]
-> > >  static const struct mtk_mmsys_driver_data
-> > > mt2701_mmsys_driver_data
-> > > = {
-> > >  	.clk_driver = "clk-mt2701-mm",
-> > >  	.routes = mmsys_default_routing_table,
-> > > @@ -86,6 +88,7 @@ static const struct mtk_mmsys_driver_data
-> > > mt8173_mmsys_driver_data = {
-> > >  	.routes = mmsys_default_routing_table,
-> > >  	.num_routes = ARRAY_SIZE(mmsys_default_routing_table),
-> > >  	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
-> > > +	.num_resets = 32,
-> > >  };
-> > >  
-> > >  static const struct mtk_mmsys_match_data mt8173_mmsys_match_data
-> > > =
-> > > {
-> > > @@ -100,6 +103,7 @@ static const struct mtk_mmsys_driver_data
-> > > mt8183_mmsys_driver_data = {
-> > >  	.routes = mmsys_mt8183_routing_table,
-> > >  	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
-> > >  	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
-> > > +	.num_resets = 32,
-> > >  };
-> > >  
-> > >  static const struct mtk_mmsys_match_data mt8183_mmsys_match_data
-> > > =
-> > > {
-> > > @@ -114,6 +118,7 @@ static const struct mtk_mmsys_driver_data
-> > > mt8186_mmsys_driver_data = {
-> > >  	.routes = mmsys_mt8186_routing_table,
-> > >  	.num_routes = ARRAY_SIZE(mmsys_mt8186_routing_table),
-> > >  	.sw0_rst_offset = MT8186_MMSYS_SW0_RST_B,
-> > > +	.num_resets = 32,
-> > >  };
-> > 
-> > [..]
-> > > @@ -351,18 +362,6 @@ static int mtk_mmsys_probe(struct
-> > > platform_device *pdev)
-> > >  		return ret;
-> > >  	}
-> > >  
-> > > -	spin_lock_init(&mmsys->lock);
-> > > -
-> > > -	mmsys->rcdev.owner = THIS_MODULE;
-> > > -	mmsys->rcdev.nr_resets = 32;
-> > 
-> > The number of resets was previously always set to 32, and now
-> > you're
-> > instead
-> > setting it based on num_resets from each machine. The issue is,
-> > you're
-> > forgetting a bunch of them.
-> > 
-> > mt8192 didn't get a num_reset, so this commit breaks the display on
-> > mt8192 based
-> > devices. But mt8192 isn't the only one, there are other platforms
-> > missing this
-> > property. Please set num_resets to 32 in every single one of them,
-> > otherwise
-> > there will be display regressions.
-> > 
-> > Thanks,
-> > Nícolas
-> 
-> It's my mistake. I will set num_resets to 32 for every mmsys driver.
-> 
-> Thanks,
-> Nancy
+Reported-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Letu Ren <fantasquex@gmail.com>
+---
+ drivers/video/fbdev/pm2fb.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-After review the code, I think only the mmsys driver with the
-sw0_rst_offset setting should set num_resets to 32, otherwise it would
-set wrong addr in the mtk_mmsys_reset_update() function. Those mmsys
-without sw0_rst_offset set should not set num_resets to 32.
-
-Thanks,
-Nancy
+diff --git a/drivers/video/fbdev/pm2fb.c b/drivers/video/fbdev/pm2fb.c
+index d3be2c64f1c0..8fd79deb1e2a 100644
+--- a/drivers/video/fbdev/pm2fb.c
++++ b/drivers/video/fbdev/pm2fb.c
+@@ -617,6 +617,11 @@ static int pm2fb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
+ 		return -EINVAL;
+ 	}
+ 
++	if (!var->pixclock) {
++		DPRINTK("pixclock is zero\n");
++		return -EINVAL;
++	}
++
+ 	if (PICOS2KHZ(var->pixclock) > PM2_MAX_PIXCLOCK) {
+ 		DPRINTK("pixclock too high (%ldKHz)\n",
+ 			PICOS2KHZ(var->pixclock));
+-- 
+2.37.2
 
