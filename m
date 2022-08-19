@@ -2,49 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C432599378
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 05:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70825993BD
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 05:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFF310E3BA;
-	Fri, 19 Aug 2022 03:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81B810E109;
+	Fri, 19 Aug 2022 03:49:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 911 seconds by postgrey-1.36 at gabe;
- Fri, 19 Aug 2022 03:34:17 UTC
-Received: from m12-14.163.com (m12-14.163.com [220.181.12.14])
- by gabe.freedesktop.org (Postfix) with ESMTP id 292AC10E30E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 03:34:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=ew+Ne
- YMoBADJpb80VnNrRr5jAttukcVCK3ls3Sm05J0=; b=kqmsSnjFuiK8LnrWxMAXC
- ta3zXKHLLWlC7ZX/nMkxpTFXJ2HK592L70vNs2pgb6ISIrcuyq/wYx9s49TOa5He
- PhIT29wxq1YK+pphf0bOCLksHRBKuYhXqd+I3FKObamvijd7NyJIYvEKXnPO2+4o
- 0AkV02FHkrhwP7anCD0GJs=
-Received: from [172.20.4.109] (unknown [1.203.159.130])
- by smtp10 (Coremail) with SMTP id DsCowADX+qEbAf9iOi9OCQ--.7290S2;
- Fri, 19 Aug 2022 11:18:51 +0800 (CST)
-Message-ID: <ac6c3b76-a3bd-2e80-9dbb-ecb9f43aa041@163.com>
-Date: Fri, 19 Aug 2022 11:18:50 +0800
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33BE210E109
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 03:49:26 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id pm17so3490907pjb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 20:49:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=o6+bzfnlGaEWpMhwfJW2zto2uMkruXy6+3QpUu+xD6g=;
+ b=V8RTDRLODn5II43HPHgDHfS7XWKXawY26cVuG/kmI1r8UdNDiV9JRKTlmUYp8ddoEI
+ L2Q5klCl9yfd+fra9wDWBzAiqAVLg11H+ODKy4psrUP6m1/x+JUjZk3IveqXB6lp/HpT
+ 6cr8SgKodvI3068vJY+54sf/4suIfU+fpZivYCLuQVNEzVgsIoz0pZk3IFQq13CouyVA
+ HOG4yeGNZQG9XDO9e60aSL5Mm3PGYTqC8pmPrAXBCiQ3hxtzpGt8DKKX6I0lhjqtZC2K
+ sFnXyti0RXtqu85XzeoUL+STD4d1QFZRYAz0LIoksR0B8NnyZZur/Y5vovlZG+8n6oUX
+ 44hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=o6+bzfnlGaEWpMhwfJW2zto2uMkruXy6+3QpUu+xD6g=;
+ b=Ikba+MrGF4uze1X/pdIaRYD7ATAh9Z5HY1pgPrGSAQvKoYKKI6XOA2Kq08mH6YwrYF
+ vhLDwFfN22C37zlOM8hiSu001CRB9vFq9O2osqCje/CmqjRo0UuaAPOwP5I/7Vuetp2h
+ TvCLdJZw/ZvV6bIyHW+afdwTENi8dnfaTUuiWZ9OdLE+phG3ymPrfuMBcl4y0Ek5Az/F
+ Mg5qmIHpA0ewIpKQlzZLDWqpwJ29ndsNwZ2vEqi2/l7ubbLo6mCo+D6hh24oPdhumBWx
+ 8wrZB4TrK2a2ltNTSamiVTH8GdmQTkj1HGGEou+9V6cgKr9XnppzAZZuG9QAv32wjtxZ
+ 2fEQ==
+X-Gm-Message-State: ACgBeo1JfheNeImJaIX+sfWZogAZKnaN7RjYFYkaRnsIJlDAAtlrSi59
+ gmlZDgXlUhNveFX0sJJdnOY=
+X-Google-Smtp-Source: AA6agR7VjjeqbWEdCP6zin2oXuIgKZRlURca+x5lYxJ9oJFSJygSV3vjHgRHjz6NccOiYfmFh4EuVg==
+X-Received: by 2002:a17:90b:4b4f:b0:1f3:19ed:37b5 with SMTP id
+ mi15-20020a17090b4b4f00b001f319ed37b5mr11682151pjb.108.1660880965573; 
+ Thu, 18 Aug 2022 20:49:25 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-41.three.co.id.
+ [116.206.28.41]) by smtp.gmail.com with ESMTPSA id
+ b20-20020a62a114000000b0052dddf69db2sm2425774pff.57.2022.08.18.20.49.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Aug 2022 20:49:24 -0700 (PDT)
+Message-ID: <b5394ac7-1a2f-1863-4967-5abc1a35abc9@gmail.com>
+Date: Fri, 19 Aug 2022 10:49:19 +0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH v1 1/1] kfd: fixed memleak about release topology
-To: Felix Kuehling <felix.kuehling@amd.com>, dri-devel@lists.freedesktop.org, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Xinhui.Pan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com
-References: <20220715080721.1477324-1-botton_zhang@163.com>
- <e87dac11-a4fc-82b8-017e-2ae4e429d57d@amd.com>
-From: "ZhiJie.Zhang" <botton_zhang@163.com>
-In-Reply-To: <e87dac11-a4fc-82b8-017e-2ae4e429d57d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 10/13] docs: leds: add leds-qcom-lpg.rst to the index file
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>, corbet@lwn.net
+References: <cover.1660829433.git.mchehab@kernel.org>
+ <14865c294b60fef58f660922889775bd57ce44c2.1660829433.git.mchehab@kernel.org>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <14865c294b60fef58f660922889775bd57ce44c2.1660829433.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DsCowADX+qEbAf9iOi9OCQ--.7290S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AF15Ar47tw4kAryxZF4Dtwb_yoW8Gr43pF
- s5trWYyrW8XFZ7Ka9F9aykuryY9w4kXayIkrWUuwsrurW5AryUGF4qyryFgFyDurW8tF4f
- tw4UKw1fJFnFvFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Uq9aPUUUUU=
-X-Originating-IP: [1.203.159.130]
-X-CM-SenderInfo: xerw30xqb2xtlqj6il2tof0z/1tbiTwpimFsGcXwAuQAAsW
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,49 +75,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andy Shevchenko <andy.shevchenko@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/18/22 20:38, Mauro Carvalho Chehab wrote:
+> Address this warning:
+> 	Documentation/leds/leds-qcom-lpg.rst: WARNING: o documento não está incluído em nenhum toctree
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
+> See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1660829433.git.mchehab@kernel.org/
+> 
+>  Documentation/leds/index.rst           | 1 +
+>  drivers/gpu/drm/scheduler/sched_main.c | 1 +
+>  include/drm/gpu_scheduler.h            | 1 +
+>  3 files changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+> index e5d63b940045..014e009b0761 100644
+> --- a/Documentation/leds/index.rst
+> +++ b/Documentation/leds/index.rst
+> @@ -25,4 +25,5 @@ LEDs
+>     leds-lp5562
+>     leds-lp55xx
+>     leds-mlxcpld
+> +   leds-qcom-lpg
+>     leds-sc27xx
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 68317d3a7a27..56c53a616816 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -994,6 +994,7 @@ static int drm_sched_main(void *param)
+>   *		used
+>   * @score: optional score atomic shared with other schedulers
+>   * @name: name used for debugging
+> + * @dev: Device structure
+>   *
+>   * Return 0 on success, otherwise error code.
+>   */
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index addb135eeea6..f31988e03256 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -435,6 +435,7 @@ struct drm_sched_backend_ops {
+>   * @_score: score used when the driver doesn't provide one
+>   * @ready: marks if the underlying HW is ready to work
+>   * @free_guilty: A hit to time out handler to free the guilty job.
+> + * @dev: Device structure
+>   *
+>   * One scheduler is implemented for each hardware ring.
+>   */
 
+Hi Mauro,
 
-在 2022/8/18 6:31, Felix Kuehling 写道:
-> Am 2022-07-15 um 04:07 schrieb ZhiJie.zhang:
->> memleak will happend that reload module due to ignore kfree when 
->> release topology
->>
->> Signed-off-by: ZhiJie.zhang <botton_zhang@163.com>
->> ---
->>   drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c 
->> b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
->> index 8d50d207cf66..8b86f56bd50c 100644
->> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
->> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
->> @@ -872,6 +872,7 @@ static void kfd_topology_release_sysfs(void)
->>           }
->>           kobject_del(sys_props.kobj_topology);
->>           kobject_put(sys_props.kobj_topology);
->> +        kfree(sys_props.kobj_topology);
-> 
-> Sorry for the late response. This looks incorrect. kobjects are 
-> reference counted. The underlying memory should be freed by a callback 
-> when the reference count reaches 0 in kobject_put. Freeing the object 
-> here explicitly would lead to a double-free.
-> 
-> The callback in this case is kfd_topology_kobj_release, which calls 
-> kfree. Am I missing anything?
-> 
-Yes, Your are right, this is my misstake, please ignore this patch
-> Regards,
->    Felix
-> 
-> 
->>           sys_props.kobj_topology = NULL;
->>       }
->>   }
+I have already sent the fix (resend a long time ago) at [1] and got
+Acked-by from Pavel, but seems like he forgot to push it. Maybe the
+subsystem had maintenanceship issue as pointed by Andy (CC'ed) ([2]).
 
-Regards.
-Zhijie
+[1]: https://lore.kernel.org/linux-doc/20220612000125.9777-1-bagasdotme@gmail.com/
+[2]: https://lore.kernel.org/lkml/CAHp75VeWKgyz32scczN0c+iJwGZXVP42g0NG0oXrdJ34GyHB8w@mail.gmail.com/
 
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
