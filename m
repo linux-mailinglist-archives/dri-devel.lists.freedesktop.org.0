@@ -1,71 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B95E599DFA
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 17:14:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EC8599E1F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 17:28:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B0610E442;
-	Fri, 19 Aug 2022 15:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF6C10EE15;
+	Fri, 19 Aug 2022 15:28:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3000710E6F1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 15:13:57 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id g16so3432059qkl.11
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 08:13:57 -0700 (PDT)
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F10F010EE15
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 15:28:07 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id h21so3583027qta.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 08:28:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
- bh=nr8rrMVNiWjbEMsQN+8tx5Aw+8LLAcLghfGpTh/DJgw=;
- b=5nvP9M5Wh8IYYhZVJKc2Oil4ZK2LMQGsrk0Wh0yM2uyzwONdTlmAKiw0w/GNLRYA7M
- OTM9tisDyr5QHkdmU0u5CzFlDjrkubLL3JVPTKXqBx/2uKS5fuMU68tpMFhmnsjPt3aq
- +hd0BfqjCM6gxUO9J2JZRQOWSVxHB8IHiAhXVFtBQ8QA87JtpddvsED8dUlYzHy3Ia0A
- MymngRgRf5NT8GpoX5PmEwaJ0A4XE4bypuod4FAfaAAHXhjmM8/V89k40+DrTN6QnhT4
- IQWQEgVKCzz59J0tOKHgEdor7QYFEIzAYvt4z2zuq5b8sF2rNqBUQ2LtwhlNrLwr4nJf
- VEag==
+ bh=iA9FPyd1nVi+5ANzlnbkk2becmIxzDV5Vq9MszOeMik=;
+ b=BR81CJRUyoDiW6jn9a7JfCde43ZAfHclIbU+KinvYPofdBD0gEF2AhhMPdqGT1Vj5X
+ 5nErMs6lUjEStZhPblbRZ7VqtQp2SetHyO8Ys9EB756PmvtIEIUuKhvQ11FX1dRvsY8V
+ iEVMl64per07X5+eNjU20MCm0AFjphbawvNxTpvkpvgVuqpNdimPa28fQORsIAP3T9xL
+ f+dj9/KhvHPICwjMCTr+RfTxkKLQuNOaXOMwWiInOMNYSbo5W1VAAFbKTzzpRVxaYHwH
+ WnQZCAAQMzrScA9hVdQNFgRG8NtfQgfdCr2XYtbjwxia+iTONOWMq/znu5v2C+ii8FTU
+ kHeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
  :from:to:cc;
- bh=nr8rrMVNiWjbEMsQN+8tx5Aw+8LLAcLghfGpTh/DJgw=;
- b=sbKz5VcjHqS9oGeKWsyDYN40Q/rVYRRtqWBzrdUoEn71WUo0sBfaX5NjbYvkSV+PSJ
- Xx8cLaReyXXmY67UvNaLOS33CrB1ZYHL/h5HglDIvec/M4l9+P+ZSIE3UBZJYwJN6dJ+
- 8DM7x6JkMktLwImy/5PjdyeyR1/uAmpkLce1T1AWkJixjn5RTEMZg13B8ToF5cX39/Pu
- kq2YqjI/hLHIHxbhLWHN+28Qg4jvyZgE2URyVejn/tADst9QH1JSOeJ6OfNZimxsLuC/
- Le0Id9qtO5UDpb+QPAVlF+hTDO3+aLE0SBFjP2DHugEzN5ZR3UYTCIrNTlBq7RCBZr++
- /oow==
-X-Gm-Message-State: ACgBeo2F6m08FcfZ9aZLdlZNXrdkFaTRj/NInVlC8UfY4bAZ5F873yjJ
- JvBl6Gh/Mg6hEGHh3XVLs376Ag==
-X-Google-Smtp-Source: AA6agR4eWfFB1Bowm5gYk7Q6tOCoL/CkVKWvfNXsd5Spa4qHQiSXId5pZrh+uvQgAccJn15Tb5qZUA==
-X-Received: by 2002:a05:620a:1289:b0:6ba:e98f:d2b0 with SMTP id
- w9-20020a05620a128900b006bae98fd2b0mr5628589qki.509.1660922036185; 
- Fri, 19 Aug 2022 08:13:56 -0700 (PDT)
+ bh=iA9FPyd1nVi+5ANzlnbkk2becmIxzDV5Vq9MszOeMik=;
+ b=bHZVo0VfbIYWMsAIf6NBV/CalZ5vAh7ET+vwJxdnI5QzbDhbxfUq23ieOGbqNkUjol
+ KVGNWlpmXfHXftO+aHQ2UzDfWuqVm7UV4oiOJPfiP3jcr8x7gt14u3ga1rX8GAO6KYKE
+ Dcw44q3SP3Ht2vMRL04t1Kkspsl2OJX9uC49bQEuMyB7QeCThgJIE6yK5Uct+1nTQ9QI
+ s9A8gUXgz4MHgjdpyq+J5iSvDdRT4E8YvD7V8vcXkBl2wpCofrdS4oLo63j2ETpluGrv
+ ZNm+I0KEX8rld7xE7tUUOnbd5PPp832pYPWDqwaOWOq9hvbj8ZAb766wbue4jk9jLuIy
+ N9uw==
+X-Gm-Message-State: ACgBeo1ZGxGIFLJVELGu5E42l9tpherB3wgowyfYDQXgmTkFmzK6Rn5v
+ rmy0abLedtTPzPEz33ko51XJsA==
+X-Google-Smtp-Source: AA6agR78yg020o3BQrSjbyOHf2K23nLFedXybdJ5R96QMH31H/Um1bHSOfOeF4uB98Jhlhnwd5sW7w==
+X-Received: by 2002:ac8:59c6:0:b0:344:6f73:da07 with SMTP id
+ f6-20020ac859c6000000b003446f73da07mr6813160qtf.199.1660922886865; 
+ Fri, 19 Aug 2022 08:28:06 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
  [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
- q4-20020ac87344000000b00342f960d26esm3208762qtp.15.2022.08.19.08.13.54
+ w4-20020a05620a424400b006b6757a11fcsm3976599qko.36.2022.08.19.08.28.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 08:13:55 -0700 (PDT)
-Message-ID: <09942d325e3b3c3149ebd9787794b065554f6064.camel@ndufresne.ca>
-Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
- heap support
+ Fri, 19 Aug 2022 08:28:06 -0700 (PDT)
+Message-ID: <6da7faf329128312f0862f555d1a855437ae99f3.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/2] [WIP]: media: Add Synaptics compressed tiled format
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Cyrille Fleury <cyrille.fleury@nxp.com>, Olivier Masse
- <olivier.masse@nxp.com>, "brian.starkey@arm.com" <brian.starkey@arm.com>
-Date: Fri, 19 Aug 2022 11:13:53 -0400
-In-Reply-To: <AS8PR04MB75119C61E3222786A5BBF1D6886D9@AS8PR04MB7511.eurprd04.prod.outlook.com>
-References: <20220805135330.970-1-olivier.masse@nxp.com>
- <20220805135330.970-2-olivier.masse@nxp.com>
- <20220805154139.2qkqxwklufjpsfdx@000377403353>
- <7e61668164f8bf02f6c4ee166e85abc42b5ee958.camel@nxp.com>
- <20220812163922.v7sf3havi5dpgi5u@000377403353>
- <de46324d8fa8fb6a8dda4641e531d30842410744.camel@nxp.com>
- <eef2fc413695cb96a5071627bfe44830f80cfe9e.camel@ndufresne.ca>
- <fb022db983aa44a5b1a8478d340198ecc52c4e11.camel@nxp.com>
- <AS8PR04MB75119C61E3222786A5BBF1D6886D9@AS8PR04MB7511.eurprd04.prod.outlook.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hsia-Jun Li
+ <Randy.Li@synaptics.com>
+Date: Fri, 19 Aug 2022 11:28:04 -0400
+In-Reply-To: <Yv7HnHE7bLmgq5D0@pendragon.ideasonboard.com>
+References: <20220808162750.828001-1-randy.li@synaptics.com>
+ <20220808162750.828001-3-randy.li@synaptics.com>
+ <CAAFQd5AKjpJ+fPAeCqdNnJbS4R7SdaHkfyW4qG1xXr-sE801pQ@mail.gmail.com>
+ <13d37c15-79f3-4e16-8cf4-fc37846f4a04@synaptics.com>
+ <Yv7HnHE7bLmgq5D0@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
@@ -82,255 +77,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?ISO-8859-1?Q?Cl=E9ment?= Faure <clement.faure@nxp.com>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "nd@arm.com" <nd@arm.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, sebastian.hesselbarth@gmail.com,
+ airlied@linux.ie, linux-kernel@vger.kernel.org, ribalda@chromium.org,
+ linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
+ jszhang@kernel.org, ezequiel@vanguardiasur.com.ar
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-thanks for the additional information, we are starting to have a (still par=
-tial)
-overview of your team goals.
-
-Le jeudi 18 ao=C3=BBt 2022 =C3=A0 05:25 +0000, Cyrille Fleury a =C3=A9crit=
-=C2=A0:
-> Hi Nicolas, all,
->=20
->  The short reply:
->       - For DRM, gstreamer, ffmeg, ... we don't use anymore NXP VPU
-> proprietary API=20
->       - We need secure dma-buf heaps to replace secure ion heaps
->=20
->   The more detailed reply to address concerns below in the thread:
->       - NXP doesn't design VPU, but rely on third party VPU hardware IP w=
-e
-> integrate in our soc.  NXP proprietary API are for legacy applications ou=
-r
-> customers did without using gstreamer or ffmpeg, but we are now relying o=
-n
-> V4L2 API for WPE/gstreamer, chromium/ffmpeg ...
->       - Even with NXP legacy BSP, there was no API impact for WPE (or
-> chromium) due to NXP VPU API. We use WPE/gstreamer, then a gstreamer plug=
-ing
-> relying on NXP VPU proprietary API. But now we use V4L2. So we can forget=
- NXP
-> VPU proprietary API, and I'm very happy with that.
->       - We have moved from ion buffer to dma buff to manage secure memory
-> management. This is why we need secure dma-buf heaps, we protect with NXP
-> hardware as we did with ion heaps in the presentation Olivier shared.    =
-   =20
->       - For secure video playback, the changes we need to do are in user =
-space
-> world (gstreamer, WPE, ...), to update our patches managing secure ion he=
-aps
-> by secure dma-buf heaps. But dma-buf is file descriptor based as ion heap=
- are.
-
-Do you have some links to these changes to user-space code that demonstrate=
- the
-usage of this new heap in its real context ?
-
->       - What will change between platforms, is how memory is protected. T=
-his
-> is why we requested to have dtb in OPTEE for secure memory, to be able to
-> provide a common API to secure DDR memory, and  then to rely on proprieta=
-ry
-> code in OPTEE to secure it.
->       - We don't have a display controller or VPU decoder running in TEE.=
- They
-> remain under the full control of Linux/REE Word. If Linux/REE ask somethi=
-ng
-> breaking Widevine/PlayReady security rules, for example decode secure mem=
-ory
-> to non-secure memory, read from secure memory will return 0, write to sec=
-ure
-> memory will be ignored. Same with keys, certificates ...
-
-Can you explain how you would manage to make VP9 stateless decoding work ? =
-On
-IMX8MQ you have a chip that will produce a feedback binary, which contains =
-the
-probability data. The mainline driver will merge the forward probability to
-prepare the probability for the next decode.
-
-This basically means at least 1 output of the decoder needs to be non-secur=
-e
-(for CPU read-back). That breaks the notion of secure memory domain, which =
-is
-global to the HW. One could think you could just ask the TEE to copy it bac=
-k for
-you, but to do that safely, the TEE would need to control the CODEC program=
-ming,
-hence have a CODEC driver in the secure OS.
-
-I'm not familiar with it, but may that have impact on HDMI receivers, which=
- may
-need some buffers for CPU usage (perhaps HDR metadata, EDID, etc.).
-
->       - i.MX8 socs have a stateless VPU and there is no VPU firmware. i.M=
-X9
-> socs have a stateful VPU with firmware. In secure memory context, with se=
-cure
-> memory, at software level, stateful VPU are even more simple to manage ->=
-=20
-> less read/write operations performed by Linux world to parse the stream, =
-so
-> less patch to be done in the video framework. But for memory management,
-> stateful/stateless, same concern: we  need  to provide support of secure =
-dma
-> heaps to Linux, to allocate secure memory for the VPU and the display
-> controller, so it is just a different dma-buf heaps, so a different file
-> descriptor.
-
-i.MX8 boards may have stateless or stateful CODEC (Hantro chips are used in
-stateless fashion, while Amphion chips are driven by a stateful firmware). =
-I
-would have hoped NXP folks would know that, as this is what their users hav=
-e to
-deal with on day-to-day.
-
-May I interpret this as NXP is giving up on i.MX8 memory protection (or per=
-haps
-your team is only caring about i.MX9 ?), and this solution is on usable for
-stateful (less flexible) CODECs ?
-
->       - i.MX9 VPU will support "Virtual Machine VPU". Till now I don't se=
-e why
-> it will not work. I'm not an expert in VM, but from what I understood fro=
-m my
-> discussions with NXP VPU team integrating the new VPU hardware IP, from
-> outside world, VPU is seen as multiple VPUs, with multiple register banks=
-. So
-> virtualized OS will continue to read/write registers as today, and at sof=
-tware
-> level, secure memory is as non-secure memory, I mean at this end, it is
-> physical DDR memory. Of course hardware shall be able to read/write it, b=
-ut
-> this is not software related, this is hardware concern. And even without =
-VM,
-> we target to dedicate one virtual VPU to DRM,  so one register bank, to s=
-etup
-> dedicated security rules for DRM.
-
-What you wrote here is about as much as I heard about the new security mode=
-l
-coming in newer chips (this is not NXP specific). I think in order to push
-forward designs and APIs, it would be logical to first present about these
-mechanism, now they work and how they affect drivers and user space. Its no=
-t
-clear how this mechanism inforces usage of non-mappable to kernel mmu memor=
-y.
-Providing Open Source kernel and userland to demonstrate and use this featu=
-re is
-also very helpful for reviewers and adopters, but also a requirement in the=
- drm
-tree.
-
-regards,
-Nicolas
-
->      =20
->   I'm on vacation until end of this week. I can setup a call next week to=
- discuss this topic if more clarifications are needed.
->=20
-> Regards.
->=20
-> -----Original Message-----
-> From: Olivier Masse <olivier.masse@nxp.com>=20
-> Sent: Wednesday, August 17, 2022 4:52 PM
-> To: nicolas@ndufresne.ca; Cyrille Fleury <cyrille.fleury@nxp.com>; brian.=
-starkey@arm.com
-> Cc: sumit.semwal@linaro.org; linux-kernel@vger.kernel.org; linaro-mm-sig@=
-lists.linaro.org; christian.koenig@amd.com; linux-media@vger.kernel.org; nd=
-@arm.com; Cl=C3=A9ment Faure <clement.faure@nxp.com>; dri-devel@lists.freed=
-esktop.org; benjamin.gaignard@collabora.com
-> Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmab=
-uf heap support
->=20
-> +Cyrille
->=20
-> Hi Nicolas,
->=20
-> On mer., 2022-08-17 at 10:29 -0400, Nicolas Dufresne wrote:
-> > Caution: EXT Email
-> >=20
-> > Hi Folks,
-> >=20
-> > Le mardi 16 ao=C3=BBt 2022 =C3=A0 11:20 +0000, Olivier Masse a =C3=A9cr=
-it :
-> > > Hi Brian,
-> > >=20
-> > >=20
-> > > On ven., 2022-08-12 at 17:39 +0100, Brian Starkey wrote:
-> > > > Caution: EXT Ema
+Le vendredi 19 ao=C3=BBt 2022 =C3=A0 02:13 +0300, Laurent Pinchart a =C3=A9=
+crit=C2=A0:
+> On Thu, Aug 18, 2022 at 02:33:42PM +0800, Hsia-Jun Li wrote:
+> > On 8/18/22 14:06, Tomasz Figa wrote:
+> > > On Tue, Aug 9, 2022 at 1:28 AM Hsia-Jun Li <randy.li@synaptics.com> w=
+rote:
 > > > >=20
-> >=20
-> > [...]
-> >=20
+> > > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 > > > >=20
-> > > > Interesting, that's not how the devices I've worked on operated.
+> > > > The most of detail has been written in the drm.
+>=20
+> This patch still needs a description of the format, which should go to
+> Documentation/userspace-api/media/v4l/.
+>=20
+> > > > Please notice that the tiled formats here request
+> > > > one more plane for storing the motion vector metadata.
+> > > > This buffer won't be compressed, so you can't append
+> > > > it to luma or chroma plane.
+> > >=20
+> > > Does the motion vector buffer need to be exposed to userspace? Is the
+> > > decoder stateless (requires userspace to specify the reference frames=
+)
+> > > or stateful (manages the entire decoding process internally)?
+> >=20
+> > No, users don't need to access them at all. Just they need a different=
+=20
+> > dma-heap.
+> >=20
+> > You would only get the stateful version of both encoder and decoder.
+>=20
+> Shouldn't the motion vectors be stored in a separate V4L2 buffer,
+> submitted through a different queue then ?
+
+Imho, I believe these should be invisible to users and pooled separately to
+reduce the overhead. The number of reference is usually lower then the numb=
+er of
+allocated display buffers.
+
+>=20
+> > > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> > > > ---
+> > > >   drivers/media/v4l2-core/v4l2-common.c | 1 +
+> > > >   drivers/media/v4l2-core/v4l2-ioctl.c  | 2 ++
+> > > >   include/uapi/linux/videodev2.h        | 2 ++
+> > > >   3 files changed, 5 insertions(+)
 > > > >=20
-> > > > Are you saying that you have to have a display controller driver=
-=20
-> > > > running in the TEE to display one of these buffers?
-> > >=20
-> > > In fact the display controller is managing 3 plans : UI, PiP and=20
-> > > video. The video plan is protected in secure as you can see on slide
-> > > 11:
-> > >=20
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fstati=
-c.linaro.org%2Fconnect%2Fsan19%2Fpresentations%2Fsan19-107.pdf&amp;data=3D0=
-5%7C01%7Colivier.masse%40nxp.com%7Ce0e00be789a54dff8e5208da805ce2f6%7C686ea=
-1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637963433695707516%7CUnknown%7CTWFpbG=
-Zsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C=
-3000%7C%7C%7C&amp;sdata=3DGHjEfbgqRkfHK16oyNaYJob4LRVqvoffRElKR%2F7Rtes%3D&=
-amp;reserved=3D0
-> >=20
-> >=20
-> >=20
-> > just wanted to highlight that all the WPE/GStreamer bit in this=20
-> > presentation is based on NXP Vendor Media CODEC design, which rely on=
-=20
-> > their own i.MX VPU API. I don't see any effort to extend this to a=20
-> > wider audience. It is not explaining how this can work with a mainline=
-=20
-> > kernel with v4l2 stateful or stateless drivers and generic=20
-> > GStreamer/FFMPEG/Chromium support.
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/=
+v4l2-core/v4l2-common.c
+> > > > index e0fbe6ba4b6c..f645278b3055 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > > @@ -314,6 +314,7 @@ const struct v4l2_format_info *v4l2_format_info=
+(u32 format)
+> > > >                  { .format =3D V4L2_PIX_FMT_SGBRG12,       .pixel_e=
+nc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> > > >                  { .format =3D V4L2_PIX_FMT_SGRBG12,       .pixel_e=
+nc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> > > >                  { .format =3D V4L2_PIX_FMT_SRGGB12,       .pixel_e=
+nc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> > > > +               { .format =3D V4L2_PIX_FMT_NV12M_V4H1C, .pixel_enc =
+=3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 5, .comp_planes =3D 2, .bpp =3D { 1=
+, 2, 0, 0 }, .hdiv =3D 2, .vdiv =3D 2, .block_w =3D { 128, 128 }, .block_h =
+=3D { 128, 128 } },
+> > > >          };
+> > > >          unsigned int i;
+> > > >=20
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v=
+4l2-core/v4l2-ioctl.c
+> > > > index e6fd355a2e92..8f65964aff08 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > > @@ -1497,6 +1497,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtd=
+esc *fmt)
+> > > >                  case V4L2_PIX_FMT_MT21C:        descr =3D "Mediate=
+k Compressed Format"; break;
+> > > >                  case V4L2_PIX_FMT_QC08C:        descr =3D "QCOM Co=
+mpressed 8-bit Format"; break;
+> > > >                  case V4L2_PIX_FMT_QC10C:        descr =3D "QCOM Co=
+mpressed 10-bit Format"; break;
+> > > > +               case V4L2_PIX_FMT_NV12M_V4H1C:  descr =3D "Synaptic=
+s Compressed 8-bit tiled Format";break;
+> > > > +               case V4L2_PIX_FMT_NV12M_10_V4H3P8C:     descr =3D "=
+Synaptics Compressed 10-bit tiled Format";break;
+> > > >                  default:
+> > > >                          if (fmt->description[0])
+> > > >                                  return;
+> > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vi=
+deodev2.h
+> > > > index 01e630f2ec78..7e928cb69e7c 100644
+> > > > --- a/include/uapi/linux/videodev2.h
+> > > > +++ b/include/uapi/linux/videodev2.h
+> > > > @@ -661,6 +661,8 @@ struct v4l2_pix_format {
+> > > >   #define V4L2_PIX_FMT_NV12MT_16X16 v4l2_fourcc('V', 'M', '1', '2')=
+ /* 12  Y/CbCr 4:2:0 16x16 tiles */
+> > > >   #define V4L2_PIX_FMT_NV12M_8L128      v4l2_fourcc('N', 'A', '1', =
+'2') /* Y/CbCr 4:2:0 8x128 tiles */
+> > > >   #define V4L2_PIX_FMT_NV12M_10BE_8L128 v4l2_fourcc_be('N', 'T', '1=
+', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
+> > > > +#define V4L2_PIX_FMT_NV12M_V4H1C v4l2_fourcc('S', 'Y', '1', '2')  =
+ /* 12  Y/CbCr 4:2:0 tiles */
+> > > > +#define V4L2_PIX_FMT_NV12M_10_V4H3P8C v4l2_fourcc('S', 'Y', '1', '=
+0')   /* 12  Y/CbCr 4:2:0 10-bits tiles */
+> > > >=20
+> > > >   /* Bayer formats - see http://www.siliconimaging.com/RGB%20Bayer.=
+htm */
+> > > >   #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8', '1') /*  =
+8  BGBG.. GRGR.. */
 >=20
-> Maybe Cyrille can explain what it is currently done at NXP level regardin=
-g the integration of v4l2 with NXP VPU.
->=20
-> >=20
-> > I'm raising this, since I'm worried that no one cares of solving that=
-=20
-> > high level problem from a generic point of view. In that context, any=
-=20
-> > additions to the mainline Linux kernel can only be flawed and will=20
-> > only serves specific vendors and not the larger audience.
-> >=20
-> > Another aspect, is that this design might be bound to a specific (NXP
-> > ?)
-> > security design. I've learn recently that newer HW is going to use=20
-> > multiple level of MMU (like virtual machines do) to protect the memory=
-=20
-> > rather then marking pages. Will all this work for that too ?
->=20
-> our fire-walling hardware is protecting memory behind the MMU and so rely=
- on physical memory layout.
-> this work is only relying on a reserved physical memory.
->=20
-> Regards,
-> Olivier
->=20
-> >=20
-> > regards,
-> > Nicolas
 
