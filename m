@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3494059A8DD
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Aug 2022 00:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4795659A8E9
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Aug 2022 00:55:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4894810ED5E;
-	Fri, 19 Aug 2022 22:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9EB10EB00;
+	Fri, 19 Aug 2022 22:54:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E0D10E713;
- Fri, 19 Aug 2022 22:54:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC88110E88C;
+ Fri, 19 Aug 2022 22:54:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1660949644; x=1692485644;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Ofie0f11RtB4MpZLQTp7TX+t/kKyNhbN3eXjdX4N77I=;
- b=Z6zgTTXUkIknjh0jA0DWz0kcAAJJVEM7UGbTewBRR2ho/MDbW5X+gPZG
- e4V9YDFzgFlWPxi+G8vMJbNOw1DVlyMMpVtDnbXRoJ+Qa7EObwTYKR4sE
- v49FgZtGfwNoKkqD57nOq/ZKfvc7Ok4HyYPdCfDfBm/Fa4mmfDYm+iUX/
- dq0uJMavXE+s8YburtyMQqsoxeOfPDdVQNABxyV2ccmk2wHVKuzeNfi/K
- AB1+pJj6TS7pCBjhEYju+bR03Wg2amjBNt8wYul6FvUxiKGLT5up5ravU
- uCB3js7danI6LoEwKqzOkiTWcXIkmBXJemmxQRdOkE6aoQiQuzZm+bbgD g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="273513247"
-X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; d="scan'208";a="273513247"
+ bh=/NB+UoNEoX8bVqRbsn5l2zvCiRR1JPTN1FEZNzuR33E=;
+ b=UP+eNEQDjUB5JVNu+6xvSHkSvzBQL95TBOnRJZyZVGMQr9kK2UiDjYYF
+ +1/nYcE3HsQiO80kSscwfG1PjiRLERPjOKIJdwSyVaty4Om6ROPVGyf8y
+ rgwp8biCzyodsn925H1pkFTnTHl+RUU3pUxVnWQpU6xmA/IbM/xc45n1A
+ Q+KEZNe0O1/o5t00dcFu0TYeenWFqTXn+DWrXJ44+7ob5gB49NN6EC67q
+ k8ztIGXRf7E9kBklAW5aWFqXPvGsATV/IBOG13wLttwqg3Knz8sCrzZfB
+ v6vD9tbsl0AGPCUEzpWSib8pccYiRD4a+9twiG67YfNc/jI86kG7xe/ho A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="273513250"
+X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; d="scan'208";a="273513250"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2022 15:54:03 -0700
-X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; d="scan'208";a="936378518"
+ 19 Aug 2022 15:54:04 -0700
+X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; d="scan'208";a="936378523"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2022 15:54:03 -0700
+ 19 Aug 2022 15:54:04 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 13/15] drm/i915/huc: better define HuC status getparam
- possible return values.
-Date: Fri, 19 Aug 2022 15:53:33 -0700
-Message-Id: <20220819225335.3947346-14-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v3 14/15] drm/i915/huc: define gsc-compatible HuC fw for DG2
+Date: Fri, 19 Aug 2022 15:53:34 -0700
+Message-Id: <20220819225335.3947346-15-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220819225335.3947346-1-daniele.ceraolospurio@intel.com>
 References: <20220819225335.3947346-1-daniele.ceraolospurio@intel.com>
@@ -57,130 +56,145 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tony Ye <tony.ye@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current HuC status getparam return values are a bit confusing in
-regards to what happens in some scenarios. In particular, most of the
-error cases cause the ioctl to return an error, but a couple of them,
-INIT_FAIL and LOAD_FAIL, are not explicitly handled and neither is
-their expected return value documented; these 2 error cases therefore
-end up into the catch-all umbrella of the "HuC not loaded" case, with
-this case therefore including both some error scenarios and the load
-in progress one.
+The fw name is different and we need to record the fact that the blob is
+gsc-loaded, so add a new macro to help.
 
-The updates included in this patch change the handling so that all
-error cases behave the same way, i.e. return an errno code, and so
-that the HuC load in progress case is unambiguous.
-
-The patch also includes a small change to the FW init path to make sure
-we always transition to an error state if something goes wrong.
+Note: A-step DG2 G10 does not support HuC loading via GSC and would
+require a separate firmware to be loaded the legacy way, but that's
+not a production stepping so we're not going to bother.
 
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Cc: Tony Ye <tony.ye@intel.com>
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Acked-by: Tony Ye <tony.ye@intel.com>
+Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc.c   |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_huc.c   | 14 +++++++-------
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c |  1 -
- include/uapi/drm/i915_drm.h              | 16 ++++++++++++++++
- 4 files changed, 24 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 64 ++++++++++++++----------
+ 1 file changed, 37 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 01f2705cb94a..10b2da810a8f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -443,6 +443,7 @@ int intel_guc_init(struct intel_guc *guc)
- err_fw:
- 	intel_uc_fw_fini(&guc->fw);
- out:
-+	intel_uc_fw_change_status(&guc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
- 	i915_probe_error(gt->i915, "failed with %d\n", ret);
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index 9a97b8cc90c7..1a34c902d081 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -284,6 +284,7 @@ int intel_huc_init(struct intel_huc *huc)
- 	return 0;
- 
- out:
-+	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
- 	drm_info(&i915->drm, "HuC init failed with %d\n", err);
- 	return err;
- }
-@@ -403,13 +404,8 @@ bool intel_huc_is_authenticated(struct intel_huc *huc)
-  * This function reads status register to verify if HuC
-  * firmware was successfully loaded.
-  *
-- * Returns:
-- *  * -ENODEV if HuC is not present on this platform,
-- *  * -EOPNOTSUPP if HuC firmware is disabled,
-- *  * -ENOPKG if HuC firmware was not installed,
-- *  * -ENOEXEC if HuC firmware is invalid or mismatched,
-- *  * 0 if HuC firmware is not running,
-- *  * 1 if HuC firmware is authenticated and running.
-+ * The return values match what is expected for the I915_PARAM_HUC_STATUS
-+ * getparam.
-  */
- int intel_huc_check_status(struct intel_huc *huc)
- {
-@@ -422,6 +418,10 @@ int intel_huc_check_status(struct intel_huc *huc)
- 		return -ENOPKG;
- 	case INTEL_UC_FIRMWARE_ERROR:
- 		return -ENOEXEC;
-+	case INTEL_UC_FIRMWARE_INIT_FAIL:
-+		return -ENOMEM;
-+	case INTEL_UC_FIRMWARE_LOAD_FAIL:
-+		return -EIO;
- 	default:
- 		break;
- 	}
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 58547292efa0..cec6bf6bad3f 100644
+index cec6bf6bad3f..776b43d79772 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -749,7 +749,6 @@ int intel_uc_fw_init(struct intel_uc_fw *uc_fw)
- out_unpin:
- 	i915_gem_object_unpin_pages(uc_fw->obj);
- out:
--	intel_uc_fw_change_status(uc_fw, INTEL_UC_FIRMWARE_INIT_FAIL);
- 	return err;
- }
+@@ -74,35 +74,39 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
+ 	fw_def(ALDERLAKE_P,  0, guc_def(adlp, 69, 0, 3)) \
+ 	fw_def(ALDERLAKE_S,  0, guc_def(tgl,  69, 0, 3))
  
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 520ad2691a99..629198f1d8d8 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -645,6 +645,22 @@ typedef struct drm_i915_irq_wait {
-  */
- #define   I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP	(1ul << 5)
+-#define INTEL_HUC_FIRMWARE_DEFS(fw_def, huc_def) \
+-	fw_def(ALDERLAKE_P,  0, huc_def(tgl,  7, 9, 3)) \
+-	fw_def(ALDERLAKE_S,  0, huc_def(tgl,  7, 9, 3)) \
+-	fw_def(DG1,          0, huc_def(dg1,  7, 9, 3)) \
+-	fw_def(ROCKETLAKE,   0, huc_def(tgl,  7, 9, 3)) \
+-	fw_def(TIGERLAKE,    0, huc_def(tgl,  7, 9, 3)) \
+-	fw_def(JASPERLAKE,   0, huc_def(ehl,  9, 0, 0)) \
+-	fw_def(ELKHARTLAKE,  0, huc_def(ehl,  9, 0, 0)) \
+-	fw_def(ICELAKE,      0, huc_def(icl,  9, 0, 0)) \
+-	fw_def(COMETLAKE,    5, huc_def(cml,  4, 0, 0)) \
+-	fw_def(COMETLAKE,    0, huc_def(kbl,  4, 0, 0)) \
+-	fw_def(COFFEELAKE,   0, huc_def(kbl,  4, 0, 0)) \
+-	fw_def(GEMINILAKE,   0, huc_def(glk,  4, 0, 0)) \
+-	fw_def(KABYLAKE,     0, huc_def(kbl,  4, 0, 0)) \
+-	fw_def(BROXTON,      0, huc_def(bxt,  2, 0, 0)) \
+-	fw_def(SKYLAKE,      0, huc_def(skl,  2, 0, 0))
+-
+-#define __MAKE_UC_FW_PATH(prefix_, name_, major_, minor_, patch_) \
++#define INTEL_HUC_FIRMWARE_DEFS(fw_def, huc_dma_def, huc_gsc_def) \
++	fw_def(DG2,          0, huc_gsc_def(dg2,  7, 10, 0)) \
++	fw_def(ALDERLAKE_P,  0, huc_dma_def(tgl,  7, 9, 3)) \
++	fw_def(ALDERLAKE_S,  0, huc_dma_def(tgl,  7, 9, 3)) \
++	fw_def(DG1,          0, huc_dma_def(dg1,  7, 9, 3)) \
++	fw_def(ROCKETLAKE,   0, huc_dma_def(tgl,  7, 9, 3)) \
++	fw_def(TIGERLAKE,    0, huc_dma_def(tgl,  7, 9, 3)) \
++	fw_def(JASPERLAKE,   0, huc_dma_def(ehl,  9, 0, 0)) \
++	fw_def(ELKHARTLAKE,  0, huc_dma_def(ehl,  9, 0, 0)) \
++	fw_def(ICELAKE,      0, huc_dma_def(icl,  9, 0, 0)) \
++	fw_def(COMETLAKE,    5, huc_dma_def(cml,  4, 0, 0)) \
++	fw_def(COMETLAKE,    0, huc_dma_def(kbl,  4, 0, 0)) \
++	fw_def(COFFEELAKE,   0, huc_dma_def(kbl,  4, 0, 0)) \
++	fw_def(GEMINILAKE,   0, huc_dma_def(glk,  4, 0, 0)) \
++	fw_def(KABYLAKE,     0, huc_dma_def(kbl,  4, 0, 0)) \
++	fw_def(BROXTON,      0, huc_dma_def(bxt,  2, 0, 0)) \
++	fw_def(SKYLAKE,      0, huc_dma_def(skl,  2, 0, 0))
++
++#define __MAKE_UC_FW_PATH(prefix_, name_, major_, minor_, patch_, postfix_) \
+ 	"i915/" \
+ 	__stringify(prefix_) name_ \
+ 	__stringify(major_) "." \
+ 	__stringify(minor_) "." \
+-	__stringify(patch_) ".bin"
++	__stringify(patch_) postfix_ ".bin"
  
-+/*
-+ * Query the status of HuC load.
-+ *
-+ * The query can fail in the following scenarios with the listed error codes:
-+ *  -ENODEV if HuC is not present on this platform,
-+ *  -EOPNOTSUPP if HuC firmware usage is disabled,
-+ *  -ENOPKG if HuC firmware fetch failed,
-+ *  -ENOEXEC if HuC firmware is invalid or mismatched,
-+ *  -ENOMEM if i915 failed to prepare the FW objects for transfer to the uC,
-+ *  -EIO if the FW transfer or the FW authentication failed.
-+ *
-+ * If the IOCTL is successful, the returned parameter will be set to one of the
-+ * following values:
-+ *  * 0 if HuC firmware load is not complete,
-+ *  * 1 if HuC firmware is authenticated and running.
-+ */
- #define I915_PARAM_HUC_STATUS		 42
+ #define MAKE_GUC_FW_PATH(prefix_, major_, minor_, patch_) \
+-	__MAKE_UC_FW_PATH(prefix_, "_guc_", major_, minor_, patch_)
++	__MAKE_UC_FW_PATH(prefix_, "_guc_", major_, minor_, patch_, "")
  
- /* Query whether DRM_I915_GEM_EXECBUFFER2 supports the ability to opt-out of
+ #define MAKE_HUC_FW_PATH(prefix_, major_, minor_, bld_num_) \
+-	__MAKE_UC_FW_PATH(prefix_, "_huc_", major_, minor_, bld_num_)
++	__MAKE_UC_FW_PATH(prefix_, "_huc_", major_, minor_, bld_num_, "")
++
++#define MAKE_HUC_GSC_FW_PATH(prefix_, major_, minor_, bld_num_) \
++	__MAKE_UC_FW_PATH(prefix_, "_huc_", major_, minor_, bld_num_, "_gsc")
+ 
+ /* All blobs need to be declared via MODULE_FIRMWARE() */
+ #define INTEL_UC_MODULE_FW(platform_, revid_, uc_) \
+@@ -110,26 +114,31 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
+ 
+ INTEL_GUC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_GUC_FW_PATH)
+ INTEL_GUC_FIRMWARE_DEFS_FALLBACK(INTEL_UC_MODULE_FW, MAKE_GUC_FW_PATH)
+-INTEL_HUC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_HUC_FW_PATH)
++INTEL_HUC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_HUC_FW_PATH, MAKE_HUC_GSC_FW_PATH)
+ 
+ /* The below structs and macros are used to iterate across the list of blobs */
+ struct __packed uc_fw_blob {
+ 	u8 major;
+ 	u8 minor;
++	bool loaded_via_gsc;
+ 	const char *path;
+ };
+ 
+-#define UC_FW_BLOB(major_, minor_, path_) \
+-	{ .major = major_, .minor = minor_, .path = path_ }
++#define UC_FW_BLOB(major_, minor_, gsc_, path_) \
++	{ .major = major_, .minor = minor_, .loaded_via_gsc = gsc_, .path = path_ }
+ 
+ #define GUC_FW_BLOB(prefix_, major_, minor_, patch_) \
+-	UC_FW_BLOB(major_, minor_, \
++	UC_FW_BLOB(major_, minor_, false, \
+ 		   MAKE_GUC_FW_PATH(prefix_, major_, minor_, patch_))
+ 
+ #define HUC_FW_BLOB(prefix_, major_, minor_, bld_num_) \
+-	UC_FW_BLOB(major_, minor_, \
++	UC_FW_BLOB(major_, minor_, false, \
+ 		   MAKE_HUC_FW_PATH(prefix_, major_, minor_, bld_num_))
+ 
++#define HUC_GSC_FW_BLOB(prefix_, major_, minor_, bld_num_) \
++	UC_FW_BLOB(major_, minor_, true, \
++		   MAKE_HUC_GSC_FW_PATH(prefix_, major_, minor_, bld_num_))
++
+ struct __packed uc_fw_platform_requirement {
+ 	enum intel_platform p;
+ 	u8 rev; /* first platform rev using this FW */
+@@ -158,7 +167,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+ 		INTEL_GUC_FIRMWARE_DEFS_FALLBACK(MAKE_FW_LIST, GUC_FW_BLOB)
+ 	};
+ 	static const struct uc_fw_platform_requirement blobs_huc[] = {
+-		INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB)
++		INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB, HUC_GSC_FW_BLOB)
+ 	};
+ 	static const struct fw_blobs_by_type blobs_all[INTEL_UC_FW_NUM_TYPES] = {
+ 		[INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
+@@ -190,6 +199,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+ 			uc_fw->wanted_path = blob->path;
+ 			uc_fw->major_ver_wanted = blob->major;
+ 			uc_fw->minor_ver_wanted = blob->minor;
++			uc_fw->loaded_via_gsc = blob->loaded_via_gsc;
+ 			break;
+ 		}
+ 	}
 -- 
 2.37.2
 
