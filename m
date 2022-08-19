@@ -2,76 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A55859A7A1
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 23:26:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634D659A8CC
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Aug 2022 00:54:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9965810E715;
-	Fri, 19 Aug 2022 21:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C254310E4CF;
+	Fri, 19 Aug 2022 22:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4402D10E7D9
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 21:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660944346;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hPqOotGSruHudwMIkA2GhgTM0KbwtUxu9NgLFadghJM=;
- b=FOn9avGsHkKZW9f+FpWmjsfVLqwpcdzlObFuNTnG6/6yc6UbDBaSzaBI4FGk8jvQpEPIPZ
- N1evTumBYpteTTEnPEodEE/+hN29DLUTWxjLRULlmKF9AepsRTFH+rWBLhHKz8KqoPcKMr
- BP+lrvfEHKgxrZYp6rdAGLxiyiz4THo=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-271-ccrVPavkPj2i2496ceKECg-1; Fri, 19 Aug 2022 17:25:45 -0400
-X-MC-Unique: ccrVPavkPj2i2496ceKECg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- hv19-20020a17090760d300b00730d0a018a6so1948477ejc.21
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 14:25:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=hPqOotGSruHudwMIkA2GhgTM0KbwtUxu9NgLFadghJM=;
- b=H9JL/E2NJvM02pprWoFmMFZDpGW+MSCcYXRoXW21/IsRNvN4+KGZwP1uGeeIhBAlsZ
- igtLEbK0Q3Yj/yJU2WKitL35b/H2lsQh5LzNX2R21phQBZ2wleQBnUqZXLtj8q47UC3+
- mtoIxeeBqA85PIO4tYpcbVSh6cUXCngyfpo5FWSSYkBtLr0hMLsXusI17qxaqfFtXl6u
- mAB+TuJMCiNgjzGdxIogQRvAGLvUMWZLHQjXxlRk8bzMrp0LAxfLHhKYMuNZDIUyIS74
- xKGGjo9acB63nDTF8Vg95Lnr+YFEvqGgfloecAd86LkbffGz3gGaB67HaOCOHtYo1fkt
- AGTg==
-X-Gm-Message-State: ACgBeo3qRW8ag3RbghVmPHJTYyD4MQ/wMzHaWGrVgjZj9z+ij2K1bBua
- Ty0mw9nHKXNOk2dwYPYa1W05r7KRCvh86r7oMtlXGb4sQ8e9CjsOt4QokAuTeK0l3lyddC1sD2a
- Zj6gGBD7NFQWasq3Q2BvSS82nfvdT
-X-Received: by 2002:a05:6402:415:b0:446:230d:2b82 with SMTP id
- q21-20020a056402041500b00446230d2b82mr5875886edv.200.1660944344405; 
- Fri, 19 Aug 2022 14:25:44 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7HPGxg5GCr3oNRoWkMSOYoQXdCy3r5Rh15bVdNO88lO8+SW2gzGUe5OSb4mGaG4wbSWPX8tw==
-X-Received: by 2002:a05:6402:415:b0:446:230d:2b82 with SMTP id
- q21-20020a056402041500b00446230d2b82mr5875877edv.200.1660944344223; 
- Fri, 19 Aug 2022 14:25:44 -0700 (PDT)
-Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- ej19-20020a056402369300b00445f1fa531bsm3650681edb.25.2022.08.19.14.25.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 14:25:43 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
- liviu.dudau@arm.com, brian.starkey@arm.com
-Subject: [PATCH drm-misc-next 8/8] drm/arm/malidp: drv: protect device
- resources after removal
-Date: Fri, 19 Aug 2022 23:25:38 +0200
-Message-Id: <20220819212538.559902-2-dakr@redhat.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B12A10E4CF;
+ Fri, 19 Aug 2022 22:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660949628; x=1692485628;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=oXR9APN2GrfoUnLji5NFru0Ea+JdBpI+lSLyo37zgG4=;
+ b=At69otBbFZJfrv4ho44eea+LjmicxwVYrPjdBGmEF3NAt6BpNS37qZRp
+ 2g36puteQfPXjQLiReAR13dd7EEohTaOZy59kTv3pntLqX5mQDCMLyqto
+ Bk+xCYPC8X9KWwOjeWxJvTnptI4HcQAUtL/OM26nyyiRNrt1ksWQId2Ea
+ uHWeSod6NMjy2qQjHIfTHfQUqbVCt7XoAHvwfX1jtTaUGAz62WrXVTnyw
+ 9VsFw4w9NbTC62zIeqRJkLGTVDzNIbacdlVl64Lu76R1EcLE9lcZnIb8Q
+ 9L4Jm5dQwCb5lAG7rHSNCQWoJ1SDgjuG9JlqMvb/4k5ucT3e0HSx1i6wU Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="273513220"
+X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; d="scan'208";a="273513220"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2022 15:53:47 -0700
+X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; d="scan'208";a="936378442"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2022 15:53:47 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 00/15] drm/i915: HuC loading for DG2
+Date: Fri, 19 Aug 2022 15:53:20 -0700
+Message-Id: <20220819225335.3947346-1-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220819212015.556220-1-dakr@redhat.com>
-References: <20220819212015.556220-1-dakr@redhat.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,52 +53,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Tony Ye <tony.ye@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alexander Usyskin <alexander.usyskin@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Tomas Winkler <tomas.winkler@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(Hardware) resources which are bound to the driver and device lifecycle
-must not be accessed after the device and driver are unbound.
+On DG2, HuC loading is performed by the GSC, via a PXP command. The load
+operation itself is relatively simple (just send a message to the GSC
+with the physical address of the HuC in LMEM), but there are timing
+changes that requires special attention. In particular, to send a PXP
+command we need to first export the GSC as an aux device and then wait
+for the mei-gsc and mei-pxp modules to start, which means that HuC
+load will complete after i915 load is complete. This means that there
+is a small window of time after i915 is registered and before HuC is
+loaded during which userspace could submit and/or check the HuC load
+status, although this is quite unlikely to happen (HuC is usually loaded
+before kernel init/resume completes).
+We've consulted with the media team in regards to how to handle this and
+they've asked us to stall all userspace VCS submission until HuC is
+loaded. Stalls are expected to be very rare (if any), due to the fact
+that HuC is usually loaded before kernel init/resume is completed.
 
-However, the DRM device isn't freed as long as the last user didn't
-close it, hence userspace can still call into the driver.
+Timeouts are in place to ensure all submissions are unlocked in case
+something goes wrong. Since we need to monitor the status of the mei
+driver to know what's happening and when to time out, a notifier has
+been added so we get a callback when the status of the mei driver
+changes.
 
-Therefore protect the critical sections which are accessing those
-resources with drm_dev_enter() and drm_dev_exit().
+Note that this series includes several mei patches that add support for
+sending the HuC loading command via mei-gsc. These patches depend on the
+GSC support for DG2 [1], which has been included squashed in a single
+patch to make the series apply and allow CI to run. We plan to merge
+those patches through the drm tree because i915 is the sole user.
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/arm/malidp_drv.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+[1]: https://patchwork.freedesktop.org/series/106638/
 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index aedd30f5f451..8bb8e8d14461 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -234,9 +234,12 @@ static void malidp_atomic_commit_tail(struct drm_atomic_state *state)
- 	struct malidp_drm *malidp = drm_to_malidp(drm);
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state;
--	int i;
-+	int i, idx;
- 	bool fence_cookie = dma_fence_begin_signalling();
- 
-+	if (!drm_dev_enter(drm, &idx))
-+		return;
-+
- 	pm_runtime_get_sync(drm->dev);
- 
- 	/*
-@@ -267,6 +270,8 @@ static void malidp_atomic_commit_tail(struct drm_atomic_state *state)
- 	pm_runtime_put(drm->dev);
- 
- 	drm_atomic_helper_cleanup_planes(drm, state);
-+
-+	drm_dev_exit(idx);
- }
- 
- static const struct drm_mode_config_helper_funcs malidp_mode_config_helpers = {
+v2: address review comments, Reporting HuC loading still in progress
+while we wait for mei-gsc init to complete, rebase on latest mei-gsc
+series.
+
+v3: fix cc list in mei patches.
+
+Test-with: 20220818224216.3920822-1-daniele.ceraolospurio@intel.com
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Tony Ye <tony.ye@intel.com>
+Cc: Alexander Usyskin <alexander.usyskin@intel.com>
+Cc: Tomas Winkler <tomas.winkler@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+Daniele Ceraolo Spurio (8):
+  HAX: mei: GSC support for XeHP SDV and DG2 platform
+  drm/i915/pxp: load the pxp module when we have a gsc-loaded huc
+  drm/i915/dg2: setup HuC loading via GSC
+  drm/i915/huc: track delayed HuC load with a fence
+  drm/i915/huc: stall media submission until HuC is loaded
+  drm/i915/huc: better define HuC status getparam possible return
+    values.
+  drm/i915/huc: define gsc-compatible HuC fw for DG2
+  HAX: drm/i915: force INTEL_MEI_GSC and INTEL_MEI_PXP on for CI
+
+Tomas Winkler (4):
+  mei: add support to GSC extended header
+  mei: bus: enable sending gsc commands
+  mei: pxp: support matching with a gfx discrete card
+  drm/i915/pxp: add huc authentication and loading command
+
+Vitaly Lubart (3):
+  mei: bus: extend bus API to support command streamer API
+  mei: pxp: add command streamer API to the PXP driver
+  drm/i915/pxp: implement function for sending tee stream command
+
+ drivers/gpu/drm/i915/Kconfig.debug            |   2 +
+ drivers/gpu/drm/i915/Makefile                 |  11 +-
+ drivers/gpu/drm/i915/gt/intel_gsc.c           | 140 +++++++++-
+ drivers/gpu/drm/i915/gt/intel_gsc.h           |   3 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   1 +
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c        | 253 ++++++++++++++++--
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h        |  27 ++
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c     |  34 +++
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.h     |   1 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  65 +++--
+ drivers/gpu/drm/i915/i915_request.c           |  24 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          |  32 ++-
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |  32 ---
+ drivers/gpu/drm/i915/pxp/intel_pxp_huc.c      |  69 +++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_huc.h      |  15 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h      |   8 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |   8 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.h  |  11 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 138 +++++++++-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.h      |   5 +
+ .../drm/i915/pxp/intel_pxp_tee_interface.h    |  21 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |   6 +
+ drivers/misc/mei/bus-fixup.c                  | 104 ++++---
+ drivers/misc/mei/bus.c                        | 145 +++++++++-
+ drivers/misc/mei/client.c                     |  69 +++--
+ drivers/misc/mei/debugfs.c                    |  17 ++
+ drivers/misc/mei/gsc-me.c                     |  77 +++++-
+ drivers/misc/mei/hbm.c                        |  25 +-
+ drivers/misc/mei/hw-me-regs.h                 |   7 +
+ drivers/misc/mei/hw-me.c                      | 121 +++++++--
+ drivers/misc/mei/hw-me.h                      |  14 +-
+ drivers/misc/mei/hw-txe.c                     |   2 +-
+ drivers/misc/mei/hw.h                         |  62 +++++
+ drivers/misc/mei/init.c                       |  21 +-
+ drivers/misc/mei/interrupt.c                  |  47 +++-
+ drivers/misc/mei/main.c                       |   2 +-
+ drivers/misc/mei/mei_dev.h                    |  33 +++
+ drivers/misc/mei/mkhi.h                       |  57 ++++
+ drivers/misc/mei/pci-me.c                     |   2 +-
+ drivers/misc/mei/pxp/mei_pxp.c                |  41 ++-
+ include/drm/i915_pxp_tee_interface.h          |   5 +
+ include/linux/mei_aux.h                       |  12 +
+ include/linux/mei_cl_bus.h                    |   6 +
+ include/uapi/drm/i915_drm.h                   |  16 ++
+ 44 files changed, 1564 insertions(+), 227 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_huc.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_huc.h
+ create mode 100644 drivers/misc/mei/mkhi.h
+
 -- 
 2.37.2
 
