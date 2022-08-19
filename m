@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825825992F7
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 04:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12485599312
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 04:38:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD25A10EC80;
-	Fri, 19 Aug 2022 02:10:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C154610E05D;
+	Fri, 19 Aug 2022 02:38:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4D710EC80
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 02:10:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1CAE10E10C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 02:38:32 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4ED1F3F1;
- Fri, 19 Aug 2022 04:10:14 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 483CA3F1;
+ Fri, 19 Aug 2022 04:38:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1660875014;
- bh=SXRUZwcRcYy6bdv+SkLqpvDOfBEeFhEWZRl2EAsy17M=;
+ s=mail; t=1660876711;
+ bh=bI/FyPcyEjkwd94dRpjq01q1V8C/fYllucggGtxNMr0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IbGCVncxMbp6BKa0g4KRWZbIsGU4XTFWQ/vSMl3RCskT3Yd/rxP63fnVFT6WYY0v0
- fbeXWgCxAQdx7u3U91n9q9GJVfHOFabUbf36uP+E5KV4FI1QYTsYN2iikhVNuVMhmV
- mCylu811HjFy6a3/ILg82qmE6c4AW5Hc19jJ1Noc=
-Date: Fri, 19 Aug 2022 05:10:10 +0300
+ b=Zsj8VC1/gI1lrIi2R7DBgOswIa2JuaK8oaY368lngjW7bg9qnXqwijZiwjzBfHOSE
+ OoJ9Cz4EoylRcFgEzvt+6dI+o+oE82l/bYP5WkbPniYKzvJYYyCHrd2oKdmY+e8VRY
+ 1a8Z9lpug/d2H2MpnpIprBidDdPDygiAKM3RF1vg=
+Date: Fri, 19 Aug 2022 05:38:28 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Takanari Hayama <taki@igel.co.jp>
-Subject: Re: [PATCH v2 3/3] drm: rcar-du: Add DRM_MODE_BLEND_PIXEL_NONE support
-Message-ID: <Yv7xAk0RhI3PfnUs@pendragon.ideasonboard.com>
+To: mchehab@kernel.org
+Subject: Re: [PATCH v2 1/3] media: vsp1: add premultiplied alpha support
+Message-ID: <Yv73pNxr62j+hYd5@pendragon.ideasonboard.com>
 References: <20220810083711.219642-1-taki@igel.co.jp>
- <20220810083711.219642-4-taki@igel.co.jp>
+ <20220810083711.219642-2-taki@igel.co.jp>
+ <Yv7u5cFdXIeGm5PQ@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220810083711.219642-4-taki@igel.co.jp>
+In-Reply-To: <Yv7u5cFdXIeGm5PQ@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,78 +48,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
- mchehab@kernel.org, linux-media@vger.kernel.org
+Cc: Takanari Hayama <taki@igel.co.jp>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Hayama-san,
+Mauro, would you be fine with this patch going through the DRM tree for
+v6.1 ? I don't foresee any risk of conflict with other changes to the
+VSP driver scheduled for the next kernel version. If that's fine with
+you, could you give an Acked-by ? Otherwise I can send you a pull
+request to create an immutable branch and base the rest on it in my pull
+request for DRM, but given how small this change is, it seems a bit
+overkill.
 
-Thank you for the patch.
-
-On Wed, Aug 10, 2022 at 05:37:11PM +0900, Takanari Hayama wrote:
-> DRM_MODE_BLEND_PIXEL_NONE ignores an alpha channel.
+On Fri, Aug 19, 2022 at 05:01:10AM +0300, Laurent Pinchart wrote:
+> Hi Hayama-san,
 > 
-> Rcar-du driver supports only 3 formats with an alpha channel
-> (DRM_FORMAT_ARGB1555, DRM_FORMAT_ARGB8888 and DRM_FORMAT_ARGB4444). We
-> simply override the format passed to VSP1 for blending with the pixel
-> format without alpha channel.
+> Thank you for the patch.
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
+> On Wed, Aug 10, 2022 at 05:37:09PM +0900, Takanari Hayama wrote:
+> > To support DRM blend mode in R-Car DU driver, we must be able to pass
+> > a plane with the premultiplied alpha. Adding a new property to
+> > vsp1_du_atomic_config allows the R-Car DU driver to pass the
+> > premultiplied alpha plane.
+> > 
+> > Signed-off-by: Takanari Hayama <taki@igel.co.jp>
+> > ---
+> >  drivers/media/platform/renesas/vsp1/vsp1_drm.c | 2 ++
+> >  include/media/vsp1.h                           | 2 ++
+> >  2 files changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> > index 0c2507dc03d6..019e18976bd8 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> > @@ -856,6 +856,8 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+> >  	rpf->mem.addr[1] = cfg->mem[1];
+> >  	rpf->mem.addr[2] = cfg->mem[2];
+> >  
+> > +	rpf->format.flags = (cfg->premult) ? V4L2_PIX_FMT_FLAG_PREMUL_ALPHA : 0;
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> index b9580fcfec7a..7cce2d414ced 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> @@ -151,6 +151,7 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
->  		.alpha = state->state.alpha >> 8,
->  		.zpos = state->state.zpos,
->  	};
-> +	u32 fourcc = state->format->fourcc;
->  	unsigned int i;
->  
->  	cfg.src.left = state->state.src.x1 >> 16;
-> @@ -169,7 +170,23 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
->  
->  	cfg.premult = (state->state.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI);
->  
-> -	format = rcar_du_format_info(state->format->fourcc);
-> +	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
-> +		switch (fourcc) {
-> +		case DRM_FORMAT_ARGB1555:
-> +			fourcc = DRM_FORMAT_XRGB1555;
-> +			break;
-> +
-> +		case DRM_FORMAT_ARGB4444:
-> +			fourcc = DRM_FORMAT_XRGB4444;
-> +			break;
-> +
-> +		case DRM_FORMAT_ARGB8888:
-> +			fourcc = DRM_FORMAT_XRGB8888;
-> +			break;
-> +		}
-> +	}
-> +
-> +	format = rcar_du_format_info(fourcc);
->  	cfg.pixelformat = format->v4l2;
->  
->  	vsp1_du_atomic_update(plane->vsp->vsp, crtc->vsp_pipe,
-> @@ -447,6 +464,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
->  		}
->  
->  		drm_plane_create_blend_mode_property(&plane->plane,
-> +					BIT(DRM_MODE_BLEND_PIXEL_NONE) |
->  					BIT(DRM_MODE_BLEND_PREMULTI) |
->  					BIT(DRM_MODE_BLEND_COVERAGE));
->  
+> I'll drop the parentheses when applying.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > +
+> >  	vsp1->drm->inputs[rpf_index].crop = cfg->src;
+> >  	vsp1->drm->inputs[rpf_index].compose = cfg->dst;
+> >  	vsp1->drm->inputs[rpf_index].zpos = cfg->zpos;
+> > diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+> > index cc1b0d42ce95..48f4a5023d81 100644
+> > --- a/include/media/vsp1.h
+> > +++ b/include/media/vsp1.h
+> > @@ -51,6 +51,7 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+> >   * @dst: destination rectangle on the display (integer coordinates)
+> >   * @alpha: alpha value (0: fully transparent, 255: fully opaque)
+> >   * @zpos: Z position of the plane (from 0 to number of planes minus 1)
+> > + * @premult: true for premultiplied alpha
+> >   */
+> >  struct vsp1_du_atomic_config {
+> >  	u32 pixelformat;
+> > @@ -60,6 +61,7 @@ struct vsp1_du_atomic_config {
+> >  	struct v4l2_rect dst;
+> >  	unsigned int alpha;
+> >  	unsigned int zpos;
+> > +	bool premult;
+> >  };
+> >  
+> >  /**
 
 -- 
 Regards,
