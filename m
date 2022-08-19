@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FAF55994F1
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 08:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD6A5994F0
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 08:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A9110E0FA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8937210E0CA;
 	Fri, 19 Aug 2022 06:10:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF51D10E0CA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9809F10E0D6
  for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 06:10:18 +0000 (UTC)
-X-UUID: 92bc9560b06648c6b84a093aea58993b-20220819
+X-UUID: 2eeafa1d45b44d4eaf3ea736efd5fd4e-20220819
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=5yV/OGVoNEOnD2kl8Ms91KuLs6FiTuRxSqFD94y3wNQ=; 
- b=EqB4iWiloVMWfVo5OMXrVPQ+cycij1M1wLdqvf1qAYLH1qE1IKECS3GjU4Tmx5KqlpMWyNp6keTfbfI9JJ0mpFhjtYht+ux0skchaI24/J2rMyEdiVKDKi2g53chOejhn9ZyfTZOq74nZUnakDv9FhU7MCVidji4gDXLatCY0cI=;
+ bh=9A1tYxx/M5HgSdrFKJzM3uGCL80y1Pe5PdPVd6y+ZKg=; 
+ b=huI+OsU3InWpYkHk2T6zO53XSiz3iAdP293dyilPNslGlWD0Ow2Z45gLPkH2likLdzzrNVN1ey39dJqwE6DJBBPn1ksEHwDm0i5jtrGzwlIwm6+iJGRHAjrPk1Qs2tReMJzwmfPu0QSEJQgpNBtWp8Ar2NMhq9TM1Lvtk19iLrs=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:54363b1e-5dd0-4243-9d14-477afbd89958, OB:0,
+X-CID-O-INFO: VERSION:1.1.10, REQID:83d2a7d8-610b-4cd9-b11e-3775d4a4b6a0, OB:0,
  L
  OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
  Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18, CLOUDID:3feac3fd-9e71-4a0f-ba6b-417998daea35,
+X-CID-META: VersionHash:84eae18, CLOUDID:04d51e9d-da39-4e3b-a854-56c7d2111b46,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:
  nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 92bc9560b06648c6b84a093aea58993b-20220819
+X-UUID: 2eeafa1d45b44d4eaf3ea736efd5fd4e-20220819
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
  mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1882708899; Fri, 19 Aug 2022 14:10:14 +0800
+ with ESMTP id 1764650270; Fri, 19 Aug 2022 14:10:14 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
@@ -45,10 +45,10 @@ To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
  Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>,
  <nfraprado@collabora.com>
-Subject: [PATCH v26 01/10] dt-bindings: reset: mt8195: add vdosys1 reset
- control bit
-Date: Fri, 19 Aug 2022 14:10:02 +0800
-Message-ID: <20220819061011.7672-2-nancy.lin@mediatek.com>
+Subject: [PATCH v26 02/10] soc: mediatek: add mtk-mmsys ethdr and mdp_rdma
+ components
+Date: Fri, 19 Aug 2022 14:10:03 +0800
+Message-ID: <20220819061011.7672-3-nancy.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220819061011.7672-1-nancy.lin@mediatek.com>
 References: <20220819061011.7672-1-nancy.lin@mediatek.com>
@@ -78,73 +78,39 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vdosys1 reset control bit for MT8195 platform.
+Add new mmsys component: ethdr_mixer and mdp_rdma. These components will
+use in mt8195 vdosys1.
 
 Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 ---
- include/dt-bindings/reset/mt8195-resets.h | 45 +++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ include/linux/soc/mediatek/mtk-mmsys.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/dt-bindings/reset/mt8195-resets.h b/include/dt-bindings/reset/mt8195-resets.h
-index 0b1937f14b36..c87ba621e72e 100644
---- a/include/dt-bindings/reset/mt8195-resets.h
-+++ b/include/dt-bindings/reset/mt8195-resets.h
-@@ -32,4 +32,49 @@
- #define MT8195_INFRA_RST3_THERM_CTRL_PTP_SWRST 1
- #define MT8195_INFRA_RST4_THERM_CTRL_MCU_SWRST 2
- 
-+/* VDOSYS1 */
-+#define MT8195_VDOSYS1_SW0_RST_B_SMI_LARB2                     0
-+#define MT8195_VDOSYS1_SW0_RST_B_SMI_LARB3                     1
-+#define MT8195_VDOSYS1_SW0_RST_B_GALS                          2
-+#define MT8195_VDOSYS1_SW0_RST_B_FAKE_ENG0                     3
-+#define MT8195_VDOSYS1_SW0_RST_B_FAKE_ENG1                     4
-+#define MT8195_VDOSYS1_SW0_RST_B_MDP_RDMA0                     5
-+#define MT8195_VDOSYS1_SW0_RST_B_MDP_RDMA1                     6
-+#define MT8195_VDOSYS1_SW0_RST_B_MDP_RDMA2                     7
-+#define MT8195_VDOSYS1_SW0_RST_B_MDP_RDMA3                     8
-+#define MT8195_VDOSYS1_SW0_RST_B_VPP_MERGE0                    9
-+#define MT8195_VDOSYS1_SW0_RST_B_VPP_MERGE1                    10
-+#define MT8195_VDOSYS1_SW0_RST_B_VPP_MERGE2                    11
-+#define MT8195_VDOSYS1_SW0_RST_B_VPP_MERGE3                    12
-+#define MT8195_VDOSYS1_SW0_RST_B_VPP_MERGE4                    13
-+#define MT8195_VDOSYS1_SW0_RST_B_VPP2_TO_VDO1_DL_ASYNC         14
-+#define MT8195_VDOSYS1_SW0_RST_B_VPP3_TO_VDO1_DL_ASYNC         15
-+#define MT8195_VDOSYS1_SW0_RST_B_DISP_MUTEX                    16
-+#define MT8195_VDOSYS1_SW0_RST_B_MDP_RDMA4                     17
-+#define MT8195_VDOSYS1_SW0_RST_B_MDP_RDMA5                     18
-+#define MT8195_VDOSYS1_SW0_RST_B_MDP_RDMA6                     19
-+#define MT8195_VDOSYS1_SW0_RST_B_MDP_RDMA7                     20
-+#define MT8195_VDOSYS1_SW0_RST_B_DP_INTF0                      21
-+#define MT8195_VDOSYS1_SW0_RST_B_DPI0                          22
-+#define MT8195_VDOSYS1_SW0_RST_B_DPI1                          23
-+#define MT8195_VDOSYS1_SW0_RST_B_DISP_MONITOR                  24
-+#define MT8195_VDOSYS1_SW0_RST_B_MERGE0_DL_ASYNC               25
-+#define MT8195_VDOSYS1_SW0_RST_B_MERGE1_DL_ASYNC               26
-+#define MT8195_VDOSYS1_SW0_RST_B_MERGE2_DL_ASYNC               27
-+#define MT8195_VDOSYS1_SW0_RST_B_MERGE3_DL_ASYNC               28
-+#define MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC               29
-+#define MT8195_VDOSYS1_SW0_RST_B_VDO0_DSC_TO_VDO1_DL_ASYNC     30
-+#define MT8195_VDOSYS1_SW0_RST_B_VDO0_MERGE_TO_VDO1_DL_ASYNC   31
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0                   32
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0                   33
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE                    34
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1                   48
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1                   49
-+#define MT8195_VDOSYS1_SW1_RST_B_DISP_MIXER                    50
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC          51
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC          52
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC          53
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC          54
-+#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC           55
-+
- #endif  /* _DT_BINDINGS_RESET_CONTROLLER_MT8195 */
+diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+index 59117d970daf..321ac8e33a69 100644
+--- a/include/linux/soc/mediatek/mtk-mmsys.h
++++ b/include/linux/soc/mediatek/mtk-mmsys.h
+@@ -29,7 +29,16 @@ enum mtk_ddp_comp_id {
+ 	DDP_COMPONENT_DSI1,
+ 	DDP_COMPONENT_DSI2,
+ 	DDP_COMPONENT_DSI3,
++	DDP_COMPONENT_ETHDR_MIXER,
+ 	DDP_COMPONENT_GAMMA,
++	DDP_COMPONENT_MDP_RDMA0,
++	DDP_COMPONENT_MDP_RDMA1,
++	DDP_COMPONENT_MDP_RDMA2,
++	DDP_COMPONENT_MDP_RDMA3,
++	DDP_COMPONENT_MDP_RDMA4,
++	DDP_COMPONENT_MDP_RDMA5,
++	DDP_COMPONENT_MDP_RDMA6,
++	DDP_COMPONENT_MDP_RDMA7,
+ 	DDP_COMPONENT_MERGE0,
+ 	DDP_COMPONENT_MERGE1,
+ 	DDP_COMPONENT_MERGE2,
 -- 
 2.18.0
 
