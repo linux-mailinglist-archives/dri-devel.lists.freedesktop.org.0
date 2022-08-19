@@ -2,76 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012875995F3
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 09:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09698599618
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 09:34:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B85ED10F15C;
-	Fri, 19 Aug 2022 07:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8834610EDE1;
+	Fri, 19 Aug 2022 07:34:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00FB110ED23
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 07:26:20 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 75AA15C01A5;
- Fri, 19 Aug 2022 03:26:18 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 19 Aug 2022 03:26:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1660893978; x=1660980378; bh=PQvXEf0pFG
- 7expZxKH9DggF+3kgGD1xFEyOXSYF6w9A=; b=VfJqVXNp+l3F9PSdNy39DzmKcM
- q80vDt8WC4xeZgZgxyOFJjo1+Ao9hP0DZjCnApKGjwesoi9dkgJI4EQodKftmHc/
- yOcdOgLcPsePShy0bD4hyWlzyiIbRxfS53icBhPpa2kRVky1eZcvdEZEZSXKWnPY
- XBiDA8uPpqr9gYw+03HzGWt5dooKsuMaZ+ppUiHulFM24W+30q8LtyZlCvuM7UFY
- SL7zJz/Wj7dRgOb7fVYMwfmuG4FhE75HWWBPjyH/+L65+XtN6zwmiZU6qpfYFA5u
- eFP0rwd/hIVEnioG6W1CfG6ADXfV85riM4UzRdGOebY/d9iyJzDL/kYXbI+Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660893978; x=1660980378; bh=PQvXEf0pFG7expZxKH9DggF+3kgG
- D1xFEyOXSYF6w9A=; b=llwIaWhlKIho6AS0koZdRDSv9Cywh1zX+rX6dNfYHP/p
- 8g0C0+zRGw0eq+cpKgUVaVfiekXhKR7ooN0AuVLWrjruC/VAy11gtobKrZRJF+uH
- NwMU2VQUZCfW0yQgv9MWSesWxnc0Ydao4jGuxBOWnq977TNr8ep8ZVua5zxpOJjc
- 4rOi68pslC72QDYlS6F8XGgh+ncBO6dkyh/dMO6o+gqFMcuEzMdwFC3L8ccHg1YQ
- nxe40e9cMRA5TJPULKRvOvLQLJAggxrM9xGcAGqE7UlTiW4ijuzrNVWnI7oNFi65
- J+03OWO+oDMirlypNMOEFTRJw/xFfcG1+e54mqsdxQ==
-X-ME-Sender: <xms:GTv_YvfW-3fl32jZWcLICq7aDQy58HipZeaA2wHYbz27yj4IrR9A_g>
- <xme:GTv_YlONBv9GkB2vrifKkco_Wb0OJytB5GJdW0TSXX0qg7mxxYeXo_2NL8kevSp3F
- _PT0sq3nXQSGofP3wQ>
-X-ME-Received: <xmr:GTv_YogWp7Ifley52tKgJDfmq53-fo4TZiBJINQDcqUazTBTwt4qnBR7>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeitddguddvudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
- fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:GTv_Yg80pinc-NWvJigDkQznzT4RGAc3WbnJR4xyPFsbkfmOhN2zpQ>
- <xmx:GTv_YrtooUqG89sZoJi56xMqTnr2v2plFPyf07hpmoNbroxSxgDWFg>
- <xmx:GTv_YvE1HALChCx2uvvLFPU-i0utmxmuG1awV-ak_veqiDQcxEeu_w>
- <xmx:Gjv_YlI_DHpTH5bHZOrDYQMqNC1eF7IWXWM3pwuyd-jg2RQTflMTgA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 19 Aug 2022 03:26:17 -0400 (EDT)
-Date: Fri, 19 Aug 2022 09:26:14 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next 2/3] drm/vc4: plane: protect device
- resources after removal
-Message-ID: <20220819072614.dthfuugbkk65o3ps@houat>
-References: <20220819002905.82095-1-dakr@redhat.com>
- <20220819002905.82095-3-dakr@redhat.com>
+Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com
+ [115.236.118.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEEC510E19E
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 07:33:56 +0000 (UTC)
+Received: from localhost (unknown [103.29.142.67])
+ by mail-m11885.qiye.163.com (Hmail) with ESMTPA id 5AF324C02BD;
+ Fri, 19 Aug 2022 15:33:51 +0800 (CST)
+From: Jeffy Chen <jeffy.chen@rock-chips.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v3] drm/gem: Fix GEM handle release errors
+Date: Fri, 19 Aug 2022 15:28:34 +0800
+Message-Id: <20220819072834.17888-1-jeffy.chen@rock-chips.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dcp2mqorp5d7a6ps"
-Content-Disposition: inline
-In-Reply-To: <20220819002905.82095-3-dakr@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTh4fVk9MHk4fQxlKGE9DS1UTARMWGhIXJBQOD1
+ lXWRgSC1lBWUpLSFVJQlVKT0lVTUxZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OQw6Hgw*IT0wCRYyFh9NEEMj
+ DCswFDNVSlVKTU1LQ0JPT0hKQk9IVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlKS0hVSUJVSk9JVU1MWVdZCAFZQU1KT043Bg++
+X-HM-Tid: 0a82b505c8ac2eb9kusn5af324c02bd
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,64 +44,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Jeffy Chen <jeffy.chen@rock-chips.com>,
+ linux-kernel@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Jianqun Xu <jay.xu@rock-chips.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Currently we are assuming a one to one mapping between dmabuf and
+GEM handle when releasing GEM handles.
 
---dcp2mqorp5d7a6ps
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+But that is not always true, since we would create extra handles for the
+GEM obj in cases like gem_open() and getfb{,2}().
 
-Hi,
+A similar issue was reported at:
+https://lore.kernel.org/all/20211105083308.392156-1-jay.xu@rock-chips.com/
 
-On Fri, Aug 19, 2022 at 02:29:04AM +0200, Danilo Krummrich wrote:
-> (Hardware) resources which are bound to the driver and device lifecycle
-> must not be accessed after the device and driver are unbound.
->=20
-> However, the DRM device isn't freed as long as the last user closed it,
-> hence userspace can still call into the driver.
->=20
-> Therefore protect the critical sections which are accessing those
-> resources with drm_dev_enter() and drm_dev_exit().
+Another problem is that the imported dmabuf might not always have
+gem_obj->dma_buf set, which would cause leaks in
+drm_gem_remove_prime_handles().
 
-Ah good catch, thanks
+Let's fix these for now by using handle to find the exact map to remove.
 
-> Fixes: 9872c7a31921 ("drm/vc4: plane: Switch to drmm_universal_plane_allo=
-c()")
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> ---
->  drivers/gpu/drm/vc4/vc4_drv.h   |  1 +
->  drivers/gpu/drm/vc4/vc4_plane.c | 25 +++++++++++++++++++++++++
->  2 files changed, 26 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index 418a8242691f..80da9a9337cc 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -341,6 +341,7 @@ struct vc4_hvs {
-> =20
->  struct vc4_plane {
->  	struct drm_plane base;
-> +	struct drm_device *dev;
+Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-That pointer already exists in struct drm_plane
+---
 
-Looks good otherwise
+Changes in v3:
+Rewrite commit message a bit.
 
-Maxime
+Changes in v2:
+Fix a typo of rbtree.
 
---dcp2mqorp5d7a6ps
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/gpu/drm/drm_gem.c      | 17 +----------------
+ drivers/gpu/drm/drm_internal.h |  4 ++--
+ drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
+ 3 files changed, 15 insertions(+), 26 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index eb0c2d041f13..ed39da383570 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_gem_private_object_init);
+ 
+-static void
+-drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct drm_file *filp)
+-{
+-	/*
+-	 * Note: obj->dma_buf can't disappear as long as we still hold a
+-	 * handle reference in obj->handle_count.
+-	 */
+-	mutex_lock(&filp->prime.lock);
+-	if (obj->dma_buf) {
+-		drm_prime_remove_buf_handle_locked(&filp->prime,
+-						   obj->dma_buf);
+-	}
+-	mutex_unlock(&filp->prime.lock);
+-}
+-
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+  * @obj: GEM object to clean up.
+@@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
+ 	if (obj->funcs->close)
+ 		obj->funcs->close(obj, file_priv);
+ 
+-	drm_gem_remove_prime_handles(obj, file_priv);
++	drm_prime_remove_buf_handle(&file_priv->prime, id);
+ 	drm_vma_node_revoke(&obj->vma_node, file_priv);
+ 
+ 	drm_gem_object_handle_put_unlocked(obj);
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 1fbbc19f1ac0..7bb98e6a446d 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
+ void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
+-void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+-					struct dma_buf *dma_buf);
++void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
++				 uint32_t handle);
+ 
+ /* drm_drv.c */
+ struct drm_minor *drm_minor_acquire(unsigned int minor_id);
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index e3f09f18110c..bd5366b16381 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
+ 	return -ENOENT;
+ }
+ 
+-void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+-					struct dma_buf *dma_buf)
++void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
++				 uint32_t handle)
+ {
+ 	struct rb_node *rb;
+ 
+-	rb = prime_fpriv->dmabufs.rb_node;
++	mutex_lock(&prime_fpriv->lock);
++
++	rb = prime_fpriv->handles.rb_node;
+ 	while (rb) {
+ 		struct drm_prime_member *member;
+ 
+-		member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
+-		if (member->dma_buf == dma_buf) {
++		member = rb_entry(rb, struct drm_prime_member, handle_rb);
++		if (member->handle == handle) {
+ 			rb_erase(&member->handle_rb, &prime_fpriv->handles);
+ 			rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
+ 
+-			dma_buf_put(dma_buf);
++			dma_buf_put(member->dma_buf);
+ 			kfree(member);
+-			return;
+-		} else if (member->dma_buf < dma_buf) {
++			break;
++		} else if (member->handle < handle) {
+ 			rb = rb->rb_right;
+ 		} else {
+ 			rb = rb->rb_left;
+ 		}
+ 	}
++
++	mutex_unlock(&prime_fpriv->lock);
+ }
+ 
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
+-- 
+2.20.1
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYv87EAAKCRDj7w1vZxhR
-xcKJAPoCGmGROyZVzyfQc6jLZJ6oE3b0TFvxgA60VBJRAcmBDgEAiPirDdNpKGTp
-AQey4Kx35gTUWmZmTGdYwv+h75x5KQU=
-=gwzs
------END PGP SIGNATURE-----
-
---dcp2mqorp5d7a6ps--
