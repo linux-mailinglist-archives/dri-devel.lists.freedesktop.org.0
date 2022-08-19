@@ -1,69 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67CC5998D6
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 11:41:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4DC599966
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 12:05:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9584F10E0EB;
-	Fri, 19 Aug 2022 09:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F57310E0A5;
+	Fri, 19 Aug 2022 10:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
- [209.85.219.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01D4A10E112
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 09:41:25 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id mn10so2970875qvb.10
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 02:41:25 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5A5D10E41A
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 10:05:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660903534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ClrqC6xI3y34Msl2MghOyY6wxIWtFZ3bYpyy58JPY0M=;
+ b=ewMUXRkHFBhfedn4ytU/x0XKNenTNUOPk2ou2/Jqs1n4dRh9xBRkC//rmKfFv03ZJyG8ZX
+ 2EjSfVgAFo71mew2DTPksFKq7/nF0guIEZCpCM1IcVhkiRYQSvEE5IOpm3IX1vpVcPEWMA
+ pEdxzzWUSnasPx8D00eddLc4xsThr4k=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-493-aiVOYlSyPpCWl4m4sVtPJA-1; Fri, 19 Aug 2022 06:05:33 -0400
+X-MC-Unique: aiVOYlSyPpCWl4m4sVtPJA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ nb10-20020a1709071c8a00b006e8f89863ceso1327430ejc.18
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 03:05:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=oXk24pt8yzz//H9K/Ms8QIvLemhYFXzzYPTlQRFRJUQ=;
- b=v/g7KMOSdvBnpKr7hm2KUDgGFaeeR4o+tu7FcOJPPiPBgKgvA2PXtktyFB/R2rVZ5Y
- OxyRAIMdD9ZWrwME4glbVjnC5WodcVx6fuZ+GZquGuULwarG4aC48tWfHKNZ+sl8vRoa
- s5IqDrHw5KEhQ2KHBRThlrw5G8Dwc7qTpGCZ+4XnPcPyUcoP/2WdlUHoaZ2PHnzhQVTS
- H6X8ez9KFNt+qb0c0x0bngplIaixyv7J1FXTmSV9ad5ftEKv/qMKjG+RrtUplib+kEjg
- NHuESMVtDoTvN6gNu0iKHAZae5in4f0BJHc+ezY9k7vm/sr3aq1jNsOLW+vzrZLHA0wu
- ldUQ==
-X-Gm-Message-State: ACgBeo0DrRQkxw3yiWuwHdyNjsw+Xbeum0mya4cSC8NFrLnJW5zYX1Cm
- MkMXRULlxHkbRwOQKshNUJAvlqDfmFxmPvY6
-X-Google-Smtp-Source: AA6agR7Yx3g0XCPrRfUBkZaikQxCuWPnDizqcjIkB4Nc6/8n3RbaTloGwCYtY70jNHG5a9xnELHOLg==
-X-Received: by 2002:a0c:f54f:0:b0:479:4b9d:4ad1 with SMTP id
- p15-20020a0cf54f000000b004794b9d4ad1mr5438986qvm.118.1660902084893; 
- Fri, 19 Aug 2022 02:41:24 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com.
- [209.85.128.181]) by smtp.gmail.com with ESMTPSA id
- j27-20020a05620a147b00b006ba9b2167a2sm3076092qkl.16.2022.08.19.02.41.24
- for <dri-devel@lists.freedesktop.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=ClrqC6xI3y34Msl2MghOyY6wxIWtFZ3bYpyy58JPY0M=;
+ b=z8rLlpAaPw+/tGk37zrTJ96KwuB3pOhjY7NepOCOTeNsoRlCPY086iT7jYMheXEbrt
+ iquAHd/TjwULSDh3IY9Y01wlHOx3n8yM7FoOarOf5Sn5el3Xdow26SFsvdrCagMQmgP8
+ JcZzyKrixPArsNLIbhYgAF6dpjWYl6futYAITjsxhtM4qoSVZ6tpNOkEDQz93YUUIdqB
+ SWrdEVQnzcJWwPExvCW7rZzDlZ3Mxfv2EEGEyoOUKMMSQ80atfRftcVF589CpotQ3ouE
+ 6xd2opyOI/bbmYLMAk/78Jvxq5XQBHJJUhkq56znYdkCAY1f1zuhAeecBjyjFIBOZu65
+ KOLg==
+X-Gm-Message-State: ACgBeo3iJtnqfKO0J7uglhKzVyoF1ElyH1VQl9QC14BOT/9l7EY0Xhn4
+ w19sFq+Vj6L/FqFJzHgqdmPnykb+j6ctwnIeAy640yVVx5bmIme2gPmBELQusaJH8AEU8sCYMVq
+ vs+bjP/h3a1y4yhh6P1TkANaAYFV4
+X-Received: by 2002:a05:6402:84e:b0:440:4bac:be5a with SMTP id
+ b14-20020a056402084e00b004404bacbe5amr5564249edz.103.1660903532665; 
+ Fri, 19 Aug 2022 03:05:32 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7fU47agb0EFZDnJX43gsuZ1SU7OR4Ob90bb0C5SXvvscJYiU83fnrABD1bw+CGIeNcDMsT+g==
+X-Received: by 2002:a05:6402:84e:b0:440:4bac:be5a with SMTP id
+ b14-20020a056402084e00b004404bacbe5amr5564218edz.103.1660903532345; 
+ Fri, 19 Aug 2022 03:05:32 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ q29-20020a056402249d00b0043ca6fb7e7dsm2780438eda.68.2022.08.19.03.05.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Aug 2022 02:41:24 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-31f445bd486so106892397b3.13
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 02:41:24 -0700 (PDT)
-X-Received: by 2002:a81:b812:0:b0:328:68e4:c886 with SMTP id
- v18-20020a81b812000000b0032868e4c886mr6398447ywe.502.1660901753206; Fri, 19
- Aug 2022 02:35:53 -0700 (PDT)
+ Fri, 19 Aug 2022 03:05:31 -0700 (PDT)
+Message-ID: <d5767b2e-a20f-43ca-61d7-6ea577b31188@redhat.com>
+Date: Fri, 19 Aug 2022 12:05:30 +0200
 MIME-Version: 1.0
-References: <20220816154956.pkdpxmmw27mia5ix@houat>
- <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
- <20220817074710.w4c4xwj7edly2b5p@houat>
- <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
- <20220817111454.pn2iltvyo2drebq7@houat>
- <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
- <20220817131854.jwmhqvhfhp77bbr3@houat>
- <CAMuHMdXrfH9MArXesfNCvqayiq17u7XaqtSvXTNt4V10=obSHQ@mail.gmail.com>
- <20220818145436.vqojnhmvhjxdzooe@houat>
- <CAMuHMdW5kTUeg59fym7QxfN5oisTZHWbiAPeSYKJVShZWduJcA@mail.gmail.com>
- <20220818153442.u4knumkfbe7j6zj3@houat>
-In-Reply-To: <20220818153442.u4knumkfbe7j6zj3@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 19 Aug 2022 11:35:42 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUNYErf4PJLbSFFdB1EhvzbscqxHE74FnsjYQXLy8DLZA@mail.gmail.com>
-Message-ID: <CAMuHMdUNYErf4PJLbSFFdB1EhvzbscqxHE74FnsjYQXLy8DLZA@mail.gmail.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 15/31] platform/x86: nvidia-wmi-ec-backlight: Move fw
+ interface definitions to a header
+To: Daniel Dadap <ddadap@nvidia.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Xinhui <Xinhui.Pan@amd.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>
+References: <20220818184302.10051-1-hdegoede@redhat.com>
+ <20220818184302.10051-16-hdegoede@redhat.com>
+ <12cc48c5-b54f-1eb7-c268-beb98bce2a5d@nvidia.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <12cc48c5-b54f-1eb7-c268-beb98bce2a5d@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,125 +103,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi,
 
-On Thu, Aug 18, 2022 at 5:34 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Thu, Aug 18, 2022 at 05:20:42PM +0200, Geert Uytterhoeven wrote:
-> > On Thu, Aug 18, 2022 at 4:54 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > On Wed, Aug 17, 2022 at 04:04:24PM +0200, Geert Uytterhoeven wrote:
-> > > > On Wed, Aug 17, 2022 at 3:19 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > On Wed, Aug 17, 2022 at 03:05:52PM +0200, Geert Uytterhoeven wrote:
-> > > > > > On Wed, Aug 17, 2022 at 1:15 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeven wrote:
-> > > > > > > > On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > > > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
-> > > > > > > > > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > > > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
-> > > > > > > > > > > > > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
-> > > > > > > > > > > > > > > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
-> > > > > > > > > > > > > > > > 09/35] drm/modes: Move named modes parsing to a separate function", as
-> > > > > > > > > > > > > > > > currently a named mode and a refresh rate can't be specified both.
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > I think the former would make more sense. It simplifies a bit the
-> > > > > > > > > > > > > > > parser, and we're going to use a named mode anyway.
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
-> > > > > > > > > > > > > > > > command-line option" uses a separate "tv_mode" option, and not the main
-> > > > > > > > > > > > > > > > mode name, I think you want to add them here.
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > It's a separate story I think, we could have a named mode hd720p50,
-> > > > > > > > > > > > > > > which would be equivalent to 1280x720,tv_mode=hd720p
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > So where's the field rate in "1280x720,tv_mode=hd720p"?
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=hd720p
-> > > > > > > > > > > >
-> > > > > > > > > > > > Above you said "I think the former would make more sense", so that
-> > > > > > > > > > > > should be "1280x720,tv_mode=hd720p50"?
-> > > > > > > > > > >
-> > > > > > > > > > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=hd720p
-> > > > > > > > > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=hd720p
-> > > > > > > > > >
-> > > > > > > > > > I disagree: hd720p50 and hd720p60 are different TV modes.
-> > > > > > > > >
-> > > > > > > > > I agree, and I don't see how that command-line doesn't express that?
-> > > > > > > >
-> > > > > > > > Oh, I see what you mean: yes, it expresses that.
-> > > > > > > > But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
-> > > > > > > > where the TV mode specifies both number of lines and frame rate.
-> > > > > > >
-> > > > > > > Only if we're using a named mode, and naming is hard :)
-> > > > > >
-> > > > > > That's not true: "640x480,tv_mode=PAL-N" would give me a mode with
-> > > > > > 625 lines and 25 frames/s, "640x480,tv_mode=PAL-M" would give me a
-> > > > > > mode with 525 lines and 30 frames/s.
-> > > > >
-> > > > > In that series, "640x480,tv_mode=PAL-N" would be rejected as invalid:
-> > > > >
-> > > > > https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-14-3d53ae722097@cerno.tech/
-> > > >
-> > > > It would become supported once the ideas from thread "[PATCH v1 04/35]
-> > > > drm/modes: Introduce 480i and 576i modes" are implemented...
-> > >
-> > > Indeed, but I'm still not sure what your concern is here.
-> > > "640x480,tv_mode=PAL-N" and "640x480,tv_mode=PAL-M" are both fairly
-> > > obvious.
-> > >
-> > > You were initially saying that you had concern over the inconsistency of
-> > > NTSC/PAL/SECAM where the TV mode would specify a number of lines and
-> > > frame rate, but hd720p50 also specifies a number of line and frame rate?
-> >
-> > My concern is that you want to call the TV mode "hd720p", which
-> > does not dictate the frame rate.
-> > I would like to have both "720p50" and "720p60", as they do dictate
-> > the frame rate, like all the non-hd modes.
->
-> But they don't?
->
-> The refresh rate is part of the drm_display_mode, whereas that property
-> is metadata and entirely separate from the display mode.
->
-> You can even change it without changing the mode at all
+On 8/18/22 21:38, Daniel Dadap wrote:
+> 
+> On 8/18/22 1:42 PM, Hans de Goede wrote:
+>> Move the WMI interface definitions to a header, so that the definitions
+>> can be shared with drivers/acpi/video_detect.c .
+>>
+>> Suggested-by: Daniel Dadap <ddadap@nvidia.com>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   MAINTAINERS                                   |  1 +
+>>   .../platform/x86/nvidia-wmi-ec-backlight.c    | 66 +----------------
+>>   .../x86/nvidia-wmi-ec-backlight.h             | 70 +++++++++++++++++++
+>>   3 files changed, 72 insertions(+), 65 deletions(-)
+>>   create mode 100644 include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 8a5012ba6ff9..8d59c6e9b4db 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -14526,6 +14526,7 @@ M:    Daniel Dadap <ddadap@nvidia.com>
+>>   L:    platform-driver-x86@vger.kernel.org
+>>   S:    Supported
+>>   F:    drivers/platform/x86/nvidia-wmi-ec-backlight.c
+>> +F:    include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h
+>>     NVM EXPRESS DRIVER
+>>   M:    Keith Busch <kbusch@kernel.org>
+>> diff --git a/drivers/platform/x86/nvidia-wmi-ec-backlight.c b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
+>> index 61e37194df70..e84e1d629b14 100644
+>> --- a/drivers/platform/x86/nvidia-wmi-ec-backlight.c
+>> +++ b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
+>> @@ -7,74 +7,10 @@
+>>   #include <linux/backlight.h>
+>>   #include <linux/mod_devicetable.h>
+>>   #include <linux/module.h>
+>> +#include <linux/platform_data/x86/nvidia-wmi-ec-backlight.h>
+>>   #include <linux/types.h>
+>>   #include <linux/wmi.h>
+>>   -/**
+>> - * enum wmi_brightness_method - WMI method IDs
+>> - * @WMI_BRIGHTNESS_METHOD_LEVEL:  Get/Set EC brightness level status
+>> - * @WMI_BRIGHTNESS_METHOD_SOURCE: Get/Set EC Brightness Source
+>> - */
+>> -enum wmi_brightness_method {
+>> -    WMI_BRIGHTNESS_METHOD_LEVEL = 1,
+>> -    WMI_BRIGHTNESS_METHOD_SOURCE = 2,
+>> -    WMI_BRIGHTNESS_METHOD_MAX
+>> -};
+>> -
+>> -/**
+>> - * enum wmi_brightness_mode - Operation mode for WMI-wrapped method
+>> - * @WMI_BRIGHTNESS_MODE_GET:            Get the current brightness level/source.
+>> - * @WMI_BRIGHTNESS_MODE_SET:            Set the brightness level.
+>> - * @WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL:  Get the maximum brightness level. This
+>> - *                                      is only valid when the WMI method is
+>> - *                                      %WMI_BRIGHTNESS_METHOD_LEVEL.
+>> - */
+>> -enum wmi_brightness_mode {
+>> -    WMI_BRIGHTNESS_MODE_GET = 0,
+>> -    WMI_BRIGHTNESS_MODE_SET = 1,
+>> -    WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL = 2,
+>> -    WMI_BRIGHTNESS_MODE_MAX
+>> -};
+>> -
+>> -/**
+>> - * enum wmi_brightness_source - Backlight brightness control source selection
+>> - * @WMI_BRIGHTNESS_SOURCE_GPU: Backlight brightness is controlled by the GPU.
+>> - * @WMI_BRIGHTNESS_SOURCE_EC:  Backlight brightness is controlled by the
+>> - *                             system's Embedded Controller (EC).
+>> - * @WMI_BRIGHTNESS_SOURCE_AUX: Backlight brightness is controlled over the
+>> - *                             DisplayPort AUX channel.
+>> - */
+>> -enum wmi_brightness_source {
+>> -    WMI_BRIGHTNESS_SOURCE_GPU = 1,
+>> -    WMI_BRIGHTNESS_SOURCE_EC = 2,
+>> -    WMI_BRIGHTNESS_SOURCE_AUX = 3,
+>> -    WMI_BRIGHTNESS_SOURCE_MAX
+>> -};
+>> -
+>> -/**
+>> - * struct wmi_brightness_args - arguments for the WMI-wrapped ACPI method
+>> - * @mode:    Pass in an &enum wmi_brightness_mode value to select between
+>> - *           getting or setting a value.
+>> - * @val:     In parameter for value to set when using %WMI_BRIGHTNESS_MODE_SET
+>> - *           mode. Not used in conjunction with %WMI_BRIGHTNESS_MODE_GET or
+>> - *           %WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL mode.
+>> - * @ret:     Out parameter returning retrieved value when operating in
+>> - *           %WMI_BRIGHTNESS_MODE_GET or %WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL
+>> - *           mode. Not used in %WMI_BRIGHTNESS_MODE_SET mode.
+>> - * @ignored: Padding; not used. The ACPI method expects a 24 byte params struct.
+>> - *
+>> - * This is the parameters structure for the WmiBrightnessNotify ACPI method as
+>> - * wrapped by WMI. The value passed in to @val or returned by @ret will be a
+>> - * brightness value when the WMI method ID is %WMI_BRIGHTNESS_METHOD_LEVEL, or
+>> - * an &enum wmi_brightness_source value with %WMI_BRIGHTNESS_METHOD_SOURCE.
+>> - */
+>> -struct wmi_brightness_args {
+>> -    u32 mode;
+>> -    u32 val;
+>> -    u32 ret;
+>> -    u32 ignored[3];
+>> -};
+>> -
+>>   /**
+>>    * wmi_brightness_notify() - helper function for calling WMI-wrapped ACPI method
+>>    * @w:    Pointer to the struct wmi_device identified by %WMI_BRIGHTNESS_GUID
+>> diff --git a/include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h b/include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h
+>> new file mode 100644
+>> index 000000000000..d83104c6c6cb
+>> --- /dev/null
+>> +++ b/include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h
+>> @@ -0,0 +1,70 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+> 
+> 
+> Should the copyright notice from nvidia-wmi-ec-backlight be copied here as well?
 
-Yes, the refresh rate is part of drm_display_mode.  Vdisplay also
-is, but that doesn't mean you can set it to e.g. 700 when using
-"tv_mode=PAL-B". Some (combination of) parameters in drm_display_mode
-are dictated by the tv_mode.
+Ah right, I forgot that. I'll fix that for version 4 of the series.
 
-Perhaps the meaning of "tv_mode" should be clarified? What does it
-really mean, and what parameters does it (not) constrain?
+I'll also make the GUID a #define for version 4 of the series as
+you mentioned in one of your other remarks.
 
-For e.g. "PAL-B", I know it's a mode with 625 lines and 30 frames/s
-(60 fields/s).
-For "hd720p" I know it is an analog mode with 750 lines, but it's still
-ambiguous, as I don't know if it is the variant with 60 or 50 frames/s.
+>> +#ifndef __PLATFORM_DATA_X86_NVIDIA_WMI_EC_BACKLIGHT_H
+>> +#define __PLATFORM_DATA_X86_NVIDIA_WMI_EC_BACKLIGHT_H
+>> +
+>> +/**
+>> + * enum wmi_brightness_method - WMI method IDs
+>> + * @WMI_BRIGHTNESS_METHOD_LEVEL:  Get/Set EC brightness level status
+>> + * @WMI_BRIGHTNESS_METHOD_SOURCE: Get/Set EC Brightness Source
+>> + */
+>> +enum wmi_brightness_method {
+>> +    WMI_BRIGHTNESS_METHOD_LEVEL = 1,
+>> +    WMI_BRIGHTNESS_METHOD_SOURCE = 2,
+>> +    WMI_BRIGHTNESS_METHOD_MAX
+>> +};
+> 
+> 
+> It might be nice, but certainly not essential, to namespace these better, now that they're no longer internal to the EC backlight driver. I did that in the version of this change that I had started working up, but got kind of annoyed that it made a lot of lines go over 80 columns, and then got distracted by other work and never ended up finishing the change up. I guess it's probably fine to leave them as is, since there won't be many files that include this header.
 
-Gr{oetje,eeting}s,
+This header is only used in 2 .c files, as such I'm not worried about
+namespacing the defines, so my plan for version 4 is to just keep
+this as is.
 
-                        Geert
+Regards,
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Hans
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+> 
+> 
+>> +
+>> +/**
+>> + * enum wmi_brightness_mode - Operation mode for WMI-wrapped method
+>> + * @WMI_BRIGHTNESS_MODE_GET:            Get the current brightness level/source.
+>> + * @WMI_BRIGHTNESS_MODE_SET:            Set the brightness level.
+>> + * @WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL:  Get the maximum brightness level. This
+>> + *                                      is only valid when the WMI method is
+>> + *                                      %WMI_BRIGHTNESS_METHOD_LEVEL.
+>> + */
+>> +enum wmi_brightness_mode {
+>> +    WMI_BRIGHTNESS_MODE_GET = 0,
+>> +    WMI_BRIGHTNESS_MODE_SET = 1,
+>> +    WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL = 2,
+>> +    WMI_BRIGHTNESS_MODE_MAX
+>> +};
+>> +
+>> +/**
+>> + * enum wmi_brightness_source - Backlight brightness control source selection
+>> + * @WMI_BRIGHTNESS_SOURCE_GPU: Backlight brightness is controlled by the GPU.
+>> + * @WMI_BRIGHTNESS_SOURCE_EC:  Backlight brightness is controlled by the
+>> + *                             system's Embedded Controller (EC).
+>> + * @WMI_BRIGHTNESS_SOURCE_AUX: Backlight brightness is controlled over the
+>> + *                             DisplayPort AUX channel.
+>> + */
+>> +enum wmi_brightness_source {
+>> +    WMI_BRIGHTNESS_SOURCE_GPU = 1,
+>> +    WMI_BRIGHTNESS_SOURCE_EC = 2,
+>> +    WMI_BRIGHTNESS_SOURCE_AUX = 3,
+>> +    WMI_BRIGHTNESS_SOURCE_MAX
+>> +};
+>> +
+>> +/**
+>> + * struct wmi_brightness_args - arguments for the WMI-wrapped ACPI method
+>> + * @mode:    Pass in an &enum wmi_brightness_mode value to select between
+>> + *           getting or setting a value.
+>> + * @val:     In parameter for value to set when using %WMI_BRIGHTNESS_MODE_SET
+>> + *           mode. Not used in conjunction with %WMI_BRIGHTNESS_MODE_GET or
+>> + *           %WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL mode.
+>> + * @ret:     Out parameter returning retrieved value when operating in
+>> + *           %WMI_BRIGHTNESS_MODE_GET or %WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL
+>> + *           mode. Not used in %WMI_BRIGHTNESS_MODE_SET mode.
+>> + * @ignored: Padding; not used. The ACPI method expects a 24 byte params struct.
+>> + *
+>> + * This is the parameters structure for the WmiBrightnessNotify ACPI method as
+>> + * wrapped by WMI. The value passed in to @val or returned by @ret will be a
+>> + * brightness value when the WMI method ID is %WMI_BRIGHTNESS_METHOD_LEVEL, or
+>> + * an &enum wmi_brightness_source value with %WMI_BRIGHTNESS_METHOD_SOURCE.
+>> + */
+>> +struct wmi_brightness_args {
+>> +    u32 mode;
+>> +    u32 val;
+>> +    u32 ret;
+>> +    u32 ignored[3];
+>> +};
+>> +
+>> +#endif
+> 
+
