@@ -2,95 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1801E5997F0
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 10:51:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B145F5997F3
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 10:53:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5915A10E660;
-	Fri, 19 Aug 2022 08:51:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 091B210E8A7;
+	Fri, 19 Aug 2022 08:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8F4210E53D
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 08:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660899057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vaSY+tNBDRdmPJJk42Xq6cmC4UlTPsxy/Q1PYsGVS90=;
- b=T+E6GDR4U2PxjO/5Y6teuOpM19hYzeG+4jTZB03HVU/2n0Rrtj0gDO/XhIE1GgiYSE+kHt
- IodWkLgf/7hRpXYkZbGfJF/42E9uXPF3h/VDWAyHBFAtl5Wbi4B5N4irKbJ8a2KrYbvDd/
- QhuCgIoV7zsGhtucPbrEHVPqmQXD4DY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-610-Z7yPIaIFOKCuYQl3uvAGvw-1; Fri, 19 Aug 2022 04:50:56 -0400
-X-MC-Unique: Z7yPIaIFOKCuYQl3uvAGvw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- qf23-20020a1709077f1700b007308a195618so1266415ejc.7
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 01:50:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=vaSY+tNBDRdmPJJk42Xq6cmC4UlTPsxy/Q1PYsGVS90=;
- b=qhlO8m2RrDFYDHtaN1mREooZXSlZYUAR3ZbqcWt3Q/d1OSuRmB7+Srf9GNBojDDOeS
- uvoc+U/+fqWiGYr3IgTlsf4+70SIaFEXGcIAMp0NhZL/pUHLh8hv6hqdHo5IVPZW8wXl
- 7WGVq0imo8iBnPAbP2IdTLc/OSrznroZy01j2b037w/Ij8F2tsl2N/xTR8Muw2z1mVPv
- 9+vnOG/lYeaa2eAQUxlQwfxoozrzqS3B0pBD4R8I5F+nz/MiMf0+xqjyK0zXzXPfCFXy
- 7IKnmT8QYYuKrhI+H5BM84wDZX6/mfEnVqUCQHvQAsLRoh9Q6k3kQr454Ta+vPklVwBb
- OFSw==
-X-Gm-Message-State: ACgBeo1zQrPsqryOAX74ER5rDob4OTjE7ojhuwODMb/pXJpCIKI7Uhko
- CatoQiJNYY5j8mw1teqVvqgDxsZQklsyo/y4ZjCfw48ZpBGlsRAJK+O86maIjr3D/anALlq2TSU
- E+8Lt/nuNk4g2P3oo4lgsf0O9KQt/
-X-Received: by 2002:a17:907:2be3:b0:730:6866:a9b1 with SMTP id
- gv35-20020a1709072be300b007306866a9b1mr4225871ejc.693.1660899055183; 
- Fri, 19 Aug 2022 01:50:55 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR48FC9IVvstbH2Etz1W95N0KTZoVu5XhQIlRV5gYjBWBm/vAQoJQiOB2bHkSUcrgd8AyFQnxQ==
-X-Received: by 2002:a17:907:2be3:b0:730:6866:a9b1 with SMTP id
- gv35-20020a1709072be300b007306866a9b1mr4225833ejc.693.1660899054740; 
- Fri, 19 Aug 2022 01:50:54 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- s18-20020a1709062ed200b00722e50dab2csm1999671eji.109.2022.08.19.01.50.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Aug 2022 01:50:53 -0700 (PDT)
-Message-ID: <72f20ebb-f3bc-9b5a-438a-4d7bcd696097@redhat.com>
-Date: Fri, 19 Aug 2022 10:50:52 +0200
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2054.outbound.protection.outlook.com [40.107.93.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B5710E507
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 08:53:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ItbvNM9pdtJg89lHvEclcP8pWOgW500RJZ3pxaUtceCZux6sJLPvbLdSy/QsQigtRkeVhZmB+XHN9lR4WGNVC0BYmH4q2U42FTcoK+bIQrv75JNLtyB/LbHmK4S+a5JidgkVD7Uf0Aw29uTlr+naQkgBYuCbUtsAaJrB6ulsZZcF8JwgzeUZVdQH+5lvuDkxMeP1j3s+/nBBxXhVRX+AlrBhkYSTqsGSy2QXnxLcYbTAyo6SKRVF2jDo8iVxK5QuIWBfT/Lwn6X52VMi3/7jVbfUZbFZMPQwtA5z3Pj10kp+sEuEEUF/hM4qhhbwf89xG86Tp2b6gU6Y3Za45WhyEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mAJ86Ya1etuHPn/OkS/8xVzkYqS6EtbpMsur4ZWJBtw=;
+ b=GC9NHlpE7YdCFKQaoOPaMky+kZnCdJsbkAeWAXVl0bkRHD8DcpKVb+kpYG5SV8mHVnm2uZcAT6mRSqiKknEYGJqJHkjoLM8hTSuy63JKu/+bVQtVa0mPGaElgBSF1JCxUjVd5eIYlM2xwzpGx8F2+3NhuBxhpcSzM8NEeyrV8jvKfcGPMghi9GX2xuGho0OuHtwPZYfxE6nhuo5HWmN+bZjmQFjQbuQDaKamq525TFBqIHD1pah23F13WyeaF6FoMEu46opZYbQbu1+0zp39Sj7bB2f9PJpJLDlI9wEIOCAw0VTyBd27eAoVChajo0bWWMp4OzV6H3Dn/53aBf3fiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mAJ86Ya1etuHPn/OkS/8xVzkYqS6EtbpMsur4ZWJBtw=;
+ b=xhO4Rz+pFLzBltXxpK29K6ZVMpQnpDR9DZ6E09dfVfVb8mzN4pRfwTrjRJsl55V95a9I/anT7Pv0h66KwrwPusYQL+nzHYNTgxCLrWgCbwdIO8SN8MlGXDdVC+taTPCAtZt56f5hL9uLX4ulmvUpuCg/gWCBh2zH4XAt36EpMAQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN2PR12MB4303.namprd12.prod.outlook.com (2603:10b6:208:198::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.16; Fri, 19 Aug
+ 2022 08:53:01 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Fri, 19 Aug 2022
+ 08:53:00 +0000
+Message-ID: <e4777ea9-9374-bb46-2c5c-4e70a30760bb@amd.com>
+Date: Fri, 19 Aug 2022 10:52:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3 09/31] ACPI: video: Make backlight class device
- registration a separate step (v2)
-To: Daniel Dadap <ddadap@nvidia.com>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Xinhui <Xinhui.Pan@amd.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
- Andy Shevchenko <andy@kernel.org>
-References: <20220818184302.10051-1-hdegoede@redhat.com>
- <20220818184302.10051-10-hdegoede@redhat.com>
- <b177636d-bc68-cd25-4a28-8131ef4625fe@nvidia.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <b177636d-bc68-cd25-4a28-8131ef4625fe@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.11.0
+Subject: Re: Balancing ttm_mem_io_reserve() and ttm_mem_io_free()
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+References: <e1c2abdd-8b7e-5611-e848-f9ec551a8880@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <e1c2abdd-8b7e-5611-e848-f9ec551a8880@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM5PR0502CA0003.eurprd05.prod.outlook.com
+ (2603:10a6:203:91::13) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 93405f7b-46d8-4c97-9343-08da81c03873
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4303:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ITO790Xpnv5PmtMJ+ZzaC6I5bEdKJTXRqQz2Hfr2MM/s9KWmH0KJYJ6outyemOeUzmnhya3m1gRy1NVP3r9ebLMdmL5Oj8w5grtR/LurWCmHSD41yPGVtej257oLCqNRiiK28woIgtyP7genPYS4wokQq6m3JqeSFbrBhg2DN8e65PQPdEkUr6llsTBNXJ1zMXVw3DOVwiypZiVBD4u7KURYPfcw9A8gVz9qwdc4iGn/xAb62JcrddR+nmmif1G8xcm6oMD+cZUAAPiFUGaS8DNJDSTM0SDwfO2BrrpBBBYm1LnStRC6rNtAWsWdy2BRxfm4fyISrzc9Fe9Q5n5ECnLUn9uyC3uobS1ysOd+y0iSFwUpxNragHTAG9Rk9OoESyn5RljZd//2UtNwqv73wSVNjWiUak9499+JS52+uP4LtrNSBAemlel0LjdowwqUNf3B5wigChcVjo6Y8XwmXGNW2H/HB+6PHk4jTF8InqPuQ8NYU2AifSyl9gusb/grPuWIo27ltDrERAFyRRfbJOczq2S2ZDwGvvQHWlwIH+J/lJ3upqQc+cnVot9aeutCdwFEZVjf3ZakPQHbYEdn5FLDwiYrt6ZYYLBnwSpL9vjztRJ2esk7aSXs+MnNgCveuadYVf398aRwPzndUR60A0YCOX0TvVypgHwfJkTIiK12uLWCHtHAH55UX0JwZ9CsEcZE/WvMX/DK1OL8Y+9bD1FE5POHD4Q5+OWQ821E9+4CSZdwkOwNtbESxZi1GwcaW0aPZE0H2yN9HkwoeGMjKT73UkF0b871GGU7pCl7UkQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(346002)(396003)(376002)(39860400002)(366004)(31696002)(66556008)(66476007)(478600001)(66574015)(6486002)(8676002)(66946007)(2906002)(41300700001)(86362001)(6512007)(6666004)(2616005)(186003)(4326008)(5660300002)(6506007)(8936002)(36756003)(6916009)(316002)(31686004)(38100700002)(83380400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YlJHUzdrQWR5ZklyS3Y2STJOOEhZSHhSU01aZkExazZJWksyWEpTSExsOEsz?=
+ =?utf-8?B?RUVZTVJsam81cWhndUxjRXdvc2dCZlJNWTdYUG14THdmNzY1T2VtMHdtTkh3?=
+ =?utf-8?B?OU4wQUN5Q2FEZkYrejV4QmZDSExJaE5IVkY0ZlRQK2ptU2hLRE9haEs4bHhm?=
+ =?utf-8?B?MHJOVmJFQjBDVkRydU4zWlpxbmZ2UVNHNVZ4YlNvM1ppa1RjN3RpamVUNkIv?=
+ =?utf-8?B?NkhONUdlczNrL1lDMklGMTBqMGN3dUloaVdBSWpSckw2NVhxcmpVaktBbWti?=
+ =?utf-8?B?RlVrQlJNMDBpTWt1N3VzbWRMT1hlRzFzZVhNY0JVUXMvZ0VrZ0xMK2M0a3kr?=
+ =?utf-8?B?WTBvVWhsWjY2U1hBRjArQlhON2NiTU9GTXJSejNpNTZzTURwMElLM0dxYkF6?=
+ =?utf-8?B?RXIrRXh1TlVJc3JicFhxbUlMaE5ET082elg1N2dhckpHdy9zRWRUcnJBQWNR?=
+ =?utf-8?B?Y3hlbDFuUHBGVG5DeExiNW40NVpFWFBFc211bnlCTitvSVpOQUdUYTFoTTJq?=
+ =?utf-8?B?TVZSbVhWMHZXMFRJcmpQbWdrdnNXUXR4a1V1cGVoQ1ZWUjNQSUp1RGU1Qit6?=
+ =?utf-8?B?NkNKa24rb3hZWXhvek5IYWtjOEk1Q0NaakVhakQxVjFKWTg0NDV4YVJpZ0Mz?=
+ =?utf-8?B?VmlGeGo1em52aVBJeVRBeGtIczBTNHorRG51YzFsRS9YTFB1N05iOGZlVVUx?=
+ =?utf-8?B?RlRrMDBpV3NKd0lEQXNHRlo1STJrRWNpdllnQVNPZmhlQ3ZMQnRMTHo2ckRR?=
+ =?utf-8?B?Y2wxTTlGMENSam9kV1lBUGE1QWh3a3hSM1F1alpJTndwb2dTTEpQZnA2VGlx?=
+ =?utf-8?B?bzQ2eWJzVGpTWXk2cXpFRW8vQjZsYU5hSjhtckZCOFpHVlZxWEttdk9yekMv?=
+ =?utf-8?B?UUJhQWsrSmlqTy9MampZdlVBdXJ2Qmx0aHBndFNpcEx1a1ZXcW1VeVBCclBJ?=
+ =?utf-8?B?d0Q2VlJyaWV0QlhDc25wYlBoYSs0N1JmOU9jMmtDekhaTVFmL3VFbjJpM0RK?=
+ =?utf-8?B?VjZrRzRhWFEzTUMxekl4K1ZURjdGQU9KMXRjcGFkQlBSMEwvZXhFd0R1My9J?=
+ =?utf-8?B?WUJuVXVhaGVzOWFNalBEWjJYN0lkQUZFREVXRmNqNnlPa0d0dTRvUDBkamx6?=
+ =?utf-8?B?V2ZMT3dNZjJvbzhIZDJJZHhDS2Z3NXhrWEhpWVBmRVV2OS91S204NXNqdnF0?=
+ =?utf-8?B?dXZuSnBRdzFnanJ5QWV5NHZwVnJZdmRKckhMb25JUUdPc3dWdnBxck5VaWFR?=
+ =?utf-8?B?ZW1zTWhYN1FBTEEyWmZmVUhqNzRPNnNwZDhHcUNGZ1QvTmVtejNkRUduUGVP?=
+ =?utf-8?B?VC92dmpTM3FHUjk4UnQwNFAzRWhhY0dwcjJETSs2YWF3NzZuM1FpL3dlSzZm?=
+ =?utf-8?B?REJ0eHo5RlFFZGJjRHFtTiszQlVpOXpncE5sTjN3RVdqRTV3L2JoSy9BNDRh?=
+ =?utf-8?B?SXJlVVlwRHhnL3FkZGNZVjBkUlYxQ21mcmZINFJZOWFjZXBOV1NXR1RibmFS?=
+ =?utf-8?B?MG95WXJTbnVYSUFsbHdWRXR1ZnplbEorRDJ0VW42M0lFRUh6YXlMRTdyQ2xW?=
+ =?utf-8?B?a0RFeGovNUs0dXZMRjFmTmJjdkFMYStLaFArNm5YYnQ1QUhXalV6bW1oSmxv?=
+ =?utf-8?B?N293bEJTQ1BqVXMzSnRUd0tYdDZqOEtWZ2x2UjYrd3V6dWFFU0YxY2V6aHpZ?=
+ =?utf-8?B?cDVRR1Q5TGp4WC9pS2ErVWNCUmkydkxERnVwL3MxcXZreFF1Sm93ZTJWdC9X?=
+ =?utf-8?B?eTdSdVUvNHIyTDg1c2JNSWFxN0kvRElXN3ZneWorZERoczl0YitZSEF6Kzdm?=
+ =?utf-8?B?RUtnQS9tbk1rNytSaVl0ZXZraElqbDVxTTRGazFMeDdPakY4QXNRK1AxK3RX?=
+ =?utf-8?B?WUQ2bG1RVTd2Qk9rMDRvV3VqTks1V3RNbUIrb0RIS0xiRUNqb1h6QVRKMFhn?=
+ =?utf-8?B?REZYcEZWQXNma2ZVcHJvRU05Z0RJT0I1TG1zOUpMb2M3WEQ5ZkkwZkpxbXBi?=
+ =?utf-8?B?RFhBQU02cVFWd2NiMDh4cHJsN2EyU3VpK3hnZ3VNQXZVRVRFNFZmeW1HTTRj?=
+ =?utf-8?B?VEM2MWdBelZETkNEZmt0NjFxbGZPTjVhVjVsZW8wSUcySmhiWGdTRGpDazgx?=
+ =?utf-8?B?L1RjbzFCWEpvTWFkb0hSSnowYVNHV0w0UnRDZ3lZZVIwR3BaaTZ6amM3a0Jp?=
+ =?utf-8?Q?JRZfF8COBVtNErxsTeqI/gSyj/YkAwuKpbQk2/bkRA2Z?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93405f7b-46d8-4c97-9343-08da81c03873
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2022 08:53:00.8867 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: svNrZmBT8osSNQcPqeYYec9FYFHN684JR10fr5FDI2y0dBnB6XZMZFedoFtX/QtV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4303
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,189 +125,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Len Brown <lenb@kernel.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Thomas,
 
-On 8/18/22 22:07, Daniel Dadap wrote:
-> 
-> On 8/18/22 1:42 PM, Hans de Goede wrote:
->> On x86/ACPI boards the acpi_video driver will usually initialize before
->> the kms driver (except i915). This causes /sys/class/backlight/acpi_video0
->> to show up and then the kms driver registers its own native backlight
->> device after which the drivers/acpi/video_detect.c code unregisters
->> the acpi_video0 device (when acpi_video_get_backlight_type()==native).
->>
->> This means that userspace briefly sees 2 devices and the disappearing of
->> acpi_video0 after a brief time confuses the systemd backlight level
->> save/restore code, see e.g.:
->> https://bbs.archlinux.org/viewtopic.php?id=269920
->>
->> To fix this make backlight class device registration a separate step
->> done by a new acpi_video_register_backlight() function. The intend is for
->> this to be called by the drm/kms driver *after* it is done setting up its
->> own native backlight device. So that acpi_video_get_backlight_type() knows
->> if a native backlight will be available or not at acpi_video backlight
->> registration time, avoiding the add + remove dance.
->>
->> Note the new acpi_video_register_backlight() function is also called from
->> a delayed work to ensure that the acpi_video backlight devices does get
->> registered if necessary even if there is no drm/kms driver or when it is
->> disabled.
->>
->> Changes in v2:
->> - Make register_backlight_delay a module parameter, mainly so that it can
->>    be disabled by Nvidia binary driver users
->>
->> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/acpi/acpi_video.c | 50 ++++++++++++++++++++++++++++++++++++---
->>   include/acpi/video.h      |  2 ++
->>   2 files changed, 49 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/acpi/acpi_video.c b/drivers/acpi/acpi_video.c
->> index 8545bf94866f..09dd86f86cf3 100644
->> --- a/drivers/acpi/acpi_video.c
->> +++ b/drivers/acpi/acpi_video.c
->> @@ -73,6 +73,16 @@ module_param(device_id_scheme, bool, 0444);
->>   static int only_lcd = -1;
->>   module_param(only_lcd, int, 0444);
->>   +/*
->> + * Display probing is known to take up to 5 seconds, so delay the fallback
->> + * backlight registration by 5 seconds + 3 seconds for some extra margin.
->> + */
->> +static int register_backlight_delay = 8;
->> +module_param(register_backlight_delay, int, 0444);
-> 
-> 
-> Would it make sense to make this parameter writable from userspace, e.g. so that it can be set by a udev rule rather than relying on a riskier kernel command line edit? Then again, that probably makes things more complicated, since you'd have to check the parameter again when the worker fires, and changing the parameter to a non-zero value from either zero or a different non-zero value would be too weird. And making a separate writable parameter to allow userspace to turn the worker into a noop despite it being enabled when the kernel was initially loaded seems wrong, too.
+IIRC we intentionally dropped that approach of balancing 
+ttm_mem_io_reserve()/ttm_mem_io_free().
 
-Right, you have pretty much described yourself why making this parameter
-runtime configurable is not really feasible :)
+Instead the results from ttm_mem_io_reserve() are cached and that cached 
+information is freed by ttm_mem_io_free(). In other words every time we 
+need to make sure we have the cache filled we call ttm_mem_io_reserve() 
+and everytime we are about to free the resource or don't need the 
+mapping any more we call ttm_mem_io_free().
+
+The callbacks to io_mem_reserve() and io_mem_free() are then balanced.
+
+Fixing missing _free() calls in the error path is probably a good idea, 
+but I wouldn't go beyond that.
+
+Why should any of that be racy? You need to hold the reservation lock to 
+call any of those functions.
 
 Regards,
+Christian.
 
-Hans
-
-
-
-> 
-> 
->> +MODULE_PARM_DESC(register_backlight_delay,
->> +    "Delay in seconds before doing fallback (non GPU driver triggered) "
->> +    "backlight registration, set to 0 to disable.");
->> +
->>   static bool may_report_brightness_keys;
->>   static int register_count;
->>   static DEFINE_MUTEX(register_count_mutex);
->> @@ -81,6 +91,9 @@ static LIST_HEAD(video_bus_head);
->>   static int acpi_video_bus_add(struct acpi_device *device);
->>   static int acpi_video_bus_remove(struct acpi_device *device);
->>   static void acpi_video_bus_notify(struct acpi_device *device, u32 event);
->> +static void acpi_video_bus_register_backlight_work(struct work_struct *ignored);
->> +static DECLARE_DELAYED_WORK(video_bus_register_backlight_work,
->> +                acpi_video_bus_register_backlight_work);
->>   void acpi_video_detect_exit(void);
->>     /*
->> @@ -1859,8 +1872,6 @@ static int acpi_video_bus_register_backlight(struct acpi_video_bus *video)
->>       if (video->backlight_registered)
->>           return 0;
->>   -    acpi_video_run_bcl_for_osi(video);
->> -
->>       if (acpi_video_get_backlight_type() != acpi_backlight_video)
->>           return 0;
->>   @@ -2086,7 +2097,11 @@ static int acpi_video_bus_add(struct acpi_device *device)
->>       list_add_tail(&video->entry, &video_bus_head);
->>       mutex_unlock(&video_list_lock);
->>   -    acpi_video_bus_register_backlight(video);
->> +    /*
->> +     * The userspace visible backlight_device gets registered separately
->> +     * from acpi_video_register_backlight().
->> +     */
->> +    acpi_video_run_bcl_for_osi(video);
->>       acpi_video_bus_add_notify_handler(video);
->>         return 0;
->> @@ -2125,6 +2140,11 @@ static int acpi_video_bus_remove(struct acpi_device *device)
->>       return 0;
->>   }
->>   +static void acpi_video_bus_register_backlight_work(struct work_struct *ignored)
->> +{
->> +    acpi_video_register_backlight();
->> +}
->> +
->>   static int __init is_i740(struct pci_dev *dev)
->>   {
->>       if (dev->device == 0x00D1)
->> @@ -2235,6 +2255,18 @@ int acpi_video_register(void)
->>        */
->>       register_count = 1;
->>   +    /*
->> +     * acpi_video_bus_add() skips registering the userspace visible
->> +     * backlight_device. The intend is for this to be registered by the
->> +     * drm/kms driver calling acpi_video_register_backlight() *after* it is
->> +     * done setting up its own native backlight device. The delayed work
->> +     * ensures that acpi_video_register_backlight() always gets called
->> +     * eventually, in case there is no drm/kms driver or it is disabled.
->> +     */
->> +    if (register_backlight_delay)
->> +        schedule_delayed_work(&video_bus_register_backlight_work,
->> +                      register_backlight_delay * HZ);
->> +
->>   leave:
->>       mutex_unlock(&register_count_mutex);
->>       return ret;
->> @@ -2245,6 +2277,7 @@ void acpi_video_unregister(void)
->>   {
->>       mutex_lock(&register_count_mutex);
->>       if (register_count) {
->> +        cancel_delayed_work_sync(&video_bus_register_backlight_work);
->>           acpi_bus_unregister_driver(&acpi_video_bus);
->>           register_count = 0;
->>           may_report_brightness_keys = false;
->> @@ -2253,6 +2286,17 @@ void acpi_video_unregister(void)
->>   }
->>   EXPORT_SYMBOL(acpi_video_unregister);
->>   +void acpi_video_register_backlight(void)
->> +{
->> +    struct acpi_video_bus *video;
->> +
->> +    mutex_lock(&video_list_lock);
->> +    list_for_each_entry(video, &video_bus_head, entry)
->> +        acpi_video_bus_register_backlight(video);
->> +    mutex_unlock(&video_list_lock);
->> +}
->> +EXPORT_SYMBOL(acpi_video_register_backlight);
->> +
->>   void acpi_video_unregister_backlight(void)
->>   {
->>       struct acpi_video_bus *video;
->> diff --git a/include/acpi/video.h b/include/acpi/video.h
->> index 4705e339c252..0625806d3bbd 100644
->> --- a/include/acpi/video.h
->> +++ b/include/acpi/video.h
->> @@ -53,6 +53,7 @@ enum acpi_backlight_type {
->>   #if IS_ENABLED(CONFIG_ACPI_VIDEO)
->>   extern int acpi_video_register(void);
->>   extern void acpi_video_unregister(void);
->> +extern void acpi_video_register_backlight(void);
->>   extern int acpi_video_get_edid(struct acpi_device *device, int type,
->>                      int device_id, void **edid);
->>   extern enum acpi_backlight_type acpi_video_get_backlight_type(void);
->> @@ -69,6 +70,7 @@ extern int acpi_video_get_levels(struct acpi_device *device,
->>   #else
->>   static inline int acpi_video_register(void) { return -ENODEV; }
->>   static inline void acpi_video_unregister(void) { return; }
->> +static inline void acpi_video_register_backlight(void) { return; }
->>   static inline int acpi_video_get_edid(struct acpi_device *device, int type,
->>                         int device_id, void **edid)
->>   {
-> 
+Am 19.08.22 um 10:13 schrieb Thomas Hellström:
+> Hi Christian,
+>
+> I'm looking for a way to take some sort of reference across possible 
+> VRAM accesses  over the PCI bar, be it for runtime PM, workarounds or 
+> whatever.
+>
+> The ttm_mem_io_reserve/free seems like a good candidate, but is 
+> completely unbalanced and looks racy. In particular error paths forget 
+> to call ttm_mem_io_free().
+>
+> Would you have any objections if I took a look at attempting to 
+> balance calls to those functions, or do you have any other suggestions 
+> for a better method?
+>
+> Thanks,
+>
+> Thomas
+>
+>
+>
 
