@@ -2,51 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318EF5A01E6
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:14:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8635A01E8
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 21:14:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64DFAC13E0;
-	Wed, 24 Aug 2022 19:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B464BC11AF;
+	Wed, 24 Aug 2022 19:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7F610E5A5;
- Thu, 18 Aug 2022 23:42:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660866152; x=1692402152;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=5wtFqfruh26ymcrjilMJsHUob9eeQw8RGEQc5RKnGTA=;
- b=kxNks7dNwZSEATdZsSrO3npE/0iDtRq8Z+nUWuzCyGFhg2kwajyQhbg9
- nFXASvLexFrJIRi3t3a/yF+bU+wZboM6bptttWBVxbfPdpYl6rvYN2dFX
- rcC+H8lvofzD0nXIEDKa2AFbYcDz1kJqdXIP0YTArxzElT64c/++Q39Kk
- aeNfqYmQan7K+aKSscbwcs1RMlMeP+VgoC5i84o4YdBc1VvnaRs1reXHH
- NWEd2kYBAAQJz4E5a3qkaf0L4OPtSoZR3EMeTpURzaWZQQGg7tp5oPUs5
- RZWt44rWveMGIiIP3zsfrwOrol/xufyAbwo3zNxl8bjsggdLGYdoWBAOF w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="275938525"
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
- d="scan'208,223";a="275938525"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 16:42:28 -0700
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
- d="scan'208,223";a="783953300"
-Received: from invictus.jf.intel.com ([10.165.21.205])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 16:42:28 -0700
-From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 15/21] drm/i915/mtl: Obtain SAGV values from MMIO instead
- of GT pcode mailbox
-Date: Thu, 18 Aug 2022 16:41:56 -0700
-Message-Id: <20220818234202.451742-16-radhakrishna.sripada@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
-References: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54E4C10E497
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 00:29:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660868957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AJnA1gWIAKMVWb7er1TKy0XozOPw4mLsXagd+kCHnAI=;
+ b=QySu4FF0mLj3zWDHJPtDsRyU2i1vTwDNs5lsOsdcmv9u1yvzEBULe3LnkvFYXav0sTcm/j
+ UeKrWhPX2P343DtWAtWZIdEEsm3pHMIvegZ54DPyXaPPkYwsS9i0s2zHU4Q2Se5dSolLN8
+ 91nUSTHRg6efVagaq6hns5aUgZWAwtQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-318-57_5HBJMNp-vLUnelNovnA-1; Thu, 18 Aug 2022 20:29:14 -0400
+X-MC-Unique: 57_5HBJMNp-vLUnelNovnA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ z6-20020a05640240c600b0043e1d52fd98so1867564edb.22
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Aug 2022 17:29:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=AJnA1gWIAKMVWb7er1TKy0XozOPw4mLsXagd+kCHnAI=;
+ b=5+GqQJsQLTEb/21sLMi11vKUK+V5dzLaRa/jo86G1S/Tg+Jv89WpJiwcfb32522pzx
+ tOKfVYmvXDTQqLcmBI4JTwQTtlmTnDzlXaY2zkMMBmoRScczmJTswO2vjcM9r54kEXyn
+ F01zoSLBUzT9sa0+6tREp2wMOjkRjOKwrSXQ9dN+5q0Gc1dWEWmQ8Oovtjo86pdZJVXD
+ HWACpEw/I9zB7zmQoEOdbMrrKw7iSdbRH4YlBFd3EBcSyCdVvC6ISCU1304puTg5GEIE
+ fgI1EBXu9psRtv69ZfCValvxRqPDd0/qjAQsbt6XYeaWxvT+kSsOOhGXMaGR583Qrfyf
+ L9/w==
+X-Gm-Message-State: ACgBeo38PcUmsS/ckvvrKAqvpDqpNqzJ9FwYeRMPKDlt3+Xl54Hfw4kU
+ MRp22L4a72TkVCSls62HqIeTHJrJFbMfLRgdma+agzFtXDtdsLdzqih0Oo5cFgoBoCgcaT+w+8J
+ GNr8ZEwNP9+J8ZV6xN8qAidHAQLg9
+X-Received: by 2002:a17:907:a07b:b0:735:6744:c6be with SMTP id
+ ia27-20020a170907a07b00b007356744c6bemr3118223ejc.685.1660868953215; 
+ Thu, 18 Aug 2022 17:29:13 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4bPd1mGGbe4dYNjuUk6IBg2CW64/qzKlChk1S6e92cEUNZnl9nwhQOXUa5thhN1mFXZmO1Mw==
+X-Received: by 2002:a17:907:a07b:b0:735:6744:c6be with SMTP id
+ ia27-20020a170907a07b00b007356744c6bemr3118217ejc.685.1660868953026; 
+ Thu, 18 Aug 2022 17:29:13 -0700 (PDT)
+Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ b26-20020aa7cd1a000000b004460b020ffdsm2027913edw.83.2022.08.18.17.29.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Aug 2022 17:29:12 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org
+Subject: [PATCH drm-misc-next 2/3] drm/vc4: plane: protect device resources
+ after removal
+Date: Fri, 19 Aug 2022 02:29:04 +0200
+Message-Id: <20220819002905.82095-3-dakr@redhat.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220819002905.82095-1-dakr@redhat.com>
+References: <20220819002905.82095-1-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,196 +83,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From Meteorlake, Latency Level, SAGV bloack time are read from
-LATENCY_SAGV register instead of the GT driver pcode mailbox. DDR type
-and QGV information are also to be read from Mem SS registers.
+(Hardware) resources which are bound to the driver and device lifecycle
+must not be accessed after the device and driver are unbound.
 
-v2:
- - Simplify MTL_MEM_SS_INFO_QGV_POINT macro(MattR)
- - Nit: Rearrange the bit def's from higher to lower(MattR)
- - Restore platform definition for ADL-P(MattR)
- - Move back intel_qgv_point def to intel_bw.c(Jani)
-Bspec: 64636, 64608
+However, the DRM device isn't freed as long as the last user closed it,
+hence userspace can still call into the driver.
 
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Original Author: Caz Yokoyama
-Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
-Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Therefore protect the critical sections which are accessing those
+resources with drm_dev_enter() and drm_dev_exit().
+
+Fixes: 9872c7a31921 ("drm/vc4: plane: Switch to drmm_universal_plane_alloc()")
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/i915/display/intel_bw.c | 42 ++++++++++++++++++++++---
- drivers/gpu/drm/i915/i915_reg.h         | 16 ++++++++++
- drivers/gpu/drm/i915/intel_dram.c       | 41 +++++++++++++++++++++++-
- drivers/gpu/drm/i915/intel_pm.c         |  8 ++++-
- 4 files changed, 100 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h   |  1 +
+ drivers/gpu/drm/vc4/vc4_plane.c | 25 +++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
-index 79269d2c476b..46b63afd536a 100644
---- a/drivers/gpu/drm/i915/display/intel_bw.c
-+++ b/drivers/gpu/drm/i915/display/intel_bw.c
-@@ -137,6 +137,42 @@ int icl_pcode_restrict_qgv_points(struct drm_i915_private *dev_priv,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 418a8242691f..80da9a9337cc 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -341,6 +341,7 @@ struct vc4_hvs {
  
-+static int mtl_read_qgv_point_info(struct drm_i915_private *dev_priv,
-+				   struct intel_qgv_point *sp, int point)
-+{
-+	u32 val, val2;
-+	u16 dclk;
-+
-+	val = intel_uncore_read(&dev_priv->uncore,
-+				MTL_MEM_SS_INFO_QGV_POINT_LOW(point));
-+	val2 = intel_uncore_read(&dev_priv->uncore,
-+				 MTL_MEM_SS_INFO_QGV_POINT_HIGH(point));
-+	dclk = REG_FIELD_GET(MTL_DCLK_MASK, val);
-+	sp->dclk = DIV_ROUND_UP((16667 * dclk), 1000);
-+	sp->t_rp = REG_FIELD_GET(MTL_TRP_MASK, val);
-+	sp->t_rcd = REG_FIELD_GET(MTL_TRCD_MASK, val);
-+
-+	sp->t_rdpre = REG_FIELD_GET(MTL_TRDPRE_MASK, val2);
-+	sp->t_ras = REG_FIELD_GET(MTL_TRAS_MASK, val2);
-+
-+	sp->t_rc = sp->t_rp + sp->t_ras;
-+
-+	return 0;
-+}
-+
-+static int
-+intel_read_qgv_point_info(struct drm_i915_private *dev_priv,
-+			  struct intel_qgv_point *sp,
-+			  int point)
-+{
-+	if (DISPLAY_VER(dev_priv) >= 14)
-+		return mtl_read_qgv_point_info(dev_priv, sp, point);
-+	else if (IS_DG1(dev_priv))
-+		return dg1_mchbar_read_qgv_point_info(dev_priv, sp, point);
-+	else
-+		return icl_pcode_read_qgv_point_info(dev_priv, sp, point);
-+}
-+
- static int icl_get_qgv_points(struct drm_i915_private *dev_priv,
- 			      struct intel_qgv_info *qi,
- 			      bool is_y_tile)
-@@ -193,11 +229,7 @@ static int icl_get_qgv_points(struct drm_i915_private *dev_priv,
- 	for (i = 0; i < qi->num_points; i++) {
- 		struct intel_qgv_point *sp = &qi->points[i];
+ struct vc4_plane {
+ 	struct drm_plane base;
++	struct drm_device *dev;
+ };
  
--		if (IS_DG1(dev_priv))
--			ret = dg1_mchbar_read_qgv_point_info(dev_priv, sp, i);
--		else
--			ret = icl_pcode_read_qgv_point_info(dev_priv, sp, i);
--
-+		ret = intel_read_qgv_point_info(dev_priv, sp, i);
- 		if (ret)
- 			return ret;
- 
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index b2d5e1230c25..5245af8d0ea8 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -8397,4 +8397,20 @@ enum skl_power_gate {
- #define  MTL_LATENCY_LEVEL0_2_4_MASK	REG_GENMASK(12, 0)
- #define  MTL_LATENCY_LEVEL1_3_5_MASK	REG_GENMASK(28, 16)
- 
-+#define MTL_LATENCY_SAGV		_MMIO(0x4578c)
-+#define  MTL_LATENCY_QCLK_SAGV		REG_GENMASK(12, 0)
-+
-+#define MTL_MEM_SS_INFO_GLOBAL			_MMIO(0x45700)
-+#define  MTL_DDR_TYPE_MASK			REG_GENMASK(3, 0)
-+#define  MTL_N_OF_POPULATED_CH_MASK		REG_GENMASK(7, 4)
-+#define  MTL_N_OF_ENABLED_QGV_POINTS_MASK	REG_GENMASK(11, 8)
-+
-+#define MTL_MEM_SS_INFO_QGV_POINT_LOW(point)	 _MMIO(0x45710 + (point) * 2)
-+#define MTL_MEM_SS_INFO_QGV_POINT_HIGH(point)	 _MMIO(0x45714 + (point) * 2)
-+#define  MTL_TRCD_MASK			REG_GENMASK(31, 24)
-+#define  MTL_TRP_MASK			REG_GENMASK(23, 16)
-+#define  MTL_TRAS_MASK			REG_GENMASK(16, 8)
-+#define  MTL_DCLK_MASK			REG_GENMASK(15, 0)
-+#define  MTL_TRDPRE_MASK		REG_GENMASK(7, 0)
-+
- #endif /* _I915_REG_H_ */
-diff --git a/drivers/gpu/drm/i915/intel_dram.c b/drivers/gpu/drm/i915/intel_dram.c
-index 437447119770..2403ccd52c74 100644
---- a/drivers/gpu/drm/i915/intel_dram.c
-+++ b/drivers/gpu/drm/i915/intel_dram.c
-@@ -466,6 +466,43 @@ static int gen12_get_dram_info(struct drm_i915_private *i915)
- 	return icl_pcode_read_mem_global_info(i915);
- }
- 
-+static int xelpdp_get_dram_info(struct drm_i915_private *i915)
-+{
-+	u32 val = intel_uncore_read(&i915->uncore, MTL_MEM_SS_INFO_GLOBAL);
-+	struct dram_info *dram_info = &i915->dram_info;
-+
-+	val = REG_FIELD_GET(MTL_DDR_TYPE_MASK, val);
-+	switch (val) {
-+	case 0:
-+		dram_info->type = INTEL_DRAM_DDR4;
-+		break;
-+	case 1:
-+		dram_info->type = INTEL_DRAM_DDR5;
-+		break;
-+	case 2:
-+		dram_info->type = INTEL_DRAM_LPDDR5;
-+		break;
-+	case 3:
-+		dram_info->type = INTEL_DRAM_LPDDR4;
-+		break;
-+	case 4:
-+		dram_info->type = INTEL_DRAM_DDR3;
-+		break;
-+	case 5:
-+		dram_info->type = INTEL_DRAM_LPDDR3;
-+		break;
-+	default:
-+		MISSING_CASE(val);
-+		return -EINVAL;
-+	}
-+
-+	dram_info->num_channels = REG_FIELD_GET(MTL_N_OF_POPULATED_CH_MASK, val);
-+	dram_info->num_qgv_points = REG_FIELD_GET(MTL_N_OF_ENABLED_QGV_POINTS_MASK, val);
-+	/* PSF GV points not supported in D14+ */
-+
-+	return 0;
-+}
-+
- void intel_dram_detect(struct drm_i915_private *i915)
+ static inline struct vc4_plane *
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index eff9c63adfa7..cb13bb583546 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -19,6 +19,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_atomic_uapi.h>
+ #include <drm/drm_blend.h>
++#include <drm/drm_drv.h>
+ #include <drm/drm_fb_dma_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
+@@ -1218,14 +1219,22 @@ static void vc4_plane_atomic_update(struct drm_plane *plane,
+ u32 vc4_plane_write_dlist(struct drm_plane *plane, u32 __iomem *dlist)
  {
- 	struct dram_info *dram_info = &i915->dram_info;
-@@ -480,7 +517,9 @@ void intel_dram_detect(struct drm_i915_private *i915)
+ 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(plane->state);
++	struct vc4_plane *vc4_plane = to_vc4_plane(plane);
+ 	int i;
++	int idx;
+ 
+ 	vc4_state->hw_dlist = dlist;
+ 
++	if (!drm_dev_enter(vc4_plane->dev, &idx))
++		goto out;
++
+ 	/* Can't memcpy_toio() because it needs to be 32-bit writes. */
+ 	for (i = 0; i < vc4_state->dlist_count; i++)
+ 		writel(vc4_state->dlist[i], &dlist[i]);
+ 
++	drm_dev_exit(idx);
++
++out:
+ 	return vc4_state->dlist_count;
+ }
+ 
+@@ -1243,8 +1252,10 @@ u32 vc4_plane_dlist_size(const struct drm_plane_state *state)
+ void vc4_plane_async_set_fb(struct drm_plane *plane, struct drm_framebuffer *fb)
+ {
+ 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(plane->state);
++	struct vc4_plane *vc4_plane = to_vc4_plane(plane);
+ 	struct drm_gem_dma_object *bo = drm_fb_dma_get_gem_obj(fb, 0);
+ 	uint32_t addr;
++	int idx;
+ 
+ 	/* We're skipping the address adjustment for negative origin,
+ 	 * because this is only called on the primary plane.
+@@ -1252,12 +1263,17 @@ void vc4_plane_async_set_fb(struct drm_plane *plane, struct drm_framebuffer *fb)
+ 	WARN_ON_ONCE(plane->state->crtc_x < 0 || plane->state->crtc_y < 0);
+ 	addr = bo->dma_addr + fb->offsets[0];
+ 
++	if (!drm_dev_enter(vc4_plane->dev, &idx))
++		return;
++
+ 	/* Write the new address into the hardware immediately.  The
+ 	 * scanout will start from this address as soon as the FIFO
+ 	 * needs to refill with pixels.
  	 */
- 	dram_info->wm_lv_0_adjust_needed = !IS_GEN9_LP(i915);
+ 	writel(addr, &vc4_state->hw_dlist[vc4_state->ptr0_offset]);
  
--	if (GRAPHICS_VER(i915) >= 12)
-+	if (DISPLAY_VER(i915) >= 14)
-+		ret = xelpdp_get_dram_info(i915);
-+	else if (GRAPHICS_VER(i915) >= 12)
- 		ret = gen12_get_dram_info(i915);
- 	else if (GRAPHICS_VER(i915) >= 11)
- 		ret = gen11_get_dram_info(i915);
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index fac565d23d57..f71b3b8b590c 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -3698,7 +3698,13 @@ intel_has_sagv(struct drm_i915_private *dev_priv)
- static u32
- intel_sagv_block_time(struct drm_i915_private *dev_priv)
- {
--	if (DISPLAY_VER(dev_priv) >= 12) {
-+	if (DISPLAY_VER(dev_priv) >= 14) {
-+		u32 val;
++	drm_dev_exit(idx);
 +
-+		val = intel_uncore_read(&dev_priv->uncore, MTL_LATENCY_SAGV);
-+
-+		return REG_FIELD_GET(MTL_LATENCY_QCLK_SAGV, val);
-+	} else if (DISPLAY_VER(dev_priv) >= 12) {
- 		u32 val = 0;
- 		int ret;
+ 	/* Also update the CPU-side dlist copy, so that any later
+ 	 * atomic updates that don't do a new modeset on our plane
+ 	 * also use our updated address.
+@@ -1271,6 +1287,8 @@ static void vc4_plane_atomic_async_update(struct drm_plane *plane,
+ 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+ 										 plane);
+ 	struct vc4_plane_state *vc4_state, *new_vc4_state;
++	struct vc4_plane *vc4_plane = to_vc4_plane(plane);
++	int idx;
  
+ 	swap(plane->state->fb, new_plane_state->fb);
+ 	plane->state->crtc_x = new_plane_state->crtc_x;
+@@ -1323,6 +1341,9 @@ static void vc4_plane_atomic_async_update(struct drm_plane *plane,
+ 	vc4_state->dlist[vc4_state->ptr0_offset] =
+ 		new_vc4_state->dlist[vc4_state->ptr0_offset];
+ 
++	if (!drm_dev_enter(vc4_plane->dev, &idx))
++		return;
++
+ 	/* Note that we can't just call vc4_plane_write_dlist()
+ 	 * because that would smash the context data that the HVS is
+ 	 * currently using.
+@@ -1333,6 +1354,8 @@ static void vc4_plane_atomic_async_update(struct drm_plane *plane,
+ 	       &vc4_state->hw_dlist[vc4_state->pos2_offset]);
+ 	writel(vc4_state->dlist[vc4_state->ptr0_offset],
+ 	       &vc4_state->hw_dlist[vc4_state->ptr0_offset]);
++
++	drm_dev_exit(idx);
+ }
+ 
+ static int vc4_plane_atomic_async_check(struct drm_plane *plane,
+@@ -1521,6 +1544,8 @@ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+ 					       modifiers, type, NULL);
+ 	if (IS_ERR(vc4_plane))
+ 		return ERR_CAST(vc4_plane);
++
++	vc4_plane->dev = dev;
+ 	plane = &vc4_plane->base;
+ 
+ 	if (vc4->is_vc5)
 -- 
-2.25.1
+2.37.2
 
