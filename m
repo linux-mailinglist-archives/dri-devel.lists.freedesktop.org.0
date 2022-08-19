@@ -1,63 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED9E5992F6
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 04:10:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 825825992F7
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 04:10:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3A310EC64;
-	Fri, 19 Aug 2022 02:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD25A10EC80;
+	Fri, 19 Aug 2022 02:10:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E26E10EC64
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 02:10:04 +0000 (UTC)
-X-UUID: f064b3eaf3eb4633b58ae4b6d69b89dc-20220819
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=h+l8o7r9XPTFomhUEyaLhpaCiOEqcWb83H4GxU7r5Ng=; 
- b=cClyh/60WEUymLdlcqu28SR4XchPdZZrmbudxu+Rvy60LIn4kc9TJ3/LaFVX9Jy9ezPXdKkLsrpZSRH/iFqI5QbN+2LjbeiIJMLxeHrrPyiLQHPEvn/cF3ZDDHoH8D3NCf6fG+/ApLOFYgav7BuY5lyGKaO5ov/+DSRBjpxyvxg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:66196f3b-fb2a-4bbf-a2c9-a0fcea7a917a, OB:0,
- L
- OB:30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Relea
- se_Ham,ACTION:release,TS:73
-X-CID-INFO: VERSION:1.1.10, REQID:66196f3b-fb2a-4bbf-a2c9-a0fcea7a917a, OB:0,
- LOB
- :30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Spam_GS
- 981B3D,ACTION:quarantine,TS:73
-X-CID-META: VersionHash:84eae18, CLOUDID:f7fb179d-da39-4e3b-a854-56c7d2111b46,
- C
- OID:e8b0f48844ab,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:40|20,QS:nil,BEC:nil,COL:0
-X-UUID: f064b3eaf3eb4633b58ae4b6d69b89dc-20220819
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 625443391; Fri, 19 Aug 2022 10:09:59 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 19 Aug 2022 10:09:58 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 19 Aug 2022 10:09:57 +0800
-Message-ID: <d7ccb3fb2630c1c0b6dda2990cff72169e5e5d0b.camel@mediatek.com>
-Subject: Re: [PATCH v25 07/10] soc: mediatek: mmsys: add mmsys for support
- 64 reset bits
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>
-Date: Fri, 19 Aug 2022 10:09:57 +0800
-In-Reply-To: <20220818214715.spbyic34szubx3gi@notapiano>
-References: <20220711075245.10492-1-nancy.lin@mediatek.com>
- <20220711075245.10492-8-nancy.lin@mediatek.com>
- <20220818214715.spbyic34szubx3gi@notapiano>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4D710EC80
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 02:10:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4ED1F3F1;
+ Fri, 19 Aug 2022 04:10:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1660875014;
+ bh=SXRUZwcRcYy6bdv+SkLqpvDOfBEeFhEWZRl2EAsy17M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IbGCVncxMbp6BKa0g4KRWZbIsGU4XTFWQ/vSMl3RCskT3Yd/rxP63fnVFT6WYY0v0
+ fbeXWgCxAQdx7u3U91n9q9GJVfHOFabUbf36uP+E5KV4FI1QYTsYN2iikhVNuVMhmV
+ mCylu811HjFy6a3/ILg82qmE6c4AW5Hc19jJ1Noc=
+Date: Fri, 19 Aug 2022 05:10:10 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Takanari Hayama <taki@igel.co.jp>
+Subject: Re: [PATCH v2 3/3] drm: rcar-du: Add DRM_MODE_BLEND_PIXEL_NONE support
+Message-ID: <Yv7xAk0RhI3PfnUs@pendragon.ideasonboard.com>
+References: <20220810083711.219642-1-taki@igel.co.jp>
+ <20220810083711.219642-4-taki@igel.co.jp>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220810083711.219642-4-taki@igel.co.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,91 +47,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Nathan Chancellor <nathan@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, wim@linux-watchdog.org,
- linux@roeck-us.net, AngeloGioacchino
- Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
+ mchehab@kernel.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nicolas,
+Hello Hayama-san,
 
-Thanks for the review.
+Thank you for the patch.
 
-On Thu, 2022-08-18 at 17:47 -0400, Nícolas F. R. A. Prado wrote:
-> Hi Nancy,
+On Wed, Aug 10, 2022 at 05:37:11PM +0900, Takanari Hayama wrote:
+> DRM_MODE_BLEND_PIXEL_NONE ignores an alpha channel.
 > 
-> On Mon, Jul 11, 2022 at 03:52:42PM +0800, Nancy.Lin wrote:
-> [..]
-> >  static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data
-> > = {
-> >  	.clk_driver = "clk-mt2701-mm",
-> >  	.routes = mmsys_default_routing_table,
-> > @@ -86,6 +88,7 @@ static const struct mtk_mmsys_driver_data
-> > mt8173_mmsys_driver_data = {
-> >  	.routes = mmsys_default_routing_table,
-> >  	.num_routes = ARRAY_SIZE(mmsys_default_routing_table),
-> >  	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
-> > +	.num_resets = 32,
-> >  };
-> >  
-> >  static const struct mtk_mmsys_match_data mt8173_mmsys_match_data =
-> > {
-> > @@ -100,6 +103,7 @@ static const struct mtk_mmsys_driver_data
-> > mt8183_mmsys_driver_data = {
-> >  	.routes = mmsys_mt8183_routing_table,
-> >  	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
-> >  	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
-> > +	.num_resets = 32,
-> >  };
-> >  
-> >  static const struct mtk_mmsys_match_data mt8183_mmsys_match_data =
-> > {
-> > @@ -114,6 +118,7 @@ static const struct mtk_mmsys_driver_data
-> > mt8186_mmsys_driver_data = {
-> >  	.routes = mmsys_mt8186_routing_table,
-> >  	.num_routes = ARRAY_SIZE(mmsys_mt8186_routing_table),
-> >  	.sw0_rst_offset = MT8186_MMSYS_SW0_RST_B,
-> > +	.num_resets = 32,
-> >  };
+> Rcar-du driver supports only 3 formats with an alpha channel
+> (DRM_FORMAT_ARGB1555, DRM_FORMAT_ARGB8888 and DRM_FORMAT_ARGB4444). We
+> simply override the format passed to VSP1 for blending with the pixel
+> format without alpha channel.
 > 
-> [..]
-> > @@ -351,18 +362,6 @@ static int mtk_mmsys_probe(struct
-> > platform_device *pdev)
-> >  		return ret;
-> >  	}
-> >  
-> > -	spin_lock_init(&mmsys->lock);
-> > -
-> > -	mmsys->rcdev.owner = THIS_MODULE;
-> > -	mmsys->rcdev.nr_resets = 32;
-> 
-> The number of resets was previously always set to 32, and now you're
-> instead
-> setting it based on num_resets from each machine. The issue is,
-> you're
-> forgetting a bunch of them.
-> 
-> mt8192 didn't get a num_reset, so this commit breaks the display on
-> mt8192 based
-> devices. But mt8192 isn't the only one, there are other platforms
-> missing this
-> property. Please set num_resets to 32 in every single one of them,
-> otherwise
-> there will be display regressions.
-> 
-> Thanks,
-> Nícolas
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
 
-It's my mistake. I will set num_resets to 32 for every mmsys driver.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Thanks,
-Nancy
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 20 +++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> index b9580fcfec7a..7cce2d414ced 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> @@ -151,6 +151,7 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+>  		.alpha = state->state.alpha >> 8,
+>  		.zpos = state->state.zpos,
+>  	};
+> +	u32 fourcc = state->format->fourcc;
+>  	unsigned int i;
+>  
+>  	cfg.src.left = state->state.src.x1 >> 16;
+> @@ -169,7 +170,23 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+>  
+>  	cfg.premult = (state->state.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI);
+>  
+> -	format = rcar_du_format_info(state->format->fourcc);
+> +	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
+> +		switch (fourcc) {
+> +		case DRM_FORMAT_ARGB1555:
+> +			fourcc = DRM_FORMAT_XRGB1555;
+> +			break;
+> +
+> +		case DRM_FORMAT_ARGB4444:
+> +			fourcc = DRM_FORMAT_XRGB4444;
+> +			break;
+> +
+> +		case DRM_FORMAT_ARGB8888:
+> +			fourcc = DRM_FORMAT_XRGB8888;
+> +			break;
+> +		}
+> +	}
+> +
+> +	format = rcar_du_format_info(fourcc);
+>  	cfg.pixelformat = format->v4l2;
+>  
+>  	vsp1_du_atomic_update(plane->vsp->vsp, crtc->vsp_pipe,
+> @@ -447,6 +464,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+>  		}
+>  
+>  		drm_plane_create_blend_mode_property(&plane->plane,
+> +					BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+>  					BIT(DRM_MODE_BLEND_PREMULTI) |
+>  					BIT(DRM_MODE_BLEND_COVERAGE));
+>  
 
+-- 
+Regards,
+
+Laurent Pinchart
