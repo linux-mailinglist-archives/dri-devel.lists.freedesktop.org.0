@@ -1,65 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BAC7599A34
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 12:56:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA63599A63
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 13:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDFDA10E7F3;
-	Fri, 19 Aug 2022 10:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96AD410E883;
+	Fri, 19 Aug 2022 11:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EFA010E7F3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 10:56:14 +0000 (UTC)
-X-UUID: 5e17bc9058d44490bc53c5764dd02778-20220819
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=ePRfPrpH4WR7prrT+SaXlzw5Ara2s6DDwopUNxCkEs8=; 
- b=hxMW/uZFE3zqfnM1x12m4XL1JckbeH3Cdom+jCq0Dk0LBkcP89vIq+drCtJaNuQntfXtDIM8f9XSxybI4plhVMlf/yWjuLwhf4BRIIB66Lm4c8d65I9VvoUviWel27eJnnLHhry1dn3T51WET/rnmIfzsarhRcB2NSv21t/KLYY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:6849e83e-be75-4431-9672-1d11d667c55b, OB:10,
- LOB:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Rele
- ase_Ham,ACTION:release,TS:68
-X-CID-INFO: VERSION:1.1.10, REQID:6849e83e-be75-4431-9672-1d11d667c55b, OB:10,
- LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Spam_G
- S981B3D,ACTION:quarantine,TS:68
-X-CID-META: VersionHash:84eae18, CLOUDID:309335c9-6b09-4f60-bf82-12f039f5d530,
- C
- OID:29a68d1a1959,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,Bulk:40|20,QS:nil,BEC:nil,COL:0
-X-UUID: 5e17bc9058d44490bc53c5764dd02778-20220819
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 737186348; Fri, 19 Aug 2022 18:56:09 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 19 Aug 2022 18:56:07 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Fri, 19 Aug 2022 18:56:07 +0800
-Message-ID: <472360928cc6440d05d5e01a5b5d6172a9eea2c9.camel@mediatek.com>
-Subject: Re: [PATCH v26 2/7] drm/mediatek: add ETHDR support for MT8195
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: kernel test robot <lkp@intel.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>,
- <nfraprado@collabora.com>
-Date: Fri, 19 Aug 2022 18:56:07 +0800
-In-Reply-To: <202208191837.iIwHfovs-lkp@intel.com>
-References: <20220819061456.8042-3-nancy.lin@mediatek.com>
- <202208191837.iIwHfovs-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from out30-45.freemail.mail.aliyun.com
+ (out30-45.freemail.mail.aliyun.com [115.124.30.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4945210E883
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 11:04:37 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
+ TI=SMTPD_---0VMg-lTI_1660907055; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VMg-lTI_1660907055) by smtp.aliyun-inc.com;
+ Fri, 19 Aug 2022 19:04:34 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: thomas@winischhofer.net
+Subject: [PATCH] video: fbdev: sis_main: Clean up some inconsistent indenting
+Date: Fri, 19 Aug 2022 19:04:14 +0800
+Message-Id: <20220819110414.107565-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,251 +40,493 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
- David Airlie <airlied@linux.ie>, "jason-jh .
- lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ linux-fbdev@vger.kernel.org, deller@gmx.de,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+No functional modification involved.
 
-Thanks for testing.
-This series need to based on another mmsys series [1].
-All the implicit-function-declaration functions are newly added in [2].
+drivers/video/fbdev/sis/sis_main.c:6165 sisfb_probe() warn: inconsistent indenting.
+drivers/video/fbdev/sis/sis_main.c:4266 sisfb_post_300_rwtest() warn: inconsistent indenting.
+drivers/video/fbdev/sis/sis_main.c:2388 SISDoSense() warn: inconsistent indenting.
+drivers/video/fbdev/sis/sis_main.c:2531 SiS_Sense30x() warn: inconsistent indenting.
+drivers/video/fbdev/sis/sis_main.c:2382 SISDoSense() warn: inconsistent indenting.
+drivers/video/fbdev/sis/sis_main.c:2250 sisfb_sense_crt1() warn: inconsistent indenting.
+drivers/video/fbdev/sis/sis_main.c:672 sisfb_validate_mode() warn: inconsistent indenting.
 
-[1]
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=669098
-[2]
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220819061011.7672-6-nancy.lin@mediatek.com/
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=1934
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/video/fbdev/sis/sis_main.c | 274 +++++++++++++++--------------
+ 1 file changed, 141 insertions(+), 133 deletions(-)
 
-Thanks,
-Nancy
-
-
-On Fri, 2022-08-19 at 18:14 +0800, kernel test robot wrote:
-> Hi "Nancy.Lin",
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on drm-misc/drm-misc-next]
-> [cannot apply to robh/for-next mbgg-mediatek/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a
-> note.
-> And when submitting patch, we suggest to use '--base' as documented
-> in
-> 
-https://urldefense.com/v3/__https://git-scm.com/docs/git-format-patch*_base_tree_information__;Iw!!CTRNKA9wMg0ARbw!wNjl5G7qt3vY_FW8w5Hhk8DfDRqU7QQLd0xm_MUAT7uF23DX0MvmaNio_hpgE9hK$
->  ]
-> 
-> url:    
-> https://urldefense.com/v3/__https://github.com/intel-lab-lkp/linux/commits/Nancy-Lin/Add-MediaTek-SoC-DRM-vdosys1-support-for-mt8195/20220819-142314__;!!CTRNKA9wMg0ARbw!wNjl5G7qt3vY_FW8w5Hhk8DfDRqU7QQLd0xm_MUAT7uF23DX0MvmaNio_i9pzMeG$
->  
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> config: arm-allyesconfig (
-> https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/20220819/202208191837.iIwHfovs-lkp@intel.com/config__;!!CTRNKA9wMg0ARbw!wNjl5G7qt3vY_FW8w5Hhk8DfDRqU7QQLd0xm_MUAT7uF23DX0MvmaNio_vxbrlxE$
->  )
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget 
-> https://urldefense.com/v3/__https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross__;!!CTRNKA9wMg0ARbw!wNjl5G7qt3vY_FW8w5Hhk8DfDRqU7QQLd0xm_MUAT7uF23DX0MvmaNio_kKzkkvN$
->   -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # 
-> https://urldefense.com/v3/__https://github.com/intel-lab-lkp/linux/commit/ec3724f819412feab6e61118e61e574a86aa4dc0__;!!CTRNKA9wMg0ARbw!wNjl5G7qt3vY_FW8w5Hhk8DfDRqU7QQLd0xm_MUAT7uF23DX0MvmaNio_sBdpge9$
->  
->         git remote add linux-review 
-> https://urldefense.com/v3/__https://github.com/intel-lab-lkp/linux__;!!CTRNKA9wMg0ARbw!wNjl5G7qt3vY_FW8w5Hhk8DfDRqU7QQLd0xm_MUAT7uF23DX0MvmaNio_iv3Tqqs$
->  
->         git fetch --no-tags linux-review Nancy-Lin/Add-MediaTek-SoC-
-> DRM-vdosys1-support-for-mt8195/20220819-142314
->         git checkout ec3724f819412feab6e61118e61e574a86aa4dc0
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
-> make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/gpu/drm/mediatek/mtk_ethdr.c: In function
-> 'mtk_ethdr_layer_config':
-> > > drivers/gpu/drm/mediatek/mtk_ethdr.c:171:9: error: implicit
-> > > declaration of function 'mtk_mmsys_mixer_in_config' [-
-> > > Werror=implicit-function-declaration]
-> 
->      171 |         mtk_mmsys_mixer_in_config(priv->mmsys_dev, idx +
-> 1, alpha_con ? false : true,
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/gpu/drm/mediatek/mtk_ethdr.c: In function
-> 'mtk_ethdr_config':
-> > > drivers/gpu/drm/mediatek/mtk_ethdr.c:232:9: error: implicit
-> > > declaration of function 'mtk_mmsys_hdr_confing'; did you mean
-> > > 'mtk_mmsys_ddp_connect'? [-Werror=implicit-function-declaration]
-> 
->      232 |         mtk_mmsys_hdr_confing(priv->mmsys_dev, w / 2, h,
-> cmdq_pkt);
->          |         ^~~~~~~~~~~~~~~~~~~~~
->          |         mtk_mmsys_ddp_connect
-> > > drivers/gpu/drm/mediatek/mtk_ethdr.c:233:9: error: implicit
-> > > declaration of function 'mtk_mmsys_mixer_in_channel_swap' [-
-> > > Werror=implicit-function-declaration]
-> 
->      233 |         mtk_mmsys_mixer_in_channel_swap(priv->mmsys_dev,
-> 4, 0, cmdq_pkt);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
-> 
-> 
-> vim +/mtk_mmsys_mixer_in_config +171
-> drivers/gpu/drm/mediatek/mtk_ethdr.c
-> 
->    146	
->    147	void mtk_ethdr_layer_config(struct device *dev,
-> unsigned int idx,
->    148				    struct mtk_plane_state
-> *state,
->    149				    struct cmdq_pkt *cmdq_pkt)
->    150	{
->    151		struct mtk_ethdr *priv = dev_get_drvdata(dev);
->    152		struct mtk_ethdr_comp *mixer = &priv-
-> >ethdr_comp[ETHDR_MIXER];
->    153		struct mtk_plane_pending_state *pending =
-> &state->pending;
->    154		unsigned int offset = (pending->x & 1) << 31 |
-> pending->y << 16 | pending->x;
->    155		unsigned int align_width = ALIGN_DOWN(pending-
-> >width, 2);
->    156		unsigned int alpha_con = 0;
->    157	
->    158		dev_dbg(dev, "%s+ idx:%d", __func__, idx);
->    159	
->    160		if (idx >= 4)
->    161			return;
->    162	
->    163		if (!pending->enable) {
->    164			mtk_ddp_write(cmdq_pkt, 0, &mixer-
-> >cmdq_base, mixer->regs, MIX_L_SRC_SIZE(idx));
->    165			return;
->    166		}
->    167	
->    168		if (state->base.fb && state->base.fb->format-
-> >has_alpha)
->    169			alpha_con = MIXER_ALPHA_AEN |
-> MIXER_ALPHA;
->    170	
->  > 171		mtk_mmsys_mixer_in_config(priv->mmsys_dev, idx
-> + 1, alpha_con ? false : true,
->    172					  DEFAULT_9BIT_ALPHA,
->    173					  pending->x & 1 ?
-> MIXER_INX_MODE_EVEN_EXTEND :
->    174					  MIXER_INX_MODE_BYPASS
-> , align_width / 2 - 1, cmdq_pkt);
->    175	
->    176		mtk_ddp_write(cmdq_pkt, pending->height << 16 |
-> align_width, &mixer->cmdq_base,
->    177			      mixer->regs,
-> MIX_L_SRC_SIZE(idx));
->    178		mtk_ddp_write(cmdq_pkt, offset, &mixer-
-> >cmdq_base, mixer->regs, MIX_L_SRC_OFFSET(idx));
->    179		mtk_ddp_write_mask(cmdq_pkt, alpha_con, &mixer-
-> >cmdq_base, mixer->regs, MIX_L_SRC_CON(idx),
->    180				   0x1ff);
->    181		mtk_ddp_write_mask(cmdq_pkt, BIT(idx), &mixer-
-> >cmdq_base, mixer->regs, MIX_SRC_CON,
->    182				   BIT(idx));
->    183	}
->    184	
->    185	void mtk_ethdr_config(struct device *dev, unsigned int
-> w,
->    186			      unsigned int h, unsigned int
-> vrefresh,
->    187			      unsigned int bpc, struct cmdq_pkt
-> *cmdq_pkt)
->    188	{
->    189		struct mtk_ethdr *priv = dev_get_drvdata(dev);
->    190		struct mtk_ethdr_comp *vdo_fe0 = &priv-
-> >ethdr_comp[ETHDR_VDO_FE0];
->    191		struct mtk_ethdr_comp *vdo_fe1 = &priv-
-> >ethdr_comp[ETHDR_VDO_FE1];
->    192		struct mtk_ethdr_comp *gfx_fe0 = &priv-
-> >ethdr_comp[ETHDR_GFX_FE0];
->    193		struct mtk_ethdr_comp *gfx_fe1 = &priv-
-> >ethdr_comp[ETHDR_GFX_FE1];
->    194		struct mtk_ethdr_comp *vdo_be = &priv-
-> >ethdr_comp[ETHDR_VDO_BE];
->    195		struct mtk_ethdr_comp *mixer = &priv-
-> >ethdr_comp[ETHDR_MIXER];
->    196	
->    197		dev_dbg(dev, "%s-w:%d, h:%d\n", __func__, w,
-> h);
->    198	
->    199		mtk_ddp_write(cmdq_pkt,
-> HDR_VDO_FE_0804_BYPASS_ALL, &vdo_fe0->cmdq_base,
->    200			      vdo_fe0->regs,
-> HDR_VDO_FE_0804_HDR_DM_FE);
->    201	
->    202		mtk_ddp_write(cmdq_pkt,
-> HDR_VDO_FE_0804_BYPASS_ALL, &vdo_fe1->cmdq_base,
->    203			      vdo_fe1->regs,
-> HDR_VDO_FE_0804_HDR_DM_FE);
->    204	
->    205		mtk_ddp_write(cmdq_pkt,
-> HDR_GFX_FE_0204_BYPASS_ALL, &gfx_fe0->cmdq_base,
->    206			      gfx_fe0->regs,
-> HDR_GFX_FE_0204_GFX_HDR_FE);
->    207	
->    208		mtk_ddp_write(cmdq_pkt,
-> HDR_GFX_FE_0204_BYPASS_ALL, &gfx_fe1->cmdq_base,
->    209			      gfx_fe1->regs,
-> HDR_GFX_FE_0204_GFX_HDR_FE);
->    210	
->    211		mtk_ddp_write(cmdq_pkt,
-> HDR_VDO_BE_0204_BYPASS_ALL, &vdo_be->cmdq_base,
->    212			      vdo_be->regs,
-> HDR_VDO_BE_0204_VDO_DM_BE);
->    213	
->    214		mtk_ddp_write(cmdq_pkt, MIX_FUNC_DCM_ENABLE,
-> &mixer->cmdq_base, mixer->regs, MIX_FUNC_DCM0);
->    215		mtk_ddp_write(cmdq_pkt, MIX_FUNC_DCM_ENABLE,
-> &mixer->cmdq_base, mixer->regs, MIX_FUNC_DCM1);
->    216		mtk_ddp_write(cmdq_pkt, h << 16 | w, &mixer-
-> >cmdq_base, mixer->regs, MIX_ROI_SIZE);
->    217		mtk_ddp_write(cmdq_pkt, BGCLR_BLACK, &mixer-
-> >cmdq_base, mixer->regs, MIX_ROI_BGCLR);
->    218		mtk_ddp_write(cmdq_pkt, NON_PREMULTI_SOURCE,
-> &mixer->cmdq_base, mixer->regs,
->    219			      MIX_L_SRC_CON(0));
->    220		mtk_ddp_write(cmdq_pkt, NON_PREMULTI_SOURCE,
-> &mixer->cmdq_base, mixer->regs,
->    221			      MIX_L_SRC_CON(1));
->    222		mtk_ddp_write(cmdq_pkt, NON_PREMULTI_SOURCE,
-> &mixer->cmdq_base, mixer->regs,
->    223			      MIX_L_SRC_CON(2));
->    224		mtk_ddp_write(cmdq_pkt, NON_PREMULTI_SOURCE,
-> &mixer->cmdq_base, mixer->regs,
->    225			      MIX_L_SRC_CON(3));
->    226		mtk_ddp_write(cmdq_pkt, 0x0, &mixer->cmdq_base, 
-> mixer->regs, MIX_L_SRC_SIZE(0));
->    227		mtk_ddp_write(cmdq_pkt, OUTPUT_NO_RND |
-> SOURCE_RGB_SEL | BACKGROUND_RELAY,
->    228			      &mixer->cmdq_base, mixer->regs,
-> MIX_DATAPATH_CON);
->    229		mtk_ddp_write_mask(cmdq_pkt, MIX_SRC_L0_EN,
-> &mixer->cmdq_base, mixer->regs,
->    230				   MIX_SRC_CON, MIX_SRC_L0_EN);
->    231	
->  > 232		mtk_mmsys_hdr_confing(priv->mmsys_dev, w / 2,
-> h, cmdq_pkt);
->  > 233		mtk_mmsys_mixer_in_channel_swap(priv-
-> >mmsys_dev, 4, 0, cmdq_pkt);
->    234	}
->    235	
-> 
+diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
+index 7114c5c17c91..ac4680a74d78 100644
+--- a/drivers/video/fbdev/sis/sis_main.c
++++ b/drivers/video/fbdev/sis/sis_main.c
+@@ -650,37 +650,37 @@ sisfb_validate_mode(struct sis_video_info *ivideo, int myindex, u32 vbflags)
+ 	u16 xres=0, yres, myres;
+ 
+ #ifdef CONFIG_FB_SIS_300
+-	if(ivideo->sisvga_engine == SIS_300_VGA) {
+-		if(!(sisbios_mode[myindex].chipset & MD_SIS300))
++	if (ivideo->sisvga_engine == SIS_300_VGA) {
++		if (!(sisbios_mode[myindex].chipset & MD_SIS300))
+ 			return -1 ;
+ 	}
+ #endif
+ #ifdef CONFIG_FB_SIS_315
+-	if(ivideo->sisvga_engine == SIS_315_VGA) {
+-		if(!(sisbios_mode[myindex].chipset & MD_SIS315))
++	if (ivideo->sisvga_engine == SIS_315_VGA) {
++		if (!(sisbios_mode[myindex].chipset & MD_SIS315))
+ 			return -1;
+ 	}
+ #endif
+ 
+ 	myres = sisbios_mode[myindex].yres;
+ 
+-	switch(vbflags & VB_DISPTYPE_DISP2) {
++	switch (vbflags & VB_DISPTYPE_DISP2) {
+ 
+ 	case CRT2_LCD:
+ 		xres = ivideo->lcdxres; yres = ivideo->lcdyres;
+ 
+-		if((ivideo->SiS_Pr.SiS_CustomT != CUT_PANEL848) &&
+-		   (ivideo->SiS_Pr.SiS_CustomT != CUT_PANEL856)) {
+-			if(sisbios_mode[myindex].xres > xres)
++		if ((ivideo->SiS_Pr.SiS_CustomT != CUT_PANEL848) &&
++		    (ivideo->SiS_Pr.SiS_CustomT != CUT_PANEL856)) {
++			if (sisbios_mode[myindex].xres > xres)
+ 				return -1;
+-			if(myres > yres)
++			if (myres > yres)
+ 				return -1;
+ 		}
+ 
+-		if(ivideo->sisfb_fstn) {
+-			if(sisbios_mode[myindex].xres == 320) {
+-				if(myres == 240) {
+-					switch(sisbios_mode[myindex].mode_no[1]) {
++		if (ivideo->sisfb_fstn) {
++			if (sisbios_mode[myindex].xres == 320) {
++				if (myres == 240) {
++					switch (sisbios_mode[myindex].mode_no[1]) {
+ 						case 0x50: myindex = MODE_FSTN_8;  break;
+ 						case 0x56: myindex = MODE_FSTN_16; break;
+ 						case 0x53: return -1;
+@@ -689,7 +689,7 @@ sisfb_validate_mode(struct sis_video_info *ivideo, int myindex, u32 vbflags)
+ 			}
+ 		}
+ 
+-		if(SiS_GetModeID_LCD(ivideo->sisvga_engine, vbflags, sisbios_mode[myindex].xres,
++		if (SiS_GetModeID_LCD(ivideo->sisvga_engine, vbflags, sisbios_mode[myindex].xres,
+ 			 	sisbios_mode[myindex].yres, 0, ivideo->sisfb_fstn,
+ 			 	ivideo->SiS_Pr.SiS_CustomT, xres, yres, ivideo->vbflags2) < 0x14) {
+ 			return -1;
+@@ -697,14 +697,14 @@ sisfb_validate_mode(struct sis_video_info *ivideo, int myindex, u32 vbflags)
+ 		break;
+ 
+ 	case CRT2_TV:
+-		if(SiS_GetModeID_TV(ivideo->sisvga_engine, vbflags, sisbios_mode[myindex].xres,
++		if (SiS_GetModeID_TV(ivideo->sisvga_engine, vbflags, sisbios_mode[myindex].xres,
+ 				sisbios_mode[myindex].yres, 0, ivideo->vbflags2) < 0x14) {
+ 			return -1;
+ 		}
+ 		break;
+ 
+ 	case CRT2_VGA:
+-		if(SiS_GetModeID_VGA2(ivideo->sisvga_engine, vbflags, sisbios_mode[myindex].xres,
++		if (SiS_GetModeID_VGA2(ivideo->sisvga_engine, vbflags, sisbios_mode[myindex].xres,
+ 				sisbios_mode[myindex].yres, 0, ivideo->vbflags2) < 0x14) {
+ 			return -1;
+ 		}
+@@ -2205,82 +2205,88 @@ static bool sisfb_test_DDC1(struct sis_video_info *ivideo)
+ 
+ static void sisfb_sense_crt1(struct sis_video_info *ivideo)
+ {
+-    bool mustwait = false;
+-    u8  sr1F, cr17;
++	bool mustwait = false;
++	u8  sr1F, cr17;
+ #ifdef CONFIG_FB_SIS_315
+-    u8  cr63=0;
++	u8  cr63 = 0;
+ #endif
+-    u16 temp = 0xffff;
+-    int i;
++	u16 temp = 0xffff;
++	int i;
++
++	sr1F = SiS_GetReg(SISSR, 0x1F);
++	SiS_SetRegOR(SISSR, 0x1F, 0x04);
++	SiS_SetRegAND(SISSR, 0x1F, 0x3F);
+ 
+-    sr1F = SiS_GetReg(SISSR, 0x1F);
+-    SiS_SetRegOR(SISSR, 0x1F, 0x04);
+-    SiS_SetRegAND(SISSR, 0x1F, 0x3F);
+-    if(sr1F & 0xc0) mustwait = true;
++	if (sr1F & 0xc0)
++		mustwait = true;
+ 
+ #ifdef CONFIG_FB_SIS_315
+-    if(ivideo->sisvga_engine == SIS_315_VGA) {
+-       cr63 = SiS_GetReg(SISCR, ivideo->SiS_Pr.SiS_MyCR63);
+-       cr63 &= 0x40;
+-       SiS_SetRegAND(SISCR, ivideo->SiS_Pr.SiS_MyCR63, 0xBF);
+-    }
++	if (ivideo->sisvga_engine == SIS_315_VGA) {
++		cr63 = SiS_GetReg(SISCR, ivideo->SiS_Pr.SiS_MyCR63);
++		cr63 &= 0x40;
++		SiS_SetRegAND(SISCR, ivideo->SiS_Pr.SiS_MyCR63, 0xBF);
++	}
+ #endif
+ 
+-    cr17 = SiS_GetReg(SISCR, 0x17);
+-    cr17 &= 0x80;
+-    if(!cr17) {
+-       SiS_SetRegOR(SISCR, 0x17, 0x80);
+-       mustwait = true;
+-       SiS_SetReg(SISSR, 0x00, 0x01);
+-       SiS_SetReg(SISSR, 0x00, 0x03);
+-    }
++	cr17 = SiS_GetReg(SISCR, 0x17);
++	cr17 &= 0x80;
+ 
+-    if(mustwait) {
+-       for(i=0; i < 10; i++) sisfbwaitretracecrt1(ivideo);
+-    }
++	if (!cr17) {
++		SiS_SetRegOR(SISCR, 0x17, 0x80);
++		mustwait = true;
++		SiS_SetReg(SISSR, 0x00, 0x01);
++		SiS_SetReg(SISSR, 0x00, 0x03);
++	}
+ 
++	if (mustwait) {
++		for (i = 0; i < 10; i++)
++			sisfbwaitretracecrt1(ivideo);
++	}
+ #ifdef CONFIG_FB_SIS_315
+-    if(ivideo->chip >= SIS_330) {
+-       SiS_SetRegAND(SISCR, 0x32, ~0x20);
+-       if(ivideo->chip >= SIS_340) {
+-	   SiS_SetReg(SISCR, 0x57, 0x4a);
+-       } else {
+-	   SiS_SetReg(SISCR, 0x57, 0x5f);
+-       }
+-	SiS_SetRegOR(SISCR, 0x53, 0x02);
+-	while ((SiS_GetRegByte(SISINPSTAT)) & 0x01)    break;
+-	while (!((SiS_GetRegByte(SISINPSTAT)) & 0x01)) break;
+-	if ((SiS_GetRegByte(SISMISCW)) & 0x10) temp = 1;
+-	SiS_SetRegAND(SISCR, 0x53, 0xfd);
+-	SiS_SetRegAND(SISCR, 0x57, 0x00);
+-    }
++	if (ivideo->chip >= SIS_330) {
++		SiS_SetRegAND(SISCR, 0x32, ~0x20);
++		if (ivideo->chip >= SIS_340)
++			SiS_SetReg(SISCR, 0x57, 0x4a);
++		else
++			SiS_SetReg(SISCR, 0x57, 0x5f);
++
++		SiS_SetRegOR(SISCR, 0x53, 0x02);
++		while ((SiS_GetRegByte(SISINPSTAT)) & 0x01)
++			break;
++		while (!((SiS_GetRegByte(SISINPSTAT)) & 0x01))
++			break;
++		if ((SiS_GetRegByte(SISMISCW)) & 0x10)
++			temp = 1;
++
++		SiS_SetRegAND(SISCR, 0x53, 0xfd);
++		SiS_SetRegAND(SISCR, 0x57, 0x00);
++	}
+ #endif
+ 
+-    if(temp == 0xffff) {
+-       i = 3;
+-       do {
+-	  temp = SiS_HandleDDC(&ivideo->SiS_Pr, ivideo->vbflags,
+-		ivideo->sisvga_engine, 0, 0, NULL, ivideo->vbflags2);
+-       } while(((temp == 0) || (temp == 0xffff)) && i--);
++	if (temp == 0xffff) {
++		i = 3;
+ 
+-       if((temp == 0) || (temp == 0xffff)) {
+-          if(sisfb_test_DDC1(ivideo)) temp = 1;
+-       }
+-    }
++		do {
++			temp = SiS_HandleDDC(&ivideo->SiS_Pr, ivideo->vbflags,
++			ivideo->sisvga_engine, 0, 0, NULL, ivideo->vbflags2);
++		} while (((temp == 0) || (temp == 0xffff)) && i--);
+ 
+-    if((temp) && (temp != 0xffff)) {
+-       SiS_SetRegOR(SISCR, 0x32, 0x20);
+-    }
++		if ((temp == 0) || (temp == 0xffff)) {
++			if (sisfb_test_DDC1(ivideo))
++				temp = 1;
++		}
++	}
++
++	if ((temp) && (temp != 0xffff))
++		SiS_SetRegOR(SISCR, 0x32, 0x20);
+ 
+ #ifdef CONFIG_FB_SIS_315
+-    if(ivideo->sisvga_engine == SIS_315_VGA) {
+-	SiS_SetRegANDOR(SISCR, ivideo->SiS_Pr.SiS_MyCR63, 0xBF, cr63);
+-    }
++	if (ivideo->sisvga_engine == SIS_315_VGA)
++		SiS_SetRegANDOR(SISCR, ivideo->SiS_Pr.SiS_MyCR63, 0xBF, cr63);
+ #endif
+ 
+-    SiS_SetRegANDOR(SISCR, 0x17, 0x7F, cr17);
+-
+-    SiS_SetReg(SISSR, 0x1F, sr1F);
++	SiS_SetRegANDOR(SISCR, 0x17, 0x7F, cr17);
++	SiS_SetReg(SISSR, 0x1F, sr1F);
+ }
+ 
+ /* Determine and detect attached devices on SiS30x */
+@@ -2294,25 +2300,25 @@ static void SiS_SenseLCD(struct sis_video_info *ivideo)
+ 	ivideo->SiS_Pr.PanelSelfDetected = false;
+ 
+ 	/* LCD detection only for TMDS bridges */
+-	if(!(ivideo->vbflags2 & VB2_SISTMDSBRIDGE))
++	if (!(ivideo->vbflags2 & VB2_SISTMDSBRIDGE))
+ 		return;
+-	if(ivideo->vbflags2 & VB2_30xBDH)
++	if (ivideo->vbflags2 & VB2_30xBDH)
+ 		return;
+ 
+ 	/* If LCD already set up by BIOS, skip it */
+ 	reg = SiS_GetReg(SISCR, 0x32);
+-	if(reg & 0x08)
++	if (reg & 0x08)
+ 		return;
+ 
+ 	realcrtno = 1;
+-	if(ivideo->SiS_Pr.DDCPortMixup)
++	if (ivideo->SiS_Pr.DDCPortMixup)
+ 		realcrtno = 0;
+ 
+ 	/* Check DDC capabilities */
+ 	temp = SiS_HandleDDC(&ivideo->SiS_Pr, ivideo->vbflags, ivideo->sisvga_engine,
+ 				realcrtno, 0, &buffer[0], ivideo->vbflags2);
+ 
+-	if((!temp) || (temp == 0xffff) || (!(temp & 0x02)))
++	if ((!temp) || (temp == 0xffff) || (!(temp & 0x02)))
+ 		return;
+ 
+ 	/* Read DDC data */
+@@ -2321,17 +2327,17 @@ static void SiS_SenseLCD(struct sis_video_info *ivideo)
+ 		temp = SiS_HandleDDC(&ivideo->SiS_Pr, ivideo->vbflags,
+ 				ivideo->sisvga_engine, realcrtno, 1,
+ 				&buffer[0], ivideo->vbflags2);
+-	} while((temp) && i--);
++	} while ((temp) && i--);
+ 
+-	if(temp)
++	if (temp)
+ 		return;
+ 
+ 	/* No digital device */
+-	if(!(buffer[0x14] & 0x80))
++	if (!(buffer[0x14] & 0x80))
+ 		return;
+ 
+ 	/* First detailed timing preferred timing? */
+-	if(!(buffer[0x18] & 0x02))
++	if (!(buffer[0x18] & 0x02))
+ 		return;
+ 
+ 	xres = buffer[0x38] | ((buffer[0x3a] & 0xf0) << 4);
+@@ -2339,26 +2345,26 @@ static void SiS_SenseLCD(struct sis_video_info *ivideo)
+ 
+ 	switch(xres) {
+ 		case 1024:
+-			if(yres == 768)
++			if (yres == 768)
+ 				paneltype = 0x02;
+ 			break;
+ 		case 1280:
+-			if(yres == 1024)
++			if (yres == 1024)
+ 				paneltype = 0x03;
+ 			break;
+ 		case 1600:
+-			if((yres == 1200) && (ivideo->vbflags2 & VB2_30xC))
++			if ((yres == 1200) && (ivideo->vbflags2 & VB2_30xC))
+ 				paneltype = 0x0b;
+ 			break;
+ 	}
+ 
+-	if(!paneltype)
++	if (!paneltype)
+ 		return;
+ 
+-	if(buffer[0x23])
++	if (buffer[0x23])
+ 		cr37 |= 0x10;
+ 
+-	if((buffer[0x47] & 0x18) == 0x18)
++	if ((buffer[0x47] & 0x18) == 0x18)
+ 		cr37 |= ((((buffer[0x47] & 0x06) ^ 0x06) << 5) | 0x20);
+ 	else
+ 		cr37 |= 0xc0;
+@@ -2373,31 +2379,34 @@ static void SiS_SenseLCD(struct sis_video_info *ivideo)
+ 
+ static int SISDoSense(struct sis_video_info *ivideo, u16 type, u16 test)
+ {
+-    int temp, mytest, result, i, j;
+-
+-    for(j = 0; j < 10; j++) {
+-       result = 0;
+-       for(i = 0; i < 3; i++) {
+-          mytest = test;
+-	   SiS_SetReg(SISPART4, 0x11, (type & 0x00ff));
+-          temp = (type >> 8) | (mytest & 0x00ff);
+-	  SiS_SetRegANDOR(SISPART4, 0x10, 0xe0, temp);
+-          SiS_DDC2Delay(&ivideo->SiS_Pr, 0x1500);
+-          mytest >>= 8;
+-          mytest &= 0x7f;
+-	   temp = SiS_GetReg(SISPART4, 0x03);
+-          temp ^= 0x0e;
+-          temp &= mytest;
+-          if(temp == mytest) result++;
++	int temp, mytest, result, i, j;
++
++	for (j = 0; j < 10; j++) {
++		result = 0;
++		for (i = 0; i < 3; i++) {
++			mytest = test;
++			SiS_SetReg(SISPART4, 0x11, (type & 0x00ff));
++			temp = (type >> 8) | (mytest & 0x00ff);
++			SiS_SetRegANDOR(SISPART4, 0x10, 0xe0, temp);
++			SiS_DDC2Delay(&ivideo->SiS_Pr, 0x1500);
++			mytest >>= 8;
++			mytest &= 0x7f;
++			temp = SiS_GetReg(SISPART4, 0x03);
++			temp ^= 0x0e;
++			temp &= mytest;
++			if (temp == mytest)
++				result++;
+ #if 1
+-	  SiS_SetReg(SISPART4, 0x11, 0x00);
+-	  SiS_SetRegAND(SISPART4, 0x10, 0xe0);
+-	  SiS_DDC2Delay(&ivideo->SiS_Pr, 0x1000);
++			SiS_SetReg(SISPART4, 0x11, 0x00);
++			SiS_SetRegAND(SISPART4, 0x10, 0xe0);
++			SiS_DDC2Delay(&ivideo->SiS_Pr, 0x1000);
+ #endif
+-       }
+-       if((result == 0) || (result >= 2)) break;
+-    }
+-    return result;
++		}
++
++		if ((result == 0) || (result >= 2))
++			break;
++	}
++	return result;
+ }
+ 
+ static void SiS_Sense30x(struct sis_video_info *ivideo)
+@@ -4263,18 +4272,17 @@ static int sisfb_post_300_rwtest(struct sis_video_info *ivideo, int iteration,
+ 	unsigned int k, RankCapacity, PageCapacity, BankNumHigh, BankNumMid;
+ 	unsigned int PhysicalAdrOtherPage, PhysicalAdrHigh, PhysicalAdrHalfPage;
+ 
+-	 for(k = 0; k < ARRAY_SIZE(SiS_DRAMType); k++) {
+-
++	for (k = 0; k < ARRAY_SIZE(SiS_DRAMType); k++) {
+ 		RankCapacity = buswidth * SiS_DRAMType[k][3];
+ 
+-		if(RankCapacity != PseudoRankCapacity)
++		if (RankCapacity != PseudoRankCapacity)
+ 			continue;
+ 
+-		if((SiS_DRAMType[k][2] + SiS_DRAMType[k][0]) > PseudoAdrPinCount)
++		if ((SiS_DRAMType[k][2] + SiS_DRAMType[k][0]) > PseudoAdrPinCount)
+ 			continue;
+ 
+ 		BankNumHigh = RankCapacity * 16 * iteration - 1;
+-		if(iteration == 3) {             /* Rank No */
++		if (iteration == 3) {             /* Rank No */
+ 			BankNumMid  = RankCapacity * 16 - 1;
+ 		} else {
+ 			BankNumMid  = RankCapacity * 16 * iteration / 2 - 1;
+@@ -4288,18 +4296,22 @@ static int sisfb_post_300_rwtest(struct sis_video_info *ivideo, int iteration,
+ 		SiS_SetRegAND(SISSR, 0x15, 0xFB); /* Test */
+ 		SiS_SetRegOR(SISSR, 0x15, 0x04);  /* Test */
+ 		sr14 = (SiS_DRAMType[k][3] * buswidth) - 1;
+-		if(buswidth == 4)      sr14 |= 0x80;
+-		else if(buswidth == 2) sr14 |= 0x40;
++
++		if (buswidth == 4)
++			sr14 |= 0x80;
++		else if (buswidth == 2)
++			sr14 |= 0x40;
++
+ 		SiS_SetReg(SISSR, 0x13, SiS_DRAMType[k][4]);
+ 		SiS_SetReg(SISSR, 0x14, sr14);
+ 
+ 		BankNumHigh <<= 16;
+ 		BankNumMid <<= 16;
+ 
+-		if((BankNumHigh + PhysicalAdrHigh      >= mapsize) ||
+-		   (BankNumMid  + PhysicalAdrHigh      >= mapsize) ||
+-		   (BankNumHigh + PhysicalAdrHalfPage  >= mapsize) ||
+-		   (BankNumHigh + PhysicalAdrOtherPage >= mapsize))
++		if ((BankNumHigh + PhysicalAdrHigh >= mapsize) ||
++		    (BankNumMid  + PhysicalAdrHigh >= mapsize) ||
++		    (BankNumHigh + PhysicalAdrHalfPage  >= mapsize) ||
++		    (BankNumHigh + PhysicalAdrOtherPage >= mapsize))
+ 			continue;
+ 
+ 		/* Write data */
+@@ -4313,7 +4325,7 @@ static int sisfb_post_300_rwtest(struct sis_video_info *ivideo, int iteration,
+ 				(FBAddr + BankNumHigh + PhysicalAdrOtherPage));
+ 
+ 		/* Read data */
+-		if(readw(FBAddr + BankNumHigh + PhysicalAdrHigh) == PhysicalAdrHigh)
++		if (readw(FBAddr + BankNumHigh + PhysicalAdrHigh) == PhysicalAdrHigh)
+ 			return 1;
+ 	}
+ 
+@@ -6155,24 +6167,20 @@ static int sisfb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ #endif
+ 
+ #ifdef CONFIG_FB_SIS_315
+-		if(ivideo->sisvga_engine == SIS_315_VGA) {
++		if (ivideo->sisvga_engine == SIS_315_VGA) {
+ 			int result = 1;
+-		/*	if((ivideo->chip == SIS_315H)   ||
+-			   (ivideo->chip == SIS_315)    ||
+-			   (ivideo->chip == SIS_315PRO) ||
+-			   (ivideo->chip == SIS_330)) {
+-				sisfb_post_sis315330(pdev);
+-			} else */ if(ivideo->chip == XGI_20) {
++
++			if (ivideo->chip == XGI_20) {
+ 				result = sisfb_post_xgi(pdev);
+ 				ivideo->sisfb_can_post = 1;
+-			} else if((ivideo->chip == XGI_40) && ivideo->haveXGIROM) {
++			} else if ((ivideo->chip == XGI_40) && ivideo->haveXGIROM) {
+ 				result = sisfb_post_xgi(pdev);
+ 				ivideo->sisfb_can_post = 1;
+ 			} else {
+ 				printk(KERN_INFO "sisfb: Card is not "
+ 					"POSTed and sisfb can't do this either.\n");
+ 			}
+-			if(!result) {
++			if (!result) {
+ 				printk(KERN_ERR "sisfb: Failed to POST card\n");
+ 				ret = -ENODEV;
+ 				goto error_3;
+-- 
+2.20.1.7.g153144c
 
