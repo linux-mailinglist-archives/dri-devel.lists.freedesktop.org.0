@@ -1,53 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE445993E6
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 06:11:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE62E5993E8
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 06:13:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E77810E4D7;
-	Fri, 19 Aug 2022 04:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE1610E4DF;
+	Fri, 19 Aug 2022 04:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B5AA10E4D7;
- Fri, 19 Aug 2022 04:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660882297; x=1692418297;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8Y49LHzWGjuvArvCs2thyeNozEBUOrRqYUcI58mTGIM=;
- b=i9JvNNptFGKhRPH0Rph1Ut6exVx3TCjtfHp7GQzgME0rObRUINq9KX3u
- r9+MltkRLpx14H675Es08aTeaU2fTIcuK1oFG/YaF4MTYC5+P1cNAEoCj
- 7dsVPxMBG4EF/qvZXT4E1QFD1wli3ikNqTXHdbiqhLcqUXM383lDUOQYu
- rxyZNBsaGjZlZrGYOIuY7N02+P9bvwlwj/K6CAgBW2GO0l16+3rLhzrIh
- IuzBKJrRU+qr8nw47Z1qSZlUWwsW4HKDYMCMFpGDSRL//6z+ZdRqg3sko
- 1PtSAR/hudIDIRVGb52P70Rk+k0uXgxLw49+u7Uk2wEUIY6elbrpor1zV w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="293719421"
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="293719421"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 21:11:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; d="scan'208";a="584499033"
-Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 18 Aug 2022 21:11:34 -0700
-Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oOtM5-00013H-37;
- Fri, 19 Aug 2022 04:11:33 +0000
-Date: Fri, 19 Aug 2022 12:11:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 09/15] drm/i915/pxp: add huc
- authentication and loading command
-Message-ID: <202208191208.p5c4LVLR-lkp@intel.com>
-References: <20220818230243.3921066-10-daniele.ceraolospurio@intel.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 460D410E4CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 04:13:30 +0000 (UTC)
+X-UUID: a63f09ca2c9f4537b6f578f8eb0f0bb8-20220819
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=oi64ZAN56SKAouCD2c1g9twrjMLE3pr2hOeKSFbJBlc=; 
+ b=kLqGjSNz8+1XbllMVOPZaqWOF46ITVExEFcvFk97u5dfpFRFZx+vvpwvBsy/woIzSjfSNqW1OwNA6ua5MTVfF15tr2X+7vri2Ybs2VR0Srvr3RkE091dPV7oAQJsr4qCIEyrbRntJrSe9SKSCPzkqvbbE289PujB7VTS4DwCJSg=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10, REQID:698863a8-5ed3-4c7c-bcde-43584b7eef79, OB:0,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Releas
+ e_Ham,ACTION:release,TS:73
+X-CID-INFO: VERSION:1.1.10, REQID:698863a8-5ed3-4c7c-bcde-43584b7eef79, OB:0,
+ LOB
+ :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Spam_GS9
+ 81B3D,ACTION:quarantine,TS:73
+X-CID-META: VersionHash:84eae18, CLOUDID:ee6942af-9535-44a6-aa9b-7f62b79b6ff6,
+ C
+ OID:d6bf27258396,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:40|20,QS:nil,BEC:nil,COL:0
+X-UUID: a63f09ca2c9f4537b6f578f8eb0f0bb8-20220819
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 240840742; Fri, 19 Aug 2022 12:13:25 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 19 Aug 2022 12:13:24 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Fri, 19 Aug 2022 12:13:24 +0800
+Message-ID: <12062a2e2957113d40b4bf3c1c62d18418b51a12.camel@mediatek.com>
+Subject: Re: [PATCH v25 07/10] soc: mediatek: mmsys: add mmsys for support
+ 64 reset bits
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>
+Date: Fri, 19 Aug 2022 12:13:23 +0800
+In-Reply-To: <d7ccb3fb2630c1c0b6dda2990cff72169e5e5d0b.camel@mediatek.com>
+References: <20220711075245.10492-1-nancy.lin@mediatek.com>
+ <20220711075245.10492-8-nancy.lin@mediatek.com>
+ <20220818214715.spbyic34szubx3gi@notapiano>
+ <d7ccb3fb2630c1c0b6dda2990cff72169e5e5d0b.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220818230243.3921066-10-daniele.ceraolospurio@intel.com>
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,67 +71,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tomas Winkler <tomas.winkler@intel.com>,
- kbuild-all@lists.01.org, Vitaly Lubart <vitaly.lubart@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Nathan Chancellor <nathan@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, wim@linux-watchdog.org,
+ linux@roeck-us.net, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniele,
+Hi Nicolas,
 
-I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on drm-tip/drm-tip]
+On Fri, 2022-08-19 at 10:09 +0800, Nancy.Lin wrote:
+> Hi Nicolas,
+> 
+> Thanks for the review.
+> 
+> On Thu, 2022-08-18 at 17:47 -0400, Nícolas F. R. A. Prado wrote:
+> > Hi Nancy,
+> > 
+> > On Mon, Jul 11, 2022 at 03:52:42PM +0800, Nancy.Lin wrote:
+> > [..]
+> > >  static const struct mtk_mmsys_driver_data
+> > > mt2701_mmsys_driver_data
+> > > = {
+> > >  	.clk_driver = "clk-mt2701-mm",
+> > >  	.routes = mmsys_default_routing_table,
+> > > @@ -86,6 +88,7 @@ static const struct mtk_mmsys_driver_data
+> > > mt8173_mmsys_driver_data = {
+> > >  	.routes = mmsys_default_routing_table,
+> > >  	.num_routes = ARRAY_SIZE(mmsys_default_routing_table),
+> > >  	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
+> > > +	.num_resets = 32,
+> > >  };
+> > >  
+> > >  static const struct mtk_mmsys_match_data mt8173_mmsys_match_data
+> > > =
+> > > {
+> > > @@ -100,6 +103,7 @@ static const struct mtk_mmsys_driver_data
+> > > mt8183_mmsys_driver_data = {
+> > >  	.routes = mmsys_mt8183_routing_table,
+> > >  	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
+> > >  	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
+> > > +	.num_resets = 32,
+> > >  };
+> > >  
+> > >  static const struct mtk_mmsys_match_data mt8183_mmsys_match_data
+> > > =
+> > > {
+> > > @@ -114,6 +118,7 @@ static const struct mtk_mmsys_driver_data
+> > > mt8186_mmsys_driver_data = {
+> > >  	.routes = mmsys_mt8186_routing_table,
+> > >  	.num_routes = ARRAY_SIZE(mmsys_mt8186_routing_table),
+> > >  	.sw0_rst_offset = MT8186_MMSYS_SW0_RST_B,
+> > > +	.num_resets = 32,
+> > >  };
+> > 
+> > [..]
+> > > @@ -351,18 +362,6 @@ static int mtk_mmsys_probe(struct
+> > > platform_device *pdev)
+> > >  		return ret;
+> > >  	}
+> > >  
+> > > -	spin_lock_init(&mmsys->lock);
+> > > -
+> > > -	mmsys->rcdev.owner = THIS_MODULE;
+> > > -	mmsys->rcdev.nr_resets = 32;
+> > 
+> > The number of resets was previously always set to 32, and now
+> > you're
+> > instead
+> > setting it based on num_resets from each machine. The issue is,
+> > you're
+> > forgetting a bunch of them.
+> > 
+> > mt8192 didn't get a num_reset, so this commit breaks the display on
+> > mt8192 based
+> > devices. But mt8192 isn't the only one, there are other platforms
+> > missing this
+> > property. Please set num_resets to 32 in every single one of them,
+> > otherwise
+> > there will be display regressions.
+> > 
+> > Thanks,
+> > Nícolas
+> 
+> It's my mistake. I will set num_resets to 32 for every mmsys driver.
+> 
+> Thanks,
+> Nancy
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniele-Ceraolo-Spurio/drm-i915-HuC-loading-for-DG2/20220819-070704
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20220819/202208191208.p5c4LVLR-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/5a5d288c4c93865952809443a74032634bfb9921
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniele-Ceraolo-Spurio/drm-i915-HuC-loading-for-DG2/20220819-070704
-        git checkout 5a5d288c4c93865952809443a74032634bfb9921
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+After review the code, I think only the mmsys driver with the
+sw0_rst_offset setting should set num_resets to 32, otherwise it would
+set wrong addr in the mtk_mmsys_reset_update() function. Those mmsys
+without sw0_rst_offset set should not set num_resets to 32.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Thanks,
+Nancy
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/pxp/intel_pxp_huc.c:39:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [assigned] [usertype] huc_base_address @@     got unsigned int [assigned] [usertype] huc_phys_addr @@
-   drivers/gpu/drm/i915/pxp/intel_pxp_huc.c:39:35: sparse:     expected restricted __le64 [assigned] [usertype] huc_base_address
-   drivers/gpu/drm/i915/pxp/intel_pxp_huc.c:39:35: sparse:     got unsigned int [assigned] [usertype] huc_phys_addr
-
-vim +39 drivers/gpu/drm/i915/pxp/intel_pxp_huc.c
-
-    17	
-    18	int intel_pxp_huc_load_and_auth(struct intel_pxp *pxp)
-    19	{
-    20		struct intel_gt *gt = pxp_to_gt(pxp);
-    21		struct intel_huc *huc = &gt->uc.huc;
-    22		struct pxp_tee_start_huc_auth_in huc_in = {0};
-    23		struct pxp_tee_start_huc_auth_out huc_out = {0};
-    24		dma_addr_t huc_phys_addr;
-    25		u8 client_id = 0;
-    26		u8 fence_id = 0;
-    27		int err;
-    28	
-    29		if (!pxp->pxp_component)
-    30			return -ENODEV;
-    31	
-    32		huc_phys_addr = i915_gem_object_get_dma_address(huc->fw.obj, 0);
-    33	
-    34		/* write the PXP message into the lmem (the sg list) */
-    35		huc_in.header.api_version = PXP_TEE_43_APIVER;
-    36		huc_in.header.command_id  = PXP_TEE_43_START_HUC_AUTH;
-    37		huc_in.header.status      = 0;
-    38		huc_in.header.buffer_len  = sizeof(huc_in.huc_base_address);
-  > 39		huc_in.huc_base_address   = huc_phys_addr;
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
