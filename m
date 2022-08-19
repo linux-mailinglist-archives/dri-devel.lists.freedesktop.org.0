@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B7659A548
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 20:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721B559A549
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 20:26:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1303510F2BC;
-	Fri, 19 Aug 2022 18:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36EF610EA1C;
+	Fri, 19 Aug 2022 18:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com
- [IPv6:2607:f8b0:4864:20::e2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78B910E289
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 18:24:31 +0000 (UTC)
-Received: by mail-vs1-xe2e.google.com with SMTP id h67so4295339vsc.11
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 11:24:31 -0700 (PDT)
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com
+ [IPv6:2607:f8b0:4864:20::e2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 489FF10E289
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 18:24:35 +0000 (UTC)
+Received: by mail-vs1-xe2c.google.com with SMTP id 67so5270507vsv.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 11:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=YhJ0PfwGgRpVD8HRur52246q3ZW4qW6DCJJNxfqlZTM=;
- b=NxTWm4Ik4RAGT5/psjwm6fQ68bMq6kA+8E+2he+fA+OlCYg0OlmoVMfuoWVc5pMYpq
- /pkR+pfb4GtPV30hEzCynFu7MVInzAUjwyAwFxSAGfIpfD7E2HUxKC7ij9SKzdgvQyJ7
- bPNL5YMOsaWUK7Ut9d/zLcFSjXvnv7fjGd1W7MAyIvvpChY5EuN7sG5Z8PDhfnIGRF5I
- wQ9BfYfgkt5yoDR1HDYZPq0FhqeLLoxhG2TqOxaUpIwQsuQs4Kgj6eIOQQU0/jLhYN01
- fRMJ3/pG+Sr/izSs6hNso1874KJY6V+76cLB6XFzlpaoWJ0W5/2Y6MF6z4LqlR8NT5ih
- U7DQ==
+ bh=gQwnFqwAB+4lDiP6tZ8yNTvQ5VJTppUsC+MDgnj5Cjk=;
+ b=DvrA4P7TucDsIjygYWJSMziYNnFIXNF9cR++OFAokkhkVflY/bmSWIqtgZ2/DBuTqX
+ yifw1TcH/nWVqAGQnV23iZacXj1D10yu77VV832dkpRTa19oOj023GBv/uCMlLoSf0vH
+ SC2B7Vww4XdBLPnoNWSPmmK3mVdiPhQ+FYZnabyWE4NpoJwGTWpnyjDYeh32u8e+tr09
+ fq9na9ic4PJPxkHtyQxu3e2G10FCcTipsdqw+DOqmyZQSojrJa2lji5VTJqUxsQWybe7
+ bDIa/bh74nrQ35ASmiab5tklVFhTYFmQtyh7VChROdwa5f16/aWH7oXft4gdZNoHAz9O
+ j/aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=YhJ0PfwGgRpVD8HRur52246q3ZW4qW6DCJJNxfqlZTM=;
- b=OMF89WChovO9kzY2/AHX5Lw23edjUvh9ZwQ93Esg0SBqoI15uSREi41zddPR3VvJKH
- 7P9o8Q9PBS3NyxUrl6WxR/Rw2yiL/l8p/XnEhEUc3hZ9Wn47Gc0/3Yr83e92rZZ5WJ1t
- +ErS4yg4yP7zFlR7YC4pA9hvYwVawOix5QLNiCpqmxFtYHjLkYlBDWuMzoWfYkqtknLn
- aYaPuT0gZs5qPMwxNxhwNXkY/obgGrZjm89CaAbNgyW1i2QH8RoH8g5U8CwNvwjAUytK
- FAiyfoYngo8NySDxIuBoAk1atS46fNkJkH0sktS+itxgTygRQJL7n8r1WMM3yziFqRZ0
- XSHw==
-X-Gm-Message-State: ACgBeo2c50Ro0l7YjmcT4GhpDpxUvNiKvrysd2AGxCC74gsb9jRofvHO
- kHHNsG88S55dAyyoHJrfRzM=
-X-Google-Smtp-Source: AA6agR5MtZHq5AQfWyemE2jJapZIq32BSELFeQS55n8gRTUBia6TYuTxlPmZ7sBaK7KkdNwLIxGnbw==
-X-Received: by 2002:a05:6102:3d24:b0:388:4323:8e78 with SMTP id
- i36-20020a0561023d2400b0038843238e78mr3544175vsv.86.1660933470728; 
- Fri, 19 Aug 2022 11:24:30 -0700 (PDT)
+ bh=gQwnFqwAB+4lDiP6tZ8yNTvQ5VJTppUsC+MDgnj5Cjk=;
+ b=zZT6/X/wCJa22VYg+cXL6ZAA/b0XLy+duJj1ML/DeGBl0dGejVROncCZ6jOpesrmDT
+ K6j7Ff7zGJUp9JRIXto9MC+m+G8uKooVrHCERU582j8p4oILcXTQmEjw+qoDgLjMM6kX
+ w6tW19foT4TJfDNCpVW5NYxxWb01S2yjMnzEv8Xam02R0U+vCJ9FK0h86U1yZ5Gjdsem
+ K5OjqTGv6hAZe6nniJMZtMvnXRK5jpYCh1TiqA6rDqN7SickLhtGQA1Tl6onWXFNxWKA
+ u9ng11ZM445OElHfoZd1r8rwQIkF7xb35CmYQebxA2S0mK+giH9O4umEk0jDxkDbFrXD
+ o9pA==
+X-Gm-Message-State: ACgBeo1FTaFcCBElohVDKpgJYTmzsg0FGaHf+EArCdK1FZiVaaa+jC/d
+ hN8EKQh9WL0m11j76iqbZx5Tu/snbiI=
+X-Google-Smtp-Source: AA6agR74dAnvD34b68XOKlrX9QpUOf8kXpbR9z7IFqPNxiI5c9cVtE0LS4CNvKX4UxDFZEheyMFQzQ==
+X-Received: by 2002:a05:6102:ec7:b0:388:d2a2:41c5 with SMTP id
+ m7-20020a0561020ec700b00388d2a241c5mr3235093vst.41.1660933473854; 
+ Fri, 19 Aug 2022 11:24:33 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7f5:da86:e8a2:466a:a971:9305])
  by smtp.googlemail.com with ESMTPSA id
- i22-20020a67fa16000000b003901ef5d148sm1990349vsq.6.2022.08.19.11.24.28
+ i22-20020a67fa16000000b003901ef5d148sm1990349vsq.6.2022.08.19.11.24.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 11:24:30 -0700 (PDT)
+ Fri, 19 Aug 2022 11:24:33 -0700 (PDT)
 From: Igor Torrente <igormtorrente@gmail.com>
 To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
  tzimmermann@suse.de
-Subject: [RESEND v6 4/9] drm: vkms: get the reference to `drm_framebuffer`
- instead if coping it
-Date: Fri, 19 Aug 2022 15:24:06 -0300
-Message-Id: <20220819182411.20246-5-igormtorrente@gmail.com>
+Subject: [RESEND v6 5/9] drm: vkms: Add fb information to `vkms_writeback_job`
+Date: Fri, 19 Aug 2022 15:24:07 -0300
+Message-Id: <20220819182411.20246-6-igormtorrente@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220819182411.20246-1-igormtorrente@gmail.com>
 References: <20220819182411.20246-1-igormtorrente@gmail.com>
@@ -77,83 +76,147 @@ Cc: hamohammed.sa@gmail.com, airlied@linux.ie, leandro.ribeiro@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of coping `drm_framebuffer` - which can cause problems -
-we just get the reference and add the ref count.
+This commit is the groundwork to introduce new formats to the planes and
+writeback buffer. As part of it, a new buffer metadata field is added to
+`vkms_writeback_job`, this metadata is represented by the `vkms_frame_info`
+struct.
+
+Also adds two new function pointers (`line_to_frame_func` and
+`frame_to_line_func`) are defined to handle format conversion
+from/to internal format.
+
+A new internal format(`struct pixel_argb_u16`) is introduced to deal with
+all possible inputs. It consists of 16 bits fields that represent each of
+the channels.
+
+These things will allow us, in the future, to have different compositing
+and wb format types.
+
+V2: Change the code to get the drm_framebuffer reference and not copy its
+    contents (Thomas Zimmermann).
+V3: Drop the refcount in the wb code (Thomas Zimmermann).
+V5: Add {wb,plane}_format_transform_func to vkms_writeback_job
+    and vkms_plane_state (Pekka Paalanen)
+V6: Improvements to some struct/struct members names (Pekka Paalanen).
+    Splits this patch in two (Pekka Paalanen).
 
 Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c |  4 ++--
- drivers/gpu/drm/vkms/vkms_drv.h      |  2 +-
- drivers/gpu/drm/vkms/vkms_plane.c    | 10 +++++-----
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/vkms/vkms_drv.h       | 29 ++++++++++++++++++++++-----
+ drivers/gpu/drm/vkms/vkms_writeback.c | 20 +++++++++++++++---
+ 2 files changed, 41 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 0aded4e87e60..b9fb408e8973 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -153,7 +153,7 @@ static void compose_plane(struct vkms_frame_info *primary_plane_info,
- 			  struct vkms_frame_info *plane_frame_info,
- 			  void *vaddr_out)
- {
--	struct drm_framebuffer *fb = &plane_frame_info->fb;
-+	struct drm_framebuffer *fb = plane_frame_info->fb;
- 	void *vaddr;
- 	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
- 
-@@ -175,7 +175,7 @@ static int compose_active_planes(void **vaddr_out,
- 				 struct vkms_frame_info *primary_plane_info,
- 				 struct vkms_crtc_state *crtc_state)
- {
--	struct drm_framebuffer *fb = &primary_plane_info->fb;
-+	struct drm_framebuffer *fb = primary_plane_info->fb;
- 	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
- 	const void *vaddr;
- 	int i;
 diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5199c5f18e17..95d71322500b 100644
+index 95d71322500b..0d407ec84f94 100644
 --- a/drivers/gpu/drm/vkms/vkms_drv.h
 +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -28,7 +28,7 @@ struct vkms_writeback_job {
+@@ -22,11 +22,6 @@
+ 
+ #define NUM_OVERLAY_PLANES 8
+ 
+-struct vkms_writeback_job {
+-	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+-	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+-};
+-
+ struct vkms_frame_info {
+ 	struct drm_framebuffer *fb;
+ 	struct drm_rect src, dst;
+@@ -36,6 +31,29 @@ struct vkms_frame_info {
+ 	unsigned int cpp;
  };
  
- struct vkms_frame_info {
--	struct drm_framebuffer fb;
-+	struct drm_framebuffer *fb;
- 	struct drm_rect src, dst;
- 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
- 	unsigned int offset;
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index fcae6c508f4b..8adbfdc05e50 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -50,12 +50,12 @@ static void vkms_plane_destroy_state(struct drm_plane *plane,
- 	struct vkms_plane_state *vkms_state = to_vkms_plane_state(old_state);
- 	struct drm_crtc *crtc = vkms_state->base.base.crtc;
++struct pixel_argb_u16 {
++	u16 a, r, g, b;
++};
++
++struct line_buffer {
++	size_t n_pixels;
++	struct pixel_argb_u16 *pixels;
++};
++
++typedef void
++(*line_to_frame_func)(struct vkms_frame_info *frame_info,
++		      const struct line_buffer *buffer, int y);
++
++typedef void
++(*frame_to_line_func)(struct line_buffer *buffer,
++		      const struct vkms_frame_info *frame_info, int y);
++
++struct vkms_writeback_job {
++	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
++	struct vkms_frame_info wb_frame_info;
++	line_to_frame_func wb_write;
++};
++
+ /**
+  * vkms_plane_state - Driver specific plane state
+  * @base: base plane state
+@@ -44,6 +62,7 @@ struct vkms_frame_info {
+ struct vkms_plane_state {
+ 	struct drm_shadow_plane_state base;
+ 	struct vkms_frame_info *frame_info;
++	frame_to_line_func plane_read;
+ };
  
--	if (crtc) {
-+	if (crtc && vkms_state->frame_info->fb) {
- 		/* dropping the reference we acquired in
- 		 * vkms_primary_plane_update()
- 		 */
--		if (drm_framebuffer_read_refcount(&vkms_state->frame_info->fb))
--			drm_framebuffer_put(&vkms_state->frame_info->fb);
-+		if (drm_framebuffer_read_refcount(vkms_state->frame_info->fb))
-+			drm_framebuffer_put(vkms_state->frame_info->fb);
+ struct vkms_plane {
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index 250e509a298f..c87f6c89e7b4 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -74,12 +74,15 @@ static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
+ 	if (!vkmsjob)
+ 		return -ENOMEM;
+ 
+-	ret = drm_gem_fb_vmap(job->fb, vkmsjob->map, vkmsjob->data);
++	ret = drm_gem_fb_vmap(job->fb, vkmsjob->wb_frame_info.map, vkmsjob->data);
+ 	if (ret) {
+ 		DRM_ERROR("vmap failed: %d\n", ret);
+ 		goto err_kfree;
  	}
  
- 	kfree(vkms_state->frame_info);
-@@ -110,9 +110,9 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
- 	frame_info = vkms_plane_state->frame_info;
- 	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
- 	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
--	memcpy(&frame_info->fb, fb, sizeof(struct drm_framebuffer));
-+	frame_info->fb = fb;
- 	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
--	drm_framebuffer_get(&frame_info->fb);
-+	drm_framebuffer_get(frame_info->fb);
- 	frame_info->offset = fb->offsets[0];
- 	frame_info->pitch = fb->pitches[0];
- 	frame_info->cpp = fb->format->cpp[0];
++	vkmsjob->wb_frame_info.fb = job->fb;
++	drm_framebuffer_get(vkmsjob->wb_frame_info.fb);
++
+ 	job->priv = vkmsjob;
+ 
+ 	return 0;
+@@ -98,7 +101,9 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+ 	if (!job->fb)
+ 		return;
+ 
+-	drm_gem_fb_vunmap(job->fb, vkmsjob->map);
++	drm_gem_fb_vunmap(job->fb, vkmsjob->wb_frame_info.map);
++
++	drm_framebuffer_put(vkmsjob->wb_frame_info.fb);
+ 
+ 	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
+ 	vkms_set_composer(&vkmsdev->output, false);
+@@ -115,14 +120,23 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 	struct drm_writeback_connector *wb_conn = &output->wb_connector;
+ 	struct drm_connector_state *conn_state = wb_conn->base.state;
+ 	struct vkms_crtc_state *crtc_state = output->composer_state;
++	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
++	struct vkms_writeback_job *active_wb;
++	struct vkms_frame_info *wb_frame_info;
+ 
+ 	if (!conn_state)
+ 		return;
+ 
+ 	vkms_set_composer(&vkmsdev->output, true);
+ 
++	active_wb = conn_state->writeback_job->priv;
++	wb_frame_info = &active_wb->wb_frame_info;
++
+ 	spin_lock_irq(&output->composer_lock);
+-	crtc_state->active_writeback = conn_state->writeback_job->priv;
++	crtc_state->active_writeback = active_wb;
++	wb_frame_info->offset = fb->offsets[0];
++	wb_frame_info->pitch = fb->pitches[0];
++	wb_frame_info->cpp = fb->format->cpp[0];
+ 	crtc_state->wb_pending = true;
+ 	spin_unlock_irq(&output->composer_lock);
+ 	drm_writeback_queue_job(wb_conn, connector_state);
 -- 
 2.30.2
 
