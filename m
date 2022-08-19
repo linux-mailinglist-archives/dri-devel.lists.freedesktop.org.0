@@ -1,62 +1,135 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE2BA59A606
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 21:17:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B71459A632
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 21:17:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 795A110E96E;
-	Fri, 19 Aug 2022 19:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12D4510ED9C;
+	Fri, 19 Aug 2022 19:17:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9536D10E969
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 19:17:14 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id q7so3613822lfu.5
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 12:17:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc; bh=9edAeyqaKV/eGnwpb24p/sONsQF5z28Zi5ENLBQsjis=;
- b=h6ypV1yJJL0qgQWg/+xo1mrjVedomBmbMvZzcElTA/w5mp5AzC6W+u6FM9JDglXkIG
- f0EFLHWGo01cUs200DNYrrE6L7hXnRJgrmsN3nxPtq0WRtbiVaWN0fK7/Bozw+co8ct3
- N7jegGVnAPQ6/HVWGzefch1Xj7qjpj5QD9aeg6b/BAwEzRoHMSeCzqFpyzI7bt44XxEf
- PkgVNQHotIjqfqbYWMSGqsZl1QgjFRS16rUzvyO+euq9YakFRFWR0EKnqy86MKW/Qf2G
- +C/mu5/XgdOkFRaygzwDwmWhPYn3zHZ7r39kQU7pF39sfCqo+neujKXn6s0k1jENe6My
- ngQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=9edAeyqaKV/eGnwpb24p/sONsQF5z28Zi5ENLBQsjis=;
- b=rXPxb/SqyHGxjkcIpa8RTUEqSKSUEAOtcSZgB18AD4hD5cpkEFrBZ9YWY1zzfQ7QEs
- UpWssBLSZIDkNlkYNMahWRgtCyafzKIAvVE/WYRpqA5bwnnN5EbK8qAxPas5c0BITwj6
- dnAoUhzL3WTv0Lhe9tmtWmxLbZU/g66M+c7wgXTsEDBpj9DL6B91lcf1ul0ktmVvv6EO
- 2D5NZXpKshI7sd5g/W4m/UMhCPmZn9s6gWTukHEnpstnG34n8uJTRRmXTU/J0fv3zMb3
- jdwoiNrokDGNSTsLOMzNY2EOkcz3jiI1Hf/d48Q4IZ3nPcvObcVvHy92aTvc5vm2mBns
- +RIg==
-X-Gm-Message-State: ACgBeo2Bhe1kLliRr2Nm+vSuZXg7pizKFCFy5rbXjHXCqZRFxM/1+ABX
- jWsIJtWCoZ/q6Rd6hGguVIk=
-X-Google-Smtp-Source: AA6agR6L/s1W7mzQnKhc+50x8bAWnpqHS1+yAXDPOhAZzl8NwA/GrakaeTQCnoodLt11WOWWYq+qjA==
-X-Received: by 2002:a05:6512:23a7:b0:492:b613:817 with SMTP id
- c39-20020a05651223a700b00492b6130817mr2872025lfv.492.1660936632748; 
- Fri, 19 Aug 2022 12:17:12 -0700 (PDT)
-Received: from dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi
- (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
- by smtp.gmail.com with ESMTPSA id
- u17-20020ac243d1000000b0048afeb4ea32sm737760lfl.100.2022.08.19.12.17.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 12:17:11 -0700 (PDT)
-Date: Fri, 19 Aug 2022 22:16:48 +0300
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Subject: [PATCH v3 00/14] Use devm helpers for regulator get and enable
-Message-ID: <cover.1660934107.git.mazziesaccount@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+OPEAUCAFHQMa3jU"
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED83510E96E;
+ Fri, 19 Aug 2022 19:17:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660936637; x=1692472637;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=038WjnGvyPBVe+H5swuXyMEN3VNUCSDIrsAoTDn1Jgg=;
+ b=kxGmJBrEG55Elyszg+Z9+A/EnZyFscq9Y7SxrsCrsWjShEniX7LsYJuq
+ LP4qOwYV8/WV1jr+V4ObMihN+HP3MLbTXLKz5Wv3erLvdBz/nTtyv+ENQ
+ 4MCvL49ESbcOGlkNNCRBgnnyQcI//y5riir9Fz3iscMR+o1RrLsZpGOx5
+ f4cZ0lYI/0iv5PasHqwyI6VWlQgEuf2USkMDEelN2pyKeJVeS9IKHmSzm
+ MtW0kcC4/4H1C4QBgS+Zl4CA1bQRZGJzD9MRV3bb0tlraJK3h5RiMOpv/
+ oap9i0q4QyK83JrjrOItpGUgG/me5p22CQwrsAzYgHBkTvvYbYNrbqANH g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="354818882"
+X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; d="scan'208";a="354818882"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2022 12:17:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; d="scan'208";a="936326687"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga005.fm.intel.com with ESMTP; 19 Aug 2022 12:17:16 -0700
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 19 Aug 2022 12:17:15 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Fri, 19 Aug 2022 12:17:15 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Fri, 19 Aug 2022 12:17:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KBdD7uiBphfbe8PLOcN6MxTCrGUUzSbsd/D+8Fu9toqx78xOQkX73Pl7GVJN51ClmZZPEJR5X0hSBCiyWsgv32Zbs16ZeSDZTrMwQZomC770kgEmCc7W4JR8X2Kn/CCjfFnOeUZH0dGiLbHvnOP5qVdfdO5D/lvct/gt1g+vQdWgvtVDNKpuMOBkjf2JTDOc8Jg8BFne6vHoBOPhVVuRRmR7SWMmaawbDPnwFAGPX6zZ00X9e2e9yW/wCyket6gnaozkzbNhi5i3Z3WGFDgiIrWvRL+/6x+jyYvshyHAQ2sSELIb67UXCNO798XaE/Ita3/KuxrMfFYDobFWMZNhpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mm+Q32MjXp29STvfIoHOTgJ4xwMhrC3kMaZFfjEus34=;
+ b=aX1pMd9p9C/n/lL6jsCxoV8wLjXW4fqzejEooRk6Kr4H7bTL82feluih9iY62x3MAbbF0SKTCvUsV3LZpufGWHo/rytfWWh/f/Cuqm94vT35H87c1DVxvV9kpN5y00jzXDLA1eRDTgl6NWPiVStsS1BPYdf6ZMZJBKAFxQt/2yFTzwHh9D8gHm9hvPJY0+ChI+ky533VTaPHvFQxyl8+AjaOWmwQeL9pOIZdFEXsCZk9fU4dkzNzG6LS94v8e4OY7HGdtvPTcAn9bmfvo/PyAiINWfcJKlP5QtXjlmKMIQ40N+7Ki/qOj5Ng7Qs7/3vnBRMHcS1KcSvV3rJS31QxwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
+ by CY4PR11MB2056.namprd11.prod.outlook.com (2603:10b6:903:30::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.16; Fri, 19 Aug
+ 2022 19:17:13 +0000
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::ecc9:50cb:5951:2514]) by MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::ecc9:50cb:5951:2514%12]) with mapi id 15.20.5525.019; Fri, 19 Aug
+ 2022 19:17:13 +0000
+Date: Fri, 19 Aug 2022 12:17:10 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Subject: Re: [PATCH v2 07/21] drm/i915/mtl: Add gmbus and gpio support
+Message-ID: <Yv/htqK/w+lr3vgO@mdroper-desk1.amr.corp.intel.com>
+References: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
+ <20220818234202.451742-8-radhakrishna.sripada@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
+In-Reply-To: <20220818234202.451742-8-radhakrishna.sripada@intel.com>
+X-ClientProxiedBy: BYAPR04CA0029.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::42) To MWHPR11MB1632.namprd11.prod.outlook.com
+ (2603:10b6:301:11::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c6b0dd43-9dce-40a5-67bd-08da82176b9f
+X-MS-TrafficTypeDiagnostic: CY4PR11MB2056:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TOrcHIpiBi97RRiD8Ry/GCxngHL22HNNj28mXxb4HSyl/Inh4KF320oNVbhkn+fGAgZgi74BougvzjXc2P7cEzgUWKPB+54RJwA6bfU29ATweqbQeFOt0YtH9qXkBwjBwOX0Pts4zUY8N7vQUkDOyuPXWSxYneho6bKbIQ4F9iCJhBgATf0d1sTp572bIlx9zeiVOwhvUOw/WWuZ/xoSGYKAxdlQk5h9pq+M6FiuylPN/oDT6vlKC1LCa8Azz5WfafDuBZhWrxUgJnrGxvLnC4TS5YXAV0aY+FNvnx1Gf0o14/9kY8aQRQijygkQF6yUoe/LtRUwZhZEi3+GNR5q0nNcojecEimRXC8o3B92T65ZpCisJvFhgOAzSahMDyq8GS6BtlKhRbtah96jt+hvLPCOXQMG6HYxeF0OUSbAaSgouBj18zjM0UYF4srNLPHsUujmU6fOsLlPsSfqF8Lnz+c39HgvK8TxpVu0gE+s0L9kqi65PqlUxKQUyQlGZFrR1EdRQPczMqgWtPYWnLK/DpaFgjrX42U5bcVDfSxkOvcGYCAt8qYInaU1j/O6dfJ1DmHZfCytOBi/vcd/CxZoH1VnsurhKMPKrCFSKQElW01eXB8TdnlLlQb6abTlhcFh3cDda7cNeev9wV5r8Fdes53TqP3yD/24sND13tVaZpOmP4iEG+iM25rY7pllALnsVvGrti+94eSqBPi3CW7L9Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(366004)(136003)(346002)(376002)(39860400002)(396003)(41300700001)(2906002)(8676002)(6486002)(66556008)(66476007)(4326008)(8936002)(6862004)(5660300002)(66946007)(86362001)(186003)(478600001)(82960400001)(26005)(6512007)(450100002)(6506007)(38100700002)(83380400001)(316002)(6636002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kzEAD6cCTkdUjV80e3Eu2nuno/ICM2DC20a+UdQiayjkZ6MLZ4tgBkltneVp?=
+ =?us-ascii?Q?A7l7d32vtPWI4xbEatkxRdYnSJq2Wfw1eYqsXE7BcHgthn8n0ccJRCfAguHY?=
+ =?us-ascii?Q?qbnbiLZTPEi4xueUz/9mAJ2tIBCiAqCjmydeJRekELojECgv/dxsulEhUl+4?=
+ =?us-ascii?Q?Woz/66W+oNuoijF9ehFtXQRh8MuVQcr8p4olfBwfdq6Sf8bQ9HHbW+V62A6B?=
+ =?us-ascii?Q?hS85cYTiO2P1hwBD5WiEJ2u6jc9vqzRULSUyH7tFyNguXreH5Oiw3HypBc1A?=
+ =?us-ascii?Q?Ghahl3Vtx6REygWhmBDSB+oBjhNjDObvJkSbeNgP8cv4HPFS1+GVzdR+kdcB?=
+ =?us-ascii?Q?ukzYYsASNjLq6Ewk47fCxuTX/teXWib/GLFpycUxVqpwjnc9XKDuCV/vEIko?=
+ =?us-ascii?Q?OZQPzQbO/dGK/1xJr8y0tIRwsWZt/S1vA+HC4nSy8oWWj8wcGLTuXbvpRVqs?=
+ =?us-ascii?Q?Vdhvrj3Abprbk4Q9VUl+JtsbgUIMQvC5LAZfOA4yidTTPWywmWATSr8D5Se4?=
+ =?us-ascii?Q?Ixt5jGJHJ0ZU6/g6YUaNOGopBrFG9k32n9xDorFW7wFXzqK7FIhO5YEOG1Ug?=
+ =?us-ascii?Q?RraY3pP9pcX6SW30M6bLoMPcUvXsSsy9iZ89XQ2uO/sFIj7XgJoGRZ7lY7ep?=
+ =?us-ascii?Q?se2MEDylrJzEpYGox5AOeCa5Ea/JFu9+msv0elqcLke68HWRZ8ceA+w1Puqr?=
+ =?us-ascii?Q?GALHgz/dQGb5q7blZrhgo3esZMXzmvucQFEgAvRW6Eq+rLjWMFpl5m2CleUg?=
+ =?us-ascii?Q?7+lH65pAqiXMz0GGAYSnunT0G9j+m2FpWtuxJkeVopK8CJx2So+5bO7KwY6g?=
+ =?us-ascii?Q?4grc2/kPa+sNVJ1T5tiO1M90l6cPUVIjY0xtLisQOfJasfNm3advo4uScJVj?=
+ =?us-ascii?Q?3szUp9inHylSOyCuiC7Co568ua/90JqVV0FVFt+33bwQG0YShURah27DJnzz?=
+ =?us-ascii?Q?nkpggTYUC8G03r7TsvxvBMtOz7NXgxijYhPdxv6yPZbXwcoZy8khN1sygvRj?=
+ =?us-ascii?Q?Yb3koNjXL7wyfKsBsMNh5906uh6kstDqQluyenvgsXZY7YqYyIwA9AonYeVw?=
+ =?us-ascii?Q?oZzy2q3yolXmn3CHi3ZjyLVQ7faAJUFepmrS+F6VRguUV5h/6rx/fdwZY5N3?=
+ =?us-ascii?Q?MyXl1tlT6ysuvEvHrJh94za+LTQrnA4B0472t05lVj168ix6CYNkT+v8bD7q?=
+ =?us-ascii?Q?0o5KgkFMtPTpWjUBWVJijBErTRL6MnCNvfsV+nOEGXdS06Sxy1hu2mt39+eI?=
+ =?us-ascii?Q?ix6arD/8cK/ZerYu3LCEJKcVogCp2XHh0d6cwTjY8XeYpZoJDk+0w5d/197m?=
+ =?us-ascii?Q?ehZT3yexyUnajwNQfuBaf1f5nmld33x/FA3EoyCQUzNEOqz5TrOw2WOtd3bb?=
+ =?us-ascii?Q?zMZC7c2ovRBNh83iA9/sB3drUIjpkV8SIppvAQ06dwc10o9PxmO6ii8Rr8Lq?=
+ =?us-ascii?Q?TcwVDTDmfacySXSsP8/SwOJD+BPvdjKhUXRXtecmwWdbYYYVKwmgkmLEDUMT?=
+ =?us-ascii?Q?0AyRtx+qtdtFYp5jHsxK9pRCGF9mxLSAAL2xtgfa029lGNUy2vNNWRcLSg4z?=
+ =?us-ascii?Q?SxLB5i8efTPpn7v6xB/Kx5HwsOD6JPxtA4KtMMMhDPC7/wBlehfq4dSVk0we?=
+ =?us-ascii?Q?DA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6b0dd43-9dce-40a5-67bd-08da82176b9f
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2022 19:17:13.0313 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uSSs4VaRl8XFzjx4y0ruaEQ8JVs1LgwbQR9/VuVGHy2FNlt9aXORqBywFtxyq3XI9AuycbgbNRF/ViRjDHrcL9K03Dw19g7seOkQsNEj5ZA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB2056
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,160 +142,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miaoqian Lin <linmq006@gmail.com>, Xiang wangx <wangxiang@cdjrlc.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-clk@vger.kernel.org,
- Jerome Brunet <jbrunet@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
- Kevin Hilman <khilman@baylibre.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-iio@vger.kernel.org,
- Alexandru Lazar <alazar@startmail.com>,
- Alexandru Ardelean <aardelean@deviqon.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Alexandru Tachici <alexandru.tachici@analog.com>, linux-hwmon@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Mark Brown <broonie@kernel.org>, Cai Huoqing <cai.huoqing@linux.dev>,
- Aswath Govindraju <a-govindraju@ti.com>, linux-amlogic@lists.infradead.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Johan Hovold <johan+linaro@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Stephen Boyd <sboyd@kernel.org>, linux-doc@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Aug 18, 2022 at 04:41:48PM -0700, Radhakrishna Sripada wrote:
+> Add tables to map the GMBUS pin pairs to GPIO registers and port to DDC.
+> From spec we have registers GPIO_CTL[1-5] mapped to native display phys and
+> GPIO_CTL[9-14] are mapped to TC ports.
+> 
+> BSpec: 49306
+> 
+> Original Author: Brian J Lovin
+> Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_gmbus.c | 17 +++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_gmbus.h |  1 +
+>  2 files changed, 18 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
+> index a6ba7fb72339..542b8b2654be 100644
+> --- a/drivers/gpu/drm/i915/display/intel_gmbus.c
+> +++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
+> @@ -116,6 +116,20 @@ static const struct gmbus_pin gmbus_pins_dg2[] = {
+>  	[GMBUS_PIN_9_TC1_ICP] = { "tc1", GPIOJ },
+>  };
+>  
+> +static const struct gmbus_pin gmbus_pins_mtp[] = {
+> +	[GMBUS_PIN_1_BXT] = { "dpa", GPIOB },
+> +	[GMBUS_PIN_2_BXT] = { "dpb", GPIOC },
+> +	[GMBUS_PIN_3_BXT] = { "dpc", GPIOD },
+> +	[GMBUS_PIN_4_CNP] = { "dpd", GPIOE },
+> +	[GMBUS_PIN_5_MTP] = { "dpe", GPIOF },
+> +	[GMBUS_PIN_9_TC1_ICP] = { "tc1", GPIOJ },
+> +	[GMBUS_PIN_10_TC2_ICP] = { "tc2", GPIOK },
+> +	[GMBUS_PIN_11_TC3_ICP] = { "tc3", GPIOL },
+> +	[GMBUS_PIN_12_TC4_ICP] = { "tc4", GPIOM },
+> +	[GMBUS_PIN_13_TC5_TGP] = { "tc5", GPION },
+> +	[GMBUS_PIN_14_TC6_TGP] = { "tc6", GPIOO },
 
---+OPEAUCAFHQMa3jU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Use devm helpers for regulator get and enable
-
-NOTE: The series depends on commit
-ee94aff2628b ("Devm helpers for regulator get and enable")
-which currently sits in Mark's regulator/for-next
-
-A few* drivers seem to pattern demonstrated by pseudocode:
-
-- devm_regulator_get()
-- regulator_enable()
-- devm_add_action_or_reset(regulator_disable())
-
-devm helpers for this pattern were added to remove bunch of code from
-drivers. Typically following:
-
-- replace 3 calls (devm_regulator_get[_optional](), regulator_enable(),
-  devm_add_action_or_reset()) with just one
-  (devm_regulator_get_enable[_optional]()).
-- drop disable callback.
-
-I believe this simplifies things by removing some dublicated code.
-
-This series reowrks a few drivers. There is still plenty of fish in the
-sea for people who like to improve the code (or count the beans ;]).
-
-Finally - most of the converted drivers have not been tested (other than
-compile-tested) due to lack of HW. All reviews and testing is _highly_
-appreciated (as always!).
-
-Revision history:
-
-v3:
-	- Drop already applied helper patches
-	- Add a few more drivers
-
-RFCv1 =3D> v2:
-	- Add devm_regulator_bulk_get_enable() and
-	  devm_regulator_bulk_put()
-	- Convert a couple of drivers to use the new
-	  devm_regulator_bulk_get_enable().
-	- Squash all IIO patches into one.
-
-Patch 1:
-	Add new devm-helper APIs to docs.
-Patch 2:
-	simplified CLK driver(s)
-Patch 3:
-	simplified GPU driver(s)
-Patch 4 - 5:
-	simplified hwmon driver(s)
-Patch 6 - 14:
-	simplified IIO driver(s)
-
----
-
-Matti Vaittinen (14):
-  docs: devres: regulator: Add new get_enable functions to devres.rst
-  clk: cdce925: simplify using devm_regulator_get_enable()
-  gpu: drm: simplify drivers using devm_regulator_*get_enable*()
-  hwmon: lm90: simplify using devm_regulator_get_enable()
-  hwmon: adm1177: simplify using devm_regulator_get_enable()
-  iio: ad7192: Simplify using devm_regulator_get_enable()
-  iio: ltc2688: Simplify using devm_regulator_*get_enable()
-  iio: bmg160_core: Simplify using devm_regulator_*get_enable()
-  iio: st_lsm6dsx: Simplify using devm_regulator_*get_enable()
-  iio: ad7476: simplify using devm_regulator_get_enable()
-  iio: ad7606: simplify using devm_regulator_get_enable()
-  iio: max1241: simplify using devm_regulator_get_enable()
-  iio: max1363: simplify using devm_regulator_get_enable()
-  iio: hmc425a: simplify using devm_regulator_get_enable()
-
- .../driver-api/driver-model/devres.rst        |  4 +++
- drivers/clk/clk-cdce925.c                     | 21 +++----------
- drivers/gpu/drm/bridge/sii902x.c              | 22 ++------------
- drivers/gpu/drm/meson/meson_dw_hdmi.c         | 23 ++------------
- drivers/hwmon/adm1177.c                       | 27 ++---------------
- drivers/hwmon/lm90.c                          | 15 ++--------
- drivers/iio/adc/ad7192.c                      | 15 ++--------
- drivers/iio/adc/ad7476.c                      | 11 +------
- drivers/iio/adc/ad7606.c                      | 22 ++------------
- drivers/iio/adc/ad7606.h                      |  1 -
- drivers/iio/adc/max1241.c                     | 28 ++---------------
- drivers/iio/adc/max1363.c                     | 11 +------
- drivers/iio/amplifiers/hmc425a.c              | 17 +----------
- drivers/iio/dac/ltc2688.c                     | 23 ++------------
- drivers/iio/gyro/bmg160_core.c                | 24 ++-------------
- drivers/iio/imu/st_lsm6dsx/st_lsm6dsx.h       |  2 --
- drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c  | 30 ++++---------------
- 17 files changed, 41 insertions(+), 255 deletions(-)
-
---=20
-2.37.1
+There's no GPIO_CTL registers for pin 13 or pin 14 on on MTP so these
+last two entries shouldn't be here (and the commit message should be
+fixed too).
 
 
---=20
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
+Matt
 
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-Simon says - in Latin please.
-~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-Thanks to Simon Glass for the translation =3D]=20
+> +};
+> +
+>  static const struct gmbus_pin *get_gmbus_pin(struct drm_i915_private *i915,
+>  					     unsigned int pin)
+>  {
+> @@ -128,6 +142,9 @@ static const struct gmbus_pin *get_gmbus_pin(struct drm_i915_private *i915,
+>  	} else if (INTEL_PCH_TYPE(i915) >= PCH_DG1) {
+>  		pins = gmbus_pins_dg1;
+>  		size = ARRAY_SIZE(gmbus_pins_dg1);
+> +	} else if (INTEL_PCH_TYPE(i915) >= PCH_MTP) {
+> +		pins = gmbus_pins_mtp;
+> +		size = ARRAY_SIZE(gmbus_pins_mtp);
+>  	} else if (INTEL_PCH_TYPE(i915) >= PCH_ICP) {
+>  		pins = gmbus_pins_icp;
+>  		size = ARRAY_SIZE(gmbus_pins_icp);
+> diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.h b/drivers/gpu/drm/i915/display/intel_gmbus.h
+> index 8edc2e99cf53..20f704bd4e70 100644
+> --- a/drivers/gpu/drm/i915/display/intel_gmbus.h
+> +++ b/drivers/gpu/drm/i915/display/intel_gmbus.h
+> @@ -24,6 +24,7 @@ struct i2c_adapter;
+>  #define GMBUS_PIN_2_BXT		2
+>  #define GMBUS_PIN_3_BXT		3
+>  #define GMBUS_PIN_4_CNP		4
+> +#define GMBUS_PIN_5_MTP		5
+>  #define GMBUS_PIN_9_TC1_ICP	9
+>  #define GMBUS_PIN_10_TC2_ICP	10
+>  #define GMBUS_PIN_11_TC3_ICP	11
+> -- 
+> 2.25.1
+> 
 
---+OPEAUCAFHQMa3jU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmL/4ZsACgkQeFA3/03a
-ocX/Ggf7BfEmlDeq8mQqIXNuIXUyS1wDwJS/W6gY4qdxaESlklGTEbvGXSG+Ve1e
-6z2kt2sAFyfZgJSLaTDNzwzp2ddc6FvVVxzdvFlb1cbJdr3Js/Tl+HGFM327Qjl3
-lP8vDwi2tXXnaVyjY0/18mp6HkaziCMhzqN9LNBmF2XSs3F8pGfu5cs+EabMIo7Q
-EOF+5ZbFeXeL9I7Kk5Y17WDenMn+glY/1mQnPjkSYoNX7riqZLY5clklNTHzcxPT
-ADtFQBjEbRSgWzs2BApI3nDFMtjzqHewqo4iLodHgg1REBOoPDCP6PaKfKVDcArw
-9GdbTYiQd0lG5g9zBodvD9ZjaVpRlQ==
-=C7qu
------END PGP SIGNATURE-----
-
---+OPEAUCAFHQMa3jU--
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
