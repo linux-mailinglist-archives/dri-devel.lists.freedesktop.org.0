@@ -1,67 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58154599A68
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 13:09:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B31E599A69
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 13:09:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF4D910EA4A;
-	Fri, 19 Aug 2022 11:09:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAB8210E8F4;
+	Fri, 19 Aug 2022 11:09:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B97110E8F4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 11:08:56 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDF7710E8F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 11:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660907335;
+ s=mimecast20190719; t=1660907337;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZqI5vZLpia5ct5t7JuYb11QdDPq9USkS4MLCaMGWylI=;
- b=PMoJcCEYpFkoEgfcatUBo2IgBPT5dtjjC4U7xp9yKXgfoZ5cQNr11BtRApDsgO57ovo+Ox
- KxNkuZsD1YE/7c4qAQoFNF+H8xlGQ1y6DKTMq5nDTH3pLMhWRGcALYbRrMhCTbv1MOo4jg
- cbOdHNmAOMPVqP3bRCASgskDFCoL//w=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZdQAnurZVFdXXS4WbKVSyp7TafzRJAbZ0GKKLX98Mwk=;
+ b=K+WN+qzzwHMfiIw87U5M/GSZZupwrl8tmKZt59kq99+Wg8zA8C3BWJpm9gd6hHm+mxycBw
+ fvoL92KwvilZdBksRl6GaNLa4AFukxJoF5qOOlNLthvm85hiLv5HgwrU+UCWj6lJa/u99s
+ nJFkJi9UxelUnZRs939E9Z8GmAJuxYY=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-651-JMGiymvhPWuvBeYFn4jfGQ-1; Fri, 19 Aug 2022 07:08:54 -0400
-X-MC-Unique: JMGiymvhPWuvBeYFn4jfGQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- w17-20020a056402269100b0043da2189b71so2602066edd.6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 04:08:54 -0700 (PDT)
+ us-mta-306-SJOytq5sOjGsuKrIXahKUQ-1; Fri, 19 Aug 2022 07:08:55 -0400
+X-MC-Unique: SJOytq5sOjGsuKrIXahKUQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ qw34-20020a1709066a2200b00730ca5a94bfso1383193ejc.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 04:08:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=ZqI5vZLpia5ct5t7JuYb11QdDPq9USkS4MLCaMGWylI=;
- b=48vv1oyyw+Hv17ynmz3TJDMaxqbUVihGWAZtxclbLos1R87rChOd5Ch9y6NRv14fwt
- 9tJht5XidepoZwF+YLHC+qS432ezUEU493vG/ETA+BLuX0HT/t77WipFUDuMdCJS4grI
- U07NLYWWpsYPQph6+JJVoamEZUenyHzO2dX8KLdua/54mFlAC0Va2nW7xFqeRddWgFhb
- iic0W6BrdZPzTOxkCJyBjjNQYwE70ATUFTNf0T7wGUU+6HAgmYiGk2fTDSJEo56kP7ck
- nhmRQQdYFKqX29X+4E852VHKkWMyldn81SHfMt+9iuS4HJFAhxNUQJHk3r3WosB7gPDf
- U6KQ==
-X-Gm-Message-State: ACgBeo1sD4Kiozj/uHdjxeHS/wYvbSMTojeSNjOFHAlbv91/uKxu10Xm
- yv/0Kp9at5HeTAifpZ5kVjd2/g+HXIeL5PZbTe/9G2vakzuGaJYoiATTy7Grrd37GdDwW6c1fW/
- Q3GY0rAPub3AnsUuROeA3HBdSTFbX
-X-Received: by 2002:a17:907:7214:b0:731:465d:a77c with SMTP id
- dr20-20020a170907721400b00731465da77cmr4444775ejc.308.1660907333301; 
- Fri, 19 Aug 2022 04:08:53 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR73kb35vu9cHeWsEco9u/k6H/Hyebp7jx52dcbEuWBWpQkfXhPntXEIALCybwbQfWKXG12SEg==
-X-Received: by 2002:a17:907:7214:b0:731:465d:a77c with SMTP id
- dr20-20020a170907721400b00731465da77cmr4444764ejc.308.1660907333157; 
- Fri, 19 Aug 2022 04:08:53 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=ZdQAnurZVFdXXS4WbKVSyp7TafzRJAbZ0GKKLX98Mwk=;
+ b=OBdYU0j07NvjEI5ODEzx5EJYZE/ItKqAi4q/ng2P8M5lURzAd/3cy94UhemzURN1Fs
+ ssq4vTOn9dCzdZhdH7HNZ2VIn8qYleDIanWfp8aIpRsqou4/NoR/ltJc4Da+UEMwQhKv
+ UeFyFxmkqy0AuVNLSRE4A8xE7X98FtNc1mx6KJLxvZp3mr1notHUkYHBy4xpLbzZJ2qt
+ GhbBI7uWnRo7VP+TD0PzAaaMtugxhPPXzinIk7lr3/1xGX/SJrMiVgcB32Ch7SoM7Nky
+ eUwEeZ7Lyt/2u1bKGaDOsbyInkqZzpLVivwJTSbVupEPVHt/qDaHqWEnjaDdcGeV529r
+ qyMA==
+X-Gm-Message-State: ACgBeo1S+9jquF7OwKtmL2yIBFZ+vasiDb3VLs0imCTSRot42CAjwN3d
+ YeJy5xQH6/1vyx+NO78CPGUCkToftvM+8PDfu9/n4Qj73nRNJvvf9inQiw5bcb+crNR1FMjhoeP
+ 0LuLZxLTg8vMhfdI+mSQ1Ea1cWRR8
+X-Received: by 2002:a17:907:c10:b0:731:58aa:7783 with SMTP id
+ ga16-20020a1709070c1000b0073158aa7783mr4727748ejc.19.1660907334721; 
+ Fri, 19 Aug 2022 04:08:54 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6WDs6mnNC4SmZKIMC1pcP1UBsEQ2H0aHnmJU1kPSrf3TZKof2KEiTrd1TmPeGkr3GplEZ4xg==
+X-Received: by 2002:a17:907:c10:b0:731:58aa:7783 with SMTP id
+ ga16-20020a1709070c1000b0073158aa7783mr4727734ejc.19.1660907334571; 
+ Fri, 19 Aug 2022 04:08:54 -0700 (PDT)
 Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- l17-20020a1709060cd100b007308fab3eb7sm2167827ejh.195.2022.08.19.04.08.52
+ l17-20020a1709060cd100b007308fab3eb7sm2167827ejh.195.2022.08.19.04.08.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 04:08:52 -0700 (PDT)
+ Fri, 19 Aug 2022 04:08:54 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org
-Subject: [PATCH drm-misc-next v2 0/4] Fixes for vc4 hotplug rework
-Date: Fri, 19 Aug 2022 13:08:45 +0200
-Message-Id: <20220819110849.192037-1-dakr@redhat.com>
+Subject: [PATCH drm-misc-next v2 1/4] drm/vc4: hdmi: unlock mutex when device
+ is unplugged
+Date: Fri, 19 Aug 2022 13:08:46 +0200
+Message-Id: <20220819110849.192037-2-dakr@redhat.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220819110849.192037-1-dakr@redhat.com>
+References: <20220819110849.192037-1-dakr@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -84,36 +88,56 @@ Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+In vc4_hdmi_encoder_{pre,post}_crtc_enable() commit cd00ed5187bf
+("drm/vc4: hdmi: Protect device resources after removal") missed to
+unlock the mutex before returning due to drm_dev_enter() indicating the
+device being unplugged.
 
-I've found a few potential issues left after the hotplug rework.
+Fixes: cd00ed5187bf ("drm/vc4: hdmi: Protect device resources after removal")
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-In vc4_hdmi.c we're missing two mutex_unlock() calls when the device is
-unplugged.
-
-vc4_crtc and vc4_plane seem to miss some drm_dev_enter()/drm_dev_exit() calls
-to protect against resource access after the device/driver is unbound, but the
-DRM potentially isn't freed yet and userspace can still call into the driver.
-
-Changes in v2:
-  - Use drm_device pointer from struct drm_plane (Maxime)
-  - Protect entire functions to increase readability (Maxime)
-  - Add another patch to fix an uncovered MMIO access in vc4_hvs.c
-
-Danilo Krummrich (4):
-  drm/vc4: hdmi: unlock mutex when device is unplugged
-  drm/vc4: plane: protect device resources after removal
-  drm/vc4: crtc: protect device resources after removal
-  drm/vc4: hvs: protect drm_print_regset32()
-
- drivers/gpu/drm/vc4/vc4_crtc.c  | 41 ++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/vc4/vc4_hdmi.c  |  7 ++++--
- drivers/gpu/drm/vc4/vc4_hvs.c   |  4 ++--
- drivers/gpu/drm/vc4/vc4_plane.c | 20 ++++++++++++++++
- 4 files changed, 67 insertions(+), 5 deletions(-)
-
-
-base-commit: 8ba9249396bef37cb68be9e8dee7847f1737db9d
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 84e5a91c2ea7..4d3ff51ad2a8 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1425,7 +1425,7 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
+ 	mutex_lock(&vc4_hdmi->mutex);
+ 
+ 	if (!drm_dev_enter(drm, &idx))
+-		return;
++		goto out;
+ 
+ 	if (vc4_hdmi->variant->csc_setup)
+ 		vc4_hdmi->variant->csc_setup(vc4_hdmi, conn_state, mode);
+@@ -1436,6 +1436,7 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
+ 
+ 	drm_dev_exit(idx);
+ 
++out:
+ 	mutex_unlock(&vc4_hdmi->mutex);
+ }
+ 
+@@ -1455,7 +1456,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
+ 	mutex_lock(&vc4_hdmi->mutex);
+ 
+ 	if (!drm_dev_enter(drm, &idx))
+-		return;
++		goto out;
+ 
+ 	spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
+ 
+@@ -1516,6 +1517,8 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
+ 	vc4_hdmi_enable_scrambling(encoder);
+ 
+ 	drm_dev_exit(idx);
++
++out:
+ 	mutex_unlock(&vc4_hdmi->mutex);
+ }
+ 
 -- 
 2.37.2
 
