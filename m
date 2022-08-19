@@ -1,62 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1F7599EEF
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 18:23:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B7A59A046
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 18:33:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F314710E9C3;
-	Fri, 19 Aug 2022 16:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6DF510EA75;
+	Fri, 19 Aug 2022 16:33:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 436 seconds by postgrey-1.36 at gabe;
- Fri, 19 Aug 2022 16:23:11 UTC
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD4C610E6CB
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 16:23:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 8DDF83FB82
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 18:15:53 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.11
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.11 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Authentication-Results: pio-pvt-msa1.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id h4VitkeS0w6t for <dri-devel@lists.freedesktop.org>;
- Fri, 19 Aug 2022 18:15:52 +0200 (CEST)
-Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 5C2963F591
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 18:15:51 +0200 (CEST)
-Received: from [192.168.0.209] (unknown [192.55.54.48])
- by mail1.shipmail.org (Postfix) with ESMTPSA id C518836058A
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 18:15:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1660925751; bh=sR/30eMe6KiQ6M0cP5XqjY9h6ypa7J3a4NvKva3KFDs=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=LSoMM3r9gGPkKAHAJ151+qgGXUcLchKU9brO41DkgrU7depksyz8V8+Q75uaAiA4l
- 5hrZ0XxRE3nuO5zMc3nrr/frYqd/8SUMkLqXdQM7S4fyE4djEAxsBNBdtw34+I2QZ3
- fuEZfQMvrQ4q03Lvr0geqd52S+UAdjiYcjMuZ8Ck=
-Message-ID: <24c42f80-2223-2528-2ebf-fe10ffc47473@shipmail.org>
-Date: Fri, 19 Aug 2022 18:15:46 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC68310E708
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 16:32:53 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1oP4vQ-0007Ka-Op; Fri, 19 Aug 2022 18:32:48 +0200
+Message-ID: <10fe31b114732ff47bb072dd1e3c6e3928654310.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: print offender task information on
+ hangcheck recovery
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ linux-kernel@vger.kernel.org
+Date: Fri, 19 Aug 2022 18:32:46 +0200
+In-Reply-To: <ee89fef24afc2b740aa126d734cd382d3d3f9c92.camel@pengutronix.de>
+References: <20220603123706.678320-1-christian.gmeiner@gmail.com>
+ <ee89fef24afc2b740aa126d734cd382d3d3f9c92.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: Balancing ttm_mem_io_reserve() and ttm_mem_io_free()
-Content-Language: en-US
-To: dri-devel@lists.freedesktop.org
-References: <e1c2abdd-8b7e-5611-e848-f9ec551a8880@linux.intel.com>
- <e4777ea9-9374-bb46-2c5c-4e70a30760bb@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <e4777ea9-9374-bb46-2c5c-4e70a30760bb@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,80 +50,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, "open list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <dri-devel@lists.freedesktop.org>,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Christian,
+Am Mittwoch, dem 22.06.2022 um 10:52 +0200 schrieb Lucas Stach:
+> Hi Christian,
+> 
+> Am Freitag, dem 03.06.2022 um 14:37 +0200 schrieb Christian Gmeiner:
+> > Track the pid per submit, so we can print the name and cmdline of
+> > the task which submitted the batch that caused the gpu to hang.
+> > 
+> I really like the idea. I think the pid handling could be integrated
+> into the scheduler, so we don't have to carry it on each submit, but
+> not requesting any changes right now. I'm leaning toward taking this
+> patch as-is and doing the scheduler integration as a second step.
+> 
+Applied to etnaviv/next.
 
-On 8/19/22 10:52, Christian König wrote:
-> Hi Thomas,
->
-> IIRC we intentionally dropped that approach of balancing 
-> ttm_mem_io_reserve()/ttm_mem_io_free().
->
-> Instead the results from ttm_mem_io_reserve() are cached and that 
-> cached information is freed by ttm_mem_io_free(). In other words every 
-> time we need to make sure we have the cache filled we call 
-> ttm_mem_io_reserve() and everytime we are about to free the resource 
-> or don't need the mapping any more we call ttm_mem_io_free().
->
-> The callbacks to io_mem_reserve() and io_mem_free() are then balanced.
+Regards,
+Lucas
+> 
+> > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 +
+> >  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  6 ++++++
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 18 +++++++++++++++++-
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  2 +-
+> >  drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  2 +-
+> >  5 files changed, 26 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> > index 63688e6e4580..baa81cbf701a 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> > @@ -96,6 +96,7 @@ struct etnaviv_gem_submit {
+> >  	int out_fence_id;
+> >  	struct list_head node; /* GPU active submit list */
+> >  	struct etnaviv_cmdbuf cmdbuf;
+> > +	struct pid *pid;       /* submitting process */
+> >  	bool runtime_resumed;
+> >  	u32 exec_state;
+> >  	u32 flags;
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > index 1ac916b24891..1491159d0d20 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > @@ -399,6 +399,9 @@ static void submit_cleanup(struct kref *kref)
+> >  		mutex_unlock(&submit->gpu->fence_lock);
+> >  		dma_fence_put(submit->out_fence);
+> >  	}
+> > +
+> > +	put_pid(submit->pid);
+> > +
+> >  	kfree(submit->pmrs);
+> >  	kfree(submit);
+> >  }
+> > @@ -422,6 +425,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+> >  	struct sync_file *sync_file = NULL;
+> >  	struct ww_acquire_ctx ticket;
+> >  	int out_fence_fd = -1;
+> > +	struct pid *pid = get_pid(task_pid(current));
+> >  	void *stream;
+> >  	int ret;
+> >  
+> > @@ -519,6 +523,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+> >  		goto err_submit_ww_acquire;
+> >  	}
+> >  
+> > +	submit->pid = pid;
+> > +
+> >  	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
+> >  				  ALIGN(args->stream_size, 8) + 8);
+> >  	if (ret)
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > index 37018bc55810..7d9bf4673e2d 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > @@ -1045,12 +1045,28 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+> >  }
+> >  #endif
+> >  
+> > -void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+> > +void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit)
+> >  {
+> > +	struct etnaviv_gpu *gpu = submit->gpu;
+> > +	char *comm = NULL, *cmd = NULL;
+> > +	struct task_struct *task;
+> >  	unsigned int i;
+> >  
+> >  	dev_err(gpu->dev, "recover hung GPU!\n");
+> >  
+> > +	task = get_pid_task(submit->pid, PIDTYPE_PID);
+> > +	if (task) {
+> > +		comm = kstrdup(task->comm, GFP_KERNEL);
+> > +		cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
+> > +		put_task_struct(task);
+> > +	}
+> > +
+> > +	if (comm && cmd)
+> > +		dev_err(gpu->dev, "offending task: %s (%s)\n", comm, cmd);
+> > +
+> > +	kfree(cmd);
+> > +	kfree(comm);
+> > +
+> >  	if (pm_runtime_get_sync(gpu->dev) < 0)
+> >  		goto pm_put;
+> >  
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> > index 85eddd492774..b3a0941d56fd 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> > @@ -168,7 +168,7 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu);
+> >  int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m);
+> >  #endif
+> >  
+> > -void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu);
+> > +void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit);
+> >  void etnaviv_gpu_retire(struct etnaviv_gpu *gpu);
+> >  int etnaviv_gpu_wait_fence_interruptible(struct etnaviv_gpu *gpu,
+> >  	u32 fence, struct drm_etnaviv_timespec *timeout);
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> > index 72e2553fbc98..d29f467eee13 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> > @@ -67,7 +67,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+> >  
+> >  	/* get the GPU back into the init state */
+> >  	etnaviv_core_dump(submit);
+> > -	etnaviv_gpu_recover_hang(gpu);
+> > +	etnaviv_gpu_recover_hang(submit);
+> >  
+> >  	drm_sched_resubmit_jobs(&gpu->sched);
+> >  
+> 
+> 
 
-Hmm, yes, in the end at resource destroy, anything reserved would indeed 
-have been freed, but consider the following:
 
-ttm_bo_vm_fault();
-ttm_bo_vmap();
-ttm_bo_vunmap();
-ttm_bo_unmap_virtual();
-
-Here, wouldn't we release the io_reservation on ttm_bo_vunmap() when it 
-should really have been released on ttm_bo_unmap_virtual()?
-
-
->
-> Fixing missing _free() calls in the error path is probably a good 
-> idea, but I wouldn't go beyond that.
->
-> Why should any of that be racy? You need to hold the reservation lock 
-> to call any of those functions.
-
-It's when now a ttm_resource has been detached from a bo, and combined 
-with an ongoing async memcpy we no longer have a bo reservation to 
-protect with. Now the async memcpy currently only exists in i915 and we 
-might at some point be able to get rid of it, but it illustrates the 
-problem.
-
-Thanks,
-
-Thomas
-
-
->
-> Regards,
-> Christian.
-
-
-
->
-> Am 19.08.22 um 10:13 schrieb Thomas Hellström:
->> Hi Christian,
->>
->> I'm looking for a way to take some sort of reference across possible 
->> VRAM accesses  over the PCI bar, be it for runtime PM, workarounds or 
->> whatever.
->>
->> The ttm_mem_io_reserve/free seems like a good candidate, but is 
->> completely unbalanced and looks racy. In particular error paths 
->> forget to call ttm_mem_io_free().
->>
->> Would you have any objections if I took a look at attempting to 
->> balance calls to those functions, or do you have any other 
->> suggestions for a better method?
->>
->> Thanks,
->>
->> Thomas
->>
->>
->>
