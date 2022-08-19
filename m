@@ -1,140 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585F959A5CF
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 21:04:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2BA59A606
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Aug 2022 21:17:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD43310E209;
-	Fri, 19 Aug 2022 19:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 795A110E96E;
+	Fri, 19 Aug 2022 19:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB28F10E74A;
- Fri, 19 Aug 2022 19:04:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660935864; x=1692471864;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=048mLQJwKWVUXPXg9sW/IQJlk31x+H59lCcYjpedd7A=;
- b=mgJqBJ7zwQarpC5AU+KksU+Pz1c32QsqyD+kT8eoX7FmIFjcyjOfEchM
- /dMA0rfvsVZEpn75pUzn/zt5uTo9+YDnzmGFoYPp5zU/koQuwNgF+2/kz
- FA9H75birZ0YHg0X75dQZczpMNAE32bzehMVt6bYtMUIa/zI05meWh+Nd
- sTYk+gLs09iSoiGhCY9EZdjoKXTWZHvf3LYR75pf6SeMjrHZYeLmpl6L0
- mRThvPLuTFOApJCDF6LDBwtPlF9rSXGyslv3flNL8UjRcjLbMuxtyW++v
- nj4oZ8TkT50mJVMEpK7jidrA2sezV+Rdo2cib4W9xju4mzaNMbrGtegvD g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="293078911"
-X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; d="scan'208";a="293078911"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2022 12:04:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; d="scan'208";a="641355933"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga001.jf.intel.com with ESMTP; 19 Aug 2022 12:04:23 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 19 Aug 2022 12:04:23 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 19 Aug 2022 12:04:23 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 19 Aug 2022 12:04:23 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Fri, 19 Aug 2022 12:04:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EmYCzTPJX2j0ClO9VicEAuFfgh+6RaLJfoEp6hWaeI+PIH3w0g1aABkJjwUnUxb4LO8CaFUNl9+wonHn4lBe+LF4HG2nNyUFXftYB/nnMcd0RAjFznC7PM7lnALb7eOXDj9DgbulkSYcKFlRExhdXQq+GacPXHQEtKeQWx8bpxi4SVvsrnfHkHu2a/d8aIdBkMUohY2llGLUU2ddzwhqktO0WZBQ3zEywRkD1e9XvOm+y+XaFTFFA6G8R9vqLaE+Tp64z/KucupbcTRL8phh/zicQWbfu3S0YFL9F42lVOxud+AGfloXgsOLUZbrq5k0BbuC1sY6N616S30Md/HxRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hgqPAeI3Zx4vGV7Hxmkv9Mx+SXITrYCPMF2nuud+fwM=;
- b=mePbwLmwVaykj2UHdz8DP/wv1Yyw5W+Xbatf7Wlk1ozXdsQOBuDD8dT8K1oenyI0udqKYbvNxc95pHixGq3ZMKS2kuOmXr6xkuei5dIv1A7VurLC0S/LEtw3Q9hzpOp9PxE6pDi1Spq0G2dC8Zjpd5EEe2MTxrAqu0VOtYsIFFuy13G1AKe8sjfVupIK2jn3IeFJ/DWzlJnUp1wUCX/mk/Nm8+ydQj5bXRk1EBRQ09vGzI4oqPxml2xrrhCxDU3h33rSo9bJAh7KXpdfkBrE1bBaWPeVne5nyte5ia5pMpLL2YPueLZWyIwGIiR6ED1EoQ8VaTZzehWbp1TwrqHeRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
- by BYAPR11MB3159.namprd11.prod.outlook.com (2603:10b6:a03:78::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Fri, 19 Aug
- 2022 19:04:20 +0000
-Received: from MWHPR11MB1632.namprd11.prod.outlook.com
- ([fe80::ecc9:50cb:5951:2514]) by MWHPR11MB1632.namprd11.prod.outlook.com
- ([fe80::ecc9:50cb:5951:2514%12]) with mapi id 15.20.5525.019; Fri, 19 Aug
- 2022 19:04:20 +0000
-Date: Fri, 19 Aug 2022 12:04:17 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 01/21] drm/i915: Read
- graphics/media/display arch version from hw
-Message-ID: <Yv/esUh1nl4jUxSV@mdroper-desk1.amr.corp.intel.com>
-References: <20220818234202.451742-1-radhakrishna.sripada@intel.com>
- <20220818234202.451742-2-radhakrishna.sripada@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220818234202.451742-2-radhakrishna.sripada@intel.com>
-X-ClientProxiedBy: BYAPR11CA0054.namprd11.prod.outlook.com
- (2603:10b6:a03:80::31) To MWHPR11MB1632.namprd11.prod.outlook.com
- (2603:10b6:301:11::11)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9536D10E969
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 19:17:14 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id q7so3613822lfu.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Aug 2022 12:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc; bh=9edAeyqaKV/eGnwpb24p/sONsQF5z28Zi5ENLBQsjis=;
+ b=h6ypV1yJJL0qgQWg/+xo1mrjVedomBmbMvZzcElTA/w5mp5AzC6W+u6FM9JDglXkIG
+ f0EFLHWGo01cUs200DNYrrE6L7hXnRJgrmsN3nxPtq0WRtbiVaWN0fK7/Bozw+co8ct3
+ N7jegGVnAPQ6/HVWGzefch1Xj7qjpj5QD9aeg6b/BAwEzRoHMSeCzqFpyzI7bt44XxEf
+ PkgVNQHotIjqfqbYWMSGqsZl1QgjFRS16rUzvyO+euq9YakFRFWR0EKnqy86MKW/Qf2G
+ +C/mu5/XgdOkFRaygzwDwmWhPYn3zHZ7r39kQU7pF39sfCqo+neujKXn6s0k1jENe6My
+ ngQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=9edAeyqaKV/eGnwpb24p/sONsQF5z28Zi5ENLBQsjis=;
+ b=rXPxb/SqyHGxjkcIpa8RTUEqSKSUEAOtcSZgB18AD4hD5cpkEFrBZ9YWY1zzfQ7QEs
+ UpWssBLSZIDkNlkYNMahWRgtCyafzKIAvVE/WYRpqA5bwnnN5EbK8qAxPas5c0BITwj6
+ dnAoUhzL3WTv0Lhe9tmtWmxLbZU/g66M+c7wgXTsEDBpj9DL6B91lcf1ul0ktmVvv6EO
+ 2D5NZXpKshI7sd5g/W4m/UMhCPmZn9s6gWTukHEnpstnG34n8uJTRRmXTU/J0fv3zMb3
+ jdwoiNrokDGNSTsLOMzNY2EOkcz3jiI1Hf/d48Q4IZ3nPcvObcVvHy92aTvc5vm2mBns
+ +RIg==
+X-Gm-Message-State: ACgBeo2Bhe1kLliRr2Nm+vSuZXg7pizKFCFy5rbXjHXCqZRFxM/1+ABX
+ jWsIJtWCoZ/q6Rd6hGguVIk=
+X-Google-Smtp-Source: AA6agR6L/s1W7mzQnKhc+50x8bAWnpqHS1+yAXDPOhAZzl8NwA/GrakaeTQCnoodLt11WOWWYq+qjA==
+X-Received: by 2002:a05:6512:23a7:b0:492:b613:817 with SMTP id
+ c39-20020a05651223a700b00492b6130817mr2872025lfv.492.1660936632748; 
+ Fri, 19 Aug 2022 12:17:12 -0700 (PDT)
+Received: from dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi
+ (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
+ by smtp.gmail.com with ESMTPSA id
+ u17-20020ac243d1000000b0048afeb4ea32sm737760lfl.100.2022.08.19.12.17.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Aug 2022 12:17:11 -0700 (PDT)
+Date: Fri, 19 Aug 2022 22:16:48 +0300
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Subject: [PATCH v3 00/14] Use devm helpers for regulator get and enable
+Message-ID: <cover.1660934107.git.mazziesaccount@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6b41f063-f6a6-4eac-eb4a-08da82159ee0
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3159:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jVHwPhpePTIkKWtsosNM2XPAzo/r1FT0783SpRjiiqPpbTFN+GHRWcoZOuJoeoYEjcMOpzPlRn6rNj9PX+b4d+4gkJpIlz5J+BXqaimU6g+tzWopspBwxzwS9b+avXOZe/OuoYxq+J4tsDthYLgksKEHcPMjbtTsbSePPCFmDMtXRuRW7ui2GxS0DjUu8Wnf8ztZWWGndQTjz/NGqNnxUkukgYkmhvoWZYelohHHosnYHBURBmbNIRPnLcuirsVz+R6qr1ad+ehwUO41uOcYNY9bfGnQgzDAGfbAkZSpScwnJOUlByqGygcso8s8mZD9jwVy4EHpe3+rzI1LYgS45nO9/m0XD5dnGtn5YDng7KeOFBI5nhRpFOuCB1tLqlhIuAEiaU8aaHdL+4ti2yDbNWgysDgChsEqhXTae+N8ptYSVjtos1LuJIfJjG6kJOwZDmQDhmsdzamjkuT0byHGzS27p2QRbiBNJF3Wicm1+7nWYZFc4Jxvxfz8iKCOmFMDmithTRzEsj3hI8yfTxSpSzsPcy22dPvJGzCitit28DiK4hoqFso4cZCkmV2Lu6jG6mttZgXMz5WbUu02TmM5kG7Moqzoo8TkpB7Ils1x1Rq8Q4ymziBKSpf1vOPPuzaBNDsajjq8NU8sEcs6B5dZQtxq1A5DuVzCz9TgcBGdrra2wRIHPNebFvKk3ZSb+PEBbQh8gbEit3mC1nkqVqtl/Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(136003)(366004)(376002)(346002)(396003)(39860400002)(2906002)(38100700002)(30864003)(86362001)(450100002)(66946007)(8676002)(4326008)(66476007)(8936002)(6862004)(66556008)(82960400001)(316002)(83380400001)(6636002)(5660300002)(6666004)(186003)(6506007)(478600001)(26005)(6512007)(6486002)(41300700001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6Mp/p+fqha1jGNYheN0MevHdqLOqeULbddRaGIuUx23wJEWGUoF31N5IO8WZ?=
- =?us-ascii?Q?fpZm/tbmRSqcZRn9/Xs0S0hGvt9hYI+hfw419hj8zkRo/Ri3pTH3dFxKMCeG?=
- =?us-ascii?Q?YCkxZiAcSMsR6hQuz3aTaYtqSAQ1eRbMzsriWqKhVTtMDYXTsOapsPI7l86G?=
- =?us-ascii?Q?29K6+fi5YZW8Zi1aUb3pHLCGlcxRbQ/7XdoY9FmpSwEASZWLM+qkgoOjlZT1?=
- =?us-ascii?Q?AJJG0SoyZskMT7B55o47G9lCiF7akq6Xi0XyAW5V9OJD6W/JJcMTPJwA7s1b?=
- =?us-ascii?Q?idqkqCfGr7W34FxbmyWADBCvvtW+aI89FR99JhOk0cW1EVwIH57JxMqVQ3IO?=
- =?us-ascii?Q?I7zuNllANFj+Lr8VgXUoBV1XCP1eKsGxcYiK5V8+cvaXGmvSdpqNMFpXalqJ?=
- =?us-ascii?Q?Z9e0i45B1fWjq562w+HaZJ/mV55z9/X2J+zJs0lI0Ng0qdfMqjn1sfGSHHFN?=
- =?us-ascii?Q?YR0GkyYLR1Qav5ZCzkUIGTJmV3Z3x1NIld+nFVB3ebHDomLm44x1X671cOkH?=
- =?us-ascii?Q?JmAQj3d4N46EICfpq9QF7eSBdMsD9HqyR+MWSjq87Ly8t8i8oikjjrtjHtGI?=
- =?us-ascii?Q?BB//ns5k6aGPwphCY2dRGlSBO6VwORva4UjI1AJWKB2ldXGNTbJ5cUgGqKJd?=
- =?us-ascii?Q?MriHyVOK6y83rO8NxGZ+nMGhCGKxd3Dgg6+YvjaD1pxXLYatXTkFLN+osgda?=
- =?us-ascii?Q?RGaPSJASC4HtWVBWOXMKNRK4hxkYC9UUXfSRG9BXFnmUPRWfEWXAnR9Pxiy4?=
- =?us-ascii?Q?Q6OTS8RBZBixHCro9dx343j5Yro6xjxxWCkVZ1D/WMDSSrwfFN3q7gQtrj+w?=
- =?us-ascii?Q?S7i5aYmEG6igXJE1M4k2aw6MbBQ03MAmmROZMkWQQebqRmtI+EXmZ1mPyacD?=
- =?us-ascii?Q?MVOgh0k58LNcMpHBg8Bban321g8Ifw8fOWgquAsY6/uv9GZPQOp/mhgrtRqd?=
- =?us-ascii?Q?iuVnVcs8Xu/hm9UJ8DfppD5gaSL2/tTYNzMlsARUWL3dXjsmC05fTNPOh2IU?=
- =?us-ascii?Q?bJWckZYSn8y8Ta4MGIWCrGLrkvcBV62kXmRDfAHFGHWsmygh1gh+neAmogKa?=
- =?us-ascii?Q?1UGImqR/dJIvrWr3vvhyxceTaaLFHxzaX92u0hE3V9Vp3zZqWPCdHSg1skLY?=
- =?us-ascii?Q?KC3uxewYcLIz6bFF/kbH4RL92g0LpQcuWVy47akZm28VksCBAEWTY1ubR3jE?=
- =?us-ascii?Q?ZRRNJrychSQusM4lsAbjggX/Br046B4zH4NK3zsXZ7kKbbCbfS0npdrVUm7G?=
- =?us-ascii?Q?1qcNNHibmHKrSm4oeAZ8LJMMboV2Y50kBcZ+a0T07YbPyHzoGvWrsGdu28hG?=
- =?us-ascii?Q?B9NF9dg0bIUGtxWov0DVCBrRGudwFg3HLhWqH5SU1vrPMH7/2xBwVcOErulK?=
- =?us-ascii?Q?Y7PVsyZ5xdzknpX+tTMtBsW/KnJHmWYjgZHwM2KvA8ebre4tIAWsRMhzDTwc?=
- =?us-ascii?Q?7MqfAasFD/g27JzrNpPYx9Q1sbsw4E/bMk1iF6GX+ToWorsz26zh9p/Lj/lL?=
- =?us-ascii?Q?F6dGAnS6F+pJTnSWshx3WpOrSqpDbUJU9bXNVcFemK30koUPvkYBSskV07j+?=
- =?us-ascii?Q?1014oe7XLz+H3dQ5OKNP5WknAnysF0f2uAbL4o/OZXuY8AGqZVXb2602azHN?=
- =?us-ascii?Q?BQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b41f063-f6a6-4eac-eb4a-08da82159ee0
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2022 19:04:20.2810 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V1zNfuLbU/O4OAcl9TSIbwTg7K6A9hVk5MKkjXFGE5RdZuC609d8t1DPOf2FVR7hKIcxwhCMHnvvSMWmDXfKmFcTsvi9dH06Wq49a9PbLGs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3159
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+OPEAUCAFHQMa3jU"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,368 +69,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Miaoqian Lin <linmq006@gmail.com>, Xiang wangx <wangxiang@cdjrlc.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-clk@vger.kernel.org,
+ Jerome Brunet <jbrunet@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-iio@vger.kernel.org,
+ Alexandru Lazar <alazar@startmail.com>,
+ Alexandru Ardelean <aardelean@deviqon.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Alexandru Tachici <alexandru.tachici@analog.com>, linux-hwmon@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Mark Brown <broonie@kernel.org>, Cai Huoqing <cai.huoqing@linux.dev>,
+ Aswath Govindraju <a-govindraju@ti.com>, linux-amlogic@lists.infradead.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Johan Hovold <johan+linaro@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Stephen Boyd <sboyd@kernel.org>, linux-doc@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 18, 2022 at 04:41:42PM -0700, Radhakrishna Sripada wrote:
-> From: Matt Roper <matthew.d.roper@intel.com>
-> 
-> Going forward, the hardware teams no longer consider new platforms to
-> have a "generation" in the way we've defined it for past platforms.
-> Instead, each IP block (graphics, media, display) will have their own
-> architecture major.minor versions and stepping ID's which should be read
-> directly from a register in the MMIO space.  New hardware programming
-> styles, features, and workarounds should be conditional solely on the
-> architecture version, and should no longer be derived from the PCI
-> device ID, revision ID, or platform-specific feature flags.
-> 
-> v1.1: Fix build error
 
-As Jani noted on the previous version, this patch needs to be split into
-three patches (and/or be based on top of the other series that Jani has
-in flight).  Also the giant macro is no longer necessary on current
-drm-tip now that we the version values stored consistently in
-structures; we can just use a regular function and pass pointers to the
-structures.
+--+OPEAUCAFHQMa3jU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Bala also had feedback on the previous version that hasn't been
-incorporated here yet either.
+Use devm helpers for regulator get and enable
+
+NOTE: The series depends on commit
+ee94aff2628b ("Devm helpers for regulator get and enable")
+which currently sits in Mark's regulator/for-next
+
+A few* drivers seem to pattern demonstrated by pseudocode:
+
+- devm_regulator_get()
+- regulator_enable()
+- devm_add_action_or_reset(regulator_disable())
+
+devm helpers for this pattern were added to remove bunch of code from
+drivers. Typically following:
+
+- replace 3 calls (devm_regulator_get[_optional](), regulator_enable(),
+  devm_add_action_or_reset()) with just one
+  (devm_regulator_get_enable[_optional]()).
+- drop disable callback.
+
+I believe this simplifies things by removing some dublicated code.
+
+This series reowrks a few drivers. There is still plenty of fish in the
+sea for people who like to improve the code (or count the beans ;]).
+
+Finally - most of the converted drivers have not been tested (other than
+compile-tested) due to lack of HW. All reviews and testing is _highly_
+appreciated (as always!).
+
+Revision history:
+
+v3:
+	- Drop already applied helper patches
+	- Add a few more drivers
+
+RFCv1 =3D> v2:
+	- Add devm_regulator_bulk_get_enable() and
+	  devm_regulator_bulk_put()
+	- Convert a couple of drivers to use the new
+	  devm_regulator_bulk_get_enable().
+	- Squash all IIO patches into one.
+
+Patch 1:
+	Add new devm-helper APIs to docs.
+Patch 2:
+	simplified CLK driver(s)
+Patch 3:
+	simplified GPU driver(s)
+Patch 4 - 5:
+	simplified hwmon driver(s)
+Patch 6 - 14:
+	simplified IIO driver(s)
+
+---
+
+Matti Vaittinen (14):
+  docs: devres: regulator: Add new get_enable functions to devres.rst
+  clk: cdce925: simplify using devm_regulator_get_enable()
+  gpu: drm: simplify drivers using devm_regulator_*get_enable*()
+  hwmon: lm90: simplify using devm_regulator_get_enable()
+  hwmon: adm1177: simplify using devm_regulator_get_enable()
+  iio: ad7192: Simplify using devm_regulator_get_enable()
+  iio: ltc2688: Simplify using devm_regulator_*get_enable()
+  iio: bmg160_core: Simplify using devm_regulator_*get_enable()
+  iio: st_lsm6dsx: Simplify using devm_regulator_*get_enable()
+  iio: ad7476: simplify using devm_regulator_get_enable()
+  iio: ad7606: simplify using devm_regulator_get_enable()
+  iio: max1241: simplify using devm_regulator_get_enable()
+  iio: max1363: simplify using devm_regulator_get_enable()
+  iio: hmc425a: simplify using devm_regulator_get_enable()
+
+ .../driver-api/driver-model/devres.rst        |  4 +++
+ drivers/clk/clk-cdce925.c                     | 21 +++----------
+ drivers/gpu/drm/bridge/sii902x.c              | 22 ++------------
+ drivers/gpu/drm/meson/meson_dw_hdmi.c         | 23 ++------------
+ drivers/hwmon/adm1177.c                       | 27 ++---------------
+ drivers/hwmon/lm90.c                          | 15 ++--------
+ drivers/iio/adc/ad7192.c                      | 15 ++--------
+ drivers/iio/adc/ad7476.c                      | 11 +------
+ drivers/iio/adc/ad7606.c                      | 22 ++------------
+ drivers/iio/adc/ad7606.h                      |  1 -
+ drivers/iio/adc/max1241.c                     | 28 ++---------------
+ drivers/iio/adc/max1363.c                     | 11 +------
+ drivers/iio/amplifiers/hmc425a.c              | 17 +----------
+ drivers/iio/dac/ltc2688.c                     | 23 ++------------
+ drivers/iio/gyro/bmg160_core.c                | 24 ++-------------
+ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx.h       |  2 --
+ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c  | 30 ++++---------------
+ 17 files changed, 41 insertions(+), 255 deletions(-)
+
+--=20
+2.37.1
 
 
-Matt
+--=20
+Matti Vaittinen, Linux device drivers
+ROHM Semiconductors, Finland SWDC
+Kiviharjunlenkki 1E
+90220 OULU
+FINLAND
 
-> 
-> Bspec: 63361, 64111
-> 
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  2 +
->  drivers/gpu/drm/i915/i915_driver.c            | 80 ++++++++++++++++++-
->  drivers/gpu/drm/i915/i915_drv.h               | 16 ++--
->  drivers/gpu/drm/i915/i915_pci.c               |  1 +
->  drivers/gpu/drm/i915/i915_reg.h               |  6 ++
->  drivers/gpu/drm/i915/intel_device_info.c      | 32 ++++----
->  drivers/gpu/drm/i915/intel_device_info.h      | 14 ++++
->  .../gpu/drm/i915/selftests/mock_gem_device.c  |  1 +
->  8 files changed, 128 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> index 94f9ddcfb3a5..a053493dae24 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> @@ -39,6 +39,8 @@
->  #define FORCEWAKE_ACK_RENDER_GEN9		_MMIO(0xd84)
->  #define FORCEWAKE_ACK_MEDIA_GEN9		_MMIO(0xd88)
->  
-> +#define GMD_ID_GRAPHICS				_MMIO(0xd8c)
-> +
->  #define MCFG_MCR_SELECTOR			_MMIO(0xfd0)
->  #define SF_MCR_SELECTOR				_MMIO(0xfd8)
->  #define GEN8_MCR_SELECTOR			_MMIO(0xfdc)
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index deb8a8b76965..33566f6e9546 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -70,6 +70,7 @@
->  #include "gem/i915_gem_pm.h"
->  #include "gt/intel_gt.h"
->  #include "gt/intel_gt_pm.h"
-> +#include "gt/intel_gt_regs.h"
->  #include "gt/intel_rc6.h"
->  
->  #include "pxp/intel_pxp_pm.h"
-> @@ -306,15 +307,83 @@ static void sanitize_gpu(struct drm_i915_private *i915)
->  		__intel_gt_reset(to_gt(i915), ALL_ENGINES);
->  }
->  
-> +#define IP_VER_READ(offset, ri_prefix) \
-> +	addr = pci_iomap_range(pdev, 0, offset, sizeof(u32)); \
-> +	if (drm_WARN_ON(&i915->drm, !addr)) { \
-> +		/* Fall back to whatever was in the device info */ \
-> +		RUNTIME_INFO(i915)->ri_prefix.ver = INTEL_INFO(i915)->ri_prefix.ver; \
-> +		RUNTIME_INFO(i915)->ri_prefix.rel = INTEL_INFO(i915)->ri_prefix.rel; \
-> +		goto ri_prefix##done; \
-> +	} \
-> +	\
-> +	ver = ioread32(addr); \
-> +	pci_iounmap(pdev, addr); \
-> +	\
-> +	RUNTIME_INFO(i915)->ri_prefix.ver = REG_FIELD_GET(GMD_ID_ARCH_MASK, ver); \
-> +	RUNTIME_INFO(i915)->ri_prefix.rel = REG_FIELD_GET(GMD_ID_RELEASE_MASK, ver); \
-> +	RUNTIME_INFO(i915)->ri_prefix.step = REG_FIELD_GET(GMD_ID_STEP, ver); \
-> +	\
-> +	/* Sanity check against expected versions from device info */ \
-> +	if (RUNTIME_INFO(i915)->ri_prefix.ver != INTEL_INFO(i915)->ri_prefix.ver || \
-> +	    RUNTIME_INFO(i915)->ri_prefix.rel > INTEL_INFO(i915)->ri_prefix.rel) \
-> +		drm_dbg(&i915->drm, \
-> +			"Hardware reports " #ri_prefix " IP version %u.%u but minimum expected is %u.%u\n", \
-> +			RUNTIME_INFO(i915)->ri_prefix.ver, \
-> +			RUNTIME_INFO(i915)->ri_prefix.rel, \
-> +			INTEL_INFO(i915)->ri_prefix.ver, \
-> +			INTEL_INFO(i915)->ri_prefix.rel); \
-> +ri_prefix##done:
-> +
-> +/**
-> + * intel_ipver_early_init - setup IP version values
-> + * @dev_priv: device private
-> + *
-> + * Setup the graphics version for the current device.  This must be done before
-> + * any code that performs checks on GRAPHICS_VER or DISPLAY_VER, so this
-> + * function should be called very early in the driver initialization sequence.
-> + *
-> + * Regular MMIO access is not yet setup at the point this function is called so
-> + * we peek at the appropriate MMIO offset directly.  The GMD_ID register is
-> + * part of an 'always on' power well by design, so we don't need to worry about
-> + * forcewake while reading it.
-> + */
-> +static void intel_ipver_early_init(struct drm_i915_private *i915)
-> +{
-> +	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-> +	void __iomem *addr;
-> +	u32 ver;
-> +
-> +	if (!HAS_GMD_ID(i915)) {
-> +		drm_WARN_ON(&i915->drm, INTEL_INFO(i915)->graphics.ver > 12);
-> +
-> +		RUNTIME_INFO(i915)->graphics.ver = INTEL_INFO(i915)->graphics.ver;
-> +		RUNTIME_INFO(i915)->graphics.rel = INTEL_INFO(i915)->graphics.rel;
-> +		/* media ver = graphics ver for older platforms */
-> +		RUNTIME_INFO(i915)->media.ver = INTEL_INFO(i915)->graphics.ver;
-> +		RUNTIME_INFO(i915)->media.rel = INTEL_INFO(i915)->graphics.rel;
-> +		RUNTIME_INFO(i915)->display.ver = INTEL_INFO(i915)->display.ver;
-> +		RUNTIME_INFO(i915)->display.rel = INTEL_INFO(i915)->display.rel;
-> +		return;
-> +	}
-> +
-> +	IP_VER_READ(i915_mmio_reg_offset(GMD_ID_GRAPHICS), graphics);
-> +	IP_VER_READ(i915_mmio_reg_offset(GMD_ID_DISPLAY), display);
-> +	IP_VER_READ(MTL_MEDIA_GSI_BASE + i915_mmio_reg_offset(GMD_ID_GRAPHICS),
-> +		    media);
-> +}
-> +
->  /**
->   * i915_driver_early_probe - setup state not requiring device access
->   * @dev_priv: device private
-> + * @ent: PCI device info entry matched
->   *
->   * Initialize everything that is a "SW-only" state, that is state not
->   * requiring accessing the device or exposing the driver via kernel internal
->   * or userspace interfaces. Example steps belonging here: lock initialization,
->   * system memory allocation, setting up device specific attributes and
->   * function hooks not requiring accessing the device.
-> + *
-> + * GRAPHICS_VER, DISPLAY_VER, etc. are not yet usable at this point.  For
->   */
->  static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
->  {
-> @@ -855,13 +924,22 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  		return PTR_ERR(i915);
->  
->  	/* Disable nuclear pageflip by default on pre-ILK */
-> -	if (!i915->params.nuclear_pageflip && DISPLAY_VER(i915) < 5)
-> +	if (!i915->params.nuclear_pageflip &&
-> +	    !HAS_GMD_ID(i915) && DISPLAY_VER(i915) < 5)
->  		i915->drm.driver_features &= ~DRIVER_ATOMIC;
->  
->  	ret = pci_enable_device(pdev);
->  	if (ret)
->  		goto out_fini;
->  
-> +	/*
-> +	 * GRAPHICS_VER() and DISPLAY_VER() will return 0 before this is
-> +	 * called, so we want to take care of this very early in the
-> +	 * initialization process (as soon as we can peek into the MMIO BAR),
-> +	 * even before we setup regular MMIO access.
-> +	 */
-> +	intel_ipver_early_init(i915);
-> +
->  	ret = i915_driver_early_probe(i915);
->  	if (ret < 0)
->  		goto out_pci_disable;
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 086bbe8945d6..7ebddde200bc 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -856,19 +856,19 @@ static inline struct intel_gt *to_gt(struct drm_i915_private *i915)
->  
->  #define IP_VER(ver, rel)		((ver) << 8 | (rel))
->  
-> -#define GRAPHICS_VER(i915)		(INTEL_INFO(i915)->graphics.ver)
-> -#define GRAPHICS_VER_FULL(i915)		IP_VER(INTEL_INFO(i915)->graphics.ver, \
-> -					       INTEL_INFO(i915)->graphics.rel)
-> +#define GRAPHICS_VER(i915)		(RUNTIME_INFO(i915)->graphics.ver)
-> +#define GRAPHICS_VER_FULL(i915)		IP_VER(RUNTIME_INFO(i915)->graphics.ver, \
-> +					       RUNTIME_INFO(i915)->graphics.rel)
->  #define IS_GRAPHICS_VER(i915, from, until) \
->  	(GRAPHICS_VER(i915) >= (from) && GRAPHICS_VER(i915) <= (until))
->  
-> -#define MEDIA_VER(i915)			(INTEL_INFO(i915)->media.ver)
-> -#define MEDIA_VER_FULL(i915)		IP_VER(INTEL_INFO(i915)->media.ver, \
-> -					       INTEL_INFO(i915)->media.rel)
-> +#define MEDIA_VER(i915)			(RUNTIME_INFO(i915)->media.ver)
-> +#define MEDIA_VER_FULL(i915)		IP_VER(RUNTIME_INFO(i915)->media.ver, \
-> +					       RUNTIME_INFO(i915)->media.rel)
->  #define IS_MEDIA_VER(i915, from, until) \
->  	(MEDIA_VER(i915) >= (from) && MEDIA_VER(i915) <= (until))
->  
-> -#define DISPLAY_VER(i915)	(INTEL_INFO(i915)->display.ver)
-> +#define DISPLAY_VER(i915)		(RUNTIME_INFO(i915)->display.ver)
->  #define IS_DISPLAY_VER(i915, from, until) \
->  	(DISPLAY_VER(i915) >= (from) && DISPLAY_VER(i915) <= (until))
->  
-> @@ -1300,6 +1300,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->   */
->  #define NEEDS_COMPACT_PT(dev_priv) (INTEL_INFO(dev_priv)->needs_compact_pt)
->  
-> +#define HAS_GMD_ID(i915)	INTEL_INFO(i915)->has_gmd_id
-> +
->  #define HAS_IPC(dev_priv)		 (INTEL_INFO(dev_priv)->display.has_ipc)
->  
->  #define HAS_REGION(i915, i) (INTEL_INFO(i915)->memory_regions & (i))
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> index 9fd788e147a3..b60f01d072a7 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -1127,6 +1127,7 @@ static const struct intel_device_info mtl_info = {
->  	PLATFORM(INTEL_METEORLAKE),
->  	.display.has_modular_fia = 1,
->  	.has_flat_ccs = 0,
-> +	.has_gmd_id = 1,
->  	.has_snoop = 1,
->  	.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
->  	.platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(CCS0),
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 50d7bfd541ad..15a53cb5e1ee 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -5860,6 +5860,11 @@
->  #define ICL_DSSM_CDCLK_PLL_REFCLK_19_2MHz	(1 << 29)
->  #define ICL_DSSM_CDCLK_PLL_REFCLK_38_4MHz	(2 << 29)
->  
-> +#define GMD_ID_DISPLAY				_MMIO(0x510a0)
-> +#define   GMD_ID_ARCH_MASK			REG_GENMASK(31, 22)
-> +#define   GMD_ID_RELEASE_MASK			REG_GENMASK(21, 14)
-> +#define   GMD_ID_STEP				REG_GENMASK(5, 0)
-> +
->  /*GEN11 chicken */
->  #define _PIPEA_CHICKEN				0x70038
->  #define _PIPEB_CHICKEN				0x71038
-> @@ -8353,4 +8358,5 @@ enum skl_power_gate {
->  #define GEN12_CULLBIT2			_MMIO(0x7030)
->  #define GEN12_STATE_ACK_DEBUG		_MMIO(0x20BC)
->  
-> +#define MTL_MEDIA_GSI_BASE		0x380000
->  #endif /* _I915_REG_H_ */
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-> index d98fbbd589aa..4ca8f78bfbd7 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.c
-> +++ b/drivers/gpu/drm/i915/intel_device_info.c
-> @@ -91,22 +91,6 @@ const char *intel_platform_name(enum intel_platform platform)
->  void intel_device_info_print_static(const struct intel_device_info *info,
->  				    struct drm_printer *p)
->  {
-> -	if (info->graphics.rel)
-> -		drm_printf(p, "graphics version: %u.%02u\n", info->graphics.ver,
-> -			   info->graphics.rel);
-> -	else
-> -		drm_printf(p, "graphics version: %u\n", info->graphics.ver);
-> -
-> -	if (info->media.rel)
-> -		drm_printf(p, "media version: %u.%02u\n", info->media.ver, info->media.rel);
-> -	else
-> -		drm_printf(p, "media version: %u\n", info->media.ver);
-> -
-> -	if (info->display.rel)
-> -		drm_printf(p, "display version: %u.%02u\n", info->display.ver, info->display.rel);
-> -	else
-> -		drm_printf(p, "display version: %u\n", info->display.ver);
-> -
->  	drm_printf(p, "gt: %d\n", info->gt);
->  	drm_printf(p, "memory-regions: %x\n", info->memory_regions);
->  	drm_printf(p, "page-sizes: %x\n", info->page_sizes);
-> @@ -127,6 +111,22 @@ void intel_device_info_print_static(const struct intel_device_info *info,
->  void intel_device_info_print_runtime(const struct intel_runtime_info *info,
->  				     struct drm_printer *p)
->  {
-> +	if (info->graphics.rel)
-> +		drm_printf(p, "graphics version: %u.%02u\n", info->graphics.ver,
-> +			   info->graphics.rel);
-> +	else
-> +		drm_printf(p, "graphics version: %u\n", info->graphics.ver);
-> +
-> +	if (info->media.rel)
-> +		drm_printf(p, "media version: %u.%02u\n", info->media.ver, info->media.rel);
-> +	else
-> +		drm_printf(p, "media version: %u\n", info->media.ver);
-> +
-> +	if (info->display.rel)
-> +		drm_printf(p, "display version: %u.%02u\n", info->display.ver, info->display.rel);
-> +	else
-> +		drm_printf(p, "display version: %u\n", info->display.ver);
-> +
->  	drm_printf(p, "rawclk rate: %u kHz\n", info->rawclk_freq);
->  }
->  
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-> index 23bf230aa104..327e62875871 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.h
-> +++ b/drivers/gpu/drm/i915/intel_device_info.h
-> @@ -146,6 +146,7 @@ enum intel_ppgtt_type {
->  	func(has_64bit_reloc); \
->  	func(has_64k_pages); \
->  	func(needs_compact_pt); \
-> +	func(has_gmd_id); \
->  	func(gpu_reset_clobbers_display); \
->  	func(has_reset_engine); \
->  	func(has_3d_pipeline); \
-> @@ -200,6 +201,7 @@ enum intel_ppgtt_type {
->  struct ip_version {
->  	u8 ver;
->  	u8 rel;
-> +	u8 step;
->  };
->  
->  struct intel_device_info {
-> @@ -271,6 +273,18 @@ struct intel_runtime_info {
->  	 */
->  	u32 platform_mask[2];
->  
-> +	/*
-> +	 * On modern platforms, the architecture major.minor version numbers
-> +	 * and stepping are read directly from the hardware rather than derived
-> +	 * from the PCI device and revision ID's.
-> +	 *
-> +	 * Note that the hardware gives us a single "graphics" number that
-> +	 * should represent render, compute, and copy behavior.
-> +	 */
-> +	struct ip_version graphics;
-> +	struct ip_version media;
-> +	struct ip_version display;
-> +
->  	u16 device_id;
->  
->  	u8 num_sprites[I915_MAX_PIPES];
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> index 9c31a16f8380..91ad444cd532 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> @@ -173,6 +173,7 @@ struct drm_i915_private *mock_gem_device(void)
->  	drm_mode_config_init(&i915->drm);
->  
->  	mkwrite_device_info(i915)->graphics.ver = -1;
-> +	RUNTIME_INFO(i915)->graphics.ver = ~0;
->  
->  	mkwrite_device_info(i915)->page_sizes =
->  		I915_GTT_PAGE_SIZE_4K |
-> -- 
-> 2.25.1
-> 
+~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
+Simon says - in Latin please.
+~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
+Thanks to Simon Glass for the translation =3D]=20
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
+--+OPEAUCAFHQMa3jU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmL/4ZsACgkQeFA3/03a
+ocX/Ggf7BfEmlDeq8mQqIXNuIXUyS1wDwJS/W6gY4qdxaESlklGTEbvGXSG+Ve1e
+6z2kt2sAFyfZgJSLaTDNzwzp2ddc6FvVVxzdvFlb1cbJdr3Js/Tl+HGFM327Qjl3
+lP8vDwi2tXXnaVyjY0/18mp6HkaziCMhzqN9LNBmF2XSs3F8pGfu5cs+EabMIo7Q
+EOF+5ZbFeXeL9I7Kk5Y17WDenMn+glY/1mQnPjkSYoNX7riqZLY5clklNTHzcxPT
+ADtFQBjEbRSgWzs2BApI3nDFMtjzqHewqo4iLodHgg1REBOoPDCP6PaKfKVDcArw
+9GdbTYiQd0lG5g9zBodvD9ZjaVpRlQ==
+=C7qu
+-----END PGP SIGNATURE-----
+
+--+OPEAUCAFHQMa3jU--
