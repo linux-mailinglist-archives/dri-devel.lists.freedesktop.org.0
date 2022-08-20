@@ -1,47 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F0B59AA5D
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Aug 2022 03:09:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 166F359AC39
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Aug 2022 09:34:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3541110E1B4;
-	Sat, 20 Aug 2022 01:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 429DA10E23F;
+	Sat, 20 Aug 2022 07:33:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6697610E1B4;
- Sat, 20 Aug 2022 01:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660957727; x=1692493727;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PLr5/3tCpPnGLlDUsLHRth9BFJTaSjYoSejIVV5Inec=;
- b=Ngs6l4q9JVhNpSImTSzTXCtU96x2Ct3iw9RvuxCWLFXnwE6PfsuR5XgX
- PEF3OqeaFnRjmJcbXDdFDTRHYk182lbEZIRliLFTsuJnXky9uaBD2ox9w
- ofLnXLaeYGXR7nSSGaYz4QHrzOYWKfHHY4cC0syDYKdc7qm4G+SKTv/Bo
- k+RThxRxv3FewUTlC1RUNKgyyCkGLw10dqqv0NajtDradrnd/e1GlsnKD
- p0D0gJnfM4bH8qlRGRFk8a8PIM3QAghYXD0O5MRnpsfg03QFKlDdO1VeC
- 1klEKk2ULA3XDrLDC/Ogj+ZTZJISAs7FgpN50qGLKawgJ8HYWyrqft7MT g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="273529147"
-X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; d="scan'208";a="273529147"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2022 18:08:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; d="scan'208";a="711518807"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2022 18:08:46 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/i915/guc/slpc: Allow SLPC to use efficient frequency
-Date: Fri, 19 Aug 2022 18:08:32 -0700
-Message-Id: <20220820010832.15350-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.35.1
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2042.outbound.protection.outlook.com [40.107.93.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17CCB10E062;
+ Sat, 20 Aug 2022 07:33:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DurebbEcKVtfTkNktiNG6vqLs9LLWq48JjadNZM4Ukmx3+NBn41tCPkYRO5mr6uuVPrneZuIl3if4nbuj8fyUXyQjssf8WRCgwoLVIl8hYGm3U3Zv0UTX8O0eureOD9mVo/Q6Tdu3g/i0LyGt2LsPanuCHmhJZa3G5wmBSR9f81JAAvCHy/YiBmvw1QRiwVwyitCXlU4Rek8CMv2WtTVFyfnkpGHmu1QdL3M6PHh8dXT2Q1T911yCofry243vNFyODGWdunGbOz0uNTzMPJt1C78f8l8rG1e5hs2+0cfqP5cIzaXT44AX8ENx05NIIbifjHKOn2uhcc/V2oVoa2SwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=95vY3PQaJkNR45JBAlCZM+yRN05H4Khn3rJicrIZCjQ=;
+ b=hP/bQu8rZHHqL3kvJl+E6LuDQ8zdToAEZ9FoxM87SII1+Kc+Z3c8UtiHpE1SBiWeKJMibb5Kt0iGkpnsdI2r+U+sa2WqptOfFUMqTna/AkKRfcOTAW1WD+8YVjmxvoCnXHOhnB3catKvtRtn11yDuo/wcippSjkjffw+ig7ekCLbA79KTcC3zQrXP1D6PDkfkU9T1mlVlqQNk3Yl3MujnuK8v8+wdjyHGnDe66JtVd/Jk0JzoVNGaLnlysylJKNdZiWCcb3PWUJG+SjhOUDZlsyoBRCcTQgk/Wgzek4R3ASCDw0RC94iyJjNJ0MZxDL2QWckNNWfFbXiQDN5huoXCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=95vY3PQaJkNR45JBAlCZM+yRN05H4Khn3rJicrIZCjQ=;
+ b=znmwClcziWcVvyIwkkx4NYqyTx+WP9htVVM+2WFqt9pP/n4MAIN3wV7oPKFxOoRXjWdsSiF3Ss6OhHPgzB9r4efHuz265gPw26DAH2n2YiCZdsKYNUcSvxGcOGhzkEpJHXnXeoo1eXtiLQzOTWr1L/oWE9nA5+txuBl2nEVWJOs=
+Received: from MW4PR03CA0010.namprd03.prod.outlook.com (2603:10b6:303:8f::15)
+ by CY4PR1201MB0181.namprd12.prod.outlook.com (2603:10b6:910:1f::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.19; Sat, 20 Aug
+ 2022 07:33:33 +0000
+Received: from CO1NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8f:cafe::24) by MW4PR03CA0010.outlook.office365.com
+ (2603:10b6:303:8f::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.18 via Frontend
+ Transport; Sat, 20 Aug 2022 07:33:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT034.mail.protection.outlook.com (10.13.174.248) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5546.15 via Frontend Transport; Sat, 20 Aug 2022 07:33:33 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Sat, 20 Aug 2022 02:33:27 -0500
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
+Subject: [PATCH v6 1/6] drm/ttm: Add new callbacks to ttm res mgr
+Date: Sat, 20 Aug 2022 00:32:59 -0700
+Message-ID: <20220820073304.178444-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e9eaf6a0-735e-469d-3fec-08da827e4935
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0181:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 85RC85uGTmdErHKPapgJ2uNlG76eMR3gcoN2HujkWSsYlYC615+jdk5KASwXdaUyWum0dp5qXAV36barN62M1FCGneXwitjPTYdbLnNkRpcH//vwlTRE72YyQV1rcfG7rJcH/ekUyEUKnqkXdrARTK+K8+iKsrR4SRScbZcI85/fDVWxxKavI2ykO5d5KmaJmBw+6/efOpXGBl3K/qJ1TMgOyts8UTnOogOULbcE7W7JnDcvr/2D/gFBAliLWYV1AYJ/jHrcjlIkEhdKMoEJSKrLV88/tkJSjSgrGSw9/kMgEg0SuRgKeLPqK60mYQgW9QH7LgKhpj63K5G3vho28XgNHu28RqEJcPn2y6IkJI3/yOOvqg0SphYSy9cCJ4KiN+cbYw8xsjPvVtErI2p/3OjmWIOvuEZu+/p+dMYA/SdI8EmjIAWNjVG/MWr5m88YSEtJ4/6EA62gEgL0Dd55CTqkqfQBXDw1Fr2yASGh8VxlsSApQXX9JoQri73HuFeDu5xxQIQ3Jkkvylb1haN8ztOiWmTYqvQjHpy8JeC+kS1ryHECvBvt8Af/XPFmTmR8n5DNJ3f0PuLRYrVObzzshtSQQX6p01cftwUCQaxO0JcQaEj6SzfegYLXSP6tCNq6xX1bswaakiB1a536af7OAJ9AfUyPLMDVGveqIY4MoHBgGqIDVNoO+OESBP9Jyggwsc8bTkeVQNkD4eZVb0pM6eiOvoyJenUvIClGzRO0lx5IhELIrDXXGsbDanxUj3Cs10fIfqPfIdxrLuuKqjfxhl8fhXk8SfHXyyRlaP//vQuCXRFSrdh94r3WfMhk6nh+
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(346002)(396003)(39860400002)(376002)(46966006)(36840700001)(40470700004)(336012)(1076003)(81166007)(83380400001)(66574015)(8936002)(47076005)(426003)(82740400003)(2616005)(5660300002)(40460700003)(36860700001)(356005)(16526019)(70206006)(70586007)(40480700001)(8676002)(82310400005)(478600001)(316002)(41300700001)(6666004)(2906002)(54906003)(26005)(110136005)(186003)(4326008)(7696005)(86362001)(36756003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2022 07:33:33.0344 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9eaf6a0-735e-469d-3fec-08da827e4935
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0181
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,211 +99,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: alexander.deucher@amd.com,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ luben.tuikov@amd.com, christian.koenig@amd.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Host Turbo operates at efficient frequency when GT is not idle unless
-the user or workload has forced it to a higher level. Replicate the same
-behavior in SLPC by allowing the algorithm to use efficient frequency.
-We had disabled it during boot due to concerns that it might break
-kernel ABI for min frequency. However, this is not the case since
-SLPC will still abide by the (min,max) range limits.
+We are adding two new callbacks to ttm resource manager
+function to handle intersection and compatibility of
+placement and resources.
 
-With this change, min freq will be at efficient frequency level at init
-instead of fused min (RPn). If user chooses to reduce min freq below the
-efficient freq, we will turn off usage of efficient frequency and honor
-the user request. When a higher value is written, it will get toggled
-back again.
+v2: move the amdgpu and ttm_range_manager changes to
+    separate patches (Christian)
+v3: rename "intersect" to "intersects" (Matthew)
+v4: move !place check to the !res if and return false
+    in ttm_resource_compatible() function (Christian)
+v5: move bits of code from patch number 6 to avoid
+    temporary driver breakup (Christian)
 
-The patch also corrects the register which needs to be read for obtaining
-the correct efficient frequency for Gen9+.
-
-We see much better perf numbers with benchmarks like glmark2 with
-efficient frequency usage enabled as expected.
-
-v2: Address review comments (Rodrigo)
-v3: with efficient frequency being dynamic, it is possible that the req
-frequency may go beyond max freq. This will cause SLPC selftests to fail.
-Add a FIXME there to start the test with [RPn, RP0] instead and restore
-it afterwards.
-
-BugLink: https://gitlab.freedesktop.org/drm/intel/-/issues/5468
-
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/i915/gt/intel_rps.c         |  7 ++-
- drivers/gpu/drm/i915/gt/selftest_slpc.c     |  9 +++
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 66 ++++-----------------
- drivers/gpu/drm/i915/intel_mchbar_regs.h    |  3 +
- 4 files changed, 31 insertions(+), 54 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo.c       |  9 ++--
+ drivers/gpu/drm/ttm/ttm_resource.c | 77 +++++++++++++++++++++++++++++-
+ include/drm/ttm/ttm_resource.h     | 40 ++++++++++++++++
+ 3 files changed, 119 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index c7d381ad90cf..8c289a032103 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -1107,7 +1107,12 @@ void gen6_rps_get_freq_caps(struct intel_rps *rps, struct intel_rps_freq_caps *c
- 		caps->min_freq = (rp_state_cap >>  0) & 0xff;
- 	} else {
- 		caps->rp0_freq = (rp_state_cap >>  0) & 0xff;
--		caps->rp1_freq = (rp_state_cap >>  8) & 0xff;
-+		if (GRAPHICS_VER(i915) >= 10)
-+			caps->rp1_freq = REG_FIELD_GET(RPE_MASK,
-+						       intel_uncore_read(to_gt(i915)->uncore,
-+						       GEN10_FREQ_INFO_REC));
-+		else
-+			caps->rp1_freq = (rp_state_cap >>  8) & 0xff;
- 		caps->min_freq = (rp_state_cap >> 16) & 0xff;
- 	}
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index c1bd006a5525..f066e8124c50 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -518,6 +518,9 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+ 			      const struct ttm_place *place)
+ {
++	struct ttm_resource *res = bo->resource;
++	struct ttm_device *bdev = bo->bdev;
++
+ 	dma_resv_assert_held(bo->base.resv);
+ 	if (bo->resource->mem_type == TTM_PL_SYSTEM)
+ 		return true;
+@@ -525,11 +528,7 @@ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+ 	/* Don't evict this BO if it's outside of the
+ 	 * requested placement range
+ 	 */
+-	if (place->fpfn >= (bo->resource->start + bo->resource->num_pages) ||
+-	    (place->lpfn && place->lpfn <= bo->resource->start))
+-		return false;
+-
+-	return true;
++	return ttm_resource_intersects(bdev, res, place, bo->base.size);
+ }
+ EXPORT_SYMBOL(ttm_bo_eviction_valuable);
  
-diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
-index ac29691e0b1a..f8a1d27df272 100644
---- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
-@@ -166,6 +166,15 @@ static int run_test(struct intel_gt *gt, int test_type)
- 		return -EIO;
- 	}
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+index 20f9adcc3235..0d1f862a582b 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -253,10 +253,84 @@ void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res)
+ }
+ EXPORT_SYMBOL(ttm_resource_free);
  
-+	/*
-+	 * FIXME: With efficient frequency enabled, GuC can request
-+	 * frequencies higher than the SLPC max. While this is fixed
-+	 * in GuC, we level set these tests with RPn as min.
++/**
++ * ttm_resource_intersects - test for intersection
++ *
++ * @bdev: TTM device structure
++ * @res: The resource to test
++ * @place: The placement to test
++ * @size: How many bytes the new allocation needs.
++ *
++ * Test if @res intersects with @place and @size. Used for testing if evictions
++ * are valueable or not.
++ *
++ * Returns true if the res placement intersects with @place and @size.
++ */
++bool ttm_resource_intersects(struct ttm_device *bdev,
++			     struct ttm_resource *res,
++			     const struct ttm_place *place,
++			     size_t size)
++{
++	struct ttm_resource_manager *man;
++
++	if (!res)
++		return false;
++
++	if (!place)
++		return true;
++
++	man = ttm_manager_type(bdev, res->mem_type);
++	if (!man->func->intersects) {
++		if (place->fpfn >= (res->start + res->num_pages) ||
++		    (place->lpfn && place->lpfn <= res->start))
++			return false;
++
++		return true;
++	}
++
++	return man->func->intersects(man, res, place, size);
++}
++
++/**
++ * ttm_resource_compatible - test for compatibility
++ *
++ * @bdev: TTM device structure
++ * @res: The resource to test
++ * @place: The placement to test
++ * @size: How many bytes the new allocation needs.
++ *
++ * Test if @res compatible with @place and @size.
++ *
++ * Returns true if the res placement compatible with @place and @size.
++ */
++bool ttm_resource_compatible(struct ttm_device *bdev,
++			     struct ttm_resource *res,
++			     const struct ttm_place *place,
++			     size_t size)
++{
++	struct ttm_resource_manager *man;
++
++	if (!res || !place)
++		return false;
++
++	man = ttm_manager_type(bdev, res->mem_type);
++	if (!man->func->compatible) {
++		if (res->start < place->fpfn ||
++		    (place->lpfn && (res->start + res->num_pages) > place->lpfn))
++			return false;
++
++		return true;
++	}
++
++	return man->func->compatible(man, res, place, size);
++}
++
+ static bool ttm_resource_places_compat(struct ttm_resource *res,
+ 				       const struct ttm_place *places,
+ 				       unsigned num_placement)
+ {
++	struct ttm_buffer_object *bo = res->bo;
++	struct ttm_device *bdev = bo->bdev;
+ 	unsigned i;
+ 
+ 	if (res->placement & TTM_PL_FLAG_TEMPORARY)
+@@ -265,8 +339,7 @@ static bool ttm_resource_places_compat(struct ttm_resource *res,
+ 	for (i = 0; i < num_placement; i++) {
+ 		const struct ttm_place *heap = &places[i];
+ 
+-		if (res->start < heap->fpfn || (heap->lpfn &&
+-		    (res->start + res->num_pages) > heap->lpfn))
++		if (!ttm_resource_compatible(bdev, res, heap, bo->base.size))
+ 			continue;
+ 
+ 		if ((res->mem_type == heap->mem_type) &&
+diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+index ca89a48c2460..5afc6d664fde 100644
+--- a/include/drm/ttm/ttm_resource.h
++++ b/include/drm/ttm/ttm_resource.h
+@@ -88,6 +88,38 @@ struct ttm_resource_manager_func {
+ 	void (*free)(struct ttm_resource_manager *man,
+ 		     struct ttm_resource *res);
+ 
++	/**
++	 * struct ttm_resource_manager_func member intersects
++	 *
++	 * @man: Pointer to a memory type manager.
++	 * @res: Pointer to a struct ttm_resource to be checked.
++	 * @place: Placement to check against.
++	 * @size: Size of the check.
++	 *
++	 * Test if @res intersects with @place + @size. Used to judge if
++	 * evictions are valueable or not.
 +	 */
-+	err = slpc_set_min_freq(slpc, slpc->min_freq);
-+	if (err)
-+		return err;
++	bool (*intersects)(struct ttm_resource_manager *man,
++			   struct ttm_resource *res,
++			   const struct ttm_place *place,
++			   size_t size);
 +
- 	if (slpc->min_freq == slpc->rp0_freq) {
- 		pr_err("Min/Max are fused to the same value\n");
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index e1fa1f32f29e..9d49ccef03bb 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -137,17 +137,6 @@ static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
- 	return ret > 0 ? -EPROTO : ret;
- }
- 
--static int guc_action_slpc_unset_param(struct intel_guc *guc, u8 id)
--{
--	u32 request[] = {
--		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
--		SLPC_EVENT(SLPC_EVENT_PARAMETER_UNSET, 1),
--		id,
--	};
--
--	return intel_guc_send(guc, request, ARRAY_SIZE(request));
--}
--
- static bool slpc_is_running(struct intel_guc_slpc *slpc)
- {
- 	return slpc_get_state(slpc) == SLPC_GLOBAL_STATE_RUNNING;
-@@ -201,16 +190,6 @@ static int slpc_set_param(struct intel_guc_slpc *slpc, u8 id, u32 value)
- 	return ret;
- }
- 
--static int slpc_unset_param(struct intel_guc_slpc *slpc,
--			    u8 id)
--{
--	struct intel_guc *guc = slpc_to_guc(slpc);
--
--	GEM_BUG_ON(id >= SLPC_MAX_PARAM);
--
--	return guc_action_slpc_unset_param(guc, id);
--}
--
- static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
- {
- 	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-@@ -491,6 +470,16 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
- 
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
- 
-+		/* Ignore efficient freq if lower min freq is requested */
-+		ret = slpc_set_param(slpc,
-+				     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
-+				     val < slpc->rp1_freq);
-+		if (unlikely(ret)) {
-+			i915_probe_error(i915, "Failed to toggle efficient freq (%pe)\n",
-+					 ERR_PTR(ret));
-+			return ret;
-+		}
++	/**
++	 * struct ttm_resource_manager_func member compatible
++	 *
++	 * @man: Pointer to a memory type manager.
++	 * @res: Pointer to a struct ttm_resource to be checked.
++	 * @place: Placement to check against.
++	 * @size: Size of the check.
++	 *
++	 * Test if @res compatible with @place + @size. Used to check of
++	 * the need to move the backing store or not.
++	 */
++	bool (*compatible)(struct ttm_resource_manager *man,
++			   struct ttm_resource *res,
++			   const struct ttm_place *place,
++			   size_t size);
 +
- 		ret = slpc_set_param(slpc,
- 				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
- 				     val);
-@@ -587,7 +576,9 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
- 		return ret;
- 
- 	if (!slpc->min_freq_softlimit) {
--		slpc->min_freq_softlimit = slpc->min_freq;
-+		ret = intel_guc_slpc_get_min_freq(slpc, &slpc->min_freq_softlimit);
-+		if (unlikely(ret))
-+			return ret;
- 		slpc_to_gt(slpc)->defaults.min_freq = slpc->min_freq_softlimit;
- 	} else if (slpc->min_freq_softlimit != slpc->min_freq) {
- 		return intel_guc_slpc_set_min_freq(slpc,
-@@ -597,29 +588,6 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
- 	return 0;
- }
- 
--static int slpc_ignore_eff_freq(struct intel_guc_slpc *slpc, bool ignore)
--{
--	int ret = 0;
--
--	if (ignore) {
--		ret = slpc_set_param(slpc,
--				     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
--				     ignore);
--		if (!ret)
--			return slpc_set_param(slpc,
--					      SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
--					      slpc->min_freq);
--	} else {
--		ret = slpc_unset_param(slpc,
--				       SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY);
--		if (!ret)
--			return slpc_unset_param(slpc,
--						SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ);
--	}
--
--	return ret;
--}
--
- static int slpc_use_fused_rp0(struct intel_guc_slpc *slpc)
- {
- 	/* Force SLPC to used platform rp0 */
-@@ -679,14 +647,6 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
- 
- 	slpc_get_rp_values(slpc);
- 
--	/* Ignore efficient freq and set min to platform min */
--	ret = slpc_ignore_eff_freq(slpc, true);
--	if (unlikely(ret)) {
--		i915_probe_error(i915, "Failed to set SLPC min to RPn (%pe)\n",
--				 ERR_PTR(ret));
--		return ret;
--	}
--
- 	/* Set SLPC max limit to RP0 */
- 	ret = slpc_use_fused_rp0(slpc);
- 	if (unlikely(ret)) {
-diff --git a/drivers/gpu/drm/i915/intel_mchbar_regs.h b/drivers/gpu/drm/i915/intel_mchbar_regs.h
-index 2aad2f0cc8db..ffc702b79579 100644
---- a/drivers/gpu/drm/i915/intel_mchbar_regs.h
-+++ b/drivers/gpu/drm/i915/intel_mchbar_regs.h
-@@ -196,6 +196,9 @@
- #define   RP1_CAP_MASK				REG_GENMASK(15, 8)
- #define   RPN_CAP_MASK				REG_GENMASK(23, 16)
- 
-+#define GEN10_FREQ_INFO_REC			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5ef0)
-+#define   RPE_MASK				REG_GENMASK(15, 8)
-+
- /* snb MCH registers for priority tuning */
- #define MCH_SSKPD				_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5d10)
- #define   SSKPD_NEW_WM0_MASK_HSW		REG_GENMASK64(63, 56)
+ 	/**
+ 	 * struct ttm_resource_manager_func member debug
+ 	 *
+@@ -329,6 +361,14 @@ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+ 		       const struct ttm_place *place,
+ 		       struct ttm_resource **res);
+ void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res);
++bool ttm_resource_intersects(struct ttm_device *bdev,
++			     struct ttm_resource *res,
++			     const struct ttm_place *place,
++			     size_t size);
++bool ttm_resource_compatible(struct ttm_device *bdev,
++			     struct ttm_resource *res,
++			     const struct ttm_place *place,
++			     size_t size);
+ bool ttm_resource_compat(struct ttm_resource *res,
+ 			 struct ttm_placement *placement);
+ void ttm_resource_set_bo(struct ttm_resource *res,
+
+base-commit: 8869fa666a9e6782c3c896c1fa57d65adca23249
 -- 
-2.35.1
+2.25.1
 
