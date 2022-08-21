@@ -1,42 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76DA959B07E
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Aug 2022 22:36:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE5E59B255
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Aug 2022 08:41:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3011210E18D;
-	Sat, 20 Aug 2022 20:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B011714A334;
+	Sun, 21 Aug 2022 06:41:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1035 seconds by postgrey-1.36 at gabe;
- Sat, 20 Aug 2022 20:36:19 UTC
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk
- [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 042C310E18D
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Aug 2022 20:36:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=f2B88BtT0BwDCUCOMm6ekzS3U/w1aqQ18CQ1ZZdJD/E=; b=t4V9+RqY7T7nt2AplXZGZuwMf7
- s3qXoMRZHZiKje/YQV1Pfsc32jeoxb/0lO+zLdoFJaiQxul0jyhraOYDIoZDmJAM4/NUj/ucvtv+y
- nuc508sDx7XDqrE2PlAGqzyC2v4L03sey6n0yO+T2fJA2bwDTzslN0G8AcAb4hV+Cv5PJ08T2xbwH
- btzgXGsOTMIqHOGNdqb+QWXU9X0nboW7znR+9sc5xGqTx2NdqIMcRy+w9xJgCB0Ds54QJyKIGiDKN
- 2+xjRGY44/nrkUjd42RKHK5rSV+G92uTI12jCDdpmbVm/vaYcb9eO5bcgTL2PWwEtpRfowheUmqzj
- 7FatFZyg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.95 #2 (Red Hat
- Linux)) id 1oPUvs-006TBb-7J; Sat, 20 Aug 2022 20:19:00 +0000
-Date: Sat, 20 Aug 2022 21:19:00 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: linux-fsdevel@vger.kernel.org
-Subject: [PATCH 6/8] dma_buf: no need to bother with file_inode()->i_mapping
-Message-ID: <YwFBtOjAW6wSddh1@ZenIV>
-References: <YwFANLruaQpqmPKv@ZenIV>
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
+ [IPv6:2607:f8b0:4864:20::e33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C13214A330;
+ Sun, 21 Aug 2022 06:41:03 +0000 (UTC)
+Received: by mail-vs1-xe33.google.com with SMTP id n125so8187990vsc.5;
+ Sat, 20 Aug 2022 23:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=ytZKdYUnft3zw47YJkefPgcAf98Ms5YVeOG27pEj8AI=;
+ b=Zsi3WSxLYpU0pacztqUlVPW8iatV0LWto+9rVcDwlyQmTvcmPZhKvpWwU7Xpp/qKP6
+ iYXNQslvjML01mRxIc6xM+gAHCHsklGm9G2rM0stiX6V+ihgDnr/HoXKLzBmQ5k+FLqX
+ oQK9Ymt+V5VOZ0O8CFvfSHMZJ90IE0ksI2lfn6r3jR6RTaZwZSsR4Uekg2tEZp/5PpiS
+ sZtrYY4FsPqvR9d2liHWAde/uRqPK29gbuKllzGczBLgaQ/YBsDIWniFQtrZc8ZrqRpl
+ 0JgJYcY3099gqq6OaKsPLBbt73Q8H2zqjZDyVRfpjICiXP47BcDsZpRyOBxee609GmrF
+ P41w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=ytZKdYUnft3zw47YJkefPgcAf98Ms5YVeOG27pEj8AI=;
+ b=ZusPwiqxFzg7+bQRokyuRzXghnyrvpdux6o2gmykXuo3IQTBDVbsKmkeyAnZHr2HSY
+ b1pQeYlSAI9T9bJvQxCnp/YyrLh0kpHmQs6EhXa8ndB4aR+xbGlvaVJGm3m3ytoo6pfN
+ ji2qkms5b50wHu7gKw5TK97ws5ioqVKb+Jj7Lt7z6JnM3mV4BKn0xSNJes0fCUyDCGZX
+ CP8XfSKMdqKCSn3JsUkMb7lryqsWF3fTGBI7MLOhPI5VD0j5o4o0E7M1hQg/6g/IywGj
+ v/PU8fHNjOAyaQUVgiEHV61vDZ3GdFuFzTXu+68LMd/lH6VNQRRh94/iBg53lK078ieD
+ W77Q==
+X-Gm-Message-State: ACgBeo0oH2tr4wbLm8eJJ9NHyseNHzShxIwQLQvF4U6WH1KzLU7T1FJo
+ amr2WXovPu4L1XGcatmlHhc=
+X-Google-Smtp-Source: AA6agR52Y1gL6ZNjDwk8h8fIHUi6BPZq3k5iTk1UOwABDIgsn8hPjCUcSZPeES+9oNlVuslWWIaVXg==
+X-Received: by 2002:a05:6102:2753:b0:38a:a86f:6ac5 with SMTP id
+ p19-20020a056102275300b0038aa86f6ac5mr5132744vsu.80.1661064062655; 
+ Sat, 20 Aug 2022 23:41:02 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:4c2:8202::1001])
+ by smtp.gmail.com with ESMTPSA id
+ x4-20020ab07784000000b00391bb2403adsm6695823uar.29.2022.08.20.23.40.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Aug 2022 23:41:02 -0700 (PDT)
+From: Tales Aparecida <tales.aparecida@gmail.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/amd/display: remove unneeded defines from bios parser
+Date: Sun, 21 Aug 2022 03:25:28 -0300
+Message-Id: <20220821062528.13416-1-tales.aparecida@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwFANLruaQpqmPKv@ZenIV>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,30 +69,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Tales Aparecida <tales.aparecida@gmail.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-->f_mapping will do just fine
+Removes DEFINEs that should have been removed after they were
+introduced to ObjectID.h by the commit abea57d70e90
+("drm/amdgpu: Add BRACKET_LAYOUT_ENUMs to ObjectID.h")
 
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
 ---
- drivers/dma-buf/udmabuf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../drm/amd/display/dc/bios/bios_parser2.c    | 19 -------------------
+ 1 file changed, 19 deletions(-)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 38e8767ec371..210473d927d8 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -210,7 +210,7 @@ static long udmabuf_create(struct miscdevice *device,
- 		memfd = fget(list[i].memfd);
- 		if (!memfd)
- 			goto err;
--		mapping = file_inode(memfd)->i_mapping;
-+		mapping = memfd->f_mapping;
- 		if (!shmem_mapping(mapping) && !is_file_hugepages(memfd))
- 			goto err;
- 		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+index 09fbb7ad5362..ead4da11a992 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+@@ -44,25 +44,6 @@
+ 
+ #include "bios_parser_common.h"
+ 
+-/* Temporarily add in defines until ObjectID.h patch is updated in a few days */
+-#ifndef GENERIC_OBJECT_ID_BRACKET_LAYOUT
+-#define GENERIC_OBJECT_ID_BRACKET_LAYOUT          0x05
+-#endif /* GENERIC_OBJECT_ID_BRACKET_LAYOUT */
+-
+-#ifndef GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID1
+-#define GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID1	\
+-	(GRAPH_OBJECT_TYPE_GENERIC << OBJECT_TYPE_SHIFT |\
+-	GRAPH_OBJECT_ENUM_ID1 << ENUM_ID_SHIFT |\
+-	GENERIC_OBJECT_ID_BRACKET_LAYOUT << OBJECT_ID_SHIFT)
+-#endif /* GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID1 */
+-
+-#ifndef GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID2
+-#define GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID2	\
+-	(GRAPH_OBJECT_TYPE_GENERIC << OBJECT_TYPE_SHIFT |\
+-	GRAPH_OBJECT_ENUM_ID2 << ENUM_ID_SHIFT |\
+-	GENERIC_OBJECT_ID_BRACKET_LAYOUT << OBJECT_ID_SHIFT)
+-#endif /* GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID2 */
+-
+ #define DC_LOGGER \
+ 	bp->base.ctx->logger
+ 
 -- 
-2.30.2
+2.37.2
 
