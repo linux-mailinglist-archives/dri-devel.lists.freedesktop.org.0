@@ -1,109 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D8B59BAF9
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 10:08:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F24E759BBBA
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 10:35:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83770112382;
-	Mon, 22 Aug 2022 08:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C49D611ACC4;
+	Mon, 22 Aug 2022 08:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2068.outbound.protection.outlook.com [40.107.22.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2A439AC39
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 08:07:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JN7KtooMpF6t1FNy3dJAZTCQ1hxGXeRJ1IBgl0fmgsKrGXgu+BsIf06qSfbqFj8TL30Lz64qupaBHz0Rly3g8Nyd7wazfThUdGT5B/xnXJG3WRWMy8qk+WR0MiP4lTr32uLxpE/C5yfuOyBHMJPYBGJvTf6QFxfK51sBVi96447DyiTxrDiIDQ94ozhoKoM0rM6Go07Lno8DYyVSTZGIiLIeg5onmKpHXe1RbA7DHsuPoVBLGT3vp8fYEJ2TVltHaSD5fYQI8MTH/713PP9Eaq4wZWBPsVqE6jG5a1RJH6XlE6Sjy+7JlTuctxe2smwkbl6Y6hUpRgct2GoMgB/aSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=41q4oOyN56yST2XHYBVpzBeIcfZDnh4QhwBVOdQ8D4M=;
- b=CYxCTfC/v4yIyzYiIXaw8KlDORLfX5gtaZYkIDtqDX0G8TgTke81SIKk7TrCDmDWfJs2TVkYGPRrUJSWDHE4BjKB4eBUhqyLvdaaQsTm5eDSJAq3Zpjn252jd0eQTR/655eRStiaSQWQrBS1pg0EHlHjy1S0vRgRe66ynNMtJsTpDITnj7GU4RZI4LKKuA0anq26spcJYdP9EWyLTlR5yi7vCrWabihz3dknWJ4z7eSw4pzAJ/PiLTEtIak1/VwzYc10bv+V3g8E1soETppSaGqm1uoCNVoHCU+gwkbtF7Pc85ZGjE3T1G5i5nnNs06hPcDz5WcC6zkJXt2vppym5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=41q4oOyN56yST2XHYBVpzBeIcfZDnh4QhwBVOdQ8D4M=;
- b=RVNhSCamXGhUZXygVNqHYC6hXgiwP+b0NeEZygRHCxJYi3tUfN6EYS0rhzQD06UWRg85gN1WioT+DuQ6HmuOLrAgG/YLGDAWr/rNZ4zAtoGMCU1oEbFU3jCUvRw5S8u7rLxYQrMP2hv5XKnAtHL+1KTQ6m45BEjKcm3wgBquh7U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM0PR04MB6499.eurprd04.prod.outlook.com (2603:10a6:208:173::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.22; Mon, 22 Aug
- 2022 08:07:22 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::2549:869e:d80b:3a1b]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::2549:869e:d80b:3a1b%6]) with mapi id 15.20.5504.027; Mon, 22 Aug 2022
- 08:07:22 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v11 6/6] MAINTAINERS: add maintainer for i.MX8qxp DPU DRM
- driver
-Date: Mon, 22 Aug 2022 16:07:56 +0800
-Message-Id: <20220822080756.37400-7-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220822080756.37400-1-victor.liu@nxp.com>
-References: <20220822080756.37400-1-victor.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0128.apcprd02.prod.outlook.com
- (2603:1096:4:188::20) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
+ [IPv6:2607:f8b0:4864:20::1129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0C1811AB4D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 08:34:31 +0000 (UTC)
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-335624d1e26so273233767b3.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 01:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=zzEOCXoR8z7enUA2+rK3jahKOr6h0Ep6/eos4wf1jAA=;
+ b=SiY93PDX5m21vMHnBkrzEQwcKPr1hwy8OfqydKFgZNUew9CnYtZ0W3WVTNG7UKGkFo
+ WiMckjA3WhbgLZhjOvU2fTa0JURX+5MnQWaWFnmMgQ8B0X3dDvAnX4SxDo47e3KpKb9I
+ DRaBt0k5CCNKGz+UynA9a0MlRmilf5m9n7+2+s26eDekMTmtwEgCoJ5ue6uyIJzpqiU7
+ Y7mzBoxe9c0XFSSEhaaS1aflF92LTdEtR/oTfHQYAPCHq/GIGAW0hrDb7pkmGhNmoaG2
+ evLh2Bw4z3+fDSqYE+ITH36QalO1SFzuYCzFx5u7uJsst+8c7MTwN/8kIbm9jvR/UDwu
+ bjTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=zzEOCXoR8z7enUA2+rK3jahKOr6h0Ep6/eos4wf1jAA=;
+ b=i5/nUSm3thkWKrbUP5/GYoeJ7ZnFfaYx3KZhFy0fAdOZqlmdamo5KXCwq8OO/XYQ8B
+ wC1iDt+BMVIhPavb1SVEL9V8MNJZV/G+UAuvew1Vk4l47QuSnfX/9CAxJIFMcUJrEEtQ
+ c0n74q0LiQJ13HHk0r/O/Ys3heRQCn32Uo2CQydmX1b+xcODAebAcm0vbgNPqtCf8LpV
+ MEhkIT1/31yvfkwE46N4xdQHgW9QawSWG0pQrHVVu+5pqun2eqfZUKkZO3p8c4Awio77
+ daqFLv7onvrYK0Wli1hSQ2ZiTFyDx27Imgm7e1WNjN91OMaBC/zz/N+yZDRNJ8RJCVOD
+ PxEQ==
+X-Gm-Message-State: ACgBeo39Km5Vsxvlmh7q0EtXIgQsK9ko6II10bJecrfAe4PB5s+ITSbg
+ PYFd2TZvqFFBXFfRhlONgOVFYn6uDwfzDhw0n9rZ4g==
+X-Google-Smtp-Source: AA6agR5BOagBRlV9jCRxdgZ3lex4E4Fkt3v8Q7XLN5rfKcH58fLKgMm0x4mDDX/e8Y8c77K3AHpxRTsR8o2SubnTY1s=
+X-Received: by 2002:a25:c806:0:b0:67e:e3c:1cbc with SMTP id
+ y6-20020a25c806000000b0067e0e3c1cbcmr18094869ybf.321.1661157270877; Mon, 22
+ Aug 2022 01:34:30 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 863c3b67-ec32-49b2-eaf5-08da841556f9
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6499:EE_
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Q7/Jlm7Vt7D2MW01zM6a3YlTtRjKLQkWLuNJAofyUUtgUOXGfAGOGMaqEvCYdC4I0EC6HqMXTbqLYIiDPCKHChQ4CEDMJ/YlyMy+cJJjU1d0u/x/0i8dRgF02MmQ6asq5sQ/XVnyBaoktyrNkiVXsktC7Hb4/Xccx4qCG0Bfixb+DOG/Uw2nQYnZCRqo3OKYpH+/8jiOJwW4u6k5wD02kXgFvnkBLKKQBEvP5HPl40SkUhHUVxz7cV0cLQXOIDDazmqq/a149zzATh2q8rLLUS/pXveoISGKdRuQOhwbqO/577/WQh1MWWLDtYSwRWvSBV/bXPEUvFFhkh2TaFjq/ZxtPQWxTa0BUrdt/CoWU17ioV9+c26KMiYVmznJv7FVxRTkeVxQu8ui+QjEjW8ur3XwXA3szXCx3uKjnQlT6sHyCHwRU15u6yIMTUqwfF8Pu1bo9i1iMBiNrt6ltgHMrvaqdcyBBAzB2lxKjaeLmtzZp2ZMP6KpZ2S3K+SDiK7tZoPYDx6Y6pEIZ7iKUOqUhYfTNnuNa5hFxXf7KvBTU8Kaxyu87Rtzw8PdqOcdMEULl9G71FiOzbw+l/5XtIN2hDbv5jLgnQwO7Z7b7sVEpqj2/PTzQSJgetOS16Zm7GLzhC+d9sE6smg6QmMcipljpdRVHqCPtCioLDURpInLgM5HHNZULYyqFJbOJDegHp2GvGIkzAybBtfOPGIZl4R2MJ8m7yfi4wcX5T3R2E8PjrQgUkbkJDTKXOO8UhgdCI9hIorNQzwjgJ8x0R1VNudeGg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(39860400002)(136003)(346002)(366004)(396003)(41300700001)(6666004)(6506007)(6486002)(478600001)(186003)(1076003)(2616005)(8936002)(6512007)(52116002)(26005)(2906002)(5660300002)(7416002)(316002)(86362001)(66946007)(66556008)(4326008)(8676002)(66476007)(38350700002)(38100700002)(36756003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iJReOKEsVBhIKe5ke3fmmvdfxO20yV1ZJPj5ifs+qtOVJGtpz1DNot6jB4cx?=
- =?us-ascii?Q?/qM1kSlBYExdKAwiouCcwMU5lMCtZD2yna6t/lTfwXtUlR3WxAaQB7QPPmR9?=
- =?us-ascii?Q?dRV859cYvYCP0qheZJ6EKhNcXyARVzVTeQvwxluMdpEmn/PjAC+qnswm4kW6?=
- =?us-ascii?Q?ruIV37XGMkAwQZ27zewyjdIVohV62VMgkxU5T5JLwPc578ijHhkd+8aUq6r9?=
- =?us-ascii?Q?KD6ja/Lo4+PIDSDwCeuJfxMjgGvgMw5D2sHd6Vd4p1YCvhG7pMfgyfSKN1Zw?=
- =?us-ascii?Q?dBT0i5A19k1GlnNXR1asR5mLqIx4Nzyxb4TpPrkVeasP/UPCGqYoXo4j8ZOr?=
- =?us-ascii?Q?HYJulHAk1tfynUqijWz+8/Y5f+m74UEUg19HhxIWsQWvtDNXV/knfHUdOIBx?=
- =?us-ascii?Q?KclniiePFmjCIjB0eTOhrHISN0Yob0nqCUtD4dZcheTChL9BS2/BWei/qaEc?=
- =?us-ascii?Q?Ohlaf9deF3kY8a8CD7Io9iw1NPFfdxTWCGoWR+jpe9NJPxrFkcFQxamQFbyr?=
- =?us-ascii?Q?tnZlP66GCyTxi03+hRyIlfXupeLTXqN9eS+N7RUWlPywLBvavISDV0upg1LY?=
- =?us-ascii?Q?ur2UaH4qCVOM0vTg98i+/rTGCdzD8DVyzq4/Daw6NAodkX5LEg/feyapOr2W?=
- =?us-ascii?Q?2/TlTBtNiuyySZKYS2a61CUHzwMSyPJid/vr4uL5HPoMO9HiOup/BRIbSfit?=
- =?us-ascii?Q?ZCkfsGTX6YufEIwLLgMjWtKFGvygeGeQ/qZ3is2G5Ch9mADUtDza+EnHZEsB?=
- =?us-ascii?Q?v4hFHlZEeRs+nZ5cqxLKfG50aF9lPi0Diq5/6GUjAWbgaGiLydlWbh92NRCI?=
- =?us-ascii?Q?MshIVdzDYlNyDNq1M2ZZjHchluKGUeibnYhHWR4UIfHTFgsC4jmrWEqmJOa2?=
- =?us-ascii?Q?Ng/DF1oDHrjDzy4bjKV8w6c34RbiAQvd4+ENWHsWxC1EuCQozzrAjyATG8he?=
- =?us-ascii?Q?4wxRYaqJMAIjPc9uG4d7fPKgdZursV6/uu2qkm9bRIGo2kBWuHc6o4gDg2bV?=
- =?us-ascii?Q?R/Pl9iGZ1MkkDunrMCZpKm3jBE1OtCNXi0bYq2cLtx6yTkPWx0223wzY9zDW?=
- =?us-ascii?Q?HwoCsYw7z16PLlP3SxrAcCNsLIAlV2+/+LW//iPvLaaEONNkS7Nj0Bv73qHG?=
- =?us-ascii?Q?x5QhTlZtkFv3DM4ozO8LvcvHibnVJw8sBoTFjBPz+kaBL4Co8GybTNKWc8az?=
- =?us-ascii?Q?VqEgBUioZn0Nz27hJxSBRrCCOViUF6NafA0bRaSTx4p7K5ZydZwu+T06Yize?=
- =?us-ascii?Q?uqErsdKZTZAvZopeuaMA5M6H3RiY/VUDzNmkUymVvst9xkEFOjEIcsmazcUc?=
- =?us-ascii?Q?ySr9nHZQ/9VEi3eRDBnt1STvuyJJul/JdUzIZ4MKOJpNLphfianDU9eiPKNM?=
- =?us-ascii?Q?42wxTRzq3O0n/Dd3tbD6yLxRo7k4ReBMFO/jCsPPHRkABLGC1QsnGgIyofgA?=
- =?us-ascii?Q?xVEZQxKexFn0WuU6MbC2beDbEYNHu3HYbVTvnESOY4owhGso6isI3Qa2T+4O?=
- =?us-ascii?Q?xVJhF+qNFe+9PLunGw0+doitIbWGKzILWZ14D7fq63QuZlM2rPs5Tz216x7F?=
- =?us-ascii?Q?FXUIgEm9xDLZ75kaqWvyYVUiZTSaCPn9QGng81Ga?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 863c3b67-ec32-49b2-eaf5-08da841556f9
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2022 08:07:21.9109 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UW4k6AQQ0R0t95tRru/w/O867jSSjXlIv1pSCsCukpB3rKaVSKhESN8iMZlfqpP+CJHtjoetRY+HlB5GDlqcbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6499
+References: <CAPM=9tzo4n7xKnU+2=gesdLqDJUQ7kBAVCQND6yu5_CTiKo7Cg@mail.gmail.com>
+ <CAPM=9twwdeybb_hwvtqbyic3CHYe3+s1LLnT0t_DJAVi9cno4g@mail.gmail.com>
+In-Reply-To: <CAPM=9twwdeybb_hwvtqbyic3CHYe3+s1LLnT0t_DJAVi9cno4g@mail.gmail.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Mon, 22 Aug 2022 10:34:23 +0200
+Message-ID: <CAP+8YyEqdzp3t1ErmpsF_8U1HPRQXoRBd++TjzWCvA5EqbynQA@mail.gmail.com>
+Subject: Re: vm binding interfaces and parallel with mmap
+To: Dave Airlie <airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,71 +66,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, s.hauer@pengutronix.de,
- marcel.ziswiler@toradex.com, robh+dt@kernel.org, linux-imx@nxp.com,
- krzysztof.kozlowski+dt@linaro.org, laurentiu.palcu@oss.nxp.com,
- guido.gunther@puri.sm, shawnguo@kernel.org, kernel@pengutronix.de
+Cc: Matthew Brost <matthew.brost@intel.com>, Ben Skeggs <skeggsb@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add myself as the maintainer of the i.MX8qxp DPU DRM driver.
+On Mon, Aug 22, 2022 at 9:28 AM Dave Airlie <airlied@gmail.com> wrote:
+>
+> On Mon, 22 Aug 2022 at 17:05, Dave Airlie <airlied@gmail.com> wrote:
+> >
+> > Hey,
+> >
+> > I've just been looking at the vm bind type interfaces and wanted to at
+> > least document how we think the unmapping API should work. I know I've
+> > talked on irc before about this, but wanted to solidify things a bit
+> > more around what is required vs what is a nice to have.
+> >
+> > My main concerns/thoughts are around the unbind interfaces and how
+> > close to munmap they should be.
+> >
+> > I think the mapping operation is mostly consistent
+> > MAP(bo handle, offset into bo, range, VM offset, VM flags)
+> > which puts the range inside to bo at the offset in the current VM
+> > (maybe take an optional vm_id).
+> >
+> > now the simplest unmap I can see if one that parallel munmap
+> > UNMAP(vmaddr, range);
+> >
+> > But it begs the question on then how much the kernel needs to deal
+> > with here, if we support random vmaddr,range then we really need to be
+> > able to do everything munmap does for CPU VMA, which means splitting
+> > ranges, joining ranges etc.
+> >
+> > like
+> > MAP(1, 0, 0x8000, 0xc0000)
+> > UNMAP(0xc1000, 0x1000)
+> > should that be possible?
+> >
+> > Do we have any API usage (across Vulkan/CL/CUDA/ROCm etc) that
+> > requires this sort of control, or should we be fine with only
+> > unmapping objects exactly like how they were mapped in the first
+> > place, and not have any splitting/joining?
 
-Acked-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v10->v11:
-* Rebase upon v6.0-rc1.
+Vulkan allows for this, though I haven't checked to what extent apps use it.
 
-v9->v10:
-* Add Laurentiu's A-b tag.
+We could technically split all mapping/unmapping to be per single tile
+in the userspace driver, which avoids the need for splitting/merging,
+but that could very much be a pessimization.
 
-v8->v9:
-* No change.
 
-v7->v8:
-* No change.
+>
+> I suppose it also asks the question around paralleling
+>
+> fd = open()
+> ptr = mmap(fd,)
+> close(fd)
+> the mapping is still valid.
+>
+> I suppose our equiv is
+> handle = bo_alloc()
+> gpu_addr = vm_bind(handle,)
+> gem_close(handle)
+> is the gpu_addr still valid does the VM hold a reference on the kernel
+> bo internally.
 
-v6->v7:
-* No change.
+For Vulkan it looks like this is undefined and the above is not necessary:
 
-v5->v6:
-* No change.
+"It is important to note that freeing a VkDeviceMemory object with
+vkFreeMemory will not cause resources (or resource regions) bound to
+the memory object to become unbound. Applications must not access
+resources bound to memory that has been freed."
+(32.7.6)
 
-v4->v5:
-* No change.
 
-v3->v4:
-* No change.
-
-v2->v3:
-* No change.
-
-v1->v2:
-* No change.
-
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8a5012ba6ff9..ffc8da8d5a8b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6861,6 +6861,15 @@ F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
- F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
- F:	drivers/gpu/drm/bridge/imx/
- 
-+DRM DRIVERS FOR FREESCALE i.MX8QXP
-+M:	Liu Ying <victor.liu@nxp.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
-+F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml
-+F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
-+F:	drivers/gpu/drm/imx/dpu/
-+
- DRM DRIVERS FOR GMA500 (Poulsbo, Moorestown and derivative chipsets)
- M:	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
- L:	dri-devel@lists.freedesktop.org
--- 
-2.37.1
-
+>
+> Dave.
+> >
+> > Dave.
