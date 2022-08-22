@@ -2,73 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4593259C593
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 19:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F6D59C6D3
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 20:43:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98F8F9B435;
-	Mon, 22 Aug 2022 17:58:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED358F850;
+	Mon, 22 Aug 2022 18:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC859B3EB
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 17:58:12 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id l23so303092lji.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 10:58:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=RWYLTrcCZlG0a48i/Axnj+NOJi6WNiY/wtEpP6R8Cso=;
- b=IgzBtvwxsGxNvJP1J3AH+pEA/ILQB4DRAD0OvIowCQIEzs75ZSursWuP07tv1lF9A+
- GTiNGTn2ZfXVUYh97diO2Bm/BeCZQ9BnpEilK0W2VqBWTAYiQeq7Cd9B+ykEClLE5Bhd
- efXl41/ZYCy8D3D3+S25jCs43miYrUMjuRl6Z9hgsCHV4wyUCNF4i4tw5dS22y/LSb8o
- nhKetgh0lYgMdLQJUL6Uou+mrL9/8S93q6rMcpA5MWnvmFDiOGVH8h5/spzoAm4rxOpm
- y+L1EkfucwypJUniALZOLQRY56qoLbQjbE67KB1DiB3wp9luzFdvXSBAe2R8SWZns9+L
- 77yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=RWYLTrcCZlG0a48i/Axnj+NOJi6WNiY/wtEpP6R8Cso=;
- b=kbqxXocYvPJAOoRKCMKwpiTogUhVZnYiM+7iZauRdrCzffeC7e685vQ+C9Tct6uMmS
- LQOam3K9s0vKU9S6vXImiBL04n9a4qSoFciJjvlSIBoQ7/W0FYtgoYo4v6QwrCRqdedv
- VCkPiV/Tg+f2TF8EvYNnJn//cPKOk+ubj111yCs0My7dmuEaQMLnuF9F24oFWQgghQaL
- gBFrPcK2AHNUAZy1TPI50qJcA4XDKO9k/46Ul8ZBUYa041Ki/zAz9RZGIDovOupVd8BR
- ps+bPMhwrvx2YInLTyuPJhFz6mq/aTaZvD5m5ASTSL2SKgtg++esGrE/O4m8cJosghny
- ybxw==
-X-Gm-Message-State: ACgBeo2f2/mVr7jFNgrSjsC1005/AIqjA16GseoVTvQlkO8YgBxZGsnJ
- C82vbnYiKHGnSfinMw/SROtqeQHvo12A5A==
-X-Google-Smtp-Source: AA6agR7dYWNWZi8FS8hwu9VcM99F98hvdjk2XGX0dbfCiTvE/xUerprDELcV2OpaaDuqxd7GvxCGOw==
-X-Received: by 2002:a05:651c:220a:b0:261:cab2:3fc1 with SMTP id
- y10-20020a05651c220a00b00261cab23fc1mr2509753ljq.284.1661191090934; 
- Mon, 22 Aug 2022 10:58:10 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- z13-20020a05651c022d00b0025e49aaae10sm1928628ljn.12.2022.08.22.10.58.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Aug 2022 10:58:10 -0700 (PDT)
-Message-ID: <a3a917b3-5dfc-761e-e5f6-5955c89db4a4@linaro.org>
-Date: Mon, 22 Aug 2022 20:58:08 +0300
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0672E10E064
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 09:20:27 +0000 (UTC)
+X-UUID: 5b77b5b489394965a108949913ce5a0c-20220822
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=TzusHG4BQAsjX+PbVKUr1Z1TZLDoEwzdv5oKP92xs9w=; 
+ b=fDb1jcjzWLjS1fOnc9VivNyuxbBH+ZSY5ENMrE9QKzWEfI2Ql1Fj3pxY/byijaOmdrtfRl7D+XJrNhwLQ/528CustKtML8OOWRT/M5/kPGdqsRTYukZZR9EOfljX+mQvpvg1QcgeNaZlbFire6ALs/D1ICLUyEUMQnLgF+83Ijg=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10, REQID:5582d66e-5f37-4d93-9b80-097d25aeb635, OB:0,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
+ Ham,ACTION:release,TS:0
+X-CID-META: VersionHash:84eae18, CLOUDID:8045eb67-a9d9-4672-a3c8-12721739a220,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 5b77b5b489394965a108949913ce5a0c-20220822
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <zheng-yan.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1396020308; Mon, 22 Aug 2022 17:20:24 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 22 Aug 2022 17:20:10 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Mon, 22 Aug 2022 17:20:10 +0800
+From: zheng-yan.chen <zheng-yan.chen@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>
+Subject: [PATCH 0/3] Add gamma lut support for mt8195
+Date: Mon, 22 Aug 2022 17:19:42 +0800
+Message-ID: <20220822091945.21343-1-zheng-yan.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH 3/4] dt-bindings: display/msm/gmu: account for different
- GMU variants
-Content-Language: en-GB
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220706145222.1565238-1-dmitry.baryshkov@linaro.org>
- <20220706145222.1565238-4-dmitry.baryshkov@linaro.org>
- <7b504ecb-b05a-549e-e2ce-18c539f68655@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <7b504ecb-b05a-549e-e2ce-18c539f68655@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK: N
+X-Mailman-Approved-At: Mon, 22 Aug 2022 18:43:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,89 +63,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org,
+ "zheng-yan.chen" <zheng-yan.chen@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/07/2022 18:52, Krzysztof Kozlowski wrote:
-> On 06/07/2022 16:52, Dmitry Baryshkov wrote:
->> Make display/msm/gmu.yaml describe all existing GMU variants rather than
->> just the 630.2 (SDM845) version of it.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   .../devicetree/bindings/display/msm/gmu.yaml  | 166 +++++++++++++++---
->>   1 file changed, 146 insertions(+), 20 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
->> index fe55611d2603..67fdeeabae0c 100644
->> --- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
->> @@ -20,35 +20,24 @@ description: |
->>   properties:
->>     compatible:
->>       items:
->> -      - enum:
->> -          - qcom,adreno-gmu-630.2
->> +      - pattern: '^qcom,adreno-gmu-6[0-9][0-9]\.[0-9]$'
->>         - const: qcom,adreno-gmu
->>   
->>     reg:
->> -    items:
->> -      - description: Core GMU registers
->> -      - description: GMU PDC registers
->> -      - description: GMU PDC sequence registers
->> +    minItems: 3
->> +    maxItems: 4
->>   
->>     reg-names:
->> -    items:
->> -      - const: gmu
->> -      - const: gmu_pdc
->> -      - const: gmu_pdc_seq
->> +    minItems: 3
->> +    maxItems: 4
->>   
->>     clocks:
->> -    items:
->> -      - description: GMU clock
->> -      - description: GPU CX clock
->> -      - description: GPU AXI clock
->> -      - description: GPU MEMNOC clock
->> +    minItems: 4
->> +    maxItems: 7
->>   
->>     clock-names:
->> -    items:
->> -      - const: gmu
->> -      - const: cxo
->> -      - const: axi
->> -      - const: memnoc
->> +    minItems: 4
->> +    maxItems: 7
->>   
->>     interrupts:
->>       items:
->> @@ -76,6 +65,9 @@ properties:
->>   
->>     operating-points-v2: true
->>   
->> +  opp-table:
->> +    type: object
-> 
-> instead: opp-table:true
+Since the gamma_set_common() function for previous SoC,
+such as  mt8173 and mt8183, is designed for 9bit-to-10bit
+conversion.
+mt8195 is using 10bit-to-12bit conversion, which is
+not compatible with the previous function.
 
-Wouldn't this allow e.g. using just 'opp-table;' as a flag?
+Thus, need to update the function to fit the need of mt8195.
 
-> 
->> +
-> 
-> Best regards,
-> Krzysztof
+---
+Base on series [1]:
+[1]: Add driver nodes for MT8195 SoC
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=666741
+---
+
+zheng-yan.chen (3):
+  dt-bindings: mediatek: Add gamma compatible for mt8195
+  drm/mediatek: Add gamma lut support for mt8195
+  arm64: dts: Modify gamma compatible for mt8195
+
+ .../display/mediatek/mediatek,gamma.yaml      |  3 +-
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c       |  2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c     | 97 ++++++++++++++-----
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  5 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |  1 -
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  1 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 +
+ 10 files changed, 87 insertions(+), 32 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.18.0
 
