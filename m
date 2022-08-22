@@ -2,73 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0724259C66A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 20:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DC559C67F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 20:38:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E369F2EB;
-	Mon, 22 Aug 2022 18:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E946A8BD15;
+	Mon, 22 Aug 2022 18:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B120B8BF0E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 18:33:38 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id l21so11443384ljj.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 11:33:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=xPEThM+voZDV86XHw2ieneCB0y1qVMLkDtKoP7Y2Jt4=;
- b=rFwkarzxAseZgLgg/cI11bLRRWGARO/BnewzUo0tAQ8MNbQDPfJOjvoaZz1j+mBtNW
- JOF8fyavWDKwQrUT8bleo2ltgPJEc1R1G9LdLrBEt7IKAbXNnDittl6glibkX14NaAdw
- vCbrVRJ1EzLmw3wCSK7lTv9twk9+H745sHXJqnb2XbtcKNM585QAnYMrAWZzcMWgKSxu
- QgpylCBP/ZUyBQGJCxfBy/+NQnZt2XHON/h9GwmbAjdwdOMp0NSh6UeHetWIk+YMVKLN
- PZ2F++B4Zj5yiZK8vswFI5Q148yQjim1+ZRCVX0u7kPbkLxPOuyJGNqgtCKa9KpcWiNa
- 4bEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=xPEThM+voZDV86XHw2ieneCB0y1qVMLkDtKoP7Y2Jt4=;
- b=g9oDj9l15tuLZ1U5Q4jq4YsI/cQjjmOtEtNIn4FEf60r1MCCVbKYXLvXzBhl0BtnRQ
- GgY3aUZNy2fzP3YXE/b3Nslu/e7y8bJmUe+NiqSneDmIjng8z7rBwA8ea1fc7OrV5KCu
- VhtZ7lj+L3QzRC0UZ1f4+wnIrkj+aaebTkw5pHUDvsmpntMqGr0BQIYDUmhWS9BxDNZr
- RZBv6MQdWvaAUDkirb1c+Ek51uODiNMjHCy+u0a9k+AbMLjMdsKtnDL/6DM9k/YZSmIE
- dL2ll39iyLlmRGs8zSDQBsjdcFJEgQtJWF1YzcSyRrjkh+fy91bRQRlvCPNKe06Ivim/
- MLVw==
-X-Gm-Message-State: ACgBeo2E39Enc4M0JnmSntRJrWk5VS+gqEgI+j7NBwCGsJ85qO6KAeSj
- iluFudkw7phEmsWqPxyWHoBGyQ==
-X-Google-Smtp-Source: AA6agR6Ot4kr92MbagLAF+U3AjLjw9N6TXLxOqO6ux2vh8enPEa3LnqhmraZ913NIaS6vrL3aUmC8g==
-X-Received: by 2002:a2e:712:0:b0:25e:c39b:45cf with SMTP id
- 18-20020a2e0712000000b0025ec39b45cfmr6527984ljh.511.1661193216666; 
- Mon, 22 Aug 2022 11:33:36 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- w12-20020a05651204cc00b0048b0696d0b1sm2042260lfq.90.2022.08.22.11.33.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Aug 2022 11:33:36 -0700 (PDT)
-Message-ID: <bb153360-6567-c4d5-dc23-8586549df8c8@linaro.org>
-Date: Mon, 22 Aug 2022 21:33:35 +0300
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77A239F6CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 18:38:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=chye1AN8Cv/RF7peoJ5EvTex4Ig2cPDif+v1GtSCqFM=; b=XuOF0v8Ytb233BdHMKGXmU82JB
+ 1I3m38H/4tp1HOg/kL9K6fqnNjFVng42iIB+X9OoYHEmBOZl+0JIfVEPuWXzGdYppfw6+icCfIqy+
+ ZWzlFTVVPSMJzW28xn8/CrYqbuSJq84srsCE817DEN7rWElHjWqnHVzmUYp1AglRInXrj7MyVJTzE
+ G/nEOtgX/nD3XW+VO4iqzbgon3AhIsuwKyM7VWw80UqjAkSKesXSLj1RkGYv6CRslZmbsV4CJ5TKK
+ g3J9jmb1M8odFj94oRO9nLU62RZfM4pUzL9hzUHwMHw/3fbgyNzAQ6EToJ7S9rVK8HUqqTDvwsC3m
+ UxhDQWPA==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oQCJD-00Fa9L-Gq; Mon, 22 Aug 2022 20:37:59 +0200
+Date: Mon, 22 Aug 2022 17:37:35 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Subject: Re: [RESEND v6 2/9] drm: vkms: Rename `vkms_composer` to
+ `vkms_frame_info`
+Message-ID: <20220822183735.fgddmurhgs472tz2@mail.igalia.com>
+References: <20220819182411.20246-1-igormtorrente@gmail.com>
+ <20220819182411.20246-3-igormtorrente@gmail.com>
+ <20220820110007.wk5wugdfpya4eb7w@mail.igalia.com>
+ <4ba3957d-6358-2b4e-fb31-68a4dab6f01b@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH] drm/msm/dp: add atomic_check to bridge ops
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
- sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
- vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
- bjorn.andersson@linaro.org
-References: <1660759314-28088-1-git-send-email-quic_khsieh@quicinc.com>
- <f211520a-cb9c-1202-0752-7bb200726ae8@linaro.org>
- <d4b3c303-fc20-537d-0e69-6e19826b6e59@quicinc.com>
- <266c0531-344e-5589-2143-02ab1fe9b276@linaro.org>
- <724d695d-0293-db81-7014-57cb96bd6d4b@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <724d695d-0293-db81-7014-57cb96bd6d4b@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="p5ktz2vc7ba7slpt"
+Content-Disposition: inline
+In-Reply-To: <4ba3957d-6358-2b4e-fb31-68a4dab6f01b@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,293 +56,393 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ leandro.ribeiro@collabora.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ tales.aparecida@gmail.com, ~lkcamp/patches@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/08/2022 20:32, Abhinav Kumar wrote:
-> 
-> 
-> On 8/22/2022 9:49 AM, Dmitry Baryshkov wrote:
->> On 22/08/2022 19:38, Abhinav Kumar wrote:
->>> Hi Dmitry
->>>
->>> On 8/22/2022 9:18 AM, Dmitry Baryshkov wrote:
->>>> On 17/08/2022 21:01, Kuogee Hsieh wrote:
->>>>> DRM commit_tails() will disable downstream crtc/encoder/bridge if
->>>>> both disable crtc is required and crtc->active is set before pushing
->>>>> a new frame downstream.
->>>>>
->>>>> There is a rare case that user space display manager issue an extra
->>>>> screen update immediately followed by close DRM device while down
->>>>> stream display interface is disabled. This extra screen update will
->>>>> timeout due to the downstream interface is disabled but will cause
->>>>> crtc->active be set. Hence the followed commit_tails() called by
->>>>> drm_release() will pass the disable downstream crtc/encoder/bridge
->>>>> conditions checking even downstream interface is disabled.
->>>>> This cause the crash to happen at dp_bridge_disable() due to it trying
->>>>> to access the main link register to push the idle pattern out while 
->>>>> main
->>>>> link clocks is disabled.
->>>>>
->>>>> This patch adds atomic_check to prevent the extra frame will not
->>>>> be pushed down if display interface is down so that crtc->active
->>>>> will not be set neither. This will fail the conditions checking
->>>>> of disabling down stream crtc/encoder/bridge which prevent
->>>>> drm_release() from calling dp_bridge_disable() so that crash
->>>>> at dp_bridge_disable() prevented.
->>>>
->>>> I must admit I had troubles parsing this description. However if I 
->>>> got you right, I think the check that the main link clock is running 
->>>> in the dp_bridge_disable() or dp_ctrl_push_idle() would be a better 
->>>> fix.
->>>
->>> Originally, thats what was posted 
->>> https://patchwork.freedesktop.org/patch/496984/.
->>
->> This patch is also not so correct from my POV. It checks for the hpd 
->> status, while in reality it should check for main link clocks being 
->> enabled.
->>
-> 
-> We can push another fix to check for the clk state instead of the hpd 
-> status. But I must say we are again just masking something which the fwk 
-> should have avoided isnt it?
-> 
-> As per the doc in the include/drm/drm_bridge.h it says,
-> 
-> "*
->   * The bridge can assume that the display pipe (i.e. clocks and timing
->   * signals) feeding it is still running when this callback is called.
->   *"
 
-Yes, that's what I meant about this chunk begging to go to the core. In 
-my opinion, if we are talking about the disconnected sinks, it is the 
-framework who should disallow submitting the frames to the disconnected 
-sinks.
+--p5ktz2vc7ba7slpt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> By adding an extra layers of protection in the driver, we are just 
-> avoiding another issue but the commit should not have been issued in the 
-> first place.
-> 
-> So shouldnt we do both then? That is add protection to check if clock is 
-> ON and also, reject commits when display is disconnected.
-> 
->>>
->>> Then it seemed like we were just protecting against an issue in the 
->>> framework which was allowing the frames to be pushed even after the 
->>> display was disconnected. The DP driver did send out the disconnect 
->>> event correctly and as per the logs, this frame came down after that 
->>> and the DRM fwk did allow it.
->>>
->>> So after discussing on IRC with Rob, we came up with this approach that
->>> if the display is not connected, then atomic_check should fail. That 
->>> way the commit will not happen.
->>>
->>> Just seemed a bit cleaner instead of adding all our protections.
->>
->> The check to fail atomic_check if display is not connected seems out 
->> of place. In its current way it begs go to the upper layer, forbidding 
->> using disconnected sinks for all the drivers. There is nothing special 
->> in the MSM DP driver with respect to the HPD events processing and 
->> failing atomic_check() based on that.
->>
-> 
-> Why all the drivers? This is only for MSM DP bridge.
+On 08/22, Igor Matheus Andrade Torrente wrote:
+> Hi Mellisa,
+>=20
+> On 8/20/22 08:00, Melissa Wen wrote:
+> > On 08/19, Igor Torrente wrote:
+> > > Changes the name of this struct to a more meaningful name.
+> > > A name that represents better what this struct is about.
+> > >=20
+> > > Composer is the code that do the compositing of the planes.
+> > > This struct contains information on the frame used in the output
+> > > composition. Thus, vkms_frame_info is a better name to represent
+> > > this.
+> > >=20
+> > > V5: Fix a commit message typo(Melissa Wen).
+> > >=20
+> > > Reviewed-by: Melissa Wen <mwen@igalia.com>
+> > > Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
+> > > ---
+> > >   drivers/gpu/drm/vkms/vkms_composer.c | 87 ++++++++++++++-----------=
+---
+> > >   drivers/gpu/drm/vkms/vkms_drv.h      |  6 +-
+> > >   drivers/gpu/drm/vkms/vkms_plane.c    | 38 ++++++------
+> > >   3 files changed, 66 insertions(+), 65 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/v=
+kms/vkms_composer.c
+> > > index 775b97766e08..0aded4e87e60 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> > > @@ -11,11 +11,11 @@
+> > >   #include "vkms_drv.h"
+> > >   static u32 get_pixel_from_buffer(int x, int y, const u8 *buffer,
+> > > -				 const struct vkms_composer *composer)
+> > > +				 const struct vkms_frame_info *frame_info)
+> > >   {
+> > >   	u32 pixel;
+> > > -	int src_offset =3D composer->offset + (y * composer->pitch)
+> > > -				      + (x * composer->cpp);
+> > > +	int src_offset =3D frame_info->offset + (y * frame_info->pitch)
+> > > +					    + (x * frame_info->cpp);
+> > >   	pixel =3D *(u32 *)&buffer[src_offset];
+> > > @@ -26,24 +26,24 @@ static u32 get_pixel_from_buffer(int x, int y, co=
+nst u8 *buffer,
+> > >    * compute_crc - Compute CRC value on output frame
+> > >    *
+> > >    * @vaddr: address to final framebuffer
+> > > - * @composer: framebuffer's metadata
+> > > + * @frame_info: framebuffer's metadata
+> > >    *
+> > >    * returns CRC value computed using crc32 on the visible portion of
+> > >    * the final framebuffer at vaddr_out
+> > >    */
+> > >   static uint32_t compute_crc(const u8 *vaddr,
+> > > -			    const struct vkms_composer *composer)
+> > > +			    const struct vkms_frame_info *frame_info)
+> > >   {
+> > >   	int x, y;
+> > >   	u32 crc =3D 0, pixel =3D 0;
+> > > -	int x_src =3D composer->src.x1 >> 16;
+> > > -	int y_src =3D composer->src.y1 >> 16;
+> > > -	int h_src =3D drm_rect_height(&composer->src) >> 16;
+> > > -	int w_src =3D drm_rect_width(&composer->src) >> 16;
+> > > +	int x_src =3D frame_info->src.x1 >> 16;
+> > > +	int y_src =3D frame_info->src.y1 >> 16;
+> > > +	int h_src =3D drm_rect_height(&frame_info->src) >> 16;
+> > > +	int w_src =3D drm_rect_width(&frame_info->src) >> 16;
+> > >   	for (y =3D y_src; y < y_src + h_src; ++y) {
+> > >   		for (x =3D x_src; x < x_src + w_src; ++x) {
+> > > -			pixel =3D get_pixel_from_buffer(x, y, vaddr, composer);
+> > > +			pixel =3D get_pixel_from_buffer(x, y, vaddr, frame_info);
+> > >   			crc =3D crc32_le(crc, (void *)&pixel, sizeof(u32));
+> > >   		}
+> > >   	}
+> > > @@ -98,8 +98,8 @@ static void x_blend(const u8 *xrgb_src, u8 *xrgb_ds=
+t)
+> > >    * blend - blend value at vaddr_src with value at vaddr_dst
+> > >    * @vaddr_dst: destination address
+> > >    * @vaddr_src: source address
+> > > - * @dst_composer: destination framebuffer's metadata
+> > > - * @src_composer: source framebuffer's metadata
+> > > + * @dst_frame_info: destination framebuffer's metadata
+> > > + * @src_frame_info: source framebuffer's metadata
+> > >    * @pixel_blend: blending equation based on plane format
+> > >    *
+> > >    * Blend the vaddr_src value with the vaddr_dst value using a pixel=
+ blend
+> > > @@ -111,33 +111,33 @@ static void x_blend(const u8 *xrgb_src, u8 *xrg=
+b_dst)
+> > >    * pixel color values
+> > >    */
+> > >   static void blend(void *vaddr_dst, void *vaddr_src,
+> > > -		  struct vkms_composer *dst_composer,
+> > > -		  struct vkms_composer *src_composer,
+> > > +		  struct vkms_frame_info *dst_frame_info,
+> > > +		  struct vkms_frame_info *src_frame_info,
+> > >   		  void (*pixel_blend)(const u8 *, u8 *))
+> > >   {
+> > >   	int i, j, j_dst, i_dst;
+> > >   	int offset_src, offset_dst;
+> > >   	u8 *pixel_dst, *pixel_src;
+> > > -	int x_src =3D src_composer->src.x1 >> 16;
+> > > -	int y_src =3D src_composer->src.y1 >> 16;
+> > > +	int x_src =3D src_frame_info->src.x1 >> 16;
+> > > +	int y_src =3D src_frame_info->src.y1 >> 16;
+> > > -	int x_dst =3D src_composer->dst.x1;
+> > > -	int y_dst =3D src_composer->dst.y1;
+> > > -	int h_dst =3D drm_rect_height(&src_composer->dst);
+> > > -	int w_dst =3D drm_rect_width(&src_composer->dst);
+> > > +	int x_dst =3D src_frame_info->dst.x1;
+> > > +	int y_dst =3D src_frame_info->dst.y1;
+> > > +	int h_dst =3D drm_rect_height(&src_frame_info->dst);
+> > > +	int w_dst =3D drm_rect_width(&src_frame_info->dst);
+> > >   	int y_limit =3D y_src + h_dst;
+> > >   	int x_limit =3D x_src + w_dst;
+> > >   	for (i =3D y_src, i_dst =3D y_dst; i < y_limit; ++i) {
+> > >   		for (j =3D x_src, j_dst =3D x_dst; j < x_limit; ++j) {
+> > > -			offset_dst =3D dst_composer->offset
+> > > -				     + (i_dst * dst_composer->pitch)
+> > > -				     + (j_dst++ * dst_composer->cpp);
+> > > -			offset_src =3D src_composer->offset
+> > > -				     + (i * src_composer->pitch)
+> > > -				     + (j * src_composer->cpp);
+> > > +			offset_dst =3D dst_frame_info->offset
+> > > +				     + (i_dst * dst_frame_info->pitch)
+> > > +				     + (j_dst++ * dst_frame_info->cpp);
+> > > +			offset_src =3D src_frame_info->offset
+> > > +				     + (i * src_frame_info->pitch)
+> > > +				     + (j * src_frame_info->cpp);
+> > >   			pixel_src =3D (u8 *)(vaddr_src + offset_src);
+> > >   			pixel_dst =3D (u8 *)(vaddr_dst + offset_dst);
+> > > @@ -149,32 +149,33 @@ static void blend(void *vaddr_dst, void *vaddr_=
+src,
+> > >   	}
+> > >   }
+> > > -static void compose_plane(struct vkms_composer *primary_composer,
+> > > -			  struct vkms_composer *plane_composer,
+> > > +static void compose_plane(struct vkms_frame_info *primary_plane_info,
+> > > +			  struct vkms_frame_info *plane_frame_info,
+> > >   			  void *vaddr_out)
+> > >   {
+> > > -	struct drm_framebuffer *fb =3D &plane_composer->fb;
+> > > +	struct drm_framebuffer *fb =3D &plane_frame_info->fb;
+> > >   	void *vaddr;
+> > >   	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
+> > > -	if (WARN_ON(iosys_map_is_null(&plane_composer->map[0])))
+> > > +	if (WARN_ON(iosys_map_is_null(&primary_plane_info->map[0])))
+> > ^ here you are reintroducing an error that we were checking primary
+> > plane repeatedly, instead of plane_composer (renamed to:
+> > plane_frame_info here). The issue is fixed in a following patch of this
+> > series when you decouple check_iosys_map.
+> > But I don't mind fixing it before apply.
+> Should I simply delete this line in the patch? Or there's something
+> else to do?
 
-Yes, we change the MSM DRM driver. But the check is generic enough. I'm 
-not actually insisting on pushing the check to the core, just trying to 
-understand the real cause here.
+No, you just need to check the correct plane (plane_frame_info), that means:
 
-> 
->>>
->>>>
->>>>>
->>>>> SError Interrupt on CPU7, code 0x00000000be000411 -- SError
->>>>> CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
->>>>> Hardware name: Google Lazor (rev3 - 8) (DT)
->>>>> pstate: a04000c9 (NzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->>>>> pc : __cmpxchg_case_acq_32+0x14/0x2c
->>>>> lr : do_raw_spin_lock+0xa4/0xdc
->>>>> sp : ffffffc01092b6a0
->>>>> x29: ffffffc01092b6a0 x28: 0000000000000028 x27: 0000000000000038
->>>>> x26: 0000000000000004 x25: ffffffd2973dce48 x24: 0000000000000000
->>>>> x23: 00000000ffffffff x22: 00000000ffffffff x21: ffffffd2978d0008
->>>>> x20: ffffffd2978d0008 x19: ffffff80ff759fc0 x18: 0000000000000000
->>>>> x17: 004800a501260460 x16: 0441043b04600438 x15: 04380000089807d0
->>>>> x14: 07b0089807800780 x13: 0000000000000000 x12: 0000000000000000
->>>>> x11: 0000000000000438 x10: 00000000000007d0 x9 : ffffffd2973e09e4
->>>>> x8 : ffffff8092d53300 x7 : ffffff808902e8b8 x6 : 0000000000000001
->>>>> x5 : ffffff808902e880 x4 : 0000000000000000 x3 : ffffff80ff759fc0
->>>>> x2 : 0000000000000001 x1 : 0000000000000000 x0 : ffffff80ff759fc0
->>>>> Kernel panic - not syncing: Asynchronous SError Interrupt
->>>>> CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
->>>>> Hardware name: Google Lazor (rev3 - 8) (DT)
->>>>> Call trace:
->>>>>   dump_backtrace.part.0+0xbc/0xe4
->>>>>   show_stack+0x24/0x70
->>>>>   dump_stack_lvl+0x68/0x84
->>>>>   dump_stack+0x18/0x34
->>>>>   panic+0x14c/0x32c
->>>>>   nmi_panic+0x58/0x7c
->>>>>   arm64_serror_panic+0x78/0x84
->>>>>   do_serror+0x40/0x64
->>>>>   el1h_64_error_handler+0x30/0x48
->>>>>   el1h_64_error+0x68/0x6c
->>>>>   __cmpxchg_case_acq_32+0x14/0x2c
->>>>>   _raw_spin_lock_irqsave+0x38/0x4c
+- if (WARN_ON(iosys_map_is_null(&plane_composer->map[0])))
++ if (WARN_ON(iosys_map_is_null(&plane_frame_info->map[0])))
 
-You know, after re-reading the trace, I could not help but notice that 
-the issue seems to be related to completion/timer/spinlock memory 
-becoming unavailable rather than disabling the main link clock.
-See, the SError comes in the spin_lock path, not during register read.
+because here you are renaming `plane_composer` to `plane_frame_info`,
+and `primary_plane_info->map[0]` is already checked in the following
+compose_active_planes() function.
 
-Thus I think the commit message is a bit misleading.
+Thanks,
 
-Can we please get a trace checking which calls were actually made for 
-the dp bridge and if the dp/dp->ctrl memory pointers are correct?
+Melissa
 
-I do not see the dp_display_disable() being called. Maybe I just missed 
-the call.
+>=20
+> >=20
+> > >   		return;
+> > > -	vaddr =3D plane_composer->map[0].vaddr;
+> > > +	vaddr =3D plane_frame_info->map[0].vaddr;
+> > >   	if (fb->format->format =3D=3D DRM_FORMAT_ARGB8888)
+> > >   		pixel_blend =3D &alpha_blend;
+> > >   	else
+> > >   		pixel_blend =3D &x_blend;
+> > > -	blend(vaddr_out, vaddr, primary_composer, plane_composer, pixel_ble=
+nd);
+> > > +	blend(vaddr_out, vaddr, primary_plane_info,
+> > > +	      plane_frame_info, pixel_blend);
+> > >   }
+> > >   static int compose_active_planes(void **vaddr_out,
+> > > -				 struct vkms_composer *primary_composer,
+> > > +				 struct vkms_frame_info *primary_plane_info,
+> > >   				 struct vkms_crtc_state *crtc_state)
+> > >   {
+> > > -	struct drm_framebuffer *fb =3D &primary_composer->fb;
+> > > +	struct drm_framebuffer *fb =3D &primary_plane_info->fb;
+> > >   	struct drm_gem_object *gem_obj =3D drm_gem_fb_get_obj(fb, 0);
+> > >   	const void *vaddr;
+> > >   	int i;
+> > > @@ -187,10 +188,10 @@ static int compose_active_planes(void **vaddr_o=
+ut,
+> > >   		}
+> > >   	}
+> > > -	if (WARN_ON(iosys_map_is_null(&primary_composer->map[0])))
+> > > +	if (WARN_ON(iosys_map_is_null(&primary_plane_info->map[0])))
+> > >   		return -EINVAL;
+> > > -	vaddr =3D primary_composer->map[0].vaddr;
+> > > +	vaddr =3D primary_plane_info->map[0].vaddr;
+> > >   	memcpy(*vaddr_out, vaddr, gem_obj->size);
+> > > @@ -199,8 +200,8 @@ static int compose_active_planes(void **vaddr_out,
+> > >   	 * ((primary <- overlay) <- cursor)
+> > >   	 */
+> > >   	for (i =3D 1; i < crtc_state->num_active_planes; i++)
+> > > -		compose_plane(primary_composer,
+> > > -			      crtc_state->active_planes[i]->composer,
+> > > +		compose_plane(primary_plane_info,
+> > > +			      crtc_state->active_planes[i]->frame_info,
+> > >   			      *vaddr_out);
+> > >   	return 0;
+> > > @@ -222,7 +223,7 @@ void vkms_composer_worker(struct work_struct *wor=
+k)
+> > >   						composer_work);
+> > >   	struct drm_crtc *crtc =3D crtc_state->base.crtc;
+> > >   	struct vkms_output *out =3D drm_crtc_to_vkms_output(crtc);
+> > > -	struct vkms_composer *primary_composer =3D NULL;
+> > > +	struct vkms_frame_info *primary_plane_info =3D NULL;
+> > >   	struct vkms_plane_state *act_plane =3D NULL;
+> > >   	bool crc_pending, wb_pending;
+> > >   	void *vaddr_out =3D NULL;
+> > > @@ -250,16 +251,16 @@ void vkms_composer_worker(struct work_struct *w=
+ork)
+> > >   	if (crtc_state->num_active_planes >=3D 1) {
+> > >   		act_plane =3D crtc_state->active_planes[0];
+> > >   		if (act_plane->base.base.plane->type =3D=3D DRM_PLANE_TYPE_PRIMAR=
+Y)
+> > > -			primary_composer =3D act_plane->composer;
+> > > +			primary_plane_info =3D act_plane->frame_info;
+> > >   	}
+> > > -	if (!primary_composer)
+> > > +	if (!primary_plane_info)
+> > >   		return;
+> > >   	if (wb_pending)
+> > >   		vaddr_out =3D crtc_state->active_writeback->data[0].vaddr;
+> > > -	ret =3D compose_active_planes(&vaddr_out, primary_composer,
+> > > +	ret =3D compose_active_planes(&vaddr_out, primary_plane_info,
+> > >   				    crtc_state);
+> > >   	if (ret) {
+> > >   		if (ret =3D=3D -EINVAL && !wb_pending)
+> > > @@ -267,7 +268,7 @@ void vkms_composer_worker(struct work_struct *wor=
+k)
+> > >   		return;
+> > >   	}
+> > > -	crc32 =3D compute_crc(vaddr_out, primary_composer);
+> > > +	crc32 =3D compute_crc(vaddr_out, primary_plane_info);
+> > >   	if (wb_pending) {
+> > >   		drm_writeback_signal_completion(&out->wb_connector, 0);
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/v=
+kms_drv.h
+> > > index 36fbab5989d1..5199c5f18e17 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> > > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> > > @@ -27,7 +27,7 @@ struct vkms_writeback_job {
+> > >   	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+> > >   };
+> > > -struct vkms_composer {
+> > > +struct vkms_frame_info {
+> > >   	struct drm_framebuffer fb;
+> > >   	struct drm_rect src, dst;
+> > >   	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+> > > @@ -39,11 +39,11 @@ struct vkms_composer {
+> > >   /**
+> > >    * vkms_plane_state - Driver specific plane state
+> > >    * @base: base plane state
+> > > - * @composer: data required for composing computation
+> > > + * @frame_info: data required for composing computation
+> > >    */
+> > >   struct vkms_plane_state {
+> > >   	struct drm_shadow_plane_state base;
+> > > -	struct vkms_composer *composer;
+> > > +	struct vkms_frame_info *frame_info;
+> > >   };
+> > >   struct vkms_plane {
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms=
+/vkms_plane.c
+> > > index d8eb674b49a6..fcae6c508f4b 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> > > @@ -24,20 +24,20 @@ static struct drm_plane_state *
+> > >   vkms_plane_duplicate_state(struct drm_plane *plane)
+> > >   {
+> > >   	struct vkms_plane_state *vkms_state;
+> > > -	struct vkms_composer *composer;
+> > > +	struct vkms_frame_info *frame_info;
+> > >   	vkms_state =3D kzalloc(sizeof(*vkms_state), GFP_KERNEL);
+> > >   	if (!vkms_state)
+> > >   		return NULL;
+> > > -	composer =3D kzalloc(sizeof(*composer), GFP_KERNEL);
+> > > -	if (!composer) {
+> > > -		DRM_DEBUG_KMS("Couldn't allocate composer\n");
+> > > +	frame_info =3D kzalloc(sizeof(*frame_info), GFP_KERNEL);
+> > > +	if (!frame_info) {
+> > > +		DRM_DEBUG_KMS("Couldn't allocate frame_info\n");
+> > >   		kfree(vkms_state);
+> > >   		return NULL;
+> > >   	}
+> > > -	vkms_state->composer =3D composer;
+> > > +	vkms_state->frame_info =3D frame_info;
+> > >   	__drm_gem_duplicate_shadow_plane_state(plane, &vkms_state->base);
+> > > @@ -54,12 +54,12 @@ static void vkms_plane_destroy_state(struct drm_p=
+lane *plane,
+> > >   		/* dropping the reference we acquired in
+> > >   		 * vkms_primary_plane_update()
+> > >   		 */
+> > > -		if (drm_framebuffer_read_refcount(&vkms_state->composer->fb))
+> > > -			drm_framebuffer_put(&vkms_state->composer->fb);
+> > > +		if (drm_framebuffer_read_refcount(&vkms_state->frame_info->fb))
+> > > +			drm_framebuffer_put(&vkms_state->frame_info->fb);
+> > >   	}
+> > > -	kfree(vkms_state->composer);
+> > > -	vkms_state->composer =3D NULL;
+> > > +	kfree(vkms_state->frame_info);
+> > > +	vkms_state->frame_info =3D NULL;
+> > >   	__drm_gem_destroy_shadow_plane_state(&vkms_state->base);
+> > >   	kfree(vkms_state);
+> > > @@ -99,7 +99,7 @@ static void vkms_plane_atomic_update(struct drm_pla=
+ne *plane,
+> > >   	struct vkms_plane_state *vkms_plane_state;
+> > >   	struct drm_shadow_plane_state *shadow_plane_state;
+> > >   	struct drm_framebuffer *fb =3D new_state->fb;
+> > > -	struct vkms_composer *composer;
+> > > +	struct vkms_frame_info *frame_info;
+> > >   	if (!new_state->crtc || !fb)
+> > >   		return;
+> > > @@ -107,15 +107,15 @@ static void vkms_plane_atomic_update(struct drm=
+_plane *plane,
+> > >   	vkms_plane_state =3D to_vkms_plane_state(new_state);
+> > >   	shadow_plane_state =3D &vkms_plane_state->base;
+> > > -	composer =3D vkms_plane_state->composer;
+> > > -	memcpy(&composer->src, &new_state->src, sizeof(struct drm_rect));
+> > > -	memcpy(&composer->dst, &new_state->dst, sizeof(struct drm_rect));
+> > > -	memcpy(&composer->fb, fb, sizeof(struct drm_framebuffer));
+> > > -	memcpy(&composer->map, &shadow_plane_state->data, sizeof(composer->=
+map));
+> > > -	drm_framebuffer_get(&composer->fb);
+> > > -	composer->offset =3D fb->offsets[0];
+> > > -	composer->pitch =3D fb->pitches[0];
+> > > -	composer->cpp =3D fb->format->cpp[0];
+> > > +	frame_info =3D vkms_plane_state->frame_info;
+> > > +	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
+> > > +	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
+> > > +	memcpy(&frame_info->fb, fb, sizeof(struct drm_framebuffer));
+> > > +	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_in=
+fo->map));
+> > > +	drm_framebuffer_get(&frame_info->fb);
+> > > +	frame_info->offset =3D fb->offsets[0];
+> > > +	frame_info->pitch =3D fb->pitches[0];
+> > > +	frame_info->cpp =3D fb->format->cpp[0];
+> > >   }
+> > >   static int vkms_plane_atomic_check(struct drm_plane *plane,
+> > > --=20
+> > > 2.30.2
+> > >=20
+>=20
 
+--p5ktz2vc7ba7slpt
+Content-Type: application/pgp-signature; name="signature.asc"
 
->>>>>   lock_timer_base+0x40/0x78
->>>>>   __mod_timer+0xf4/0x25c
->>>>>   schedule_timeout+0xd4/0xfc
->>>>>   __wait_for_common+0xac/0x140
->>>>>   wait_for_completion_timeout+0x2c/0x54
->>>>>   dp_ctrl_push_idle+0x40/0x88
->>>>>   dp_bridge_disable+0x24/0x30
->>>>>   drm_atomic_bridge_chain_disable+0x90/0xbc
->>>>>   drm_atomic_helper_commit_modeset_disables+0x198/0x444
->>>>>   msm_atomic_commit_tail+0x1d0/0x374
->>>>>   commit_tail+0x80/0x108
->>>>>   drm_atomic_helper_commit+0x118/0x11c
->>>>>   drm_atomic_commit+0xb4/0xe0
->>>>>   drm_client_modeset_commit_atomic+0x184/0x224
->>>>>   drm_client_modeset_commit_locked+0x58/0x160
->>>>>   drm_client_modeset_commit+0x3c/0x64
->>>>>   __drm_fb_helper_restore_fbdev_mode_unlocked+0x98/0xac
->>>>>   drm_fb_helper_set_par+0x74/0x80
->>>>>   drm_fb_helper_hotplug_event+0xdc/0xe0
->>>>>   __drm_fb_helper_restore_fbdev_mode_unlocked+0x7c/0xac
->>>>>   drm_fb_helper_restore_fbdev_mode_unlocked+0x20/0x2c
->>>>>   drm_fb_helper_lastclose+0x20/0x2c
->>>>>   drm_lastclose+0x44/0x6c
->>>>>   drm_release+0x88/0xd4
->>>>>   __fput+0x104/0x220
->>>>>   ____fput+0x1c/0x28
->>>>>   task_work_run+0x8c/0x100
->>>>>   do_exit+0x450/0x8d0
->>>>>   do_group_exit+0x40/0xac
->>>>>   __wake_up_parent+0x0/0x38
->>>>>   invoke_syscall+0x84/0x11c
->>>>>   el0_svc_common.constprop.0+0xb8/0xe4
->>>>>   do_el0_svc+0x8c/0xb8
->>>>>   el0_svc+0x2c/0x54
->>>>>   el0t_64_sync_handler+0x120/0x1c0
->>>>>   el0t_64_sync+0x190/0x194
->>>>> SMP: stopping secondary CPUs
->>>>> Kernel Offset: 0x128e800000 from 0xffffffc008000000
->>>>> PHYS_OFFSET: 0x80000000
->>>>> CPU features: 0x800,00c2a015,19801c82
->>>>> Memory Limit: none
->>>>>
->>>>> Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for 
->>>>> display enable and disable")
->>>>> Reported-by: Leonard Lausen <leonard@lausen.nl>
->>>>> Suggested-by: Rob Clark <robdclark@gmail.com>
->>>>> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/17
->>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>> ---
->>>>>   drivers/gpu/drm/msm/dp/dp_drm.c | 23 +++++++++++++++++++++++
->>>>>   1 file changed, 23 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c 
->>>>> b/drivers/gpu/drm/msm/dp/dp_drm.c
->>>>> index 6df25f7..c682588 100644
->>>>> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
->>>>> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
->>>>> @@ -31,6 +31,25 @@ static enum drm_connector_status 
->>>>> dp_bridge_detect(struct drm_bridge *bridge)
->>>>>                       connector_status_disconnected;
->>>>>   }
->>>>> +static int dp_bridge_atomic_check(struct drm_bridge *bridge,
->>>>> +                struct drm_bridge_state *bridge_state,
->>>>> +                struct drm_crtc_state *crtc_state,
->>>>> +                struct drm_connector_state *conn_state)
->>>>> +{
->>>>> +    struct msm_dp *dp;
->>>>> +
->>>>> +    dp = to_dp_bridge(bridge)->dp_display;
->>>>> +
->>>>> +    drm_dbg_dp(dp->drm_dev, "is_connected = %s\n",
->>>>> +        (dp->is_connected) ? "true" : "false");
->>>>> +
->>>>> +    if (bridge->ops & DRM_BRIDGE_OP_HPD)
->>>>> +        return (dp->is_connected) ? 0 : -ENOTCONN;
->>
->> This raises questions if this will work for the configurations when 
->> other bridge is used for HPD events.
->>
->> Let's not mix the levels of processing. If we should not disable the 
->> link because it is already disabled, let's just do so rather than 
->> failing the atomic_check().
->>
-> 
-> This is only for MSM DP's bridge. If we use another bridge which is 
-> capable of handling its own HPD, then that time MSM DP's bridge shouldnt 
-> set this flag.
+-----BEGIN PGP SIGNATURE-----
 
-Not quite. The bridges set the ops to describe the ops that they support 
-themselves. Then the drm_bridge_connectors selects the bridge handling 
-hpd, etc. So the DRM_BRIDGE_OP_HPD is always set for DP sources. But the 
-question is quite the opposite: if we have the next bridge (e.g. the 
-usb-c-connector or the display-connector), will the is_connected field 
-be set correctly?
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmMDzOMACgkQwqF3j0dL
+ehztjBAAw2ZuZIjlc8gYDhKmGLADDMedQW+fXgdsZ961C524jZbBknIf02RXJIuR
+iRFVjPML6/PMxMeGnOen1WyqSftCOX4G4j0I7RVq1jvGKVRc+gaClxFqH7HYLzeR
+Xq02FbIcMcXBHsafM9k41LhhrSjL6Ij+elT1sT328HiXKWXqFxuWzKtiqRh4Rb1T
+RnThFo3aEhUHKzgca9FwwxblYTBylRcVU6oYRAdndZZvqLyHpt7ASjJpY2jNvMUQ
+AWn/0p+69D+t7xUWd1v5FS63eCpwcVrNB9CpRgNNjB4bWybiIBfjSzW1+T4g907L
+kDikCvuMc+gytd1Aop4tR3Kz2nF1JZMDnQKSzwhxkBU5jh1S+hWvTOzUA/49tk5+
+BaeqJ3NXcCLW5SPixal9ImT6vizSt9FQMLRSWOwLPAjI1HPbLS1UT8e+LNcpur0B
+20Q1l1LTAfdcFMe/AUjI0dxPdyTwDDcIytMY9hQmfCf2ZAiDoie6FQfOVvfhglj0
+n0waY3Mlxfz5gr0jMr8oKG771/iw+q9dR6NR86pQqfhHzsjJvavcB3ISSA66yVtH
+76cPVYLHlWgNv9HKXSyN9UxSR1dq1oHDjVRng6NnUMx1TzJ+uayCT50gEFM9bNiM
+u53rSExTgT0Y/fYHxnAlLjRmlyMOa8+gsKmaUUfFDG134jBDweE=
+=5Zf3
+-----END PGP SIGNATURE-----
 
-> 
-> We can even replace this check with just checking if connector_type is 
-> DP but that would again open the discussion of having DP/eDP specific 
-> checks so we did it this way.
-> 
-> 
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +
->>>>>   /**
->>>>>    * dp_bridge_get_modes - callback to add drm modes via 
->>>>> drm_mode_probed_add()
->>>>>    * @bridge: Poiner to drm bridge
->>>>> @@ -61,6 +80,9 @@ static int dp_bridge_get_modes(struct drm_bridge 
->>>>> *bridge, struct drm_connector *
->>>>>   }
->>>>>   static const struct drm_bridge_funcs dp_bridge_ops = {
->>>>> +    .atomic_duplicate_state = 
->>>>> drm_atomic_helper_bridge_duplicate_state,
->>>>> +    .atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
->>>>> +    .atomic_reset           = drm_atomic_helper_bridge_reset,
->>>>>       .enable       = dp_bridge_enable,
->>>>>       .disable      = dp_bridge_disable,
->>>>>       .post_disable = dp_bridge_post_disable,
->>>>> @@ -68,6 +90,7 @@ static const struct drm_bridge_funcs 
->>>>> dp_bridge_ops = {
->>>>>       .mode_valid   = dp_bridge_mode_valid,
->>>>>       .get_modes    = dp_bridge_get_modes,
->>>>>       .detect       = dp_bridge_detect,
->>>>> +    .atomic_check = dp_bridge_atomic_check,
->>>>>   };
->>>>>   struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, 
->>>>> struct drm_device *dev,
->>>>
->>
-
--- 
-With best wishes
-Dmitry
-
+--p5ktz2vc7ba7slpt--
