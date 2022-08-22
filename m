@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9505159BE42
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 13:12:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0FC59BF7A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 14:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55691113454;
-	Mon, 22 Aug 2022 11:11:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D43E318A854;
+	Mon, 22 Aug 2022 12:27:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A6CF1133C5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 11:11:45 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id d21so1099785eje.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 04:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=OEroSL/F5loKrwxv3iK1vYMAkQUmUy4j2TLiaXHDnrU=;
- b=NYzO3zeux15mH53bA4W8Lmt95J/7acnjx58Vv9QUf4dQhkRC1u6gdBwdkl+giXe6U8
- hXYrhnGrnTdksCEVOI/2oNOb9ZDDA2nLsJR3j8M0UymYNCwGuc48CXJ4/XYbEqmC6AtU
- xA20+T6K4v3zDDp/XZXkhnSF6NiIugZMylI4R9vcQs7UMn0hnXk51rgEze+eVQ+nuSSN
- 0QHs3lsLDzUsu72JU0jMFJ09F68nzj7F5utJXk402NqB5KuBZMPY383hfxKIhg7grDMK
- cjhnwMTKItM5jAPkM1LpAYQ0mCsrl1RmzundZqnv0utolwaG7sy9DwzDqGKTOmn/QbSI
- lMzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=OEroSL/F5loKrwxv3iK1vYMAkQUmUy4j2TLiaXHDnrU=;
- b=fGhTU7DNQAtRpPl8xmWF5B2eTwtsJiuTOUglVhCZQIKai8KtGMvAazBHge3YsILXRS
- dDae0nePHYZiOX9s2jbxEDyXNOTKEdwPeBuwpHKzH70hdRIv8je92aOTEChLKGpB/hCg
- yyEbeSY0Fd4sGIHQgRMwIS8G1AEOgXIpXdoS3BXK9Sqdw6e1EsG08Ct5BvBjvLX3C7X5
- RuMCIsYrfYy489YuQd/XJm/QrZu8THrhZHM6J4heIfMpb4G7GDw0TcHCg0bkF6IJbp4K
- mMwBW5Y5MqEg40Ll03gMA/YDV/WkEOe4Ujjz9Ko8k+Wc+ycKfFew2tpvELxyrPPHCNyP
- gBsA==
-X-Gm-Message-State: ACgBeo1+PQpcbdjRnvXjprmy008IUx2XIi3YP6XWbP7aFmCy2Bugs0uP
- 2F8mSOMAJyXhm7c4iuHBlz/NfAWLpq9IpNN0LWytWw==
-X-Google-Smtp-Source: AA6agR7JaDwBOX8Gsy6aV2nQ6fQrHjocsPFww8INvgIfyuVL4tvn4G5kER/fuR+FhUDBdOrgjtS/FDLl67qHsuh6S1Y=
-X-Received: by 2002:a17:906:478f:b0:73d:7919:b23 with SMTP id
- cw15-20020a170906478f00b0073d79190b23mr3684341ejc.690.1661166704094; Mon, 22
- Aug 2022 04:11:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220810160341.51995-1-robh@kernel.org>
-In-Reply-To: <20220810160341.51995-1-robh@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 22 Aug 2022 13:11:32 +0200
-Message-ID: <CACRpkdaiV53LUSAB4C0xJAZwmRL8vz5nsmPdZ5PtyiDoP-982g@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Convert arm,versatile-sysreg to DT schema
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F72F18A835
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 12:26:54 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 46F6734661;
+ Mon, 22 Aug 2022 12:26:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1661171213; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iSqji7+RplKUj15nrzIvCRwogZkYtkkIhXpOVJMBSUI=;
+ b=O20d0zLleOtQmqw0mhd87raxNbhVu2Y7EKi++40ySNhTCxlv+QNbInfemcChU5kBeMXR6h
+ 8xQaCAzfLA4GPZXcWVRovDQKR/V3TAiExFaN30PunKZtIfnDKlhzy+c2nsBmQksesDDI1u
+ /E3OMG5MKGQl6o2z6Gin8xqusnXvYdc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1661171213;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iSqji7+RplKUj15nrzIvCRwogZkYtkkIhXpOVJMBSUI=;
+ b=VijFo/aX4JfIvlMeS6tkzwWcYyaY3aftEL2VeOedYXMGEaqTejOh5X1TC0I7lBCAOJb5hV
+ QTzg0FI0UGNG9ADw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0408D1332D;
+ Mon, 22 Aug 2022 12:26:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kZ4RAA12A2NESQAAMHmgww
+ (envelope-from <tiwai@suse.de>); Mon, 22 Aug 2022 12:26:52 +0000
+Date: Mon, 22 Aug 2022 14:26:52 +0200
+Message-ID: <87czcscvlf.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: syzbot <syzbot+f24934fe125a19d77eae@syzkaller.appspotmail.com>
+Subject: Re: [syzbot] KASAN: use-after-free Read in udl_get_urb_timeout
+In-Reply-To: <00000000000043579605e6d0ce41@google.com>
+References: <00000000000043579605e6d0ce41@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,24 +65,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: tzimmermann@suse.de, airlied@linux.ie, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 10, 2022 at 6:03 PM Rob Herring <robh@kernel.org> wrote:
+On Mon, 22 Aug 2022 11:09:31 +0200,
+syzbot wrote:
+> 
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    5b6a4bf680d6 Add linux-next specific files for 20220818
+> git tree:       linux-next
+> console+strace: https://syzkaller.appspot.com/x/log.txt?x=12341a3d080000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=ead6107a3bbe3c62
+> dashboard link: https://syzkaller.appspot.com/bug?extid=f24934fe125a19d77eae
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12731867080000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=165b64f3080000
+> 
+> The issue was bisected to:
+> 
+> commit e25d5954264d1871ab2792c7ca2298b811462500
+> Author: Takashi Iwai <tiwai@suse.de>
+> Date:   Thu Aug 4 07:58:25 2022 +0000
+> 
+>     drm/udl: Kill pending URBs at suspend and disconnect
 
-> This short series converts the arm,versatile-sysreg binding to DT schema.
-> The binding is already in use in examples which unsurprisingly needs a
-> fix with the schema added.
+FYI, the fix including the revert of this commit was already
+submitted, waiting for review & merge:
+  https://lore.kernel.org/r/20220816153655.27526-1-tiwai@suse.de
 
-Excellent, thanks!
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-I assume you will apply this to the binding tree or similar, else tell me
-what to do!
+thanks,
 
-Yours,
-Linus Walleij
+Takashi
