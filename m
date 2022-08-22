@@ -2,65 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE07159C4D8
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 19:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8188959C4ED
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 19:22:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F6F11218A;
-	Mon, 22 Aug 2022 17:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 218679B5B6;
+	Mon, 22 Aug 2022 17:22:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
  [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6271B2A24A
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 17:15:57 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id u24so5669744lji.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 10:15:57 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5735E9B5B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 17:22:07 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id z20so11277060ljq.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 10:22:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=3B91h+yrTjwS7I4FUx77uKxPNz+E7GshMHnIapiZTc8=;
- b=L9QS1hKwgWBMx6ma10ELOh9eQnoZAT8Szdd1iSgK+rhGHKoZ6Mtm7TdVEyday19ApG
- R3x87oAm5OhNvqgvSNUuuRIalt/FEzvZraWsVRATJVhrk2zNUxrDG1DaPfqa1gnvRiET
- GrjSk+xWXT3q1YI3kCSOaTd1UTyO1DACmUkCAqSUglcPKmJP1VWpzOVBZaafRTN020KX
- qgfAE13dDMgRhUjuX7bsxL0AleLwvYnfTTynsdyZJ0GrQ26JoQvufwKvqsGlC2wbb9YA
- nfXmXt03p+fYISvL3GLe/omMfhMvZoA6T2eo0unJ3CCi/WCwLifw7v7K7vddOmcEa/u+
- O91Q==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=gV99h850BV8Dr0PlTOQumJqcQf34/H3P1jjF5nBzAOA=;
+ b=q1fnZE6pADu+MYiFWXjkuSN6QqzfRQqpOZfPheVPHjtSS7CIsK0cSwBkJMcjXbsW2c
+ jtgAzAXxhNI/xyQYHy8shBhCzUW5o4MRHuAC7Kql9r2CtCdjkCz6fZjUqcBeoPnzONOJ
+ JoRt6caVpUgRk2Lr59OGAG3Y5fHoKDibOE/4oTkzYQpcDRFziWOqMg6c+752RWOVu54H
+ PYpsQuDFTbpNPvitX3ATDlKZ1JrjSPeKpm0FSNUGzBNDJNCfmEKUupC06Div8OxxYw/G
+ rNyMyUki0pc4kDIY9tHzhCPasbBGZ+PVdCxNn4FrAcqNBhMeEIZKH0hDH3erom6k8zdh
+ rrkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=3B91h+yrTjwS7I4FUx77uKxPNz+E7GshMHnIapiZTc8=;
- b=RjLJnB7u5tePNv8N+kR0RX4FR0DR1oLFbqjxCtswyfMjCnhwn2y9P90TFHaMTJyjUC
- SKEo9qbyhGt4qfeCRH6hPehSAz/wlFvxS0UUwH+M0LNtvc8dSDNq/q3+9pB2mKASE7py
- tUzqlGjC2y5grJw/5JK+WMSP5eJIB2xMh/YvUzA9eKTBKwJQGtQ+a9b+EOMuEIMBt5h3
- KUHiVjbPp74TTAsjmCfG8pbhK3k8wQvzXM0jdocTfbKSyBjSb9KhZzFA8p28cCRXQ7oh
- z9c8IKJMdZra9sh36wUE3T8LBWXbfWi68ufr95KqzYjirDfn9w5xy/J+Bi6M+mtSamjK
- 5Qhw==
-X-Gm-Message-State: ACgBeo14qmvrvfgHx7Es+PlUf0lsbSwhxjuZHXnW15MEKBJpupDthOU3
- CwPGHgj9JjR2rmGCT7u7TQM7nQ==
-X-Google-Smtp-Source: AA6agR45NEMpbO0Z9AzrrsVon/LA0ZrvVtjVxutO5v+1o6P1YNcB95+XrUkQ2XHqrbFf16qxDUfE0w==
-X-Received: by 2002:a2e:3314:0:b0:261:d144:faa4 with SMTP id
- d20-20020a2e3314000000b00261d144faa4mr1232145ljc.208.1661188555755; 
- Mon, 22 Aug 2022 10:15:55 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- w9-20020a05651203c900b0048b0bf9f4bfsm2010195lfp.140.2022.08.22.10.15.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Aug 2022 10:15:55 -0700 (PDT)
-Message-ID: <f0016468-16f9-aca1-c362-805bfd141e57@linaro.org>
-Date: Mon, 22 Aug 2022 20:15:54 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH] drm/msm: De-open-code some CP_EVENT_WRITE
-Content-Language: en-GB
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20220821155441.1092134-1-robdclark@gmail.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=gV99h850BV8Dr0PlTOQumJqcQf34/H3P1jjF5nBzAOA=;
+ b=wn8jkL5tRDnD/FIt0y9iqOu8PrmE7H7AYe/QwQm1VZe7YbazzxZ8+RSMu/FEjUZRJV
+ koGvfvWQ5iBSYI1TcSP06D13S+rnlO3FNDEENwhy6i7wIZQ2UlbUGqk6Ui3pjAADYmdZ
+ mKsRCc8mcljfe/xdan2fvOtSoyrKoU/cxkc4cZFCSeR+tz/vBB2wcqFcIlSZi0e9wZke
+ mCyleLXhoWVXxdK+y6MfeLPwvsZTcXi+Bga4rI6uwRc9gz01soxl2OsO6XXKeASKBKEq
+ H6ohNe+AKr8RH8SlG1gngNO63DlTf3itSXTueaGWO/LgVNUiqSLjU88noKU/XHHbqDKN
+ BXUA==
+X-Gm-Message-State: ACgBeo21Ah4Xq/d/y3ZC5Oeh06EZumdYlhDJTMhYYi8peKKfGLHjMPN5
+ 6CYL5IJQfDyA5YLUmxsm4GjpPNJKtdYk2g==
+X-Google-Smtp-Source: AA6agR76jtgZmVZm3TxRE8LqNNbVi7Ko7rJwmyuGxiGmlsfJr9ylxwz74DoU1WAA2XMDLTXIPrSGkw==
+X-Received: by 2002:a2e:a307:0:b0:261:ce0c:365f with SMTP id
+ l7-20020a2ea307000000b00261ce0c365fmr1654327lje.288.1661188925728; 
+ Mon, 22 Aug 2022 10:22:05 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ y16-20020a2e5450000000b00261cbe3bd83sm680794ljd.85.2022.08.22.10.22.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Aug 2022 10:22:05 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220821155441.1092134-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH] drm/msm/dpu: drop unused variable from dpu_kms_mdp_snapshot()
+Date: Mon, 22 Aug 2022 20:22:04 +0300
+Message-Id: <20220822172204.281045-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,24 +67,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/08/2022 18:54, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+Follow up the merge of address fields and drop the variable that became
+unused after the commit 9403f9a42c88 ("drm/msm/dpu: merge base_off with
+blk_off in struct dpu_hw_blk_reg_map").
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: 9403f9a42c88 ("drm/msm/dpu: merge base_off with blk_off in struct dpu_hw_blk_reg_map")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 008e1420e6e5..1e1f45409aba 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -902,12 +902,10 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
+ 	int i;
+ 	struct dpu_kms *dpu_kms;
+ 	const struct dpu_mdss_cfg *cat;
+-	struct dpu_hw_mdp *top;
+ 
+ 	dpu_kms = to_dpu_kms(kms);
+ 
+ 	cat = dpu_kms->catalog;
+-	top = dpu_kms->hw_mdp;
+ 
+ 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
+ 
 -- 
-With best wishes
-Dmitry
+2.35.1
 
