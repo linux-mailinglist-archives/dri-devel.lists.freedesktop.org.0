@@ -1,68 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0170859CA22
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 22:36:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF8159CA46
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 22:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD807A22CC;
-	Mon, 22 Aug 2022 20:36:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F164A2AB1;
+	Mon, 22 Aug 2022 20:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4B6BA22B1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 20:36:38 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id be9so8954315lfb.12
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 13:36:38 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61567A2A92
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 20:42:37 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id d23so12562767lfl.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 13:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=8D3kUn5fYBM4V+Qs+cFN60c+8X0EDIzJuQL8ZIXGtI0=;
- b=crXnr7WSIJwe1LInUIsK4LNFPOGh5mN+5s2zzq1nXujtNd3RRj/DRM3kLgyM/gi6lu
- xbfXCwDKH58rWlCZOt/t5D8Boo65PkGx2s1dfYJAn+PRBCzHRfRY5+O9CmHk3fx9Zn2y
- aPzxUldwe/F1sOF74kJS1PGBASzKpk2CuHyyw8L3tCn8B8xb/UScZHDs8FGG/UvrmN4V
- Ke/+fqHL68cGgUH13Tx8SW4t0W2vGeq5CL/x8GQJBwOgtCaIbTvfiWtdDvSdTrCR8vcL
- xCv4KsTq/PedsIS9mrXZv/lYHHnyIu0hZyAnRhNdf2LAv9AY1yUJwbNZ4l7Se25sPw7O
- VueA==
+ :from:to:cc; bh=T2n+Lv4KvObfEMOxqTtH9zJ8A2GPm+1tT6W+HrcRbLY=;
+ b=uyR1Lq08Xt37Czv3fZnuQVC5djaS3RavHhqAE/nCVhDLnogNF0T4hECW+gb+J0XekS
+ QRBAGt31862H1JfZEACVl+hVxlN+IMC2vy70jeCbPeXbsk4gjBGEmbxpVg+Xs5Eu8dEr
+ xLXdznl02Wmki6mmYdK0CWLvyZs3GeMF8MaxxjFHKbN206D+syv/Xzknoyph17E22L7p
+ t7VkVqUua0QyUOt2KalftjWfOyu6NIIqssjZOd5ixXL+DPd2zWLVfC63eJAE3yPwSaoF
+ RSEDw4hb25LQuNn/HtIgkk/luUb/j5F9LUML0zjL6P0NIAhEbAV406iw01PkA323hO7+
+ f1BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=8D3kUn5fYBM4V+Qs+cFN60c+8X0EDIzJuQL8ZIXGtI0=;
- b=sc2ZuMo/G3xQPow80MiKPbJfqLAuoVXR0qRON7FRNiFOK9UVyfRSKLrEUg013nya2O
- UG+yANaiRmQIN7NNY+NiZ+mNciE8bmmMpGWACKIOrmrXBeULyxEotR/kePNe//tLQvO4
- pwXtxZYz/REmVVKRTeJAKfTUg2Hn6aK8bSK4QsuQh5CUGjMoVGD8AZtNgFzOF7fnPnMg
- Fh66LSmjjhatz04lddPk1YjECnWnz6f1VW5lvpvCYkOerZIB4jDR0u4LFnnKHcB5atV3
- 4j3NUGJUN2C2/0uAdPCNZ595De6/veW3tygExTC1E5BqAJ9jye6gQ7Rti/QhA49zLy/l
- 2HhQ==
-X-Gm-Message-State: ACgBeo0jc8Ru5S8RAA8c29YPORYA96l2GN3boGAJAxDmVIZhTxL4b8zN
- mNBwoUb3lEmXxpKI/GcR+lkSQw==
-X-Google-Smtp-Source: AA6agR5cdOIA5bjk6MSUS24/EuVsIoVixrTAZEkulSiVqyuG5sAd5QPCKb+kYXxThno3+OKHwkiEFQ==
-X-Received: by 2002:ac2:4c55:0:b0:492:d91d:363f with SMTP id
- o21-20020ac24c55000000b00492d91d363fmr4737919lfk.116.1661200597302; 
- Mon, 22 Aug 2022 13:36:37 -0700 (PDT)
+ bh=T2n+Lv4KvObfEMOxqTtH9zJ8A2GPm+1tT6W+HrcRbLY=;
+ b=tURcT3TlEAaL2H4+z+A0WRtis9PBSyZCOd63iA9v1q0/3PLFTDlyUxRHxvIMPY4dod
+ 4NNyhvu2TEgW+q88DIWyjpnnJAtDbnq70jwCcxHQ5fkTDsAwRn5XKlQyjvt8yJbxCJ1b
+ k97WT3kWHofxYkAZSZcbr5+oHfQOR3HPPl+a2SBH1TwK/yk2N/JBTpntXay95B7bDlRj
+ CcNUU9DEh6x6uvu9h6wxVaTxdqHdmzrh/Svfk+fxon7ViOtbwRiiCG3jfooFDenGbble
+ ljFAv76qyxrP+i8w5iSETDS8ia23dj0AV25ih+jnqCTj9V321+z8Qk9RUPekjFnn1nY6
+ cg+Q==
+X-Gm-Message-State: ACgBeo18FcmLR7VoHzbNEaFGHAZ/gAGcfwl8uEg3t31Lkp8dZGZrtbRa
+ HqAf4ZTgJk37w3EuBa+lIhaIBA==
+X-Google-Smtp-Source: AA6agR5rCB4QhCUzVyTSuhrloe4Tlr3L7LCyjaozOGYIYqRMr4K9wKFtZ6ZXnjidUe1hpMsTfB1upg==
+X-Received: by 2002:a05:6512:1385:b0:491:4152:c9d7 with SMTP id
+ p5-20020a056512138500b004914152c9d7mr7667543lfa.675.1661200955744; 
+ Mon, 22 Aug 2022 13:42:35 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- v3-20020a056512348300b0048af6242892sm533741lfr.14.2022.08.22.13.36.36
+ s8-20020a197708000000b0048a891e4d88sm2089178lfc.193.2022.08.22.13.42.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Aug 2022 13:36:36 -0700 (PDT)
-Message-ID: <b10b4e8f-e0ee-f92f-e65e-1ea8511804d4@linaro.org>
-Date: Mon, 22 Aug 2022 23:36:36 +0300
+ Mon, 22 Aug 2022 13:42:35 -0700 (PDT)
+Message-ID: <ea75b23f-d389-b24e-9ebd-2fd35bf33fd1@linaro.org>
+Date: Mon, 22 Aug 2022 23:42:34 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.1.2
-Subject: Re: [PATCH 6/7] drm/msm/dp: Don't enable HPD interrupts for edp
+Subject: Re: [PATCH] drm/msm: Add fault-injection support
 Content-Language: en-GB
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-References: <20220810035013.3582848-1-bjorn.andersson@linaro.org>
- <20220810035013.3582848-7-bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20220807172848.2432845-1-robdclark@gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220810035013.3582848-7-bjorn.andersson@linaro.org>
+In-Reply-To: <20220807172848.2432845-1-robdclark@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,30 +73,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
  David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sean Paul <sean@poorly.run>
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/08/2022 06:50, Bjorn Andersson wrote:
-> Most instances where HPD interrupts are masked and unmasked are guareded
-> by the presence of an EDP panel being connected, but not all. Extend
-> this to cover the last few places, as HPD interrupt handling is not used
-> for the EDP case.
+On 07/08/2022 20:28, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Intended as a way to trigger error paths in mesa.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 15 ++++++++++-----
->   1 file changed, 10 insertions(+), 5 deletions(-)
-
--- 
+>   drivers/gpu/drm/msm/msm_debugfs.c |  8 ++++++++
+>   drivers/gpu/drm/msm/msm_drv.c     | 15 +++++++++++++++
+>   drivers/gpu/drm/msm/msm_drv.h     |  7 +++++++
+>   3 files changed, 30 insertions(+)
+> -- 
 With best wishes
 Dmitry
 
