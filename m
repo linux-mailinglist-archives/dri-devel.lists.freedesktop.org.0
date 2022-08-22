@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D05459C022
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 15:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3443B59C043
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 15:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 075D58A1F5;
-	Mon, 22 Aug 2022 13:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 819E08ADC1;
+	Mon, 22 Aug 2022 13:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E4AA2BF64
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 13:05:32 +0000 (UTC)
-Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 698A36D4;
- Mon, 22 Aug 2022 15:05:30 +0200 (CEST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9C938ACE2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 13:12:31 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07E142B3;
+ Mon, 22 Aug 2022 15:12:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661173530;
- bh=7R8Hf0umbfWe0usPPFyjHCFuDnIfJ1jmMTIHW0D13hA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H6wWcBRloiWcBq+ReaFtz3AILcFv9nUIQyi39glZDQnvdoR5xmC7ut0pwIpZu+9JY
- Q1CaIB3ehTykB4CqJwVnEoJk8Heg8ANztOsTs/CT39z3HfLzh2lHUbV4HSWZYITDrp
- FCSVKIKwOkoNkbQwVwrDTpBsyl4nc0zAF+OFVpsM=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 4/4] drm: rcar-du: lvds: Rename pclk enable/disable
- functions
-Date: Mon, 22 Aug 2022 16:05:12 +0300
-Message-Id: <20220822130513.119029-5-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220822130513.119029-1-tomi.valkeinen@ideasonboard.com>
+ s=mail; t=1661173950;
+ bh=zTVbt7EriLZawrLej2Zumg9jMLXLeci7B56ylDRblYg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z5yt8ut8RpG2Kz7TZCxYKqO1RgAzCLOpPtCaNCuVkb4rxywqarbO9oasc9RxS495z
+ /Xx/pRqiTWrnrKyqRGgfRgYODdzAAIP6CZ+roHAkV/SR6bceRTENmNCvUuIHNqNUe6
+ vQaZk/3HgEtMDWWdhRaBOLtbsthvxx12YzA7cMIU=
+Date: Mon, 22 Aug 2022 16:12:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 1/4] drm: rcar-du: dsi: Properly stop video mode TX
+Message-ID: <YwOAupzlJFVGGsY9@pendragon.ideasonboard.com>
 References: <20220822130513.119029-1-tomi.valkeinen@ideasonboard.com>
+ <20220822130513.119029-2-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220822130513.119029-2-tomi.valkeinen@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,92 +47,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Hi Tomi,
 
-Rename LVDS pclk enable/disable functions to match what we use for DSI.
+Thank you for the patch.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  4 ++--
- drivers/gpu/drm/rcar-du/rcar_lvds.c    |  4 ++--
- drivers/gpu/drm/rcar-du/rcar_lvds.h    | 10 +++++-----
- 3 files changed, 9 insertions(+), 9 deletions(-)
+On Mon, Aug 22, 2022 at 04:05:09PM +0300, Tomi Valkeinen wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> 
+> The driver does not explicitly stop the video mode transmission when
+> disabling the output. While this doesn't seem to be causing any issues,
+> lets follow the steps described in the documentation and add a
+> rcar_mipi_dsi_stop_video() which stop the video mode transmission. This
+> function will also be used in later patches to stop the video
+> transmission even if the DSI IP is not shut down.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 31e33270e6db..3619e1ddeb62 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -745,7 +745,7 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
- 		const struct drm_display_mode *mode =
- 			&crtc->state->adjusted_mode;
- 
--		rcar_lvds_clk_enable(bridge, mode->clock * 1000);
-+		rcar_lvds_pclk_enable(bridge, mode->clock * 1000);
- 	}
- 
- 	/*
-@@ -790,7 +790,7 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
- 		 * Disable the LVDS clock output, see
- 		 * rcar_du_crtc_atomic_enable().
- 		 */
--		rcar_lvds_clk_disable(bridge);
-+		rcar_lvds_pclk_disable(bridge);
- 	}
- 
- 	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index d85aa4bc7f84..f438d7d858c7 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -306,7 +306,7 @@ static void rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds, unsigned int freq)
-  * Clock - D3/E3 only
-  */
- 
--int rcar_lvds_clk_enable(struct drm_bridge *bridge, unsigned long freq)
-+int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 	int ret;
-@@ -326,7 +326,7 @@ int rcar_lvds_clk_enable(struct drm_bridge *bridge, unsigned long freq)
- }
- EXPORT_SYMBOL_GPL(rcar_lvds_clk_enable);
- 
--void rcar_lvds_clk_disable(struct drm_bridge *bridge)
-+void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-index 3097bf749bec..bee7033b60d6 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-@@ -13,17 +13,17 @@
- struct drm_bridge;
- 
- #if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
--int rcar_lvds_clk_enable(struct drm_bridge *bridge, unsigned long freq);
--void rcar_lvds_clk_disable(struct drm_bridge *bridge);
-+int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq);
-+void rcar_lvds_pclk_disable(struct drm_bridge *bridge);
- bool rcar_lvds_dual_link(struct drm_bridge *bridge);
- bool rcar_lvds_is_connected(struct drm_bridge *bridge);
- #else
--static inline int rcar_lvds_clk_enable(struct drm_bridge *bridge,
--				       unsigned long freq)
-+static inline int rcar_lvds_pclk_enable(struct drm_bridge *bridge,
-+					unsigned long freq)
- {
- 	return -ENOSYS;
- }
--static inline void rcar_lvds_clk_disable(struct drm_bridge *bridge) { }
-+static inline void rcar_lvds_pclk_disable(struct drm_bridge *bridge) { }
- static inline bool rcar_lvds_dual_link(struct drm_bridge *bridge)
- {
- 	return false;
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 29 +++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> index 62f7eb84ab01..7f2be490fcf8 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> @@ -542,6 +542,34 @@ static int rcar_mipi_dsi_start_video(struct rcar_mipi_dsi *dsi)
+>  	return 0;
+>  }
+>  
+> +static void rcar_mipi_dsi_stop_video(struct rcar_mipi_dsi *dsi)
+> +{
+> +	u32 status;
+> +	int ret;
+> +
+> +	/* Disable transmission in video mode. */
+> +	rcar_mipi_dsi_clr(dsi, TXVMCR, TXVMCR_EN_VIDEO);
+> +
+> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+> +				!(status & TXVMSR_ACT),
+> +				2000, 100000, false, dsi, TXVMSR);
+> +	if (ret < 0) {
+> +		dev_err(dsi->dev, "Failed to disable video transmission\n");
+> +		return;
+> +	}
+> +
+> +	/* Assert video FIFO clear. */
+> +	rcar_mipi_dsi_set(dsi, TXVMCR, TXVMCR_VFCLR);
+> +
+> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+> +				!(status & TXVMSR_VFRDY),
+> +				2000, 100000, false, dsi, TXVMSR);
+> +	if (ret < 0) {
+> +		dev_err(dsi->dev, "Failed to assert video FIFO clear\n");
+> +		return;
+> +	}
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Bridge
+>   */
+> @@ -601,6 +629,7 @@ static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
+>  {
+>  	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
+>  
+> +	rcar_mipi_dsi_stop_video(dsi);
+>  	rcar_mipi_dsi_shutdown(dsi);
+>  	rcar_mipi_dsi_clk_disable(dsi);
+>  }
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
