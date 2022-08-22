@@ -2,39 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922DA5A026A
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:02:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2113A5A0276
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:06:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D861FC55CE;
-	Wed, 24 Aug 2022 20:02:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E999BE07B;
+	Wed, 24 Aug 2022 20:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76AE490E56
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 14:35:10 +0000 (UTC)
-Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 495866D4;
- Mon, 22 Aug 2022 16:35:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661178908;
- bh=sNuxfcnx6bNVIfUikU39A4Y5g+rX0AWNL2r3k1wcNfY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aBRgAT2uWONBw/swLvs6mbaEjzgpCV/PhmZ70lV0h7KpaM0o7VrzemQeJm5qxqroa
- Bwv1GwPi4O4O5MiY/xBpFIyBgNCllPx0UMizcvhTkdOAibaoGfg7cFJdX3k3ykKQvH
- j+EX2EpEpH4acFv4cqG1HvSXTw+/v5Nmo3H/sc+8=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 4/5] drm: rcar-du: fix DSI enable & disable sequence
-Date: Mon, 22 Aug 2022 17:34:00 +0300
-Message-Id: <20220822143401.135081-5-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220822143401.135081-1-tomi.valkeinen@ideasonboard.com>
-References: <20220822143401.135081-1-tomi.valkeinen@ideasonboard.com>
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6795B12A752
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 16:33:16 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id h22so12046958ejk.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 09:33:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=L964RLsTbSL/YL9PBzvH6rCb3tpB0PeNQCbDW7ySaTE=;
+ b=SjyUshFDPR1oqOVRkj8XXuuaWCqHmr33hFyVRHUXRZN5I0zh5/gvuKpZwdouMLF7Pk
+ Ib1JsTw2UFvz1fSZrlL7Kxf4d71fzDVPQnQj3/hl0GpeMdK7cAqj1pUGZ62ixXve+29W
+ IYZ0UEPkSrA3p/C3ElLZgXtPmjvDajKpMr4ro=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=L964RLsTbSL/YL9PBzvH6rCb3tpB0PeNQCbDW7ySaTE=;
+ b=QRMGs0bRtHCTLQ/LZqf0UmAIbDTnSCNZ3K884/H4D7yS27og+K5/iifYSJHy6mgEmc
+ agsakrw/vyJrz7zKknk9TR20yXXuUFSYAEX8HO0SP7KsTgV+5Vp2mvKj2HuWIdcajXfy
+ zGotfz+Focl9LD2yf1jbhpea2in2jj5lDpxNPrfFV3OLyyV0MCwlwWily+MZpxOZxSlt
+ 5Nhy5Z1jDg4HJtQ6LZ0b5ukEvnOd3F6uvXqZOu9EXNvp5qe6pVwY9vGXfrbPI3mfcKak
+ cIeb4cibxDKi3+pm2kaHlUh09aXE6/JGy2W/UziI+WSOlDxZgOqc7oWMxrOVeQl5UO4i
+ 7m5A==
+X-Gm-Message-State: ACgBeo3SsezwWlsGW8zvZV5ZowWtSohWk2tgDqY2OZ09gPfkdkGJn7HH
+ 2ZuZvItTz4nvjon6/yExuXuXMubQFKp1Fg==
+X-Google-Smtp-Source: AA6agR77uLQ6LxBSRTjo0Cy8ct7v5Gffx5wOSTO28To4kWAWwBt6wTCJhegqcVxyUhFOI9J/RPeHJg==
+X-Received: by 2002:a17:907:da2:b0:73d:83a9:6bd3 with SMTP id
+ go34-20020a1709070da200b0073d83a96bd3mr3355256ejc.489.1661185994039; 
+ Mon, 22 Aug 2022 09:33:14 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
+ [209.85.221.44]) by smtp.gmail.com with ESMTPSA id
+ o13-20020a056402438d00b004467facb892sm4643561edc.42.2022.08.22.09.33.13
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Aug 2022 09:33:13 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id h5so13109918wru.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 09:33:13 -0700 (PDT)
+X-Received: by 2002:a5d:6881:0:b0:225:28cb:332f with SMTP id
+ h1-20020a5d6881000000b0022528cb332fmr11248948wru.405.1661185993008; Mon, 22
+ Aug 2022 09:33:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220815093905.134164-1-hsinyi@chromium.org>
+ <CAD=FV=XYNKF8q1mttru_J188pYMjSphQsEfQAO1Bt7GvjJRKXw@mail.gmail.com>
+ <CAJMQK-gjg9evLY3oP5rgaGoRdQQTLqnK2-FChaabJTCxLTTmYA@mail.gmail.com>
+ <CAMuczyUH1tefU_4+dx495_5kdrxRdA3pmXS-eyjzMCcYFfjNXQ@mail.gmail.com>
+ <CAJMQK-jEgRq68JXSWtS4y5_39vJ1pWCT2-Atg31__veRtnuREA@mail.gmail.com>
+ <CAD=FV=UXFiA4hW8_cmO0Di-NCpqvkjTqqOfbc6DfD5Rs8aT6hA@mail.gmail.com>
+In-Reply-To: <CAD=FV=UXFiA4hW8_cmO0Di-NCpqvkjTqqOfbc6DfD5Rs8aT6hA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 22 Aug 2022 09:33:00 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vg5o-OxyQnemB+XfkGundDA-R31QhkmHJv4RmTMcF2gA@mail.gmail.com>
+Message-ID: <CAD=FV=Vg5o-OxyQnemB+XfkGundDA-R31QhkmHJv4RmTMcF2gA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ps8640: Add double reset T4 and T5 to
+ power-on sequence
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,219 +78,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Rock Chiu <rock.chiu@paradetech.corp-partner.google.com>,
+ LKML <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Hi,
 
-The rcar crtc depends on the clock provided from the rcar DSI bridge.
-When the DSI bridge is disabled, the clock is stopped, which causes the
-crtc disable to timeout.
+On Thu, Aug 18, 2022 at 8:03 AM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Wed, Aug 17, 2022 at 8:22 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+> >
+> > On Thu, Aug 18, 2022 at 11:19 AM Rock Chiu
+> > <rock.chiu@paradetech.corp-partner.google.com> wrote:
+> > >
+> > > How does T4/T5  impact the real case? We talked previously the T4/T5
+> > > shouldn't cause user impact.
+> > > Do we have testing data from ODM?
+> > >
+> > Please leave comments below the previous comment's headline.
+> >
+> > I'm confused. The reason I upstreamed this patch is because this is in
+> > your application note and you asked us to help upstream it. Now do you
+> > mean that we don't need T4 and T5?
+>
+> I think Rock is asking what problems the extra delay is causing. In
+> other words: why do we care about keeping these delays short?
+>
+> The answer is that it affects boot speed and also resume speed of
+> devices. Adding these two delays here means that there's an extra 100
+> ms before the user can see something on the screen. That may not seem
+> like a lot, but those kinds of delays add up quickly. At least on
+> Chromebooks, booting quickly is always a big goal.
 
-Also, while I have no issue with the enable, the documentation suggests
-to enable the DSI before the crtc so that the crtc has its clock enabled
-at enable time. This is also not done by the current driver.
+While I'm not very happy with this change and I don't really
+understand why these delays need to be so long, if folks are really
+certain that we need them and can't make them shorter then I guess we
+can land it. I'll wait a few more days in case anyone wants to chime
+in with their thoughts.
 
-To fix this, we need to keep the DSI bridge enabled until the crtc has
-disabled itself, and enable the DSI bridge before crtc enables itself.
-
-Add functions rcar_mipi_dsi_pclk_enable and rcar_mipi_dsi_pclk_disable
-to the rcar DSI bridge driver which the rcar driver can use to
-enable/disable the DSI clock when needed.  This is similar to what is
-already done with the rcar LVDS bridge.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c    | 26 +++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_drv.h     |  2 ++
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  4 +++
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c   | 25 +++++++++++++-----
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h   | 31 +++++++++++++++++++++++
- 5 files changed, 82 insertions(+), 6 deletions(-)
- create mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index d38092d85df7..3619e1ddeb62 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -29,6 +29,7 @@
- #include "rcar_du_regs.h"
- #include "rcar_du_vsp.h"
- #include "rcar_lvds.h"
-+#include "rcar_mipi_dsi.h"
- 
- static u32 rcar_du_crtc_read(struct rcar_du_crtc *rcrtc, u32 reg)
- {
-@@ -747,6 +748,18 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
- 		rcar_lvds_pclk_enable(bridge, mode->clock * 1000);
- 	}
- 
-+	/*
-+	 * Similarly to LVDS, on V3U the dot clock is provided by the DSI
-+	 * encoder, and we need to enable the DSI clocks before enabling the CRTC.
-+	 */
-+	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
-+	    (rstate->outputs &
-+	     (BIT(RCAR_DU_OUTPUT_DSI0) | BIT(RCAR_DU_OUTPUT_DSI1)))) {
-+		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
-+
-+		rcar_mipi_dsi_pclk_enable(bridge, state);
-+	}
-+
- 	rcar_du_crtc_start(rcrtc);
- 
- 	/*
-@@ -780,6 +793,19 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
- 		rcar_lvds_pclk_disable(bridge);
- 	}
- 
-+	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
-+	    (rstate->outputs &
-+	     (BIT(RCAR_DU_OUTPUT_DSI0) | BIT(RCAR_DU_OUTPUT_DSI1)))) {
-+		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
-+
-+		/*
-+		 * Disable the DSI clock output, see
-+		 * rcar_du_crtc_atomic_enable().
-+		 */
-+
-+		rcar_mipi_dsi_pclk_disable(bridge);
-+	}
-+
- 	spin_lock_irq(&crtc->dev->event_lock);
- 	if (crtc->state->event) {
- 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index bfad7775d9a1..9367c2f59431 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -91,6 +91,7 @@ struct rcar_du_device_info {
- #define RCAR_DU_MAX_GROUPS		DIV_ROUND_UP(RCAR_DU_MAX_CRTCS, 2)
- #define RCAR_DU_MAX_VSPS		4
- #define RCAR_DU_MAX_LVDS		2
-+#define RCAR_DU_MAX_DSI			2
- 
- struct rcar_du_device {
- 	struct device *dev;
-@@ -107,6 +108,7 @@ struct rcar_du_device {
- 	struct platform_device *cmms[RCAR_DU_MAX_CRTCS];
- 	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
- 	struct drm_bridge *lvds[RCAR_DU_MAX_LVDS];
-+	struct drm_bridge *dsi[RCAR_DU_MAX_DSI];
- 
- 	struct {
- 		struct drm_property *colorkey;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index 60d6be78323b..ac93e08e8af4 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -84,6 +84,10 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 		if (output == RCAR_DU_OUTPUT_LVDS0 ||
- 		    output == RCAR_DU_OUTPUT_LVDS1)
- 			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = bridge;
-+
-+		if (output == RCAR_DU_OUTPUT_DSI0 ||
-+		    output == RCAR_DU_OUTPUT_DSI1)
-+			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = bridge;
- 	}
- 
- 	/*
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-index 9c79fe2fc70b..06250f2f3499 100644
---- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-@@ -598,7 +598,22 @@ static int rcar_mipi_dsi_attach(struct drm_bridge *bridge,
- static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- 					struct drm_bridge_state *old_bridge_state)
- {
--	struct drm_atomic_state *state = old_bridge_state->base.state;
-+	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
-+
-+	rcar_mipi_dsi_start_video(dsi);
-+}
-+
-+static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
-+					 struct drm_bridge_state *old_bridge_state)
-+{
-+	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
-+
-+	rcar_mipi_dsi_stop_video(dsi);
-+}
-+
-+void rcar_mipi_dsi_pclk_enable(struct drm_bridge *bridge,
-+			       struct drm_atomic_state *state)
-+{
- 	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
- 	const struct drm_display_mode *mode;
- 	struct drm_connector *connector;
-@@ -626,8 +641,6 @@ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- 	if (ret < 0)
- 		goto err_dsi_start_hs;
- 
--	rcar_mipi_dsi_start_video(dsi);
--
- 	return;
- 
- err_dsi_start_hs:
-@@ -635,16 +648,16 @@ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- err_dsi_startup:
- 	rcar_mipi_dsi_clk_disable(dsi);
- }
-+EXPORT_SYMBOL_GPL(rcar_mipi_dsi_pclk_enable);
- 
--static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
--					 struct drm_bridge_state *old_bridge_state)
-+void rcar_mipi_dsi_pclk_disable(struct drm_bridge *bridge)
- {
- 	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
- 
--	rcar_mipi_dsi_stop_video(dsi);
- 	rcar_mipi_dsi_shutdown(dsi);
- 	rcar_mipi_dsi_clk_disable(dsi);
- }
-+EXPORT_SYMBOL_GPL(rcar_mipi_dsi_pclk_disable);
- 
- static enum drm_mode_status
- rcar_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-new file mode 100644
-index 000000000000..ff759fc5edc7
---- /dev/null
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * R-Car DSI Encoder
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corporation
-+ *
-+ * Contact: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-+ */
-+
-+#ifndef __RCAR_MIPI_DSI_H__
-+#define __RCAR_MIPI_DSI_H__
-+
-+struct drm_atomic_state;
-+struct drm_bridge;
-+
-+#if IS_ENABLED(CONFIG_DRM_RCAR_MIPI_DSI)
-+void rcar_mipi_dsi_pclk_enable(struct drm_bridge *bridge,
-+			       struct drm_atomic_state *state);
-+void rcar_mipi_dsi_pclk_disable(struct drm_bridge *bridge);
-+#else
-+static inline void rcar_mipi_dsi_pclk_enable(struct drm_bridge *bridge,
-+					     struct drm_atomic_state *state)
-+{
-+}
-+
-+void rcar_mipi_dsi_pclk_disable(struct drm_bridge *bridge)
-+{
-+}
-+#endif /* CONFIG_DRM_RCAR_MIPI_DSI */
-+
-+#endif /* __RCAR_MIPI_DSI_H__ */
--- 
-2.34.1
-
+-Doug
