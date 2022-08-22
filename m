@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9633D59B721
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 03:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0DD59B8C3
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 07:36:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AEC09569E;
-	Mon, 22 Aug 2022 01:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E28399AFB;
+	Mon, 22 Aug 2022 05:36:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08C6995682
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 01:01:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661130086; x=1692666086;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rcLAfYveKjekrN3OoWwxfGGPDMgntbBUAmloRI7H7o4=;
- b=lacygnuNFs9NOFkIXkmoYAZtlcL1JG/pk1LB/m+P8uqi1AQ2ZNR5aTzm
- /c55JONtMzW45Ui8e+H1nR+cdPuBqhg+cUlFJMf45hpf5dYNZtvkeGda5
- oMR1SVPs+e5By5ig4FRytWsay3B8G5RYgIFTL9upMh2pwwRyX1yF41yyG
- GL2EbFkNs3i+J6BYdPoCh9wXIrTwBFHN9v/taih8DXCkWkcucmPPMlZnZ
- wzumeGteVaoQ9V51uBwbFx6Vz1aYRg5lxjpIgN8UC5/2yZHnlbEc/rAOe
- Z3GAt3Sn/oBcQFYwq6CvFpsgeBiTHB48ByUBYl+Nf2Q6WsIO72iEnBSs2 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10446"; a="273683028"
-X-IronPort-AV: E=Sophos;i="5.93,254,1654585200"; d="scan'208";a="273683028"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2022 18:01:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,254,1654585200"; d="scan'208";a="854308334"
-Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 21 Aug 2022 18:01:22 -0700
-Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oPvof-0004kp-36;
- Mon, 22 Aug 2022 01:01:21 +0000
-Date: Mon, 22 Aug 2022 09:00:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- sam@ravnborg.org, noralf@tronnes.org, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, emma@anholt.net,
- kamlesh.gurudasani@gmail.com, david@lechnology.com
-Subject: Re: [PATCH v2 3/4] drm/modes: Add initializer macro DRM_MODE_INIT()
-Message-ID: <202208220805.cedg9zzu-lkp@intel.com>
-References: <20220816134853.12468-4-tzimmermann@suse.de>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA7F99AF0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 05:36:43 +0000 (UTC)
+X-UUID: 72ce0efa30c048768c46bbda821a00b1-20220822
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=QIQXRYetqv/4dOkqVhPTk9ulib+F+9TbIPC1RM+VTr4=; 
+ b=UgJsbIt+/DWjfdUnFdF5OWuV/AG3YwYPRg3YM6RXv0qqbmJ5L1r5NHYY62w+b6hqwG5X62qNkLpSrUs0L42suXj2vX33n5PvH64wv8yiXlrPSC2Ucjae96sSoi/oIidwLCotgv0d2YVYrKBI9P9PSnT54/eFNJ94U68GVrJeofU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10, REQID:6181efaa-ef7e-4ded-abee-fe6d40ce41ea, OB:0,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
+ Ham,ACTION:release,TS:0
+X-CID-META: VersionHash:84eae18, CLOUDID:e4a260c9-6b09-4f60-bf82-12f039f5d530,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:
+ nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 72ce0efa30c048768c46bbda821a00b1-20220822
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1448305818; Mon, 22 Aug 2022 13:36:36 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Mon, 22 Aug 2022 13:36:35 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 22 Aug 2022 13:36:35 +0800
+Message-ID: <b0866ca8d749cd06f7b10b2f6eb44bf79d52dafb.camel@mediatek.com>
+Subject: Re: [PATCH v1 1/4] dt-bindings: mediatek: modify VDOSYS0 device
+ tree Documentations for MT8188
+From: CK Hu <ck.hu@mediatek.com>
+To: nathan.lu <nathan.lu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
+ Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>
+Date: Mon, 22 Aug 2022 13:36:35 +0800
+In-Reply-To: <20220822033213.15769-2-nathan.lu@mediatek.com>
+References: <20220822033213.15769-1-nathan.lu@mediatek.com>
+ <20220822033213.15769-2-nathan.lu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220816134853.12468-4-tzimmermann@suse.de>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,80 +70,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org, wsd_upstream@mediatek.com,
+ srv_heupstream@mediatek.com, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Moudy Ho <moudy.ho@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, lancelot.wu@mediatek.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi, Nathan:
 
-I love your patch! Perhaps something to improve:
+On Mon, 2022-08-22 at 11:32 +0800, nathan.lu wrote:
+> From: Nathan Lu <nathan.lu@mediatek.com>
+> 
+> modify VDOSYS0 device tree Documentations for MT8188.
+> 
+> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
+> ---
+>  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml       | 1 +
+>  .../devicetree/bindings/display/mediatek/mediatek,aal.yaml     | 1 +
+>  .../devicetree/bindings/display/mediatek/mediatek,ccorr.yaml   | 1 +
+>  .../devicetree/bindings/display/mediatek/mediatek,color.yaml   | 1 +
+>  .../devicetree/bindings/display/mediatek/mediatek,dither.yaml  | 1 +
+>  .../devicetree/bindings/display/mediatek/mediatek,gamma.yaml   | 3
+> ++-
+>  .../devicetree/bindings/display/mediatek/mediatek,ovl.yaml     | 1 +
+>  .../bindings/display/mediatek/mediatek,postmask.yaml           | 1 +
+>  .../devicetree/bindings/display/mediatek/mediatek,rdma.yaml    | 2 
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on next-20220819]
-[cannot apply to linus/master v6.0-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Separate the display part to another patch for the maintainer it belong
+to.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-probe-helper-modes-Helpers-for-single-mode-displays/20220816-215250
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/25770aac56aeff6f55419ea4316406ddbb29385f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/drm-probe-helper-modes-Helpers-for-single-mode-displays/20220816-215250
-        git checkout 25770aac56aeff6f55419ea4316406ddbb29385f
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+> ++
+>  .../devicetree/bindings/soc/mediatek/mediatek,mutex.yaml       | 1 +
+>  10 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git
+> a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> index 6ad023eec193..f26f61069181 100644
+> ---
+> a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> +++
+> b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> @@ -30,6 +30,7 @@ properties:
+>                - mediatek,mt8173-mmsys
+>                - mediatek,mt8183-mmsys
+>                - mediatek,mt8186-mmsys
+> +              - mediatek,mt8188-mmsys
+>                - mediatek,mt8192-mmsys
+>                - mediatek,mt8195-mmsys
+>                - mediatek,mt8365-mmsys
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
+> l
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
+> l
+> index d4d585485e7b..92741486c24d 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
+> l
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
+> l
+> @@ -31,6 +31,7 @@ properties:
+>        - items:
+>            - enum:
+>                - mediatek,mt8186-disp-aal
+> +              - mediatek,mt8188-disp-aal
+>                - mediatek,mt8192-disp-aal
+>                - mediatek,mt8195-disp-aal
+>            - const: mediatek,mt8183-disp-aal
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
+> aml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
+> aml
+> index 63fb02014a56..fe444beff558 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
+> aml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
+> aml
+> @@ -27,6 +27,7 @@ properties:
+>            - const: mediatek,mt8192-disp-ccorr
+>        - items:
+>            - enum:
+> +              - mediatek,mt8188-disp-ccorr
+>                - mediatek,mt8195-disp-ccorr
+>            - const: mediatek,mt8192-disp-ccorr
+>        - items:
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
+> aml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
+> aml
+> index d2f89ee7996f..62306c88f485 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
+> aml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
+> aml
+> @@ -37,6 +37,7 @@ properties:
+>            - enum:
+>                - mediatek,mt8183-disp-color
+>                - mediatek,mt8186-disp-color
+> +              - mediatek,mt8188-disp-color
+>                - mediatek,mt8192-disp-color
+>                - mediatek,mt8195-disp-color
+>            - const: mediatek,mt8173-disp-color
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
+> yaml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
+> yaml
+> index 8ad8187c02d1..5c7445c174e5 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
+> yaml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
+> yaml
+> @@ -27,6 +27,7 @@ properties:
+>        - items:
+>            - enum:
+>                - mediatek,mt8186-disp-dither
+> +              - mediatek,mt8188-disp-dither
+>                - mediatek,mt8192-disp-dither
+>                - mediatek,mt8195-disp-dither
+>            - const: mediatek,mt8183-disp-dither
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
+> aml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
+> aml
+> index a89ea0ea7542..3d6e20f6eb05 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
+> aml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
+> aml
+> @@ -12,7 +12,7 @@ maintainers:
+>  
+>  description: |
+>    Mediatek display gamma correction, namely GAMMA, provides a
+> nonlinear
+> -  operation used to adjust luminance in display system.
+> +  operation used to adjust luminance in?display system.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+It's not necessary to modify this.
 
-All warnings (new ones prefixed by >>):
+Regards,
+CK
 
->> ./include/drm/drm_modes.h:168: warning: expecting prototype for DRM_SIMPLE_MODE_INIT(). Prototype was for DRM_MODE_INIT() instead
+>    GAMMA device node must be siblings to the central MMSYS_CONFIG
+> node.
+>    For a description of the MMSYS_CONFIG binding, see
+>    Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> @@ -28,6 +28,7 @@ properties:
+>        - items:
+>            - enum:
+>                - mediatek,mt8186-disp-gamma
+> +              - mediatek,mt8188-disp-gamma
+>                - mediatek,mt8192-disp-gamma
+>                - mediatek,mt8195-disp-gamma
+>            - const: mediatek,mt8183-disp-gamma
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
+> l
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
+> l
+> index a2a27d0ca038..065e526f950e 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
+> l
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
+> l
+> @@ -36,6 +36,7 @@ properties:
+>            - const: mediatek,mt2701-disp-ovl
+>        - items:
+>            - enum:
+> +              - mediatek,mt8188-disp-ovl
+>                - mediatek,mt8195-disp-ovl
+>            - const: mediatek,mt8183-disp-ovl
+>        - items:
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,postmas
+> k.yaml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,postmas
+> k.yaml
+> index 654080bfbdfb..27de64495401 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,postmas
+> k.yaml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,postmas
+> k.yaml
+> @@ -26,6 +26,7 @@ properties:
+>        - items:
+>            - enum:
+>                - mediatek,mt8186-disp-postmask
+> +              - mediatek,mt8188-disp-postmask
+>            - const: mediatek,mt8192-disp-postmask
+>  
+>    reg:
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
+> ml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
+> ml
+> index 0882ae86e6c4..d0e6c0dd4dfb 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
+> ml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
+> ml
+> @@ -30,6 +30,8 @@ properties:
+>        - items:
+>            - const: mediatek,mt8183-disp-rdma
+>        - items:
+> +          - enum:
+> +              - mediatek,mt8188-disp-rdma
+>            - const: mediatek,mt8195-disp-rdma
+>        - items:
+>            - enum:
+> diff --git
+> a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> index 627dcc3e8b32..a5212a2a4dcc 100644
+> ---
+> a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> +++
+> b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> @@ -30,6 +30,7 @@ properties:
+>        - mediatek,mt8173-disp-mutex
+>        - mediatek,mt8183-disp-mutex
+>        - mediatek,mt8186-disp-mutex
+> +      - mediatek,mt8188-disp-mutex
+>        - mediatek,mt8192-disp-mutex
+>        - mediatek,mt8195-disp-mutex
+>  
 
-vim +168 ./include/drm/drm_modes.h
-
-   133	
-   134	#define DRM_MODE(nm, t, c, hd, hss, hse, ht, hsk, vd, vss, vse, vt, vs, f) \
-   135		.name = nm, .status = 0, .type = (t), .clock = (c), \
-   136		.hdisplay = (hd), .hsync_start = (hss), .hsync_end = (hse), \
-   137		.htotal = (ht), .hskew = (hsk), .vdisplay = (vd), \
-   138		.vsync_start = (vss), .vsync_end = (vse), .vtotal = (vt), \
-   139		.vscan = (vs), .flags = (f)
-   140	
-   141	/**
-   142	 * DRM_MODE_RES_MM - Calculates the display size from resolution and DPI
-   143	 * @res: The resolution in pixel
-   144	 * @dpi: The number of dots per inch
-   145	 */
-   146	#define DRM_MODE_RES_MM(res, dpi)	\
-   147		(((res) * 254ul) / ((dpi) * 10ul))
-   148	
-   149	#define __DRM_MODE_INIT(pix, hd, vd, hd_mm, vd_mm) \
-   150		.type = DRM_MODE_TYPE_DRIVER, .clock = (pix), \
-   151		.hdisplay = (hd), .hsync_start = (hd), .hsync_end = (hd), \
-   152		.htotal = (hd), .vdisplay = (vd), .vsync_start = (vd), \
-   153		.vsync_end = (vd), .vtotal = (vd), .width_mm = (hd_mm), \
-   154		.height_mm = (vd_mm)
-   155	
-   156	/**
-   157	 * DRM_SIMPLE_MODE_INIT - Initialize display mode
-   158	 * @hz: Vertical refresh rate in Hertz
-   159	 * @hd: Horizontal resolution, width
-   160	 * @vd: Vertical resolution, height
-   161	 * @hd_mm: Display width in millimeters
-   162	 * @vd_mm: Display height in millimeters
-   163	 *
-   164	 * This macro initializes a &drm_display_mode that contains information about
-   165	 * refresh rate, resolution and physical size.
-   166	 */
-   167	#define DRM_MODE_INIT(hz, hd, vd, hd_mm, vd_mm) \
- > 168		__DRM_MODE_INIT((hd) * (vd) * (hz) / 1000 /* kHz */, hd, vd, hd_mm, vd_mm)
-   169	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
