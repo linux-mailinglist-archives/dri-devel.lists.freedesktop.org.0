@@ -1,33 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C30659CB46
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 00:01:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8878759CB7D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 00:31:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16FCFA4767;
-	Mon, 22 Aug 2022 22:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9707291A24;
+	Mon, 22 Aug 2022 22:31:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 786A0A474E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 22:01:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 565DB12FC;
- Mon, 22 Aug 2022 15:01:45 -0700 (PDT)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
- [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1C0FA3F67D;
- Mon, 22 Aug 2022 15:01:41 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: robh@kernel.org,
-	tomeu.vizoso@collabora.com
-Subject: [PATCH] drm/panfrost: Update io-pgtable API
-Date: Mon, 22 Aug 2022 23:01:27 +0100
-Message-Id: <daef7f8c134d989c55636a5790d8c0fcaca1bae3.1661205687.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.36.1.dirty
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 505B618A1C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 22:31:11 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ m21-20020a9d6ad5000000b00638df677850so8676712otq.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 15:31:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc;
+ bh=Uze3mrVtxDFOcmt/i3yDaS8brRCL06O+UHridDKP8uo=;
+ b=ZKpYpsYM/o2jCq4rm/aUeXUa93Rb0CMhl5VbaCfX6JMtiO3ennKIUovhafoX45YR9l
+ i3Tep+H3h7UvRRZ4u6KuS+r3OCLFJjf2mIeEoenknI403RvbYjGG/kcs2lW5Mlp7iMu0
+ 9tbEi1zXfALiNre8cHiCTtHyOo/AReyfMAIWE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc;
+ bh=Uze3mrVtxDFOcmt/i3yDaS8brRCL06O+UHridDKP8uo=;
+ b=4yt/g/6J7Fgok4PqJeqNXVlkTu49isxkIoyYe5FJkgMqCJHbZa02afgERM7htGFXrG
+ 4fuSlupFM46qYp0dIEmpYYpAHUS1ndbRfWMWcd5ahDqS96YyayWNsofvabqY3JfNCOOo
+ q4pv8O3wClDZmnmhfMSsEB3mgqtDGrBDGXxwuqocjgZK2ectCX+Git7w0lRnFhE4iKD9
+ o0YYp9vaBRfFeIcMuJnWBHcVdpUKFFMV617jdLxYt3SgtVDADJ10Zy+MtYHkKRU3jxp9
+ 7D1tSvcAOOvmouJNgZw65EUQw6Ues+eMGVFJk+iHc1+6PIJ+fCWdjiKK2UGOhwsKehvp
+ 3F2w==
+X-Gm-Message-State: ACgBeo0xM/tKKKhBrmln1PjrPE8b3NS24+rv46Oq0OZ6Ae3NXO+1kdyO
+ qSeSY6JuaZ9Rqz4Zpl1v0Lyyc9i8/v7CEqGXGQB19A==
+X-Google-Smtp-Source: AA6agR5yVAK+oIZ1GWb2i1iV3WJcnW9FOaXtzHjX2k5tPGFm581PTcReO2HhFtk6zsZQzHNkTiKAHHtDQDlSEEXMb0o=
+X-Received: by 2002:a9d:53cb:0:b0:637:1ddc:615c with SMTP id
+ i11-20020a9d53cb000000b006371ddc615cmr8858507oth.3.1661207470142; Mon, 22 Aug
+ 2022 15:31:10 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 22 Aug 2022 17:31:09 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220710084133.30976-7-dmitry.baryshkov@linaro.org>
+References: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
+ <20220710084133.30976-7-dmitry.baryshkov@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 22 Aug 2022 17:31:09 -0500
+Message-ID: <CAE-0n53rQ-_3wgH-QDyVnMhja2LW0_2nLUdy==6wQOTP9VA36g@mail.gmail.com>
+Subject: Re: [PATCH v2 6/9] arm64: dts: qcom: sc7280: drop unused clocks from
+ eDP node
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@somainline.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,91 +72,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, alyssa.rosenzweig@collabora.com,
- dri-devel@lists.freedesktop.org, steven.price@arm.com
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert to io-pgtable's bulk {map,unmap}_pages() APIs, to help the old
-single-page interfaces eventually go away. Unmapping heap BOs still
-wants to be done a page at a time, but everything else can get the full
-benefit of the more efficient interface.
+Quoting Dmitry Baryshkov (2022-07-10 01:41:30)
+> The eDP node includes two clocks which are used by the eDP PHY rather
+> than eDP controller itself. Drop these clocks to remove extra difference
+> between eDP and DP controllers.
+>
+> Suggested-by: Stephen Boyd <swboyd@chromium.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 40 +++++++++++++++----------
- 1 file changed, 25 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index b285a8001b1d..e246d914e7f6 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -248,11 +248,15 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev)
- 	mmu_write(pfdev, MMU_INT_MASK, ~0);
- }
- 
--static size_t get_pgsize(u64 addr, size_t size)
-+static size_t get_pgsize(u64 addr, size_t size, size_t *count)
- {
--	if (addr & (SZ_2M - 1) || size < SZ_2M)
--		return SZ_4K;
-+	size_t blk_offset = -addr % SZ_2M;
- 
-+	if (blk_offset || size < SZ_2M) {
-+		*count = min_not_zero(blk_offset, size) / SZ_4K;
-+		return SZ_4K;
-+	}
-+	*count = size / SZ_2M;
- 	return SZ_2M;
- }
- 
-@@ -287,12 +291,16 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
- 		dev_dbg(pfdev->dev, "map: as=%d, iova=%llx, paddr=%lx, len=%zx", mmu->as, iova, paddr, len);
- 
- 		while (len) {
--			size_t pgsize = get_pgsize(iova | paddr, len);
-+			size_t pgcount, mapped = 0;
-+			size_t pgsize = get_pgsize(iova | paddr, len, &pgcount);
- 
--			ops->map(ops, iova, paddr, pgsize, prot, GFP_KERNEL);
--			iova += pgsize;
--			paddr += pgsize;
--			len -= pgsize;
-+			ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
-+				       GFP_KERNEL, &mapped);
-+			/* Don't get stuck if things have gone wrong */
-+			mapped = max(mapped, pgsize);
-+			iova += mapped;
-+			paddr += mapped;
-+			len -= mapped;
- 		}
- 	}
- 
-@@ -344,15 +352,17 @@ void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping)
- 		mapping->mmu->as, iova, len);
- 
- 	while (unmapped_len < len) {
--		size_t unmapped_page;
--		size_t pgsize = get_pgsize(iova, len - unmapped_len);
-+		size_t unmapped_page, pgcount;
-+		size_t pgsize = get_pgsize(iova, len - unmapped_len, &pgcount);
- 
--		if (ops->iova_to_phys(ops, iova)) {
--			unmapped_page = ops->unmap(ops, iova, pgsize, NULL);
--			WARN_ON(unmapped_page != pgsize);
-+		if (bo->is_heap)
-+			pgcount = 1;
-+		if (!bo->is_heap || ops->iova_to_phys(ops, iova)) {
-+			unmapped_page = ops->unmap_pages(ops, iova, pgsize, pgcount, NULL);
-+			WARN_ON(unmapped_page != pgsize * pgcount);
- 		}
--		iova += pgsize;
--		unmapped_len += pgsize;
-+		iova += pgsize * pgcount;
-+		unmapped_len += pgsize * pgcount;
- 	}
- 
- 	panfrost_mmu_flush_range(pfdev, mapping->mmu,
--- 
-2.36.1.dirty
-
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
