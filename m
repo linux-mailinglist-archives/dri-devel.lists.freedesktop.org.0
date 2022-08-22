@@ -1,44 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F3B59BC2F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 11:02:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD1E59BC51
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 11:09:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 602899B1D2;
-	Mon, 22 Aug 2022 09:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5559C113E65;
+	Mon, 22 Aug 2022 09:09:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C357B9B1FE
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 09:02:11 +0000 (UTC)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
- [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53E1B2B3;
- Mon, 22 Aug 2022 11:02:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661158929;
- bh=l7c+TSJ1iBKKt9gfi1VQ28jwwX8hDAVmGrLnyE1ukT8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aZa+Z3MP/ooI3L5KZqanVwlmgylVyygVZszDynecHXKLWrvJ0vca/CQh7xa9eFLxR
- OYq3minerFlcw6S77vHkll4oOW8jCtzAvA9Vve+DCyCH7EDQqKGxQx66EpZv+hZDGn
- fPYBOipv8U9psNZ3RqTbu5bHBMOxIOQkRQV317KA=
-Message-ID: <2fc7e0a5-95c7-55a2-1eb3-311e65cc02b6@ideasonboard.com>
-Date: Mon, 22 Aug 2022 12:02:06 +0300
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8664C113E65
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 09:09:32 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id
+ c7-20020a056e020bc700b002e59be6ce85so7907864ilu.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 02:09:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:to:from:subject:message-id:date
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=5fuT+q3jRQhVdVUK3P+aRK+U06XdPv6lq28/ejdp4ic=;
+ b=7DmjcGpUeedp9ibuYKypWnqoCdM3DDdE7Zv5ft4RF3Gu4nDl5o827bTuY8wSdqSch8
+ HR7JKrWR4vjGFAVjuPosTd82MhW/5nF6ipjhSlb0T4kCc22Ol11geLDXewJQpYcRzkqJ
+ CMQpkLPBLoFgbljZtyZNJwOpEFNGXNMiXl6G+iFWkq1o1yo/LyUzT6v003tYRZfhUZrS
+ zlaHt7inGIgaBU/Ekoile2snbwLOA/d7KtXCCDaDQMrzC2kbjd/RgmZsjzIcJlk1VPe0
+ r5PfGERpJB1pB+BcVdOmtyE+X36FKnPavZ6bpxvlcmaKCu5tA7BcxFiKIHYa9s3nNQnI
+ Ymng==
+X-Gm-Message-State: ACgBeo1E1lKp63Vesvfffj1Oo4B5gH94AKpFvpw15F3vMT8s43wuQXug
+ 4sSGQoIAKMmy3QlxY/TYKNYOjWmz6UB8NE1Xwsh852qGvudv
+X-Google-Smtp-Source: AA6agR4qPccZHg4Tc6VzGZ5lP7p6VRwR3C1UfOnXnsSjFdvc8KHkCQrkyBJdv2x/JWNPmD4S3m1tVQucfLGzHYbqfv9iFIwMXkU/
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/3] drm: rcar-du: fix DSI enable & disable sequence
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20220817132803.85373-1-tomi.valkeinen@ideasonboard.com>
- <20220817132803.85373-3-tomi.valkeinen@ideasonboard.com>
- <Yv7owItpQ/OlpoWm@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Yv7owItpQ/OlpoWm@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6638:1a9:b0:349:cef1:168f with SMTP id
+ b9-20020a05663801a900b00349cef1168fmr3035961jaq.238.1661159371656; Mon, 22
+ Aug 2022 02:09:31 -0700 (PDT)
+Date: Mon, 22 Aug 2022 02:09:31 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000043579605e6d0ce41@google.com>
+Subject: [syzbot] KASAN: use-after-free Read in udl_get_urb_timeout
+From: syzbot <syzbot+f24934fe125a19d77eae@syzkaller.appspotmail.com>
+To: airlied@linux.ie, airlied@redhat.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ sean@poorly.run, syzkaller-bugs@googlegroups.com, tiwai@suse.de, 
+ tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,347 +58,271 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello,
 
-On 19/08/2022 04:34, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Aug 17, 2022 at 04:28:03PM +0300, Tomi Valkeinen wrote:
->> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>
->> The rcar crtc depends on the clock provided from the rcar DSI bridge.
->> When the DSI bridge is disabled, the clock is stopped, which causes the
->> crtc disable to timeout.
->>
->> Also, while I have no issue with the enable, the documentation suggests
->> to enable the DSI before the crtc so that the crtc has its clock enabled
->> at enable time. This is also not done by the current driver.
->>
->> To fix this, we need to keep the DSI bridge enabled until the crtc has
->> disabled itself, and enable the DSI bridge before crtc enables itself.
->>
->> Add functions (rcar_mipi_dsi_atomic_early_enable and
->> rcar_mipi_dsi_atomic_late_disable) to the rcar DSI bridge driver which
->> the rcar driver can use to enable/disable the DSI clock when needed.
->> This is similar to what is already done with the rcar LVDS bridge.
-> 
-> I had hoped we could avoid that :-(
-> 
-> I wonder if we could instead rely on the pre_enable/post_disable bridge
-> operations, with a custom commit tail implementation to order those
-> before/after the CRTC enable/disable respectively. That would be pretty
-> complex though, so probably not worth it.
+syzbot found the following issue on:
 
-I think so, especially as we already have a similar case for LVDS, and 
-these custom calls are quite simple to implement and understand. I fear 
-a custom commit implementation would be a much bigger maintenance burden 
-for little, if any, benefit.
+HEAD commit:    5b6a4bf680d6 Add linux-next specific files for 20220818
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D12341a3d080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3Dead6107a3bbe3c6=
+2
+dashboard link: https://syzkaller.appspot.com/bug?extid=3Df24934fe125a19d77=
+eae
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils=
+ for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D1273186708000=
+0
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D165b64f3080000
 
-> Thinking more about this, I wonder why pre_enable is not called before
-> enabling the CRTC in the DRM atomic helpers. That would make more sense
-> to me, but I suppose changing it would break too many things ? I think
-> it should at least be discussed to figure out if it was a historical
-> oversight or if there was a good reason. It's *really* not nice to poke
-> holes through the abstraction layers like this.
+The issue was bisected to:
 
-Yes, I'll bring this question to #dri-devel. But I think it's better to 
-get the issue fixed with a custom function call as done in this patch, 
-and hope that we can do the work in a standard way in the future.
+commit e25d5954264d1871ab2792c7ca2298b811462500
+Author: Takashi Iwai <tiwai@suse.de>
+Date:   Thu Aug 4 07:58:25 2022 +0000
 
->> Also add a new function, rcar_mipi_dsi_stop_video(), called from
->> rcar_mipi_dsi_atomic_enable so that the DSI TX gets disabled at the
->> correct time, even if the clocks are still kept enabled.
-> 
-> I think this should be split to a separate patch, possibly before this
-> one, it addresses a separate issue.
+    drm/udl: Kill pending URBs at suspend and disconnect
 
-I agree.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D1393a8eb0800=
+00
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D1053a8eb0800=
+00
+console output: https://syzkaller.appspot.com/x/log.txt?x=3D1793a8eb080000
 
->> And, while possibly not strictly needed, clear clock related enable bits
->> in rcar_mipi_dsi_atomic_late_disable to mirror the sequence done in
->> rcar_mipi_dsi_startup() (via rcar_mipi_dsi_atomic_early_enable).
-> 
-> And this too should be a separate patch, possibly bundled with
-> rcar_mipi_dsi_stop_video().
+IMPORTANT: if you fix the issue, please add the following tag to the commit=
+:
+Reported-by: syzbot+f24934fe125a19d77eae@syzkaller.appspotmail.com
+Fixes: e25d5954264d ("drm/udl: Kill pending URBs at suspend and disconnect"=
+)
 
-Yep. I'll have it in a separate patch as they're somewhat different.
+[drm:udl_init.cold] *ERROR* Unrecognized vendor firmware descriptor
+[drm:udl_init] *ERROR* Selecting channel failed
+[drm] Initialized udl 0.0.1 20120220 for 1-1:0.0 on minor 2
+[drm] Initialized udl on minor 2
+[drm:udl_get_edid_block] *ERROR* Read EDID byte 0 failed err ffffffb9
+udl 1-1:0.0: [drm] Cannot find any crtc or sizes
+usb 1-1: USB disconnect, device number 2
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+BUG: KASAN: use-after-free in __list_add_valid+0x93/0xb0 lib/list_debug.c:2=
+7
+Read of size 8 at addr ffff8880756fce88 by task kworker/0:2/146
 
-> Have you checked in the BSP code to see if they do the same at disable
-> time ?
+CPU: 0 PID: 146 Comm: kworker/0:2 Not tainted 6.0.0-rc1-next-20220818-syzka=
+ller #0
+kworker/0:2[146] cmdline: =EF=BF=BD=EF=BF=BDa=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
+=BF=BD=EF=BF=BD=01
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Goo=
+gle 07/22/2022
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:122 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:140
+ print_address_description mm/kasan/report.c:317 [inline]
+ print_report.cold+0x2ba/0x719 mm/kasan/report.c:433
+ kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
+ __list_add_valid+0x93/0xb0 lib/list_debug.c:27
+ __list_add include/linux/list.h:69 [inline]
+ list_add include/linux/list.h:88 [inline]
+ list_move include/linux/list.h:218 [inline]
+ udl_get_urb_timeout+0x20e/0x550 drivers/gpu/drm/udl/udl_main.c:250
+ udl_free_urb_list+0x15f/0x250 drivers/gpu/drm/udl/udl_main.c:156
+ udl_drop_usb+0xd0/0x160 drivers/gpu/drm/udl/udl_main.c:358
+ udl_usb_disconnect+0x3f/0x50 drivers/gpu/drm/udl/udl_drv.c:114
+ usb_unbind_interface+0x1d8/0x8e0 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:520 [inline]
+ device_remove+0x11f/0x170 drivers/base/dd.c:512
+ __device_release_driver drivers/base/dd.c:1209 [inline]
+ device_release_driver_internal+0x4a1/0x700 drivers/base/dd.c:1235
+ bus_remove_device+0x2e3/0x590 drivers/base/bus.c:529
+ device_del+0x4f3/0xc80 drivers/base/core.c:3704
+ usb_disable_device+0x356/0x7a0 drivers/usb/core/message.c:1419
+ usb_disconnect.cold+0x259/0x6ed drivers/usb/core/hub.c:2235
+ hub_port_connect drivers/usb/core/hub.c:5197 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
+ port_event drivers/usb/core/hub.c:5653 [inline]
+ hub_event+0x1f86/0x4610 drivers/usb/core/hub.c:5735
+ process_one_work+0x991/0x1610 kernel/workqueue.c:2289
+ process_scheduled_works kernel/workqueue.c:2352 [inline]
+ worker_thread+0x854/0x1080 kernel/workqueue.c:2438
+ kthread+0x2e4/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+ </TASK>
 
-No, they don't seem to do this.
+Allocated by task 146:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ kasan_set_track mm/kasan/common.c:45 [inline]
+ set_alloc_info mm/kasan/common.c:437 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:516 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:475 [inline]
+ __kasan_kmalloc+0xa9/0xd0 mm/kasan/common.c:525
+ kmalloc include/linux/slab.h:606 [inline]
+ kzalloc include/linux/slab.h:739 [inline]
+ udl_alloc_urb_list drivers/gpu/drm/udl/udl_main.c:190 [inline]
+ udl_init+0x736/0xc80 drivers/gpu/drm/udl/udl_main.c:331
+ udl_driver_create drivers/gpu/drm/udl/udl_drv.c:79 [inline]
+ udl_usb_probe+0x4f/0x100 drivers/gpu/drm/udl/udl_drv.c:94
+ usb_probe_interface+0x30b/0x7f0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:530 [inline]
+ really_probe+0x249/0xb90 drivers/base/dd.c:609
+ __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:748
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:778
+ __device_attach_driver+0x206/0x2e0 drivers/base/dd.c:901
+ bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+ __device_attach+0x1e4/0x530 drivers/base/dd.c:973
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+ device_add+0xbd5/0x1e90 drivers/base/core.c:3517
+ usb_set_configuration+0x1019/0x1900 drivers/usb/core/message.c:2170
+ usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
+ usb_probe_device+0xd4/0x2c0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:530 [inline]
+ really_probe+0x249/0xb90 drivers/base/dd.c:609
+ __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:748
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:778
+ __device_attach_driver+0x206/0x2e0 drivers/base/dd.c:901
+ bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+ __device_attach+0x1e4/0x530 drivers/base/dd.c:973
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+ device_add+0xbd5/0x1e90 drivers/base/core.c:3517
+ usb_new_device.cold+0x685/0x10ad drivers/usb/core/hub.c:2573
+ hub_port_connect drivers/usb/core/hub.c:5353 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
+ port_event drivers/usb/core/hub.c:5653 [inline]
+ hub_event+0x26c7/0x4610 drivers/usb/core/hub.c:5735
+ process_one_work+0x991/0x1610 kernel/workqueue.c:2289
+ worker_thread+0x665/0x1080 kernel/workqueue.c:2436
+ kthread+0x2e4/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
 
-The steps for stopping of the video transmission is described in the 
-doc, but there's no mention I can see of clearing those bits (or rather, 
-making sure they are cleared before starting the next enable sequence).
+Freed by task 146:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ kasan_set_track+0x21/0x30 mm/kasan/common.c:45
+ kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:370
+ ____kasan_slab_free mm/kasan/common.c:367 [inline]
+ ____kasan_slab_free+0x166/0x1c0 mm/kasan/common.c:329
+ kasan_slab_free include/linux/kasan.h:200 [inline]
+ slab_free_hook mm/slub.c:1754 [inline]
+ slab_free_freelist_hook+0x8b/0x1c0 mm/slub.c:1780
+ slab_free mm/slub.c:3534 [inline]
+ kfree+0xe2/0x580 mm/slub.c:4562
+ udl_free_urb_list+0x136/0x250 drivers/gpu/drm/udl/udl_main.c:164
+ udl_drop_usb+0xd0/0x160 drivers/gpu/drm/udl/udl_main.c:358
+ udl_usb_disconnect+0x3f/0x50 drivers/gpu/drm/udl/udl_drv.c:114
+ usb_unbind_interface+0x1d8/0x8e0 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:520 [inline]
+ device_remove+0x11f/0x170 drivers/base/dd.c:512
+ __device_release_driver drivers/base/dd.c:1209 [inline]
+ device_release_driver_internal+0x4a1/0x700 drivers/base/dd.c:1235
+ bus_remove_device+0x2e3/0x590 drivers/base/bus.c:529
+ device_del+0x4f3/0xc80 drivers/base/core.c:3704
+ usb_disable_device+0x356/0x7a0 drivers/usb/core/message.c:1419
+ usb_disconnect.cold+0x259/0x6ed drivers/usb/core/hub.c:2235
+ hub_port_connect drivers/usb/core/hub.c:5197 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
+ port_event drivers/usb/core/hub.c:5653 [inline]
+ hub_event+0x1f86/0x4610 drivers/usb/core/hub.c:5735
+ process_one_work+0x991/0x1610 kernel/workqueue.c:2289
+ process_scheduled_works kernel/workqueue.c:2352 [inline]
+ worker_thread+0x854/0x1080 kernel/workqueue.c:2438
+ kthread+0x2e4/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
 
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> ---
->>   drivers/gpu/drm/rcar-du/rcar_du_crtc.c    | 25 +++++++++
->>   drivers/gpu/drm/rcar-du/rcar_du_drv.h     |  2 +
->>   drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  4 ++
->>   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c   | 63 +++++++++++++++++++++--
->>   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h   | 32 ++++++++++++
->>   5 files changed, 121 insertions(+), 5 deletions(-)
->>   create mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
->>
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->> index fd3b94649a01..51fd1d99f4e8 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->> @@ -29,6 +29,7 @@
->>   #include "rcar_du_regs.h"
->>   #include "rcar_du_vsp.h"
->>   #include "rcar_lvds.h"
->> +#include "rcar_mipi_dsi.h"
->>   
->>   static u32 rcar_du_crtc_read(struct rcar_du_crtc *rcrtc, u32 reg)
->>   {
->> @@ -733,6 +734,18 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
->>   		rcar_cmm_enable(rcrtc->cmm);
->>   	rcar_du_crtc_get(rcrtc);
->>   
-> 
-> A comment here similar to the LVDS case would be useful. I would
-> actually move this below the LVDS code, and write
-> 
-> 	/*
-> 	 * Similarly, on V3U, ...
-> 	 */
+The buggy address belongs to the object at ffff8880756fce80
+ which belongs to the cache kmalloc-32 of size 32
+The buggy address is located 8 bytes inside of
+ 32-byte region [ffff8880756fce80, ffff8880756fcea0)
 
-Ok.
+The buggy address belongs to the physical page:
+page:ffffea0001d5bf00 refcount:1 mapcount:0 mapping:0000000000000000 index:=
+0x0 pfn:0x756fc
+flags: 0xfff00000000200(slab|node=3D0|zone=3D1|lastcpupid=3D0x7ff)
+raw: 00fff00000000200 0000000000000000 dead000000000122 ffff888011841500
+raw: 0000000000000000 0000000000400040 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x12c40(GF=
+P_NOFS|__GFP_NOWARN|__GFP_NORETRY), pid 3609, tgid 3609 (syz-executor401), =
+ts 53404959933, free_ts 53124140132
+ prep_new_page mm/page_alloc.c:2532 [inline]
+ get_page_from_freelist+0x109b/0x2ce0 mm/page_alloc.c:4283
+ __alloc_pages+0x1c7/0x510 mm/page_alloc.c:5507
+ alloc_pages+0x1a6/0x270 mm/mempolicy.c:2272
+ alloc_slab_page mm/slub.c:1824 [inline]
+ allocate_slab+0x27e/0x3d0 mm/slub.c:1969
+ new_slab mm/slub.c:2029 [inline]
+ ___slab_alloc+0x7f1/0xe10 mm/slub.c:3031
+ __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3118
+ slab_alloc_node mm/slub.c:3209 [inline]
+ slab_alloc mm/slub.c:3251 [inline]
+ __kmalloc+0x32b/0x340 mm/slub.c:4420
+ kmalloc include/linux/slab.h:611 [inline]
+ kzalloc include/linux/slab.h:739 [inline]
+ tomoyo_encode2.part.0+0xe9/0x3a0 security/tomoyo/realpath.c:45
+ tomoyo_encode2 security/tomoyo/realpath.c:31 [inline]
+ tomoyo_encode+0x28/0x50 security/tomoyo/realpath.c:80
+ tomoyo_realpath_from_path+0x186/0x620 security/tomoyo/realpath.c:288
+ tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
+ tomoyo_path_number_perm+0x1d5/0x590 security/tomoyo/file.c:723
+ security_file_ioctl+0x50/0xb0 security/security.c:1552
+ __do_sys_ioctl fs/ioctl.c:864 [inline]
+ __se_sys_ioctl fs/ioctl.c:856 [inline]
+ __x64_sys_ioctl+0xb3/0x200 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1449 [inline]
+ free_pcp_prepare+0x5e4/0xd20 mm/page_alloc.c:1499
+ free_unref_page_prepare mm/page_alloc.c:3380 [inline]
+ free_unref_page+0x19/0x4d0 mm/page_alloc.c:3476
+ qlink_free mm/kasan/quarantine.c:168 [inline]
+ qlist_free_all+0x6a/0x170 mm/kasan/quarantine.c:187
+ kasan_quarantine_reduce+0x180/0x200 mm/kasan/quarantine.c:294
+ __kasan_slab_alloc+0xa2/0xc0 mm/kasan/common.c:447
+ kasan_slab_alloc include/linux/kasan.h:224 [inline]
+ slab_post_alloc_hook mm/slab.h:727 [inline]
+ slab_alloc_node mm/slub.c:3243 [inline]
+ kmem_cache_alloc_node+0x2b1/0x3f0 mm/slub.c:3293
+ __alloc_skb+0x210/0x2f0 net/core/skbuff.c:418
+ alloc_skb include/linux/skbuff.h:1257 [inline]
+ alloc_skb_with_frags+0x93/0x6c0 net/core/skbuff.c:6018
+ sock_alloc_send_pskb+0x7a3/0x930 net/core/sock.c:2663
+ sock_alloc_send_skb include/net/sock.h:1841 [inline]
+ mld_newpack.isra.0+0x1b9/0x770 net/ipv6/mcast.c:1748
+ add_grhead+0x295/0x340 net/ipv6/mcast.c:1851
+ add_grec+0x1082/0x1560 net/ipv6/mcast.c:1989
+ mld_send_cr net/ipv6/mcast.c:2115 [inline]
+ mld_ifc_work+0x452/0xdc0 net/ipv6/mcast.c:2653
+ process_one_work+0x991/0x1610 kernel/workqueue.c:2289
+ worker_thread+0x665/0x1080 kernel/workqueue.c:2436
+ kthread+0x2e4/0x3a0 kernel/kthread.c:376
 
->> +	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
->> +	    (rstate->outputs &
->> +	     (BIT(RCAR_DU_OUTPUT_DSI0) | BIT(RCAR_DU_OUTPUT_DSI1)))) {
->> +		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
->> +
->> +		/*
->> +		 * Enable the DSI clock output.
->> +		 */
->> +
->> +		rcar_mipi_dsi_atomic_early_enable(bridge, state);
->> +	}
-> 
-> I was wondering if we could merge the DSI and LVDS clock enabling code,
-> including merging the lvds and dsi fields in rcar_du_device, but it
-> doesn't seem it will be very clean here.
+Memory state around the buggy address:
+ ffff8880756fcd80: 00 00 00 00 fc fc fc fc 00 00 00 00 fc fc fc fc
+ ffff8880756fce00: 00 00 00 00 fc fc fc fc 00 00 00 00 fc fc fc fc
+>ffff8880756fce80: fa fb fb fb fc fc fc fc 00 00 00 00 fc fc fc fc
+                      ^
+ ffff8880756fcf00: 00 00 00 00 fc fc fc fc 00 00 00 00 fc fc fc fc
+ ffff8880756fcf80: 00 00 00 00 fc fc fc fc 00 00 00 fc fc fc fc fc
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-True, they are quite similar. I didn't want to mix them up as I don't 
-have the means to test lvds, nor am I that familiar with the rcar du.
 
-If I'm not mistaken, the difference is that LVDS clock is used for 
-non-LVDS output, whereas here the DSI clock is used for DSI output.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
->> +
->>   	/*
->>   	 * On D3/E3 the dot clock is provided by the LVDS encoder attached to
->>   	 * the DU channel. We need to enable its clock output explicitly if
->> @@ -769,6 +782,18 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
->>   	rcar_du_crtc_stop(rcrtc);
->>   	rcar_du_crtc_put(rcrtc);
->>   
->> +	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
->> +	    (rstate->outputs &
->> +	     (BIT(RCAR_DU_OUTPUT_DSI0) | BIT(RCAR_DU_OUTPUT_DSI1)))) {
->> +		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
->> +
->> +		/*
->> +		 * Disable the DSI clock output.
->> +		 */
->> +
->> +		rcar_mipi_dsi_atomic_late_disable(bridge);
->> +	}
->> +
->>   	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
->>   	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
->>   		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
->> index 712389c7b3d0..5cfa2bb7ad93 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
->> @@ -92,6 +92,7 @@ struct rcar_du_device_info {
->>   #define RCAR_DU_MAX_GROUPS		DIV_ROUND_UP(RCAR_DU_MAX_CRTCS, 2)
->>   #define RCAR_DU_MAX_VSPS		4
->>   #define RCAR_DU_MAX_LVDS		2
->> +#define RCAR_DU_MAX_DSI			2
->>   
->>   struct rcar_du_device {
->>   	struct device *dev;
->> @@ -108,6 +109,7 @@ struct rcar_du_device {
->>   	struct platform_device *cmms[RCAR_DU_MAX_CRTCS];
->>   	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
->>   	struct drm_bridge *lvds[RCAR_DU_MAX_LVDS];
->> +	struct drm_bridge *dsi[RCAR_DU_MAX_DSI];
->>   
->>   	struct {
->>   		struct drm_property *colorkey;
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
->> index 60d6be78323b..ac93e08e8af4 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
->> @@ -84,6 +84,10 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->>   		if (output == RCAR_DU_OUTPUT_LVDS0 ||
->>   		    output == RCAR_DU_OUTPUT_LVDS1)
->>   			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = bridge;
->> +
->> +		if (output == RCAR_DU_OUTPUT_DSI0 ||
->> +		    output == RCAR_DU_OUTPUT_DSI1)
->> +			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = bridge;
->>   	}
->>   
->>   	/*
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
->> index 62f7eb84ab01..1ec40e40fd08 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
->> @@ -542,6 +542,34 @@ static int rcar_mipi_dsi_start_video(struct rcar_mipi_dsi *dsi)
->>   	return 0;
->>   }
->>   
->> +static void rcar_mipi_dsi_stop_video(struct rcar_mipi_dsi *dsi)
->> +{
->> +	u32 status;
->> +	int ret;
->> +
->> +	/* Disable transmission in video mode. */
->> +	rcar_mipi_dsi_clr(dsi, TXVMCR, TXVMCR_EN_VIDEO);
->> +
->> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
->> +				!(status & TXVMSR_ACT),
->> +				2000, 100000, false, dsi, TXVMSR);
->> +	if (ret < 0) {
->> +		dev_err(dsi->dev, "Failed to disable video transmission\n");
->> +		return;
->> +	}
->> +
->> +	/* Assert video FIFO clear. */
->> +	rcar_mipi_dsi_set(dsi, TXVMCR, TXVMCR_VFCLR);
->> +
->> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
->> +				!(status & TXVMSR_VFRDY),
->> +				2000, 100000, false, dsi, TXVMSR);
->> +	if (ret < 0) {
->> +		dev_err(dsi->dev, "Failed to assert video FIFO clear\n");
->> +		return;
->> +	}
->> +}
->> +
->>   /* -----------------------------------------------------------------------------
->>    * Bridge
->>    */
->> @@ -558,7 +586,22 @@ static int rcar_mipi_dsi_attach(struct drm_bridge *bridge,
->>   static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
->>   					struct drm_bridge_state *old_bridge_state)
->>   {
->> -	struct drm_atomic_state *state = old_bridge_state->base.state;
->> +	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
->> +
->> +	rcar_mipi_dsi_start_video(dsi);
->> +}
->> +
->> +static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
->> +					struct drm_bridge_state *old_bridge_state)
->> +{
->> +	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
->> +
->> +	rcar_mipi_dsi_stop_video(dsi);
->> +}
->> +
->> +void rcar_mipi_dsi_atomic_early_enable(struct drm_bridge *bridge,
->> +				       struct drm_atomic_state *state)
->> +{
->>   	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
->>   	const struct drm_display_mode *mode;
->>   	struct drm_connector *connector;
->> @@ -586,8 +629,6 @@ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
->>   	if (ret < 0)
->>   		goto err_dsi_start_hs;
->>   
->> -	rcar_mipi_dsi_start_video(dsi);
->> -
->>   	return;
->>   
->>   err_dsi_start_hs:
->> @@ -595,15 +636,27 @@ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
->>   err_dsi_startup:
->>   	rcar_mipi_dsi_clk_disable(dsi);
->>   }
->> +EXPORT_SYMBOL_GPL(rcar_mipi_dsi_atomic_early_enable);
->>   
->> -static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
->> -					 struct drm_bridge_state *old_bridge_state)
->> +void rcar_mipi_dsi_atomic_late_disable(struct drm_bridge *bridge)
->>   {
->>   	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
->>   
->> +	rcar_mipi_dsi_clr(dsi, VCLKEN, VCLKEN_CKEN);
->> +
->> +	/* Disable DOT clock */
->> +	rcar_mipi_dsi_clr(dsi, VCLKSET, VCLKSET_CKEN);
->> +
->> +	/* CFGCLK disable */
->> +	rcar_mipi_dsi_clr(dsi, CFGCLKSET, CFGCLKSET_CKEN);
->> +
->> +	/* LPCLK disable */
->> +	rcar_mipi_dsi_clr(dsi, LPCLKSET, LPCLKSET_CKEN);
->> +
->>   	rcar_mipi_dsi_shutdown(dsi);
->>   	rcar_mipi_dsi_clk_disable(dsi);
->>   }
->> +EXPORT_SYMBOL_GPL(rcar_mipi_dsi_atomic_late_disable);
->>   
->>   static enum drm_mode_status
->>   rcar_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
->> new file mode 100644
->> index 000000000000..1764abf65a34
->> --- /dev/null
->> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
->> @@ -0,0 +1,32 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * R-Car DSI Encoder
->> + *
->> + * Copyright (C) 2022 Renesas Electronics Corporation
->> + *
->> + * Contact: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> + */
->> +
->> +#ifndef __RCAR_MIPI_DSI_H__
->> +#define __RCAR_MIPI_DSI_H__
->> +
->> +struct drm_bridge;
->> +struct drm_atomic_state;
-> 
-> Alphabetical order please.
-
-Ok.
-
->> +
->> +#if IS_ENABLED(CONFIG_DRM_RCAR_MIPI_DSI)
->> +void rcar_mipi_dsi_atomic_early_enable(struct drm_bridge *bridge,
->> +				       struct drm_atomic_state *state);
->> +void rcar_mipi_dsi_atomic_late_disable(struct drm_bridge *bridge);
-> 
-> It would be nice to have a naming scheme consistent with rcar_lvds.h.
-> That would mean rcar_mipi_dsi_clk_{enable,disable}(), or renaming the
-> LVDS functions to match whatever name would be picked here.
-> 
-> We could name the functions pre_enable/post_disable to show what they
-> should really be, if it wasn't for the DRM atomic helpers calling the
-> bridge operations at the wrong time.
-
-DSI already has rcar_mipi_dsi_clk_enable(). I'll try to figure out a 
-suitable common naming.
-
-  Tomi
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisectio=
+n
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
