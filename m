@@ -1,75 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E84159CB3A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 23:59:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C0959CB3B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 23:59:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 846A1A465E;
-	Mon, 22 Aug 2022 21:58:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 917E5A4653;
+	Mon, 22 Aug 2022 21:59:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C463BA4628
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 21:58:35 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D38A4643
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 21:59:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661205514;
+ s=mimecast20190719; t=1661205543;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mQUeuV51GD+/Z3NmS3oF64vuc80M1JzNM209IAEm6Lo=;
- b=XreFxEgT0St/S5ytutYS0TIHGB1X4lCC+SRMR8Y4lCWpQDsKTJcoaoQXN60d/fNKoclp5c
- AP7AGBnPcmnqfpfC0KyAFnEXIEASnk0hskMvNF1yzbKXVA/oAgV149BaT9WTm7CTv/5pf+
- PziTZjASMSm+LNy6bHupV+BW9JdonoQ=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XGEm15n5GWeNNUVuIt05Qnj5H69sDv7gsn4H+W/WGZA=;
+ b=XyaazzgiL4p1ljGuZWUxl/BTbaWJ8kPrYgzMuRmD/5WaMIBhHLBxJGHEidwssN6hKEDtoz
+ n50z3tt7LthUwm1spat7068VXEy3i08vnD13vqpARhG9/sl+2+uHSVGGV29316XvZF31vX
+ zMEJEQJvHHALv2wA2+SsUj393/WDNXY=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-wwa85hL5NFOr27dbX4_8VA-1; Mon, 22 Aug 2022 17:58:31 -0400
-X-MC-Unique: wwa85hL5NFOr27dbX4_8VA-1
-Received: by mail-il1-f199.google.com with SMTP id
- g5-20020a92cda5000000b002e954ecceb0so6316517ild.5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 14:58:31 -0700 (PDT)
+ us-mta-47-a8Cdhe8zP2im4XgvSDKbzQ-1; Mon, 22 Aug 2022 17:59:00 -0400
+X-MC-Unique: a8Cdhe8zP2im4XgvSDKbzQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ og5-20020a056214428500b00496b5246db5so6261856qvb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 14:59:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc;
- bh=mQUeuV51GD+/Z3NmS3oF64vuc80M1JzNM209IAEm6Lo=;
- b=7jIU2as97bx/K6pE3p75Y6KaulZfH1PB0dYvYoHSY/en1zNLJJE32ALIS5dcPoyCPK
- TCAKIJtL0AoMZ0CXSIBcDqKJuu99Vy6olomT139wJG+x8Wcl2c7m3ZKcLzbVL7EoshIH
- oyyx5okmJje/+z8WHnS+80+GeN9qxbQTb8O1n1OT2jUua8kmJhv9UGHi5XmLz2WuU96C
- GE5Btu4rTbMr47yeKNo3UrfLC62ySwJdrRw16h5F3RcqFClLnr9BUJbKZZWodob40J2B
- sQOt2B6dDROK8UWubv+4jfspspOKWwT+QnNnt50BD0isk6si3Lp9pyvrNv7tynL2aGQV
- tk0w==
-X-Gm-Message-State: ACgBeo3qSAYU4iqVQZt2BUQa6fHbbOSjx6hcQc6J6Ie/sqvnLvdbi3ha
- gIbiX/ujrbT01c1I5V8VUwXsBiedzJi53zMX0YmR7NETvUzGuTivkvV3HZEsSReqjkdhshZHz3F
- KFfiZaltF1XYqMa7dkrhjBDJR7G8u
-X-Received: by 2002:a05:6638:3892:b0:342:8aa5:a050 with SMTP id
- b18-20020a056638389200b003428aa5a050mr10967574jav.145.1661205511224; 
- Mon, 22 Aug 2022 14:58:31 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7Ji5Aas470cfaDuYoFCQXCz8xDov2+WjpaEqjz4PP+196q6rswlxrWF7iO99xdkBAv+YQNFg==
-X-Received: by 2002:a05:6638:3892:b0:342:8aa5:a050 with SMTP id
- b18-20020a056638389200b003428aa5a050mr10967567jav.145.1661205510943; 
- Mon, 22 Aug 2022 14:58:30 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- g2-20020a05660203c200b006788259b526sm6276185iov.41.2022.08.22.14.58.30
+ h=content-transfer-encoding:mime-version:user-agent:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=XGEm15n5GWeNNUVuIt05Qnj5H69sDv7gsn4H+W/WGZA=;
+ b=VptEnpgVGxp0wcWkcTHPAfTFAy9mVGHmHNmE6Vu4L88DRqNufo638RP6JPhRbU2npv
+ mmMeMqK1HSI87MvJSTDXFmtAKMMPEujBoA9BtQ+XlIGaotA4Xod8obQ0unMC+WSuZslW
+ b1qK++v+wo2nl0qsv8kGH87pIKmlLYpz2VEPzI1rb/Ugjkn36EB4Hf3KkyNGapc0sL8V
+ nzWUJDjfaSttTCg5d3johaxtoQjYftxD0isT5EPTprBgiSiCAOpCG/nEf8yhNQZudt3o
+ bb8Bkcqeub03pV8E9QQvLh7PYeb0G0YyBLkBdV5LeN2sr08PNgCSgxiPLyWhd0ZncviB
+ p9Nw==
+X-Gm-Message-State: ACgBeo2YuL2HPqz8/GkWXsV68M1Ct8Yizl+kgyAwNko4GqkwfrpsSWII
+ IrzVv0op+Jqw/vwh5iBKLnq7Q7X+r9HBZIBuK3qvLJWPJkj7DrPnoJ7NPY9I6esRlrvx3JtWawb
+ N7uyu1Nb5SXviegZKf8Y7FvzF3/rh
+X-Received: by 2002:ad4:5dc4:0:b0:496:d756:5bfd with SMTP id
+ m4-20020ad45dc4000000b00496d7565bfdmr8495883qvh.111.1661205539823; 
+ Mon, 22 Aug 2022 14:58:59 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4TmzP0yqY06vOr2ScRas4WIS/SPDdYFn+T/0unRQi+pHoPJOawWabaAaQgH6AtdYzOavBqJA==
+X-Received: by 2002:ad4:5dc4:0:b0:496:d756:5bfd with SMTP id
+ m4-20020ad45dc4000000b00496d7565bfdmr8495875qvh.111.1661205539622; 
+ Mon, 22 Aug 2022 14:58:59 -0700 (PDT)
+Received: from [192.168.8.139] (pool-100-0-245-4.bstnma.fios.verizon.net.
+ [100.0.245.4]) by smtp.gmail.com with ESMTPSA id
+ z15-20020a05622a060f00b0034308283775sm10368904qta.21.2022.08.22.14.58.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 14:58:30 -0700 (PDT)
-Date: Mon, 22 Aug 2022 15:58:28 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH 0/4] Allow MMIO regions to be exported through dma-buf
-Message-ID: <20220822155828.6fa6a961.alex.williamson@redhat.com>
-In-Reply-To: <Yv4rBEeUMQyIdEzi@nvidia.com>
-References: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
- <Yv4rBEeUMQyIdEzi@nvidia.com>
-Organization: Red Hat
+ Mon, 22 Aug 2022 14:58:58 -0700 (PDT)
+Message-ID: <bbe294752e8af13cb8b2975ba4edf53ab28e69cb.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/hwmon: use simplified HWMON_CHANNEL_INFO macro
+From: Lyude Paul <lyude@redhat.com>
+To: Beniamin Sandu <beniaminsandu@gmail.com>, bskeggs@redhat.com, 
+ kherbst@redhat.com, airlied@linux.ie, daniel@ffwll.ch
+Date: Mon, 22 Aug 2022 17:58:57 -0400
+In-Reply-To: <20220815104028.381271-1-beniaminsandu@gmail.com>
+References: <20220815104028.381271-1-beniaminsandu@gmail.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,73 +85,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, kvm@vger.kernel.org,
- linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Oded Gabbay <ogabbay@kernel.org>, Cornelia Huck <cohuck@redhat.com>,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Maor Gottlieb <maorg@nvidia.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 18 Aug 2022 09:05:24 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-> On Wed, Aug 17, 2022 at 01:11:38PM -0300, Jason Gunthorpe wrote:
-> > dma-buf has become a way to safely acquire a handle to non-struct page
-> > memory that can still have lifetime controlled by the exporter. Notably
-> > RDMA can now import dma-buf FDs and build them into MRs which allows for
-> > PCI P2P operations. Extend this to allow vfio-pci to export MMIO memory
-> > from PCI device BARs.
-> > 
-> > This series supports a use case for SPDK where a NVMe device will be owned
-> > by SPDK through VFIO but interacting with a RDMA device. The RDMA device
-> > may directly access the NVMe CMB or directly manipulate the NVMe device's
-> > doorbell using PCI P2P.
-> > 
-> > However, as a general mechanism, it can support many other scenarios with
-> > VFIO. I imagine this dmabuf approach to be usable by iommufd as well for
-> > generic and safe P2P mappings.
-> > 
-> > This series goes after the "Break up ioctl dispatch functions to one
-> > function per ioctl" series.
-> > 
-> > This is on github: https://github.com/jgunthorpe/linux/commits/vfio_dma_buf
-> > 
-> > Jason Gunthorpe (4):
-> >   dma-buf: Add dma_buf_try_get()
-> >   vfio: Add vfio_device_get()
-> >   vfio_pci: Do not open code pci_try_reset_function()
-> >   vfio/pci: Allow MMIO regions to be exported through dma-buf
-> > 
-> >  drivers/vfio/pci/Makefile           |   1 +
-> >  drivers/vfio/pci/vfio_pci_config.c  |  22 ++-
-> >  drivers/vfio/pci/vfio_pci_core.c    |  33 +++-
-> >  drivers/vfio/pci/vfio_pci_dma_buf.c | 265 ++++++++++++++++++++++++++++  
+Thanks! I will push this upstream in a moment
+
+On Mon, 2022-08-15 at 13:40 +0300, Beniamin Sandu wrote:
+> This makes the code look cleaner and easier to read.
 > 
-> I forget about this..
+> Signed-off-by: Beniamin Sandu <beniaminsandu@gmail.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_hwmon.c | 85 +++++--------------------
+>  1 file changed, 17 insertions(+), 68 deletions(-)
 > 
-> Alex, do you want to start doing as Linus discused and I will rename
-> this new file to "dma_buf.c" ?
-> 
-> Or keep this directory as having the vfio_pci_* prefix for
-> consistency?
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_hwmon.c b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
+> index 1c3104d20571..a7db7c31064b 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_hwmon.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
+> @@ -211,75 +211,24 @@ static const struct attribute_group temp1_auto_point_sensor_group = {
+>  
+>  #define N_ATTR_GROUPS   3
+>  
+> -static const u32 nouveau_config_chip[] = {
+> -	HWMON_C_UPDATE_INTERVAL,
+> -	0
+> -};
+> -
+> -static const u32 nouveau_config_in[] = {
+> -	HWMON_I_INPUT | HWMON_I_MIN | HWMON_I_MAX | HWMON_I_LABEL,
+> -	0
+> -};
+> -
+> -static const u32 nouveau_config_temp[] = {
+> -	HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_HYST |
+> -	HWMON_T_CRIT | HWMON_T_CRIT_HYST | HWMON_T_EMERGENCY |
+> -	HWMON_T_EMERGENCY_HYST,
+> -	0
+> -};
+> -
+> -static const u32 nouveau_config_fan[] = {
+> -	HWMON_F_INPUT,
+> -	0
+> -};
+> -
+> -static const u32 nouveau_config_pwm[] = {
+> -	HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> -	0
+> -};
+> -
+> -static const u32 nouveau_config_power[] = {
+> -	HWMON_P_INPUT | HWMON_P_CAP_MAX | HWMON_P_CRIT,
+> -	0
+> -};
+> -
+> -static const struct hwmon_channel_info nouveau_chip = {
+> -	.type = hwmon_chip,
+> -	.config = nouveau_config_chip,
+> -};
+> -
+> -static const struct hwmon_channel_info nouveau_temp = {
+> -	.type = hwmon_temp,
+> -	.config = nouveau_config_temp,
+> -};
+> -
+> -static const struct hwmon_channel_info nouveau_fan = {
+> -	.type = hwmon_fan,
+> -	.config = nouveau_config_fan,
+> -};
+> -
+> -static const struct hwmon_channel_info nouveau_in = {
+> -	.type = hwmon_in,
+> -	.config = nouveau_config_in,
+> -};
+> -
+> -static const struct hwmon_channel_info nouveau_pwm = {
+> -	.type = hwmon_pwm,
+> -	.config = nouveau_config_pwm,
+> -};
+> -
+> -static const struct hwmon_channel_info nouveau_power = {
+> -	.type = hwmon_power,
+> -	.config = nouveau_config_power,
+> -};
+> -
+>  static const struct hwmon_channel_info *nouveau_info[] = {
+> -	&nouveau_chip,
+> -	&nouveau_temp,
+> -	&nouveau_fan,
+> -	&nouveau_in,
+> -	&nouveau_pwm,
+> -	&nouveau_power,
+> +	HWMON_CHANNEL_INFO(chip,
+> +			   HWMON_C_UPDATE_INTERVAL),
+> +	HWMON_CHANNEL_INFO(temp,
+> +			   HWMON_T_INPUT |
+> +			   HWMON_T_MAX | HWMON_T_MAX_HYST |
+> +			   HWMON_T_CRIT | HWMON_T_CRIT_HYST |
+> +			   HWMON_T_EMERGENCY | HWMON_T_EMERGENCY_HYST),
+> +	HWMON_CHANNEL_INFO(fan,
+> +			   HWMON_F_INPUT),
+> +	HWMON_CHANNEL_INFO(in,
+> +			   HWMON_I_INPUT |
+> +			   HWMON_I_MIN | HWMON_I_MAX |
+> +			   HWMON_I_LABEL),
+> +	HWMON_CHANNEL_INFO(pwm,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
+> +	HWMON_CHANNEL_INFO(power,
+> +			   HWMON_P_INPUT | HWMON_P_CAP_MAX | HWMON_P_CRIT),
+>  	NULL
+>  };
+>  
 
-I have a hard time generating a strong opinion over file name
-redundancy relative to directory structure.  By my count, over 17% of
-files in drivers/ have some file name redundancy to their parent
-directory structure (up to two levels).  I see we already have two
-$FOO_dma_buf.c files in the tree, virtio and amdgpu among these.  In
-the virtio case this is somewhat justified, to me at least, as the
-virtio_dma_buf.h file exists in a shared include namespace.  However,
-this justification only accounts for about 1% of such files, for many
-others the redundancy exists in the include path as well.
-
-I guess if we don't have a reason other than naming consistency and
-accept an end goal to incrementally remove file name vs directory
-structure redundancy where it makes sense, sure, name it dma_buf.c.
-Ugh. Thanks,
-
-Alex
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
