@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D0359C715
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 20:49:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C8C59C71C
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 20:50:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74FC68DFB4;
-	Mon, 22 Aug 2022 18:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B397518A926;
+	Mon, 22 Aug 2022 18:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C180D2B537
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 18:49:03 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id s1so13757521lfp.6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 11:49:03 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED2D08B106
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 18:49:05 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id d8so4160031lfq.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 11:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=dWcAQPlFiDTPwWK7n4iS8GW3PtmQpffctMl/XuHtJSU=;
- b=WXYbtgqD5iuwgqkyug6cSYXqb9xeK3mPLjONSNskdNMTGvzU+6xFXAX3oSaVtzNM8o
- /MNyzOx/9uMTnAf2Ez64bUd5R2xiBSKni4O37jq4BLcBplB4BT34wl8Yx8VVr3gNlcB9
- oCxMUuFWrBtPSF+lSIjuSQ6S+ybz4y325+BqbbABgughmFsNscU5geUJxoNMB9QGPRJt
- bGjm79aVDzjaCv5ZYVL+qLi7E1eYWAryU4NzjBLEqM3fypmJyzV7nNaIPtF0pvaLjkG1
- d5/baw9lNFdOGYbOny2dnJL9CE9BCQlUp0OZ/5551M+wwlfq+bB/qLcpLzifjiA6MDsp
- QWzA==
+ bh=yW/zgiGRRkDA/MVfrxBInFrDTIC51LYTWBpp0NQEfD8=;
+ b=IUnejPUHT5pQ9Q9W6PN2D8zRlcRNalnLnHpLk7EYa3s9uyLKfkYvgLOZHNeSath3UM
+ HX3pqVzzrlE8CGFIZ9OnddBYRflwJqJa6txIC9HB8nzSenXY3CTj3cxZvR0HDcymGa+M
+ DrSObuNl44pUMzg/NOla/4NKIuoD+5uOz6gNumiy1yZKWfm3UN2/RcuKELvDD7f/0cns
+ OqJdto02v6mXreeV+mOC122jL8U2Q+RnJw2IBeYACWm9DLg5wNZiB/yGTex0Q70J1MdL
+ b43ryCnHpncWUO3K2SiAVdtGEercz+LgjyD0bJnSsygLu/MSHmJ+xVdsZKPyinZDahFK
+ caOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=dWcAQPlFiDTPwWK7n4iS8GW3PtmQpffctMl/XuHtJSU=;
- b=TGriNgxRWlwe9LaJxd9Zv5UHjGcoh7H9h/tZXnE6/a9qR/0bwd/X2QRmS4J+VxEBFJ
- cXHa2pvqG8X6mivHGX91yck2E+PZQrAV5vRUMIAeLxbt4EcRQPDug5AbgA7aI6xs7ZZo
- jO5XKZcbcEG1hJ3NPE21760hhtoXsj6+a1rBN4hxAlVNXOHgziwvt5aLC8Zd8NoYCo9F
- 1cBQF+HP7m81AgbI5zPR2a99HiDG/a37l9lvUTLPrlR5BWARyvp8Fy31er2iANjffte/
- CXofavHCTq6y/FosfKZsy89w3JLeALLZzrrfJARQXyIByIeK+m8v9jJP5l5cdnUC0noB
- NqPg==
-X-Gm-Message-State: ACgBeo0ZN2DDRheyw9TPhvEMDTbwEzqNIBHqzVon5cmtlMQFbJpNkv/J
- OtFWTEYpILYg9utYV9Ct1cSR+w==
-X-Google-Smtp-Source: AA6agR7L7kUQ4S+k3CQDkWT3Try4H2IES1dU4EH1574IZqzTB7lcU1gVn8iADJr/PhOO1cvh54NiEg==
-X-Received: by 2002:a05:6512:2385:b0:492:e4cc:17ca with SMTP id
- c5-20020a056512238500b00492e4cc17camr2294054lfv.132.1661194143269; 
- Mon, 22 Aug 2022 11:49:03 -0700 (PDT)
+ bh=yW/zgiGRRkDA/MVfrxBInFrDTIC51LYTWBpp0NQEfD8=;
+ b=iyJ7v2WfmoZxwAxytyMFdxe/EtsKq1IBibnGgxry1qeJEa0yYNxKjWRyuNSUXGKt16
+ cy8elWbYv6I/A/kLnS2ZKrLKHP+xM5FYfGv9Esz7VFJ8SXOFsVOujUdnU8jtWqp2IPL6
+ RIH1yHMyJAKZ2E6KGMcA/LZdrAHCP7J69oBv5ytro8TIRNF8ZMGLlDynNJrm4CjBcn6p
+ YP6BITlHY89NmU/UBoMm9/4fB58rbOuLohSYMpMz7+J+ue1qVvfC8OPd9I7tMwEWWkup
+ 13/N4qDqsTlAvSYH7EwUdKfkwyILBn+nBIlaZJ/FhTUpZMuxPVToqm/269E3DeZgxlHO
+ g0Nw==
+X-Gm-Message-State: ACgBeo0s2cFqiUk6deT4YBIS3CLTeshwCjkgthjtZLvilUM3CHM7nwbQ
+ u82tyEjRTIWCRpkF9y4uxXe/Rw==
+X-Google-Smtp-Source: AA6agR4H9k+jzeo4Ilk656p8IX03a6Pbvbfm7v6M3aPwbIQTa0dLaOINaxVU527PebB6Fc6qPsxflw==
+X-Received: by 2002:a05:6512:3086:b0:492:c1e7:f5be with SMTP id
+ z6-20020a056512308600b00492c1e7f5bemr7024827lfd.454.1661194144173; 
+ Mon, 22 Aug 2022 11:49:04 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- w11-20020a05651c118b00b00261bc05c461sm1672599ljo.50.2022.08.22.11.49.02
+ w11-20020a05651c118b00b00261bc05c461sm1672599ljo.50.2022.08.22.11.49.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 11:49:02 -0700 (PDT)
+ Mon, 22 Aug 2022 11:49:03 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -54,9 +54,9 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v3 2/3] dt-bindings: msm/dp: add missing properties
-Date: Mon, 22 Aug 2022 21:48:59 +0300
-Message-Id: <20220822184900.307160-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 3/3] dt-bindings: msm/dp: handle DP vs eDP difference
+Date: Mon, 22 Aug 2022 21:49:00 +0300
+Message-Id: <20220822184900.307160-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220822184900.307160-1-dmitry.baryshkov@linaro.org>
 References: <20220822184900.307160-1-dmitry.baryshkov@linaro.org>
@@ -76,48 +76,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- freedreno@lists.freedesktop.org
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document missing definitions for opp-table (DP controller OPPs), aux-bus
-(DP AUX BUS) and data-lanes (DP/eDP lanes mapping) properties.
+The #sound-dai-cells property should be used only for DP controllers. It
+doesn't make sense for eDP, there is no support for audio output. The
+aux-bus should not be used for DP controllers. Also p1 MMIO region
+should be used only for DP controllers.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Take care of these differences.
+
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../bindings/display/msm/dp-controller.yaml          | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../bindings/display/msm/dp-controller.yaml   | 26 ++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index 391910d91e43..52cbf00df0ba 100644
+index 52cbf00df0ba..f2515af8256f 100644
 --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -70,9 +70,21 @@ properties:
-   operating-points-v2:
-     maxItems: 1
+@@ -24,6 +24,7 @@ properties:
+       - qcom,sm8350-dp
  
-+  opp-table: true
-+
-   power-domains:
-     maxItems: 1
+   reg:
++    minItems: 4
+     items:
+       - description: ahb register block
+       - description: aux register block
+@@ -112,10 +113,33 @@ required:
+   - clock-names
+   - phys
+   - phy-names
+-  - "#sound-dai-cells"
+   - power-domains
+   - ports
  
-+  aux-bus:
-+    $ref: /schemas/display/dp-aux-bus.yaml#
++allOf:
++  # AUX BUS does not exist on DP controllers
++  # Audio output also is present only on DP output
++  # p1 regions is present on DP, but not on eDP
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sc7280-edp
++              - qcom,sc8180x-edp
++    then:
++      properties:
++        "#sound-dai-cells": false
++        reg:
++          maxItems: 4
++    else:
++      properties:
++        aux-bus: false
++        reg:
++          minItems: 5
++      required:
++        - "#sound-dai-cells"
 +
-+  data-lanes:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 1
-+    maxItems: 4
-+    items:
-+      maximum: 3
-+
-   "#sound-dai-cells":
-     const: 0
+ additionalProperties: false
  
+ examples:
 -- 
 2.35.1
 
