@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B55959C991
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 22:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84DF59C98E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 22:06:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 084B7A17A2;
-	Mon, 22 Aug 2022 20:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D44A5A1789;
+	Mon, 22 Aug 2022 20:05:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 263BCA1775;
- Mon, 22 Aug 2022 20:05:49 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-11c5505dba2so14227779fac.13; 
- Mon, 22 Aug 2022 13:05:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=1naA9vNk3/eH1I9D52GSl1kXImc5DsL+BHAHMfWytNg=;
- b=FiL9UObuk3rpCWubxZ8WQ+aemJSVWBIbauSNQt/grOIvCnzA79D7l8a00R/sJEoeII
- lcMZJgKezXZ5AXKJzJSiFwtJphdeeRSUBzRwFqCiPCQFBAXwJ0//1YeBpwznoBRQhwrv
- CAchVzvYi3Z/R/49n2gQ0GOAS3n4xbdTjcfNWIsrfkiFZs+cl3DOdWFS0qmc5h1gOBos
- z4x8GnKVitthJaWRr8IfQ79VrvBt8z4dowPq45yXpuhQI7XyvUZVZAik77xaDsFZTRk8
- 2UiRHMJo6tiLzthK8QEdovMA1tboLi0ey97QxHLRypsUluIr084U21cdg41j9tk8SiI9
- Vlyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=1naA9vNk3/eH1I9D52GSl1kXImc5DsL+BHAHMfWytNg=;
- b=7eqy2wr37yZ+GRA20nYI0+a00YYVx1Xgn0aCi+GjtkurSUiCVAoBpM+hQjmY9ouTVp
- oeyU0ultuLFijarg+ivKEDZ5y34o/Tz1dUK+oWdKTMy8j0pbh26luYzA3b77eTHpHc5t
- 47oy+YvnhbspTcue4SDXX8+7LXaZ9t9v0JJtXsOTcnmjXUkqmq/tcUGVQtBaY4GhHBGS
- 9Ib7D6Q6XeerCCr5KwWZhu9sVFs0LTVq9orreMrSKd5xVyXUc5STAyiGav+OeSNkrPb7
- 4xmtRS6nFLn9w804eSJKvJU0mW60O+sV0k+2LplVWyGIRsLJ2uRguoyJq+HFMV/jCvo+
- LMnw==
-X-Gm-Message-State: ACgBeo0hR9rnkT/OvNh5zzoCo7mUPy8GuLeqbZ5IpQ5EGBtwOKMUPEyg
- F1ye4n+I3P6SXqCAqGIKo6jfHoCqysW8GlXSPX0=
-X-Google-Smtp-Source: AA6agR7sPlq70WfnkK/fn8Kr8gLJ6XcQxfG0rnSlznVKc2vdkpVpZQAvPXLCiRSQSruyWOMySRZTiuZGaBBHxpqsue0=
-X-Received: by 2002:a05:6870:e98b:b0:10d:fe5c:f818 with SMTP id
- r11-20020a056870e98b00b0010dfe5cf818mr21365oao.106.1661198749228; Mon, 22 Aug
- 2022 13:05:49 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45202A1773
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 20:05:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1661198740;
+ bh=vnTzmyaFvZ087BHDz5AGmvLkPA9Da9cTNk4rgkJoGPE=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=hBC6xyYHOiolsUgVklqA2opRLxWVGXJ8M71BDXFtHLJeI2yZS0vu+7MjeSm7arQ+5
+ Ccxe2WA7EPgt/6lp0Hj6FNyaOwJuWNN/BIcRPO78WpJJJ6fjDaKmBjjcT2BbGcKCfJ
+ KWIhHwz+QxWXGe5C0czenQXCmWUb0x5Ebq18c2LE=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.190.222]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MBUm7-1obTQZ0gV5-00CvOr; Mon, 22
+ Aug 2022 22:05:40 +0200
+Message-ID: <e8e54b67-e434-9ee2-1999-1f447eb48d44@gmx.de>
+Date: Mon, 22 Aug 2022 22:05:38 +0200
 MIME-Version: 1.0
-References: <20220821062528.13416-1-tales.aparecida@gmail.com>
-In-Reply-To: <20220821062528.13416-1-tales.aparecida@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 22 Aug 2022 16:05:37 -0400
-Message-ID: <CADnq5_MMAjk3-YzgCEtkk9228Mwwnc3oTSXkNG17CdTafYjoGg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: remove unneeded defines from bios parser
-To: Tales Aparecida <tales.aparecida@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] fb_pm2: Add a check to avoid potential divide by zero
+ error
+Content-Language: en-US
+To: Letu Ren <fantasquex@gmail.com>, baihaowen@meizu.com
+References: <20220818104425.35573-1-fantasquex@gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20220818104425.35573-1-fantasquex@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:GYyNvmTHGj7uficlN2aApE0D9+4tmU3SK4jihi9LJHTBUOAgnF0
+ s4pAOskwSY1dOioQLPhpS7FGZnkgHbWP2ytfJZdMLPnOcN8tyrejsu/pYyTwEwcJh0/3AOx
+ x1bpTQd54A5oS1UX6qFMtzOL0Gz/ZY4R8uskJWFyQOm2YkANar4/PAMdcKBIWKgEwmPeqOh
+ wDSmZCGXTdvkR6he8tQCQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bsYpdumw9Io=:ke2+CLJvE4rul6vP6sTu04
+ j0JaWN5Huzks4LMGlF5vHkIESHyXXYfg1jib71577QLs5NeASdHLU3pz/MPnmwACAQ4W5tYeO
+ VhH/01clEt22QRg8Oz6/L1IrOyT1+b6N0yOIfOFGu/xcIy2fmdGXzDIppuHE9OG1wfb2upcOH
+ qKs4g6WXJzjGOXc3au9ZY0TwxfIuUnSzFStoWzcAmKuyHji+Y2kWGHch0/tGJz9rl4odfYgr6
+ S/cjEUObZe98lgZ89p+SVAu1x3HA0BRaGRmz0O3I7bmKe5xv3JY6/Z0uNpzizjKHnRwCZQ5so
+ ccL0LY1nJ2k8SL04FZBcqDVU6BzkJotD28whoFPFFWF5mjI5xybSxBm7HEt6tGAeTjz4o7q+F
+ WV51w/66ATKqrlso/D2XWvNLLHVemFXMvcp3+cR8QbIqeZn+9BIAgnHAPWSyV6ydPq26nMgVL
+ /aiXUTP5NplJiGz+l4rAWjf/odT8cym0XmZ4QFnbf5wTe5sT3AVGNqzgJOG4VuTfkSAaYNOrp
+ FcpV8Ddd7RSAYlUwNvKB/h3XM3g4QR1Nlj3TuPm+tn+WIcg40LzpFf6b6QG5Mq7Xtgpy3v9fb
+ wt1YaM+AWotVnYY7JYyvNFajsq5lIz+g5oVrOIOx2PKMn+yLslyufvJJCXul+SvC3qbSnpZx7
+ bKQb+VN1ZaFr+iClQAKxS1lz3qBPEVX1oIjIFZbunjsBD1ec4IjDinE8nQisLT1KTahcYWaTC
+ ZrMmVusvATbLE+27Eozc1VjTUdOxsIii01EHiJCrzqateBHcMuQ+F4uh0DfATytc0psR5w21s
+ tOB9d7WeNvWFqBafYL21FRhXRa3O18rbJb147UeyUlbX9WzYmC4eIx4XlGIvvhBIImjNN43z2
+ +Xa3TS+H/rukAZWYKtY7Anko/sFH2wXJDU25bG4MT7+jpm4UjPnjK44H/ycEEo2TWq4IPTusM
+ c/WpM4g2eF+U09iLrD/vmzX9o6AHMieDqsosfmxp4n54zFQ6p/s4VKCeryFZrRAEvzzVJU9zj
+ KU486KHxdQWlcXJOkOvAn0WMSxdSi8ollIa+0y6HhAeCWGBv07Q75rWEZ3EBP1FPUQoVsJvqZ
+ mtQqUIJXPGBAgj38qORnrQrHycol5FoYyu8jSTD1xzifYArGnmUvfp4Lw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,59 +71,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: linux-fbdev@vger.kernel.org, zheyuma97@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Sun, Aug 21, 2022 at 2:41 AM Tales Aparecida
-<tales.aparecida@gmail.com> wrote:
+On 8/18/22 12:44, Letu Ren wrote:
+> In `do_fb_ioctl()` of fbmem.c, if cmd is FBIOPUT_VSCREENINFO, var will b=
+e
+> copied from user, then go through `fb_set_var()` and
+> `info->fbops->fb_check_var()` which could may be `pm2fb_check_var()`.
+> Along the path, `var->pixclock` won't be modified. This function checks
+> whether reciprocal of `var->pixclock` is too high. If `var->pixclock` is
+> zero, there will be a divide by zero error. So, it is necessary to check
+> whether denominator is zero to avoid crash. As this bug is found by
+> Syzkaller, logs are listed below.
 >
-> Removes DEFINEs that should have been removed after they were
-> introduced to ObjectID.h by the commit abea57d70e90
-> ("drm/amdgpu: Add BRACKET_LAYOUT_ENUMs to ObjectID.h")
+> divide error in pm2fb_check_var
+> Call Trace:
+>  <TASK>
+>  fb_set_var+0x367/0xeb0 drivers/video/fbdev/core/fbmem.c:1015
+>  do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1110
+>  fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1189
 >
-> Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+> Reported-by: Zheyu Ma <zheyuma97@gmail.com>
+> Signed-off-by: Letu Ren <fantasquex@gmail.com>
+
+applied.
+Thanks!
+Helge
+
 > ---
->  .../drm/amd/display/dc/bios/bios_parser2.c    | 19 -------------------
->  1 file changed, 19 deletions(-)
+>  drivers/video/fbdev/pm2fb.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> index 09fbb7ad5362..ead4da11a992 100644
-> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> @@ -44,25 +44,6 @@
+> diff --git a/drivers/video/fbdev/pm2fb.c b/drivers/video/fbdev/pm2fb.c
+> index d3be2c64f1c0..8fd79deb1e2a 100644
+> --- a/drivers/video/fbdev/pm2fb.c
+> +++ b/drivers/video/fbdev/pm2fb.c
+> @@ -617,6 +617,11 @@ static int pm2fb_check_var(struct fb_var_screeninfo=
+ *var, struct fb_info *info)
+>  		return -EINVAL;
+>  	}
 >
->  #include "bios_parser_common.h"
->
-> -/* Temporarily add in defines until ObjectID.h patch is updated in a few days */
-> -#ifndef GENERIC_OBJECT_ID_BRACKET_LAYOUT
-> -#define GENERIC_OBJECT_ID_BRACKET_LAYOUT          0x05
-> -#endif /* GENERIC_OBJECT_ID_BRACKET_LAYOUT */
-> -
-> -#ifndef GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID1
-> -#define GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID1  \
-> -       (GRAPH_OBJECT_TYPE_GENERIC << OBJECT_TYPE_SHIFT |\
-> -       GRAPH_OBJECT_ENUM_ID1 << ENUM_ID_SHIFT |\
-> -       GENERIC_OBJECT_ID_BRACKET_LAYOUT << OBJECT_ID_SHIFT)
-> -#endif /* GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID1 */
-> -
-> -#ifndef GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID2
-> -#define GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID2  \
-> -       (GRAPH_OBJECT_TYPE_GENERIC << OBJECT_TYPE_SHIFT |\
-> -       GRAPH_OBJECT_ENUM_ID2 << ENUM_ID_SHIFT |\
-> -       GENERIC_OBJECT_ID_BRACKET_LAYOUT << OBJECT_ID_SHIFT)
-> -#endif /* GENERICOBJECT_BRACKET_LAYOUT_ENUM_ID2 */
-> -
->  #define DC_LOGGER \
->         bp->base.ctx->logger
->
-> --
-> 2.37.2
->
+> +	if (!var->pixclock) {
+> +		DPRINTK("pixclock is zero\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (PICOS2KHZ(var->pixclock) > PM2_MAX_PIXCLOCK) {
+>  		DPRINTK("pixclock too high (%ldKHz)\n",
+>  			PICOS2KHZ(var->pixclock));
+
