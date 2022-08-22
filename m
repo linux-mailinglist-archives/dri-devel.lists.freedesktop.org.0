@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3443B59C043
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 15:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EE459C062
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Aug 2022 15:20:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 819E08ADC1;
-	Mon, 22 Aug 2022 13:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7D008B51E;
+	Mon, 22 Aug 2022 13:20:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9C938ACE2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 13:12:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5B9A8B487
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 13:20:31 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07E142B3;
- Mon, 22 Aug 2022 15:12:29 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B73B2B3;
+ Mon, 22 Aug 2022 15:20:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661173950;
- bh=zTVbt7EriLZawrLej2Zumg9jMLXLeci7B56ylDRblYg=;
+ s=mail; t=1661174430;
+ bh=T3xjb+9Jx29xj6VPguf1lXxrZ++lLKuha4NYqNKcs48=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z5yt8ut8RpG2Kz7TZCxYKqO1RgAzCLOpPtCaNCuVkb4rxywqarbO9oasc9RxS495z
- /Xx/pRqiTWrnrKyqRGgfRgYODdzAAIP6CZ+roHAkV/SR6bceRTENmNCvUuIHNqNUe6
- vQaZk/3HgEtMDWWdhRaBOLtbsthvxx12YzA7cMIU=
-Date: Mon, 22 Aug 2022 16:12:26 +0300
+ b=XScdmiSfT/cY7RPPh5ccp81wWZCFld9+FsSN0k2yHXbxBNT1LVZvbVEkcYZO7474v
+ c1L74SNGSqRpLyciKS2Acu4we+gwFnb2LHVVBn4X3tW0DLMdi9MNv0oUIJRLZTQyPh
+ Xsh4pULi3BPfG+1STGwc5JHvtWPSozCTo8TauUZM=
+Date: Mon, 22 Aug 2022 16:20:26 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v2 1/4] drm: rcar-du: dsi: Properly stop video mode TX
-Message-ID: <YwOAupzlJFVGGsY9@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 2/4] drm: rcar-du: dsi: Improve DSI shutdown
+Message-ID: <YwOCmqcZfU4zfr3D@pendragon.ideasonboard.com>
 References: <20220822130513.119029-1-tomi.valkeinen@ideasonboard.com>
- <20220822130513.119029-2-tomi.valkeinen@ideasonboard.com>
+ <20220822130513.119029-3-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220822130513.119029-2-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220822130513.119029-3-tomi.valkeinen@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,71 +58,55 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Mon, Aug 22, 2022 at 04:05:09PM +0300, Tomi Valkeinen wrote:
+On Mon, Aug 22, 2022 at 04:05:10PM +0300, Tomi Valkeinen wrote:
 > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
-> The driver does not explicitly stop the video mode transmission when
-> disabling the output. While this doesn't seem to be causing any issues,
-> lets follow the steps described in the documentation and add a
-> rcar_mipi_dsi_stop_video() which stop the video mode transmission. This
-> function will also be used in later patches to stop the video
-> transmission even if the DSI IP is not shut down.
+> Improve the DSI shutdown procedure by clearing various bits that were
+> set while enabling the DSI output. There has been no clear issues caused
+> by these, but it's safer to ensure that the features are disabled at the
+> start of the next DSI enable.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> index 7f2be490fcf8..6a10a35f1122 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> @@ -441,9 +441,21 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>  
+>  static void rcar_mipi_dsi_shutdown(struct rcar_mipi_dsi *dsi)
+>  {
+> +	/* Disable VCLKEN */
+> +	rcar_mipi_dsi_clr(dsi, VCLKEN, VCLKEN_CKEN);
+> +
+> +	/* Disable DOT clock */
+> +	rcar_mipi_dsi_clr(dsi, VCLKSET, VCLKSET_CKEN);
+
+I think you can write 0 to those two registers, this will also be safer.
+With this,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 29 +++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> index 62f7eb84ab01..7f2be490fcf8 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> @@ -542,6 +542,34 @@ static int rcar_mipi_dsi_start_video(struct rcar_mipi_dsi *dsi)
->  	return 0;
+I think there's a bug in rcar_mipi_dsi_startup() related to this by the
+way, the function only uses rcar_mipi_dsi_set() to set bits, so if the
+DSI format is modified between two starts, bad things will happen.
+
+> +
+>  	rcar_mipi_dsi_clr(dsi, PHYSETUP, PHYSETUP_RSTZ);
+>  	rcar_mipi_dsi_clr(dsi, PHYSETUP, PHYSETUP_SHUTDOWNZ);
+>  
+> +	/* CFGCLK disable */
+> +	rcar_mipi_dsi_clr(dsi, CFGCLKSET, CFGCLKSET_CKEN);
+> +
+> +	/* LPCLK disable */
+> +	rcar_mipi_dsi_clr(dsi, LPCLKSET, LPCLKSET_CKEN);
+> +
+>  	dev_dbg(dsi->dev, "DSI device is shutdown\n");
 >  }
 >  
-> +static void rcar_mipi_dsi_stop_video(struct rcar_mipi_dsi *dsi)
-> +{
-> +	u32 status;
-> +	int ret;
-> +
-> +	/* Disable transmission in video mode. */
-> +	rcar_mipi_dsi_clr(dsi, TXVMCR, TXVMCR_EN_VIDEO);
-> +
-> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +				!(status & TXVMSR_ACT),
-> +				2000, 100000, false, dsi, TXVMSR);
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Failed to disable video transmission\n");
-> +		return;
-> +	}
-> +
-> +	/* Assert video FIFO clear. */
-> +	rcar_mipi_dsi_set(dsi, TXVMCR, TXVMCR_VFCLR);
-> +
-> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +				!(status & TXVMSR_VFRDY),
-> +				2000, 100000, false, dsi, TXVMSR);
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Failed to assert video FIFO clear\n");
-> +		return;
-> +	}
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * Bridge
->   */
-> @@ -601,6 +629,7 @@ static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
->  {
->  	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
->  
-> +	rcar_mipi_dsi_stop_video(dsi);
->  	rcar_mipi_dsi_shutdown(dsi);
->  	rcar_mipi_dsi_clk_disable(dsi);
->  }
 
 -- 
 Regards,
