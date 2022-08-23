@@ -1,80 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CBD59E94D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 19:26:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3505759E9EE
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 19:40:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C61510F9D7;
-	Tue, 23 Aug 2022 17:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 268D110F875;
+	Tue, 23 Aug 2022 17:39:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DCB310EA9E
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 17:26:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661275570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=338GRy4rKLcaRqHS2Ttvfi7Hu0ihyjMIY/aQ2p+vkZk=;
- b=KQrZqoQsT5tJ3GO2/yfHNpVKQMVG2HXHmLQOVrMBs33UZvHymdqnOihHjSpd8EKqLZVfw4
- atFTu3sPFPoF7RIGZ9SzvJYndXH0RmBVyjpBpCy/6AViFeBnYuCpx6BVAtdufoain7ApQG
- pFavo5r5rkD9uaVtx7pZ7tEpK7dmi+Y=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-286-u1FgLtttPguF3qbsWW56iw-1; Tue, 23 Aug 2022 13:26:07 -0400
-X-MC-Unique: u1FgLtttPguF3qbsWW56iw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- w22-20020a05620a445600b006bb7f43d1cfso12645078qkp.16
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 10:26:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:user-agent:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc;
- bh=338GRy4rKLcaRqHS2Ttvfi7Hu0ihyjMIY/aQ2p+vkZk=;
- b=mQAT4hdQE3hgsj6yIgEI86k4KngipewE12dWuZVie8rY+iBSTbpoDc3DFvbz/YAOuk
- UtNaf2ZJel8nG0b7qbwbnaKvdU6Vvs/pLlTfa6+QjVNRIQdCHFnSHpBuFl8gETcSeIhv
- UFWTrt3/r4rbeL4G2AdPPxOgLCf7FdTTbnaBBdXAQkj/dUSgKhPA0dVRC5zk3LCG/Ujy
- s72mrMFCiWdsaiijCPrc7lkHEiVI/px6nlpT8JGI/mH5H8wRfbqaMnNW3Bj1vxt9pAFA
- AtieHFyQDkTG5KYtzVSZpSW5+JiI1oozeJgnXjnLX+P//TewcABmqMuXyYCpwVaOQO1I
- nEnQ==
-X-Gm-Message-State: ACgBeo2ssVUzE4bA/KH0Pxczjgmu4FdcSJpPY+FJ5rDpmSwUhV3uhYGH
- JnfOYhXSLfEFQG4PFg9uwxEJyvFhz1RfRcmCIupSkEPx2sJbiI+Ug9xcexcSCjFz00QpQDB2zyW
- LRMwblWH4xKta4VfeMchTHpfbWPlrPcrT0zLjurZuAw5FX2r0xPTJI7WI8FZjrMdpIONr3hWPJA
- ul
-X-Received: by 2002:a0c:f1c7:0:b0:474:725e:753e with SMTP id
- u7-20020a0cf1c7000000b00474725e753emr20886415qvl.49.1661275565313; 
- Tue, 23 Aug 2022 10:26:05 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR541XoWsBFJALnapb0cU91zEfh01e4eP+OMBH2nEsU3Dd5BhoME/6tINoGRane+HOHlh54xPA==
-X-Received: by 2002:a0c:f1c7:0:b0:474:725e:753e with SMTP id
- u7-20020a0cf1c7000000b00474725e753emr20886395qvl.49.1661275565048; 
- Tue, 23 Aug 2022 10:26:05 -0700 (PDT)
-Received: from [192.168.8.139] (pool-100-0-245-4.bstnma.fios.verizon.net.
- [100.0.245.4]) by smtp.gmail.com with ESMTPSA id
- d23-20020ac851d7000000b00342f6c31da7sm11113537qtn.94.2022.08.23.10.26.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Aug 2022 10:26:04 -0700 (PDT)
-Message-ID: <c22a559b64b1ca9f9d80ed9b5a6a4e97636cd19c.camel@redhat.com>
-Subject: Re: [RFC v4 00/17] drm/display/dp_mst: Drop Radeon MST support,
- make MST atomic-only
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Date: Tue, 23 Aug 2022 13:26:03 -0400
-In-Reply-To: <20220817193847.557945-1-lyude@redhat.com>
-References: <20220817193847.557945-1-lyude@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1440110F875;
+ Tue, 23 Aug 2022 17:39:49 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27NGlEB4004228;
+ Tue, 23 Aug 2022 17:39:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=k1NIuwJb8Bc7Jstx4pOkKGt4ZSLf99T5LKLOsvq9sKc=;
+ b=FZH4Opakd7r7/RecenmdCcrOVLn7oDkduBxkHhP06HyhA7XABrpeQHHQZdHYKP0y3pNS
+ //vdHuHkJ6O9r5cYWG7GPDAKuhiD7/qiNDictma4awQhrwFs1OrOYNPj4ASAgsNZPvZT
+ OBezeK8yCeAyATIRpU4kugiQqBzgDxQahGT5Qsh6TGiMSX/mYIxCY2svRYrEgP8fZwhk
+ oGU7dCOMivTAn/VeAprDjxMwCiM7jGM/H8j2iyKhhzrt990qTQaIe+/neBq+WVXaCAqK
+ yAWLnSrahl67hkpCW6OODawWMMl0ClqWJCXGJ+d85sFsJxUSq1hS+8AZXxQUU2zevwhV TQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j52pkr6tj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Aug 2022 17:39:46 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27NHdjKK009904
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Aug 2022 17:39:45 GMT
+Received: from [10.111.161.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 23 Aug
+ 2022 10:39:43 -0700
+Message-ID: <3990712a-004e-8cf1-67a6-970c2020dd73@quicinc.com>
+Date: Tue, 23 Aug 2022 10:39:41 -0700
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 1/3] drm/msm/hdmi: use devres helper for runtime PM
+ management
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220616075947.347888-1-dmitry.baryshkov@linaro.org>
+ <20220616075947.347888-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220616075947.347888-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: c-bEJgRScnhtIpDOc3xleCkNnNNq051g
+X-Proofpoint-GUID: c-bEJgRScnhtIpDOc3xleCkNnNNq051g
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-23_07,2022-08-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ adultscore=0 mlxlogscore=999 phishscore=0 spamscore=0 suspectscore=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208230069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,123 +85,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Fangzhi Zuo <Jerry.Zuo@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
- Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Would anyone have any issues if I merged this today? The whole series is
-acked, but I'm not sure if we would like to wait for R-b's?
 
 
-On Wed, 2022-08-17 at 15:38 -0400, Lyude Paul wrote:
-> For quite a while we've been carrying around a lot of legacy modesetting
-> code in the MST helpers that has been rather annoying to keep around,
-> and very often gets in the way of trying to implement additional
-> functionality in MST such as fallback link rate retraining, dynamic BPC
-> management and DSC support, etc. because of the fact that we can't rely
-> on atomic for everything.
+On 6/16/2022 12:59 AM, Dmitry Baryshkov wrote:
+> Use devm_pm_runtime_enable() to enable runtime PM. This way its effect
+> will be reverted on device unbind/destruction.
 > 
-> Luckily, we only actually have one user of the legacy MST code in the
-> kernel - radeon. Originally I was thinking of trying to maintain this
-> code and keep it around in some form, but I'm pretty unconvinced anyone
-> is actually using this. My reasoning for that is because I've seen
-> nearly no issues regarding MST on radeon for quite a while now - despite
-> the fact my local testing seems to indicate it's quite broken. This
-> isn't too surprising either, as MST support in radeon.ko is gated behind
-> a module parameter that isn't enabled by default. This isn't to say I
-> wouldn't be open to alternative suggestions, but I'd rather not be the
-> one to have to spend time on that if at all possible! Plus, I already
-> floated the idea of dropping this code by AMD folks a few times and
-> didn't get much resistance.
+> Fixes: 6ed9ed484d04 ("drm/msm/hdmi: Set up runtime PM for HDMI")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/hdmi/hdmi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> As well, this series has some basic refactoring that I did along the way
-> and some bugs I had to fix in order to get my atomic-only MST code
-> working. Most of this is pretty straight forward and simply renaming
-> things to more closely match the DisplayPort specification, as I think
-> this will also make maintaining this code a lot easier in the long run
-> (I've gotten myself confused way too many times because of this).
-> 
-> So far I've tested this on all three MST drivers: amdgpu, i915 and
-> nouveau, along with making sure that removing the radeon MST code
-> doesn't break anything else. The one thing I very much could use help
-> with regarding testing though is making sure that this works with
-> amdgpu's DSC support on MST.
-> 
-> So, with this we should be using the atomic state as much as possible
-> with MST modesetting, hooray!
-> 
-> V4:
-> * Get rid of fix that Wayne pointed out isn't needed
-> 
-> Cc: Wayne Lin <Wayne.Lin@amd.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Imre Deak <imre.deak@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Sean Paul <sean@poorly.run>
-> 
-> Lyude Paul (17):
->   drm/amdgpu/dc/mst: Rename dp_mst_stream_allocation(_table)
->   drm/amdgpu/dm/mst: Rename get_payload_table()
->   drm/display/dp_mst: Rename drm_dp_mst_vcpi_allocation
->   drm/display/dp_mst: Call them time slots, not VCPI slots
->   drm/display/dp_mst: Fix confusing docs for
->     drm_dp_atomic_release_time_slots()
->   drm/display/dp_mst: Add some missing kdocs for atomic MST structs
->   drm/display/dp_mst: Add helper for finding payloads in atomic MST
->     state
->   drm/display/dp_mst: Add nonblocking helpers for DP MST
->   drm/display/dp_mst: Don't open code modeset checks for releasing time
->     slots
->   drm/display/dp_mst: Fix modeset tracking in
->     drm_dp_atomic_release_vcpi_slots()
->   drm/nouveau/kms: Cache DP encoders in nouveau_connector
->   drm/nouveau/kms: Pull mst state in for all modesets
->   drm/display/dp_mst: Add helpers for serializing SST <-> MST
->     transitions
->   drm/display/dp_mst: Drop all ports from topology on CSNs before
->     queueing link address work
->   drm/display/dp_mst: Maintain time slot allocations when deleting
->     payloads
->   drm/radeon: Drop legacy MST support
->   drm/display/dp_mst: Move all payload info into the atomic state
-> 
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   68 +-
->  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  108 +-
->  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  125 +-
->  drivers/gpu/drm/amd/display/dc/core/dc_link.c |   10 +-
->  drivers/gpu/drm/amd/display/dc/dm_helpers.h   |    4 +-
->  .../amd/display/include/link_service_types.h  |   14 +-
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 1137 ++++++++---------
->  drivers/gpu/drm/i915/display/intel_display.c  |    6 +
->  drivers/gpu/drm/i915/display/intel_dp.c       |    9 +
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |   91 +-
->  drivers/gpu/drm/i915/display/intel_hdcp.c     |   24 +-
->  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  197 ++-
->  drivers/gpu/drm/nouveau/dispnv50/disp.h       |    2 +
->  drivers/gpu/drm/nouveau/nouveau_connector.c   |   18 +-
->  drivers/gpu/drm/nouveau/nouveau_connector.h   |    3 +
->  drivers/gpu/drm/radeon/Makefile               |    2 +-
->  drivers/gpu/drm/radeon/atombios_crtc.c        |   11 +-
->  drivers/gpu/drm/radeon/atombios_encoders.c    |   59 -
->  drivers/gpu/drm/radeon/radeon_atombios.c      |    2 -
->  drivers/gpu/drm/radeon/radeon_connectors.c    |   61 +-
->  drivers/gpu/drm/radeon/radeon_device.c        |    1 -
->  drivers/gpu/drm/radeon/radeon_dp_mst.c        |  778 -----------
->  drivers/gpu/drm/radeon/radeon_drv.c           |    4 -
->  drivers/gpu/drm/radeon/radeon_encoders.c      |   14 +-
->  drivers/gpu/drm/radeon/radeon_irq_kms.c       |   10 +-
->  drivers/gpu/drm/radeon/radeon_mode.h          |   40 -
->  include/drm/display/drm_dp_mst_helper.h       |  234 ++--
->  27 files changed, 955 insertions(+), 2077 deletions(-)
->  delete mode 100644 drivers/gpu/drm/radeon/radeon_dp_mst.c
-> 
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> index 6acc17e0efc1..9ff9a68b201b 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> @@ -247,7 +247,7 @@ static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
+>   	if (hdmi->hpd_gpiod)
+>   		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
+>   
+> -	pm_runtime_enable(&pdev->dev);
+> +	devm_pm_runtime_enable(&pdev->dev);
+>   
+>   	hdmi->workq = alloc_ordered_workqueue("msm_hdmi", 0);
+>   
