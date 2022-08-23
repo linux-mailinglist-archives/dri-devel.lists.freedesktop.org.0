@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839B959CED9
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 04:57:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 110D359CEDA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 04:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EEFD11A529;
-	Tue, 23 Aug 2022 02:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D21928C4;
+	Tue, 23 Aug 2022 02:57:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C269210E66E
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 02:56:52 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- m21-20020a9d6ad5000000b00638df677850so8988867otq.5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 19:56:52 -0700 (PDT)
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 092A314B9FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 02:57:42 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so15283726fac.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 19:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:from:to:cc;
- bh=pRP+8U5uk2FhrsR7FeF6rksjBRXFOZLP1bxG00VCGkM=;
- b=S1yE7/nR/xhnTOsCb6R09FAIiBcW9VLJt8RZ3aON13tDzQniu8n+fXwuYs7JvwdPYt
- RLoojZsaGPVMrtHXNQmeGkX2R+UnGtBkJDbttvGB5aj9/3xd3xShrXMrYipQ0UOLndl4
- HmiO/B+HQvfqvr4XJc7pVg13G5rpyAjBCdJGQ=
+ bh=k9bh85zEwdXnkIg7OqvJbsldra6EITvqvq3BXqIAXKk=;
+ b=Aea2giar/rgR4x1lgytCyCxTVv8f9PDlrDOAdnxyS0IGj61DMS3sV8sanZX2svonJj
+ K1oEkGtUtKsI4/pbZQL2I4p8KcwnDbfE6/n5SEAearxyLxGcevAnEyB3PcJ+ER5gf+VU
+ uFKzLOQ9Ds264e37UhQhFWu8pF5utN6r2MUAY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:x-gm-message-state:from:to:cc;
- bh=pRP+8U5uk2FhrsR7FeF6rksjBRXFOZLP1bxG00VCGkM=;
- b=VL+NtOZD45dY2h5syXqY45svkbsdPpGjGzl99y7+A765NRc9cr93U0cvERPkdB5L6s
- fBEew1+DKAR/3dSLyFBgKasYEuy6A4k4GSp3vrmNxE5uFGDEDQ+ijQ6BWRs9toy1wzew
- 8nOmbbrqStK/ZptpArE/duLKTsoZ31sHqBTBDdGqZ/UbPRQULiMz3wkDPNiw23q77Ad+
- /HscF/sZ9axei1vZi5k02jICCoO89Wk/ypCW+MIZ19Yojkc+y78w3i08NzGYYStWRN7j
- mw3rfmF3irA+9peNtKrF0k5K5x5McjCqWZnsIYXeZNE5EqXhkDTAalX+aTJ133vatfbX
- PgRQ==
-X-Gm-Message-State: ACgBeo1x3Ow5daLe0tR4brWm8TKMCiDdni2B161zOcqoCpvBRJIJgH15
- edhHF5JScq6vxSPXGwnxEC/2nK+ZjMnWSvl4oyg9BQ==
-X-Google-Smtp-Source: AA6agR750VjH+sLACBIdPvl7p7EMj4bzSIHj6n6+A+g0qZB4hZGSar3BcfSf3XzBZAYBm5qPDenRMmSBgr862x3rDUw=
-X-Received: by 2002:a9d:53cb:0:b0:637:1ddc:615c with SMTP id
- i11-20020a9d53cb000000b006371ddc615cmr9123790oth.3.1661223411932; Mon, 22 Aug
- 2022 19:56:51 -0700 (PDT)
+ bh=k9bh85zEwdXnkIg7OqvJbsldra6EITvqvq3BXqIAXKk=;
+ b=VdU4v9eP7QV9Pb4HX7Vb8TBjX+fDxlVEtYle4Zx/WPpz3pvT5b1DauYuonFhN3Cm9p
+ 9+u7KWeLyas85dKZz8UYqMAKlEurZ4HiPwYrvJ6XLMdTslvCH5txEsAlvrsuMj87PSIe
+ oozntwEAGFEQBpLBWCh2rMNrCpm314uljdkHLMG8H+3C5uotLE8qtXdOosMjTNkPOQy5
+ iL83N4j2ppfdvVqnS0z8TEJq7TBOHOJOhS/tT8hg7OMMZRR/MucgTbBZF9sQtU+vomVC
+ /XgQSFJWWwt3XSoEsRc8FPVXIMN8nBOCawQk3jZf7zyEhudiiN42ZlAQFdepvSyPqh4j
+ m5yw==
+X-Gm-Message-State: ACgBeo0r32Nc/pizPoS1f1DxofKgYHAtEgHdjlT+aV93pFwhQM9wwtj3
+ 31m3ZgXwMP/YA/ZNabricgIoCZ4t1/JuT5Hpt+Z+Vw==
+X-Google-Smtp-Source: AA6agR5r49UulfMOnXRzzL5cO1NYpo0SpanybCWC1I8v58Dp0GMjmdbnk5reWM17/kcgTAgkupqBW/lMsNT2CUZwOtQ=
+X-Received: by 2002:a05:6870:a99c:b0:11c:2c37:3d03 with SMTP id
+ ep28-20020a056870a99c00b0011c2c373d03mr547267oab.0.1661223461927; Mon, 22 Aug
+ 2022 19:57:41 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 22 Aug 2022 21:56:51 -0500
+ HTTPREST; Mon, 22 Aug 2022 21:57:41 -0500
 MIME-Version: 1.0
-In-Reply-To: <20220822172455.282923-1-dmitry.baryshkov@linaro.org>
-References: <20220822172455.282923-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220822172204.281045-1-dmitry.baryshkov@linaro.org>
+References: <20220822172204.281045-1-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Mon, 22 Aug 2022 21:56:51 -0500
-Message-ID: <CAE-0n51ajuJAsTXUmgcve-3TA37sOq1j_2WawweZYxo3L0R-9A@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: drop unused memory allocation
+Date: Mon, 22 Aug 2022 21:57:41 -0500
+Message-ID: <CAE-0n53wZLe73-f+zt2kPNWHNp+zGHx127e=gH=Vi+et4aAmEg@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: drop unused variable from
+ dpu_kms_mdp_snapshot()
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>
@@ -66,20 +67,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-08-22 10:24:55)
-> Drop the dpu_cfg variable and corresponding kzalloc, which became unused
-> after changing hw catalog to static configuration.
+Quoting Dmitry Baryshkov (2022-08-22 10:22:04)
+> Follow up the merge of address fields and drop the variable that became
+> unused after the commit 9403f9a42c88 ("drm/msm/dpu: merge base_off with
+> blk_off in struct dpu_hw_blk_reg_map").
 >
-> Fixes: de7d480f5e8c ("drm/msm/dpu: make dpu hardware catalog static const")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Fixes: 9403f9a42c88 ("drm/msm/dpu: merge base_off with blk_off in struct dpu_hw_blk_reg_map")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 
