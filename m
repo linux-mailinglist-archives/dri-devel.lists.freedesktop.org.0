@@ -2,72 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3016859E4CC
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 16:03:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF50B59E4D2
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 16:04:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2637B113F92;
-	Tue, 23 Aug 2022 14:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAC4510E6DA;
+	Tue, 23 Aug 2022 14:04:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4458911A6A9
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 14:03:01 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id j6so10299059qkl.10
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 07:03:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
- bh=jRUo4nl7tl9pX47F0x5YruOzEMD0aHc+/88gLpdPWL4=;
- b=leOysB+a8HZAzxP/lrGQlEYkhNxjhg7t+/UPTG6diBlyEZtJnd2ERRcDrWAJiKT9U7
- uADiyLQ/Ngkso8IID4jMTfHsa1qsaY+JQWxnwTruqQQ+AKPBP+kzBn3vbpJcPd9BDPp0
- Unw3zRkg8OVzycw2n395EFRtxBJwVaq4R/MqyziKLqsKuOjmj+sFs4KYO/d8i80QPd84
- Q0YPUdJlk+Wuo3CECaGE946LXyjAooEKFm79fA1EU/7t+dAUMZItdABOtTvBXqyWFMBe
- KTNa3w8T7xNMJqB7/NWnKikC2n2wOfWIgPZ4BucEH0jJXekxPbgrKh2yDJGyPiH50Dhz
- T1xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc;
- bh=jRUo4nl7tl9pX47F0x5YruOzEMD0aHc+/88gLpdPWL4=;
- b=BlIb5+XkFnygL5nr9WiJvDGl5BnzfdUuA1t7fAt/Dn9i9vN2sIvdl7SeEY+AOInYog
- 9o2bmVpprBiXMlKks6OUrdQOptvxeeLOdnhjo/j8jiNRyQMRUzhimbGdGh+8wULPvu5e
- RZzDLq5lwsUGa+Z9ICaIo1QRSzMwRqrudhlbtaEzfYJKY2uqpy64l8U5vCD8VMkEYFm5
- XQtynHOs9dk7smZCuVrwlGO4CUaAEWvneX3c2MiKo2U82tlxnJVIczLUuyGHvtuWL5ir
- nTCiWZsnwf/KYnnv2zpF7Ulb1x6ybvwq2VbuDg7Sk369ho2oUp+xCG/ja2M6p83MG92m
- 9mCg==
-X-Gm-Message-State: ACgBeo0VbaYCBOxuw+8p4THtdyjF1syrbVuCTJeKrq7ZmoqoF6pjPBM4
- 1kGogcgynZFNd7XzxWWfHTf9KQ==
-X-Google-Smtp-Source: AA6agR6JBR72DNDprfjZIDyUHp02fG8tIe23csyc/MtqqQDlh2d5tIZX08F5roiqaMtSOqs7dJl1UQ==
-X-Received: by 2002:a37:444f:0:b0:6bb:186e:345e with SMTP id
- r76-20020a37444f000000b006bb186e345emr16046030qka.105.1661263380235; 
- Tue, 23 Aug 2022 07:03:00 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
- [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
- a18-20020ac844b2000000b0031ef69c9024sm10560431qto.91.2022.08.23.07.02.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Aug 2022 07:02:57 -0700 (PDT)
-Message-ID: <2d68e435dfb6cd0655293f09f1c5ec3032f42dc6.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/2] [WIP]: media: Add Synaptics compressed tiled format
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Hsia-Jun Li <Randy.Li@synaptics.com>, Tomasz Figa <tfiga@chromium.org>
-Date: Tue, 23 Aug 2022 10:02:56 -0400
-In-Reply-To: <93ebc96e-5750-bb6b-c97e-a178c8d49952@synaptics.com>
-References: <20220808162750.828001-1-randy.li@synaptics.com>
- <20220808162750.828001-3-randy.li@synaptics.com>
- <CAAFQd5AKjpJ+fPAeCqdNnJbS4R7SdaHkfyW4qG1xXr-sE801pQ@mail.gmail.com>
- <13d37c15-79f3-4e16-8cf4-fc37846f4a04@synaptics.com>
- <Yv7HnHE7bLmgq5D0@pendragon.ideasonboard.com>
- <6da7faf329128312f0862f555d1a855437ae99f3.camel@ndufresne.ca>
- <50dd9b7a-8f48-0799-57f6-048d20de8dcc@synaptics.com>
- <CAAFQd5D-eG-1cHvRX2nF0nKv6Zz3vVq6_KJ7HV0zZjADV9v1Zg@mail.gmail.com>
- <93ebc96e-5750-bb6b-c97e-a178c8d49952@synaptics.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from na01-obe.outbound.protection.outlook.com
+ (mail-cusazon11020017.outbound.protection.outlook.com [52.101.61.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB24113F92
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 14:03:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P4OMSb+u6xANQADckVg5FslHlakQNNQUAI2Se4i5QvvanDzXX9H3FQgwHHI3q74KcgAOY5ZQGwRje9exKiptj4dGdNQ/xtsOj/gDcJnjgBLRYPrI0TO7rqGgs9e1TrLT+QLl0ZCpuHrbgdIlJBflKYg+TwcQsebS4a6V3YPGcZICuwvCDOZVfcYHdsM1fq8P7yfKjmhpqrBHh3BqzSSebXogbSdNLmt0PyEht1ccN8tY3WC6R4dlKujWpzLn6fppdVR/HxE2FI1x8qNDLunRMqxt60kjZStLza1iUbXi4XyjJ+KPWQ8xZiGpx1j9GIfoO7fpMwTYC9GYAv8+lJJbsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uCgtZWQEl8hI/2kt3DDKtda185mIT7pHTlxOVcTQgns=;
+ b=n9PXiMyb9PnkiWrHa3j0q1joPjH6WpRVXN3j2MzPQyrgKs0FBte/D3gzpdkpJTvSJEN0mzB0oZw6lPor4peHAzECmET2tly8niXqfYFIK7oJAi6Z9KAcEwQaEUzAUuHDXoU6eNeioNzxaaai4pViARcbt3pygGdMrYX5xWZOVrpF9pJ/KaxScPXRPJgnEXsX/vfPIklqn4SKY6uHUlGCLA6CNCjs/YjP2vsxTdODeByvGerl260P/+h1Gejl08Ns0KfUr1n4H1obdpoS+bRsE0pzzkJ0N+VHOBRBgLd/GhtcncuPeqJmSI4iiSOCrMyQrX0gw5p1afrO/b1LEUUf+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uCgtZWQEl8hI/2kt3DDKtda185mIT7pHTlxOVcTQgns=;
+ b=gMEx/nZeomot2lgk4PZPUWg20RSFf/t85w84I5UJCV5gFbCnnL20rqTZ2IcEiB18qcOplKA6wYRqk6/Cqyxtni9tsS+6+9Zm41bzMQRecfSrOatUlRYHy1L4P2Gb0jTjZxnYm+DmUzQMMDo0gx41fyUnGUv1ZXxQnSREaeCasac=
+Received: from PH0PR21MB3025.namprd21.prod.outlook.com (2603:10b6:510:d2::21)
+ by SJ1PR21MB3432.namprd21.prod.outlook.com (2603:10b6:a03:454::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.2; Tue, 23 Aug
+ 2022 14:03:08 +0000
+Received: from PH0PR21MB3025.namprd21.prod.outlook.com
+ ([fe80::e848:505e:d1e3:97a0]) by PH0PR21MB3025.namprd21.prod.outlook.com
+ ([fe80::e848:505e:d1e3:97a0%9]) with mapi id 15.20.5588.003; Tue, 23 Aug 2022
+ 14:03:08 +0000
+From: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+To: vkuznets <vkuznets@redhat.com>, "linux-hyperv@vger.kernel.org"
+ <linux-hyperv@vger.kernel.org>
+Subject: RE: [PATCH v1 3/4] Drivers: hv: Always reserve framebuffer region for
+ Gen1 VMs
+Thread-Topic: [PATCH v1 3/4] Drivers: hv: Always reserve framebuffer region
+ for Gen1 VMs
+Thread-Index: AQHYsw5cPiTcV0+faES8GhliJCwvRq28guxA
+Date: Tue, 23 Aug 2022 14:03:07 +0000
+Message-ID: <PH0PR21MB302530363C951EDBA3A3110BD7709@PH0PR21MB3025.namprd21.prod.outlook.com>
+References: <20220818142508.402273-1-vkuznets@redhat.com>
+ <20220818142508.402273-4-vkuznets@redhat.com>
+In-Reply-To: <20220818142508.402273-4-vkuznets@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=1e353ae1-cea8-42b4-a9fb-70bc5ed143ef;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-08-23T13:30:31Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fd68880c-3b39-4e41-cff4-08da851034f2
+x-ms-traffictypediagnostic: SJ1PR21MB3432:EE_
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vy+ShVa/Qva8aPewYrcEkyj97MoZduhPAH5f8dZOF3OsZMCNsBLYtoRnX5t6LdzKuYEuAoFGJzoxZQlxwTR+eHOmYhZ6e+b2nEu9YYmW91R/YrqdDYMFigFoZcuhWO3nUYV0yMZjyIgh0hSJZuS/XEdfuK/Ayhqjyg9g6DnUtckAMCyDAVp929HkFvA64v4mZgtCJZnIgpYytv/EKFu9+tWNQ7IE0K4lkhcISQ49NfF1fR/ZX4IyFXcL7JreNZbNQZpGSdFQx+l16oTItgdnOsE/0YGqQVnK6Jh3dvlEkP52Eu+V3ay1qHoVkWzriQyEr/gx0Ow/ScUn7lWhTM6BUKb4IESnUfZttfn0Xeut24khVGzfyDM80zSypsP/lzpT02mMSEbB5j+eIW18+N7z7jjg5xOCWBNrqbvZRko4oc1/4WGFxYB3qdBPesoXDer7ZtC0NqzZDFTnzSPBQ4OSsaZNh/A2igzywCk/NNrIeyyW66VNmRWwffCFypt5mUAxnCtz2tRks6MjGzh8fWSOu8vFE3dfbx25loI1zHWnpG0SgYlBP4oV+vB5lKRNZr45EKx5PEQYFQj1OxdY9Eu9Jh1+Ot37tLat43vFo4tty2A6PiIAaEBy8VIpE0e90kSn5idmCT+eBtROvC5UcxZJtf7q62icJ8e3lBwjiNZk51ul3YO64blduZdCt+h7g4YC41p1qW+lW1mpXged01F03oGXxkCdGgBOuTmNC5SyjaIK5J69nPDRwKSkjzk/kJwmMO/lnXa0mCG5alF09GJxkU9T+jIcaghIL6vl5S9fiwVMS1xKwHeAA7DnPhEeGODZ6qLa9Izyf0Dw9/8HLKcFP59wQ+2sBz+606WEmNb1ULY=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR21MB3025.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(366004)(136003)(346002)(376002)(396003)(451199009)(38070700005)(10290500003)(55016003)(52536014)(82950400001)(82960400001)(86362001)(64756008)(66556008)(66476007)(8676002)(4326008)(66446008)(76116006)(110136005)(54906003)(66946007)(316002)(38100700002)(83380400001)(966005)(478600001)(186003)(71200400001)(26005)(7696005)(6506007)(9686003)(122000001)(8936002)(107886003)(8990500004)(33656002)(5660300002)(2906002)(41300700001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?yTOIZdTz9KSuPN+k9tOZj2Ps4oLx/2zJzWAVqOv0C4z/fE51jQG8PDt13+Iy?=
+ =?us-ascii?Q?16k1APA2zpt+0a9Cccgdu4573WnYPdCDm/XCZ7KrYvPc5il0MJU63UWbf5bl?=
+ =?us-ascii?Q?MAKVWSsAdtnhgzzhlbSbyne6BsRILZMsbRc/orYoZisSp0aRjltmkwxN7HlN?=
+ =?us-ascii?Q?Qnz1Gi8+nd0Y0lUg56yA5O6KmcIvJxAyvYwhXqTZu9YI2cqals0aI40s2eT6?=
+ =?us-ascii?Q?KWG7O6w6H+FmVl+A1gDdvXNqdlUoDSldPtQE7+Q/CB6VjJWH5mh2L8AdoFXN?=
+ =?us-ascii?Q?gfJzGNRH5gx5uAJ05gMHVYuyspd85Gw6YCZrUQEMBd76Q5yEdPtG/QMT7Khg?=
+ =?us-ascii?Q?b9dsiPnq/lfxyOiYUHaQXUBySDvQn9FLZUETP542i7/O8z/X1Q4eFJKdNmFn?=
+ =?us-ascii?Q?ek3eepE83zIY89Zffw4YR9y9EOWvWMl7Epqu49Y9gRofrFT4tiO4nyBUQTeQ?=
+ =?us-ascii?Q?1o41RI2vdSAbJECxmrm3sBHM4h4ugzuVXCiZo04UdUfGNhf5U4ofgNKWZP+N?=
+ =?us-ascii?Q?PdZFC/wP6g20dr8Y8GPpljYofZCWT0T1pBtm78xfVI2erNe5YmCaUljhiZDC?=
+ =?us-ascii?Q?VqVGbxl+/z6K42Y3K/9PU5dGykweNl4Mgkv8RFBTDklmwxS8yAGNYahtAXQz?=
+ =?us-ascii?Q?5aFAD2RnNK4/a/eq5V+Cr9MYlnDaxnRXGhHLrYf0J9ujwnnzCOtSdEZun33V?=
+ =?us-ascii?Q?6qlDWJbeXkTyf3TRijhUfMs3mVUA/TcUKW6Tng5l8iF3Ul3C8O+jfadb/bep?=
+ =?us-ascii?Q?NSi7Gn7u9UobsHls2jvOy3sheKsJweqYAwKU4qQGJ87gVGobZKPoodWoU5FV?=
+ =?us-ascii?Q?NDMeoEot/30gvr5cQIfmmvTYBMyG+cUNNkffQFFckHVjn5w20CDeZqs53gAf?=
+ =?us-ascii?Q?CJ6kG2OfBH07OMefdd2cgJFN0pfLkrnOvqMC2Cmqfx2R1+BKsLQCiVWWEe9K?=
+ =?us-ascii?Q?MqlklE0MDJaX72JT44SI5krTtAvpx+B+r842e83vTGyrChdPiJj+lxfvt8Og?=
+ =?us-ascii?Q?eiKMvNvVwhNpafPhUFtFI0y6DeYdNjtglniYTK2NFWrbUpYxPPi9Lwvadm71?=
+ =?us-ascii?Q?r4UWyjVwyg7yN+TOgPKQx0mWJUoqRTP21xkNjEfWYTe2BDexjX1YyxZq1qC5?=
+ =?us-ascii?Q?cXjugCHotN9ncfAjB9TZ57I0M2XITSDtk5imFcguecfmcqZAm5wAaU1qXxiy?=
+ =?us-ascii?Q?AR6v4SfL42+8DiiBlgjSGE8rrlpS5x+/f7GFvbn40e4/w+rjC3C3srg5bkJZ?=
+ =?us-ascii?Q?7lcCpNQ1i4oXvGBG1cVcMmzogHh620V6J8e4G9tzxzcN513afTsDuLoZ5DE/?=
+ =?us-ascii?Q?zLDdDi6uTkUPioORntzJ3ok4zwaxNVCLXcwWVbXsqGUhsQlN7htarfg2nfQu?=
+ =?us-ascii?Q?pAowqxLq7eiQmbfMnBg/CRi8JE7+4fNP2zgdOyUMb1door5EFB+oy519gzcC?=
+ =?us-ascii?Q?M05eOtx4EIGhXRwTD8n4UjVhcjHcOi0U9mL4epm5tJYGNOYaWPwg36Hl+RKf?=
+ =?us-ascii?Q?Hvcmuq6KNOPTYPSxMejh/YhKFMynLsF0m0UX3AqiQ7nCgn++dqXRWGaRFVtK?=
+ =?us-ascii?Q?FR3W5tjZQe/qaM7i9wmVvp+8TU01bWmxFGAaPHGonr9asV4AhBqDLLlb8738?=
+ =?us-ascii?Q?Hg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR21MB3432
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,267 +121,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- sebastian.hesselbarth@gmail.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- sakari.ailus@linux.intel.com, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, ribalda@chromium.org, hverkuil-cisco@xs4all.nl,
- mchehab@kernel.org, jszhang@kernel.org, ezequiel@vanguardiasur.com.ar
+Cc: Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Deepak Rawat <drawat.floss@gmail.com>, KY Srinivasan <kys@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mardi 23 ao=C3=BBt 2022 =C3=A0 15:03 +0800, Hsia-Jun Li a =C3=A9crit=C2=
-=A0:
+From: Vitaly Kuznetsov <vkuznets@redhat.com> Sent: Thursday, August 18, 202=
+2 7:25 AM
 >=20
-> On 8/23/22 14:05, Tomasz Figa wrote:
-> > CAUTION: Email originated externally, do not click links or open attach=
-ments unless you recognize the sender and know the content is safe.
-> >=20
-> >=20
-> > On Sat, Aug 20, 2022 at 12:44 AM Hsia-Jun Li <Randy.Li@synaptics.com> w=
-rote:
-> > >=20
-> > >=20
-> > >=20
-> > > On 8/19/22 23:28, Nicolas Dufresne wrote:
-> > > > CAUTION: Email originated externally, do not click links or open at=
-tachments unless you recognize the sender and know the content is safe.
-> > > >=20
-> > > >=20
-> > > > Le vendredi 19 ao=C3=BBt 2022 =C3=A0 02:13 +0300, Laurent Pinchart =
-a =C3=A9crit :
-> > > > > On Thu, Aug 18, 2022 at 02:33:42PM +0800, Hsia-Jun Li wrote:
-> > > > > > On 8/18/22 14:06, Tomasz Figa wrote:
-> > > > > > > On Tue, Aug 9, 2022 at 1:28 AM Hsia-Jun Li <randy.li@synaptic=
-s.com> wrote:
-> > > > > > > >=20
-> > > > > > > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-> > > > > > > >=20
-> > > > > > > > The most of detail has been written in the drm.
-> > > > >=20
-> > > > > This patch still needs a description of the format, which should =
-go to
-> > > > > Documentation/userspace-api/media/v4l/.
-> > > > >=20
-> > > > > > > > Please notice that the tiled formats here request
-> > > > > > > > one more plane for storing the motion vector metadata.
-> > > > > > > > This buffer won't be compressed, so you can't append
-> > > > > > > > it to luma or chroma plane.
-> > > > > > >=20
-> > > > > > > Does the motion vector buffer need to be exposed to userspace=
-? Is the
-> > > > > > > decoder stateless (requires userspace to specify the referenc=
-e frames)
-> > > > > > > or stateful (manages the entire decoding process internally)?
-> > > > > >=20
-> > > > > > No, users don't need to access them at all. Just they need a di=
-fferent
-> > > > > > dma-heap.
-> > > > > >=20
-> > > > > > You would only get the stateful version of both encoder and dec=
-oder.
-> > > > >=20
-> > > > > Shouldn't the motion vectors be stored in a separate V4L2 buffer,
-> > > > > submitted through a different queue then ?
-> > > >=20
-> > > > Imho, I believe these should be invisible to users and pooled separ=
-ately to
-> > > > reduce the overhead. The number of reference is usually lower then =
-the number of
-> > > > allocated display buffers.
-> > > >=20
-> > > You can't. The motion vector buffer can't share with the luma and chr=
-oma
-> > > data planes, nor the data plane for the compression meta data.
-> >=20
-> > I believe what Nicolas is suggesting is to just keep the MV buffer
-> > handling completely separate from video buffers. Just keep a map
-> > between frame buffer and MV buffer in the driver and use the right
-> > buffer when triggering a decode.
-> >=20
-> > >=20
-> > > You could consider this as a security requirement(the memory region f=
-or
-> > > the MV could only be accessed by the decoder) or hardware limitation.
-> > >=20
-> > > It is also not very easy to manage such a large buffer that would cha=
-nge
-> > > when the resolution changed.
-> >=20
-> > How does it differ from managing additional planes of video buffers?
-> I should say I am not against his suggestion if I could make a DMA-heap=
-=20
-> v4l2 allocator merge into kernel in the future. Although I think we need=
-=20
-> two heaps here one for the normal video and one for the secure video, I=
-=20
-> don't have much idea on how to determine whether we are decoding a=20
-> secure or non-secure video here (The design here is that the kernel=20
-> didn't know, only hardware and TEE care about that).
+> vmbus_reserve_fb() tries reserving framebuffer region iff
+> screen_info.lfb_base is set. Gen2 VMs seem to have it set by EFI fb
+> but on Gen1 VM it is observed to be zero.=20
 
-Its always nice when "the design" get discussed upstream, so we can raise a=
-ny
-known issues and improve it. Here, not knowing if we are handling secure or=
- non-
-secure memory in kernel driver would indeed require external allocation for
-everything, and V4L2 does not currently work like this. There is a few use =
-cases
-(not all of them might apply to your driver, but they exists).
+FWIW, in a Gen1 VM, whether screen_info.lfb_base is set depends on what
+grub sets up, which in turn seems to depend on the gfxpayload=3D setting
+in grub.cfg and certain versions of grub.  There are cases where it is
+observed to be zero, but from our experiments it's not all cases.
 
-1. Secondary buffers
+In a Gen2 VM, there's an edge case where the frame buffer has been
+moved, and a kexec() kernel may see the moved location instead of
+what was set by EFI.  See
+https://lore.kernel.org/all/20201014092429.1415040-1-kasong@redhat.com/
 
-When a CODEC is combined with a post-processor, the driver is then responsi=
-ble
-for reference frame allocation. In both known secure memory approach (NXP s=
-ecure
-bit and secondary mmu), the driver must know, as it won't be allowed produc=
-e any
-non-secure buffer while secure (and vis-versa). It would be very difficult =
-to
-make secondary buffers externally allocated, since the fact secondary buffe=
-rs
-are used is no known by userspace. You slightly mention about adding a new =
-queue
-type, this seems like an option, though one will have to figure-out how to =
-make
-this work in a backward compatible manner.
+I think these points may be worth recording in the commit message here
+so that there's accurate record for the future.  The Hyper-V and grub
+idiosyncrasies make this a very tricky area.
 
-2. Internally managed feedback buffers
-
-Existing case of feedback buffers is VP9 decoders. I initially thought that
-would only be a challenge for stateless decoders, but it turns out that Aml=
-ogic
-stateful drivers also needs to take care. In VP9, the bitstream is further
-compressed using probability obtained through decoding. Those probability c=
-an be
-further tuned with updates placed in the compressed header. In Amlogic and
-existing VP9 stateless decoder, the merging of the feedback and compressed
-header updates is done using the CPU, hence that feedback buffer cannot be
-secure. With lets say NXP secure domain HW, this is impossible. The OPT-TEE
-needs to be involved to abstract the programming of the HW and copy back th=
-e
-secure buffers to non-secure, making sure it is not being tricked into
-delivering a copy of the wrong data. For the MMU approach, no copy is neede=
-d,
-but to be sure the memory being mapped into the Linux Kernel MMU is the rig=
-ht
-one, some level of abstraction of the CODEC is needed.
-
-In short, you need a mix of secure and non-secure memory. This is a huge
-challenge that isn't well covered by any secure memory design at the moment=
-, its
-not even clear if the HW can work. Remember that these feedback buffers are=
- not
-exposed to userspace, hence cannot be allocated there. Recent discussion sh=
-ows
-that NXP might be just giving up on their stateless codec so they can solve=
- this
-with a full codec abstraction (stateful codec).
-
-Feedback buffers also exist in stateless encoders, but we don't have yet
-existing drivers for that. Encoders also have to deal with secure memory,
-notably when encoding from HDCP enabled HDMI receivers. Though this task is
-quite likely limited to dedicated system, which can be considered secure as=
- a
-whole, time will define this.
-
+> In fact, we do not need to
+> rely on some other video driver setting it correctly as Gen1 VMs have
+> a dedicated PCI device to look at. Both Hyper-V DRM and Hyper-V FB
+> drivers get framebuffer base from this PCI device already so Vmbus
+> driver can do the same trick.
 >=20
-> Just one place that I think it would be more simple for me to manage the=
-=20
-> buffer here. When the decoder goes to the drain stage, then the MV=20
-> buffer goes when the data buffer goes and create when the data buffer=20
-> creates.
-> I know that is not a lot of work to doing the mapping between them. I=20
-> just need to convince the other accepting that do not allocator the MV=
-=20
-> buffer outside.
-
-Its also a big memory saver if you manage to convince them.
-
-> >=20
-> > Best regards,
-> > Tomasz
-> >=20
-> > > > >=20
-> > > > > > > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> > > > > > > > ---
-> > > > > > > >     drivers/media/v4l2-core/v4l2-common.c | 1 +
-> > > > > > > >     drivers/media/v4l2-core/v4l2-ioctl.c  | 2 ++
-> > > > > > > >     include/uapi/linux/videodev2.h        | 2 ++
-> > > > > > > >     3 files changed, 5 insertions(+)
-> > > > > > > >=20
-> > > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/driver=
-s/media/v4l2-core/v4l2-common.c
-> > > > > > > > index e0fbe6ba4b6c..f645278b3055 100644
-> > > > > > > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > > > > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > > > > > > @@ -314,6 +314,7 @@ const struct v4l2_format_info *v4l2_for=
-mat_info(u32 format)
-> > > > > > > >                    { .format =3D V4L2_PIX_FMT_SGBRG12,     =
-  .pixel_enc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D =
-1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > > > > > >                    { .format =3D V4L2_PIX_FMT_SGRBG12,     =
-  .pixel_enc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D =
-1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > > > > > >                    { .format =3D V4L2_PIX_FMT_SRGGB12,     =
-  .pixel_enc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D =
-1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > > > > > > +               { .format =3D V4L2_PIX_FMT_NV12M_V4H1C, .pi=
-xel_enc =3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 5, .comp_planes =3D 2, .bpp=
- =3D { 1, 2, 0, 0 }, .hdiv =3D 2, .vdiv =3D 2, .block_w =3D { 128, 128 }, .=
-block_h =3D { 128, 128 } },
-> > > > > > > >            };
-> > > > > > > >            unsigned int i;
-> > > > > > > >=20
-> > > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers=
-/media/v4l2-core/v4l2-ioctl.c
-> > > > > > > > index e6fd355a2e92..8f65964aff08 100644
-> > > > > > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > > > > @@ -1497,6 +1497,8 @@ static void v4l_fill_fmtdesc(struct v=
-4l2_fmtdesc *fmt)
-> > > > > > > >                    case V4L2_PIX_FMT_MT21C:        descr =
-=3D "Mediatek Compressed Format"; break;
-> > > > > > > >                    case V4L2_PIX_FMT_QC08C:        descr =
-=3D "QCOM Compressed 8-bit Format"; break;
-> > > > > > > >                    case V4L2_PIX_FMT_QC10C:        descr =
-=3D "QCOM Compressed 10-bit Format"; break;
-> > > > > > > > +               case V4L2_PIX_FMT_NV12M_V4H1C:  descr =3D "=
-Synaptics Compressed 8-bit tiled Format";break;
-> > > > > > > > +               case V4L2_PIX_FMT_NV12M_10_V4H3P8C:     des=
-cr =3D "Synaptics Compressed 10-bit tiled Format";break;
-> > > > > > > >                    default:
-> > > > > > > >                            if (fmt->description[0])
-> > > > > > > >                                    return;
-> > > > > > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/=
-linux/videodev2.h
-> > > > > > > > index 01e630f2ec78..7e928cb69e7c 100644
-> > > > > > > > --- a/include/uapi/linux/videodev2.h
-> > > > > > > > +++ b/include/uapi/linux/videodev2.h
-> > > > > > > > @@ -661,6 +661,8 @@ struct v4l2_pix_format {
-> > > > > > > >     #define V4L2_PIX_FMT_NV12MT_16X16 v4l2_fourcc('V', 'M',=
- '1', '2') /* 12  Y/CbCr 4:2:0 16x16 tiles */
-> > > > > > > >     #define V4L2_PIX_FMT_NV12M_8L128      v4l2_fourcc('N', =
-'A', '1', '2') /* Y/CbCr 4:2:0 8x128 tiles */
-> > > > > > > >     #define V4L2_PIX_FMT_NV12M_10BE_8L128 v4l2_fourcc_be('N=
-', 'T', '1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
-> > > > > > > > +#define V4L2_PIX_FMT_NV12M_V4H1C v4l2_fourcc('S', 'Y', '1'=
-, '2')   /* 12  Y/CbCr 4:2:0 tiles */
-> > > > > > > > +#define V4L2_PIX_FMT_NV12M_10_V4H3P8C v4l2_fourcc('S', 'Y'=
-, '1', '0')   /* 12  Y/CbCr 4:2:0 10-bits tiles */
-> > > > > > > >=20
-> > > > > > > >     /* Bayer formats - see https://urldefense.proofpoint.co=
-m/v2/url?u=3Dhttp-3A__www.siliconimaging.com_RGB-2520Bayer.htm&d=3DDwIFaQ&c=
-=3D7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DP4xb2_7biqBxD4LGGPrSV6j-=
-jf3C3xlR7PXU-mLTeZE&m=3DlkQiuhx0yMAYHGcW-0WaHlF3e2etMHsu-FoNIBdZILGH6FPigwS=
-Amel2vAdcVLkp&s=3DJKsBzpb_3u9xv52MaMuT4U3T1pPqcObYkpHDBxvcx_4&e=3D   */
-> > > > > > > >     #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8',=
- '1') /*  8  BGBG.. GRGR.. */
-> > > > >=20
-> > > >=20
-> > >=20
-> > > --
-> > > Hsia-Jun(Randy) Li
+> Check for legacy PCI video device presence and reserve the whole
+> region for framebuffer.
 >=20
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> ---
+>  drivers/hv/vmbus_drv.c | 47 +++++++++++++++++++++++++++++-------------
+>  1 file changed, 33 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 547ae334e5cd..6edaeefa2c3c 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -35,6 +35,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/syscore_ops.h>
+>  #include <linux/dma-map-ops.h>
+> +#include <linux/pci.h>
+>  #include <clocksource/hyperv_timer.h>
+>  #include "hyperv_vmbus.h"
+>=20
+> @@ -2258,26 +2259,44 @@ static int vmbus_acpi_remove(struct acpi_device *=
+device)
+>=20
+>  static void vmbus_reserve_fb(void)
+>  {
+> -	int size;
+> +	resource_size_t start =3D 0, size;
+> +	struct pci_dev *pdev;
+> +
+> +	if (efi_enabled(EFI_BOOT)) {
+> +		/* Gen2 VM: get FB base from EFI framebuffer */
+> +		start =3D screen_info.lfb_base;
+> +		size =3D max_t(__u32, screen_info.lfb_size, 0x800000);
+> +	} else {
+> +		/* Gen1 VM: get FB base from PCI */
+> +		pdev =3D pci_get_device(PCI_VENDOR_ID_MICROSOFT,
+> +				      PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
+> +		if (!pdev)
+> +			return;
+> +
+> +		if (!(pdev->resource[0].flags & IORESOURCE_MEM))
+> +			return;
 
+Doesn't this error exit need a pci_dev_put(pdev)?  Or maybe reverse
+the test like this, and the later check for !start will do the error exit.
+
+		if (pdev->resource[0].flags & IORESOURCE_MEM) {
+			start =3D pci_resource_start(pdev, 0);
+			size =3D pci_resource_len(pdev, 0);
+		}
+
+> +
+> +		start =3D pci_resource_start(pdev, 0);
+> +		size =3D pci_resource_len(pdev, 0);
+> +
+> +		/*
+> +		 * Release the PCI device so hyperv_drm or hyperv_fb driver can
+> +		 * grab it later.
+> +		 */
+> +		pci_dev_put(pdev);
+> +	}
+> +
+> +	if (!start)
+> +		return;
+> +
+>  	/*
+>  	 * Make a claim for the frame buffer in the resource tree under the
+>  	 * first node, which will be the one below 4GB.  The length seems to
+>  	 * be underreported, particularly in a Generation 1 VM.  So start out
+>  	 * reserving a larger area and make it smaller until it succeeds.
+>  	 */
+> -
+> -	if (screen_info.lfb_base) {
+> -		if (efi_enabled(EFI_BOOT))
+> -			size =3D max_t(__u32, screen_info.lfb_size, 0x800000);
+> -		else
+> -			size =3D max_t(__u32, screen_info.lfb_size, 0x4000000);
+> -
+> -		for (; !fb_mmio && (size >=3D 0x100000); size >>=3D 1) {
+> -			fb_mmio =3D __request_region(hyperv_mmio,
+> -						   screen_info.lfb_base, size,
+> -						   fb_mmio_name, 0);
+> -		}
+> -	}
+> +	for (; !fb_mmio && (size >=3D 0x100000); size >>=3D 1)
+> +		fb_mmio =3D __request_region(hyperv_mmio, start, size, fb_mmio_name, 0=
+);
+> }
+>=20
+>  /**
+> --
+> 2.37.1
