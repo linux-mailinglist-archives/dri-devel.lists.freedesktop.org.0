@@ -1,35 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ABE859DABE
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 12:43:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D25459DAC4
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 12:53:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A83D911B2CB;
-	Tue, 23 Aug 2022 10:42:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC1D11B3F5;
+	Tue, 23 Aug 2022 10:53:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 331D911A320
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 10:42:41 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60F04113E;
- Tue, 23 Aug 2022 03:42:44 -0700 (PDT)
-Received: from [10.57.15.51] (unknown [10.57.15.51])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 58A543F70D;
- Tue, 23 Aug 2022 03:42:39 -0700 (PDT)
-Message-ID: <bbff1b5b-020c-7f61-1530-20fb0d6a1ef9@arm.com>
-Date: Tue, 23 Aug 2022 11:42:33 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17439112BD2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 10:52:43 +0000 (UTC)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
+ [91.158.154.79])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5CA982B3;
+ Tue, 23 Aug 2022 12:52:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1661251961;
+ bh=+boyjn+LEo3QKbvtSEsppC6tvAYzFv1WRY18MBYonqI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=O/BG33ao3spx+zQAA6dkPIiV43W1PVrMUKywrfjMTQJHqDnY5OdIYOBBWEyY4Uj/O
+ 16ooAWWJ1FX1WiVs0afLz6895S0GBLmaom2b3LsgbstFwf6MIrejxIExMcZeBNkuiy
+ U+os6eUkUQCOGk62jYsdW/1y8qDOsp4uXAZ/v4yI=
+Message-ID: <6fe9dffe-0f02-9cdc-cc6e-136de8326895@ideasonboard.com>
+Date: Tue, 23 Aug 2022 13:52:38 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH] drm/panfrost: Update io-pgtable API
-Content-Language: en-GB
-To: Alyssa Rosenzweig <alyssa@collabora.com>
-References: <daef7f8c134d989c55636a5790d8c0fcaca1bae3.1661205687.git.robin.murphy@arm.com>
- <YwRAnbNdx9nbGLom@maud>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <YwRAnbNdx9nbGLom@maud>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 5/5] drm: rcar-du: dsi: Fix VCLKSET write
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20220822143401.135081-1-tomi.valkeinen@ideasonboard.com>
+ <20220822143401.135081-6-tomi.valkeinen@ideasonboard.com>
+ <YwOWc1pKM+vFK80P@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <YwOWc1pKM+vFK80P@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,26 +51,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, alyssa.rosenzweig@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-08-23 03:51, Alyssa Rosenzweig wrote:
->> -static size_t get_pgsize(u64 addr, size_t size)
->> +static size_t get_pgsize(u64 addr, size_t size, size_t *count)
->>   {
->> -	if (addr & (SZ_2M - 1) || size < SZ_2M)
->> -		return SZ_4K;
->> +	size_t blk_offset = -addr % SZ_2M;
+On 22/08/2022 17:45, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> addr is unsigned. if this is correct, it's magic.
+> Thank you for the patch.
+> 
+> On Mon, Aug 22, 2022 at 05:34:01PM +0300, Tomi Valkeinen wrote:
+>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>
+>> rcar_mipi_dsi_startup() writes correct values to VCLKSET, but as it uses
+>> or-operation to add the new values to the current value in the register,
+>> it should first make sure the fields are cleared.
+>>
+>> Do this by using rcar_mipi_dsi_write() to write the VCLKSET_CKEN bit to
+>> VCLKSET before the rest of the VCLKSET configuration.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 7 ++++---
+>>   1 file changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+>> index 06250f2f3499..b60a6d4a5d46 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+>> @@ -412,9 +412,10 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>>   			return ret;
+>>   	}
+>>   
+>> -	/* Enable DOT clock */
+>> -	vclkset = VCLKSET_CKEN;
+>> -	rcar_mipi_dsi_set(dsi, VCLKSET, vclkset);
+>> +	/* Clear VCLKSET and enable DOT clock */
+>> +	rcar_mipi_dsi_write(dsi, VCLKSET, VCLKSET_CKEN);
+>> +
+>> +	vclkset = 0;
+>>   
+>>   	if (dsi_format == 24)
+>>   		vclkset |= VCLKSET_BPP_24;
+> 
+> You can replace one more set() with a write():
 
-Eh, it's just well-defined unsigned integer overflow. Take "SZ_2M - 
-(addr % SZ_2M)", realise the first term can be anything that's zero 
-modulo SZ_2M, including zero, then also that the operations can be done 
-in either order to give the same result, and there you go.
+That's true. I'll send a new one.
 
-Cheers,
-Robin.
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> index 06250f2f3499..2744ea23e6f6 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> @@ -414,7 +414,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+> 
+>   	/* Enable DOT clock */
+>   	vclkset = VCLKSET_CKEN;
+> -	rcar_mipi_dsi_set(dsi, VCLKSET, vclkset);
+> +	rcar_mipi_dsi_write(dsi, VCLKSET, vclkset);
+> 
+>   	if (dsi_format == 24)
+>   		vclkset |= VCLKSET_BPP_24;
+> @@ -429,7 +429,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>   	vclkset |= VCLKSET_COLOR_RGB | VCLKSET_DIV(setup_info.div)
+>   		|  VCLKSET_LANE(dsi->lanes - 1);
+> 
+> -	rcar_mipi_dsi_set(dsi, VCLKSET, vclkset);
+> +	rcar_mipi_dsi_write(dsi, VCLKSET, vclkset);
+> 
+>   	/* After setting VCLKSET register, enable VCLKEN */
+>   	rcar_mipi_dsi_set(dsi, VCLKEN, VCLKEN_CKEN);
+> 
+> I'll apply patches 1/5 to 4/5 to my tree already.
+
+I'm not sure if 4 works correctly without 2.
+
+  Tomi
