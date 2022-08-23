@@ -1,69 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260D45A02C2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:31:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0410D5A02C5
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBEE0C7D2F;
-	Wed, 24 Aug 2022 20:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6BD3C7D66;
+	Wed, 24 Aug 2022 20:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B88872B966
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 10:10:37 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id d8so6614430lfq.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 03:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=ZQTlzZhSz/F6Dyvy8ent1rccjYe8xNJQ3KifGL8COg8=;
- b=xdzD51NB6krEq2oSamBwJSqBmPConyxmXnOPIM2tI2HBKOxUv7620iJReAQX4+6ggD
- BjzkooN73GabBqwLc+zUjIWz2djjaLSR5UB5D0cBZofADRLsDJnMS4C99xqVHKGF7Rdi
- Bu8n5tx/Skd2MItQwGQcStTFSXtU+33U3vOxaLqdEzgiWQKCl+waW4MwyIo4lWeHpVz+
- cirMi9NxZWWm8QbJcRJjbffzrSwpf71cqxPl+MOzKhggBImETjovYgL0GUiwP9N5O7hy
- FStxMNxqnSzQIhg00KU0PdZU/lSNsw4Du4CkazOCKfkl8fT59Oi1obPyTMPVhNnvjnc7
- /eug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=ZQTlzZhSz/F6Dyvy8ent1rccjYe8xNJQ3KifGL8COg8=;
- b=Rnt03G4eFG1+SsDTVVvPnPdlgBoR6Ixhe8+aPL89AOMOppxL1QorpMPH06ArY/MqUs
- h6qAGQ8mBpkZ8aifXI5PlyL9TrU0+/Dy3Zt9a+52DVNwyq4T1qggmSbYkx8/9JA664Kd
- bIEUtti331aKeD6JZC2cLRbq9wms+aR01UCFYQXezlkk6YmXa2+twOe6OdQ2mwlIuxX/
- z0xMpCDw40oioScRCbLVKK5whYDc0YuN4Zaxw/MKneOvpdBdrpxGQHS4Kj58Iq8f/wmh
- YGAMJxyxxenvjdUIG9ArImFfg3HK/0bCgzamVPfGdLlN98mmyFwLheKOqupszEh1LB1S
- +KyQ==
-X-Gm-Message-State: ACgBeo1TUulzoZIKQcLxmQyIoN8TYw7kpfeacoNhPCkfX76MlgvZeySq
- uTPCLpq6Yt8gacS6yVQz0S1oaw==
-X-Google-Smtp-Source: AA6agR5fDnH2XcXgR+T6xdK3Nc9HZ8ROsCJIQuD4B0AHH6qkWJfXdbFgMHgnduR4NDjt9ZBTuBdLkQ==
-X-Received: by 2002:a05:6512:aca:b0:492:7db6:95f1 with SMTP id
- n10-20020a0565120aca00b004927db695f1mr8993150lfu.433.1661249435995; 
- Tue, 23 Aug 2022 03:10:35 -0700 (PDT)
-Received: from krzk-bin.. (89-27-92-210.bb.dnainternet.fi. [89.27.92.210])
- by smtp.gmail.com with ESMTPSA id
- z15-20020a056512370f00b0048af39ff3edsm2426771lfr.122.2022.08.23.03.10.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Aug 2022 03:10:35 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: display: synopsys,
- dw-hdmi: drop ref from reg-io-width
-Date: Tue, 23 Aug 2022 13:10:31 +0300
-Message-Id: <20220823101031.387082-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8D6B3006;
+ Tue, 23 Aug 2022 10:18:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661249910; x=1692785910;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=rIBijWYDCuJCpKPJprGFsO7FPm8DX5/N35/ZVITEqGo=;
+ b=IW+gYiVLOn0c5H5VDqMubRRl5lJRBTZGkHxdLBLf8AzLWoPSrAaZIxa4
+ ogsBsihF+ViUHAXfygmJH12tBLj57olzVO9rwutmpX026KRr/9TYx1Qac
+ z3SVyOkxjoUX3SPVt4Nj50gqMZD3D0KA1afgjI+kjPyJtRNdGyeeGvPDB
+ Wu8/H3bIbMdjdnBBwPdKpDDxvj0xlybz/BoJbWwjVsz0NJS94aLmLqxvJ
+ hvxL+Gtlb8tMSUv92zXiicgn9PcmMgyM+5di3BMN18fyBX1gQt2yRaWXY
+ kaVuKOOWqxHVBQL+iHBTyrnBixcLoyjD4qqrTM6RyoBI1OBQ+BoYmS1lH Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="355378434"
+X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; d="scan'208";a="355378434"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2022 03:18:28 -0700
+X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; d="scan'208";a="751640019"
+Received: from jabish-mobl2.amr.corp.intel.com (HELO paris.amr.corp.intel.com)
+ ([10.254.9.209])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2022 03:18:23 -0700
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v8 8/8] drm/i915: Remove truncation warning for large objects
+Date: Tue, 23 Aug 2022 19:17:29 +0900
+Message-Id: <20220823101729.2098841-9-gwan-gyeong.mun@intel.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220823101729.2098841-1-gwan-gyeong.mun@intel.com>
+References: <20220823101729.2098841-1-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,30 +57,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
+ andi.shyti@linux.intel.com, keescook@chromium.org, jani.nikula@intel.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, airlied@linux.ie, andrzej.hajda@intel.com,
+ matthew.auld@intel.com, intel-gfx-trybot@lists.freedesktop.org,
+ mchehab@kernel.org, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-reg-io-width is a standard property, so no need for defining its type
-with $ref.
+From: Chris Wilson <chris@chris-wilson.co.uk>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Having addressed the issues surrounding incorrect types for local
+variables and potential integer truncation in using the scatterlist API,
+we have closed all the loop holes we had previously identified with
+dangerously large object creation. As such, we can eliminate the warning
+put in place to remind us to complete the review.
+
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Brian Welty <brian.welty@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Testcase: igt@gem_create@create-massive
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4991
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- .../devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml     | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/i915/gem/i915_gem_object.h | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-index b00246faea57..4b7e54a8f037 100644
---- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-@@ -26,7 +26,6 @@ properties:
-   reg-io-width:
-     description:
-       Width (in bytes) of the registers specified by the reg property.
--    $ref: /schemas/types.yaml#/definitions/uint32
-     enum: [1, 4]
-     default: 1
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 0cf31adbfd41..dd2762da332f 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -20,25 +20,10 @@
+ 
+ enum intel_region_id;
+ 
+-/*
+- * XXX: There is a prevalence of the assumption that we fit the
+- * object's page count inside a 32bit _signed_ variable. Let's document
+- * this and catch if we ever need to fix it. In the meantime, if you do
+- * spot such a local variable, please consider fixing!
+- *
+- * We can check for invalidly typed locals with typecheck(), see for example
+- * i915_gem_object_get_sg().
+- */
+-#define GEM_CHECK_SIZE_OVERFLOW(sz) \
+-	GEM_WARN_ON((sz) >> PAGE_SHIFT > INT_MAX)
+-
+ static inline bool i915_gem_object_size_2big(u64 size)
+ {
+ 	struct drm_i915_gem_object *obj;
+ 
+-	if (GEM_CHECK_SIZE_OVERFLOW(size))
+-		return true;
+-
+ 	if (overflows_type(size, obj->base.size))
+ 		return true;
  
 -- 
-2.34.1
+2.37.1
 
