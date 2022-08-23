@@ -2,57 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C9D59D2AF
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 09:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CD459D490
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 10:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD00FB07A1;
-	Tue, 23 Aug 2022 07:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1E1B12ED;
+	Tue, 23 Aug 2022 08:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 584A790B18
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 07:52:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661241169; x=1692777169;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=cEOZdzegwHLzQIT58dSZ/XXOqg0uoIRUya/QlSkPQJU=;
- b=hliXJn5Aw3QZU5S6fO6hA1oSXUuwKxuhc2CUI4Qsbe108ge69A2BABam
- XiRcCyHxkgw5IU9Gi/C7H78b72Oa7oEejmE9ZEoRBYABb40HWBSKB7lGX
- 6qxPAe1hGgI3bRR84i1GtzwQ3AMFk6wN4jR5KTEr2V69CUnkThbufy6vN
- rBYBSapXxR7H4YQHGhDX6LJG5wEJLgZHRCY0+hv4ZwgBjDcR1cj4KWtEq
- h99FyyETLw6g1DSNpP6m4+5Fg4uPLujUBA3+EEiFrec5aLxr4hlEuEfNx
- 4vuF96dC9sEltkYW5dzgudx/+kbR8V6vjmOTN34L8cBSZe0KEWRxZu4QL w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="294903300"
-X-IronPort-AV: E=Sophos;i="5.93,256,1654585200"; d="scan'208";a="294903300"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2022 00:52:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; d="scan'208";a="609256215"
-Received: from lkp-server02.sh.intel.com (HELO 9bbcefcddf9f) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 23 Aug 2022 00:52:44 -0700
-Received: from kbuild by 9bbcefcddf9f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oQOiJ-00001O-34;
- Tue, 23 Aug 2022 07:52:43 +0000
-Date: Tue, 23 Aug 2022 15:52:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Davis <afd@ti.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dma-buf: cma_heap: Check for device max segment size
- when attaching
-Message-ID: <202208231555.eczOE9TV-lkp@intel.com>
-References: <20220822233025.3965-1-afd@ti.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 987BEB12D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 08:29:01 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 79211B81C35;
+ Tue, 23 Aug 2022 08:28:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C2CC433D6;
+ Tue, 23 Aug 2022 08:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1661243338;
+ bh=P3egnqUA6ktWyvgwGA+OKZtXZmA0Wg8B7BsVUmsHoUw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=0sqMs1IWECNXUVTNltDtq3Yq9aA0N75+Cis2sYghkAGYi3yVmGig3SNqpX58ux9f5
+ VcFk6nH1oQVf4iONanwANwM4SrHlhTCsKGKfKwsfBt9DMsnR9MJbcEk8g8wmGZ5EEe
+ 8bSBADDFeyajfCHhXx8EUAAWDINUx6MU6MkEJUpg=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 5.19 246/365] drm/bridge: lvds-codec: Fix error checking of
+ drm_of_lvds_get_data_mapping()
+Date: Tue, 23 Aug 2022 10:02:27 +0200
+Message-Id: <20220823080128.500334591@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220823080118.128342613@linuxfoundation.org>
+References: <20220823080118.128342613@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220822233025.3965-1-afd@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,84 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org, Andrew Davis <afd@ti.com>
+Cc: Marek Vasut <marex@denx.de>, Sasha Levin <sashal@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrew,
+From: Marek Vasut <marex@denx.de>
 
-Thank you for the patch! Perhaps something to improve:
+[ Upstream commit 2bba782002c5dab6ca8d608b778b386fb912adff ]
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.0-rc2 next-20220823]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The drm_of_lvds_get_data_mapping() returns either negative value on
+error or MEDIA_BUS_FMT_* otherwise. The check for 'ret' would also
+catch the positive case of MEDIA_BUS_FMT_* and lead to probe failure
+every time 'data-mapping' DT property is specified.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/dma-buf-cma_heap-Check-for-device-max-segment-size-when-attaching/20220823-073240
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-config: x86_64-randconfig-a002-20220822 (https://download.01.org/0day-ci/archive/20220823/202208231555.eczOE9TV-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f390cef50ba6681ea767283e413cb8e9f8f2b426
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andrew-Davis/dma-buf-cma_heap-Check-for-device-max-segment-size-when-attaching/20220823-073240
-        git checkout f390cef50ba6681ea767283e413cb8e9f8f2b426
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/dma-buf/heaps/
+Fixes: 7c4dd0a266527 ("drm: of: Add drm_of_lvds_get_data_mapping")
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220801125419.167562-1-marex@denx.de
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/bridge/lvds-codec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/dma-buf/heaps/cma_heap.c:61:9: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-           size_t max_segment = dma_get_max_seg_size(attachment->dev);
-                  ^
-   1 warning generated.
-
-
-vim +61 drivers/dma-buf/heaps/cma_heap.c
-
-    49	
-    50	static int cma_heap_attach(struct dma_buf *dmabuf,
-    51				   struct dma_buf_attachment *attachment)
-    52	{
-    53		struct cma_heap_buffer *buffer = dmabuf->priv;
-    54		struct dma_heap_attachment *a;
-    55		int ret;
-    56	
-    57		a = kzalloc(sizeof(*a), GFP_KERNEL);
-    58		if (!a)
-    59			return -ENOMEM;
-    60	
-  > 61		size_t max_segment = dma_get_max_seg_size(attachment->dev);
-    62		ret = sg_alloc_table_from_pages_segment(&a->table, buffer->pages,
-    63							buffer->pagecount, 0,
-    64							buffer->pagecount << PAGE_SHIFT,
-    65							max_segment, GFP_KERNEL);
-    66		if (ret) {
-    67			kfree(a);
-    68			return ret;
-    69		}
-    70	
-    71		a->dev = attachment->dev;
-    72		INIT_LIST_HEAD(&a->list);
-    73		a->mapped = false;
-    74	
-    75		attachment->priv = a;
-    76	
-    77		mutex_lock(&buffer->lock);
-    78		list_add(&a->list, &buffer->attachments);
-    79		mutex_unlock(&buffer->lock);
-    80	
-    81		return 0;
-    82	}
-    83	
-
+diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+index 702ea803a743..39e7004de720 100644
+--- a/drivers/gpu/drm/bridge/lvds-codec.c
++++ b/drivers/gpu/drm/bridge/lvds-codec.c
+@@ -180,7 +180,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
+ 		of_node_put(bus_node);
+ 		if (ret == -ENODEV) {
+ 			dev_warn(dev, "missing 'data-mapping' DT property\n");
+-		} else if (ret) {
++		} else if (ret < 0) {
+ 			dev_err(dev, "invalid 'data-mapping' DT property\n");
+ 			return ret;
+ 		} else {
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
+
+
