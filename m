@@ -2,114 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A718D5A02B2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2CA5A02B4
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:28:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2418C75C0;
-	Wed, 24 Aug 2022 20:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7AC8C77DB;
+	Wed, 24 Aug 2022 20:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on2098.outbound.protection.outlook.com [40.107.255.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD08AF695;
- Tue, 23 Aug 2022 06:50:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GJE4wa6T7tAavbtzuQ84ZWk9ySJ3buLk1TMV5o27seRJnWvo49WxpkifRW6kza06EjrKxYsnNEBTKSu8IaLND7+k2/OdVeJHP81a/C27yVFOxanP3+jgQeDuzL4Q2WRXFzwKeHQjWu39TNyDR2fifC7sgHhVeBmvF1+cUga6ycBW4pi/RdYCwLA4oom1Tht31KF3153qgt/2sQRt4ilCPr4CjPpBxrOGFZ2leyuWpyvt/uhNYRa+QnHyijD9tJ1Y4Xli1BKDH43SL44fJ6j+SdfoI2Pb7/YwKxRHE3GIbjBSDwPh9p4bUdFuhnBW/AsoEFTsx48l/olm64+YO/X8iQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nCzERmU4tZLX+SaLWDISqy1obxi2measjENwVuU3dnA=;
- b=SuB3zvoYdoH+8VZNnOIV4SsVlvyZUFfKX1wikw5/6cj5pcDmTucwy5I+ik9mzJcuQWen2GJoFZokrw9unSAyAM1cBcqcFqarOr1j03DsEl7/CERXo6qkI588ZH3XVUR22Ms0tQI+FBeZDSmlVZ6EFKeN88klDS0/laGQT5iAVJu5pxlkWsCbLsveii+L2ypraOzC5z/zHCZLYOLRqC8aOedBqEpA6JZAjdacx2D6LmWmdhI+WTAorRogUMFcAwPU6d6V/gHpEHlx4G7JVdwwiqcwAOfL2H05ac4qRnik8dPl2VM+0p4gO30PMIo6V2Kw+ma2P5hYrzepF04rVYMe4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nCzERmU4tZLX+SaLWDISqy1obxi2measjENwVuU3dnA=;
- b=BYZ2m9cPkC/am8PE8ltGJ9D3f19fevwY6Dz6FveDHBq0+ygpmga8G0FH7Oud0pUJ5KDqiOOxjTYboGA11XPcpXR+zFc7TLFm7rzR0WarKFKN8p7wJGw+5mZNhgjwBkSu9PL3vWocs/HG3qGjCeaTSGZ6qauFx/N9MbXT2vScm+k=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com (2603:1096:301:37::11)
- by TYZPR06MB4269.apcprd06.prod.outlook.com (2603:1096:400:71::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.16; Tue, 23 Aug
- 2022 06:50:20 +0000
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::5c66:2101:a7ac:8df0]) by PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::5c66:2101:a7ac:8df0%9]) with mapi id 15.20.5546.023; Tue, 23 Aug 2022
- 06:50:20 +0000
-From: Bernard Zhao <bernard@vivo.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Eric Yang <Eric.Yang2@amd.com>, Michael Strauss <michael.strauss@amd.com>,
- Fangzhi Zuo <Jerry.Zuo@amd.com>, Melissa Wen <mwen@igalia.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd: fix potential memory leak
-Date: Mon, 22 Aug 2022 23:49:56 -0700
-Message-Id: <20220823065001.16872-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.33.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0072.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:31a::20) To PSAPR06MB4021.apcprd06.prod.outlook.com
- (2603:1096:301:37::11)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39604AFEE6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 07:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661239200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Hs7LaJusbzewq19gjdvDDnrR8mb0KyO4+8e+b1s4GsY=;
+ b=h+e8DJnJnvHvQMoTbQz7Z3i4Ep9GMA1Q7KnjkEIjTWlsHClQCNRT3Y63EgImUUBdJcDWI1
+ HuYYXjXUM/tcUP+sBihRyC4PomJf2PkRN873A+LQYoUoLn0GNl+UaaNWvOHrQXLYwyCxlG
+ mY0IQtX3p9YI8CCyx2jfBfUTTin5Bv4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-248-0-Lzq519MVyGO_czPDdgzw-1; Tue, 23 Aug 2022 03:19:56 -0400
+X-MC-Unique: 0-Lzq519MVyGO_czPDdgzw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t12-20020adfa2cc000000b00224f577fad1so2004724wra.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 00:19:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc;
+ bh=Hs7LaJusbzewq19gjdvDDnrR8mb0KyO4+8e+b1s4GsY=;
+ b=l1af6DQrPcaeQpdKfUQl6mztJcYwv3lVYeuA8AQ7pmlW8Pgb9FvGn1514nR3LrKlMN
+ XfzFkZsgYx2OFPuHjQzCAVOouIhFQNsXHTesWEkc2mqPv07O/+NnPPt2AWmRWlpPI9DW
+ TVymzAquEyrj0RmaEHGuX8rpTjgrRkp/pT1Vd1BJSkoCSG3500c/js8zOU7ZE8zh9Mw1
+ LNKiOIPsMAujFDiLc1VaoHR61YZ4qTRgy4moWAPrzCj/thaweFXRbvCQe1k9fq/QYG1T
+ SeBOvqGjR0p4tCFsyEdk26bZrHEaLmFbNw8mjrJthLJR6TJE17J6+yMjfFaJHO9cA5Dy
+ 2CKQ==
+X-Gm-Message-State: ACgBeo06yf5893NywEYH87q10XDPgEne2gjW5LGjy1VVj+Icwp1tpB0H
+ fGsqO8HqV8qzr2Epx8V2xZD4hwhQsUsS4bIYIRv7p0E9hm76Ks6j6NlAQdgeVoFJu/vm5zlm6h9
+ kI5tBTMSc+FarBuCMoBPDmMprceiB
+X-Received: by 2002:a05:600c:4e45:b0:3a5:f383:b917 with SMTP id
+ e5-20020a05600c4e4500b003a5f383b917mr1191623wmq.61.1661239195844; 
+ Tue, 23 Aug 2022 00:19:55 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7PodDLS/vNSvRNlNhwQt9d+MLAK2dUzwryvTeI3ossUG3lgTEZFazWxtHKJSxP9A6EWrzFAw==
+X-Received: by 2002:a05:600c:4e45:b0:3a5:f383:b917 with SMTP id
+ e5-20020a05600c4e4500b003a5f383b917mr1191611wmq.61.1661239195612; 
+ Tue, 23 Aug 2022 00:19:55 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id
+ bn26-20020a056000061a00b0021d7b41255esm13578498wrb.98.2022.08.23.00.19.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Aug 2022 00:19:55 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: RE: [PATCH v1 2/4] drm/hyperv: Don't forget to put PCI device when
+ removing conflicting FB fails
+In-Reply-To: <PH0PR21MB3025F3C8768EB3ADE16E8B9AD7719@PH0PR21MB3025.namprd21.prod.outlook.com>
+References: <20220818142508.402273-1-vkuznets@redhat.com>
+ <20220818142508.402273-3-vkuznets@redhat.com>
+ <PH0PR21MB3025F3C8768EB3ADE16E8B9AD7719@PH0PR21MB3025.namprd21.prod.outlook.com>
+Date: Tue, 23 Aug 2022 09:19:54 +0200
+Message-ID: <87zgfvwhnp.fsf@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0284e37d-a9f4-4aef-c2de-08da84d3bf16
-X-MS-TrafficTypeDiagnostic: TYZPR06MB4269:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uGb+Gv9Wr3K5hoEwqM6zdlVAMdaAbzpztJzQIsptWfQhysh7kTCS7SOQltYUJua01JICHlKDPRrQ7z8yv7KdqyosYfvXpyw6rx9MjNTBd944OeDxapfU53S/5UGJl5y5K+4F8Y0tG521sjAKRBhfcdQWmCJxBaQBwFNLTYe4pl54VVzYSrLug2aGPpx09hfvuPmDsoXS7Nd5dFLh9zbES431rRlwjK6Gf4d0+WnHznsXeOTucFvf/9G9ju0SN8p+VAaKOpSPWUgeJnrimHvr0bwQ4L4suRGIwVNLYQsbxWBzjK59+WStVod/Fcm66QlG4NX2Fnz04+17dGBvruJqZ0nU6sLVJKjYgi9KQA/d38LR2gkINafKXywB2LLSD6kwrpomqdVDY161Ua2AJiko1Ft0LNWKlefnqEJ1krDFKSiHTpSf5Li7NW7uO8mlmF7qYydk1iLzvCQOOkBXpo9aKYhbonHOtOUUJhcmzmHI578jy7GULqZ+Sm+xB/HAlXz72cSIoeYbNWg7R2TWOimYEKTG/U/fvhkUPbNSQP5rf79NCmzIFLs8i1rVxebpBX6Hwpt7K50NvzhVYJ9iUoj+UmFtjHKqcTbCPtsOLCpBBw7Ii13ljQtPOn3KpIXEYvu56nYmQwpnBUQN8uYpsHkZaF98sKPrmIoyNEVzjYtlpIVS4cZHL/sfDl0aWifyUTAbW2ZzWi11PQ7UTVPmbNmuPBFXsZarEGadefvnJ/1SHJQsDMyDGLcJguvtHer5vYCMsl4w/UYQ3IsxwrbuQLl9ZQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PSAPR06MB4021.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(376002)(39860400002)(396003)(366004)(346002)(2616005)(1076003)(186003)(921005)(38100700002)(83380400001)(4326008)(38350700002)(8936002)(5660300002)(8676002)(66946007)(66556008)(66476007)(7416002)(4744005)(2906002)(107886003)(6666004)(6506007)(52116002)(41300700001)(6512007)(26005)(110136005)(316002)(6486002)(478600001)(36756003)(86362001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xtpYPKqDF5St+bbx0Z7y60WFycyVJOdRuDprDf4rt/wDY+FFmsI/LGBGggJV?=
- =?us-ascii?Q?XEjmfs1pyNlN3Pc8GEU/WIhmEkAYZP/COo4F3WIFgVUrmt+adMOH0JatSs2z?=
- =?us-ascii?Q?NmfuLMtL1hyDRZwyW2hkdlAztnRXMWZosmvKuzelGsbmlSjkJCmuPoP9y/rn?=
- =?us-ascii?Q?PvGcHrOE7Y0v61X5ipRtG8iEoC/UtplZercpNBwa3qNQ7fdb9LewtmMH14Yn?=
- =?us-ascii?Q?Bp67oD9dz/pE3ajg4i6JBAfJDyPTRXiJtnqPHPj7uUvxkFc4DP7AeMrgl0CD?=
- =?us-ascii?Q?nyEMej7HUiA1yiqtxV+5Tu6c1qO8sRxxYVWcNMxKYg6XiooZ6tnjEcCxH1Jh?=
- =?us-ascii?Q?EInzZ5Qjx+Az2yEkRT2hYgQUETMo9pdZzzxxRwgFDek/k9ZN5QpHmspnXxMh?=
- =?us-ascii?Q?1tHOfA4Nk2oJYvHDh+8F7i9AUWPRM2mTNiSCF7/A9s8+7ulyKifFilJF0BB3?=
- =?us-ascii?Q?i6TGlhCfIgnxfj9F/rGsiB9BmfgutS8NSyLutCyYnq5UWAtLUg0dRHOfD7oA?=
- =?us-ascii?Q?BNWrVkjkw6wKBPfbw232l1OKSd466aD3N92HaEsN4HAbxBVWxA43VZHm3fMT?=
- =?us-ascii?Q?Mipzc+YM7nhXNPZOFFCiHnavHqMKGgNxONZyt/UQzDnhlKyc7XHdtQxej08w?=
- =?us-ascii?Q?GNjFjvO5HjnyoS452cxj92ZYZ9b5E8qJSqIVUEdp4XVaiA2JvGRdfTABL+rF?=
- =?us-ascii?Q?NlE5+QyyAt6b7vwValfaHh/eXSmEPQAq4JIhVxqD3xyybkWCUPAyw6RTu/a3?=
- =?us-ascii?Q?nMZ7eUAipYmwdp8QSR8GXrSSJ55XysYIeC+Jqz1cQqjZ1zCjcjn2yqLoEAJN?=
- =?us-ascii?Q?mH+r6G13LZ/eSoISYoKsLw8mG2pC6g04C6yJZNbpcu8ZX66nDPgHwmx+H7wS?=
- =?us-ascii?Q?3bzC36Vo2CZ2knVeJ98hOFzi/rofyErBbnvMrRV0SYMr2s9qJySzeXc7DOvm?=
- =?us-ascii?Q?bo2XakkS2ojgH5Oz44uEB0TQX0mFDKTNvmFuj9edwcKG7bRP/hFRIXTm1FcK?=
- =?us-ascii?Q?QFIBkjn5pAJTeeXozynfqhKPtsHIFBqgmokxpCkS/Mk91dNqjCtmmgTH2dAP?=
- =?us-ascii?Q?FGFHfNRiXbs77lRFjl7IU+55+vqr7bdERiQGrju0b+p7zRSLdGbZ2zS0Dteu?=
- =?us-ascii?Q?YOYzzRmoSoXZ7t3elFsb89MSHNK8kG6p0mzYqstow23lWDpZkCD9yJ/ex54j?=
- =?us-ascii?Q?q6v+E+GLCc5mfOFZCT1EXqFlBPMzdn0S2FZCLRVlpHSLMfkeG5zANZ7kc5jt?=
- =?us-ascii?Q?Lh+D13gt6xuwtMFQqg3icDwuYseEpeUrBRcrKVgYRBV0oitQdrnKVchTUnvb?=
- =?us-ascii?Q?Ten64N0CVhCnOTrO2Hok8iGXD+bMSTCkQKWvDrYZqs1urjBGlFR7LxkbsoJP?=
- =?us-ascii?Q?l5VYIBmwtLmlEcTBrUd/tY3IIiq3aymzgELH1/1c2R82wphmkRp1DU69grF7?=
- =?us-ascii?Q?cdkls1egBcbh3Xa8XMzLYUIaYxAuu5g3SRB2spR9/z97K5bR8lLCF4AMQzpn?=
- =?us-ascii?Q?mPtgMakz52isR5IHDzIjp2JK2twOJklzJQblZ0iGlwP3rQdMpIusTiMvZA4p?=
- =?us-ascii?Q?iAZ2u3DvVMC+J+l/4svLAvxuRFD4NuAgBO3EwsGk?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0284e37d-a9f4-4aef-c2de-08da84d3bf16
-X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4021.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2022 06:50:20.6970 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qbD12c8tRZxlAxD8jtRsfKKPwO0xI7DV6OIglPA8JGISdvfu0i9SZ3h7ItlHgHInvmUM2Mi+/UnS5m8bK0Fn3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4269
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,30 +83,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bernard Zhao <bernard@vivo.com>, zhaojunkui2008@126.com
+Cc: Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Deepak Rawat <drawat.floss@gmail.com>, KY Srinivasan <kys@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch fix potential memory leak (clk_src) when function run
-into last return NULL.
+"Michael Kelley (LINUX)" <mikelley@microsoft.com> writes:
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c | 1 +
- 1 file changed, 1 insertion(+)
+> From: Vitaly Kuznetsov <vkuznets@redhat.com> Sent: Thursday, August 18, 2022 7:25 AM
+>> 
+>> When drm_aperture_remove_conflicting_pci_framebuffers() fails, 'pdev'
+>> needs to be released with pci_dev_put().
+>> 
+>> Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic video device")
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>>  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+>> b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+>> index 46f6c454b820..ca4e517b95ca 100644
+>> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+>> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+>> @@ -82,7 +82,7 @@ static int hyperv_setup_gen1(struct hyperv_drm_device *hv)
+>>  	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev,
+>> &hyperv_driver);
+>>  	if (ret) {
+>>  		drm_err(dev, "Not able to remove boot fb\n");
+>> -		return ret;
+>> +		goto error;
+>>  	}
+>> 
+>>  	if (pci_request_region(pdev, 0, DRIVER_NAME) != 0)
+>> --
+>> 2.37.1
+>
+> This patch appears to be obsoleted by commit a0ab5abced55
+> that was merged into 6.0-rc1.  Of course, it does beg the question of
+> why the original function hyperv_setup_gen2(), which is now renamed
+> to hyperv_setup_vram(), doesn't check the return value from
+> drm_aperture_remove_conflicting_framebuffers().
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
-index 85f32206a766..76f263846c6b 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
-@@ -1715,6 +1715,7 @@ static struct clock_source *dcn30_clock_source_create(
- 	}
- 
- 	BREAK_TO_DEBUGGER();
-+	free(clk_src);
- 	return NULL;
- }
- 
+AFAICT this commit (which I've obviously missed) also solves the worst
+issue I'm trying to address with this series: conflict between
+framebuffer and SR-IOV VF config space. It would probably still make
+sense to reserve the whole FB region on Gen1 first thing and use it
+as-is for DRM/FB later (Patches 3-4).
+
 -- 
-2.33.1
+Vitaly
 
