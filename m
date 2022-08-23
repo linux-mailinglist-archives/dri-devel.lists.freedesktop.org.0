@@ -2,119 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147B259F31A
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 07:43:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64D459F43E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 09:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90D3C10E814;
-	Wed, 24 Aug 2022 05:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25DF110F6FA;
+	Wed, 24 Aug 2022 07:28:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-eopbgr60086.outbound.protection.outlook.com [40.107.6.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3FA10E814
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 05:43:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Yt1nDft8TYITPx38YJApAJRCNIc8snyhIQZJgs8K5IaVN3hsILFrk2lpkrF/jD0cfbswcg9/Wom1FDCclo0taPBJiGkA/w8eC54rTmn45s/+EeoR8JcLQmMDPJIdJ8qXaFd95UqJ5FqePOb9ayZ992xvFt/Kn/HR55nBjxGP5ZpmC708Bcn8UAJUv3MhS5gUizwpAToFweVbVvIb83tX/2NDKylK6kNvEUWmFCQh9nDuQUfupQEkX53uReHhnda7bpLRYkfxR86jcb6tFMEj3B+7TnkM21jxJDluC57szoQM7Q+vqcg2LxFxEP3WASTdqfAbj0TKI6Lf+bry/G3FSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zV5vpzb/e0q415CGwT/htOv4c6ZPVdeSRUfuOFqlZ0Y=;
- b=Z1gDq+Lwonprdhwq+i96k97ADp5TRuzegF0+AIxhpYickgH7Jl4JP/jd6z8uFktqqFyBrd/zjRy7oONTRE0t5O6X+UblE4jFikuawLx7RcJpdglpfPae1oarg0tREyEl8kA4wJRrp/ccBGaLD4x4m1JmFFT3ZF2pRmZ44b2v3F1z4xtO1UrPbvintFVE5QzrZ0clEaYE5W0GXqpAY7eqAHxHHi8aktfttPw6zJOmh88Gok/Wksr23VusU6BWyFbTuUn28rSOyMY9PhlPWlvb19Wei7XEitul8FHL0g9OcYjuJzCZxkGkVAORPLK1VF+sHm31YhT5CmRffX6b6VxK5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zV5vpzb/e0q415CGwT/htOv4c6ZPVdeSRUfuOFqlZ0Y=;
- b=m+6oDscCzGgpeHUcFTYGD4ctOJrnS36u+61l+0sEZ7Aux2341HDvptbw2MXy7YgbK1yU1cu5+f5asdhCFAPZuYX+nlKZ6abdvuQbRcmmU4dqbmRwM9XXd/sXBhhlqV+f9FPAWPbo5kjSX+VZHqbgJ2Sdc3UD+zrvF3QYyblnLcs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from AM4PR0802MB2131.eurprd08.prod.outlook.com
- (2603:10a6:200:5c::22) by DB6PR0802MB2600.eurprd08.prod.outlook.com
- (2603:10a6:4:a1::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.21; Wed, 24 Aug
- 2022 05:43:05 +0000
-Received: from AM4PR0802MB2131.eurprd08.prod.outlook.com
- ([fe80::2c84:f6b5:8727:b073]) by AM4PR0802MB2131.eurprd08.prod.outlook.com
- ([fe80::2c84:f6b5:8727:b073%11]) with mapi id 15.20.5546.024; Wed, 24 Aug
- 2022 05:43:05 +0000
-Message-ID: <ef70b8b7-c1ff-a6b9-077b-83ea48c66c24@wolfvision.net>
-Date: Wed, 24 Aug 2022 07:43:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 0/2] drm/rockchip: dw_hdmi: Add 4k@30 support
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20220822152017.1523679-1-s.hauer@pengutronix.de>
-From: Michael Riesch <michael.riesch@wolfvision.net>
-In-Reply-To: <20220822152017.1523679-1-s.hauer@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZR0P278CA0175.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:45::17) To AM4PR0802MB2131.eurprd08.prod.outlook.com
- (2603:10a6:200:5c::22)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C79E917DB;
+ Tue, 23 Aug 2022 07:26:03 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27N4QBw3023075;
+ Tue, 23 Aug 2022 07:25:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=wSeyxPigMB9+mzHDPYtNu5KFZQgVycg01gcDOmX3hxo=;
+ b=iZeHSSCZ0DC92c6mNDFJRtwtgKc5RZVpQcCY1Id2nnB02yrHnlSmGGRBnZlqsaallc2e
+ KgSM0t7blLlOM+HRNPGyJ1QuxjOYDtECHIQb8VHNAFX7bEGbv6Jef5FWeHEyHE5Jbzzd
+ KirZ/oTr3x3+qAVLprNVJgxpDmxAu1u0Qc85DBEKLil7zMIjOP5BbFlI9SBykVyMIRdH
+ IeknnNcd58r2a2Od3MD4rYTS3s//ljYw2yfLeSzgtAooRYS4ODh+G56c1HFc6gyB/fn2
+ Acdsw8mU/7x4ORLK3k2N2jgX2GygR/wi4Ay7sCphhlExxB2sYkVvsuGvNQGyk34aekVd Pg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j4phb14yy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Aug 2022 07:25:56 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27N7PtTG017543
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Aug 2022 07:25:55 GMT
+Received: from [10.50.0.65] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 23 Aug
+ 2022 00:25:49 -0700
+Message-ID: <708d8c51-4cf5-50b7-ab07-8396b08563df@quicinc.com>
+Date: Tue, 23 Aug 2022 12:55:45 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 89b9faa9-a359-4693-7b87-08da8593841c
-X-MS-TrafficTypeDiagnostic: DB6PR0802MB2600:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fhbDhDFElVRJGFHg1ysJSf4+vs2Nd7Y2eI+QJ3Phnkf9jT+5K/kKUWO6bKo1AFbm1lvzwg/DKqvD9TzHi3w3euCE3vWbYizqlU3hO8hnzotSF2WcfLSrq3xD02UjCJ7mPiUiXb0cRAGHN8MfMVAoi5S0sjKl+CtqSZ2/pEjYW/TBHRo73VYWIBv5vIss9CqHc6xAAyqz6BWiiDWaL/u8RihD2yPe00fnbZP+ReXvcYFEN4l8pVcerOdbaclFqQSu/c5FkSLL3e85i8VKYB345dFNaLIdUlY2zkBz4niywIK2WIP09zaOUwTfzy7CayEt5kzPEmtzYeh2wrOhsefYnAluk2+qs4h6l9xDr2A4SgS8HGMHSLBJG2JnX15YePHCm/HE9oWB6sFjn8LsPrFagb3lz32GU/zWEWBTtjY2wopRlZCrJTGEpXHJhRZvVdKDRFVox9BXRDJp8Vq+nu4o2R3rL3uLDiiRYksiNGQ+pcWqZkLlmR1iAqr6IcnWYB7MS6uFTxariYs8htDzWkRUxNp0trk+LSw8u3fB+SrAgcEpfkdO0HuISiL02/JB5RPq5uUN7bvbxg1VVA+qL3aXN+fu2zfaTDDzUzSzJJ29wE/KHtqHbtXfkxXH3Dl/DKtWN914DUOHEfykYX9A4OmoVoOg12kDg+1d3bt0Kkr45mRDBQ7I1N8jWmujYcUN3hVhSAVOt3Pw2iP0ZUN3dLcpvUGSnpWqqztFnAksCAdJ5G2iJEVrWzBRAt/vtaTpKMUWhamnf4jQMS0P42VxgVI3B8Q7scR3yFTOBBdvGplXJBA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM4PR0802MB2131.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(39840400004)(136003)(346002)(396003)(366004)(52116002)(83380400001)(38100700002)(66476007)(36756003)(8676002)(4326008)(66946007)(66556008)(8936002)(6506007)(4744005)(6486002)(5660300002)(44832011)(31686004)(478600001)(316002)(6512007)(54906003)(31696002)(86362001)(53546011)(2616005)(186003)(2906002)(41300700001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0ZNRHhsV2l4cjgyR0FpZXZ5WVJhNzJPUDBoSEVpYk5TZk1YYzFXbkVldkhi?=
- =?utf-8?B?QUlPaUgxVitiMEVUVWViZXllK29HRk9MMXY2NStRdG5Xd3I4Rk9BUkVNNlc5?=
- =?utf-8?B?NHB4bGRzemV0VlBqeG9CNUxkbmlhWWIyWDZuOUpiKzl2WktGNE5EUkRteHMw?=
- =?utf-8?B?M0FyM0pEWHRxNUdEaVdEanJKR3U0YTdUNlQzMGNVK0tEK1lSSXpUOFJSNytI?=
- =?utf-8?B?YXNVRXN3cGJOQnNCR3JZandoVUVaYTdKTStYYUdtYkx6UVgvc2YrSXUzeVAy?=
- =?utf-8?B?d29DaWFqMzlmeWcvUU5GVkdpSWVRbWI4c2dlNWFUd0wwRzR0L1NUOEJkUkV6?=
- =?utf-8?B?MjN2Nko4ai9JOXVKcUhTcnlENXFudXo2VXFrM3JiajRuVlZqSGtES3VUK1pt?=
- =?utf-8?B?dXlFb0g5SWNxejdtbFAzOFNURU5vSHNNZnBRWGdlVm84MURKQmpMZHR1aEhn?=
- =?utf-8?B?dVptdXlLUGxRVVVWWHBrcDVpYVR0RlJFZFJZbDYrN3M4Sm13Qy9UeFhHYXhh?=
- =?utf-8?B?YnVtaTlqc1NWVWRBR0ZQN21UQU5KdCtwaVA0S0VEOGNXUGkzeFU3NnVOUVht?=
- =?utf-8?B?NmZmNlJjMW5ZRnVTRHBsekd6L3Jna2l0ZnNIODg1ZWNEaUdvcnB0am8rS3Fu?=
- =?utf-8?B?K2NJWEp1T2syVmZaZUtDcHFXUUtMeVVXWldqTHVMK29SOUprT0pHV2pUU3Ny?=
- =?utf-8?B?cTlFZ0s4QUtKS2lYbkhINEpZY2NTdzB2bTkvNnhmYW44Tk5zWXA5TGNEMm9N?=
- =?utf-8?B?eEIwYVpvdUUyL2xFWmo4NzQwMHhnYnlQdEYydkpJUk1TZDJSa0x2TnUwQkpR?=
- =?utf-8?B?TFZxUTQrOFIrcW52NUdqdmlVWFhVQTliaEtienJkcnU2Z0ZPSUJRNWZXUjRL?=
- =?utf-8?B?a3VYcUhxQVdzaWlmYzl5SVJTT0s2T2N0ZkhkelAwRTN6dFZsNmVsYk9QRGh0?=
- =?utf-8?B?S1gxNzhNM2ZycmtFNStjVjdtelo5dFpDTk5VRFZsZWwwQXBtSSswbmxNT3Y1?=
- =?utf-8?B?K2VsWkI0dUF2cEErTDVNaFVmdXEzK2pNOHMwcWNLUFRiNm5YRXloVHhCcVRq?=
- =?utf-8?B?eDlaRVZURG9PQXVWVWZmZkF1TUJrSGdTaDNKaE9RWWlJWmJpcDlWTVlpb3Jj?=
- =?utf-8?B?V1NZY2VPYkFtUkRrb1NWdE1mK2ZyTmZadTJPSTVqWDZRNSs1SmZYaEpDaGd3?=
- =?utf-8?B?ZHBJajUxUjdGRmZwakFkV2FqN1VUQ1IxaWIyMTAwb0VCclNrekR2VURkN3h3?=
- =?utf-8?B?QzVNRWVVbGNoUTV2Y0QwT0V1TG50NlRyVGNYcitFSjJrQmNOTDFRQ2lFWStR?=
- =?utf-8?B?U29RdEs1a1V4VHhxNGpRejhhYWZkK0VXcEZRY253eXNyeXJVakZxY2tnOUdz?=
- =?utf-8?B?b2p4cW5RSDdtMWZ0aWh4OU9rYTc4SjRnQmk0ZlZua2QrWnY0bDNLdklIUXpH?=
- =?utf-8?B?WG9uRVA0aE9lbEN1R0hPS0tUaDlYMjQ5Y0ZCaGQ4MGhENm5NeFZJTlRWNHVR?=
- =?utf-8?B?UjlIOFRvcGQ1TCtQdzJsZGFudlJKRzdIS2tQSDE3b2VOMHQveDhaNXd1ZXlO?=
- =?utf-8?B?YVJTL0VFN0habjA2WVUwdTBmQVRRNEk3M3kxMVV6T3NtNU9aaTloYWFVWkty?=
- =?utf-8?B?ZXlOL2JycWZMOWJkQ0Q2alZwZzdNT0I5YjNQQ0NrR0JaeVJyeVF5M1haZDlS?=
- =?utf-8?B?alJLT083d0Nad2x1VlUySlo2UldPYzVxWmZXZnQ3MlhIMlNCYlRDck81b1dx?=
- =?utf-8?B?ZXZnNFNUa3BaSTJFYUFWdWV6UnV6M3FCSFlCYkdBTk40R2h5MlQ3UEpHa3dB?=
- =?utf-8?B?VjZxb2JGcWxBdGV1a01ackgyODJZdkpEWDlHODY1Vm1TMEw4M2JJdHZORDBv?=
- =?utf-8?B?ZkZPbmZueEdTVG1mMU44OVQ1TTltL0R0bDVaTzRUN0VQMENyVHFId3o1SHh2?=
- =?utf-8?B?SHFVelNhanFSMEhQQlBFQ2NVSGZ3VE1OcWdMS3l2eHBNUGM5bjhWVUU2YldZ?=
- =?utf-8?B?a1I4WEI4aXl1VW9wTWk5NXU4ZDdkbzliYi81czFTQUxNeUJ1dWloM2Z5TWVU?=
- =?utf-8?B?ZVB2bVBkamg1UFRsYmcyZUU2cEZ6eksyOUhPZHNmNFBTaUFTMDJZKzYvSG94?=
- =?utf-8?B?RjU1Y1JIR3VaelY1VlBndXlKbnNRL25vYmxCNkdXNDZzc2REZlgwZEhOTEQ5?=
- =?utf-8?B?Q2ZsY0NVSmxQTG5YUnpZQmtvZXlKVGhjUUlQRGtrYnFyaEtndEkzL2ZDNXhM?=
- =?utf-8?Q?Xp8KrpQurUpu9S5LjNEQoZKU8uuCuDnvN5GkX2nvWk=3D?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89b9faa9-a359-4693-7b87-08da8593841c
-X-MS-Exchange-CrossTenant-AuthSource: AM4PR0802MB2131.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2022 05:43:05.0898 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h2aaVpNFEEq11EBbt2/201gS4n2vjkoNVXuLqi8Mqc5RVzAryW2dLcbqrOs09uMbMvj4vHvNUlPNj8xfkSu4Zoq9Y3HTvqyFA2ZGTu7hf0g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0802MB2600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH] drm/msm/iommu: optimize map/unmap
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
+References: <20220822184742.32076-1-robdclark@gmail.com>
+From: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+In-Reply-To: <20220822184742.32076-1-robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: RKdc_c_ZrECOpMOyQlDXX56WtKI6zpuh
+X-Proofpoint-ORIG-GUID: RKdc_c_ZrECOpMOyQlDXX56WtKI6zpuh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-23_02,2022-08-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ malwarescore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ clxscore=1011 mlxscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208230028
+X-Mailman-Approved-At: Wed, 24 Aug 2022 07:28:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,37 +83,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Sandy Huang <hjc@rock-chips.com>, kernel@pengutronix.de
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>, Abhinav
+ Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha,
+Hi Rob,
 
-Can you Cc: linux-rockchip list to get more feedback?
+On 8/23/2022 12:17 AM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Using map_pages/unmap_pages cuts down on the # of pgtable walks needed
+> in the process of finding where to insert/remove an entry.  The end
+> result is ~5-10x faster than mapping a single page at a time.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/msm/msm_iommu.c | 91 ++++++++++++++++++++++++++++-----
+>   1 file changed, 79 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+> index a54ed354578b..0f3f60da3314 100644
+> --- a/drivers/gpu/drm/msm/msm_iommu.c
+> +++ b/drivers/gpu/drm/msm/msm_iommu.c
+> @@ -21,6 +21,7 @@ struct msm_iommu_pagetable {
+>   	struct msm_mmu base;
+>   	struct msm_mmu *parent;
+>   	struct io_pgtable_ops *pgtbl_ops;
+> +	unsigned long pgsize_bitmap;	/* Bitmap of page sizes in use */
+>   	phys_addr_t ttbr;
+>   	u32 asid;
+>   };
+> @@ -29,23 +30,85 @@ static struct msm_iommu_pagetable *to_pagetable(struct msm_mmu *mmu)
+>   	return container_of(mmu, struct msm_iommu_pagetable, base);
+>   }
+>   
+> +/* based on iommu_pgsize() in iommu.c: */
+> +static size_t iommu_pgsize(struct msm_iommu_pagetable *pagetable,
 
-On 8/22/22 17:20, Sascha Hauer wrote:
-> This series adds support for 4k@30 to the rockchip HDMI controller. This
-> has been tested on a rk3568 rock3a board. It should be possible to add
-> 4k@60 support the same way, but it doesn't work for me, so let's add
-> 4k@30 as a first step.
-> 
-> Sascha
-> 
-> Sascha Hauer (2):
->   drm/rockchip: dw_hdmi: relax mode_valid hook
->   drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
+Maybe call this msm_iommu_pgsize? There won't be any namespace conflict since it is static
+in both places but still would be better.
 
-Great stuff, thanks!
+> +			   unsigned long iova, phys_addr_t paddr,
+> +			   size_t size, size_t *count)
+> +{
+> +	unsigned int pgsize_idx, pgsize_idx_next;
+> +	unsigned long pgsizes;
+> +	size_t offset, pgsize, pgsize_next;
+> +	unsigned long addr_merge = paddr | iova;
+> +
+> +	/* Page sizes supported by the hardware and small enough for @size */
+> +	pgsizes = pagetable->pgsize_bitmap & GENMASK(__fls(size), 0);
+> +
+> +	/* Constrain the page sizes further based on the maximum alignment */
+> +	if (likely(addr_merge))
+> +		pgsizes &= GENMASK(__ffs(addr_merge), 0);
+> +
+> +	/* Make sure we have at least one suitable page size */
+> +	BUG_ON(!pgsizes);
+> +
+> +	/* Pick the biggest page size remaining */
+> +	pgsize_idx = __fls(pgsizes);
+> +	pgsize = BIT(pgsize_idx);
+> +	if (!count)
+> +		return pgsize;
+> +
+> +	/* Find the next biggest support page size, if it exists */
+> +	pgsizes = pagetable->pgsize_bitmap & ~GENMASK(pgsize_idx, 0);
+> +	if (!pgsizes)
+> +		goto out_set_count;
+> +
+> +	pgsize_idx_next = __ffs(pgsizes);
+> +	pgsize_next = BIT(pgsize_idx_next);
+> +
+> +	/*
+> +	 * There's no point trying a bigger page size unless the virtual
+> +	 * and physical addresses are similarly offset within the larger page.
+> +	 */
+> +	if ((iova ^ paddr) & (pgsize_next - 1))
+> +		goto out_set_count;
+> +
+> +	/* Calculate the offset to the next page size alignment boundary */
+> +	offset = pgsize_next - (addr_merge & (pgsize_next - 1));
+> +
+> +	/*
+> +	 * If size is big enough to accommodate the larger page, reduce
+> +	 * the number of smaller pages.
+> +	 */
+> +	if (offset + pgsize_next <= size)
+> +		size = offset;
+> +
+> +out_set_count:
+> +	*count = size >> pgsize_idx;
+> +	return pgsize;
+> +}
+> +
+>   static int msm_iommu_pagetable_unmap(struct msm_mmu *mmu, u64 iova,
+>   		size_t size)
+>   {
+>   	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
+>   	struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
+> -	size_t unmapped = 0;
+>   
+>   	/* Unmap the block one page at a time */
 
-On a Radxa ROCK3 Model A with a HP 27f 4k monitor
+This comment will need an update.
 
-Tested-by: Michael Riesch <michael.riesch@wolfvision.net>
+>   	while (size) {
+> -		unmapped += ops->unmap(ops, iova, 4096, NULL);
+> -		iova += 4096;
+> -		size -= 4096;
+> +		size_t unmapped, pgsize, count;
+> +
+> +		pgsize = iommu_pgsize(pagetable, iova, iova, size, &count);
+> +
+> +		unmapped = ops->unmap_pages(ops, iova, pgsize, count, NULL);
+> +		if (!unmapped)
+> +			break;
+> +
+> +		iova += unmapped;
+> +		size -= unmapped;
+>   	}
+>   
+>   	iommu_flush_iotlb_all(to_msm_iommu(pagetable->parent)->domain);
+>   
+> -	return (unmapped == size) ? 0 : -EINVAL;
+> +	return (size == 0) ? 0 : -EINVAL;
+>   }
+>   
+>   static int msm_iommu_pagetable_map(struct msm_mmu *mmu, u64 iova,
+> @@ -54,7 +117,6 @@ static int msm_iommu_pagetable_map(struct msm_mmu *mmu, u64 iova,
+>   	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
+>   	struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
+>   	struct scatterlist *sg;
+> -	size_t mapped = 0;
+>   	u64 addr = iova;
+>   	unsigned int i;
+>   
+> @@ -64,15 +126,19 @@ static int msm_iommu_pagetable_map(struct msm_mmu *mmu, u64 iova,
+>   
+>   		/* Map the block one page at a time */
 
-Best regards,
-Michael
+This comment will need an update.
 
-> 
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
+>   		while (size) {
+> -			if (ops->map(ops, addr, phys, 4096, prot, GFP_KERNEL)) {
+> -				msm_iommu_pagetable_unmap(mmu, iova, mapped);
+> +			size_t pgsize, count, mapped;
+> +
+> +			pgsize = iommu_pgsize(pagetable, addr, phys, size, &count);
+> +
+> +			if (ops->map_pages(ops, addr, phys, pgsize, count,
+> +					   prot, GFP_KERNEL, &mapped)) {
+> +				msm_iommu_pagetable_unmap(mmu, iova, addr - iova);
+
+On ->map_pages failure, some pages can still be mapped and would need to be accounted for unmapping,
+so maybe follow the logic in __iommu_map() to account for mapped size instead of addr - iova where
+addr won't be updated in case of failure to map few pages.
+
+Thanks,
+Sai
+
+>   				return -EINVAL;
+>   			}
+>   
+> -			phys += 4096;
+> -			addr += 4096;
+> -			size -= 4096;
+> -			mapped += 4096;
+> +			phys += mapped;
+> +			addr += mapped;
+> +			size -= mapped;
+>   		}
+>   	}
+>   
+> @@ -207,6 +273,7 @@ struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
+>   
+>   	/* Needed later for TLB flush */
+>   	pagetable->parent = parent;
+> +	pagetable->pgsize_bitmap = ttbr0_cfg.pgsize_bitmap;
+>   	pagetable->ttbr = ttbr0_cfg.arm_lpae_s1_cfg.ttbr;
+>   
+>   	/*
