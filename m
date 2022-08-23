@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6047559EF4C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 00:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A12D59EF5A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 00:42:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA1110E408;
-	Tue, 23 Aug 2022 22:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C4810E267;
+	Tue, 23 Aug 2022 22:42:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
- [IPv6:2607:f8b0:4864:20::1130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51CA910E4A7
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 22:35:55 +0000 (UTC)
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-335624d1e26so417421507b3.4
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 15:35:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=25bHUFwznIvscoPSIXI4nrh191O0fscyqMMg8G6anZc=;
- b=iOioT8cTFgWHkt7eq20VkJcPpO3loNEZL5FL4ITGFyK1TgbBH6C7BXECk50vGU7lp+
- 5ehWoKs87ZDr1nLguwhnDGvOmZZ6QUC07h5lThUdb3oL0/sMy279+TuP8d9ZQRdNC7ax
- Vk0748unYyOfffXrLn2a/yZDJ0/DV4BFRT3V2lj46ZM01xBNvt687k4lpXCuOIGC3t+u
- ErqsZUiheyzEuZnNCrdvlEwOgLeWTstbK3UzrO7+2qxLaB7OX2VCizJM9YzZNLed3lH/
- jMy8SDEIHFaZ7+ZGmbz5749dre+RAijgll14LTX9Yc3v9FhOB2+3PBFIEBiRBBcsoWRZ
- VHHw==
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 089CB10E232
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 22:41:54 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id c20so11505250qtw.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 15:41:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=tmxFA8XSvwIm8HlHyhE9XTjlheeI6AT92oC1qgqk/ko=;
+ b=VlUDgifGvKKcVjmHRXcMLhcgWZnHzLOcFO/K5egkPKE7D8qy8DvNxZsvJvcf0WvdAn
+ BIkWLKysb7IDc+BGOBHlLKp6kbHDqnFl6zcV53fvvP6+yyoZHd0Iflpqj2gGGdP96I4W
+ FvqlC66NHcM3dwql7tmJZ4oTJUPZvCz2YjBaS51kWdBWlCUcRA0xoHWQWszOVOYwhdLB
+ 04dM+HB1wZSkngA1Vw+o8hGXsqJHontDTtBKgMO1X6cYQ6cndd7aNDXAbGsDnHvRd9QU
+ nZl2wuFIezwnWeDArX0WyV8KujnQ7gOrUyczVhQQE5LHPju6xewn8cngxXL/wVu8yWfZ
+ mjZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=25bHUFwznIvscoPSIXI4nrh191O0fscyqMMg8G6anZc=;
- b=pbSNzFeBMnoByzPu/4eUU3vdXxPTF4600TgVWFGrFHCO4q5FN/5AZtBydFuSVSueab
- lmRA/OAjcY0tv84z8YWTKBslBFFLQlZbDx+h6dXYzyHD/fErB7tFSG08jlg4Qc/9XE1M
- y5uYc+J2GJMEppum+EG8227uivz5JN+u2fASTmmj4zRsE18VLX4tgv8NTw4jJvG47A7p
- BfQ6tFkze0Tnkd/5qwGnCJ+BLtFLOD/IMzzsUmSb2fI9dVsCgLb0r6z3zQ/NCcpLRQpK
- 0+oF4l3DeazS5MOLGzT+HBTm5gUZtIm+0gh/9Li9C6FZIXzu8L30Jaxopv6tyVTvZDl1
- cxSg==
-X-Gm-Message-State: ACgBeo3W/yCbeuuFOkLmW2ReXC0KceLbLvxOTzsC1VPi8+kGC++vs3eO
- 5AxH6GiCXJE1HVQrFQEa2BwHiqbLZfHNhxg3/NeTBg==
-X-Google-Smtp-Source: AA6agR7k/Eu+yOgSsVLACQMInamKd2rz9n2q18cHOad5hzHvlOWkSQNd6PWnVRZwWEr2SrDPV4SrBlbY51BAj0RV4Yk=
-X-Received: by 2002:a05:6902:91d:b0:672:e583:9ed9 with SMTP id
- bu29-20020a056902091d00b00672e5839ed9mr26100875ybb.225.1661294153853; Tue, 23
- Aug 2022 15:35:53 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=tmxFA8XSvwIm8HlHyhE9XTjlheeI6AT92oC1qgqk/ko=;
+ b=JDPtnhhvIZZdgm/bDYFLSb6VzswWkaLl10mH6FeTwUfuqE1Osu1V1b4wE/VdJBhVsG
+ C1FLFAtFLTy9IxMlUTAXO6ztHugC9LfxzFCC/WYPHxYyT/Mf7sdKOxOdL6qJLG03IBh0
+ KFL2ZQPdk+sI/abae44j2RjuSHEuRWLX7NOcqqhyYTxZtbWJQXtvC4orxq3GDJJxmqJZ
+ 2uvQ3qo9fOX/Uchq5G4xI5Ni1W0GrbA2MXnqsjQoymhvDmos6SkjPl1EEJDCRYuXdant
+ 5On+2qymdZoyn/q5uFN08MLSB7wXsk79wqGRvVNS0XjSIaRSsfevlTIp6SYnCzDqipKa
+ MsGQ==
+X-Gm-Message-State: ACgBeo0SHe8VSgqd25Y6SHLkZaUw4/9DyEplNEJCniROz/kOBxB+XkFh
+ 3KBz9BCaMcYzcMdgvpX3TzHodGU/eQYaAsrtgNa9tA==
+X-Google-Smtp-Source: AA6agR75yA2KbFaZD1uT3K+uARlXtm24+WaheKsxQP2G1OsidZvndZBZPEkYsbXUigc0aLfOA+ZX5GkycvKiJPaAk3k=
+X-Received: by 2002:ac8:5815:0:b0:343:726b:cc2c with SMTP id
+ g21-20020ac85815000000b00343726bcc2cmr21229227qtg.682.1661294513036; Tue, 23
+ Aug 2022 15:41:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220813012801.1115950-1-bas@basnieuwenhuizen.nl>
- <c83f20bd-a753-ddcb-d4f3-fb5348189153@amd.com>
- <CAP+8YyGU1=MRt_ycn4U2npeVdsgLQjfo66jWU4DtODjiAhxQ4w@mail.gmail.com>
- <945ff305-61a8-b3d1-1712-7243d8001d9b@amd.com>
-In-Reply-To: <945ff305-61a8-b3d1-1712-7243d8001d9b@amd.com>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Wed, 24 Aug 2022 00:35:48 +0200
-Message-ID: <CAP+8YyFNxQtWT2WQEcFOKfHp+Zio44gateB6FPGrHAq84pF5aQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] amdgpu: Allow explicitly synchronized submissions.
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <1660759314-28088-1-git-send-email-quic_khsieh@quicinc.com>
+ <f211520a-cb9c-1202-0752-7bb200726ae8@linaro.org>
+ <d4b3c303-fc20-537d-0e69-6e19826b6e59@quicinc.com>
+ <266c0531-344e-5589-2143-02ab1fe9b276@linaro.org>
+ <724d695d-0293-db81-7014-57cb96bd6d4b@quicinc.com>
+ <bb153360-6567-c4d5-dc23-8586549df8c8@linaro.org>
+ <13509c06-cf2b-e37b-d8ec-b5cc5370f566@quicinc.com>
+In-Reply-To: <13509c06-cf2b-e37b-d8ec-b5cc5370f566@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 24 Aug 2022 01:41:41 +0300
+Message-ID: <CAA8EJprzE_U0crAQxu5xvQxadu8jUovEXOWzV2cTc_BQeHjyow@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: add atomic_check to bridge ops
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,534 +69,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ dianders@chromium.org, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, bjorn.andersson@linaro.org, quic_aravindh@quicinc.com,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 23, 2022 at 12:16 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+On Wed, 24 Aug 2022 at 01:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> On 8/22/2022 11:33 AM, Dmitry Baryshkov wrote:
+> > On 22/08/2022 20:32, Abhinav Kumar wrote:
+> >>
+> >>
+> >> On 8/22/2022 9:49 AM, Dmitry Baryshkov wrote:
+> >>> On 22/08/2022 19:38, Abhinav Kumar wrote:
+> >>>> Hi Dmitry
+> >>>>
+> >>>> On 8/22/2022 9:18 AM, Dmitry Baryshkov wrote:
+> >>>>> On 17/08/2022 21:01, Kuogee Hsieh wrote:
+> >>>>>> DRM commit_tails() will disable downstream crtc/encoder/bridge if
+> >>>>>> both disable crtc is required and crtc->active is set before pushing
+> >>>>>> a new frame downstream.
+> >>>>>>
+> >>>>>> There is a rare case that user space display manager issue an extra
+> >>>>>> screen update immediately followed by close DRM device while down
+> >>>>>> stream display interface is disabled. This extra screen update will
+> >>>>>> timeout due to the downstream interface is disabled but will cause
+> >>>>>> crtc->active be set. Hence the followed commit_tails() called by
+> >>>>>> drm_release() will pass the disable downstream crtc/encoder/bridge
+> >>>>>> conditions checking even downstream interface is disabled.
+> >>>>>> This cause the crash to happen at dp_bridge_disable() due to it
+> >>>>>> trying
+> >>>>>> to access the main link register to push the idle pattern out
+> >>>>>> while main
+> >>>>>> link clocks is disabled.
+> >>>>>>
+> >>>>>> This patch adds atomic_check to prevent the extra frame will not
+> >>>>>> be pushed down if display interface is down so that crtc->active
+> >>>>>> will not be set neither. This will fail the conditions checking
+> >>>>>> of disabling down stream crtc/encoder/bridge which prevent
+> >>>>>> drm_release() from calling dp_bridge_disable() so that crash
+> >>>>>> at dp_bridge_disable() prevented.
+> >>>>>
+> >>>>> I must admit I had troubles parsing this description. However if I
+> >>>>> got you right, I think the check that the main link clock is
+> >>>>> running in the dp_bridge_disable() or dp_ctrl_push_idle() would be
+> >>>>> a better fix.
+> >>>>
+> >>>> Originally, thats what was posted
+> >>>> https://patchwork.freedesktop.org/patch/496984/.
+> >>>
+> >>> This patch is also not so correct from my POV. It checks for the hpd
+> >>> status, while in reality it should check for main link clocks being
+> >>> enabled.
+> >>>
+> >>
+> >> We can push another fix to check for the clk state instead of the hpd
+> >> status. But I must say we are again just masking something which the
+> >> fwk should have avoided isnt it?
+> >>
+> >> As per the doc in the include/drm/drm_bridge.h it says,
+> >>
+> >> "*
+> >>   * The bridge can assume that the display pipe (i.e. clocks and timing
+> >>   * signals) feeding it is still running when this callback is called.
+> >>   *"
+> >
+> > Yes, that's what I meant about this chunk begging to go to the core. In
+> > my opinion, if we are talking about the disconnected sinks, it is the
+> > framework who should disallow submitting the frames to the disconnected
+> > sinks.
+> >
+> >>
+> >> By adding an extra layers of protection in the driver, we are just
+> >> avoiding another issue but the commit should not have been issued in
+> >> the first place.
+> >>
+> >> So shouldnt we do both then? That is add protection to check if clock
+> >> is ON and also, reject commits when display is disconnected.
+> >>
+> >>>>
+> >>>> Then it seemed like we were just protecting against an issue in the
+> >>>> framework which was allowing the frames to be pushed even after the
+> >>>> display was disconnected. The DP driver did send out the disconnect
+> >>>> event correctly and as per the logs, this frame came down after that
+> >>>> and the DRM fwk did allow it.
+> >>>>
+> >>>> So after discussing on IRC with Rob, we came up with this approach that
+> >>>> if the display is not connected, then atomic_check should fail. That
+> >>>> way the commit will not happen.
+> >>>>
+> >>>> Just seemed a bit cleaner instead of adding all our protections.
+> >>>
+> >>> The check to fail atomic_check if display is not connected seems out
+> >>> of place. In its current way it begs go to the upper layer,
+> >>> forbidding using disconnected sinks for all the drivers. There is
+> >>> nothing special in the MSM DP driver with respect to the HPD events
+> >>> processing and failing atomic_check() based on that.
+> >>>
+> >>
+> >> Why all the drivers? This is only for MSM DP bridge.
+> >
+> > Yes, we change the MSM DRM driver. But the check is generic enough. I'm
+> > not actually insisting on pushing the check to the core, just trying to
+> > understand the real cause here.
+> >
+> >>
 >
-> Hi Bas,
->
-> I've just pushed an updated drm-exec branch to fdo which should now
-> include the bo_list bug fix.
+> I actually wanted to push this to the core and thats what I had
+> originally asked on IRC because it does seem to be generic enough that
+> it should belong to the core but after discussion with Rob on freedreno,
+> he felt this was a better approach because for some of the legacy
+> connectors like VGA, this need not belong to the DRM core, hence we went
+> with this approach.
 
-Still getting the same thing:
+It might be better to whitelist such connectors (S-VIDEO/composite
+comes to my mind rather than VGA).
 
-[  103.598784] ------------[ cut here ]------------
-[  103.598787] WARNING: CPU: 2 PID: 2505 at
-drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:667
-amdgpu_ttm_tt_get_user_pages+0x15c/0x190 [amdgpu]
-[  103.599016] Modules linked in: uinput snd_seq_dummy snd_hrtimer
-snd_seq snd_seq_device ccm algif_aead cbc des_generic libdes ecb md4
-cmac algif_hash algif_skcipher af_alg bnep intel_ra
-pl_msr snd_soc_acp5x_mach snd_acp5x_i2s snd_acp5x_pcm_dma
-intel_rapl_common rtw88_8822ce rtw88_8822c rtw88_pci edac_mce_amd
-rtw88_core kvm_amd mac80211 kvm btusb btrtl libarc4 btbcm irqby
-pass rapl btintel pcspkr btmtk joydev cfg80211 snd_hda_codec_hdmi
-bluetooth i2c_piix4 snd_soc_nau8821 snd_hda_intel snd_intel_dspcfg
-snd_soc_core snd_intel_sdw_acpi snd_hda_codec snd_pci_
-acp5x snd_hda_core snd_rn_pci_acp3x snd_compress snd_acp_config
-ac97_bus snd_soc_acpi snd_pcm_dmaengine snd_hwdep ecdh_generic
-snd_pci_acp3x cdc_acm mousedev ecc rfkill snd_pcm ina2xx_adc
-kfifo_buf snd_timer snd opt3001 ina2xx industrialio soundcore
-acpi_cpufreq spi_amd mac_hid fuse ip_tables x_tables overlay ext4
-crc16 mbcache jbd2 mmc_block vfat fat usbhid amdgpu drm_tt
-m_helper ttm agpgart drm_exec gpu_sched i2c_algo_bit
-[  103.599064]  drm_display_helper drm_kms_helper syscopyarea
-sysfillrect sysimgblt fb_sys_fops drm serio_raw sdhci_pci atkbd libps2
-cqhci vivaldi_fmap ccp crct10dif_pclmul sdhci i8042 cr
-c32_pclmul xhci_pci hid_multitouch ghash_clmulni_intel aesni_intel
-crypto_simd cryptd wdat_wdt mmc_core cec sp5100_tco rng_core
-xhci_pci_renesas serio video i2c_hid_acpi 8250_dw i2c_hid b
-trfs blake2b_generic libcrc32c crc32c_generic crc32c_intel xor
-raid6_pq dm_mirror dm_region_hash dm_log dm_mod pkcs8_key_parser
-crypto_user
-[  103.599091] CPU: 2 PID: 2505 Comm: ForzaHorizon5.e Not tainted
-5.18.0-1-neptune-00172-g067e00b76d9c #25
-[  103.599093] Hardware name: Valve Jupiter/Jupiter, BIOS F7A0105 03/21/202=
-2
-[  103.599095] RIP: 0010:amdgpu_ttm_tt_get_user_pages+0x15c/0x190 [amdgpu]
-[  103.599232] Code: 66 ed c0 48 c7 c7 60 cb 09 c1 e8 5f 87 c1 cb eb
-9c 48 c7 c6 c5 8e f3 c0 bf 02 00 00 00 e8 8c a4 ee ff 41 be f2 ff ff
-ff eb 8b <0f> 0b eb f4 41 be fd ff ff ff e9 7c ff
-ff ff 48 83 b8 a0 00 00 00
-[  103.599234] RSP: 0018:ffffc195020afb98 EFLAGS: 00010282
-[  103.599235] RAX: ffff9d840b878000 RBX: ffff9d8300b1e1c0 RCX: 00000000000=
-00001
-[  103.599236] RDX: 0000000000000dc0 RSI: ffff9d840b878000 RDI: ffff9d835bd=
-b3000
-[  103.599237] RBP: ffff9d84d2617520 R08: 0000000000001000 R09: ffff9d840b8=
-78000
-[  103.599238] R10: 0000000000000005 R11: 0000000000000000 R12: ffff9d83103=
-0e240
-[  103.599239] R13: 0000000032080000 R14: 0000000000000001 R15: ffff9d8313c=
-30060
-[  103.599240] FS:  000000001c86f640(0000) GS:ffff9d862fe80000(0000)
-knlGS:000000001abf0000
-[  103.599242] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  103.599242] CR2: 00007f0be80210e8 CR3: 000000017fa08000 CR4: 00000000003=
-50ee0
-[  103.599244] Call Trace:
-[  103.599247]  <TASK>
-[  103.599250]  amdgpu_cs_ioctl+0x9cc/0x2080 [amdgpu]
-[  103.599390]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-[  103.599525]  drm_ioctl_kernel+0xc5/0x170 [drm]
-[  103.599547]  drm_ioctl+0x229/0x400 [drm]
-[  103.599563]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-[  103.599700]  amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
-[  103.599832]  __x64_sys_ioctl+0x8c/0xc0
-[  103.599837]  do_syscall_64+0x3a/0x80
-[  103.599841]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[  103.599844] RIP: 0033:0x7f0c9f59b59b
-[  103.599846] Code: ff ff ff 85 c0 79 9b 49 c7 c4 ff ff ff ff 5b 5d
-4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00
-00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a5
-a8 0c 00 f7 d8 64 89 01 48
-[  103.599847] RSP: 002b:000000001c86d498 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[  103.599849] RAX: ffffffffffffffda RBX: 000000001c86d510 RCX: 00007f0c9f5=
-9b59b
-[  103.599850] RDX: 000000001c86d510 RSI: 00000000c0186444 RDI: 00000000000=
-00021
-[  103.599850] RBP: 00000000c0186444 R08: 00007f0c3ad55840 R09: 000000001c8=
-6d4e0
-[  103.599851] R10: 0000000000000000 R11: 0000000000000246 R12: 00007f0c3a1=
-9b200
-[  103.599852] R13: 0000000000000021 R14: 00007f0c3aff8cf0 R15: 000000001c8=
-6d6e0
-[  103.599854]  </TASK>
-[  103.599854] ---[ end trace 0000000000000000 ]---
-[  103.599856] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to
-process the buffer list -14!
-[  103.599995] ------------[ cut here ]------------
-[  103.599995] refcount_t: underflow; use-after-free.
-[  103.600002] WARNING: CPU: 2 PID: 2505 at lib/refcount.c:28
-refcount_warn_saturate+0xa6/0xf0
-[  103.600006] Modules linked in: uinput snd_seq_dummy snd_hrtimer
-snd_seq snd_seq_device ccm algif_aead cbc des_generic libdes ecb md4
-cmac algif_hash algif_skcipher af_alg bnep intel_ra
-pl_msr snd_soc_acp5x_mach snd_acp5x_i2s snd_acp5x_pcm_dma
-intel_rapl_common rtw88_8822ce rtw88_8822c rtw88_pci edac_mce_amd
-rtw88_core kvm_amd mac80211 kvm btusb btrtl libarc4 btbcm irqby
-pass rapl btintel pcspkr btmtk joydev cfg80211 snd_hda_codec_hdmi
-bluetooth i2c_piix4 snd_soc_nau8821 snd_hda_intel snd_intel_dspcfg
-snd_soc_core snd_intel_sdw_acpi snd_hda_codec snd_pci_
-acp5x snd_hda_core snd_rn_pci_acp3x snd_compress snd_acp_config
-ac97_bus snd_soc_acpi snd_pcm_dmaengine snd_hwdep ecdh_generic
-snd_pci_acp3x cdc_acm mousedev ecc rfkill snd_pcm ina2xx_adc
-kfifo_buf snd_timer snd opt3001 ina2xx industrialio soundcore
-acpi_cpufreq spi_amd mac_hid fuse ip_tables x_tables overlay ext4
-crc16 mbcache jbd2 mmc_block vfat fat usbhid amdgpu drm_tt
-m_helper ttm agpgart drm_exec gpu_sched i2c_algo_bit
-[  103.600043]  drm_display_helper drm_kms_helper syscopyarea
-sysfillrect sysimgblt fb_sys_fops drm serio_raw sdhci_pci atkbd libps2
-cqhci vivaldi_fmap ccp crct10dif_pclmul sdhci i8042 cr
-c32_pclmul xhci_pci hid_multitouch ghash_clmulni_intel aesni_intel
-crypto_simd cryptd wdat_wdt mmc_core cec sp5100_tco rng_core
-xhci_pci_renesas serio video i2c_hid_acpi 8250_dw i2c_hid b
-trfs blake2b_generic libcrc32c crc32c_generic crc32c_intel xor
-raid6_pq dm_mirror dm_region_hash dm_log dm_mod pkcs8_key_parser
-crypto_user
-[  103.600062] CPU: 2 PID: 2505 Comm: ForzaHorizon5.e Tainted: G
- W         5.18.0-1-neptune-00172-g067e00b76d9c #25
-[  103.600064] Hardware name: Valve Jupiter/Jupiter, BIOS F7A0105 03/21/202=
-2
-[  103.600065] RIP: 0010:refcount_warn_saturate+0xa6/0xf0
-[  103.600066] Code: 05 2d c4 6d 01 01 e8 90 68 58 00 0f 0b c3 80 3d
-1d c4 6d 01 00 75 95 48 c7 c7 b8 db 3a 8d c6 05 0d c4 6d 01 01 e8 71
-68 58 00 <0f> 0b c3 80 3d fc c3 6d 01 00 0f 85 72
-ff ff ff 48 c7 c7 10 dc 3a
-[  103.600068] RSP: 0018:ffffc195020afba8 EFLAGS: 00010286
-[  103.600069] RAX: 0000000000000000 RBX: ffffc195020afc58 RCX: 00000000000=
-00027
-[  103.600070] RDX: ffff9d862fea0768 RSI: 0000000000000001 RDI: ffff9d862fe=
-a0760
-[  103.600070] RBP: 0000000000000000 R08: 0000000000000000 R09: ffffc195020=
-af9b8
-[  103.600071] R10: 0000000000000003 R11: ffffffff8dac5168 R12: 00000000fff=
-fffff
-[  103.600072] R13: 0000000000000018 R14: 0000000000000001 R15: ffff9d8313c=
-30060
-[  103.600073] FS:  000000001c86f640(0000) GS:ffff9d862fe80000(0000)
-knlGS:000000001abf0000
-[  103.600074] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  103.600075] CR2: 00007f0be80210e8 CR3: 000000017fa08000 CR4: 00000000003=
-50ee0
-[  103.600076] Call Trace:
-[  103.600076]  <TASK>
-[  103.600077]  amdgpu_cs_parser_fini+0x11e/0x160 [amdgpu]
-[  103.600213]  amdgpu_cs_ioctl+0x40a/0x2080 [amdgpu]
-[  103.600350]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-[  103.600485]  drm_ioctl_kernel+0xc5/0x170 [drm]
-[  103.600502]  drm_ioctl+0x229/0x400 [drm]
-[  103.600518]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-[  103.600654]  amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
-[  103.600787]  __x64_sys_ioctl+0x8c/0xc0
-[  103.600788]  do_syscall_64+0x3a/0x80
-[  103.600791]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[  103.600792] RIP: 0033:0x7f0c9f59b59b
-[  103.600793] Code: ff ff ff 85 c0 79 9b 49 c7 c4 ff ff ff ff 5b 5d
-4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00
-00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a5
-a8 0c 00 f7 d8 64 89 01 48
-[  103.600794] RSP: 002b:000000001c86d498 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[  103.600795] RAX: ffffffffffffffda RBX: 000000001c86d510 RCX: 00007f0c9f5=
-9b59b
-[  103.600796] RDX: 000000001c86d510 RSI: 00000000c0186444 RDI: 00000000000=
-00021
-[  103.600797] RBP: 00000000c0186444 R08: 00007f0c3ad55840 R09: 000000001c8=
-6d4e0
-[  103.600798] R10: 0000000000000000 R11: 0000000000000246 R12: 00007f0c3a1=
-9b200
-[  103.600798] R13: 0000000000000021 R14: 00007f0c3aff8cf0 R15: 000000001c8=
-6d6e0
-[  103.600800]  </TASK>
-[  103.600800] ---[ end trace 0000000000000000 ]---
+> >>>>>> SError Interrupt on CPU7, code 0x00000000be000411 -- SError
+> >>>>>> CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
+> >>>>>> Hardware name: Google Lazor (rev3 - 8) (DT)
+> >>>>>> pstate: a04000c9 (NzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> >>>>>> pc : __cmpxchg_case_acq_32+0x14/0x2c
+> >>>>>> lr : do_raw_spin_lock+0xa4/0xdc
+> >>>>>> sp : ffffffc01092b6a0
+> >>>>>> x29: ffffffc01092b6a0 x28: 0000000000000028 x27: 0000000000000038
+> >>>>>> x26: 0000000000000004 x25: ffffffd2973dce48 x24: 0000000000000000
+> >>>>>> x23: 00000000ffffffff x22: 00000000ffffffff x21: ffffffd2978d0008
+> >>>>>> x20: ffffffd2978d0008 x19: ffffff80ff759fc0 x18: 0000000000000000
+> >>>>>> x17: 004800a501260460 x16: 0441043b04600438 x15: 04380000089807d0
+> >>>>>> x14: 07b0089807800780 x13: 0000000000000000 x12: 0000000000000000
+> >>>>>> x11: 0000000000000438 x10: 00000000000007d0 x9 : ffffffd2973e09e4
+> >>>>>> x8 : ffffff8092d53300 x7 : ffffff808902e8b8 x6 : 0000000000000001
+> >>>>>> x5 : ffffff808902e880 x4 : 0000000000000000 x3 : ffffff80ff759fc0
+> >>>>>> x2 : 0000000000000001 x1 : 0000000000000000 x0 : ffffff80ff759fc0
+> >>>>>> Kernel panic - not syncing: Asynchronous SError Interrupt
+> >>>>>> CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
+> >>>>>> Hardware name: Google Lazor (rev3 - 8) (DT)
+> >>>>>> Call trace:
+> >>>>>>   dump_backtrace.part.0+0xbc/0xe4
+> >>>>>>   show_stack+0x24/0x70
+> >>>>>>   dump_stack_lvl+0x68/0x84
+> >>>>>>   dump_stack+0x18/0x34
+> >>>>>>   panic+0x14c/0x32c
+> >>>>>>   nmi_panic+0x58/0x7c
+> >>>>>>   arm64_serror_panic+0x78/0x84
+> >>>>>>   do_serror+0x40/0x64
+> >>>>>>   el1h_64_error_handler+0x30/0x48
+> >>>>>>   el1h_64_error+0x68/0x6c
+> >>>>>>   __cmpxchg_case_acq_32+0x14/0x2c
+> >>>>>>   _raw_spin_lock_irqsave+0x38/0x4c
+> >
+> > You know, after re-reading the trace, I could not help but notice that
+> > the issue seems to be related to completion/timer/spinlock memory
+> > becoming unavailable rather than disabling the main link clock.
+> > See, the SError comes in the spin_lock path, not during register read.
+> >
+> > Thus I think the commit message is a bit misleading.
+> >
+>
+> No, this issue is due to unclocked access. Please check this part of the
+> stack:
 
+Well, if it were for the unlocked access, we would see SError on the
+register access, wouldn't we? However in this case the SError comes
+from the raw spinlock code.
 
+>  >>>>>>   wait_for_completion_timeout+0x2c/0x54
+>  >>>>>>   dp_ctrl_push_idle+0x40/0x88
+>  >>>>>>   dp_bridge_disable+0x24/0x30
+>  >>>>>>   drm_atomic_bridge_chain_disable+0x90/0xbc
+>  >>>>>>   drm_atomic_helper_commit_modeset_disables+0x198/0x444
+>  >>>>>>   msm_atomic_commit_tail+0x1d0/0x374
+>  >>>>>>   commit_tail+0x80/0x108
+>  >>>>>>   drm_atomic_helper_commit+0x118/0x11c
+>  >>>>>>   drm_atomic_commit+0xb4/0xe0
+>  >>>>>>   drm_client_modeset_commit_atomic+0x184/0x224
+>  >>>>>>   drm_client_modeset_commit_locked+0x58/0x160
+>  >>>>>>   drm_client_modeset_commit+0x3c/0x64
 >
-> Can you please test that with Forza? I'm still fighting getting a new
-> kernel on my Steamdeck.
+> > Can we please get a trace checking which calls were actually made for
+> > the dp bridge and if the dp/dp->ctrl memory pointers are correct?
+> >
+> > I do not see the dp_display_disable() being called. Maybe I just missed
+> > the call.
+> >
 >
-> Thanks,
-> Christian.
->
-> Am 22.08.22 um 01:08 schrieb Bas Nieuwenhuizen:
-> > On Thu, Aug 18, 2022 at 3:20 PM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Hi Bas,
-> >>
-> >> I've just pushed the branch drm-exec to my fdo repository:
-> >> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgi=
-tlab.freedesktop.org%2Fckoenig%2Flinux-drm.git&amp;data=3D05%7C01%7Cchristi=
-an.koenig%40amd.com%7Ccc04d790d774485a5cbd08da83ca03f4%7C3dd8961fe4884e608e=
-11a82d994e183d%7C0%7C0%7C637967200920376906%7CUnknown%7CTWFpbGZsb3d8eyJWIjo=
-iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C=
-&amp;sdata=3D8ZaXIdEQZe3oNCQtxoNjuBezB4YmPeDR2cLfXfxraZk%3D&amp;reserved=3D=
-0
-> >>
-> >> This branch contains all the gang submit patches as well as the latest
-> >> drm-exec stuff. VCN3/4 video decoding has some issues on it, but that
-> >> probably shouldn't bother your work.
-> > Hi Christian,
-> >
-> > The drm-exec branch doesn't seem to be capable of running Forza
-> > Horizon 5. First bad commit seems to be
-> >
-> > commit 8bb3e919ce0109512f6631422f3fe52169836261
-> > Author: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Date:   Thu Jul 14 10:23:38 2022 +0200
-> >
-> >     drm/amdgpu: revert "partial revert "remove ctx->lock" v2"
-> >
-> >     This reverts commit 94f4c4965e5513ba624488f4b601d6b385635aec.
-> >
-> >     We found that the bo_list is missing a protection for its list entr=
-ies.
-> >     Since that is fixed now this workaround can be removed again.
-> >
-> >     Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >
-> >
-> > and
-> >
-> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpat=
-chwork.freedesktop.org%2Fpatch%2F497679%2F&amp;data=3D05%7C01%7Cchristian.k=
-oenig%40amd.com%7Ccc04d790d774485a5cbd08da83ca03f4%7C3dd8961fe4884e608e11a8=
-2d994e183d%7C0%7C0%7C637967200920376906%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4=
-wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp=
-;sdata=3D0F7jd61YEApKySKpqIgODHM1x0JB83coaHgjzFeVPoU%3D&amp;reserved=3D0 ("=
-drm/amdgpu: Fix
-> > use-after-free on amdgpu_bo_list mutex")
-> >
-> > seems to fix things at that patch, but I'm not seeing the obvious
-> > rebase over "drm/amdgpu: cleanup and reorder amdgpu_cs.c" yet (and/or
-> > whether further issues were introduced).
-> >
-> >
-> > Error logs:
-> >
-> > [  124.821691] ------------[ cut here ]------------
-> > [  124.821696] WARNING: CPU: 3 PID: 2485 at
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:667
-> > amdgpu_ttm_tt_get_user_pages+0x15c/0x190 [amdgpu]
-> > [  124.821955] Modules linked in: uinput snd_seq_dummy snd_hrtimer
-> > snd_seq snd_seq_device ccm algif_aead cbc des_generic libdes ecb md4
-> > cmac algif_hash algif_skcipher af_alg bnep intel_rapl_msr
-> > intel_rapl_common snd_soc_acp5x_mach snd_acp5x_i2s snd_acp5x_pcm_dma
-> > edac_mce_amd kvm_amd kvm rtw88_8822ce rtw88_8822c rtw88_pci irqbypass
-> > rapl rtw88_core pcspkr joydev mac80211 btusb s
-> > nd_hda_codec_hdmi btrtl libarc4 snd_hda_intel btbcm btintel
-> > snd_intel_dspcfg btmtk snd_pci_acp5x i2c_piix4 snd_soc_nau8821
-> > snd_intel_sdw_acpi snd_rn_pci_acp3x cfg80211 bluetooth snd_soc_core
-> > snd_hda_codec snd_acp_config snd_soc_acpi snd_pci_acp3x ecdh_generic
-> > snd_hda_core cdc_acm mousedev snd_compress ecc rfkill snd_hwdep
-> > ac97_bus snd_pcm_dmaengine ina2xx_adc snd_pcm kfifo_buf
-> > spi_amd snd_timer opt3001 ina2xx snd industrialio soundcore mac_hid
-> > acpi_cpufreq fuse ip_tables x_tables overlay ext4 crc16 mbcache jbd2
-> > mmc_block vfat fat usbhid amdgpu drm_ttm_helper ttm agpgart drm_exec
-> > gpu_sched i2c_algo_bit
-> > [  124.822016]  drm_display_helper drm_kms_helper syscopyarea
-> > sysfillrect sysimgblt fb_sys_fops drm serio_raw atkbd crct10dif_pclmul
-> > libps2 crc32_pclmul vivaldi_fmap sdhci_pci ghash_clmulni_intel i8042
-> > ccp cqhci sdhci aesni_intel hid_multitouch xhci_pci crypto_simd cryptd
-> > wdat_wdt mmc_core cec sp5100_tco rng_core xhci_pci_renesas serio video
-> > i2c_hid_acpi 8250_dw i2c_hid btrfs
-> > blake2b_generic libcrc32c crc32c_generic crc32c_intel xor raid6_pq
-> > dm_mirror dm_region_hash dm_log dm_mod pkcs8_key_parser crypto_user
-> > [  124.822051] CPU: 3 PID: 2485 Comm: ForzaHorizon5.e Not tainted
-> > 5.18.0-1-neptune-00172-g067e00b76d9c #23
-> > [  124.822054] Hardware name: Valve Jupiter/Jupiter, BIOS F7A0105 03/21=
-/2022
-> > [  124.822055] RIP: 0010:amdgpu_ttm_tt_get_user_pages+0x15c/0x190 [amdg=
-pu]
-> > [  124.822262] Code: e1 ef c0 48 c7 c7 10 4a 0c c1 e8 5f f7 3e dd eb
-> > 9c 48 c7 c6 85 0a f6 c0 bf 02 00 00 00 e8 8c 74 e2 ff 41 be f2 ff ff
-> > ff eb 8b <0f> 0b eb f4 41 be fd ff ff ff e9 7c ff ff ff 48 83 b8 a0 00
-> > 00 00
-> > [  124.822264] RSP: 0018:ffffa257827afb98 EFLAGS: 00010282
-> > [  124.822267] RAX: ffff8b82240e6000 RBX: ffff8b8200a31100 RCX: 0000000=
-000000001
-> > [  124.822268] RDX: 0000000000000dc0 RSI: ffff8b82240e6000 RDI: ffff8b8=
-2a4c7e800
-> > [  124.822269] RBP: ffff8b82ee809320 R08: 0000000000001000 R09: ffff8b8=
-2240e6000
-> > [  124.822270] R10: 0000000000000006 R11: 0000000000000000 R12: ffff8b8=
-2ee6dc9c0
-> > [  124.822272] R13: 0000000031880000 R14: 0000000000000001 R15: ffff8b8=
-23face440
-> > [  124.822273] FS:  000000002773f640(0000) GS:ffff8b852fec0000(0000)
-> > knlGS:000000001aba0000
-> > [  124.822275] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [  124.822276] CR2: 0000000003ff4000 CR3: 00000001f1c2e000 CR4: 0000000=
-000350ee0
-> > [  124.822278] Call Trace:
-> > [  124.822281]  <TASK>
-> > [  124.822285]  amdgpu_cs_ioctl+0x9cc/0x2070 [amdgpu]
-> > [  124.822496]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-> > [  124.822701]  drm_ioctl_kernel+0xc5/0x170 [drm]
-> > [  124.822728]  ? futex_wait+0x18f/0x260
-> > [  124.822733]  drm_ioctl+0x229/0x400 [drm]
-> > [  124.822757]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-> > [  124.822963]  amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
-> > [  124.823165]  __x64_sys_ioctl+0x8c/0xc0
-> > [  124.823169]  do_syscall_64+0x3a/0x80
-> > [  124.823174]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > [  124.823177] RIP: 0033:0x7f5525e1059b
-> > [  124.823180] Code: ff ff ff 85 c0 79 9b 49 c7 c4 ff ff ff ff 5b 5d
-> > 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00
-> > 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a5 a8 0c 00 f7 d8 64 89
-> > 01 48
-> > [  124.823182] RSP: 002b:000000002773d548 EFLAGS: 00000246 ORIG_RAX:
-> > 0000000000000010
-> > [  124.823185] RAX: ffffffffffffffda RBX: 000000002773d5d0 RCX: 00007f5=
-525e1059b
-> > [  124.823186] RDX: 000000002773d5d0 RSI: 00000000c0186444 RDI: 0000000=
-000000021
-> > [  124.823187] RBP: 00000000c0186444 R08: 00007f54a4043c80 R09: 0000000=
-02773d590
-> > [  124.823188] R10: 0000000000000000 R11: 0000000000000246 R12: 00007f5=
-4a4043d50
-> > [  124.823190] R13: 0000000000000021 R14: 00007f54a4043cb0 R15: 00007f5=
-4a4043d20
-> > [  124.823192]  </TASK>
-> > [  124.823193] ---[ end trace 0000000000000000 ]---
-> > [  124.823197] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to
-> > process the buffer list -14!
-> > [  124.823410] ------------[ cut here ]------------
-> > [  124.823411] refcount_t: underflow; use-after-free.
-> > [  124.823418] WARNING: CPU: 3 PID: 2485 at lib/refcount.c:28
-> > refcount_warn_saturate+0xa6/0xf0
-> > [  124.823424] Modules linked in: uinput snd_seq_dummy snd_hrtimer
-> > snd_seq snd_seq_device ccm algif_aead cbc des_generic libdes ecb md4
-> > cmac algif_hash algif_skcipher af_alg bnep intel_rapl_msr
-> > intel_rapl_common snd_soc_acp5x_mach snd_acp5x_i2s snd_acp5x_pcm_dma
-> > edac_mce_amd kvm_amd kvm rtw88_8822ce rtw88_8822c rtw88_pci irqbypass
-> > rapl rtw88_core pcspkr joydev mac80211 btusb s
-> > nd_hda_codec_hdmi btrtl libarc4 snd_hda_intel btbcm btintel
-> > snd_intel_dspcfg btmtk snd_pci_acp5x i2c_piix4 snd_soc_nau8821
-> > snd_intel_sdw_acpi snd_rn_pci_acp3x cfg80211 bluetooth snd_soc_core
-> > snd_hda_codec snd_acp_config snd_soc_acpi snd_pci_acp3x ecdh_generic
-> > snd_hda_core cdc_acm mousedev snd_compress ecc rfkill snd_hwdep
-> > ac97_bus snd_pcm_dmaengine ina2xx_adc snd_pcm kfifo_buf
-> > spi_amd snd_timer opt3001 ina2xx snd industrialio soundcore mac_hid
-> > acpi_cpufreq fuse ip_tables x_tables overlay ext4 crc16 mbcache jbd2
-> > mmc_block vfat fat usbhid amdgpu drm_ttm_helper ttm agpgart drm_exec
-> > gpu_sched i2c_algo_bit
-> > [  124.823485]  drm_display_helper drm_kms_helper syscopyarea
-> > sysfillrect sysimgblt fb_sys_fops drm serio_raw atkbd crct10dif_pclmul
-> > libps2 crc32_pclmul vivaldi_fmap sdhci_pci ghash_clmulni_intel i8042
-> > ccp cqhci sdhci aesni_intel hid_multitouch xhci_pci crypto_simd cryptd
-> > wdat_wdt mmc_core cec sp5100_tco rng_core xhci_pci_renesas serio video
-> > i2c_hid_acpi 8250_dw i2c_hid btrfs
-> > blake2b_generic libcrc32c crc32c_generic crc32c_intel xor raid6_pq
-> > dm_mirror dm_region_hash dm_log dm_mod pkcs8_key_parser crypto_user
-> > [  124.823516] CPU: 3 PID: 2485 Comm: ForzaHorizon5.e Tainted: G
-> >   W         5.18.0-1-neptune-00172-g067e00b76d9c #23
-> > [  124.823519] Hardware name: Valve Jupiter/Jupiter, BIOS F7A0105 03/21=
-/2022
-> > [  124.823520] RIP: 0010:refcount_warn_saturate+0xa6/0xf0
-> > [  124.823523] Code: 05 2d c4 6d 01 01 e8 90 68 58 00 0f 0b c3 80 3d
-> > 1d c4 6d 01 00 75 95 48 c7 c7 b8 db ba 9e c6 05 0d c4 6d 01 01 e8 71
-> > 68 58 00 <0f> 0b c3 80 3d fc c3 6d 01 00 0f 85 72 ff ff ff 48 c7 c7 10
-> > dc ba
-> > [  124.823524] RSP: 0018:ffffa257827afba8 EFLAGS: 00010286
-> > [  124.823526] RAX: 0000000000000000 RBX: ffffa257827afc58 RCX: 0000000=
-000000027
-> > [  124.823527] RDX: ffff8b852fee0768 RSI: 0000000000000001 RDI: ffff8b8=
-52fee0760
-> > [  124.823528] RBP: 0000000000000000 R08: 0000000000000000 R09: ffffa25=
-7827af9b8
-> > [  124.823529] R10: 0000000000000003 R11: ffffffff9f2c5168 R12: 0000000=
-0ffffffff
-> > [  124.823530] R13: 0000000000000018 R14: 0000000000000001 R15: ffff8b8=
-23face440
-> > [  124.823531] FS:  000000002773f640(0000) GS:ffff8b852fec0000(0000)
-> > knlGS:000000001aba0000
-> > [  124.823533] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [  124.823534] CR2: 0000000003ff4000 CR3: 00000001f1c2e000 CR4: 0000000=
-000350ee0
-> > [  124.823535] Call Trace:
-> > [  124.823537]  <TASK>
-> > [  124.823537]  amdgpu_cs_parser_fini+0x11e/0x160 [amdgpu]
-> > [  124.823745]  amdgpu_cs_ioctl+0x40a/0x2070 [amdgpu]
-> > [  124.823954]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-> > [  124.824159]  drm_ioctl_kernel+0xc5/0x170 [drm]
-> > [  124.824185]  ? futex_wait+0x18f/0x260
-> > [  124.824189]  drm_ioctl+0x229/0x400 [drm]
-> > [  124.824213]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-> > [  124.824444]  amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
-> > [  124.824651]  __x64_sys_ioctl+0x8c/0xc0
-> > [  124.824655]  do_syscall_64+0x3a/0x80
-> > [  124.824660]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > [  124.824663] RIP: 0033:0x7f5525e1059b
-> > [  124.824665] Code: ff ff ff 85 c0 79 9b 49 c7 c4 ff ff ff ff 5b 5d
-> > 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00
-> > 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a5 a8 0c 00 f7 d8 64 89
-> > 01 48
-> > [  124.824667] RSP: 002b:000000002773d548 EFLAGS: 00000246 ORIG_RAX:
-> > 0000000000000010
-> > [  124.824670] RAX: ffffffffffffffda RBX: 000000002773d5d0 RCX: 00007f5=
-525e1059b
-> > [  124.824671] RDX: 000000002773d5d0 RSI: 00000000c0186444 RDI: 0000000=
-000000021
-> > [  124.824673] RBP: 00000000c0186444 R08: 00007f54a4043c80 R09: 0000000=
-02773d590
-> > [  124.824674] R10: 0000000000000000 R11: 0000000000000246 R12: 00007f5=
-4a4043d50
-> > [  124.824675] R13: 0000000000000021 R14: 00007f54a4043cb0 R15: 00007f5=
-4a4043d20
-> > [  124.824677]  </TASK>
-> > [  124.824678] ---[ end trace 0000000000000000 ]---
-> >
-> >
-> >
-> >> Please rebase this work on top. It should at least make the TTM change=
-s
-> >> unnecessary.
-> >>
-> >> Going to take a closer look into the VM sync changes now.
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >> Am 13.08.22 um 03:27 schrieb Bas Nieuwenhuizen:
-> >>> This adds a context option to use DMA_RESV_USAGE_BOOKKEEP for userspa=
-ce submissions,
-> >>> based on Christians TTM work.
-> >>>
-> >>> Disabling implicit sync is something we've wanted in radv for a while=
- for resolving
-> >>> some corner cases. A more immediate thing that would be solved here i=
-s avoiding a
-> >>> bunch of implicit sync on GPU map/unmap operations as well, which hel=
-ps with stutter
-> >>> around sparse maps/unmaps.
-> >>>
-> >>> This has seen a significant improvement in stutter in Forza Horizon 5=
- and Forza
-> >>> Horizon 4. (As games that had significant issues in sparse binding re=
-lated stutter).
-> >>> I've been able to pass a full vulkan-cts run on navi21 with this.
-> >>>
-> >>> Userspace code for this is available at
-> >>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fg=
-itlab.freedesktop.org%2Fmesa%2Fmesa%2F-%2Fmerge_requests%2F18032&amp;data=
-=3D05%7C01%7Cchristian.koenig%40amd.com%7Ccc04d790d774485a5cbd08da83ca03f4%=
-7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637967200920533109%7CUnknown%7=
-CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn=
-0%3D%7C3000%7C%7C%7C&amp;sdata=3D6vpUn1APkYZKO0xA7ixEpJgG7%2B1gHynGv1iO5BPf=
-Ze4%3D&amp;reserved=3D0 and a branch
-> >>> for the kernel code is available at
-> >>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fg=
-ithub.com%2FBNieuwenhuizen%2Flinux%2Ftree%2Fno-implicit-sync-5.19&amp;data=
-=3D05%7C01%7Cchristian.koenig%40amd.com%7Ccc04d790d774485a5cbd08da83ca03f4%=
-7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637967200920533109%7CUnknown%7=
-CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn=
-0%3D%7C3000%7C%7C%7C&amp;sdata=3DKV0DTPt35fuduIU4qFroTHGmsZ%2FSD9yWk8F6YjzE=
-u4c%3D&amp;reserved=3D0
-> >>>
-> >>> This is a follow-up on RFC series https://nam11.safelinks.protection.=
-outlook.com/?url=3Dhttps%3A%2F%2Fpatchwork.freedesktop.org%2Fseries%2F10457=
-8%2F&amp;data=3D05%7C01%7Cchristian.koenig%40amd.com%7Ccc04d790d774485a5cbd=
-08da83ca03f4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63796720092053310=
-9%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha=
-WwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DymhUQZPFcBhd0qHyt%2BawAwQYx9h=
-UZjviF5T90ks0MEQ%3D&amp;reserved=3D0 .
-> >>>
-> >>> The main changes were:
-> >>>
-> >>> 1) Instead of replacing num_shared with usage, I'm just adding usage,=
- since
-> >>>      num_shared was actually needed.
-> >>> 2) We now agree that DMA_RESV_USAGE_BOOKKEEP is reasonable for this p=
-urpose.
-> >>>
-> >>> Please let me know if I missed anything, especially with the change t=
-o VM updates,
-> >>> as we went back and forth a ton of times on that.
-> >>>
-> >>>
-> >>> Bas Nieuwenhuizen (6):
-> >>>     drm/ttm: Add usage to ttm_validate_buffer.
-> >>>     drm/amdgpu: Add separate mode for syncing DMA_RESV_USAGE_BOOKKEEP=
-.
-> >>>     drm/amdgpu: Allow explicit sync for VM ops.
-> >>>     drm/amdgpu: Refactor amdgpu_vm_get_pd_bo.
-> >>>     drm/amdgpu: Add option to disable implicit sync for a context.
-> >>>     drm/amdgpu: Bump amdgpu driver version.
-> >>>
-> >>>    .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 16 +++++++---
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        | 20 +++++++++---
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c       |  3 +-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c       | 32 +++++++++++++++=
-++--
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h       |  1 +
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  3 +-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       | 12 ++++---
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c       |  3 +-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    | 11 ++++---
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.h    |  3 +-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c      | 11 +++++--
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h      |  4 +--
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  1 +
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c       |  2 +-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  5 ++-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  3 +-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c    |  3 +-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   |  3 +-
-> >>>    drivers/gpu/drm/amd/amdkfd/kfd_svm.c          |  1 +
-> >>>    drivers/gpu/drm/qxl/qxl_release.c             |  1 +
-> >>>    drivers/gpu/drm/radeon/radeon_cs.c            |  2 ++
-> >>>    drivers/gpu/drm/radeon/radeon_gem.c           |  1 +
-> >>>    drivers/gpu/drm/radeon/radeon_vm.c            |  2 ++
-> >>>    drivers/gpu/drm/ttm/ttm_execbuf_util.c        |  3 +-
-> >>>    drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |  7 +++-
-> >>>    drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    |  1 +
-> >>>    include/drm/ttm/ttm_execbuf_util.h            |  2 ++
-> >>>    include/uapi/drm/amdgpu_drm.h                 |  3 ++
-> >>>    28 files changed, 122 insertions(+), 37 deletions(-)
-> >>>
->
+> Yes it is called, please refer to the above part of the stack that I
+> have pasted.
+
+The stacktrace mentions dp_bridge_disable(), not dp_display_disable()
+(which I asked for).
+
+-- 
+With best wishes
+Dmitry
