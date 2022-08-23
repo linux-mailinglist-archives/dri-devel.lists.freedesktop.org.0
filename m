@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F42D59CE1C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 03:54:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 740F359CEA2
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 04:34:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA63DA956E;
-	Tue, 23 Aug 2022 01:54:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53770AA209;
+	Tue, 23 Aug 2022 02:34:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FEBA8209
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 01:53:32 +0000 (UTC)
-X-UUID: a88056a079ec4884a4faffe2002e05b4-20220823
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=g3nooHywkKyg84wSDMeqbnWFzEYEUzOPhPPCJyRH9TQ=; 
- b=O42j0nkGKH8XzkB6CXpksoEkidWE+pQasxKzyJXIeadNpniY4P15D0tXpKX57W5PuhAIUzWfemNDPzthp/3wtkE7ExpaJrTPQfl7Y6HZqJeIW08xIQy+n/0fKEeDNusmEqBxO7ldJo/6HA3Q/bVldEeVy6davAl082l0HUYTPcI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:4a89b6e9-4bdb-4fb2-8653-3744ea918d20, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
- Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18, CLOUDID:d6aa77c9-6b09-4f60-bf82-12f039f5d530,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: a88056a079ec4884a4faffe2002e05b4-20220823
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 626232032; Tue, 23 Aug 2022 09:53:26 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 23 Aug 2022 09:53:24 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 23 Aug 2022 09:53:24 +0800
-Message-ID: <c29ca6a93fb06608d173659aff40e0f6bfed059f.camel@mediatek.com>
-Subject: Re: [PATCH v2,1/2] soc: mediatek: Add mmsys func to adapt to dpi
- output for MT8186
-From: xinlei.lee <xinlei.lee@mediatek.com>
-To: "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>
-Date: Tue, 23 Aug 2022 09:53:37 +0800
-In-Reply-To: <20220822132350.tw73ph6nnvti6h5i@notapiano>
-References: <1659693461-27057-1-git-send-email-xinlei.lee@mediatek.com>
- <1659693461-27057-2-git-send-email-xinlei.lee@mediatek.com>
- <20220819185400.aokd53xln6rmc3xk@notapiano>
- <49fcb1b354199b56279ecf1ccb90d48361de796d.camel@mediatek.com>
- <20220822132350.tw73ph6nnvti6h5i@notapiano>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-Greylist: delayed 1102 seconds by postgrey-1.36 at gabe;
+ Tue, 23 Aug 2022 02:34:10 UTC
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62847AA1D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 02:34:10 +0000 (UTC)
+Received: from canpemm500007.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MBXpk0m6qzGphy;
+ Tue, 23 Aug 2022 10:14:06 +0800 (CST)
+Received: from localhost (10.174.179.215) by canpemm500007.china.huawei.com
+ (7.192.104.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 23 Aug
+ 2022 10:15:44 +0800
+From: YueHaibing <yuehaibing@huawei.com>
+To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>, <jstultz@google.com>, 
+ <kong.kongxinwei@hisilicon.com>, <puck.chen@hisilicon.com>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
+ <javierm@redhat.com>
+Subject: [PATCH -next] drm/hisilicon/hibmc: Fix COMPILE_TEST building without
+ MMU
+Date: Tue, 23 Aug 2022 10:09:20 +0800
+Message-ID: <20220823020920.11008-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MTK: N
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.215]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500007.china.huawei.com (7.192.104.62)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,57 +49,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: YueHaibing <yuehaibing@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-08-22 at 09:23 -0400, Nícolas F. R. A. Prado wrote:
-> On Mon, Aug 22, 2022 at 08:50:45PM +0800, xinlei.lee wrote:
-> [..]
-> > Hi Nícolas:
-> > 
-> > Thanks for your careful review.
-> > I will correct it in the next version:
-> > 1. Modify key nouns in the description;
-> > 2. Modify the label of jitao to Co-developed-by;
-> 
-> To be clear, you shouldn't change jitao's signed-off-by to a co-
-> developed-by,
-> but add a co-developed-by. If you check the link I sent earlier [1],
-> it should
-> be clear that you should have something like
-> 
-> Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> 
-> [1] 
-> https://urldefense.com/v3/__https://www.kernel.org/doc/html/latest/process/submitting-patches.html*when-to-use-acked-by-cc-and-co-developed-by__;Iw!!CTRNKA9wMg0ARbw!1bj8UrTx32ihWiD-1dbKF8XsXg4tod3zHr90aemam8bnL_4jgcA9oa44UiF9ILFN9A$
->  
-> 
-> Thanks,
-> Nícolas
-> 
-> > 3. Macro definition address lowercase problem and function naming.
-> > 
-> > If there are no other questions, I will send out the second edition
-> > in
-> > the near future.
-> > 
-> > Best Regards!
-> > xinlei
-> > 
+WARNING: unmet direct dependencies detected for DRM_TTM
+  Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+  Selected by [y]:
+  - DRM_TTM_HELPER [=y] && HAS_IOMEM [=y] && DRM [=y]
+  - DRM_HISI_HIBMC [=y] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && (ARM64 || COMPILE_TEST [=y])
 
-Hi Nícolas:
+Add missing MMU dependency to fix this.
 
-Yes, maybe my statement is not very accurate, thank you for your
-explanation.
+Fixes: a0f25a6bb319 ("drm/hisilicon/hibmc: Allow to be built if COMPILE_TEST is enabled")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/gpu/drm/hisilicon/hibmc/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best Regards!
-Xinlei
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/Kconfig b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
+index 073adfe438dd..e5ef1b573732 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/Kconfig
++++ b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_HISI_HIBMC
+ 	tristate "DRM Support for Hisilicon Hibmc"
+-	depends on DRM && PCI && (ARM64 || COMPILE_TEST)
++	depends on DRM && PCI && (ARM64 || COMPILE_TEST) && MMU
+ 	select DRM_KMS_HELPER
+ 	select DRM_VRAM_HELPER
+ 	select DRM_TTM
+-- 
+2.17.1
 
