@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEA559F454
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 09:30:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8002359F448
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 09:29:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 634AB11291B;
-	Wed, 24 Aug 2022 07:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C115C112045;
+	Wed, 24 Aug 2022 07:28:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4831710ECB6
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 11:04:26 +0000 (UTC)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
- [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 888C92B3;
- Tue, 23 Aug 2022 13:04:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661252664;
- bh=xJ3Fu17rpjZxCTLIeAz6z/zPrh/wUOZvmL04gRfUyQ0=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=f6Pi7Z7Mexm/UazkHQfjuHZCva0TIQd99F7RvV2NxcBVrmxTDNELznPkajjFDfrTz
- WoGLICYC9XnkVN0UtfXOMfCrcPpQ7Dtk05aIMJV1DMmFiPez4ZHYp5TFsd8ZdB4s2f
- 3Riq1NNtOvIzOYQ4uXTmWTHL4Gj8e6mPMvPt9YRA=
-Message-ID: <784e177f-f8fe-0a80-41fa-b9b3019ce16c@ideasonboard.com>
-Date: Tue, 23 Aug 2022 14:04:21 +0300
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E92310FFE0;
+ Tue, 23 Aug 2022 11:51:20 +0000 (UTC)
+X-QQ-mid: bizesmtp77t1661255468tk4a19c0
+Received: from localhost.localdomain ( [182.148.14.124])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 23 Aug 2022 19:51:06 +0800 (CST)
+X-QQ-SSF: 01000000002000C0D000B00A0000000
+X-QQ-FEAT: DQ0OCu3gog2DpWggEOov9LWZw/zsVocqtlNvD3/KPuL43CWfdojDzP43r+azY
+ 659Ez1TAChQGnyVD++OW24EVOzEWGIJp6tASNFv8EEEKeUHttUShZ2mSUukTsoHgaG+8AZp
+ Cjf9KmdwVlHszv++e1tND9fg0/RQwXpw2ij0jcMbMLMK59EuC8Do82B1GxYCJkDUCE1k8C9
+ AxfTDnsPYpAXayeFVcCcClgmkqjZ8d40Jt8qRJ1QDtlcpMwtlayWkuJRhJArjo9UNP41llW
+ MsSFTTiM8o1v/aRUZLDZVFTik44kEOScVNswQMdODH6agwdPZ5KyTVD8RHEYliHBsqIlFw2
+ z38dkGbdjWtXW8VCGo05O2ldU3YFVOgVt9W97gdz1HNS1R4NHA=
+X-QQ-GoodBg: 0
+From: Jilin Yuan <yuanjilin@cdjrlc.com>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] disp/dpu1: fix repeated words in comments
+Date: Tue, 23 Aug 2022 19:51:00 +0800
+Message-Id: <20220823115100.44060-1-yuanjilin@cdjrlc.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 4/5] drm: rcar-du: fix DSI enable & disable sequence
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-References: <20220822143401.135081-1-tomi.valkeinen@ideasonboard.com>
- <20220822143401.135081-5-tomi.valkeinen@ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20220822143401.135081-5-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
 X-Mailman-Approved-At: Wed, 24 Aug 2022 07:28:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,31 +48,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-msm@vger.kernel.org, Jilin Yuan <yuanjilin@cdjrlc.com>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/08/2022 17:34, Tomi Valkeinen wrote:
+ Delete the redundant word 'is'.
 
-> +struct drm_atomic_state;
-> +struct drm_bridge;
-> +
-> +#if IS_ENABLED(CONFIG_DRM_RCAR_MIPI_DSI)
-> +void rcar_mipi_dsi_pclk_enable(struct drm_bridge *bridge,
-> +			       struct drm_atomic_state *state);
-> +void rcar_mipi_dsi_pclk_disable(struct drm_bridge *bridge);
-> +#else
-> +static inline void rcar_mipi_dsi_pclk_enable(struct drm_bridge *bridge,
-> +					     struct drm_atomic_state *state)
-> +{
-> +}
-> +
-> +void rcar_mipi_dsi_pclk_disable(struct drm_bridge *bridge)
-> +{
-> +}
+Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This one is missing static inline.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index bce47647d891..59ca7d70a652 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1169,7 +1169,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 
+ 	/*
+ 	 * max crtc width is equal to the max mixer width * 2 and max height is
+-	 * is 4K
++	 * 4K
+ 	 */
+ 	dev->mode_config.max_width =
+ 			dpu_kms->catalog->caps->max_mixer_width * 2;
+-- 
+2.36.1
 
-Laurent, do you want me to re-send the series, or do you already have 
-this applied to your branch?
-
-  Tomi
