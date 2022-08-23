@@ -1,53 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0762B5A02C9
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:32:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E9E5A02CA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:32:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 018FE8BF25;
-	Wed, 24 Aug 2022 20:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 667B6A1A72;
+	Wed, 24 Aug 2022 20:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D717511A6B5;
- Tue, 23 Aug 2022 11:31:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661254265; x=1692790265;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=q+RysrBb1ykLU47KP6NsqGGk4VJcDn3GVM5qaCdIaVA=;
- b=DyA7ZkMNo5iUyy8zLjTAzwhCCDvQFyL9F3IAsjFqW4HnmfjnT3kGabIQ
- jrmnJzEroNNawoNqONTmuRCumzb9eRmV+aO7Y5snTKb86yEEmKeILzhER
- VYdFK6Uysh/eIj2TtZWeSSMbO3BRWe30cGlEb8VqXX0H9FP7nOnJF/UoQ
- Hx52Q2IxwMacYe1d8GMVrQi8RsVryOSYTmRqVN23DwCOJQ58tEwIE3lQj
- JDWWOu5ybrvzdC2dyNMIFXzSM32J28pqaQQDjWW1XwzIK3uwW7ZK5ewkF
- PRbF73495zorD2joiqC6CKbpNUoCVGFo8j/UC+qyhgkBee1vRWt9aSHHz A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="273415877"
-X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; d="scan'208";a="273415877"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2022 04:31:05 -0700
-X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; d="scan'208";a="669990932"
-Received: from fjohn-mobl.ger.corp.intel.com (HELO
- jhogande-mobl1.ger.corp.intel.com) ([10.249.42.156])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2022 04:31:03 -0700
-From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/tests: Set also mock plane src_x, src_y,
- src_w and src_h
-Date: Tue, 23 Aug 2022 14:29:20 +0300
-Message-Id: <20220823112920.352563-5-jouni.hogander@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220823112920.352563-1-jouni.hogander@intel.com>
-References: <20220823112920.352563-1-jouni.hogander@intel.com>
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 254A814A022
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 12:16:00 +0000 (UTC)
+X-QQ-mid: bizesmtp83t1661256953tey1azri
+Received: from localhost.localdomain ( [182.148.14.124])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 23 Aug 2022 20:15:51 +0800 (CST)
+X-QQ-SSF: 01000000002000C0D000B00A0000000
+X-QQ-FEAT: XBN7tc9DADKOu7nqgEn/xfy1ddb7BNa8BsdiV45GuuyAjUHAfmb3VhwZRoVY6
+ PGj/QHiiaJX0zblpPzgPPoVCIfjPDCuT5+5SyPVeqczjxvxlvSg7mmVk8EVLuiIxeaSkQIX
+ YtU89wfeK4/D/9jwOWgNA9UZFukNGpJIWb5tx962ANkF+0exmusw8ZfvG57TdRh+Uz4J3JZ
+ Hxs8JfKCkzlAUvP1pRDQwSHgw5QtXCRR1xh1sUmECJVlevMdaxnhURSdJvT8YucasJHAGhI
+ J+Ix95SaLzIoAeDPUzZJa/zUKRlCFCfyVqeTbY7u/6av/zCE/fmWye68vapIASTi1THtjgk
+ DyGt7NHNAujs64dxBzOYY1xvXwkgrk6ablIRkUj7FfJ2wGc5iail7bttd2OulRhikMMhFed
+X-QQ-GoodBg: 0
+From: Jilin Yuan <yuanjilin@cdjrlc.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] gpu/drm: fix repeated words in comments
+Date: Tue, 23 Aug 2022 20:15:44 +0800
+Message-Id: <20220823121544.9082-1-yuanjilin@cdjrlc.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
+X-Mailman-Approved-At: Wed, 24 Aug 2022 07:28:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,35 +48,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
+Cc: Jilin Yuan <yuanjilin@cdjrlc.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We need to set also src_x, src_y, src_w and src_h for the mock plane.
-After fix for drm_atomic_helper_damage_iter_init we are using these
-when iterating damage_clips.
+ Delete the redundant word 'old'.
+ Delete the redundant word 'new'.
 
-Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
+Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/gpu/drm/tests/drm_damage_helper_test.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/drm_context.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_damage_helper_test.c b/drivers/gpu/drm/tests/drm_damage_helper_test.c
-index bf250bd08d7e..c608ae06f0e3 100644
---- a/drivers/gpu/drm/tests/drm_damage_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_damage_helper_test.c
-@@ -59,6 +59,11 @@ static int drm_damage_helper_init(struct kunit *test)
- static void set_plane_src(struct drm_plane_state *state, int x1, int y1, int x2,
- 			  int y2)
- {
-+	state->src_x = x1;
-+	state->src_y = y1;
-+	state->src_w = x2 - x1;
-+	state->src_h = y2 - y1;
-+
- 	state->src.x1 = x1;
- 	state->src.y1 = y1;
- 	state->src.x2 = x2;
+diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_context.c
+index c6e6a3e7219a..2d871159162b 100644
+--- a/drivers/gpu/drm/drm_context.c
++++ b/drivers/gpu/drm/drm_context.c
+@@ -267,8 +267,8 @@ int drm_legacy_setsareactx(struct drm_device *dev, void *data,
+  * Switch context.
+  *
+  * \param dev DRM device.
+- * \param old old context handle.
+- * \param new new context handle.
++ * \param old context handle.
++ * \param new context handle.
+  * \return zero on success or a negative number on failure.
+  *
+  * Attempt to set drm_device::context_flag.
+@@ -294,7 +294,7 @@ static int drm_context_switch(struct drm_device * dev, int old, int new)
+  * Complete context switch.
+  *
+  * \param dev DRM device.
+- * \param new new context handle.
++ * \param new context handle.
+  * \return zero on success or a negative number on failure.
+  *
+  * Updates drm_device::last_context and drm_device::last_switch. Verifies the
 -- 
-2.34.1
+2.36.1
 
