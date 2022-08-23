@@ -2,70 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9958559E55C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 16:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BD359E574
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 16:57:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D1A10EAE2;
-	Tue, 23 Aug 2022 14:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A93A10E17E;
+	Tue, 23 Aug 2022 14:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B64810F610
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 14:50:41 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id u6so13297971eda.12
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 07:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=5HbW8uko2vZ7AfwOU8eshl0aSQHKvNNaKtmoLv6rUEM=;
- b=JVJ/J+80rmibqknLI2dl4D/IfJ9EQwbBZSfvxG712BBjzT3yS+x3AVpptqWtAIaoP5
- 6AoLaaLRByrmJMtY636D5RKtuqEryU2Ox4VkD9HvYVOmuivp45RYryYXmKDqEJApQVWi
- nDj+k2TQWI9jk0P895iLQrG5xjpJylgYK15ms=
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E436E10E758;
+ Tue, 23 Aug 2022 14:57:33 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ h9-20020a9d5549000000b0063727299bb4so9955549oti.9; 
+ Tue, 23 Aug 2022 07:57:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=5HbW8uko2vZ7AfwOU8eshl0aSQHKvNNaKtmoLv6rUEM=;
- b=qWobb+45r1dFFTJUFogIO2mEq5IEOnm8xr/tMf67NMoQ4g37ddLBEYgx4zNKZ6BRjN
- QLsc98k2Td5kkp+0rnsF++43HKUXfKVo9W5k+qDlvQsz1EZk+dZpxwdS3CmcVuI0qnFY
- q6FJ2sYxS0T5jnmFFny5rro0G8831gax09eGZZjDW5S+jiE/S+mqfX1K+H4MYWt1Lni9
- jOQbSDQ6RLHjhBvVYjoZS7mZe6lxiC5RFgCGQMR1CpvbBnGS0LQuQB2Dfyexz0BtV1+T
- EMF4fxY3AG2T+AXXFFCSt8UNqsxd+a/Mdnu8vD+E6DNpJzSicCdSMFtXrmU6xGSMWz4Q
- gc3Q==
-X-Gm-Message-State: ACgBeo32UOFAZ3maGhh9nupJtPBBaobQ2ln87159UDZQW1LHDb1wWA6T
- h91VQk2TPVB8otNsr6hYTHnOCE6yT9P+P1TKAek=
-X-Google-Smtp-Source: AA6agR68jhzlQX9pxuyzP6/C9JXED3Dn7fkGI39bNQM8Fs0dT76uUfwsiiGTkoRLeHQO+B1r/+B/qQ==
-X-Received: by 2002:a05:6402:3886:b0:446:1439:5385 with SMTP id
- fd6-20020a056402388600b0044614395385mr4118557edb.113.1661266239440; 
- Tue, 23 Aug 2022 07:50:39 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com.
- [209.85.221.41]) by smtp.gmail.com with ESMTPSA id
- h13-20020a0564020e8d00b00440ced0e117sm1535721eda.58.2022.08.23.07.50.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 07:50:37 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id n7so17305906wrv.4
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 07:50:37 -0700 (PDT)
-X-Received: by 2002:a5d:6881:0:b0:225:28cb:332f with SMTP id
- h1-20020a5d6881000000b0022528cb332fmr13686062wru.405.1661266236928; Tue, 23
- Aug 2022 07:50:36 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=X3oSNHfhYN1D8nj/Tus+6OMR/7Xdc3qc/TG8fQDrSaM=;
+ b=YAboZEvnoKzkqkH6ZI8DkxYWPSTI0BUxWE2Xo4LBCQHDIN3iwpcQzNdDs+G1y4zqLl
+ HYKjdibh/7qDPlw5apLdW3mywlAHTz0GHiz6vxCKlZ62Sv8V6S/xcsKP7weYLsKqtcZt
+ m1IBLPa1Ib5EmAyC1kxQQ8xdAe2ksZdmvGP0KhRcn+MZ2HnzhBOcxBAsPDQWou/caTiB
+ tSuf9owfjZMpG2qBF/bAxaBejEUiB/NNhmvis7kJ0VX/Ue6CJWLMRPSHsyE2cJ+zuPG2
+ o16rMIC4pyL3nSS19yz01228AjGNbkt84ZnKkmaWeeYic5vsymE6Jt5TFeV3r/nOSyaF
+ FKfQ==
+X-Gm-Message-State: ACgBeo2HLDxJRt0wuWTk3BopVSzEkwO02KY1S8Yy8z/+LQBhfVvYUN5L
+ eUqndF6Joxq3PDqllyUERg==
+X-Google-Smtp-Source: AA6agR7DQBou8qC5N4MzG6OFDfSyxvUBlmCTQHSauVZ73UWGC8xCB14yWHMhag68xgrM7MZHRX63/g==
+X-Received: by 2002:a05:6830:6999:b0:61d:26f8:94c1 with SMTP id
+ cy25-20020a056830699900b0061d26f894c1mr9511714otb.278.1661266653059; 
+ Tue, 23 Aug 2022 07:57:33 -0700 (PDT)
+Received: from xps15.. (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+ by smtp.googlemail.com with ESMTPSA id
+ t1-20020a056870600100b0011c65559b04sm3840637oaa.34.2022.08.23.07.57.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Aug 2022 07:57:32 -0700 (PDT)
+From: Rob Herring <robh@kernel.org>
+To: "James (Qian) Wang" <james.qian.wang@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Andre Przywara <andre.przywara@arm.com>
+Subject: [PATCH] dt-bindings: display: Add missing
+ (unevaluated|additional)Properties on child nodes
+Date: Tue, 23 Aug 2022 09:56:42 -0500
+Message-Id: <20220823145649.3118479-11-robh@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220726173824.1166873-1-dianders@chromium.org>
- <20220726103631.v2.4.Ie85f68215ada39f502a96dcb8a1f3ad977e3f68a@changeid>
- <CAMSo37XsawRxTnJriLUAwJAj0+ZzpACtMiR_3V7H1H9WXg3T_Q@mail.gmail.com>
- <CAD=FV=V5c0bCOCBvdnqVJ6Sa1XKeg+d7kTEL2Okh4GAL66MGiw@mail.gmail.com>
- <CAMSo37Uve4qrAA81zrO9eOGc4y7vjg-OZ9L7m9xWM7UkQ6PzmQ@mail.gmail.com>
- <CAMSo37U1uxUFkn4Jda5E+nDiz0wp8_ERbNa9BUgWttZ6dEssAg@mail.gmail.com>
-In-Reply-To: <CAMSo37U1uxUFkn4Jda5E+nDiz0wp8_ERbNa9BUgWttZ6dEssAg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 23 Aug 2022 07:50:23 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WNNAYtdoocp_ShyNBOBmqSSr79=x_2UKq+yfA+HiOo9w@mail.gmail.com>
-Message-ID: <CAD=FV=WNNAYtdoocp_ShyNBOBmqSSr79=x_2UKq+yfA+HiOo9w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] regulator: core: Allow specifying an initial load
- w/ the bulk API
-To: Yongqin Liu <yongqin.liu@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,57 +75,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Steve Muckle <smuckle@google.com>,
- Alistair Delva <alistair.delva@linaro.org>, Mark Brown <broonie@kernel.org>,
- John Stultz <jstultz@google.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
- Todd Kjos <tkjos@google.com>
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Liviu Dudau <Liviu.Dudau@arm.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzk@kernel.org>, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+In order to ensure only documented properties are present, node schemas
+must have unevaluatedProperties or additionalProperties set to false
+(typically).
 
-On Mon, Aug 22, 2022 at 11:23 PM Yongqin Liu <yongqin.liu@linaro.org> wrote:
->
-> Hi, Douglas
->
-> Just an update on the fix you pointed out previously here:
-> > > [1] https://lore.kernel.org/r/20220809142738.1.I91625242f137c707bb345c51c80c5ecee02eeff3@changeid
->
-> With it I could boot the hikey960 build to the home screen if it does
-> not use the GKI kernel.
-> but the problem will be reproduced if it uses the GKI kernel.
->
-> And if this change is reverted, then it could boot with the GKI kernel as well.
->
-> I am not sure what's the reason there, but there seems to be some
-> difference with the fix above and the workaround of revert.
-> Not sure if you have any idea about that.
->
-> Regarding the GKI kernel(Android Generic Kernel Image)[2], it's built
-> from the android-mainline tree(f51334eac4de) without any workaround.
-> (Neither the revert, nor the fix applied), and the regulator modules
-> used for the hikey960 build are hi6421v530-regulator.ko and
-> hi655x-regulator.ko
->
-> I am still not sure if it would work with the GKI kernel that has the
-> fix that you pointed out in. the case that both the GKI kernel and
-> vendor tree have the fix.
-> Will update here when I have some results.
->
-> [2]: https://source.android.com/docs/core/architecture/kernel/generic-kernel-image?hl=en
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/display/arm,komeda.yaml        | 1 +
+ Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
+ Documentation/devicetree/bindings/display/msm/gpu.yaml           | 1 +
+ .../bindings/display/samsung/samsung,exynos7-decon.yaml          | 1 +
+ .../devicetree/bindings/display/samsung/samsung,fimd.yaml        | 1 +
+ 5 files changed, 5 insertions(+)
 
-That's not too surprising. The broken patch is in the core kernel so
-you need the fix in the core kernel. I think that means you'll have to
-wait until `android-mainline` gets the fix. I don't work on Android,
-so if there's some other route to get an expedited fix into
-android-mainline I'm not aware of it.
+diff --git a/Documentation/devicetree/bindings/display/arm,komeda.yaml b/Documentation/devicetree/bindings/display/arm,komeda.yaml
+index 9f4aade97f10..3ad3eef89ca8 100644
+--- a/Documentation/devicetree/bindings/display/arm,komeda.yaml
++++ b/Documentation/devicetree/bindings/display/arm,komeda.yaml
+@@ -58,6 +58,7 @@ properties:
+ patternProperties:
+   '^pipeline@[01]$':
+     type: object
++    additionalProperties: false
+     description:
+       clocks
+ 
+diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+index 3a8614e0f627..84aafcbf0919 100644
+--- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+@@ -51,6 +51,7 @@ properties:
+     properties:
+       port@0:
+         $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description: |
+           For LVDS encoders, port 0 is the parallel input
+           For LVDS decoders, port 0 is the LVDS input
+diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+index 3397bc31d087..0179c816fa6d 100644
+--- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+@@ -81,6 +81,7 @@ properties:
+ 
+   zap-shader:
+     type: object
++    additionalProperties: false
+     description: |
+       For a5xx and a6xx devices this node contains a memory-region that
+       points to reserved memory to store the zap shader that can be used to
+diff --git a/Documentation/devicetree/bindings/display/samsung/samsung,exynos7-decon.yaml b/Documentation/devicetree/bindings/display/samsung/samsung,exynos7-decon.yaml
+index 969bd8c563a5..dec1c9058876 100644
+--- a/Documentation/devicetree/bindings/display/samsung/samsung,exynos7-decon.yaml
++++ b/Documentation/devicetree/bindings/display/samsung/samsung,exynos7-decon.yaml
+@@ -37,6 +37,7 @@ properties:
+ 
+   i80-if-timings:
+     type: object
++    additionalProperties: false
+     description: timing configuration for lcd i80 interface support
+     properties:
+       cs-setup:
+diff --git a/Documentation/devicetree/bindings/display/samsung/samsung,fimd.yaml b/Documentation/devicetree/bindings/display/samsung/samsung,fimd.yaml
+index 5d5cc220f78a..7593938601bb 100644
+--- a/Documentation/devicetree/bindings/display/samsung/samsung,fimd.yaml
++++ b/Documentation/devicetree/bindings/display/samsung/samsung,fimd.yaml
+@@ -40,6 +40,7 @@ properties:
+ 
+   i80-if-timings:
+     type: object
++    additionalProperties: false
+     description: |
+       Timing configuration for lcd i80 interface support.
+       The parameters are defined as::
+-- 
+2.34.1
 
--Doug
-
--Doug
