@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF9D59F441
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 09:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF1B59F43F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 09:29:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D33910EDB3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACAA810F6FF;
 	Wed, 24 Aug 2022 07:28:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F63D10E2DA;
- Tue, 23 Aug 2022 11:59:52 +0000 (UTC)
-X-QQ-mid: bizesmtp83t1661255657thh0jeh9
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A10D10E2DA;
+ Tue, 23 Aug 2022 11:57:11 +0000 (UTC)
+X-QQ-mid: bizesmtp67t1661255821tgysc78a
 Received: from localhost.localdomain ( [182.148.14.124])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 23 Aug 2022 19:54:15 +0800 (CST)
+ id ; Tue, 23 Aug 2022 19:57:00 +0800 (CST)
 X-QQ-SSF: 01000000002000C0D000B00A0000000
-X-QQ-FEAT: QityeSR92A2vaqJieZ/C2jnDkFbth8pjx3vQqtP3jMyy0sZWScZTMt10dIAvc
- coxdEzrmw4eC0mba6f9Lyze/fe7WzGcnv9+djNypt7nBnhYE2gAfCzvFj2qEOKmMgr47gH0
- VT3ZJPyrAvJ4IxuF4FwLuzG5l7sMPVeSjQRa12mzDewrUg9tnV6ijeQKaa3VrYx9dMiG9ai
- cRbqb745UVlw7yt5SBOhvTK2sQDL4Ot9mJ3SqHWOZUbpTzUm3rTxpO/85/2q+g7WcfWAGWd
- bAPk+xNZ6YN9O7fPNiKrCp8np5rxQFv0SorgMJnj4hgcfQzyfkEU/wuc1jTjzemU2uQTnfB
- uzk+bcOWk6htSdSKrzDeTI4eqKvcqeiouWuTMeZXVeEZBW/Hav3/c1RFlDogg==
+X-QQ-FEAT: ElntjVByhgVQv4+GOszWIo/B50C+UxqZL1+AmKuizmDK1uH7z+g2iiryx0hmA
+ 1G1WEJ0FlHyuGSgfekId81w8IBsTH6wo69LieT81SqIGNNViyOkOyK5t9kAOamiHOmn2ygY
+ 7fWy2UyDXHCroky5EP/pOeCQ0RxbKWLoXWssXWY4Clvy+xXfhX4qB3yHNrGuH7KBE+eSvYU
+ 3n8KuwB5FRrCIGf9QJR+8DzVNDUSVQmhdTzIojoeZULgcuiJ7F9CjRNOUaRx4i+dCAf7cXT
+ L7aSWqCYEp/+nTWuD5qpHT/2GVZ/VEqiYycduTsEAx6wFQdRoaOiUKIylh3TTjSx/IDu09J
+ YGxTfhfRTACWyMUA2+b8uK9/6sVn2IcftTifnC9d7xGhLud3L7INJeNqISxqQzRpj+rr8r7
 X-QQ-GoodBg: 0
 From: Jilin Yuan <yuanjilin@cdjrlc.com>
 To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
  dmitry.baryshkov@linaro.org, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/msm: fix repeated words in comments
-Date: Tue, 23 Aug 2022 19:54:09 +0800
-Message-Id: <20220823115409.46653-1-yuanjilin@cdjrlc.com>
+Subject: [PATCH] msm/adreno: fix repeated words in comments
+Date: Tue, 23 Aug 2022 19:56:54 +0800
+Message-Id: <20220823115654.58725-1-yuanjilin@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,27 +54,55 @@ Cc: linux-arm-msm@vger.kernel.org, Jilin Yuan <yuanjilin@cdjrlc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- Delete the redundant word 'one'.
+ Delete the redundant word 'power'.
+ Delete the redundant word 'in'.
+ Delete the redundant word 'for'.
 
 Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/gpu/drm/msm/msm_gem.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index c75d3b879a53..e300c70e8904 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -118,7 +118,7 @@ struct msm_gem_object {
- 	 * An object is either:
- 	 *  inactive - on priv->inactive_dontneed or priv->inactive_willneed
- 	 *     (depending on purgeability status)
--	 *  active   - on one one of the gpu's active_list..  well, at
-+	 *  active   - on one of the gpu's active_list..  well, at
- 	 *     least for now we don't have (I don't think) hw sync between
- 	 *     2d and 3d one devices which have both, meaning we need to
- 	 *     block on submit if a bo is already on other ring
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 9f76f5b15759..32ecb783c3c1 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -352,7 +352,7 @@ void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
+ 	gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET, 1 << bit);
+ }
+ 
+-/* Enable CPU control of SPTP power power collapse */
++/* Enable CPU control of SPTP power collapse */
+ static int a6xx_sptprac_enable(struct a6xx_gmu *gmu)
+ {
+ 	int ret;
+@@ -374,7 +374,7 @@ static int a6xx_sptprac_enable(struct a6xx_gmu *gmu)
+ 	return 0;
+ }
+ 
+-/* Disable CPU control of SPTP power power collapse */
++/* Disable CPU control of SPTP power collapse */
+ static void a6xx_sptprac_disable(struct a6xx_gmu *gmu)
+ {
+ 	u32 val;
+@@ -1277,7 +1277,7 @@ static int a6xx_gmu_rpmh_arc_votes_init(struct device *dev, u32 *votes,
+ 		}
+ 
+ 		/*
+-		 * Look for a level in in the secondary list that matches. If
++		 * Look for a level in the secondary list that matches. If
+ 		 * nothing fits, use the maximum non zero vote
+ 		 */
+ 
+@@ -1559,7 +1559,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 			goto err_memory;
+ 	}
+ 
+-	/* Allocate memory for for the HFI queues */
++	/* Allocate memory for the HFI queues */
+ 	ret = a6xx_gmu_memory_alloc(gmu, &gmu->hfi, SZ_16K, 0, "hfi");
+ 	if (ret)
+ 		goto err_memory;
 -- 
 2.36.1
-
 
