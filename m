@@ -1,41 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D7059DAD3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 13:06:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F306159DAD5
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 13:07:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 381D610F2C4;
-	Tue, 23 Aug 2022 11:06:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62DB310F811;
+	Tue, 23 Aug 2022 11:07:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76DA210F811
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 11:05:54 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6E276BB;
- Tue, 23 Aug 2022 13:05:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661252753;
- bh=/1/RPuDMUTI2aRUkYPCd2MT/zImNosmfadKA2p7kGBM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=myf2nve9iuDuo65PdUZJrWH43qq72+Jvjw1ARU0fL2LNNmiqHBVe6sRwF0yvb+J6J
- zNMZT/P/MagyIx99KajFIw7oRjjubOwXx3Gu7MfPC/dukdRP0lIVn6w4MiSKq4I4m/
- TAU6ER5X7xWYMrPv44HGV/9/M2GAqFd4vaGQfruY=
-Date: Tue, 23 Aug 2022 14:05:48 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v3 4/5] drm: rcar-du: fix DSI enable & disable sequence
-Message-ID: <YwS0jB7JYaieg1bK@pendragon.ideasonboard.com>
-References: <20220822143401.135081-1-tomi.valkeinen@ideasonboard.com>
- <20220822143401.135081-5-tomi.valkeinen@ideasonboard.com>
- <784e177f-f8fe-0a80-41fa-b9b3019ce16c@ideasonboard.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1633B10F811;
+ Tue, 23 Aug 2022 11:07:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661252833; x=1692788833;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=65rCfG6xMMeC7Jt89cuyZn1ku4TH10iIRsMVDCRrRx4=;
+ b=G069nfNVRoNrPkrnlOx948mML+Jl51SQMINlP4LYD4NW8ot36mx3bywL
+ EFrTN5ejDCg/ffEJ39kacXDj/MBTDcPyE9yuxWkwwJ03v8l9YCcMFvq7u
+ bAr/SffotsFQCEGvYlI9kZPO1c4MFy/o/ib+BK4p0cOTzcaqmkw42OoN6
+ QKt7mN7vO09jSMrUTI12pd73/vl1IZgokMEUu2kFW1FuXFZXE86fqGvCs
+ vfBt7+OCzuaUR3ciMJOKmoHd8t46jv11j6u6dWULKT/KJKTVzp3uxwGim
+ XkO5yUgp9xNLM5xRasIf5aUA2XLQRc03lD+pUNWsbPUsYcV8Ep9UEjC5/ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="274046561"
+X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; d="scan'208";a="274046561"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2022 04:07:12 -0700
+X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; d="scan'208";a="669984426"
+Received: from obeltran-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.51.100])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2022 04:07:10 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v3 05/15] mei: pxp: add command streamer API
+ to the PXP driver
+In-Reply-To: <20220819225335.3947346-6-daniele.ceraolospurio@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220819225335.3947346-1-daniele.ceraolospurio@intel.com>
+ <20220819225335.3947346-6-daniele.ceraolospurio@intel.com>
+Date: Tue, 23 Aug 2022 14:07:07 +0300
+Message-ID: <87bksbkylg.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <784e177f-f8fe-0a80-41fa-b9b3019ce16c@ideasonboard.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,41 +59,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Tomas Winkler <tomas.winkler@intel.com>, dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Vitaly Lubart <vitaly.lubart@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 23, 2022 at 02:04:21PM +0300, Tomi Valkeinen wrote:
-> On 22/08/2022 17:34, Tomi Valkeinen wrote:
-> 
-> > +struct drm_atomic_state;
-> > +struct drm_bridge;
-> > +
-> > +#if IS_ENABLED(CONFIG_DRM_RCAR_MIPI_DSI)
-> > +void rcar_mipi_dsi_pclk_enable(struct drm_bridge *bridge,
-> > +			       struct drm_atomic_state *state);
-> > +void rcar_mipi_dsi_pclk_disable(struct drm_bridge *bridge);
-> > +#else
-> > +static inline void rcar_mipi_dsi_pclk_enable(struct drm_bridge *bridge,
-> > +					     struct drm_atomic_state *state)
-> > +{
-> > +}
-> > +
-> > +void rcar_mipi_dsi_pclk_disable(struct drm_bridge *bridge)
-> > +{
-> > +}
-> 
-> This one is missing static inline.
-> 
-> Laurent, do you want me to re-send the series, or do you already have 
-> this applied to your branch?
+On Fri, 19 Aug 2022, Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com> wrote:
+> From: Vitaly Lubart <vitaly.lubart@intel.com>
+>
+> The discrete graphics card with GSC firmware
+> using command streamer API hence it requires to enhance
+> pxp module with the new gsc_command() handler.
+>
+> The handler is implemented via mei_pxp_gsc_command() which is
+> just just a thin wrapper around mei_cldev_send_gsc_command()
+>
+> V2:
+>  1. More detailed commit message
+>  2. Fix typo in the comments
+>
+> Signed-off-by: Vitaly Lubart <vitaly.lubart@intel.com>
+> Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+> ---
+>  drivers/misc/mei/pxp/mei_pxp.c       | 28 ++++++++++++++++++++++++++++
+>  include/drm/i915_pxp_tee_interface.h |  5 +++++
+>  2 files changed, 33 insertions(+)
+>
+> diff --git a/drivers/misc/mei/pxp/mei_pxp.c b/drivers/misc/mei/pxp/mei_pxp.c
+> index 5c39457e3f53..17c5d201603f 100644
+> --- a/drivers/misc/mei/pxp/mei_pxp.c
+> +++ b/drivers/misc/mei/pxp/mei_pxp.c
+> @@ -77,10 +77,38 @@ mei_pxp_receive_message(struct device *dev, void *buffer, size_t size)
+>  	return byte;
+>  }
+>  
+> +/**
+> + * mei_pxp_gsc_command() - sends a gsc command, by sending
+> + * a sgl mei message to gsc and receiving reply from gsc
+> + *
+> + * @dev: device corresponding to the mei_cl_device
+> + * @client_id: client id to send the command to
+> + * @fence_id: fence id to send the command to
+> + * @sg_in: scatter gather list containing addresses for rx message buffer
+> + * @total_in_len: total length of data in 'in' sg, can be less than the sum of buffers sizes
+> + * @sg_out: scatter gather list containing addresses for tx message buffer
+> + *
+> + * Return: bytes sent on Success, <0 on Failure
+> + */
+> +static ssize_t mei_pxp_gsc_command(struct device *dev, u8 client_id, u32 fence_id,
+> +				   struct scatterlist *sg_in, size_t total_in_len,
+> +				   struct scatterlist *sg_out)
+> +{
+> +	struct mei_cl_device *cldev;
+> +
+> +	if (!dev || !sg_in || !sg_out)
+> +		return -EINVAL;
+> +
+> +	cldev = to_mei_cl_device(dev);
+> +
+> +	return mei_cldev_send_gsc_command(cldev, client_id, fence_id, sg_in, total_in_len, sg_out);
+> +}
+> +
+>  static const struct i915_pxp_component_ops mei_pxp_ops = {
+>  	.owner = THIS_MODULE,
+>  	.send = mei_pxp_send_message,
+>  	.recv = mei_pxp_receive_message,
+> +	.gsc_command = mei_pxp_gsc_command,
+>  };
+>  
+>  static int mei_component_master_bind(struct device *dev)
+> diff --git a/include/drm/i915_pxp_tee_interface.h b/include/drm/i915_pxp_tee_interface.h
+> index af593ec64469..67d44a1827f9 100644
+> --- a/include/drm/i915_pxp_tee_interface.h
+> +++ b/include/drm/i915_pxp_tee_interface.h
+> @@ -8,6 +8,7 @@
+>  
+>  #include <linux/mutex.h>
+>  #include <linux/device.h>
+> +#include <linux/scatterlist.h>
 
-I'll fix it locally.
+A forward declaration is enough. Ditto for struct device instead of
+including device.h.
+
+BR,
+Jani.
+
+>  
+>  /**
+>   * struct i915_pxp_component_ops - ops for PXP services.
+> @@ -23,6 +24,10 @@ struct i915_pxp_component_ops {
+>  
+>  	int (*send)(struct device *dev, const void *message, size_t size);
+>  	int (*recv)(struct device *dev, void *buffer, size_t size);
+> +	ssize_t (*gsc_command)(struct device *dev, u8 client_id, u32 fence_id,
+> +			       struct scatterlist *sg_in, size_t total_in_len,
+> +			       struct scatterlist *sg_out);
+> +
+>  };
+>  
+>  /**
 
 -- 
-Regards,
-
-Laurent Pinchart
+Jani Nikula, Intel Open Source Graphics Center
