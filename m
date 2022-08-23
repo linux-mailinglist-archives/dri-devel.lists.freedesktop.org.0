@@ -1,40 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC8459DABC
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 12:41:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ABE859DABE
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 12:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C09E811231B;
-	Tue, 23 Aug 2022 10:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A83D911B2CB;
+	Tue, 23 Aug 2022 10:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF39D10F68E
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 10:40:56 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E3BA440;
- Tue, 23 Aug 2022 12:40:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661251254;
- bh=qtB/GHrhmBGbFTFOqU8r92UoGanWbvaJR09DP0TwpEI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tS2Rs/F+MOfHTNWsI+H3m05aDeJAOtf8tSyFbGcMxlDkCQsCPLhe9L8m1+l+krphh
- JlthAFo+rUPhGU1YsAd/yehvqfSLWAh4rBTy2J6WB+Cf615tZMk5HlMmB7VHw4Rme+
- ogK54hF/L1LRWOeI4VuxuMQk4A33kWS6CnDFPN7o=
-Date: Tue, 23 Aug 2022 13:40:50 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] dt-bindings: display: synopsys,dw-hdmi: drop ref from
- reg-io-width
-Message-ID: <YwSusqWrapWASOSK@pendragon.ideasonboard.com>
-References: <20220823101031.387082-1-krzysztof.kozlowski@linaro.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 331D911A320
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 10:42:41 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60F04113E;
+ Tue, 23 Aug 2022 03:42:44 -0700 (PDT)
+Received: from [10.57.15.51] (unknown [10.57.15.51])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 58A543F70D;
+ Tue, 23 Aug 2022 03:42:39 -0700 (PDT)
+Message-ID: <bbff1b5b-020c-7f61-1530-20fb0d6a1ef9@arm.com>
+Date: Tue, 23 Aug 2022 11:42:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220823101031.387082-1-krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH] drm/panfrost: Update io-pgtable API
+Content-Language: en-GB
+To: Alyssa Rosenzweig <alyssa@collabora.com>
+References: <daef7f8c134d989c55636a5790d8c0fcaca1bae3.1661205687.git.robin.murphy@arm.com>
+ <YwRAnbNdx9nbGLom@maud>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <YwRAnbNdx9nbGLom@maud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,46 +44,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: tomeu.vizoso@collabora.com, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
-
-Thank you for the patch.
-
-On Tue, Aug 23, 2022 at 01:10:31PM +0300, Krzysztof Kozlowski wrote:
-> reg-io-width is a standard property, so no need for defining its type
-> with $ref.
+On 2022-08-23 03:51, Alyssa Rosenzweig wrote:
+>> -static size_t get_pgsize(u64 addr, size_t size)
+>> +static size_t get_pgsize(u64 addr, size_t size, size_t *count)
+>>   {
+>> -	if (addr & (SZ_2M - 1) || size < SZ_2M)
+>> -		return SZ_4K;
+>> +	size_t blk_offset = -addr % SZ_2M;
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> addr is unsigned. if this is correct, it's magic.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Eh, it's just well-defined unsigned integer overflow. Take "SZ_2M - 
+(addr % SZ_2M)", realise the first term can be anything that's zero 
+modulo SZ_2M, including zero, then also that the operations can be done 
+in either order to give the same result, and there you go.
 
-> ---
->  .../devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml     | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> index b00246faea57..4b7e54a8f037 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> @@ -26,7 +26,6 @@ properties:
->    reg-io-width:
->      description:
->        Width (in bytes) of the registers specified by the reg property.
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [1, 4]
->      default: 1
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Cheers,
+Robin.
