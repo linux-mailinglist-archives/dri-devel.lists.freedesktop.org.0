@@ -1,76 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6E25A02D8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:35:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6365A02DC
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A36AC6AD9;
-	Wed, 24 Aug 2022 20:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B84DDC7E5F;
+	Wed, 24 Aug 2022 20:35:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA7510E293;
- Tue, 23 Aug 2022 17:52:46 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27NGlCIZ013898;
- Tue, 23 Aug 2022 17:52:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=rUw2in+AH1erjyxM6/5u1ukVrsGpIF9x+6A1qOpftQY=;
- b=nJyJANptU6yyFLb6ikz3Hp7PqxgKAij4TjmVWMjSKLJeo8wbHR9iv9wwDZ0/RtvMT6/E
- 2xV2l9RoaKODrCgAzBoXBDDEeeGLYL3QkqU9fNWOUh3lMdQE3VIjyKZsrlGq96JCHFBT
- px9xcXPA/tfziFgK7v7yTToSAyKxdSl5qcI1YwbzRN9Ij3IgqP5TuL3WRqQkpk1EbbNw
- gpmwi4DSTfMi9GiVrK8VyUqXzQDSq8FemxJY6oujhA96Fc5kq1DSH/rAX28neFvEdevz
- igxyeJqf04hlXEbZIZId/YR/HRxFqFQuMwZPdZoN+HwkdN5wAgT8lwS1WP5HwEftJF8s hw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j52pq8a11-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Aug 2022 17:52:39 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27NHqcDG013801
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Aug 2022 17:52:38 GMT
-Received: from [10.111.161.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 23 Aug
- 2022 10:52:36 -0700
-Message-ID: <2237e6d0-8ee3-48a9-ab4c-4a99ed0e5646@quicinc.com>
-Date: Tue, 23 Aug 2022 10:52:34 -0700
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BED710F764
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 18:44:00 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id 73so13003657pgb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 11:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=edgeble-ai.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=e6xmGRsUy5CVWXkkBzqW8hMvVXzIsvM15KrfP8pRT4c=;
+ b=XlQJ6Pmf6FM6P9HgS86MvAkKQN5SRDZxo5dgNmSgYZCoAqoxS+So9IQBVGnp0QofFD
+ dq7/OgJPv2fuAcj/nixndjIJEUHDWd1+tUutCAnEdITIeSA4hktyjdPmbNlZjSLn0Lw4
+ 6HYeCCxT+BV7E/asoB7YLIr/tyGLQcgSl+D/R23WOwB+6/F8X/7P+TBf+eBk9ycAA5iR
+ EKGC5rVusVLP4Hhgc3Jw1rRMXiaRwJP77jOivbYEPZAj/66TEo9iRCoKZqoxPc3xc345
+ J4K0t66nNXqJsiimEEWVEp/4pSdsclPkZfOZhgLPnLUHClFzsyxL0qQLgDUfg2BBUswL
+ twiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=e6xmGRsUy5CVWXkkBzqW8hMvVXzIsvM15KrfP8pRT4c=;
+ b=1SUSqYAX3FA98hlQ9H1Ex4aNgj/k+Ts+bD8j8O2Nm3ScQPYrSARNn1NNdv5hQTQAiC
+ 6/5Gyrn392iIiLTBpch9moA8C31JhyHSD+nxmxavpRniW5fEqqfkDILhE0s1/X04FMwD
+ 2/RVkytPDO2Sin2+PwTgA4YKSpTideG5J9mUiF3r9ZCFEr1efJllZ2ywoi/wOfurqhwT
+ LqY1GVDwecLjYpPe2lmIvVxKUzfIX6ojIb6Rfmh7vxmv8ItBucEEk3S298WHojKoiqZ4
+ D3kHXmpUOL4fPGCOOH6btHYo6B7u9w02X0IPz+52+DQ6AOei8CJa8CE1x8xS/nQWHY7B
+ 6cSw==
+X-Gm-Message-State: ACgBeo1FobkvqYc3zoXqz52i3lfD2xDxt4zx8SA+/0oLKGJ8egry89QH
+ 379I9qdu5yrAnRlKsGr9TjG4rQ==
+X-Google-Smtp-Source: AA6agR5Vx2++EIQt2E3SmDU8RYJqzEEOCmAhZPT/gsoZWote+lPS70tGrRxhjo0nJhxCwidCNofz4Q==
+X-Received: by 2002:a63:4625:0:b0:42a:d055:22df with SMTP id
+ t37-20020a634625000000b0042ad05522dfmr6035867pga.312.1661280239746; 
+ Tue, 23 Aug 2022 11:43:59 -0700 (PDT)
+Received: from localhost.localdomain ([23.27.44.55])
+ by smtp.gmail.com with ESMTPSA id
+ b187-20020a62cfc4000000b0053641e66825sm7767647pfg.173.2022.08.23.11.43.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Aug 2022 11:43:59 -0700 (PDT)
+From: Jagan Teki <jagan@edgeble.ai>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH 3/4] dt-bindings: display: Document Jadard JD9365DA-H3 DSI
+ panel
+Date: Wed, 24 Aug 2022 00:12:41 +0530
+Message-Id: <20220823184242.3554472-3-jagan@edgeble.ai>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220823184242.3554472-1-jagan@edgeble.ai>
+References: <20220823184242.3554472-1-jagan@edgeble.ai>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] disp/dpu1: fix repeated words in comments
-Content-Language: en-US
-To: Jilin Yuan <yuanjilin@cdjrlc.com>, <robdclark@gmail.com>,
- <dmitry.baryshkov@linaro.org>, <airlied@linux.ie>, <daniel@ffwll.ch>
-References: <20220823115100.44060-1-yuanjilin@cdjrlc.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220823115100.44060-1-yuanjilin@cdjrlc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 70aeHVeJT2NAGntlt0BzuPj93oCTqYFp
-X-Proofpoint-GUID: 70aeHVeJT2NAGntlt0BzuPj93oCTqYFp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-23_07,2022-08-22_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 spamscore=0
- impostorscore=0 clxscore=1011 adultscore=0 malwarescore=0 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208230070
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,37 +73,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@edgeble.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Please fix the subject line .
+Jadard JD9365DA-H3 is WUXGA MIPI DSI panel and it support TFT
+dot matrix LCD with 800RGBx1280 dots at maximum.
 
-It should be drm/msm/dpu: fix repeated words in comments
+Document it.
 
-Also, you can add
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Jagan Teki <jagan@edgeble.ai>
+---
+ .../display/panel/jadard,jd9365da-h3.yaml     | 70 +++++++++++++++++++
+ MAINTAINERS                                   |  5 ++
+ 2 files changed, 75 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
 
-Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+diff --git a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+new file mode 100644
+index 000000000000..23dfd5b5496e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+@@ -0,0 +1,70 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/jadard,jd9365da-h3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Jadard JD9365DA-HE WUXGA DSI panel
++
++maintainers:
++  - Jagan Teki <jagan@edgeble.ai>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - chongzhou,cz101b4001
++      - const: jadard,jd9365da-h3
++
++  reg: true
++
++  vdd-supply:
++    description: supply regulator for VDD, usually 3.3V
++
++  vccio-supply:
++    description: supply regulator for VCCIO, usually 1.8V
++
++  reset-gpios: true
++
++  backlight: true
++
++  port: true
++
++required:
++  - compatible
++  - reg
++  - vdd-supply
++  - vccio-supply
++  - reset-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/pinctrl/rockchip.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "chongzhou,cz101b4001", "jadard,jd9365da-h3";
++            reg = <0>;
++            vdd-supply = <&lcd_3v3>;
++            vccio-supply = <&vcca_1v8>;
++            reset-gpios = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
++            backlight = <&backlight>;
++
++            port {
++                mipi_in_panel: endpoint {
++                    remote-endpoint = <&mipi_out_panel>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5c96115c620f..2ef50447e6e8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6466,6 +6466,11 @@ S:	Orphan / Obsolete
+ F:	drivers/gpu/drm/i810/
+ F:	include/uapi/drm/i810_drm.h
+ 
++DRM DRIVER FOR JADARD JD9365DA-H3 MIPI-DSI LCD PANELS
++M:	Jagan Teki <jagan@edgeble.ai>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
++
+ DRM DRIVER FOR LOGICVC DISPLAY CONTROLLER
+ M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+ S:	Supported
+-- 
+2.25.1
 
-On 8/23/2022 4:51 AM, Jilin Yuan wrote:
->   Delete the redundant word 'is'.
-> 
-> Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index bce47647d891..59ca7d70a652 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1169,7 +1169,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->   
->   	/*
->   	 * max crtc width is equal to the max mixer width * 2 and max height is
-> -	 * is 4K
-> +	 * 4K
->   	 */
->   	dev->mode_config.max_width =
->   			dpu_kms->catalog->caps->max_mixer_width * 2;
