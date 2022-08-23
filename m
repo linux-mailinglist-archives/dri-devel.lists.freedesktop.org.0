@@ -2,46 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A47059ED46
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 22:26:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C9F59EDB0
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 22:46:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 990ED10E3CA;
-	Tue, 23 Aug 2022 20:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6DC210E03B;
+	Tue, 23 Aug 2022 20:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E74CD10E2DC;
- Tue, 23 Aug 2022 20:25:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661286346; x=1692822346;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=RK/RmtVt7/aU2rvCEuP5iT6sn2er6dfIHbIdiIeR1gU=;
- b=N9IUNleW0Tgb09jwpYLHvLA4nil05qzlonjjI5d2ajFPDxZeCJ6enIiq
- hjJ8nR82eCHTFrj31OvqkyQ06oBE6KzfifXuQ9Gd04t1YeZcP82EdiWFL
- Ar7FPJPXetaaMd3SHgaKKhj5XhZfZIKhe1wekmk3rfX4YcO8XQsnSTgrr
- Q4N4DRtxmKR+JtZzaVKfRQ7jpuQUZeIUnHgEOfPvenw74c0s97w8FTUzz
- iwvBls6rEvGZYLzD9ZbbRLFvEfomIBE6pI0XKFbO/3yctn8EGwoDe4/Lg
- N2HLmE6F50gV/UROFtE2kntTk2ZEPYIRgfAy+alsYluLvnBbOEvFVMiXH A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="319840752"
-X-IronPort-AV: E=Sophos;i="5.93,258,1654585200"; d="scan'208";a="319840752"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2022 13:25:46 -0700
-X-IronPort-AV: E=Sophos;i="5.93,258,1654585200"; d="scan'208";a="670189975"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2022 13:25:45 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/dg2: Incorporate Wa_16014892111 into DRAW_WATERMARK
- tuning
-Date: Tue, 23 Aug 2022 13:24:49 -0700
-Message-Id: <20220823202449.83727-1-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.37.2
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE6A10E90F
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 20:45:52 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id p187so10112890oia.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 13:45:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=Iyj8X1hythu4VbtWXUOop5SKgK9Wa/aA+SaAUy1k2M8=;
+ b=IvNq8RucyAgYkTsP1xLFQoJCOZcNtwnyDvU5boC9SB/eiDJ0VWFNIqCfoxbHEH7NnF
+ m4eWeIonFz5iAH6fvwoN8aCbUGfkSFwHeU+mIZrdPGPl3ccX2qhIgNeJL3cDgZCxtbRG
+ oKYwesNPj+wni2WuMga5shIIe8fbOErsDV5HgFNT55gE1v4RWAY1lq7IqU4kANZ+th8N
+ tc1AnwwAun6DvaI6tE5+rRSUZnyCG0kXQQpcUy5NQwaDL/UhlwgT8KOgVZy0EfzcaiSf
+ I6uAQm3lbUSsp79JTGu4FiUpdb+N1LXZt5dP9WrKLdy9WrwVMKFHuO+w1f6DTeTGRINu
+ cIVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=Iyj8X1hythu4VbtWXUOop5SKgK9Wa/aA+SaAUy1k2M8=;
+ b=kWlyBAQYO6KInID0/dAJ7yEJEjMmgDZJDpFPN1CqHyQKqyT4KVBkhgjmFqrj/+m1x5
+ qyogt4sp9RVNvWiEaBv7bjTrBNR3quIvWbjsM9XgyzWLLJStA+gufhyb1Vz6nwkGUFQ+
+ 8gIgjb7nyIEMfJMeg1TCbH0IVNWLm0vha5tn2PPgdpqCtaTzFiutdavf0EUsrqPBcwxI
+ Kv+FqcWogGvqFa3HlaM8ZRyfwYvGg+R9evAJB2oQdQFMFIc+J1wE00f+29p9vxPCyrLR
+ yiOiVqlwZHwprVU57RW50Zhh1MLCEdAZYT3VlgaiaT39R7EDiKHgweTREpPwLDjlzV6y
+ kw7w==
+X-Gm-Message-State: ACgBeo3DxT8HnpVdPbLuUIYg75UzMNyu1LF2tKGgLpHWfagOTATKI8iq
+ Jpej92eOCGuUN/vsYruzIXQu+HnO2JMzPNKRFmDMoZcNhkNobA==
+X-Google-Smtp-Source: AA6agR6If/XanomkJ1zRDq18Pdw7+NepNvR2d35YWsSjCekSFif7+1U0KKedbdtofAkXS3CzmLbVocI7SWirR3tDWCE=
+X-Received: by 2002:a05:6808:152b:b0:343:ef9d:4729 with SMTP id
+ u43-20020a056808152b00b00343ef9d4729mr2028855oiw.286.1661287551352; Tue, 23
+ Aug 2022 13:45:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAFCwf11=9qpNAepL7NL+YAV_QO=Wv6pnWPhKHKAepK3fNn+2Dg@mail.gmail.com>
+ <CAPM=9tzWuoWAOjHJdJYVDRjoRq-4wpg2KGiCHjLLd+OfWEh5AQ@mail.gmail.com>
+ <CAFCwf12N6DeJAQVjY7PFG50q2m405e=XCCFvHBn1RG65BGbT8w@mail.gmail.com>
+ <CAPM=9txSKv_xwZJ6SndtqsdQm6aK1KJVF91dB5Odhc_Xv6Qdrw@mail.gmail.com>
+ <CAFCwf10CsLgt+_qT7dT=8DVXsL0a=w=uXN6HC=CpP5EfitvLfQ@mail.gmail.com>
+ <CAPM=9txme2dQD9kyM6gnYyXL34hYP8wcGMbduOUcFsKe+4zTcQ@mail.gmail.com>
+ <CAFCwf11TPKTF_Ndi60FneWp5g3SoawJvfJoKVWJ-QjxjpawMmg@mail.gmail.com>
+ <CAFCwf13WU3ZEjurEaEnVC56zorwKr-uuQn-ec10r301Fh+XEtA@mail.gmail.com>
+ <7hk06ykedc.fsf@baylibre.com>
+In-Reply-To: <7hk06ykedc.fsf@baylibre.com>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Tue, 23 Aug 2022 23:45:24 +0300
+Message-ID: <CAFCwf12P6DckVUJL7V_Z7ASj+8A3yyx9eX5MpZPF47Rzg6CjEA@mail.gmail.com>
+Subject: Re: New subsystem for acceleration devices
+To: Kevin Hilman <khilman@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,80 +71,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alexandre Bailon <abailon@baylibre.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jiho Chu <jiho.chu@samsung.com>, Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although register tuning settings are generally implemented via the
-workaround infrastructure, it turns out that the DRAW_WATERMARK register
-is not properly saved/restored by hardware around power events (i.e.,
-RC6 entry) so updates to the value cannot be applied in the usual
-manner.  New workaround Wa_16014892111 informs us that any tuning
-updates to this register must instead be applied via an INDIRECT_CTX
-batch buffer.  This will ensure that the necessary value is re-applied
-when a context begins running, even if an RC6 entry had wiped the
-register back to hardware defaults since the last context ran.
+On Tue, Aug 23, 2022 at 9:24 PM Kevin Hilman <khilman@baylibre.com> wrote:
+>
+> Hi Obed,
+>
+> Oded Gabbay <oded.gabbay@gmail.com> writes:
+>
+> [...]
+>
+> > I want to update that I'm currently in discussions with Dave to figure
+> > out what's the best way to move forward. We are writing it down to do
+> > a proper comparison between the two paths (new accel subsystem or
+> > using drm). I guess it will take a week or so.
+>
+> Any update on the discussions with Dave? and/or are there any plans to
+> discuss this further at LPC/ksummit yet?
+Hi Kevin.
 
-Fixes: 6dc85721df74 ("drm/i915/dg2: Add additional tuning settings")
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6642
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_lrc.c         | 21 +++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_workarounds.c |  2 --
- 2 files changed, 21 insertions(+), 2 deletions(-)
+We are still discussing the details, as at least the habanalabs driver
+is very complex and there are multiple parts that I need to see if and
+how they can be mapped to drm.
+Some of us will attend LPC so we will probably take advantage of that
+to talk more about this.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index eec73c66406c..070cec4ff8a4 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -1242,6 +1242,23 @@ dg2_emit_rcs_hang_wabb(const struct intel_context *ce, u32 *cs)
- 	return cs;
- }
- 
-+/*
-+ * The bspec's tuning guide asks us to program a vertical watermark value of
-+ * 0x3FF.  However this register is not saved/restored properly by the
-+ * hardware, so we're required to apply the desired value via INDIRECT_CTX
-+ * batch buffer to ensure the value takes effect properly.  All other bits
-+ * in this register should remain at 0 (the hardware default).
-+ */
-+static u32 *
-+dg2_emit_draw_watermark_setting(u32 *cs)
-+{
-+	*cs++ = MI_LOAD_REGISTER_IMM(1);
-+	*cs++ = i915_mmio_reg_offset(DRAW_WATERMARK);
-+	*cs++ = REG_FIELD_PREP(VERT_WM_VAL, 0x3FF);
-+
-+	return cs;
-+}
-+
- static u32 *
- gen12_emit_indirect_ctx_rcs(const struct intel_context *ce, u32 *cs)
- {
-@@ -1263,6 +1280,10 @@ gen12_emit_indirect_ctx_rcs(const struct intel_context *ce, u32 *cs)
- 	if (!HAS_FLAT_CCS(ce->engine->i915))
- 		cs = gen12_emit_aux_table_inv(cs, GEN12_GFX_CCS_AUX_NV);
- 
-+	/* Wa_16014892111 */
-+	if (IS_DG2(ce->engine->i915))
-+		cs = dg2_emit_draw_watermark_setting(cs);
-+
- 	return cs;
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 31e129329fb0..3cdb8294e13f 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -2685,8 +2685,6 @@ add_render_compute_tuning_settings(struct drm_i915_private *i915,
- 	if (IS_DG2(i915)) {
- 		wa_write_or(wal, XEHP_L3SCQREG7, BLEND_FILL_CACHING_OPT_DIS);
- 		wa_write_clr_set(wal, RT_CTRL, STACKID_CTRL, STACKID_CTRL_512);
--		wa_write_clr_set(wal, DRAW_WATERMARK, VERT_WM_VAL,
--				 REG_FIELD_PREP(VERT_WM_VAL, 0x3FF));
- 
- 		/*
- 		 * This is also listed as Wa_22012654132 for certain DG2
--- 
-2.37.2
+>
+> We (BayLibre) are upstreaming support for APUs on Mediatek SoCs, and are
+> using the DRM-based approach.  I'll also be at LPC and happy to discuss
+> in person.
+>
+> For some context on my/our interest: back in Sept 2020 we initially
+> submitted an rpmesg based driver for kernel communication[1].  After
+> review comments, we rewrote that based on DRM[2] and are now using it
+> for some MTK SoCs[3] and supporting our MTK customers with it.
+>
+> Hopefully we will get the kernel interfaces sorted out soon, but next,
+> there's the userspace side of things.  To that end, we're also working
+> on libAPU, a common, open userspace stack.  Alex Bailon recently
+> presented a proposal earlier this year at Embedded Recipes in Paris
+> (video[4], slides[5].)
+>
+> libAPU would include abstractions of the kernel interfaces for DRM
+> (using libdrm), remoteproc/rpmsg, virtio etc. but also goes farther and
+> proposes an open firmware for the accelerator side using
+> libMetal/OpenAMP + rpmsg for communication with (most likely closed
+> source) vendor firmware.  Think of this like sound open firmware (SOF[6]),
+> but for accelerators.
+I think your device and the habana device are very different in
+nature, and it is part of what Dave and I discussed, whether these two
+classes of devices can live together. I guess they can live together
+in the kernel, but in the userspace, not so much imo.
 
+The first class is the edge inference devices (usually as part of some
+SoC). I think your description of the APU on MTK SoC is a classic
+example of such a device.
+You usually have some firmware you load, you give it a graph and
+pointers for input and output and then you just execute the graph
+again and again to perform inference and just replace the inputs.
+
+The second class is the data-center, training accelerators, which
+habana's gaudi device is classified as such. These devices usually
+have a number of different compute engines, a fabric for scaling out,
+on-device memory, internal MMUs and RAS monitoring requirements. Those
+devices are usually operated via command queues, either through their
+kernel driver or directly from user-space. They have multiple APIs for
+memory management, RAS, scaling-out and command-submissions.
+
+>
+> We've been using this succesfully for Mediatek SoCs (which have a
+> Cadence VP6 APU) and have submitted/published the code, including the
+> OpenAMP[7] and libmetal[8] parts in addition to the kernel parts already
+> mentioned.
+What's the difference between libmetal and other open-source low-level
+runtime drivers, such as oneAPI level-zero ?
+
+Currently we have our own runtime driver which is tightly coupled with
+our h/w. For example, the method the userspace "talks" to the
+data-plane firmware is very proprietary as it is hard-wired into the
+architecture of the entire ASIC and how it performs deep-learning
+training. Therefore, I don't see how this can be shared with other
+vendors. Not because of secrecy but because it is simply not relevant
+to any other ASIC.
+
+>
+> We're to the point where we're pretty happy with how this works for MTK
+> SoCs, and wanting to collaborate with folks working on other platforms
+> and to see what's needed to support other kinds of accelerators with a
+> common userspace and open firmware infrastructure.
+>
+> Kevin
+>
+> [1] https://lore.kernel.org/r/20200930115350.5272-1-abailon@baylibre.com
+> [2] https://lore.kernel.org/r/20210917125945.620097-1-abailon@baylibre.com
+> [3] https://lore.kernel.org/r/20210819151340.741565-1-abailon@baylibre.com
+> [4] https://www.youtube.com/watch?v=Uj1FZoF8MMw&t=18211s
+> [5] https://embedded-recipes.org/2022/wp-content/uploads/2022/06/bailon.pdf
+> [6] https://www.sofproject.org/
+> [7] https://github.com/BayLibre/open-amp/tree/v2021.10-mtk
+> [8] https://github.com/BayLibre/libmetal/tree/v2021.10-mtk
