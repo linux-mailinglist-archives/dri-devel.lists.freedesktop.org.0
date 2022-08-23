@@ -2,59 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403A759CF4F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 05:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8999759D0E8
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 08:00:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 522FDAB239;
-	Tue, 23 Aug 2022 03:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEAD7AE952;
+	Tue, 23 Aug 2022 06:00:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA70AB222
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 03:18:57 +0000 (UTC)
-X-UUID: 3a17b210e0864e1fbe5f70281e59faf3-20220823
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=cNcI9/CoY7NP5esW1MzGihedbP92Jb5dFXMk1o558tM=; 
- b=q1bDqfbHTM5SnBNIVnhY3j1i5N4rxY/2ocJ3uVrvc4Yq3GI3enCneztuR12Dho7c5wzhNoiNiViRfJoNVZtkDfEOf59PG8JsvwL96kgG+ZxHDF7CDv/zumTgOlZN6d5XyKTN/CAw8kTgK1IeqMaCPgQqF979/1E1qqjmiJ8ptvs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:f4dad345-d20b-4fa3-be31-ec2ff83cec0b, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
- Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18, CLOUDID:f2117bc9-6b09-4f60-bf82-12f039f5d530,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 3a17b210e0864e1fbe5f70281e59faf3-20220823
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 621420429; Tue, 23 Aug 2022 11:18:52 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 23 Aug 2022 11:18:50 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 23 Aug 2022 11:18:50 +0800
-Message-ID: <963274fe71207aabd18dcf4d4ef19b490453fcfd.camel@mediatek.com>
-Subject: Re: [PATCH 2/3] drm/mediatek: Add gamma lut support for mt8195
-From: CK Hu <ck.hu@mediatek.com>
-To: zheng-yan.chen <zheng-yan.chen@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
- <matthias.bgg@gmail.com>
-Date: Tue, 23 Aug 2022 11:18:49 +0800
-In-Reply-To: <20220822091945.21343-3-zheng-yan.chen@mediatek.com>
-References: <20220822091945.21343-1-zheng-yan.chen@mediatek.com>
- <20220822091945.21343-3-zheng-yan.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2057.outbound.protection.outlook.com [40.107.95.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23C1CAE92E
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 05:59:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cQ9wjMrabvWcE0o/CmoJHntwM9harSXcrl1L8pvQknt1vr8a219kfzPpdBAekQR9fA0QfmMiii7YkvTox5j2zO6IDA95WK4cBMlo1VfSd2Gg7Fhn82AQLaOdmdqoE3021YUoplObTSACwrqSJIwIIRnyJat7g/wbYjgjOZpNezoEkQlgP03GtvQ3lEItrYH+Y2+Pkp6J0/yCrNsew1MhL3XqdRPRb6BGZz0k0Gdj5VGOq+UJ3mj/490SH069+wCMOdsRqytDlFJTW5AIGMcxZLy6pNokc+qoMNQe0V5OiMqBEl73BETABUfhLQmDJuTp+57VJ+kB11rMCQfkKJZYvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6rNY8cx3d3popkl3XeApsMW4me4N7keMu8agr3L5b04=;
+ b=XFzUgSpojKgZXJpfBCEF2bupbXx3f74HbQGyd+MwNwGz5vDBRuat79qIOnoJUA04n5FU2uWH3ZhHLu9nnSpEqhIrCuVbwCME5lnoEOSWY8i0i8fWqm2l5S3PgPSVtFz/DBSDab5DhM/SzH1gOoJ/7gWs+f/vR2W96+YibKPEfOIr5/XTk2ENMOvzK4YBaZdHJ4eVY1lsg3OxJnWuwSAY7EhH+EQ9BphgjNI14mPZKMGubOZekDU6gssDTuy+wHkuwjYS4bhWrUIwKsUrHcAEmBXriA1bvfjO59TVazagCL+atCyVAVWI6hTLeXscYeKx02dOsKUh2NQq+dOi5j92TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6rNY8cx3d3popkl3XeApsMW4me4N7keMu8agr3L5b04=;
+ b=H0FZEbe6GoRT3gQxu3LR7Wz2Zd3tp+3x40hYFlwuTUvBsb+8D3iHVP3OOIJnSeAInVIbz+Gq855OS8QZt2aD/5fTx02klQ0Yla3zQM6x0JhUuX+Qwpi2RnzE4q9xmPqmkzskhFTdK3TikVMrk4bg3no5yGMCauQ1YzbahoJzCTM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BYAPR12MB3205.namprd12.prod.outlook.com (2603:10b6:a03:134::32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.20; Tue, 23 Aug
+ 2022 05:59:46 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5546.022; Tue, 23 Aug 2022
+ 05:59:46 +0000
+Message-ID: <3112082f-9950-d6d2-34b8-0cf2a044f28b@amd.com>
+Date: Tue, 23 Aug 2022 07:59:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm: Move radeon and amdgpu Kconfig options into their
+ directories
+Content-Language: en-US
+To: Andrew Davis <afd@ti.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20220823000111.9765-1-afd@ti.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220823000111.9765-1-afd@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0766.eurprd06.prod.outlook.com
+ (2603:10a6:20b:484::22) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 99b75511-64aa-4019-a3c4-08da84ccae88
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3205:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZuKGHHsAnDVPmBdpvPrioPIWAGr14AxcpGfApjsaRjNvpr4LgMybiOCe9xZSbfrQbvumu+JTZttz+sJBcGPDviX6+s1ogPfBZ4JDL9DmJ3znH27gxVPJh0QI4tRjyJIE2zuZg6uH5g7eMUOZmAly2HkgDnLqyNwnutBfbCpSHv+F773Npu+6n/mBhfO8QHvDxlfXhYvSyMtaxMSHFcGWhZyk1K5csDawT5ShcL/S10/O1WuyQntOpj8TtkH3A20WlBIik0CCrVRBweIMgsVC1nevs8TRu/wr5wcmVdmSx8ERW6N1+nVUaNw6cQNWA8OPrDQHGMzhOKjj9ifNEJEgftje/nKfFsy2rKEHn6d8gc+8L8XES8vAgYiAI3lNhe8IgYEVYORtzsyCNtQ6ZxeODhnH+Ixlg3ZuOIgMnR8tTWnuE5EV3VCLuJ01ylE8tN57fp2sNqnfcPLxW9v1udMI31nWMp5nW5XNnqu5iAc56ltuOd3soXZaHYRC1G7PguKxNEj/SVyUCLejcABxcNgEgDHF9kasG1wMy4uzcYiprIbT/KapaVa5SYv9Mwf6p3SVjHMoFyzdHJVeiMQY6lhUzK994SqUEsHP9K6thWH+fioXfTft9qwDT6aHItmDk9SfKXJePymqRRqarsKKA9eZz0aMjONyhc27wm6HCPP6sNT/EDqBNQdpFexg9/TkEG7Z4vgY0KpynJNmHFrKYvzsXX5y4XKj5R1WQ3SSP9RQ8XrRIMOnWAN1FqpppfTkfmFBYf0fN9WU5Bw9/OtUaHO2lqQWFcSkmmaRkeruOEy60PY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(396003)(366004)(136003)(376002)(39860400002)(186003)(2616005)(31696002)(83380400001)(38100700002)(316002)(66946007)(66476007)(66556008)(8676002)(110136005)(31686004)(2906002)(86362001)(36756003)(5660300002)(8936002)(6486002)(478600001)(26005)(41300700001)(6666004)(6512007)(6506007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WjNhOTA2dWNuUmhMbTNXWVI4LzZoUDR4bkhITWR4ZFBXZ1pZYVBlUVhJd09N?=
+ =?utf-8?B?cURVZkFhUXlNRWhRMGMza0VmV1Q3NDlZak1hZmhGMW5aU1JZcnVpZWxzUThi?=
+ =?utf-8?B?NElxdXdHbWRUcEp2a1FSSXNCUlBNZG9rU3BQZTBwMUVPY1ZNMFNDbVZ0MHpC?=
+ =?utf-8?B?Zk9iUlFOaUFGQUcrcFdTdWFWV1I1Uy9ITWF0NWgxdlRNUndRQzdiVjh0YXlF?=
+ =?utf-8?B?bkxKQkxkejlQYnUyc3M1U0UyWm9hQm41bTNXNDJjaTVPTnVVZnZBNWtzMTdM?=
+ =?utf-8?B?aTBZVnZDNTJYaERkYVVJM1ZBZ0hnemJYNDljemxYOG1YM0NYS1BacG9vekRD?=
+ =?utf-8?B?VWUyRVZ6blF2RWtjeUx3cXdQNEppUjBuY3o4YzFtZ1EyejNEREhDMk9xYXpZ?=
+ =?utf-8?B?cjBheUR4dUVQbFI5VUNmYkJqZWZBRituVU9iWUsybXhmcllmblVzYUZUdElD?=
+ =?utf-8?B?dWN6QUpWclBObVBqL1g5bWhpd003Y0hoN2ZpeUZDTXhxbTMrQkU5QUlBS05Z?=
+ =?utf-8?B?QTNFUG9TcFI1bjd3dHpFbzVLMlZJV0hXSVBrUlQ2RHVPQklmNDhsVWgrSE1Q?=
+ =?utf-8?B?N1VYS21CdFl3KzJ0Y2pzQ3NUMm1DWElFNU9HRi9ydWRXNGVzajdhekFIZHFw?=
+ =?utf-8?B?Vyt2b2t5ZFFrZ24ycUNYVnBIQUh5U0laSVNXT2Zmc2UzdU1ueUkrSG1ic1pz?=
+ =?utf-8?B?ekdiVUdUNzcxUVhWeVIrVzAyQXorMm1BNFNVTytmRzQzK0NVaGxrOXVXMVVx?=
+ =?utf-8?B?MXRQTlNHVGV0MkphQmJRL2pJYzNKTUh3cjRPVlpPOEhJMFc5WlZ3R3RvejFp?=
+ =?utf-8?B?NEY1T3UxNXhUUWwrWnpCN1lFTkduWTZCKy9uMTJGT2gzbTdONWlFWmFkdXZQ?=
+ =?utf-8?B?OTZkeDhuRVI4TFk4eHF5TUlyVjNHL3EvVG1aSzJGS3oweUZuaTBBNmJxTHNG?=
+ =?utf-8?B?Z1E5dVVlaHU2ckhnZkFUMEJhdlJXeDVtSmwzYnAvTHBjc0pJaEJiaHduZUFS?=
+ =?utf-8?B?aWw3cTBRYng5aUZtM3B5T1p0ak1USlk1cTRUUm1vaTVEQVY1MjFYYlpKUDU1?=
+ =?utf-8?B?RXVkVVR5TUMyTGVzZzRvS09vRWYwcFk5RXBVN01rc1lHMGlHSkI5QmFyRWZ0?=
+ =?utf-8?B?NTVoWVRTTU5SZW9nLzV5ZzdpU3Vsc2dhaGJPZ3EwUTV1OWtpMFBpT1VQek53?=
+ =?utf-8?B?WGFhNWJSbnhnVDNta2l5ajFuV0M5bEVqL1FBVGJYWlRlaFFIWE9RV0hueS9N?=
+ =?utf-8?B?NndLcHhSdy95Z0gxQ2NlaXVTTGd2bnBIdGw3dkg3djhkVTRhZGJIV0c0MSsz?=
+ =?utf-8?B?UldrNmxTYU85MU9oaEljVGNEVFFsc1dEVk9sVmtlRThMU2p4bUNwYm5YeHZJ?=
+ =?utf-8?B?SnRUTkk1UldJUGp4OVlQNEN5b3ZWM3dHZGhLZjBZRG5DbC9DdGtlZlAvUGlT?=
+ =?utf-8?B?Q3FVL09iQ3B5OFQ3dHRXMVhLK1ZxcTJ4N3FqaWdZL0FlY1o4QXROVU9UWlZw?=
+ =?utf-8?B?Q29sVXJQd0RXanI5SjhpY3lJU3RVdTZzMjJCRlZoaXFvc20yL1VrT1dHRERn?=
+ =?utf-8?B?dDFWUUlQTWdNMVRhRVBFajhub1FEZDROV05hU3A1eTVmR0U1TUJPVzd3YnFD?=
+ =?utf-8?B?dkdDdjFzMVQ5ZVg1ZkowaFY4Y3FJNnVDREtCdG1oM1BCMlBCTTludkYrSmFu?=
+ =?utf-8?B?RVVlcEhSVGJ1Y09LMGNtQnJ4MDN5WXd2KzJDaEZhaStGTHlMRStUb3BWSE4w?=
+ =?utf-8?B?dzBFU3ZYOGF0L3BxSzAwV29lazdoSGJXZDZFVHJBTXVUS3ZyN3VYczA2czhT?=
+ =?utf-8?B?VmtEOW94TDVJVktiaTRwMlcyMkorN2RjRGllNnd4R2tQUkZUSzJJWEIrbG5p?=
+ =?utf-8?B?S3V0RDFWNkRNNi8yQ0FuYjhrZ3ZuRzBTZzJMTGd0cTJwN3VNKzZlaEJhUlBD?=
+ =?utf-8?B?RE1tZzlYejBJRkYrU1pudnpoNG02RlJGWFl2cGh3dkN4MlFBcnUya3FEWmhR?=
+ =?utf-8?B?UzBxUFFFNFkzMTJnUStDaXBhaktiY0R6aDBweFJxdE5WVVVVSUF6ZVp6VTB2?=
+ =?utf-8?B?clFxbUJsakRZZ2t6QUtKYVYzSkRndDB4UkpyUTVnV2c2MWp0V1M4RXFpZEhT?=
+ =?utf-8?Q?wfkhfiH+pLChmkhJRqpoHX+sX?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99b75511-64aa-4019-a3c4-08da84ccae88
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2022 05:59:46.4762 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dOvNrOWTWZ8Onp6F2KnBuCVF9rO0qYsJ9JGN/uHAO1aFI9z3LWknt/qAwIbrsqjL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3205
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,381 +127,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Zheng-yan:
+Am 23.08.22 um 02:01 schrieb Andrew Davis:
+> Most Kconfig options to enable a driver are in the Kconfig file
+> inside the relevant directory, move these two to the same.
+>
+> Signed-off-by: Andrew Davis <afd@ti.com>
 
-On Mon, 2022-08-22 at 17:19 +0800, zheng-yan.chen wrote:
-> Since the previous gamma_set_common() function is designed for
-> 9bit-to-10bit conversion, which is not feasible for the
-> 10bit-to-12bit conversion in mt8195.
-> 
-> Update the function to fit the need of mt8195.
-> 
+With the tab vs. spaces pointed out by Randy fixed the patch is 
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Add Fixes tag [1].
-
-[1] 
-https://www.kernel.org/doc/html/v5.19/process/submitting-patches.html
-
-
-> Signed-off-by: zheng-yan.chen <zheng-yan.chen@mediatek.com>
-> 
 > ---
->  drivers/gpu/drm/mediatek/mtk_disp_aal.c     |  2 +-
->  drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 97 ++++++++++++++++---
-> --
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  5 +-
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |  1 -
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  1 +
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  2 +
->  8 files changed, 83 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> index 0f9d7efb61d7..f46d4ab73d6a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> @@ -66,7 +66,7 @@ void mtk_aal_gamma_set(struct device *dev, struct
-> drm_crtc_state *state)
->  	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
->  
->  	if (aal->data && aal->data->has_gamma)
-> -		mtk_gamma_set_common(aal->regs, state, false);
-> +		mtk_gamma_set_common(aal->regs, state);
->  }
->  
->  void mtk_aal_start(struct device *dev)
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> index 33e61a136bbc..b662bf8b1c9d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> @@ -51,8 +51,9 @@ void mtk_gamma_clk_disable(struct device *dev);
->  void mtk_gamma_config(struct device *dev, unsigned int w,
->  		      unsigned int h, unsigned int vrefresh,
->  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-> +unsigned int mtk_gamma_size(struct device *dev);
->  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
-> *state);
-> -void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state, bool lut_diff);
-> +void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state);
->  void mtk_gamma_start(struct device *dev);
->  void mtk_gamma_stop(struct device *dev);
->  
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> index bbd558a036ec..a842e5e1962e 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> @@ -18,18 +18,26 @@
->  #define DISP_GAMMA_EN				0x0000
->  #define GAMMA_EN					BIT(0)
->  #define DISP_GAMMA_CFG				0x0020
-> +#define RELAY_MODE					BIT(0)
->  #define GAMMA_LUT_EN					BIT(1)
->  #define GAMMA_DITHERING					BIT(2)
->  #define DISP_GAMMA_SIZE				0x0030
-> +#define DISP_GAMMA_BANK				0x0100
->  #define DISP_GAMMA_LUT				0x0700
+>   drivers/gpu/drm/Kconfig            | 42 ------------------------------
+>   drivers/gpu/drm/amd/amdgpu/Kconfig | 22 ++++++++++++++++
+>   drivers/gpu/drm/radeon/Kconfig     | 22 ++++++++++++++++
+>   3 files changed, 44 insertions(+), 42 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 6c2256e8474b..24fa9ccd92a4 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -234,50 +234,8 @@ source "drivers/gpu/drm/i2c/Kconfig"
+>   
+>   source "drivers/gpu/drm/arm/Kconfig"
+>   
+> -config DRM_RADEON
+> -	tristate "ATI Radeon"
+> -	depends on DRM && PCI && MMU
+> -	depends on AGP || !AGP
+> -	select FW_LOADER
+> -	select DRM_DISPLAY_DP_HELPER
+> -	select DRM_DISPLAY_HELPER
+> -        select DRM_KMS_HELPER
+> -        select DRM_TTM
+> -	select DRM_TTM_HELPER
+> -	select POWER_SUPPLY
+> -	select HWMON
+> -	select BACKLIGHT_CLASS_DEVICE
+> -	select INTERVAL_TREE
+> -	help
+> -	  Choose this option if you have an ATI Radeon graphics card.  There
+> -	  are both PCI and AGP versions.  You don't need to choose this to
+> -	  run the Radeon in plain VGA mode.
 > -
-> +#define DISP_GAMMA_LUT1				0x0b00
->  #define LUT_10BIT_MASK				0x03ff
+> -	  If M is selected, the module will be called radeon.
 > -
-> +#define TABLE_9BIT_SIZE				512
-> +#define LUT_12BIT_MASK				0x0fff
-> +#define TABLE_10BIT_SIZE			1024
-> +#define BANK_SIZE				256
->  struct mtk_disp_gamma_data {
->  	bool has_dither;
->  	bool lut_diff;
-> +	unsigned int lut_size;
->  };
->  
-> +static unsigned int now_lut_size;
-> +static bool now_lut_diff;
-
-Don't use global variable.
-
->  /*
->   * struct mtk_disp_gamma - DISP_GAMMA driver structure
->   */
-> @@ -54,40 +62,73 @@ void mtk_gamma_clk_disable(struct device *dev)
->  	clk_disable_unprepare(gamma->clk);
->  }
->  
-> -void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state, bool lut_diff)
-> +void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state)
->  {
-> -	unsigned int i, reg;
-> -	struct drm_color_lut *lut;
-> +	unsigned int i, reg, idx;
->  	void __iomem *lut_base;
-> -	u32 word;
-> -	u32 diff[3] = {0};
-> +	void __iomem *lut1_base;
-> +	u32 word, word1;
->  
->  	if (state->gamma_lut) {
-> +		u32 table_size;
-> +		u32 mask;
-> +		struct drm_color_lut color, even, odd;
-> +		struct drm_color_lut *lut = (struct drm_color_lut
-> *)state->gamma_lut;
-> +		bool lut_12bit = (now_lut_size == TABLE_10BIT_SIZE);
-> +
->  		reg = readl(regs + DISP_GAMMA_CFG);
-> +		reg = reg & ~RELAY_MODE;
-
-Why do you modify this for other SoC?
-
->  		reg = reg | GAMMA_LUT_EN;
->  		writel(reg, regs + DISP_GAMMA_CFG);
->  		lut_base = regs + DISP_GAMMA_LUT;
-> -		lut = (struct drm_color_lut *)state->gamma_lut->data;
-> -		for (i = 0; i < MTK_LUT_SIZE; i++) {
-> +		lut1_base = regs + DISP_GAMMA_LUT1;
-> +		if (lut_12bit) {
-> +			table_size = TABLE_10BIT_SIZE;
-> +			mask = LUT_12BIT_MASK;
-
-lut_bits and lut_size are independent factor, so use two variable in
-private data for each. And I like to use digital value instead of a
-symbol.
-
-lut_bits = 10 or 12;
-lut_size = 512 or 1024;
-mask = GENMASK(lut_bits - 1, 0);
-
-> +		} else {
-> +			table_size = TABLE_9BIT_SIZE;
-> +			mask = LUT_10BIT_MASK;
-> +		}
->  
-> -			if (!lut_diff || (i % 2 == 0)) {
-> -				word = (((lut[i].red >> 6) &
-> LUT_10BIT_MASK) << 20) +
-> -					(((lut[i].green >> 6) &
-> LUT_10BIT_MASK) << 10) +
-> -					((lut[i].blue >> 6) &
-> LUT_10BIT_MASK);
-> +		for (i = 0; i < table_size; i++) {
-> +			if (!(i % BANK_SIZE) && lut_12bit)
-> +				writel((i / BANK_SIZE), regs +
-> DISP_GAMMA_BANK);
-
-Group register writing together, so move this to bottom of this for-
-loop.
-
-> +
-> +			color.red = (lut[i].red >> 6) & mask;
-> +			color.green = (lut[i].green >> 6) & mask;
-> +			color.blue = (lut[i].blue >> 6) & mask;
-
-Why shift 6 bits for lut 12 bits?
-
-> +			if ((i % 2) && now_lut_diff) {
-
-In original code, !lut_diff is first, so I would like you to keep this
-order.
-
-> +				odd = color;
-> +				word = (lut_12bit) ? (((odd.green -
-> even.green) << 12) +
-> +						      (odd.red -
-> even.red))
-> +						   : (((odd.red -
-> even.red) << 20) +
-> +						      ((odd.green -
-> even.green) << 10) +
-> +						      (odd.blue -
-> even.blue));
-> +				word1 = (odd.blue - even.blue);
-
-I think it's not necessary to create odd and even variable. 
-
-Regards,
-CK
-
->  			} else {
-> -				diff[0] = (lut[i].red >> 6) - (lut[i -
-> 1].red >> 6);
-> -				diff[1] = (lut[i].green >> 6) - (lut[i
-> - 1].green >> 6);
-> -				diff[2] = (lut[i].blue >> 6) - (lut[i -
-> 1].blue >> 6);
+>   source "drivers/gpu/drm/radeon/Kconfig"
+>   
+> -config DRM_AMDGPU
+> -	tristate "AMD GPU"
+> -	depends on DRM && PCI && MMU
+> -	select FW_LOADER
+> -	select DRM_DISPLAY_DP_HELPER
+> -	select DRM_DISPLAY_HDMI_HELPER
+> -	select DRM_DISPLAY_HELPER
+> -	select DRM_KMS_HELPER
+> -	select DRM_SCHED
+> -	select DRM_TTM
+> -	select DRM_TTM_HELPER
+> -	select POWER_SUPPLY
+> -	select HWMON
+> -	select BACKLIGHT_CLASS_DEVICE
+> -	select INTERVAL_TREE
+> -	select DRM_BUDDY
+> -	help
+> -	  Choose this option if you have a recent AMD Radeon graphics card.
 > -
-> -				word = ((diff[0] & LUT_10BIT_MASK) <<
-> 20) +
-> -					((diff[1] & LUT_10BIT_MASK) <<
-> 10) +
-> -					(diff[2] & LUT_10BIT_MASK);
-> +				even = color;
-> +				word =  (lut_12bit) ? ((even.green <<
-> 12) + even.red)
-> +						    : ((even.red << 20)
-> +
-> +						       (even.green <<
-> 10) + even.blue);
-> +				word1 = even.blue;
->  			}
-> -			writel(word, (lut_base + i * 4));
-> +			idx = (lut_12bit) ? (i % BANK_SIZE) : i;
-> +			writel(word, (lut_base + idx * 4));
-> +			if (lut_12bit)
-> +				writel(word1, (lut1_base + idx * 4));
->  		}
->  	}
->  }
->  
-> +unsigned int mtk_gamma_size(struct device *dev)
-> +{
-> +	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-> +
-> +	if (gamma->data)
-> +		return gamma->data->lut_size;
-> +	else
-> +		return 0;
-> +}
->  void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
->  {
->  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-> @@ -95,8 +136,7 @@ void mtk_gamma_set(struct device *dev, struct
-> drm_crtc_state *state)
->  
->  	if (gamma->data)
->  		lut_diff = gamma->data->lut_diff;
+> -	  If M is selected, the module will be called amdgpu.
 > -
-> -	mtk_gamma_set_common(gamma->regs, state, lut_diff);
-> +	mtk_gamma_set_common(gamma->regs, state);
->  }
->  
->  void mtk_gamma_config(struct device *dev, unsigned int w,
-> @@ -178,6 +218,8 @@ static int mtk_disp_gamma_probe(struct
-> platform_device *pdev)
->  	ret = component_add(dev, &mtk_disp_gamma_component_ops);
->  	if (ret)
->  		dev_err(dev, "Failed to add component: %d\n", ret);
-> +	now_lut_size = priv->data->lut_size;
-> +	now_lut_diff = priv->data->lut_diff;
->  
->  	return ret;
->  }
-> @@ -191,10 +233,17 @@ static int mtk_disp_gamma_remove(struct
-> platform_device *pdev)
->  
->  static const struct mtk_disp_gamma_data mt8173_gamma_driver_data = {
->  	.has_dither = true,
-> +	.lut_size = 512,
->  };
->  
->  static const struct mtk_disp_gamma_data mt8183_gamma_driver_data = {
->  	.lut_diff = true,
-> +	.lut_size = 512,
-> +};
+>   source "drivers/gpu/drm/amd/amdgpu/Kconfig"
+>   
+>   source "drivers/gpu/drm/nouveau/Kconfig"
+> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
+> index 7777d55275de..36b1206124cf 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
+> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+> @@ -1,4 +1,26 @@
+>   # SPDX-License-Identifier: MIT
 > +
-> +static const struct mtk_disp_gamma_data mt8195_gamma_driver_data = {
-> +	.lut_diff = true,
-> +	.lut_size = 1024,
->  };
->  
->  static const struct of_device_id mtk_disp_gamma_driver_dt_match[] =
-> {
-> @@ -202,6 +251,8 @@ static const struct of_device_id
-> mtk_disp_gamma_driver_dt_match[] = {
->  	  .data = &mt8173_gamma_driver_data},
->  	{ .compatible = "mediatek,mt8183-disp-gamma",
->  	  .data = &mt8183_gamma_driver_data},
-> +	{ .compatible = "mediatek,mt8195-disp-gamma",
-> +	  .data = &mt8195_gamma_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> index 42cc7052b050..2a6513259562 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -930,9 +930,8 @@ int mtk_drm_crtc_create(struct drm_device
-> *drm_dev,
->  		mtk_crtc->ddp_comp[i] = comp;
->  
->  		if (comp->funcs) {
-> -			if (comp->funcs->gamma_set)
-> -				gamma_lut_size = MTK_LUT_SIZE;
-> -
-> +			if (comp->funcs->gamma_set && comp->funcs-
-> >gamma_size)
-> +				gamma_lut_size = comp->funcs-
-> >gamma_size(comp->dev);
->  			if (comp->funcs->ctm_set)
->  				has_ctm = true;
->  		}
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-> b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-> index cb9a36c48d4f..1799853ef89a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-> @@ -10,7 +10,6 @@
->  #include "mtk_drm_ddp_comp.h"
->  #include "mtk_drm_plane.h"
->  
-> -#define MTK_LUT_SIZE	512
->  #define MTK_MAX_BPC	10
->  #define MTK_MIN_BPC	3
->  
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> index 2d72cc5ddaba..4c6538a17b88 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> @@ -323,6 +323,7 @@ static const struct mtk_ddp_comp_funcs ddp_gamma
-> = {
->  	.clk_enable = mtk_gamma_clk_enable,
->  	.clk_disable = mtk_gamma_clk_disable,
->  	.gamma_set = mtk_gamma_set,
-> +	.gamma_size = mtk_gamma_size,
->  	.config = mtk_gamma_config,
->  	.start = mtk_gamma_start,
->  	.stop = mtk_gamma_stop,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> index 2d0052c23dcb..bf0cf7f86010 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> @@ -59,6 +59,7 @@ struct mtk_ddp_comp_funcs {
->  	void (*disable_vblank)(struct device *dev);
->  	unsigned int (*supported_rotations)(struct device *dev);
->  	unsigned int (*layer_nr)(struct device *dev);
-> +	unsigned int (*gamma_size)(struct device *dev);
->  	int (*layer_check)(struct device *dev,
->  			   unsigned int idx,
->  			   struct mtk_plane_state *state);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 0e4c77724b05..473766be56e1 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -567,6 +567,8 @@ static const struct of_device_id
-> mtk_ddp_comp_dt_ids[] = {
->  	  .data = (void *)MTK_DISP_GAMMA, },
->  	{ .compatible = "mediatek,mt8183-disp-gamma",
->  	  .data = (void *)MTK_DISP_GAMMA, },
-> +	{ .compatible = "mediatek,mt8195-disp-gamma",
-> +	  .data = (void *)MTK_DISP_GAMMA, },
->  	{ .compatible = "mediatek,mt8195-disp-merge",
->  	  .data = (void *)MTK_DISP_MERGE },
->  	{ .compatible = "mediatek,mt2701-disp-mutex",
+> +config DRM_AMDGPU
+> +	tristate "AMD GPU"
+> +	depends on DRM && PCI && MMU
+> +	select FW_LOADER
+> +	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_HDMI_HELPER
+> +	select DRM_DISPLAY_HELPER
+> +	select DRM_KMS_HELPER
+> +	select DRM_SCHED
+> +	select DRM_TTM
+> +	select DRM_TTM_HELPER
+> +	select POWER_SUPPLY
+> +	select HWMON
+> +	select BACKLIGHT_CLASS_DEVICE
+> +	select INTERVAL_TREE
+> +	select DRM_BUDDY
+> +	help
+> +	  Choose this option if you have a recent AMD Radeon graphics card.
+> +
+> +	  If M is selected, the module will be called amdgpu.
+> +
+>   config DRM_AMDGPU_SI
+>   	bool "Enable amdgpu support for SI parts"
+>   	depends on DRM_AMDGPU
+> diff --git a/drivers/gpu/drm/radeon/Kconfig b/drivers/gpu/drm/radeon/Kconfig
+> index 52819e7f1fca..3248d12c562d 100644
+> --- a/drivers/gpu/drm/radeon/Kconfig
+> +++ b/drivers/gpu/drm/radeon/Kconfig
+> @@ -1,4 +1,26 @@
+>   # SPDX-License-Identifier: MIT
+> +
+> +config DRM_RADEON
+> +	tristate "ATI Radeon"
+> +	depends on DRM && PCI && MMU
+> +	depends on AGP || !AGP
+> +	select FW_LOADER
+> +	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_HELPER
+> +        select DRM_KMS_HELPER
+> +        select DRM_TTM
+> +	select DRM_TTM_HELPER
+> +	select POWER_SUPPLY
+> +	select HWMON
+> +	select BACKLIGHT_CLASS_DEVICE
+> +	select INTERVAL_TREE
+> +	help
+> +	  Choose this option if you have an ATI Radeon graphics card.  There
+> +	  are both PCI and AGP versions.  You don't need to choose this to
+> +	  run the Radeon in plain VGA mode.
+> +
+> +	  If M is selected, the module will be called radeon.
+> +
+>   config DRM_RADEON_USERPTR
+>   	bool "Always enable userptr support"
+>   	depends on DRM_RADEON
 
