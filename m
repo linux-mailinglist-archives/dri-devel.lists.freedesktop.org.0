@@ -1,55 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C8459CD12
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 02:17:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E337959CD47
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 02:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 234C6A78DC;
-	Tue, 23 Aug 2022 00:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D48CFA7D21;
+	Tue, 23 Aug 2022 00:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78CF311B482
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 00:16:45 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 27N0GabP084538;
- Mon, 22 Aug 2022 19:16:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1661213796;
- bh=IXS3eOpGeVTQhnzmRvwBTKZZwv0GAWdYS0tpv7glTv4=;
- h=From:To:CC:Subject:Date;
- b=CtsjRT6KqXspxbsq858IDz7DOMgcoMVGPp6gP4znuKH7oUCscQ44v0V13Q7m17q6d
- zAiVkVVC77V6A3g1BanAqh70jA63g4Duiz6sh6ZFRwlwoTPt7YsrmWyHP9L3ZHFvR0
- EZRLmt7CEefrLTaPKti+JhzypQ9ebPnj0AIJBNS8=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 27N0GZqC018842
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 22 Aug 2022 19:16:36 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Mon, 22
- Aug 2022 19:16:35 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Mon, 22 Aug 2022 19:16:35 -0500
-Received: from ula0226330.dal.design.ti.com (ileax41-snat.itg.ti.com
- [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 27N0GZ0u007537;
- Mon, 22 Aug 2022 19:16:35 -0500
-From: Andrew Davis <afd@ti.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Tomi
- Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/tidss: Set max DMA segment size
-Date: Mon, 22 Aug 2022 19:16:34 -0500
-Message-ID: <20220823001634.11461-1-afd@ti.com>
-X-Mailer: git-send-email 2.36.1
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D54FCA7639
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 00:42:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=1SF0SGC2zWjdo96D+0xeHw99mifXdhz/ntpv5NKkPcQ=; b=f7o/RoHl4sysNkGDSqSmiH5bk+
+ BVJXkWWoIXlAHXbFVu6OsXOhPlHhz1hdeH447tJvDg9Chs6MB4M73kvLa1CKs/3QBPzOJ1pSXjald
+ mb34+DcKN5fLBzAM0CoUmFryXwVKav1A8fJe7pZTLLQiFPSnxNA1IJpMq/O3XyrfTBSOnGqJgw9hh
+ K+4YFuuIuRHRValii8PQ6ecLqq0voaN88C4KK4uEWe4k5brxhpey4pAL5TmAMukdo7hcpDOSTMZ6R
+ WTF3va/2IKPtSKI45SvDK+XNL657CjTfGdPeiOt0CvjPj49G+IxjVwOtqqf3ryzoIEXpyAJiGoKEv
+ JYpiejbA==;
+Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1oQI03-00Eo63-Lo; Tue, 23 Aug 2022 00:42:36 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] drm/panel: use 'select' for Ili9341 panel driver helpers
+Date: Mon, 22 Aug 2022 17:42:27 -0700
+Message-Id: <20220823004227.10820-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,29 +47,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Davis <afd@ti.com>
+Cc: David Airlie <airlied@linux.ie>, Dillon Min <dillon.minfei@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have no segment size limitations. Set to unlimited.
+Use 'select' instead of 'depends on' for DRM helpers for the
+Ilitek ILI9341 panel driver.
+This is what is done in the vast majority of other cases and
+this makes it possible to fix a build error with drm_mipi_dbi.
 
-Signed-off-by: Andrew Davis <afd@ti.com>
+Fixes: 5a04227326b0 ("drm/panel: Add ilitek ili9341 panel driver")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Dillon Min <dillon.minfei@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Noralf Trønnes <noralf@tronnes.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/tidss/tidss_dispc.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/panel/Kconfig |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index dd3c6a606ae2..624545e4636c 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -2685,6 +2685,7 @@ int dispc_init(struct tidss_device *tidss)
- 		if (r)
- 			dev_warn(dev, "cannot set DMA masks to 48-bit\n");
- 	}
-+	dma_set_max_seg_size(dev, UINT_MAX);
- 
- 	dispc = devm_kzalloc(dev, sizeof(*dispc), GFP_KERNEL);
- 	if (!dispc)
--- 
-2.36.1
-
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -165,8 +165,8 @@ config DRM_PANEL_ILITEK_IL9322
+ config DRM_PANEL_ILITEK_ILI9341
+ 	tristate "Ilitek ILI9341 240x320 QVGA panels"
+ 	depends on OF && SPI
+-	depends on DRM_KMS_HELPER
+-	depends on DRM_GEM_DMA_HELPER
++	select DRM_KMS_HELPER
++	select DRM_GEM_DMA_HELPER
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	select DRM_MIPI_DBI
+ 	help
