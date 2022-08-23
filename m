@@ -1,57 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3126359CC58
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 01:42:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8DB59CCB2
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 02:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA5C1A6AA8;
-	Mon, 22 Aug 2022 23:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE0DA742B;
+	Tue, 23 Aug 2022 00:01:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 672 seconds by postgrey-1.36 at gabe;
- Mon, 22 Aug 2022 23:42:15 UTC
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0BB2A6A5A
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Aug 2022 23:42:15 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 27MNUQLd074090;
- Mon, 22 Aug 2022 18:30:26 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22326A73F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 00:01:19 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 27N01CNv080249;
+ Mon, 22 Aug 2022 19:01:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1661211026;
- bh=uSkotbdg/hVWC8rjHHqjYakc/nGIs5ok73w5EJZqouk=;
+ s=ti-com-17Q1; t=1661212872;
+ bh=6gL8GX1okldRhQ3vdUKlxXXVejTWjDezNq+uH1iQOhI=;
  h=From:To:CC:Subject:Date;
- b=mZsdZQ8LXrXeQc/vTg2jHHWrep9JYsHVZESdztngA3NE/xeLh0MfLwdfZ67BgfBUf
- ursMG/QGCt1nRB/3Sc/vZ4DjJqZh1K00/2BzwSsbVnrPMzdKrebOj+UCeEcWctIZyL
- HtRbmPoJX0foUesWbOfUsqet2Vzv7ePRRSvmsySk=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 27MNUQZc026737
+ b=aU0jfePkxeDtbFrgl9rrImPnBbVH2+5duKpj9GceIhLOxVoz17c7ERjEFgx65Oy/3
+ a0OF1g044RrhtybnYwvhAg9F4wqDeIkiMsS266x4kt6eeN8Smb5O9JAH6mm1ntTV3V
+ Z48lEtrVOxe+Oa2VQxnaVS9xQ+w7sPIOSohZzUDk=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 27N01CgS038656
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 22 Aug 2022 18:30:26 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 22 Aug 2022 19:01:12 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Mon, 22
- Aug 2022 18:30:26 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2022 19:01:12 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Mon, 22 Aug 2022 18:30:26 -0500
+ Frontend Transport; Mon, 22 Aug 2022 19:01:12 -0500
 Received: from ula0226330.dal.design.ti.com (ileax41-snat.itg.ti.com
  [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 27MNUPs8007032;
- Mon, 22 Aug 2022 18:30:25 -0500
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 27N01B8h089285;
+ Mon, 22 Aug 2022 19:01:12 -0500
 From: Andrew Davis <afd@ti.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Liam Mark <lmark@codeaurora.org>, Laura
- Abbott <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, John
- Stultz <jstultz@google.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] dma-buf: cma_heap: Check for device max segment size when
- attaching
-Date: Mon, 22 Aug 2022 18:30:25 -0500
-Message-ID: <20220822233025.3965-1-afd@ti.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm: Move radeon and amdgpu Kconfig options into their
+ directories
+Date: Mon, 22 Aug 2022 19:01:11 -0500
+Message-ID: <20220823000111.9765-1-afd@ti.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -73,40 +67,133 @@ Cc: Andrew Davis <afd@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although there is usually not such a limitation (and when there is it is
-often only because the driver forgot to change the super small default),
-it is still correct here to break scatterlist element into chunks of
-dma_max_mapping_size().
-
-This might cause some issues for users with misbehaving drivers. If
-bisecting has landed you on this commit, make sure your drivers both set
-dma_set_max_seg_size() and are checking for contiguousness correctly.
+Most Kconfig options to enable a driver are in the Kconfig file
+inside the relevant directory, move these two to the same.
 
 Signed-off-by: Andrew Davis <afd@ti.com>
 ---
- drivers/dma-buf/heaps/cma_heap.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/Kconfig            | 42 ------------------------------
+ drivers/gpu/drm/amd/amdgpu/Kconfig | 22 ++++++++++++++++
+ drivers/gpu/drm/radeon/Kconfig     | 22 ++++++++++++++++
+ 3 files changed, 44 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 28fb04eccdd0..cacc84cb5ece 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -58,10 +58,11 @@ static int cma_heap_attach(struct dma_buf *dmabuf,
- 	if (!a)
- 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 6c2256e8474b..24fa9ccd92a4 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -234,50 +234,8 @@ source "drivers/gpu/drm/i2c/Kconfig"
  
--	ret = sg_alloc_table_from_pages(&a->table, buffer->pages,
--					buffer->pagecount, 0,
--					buffer->pagecount << PAGE_SHIFT,
--					GFP_KERNEL);
-+	size_t max_segment = dma_get_max_seg_size(attachment->dev);
-+	ret = sg_alloc_table_from_pages_segment(&a->table, buffer->pages,
-+						buffer->pagecount, 0,
-+						buffer->pagecount << PAGE_SHIFT,
-+						max_segment, GFP_KERNEL);
- 	if (ret) {
- 		kfree(a);
- 		return ret;
+ source "drivers/gpu/drm/arm/Kconfig"
+ 
+-config DRM_RADEON
+-	tristate "ATI Radeon"
+-	depends on DRM && PCI && MMU
+-	depends on AGP || !AGP
+-	select FW_LOADER
+-	select DRM_DISPLAY_DP_HELPER
+-	select DRM_DISPLAY_HELPER
+-        select DRM_KMS_HELPER
+-        select DRM_TTM
+-	select DRM_TTM_HELPER
+-	select POWER_SUPPLY
+-	select HWMON
+-	select BACKLIGHT_CLASS_DEVICE
+-	select INTERVAL_TREE
+-	help
+-	  Choose this option if you have an ATI Radeon graphics card.  There
+-	  are both PCI and AGP versions.  You don't need to choose this to
+-	  run the Radeon in plain VGA mode.
+-
+-	  If M is selected, the module will be called radeon.
+-
+ source "drivers/gpu/drm/radeon/Kconfig"
+ 
+-config DRM_AMDGPU
+-	tristate "AMD GPU"
+-	depends on DRM && PCI && MMU
+-	select FW_LOADER
+-	select DRM_DISPLAY_DP_HELPER
+-	select DRM_DISPLAY_HDMI_HELPER
+-	select DRM_DISPLAY_HELPER
+-	select DRM_KMS_HELPER
+-	select DRM_SCHED
+-	select DRM_TTM
+-	select DRM_TTM_HELPER
+-	select POWER_SUPPLY
+-	select HWMON
+-	select BACKLIGHT_CLASS_DEVICE
+-	select INTERVAL_TREE
+-	select DRM_BUDDY
+-	help
+-	  Choose this option if you have a recent AMD Radeon graphics card.
+-
+-	  If M is selected, the module will be called amdgpu.
+-
+ source "drivers/gpu/drm/amd/amdgpu/Kconfig"
+ 
+ source "drivers/gpu/drm/nouveau/Kconfig"
+diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
+index 7777d55275de..36b1206124cf 100644
+--- a/drivers/gpu/drm/amd/amdgpu/Kconfig
++++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+@@ -1,4 +1,26 @@
+ # SPDX-License-Identifier: MIT
++
++config DRM_AMDGPU
++	tristate "AMD GPU"
++	depends on DRM && PCI && MMU
++	select FW_LOADER
++	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_HDMI_HELPER
++	select DRM_DISPLAY_HELPER
++	select DRM_KMS_HELPER
++	select DRM_SCHED
++	select DRM_TTM
++	select DRM_TTM_HELPER
++	select POWER_SUPPLY
++	select HWMON
++	select BACKLIGHT_CLASS_DEVICE
++	select INTERVAL_TREE
++	select DRM_BUDDY
++	help
++	  Choose this option if you have a recent AMD Radeon graphics card.
++
++	  If M is selected, the module will be called amdgpu.
++
+ config DRM_AMDGPU_SI
+ 	bool "Enable amdgpu support for SI parts"
+ 	depends on DRM_AMDGPU
+diff --git a/drivers/gpu/drm/radeon/Kconfig b/drivers/gpu/drm/radeon/Kconfig
+index 52819e7f1fca..3248d12c562d 100644
+--- a/drivers/gpu/drm/radeon/Kconfig
++++ b/drivers/gpu/drm/radeon/Kconfig
+@@ -1,4 +1,26 @@
+ # SPDX-License-Identifier: MIT
++
++config DRM_RADEON
++	tristate "ATI Radeon"
++	depends on DRM && PCI && MMU
++	depends on AGP || !AGP
++	select FW_LOADER
++	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_HELPER
++        select DRM_KMS_HELPER
++        select DRM_TTM
++	select DRM_TTM_HELPER
++	select POWER_SUPPLY
++	select HWMON
++	select BACKLIGHT_CLASS_DEVICE
++	select INTERVAL_TREE
++	help
++	  Choose this option if you have an ATI Radeon graphics card.  There
++	  are both PCI and AGP versions.  You don't need to choose this to
++	  run the Radeon in plain VGA mode.
++
++	  If M is selected, the module will be called radeon.
++
+ config DRM_RADEON_USERPTR
+ 	bool "Always enable userptr support"
+ 	depends on DRM_RADEON
 -- 
 2.36.1
 
