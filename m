@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BC359D120
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 08:19:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C9C59D124
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Aug 2022 08:20:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C573E9B984;
-	Tue, 23 Aug 2022 06:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1050AEF12;
+	Tue, 23 Aug 2022 06:20:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 666A3AEEAB
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 06:18:48 +0000 (UTC)
-X-UUID: 252dc4d1074b415fbb8ca57a365e45c2-20220823
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B629AEEB1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 06:18:50 +0000 (UTC)
+X-UUID: 6dc5329786e34157b2e779d1c833a153-20220823
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
  bh=6ezLuXIgmXVhWQiBdObuX64UkcXjfkjUJZ/LZs4T6Kk=; 
- b=i8Sr/E7CO2Z/f+qjld0yWgQIzhWNIFsb/pwNaN79EsYsGjdHuBQUIGi1U0AuIpfYy3ovNXVoq8OYZmwY0D+mRXbXTZVhopZLSh5NF1c7LmWH/nPiBoxzW7KzUOysqYrOmsXt8GQ/WV2PcswvI4gxTHoOc5R/zwnPFSQ6Wan5lSY=;
+ b=fgSKS3WHMxwilQla0qxEZKiE00ZYIecFCsBrzwtF9J/vtbjD0uequGHso3bGNzxQc8zdtG+Nezqkwx3PegUlTb28XCv5Q0IDmR12QSe8rxqMEEmAkytKWTCZsM0+YKGledrLQcI0UtuCWqhvuRugjoj/fD8j+DW5sbw0EmL2VaQ=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:62c4d835-dfc9-49d6-8644-32f6ebb8f052, OB:0,
+X-CID-O-INFO: VERSION:1.1.10, REQID:6dd4f4f9-c8f2-409a-9013-ea03d0334f21, OB:0,
  L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Releas
- e_Ham,ACTION:release,TS:100
-X-CID-INFO: VERSION:1.1.10, REQID:62c4d835-dfc9-49d6-8644-32f6ebb8f052, OB:0,
- LOB
- :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS9
- 81B3D,ACTION:quarantine,TS:100
-X-CID-META: VersionHash:84eae18, CLOUDID:40f10368-a9d9-4672-a3c8-12721739a220,
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
+ Ham,ACTION:release,TS:0
+X-CID-META: VersionHash:84eae18, CLOUDID:62c280c9-6b09-4f60-bf82-12f039f5d530,
  C
- OID:f2a24d44f45d,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 252dc4d1074b415fbb8ca57a365e45c2-20220823
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <xinlei.lee@mediatek.com>)
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 6dc5329786e34157b2e779d1c833a153-20220823
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1499804671; Tue, 23 Aug 2022 14:18:42 +0800
+ with ESMTP id 1590920868; Tue, 23 Aug 2022 14:18:46 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 23 Aug 2022 14:18:41 +0800
+ 15.2.792.15; Tue, 23 Aug 2022 14:18:44 +0800
 Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
  mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Tue, 23 Aug 2022 14:18:40 +0800
+ 15.0.1497.2 via Frontend Transport; Tue, 23 Aug 2022 14:18:43 +0800
 From: <xinlei.lee@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <matthias.bgg@gmail.com>, <rex-bc.chen@mediatek.com>,
  <angelogioacchino.delregno@collabora.com>, <jason-jh.lin@mediatek.com>,
  <yongqiang.niu@mediatek.com>
 Subject: [PATCH v3,0/2] Add dpi output format control for MT8186
-Date: Tue, 23 Aug 2022 14:18:35 +0800
-Message-ID: <1661235517-23699-1-git-send-email-xinlei.lee@mediatek.com>
+Date: Tue, 23 Aug 2022 14:18:36 +0800
+Message-ID: <1661235517-23699-2-git-send-email-xinlei.lee@mediatek.com>
 X-Mailer: git-send-email 2.6.4
+In-Reply-To: <1661235517-23699-1-git-send-email-xinlei.lee@mediatek.com>
+References: <1661235517-23699-1-git-send-email-xinlei.lee@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
