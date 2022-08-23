@@ -1,82 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2B359EF86
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 01:00:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCFBF59F012
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 02:04:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4F010E7D1;
-	Tue, 23 Aug 2022 22:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7593410E0F5;
+	Wed, 24 Aug 2022 00:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A963D10E7D1;
- Tue, 23 Aug 2022 22:59:39 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27NMJLiv017875;
- Tue, 23 Aug 2022 22:59:34 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 383B710E0F5;
+ Wed, 24 Aug 2022 00:04:04 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27NNhUOR007108;
+ Wed, 24 Aug 2022 00:03:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=SmfOlFEY+bxB4JGYRl9SHqzzOcFjxH81Y+sEnQBbySk=;
- b=hrSI/vc4cL/5uIw5Yt0nNo8SyPkPmsVOIYHqUEy8UWl/T1T+5Zg6xF4i0bzoPEGifhaR
- lU5/Xy880ugsIVkRye054D5nmEH5WjNjM2V3SBf2XADUwakorrykpEXX8u26FP2p39vW
- GSXKN3bQ3I94f/Lb0kxI3t70l/K66uukU2ceWkDRaaTJATne1rF9qJc1vYVb9OXsTeFv
- pjM2l0eF0mdzF09reZjRcDMnsl+oJ9TBJejXxjd8LgJdEXxLgP1VSP9CrkzJ7UV6NPc5
- 9QUwMXcwPnT5sCSsZeYyoMBj6VPabPxwvkUM6n4aAbsKtJVSRtPzqZMW6GPwpGcmflqY 5Q== 
+ bh=wvAx/e9VhLoAbOa7O396KaC5eZOiIiehs6HoBJNvnxQ=;
+ b=F48ZBHsJ+xX6gR8VbvigLjNcKUcFXzm/Yz5nZD8t9ZQMoGPd/BalxfWwjy7nuZFfpW3X
+ goGSigUqUd3mP8XISW3HCOTImD3W2+iAWn8WYqa0rfL/fX/am4d7i4hfLGffKuV2W2un
+ qaTuwR+njUzHY94yceNDGADdui9adGO90V8A3S1NM9fuy3Bx7g+UirZ/MawLhJCBDbMY
+ zFBU3aqjKNxlsgKCMbJjif47A/cjYqZI1puYgijp5uEUUkE17X9ghK7OJ/MQani8336P
+ h/xLnqRcS38J2nb/PeFDVQH31Iv+XMNeTI0OPO99+pokuge0jEKYYBeXSi4iDJFHlHmY Gw== 
 Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j52pps0fw-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j52pnh5dt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Aug 2022 22:59:33 +0000
+ Wed, 24 Aug 2022 00:03:56 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27NMxVmZ010089
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27NNwspG005150
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Aug 2022 22:59:31 GMT
+ Tue, 23 Aug 2022 23:58:54 GMT
 Received: from [10.111.161.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 23 Aug
- 2022 15:59:26 -0700
-Message-ID: <16f2c33f-c91e-8b4a-f67a-81f13adb2eac@quicinc.com>
-Date: Tue, 23 Aug 2022 15:59:25 -0700
+ 2022 16:58:52 -0700
+Message-ID: <41ca91c6-dc38-af0a-c955-a276f5824cc8@quicinc.com>
+Date: Tue, 23 Aug 2022 16:58:50 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dp: add atomic_check to bridge ops
+Subject: Re: [PATCH 3/3] drm/msm/hdmi: move resource allocation to probe
+ function
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <1660759314-28088-1-git-send-email-quic_khsieh@quicinc.com>
- <f211520a-cb9c-1202-0752-7bb200726ae8@linaro.org>
- <d4b3c303-fc20-537d-0e69-6e19826b6e59@quicinc.com>
- <266c0531-344e-5589-2143-02ab1fe9b276@linaro.org>
- <724d695d-0293-db81-7014-57cb96bd6d4b@quicinc.com>
- <bb153360-6567-c4d5-dc23-8586549df8c8@linaro.org>
- <13509c06-cf2b-e37b-d8ec-b5cc5370f566@quicinc.com>
- <CAA8EJprzE_U0crAQxu5xvQxadu8jUovEXOWzV2cTc_BQeHjyow@mail.gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220616075947.347888-1-dmitry.baryshkov@linaro.org>
+ <20220616075947.347888-4-dmitry.baryshkov@linaro.org>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJprzE_U0crAQxu5xvQxadu8jUovEXOWzV2cTc_BQeHjyow@mail.gmail.com>
+In-Reply-To: <20220616075947.347888-4-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: QAalJAKIZBc36KAfX-cbeuk15hKL_Mq7
-X-Proofpoint-GUID: QAalJAKIZBc36KAfX-cbeuk15hKL_Mq7
+X-Proofpoint-ORIG-GUID: _RfvLP-rgbTqMofgVWFIUz05DXdf9Oeb
+X-Proofpoint-GUID: _RfvLP-rgbTqMofgVWFIUz05DXdf9Oeb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-23_09,2022-08-22_02,2022-06-22_01
+ definitions=2022-08-23_10,2022-08-22_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- suspectscore=0 adultscore=0 impostorscore=0 mlxlogscore=999 mlxscore=0
- bulkscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208230085
+ priorityscore=1501
+ suspectscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015
+ bulkscore=0 phishscore=0 impostorscore=0 malwarescore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208230089
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,216 +85,401 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- dianders@chromium.org, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, vkoul@kernel.org,
- agross@kernel.org, bjorn.andersson@linaro.org, quic_aravindh@quicinc.com,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 8/23/2022 3:41 PM, Dmitry Baryshkov wrote:
-> On Wed, 24 Aug 2022 at 01:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->> On 8/22/2022 11:33 AM, Dmitry Baryshkov wrote:
->>> On 22/08/2022 20:32, Abhinav Kumar wrote:
->>>>
->>>>
->>>> On 8/22/2022 9:49 AM, Dmitry Baryshkov wrote:
->>>>> On 22/08/2022 19:38, Abhinav Kumar wrote:
->>>>>> Hi Dmitry
->>>>>>
->>>>>> On 8/22/2022 9:18 AM, Dmitry Baryshkov wrote:
->>>>>>> On 17/08/2022 21:01, Kuogee Hsieh wrote:
->>>>>>>> DRM commit_tails() will disable downstream crtc/encoder/bridge if
->>>>>>>> both disable crtc is required and crtc->active is set before pushing
->>>>>>>> a new frame downstream.
->>>>>>>>
->>>>>>>> There is a rare case that user space display manager issue an extra
->>>>>>>> screen update immediately followed by close DRM device while down
->>>>>>>> stream display interface is disabled. This extra screen update will
->>>>>>>> timeout due to the downstream interface is disabled but will cause
->>>>>>>> crtc->active be set. Hence the followed commit_tails() called by
->>>>>>>> drm_release() will pass the disable downstream crtc/encoder/bridge
->>>>>>>> conditions checking even downstream interface is disabled.
->>>>>>>> This cause the crash to happen at dp_bridge_disable() due to it
->>>>>>>> trying
->>>>>>>> to access the main link register to push the idle pattern out
->>>>>>>> while main
->>>>>>>> link clocks is disabled.
->>>>>>>>
->>>>>>>> This patch adds atomic_check to prevent the extra frame will not
->>>>>>>> be pushed down if display interface is down so that crtc->active
->>>>>>>> will not be set neither. This will fail the conditions checking
->>>>>>>> of disabling down stream crtc/encoder/bridge which prevent
->>>>>>>> drm_release() from calling dp_bridge_disable() so that crash
->>>>>>>> at dp_bridge_disable() prevented.
->>>>>>>
->>>>>>> I must admit I had troubles parsing this description. However if I
->>>>>>> got you right, I think the check that the main link clock is
->>>>>>> running in the dp_bridge_disable() or dp_ctrl_push_idle() would be
->>>>>>> a better fix.
->>>>>>
->>>>>> Originally, thats what was posted
->>>>>> https://patchwork.freedesktop.org/patch/496984/.
->>>>>
->>>>> This patch is also not so correct from my POV. It checks for the hpd
->>>>> status, while in reality it should check for main link clocks being
->>>>> enabled.
->>>>>
->>>>
->>>> We can push another fix to check for the clk state instead of the hpd
->>>> status. But I must say we are again just masking something which the
->>>> fwk should have avoided isnt it?
->>>>
->>>> As per the doc in the include/drm/drm_bridge.h it says,
->>>>
->>>> "*
->>>>    * The bridge can assume that the display pipe (i.e. clocks and timing
->>>>    * signals) feeding it is still running when this callback is called.
->>>>    *"
->>>
->>> Yes, that's what I meant about this chunk begging to go to the core. In
->>> my opinion, if we are talking about the disconnected sinks, it is the
->>> framework who should disallow submitting the frames to the disconnected
->>> sinks.
->>>
->>>>
->>>> By adding an extra layers of protection in the driver, we are just
->>>> avoiding another issue but the commit should not have been issued in
->>>> the first place.
->>>>
->>>> So shouldnt we do both then? That is add protection to check if clock
->>>> is ON and also, reject commits when display is disconnected.
->>>>
->>>>>>
->>>>>> Then it seemed like we were just protecting against an issue in the
->>>>>> framework which was allowing the frames to be pushed even after the
->>>>>> display was disconnected. The DP driver did send out the disconnect
->>>>>> event correctly and as per the logs, this frame came down after that
->>>>>> and the DRM fwk did allow it.
->>>>>>
->>>>>> So after discussing on IRC with Rob, we came up with this approach that
->>>>>> if the display is not connected, then atomic_check should fail. That
->>>>>> way the commit will not happen.
->>>>>>
->>>>>> Just seemed a bit cleaner instead of adding all our protections.
->>>>>
->>>>> The check to fail atomic_check if display is not connected seems out
->>>>> of place. In its current way it begs go to the upper layer,
->>>>> forbidding using disconnected sinks for all the drivers. There is
->>>>> nothing special in the MSM DP driver with respect to the HPD events
->>>>> processing and failing atomic_check() based on that.
->>>>>
->>>>
->>>> Why all the drivers? This is only for MSM DP bridge.
->>>
->>> Yes, we change the MSM DRM driver. But the check is generic enough. I'm
->>> not actually insisting on pushing the check to the core, just trying to
->>> understand the real cause here.
->>>
->>>>
->>
->> I actually wanted to push this to the core and thats what I had
->> originally asked on IRC because it does seem to be generic enough that
->> it should belong to the core but after discussion with Rob on freedreno,
->> he felt this was a better approach because for some of the legacy
->> connectors like VGA, this need not belong to the DRM core, hence we went
->> with this approach.
+On 6/16/2022 12:59 AM, Dmitry Baryshkov wrote:
+> Rather than having all resource allocation happen in the _bind function
+> (resulting in possible EPROBE_DEFER returns and component bind/unbind
+> cycles) allocate and check all resources in _probe function. While we
+> are at it, use platform_get_irq() to get the IRQ rather than going
+> through the irq_of_parse_and_map().
 > 
-> It might be better to whitelist such connectors (S-VIDEO/composite
-> comes to my mind rather than VGA).
-
-I am fine with that approach, if Rob is onboard with that.
-
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/hdmi/hdmi.c | 295 +++++++++++++++-----------------
+>   1 file changed, 134 insertions(+), 161 deletions(-)
 > 
->>>>>>>> SError Interrupt on CPU7, code 0x00000000be000411 -- SError
->>>>>>>> CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
->>>>>>>> Hardware name: Google Lazor (rev3 - 8) (DT)
->>>>>>>> pstate: a04000c9 (NzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->>>>>>>> pc : __cmpxchg_case_acq_32+0x14/0x2c
->>>>>>>> lr : do_raw_spin_lock+0xa4/0xdc
->>>>>>>> sp : ffffffc01092b6a0
->>>>>>>> x29: ffffffc01092b6a0 x28: 0000000000000028 x27: 0000000000000038
->>>>>>>> x26: 0000000000000004 x25: ffffffd2973dce48 x24: 0000000000000000
->>>>>>>> x23: 00000000ffffffff x22: 00000000ffffffff x21: ffffffd2978d0008
->>>>>>>> x20: ffffffd2978d0008 x19: ffffff80ff759fc0 x18: 0000000000000000
->>>>>>>> x17: 004800a501260460 x16: 0441043b04600438 x15: 04380000089807d0
->>>>>>>> x14: 07b0089807800780 x13: 0000000000000000 x12: 0000000000000000
->>>>>>>> x11: 0000000000000438 x10: 00000000000007d0 x9 : ffffffd2973e09e4
->>>>>>>> x8 : ffffff8092d53300 x7 : ffffff808902e8b8 x6 : 0000000000000001
->>>>>>>> x5 : ffffff808902e880 x4 : 0000000000000000 x3 : ffffff80ff759fc0
->>>>>>>> x2 : 0000000000000001 x1 : 0000000000000000 x0 : ffffff80ff759fc0
->>>>>>>> Kernel panic - not syncing: Asynchronous SError Interrupt
->>>>>>>> CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
->>>>>>>> Hardware name: Google Lazor (rev3 - 8) (DT)
->>>>>>>> Call trace:
->>>>>>>>    dump_backtrace.part.0+0xbc/0xe4
->>>>>>>>    show_stack+0x24/0x70
->>>>>>>>    dump_stack_lvl+0x68/0x84
->>>>>>>>    dump_stack+0x18/0x34
->>>>>>>>    panic+0x14c/0x32c
->>>>>>>>    nmi_panic+0x58/0x7c
->>>>>>>>    arm64_serror_panic+0x78/0x84
->>>>>>>>    do_serror+0x40/0x64
->>>>>>>>    el1h_64_error_handler+0x30/0x48
->>>>>>>>    el1h_64_error+0x68/0x6c
->>>>>>>>    __cmpxchg_case_acq_32+0x14/0x2c
->>>>>>>>    _raw_spin_lock_irqsave+0x38/0x4c
->>>
->>> You know, after re-reading the trace, I could not help but notice that
->>> the issue seems to be related to completion/timer/spinlock memory
->>> becoming unavailable rather than disabling the main link clock.
->>> See, the SError comes in the spin_lock path, not during register read.
->>>
->>> Thus I think the commit message is a bit misleading.
->>>
->>
->> No, this issue is due to unclocked access. Please check this part of the
->> stack:
-> 
-> Well, if it were for the unlocked access, we would see SError on the
-> register access, wouldn't we? However in this case the SError comes
-> from the raw spinlock code.
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> index 8dfe5690366b..429abd622c81 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> @@ -75,8 +75,6 @@ static void msm_hdmi_destroy(struct hdmi *hdmi)
+>   
+>   	if (hdmi->i2c)
+>   		msm_hdmi_i2c_destroy(hdmi->i2c);
+> -
+> -	platform_set_drvdata(hdmi->pdev, NULL);
+Do we still not need to do this in .remove?
+>   }
+>   
+>   static int msm_hdmi_get_phy(struct hdmi *hdmi)
+> @@ -116,138 +114,10 @@ static int msm_hdmi_get_phy(struct hdmi *hdmi)
+>    * we are to EPROBE_DEFER we want to do it here, rather than later
+>    * at modeset_init() time
+>    */
+> -static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
+> +static int msm_hdmi_init(struct hdmi *hdmi)
+>   {
+> -	struct hdmi_platform_config *config = pdev->dev.platform_data;
+> -	struct hdmi *hdmi = NULL;
+> -	struct resource *res;
+> -	int i, ret;
+> -
+> -	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
+> -	if (!hdmi) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -
+> -	hdmi->pdev = pdev;
+> -	hdmi->config = config;
+> -	spin_lock_init(&hdmi->reg_lock);
+> -
+> -	hdmi->mmio = msm_ioremap(pdev, "core_physical");
+> -	if (IS_ERR(hdmi->mmio)) {
+> -		ret = PTR_ERR(hdmi->mmio);
+> -		goto fail;
+> -	}
+> -
+> -	/* HDCP needs physical address of hdmi register */
+> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+> -		"core_physical");
+> -	if (!res) {
+> -		ret = -EINVAL;
+> -		goto fail;
+> -	}
+> -	hdmi->mmio_phy_addr = res->start;
+> -
+> -	hdmi->qfprom_mmio = msm_ioremap(pdev, "qfprom_physical");
+> -	if (IS_ERR(hdmi->qfprom_mmio)) {
+> -		DRM_DEV_INFO(&pdev->dev, "can't find qfprom resource\n");
+> -		hdmi->qfprom_mmio = NULL;
+> -	}
+> -
+> -	hdmi->hpd_regs = devm_kcalloc(&pdev->dev,
+> -				      config->hpd_reg_cnt,
+> -				      sizeof(hdmi->hpd_regs[0]),
+> -				      GFP_KERNEL);
+> -	if (!hdmi->hpd_regs) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -	for (i = 0; i < config->hpd_reg_cnt; i++)
+> -		hdmi->hpd_regs[i].supply = config->hpd_reg_names[i];
+> -
+> -	ret = devm_regulator_bulk_get(&pdev->dev, config->hpd_reg_cnt, hdmi->hpd_regs);
+> -	if (ret) {
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to get hpd regulator: %d\n", ret);
+> -		goto fail;
+> -	}
+> -
+> -	hdmi->pwr_regs = devm_kcalloc(&pdev->dev,
+> -				      config->pwr_reg_cnt,
+> -				      sizeof(hdmi->pwr_regs[0]),
+> -				      GFP_KERNEL);
+> -	if (!hdmi->pwr_regs) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -
+> -	for (i = 0; i < config->pwr_reg_cnt; i++)
+> -		hdmi->pwr_regs[i].supply = config->pwr_reg_names[i];
+> -
+> -	ret = devm_regulator_bulk_get(&pdev->dev, config->pwr_reg_cnt, hdmi->pwr_regs);
+> -	if (ret) {
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to get pwr regulator: %d\n", ret);
+> -		goto fail;
+> -	}
+> -
+> -	hdmi->hpd_clks = devm_kcalloc(&pdev->dev,
+> -				      config->hpd_clk_cnt,
+> -				      sizeof(hdmi->hpd_clks[0]),
+> -				      GFP_KERNEL);
+> -	if (!hdmi->hpd_clks) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -	for (i = 0; i < config->hpd_clk_cnt; i++) {
+> -		struct clk *clk;
+> -
+> -		clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
+> -		if (IS_ERR(clk)) {
+> -			ret = PTR_ERR(clk);
+> -			DRM_DEV_ERROR(&pdev->dev, "failed to get hpd clk: %s (%d)\n",
+> -					config->hpd_clk_names[i], ret);
+> -			goto fail;
+> -		}
+> -
+> -		hdmi->hpd_clks[i] = clk;
+> -	}
+> -
+> -	hdmi->pwr_clks = devm_kcalloc(&pdev->dev,
+> -				      config->pwr_clk_cnt,
+> -				      sizeof(hdmi->pwr_clks[0]),
+> -				      GFP_KERNEL);
+> -	if (!hdmi->pwr_clks) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -	for (i = 0; i < config->pwr_clk_cnt; i++) {
+> -		struct clk *clk;
+> -
+> -		clk = msm_clk_get(pdev, config->pwr_clk_names[i]);
+> -		if (IS_ERR(clk)) {
+> -			ret = PTR_ERR(clk);
+> -			DRM_DEV_ERROR(&pdev->dev, "failed to get pwr clk: %s (%d)\n",
+> -					config->pwr_clk_names[i], ret);
+> -			goto fail;
+> -		}
+> -
+> -		hdmi->pwr_clks[i] = clk;
+> -	}
+> -
+> -	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
+> -	/* This will catch e.g. -EPROBE_DEFER */
+> -	if (IS_ERR(hdmi->hpd_gpiod)) {
+> -		ret = PTR_ERR(hdmi->hpd_gpiod);
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to get hpd gpio: (%d)\n", ret);
+> -		goto fail;
+> -	}
+> -
+> -	if (!hdmi->hpd_gpiod)
+> -		DBG("failed to get HPD gpio");
+> -
+> -	if (hdmi->hpd_gpiod)
+> -		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
+> -
+> -	devm_pm_runtime_enable(&pdev->dev);
+> +	struct platform_device *pdev = hdmi->pdev;
+> +	int ret;
 
-This is not uncommon. With unclocked access, we have seen in the past 
-that sometimes the stack is off by one line. The fact that this issue 
-got resolved even with the older version of the patch 
-https://patchwork.freedesktop.org/patch/496984/ is pointing towards an 
-unclocked access and not the dp/dp->ctrl memory pointers.
+What about the rest of the msm_hdmi_init() function?
 
-> 
->>   >>>>>>   wait_for_completion_timeout+0x2c/0x54
->>   >>>>>>   dp_ctrl_push_idle+0x40/0x88
->>   >>>>>>   dp_bridge_disable+0x24/0x30
->>   >>>>>>   drm_atomic_bridge_chain_disable+0x90/0xbc
->>   >>>>>>   drm_atomic_helper_commit_modeset_disables+0x198/0x444
->>   >>>>>>   msm_atomic_commit_tail+0x1d0/0x374
->>   >>>>>>   commit_tail+0x80/0x108
->>   >>>>>>   drm_atomic_helper_commit+0x118/0x11c
->>   >>>>>>   drm_atomic_commit+0xb4/0xe0
->>   >>>>>>   drm_client_modeset_commit_atomic+0x184/0x224
->>   >>>>>>   drm_client_modeset_commit_locked+0x58/0x160
->>   >>>>>>   drm_client_modeset_commit+0x3c/0x64
->>
->>> Can we please get a trace checking which calls were actually made for
->>> the dp bridge and if the dp/dp->ctrl memory pointers are correct?
->>>
->>> I do not see the dp_display_disable() being called. Maybe I just missed
->>> the call.
->>>
->>
->> Yes it is called, please refer to the above part of the stack that I
->> have pasted.
-> 
-> The stacktrace mentions dp_bridge_disable(), not dp_display_disable()
-> (which I asked for).
-> 
+msm_hdmi_i2c_init, msm_hdmi_get_phy and msm_hdmi_hdcp_init have been 
+left behind. Any reason for that?
 
-So whats happening here is the crash is happening in dp_bridge_disable().
 
-dp_display_disable() is called from post_disable() thats why it doesnt 
-show up in the stack.
-
+>   
+>   	hdmi->workq = alloc_ordered_workqueue("msm_hdmi", 0);
+>   
+> @@ -271,13 +141,13 @@ static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
+>   		hdmi->hdcp_ctrl = NULL;
+>   	}
+>   
+> -	return hdmi;
+> +	return 0;
+>   
+>   fail:
+>   	if (hdmi)
+>   		msm_hdmi_destroy(hdmi);
+>   
+> -	return ERR_PTR(ret);
+> +	return ret;
+>   }
+>   
+>   /* Second part of initialization, the drm/kms level modeset_init,
+> @@ -318,13 +188,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>   
+>   	drm_connector_attach_encoder(hdmi->connector, hdmi->encoder);
+>   
+> -	hdmi->irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+> -	if (!hdmi->irq) {
+> -		ret = -EINVAL;
+> -		DRM_DEV_ERROR(dev->dev, "failed to get irq\n");
+> -		goto fail;
+> -	}
+> -
+>   	ret = devm_request_irq(&pdev->dev, hdmi->irq,
+>   			msm_hdmi_irq, IRQF_TRIGGER_HIGH,
+>   			"hdmi_isr", hdmi);
+> @@ -344,8 +207,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>   
+>   	priv->bridges[priv->num_bridges++]       = hdmi->bridge;
+>   
+> -	platform_set_drvdata(pdev, hdmi);
+> -
+>   	return 0;
+>   
+>   fail:
+> @@ -373,7 +234,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>   static const char *hpd_reg_names_8960[] = {"core-vdda"};
+>   static const char *hpd_clk_names_8960[] = {"core", "master_iface", "slave_iface"};
+>   
+> -static struct hdmi_platform_config hdmi_tx_8960_config = {
+> +const static struct hdmi_platform_config hdmi_tx_8960_config = {
+>   		HDMI_CFG(hpd_reg, 8960),
+>   		HDMI_CFG(hpd_clk, 8960),
+>   };
+> @@ -383,7 +244,7 @@ static const char *pwr_clk_names_8x74[] = {"extp", "alt_iface"};
+>   static const char *hpd_clk_names_8x74[] = {"iface", "core", "mdp_core"};
+>   static unsigned long hpd_clk_freq_8x74[] = {0, 19200000, 0};
+>   
+> -static struct hdmi_platform_config hdmi_tx_8974_config = {
+> +const static struct hdmi_platform_config hdmi_tx_8974_config = {
+>   		HDMI_CFG(pwr_reg, 8x74),
+>   		HDMI_CFG(pwr_clk, 8x74),
+>   		HDMI_CFG(hpd_clk, 8x74),
+> @@ -498,23 +359,12 @@ static int msm_hdmi_register_audio_driver(struct hdmi *hdmi, struct device *dev)
+>   static int msm_hdmi_bind(struct device *dev, struct device *master, void *data)
+>   {
+>   	struct msm_drm_private *priv = dev_get_drvdata(master);
+> -	struct hdmi_platform_config *hdmi_cfg;
+> -	struct hdmi *hdmi;
+> -	struct device_node *of_node = dev->of_node;
+> +	struct hdmi *hdmi = dev_get_drvdata(dev);
+>   	int err;
+>   
+> -	hdmi_cfg = (struct hdmi_platform_config *)
+> -			of_device_get_match_data(dev);
+> -	if (!hdmi_cfg) {
+> -		DRM_DEV_ERROR(dev, "unknown hdmi_cfg: %pOFn\n", of_node);
+> -		return -ENXIO;
+> -	}
+> -
+> -	dev->platform_data = hdmi_cfg;
+> -
+> -	hdmi = msm_hdmi_init(to_platform_device(dev));
+> -	if (IS_ERR(hdmi))
+> -		return PTR_ERR(hdmi);
+> +	err = msm_hdmi_init(hdmi);
+> +	if (err)
+> +		return err;
+>   	priv->hdmi = hdmi;
+>   
+>   	err = msm_hdmi_register_audio_driver(hdmi, dev);
+> @@ -547,6 +397,129 @@ static const struct component_ops msm_hdmi_ops = {
+>   
+>   static int msm_hdmi_dev_probe(struct platform_device *pdev)
+>   {
+> +	const struct hdmi_platform_config *config;
+> +	struct device *dev = &pdev->dev;
+> +	struct hdmi *hdmi;
+> +	struct resource *res;
+> +	int i, ret;
+> +
+> +	config = of_device_get_match_data(dev);
+> +	if (!config)
+> +		return -EINVAL;
+> +
+> +	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
+> +	if (!hdmi)
+> +		return -ENOMEM;
+> +
+> +	hdmi->pdev = pdev;
+> +	hdmi->config = config;
+> +	spin_lock_init(&hdmi->reg_lock);
+> +
+> +	hdmi->mmio = msm_ioremap(pdev, "core_physical");
+> +	if (IS_ERR(hdmi->mmio))
+> +		return PTR_ERR(hdmi->mmio);
+> +
+> +	/* HDCP needs physical address of hdmi register */
+> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+> +		"core_physical");
+> +	if (!res)
+> +		return -EINVAL;
+> +	hdmi->mmio_phy_addr = res->start;
+> +
+> +	hdmi->qfprom_mmio = msm_ioremap(pdev, "qfprom_physical");
+> +	if (IS_ERR(hdmi->qfprom_mmio)) {
+> +		DRM_DEV_INFO(&pdev->dev, "can't find qfprom resource\n");
+> +		hdmi->qfprom_mmio = NULL;
+> +	}
+> +
+> +	hdmi->irq = platform_get_irq(pdev, 0);
+> +	if (hdmi->irq < 0)
+> +		return hdmi->irq;
+> +
+> +	hdmi->hpd_regs = devm_kcalloc(&pdev->dev,
+> +				      config->hpd_reg_cnt,
+> +				      sizeof(hdmi->hpd_regs[0]),
+> +				      GFP_KERNEL);
+> +	if (!hdmi->hpd_regs)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < config->hpd_reg_cnt; i++)
+> +		hdmi->hpd_regs[i].supply = config->hpd_reg_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(&pdev->dev, config->hpd_reg_cnt, hdmi->hpd_regs);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to get hpd regulators\n");
+> +
+> +	hdmi->pwr_regs = devm_kcalloc(&pdev->dev,
+> +				      config->pwr_reg_cnt,
+> +				      sizeof(hdmi->pwr_regs[0]),
+> +				      GFP_KERNEL);
+> +	if (!hdmi->pwr_regs)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < config->pwr_reg_cnt; i++)
+> +		hdmi->pwr_regs[i].supply = config->pwr_reg_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(&pdev->dev, config->pwr_reg_cnt, hdmi->pwr_regs);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to get pwr regulators\n");
+> +
+> +	hdmi->hpd_clks = devm_kcalloc(&pdev->dev,
+> +				      config->hpd_clk_cnt,
+> +				      sizeof(hdmi->hpd_clks[0]),
+> +				      GFP_KERNEL);
+> +	if (!hdmi->hpd_clks)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < config->hpd_clk_cnt; i++) {
+> +		struct clk *clk;
+> +
+> +		clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
+> +		if (IS_ERR(clk))
+> +			return dev_err_probe(dev, PTR_ERR(clk),
+> +					     "failed to get hpd clk: %s\n",
+> +					     config->hpd_clk_names[i]);
+> +
+> +		hdmi->hpd_clks[i] = clk;
+> +	}
+> +
+> +	hdmi->pwr_clks = devm_kcalloc(&pdev->dev,
+> +				      config->pwr_clk_cnt,
+> +				      sizeof(hdmi->pwr_clks[0]),
+> +				      GFP_KERNEL);
+> +	if (!hdmi->pwr_clks)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < config->pwr_clk_cnt; i++) {
+> +		struct clk *clk;
+> +
+> +		clk = msm_clk_get(pdev, config->pwr_clk_names[i]);
+> +		if (IS_ERR(clk))
+> +			return dev_err_probe(dev, PTR_ERR(clk),
+> +					     "failed to get pwr clk: %s\n",
+> +					     config->pwr_clk_names[i]);
+> +
+> +		hdmi->pwr_clks[i] = clk;
+> +	}
+> +
+> +	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
+> +	/* This will catch e.g. -EPROBE_DEFER */
+> +	if (IS_ERR(hdmi->hpd_gpiod))
+> +		return dev_err_probe(dev, PTR_ERR(hdmi->hpd_gpiod),
+> +				     "failed to get hpd gpio\n");
+> +
+> +	if (!hdmi->hpd_gpiod)
+> +		DBG("failed to get HPD gpio");
+> +
+> +	if (hdmi->hpd_gpiod)
+> +		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
+> +
+> +	ret = devm_pm_runtime_enable(&pdev->dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	platform_set_drvdata(pdev, hdmi);
+> +
+>   	return component_add(&pdev->dev, &msm_hdmi_ops);
+>   }
+>   
