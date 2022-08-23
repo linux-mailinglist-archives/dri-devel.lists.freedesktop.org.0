@@ -2,71 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4505A02C8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:32:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0762B5A02C9
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 22:32:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B03AA582B;
-	Wed, 24 Aug 2022 20:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 018FE8BF25;
+	Wed, 24 Aug 2022 20:31:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 420BB113035
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 11:11:51 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id z6so19183209lfu.9
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 04:11:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=RyGB8PQO8ADQrO2JFjLIJii6hzK5vNZX03ZezGuypGs=;
- b=oCfh6AI2QwLBOgQEi1W8eHyNhAH/PsXgbcycKMnCTV5RxfayaL3wtv4jIvSOvZZzE8
- gzUXOExHburHxVgMSsMbHibLI1L2SnbkuVLjvD+bljZz7Sn6Mia3nJOyOn07BVOgDr2l
- abxhLitpMAPOzrXk3jSQvcxgg7QwV8n5lW1lQqSbk8+a6T5oNh/sQQpbsuMaBSgrrI8A
- bJ2jSdmA27l2XZwB1wTkNwf60Ej1NEZsOhpD4PpcvP1LSahuyUmZkYQ+Q6M13KC/36C/
- o/KZNDD1g/R8rdQRYab4Ck4uov5qDnDC/psQAJognpFGI2eXoLgZ6Dd82cMKEbgDGmgv
- HJQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=RyGB8PQO8ADQrO2JFjLIJii6hzK5vNZX03ZezGuypGs=;
- b=YVjEPDroA2Q2exRZ2GK7UZg4mFPWRj801cjiVDTuFDuSWxVw/ZQbPEzVvw93IU0wMR
- 7Rc5zFUIhbcslX9K2Loyi9NRl5RuZMSCQ5rX2vbP+cKKEJcCcsmHkwtgoB+xqqeSxlpk
- TFRQUUh5VMzK5KixqNF4T0xRfJ2c3/GcY9FnlZWzwNS/Z5/HLGI6b+3iHwKc8ywSoJ8e
- cMw4/7ee6trjlqUcp3mMGWPVEHlrK+6C7gUpMQ729j0Ys6Z3nA0r2UG7BnA9i/N+pkE0
- Pe04eq2fuNtauQ9RWgpBSrB9dbZKBok0DHPTxSmIkpyeRl34AfS+PnPctjLgurwbGinv
- U1Pg==
-X-Gm-Message-State: ACgBeo2/yXkyElMqxYe+67JOYLIlfZbb1cUTYKodPbiwXJ9+NXMq4y3W
- fPzH3bScUyiIxLf/DOL7tdVx8A==
-X-Google-Smtp-Source: AA6agR431MJa34QlqrqboyJ2CF1O1nEgGRTLQBgHBhF/nzaTuInpM0Ee1WeB028VXCHqg7KXMU98oA==
-X-Received: by 2002:a19:654f:0:b0:492:f148:beb with SMTP id
- c15-20020a19654f000000b00492f1480bebmr1379997lfj.493.1661253109390; 
- Tue, 23 Aug 2022 04:11:49 -0700 (PDT)
-Received: from [192.168.0.11] (89-27-92-210.bb.dnainternet.fi. [89.27.92.210])
- by smtp.gmail.com with ESMTPSA id
- r30-20020ac25c1e000000b00492f1b2ac0bsm511806lfp.101.2022.08.23.04.11.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 04:11:48 -0700 (PDT)
-Message-ID: <e8a02030-d114-fa4b-1978-15327501b7e9@linaro.org>
-Date: Tue, 23 Aug 2022 14:11:47 +0300
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D717511A6B5;
+ Tue, 23 Aug 2022 11:31:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661254265; x=1692790265;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=q+RysrBb1ykLU47KP6NsqGGk4VJcDn3GVM5qaCdIaVA=;
+ b=DyA7ZkMNo5iUyy8zLjTAzwhCCDvQFyL9F3IAsjFqW4HnmfjnT3kGabIQ
+ jrmnJzEroNNawoNqONTmuRCumzb9eRmV+aO7Y5snTKb86yEEmKeILzhER
+ VYdFK6Uysh/eIj2TtZWeSSMbO3BRWe30cGlEb8VqXX0H9FP7nOnJF/UoQ
+ Hx52Q2IxwMacYe1d8GMVrQi8RsVryOSYTmRqVN23DwCOJQ58tEwIE3lQj
+ JDWWOu5ybrvzdC2dyNMIFXzSM32J28pqaQQDjWW1XwzIK3uwW7ZK5ewkF
+ PRbF73495zorD2joiqC6CKbpNUoCVGFo8j/UC+qyhgkBee1vRWt9aSHHz A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="273415877"
+X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; d="scan'208";a="273415877"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2022 04:31:05 -0700
+X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; d="scan'208";a="669990932"
+Received: from fjohn-mobl.ger.corp.intel.com (HELO
+ jhogande-mobl1.ger.corp.intel.com) ([10.249.42.156])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2022 04:31:03 -0700
+From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 4/4] drm/tests: Set also mock plane src_x, src_y,
+ src_w and src_h
+Date: Tue, 23 Aug 2022 14:29:20 +0300
+Message-Id: <20220823112920.352563-5-jouni.hogander@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220823112920.352563-1-jouni.hogander@intel.com>
+References: <20220823112920.352563-1-jouni.hogander@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v4 5/6] dt-bindings: drm/msm/gpu: Add optional resets
-Content-Language: en-US
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <1660927246-11327-1-git-send-email-quic_akhilpo@quicinc.com>
- <20220819221017.v4.5.Ieffadd08a071a233213ced4406bf84bb5922ab9a@changeid>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220819221017.v4.5.Ieffadd08a071a233213ced4406bf84bb5922ab9a@changeid>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,39 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/08/2022 19:40, Akhil P Oommen wrote:
->  Documentation/devicetree/bindings/display/msm/gpu.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> index 3397bc3..4576b31 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> @@ -109,6 +109,13 @@ properties:
->        For GMU attached devices a phandle to the GMU device that will
->        control the power for the GPU.
->  
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    items:
-> +      - const: cx_collapse
-> +
+We need to set also src_x, src_y, src_w and src_h for the mock plane.
+After fix for drm_atomic_helper_damage_iter_init we are using these
+when iterating damage_clips.
 
-Just one blank line, not two. You can keep Rob's ack with that change.
+Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
+---
+ drivers/gpu/drm/tests/drm_damage_helper_test.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
->  required:
->    - compatible
+diff --git a/drivers/gpu/drm/tests/drm_damage_helper_test.c b/drivers/gpu/drm/tests/drm_damage_helper_test.c
+index bf250bd08d7e..c608ae06f0e3 100644
+--- a/drivers/gpu/drm/tests/drm_damage_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_damage_helper_test.c
+@@ -59,6 +59,11 @@ static int drm_damage_helper_init(struct kunit *test)
+ static void set_plane_src(struct drm_plane_state *state, int x1, int y1, int x2,
+ 			  int y2)
+ {
++	state->src_x = x1;
++	state->src_y = y1;
++	state->src_w = x2 - x1;
++	state->src_h = y2 - y1;
++
+ 	state->src.x1 = x1;
+ 	state->src.y1 = y1;
+ 	state->src.x2 = x2;
+-- 
+2.34.1
 
-
-Best regards,
-Krzysztof
