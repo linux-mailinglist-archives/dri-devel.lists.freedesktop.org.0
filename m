@@ -2,72 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56AC25A0FCE
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 14:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C800D5A1193
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 15:11:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0046113D86;
-	Thu, 25 Aug 2022 12:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC7710E254;
+	Thu, 25 Aug 2022 13:11:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6901311A01D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 12:01:52 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id bx38so19182125ljb.10
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 05:01:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=f2M4iXxI1q5T3VkoG4UYWNwFB3x0AhyJ8PHoXo+SF3k=;
- b=ggWYiQ/HcrXx1XLQhvzjoNQ0gSD+jIBLN9muzyDYpiTR1GIoy/Cbf98QStpRVMh9KH
- +dP6Mccdv24maC9648P/flZl2nN68wzmCFxe6lpFbvmKbR+3X3DIrLRk5eprbDPM7uTH
- +8Xze+6TaRDg5OGERMxCkROw8pCjjCTWLofhGEwYa5pxjBICfFq1Thm282bAz8mOASJj
- WOyoOKUljhZpPaGAqgsiMUFCXED8aXEtyip2vIsIG0XEZebuDBJkIhBIEbXdm0UlbMJ6
- NYQ5jahLWcu+lqqhhyvQyzkqwZFDGK/TVF0PxTR2/WYa0rHoaj/6JLkxnf7D0QodCOUQ
- CbIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=f2M4iXxI1q5T3VkoG4UYWNwFB3x0AhyJ8PHoXo+SF3k=;
- b=3zNYs+8K/cxcMIS5gWgvFPTiyYl7ovSXXumfOFxY7ZEj3fUSVSCzJnUGfEbg8zNXD0
- +oz5sz6yj8C2J4uJu9hgyGC/w/Uiep4FXIHpKvu+rzzLYbxqnEp/5ROxw9XCnbgohng0
- idlkNExGyuzOkXSaWOMcwipzq1NPnfEn0I23AAouypWxeM4/RUbkRicfBbTkKUl7l6Sv
- TmOq7T1slk8eDMJQqBlWyu4FcYANWzZ5gHCwTo3C9szb8LwlVsi71Fq9gdjbfquXOsHU
- nJAm07thJKT4M/C0BquVBC9JaR3F5cLkTcGQOGChdpwRmLIhCDPxFh4q1uqJw8jjJiS6
- Wmqw==
-X-Gm-Message-State: ACgBeo2wgV3kUEdMtIox8DJt5L4cjvdHZ7s7YSaY0sgad8q+o30eFocZ
- Kg2dQNnKI+XADTKWPKbp4lEfPA==
-X-Google-Smtp-Source: AA6agR6cD5F+W9iFjjk7hqYwstmfLt+P6TX+9vOP/jf2H6MJ2DsN7/KbqO7D2ZEeufLsuA4aud4iEA==
-X-Received: by 2002:a2e:7c0c:0:b0:261:e73a:9819 with SMTP id
- x12-20020a2e7c0c000000b00261e73a9819mr856025ljc.203.1661428910608; 
- Thu, 25 Aug 2022 05:01:50 -0700 (PDT)
-Received: from [192.168.0.71] (82.131.98.15.cable.starman.ee. [82.131.98.15])
- by smtp.gmail.com with ESMTPSA id
- z6-20020a05651c022600b002618fbebbbcsm523158ljn.47.2022.08.25.05.01.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 05:01:48 -0700 (PDT)
-Message-ID: <8e0ab9f0-cc27-f472-ce5c-b9f4a9d94005@linaro.org>
-Date: Thu, 25 Aug 2022 15:01:46 +0300
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA68710E25E;
+ Thu, 25 Aug 2022 13:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=vTln3+f0zsm1J3YrouOOpeiGLy8ph8ETRCJz2RLKLQk=; b=K0kwrWRI7yyMcbQo6Nl5evjpwk
+ sTvDvRdVuSSBJdQLrzMurymkfeud7lBSd5obHmA42qNI1iO1iJhL8yIk1Bfeu+C3GSzBqxPn1Wc52
+ ajY/gp5Sj9ioN8l4ZvhLmDYWNRrHoatQ4vbyQUhqKR1sCWi+9vOk/suGRz3P4WHET0ed7WpkBaWnr
+ kufvIHJ1/A1/ESR68SCAhXYNCHtk+gvl9bd9SIsnFarNBozrgoi2LPzxP2MaTggMdPLKg9TjLF57F
+ /yvqyDwfKKVD6Y+sBB6x55pmppvpPMkZiyf6UzzkpvAjDcQAxv8I4SVGDqcVsPxqmpJlbqmvrX2zZ
+ XnxbyI4Q==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oQtSY-00HLOF-Dv; Wed, 24 Aug 2022 18:42:30 +0200
+Date: Wed, 24 Aug 2022 15:42:15 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 0/4] Add support for atomic async page-flips
+Message-ID: <20220824164215.44deiekxo73jilip@mail.igalia.com>
+References: <20220824150834.427572-1-contact@emersion.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v4 03/10] dt-bindings: display/msm: move qcom, sc7180-mdss
- schema to mdss.yaml
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220825095103.624891-1-dmitry.baryshkov@linaro.org>
- <20220825095103.624891-4-dmitry.baryshkov@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220825095103.624891-4-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="h74x4uhnziywd7t4"
+Content-Disposition: inline
+In-Reply-To: <20220824150834.427572-1-contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,85 +52,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ daniel.vetter@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, hwentlan@amd.com,
+ nicholas.kazlauskas@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/08/2022 12:50, Dmitry Baryshkov wrote:
-> Move schema for qcom,sc7180-mdss from dpu-sc7180.yaml to mdss.yaml so
-> that the dpu file describes only the DPU schema.
 
-MDSS grows to unmanagable file. I don't think we will be able to keep it
-maintained. You will have many if-else defining subnodes and their
-characteristics. As I said before - this should be several separate
-schemas with common part.
+--h74x4uhnziywd7t4
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  .../bindings/display/msm/dpu-sc7180.yaml      | 149 +++++-------------
->  .../devicetree/bindings/display/msm/mdss.yaml |  66 +++++++-
->  2 files changed, 102 insertions(+), 113 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-> index d3c3e4b07897..9d4ec0b60c25 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-> @@ -10,151 +10,78 @@ maintainers:
->    - Krishna Manikandan <quic_mkrishn@quicinc.com>
->  
->  description: |
-> -  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
-> -  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
-> -  bindings of MDSS and DPU are mentioned for SC7180 target.
-> +  Device tree bindings for the DPU display controller for SC7180 target.
->  
->  properties:
->    compatible:
->      items:
-> -      - const: qcom,sc7180-mdss
-> +      - const: qcom,sc7180-dpu
->  
->    reg:
-> -    maxItems: 1
-> +    items:
-> +      - description: Address offset and size for mdp register set
-> +      - description: Address offset and size for vbif register set
->  
->    reg-names:
-> -    const: mdss
-> -
-> -  power-domains:
-> -    maxItems: 1
-> +    items:
-> +      - const: mdp
-> +      - const: vbif
->  
->    clocks:
->      items:
-> -      - description: Display AHB clock from gcc
-> -      - description: Display AHB clock from dispcc
-> +      - description: Display hf axi clock
-> +      - description: Display ahb clock
-> +      - description: Display rotator clock
-> +      - description: Display lut clock
->        - description: Display core clock
-> +      - description: Display vsync clock
->  
->    clock-names:
->      items:
-> +      - const: bus
->        - const: iface
-> -      - const: ahb
-> +      - const: rot
-> +      - const: lut
->        - const: core
-> +      - const: vsync
+On 08/24, Simon Ser wrote:
+> This series adds support for DRM_MODE_PAGE_FLIP_ASYNC for atomic
+> commits, aka. "immediate flip" (which might result in tearing).
+> The feature was only available via the legacy uAPI, however for
+> gaming use-cases it may be desirable to enable it via the atomic
+> uAPI too.
 
-All these changes point that device schemas are simply different and
-trying to unify them is not correct approach.
+Hi Simon,
 
-Best regards,
-Krzysztof
+I'm cc'ing Andr=E9 as he has been actively working on it lately and must
+be quite familiar with the async flip machinery.
+
+>=20
+> User-space patch:
+> https://github.com/Plagman/gamescope/pull/595
+>=20
+> IGT patch:
+> https://patchwork.freedesktop.org/series/107681/
+
+Also, Andr=E9 recently generalized the kms_async_flip to test drivers
+other than i915, so I think he can provide some thoughts about the IGT
+test too.
+
+Thanks,
+
+Melissa
+
+>=20
+> Tested on an AMD Picasso iGPU.
+>=20
+> Simon Ser (4):
+>   drm: introduce drm_mode_config.atomic_async_page_flip_not_supported
+>   drm: allow DRM_MODE_PAGE_FLIP_ASYNC for atomic commits
+>   drm: introduce DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP
+>   amd/display: indicate support for atomic async page-flips on DCN
+>=20
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c       |  1 +
+>  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c       |  1 +
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c        |  1 +
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c        |  1 +
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c |  1 +
+>  drivers/gpu/drm/drm_atomic_uapi.c            | 28 +++++++++++++++++---
+>  drivers/gpu/drm/drm_ioctl.c                  |  5 ++++
+>  drivers/gpu/drm/i915/display/intel_display.c |  1 +
+>  drivers/gpu/drm/nouveau/nouveau_display.c    |  1 +
+>  drivers/gpu/drm/radeon/radeon_display.c      |  1 +
+>  drivers/gpu/drm/vc4/vc4_kms.c                |  1 +
+>  include/drm/drm_mode_config.h                | 11 ++++++++
+>  include/uapi/drm/drm.h                       | 10 ++++++-
+>  13 files changed, 59 insertions(+), 4 deletions(-)
+>=20
+> --=20
+> 2.37.2
+>=20
+>=20
+
+--h74x4uhnziywd7t4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmMGVOIACgkQwqF3j0dL
+ehx3gw/9HVnOE2quhodEvn5mICfqHorQDgbJM9MM2nW+zgJHm3hGU0hEDxJftMt7
+jkACaqYsULI0Lu2uHf3AHkGocYDiiUhxB1dc8oBfQtvfyVC2ugsgFQhswvSRe8l/
+WZ2PgHK4gwOAqMOqqqGvounHK1f2Yx184h4jl2OMQnVrcO5k6K8rRAa5gum+saPH
+a3ktekKczC5hS1KHUVHz0JCqzIT/jYYNoDlUHoLzokU5hrJPn8VGr1kskKa5soay
+ZM7S/ADkSZmGweg8zr6QypKFN/ztLeY+eXuBj5IDxLBOvNHrUUjLsEjbNdjUq0dE
+ArvqFFsWeCCQq5L/0+e2tpRVhdA4shXpL2YMTR8/6uXv3RH9vtiJIFwh38LzURGj
+kR7W/UgdM3jKSSRSUc+feGTkX8/O98hEP87atn8/RyD1EL2nVlOAC0WFEgs3T0vD
+xwBBTBnO+hIXEqPsvUI57XMx3tte0zlZYkzDg3fnJbVxFKPlwH4LXQNsGIeQzhGd
+dI0REHd6dGZjrLa1m/xhvymDbyhI/o+SimqctocCjVKAgU5qoC4IV1gjsTWiAp2R
+uSlo9lvJnKQ3j+eeYOGZq54nYU7ZSbaCHyHgXBr1UL5HZ1DXXyRitnjWEilzI70s
+MtoVD3tpF6asfi8gVqXzTrxjxdPS8QAWUHe6oG8119FYNXmd+gw=
+=Msmr
+-----END PGP SIGNATURE-----
+
+--h74x4uhnziywd7t4--
