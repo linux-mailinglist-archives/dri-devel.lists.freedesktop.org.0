@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D8859F9A7
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 14:20:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A657759F9AA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 14:20:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ECAA95E3C;
-	Wed, 24 Aug 2022 12:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA129B619;
+	Wed, 24 Aug 2022 12:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D98211B554
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 12:16:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7543018A97D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 12:16:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661343405;
+ s=mimecast20190719; t=1661343407;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ExdwPf7bNKmYW/ELY8Z3mdkN/Wif1pdwMOooFmW67kM=;
- b=H7F56qUyBuT9JLFuD/wagDP71bdSI9Z1kQFYLMKzOVR8PWqk/AIb7z/4RPJxGaAm2ETOg1
- PdvpUs36FwkzAe26ZBPPUOoElDcBNXt4D7om92poiPAkKp1yc52OelHEeYB2FQd7qUVNka
- 3ie4URya69ip7uDbgaRgVMD04OSY0hg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mQ93MFygjHtn+pj1JiwZkpRA5Z7Viuv96I2pphNTU0o=;
+ b=Hf9jneHdyHtK3znq5UDbk3pbr7QM9e4Wf0+zcLuU8uwyPn5w8jWxjX7pBKW/TrKWBHU2CA
+ 7deuXaMZydVZbaKP45rF1tqj4PMLYwTrl+46FqaWe1gGGIUzTlawM1+ZtryHlkFXXLouKG
+ DJsMOvWg3WMaMdkcUHcxDj88HR/6m98=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-171-8Uh5AffgMA-TzrRiXK-z6w-1; Wed, 24 Aug 2022 08:16:39 -0400
-X-MC-Unique: 8Uh5AffgMA-TzrRiXK-z6w-1
+ us-mta-191-Wd3EIa9nNA-RunYaFsaWqA-1; Wed, 24 Aug 2022 08:16:43 -0400
+X-MC-Unique: Wd3EIa9nNA-RunYaFsaWqA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D42FF18A01AF;
- Wed, 24 Aug 2022 12:16:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E78373C0D879;
+ Wed, 24 Aug 2022 12:16:41 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.193.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F929C15BBA;
- Wed, 24 Aug 2022 12:16:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2441AC15BB3;
+ Wed, 24 Aug 2022 12:16:38 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Ben Skeggs <bskeggs@redhat.com>,
 	Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
@@ -55,10 +55,10 @@ To: Ben Skeggs <bskeggs@redhat.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
 	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v4 15/31] platform/x86: nvidia-wmi-ec-backlight: Move fw
- interface definitions to a header (v2)
-Date: Wed, 24 Aug 2022 14:15:07 +0200
-Message-Id: <20220824121523.1291269-16-hdegoede@redhat.com>
+Subject: [PATCH v4 16/31] ACPI: video: Refactor
+ acpi_video_get_backlight_type() a bit
+Date: Wed, 24 Aug 2022 14:15:08 +0200
+Message-Id: <20220824121523.1291269-17-hdegoede@redhat.com>
 In-Reply-To: <20220824121523.1291269-1-hdegoede@redhat.com>
 References: <20220824121523.1291269-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -78,211 +78,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-acpi@vger.kernel.org, David Airlie <airlied@linux.ie>,
  nouveau@lists.freedesktop.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
  Hans de Goede <hdegoede@redhat.com>, amd-gfx@lists.freedesktop.org,
  Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the WMI interface definitions to a header, so that the definitions
-can be shared with drivers/acpi/video_detect.c .
+Refactor acpi_video_get_backlight_type() so that the heuristics /
+detection steps are stricly in order of descending precedence.
 
-Changes in v2:
-- Add missing Nvidia copyright header
-- Move WMI_BRIGHTNESS_GUID to nvidia-wmi-ec-backlight.h as well
+Also move the comments describing the steps to when the various steps are
+actually done, to avoid the comments getting out of sync with the code.
 
-Suggested-by: Daniel Dadap <ddadap@nvidia.com>
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- MAINTAINERS                                   |  1 +
- .../platform/x86/nvidia-wmi-ec-backlight.c    | 68 +----------------
- .../x86/nvidia-wmi-ec-backlight.h             | 76 +++++++++++++++++++
- 3 files changed, 78 insertions(+), 67 deletions(-)
- create mode 100644 include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h
+ drivers/acpi/video_detect.c | 39 ++++++++++++++++++++++---------------
+ 1 file changed, 23 insertions(+), 16 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9d7f64dc0efe..d6f6b96f51f7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14527,6 +14527,7 @@ M:	Daniel Dadap <ddadap@nvidia.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Supported
- F:	drivers/platform/x86/nvidia-wmi-ec-backlight.c
-+F:	include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h
- 
- NVM EXPRESS DRIVER
- M:	Keith Busch <kbusch@kernel.org>
-diff --git a/drivers/platform/x86/nvidia-wmi-ec-backlight.c b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
-index 61e37194df70..be803e47eac0 100644
---- a/drivers/platform/x86/nvidia-wmi-ec-backlight.c
-+++ b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
-@@ -7,74 +7,10 @@
- #include <linux/backlight.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
-+#include <linux/platform_data/x86/nvidia-wmi-ec-backlight.h>
- #include <linux/types.h>
- #include <linux/wmi.h>
- 
--/**
-- * enum wmi_brightness_method - WMI method IDs
-- * @WMI_BRIGHTNESS_METHOD_LEVEL:  Get/Set EC brightness level status
-- * @WMI_BRIGHTNESS_METHOD_SOURCE: Get/Set EC Brightness Source
-- */
--enum wmi_brightness_method {
--	WMI_BRIGHTNESS_METHOD_LEVEL = 1,
--	WMI_BRIGHTNESS_METHOD_SOURCE = 2,
--	WMI_BRIGHTNESS_METHOD_MAX
--};
--
--/**
-- * enum wmi_brightness_mode - Operation mode for WMI-wrapped method
-- * @WMI_BRIGHTNESS_MODE_GET:            Get the current brightness level/source.
-- * @WMI_BRIGHTNESS_MODE_SET:            Set the brightness level.
-- * @WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL:  Get the maximum brightness level. This
-- *                                      is only valid when the WMI method is
-- *                                      %WMI_BRIGHTNESS_METHOD_LEVEL.
-- */
--enum wmi_brightness_mode {
--	WMI_BRIGHTNESS_MODE_GET = 0,
--	WMI_BRIGHTNESS_MODE_SET = 1,
--	WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL = 2,
--	WMI_BRIGHTNESS_MODE_MAX
--};
--
--/**
-- * enum wmi_brightness_source - Backlight brightness control source selection
-- * @WMI_BRIGHTNESS_SOURCE_GPU: Backlight brightness is controlled by the GPU.
-- * @WMI_BRIGHTNESS_SOURCE_EC:  Backlight brightness is controlled by the
-- *                             system's Embedded Controller (EC).
-- * @WMI_BRIGHTNESS_SOURCE_AUX: Backlight brightness is controlled over the
-- *                             DisplayPort AUX channel.
-- */
--enum wmi_brightness_source {
--	WMI_BRIGHTNESS_SOURCE_GPU = 1,
--	WMI_BRIGHTNESS_SOURCE_EC = 2,
--	WMI_BRIGHTNESS_SOURCE_AUX = 3,
--	WMI_BRIGHTNESS_SOURCE_MAX
--};
--
--/**
-- * struct wmi_brightness_args - arguments for the WMI-wrapped ACPI method
-- * @mode:    Pass in an &enum wmi_brightness_mode value to select between
-- *           getting or setting a value.
-- * @val:     In parameter for value to set when using %WMI_BRIGHTNESS_MODE_SET
-- *           mode. Not used in conjunction with %WMI_BRIGHTNESS_MODE_GET or
-- *           %WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL mode.
-- * @ret:     Out parameter returning retrieved value when operating in
-- *           %WMI_BRIGHTNESS_MODE_GET or %WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL
-- *           mode. Not used in %WMI_BRIGHTNESS_MODE_SET mode.
-- * @ignored: Padding; not used. The ACPI method expects a 24 byte params struct.
+diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
+index fb49b8f4523a..cc9d0d91e268 100644
+--- a/drivers/acpi/video_detect.c
++++ b/drivers/acpi/video_detect.c
+@@ -537,16 +537,6 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+ /*
+  * Determine which type of backlight interface to use on this system,
+  * First check cmdline, then dmi quirks, then do autodetect.
 - *
-- * This is the parameters structure for the WmiBrightnessNotify ACPI method as
-- * wrapped by WMI. The value passed in to @val or returned by @ret will be a
-- * brightness value when the WMI method ID is %WMI_BRIGHTNESS_METHOD_LEVEL, or
-- * an &enum wmi_brightness_source value with %WMI_BRIGHTNESS_METHOD_SOURCE.
-- */
--struct wmi_brightness_args {
--	u32 mode;
--	u32 val;
--	u32 ret;
--	u32 ignored[3];
--};
+- * The autodetect order is:
+- * 1) Is the acpi-video backlight interface supported ->
+- *  no, use a vendor interface
+- * 2) Is this a win8 "ready" BIOS and do we have a native interface ->
+- *  yes, use a native interface
+- * 3) Else use the acpi-video interface
+- *
+- * Arguably the native on win8 check should be done first, but that would
+- * be a behavior change, which may causes issues.
+  */
+ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+ {
+@@ -569,19 +559,36 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+ 		native_available = true;
+ 	mutex_unlock(&init_mutex);
+ 
++	/*
++	 * The below heuristics / detection steps are in order of descending
++	 * presedence. The commandline takes presedence over anything else.
++	 */
+ 	if (acpi_backlight_cmdline != acpi_backlight_undef)
+ 		return acpi_backlight_cmdline;
+ 
++	/* DMI quirks override any autodetection. */
+ 	if (acpi_backlight_dmi != acpi_backlight_undef)
+ 		return acpi_backlight_dmi;
+ 
+-	if (!(video_caps & ACPI_VIDEO_BACKLIGHT))
+-		return acpi_backlight_vendor;
 -
- /**
-  * wmi_brightness_notify() - helper function for calling WMI-wrapped ACPI method
-  * @w:    Pointer to the struct wmi_device identified by %WMI_BRIGHTNESS_GUID
-@@ -191,8 +127,6 @@ static int nvidia_wmi_ec_backlight_probe(struct wmi_device *wdev, const void *ct
- 	return PTR_ERR_OR_ZERO(bdev);
+-	if (acpi_osi_is_win8() && native_available)
+-		return acpi_backlight_native;
++	/* On systems with ACPI video use either native or ACPI video. */
++	if (video_caps & ACPI_VIDEO_BACKLIGHT) {
++		/*
++		 * Windows 8 and newer no longer use the ACPI video interface,
++		 * so it often does not work. If the ACPI tables are written
++		 * for win8 and native brightness ctl is available, use that.
++		 *
++		 * The native check deliberately is inside the if acpi-video
++		 * block on older devices without acpi-video support native
++		 * is usually not the best choice.
++		 */
++		if (acpi_osi_is_win8() && native_available)
++			return acpi_backlight_native;
++		else
++			return acpi_backlight_video;
++	}
+ 
+-	return acpi_backlight_video;
++	/* No ACPI video (old hw), use vendor specific fw methods. */
++	return acpi_backlight_vendor;
  }
  
--#define WMI_BRIGHTNESS_GUID "603E9613-EF25-4338-A3D0-C46177516DB7"
--
- static const struct wmi_device_id nvidia_wmi_ec_backlight_id_table[] = {
- 	{ .guid_string = WMI_BRIGHTNESS_GUID },
- 	{ }
-diff --git a/include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h b/include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h
-new file mode 100644
-index 000000000000..23d60130272c
---- /dev/null
-+++ b/include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h
-@@ -0,0 +1,76 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2020, NVIDIA CORPORATION.  All rights reserved.
-+ */
-+
-+#ifndef __PLATFORM_DATA_X86_NVIDIA_WMI_EC_BACKLIGHT_H
-+#define __PLATFORM_DATA_X86_NVIDIA_WMI_EC_BACKLIGHT_H
-+
-+#define WMI_BRIGHTNESS_GUID "603E9613-EF25-4338-A3D0-C46177516DB7"
-+
-+/**
-+ * enum wmi_brightness_method - WMI method IDs
-+ * @WMI_BRIGHTNESS_METHOD_LEVEL:  Get/Set EC brightness level status
-+ * @WMI_BRIGHTNESS_METHOD_SOURCE: Get/Set EC Brightness Source
-+ */
-+enum wmi_brightness_method {
-+	WMI_BRIGHTNESS_METHOD_LEVEL = 1,
-+	WMI_BRIGHTNESS_METHOD_SOURCE = 2,
-+	WMI_BRIGHTNESS_METHOD_MAX
-+};
-+
-+/**
-+ * enum wmi_brightness_mode - Operation mode for WMI-wrapped method
-+ * @WMI_BRIGHTNESS_MODE_GET:            Get the current brightness level/source.
-+ * @WMI_BRIGHTNESS_MODE_SET:            Set the brightness level.
-+ * @WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL:  Get the maximum brightness level. This
-+ *                                      is only valid when the WMI method is
-+ *                                      %WMI_BRIGHTNESS_METHOD_LEVEL.
-+ */
-+enum wmi_brightness_mode {
-+	WMI_BRIGHTNESS_MODE_GET = 0,
-+	WMI_BRIGHTNESS_MODE_SET = 1,
-+	WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL = 2,
-+	WMI_BRIGHTNESS_MODE_MAX
-+};
-+
-+/**
-+ * enum wmi_brightness_source - Backlight brightness control source selection
-+ * @WMI_BRIGHTNESS_SOURCE_GPU: Backlight brightness is controlled by the GPU.
-+ * @WMI_BRIGHTNESS_SOURCE_EC:  Backlight brightness is controlled by the
-+ *                             system's Embedded Controller (EC).
-+ * @WMI_BRIGHTNESS_SOURCE_AUX: Backlight brightness is controlled over the
-+ *                             DisplayPort AUX channel.
-+ */
-+enum wmi_brightness_source {
-+	WMI_BRIGHTNESS_SOURCE_GPU = 1,
-+	WMI_BRIGHTNESS_SOURCE_EC = 2,
-+	WMI_BRIGHTNESS_SOURCE_AUX = 3,
-+	WMI_BRIGHTNESS_SOURCE_MAX
-+};
-+
-+/**
-+ * struct wmi_brightness_args - arguments for the WMI-wrapped ACPI method
-+ * @mode:    Pass in an &enum wmi_brightness_mode value to select between
-+ *           getting or setting a value.
-+ * @val:     In parameter for value to set when using %WMI_BRIGHTNESS_MODE_SET
-+ *           mode. Not used in conjunction with %WMI_BRIGHTNESS_MODE_GET or
-+ *           %WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL mode.
-+ * @ret:     Out parameter returning retrieved value when operating in
-+ *           %WMI_BRIGHTNESS_MODE_GET or %WMI_BRIGHTNESS_MODE_GET_MAX_LEVEL
-+ *           mode. Not used in %WMI_BRIGHTNESS_MODE_SET mode.
-+ * @ignored: Padding; not used. The ACPI method expects a 24 byte params struct.
-+ *
-+ * This is the parameters structure for the WmiBrightnessNotify ACPI method as
-+ * wrapped by WMI. The value passed in to @val or returned by @ret will be a
-+ * brightness value when the WMI method ID is %WMI_BRIGHTNESS_METHOD_LEVEL, or
-+ * an &enum wmi_brightness_source value with %WMI_BRIGHTNESS_METHOD_SOURCE.
-+ */
-+struct wmi_brightness_args {
-+	u32 mode;
-+	u32 val;
-+	u32 ret;
-+	u32 ignored[3];
-+};
-+
-+#endif
+ enum acpi_backlight_type acpi_video_get_backlight_type(void)
 -- 
 2.37.2
 
