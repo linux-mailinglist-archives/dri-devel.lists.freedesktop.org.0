@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70AE59F890
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 13:23:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DE659F8B4
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 13:40:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39E6DAC5C0;
-	Wed, 24 Aug 2022 11:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAA3C10E110;
+	Wed, 24 Aug 2022 11:40:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1E8F14A771;
- Wed, 24 Aug 2022 11:22:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661340179; x=1692876179;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=1YvgAtjCRyI7LWjRs/pDDMaRyHhHS6Dr8tIkjGu5c2A=;
- b=ThBl067qCzPqJshCyTmdzgxMYu1qCYO8K1ODMThPOXK6qT0vrERV/A9Q
- aZ4nPKYqrn4E5giPwvXY2hGIPsQqkAo+ys2wUKrDWjpKgZpkzYLwNba3n
- EIVdS1KUTIIa1SzYDzCGj0+v6WGHmYldYmM/vfjWXbNXbheDcTjXLegeV
- ad/vbRYDcL1cWv6B5FxpH9SCtzOGYmoIcQUbTcb7TWKwFGR1JyicZSeNJ
- OkajRhWzJW20gHxU6rXC5ph7ykIjqt1AHl8H+cQIswj9hzTYVOBXiecXI
- HkBsi4KFgEh9+4tMjsL6u5IkcsenNH4y9JR53i6IumPYSn5jZNBTg52KR Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="276963022"
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="276963022"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 04:22:58 -0700
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="699039270"
-Received: from ideak-desk.fi.intel.com ([10.237.72.175])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 04:22:56 -0700
-Date: Wed, 24 Aug 2022 14:22:53 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v6 3/4] drm/i915/display: add
- hotplug.suspended flag
-Message-ID: <YwYKDbRxFD10l7Id@ideak-desk.fi.intel.com>
-References: <20220722125143.1604709-1-andrzej.hajda@intel.com>
- <20220722125143.1604709-4-andrzej.hajda@intel.com>
- <YwO8cAQZ22hEBX3P@ideak-desk.fi.intel.com>
- <45384b73-bfd0-083c-98dc-e2cef51411ee@intel.com>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E0D710E160
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 11:40:23 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id w19so32993540ejc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 04:40:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=pxKLfOME1R0KZZACiredgYsYKfw4h1/06Dg8Bmv9RjQ=;
+ b=DBL6LzztEwGp8X1U8me4Py7MxcKtdBb9YWUi/PURCPdr8iaMAQDC8JC3zxz4qqE0/m
+ bKiS9swMJ0I5nPY+WOf/aR2SgT5kiL8AiQEtdNwGVF8bxhUe+HlKjaVE6uQdl5UELpDi
+ nOqrp5TCMAWdBs5o5nfC1rfU5e2qXs5dmOvk9/Gd5R+3FZ/hFX5nFrXLNuh4R7eCVAqi
+ FCD5iN/WHnPKHbnfzWuSN5G0k1/px6vzxcTx4TMMx7qF3sPYp0G+KwZA99xomnl42Zmg
+ JZ7XnaY5aKCjIc5pKnlLhwWDnsYB0uqJ+gTcJALUtFK0Nclz4q/LUoSWJvtnF87WM0Di
+ VwFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=pxKLfOME1R0KZZACiredgYsYKfw4h1/06Dg8Bmv9RjQ=;
+ b=D8AiiC5jaxTQwLZgb7US2GdSXjTiN8gOeUBNvcJ68WAuGZYSYdG5xBO6qMtxXK6a8Q
+ F7zCHdAKc5cleJSrDVxn3gnWye5qDFGJJuFcNu3AautvdVgLKxvklrCeGRHa1FreMcEJ
+ wt2pRsOO/PHD9+3lGOuXfBMSo24JX1tOzeDEzqJu2h024GurdGaFGH4FhPThuA9mB3Z0
+ jjdP+eUJ52IY5kDicCwpDBZoE83fqctTcyc1DPEU0x/DuwWeyS3Hdn94pJoc3BpA8rGg
+ u6sz+zo/6UxpGdvm2b+GNi/F6CDOKr2gN1DgVRTDsRKvrCfvUpI/+NZ0Lcm+rCjepzUw
+ +VNw==
+X-Gm-Message-State: ACgBeo3FIlW6l18W+/J0UeEvW5b6omz9pfLhNSRaPFBp3URbsvzdrzNX
+ /R1GWU/c5FTyXgfzpGz8ROjFXMkY7YBe1IVvQHY=
+X-Google-Smtp-Source: AA6agR5Ns6sE/CX5NmrAoDfd3/1lrF0pkxRUfma+oBjhnH3A3CDYJX/3W1+0CRi4pSmkQBkj4rL/neE5GM78cX+RuJ8=
+X-Received: by 2002:a17:906:e9b:b0:730:a6a1:9fc9 with SMTP id
+ p27-20020a1709060e9b00b00730a6a19fc9mr2623390ejf.601.1661341220971; Wed, 24
+ Aug 2022 04:40:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <45384b73-bfd0-083c-98dc-e2cef51411ee@intel.com>
+References: <20220823122117.15757-1-yuanjilin@cdjrlc.com>
+ <48f4a56f-0586-9e9d-c121-6309be65b803@arm.com>
+In-Reply-To: <48f4a56f-0586-9e9d-c121-6309be65b803@arm.com>
+From: Inki Dae <daeinki@gmail.com>
+Date: Wed, 24 Aug 2022 20:39:44 +0900
+Message-ID: <CAAQKjZNPBDwEwjL7+rYTvfm7eQ85feXW1rr_P3VCERn3fPPfjQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/exynos: fix repeated words in comments
+To: Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,173 +65,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Arun R Murthy <arun.r.murthy@intel.com>
+Cc: linux-samsung-soc@vger.kernel.org, Jilin Yuan <yuanjilin@cdjrlc.com>,
+ Dave Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ krzysztof.kozlowski@linaro.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 23, 2022 at 11:48:01PM +0200, Andrzej Hajda wrote:
-> 
-> 
-> On 22.08.2022 19:27, Imre Deak wrote:
-> > On Fri, Jul 22, 2022 at 02:51:42PM +0200, Andrzej Hajda wrote:
-> > > HPD events during driver removal can be generated by hardware and
-> > > software frameworks - drm_dp_mst, the former we can avoid by disabling
-> > > interrupts, the latter can be triggered by any drm_dp_mst transaction,
-> > > and this is too late. Introducing suspended flag allows to solve this
-> > > chicken-egg problem.
-> > intel_hpd_cancel_work() is always called after suspending MST and
-> > disabling IRQs (with the order I suggested in patch 1). If both of these
-> > have disabled the corresponding functionality (MST, IRQs) properly with
-> > all their MST/IRQ scheduled works guaranteed to not get rescheduled,
-> > then it's not clear how could either intel_hpd_trigger_irq() or an IRQ
-> > work run. So the problematic sequence would need a better explanation.
-> 
-> I am not familiar with MST but as I understand from earlier discussion MST
-> framework can be called during driver removal code even after
-> intel_dp_mst_suspend.
+Hi,
 
-Not sure how that happens, but it looks wrong. One way I can imagine is
-that connector detection re-enables MST, which should be prevented then.
+2022=EB=85=84 8=EC=9B=94 23=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 10:37, =
+Robin Murphy <robin.murphy@arm.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On 2022-08-23 13:21, Jilin Yuan wrote:
+> >   Delete the redundant word 'next'.
+>
+>  From the context, I'm not sure it is redundant - as far as I can tell
+> this comment seems to be describing a sequence of 3 commands, where
+> "current" is the first, "next" is the second, and "next next" implies
+> the third. The whole comment could certainly be reworded more clearly,
+> but as it stands I suspect a replacement like s/next next/next+1/ is
+> more likely to be correct.
+>
 
-> And since MST transfer can timeout it can trigger
-> drm_dp_mst_wait_tx_reply --> mgr->cbs->poll_hpd_irq(mgr) -->
-> intel_dp_mst_poll_hpd_irq --> intel_hpd_trigger_irq.
-> 
-> So actually this patch supersedes the 1st patch.
-> 
-> > 
-> > There's also already
-> > dev_priv->runtime_pm.irqs_enabled
-> > showing if hotplug interrupts are disabled (along with all other IRQs).
-> 
-> So it is slightly different, this patch introduces flag indicating if HPD is
-> enabled, we can have IRQs not related to HPD, and HPD events not related to
-> IRQs.
+"next next" is correct. :) As you said, "next next" could be reworded
+more clearly. As of now, the original sentence could make it
+confusing.
 
-In its current form I can't see a difference. What would make sense is
-to add a flag that prevents connector detection (which would
-incorrectly enable MST for instace), but leave the handling of other
-interrupts enabled. That flag would be set already before suspending
-MST.
+Thanks,
+Inki Dae
 
-> Regards
-> Andrzej
-> 
-> > 
-> > > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5950
-> > > Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> > > Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
-> > > ---
-> > >   drivers/gpu/drm/i915/display/intel_display.c |  2 +-
-> > >   drivers/gpu/drm/i915/display/intel_hotplug.c | 11 ++++++++++-
-> > >   drivers/gpu/drm/i915/display/intel_hotplug.h |  2 +-
-> > >   drivers/gpu/drm/i915/i915_driver.c           |  4 ++--
-> > >   drivers/gpu/drm/i915/i915_drv.h              |  2 ++
-> > >   5 files changed, 16 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> > > index f1c765ac7ab8aa..cd6139bb36151b 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_display.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> > > @@ -9022,7 +9022,7 @@ void intel_modeset_driver_remove_noirq(struct drm_i915_private *i915)
-> > >   	intel_dp_mst_suspend(i915);
-> > >   	/* MST is the last user of HPD work */
-> > > -	intel_hpd_cancel_work(i915);
-> > > +	intel_hpd_suspend(i915);
-> > >   	/* poll work can call into fbdev, hence clean that up afterwards */
-> > >   	intel_fbdev_fini(i915);
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.c b/drivers/gpu/drm/i915/display/intel_hotplug.c
-> > > index 5f8b4f481cff9a..e1d384cb99df6b 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_hotplug.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_hotplug.c
-> > > @@ -303,6 +303,8 @@ static void i915_digport_work_func(struct work_struct *work)
-> > >   	u32 old_bits = 0;
-> > >   	spin_lock_irq(&dev_priv->irq_lock);
-> > > +	if (dev_priv->hotplug.suspended)
-> > > +		return spin_unlock_irq(&dev_priv->irq_lock);
-> > >   	long_port_mask = dev_priv->hotplug.long_port_mask;
-> > >   	dev_priv->hotplug.long_port_mask = 0;
-> > >   	short_port_mask = dev_priv->hotplug.short_port_mask;
-> > > @@ -353,6 +355,8 @@ void intel_hpd_trigger_irq(struct intel_digital_port *dig_port)
-> > >   	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> > >   	spin_lock_irq(&i915->irq_lock);
-> > > +	if (i915->hotplug.suspended)
-> > > +		return spin_unlock_irq(&i915->irq_lock);
-> > >   	i915->hotplug.short_port_mask |= BIT(dig_port->base.port);
-> > >   	spin_unlock_irq(&i915->irq_lock);
-> > > @@ -475,6 +479,9 @@ void intel_hpd_irq_handler(struct drm_i915_private *dev_priv,
-> > >   	spin_lock(&dev_priv->irq_lock);
-> > > +	if (dev_priv->hotplug.suspended)
-> > > +		return spin_unlock(&dev_priv->irq_lock);
-> > > +
-> > >   	/*
-> > >   	 * Determine whether ->hpd_pulse() exists for each pin, and
-> > >   	 * whether we have a short or a long pulse. This is needed
-> > > @@ -603,6 +610,7 @@ void intel_hpd_init(struct drm_i915_private *dev_priv)
-> > >   	 * just to make the assert_spin_locked checks happy.
-> > >   	 */
-> > >   	spin_lock_irq(&dev_priv->irq_lock);
-> > > +	dev_priv->hotplug.suspended = false;
-> > >   	intel_hpd_irq_setup(dev_priv);
-> > >   	spin_unlock_irq(&dev_priv->irq_lock);
-> > >   }
-> > > @@ -721,13 +729,14 @@ void intel_hpd_init_work(struct drm_i915_private *dev_priv)
-> > >   			  intel_hpd_irq_storm_reenable_work);
-> > >   }
-> > > -void intel_hpd_cancel_work(struct drm_i915_private *dev_priv)
-> > > +void intel_hpd_suspend(struct drm_i915_private *dev_priv)
-> > >   {
-> > >   	if (!HAS_DISPLAY(dev_priv))
-> > >   		return;
-> > >   	spin_lock_irq(&dev_priv->irq_lock);
-> > > +	dev_priv->hotplug.suspended = true;
-> > >   	dev_priv->hotplug.long_port_mask = 0;
-> > >   	dev_priv->hotplug.short_port_mask = 0;
-> > >   	dev_priv->hotplug.event_bits = 0;
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.h b/drivers/gpu/drm/i915/display/intel_hotplug.h
-> > > index b87e95d606e668..54bddc4dd63421 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_hotplug.h
-> > > +++ b/drivers/gpu/drm/i915/display/intel_hotplug.h
-> > > @@ -23,7 +23,7 @@ void intel_hpd_irq_handler(struct drm_i915_private *dev_priv,
-> > >   void intel_hpd_trigger_irq(struct intel_digital_port *dig_port);
-> > >   void intel_hpd_init(struct drm_i915_private *dev_priv);
-> > >   void intel_hpd_init_work(struct drm_i915_private *dev_priv);
-> > > -void intel_hpd_cancel_work(struct drm_i915_private *dev_priv);
-> > > +void intel_hpd_suspend(struct drm_i915_private *dev_priv);
-> > >   enum hpd_pin intel_hpd_pin_default(struct drm_i915_private *dev_priv,
-> > >   				   enum port port);
-> > >   bool intel_hpd_disable(struct drm_i915_private *dev_priv, enum hpd_pin pin);
-> > > diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> > > index deb8a8b76965a1..57a063a306e3a4 100644
-> > > --- a/drivers/gpu/drm/i915/i915_driver.c
-> > > +++ b/drivers/gpu/drm/i915/i915_driver.c
-> > > @@ -1092,7 +1092,7 @@ void i915_driver_shutdown(struct drm_i915_private *i915)
-> > >   	intel_dp_mst_suspend(i915);
-> > >   	intel_runtime_pm_disable_interrupts(i915);
-> > > -	intel_hpd_cancel_work(i915);
-> > > +	intel_hpd_suspend(i915);
-> > >   	intel_suspend_encoders(i915);
-> > >   	intel_shutdown_encoders(i915);
-> > > @@ -1161,7 +1161,7 @@ static int i915_drm_suspend(struct drm_device *dev)
-> > >   	intel_dp_mst_suspend(dev_priv);
-> > >   	intel_runtime_pm_disable_interrupts(dev_priv);
-> > > -	intel_hpd_cancel_work(dev_priv);
-> > > +	intel_hpd_suspend(dev_priv);
-> > >   	intel_suspend_encoders(dev_priv);
-> > > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> > > index d25647be25d18b..dc1562b95d7ade 100644
-> > > --- a/drivers/gpu/drm/i915/i915_drv.h
-> > > +++ b/drivers/gpu/drm/i915/i915_drv.h
-> > > @@ -106,6 +106,8 @@ struct vlv_s0ix_state;
-> > >   #define HPD_STORM_DEFAULT_THRESHOLD 50
-> > >   struct i915_hotplug {
-> > > +	bool suspended;
-> > > +
-> > >   	struct delayed_work hotplug_work;
-> > >   	const u32 *hpd, *pch_hpd;
-> > > -- 
-> > > 2.25.1
-> > > 
-> 
+> Robin.
+>
+> > Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
+> > ---
+> >   drivers/gpu/drm/exynos/exynos_drm_g2d.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/=
+exynos/exynos_drm_g2d.c
+> > index 471fd6c8135f..4f9edca66632 100644
+> > --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> > +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> > @@ -1195,7 +1195,7 @@ int exynos_g2d_set_cmdlist_ioctl(struct drm_devic=
+e *drm_dev, void *data,
+> >        * If don't clear SFR registers, the cmdlist is affected by regis=
+ter
+> >        * values of previous cmdlist. G2D hw executes SFR clear command =
+and
+> >        * a next command at the same time then the next command is ignor=
+ed and
+> > -      * is executed rightly from next next command, so needs a dummy c=
+ommand
+> > +      * is executed rightly from next command, so needs a dummy comman=
+d
+> >        * to next command of SFR clear command.
+> >        */
+> >       cmdlist->data[cmdlist->last++] =3D G2D_SOFT_RESET;
