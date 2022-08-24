@@ -2,94 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E329E59FD23
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 16:24:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB45559FD88
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 16:48:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA49B68F9;
-	Wed, 24 Aug 2022 14:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8E011AF1F;
+	Wed, 24 Aug 2022 14:47:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2080.outbound.protection.outlook.com [40.107.243.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38EBBB68C8;
- Wed, 24 Aug 2022 14:24:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RdfaOCD8UItrKdjj5smo37nBjrh0DguRBirnKQW/lTGY3q9GYdO9vmnYj08pcS/NkuVa28yO4XXXLTn9Qv4/mr+Cub9HGiM48RcV7cIINpuQ94KWIoQVD+Kz1BDDJk9u7O1I3U7AvoQ3BAIs8xT/0GllG2sDSc5qhBDdAn9CNkDVqwRku23okkah51d7CcI0jeuBISGkkbVuiCClEp+NU+FCnQUqgVVCfaFKiPj7pfNI9vOgVlKB2+zScwuGijFSprQ/jbpRVYKNlbn4fz/1H/L2oNp1i7nh7UNh55FCCProSjysc3aMOqIvP4VSilsLFoGOkhtlSaEHLYcY2xBBuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NNUGml4+ccRms0vJMkNK+iigsqv+QLIkHIT/N1fZb5s=;
- b=YUG1+m7FGAv/FMlLANOx0YaCWIfQGDq2HdxeMCvVD69y32HoZj/PjcdxPqJbCN6uto9UEIY8J4scauHY5sCKY+dunIGL47OF2AjR7TIxZ8eVRdSO7aj58DMIz8gTVfqCZYNUPbWjbZ+nDofddIo8U6zBM78D9zJ2vJQ+1RYEcjYXEnQapS4qLNP3I+HvfJPqwek/8RdYELSZQBdwn0R3lScX+sUKeAwormtpysih2D5YmfUJbNLRvoto5BpKaIIxTFyPwHjGTfWEmCWYwJN/CwjJV5PU83+09KHaNwBZ+clrebN6aQcltrD1ViZcP6/vtvFC/oa+Ep2EMeawor0p5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NNUGml4+ccRms0vJMkNK+iigsqv+QLIkHIT/N1fZb5s=;
- b=oQ4COQ5eQUeNDzyURoB+4TtP8B4LwQMg8U4S/ceg5WW6xucKgF1fAZyZWLHyn6YjlG4/eLneElBzkLgMJTCHYaCiWRBYHwGbKiJrtPw5XcqgghyAl/7MjGfir7w7QMopQdOkxhKftFzPpHwSK67ow/xa6ZHP2S1+OMG42lvDWAQ=
-Received: from BN9P221CA0026.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::24)
- by PH0PR12MB5401.namprd12.prod.outlook.com (2603:10b6:510:d4::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.19; Wed, 24 Aug
- 2022 14:24:12 +0000
-Received: from BN8NAM11FT072.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:10a:cafe::96) by BN9P221CA0026.outlook.office365.com
- (2603:10b6:408:10a::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.21 via Frontend
- Transport; Wed, 24 Aug 2022 14:24:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT072.mail.protection.outlook.com (10.13.176.165) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5566.15 via Frontend Transport; Wed, 24 Aug 2022 14:24:11 +0000
-Received: from fedora.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 24 Aug
- 2022 09:24:07 -0500
-From: Luben Tuikov <luben.tuikov@amd.com>
-To: <dri-devel@lists.freedesktop.org>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH 3/3] drm/ttm: stop allocating a dummy resource for pipelined
- gutting
-Date: Wed, 24 Aug 2022 10:23:53 -0400
-Message-ID: <20220824142353.10293-3-luben.tuikov@amd.com>
-X-Mailer: git-send-email 2.36.1.74.g277cf0bc36
-In-Reply-To: <20220824142353.10293-1-luben.tuikov@amd.com>
-References: <20220824142353.10293-1-luben.tuikov@amd.com>
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A29510E437
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 14:47:35 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-335624d1e26so466992867b3.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 07:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=Ss980jKeV/+inxRLWeDKg+qqYPK5OjBy43jtFVNG7+4=;
+ b=FHWnBm5kFM2twUoHOLMK2lEwYnJJMPdBuk++FnamFC8ldvUmqstnSzcMGbcrM/TcLf
+ 5slHYGU/m36eSGEs1cnLkQCMvU5EDZru57pzpeS3wWBJYcQnwY/nAyjZw0e2bcPAXB43
+ 06MRZVyzOvko94HhZYNPKj7FwzIqHZ3h4V0NW1TRbz2DiDYLFlMRo3E1e9ZEyGx8pitV
+ PV+33zCWwiFM/Wp2vqFIqrU53OBJebjdY51JeZuUkE8X4KM4878NkomA8CJlS1U84SFw
+ gPrIOYc0r8cQVGAPOmLNaEJH1Dl/+QQZAzY2VpYR3pRd8IXO+4jtrZBgaei/onrvo/Rs
+ Ld8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=Ss980jKeV/+inxRLWeDKg+qqYPK5OjBy43jtFVNG7+4=;
+ b=kMx3tVeW+HzRaIHyoAjOO+XObJA/3qkVxHa4HjwaO5kquCb3yHB8PtDUvZlMu/hM7N
+ PnPeLU21hBCmNfnT5qTezdHaSFFRiU6s3l62NBqetAcG+g2Nj4E1hLYNQn2DGKLutyrs
+ a5QbML9eznzDILrwlTSpR6oUwmQx6XZJ6k0zi/1Jemsc+x90lY5XcciQM9HBquEvKF3I
+ 8pSUtqKe4XRmi5UAXsXcU0UcWC2Kix5V2FBIBRk396BaqC9+VAvMIU9NDtke1p3Uh4eL
+ RyDCn7Q/jmRA35ImZIhPjjk0vzfvWyoqIz/11U6Kb5KhNa2IbfbGDYOEnslRs/+AfasW
+ BswQ==
+X-Gm-Message-State: ACgBeo3/Bnq4u/+Y+L0prK+LaCfVP9jQj4FUmof4yw7D5NRDPEjiWo/t
+ vonu8ZtMY0r9RGMVltxBbrxMpxe5xZHjtGFdH4k/mw==
+X-Google-Smtp-Source: AA6agR6CdDBf8D0OtXdEFPHd+z3oqtttugfVwqOhwxQh+FmSx2J8isX8iTUDqPMNNqrAlTPDYzlxla8YKnv7ajyGUNA=
+X-Received: by 2002:a25:2f4a:0:b0:695:8b9a:1788 with SMTP id
+ v71-20020a252f4a000000b006958b9a1788mr17276979ybv.126.1661352454980; Wed, 24
+ Aug 2022 07:47:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2430a23f-8bd2-487f-fa99-08da85dc5079
-X-MS-TrafficTypeDiagnostic: PH0PR12MB5401:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FeSZAYGa2oVidUdg8VDZYahxhGwHECLat87Qjm31EV74+bj7FB0G6A8C7624AlVAJq3XP3hQ4VUudLvfpT64IHOpVqr1OtYUoIJ7kDeTXaa4fZQpA7WfYX2a5y4xkXSEjUWJRMKI6G8ZKQjl9BnjXphWRRvgrABytRGUKZawPI329NCWOW2s/VakjzssJV9HtuAuf36TgXYE4mUEMGC4bMFxMqYVJPdqWGrK2RnJAJV2hq+t6iHYK9R8xMppfqMkLCHAYUSxcyIv5RUmtyVvPKF44HRsLtOH1UVQCT3Pga7BexlFMSGIARU7Szo/df04dpXvgdzFJMqEmLPTQEz1UqcY3Uu7cCbfKVexz8djJx0L92dsvImtCiJQlyy4CjzzT0H7MkkgjMXOOx9O8/BQSVLaN/NSltVXegFMOE7gRLHYyhr4rFMLUlcipxMBcX4KGVSpU4eKcJIAuJMUwIcoWLDwfqEL5dTx2nfhWVvO4R3ng9SVI1FkT1JX218+72y76Tcwt4idlbWDKbx6nijRmNZCTD5D54IDASoyKLhXAlNQ6rv+IL3e5RmEUwerqJ9f/BJwrQrXdBo2rfMa1v30XSyhcCblLQJmOtcNmOTOqa8mzxR7VQx4JmefKvAj/kTqkvHwtt9ytDNg68pyzagH7BIXQnER4XSto+sRv4kNCUtveAcMX6Uo68TiNirjBkQ0sO3tK+MSSvxM87uIpSnQuWuAiSoSz0QQQqK+sJZqJFhYb9ubXRec87opyYZqYrjN2ZvWiUSUJqYhwHRuChHq/hIrC8haeTCVCCQcIxb3XZ0=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(376002)(396003)(39860400002)(136003)(40470700004)(36840700001)(46966006)(70586007)(41300700001)(316002)(44832011)(5660300002)(82310400005)(70206006)(4326008)(478600001)(54906003)(8676002)(36756003)(8936002)(6666004)(110136005)(82740400003)(2616005)(2906002)(186003)(16526019)(336012)(1076003)(40480700001)(83380400001)(426003)(47076005)(26005)(36860700001)(86362001)(356005)(7696005)(81166007)(40460700003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2022 14:24:11.5192 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2430a23f-8bd2-487f-fa99-08da85dc5079
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT072.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5401
+References: <20220802210158.4162525-1-jason.ekstrand@collabora.com>
+ <4e8657c4-54aa-ad16-3350-f81c610997f4@amd.com>
+ <427467a1466ec7c56616661775d98102407f6fdb.camel@collabora.com>
+In-Reply-To: <427467a1466ec7c56616661775d98102407f6fdb.camel@collabora.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 24 Aug 2022 09:47:23 -0500
+Message-ID: <CAOFGe96pKaiH85ReT6y_V4vCKQjXz_hf2O7mqG89aiKXoFiF1w@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Use dma_fence_unwrap_for_each when importing
+ fences
+To: Jason Ekstrand <jason.ekstrand@collabora.com>
+Content-Type: multipart/alternative; boundary="000000000000ed23be05e6fdc224"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,83 +68,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sarah Walker <Sarah.Walker@imgtec.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian König <christian.koenig@amd.com>
+--000000000000ed23be05e6fdc224
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-That should not be necessary any more when drivers should at least be
-able to handle a move without a resource.
+On Mon, Aug 8, 2022 at 11:39 AM Jason Ekstrand <jason.ekstrand@collabora.co=
+m>
+wrote:
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
----
- drivers/gpu/drm/ttm/ttm_bo_util.c | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+> On Sun, 2022-08-07 at 18:35 +0200, Christian K=C3=B6nig wrote:
+> > Am 02.08.22 um 23:01 schrieb Jason Ekstrand:
+> > > Ever since 68129f431faa ("dma-buf: warn about containers in
+> > > dma_resv object"),
+> > > dma_resv_add_shared_fence will warn if you attempt to add a
+> > > container fence.
+> > > While most drivers were fine, fences can also be added to a
+> > > dma_resv via the
+> > > recently added DMA_BUF_IOCTL_IMPORT_SYNC_FILE.  Use
+> > > dma_fence_unwrap_for_each
+> > > to add each fence one at a time.
+> > >
+> > > Fixes: 594740497e99 ("dma-buf: Add an API for importing sync files
+> > > (v10)")
+> > > Signed-off-by: Jason Ekstrand <jason.ekstrand@collabora.com>
+> > > Reported-by: Sarah Walker <Sarah.Walker@imgtec.com>
+> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > ---
+> > >   drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++------
+> > >   1 file changed, 17 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > > index 630133284e2b..8d5d45112f52 100644
+> > > --- a/drivers/dma-buf/dma-buf.c
+> > > +++ b/drivers/dma-buf/dma-buf.c
+> > > @@ -15,6 +15,7 @@
+> > >   #include <linux/slab.h>
+> > >   #include <linux/dma-buf.h>
+> > >   #include <linux/dma-fence.h>
+> > > +#include <linux/dma-fence-unwrap.h>
+> > >   #include <linux/anon_inodes.h>
+> > >   #include <linux/export.h>
+> > >   #include <linux/debugfs.h>
+> > > @@ -391,8 +392,10 @@ static long dma_buf_import_sync_file(struct
+> > > dma_buf *dmabuf,
+> > >                                      const void __user *user_data)
+> > >   {
+> > >         struct dma_buf_import_sync_file arg;
+> > > -       struct dma_fence *fence;
+> > > +       struct dma_fence *fence, *f;
+> > >         enum dma_resv_usage usage;
+> > > +       struct dma_fence_unwrap iter;
+> > > +       unsigned int num_fences;
+> > >         int ret =3D 0;
+> > >
+> > >         if (copy_from_user(&arg, user_data, sizeof(arg)))
+> > > @@ -411,13 +414,21 @@ static long dma_buf_import_sync_file(struct
+> > > dma_buf *dmabuf,
+> > >         usage =3D (arg.flags & DMA_BUF_SYNC_WRITE) ?
+> > > DMA_RESV_USAGE_WRITE :
+> > >
+> > > DMA_RESV_USAGE_READ;
+> > >
+> > > -       dma_resv_lock(dmabuf->resv, NULL);
+> > > +       num_fences =3D 0;
+> > > +       dma_fence_unwrap_for_each(f, &iter, fence)
+> > > +               ++num_fences;
+> > >
+> > > -       ret =3D dma_resv_reserve_fences(dmabuf->resv, 1);
+> > > -       if (!ret)
+> > > -               dma_resv_add_fence(dmabuf->resv, fence, usage);
+> > > +       if (num_fences > 0) {
+> > > +               dma_resv_lock(dmabuf->resv, NULL);
+> > >
+> > > -       dma_resv_unlock(dmabuf->resv);
+> > > +               ret =3D dma_resv_reserve_fences(dmabuf->resv,
+> > > num_fences);
+> >
+> > That looks like it is misplaced.
+> >
+> > You *must* only lock the reservation object once and then add all
+> > fences
+> > in one go.
+>
+> That's what I'm doing.  Lock, reserve, add a bunch, unlock.  I am
+> assuming that the iterator won't suddenly want to iterate more fences
+> between my initial count and when I go to add them but I think that
+> assumption is ok.
+>
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 497ee1fdbad7bf..a1c4dc031cae63 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -607,16 +607,10 @@ EXPORT_SYMBOL(ttm_bo_move_sync_cleanup);
-  */
- int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- {
--	static const struct ttm_place sys_mem = { .mem_type = TTM_PL_SYSTEM };
- 	struct ttm_buffer_object *ghost;
--	struct ttm_resource *sys_res;
- 	struct ttm_tt *ttm;
- 	int ret;
- 
--	ret = ttm_resource_alloc(bo, &sys_mem, &sys_res);
--	if (ret)
--		return ret;
--
- 	/* If already idle, no need for ghost object dance. */
- 	ret = ttm_bo_wait(bo, false, true);
- 	if (ret != -EBUSY) {
-@@ -624,14 +618,13 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 			/* See comment below about clearing. */
- 			ret = ttm_tt_create(bo, true);
- 			if (ret)
--				goto error_free_sys_mem;
-+				return ret;
- 		} else {
- 			ttm_tt_unpopulate(bo->bdev, bo->ttm);
- 			if (bo->type == ttm_bo_type_device)
- 				ttm_tt_mark_for_clear(bo->ttm);
- 		}
- 		ttm_resource_free(bo, &bo->resource);
--		ttm_bo_assign_mem(bo, sys_res);
- 		return 0;
- 	}
- 
-@@ -648,7 +641,7 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 	ret = ttm_tt_create(bo, true);
- 	swap(bo->ttm, ttm);
- 	if (ret)
--		goto error_free_sys_mem;
-+		return ret;
- 
- 	ret = ttm_buffer_object_transfer(bo, &ghost);
- 	if (ret)
-@@ -662,13 +655,9 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 	dma_resv_unlock(&ghost->base._resv);
- 	ttm_bo_put(ghost);
- 	bo->ttm = ttm;
--	ttm_bo_assign_mem(bo, sys_res);
- 	return 0;
- 
- error_destroy_tt:
- 	ttm_tt_destroy(bo->bdev, ttm);
--
--error_free_sys_mem:
--	ttm_resource_free(bo, &sys_res);
- 	return ret;
- }
--- 
-2.36.1.74.g277cf0bc36
+Bump.  This has been sitting here for a couple of weeks.  I still don't see
+the problem.
 
+--Jason
+
+
+> --Jason
+>
+>
+> > Thinking now about it we probably had a bug around that before as
+> > well.
+> > Going to double check tomorrow.
+> >
+> > Regards,
+> > Christian.
+> >
+> > > +               if (!ret) {
+> > > +                       dma_fence_unwrap_for_each(f, &iter, fence)
+> > > +                               dma_resv_add_fence(dmabuf->resv, f,
+> > > usage);
+> > > +               }
+> > > +
+> > > +               dma_resv_unlock(dmabuf->resv);
+> > > +       }
+> > >
+> > >         dma_fence_put(fence);
+> > >
+> >
+>
+>
+
+--000000000000ed23be05e6fdc224
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, Aug 8, 2022 at 11:39 AM Jason Ekstrand &lt;<a href=3D"mailto=
+:jason.ekstrand@collabora.com">jason.ekstrand@collabora.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Sun, 2022-08-=
+07 at 18:35 +0200, Christian K=C3=B6nig wrote:<br>
+&gt; Am 02.08.22 um 23:01 schrieb Jason Ekstrand:<br>
+&gt; &gt; Ever since 68129f431faa (&quot;dma-buf: warn about containers in<=
+br>
+&gt; &gt; dma_resv object&quot;),<br>
+&gt; &gt; dma_resv_add_shared_fence will warn if you attempt to add a<br>
+&gt; &gt; container fence.<br>
+&gt; &gt; While most drivers were fine, fences can also be added to a<br>
+&gt; &gt; dma_resv via the<br>
+&gt; &gt; recently added DMA_BUF_IOCTL_IMPORT_SYNC_FILE.=C2=A0 Use<br>
+&gt; &gt; dma_fence_unwrap_for_each<br>
+&gt; &gt; to add each fence one at a time.<br>
+&gt; &gt; <br>
+&gt; &gt; Fixes: 594740497e99 (&quot;dma-buf: Add an API for importing sync=
+ files<br>
+&gt; &gt; (v10)&quot;)<br>
+&gt; &gt; Signed-off-by: Jason Ekstrand &lt;<a href=3D"mailto:jason.ekstran=
+d@collabora.com" target=3D"_blank">jason.ekstrand@collabora.com</a>&gt;<br>
+&gt; &gt; Reported-by: Sarah Walker &lt;<a href=3D"mailto:Sarah.Walker@imgt=
+ec.com" target=3D"_blank">Sarah.Walker@imgtec.com</a>&gt;<br>
+&gt; &gt; Cc: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@a=
+md.com" target=3D"_blank">christian.koenig@amd.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt; =C2=A0 drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++------<br>
+&gt; &gt; =C2=A0 1 file changed, 17 insertions(+), 6 deletions(-)<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.=
+c<br>
+&gt; &gt; index 630133284e2b..8d5d45112f52 100644<br>
+&gt; &gt; --- a/drivers/dma-buf/dma-buf.c<br>
+&gt; &gt; +++ b/drivers/dma-buf/dma-buf.c<br>
+&gt; &gt; @@ -15,6 +15,7 @@<br>
+&gt; &gt; =C2=A0 #include &lt;linux/slab.h&gt;<br>
+&gt; &gt; =C2=A0 #include &lt;linux/dma-buf.h&gt;<br>
+&gt; &gt; =C2=A0 #include &lt;linux/dma-fence.h&gt;<br>
+&gt; &gt; +#include &lt;linux/dma-fence-unwrap.h&gt;<br>
+&gt; &gt; =C2=A0 #include &lt;linux/anon_inodes.h&gt;<br>
+&gt; &gt; =C2=A0 #include &lt;linux/export.h&gt;<br>
+&gt; &gt; =C2=A0 #include &lt;linux/debugfs.h&gt;<br>
+&gt; &gt; @@ -391,8 +392,10 @@ static long dma_buf_import_sync_file(struct<=
+br>
+&gt; &gt; dma_buf *dmabuf,<br>
+&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 const void __user *user_data)<br>
+&gt; &gt; =C2=A0 {<br>
+&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dma_buf_im=
+port_sync_file arg;<br>
+&gt; &gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dma_fence *fenc=
+e;<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dma_fence *fenc=
+e, *f;<br>
+&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0enum dma_resv_usa=
+ge usage;<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dma_fence_unwra=
+p iter;<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int num_fence=
+s;<br>
+&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret =3D 0;<br=
+>
+&gt; &gt; =C2=A0 <br>
+&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (copy_from_use=
+r(&amp;arg, user_data, sizeof(arg)))<br>
+&gt; &gt; @@ -411,13 +414,21 @@ static long dma_buf_import_sync_file(struct=
+<br>
+&gt; &gt; dma_buf *dmabuf,<br>
+&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0usage =3D (arg.fl=
+ags &amp; DMA_BUF_SYNC_WRITE) ?<br>
+&gt; &gt; DMA_RESV_USAGE_WRITE :<br>
+&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0<br>
+&gt; &gt; DMA_RESV_USAGE_READ;<br>
+&gt; &gt; =C2=A0 <br>
+&gt; &gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_resv_lock(dmabuf-&=
+gt;resv, NULL);<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0num_fences =3D 0;<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_fence_unwrap_for_e=
+ach(f, &amp;iter, fence)<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0++num_fences;<br>
+&gt; &gt; =C2=A0 <br>
+&gt; &gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D dma_resv_reser=
+ve_fences(dmabuf-&gt;resv, 1);<br>
+&gt; &gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!ret)<br>
+&gt; &gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_resv_add_fence(dmabuf-&gt;resv, fence, usage=
+);<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (num_fences &gt; 0)=
+ {<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_resv_lock(dmabuf-&gt;resv, NULL);<br>
+&gt; &gt; =C2=A0 <br>
+&gt; &gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_resv_unlock(dmabuf=
+-&gt;resv);<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D dma_resv_reserve_fences(dmabuf-&gt;resv,=
+<br>
+&gt; &gt; num_fences);<br>
+&gt; <br>
+&gt; That looks like it is misplaced.<br>
+&gt; <br>
+&gt; You *must* only lock the reservation object once and then add all<br>
+&gt; fences <br>
+&gt; in one go.<br>
+<br>
+That&#39;s what I&#39;m doing.=C2=A0 Lock, reserve, add a bunch, unlock.=C2=
+=A0 I am<br>
+assuming that the iterator won&#39;t suddenly want to iterate more fences<b=
+r>
+between my initial count and when I go to add them but I think that<br>
+assumption is ok.<br></blockquote><div><br></div><div>Bump.=C2=A0 This has =
+been sitting here for a couple of weeks.=C2=A0 I still don&#39;t see the pr=
+oblem.</div><div><br></div><div>--Jason<br></div><div>=C2=A0</div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">
+--Jason<br>
+<br>
+<br>
+&gt; Thinking now about it we probably had a bug around that before as<br>
+&gt; well. <br>
+&gt; Going to double check tomorrow.<br>
+&gt; <br>
+&gt; Regards,<br>
+&gt; Christian.<br>
+&gt; <br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!ret) {<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+dma_fence_unwrap_for_each(f, &amp;iter, fence)<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_resv_add_fence(dmabuf-&=
+gt;resv, f,<br>
+&gt; &gt; usage);<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0}<br>
+&gt; &gt; +<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_resv_unlock(dmabuf-&gt;resv);<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}<br>
+&gt; &gt; =C2=A0 <br>
+&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_fence_put(fen=
+ce);<br>
+&gt; &gt; =C2=A0 <br>
+&gt; <br>
+<br>
+</blockquote></div></div>
+
+--000000000000ed23be05e6fdc224--
