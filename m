@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191C659F9C2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 14:21:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7789359F9D8
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 14:22:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7A70A74B1;
-	Wed, 24 Aug 2022 12:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18B79B203A;
+	Wed, 24 Aug 2022 12:18:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C7B11BF4B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 12:17:14 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE1648D419
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 12:17:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661343433;
+ s=mimecast20190719; t=1661343440;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nN4WATYtbc2Vngxl9g1chOmA69lp4le/9lX4HXc45WY=;
- b=RsKm5dHz4H7h7zhbuPqa24gui7JEJzjdmoMP7LPhhS9S8fFAjJS2CH+TceLToTmfsFRTih
- S6tSGW+Mwcl2FqOt8/elg5MGpXhuRKaIgEOcXveQkNk03vy7YQFeGNN0KXgZdl6JIS5gE8
- +UMtngGoOra7VRspm3Jj9g1B+nMFhyM=
+ bh=iU57+kDoMYdFvB7lQdFql6dEi9DvKLoCSpf/eh9uMYs=;
+ b=OWRJRPMb1svEYHzXWLwvyUa7B2uLBR2L1nGxJGoCfJGfFyxXZicMlGTZsYR2mXq2jbKvM7
+ jYLajQ9eZ1nKRMvBgbxQQz1oGgTi5pD941qPGlK5qaNae32mZPhk1Tpd8/nyHrdmrCdilZ
+ 9xl2AwbzFH7566KKf+DPT7bF7eSYWUs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-vZO0hkiwNtK4e_KxvHsXPw-1; Wed, 24 Aug 2022 08:17:08 -0400
-X-MC-Unique: vZO0hkiwNtK4e_KxvHsXPw-1
+ us-mta-605-XKNHb25RMSCLciVbFTG8FA-1; Wed, 24 Aug 2022 08:17:17 -0400
+X-MC-Unique: XKNHb25RMSCLciVbFTG8FA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD3EE8032F1;
- Wed, 24 Aug 2022 12:17:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42B118041BE;
+ Wed, 24 Aug 2022 12:17:16 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.193.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92894C15BB3;
- Wed, 24 Aug 2022 12:17:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57471C15BB3;
+ Wed, 24 Aug 2022 12:17:12 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Ben Skeggs <bskeggs@redhat.com>,
 	Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
@@ -55,10 +55,10 @@ To: Ben Skeggs <bskeggs@redhat.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
 	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v4 22/31] platform/x86: acer-wmi: Move backlight DMI quirks to
- acpi/video_detect.c
-Date: Wed, 24 Aug 2022 14:15:14 +0200
-Message-Id: <20220824121523.1291269-23-hdegoede@redhat.com>
+Subject: [PATCH v4 24/31] platform/x86: asus-wmi: Move acpi_backlight=vendor
+ quirks to ACPI video_detect.c
+Date: Wed, 24 Aug 2022 14:15:16 +0200
+Message-Id: <20220824121523.1291269-25-hdegoede@redhat.com>
 In-Reply-To: <20220824121523.1291269-1-hdegoede@redhat.com>
 References: <20220824121523.1291269-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -85,208 +85,181 @@ Cc: linux-acpi@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the backlight DMI quirks to acpi/video_detect.c, so that
-the driver no longer needs to call acpi_video_set_dmi_backlight_type().
+Remove the asus-wmi quirk_entry.wmi_backlight_power quirk-flag, which
+called acpi_video_set_dmi_backlight_type(acpi_backlight_vendor) and replace
+it with acpi/video_detect.c video_detect_dmi_table[] entries using the
+video_detect_force_vendor callback.
 
 acpi_video_set_dmi_backlight_type() is troublesome because it may end up
 getting called after other backlight drivers have already called
 acpi_video_get_backlight_type() resulting in the other drivers
 already being registered even though they should not.
 
-Note that even though the DMI quirk table name was video_vendor_dmi_table,
-5/6 quirks were actually quirks to use the GPU native backlight.
-
-These 5 quirks also had a callback in their dmi_system_id entry which
-disabled the acer-wmi vendor driver; and any DMI match resulted in:
-
-	acpi_video_set_dmi_backlight_type(acpi_backlight_vendor);
-
-which disabled the acpi_video driver, so only the native driver was left.
-The new entries for these 5/6 devices correctly marks these as needing
-the native backlight driver.
-
-Also note that other changes in this series change the native backlight
-drivers to no longer unconditionally register their backlight. Instead
-these drivers now do this check:
-
-	if (acpi_video_get_backlight_type(false) != acpi_backlight_native)
-		return 0; /* bail */
-
-which without this patch would have broken these 5/6 "special" quirks.
-
-Since I had to look at all the commits adding the quirks anyways, to make
-sure that I understood the code correctly, I've also added links to
-the various original bugzillas for these quirks to the new entries.
+Note no entries are dropped from the dmi_system_id table in asus-nb-wmi.c.
+This is because the entries using the removed wmi_backlight_power flag
+also use other model specific quirks from the asus-wmi quirk_entry struct.
+So the quirk_asus_x55u struct and the entries pointing to it cannot be
+dropped.
 
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/acpi/video_detect.c     | 53 ++++++++++++++++++++++++++
- drivers/platform/x86/acer-wmi.c | 66 ---------------------------------
- 2 files changed, 53 insertions(+), 66 deletions(-)
+ drivers/acpi/video_detect.c        | 40 ++++++++++++++++++++++++++++++
+ drivers/platform/x86/asus-nb-wmi.c |  7 ------
+ drivers/platform/x86/asus-wmi.c    |  3 ---
+ drivers/platform/x86/asus-wmi.h    |  1 -
+ drivers/platform/x86/eeepc-wmi.c   | 25 +------------------
+ 5 files changed, 41 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
-index 74e2087c8ff0..6a2523bc02ba 100644
+index 6a2523bc02ba..d893313fe1a0 100644
 --- a/drivers/acpi/video_detect.c
 +++ b/drivers/acpi/video_detect.c
-@@ -149,6 +149,15 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
- 		DMI_MATCH(DMI_BOARD_NAME, "X360"),
+@@ -174,6 +174,46 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+ 		DMI_MATCH(DMI_PRODUCT_NAME, "UL30A"),
  		},
  	},
 +	{
-+	 /* https://bugzilla.redhat.com/show_bug.cgi?id=1128309 */
 +	 .callback = video_detect_force_vendor,
-+	 /* Acer KAV80 */
++	 /* Asus X55U */
 +	 .matches = {
-+		DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "KAV80"),
++		DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++		DMI_MATCH(DMI_PRODUCT_NAME, "X55U"),
++		},
++	},
++	{
++	 .callback = video_detect_force_vendor,
++	 /* Asus X101CH */
++	 .matches = {
++		DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++		DMI_MATCH(DMI_PRODUCT_NAME, "X101CH"),
++		},
++	},
++	{
++	 .callback = video_detect_force_vendor,
++	 /* Asus X401U */
++	 .matches = {
++		DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++		DMI_MATCH(DMI_PRODUCT_NAME, "X401U"),
++		},
++	},
++	{
++	 .callback = video_detect_force_vendor,
++	 /* Asus X501U */
++	 .matches = {
++		DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++		DMI_MATCH(DMI_PRODUCT_NAME, "X501U"),
++		},
++	},
++	{
++	 .callback = video_detect_force_vendor,
++	 /* Asus 1015CX */
++	 .matches = {
++		DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++		DMI_MATCH(DMI_PRODUCT_NAME, "1015CX"),
 +		},
 +	},
  	{
  	.callback = video_detect_force_vendor,
- 	/* Asus UL30VT */
-@@ -437,6 +446,41 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
- 		DMI_MATCH(DMI_BOARD_NAME, "JV50"),
- 		},
- 	},
-+	{
-+	 /* https://bugzilla.redhat.com/show_bug.cgi?id=1012674 */
-+	 .callback = video_detect_force_native,
-+	 /* Acer Aspire 5741 */
-+	 .matches = {
-+		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5741"),
-+		},
-+	},
-+	{
-+	 /* https://bugzilla.kernel.org/show_bug.cgi?id=42993 */
-+	 .callback = video_detect_force_native,
-+	 /* Acer Aspire 5750 */
-+	 .matches = {
-+		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5750"),
-+		},
-+	},
-+	{
-+	 /* https://bugzilla.kernel.org/show_bug.cgi?id=42833 */
-+	 .callback = video_detect_force_native,
-+	 /* Acer Extensa 5235 */
-+	 .matches = {
-+		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "Extensa 5235"),
-+		},
-+	},
-+	{
-+	 .callback = video_detect_force_native,
-+	 /* Acer TravelMate 4750 */
-+	 .matches = {
-+		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 4750"),
-+		},
-+	},
- 	{
- 	 /* https://bugzilla.kernel.org/show_bug.cgi?id=207835 */
- 	 .callback = video_detect_force_native,
-@@ -447,6 +491,15 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
- 		DMI_MATCH(DMI_BOARD_NAME, "BA51_MV"),
- 		},
- 	},
-+	{
-+	 /* https://bugzilla.kernel.org/show_bug.cgi?id=36322 */
-+	 .callback = video_detect_force_native,
-+	 /* Acer TravelMate 5760 */
-+	 .matches = {
-+		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 5760"),
-+		},
-+	},
- 	{
- 	.callback = video_detect_force_native,
- 	/* ASUSTeK COMPUTER INC. GA401 */
-diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-index e0230ea0cb7e..b933a5165edb 100644
---- a/drivers/platform/x86/acer-wmi.c
-+++ b/drivers/platform/x86/acer-wmi.c
-@@ -643,69 +643,6 @@ static const struct dmi_system_id non_acer_quirks[] __initconst = {
- 	{}
+ 	/* GIGABYTE GB-BXBT-2807 */
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index 478dd300b9c9..810a94557a85 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -79,12 +79,10 @@ static struct quirk_entry quirk_asus_q500a = {
+ 
+ /*
+  * For those machines that need software to control bt/wifi status
+- * and can't adjust brightness through ACPI interface
+  * and have duplicate events(ACPI and WMI) for display toggle
+  */
+ static struct quirk_entry quirk_asus_x55u = {
+ 	.wapf = 4,
+-	.wmi_backlight_power = true,
+ 	.wmi_backlight_set_devstate = true,
+ 	.no_display_toggle = true,
  };
- 
--static int __init
--video_set_backlight_video_vendor(const struct dmi_system_id *d)
--{
--	interface->capability &= ~ACER_CAP_BRIGHTNESS;
--	pr_info("Brightness must be controlled by generic video driver\n");
--	return 0;
--}
--
--static const struct dmi_system_id video_vendor_dmi_table[] __initconst = {
--	{
--		.callback = video_set_backlight_video_vendor,
--		.ident = "Acer TravelMate 4750",
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 4750"),
--		},
--	},
--	{
--		.callback = video_set_backlight_video_vendor,
--		.ident = "Acer Extensa 5235",
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "Extensa 5235"),
--		},
--	},
--	{
--		.callback = video_set_backlight_video_vendor,
--		.ident = "Acer TravelMate 5760",
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 5760"),
--		},
--	},
--	{
--		.callback = video_set_backlight_video_vendor,
--		.ident = "Acer Aspire 5750",
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5750"),
--		},
--	},
--	{
--		.callback = video_set_backlight_video_vendor,
--		.ident = "Acer Aspire 5741",
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5741"),
--		},
--	},
--	{
+@@ -147,11 +145,6 @@ static const struct dmi_system_id asus_quirks[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK Computer Inc."),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "U32U"),
+ 		},
 -		/*
--		 * Note no video_set_backlight_video_vendor, we must use the
--		 * acer interface, as there is no native backlight interface.
+-		 * Note this machine has a Brazos APU, and most Brazos Asus
+-		 * machines need quirk_asus_x55u / wmi_backlight_power but
+-		 * here acpi-video seems to work fine for backlight control.
 -		 */
--		.ident = "Acer KAV80",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "KAV80"),
--		},
--	},
--	{}
--};
--
- /* Find which quirks are needed for a particular vendor/ model pair */
- static void __init find_quirks(void)
- {
-@@ -2477,9 +2414,6 @@ static int __init acer_wmi_init(void)
+ 		.driver_data = &quirk_asus_wapf4,
+ 	},
+ 	{
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 301166a5697d..5cf9d9aff164 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -3634,9 +3634,6 @@ static int asus_wmi_add(struct platform_device *pdev)
+ 	if (asus->driver->quirks->wmi_force_als_set)
+ 		asus_wmi_set_als();
  
- 	set_quirks();
- 
--	if (dmi_check_system(video_vendor_dmi_table))
+-	if (asus->driver->quirks->wmi_backlight_power)
 -		acpi_video_set_dmi_backlight_type(acpi_backlight_vendor);
 -
- 	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
- 		interface->capability &= ~ACER_CAP_BRIGHTNESS;
+ 	if (asus->driver->quirks->wmi_backlight_native)
+ 		acpi_video_set_dmi_backlight_type(acpi_backlight_native);
  
+diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
+index b302415bf1d9..30770e411301 100644
+--- a/drivers/platform/x86/asus-wmi.h
++++ b/drivers/platform/x86/asus-wmi.h
+@@ -29,7 +29,6 @@ struct quirk_entry {
+ 	bool hotplug_wireless;
+ 	bool scalar_panel_brightness;
+ 	bool store_backlight_power;
+-	bool wmi_backlight_power;
+ 	bool wmi_backlight_native;
+ 	bool wmi_backlight_set_devstate;
+ 	bool wmi_force_als_set;
+diff --git a/drivers/platform/x86/eeepc-wmi.c b/drivers/platform/x86/eeepc-wmi.c
+index ce86d84ee796..32d9f0ba6be3 100644
+--- a/drivers/platform/x86/eeepc-wmi.c
++++ b/drivers/platform/x86/eeepc-wmi.c
+@@ -96,11 +96,6 @@ static struct quirk_entry quirk_asus_et2012_type3 = {
+ 	.store_backlight_power = true,
+ };
+ 
+-static struct quirk_entry quirk_asus_x101ch = {
+-	/* We need this when ACPI function doesn't do this well */
+-	.wmi_backlight_power = true,
+-};
+-
+ static struct quirk_entry *quirks;
+ 
+ static void et2012_quirks(void)
+@@ -151,25 +146,7 @@ static const struct dmi_system_id asus_quirks[] = {
+ 		},
+ 		.driver_data = &quirk_asus_unknown,
+ 	},
+-	{
+-		.callback = dmi_matched,
+-		.ident = "ASUSTeK Computer INC. X101CH",
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "X101CH"),
+-		},
+-		.driver_data = &quirk_asus_x101ch,
+-	},
+-	{
+-		.callback = dmi_matched,
+-		.ident = "ASUSTeK Computer INC. 1015CX",
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "1015CX"),
+-		},
+-		.driver_data = &quirk_asus_x101ch,
+-	},
+-	{},
++	{}
+ };
+ 
+ static void eeepc_wmi_key_filter(struct asus_wmi_driver *asus_wmi, int *code,
 -- 
 2.37.2
 
