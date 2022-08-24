@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670BC59FD24
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 16:24:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11CF59FD26
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 16:24:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 384F1B693B;
-	Wed, 24 Aug 2022 14:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C45B6B6938;
+	Wed, 24 Aug 2022 14:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2064.outbound.protection.outlook.com [40.107.220.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A57CB6898;
- Wed, 24 Aug 2022 14:24:11 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F977B68A7;
+ Wed, 24 Aug 2022 14:24:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S7LPPB7bhOoRmAS1zGYyJlLoRoPjcaUdPmp1ynevTEOAQ3e2YoCNMFnl27Cjs881O5qy9jNDzIHHLxjb0vRkCLT0HyPibFLtQrgpj2xZgJPeJgrAvOALQRGbOzgDsX5gtBpKaAqYR8fmNnumePqQ3tBXPgW/m/c1f/k5gNwmb8ZraIoIpT98Yn0vgHlW2/MbAtqraT8e6QXR78J2PBNuh1YWXnjgb4sAlKUbqQYik8uMcHkkIXeQnmKK6Pc7pNFAc2pr0YXzMRm0FbLA361n++L28nl6Cq/VpcMcgwAaokurByHO5RlaWnAavWYaM95MyFCxpfDp+6QVlR+sFX2Eug==
+ b=ecolYOScpO1RXKu3JIl56ydDh1l6anEDrsTPC3vrCkHgdiHTvLJhnWi2XCW/889guxpimpwJfEf+RiOZqOduBFxJTN2Fmej7slznMtMW6iuROQNroc82uoz82uTWYr4DS1zzuRCaINuFS/UBSuW4S8lLlwQl7zuyibmZLK2blHdads2e1zza254pk+MvisCuX9XkSOTIem+AGj9KSBJhMZvLh+cp1PdeY12x5e/xzcBkS9d2dyARm2LqOkh5KPlpI+sdla1/cgUJYKlCW4X4BXEDpbLO8A4b/AjaFD1rTTWn5CAhWNVDCgpdCfd2znlPQez74ncs4eZjrWEQr8h1og==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wxLTSJyRnDsL4mHuMW46Vuwh++MIQjo10ta1aVKEVmQ=;
- b=oWEV8HLMahbTQ7/5eu/gayLDD5VQ34p3lqGKY3t6MS3cskb1PuPzq/4CCJNWIn1uiaB5YCuAOnrf3BiJfCLpLUaFDMXyYc2GRj+7LsuaiEz1R1wXtAmc+Kn9n9yXD8PbD9iRB61O06nmc27gIKzyAVbqvm69199LT3is/+smVS5/7YiYBNeAW6flI2ZuYh9kViuszXtSxQEYAn3ZVOtzt3H1v/k9LZy43Tzy+QG0EQtibEGrnITd/jSDJZIBj2E5j/lFoYDUGeHYxve3qDOhInNd5T2huJICtfoZeCLfZiaD2W8GRZaLm0ix/prePFXiFQJheehYLRI5nFvxlWwRsA==
+ bh=ePLB8LFdcU3joNoyRNCrwH4jN2kRbFb4C/V9XNrJC9w=;
+ b=GAsru2tqxkL0hcLpqtnsQtXyE2Gm0dWucATnHDZ9T7xtXLITtWSVEg2+DuopdrkgMMzXU7UGRslQNW2evOXI675CQSZn5jzkK/EAecZ1sHKl8M81GWxy2olII9W393PPo2WrIyPuQAgWkSTfkzQyl3FOGCkNA78RyLLGioIekyaaUXS4qPHUCHFpt677DkTqkV3O2cH4f40XkORKRBEmP0tWeRTLDmkq+KKF595pvIi2oFvtU1Bok2oy6eSi2fribXLYI+rt624Qhj8fYL90IgTKwSGNFHYeXPsDQLLJPae68F83VC0diI15k9gZpMtu3sbpmoQO4yV9bKOziQKKdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wxLTSJyRnDsL4mHuMW46Vuwh++MIQjo10ta1aVKEVmQ=;
- b=kNpIjr1cFFZv0KUA5Dc9pQdT2+NmUgFXUhIZNAMD1nqlK3fef1BixkMYK5Fm/cetosyo2deSCLwH9lW/EdPgiSwr8pT3UD9mdZr/ErT/dgQqdygPjU3LWC86JDGpVIikuwGpSYnMVpsvY2Qjq02/U4DLCrMtO2T7H1TzWCvv08A=
-Received: from BN9P221CA0011.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::31)
- by MWHPR12MB1758.namprd12.prod.outlook.com (2603:10b6:300:10f::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.22; Wed, 24 Aug
- 2022 14:24:08 +0000
+ bh=ePLB8LFdcU3joNoyRNCrwH4jN2kRbFb4C/V9XNrJC9w=;
+ b=RRQzkiqpXSpDmJq8EPilbWC/Cpb0ORfmYLXMmxsZymNrWEtUmx0qsPydJdxWO3U4RwFM1dZKgmSN73u9ilJSr12YW2ZuBriGPz3ioOvKyuEAAQwimP3dKNdbSBm4x9joAlgMviUfMa8c2rjRL8ZJbZi2270VfExI3DO2nhEFKQs=
+Received: from BN9P221CA0030.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::29)
+ by DM5PR12MB1530.namprd12.prod.outlook.com (2603:10b6:4:4::23) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5546.18; Wed, 24 Aug 2022 14:24:11 +0000
 Received: from BN8NAM11FT072.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:10a:cafe::1e) by BN9P221CA0011.outlook.office365.com
- (2603:10b6:408:10a::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.22 via Frontend
- Transport; Wed, 24 Aug 2022 14:24:08 +0000
+ (2603:10b6:408:10a:cafe::86) by BN9P221CA0030.outlook.office365.com
+ (2603:10b6:408:10a::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.24 via Frontend
+ Transport; Wed, 24 Aug 2022 14:24:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,7 +47,7 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  BN8NAM11FT072.mail.protection.outlook.com (10.13.176.165) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5566.15 via Frontend Transport; Wed, 24 Aug 2022 14:24:08 +0000
+ 15.20.5566.15 via Frontend Transport; Wed, 24 Aug 2022 14:24:11 +0000
 Received: from fedora.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 24 Aug
@@ -55,10 +55,13 @@ Received: from fedora.amd.com (10.180.168.240) by SATLEXMB04.amd.com
 From: Luben Tuikov <luben.tuikov@amd.com>
 To: <dri-devel@lists.freedesktop.org>, Intel Graphics
  <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH 1/3] drm/i915: audit bo->resource usage
-Date: Wed, 24 Aug 2022 10:23:51 -0400
-Message-ID: <20220824142353.10293-1-luben.tuikov@amd.com>
+Subject: [PATCH 2/3] drm/ttm: stop allocating dummy resources during BO
+ creation
+Date: Wed, 24 Aug 2022 10:23:52 -0400
+Message-ID: <20220824142353.10293-2-luben.tuikov@amd.com>
 X-Mailer: git-send-email 2.36.1.74.g277cf0bc36
+In-Reply-To: <20220824142353.10293-1-luben.tuikov@amd.com>
+References: <20220824142353.10293-1-luben.tuikov@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -67,26 +70,26 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1492a163-d83b-4983-a56d-08da85dc4e74
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1758:EE_
+X-MS-Office365-Filtering-Correlation-Id: d9fbe726-9042-4a03-fe9b-08da85dc503b
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1530:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZAGV63V9goosvHoaPyMRWXY6JgRsNLlD8dADNSUel+XfCgVwLsDhJJLgeHbNvq9QvNmJiXqt0REsVyOKaAW8XDAqcaIxOXMI0mMsCLonQAkOdipJ84LTrKgSi3e+iAY+fMAjgA+xg4r7bIwZt+1pOVQGMkaW4RqwNtGaAItiILNnNzBRrDEOGQSesKoQUzkugRWapUOEAo/whzU+7CTF449X+w6npd7o30eMIv/CQKnJ6mvRfoqLTLniS03m3fK7WPKM2/zvDyO8vGzAZNRT6VDT/A7xdo8YW9COuytifnBJiSPT5ASlt54YKuzW3GnrS+ec8386J9rhZrR8O3jvdH7JG1h+Uuoaep56weT3DFEK1po+PlV80oTeP0m1lHtWVrbP/PhX399vL2eOb/mMl+DHbpCUcavn6eKfNxvT98UVpkE1WDOxT+XeVz57sZ7G6RfkRUY59AnjP1p9DCU1FZcCpbaQrmzZ4XQsZwhbzgvb38EhUGAbNLbJE17ffcLCJvU7nMQtvhUwclOZqgRdqnyuVZdftdKZGEEb2HovtC1gTW9xBl+hP6erP9TZlIjVirFenPRkO6wMuVOgzmuubOMCb4Lu/GRIfGBnlnRSH5Mm/WTqqoHzS5hSE+AmjQxlka5s6ryqdFJgp9P7v95jrJLhHo/mnl8H+y9T24c7lc1VmU1NUrHd3HFzUJ6mdhKe2s8FGKIWoli06u8TQXspAJA/NbEBogB5DHCLkSNJF8+H4I6VBczWNKS0qn3WWjyqIybQhkVxFllRMg9WB9dYXCkIhaeq7FAiLuHSbcy3b/wqrF4n14wcYa8PvMafTQWn
+X-Microsoft-Antispam-Message-Info: q8gOYlGs6soHyWcV/sb7SZW0aNzaLy9QwParfmWZAMBSTmr1h64gHEMgJrlnwXkquuKs97914Eb4qctHjbxzEEKoOPRj+3c+lJmLh73kGpIukHGMFeclQHeBZpx7g7npMDd7So74eVN9jr9ewUJiz79Lm66WfWYB9KF2Nhm9FRQ+EobzwDJdyERB/MuJIEGvPmzoNvywdQ5J4gHwkZ7VWTyRF/qR4md2WuFcfqNzJaxyAPXeschH3VVUfgYwxWv2ticpvKJiEL5btP/fTdq73sKKSKwJeKgtm1f6Wy8R1e+k5sSeKsvM6EBT4shy5xqzgj1o3R41x1MtU66FBaSxDlQ4yMLoRKlEv8R0TD0ymBjYOmZhatKk4+AjXMj4zA58V4XxWmysP1SiEBE/5LI/kAfPCAp1aojeTRuxovNFGx00M9CwbipMvCMKFKO69Id1JmU7sGAIAA3qYW9COOKFFaF+RNIrlVBgpJyjY/GbbnpUPBy162a1xVQYrs7aJu3QQkQWfW8DN+V2RyjR6gCIt8FELuXCOvFhpuJFkSPeSjgMRWsJ5fl3eCwbE/oi9WcE6LBnMsmkmG04+McQqCX7d9VkuMGLnKJIDhScjV7BPpCQ9oV4ZnFT6pEmOazpFgh3cW3H8E9GSEoFBM9pDGKcHVNWJrVEUGO6acED/bYtQV3hc4as+Uf9uR7dWsC90eQdqnCUqp/DyfXJ+g6bJGHhzNGXzLGw5Mg0+UKVm1mmuq+Mj7/3ZknEs1PVwYYRZOyFCeqjkTyhpCuLpir6HmpdKN3itUruHFIcEu86uHVAiY8=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(346002)(136003)(39860400002)(376002)(36840700001)(46966006)(40470700004)(40480700001)(36860700001)(83380400001)(40460700003)(82740400003)(86362001)(356005)(81166007)(82310400005)(70206006)(70586007)(450100002)(8676002)(4326008)(26005)(8936002)(478600001)(110136005)(316002)(54906003)(1076003)(36756003)(2616005)(16526019)(186003)(336012)(44832011)(5660300002)(41300700001)(426003)(47076005)(2906002)(7696005)(6666004)(36900700001);
+ SFS:(13230016)(4636009)(136003)(376002)(39860400002)(346002)(396003)(40470700004)(36840700001)(46966006)(26005)(40480700001)(16526019)(2906002)(41300700001)(7696005)(36756003)(47076005)(6666004)(82740400003)(44832011)(70206006)(70586007)(4326008)(82310400005)(86362001)(8676002)(5660300002)(8936002)(110136005)(54906003)(316002)(478600001)(81166007)(356005)(40460700003)(1076003)(36860700001)(83380400001)(336012)(426003)(186003)(2616005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2022 14:24:08.1288 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1492a163-d83b-4983-a56d-08da85dc4e74
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2022 14:24:11.1129 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9fbe726-9042-4a03-fe9b-08da85dc503b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT072.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1758
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1530
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,58 +102,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Luben Tuikov <luben.tuikov@amd.com>,
+Cc: "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Christian König <christian.koenig@amd.com>
 
-Make sure we can at least move and alloc TT objects without backing store.
+That should not be necessary any more when drivers should at least be
+able to handle the move without a resource.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 6 ++----
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 2 +-
- 2 files changed, 3 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index bc9c432edffe03..45ce2d1f754cc4 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -271,8 +271,6 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index f066e8124c5058..d7ed891d388769 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -959,7 +959,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev, struct ttm_buffer_object *bo,
+ 			 struct sg_table *sg, struct dma_resv *resv,
+ 			 void (*destroy) (struct ttm_buffer_object *))
  {
- 	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
- 						     bdev);
--	struct ttm_resource_manager *man =
--		ttm_manager_type(bo->bdev, bo->resource->mem_type);
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 	unsigned long ccs_pages = 0;
- 	enum ttm_caching caching;
-@@ -286,8 +284,8 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 	if (!i915_tt)
- 		return NULL;
- 
--	if (obj->flags & I915_BO_ALLOC_CPU_CLEAR &&
--	    man->use_tt)
-+	if (obj->flags & I915_BO_ALLOC_CPU_CLEAR && bo->resource &&
-+	    ttm_manager_type(bo->bdev, bo->resource->mem_type)->use_tt)
- 		page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
- 
- 	caching = i915_ttm_select_tt_caching(obj);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-index 9a7e50534b84bb..c420d1ab605b6f 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-@@ -560,7 +560,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 	bool clear;
+-	static const struct ttm_place sys_mem = { .mem_type = TTM_PL_SYSTEM };
  	int ret;
  
--	if (GEM_WARN_ON(!obj)) {
-+	if (GEM_WARN_ON(!obj) || !bo->resource) {
- 		ttm_bo_move_null(bo, dst_mem);
- 		return 0;
- 	}
+ 	kref_init(&bo->kref);
+@@ -977,12 +976,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev, struct ttm_buffer_object *bo,
+ 		bo->base.resv = &bo->base._resv;
+ 	atomic_inc(&ttm_glob.bo_count);
+ 
+-	ret = ttm_resource_alloc(bo, &sys_mem, &bo->resource);
+-	if (unlikely(ret)) {
+-		ttm_bo_put(bo);
+-		return ret;
+-	}
+-
+ 	/*
+ 	 * For ttm_bo_type_device buffers, allocate
+ 	 * address space from the device.
 -- 
 2.36.1.74.g277cf0bc36
 
