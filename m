@@ -2,53 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70B459F5D4
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 11:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC25959F643
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 11:32:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7681195F4D;
-	Wed, 24 Aug 2022 09:01:43 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ABA295E9D;
- Wed, 24 Aug 2022 09:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8425B10E431;
+	Wed, 24 Aug 2022 09:31:52 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2A4A10E431;
+ Wed, 24 Aug 2022 09:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661331683; x=1692867683;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:from:cc:subject:to:message-id:date;
- bh=dJ4vBZOVOLAGds17ulSuHe9EyQzxriMMs1m+ih4eWG4=;
- b=PphUe7UvRVtUZgjDkN6N38t2Qq7vzqgJfp7IBv0CxdP6XBLtqHxQpffy
- PYVX8AWiUkZ+R/liS9YSHVS//m5VU14R9OaEQbSkP9+Yx0ka97RfUQFLn
- Q0AY9sApZ/kjkj/Z7WEG81A7hSrbBR+xiVg1wvjnnbXgS92uOvbf6JLAQ
- XNKewp/xc7HTmIVjW4Hdxw7nWKa5zYTIJhoVXGTq48u1wj83/UKjd0J2G
- VRMourzZY+fUthyZZFqxhxvih4jiEJG/gfpV5L2tAjvQQebcgG45/51II
- 5CtkqbyRk1hfOEBwAJzDgbdwa0IvGvyejttr11dbG/9M8DFv+cpGikBDE g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="357886382"
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="357886382"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 02:01:21 -0700
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="785558094"
-Received: from gaburges-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.12.186])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 02:01:20 -0700
-Content-Type: text/plain; charset="utf-8"
+ t=1661333503; x=1692869503;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=vRo+OvM+3qGqVjyEmkuoxBE8kd8tr3CMW7//TOTHE+o=;
+ b=BcMgq9kpmN0NWeVgHWASBWrSOVQ5rCc4FvAhtECya1lyIVw3jnw4i5nl
+ P6jdqiz4KgWftYrWiMSOfFu9FktPtiLlStaaDH8n5JPqKFD/BQ7pcexim
+ Dn+IED7fN8+FopclldELfn+GiG23B3MMAgo2ztt0XRTG1A5CtWqztqEzi
+ 8enuZPO++g3Ns7yRn5iw1Tpt6ks7+fayfjTneA1Qig7iQ5eC3bmNgdEet
+ mii+8Pme8fLqZvRBDrzOtfVgkqXmujGO6mojuc8hOKulsY+7XZ50uYczu
+ SWMxQcFTWmRr0KDzAwlYjEcpp4xgazArpQF2jgaLD6y0eBd1lN0kgjhXf Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="273670657"
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="273670657"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2022 02:31:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="560529014"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga003.jf.intel.com with ESMTP; 24 Aug 2022 02:31:42 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 24 Aug 2022 02:31:41 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Wed, 24 Aug 2022 02:31:41 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Wed, 24 Aug 2022 02:31:41 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L05M3IslBLpXLa+BxNIyJzSUh/8m5pV0+KvFXugu2mgnWcMhka3g0woP4gzs0yp8uPNunHw9ZR/gl+cTJmMo0ugG9+NxGQEeO9LuBT1gwbsV1WXr/hYFHmLICdRLCZCqBQsTBWiMTtEA/A3kIK5iRbKeSHmOZCTKIXOdCYzix72s8zzhySl5AWDdhtUhwJ735DDiY4/hu+HVi5TR8LC/RUuCDC3quPDIrCZp1JpBJpXGMu56pC5POG2OlNbHEbSEF/BXlI3OlwUqfehF2E3SPoQiOA9fvO7FJG0Wa2x4NJOtJX/YQl+V9/3wsVNi5ovvLFNZTol1aDGnsxJhaTbXCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bhI5VoG/gaDYeNPRpBBq2SbxJItlFFx/+86sLq1+ZF0=;
+ b=JIs/Jok3QaJtkRPOCx8jy7SNfVxsId2XNbG8gyuZ222zV3mQjTSfkib9tkhgIiNKNWJPn8iZQeNTjsZiDmuQC2mcM2WM87JixCv8YUhxfKjr56JLALn3GRE0AdY5BXkpi7gHUUvis5sqJ7x0HFJC9qUz1zSzvY+ABez3DTrJ9ImtlBzJ3BcT8HWiaK8r9Otzm1/w19wpqY9q6px8ugJhk0KLUF7W9Z8xhaHss9q2aUUaPz742XLAWU3G8+cW3PxXlhFkWGCde8x9HowcykoV1Uf+tVhgvon/hujDZq6xYjOGYWSAGgxF+1/+TDiER4REEFLW8LfKRP9mNggPlBBZ5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH0PR11MB5409.namprd11.prod.outlook.com (2603:10b6:610:d0::7)
+ by PH7PR11MB6473.namprd11.prod.outlook.com (2603:10b6:510:1f3::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.21; Wed, 24 Aug
+ 2022 09:31:39 +0000
+Received: from CH0PR11MB5409.namprd11.prod.outlook.com
+ ([fe80::70e4:76ca:fc65:df73]) by CH0PR11MB5409.namprd11.prod.outlook.com
+ ([fe80::70e4:76ca:fc65:df73%4]) with mapi id 15.20.5566.014; Wed, 24 Aug 2022
+ 09:31:39 +0000
+Message-ID: <89531bbc-03f3-6212-d2c8-939a0e3261ab@intel.com>
+Date: Wed, 24 Aug 2022 18:31:15 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [Intel-gfx] [PATCH v8 1/8] overflow: Move and add few utility
+ macros into overflow
+Content-Language: en-US
+To: Andrzej Hajda <andrzej.hajda@intel.com>, <intel-gfx@lists.freedesktop.org>
+References: <20220823101729.2098841-1-gwan-gyeong.mun@intel.com>
+ <20220823101729.2098841-2-gwan-gyeong.mun@intel.com>
+ <44d2da7f-6632-8382-73c9-6df76b7eae0c@intel.com>
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+In-Reply-To: <44d2da7f-6632-8382-73c9-6df76b7eae0c@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0104.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::19) To CH0PR11MB5409.namprd11.prod.outlook.com
+ (2603:10b6:610:d0::7)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220728022028.2190627-7-John.C.Harrison@Intel.com>
-References: <20220728022028.2190627-1-John.C.Harrison@Intel.com>
- <20220728022028.2190627-7-John.C.Harrison@Intel.com>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 6/7] drm/i915/guc: Make GuC log sizes runtime
- configurable
-To: Intel-GFX@Lists.FreeDesktop.Org, John.C.Harrison@Intel.com
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <166133167788.14547.12249088266216764022@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Wed, 24 Aug 2022 12:01:17 +0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6e57589f-1af5-45b5-0ae5-08da85b37241
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6473:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pSPzDcPmOeWTU8Qc3nuaXNKnig2c7LxgiIKqmhq/R7ewsRYO+eQG+WfyhsmSAMhte4RV++TaZIxBeZ8IcXphQ0wOx6VnSk8PgxyEdcTtBBwOGM8iUKjtzqggDKcik0AmiU8NQMOKhudKSbTMQCmYqkhkWbPzjoAhu+Fa/j3ol5FHPVmWaF+AkPh9E5n4y6NmgXENwvsFEOtcP+PcwtGbBAYaDdVvW1KZqJ7hQfFyHRibqaM2WhBUZjoVEmaUaLA+aScm5/cnfR0fTcRQ9QUkeynulZWZkPQ0IyI13SHBuf4oAGyB0JTfAuwpLa3yTP7Mb0HUD5Gm64FxtPZnQ6iL7MlLjWck62Ru316LE6SFZMWtdyHgScYY4vh2+BxG5hPC+/Z//TNFCiTGgPq8s/F1RoEPkHtM4m/r6JNWTBjPLKx2hadRX5QgB+v0DNTwdQ0N95AxiTMHat9cZpDAjwP3xuEIRmDXyE4BjK63fG04+PlYyZFlu9wpVHP5UdrWugQLDTJzlv6HZ+YrDY3Uyj8NKLzWhW+ie9GVJQynUBDzqxcqiWfQzbvMkGGeM9yR+A/zIfa61wvmPZNAfr9VFwDg/IlMgLeomf1O1r3lXGN3Tn+xJnhw0q3pJohO9Zae3jwX+dDD68P05TqOaV0Wgqcp5XaTvwqICS10w6oXMBsnYTk4X0EKyYi/a1XkTw27cRw8hBfX67H2y5B9KAIw4+heQFtroEZunHqcRgQfw5SZ+TQ2MU30fJ2qwIANF+jU3bvzaXoLHaFWK4hBuyXMYGnSwkK18gWgqrKKkN2zREqeWMA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR11MB5409.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(376002)(39860400002)(366004)(136003)(346002)(396003)(8676002)(86362001)(83380400001)(66556008)(2906002)(31696002)(6506007)(4326008)(6486002)(66946007)(53546011)(478600001)(7416002)(66476007)(6666004)(8936002)(5660300002)(82960400001)(66574015)(41300700001)(2616005)(26005)(38100700002)(316002)(31686004)(186003)(6512007)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NFJZQXg3RWlXMzRFRTdYNlh2dXdrOU5rajBmUGNseGpybEVjWkl4RVRuc1VK?=
+ =?utf-8?B?dUw0Um5jK1ZESStRUmFWMzlRTUNMWGdQQ0hkN25nUzNCam96OWE0MTBTQWlO?=
+ =?utf-8?B?a2dLOXJVQU5tUUpkcnNneDhiNGw0T3FNWFVESUdHdHI4cncwU0VGKy9ieks3?=
+ =?utf-8?B?SVFRdHNnQWxCc1Urd2duTXFZeTJ0Mno2QXArQWh3SGVoMXN3MlM2aWc5T25K?=
+ =?utf-8?B?Ulc5U0RmeVlWbnpaSmg2aldEUlpRWlRrWFhMUlI5NC9XbEZBNXR2QUJRQVpY?=
+ =?utf-8?B?Vjg0SzVpcm1ySndOOFJ5YXlkSk9rc0xSaUM4RjBzMUJiWTdIbWVWNkgySHcy?=
+ =?utf-8?B?YmdXUlRCRnZ3OWNPbzBhZ01FZGdSQjJDcHgzM2Y3ZE1SZWNYMnYzeTRmeTdy?=
+ =?utf-8?B?cFpXRnQ0Y002OHU3YmVJaHlUZEJ5Qzd4TFNXWUxUcXgzb0RWTStLQTZoaDJF?=
+ =?utf-8?B?dGpWOVdJc0dtN3NQQ29jbnV0VjI0QWwrU0pUL3lIYkNpTy90L1JLUVVZbDNo?=
+ =?utf-8?B?M2RqaVRaNnA0RVdrZmtTVTZPVmNvd3hjRmFJSVFhSERlejllZ0t5d2tyMWti?=
+ =?utf-8?B?T1IrWTV5dXNvM2dyRi9mK0M4UTZOT0ZVM3VFaEI4cnIrR284ejVzVXliMWVW?=
+ =?utf-8?B?QnBYa3N4TGQrTWx2Nnk4cWJTMklBV242d2lGbGE5S3F2Sms1a1A2TXF6bkpU?=
+ =?utf-8?B?U3diZUtxVGl5bGV1VUc3TFI1b3AweThDNnNWTzc1U2VHNkc2cVQyM295cnYx?=
+ =?utf-8?B?QksrQ05qKzNiWGlnT3lZVGxjamJBRkpwbFUzaUt6V09lUG5YZXZWU1hDOFBM?=
+ =?utf-8?B?cWs0MDR5bVVhLzJsQ0VZSTVmSlhLT1JDbTdFdXBoSGV5bXFQRmgxWW4xcGVU?=
+ =?utf-8?B?YW11N3VUQW93WFlmNUpOaUlveUR5N0ZyTTBFczNKT3JYc1EyVjUwNGpUMDNs?=
+ =?utf-8?B?VjRkTjJJSGlDSjVPbTJ6aEJ1aG9xSnd5aVJqbFRpRmZFMDVxekN5V0V6ek9N?=
+ =?utf-8?B?WFpjV1BkM200RDMzL1BoMjI0Tm9YY0Z3amZxUGNkYzA4Y0hnMTJKY2F6M2Vm?=
+ =?utf-8?B?S3VrYW55SEEvUTBLTG54TytPczl3dEFsSWRqTjBlZ0FXRERsWWFuWXVudm5C?=
+ =?utf-8?B?QlkxZ1Qwc2ZRbFVVZTMyUnZ3RlUrU25qcThPY2QwOTNVeGxITWx6VzRta0V0?=
+ =?utf-8?B?czVsUk1iQnkzblN5ak5aN1pnSDN1bTQ0YXFjcWVEZlQ2MENUQVFpMWt6NUJp?=
+ =?utf-8?B?RC9iSlRIc3hVOEFXMWM0alBWZTE5aThIOGpEY1FFZHUzVmlQOHRIaHdabjU2?=
+ =?utf-8?B?djNSRW5EZ2Z4V2Y5ekJKK0VJckJDM2loRS9FM3pEVjM4SkJ1K1V1aDBHMTA2?=
+ =?utf-8?B?YzJuZmdqR05MUWJsSy9jNFVjTy9VYWtIc3N2Smt1U0lydDh6TkZ6aHpqTGsv?=
+ =?utf-8?B?bDhFVGZablpyU0xRK3FIbmFSTTEvS0p6Vjhzdk9GSmVkajkwZytyNEY3bXFt?=
+ =?utf-8?B?Q0t6WVNDMlkzeVZ2em1PZ2NtckU4NzNDUFBLVlAzQzBiM0pQYW9OSVJOd2Mz?=
+ =?utf-8?B?blpOL1Q3dGFnbWs4NG5EVXcxblVXOW04ejRlR1R3Nzh2MXYxR3I4Y2lmU0hO?=
+ =?utf-8?B?V2tjRUdkc2g2b0VaT0tUcHRDMnR2U3lkRkJnYkh1b1p3Nzl5bzhwMXdKRmtN?=
+ =?utf-8?B?MjgxVXdYQ0NjaE5pODNaQll5UDEvdGY4Zis5Z3d6TTltT1hkbGVvaUwxM2Zu?=
+ =?utf-8?B?K2ZWVE0zSWZ3QnJVb3gweTZmQk9sMUQ1UWVNT3haWTBmY0F3U3pLTWRqaWFJ?=
+ =?utf-8?B?enNDTlBscVBSNFZRdGh1VkR5QVp6bnlEZlNQZGx5VHJZZ29yUmN3SUIrY1F3?=
+ =?utf-8?B?cWt4MGg1TzZTZjZKaE5VWVBCdFhpSHlRQ05RVjZuR3EyNDhSV1RHak5aM0JC?=
+ =?utf-8?B?RUFCNHJsbmdHSXJoMVBreDYzaEZRQlpVNHZ4cFF2Qkd4d0VsbXU3SlFSZ2NG?=
+ =?utf-8?B?RUg4cHkvRWZEN0diMGppdjNnV1FGdVMrbkRDbFBzMjA3ZUo2V0FNZkdnSUV2?=
+ =?utf-8?B?eUR5RDUyWnBwdmR0ckZodFZ5SEgzdkkxTkFKS0xFall1VHUwWHFyRWdhMmxv?=
+ =?utf-8?B?b1JCekkrNFZMaEVQekJoM1JNdVZJdi94OFdrNkRRZnFwc2lLbFlQRHZGdnNi?=
+ =?utf-8?B?NGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e57589f-1af5-45b5-0ae5-08da85b37241
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5409.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2022 09:31:39.1976 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Iz39BtjPEldv5+ArYvfno8bSfMbVlmLfvOdp7jOONJgTxZS21MDJmLBXgdLGFw78mdbiWF4ABhuk8z4uEVGMo/fOL7MK7CqmMHhy6j48tII=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6473
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,580 +157,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: thomas.hellstrom@linux.intel.com, keescook@chromium.org,
+ jani.nikula@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, airlied@linux.ie,
+ matthew.auld@intel.com, intel-gfx-trybot@lists.freedesktop.org,
+ mchehab@kernel.org, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-NACK on this one. Let's get this reverted or fixed to eliminate
-new module parameters.
 
-What prevents us just from using the maximum sizes? Or alternatively
-we could check the already existing drm.debug variable or anything else
-but addding 3 new module parameters.
 
-For future reference, please do Cc maintainers when adding new uAPI
-like module parameters.
+On 8/23/22 9:35 PM, Andrzej Hajda wrote:
+> On 23.08.2022 12:17, Gwan-gyeong Mun wrote:
+>> It moves overflows_type utility macro into overflow header from 
+>> i915_utils
+>> header. The overflows_type can be used to catch the truncaion (overflow)
+>> between different data types. And it adds check_assign() macro which
+>> performs an assigning source value into destination ptr along with an
+>> overflow check. overflow_type macro has been improved to handle the 
+>> signbit
+>> by gcc's built-in overflow check function. And it adds overflows_ptr()
+>> helper macro for checking the overflows between a value and a pointer
+>> type/value.
+>>
+>> v3: Add is_type_unsigned() macro (Mauro)
+>>      Modify overflows_type() macro to consider signed data types (Mauro)
+>>      Fix the problem that safe_conversion() macro always returns true
+>> v4: Fix kernel-doc markups
+>> v6: Move macro addition location so that it can be used by other than drm
+>>      subsystem (Jani, Mauro, Andi)
+>>      Change is_type_unsigned to is_unsigned_type to have the same name 
+>> form
+>>      as is_signed_type macro
+>> v8: Add check_assign() and remove safe_conversion() (Kees)
+>>      Fix overflows_type() to use gcc's built-in overflow function 
+>> (Andrzej)
+>>      Add overflows_ptr() to allow overflow checking when assigning a 
+>> value
+>>      into a pointer variable (G.G.)
+>>
+>> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Cc: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Nirmoy Das <nirmoy.das@intel.com>
+>> Cc: Jani Nikula <jani.nikula@intel.com>
+>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+>> Cc: Kees Cook <keescook@chromium.org>
+>> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org> (v5)
+>> ---
+>>   drivers/gpu/drm/i915/i915_user_extensions.c |  2 +-
+>>   drivers/gpu/drm/i915/i915_utils.h           |  5 +-
+>>   include/linux/overflow.h                    | 67 +++++++++++++++++++++
+>>   3 files changed, 69 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_user_extensions.c 
+>> b/drivers/gpu/drm/i915/i915_user_extensions.c
+>> index c822d0aafd2d..0fb2fecbcaae 100644
+>> --- a/drivers/gpu/drm/i915/i915_user_extensions.c
+>> +++ b/drivers/gpu/drm/i915/i915_user_extensions.c
+>> @@ -51,7 +51,7 @@ int i915_user_extensions(struct i915_user_extension 
+>> __user *ext,
+>>               return err;
+>>           if (get_user(next, &ext->next_extension) ||
+>> -            overflows_type(next, ext))
+>> +            overflows_ptr(next, ext))
+>>               return -EFAULT;
+>>           ext = u64_to_user_ptr(next);
+>> diff --git a/drivers/gpu/drm/i915/i915_utils.h 
+>> b/drivers/gpu/drm/i915/i915_utils.h
+>> index c10d68cdc3ca..eb0ded23fa9c 100644
+>> --- a/drivers/gpu/drm/i915/i915_utils.h
+>> +++ b/drivers/gpu/drm/i915/i915_utils.h
+>> @@ -32,6 +32,7 @@
+>>   #include <linux/types.h>
+>>   #include <linux/workqueue.h>
+>>   #include <linux/sched/clock.h>
+>> +#include <linux/overflow.h>
+>>   #ifdef CONFIG_X86
+>>   #include <asm/hypervisor.h>
+>> @@ -111,10 +112,6 @@ bool i915_error_injected(void);
+>>   #define range_overflows_end_t(type, start, size, max) \
+>>       range_overflows_end((type)(start), (type)(size), (type)(max))
+>> -/* Note we don't consider signbits :| */
+>> -#define overflows_type(x, T) \
+>> -    (sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
+>> -
+>>   #define ptr_mask_bits(ptr, n) ({                    \
+>>       unsigned long __v = (unsigned long)(ptr);            \
+>>       (typeof(ptr))(__v & -BIT(n));                    \
+>> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
+>> index f1221d11f8e5..4016f1378bcc 100644
+>> --- a/include/linux/overflow.h
+>> +++ b/include/linux/overflow.h
+>> @@ -52,6 +52,73 @@ static inline bool __must_check 
+>> __must_check_overflow(bool overflow)
+>>       return unlikely(overflow);
+>>   }
+>> +/**
+>> + * overflows_type - helper for checking the overflows between data 
+>> types or
+>> + *                  values
+>> + *
+>> + * @x: Source value or data type for overflow check
+>> + * @T: Destination value or data type for overflow check
+>> + *
+>> + * It compares the values or data type between the first and second 
+>> argument to
+>> + * check whether overflow can occur when assigning the first argument 
+>> to the
+>> + * variable of the second argument. Source and Destination can be 
+>> singned or
+>> + * unsigned data types.
+>> + *
+>> + * Returns:
+>> + * True if overflow can occur, false otherwise.
+>> + */
+>> +#define overflows_type(x, T) __must_check_overflow(({    \
+>> +    typeof(T) v = 0;                \
+>> +    __builtin_add_overflow_p((x), v, v);        \
+> 
+> 
+> Above works since gcc7, since gcc5 you can use:
+>      __builtin_add_overflow((x), v, &v);
+> 
+Yes I'll update it to use __builtin_add_overflow() like where the gcc's 
+overflow check built-in function was used.
+> 
+>> +}))
+>> +
+>> +/**
+>> + * overflows_ptr - helper for checking the overflows between a value and
+>> + *                 a pointer type/value
+>> + *
+>> + * @x: Source value for overflow check
+>> + * @T: Destination pointer type or value for overflow check
+>> + *
+>> + * gcc's built-in overflow check functions don't support checking 
+>> between the
+>> + * pointer type and non-pointer type. Therefore it compares the 
+>> values and
+>> + * size of each data type between the first and second argument to 
+>> check whether
+>> + * truncation can occur when assigning the first argument to the 
+>> variable of the
+>> + * second argument. It checks internally the ptr is a pointer type.
+>> + *
+>> + * Returns:
+>> + * True if overflow can occur, false otherwise.
+>> + */
+>> +#define overflows_ptr(x, T) __must_check_overflow(({    \
+>> +    typecheck_pointer(T);                \
+>> +    ((x) < 0) ? 1 : (sizeof(x) > sizeof(T) && (x) >> 
+>> BITS_PER_TYPE(T)) ? 1 : 0; \
+>> +}))
+> 
+> 
+> Doesn't linux assume that all pointers have size of long int ?
+> Or at least all pointers have the same size.
+> In such case we can use:
+> #define overflows_ptr(x) overflows_type(x, unsigned long)
+> 
+yes it looks a better way. I'll update the macro and comments.
 
-Regards, Joonas
+Thanks Andrzej
 
-Quoting John.C.Harrison@Intel.com (2022-07-28 05:20:27)
-> From: John Harrison <John.C.Harrison@Intel.com>
->=20
-> The GuC log buffer sizes had to be configured statically at compile
-> time. This can be quite troublesome when needing to get larger logs
-> out of a released driver. So re-organise the code to allow a boot time
-> module parameter override.
->=20
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  53 ++----
->  .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  14 +-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    | 176 +++++++++++++++++-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |  42 +++--
->  drivers/gpu/drm/i915/i915_params.c            |  12 ++
->  drivers/gpu/drm/i915/i915_params.h            |   3 +
->  6 files changed, 226 insertions(+), 74 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i91=
-5/gt/uc/intel_guc.c
-> index ab4aacc516aa4..01f2705cb94a3 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -224,53 +224,22 @@ static u32 guc_ctl_feature_flags(struct intel_guc *=
-guc)
-> =20
->  static u32 guc_ctl_log_params_flags(struct intel_guc *guc)
->  {
-> -       u32 offset =3D intel_guc_ggtt_offset(guc, guc->log.vma) >> PAGE_S=
-HIFT;
-> -       u32 flags;
-> -
-> -       #if (((CRASH_BUFFER_SIZE) % SZ_1M) =3D=3D 0)
-> -       #define LOG_UNIT SZ_1M
-> -       #define LOG_FLAG GUC_LOG_LOG_ALLOC_UNITS
-> -       #else
-> -       #define LOG_UNIT SZ_4K
-> -       #define LOG_FLAG 0
-> -       #endif
-> -
-> -       #if (((CAPTURE_BUFFER_SIZE) % SZ_1M) =3D=3D 0)
-> -       #define CAPTURE_UNIT SZ_1M
-> -       #define CAPTURE_FLAG GUC_LOG_CAPTURE_ALLOC_UNITS
-> -       #else
-> -       #define CAPTURE_UNIT SZ_4K
-> -       #define CAPTURE_FLAG 0
-> -       #endif
-> -
-> -       BUILD_BUG_ON(!CRASH_BUFFER_SIZE);
-> -       BUILD_BUG_ON(!IS_ALIGNED(CRASH_BUFFER_SIZE, LOG_UNIT));
-> -       BUILD_BUG_ON(!DEBUG_BUFFER_SIZE);
-> -       BUILD_BUG_ON(!IS_ALIGNED(DEBUG_BUFFER_SIZE, LOG_UNIT));
-> -       BUILD_BUG_ON(!CAPTURE_BUFFER_SIZE);
-> -       BUILD_BUG_ON(!IS_ALIGNED(CAPTURE_BUFFER_SIZE, CAPTURE_UNIT));
-> -
-> -       BUILD_BUG_ON((CRASH_BUFFER_SIZE / LOG_UNIT - 1) >
-> -                       (GUC_LOG_CRASH_MASK >> GUC_LOG_CRASH_SHIFT));
-> -       BUILD_BUG_ON((DEBUG_BUFFER_SIZE / LOG_UNIT - 1) >
-> -                       (GUC_LOG_DEBUG_MASK >> GUC_LOG_DEBUG_SHIFT));
-> -       BUILD_BUG_ON((CAPTURE_BUFFER_SIZE / CAPTURE_UNIT - 1) >
-> -                       (GUC_LOG_CAPTURE_MASK >> GUC_LOG_CAPTURE_SHIFT));
-> +       struct intel_guc_log *log =3D &guc->log;
-> +       u32 offset, flags;
-> +
-> +       GEM_BUG_ON(!log->sizes_initialised);
-> +
-> +       offset =3D intel_guc_ggtt_offset(guc, log->vma) >> PAGE_SHIFT;
-> =20
->         flags =3D GUC_LOG_VALID |
->                 GUC_LOG_NOTIFY_ON_HALF_FULL |
-> -               CAPTURE_FLAG |
-> -               LOG_FLAG |
-> -               ((CRASH_BUFFER_SIZE / LOG_UNIT - 1) << GUC_LOG_CRASH_SHIF=
-T) |
-> -               ((DEBUG_BUFFER_SIZE / LOG_UNIT - 1) << GUC_LOG_DEBUG_SHIF=
-T) |
-> -               ((CAPTURE_BUFFER_SIZE / CAPTURE_UNIT - 1) << GUC_LOG_CAPT=
-URE_SHIFT) |
-> +               log->sizes[GUC_LOG_SECTIONS_DEBUG].flag |
-> +               log->sizes[GUC_LOG_SECTIONS_CAPTURE].flag |
-> +               (log->sizes[GUC_LOG_SECTIONS_CRASH].count << GUC_LOG_CRAS=
-H_SHIFT) |
-> +               (log->sizes[GUC_LOG_SECTIONS_DEBUG].count << GUC_LOG_DEBU=
-G_SHIFT) |
-> +               (log->sizes[GUC_LOG_SECTIONS_CAPTURE].count << GUC_LOG_CA=
-PTURE_SHIFT) |
->                 (offset << GUC_LOG_BUF_ADDR_SHIFT);
-> =20
-> -       #undef LOG_UNIT
-> -       #undef LOG_FLAG
-> -       #undef CAPTURE_UNIT
-> -       #undef CAPTURE_FLAG
-> -
->         return flags;
->  }
-> =20
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu=
-/drm/i915/gt/uc/intel_guc_capture.c
-> index b54b7883320b1..d2ac53d4f3b6e 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-> @@ -656,16 +656,17 @@ static void check_guc_capture_size(struct intel_guc=
- *guc)
->         struct drm_i915_private *i915 =3D guc_to_gt(guc)->i915;
->         int min_size =3D guc_capture_output_min_size_est(guc);
->         int spare_size =3D min_size * GUC_CAPTURE_OVERBUFFER_MULTIPLIER;
-> +       u32 buffer_size =3D intel_guc_log_section_size_capture(&guc->log);
-> =20
->         if (min_size < 0)
->                 drm_warn(&i915->drm, "Failed to calculate GuC error state=
- capture buffer minimum size: %d!\n",
->                          min_size);
-> -       else if (min_size > CAPTURE_BUFFER_SIZE)
-> +       else if (min_size > buffer_size)
->                 drm_warn(&i915->drm, "GuC error state capture buffer is t=
-oo small: %d < %d\n",
-> -                        CAPTURE_BUFFER_SIZE, min_size);
-> -       else if (spare_size > CAPTURE_BUFFER_SIZE)
-> +                        buffer_size, min_size);
-> +       else if (spare_size > buffer_size)
->                 drm_notice(&i915->drm, "GuC error state capture buffer ma=
-ybe too small: %d < %d (min =3D %d)\n",
-> -                          CAPTURE_BUFFER_SIZE, spare_size, min_size);
-> +                          buffer_size, spare_size, min_size);
->  }
-> =20
->  /*
-> @@ -1294,7 +1295,8 @@ static void __guc_capture_process_output(struct int=
-el_guc *guc)
-> =20
->         log_buf_state =3D guc->log.buf_addr +
->                         (sizeof(struct guc_log_buffer_state) * GUC_CAPTUR=
-E_LOG_BUFFER);
-> -       src_data =3D guc->log.buf_addr + intel_guc_get_log_buffer_offset(=
-GUC_CAPTURE_LOG_BUFFER);
-> +       src_data =3D guc->log.buf_addr +
-> +                  intel_guc_get_log_buffer_offset(&guc->log, GUC_CAPTURE=
-_LOG_BUFFER);
-> =20
->         /*
->          * Make a copy of the state structure, inside GuC log buffer
-> @@ -1302,7 +1304,7 @@ static void __guc_capture_process_output(struct int=
-el_guc *guc)
->          * from it multiple times.
->          */
->         memcpy(&log_buf_state_local, log_buf_state, sizeof(struct guc_log=
-_buffer_state));
-> -       buffer_size =3D intel_guc_get_log_buffer_size(GUC_CAPTURE_LOG_BUF=
-FER);
-> +       buffer_size =3D intel_guc_get_log_buffer_size(&guc->log, GUC_CAPT=
-URE_LOG_BUFFER);
->         read_offset =3D log_buf_state_local.read_ptr;
->         write_offset =3D log_buf_state_local.sampled_write_ptr;
->         full_count =3D log_buf_state_local.buffer_full_cnt;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm=
-/i915/gt/uc/intel_guc_log.c
-> index 4722d4b18ed19..890b6853bd609 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-> @@ -13,8 +13,158 @@
->  #include "intel_guc_capture.h"
->  #include "intel_guc_log.h"
-> =20
-> +#if defined(CONFIG_DRM_I915_DEBUG_GUC)
-> +#define GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE      SZ_2M
-> +#define GUC_LOG_DEFAULT_DEBUG_BUFFER_SIZE      SZ_16M
-> +#define GUC_LOG_DEFAULT_CAPTURE_BUFFER_SIZE    SZ_4M
-> +#elif defined(CONFIG_DRM_I915_DEBUG_GEM)
-> +#define GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE      SZ_1M
-> +#define GUC_LOG_DEFAULT_DEBUG_BUFFER_SIZE      SZ_2M
-> +#define GUC_LOG_DEFAULT_CAPTURE_BUFFER_SIZE    SZ_4M
-> +#else
-> +#define GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE      SZ_8K
-> +#define GUC_LOG_DEFAULT_DEBUG_BUFFER_SIZE      SZ_64K
-> +#define GUC_LOG_DEFAULT_CAPTURE_BUFFER_SIZE    SZ_2M
-> +#endif
-> +
->  static void guc_log_copy_debuglogs_for_relay(struct intel_guc_log *log);
-> =20
-> +struct guc_log_section {
-> +       u32 max;
-> +       u32 flag;
-> +       u32 default_val;
-> +       const char *name;
-> +};
-> +
-> +static s32 scale_log_param(struct intel_guc_log *log, const struct guc_l=
-og_section *section,
-> +                          s32 param)
-> +{
-> +       /* -1 means default */
-> +       if (param < 0)
-> +               return section->default_val;
-> +
-> +       /* Check for 32-bit overflow */
-> +       if (param >=3D SZ_4K) {
-> +               drm_err(&guc_to_gt(log_to_guc(log))->i915->drm, "Size too=
- large for GuC %s log: %dMB!",
-> +                       section->name, param);
-> +               return section->default_val;
-> +       }
-> +
-> +       /* Param units are 1MB */
-> +       return param * SZ_1M;
-> +}
-> +
-> +static void _guc_log_init_sizes(struct intel_guc_log *log)
-> +{
-> +       struct intel_guc *guc =3D log_to_guc(log);
-> +       struct drm_i915_private *i915 =3D guc_to_gt(guc)->i915;
-> +       static const struct guc_log_section sections[GUC_LOG_SECTIONS_LIM=
-IT] =3D {
-> +               {
-> +                       GUC_LOG_CRASH_MASK >> GUC_LOG_CRASH_SHIFT,
-> +                       GUC_LOG_LOG_ALLOC_UNITS,
-> +                       GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE,
-> +                       "crash dump"
-> +               },
-> +               {
-> +                       GUC_LOG_DEBUG_MASK >> GUC_LOG_DEBUG_SHIFT,
-> +                       GUC_LOG_LOG_ALLOC_UNITS,
-> +                       GUC_LOG_DEFAULT_DEBUG_BUFFER_SIZE,
-> +                       "debug",
-> +               },
-> +               {
-> +                       GUC_LOG_CAPTURE_MASK >> GUC_LOG_CAPTURE_SHIFT,
-> +                       GUC_LOG_CAPTURE_ALLOC_UNITS,
-> +                       GUC_LOG_DEFAULT_CAPTURE_BUFFER_SIZE,
-> +                       "capture",
-> +               }
-> +       };
-> +       s32 params[GUC_LOG_SECTIONS_LIMIT] =3D {
-> +               i915->params.guc_log_size_crash,
-> +               i915->params.guc_log_size_debug,
-> +               i915->params.guc_log_size_capture,
-> +       };
-> +       int i;
-> +
-> +       for (i =3D 0; i < GUC_LOG_SECTIONS_LIMIT; i++)
-> +               log->sizes[i].bytes =3D scale_log_param(log, sections + i=
-, params[i]);
-> +
-> +       /* If debug size > 1MB then bump default crash size to keep the s=
-ame units */
-> +       if (log->sizes[GUC_LOG_SECTIONS_DEBUG].bytes >=3D SZ_1M &&
-> +           (i915->params.guc_log_size_crash =3D=3D -1) &&
-> +           GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE < SZ_1M)
-> +               log->sizes[GUC_LOG_SECTIONS_CRASH].bytes =3D SZ_1M;
-> +
-> +       /* Prepare the GuC API structure fields: */
-> +       for (i =3D 0; i < GUC_LOG_SECTIONS_LIMIT; i++) {
-> +               /* Convert to correct units */
-> +               if ((log->sizes[i].bytes % SZ_1M) =3D=3D 0) {
-> +                       log->sizes[i].units =3D SZ_1M;
-> +                       log->sizes[i].flag =3D sections[i].flag;
-> +               } else {
-> +                       log->sizes[i].units =3D SZ_4K;
-> +                       log->sizes[i].flag =3D 0;
-> +               }
-> +
-> +               if (!IS_ALIGNED(log->sizes[i].bytes, log->sizes[i].units))
-> +                       drm_err(&i915->drm, "Mis-aligned GuC log %s size:=
- 0x%X vs 0x%X!",
-> +                               sections[i].name, log->sizes[i].bytes, lo=
-g->sizes[i].units);
-> +               log->sizes[i].count =3D log->sizes[i].bytes / log->sizes[=
-i].units;
-> +
-> +               if (!log->sizes[i].count) {
-> +                       drm_err(&i915->drm, "Zero GuC log %s size!", sect=
-ions[i].name);
-> +               } else {
-> +                       /* Size is +1 unit */
-> +                       log->sizes[i].count--;
-> +               }
-> +
-> +               /* Clip to field size */
-> +               if (log->sizes[i].count > sections[i].max) {
-> +                       drm_err(&i915->drm, "GuC log %s size too large: %=
-d vs %d!",
-> +                               sections[i].name, log->sizes[i].count + 1=
-, sections[i].max + 1);
-> +                       log->sizes[i].count =3D sections[i].max;
-> +               }
-> +       }
-> +
-> +       if (log->sizes[GUC_LOG_SECTIONS_CRASH].units !=3D log->sizes[GUC_=
-LOG_SECTIONS_DEBUG].units) {
-> +               drm_err(&i915->drm, "Unit mis-match for GuC log crash and=
- debug sections: %d vs %d!",
-> +                       log->sizes[GUC_LOG_SECTIONS_CRASH].units,
-> +                       log->sizes[GUC_LOG_SECTIONS_DEBUG].units);
-> +               log->sizes[GUC_LOG_SECTIONS_CRASH].units =3D log->sizes[G=
-UC_LOG_SECTIONS_DEBUG].units;
-> +               log->sizes[GUC_LOG_SECTIONS_CRASH].count =3D 0;
-> +       }
-> +
-> +       log->sizes_initialised =3D true;
-> +}
-> +
-> +static void guc_log_init_sizes(struct intel_guc_log *log)
-> +{
-> +       if (log->sizes_initialised)
-> +               return;
-> +
-> +       _guc_log_init_sizes(log);
-> +}
-> +
-> +static u32 intel_guc_log_section_size_crash(struct intel_guc_log *log)
-> +{
-> +       guc_log_init_sizes(log);
-> +
-> +       return log->sizes[GUC_LOG_SECTIONS_CRASH].bytes;
-> +}
-> +
-> +static u32 intel_guc_log_section_size_debug(struct intel_guc_log *log)
-> +{
-> +       guc_log_init_sizes(log);
-> +
-> +       return log->sizes[GUC_LOG_SECTIONS_DEBUG].bytes;
-> +}
-> +
-> +u32 intel_guc_log_section_size_capture(struct intel_guc_log *log)
-> +{
-> +       guc_log_init_sizes(log);
-> +
-> +       return log->sizes[GUC_LOG_SECTIONS_CAPTURE].bytes;
-> +}
-> +
->  static u32 intel_guc_log_size(struct intel_guc_log *log)
->  {
->         /*
-> @@ -38,7 +188,10 @@ static u32 intel_guc_log_size(struct intel_guc_log *l=
-og)
->          *  |         Capture logs          |
->          *  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+ + CAPTURE_SIZE
->          */
-> -       return PAGE_SIZE + CRASH_BUFFER_SIZE + DEBUG_BUFFER_SIZE + CAPTUR=
-E_BUFFER_SIZE;
-> +       return PAGE_SIZE +
-> +               intel_guc_log_section_size_crash(log) +
-> +               intel_guc_log_section_size_debug(log) +
-> +               intel_guc_log_section_size_capture(log);
->  }
-> =20
->  /**
-> @@ -165,7 +318,8 @@ static void guc_move_to_next_buf(struct intel_guc_log=
- *log)
->         smp_wmb();
-> =20
->         /* All data has been written, so now move the offset of sub buffe=
-r. */
-> -       relay_reserve(log->relay.channel, log->vma->obj->base.size - CAPT=
-URE_BUFFER_SIZE);
-> +       relay_reserve(log->relay.channel, log->vma->obj->base.size -
-> +                                         intel_guc_log_section_size_capt=
-ure(log));
-> =20
->         /* Switch to the next sub buffer */
->         relay_flush(log->relay.channel);
-> @@ -210,15 +364,16 @@ bool intel_guc_check_log_buf_overflow(struct intel_=
-guc_log *log,
->         return overflow;
->  }
-> =20
-> -unsigned int intel_guc_get_log_buffer_size(enum guc_log_buffer_type type)
-> +unsigned int intel_guc_get_log_buffer_size(struct intel_guc_log *log,
-> +                                          enum guc_log_buffer_type type)
->  {
->         switch (type) {
->         case GUC_DEBUG_LOG_BUFFER:
-> -               return DEBUG_BUFFER_SIZE;
-> +               return intel_guc_log_section_size_debug(log);
->         case GUC_CRASH_DUMP_LOG_BUFFER:
-> -               return CRASH_BUFFER_SIZE;
-> +               return intel_guc_log_section_size_crash(log);
->         case GUC_CAPTURE_LOG_BUFFER:
-> -               return CAPTURE_BUFFER_SIZE;
-> +               return intel_guc_log_section_size_capture(log);
->         default:
->                 MISSING_CASE(type);
->         }
-> @@ -226,7 +381,8 @@ unsigned int intel_guc_get_log_buffer_size(enum guc_l=
-og_buffer_type type)
->         return 0;
->  }
-> =20
-> -size_t intel_guc_get_log_buffer_offset(enum guc_log_buffer_type type)
-> +size_t intel_guc_get_log_buffer_offset(struct intel_guc_log *log,
-> +                                      enum guc_log_buffer_type type)
->  {
->         enum guc_log_buffer_type i;
->         size_t offset =3D PAGE_SIZE;/* for the log_buffer_states */
-> @@ -234,7 +390,7 @@ size_t intel_guc_get_log_buffer_offset(enum guc_log_b=
-uffer_type type)
->         for (i =3D GUC_DEBUG_LOG_BUFFER; i < GUC_MAX_LOG_BUFFER; ++i) {
->                 if (i =3D=3D type)
->                         break;
-> -               offset +=3D intel_guc_get_log_buffer_size(i);
-> +               offset +=3D intel_guc_get_log_buffer_size(log, i);
->         }
-> =20
->         return offset;
-> @@ -285,7 +441,7 @@ static void _guc_log_copy_debuglogs_for_relay(struct =
-intel_guc_log *log)
->                  */
->                 memcpy(&log_buf_state_local, log_buf_state,
->                        sizeof(struct guc_log_buffer_state));
-> -               buffer_size =3D intel_guc_get_log_buffer_size(type);
-> +               buffer_size =3D intel_guc_get_log_buffer_size(log, type);
->                 read_offset =3D log_buf_state_local.read_ptr;
->                 write_offset =3D log_buf_state_local.sampled_write_ptr;
->                 full_cnt =3D log_buf_state_local.buffer_full_cnt;
-> @@ -400,7 +556,7 @@ static int guc_log_relay_create(struct intel_guc_log =
-*log)
->           * Keep the size of sub buffers same as shared log buffer
->           * but GuC log-events excludes the error-state-capture logs
->           */
-> -       subbuf_size =3D log->vma->size - CAPTURE_BUFFER_SIZE;
-> +       subbuf_size =3D log->vma->size - intel_guc_log_section_size_captu=
-re(log);
-> =20
->         /*
->          * Store up to 8 snapshots, which is large enough to buffer suffi=
-cient
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.h b/drivers/gpu/drm=
-/i915/gt/uc/intel_guc_log.h
-> index dc9715411d626..02127703be809 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.h
-> @@ -15,20 +15,6 @@
-> =20
->  struct intel_guc;
-> =20
-> -#if defined(CONFIG_DRM_I915_DEBUG_GUC)
-> -#define CRASH_BUFFER_SIZE      SZ_2M
-> -#define DEBUG_BUFFER_SIZE      SZ_16M
-> -#define CAPTURE_BUFFER_SIZE    SZ_4M
-> -#elif defined(CONFIG_DRM_I915_DEBUG_GEM)
-> -#define CRASH_BUFFER_SIZE      SZ_1M
-> -#define DEBUG_BUFFER_SIZE      SZ_2M
-> -#define CAPTURE_BUFFER_SIZE    SZ_4M
-> -#else
-> -#define CRASH_BUFFER_SIZE      SZ_8K
-> -#define DEBUG_BUFFER_SIZE      SZ_64K
-> -#define CAPTURE_BUFFER_SIZE    SZ_2M
-> -#endif
-> -
->  /*
->   * While we're using plain log level in i915, GuC controls are much more=
-...
->   * "elaborate"? We have a couple of bits for verbosity, separate bit for=
- actual
-> @@ -46,10 +32,30 @@ struct intel_guc;
->  #define GUC_VERBOSITY_TO_LOG_LEVEL(x)  ((x) + 2)
->  #define GUC_LOG_LEVEL_MAX GUC_VERBOSITY_TO_LOG_LEVEL(GUC_LOG_VERBOSITY_M=
-AX)
-> =20
-> +enum {
-> +       GUC_LOG_SECTIONS_CRASH,
-> +       GUC_LOG_SECTIONS_DEBUG,
-> +       GUC_LOG_SECTIONS_CAPTURE,
-> +       GUC_LOG_SECTIONS_LIMIT
-> +};
-> +
->  struct intel_guc_log {
->         u32 level;
-> +
-> +       /* Allocation settings */
-> +       struct {
-> +               s32 bytes;      /* Size in bytes */
-> +               s32 units;      /* GuC API units - 1MB or 4KB */
-> +               s32 count;      /* Number of API units */
-> +               u32 flag;       /* GuC API units flag */
-> +       } sizes[GUC_LOG_SECTIONS_LIMIT];
-> +       bool sizes_initialised;
-> +
-> +       /* Combined buffer allocation */
->         struct i915_vma *vma;
->         void *buf_addr;
-> +
-> +       /* RelayFS support */
->         struct {
->                 bool buf_in_use;
->                 bool started;
-> @@ -58,6 +64,7 @@ struct intel_guc_log {
->                 struct mutex lock;
->                 u32 full_count;
->         } relay;
-> +
->         /* logging related stats */
->         struct {
->                 u32 sampled_overflow;
-> @@ -69,8 +76,9 @@ struct intel_guc_log {
->  void intel_guc_log_init_early(struct intel_guc_log *log);
->  bool intel_guc_check_log_buf_overflow(struct intel_guc_log *log, enum gu=
-c_log_buffer_type type,
->                                       unsigned int full_cnt);
-> -unsigned int intel_guc_get_log_buffer_size(enum guc_log_buffer_type type=
-);
-> -size_t intel_guc_get_log_buffer_offset(enum guc_log_buffer_type type);
-> +unsigned int intel_guc_get_log_buffer_size(struct intel_guc_log *log,
-> +                                          enum guc_log_buffer_type type);
-> +size_t intel_guc_get_log_buffer_offset(struct intel_guc_log *log, enum g=
-uc_log_buffer_type type);
->  int intel_guc_log_create(struct intel_guc_log *log);
->  void intel_guc_log_destroy(struct intel_guc_log *log);
-> =20
-> @@ -92,4 +100,6 @@ void intel_guc_log_info(struct intel_guc_log *log, str=
-uct drm_printer *p);
->  int intel_guc_log_dump(struct intel_guc_log *log, struct drm_printer *p,
->                        bool dump_load_err);
-> =20
-> +u32 intel_guc_log_section_size_capture(struct intel_guc_log *log);
-> +
->  #endif
-> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i9=
-15_params.c
-> index 6fc475a5db615..06ca5b8221118 100644
-> --- a/drivers/gpu/drm/i915/i915_params.c
-> +++ b/drivers/gpu/drm/i915/i915_params.c
-> @@ -171,6 +171,18 @@ i915_param_named(guc_log_level, int, 0400,
->         "GuC firmware logging level. Requires GuC to be loaded. "
->         "(-1=3Dauto [default], 0=3Ddisable, 1..4=3Denable with verbosity =
-min..max)");
-> =20
-> +i915_param_named(guc_log_size_crash, int, 0400,
-> +       "GuC firmware logging buffer size for crash dumps (in MB)"
-> +       "(-1=3Dauto [default], NB: max =3D 4, other restrictions apply)");
-> +
-> +i915_param_named(guc_log_size_debug, int, 0400,
-> +       "GuC firmware logging buffer size for debug logs (in MB)"
-> +       "(-1=3Dauto [default], NB: max =3D 16, other restrictions apply)"=
-);
-> +
-> +i915_param_named(guc_log_size_capture, int, 0400,
-> +       "GuC error capture register dump buffer size (in MB)"
-> +       "(-1=3Dauto [default], NB: max =3D 4, other restrictions apply)");
-> +
->  i915_param_named_unsafe(guc_firmware_path, charp, 0400,
->         "GuC firmware path to use instead of the default one");
-> =20
-> diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i9=
-15_params.h
-> index 2733cb6cfe094..f684d1ab87078 100644
-> --- a/drivers/gpu/drm/i915/i915_params.h
-> +++ b/drivers/gpu/drm/i915/i915_params.h
-> @@ -61,6 +61,9 @@ struct drm_printer;
->         param(int, invert_brightness, 0, 0600) \
->         param(int, enable_guc, -1, 0400) \
->         param(int, guc_log_level, -1, 0400) \
-> +       param(int, guc_log_size_crash, -1, 0400) \
-> +       param(int, guc_log_size_debug, -1, 0400) \
-> +       param(int, guc_log_size_capture, -1, 0400) \
->         param(char *, guc_firmware_path, NULL, 0400) \
->         param(char *, huc_firmware_path, NULL, 0400) \
->         param(char *, dmc_firmware_path, NULL, 0400) \
-> --=20
-> 2.37.1
->=20
+G.G.
+> Regards
+> Andrzej
+> 
+>> +
+>> +/**
+>> + * check_assign - perform an assigning source value into destination 
+>> ptr along
+>> + *                with an overflow check.
+>> + *
+>> + * @value: Source value
+>> + * @ptr: Destination pointer address, If the pointer type is not used,
+>> + *       a warning message is output during build.
+>> + *
+>> + * It checks internally the ptr is a pointer type. And it uses gcc's 
+>> built-in
+>> + * overflow check function.
+>> + * It does not use the check_*() wrapper functions, but directly uses 
+>> gcc's
+>> + * built-in overflow check function so that it can be used even when
+>> + * the type of value and the type pointed to by ptr are different 
+>> without build
+>> + * warning messages.
+>> + *
+>> + * Returns:
+>> + * If the value would overflow the destination, it returns true. If 
+>> not return
+>> + * false. When overflow does not occur, the assigning into ptr from 
+>> value
+>> + * succeeds. It follows the return policy as other check_*_overflow() 
+>> functions
+>> + * return non-zero as a failure.
+>> + */
+>> +#define check_assign(value, ptr) __must_check_overflow(({    \
+>> +    typecheck_pointer(ptr);         \
+>> +    __builtin_add_overflow(0, value, ptr);    \
+>> +}))
+>> +
+>>   /*
+>>    * For simplicity and code hygiene, the fallback code below insists on
+>>    * a, b and *d having the same type (similar to the min() and max()
+> 
