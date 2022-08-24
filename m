@@ -2,60 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C963359FF46
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 18:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9048C59FFAE
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 18:42:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78ECEBA454;
-	Wed, 24 Aug 2022 16:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80F9EB71F3;
+	Wed, 24 Aug 2022 16:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C664BA2A2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 16:14:39 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-33dac4c9cbcso24332937b3.12
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 09:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=M1NEKLWYlD60T2oO9DhA7GbtucrnvL+YucZJBJRq5Wc=;
- b=Gn3CKz/JXI9QUA5qALBQHH05g1gwErSm1mA8MjSAw7/tiYYxpdxf5j0qEQio+xv9Nd
- KgwjhN3Drcg+tU38g2bd613NqmRId/wcwkfQ4Tu/zbTo5S714Y+HIrlHh3GbuvnzG2eT
- 7+4J3MezfAkLHGWUQfpJb8KkNPV933rXqo5RffMefuVtbWPci501kily7lFg4nhUFOZh
- 2mCb87oTo0bb7WWTQizLcu5DxLNaEUclg/l+bmr9Mo8e7Az70OM58L1HJle9OymuE7Ld
- wE8+maqRTl2/ndDXUpg5vaWNNjLMbkjTjN+y5CLB35Kk04XVhhhxaa/iwdtUXUGR0qLY
- WgPw==
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F39ABA1E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 16:42:23 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id bq23so15737323lfb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 09:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:from:to:cc;
+ bh=KCOQwxQwM6kZAnVvhYHrZ6fsZ5y+7Jy5+MqGdBhDJdA=;
+ b=DYxlSMiNv4JFWdFQO0qEkLxn4I59nXL1GXafWUyB5bzhB0rofZR87HD5Y6gMSKcpq2
+ 4obGzDZa/WCNxq7lOTRxtl4OMEum5kEp5YqmdK+GsnnLRb95zble03cuiWh63ry6oPRw
+ wbIxGAmsVYjIppd+fHZuCrd783SkOnLjME0m0qUzGCqo0bUrAVimiIPK5+FkiYi0gRYj
+ Mgh5pkXAa2xFRo+S9lBTffAZ5xUdnFRAAeQennj4Z+HBT4YXelGb8R5+nWySZSVoNfda
+ tkiQO+GTTJDJEaaTeqSgdy164tMTzcmtZwRTh9Ex1yQXZfhZhM/SzGHYFQQby0u9YwR5
+ Lkjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=M1NEKLWYlD60T2oO9DhA7GbtucrnvL+YucZJBJRq5Wc=;
- b=fSNTun2zFDxMjTt3MUnSCiseaFMzXgIM2gqLWlObAL0BJ99v/pOx5/zknb7CYkJG/Z
- 3JFTEpYYU8zILAQiBoy2JX97VGLsOAnEeAf7Ce+O9OR+lWxvNMSMlc35Uqo5nAy0E9Nb
- n3KJ5QBYhlfC8TQF6sJSlDskdDi9j6fZn8/KSurxN3ODuYV0lY8ehXCIQNBQYeCJGv0q
- w4ZYsWmm867541d9MIhncGypztEbhsCWQpHyObp/kUVxpTa5uBg9uAnTFXGW2SrfLDSh
- ZtyK7cLa93Vy8Kgujt5ANWV/YGsdlnoc1WOYqFomUzWwUMhRyVL6VC7MeIDG9fMs0s5S
- M6AQ==
-X-Gm-Message-State: ACgBeo03vhB3KjfKuVkx2CWs64SNbVHkNeqLbOG3UcFG18uyPnNStNLf
- xIThngHOIzSayQkCSUpAHdzCmrhs4QPcgwP0R4e7uQ==
-X-Google-Smtp-Source: AA6agR5kqPYjXcV7ADZpaOYy4zaMGqrRr6MMmbwVHY8Q22vRjvwTRuqrs6VnX+1Q0fRyiR37B0J8A8I/fTF4JXLRG0M=
-X-Received: by 2002:a81:1102:0:b0:337:2704:734c with SMTP id
- 2-20020a811102000000b003372704734cmr29911073ywr.360.1661357677732; Wed, 24
- Aug 2022 09:14:37 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:x-gm-message-state:from:to:cc;
+ bh=KCOQwxQwM6kZAnVvhYHrZ6fsZ5y+7Jy5+MqGdBhDJdA=;
+ b=zstgp0U4tRo7/qZ7l3CXqarAuDDuVJjTLSSZlB6KD3YNzR8JjB6pN7/4++vusT2M82
+ 35WgzCRYq2MyqB8NRQSUJVjI1pgjihYP1s562AGA5kp+gj4C+bwU08bw5QLhAR3+uJOq
+ ELkEtTbNxbMuMnEIWKnTQ+5ZlxYuquhIwv+lHOAMFtwyLi1RayxD8qJ9nAqwTd9nN4O9
+ tJ6xMtYKqFDTMfJKr9O89LRzgWKwbxdAmaMqy/E+KzcZiVF1hQoTLd7fH+e9hLb7cSxo
+ aeNmAhu6BKM1hfrjl07mJnnvrX1thOC6GKJYJou2rvMVpFfizUS8qHjWEmQ7lBAvY5d2
+ 9Epw==
+X-Gm-Message-State: ACgBeo2mL5tZ0gAYDyPoTtEvNgW+wi+dzgJncozLlKGBwi7mGXDNtP2V
+ HRTpZEo6hSpFAf3GrThTGwA=
+X-Google-Smtp-Source: AA6agR7byvTPMQnOkLPqXZI5Jqbva8Ujm+q+uNRPwLoLbYsnpktBmgHm9nY55kdNbUME1yb4/myDiA==
+X-Received: by 2002:a05:6512:31c5:b0:48b:38cf:51f8 with SMTP id
+ j5-20020a05651231c500b0048b38cf51f8mr10957827lfe.315.1661359340522; 
+ Wed, 24 Aug 2022 09:42:20 -0700 (PDT)
+Received: from [10.10.53.53] (81-18-220-16.static.chello.pl. [81.18.220.16])
+ by smtp.googlemail.com with ESMTPSA id
+ g6-20020ac25386000000b00492eebe1f09sm226lfh.74.2022.08.24.09.42.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Aug 2022 09:42:19 -0700 (PDT)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <6d1dfaad-7310-a596-34dd-4a6d9aa95f65@gmail.com>
+Date: Wed, 24 Aug 2022 18:42:18 +0200
 MIME-Version: 1.0
-References: <CAPM=9tzo4n7xKnU+2=gesdLqDJUQ7kBAVCQND6yu5_CTiKo7Cg@mail.gmail.com>
- <CAPM=9twwdeybb_hwvtqbyic3CHYe3+s1LLnT0t_DJAVi9cno4g@mail.gmail.com>
- <CAP+8YyEqdzp3t1ErmpsF_8U1HPRQXoRBd++TjzWCvA5EqbynQA@mail.gmail.com>
- <ad584aeb-bbf4-afcf-daaa-eca8f0e08fe7@amd.com>
-In-Reply-To: <ad584aeb-bbf4-afcf-daaa-eca8f0e08fe7@amd.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Wed, 24 Aug 2022 11:14:26 -0500
-Message-ID: <CAOFGe94xYtVecSWYm5ENF=K826Td5xYNHtyMsgU6HnQvQWkEeA@mail.gmail.com>
-Subject: Re: vm binding interfaces and parallel with mmap
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/alternative; boundary="00000000000039fc7e05e6fefac2"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maxime Ripard <maxime@cerno.tech>
+References: <20220816132636.3tmwqmrox64pu3lt@houat>
+ <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
+ <20220817075351.4xpsqdngjgtiqvob@houat>
+ <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
+ <20220817131454.qcuywcuc4ts4hswm@houat>
+ <CAMuHMdVPEgnnsY-4uuf=FDJ0YxWpch-0kZWFT_TZfcDvXLtwWQ@mail.gmail.com>
+ <20220818123934.eim2bfrgbxsmviqx@houat>
+ <CAMuHMdWXbHkrBZgsmUnU=q52+q7UZZNO3tgQW7Men+msQ1JDwQ@mail.gmail.com>
+ <20220818134200.cr22bftmjn226ehn@houat>
+ <CAMuHMdX6dyQaB34oeXwiCa2rDkxks0qNh=ekqh7Wd2kSNED9TA@mail.gmail.com>
+ <20220818154641.ouvrar5s74qu74zn@houat>
+ <CAMuHMdUjE0mwu8z5AksW4h1OwzDCQ5h1ZoCWDi+rC4p2Pu5O4g@mail.gmail.com>
+In-Reply-To: <CAMuHMdUjE0mwu8z5AksW4h1OwzDCQ5h1ZoCWDi+rC4p2Pu5O4g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,302 +87,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, Ben Skeggs <skeggsb@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000039fc7e05e6fefac2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Maxime,
 
-On Mon, Aug 22, 2022 at 8:27 AM Christian K=C3=B6nig <christian.koenig@amd.=
-com>
-wrote:
+W dniu 18.08.2022 o 17:56, Geert Uytterhoeven pisze:
+> Hi Maxime,
+>
+> On Thu, Aug 18, 2022 at 5:46 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>> On Thu, Aug 18, 2022 at 05:34:30PM +0200, Geert Uytterhoeven wrote:
+>>> On Thu, Aug 18, 2022 at 3:42 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>>>> I started adding more sanity checks to my code, and I just realised I
+>>>> don't seem to be able to reach 720 pixels over a single line though. If
+>>>> I understood it properly, and according to [1] the active part of a line
+>>>> is supposed to be 51.95us, and the blanking period taking 12.05us. [2]
+>>>> in the timing section has pretty much the same numbers, so it looks
+>>>> sane.
+>>>>
+>>>> At 13.5Mhz, a pixel is going to take roughly 74ns, and 51950 / 74 = 702
+>>>> pixels
+>>>>
+>>>> It seems we can go push it to 52350 ns, but that still gives us only 706
+>>>> pixels.
+>>>>
+>>>> Similarly, if I just choose to ignore that limit and just take the
+>>>> active time I need, 720 * 74 = 53280ns
+>>>>
+>>>> That leaves us 10720ns for the blanking period, and that's not enough to
+>>>> fit even the minimum of the front porch, hsync and back porch (1.55 +
+>>>> 4.5 + 5.5 = 11.55us).
+>>>>
+>>>> Are those constraints merely recommendations, or am I missing something?
+>>>
+>>> You are missing that the parts near the borders of the full image are
+>>> part of the overscan range, and may or may not be visible, depending
+>>> on your actual display.
+>>> The full 768x576 image size from BT.656 is not visible on a typical PAL display,
+>>> and is more of an "absolute maximum rating", guaranteed to cover more
+>>> than analog PAL.
+>>
+>> So the overscan range is not part of the active area, unlike what HDMI
+>> is doing for example?
+>
+> Indeed. DVI-D and HDMI etc. are pure digital (let's ignore they are a
+> digitized variant of old analog VGA ;-), hence there is a one-to-one
+> match between pixels in the image and pixels on the screen (ignoring
+> scaling).  But even when using an analog VGA input on a modern
+> digital display, you have controls to e.g. move the image.
+>
+>> Is there some minimal timings available somewhere to fit those absolute
+>> maximum ratings?
+>
+> I guess they can be found on the Internet...
 
-> Am 22.08.22 um 10:34 schrieb Bas Nieuwenhuizen:
-> > On Mon, Aug 22, 2022 at 9:28 AM Dave Airlie <airlied@gmail.com> wrote:
-> >> On Mon, 22 Aug 2022 at 17:05, Dave Airlie <airlied@gmail.com> wrote:
-> >>> Hey,
-> >>>
-> >>> I've just been looking at the vm bind type interfaces and wanted to a=
-t
-> >>> least document how we think the unmapping API should work. I know I'v=
-e
-> >>> talked on irc before about this, but wanted to solidify things a bit
-> >>> more around what is required vs what is a nice to have.
-> >>>
-> >>> My main concerns/thoughts are around the unbind interfaces and how
-> >>> close to munmap they should be.
-> >>>
-> >>> I think the mapping operation is mostly consistent
-> >>> MAP(bo handle, offset into bo, range, VM offset, VM flags)
-> >>> which puts the range inside to bo at the offset in the current VM
-> >>> (maybe take an optional vm_id).
-> >>>
-> >>> now the simplest unmap I can see if one that parallel munmap
-> >>> UNMAP(vmaddr, range);
-> >>>
-> >>> But it begs the question on then how much the kernel needs to deal
-> >>> with here, if we support random vmaddr,range then we really need to b=
-e
-> >>> able to do everything munmap does for CPU VMA, which means splitting
-> >>> ranges, joining ranges etc.
-> >>>
-> >>> like
-> >>> MAP(1, 0, 0x8000, 0xc0000)
-> >>> UNMAP(0xc1000, 0x1000)
-> >>> should that be possible?
-> >>>
-> >>> Do we have any API usage (across Vulkan/CL/CUDA/ROCm etc) that
-> >>> requires this sort of control, or should we be fine with only
-> >>> unmapping objects exactly like how they were mapped in the first
-> >>> place, and not have any splitting/joining?
-> > Vulkan allows for this, though I haven't checked to what extent apps us=
-e
-> it.
->
-> This is massively used for partial resident textures under OpenGL as far
-> as I know.
->
-> E.g. you map a range like 1->10 as PRT and then then map real textures
-> at 2, 5 and 7 or something like that.
->
-> Saying that a functionality to map/enable PRT for a range is necessary
-> as well. On amdgpu we have a special flag for that and in this case the
-> BO to map can be NULL.
->
+Here are some references that I personally found useful:
 
-NVIDIA has similar bits.  I don't remember if intel does or not.  Handling
-this as a map with BO=3D0 and a PRT flag of some sort seems like a perfectl=
-y
-reasonable way to handle it.
+- ITU-R BT.601 <https://www.itu.int/rec/R-REC-BT.601/en>
+  This is *the* standard that pretty much every modern device that deals with
+  analog-style TV signal follows then converting to and from the digital domain.
+  For example in the figures on page 10 (12 in the PDF numbering) you can see
+  that the "time datum", i.e. start of horizontal sync pulse is canonically
+  supposed to happen on sample 732 for 50 Hz or sample 736 for 59.94 Hz modes.
 
+  BT.601 assumes 13.5 MHz sample rate / pixel clock, but you can proportionally
+  scale those for other pixel clocks.
 
-> > We could technically split all mapping/unmapping to be per single tile
-> > in the userspace driver, which avoids the need for splitting/merging,
-> > but that could very much be a pessimization.
->
-> That would be pretty much a NAK from my side. A couple of hardware
-> optimizations require mappings to be as large as possible.
->
-> Otherwise we wouldn't be able to use huge/giant (2MiB, 1GiB) pages,
-> power of two TLB reach optimizations (8KiB, 16KiB, 32KiB.....) as well
-> as texture fetcher optimizations.
->
+- ITU-R BT.1700 <https://www.itu.int/rec/R-REC-BT.1700/en>
+  This is *the* standard in force for actual analog composite video signals.
+  The vertical sync specs are discrete, so they don't really change between
+  analog and digital domains. For horizontal sync, the values in those specs
+  are given in microseconds/nanoseconds, but you can multiply those by the
+  sampling rate for equivalent pixel counts.
 
-Agreed.  Intel has such optimizations as well and they really do matter.
-IDK about nvidia but I'd be surprised if they don't at least have a 2M
-variant or something.  Reducing page-table depth matters a lot for latency.
+- Pembers' Ponderings
+  <https://web.archive.org/web/20160423225838/http://www.pembers.freeserve.co.uk/>
+  An old archived website with a ton of resources about analog TV.
+  The "Line Standards" article will probably be most interesting to you.
 
+By the way, please note a couple of things:
 
-> >> I suppose it also asks the question around paralleling
-> >>
-> >> fd =3D open()
-> >> ptr =3D mmap(fd,)
-> >> close(fd)
-> >> the mapping is still valid.
-> >>
-> >> I suppose our equiv is
-> >> handle =3D bo_alloc()
-> >> gpu_addr =3D vm_bind(handle,)
-> >> gem_close(handle)
-> >> is the gpu_addr still valid does the VM hold a reference on the kernel
-> >> bo internally.
-> > For Vulkan it looks like this is undefined and the above is not
-> necessary:
-> >
-> > "It is important to note that freeing a VkDeviceMemory object with
-> > vkFreeMemory will not cause resources (or resource regions) bound to
-> > the memory object to become unbound. Applications must not access
-> > resources bound to memory that has been freed."
-> > (32.7.6)
->
+- The analog standards are very imprecise for modern digital norms, giving
+  considerable leeway for just about every timing. The allowed leeways are
+  usually equivalent to a couple of pixels at the standard 13.5 MHz sampling
+  rate - and those are meant for the transmitting end. Receivers are usually
+  much more forgiving to maximize compatibility.
 
-I'm not sure about this particular question.  We need to be sure that maps
-get cleaned up eventually.  On the one hand, I think it's probably a valid
-API implementation to have each mapped page hold a reference similar to
-mmap and have vkDestroyImage or vkDestroyBuffer do an unmap to clean up the
-range.  However, clients may be surprised when they destroy a large memory
-object and can't reap the memory because of extra BO references they don't
-know about.  If BOs unmap themselves on close or if we had a way to take a
-VM+BO and say "unmap this BO from everywhere, please", we can clean up the
-memory pretty easily.  Without that, it's a giant PITA to do entirely
-inside the userspace driver because it requires us to globally track every
-mapping and that means data structures and locks.  Yes, such an ioctl would
-require the kernel to track things but the kernel is already tracking
-everything that's bound, so hopefully it doesn't add much.
+- The 720-pixel standard of BT.601 is considerably wider than the active width
+  specified in the analog standards. AFAIK this is intentional, to ensure that
+  no part of the actual image is missed during digitization, and to keep the
+  number a nice multiply of 16. The picture width given in the analog standards
+  is equivalent to somewhere between 702 and 714 pixels (at 13.5 MHz clock),
+  depending on the specific standard. And that includes overscan.
 
---Jason
+- Same goes for the vertical active area. Original analog standards varied
+  wildly from country to country, before finally settling on 575 lines for the
+  50 Hz standard and 485 lines for the 59.94 Hz standard. Or 576/486, depending
+  on how you count. The topmost line of those 576/486 starts at half the screen,
+  and the bottommost line ends at half the screen - so they are often combined
+  when counting and given as 575/485. The digital 576i50 standard includes
+  those half-lines. In the 59.94 Hz regions, 480 active digial lines ended up
+  the norm, because 486 does not have nice dividers, and also some of the
+  outermost lines which were always overscanned anyway, ended up used for things
+  like closed captioning over the years.
 
+- Speaking of closed captioning... a lot of different stuff were put in the
+  blanking interval over the years. Like teletext in Europe. There are projects
+  like VBIT2 <https://github.com/peterkvt80/vbit2> which intentionally
+  reconfigure the Raspberry Pi composite output to include the blanking interval
+  in the framebuffer so that teletext can be output by drawing on the edge of
+  the "screen" (from the computer point of view).
 
-> Additional to what was discussed here so far we need an array on in and
-> out drm_syncobj for both map as well as unmap.
->
-> E.g. when the mapping/unmapping should happen and when it is completed
-> etc...
->
-> Christian.
->
-> >
-> >
-> >> Dave.
-> >>> Dave.
->
->
+- A lot of equipment outside the broadcast industry willingly violated those
+  standards, and there are real world use cases for that. Film studios used very
+  slightly modified TVs to make them sync with 24fps cameras - in that variant,
+  "NTSC" could have e.g. 655 lines so that the TV would refresh at 48 Hz with
+  the same line frequency. Home computers and video game consoles output
+  progressive 262/312-line modes instead of interlaced 525/625 lines. And often
+  changed the line frequency slightly as well, for various reasons. Those
+  progressive modes are still favored by retro gaming and emulation enthusiasts,
+  because they incur a specific look on CRT displays. Even playing back video
+  from a tape (especially home-grade, like VHS) could cause timings to go wildly
+  out of spec, because of mechanical imprecisions.
 
---00000000000039fc7e05e6fefac2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+- There were multitude of standards predating the ubiquitous 525/60 and 625/50
+  modes. The British 405-line and French 819-line standards are the most
+  notorious, having lasted well into the 1980s, but there were also a lot of
+  wildly varying pre-WW2 television systems. And there are enthusiasts dedicated
+  to preserving those.
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, Aug 22, 2022 at 8:27 AM Christian K=C3=B6nig &lt;<a href=3D"=
-mailto:christian.koenig@amd.com">christian.koenig@amd.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">Am 22.08.22 um 10:=
-34 schrieb Bas Nieuwenhuizen:<br>
-&gt; On Mon, Aug 22, 2022 at 9:28 AM Dave Airlie &lt;<a href=3D"mailto:airl=
-ied@gmail.com" target=3D"_blank">airlied@gmail.com</a>&gt; wrote:<br>
-&gt;&gt; On Mon, 22 Aug 2022 at 17:05, Dave Airlie &lt;<a href=3D"mailto:ai=
-rlied@gmail.com" target=3D"_blank">airlied@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;&gt; Hey,<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I&#39;ve just been looking at the vm bind type interfaces and =
-wanted to at<br>
-&gt;&gt;&gt; least document how we think the unmapping API should work. I k=
-now I&#39;ve<br>
-&gt;&gt;&gt; talked on irc before about this, but wanted to solidify things=
- a bit<br>
-&gt;&gt;&gt; more around what is required vs what is a nice to have.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; My main concerns/thoughts are around the unbind interfaces and=
- how<br>
-&gt;&gt;&gt; close to munmap they should be.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I think the mapping operation is mostly consistent<br>
-&gt;&gt;&gt; MAP(bo handle, offset into bo, range, VM offset, VM flags)<br>
-&gt;&gt;&gt; which puts the range inside to bo at the offset in the current=
- VM<br>
-&gt;&gt;&gt; (maybe take an optional vm_id).<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; now the simplest unmap I can see if one that parallel munmap<b=
-r>
-&gt;&gt;&gt; UNMAP(vmaddr, range);<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; But it begs the question on then how much the kernel needs to =
-deal<br>
-&gt;&gt;&gt; with here, if we support random vmaddr,range then we really ne=
-ed to be<br>
-&gt;&gt;&gt; able to do everything munmap does for CPU VMA, which means spl=
-itting<br>
-&gt;&gt;&gt; ranges, joining ranges etc.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; like<br>
-&gt;&gt;&gt; MAP(1, 0, 0x8000, 0xc0000)<br>
-&gt;&gt;&gt; UNMAP(0xc1000, 0x1000)<br>
-&gt;&gt;&gt; should that be possible?<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Do we have any API usage (across Vulkan/CL/CUDA/ROCm etc) that=
-<br>
-&gt;&gt;&gt; requires this sort of control, or should we be fine with only<=
-br>
-&gt;&gt;&gt; unmapping objects exactly like how they were mapped in the fir=
-st<br>
-&gt;&gt;&gt; place, and not have any splitting/joining?<br>
-&gt; Vulkan allows for this, though I haven&#39;t checked to what extent ap=
-ps use it.<br>
-<br>
-This is massively used for partial resident textures under OpenGL as far <b=
-r>
-as I know.<br>
-<br>
-E.g. you map a range like 1-&gt;10 as PRT and then then map real textures <=
-br>
-at 2, 5 and 7 or something like that.<br>
-<br>
-Saying that a functionality to map/enable PRT for a range is necessary <br>
-as well. On amdgpu we have a special flag for that and in this case the <br=
->
-BO to map can be NULL.<br></blockquote><div><br></div><div>NVIDIA has simil=
-ar bits.=C2=A0 I don&#39;t remember if intel does or not.=C2=A0 Handling th=
-is as a map with BO=3D0 and a PRT flag of some sort seems like a perfectly =
-reasonable way to handle it.<br></div><div>=C2=A0</div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
-&gt; We could technically split all mapping/unmapping to be per single tile=
-<br>
-&gt; in the userspace driver, which avoids the need for splitting/merging,<=
-br>
-&gt; but that could very much be a pessimization.<br>
-<br>
-That would be pretty much a NAK from my side. A couple of hardware <br>
-optimizations require mappings to be as large as possible.<br>
-<br>
-Otherwise we wouldn&#39;t be able to use huge/giant (2MiB, 1GiB) pages, <br=
->
-power of two TLB reach optimizations (8KiB, 16KiB, 32KiB.....) as well <br>
-as texture fetcher optimizations.<br></blockquote><div><br></div><div>Agree=
-d.=C2=A0 Intel has such optimizations as well and they really do matter.=C2=
-=A0 IDK about nvidia but I&#39;d be surprised if they don&#39;t at least ha=
-ve a 2M variant or something.=C2=A0 Reducing page-table depth matters a lot=
- for latency.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-&gt;&gt; I suppose it also asks the question around paralleling<br>
-&gt;&gt;<br>
-&gt;&gt; fd =3D open()<br>
-&gt;&gt; ptr =3D mmap(fd,)<br>
-&gt;&gt; close(fd)<br>
-&gt;&gt; the mapping is still valid.<br>
-&gt;&gt;<br>
-&gt;&gt; I suppose our equiv is<br>
-&gt;&gt; handle =3D bo_alloc()<br>
-&gt;&gt; gpu_addr =3D vm_bind(handle,)<br>
-&gt;&gt; gem_close(handle)<br>
-&gt;&gt; is the gpu_addr still valid does the VM hold a reference on the ke=
-rnel<br>
-&gt;&gt; bo internally.<br>
-&gt; For Vulkan it looks like this is undefined and the above is not necess=
-ary:<br>
-&gt;<br>
-&gt; &quot;It is important to note that freeing a VkDeviceMemory object wit=
-h<br>
-&gt; vkFreeMemory will not cause resources (or resource regions) bound to<b=
-r>
-&gt; the memory object to become unbound. Applications must not access<br>
-&gt; resources bound to memory that has been freed.&quot;<br>
-&gt; (32.7.6)<br></blockquote><div><br></div><div>I&#39;m not sure about th=
-is particular question.=C2=A0 We need to be sure that maps get cleaned up e=
-ventually.=C2=A0 On the one hand, I think it&#39;s probably a valid API imp=
-lementation to have each mapped page hold a reference similar to mmap and h=
-ave vkDestroyImage or vkDestroyBuffer do an unmap to clean up the range.=C2=
-=A0 However, clients may be surprised when they destroy a large memory obje=
-ct and can&#39;t reap the memory because of extra BO references they don&#3=
-9;t know about.=C2=A0 If BOs unmap themselves on close or if we had a way t=
-o take a VM+BO and say &quot;unmap this BO from everywhere, please&quot;, w=
-e can clean up the memory pretty easily.=C2=A0 Without that, it&#39;s a gia=
-nt PITA to do entirely inside the userspace driver because it requires us t=
-o globally track every mapping and that means data structures and locks.=C2=
-=A0 Yes, such an ioctl would require the kernel to track things but the ker=
-nel is already tracking everything that&#39;s bound, so hopefully it doesn&=
-#39;t add much.</div><div><br></div><div>--Jason<br></div><div>=C2=A0</div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-Additional to what was discussed here so far we need an array on in and <br=
->
-out drm_syncobj for both map as well as unmap.<br>
-<br>
-E.g. when the mapping/unmapping should happen and when it is completed <br>
-etc...<br>
-<br>
-Christian.<br>
-<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; Dave.<br>
-&gt;&gt;&gt; Dave.<br>
-<br>
-</blockquote></div></div>
+My point is that the norms for analog TV are rather loose, and I think we
+shouldn't limit the drivers to only accepting the "proper" modes as defined in
+the spec. Those should of course be the default, but if non-standard modelines
+can be generated - there are legitimate use cases why people might want those.
 
---00000000000039fc7e05e6fefac2--
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+Best regards,
+Mateusz Kwiatkowski
