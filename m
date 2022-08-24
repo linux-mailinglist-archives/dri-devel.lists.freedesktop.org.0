@@ -1,78 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFBF59F012
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 02:04:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C1259F064
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 02:46:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7593410E0F5;
-	Wed, 24 Aug 2022 00:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C07510E065;
+	Wed, 24 Aug 2022 00:46:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 383B710E0F5;
- Wed, 24 Aug 2022 00:04:04 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27NNhUOR007108;
- Wed, 24 Aug 2022 00:03:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=wvAx/e9VhLoAbOa7O396KaC5eZOiIiehs6HoBJNvnxQ=;
- b=F48ZBHsJ+xX6gR8VbvigLjNcKUcFXzm/Yz5nZD8t9ZQMoGPd/BalxfWwjy7nuZFfpW3X
- goGSigUqUd3mP8XISW3HCOTImD3W2+iAWn8WYqa0rfL/fX/am4d7i4hfLGffKuV2W2un
- qaTuwR+njUzHY94yceNDGADdui9adGO90V8A3S1NM9fuy3Bx7g+UirZ/MawLhJCBDbMY
- zFBU3aqjKNxlsgKCMbJjif47A/cjYqZI1puYgijp5uEUUkE17X9ghK7OJ/MQani8336P
- h/xLnqRcS38J2nb/PeFDVQH31Iv+XMNeTI0OPO99+pokuge0jEKYYBeXSi4iDJFHlHmY Gw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j52pnh5dt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Aug 2022 00:03:56 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27NNwspG005150
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Aug 2022 23:58:54 GMT
-Received: from [10.111.161.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 23 Aug
- 2022 16:58:52 -0700
-Message-ID: <41ca91c6-dc38-af0a-c955-a276f5824cc8@quicinc.com>
-Date: Tue, 23 Aug 2022 16:58:50 -0700
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C779E10E383
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 00:46:09 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id z25so21925297lfr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Aug 2022 17:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=hardline-pl.20210112.gappssmtp.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc; bh=+7YC01QZWr2H+Z11+QtNy0peh5GHhPgH8/H+v7UwPXM=;
+ b=jYus24zPijQN5JdrsH5VT1VZPIGdLNSvI5RgeZRHZYlKU/Bb2LSdSpWy4+S9il+dus
+ qCVLvQuBWMzx7ZLbQYbhCgxCfnUanvLgIRc8rgkIADx+sqcmUfn90EP5ZTNzT07z2YOH
+ vofXJYPpoxv3QLCdn6x4bmcs42nnXWi0H01cUyAEhLOYsw4jw+UPlcyCQy3FGptJ63Ap
+ 30PbsLQ1e+kA/By/DcH3+fjcrJh/nOV8E8o2I31zlSIs9QWwbKLGJhlDLbPf3fB0wgS0
+ EvVQ7gTXn7JlcfrZ9eX0XSmSbfYLPROtTVPSChYJUp0WuNSVfrpUw+5E9a0w6cLBCW9a
+ 8NZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=+7YC01QZWr2H+Z11+QtNy0peh5GHhPgH8/H+v7UwPXM=;
+ b=x27y4rZ4cUUOXhpPdtVBO2fmpbx9CRT/f8cVYGB5cZ1lDDTU+uuIrtNmCh0S9G7BsS
+ QApogQUdS0eId5hUfr1hL7A5Sd3Yz9ZxfYzdrS0th5sQ5u+GJHiz5aA1YEYvtjlbFaP3
+ uoXjINQqN+f2j1qmccqvh6vrDg7lGeWiHNglZrtlkRTmu357GuLAEPm0h59JSgJSJDDV
+ vrHf+hfk6iCt4emsYy64E7BKzkbyrf33BB3EkqWJivsDWhnp3NrnpSEw/7HH6qYGllbV
+ NNL060GTJ5LFLdYiicASgq593xoBMzmGtldhp+3BiRVgaLsx2UGx2pmQBmWBoEMmsARo
+ KZWg==
+X-Gm-Message-State: ACgBeo3H66THuQSPjEwi4lqnAQRGz/mFpYsNn5tjMfydd4om/ijPxcSZ
+ 56glAbHsurn56sBABNAZRu0tIA==
+X-Google-Smtp-Source: AA6agR7sRImMNaAM0Jb12p84NAKhEUSyFvm3ewFa1xEzGiE/jRI1uZfhA1nP8y5VGI92jbu3qrZy4w==
+X-Received: by 2002:a05:6512:1155:b0:48a:fb9a:32d8 with SMTP id
+ m21-20020a056512115500b0048afb9a32d8mr9530380lfg.672.1661301967470; 
+ Tue, 23 Aug 2022 17:46:07 -0700 (PDT)
+Received: from localhost (89-64-119-148.dynamic.chello.pl. [89.64.119.148])
+ by smtp.gmail.com with ESMTPSA id
+ g21-20020a2eb5d5000000b00261c19bbb6asm2007841ljn.97.2022.08.23.17.46.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Aug 2022 17:46:06 -0700 (PDT)
+Date: Wed, 24 Aug 2022 02:46:06 +0200
+From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal@hardline.pl>
+To: Isabella Basso <isabbasso@riseup.net>
+Subject: Re: [PATCH v5 9/9] drm: selftest: convert drm_mm selftest to KUnit
+Message-ID: <20220824004606.ufca7rrd4s4xrkms@macragge.hardline.pl>
+References: <20220708203052.236290-1-maira.canal@usp.br>
+ <20220708203052.236290-10-maira.canal@usp.br>
+ <CAM0jSHNG8Ozs+NpvwMK6zvbRm3Ve=Wa1_H7jS0uQ8FeAWgvyoA@mail.gmail.com>
+ <b1ae4f77-4e24-24c9-fd87-abcd612a3533@usp.br>
+ <20220722162529.wy4ox7pyjhno66lz@macragge.hardline.pl>
+ <52481C88-9CD7-4E4F-ABCB-1EFC01E4B4D0@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 3/3] drm/msm/hdmi: move resource allocation to probe
- function
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20220616075947.347888-1-dmitry.baryshkov@linaro.org>
- <20220616075947.347888-4-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220616075947.347888-4-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: _RfvLP-rgbTqMofgVWFIUz05DXdf9Oeb
-X-Proofpoint-GUID: _RfvLP-rgbTqMofgVWFIUz05DXdf9Oeb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-23_10,2022-08-22_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015
- bulkscore=0 phishscore=0 impostorscore=0 malwarescore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208230089
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <52481C88-9CD7-4E4F-ABCB-1EFC01E4B4D0@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,401 +77,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Arthur Grillo <arthur.grillo@usp.br>,
+ Rodrigo Siqueira <siqueirajordao@riseup.net>, David Airlie <airlied@linux.ie>,
+ Daniel Latypov <dlatypov@google.com>,
+ Matthew Auld <matthew.william.auld@gmail.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kselftest@vger.kernel.org, n@nfraprado.net, andrealmeid@riseup.net,
+ magalilemes00@gmail.com, Javier Martinez Canillas <javierm@redhat.com>,
+ brendanhiggins@google.com, mwen@igalia.com, David Gow <davidgow@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>,
+ kernel list <linux-kernel@vger.kernel.org>, leandro.ribeiro@collabora.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, tales.aparecida@gmail.com,
+ =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 6/16/2022 12:59 AM, Dmitry Baryshkov wrote:
-> Rather than having all resource allocation happen in the _bind function
-> (resulting in possible EPROBE_DEFER returns and component bind/unbind
-> cycles) allocate and check all resources in _probe function. While we
-> are at it, use platform_get_irq() to get the IRQ rather than going
-> through the irq_of_parse_and_map().
+On Sun, Aug 21, 2022 at 07:22:30PM -0300, Isabella Basso wrote:
+> Hi Michał,
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/hdmi/hdmi.c | 295 +++++++++++++++-----------------
->   1 file changed, 134 insertions(+), 161 deletions(-)
+> While I totally understand your point, we have talked about this in our GSoC
+> meetings with mentors, and have found a few reasons as to why a KUnit runner
+> integrated to IGT might be really useful. 
 > 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index 8dfe5690366b..429abd622c81 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -75,8 +75,6 @@ static void msm_hdmi_destroy(struct hdmi *hdmi)
->   
->   	if (hdmi->i2c)
->   		msm_hdmi_i2c_destroy(hdmi->i2c);
-> -
-> -	platform_set_drvdata(hdmi->pdev, NULL);
-Do we still not need to do this in .remove?
->   }
->   
->   static int msm_hdmi_get_phy(struct hdmi *hdmi)
-> @@ -116,138 +114,10 @@ static int msm_hdmi_get_phy(struct hdmi *hdmi)
->    * we are to EPROBE_DEFER we want to do it here, rather than later
->    * at modeset_init() time
->    */
-> -static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
-> +static int msm_hdmi_init(struct hdmi *hdmi)
->   {
-> -	struct hdmi_platform_config *config = pdev->dev.platform_data;
-> -	struct hdmi *hdmi = NULL;
-> -	struct resource *res;
-> -	int i, ret;
-> -
-> -	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
-> -	if (!hdmi) {
-> -		ret = -ENOMEM;
-> -		goto fail;
-> -	}
-> -
-> -	hdmi->pdev = pdev;
-> -	hdmi->config = config;
-> -	spin_lock_init(&hdmi->reg_lock);
-> -
-> -	hdmi->mmio = msm_ioremap(pdev, "core_physical");
-> -	if (IS_ERR(hdmi->mmio)) {
-> -		ret = PTR_ERR(hdmi->mmio);
-> -		goto fail;
-> -	}
-> -
-> -	/* HDCP needs physical address of hdmi register */
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
-> -		"core_physical");
-> -	if (!res) {
-> -		ret = -EINVAL;
-> -		goto fail;
-> -	}
-> -	hdmi->mmio_phy_addr = res->start;
-> -
-> -	hdmi->qfprom_mmio = msm_ioremap(pdev, "qfprom_physical");
-> -	if (IS_ERR(hdmi->qfprom_mmio)) {
-> -		DRM_DEV_INFO(&pdev->dev, "can't find qfprom resource\n");
-> -		hdmi->qfprom_mmio = NULL;
-> -	}
-> -
-> -	hdmi->hpd_regs = devm_kcalloc(&pdev->dev,
-> -				      config->hpd_reg_cnt,
-> -				      sizeof(hdmi->hpd_regs[0]),
-> -				      GFP_KERNEL);
-> -	if (!hdmi->hpd_regs) {
-> -		ret = -ENOMEM;
-> -		goto fail;
-> -	}
-> -	for (i = 0; i < config->hpd_reg_cnt; i++)
-> -		hdmi->hpd_regs[i].supply = config->hpd_reg_names[i];
-> -
-> -	ret = devm_regulator_bulk_get(&pdev->dev, config->hpd_reg_cnt, hdmi->hpd_regs);
-> -	if (ret) {
-> -		DRM_DEV_ERROR(&pdev->dev, "failed to get hpd regulator: %d\n", ret);
-> -		goto fail;
-> -	}
-> -
-> -	hdmi->pwr_regs = devm_kcalloc(&pdev->dev,
-> -				      config->pwr_reg_cnt,
-> -				      sizeof(hdmi->pwr_regs[0]),
-> -				      GFP_KERNEL);
-> -	if (!hdmi->pwr_regs) {
-> -		ret = -ENOMEM;
-> -		goto fail;
-> -	}
-> -
-> -	for (i = 0; i < config->pwr_reg_cnt; i++)
-> -		hdmi->pwr_regs[i].supply = config->pwr_reg_names[i];
-> -
-> -	ret = devm_regulator_bulk_get(&pdev->dev, config->pwr_reg_cnt, hdmi->pwr_regs);
-> -	if (ret) {
-> -		DRM_DEV_ERROR(&pdev->dev, "failed to get pwr regulator: %d\n", ret);
-> -		goto fail;
-> -	}
-> -
-> -	hdmi->hpd_clks = devm_kcalloc(&pdev->dev,
-> -				      config->hpd_clk_cnt,
-> -				      sizeof(hdmi->hpd_clks[0]),
-> -				      GFP_KERNEL);
-> -	if (!hdmi->hpd_clks) {
-> -		ret = -ENOMEM;
-> -		goto fail;
-> -	}
-> -	for (i = 0; i < config->hpd_clk_cnt; i++) {
-> -		struct clk *clk;
-> -
-> -		clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
-> -		if (IS_ERR(clk)) {
-> -			ret = PTR_ERR(clk);
-> -			DRM_DEV_ERROR(&pdev->dev, "failed to get hpd clk: %s (%d)\n",
-> -					config->hpd_clk_names[i], ret);
-> -			goto fail;
-> -		}
-> -
-> -		hdmi->hpd_clks[i] = clk;
-> -	}
-> -
-> -	hdmi->pwr_clks = devm_kcalloc(&pdev->dev,
-> -				      config->pwr_clk_cnt,
-> -				      sizeof(hdmi->pwr_clks[0]),
-> -				      GFP_KERNEL);
-> -	if (!hdmi->pwr_clks) {
-> -		ret = -ENOMEM;
-> -		goto fail;
-> -	}
-> -	for (i = 0; i < config->pwr_clk_cnt; i++) {
-> -		struct clk *clk;
-> -
-> -		clk = msm_clk_get(pdev, config->pwr_clk_names[i]);
-> -		if (IS_ERR(clk)) {
-> -			ret = PTR_ERR(clk);
-> -			DRM_DEV_ERROR(&pdev->dev, "failed to get pwr clk: %s (%d)\n",
-> -					config->pwr_clk_names[i], ret);
-> -			goto fail;
-> -		}
-> -
-> -		hdmi->pwr_clks[i] = clk;
-> -	}
-> -
-> -	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
-> -	/* This will catch e.g. -EPROBE_DEFER */
-> -	if (IS_ERR(hdmi->hpd_gpiod)) {
-> -		ret = PTR_ERR(hdmi->hpd_gpiod);
-> -		DRM_DEV_ERROR(&pdev->dev, "failed to get hpd gpio: (%d)\n", ret);
-> -		goto fail;
-> -	}
-> -
-> -	if (!hdmi->hpd_gpiod)
-> -		DBG("failed to get HPD gpio");
-> -
-> -	if (hdmi->hpd_gpiod)
-> -		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
-> -
-> -	devm_pm_runtime_enable(&pdev->dev);
-> +	struct platform_device *pdev = hdmi->pdev;
-> +	int ret;
+> > Am 22/07/2022 um 1:25 PM schrieb Michał Winiarski <michal@hardline.pl>:
+> > 
+> > On Fri, Jul 22, 2022 at 08:04:51AM -0300, Maíra Canal wrote:
+> >> On 7/22/22 07:35, Matthew Auld wrote:
+> >>> On Fri, 8 Jul 2022 at 21:32, Maíra Canal <maira.canal@usp.br> wrote:
+> >>>> 
+> >>>> From: Arthur Grillo <arthur.grillo@usp.br>
+> >>>> 
+> >>>> Considering the current adoption of the KUnit framework, convert the
+> >>>> DRM mm selftest to the KUnit API.
+> >>> 
+> >>> Is there a plan to convert the corresponding selftest IGT that was
+> >>> responsible for running this (also drm_buddy) to somehow work with
+> >>> kunit? Previously these IGTs were always triggered as part of
+> >>> intel-gfx CI, but it looks like they are no longer run[1].
+> >>> 
+> >>> [1] https://gitlab.freedesktop.org/drm/intel/-/issues/6433
+> >> 
+> >> Hi Matthew,
+> >> 
+> >> Isabella sent a while ago a patch to IGT adding KUnit compatibility to
+> >> IGT [1], but there wasn't any feedback on the patch. I believe that soon
+> >> she will resend the series in order to make all KUnit DRM tests run on IGT.
+> >> 
+> >> Any feedback on the patch is welcomed so that we can fix this issue as
+> >> soon as possible.
+> >> 
+> >> [1] https://patchwork.freedesktop.org/patch/489985/
+> >> 
+> >> Best Regards,
+> >> - Maíra Canal
+> > 
+> > Hi.
+> > 
+> > Instead of going back to using IGT for *unit* tests, it would be a better idea
+> > to adjust the CI to just run the tests once at "build" time (just like e.g.
+> > checkpatch).
+> 
+> First, I’d like to point out that there would be some inherent overhead in
+> doing so, which might actually not be worth it, as KUnit tool would need to
+> compile HEAD in the UML arch, then we’d have to re-compile everything to a real
+> machine’s architecture, like x86_64 (in the least), having in mind still that
+> arch-dependent issues would not show up when we run tests in UML, so there’s
+> still a downside to it even if it’s quick enough.
+> 
+> Even if we don’t run them as UML and instead use a VM, there’s a VM being run
+> just for a couple of tests, which might be slower than adding a step to a
+> dedicated machine that’s (probably) already available, plus the setup and
+> hardware needed to run a VM inside of a CI runner are overheads in themselves,
+> needing dedicated, modern machines.
 
-What about the rest of the msm_hdmi_init() function?
+No - we don't need a dedicated machine for running kunit - the machine that we
+just used to compile the code is perfectly fine.
+Builders used in CI systems usually have beefy server-grade CPUs - pretty good
+candidates for running unit tests (even with virtualization overhead).
+Plus - if the unit tests fail, we can consider skipping the deployment and
+not run any regular tests (just like the case where build has failed).
+Meanwhile, one of the "dedicated machines" (ones that are used to run the tests)
+can actually be a low-power device (think tablet). And if the test ends up
+crashing the kernel, it needs to be rebooted. VMs are much easier to work with,
+especially with kunit.py abstracting away all of the qemu interactions.
 
-msm_hdmi_i2c_init, msm_hdmi_get_phy and msm_hdmi_hdcp_init have been 
-left behind. Any reason for that?
+> 
+> > We would then stop executing the same test multiple times on different machines
+> > (note that both DRM selftests and i915 "mock" selftests are pure unit tests - in
+> > other words, they don't need the hardware to be present), which would save some
+> > (small) amount of machine-time that can be utilized to do something that
+> > actually needs the hardware.
+> 
+> I totally agree with your solution in regards to arch-independent tests, though.
 
+There are no arch-specific kunit tests in DRM-core. There shouldn't be any
+arch-specific code in DRM-core. Same thing for drivers (at least for the purpose
+of COMPILE_TEST and by extension, running kunit).
+All of DRM kunit tests should pass on all architectures supported by kunit.
 
->   
->   	hdmi->workq = alloc_ordered_workqueue("msm_hdmi", 0);
->   
-> @@ -271,13 +141,13 @@ static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
->   		hdmi->hdcp_ctrl = NULL;
->   	}
->   
-> -	return hdmi;
-> +	return 0;
->   
->   fail:
->   	if (hdmi)
->   		msm_hdmi_destroy(hdmi);
->   
-> -	return ERR_PTR(ret);
-> +	return ret;
->   }
->   
->   /* Second part of initialization, the drm/kms level modeset_init,
-> @@ -318,13 +188,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->   
->   	drm_connector_attach_encoder(hdmi->connector, hdmi->encoder);
->   
-> -	hdmi->irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
-> -	if (!hdmi->irq) {
-> -		ret = -EINVAL;
-> -		DRM_DEV_ERROR(dev->dev, "failed to get irq\n");
-> -		goto fail;
-> -	}
-> -
->   	ret = devm_request_irq(&pdev->dev, hdmi->irq,
->   			msm_hdmi_irq, IRQF_TRIGGER_HIGH,
->   			"hdmi_isr", hdmi);
-> @@ -344,8 +207,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->   
->   	priv->bridges[priv->num_bridges++]       = hdmi->bridge;
->   
-> -	platform_set_drvdata(pdev, hdmi);
-> -
->   	return 0;
->   
->   fail:
-> @@ -373,7 +234,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->   static const char *hpd_reg_names_8960[] = {"core-vdda"};
->   static const char *hpd_clk_names_8960[] = {"core", "master_iface", "slave_iface"};
->   
-> -static struct hdmi_platform_config hdmi_tx_8960_config = {
-> +const static struct hdmi_platform_config hdmi_tx_8960_config = {
->   		HDMI_CFG(hpd_reg, 8960),
->   		HDMI_CFG(hpd_clk, 8960),
->   };
-> @@ -383,7 +244,7 @@ static const char *pwr_clk_names_8x74[] = {"extp", "alt_iface"};
->   static const char *hpd_clk_names_8x74[] = {"iface", "core", "mdp_core"};
->   static unsigned long hpd_clk_freq_8x74[] = {0, 19200000, 0};
->   
-> -static struct hdmi_platform_config hdmi_tx_8974_config = {
-> +const static struct hdmi_platform_config hdmi_tx_8974_config = {
->   		HDMI_CFG(pwr_reg, 8x74),
->   		HDMI_CFG(pwr_clk, 8x74),
->   		HDMI_CFG(hpd_clk, 8x74),
-> @@ -498,23 +359,12 @@ static int msm_hdmi_register_audio_driver(struct hdmi *hdmi, struct device *dev)
->   static int msm_hdmi_bind(struct device *dev, struct device *master, void *data)
->   {
->   	struct msm_drm_private *priv = dev_get_drvdata(master);
-> -	struct hdmi_platform_config *hdmi_cfg;
-> -	struct hdmi *hdmi;
-> -	struct device_node *of_node = dev->of_node;
-> +	struct hdmi *hdmi = dev_get_drvdata(dev);
->   	int err;
->   
-> -	hdmi_cfg = (struct hdmi_platform_config *)
-> -			of_device_get_match_data(dev);
-> -	if (!hdmi_cfg) {
-> -		DRM_DEV_ERROR(dev, "unknown hdmi_cfg: %pOFn\n", of_node);
-> -		return -ENXIO;
-> -	}
-> -
-> -	dev->platform_data = hdmi_cfg;
-> -
-> -	hdmi = msm_hdmi_init(to_platform_device(dev));
-> -	if (IS_ERR(hdmi))
-> -		return PTR_ERR(hdmi);
-> +	err = msm_hdmi_init(hdmi);
-> +	if (err)
-> +		return err;
->   	priv->hdmi = hdmi;
->   
->   	err = msm_hdmi_register_audio_driver(hdmi, dev);
-> @@ -547,6 +397,129 @@ static const struct component_ops msm_hdmi_ops = {
->   
->   static int msm_hdmi_dev_probe(struct platform_device *pdev)
->   {
-> +	const struct hdmi_platform_config *config;
-> +	struct device *dev = &pdev->dev;
-> +	struct hdmi *hdmi;
-> +	struct resource *res;
-> +	int i, ret;
-> +
-> +	config = of_device_get_match_data(dev);
-> +	if (!config)
-> +		return -EINVAL;
-> +
-> +	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
-> +	if (!hdmi)
-> +		return -ENOMEM;
-> +
-> +	hdmi->pdev = pdev;
-> +	hdmi->config = config;
-> +	spin_lock_init(&hdmi->reg_lock);
-> +
-> +	hdmi->mmio = msm_ioremap(pdev, "core_physical");
-> +	if (IS_ERR(hdmi->mmio))
-> +		return PTR_ERR(hdmi->mmio);
-> +
-> +	/* HDCP needs physical address of hdmi register */
-> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
-> +		"core_physical");
-> +	if (!res)
-> +		return -EINVAL;
-> +	hdmi->mmio_phy_addr = res->start;
-> +
-> +	hdmi->qfprom_mmio = msm_ioremap(pdev, "qfprom_physical");
-> +	if (IS_ERR(hdmi->qfprom_mmio)) {
-> +		DRM_DEV_INFO(&pdev->dev, "can't find qfprom resource\n");
-> +		hdmi->qfprom_mmio = NULL;
-> +	}
-> +
-> +	hdmi->irq = platform_get_irq(pdev, 0);
-> +	if (hdmi->irq < 0)
-> +		return hdmi->irq;
-> +
-> +	hdmi->hpd_regs = devm_kcalloc(&pdev->dev,
-> +				      config->hpd_reg_cnt,
-> +				      sizeof(hdmi->hpd_regs[0]),
-> +				      GFP_KERNEL);
-> +	if (!hdmi->hpd_regs)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < config->hpd_reg_cnt; i++)
-> +		hdmi->hpd_regs[i].supply = config->hpd_reg_names[i];
-> +
-> +	ret = devm_regulator_bulk_get(&pdev->dev, config->hpd_reg_cnt, hdmi->hpd_regs);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to get hpd regulators\n");
-> +
-> +	hdmi->pwr_regs = devm_kcalloc(&pdev->dev,
-> +				      config->pwr_reg_cnt,
-> +				      sizeof(hdmi->pwr_regs[0]),
-> +				      GFP_KERNEL);
-> +	if (!hdmi->pwr_regs)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < config->pwr_reg_cnt; i++)
-> +		hdmi->pwr_regs[i].supply = config->pwr_reg_names[i];
-> +
-> +	ret = devm_regulator_bulk_get(&pdev->dev, config->pwr_reg_cnt, hdmi->pwr_regs);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to get pwr regulators\n");
-> +
-> +	hdmi->hpd_clks = devm_kcalloc(&pdev->dev,
-> +				      config->hpd_clk_cnt,
-> +				      sizeof(hdmi->hpd_clks[0]),
-> +				      GFP_KERNEL);
-> +	if (!hdmi->hpd_clks)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < config->hpd_clk_cnt; i++) {
-> +		struct clk *clk;
-> +
-> +		clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
-> +		if (IS_ERR(clk))
-> +			return dev_err_probe(dev, PTR_ERR(clk),
-> +					     "failed to get hpd clk: %s\n",
-> +					     config->hpd_clk_names[i]);
-> +
-> +		hdmi->hpd_clks[i] = clk;
-> +	}
-> +
-> +	hdmi->pwr_clks = devm_kcalloc(&pdev->dev,
-> +				      config->pwr_clk_cnt,
-> +				      sizeof(hdmi->pwr_clks[0]),
-> +				      GFP_KERNEL);
-> +	if (!hdmi->pwr_clks)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < config->pwr_clk_cnt; i++) {
-> +		struct clk *clk;
-> +
-> +		clk = msm_clk_get(pdev, config->pwr_clk_names[i]);
-> +		if (IS_ERR(clk))
-> +			return dev_err_probe(dev, PTR_ERR(clk),
-> +					     "failed to get pwr clk: %s\n",
-> +					     config->pwr_clk_names[i]);
-> +
-> +		hdmi->pwr_clks[i] = clk;
-> +	}
-> +
-> +	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
-> +	/* This will catch e.g. -EPROBE_DEFER */
-> +	if (IS_ERR(hdmi->hpd_gpiod))
-> +		return dev_err_probe(dev, PTR_ERR(hdmi->hpd_gpiod),
-> +				     "failed to get hpd gpio\n");
-> +
-> +	if (!hdmi->hpd_gpiod)
-> +		DBG("failed to get HPD gpio");
-> +
-> +	if (hdmi->hpd_gpiod)
-> +		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
-> +
-> +	ret = devm_pm_runtime_enable(&pdev->dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	platform_set_drvdata(pdev, hdmi);
-> +
->   	return component_add(&pdev->dev, &msm_hdmi_ops);
->   }
->   
+> 
+> > Plus there's no need to maintain the kunit-runner in IGT.
+> > Note - we're currently going to lose "DMESG-WARN" detection if we go this route,
+> > but this is something that can be improved on the kunit-side.
+> > 
+> > -Michał
+> 
+> There’s also a point to be made on maintaining such a runner if we think about
+> companies like AMD, as they rely heavily on IGT, so they have lots of tests
+> written in there, and it'd be difficult for them to accommodate one more
+> non-trivial thing to their CI. Plus I think this might be a good starting point
+> for them to transition their CI to a KUnit-centered approach without stressing
+> engineers unnecessarily.
+
+I agree with the IGT-compatibility angle, however, that would only apply to test
+content that gets converted from selftests to kunit (just like DRM selftests),
+not newly introduced test content (as is the case with amdgpu).
+I also wouldn't call interpreting exit code of "kunit.py run (...)" something
+that's difficult to be added to various CI pipelines.
+Also - do we really want to transition to KUnit-centered approach?
+Regular IGTs are actually about exercising the HW through driver uAPI from
+userspace, not about isolated unit testing (which is what KUnit is about).
+Then we have selftests, which are implemented on the kernel side, and are about
+internal implementation. Selftests may or may not require HW to operate (if HW
+is needed, we're usually doing more of a functional/integration testing, if not
+- it's most likely going to be a pure unit test).
+I view regular IGTs and KUnit (and kselftests that are not isolated, and need
+the HW to be present) as complementary mechanisms, not something to be replaced
+(in other words - we only want to transition unit tests to KUnit).
+
+When it comes to transition, I'm just worried that once the IGT KTAP parser is
+adopted, the transition to kunit.py @ build time will never happen, and we'll
+end up maintaining custom DRM-specific solution instead of participating in
+wider kernel community.
+
+-Michał
+
+> 
+> Cheers,
+> —
+> Isabella
+> 
