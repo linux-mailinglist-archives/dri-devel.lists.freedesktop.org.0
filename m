@@ -2,57 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B5459FDB3
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:00:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D42759FDC3
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:04:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEC532B1C9;
-	Wed, 24 Aug 2022 15:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 300F010E874;
+	Wed, 24 Aug 2022 15:04:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
- [IPv6:2607:f8b0:4864:20::112f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDD0D10E521
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 15:00:19 +0000 (UTC)
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-33dac4c9cbcso18499597b3.12
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 08:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=NlA30wCNQDnOjjjKF7HU6lWAxCCPYoprJOItAj/oJ/w=;
- b=Jb8DHE+n06unNMHNok/Aat24//lOALYO/4AsJPJo+LKIEBcdmi5xVxlqAj3t6wLxAq
- d3Z6hWs9Jz1M70AO4PepHToJjkfseIGqCmVye/UZK8uEV9WBA8G2KFgk5R+WRqfn4TjQ
- qSu3Z0aRLXIoTP1qKBCmVaTZhV5N9KHLLCH8u1xw5MHf4ktjhLnJFnqqvUrUi6QOO4/a
- oa2cXPFb0bGX/mUfmPHSR5BpPJQa7d1XENWkVUIVZrsoOmipSFVaUnRhTLtNlVWdaBhZ
- Ukw4MEY4+2OT6jjlE1J8LCjH+DDngmlEptIFrueA7HE0b4OA1CwAkXnlYlUFSdjofl9g
- cRZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=NlA30wCNQDnOjjjKF7HU6lWAxCCPYoprJOItAj/oJ/w=;
- b=3IEVP5+qz8L126GIxvf+BObsgdqckH2ltyCaqgTbHTFYhhZvkb7ZMGQ+HVU+M/TBBt
- X9t1aaSbMX/fX4AttLRFoUUHVPwqxS2ui/CTk7vKWSZ/gbYv3gngVNrn70VcUCZRwRe/
- BnERGnbn71W2O0VeXAr0eo0RQswhjepBsXsq0yOAA9X0+A1nymF2p+G69eAf8b+WXsoQ
- fBLGvN0DvNq/FkuXv+qTO8FGvYb09J1xkUlercGQDy2rbxleM+w4zUKR5c9Eb8RptCqN
- WEREggBH4nDz4CkFA+wAvy0oGgav0AYDbCaHyxnhnyDw7cVGyeVErbHv3KDPbQhzwQbe
- 9B2A==
-X-Gm-Message-State: ACgBeo1G51Bpox4YWFZMUzmUQuoW3d/aGUZRfXqYPcRRfDfwYc83wl+I
- AUf4XbG5bqrHLV4++/K49Ubi8cN4RqiVZY1G4SKEUg==
-X-Google-Smtp-Source: AA6agR7J2f3w3OqkCyyMjVDoizFijrN4AvbYQUMrI0y3YdUCsSxbZmJZm30Zz7wGypxkGDFe1qpfQxaPQKq4jdUMd4Y=
-X-Received: by 2002:a81:7cb:0:b0:334:f185:5ff6 with SMTP id
- 194-20020a8107cb000000b00334f1855ff6mr31225783ywh.483.1661353218756; Wed, 24
- Aug 2022 08:00:18 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95A94900BE;
+ Wed, 24 Aug 2022 15:03:48 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-13.nat.spd-mgts.ru
+ [109.252.119.13])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7B8806601E8F;
+ Wed, 24 Aug 2022 16:03:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1661353426;
+ bh=ss7Re+WGJ6gPDf+07fuRLgmV2oF07ngUyzhkLngogMo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oAR0YvOOYSafNUGMl1oNd0JDpIq3FDAHC3HSFM85TQLAtdUKWV9S7/KMulX1yzdJU
+ ynpYz4YtIeU371JqvKb8/c29/d8CPVp3PGsQrb8kJYYp7JpoSNHveANuXdDGoXqRHL
+ p9edkNfznNFe0vL1B7KsPf3EQ1iqD0q15Jh9BVqB7qaGinbAx23HtsmgAfze7Sezsa
+ 5eCHp4KjFs2i46CRc/qn7EZjWd/w/c9qg+8YOKS0kgwlBEA5uFkOiS4rzy8gfpu2eT
+ /NbO6kk31WXQ6hWLjRcZaGob2toZeqNH+aU5AQGrgKbdtAC0glWaondyOLmCNSr5lf
+ VJAAXcJe1ilqw==
+Message-ID: <4af793fd-eccc-ad70-65c3-de78dced71f0@collabora.com>
+Date: Wed, 24 Aug 2022 18:03:42 +0300
 MIME-Version: 1.0
-References: <20220810172617.140047-1-christian.koenig@amd.com>
-In-Reply-To: <20220810172617.140047-1-christian.koenig@amd.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Wed, 24 Aug 2022 10:00:08 -0500
-Message-ID: <CAOFGe94mLtLgg+Pu_L8LC3u515feg_YYJecezWL+Cr3ApFypOw@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf/dma-resv: check if the new fence is really later
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000073688605e6fdf099"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 6/9] dma-buf: Move dma-buf attachment to dynamic
+ locking specification
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+ Qiang Yu <yuq825@gmail.com>
+References: <20220824102248.91964-1-dmitry.osipenko@collabora.com>
+ <20220824102248.91964-7-dmitry.osipenko@collabora.com>
+ <17181951-1b40-cd39-48df-58b43cad117d@amd.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <17181951-1b40-cd39-48df-58b43cad117d@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,126 +80,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: lima@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000073688605e6fdf099
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 8/24/22 17:08, Christian König wrote:
+> Am 24.08.22 um 12:22 schrieb Dmitry Osipenko:
+>> Move dma-buf attachment API functions to the dynamic locking
+>> specification.
+>> The strict locking convention prevents deadlock situations for dma-buf
+>> importers and exporters.
+>>
+>> Previously, the "unlocked" versions of the attachment API functions
+>> weren't taking the reservation lock and this patch makes them to take
+>> the lock.
+> 
+> Didn't we concluded that we need to keep the attach and detach callbacks
+> without the lock and only move the map/unmap callbacks over?
+> 
+> Otherwise it won't be possible for drivers to lock multiple buffers if
+> they have to shuffle things around for a specific attachment.
 
-On Wed, Aug 10, 2022 at 12:26 PM Christian K=C3=B6nig <
-ckoenig.leichtzumerken@gmail.com> wrote:
+We did conclude that. The attach/detach dma-buf ops are unlocked, but
+the map_dma_buf/unmap_dma_buf must be invoked under lock and
+dma_buf_dynamic_attach_unlocked() maps dma-buf if either importer or
+exporter can't handle the dynamic mapping [1].
 
-> Previously when we added a fence to a dma_resv object we always
-> assumed the the newer than all the existing fences.
->
-> With Jason's work to add an UAPI to explicit export/import that's not
-> necessary the case any more. So without this check we would allow
-> userspace to force the kernel into an use after free error.
->
-> Since the change is very small and defensive it's probably a good
-> idea to backport this to stable kernels as well just in case others
-> are using the dma_resv object in the same way.
->
+[1]
+https://elixir.bootlin.com/linux/v6.0-rc2/source/drivers/dma-buf/dma-buf.c#L869
 
-Especially in the new world of dma_resv being a "bag of fences", I think
-this makes a lot of sense.
+Hence I re-arranged the dma_resv_lock() in
+dma_buf_dynamic_attach_unlocked() to move both pinning and mapping under
+the held lock.
 
-Reviewed-by: Jason Ekstrand <jason.ekstrand@collabora.com>
-
-
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/dma-resv.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 205acb2c744d..e3885c90a3ac 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -295,7 +295,8 @@ void dma_resv_add_fence(struct dma_resv *obj, struct
-> dma_fence *fence,
->                 enum dma_resv_usage old_usage;
->
->                 dma_resv_list_entry(fobj, i, obj, &old, &old_usage);
-> -               if ((old->context =3D=3D fence->context && old_usage >=3D=
- usage)
-> ||
-> +               if ((old->context =3D=3D fence->context && old_usage >=3D=
- usage
-> &&
-> +                    dma_fence_is_later(fence, old)) ||
->                     dma_fence_is_signaled(old)) {
->                         dma_resv_list_set(fobj, i, fence, usage);
->                         dma_fence_put(old);
-> --
-> 2.25.1
->
->
-
---00000000000073688605e6fdf099
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, Aug 10, 2022 at 12:26 PM Christian K=C3=B6nig &lt;<a href=3D=
-"mailto:ckoenig.leichtzumerken@gmail.com">ckoenig.leichtzumerken@gmail.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">P=
-reviously when we added a fence to a dma_resv object we always<br>
-assumed the the newer than all the existing fences.<br>
-<br>
-With Jason&#39;s work to add an UAPI to explicit export/import that&#39;s n=
-ot<br>
-necessary the case any more. So without this check we would allow<br>
-userspace to force the kernel into an use after free error.<br>
-<br>
-Since the change is very small and defensive it&#39;s probably a good<br>
-idea to backport this to stable kernels as well just in case others<br>
-are using the dma_resv object in the same way.<br></blockquote><div><br></d=
-iv><div>Especially in the new world of dma_resv being a &quot;bag of fences=
-&quot;, I think this makes a lot of sense.</div><div><br></div><div>Reviewe=
-d-by: Jason Ekstrand &lt;<a href=3D"mailto:jason.ekstrand@collabora.com">ja=
-son.ekstrand@collabora.com</a>&gt;<br></div><div>=C2=A0</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@=
-amd.com" target=3D"_blank">christian.koenig@amd.com</a>&gt;<br>
----<br>
-=C2=A0drivers/dma-buf/dma-resv.c | 3 ++-<br>
-=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c<br>
-index 205acb2c744d..e3885c90a3ac 100644<br>
---- a/drivers/dma-buf/dma-resv.c<br>
-+++ b/drivers/dma-buf/dma-resv.c<br>
-@@ -295,7 +295,8 @@ void dma_resv_add_fence(struct dma_resv *obj, struct dm=
-a_fence *fence,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 enum dma_resv_usage=
- old_usage;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_resv_list_entry=
-(fobj, i, obj, &amp;old, &amp;old_usage);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((old-&gt;contex=
-t =3D=3D fence-&gt;context &amp;&amp; old_usage &gt;=3D usage) ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((old-&gt;contex=
-t =3D=3D fence-&gt;context &amp;&amp; old_usage &gt;=3D usage &amp;&amp;<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_=
-fence_is_later(fence, old)) ||<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_f=
-ence_is_signaled(old)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 dma_resv_list_set(fobj, i, fence, usage);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 dma_fence_put(old);<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div></div>
-
---00000000000073688605e6fdf099--
+-- 
+Best regards,
+Dmitry
