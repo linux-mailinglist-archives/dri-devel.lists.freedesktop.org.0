@@ -1,53 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCEE159F921
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 14:12:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A0459F93A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 14:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 942841125D7;
-	Wed, 24 Aug 2022 12:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7488C11A520;
+	Wed, 24 Aug 2022 12:15:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14C4E10FDD8;
- Wed, 24 Aug 2022 12:11:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661343090; x=1692879090;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=AM1fboOapzTo46Lk6YYpoPBpuwY0NuTFDojhyL3gXi8=;
- b=Z7QMcKp3SHWDn87201MllcAQPnnBGId00VpII6PT0ymrQznDj376SE6t
- IZkCYVaPHYdiz+cO0ybD2wLrJKvT5NUTQhzs5F6mMoZ7P8MnL9VxrRPO9
- XGHDNb27eWGCXf5JHEWeKA86XybxGKDzBodkBhQS8G0x5ysRy/2jrwC5x
- afxC3IJBE4biKspjVWF/kz3xc7l6/lv/d01Kw3nLC780Leb8JJeEQ9oxi
- cCxx5IuviX9FMyBh2ftR6QAMNGSOa80+qAu09oKpOiTwxZw+gJPihkLN/
- 4C3A7YGBzU+bWSlEtjYVyiPP/7cG56CjQWhvBrfqaM38J1w8aTV8gfAOa g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="355674353"
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="355674353"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 05:11:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="713016983"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.59])
- by fmsmga002.fm.intel.com with SMTP; 24 Aug 2022 05:11:12 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 24 Aug 2022 15:11:11 +0300
-Date: Wed, 24 Aug 2022 15:11:11 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm/edid: Handle EDID 1.4 range descriptor h/vfreq offsets
-Message-ID: <YwYVX8dUbpv746Zn@intel.com>
-References: <20220819092728.14753-1-ville.syrjala@linux.intel.com>
- <87mtbukhiz.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A66710EB3D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 12:15:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661343340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XuX8j1Jb0th5Nr5Sma6YpihUjb+UUTKrqxwD44wEPgc=;
+ b=ADG97Hz2Iu0Jd5M1e7wIobc1/GKydYtxZpQb+YExRUzGpLj6bT5xPgBu56v0ZbvTbLBuHy
+ tf8gmoY3DgeqV6raQeT6xn04km7c06zMvTxuBvwKQSHcgjy3d0qyufseycac6f1RzY/2QH
+ RXOFAWjTm5e3C56arKeLDg2OziTg3Go=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-156-IB18Y2XuNZyu781RhRUDxg-1; Wed, 24 Aug 2022 08:15:37 -0400
+X-MC-Unique: IB18Y2XuNZyu781RhRUDxg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0409101A54E;
+ Wed, 24 Aug 2022 12:15:36 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.193.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 269EDC15BBA;
+ Wed, 24 Aug 2022 12:15:32 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Ben Skeggs <bskeggs@redhat.com>,
+	Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
+	Daniel Dadap <ddadap@nvidia.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: [PATCH v4 00/31] drm/kms: Stop registering multiple
+ /sys/class/backlight devs for a single display
+Date: Wed, 24 Aug 2022 14:14:52 +0200
+Message-Id: <20220824121523.1291269-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87mtbukhiz.fsf@intel.com>
-X-Patchwork-Hint: comment
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,134 +73,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-acpi@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 23, 2022 at 08:15:48PM +0300, Jani Nikula wrote:
-> On Fri, 19 Aug 2022, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >
-> > EDID 1.4 introduced some extra flags in the range
-> > descriptor to support min/max h/vfreq >= 255. Consult them
-> > to correctly parse the vfreq limits.
-> >
-> > Cc: stable@vger.kernel.org
-> > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6519
-> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_edid.c | 24 ++++++++++++++++++------
-> >  include/drm/drm_edid.h     |  5 +++++
-> >  2 files changed, 23 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index 90a5e26eafa8..4005dab6147d 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -6020,12 +6020,14 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
-> >  }
-> >  
-> >  static
-> > -void get_monitor_range(const struct detailed_timing *timing,
-> > -		       void *info_monitor_range)
-> > +void get_monitor_range(const struct detailed_timing *timing, void *c)
-> >  {
-> > -	struct drm_monitor_range_info *monitor_range = info_monitor_range;
-> > +	struct detailed_mode_closure *closure = c;
-> > +	struct drm_display_info *info = &closure->connector->display_info;
-> > +	struct drm_monitor_range_info *monitor_range = &info->monitor_range;
-> >  	const struct detailed_non_pixel *data = &timing->data.other_data;
-> >  	const struct detailed_data_monitor_range *range = &data->data.range;
-> > +	const struct edid *edid = closure->drm_edid->edid;
-> >  
-> >  	if (!is_display_descriptor(timing, EDID_DETAIL_MONITOR_RANGE))
-> >  		return;
-> > @@ -6041,18 +6043,28 @@ void get_monitor_range(const struct detailed_timing *timing,
-> >  
-> >  	monitor_range->min_vfreq = range->min_vfreq;
-> >  	monitor_range->max_vfreq = range->max_vfreq;
-> > +
-> > +	if (edid->revision >= 4) {
-> > +		if (data->pad2 & DRM_EDID_RANGE_OFFSET_MIN_VFREQ)
-> > +			monitor_range->min_vfreq += 255;
-> > +		if (data->pad2 & DRM_EDID_RANGE_OFFSET_MAX_VFREQ)
-> > +			monitor_range->max_vfreq += 255;
-> > +	}
-> 
-> Nitpick, a combo where min vertical range has +255 offset but max
-> doesn't shouldn't be okay. But then, what are we going to do in that
-> case anyway? I guess the generic check would be min <= max. Also, the
-> +255 offset range is 256..510, not 256..(255+255). Again, what to do if
-> that's what the EDID has? *shrug*.
+Hi All,
 
-Yeah, I figured that writing the code in the most straightforward
-way was fine since reserved values aren't going to produce valid
-results anyway. Though I guess just ignoring the whole descriptor
-in that case might be another option.
+As mentioned in my RFC titled "drm/kms: control display brightness through
+drm_connector properties":
+https://lore.kernel.org/dri-devel/0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com/
 
-> 
-> Anyway, what's broken here (and probably impacts the testing in the
-> referenced bug) is that the struct drm_monitor_range_info members are u8
-> and this overflows.
+The first step towards this is to deal with some existing technical debt
+in backlight handling on x86/ACPI boards, specifically we need to stop
+registering multiple /sys/class/backlight devs for a single display.
 
-Derp.
+This series implements my RFC describing my plan for these cleanups:
+https://lore.kernel.org/dri-devel/98519ba0-7f18-201a-ea34-652f50343158@redhat.com/
 
-> 
-> With that fixed, whether or not you decide to do anything about the
-> nitpicks,
->
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Changes in version 4:
+- Minor tweaks to nvidia-wmi-ec-backlight changes
+- Add nouveau_acpi_* wrappers around used include/acpi/video.h functions to
+  fix unresolved symbol errors on non X86
 
-Thanks.
+Changes in version 3:
+- ACPI_VIDEO can now be enabled on non X86 too, adjust various Kconfig changes
+- Make the delay before doing fallback acpi_video backlight registration
+  a module option (patch 9)
+- Move the nvidia-wmi-ec-backlight fw API definitions to a shared header
+- Add a "acpi_video_get_backlight_type() == acpi_backlight_nvidia_wmi_ec"
+  check to the nvidia-wmi-ec-backlight driver (patch 19)
 
-> 
-> 
-> Side note, git grep for monitor_range reveals amdgpu are doing their own
-> thing for the parsing. *sigh*.
-> 
-> 
-> >  }
-> >  
-> >  static void drm_get_monitor_range(struct drm_connector *connector,
-> >  				  const struct drm_edid *drm_edid)
-> >  {
-> > -	struct drm_display_info *info = &connector->display_info;
-> > +	const struct drm_display_info *info = &connector->display_info;
-> > +	struct detailed_mode_closure closure = {
-> > +		.connector = connector,
-> > +		.drm_edid = drm_edid,
-> > +	};
-> >  
-> >  	if (!version_greater(drm_edid, 1, 1))
-> >  		return;
-> >  
-> > -	drm_for_each_detailed_block(drm_edid, get_monitor_range,
-> > -				    &info->monitor_range);
-> > +	drm_for_each_detailed_block(drm_edid, get_monitor_range, &closure);
-> >  
-> >  	DRM_DEBUG_KMS("Supported Monitor Refresh rate range is %d Hz - %d Hz\n",
-> >  		      info->monitor_range.min_vfreq,
-> > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> > index 2181977ae683..d81da97cad6e 100644
-> > --- a/include/drm/drm_edid.h
-> > +++ b/include/drm/drm_edid.h
-> > @@ -92,6 +92,11 @@ struct detailed_data_string {
-> >  	u8 str[13];
-> >  } __attribute__((packed));
-> >  
-> > +#define DRM_EDID_RANGE_OFFSET_MIN_VFREQ (1 << 0)
-> > +#define DRM_EDID_RANGE_OFFSET_MAX_VFREQ (1 << 1)
-> > +#define DRM_EDID_RANGE_OFFSET_MIN_HFREQ (1 << 2)
-> > +#define DRM_EDID_RANGE_OFFSET_MAX_HFREQ (1 << 3)
-> > +
-> >  #define DRM_EDID_DEFAULT_GTF_SUPPORT_FLAG   0x00
-> >  #define DRM_EDID_RANGE_LIMITS_ONLY_FLAG     0x01
-> >  #define DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG 0x02
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+Changes in version 2:
+- Introduce acpi_video_backlight_use_native() helper
+- Finishes the refactoring, addressing all the bits from the "Other issues"
+  section of the refactor RFC
+
+Note the i915 patches (patch 2 and 12 still need a review/ack, and
+I've dropped the previouw review of the nouveau patches because of
+changes there. Please review.
+
+This series as submitted is based on drm-tip for CI purposes.
+I also have an immutable branch based on 6.0-rc1 with these
+same patches available here:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=backlight-detect-refactor-v4
+assuming the i915 patches also pass review I hope to send out
+a pull-request to all involved subsystems based on this branch soon.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (31):
+  ACPI: video: Add acpi_video_backlight_use_native() helper
+  drm/i915: Don't register backlight when another backlight should be
+    used
+  drm/amdgpu: Don't register backlight when another backlight should be
+    used (v3)
+  drm/radeon: Don't register backlight when another backlight should be
+    used (v3)
+  drm/nouveau: Don't register backlight when another backlight should be
+    used (v2)
+  ACPI: video: Drop backlight_device_get_by_type() call from
+    acpi_video_get_backlight_type()
+  ACPI: video: Remove acpi_video_bus from list before tearing it down
+  ACPI: video: Simplify acpi_video_unregister_backlight()
+  ACPI: video: Make backlight class device registration a separate step
+    (v2)
+  ACPI: video: Remove code to unregister acpi_video backlight when a
+    native backlight registers
+  drm/i915: Call acpi_video_register_backlight() (v2)
+  drm/nouveau: Register ACPI video backlight when nv_backlight
+    registration fails (v2)
+  drm/amdgpu: Register ACPI video backlight when skipping amdgpu
+    backlight registration
+  drm/radeon: Register ACPI video backlight when skipping radeon
+    backlight registration
+  platform/x86: nvidia-wmi-ec-backlight: Move fw interface definitions
+    to a header (v2)
+  ACPI: video: Refactor acpi_video_get_backlight_type() a bit
+  ACPI: video: Add Nvidia WMI EC brightness control detection (v3)
+  ACPI: video: Add Apple GMUX brightness control detection
+  platform/x86: nvidia-wmi-ec-backlight: Use
+    acpi_video_get_backlight_type()
+  platform/x86: apple-gmux: Stop calling acpi/video.h functions
+  platform/x86: toshiba_acpi: Stop using
+    acpi_video_set_dmi_backlight_type()
+  platform/x86: acer-wmi: Move backlight DMI quirks to
+    acpi/video_detect.c
+  platform/x86: asus-wmi: Drop DMI chassis-type check from backlight
+    handling
+  platform/x86: asus-wmi: Move acpi_backlight=vendor quirks to ACPI
+    video_detect.c
+  platform/x86: asus-wmi: Move acpi_backlight=native quirks to ACPI
+    video_detect.c
+  platform/x86: samsung-laptop: Move acpi_backlight=[vendor|native]
+    quirks to ACPI video_detect.c
+  ACPI: video: Remove acpi_video_set_dmi_backlight_type()
+  ACPI: video: Drop "Samsung X360" acpi_backlight=native quirk
+  ACPI: video: Drop NL5x?U, PF4NU1F and PF5?U?? acpi_backlight=native
+    quirks
+  ACPI: video: Fix indentation of video_detect_dmi_table[] entries
+  drm/todo: Add entry about dealing with brightness control on devices
+    with > 1 panel
+
+ Documentation/gpu/todo.rst                    |  68 +++
+ MAINTAINERS                                   |   1 +
+ drivers/acpi/Kconfig                          |   1 +
+ drivers/acpi/acpi_video.c                     |  64 ++-
+ drivers/acpi/video_detect.c                   | 428 +++++++++++-------
+ drivers/gpu/drm/Kconfig                       |  14 +
+ .../gpu/drm/amd/amdgpu/atombios_encoders.c    |  14 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   9 +
+ drivers/gpu/drm/gma500/Kconfig                |   2 +
+ drivers/gpu/drm/i915/Kconfig                  |   2 +
+ .../gpu/drm/i915/display/intel_backlight.c    |   7 +
+ drivers/gpu/drm/i915/display/intel_display.c  |   8 +
+ drivers/gpu/drm/i915/display/intel_panel.c    |   3 +
+ drivers/gpu/drm/i915/i915_drv.h               |   2 +
+ drivers/gpu/drm/nouveau/nouveau_acpi.c        |  10 +
+ drivers/gpu/drm/nouveau/nouveau_acpi.h        |   4 +
+ drivers/gpu/drm/nouveau/nouveau_backlight.c   |  13 +
+ drivers/gpu/drm/radeon/atombios_encoders.c    |   7 +
+ drivers/gpu/drm/radeon/radeon_encoders.c      |  11 +-
+ .../gpu/drm/radeon/radeon_legacy_encoders.c   |   7 +
+ drivers/platform/x86/Kconfig                  |   1 +
+ drivers/platform/x86/acer-wmi.c               |  66 ---
+ drivers/platform/x86/apple-gmux.c             |   3 -
+ drivers/platform/x86/asus-nb-wmi.c            |  21 -
+ drivers/platform/x86/asus-wmi.c               |  13 -
+ drivers/platform/x86/asus-wmi.h               |   2 -
+ drivers/platform/x86/eeepc-wmi.c              |  25 +-
+ .../platform/x86/nvidia-wmi-ec-backlight.c    |  82 +---
+ drivers/platform/x86/samsung-laptop.c         |  87 ----
+ drivers/platform/x86/toshiba_acpi.c           |  16 -
+ include/acpi/video.h                          |   9 +-
+ .../x86/nvidia-wmi-ec-backlight.h             |  76 ++++
+ 32 files changed, 570 insertions(+), 506 deletions(-)
+ create mode 100644 include/linux/platform_data/x86/nvidia-wmi-ec-backlight.h
 
 -- 
-Ville Syrjälä
-Intel
+2.37.2
+
