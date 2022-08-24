@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F935A0036
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:18:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57D75A006A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:31:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3B6FBD46C;
-	Wed, 24 Aug 2022 17:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0AF3BE41D;
+	Wed, 24 Aug 2022 17:31:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D93ABD455
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 17:17:49 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- 92-20020a9d0be5000000b0063946111607so2920068oth.10
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 10:17:49 -0700 (PDT)
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D910BE46A
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 17:30:39 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-11dca1c9c01so4812380fac.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 10:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:from:to:cc;
- bh=MHYuEVNrNq6xOFLpayXIejomNu0GT0DBxEs7vGrd158=;
- b=WZmQ7PLNtEHmn6SJrYb0tXJV3lUfaM74pbLSdSKR9LMnaK5kGCvh1f3QY7J38pSoIB
- ik74LCQK95MUwF5xTdiHJ3JJ/wd36IqnmQneCLEzyFZ4ghGmFUX4vvXUG+dSM9XM77Nv
- lk/NSNsGdkxOFaxjdiv4zfitg8B6AUUzfSsrc=
+ bh=d2910jvc1FYW2CzUzlDlHxLoXiZignwtt7dqFgJIrVI=;
+ b=fcQ5BKX6CF1pB0Q5K+QtelbSTU2ihxqxPUnaPzIVR0MQ/vdL6bmvl5OMW4nPfeQxcI
+ xjTPKRTjCubgelgY+XlCapqkiKrgDLZc9Iv5SNleO0KO7Xz048d0ap823yKYrg0UJOiT
+ m2Rf5yz4zgPncnzKbEPPJipiprzWzx6yl5n2s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:x-gm-message-state:from:to:cc;
- bh=MHYuEVNrNq6xOFLpayXIejomNu0GT0DBxEs7vGrd158=;
- b=7I7NeY372uIJEIFksprJCjn4U6RVBRzhyotydg+U+kZIJqSMj5dwGWm/MNseFdSTPG
- oU+yVVx1u6XDc7UdWPDD9oeZTHgQteJEfKR+ifDEymzqggEo9uC9En15GwUUTvnGld+B
- L37xxrGxMLtBGhVaRIWMRkp/DemBb5IO0TZi5mGzqu9EKLXxNR7YIvEzNk0GLEoU019z
- 0F3lvINtTf8aV3YrpgVtNKab0q/iH6YOpNhuY0PXWNiMi20vw7GCAV+kiQveQF1TjjsP
- KevJbksjbjrNCI7TiMAJ06RTS7Dgnf3JLRRnLUAkkmez/tJUFDeBTAKTWxRDU90hlV/j
- F48Q==
-X-Gm-Message-State: ACgBeo1U8/LYfV1THnYCyVbvmqjKdYtrLL3Np7Z4aeVT4nFW+Tzlh/KM
- pCCO0plOfWrr2DFTPIgpA09sMrxhe5pPH3bVtIq0Sw==
-X-Google-Smtp-Source: AA6agR4zBshr+gUc3WgavtY1TB1LNAO6aNOk9NTWdc2ol+fbKgwzW7gL98pe4oEy1a7xXcIHJjx4KwfdSoBCPBzli14=
-X-Received: by 2002:a9d:738c:0:b0:638:9962:8cb6 with SMTP id
- j12-20020a9d738c000000b0063899628cb6mr11204441otk.73.1661361468554; Wed, 24
- Aug 2022 10:17:48 -0700 (PDT)
+ bh=d2910jvc1FYW2CzUzlDlHxLoXiZignwtt7dqFgJIrVI=;
+ b=zUzvXq/mUs79AuNZZR4EA32HcJjeOwLAjrKoIVtxV2+JYzo6NgKjcFlnYTCXC3eX8O
+ pMfN54jNo79Ldol8xSkNYeQiHKTVeHL243HqcINecPJEmTuDKsnvcfZmXH4ijVd6tA7x
+ 0SgtbAjHp0wArDcwaoTGKUEKxbwbNLimsPEQTWYzDWhzGDlQ3JFLxzreRr0YraetitJd
+ DOtYtVKjRNooU6PPA4uYjVQ751B01lEv5+nUrFIFUnElFryRsmSVbKuKXGhx/C7GAGQX
+ HSCknGQP7Rze3qyuhqbKo4FPfbXqZzVrqxrefCZnjk+06MHoUSm9UhcV9FyGqSNvFUbX
+ q8tQ==
+X-Gm-Message-State: ACgBeo03Qb3SwNc8Ifuf9lU3Zpomm7mPw++D2zxDsmNXvsV2pj7xQ6QF
+ O0oxzYlbGFWYEr7fvi0DxG0n/J/VLt1rXuSKDWo/3A==
+X-Google-Smtp-Source: AA6agR7QDhwW4ErLZ7pKcygsrPIJ67UAWeCMGbJtFeUUkR9yxPnuX6YfLksltT67IRMFVnSMhpLZXdZbOmpszg5JuT8=
+X-Received: by 2002:a05:6870:a99c:b0:11c:2c37:3d03 with SMTP id
+ ep28-20020a056870a99c00b0011c2c373d03mr91633oab.0.1661362239159; Wed, 24 Aug
+ 2022 10:30:39 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 24 Aug 2022 12:17:47 -0500
+ HTTPREST; Wed, 24 Aug 2022 12:30:38 -0500
 MIME-Version: 1.0
-In-Reply-To: <1661360356-21948-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1661360356-21948-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1661361751-2173-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1661361751-2173-1-git-send-email-quic_khsieh@quicinc.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Wed, 24 Aug 2022 12:17:47 -0500
-Message-ID: <CAE-0n52Mqv-qqb4n_Q4iO-reSncNikWd-2xNVG7pgwvx2ThTHw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: correct 1.62G link rate at
+Date: Wed, 24 Aug 2022 12:30:38 -0500
+Message-ID: <CAE-0n50wZkb5sYcZ2g+4L3S7OAYAti+5GEaBDZfANyOJCF3JzA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dp: correct 1.62G link rate at
  dp_catalog_ctrl_config_msa()
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
  bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
@@ -74,20 +74,45 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-08-24 09:59:16)
+Quoting Kuogee Hsieh (2022-08-24 10:22:31)
 > At current implementation there is an extra 0 at 1.62G link rate which cause
 > no correct pixel_div selected for 1.62G link rate to calculate mvid and nvid.
 > This patch delete the extra 0 to have mvid and nvid be calculated correctly.
 >
-> Fixes: 937f941ca06f  "drm/msm/dp: Use qmp phy for DP PLL and PHY"
-
-Should be
-
-Fixes: 937f941ca06f ("drm/msm/dp: Use qmp phy for DP PLL and PHY")
-
+> Changes in v2:
+> -- fix Fixes tag's text
+>
+> Fixes: 937f941ca06f  ("drm/msm/dp: Use qmp phy for DP PLL and PHY")
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
+>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> eviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Good catch! Thanks for fixing it.
+Missing an R.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index 7257515..676279d 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -431,7 +431,7 @@ void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
+>
+>         if (rate == link_rate_hbr3)
+>                 pixel_div = 6;
+> -       else if (rate == 1620000 || rate == 270000)
+> +       else if (rate == 162000 || rate == 270000)
+
+BTW
+
+  $ git grep 162000 -- drivers/gpu/drm/msm/dp/
+  drivers/gpu/drm/msm/dp/dp_catalog.c:    else if (rate == 1620000 ||
+rate == 270000)
+  drivers/gpu/drm/msm/dp/dp_ctrl.c:
+ctrl->link->link_params.rate = 162000;
+  drivers/gpu/drm/msm/dp/dp_ctrl.c:       case 162000:
+
+We really should have a #define for these things. Can you send a
+different followup patch that makes something like HBR3_KHZ, HBR2_KHZ,
+etc. and then replaces these bare numbers throughout the driver? That
+would prevent this from happening again. This one liner can and should
+be backported to stable trees.
