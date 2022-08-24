@@ -1,77 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA7C59FEBF
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:48:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE5F59FEC8
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:50:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECB27B7E7C;
-	Wed, 24 Aug 2022 15:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB2DDB830F;
+	Wed, 24 Aug 2022 15:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7D8B7D97
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 15:48:27 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id CEE8C32009C8;
- Wed, 24 Aug 2022 11:48:26 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 24 Aug 2022 11:48:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1661356106; x=1661442506; bh=KiIFMGOdSQ
- RAgyuh6d1iUT5BtacW3klnbBIVwJD0Oqs=; b=kvnRV1eddW5m5h4fMiulMBz1dv
- xnNqkypAWWx0UFAeELpiH5uG7JTd1l4D5DBqX3akRyi7ve4rwihHV82zctXkrcty
- ZhKjSde99R6jb5JW2titRfm1779ohFweEFVBMj5cn35ZlfzA6z18ECGvEZdl4XwJ
- LbejOZG6PwvXCYcGMG5+4ik3naJ9iyIEJFEce6YdyVVXzrtWurgBhPH/FoAeLeY+
- jDd8Ik0V72ZPMsl7MRfuWNOs2aK/qJSlz5ft/OOjFozTSoF5GOfwsheLJp60AEdd
- rTXaaq1JyF4HZaImbW/DO7wfP9URJROrIz/a4oLfoRwPovw7K+F97LnafshA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1661356106; x=1661442506; bh=KiIFMGOdSQRAgyuh6d1iUT5BtacW
- 3klnbBIVwJD0Oqs=; b=RrmBPMmC4K/PIzZBG5PT2o4WofGgwCRlnN9XV9jrjqo2
- cdEcKncx6qJfkHc7Wy9UkHpv3y31Ws383TayXakm/YoCcNE81rMYbqX2Ozime0or
- dpQat30mlDb1aESdrIwWImJ7sQDGOPQl3NQ8y30sBP39CiWNnqKsGJBqALbFLHbd
- EJ2JVEwCZxuQk5GIe/4hGfNAPM3uUahjtCFvq34kw2BfWWFleWiyCk8xzhp5PFRz
- ERQ5Pjo1UvGCOgSjMyTRRBsvFc1eLcXZEPxLOfN8EQnBYGr6cpzho48xRPNKDIbn
- WTaGkknCKVbIcZ36gHcjFpmIf6PODgI39bJm7fQNOQ==
-X-ME-Sender: <xms:SkgGY7fbesNrMwqMcg1LyxZzrxutpGHvP1E7QMh_MYMaQwFIP6NYeg>
- <xme:SkgGYxMTYCPwxFj0942kfgH_p-KeDdp1DnMbObKlbz35aJwBl85NR9RJy-aqWfAcJ
- xyJkk9wQPLhXmOf7pY>
-X-ME-Received: <xmr:SkgGY0iJ72fxmpIEcCIAtRStsL3v7ckcNtgNGkVcjbJy3U-xh4-XeKpr7EFh>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgleehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:SkgGY8-Pl7kej_EyLcSnGm-_ytk16aIXAJ-H4nxu988KY8wqHbQeHg>
- <xmx:SkgGY3v504GGZmf_-JAS-Rr2zsh2NNidLpAy-m2He6ZV9YOywOP0sg>
- <xmx:SkgGY7FXsOGcxEq4wAMGzc7QjAUsa0_M3X6o8kltLsUI1kNoMC_JVQ>
- <xmx:SkgGYxI2JiRg2JayFiuWCDgqV-qaRhzRqesfleI7HaNfbS7P-3F6ZQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 24 Aug 2022 11:48:25 -0400 (EDT)
-Date: Wed, 24 Aug 2022 17:48:23 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v2 2/4] drm/vc4: plane: protect device
- resources after removal
-Message-ID: <20220824154823.qu3tdwypg5o3ci4z@houat>
-References: <20220819110849.192037-1-dakr@redhat.com>
- <20220819110849.192037-3-dakr@redhat.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA3C2B80BB;
+ Wed, 24 Aug 2022 15:49:34 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-13.nat.spd-mgts.ru
+ [109.252.119.13])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 003536601DAD;
+ Wed, 24 Aug 2022 16:49:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1661356173;
+ bh=vOJMhTQ7HzZBp0ZZo9K4hrXQVabXIso7oNLwG6hsKLo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=c6s4L7HIzhqXHIRjPO78mUx2njs0FTSDwh/if1G8GrYUXKIesr5TSuVpzCCXzCFaC
+ RQwFs9mzKIF/SoKOeW/iFsEtF2HNDrH0QYgFH8Bjb0EODV2gEnzbMJNa3D7Euz+aq1
+ ttSiIgN9lBknJRw6hrDsumfPw8z1mfE/u3dAN4OYGFY1SnY5ytLPSVBmnTh6lKyQde
+ YOUN/UNH4qT1TRrXxpbCLStfVkyl6+y4obXi9sfi44ZsbJWXBmSFG438Hbbw7Cm9FD
+ zamHCbpRiEHeEJEqGHwgMIgiFMUhzX7OjakAgX0Hfj9WgvOsPDRnfMMAi2GCcW6bPu
+ eS/kqb6U0BR1g==
+Message-ID: <25d6b7e7-bbcc-7613-42d1-13c2b9ab2937@collabora.com>
+Date: Wed, 24 Aug 2022 18:49:28 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="i6p2xirgmwjujatv"
-Content-Disposition: inline
-In-Reply-To: <20220819110849.192037-3-dakr@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [Linaro-mm-sig] [PATCH v3 6/9] dma-buf: Move dma-buf attachment
+ to dynamic locking specification
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+ Qiang Yu <yuq825@gmail.com>
+References: <20220824102248.91964-1-dmitry.osipenko@collabora.com>
+ <20220824102248.91964-7-dmitry.osipenko@collabora.com>
+ <055c3c05-ac4c-430e-f2b9-08f000acf435@gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <055c3c05-ac4c-430e-f2b9-08f000acf435@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,110 +82,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- linux-kernel@vger.kernel.org
+Cc: lima@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/24/22 18:24, Christian König wrote:
+> Am 24.08.22 um 12:22 schrieb Dmitry Osipenko:
+>> Move dma-buf attachment API functions to the dynamic locking
+>> specification.
+>> The strict locking convention prevents deadlock situations for dma-buf
+>> importers and exporters.
+>>
+>> Previously, the "unlocked" versions of the attachment API functions
+>> weren't taking the reservation lock and this patch makes them to take
+>> the lock.
+>>
+>> Intel and AMD GPU drivers already were mapping the attached dma-bufs
+>> under
+>> the held lock during attachment, hence these drivers are updated to use
+>> the locked functions.
+>>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>   drivers/dma-buf/dma-buf.c                  | 115 ++++++++++++++-------
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |   4 +-
+>>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c |   8 +-
+>>   drivers/gpu/drm/i915/gem/i915_gem_object.c |  12 +++
+>>   include/linux/dma-buf.h                    |  20 ++--
+>>   5 files changed, 110 insertions(+), 49 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>> index 4556a12bd741..f2a5a122da4a 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -559,7 +559,7 @@ static struct file *dma_buf_getfile(struct dma_buf
+>> *dmabuf, int flags)
+>>    * 2. Userspace passes this file-descriptors to all drivers it wants
+>> this buffer
+>>    *    to share with: First the file descriptor is converted to a
+>> &dma_buf using
+>>    *    dma_buf_get(). Then the buffer is attached to the device using
+>> - *    dma_buf_attach().
+>> + *    dma_buf_attach_unlocked().
+> 
+> Now I get why this is confusing me so much.
+> 
+> The _unlocked postfix implies that there is another function which
+> should be called with the locks already held, but this is not the case
+> for attach/detach (because they always need to grab the lock themselves).
 
---i6p2xirgmwjujatv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That's correct. The attach/detach ops of exporter can take the lock
+(like i915 exporter does it), hence importer must not grab the lock
+around dma_buf_attach() invocation.
 
-On Fri, Aug 19, 2022 at 01:08:47PM +0200, Danilo Krummrich wrote:
-> (Hardware) resources which are bound to the driver and device lifecycle
-> must not be accessed after the device and driver are unbound.
->=20
-> However, the DRM device isn't freed as long as the last user closed it,
-> hence userspace can still call into the driver.
->=20
-> Therefore protect the critical sections which are accessing those
-> resources with drm_dev_enter() and drm_dev_exit().
->=20
-> Fixes: 9872c7a31921 ("drm/vc4: plane: Switch to drmm_universal_plane_allo=
-c()")
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> ---
->  drivers/gpu/drm/vc4/vc4_plane.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_pl=
-ane.c
-> index eff9c63adfa7..c46acb770036 100644
-> --- a/drivers/gpu/drm/vc4/vc4_plane.c
-> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-> @@ -19,6 +19,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_atomic_uapi.h>
->  #include <drm/drm_blend.h>
-> +#include <drm/drm_drv.h>
->  #include <drm/drm_fb_dma_helper.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_framebuffer.h>
-> @@ -1219,6 +1220,10 @@ u32 vc4_plane_write_dlist(struct drm_plane *plane,=
- u32 __iomem *dlist)
->  {
->  	struct vc4_plane_state *vc4_state =3D to_vc4_plane_state(plane->state);
->  	int i;
-> +	int idx;
-> +
-> +	if (!drm_dev_enter(plane->dev, &idx))
-> +		goto out;
-> =20
->  	vc4_state->hw_dlist =3D dlist;
-> =20
-> @@ -1226,6 +1231,9 @@ u32 vc4_plane_write_dlist(struct drm_plane *plane, =
-u32 __iomem *dlist)
->  	for (i =3D 0; i < vc4_state->dlist_count; i++)
->  		writel(vc4_state->dlist[i], &dlist[i]);
-> =20
-> +	drm_dev_exit(idx);
-> +
-> +out:
->  	return vc4_state->dlist_count;
->  }
-> =20
-> @@ -1245,6 +1253,7 @@ void vc4_plane_async_set_fb(struct drm_plane *plane=
-, struct drm_framebuffer *fb)
->  	struct vc4_plane_state *vc4_state =3D to_vc4_plane_state(plane->state);
->  	struct drm_gem_dma_object *bo =3D drm_fb_dma_get_gem_obj(fb, 0);
->  	uint32_t addr;
-> +	int idx;
-> =20
->  	/* We're skipping the address adjustment for negative origin,
->  	 * because this is only called on the primary plane.
-> @@ -1252,12 +1261,17 @@ void vc4_plane_async_set_fb(struct drm_plane *pla=
-ne, struct drm_framebuffer *fb)
->  	WARN_ON_ONCE(plane->state->crtc_x < 0 || plane->state->crtc_y < 0);
->  	addr =3D bo->dma_addr + fb->offsets[0];
-> =20
-> +	if (!drm_dev_enter(plane->dev, &idx))
-> +		return;
-> +
->  	/* Write the new address into the hardware immediately.  The
->  	 * scanout will start from this address as soon as the FIFO
->  	 * needs to refill with pixels.
->  	 */
->  	writel(addr, &vc4_state->hw_dlist[vc4_state->ptr0_offset]);
-> =20
-> +	drm_dev_exit(idx);
-> +
+> So I suggest to drop the _unlocked postfix for the attach/detach
+> functions. Another step would then be to unify attach/detach with
+> dynamic_attach/dynamic_detach when both have the same locking convention
+> anyway.
 
-You did change the CRTC patch, but the comment to protect the entire
-function also applies to this one.
+It's not a problem to change the name, but it's unclear to me why we
+should do it. The _unlocked postfix tells importer that reservation must
+be unlocked and it must be unlocked in case of dma_buf_attach().
 
-Maxime
+Dropping the postfix will make dma_buf_attach() inconsistent with the
+rest of the _unlocked functions(?). Are you sure we need to rename it?
 
---i6p2xirgmwjujatv
-Content-Type: application/pgp-signature; name="signature.asc"
+> Sorry that this is going so much back and forth, it's really complicated
+> to keep all the stuff in my head at the moment :)
 
------BEGIN PGP SIGNATURE-----
+Not a problem at all, I expected that it will take some time for this
+patchset to settle down.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwZIRwAKCRDj7w1vZxhR
-xTpMAP9QqYSv8ty8je48B2HuywFGJE+Q2WGNAW/paVlqkHD0WwD/XgOG/VA+mckd
-g+GkI3JRlnAhkCqVRyReiq/t0DFeagk=
-=OEZa
------END PGP SIGNATURE-----
-
---i6p2xirgmwjujatv--
+-- 
+Best regards,
+Dmitry
