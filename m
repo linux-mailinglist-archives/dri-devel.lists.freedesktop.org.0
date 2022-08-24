@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17A059F58C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 10:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B864E59F58B
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 10:46:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A430112C5C;
-	Wed, 24 Aug 2022 08:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 871471125F9;
+	Wed, 24 Aug 2022 08:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37A2D10F743;
- Wed, 24 Aug 2022 08:45:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4BED10F09C;
+ Wed, 24 Aug 2022 08:45:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661330752; x=1692866752;
+ t=1661330755; x=1692866755;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xXWYIOHPKolHy/g3/53FzAfI4f56T3QhlqwnvSbksEw=;
- b=HojbLs/jvLUe4ODNOChWRhIpkQAXnlJWlFygR1OTlJAaZBTZFuwIaEcs
- AeImFmAvGyEO239E5lSWVXWg5cd/eRp+KEQOTFxmM+wa0TTagr4Wx0QgF
- /w8IgvVn4lehoNMQIOqx3xwwj3ZRjEGswi0t6/mwA6QBjyOHUZjEZXLQ9
- 1o4o6ZTql4yrawoOB9kBfR8JahaVqMGBfXISN3pTG5pN+76zGW0jzh/XK
- bJrojHGmcWS8TjDPLYk0EgQW5iUtxQ/px0Uba/lH2+s+9y7+Py9PbNzL4
- 7F+xne9s9oxcn/Im4nDBjRYV+06GlkHqBMzs30J6fk6ZX249BniVGc0lK w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="291473723"
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="291473723"
+ bh=rIBijWYDCuJCpKPJprGFsO7FPm8DX5/N35/ZVITEqGo=;
+ b=iy911PyXMISMCafGEqr2Op9uXaOpb7ohrL6EDLhA6Ssq5YCiPQkXOZGy
+ cgtC09XYIRmltQpLuTUrwFFFKIErdss+zppdKCc3VUKPEpsSUwKSRWz5g
+ hUVz7m9MF2Sp8krPb2GnhsA4PazUZAW4uuXQaVDIEL/A6h6xmYoJG3wmg
+ /zS4xJOsM+fQGy4PDDbW+LDwv3JoAF1A93c72yyLj/WBFxKYWqZnjcDZR
+ bgPG4NBJwHobvwmBpq+TWH9iCO+SAX2h4FvtvEwr3voSWoNhpKIioXPCJ
+ km9St1ZlepWi3w+RmKnobcaA0RemHJpn/7tSkiVHJPwRtEg/ejddEjKqu Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="291473740"
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="291473740"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 01:45:51 -0700
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="785554047"
+ 24 Aug 2022 01:45:55 -0700
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="785554080"
 Received: from yuhsuanc-mobl.gar.corp.intel.com (HELO
  paris.amr.corp.intel.com) ([10.254.38.238])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 01:45:48 -0700
+ 24 Aug 2022 01:45:52 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 7/8] drm/i915: Use error code as -E2BIG when the size of
- gem ttm object is too large
-Date: Wed, 24 Aug 2022 17:45:13 +0900
-Message-Id: <20220824084514.2261614-8-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v9 8/8] drm/i915: Remove truncation warning for large objects
+Date: Wed, 24 Aug 2022 17:45:14 +0900
+Message-Id: <20220824084514.2261614-9-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220824084514.2261614-1-gwan-gyeong.mun@intel.com>
 References: <20220824084514.2261614-1-gwan-gyeong.mun@intel.com>
@@ -67,43 +66,58 @@ Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ttm_bo_init_reserved() functions returns -ENOSPC if the size is too big
-to add vma. The direct function that returns -ENOSPC is drm_mm_insert_node_in_range().
-To handle the same error as other code returning -E2BIG when the size is
-too large, it converts return value to -E2BIG.
+From: Chris Wilson <chris@chris-wilson.co.uk>
 
+Having addressed the issues surrounding incorrect types for local
+variables and potential integer truncation in using the scatterlist API,
+we have closed all the loop holes we had previously identified with
+dangerously large object creation. As such, we can eliminate the warning
+put in place to remind us to complete the review.
+
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Brian Welty <brian.welty@intel.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Testcase: igt@gem_create@create-massive
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4991
 Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_object.h | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 615541b650fa..e3046e02b47a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -1210,6 +1210,17 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), bo_type,
- 				   &i915_sys_placement, page_size >> PAGE_SHIFT,
- 				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
-+
-+	/*
-+	 * XXX: The ttm_bo_init_reserved() functions returns -ENOSPC if the size
-+	 * is too big to add vma. The direct function that returns -ENOSPC is
-+	 * drm_mm_insert_node_in_range(). To handle the same error as other code
-+	 * that returns -E2BIG when the size is too large, it converts -ENOSPC to
-+	 * -E2BIG.
-+	 */
-+	if (size >> PAGE_SHIFT > INT_MAX && ret == -ENOSPC)
-+		ret = -E2BIG;
-+
- 	if (ret)
- 		return i915_ttm_err_to_gem(ret);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 0cf31adbfd41..dd2762da332f 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -20,25 +20,10 @@
+ 
+ enum intel_region_id;
+ 
+-/*
+- * XXX: There is a prevalence of the assumption that we fit the
+- * object's page count inside a 32bit _signed_ variable. Let's document
+- * this and catch if we ever need to fix it. In the meantime, if you do
+- * spot such a local variable, please consider fixing!
+- *
+- * We can check for invalidly typed locals with typecheck(), see for example
+- * i915_gem_object_get_sg().
+- */
+-#define GEM_CHECK_SIZE_OVERFLOW(sz) \
+-	GEM_WARN_ON((sz) >> PAGE_SHIFT > INT_MAX)
+-
+ static inline bool i915_gem_object_size_2big(u64 size)
+ {
+ 	struct drm_i915_gem_object *obj;
+ 
+-	if (GEM_CHECK_SIZE_OVERFLOW(size))
+-		return true;
+-
+ 	if (overflows_type(size, obj->base.size))
+ 		return true;
  
 -- 
 2.37.1
