@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D7059F3F3
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 09:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41C159F400
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 09:11:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C58E010E10C;
-	Wed, 24 Aug 2022 07:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B53710E223;
+	Wed, 24 Aug 2022 07:10:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D908310E10C
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 07:07:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53C9F10E223
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 07:10:25 +0000 (UTC)
 Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1oQkUL-0001Ua-3Z; Wed, 24 Aug 2022 09:07:45 +0200
+ id 1oQkWt-0001pu-7m; Wed, 24 Aug 2022 09:10:23 +0200
 Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1oQkUI-0007b6-Co; Wed, 24 Aug 2022 09:07:42 +0200
-Date: Wed, 24 Aug 2022 09:07:42 +0200
+ id 1oQkWs-0007nA-I0; Wed, 24 Aug 2022 09:10:22 +0200
+Date: Wed, 24 Aug 2022 09:10:22 +0200
 From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Andy Yan <andy.yan@rock-chips.com>
+To: Michael Riesch <michael.riesch@wolfvision.net>
 Subject: Re: [PATCH 0/2] drm/rockchip: dw_hdmi: Add 4k@30 support
-Message-ID: <20220824070742.GA28387@pengutronix.de>
+Message-ID: <20220824071022.GP17485@pengutronix.de>
 References: <20220822152017.1523679-1-s.hauer@pengutronix.de>
+ <ef70b8b7-c1ff-a6b9-077b-83ea48c66c24@wolfvision.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220822152017.1523679-1-s.hauer@pengutronix.de>
+In-Reply-To: <ef70b8b7-c1ff-a6b9-077b-83ea48c66c24@wolfvision.net>
 X-Sent-From: Pengutronix Hildesheim
 X-URL: http://www.pengutronix.de/
 X-Accept-Language: de,en
@@ -53,32 +54,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Michael Riesch <michael.riesch@wolfvision.net>,
+Cc: kernel@pengutronix.de,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
  Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy Et al.,
+On Wed, Aug 24, 2022 at 07:43:03AM +0200, Michael Riesch wrote:
+> Hi Sascha,
+> 
+> Can you Cc: linux-rockchip list to get more feedback?
 
-On Mon, Aug 22, 2022 at 05:20:15PM +0200, Sascha Hauer wrote:
-> This series adds support for 4k@30 to the rockchip HDMI controller. This
-> has been tested on a rk3568 rock3a board. It should be possible to add
-> 4k@60 support the same way, but it doesn't work for me, so let's add
-> 4k@30 as a first step.
+Yes, will do that next time.
 
-I tried adding 4k@60 support the same way, just by adding the missing
-fields for 600MHz in the PLL/phy settings. I get a picture on the
-screen, but it's not very stable: The monitor often gets black, scans
-through the different HDMI inputs and then syncs again. Also when I
-re-plug the cable while weston is running I won't get any picture
-anymore (the same works fine with lower resolutions). I also tried
-the Rock3a 4.19 Kernel which is based on the Rockchip Kernel and I saw
-similar problems there.
+> 
+> On 8/22/22 17:20, Sascha Hauer wrote:
+> > This series adds support for 4k@30 to the rockchip HDMI controller. This
+> > has been tested on a rk3568 rock3a board. It should be possible to add
+> > 4k@60 support the same way, but it doesn't work for me, so let's add
+> > 4k@30 as a first step.
+> > 
+> > Sascha
+> > 
+> > Sascha Hauer (2):
+> >   drm/rockchip: dw_hdmi: relax mode_valid hook
+> >   drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
+> 
+> Great stuff, thanks!
+> 
+> On a Radxa ROCK3 Model A with a HP 27f 4k monitor
+> 
+> Tested-by: Michael Riesch <michael.riesch@wolfvision.net>
 
-Do you have an idea what could go wrong there?
+Thanks
 
 Sascha
-
 
 -- 
 Pengutronix e.K.                           |                             |
