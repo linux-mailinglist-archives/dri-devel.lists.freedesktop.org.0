@@ -2,64 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7407859F173
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 04:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147B259F31A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 07:43:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C86F0113607;
-	Wed, 24 Aug 2022 02:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D3C10E814;
+	Wed, 24 Aug 2022 05:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 409CB113607
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 02:44:57 +0000 (UTC)
-X-UUID: 4b2abd16394c4b4783436c75da3c98b9-20220824
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=q8MKla7Nmcb6WJBb4GET9NJL7W+2798UE5zWgBwZ8RI=; 
- b=jR4SWjSK3FcI3kjW3GA7+DQia35XhvslK5Hmvb9u9XVh6EVG8Mon0e1J5XshQ2M3IG5K0oCwqX9CrgHxLzxp1scpOQuykmEg53jxHvuqR9KDy30pfZsvvYWEoXO5Ul1YXMyN2zYZP598kXgAF2Traxkycr+IHxt1E1uoggyFBas=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:bb76e356-7d13-48d2-8243-2373c1ce0af1, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
- Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18, CLOUDID:c0c71c68-a9d9-4672-a3c8-12721739a220,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 4b2abd16394c4b4783436c75da3c98b9-20220824
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 223732049; Wed, 24 Aug 2022 10:44:52 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 24 Aug 2022 10:44:51 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 24 Aug 2022 10:44:50 +0800
-Message-ID: <7c59d86501c39fa6e0e182f4a537de814320426e.camel@mediatek.com>
-Subject: Re: [PATCH v26 07/10] soc: mediatek: mmsys: add mmsys for support
- 64 reset bits
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
- Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
- Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>,
- <nfraprado@collabora.com>
-Date: Wed, 24 Aug 2022 10:44:50 +0800
-In-Reply-To: <c7c4e73f-dd03-4c88-f434-2aa3bd681e39@gmail.com>
-References: <20220819061011.7672-1-nancy.lin@mediatek.com>
- <20220819061011.7672-8-nancy.lin@mediatek.com>
- <44c86ad9-8158-0a8a-ce31-a995c8d10e0b@gmail.com>
- <140b3cd10317a5db781df180ce4efb697cdd641b.camel@mediatek.com>
- <c7c4e73f-dd03-4c88-f434-2aa3bd681e39@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-MIME-Version: 1.0
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-eopbgr60086.outbound.protection.outlook.com [40.107.6.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3FA10E814
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 05:43:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yt1nDft8TYITPx38YJApAJRCNIc8snyhIQZJgs8K5IaVN3hsILFrk2lpkrF/jD0cfbswcg9/Wom1FDCclo0taPBJiGkA/w8eC54rTmn45s/+EeoR8JcLQmMDPJIdJ8qXaFd95UqJ5FqePOb9ayZ992xvFt/Kn/HR55nBjxGP5ZpmC708Bcn8UAJUv3MhS5gUizwpAToFweVbVvIb83tX/2NDKylK6kNvEUWmFCQh9nDuQUfupQEkX53uReHhnda7bpLRYkfxR86jcb6tFMEj3B+7TnkM21jxJDluC57szoQM7Q+vqcg2LxFxEP3WASTdqfAbj0TKI6Lf+bry/G3FSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zV5vpzb/e0q415CGwT/htOv4c6ZPVdeSRUfuOFqlZ0Y=;
+ b=Z1gDq+Lwonprdhwq+i96k97ADp5TRuzegF0+AIxhpYickgH7Jl4JP/jd6z8uFktqqFyBrd/zjRy7oONTRE0t5O6X+UblE4jFikuawLx7RcJpdglpfPae1oarg0tREyEl8kA4wJRrp/ccBGaLD4x4m1JmFFT3ZF2pRmZ44b2v3F1z4xtO1UrPbvintFVE5QzrZ0clEaYE5W0GXqpAY7eqAHxHHi8aktfttPw6zJOmh88Gok/Wksr23VusU6BWyFbTuUn28rSOyMY9PhlPWlvb19Wei7XEitul8FHL0g9OcYjuJzCZxkGkVAORPLK1VF+sHm31YhT5CmRffX6b6VxK5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zV5vpzb/e0q415CGwT/htOv4c6ZPVdeSRUfuOFqlZ0Y=;
+ b=m+6oDscCzGgpeHUcFTYGD4ctOJrnS36u+61l+0sEZ7Aux2341HDvptbw2MXy7YgbK1yU1cu5+f5asdhCFAPZuYX+nlKZ6abdvuQbRcmmU4dqbmRwM9XXd/sXBhhlqV+f9FPAWPbo5kjSX+VZHqbgJ2Sdc3UD+zrvF3QYyblnLcs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from AM4PR0802MB2131.eurprd08.prod.outlook.com
+ (2603:10a6:200:5c::22) by DB6PR0802MB2600.eurprd08.prod.outlook.com
+ (2603:10a6:4:a1::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.21; Wed, 24 Aug
+ 2022 05:43:05 +0000
+Received: from AM4PR0802MB2131.eurprd08.prod.outlook.com
+ ([fe80::2c84:f6b5:8727:b073]) by AM4PR0802MB2131.eurprd08.prod.outlook.com
+ ([fe80::2c84:f6b5:8727:b073%11]) with mapi id 15.20.5546.024; Wed, 24 Aug
+ 2022 05:43:05 +0000
+Message-ID: <ef70b8b7-c1ff-a6b9-077b-83ea48c66c24@wolfvision.net>
+Date: Wed, 24 Aug 2022 07:43:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 0/2] drm/rockchip: dw_hdmi: Add 4k@30 support
+Content-Language: en-US
+To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
+References: <20220822152017.1523679-1-s.hauer@pengutronix.de>
+From: Michael Riesch <michael.riesch@wolfvision.net>
+In-Reply-To: <20220822152017.1523679-1-s.hauer@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MTK: N
+X-ClientProxiedBy: ZR0P278CA0175.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:45::17) To AM4PR0802MB2131.eurprd08.prod.outlook.com
+ (2603:10a6:200:5c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 89b9faa9-a359-4693-7b87-08da8593841c
+X-MS-TrafficTypeDiagnostic: DB6PR0802MB2600:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fhbDhDFElVRJGFHg1ysJSf4+vs2Nd7Y2eI+QJ3Phnkf9jT+5K/kKUWO6bKo1AFbm1lvzwg/DKqvD9TzHi3w3euCE3vWbYizqlU3hO8hnzotSF2WcfLSrq3xD02UjCJ7mPiUiXb0cRAGHN8MfMVAoi5S0sjKl+CtqSZ2/pEjYW/TBHRo73VYWIBv5vIss9CqHc6xAAyqz6BWiiDWaL/u8RihD2yPe00fnbZP+ReXvcYFEN4l8pVcerOdbaclFqQSu/c5FkSLL3e85i8VKYB345dFNaLIdUlY2zkBz4niywIK2WIP09zaOUwTfzy7CayEt5kzPEmtzYeh2wrOhsefYnAluk2+qs4h6l9xDr2A4SgS8HGMHSLBJG2JnX15YePHCm/HE9oWB6sFjn8LsPrFagb3lz32GU/zWEWBTtjY2wopRlZCrJTGEpXHJhRZvVdKDRFVox9BXRDJp8Vq+nu4o2R3rL3uLDiiRYksiNGQ+pcWqZkLlmR1iAqr6IcnWYB7MS6uFTxariYs8htDzWkRUxNp0trk+LSw8u3fB+SrAgcEpfkdO0HuISiL02/JB5RPq5uUN7bvbxg1VVA+qL3aXN+fu2zfaTDDzUzSzJJ29wE/KHtqHbtXfkxXH3Dl/DKtWN914DUOHEfykYX9A4OmoVoOg12kDg+1d3bt0Kkr45mRDBQ7I1N8jWmujYcUN3hVhSAVOt3Pw2iP0ZUN3dLcpvUGSnpWqqztFnAksCAdJ5G2iJEVrWzBRAt/vtaTpKMUWhamnf4jQMS0P42VxgVI3B8Q7scR3yFTOBBdvGplXJBA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM4PR0802MB2131.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(39840400004)(136003)(346002)(396003)(366004)(52116002)(83380400001)(38100700002)(66476007)(36756003)(8676002)(4326008)(66946007)(66556008)(8936002)(6506007)(4744005)(6486002)(5660300002)(44832011)(31686004)(478600001)(316002)(6512007)(54906003)(31696002)(86362001)(53546011)(2616005)(186003)(2906002)(41300700001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0ZNRHhsV2l4cjgyR0FpZXZ5WVJhNzJPUDBoSEVpYk5TZk1YYzFXbkVldkhi?=
+ =?utf-8?B?QUlPaUgxVitiMEVUVWViZXllK29HRk9MMXY2NStRdG5Xd3I4Rk9BUkVNNlc5?=
+ =?utf-8?B?NHB4bGRzemV0VlBqeG9CNUxkbmlhWWIyWDZuOUpiKzl2WktGNE5EUkRteHMw?=
+ =?utf-8?B?M0FyM0pEWHRxNUdEaVdEanJKR3U0YTdUNlQzMGNVK0tEK1lSSXpUOFJSNytI?=
+ =?utf-8?B?YXNVRXN3cGJOQnNCR3JZandoVUVaYTdKTStYYUdtYkx6UVgvc2YrSXUzeVAy?=
+ =?utf-8?B?d29DaWFqMzlmeWcvUU5GVkdpSWVRbWI4c2dlNWFUd0wwRzR0L1NUOEJkUkV6?=
+ =?utf-8?B?MjN2Nko4ai9JOXVKcUhTcnlENXFudXo2VXFrM3JiajRuVlZqSGtES3VUK1pt?=
+ =?utf-8?B?dXlFb0g5SWNxejdtbFAzOFNURU5vSHNNZnBRWGdlVm84MURKQmpMZHR1aEhn?=
+ =?utf-8?B?dVptdXlLUGxRVVVWWHBrcDVpYVR0RlJFZFJZbDYrN3M4Sm13Qy9UeFhHYXhh?=
+ =?utf-8?B?YnVtaTlqc1NWVWRBR0ZQN21UQU5KdCtwaVA0S0VEOGNXUGkzeFU3NnVOUVht?=
+ =?utf-8?B?NmZmNlJjMW5ZRnVTRHBsekd6L3Jna2l0ZnNIODg1ZWNEaUdvcnB0am8rS3Fu?=
+ =?utf-8?B?K2NJWEp1T2syVmZaZUtDcHFXUUtMeVVXWldqTHVMK29SOUprT0pHV2pUU3Ny?=
+ =?utf-8?B?cTlFZ0s4QUtKS2lYbkhINEpZY2NTdzB2bTkvNnhmYW44Tk5zWXA5TGNEMm9N?=
+ =?utf-8?B?eEIwYVpvdUUyL2xFWmo4NzQwMHhnYnlQdEYydkpJUk1TZDJSa0x2TnUwQkpR?=
+ =?utf-8?B?TFZxUTQrOFIrcW52NUdqdmlVWFhVQTliaEtienJkcnU2Z0ZPSUJRNWZXUjRL?=
+ =?utf-8?B?a3VYcUhxQVdzaWlmYzl5SVJTT0s2T2N0ZkhkelAwRTN6dFZsNmVsYk9QRGh0?=
+ =?utf-8?B?S1gxNzhNM2ZycmtFNStjVjdtelo5dFpDTk5VRFZsZWwwQXBtSSswbmxNT3Y1?=
+ =?utf-8?B?K2VsWkI0dUF2cEErTDVNaFVmdXEzK2pNOHMwcWNLUFRiNm5YRXloVHhCcVRq?=
+ =?utf-8?B?eDlaRVZURG9PQXVWVWZmZkF1TUJrSGdTaDNKaE9RWWlJWmJpcDlWTVlpb3Jj?=
+ =?utf-8?B?V1NZY2VPYkFtUkRrb1NWdE1mK2ZyTmZadTJPSTVqWDZRNSs1SmZYaEpDaGd3?=
+ =?utf-8?B?ZHBJajUxUjdGRmZwakFkV2FqN1VUQ1IxaWIyMTAwb0VCclNrekR2VURkN3h3?=
+ =?utf-8?B?QzVNRWVVbGNoUTV2Y0QwT0V1TG50NlRyVGNYcitFSjJrQmNOTDFRQ2lFWStR?=
+ =?utf-8?B?U29RdEs1a1V4VHhxNGpRejhhYWZkK0VXcEZRY253eXNyeXJVakZxY2tnOUdz?=
+ =?utf-8?B?b2p4cW5RSDdtMWZ0aWh4OU9rYTc4SjRnQmk0ZlZua2QrWnY0bDNLdklIUXpH?=
+ =?utf-8?B?WG9uRVA0aE9lbEN1R0hPS0tUaDlYMjQ5Y0ZCaGQ4MGhENm5NeFZJTlRWNHVR?=
+ =?utf-8?B?UjlIOFRvcGQ1TCtQdzJsZGFudlJKRzdIS2tQSDE3b2VOMHQveDhaNXd1ZXlO?=
+ =?utf-8?B?YVJTL0VFN0habjA2WVUwdTBmQVRRNEk3M3kxMVV6T3NtNU9aaTloYWFVWkty?=
+ =?utf-8?B?ZXlOL2JycWZMOWJkQ0Q2alZwZzdNT0I5YjNQQ0NrR0JaeVJyeVF5M1haZDlS?=
+ =?utf-8?B?alJLT083d0Nad2x1VlUySlo2UldPYzVxWmZXZnQ3MlhIMlNCYlRDck81b1dx?=
+ =?utf-8?B?ZXZnNFNUa3BaSTJFYUFWdWV6UnV6M3FCSFlCYkdBTk40R2h5MlQ3UEpHa3dB?=
+ =?utf-8?B?VjZxb2JGcWxBdGV1a01ackgyODJZdkpEWDlHODY1Vm1TMEw4M2JJdHZORDBv?=
+ =?utf-8?B?ZkZPbmZueEdTVG1mMU44OVQ1TTltL0R0bDVaTzRUN0VQMENyVHFId3o1SHh2?=
+ =?utf-8?B?SHFVelNhanFSMEhQQlBFQ2NVSGZ3VE1OcWdMS3l2eHBNUGM5bjhWVUU2YldZ?=
+ =?utf-8?B?a1I4WEI4aXl1VW9wTWk5NXU4ZDdkbzliYi81czFTQUxNeUJ1dWloM2Z5TWVU?=
+ =?utf-8?B?ZVB2bVBkamg1UFRsYmcyZUU2cEZ6eksyOUhPZHNmNFBTaUFTMDJZKzYvSG94?=
+ =?utf-8?B?RjU1Y1JIR3VaelY1VlBndXlKbnNRL25vYmxCNkdXNDZzc2REZlgwZEhOTEQ5?=
+ =?utf-8?B?Q2ZsY0NVSmxQTG5YUnpZQmtvZXlKVGhjUUlQRGtrYnFyaEtndEkzL2ZDNXhM?=
+ =?utf-8?Q?Xp8KrpQurUpu9S5LjNEQoZKU8uuCuDnvN5GkX2nvWk=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89b9faa9-a359-4693-7b87-08da8593841c
+X-MS-Exchange-CrossTenant-AuthSource: AM4PR0802MB2131.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2022 05:43:05.0898 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h2aaVpNFEEq11EBbt2/201gS4n2vjkoNVXuLqi8Mqc5RVzAryW2dLcbqrOs09uMbMvj4vHvNUlPNj8xfkSu4Zoq9Y3HTvqyFA2ZGTu7hf0g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0802MB2600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,297 +127,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan
- Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Sandy Huang <hjc@rock-chips.com>, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthias,
+Hi Sascha,
 
-Thanks for your comment.
+Can you Cc: linux-rockchip list to get more feedback?
 
-On Tue, 2022-08-23 at 14:08 +0200, Matthias Brugger wrote:
+On 8/22/22 17:20, Sascha Hauer wrote:
+> This series adds support for 4k@30 to the rockchip HDMI controller. This
+> has been tested on a rk3568 rock3a board. It should be possible to add
+> 4k@60 support the same way, but it doesn't work for me, so let's add
+> 4k@30 as a first step.
 > 
-> On 23/08/2022 13:30, Nancy.Lin wrote:
-> > Hi Matthias,
-> > 
-> > Thanks for the review.
-> > 
-> > On Tue, 2022-08-23 at 12:20 +0200, Matthias Brugger wrote:
-> > > 
-> > > On 19/08/2022 08:10, Nancy.Lin wrote:
-> > > > Add mmsys for support 64 reset bits. It is a preparation for
-> > > > MT8195
-> > > > vdosys1 HW reset. MT8195 vdosys1 has more than 32 reset bits.
-> > > > 
-> > > > 1. Add the number of reset bits in mmsys private data
-> > > > 2. move the whole "reset register code section" behind the
-> > > > "get mmsys->data" code section for getting the num_resets in
-> > > > mmsys-
-> > > > > data.
-> > > > 
-> > > > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > > > Reviewed-by: AngeloGioacchino Del Regno <
-> > > > angelogioacchino.delregno@collabora.com>
-> > > > Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> > > > Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > > > ---
-> > > >    drivers/soc/mediatek/mtk-mmsys.c | 40 +++++++++++++++++++++-
-> > > > ---
-> > > > -------
-> > > >    drivers/soc/mediatek/mtk-mmsys.h |  1 +
-> > > >    2 files changed, 27 insertions(+), 14 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
-> > > > b/drivers/soc/mediatek/mtk-mmsys.c
-> > > > index 999be064103b..20ae751ad8a7 100644
-> > > > --- a/drivers/soc/mediatek/mtk-mmsys.c
-> > > > +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> > > > @@ -20,6 +20,8 @@
-> > > >    #include "mt8195-mmsys.h"
-> > > >    #include "mt8365-mmsys.h"
-> > > >    
-> > > > +#define MMSYS_SW_RESET_PER_REG 32
-> > > > +
-> > > >    static const struct mtk_mmsys_driver_data
-> > > > mt2701_mmsys_driver_data = {
-> > > >    	.clk_driver = "clk-mt2701-mm",
-> > > >    	.routes = mmsys_default_routing_table,
-> > > > @@ -86,6 +88,7 @@ static const struct mtk_mmsys_driver_data
-> > > > mt8173_mmsys_driver_data = {
-> > > >    	.routes = mmsys_default_routing_table,
-> > > >    	.num_routes = ARRAY_SIZE(mmsys_default_routing_table),
-> > > >    	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
-> > > > +	.num_resets = 32,
-> > > >    };
-> > > >    
-> > > >    static const struct mtk_mmsys_match_data
-> > > > mt8173_mmsys_match_data
-> > > > = {
-> > > > @@ -100,6 +103,7 @@ static const struct mtk_mmsys_driver_data
-> > > > mt8183_mmsys_driver_data = {
-> > > >    	.routes = mmsys_mt8183_routing_table,
-> > > >    	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
-> > > >    	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
-> > > > +	.num_resets = 32,
-> > > >    };
-> > > >    
-> > > >    static const struct mtk_mmsys_match_data
-> > > > mt8183_mmsys_match_data
-> > > > = {
-> > > > @@ -114,6 +118,7 @@ static const struct mtk_mmsys_driver_data
-> > > > mt8186_mmsys_driver_data = {
-> > > >    	.routes = mmsys_mt8186_routing_table,
-> > > >    	.num_routes = ARRAY_SIZE(mmsys_mt8186_routing_table),
-> > > >    	.sw0_rst_offset = MT8186_MMSYS_SW0_RST_B,
-> > > > +	.num_resets = 32,
-> > > >    };
-> > > >    
-> > > >    static const struct mtk_mmsys_match_data
-> > > > mt8186_mmsys_match_data
-> > > > = {
-> > > > @@ -128,6 +133,7 @@ static const struct mtk_mmsys_driver_data
-> > > > mt8192_mmsys_driver_data = {
-> > > >    	.routes = mmsys_mt8192_routing_table,
-> > > >    	.num_routes = ARRAY_SIZE(mmsys_mt8192_routing_table),
-> > > >    	.sw0_rst_offset = MT8186_MMSYS_SW0_RST_B,
-> > > > +	.num_resets = 32,
-> > > 
-> > > You didn't reply to Nicolas regarding the reset numbers. I
-> > > actually
-> > > agree with
-> > > him that we will need the num_resets declared for all devices.
-> > > Why do
-> > > you think
-> > > this is not the case?
-> > > 
-> > > Regards,
-> > > Matthias
-> > > 
-> > 
-> > Sorry, I lost Nicolas's email.
-> > 
-> > I checked with the mmsys git log with reset controller function.
-> > 
-> > 1. Enric add mmsys reset controller function in [1]/[2].
-> >     => in mtk_mmsys_reset_update(), all mmsys reset offset is
-> > MMSYS_SW0_RST_B (0x140).
-> > 
-> > 2. After Enric's patch, Rex add sw0_rst_offset in mmsys driver data
-> > in
-> > [3].
-> > 
-> > So, I think sw0_rst_offset is not zero. Instead of only add
-> > num_resets
-> > but also need to add sw0_rst_offset for all mmsys. What do you
-> > think ?
-> > 
+> Sascha
 > 
-> Good point. It seems we have a bug in the driver. Either all SoCs
-> have the 
-> reset, but it's broken since
-> 62dc30150c06 ("soc: mediatek: mmsys: add sw0_rst_offset in mmsys
-> driver data")
-> or we are adding a reset controller independently if the silicon has
-> one, which 
-> would be an error in:
-> f27ef2856343 ("soc: mediatek: mmsys: Add reset controller support")
+> Sascha Hauer (2):
+>   drm/rockchip: dw_hdmi: relax mode_valid hook
+>   drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
+
+Great stuff, thanks!
+
+On a Radxa ROCK3 Model A with a HP 27f 4k monitor
+
+Tested-by: Michael Riesch <michael.riesch@wolfvision.net>
+
+Best regards,
+Michael
+
 > 
-> We have to find that out.
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> Regards,
-> Matthias
-
-
-In [2], I think the first revision of Enric's reset controller is added
-for 8173 and 8183, not for all mmsys device.
-    =>[v3,4/7] arm64: dts: mt8173: Add the mmsys reset bit to reset the
-dsi0
-    =>[v3,5/7] arm64: dts: mt8183: Add the mmsys reset bit to reset the
-dsi0
-
-In [3], Rex only add sw0_rst_offset in 8173 and 8183 mmsys driver data.
-> 
-
-For other SoCs, like mt2701,mt2712..., these SoCs even don't define
-mmsys hw reset bit[4]. So I think only set the num_resets to 32 or 64
-to those mmsys devices who really need the reset control, others set to
-0(same as my v26 patch).
-
-
-[4]mt2701-resets.h 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/dt-bindings/reset/mt2701-resets.h?id=62dc30150c06774a8122c52aedd0eddaceaf5940
-
-Regards,
-Nancy
-
-
-> > [1]
-> > 
-https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/soc/mediatek/mtk-mmsys.c?id=f27ef2856343e2ddc392975d7b15120442e4d7b7__;!!CTRNKA9wMg0ARbw!3cWAYlD1mrWRmNZy0zoJs8MNiD3s7K9PteJI9cGEvu_qp3VShfqxsBTb_fKynszs$
-> >  
-> > [2]
-> > 
-> > 
-https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/cover/20210825102632.601614-1-enric.balletbo@collabora.com/__;!!CTRNKA9wMg0ARbw!3cWAYlD1mrWRmNZy0zoJs8MNiD3s7K9PteJI9cGEvu_qp3VShfqxsBTb_cH-3nM8$
-> >  
-> > [3]
-> > 
-> > 
-https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/soc/mediatek/mtk-mmsys.c?id=62dc30150c06774a8122c52aedd0eddaceaf5940__;!!CTRNKA9wMg0ARbw!3cWAYlD1mrWRmNZy0zoJs8MNiD3s7K9PteJI9cGEvu_qp3VShfqxsBTb_VXEsbNa$
-> >  
-> > 
-> > Regards,
-> > Nancy
-> > > 
-> > > >    };
-> > > >    
-> > > >    static const struct mtk_mmsys_match_data
-> > > > mt8192_mmsys_match_data
-> > > > = {
-> > > > @@ -288,13 +294,19 @@ static int mtk_mmsys_reset_update(struct
-> > > > reset_controller_dev *rcdev, unsigned l
-> > > >    {
-> > > >    	struct mtk_mmsys *mmsys = container_of(rcdev, struct
-> > > > mtk_mmsys,
-> > > > rcdev);
-> > > >    	unsigned long flags;
-> > > > +	u32 offset;
-> > > > +	u32 reg;
-> > > > +
-> > > > +	offset = (id / MMSYS_SW_RESET_PER_REG) * sizeof(u32);
-> > > > +	id = id % MMSYS_SW_RESET_PER_REG;
-> > > > +	reg = mmsys->data->sw0_rst_offset + offset;
-> > > >    
-> > > >    	spin_lock_irqsave(&mmsys->lock, flags);
-> > > >    
-> > > >    	if (assert)
-> > > > -		mtk_mmsys_update_bits(mmsys, mmsys->data-
-> > > > > sw0_rst_offset, BIT(id), 0, NULL);
-> > > > 
-> > > > +		mtk_mmsys_update_bits(mmsys, reg, BIT(id), 0,
-> > > > NULL);
-> > > >    	else
-> > > > -		mtk_mmsys_update_bits(mmsys, mmsys->data-
-> > > > > sw0_rst_offset, BIT(id), BIT(id), NULL);
-> > > > 
-> > > > +		mtk_mmsys_update_bits(mmsys, reg, BIT(id),
-> > > > BIT(id),
-> > > > NULL);
-> > > >    
-> > > >    	spin_unlock_irqrestore(&mmsys->lock, flags);
-> > > >    
-> > > > @@ -351,18 +363,6 @@ static int mtk_mmsys_probe(struct
-> > > > platform_device *pdev)
-> > > >    		return ret;
-> > > >    	}
-> > > >    
-> > > > -	spin_lock_init(&mmsys->lock);
-> > > > -
-> > > > -	mmsys->rcdev.owner = THIS_MODULE;
-> > > > -	mmsys->rcdev.nr_resets = 32;
-> > > > -	mmsys->rcdev.ops = &mtk_mmsys_reset_ops;
-> > > > -	mmsys->rcdev.of_node = pdev->dev.of_node;
-> > > > -	ret = devm_reset_controller_register(&pdev->dev,
-> > > > &mmsys-
-> > > > > rcdev);
-> > > > 
-> > > > -	if (ret) {
-> > > > -		dev_err(&pdev->dev, "Couldn't register mmsys
-> > > > reset
-> > > > controller: %d\n", ret);
-> > > > -		return ret;
-> > > > -	}
-> > > > -
-> > > >    	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > > >    	if (!res) {
-> > > >    		dev_err(dev, "Couldn't get mmsys resource\n");
-> > > > @@ -384,6 +384,18 @@ static int mtk_mmsys_probe(struct
-> > > > platform_device *pdev)
-> > > >    		mmsys->data = match_data->drv_data[0];
-> > > >    	}
-> > > >    
-> > > > +	spin_lock_init(&mmsys->lock);
-> > > > +
-> > > > +	mmsys->rcdev.owner = THIS_MODULE;
-> > > > +	mmsys->rcdev.nr_resets = mmsys->data->num_resets;
-> > > > +	mmsys->rcdev.ops = &mtk_mmsys_reset_ops;
-> > > > +	mmsys->rcdev.of_node = pdev->dev.of_node;
-> > > > +	ret = devm_reset_controller_register(&pdev->dev,
-> > > > &mmsys-
-> > > > > rcdev);
-> > > > 
-> > > > +	if (ret) {
-> > > > +		dev_err(&pdev->dev, "Couldn't register mmsys
-> > > > reset
-> > > > controller: %d\n", ret);
-> > > > +		return ret;
-> > > > +	}
-> > > > +
-> > > >    #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> > > >    	ret = cmdq_dev_get_client_reg(dev, &mmsys->cmdq_base,
-> > > > 0);
-> > > >    	if (ret)
-> > > > diff --git a/drivers/soc/mediatek/mtk-mmsys.h
-> > > > b/drivers/soc/mediatek/mtk-mmsys.h
-> > > > index f01ba206481d..20a271b80b3b 100644
-> > > > --- a/drivers/soc/mediatek/mtk-mmsys.h
-> > > > +++ b/drivers/soc/mediatek/mtk-mmsys.h
-> > > > @@ -92,6 +92,7 @@ struct mtk_mmsys_driver_data {
-> > > >    	const struct mtk_mmsys_routes *routes;
-> > > >    	const unsigned int num_routes;
-> > > >    	const u16 sw0_rst_offset;
-> > > > +	const u32 num_resets;
-> > > >    };
-> > > >    
-> > > >    struct mtk_mmsys_match_data {
-> > > 
-> > > 
-
