@@ -1,77 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80175A0A9F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 09:47:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F0A5A0CAA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 11:32:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04A6F10E08D;
-	Thu, 25 Aug 2022 07:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85E4D10F00D;
+	Thu, 25 Aug 2022 09:32:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB6710E08D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 07:47:24 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 054785C010B;
- Thu, 25 Aug 2022 03:47:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 25 Aug 2022 03:47:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1661413641; x=
- 1661500041; bh=8JWOzf32GRpIDkXSkVqxDewn7LWG2w+DtZqaLHYL6Mk=; b=l
- 8JoX4ibDUsCMUTjE6hXvNSd1F7ZiCtmby1NEHX7d/jgCiGmr/IWPftx9eNYUE4Hn
- yvspo6arUJA7r0pdnbxa1R4GAH+sDVkicesrpWjGGzh7l4B93c4iJo0OzpNd/5Jm
- 2txn5aUucAORn9ebKbM1/CsMN1YQd1kSxKpkkXdw99QkPIIv6lWLxO2Asxj4GbT8
- uKC4tpTd6Sx/IXwoQnpUvg4LHpWvCoKLzYfVxHXMEUUDuNbYRIJsQPlegj3IgcFc
- DETjEfaB6odlJavHczRT5WcHy7ngWd6VspY8g1Lh4x969+cK7XL2GP4EB4vZ9kHK
- mpuzZujTx2mG27wuDOLDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661413641; x=
- 1661500041; bh=8JWOzf32GRpIDkXSkVqxDewn7LWG2w+DtZqaLHYL6Mk=; b=V
- R2pTT4dZgDH8Q1MRInhpVviTZjn4g9TgZycqA+1zRkO1Jh71GN58mkPS8Pzqfjdv
- +I+v4/2wxQH9jpOtjVSdP5hyfTTQXxjDdA7wljSFnU79v7i/fDSbUGrt4FvV3M3T
- d4dLWikBGAolNGJtLPrqaB9b8NgzQijTFMvEIPAcCmwEX6gf3PmYvHwxJ29u+JVW
- h4RQF3x+QFXVxmoI8BibwpB54hII9hGkCibbf0IhufaziKkHQOY1+5RT0MTYu9kg
- EF4KVaRV1F04EGFnFdY7nMpsDXgttG4oayOVQ8ouLpPMLOV2rGiy35ZwxASGTjGY
- ZRVD4869o/8uwTe0naqLQ==
-X-ME-Sender: <xms:CCkHYzvEdLzsaXO0HxiBM8r_pJpTHn1EjebxtqcA77D3scowPHnFpQ>
- <xme:CCkHY0erXn41gXp5pQH6jslUWlDsD8hZwET9BenOClioHcbNpx5iccl4YcTN4-aoT
- SExkM0fzO5PkldXkhc>
-X-ME-Received: <xmr:CCkHY2wPBUsGZZQk39pjuqgciwVqzcAskmg5XbDHHQd9keJDzQ2JWhYcHA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejvddguddvgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhggtgfgse
- htkeertdertdejnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgv
- segtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepueeigefghfffffeifeehud
- eiuedvteegueefffevgfetvdffheehkeffvedufeeinecuvehluhhsthgvrhfuihiivgep
- tdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:CCkHYyMFdqGzik2BP4KXKdcvLiPXv1oaUVRCbVrbMqzQuenFuI_abQ>
- <xmx:CCkHYz9mZRouIaUGAWAcI2inU326NYN8F6x6XY8BEUla9oYptTcaZw>
- <xmx:CCkHYyW_A7ztE_YfIAjNuQSbLGpRyMjMUplCAj76vkL5Xk_C2LokPQ>
- <xmx:CCkHYzyuV3lhVSvjaESp23lDfoY1CB9OwtRGunLT9LEyzcRmWzHRbA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Aug 2022 03:47:19 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: airlied@linux.ie, daniel@ffwll.ch, tzimmermann@suse.de, dakr@redhat.com,
- mripard@kernel.org
-Subject: Re: [PATCH drm-misc-next v3 0/4] Fixes for vc4 hotplug rework
-Date: Thu, 25 Aug 2022 09:47:14 +0200
-Message-Id: <166141363051.357827.14816951155409708010.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220824161327.330627-1-dakr@redhat.com>
-References: <20220824161327.330627-1-dakr@redhat.com>
+X-Greylist: delayed 9199 seconds by postgrey-1.36 at gabe;
+ Thu, 25 Aug 2022 09:32:24 UTC
+Received: from cloudserver094114.home.pl (cloudserver094114.home.pl
+ [79.96.170.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4DD410F00D;
+ Thu, 25 Aug 2022 09:32:24 +0000 (UTC)
+Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
+ by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP
+ (IdeaSmtpServer 5.0.0)
+ id caaf97ed744133c6; Wed, 24 Aug 2022 19:32:23 +0200
+Received: from kreacher.localnet (unknown [213.134.169.54])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by v370.home.net.pl (Postfix) with ESMTPSA id 075BF66D192;
+ Wed, 24 Aug 2022 19:32:21 +0200 (CEST)
+From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH] drm: amd: amdgpu: ACPI: Add comment about
+ ACPI_FADT_LOW_POWER_S0
+Date: Wed, 24 Aug 2022 19:32:21 +0200
+Message-ID: <1831630.tdWV9SEqCh@kreacher>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
+X-CLIENT-IP: 213.134.169.54
+X-CLIENT-HOSTNAME: 213.134.169.54
+X-VADE-SPAMSTATE: clean
+X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgudduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpeevtdehuddvteduffejgeegueehheekfedtgeevkeeuffffudeffefgheevkeelgfenucffohhmrghinhepuhgvfhhirdhorhhgnecukfhppedvudefrddufeegrdduieelrdehgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvudefrddufeegrdduieelrdehgedphhgvlhhopehkrhgvrggthhgvrhdrlhhotggrlhhnvghtpdhmrghilhhfrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqedpnhgspghrtghpthhtohepledprhgtphhtthhopegrlhgvgigrnhguvghrrdguvghutghhvghrsegrmhgurdgtohhmpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhrtghpthhtohepighinhhhuhhirdfrrghnsegrmhgurdgtohhmpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfhhrvggvuggvshhk
+ thhophdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrggtphhisehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqphhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrhhiohdrlhhimhhonhgtihgvlhhlohesrghmugdrtghomh
+X-DCC--Metrics: v370.home.net.pl 1024; Body=9 Fuz1=9 Fuz2=9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,24 +52,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Linux PM <linux-pm@vger.kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Linux ACPI <linux-acpi@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 24 Aug 2022 18:13:23 +0200, Danilo Krummrich wrote:
-> I've found a few potential issues left after the hotplug rework.
-> 
-> In vc4_hdmi.c we're missing two mutex_unlock() calls when the device is
-> unplugged.
-> 
-> vc4_crtc and vc4_plane seem to miss some drm_dev_enter()/drm_dev_exit() calls
-> to protect against resource access after the device/driver is unbound, but the
-> DRM potentially isn't freed yet and userspace can still call into the driver.
-> 
-> [...]
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Applied to drm/drm-misc (drm-misc-next).
+According to the ACPI specification [1], the ACPI_FADT_LOW_POWER_S0
+flag merely means that it is better to use low-power S0 idle on the
+given platform than S3 (provided that the latter is supported) and it
+doesn't preclude using either of them (which of them will be used
+depends on the choices made by user space).
 
-Thanks!
-Maxime
+However, on some systems that flag is used to indicate whether or not
+to enable special firmware mechanics allowing the system to save more
+energy when suspended to idle.  If that flag is unset, doing so is
+generally risky.
+
+Accordingly, add a comment to explain the ACPI_FADT_LOW_POWER_S0 check
+in amdgpu_acpi_is_s0ix_active(), the purpose of which is otherwise
+somewhat unclear.
+
+Link: https://uefi.org/specs/ACPI/6.4/05_ACPI_Software_Programming_Model/ACPI_Software_Programming_Model.html#fixed-acpi-description-table-fadt # [1]
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c |    6 ++++++
+ 1 file changed, 6 insertions(+)
+
+Index: linux-pm/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+===================================================================
+--- linux-pm.orig/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ linux-pm/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -1066,6 +1066,12 @@ bool amdgpu_acpi_is_s0ix_active(struct a
+ 	    (pm_suspend_target_state != PM_SUSPEND_TO_IDLE))
+ 		return false;
+ 
++	/*
++	 * If ACPI_FADT_LOW_POWER_S0 is not set in the FADT, it is generally
++	 * risky to do any special firmware-related preparations for entering
++	 * S0ix even though the system is suspending to idle, so return false
++	 * in that case.
++	 */
+ 	if (!(acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0)) {
+ 		dev_warn_once(adev->dev,
+ 			      "Power consumption will be higher as BIOS has not been configured for suspend-to-idle.\n"
+
+
+
