@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FDB59F470
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 09:34:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 843FF59F478
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 09:39:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B61610E8A3;
-	Wed, 24 Aug 2022 07:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 194B010E4B2;
+	Wed, 24 Aug 2022 07:38:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 348 seconds by postgrey-1.36 at gabe;
- Wed, 24 Aug 2022 07:33:29 UTC
 Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79D6D1125CB;
- Wed, 24 Aug 2022 07:33:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1047210EA21;
+ Wed, 24 Aug 2022 07:38:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 97508FB04;
- Wed, 24 Aug 2022 09:27:38 +0200 (CEST)
+ by honk.sigxcpu.org (Postfix) with ESMTP id 78FE9FB03;
+ Wed, 24 Aug 2022 09:28:33 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
  by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6nd4Ts3eXGNI; Wed, 24 Aug 2022 09:27:37 +0200 (CEST)
-Date: Wed, 24 Aug 2022 09:27:35 +0200
+ with ESMTP id xH3tz5zPO1qU; Wed, 24 Aug 2022 09:28:32 +0200 (CEST)
+Date: Wed, 24 Aug 2022 09:28:31 +0200
 From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
 To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH 1/2] drm/etnaviv: move idle mapping reaping into separate
- function
-Message-ID: <YwXS570kashCD518@qwark.sigxcpu.org>
+Subject: Re: [PATCH 2/2] drm/etnaviv: reap idle mapping if it doesn't match
+ the softpin address
+Message-ID: <YwXTH6c/EH5Nc3HX@qwark.sigxcpu.org>
 References: <20220714103143.1704573-1-l.stach@pengutronix.de>
+ <20220714103143.1704573-2-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220714103143.1704573-1-l.stach@pengutronix.de>
+In-Reply-To: <20220714103143.1704573-2-l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,78 +51,42 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
-On Thu, Jul 14, 2022 at 12:31:42PM +0200, Lucas Stach wrote:
-> The same logic is already used in two different places and now
-> it will also be needed outside of the compilation unit, so split
-> it into a separate function.
+On Thu, Jul 14, 2022 at 12:31:43PM +0200, Lucas Stach wrote:
+> When a idle BO, which is held open by another process, gets freed by
+> userspace and subsequently referenced again by e.g. importing it again,
+> userspace may assign a different softpin VA than the last time around.
+> As the kernel GEM object still exists, we likely have a idle mapping
+> with the old VA still cached, if it hasn't been reaped in the meantime.
+> 
+> As the context matches, we then simply try to resurrect this mapping by
+> increasing the refcount. As the VA in this mapping does not match the
+> new softpin address, we consequently fail the otherwise valid submit.
+> Instead of failing, reap the idle mapping.
 > 
 > Cc: stable@vger.kernel.org # 5.19
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 23 +++++++++++++++--------
->  drivers/gpu/drm/etnaviv/etnaviv_mmu.h |  1 +
->  2 files changed, 16 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> index dc1aa738c4f1..55479cb8b1ac 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> @@ -135,6 +135,19 @@ static void etnaviv_iommu_remove_mapping(struct etnaviv_iommu_context *context,
->  	drm_mm_remove_node(&mapping->vram_node);
->  }
->  
-> +void etnaviv_iommu_reap_mapping(struct etnaviv_vram_mapping *mapping)
-> +{
-> +	struct etnaviv_iommu_context *context = mapping->context;
-> +
-> +	lockdep_assert_held(&context->lock);
-> +	WARN_ON(mapping->use);
-> +
-> +	etnaviv_iommu_remove_mapping(context, mapping);
-> +	etnaviv_iommu_context_put(mapping->context);
-> +	mapping->context = NULL;
-> +	list_del_init(&mapping->mmu_node);
-> +}
-> +
->  static int etnaviv_iommu_find_iova(struct etnaviv_iommu_context *context,
->  				   struct drm_mm_node *node, size_t size)
->  {
-> @@ -202,10 +215,7 @@ static int etnaviv_iommu_find_iova(struct etnaviv_iommu_context *context,
->  		 * this mapping.
->  		 */
->  		list_for_each_entry_safe(m, n, &list, scan_node) {
-> -			etnaviv_iommu_remove_mapping(context, m);
-> -			etnaviv_iommu_context_put(m->context);
-> -			m->context = NULL;
-> -			list_del_init(&m->mmu_node);
-> +			etnaviv_iommu_reap_mapping(m);
->  			list_del_init(&m->scan_node);
->  		}
->  
-> @@ -257,10 +267,7 @@ static int etnaviv_iommu_insert_exact(struct etnaviv_iommu_context *context,
->  	}
->  
->  	list_for_each_entry_safe(m, n, &scan_list, scan_node) {
-> -		etnaviv_iommu_remove_mapping(context, m);
-> -		etnaviv_iommu_context_put(m->context);
-> -		m->context = NULL;
-> -		list_del_init(&m->mmu_node);
-> +		etnaviv_iommu_reap_mapping(m);
->  		list_del_init(&m->scan_node);
->  	}
->  
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h b/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
-> index e4a0b7d09c2e..c01a147f0dfd 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
-> @@ -91,6 +91,7 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
->  	struct etnaviv_vram_mapping *mapping, u64 va);
->  void etnaviv_iommu_unmap_gem(struct etnaviv_iommu_context *context,
->  	struct etnaviv_vram_mapping *mapping);
-> +void etnaviv_iommu_reap_mapping(struct etnaviv_vram_mapping *mapping);
->  
->  int etnaviv_iommu_get_suballoc_va(struct etnaviv_iommu_context *ctx,
->  				  struct etnaviv_vram_mapping *mapping,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> index cc386f8a7116..5cf13e52f7c9 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -258,7 +258,12 @@ struct etnaviv_vram_mapping *etnaviv_gem_mapping_get(
+>  		if (mapping->use == 0) {
+>  			mutex_lock(&mmu_context->lock);
+>  			if (mapping->context == mmu_context)
+> -				mapping->use += 1;
+> +				if (va && mapping->iova != va) {
+> +					etnaviv_iommu_reap_mapping(mapping);
+> +					mapping = NULL;
+> +				} else {
+> +					mapping->use += 1;
+> +				}
+>  			else
+>  				mapping = NULL;
+>  			mutex_unlock(&mmu_context->lock);
 
 Reviewed-by: Guido Günther <agx@sigxcpu.org>
 
