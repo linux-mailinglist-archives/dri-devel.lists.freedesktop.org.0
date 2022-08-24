@@ -1,78 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06D459FEB4
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:46:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA7C59FEBF
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:48:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37C71B798C;
-	Wed, 24 Aug 2022 15:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB27B7E7C;
+	Wed, 24 Aug 2022 15:48:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3B8BB78F7
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 15:45:49 +0000 (UTC)
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7D8B7D97
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 15:48:27 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id BD1B32B060D6;
- Wed, 24 Aug 2022 11:45:46 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 24 Aug 2022 11:45:48 -0400
+ by mailout.west.internal (Postfix) with ESMTP id CEE8C32009C8;
+ Wed, 24 Aug 2022 11:48:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Wed, 24 Aug 2022 11:48:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1661355946; x=1661363146; bh=k0jUUwZlCp
- Fb8RacICxbFXp0XcVVSWVRMQYkg+IsL/w=; b=VsZuzuWdjynggiS089ISUrX+XF
- H2BRJSxCBnBl3CsIA/QQl6XyiPxYXEfJYDVkH8/TAg+/TsZe1jPkooNoJ83yeDKd
- wRQBdZMq+S+bTTTLPcNRVTGL+MBWRp/ueuJ0Ho0ZfZv1c6/HlOwwpuGL8Kfe9XM8
- CTzUtb7o/5LsIiWM4LJDLDOz30et9eWxW0pxZGZJruPuDw4uugRPT1L9w7w9n+P5
- wxEqFw8WZNGMkyxBzthn64/wOHoKdoowcqtim7edifBOtwSHRhWg+Iu8XwSG6TY8
- eb3k1LgRZ9QuHbUpIbIHfABQkHgNCBOo3KE01SYM7MsWkprPEtBIScI9pgdg==
+ :subject:to:to; s=fm3; t=1661356106; x=1661442506; bh=KiIFMGOdSQ
+ RAgyuh6d1iUT5BtacW3klnbBIVwJD0Oqs=; b=kvnRV1eddW5m5h4fMiulMBz1dv
+ xnNqkypAWWx0UFAeELpiH5uG7JTd1l4D5DBqX3akRyi7ve4rwihHV82zctXkrcty
+ ZhKjSde99R6jb5JW2titRfm1779ohFweEFVBMj5cn35ZlfzA6z18ECGvEZdl4XwJ
+ LbejOZG6PwvXCYcGMG5+4ik3naJ9iyIEJFEce6YdyVVXzrtWurgBhPH/FoAeLeY+
+ jDd8Ik0V72ZPMsl7MRfuWNOs2aK/qJSlz5ft/OOjFozTSoF5GOfwsheLJp60AEdd
+ rTXaaq1JyF4HZaImbW/DO7wfP9URJROrIz/a4oLfoRwPovw7K+F97LnafshA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1661355946; x=1661363146; bh=k0jUUwZlCpFb8RacICxbFXp0XcVV
- SWVRMQYkg+IsL/w=; b=0Imn5JCOC0WiGzpT0k91VjTy8yvPpQT21DKTMRYUaOIU
- sVYc6lcCAKUzlsO7M0g9ZuyY85s14FiF7Jv6lyJNc+tUikgsJoSnyDn7tgRhOghN
- t3A9B2Rl3JSuSRFuPeWO4D1Ykh3svlsQpHq24F6szaCQCRG3hH1X/U7fRev/WeoS
- KKE4COiFBTvEKSDPFGC9Hh0IvugYt1lQxOqR9gMDTzQgGRrWS+uscDrs37LCL+ll
- EHLDmBjd9DFlg7L0b2Zy0CBa6yITRDksQMNFzkjHCGLojYQsP7Pq1oMQP3i50VpJ
- CuEn8xamB0p+mtmm+8YF28aDUd774vLyoMtRVNrLxw==
-X-ME-Sender: <xms:qUcGYzDFrcpSHuvMtYDZYCmk3OqqfBUNHEHNQRr47kQ_AzR2afIyIg>
- <xme:qUcGY5gxXBuPRXb7sxz-fD3XY1K28G2HCR-RvP38qj6v37MMQtWuZzLkuflXKz6hS
- T87sk6NzGExfyCcTEI>
-X-ME-Received: <xmr:qUcGY-kFUPrn5v4AZYHh9aAI1eHSI_0zzF-GVUOwsOwOCrZ2qMRsINvOscBW>
+ fm1; t=1661356106; x=1661442506; bh=KiIFMGOdSQRAgyuh6d1iUT5BtacW
+ 3klnbBIVwJD0Oqs=; b=RrmBPMmC4K/PIzZBG5PT2o4WofGgwCRlnN9XV9jrjqo2
+ cdEcKncx6qJfkHc7Wy9UkHpv3y31Ws383TayXakm/YoCcNE81rMYbqX2Ozime0or
+ dpQat30mlDb1aESdrIwWImJ7sQDGOPQl3NQ8y30sBP39CiWNnqKsGJBqALbFLHbd
+ EJ2JVEwCZxuQk5GIe/4hGfNAPM3uUahjtCFvq34kw2BfWWFleWiyCk8xzhp5PFRz
+ ERQ5Pjo1UvGCOgSjMyTRRBsvFc1eLcXZEPxLOfN8EQnBYGr6cpzho48xRPNKDIbn
+ WTaGkknCKVbIcZ36gHcjFpmIf6PODgI39bJm7fQNOQ==
+X-ME-Sender: <xms:SkgGY7fbesNrMwqMcg1LyxZzrxutpGHvP1E7QMh_MYMaQwFIP6NYeg>
+ <xme:SkgGYxMTYCPwxFj0942kfgH_p-KeDdp1DnMbObKlbz35aJwBl85NR9RJy-aqWfAcJ
+ xyJkk9wQPLhXmOf7pY>
+X-ME-Received: <xmr:SkgGY0iJ72fxmpIEcCIAtRStsL3v7ckcNtgNGkVcjbJy3U-xh4-XeKpr7EFh>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgleehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
- ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:qUcGY1xGET_pULNFhGqvRG7BMhJOOVXBW1PlHuuLfiGF87hbYnxCwQ>
- <xmx:qUcGY4RhpUBWSdpBficCdhAPILHPAM02fbxTamOx4Uo_5Z2mW7Rolw>
- <xmx:qUcGY4a5nfolhfg1OrHPchsQpZQXLra_1S2Z5ttkhMUYzjn83OUf6w>
- <xmx:qkcGY3A3Xa53RJusfXMGoi1NFvbhxZYRynCLfPYcniNVbVPTK5RITUscqak>
+X-ME-Proxy: <xmx:SkgGY8-Pl7kej_EyLcSnGm-_ytk16aIXAJ-H4nxu988KY8wqHbQeHg>
+ <xmx:SkgGY3v504GGZmf_-JAS-Rr2zsh2NNidLpAy-m2He6ZV9YOywOP0sg>
+ <xmx:SkgGY7FXsOGcxEq4wAMGzc7QjAUsa0_M3X6o8kltLsUI1kNoMC_JVQ>
+ <xmx:SkgGYxI2JiRg2JayFiuWCDgqV-qaRhzRqesfleI7HaNfbS7P-3F6ZQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 24 Aug 2022 11:45:44 -0400 (EDT)
-Date: Wed, 24 Aug 2022 17:45:43 +0200
+ 24 Aug 2022 11:48:25 -0400 (EDT)
+Date: Wed, 24 Aug 2022 17:48:23 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
- command-line option
-Message-ID: <20220824154543.bdtpz2evwzsjrdrz@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
- <eedb1a86-c1fb-cc76-2a43-4ed349d7d826@tronnes.org>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-misc-next v2 2/4] drm/vc4: plane: protect device
+ resources after removal
+Message-ID: <20220824154823.qu3tdwypg5o3ci4z@houat>
+References: <20220819110849.192037-1-dakr@redhat.com>
+ <20220819110849.192037-3-dakr@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fetwu2vf2sqny7wk"
+ protocol="application/pgp-signature"; boundary="i6p2xirgmwjujatv"
 Content-Disposition: inline
-In-Reply-To: <eedb1a86-c1fb-cc76-2a43-4ed349d7d826@tronnes.org>
+In-Reply-To: <20220819110849.192037-3-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,61 +84,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---fetwu2vf2sqny7wk
-Content-Type: text/plain; charset=iso-8859-1
+--i6p2xirgmwjujatv
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Noralf,
-
-On Sat, Aug 20, 2022 at 10:18:47PM +0200, Noralf Tr=F8nnes wrote:
-> Den 29.07.2022 18.35, skrev Maxime Ripard:
-> > Our new tv mode option allows to specify the TV mode from a property.
-> > However, it can still be useful, for example to avoid any boot time
-> > artifact, to set that property directly from the kernel command line.
-> >=20
-> > Let's add some code to allow it, and some unit tests to exercise that c=
-ode.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >=20
+On Fri, Aug 19, 2022 at 01:08:47PM +0200, Danilo Krummrich wrote:
+> (Hardware) resources which are bound to the driver and device lifecycle
+> must not be accessed after the device and driver are unbound.
 >=20
-> In the subject it says "tv_mode property", but the property is called
-> "tv norm", so the option should be tv_norm?
+> However, the DRM device isn't freed as long as the last user closed it,
+> hence userspace can still call into the driver.
+>=20
+> Therefore protect the critical sections which are accessing those
+> resources with drm_dev_enter() and drm_dev_exit().
+>=20
+> Fixes: 9872c7a31921 ("drm/vc4: plane: Switch to drmm_universal_plane_allo=
+c()")
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> ---
+>  drivers/gpu/drm/vc4/vc4_plane.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_pl=
+ane.c
+> index eff9c63adfa7..c46acb770036 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -19,6 +19,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_atomic_uapi.h>
+>  #include <drm/drm_blend.h>
+> +#include <drm/drm_drv.h>
+>  #include <drm/drm_fb_dma_helper.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_framebuffer.h>
+> @@ -1219,6 +1220,10 @@ u32 vc4_plane_write_dlist(struct drm_plane *plane,=
+ u32 __iomem *dlist)
+>  {
+>  	struct vc4_plane_state *vc4_state =3D to_vc4_plane_state(plane->state);
+>  	int i;
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(plane->dev, &idx))
+> +		goto out;
+> =20
+>  	vc4_state->hw_dlist =3D dlist;
+> =20
+> @@ -1226,6 +1231,9 @@ u32 vc4_plane_write_dlist(struct drm_plane *plane, =
+u32 __iomem *dlist)
+>  	for (i =3D 0; i < vc4_state->dlist_count; i++)
+>  		writel(vc4_state->dlist[i], &dlist[i]);
+> =20
+> +	drm_dev_exit(idx);
+> +
+> +out:
+>  	return vc4_state->dlist_count;
+>  }
+> =20
+> @@ -1245,6 +1253,7 @@ void vc4_plane_async_set_fb(struct drm_plane *plane=
+, struct drm_framebuffer *fb)
+>  	struct vc4_plane_state *vc4_state =3D to_vc4_plane_state(plane->state);
+>  	struct drm_gem_dma_object *bo =3D drm_fb_dma_get_gem_obj(fb, 0);
+>  	uint32_t addr;
+> +	int idx;
+> =20
+>  	/* We're skipping the address adjustment for negative origin,
+>  	 * because this is only called on the primary plane.
+> @@ -1252,12 +1261,17 @@ void vc4_plane_async_set_fb(struct drm_plane *pla=
+ne, struct drm_framebuffer *fb)
+>  	WARN_ON_ONCE(plane->state->crtc_x < 0 || plane->state->crtc_y < 0);
+>  	addr =3D bo->dma_addr + fb->offsets[0];
+> =20
+> +	if (!drm_dev_enter(plane->dev, &idx))
+> +		return;
+> +
+>  	/* Write the new address into the hardware immediately.  The
+>  	 * scanout will start from this address as soon as the FIFO
+>  	 * needs to refill with pixels.
+>  	 */
+>  	writel(addr, &vc4_state->hw_dlist[vc4_state->ptr0_offset]);
+> =20
+> +	drm_dev_exit(idx);
+> +
 
-Yeah... I don't know. mode is taken but it's obviously the best name. So
-I went with norm to avoid the (internal) conflict but I left mode for
-the user facing property.
-
-I'm not sure what's best here, or maybe we can pick another name entirely?
+You did change the CRTC patch, but the comment to protect the entire
+function also applies to this one.
 
 Maxime
 
---fetwu2vf2sqny7wk
+--i6p2xirgmwjujatv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwZHpwAKCRDj7w1vZxhR
-xb3AAP9tWGleJEtkD6UwMhukbZIQ59/uDegXZyj1E6YRYC78RAEApPnjLjYnLERA
-E4Ahd6Pzh7p0TuGpdjYkO1Ufgfim2AA=
-=Le3o
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwZIRwAKCRDj7w1vZxhR
+xTpMAP9QqYSv8ty8je48B2HuywFGJE+Q2WGNAW/paVlqkHD0WwD/XgOG/VA+mckd
+g+GkI3JRlnAhkCqVRyReiq/t0DFeagk=
+=OEZa
 -----END PGP SIGNATURE-----
 
---fetwu2vf2sqny7wk--
+--i6p2xirgmwjujatv--
