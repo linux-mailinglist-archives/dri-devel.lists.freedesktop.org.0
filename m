@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC81559F8F1
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 14:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCEE159F921
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 14:12:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6142AB02DC;
-	Wed, 24 Aug 2022 12:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 942841125D7;
+	Wed, 24 Aug 2022 12:11:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA4CAFBDD;
- Wed, 24 Aug 2022 12:01:39 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14C4E10FDD8;
+ Wed, 24 Aug 2022 12:11:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661342499; x=1692878499;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=JPlLhfg5aq7bXkWn527eoc+8KxHvsf2jkSv+nTJgdJ8=;
- b=aPb67AvxIy3IGG7jpyq0K4X4FLUeOsS2utSLZrhNmKfR4zE0QlKWPlOH
- n++ONZB7tViT3xjt/UknF8QcQ8GyZDMzne7saRu+aGG365gNb9zXj0IL4
- rvbc7Hnrg+cgC1UPfKSKU6yHX9tgvKT6p2roINKcr+kW36IcUDVK1OgQw
- 7PRx8nAyLKSZ2BpcBfSD0Z0sT6xr2zv7sEpIv3VTpep7RQLY51Y5cfcZg
- BzD57J7TGgHVbPNgjLKnus9/8+iwgKGq9fSq4SvqiAGBMyRJnX0RVadk+
- 1lcVTgUyXE9BW6mqloVo40n+WjmHQ7DIzX6PkV82G+LJv4xLTD+ztiJEd A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="292688605"
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="292688605"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 05:01:30 -0700
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="678018880"
-Received: from gaburges-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.12.186])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 05:01:17 -0700
-Date: Wed, 24 Aug 2022 15:01:14 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <YwYTCjA/Rhpd1n4A@jlahtine-mobl.ger.corp.intel.com>
+ t=1661343090; x=1692879090;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=AM1fboOapzTo46Lk6YYpoPBpuwY0NuTFDojhyL3gXi8=;
+ b=Z7QMcKp3SHWDn87201MllcAQPnnBGId00VpII6PT0ymrQznDj376SE6t
+ IZkCYVaPHYdiz+cO0ybD2wLrJKvT5NUTQhzs5F6mMoZ7P8MnL9VxrRPO9
+ XGHDNb27eWGCXf5JHEWeKA86XybxGKDzBodkBhQS8G0x5ysRy/2jrwC5x
+ afxC3IJBE4biKspjVWF/kz3xc7l6/lv/d01Kw3nLC780Leb8JJeEQ9oxi
+ cCxx5IuviX9FMyBh2ftR6QAMNGSOa80+qAu09oKpOiTwxZw+gJPihkLN/
+ 4C3A7YGBzU+bWSlEtjYVyiPP/7cG56CjQWhvBrfqaM38J1w8aTV8gfAOa g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="355674353"
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="355674353"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2022 05:11:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="713016983"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.59])
+ by fmsmga002.fm.intel.com with SMTP; 24 Aug 2022 05:11:12 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 24 Aug 2022 15:11:11 +0300
+Date: Wed, 24 Aug 2022 15:11:11 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH] drm/edid: Handle EDID 1.4 range descriptor h/vfreq offsets
+Message-ID: <YwYVX8dUbpv746Zn@intel.com>
+References: <20220819092728.14753-1-ville.syrjala@linux.intel.com>
+ <87mtbukhiz.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <87mtbukhiz.fsf@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,240 +60,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+On Tue, Aug 23, 2022 at 08:15:48PM +0300, Jani Nikula wrote:
+> On Fri, 19 Aug 2022, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
+> > From: Ville Syrj‰l‰ <ville.syrjala@linux.intel.com>
+> >
+> > EDID 1.4 introduced some extra flags in the range
+> > descriptor to support min/max h/vfreq >= 255. Consult them
+> > to correctly parse the vfreq limits.
+> >
+> > Cc: stable@vger.kernel.org
+> > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6519
+> > Signed-off-by: Ville Syrj‰l‰ <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_edid.c | 24 ++++++++++++++++++------
+> >  include/drm/drm_edid.h     |  5 +++++
+> >  2 files changed, 23 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> > index 90a5e26eafa8..4005dab6147d 100644
+> > --- a/drivers/gpu/drm/drm_edid.c
+> > +++ b/drivers/gpu/drm/drm_edid.c
+> > @@ -6020,12 +6020,14 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+> >  }
+> >  
+> >  static
+> > -void get_monitor_range(const struct detailed_timing *timing,
+> > -		       void *info_monitor_range)
+> > +void get_monitor_range(const struct detailed_timing *timing, void *c)
+> >  {
+> > -	struct drm_monitor_range_info *monitor_range = info_monitor_range;
+> > +	struct detailed_mode_closure *closure = c;
+> > +	struct drm_display_info *info = &closure->connector->display_info;
+> > +	struct drm_monitor_range_info *monitor_range = &info->monitor_range;
+> >  	const struct detailed_non_pixel *data = &timing->data.other_data;
+> >  	const struct detailed_data_monitor_range *range = &data->data.range;
+> > +	const struct edid *edid = closure->drm_edid->edid;
+> >  
+> >  	if (!is_display_descriptor(timing, EDID_DETAIL_MONITOR_RANGE))
+> >  		return;
+> > @@ -6041,18 +6043,28 @@ void get_monitor_range(const struct detailed_timing *timing,
+> >  
+> >  	monitor_range->min_vfreq = range->min_vfreq;
+> >  	monitor_range->max_vfreq = range->max_vfreq;
+> > +
+> > +	if (edid->revision >= 4) {
+> > +		if (data->pad2 & DRM_EDID_RANGE_OFFSET_MIN_VFREQ)
+> > +			monitor_range->min_vfreq += 255;
+> > +		if (data->pad2 & DRM_EDID_RANGE_OFFSET_MAX_VFREQ)
+> > +			monitor_range->max_vfreq += 255;
+> > +	}
+> 
+> Nitpick, a combo where min vertical range has +255 offset but max
+> doesn't shouldn't be okay. But then, what are we going to do in that
+> case anyway? I guess the generic check would be min <= max. Also, the
+> +255 offset range is 256..510, not 256..(255+255). Again, what to do if
+> that's what the EDID has? *shrug*.
 
-Here goes the first drm-intel-gt-next PR towards 6.1. Quite a small one.
+Yeah, I figured that writing the code in the most straightforward
+way was fine since reserved values aren't going to produce valid
+results anyway. Though I guess just ignoring the whole descriptor
+in that case might be another option.
 
-As primary things, there's the parallel support of GuC v69 and v70
-which already went in via -fixes, improvements to the TLB invalidation
-performance regressions, further DG2 enabling and improved debugging
-for GuC errors.
+> 
+> Anyway, what's broken here (and probably impacts the testing in the
+> referenced bug) is that the struct drm_monitor_range_info members are u8
+> and this overflows.
 
-On top of that, locking simplification for freeing objects to avoid
-potential system freeze, addition of gt/gtN/.defaults (including freq
-to start), silencing some messages that are not errors.
+Derp.
 
-Regards, Joonas
+> 
+> With that fixed, whether or not you decide to do anything about the
+> nitpicks,
+>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-PS. I left a few commits out from top of drm-intel-gt-next as there is fixup
-needed for at least one. I will include those in the next PR.
+Thanks.
 
-***
+> 
+> 
+> Side note, git grep for monitor_range reveals amdgpu are doing their own
+> thing for the parsing. *sigh*.
+> 
+> 
+> >  }
+> >  
+> >  static void drm_get_monitor_range(struct drm_connector *connector,
+> >  				  const struct drm_edid *drm_edid)
+> >  {
+> > -	struct drm_display_info *info = &connector->display_info;
+> > +	const struct drm_display_info *info = &connector->display_info;
+> > +	struct detailed_mode_closure closure = {
+> > +		.connector = connector,
+> > +		.drm_edid = drm_edid,
+> > +	};
+> >  
+> >  	if (!version_greater(drm_edid, 1, 1))
+> >  		return;
+> >  
+> > -	drm_for_each_detailed_block(drm_edid, get_monitor_range,
+> > -				    &info->monitor_range);
+> > +	drm_for_each_detailed_block(drm_edid, get_monitor_range, &closure);
+> >  
+> >  	DRM_DEBUG_KMS("Supported Monitor Refresh rate range is %d Hz - %d Hz\n",
+> >  		      info->monitor_range.min_vfreq,
+> > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> > index 2181977ae683..d81da97cad6e 100644
+> > --- a/include/drm/drm_edid.h
+> > +++ b/include/drm/drm_edid.h
+> > @@ -92,6 +92,11 @@ struct detailed_data_string {
+> >  	u8 str[13];
+> >  } __attribute__((packed));
+> >  
+> > +#define DRM_EDID_RANGE_OFFSET_MIN_VFREQ (1 << 0)
+> > +#define DRM_EDID_RANGE_OFFSET_MAX_VFREQ (1 << 1)
+> > +#define DRM_EDID_RANGE_OFFSET_MIN_HFREQ (1 << 2)
+> > +#define DRM_EDID_RANGE_OFFSET_MAX_HFREQ (1 << 3)
+> > +
+> >  #define DRM_EDID_DEFAULT_GTF_SUPPORT_FLAG   0x00
+> >  #define DRM_EDID_RANGE_LIMITS_ONLY_FLAG     0x01
+> >  #define DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG 0x02
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
 
-drm-intel-gt-next-2022-08-24:
-
-UAPI Changes:
-
-- Create gt/gtN/.defaults/ for per gt sysfs defaults
-
-  Create a gt/gtN/.defaults/ directory (similar to
-  engine/<engine-name>/.defaults/) to expose default parameter values for
-  each gt in sysfs. This allows userspace to restore default parameter values
-  after they have changed.
-
-Driver Changes:
-
-- Support GuC v69 in parallel to v70 (Daniele)
-- Improve TLB invalidation to limit performance regression (Chris, Mauro)
-- Expose per-gt RPS defaults in sysfs (Ashutosh)
-- Suppress OOM warning for shmemfs object allocation failure (Chris, Nirmoy)
-- Disable PCI resize on 32-bit machines (Nirmoy)
-- Update DG2 to GuC v70.4.1 (John)
-- Fix CCS data copying on DG2 during swapping (Matt A)
-- Add DG2 performance tuning setting recommended by spec (Matt R)
-- Add GuC <-> kernel time stamp translation information to error logs (John)
-- Record GuC CTB info in error logs (John)
-
-- Route semaphores to GuC for Gen12+ when enabled (Michal Wi, John)
-- Improve resilency to bug #3575: Handle reset timeouts under unrelated kernel hangs (Chris, Ashutosh)
-- Avoid system freeze by removing shared locking on freeing objects (Chris, Nirmoy)
-- Demote GuC error "No response for request" into debug when expected (Zhanjun)
-- Fix GuC capture size warning and bump the size (John)
-- Use streaming loads to speed up dumping the GuC log (Chris, John)
-- Don't abort on CTB_UNUSED status from GuC (John)
-- Don't send spurious policy update for GuC child contexts (Daniele)
-- Don't leak the CCS state (Matt A)
-
-- Prefer drm_err over pr_err (John)
-- Eliminate unused calc_ctrl_surf_instr_size (Matt A)
-- Add dedicated function for non-ctx register tuning settings (Matt R)
-- Style and typo fixes, documentation improvements (Jason Wang, Mauro)
-- Selftest improvements (Matt B, Rahul, John)
-
-The following changes since commit 17cd10a44a8962860ff4ba351b2a290e752dbbde:
-
-  drm/i915: Add lmem_bar_size modparam (2022-07-13 17:47:51 +0100)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2022-08-24
-
-for you to fetch changes up to 5ece208ab05e4042c80ed1e6fe6d7ce236eee89b:
-
-  drm/i915/guc: Use streaming loads to speed up dumping the guc log (2022-08-17 10:07:03 -0700)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-- Create gt/gtN/.defaults/ for per gt sysfs defaults
-
-  Create a gt/gtN/.defaults/ directory (similar to
-  engine/<engine-name>/.defaults/) to expose default parameter values for
-  each gt in sysfs. This allows userspace to restore default parameter values
-  after they have changed.
-
-Driver Changes:
-
-- Support GuC v69 in parallel to v70 (Daniele)
-- Improve TLB invalidation to limit performance regression (Chris, Mauro)
-- Expose per-gt RPS defaults in sysfs (Ashutosh)
-- Suppress OOM warning for shmemfs object allocation failure (Chris, Nirmoy)
-- Disable PCI resize on 32-bit machines (Nirmoy)
-- Update DG2 to GuC v70.4.1 (John)
-- Fix CCS data copying on DG2 during swapping (Matt A)
-- Add DG2 performance tuning setting recommended by spec (Matt R)
-- Add GuC <-> kernel time stamp translation information to error logs (John)
-- Record GuC CTB info in error logs (John)
-
-- Route semaphores to GuC for Gen12+ when enabled (Michal Wi, John)
-- Improve resilency to bug #3575: Handle reset timeouts under unrelated kernel hangs (Chris, Ashutosh)
-- Avoid system freeze by removing shared locking on freeing objects (Chris, Nirmoy)
-- Demote GuC error "No response for request" into debug when expected (Zhanjun)
-- Fix GuC capture size warning and bump the size (John)
-- Use streaming loads to speed up dumping the GuC log (Chris, John)
-- Don't abort on CTB_UNUSED status from GuC (John)
-- Don't send spurious policy update for GuC child contexts (Daniele)
-- Don't leak the CCS state (Matt A)
-
-- Prefer drm_err over pr_err (John)
-- Eliminate unused calc_ctrl_surf_instr_size (Matt A)
-- Add dedicated function for non-ctx register tuning settings (Matt R)
-- Style and typo fixes, documentation improvements (Jason Wang, Mauro)
-- Selftest improvements (Matt B, Rahul, John)
-
-----------------------------------------------------------------
-Alan Previn (1):
-      drm/i915/guc: Add a helper for log buffer size
-
-Ashutosh Dixit (2):
-      drm/i915/gt: Create gt/gtN/.defaults/ for per gt sysfs defaults
-      drm/i915/gt: Expose per-gt RPS defaults in sysfs
-
-Chris Wilson (8):
-      drm/i915/reset: Handle reset timeouts under unrelated kernel hangs
-      drm/i915: Suppress oom warning for shmemfs object allocation failure
-      drm/i915/gt: Ignore TLB invalidations on idle engines
-      drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
-      drm/i915/gt: Skip TLB invalidations once wedged
-      drm/i915/gt: Batch TLB invalidations
-      drm/i915/gem: Remove shared locking on freeing objects
-      drm/i915/guc: Use streaming loads to speed up dumping the guc log
-
-Daniele Ceraolo Spurio (2):
-      drm/i915/guc: support v69 in parallel to v70
-      drm/i915/guc: Don't send policy update for child contexts.
-
-Harish Chegondi (1):
-      drm/i915/dg2: Add Wa_1509727124
-
-Jason Wang (2):
-      drm/i915/gt: Remove unneeded semicolon
-      drm/i915/selftests: Fix comment typo
-
-John Harrison (7):
-      drm/i915/guc: Don't use pr_err when not necessary
-      drm/i915/selftest: Cope with not having an RCS engine
-      drm/i915/guc: Don't abort on CTB_UNUSED status
-      drm/i915/dg2: Update DG2 to GuC v70.4.1
-      drm/i915/guc: Fix capture size warning and bump the size
-      drm/i915/guc: Add GuC <-> kernel time stamp translation information
-      drm/i915/guc: Record CTB info in error logs
-
-Matt Roper (2):
-      drm/i915/gt: Add dedicated function for non-ctx register tuning settings
-      drm/i915/dg2: Add additional tuning settings
-
-Matthew Auld (3):
-      drm/i915/ttm: don't leak the ccs state
-      drm/i915/ttm: remove calc_ctrl_surf_instr_size
-      drm/i915/ttm: fix CCS handling
-
-Matthew Brost (2):
-      drm/i915/guc: Fix issues with live_preempt_cancel
-      drm/i915/guc: Support larger contexts on newer hardware
-
-Mauro Carvalho Chehab (3):
-      drm/i915/gt: document with_intel_gt_pm_if_awake()
-      drm/i915/gt: describe the new tlb parameter at i915_vma_resource
-      drm/i915: pass a pointer for tlb seqno at vma_invalidate_tlb()
-
-Micha≈Ç Winiarski (1):
-      drm/i915/guc: Route semaphores to GuC for Gen12+
-
-Nirmoy Das (1):
-      drm/i915: disable pci resize on 32-bit machine
-
-Rahul Kumar Singh (1):
-      drm/i915/guc: Add selftest for a hung GuC
-
-Zhanjun Dong (1):
-      drm/i915/guc: Check for ct enabled while waiting for response
-
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |  16 +-
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_pages.c          |  25 +-
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |   6 +-
- drivers/gpu/drm/i915/gt/intel_context_types.h      |  11 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                 |  77 +++-
- drivers/gpu/drm/i915/gt/intel_gt.h                 |  12 +-
- drivers/gpu/drm/i915/gt/intel_gt_pm.h              |  11 +
- drivers/gpu/drm/i915/gt/intel_gt_regs.h            |  11 +
- drivers/gpu/drm/i915/gt/intel_gt_sysfs.c           |  10 +-
- drivers/gpu/drm/i915/gt/intel_gt_sysfs.h           |   6 +
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c        |  34 ++
- drivers/gpu/drm/i915/gt/intel_gt_types.h           |  27 +-
- drivers/gpu/drm/i915/gt/intel_migrate.c            | 104 +++---
- drivers/gpu/drm/i915/gt/intel_ppgtt.c              |   8 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c        |   4 +
- drivers/gpu/drm/i915/gt/intel_reset.c              |   6 +-
- drivers/gpu/drm/i915/gt/intel_rps.c                |   2 +
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |  76 ++--
- drivers/gpu/drm/i915/gt/selftest_execlists.c       |  16 +-
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |  12 +-
- drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h   |   3 +
- .../drm/i915/gt/uc/abi/guc_communication_ctb_abi.h |   8 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |  19 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   7 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c         |  10 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c     |  40 ++-
- drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h     |   1 -
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c          |  45 ++-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h        |  45 +++
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c         |  79 +++--
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.h         |   4 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h         |   4 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |  12 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  | 393 ++++++++++++++++-----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |  68 +++-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |   7 +
- drivers/gpu/drm/i915/gt/uc/selftest_guc.c          |  37 +-
- .../gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c    | 159 +++++++++
- .../gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c    |  10 +-
- drivers/gpu/drm/i915/i915_drv.h                    |   4 +-
- drivers/gpu/drm/i915/i915_gpu_error.c              |  67 +++-
- drivers/gpu/drm/i915/i915_gpu_error.h              |  21 +-
- drivers/gpu/drm/i915/i915_vma.c                    |  33 +-
- drivers/gpu/drm/i915/i915_vma.h                    |   1 +
- drivers/gpu/drm/i915/i915_vma_resource.c           |   9 +-
- drivers/gpu/drm/i915/i915_vma_resource.h           |   6 +-
- .../gpu/drm/i915/selftests/i915_live_selftests.h   |   1 +
- drivers/gpu/drm/i915/selftests/i915_request.c      |   2 +-
- 49 files changed, 1227 insertions(+), 345 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c
+-- 
+Ville Syrj‰l‰
+Intel
