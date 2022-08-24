@@ -1,75 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE5F59FEC8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:50:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A486959FEF1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:59:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB2DDB830F;
-	Wed, 24 Aug 2022 15:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2C3AB958D;
+	Wed, 24 Aug 2022 15:59:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA3C2B80BB;
- Wed, 24 Aug 2022 15:49:34 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-119-13.nat.spd-mgts.ru
- [109.252.119.13])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 003536601DAD;
- Wed, 24 Aug 2022 16:49:30 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1661356173;
- bh=vOJMhTQ7HzZBp0ZZo9K4hrXQVabXIso7oNLwG6hsKLo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=c6s4L7HIzhqXHIRjPO78mUx2njs0FTSDwh/if1G8GrYUXKIesr5TSuVpzCCXzCFaC
- RQwFs9mzKIF/SoKOeW/iFsEtF2HNDrH0QYgFH8Bjb0EODV2gEnzbMJNa3D7Euz+aq1
- ttSiIgN9lBknJRw6hrDsumfPw8z1mfE/u3dAN4OYGFY1SnY5ytLPSVBmnTh6lKyQde
- YOUN/UNH4qT1TRrXxpbCLStfVkyl6+y4obXi9sfi44ZsbJWXBmSFG438Hbbw7Cm9FD
- zamHCbpRiEHeEJEqGHwgMIgiFMUhzX7OjakAgX0Hfj9WgvOsPDRnfMMAi2GCcW6bPu
- eS/kqb6U0BR1g==
-Message-ID: <25d6b7e7-bbcc-7613-42d1-13c2b9ab2937@collabora.com>
-Date: Wed, 24 Aug 2022 18:49:28 +0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF01B9490
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 15:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661356725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6Ff1QmPIlyrYnAdXajfzHu5Yv9RSqOuxoN2Oa3D8Yus=;
+ b=bVsXOJeO75JREgZF6nVqLvkr+mST/Hd34Ez2MvRyIFxGBLxiZYLzGCnt9Hi1YYpemGjyMr
+ hT1TiyaAuO+BvCkoES6gLeT7nXSpRkDuiJgiaGrAIxf0YDI3XMrh43pIsOo39UhRDdaY2o
+ /dyLrAZRwz/dghgSqPRrmBft3xaLJ1U=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-661-fwdS3VWMPKaNdGztxQ5fLQ-1; Wed, 24 Aug 2022 11:58:44 -0400
+X-MC-Unique: fwdS3VWMPKaNdGztxQ5fLQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hd35-20020a17090796a300b0073d67a500e6so3379172ejc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 08:58:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=6Ff1QmPIlyrYnAdXajfzHu5Yv9RSqOuxoN2Oa3D8Yus=;
+ b=6X/IGTUwl06C6ES/0CPqUOI87Xbball8q1FpL33GoYZXNr/woVKa2pf552Tfsi3b4y
+ HV74fUZl/KX21lUaSBltHSI2XqqCc7RPRJB7Iv10UBQLxNYWEx8OEYqSJ0jiv5OtfeJQ
+ ULSNhiHC/dovKLSPKgyV0CuAAOSoMQWAMXhik1DnxewMbAFjVFZ1eYniojfcBeqvo3QB
+ m17ViCIHz8c266MVchumw5Q2sIaZZeL8r6emBpQhzrd/OuUSFXu9c4lOcmqp+pqNuNCE
+ lQ5VJiHL3Mp1M5FoNC8v/OdmpUOH1JIBkBrrqFV7xEyADQPHE7h+/zFmKIIfP/nK4LMc
+ tU9w==
+X-Gm-Message-State: ACgBeo3ZruvZPEyZO6fPSKJowfNvXiOkpHtqIjIGcSoy+QwSU/+LMBeB
+ UgNN6fE/x5zO9p6A1OZ7dkbpSkYibAOCm/To2SS76p3CVN6HFirCMdPWv0YLhAti0/+WJZWzIEF
+ MsJEy0fGMMZwUR1/p34jWwFmOHIfI
+X-Received: by 2002:a17:907:60c7:b0:739:52ba:cbd0 with SMTP id
+ hv7-20020a17090760c700b0073952bacbd0mr3379477ejc.152.1661356722619; 
+ Wed, 24 Aug 2022 08:58:42 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7GI3i0UedamIoOYIDqmV1E+eiXCyENJwr+fHf8/hxFh8cyg/ZDO32RED6QhINoR/yFqFW+kw==
+X-Received: by 2002:a17:907:60c7:b0:739:52ba:cbd0 with SMTP id
+ hv7-20020a17090760c700b0073952bacbd0mr3379471ejc.152.1661356722438; 
+ Wed, 24 Aug 2022 08:58:42 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b40:2ee8:642:1aff:fe31:a15c?
+ ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ bm2-20020a0564020b0200b0044604ad8b41sm3318568edb.23.2022.08.24.08.58.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Aug 2022 08:58:41 -0700 (PDT)
+Message-ID: <bd89a246-ee32-7b54-9c9c-7090cc7d51a2@redhat.com>
+Date: Wed, 24 Aug 2022 17:58:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [Linaro-mm-sig] [PATCH v3 6/9] dma-buf: Move dma-buf attachment
- to dynamic locking specification
+Subject: Re: [PATCH drm-misc-next v2 2/4] drm/vc4: plane: protect device
+ resources after removal
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220819110849.192037-1-dakr@redhat.com>
+ <20220819110849.192037-3-dakr@redhat.com>
+ <20220824154823.qu3tdwypg5o3ci4z@houat>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20220824154823.qu3tdwypg5o3ci4z@houat>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
- <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
- Qiang Yu <yuq825@gmail.com>
-References: <20220824102248.91964-1-dmitry.osipenko@collabora.com>
- <20220824102248.91964-7-dmitry.osipenko@collabora.com>
- <055c3c05-ac4c-430e-f2b9-08f000acf435@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <055c3c05-ac4c-430e-f2b9-08f000acf435@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,82 +90,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>,
- kernel@collabora.com, linux-media@vger.kernel.org
+Cc: airlied@linux.ie, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/24/22 18:24, Christian König wrote:
-> Am 24.08.22 um 12:22 schrieb Dmitry Osipenko:
->> Move dma-buf attachment API functions to the dynamic locking
->> specification.
->> The strict locking convention prevents deadlock situations for dma-buf
->> importers and exporters.
->>
->> Previously, the "unlocked" versions of the attachment API functions
->> weren't taking the reservation lock and this patch makes them to take
->> the lock.
->>
->> Intel and AMD GPU drivers already were mapping the attached dma-bufs
->> under
->> the held lock during attachment, hence these drivers are updated to use
->> the locked functions.
->>
->> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> ---
->>   drivers/dma-buf/dma-buf.c                  | 115 ++++++++++++++-------
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |   4 +-
->>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c |   8 +-
->>   drivers/gpu/drm/i915/gem/i915_gem_object.c |  12 +++
->>   include/linux/dma-buf.h                    |  20 ++--
->>   5 files changed, 110 insertions(+), 49 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index 4556a12bd741..f2a5a122da4a 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -559,7 +559,7 @@ static struct file *dma_buf_getfile(struct dma_buf
->> *dmabuf, int flags)
->>    * 2. Userspace passes this file-descriptors to all drivers it wants
->> this buffer
->>    *    to share with: First the file descriptor is converted to a
->> &dma_buf using
->>    *    dma_buf_get(). Then the buffer is attached to the device using
->> - *    dma_buf_attach().
->> + *    dma_buf_attach_unlocked().
+Hi Maxime,
+
+On 8/24/22 17:48, Maxime Ripard wrote:
+>> @@ -1252,12 +1261,17 @@ void vc4_plane_async_set_fb(struct drm_plane *plane, struct drm_framebuffer *fb)
+>>   	WARN_ON_ONCE(plane->state->crtc_x < 0 || plane->state->crtc_y < 0);
+>>   	addr = bo->dma_addr + fb->offsets[0];
+>>   
+>> +	if (!drm_dev_enter(plane->dev, &idx))
+>> +		return;
+>> +
+>>   	/* Write the new address into the hardware immediately.  The
+>>   	 * scanout will start from this address as soon as the FIFO
+>>   	 * needs to refill with pixels.
+>>   	 */
+>>   	writel(addr, &vc4_state->hw_dlist[vc4_state->ptr0_offset]);
+>>   
+>> +	drm_dev_exit(idx);
+>> +
 > 
-> Now I get why this is confusing me so much.
+> You did change the CRTC patch, but the comment to protect the entire
+> function also applies to this one.
+
+Yes, I changed this one too, but missed this particular function - gonna 
+send a v3.
+
+- Danilo
+
 > 
-> The _unlocked postfix implies that there is another function which
-> should be called with the locks already held, but this is not the case
-> for attach/detach (because they always need to grab the lock themselves).
+> Maxime
 
-That's correct. The attach/detach ops of exporter can take the lock
-(like i915 exporter does it), hence importer must not grab the lock
-around dma_buf_attach() invocation.
-
-> So I suggest to drop the _unlocked postfix for the attach/detach
-> functions. Another step would then be to unify attach/detach with
-> dynamic_attach/dynamic_detach when both have the same locking convention
-> anyway.
-
-It's not a problem to change the name, but it's unclear to me why we
-should do it. The _unlocked postfix tells importer that reservation must
-be unlocked and it must be unlocked in case of dma_buf_attach().
-
-Dropping the postfix will make dma_buf_attach() inconsistent with the
-rest of the _unlocked functions(?). Are you sure we need to rename it?
-
-> Sorry that this is going so much back and forth, it's really complicated
-> to keep all the stuff in my head at the moment :)
-
-Not a problem at all, I expected that it will take some time for this
-patchset to settle down.
-
--- 
-Best regards,
-Dmitry
