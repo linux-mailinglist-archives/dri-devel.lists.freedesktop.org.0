@@ -2,45 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026B45A0963
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 09:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F655A0934
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 08:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A73D88F6;
-	Thu, 25 Aug 2022 07:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10CB6D84C9;
+	Thu, 25 Aug 2022 06:54:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECD5AD8970
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 07:00:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661410829; x=1692946829;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2AcUXP1vZ0chs3bpIc4Lz+oBdgx/wT7PTO7N3PzFl6g=;
- b=aVYDHj8DD5Mt0z0qz03AIt9PaMCr7mC95u3qSg6mdlpxmF9EFdRlYtq3
- NMaSeCG/jk07fcndgbP80zGLs99iaagV1dtJEGD9qAhjyO6Ex+ZrUI+mw
- eCW2fGOmoZKFK6jsx8jrg2V1W2pUQbaGE87Dfg4DYbYMia7w4p7uMClPz
- gUeYACc3eFdktFIUtUMKVx7nZgFsSawz5vWRXy4e3IYRXW4KUrceJygMD
- KDZrJUCTgzYOiWvSLniEwmHWdgtvjQTeNAsf++JuepVsxlaSCcVLf2FpI
- 1iCN8fNBUGkzW35wwLQFJL8hz+4TvAE4V9uAYpU2CGis9uisceUgkt3f7 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10449"; a="277183473"
-X-IronPort-AV: E=Sophos;i="5.93,262,1654585200"; d="scan'208";a="277183473"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 23:53:19 -0700
-X-IronPort-AV: E=Sophos;i="5.93,262,1654585200"; d="scan'208";a="752373031"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 23:53:19 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] udmabuf: Set ubuf->sg = NULL if the creation of sg table fails
-Date: Wed, 24 Aug 2022 23:35:22 -0700
-Message-Id: <20220825063522.801264-1-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <0000000000001b37dc05e68ce911@google.com>
-References: <0000000000001b37dc05e68ce911@google.com>
+Received: from mblankhorst.nl (mblankhorst.nl
+ [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC47DD848C
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 06:54:42 +0000 (UTC)
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/i915: Remove frontbuffer tracking from gem.
+Date: Thu, 25 Aug 2022 08:46:59 +0200
+Message-Id: <20220825064701.768595-1-maarten.lankhorst@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,111 +33,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: syzbot+c80e9ef5d8bb45894db0@syzkaller.appspotmail.com,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When userspace tries to map the dmabuf and if for some reason
-(e.g. OOM) the creation of the sg table fails, ubuf->sg needs to be
-set to NULL. Otherwise, when the userspace subsequently closes the
-dmabuf fd, we'd try to erroneously free the invalid sg table from
-release_udmabuf resulting in the following crash reported by syzbot:
+Frontbuffer tracking in gem is used in old drivers, but nowadays everyone
+calls dirtyfb explicitly. Remove frontbuffer tracking from gem, and
+isolate it to display only.
 
-general protection fault, probably for non-canonical address
-0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 0 PID: 3609 Comm: syz-executor487 Not tainted
-5.19.0-syzkaller-13930-g7ebfc85e2cd7 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-Google 07/22/2022
-RIP: 0010:dma_unmap_sgtable include/linux/dma-mapping.h:378 [inline]
-RIP: 0010:put_sg_table drivers/dma-buf/udmabuf.c:89 [inline]
-RIP: 0010:release_udmabuf+0xcb/0x4f0 drivers/dma-buf/udmabuf.c:114
-Code: 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 2b 04 00 00 48 8d 7d 0c 4c
-8b 63 30 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 14
-02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 e2
-RSP: 0018:ffffc900037efd30 EFLAGS: 00010246
-RAX: dffffc0000000000 RBX: ffffffff8cb67800 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff84ad27e0 RDI: 0000000000000000
-RBP: fffffffffffffff4 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000000 R11: 000000000008c07c R12: ffff88801fa05000
-R13: ffff888073db07e8 R14: ffff888025c25440 R15: 0000000000000000
-FS:  0000555555fc4300(0000) GS:ffff8880b9a00000(0000)
-knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fc1c0ce06e4 CR3: 00000000715e6000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- dma_buf_release+0x157/0x2d0 drivers/dma-buf/dma-buf.c:78
- __dentry_kill+0x42b/0x640 fs/dcache.c:612
- dentry_kill fs/dcache.c:733 [inline]
- dput+0x806/0xdb0 fs/dcache.c:913
- __fput+0x39c/0x9d0 fs/file_table.c:333
- task_work_run+0xdd/0x1a0 kernel/task_work.c:177
- ptrace_notify+0x114/0x140 kernel/signal.c:2353
- ptrace_report_syscall include/linux/ptrace.h:420 [inline]
- ptrace_report_syscall_exit include/linux/ptrace.h:482 [inline]
- syscall_exit_work kernel/entry/common.c:249 [inline]
- syscall_exit_to_user_mode_prepare+0x129/0x280 kernel/entry/common.c:276
- __syscall_exit_to_user_mode_work kernel/entry/common.c:281 [inline]
- syscall_exit_to_user_mode+0x9/0x50 kernel/entry/common.c:294
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fc1c0c35b6b
-Code: 0f 05 48 3d 00 f0 ff ff 77 45 c3 0f 1f 40 00 48 83 ec 18 89 7c 24
-0c e8 63 fc ff ff 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00
-f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 a1 fc ff ff 8b 44
-RSP: 002b:00007ffd78a06090 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
-RAX: 0000000000000000 RBX: 0000000000000007 RCX: 00007fc1c0c35b6b
-RDX: 0000000020000280 RSI: 0000000040086200 RDI: 0000000000000006
-RBP: 0000000000000007 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000293 R12: 000000000000000c
-R13: 0000000000000003 R14: 00007fc1c0cfe4a0 R15: 00007ffd78a06140
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:dma_unmap_sgtable include/linux/dma-mapping.h:378 [inline]
-RIP: 0010:put_sg_table drivers/dma-buf/udmabuf.c:89 [inline]
-RIP: 0010:release_udmabuf+0xcb/0x4f0 drivers/dma-buf/udmabuf.c:114
+Maarten Lankhorst (2):
+  drm/i915: Remove gem and overlay frontbuffer tracking
+  drm/i915: Remove special frontbuffer type
 
-Reported-by: syzbot+c80e9ef5d8bb45894db0@syzkaller.appspotmail.com
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- drivers/dma-buf/udmabuf.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/display/intel_cursor.c   |   6 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   4 +-
+ .../drm/i915/display/intel_display_types.h    |   8 +-
+ drivers/gpu/drm/i915/display/intel_fb.c       |  11 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |   7 +-
+ .../gpu/drm/i915/display/intel_frontbuffer.c  | 103 ++----------------
+ .../gpu/drm/i915/display/intel_frontbuffer.h  |  65 ++---------
+ drivers/gpu/drm/i915/display/intel_overlay.c  |  14 ---
+ .../drm/i915/display/intel_plane_initial.c    |   3 +-
+ drivers/gpu/drm/i915/display/intel_psr.c      |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c   |   4 -
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    |   7 --
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   2 -
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  25 -----
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  22 ----
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   4 -
+ drivers/gpu/drm/i915/i915_driver.c            |   1 +
+ drivers/gpu/drm/i915/i915_drv.h               |   1 -
+ drivers/gpu/drm/i915/i915_gem.c               |   8 --
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |   1 -
+ drivers/gpu/drm/i915/i915_vma.c               |  12 --
+ 21 files changed, 35 insertions(+), 274 deletions(-)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 38e8767ec371..bf11d32205f3 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -124,17 +124,20 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
- {
- 	struct udmabuf *ubuf = buf->priv;
- 	struct device *dev = ubuf->device->this_device;
-+	int ret = 0;
- 
- 	if (!ubuf->sg) {
- 		ubuf->sg = get_sg_table(dev, buf, direction);
--		if (IS_ERR(ubuf->sg))
--			return PTR_ERR(ubuf->sg);
-+		if (IS_ERR(ubuf->sg)) {
-+			ret = PTR_ERR(ubuf->sg);
-+			ubuf->sg = NULL;
-+		}
- 	} else {
- 		dma_sync_sg_for_cpu(dev, ubuf->sg->sgl, ubuf->sg->nents,
- 				    direction);
- 	}
- 
--	return 0;
-+	return ret;
- }
- 
- static int end_cpu_udmabuf(struct dma_buf *buf,
 -- 
-2.35.1
+2.34.1
 
