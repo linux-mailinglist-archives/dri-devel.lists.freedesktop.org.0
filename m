@@ -1,85 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1248D5A127D
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 15:39:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8057D5A128C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 15:42:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45A0710E0E7;
-	Thu, 25 Aug 2022 13:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD2E010E12B;
+	Thu, 25 Aug 2022 13:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35EC010E0E7
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 13:39:45 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id F18DC5802D2;
- Thu, 25 Aug 2022 09:39:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 25 Aug 2022 09:39:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1661434781; x=1661441981; bh=xufXNQfWsW
- 5YMPwr77PxDXziEf7hBPLQzvXQIo3+2+Y=; b=KRY3ZJmLUrz8S7afTCwjV+6oVP
- hTtlebvUk7hjY/8s8PwqdJ3R9Z0EwogT5IbBAVEgOBSZdEtrSbrxTFN7gEX61ztq
- cidK+o2bTLG8i+LOdAXUqS1tE4UryHbuz7CY1fbrzvsuPUUomb5r1A6txmAcTMpW
- dWs/kEzOME+WWG3iOdu/czo1E7VQBI0qFo5hTRu9UBxucz43OTruG8RdlfPshahK
- fsPYnLq/KywCkzc9uQgpaQxoFy5bDDDUOeTEipfnBiFLR4EXkGr2YTU4v/7UBKXG
- U6S9ryjKeoVFgO2SKJbMuuVo7c3bXNgvxwVvGAw5Ly9kTCz1DWnyeEycm7ag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1661434781; x=1661441981; bh=xufXNQfWsW5YMPwr77PxDXziEf7h
- BPLQzvXQIo3+2+Y=; b=RZH4Z4XZhMW0HQ0yV+K9lv2Xk6n+odMvjRg4xiem1unP
- y44V2lmeJSbc3J3Yf/Z58mYGcwKGkz/x4S0mRomdYq+JMe0Klp6+OpSo0D5oWp2g
- yQBPMbNY+RMZRW1tyrMPJp4zn+JFk4xCfVCdZVQMLnj0zMjU881wkyt0XZbxtxoM
- Sord2tDZWNYw4fXxTms0I7824hrZwosPGAWDWMDy+CU6/PRuutKgEcAMD5yU+pwR
- gq41cv3QRCbf+fp64eaTAAk32G7yPKeAyTtApBqz5HJWboB/D/pnpALfx4V6lIz2
- zItw1gBXht3MnRipo0H1OztZu77gosZPc9GL6fkmIA==
-X-ME-Sender: <xms:nHsHY5s2vftPC2fJhSn4gpJtwz4fOESWnfOfu07gKIx-GB--5tQHqA>
- <xme:nHsHYyeeeTdDs9LacFBL_0S0SJboXaCpM-VBAeeXrSBiih5JMqSA-JsmCM3J1mag1
- 6rd_v4k66_nMEfdVoA>
-X-ME-Received: <xmr:nHsHY8y4M3jNYujUgbrqOFMIk7kslWNaitxFL2XvYpnemhsJeoz8sG8zazo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedgieehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
- geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:nHsHYwNjAC9XUpKy3wxGujpnkTEOCb1wnSjXt5yLrjifYdyxOwQ0ew>
- <xmx:nHsHY5-eJnmHvThPIanhcforvzimJwOeDcU_e3GqzdNq3AhAHYe5pQ>
- <xmx:nHsHYwUAb-WC1XeDLe00NVdGozPbgF-GEgHoL__q6yTSs6zm03lKGg>
- <xmx:nXsHY1u6EAo8Vb9fzDWEOXCOGN4Su2VXt3qFk_It84MuFO_R8OQELw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Aug 2022 09:39:39 -0400 (EDT)
-Date: Thu, 25 Aug 2022 15:39:36 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-Message-ID: <20220825133936.gnpgdtx4jedei5a6@houat>
-References: <20220817074710.w4c4xwj7edly2b5p@houat>
- <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
- <20220817111454.pn2iltvyo2drebq7@houat>
- <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
- <20220817131854.jwmhqvhfhp77bbr3@houat>
- <CAMuHMdXrfH9MArXesfNCvqayiq17u7XaqtSvXTNt4V10=obSHQ@mail.gmail.com>
- <20220818145436.vqojnhmvhjxdzooe@houat>
- <CAMuHMdW5kTUeg59fym7QxfN5oisTZHWbiAPeSYKJVShZWduJcA@mail.gmail.com>
- <20220818153442.u4knumkfbe7j6zj3@houat>
- <CAMuHMdUNYErf4PJLbSFFdB1EhvzbscqxHE74FnsjYQXLy8DLZA@mail.gmail.com>
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EC1D810E12B
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 13:42:37 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.93,263,1654527600"; d="scan'208";a="130587080"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+ by relmlie5.idc.renesas.com with ESMTP; 25 Aug 2022 22:42:36 +0900
+Received: from localhost.localdomain (unknown [10.226.93.110])
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7534F425D7F5;
+ Thu, 25 Aug 2022 22:42:32 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v5 0/2] Add RZ/G2L DSI driver
+Date: Thu, 25 Aug 2022 14:42:27 +0100
+Message-Id: <20220825134229.2620498-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="abetw7tfzbu2b4iz"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUNYErf4PJLbSFFdB1EhvzbscqxHE74FnsjYQXLy8DLZA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,191 +41,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series aims to support the MIPI DSI encoder found in the RZ/G2L
+SoC. It currently supports DSI mode only.
 
---abetw7tfzbu2b4iz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This unit supports MIPI Alliance Specification for Display Serial Interface (DSI)
+Specification. This unit provides a solution for transmitting MIPI DSI compliant
+digital video and packets. Normative References are below.
+* MIPI Alliance Specification for Display Serial Interface Version 1.3.1
+* MIPI Alliance Specification for D-PHY Version 2.1
 
-Hi,
+The following are key features of this unit.
 
-On Fri, Aug 19, 2022 at 11:35:42AM +0200, Geert Uytterhoeven wrote:
-> On Thu, Aug 18, 2022 at 5:34 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Thu, Aug 18, 2022 at 05:20:42PM +0200, Geert Uytterhoeven wrote:
-> > > On Thu, Aug 18, 2022 at 4:54 PM Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> > > > On Wed, Aug 17, 2022 at 04:04:24PM +0200, Geert Uytterhoeven wrote:
-> > > > > On Wed, Aug 17, 2022 at 3:19 PM Maxime Ripard <maxime@cerno.tech>=
- wrote:
-> > > > > > On Wed, Aug 17, 2022 at 03:05:52PM +0200, Geert Uytterhoeven wr=
-ote:
-> > > > > > > On Wed, Aug 17, 2022 at 1:15 PM Maxime Ripard <maxime@cerno.t=
-ech> wrote:
-> > > > > > > > On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeve=
-n wrote:
-> > > > > > > > > On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cer=
-no.tech> wrote:
-> > > > > > > > > > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterh=
-oeven wrote:
-> > > > > > > > > > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime=
-@cerno.tech> wrote:
-> > > > > > > > > > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uyt=
-terhoeven wrote:
-> > > > > > > > > > > > > > > > > Either you have to add them here (e.g. "h=
-d720p50" and "hd720p60"), or
-> > > > > > > > > > > > > > > > > handle them through "@<refresh>".  The la=
-tter would impact "[PATCH v1
-> > > > > > > > > > > > > > > > > 09/35] drm/modes: Move named modes parsin=
-g to a separate function", as
-> > > > > > > > > > > > > > > > > currently a named mode and a refresh rate=
- can't be specified both.
-> > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > I think the former would make more sense. I=
-t simplifies a bit the
-> > > > > > > > > > > > > > > > parser, and we're going to use a named mode=
- anyway.
-> > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce=
- the tv_mode property as a
-> > > > > > > > > > > > > > > > > command-line option" uses a separate "tv_=
-mode" option, and not the main
-> > > > > > > > > > > > > > > > > mode name, I think you want to add them h=
-ere.
-> > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > It's a separate story I think, we could hav=
-e a named mode hd720p50,
-> > > > > > > > > > > > > > > > which would be equivalent to 1280x720,tv_mo=
-de=3Dhd720p
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > So where's the field rate in "1280x720,tv_mod=
-e=3Dhd720p"?
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Above you said "I think the former would make mor=
-e sense", so that
-> > > > > > > > > > > > > should be "1280x720,tv_mode=3Dhd720p50"?
-> > > > > > > > > > > >
-> > > > > > > > > > > > No, 720p at 50Hz would be either hd720p50 or 1280x7=
-20@50,tv_mode=3Dhd720p
-> > > > > > > > > > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=
-=3Dhd720p
-> > > > > > > > > > >
-> > > > > > > > > > > I disagree: hd720p50 and hd720p60 are different TV mo=
-des.
-> > > > > > > > > >
-> > > > > > > > > > I agree, and I don't see how that command-line doesn't =
-express that?
-> > > > > > > > >
-> > > > > > > > > Oh, I see what you mean: yes, it expresses that.
-> > > > > > > > > But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576=
-}[ip] modes,
-> > > > > > > > > where the TV mode specifies both number of lines and fram=
-e rate.
-> > > > > > > >
-> > > > > > > > Only if we're using a named mode, and naming is hard :)
-> > > > > > >
-> > > > > > > That's not true: "640x480,tv_mode=3DPAL-N" would give me a mo=
-de with
-> > > > > > > 625 lines and 25 frames/s, "640x480,tv_mode=3DPAL-M" would gi=
-ve me a
-> > > > > > > mode with 525 lines and 30 frames/s.
-> > > > > >
-> > > > > > In that series, "640x480,tv_mode=3DPAL-N" would be rejected as =
-invalid:
-> > > > > >
-> > > > > > https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-proper=
-ties-v1-14-3d53ae722097@cerno.tech/
-> > > > >
-> > > > > It would become supported once the ideas from thread "[PATCH v1 0=
-4/35]
-> > > > > drm/modes: Introduce 480i and 576i modes" are implemented...
-> > > >
-> > > > Indeed, but I'm still not sure what your concern is here.
-> > > > "640x480,tv_mode=3DPAL-N" and "640x480,tv_mode=3DPAL-M" are both fa=
-irly
-> > > > obvious.
-> > > >
-> > > > You were initially saying that you had concern over the inconsisten=
-cy of
-> > > > NTSC/PAL/SECAM where the TV mode would specify a number of lines and
-> > > > frame rate, but hd720p50 also specifies a number of line and frame =
-rate?
-> > >
-> > > My concern is that you want to call the TV mode "hd720p", which
-> > > does not dictate the frame rate.
-> > > I would like to have both "720p50" and "720p60", as they do dictate
-> > > the frame rate, like all the non-hd modes.
-> >
-> > But they don't?
-> >
-> > The refresh rate is part of the drm_display_mode, whereas that property
-> > is metadata and entirely separate from the display mode.
-> >
-> > You can even change it without changing the mode at all
->=20
-> Yes, the refresh rate is part of drm_display_mode.  Vdisplay also
-> is, but that doesn't mean you can set it to e.g. 700 when using
-> "tv_mode=3DPAL-B". Some (combination of) parameters in drm_display_mode
-> are dictated by the tv_mode.
+* 1 channel
+* The number of Lane: 4-lane
+* Support up to Full HD (1920 × 1080), 60 fps (RGB888)
+* Maximum Bandwidth: 1.5 Gbps per lane
+* Support Output Data Format: RGB666 / RGB888
 
-But the opposite is also true: PAL-B and SECAM-B would be two different
-TV mode, but (could) have the same display mode.
+v4->v5:
+ * Added Ack from Sam.
+ * Added a trivial change, replaced rzg2l_mipi_dsi_parse_dt()
+   with drm_of_get_data_lanes_count_ep() in probe.
+v3->v4:
+ * Updated error handling in rzg2l_mipi_dsi_startup() and rzg2l_mipi_dsi_atomic_enable().
+v2->v3:
+ * Added Rb tag from Geert and Laurent
+ * Fixed the typo "Receive" -> "transmit"
+ * Added accepible values for data-lanes
+ * Sorted Header file in the example
+ * Added SoC specific compaible along with generic one.
+ * pass rzg2l_mipi_dsi pointer to {Link,Phy} register rd/wr function instead
+   of the memory pointer
+ * Fixed the comment in rzg2l_mipi_dsi_startup()
+ * Removed unnecessary dbg message from rzg2l_mipi_dsi_start_video()
+ * DRM bridge parameter initialization moved to probe
+ * Replaced dev_dbg->dev_err in rzg2l_mipi_dsi_parse_dt()
+ * Inserted the missing blank lane after return in probe()
+ * Added missing MODULE_DEVICE_TABLE
+ * Added include linux/bits.h in header file
+ * Fixed various macros in header file.
+ * Reorder the make file for DSI, so that it is no more dependent
+   on RZ/G2L DU patch series.
+v1->v2:
+ * Added full path for dsi-controller.yaml
+ * Modeled DSI + D-PHY as single block and updated reg property
+ * Fixed typo D_PHY->D-PHY
+ * Updated description
+ * Added interrupts and interrupt-names and updated the example 
+ * Driver rework based on dt-binding changes (DSI + D-PHY) as single block
+ * Replaced link_mmio and phy_mmio with mmio in struct rzg2l_mipi_dsi
+ * Replaced rzg2l_mipi_phy_write with rzg2l_mipi_dsi_phy_write
+   and rzg2l_mipi_dsi_link_write
+ * Replaced rzg2l_mipi_phy_read->rzg2l_mipi_dsi_link_read
+RFC->v1:
+ * Added a ref to dsi-controller.yaml.
+ * Added "depends on ARCH_RENESAS || COMPILE_TEST" on KCONFIG
+   and dropped DRM as it is implied by DRM_BRIDGE
+ * Used devm_reset_control_get_exclusive() for reset handle
+ * Removed bool hsclkmode from struct rzg2l_mipi_dsi
+ * Added error check for pm, using pm_runtime_resume_and_get() instead of
+   pm_runtime_get_sync()
+ * Added check for unsupported formats in rzg2l_mipi_dsi_host_attach()
+ * Avoided read-modify-write stopping hsclock
+ * Used devm_platform_ioremap_resource for resource allocation
+ * Removed unnecessary assert call from probe and remove.
+ * wrap the line after the PTR_ERR() in probe()
+ * Updated reset failure messages in probe
+ * Fixed the typo arstc->prstc
+ * Made hex constants to lower case.
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-23-biju.das.jz@bp.renesas.com/
 
-There's no equivalence or implication in that relationship, except for a
-smaller set of those parameters. But it's the entire display mode that
-we should compare.
 
-> Perhaps the meaning of "tv_mode" should be clarified? What does it
-> really mean, and what parameters does it (not) constrain?
+Biju Das (2):
+  dt-bindings: display: bridge: Document RZ/G2L MIPI DSI TX bindings
+  drm: rcar-du: Add RZ/G2L DSI driver
 
-As far as I'm concerned, it's only about the encoding. We can check
-after the fact that, say, you don't try to use a mode line with than 525
-lines and some NTSC variant, but the mode has precedence over the
-property.
+ .../bindings/display/bridge/renesas,dsi.yaml  | 182 +++++
+ drivers/gpu/drm/rcar-du/Kconfig               |   8 +
+ drivers/gpu/drm/rcar-du/Makefile              |   2 +
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 690 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
+ 5 files changed, 1033 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
 
-> For e.g. "PAL-B", I know it's a mode with 625 lines and 30 frames/s
-> (60 fields/s).
-> For "hd720p" I know it is an analog mode with 750 lines, but it's still
-> ambiguous, as I don't know if it is the variant with 60 or 50 frames/s.
+-- 
+2.25.1
 
-As far as the TV mode property is concerned, it doesn't encode neither
-whether it has 750 lines, nor the refresh rate.
-
-If you're talking about a named mode, then yeah, it's basically an alias
-for a mode + a property, so it does, but we can choose names that aren't
-ambiguous.
-
-Maxime
-
---abetw7tfzbu2b4iz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwd7mAAKCRDj7w1vZxhR
-xZkBAQDrEXnDTiQIDw7WVDdGrymHTzA68O6aoUE0nXlp+5E0EAEAzwBa5cUcNh9j
-iMwk3ETvnvqMbV5kyg5f+gPHMuMLswM=
-=NZmB
------END PGP SIGNATURE-----
-
---abetw7tfzbu2b4iz--
