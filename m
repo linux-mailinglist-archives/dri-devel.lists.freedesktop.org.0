@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4445A0A19
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 09:25:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBFB5A0A44
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 09:29:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3A511A1CB;
-	Thu, 25 Aug 2022 07:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66CDD10E1D2;
+	Thu, 25 Aug 2022 07:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98CE514A0CB
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 07:24:02 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id c24so17126899pgg.11
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 00:24:02 -0700 (PDT)
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDB4814AD46
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 07:29:23 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ r15-20020a17090a1bcf00b001fabf42a11cso3983010pjr.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 00:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc;
- bh=/kpt2RV6NM9K6J+Df1fFRo6EZL8n/4JlPeLG7FAew6U=;
- b=UDBqe9YjPW7t3UyrluqNFqCKncHu/IFGNJrVjvdU/qUzU9/RInEy1OUH+YhUtqZSjo
- H5KCL6YWlLFAc4dzcpZLFyZWVItgkRUiUpAuGkDVWylwYv4S8vPQ3QzXirhjcM4BL5LJ
- IC7PGzR5x7uffJJB+z5VktykrB0bl6cMp52YSNx+AeW2KWjy/SgD7A2gxFuqBpWoV6hz
- QQ2zT5406WVkKvb/ykqJgDTja5ESHrRoCMht2AUVoU4nahwFzg2EKNda4NEP51N8k5B6
- BP2m6t52bad71ST+B+m0XnikxPtbmkkQKkqrjDi3cqas0dJOPRMc4Fgdaa/848EV5/eH
- /qUA==
+ bh=JbGIvcsfEVLV1RHydnmdeBi6HQ0+QJqGOf7I2WG/zUU=;
+ b=Gn19uEzPb7lUl0trxaRTO63z3RoJGahgxtzhBIpVj3lyr1LRBHrAq8oJ4fIhKo0UpP
+ to4/XSiJLyZp8ZrSe8iPg0bH8AGAwBKMhxdeYi5x5vMf3cnEngrtZptU8h5fVPvSKgF5
+ aDoq1Kv8rbqLGTV6rMFZ4e1PBb3hOdxscLNsHHeGKxRGvCQAbQXEcin0v5ck4nsvEaIk
+ 4sWhjdOx7TtGh77Y28V0lmHH/yEhiOJgEfhfReaPAx63g8ad5etZSzv8F4sS9/8jIV0E
+ 4UdcllTUSpQDeWqWp/EjGbC/eBz1yfWZZrPMtmL6yYWUWhI8iyiPA2sHu1AFbc2a23c3
+ UTig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc;
- bh=/kpt2RV6NM9K6J+Df1fFRo6EZL8n/4JlPeLG7FAew6U=;
- b=mN1T0zIf0CrZVWr2+oNCJIkI2Bw4PNotMHpNv4yfqzIe6CznqBchQDKHiFkhihq/vF
- xgmJu2kw0JAgvWMeq+2Io0EloCMsVS9rKYMDskynzTVHpWNTqFq6bTVUw98fCUnoYsNT
- rID/XQDL9BMYFBA1VkKk1j5Dn63RUECvAcucTeipM1yTCBhrRzSJdi2MElfuLDxZt2kc
- t6I2F45VUjRzp8OlO/TxMQuUxWk6x+q7GGR4TC+Ih/Fb688i8oHVosvjIf+WkfE8db8P
- f6EdR3nvObzpAKAyijxKzqpllz0popIKt8YJi7bXWAcKQHq6elC6Kuniz7EDrnbyM0T+
- FQDA==
-X-Gm-Message-State: ACgBeo0yTUS79ETuuBt0RI726k6EaeL+Bgeo9mldIzXoSuX4fSbfLglf
- qD7p9Ce0DLdAVPS55nacMvA=
-X-Google-Smtp-Source: AA6agR7v/r3DRgd8SnJ0ZIUhy/OVQel9Bx9fmiJXxu11YC3eOwMJefcW1JsusLYI5j/00IiosOtX/w==
-X-Received: by 2002:a65:6b8e:0:b0:42a:162c:e3a0 with SMTP id
- d14-20020a656b8e000000b0042a162ce3a0mr2215384pgw.464.1661412241538; 
- Thu, 25 Aug 2022 00:24:01 -0700 (PDT)
+ bh=JbGIvcsfEVLV1RHydnmdeBi6HQ0+QJqGOf7I2WG/zUU=;
+ b=ye3uhBkf+csn88AQjlhTew2IC/Z6HjZwNnrzsAtRt+G5+da5jJXGFW1jE+4q/n2Ogp
+ 9SBZJEfZp4pTi5qWCdwv62Xsp98sA95rX8ZlFl0Tx8a6PUBznaVWxcwhDGfCN6m+yDQJ
+ yxCs04mGmGvbgbYmBTNWfnRZNCMMzae0OSvMXPdS+FrC1f2EQld3Smc1Lrhh/e8gbF9K
+ rHnwM7PIS1+XfnMSUCxRmeS/hGdfFF1ujMLjTPQtO1hB3pNJXP/lX+gsaSINqmJUoSG9
+ 7mNNvA3Pg3pF3RDUx+Lu0Ovd0EV5HFWhPIpMN9zwEOo28/BYtMwKvoKfYL02Z0FMRLu1
+ 8DdA==
+X-Gm-Message-State: ACgBeo3uaGOqc84EjV4GN1tUa368VolBui7lm32rlBs8hh1nJQHPTxdO
+ S9ABTNaBO9feAM8w+yeNIks=
+X-Google-Smtp-Source: AA6agR5eNdfyGjsShlxMUK2iVcd7RJHNVejWbYcPuno1FY9q/ArdYNJAmLGhc8KM1dSd3IJ5yeGo7w==
+X-Received: by 2002:a17:902:b581:b0:172:a34e:18fd with SMTP id
+ a1-20020a170902b58100b00172a34e18fdmr2500538pls.163.1661412557593; 
+ Thu, 25 Aug 2022 00:29:17 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
  by smtp.gmail.com with ESMTPSA id
- x124-20020a623182000000b00534cb3872edsm14256958pfx.166.2022.08.25.00.23.59
+ u66-20020a626045000000b005363bc65bb1sm11213146pfb.91.2022.08.25.00.29.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 00:24:00 -0700 (PDT)
+ Thu, 25 Aug 2022 00:29:17 -0700 (PDT)
 From: cgel.zte@gmail.com
 X-Google-Original-From: ye.xingchen@zte.com.cn
-To: matthias.bgg@gmail.com
-Subject: [PATCH linux-next v2] drm/mediatek: Remove the unneeded result
-Date: Thu, 25 Aug 2022 07:23:35 +0000
-Message-Id: <20220825072335.228921-1-ye.xingchen@zte.com.cn>
+To: jernej.skrabec@gmail.com
+Subject: [PATCH linux-next] drm/bridge: parade-ps8622: Remove the unneeded
+ result variable
+Date: Thu, 25 Aug 2022 07:29:13 +0000
+Message-Id: <20220825072913.229357-1-ye.xingchen@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,43 +70,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, airlied@linux.ie,
- ye xingchen <ye.xingchen@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: neil.armstrong@linaro.org, jonas@kwiboo.se, airlied@linux.ie,
+ ye xingchen <ye.xingchen@zte.com.cn>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ Zeal Robot <zealci@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: ye xingchen <ye.xingchen@zte.com.cn>
 
-Return the value drm_mode_config_helper_suspend() directly instead of
- storing it in another redundant variable.
+Return the value ps8622_set() directly instead of storing it in another
+redundant variable.
 
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 ---
-v1 -> v2
-Add all the mailinglists that get_maintainers.pl give.
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/parade-ps8622.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 5f02f8d0e4fc..91f58db5915f 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -833,11 +833,8 @@ static int mtk_drm_sys_prepare(struct device *dev)
+diff --git a/drivers/gpu/drm/bridge/parade-ps8622.c b/drivers/gpu/drm/bridge/parade-ps8622.c
+index 309de802863d..c605cd725606 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8622.c
++++ b/drivers/gpu/drm/bridge/parade-ps8622.c
+@@ -324,14 +324,12 @@ static int ps8622_send_config(struct ps8622_bridge *ps8622)
+ static int ps8622_backlight_update(struct backlight_device *bl)
  {
- 	struct mtk_drm_private *private = dev_get_drvdata(dev);
- 	struct drm_device *drm = private->drm;
--	int ret;
--
--	ret = drm_mode_config_helper_suspend(drm);
+ 	struct ps8622_bridge *ps8622 = dev_get_drvdata(&bl->dev);
+-	int ret, brightness = backlight_get_brightness(bl);
++	int brightness = backlight_get_brightness(bl);
  
+ 	if (!ps8622->enabled)
+ 		return -EINVAL;
+ 
+-	ret = ps8622_set(ps8622->client, 0x01, 0xa7, brightness);
+-
 -	return ret;
-+	return drm_mode_config_helper_suspend(drm);
++	return ps8622_set(ps8622->client, 0x01, 0xa7, brightness);
  }
  
- static void mtk_drm_sys_complete(struct device *dev)
+ static const struct backlight_ops ps8622_backlight_ops = {
 -- 
 2.25.1
