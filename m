@@ -2,54 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E7C5A16A1
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 18:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F185A16AC
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 18:27:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3310810E644;
-	Thu, 25 Aug 2022 16:26:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30AD510E7CB;
+	Thu, 25 Aug 2022 16:27:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4252E10E644
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 16:26:14 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 27PGQABY033479;
- Thu, 25 Aug 2022 11:26:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1661444770;
- bh=8su/TFzGcYfole92yN6p35Ziqsmi+iO39SnkJsJK1pc=;
- h=From:To:CC:Subject:Date;
- b=P7Kz/CBJkXro1zY6cKflqyYLpf9JInFXS/TappoePSd+vpS4aECg4/QtnMW8qi/Ui
- ljFFKUN60dE8URxAdfGrkVUmD6t4Ycrwnwlcs5LNfcX1NUN+WVUqYc30nTNRw48hBs
- 3whjd3rs61Wze3F8buC20IVETxfK6YiXHeJBrkxc=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 27PGQAF1019951
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 25 Aug 2022 11:26:10 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Thu, 25
- Aug 2022 11:26:09 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Thu, 25 Aug 2022 11:26:09 -0500
-Received: from ula0226330.dal.design.ti.com (ileax41-snat.itg.ti.com
- [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 27PGQ9sW103315;
- Thu, 25 Aug 2022 11:26:09 -0500
-From: Andrew Davis <afd@ti.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Tomi
- Valkeinen <tomba@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm: omapdrm: Improve check for contiguous buffers
-Date: Thu, 25 Aug 2022 11:26:09 -0500
-Message-ID: <20220825162609.14076-1-afd@ti.com>
-X-Mailer: git-send-email 2.36.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727F210E7CB;
+ Thu, 25 Aug 2022 16:27:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09F8C2B3;
+ Thu, 25 Aug 2022 18:27:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1661444834;
+ bh=Jia0FRh1rO7ns0vJdDk2RVbMJz6ELVXmn8iQUk4lGH0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pmf6ItrEGPVynig39smn1gxFCAdOnqEaKcA3Ne6NFSkl3PYeoB1FHqSFjAWWFAQM9
+ VwY8zxrWIpHtOHTLDc7H1CjMb3FzimbqDZarEKL5EykPPtcOVHODKjPRd3lDTke0Nx
+ rLCwqiCI2Ueu/Yql7ai47z0DW+6bBrMbV8Dk+7CE=
+Date: Thu, 25 Aug 2022 19:27:07 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/5] dt-bindings: socionext,uniphier-system-cache: drop
+ minItems equal to maxItems
+Message-ID: <Ywei272RbxYZa7lO@pendragon.ideasonboard.com>
+References: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,74 +47,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Davis <afd@ti.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Tomasz Figa <tomasz.figa@gmail.com>, dri-devel@lists.freedesktop.org,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, linux-clk@vger.kernel.org,
+ Marek Vasut <marex@denx.de>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
+ devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Vladimir Zapolskiy <vz@mleia.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ linux-tegra@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-ide@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, linux-renesas-soc@vger.kernel.org,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While a scatter-gather table having only 1 entry does imply it is
-contiguous, it is a logic error to assume the inverse. Tables can have
-more than 1 entry and still be contiguous. Use a proper check here.
+Hi Krzysztof,
 
-Signed-off-by: Andrew Davis <afd@ti.com>
----
+Thank you for the patch.
 
-Changes from v1:
- - Sent correct version of patch :)
+On Thu, Aug 25, 2022 at 02:33:30PM +0300, Krzysztof Kozlowski wrote:
+> minItems, if missing, are implicitly equal to maxItems, so drop
+> redundant piece to reduce size of code.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
- drivers/gpu/drm/omapdrm/omap_gem.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
-index cf571796fd26e..c10f3d2dd61ce 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem.c
-+++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-@@ -48,7 +48,7 @@ struct omap_gem_object {
- 	 *   OMAP_BO_MEM_DMA_API flag set)
- 	 *
- 	 * - buffers imported from dmabuf (with the OMAP_BO_MEM_DMABUF flag set)
--	 *   if they are physically contiguous (when sgt->orig_nents == 1)
-+	 *   if they are physically contiguous
- 	 *
- 	 * - buffers mapped through the TILER when pin_cnt is not zero, in which
- 	 *   case the DMA address points to the TILER aperture
-@@ -148,12 +148,18 @@ u64 omap_gem_mmap_offset(struct drm_gem_object *obj)
- 	return drm_vma_node_offset_addr(&obj->vma_node);
- }
- 
-+static bool omap_gem_sgt_is_contiguous(struct sg_table *sgt, size_t size)
-+{
-+	return !(drm_prime_get_contiguous_size(sgt) < size);
-+}
-+
- static bool omap_gem_is_contiguous(struct omap_gem_object *omap_obj)
- {
- 	if (omap_obj->flags & OMAP_BO_MEM_DMA_API)
- 		return true;
- 
--	if ((omap_obj->flags & OMAP_BO_MEM_DMABUF) && omap_obj->sgt->nents == 1)
-+	if ((omap_obj->flags & OMAP_BO_MEM_DMABUF) &&
-+	    omap_gem_sgt_is_contiguous(omap_obj->sgt, omap_obj->base.size))
- 		return true;
- 
- 	return false;
-@@ -1398,7 +1404,7 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
- 	union omap_gem_size gsize;
- 
- 	/* Without a DMM only physically contiguous buffers can be supported. */
--	if (sgt->orig_nents != 1 && !priv->has_dmm)
-+	if (!omap_gem_sgt_is_contiguous(sgt, size) && !priv->has_dmm)
- 		return ERR_PTR(-EINVAL);
- 
- 	gsize.bytes = PAGE_ALIGN(size);
-@@ -1412,7 +1418,7 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
- 
- 	omap_obj->sgt = sgt;
- 
--	if (sgt->orig_nents == 1) {
-+	if (omap_gem_sgt_is_contiguous(sgt, size)) {
- 		omap_obj->dma_addr = sg_dma_address(sgt->sgl);
- 	} else {
- 		/* Create pages list from sgt */
+> ---
+>  .../bindings/arm/socionext/socionext,uniphier-system-cache.yaml  | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/socionext/socionext,uniphier-system-cache.yaml b/Documentation/devicetree/bindings/arm/socionext/socionext,uniphier-system-cache.yaml
+> index 7ca5375f278f..6096c082d56d 100644
+> --- a/Documentation/devicetree/bindings/arm/socionext/socionext,uniphier-system-cache.yaml
+> +++ b/Documentation/devicetree/bindings/arm/socionext/socionext,uniphier-system-cache.yaml
+> @@ -22,7 +22,6 @@ properties:
+>      description: |
+>        should contain 3 regions: control register, revision register,
+>        operation register, in this order.
+> -    minItems: 3
+>      maxItems: 3
+>  
+>    interrupts:
+
 -- 
-2.36.1
+Regards,
 
+Laurent Pinchart
