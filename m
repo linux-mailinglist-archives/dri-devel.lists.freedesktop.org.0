@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013195A0668
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 03:41:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 965035A066B
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 03:42:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E1ED0FB5;
-	Thu, 25 Aug 2022 01:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E61E4D0FE5;
+	Thu, 25 Aug 2022 01:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 924E9D0F84;
- Thu, 25 Aug 2022 01:39:23 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EDC6D0E35;
+ Thu, 25 Aug 2022 01:39:39 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 067B061AF0;
- Thu, 25 Aug 2022 01:39:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 121E1C433D6;
- Thu, 25 Aug 2022 01:39:18 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6216DB826C6;
+ Thu, 25 Aug 2022 01:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD41C433B5;
+ Thu, 25 Aug 2022 01:39:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661391561;
- bh=vAN1c5AjNN2rDm92kIqJFVSrUWQ5pec54nV3uN1V/Ag=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mRTwa97iAy8RZj1QbWI2RI2Ah5wPk1iHR4t4y/MneDLie3HPWA03qfDnRShY3EEot
- TacxMq3PI1dhmllKAfZPMxzgNWX4nCKuxjJgkNRji8MhG3baPkW156flrb/iPlQ+AA
- qiaDcpD7hUCHEVMe1y+dbB4N3F6ZT7D1Khg2LSDz0ZcSJjmQZ1ul/PD3TmC43bGPEZ
- 0d22BpOhKs/+Tke9TkJLTWTjV4amtjxjRDvKdzzU4Q8WPL77jtwYl/lqCrV/Y97OCq
- X+GmKXie0+GcmfPcmcZBtwFeTPjudgrgWxmQgePiIYgC99SVBSXOG4tItdgSwwide+
- y6UK1xvelfXnA==
+ s=k20201202; t=1661391576;
+ bh=Si1aPxgcvJy78GQs4fgXZOdxEB0Ayzx9ujfRXTCW+Qk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nGdrozcQEP/Rl4lVYWKw42J2h3ibYjGbkhTtOqGRPzysnxH4fS0mfxU63V6TF+42O
+ OcAePGU0JgFCc7k/nwZB6ZzxU3uD/OfK2NMUlmc4KaddlD5iBOayp2NYNvFKYB923h
+ yAYjvl85I6a/UN0EGnXHN9a/jDjWJyZUv1WDEgqtrPKj0gMadfcwZ/QcxvNRejP5Lp
+ nAOpQOd11Kba5Vo5R+TLJGpU2aSaUNWGp8/QA4f87qIy3IUwII4JPbYKAPREzDE6dA
+ eqgv6pas2vP954x0yQXlZDjey+Edz+jJOlYHHaj4Gny3npeyASwHs3fXZFdDfq1eP3
+ YViNawQzXN9wQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 08/11] drm/amdgpu: Increase tlb flush timeout for
- sriov
-Date: Wed, 24 Aug 2022 21:38:29 -0400
-Message-Id: <20220825013836.23205-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 1/8] drm/amd/display: Avoid MPC infinite loop
+Date: Wed, 24 Aug 2022 21:39:20 -0400
+Message-Id: <20220825013932.23467-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220825013836.23205-1-sashal@kernel.org>
-References: <20220825013836.23205-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,96 +53,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dusica Milinkovic <Dusica.Milinkovic@amd.com>, airlied@linux.ie,
- lijo.lazar@amd.com, dri-devel@lists.freedesktop.org, Prike.Liang@amd.com,
- YiPeng.Chai@amd.com, mario.limonciello@amd.com, Likun.Gao@amd.com,
- victor.skvortsov@amd.com, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, Yuliang.Shi@amd.com, tao.zhou1@amd.com,
- evan.quan@amd.com, Shaoyun Liu <shaoyun.liu@amd.com>, Jack.Xiao@amd.com,
- Xinhui.Pan@amd.com, Alex Deucher <alexander.deucher@amd.com>, lang.yu@amd.com,
- christian.koenig@amd.com, Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, jiapeng.chong@linux.alibaba.com,
+ chiahsuan.chung@amd.com, Alex Hung <alex.hung@amd.com>, airlied@linux.ie,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ isabbasso@riseup.net, Jun Lei <Jun.Lei@amd.com>,
+ Josip Pavic <Josip.Pavic@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dusica Milinkovic <Dusica.Milinkovic@amd.com>
+From: Josip Pavic <Josip.Pavic@amd.com>
 
-[ Upstream commit 373008bfc9cdb0f050258947fa5a095f0657e1bc ]
+[ Upstream commit 8de297dc046c180651c0500f8611663ae1c3828a ]
 
-[Why]
-During multi-vf executing benchmark (Luxmark) observed kiq error timeout.
-It happenes because all of VFs do the tlb invalidation at the same time.
-Although each VF has the invalidate register set, from hardware side
-the invalidate requests are queue to execute.
+[why]
+In some cases MPC tree bottom pipe ends up point to itself.  This causes
+iterating from top to bottom to hang the system in an infinite loop.
 
-[How]
-In case of 12 VF increase timeout on 12*100ms
+[how]
+When looping to next MPC bottom pipe, check that the pointer is not same
+as current to avoid infinite loop.
 
-Signed-off-by: Dusica Milinkovic <Dusica.Milinkovic@amd.com>
-Acked-by: Shaoyun Liu <shaoyun.liu@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Josip Pavic <Josip.Pavic@amd.com>
+Reviewed-by: Jun Lei <Jun.Lei@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Aric Cyr <aric.cyr@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu.h    | 2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 3 ++-
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c  | 3 ++-
- 3 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_mpc.c | 6 ++++++
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c | 6 ++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index d949d6c52f24..ff5555353eb4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -283,7 +283,7 @@ enum amdgpu_kiq_irq {
- 	AMDGPU_CP_KIQ_IRQ_DRIVER0 = 0,
- 	AMDGPU_CP_KIQ_IRQ_LAST
- };
--
-+#define SRIOV_USEC_TIMEOUT  1200000 /* wait 12 * 100ms for SRIOV */
- #define MAX_KIQ_REG_WAIT       5000 /* in usecs, 5ms */
- #define MAX_KIQ_REG_BAILOUT_INTERVAL   5 /* in msecs, 5ms */
- #define MAX_KIQ_REG_TRY 80 /* 20 -> 80 */
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-index 150fa5258fb6..2aa9242c58ab 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-@@ -371,6 +371,7 @@ static int gmc_v10_0_flush_gpu_tlb_pasid(struct amdgpu_device *adev,
- 	uint32_t seq;
- 	uint16_t queried_pasid;
- 	bool ret;
-+	u32 usec_timeout = amdgpu_sriov_vf(adev) ? SRIOV_USEC_TIMEOUT : adev->usec_timeout;
- 	struct amdgpu_ring *ring = &adev->gfx.kiq.ring;
- 	struct amdgpu_kiq *kiq = &adev->gfx.kiq;
- 
-@@ -389,7 +390,7 @@ static int gmc_v10_0_flush_gpu_tlb_pasid(struct amdgpu_device *adev,
- 
- 		amdgpu_ring_commit(ring);
- 		spin_unlock(&adev->gfx.kiq.ring_lock);
--		r = amdgpu_fence_wait_polling(ring, seq, adev->usec_timeout);
-+		r = amdgpu_fence_wait_polling(ring, seq, usec_timeout);
- 		if (r < 1) {
- 			dev_err(adev->dev, "wait for kiq fence error: %ld.\n", r);
- 			return -ETIME;
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-index 3a864041968f..1673bf3bae55 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-@@ -839,6 +839,7 @@ static int gmc_v9_0_flush_gpu_tlb_pasid(struct amdgpu_device *adev,
- 	uint32_t seq;
- 	uint16_t queried_pasid;
- 	bool ret;
-+	u32 usec_timeout = amdgpu_sriov_vf(adev) ? SRIOV_USEC_TIMEOUT : adev->usec_timeout;
- 	struct amdgpu_ring *ring = &adev->gfx.kiq.ring;
- 	struct amdgpu_kiq *kiq = &adev->gfx.kiq;
- 
-@@ -878,7 +879,7 @@ static int gmc_v9_0_flush_gpu_tlb_pasid(struct amdgpu_device *adev,
- 
- 		amdgpu_ring_commit(ring);
- 		spin_unlock(&adev->gfx.kiq.ring_lock);
--		r = amdgpu_fence_wait_polling(ring, seq, adev->usec_timeout);
-+		r = amdgpu_fence_wait_polling(ring, seq, usec_timeout);
- 		if (r < 1) {
- 			dev_err(adev->dev, "wait for kiq fence error: %ld.\n", r);
- 			up_read(&adev->reset_sem);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_mpc.c
+index 8b2f29f6dabd..068e79fa3490 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_mpc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_mpc.c
+@@ -118,6 +118,12 @@ struct mpcc *mpc1_get_mpcc_for_dpp(struct mpc_tree *tree, int dpp_id)
+ 	while (tmp_mpcc != NULL) {
+ 		if (tmp_mpcc->dpp_id == dpp_id)
+ 			return tmp_mpcc;
++
++		/* avoid circular linked list */
++		ASSERT(tmp_mpcc != tmp_mpcc->mpcc_bot);
++		if (tmp_mpcc == tmp_mpcc->mpcc_bot)
++			break;
++
+ 		tmp_mpcc = tmp_mpcc->mpcc_bot;
+ 	}
+ 	return NULL;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c
+index 5a188b2bc033..0a00bd8e00ab 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c
+@@ -488,6 +488,12 @@ struct mpcc *mpc2_get_mpcc_for_dpp(struct mpc_tree *tree, int dpp_id)
+ 	while (tmp_mpcc != NULL) {
+ 		if (tmp_mpcc->dpp_id == 0xf || tmp_mpcc->dpp_id == dpp_id)
+ 			return tmp_mpcc;
++
++		/* avoid circular linked list */
++		ASSERT(tmp_mpcc != tmp_mpcc->mpcc_bot);
++		if (tmp_mpcc == tmp_mpcc->mpcc_bot)
++			break;
++
+ 		tmp_mpcc = tmp_mpcc->mpcc_bot;
+ 	}
+ 	return NULL;
 -- 
 2.35.1
 
