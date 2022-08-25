@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7DA5A19FB
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 22:03:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC745A1A15
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 22:12:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5968610E0A1;
-	Thu, 25 Aug 2022 20:03:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5D8810E0C7;
+	Thu, 25 Aug 2022 20:11:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0158310E0A1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 20:03:24 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id
- v12-20020a9d7d0c000000b00638e210c995so14617439otn.13
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 13:03:24 -0700 (PDT)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4880910E0BB;
+ Thu, 25 Aug 2022 20:11:51 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ o15-20020a9d718f000000b00638c1348012so14693705otj.2; 
+ Thu, 25 Aug 2022 13:11:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=NX+kWlu7YzDi1erT8mv3EVrowDzctlnFUR1m+ea6ebM=;
- b=7Gv4p8Z32FhomQGj5idLroUZWmK0H3vyi7tDKKDP71EXLWXCSuksMPrAqty16SwDXh
- vHzyepwAHXTfgTuk4UrcUf6gHtbH3k0eCZzkzQEpQga293asTesLWbmbIMO4NDWScKqc
- s+BniZ5FMlcxnbSZgJEDiEEU3BLwyz9Ug+9OsYKhTsQmxjpyiW5PsB5qEx2aOQO7mNbk
- k04Frt0HmtuOCKMtd773f9GKexM3gb56evtz945UCtD8l7Dqph89HxZmg/AFqYSrwtEa
- PFQ36XrWf6Wg4iiIDI1HvX1ei3XsKJMTr+fHsI0WtEOqtnMsLoJaLVLco9lw68tnCNFc
- wd1w==
-X-Gm-Message-State: ACgBeo3A0eS1vHiEnGe1LYUV9rmkveDeXkxsLIEapGZ6CfT9bdtJBQVj
- tfv5PBPKh20ER0zFHwDHtQ==
-X-Google-Smtp-Source: AA6agR6EYi3++RtEDrELk6ImmynBdGP+rRvJ/VMvskjARhold+xHLeFuDizT0Xo3s+lz8Jth8lG9Qw==
-X-Received: by 2002:a05:6830:3699:b0:638:8a49:b83 with SMTP id
- bk25-20020a056830369900b006388a490b83mr257269otb.13.1661457804218; 
- Thu, 25 Aug 2022 13:03:24 -0700 (PDT)
+ bh=Oj86uGkClNsnwE1dPgwe6HKsJXAs0gnD9U8fRVhpgYA=;
+ b=JdILOSDpyhcrKH036Xzm8VwOFj7qgTpasYD7FekFrP902D5+WYNMFHZMz5bNOMkSlJ
+ IMPxHgEPU7xkROd8/a/6xVh2WZKvkLzJHw5/dyLP6PWd5cuwraYE/U9JLADH2wmaWym0
+ Rn0wo6DmQkNbJp0dNic4D1VE0tUnrqOhWsBH0V+/dc9t8DUUMLoomzcArcKWf/Lacw9k
+ fdk07062mjpQbf8elkwCmVhsrDGwXsqwHAzMobTR4Pnm3hVNrPHDcqX9EyaGzqkBxrQX
+ Wx5LpVjw1R+hVpsTUIkPcZKcoDvi5GCuRpkGbpXQiQ9DD2mws/yCtAS8cQE7lgXyUFLu
+ ULHQ==
+X-Gm-Message-State: ACgBeo1FC2/lVy/qWfV77QAnjoM6l921+KbhWaElqZ0ugod/xBqrDW0z
+ MW/KiR+IaJYOvoO2pwIb+Q==
+X-Google-Smtp-Source: AA6agR5hwcOt2GSmumZQPTU+DdvLWeb8FIdquxqTRq407DHgvOQFNI+9yln3wmNE7EjAWVfmy4sDkw==
+X-Received: by 2002:a05:6830:d7:b0:639:ac3:7a6 with SMTP id
+ x23-20020a05683000d700b006390ac307a6mr276969oto.162.1661458310460; 
+ Thu, 25 Aug 2022 13:11:50 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- y5-20020a056830208500b00636fd78dd57sm24otq.41.2022.08.25.13.03.23
+ y16-20020a056870429000b0010bf07976c9sm73446oah.41.2022.08.25.13.11.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 13:03:23 -0700 (PDT)
-Received: (nullmailer pid 1595917 invoked by uid 1000);
- Thu, 25 Aug 2022 20:03:22 -0000
-Date: Thu, 25 Aug 2022 15:03:22 -0500
+ Thu, 25 Aug 2022 13:11:49 -0700 (PDT)
+Received: (nullmailer pid 1610468 invoked by uid 1000);
+ Thu, 25 Aug 2022 20:11:48 -0000
+Date: Thu, 25 Aug 2022 15:11:48 -0500
 From: Rob Herring <robh@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: display: adi,adv75xx: Add missing graph
- schema references
-Message-ID: <20220825200322.GA1595830-robh@kernel.org>
-References: <20220823145649.3118479-12-robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 00/10] dt-bindings: display/msm: rework MDSS and DPU
+ bindings
+Message-ID: <20220825201148.GA1607980-robh@kernel.org>
+References: <20220825095103.624891-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220823145649.3118479-12-robh@kernel.org>
+In-Reply-To: <20220825095103.624891-1-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,26 +63,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Aug 2022 09:56:43 -0500, Rob Herring wrote:
-> DT bindings using the graph binding must have references to the graph
-> binding schema. These are missing from the adi,adv7511 and adi,adv7533
-> bindings, so add them.
+On Thu, Aug 25, 2022 at 12:50:53PM +0300, Dmitry Baryshkov wrote:
+> Create separate YAML schema for MDSS devicesd$ (both for MDP5 and DPU
+> devices). Cleanup DPU schema files, so that they do not contain schema
+> for both MDSS and DPU nodes. Apply misc small fixes to the DPU schema
+> afterwards.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/display/bridge/adi,adv7511.yaml       | 14 ++++++--------
->  .../bindings/display/bridge/adi,adv7533.yaml       | 14 ++++++--------
->  2 files changed, 12 insertions(+), 16 deletions(-)
-> 
+> Changes since v3:
+>  - Changed mdss->(dpu, dsi, etc.) relationship into the tight binding
+>    dependin on the mdss compatible string.
+>  - Added sm8250 dpu schema and added qcom,sm8250-mdss to mdss.yaml
 
-Applied, thanks!
+My scripts tell me I reviewed these, but I don't really follow what's 
+changed.
+
+Rob
