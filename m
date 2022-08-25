@@ -1,59 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C875A0EF5
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 13:24:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6AD5A0F25
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 13:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F57410ECE7;
-	Thu, 25 Aug 2022 11:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C003E10F888;
+	Thu, 25 Aug 2022 11:33:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A11510EB6D;
- Thu, 25 Aug 2022 11:24:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661426649; x=1692962649;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=GOjaiXPB09kazY/H1pddHaC8bHSUq2UZzlnKRqqtMB4=;
- b=BBa8x6QHhR/Js1H2/2hF5kMKzz30M4Y061eroGhO4pxzog6kN0mac0JQ
- d+iwsNB6ZEDcea3in603CGOkV++GU/WedTtPPZMV4jUwv0jb6Dhkheyne
- lE0ktR8TtsV9WYlqWH3YL7MXNrXevJETROkQaIgGJOlAqV015O5xeJ1VT
- 0Y2bnAg0TmBfXiJDmQASjBHKuR8cJ9SetLLtvZsCkvBYuZKb/0Gqg2JqI
- Y7jYigLncqNByo/721Kag7wxNaZrU86uRi6r7qHrZKH79NgoK5YdHqt4w
- blhHOqgI9fvbolGAYIYXt6RwubTDLefS3avz346QYy7onRnolCH4vCj53 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10449"; a="294215961"
-X-IronPort-AV: E=Sophos;i="5.93,262,1654585200"; d="scan'208";a="294215961"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2022 04:24:09 -0700
-X-IronPort-AV: E=Sophos;i="5.93,262,1654585200"; d="scan'208";a="639555670"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.14.40])
- ([10.213.14.40])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2022 04:24:07 -0700
-Message-ID: <b2dd8b15-63bc-49eb-a777-ee392370601b@intel.com>
-Date: Thu, 25 Aug 2022 13:24:04 +0200
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 263AA10F888
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 11:33:42 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id z6so27806552lfu.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 04:33:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=5f5tWhIstVtTSwKpxEt2LvelJrCKuLR3PL365pf4QS4=;
+ b=pVklcWuFNgj8ttdDE9REKfypKLdUtCn9f/ySSF5qEbDM/toFxSWpQc/MYxWQdNJwu2
+ Nlxa70HrmyrR9cDd2ZqKYbbg+kl+13HsP2FwR/+Rx4XiXKvXvRRdSuWC1A0icUhGCx6t
+ dyQS15jw+p54nSqSS7aYeOmv5lRBCq2ZIJl3w9gYWBtDZwVXTrp2kpRCb9dwndNZKsQS
+ d3lPhpObnhcUhkTmK3xq7CFa+pTwJ8rVaSIjbMnWZgnivbeSC14doHc5zQ2dow6ptE9t
+ ZDrOv/Qk+ajcw68RlQ0dUOTHllKHqhtxZw3Ir/BzshJmyMCx1LVCdufFSby1sGYV316g
+ ttPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=5f5tWhIstVtTSwKpxEt2LvelJrCKuLR3PL365pf4QS4=;
+ b=2EO5a2FLgA9uKk+U0ljLVkSjHHBrMp7X7XqXQn9XPbnVz+AJc9d0OzY3w6FnABxEUH
+ q6BPgRZgcQrjvWWhsaC7JR44QHD/xTv0Jr0ESMquKU4p7Ohk0Kgwgg3ie7XHS2qvDYjc
+ MmD+aDMAhh4StHUjxasHlARkx85XuMqGr+wZgUafygV1lBhKPSPVJlErGaZR7dYeaQQO
+ wiXmKrUoZVFntUugq/KDtXSjum7TpHCygXQBEtUZA5G0E7NOcIDmWMUPMqWwj+nXdffw
+ Lzn0uihM6j0fsZmP/vwKS/dXSTjDdUV0pBYns7O27bC3bMPu1aVxTtgytgDXjZ6mTWSA
+ xClg==
+X-Gm-Message-State: ACgBeo1QJ8oMShqisXqUWx/WzxwQPcLg1pOH5xeiWjUrn6ayjzhkGUP7
+ JWs+S6tnfJ/w5F3xIy3rxf1Ntw==
+X-Google-Smtp-Source: AA6agR5Cwlt1QnJQbh16uHaNZuyEAqyKIdLBAYRJgSNUyF+xnOQylMkrtQ8mBl4L0+NErXHiMNgWew==
+X-Received: by 2002:a05:6512:3905:b0:493:80a:46ba with SMTP id
+ a5-20020a056512390500b00493080a46bamr956006lfu.69.1661427220406; 
+ Thu, 25 Aug 2022 04:33:40 -0700 (PDT)
+Received: from krzk-bin.starman.ee (82.131.98.15.cable.starman.ee.
+ [82.131.98.15]) by smtp.gmail.com with ESMTPSA id
+ e18-20020a195012000000b0048b0aa2f87csm446764lfb.181.2022.08.25.04.33.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Aug 2022 04:33:39 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Tomasz Figa <tomasz.figa@gmail.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Vladimir Zapolskiy <vz@mleia.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Marek Vasut <marex@denx.de>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH 1/5] dt-bindings: socionext,
+ uniphier-system-cache: drop minItems equal to maxItems
+Date: Thu, 25 Aug 2022 14:33:30 +0300
+Message-Id: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.13.0
-Subject: Re: [Intel-gfx] [PATCH v6 3/4] drm/i915/display: add
- hotplug.suspended flag
-Content-Language: en-US
-To: imre.deak@intel.com
-References: <20220722125143.1604709-1-andrzej.hajda@intel.com>
- <20220722125143.1604709-4-andrzej.hajda@intel.com>
- <YwO8cAQZ22hEBX3P@ideak-desk.fi.intel.com>
- <45384b73-bfd0-083c-98dc-e2cef51411ee@intel.com>
- <YwYKDbRxFD10l7Id@ideak-desk.fi.intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <YwYKDbRxFD10l7Id@ideak-desk.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,203 +106,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24.08.2022 13:22, Imre Deak wrote:
-> On Tue, Aug 23, 2022 at 11:48:01PM +0200, Andrzej Hajda wrote:
->>
->>
->> On 22.08.2022 19:27, Imre Deak wrote:
->>> On Fri, Jul 22, 2022 at 02:51:42PM +0200, Andrzej Hajda wrote:
->>>> HPD events during driver removal can be generated by hardware and
->>>> software frameworks - drm_dp_mst, the former we can avoid by disabling
->>>> interrupts, the latter can be triggered by any drm_dp_mst transaction,
->>>> and this is too late. Introducing suspended flag allows to solve this
->>>> chicken-egg problem.
->>> intel_hpd_cancel_work() is always called after suspending MST and
->>> disabling IRQs (with the order I suggested in patch 1). If both of these
->>> have disabled the corresponding functionality (MST, IRQs) properly with
->>> all their MST/IRQ scheduled works guaranteed to not get rescheduled,
->>> then it's not clear how could either intel_hpd_trigger_irq() or an IRQ
->>> work run. So the problematic sequence would need a better explanation.
->>
->> I am not familiar with MST but as I understand from earlier discussion MST
->> framework can be called during driver removal code even after
->> intel_dp_mst_suspend.
-> 
-> Not sure how that happens, but it looks wrong. One way I can imagine is
-> that connector detection re-enables MST, which should be prevented then.
+minItems, if missing, are implicitly equal to maxItems, so drop
+redundant piece to reduce size of code.
 
-I am not MST expert and atm I have no access to the machine on which I 
-could look for real prove.
-As I understand intel_dp_mst_suspend prevents only downstream devices to 
-initiate transactions, it does not prevent transactions initiated from 
-i915 driver.
-My guesses for such transactions are:
-- any ioctl/sysfs/drm_property access initiated by user which can 
-involve MST tranaction (set brightness, read EDID, reading capabilities, 
-statuses, ....), unless they are already blocked, how?
-- maybe some mode_config disabling code (for example 
-intel_mst_disable_dp) - intel_mode_config_cleanup is called after 
-intel_dp_mst_suspend.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/arm/socionext/socionext,uniphier-system-cache.yaml  | 1 -
+ 1 file changed, 1 deletion(-)
 
-And since MST transfer can timeout it can trigger
-drm_dp_mst_wait_tx_reply --> mgr->cbs->poll_hpd_irq(mgr) -->
-intel_dp_mst_poll_hpd_irq --> intel_hpd_trigger_irq.
-
-If such situation happens after intel_dp_mst_suspend 
-i915->hotplug.dig_port_work will be queued, and we have risk of 
-use-after-free.
-
-If this analysis looks incorrect I can send patches 1, 2, 4 with your 
-comments addressed. CI probably will verify this anyway.
-
-Regards
-Andrzej
-
-
-> 
->> And since MST transfer can timeout it can trigger
->> drm_dp_mst_wait_tx_reply --> mgr->cbs->poll_hpd_irq(mgr) -->
->> intel_dp_mst_poll_hpd_irq --> intel_hpd_trigger_irq.
->>
->> So actually this patch supersedes the 1st patch.
->>
->>>
->>> There's also already
->>> dev_priv->runtime_pm.irqs_enabled
->>> showing if hotplug interrupts are disabled (along with all other IRQs).
->>
->> So it is slightly different, this patch introduces flag indicating if HPD is
->> enabled, we can have IRQs not related to HPD, and HPD events not related to
->> IRQs.
-> 
-> In its current form I can't see a difference. What would make sense is
-> to add a flag that prevents connector detection (which would
-> incorrectly enable MST for instace), but leave the handling of other
-> interrupts enabled. That flag would be set already before suspending
-> MST.
-> 
->> Regards
->> Andrzej
->>
->>>
->>>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5950
->>>> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
->>>> Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
->>>> ---
->>>>    drivers/gpu/drm/i915/display/intel_display.c |  2 +-
->>>>    drivers/gpu/drm/i915/display/intel_hotplug.c | 11 ++++++++++-
->>>>    drivers/gpu/drm/i915/display/intel_hotplug.h |  2 +-
->>>>    drivers/gpu/drm/i915/i915_driver.c           |  4 ++--
->>>>    drivers/gpu/drm/i915/i915_drv.h              |  2 ++
->>>>    5 files changed, 16 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
->>>> index f1c765ac7ab8aa..cd6139bb36151b 100644
->>>> --- a/drivers/gpu/drm/i915/display/intel_display.c
->>>> +++ b/drivers/gpu/drm/i915/display/intel_display.c
->>>> @@ -9022,7 +9022,7 @@ void intel_modeset_driver_remove_noirq(struct drm_i915_private *i915)
->>>>    	intel_dp_mst_suspend(i915);
->>>>    	/* MST is the last user of HPD work */
->>>> -	intel_hpd_cancel_work(i915);
->>>> +	intel_hpd_suspend(i915);
->>>>    	/* poll work can call into fbdev, hence clean that up afterwards */
->>>>    	intel_fbdev_fini(i915);
->>>> diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.c b/drivers/gpu/drm/i915/display/intel_hotplug.c
->>>> index 5f8b4f481cff9a..e1d384cb99df6b 100644
->>>> --- a/drivers/gpu/drm/i915/display/intel_hotplug.c
->>>> +++ b/drivers/gpu/drm/i915/display/intel_hotplug.c
->>>> @@ -303,6 +303,8 @@ static void i915_digport_work_func(struct work_struct *work)
->>>>    	u32 old_bits = 0;
->>>>    	spin_lock_irq(&dev_priv->irq_lock);
->>>> +	if (dev_priv->hotplug.suspended)
->>>> +		return spin_unlock_irq(&dev_priv->irq_lock);
->>>>    	long_port_mask = dev_priv->hotplug.long_port_mask;
->>>>    	dev_priv->hotplug.long_port_mask = 0;
->>>>    	short_port_mask = dev_priv->hotplug.short_port_mask;
->>>> @@ -353,6 +355,8 @@ void intel_hpd_trigger_irq(struct intel_digital_port *dig_port)
->>>>    	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
->>>>    	spin_lock_irq(&i915->irq_lock);
->>>> +	if (i915->hotplug.suspended)
->>>> +		return spin_unlock_irq(&i915->irq_lock);
->>>>    	i915->hotplug.short_port_mask |= BIT(dig_port->base.port);
->>>>    	spin_unlock_irq(&i915->irq_lock);
->>>> @@ -475,6 +479,9 @@ void intel_hpd_irq_handler(struct drm_i915_private *dev_priv,
->>>>    	spin_lock(&dev_priv->irq_lock);
->>>> +	if (dev_priv->hotplug.suspended)
->>>> +		return spin_unlock(&dev_priv->irq_lock);
->>>> +
->>>>    	/*
->>>>    	 * Determine whether ->hpd_pulse() exists for each pin, and
->>>>    	 * whether we have a short or a long pulse. This is needed
->>>> @@ -603,6 +610,7 @@ void intel_hpd_init(struct drm_i915_private *dev_priv)
->>>>    	 * just to make the assert_spin_locked checks happy.
->>>>    	 */
->>>>    	spin_lock_irq(&dev_priv->irq_lock);
->>>> +	dev_priv->hotplug.suspended = false;
->>>>    	intel_hpd_irq_setup(dev_priv);
->>>>    	spin_unlock_irq(&dev_priv->irq_lock);
->>>>    }
->>>> @@ -721,13 +729,14 @@ void intel_hpd_init_work(struct drm_i915_private *dev_priv)
->>>>    			  intel_hpd_irq_storm_reenable_work);
->>>>    }
->>>> -void intel_hpd_cancel_work(struct drm_i915_private *dev_priv)
->>>> +void intel_hpd_suspend(struct drm_i915_private *dev_priv)
->>>>    {
->>>>    	if (!HAS_DISPLAY(dev_priv))
->>>>    		return;
->>>>    	spin_lock_irq(&dev_priv->irq_lock);
->>>> +	dev_priv->hotplug.suspended = true;
->>>>    	dev_priv->hotplug.long_port_mask = 0;
->>>>    	dev_priv->hotplug.short_port_mask = 0;
->>>>    	dev_priv->hotplug.event_bits = 0;
->>>> diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.h b/drivers/gpu/drm/i915/display/intel_hotplug.h
->>>> index b87e95d606e668..54bddc4dd63421 100644
->>>> --- a/drivers/gpu/drm/i915/display/intel_hotplug.h
->>>> +++ b/drivers/gpu/drm/i915/display/intel_hotplug.h
->>>> @@ -23,7 +23,7 @@ void intel_hpd_irq_handler(struct drm_i915_private *dev_priv,
->>>>    void intel_hpd_trigger_irq(struct intel_digital_port *dig_port);
->>>>    void intel_hpd_init(struct drm_i915_private *dev_priv);
->>>>    void intel_hpd_init_work(struct drm_i915_private *dev_priv);
->>>> -void intel_hpd_cancel_work(struct drm_i915_private *dev_priv);
->>>> +void intel_hpd_suspend(struct drm_i915_private *dev_priv);
->>>>    enum hpd_pin intel_hpd_pin_default(struct drm_i915_private *dev_priv,
->>>>    				   enum port port);
->>>>    bool intel_hpd_disable(struct drm_i915_private *dev_priv, enum hpd_pin pin);
->>>> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
->>>> index deb8a8b76965a1..57a063a306e3a4 100644
->>>> --- a/drivers/gpu/drm/i915/i915_driver.c
->>>> +++ b/drivers/gpu/drm/i915/i915_driver.c
->>>> @@ -1092,7 +1092,7 @@ void i915_driver_shutdown(struct drm_i915_private *i915)
->>>>    	intel_dp_mst_suspend(i915);
->>>>    	intel_runtime_pm_disable_interrupts(i915);
->>>> -	intel_hpd_cancel_work(i915);
->>>> +	intel_hpd_suspend(i915);
->>>>    	intel_suspend_encoders(i915);
->>>>    	intel_shutdown_encoders(i915);
->>>> @@ -1161,7 +1161,7 @@ static int i915_drm_suspend(struct drm_device *dev)
->>>>    	intel_dp_mst_suspend(dev_priv);
->>>>    	intel_runtime_pm_disable_interrupts(dev_priv);
->>>> -	intel_hpd_cancel_work(dev_priv);
->>>> +	intel_hpd_suspend(dev_priv);
->>>>    	intel_suspend_encoders(dev_priv);
->>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
->>>> index d25647be25d18b..dc1562b95d7ade 100644
->>>> --- a/drivers/gpu/drm/i915/i915_drv.h
->>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
->>>> @@ -106,6 +106,8 @@ struct vlv_s0ix_state;
->>>>    #define HPD_STORM_DEFAULT_THRESHOLD 50
->>>>    struct i915_hotplug {
->>>> +	bool suspended;
->>>> +
->>>>    	struct delayed_work hotplug_work;
->>>>    	const u32 *hpd, *pch_hpd;
->>>> -- 
->>>> 2.25.1
->>>>
->>
+diff --git a/Documentation/devicetree/bindings/arm/socionext/socionext,uniphier-system-cache.yaml b/Documentation/devicetree/bindings/arm/socionext/socionext,uniphier-system-cache.yaml
+index 7ca5375f278f..6096c082d56d 100644
+--- a/Documentation/devicetree/bindings/arm/socionext/socionext,uniphier-system-cache.yaml
++++ b/Documentation/devicetree/bindings/arm/socionext/socionext,uniphier-system-cache.yaml
+@@ -22,7 +22,6 @@ properties:
+     description: |
+       should contain 3 regions: control register, revision register,
+       operation register, in this order.
+-    minItems: 3
+     maxItems: 3
+ 
+   interrupts:
+-- 
+2.34.1
 
