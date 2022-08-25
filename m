@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2805A1109
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 14:50:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D623C5A110A
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 14:50:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3723410E15D;
-	Thu, 25 Aug 2022 12:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E15310E16F;
+	Thu, 25 Aug 2022 12:50:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B717610E15D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 12:49:55 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00E7810E15D
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 12:49:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661431795; x=1692967795;
- h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=3PsTR0iky9ohplOrLQ4pSd8oDHddmi5gjZ0OxgM+xx0=;
- b=H2z/WiYUC8iCJ46Yv8dQ0Nn0w40Q3tdBs3WxF1jqgD23HyVHCMFpI2BI
- n+5KdqnT0qMeESLMI61v9uHTY62LiEcw0fg6kvmSirOYDqWvxEdTgipXR
- bt6M1isN+akvx2vclBamxPJeCW43AckVWwdpdBHdlSYYbSeOfh/s1OpN8
- bHwVUyjRlpfo+ZxSQTfOiIs6c4zIfPjjfPjvXp0gZQkdG31rtxEHbRzdf
- YqOo8hE8yXd7Xbkhcnzn3OGwvRVRpt7BYX9bEjfH8qmx2pMbmu46P9IYT
- vI3AW4J8rTJU42Xvtpba87uiTB4WV0EkAnBad5lPmzxJrZ8CaV2ugErul w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="295005404"
-X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="295005404"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2022 05:49:55 -0700
+ t=1661431797; x=1692967797;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=nfHdI90I6Gh2usXI714YCq0G64PuccSOr3CgsoSuEN4=;
+ b=WhgQsOyFVfeIuZ+m42JSaWhD7MOdPrIDZ1Yq+L22WRXwji0JBNyTObMf
+ SF1zF0m3PM584srFg6PNfylrb0NWkmRSXlKocG8UvZr6cAdQQytzAMjRy
+ kPS2UNtE2/TDwjwQ2GE5m0QV+U3fs1aPEi1UnobUgq93Ed6PwXPfisuH+
+ R2GOXCoXabhf306cJTkpZOj2YQPDXMSHtPVOTS6mNSMagZUakdL25JX5/
+ 66ylUBWDLeRnY8vx8PHUOeUIJxlTkGGQjZ5wc6usPKNV25QWzTEgal0fu
+ G121H+gdJTb2HbevdCNNuZVeOJmGohaOln0A0OrK5xnhMUwtORyDO/ELh A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="294228974"
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="294228974"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2022 05:49:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="561013409"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga003.jf.intel.com with ESMTP; 25 Aug 2022 05:49:55 -0700
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="643242764"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga001.jf.intel.com with ESMTP; 25 Aug 2022 05:49:57 -0700
 Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 25 Aug 2022 05:49:54 -0700
+ 15.1.2375.31; Thu, 25 Aug 2022 05:49:56 -0700
 Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
  ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 25 Aug 2022 05:49:54 -0700
+ 15.1.2375.31; Thu, 25 Aug 2022 05:49:56 -0700
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 25 Aug 2022 05:49:54 -0700
+ 15.1.2375.31 via Frontend Transport; Thu, 25 Aug 2022 05:49:56 -0700
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
  by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 25 Aug 2022 05:49:54 -0700
+ 15.1.2375.31; Thu, 25 Aug 2022 05:49:55 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NLI/66MN8V7ERMV62J3Gmi1lnp+wmyegIbosUtZtB5E71Gl8CFTEf3JyYQ9jbHCdfGDPCg8QFgeF1vjafW8yx6zY70EwUojYEBFLllzd/TEDeFgYi8zP86Meagowl8jfu7RQp07hqL2vWgI3WF38PLDN61aSN+Zpnt9heHfL3AccEAvwK71nyJCO0oKmH4KKylPsOth7OrYerguxf/8In6zAyvmyFdjMRlG1CNM52kTMvBDWz/jc+BN5dir72wkD6jBp6/MYdXbtV4cnf7NEuxPKanwSge0RXAm/McAiupD2tTZ69Y14RaimQUQFFccSMFX9u2yHMdec9tJKylqbQQ==
+ b=odPuPRmYt2bbEQS2l+1tXUh6QpNJjGMMIoF/OUyuXHuqYtJWkM/OHrpWXdqco+wTNCiVLCy4406uzuaK44T1GffcnOVnU9rf/3nnt8P0Hnr1awdfvHvT/pCOJ+iIuFafZ/l5Sc3+XUyaAwk6hY2Halk1veQx65GX2nnLpEfc4dpZDGd+R7x/MxhsxC857bZujmc0a0CALYLBOOKwChW54EJ71juheYEvcSy2W0OhczLwAfbR8pK5QZFROrYHabTAZBDwdckmnZTj/+gHj3lj6X605FInEGv54sXnYN/u9r1IITe448psUguj8N1nWAqImImssenaNzf1GoBChHxT3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S3ODm6vpDt3mFNW4b/fzIFbInV4d8vYPRiAE33yCKi0=;
- b=F4uVw4X5KEQbjS5wDOdBdT1GYNMvAbyY9nXSnUuOWj1PeVn/fIHC8rAu99f/AoBghGg/QBQWhZvEWQe0aByW0BQipN8ocTIIm90lG/0n0o27bSQpBY+CoIA5G5UH3XTUfEE++Jt3Z3H+PYW7VIGWU9KMGQgL5ZKTzrJCClrq3oDwypazESsJJfOZFAkjT0+YCE/ncWoAToqVQMbH8GomWNJlkU1CwWAe0Q8eyN6T479/uWxc8s9Vl2pELGG6wNIkgZeUr1uZCFBXDqtv6u47A7vcUy/i2xWAx8QjLPj7hv9jAwxkR0LKRWSlVLpqYvpY08DlTHOuSzcu0+vPcbGICA==
+ bh=37Nge1CvkDXphgH+rdVVyQ2AePAn9ZKATxiLWsr9Fss=;
+ b=iN/005r2aEkDPO14yQtxO2vofRu7iThMIx+seo6M9Pqq+bPO4ZbJZnn+L3TLHYBGxGgFa6cctsEy5Xatcyg3Ys9sJ0y2JM2WTXDb+px7MxmCAc0/9DmkSiSl+v9CNRt9fX+4lyQ8kjejmKkTP6YAid5gTSlAg/jGnaR/26kLIFV/SulvjQ+ieex6XwR54NgRlffiDFqncPcSCIL2LFFr+Gqqnfapbd1IvCkOEB3cXHu0Q3OTE2EfHwF4k38nkFl7jazi/dji29nOTjPRbvtC0blXtr5mpsHJYh/2fgf7V6msm5DIcrXRvx/PvquemqpndqNlq1eu7nE07oTzs6dXbA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -65,80 +65,82 @@ Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
  MN2PR11MB4047.namprd11.prod.outlook.com (2603:10b6:208:13a::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.18; Thu, 25 Aug
- 2022 12:49:46 +0000
+ 2022 12:49:53 +0000
 Received: from DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::b04c:807c:4ea0:c62e]) by DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::b04c:807c:4ea0:c62e%9]) with mapi id 15.20.5566.014; Thu, 25 Aug 2022
- 12:49:46 +0000
+ 12:49:53 +0000
 From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/2] drm/plane_helper: Print actual/expected values on failure
-Date: Thu, 25 Aug 2022 14:48:02 +0200
-Message-ID: <20220825124803.300821-1-michal.winiarski@intel.com>
+Subject: [PATCH 2/2] drm/plane_helper: Split into parameterized test cases
+Date: Thu, 25 Aug 2022 14:48:03 +0200
+Message-ID: <20220825124803.300821-2-michal.winiarski@intel.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220825124803.300821-1-michal.winiarski@intel.com>
+References: <20220825124803.300821-1-michal.winiarski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS8PR04CA0159.eurprd04.prod.outlook.com
- (2603:10a6:20b:331::14) To DM4PR11MB5373.namprd11.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0001.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::10) To DM4PR11MB5373.namprd11.prod.outlook.com
  (2603:10b6:5:394::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 77f76cfe-608b-45b9-26e8-08da86984a2a
+X-MS-Office365-Filtering-Correlation-Id: dfb779d4-c063-40bc-48f4-08da86984dfe
 X-MS-TrafficTypeDiagnostic: MN2PR11MB4047:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CD2kvUcOuxiCMrZ2Q7+nRQtIt3U2VvMxAgu6tkmdAolEDkOCI1rzMqt+RNMyUnHkA3+LbYv28cC3VN7nZX5EXspliDlz5Yf7hFMyTrP7wcu+NCb69G7k7NHRs/ytGwDwEYmSRuOkMtpLJhn0ZAUDAb5LI6KDMDuCv6o+RtLjwpy4AyXc7ETOSPBN9rV1uy4dLJQEz/cQYSWzVyalpgeUQ/wNQW7NWvbVdV45iMcbOhIc1ColsU9r8rKOvbl3/jJMGa3RyCKl+dm3akiQLb9Ts7CZHavLK7EGdhXQ97eEPJMdt+XHobEDwTMyOBMQFYHrl9g3LhptPiSu/LUfLMQNZQVEfneGPJf3/36LwxlX2BldIhUwoy0V65JQU4dnCnJEa5tYvoRfeue6qJFG5cHPOPnSq1uF3oFZIiVsYTPX5g/XJ7APpAv2lHS6hUXiCQPQ7c+/zZYIafb3zKjFyI6a6NKB1W7mYJAU1b9zXMIUBB6pinC6kE89+FTlIA04sm+TMGGIkINN9wJhFRiZHe7aW32s6RO+P6ORMFCUCpzl/LTkgK5Mddqpm7B9mSy+9WcC2zAQj+TNUM4S62UpYbe1eOkcHsconHgwPgZ9HjLe/+jNlgBsJ10WwppzWrrHq3oiJQqnq3s+7lcHLD+GVt873DiOrUlo+IKi+tLehbtEwpc0n+rszHZKDndkniyVQR2ek28YjTpOAFSIXIK1fgTBiw==
+X-Microsoft-Antispam-Message-Info: ZiYDCVbI/TtqYYsGZ3uUuioX4eVV/lEKuwydID+hSrqhq/24vecYTrTvdVixl8S+T8jY0qCLO13fmiiOBVRT6pbsuJ/qNAgYbeUBiAo4IlxAl6yuSOby3qioAqgRm031/AFZYNj7gYlIRwFeJbRs8xYCvK8MRDH/YV1vuHH1Yb0YmRSZUZlTLao+Jx9RYVHVXj1i6qUsOmRBQyEOVE9h16M+gJhomdKn1OEdEmJSR6/hbX4iPZaHjLE4la8atwCZrTQsYnFp8fV+yZRMCreLAYmqEVniGbxc4Gia4oss4EPo/hDbIJSG/krHieXIplvSGABrp9LI6P3ysFhboExx4xp3VsvajygNn5RhBl1DMKMeTflj9ZpFytJNQPtkLjl1xufh+aRH9EsktGauoLwFfQ4Ax2Cjymo/QuZVQDrPUmXqayrTS+AsWpm8e5bRrDUg81dJ0+m+ntn5MN5MYj7R5pKx2FtTZuhQqSOgUY6x6816SG4nzo+BL5ZKwicSSP6YVZNUQm2gV5jvzJa/FK6fIb2jHdr9G/mADoPLK7RmbNLSfewiYAqD8hveLyoO8e6o9npoiXElwpegH7apHnAGQ03BRroop7QBwKjQqhMK4bdkp6LEWOLcn4pbdpH/iQNwtkaKY8CXPvMr+6/zJm7rc0CtdyxnvAuWouBL6CjZRVTilF1wfTaRoroZLeZn8YNZnwz1NszhK8C59SzS3/znig==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(376002)(396003)(346002)(366004)(39860400002)(136003)(38100700002)(478600001)(6506007)(2616005)(6486002)(1076003)(186003)(2906002)(36756003)(5660300002)(6666004)(41300700001)(107886003)(66946007)(54906003)(8936002)(4326008)(86362001)(83380400001)(6512007)(26005)(82960400001)(316002)(66476007)(8676002)(66556008)(6916009);
+ SFS:(13230016)(376002)(396003)(346002)(366004)(39860400002)(136003)(38100700002)(478600001)(6506007)(2616005)(6486002)(1076003)(186003)(2906002)(36756003)(5660300002)(6666004)(41300700001)(107886003)(30864003)(66946007)(54906003)(8936002)(4326008)(86362001)(83380400001)(6512007)(26005)(82960400001)(316002)(66476007)(8676002)(66556008)(6916009);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TWZPa01VdWZQSGJVdmVMbDdsUGFCeEYzeWFFRm9VWG1qL0VJeE9Za1dqdHI3?=
- =?utf-8?B?aWdmNVJxaEw5THBWZlZMRmtkZWRXVTVuNGxINUhyL1pIRGp5cGJ4UG9SZGlj?=
- =?utf-8?B?TmxpRWRYVy9GU1JXNlhNM28rNkR3WFNNTU52L0N2bDVBYitRck14OEIvdUMv?=
- =?utf-8?B?c28rQk0yL3BOMGlwUHIzMzE0ZlNIVzhaSVZDcVFMVmpQWXVuUXQ0R0ovazZ5?=
- =?utf-8?B?TUFwM3ljYXhPQUNOdEhMQXVBZE9iSU84eDRSOE96NnNVbDlxMnY0Z3pYQmRw?=
- =?utf-8?B?ME5udmszbFNTbE15Z3pUS29seHNXN2o2OVpmdnQyT0RmSlVDbG1Wb3lNV2cv?=
- =?utf-8?B?aTl6WXU3WXF3Y1NqQm1yRmlEYTZ5QXovekRKOEkyYjVpVnF4NnZhUkZrWWMz?=
- =?utf-8?B?UzIwdlRURzFXMkdPTU5jRllQeXVudXFpdjNaTk5zMkpabjdrdFByRG9PV2o4?=
- =?utf-8?B?RkMrWjFYMmlRakFlUVJIdU03VE9PU2tqQWsybzNpVkhXUGkyMDlZWEJCZ09X?=
- =?utf-8?B?U1lXMVdOTnVrWUtabitFeGh4TENCbnc3bXpqbXAzaHIxeFFhaHRiQ0ZySEk2?=
- =?utf-8?B?Rjd1TENlL0JNWU1Zdkg4VWFPa3hubFN0VHlxTTAyYUE3OFZZTHRDOFNrZHNP?=
- =?utf-8?B?Z1hLa0Q0M0dHOWJEOWpjQVRMbXljUU85V3NpZERrcTFucE8wd2tFN29INGM5?=
- =?utf-8?B?RE5OQlNxYTZzYXRVSkZyUDhqM2MyQ2ZUa0FLOEJFTTIwbWhSN1F0aTEvWUNy?=
- =?utf-8?B?ZnYrUDhXNDdqOHZVQk9ab0NXTmtlQkZmSmo5cUxrSE54WnE2Z1NLTU5VUmhL?=
- =?utf-8?B?K1QwK204aldTdHJhb3I4cWRpcVE1OGI0QWp3QkhyaWVlRE5RN1hvVGdPbE1V?=
- =?utf-8?B?clR6czJEeXFtZU9JK1laWkRLV0pWNGk2YUI0dUc3T2R5Zm0rMThUeWJ2UXpD?=
- =?utf-8?B?N0EvM3c3VHJTWlpUNUF5Qk0zMmtiM25ab3NzSXljSCt5VDAydU1McmRjWVA2?=
- =?utf-8?B?MWFYK0lndlBZTTVDYnUyU0p0bVVEUDZjeTNFNmQyd3FLQms5K3BkNDEvY1lI?=
- =?utf-8?B?YWp4Z0tEbFJVK251STI5VGI5TjYwMkIwazkyUEhLV2hLL2xCSDVCQndCa25T?=
- =?utf-8?B?YmFDaW51NWtEM25GTGV5cGJPLzg4WjVGem5SUFVlQkdzWTdkSDRQR0NaYUta?=
- =?utf-8?B?QU5EYmpLNzlNcGNMN2ZveFRPbVBKOEFuOXNXckVFbkVOd3dpQk5VOW14a0pX?=
- =?utf-8?B?MXQ1UlZIcHpFdUNqekR4bWl3R01tUndpcVhFc1JwRklLWStPbGVhN2hFVFdt?=
- =?utf-8?B?cS91NzRnZTB1a3BvK1Nnc29tK2hBVlhCQkJVUE1MQU9TMW9zWlBSQUphVUYy?=
- =?utf-8?B?dXdMQ21US3BlYmpJTy9WMXltNUJOeG1yenUrZ0ErTUlEd3BVSGtZQnk0b1N4?=
- =?utf-8?B?UmJsd1VkejlVODVOZlAwNXZzdXB2dG1mczFHamZvcnJqSC9MRmJkU214eDcr?=
- =?utf-8?B?QU1XUnBodHNjRE9LTnJxbTlxVjVmZ0pCQU0zQTkyUkt4YStmNFB5NGpZbVYv?=
- =?utf-8?B?Vi9QKy9FN1BaMFRyQ2FUb0wyeGZRa2tRSjNTaktsSjZsdUNidDJhdmtaM2tQ?=
- =?utf-8?B?NjFYTTcySDNacjB2SnRyY3BxZ1RuUnJRY25keE5mU1VaWHA4eVN1ZGd3cWJy?=
- =?utf-8?B?WkZqMFB0NVM4WlRpdkVUMTlKb0ZXcXpqaWdvbTllQnlmVUJldmh4L3Fnd3Nw?=
- =?utf-8?B?QVNZOEo5Y1FJREtQOE9kcFU3Y3VJVFRpc2Y0MVkyTkdBQXR6N3ZtV2ZLcVBI?=
- =?utf-8?B?ZXVKQUhyUUFLSkdPaUNxbG5Sc0IwSVJ5cDkrTGsrN2t2ZDZvaktmWVF2dXE4?=
- =?utf-8?B?Nkg1WW15aEZrOGtob1FidkFvSGxRc3pOVTFveTE5QnJ1RVRjWXF5ZXk2TWpI?=
- =?utf-8?B?Ynkzb0h2bjNKWGFDYVdPQ2haYXZuVGhGb1BmT252ZDZVVWplamR6a3huL2xz?=
- =?utf-8?B?cjM0c1NoS2Ywa1FsVUJMTmcrK3FtbXMwTlE5Vmd1Sm1aNzlwM0EwMWUrK09Q?=
- =?utf-8?B?bmJDZHUrQWFGaDdjZ0FuUEpVZGw5NXE3ZXRPMTB6SmY1WEphTHN5U1FJS01V?=
- =?utf-8?B?dTVpRmFOVWZqWWRKVmdPWEZPWlU5eWxXM2txcWl1NW1RNEZSUUpHZ01FWmZj?=
- =?utf-8?B?OHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77f76cfe-608b-45b9-26e8-08da86984a2a
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U1NhTkt3SXpTVG1PTFRJTW5UeG1yQTArMjIvUDl4V3praHQvKzV2ekF6QXlp?=
+ =?utf-8?B?cStoWVVlcXQ4RXBHZjExQVNDeGEvRU5kNUdDaUcyN1NkajFkYlNWUWZQTEhs?=
+ =?utf-8?B?OVdxbDNkY2MvcXIwc0U1TkxoSm9qbmRiSnJYdEpVWlZPby8vbEdibmdFc1lx?=
+ =?utf-8?B?Unp3TndVL1d4d3pTNWJQazhVdDJQczIrRU5qNDRlMFQxRXZtZGNhUFV6ZDdu?=
+ =?utf-8?B?MEV5eC8wYjdKQ056V1VWbmxCR3l4NmlhL05oMlRhQmZnUk1pdU5YRGRwSDdy?=
+ =?utf-8?B?cnlxd1RtajROamFjNExNOGZOak4zV2FCaUhrVUtORmJEZWQ1Z2tYdGpOa2Fj?=
+ =?utf-8?B?UENoU3Z3SHBvRDh0cHJNNWlJMWN0K09hTFcvSjJseHBESGcvS2VXN1hrZlZQ?=
+ =?utf-8?B?eDNPYUdORnRkNkJFQTRDczE5a3NLam44T0RRRVRRblJXRkFWbndlMDJPYjRO?=
+ =?utf-8?B?SCszNlJqL05EdkVSYnhQZUU5MHQrYmlvWGJHTDYyT0ZYLytEb3JSeXp1dm1k?=
+ =?utf-8?B?eWpyb1RndTlPaHRvcFNvNFQ2V0U5cHRRWUxzV0NVYTN5bnMxbVpHdkVWaDQw?=
+ =?utf-8?B?KzFUMWNuUEVkT1paZDFqOVhaaGxCellvOVowV0dNUW9pelpkS0M3aFlSLytQ?=
+ =?utf-8?B?RDZOTkRzMlNIZVRvdVRWSmJ5TlZGdjcrOFdpaVVOMFJhWENwaFlPOGVvMzh0?=
+ =?utf-8?B?MXpHT2xMcXhnOHFDMXI2eGZ3cm1iakcvM2xYUGJJbTBZQUE1QnhGUkNBTHpE?=
+ =?utf-8?B?bmwyZjh2dVlTem9YdWtMbGNaTEc5Qy8zWmk0Z2tJVk5Qck96aGpXd2VUU281?=
+ =?utf-8?B?eFhCUEZHYUlSOEtOZDVmOXFJbnpwR1hVQ3RUSTJNTEdPZkt2RS9GZ1RCRWZL?=
+ =?utf-8?B?cGJaVU1vbEJsR2ZZWDJacE1yV1FrTW1MUlppelV6Vm52VDlCWkNaeEpCTHJO?=
+ =?utf-8?B?d2Z6SEFoWlQxSU5vaGdoVDU4cGx1eHJOQ1U2c21FdGdqaDI2RWJnM25BSStW?=
+ =?utf-8?B?MEg1MWlRL2JoemI1VTFOUFdmTk41RVp2dzl2N2oxTmhNa1hyNFVKRFNnNzEv?=
+ =?utf-8?B?bDRZOERJV3cxMk9vUzY3c3BvR3J6WGNrbC9EbHdNMHAvVk93ZGJwMDBybEl0?=
+ =?utf-8?B?OGdQQi9Ub0RxMEFrbVd4YTBOV3dHcEUvTWVQZEozVS8zRk9JZGtveG44V3pZ?=
+ =?utf-8?B?bHRmNVVwOEdOZTlSZXRweU9IYTVtaU05ZFZlVjViQXJSSmdhOCtyd3hGMm5S?=
+ =?utf-8?B?R2RzaTdVckphc1JNVmFmSTdleXc2QXU2b1M3dTRBaVVqNjNvUlpZQmdWNGZ4?=
+ =?utf-8?B?b0hTbmp6Sm1CaGN4bWR5ampIakxxcDRaS0xES3BWWEdnRi9qNWRSZURjVDBN?=
+ =?utf-8?B?VkM4QkIweitYN3I5c2RMMnZTeG84cXFtR3RFK1FuSCs1UENrRzBKN2Q1OTkw?=
+ =?utf-8?B?d05DUDRueVYyWUZrYzRwcWpGYU5LZTd4eFlLdTVTUlUwZVBTVnVDM05EdGwx?=
+ =?utf-8?B?dmRkTTh2d0FiMXNDYUFVT3ZaZTZKdUc5eGxqUC9HRjF1RVozWEJrZXowT3hh?=
+ =?utf-8?B?Uko1bVQ2QW54YkFvN2pFYnVvUkxvSU1xbVYrVmE0b3lheWt3NVpFK3Z3M2du?=
+ =?utf-8?B?SmxGZ0pQWHMrb1htaHU4eFduM2NEaTYyeGxwRGVaSnJudWhuMFFxcUhyT1dj?=
+ =?utf-8?B?cjFrZ1RwMEhzWGFqRTZGdWFiRklrNnVjWnM0d2UydFM2RUh4OU1SblFYM20y?=
+ =?utf-8?B?RHB4OTV4UjJ4WlhGR01rKzNDNjF4K2xYVWVtZXpwTERBcVRRYzZnekp4VzFx?=
+ =?utf-8?B?dlg1Rlg0Z2g2STZ2S283VVZGSUpvWmxlamFyNWY5T3R6aHhFZjQwYnU1cWNS?=
+ =?utf-8?B?WE5KMzl5c3h4cFlpdlJkSXY2b2xHdHhQVU1yYjdjcjFPSkN0K0t0eEdaNE05?=
+ =?utf-8?B?OU45SXg4M20vSXpZZENYdWQ5cWlwVGM4ZG53Rk9EN3VXeVpsL1NUOHdnRVk4?=
+ =?utf-8?B?YkVMSm1nVW9oM1orYlhGTnF3K2VHZVBLR1RSb3I1L1RCYWZVUVY0WUpYUU1I?=
+ =?utf-8?B?OXJucVRIa09JbXAxcGw0UzNXek1YSkRkQiszNk1TQlNPK1dRRTF3RDNrcTJL?=
+ =?utf-8?B?NFR1T0R6UjRjSDlWTzZaalQ4OGovYi9uQkM0WXE1VWhVODVhMEdxdHlmSlBo?=
+ =?utf-8?B?a0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfb779d4-c063-40bc-48f4-08da86984dfe
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 12:49:46.6117 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 12:49:53.0663 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tI/zd6gy4028/mBZVGe/AX4pAMF/qEdanvXwLXIe0OY+2UWKzaRuExBkbcjKjq0/nbcDgo8J9gftQ6Z6pAz9Qm5JZFzCwHqMlu1F1CDGi2Q=
+X-MS-Exchange-CrossTenant-UserPrincipalName: QDf4RZmM7KNw0Hdo4WZ107W8rhbvR7cvuY1D0MnTPLlrVe64hT5tnUdawWXUTdiGQAFEG8NhElLRRujxUNokUXO19hLVzxnSOTMNGTLnoW4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4047
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -162,199 +164,496 @@ Cc: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the values are printed with debug log level.
-Adjust the log level and link the output with the test by using kunit_err.
+The test was constructed as a single function (test case) which checks
+multiple conditions, calling the function that is tested multiple times
+with different arguments.
+This usually means that it can be easily converted into multiple test
+cases.
+Split igt_check_plane_state into two parameterized test cases,
+drm_check_plane_state and drm_check_invalid_plane_state.
 
-Example output:
-foo: dst: 20x20+10+10, expected: 10x10+0+0
-foo: EXPECTATION FAILED at drivers/gpu/drm/tests/drm_plane_helper_test.c:85
+Passing output:
+============================================================
+============== drm_plane_helper (2 subtests) ===============
+================== drm_check_plane_state ===================
+[PASSED] clipping_simple
+[PASSED] clipping_rotate_reflect
+[PASSED] positioning_simple
+[PASSED] upscaling
+[PASSED] downscaling
+[PASSED] rounding1
+[PASSED] rounding2
+[PASSED] rounding3
+[PASSED] rounding4
+============== [PASSED] drm_check_plane_state ==============
+============== drm_check_invalid_plane_state ===============
+[PASSED] positioning_invalid
+[PASSED] upscaling_invalid
+[PASSED] downscaling_invalid
+========== [PASSED] drm_check_invalid_plane_state ==========
+================ [PASSED] drm_plane_helper =================
+============================================================
+Testing complete. Ran 12 tests: passed: 12
 
 Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
 ---
- drivers/gpu/drm/tests/drm_plane_helper_test.c | 78 +++++++++++--------
- 1 file changed, 44 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/tests/drm_plane_helper_test.c | 419 +++++++++++-------
+ 1 file changed, 255 insertions(+), 164 deletions(-)
 
 diff --git a/drivers/gpu/drm/tests/drm_plane_helper_test.c b/drivers/gpu/drm/tests/drm_plane_helper_test.c
-index be6cff0020ed..0bbd42d2d37b 100644
+index 0bbd42d2d37b..cb8607e5c737 100644
 --- a/drivers/gpu/drm/tests/drm_plane_helper_test.c
 +++ b/drivers/gpu/drm/tests/drm_plane_helper_test.c
-@@ -10,6 +10,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_framebuffer.h>
+@@ -12,14 +12,71 @@
  #include <drm/drm_modes.h>
-+#include <drm/drm_rect.h>
+ #include <drm/drm_rect.h>
  
- static void set_src(struct drm_plane_state *plane_state,
- 		    unsigned int src_x, unsigned int src_y,
-@@ -21,26 +22,32 @@ static void set_src(struct drm_plane_state *plane_state,
- 	plane_state->src_h = src_h;
- }
- 
--static bool check_src_eq(struct drm_plane_state *plane_state,
-+static bool check_src_eq(struct kunit *test, struct drm_plane_state *plane_state,
- 			 unsigned int src_x, unsigned int src_y,
- 			 unsigned int src_w, unsigned int src_h)
+-static void set_src(struct drm_plane_state *plane_state,
+-		    unsigned int src_x, unsigned int src_y,
+-		    unsigned int src_w, unsigned int src_h)
++static const struct drm_crtc_state crtc_state = {
++	.crtc = ZERO_SIZE_PTR,
++	.enable = true,
++	.active = true,
++	.mode = {
++		DRM_MODE("1024x768", 0, 65000, 1024, 1048,
++			 1184, 1344, 0, 768, 771, 777, 806, 0,
++			 DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC)
++	},
++};
++
++struct drm_check_plane_state_test {
++	const char *name;
++	const char *msg;
++	struct {
++		unsigned int x;
++		unsigned int y;
++		unsigned int w;
++		unsigned int h;
++	} src, src_expected;
++	struct {
++		int x;
++		int y;
++		unsigned int w;
++		unsigned int h;
++	} crtc, crtc_expected;
++	unsigned int rotation;
++	int min_scale;
++	int max_scale;
++	bool can_position;
++};
++
++static int drm_plane_helper_init(struct kunit *test)
  {
-+	struct drm_rect expected = DRM_RECT_INIT(src_x, src_y, src_w, src_h);
+-	plane_state->src_x = src_x;
+-	plane_state->src_y = src_y;
+-	plane_state->src_w = src_w;
+-	plane_state->src_h = src_h;
++	const struct drm_check_plane_state_test *params = test->param_value;
++	struct drm_plane *plane;
++	struct drm_framebuffer *fb;
++	struct drm_plane_state *mock;
 +
- 	if (plane_state->src.x1 < 0) {
--		pr_err("src x coordinate %x should never be below 0.\n", plane_state->src.x1);
--		drm_rect_debug_print("src: ", &plane_state->src, true);
-+		kunit_err(test,
-+			  "src x coordinate %x should never be below 0, src: " DRM_RECT_FP_FMT,
-+			  plane_state->src.x1, DRM_RECT_FP_ARG(&plane_state->src));
- 		return false;
- 	}
- 	if (plane_state->src.y1 < 0) {
--		pr_err("src y coordinate %x should never be below 0.\n", plane_state->src.y1);
--		drm_rect_debug_print("src: ", &plane_state->src, true);
-+		kunit_err(test,
-+			  "src y coordinate %x should never be below 0, src: " DRM_RECT_FP_FMT,
-+			  plane_state->src.y1, DRM_RECT_FP_ARG(&plane_state->src));
- 		return false;
- 	}
- 
--	if (plane_state->src.x1 != src_x ||
--	    plane_state->src.y1 != src_y ||
--	    drm_rect_width(&plane_state->src) != src_w ||
--	    drm_rect_height(&plane_state->src) != src_h) {
--		drm_rect_debug_print("src: ", &plane_state->src, true);
-+	if (plane_state->src.x1 != expected.x1 ||
-+	    plane_state->src.y1 != expected.y1 ||
-+	    drm_rect_width(&plane_state->src) != drm_rect_width(&expected) ||
-+	    drm_rect_height(&plane_state->src) != drm_rect_height(&expected)) {
-+		kunit_err(test, "src: " DRM_RECT_FP_FMT ", expected: " DRM_RECT_FP_FMT,
-+			  DRM_RECT_FP_ARG(&plane_state->src), DRM_RECT_FP_ARG(&expected));
++	plane = kunit_kzalloc(test, sizeof(*plane), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, plane);
 +
- 		return false;
- 	}
- 
-@@ -57,15 +64,18 @@ static void set_crtc(struct drm_plane_state *plane_state,
- 	plane_state->crtc_h = crtc_h;
++	fb = kunit_kzalloc(test, sizeof(*fb), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, fb);
++	fb->width = 2048;
++	fb->height = 2048;
++
++	mock = kunit_kzalloc(test, sizeof(*mock), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, mock);
++	mock->plane = plane;
++	mock->crtc = ZERO_SIZE_PTR;
++	mock->fb = fb;
++	mock->rotation = params->rotation;
++	mock->src_x = params->src.x;
++	mock->src_y = params->src.y;
++	mock->src_w = params->src.w;
++	mock->src_h = params->src.h;
++	mock->crtc_x = params->crtc.x;
++	mock->crtc_y = params->crtc.y;
++	mock->crtc_w = params->crtc.w;
++	mock->crtc_h = params->crtc.h;
++
++	test->priv = mock;
++
++	return 0;
  }
  
--static bool check_crtc_eq(struct drm_plane_state *plane_state,
-+static bool check_crtc_eq(struct kunit *test, struct drm_plane_state *plane_state,
+ static bool check_src_eq(struct kunit *test, struct drm_plane_state *plane_state,
+@@ -54,16 +111,6 @@ static bool check_src_eq(struct kunit *test, struct drm_plane_state *plane_state
+ 	return true;
+ }
+ 
+-static void set_crtc(struct drm_plane_state *plane_state,
+-		     int crtc_x, int crtc_y,
+-		     unsigned int crtc_w, unsigned int crtc_h)
+-{
+-	plane_state->crtc_x = crtc_x;
+-	plane_state->crtc_y = crtc_y;
+-	plane_state->crtc_w = crtc_w;
+-	plane_state->crtc_h = crtc_h;
+-}
+-
+ static bool check_crtc_eq(struct kunit *test, struct drm_plane_state *plane_state,
  			  int crtc_x, int crtc_y,
  			  unsigned int crtc_w, unsigned int crtc_h)
- {
--	if (plane_state->dst.x1 != crtc_x ||
--	    plane_state->dst.y1 != crtc_y ||
--	    drm_rect_width(&plane_state->dst) != crtc_w ||
--	    drm_rect_height(&plane_state->dst) != crtc_h) {
--		drm_rect_debug_print("dst: ", &plane_state->dst, false);
-+	struct drm_rect expected = DRM_RECT_INIT(crtc_x, crtc_y, crtc_w, crtc_h);
-+
-+	if (plane_state->dst.x1 != expected.x1 ||
-+	    plane_state->dst.y1 != expected.y1 ||
-+	    drm_rect_width(&plane_state->dst) != drm_rect_width(&expected) ||
-+	    drm_rect_height(&plane_state->dst) != drm_rect_height(&expected)) {
-+		kunit_err(test, "dst: " DRM_RECT_FMT ", expected: " DRM_RECT_FMT,
-+			  DRM_RECT_ARG(&plane_state->dst), DRM_RECT_ARG(&expected));
- 
- 		return false;
- 	}
-@@ -109,8 +119,8 @@ static void igt_check_plane_state(struct kunit *test)
- 						  false, false);
- 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple clipping check should pass\n");
- 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
--	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 1024 << 16, 768 << 16));
--	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-+	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1024 << 16, 768 << 16));
-+	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
- 
- 	/* Rotated clipping + reflection, no scaling. */
- 	plane_state.rotation = DRM_MODE_ROTATE_90 | DRM_MODE_REFLECT_X;
-@@ -120,8 +130,8 @@ static void igt_check_plane_state(struct kunit *test)
- 						  false, false);
- 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Rotated clipping check should pass\n");
- 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
--	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 768 << 16, 1024 << 16));
--	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-+	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 768 << 16, 1024 << 16));
-+	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
- 	plane_state.rotation = DRM_MODE_ROTATE_0;
- 
- 	/* Check whether positioning works correctly. */
-@@ -140,8 +150,8 @@ static void igt_check_plane_state(struct kunit *test)
- 						  true, false);
- 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple positioning should work\n");
- 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
--	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 1023 << 16, 767 << 16));
--	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1023, 767));
-+	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1023 << 16, 767 << 16));
-+	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1023, 767));
- 
- 	/* Simple scaling tests. */
- 	set_src(&plane_state, 0, 0, 512 << 16, 384 << 16);
-@@ -157,8 +167,8 @@ static void igt_check_plane_state(struct kunit *test)
- 						  false, false);
- 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Upscaling exactly 2x should work\n");
- 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
--	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 512 << 16, 384 << 16));
--	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-+	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 512 << 16, 384 << 16));
-+	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
- 
- 	set_src(&plane_state, 0, 0, 2048 << 16, 1536 << 16);
- 	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
-@@ -170,8 +180,8 @@ static void igt_check_plane_state(struct kunit *test)
- 						  0x20000, false, false);
- 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed with exact scaling limit\n");
- 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
--	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 2048 << 16, 1536 << 16));
--	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-+	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2048 << 16, 1536 << 16));
-+	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
- 
- 	/* Testing rounding errors. */
- 	set_src(&plane_state, 0, 0, 0x40001, 0x40001);
-@@ -182,8 +192,8 @@ static void igt_check_plane_state(struct kunit *test)
- 						  true, false);
- 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
- 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
--	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 2 << 16, 2 << 16));
--	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 1022, 766, 2, 2));
-+	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
-+	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
- 
- 	set_src(&plane_state, 0x20001, 0x20001, 0x4040001, 0x3040001);
- 	set_crtc(&plane_state, -2, -2, 1028, 772);
-@@ -193,9 +203,9 @@ static void igt_check_plane_state(struct kunit *test)
- 						  false, false);
- 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
- 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
--	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0x40002, 0x40002,
-+	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x40002, 0x40002,
- 					     1024 << 16, 768 << 16));
--	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-+	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
- 
- 	set_src(&plane_state, 0, 0, 0x3ffff, 0x3ffff);
- 	set_crtc(&plane_state, 1022, 766, 4, 4);
-@@ -206,8 +216,8 @@ static void igt_check_plane_state(struct kunit *test)
- 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
- 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
- 	/* Should not be rounded to 0x20001, which would be upscaling. */
--	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 2 << 16, 2 << 16));
--	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 1022, 766, 2, 2));
-+	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
-+	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
- 
- 	set_src(&plane_state, 0x1ffff, 0x1ffff, 0x403ffff, 0x303ffff);
- 	set_crtc(&plane_state, -2, -2, 1028, 772);
-@@ -217,9 +227,9 @@ static void igt_check_plane_state(struct kunit *test)
- 						  false, false);
- 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
- 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
--	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0x3fffe, 0x3fffe,
-+	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x3fffe, 0x3fffe,
- 					     1024 << 16, 768 << 16));
--	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-+	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+@@ -83,162 +130,206 @@ static bool check_crtc_eq(struct kunit *test, struct drm_plane_state *plane_stat
+ 	return true;
  }
  
+-static void igt_check_plane_state(struct kunit *test)
++static void drm_check_plane_state(struct kunit *test)
++{
++	const struct drm_check_plane_state_test *params = test->param_value;
++	struct drm_plane_state *plane_state = test->priv;
++
++	KUNIT_ASSERT_EQ_MSG(test,
++			    drm_atomic_helper_check_plane_state(plane_state, &crtc_state,
++								params->min_scale,
++								params->max_scale,
++								params->can_position, false),
++			    0, params->msg);
++	KUNIT_EXPECT_TRUE(test, plane_state->visible);
++	check_src_eq(test, plane_state, params->src_expected.x, params->src_expected.y,
++		     params->src_expected.w, params->src_expected.h);
++	check_crtc_eq(test, plane_state, params->crtc_expected.x, params->crtc_expected.y,
++		      params->crtc_expected.w, params->crtc_expected.h);
++}
++
++static void drm_check_plane_state_desc(const struct drm_check_plane_state_test *t,
++				       char *desc)
+ {
+-	int ret;
+-
+-	static const struct drm_crtc_state crtc_state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.enable = true,
+-		.active = true,
+-		.mode = {
+-			DRM_MODE("1024x768", 0, 65000, 1024, 1048, 1184, 1344, 0, 768, 771,
+-				 777, 806, 0, DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC)
+-		},
+-	};
+-	static struct drm_plane plane = {
+-		.dev = NULL
+-	};
+-	static struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-	static struct drm_plane_state plane_state = {
+-		.plane = &plane,
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.rotation = DRM_MODE_ROTATE_0
+-	};
+-
+-	/* Simple clipping, no scaling. */
+-	set_src(&plane_state, 0, 0, fb.width << 16, fb.height << 16);
+-	set_crtc(&plane_state, 0, 0, fb.width, fb.height);
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  DRM_PLANE_NO_SCALING,
+-						  DRM_PLANE_NO_SCALING,
+-						  false, false);
+-	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple clipping check should pass\n");
+-	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1024 << 16, 768 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+-
+-	/* Rotated clipping + reflection, no scaling. */
+-	plane_state.rotation = DRM_MODE_ROTATE_90 | DRM_MODE_REFLECT_X;
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  DRM_PLANE_NO_SCALING,
+-						  DRM_PLANE_NO_SCALING,
+-						  false, false);
+-	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Rotated clipping check should pass\n");
+-	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 768 << 16, 1024 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+-	plane_state.rotation = DRM_MODE_ROTATE_0;
+-
+-	/* Check whether positioning works correctly. */
+-	set_src(&plane_state, 0, 0, 1023 << 16, 767 << 16);
+-	set_crtc(&plane_state, 0, 0, 1023, 767);
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  DRM_PLANE_NO_SCALING,
+-						  DRM_PLANE_NO_SCALING,
+-						  false, false);
+-	KUNIT_EXPECT_TRUE_MSG(test, ret,
+-			      "Should not be able to position on the crtc with can_position=false\n");
+-
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  DRM_PLANE_NO_SCALING,
+-						  DRM_PLANE_NO_SCALING,
+-						  true, false);
+-	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple positioning should work\n");
+-	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1023 << 16, 767 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1023, 767));
+-
+-	/* Simple scaling tests. */
+-	set_src(&plane_state, 0, 0, 512 << 16, 384 << 16);
+-	set_crtc(&plane_state, 0, 0, 1024, 768);
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  0x8001,
+-						  DRM_PLANE_NO_SCALING,
+-						  false, false);
+-	KUNIT_EXPECT_TRUE_MSG(test, ret, "Upscaling out of range should fail.\n");
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  0x8000,
+-						  DRM_PLANE_NO_SCALING,
+-						  false, false);
+-	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Upscaling exactly 2x should work\n");
+-	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 512 << 16, 384 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+-
+-	set_src(&plane_state, 0, 0, 2048 << 16, 1536 << 16);
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  DRM_PLANE_NO_SCALING,
+-						  0x1ffff, false, false);
+-	KUNIT_EXPECT_TRUE_MSG(test, ret, "Downscaling out of range should fail.\n");
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  DRM_PLANE_NO_SCALING,
+-						  0x20000, false, false);
+-	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed with exact scaling limit\n");
+-	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2048 << 16, 1536 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+-
+-	/* Testing rounding errors. */
+-	set_src(&plane_state, 0, 0, 0x40001, 0x40001);
+-	set_crtc(&plane_state, 1022, 766, 4, 4);
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  DRM_PLANE_NO_SCALING,
+-						  0x10001,
+-						  true, false);
+-	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+-	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
+-
+-	set_src(&plane_state, 0x20001, 0x20001, 0x4040001, 0x3040001);
+-	set_crtc(&plane_state, -2, -2, 1028, 772);
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  DRM_PLANE_NO_SCALING,
+-						  0x10001,
+-						  false, false);
+-	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+-	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x40002, 0x40002,
+-					     1024 << 16, 768 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+-
+-	set_src(&plane_state, 0, 0, 0x3ffff, 0x3ffff);
+-	set_crtc(&plane_state, 1022, 766, 4, 4);
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  0xffff,
+-						  DRM_PLANE_NO_SCALING,
+-						  true, false);
+-	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+-	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	/* Should not be rounded to 0x20001, which would be upscaling. */
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
+-
+-	set_src(&plane_state, 0x1ffff, 0x1ffff, 0x403ffff, 0x303ffff);
+-	set_crtc(&plane_state, -2, -2, 1028, 772);
+-	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+-						  0xffff,
+-						  DRM_PLANE_NO_SCALING,
+-						  false, false);
+-	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+-	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x3fffe, 0x3fffe,
+-					     1024 << 16, 768 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
++	sprintf(desc, "%s", t->name);
+ }
+ 
++static const struct drm_check_plane_state_test drm_check_plane_state_tests[] = {
++	{
++		.name = "clipping_simple",
++		.msg = "Simple clipping check should pass",
++		.src = { 0, 0,
++			 2048 << 16,
++			 2048 << 16 },
++		.crtc = { 0, 0, 2048, 2048 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = DRM_PLANE_NO_SCALING,
++		.max_scale = DRM_PLANE_NO_SCALING,
++		.can_position = false,
++		.src_expected = { 0, 0, 1024 << 16, 768 << 16 },
++		.crtc_expected = { 0, 0, 1024, 768 },
++	},
++	{
++		.name = "clipping_rotate_reflect",
++		.msg = "Rotated clipping check should pass",
++		.src = { 0, 0,
++			 2048 << 16,
++			 2048 << 16 },
++		.crtc = { 0, 0, 2048, 2048 },
++		.rotation = DRM_MODE_ROTATE_90 | DRM_MODE_REFLECT_X,
++		.min_scale = DRM_PLANE_NO_SCALING,
++		.max_scale = DRM_PLANE_NO_SCALING,
++		.can_position = false,
++		.src_expected = { 0, 0, 768 << 16, 1024 << 16 },
++		.crtc_expected = { 0, 0, 1024, 768 },
++	},
++	{
++		.name = "positioning_simple",
++		.msg = "Simple positioning should work",
++		.src = { 0, 0, 1023 << 16, 767 << 16 },
++		.crtc = { 0, 0, 1023, 767 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = DRM_PLANE_NO_SCALING,
++		.max_scale = DRM_PLANE_NO_SCALING,
++		.can_position = true,
++		.src_expected = { 0, 0, 1023 << 16, 767 << 16 },
++		.crtc_expected = { 0, 0, 1023, 767 },
++	},
++	{
++		.name = "upscaling",
++		.msg = "Upscaling exactly 2x should work",
++		.src = { 0, 0, 512 << 16, 384 << 16 },
++		.crtc = { 0, 0, 1024, 768 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = 0x8000,
++		.max_scale = DRM_PLANE_NO_SCALING,
++		.can_position = false,
++		.src_expected = { 0, 0, 512 << 16, 384 << 16 },
++		.crtc_expected = { 0, 0, 1024, 768 },
++	},
++	{
++		.name = "downscaling",
++		.msg = "Should succeed with exact scaling limit",
++		.src = { 0, 0, 2048 << 16, 1536 << 16 },
++		.crtc = { 0, 0, 1024, 768 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = DRM_PLANE_NO_SCALING,
++		.max_scale = 0x20000,
++		.can_position = false,
++		.src_expected = { 0, 0, 2048 << 16, 1536 << 16 },
++		.crtc_expected = { 0, 0, 1024, 768 },
++	},
++	{
++		.name = "rounding1",
++		.msg = "Should succeed by clipping to exact multiple",
++		.src = { 0, 0, 0x40001, 0x40001 },
++		.crtc = { 1022, 766, 4, 4 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = DRM_PLANE_NO_SCALING,
++		.max_scale = 0x10001,
++		.can_position = true,
++		.src_expected = { 0, 0, 2 << 16, 2 << 16 },
++		.crtc_expected = { 1022, 766, 2, 2 },
++	},
++	{
++		.name = "rounding2",
++		.msg = "Should succeed by clipping to exact multiple",
++		.src = { 0x20001, 0x20001, 0x4040001, 0x3040001 },
++		.crtc = { -2, -2, 1028, 772 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = DRM_PLANE_NO_SCALING,
++		.max_scale = 0x10001,
++		.can_position = false,
++		.src_expected = { 0x40002, 0x40002, 1024 << 16, 768 << 16 },
++		.crtc_expected = { 0, 0, 1024, 768 },
++	},
++	{
++		.name = "rounding3",
++		.msg = "Should succeed by clipping to exact multiple",
++		.src = { 0, 0, 0x3ffff, 0x3ffff },
++		.crtc = { 1022, 766, 4, 4 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = 0xffff,
++		.max_scale = DRM_PLANE_NO_SCALING,
++		.can_position = true,
++		/* Should not be rounded to 0x20001, which would be upscaling. */
++		.src_expected = { 0, 0, 2 << 16, 2 << 16 },
++		.crtc_expected = { 1022, 766, 2, 2 },
++	},
++	{
++		.name = "rounding4",
++		.msg = "Should succeed by clipping to exact multiple",
++		.src = { 0x1ffff, 0x1ffff, 0x403ffff, 0x303ffff },
++		.crtc = { -2, -2, 1028, 772 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = 0xffff,
++		.max_scale = DRM_PLANE_NO_SCALING,
++		.can_position = false,
++		.src_expected = { 0x3fffe, 0x3fffe, 1024 << 16, 768 << 16 },
++		.crtc_expected = { 0, 0, 1024, 768 },
++	},
++};
++
++KUNIT_ARRAY_PARAM(drm_check_plane_state, drm_check_plane_state_tests, drm_check_plane_state_desc);
++
++static void drm_check_invalid_plane_state(struct kunit *test)
++{
++	const struct drm_check_plane_state_test *params = test->param_value;
++	struct drm_plane_state *plane_state = test->priv;
++
++	KUNIT_ASSERT_LT_MSG(test,
++			    drm_atomic_helper_check_plane_state(plane_state, &crtc_state,
++								params->min_scale,
++								params->max_scale,
++								params->can_position, false),
++			    0, params->msg);
++}
++
++static const struct drm_check_plane_state_test drm_check_invalid_plane_state_tests[] = {
++	{
++		.name = "positioning_invalid",
++		.msg = "Should not be able to position on the crtc with can_position=false",
++		.src = { 0, 0, 1023 << 16, 767 << 16 },
++		.crtc = { 0, 0, 1023, 767 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = DRM_PLANE_NO_SCALING,
++		.max_scale = DRM_PLANE_NO_SCALING,
++		.can_position = false,
++	},
++	{
++		.name = "upscaling_invalid",
++		.msg = "Upscaling out of range should fail",
++		.src = { 0, 0, 512 << 16, 384 << 16 },
++		.crtc = { 0, 0, 1024, 768 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = 0x8001,
++		.max_scale = DRM_PLANE_NO_SCALING,
++		.can_position = false,
++	},
++	{
++		.name = "downscaling_invalid",
++		.msg = "Downscaling out of range should fail",
++		.src = { 0, 0, 2048 << 16, 1536 << 16 },
++		.crtc = { 0, 0, 1024, 768 },
++		.rotation = DRM_MODE_ROTATE_0,
++		.min_scale = DRM_PLANE_NO_SCALING,
++		.max_scale = 0x1ffff,
++		.can_position = false,
++	},
++};
++
++KUNIT_ARRAY_PARAM(drm_check_invalid_plane_state, drm_check_invalid_plane_state_tests,
++		  drm_check_plane_state_desc);
++
  static struct kunit_case drm_plane_helper_test[] = {
+-	KUNIT_CASE(igt_check_plane_state),
++	KUNIT_CASE_PARAM(drm_check_plane_state, drm_check_plane_state_gen_params),
++	KUNIT_CASE_PARAM(drm_check_invalid_plane_state, drm_check_invalid_plane_state_gen_params),
+ 	{}
+ };
+ 
+ static struct kunit_suite drm_plane_helper_test_suite = {
+ 	.name = "drm_plane_helper",
++	.init = drm_plane_helper_init,
+ 	.test_cases = drm_plane_helper_test,
+ };
+ 
 -- 
 2.37.2
 
