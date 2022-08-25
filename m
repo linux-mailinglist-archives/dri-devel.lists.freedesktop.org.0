@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302EC5A112B
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 14:54:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EB95A112A
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 14:54:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBEAC10E1BA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BF710E19F;
 	Thu, 25 Aug 2022 12:54:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6323210E19F
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 12:54:14 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id bt10so15131416lfb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 05:54:14 -0700 (PDT)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8996C10E1BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 12:54:15 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id k22so4662870ljg.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 05:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=S3SutAB1J4Kb12rqzo8+qQuuCiQhbu1bFQAHyt9SB6M=;
- b=dYjtx8g4GgRergvoaiFBiWUr5mp8xRc3ajTrabyMa3BOgh/UVTKQun5yXKMMauJRMc
- 0+eMWOZNpd+3omG8H8DsIx+7J/08M1obW4O6HuN1/6XLZ7QuOwCY1q+xfn6tJ+0Xi14+
- ksNb9HYycX9JV7LSoOaOjrls83z6BtK7RxIHe3ALGiTFz8yuJpE4sPI1e86PN7lUIzGK
- S8tSB5c0ljyYXthRQu2jA7GyvpLd+heV1qrFqZCGJBjiEVJ6Vy6J+YZ24ODQg1o2U+IP
- Dze5Q7iBwMGW9rsKKt87+CJsHJHv0w9JrU4MyWUPP+KZqYEF+MoQG0xlpjAQYO0XCqSZ
- jISg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=D/ccOsbml4jzjSuaN6Ect5+wP3SbE22HAifCrGPULww=;
+ b=FVWi5xKPF5jzZCW1H9revypI8JzpEg8PzHlOM4EejMA8fJV0y53TPDVzqVtdLiXN+f
+ IC4X4qKTdFy3Ctj8t8tvs9stoC47gcEMdprPtqvNgvV5JVoNNHfZxndYNEhqXkXXFA60
+ KRm3q3Zs94o6/bU/GLtNxrpgiv3uTtkzQI0B1/2d+CkxZruVYvhYxmlGr5YiJFsCnZsw
+ u2EKWnORW0KcimWVcask0+FYGYwHiGWmrHDBXDvM+AkayGQgfcMzSaIg8ZlMw98hTHHC
+ TlFDjz9VTTaFpyI0mTQBKZU6NWUQ4VAnDDsln+XNN+SVI5oOff4vjXL7h2CGTYl/8a10
+ uPjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=S3SutAB1J4Kb12rqzo8+qQuuCiQhbu1bFQAHyt9SB6M=;
- b=io1OGKuYs+fl4XqACebTz7P+Mu0/NbZ2dydbW+6ohEDTp95LGIrSiuRs3yow1PXXj2
- cMYm2hwfKf91rTl273GGg/myjFO5bxE+joTqDr+/Dv4twB0bF8ruhvv9+VR5yg2p7IUW
- Uj8F7HMiS3nwcRxkSsTJRJSoz4r89WcKFg8xlSZDiJT1TZdKDR1YidwMyKvc/VqpG3xk
- 2Blp/aZxD4QOynAONzN4veugFjop0lPeltDoTbx4Ey1Z7nslc1c1Xd21B5pxtL7HQIll
- VXJLvCQXTJIcURYZfkYIugXI96vp7y3bSw2uEwNm5l/DN/an89iVl6u/GhutvXTZMiPN
- HW9A==
-X-Gm-Message-State: ACgBeo1wRQpuQExlc6vIVMNVrXQIaXJ8FyEju03kGyHhmUF6F1lnk3ee
- 2AS5GXseXbuK2O7TGdUbjLGWBw==
-X-Google-Smtp-Source: AA6agR6Beh4p+rci4zh/hhXKnzTrbCflB3h0vAEJeLxMjM0OmsBCjw8pY7pJZ0BeP5ai02rnqARMJQ==
-X-Received: by 2002:a05:6512:b08:b0:492:87ad:5f5c with SMTP id
- w8-20020a0565120b0800b0049287ad5f5cmr1269359lfu.293.1661432052713; 
- Thu, 25 Aug 2022 05:54:12 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=D/ccOsbml4jzjSuaN6Ect5+wP3SbE22HAifCrGPULww=;
+ b=o8JphhK6Ri8CyP3wfLvkvrzQzbDmEyg9LNaoyJwnuxkA1q/cYB4Ej7V/uWcC0c6g4C
+ f/do6sX/zKZKRoZOZbfyfvqYAAM3S46wUn1mltyInemEWeNtBRb+ABhtHT6v15RZfgzw
+ qsA483JRPkV0d/k/kvtcBkgYQEjz3+RSd3YU9VYIf9Scpg+eLy/OdEGYAvD9swy1RG2I
+ HmQJislhNxHNBDzApUpSmaeVxAfRrDbIKgigX1B1n/nw2QzcQwwkusEhdMyJxNfbNZEb
+ QVkotFz/b+he93BtqVNR3aw4rpT5/4WHz6WRicS8Yf+wcNArKuw7YUVFmHN/U6qISLnJ
+ Ouqw==
+X-Gm-Message-State: ACgBeo1/c9E5jYaju9e9cgR8d1w/OVttOMGXD+8o+DpKqdRCUqrN3rkd
+ /rCnbMTzGjQxC+lah1hYHFvoEg==
+X-Google-Smtp-Source: AA6agR5kjCthwco3jfPkTHcbllpiDHBj4Vg74du9SANxf9zhAAh/e85DVBU/WRdGZ5i9gCiEB3383g==
+X-Received: by 2002:a05:651c:19a7:b0:261:d7af:5d4f with SMTP id
+ bx39-20020a05651c19a700b00261d7af5d4fmr1125100ljb.51.1661432053808; 
+ Thu, 25 Aug 2022 05:54:13 -0700 (PDT)
 Received: from krzk-bin.starman.ee (82.131.98.15.cable.starman.ee.
  [82.131.98.15]) by smtp.gmail.com with ESMTPSA id
- z14-20020a056512370e00b00492e3a8366esm494304lfr.9.2022.08.25.05.54.11
+ z14-20020a056512370e00b00492e3a8366esm494304lfr.9.2022.08.25.05.54.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 05:54:12 -0700 (PDT)
+ Thu, 25 Aug 2022 05:54:13 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
  Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
@@ -59,10 +59,13 @@ To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
  Kiran Gunda <kgunda@codeaurora.org>, dri-devel@lists.freedesktop.org,
  linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH RESEND - dt 0/2] dt-bindings: left-overs for DT tree
-Date: Thu, 25 Aug 2022 15:54:08 +0300
-Message-Id: <20220825125410.232377-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH RESEND - dt 1/2] dt-bindings: nvmem: qfprom: add IPQ8064 and
+ SDM630 compatibles
+Date: Thu, 25 Aug 2022 15:54:09 +0300
+Message-Id: <20220825125410.232377-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220825125410.232377-1-krzysztof.kozlowski@linaro.org>
+References: <20220825125410.232377-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,26 +84,34 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+Document compatibles for QFPROM used on IPQ8064 and SDM630.  They are
+compatible with generic QFPROM fallback.
 
-These were sent some months ago, then resent and still were not applied.
-
-You already reviewed them (I removed your tag here). Can you apply them to your tree?
-
-https://lore.kernel.org/all/20220720163720.7099-1-krzysztof.kozlowski@linaro.org/
-https://lore.kernel.org/all/daaf6ad7-6204-2a13-442b-05068d29e734@linaro.org/
-
-Best regards,
-Krzysztof
-
-Krzysztof Kozlowski (2):
-  dt-bindings: nvmem: qfprom: add IPQ8064 and SDM630 compatibles
-  dt-bindings: leds: qcom-wled: fix number of addresses
-
- .../devicetree/bindings/leds/backlight/qcom-wled.yaml    | 9 ++++++++-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
  Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml | 2 ++
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ 1 file changed, 2 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
+index dede8892ee01..b4163086a5be 100644
+--- a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
++++ b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
+@@ -18,6 +18,7 @@ properties:
+       - enum:
+           - qcom,apq8064-qfprom
+           - qcom,apq8084-qfprom
++          - qcom,ipq8064-qfprom
+           - qcom,msm8974-qfprom
+           - qcom,msm8916-qfprom
+           - qcom,msm8996-qfprom
+@@ -25,6 +26,7 @@ properties:
+           - qcom,qcs404-qfprom
+           - qcom,sc7180-qfprom
+           - qcom,sc7280-qfprom
++          - qcom,sdm630-qfprom
+           - qcom,sdm845-qfprom
+       - const: qcom,qfprom
+ 
 -- 
 2.34.1
 
