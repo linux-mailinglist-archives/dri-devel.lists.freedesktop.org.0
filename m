@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBBD5A0D42
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 11:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319FD5A0D3E
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 11:52:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2571C11B54F;
-	Thu, 25 Aug 2022 09:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D43AD11B550;
+	Thu, 25 Aug 2022 09:51:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85FEF1138C3
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F1DD113B9D
  for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 09:51:15 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id w22so3934996ljg.7
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 02:51:15 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id n24so16855980ljc.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 02:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=DmWp0uy89TPiPu8UitGlfJ4fqSkdwaIvyUKOGTjMH64=;
- b=F+XB9cd63aY9IouNoB5Mm0wxVzYEXXc//IevbAgG1v+ccxUbKvSfYbaM2+KG2wZhJP
- EA+ttydRKnlkqqNLTFaw+PXRZzuN0yn/1ivj0iJzfUVsdFlwkVmHvnD3/pmet6tcv7Vu
- VUAHdrYgi5HlPYnI19akMIX86ty09/ZCe3Mh8S6dhHcvtBCOpkST6qpTqZFCWXBo38vl
- gJR85LSm5HsGL4KnYGiD2/SMxm7qNsawswh8etaTtJNaANp7RAk9zrcEm5oXMdKxTXEt
- fj4On0YzP1rgRVfV3uzwDdT3VAwbzEryzc5RvRjJJJzBudLcB69C8ts9r1Uig4cawZAO
- j6og==
+ bh=DvaJK17gV4B+bl1ZbEWU+oqW67fAbVfCADxcKfyU+fo=;
+ b=jrMX2sKeb7fmWWgdwU0PRGp30JE12BX2p6j9usPnDrXjswJ4bzVW1QN3IlrPHB62Bi
+ +EFnKvG7IvmbLuwH4GiwE2lrxqWAUCT6nk1vVWJlPSGkwMh+CqVpZwkOw9MGxIyghOWG
+ c6I7mhb7EPuxMwtG2InqAxOCsfKCjOUpJ5v8uBazJEdiDtbVyrc22rrbpbVVazy1e9Pn
+ 8RWOnSABSUWvSzKr8KqT/gD5zeUgri2Fx4v6K0YE7yrk3ICuVMgfSsMuCE23gku0kQWQ
+ HC6R1yJRJdZDWFOE49kEHMX+aI0ArOyaY0j+ucltO6vQjFr81G+RRj4zgJDJxc2othN1
+ 48Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=DmWp0uy89TPiPu8UitGlfJ4fqSkdwaIvyUKOGTjMH64=;
- b=SK/+GnBFg4AC2B6FW/ioqf7i3QEaI6ZLKzxVmKXdh+WQ/6gcgP/ua2Moey5zO98MkK
- C1LhoHz8HZm2BoIsdLt0FwcJPVHPyonLVgxqNsrUAQEFYH4erk1deOjny+vP6d2JXaOa
- GsOt1+kTnksjJCQyi3KWCmGnG3HXYqV9fGABejyjhY+2W1shNLiqG0q5LFdKTXHcVL2c
- UegzJ6bh9sXY2AQ+3fxqD1inNNicrfI9V3oWtjmKu58E/uvsFXCfJxq8eYBr2sCM9BZY
- qYT5QmuA1TfA7/bFWOzhHr3o9DbCcjZh/e+vfoim5KtUKB+qcxsW7S6qbXVzYXK9V2mW
- Gteg==
-X-Gm-Message-State: ACgBeo2wElk/TLrfplm3leMWzADtyPfriTVRgr5yEI2WcYmpgQRcHjfb
- 1YxH8W01G9YlPOL0TU74BPwlxg==
-X-Google-Smtp-Source: AA6agR6hyi4jQGGTPThz5bMq67PFnK9qnxRl0rMJwYMP8RA5+UGh7yGLAWfRmT/+N66e4+Li5MG7xA==
-X-Received: by 2002:a2e:9e56:0:b0:261:7544:d79d with SMTP id
- g22-20020a2e9e56000000b002617544d79dmr917898ljk.296.1661421073687; 
- Thu, 25 Aug 2022 02:51:13 -0700 (PDT)
+ bh=DvaJK17gV4B+bl1ZbEWU+oqW67fAbVfCADxcKfyU+fo=;
+ b=w+GoIwOjUZEjsbtAu+9F0SucpDllO5ad98EJxU/jcsz2+iWh3F+9DaAd+svPzZdLFd
+ 0pqojk2xFoZvZSF4MLd/hK5ViH1slfTtjPurUZSbfPQ6eopRqMrgcoYGLCGsNTUwjIt3
+ 5lT2AR4Co01nyk5o4rFKztfHbHZWXVFtd4IqJvaZKcer9+d7nNkzDp2bzWOc74gjM8eT
+ /pXq6tXYtAKmzBVumn2bUrgvHD5hKHoTXHtlz8IJDii1g4Jpgk7jn6TBmlYFv5y2LZRU
+ rrcirHgH2WrTxfuJOxINAFKR9JNpDhBySI+ShuUUmJwUWN3s2nUPgjbZCZKF81lMSpgb
+ lQHQ==
+X-Gm-Message-State: ACgBeo3r7U6BQ2tE62b6cHh3dGKXmy0kt9WgkFucv9VvEDWKJ+U+u6VS
+ yJ6SyoPrcjw0HT375ToFwKzknA==
+X-Google-Smtp-Source: AA6agR6YfoBwsTqR20ybFZO3sNncqpFoke6wtT679ceGxCwxo1h5VJwbmkf3yMwRokjXS5wG7ZrvsA==
+X-Received: by 2002:a2e:84d7:0:b0:261:e692:511a with SMTP id
+ q23-20020a2e84d7000000b00261e692511amr847690ljh.32.1661421074575; 
+ Thu, 25 Aug 2022 02:51:14 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- h10-20020a056512220a00b00492cfecf1c0sm398502lfu.245.2022.08.25.02.51.12
+ h10-20020a056512220a00b00492cfecf1c0sm398502lfu.245.2022.08.25.02.51.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 02:51:12 -0700 (PDT)
+ Thu, 25 Aug 2022 02:51:14 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -54,10 +54,10 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v4 09/10] dt-bindings: display/msm/dpu-common: add opp-table
- property
-Date: Thu, 25 Aug 2022 12:51:02 +0300
-Message-Id: <20220825095103.624891-10-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 10/10] dt-bindings: display/msm: add support for the
+ display on SM8250
+Date: Thu, 25 Aug 2022 12:51:03 +0300
+Message-Id: <20220825095103.624891-11-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220825095103.624891-1-dmitry.baryshkov@linaro.org>
 References: <20220825095103.624891-1-dmitry.baryshkov@linaro.org>
@@ -81,29 +81,221 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The display controller node can contain the opp-table describing its
-frequencies and OPP levels. Allow specifying the opp-table in the DPU
-devices.
+Add DPU schema and extend MDSS schema to describe MDSS and DPU blocks on
+Qualcomm SM8250 platform.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/dpu-common.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ .../bindings/display/msm/dpu-sm8250.yaml      | 123 ++++++++++++++++++
+ .../devicetree/bindings/display/msm/mdss.yaml |  51 ++++++++
+ 2 files changed, 174 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sm8250.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu-common.yaml b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
-index 14eda883e149..42e1616a5670 100644
---- a/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
-@@ -22,6 +22,9 @@ properties:
- 
-   operating-points-v2: true
- 
-+  opp-table:
-+    type: object
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sm8250.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sm8250.yaml
+new file mode 100644
+index 000000000000..26e71a0feb96
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/dpu-sm8250.yaml
+@@ -0,0 +1,123 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/dpu-sm8250.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-     description: |
++title: Qualcomm Display DPU dt properties for SM8250
++
++maintainers:
++  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++
++description: |
++  Device tree bindings for the DPU display controller for SM8250 target.
++
++properties:
++  compatible:
++    const: qcom,sm8250-dpu
++
++  reg:
++    items:
++      - description: Address offset and size for mdp register set
++      - description: Address offset and size for vbif register set
++
++  reg-names:
++    items:
++      - const: mdp
++      - const: vbif
++
++  clocks:
++    items:
++      - description: Display ahb clock
++      - description: Display hf axi clock
++      - description: Display core clock
++      - description: Display vsync clock
++
++  clock-names:
++    items:
++      - const: iface
++      - const: bus
++      - const: core
++      - const: vsync
++
++allOf:
++  - $ref: "/schemas/display/msm/dpu-common.yaml#"
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,dispcc-sm8250.h>
++    #include <dt-bindings/clock/qcom,gcc-sm8250.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interconnect/qcom,sm8250.h>
++    #include <dt-bindings/power/qcom-rpmpd.h>
++
++    mdss@ae00000 {
++      #address-cells = <1>;
++      #size-cells = <1>;
++      compatible = "qcom,sm8250-mdss";
++      reg = <0x0ae00000 0x1000>;
++      reg-names = "mdss";
++
++      interconnects = <&mmss_noc MASTER_MDP_PORT0 &mc_virt SLAVE_EBI_CH0>,
++                      <&mmss_noc MASTER_MDP_PORT1 &mc_virt SLAVE_EBI_CH0>;
++      interconnect-names = "mdp0-mem", "mdp1-mem";
++
++      power-domains = <&dispcc MDSS_GDSC>;
++
++      clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++               <&gcc GCC_DISP_HF_AXI_CLK>,
++               <&gcc GCC_DISP_SF_AXI_CLK>,
++               <&dispcc DISP_CC_MDSS_MDP_CLK>;
++      clock-names = "iface", "bus", "nrt_bus", "core";
++
++      interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++      interrupt-controller;
++      #interrupt-cells = <1>;
++
++      iommus = <&apps_smmu 0x820 0x402>;
++      ranges;
++
++      display-controller@ae01000 {
++        compatible = "qcom,sm8250-dpu";
++        reg = <0x0ae01000 0x8f000>,
++              <0x0aeb0000 0x2008>;
++        reg-names = "mdp", "vbif";
++
++        clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++                 <&gcc GCC_DISP_HF_AXI_CLK>,
++                 <&dispcc DISP_CC_MDSS_MDP_CLK>,
++                 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++        clock-names = "iface", "bus", "core", "vsync";
++
++        assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++        assigned-clock-rates = <19200000>;
++
++        operating-points-v2 = <&mdp_opp_table>;
++        power-domains = <&rpmhpd SM8250_MMCX>;
++
++        interrupt-parent = <&mdss>;
++        interrupts = <0>;
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++            endpoint {
++              remote-endpoint = <&dsi0_in>;
++            };
++          };
++
++          port@1 {
++            reg = <1>;
++            endpoint {
++              remote-endpoint = <&dsi1_in>;
++            };
++          };
++        };
++      };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/display/msm/mdss.yaml b/Documentation/devicetree/bindings/display/msm/mdss.yaml
+index 1b469893732a..57fa8dedc82b 100644
+--- a/Documentation/devicetree/bindings/display/msm/mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/mdss.yaml
+@@ -23,6 +23,7 @@ properties:
+       - qcom,sc7180-mdss
+       - qcom,sc7280-mdss
+       - qcom,sdm845-mdss
++      - qcom,sm8250-mdss
+ 
+   reg:
+     minItems: 1
+@@ -232,6 +233,30 @@ allOf:
+         iommus:
+           minItems: 2
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,sm8250-mdss
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Display AHB clock
++            - description: Display hf axi clock
++            - description: Display sf axi clock
++            - description: Display core clock
++
++        clock-names:
++          items:
++            - const: iface
++            - const: bus
++            - const: nrt_bus
++            - const: core
++
++        iommus:
++          minItems: 1
++
+   - if:
+       properties:
+         compatible:
+@@ -441,6 +466,32 @@ allOf:
+               enum:
+                 - qcom,dsi-phy-10nm
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,sm8250-mdss
++    then:
++      patternProperties:
++        "^display-controller@[1-9a-f][0-9a-f]*$":
++          type: object
++          properties:
++            compatible:
++              const: qcom,sm8250-dpu
++
++        "^dsi@[1-9a-f][0-9a-f]*$":
++          type: object
++          properties:
++            compatible:
++              const: qcom,mdss-dsi-ctrl
++
++        "^dsi-phy@[1-9a-f][0-9a-f]*$":
++          type: object
++          properties:
++            compatible:
++              enum:
++                - qcom,dsi-phy-7nm
++
+ required:
+   - compatible
+   - reg
 -- 
 2.35.1
 
