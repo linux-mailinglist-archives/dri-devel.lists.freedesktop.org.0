@@ -1,68 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30B55A152C
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 17:04:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6705A1552
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 17:13:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5816710E5E2;
-	Thu, 25 Aug 2022 15:04:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F82B10E64E;
+	Thu, 25 Aug 2022 15:13:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A2B10E5E9
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 15:04:35 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id ay12so10397589wmb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 08:04:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=FjzfQgvp9Pt54PbuI+NrL+4+IIsBmjAlu5P//Rcqxr8=;
- b=W4RDP8KJqP48Z9qNlOeWmiPifiTsPzHAXkdP8Vn/obNsP5WU6TNCdwSnvxRiLesm6I
- uDrF/FAzWwGpvJJ4z6O31VFowRZY0oet/yZmZi0Qd1G8OPLQXyb6u6Yz+aZky7HWaxGa
- lwEyF666GErBM0pHd6T3diDRC+HSpHE4e0UJUkuQn2Udi9FubkZGO4dgeHrRieK5X7B5
- 1ziTsch3E9h9GSIsP5Bjd9ivSDzeBkXv6Rq6AleqOc8I2EwwyBiXK4njSyfazrMm/qzi
- Y14lAYpYQraYdnrgaEYKX39AhQfaPGHe59qiCVbd74sld9MkkqeXZjjtJUk/776np0Ea
- /URQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=FjzfQgvp9Pt54PbuI+NrL+4+IIsBmjAlu5P//Rcqxr8=;
- b=VGpM41RUy8MFHmmSKecBtYSopjGmPDnn4uCUR3RtVYU3mP5QAjW845nFs0wYi55szc
- IdX5Ic6aDB+p3DWC/fEN5MUnomNrgUitI+/7blweEZSiDtOn0iqLAibbyGYM8qwvNK7d
- zUiVJEDU3XOrKzPHglt7bC068kuWywAD1tRoGSdA1UbwC9m1fddGXyQhjI/7FOYhPWad
- 5eqVGmI0dYtR89xbmK8Lt0KWBexv7HnbMRUCfiU+Wy+zKNsIrwo4Yglys6n2LDrVPjad
- lT2DlUdp72cSB5SgbwQXfqkXXcx4QrSrg7muuqpR9O6o9oXMYhk7vMeB5DrgJ8KD6NDo
- gdwg==
-X-Gm-Message-State: ACgBeo3BMWnBGg9tiaaXYGiWSNf8tx6Xj8y1ZHvKX0X3GQUV8oJcGuHt
- apGxs7SzlXOVzKMu7ihYKd8=
-X-Google-Smtp-Source: AA6agR6g4f+/nbB5a2H60OA7LKWWU9LDI4eXIcuSltTLoDctj9q1XvjqBYoYfQIjU7evtlSeCAWh7g==
-X-Received: by 2002:a05:600c:1c9a:b0:3a6:1c85:7a0c with SMTP id
- k26-20020a05600c1c9a00b003a61c857a0cmr2539978wms.155.1661439873552; 
- Thu, 25 Aug 2022 08:04:33 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- q11-20020a5d61cb000000b00223b8168b15sm19831396wrv.66.2022.08.25.08.04.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 08:04:32 -0700 (PDT)
-Message-ID: <b0f6a3c6-8fef-8983-fb69-6157a9859afd@gmail.com>
-Date: Thu, 25 Aug 2022 17:04:31 +0200
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B70F10E64E
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 15:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ds1ED9/E8RnGTPOcmFhmM3nxfl6XFIk5DEUz5wvPIYY=; b=XM7AfOD/00Npw2p+NjBfouwELf
+ I9bRHc2R4q55W61qDwzprV6raEBmp4A4jIPmklgYwmujyF0ZIsrepW67YNfWDpYTQejiqU9UfqPgu
+ mLwLWAV5zakGYqrErCtzYBGrEqWkK/I2qst6oBbL5qVI12WDJ14XSDOOvRgSJlxheFZKfmjx5bf4n
+ Gk+1H7L8wo6G2gMVjrLOhbMm1TG24aLDoJYl7EU+tXEf21icteOQdosRQJ5RsbGNc2n6g9FGV4VH8
+ RrJn1xVGCUvZumcitD1aHU1U76EUa9VdCG9QH08Xd74yBAyeiWBUMrUxhU5cSSEYP/n3RhqRonkjf
+ lUzM52kQ==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=49886)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oREY2-0007oo-36; Thu, 25 Aug 2022 17:13:34 +0200
+Message-ID: <863beb42-1012-b38a-0c3d-89b7e035aa82@tronnes.org>
+Date: Thu, 25 Aug 2022 17:13:29 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v3,1/2] soc: mediatek: Add mmsys func to adapt to dpi
- output for MT8186
-Content-Language: en-US
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- xinlei.lee@mediatek.com
-References: <1661236702-30682-1-git-send-email-xinlei.lee@mediatek.com>
- <20220823201758.ffbgb5t5odoicgir@notapiano>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220823201758.ffbgb5t5odoicgir@notapiano>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <37a76651-a457-e50d-9a05-00ca9ed5d729@tronnes.org>
+ <20220825134408.dioj2lbycl7jm3ld@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220825134408.dioj2lbycl7jm3ld@houat>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,32 +57,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- airlied@linux.ie, jason-jh.lin@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, yongqiang.niu@mediatek.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 23/08/2022 22:17, Nícolas F. R. A. Prado wrote:
-> On Tue, Aug 23, 2022 at 02:38:22PM +0800, xinlei.lee@mediatek.com wrote:
->> From: Xinlei Lee <xinlei.lee@mediatek.com>
->>
->> Add mmsys function to manipulate dpi output format configuration for MT8186.
->>
->> Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
->> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
->> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+Den 25.08.2022 15.44, skrev Maxime Ripard:
+> Hi,
 > 
-> Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> On Sat, Aug 20, 2022 at 10:12:46PM +0200, Noralf Trønnes wrote:
+>>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>>> index 1e9996b33cc8..78275e68ff66 100644
+>>> --- a/include/drm/drm_connector.h
+>>> +++ b/include/drm/drm_connector.h
+>>> @@ -143,6 +143,32 @@ enum subpixel_order {
+>>>  
+>>>  };
+>>>  
+>>> +#define DRM_MODE_TV_NORM_NTSC_443	(1 << 0)
+>>> +#define DRM_MODE_TV_NORM_NTSC_J		(1 << 1)
+>>> +#define DRM_MODE_TV_NORM_NTSC_M		(1 << 2)
+>>> +#define DRM_MODE_TV_NORM_PAL_60		(1 << 3)
+>>> +#define DRM_MODE_TV_NORM_PAL_B		(1 << 4)
+>>> +#define DRM_MODE_TV_NORM_PAL_D		(1 << 5)
+>>> +#define DRM_MODE_TV_NORM_PAL_G		(1 << 6)
+>>> +#define DRM_MODE_TV_NORM_PAL_H		(1 << 7)
+>>> +#define DRM_MODE_TV_NORM_PAL_I		(1 << 8)
+>>> +#define DRM_MODE_TV_NORM_PAL_M		(1 << 9)
+>>> +#define DRM_MODE_TV_NORM_PAL_N		(1 << 10)
+>>> +#define DRM_MODE_TV_NORM_PAL_NC		(1 << 11)
+>>> +#define DRM_MODE_TV_NORM_SECAM_60	(1 << 12)
+>>> +#define DRM_MODE_TV_NORM_SECAM_B	(1 << 13)
+>>> +#define DRM_MODE_TV_NORM_SECAM_D	(1 << 14)
+>>> +#define DRM_MODE_TV_NORM_SECAM_G	(1 << 15)
+>>> +#define DRM_MODE_TV_NORM_SECAM_K	(1 << 16)
+>>> +#define DRM_MODE_TV_NORM_SECAM_K1	(1 << 17)
+>>> +#define DRM_MODE_TV_NORM_SECAM_L	(1 << 18)
+>>> +#define DRM_MODE_TV_NORM_HD480I		(1 << 19)
+>>> +#define DRM_MODE_TV_NORM_HD480P		(1 << 20)
+>>> +#define DRM_MODE_TV_NORM_HD576I		(1 << 21)
+>>> +#define DRM_MODE_TV_NORM_HD576P		(1 << 22)
+>>> +#define DRM_MODE_TV_NORM_HD720P		(1 << 23)
+>>> +#define DRM_MODE_TV_NORM_HD1080I	(1 << 24)
+>>> +
+>>
+>> This is an area where DRM overlaps with v4l2, see:
+>> - include/dt-bindings/display/sdtv-standards.h
+>> - v4l2_norm_to_name()
+>>
+>> Maybe we should follow suit, but if we do our own thing please mention
+>> why in the commit message.
+> 
+> Are you suggesting that we'd share that definition with v4l2?
 > 
 
-Patch looks fine, I'll wait for v4 as there is still some discussion on the DRM 
-part. Please try to fix the threading problem you had in sending this series.
+If possible, yes.
 
-Thanks,
-Matthias
+> I've tried to share some code in the past between v4l2 and DRM, and it
+> got completely shut down so it's not something I'd like to try again, if
+> possible.
+> 
+
+But that is a good enough reason not to do so. I just got the impression
+from some of Laurent's emails a while back that there was some
+cooperativ atmosphere, but I might be mistaken in my reading/understanding.
+
+It is ofc possible to just copy the values from sdtv-standards.h, but I
+see that hd* is missing from that list, so not sure if there's much
+point if it has to be extended without changing the source.
+
+We can at least use the names from v4l2_norm_to_name(), but from a quick
+look it seems you already do so.
+
+Noralf.
