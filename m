@@ -2,56 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8915A1806
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 19:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFCB5A180C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 19:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF9510E4C5;
-	Thu, 25 Aug 2022 17:35:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A57B10E128;
+	Thu, 25 Aug 2022 17:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83FB310E4C5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 17:35:07 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 27PHYuuj082659;
- Thu, 25 Aug 2022 12:34:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1661448896;
- bh=hy51x9fD99O2MZ+OanUOy7HMr+gQi3UUqpdFlYEaeb0=;
- h=From:To:CC:Subject:Date;
- b=uBDy2JwwCTzy5iCQqN6mGRpW9QeOUWy2X6Xyl+3UQ2LW1v7SGHFqrFVC4gAvDKXoF
- MB5KBbZuJ1aVtQHWPRoiNW3p0XjA+kRE4z/oW19wKc60iKob6iHeqOYLPj+iBoioOi
- 54G486ebSez21iEd9OBQsEUHcy+D6OxVJgBjSrxA=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 27PHYu04052728
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 25 Aug 2022 12:34:56 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Thu, 25
- Aug 2022 12:34:55 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Thu, 25 Aug 2022 12:34:56 -0500
-Received: from ula0226330.dal.design.ti.com (ileax41-snat.itg.ti.com
- [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 27PHYtZk073604;
- Thu, 25 Aug 2022 12:34:55 -0500
-From: Andrew Davis <afd@ti.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Randy Dunlap
- <rdunlap@infradead.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm: Move radeon and amdgpu Kconfig options into their
- directories
-Date: Thu, 25 Aug 2022 12:34:55 -0500
-Message-ID: <20220825173455.23155-1-afd@ti.com>
-X-Mailer: git-send-email 2.36.1
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BAB010E0E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 17:36:57 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id og21so3411883ejc.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 10:36:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=MgkxpuDYNfRRBnVjGGx0IvVP/Y84NvnK9NI2soXdS2k=;
+ b=XzKSN+zJd0x+L4aWMzauNurwUHFcSPiPCb1fGPFyN2vz+d/RoA+TjfrUTNw7mW7t/L
+ 8GEtg9rj7rAYC0VKF08igpQIBo5p3lYtT51A050uz6ZJOgzADOgKSyZI4hTiNusPnrJq
+ klt0qWnCM70n39VrqtFAlGcV51De/6hBnxTdk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=MgkxpuDYNfRRBnVjGGx0IvVP/Y84NvnK9NI2soXdS2k=;
+ b=oMwzsL6+HBjf9kLvrOFtqcFVwdz9FZM9F4HeUPh5HIQxDUawgiPosFWrmupFeL4UuW
+ /6Bf4Jwidxp7KRP5sfwo2l8/p05KgcUNNFmSy6YVRM5ji/9nfkrfVFYcPWh4rIp46ToH
+ Pn+SGtsleHwhDWVEBqSiUEJzD7/Au4Rq4wGuw79JMnVqsldRmXkfLgGYzLex79nQFScF
+ hbzUimn5LuDTXxvv6oXXhA1QVRqZzjSSRMk0ietZzDvfKTen9qRF427lh44XkxQwATFe
+ mmdpjZAlGPujC08TSujUa1mIseCmBe5X0E3DT5ahkhIxoFt4pW75Oe+hwpgW7s9DaOXn
+ HMLg==
+X-Gm-Message-State: ACgBeo112LfDMqcC4lCsUy13PcoZ5PjQABkzU4jtRgN2qbqdvc5kuspI
+ OBvujvzuJXmhis5n5hyCHG7WZAbvVjw5zm+uA7s=
+X-Google-Smtp-Source: AA6agR75hFg98y3yQuOCc95XU0bFT1RNfbT2oAg9hco+I+GTYsdAttoVBBXNdHu13pA0iTwp2QMzwA==
+X-Received: by 2002:a17:907:160b:b0:73c:fc00:e55e with SMTP id
+ hb11-20020a170907160b00b0073cfc00e55emr3078645ejc.356.1661449015105; 
+ Thu, 25 Aug 2022 10:36:55 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com.
+ [209.85.221.46]) by smtp.gmail.com with ESMTPSA id
+ z22-20020a50cd16000000b00445f9faf13csm18231edi.72.2022.08.25.10.36.53
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Aug 2022 10:36:54 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id k9so25530942wri.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 10:36:53 -0700 (PDT)
+X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id
+ b13-20020adff90d000000b0020cde324d35mr2914675wrr.583.1661449013445; Thu, 25
+ Aug 2022 10:36:53 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220822180729.1.I8ac5abe3a4c1c6fd5c061686c6e883c22f69022c@changeid>
+In-Reply-To: <20220822180729.1.I8ac5abe3a4c1c6fd5c061686c6e883c22f69022c@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 25 Aug 2022 10:36:41 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W5X2XvvKT5tq+1ywJSmVB0TAHquGgn02uNmn4s-sqndg@mail.gmail.com>
+Message-ID: <CAD=FV=W5X2XvvKT5tq+1ywJSmVB0TAHquGgn02uNmn4s-sqndg@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm: bridge: analogix/dp: add panel
+ prepare/unprepare in suspend/resume time"
+To: Brian Norris <briannorris@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,142 +73,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Davis <afd@ti.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Zhang Zekun <zhangzekun11@huawei.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, xuqiang36@huawei.com,
+ Andrzej Hajda <a.hajda@samsung.com>, Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most Kconfig options to enable a driver are in the Kconfig file
-inside the relevant directory, move these two to the same.
+Hi,
 
-Signed-off-by: Andrew Davis <afd@ti.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
+On Mon, Aug 22, 2022 at 6:08 PM Brian Norris <briannorris@chromium.org> wrote:
+>
+> This reverts commit 211f276ed3d96e964d2d1106a198c7f4a4b3f4c0.
+>
+> For quite some time, core DRM helpers already ensure that any relevant
+> connectors/CRTCs/etc. are disabled, as well as their associated
+> components (e.g., bridges) when suspending the system. Thus,
+> analogix_dp_bridge_{enable,disable}() already get called, which in turn
+> call drm_panel_{prepare,unprepare}(). This makes these drm_panel_*()
+> calls redundant.
+>
+> Besides redundancy, there are a few problems with this handling:
+>
+> (1) drm_panel_{prepare,unprepare}() are *not* reference-counted APIs and
+> are not in general designed to be handled by multiple callers --
+> although some panel drivers have a coarse 'prepared' flag that mitigates
+> some damage, at least. So at a minimum this is redundant and confusing,
+> but in some cases, this could be actively harmful.
+>
+> (2) The error-handling is a bit non-standard. We ignored errors in
+> suspend(), but handled errors in resume(). And recently, people noticed
+> that the clk handling is unbalanced in error paths, and getting *that*
+> right is not actually trivial, given the current way errors are mostly
+> ignored.
+>
+> (3) In the particular way analogix_dp_{suspend,resume}() get used (e.g.,
+> in rockchip_dp_*(), as a late/early callback), we don't necessarily have
+> a proper PM relationship between the DP/bridge device and the panel
+> device. So while the DP bridge gets resumed, the panel's parent device
+> (e.g., platform_device) may still be suspended, and so any prepare()
+> calls may fail.
+>
+> So remove the superfluous, possibly-harmful suspend()/resume() handling
+> of panel state.
+>
+> Fixes: 211f276ed3d9 ("drm: bridge: analogix/dp: add panel prepare/unprepare in suspend/resume time")
+> Link: https://lore.kernel.org/all/Yv2CPBD3Picg%2FgVe@google.com/
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
+> ---
+>
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 13 -------------
+>  1 file changed, 13 deletions(-)
 
-Changes from v1:
- - Fix whitespace issue pointed out by Randy
+I thought it was strange that the patch being reverted had my
+Tested-by, so I tracked that down at least. Looks like that's from:
 
- drivers/gpu/drm/Kconfig            | 42 ------------------------------
- drivers/gpu/drm/amd/amdgpu/Kconfig | 22 ++++++++++++++++
- drivers/gpu/drm/radeon/Kconfig     | 22 ++++++++++++++++
- 3 files changed, 44 insertions(+), 42 deletions(-)
+https://lore.kernel.org/lkml/CAD=FV=XXESzA6n6MNEGH1Kbh7CeL8xWX8CifFLVf91+0JyFcJQ@mail.gmail.com/
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 6c2256e8474be..24fa9ccd92a4e 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -234,50 +234,8 @@ source "drivers/gpu/drm/i2c/Kconfig"
- 
- source "drivers/gpu/drm/arm/Kconfig"
- 
--config DRM_RADEON
--	tristate "ATI Radeon"
--	depends on DRM && PCI && MMU
--	depends on AGP || !AGP
--	select FW_LOADER
--	select DRM_DISPLAY_DP_HELPER
--	select DRM_DISPLAY_HELPER
--        select DRM_KMS_HELPER
--        select DRM_TTM
--	select DRM_TTM_HELPER
--	select POWER_SUPPLY
--	select HWMON
--	select BACKLIGHT_CLASS_DEVICE
--	select INTERVAL_TREE
--	help
--	  Choose this option if you have an ATI Radeon graphics card.  There
--	  are both PCI and AGP versions.  You don't need to choose this to
--	  run the Radeon in plain VGA mode.
--
--	  If M is selected, the module will be called radeon.
--
- source "drivers/gpu/drm/radeon/Kconfig"
- 
--config DRM_AMDGPU
--	tristate "AMD GPU"
--	depends on DRM && PCI && MMU
--	select FW_LOADER
--	select DRM_DISPLAY_DP_HELPER
--	select DRM_DISPLAY_HDMI_HELPER
--	select DRM_DISPLAY_HELPER
--	select DRM_KMS_HELPER
--	select DRM_SCHED
--	select DRM_TTM
--	select DRM_TTM_HELPER
--	select POWER_SUPPLY
--	select HWMON
--	select BACKLIGHT_CLASS_DEVICE
--	select INTERVAL_TREE
--	select DRM_BUDDY
--	help
--	  Choose this option if you have a recent AMD Radeon graphics card.
--
--	  If M is selected, the module will be called amdgpu.
--
- source "drivers/gpu/drm/amd/amdgpu/Kconfig"
- 
- source "drivers/gpu/drm/nouveau/Kconfig"
-diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
-index 7777d55275de8..36b1206124cff 100644
---- a/drivers/gpu/drm/amd/amdgpu/Kconfig
-+++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
-@@ -1,4 +1,26 @@
- # SPDX-License-Identifier: MIT
-+
-+config DRM_AMDGPU
-+	tristate "AMD GPU"
-+	depends on DRM && PCI && MMU
-+	select FW_LOADER
-+	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HDMI_HELPER
-+	select DRM_DISPLAY_HELPER
-+	select DRM_KMS_HELPER
-+	select DRM_SCHED
-+	select DRM_TTM
-+	select DRM_TTM_HELPER
-+	select POWER_SUPPLY
-+	select HWMON
-+	select BACKLIGHT_CLASS_DEVICE
-+	select INTERVAL_TREE
-+	select DRM_BUDDY
-+	help
-+	  Choose this option if you have a recent AMD Radeon graphics card.
-+
-+	  If M is selected, the module will be called amdgpu.
-+
- config DRM_AMDGPU_SI
- 	bool "Enable amdgpu support for SI parts"
- 	depends on DRM_AMDGPU
-diff --git a/drivers/gpu/drm/radeon/Kconfig b/drivers/gpu/drm/radeon/Kconfig
-index 52819e7f1fca1..5b0201cbf6b32 100644
---- a/drivers/gpu/drm/radeon/Kconfig
-+++ b/drivers/gpu/drm/radeon/Kconfig
-@@ -1,4 +1,26 @@
- # SPDX-License-Identifier: MIT
-+
-+config DRM_RADEON
-+	tristate "ATI Radeon"
-+	depends on DRM && PCI && MMU
-+	depends on AGP || !AGP
-+	select FW_LOADER
-+	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HELPER
-+	select DRM_KMS_HELPER
-+	select DRM_TTM
-+	select DRM_TTM_HELPER
-+	select POWER_SUPPLY
-+	select HWMON
-+	select BACKLIGHT_CLASS_DEVICE
-+	select INTERVAL_TREE
-+	help
-+	  Choose this option if you have an ATI Radeon graphics card.  There
-+	  are both PCI and AGP versions.  You don't need to choose this to
-+	  run the Radeon in plain VGA mode.
-+
-+	  If M is selected, the module will be called radeon.
-+
- config DRM_RADEON_USERPTR
- 	bool "Always enable userptr support"
- 	depends on DRM_RADEON
--- 
-2.36.1
+...where I tested the whole stack of 17 patches together. That means
+that my Tested-by was legit but it wasn't as if I tested that one
+patch and confirmed that it was useful / needed.
 
+Your argument here sounds right to me. The panel should get prepared
+through the normal means (analogix_dp_bridge_pre_enable()) and
+unprepared through normal means (analogix_dp_bridge_disable()). ...and
+whenever the Analogix gets moved to "panel bridge" then that will move
+to just being part of the bridge chain. Having these calls directly in
+the suspend/resume seems weird/wrong.
+
+So while I'm not an expert enough in the quirks of the Analogix DP
+driver to say for certain that your revert won't cause any problems at
+all, if problems come up they should probably be fixed in a way that
+doesn't involve re-adding these direct calls to the suspend/resume
+callbacks. Thus:
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+Given that this is _not_ an area that I'm an expert in nor is it an
+area where the consequences are super easy to analyze, I'm a little
+hesitant to apply this to drm-misc-next myself. Ideally someone more
+familiar with the driver would do it. However, if nobody steps up
+after a few weeks and nobody has yelled about this patch, I'll apply
+it.
