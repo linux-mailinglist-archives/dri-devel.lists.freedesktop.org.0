@@ -1,63 +1,154 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06535A172E
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 18:47:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C735A17AE
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 19:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2BE410E5A0;
-	Thu, 25 Aug 2022 16:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 266DC10E034;
+	Thu, 25 Aug 2022 17:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54E410E5A0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 16:47:19 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id 72so52489pfx.9
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 09:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc; bh=yTmFlTpH2OvrMWHmLaTN7U+2/02eDnmr9wS6NnTM9Ts=;
- b=MLgAivdk7lSB4frWA5u5AbTuNHE0ie4FtBBG98cTMqdOvzWe6MTunl89MjyOiLI396
- h6eALhlsRgQpxOKdbBFIaxoPBrP+l+HvZJt6UVgFjJsCcKN7W7SpEobX5nsLwb0tIhua
- ZfSJzITQ6oPy/Mt0Q7uldvop9iLLoR+Q/+R6M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=yTmFlTpH2OvrMWHmLaTN7U+2/02eDnmr9wS6NnTM9Ts=;
- b=ZBaX78nHvFvIqANxxQgx/EP+Tm5GYOgpKnQPMJvq9gCuq4GHK/H8hvKq9BPP6Q3Clv
- HVIBJ4NLn1r0sAXvjeYAuTC1zcmRyqi4f5zZrFpfuPbVeuyEgqa9D6DAKrK7yL+q1sOQ
- dJE4qmJt0AyytkCmbr9wnqqGhgklk9gkD3bdMeid9AA50lj0sta8yMYuiIFeLcbMoSia
- xPtprzvbxfKzpcSuIZx+HIlmNl1KZoorYrAZu/KNGkxDhM2b40Zp4qGxATISMeFzYcS0
- 87RClwrbR6eNvxtWCL7DntULVjx4A45WEXBBE/9LOz0LGZDxG30mMWu7nSFswSAr4TO1
- l8yQ==
-X-Gm-Message-State: ACgBeo2SPwgk9tSNGiIO5gfmkB5qTIPYUgjNel8mytuaVB3O8lMqJnsH
- MzYtmzuRGL31caPGBFzemNYzxQ==
-X-Google-Smtp-Source: AA6agR4+Fx2Ie1P3McRLlk15Id19S81zCfvBgBaw6JWpSy3ZNqrGM8l8GZkjhSMPGxf9ErzmxvTWjA==
-X-Received: by 2002:a63:5b56:0:b0:422:6905:547f with SMTP id
- l22-20020a635b56000000b004226905547fmr15964pgm.126.1661446039012; 
- Thu, 25 Aug 2022 09:47:19 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- k3-20020aa79723000000b005321340753fsm15393102pfg.103.2022.08.25.09.47.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 09:47:17 -0700 (PDT)
-Date: Thu, 25 Aug 2022 09:47:16 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Subject: Re: [PATCH v9 1/8] overflow: Move and add few utility macros into
- overflow
-Message-ID: <202208250848.1C77B9C38@keescook>
-References: <20220824084514.2261614-1-gwan-gyeong.mun@intel.com>
- <20220824084514.2261614-2-gwan-gyeong.mun@intel.com>
+X-Greylist: delayed 489 seconds by postgrey-1.36 at gabe;
+ Thu, 25 Aug 2022 17:07:05 UTC
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B655F10E034;
+ Thu, 25 Aug 2022 17:07:05 +0000 (UTC)
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20220825165853epoutp0376c7fc9145c4cbd0e89f42de1de29f31~OpQBu3S_U0527805278epoutp03q;
+ Thu, 25 Aug 2022 16:58:53 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20220825165853epoutp0376c7fc9145c4cbd0e89f42de1de29f31~OpQBu3S_U0527805278epoutp03q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1661446733;
+ bh=OMyDqczPCjBQ5hZ5/u7crpFO3U2v0uzdYp2Hee2GiXE=;
+ h=From:To:In-Reply-To:Subject:Date:References:From;
+ b=KLlmvA6iBkGaJfHVkjrgAiOmx/cbbjRu6KeNG232POEwMC1hoCtkLAolisykmbpfQ
+ pvew6z9R3GTwPxfPKOG3ZB9G1uVXi97IA2XTGcEmvcjcgbAQnVpH112N5r+HL0GXBr
+ d+cHIU4FokBlYPqzrKdPDimeevqpPEiFx1sMb3M4=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+ 20220825165853epcas5p433396725314642f23d47ce218efe29f5~OpQBdbDvd1748817488epcas5p47;
+ Thu, 25 Aug 2022 16:58:53 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.179]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4MD8Lf4Lmlz4x9Pt; Thu, 25 Aug
+ 2022 16:58:50 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+ epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 94.45.53458.A4AA7036; Fri, 26 Aug 2022 01:58:50 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220825165849epcas5p2a0a1aac7792d9381224c80115b4b7964~OpP9utYva0308503085epcas5p2e;
+ Thu, 25 Aug 2022 16:58:49 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220825165849epsmtrp259aa9e06d50ff43e8719ed90427ff89e~OpP9p0Dk-0656806568epsmtrp2E;
+ Thu, 25 Aug 2022 16:58:49 +0000 (GMT)
+X-AuditID: b6c32a4a-a5bff7000000d0d2-a5-6307aa4a428d
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 23.04.14392.94AA7036; Fri, 26 Aug 2022 01:58:49 +0900 (KST)
+Received: from alimakhtar03 (unknown [107.122.12.5]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20220825165839epsmtip200d6a12a7d79ea5649d0edd621977dbe~OpP0i7oRW0488104881epsmtip22;
+ Thu, 25 Aug 2022 16:58:39 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>, "'Rob
+ Herring'" <robh+dt@kernel.org>, "'Krzysztof Kozlowski'"
+ <krzysztof.kozlowski+dt@linaro.org>, "'Kunihiko Hayashi'"
+ <hayashi.kunihiko@socionext.com>, "'Masami Hiramatsu'"
+ <mhiramat@kernel.org>, "'Damien Le Moal'"
+ <damien.lemoal@opensource.wdc.com>, "'Michael Turquette'"
+ <mturquette@baylibre.com>, "'Stephen Boyd'" <sboyd@kernel.org>, "'Geert
+ Uytterhoeven'" <geert+renesas@glider.be>, "'Sylwester Nawrocki'"
+ <s.nawrocki@samsung.com>, "'Tomasz Figa'" <tomasz.figa@gmail.com>, "'Chanwoo
+ Choi'" <cw00.choi@samsung.com>, "'Vladimir	Zapolskiy'" <vz@mleia.com>,
+ "'Herbert Xu'" <herbert@gondor.apana.org.au>, "'David S. Miller'"
+ <davem@davemloft.net>, "'Andrzej Hajda'" <andrzej.hajda@intel.com>, "'Neil
+ Armstrong'" <neil.armstrong@linaro.org>, "'Robert Foss'"
+ <robert.foss@linaro.org>, "'Laurent Pinchart'"
+ <Laurent.pinchart@ideasonboard.com>, "'Jonas Karlman'" <jonas@kwiboo.se>,
+ "'Jernej	Skrabec'" <jernej.skrabec@gmail.com>, "'David Airlie'"
+ <airlied@linux.ie>, "'Daniel	Vetter'" <daniel@ffwll.ch>, "'Rob Clark'"
+ <robdclark@gmail.com>, "'Abhinav Kumar'" <quic_abhinavk@quicinc.com>,
+ "'Dmitry Baryshkov'" <dmitry.baryshkov@linaro.org>, "'Sean Paul'"
+ <sean@poorly.run>, "'Inki Dae'" <inki.dae@samsung.com>, "'Seung-Woo Kim'"
+ <sw0312.kim@samsung.com>, "'Kyungmin Park'" <kyungmin.park@samsung.com>,
+ "'Thierry	Reding'" <thierry.reding@gmail.com>, "'Jonathan Hunter'"
+ <jonathanh@nvidia.com>, "'Masahiro Yamada'" <yamada.masahiro@socionext.com>,
+ "'Florian Fainelli'" <f.fainelli@gmail.com>, "'Linus Walleij'"
+ <linus.walleij@linaro.org>, "'Andre	Przywara'" <andre.przywara@arm.com>,
+ "'Kuninori Morimoto'" <kuninori.morimoto.gx@renesas.com>, "'Yoshihiro
+ Shimoda'" <yoshihiro.shimoda.uh@renesas.com>, "'Marek Vasut'"
+ <marex@denx.de>, "'Krishna	Manikandan'" <quic_mkrishn@quicinc.com>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-ide@vger.kernel.org>,
+ <linux-clk@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <linux-tegra@vger.kernel.org>
+In-Reply-To: <20220825113334.196908-3-krzysztof.kozlowski@linaro.org>
+Subject: RE: [PATCH 3/5] dt-bindings: clock: drop minItems equal to maxItems
+Date: Thu, 25 Aug 2022 22:28:38 +0530
+Message-ID: <065101d8b8a3$f25534c0$d6ff9e40$@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220824084514.2261614-2-gwan-gyeong.mun@intel.com>
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGXYWyYQPva3C8wcpr5uE47k6l8qAEvQs6pAVXFqBGuLlvmkA==
+Content-Language: en-us
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TbUxTVxjHd25vbyuueq0yj/jW1WGCDqRYugcnviDO69tSmcmWZQlrypUy
+ Stu14HRfhoJARR1VY7AgChhBwjQyQUU6y6uiQ+YQFIOAwoatBRSQUURd4eLmt/9znt//PC8n
+ R8gTnxP6CGN08axRp9JKKS+yrNrPz39TkUAdWOGeCwdv1xNQmONG0JE/SMK9oR4+vGxo5MGb
+ MgsPshuTSThZc5sPlkY3BXdf9FMw2lcjgOyeBgQnsg4jqL6/F0G6cx4c7sggoefkOQT1rmYS
+ kq15JBx68ogHtqelAnBWlyNo2OsSgNlyWgBHxwoIKOlq8Vx8rUEAzw+086Gj3U1A3eXHBDSV
+ Z1NQ6ugjILPxNwLMQ1YKXCl7EOQXLIY7N9dD/5UHCFyVGXw4MPRYAD25IzwYsHpq7bN5mqt2
+ pfLhdcsFEh4eqUGQecRBgbs8h4Si8jEEb0aTPD21DyJ4YRuk1siZ4pxixPTf3ydgLp5tJZgc
+ 6w2SsQ2fIhlLgz9zxfpQwJTZfZmstON8Jr/CQTAlRWaKuZHxJ8G0tVRQzKXhTj7TkX6dYH49
+ /ZNyztexKzWsKoo1SlidWh8Vo4sOlW7+InJdZLAiUOYvC4FPpBKdKo4NlYZvUfp/FqP1vIxU
+ slOlTfAcKVUmk3TZqpVGfUI8K9HoTfGhUtYQpTXIDQEmVZwpQRcdoGPjV8gCA4OCPeC3sZo9
+ lXl8Q9miXfZrhVQiyl24H00RYlqO25qdvP3ISyimryL8j31sMhhA2NXbJOCCYYQHbqYSby0H
+ R12TCRvCd1rvTgYOhNuSnk5QFO2PL+enUOOJWfSbGfjKHwf444kp9Hr8t6VzQs+kt2Bn9diE
+ gaR9sWOEY0R0CB44fXRSz8D1x7vJcc2jF+JLvdk8rg0Jdv91ZoKZRYfh4v5WimNmY0dtjYBj
+ Eqdi96UwTofjyqEixOmZ2Hn94iTjgwf7bB6v0KMZnDfmwx1rcG/B+Ul8NbbfzSbHER7th8+X
+ L+MqTcMHX3YTnFOE01LEHO2Lk/qaSU7PxZb0dD6nGdydZeZzq2pCuOlxOcpAEus7Q1rfGdL6
+ zjDW/yufQmQRmsMaTHHRrCnYEKRjf/jvwdX6uBI08XGXbLqMHnU+C6hChBBVISzkSWeJVtSR
+ arEoSrX7R9aojzQmaFlTFQr2bN7C8/FW6z0/XxcfKZOHBMoVCoU8ZLlCJp0tOroUqcV0tCqe
+ jWVZA2t86yOEU3wSiY120/a2D96L7p938ZVeoTwRcXb+q+alUb8wle9D6+6PnD8/mJ90XbzO
+ qyT0jmF6dJctjV+2YKZ5jXyqLjyo1vnNvEDv9DFDrqT0tmJ7i70w4ssjg7F1ibU3d9WHGfSf
+ 31L+vvyMd2RXKml96mf4vvXjkSHzVUrbl9aVXCd/1TXityHzw+T2J4YZKZ8WdHducw7QayoC
+ XnfFlKQe29YS8exE0VrJhu6s3vNTF6hH98dOz5ftUIoVdrAMPB/WnDvmW6xZfW1x354drsKt
+ mZYq1LLX7NWzsXHRoYpbDr9tO+O+K/mqobQxYrP3etGocrhsU5gWpa0ipj2ff29r7YVIzbHw
+ oELRVilp0qhkS3hGk+pf6qEjq0EFAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se1BUdRTH+903zFC31dy76Ay2RY00LBBYx6LHWOrN0YacsdSmdIM7YC4P
+ d4UoNZCEZAFhXWeUFRdhGYUNHUF5JsHyEmxgy1wEBllds2VxleQVu/KIVxP/fed8v+dzvn8c
+ BhelU97M3pgDgjJGrpBSnkRlk9TH/yMjHR6oaRNBVmc7BsV6FwKrYYSA26N2Ep52mHGYqdTg
+ kGc+SkB+cycJGrOLgltjQxS4HzfTkGfvQHD2zAkETd0pCDIGV8EJaw4B9vxLCNqdFgKO6goJ
+ OD5wD4e6hxU0DDbVIuhIcdKQrimi4eTkBQzK73fNgus7aHiS2U+Ctd+FQWu1DYM/avMoqHA8
+ xuC0+RcM0kd1FDjTjiAwXHgFfr+xAYZqehE4TTkkZI7aaLAXTOAwrJu9lVo3W67J+SMJ011l
+ BNzRNiM4rXVQ4KrVE2CsnUQw4/5htlP/CIKxuhHq/RC+VF+K+KHuVJq/WtKD8XpdG8HXjZ8j
+ eE2HP1+ju0PzlQ2+/JljuSRvuObA+HJjOsW35dzE+L6uaxRfNX6X5K0Z1zH+SlFSmGSXZ2iE
+ oNibICgD3t3jGXXEVEjGVb6U2FBfTCWjAh818mA4NoTLcjtpNfJkROzPiEuZqMAXjJXc7bIc
+ ekEv40qm7YshO+LOD02iOYNi/blqQxo1p5ezBhGnzY9fCJkRN3XWNh/yYDdwf2nuknN6GbuF
+ G2yaxOY0wfpyjonM+bkXu44bLjq5qJ/n2nP/JNSIYXBWxqWVzWNw1oerepS3WG4153pwnly4
+ u54rHeqhFjJiztHSTOcgkW4JSfc/SbeEpFuycQ4RRiQR4lTRkdGqoLigGOEbmUoerYqPiZSF
+ x0aXo/lv9VtTjaqMf8saEcagRsQxuHS511utRLjIK0L+7XeCMna3Ml4hqBrRSoaQir1+U7fv
+ FrGR8gPCPkGIE5T/uRjj4Z2MtTy8sv6F7Fc3iddad7FVM7KLhCqJLM5VUtXW1e5AanpfZtVA
+ 7GduS5RYbpR9EWN+5nt3fO+aG//05X2V25JhORg8lfJpyZf73QEE+/HUdoeCv0lrj7l2hFV7
+ Pxvek2o7eGh76HhWiOnSG/UKS6rpTW3Uh2GKnS9GvLPftuKiwbLOEKBsiP0g2yzr85XUX06s
+ 77aJX1t7VevXKj/MDDR73N/69eSDwGTpqdeDJMOHtv6a1hp8vHWV4afLuhTpxudaYsMLPe8J
+ vcHbkvS0YuOW8c7QFYlPbr0syQ5JV2/TH35bLZrakVBQLg7YU5MQmbq51rbz87Hr/uJPcJOF
+ lhS/F/oo7KmUUEXJg/xwpUr+LzHx7rgcBAAA
+X-CMS-MailID: 20220825165849epcas5p2a0a1aac7792d9381224c80115b4b7964
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220825113348epcas5p35a52fd40abce06847a43de45ea156df6
+References: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
+ <CGME20220825113348epcas5p35a52fd40abce06847a43de45ea156df6@epcas5p3.samsung.com>
+ <20220825113334.196908-3-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,238 +161,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
- andi.shyti@linux.intel.com, jani.nikula@intel.com,
- Nick Desaulniers <ndesaulniers@google.com>, intel-gfx@lists.freedesktop.org,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, airlied@linux.ie,
- andrzej.hajda@intel.com, matthew.auld@intel.com,
- intel-gfx-trybot@lists.freedesktop.org, mchehab@kernel.org,
- nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 24, 2022 at 05:45:07PM +0900, Gwan-gyeong Mun wrote:
-> It moves overflows_type utility macro into overflow header from i915_utils
-> header. The overflows_type can be used to catch the truncaion (overflow)
-> between different data types. And it adds check_assign() macro which
-> performs an assigning source value into destination ptr along with an
-> overflow check. overflow_type macro has been improved to handle the signbit
-> by gcc's built-in overflow check function. And it adds overflows_ptr()
-> helper macro for checking the overflows between a value and a pointer
-> type/value.
-> 
-> v3: Add is_type_unsigned() macro (Mauro)
->     Modify overflows_type() macro to consider signed data types (Mauro)
->     Fix the problem that safe_conversion() macro always returns true
-> v4: Fix kernel-doc markups
-> v6: Move macro addition location so that it can be used by other than drm
->     subsystem (Jani, Mauro, Andi)
->     Change is_type_unsigned to is_unsigned_type to have the same name form
->     as is_signed_type macro
-> v8: Add check_assign() and remove safe_conversion() (Kees)
->     Fix overflows_type() to use gcc's built-in overflow function (Andrzej)
->     Add overflows_ptr() to allow overflow checking when assigning a value
->     into a pointer variable (G.G.)
-> v9: Fix overflows_type() to use __builtin_add_overflow() instead of
->     __builtin_add_overflow_p() (Andrzej)
->     Fix overflows_ptr() to use overflows_type() with the unsigned long type
->     (Andrzej)
-> 
-> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Nirmoy Das <nirmoy.das@intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org> (v5)
-> ---
->  drivers/gpu/drm/i915/i915_user_extensions.c |  3 +-
->  drivers/gpu/drm/i915/i915_utils.h           |  5 +-
->  include/linux/overflow.h                    | 62 +++++++++++++++++++++
->  3 files changed, 64 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_user_extensions.c b/drivers/gpu/drm/i915/i915_user_extensions.c
-> index c822d0aafd2d..6f6b5b910968 100644
-> --- a/drivers/gpu/drm/i915/i915_user_extensions.c
-> +++ b/drivers/gpu/drm/i915/i915_user_extensions.c
-> @@ -50,8 +50,7 @@ int i915_user_extensions(struct i915_user_extension __user *ext,
->  		if (err)
->  			return err;
->  
-> -		if (get_user(next, &ext->next_extension) ||
-> -		    overflows_type(next, ext))
-> +		if (get_user(next, &ext->next_extension) || overflows_ptr(next))
->  			return -EFAULT;
->  
->  		ext = u64_to_user_ptr(next);
 
-I continue to dislike the layers of macros and specialization here.
-This is just a fancy version of check_assign():
 
-	if (get_user(next, &ext->next_extension) || check_assign(next, &ext))
-		return -EFAULT;
+>-----Original Message-----
+>From: Krzysztof Kozlowski [mailto:krzysztof.kozlowski@linaro.org]
+>Sent: Thursday, August 25, 2022 5:04 PM
+>To: Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
+><krzysztof.kozlowski+dt@linaro.org>; Kunihiko Hayashi
+><hayashi.kunihiko@socionext.com>; Masami Hiramatsu
+><mhiramat@kernel.org>; Damien Le Moal
+><damien.lemoal@opensource.wdc.com>; Michael Turquette
+><mturquette@baylibre.com>; Stephen Boyd <sboyd@kernel.org>; Geert
+>Uytterhoeven <geert+renesas@glider.be>; Sylwester Nawrocki
+><s.nawrocki@samsung.com>; Tomasz Figa <tomasz.figa@gmail.com>;
+>Chanwoo Choi <cw00.choi@samsung.com>; Alim Akhtar
+><alim.akhtar@samsung.com>; Vladimir Zapolskiy <vz@mleia.com>; Herbert
+>Xu <herbert@gondor.apana.org.au>; David S. Miller
+><davem@davemloft.net>; Andrzej Hajda <andrzej.hajda@intel.com>; Neil
+>Armstrong <neil.armstrong@linaro.org>; Robert Foss
+><robert.foss@linaro.org>; Laurent Pinchart
+><Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>;
+>Jernej Skrabec <jernej.skrabec@gmail.com>; David Airlie <airlied@linux.ie>;
+>Daniel Vetter <daniel@ffwll.ch>; Rob Clark <robdclark@gmail.com>; Abhinav
+>Kumar <quic_abhinavk@quicinc.com>; Dmitry Baryshkov
+><dmitry.baryshkov@linaro.org>; Sean Paul <sean@poorly.run>; Inki Dae
+><inki.dae@samsung.com>; Seung-Woo Kim <sw0312.kim@samsung.com>;
+>Kyungmin Park <kyungmin.park@samsung.com>; Thierry Reding
+><thierry.reding@gmail.com>; Jonathan Hunter <jonathanh@nvidia.com>;
+>Masahiro Yamada <yamada.masahiro@socionext.com>; Florian Fainelli
+><f.fainelli@gmail.com>; Linus Walleij <linus.walleij@linaro.org>; Andre
+>Przywara <andre.przywara@arm.com>; Kuninori Morimoto
+><kuninori.morimoto.gx@renesas.com>; Yoshihiro Shimoda
+><yoshihiro.shimoda.uh@renesas.com>; Marek Vasut <marex@denx.de>;
+>Krishna Manikandan <quic_mkrishn@quicinc.com>;
+>devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-
+>kernel@vger.kernel.org; linux-ide@vger.kernel.org; linux-
+>clk@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-samsung-
+>soc@vger.kernel.org; linux-crypto@vger.kernel.org; dri-
+>devel@lists.freedesktop.org; linux-arm-msm@vger.kernel.org;
+>freedreno@lists.freedesktop.org; linux-tegra@vger.kernel.org
+>Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>Subject: [PATCH 3/5] dt-bindings: clock: drop minItems equal to maxItems
+>
+>minItems, if missing, are implicitly equal to maxItems, so drop redundant
+>piece to reduce size of code.
+>
+>Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>---
 
-However, the __builtin_*_overflow() family only wants to work on
-integral types, so this needs to be slightly expanded:
+Reviewed-by: Alim Akhtar <alim.akhtar@samsung.com>
 
-	uintptr_t kptr;
-	...
-	if (get_user(next, &ext->next_extension) || check_assign(next, &kptr))
-		return -EFAULT;
+> Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml   | 1 -
+> .../devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml  | 2 --
+> Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml    | 1 -
+> 3 files changed, 4 deletions(-)
+>
+>diff --git a/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
+>b/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
+>index 0abd6ba82dfd..82836086cac1 100644
+>--- a/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
+>+++ b/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
+>@@ -23,7 +23,6 @@ properties:
+>   clocks:
+>     description:
+>       Common clock binding for CLK_IN, XTI/REF_CLK
+>-    minItems: 2
+>     maxItems: 2
+>
+>   clock-names:
+>diff --git a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-
+>clock-sel.yaml b/Documentation/devicetree/bindings/clock/renesas,rcar-
+>usb2-clock-sel.yaml
+>index 6eaabb4d82ec..81f09df7147e 100644
+>--- a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-
+>sel.yaml
+>+++ b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-se
+>+++ l.yaml
+>@@ -47,7 +47,6 @@ properties:
+>     maxItems: 1
+>
+>   clocks:
+>-    minItems: 4
+>     maxItems: 4
+>
+>   clock-names:
+>@@ -64,7 +63,6 @@ properties:
+>     maxItems: 1
+>
+>   resets:
+>-    minItems: 2
+>     maxItems: 2
+>
+>   reset-names:
+>diff --git a/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
+>b/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
+>index 9248bfc16d48..d5296e6053a1 100644
+>--- a/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
+>+++ b/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
+>@@ -34,7 +34,6 @@ properties:
+>     const: 1
+>
+>   clock-output-names:
+>-    minItems: 3
+>     maxItems: 3
+>     description: Names for AP, CP and BT clocks.
+>
+>--
+>2.34.1
 
-	ext = (void * __user)kptr;
 
-But, it does seem like the actual problem here is that u64_to_user_ptr()
-is not performing the checking? It's used heavily in the drm code.
-
-Is a check_assign_user_ptr() needed?
-
-> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-> index c10d68cdc3ca..eb0ded23fa9c 100644
-> --- a/drivers/gpu/drm/i915/i915_utils.h
-> +++ b/drivers/gpu/drm/i915/i915_utils.h
-> @@ -32,6 +32,7 @@
->  #include <linux/types.h>
->  #include <linux/workqueue.h>
->  #include <linux/sched/clock.h>
-> +#include <linux/overflow.h>
->  
->  #ifdef CONFIG_X86
->  #include <asm/hypervisor.h>
-> @@ -111,10 +112,6 @@ bool i915_error_injected(void);
->  #define range_overflows_end_t(type, start, size, max) \
->  	range_overflows_end((type)(start), (type)(size), (type)(max))
->  
-> -/* Note we don't consider signbits :| */
-> -#define overflows_type(x, T) \
-> -	(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
-> -
->  #define ptr_mask_bits(ptr, n) ({					\
->  	unsigned long __v = (unsigned long)(ptr);			\
->  	(typeof(ptr))(__v & -BIT(n));					\
-> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-> index f1221d11f8e5..6af9df1d67a1 100644
-> --- a/include/linux/overflow.h
-> +++ b/include/linux/overflow.h
-> @@ -52,6 +52,68 @@ static inline bool __must_check __must_check_overflow(bool overflow)
->  	return unlikely(overflow);
->  }
->  
-> +/**
-> + * overflows_type - helper for checking the overflows between data types or
-> + *                  values
-> + *
-> + * @x: Source value or data type for overflow check
-> + * @T: Destination value or data type for overflow check
-> + *
-> + * It compares the values or data type between the first and second argument to
-> + * check whether overflow can occur when assigning the first argument to the
-> + * variable of the second argument. Source and Destination can be singned or
-> + * unsigned data types. Source and Destination can be different data types.
-> + *
-> + * Returns:
-> + * True if overflow can occur, false otherwise.
-> + */
-> +#define overflows_type(x, T) __must_check_overflow(({	\
-> +	typeof(T) v = 0;				\
-> +	__builtin_add_overflow((x), v, &v);		\
-> +}))
-
-I'd like to avoid "externalizing" these kinds of checks when the better
-path is to catch the issue at operation type (add, sub, mul, assign).
-Looking at existing users, I see stuff like:
-
-                if (overflows_type(item.query_id - 1, unsigned long))
-                        return -EINVAL;
-
-                func_idx = item.query_id - 1;
-
-This requires too much open-coded checking, IMO. It's better as:
-
-		if (check_assign(item.query_id - 1, &func_idx))
-			return -EINVAL;
-
-or other similar:
-
-        if (overflows_type(user->slice_mask, context->slice_mask) ||
-	...
-        context->slice_mask = user->slice_mask;
-
-and some that don't make sense to me. Why check argument types? Is this
-trying to avoid implicit type conversions?
-
-So, if it's _really_ needed, I can live with adding overflows_type().
-
-> +
-> +/**
-> + * overflows_ptr - helper for checking the occurrence of overflows when a value
-> + *                 assigns to  the pointer data type
-> + *
-> + * @x: Source value for overflow check
-> + *
-> + * gcc's built-in overflow check functions don't support checking between the
-> + * pointer type and non-pointer type. And ILP32 and LP64 have the same bit size
-> + * between long and pointer. Therefore it internally compares the source value
-> + * and unsigned long data type for checking overflow.
-> + *
-> + * Returns:
-> + * True if overflow can occur, false otherwise.
-> + */
-> +#define overflows_ptr(x) __must_check_overflow(overflows_type(x, unsigned long))
-
-I'd rather not have this -- it's just a specialized use of
-overflows_type(), and only used in 1 place.
-
-> +
-> +/**
-> + * check_assign - perform an assigning source value into destination ptr along
-> + *                with an overflow check.
-> + *
-> + * @value: Source value
-> + * @ptr: Destination pointer address, If the pointer type is not used,
-> + *       a warning message is output during build.
-> + *
-> + * It checks internally the ptr is a pointer type. And it uses gcc's built-in
-> + * overflow check function.
-> + * It does not use the check_*() wrapper functions, but directly uses gcc's
-> + * built-in overflow check function so that it can be used even when
-> + * the type of value and the type pointed to by ptr are different without build
-> + * warning messages.
-
-This is a good point: the check_{add,sub,mul}_overflow() helpers
-currently require all the params be the same type, which rather limits
-their usage. Perhaps this can be weakened now that we're not using[1]
-the fallback logic any more? (Separate patch.)
-
-> + *
-> + * Returns:
-> + * If the value would overflow the destination, it returns true. If not return
-> + * false. When overflow does not occur, the assigning into ptr from value
-> + * succeeds. It follows the return policy as other check_*_overflow() functions
-> + * return non-zero as a failure.
-> + */
-> +#define check_assign(value, ptr) __must_check_overflow(({	\
-> +	typecheck_pointer(ptr); 		\
-> +	__builtin_add_overflow(0, value, ptr);	\
-> +}))
-
-But yes, this looks correct. I really like it. :)
-
-> +
->  /*
->   * For simplicity and code hygiene, the fallback code below insists on
->   * a, b and *d having the same type (similar to the min() and max()
-> -- 
-> 2.37.1
-> 
-
--Kees
-
-[1] 4eb6bd55cfb2 ("compiler.h: drop fallback overflow checkers")
-
--- 
-Kees Cook
