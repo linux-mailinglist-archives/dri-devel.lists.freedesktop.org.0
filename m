@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5231B5A0D39
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 11:51:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4735A0D37
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 11:51:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5732B11AF9A;
-	Thu, 25 Aug 2022 09:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8B211B0C7;
+	Thu, 25 Aug 2022 09:51:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE9411216C
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 09:51:10 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id d9so2818451ljl.8
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 02:51:10 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED2711216C
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 09:51:11 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id l1so26967754lfk.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 02:51:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=s95KyTVgJCkOF9d3OhQcrMijE3hMZBRKUCbN8bvHKPE=;
- b=cxdw2Ixqm6n/M51A08Dh/JHWjmbNn60i8vxbO2dKR8S7r9I77mgOE4H5SLVkquaVMF
- kxjGRjibfCGOd9hQ/SIuSXS+aHXOHQbdIjN8GkvoNApccexBABmjiZz443eDglNqeFql
- dSRL+7oPBA0qpMWAE3zzgio03AvKpfygedwuNnuO3FI14xKw9YizeR10O4aTA7ivmErD
- MuHW9euAkhAz3akJ+AhP6h6mpNt7ze6OXUze9vbWwAr2sYg8WAtqep/CR2o3vaHnKELu
- 45g9aJaM1m4kcSYLCeL+Ghq49X7AtwFk/HAX+LKt6+TJj49EY1W/Mjg1H+V9CPZSZZDF
- mI3g==
+ bh=JdyzHvrHR/vH9GmNxQ6Mi03+luvvo2bX67TCqHVMIMk=;
+ b=LpvC1ovT/tvgBmZp03pj4GyEZhBU1ovJJ/lzjROIerYi7U419VmaRTEELgKJ+J5PvQ
+ ZuwaV6QfZpePD+HdNWLr2NXqiQpNONFH6iR1/B54zAWfaAqOtH6kwVZqCI2DCt5qayGk
+ MgRyXqe43Mr72r/527GEKRR+u1gZGpVDFDS9DTCMho8gnwQqdoJSyjyONYdnY5jR78YF
+ IAbe8PNrXtkS6LfZdfwcr57Bk0D6e1NQk8YQOlKOlfKgLhwtnqLM7qYyqnmCtxPhxoMJ
+ cMf1sSezMH2NLWaciY9AdabscQHu60pBF23heMH0KIcCbLKLfL0cE1BZQFvfbjM+nWwL
+ /1GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=s95KyTVgJCkOF9d3OhQcrMijE3hMZBRKUCbN8bvHKPE=;
- b=YkXMi5PicTZ78qlch8/2EDA8w1rcZeNhqNsRwgLL/5iQIGOpyBpqjat9SNDIQBWd0t
- xNOCfL5Auaj4tPOGWreB+//g0z70M5+B4/aF+lha06GeyklE4io5jT1Ffy0z7cvhFyQ9
- 7MqUfAID3kUML6GEiuSMH/iG1132X3oP8tgjh0kK4UuqMJyhNW0PR07XMTkKMxKvgWqL
- 4aPMrIPWYp7EhldAV82q4+Bh86zOy1P4+ff2ILBW8Dy97oAKD4p7hCkhaOYrEh/xp7UC
- vefEyXZTEZtlC+Wr/Wbtbl8UIwBcKqAHIADKyvdVR2dHiQpZV58W0iFX47ltCSNVAUQw
- me8A==
-X-Gm-Message-State: ACgBeo2vWTnPsLbh8JGz4ALd+fOefVG+wIDRQ1Irk+ek23m3TloH4+Ut
- tYvncLhSper/UYk5MqgVVM7/uA==
-X-Google-Smtp-Source: AA6agR4gDhA2tCvvMlXWRUjyIPkSy0CnUD0JDYDwpwqcG+Sq+3aqnmkxVGHD157Nt7Bq++oqbQRuZw==
-X-Received: by 2002:a2e:aa21:0:b0:261:e3b7:3e8d with SMTP id
- bf33-20020a2eaa21000000b00261e3b73e8dmr850858ljb.530.1661421068661; 
- Thu, 25 Aug 2022 02:51:08 -0700 (PDT)
+ bh=JdyzHvrHR/vH9GmNxQ6Mi03+luvvo2bX67TCqHVMIMk=;
+ b=mk9hjUV+nZW9jmmwb+EGvBN8kEEkWJaxbRpsnxsZSTnd6iA/GERgtzWvxAFL5yjp3x
+ XVU+xCuFmPra4VVs7CqDuNHlo1g9NApzPQOxAHNaMuP66I7TcaCGifJ7K55QfQPKi/MB
+ cvKVtBfGI6I0nRqlQJs3+jy8RgDEsz4j2Cb2wMrNJXJJ0N6e7dMiIGdlwZISqp8dkMw8
+ FNLbaa3iEBAx9//mKx7k//QinGZrwhyXf/4ZetKPnbdB/dPA49zaKHmbt/nvYCBbkyKt
+ iGVR5LBbGrBoNIsctpSwpdxzg7u9ARDhPgA9rBcv1508xhD8+wHqso0QRFh0Fjc28FPc
+ 1v6w==
+X-Gm-Message-State: ACgBeo3zyszTYThsSzzxWvlM3eg/1X4uJ7LcCoXkFLq6CH0CT+d6LfL3
+ aFSwYj4pfgrWiwFfJRP56ehFWFkZdvku/w==
+X-Google-Smtp-Source: AA6agR6zNrtOAeCK32GslB90L6tlZWCfgwaitQOLWig38n3Zk8QxYHqRP975srLVvN+d6oeGb5w5pA==
+X-Received: by 2002:a05:6512:3b94:b0:492:bbe1:df3e with SMTP id
+ g20-20020a0565123b9400b00492bbe1df3emr1020837lfv.371.1661421069508; 
+ Thu, 25 Aug 2022 02:51:09 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- h10-20020a056512220a00b00492cfecf1c0sm398502lfu.245.2022.08.25.02.51.07
+ h10-20020a056512220a00b00492cfecf1c0sm398502lfu.245.2022.08.25.02.51.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 02:51:08 -0700 (PDT)
+ Thu, 25 Aug 2022 02:51:09 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -54,10 +54,10 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v4 04/10] dt-bindings: display/msm: move qcom,
- sc7280-mdss schema to mdss.yaml
-Date: Thu, 25 Aug 2022 12:50:57 +0300
-Message-Id: <20220825095103.624891-5-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 05/10] dt-bindings: display/msm: move qcom,
+ qcm2290-mdss schema to mdss.yaml
+Date: Thu, 25 Aug 2022 12:50:58 +0300
+Message-Id: <20220825095103.624891-6-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220825095103.624891-1-dmitry.baryshkov@linaro.org>
 References: <20220825095103.624891-1-dmitry.baryshkov@linaro.org>
@@ -81,32 +81,33 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move schema for qcom,sc7280-mdss from dpu-sc7280.yaml to mdss.yaml so
+Move schema for qcom,qcm2290-mdss from dpu-qcm2290.yaml to mdss.yaml so
 that the dpu file describes only the DPU schema.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../bindings/display/msm/dpu-sc7280.yaml      | 148 +++++-------------
- .../devicetree/bindings/display/msm/mdss.yaml |  54 +++++++
- 2 files changed, 92 insertions(+), 110 deletions(-)
+ .../bindings/display/msm/dpu-qcm2290.yaml     | 140 +++++-------------
+ .../devicetree/bindings/display/msm/mdss.yaml |  49 ++++++
+ 2 files changed, 82 insertions(+), 107 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
-index f427eec3d3a4..349a454099ad 100644
---- a/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
-@@ -10,149 +10,77 @@ maintainers:
-   - Krishna Manikandan <quic_mkrishn@quicinc.com>
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+index 734d14de966d..8027319b1aad 100644
+--- a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+@@ -10,146 +10,72 @@ maintainers:
+   - Loic Poulain <loic.poulain@linaro.org>
  
  description: |
--  Device tree bindings for MSM Mobile Display Subsystem (MDSS) that encapsulates
--  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
--  bindings of MDSS and DPU are mentioned for SC7280.
-+  Device tree bindings for the DPU display controller for SC7280 target.
+-  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
+-  sub-blocks like DPU display controller and DSI. Device tree bindings of MDSS
+-  and DPU are mentioned for QCM2290 target.
++  Device tree bindings for the DPU display controller for QCM2290 target.
  
  properties:
    compatible:
--    const: qcom,sc7280-mdss
-+    const: qcom,sc7280-dpu
+     items:
+-      - const: qcom,qcm2290-mdss
++      - const: qcom,qcm2290-dpu
  
    reg:
 -    maxItems: 1
@@ -126,22 +127,21 @@ index f427eec3d3a4..349a454099ad 100644
    clocks:
      items:
 -      - description: Display AHB clock from gcc
--      - description: Display AHB clock from dispcc
-+      - description: Display hf axi clock
-+      - description: Display sf axi clock
-+      - description: Display ahb clock
-+      - description: Display lut clock
-       - description: Display core clock
-+      - description: Display vsync clock
+-      - description: Display AXI clock
+-      - description: Display core clock
++      - description: Display AXI clock from gcc
++      - description: Display AHB clock from dispcc
++      - description: Display core clock from dispcc
++      - description: Display lut clock from dispcc
++      - description: Display vsync clock from dispcc
  
    clock-names:
      items:
-+      - const: bus
-+      - const: nrt_bus
-       - const: iface
--      - const: ahb
-+      - const: lut
+-      - const: iface
+       - const: bus
++      - const: iface
        - const: core
++      - const: lut
 +      - const: vsync
  
    interrupts:
@@ -159,6 +159,7 @@ index f427eec3d3a4..349a454099ad 100644
 -  iommus:
 -    items:
 -      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port0
+-      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port1
 -
 -  ranges: true
 -
@@ -185,12 +186,13 @@ index f427eec3d3a4..349a454099ad 100644
 +    description: |
 +      Contains the list of output ports from DPU device. These ports
 +      connect to interfaces that are external to the DPU hardware,
-+      such as DSI, DP etc. Each output port contains an endpoint that
++      such as DSI. Each output port contains an endpoint that
 +      describes how it is connected to an external interface.
  
      properties:
 -      compatible:
--        const: qcom,sc7280-dpu
+-        items:
+-          - const: qcom,qcm2290-dpu
 -
 -      reg:
 -        items:
@@ -204,20 +206,18 @@ index f427eec3d3a4..349a454099ad 100644
 -
 -      clocks:
 -        items:
--          - description: Display hf axi clock
--          - description: Display sf axi clock
--          - description: Display ahb clock
--          - description: Display lut clock
--          - description: Display core clock
--          - description: Display vsync clock
+-          - description: Display AXI clock from gcc
+-          - description: Display AHB clock from dispcc
+-          - description: Display core clock from dispcc
+-          - description: Display lut clock from dispcc
+-          - description: Display vsync clock from dispcc
 -
 -      clock-names:
 -        items:
 -          - const: bus
--          - const: nrt_bus
 -          - const: iface
--          - const: lut
 -          - const: core
+-          - const: lut
 -          - const: vsync
 -
 -      interrupts:
@@ -233,27 +233,19 @@ index f427eec3d3a4..349a454099ad 100644
 -        description: |
 -          Contains the list of output ports from DPU device. These ports
 -          connect to interfaces that are external to the DPU hardware,
--          such as DSI, DP etc. Each output port contains an endpoint that
+-          such as DSI. Each output port contains an endpoint that
 -          describes how it is connected to an external interface.
 -
 -        properties:
 -          port@0:
 -            $ref: /schemas/graph.yaml#/properties/port
--            description: DPU_INTF1 (DSI)
--
--          port@1:
--            $ref: /schemas/graph.yaml#/properties/port
--            description: DPU_INTF5 (EDP)
+-            description: DPU_INTF1 (DSI1)
 -
 -        required:
 -          - port@0
 +      port@0:
 +        $ref: /schemas/graph.yaml#/properties/port
-+        description: DPU_INTF1 (DSI)
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: DPU_INTF5 (EDP)
++        description: DPU_INTF1 (DSI1)
  
      required:
 -      - compatible
@@ -283,97 +275,79 @@ index f427eec3d3a4..349a454099ad 100644
  additionalProperties: false
  
 diff --git a/Documentation/devicetree/bindings/display/msm/mdss.yaml b/Documentation/devicetree/bindings/display/msm/mdss.yaml
-index f86177bb2e8c..8d748fc5359c 100644
+index 8d748fc5359c..0c6d68f2a450 100644
 --- a/Documentation/devicetree/bindings/display/msm/mdss.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/mdss.yaml
-@@ -19,6 +19,7 @@ properties:
+@@ -18,6 +18,7 @@ properties:
+   compatible:
      enum:
        - qcom,mdss
++      - qcom,qcm2290-mdss
        - qcom,sc7180-mdss
-+      - qcom,sc7280-mdss
+       - qcom,sc7280-mdss
        - qcom,sdm845-mdss
- 
-   reg:
-@@ -147,6 +148,7 @@ allOf:
-           contains:
-             enum:
-               - qcom,sc7180-mdss
-+              - qcom,sc7280-mdss
-     then:
-       properties:
-         clocks:
-@@ -269,6 +271,52 @@ allOf:
-               enum:
-                 - qcom,dsi-phy-10nm
+@@ -142,6 +143,28 @@ allOf:
+       required:
+         - iommus
  
 +  - if:
 +      properties:
 +        compatible:
 +          contains:
-+            const: qcom,sc7280-mdss
++            const: qcom,qcm2290-mdss
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Display AHB clock from gcc
++            - description: Display AXI clock
++            - description: Display core clock
++
++        clock-names:
++          items:
++            - const: iface
++            - const: bus
++            - const: core
++
++        iommus:
++          minItems: 2
++
+   - if:
+       properties:
+         compatible:
+@@ -239,6 +262,32 @@ allOf:
+                 - qcom,hdmi-tx-8994
+                 - qcom,hdmi-tx-8996
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,qcm2290-mdss
 +    then:
 +      patternProperties:
 +        "^display-controller@[1-9a-f][0-9a-f]*$":
 +          type: object
 +          properties:
 +            compatible:
-+              const: qcom,sc7280-dpu
-+
-+        "^displayport-controller@[1-9a-f][0-9a-f]*$":
-+          type: object
-+          properties:
-+            compatible:
-+              const: qcom,sc7280-dp
++              const: qcom,qcm2290-dpu
 +
 +        "^dsi@[1-9a-f][0-9a-f]*$":
 +          type: object
 +          properties:
 +            compatible:
-+              const: qcom,mdss-dsi-ctrl
-+
-+        "^dsi-phy@[1-9a-f][0-9a-f]*$":
-+          type: object
-+          properties:
-+            compatible:
-+              enum:
-+                - qcom,dsi-phy-10nm
-+
-+        "^edp@[1-9a-f][0-9a-f]*$":
-+          type: object
-+          properties:
-+            compatible:
-+              const: qcom,sc7280-edp
++              const: qcom,dsi-ctrl-6g-qcm2290
 +
 +        "^phy@[1-9a-f][0-9a-f]*$":
 +          type: object
 +          properties:
 +            compatible:
 +              enum:
-+                - qcom,sc7280-dsi-phy-7nm
-+                - qcom,sc7280-edp-phy
++                - qcom,dsi-phy-14nm
 +
    - if:
        properties:
          compatible:
-@@ -325,12 +373,18 @@ patternProperties:
-   "^dsi-phy@[1-9a-f][0-9a-f]*$":
-     type: object
- 
-+  "^edp@[1-9a-f][0-9a-f]*$":
-+    type: object
-+
-   "^hdmi-phy@[1-9a-f][0-9a-f]*$":
-     type: object
- 
-   "^hdmi-tx@[1-9a-f][0-9a-f]*$":
-     type: object
- 
-+  "^phy@[1-9a-f][0-9a-f]*$":
-+    type: object
-+
- additionalProperties: false
- 
- examples:
 -- 
 2.35.1
 
