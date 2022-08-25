@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623C35A1774
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 19:01:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 750B65A177B
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 19:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5CAE10E144;
-	Thu, 25 Aug 2022 17:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA25010E884;
+	Thu, 25 Aug 2022 17:01:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 114C010E8B9;
- Thu, 25 Aug 2022 17:01:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4933710E144;
+ Thu, 25 Aug 2022 17:01:38 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 645D7484;
- Thu, 25 Aug 2022 19:01:13 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0ADE2B3;
+ Thu, 25 Aug 2022 19:01:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661446873;
- bh=FCUk4UJs1rAXkD8yKTUi2xkLbxR8BSJnGHMDu6Tlv+U=;
+ s=mail; t=1661446896;
+ bh=FD63QrRXFIDUWyfF2tT6IhmFk5rAq6743kmAUBr954Y=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vVP5b4Ckd32ZmkRmIQfXChFT5SUW6KhbWgJ0Se0q3FUd+rZN8UrRZ2+P4aSo1gIUT
- TIqEDNB6jZGLySOL9TllsKec8hnvyTPHEw2LLRQjUezztg1py516hwnmr+5WlHG+86
- p0WCAxjma9wDigMZDbXgA+6PpdwztKRuLxVBwkxU=
-Date: Thu, 25 Aug 2022 20:01:07 +0300
+ b=f7AlEMVQ6KHpdD/XsoTsDXl/6/VFlKjkMHGr1wyO6bf3QxMrzpLDE39MOL4+0Qifh
+ KJNLwgJku0OXCrfxrnst009G7DSh33kzaGkRCJdYILabQBu6BvXakqJzTBEuJ7hIOr
+ eZMhMhdzFBH+Y+VxAqhBNM+CM7Uo0q4IYKmUTyIM=
+Date: Thu, 25 Aug 2022 20:01:30 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 3/5] dt-bindings: clock: drop minItems equal to maxItems
-Message-ID: <Yweq0zrChN+dSwYM@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 4/5] dt-bindings: crypto: drop minItems equal to maxItems
+Message-ID: <Yweq6h+SdwsQDjZ1@pendragon.ideasonboard.com>
 References: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
- <20220825113334.196908-3-krzysztof.kozlowski@linaro.org>
+ <20220825113334.196908-4-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220825113334.196908-3-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220825113334.196908-4-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,7 +87,7 @@ Hi Krzysztof,
 
 Thank you for the patch.
 
-On Thu, Aug 25, 2022 at 02:33:32PM +0300, Krzysztof Kozlowski wrote:
+On Thu, Aug 25, 2022 at 02:33:33PM +0300, Krzysztof Kozlowski wrote:
 > minItems, if missing, are implicitly equal to maxItems, so drop
 > redundant piece to reduce size of code.
 > 
@@ -96,55 +96,21 @@ On Thu, Aug 25, 2022 at 02:33:32PM +0300, Krzysztof Kozlowski wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
->  Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml   | 1 -
->  .../devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml  | 2 --
->  Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml    | 1 -
->  3 files changed, 4 deletions(-)
+>  Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml b/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
-> index 0abd6ba82dfd..82836086cac1 100644
-> --- a/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
-> +++ b/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
-> @@ -23,7 +23,6 @@ properties:
+> diff --git a/Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml b/Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml
+> index 676950bb7b37..5b31891c97fe 100644
+> --- a/Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml
+> +++ b/Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml
+> @@ -24,7 +24,6 @@ properties:
+>      maxItems: 1
+>  
 >    clocks:
->      description:
->        Common clock binding for CLK_IN, XTI/REF_CLK
 > -    minItems: 2
 >      maxItems: 2
 >  
 >    clock-names:
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
-> index 6eaabb4d82ec..81f09df7147e 100644
-> --- a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
-> +++ b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
-> @@ -47,7 +47,6 @@ properties:
->      maxItems: 1
->  
->    clocks:
-> -    minItems: 4
->      maxItems: 4
->  
->    clock-names:
-> @@ -64,7 +63,6 @@ properties:
->      maxItems: 1
->  
->    resets:
-> -    minItems: 2
->      maxItems: 2
->  
->    reset-names:
-> diff --git a/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml b/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
-> index 9248bfc16d48..d5296e6053a1 100644
-> --- a/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
-> +++ b/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
-> @@ -34,7 +34,6 @@ properties:
->      const: 1
->  
->    clock-output-names:
-> -    minItems: 3
->      maxItems: 3
->      description: Names for AP, CP and BT clocks.
->  
 
 -- 
 Regards,
