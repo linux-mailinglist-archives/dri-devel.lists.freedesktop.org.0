@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4326F5A15F9
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 17:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4851E5A1607
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Aug 2022 17:46:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D40D10E724;
-	Thu, 25 Aug 2022 15:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C2710E758;
+	Thu, 25 Aug 2022 15:46:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC10B10E724
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Aug 2022 15:44:11 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 69804B829E4;
- Thu, 25 Aug 2022 15:44:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A528C433D6;
- Thu, 25 Aug 2022 15:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661442249;
- bh=NI6bEWYxT3wUsy1ctPQSrY15pyDD3bTfE83vKL08zDI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=gDW9NnyYKg6fq6+foprxelMsgqSx8RSZKHJ9O45rfWPGFJaaUZkUyIHgZry6sgo41
- zBXF87faDMn1a2lm5Lt85WwsybbFpHwPKhhpjr8JD+73269vAmeVB/yqtGXCd3/nCa
- qd9vc6NKxAF1avhIcHwX6VnkwEcWyFUFackn1jaayMNI5WRxt7FW8ldNCHCpQIRdlW
- 8tirQsknuDKdJPdcLRj9H5p+AGNPdQfdCOKomT4I2p7Hnz4/KT+RvhhXPQSRDv+pIn
- m2TjjrGcDu0qh44nKRKt6qHIcj5+iM0jEhWRZI9WGg7iGp9yslgoWBcbIjlQfQW1bs
- 4o1+ozVqmBuoA==
-Date: Thu, 25 Aug 2022 10:43:45 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v2 1/3] PCI: Move
- PCI_VENDOR_ID_MICROSOFT/PCI_DEVICE_ID_HYPERV_VIDEO definitions to pci_ids.h
-Message-ID: <20220825154345.GA2853885@bhelgaas>
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7C3F10E747;
+ Thu, 25 Aug 2022 15:46:02 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id p187so16449888oia.9;
+ Thu, 25 Aug 2022 08:46:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=CXRawYlhhxO/MQxKaXHdr4kZEQr8lUECnzmSXqlmARE=;
+ b=RPZ+yyUQEApYUEfNXvdgEw41hp68nmXpsHZ2Gu/lyjwSnJYg6kmL0DKSZ4y3oqsMO6
+ csnhalUSYM8vuyNU/Sv9TVD4cx3ExranuIqGIQbroufOw1YySzEjWeFeC06o6rE2VWl7
+ JWHTZDllVVSK7KUaDOs/1puTgn3krtyLV9gemnAZzvnDOyU5E+zrvAwSr9FGUQNdxV8o
+ jF9iwaEgxuHEm48OqKCyuIm3g7EJjxvz0eOdZNQuAm3fkVJCFydy4PdVhOZCS09sK/sa
+ Jp5jtf8ZK7CDCr1RliAf1uvxf/T54a4DYLZ4m5DiEOq2FynW63q2G1dACvuB/t7UnhoG
+ 0KTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=CXRawYlhhxO/MQxKaXHdr4kZEQr8lUECnzmSXqlmARE=;
+ b=NPmZp9d4aItOQ4083eRppJdPTndyKwZHhrYV1koeQQMwOBYxlZE5NbwBBFLvUKdbxj
+ BIKMugiQRePiPrqRTynKvioRn+iUlib4TElIiOeJsjsDN04VZy/cDA7fK6K2AiA3wq9a
+ D604yrwZVHSIejwbihuz3NkPAVECZOU9CJemPJTefL1fS5JEeQ+jrctxEr4facmij8nh
+ 4AxfGe2sv8olFxptaeQ1D17kLdILrmJJX0tD4mnGbnBd7fs0sx344XhAy73BGQByWcHI
+ UbqV1MZudcPAscP4E7c0YK126vkWY7MYph1y/7HKXC8K9E09dM6VqxK6BWAu0sAlbpxn
+ gmIA==
+X-Gm-Message-State: ACgBeo08htDwVy44E12/ZgfRnEZBExr/o68oLtPXZIKPPN1Pc/Xx1ifr
+ She1NPNC9GwdynF+zddrin121cOTUyEIU4/x9mKvLJg2
+X-Google-Smtp-Source: AA6agR6+Z4yWNh7fjJS4xR/oOuGMOKZiklF2tDEGivfsICK9DgP1aWJ+/SUU2NG2VYfxIKp6ioLL45bPay9oIDOrhIk=
+X-Received: by 2002:a05:6808:2187:b0:344:eccd:3fc5 with SMTP id
+ be7-20020a056808218700b00344eccd3fc5mr5900955oib.46.1661442362118; Thu, 25
+ Aug 2022 08:46:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220825090024.1007883-2-vkuznets@redhat.com>
+References: <20220825023848.32307-1-yuzhe@nfschina.com>
+In-Reply-To: <20220825023848.32307-1-yuzhe@nfschina.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 25 Aug 2022 11:45:51 -0400
+Message-ID: <CADnq5_Pdtgznt3yn=cp++B2HEtRpTV7RU_p_C1hTP8HVcdPwng@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: use time_after(a,b) to replace "a>b"
+To: Yu Zhe <yuzhe@nfschina.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,91 +63,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, "K. Y. Srinivasan" <kys@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>, linux-pci@vger.kernel.org,
- Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Deepak Rawat <drawat.floss@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Michael Kelley <mikelley@microsoft.com>
+Cc: airlied@linux.ie, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ liqiong@nfschina.com, amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 25, 2022 at 11:00:22AM +0200, Vitaly Kuznetsov wrote:
-> There are already three places in kernel which define PCI_VENDOR_ID_MICROSOFT
-> and two for PCI_DEVICE_ID_HYPERV_VIDEO and there's a need to use these
-> from core Vmbus code. Move the defines where they belong.
-> 
-> No functional change.
-> 
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Applied.  Thanks!
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>	# pci_ids.h
+Alex
 
+On Wed, Aug 24, 2022 at 10:40 PM Yu Zhe <yuzhe@nfschina.com> wrote:
+>
+> time_after() deals with timer wrapping correctly.
+>
+> Signed-off-by: Yu Zhe <yuzhe@nfschina.com>
 > ---
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 3 ---
->  drivers/net/ethernet/microsoft/mana/gdma_main.c | 4 ----
->  drivers/video/fbdev/hyperv_fb.c                 | 4 ----
->  include/linux/pci_ids.h                         | 3 +++
->  4 files changed, 3 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index 6d11e7938c83..40888e36f91a 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -23,9 +23,6 @@
->  #define DRIVER_MAJOR 1
->  #define DRIVER_MINOR 0
->  
-> -#define PCI_VENDOR_ID_MICROSOFT 0x1414
-> -#define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
-> -
->  DEFINE_DRM_GEM_FOPS(hv_fops);
->  
->  static struct drm_driver hyperv_driver = {
-> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> index 5f9240182351..00d8198072ae 100644
-> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> @@ -1465,10 +1465,6 @@ static void mana_gd_shutdown(struct pci_dev *pdev)
->  	pci_disable_device(pdev);
->  }
->  
-> -#ifndef PCI_VENDOR_ID_MICROSOFT
-> -#define PCI_VENDOR_ID_MICROSOFT 0x1414
-> -#endif
-> -
->  static const struct pci_device_id mana_id_table[] = {
->  	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_PF_DEVICE_ID) },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_VF_DEVICE_ID) },
-> diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-> index 886c564787f1..b58b445bb529 100644
-> --- a/drivers/video/fbdev/hyperv_fb.c
-> +++ b/drivers/video/fbdev/hyperv_fb.c
-> @@ -74,10 +74,6 @@
->  #define SYNTHVID_DEPTH_WIN8 32
->  #define SYNTHVID_FB_SIZE_WIN8 (8 * 1024 * 1024)
->  
-> -#define PCI_VENDOR_ID_MICROSOFT 0x1414
-> -#define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
-> -
-> -
->  enum pipe_msg_type {
->  	PIPE_MSG_INVALID,
->  	PIPE_MSG_DATA,
-> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-> index 6feade66efdb..15b49e655ce3 100644
-> --- a/include/linux/pci_ids.h
-> +++ b/include/linux/pci_ids.h
-> @@ -2079,6 +2079,9 @@
->  #define PCI_DEVICE_ID_ICE_1712		0x1712
->  #define PCI_DEVICE_ID_VT1724		0x1724
->  
-> +#define PCI_VENDOR_ID_MICROSOFT		0x1414
-> +#define PCI_DEVICE_ID_HYPERV_VIDEO	0x5353
-> +
->  #define PCI_VENDOR_ID_OXSEMI		0x1415
->  #define PCI_DEVICE_ID_OXSEMI_12PCI840	0x8403
->  #define PCI_DEVICE_ID_OXSEMI_PCIe840		0xC000
-> -- 
-> 2.37.1
-> 
+>  drivers/gpu/drm/radeon/radeon_pm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/radeon_pm.c
+> index e765abcb3b01..04c693ca419a 100644
+> --- a/drivers/gpu/drm/radeon/radeon_pm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_pm.c
+> @@ -1899,7 +1899,7 @@ static void radeon_dynpm_idle_work_handler(struct work_struct *work)
+>                  * to false since we want to wait for vbl to avoid flicker.
+>                  */
+>                 if (rdev->pm.dynpm_planned_action != DYNPM_ACTION_NONE &&
+> -                   jiffies > rdev->pm.dynpm_action_timeout) {
+> +                   time_after(jiffies, rdev->pm.dynpm_action_timeout)) {
+>                         radeon_pm_get_dynpm_state(rdev);
+>                         radeon_pm_set_clocks(rdev);
+>                 }
+> --
+> 2.11.0
+>
