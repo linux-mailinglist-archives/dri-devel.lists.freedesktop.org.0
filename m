@@ -1,66 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C615A23BE
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 11:09:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25CD35A241A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 11:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1AA810E7A5;
-	Fri, 26 Aug 2022 09:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2664510E7BC;
+	Fri, 26 Aug 2022 09:21:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4D110E797
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 09:09:15 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id q18so961716ljg.12
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 02:09:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=SNV8O/j0YC1LnQIURnHLXp1X7n9kt6rf3nYGRIpE0BY=;
- b=ZBKdDfcD4nil3pqJq6LwBIiTZorLaHyPtanKz04jAXuXlP5owAtD/wo5GbtNEqV0RW
- cvNKckWCWQq10qWYnZOg5HXYhfvT6q2Pi8tHSUqOsx64rZ9tBS1YecovDS/OIFaGBzui
- iN/zPL9qWD1Tz74K3MVHhpyF394lq/+x8/cp7Sl7eM67Ryrh3Cmqy+fWQVcBYgYuSIFM
- lim55CXl6sk7roaDfA0QrzNjhSL7/7ziaBdHldts/nj4QRfrSfQXuY7RN+qm7itN+Fsf
- ERe8kpVoayqjoR1R6rcBeVIkEsoZLbdyD3PrBvve9a3wtxZh/TopNdXrbeRJxDU4UAIe
- luQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=SNV8O/j0YC1LnQIURnHLXp1X7n9kt6rf3nYGRIpE0BY=;
- b=wWHPPBGd59YBHU2bKbnM7qLySbW7v2wSqCo9ZyABWJSPQz4ufCuY8HRqtm72s+H0cd
- bxvTkUt7CSteeLGJx5u+lWESkvnv4YQa3GVLnNzyygRAwolNKjKmdoIBW6h3j5A+12ER
- JkXQFp4rJ+MeD84rGxK8rs9wZcu1FF/3GFJE3op63wyaTTGRFNntamktwpBQ2ajrsQB7
- k56I6udKu1sQd0clVYpOHApFe59tU3TqvfStlNMO1LMQel/PF4cZGWiR0txfD9n65jFZ
- 6CWf5SkwsNLIlX+796QvcSZCDHRvaG19o4a3ZVbIc3nEYQTAFzkJJsoZZOs0xgIOC1mu
- n5RQ==
-X-Gm-Message-State: ACgBeo3R2DskccTreOfUKXnIdw2fd2UvWHVIOoM365quiBrgbgDV5+XL
- oL9M6OlatB4hR5FlZ72vqVB3FA==
-X-Google-Smtp-Source: AA6agR4uPuUZ2AMFJatBZ7/LNfyWyktlihZYaXvgka5zA4yqK6tAUXi24Vs3MnxDbnhgmlGclDtJMw==
-X-Received: by 2002:a2e:a90a:0:b0:261:d622:248c with SMTP id
- j10-20020a2ea90a000000b00261d622248cmr1985262ljq.332.1661504953633; 
- Fri, 26 Aug 2022 02:09:13 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- b10-20020a056512070a00b0048a91266268sm306753lfs.232.2022.08.26.02.09.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 02:09:13 -0700 (PDT)
-Message-ID: <a7a313c2-66bb-0551-22c1-365cf9a5c855@linaro.org>
-Date: Fri, 26 Aug 2022 12:09:12 +0300
+X-Greylist: delayed 553 seconds by postgrey-1.36 at gabe;
+ Fri, 26 Aug 2022 09:20:57 UTC
+Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A24810E7D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 09:20:57 +0000 (UTC)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by hi1smtp01.de.adit-jv.com (Postfix) with ESMTPS id C5A1A5208BD;
+ Fri, 26 Aug 2022 11:11:41 +0200 (CEST)
+Received: from vmlxhi-182.adit-jv.com (10.72.94.19) by hi2exch02.adit-jv.com
+ (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Fri, 26 Aug
+ 2022 11:11:41 +0200
+From: Michael Rodin <mrodin@de.adit-jv.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Alex Deucher
+ <alexander.deucher@amd.com>, Philipp Zabel <p.zabel@pengutronix.de>, Sean
+ Paul <seanpaul@chromium.org>, Vincent Abriou <vincent.abriou@st.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm: do not call detect for connectors which are forced on
+Date: Fri, 26 Aug 2022 11:11:21 +0200
+Message-ID: <20220826091121.389315-1-mrodin@de.adit-jv.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH] drm/msm/dpu: populate wb or intf before reset_intf_cfg
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-References: <1657912468-17254-1-git-send-email-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1657912468-17254-1-git-send-email-quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.72.94.19]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,27 +52,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com
+Cc: michael@rodin.online, Michael Rodin <mrodin@de.adit-jv.com>,
+ erosca@de.adit-jv.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/07/2022 22:14, Abhinav Kumar wrote:
-> dpu_encoder_helper_phys_cleanup() was not populating neither
-> wb or intf to the intf_cfg before calling the reset_intf_cfg().
-> 
-> This causes the reset of the active bits of wb/intf to be
-> skipped which is incorrect.
-> 
-> Fix this by populating the relevant wb or intf indices correctly.
-> 
-> Fixes: ae4d721ce100 ("drm/msm/dpu: add an API to reset the encoder related hw blocks")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+"detect" should not be called and its return value shall not be used when a
+connector is forced as hinted in the commit d50ba256b5f1 ("drm/kms: start
+adding command line interface using fb.") and the commit 6fe14acd496e
+("drm: Document drm_connector_funcs"). One negative side effect of doing
+this is observed on the RCar3 SoCs which use the dw-hdmi driver. It
+continues executing drm_helper_hpd_irq_event even if its connector is
+forced to ON. As consequence drm_helper_hpd_irq_event calls "detect" so the
+connector status is updated to "disconnected":
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+[  420.201527] [drm:drm_helper_hpd_irq_event] [CONNECTOR:76:HDMI-A-1] status updated from connected to disconnected
 
+This status is corrected by drm_helper_probe_single_connector_modes shortly
+after this because this function checks if a connector is forced:
 
+[  420.218703] [drm:drm_helper_probe_single_connector_modes] [CONNECTOR:76:HDMI-A-1] status updated from disconnected to connected
+
+To avoid similar issues this commit adapts functions which call "detect"
+so they check if a connector is forced and return the correct status.
+
+Fixes: 949f08862d66 ("drm: Make the connector .detect() callback optional")
+Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+---
+ drivers/gpu/drm/drm_probe_helper.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index bb427c5a4f1f..1691047d0472 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -289,7 +289,12 @@ drm_helper_probe_detect_ctx(struct drm_connector *connector, bool force)
+ retry:
+ 	ret = drm_modeset_lock(&connector->dev->mode_config.connection_mutex, &ctx);
+ 	if (!ret) {
+-		if (funcs->detect_ctx)
++		if (connector->force == DRM_FORCE_ON ||
++		    connector->force == DRM_FORCE_ON_DIGITAL)
++			ret = connector_status_connected;
++		else if (connector->force == DRM_FORCE_OFF)
++			ret = connector_status_disconnected;
++		else if (funcs->detect_ctx)
+ 			ret = funcs->detect_ctx(connector, &ctx, force);
+ 		else if (connector->funcs->detect)
+ 			ret = connector->funcs->detect(connector, force);
+@@ -340,7 +345,14 @@ drm_helper_probe_detect(struct drm_connector *connector,
+ 	if (ret)
+ 		return ret;
+ 
+-	if (funcs->detect_ctx)
++	if (connector->force == DRM_FORCE_ON ||
++	    connector->force == DRM_FORCE_ON_DIGITAL)
++		ret = connector_status_connected;
++	else if (connector->force == DRM_FORCE_OFF)
++		ret = connector_status_disconnected;
++	else if (funcs->detect_ctx)
++		ret = funcs->detect_ctx(connector, ctx, force);
++	else if (funcs->detect_ctx)
+ 		ret = funcs->detect_ctx(connector, ctx, force);
+ 	else if (connector->funcs->detect)
+ 		ret = connector->funcs->detect(connector, force);
 -- 
-With best wishes
-Dmitry
+2.25.1
 
