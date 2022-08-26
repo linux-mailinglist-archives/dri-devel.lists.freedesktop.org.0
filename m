@@ -1,32 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1AB15A2F6A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 20:57:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F715A2FA4
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 21:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0760710E05E;
-	Fri, 26 Aug 2022 18:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C76EC10E095;
+	Fri, 26 Aug 2022 19:07:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94E1410E05E
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 18:57:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A88010E082
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 19:07:33 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1oReWO-0004An-NA; Fri, 26 Aug 2022 20:57:36 +0200
+ id 1oRefx-0005kg-OO; Fri, 26 Aug 2022 21:07:29 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: [PATCH v2] drm: bridge: dw_hdmi: only trigger hotplug event on link
- change
-Date: Fri, 26 Aug 2022 20:57:33 +0200
-Message-Id: <20220826185733.3213248-1-l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/etnaviv: add HWDB entry for GC7000 r6203
+Date: Fri, 26 Aug 2022 21:07:27 +0200
+Message-Id: <20220826190728.3213793-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,62 +42,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de
+Cc: dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Adam Ford <aford173@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are two events that signal a real change of the link state: HPD going
-high means the sink is newly connected or wants the source to re-read the
-EDID, RX sense going low is a indication that the link has been disconnected.
+From: Marco Felsch <m.felsch@pengutronix.de>
 
-Ignore the other two events that also trigger interrupts, but don't need
-immediate attention: HPD going low does not necessarily mean the link has
-been lost and should not trigger a immediate read of the status. RX sense
-going high also does not require a detect cycle, as HPD going high is the
-right point in time to read the EDID.
+The GPU is found on the NXP i.MX8MN SoC. The feature bits are taken from
+the NXP downstream kernel driver 6.4.3.p2.
 
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com> (v1)
 ---
-v2: Take HDMI_PHY_RX_SENSE into account when reporting disconnect
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 25a60eb4d67c..40d8ca37f5bc 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3096,6 +3096,7 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
- {
- 	struct dw_hdmi *hdmi = dev_id;
- 	u8 intr_stat, phy_int_pol, phy_pol_mask, phy_stat;
-+	enum drm_connector_status status = connector_status_unknown;
- 
- 	intr_stat = hdmi_readb(hdmi, HDMI_IH_PHY_STAT0);
- 	phy_int_pol = hdmi_readb(hdmi, HDMI_PHY_POL0);
-@@ -3134,13 +3135,15 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
- 			cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
- 			mutex_unlock(&hdmi->cec_notifier_mutex);
- 		}
--	}
- 
--	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
--		enum drm_connector_status status = phy_int_pol & HDMI_PHY_HPD
--						 ? connector_status_connected
--						 : connector_status_disconnected;
-+		if (phy_stat & HDMI_PHY_HPD)
-+			status = connector_status_connected;
-+
-+		if (!(phy_stat & (HDMI_PHY_HPD | HDMI_PHY_RX_SENSE)))
-+			status = connector_status_disconnected;
-+	}
- 
-+	if (status != connector_status_unknown) {
- 		dev_dbg(hdmi->dev, "EVENT=%s\n",
- 			status == connector_status_connected ?
- 			"plugin" : "plugout");
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index f2fc645c7956..eaed08a3d281 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -68,6 +68,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.minor_features10 = 0x00004040,
+ 		.minor_features11 = 0x00000024,
+ 	},
++	{
++		.model = 0x7000,
++		.revision = 0x6203,
++		.product_id = ~0U,
++		.customer_id = ~0U,
++		.eco_id = ~0U,
++		.stream_count = 16,
++		.register_max = 64,
++		.thread_count = 512,
++		.shader_core_count = 2,
++		.vertex_cache_size = 16,
++		.vertex_output_buffer_size = 1024,
++		.pixel_pipes = 1,
++		.instruction_count = 512,
++		.num_constants = 320,
++		.buffer_size = 0,
++		.varyings_count = 16,
++		.features = 0xe0287c8d,
++		.minor_features0 = 0xc1589eff,
++		.minor_features1 = 0xfefbfad9,
++		.minor_features2 = 0xeb9d4fbf,
++		.minor_features3 = 0xedfffced,
++		.minor_features4 = 0xdb0dafc7,
++		.minor_features5 = 0x3b5ac333,
++		.minor_features6 = 0xfcce6000,
++		.minor_features7 = 0xfffbfa6f,
++		.minor_features8 = 0x00e10ef3,
++		.minor_features9 = 0x00c8003c,
++		.minor_features10 = 0x00004040,
++		.minor_features11 = 0x00000024,
++	},
+ 	{
+ 		.model = 0x7000,
+ 		.revision = 0x6204,
 -- 
 2.30.2
 
