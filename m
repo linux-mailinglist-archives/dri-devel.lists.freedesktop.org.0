@@ -1,45 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25CD35A241A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 11:21:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AE55A23EC
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 11:16:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2664510E7BC;
-	Fri, 26 Aug 2022 09:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC8B810E7B7;
+	Fri, 26 Aug 2022 09:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 553 seconds by postgrey-1.36 at gabe;
- Fri, 26 Aug 2022 09:20:57 UTC
-Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A24810E7D9
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 09:20:57 +0000 (UTC)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by hi1smtp01.de.adit-jv.com (Postfix) with ESMTPS id C5A1A5208BD;
- Fri, 26 Aug 2022 11:11:41 +0200 (CEST)
-Received: from vmlxhi-182.adit-jv.com (10.72.94.19) by hi2exch02.adit-jv.com
- (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Fri, 26 Aug
- 2022 11:11:41 +0200
-From: Michael Rodin <mrodin@de.adit-jv.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Alex Deucher
- <alexander.deucher@amd.com>, Philipp Zabel <p.zabel@pengutronix.de>, Sean
- Paul <seanpaul@chromium.org>, Vincent Abriou <vincent.abriou@st.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm: do not call detect for connectors which are forced on
-Date: Fri, 26 Aug 2022 11:11:21 +0200
-Message-ID: <20220826091121.389315-1-mrodin@de.adit-jv.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 803D110E7AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 09:16:43 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id m5so1228574lfj.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 02:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=suMGHlcb9CDltfwUuhoLcsGy+PCUjqFE0jM5VZF9z9U=;
+ b=pnA3lVKlSjuoPG8I6Bp2PcbDeGJCNBhDh08RgVZWYtoVfyBf/aqnH4naFpbZCAbZKk
+ cSk8mnA2eIpPonj1SZGg0ddXL0zxBfhrj46WoVqMZP+Ge3KiZyl7l4bO5QLEgu8OBGAn
+ AVMh++asadyq8f5kz/LjLkqdVL8ETFUTA01avkC5klqvh1f7oe2gW+WSKMelCMQtchsF
+ G1TeATTkg9l+thvYiuhXXCS6FDnRmdcKTfTmemkC2xzKjyT3TF0Ym5igOqqFkZwVnNXc
+ iPdf6lQlZFjQ5n32gnSTlrA3Kbw0+H3Ytt3GBZslurTvz/MlRlrfokqreExq+89sX+ve
+ ebzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=suMGHlcb9CDltfwUuhoLcsGy+PCUjqFE0jM5VZF9z9U=;
+ b=mfj1Y+NLRNMjpEP5iwrC0cdkvlaOLMOAslE9xaq/+m4gLpN5oe3CJXKt+SioCNVAba
+ wvCZaco5Wk6BXodLRFjTAhzpBQBO1LvqKh8JJcnp4KRWiApz9m5mkt2XBpP0jjXYtwUg
+ MWXJEVtWjn+AKHp+kOBEtMzrAWXFINGzh5iKLMswnBjnmb9bDsH2hIrFgaGp189xVVTK
+ sU3LDVNmKFJnnY4//54iIlxds5xmEJ0//aKkRldFQMHXL1TvwOSy/5XYS8Qs8pslvlfh
+ 2JlNQuF5qtS3f6tcxf5F4Umb2O+Wc2y9oq8FuLsCB4dGNgvsi9S1PQhvruErKNfdyMo5
+ cWpA==
+X-Gm-Message-State: ACgBeo3KJlA3eUOwzPLgQ35ipAF0YHi8DVtiNLVbmnjwZ4LZ/R4l4Hyn
+ bc45sW+chrGUy8nLyLYpK1cQhA==
+X-Google-Smtp-Source: AA6agR4ScBO2G7DgjeNtg/ASP28MJCEV3REP70Q0sYm5VuGveqGx8COPQNa3Bwc7r/Vfd26k6EWFGw==
+X-Received: by 2002:a05:6512:68b:b0:492:d05c:4d2e with SMTP id
+ t11-20020a056512068b00b00492d05c4d2emr2159341lfe.413.1661505401691; 
+ Fri, 26 Aug 2022 02:16:41 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ g9-20020ac24d89000000b00492cd4bd376sm309620lfe.239.2022.08.26.02.16.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 02:16:41 -0700 (PDT)
+Message-ID: <9e040bdb-4fc5-3c95-fcea-b6ac7fd8224b@linaro.org>
+Date: Fri, 26 Aug 2022 12:16:40 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.72.94.19]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [RFC PATCH] drm/msm: lookup the ICC paths in both mdp5/dpu and
+ mdss devices
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20220805115630.506391-1-dmitry.baryshkov@linaro.org>
+ <20220805122406.x7xxywofeaquhfxg@SoMainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220805122406.x7xxywofeaquhfxg@SoMainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,70 +75,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michael@rodin.online, Michael Rodin <mrodin@de.adit-jv.com>,
- erosca@de.adit-jv.com
+Cc: freedreno@lists.freedesktop.org, Yassine Oudjana <y.oudjana@protonmail.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"detect" should not be called and its return value shall not be used when a
-connector is forced as hinted in the commit d50ba256b5f1 ("drm/kms: start
-adding command line interface using fb.") and the commit 6fe14acd496e
-("drm: Document drm_connector_funcs"). One negative side effect of doing
-this is observed on the RCar3 SoCs which use the dw-hdmi driver. It
-continues executing drm_helper_hpd_irq_event even if its connector is
-forced to ON. As consequence drm_helper_hpd_irq_event calls "detect" so the
-connector status is updated to "disconnected":
+On 05/08/2022 15:24, Marijn Suijten wrote:
+> On 2022-08-05 14:56:30, Dmitry Baryshkov wrote:
+>> The commit 6874f48bb8b0 ("drm/msm: make mdp5/dpu devices master
+>> components") changed the MDP5 driver to look for the interconnect paths
+>> in the MDSS device rather than in the MDP5 device itself. This was left
+>> unnoticed since on my testing devices the interconnects probably didn't
+>> reach the sync state.
+>>
+>> Rather than just using the MDP5 device for ICC path lookups for the MDP5
+>> devices, introduce an additional helper to check both MDP5/DPU and MDSS
+>> nodes. This will be helpful for the MDP5->DPU conversion, since the
+>> driver will have to check both nodes.
+>>
+>> Fixes: 6874f48bb8b0 ("drm/msm: make mdp5/dpu devices master components")
+>> Reported-by: Marijn Suijten <marijn.suijten@somainline.org>
+>> Reported-by: Yassine Oudjana <y.oudjana@protonmail.com>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Tested-by: Marijn Suijten <marijn.suijten@somainline.org> # On sdm630
+> 
+> But I'm not sure about giving my Reviewed-by to this, as I'd rather
+> *correct* the DT bindings for sdm630 and msm8996 to provide
+> interconnects in the MDSS node unless there are strong reasons not to
+> (and I don't consider "backwards compatibility" to be one, this binding
+> "never even existed" if mdp5.txt is to be believed).
 
-[  420.201527] [drm:drm_helper_hpd_irq_event] [CONNECTOR:76:HDMI-A-1] status updated from connected to disconnected
+As a kind of a joke, I'd prefer to have interconnects in the mdp/dpu 
+device node. In the end, the interconnects describe the path between the 
+display controller and the DDR, not the path between the whole MDSS and DDR.
 
-This status is corrected by drm_helper_probe_single_connector_modes shortly
-after this because this function checks if a connector is forced:
+So, for next chipsets I'd vote to move icc to dpu/mdp node (and maybe 
+even move existing inerconnects to the dpu node).
 
-[  420.218703] [drm:drm_helper_probe_single_connector_modes] [CONNECTOR:76:HDMI-A-1] status updated from disconnected to connected
-
-To avoid similar issues this commit adapts functions which call "detect"
-so they check if a connector is forced and return the correct status.
-
-Fixes: 949f08862d66 ("drm: Make the connector .detect() callback optional")
-Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
----
- drivers/gpu/drm/drm_probe_helper.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index bb427c5a4f1f..1691047d0472 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -289,7 +289,12 @@ drm_helper_probe_detect_ctx(struct drm_connector *connector, bool force)
- retry:
- 	ret = drm_modeset_lock(&connector->dev->mode_config.connection_mutex, &ctx);
- 	if (!ret) {
--		if (funcs->detect_ctx)
-+		if (connector->force == DRM_FORCE_ON ||
-+		    connector->force == DRM_FORCE_ON_DIGITAL)
-+			ret = connector_status_connected;
-+		else if (connector->force == DRM_FORCE_OFF)
-+			ret = connector_status_disconnected;
-+		else if (funcs->detect_ctx)
- 			ret = funcs->detect_ctx(connector, &ctx, force);
- 		else if (connector->funcs->detect)
- 			ret = connector->funcs->detect(connector, force);
-@@ -340,7 +345,14 @@ drm_helper_probe_detect(struct drm_connector *connector,
- 	if (ret)
- 		return ret;
- 
--	if (funcs->detect_ctx)
-+	if (connector->force == DRM_FORCE_ON ||
-+	    connector->force == DRM_FORCE_ON_DIGITAL)
-+		ret = connector_status_connected;
-+	else if (connector->force == DRM_FORCE_OFF)
-+		ret = connector_status_disconnected;
-+	else if (funcs->detect_ctx)
-+		ret = funcs->detect_ctx(connector, ctx, force);
-+	else if (funcs->detect_ctx)
- 		ret = funcs->detect_ctx(connector, ctx, force);
- 	else if (connector->funcs->detect)
- 		ret = connector->funcs->detect(connector, force);
 -- 
-2.25.1
+With best wishes
+Dmitry
 
