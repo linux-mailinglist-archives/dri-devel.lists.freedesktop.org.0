@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB5A5A3128
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 23:36:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6525A3122
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 23:36:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4A3710E803;
-	Fri, 26 Aug 2022 21:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8597810E8B0;
+	Fri, 26 Aug 2022 21:35:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8116C10E6D8;
- Fri, 26 Aug 2022 21:35:27 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B136E10E721;
+ Fri, 26 Aug 2022 21:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661549727; x=1693085727;
+ t=1661549730; x=1693085730;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wa3cllefe8tNwRjOMj8usyvDkEmC5ANY8uff3LM9IwM=;
- b=F2umXytoNGYkdkiuk6+H+3oVeKsuaxuWakHcblUE3Iut+0S26LDkFFTb
- zNVlJgcO632vUwj4aleGwRKLayt5qWynE9uYnRCFniEMShz02TJMFjHmz
- L3kI7zAuKkSrcfz1op506QF1XVzrWj5vh8FL8Vvd2ApNKJq9jJJBsY5KM
- tF8rHJeSn+XjGcsr1pkxcbwyn1JvftdVHWfNT1GuZ3WMusn/qCGWVoHAa
- fJP1+q9xQ11cDR9SNQjjxLZRQ3iBD/QRYcK4VP4FSkNYOZpmWcN0cW7xg
- aOOBqrgpcjenSSunCWhCLldhkMLjxSuiKeryw06Ng7vTr71dFQt7XmBx5 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="380902815"
-X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="380902815"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2022 14:35:26 -0700
+ bh=8m7IY/xdcl+XJ7Wk54Y2ANol4C3mdBs2nDMyaOr7POw=;
+ b=d2GGzf4ojACUsu6vPPAt4xhLvOQQ9tj+oyDgeK+Eg+5pLFA1ixpu/wIR
+ 1OAAflZCym/WUcexQXi77oMYaAe6uRZiA/3cEoPcjHXVNaB/8O5/JkPSR
+ BA305xzbUkpU4RUdHfSMhHITwklvfsrYixabHBE0VwrPmig2VCFN1oqgW
+ rqXtsol0Q0fwbcft8DMrtONwonI2I5WIl3eURRIxMjHPNglpyRclbW6c+
+ d+3oim2d55cZheldFVb/NsHf6siYSwb7RUabU4znnMzZwlKk7wrxwIlM8
+ LuSph1g8WS44a3Ao/k0nfwiLzYf4HUlA1Lkf1A6/wzftT1dM5G5mLZg8w g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="295375979"
+X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="295375979"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2022 14:35:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="643805802"
+X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="753006820"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga001.jf.intel.com with SMTP; 26 Aug 2022 14:35:24 -0700
+ by fmsmga001.fm.intel.com with SMTP; 26 Aug 2022 14:35:27 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Sat, 27 Aug 2022 00:35:23 +0300
+ Sat, 27 Aug 2022 00:35:26 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/11] drm/edid: Extract drm_gtf2_mode()
-Date: Sat, 27 Aug 2022 00:34:56 +0300
-Message-Id: <20220826213501.31490-7-ville.syrjala@linux.intel.com>
+Subject: [PATCH 07/11] drm/edid: Use GTF2 for inferred modes
+Date: Sat, 27 Aug 2022 00:34:57 +0300
+Message-Id: <20220826213501.31490-8-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
 References: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
@@ -64,79 +64,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Extract the GTF vs. GTF2 logic into a separate function.
-We'll have a second user soon.
+For some resaon we only use the secondary GTF curve for the
+standard timings. Use it for inferred modes as well.
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 47 ++++++++++++++++++++++++--------------
- 1 file changed, 30 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 35 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index b459fdf12b58..0c7cbe9b44f5 100644
+index 0c7cbe9b44f5..fed2bdd55c09 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -3113,6 +3113,35 @@ static int drm_mode_hsync(const struct drm_display_mode *mode)
- 	return DIV_ROUND_CLOSEST(mode->clock, mode->htotal);
+@@ -3546,6 +3546,35 @@ static int drm_gtf_modes_for_range(struct drm_connector *connector,
+ 	return modes;
  }
  
-+static struct drm_display_mode *
-+drm_gtf2_mode(struct drm_device *dev,
-+	      const struct drm_edid *drm_edid,
-+	      int hsize, int vsize, int vrefresh_rate)
++static int drm_gtf2_modes_for_range(struct drm_connector *connector,
++				    const struct drm_edid *drm_edid,
++				    const struct detailed_timing *timing)
 +{
-+	struct drm_display_mode *mode;
++	int i, modes = 0;
++	struct drm_display_mode *newmode;
++	struct drm_device *dev = connector->dev;
 +
-+	/*
-+	 * This is potentially wrong if there's ever a monitor with
-+	 * more than one ranges section, each claiming a different
-+	 * secondary GTF curve.  Please don't do that.
-+	 */
-+	mode = drm_gtf_mode(dev, hsize, vsize, vrefresh_rate, 0, 0);
-+	if (!mode)
-+		return NULL;
++	for (i = 0; i < ARRAY_SIZE(extra_modes); i++) {
++		const struct minimode *m = &extra_modes[i];
 +
-+	if (drm_mode_hsync(mode) > drm_gtf2_hbreak(drm_edid)) {
-+		drm_mode_destroy(dev, mode);
-+		mode = drm_gtf_mode_complex(dev, hsize, vsize,
-+					    vrefresh_rate, 0, 0,
-+					    drm_gtf2_m(drm_edid),
-+					    drm_gtf2_2c(drm_edid),
-+					    drm_gtf2_k(drm_edid),
-+					    drm_gtf2_2j(drm_edid));
++		newmode = drm_gtf2_mode(dev, drm_edid, m->w, m->h, m->r);
++		if (!newmode)
++			return modes;
++
++		drm_mode_fixup_1366x768(newmode);
++		if (!mode_in_range(newmode, drm_edid, timing) ||
++		    !valid_inferred_mode(connector, newmode)) {
++			drm_mode_destroy(dev, newmode);
++			continue;
++		}
++
++		drm_mode_probed_add(connector, newmode);
++		modes++;
 +	}
 +
-+	return mode;
++	return modes;
 +}
 +
- /*
-  * Take the standard timing params (in this case width, aspect, and refresh)
-  * and convert them into a real mode using CVT/GTF/DMT.
-@@ -3201,23 +3230,7 @@ static struct drm_display_mode *drm_mode_std(struct drm_connector *connector,
- 		mode = drm_gtf_mode(dev, hsize, vsize, vrefresh_rate, 0, 0);
- 		break;
- 	case LEVEL_GTF2:
--		/*
--		 * This is potentially wrong if there's ever a monitor with
--		 * more than one ranges section, each claiming a different
--		 * secondary GTF curve.  Please don't do that.
--		 */
--		mode = drm_gtf_mode(dev, hsize, vsize, vrefresh_rate, 0, 0);
--		if (!mode)
--			return NULL;
--		if (drm_mode_hsync(mode) > drm_gtf2_hbreak(drm_edid)) {
--			drm_mode_destroy(dev, mode);
--			mode = drm_gtf_mode_complex(dev, hsize, vsize,
--						    vrefresh_rate, 0, 0,
--						    drm_gtf2_m(drm_edid),
--						    drm_gtf2_2c(drm_edid),
--						    drm_gtf2_k(drm_edid),
--						    drm_gtf2_2j(drm_edid));
--		}
-+		mode = drm_gtf2_mode(dev, drm_edid, hsize, vsize, vrefresh_rate);
- 		break;
- 	case LEVEL_CVT:
- 		mode = drm_cvt_mode(dev, hsize, vsize, vrefresh_rate, 0, 0,
+ static int drm_cvt_modes_for_range(struct drm_connector *connector,
+ 				   const struct drm_edid *drm_edid,
+ 				   const struct detailed_timing *timing)
+@@ -3594,7 +3623,11 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
+ 		return; /* GTF not defined yet */
+ 
+ 	switch (range->flags) {
+-	case DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG: /* XXX could do more */
++	case DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG:
++		closure->modes += drm_gtf2_modes_for_range(closure->connector,
++							   closure->drm_edid,
++							   timing);
++		break;
+ 	case DRM_EDID_DEFAULT_GTF_SUPPORT_FLAG:
+ 		closure->modes += drm_gtf_modes_for_range(closure->connector,
+ 							  closure->drm_edid,
 -- 
 2.35.1
 
