@@ -2,108 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2335A2E06
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 20:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2275A2E7D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 20:30:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AC8810E9DD;
-	Fri, 26 Aug 2022 18:10:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19C4410E291;
+	Fri, 26 Aug 2022 18:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2056.outbound.protection.outlook.com [40.107.93.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB8010E9DD
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 18:10:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EstCAFLvDH/peylH1Ig571g34OXOIRJHfVjeY13LYAkuKFi4+QXVriK8gK6MuAyVSPFnJjjEge/4R/DRTwPTygH6VFNNBtYUqJbhftl30uWffZvhUac37PywTw6cSvVIE07niPTVb9yNSGUkTEFx1lE3xoUH3KT4+U3Zom8ESrO3JU2tB+NNAn3yr5ndxRpEuUJ4wFnQFuT64Ddvpe1fcqI0GOImrzAdu670Mg/gnQuAr8WI/slHn8/tG/UWdKv9efI83a1sr0RefPKx1s65eWvzO/EvLmYNe3T1G2rVKls/+8s+1e/Npl4it/JLDb8jEroQZFrwGR7lubCCZkUO3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TuJoj7hld2EeSSN3LhJ3+Si9zZbkdaroRJY+9G8cEdM=;
- b=oRzrTBTs0BpbO1MlUK7CGzBZvACVhQI3QEj8mvEXt8TuLUL/P3sVVnkb51Q3KlioFhqezq1rbNqBUHXltPOV+NibnO9VZQlWxlrSgn/klnHIHtW5mkXwLTjxYXxieO/shovYTQ/05ELC67DQs3ga9T45zAVNBJBFbwKQKpPivfbbmoNHEA5dT+gwM+S4+VfJuVgSwROPMLdn0pse84XlbU4trZ1hhYy7cZGTK3ApvJj2IUJn7Bc1roEQNsAkLOsFBD/0qqgcZrmgo6DId1ReR4w4iMWY7O+DxPzkrcoDGLZ6+ORYSwqxB0SnAxdgGJ0ia+DmTN7ZtjP2YRXr+2MbqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TuJoj7hld2EeSSN3LhJ3+Si9zZbkdaroRJY+9G8cEdM=;
- b=mIEOsXe/CdvBc53h05oD4SHgKfjEOyyQ3yNEuMw8nRh0IjZcNWEffbT8cBytQAzZuE8dyjo+9xDZKCgR4mESwXMcuhvLqBwYKigJNgnDtSeZ2OIXH1SnV61fxua10a6bCchllbCtJe2QP6n4O+WBuMtShnfHxdxKTcY1o657OjCqESUpgoAMI+P48b0v4plpI3WBbiLxWvs8wWQ6RQ/L+958QpmhYa4H/UJCeFWDbIuOKmeSS/6SmQrrNFsimX3rNNlcVsgyQl6HjVbwOkejXp1i/ygpRBlt5TAnPlQbXaU7DlGFilS6TE1/Ivi+yFJs/zQRJY182Zv+CZa7K5/ORg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by CY5PR12MB6180.namprd12.prod.outlook.com (2603:10b6:930:23::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Fri, 26 Aug
- 2022 18:10:33 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5%8]) with mapi id 15.20.5566.016; Fri, 26 Aug 2022
- 18:10:33 +0000
-Date: Fri, 26 Aug 2022 15:10:32 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: Fwd: [PATCH 4/4] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <YwkMmFjpsKuJroBz@nvidia.com>
-References: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
- <4-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
- <CAFCwf13kOBri3NDO=6SGHOXq-M=wndbdcMxik9bf8H1AUCE1tQ@mail.gmail.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7AD10E291
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 18:29:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1661538580;
+ bh=6CwsAnaWPuxtbvE456cbmPQ06VlN91EsBREJitWI23k=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=DNulv/cP0alEZTJUhHf9A9MvJN86BSczbBQUE903Zc2XoQYyA14RVSVa4WKV7OFGj
+ js09kiCTvn2dZGb4mPKtD3K2urjkT7hoI+BOGY4BtyST0W/ttrlinBEcxG7B1dc+60
+ wPsArHkL024xLFypVRVjIcOTfhPUD8MKa0rR6wL8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ls3530 ([92.116.171.190]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N0oG5-1pNrN31Zgb-00whyf; Fri, 26
+ Aug 2022 20:29:40 +0200
+Date: Fri, 26 Aug 2022 20:29:35 +0200
+From: Helge Deller <deller@gmx.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev updates & fixes for v6.0-rc3
+Message-ID: <YwkRD5hWd4F02dxc@ls3530>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFCwf13kOBri3NDO=6SGHOXq-M=wndbdcMxik9bf8H1AUCE1tQ@mail.gmail.com>
-X-ClientProxiedBy: BL1PR13CA0268.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::33) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 496c1765-6208-46f4-aa50-08da878e4497
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6180:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wDBO32CR5YRONTjlTkB73qExBL4EIVO0zEhxQvMDlAvcVGciGfKgfTukqgrb/axadQu++NTMKcnjTCl3i6XqiMJvR63VO3JfE6RGee84AJQOXhCbf2hKwudHYJCjXvnaN2TjbrW9PXxc9i0RhBGK6XQLaOUAVa7n7t1BsEgmA7QkTrx7IT3B/CB0M5fIprvnKvrEKlQH+4VukbUF07qeAW3RCLDU68TT6SBJ8Yd4ozgC0I6jNgedcUNMdnWUsXa9ghf7EYkBfktZgHv6InTkU9H52PxayBWxjQiZdvqhqziRUQ+edN+pPTfTv+kKeDgYMg9x2MhtJAEf0XEl/BBKs1vFvg11Q4CvWnonpngo7Effkx7E4hQjh+tDyItHqMm+Nk6swhFlcOMYS2tVck60i3fk1vGPFcD0zY7p3BW+0Zu/F5uhKqQ5nFytF/jBWxiXQM5YaG3NFP+MAcv9PoOB5/NSb1zPTgHr6q49J6R51FtW7I7A22/mDYoY6sqZp2t/sMyHRlnV/mgbZX+jpcOMMzJxGdn7oZQgZKwGNhFJ/zhBMMCO8Y2M1XLQPa7ibm+0gupuyZ2n1T/T6+feKWgY00d7rN4+WZ1c21RI8dSzlrBUV+Bytv4y6UyL94bkphNUpZPO6eHpVRmeKiC/EjH9hpJrNos+7TPGEYSeaFs5xousDbonZnkz1VKYwmfTcBSjlADRZ+UKv167h0bAqWmanQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(376002)(346002)(39860400002)(136003)(366004)(316002)(86362001)(8936002)(6916009)(4326008)(8676002)(66946007)(66556008)(66476007)(54906003)(26005)(83380400001)(6512007)(2616005)(7416002)(186003)(6486002)(478600001)(6506007)(38100700002)(2906002)(107886003)(41300700001)(36756003)(5660300002)(4744005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?r8tIeO7XypHpu0U3gaORBl840X7xXAXx/UGCKaHtsql7BdFGEznCy1DAzH8W?=
- =?us-ascii?Q?1VpIb+I4dZD16shjHLq1UHzJwTfjvZLn7drXWiytercDa7KrHAbGqIgGA1IZ?=
- =?us-ascii?Q?MLHsNXEKUki0o/PF9yU5J7RY2Y3HwqSBvbquSR3iZTlq2oFYyHiMXNoNw7Hz?=
- =?us-ascii?Q?/AffYUtunSZtf/c24XJJo9OGdX7Qa3R5832Auq5BMY1oXlYx6cxCD23z6nGc?=
- =?us-ascii?Q?+68IQxQrwnmulZku2FKVZaOFCFVnZnnbX27+QPMSllwFUUSwGcr1AkEqBC0A?=
- =?us-ascii?Q?6LzD14AdHFUxouG8ZIRaw/ri+6yw9BXqSAPLdG6kTRQf4rseDugOfNOGdu1w?=
- =?us-ascii?Q?ayTAAkXQL8k9xCumptmpsSl8vgSJ1wdfPlbdjMW5HenPYyybI5Nj5adYJ85t?=
- =?us-ascii?Q?KPf9iOK6NBHaIsFPubP8YqU/aXX/hk6+WjCfpbVFiBL8AwADGrL0oJiHCC6Y?=
- =?us-ascii?Q?yOF/UCti0lZE/kB0Uih6kWpsnKRgFdFI3Xw+wx6FHZeHUpnCYF2V/9/OWc94?=
- =?us-ascii?Q?frCmBO18+5xt/aVrRx/SQWS7AaAbRJBTWQ6aybJUTu0bJGU7MrayyFwB5Dgr?=
- =?us-ascii?Q?P7XURzowXpSkSyXxq1S0UZXrgpqgDh2BmEEWHGPfliZBuqgEaZBggcHnM7Ku?=
- =?us-ascii?Q?twC39BO9Ooo1GL/Dir5BRSAcfBt1asLCQwwz2oz50IN3LJ2mp4NVMXZ0oKYE?=
- =?us-ascii?Q?tNk112u7P/LATJwVpwCzzeC4JKFI+e3Syx+DnzCaSc9vYv/KtKEyycH2THja?=
- =?us-ascii?Q?WTzRfdfhBfbTBtjvsLi+Os/slmQ8r/7hkhDkAM7wyNoGnA/wo5Er2t0ohfw1?=
- =?us-ascii?Q?rJzkvnhCCTSUNiQ3i1qATjEAX9PY4ZXr9mFLd0Y2sJ7gkSSd5k4RJ894Oc3w?=
- =?us-ascii?Q?EyZFASCErXagTGcBCXZ1cw1poAz+/wmoOpbZrRFelPZqatyqMqIQPybgLUn3?=
- =?us-ascii?Q?8TAvT/ppfWi1r+Hl+c8FxGQfUuKzQxcLkkxFL9B9T1Y2sZ5BkGe3QCHB2XHv?=
- =?us-ascii?Q?W3a2R2UD+dEu0U4/X2geSQ14R2VVXTFdaWkLKh9Ust454218pQC0QLmI8qH+?=
- =?us-ascii?Q?uWinoQ/+/Zpm8fAFLLIXywHLh0vYfjx8cGAUgW8qOsRpiKDv7Vmx/Sg0zkCt?=
- =?us-ascii?Q?7yurMBb58p98ajBvr39UJ2VgFdIsBhoph83wQWLvmAcoqk9DHdqJuiUpchQx?=
- =?us-ascii?Q?XCPPI73xxnGrCvo+DQYFaMXS+Qzq7bhCrOzo7vxdF1Tvcfw/S2BUu3WW+rjD?=
- =?us-ascii?Q?hlrFaNYWBdYOD9WWrQ/58zjh6EwC0Kv9qGUvABkr2mZG4USZD7Puco4rvweT?=
- =?us-ascii?Q?ygLEYKtBZrXZ9ERzl/m26KiwvDR0qsEaVrvlvANb/j+H3m1+3xoPOonzOGxI?=
- =?us-ascii?Q?BU1LyVKUHcSB9Y9Y775QhFSRIC83zcjY6YJp37xoVcL4hcrTRCM1lpK0NmP6?=
- =?us-ascii?Q?37/WmQLUzRQGqEesPDND3BAaZPm12de9teCQwP97hLZf7MR7QHelbYonhWvK?=
- =?us-ascii?Q?NJ6u6fzN4fYiDRZByZA1Z7WUvrCA3Q0w4C0E/AxTdZGPgSlkky5Nt4DwxRob?=
- =?us-ascii?Q?b+buYN4/lEesnAQgBeDKP1+b5kyHCqM03h5WzczF?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 496c1765-6208-46f4-aa50-08da878e4497
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2022 18:10:33.4430 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6aNmX6VLedMHvn98GkrIymcqtfJCX0BtjGN6bjR7S/jS03Rj3DkVKR79uVxLTVpG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6180
+X-Provags-ID: V03:K1:S+Gx95puGBUMe77q0+jOjU2CmgdcWla5iY7r2boOKY4l0p2qobj
+ 7OA90AVrpMI6lHBBdCt1MLgizBN7qyGY9ypUdCf4dlwpcAm2+c4WUExl71lLlV1KoKH4SkV
+ bOK7vaiIGd5QHxsSACyvpmghF0uymP3Mu0qkalhxDDh8rOc1PFiEfEWP0LKwvUJYDMxzrjq
+ O3zHQWAdnkStngcEB5BJw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gu+Be2cK4x8=:QDvIi3VT+gwtRWU527U5dG
+ ppleeK8f+bnNquQH0zJUCOS8Zhe5wrEixYTYtik/oE1rqlBTst8udxlmc8cS7beLzbRNoHyrb
+ R/3bYLi66pL/1/Mkz0NITyu+MkNRJbfDfxy7vz6AQVLX6GlmwtQAbJZL55V2O3G0aqcRYQDvY
+ iGkItoof7SVcuf+qpWOQB1qMe+0wKcBPVZ9mJfpDGtmjw++gTOuDoHqDTXOztXnHB+dT4ge3g
+ m+95K0EU7GydC6wLHzcbLvbZDm0DLc3cJaENGSwdhy1Ag8kXJKK1FX4dKLFjrNtxwZUzylsOJ
+ 1YAEZ3p1kIfh7XjD9rQ20kiVkWs3iebK1waDLa0ydQ88rxI9jlBzWQFRjStoOQh5E5mHCkGhs
+ dFba/QwowSAV4YufMxHwZc1XIxxyAGTxZ1HW8qND/oKauYDqp7O9T/8MUvlknsIMgGDpK7ODa
+ rRyrKc5YvxwXRTE423b22lfY/M308u0OQxOjpaq45c/ieTjpDTHQiPGlfUCwzh4Wg539iKQHV
+ 2C+Fdv7hFD5MUj1kYQ/ozW/5gskwKX1kyd3SebMnHD9WEzJKVhLz14TFGjYpZW/J8NESoxcOk
+ N67Wd2vq6YSDqdPqUKIvwrAfmB+18racH/Wkt7YduMNvnjO8rVkrrESDE/oSA0BV/mgC+BS/9
+ upj4qh+zfyK5VHOf0AurbRNDPsGfBv8pcBmuPdS1k6zY4ogqZYIrCACVyYO0f6NBmDLcoMI8N
+ WLMOepSF7mjJTl09XnlHseVOTZa87otvN6pJktNE/8dG9pv0fmyi7D+X+NWdgzajgNUCnztqr
+ Ai4NJ4ZhHOpVbuqEVQkwso8lL+2H8I+1uyPP3HHYIyy2zablTG4qJ5h2t6DOjKup4sn+JWe3N
+ 7rTp3eJt8uJRkt+nxZGe25FGaMxctdRCLMTY4yAyEBrWTBt169Jo49XowJeuAL+fxVqhV3cwh
+ VG6/fRcvNBT5RNLW/Hm+YWmf13W2jfxtU9gtvZNTGT+fDTA3uVQT7I55SkN5il2Q7alBF5L+x
+ wZK3ltyaVnpdD21a6wdlToh1PLBaz6wootq7wiLWGzjoQdC1W7j5VCubeCgfJoD1W//JZiSvz
+ jY4P01Jk7LAqXRceXMW0SVcmkeIBo/FVhpHu5ITeqxauxo3Vyyz7dLihw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,32 +67,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, KVM list <kvm@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Cornelia Huck <cohuck@redhat.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, Maor Gottlieb <maorg@nvidia.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 21, 2022 at 04:51:34PM +0300, Oded Gabbay wrote:
+Hi Linus,
 
-> > +static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment *attachment,
-> > +                                  struct sg_table *sgt,
-> > +                                  enum dma_data_direction dir)
-> > +{
-> > +       struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
-> > +
-> > +       dma_unmap_resource(attachment->dev, sg_dma_address(sgt->sgl),
-> > +                          priv->dmabuf->size, dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > +       sg_free_table(sgt);
-> Before calling sg_free_table(), you need to restore the orig_nents as
-> it is used in that function to free the allocated memory of the sgt.
+please pull the second round of fbdev fixes & updates for v6.0-rc3.
 
-Oops, right, thanks good catch
+Mostly just small patches, with the exception of the bigger indenting
+cleanups in the sisfb and radeonfb drivers.
 
-Jason
+Two patches should be mentioned though:
+A fix-up for fbdev if the screen resize fails (by Shigeru Yoshida), and
+a potential divide by zero fix in fb_pm2fb (by Letu Ren).
+
+More detailled info is in the tag description. All patches have been in
+for-next for a few days.
+
+Thanks!
+Helge
+
+-------
+
+The following changes since commit 1c23f9e627a7b412978b4e852793c5e3c3efc555:
+
+  Linux 6.0-rc2 (2022-08-21 17:32:54 -0700)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.0-rc3
+
+for you to fetch changes up to a5a923038d70d2d4a86cb4e3f32625a5ee6e7e24:
+
+  fbdev: fbcon: Properly revert changes when vc_resize() failed (2022-08-26 19:56:18 +0200)
+
+----------------------------------------------------------------
+fbdev fixes and updates for kernel 6.0-rc3
+
+Major fixes:
+- Revert the changes for fbcon console when vc_resize() fails [Shigeru Yoshida]
+- Avoid a potential divide by zero error in fb_pm2fb [Letu Ren]
+
+Minor fixes:
+- Add missing pci_disable_device() in chipsfb_pci_init() [Yang Yingliang]
+- Fix tests for platform_get_irq() failure in omapfb [Yu Zhe]
+- Destroy mutex on freeing struct fb_info in fbsysfs [Shigeru Yoshida]
+
+Cleanups:
+- Move fbdev drivers from strlcpy to strscpy [Wolfram Sang]
+- Indenting fixes, comment fixes, ... [Jiapeng Chong & Jilin Yuan]
+
+----------------------------------------------------------------
+Jiapeng Chong (3):
+      fbdev: sisfb: Clean up some inconsistent indenting
+      fbdev: radeon: Clean up some inconsistent indenting
+      fbdev: omap: Remove unnecessary print function dev_err()
+
+Jilin Yuan (1):
+      fbdev: ssd1307fb: Fix repeated words in comments
+
+Letu Ren (1):
+      fbdev: fb_pm2fb: Avoid potential divide by zero error
+
+Shigeru Yoshida (2):
+      fbdev: fbcon: Destroy mutex on freeing struct fb_info
+      fbdev: fbcon: Properly revert changes when vc_resize() failed
+
+Wolfram Sang (1):
+      fbdev: Move fbdev drivers from strlcpy to strscpy
+
+Yang Yingliang (1):
+      fbdev: chipsfb: Add missing pci_disable_device() in chipsfb_pci_init()
+
+Yu Zhe (1):
+      fbdev: omapfb: Fix tests for platform_get_irq() failure
+
+ drivers/video/console/sticore.c                |   2 +-
+ drivers/video/fbdev/aty/atyfb_base.c           |   2 +-
+ drivers/video/fbdev/aty/radeon_base.c          |  48 ++---
+ drivers/video/fbdev/bw2.c                      |   2 +-
+ drivers/video/fbdev/chipsfb.c                  |   1 +
+ drivers/video/fbdev/cirrusfb.c                 |   2 +-
+ drivers/video/fbdev/clps711x-fb.c              |   2 +-
+ drivers/video/fbdev/core/fbcon.c               |  29 ++-
+ drivers/video/fbdev/core/fbsysfs.c             |   4 +
+ drivers/video/fbdev/cyber2000fb.c              |   8 +-
+ drivers/video/fbdev/ffb.c                      |   2 +-
+ drivers/video/fbdev/geode/gx1fb_core.c         |   6 +-
+ drivers/video/fbdev/gxt4500.c                  |   2 +-
+ drivers/video/fbdev/i740fb.c                   |   2 +-
+ drivers/video/fbdev/imxfb.c                    |   2 +-
+ drivers/video/fbdev/matrox/matroxfb_base.c     |   6 +-
+ drivers/video/fbdev/omap/omapfb_main.c         |   6 +-
+ drivers/video/fbdev/omap2/omapfb/omapfb-main.c |   2 +-
+ drivers/video/fbdev/pm2fb.c                    |   5 +
+ drivers/video/fbdev/pxa168fb.c                 |   2 +-
+ drivers/video/fbdev/pxafb.c                    |   2 +-
+ drivers/video/fbdev/s3fb.c                     |   2 +-
+ drivers/video/fbdev/simplefb.c                 |   2 +-
+ drivers/video/fbdev/sis/sis_main.c             | 278 +++++++++++++------------
+ drivers/video/fbdev/sm501fb.c                  |   2 +-
+ drivers/video/fbdev/ssd1307fb.c                |   2 +-
+ drivers/video/fbdev/sstfb.c                    |   2 +-
+ drivers/video/fbdev/sunxvr1000.c               |   2 +-
+ drivers/video/fbdev/sunxvr2500.c               |   2 +-
+ drivers/video/fbdev/sunxvr500.c                |   2 +-
+ drivers/video/fbdev/tcx.c                      |   2 +-
+ drivers/video/fbdev/tdfxfb.c                   |   4 +-
+ drivers/video/fbdev/tgafb.c                    |   2 +-
+ drivers/video/fbdev/tridentfb.c                |   2 +-
+ 34 files changed, 240 insertions(+), 201 deletions(-)
