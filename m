@@ -2,61 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F217E5A2396
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 10:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A6A5A23A2
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 10:57:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1185B10E775;
-	Fri, 26 Aug 2022 08:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E64AD10E789;
+	Fri, 26 Aug 2022 08:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B52C810E775
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 08:54:00 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id m3so1137743lfg.10
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 01:54:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc;
- bh=2E51LoNr9TwqeMb4yXV8o7Z+sfQs2I5YigSV95U+sX8=;
- b=VcDg0dxzD7zy2apcv8qFZ2UrKHLIZ0haU37Xfue/FqCxqTsHp+0bpnKpIOjzcKMUU4
- pAFGWL6L8J2vKfc0bonFB8KhfR290GOI32HivPDj9UbIhtjOHog2Vo8LjtxhdyK2MD+t
- KvJE8B+8rVfRMmJPI2eBOZg8y6gC7HZlUUSr9XT0jmjlgB4PJJn8oMnJjc/vrhx4rWBx
- DRV1uPHzHZgwYnAJjtvxgDKi8FOFMdnkEHJW9TVpNfx9hJoeTcfdtu9wLRoxZAJVhajj
- gTtRi8ABxX14akhiEsD5WMkvpInCpneom4cUs5cEth78E3xuHR4B8B2zNRCKZp32Pb4H
- x4XA==
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFA810E77D
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 08:57:39 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id d23so1129428lfl.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 01:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=22eStSU9ItXlWoRnrD595PIr4R701OkoJy+fkWXSTyE=;
+ b=rA+ZcQ5v1aIg1zXjq5ukDZB2TBClaxUfjELeOhnFDiyygvppat2Vadq5QCbGjf5POQ
+ M+V4+1J+SOn76CACYx6F2OYdL9CETEgpy1u4uzRdAvL77l3HCIGfdkaCLVGhg5toXIaq
+ 033HvZUH6xXp4kdUpNmMSVjTHolgVyUpiaOSHmfV1zR7VWpq1N0ihZTQfj0zgaBShBm0
+ +gyKIWsnCQg3lJLKKTEJqZHSZB3U3VQcktbDO9NQ1KrRLap0uNysz3bvtk9eaQxzOKNd
+ ofFKgAXx40xLBvhyxHCguIEcUn5CkObt2P0oVW4mOJkyZRETGCEZ1E0RyHHVVQiN8pWN
+ ufHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc;
- bh=2E51LoNr9TwqeMb4yXV8o7Z+sfQs2I5YigSV95U+sX8=;
- b=kTJwCFgqoJn2nLrZJ2rp7BecY687CrPZw+pk2oXlYg/NgJgwyfdN/w5g2oD8x22Tsi
- troldN5dVQHy4Yx0V5Bi66Bw5l0PDqxHWorO6b6msIRKnrt3GGG8qhSRnrwQdtfh7e12
- YW8Y3G134pRvRTLyxJjk5xae2t3MgUDRzaXZl5ybLp1XHAo11NLzXvl5FY6fJls42ie1
- GvPGEqfkX5KWnFbVCuJfbI2BkMqLYxkadqIzPWafBOp620N+R0SvMtiTaDFfcM3PB1Iw
- Ki92RG9DSMvjQcV1zntsgutp7pdnjAhxmtugEFfQDxf2avRsOZgF5hTlmGvgc41KgtqE
- 5EvQ==
-X-Gm-Message-State: ACgBeo11Nb2WL/wYFrgsXLf58VY/DYzyxEZX6K2pgNZwzhVUOA4D5/aR
- 227QdFIYsHDJlwoMtb1f4fY=
-X-Google-Smtp-Source: AA6agR5yk9YCViHIXpr+D3FY5epyB+QrbbNHStNI9UAFR+IEfv0AZHkmG30BSjnY6W7xDcPwDvLDfg==
-X-Received: by 2002:a05:6512:2621:b0:47f:d228:bdeb with SMTP id
- bt33-20020a056512262100b0047fd228bdebmr2089559lfb.121.1661504038862; 
- Fri, 26 Aug 2022 01:53:58 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- v12-20020ac2592c000000b004926689d410sm307780lfi.171.2022.08.26.01.53.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Aug 2022 01:53:58 -0700 (PDT)
-Date: Fri, 26 Aug 2022 11:53:55 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: drm: document uAPI page-flip flags
-Message-ID: <20220826115355.668e13ca@eldfell>
-In-Reply-To: <20220824174459.441976-1-contact@emersion.fr>
-References: <20220824174459.441976-1-contact@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=22eStSU9ItXlWoRnrD595PIr4R701OkoJy+fkWXSTyE=;
+ b=kd6lDG7vOyzrx7IvgcE9y2MmNiFbNJb/h5v/BdcpPOskoxjiTSZkXGBkxGnWoroD4N
+ cB0RqrLJ1HQQQyn9YL3VYBhhi960lKINHR6OP9uSA77ogiy3sOLgaN+M9LLx6zNipRpi
+ WRMHLF30tUjevy37QsX25PmeAIlCOgVbAm47avQa/9ba1Jr1D6WwVwzP2QilSCRsaeqQ
+ veExljZX3NV1pB5NAh6SxmDGGhoHnabiQ+xTv9cpQlKTn7FYxb8mWifWSa7pefPdVkPh
+ xWZzcY3FVUV3DOL1EEpYIiaq0zZrO9c0XU+faUsMgK5J5GZsduW5uPNOEZ4+sVLchUWd
+ QFLg==
+X-Gm-Message-State: ACgBeo1+qrfc0iHLzv7b+BPqnAFtXPMdy72tg3SeNaJYNOeOBSJEpyrk
+ R6czrRsHqAtQuT9qJXj7VODbjQ==
+X-Google-Smtp-Source: AA6agR6RayAC+v5sOQnaoJuZ+WyUJ4dXh4UUETdwa6psWLxW+EIOeGJrtg9zj7txwlimKbPC3mvJfg==
+X-Received: by 2002:a05:6512:1091:b0:491:f135:4633 with SMTP id
+ j17-20020a056512109100b00491f1354633mr2496905lfg.553.1661504257559; 
+ Fri, 26 Aug 2022 01:57:37 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ f1-20020a05651c03c100b00261b6faab6dsm381798ljp.115.2022.08.26.01.57.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 01:57:36 -0700 (PDT)
+Message-ID: <d2d94589-8513-c261-c5d8-b7ffa3db8616@linaro.org>
+Date: Fri, 26 Aug 2022 11:57:36 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/gLzFvEdpXoaCkEl/fWNC85s";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH 3/3] drm/msm/hdmi: move resource allocation to probe
+ function
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220616075947.347888-1-dmitry.baryshkov@linaro.org>
+ <20220616075947.347888-4-dmitry.baryshkov@linaro.org>
+ <41ca91c6-dc38-af0a-c955-a276f5824cc8@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <41ca91c6-dc38-af0a-c955-a276f5824cc8@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,170 +77,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/gLzFvEdpXoaCkEl/fWNC85s
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 24/08/2022 02:58, Abhinav Kumar wrote:
+> 
+> 
+> On 6/16/2022 12:59 AM, Dmitry Baryshkov wrote:
+>> Rather than having all resource allocation happen in the _bind function
+>> (resulting in possible EPROBE_DEFER returns and component bind/unbind
+>> cycles) allocate and check all resources in _probe function. While we
+>> are at it, use platform_get_irq() to get the IRQ rather than going
+>> through the irq_of_parse_and_map().
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/hdmi/hdmi.c | 295 +++++++++++++++-----------------
+>>   1 file changed, 134 insertions(+), 161 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c 
+>> b/drivers/gpu/drm/msm/hdmi/hdmi.c
+>> index 8dfe5690366b..429abd622c81 100644
+>> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+>> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+>> @@ -75,8 +75,6 @@ static void msm_hdmi_destroy(struct hdmi *hdmi)
+>>       if (hdmi->i2c)
+>>           msm_hdmi_i2c_destroy(hdmi->i2c);
+>> -
+>> -    platform_set_drvdata(hdmi->pdev, NULL);
+> Do we still not need to do this in .remove?
+>>   }
+>>   static int msm_hdmi_get_phy(struct hdmi *hdmi)
+>> @@ -116,138 +114,10 @@ static int msm_hdmi_get_phy(struct hdmi *hdmi)
+>>    * we are to EPROBE_DEFER we want to do it here, rather than later
+>>    * at modeset_init() time
+>>    */
+>> -static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
+>> +static int msm_hdmi_init(struct hdmi *hdmi)
+>>   {
+>> -    struct hdmi_platform_config *config = pdev->dev.platform_data;
+>> -    struct hdmi *hdmi = NULL;
+>> -    struct resource *res;
+>> -    int i, ret;
+>> -
+>> -    hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
+>> -    if (!hdmi) {
+>> -        ret = -ENOMEM;
+>> -        goto fail;
+>> -    }
+>> -
+>> -    hdmi->pdev = pdev;
+>> -    hdmi->config = config;
+>> -    spin_lock_init(&hdmi->reg_lock);
+>> -
+>> -    hdmi->mmio = msm_ioremap(pdev, "core_physical");
+>> -    if (IS_ERR(hdmi->mmio)) {
+>> -        ret = PTR_ERR(hdmi->mmio);
+>> -        goto fail;
+>> -    }
+>> -
+>> -    /* HDCP needs physical address of hdmi register */
+>> -    res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>> -        "core_physical");
+>> -    if (!res) {
+>> -        ret = -EINVAL;
+>> -        goto fail;
+>> -    }
+>> -    hdmi->mmio_phy_addr = res->start;
+>> -
+>> -    hdmi->qfprom_mmio = msm_ioremap(pdev, "qfprom_physical");
+>> -    if (IS_ERR(hdmi->qfprom_mmio)) {
+>> -        DRM_DEV_INFO(&pdev->dev, "can't find qfprom resource\n");
+>> -        hdmi->qfprom_mmio = NULL;
+>> -    }
+>> -
+>> -    hdmi->hpd_regs = devm_kcalloc(&pdev->dev,
+>> -                      config->hpd_reg_cnt,
+>> -                      sizeof(hdmi->hpd_regs[0]),
+>> -                      GFP_KERNEL);
+>> -    if (!hdmi->hpd_regs) {
+>> -        ret = -ENOMEM;
+>> -        goto fail;
+>> -    }
+>> -    for (i = 0; i < config->hpd_reg_cnt; i++)
+>> -        hdmi->hpd_regs[i].supply = config->hpd_reg_names[i];
+>> -
+>> -    ret = devm_regulator_bulk_get(&pdev->dev, config->hpd_reg_cnt, 
+>> hdmi->hpd_regs);
+>> -    if (ret) {
+>> -        DRM_DEV_ERROR(&pdev->dev, "failed to get hpd regulator: 
+>> %d\n", ret);
+>> -        goto fail;
+>> -    }
+>> -
+>> -    hdmi->pwr_regs = devm_kcalloc(&pdev->dev,
+>> -                      config->pwr_reg_cnt,
+>> -                      sizeof(hdmi->pwr_regs[0]),
+>> -                      GFP_KERNEL);
+>> -    if (!hdmi->pwr_regs) {
+>> -        ret = -ENOMEM;
+>> -        goto fail;
+>> -    }
+>> -
+>> -    for (i = 0; i < config->pwr_reg_cnt; i++)
+>> -        hdmi->pwr_regs[i].supply = config->pwr_reg_names[i];
+>> -
+>> -    ret = devm_regulator_bulk_get(&pdev->dev, config->pwr_reg_cnt, 
+>> hdmi->pwr_regs);
+>> -    if (ret) {
+>> -        DRM_DEV_ERROR(&pdev->dev, "failed to get pwr regulator: 
+>> %d\n", ret);
+>> -        goto fail;
+>> -    }
+>> -
+>> -    hdmi->hpd_clks = devm_kcalloc(&pdev->dev,
+>> -                      config->hpd_clk_cnt,
+>> -                      sizeof(hdmi->hpd_clks[0]),
+>> -                      GFP_KERNEL);
+>> -    if (!hdmi->hpd_clks) {
+>> -        ret = -ENOMEM;
+>> -        goto fail;
+>> -    }
+>> -    for (i = 0; i < config->hpd_clk_cnt; i++) {
+>> -        struct clk *clk;
+>> -
+>> -        clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
+>> -        if (IS_ERR(clk)) {
+>> -            ret = PTR_ERR(clk);
+>> -            DRM_DEV_ERROR(&pdev->dev, "failed to get hpd clk: %s 
+>> (%d)\n",
+>> -                    config->hpd_clk_names[i], ret);
+>> -            goto fail;
+>> -        }
+>> -
+>> -        hdmi->hpd_clks[i] = clk;
+>> -    }
+>> -
+>> -    hdmi->pwr_clks = devm_kcalloc(&pdev->dev,
+>> -                      config->pwr_clk_cnt,
+>> -                      sizeof(hdmi->pwr_clks[0]),
+>> -                      GFP_KERNEL);
+>> -    if (!hdmi->pwr_clks) {
+>> -        ret = -ENOMEM;
+>> -        goto fail;
+>> -    }
+>> -    for (i = 0; i < config->pwr_clk_cnt; i++) {
+>> -        struct clk *clk;
+>> -
+>> -        clk = msm_clk_get(pdev, config->pwr_clk_names[i]);
+>> -        if (IS_ERR(clk)) {
+>> -            ret = PTR_ERR(clk);
+>> -            DRM_DEV_ERROR(&pdev->dev, "failed to get pwr clk: %s 
+>> (%d)\n",
+>> -                    config->pwr_clk_names[i], ret);
+>> -            goto fail;
+>> -        }
+>> -
+>> -        hdmi->pwr_clks[i] = clk;
+>> -    }
+>> -
+>> -    hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", 
+>> GPIOD_IN);
+>> -    /* This will catch e.g. -EPROBE_DEFER */
+>> -    if (IS_ERR(hdmi->hpd_gpiod)) {
+>> -        ret = PTR_ERR(hdmi->hpd_gpiod);
+>> -        DRM_DEV_ERROR(&pdev->dev, "failed to get hpd gpio: (%d)\n", 
+>> ret);
+>> -        goto fail;
+>> -    }
+>> -
+>> -    if (!hdmi->hpd_gpiod)
+>> -        DBG("failed to get HPD gpio");
+>> -
+>> -    if (hdmi->hpd_gpiod)
+>> -        gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
+>> -
+>> -    devm_pm_runtime_enable(&pdev->dev);
+>> +    struct platform_device *pdev = hdmi->pdev;
+>> +    int ret;
+> 
+> What about the rest of the msm_hdmi_init() function?
+> 
+> msm_hdmi_i2c_init, msm_hdmi_get_phy and msm_hdmi_hdcp_init have been 
+> left behind. Any reason for that?
 
-On Wed, 24 Aug 2022 17:45:06 +0000
-Simon Ser <contact@emersion.fr> wrote:
+msm_hdmi_i2c_init() allocates new adapter, so it should be part of bind().
 
-> Document flags accepted by the page-flip and atomic IOCTLs.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->  include/uapi/drm/drm_mode.h | 44 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 43 insertions(+), 1 deletion(-)
->=20
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index fa953309d9ce..e1b04ffd54c3 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -935,12 +935,30 @@ struct hdr_output_metadata {
->  	};
->  };
-> =20
-> +/**
-> + * DRM_MODE_PAGE_FLIP_EVENT
-> + *
-> + * Request that the kernel sends back a vblank event (see
-> + * struct drm_event_vblank) when the page-flip is done.
+msm_hdmi_hdcp_init() just allocates a chunk of memory (other actions are 
+infallible). Also I did not want to move a piece of code that I can not 
+really test.
 
-...with type =3D DRM_EVENT_FLIP_COMPLETE?
+As for the msm_hdmi_get_phy(), I don't remember why I didn't move it. 
+But you are right, it makes sense to move it. I'll check it for v2.
 
-This was a bit new to me, because libdrm abstracts vblank and pageflip
-events into different APIs.
+> 
+> 
+>>       hdmi->workq = alloc_ordered_workqueue("msm_hdmi", 0);
 
-> + */
->  #define DRM_MODE_PAGE_FLIP_EVENT 0x01
-> +/**
-> + * DRM_MODE_PAGE_FLIP_ASYNC
-> + *
-> + * Request that the page-flip is performed as soon as possible, ie. with=
- no
-> + * delay due to waiting for vblank. This may cause tearing to be visible=
- on
-> + * the screen.
+-- 
+With best wishes
+Dmitry
 
-Btw. does the kernel fail the flip if the driver does not support async?
-Or does it silently fall back to sync flip?
-Asking for both legacy and atomic APIs.
-
-> + */
->  #define DRM_MODE_PAGE_FLIP_ASYNC 0x02
->  #define DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE 0x4
->  #define DRM_MODE_PAGE_FLIP_TARGET_RELATIVE 0x8
->  #define DRM_MODE_PAGE_FLIP_TARGET (DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE | \
->  				   DRM_MODE_PAGE_FLIP_TARGET_RELATIVE)
-> +/**
-> + * DRM_MODE_PAGE_FLIP_FLAGS
-> + *
-> + * Bitmask of flags suitable for &drm_mode_crtc_page_flip_target.flags.
-> + */
->  #define DRM_MODE_PAGE_FLIP_FLAGS (DRM_MODE_PAGE_FLIP_EVENT | \
->  				  DRM_MODE_PAGE_FLIP_ASYNC | \
->  				  DRM_MODE_PAGE_FLIP_TARGET)
-> @@ -1034,11 +1052,35 @@ struct drm_mode_destroy_dumb {
->  	__u32 handle;
->  };
-> =20
-> -/* page-flip flags are valid, plus: */
-> +/**
-> + * DRM_MODE_ATOMIC_TEST_ONLY
-> + *
-> + * Do not apply the atomic commit, instead check whether the hardware su=
-pports
-> + * this configuration.
-> + *
-> + * See drm_mode_config_funcs.atomic_check for more details on test-only
-> + * commits.
-> + */
->  #define DRM_MODE_ATOMIC_TEST_ONLY 0x0100
-> +/**
-> + * DRM_MODE_ATOMIC_NONBLOCK
-> + *
-> + * Do not block while applying the atomic commit.
-
-Maybe add something like:
-
-	The atomic commit ioctl returns immediately instead of waiting
-	for the changes to be applied in hardware.
-
-> + */
->  #define DRM_MODE_ATOMIC_NONBLOCK  0x0200
-> +/**
-> + * DRM_MODE_ATOMIC_ALLOW_MODESET
-> + *
-> + * Allow the update to result in visible artifacts such as a black scree=
-n.
-
-Maybe add:
-
-	...temporary or transient visible artifacts while the update is
-	being applied. Applying the update may also take significantly
-	more time than a page flip. The visual artifacts will not
-	appear after the update is completed.
-
-	This flag must be set when the KMS update might cause visible
-	artifacts. Without this flag such KMS update will return EINVAL
-	error. What kind of updates may cause visible artifacts depends
-	on the driver and the hardware. Userspace that needs to know
-	beforehand if an update might cause visible artifacts can use
-	DRM_MODE_ATOMIC_TEST_ONLY without DRM_MODE_ATOMIC_ALLOW_MODESET
-	to see if it fails.
-
-	Visual artifacts are guaranteed to not appear when this flag is
-	not set.
-
-That "artifacts will not appear after the update is completed" is a bit
-awkward, because when this commit completes and triggers the completion
-event (if requested), the visual artifacts might still be on screen, but
-as soon as the scanout cycle that just started finishes, all artifacts
-are gone for good. Isn't that how it works?
-
-Or does the kernel wait with the completion event until a good picture
-has been fully scanned out at least once? I'd expect not.
-
-> + */
->  #define DRM_MODE_ATOMIC_ALLOW_MODESET 0x0400
-> =20
-> +/**
-> + * DRM_MODE_ATOMIC_FLAGS
-> + *
-> + * Bitfield of flags accepted by the &DRM_IOCTL_MODE_ATOMIC IOCTL in
-> + * &drm_mode_atomic.flags.
-> + */
->  #define DRM_MODE_ATOMIC_FLAGS (\
->  		DRM_MODE_PAGE_FLIP_EVENT |\
->  		DRM_MODE_PAGE_FLIP_ASYNC |\
-
-
-Thanks,
-pq
-
---Sig_/gLzFvEdpXoaCkEl/fWNC85s
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmMIiiMACgkQI1/ltBGq
-qqfS3Q//ZFCpH++GL5cFcRiDaJwJEVQYw1bJ77Ps/UE364yC2I9O4zTHUSm8xKgZ
-Y94lDnKvd8mLr7DCuO0XcbzL6s516ehSuqZoOrzdkMbopufV2A8C5sHZQutwigz6
-37lMMv4hPsMzbyZna6ASHQSy+1FfXoOmx7J3mjYhyMW8TNRa+SEXxT/UAPrWIZ18
-drtLKnfgi1AISVV9jCQu26EXVBRntB6jkZZucFzE+HBDEx1sjG+NGeY7gI3Xho0j
-Wz5gmryvwifuzzehq3ybrEMpyIbohdw9tvJN/pGJim5qKtefskYZZCPzsAZT2aMM
-SEMegX5Y7+b1Hih6B6cHrZerG6dYBu/x2QUXoVAAsCEa9RV4nk+BQjj6yxig8rPa
-qUOmO4vumV/UZ+A2u8p8NlohGMwiaaHlwa62ByjGkkR5787amw3phzFH0mvpA8Y8
-eyOKSiIdmi5Pz2IdV6/eCIlH2kQWkJ4it9dXQjQIVzwehS9g2Iaiv/elcs61/Kt0
-6Lqc66W2hZ51fZfVmaUu795ErP2iofI7sq9ShQIkos9xMwGV12AXaoIhn3+g/yHa
-VNPp8VT5I+cUbIh5RfY+/H1XqWVJVAtcGGL6+Gimrygtru9FwcKSp9/Mr4TTOomV
-wVOgQd6rnioQ6PaJlVK255ZiqsEn+dHd7Yd41TnHdh2SSy2PmNI=
-=gunC
------END PGP SIGNATURE-----
-
---Sig_/gLzFvEdpXoaCkEl/fWNC85s--
