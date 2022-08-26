@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5A35A26FE
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 13:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD62F5A270C
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 13:47:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BACAA10E0AC;
-	Fri, 26 Aug 2022 11:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9171810E622;
+	Fri, 26 Aug 2022 11:47:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA7110E0AC
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 11:43:11 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id bj12so2606369ejb.13
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 04:43:10 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64C0410E622
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 11:47:44 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id kk26so2635756ejc.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 04:47:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=gsShjHRfk1oeXhbIzNvUGv41+jelOVn6LeepzghgVhc=;
- b=y66fvpM6mrqJoSGMNOUuh8/jNAUR1UjVh1GbVfp532iGK3RhG5d3pM7Jj9bQ+lnefL
- R6n2L3gNzDy5eDLXId+bbuwc1Cu97Y4MhATKlxERGzv6CkQeuJyoQJIsXZ8s5V1oEPtp
- 6aKR8AcFw3npwDqPvLKq3g5k9qR6jk3JJ6vTblb6kDPvTkk/KMhCqODdTxqX8EbQoir2
- PO8/hJrH9T7PV9EiNvrH2q+otJn/QEHj+0LOrvEmy03mt7XdB97BWoREUkNLQ84jmfHK
- +ACQuqwyhYoRzRH2W4JrBMGWknvz9WE11tfeZIopFrdvz/OUFwip0Ug/FSEJMvGi1XIa
- chGw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=6I1saXwykcy6QayrIDGL5n32r08at8PoZmfVUTcYUCU=;
+ b=X2Fmrrv3asyl2W5nL1jiASlsERZ0mKPSNWIwo8PhVQ45WlvZUrFHDb7DPqb1185Mcs
+ 0z0o4jS394BMi+2ciyqOriJzpAK9hyPDkFdSJ+F4j/rWXNPZNbH8Gf++gfvDCQVEGhdh
+ inPE8COluT9LpiHfaQRCKs3roYaZF2h5piAg5xdW7HryQ5QQnfPnT7WsG0J3uPmeCSJ0
+ 51wdyeu4IXh9etE96mcyB4PYI1ykou3wh41TxquW8+FATgxjU5mCtCMio3g9oWQURMuf
+ wqnndLhihzxwQouxqndndmbqYwMTdMPqf5hGRnhuzfvPHxYCXibzrWis6BgU7xfbajvx
+ 5zhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=gsShjHRfk1oeXhbIzNvUGv41+jelOVn6LeepzghgVhc=;
- b=EPFguACG9ZgSjdCvPilsSxkIzOhi5wi61wXW9FDGNDL0DDk7I1JWuy0TBoIyQZyVTN
- dSBSIl9wJBVytbrR39u0ogQC4XOtfrKyIpagMzhJR1y8WbpTMRjAxEPInJpljjeIS7Z/
- l38bPmrMy2T+JIakF0CIvaA+oXRRYs44RRxL9K9IOXB8R6Z1vz1rPfqI+yV6tcbbMsEr
- RXE8aiWBoSxh4hwckbzWSeds/mWtUc7AkwPZeoHGGpyjbDdfidrTl1ycRU/Y9sasCWIY
- 658xaDe8WmRzwGuMTllie6okCYBA7lukeTYN/AmE0HKYwm4D5znG4xEOkJji9Unuxjt9
- v+OA==
-X-Gm-Message-State: ACgBeo2E+wam3LEfVymYoUAMbQs1u/PbX7y06MNsiX6vXn36eApFfmPI
- pOQ6RpIsPsxzkdc8PDigE0P+dy/ZXVKwtrXPFnfOPw==
-X-Google-Smtp-Source: AA6agR56gg8w5KxfHvPutKzL3hZkhLx++8yqikN5B6LKjSxqFmWvyJTzeHuMm+6e32LFnU+nvVfFauABKPr5Zn6hFnU=
-X-Received: by 2002:a17:906:478f:b0:73d:7919:b23 with SMTP id
- cw15-20020a170906478f00b0073d79190b23mr4886670ejc.690.1661514189603; Fri, 26
- Aug 2022 04:43:09 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=6I1saXwykcy6QayrIDGL5n32r08at8PoZmfVUTcYUCU=;
+ b=0m5RyRc+8ri246EYAo1SbkQq3U6dNUwbrjjMDrWcq7w6uw4nybV8cMofb9TMwr1YXj
+ QxfFRTYTySIC0MC+ESFOOGDkpUz0OamXTX0+OsUAHR8I6XfMhGhsuHxCDXa66Q/TKRt7
+ h02xWXH1Nj3fuAtCYBuMM97WbJUoYccfA4W8P6IVlmaHAdaK6LF2mpKxOsQSlAyzVEl7
+ hCJfjjmvxnbrb363Qthyz3oSOuR8air6rOlY5t6tD6Ta7GQOGfGOfCJ2Jz4QPIu8gnTf
+ D21r5Nxwu8vf6ZtcTnoIMT9oEjre6V4doSDEYFZy6cIRTB/+DQRAYgKSbe/RFhR4fLWI
+ pPhw==
+X-Gm-Message-State: ACgBeo0MYK2HZWIuKgXAwURb53lHr6UaU5wFkSxLypXo7Cm7Ek5cZpc0
+ mjpYoeEkvkU8ZqGfsgqzwf2q7FhKuIZRTUBkUHhopQ==
+X-Google-Smtp-Source: AA6agR4b4g6N1PbpW7cvmvO/x0YA2aTRLqfpsYqXh165oRYCKTU2oImycDVfMp2rZsEx3rrMZIY2UqLFUuMUPdk0jWA=
+X-Received: by 2002:a17:906:58c8:b0:6fe:91d5:18d2 with SMTP id
+ e8-20020a17090658c800b006fe91d518d2mr5381175ejs.190.1661514462901; Fri, 26
+ Aug 2022 04:47:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220823004227.10820-1-rdunlap@infradead.org>
-In-Reply-To: <20220823004227.10820-1-rdunlap@infradead.org>
+References: <20220804114105.41326-1-wangborong@cdjrlc.com>
+In-Reply-To: <20220804114105.41326-1-wangborong@cdjrlc.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 26 Aug 2022 13:42:58 +0200
-Message-ID: <CACRpkdZGkKXFtdNQGn6CZvh0xArtoWaSGGQHdihifLmiHyzszg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/panel: use 'select' for Ili9341 panel driver
- helpers
-To: Randy Dunlap <rdunlap@infradead.org>
+Date: Fri, 26 Aug 2022 13:47:31 +0200
+Message-ID: <CACRpkdbh1W4E=aq=+pApiiBWhRyASuk4iHDEmu38xssht-4h0A@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: nt35510: Fix comment typo
+To: Jason Wang <wangborong@cdjrlc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,32 +63,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- David Airlie <airlied@linux.ie>, Dillon Min <dillon.minfei@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 23, 2022 at 2:42 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+On Thu, Aug 4, 2022 at 1:41 PM Jason Wang <wangborong@cdjrlc.com> wrote:
 
-> Use 'select' instead of 'depends on' for DRM helpers for the
-> Ilitek ILI9341 panel driver.
-> This is what is done in the vast majority of other cases and
-> this makes it possible to fix a build error with drm_mipi_dbi.
+> The double `the' is duplicated in the comment, remove one.
 >
-> Fixes: 5a04227326b0 ("drm/panel: Add ilitek ili9341 panel driver")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Dillon Min <dillon.minfei@gmail.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
 
 Patch applied to drm-misc-next
 
