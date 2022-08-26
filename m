@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678CC5A3121
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 23:36:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9745A312A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 23:36:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B4110E78B;
-	Fri, 26 Aug 2022 21:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37BF210E9ED;
+	Fri, 26 Aug 2022 21:35:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E467110E721;
- Fri, 26 Aug 2022 21:35:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42F9D10E721;
+ Fri, 26 Aug 2022 21:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661549740; x=1693085740;
+ t=1661549742; x=1693085742;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rB93n2Ea1l4UxNRRSWAKvyQF1xIZBsxiWS36+TpFFVM=;
- b=L87GtEPCFs/oybjSw9wekjy9MBDYgeCB3mYtsDQHYJT9dvPT/3xjvjvk
- Ua3zUlq9h6/uWa2D41m3k0Nnz7DJlnFR6XQzZemQk0f7SjygTNxyNTGux
- 9d89X9aqz5fAn8knb0DtSVAFJFwabzCb3eTs1xn0eljykgpfxEO5xB1p5
- OaY+xiVMppUER72ys0Sw1UjiDJrlpWHJxITS3cBgn3D6NTsSQN03L3VgD
- atfxBR+l+0C7oUlniXiYpBPO2N/TVPALKFozI5gc/KtTnu+vnjZJZiowL
- 5SrmCKS9D46VPvBM3qUbNN0k/14XdxmCgwOiLqNHcGAcEhAQveIH2aAUZ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="295375999"
-X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="295375999"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ bh=IVm5RoE2xRo26A3dFvEORqC6SKj0KFr9veRbhuMOuiw=;
+ b=RXguaAvECFe0hCBYqQEEIJzn0Zgo72Bam9B2f12IoTJ9M89fAkMQSBNN
+ W/uxQBLB5xu2CmVM6gtCEEVaM/QnVLet9CHqsmmvgl3DYRbFTG3+XpZBc
+ +Y6UjVaKTKydfLD0c7mdYsK8xzY6SpHbq1bknrSty8G4Qon3YxP8RXdF8
+ xg5kpJAOB5BMCmZFAAnhiIGTQyzKmLd68o0Vsgqq/oUYZqXMySD4gQFTl
+ qhozdKu1h9hIxFN5P3LWXeFlEiFR/BZQev8Iw9Vh5wbcvvw1mtNJH0/AW
+ fPswQyMWWloXlXxfG1oCXpSRRm2LmfDsYkC+XnkhDJhZ8BZLQOIOurpLW A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="295376011"
+X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="295376011"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2022 14:35:39 -0700
+ 26 Aug 2022 14:35:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="714115536"
+X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="613657894"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga002.fm.intel.com with SMTP; 26 Aug 2022 14:35:36 -0700
+ by fmsmga007.fm.intel.com with SMTP; 26 Aug 2022 14:35:39 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Sat, 27 Aug 2022 00:35:36 +0300
+ Sat, 27 Aug 2022 00:35:39 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 10/11] drm/edid: Make version checks less convoluted
-Date: Sat, 27 Aug 2022 00:35:00 +0300
-Message-Id: <20220826213501.31490-11-ville.syrjala@linux.intel.com>
+Subject: [PATCH 11/11] drm/i915: Infer vrefresh range for eDP if the EDID
+ omits it
+Date: Sat, 27 Aug 2022 00:35:01 +0300
+Message-Id: <20220826213501.31490-12-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
 References: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
@@ -64,109 +65,84 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Get rid of the confusing version_greater() stuff and
-simply compare edid->revision directly everwhere. Half
-the places already did it this way, and since we actually
-reject any EDID with edid->version!=1 it's a perfectly
-sane thing to do.
+A bunch of machines seem to have eDP panels where the EDID
+indicates continuous frequency support but fails to actually
+include the range descirptor. This violates the EDID 1.4
+spec, but looks like the Windows driver just hacks around
+this by just assuming that the panel supports a continuous
+refresh rate range that covers all EDID reported modes.
 
+Do the same so that we get VRR support on these machines.
+
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6323
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 25 ++++++++-----------------
- 1 file changed, 8 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 45 +++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 0fe06e5fd6e0..e7f46260dfe7 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1572,15 +1572,6 @@ struct drm_edid {
- 	const struct edid *edid;
- };
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 8d1559323412..1f3e4824d316 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5207,6 +5207,49 @@ intel_edp_add_properties(struct intel_dp *intel_dp)
+ 						       fixed_mode->vdisplay);
+ }
  
--static bool version_greater(const struct drm_edid *drm_edid,
--			    u8 version, u8 revision)
--{
--	const struct edid *edid = drm_edid->edid;
--
--	return edid->version > version ||
--		(edid->version == version && edid->revision > revision);
--}
--
- static int edid_hfeeodb_extension_block_count(const struct edid *edid);
- 
- static int edid_hfeeodb_block_count(const struct edid *edid)
-@@ -3652,7 +3643,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
- 						  closure->drm_edid,
- 						  timing);
- 
--	if (!version_greater(closure->drm_edid, 1, 1))
-+	if (closure->drm_edid->edid->revision < 2)
- 		return; /* GTF not defined yet */
- 
- 	switch (range->flags) {
-@@ -3667,7 +3658,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
- 							  timing);
- 		break;
- 	case DRM_EDID_CVT_SUPPORT_FLAG:
--		if (!version_greater(closure->drm_edid, 1, 3))
-+		if (closure->drm_edid->edid->revision < 4)
- 			break;
- 
- 		closure->modes += drm_cvt_modes_for_range(closure->connector,
-@@ -3688,7 +3679,7 @@ static int add_inferred_modes(struct drm_connector *connector,
- 		.drm_edid = drm_edid,
- 	};
- 
--	if (version_greater(drm_edid, 1, 0))
-+	if (drm_edid->edid->revision >= 1)
- 		drm_for_each_detailed_block(drm_edid, do_inferred_modes, &closure);
- 
- 	return closure.modes;
-@@ -3765,7 +3756,7 @@ static int add_established_modes(struct drm_connector *connector,
- 		}
++/*
++ * Some VRR eDP panels violate the EDID spec and neglect
++ * to include the monitor range descriptor in the EDID.
++ * Cook up the VRR refresh rate limits based on the modes
++ * reported by the panel.
++ */
++static void
++intel_edp_infer_vrr_range(struct intel_connector *connector)
++{
++	struct drm_i915_private *i915 = to_i915(connector->base.dev);
++	struct drm_display_info *info = &connector->base.display_info;
++	const struct edid *edid = connector->edid;
++	const struct drm_display_mode *mode;
++
++	if (!HAS_VRR(i915))
++		return;
++
++	if (!edid || edid->revision < 4 ||
++	    !(edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ) ||
++	    info->vrr_range.min_vfreq || info->vrr_range.max_vfreq)
++		return;
++
++	if (list_empty(&connector->base.probed_modes))
++		return;
++
++	info->vrr_range.min_vfreq = ~0;
++	info->vrr_range.max_vfreq = 0;
++
++	list_for_each_entry(mode, &connector->base.probed_modes, head) {
++		int vrefresh = drm_mode_vrefresh(mode);
++
++		info->vrr_range.min_vfreq = min_t(int, vrefresh,
++						  info->vrr_range.min_vfreq);
++		info->vrr_range.max_vfreq = max_t(int, vrefresh,
++						  info->vrr_range.max_vfreq);
++	}
++
++	drm_dbg_kms(&i915->drm,
++		    "[CONNECTOR:%d:%s] does not report refresh rate range, assuming: %d Hz - %d Hz\n",
++		    connector->base.base.id, connector->base.name,
++		    info->vrr_range.min_vfreq, info->vrr_range.max_vfreq);
++}
++
+ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+ 				     struct intel_connector *intel_connector)
+ {
+@@ -5271,6 +5314,8 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
  	}
+ 	intel_connector->edid = edid;
  
--	if (version_greater(drm_edid, 1, 0))
-+	if (edid->revision >= 1)
- 		drm_for_each_detailed_block(drm_edid, do_established_modes,
- 					    &closure);
++	intel_edp_infer_vrr_range(intel_connector);
++
+ 	intel_bios_init_panel(dev_priv, &intel_connector->panel,
+ 			      encoder->devdata, IS_ERR(edid) ? NULL : edid);
  
-@@ -3820,7 +3811,7 @@ static int add_standard_modes(struct drm_connector *connector,
- 		}
- 	}
- 
--	if (version_greater(drm_edid, 1, 0))
-+	if (drm_edid->edid->revision >= 1)
- 		drm_for_each_detailed_block(drm_edid, do_standard_modes,
- 					    &closure);
- 
-@@ -3900,7 +3891,7 @@ add_cvt_modes(struct drm_connector *connector, const struct drm_edid *drm_edid)
- 		.drm_edid = drm_edid,
- 	};
- 
--	if (version_greater(drm_edid, 1, 2))
-+	if (drm_edid->edid->revision >= 3)
- 		drm_for_each_detailed_block(drm_edid, do_cvt_mode, &closure);
- 
- 	/* XXX should also look for CVT codes in VTB blocks */
-@@ -3955,7 +3946,7 @@ static int add_detailed_modes(struct drm_connector *connector,
- 		.quirks = quirks,
- 	};
- 
--	if (version_greater(drm_edid, 1, 3))
-+	if (drm_edid->edid->revision >= 4)
- 		closure.preferred = true; /* first detailed timing is always preferred */
- 	else
- 		closure.preferred =
-@@ -6144,7 +6135,7 @@ static void drm_get_vrr_range(struct drm_connector *connector,
- 		.drm_edid = drm_edid,
- 	};
- 
--	if (!version_greater(drm_edid, 1, 3))
-+	if (drm_edid->edid->revision < 4)
- 		return;
- 
- 	if (!(drm_edid->edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ))
 -- 
 2.35.1
 
