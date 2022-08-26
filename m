@@ -2,71 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9FE5A294D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 16:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A8D5A298D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 16:31:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B36BD10E927;
-	Fri, 26 Aug 2022 14:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0396410E943;
+	Fri, 26 Aug 2022 14:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C33F10E927
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 14:25:13 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id d8so2253144lfq.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 07:25:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=06T9wTlCHBAEXY2GEb3qtwxCsT7B2RAGjEVPlOQCqks=;
- b=ZwE10iRG6CbbaA/6sykl/gq+h+IcnIMa5gJPDRkX0gHTE4GrnN6lsCgA/VqoB9fauZ
- EVxr4jMb3a+Jl9Q9Na57YjR0rlWC7QVjC7PncqtYGqV1ZeVkTuOTPQdmqezjHE4qh1hE
- aIy8iWkcPMJQBcnzQaoAFVj1WS0IrjBHinOo5jD0HnMIZA4TUMu1nCCtBNHqNIZKiMCT
- Cy+fwM/H00QTIFa2yIRv+zxStjTIYyDJ5lRLb9z7qGhaS6b5zE2uc0PUP18MLzKtgeTt
- pbGu88qICKMttQjFO1MXEX7nK740RIpeymtSzVUwJngqAgkhrYGFdBnh01LsMvq15vWD
- l4zA==
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C61C10E93F;
+ Fri, 26 Aug 2022 14:31:46 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ u3-20020a4ab5c3000000b0044b125e5d9eso301232ooo.12; 
+ Fri, 26 Aug 2022 07:31:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=ozDTceTfUzqIFpyT0YcSUK9TplSXxX9G3oavml2m3j4=;
+ b=MlmxpO+iBvw0GkojD3IajC7FwAea3Z4+dChqSX7MMC1gPHSTDD3uDn2GDhz4XmISOK
+ 3z0cXkAX0N93LG91xvrnQMJAug891CRdWbwFEeQi/1R3fBtAMfbd5GH05QdURjj9ZGrH
+ K3QivdQF9NBwEwus7jQmYS2KUjl97h6BJfQ9U8GCydz5QD1LQC+l6tAtc24HB0QK9bq6
+ 1XkDfj81aa80ybSjCdaajXwr6gPgNpEwCGy81wJg8FiBkQq5PO6KhjFGEvHZmFQpeTvI
+ M71BdGp0dqtziYGJVlzEwDYQR30M61M598G6QhX4GwYhYsSQbxsHbOv8cuy0S/lk+Yqq
+ Farg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=06T9wTlCHBAEXY2GEb3qtwxCsT7B2RAGjEVPlOQCqks=;
- b=xuIUgvcYLQZa8Yi2RTa7zUdNccZVgtiGbKMUF6VVobogyMBAWmnm+yE6je1nxTS93K
- rvQ0ViC86esHdJLw+qb0cGIIVWSKjOwFl5TYzPi527PcR+MFyFgUEQ7VRD78OokHWKNL
- Qsddbr0vNIcJyXVjQmhw2E/ee+gJ8iJZJC4TeW1pzIQhCcYPH5Bs3WeacQm8QiiMmvGr
- eJxQt+jXzikqlfOX7D0SIrL0+lHKaL9yZYL91Hqdss15qUuOJZ0iE0g3FBuiPcrPgqVm
- bfFAAtTDrpyZo7OT2sd+sck1tKBRyxV0wKSG9Qjefwq0eTEMbhI4tP/Jux/+zu0cQkQy
- 4okQ==
-X-Gm-Message-State: ACgBeo21FGqepsRP/GY7NrUSZbYQc404kVqG7WgXslEkx5WjhVPDucZ4
- o6EueJdtuRfcktBl9wK0goW2+w==
-X-Google-Smtp-Source: AA6agR5dy+Gw8ohowBYNiJa6W/b7Gi3/F4l2mDhs2M3US0iGXtl48LOKo978070UI5a03H4IhoIFMQ==
-X-Received: by 2002:a05:6512:1096:b0:492:ca89:a38d with SMTP id
- j22-20020a056512109600b00492ca89a38dmr2868202lfg.152.1661523911767; 
- Fri, 26 Aug 2022 07:25:11 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- q14-20020ac246ee000000b0048ad80a6d07sm391894lfo.170.2022.08.26.07.25.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 07:25:11 -0700 (PDT)
-Message-ID: <6474b61e-69d8-dbcb-f638-7729ec3dee31@linaro.org>
-Date: Fri, 26 Aug 2022 17:25:10 +0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=ozDTceTfUzqIFpyT0YcSUK9TplSXxX9G3oavml2m3j4=;
+ b=vKct0Ua9YX2EqL+z2Y9GtNv64GdfiL1XAA4eDTNY3rqZRbTWNFFGQE2teNak7kpWTn
+ HnfDcG1P6WxuTrHK34ORo13BzhxOLZfLL2d8+h/upBqM9p3rrIQmRQx8qybqx5vumtVt
+ EnopTdXF+VrgcWqUj+z2kb0UmfBbfc2AzNL2Url9AJv8Ka8OPXim3huPYwb3UlrbFh/Y
+ 1UX/xvOUFmoGGfRaW5DCs6AlYAiSLzbKhfTu9bj39txtK8aIIx1Sh8jF4GeedcKpClSl
+ tgrw//JOiWcQ8z7lsw+iZ7MIX+xF1d/JQKnw0Mr9FzqI4IdIzFk2QxfWuL+bQOhqVkS4
+ vmDA==
+X-Gm-Message-State: ACgBeo1a1h1bdW0bYATf6wfM18aoQ94OQm/mZc4U10kcxtsA2Ll8fUUy
+ 22nUZxcjjR6Uqro7FUukV+JdbHU8MR5QQcjsy84=
+X-Google-Smtp-Source: AA6agR6OTc8Q6hLSMcU85KNwKBqdNmESy8A+oSktMGR+afdi+apNZb18+AtL2ToJQ6vJJnhB63SgwQBw3XBFL3bEgNE=
+X-Received: by 2002:a4a:aa81:0:b0:44a:da30:274e with SMTP id
+ d1-20020a4aaa81000000b0044ada30274emr1330760oon.97.1661524305634; Fri, 26 Aug
+ 2022 07:31:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v3 3/3] arm64: dts: qcom: msm8996: add #clock-cells and XO
- clock to the HDMI PHY node
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220704161148.814510-1-dmitry.baryshkov@linaro.org>
- <20220704161148.814510-4-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220704161148.814510-4-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <YuwRyQYPCb1FD+mr@debian>
+ <CAHk-=whptVSSZL=wSUQJdRBeVfS+Xy_K4anQ7eQOky7XUrXhUQ@mail.gmail.com>
+ <CAK8P3a2bEaExue0OtNeLa2CVzBx-1dE9w2HZ2PAV5N8Ct9G=JQ@mail.gmail.com>
+ <YuwvfsztWaHvquwC@dev-arch.thelio-3990X>
+ <9fb73284-7572-5703-93d3-f83a43535baf@amd.com>
+ <CAK8P3a3Fv=_+GV9r=k4jP72zZOjJowL-GOue-51EhyVDBaEfEw@mail.gmail.com>
+ <Yu1bMqL5tsbq1ojj@dev-arch.thelio-3990X>
+ <CAK8P3a3PAxkctN6AXOsoTBTFgwHhk7_OSYwJ4Rgk7Dbs+bc0Qw@mail.gmail.com>
+ <Yv5h0rb3AgTZLVJv@dev-arch.thelio-3990X>
+ <Ywf5ATPG7a/I0SLu@dev-arch.thelio-3990X>
+In-Reply-To: <Ywf5ATPG7a/I0SLu@dev-arch.thelio-3990X>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 26 Aug 2022 10:31:34 -0400
+Message-ID: <CADnq5_NmsnsoJqB8HZ-JQ9B4B+5ZBQ0hM+T-NDSu8xyp5tUVcw@mail.gmail.com>
+Subject: Re: mainline build failure for x86_64 allmodconfig with clang
+To: Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,52 +73,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org,
- Kishon Vijay Abraham I <kishon@ti.com>, freedreno@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@kernel.org>, clang-built-linux <llvm@lists.linux.dev>,
+ David Airlie <airlied@linux.ie>,
+ Linus Torvalds <torvalds@linux-foundation.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Sudip Mukherjee \(Codethink\)" <sudipm.mukherjee@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/07/2022 19:11, Dmitry Baryshkov wrote:
-> Add #clock-cells property to the HDMI PHY device node to let other nodes
-> resolve the hdmipll clock. While we are at it, also add the XO clock to
-> the device node.
-> 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Thu, Aug 25, 2022 at 6:34 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> Hi AMD folks,
+>
+> Top posting because it might not have been obvious but I was looking for
+> your feedback on this message (which can be viewed on lore.kernel.org if
+> you do not have the original [1]) so that we can try to get this fixed
+> in some way for 6.0/6.1. If my approach is not welcome, please consider
+> suggesting another one or looking to see if this is something you all
+> could look into.
 
-Bjorn, I'm picking the patches 1,2 into msm-next. Could you please pick 
-this patch into your dts-for-6.1?
+The patch looks good to me.  I was hoping Harry or Rodrigo could
+comment more since they are more familiar with this code and trying to
+keep it in sync with what we get from the hardware teams.
 
-> ---
->   arch/arm64/boot/dts/qcom/msm8996.dtsi | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/msm8996.dtsi b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-> index 25d6b26fab60..b72385ffecc6 100644
-> --- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-> @@ -1049,9 +1049,13 @@ hdmi_phy: hdmi-phy@9a0600 {
->   					    "hdmi_phy";
->   
->   				clocks = <&mmcc MDSS_AHB_CLK>,
-> -					 <&gcc GCC_HDMI_CLKREF_CLK>;
-> +					 <&gcc GCC_HDMI_CLKREF_CLK>,
-> +					 <&xo_board>;
->   				clock-names = "iface",
-> -					      "ref";
-> +					      "ref",
-> +					      "xo";
-> +
-> +				#clock-cells = <0>;
->   
->   				status = "disabled";
->   			};
+Alex
 
--- 
-With best wishes
-Dmitry
 
+>
+> [1]: https://lore.kernel.org/Yv5h0rb3AgTZLVJv@dev-arch.thelio-3990X/
+>
+> Cheers,
+> Nathan
+>
+> On Thu, Aug 18, 2022 at 08:59:14AM -0700, Nathan Chancellor wrote:
+> > Hi Arnd,
+> >
+> > Doubling back around to this now since I think this is the only thing
+> > breaking x86_64 allmodconfig with clang 11 through 15.
+> >
+> > On Fri, Aug 05, 2022 at 09:32:13PM +0200, Arnd Bergmann wrote:
+> > > On Fri, Aug 5, 2022 at 8:02 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> > > > On Fri, Aug 05, 2022 at 06:16:45PM +0200, Arnd Bergmann wrote:
+> > > > > On Fri, Aug 5, 2022 at 5:32 PM Harry Wentland <harry.wentland@amd.com> wrote:
+> > > > > While splitting out sub-functions can help reduce the maximum stack
+> > > > > usage, it seems that in this case it makes the actual problem worse:
+> > > > > I see 2168 bytes for the combined
+> > > > > dml32_ModeSupportAndSystemConfigurationFull(), but marking
+> > > > > mode_support_configuration() as noinline gives me 1992 bytes
+> > > > > for the outer function plus 384 bytes for the inner one. So it does
+> > > > > avoid the warning (barely), but not the problem that the warning tries
+> > > > > to point out.
+> > > >
+> > > > I haven't had a chance to take a look at splitting things up yet, would
+> > > > you recommend a different approach?
+> > >
+> > > Splitting up large functions can help when you have large local variables
+> > > that are used in different parts of the function, and the split gets the
+> > > compiler to reuse stack locations.
+> > >
+> > > I think in this particular function, the problem isn't actually local variables
+> > > but either pushing variables on the stack for argument passing,
+> > > or something that causes the compiler to run out of registers so it
+> > > has to spill registers to the stack.
+> > >
+> > > In either case, one has to actually look at the generated output
+> > > and then try to rearrange the codes so this does not happen.
+> > >
+> > > One thing to try would be to condense a function call like
+> > >
+> > >                 dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport(
+> > >
+> > > &v->dummy_vars.dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport,
+> > >                         mode_lib->vba.USRRetrainingRequiredFinal,
+> > >                         mode_lib->vba.UsesMALLForPStateChange,
+> > >
+> > > mode_lib->vba.PrefetchModePerState[mode_lib->vba.VoltageLevel][mode_lib->vba.maxMpcComb],
+> > >                         mode_lib->vba.NumberOfActiveSurfaces,
+> > >                         mode_lib->vba.MaxLineBufferLines,
+> > >                         mode_lib->vba.LineBufferSizeFinal,
+> > >                         mode_lib->vba.WritebackInterfaceBufferSize,
+> > >                         mode_lib->vba.DCFCLK,
+> > >                         mode_lib->vba.ReturnBW,
+> > >                         mode_lib->vba.SynchronizeTimingsFinal,
+> > >
+> > > mode_lib->vba.SynchronizeDRRDisplaysForUCLKPStateChangeFinal,
+> > >                         mode_lib->vba.DRRDisplay,
+> > >                         v->dpte_group_bytes,
+> > >                         v->meta_row_height,
+> > >                         v->meta_row_height_chroma,
+> > >
+> > > v->dummy_vars.DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation.mmSOCParameters,
+> > >                         mode_lib->vba.WritebackChunkSize,
+> > >                         mode_lib->vba.SOCCLK,
+> > >                         v->DCFCLKDeepSleep,
+> > >                         mode_lib->vba.DETBufferSizeY,
+> > >                         mode_lib->vba.DETBufferSizeC,
+> > >                         mode_lib->vba.SwathHeightY,
+> > >                         mode_lib->vba.SwathHeightC,
+> > >                         mode_lib->vba.LBBitPerPixel,
+> > >                         v->SwathWidthY,
+> > >                         v->SwathWidthC,
+> > >                         mode_lib->vba.HRatio,
+> > >                         mode_lib->vba.HRatioChroma,
+> > >                         mode_lib->vba.vtaps,
+> > >                         mode_lib->vba.VTAPsChroma,
+> > >                         mode_lib->vba.VRatio,
+> > >                         mode_lib->vba.VRatioChroma,
+> > >                         mode_lib->vba.HTotal,
+> > >                         mode_lib->vba.VTotal,
+> > >                         mode_lib->vba.VActive,
+> > >                         mode_lib->vba.PixelClock,
+> > >                         mode_lib->vba.BlendingAndTiming,
+> > >                         .... /* more arguments */);
+> > >
+> > > into calling conventions that take a pointer to 'mode_lib->vba' and another
+> > > one to 'v', so these are no longer passed on the stack individually.
+> >
+> > So I took a whack at reducing this function's number of parameters and
+> > ended up with the attached patch. I basically just removed any
+> > parameters that were identical between the two call sites and access them
+> > through the vba pointer, as you suggested.
+> >
+> > AMD folks, is this an acceptable approach? It didn't take a trivial
+> > amount of time so I want to make sure this is okay before I do it to
+> > more functions/files.
+> >
+> > Due to the potential size of these changes, I am a little weary of them
+> > going into 6.0; even though they should be a simple search and replace
+> > for the most part, it might be nice for them to have some decent soak
+> > time in -next. One solution would be to raise the warning limit for
+> > these files on 6.0 so that allmodconfig does not ship broken then reduce
+> > the limit for 6.1 once these patches have been applied.
+> >
+> > Additionally, I took a look at the stack usage across all compilers that
+> > the kernel supports and I thought it was kind of interesting that the
+> > usage really jumps from GCC 7 to 8, which I am guessing is a result of
+> > commit e8a170ff9a35 ("drm/amdgpu: enable -msse2 for GCC 7.1+ users").
+> > GCC 8 allmodconfig actually errors now too:
+> >
+> > https://lore.kernel.org/alpine.DEB.2.22.394.2208152006320.289321@ramsan.of.borg/
+> >
+> >           |-----------------------------------------------|-----------------------------------------------|-----------------------------------------------|
+> >           | dml30_ModeSupportAndSystemConfigurationFull() | dml31_ModeSupportAndSystemConfigurationFull() | dml32_ModeSupportAndSystemConfigurationFull() |
+> > |---------|-----------------------------------------------|-----------------------------------------------|-----------------------------------------------|
+> > | GCC 5   |                  1056 bytes                   |                   656 bytes                   |                  1040 bytes                   |
+> > | GCC 6   |                  1024 bytes                   |                   672 bytes                   |                  1056 bytes                   |
+> > | GCC 7   |                  1040 bytes                   |                   664 bytes                   |                  1056 bytes                   |
+> > | GCC 8   |                  1760 bytes                   |                  1608 bytes                   |                  2144 bytes                   |
+> > | GCC 9   |                  1664 bytes                   |                  1392 bytes                   |                  1960 bytes                   |
+> > | GCC 10  |                  1648 bytes                   |                  1368 bytes                   |                  1952 bytes                   |
+> > | GCC 11  |                  1680 bytes                   |                  1400 bytes                   |                  1952 bytes                   |
+> > | GCC 12  |                  1680 bytes                   |                  1400 bytes                   |                  1984 bytes                   |
+> > |---------|-----------------------------------------------|-----------------------------------------------|-----------------------------------------------|
+> > | LLVM 11 |                  2104 bytes                   |                  2056 bytes                   |                  2120 bytes                   |
+> > | LLVM 12 |                  2152 bytes                   |                  2200 bytes                   |                  2152 bytes                   |
+> > | LLVM 13 |                  2216 bytes                   |                  2248 bytes                   |                  2168 bytes                   |
+> > | LLVM 14 |                  2168 bytes                   |                  2184 bytes                   |                  2160 bytes                   |
+> > | LLVM 15 |                  2216 bytes                   |                  2184 bytes                   |                  2160 bytes                   |
+> > | LLVM 16 |                  2232 bytes                   |                  2216 bytes                   |                  2176 bytes                   |
+> > |---------|-----------------------------------------------|-----------------------------------------------|-----------------------------------------------|
+> >
+> > With the patch I have attached,
+> > dml32_ModeSupportAndSystemConfigurationFull() drops from 2176 to 1944
+> > for LLVM 16, which is obviously still not great but it at least avoids
+> > the warning.
+> >
+> > Cheers,
+> > Nathan
