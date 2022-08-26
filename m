@@ -1,65 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42075A29A3
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 16:36:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 375B25A29B0
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 16:40:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBD1110E941;
-	Fri, 26 Aug 2022 14:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF0510E961;
+	Fri, 26 Aug 2022 14:40:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00CAB10E941
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 14:36:30 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9C848B83129
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 14:36:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 68147C433C1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 14:36:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661524588;
- bh=t8pDpADBDXGtNnAV9PAVz11VGqhujf+RjXff2hfDeHk=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Rn7AZVvlllbcQxfsBjXXprwdN6kPcxDB3tbWIKtgW/vIc2akP7PVHEf4klKwcd8D6
- II46Ffz69ZbLEnaNRatoFfJqfAEMmh/eQv/OmWLDuftlVWZ8Zh0PZEREOIeQ2FUtUa
- GkU7hkiV92TbpsTOiu9k8JR1AyIIcR4Zw5YeC3FWFG9JHqHMf/NMuyuaPHUa/CtNDl
- PR+Xd5agVxpLUdb+F/Ym4qf/50InjRWrTr7SIRoR9PXhvHOnF0ihniaS18TP7my5nA
- 79A2ofETQ6XQshcBoRxPcYtWX765ZCvD9G3pwCLZnzLlgfmFXPvoQRR/rFdXgQqA4A
- YAKX/BLnX1K6g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 54666C433E4; Fri, 26 Aug 2022 14:36:28 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215443] [radeon] BUG: Unable to handle kernel data access on
- read at 0xc007ffffffff9130, Oops: Kernel access of bad area, sig: 11 [#1]
-Date: Fri, 26 Aug 2022 14:36:28 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Platform Specific/Hardware
-X-Bugzilla-Component: PPC-64
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: OBSOLETE
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: platform_ppc-64@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-215443-2300-rbA9N6GJ7Q@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215443-2300@https.bugzilla.kernel.org/>
-References: <bug-215443-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4948410E953;
+ Fri, 26 Aug 2022 14:40:00 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-11c5505dba2so2254809fac.13; 
+ Fri, 26 Aug 2022 07:40:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=70ww/AExymzz+UmPMXjybg2d47V+uWPsEJH8066lTcc=;
+ b=lRZi6JQEWW28NXguTPAFUUbT3rzMb3LtOs31aag17uFs0UDOn7PzgDbKLiLzoWkI7K
+ l7H3zOQQvB0mXPl6/pkCXmT4VntwBk5QOazzr9f5XFtRvjz8RdxaNyazJRLt2J6/JOYF
+ OcH+6KrtZRQS7Q+QPbCiGbIi7Z+ksuya7muNNkFLiej6lb8v0eBZX6JgnE1XAhujmMIX
+ xkcnXBNDAcsSFlcHvSyG/RqduTlXp10y3AGAj688iWIXgaylFL5Lpx95gK1qXs5ho0OW
+ R9ClgfKOMR3m/8Gck4Etpo+LjiDW8OYSFPlbYWsYwlZ1GO9HFpMJT9pXN+Mfel4sizHp
+ U6Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=70ww/AExymzz+UmPMXjybg2d47V+uWPsEJH8066lTcc=;
+ b=UsdyOgqwM7pWqwlCMnROayEhu9kG8nszAB/aHY9LyX1I9EYLvOjTxHA6pal0UO+IRa
+ mTc1Y9JZ/zzjQ9skSWjxQd3ZvLr9eKl9C1FVfWPEZjSM7sDSsFHb1wIx9OXwRjHD8S10
+ GtpFc4hExFRSclDjVygb9akofi9063iOTeZgus7Tt5rvNH9FtSloyZz8/YS79ZqesfVD
+ 0JCUpOOk4WF3YEsNC0s5xsFJDNqi+asbYYlIWRJrMHIx1pm7C18iAdW91GwmLi35r6mH
+ RuqOLT88RWzs92IilYBS/d1NcyiVTVE4R5Nlawbe4qijT4GygdSJesib4YsS6QUmE64c
+ OsOA==
+X-Gm-Message-State: ACgBeo3pbF+cRADDpmvfCb7l6VYrsCAxzT/Ptq4/8L5ctalaNbapHG7/
+ 6I2TsxKenj7Ku17VxgaGLS9eKAFEnLdib8rlFiM=
+X-Google-Smtp-Source: AA6agR4KrRs0GS9IrOyc07r6pFPcUVxtZ2fY9AMM5V9/YS4gt0YzIxAxe3FcAjFc8bRFU3D/QsMhnhJyG4BksW+7YBU=
+X-Received: by 2002:a05:6870:3484:b0:11e:4465:3d9b with SMTP id
+ n4-20020a056870348400b0011e44653d9bmr2113943oah.46.1661524799138; Fri, 26 Aug
+ 2022 07:39:59 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220824150834.427572-1-contact@emersion.fr>
+ <20220824150834.427572-5-contact@emersion.fr>
+ <CADnq5_MX0Qh7v-Wy1nBhMEWT9bhmQn4W-2Wo97CZgKcby1Xc+w@mail.gmail.com>
+ <A_ZL55UlxqGGQnHrxTxvFZMCn1HkWbIuaZvtrOnir7mO6YCY8hhyYwjwKjv79SEEBLqbosVtxx0rVeCTso1RktRjY3ECNyLssw77of_D2sM=@emersion.fr>
+In-Reply-To: <A_ZL55UlxqGGQnHrxTxvFZMCn1HkWbIuaZvtrOnir7mO6YCY8hhyYwjwKjv79SEEBLqbosVtxx0rVeCTso1RktRjY3ECNyLssw77of_D2sM=@emersion.fr>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 26 Aug 2022 10:39:47 -0400
+Message-ID: <CADnq5_NMHWGOdW5Gfr4wK6o5j7PnYKW57Gg6UbbUJfnONdHY1w@mail.gmail.com>
+Subject: Re: [PATCH 4/4] amd/display: indicate support for atomic async
+ page-flips on DCN
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,24 +68,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: daniel.vetter@ffwll.ch, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, hwentlan@amd.com,
+ nicholas.kazlauskas@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215443
+On Fri, Aug 26, 2022 at 3:38 AM Simon Ser <contact@emersion.fr> wrote:
+>
+> On Thursday, August 25th, 2022 at 20:22, Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> > On Wed, Aug 24, 2022 at 11:09 AM Simon Ser contact@emersion.fr wrote:
+> >
+> > > amdgpu_dm_commit_planes already sets the flip_immediate flag for
+> > > async page-flips. This flag is used to set the UNP_FLIP_CONTROL
+> > > register. Thus, no additional change is required to handle async
+> > > page-flips with the atomic uAPI.
+> > >
+> > > Note, async page-flips are still unsupported on DCE with the atomic
+> > > uAPI. The mode_set_base callbacks unconditionally set the
+> > > GRPH_SURFACE_UPDATE_H_RETRACE_EN field of the GRPH_FLIP_CONTROL
+> > > register to 0, which disables async page-flips.
+> >
+> > Can you elaborate a bit on this? We don't use hsync flips at all, even
+> > in non-atomic, as far as I recall. The hardware can also do immediate
+> > flips which take effect as soon as you update the base address
+> > register which is what we use for async updates today IIRC.
+>
+> When user-space performs a page-flip with the legacy KMS uAPI on DCE
+> ASICs, amdgpu_display_crtc_page_flip_target() is called. This function
+> checks for the DRM_MODE_PAGE_FLIP_ASYNC flag, sets work->async, which
+> is then passed as an argument to adev->mode_info.funcs->page_flip() by
+> amdgpu_display_flip_work_func(). Looking at an implementation, for
+> instance dce_v10_0_page_flip(), the async flag is used to set that
+> GRPH_FLIP_CONTROL register:
+>
+>         /* flip at hsync for async, default is vsync */
+>         tmp = RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
+>         tmp = REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
+>                             GRPH_SURFACE_UPDATE_H_RETRACE_EN, async ? 1 : 0);
+>         WREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset, tmp);
+>
+> I don't know how the hardware works, but I assumed it would be
+> necessary to do the same in the atomic uAPI code-path as well. However
+> dce_v10_0_crtc_do_set_base() has this code block:
+>
+>         /* Make sure surface address is updated at vertical blank rather than
+>          * horizontal blank
+>          */
+>         tmp = RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
+>         tmp = REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
+>                             GRPH_SURFACE_UPDATE_H_RETRACE_EN, 0);
+>         WREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset, tmp);
+>
+> Which unconditionally sets that same register.
+>
+> Either way, it's not a very big deal for this patch series, DCE and DCN
+> are separate, DCE can be sorted out separately.
+>
+> Am I completely mistaken here?
 
-Erhard F. (erhard_f@mailbox.org) changed:
+I checked the code and it looks like only DCE11 and newer support
+immediate flips.  E.g.,
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |OBSOLETE
+        /* flip immediate for async, default is vsync */
+        tmp = RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
+        tmp = REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
+                            GRPH_SURFACE_UPDATE_IMMEDIATE_EN, async ? 1 : 0);
 
---- Comment #4 from Erhard F. (erhard_f@mailbox.org) ---
-Have not seen this since quite a few stable kernel releases on the same
-hardware. I think it's save to close here.
+in dce_v11_0.c.
 
---=20
-You may reply to this email to add a comment.
+Either way, the non-DC display code is not atomic anyway, so I don't
+think this is an issue.  We still support async flips via the
+non-atomic API.  I agree this is not blocking for the patch series,
+just thinking out loud mostly.
 
-You are receiving this mail because:
-You are on the CC list for the bug.=
+Alex
+
+>
+> Thanks,
+>
+> Simon
