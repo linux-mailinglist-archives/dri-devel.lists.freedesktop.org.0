@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10B65A21BB
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 09:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A055C5A21D7
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 09:28:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C69D10E6C4;
-	Fri, 26 Aug 2022 07:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6AA10E6D0;
+	Fri, 26 Aug 2022 07:28:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1447310E6C4;
- Fri, 26 Aug 2022 07:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661498697; x=1693034697;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=tNrDF+VW6PM6JHNCHYVv4gQo1VKsEdTZPVz2k1b5zZU=;
- b=g+HU8KFPE4oFSo/IV+VOcazFWl9hXCLYuD56tIJ65Hm/3stwkYG8xmLO
- RBYSBpfqtJP4EKEwoyi55yGK/mSMdOFH6ff99l52HiVIs8vWnONKeofFy
- wPBEUO4ekGpMwcjH5D9ANeUOhUVUHoegO7T9Q1p1MB0/uP29nimwkaz2k
- k1Yer/vsgdxz2Hl/IgYvSj7yT6OSNuY88S8thA5SibO5RbeW83z3P0UKz
- qGx5gYvUEWDSYqq/vAP4r5P1t1CUhNeEMpgZefw8dmEEULbdcvARX8U9j
- hUk+ttejsp+06YVDZTVQ/LYcv6F4LPInZiNQVA8/S91n/p2dbriVlcSQH A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="295224963"
-X-IronPort-AV: E=Sophos;i="5.93,264,1654585200"; d="scan'208";a="295224963"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2022 00:24:53 -0700
-X-IronPort-AV: E=Sophos;i="5.93,264,1654585200"; d="scan'208";a="699755947"
-Received: from jaoriord-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.12.186])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2022 00:24:51 -0700
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Intel graphics driver community testing & development
- <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/i915/guc: Remove log size module parameters
-Date: Fri, 26 Aug 2022 10:24:38 +0300
-Message-Id: <20220826072438.147598-1-joonas.lahtinen@linux.intel.com>
-X-Mailer: git-send-email 2.37.2
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20E5310E6D0;
+ Fri, 26 Aug 2022 07:28:27 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ r14-20020a17090a4dce00b001faa76931beso7288800pjl.1; 
+ Fri, 26 Aug 2022 00:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=jTAWiNo/omAtLMeXfYZgyB0/HAK6wszJreXqF/7S7wI=;
+ b=Mw00zfqC4T6VEtu20Rp2a+r5W186flt11PrO5MBPkuC9AKIvsEodr58v8llZfl2bcB
+ Ez9huPudWeNGj1CXK90QSezqvUwejBlxia2MO7ZEg5tFc+yPyKNrrXnPZZ372asAA06o
+ qfcOuFH2a7wCvxa5H78Y829Xlz7lftna7JXGqQR1Y/r94x3tJGTa+FODRpHCXoTl4Ek/
+ K/V3SgnxNr/TvRxmw5h/oddjS6JWNn5H27l78eLbhfs2O29FwgFMHQHHXc/yFamb+qrf
+ lT9q249MRU9opuU9/j5QUiUUIlInjxdJWSibgsrbYstcKCAeQX98M6a25iRJV999JWGq
+ 0l4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=jTAWiNo/omAtLMeXfYZgyB0/HAK6wszJreXqF/7S7wI=;
+ b=c3HZ+xcINIhBZxqpHOJIPMhh/Zv2UvyDgeHLxkHJJweytLMV+h4rk2GHMaUAQu6OzX
+ jJah0JlHKiBCf5bzbC9G11TNO/hU7jWZ5/WFm41BRYVkerZclv56qUYkTHo0wChDFvoW
+ nTHRliB3Mql4IZpMOIO3fcjxZ7Y1hoFVAvoeWYuw8FBRA95/xTjhBYTo+Q/pameZSStq
+ 9pcI74oMt1TJwms6wI6fpoEZe3ksLmR9H3IiuNNgndJt78eEzVsi6pQqaf74KNsBiQom
+ /Lf+btNSje2LtHy5jg2RJaFTnDq58d5lxDPwNPJ8DZJi9kN+An5TGNN6pRAbOjm4FSB+
+ IXoA==
+X-Gm-Message-State: ACgBeo1PxxiWh81r2bjrahRGr8Y7/g1enueyIMaauoPysIibZvOJOWjQ
+ 8lJQ7AbVJhwQ6Gkz8N8egaA=
+X-Google-Smtp-Source: AA6agR4deiMjaahtMRHx2xJWavsJbeXhXn9hPdI2v0yMOGZpprcfeXeHoJiPulIpm1tqBOm1x4+G7A==
+X-Received: by 2002:a17:902:db05:b0:172:f759:f989 with SMTP id
+ m5-20020a170902db0500b00172f759f989mr2660471plx.58.1661498907566; 
+ Fri, 26 Aug 2022 00:28:27 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id
+ d6-20020a17090a3b0600b001fae01779c8sm941014pjc.7.2022.08.26.00.28.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Aug 2022 00:28:27 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: ye.xingchen@zte.com.cn
+To: robdclark@gmail.com
+Subject: [PATCH linux-next] drm/msm/dsi: Remove the unneeded result variable
+Date: Fri, 26 Aug 2022 07:28:21 +0000
+Message-Id: <20220826072821.253150-1-ye.xingchen@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,94 +69,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: freedreno@lists.freedesktop.org, dianders@chromium.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, vkoul@kernel.org, laurent.pinchart@ideasonboard.com,
+ ye xingchen <ye.xingchen@zte.com.cn>, dmitry.baryshkov@linaro.org,
+ sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the module parameters for configuring GuC log size.
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-We should instead rely on tuning the defaults to be usable for
-reporting bugs.
+Return the value msm_dsi_phy_enable() directly instead of storing it in
+another redundant variable.
 
-Fixes: 8ad0152afb1b ("drm/i915/guc: Make GuC log sizes runtime configurable")
-Signed-off-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c |  7 +++----
- drivers/gpu/drm/i915/i915_params.c         | 12 ------------
- drivers/gpu/drm/i915/i915_params.h         |  3 ---
- 3 files changed, 3 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-index 3a2243b4ac9f..909e5079657b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-@@ -79,9 +79,9 @@ static void _guc_log_init_sizes(struct intel_guc_log *log)
- 		}
- 	};
- 	s32 params[GUC_LOG_SECTIONS_LIMIT] = {
--		i915->params.guc_log_size_crash,
--		i915->params.guc_log_size_debug,
--		i915->params.guc_log_size_capture,
-+		GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE,
-+		GUC_LOG_DEFAULT_DEBUG_BUFFER_SIZE,
-+		GUC_LOG_DEFAULT_CAPTURE_BUFFER_SIZE,
- 	};
- 	int i;
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index cb84d185d73a..0b516a04945f 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -141,14 +141,11 @@ static int enable_phy(struct msm_dsi *msm_dsi,
+ 		      struct msm_dsi_phy_shared_timings *shared_timings)
+ {
+ 	struct msm_dsi_phy_clk_request clk_req;
+-	int ret;
+ 	bool is_bonded_dsi = IS_BONDED_DSI();
  
-@@ -90,7 +90,6 @@ static void _guc_log_init_sizes(struct intel_guc_log *log)
+ 	msm_dsi_host_get_phy_clk_req(msm_dsi->host, &clk_req, is_bonded_dsi);
  
- 	/* If debug size > 1MB then bump default crash size to keep the same units */
- 	if (log->sizes[GUC_LOG_SECTIONS_DEBUG].bytes >= SZ_1M &&
--	    (i915->params.guc_log_size_crash == -1) &&
- 	    GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE < SZ_1M)
- 		log->sizes[GUC_LOG_SECTIONS_CRASH].bytes = SZ_1M;
- 
-diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-index 06ca5b822111..6fc475a5db61 100644
---- a/drivers/gpu/drm/i915/i915_params.c
-+++ b/drivers/gpu/drm/i915/i915_params.c
-@@ -171,18 +171,6 @@ i915_param_named(guc_log_level, int, 0400,
- 	"GuC firmware logging level. Requires GuC to be loaded. "
- 	"(-1=auto [default], 0=disable, 1..4=enable with verbosity min..max)");
- 
--i915_param_named(guc_log_size_crash, int, 0400,
--	"GuC firmware logging buffer size for crash dumps (in MB)"
--	"(-1=auto [default], NB: max = 4, other restrictions apply)");
+-	ret = msm_dsi_phy_enable(msm_dsi->phy, &clk_req, shared_timings);
 -
--i915_param_named(guc_log_size_debug, int, 0400,
--	"GuC firmware logging buffer size for debug logs (in MB)"
--	"(-1=auto [default], NB: max = 16, other restrictions apply)");
--
--i915_param_named(guc_log_size_capture, int, 0400,
--	"GuC error capture register dump buffer size (in MB)"
--	"(-1=auto [default], NB: max = 4, other restrictions apply)");
--
- i915_param_named_unsafe(guc_firmware_path, charp, 0400,
- 	"GuC firmware path to use instead of the default one");
+-	return ret;
++	return msm_dsi_phy_enable(msm_dsi->phy, &clk_req, shared_timings);
+ }
  
-diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-index f684d1ab8707..2733cb6cfe09 100644
---- a/drivers/gpu/drm/i915/i915_params.h
-+++ b/drivers/gpu/drm/i915/i915_params.h
-@@ -61,9 +61,6 @@ struct drm_printer;
- 	param(int, invert_brightness, 0, 0600) \
- 	param(int, enable_guc, -1, 0400) \
- 	param(int, guc_log_level, -1, 0400) \
--	param(int, guc_log_size_crash, -1, 0400) \
--	param(int, guc_log_size_debug, -1, 0400) \
--	param(int, guc_log_size_capture, -1, 0400) \
- 	param(char *, guc_firmware_path, NULL, 0400) \
- 	param(char *, huc_firmware_path, NULL, 0400) \
- 	param(char *, dmc_firmware_path, NULL, 0400) \
+ static int
 -- 
-2.37.2
-
+2.25.1
