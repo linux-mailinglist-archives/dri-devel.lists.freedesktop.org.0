@@ -2,42 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A585A2A26
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 16:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C60A5A2916
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 16:09:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1842C10E971;
-	Fri, 26 Aug 2022 14:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B2D10E799;
+	Fri, 26 Aug 2022 14:09:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAD0010E971
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 14:57:21 +0000 (UTC)
-Received: from ramsan.of.borg ([84.195.186.194])
- by laurent.telenet-ops.be with bizsmtp
- id CExG2800E4C55Sk01ExGiB; Fri, 26 Aug 2022 16:57:19 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1oRalo-002kip-10; Fri, 26 Aug 2022 16:57:16 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1oRZgQ-005y1H-Vu; Fri, 26 Aug 2022 15:47:38 +0200
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2] drm/fourcc: Add missing big-endian XRGB1555 and RGB565
- formats
-Date: Fri, 26 Aug 2022 15:47:37 +0200
-Message-Id: <6e9fb733354fbf6af1531095d9230bad802c064c.1661521401.git.geert@linux-m68k.org>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D45D210E860
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 14:09:05 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id s6so2126782lfo.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 07:09:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=/jvB3Zk9Ur35ndfTH3ClegVJp3L5YsswZJHu0HBwLYs=;
+ b=jQx3CjsoG4/KqyBTEu7I7zus+LfGm5o2i5DJwYB8PEnBnlqdKMQzoZvzit0d6HbeH0
+ 792OCLK+089fkSLzsDQuf2cforIA6vpukpmf76nehp/qDWBuiYMLjsmWpN7WNH5AxDdU
+ qpnOWvv9wKrOoyONFNZu8kA2YQFNeacvY52jZO1JOzAfRuPnJ64iqc/6Bj7UjCoJT6WC
+ zyeDGn0/ILk/Tj/GtHLoIKMB53JY16zqhRiRyTuqu7Y39WVoUVn4D7QLzoexl5+rPLhO
+ uOcCOqIghY4npZvkgBcYBxMGS4rUzVeEnIKhbPm0++/HPXlt1SnjdlVgM4xqrUkhK7kO
+ o9iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=/jvB3Zk9Ur35ndfTH3ClegVJp3L5YsswZJHu0HBwLYs=;
+ b=3CibOlQKSHajEG4MpaKfu4j6ci8bH1LuE6DqO8GuuxiAUvO26nAP/a8godSP+YC475
+ qGpmsfqMYacpJ4JDq4xq2XKZEFzQvgc2KoIpEUIL2Kv2L0YgO3T0aHbXpOugJd1FXufs
+ WexszJ8RUCE8t4g5maCEdZ+MAoSNrTlJrCMBL8LZBQ55kOLMLHvTnMCcWaq7nqdwnGrk
+ mNmHVRzBv+s2K38kmMT9DkLIF6TyIsmUMMBPQEVTxt06aTBOC0LYONBlzsEPnWMFM5Sh
+ 3WoOCkLWX6kAn8VxNx1r1jWwrI2ybk4UZgvIgW7Hzmt4gOk+zed0Hst9UamSh+oqRqQo
+ 9hKA==
+X-Gm-Message-State: ACgBeo1ip5Zt6TjRdGB3q7z+pOy78j38UmjfY9/UJqDIo7zz2xkBTfSr
+ TOgX5kkkjHZlz35FuqXDT7WtOw==
+X-Google-Smtp-Source: AA6agR7HiAAjmQ+OSdNfaAHoyknzoyrjx3MUmL1Ng+Vf6qRLQP4g75Bp3THQvj6bRqHPWOxdn6lnQw==
+X-Received: by 2002:a05:6512:68d:b0:492:ec42:1dd2 with SMTP id
+ t13-20020a056512068d00b00492ec421dd2mr2597519lfe.55.1661522944058; 
+ Fri, 26 Aug 2022 07:09:04 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ s10-20020a19ad4a000000b00492c017de43sm390763lfd.127.2022.08.26.07.09.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 07:09:03 -0700 (PDT)
+Message-ID: <37834264-f6a0-fe71-e4c6-2edca9475d5a@linaro.org>
+Date: Fri, 26 Aug 2022 17:09:02 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [v1 2/2] drm/msm/disp/dpu1: enable crtc color management based on
+ encoder topology
+Content-Language: en-GB
+To: Kalyan Thota <kalyant@qti.qualcomm.com>,
+ "Kalyan Thota (QUIC)" <quic_kalyant@quicinc.com>,
+ "robdclark@gmail.com" <robdclark@gmail.com>
+References: <1655802387-15275-1-git-send-email-quic_kalyant@quicinc.com>
+ <1655802387-15275-2-git-send-email-quic_kalyant@quicinc.com>
+ <CAA8EJponMDAXDAZ9zpkYEZvONDAztuXhjwZ6y7rgo1HtQOMtfQ@mail.gmail.com>
+ <BN0PR02MB81426CB90870085223C308A496B99@BN0PR02MB8142.namprd02.prod.outlook.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <BN0PR02MB81426CB90870085223C308A496B99@BN0PR02MB8142.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,54 +79,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "dianders@chromium.org" <dianders@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "swboyd@chromium.org" <swboyd@chromium.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "Vinod Polimera \(QUIC\)" <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As of commit eae06120f1974e1a ("drm: refuse ADDFB2 ioctl for broken
-bigendian drivers"), drivers must set the
-quirk_addfb_prefer_host_byte_order quirk to make the drm_mode_addfb()
-compat code work correctly on big-endian machines.
+On 27/06/2022 14:56, Kalyan Thota wrote:
+> Thanks for the comments, Dmitry. I haven't noticed mode->hdisplay being used. My idea was to run thru the topology and tie up the encoders with dspp to the CRTCs.
+> Since mode is available only in the commit, we cannot use the dpu_encoder_get_topology during initialization sequence.
+> 
+> The requirement here is that when we initialize the crtc, we need to enable drm_crtc_enable_color_mgmt only for the crtcs that support it. As I understand from Rob, chrome framework will check for the enablement in order to exercise the feature.
+> 
+> Do you have any ideas on how to handle this requirement ? Since we will reserve the dspp's only when a commit is issued, I guess it will be too late to enable color management by then.
 
-While that works fine for big-endian XRGB8888 and ARGB8888, which are
-mapped to the existing little-endian BGRX8888 and BGRA8888 formats, it
-does not work for big-endian XRGB1555 and RGB565, as the latter are not
-listed in the format database.
+I have been thinking about this for quite a while.
 
-Fix this by adding the missing formats.  Limit this to big-endian
-platforms, as there is currently no need to support these formats on
-little-endian platforms.
+Basically I fear you have two options:
+- Register the color management for all CRTCs. In dpu_rm_reserve() check 
+for the ctm, allocate LMs taking the available DSPPs into account. Fail 
+the atomic_check() if there are no available LMs with required 
+capabilities. Additional bonus point for moving LM/DSPP resource 
+allocation from dpu_encoder into dpu_crtc.
 
-Fixes: 6960e6da9cec3f66 ("drm: fix drm_mode_addfb() on big endian machines.")
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
----
-v2:
-  - Use "DRM_FORMAT_foo | DRM_FORMAT_BIG_ENDIAN" instead of
-    "DRM_FORMAT_HOST_foo",
-  - Turn into a lone patch, as all other patches from series
-    https://lore.kernel.org/r/cover.1657300532.git.geert@linux-m68k.org
-    were applied to drm-misc/for-linux-next.
----
- drivers/gpu/drm/drm_fourcc.c | 4 ++++
- 1 file changed, 4 insertions(+)
+- Register CRTCs and it's colormanagement properties according to exact 
+available hardware. Let the userspace composer select the CRTC for the 
+connector basing on the availability of the CTM support.
 
-diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-index e09331bb3bc73f21..265671a7f9134c1f 100644
---- a/drivers/gpu/drm/drm_fourcc.c
-+++ b/drivers/gpu/drm/drm_fourcc.c
-@@ -190,6 +190,10 @@ const struct drm_format_info *__drm_format_info(u32 format)
- 		{ .format = DRM_FORMAT_BGRA5551,	.depth = 15, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
- 		{ .format = DRM_FORMAT_RGB565,		.depth = 16, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
- 		{ .format = DRM_FORMAT_BGR565,		.depth = 16, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
-+#ifdef __BIG_ENDIAN
-+		{ .format = DRM_FORMAT_XRGB1555 | DRM_FORMAT_BIG_ENDIAN, .depth = 15, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
-+		{ .format = DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN, .depth = 16, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
-+#endif
- 		{ .format = DRM_FORMAT_RGB888,		.depth = 24, .num_planes = 1, .cpp = { 3, 0, 0 }, .hsub = 1, .vsub = 1 },
- 		{ .format = DRM_FORMAT_BGR888,		.depth = 24, .num_planes = 1, .cpp = { 3, 0, 0 }, .hsub = 1, .vsub = 1 },
- 		{ .format = DRM_FORMAT_XRGB8888,	.depth = 24, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1 },
+I'd vote strongly against any attempt to put the policy ('e.g. enable 
+CTM only for the eDP and first DSI display') into the kernel, because we 
+can not predict the actual usecases the user needs. It well might be 
+that the user of the laptop will work with DP displays only and thus 
+require color management for DP.
+
+> 
+> @robdclark@gmail.com
+> Is it okay, if we disable color management for all the crtcs during initialization and enable it when we have dspps available during modeset. Can we framework code query for the property before issuing a commit for the frame after modeset ?
+> 
+
 -- 
-2.25.1
+With best wishes
+Dmitry
 
