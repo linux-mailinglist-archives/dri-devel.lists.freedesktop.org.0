@@ -1,80 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F088E5A212A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 08:47:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 477DC5A21B9
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 09:24:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87C5310E621;
-	Fri, 26 Aug 2022 06:46:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2A710E6C2;
+	Fri, 26 Aug 2022 07:24:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F48210E621
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 06:46:53 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id AE6495801D4;
- Fri, 26 Aug 2022 02:46:50 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 26 Aug 2022 02:46:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1661496410; x=1661503610; bh=GDI1p03KIm
- VlfJybKQmUVUO7IOmo/SYqjAdeD+YEJlU=; b=kCGkvMU71YpuR26/BKv0WV1a8b
- HFbSpBa/AZvbeZIWSFNRmNXoz2q2vhGz0rySdhoz44mNNocXjRG1c14i1Y+F7n5h
- khGLctRYXvDyDUaCX3/TmOKGntJ3dN6hfgChVT5gyPCE86HKR7hr9xgOAv8j6lBT
- +LbtcVKIN8zD/4fhLAOM5Rvh4KkKHvwUKeff4bYQD8U2+oszeErGrhpQIaQf1WLE
- k0nC9C8EfvsvsWjz32WHx3SEEKR6Tp/89mJ92XfpIGVEHTapg1T46i87PI+LpJrE
- RMX4qLx5RWeXXU5yWBHcFxsL/OkjrdmyXnUY2+Kc7eN6XM3EPkBeNv2rhcjw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1661496410; x=1661503610; bh=GDI1p03KImVlfJybKQmUVUO7IOmo
- /SYqjAdeD+YEJlU=; b=v5dH7JbPy1IjrkFwNE91odQ9Pi2I1YbQg3CGPgZH5DNO
- PgS+UZwQI/9OIN3Mw+BswZMVY2PPrtphpUQ6SBehjCfhh+2siZ3Iflf53yf2gevY
- NRl0YUaJGBhFbnLLx3bIQn7923tn9oZuGG1lX38tW7IghHSLhccydpTz0QyPgfle
- w+BDa+BXIGvR6rp1T0xTjVg4qIbmditFP7NSonQ2ZoRoOZxAirvao0PF18843l6H
- QkCKw5hV4HXdoivMKM1u38gkuHb60F5gyv+vLagdPu1UlMBwltx3/qhJSSBZX4Sr
- DPzLhMHIJouKzESjiHxDBss0Prtt9IWN0WyxfkUmBw==
-X-ME-Sender: <xms:WWwIY6mWhwXyPvQHW9ng4gRF2i8k9txnwlR4YLWfR_rEd2UYjS5uLQ>
- <xme:WWwIYx0Y2eUBmPlog9hpI4LEX3PhrJNmCQkvyv0aWUUwuPte5HOiJbpLcRCeRFMzv
- rHAJ9FFcA2EAaDUj2A>
-X-ME-Received: <xmr:WWwIY4qqNUGA5fPGP-gEIC6fDCMnhKUpiDTQYs74jmirZVGwXgiiHaZuzjY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgedgudduvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfeg
- udffffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:WWwIY-kELSNkvT5OTKcPcBlLosMsWuRTQ1p2ap0ODb2uF_14bohidg>
- <xmx:WWwIY40xpD1KNavaFfgWv5DNg2kdPM95OVtb9Q8-suNNSx9qlAVNeg>
- <xmx:WWwIY1tjUDiMWUKCyprecgvVaV4VN0ZOjmFvzEKNh-1_nPrhWsGLHg>
- <xmx:WmwIY2k5gsHGbCQV212q7BtOW0FaBUG9v5-0MZJUDbO7gD54xN_nXw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Aug 2022 02:46:48 -0400 (EDT)
-Date: Fri, 26 Aug 2022 08:46:46 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
- command-line option
-Message-ID: <20220826064646.ug2djacis7whybpd@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
- <eedb1a86-c1fb-cc76-2a43-4ed349d7d826@tronnes.org>
- <20220824154543.bdtpz2evwzsjrdrz@houat>
- <3cc08f9d-9f01-b771-c16f-ea95acd7e7cd@tronnes.org>
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0229B10E6C2;
+ Fri, 26 Aug 2022 07:24:36 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ x63-20020a17090a6c4500b001fabbf8debfso739833pjj.4; 
+ Fri, 26 Aug 2022 00:24:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=YlkUnf3+W4a/WjCpnPyFQgyVY7X5ih8bJPCrzi0qPuo=;
+ b=CIW0pGf/u/t99gjOXibOein6cCbSDOUW3AZ6CUaNlRXFkxOg/YJmkgdE6hqISHloQQ
+ BAfXaQ/4GGoDH5jUlfb2pB5gCRSePQBZ4jbH4v3djEPpbcgRzwtbVXrXzs6TkKuBxWzl
+ N71OqSLmZjNSjNbo+RusFj/7skLKORw8skk1kLDr850IX2oHuy3hPWmYpN5ZteSvfSFx
+ +QMgWbJMM1ZFYf8I6yvmsrAjvTqpDaIFTFfHtuXMf0S7mHiWMW9+lOwIGD4f9JRZ0RyP
+ +f9LjmSxQMmGKdAshFmwsq8ev5tZcXY36rr+b8f2rcqQ+KOyFatXJnwz5l+sUbKCuKYs
+ 0KXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=YlkUnf3+W4a/WjCpnPyFQgyVY7X5ih8bJPCrzi0qPuo=;
+ b=3afdC60KfLuD8csctpRArMaQ26b6nDKHGpEH8pMusdT0ypsRcSjMA0kyg970DDKts/
+ ZFqrRSOXE/uzIYcU5n95qAkeEgcXxqs54VKhxoq1phQSSLlhl6WrR+ogftlW7eiNicuD
+ uWcQ3OtqmlfHg0y1h/yXsuacRZv6TG45quT9Yv5FZHrz1N1gZNgQwPAX3ztputgF7eNO
+ ot569HLzy+YemK6PMO2a8N7DVlMz0RaqKGb51ARYvOoj+HZwUtMk2Pw5wSUIJKppw9Fo
+ 6yQwRei2RxBZrw/peNH6hm59L5CsadNTf1PuwP2ARq/Uw7AMFiQti3jHKnufFZgg5X5l
+ n/eQ==
+X-Gm-Message-State: ACgBeo2H/B5b0tamk9xTG0nLgWfidxXxVB2FJYGaKT9jP6qMLALmXov6
+ h6AWTvLPruYLh1Wfi7qz69c=
+X-Google-Smtp-Source: AA6agR5HyqBo0oZgQZZq5UC/wOzHLibv7ZVIrS6bRpCelNOCiG5Rg5WRYYINvIpRdM12ePAv0ZNXOQ==
+X-Received: by 2002:a17:90a:5988:b0:1fd:6a33:abf with SMTP id
+ l8-20020a17090a598800b001fd6a330abfmr715935pji.69.1661498676588; 
+ Fri, 26 Aug 2022 00:24:36 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id
+ o186-20020a62cdc3000000b005289a50e4c2sm930463pfg.23.2022.08.26.00.24.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Aug 2022 00:24:36 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: ye.xingchen@zte.com.cn
+To: alexander.deucher@amd.com
+Subject: [PATCH linux-next] drm/amdgpu: Remove the unneeded result variable
+Date: Fri, 26 Aug 2022 07:23:57 +0000
+Message-Id: <20220826072357.252676-1-ye.xingchen@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dmczm7av6szyde4h"
-Content-Disposition: inline
-In-Reply-To: <3cc08f9d-9f01-b771-c16f-ea95acd7e7cd@tronnes.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,77 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jack.Xiao@amd.com, guchun.chen@amd.com, airlied@linux.ie,
+ Bokun.Zhang@amd.com, Zeal Robot <zealci@zte.com.cn>, Xinhui.Pan@amd.com,
+ ricetons@gmail.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Prike.Liang@amd.com,
+ dri-devel@lists.freedesktop.org, ye xingchen <ye.xingchen@zte.com.cn>,
+ christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
---dmczm7av6szyde4h
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Return the value sdma_v5_2_start() directly instead of storing it in
+another redundant variable.
 
-On Thu, Aug 25, 2022 at 02:41:27PM +0200, Noralf Tr=F8nnes wrote:
-> Den 24.08.2022 17.45, skrev Maxime Ripard:
-> > Hi Noralf,
-> >=20
-> > On Sat, Aug 20, 2022 at 10:18:47PM +0200, Noralf Tr=F8nnes wrote:
-> >> Den 29.07.2022 18.35, skrev Maxime Ripard:
-> >>> Our new tv mode option allows to specify the TV mode from a property.
-> >>> However, it can still be useful, for example to avoid any boot time
-> >>> artifact, to set that property directly from the kernel command line.
-> >>>
-> >>> Let's add some code to allow it, and some unit tests to exercise that=
- code.
-> >>>
-> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >>>
-> >>
-> >> In the subject it says "tv_mode property", but the property is called
-> >> "tv norm", so the option should be tv_norm?
-> >=20
-> > Yeah... I don't know. mode is taken but it's obviously the best name. So
-> > I went with norm to avoid the (internal) conflict but I left mode for
-> > the user facing property.
-> >=20
-> > I'm not sure what's best here, or maybe we can pick another name entire=
-ly?
-> >=20
->=20
-> Why not just call it "tv mode" or even better "TV Mode". The state
-> member can be called tv_mode, but the mode_config member will need a
-> temporary name until the "mode" property is removed. tv_tv_mode or maybe
-> connector_tv_mode?
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Yeah, that seems like a good idea. Would legacy_tv_mode work for you?
-
-> But IMO, if there are no users of this property, adding it should have a
-> drm maintainers ack.
-
-Yep, of course :)
-
-Maxime
-
---dmczm7av6szyde4h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwhsVgAKCRDj7w1vZxhR
-xagcAQCspBwGYBSb/ilXsoY7WZaVorZ+0k/rDn3zQOob2qwY7wD+IadLV+q7Qw9q
-D1RIs0Z4w2lGo0vSFi33xoW6p6/S6wk=
-=qZ8U
------END PGP SIGNATURE-----
-
---dmczm7av6szyde4h--
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+index 83c6ccaaa9e4..95689ef4be10 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+@@ -1413,12 +1413,9 @@ static int sdma_v5_2_sw_fini(void *handle)
+ 
+ static int sdma_v5_2_hw_init(void *handle)
+ {
+-	int r;
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 
+-	r = sdma_v5_2_start(adev);
+-
+-	return r;
++	return sdma_v5_2_start(adev);
+ }
+ 
+ static int sdma_v5_2_hw_fini(void *handle)
+-- 
+2.25.1
