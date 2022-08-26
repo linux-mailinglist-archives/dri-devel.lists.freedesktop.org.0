@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0405A24D3
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 11:49:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8CE5A24DE
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 11:49:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48BAC10E7F4;
-	Fri, 26 Aug 2022 09:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC54C10E811;
+	Fri, 26 Aug 2022 09:49:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D135110E7EE
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 09:48:56 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id n24so1044422ljc.13
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 02:48:56 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A48710E811
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 09:49:08 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id n15so1321247lfe.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 02:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=TkqTmoi1tOqF4HMRlYNheKD9nEw5Pj8tNzIuXeNE4iM=;
- b=EQFZJSsNvYyxtp06L5o2aPeIvRVgy+df9Ssuq4i0UbRzsx0gG3J3svHwlcq1PGwAi2
- mZFQbY1Ux3++T7kPhEQ9624nB9K/Fz2T6KA3OMO5pP7XWZdRncCgVt2RmvrRYRSGwX6Z
- VPQ5apGl40gAESdjsSBq5aIrqn1xoaQQ/wFCL8WnNC+u6rPD4r+JcmUCB503CajIhGKV
- k9yJqemevwFdM2hTJSrfc7xBWX32HBoqDsPGDjapISVnECAAPkTuHWH7PGUsmsqnzvLb
- u1d9ZWxbFPa7IqOxWL8YRp3S1toreSApRZb74+oIqCogDS5md9iEtlUlDYhbR1CRvuFJ
- V9Nw==
+ :from:to:cc; bh=UN9UNIYBZ5uGaqYCoTZ9HAq/Y6zWrMkzm6pHK+dxe5A=;
+ b=L5OXYT+liCL+/QGJXKJIyiz5VcXhwEDMb5oV0Pve/89FEkMLfV3mgowMShnYIC6CKG
+ b0LHap0ys0CWPTK4HJCusslBIXgYoBy9EnQsUoUBy/9xoQNLDSivlfJdAP192l7qu2Ol
+ Ymk2z1OwlXV7yoVbZYOHEF3PB4yy/c+BJ+ub38cvBeSMD4tVL8UZL9PRRCl1btg7hAwR
+ D4lrN31eYUG4xEZwWSOFB8QSmG8EdPPmutENh90ugKark7fVWEUmQMNYgElpaKy01tLN
+ QybG5XMkIqTG58E5N31Fb3uU8Q+e8k/JmkkKN4YCUgT1CQiYxoqP0Y8bezu9u4Ym+/ui
+ iTrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=TkqTmoi1tOqF4HMRlYNheKD9nEw5Pj8tNzIuXeNE4iM=;
- b=jkJaWGJJJLYnmIZp8ub+JAg4HONUwx1Die7vmATGEF6fcQkaR5k4Mxg4A9WAESHVmt
- 9oi8FqG1azFYQAW4l6IVrignIz2ZBR7d92+t1mhPoWhQOW9aAN7zac2wwLw8OrLlWAOL
- PBP0eNkAZpdiBy/M//0VW0KUgezr92qVxaw2/+TbXAV8WZ+yxomCKdaOSfmkcpzrwRRO
- 6Srq8vxNpjmlOO8aej5x+tCiWt+zf+opDiJhQUxYstbPPqqm6ntR9BaKyH+Bgkl3f63S
- 0o+oobV9ALdZ5wcgrw8Vo4cXDOSB3hFpDwJ6frIXwPPMHQCa7N7I15l0sCZnqmqb3oRw
- Vdaw==
-X-Gm-Message-State: ACgBeo1uO9MU3nhOB3UNxjM+2Nq4Ix49RgRPTaFoRhNusfX5q7fAWnvD
- BPFEdc47PGCzBIZlrtkBILOUeA==
-X-Google-Smtp-Source: AA6agR6jczYcy+0sMAbwo/6hLXzTNzwXZSfY4M2/FtvC1XCFcvMDBDdf92yDw7Yko9914GrpUtyU+Q==
-X-Received: by 2002:a2e:9b59:0:b0:261:d61d:5f51 with SMTP id
- o25-20020a2e9b59000000b00261d61d5f51mr1978993ljj.418.1661507335234; 
- Fri, 26 Aug 2022 02:48:55 -0700 (PDT)
+ bh=UN9UNIYBZ5uGaqYCoTZ9HAq/Y6zWrMkzm6pHK+dxe5A=;
+ b=kg4TB5+rv1lScwNSKVNnTmqqoNPbk8Tw93vxHpR3M6y7Qhbg0W1/WdHVKLnbmlB1mX
+ wO7fWDtPtSRx8hyH0EgiMoVd0x8c2AygXUH1OLSvD0Sv52W3mT1SneESnJTKT9fiJn6O
+ oDVkmlPmypcT6oyYZoZzeOq7VHg98Nr8j1cXGFPiikv/+b5OnVJ9TVtmhhetwgl9/NxH
+ DLKGHXsXjyjGq0nFmbdZZm8YbjRPMNDuNX0Dl6Wccx+RanMbDxbDd8XMZQfRGE8eEgh/
+ uDnNP0R2p0bPbTsqeWsydD/6/+KegyjbT86mU+gq/af9sE5yrq91W6HQxzfP4kTzsjec
+ Gbdg==
+X-Gm-Message-State: ACgBeo3Flztt/MQv4u0ulpSUJZ9MuebD11pBxppu5h/RuAPtj/3zi989
+ ysjhAbAXBec6Bk+BkfeU0oe1sg==
+X-Google-Smtp-Source: AA6agR6MpFJqQMrOTZPh3nHGr7fhGGF/zOA3ps/9gCfSND5LRAOU+SUC4fx2y97CPu544wYrT23ztQ==
+X-Received: by 2002:a05:6512:3159:b0:492:d660:4dd7 with SMTP id
+ s25-20020a056512315900b00492d6604dd7mr2101345lfi.204.1661507346709; 
+ Fri, 26 Aug 2022 02:49:06 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- 11-20020ac25f0b000000b00492c1e36b22sm317540lfq.262.2022.08.26.02.48.54
+ c6-20020ac25f66000000b0048afe02c925sm320409lfc.219.2022.08.26.02.49.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 02:48:54 -0700 (PDT)
-Message-ID: <051c5463-77b5-cb29-a4d3-6b9645b365ba@linaro.org>
-Date: Fri, 26 Aug 2022 12:48:54 +0300
+ Fri, 26 Aug 2022 02:49:06 -0700 (PDT)
+Message-ID: <53c72da6-b632-058d-9e3d-b00c286d9e09@linaro.org>
+Date: Fri, 26 Aug 2022 12:49:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.1.2
-Subject: Re: [PATCH v2 1/5] dt-bindings: display/msm: dpu-msm8998: add missing
+Subject: Re: [PATCH v2 2/5] dt-bindings: display/msm: dpu-qcm2290: add missing
  DPU opp-table
 Content-Language: en-GB
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
@@ -70,9 +70,9 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20220817062059.18640-1-krzysztof.kozlowski@linaro.org>
- <20220817062059.18640-2-krzysztof.kozlowski@linaro.org>
+ <20220817062059.18640-3-krzysztof.kozlowski@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220817062059.18640-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220817062059.18640-3-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,7 +95,7 @@ On 17/08/2022 09:20, Krzysztof Kozlowski wrote:
 > opp-table, so reference it which allows restricting DPU schema to fixed
 > list of properties.
 > 
-> Fixes: 6e986a8f1cf1 ("dt-bindings: display: msm: Add binding for msm8998 dpu")
+> Fixes: 164f69d9d45a ("dt-bindings: msm: disp: add yaml schemas for QCM2290 DPU bindings")
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
 
