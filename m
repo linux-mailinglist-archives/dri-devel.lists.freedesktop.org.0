@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94CB5A2592
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 12:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24395A25A2
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 12:15:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1876510E831;
-	Fri, 26 Aug 2022 10:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E8410E841;
+	Fri, 26 Aug 2022 10:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C1810E831
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 10:12:20 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id l1so1372290lfk.8
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 03:12:20 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2EEE10E847
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 10:14:55 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id n15so1398287lfe.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 03:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=Qvdys5dN+I9LUJHbK/6/No5KAdnIwq9CjmDCgjRtEK4=;
- b=qIIieiaXoC5YiikqGgeEJZ3Tej8dv40luO2+mNsojGpHrOqCMligsPfkpU0/dmBSav
- a2r7l9eXfPiJrTPymQcPszvHOfTscqbaU4NDP0Sw8oY9X+e8NHUCJCx1VmzFv+yGFGcy
- zppzzUrkE4x02ADCI4FBHNkZSSiDS+FIOS1jme/7jgzR0/7xdRSrFp/JnODlqiFY7Rs0
- jB9G3J9TSyAgYAgZFxAIe1sPsah/yJB1Pzgln7YiS5U6MMPcX49vpmE9CVel3rRm790o
- DP0w0bDy2ByNdMnyj4mYjFIhqBXlLI5hCQNCO+VbwGzB6lEAXuR1Vp6oeSQDPJj0tu5s
- IO2Q==
+ :from:to:cc; bh=nBDls8p7zWKgMsdae7qsDU8nms79A1faHjvYu7tARvE=;
+ b=piJ7BEpevaGNdTfb+iohBsjVd8y6wP7fyx2scpDUXdludX6+pLspOYMOnspr5RJUmE
+ OIh1n/nMbN506hH3wRUECtpn215qzlyev8PAdv9fkUrfkWN8RbOIkAAv7iCnj/GpRewr
+ 6b8p81mVhXkt+JAB6KBcurlZ+unI6qZhm+lUuSOQ1aVLUbncBRWCYQHGm7l3rhjuEEDJ
+ RjWZPIryyeV1a9Ua7OflgMFcrcgLy0YL1gskTh695mZRAbIF7D/CS172snBeNCYvtNLW
+ KiLBOlEow99lBrYt00L0fYGxGF8kqOX5BJxf2PcQjnNJbHR8CkNz3o+2HAoT3HYzO0fA
+ RAjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=Qvdys5dN+I9LUJHbK/6/No5KAdnIwq9CjmDCgjRtEK4=;
- b=M3aVkEdivIDUZJfcgwfXWgFgsQ93D+3PSPMmfXA/iBw1UXCVdWZMiNDrd0KaFll+JK
- og93D4bO7y08ngJyOAfC0e8FSPZ9AqO9a2b9G4UVg9jJV0krUabDVEt7oXPUlVcPtTBw
- CAtxe6jZ3UN5IjFDCxSASYi5IGFCiJWrN1dFVdlMlsRGOqsEMzHghd8iNt01Odca3bcg
- eNj3MXRsdCY7vV2vEiI2z1zWTgcF3R+4OZ8lLgk1B6teTrNK4dchQqKTGzd18ukllhUx
- X+yOTyuCvV3qAUxRVX7QpPRQKWtk7rhScevithMStvYvsgXgp54N1RdyY2nA9dbNfJ0m
- B54g==
-X-Gm-Message-State: ACgBeo2FdTe2IX1gaSh5/QVOhcD8z5NKMyeZM/xSn0+e5kAXYAETCre7
- lfEFR0beDcvPiKnznRjdz6Mmtg==
-X-Google-Smtp-Source: AA6agR6Ltpi7l0Rgxs/vwz5K1n21dO7YyWaBFrO/NCQdw9rAlL17n3agYbkSNTrnrYz0RdTIQw71kg==
-X-Received: by 2002:a05:6512:304c:b0:492:cd69:6cb8 with SMTP id
- b12-20020a056512304c00b00492cd696cb8mr2547841lfb.551.1661508739349; 
- Fri, 26 Aug 2022 03:12:19 -0700 (PDT)
+ bh=nBDls8p7zWKgMsdae7qsDU8nms79A1faHjvYu7tARvE=;
+ b=yD8qiH70hqGK3XWn7cVzyrdEtDUzdyIw48ndPPUwppTEMPJi1XVR+LNpGuDNQ5S7cT
+ aw0d4IG6al0eKm9Si5Y986dJWAXSnSszXB5Lcl38+vB3BwqYizHL2LXBjDpGf65mH3Bc
+ g5mocHhzsMm9sZyFEKnNqLyJTs/jL39YLOIIfD4XlALyGiO61lDFH6yfpWPr4Rg02oZg
+ hbqFleYYQTPVEVhfOUJKVlPB/D2KpqmFA5h5W6KGTPFO/YwViRjYPfsy+fBzgRnjO93y
+ VkzoXqMTlGfPBz9Vl/TjmjAuOxTqI8iaP9sXQmvjGUyiFFSQhtCNWyXdfz+93K0XTgTG
+ EnUQ==
+X-Gm-Message-State: ACgBeo2LiMqgGAMH8qmtyi2bUNBqWPkTQ9hw5R8EeIU9+GGT9T+Xq0+0
+ nLTl20J+7Th6J/q+NgQPQw13ZQ==
+X-Google-Smtp-Source: AA6agR7caUbLwyQSa715SFZUEGY9QFvmhTYs0wWUx3epIqtDxGXY7MC1nfcBGHa9KKFMrtkkLdDXyw==
+X-Received: by 2002:a19:915c:0:b0:492:f06d:b3b1 with SMTP id
+ y28-20020a19915c000000b00492f06db3b1mr2554374lfj.1.1661508894364; 
+ Fri, 26 Aug 2022 03:14:54 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- c5-20020ac25f65000000b00492c627cab5sm323446lfc.254.2022.08.26.03.12.18
+ y7-20020a05651c106700b0025e42f8e771sm414675ljm.34.2022.08.26.03.14.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 03:12:18 -0700 (PDT)
-Message-ID: <941ddc17-87d3-aa3c-e6bb-46ecf4a7dfca@linaro.org>
-Date: Fri, 26 Aug 2022 13:12:18 +0300
+ Fri, 26 Aug 2022 03:14:53 -0700 (PDT)
+Message-ID: <ad2db009-8660-db05-60d9-fea61a5cde26@linaro.org>
+Date: Fri, 26 Aug 2022 13:14:53 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.1.2
-Subject: Re: [PATCH -next] drm/msm/adreno: Switch to memdup_user_nul() helper
+Subject: Re: [PATCH v3] drm/msm/dp: correct 1.62G link rate at
+ dp_catalog_ctrl_config_msa()
 Content-Language: en-GB
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
-References: <20220826084524.2217022-1-yangyingliang@huawei.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
+ sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
+ vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
+ bjorn.andersson@linaro.org
+References: <1661372150-3764-1-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220826084524.2217022-1-yangyingliang@huawei.com>
+In-Reply-To: <1661372150-3764-1-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,47 +77,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_abhinavk@quicinc.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/08/2022 11:45, Yang Yingliang wrote:
-> Use memdup_user_nul() helper instead of open-coding to
-> simplify the code.
+On 24/08/2022 23:15, Kuogee Hsieh wrote:
+> At current implementation there is an extra 0 at 1.62G link rate which cause
+> no correct pixel_div selected for 1.62G link rate to calculate mvid and nvid.
+> This patch delete the extra 0 to have mvid and nvid be calculated correctly.
 > 
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> Changes in v2:
+> -- fix Fixes tag's text
+> 
+> Changes in v3:
+> -- fix misspelling of "Reviewed-by"
+> 
+> Fixes: 937f941ca06f  ("drm/msm/dp: Use qmp phy for DP PLL and PHY")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+No extra empty lines between the tags please. I'll correct this manually 
+while applying.
 
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/adreno/adreno_gpu.c | 14 +++-----------
->   1 file changed, 3 insertions(+), 11 deletions(-)
+>   drivers/gpu/drm/msm/dp/dp_catalog.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 382fb7f9e497..50b33e14237b 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -339,17 +339,9 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
->   	case MSM_PARAM_CMDLINE: {
->   		char *str, **paramp;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index 7257515..676279d 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -431,7 +431,7 @@ void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
 >   
-> -		str = kmalloc(len + 1, GFP_KERNEL);
-> -		if (!str)
-> -			return -ENOMEM;
-> -
-> -		if (copy_from_user(str, u64_to_user_ptr(value), len)) {
-> -			kfree(str);
-> -			return -EFAULT;
-> -		}
-> -
-> -		/* Ensure string is null terminated: */
-> -		str[len] = '\0';
-> +		str = memdup_user_nul(u64_to_user_ptr(value), len);
-> +		if (IS_ERR(str))
-> +			return PTR_ERR(str);
->   
->   		if (param == MSM_PARAM_COMM) {
->   			paramp = &ctx->comm;
+>   	if (rate == link_rate_hbr3)
+>   		pixel_div = 6;
+> -	else if (rate == 1620000 || rate == 270000)
+> +	else if (rate == 162000 || rate == 270000)
+>   		pixel_div = 2;
+>   	else if (rate == link_rate_hbr2)
+>   		pixel_div = 4;
 
 -- 
 With best wishes
