@@ -1,50 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9745A312A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 23:36:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FDC5A3212
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 00:34:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37BF210E9ED;
-	Fri, 26 Aug 2022 21:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB30D10EA3F;
+	Fri, 26 Aug 2022 22:34:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42F9D10E721;
- Fri, 26 Aug 2022 21:35:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661549742; x=1693085742;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=IVm5RoE2xRo26A3dFvEORqC6SKj0KFr9veRbhuMOuiw=;
- b=RXguaAvECFe0hCBYqQEEIJzn0Zgo72Bam9B2f12IoTJ9M89fAkMQSBNN
- W/uxQBLB5xu2CmVM6gtCEEVaM/QnVLet9CHqsmmvgl3DYRbFTG3+XpZBc
- +Y6UjVaKTKydfLD0c7mdYsK8xzY6SpHbq1bknrSty8G4Qon3YxP8RXdF8
- xg5kpJAOB5BMCmZFAAnhiIGTQyzKmLd68o0Vsgqq/oUYZqXMySD4gQFTl
- qhozdKu1h9hIxFN5P3LWXeFlEiFR/BZQev8Iw9Vh5wbcvvw1mtNJH0/AW
- fPswQyMWWloXlXxfG1oCXpSRRm2LmfDsYkC+XnkhDJhZ8BZLQOIOurpLW A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="295376011"
-X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="295376011"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2022 14:35:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="613657894"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga007.fm.intel.com with SMTP; 26 Aug 2022 14:35:39 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Sat, 27 Aug 2022 00:35:39 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 11/11] drm/i915: Infer vrefresh range for eDP if the EDID
- omits it
-Date: Sat, 27 Aug 2022 00:35:01 +0300
-Message-Id: <20220826213501.31490-12-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
-References: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26CEE10EA3F
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 22:34:18 +0000 (UTC)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4MDvlF4GR7z9sXX;
+ Fri, 26 Aug 2022 22:34:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1661553257; bh=cXnW46NkdlGcodJJ1QE5yT1rkg3X80VHWCXpUxF0UoQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=iIeu1SQyCX/L4o73HEf5F4NxmR/LqT7ReK068BWi7GSUNUWKwkaIV5YqbuOkCKrrx
+ qUvDRThtinCwkSvPdgt4FsrzOkg82iOg0eOAQUi+s6z1HxM23SAK6cn2B6bOmGk96l
+ ogKqZl/00QzngKsytFLGZcpf5TKu9SVKrJ31XztY=
+X-Riseup-User-ID: 707746658F8D4375BF02D04E49D63FA3ED189EA53B886CEDE276B553917E2211
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4MDvlB6hKKz5vNH;
+ Fri, 26 Aug 2022 22:34:14 +0000 (UTC)
+Message-ID: <ebd659db-a0a2-24dd-b9e8-932b6c66545e@riseup.net>
+Date: Fri, 26 Aug 2022 19:34:11 -0300
 MIME-Version: 1.0
+Subject: Re: [PATCH 2/2] drm/plane_helper: Split into parameterized test cases
+Content-Language: en-US
+To: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220825124803.300821-1-michal.winiarski@intel.com>
+ <20220825124803.300821-2-michal.winiarski@intel.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220825124803.300821-2-michal.winiarski@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,90 +54,521 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Hi Michał
 
-A bunch of machines seem to have eDP panels where the EDID
-indicates continuous frequency support but fails to actually
-include the range descirptor. This violates the EDID 1.4
-spec, but looks like the Windows driver just hacks around
-this by just assuming that the panel supports a continuous
-refresh rate range that covers all EDID reported modes.
+Great patch! Just a few nits inline.
 
-Do the same so that we get VRR support on these machines.
+On 8/25/22 09:48, Michał Winiarski wrote:
+> The test was constructed as a single function (test case) which checks
+> multiple conditions, calling the function that is tested multiple times
+> with different arguments.
+> This usually means that it can be easily converted into multiple test
+> cases.
+> Split igt_check_plane_state into two parameterized test cases,
+> drm_check_plane_state and drm_check_invalid_plane_state.
+> 
+> Passing output:
+> ============================================================
+> ============== drm_plane_helper (2 subtests) ===============
+> ================== drm_check_plane_state ===================
+> [PASSED] clipping_simple
+> [PASSED] clipping_rotate_reflect
+> [PASSED] positioning_simple
+> [PASSED] upscaling
+> [PASSED] downscaling
+> [PASSED] rounding1
+> [PASSED] rounding2
+> [PASSED] rounding3
+> [PASSED] rounding4
+> ============== [PASSED] drm_check_plane_state ==============
+> ============== drm_check_invalid_plane_state ===============
+> [PASSED] positioning_invalid
+> [PASSED] upscaling_invalid
+> [PASSED] downscaling_invalid
+> ========== [PASSED] drm_check_invalid_plane_state ==========
+> ================ [PASSED] drm_plane_helper =================
+> ============================================================
+> Testing complete. Ran 12 tests: passed: 12
+> 
+> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> ---
+>  drivers/gpu/drm/tests/drm_plane_helper_test.c | 419 +++++++++++-------
+>  1 file changed, 255 insertions(+), 164 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_plane_helper_test.c b/drivers/gpu/drm/tests/drm_plane_helper_test.c
+> index 0bbd42d2d37b..cb8607e5c737 100644
+> --- a/drivers/gpu/drm/tests/drm_plane_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_plane_helper_test.c
+> @@ -12,14 +12,71 @@
+>  #include <drm/drm_modes.h>
+>  #include <drm/drm_rect.h>
+>  
+> -static void set_src(struct drm_plane_state *plane_state,
+> -		    unsigned int src_x, unsigned int src_y,
+> -		    unsigned int src_w, unsigned int src_h)
+> +static const struct drm_crtc_state crtc_state = {
+> +	.crtc = ZERO_SIZE_PTR,
+> +	.enable = true,
+> +	.active = true,
+> +	.mode = {
+> +		DRM_MODE("1024x768", 0, 65000, 1024, 1048,
+> +			 1184, 1344, 0, 768, 771, 777, 806, 0,
+> +			 DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC)
+> +	},
+> +};
+> +
+> +struct drm_check_plane_state_test {
+> +	const char *name;
+> +	const char *msg;
+> +	struct {
+> +		unsigned int x;
+> +		unsigned int y;
+> +		unsigned int w;
+> +		unsigned int h;
+> +	} src, src_expected;
+> +	struct {
+> +		int x;
+> +		int y;
+> +		unsigned int w;
+> +		unsigned int h;
+> +	} crtc, crtc_expected;
+> +	unsigned int rotation;
+> +	int min_scale;
+> +	int max_scale;
+> +	bool can_position;
+> +};
+> +
+> +static int drm_plane_helper_init(struct kunit *test)
+>  {
+> -	plane_state->src_x = src_x;
+> -	plane_state->src_y = src_y;
+> -	plane_state->src_w = src_w;
+> -	plane_state->src_h = src_h;
+> +	const struct drm_check_plane_state_test *params = test->param_value;
+> +	struct drm_plane *plane;
+> +	struct drm_framebuffer *fb;
+> +	struct drm_plane_state *mock;
+> +
+> +	plane = kunit_kzalloc(test, sizeof(*plane), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, plane);
+> +
+> +	fb = kunit_kzalloc(test, sizeof(*fb), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, fb);
+> +	fb->width = 2048;
+> +	fb->height = 2048;
+> +
+> +	mock = kunit_kzalloc(test, sizeof(*mock), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, mock);
+> +	mock->plane = plane;
+> +	mock->crtc = ZERO_SIZE_PTR;
+> +	mock->fb = fb;
+> +	mock->rotation = params->rotation;
+> +	mock->src_x = params->src.x;
+> +	mock->src_y = params->src.y;
+> +	mock->src_w = params->src.w;
+> +	mock->src_h = params->src.h;
+> +	mock->crtc_x = params->crtc.x;
+> +	mock->crtc_y = params->crtc.y;
+> +	mock->crtc_w = params->crtc.w;
+> +	mock->crtc_h = params->crtc.h;
+> +
+> +	test->priv = mock;
+> +
+> +	return 0;
+>  }
+>  
+>  static bool check_src_eq(struct kunit *test, struct drm_plane_state *plane_state,
+> @@ -54,16 +111,6 @@ static bool check_src_eq(struct kunit *test, struct drm_plane_state *plane_state
+>  	return true;
+>  }
+>  
+> -static void set_crtc(struct drm_plane_state *plane_state,
+> -		     int crtc_x, int crtc_y,
+> -		     unsigned int crtc_w, unsigned int crtc_h)
+> -{
+> -	plane_state->crtc_x = crtc_x;
+> -	plane_state->crtc_y = crtc_y;
+> -	plane_state->crtc_w = crtc_w;
+> -	plane_state->crtc_h = crtc_h;
+> -}
+> -
+>  static bool check_crtc_eq(struct kunit *test, struct drm_plane_state *plane_state,
+>  			  int crtc_x, int crtc_y,
+>  			  unsigned int crtc_w, unsigned int crtc_h)
+> @@ -83,162 +130,206 @@ static bool check_crtc_eq(struct kunit *test, struct drm_plane_state *plane_stat
+>  	return true;
+>  }
+>  
+> -static void igt_check_plane_state(struct kunit *test)
+> +static void drm_check_plane_state(struct kunit *test)
+> +{
+> +	const struct drm_check_plane_state_test *params = test->param_value;
+> +	struct drm_plane_state *plane_state = test->priv;
+> +
+> +	KUNIT_ASSERT_EQ_MSG(test,
+> +			    drm_atomic_helper_check_plane_state(plane_state, &crtc_state,
+> +								params->min_scale,
+> +								params->max_scale,
+> +								params->can_position, false),
+> +			    0, params->msg);
+> +	KUNIT_EXPECT_TRUE(test, plane_state->visible);
+> +	check_src_eq(test, plane_state, params->src_expected.x, params->src_expected.y,
+> +		     params->src_expected.w, params->src_expected.h);
+> +	check_crtc_eq(test, plane_state, params->crtc_expected.x, params->crtc_expected.y,
+> +		      params->crtc_expected.w, params->crtc_expected.h);
 
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6323
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 45 +++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+In order to preserve the same function of the tests, I believe that
+check_src_eq and check_crtc_eq should be inside a KUNIT_EXPECT_TRUE. If
+there is a reason for not using KUNIT_EXPECT_TRUE, then check_src_eq and
+check_crtc_eq should not return a boolean.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 8d1559323412..1f3e4824d316 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5207,6 +5207,49 @@ intel_edp_add_properties(struct intel_dp *intel_dp)
- 						       fixed_mode->vdisplay);
- }
- 
-+/*
-+ * Some VRR eDP panels violate the EDID spec and neglect
-+ * to include the monitor range descriptor in the EDID.
-+ * Cook up the VRR refresh rate limits based on the modes
-+ * reported by the panel.
-+ */
-+static void
-+intel_edp_infer_vrr_range(struct intel_connector *connector)
-+{
-+	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_display_info *info = &connector->base.display_info;
-+	const struct edid *edid = connector->edid;
-+	const struct drm_display_mode *mode;
-+
-+	if (!HAS_VRR(i915))
-+		return;
-+
-+	if (!edid || edid->revision < 4 ||
-+	    !(edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ) ||
-+	    info->vrr_range.min_vfreq || info->vrr_range.max_vfreq)
-+		return;
-+
-+	if (list_empty(&connector->base.probed_modes))
-+		return;
-+
-+	info->vrr_range.min_vfreq = ~0;
-+	info->vrr_range.max_vfreq = 0;
-+
-+	list_for_each_entry(mode, &connector->base.probed_modes, head) {
-+		int vrefresh = drm_mode_vrefresh(mode);
-+
-+		info->vrr_range.min_vfreq = min_t(int, vrefresh,
-+						  info->vrr_range.min_vfreq);
-+		info->vrr_range.max_vfreq = max_t(int, vrefresh,
-+						  info->vrr_range.max_vfreq);
-+	}
-+
-+	drm_dbg_kms(&i915->drm,
-+		    "[CONNECTOR:%d:%s] does not report refresh rate range, assuming: %d Hz - %d Hz\n",
-+		    connector->base.base.id, connector->base.name,
-+		    info->vrr_range.min_vfreq, info->vrr_range.max_vfreq);
-+}
-+
- static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 				     struct intel_connector *intel_connector)
- {
-@@ -5271,6 +5314,8 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	}
- 	intel_connector->edid = edid;
- 
-+	intel_edp_infer_vrr_range(intel_connector);
-+
- 	intel_bios_init_panel(dev_priv, &intel_connector->panel,
- 			      encoder->devdata, IS_ERR(edid) ? NULL : edid);
- 
--- 
-2.35.1
+Moreover, now that those functions are being called just once, you could
+just add some expectations to this function, such as:
 
+KUNIT_EXPECT_GE_MSG(test, plane_state->src.x1, 0,
+	"src x coordinate %x should never be below 0, src: "
+	DRM_RECT_FP_FMT, plane_state->src.x1,
+	DRM_RECT_FP_ARG(&plane_state->src));
+
+Best Regards,
+- Maíra Canal
+
+> +}
+> +
+> +static void drm_check_plane_state_desc(const struct drm_check_plane_state_test *t,
+> +				       char *desc)
+>  {
+> -	int ret;
+> -
+> -	static const struct drm_crtc_state crtc_state = {
+> -		.crtc = ZERO_SIZE_PTR,
+> -		.enable = true,
+> -		.active = true,
+> -		.mode = {
+> -			DRM_MODE("1024x768", 0, 65000, 1024, 1048, 1184, 1344, 0, 768, 771,
+> -				 777, 806, 0, DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC)
+> -		},
+> -	};
+> -	static struct drm_plane plane = {
+> -		.dev = NULL
+> -	};
+> -	static struct drm_framebuffer fb = {
+> -		.width = 2048,
+> -		.height = 2048
+> -	};
+> -	static struct drm_plane_state plane_state = {
+> -		.plane = &plane,
+> -		.crtc = ZERO_SIZE_PTR,
+> -		.fb = &fb,
+> -		.rotation = DRM_MODE_ROTATE_0
+> -	};
+> -
+> -	/* Simple clipping, no scaling. */
+> -	set_src(&plane_state, 0, 0, fb.width << 16, fb.height << 16);
+> -	set_crtc(&plane_state, 0, 0, fb.width, fb.height);
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  false, false);
+> -	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple clipping check should pass\n");
+> -	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+> -	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1024 << 16, 768 << 16));
+> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+> -
+> -	/* Rotated clipping + reflection, no scaling. */
+> -	plane_state.rotation = DRM_MODE_ROTATE_90 | DRM_MODE_REFLECT_X;
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  false, false);
+> -	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Rotated clipping check should pass\n");
+> -	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+> -	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 768 << 16, 1024 << 16));
+> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+> -	plane_state.rotation = DRM_MODE_ROTATE_0;
+> -
+> -	/* Check whether positioning works correctly. */
+> -	set_src(&plane_state, 0, 0, 1023 << 16, 767 << 16);
+> -	set_crtc(&plane_state, 0, 0, 1023, 767);
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  false, false);
+> -	KUNIT_EXPECT_TRUE_MSG(test, ret,
+> -			      "Should not be able to position on the crtc with can_position=false\n");
+> -
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  true, false);
+> -	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple positioning should work\n");
+> -	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+> -	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1023 << 16, 767 << 16));
+> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1023, 767));
+> -
+> -	/* Simple scaling tests. */
+> -	set_src(&plane_state, 0, 0, 512 << 16, 384 << 16);
+> -	set_crtc(&plane_state, 0, 0, 1024, 768);
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  0x8001,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  false, false);
+> -	KUNIT_EXPECT_TRUE_MSG(test, ret, "Upscaling out of range should fail.\n");
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  0x8000,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  false, false);
+> -	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Upscaling exactly 2x should work\n");
+> -	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+> -	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 512 << 16, 384 << 16));
+> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+> -
+> -	set_src(&plane_state, 0, 0, 2048 << 16, 1536 << 16);
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  0x1ffff, false, false);
+> -	KUNIT_EXPECT_TRUE_MSG(test, ret, "Downscaling out of range should fail.\n");
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  0x20000, false, false);
+> -	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed with exact scaling limit\n");
+> -	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+> -	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2048 << 16, 1536 << 16));
+> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+> -
+> -	/* Testing rounding errors. */
+> -	set_src(&plane_state, 0, 0, 0x40001, 0x40001);
+> -	set_crtc(&plane_state, 1022, 766, 4, 4);
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  0x10001,
+> -						  true, false);
+> -	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+> -	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+> -	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
+> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
+> -
+> -	set_src(&plane_state, 0x20001, 0x20001, 0x4040001, 0x3040001);
+> -	set_crtc(&plane_state, -2, -2, 1028, 772);
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  0x10001,
+> -						  false, false);
+> -	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+> -	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+> -	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x40002, 0x40002,
+> -					     1024 << 16, 768 << 16));
+> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+> -
+> -	set_src(&plane_state, 0, 0, 0x3ffff, 0x3ffff);
+> -	set_crtc(&plane_state, 1022, 766, 4, 4);
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  0xffff,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  true, false);
+> -	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+> -	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+> -	/* Should not be rounded to 0x20001, which would be upscaling. */
+> -	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
+> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
+> -
+> -	set_src(&plane_state, 0x1ffff, 0x1ffff, 0x403ffff, 0x303ffff);
+> -	set_crtc(&plane_state, -2, -2, 1028, 772);
+> -	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+> -						  0xffff,
+> -						  DRM_PLANE_NO_SCALING,
+> -						  false, false);
+> -	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+> -	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+> -	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x3fffe, 0x3fffe,
+> -					     1024 << 16, 768 << 16));
+> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+> +	sprintf(desc, "%s", t->name);
+>  }
+>  
+> +static const struct drm_check_plane_state_test drm_check_plane_state_tests[] = {
+> +	{
+> +		.name = "clipping_simple",
+> +		.msg = "Simple clipping check should pass",
+> +		.src = { 0, 0,
+> +			 2048 << 16,
+> +			 2048 << 16 },
+> +		.crtc = { 0, 0, 2048, 2048 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = DRM_PLANE_NO_SCALING,
+> +		.max_scale = DRM_PLANE_NO_SCALING,
+> +		.can_position = false,
+> +		.src_expected = { 0, 0, 1024 << 16, 768 << 16 },
+> +		.crtc_expected = { 0, 0, 1024, 768 },
+> +	},
+> +	{
+> +		.name = "clipping_rotate_reflect",
+> +		.msg = "Rotated clipping check should pass",
+> +		.src = { 0, 0,
+> +			 2048 << 16,
+> +			 2048 << 16 },
+> +		.crtc = { 0, 0, 2048, 2048 },
+> +		.rotation = DRM_MODE_ROTATE_90 | DRM_MODE_REFLECT_X,
+> +		.min_scale = DRM_PLANE_NO_SCALING,
+> +		.max_scale = DRM_PLANE_NO_SCALING,
+> +		.can_position = false,
+> +		.src_expected = { 0, 0, 768 << 16, 1024 << 16 },
+> +		.crtc_expected = { 0, 0, 1024, 768 },
+> +	},
+> +	{
+> +		.name = "positioning_simple",
+> +		.msg = "Simple positioning should work",
+> +		.src = { 0, 0, 1023 << 16, 767 << 16 },
+> +		.crtc = { 0, 0, 1023, 767 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = DRM_PLANE_NO_SCALING,
+> +		.max_scale = DRM_PLANE_NO_SCALING,
+> +		.can_position = true,
+> +		.src_expected = { 0, 0, 1023 << 16, 767 << 16 },
+> +		.crtc_expected = { 0, 0, 1023, 767 },
+> +	},
+> +	{
+> +		.name = "upscaling",
+> +		.msg = "Upscaling exactly 2x should work",
+> +		.src = { 0, 0, 512 << 16, 384 << 16 },
+> +		.crtc = { 0, 0, 1024, 768 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = 0x8000,
+> +		.max_scale = DRM_PLANE_NO_SCALING,
+> +		.can_position = false,
+> +		.src_expected = { 0, 0, 512 << 16, 384 << 16 },
+> +		.crtc_expected = { 0, 0, 1024, 768 },
+> +	},
+> +	{
+> +		.name = "downscaling",
+> +		.msg = "Should succeed with exact scaling limit",
+> +		.src = { 0, 0, 2048 << 16, 1536 << 16 },
+> +		.crtc = { 0, 0, 1024, 768 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = DRM_PLANE_NO_SCALING,
+> +		.max_scale = 0x20000,
+> +		.can_position = false,
+> +		.src_expected = { 0, 0, 2048 << 16, 1536 << 16 },
+> +		.crtc_expected = { 0, 0, 1024, 768 },
+> +	},
+> +	{
+> +		.name = "rounding1",
+> +		.msg = "Should succeed by clipping to exact multiple",
+> +		.src = { 0, 0, 0x40001, 0x40001 },
+> +		.crtc = { 1022, 766, 4, 4 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = DRM_PLANE_NO_SCALING,
+> +		.max_scale = 0x10001,
+> +		.can_position = true,
+> +		.src_expected = { 0, 0, 2 << 16, 2 << 16 },
+> +		.crtc_expected = { 1022, 766, 2, 2 },
+> +	},
+> +	{
+> +		.name = "rounding2",
+> +		.msg = "Should succeed by clipping to exact multiple",
+> +		.src = { 0x20001, 0x20001, 0x4040001, 0x3040001 },
+> +		.crtc = { -2, -2, 1028, 772 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = DRM_PLANE_NO_SCALING,
+> +		.max_scale = 0x10001,
+> +		.can_position = false,
+> +		.src_expected = { 0x40002, 0x40002, 1024 << 16, 768 << 16 },
+> +		.crtc_expected = { 0, 0, 1024, 768 },
+> +	},
+> +	{
+> +		.name = "rounding3",
+> +		.msg = "Should succeed by clipping to exact multiple",
+> +		.src = { 0, 0, 0x3ffff, 0x3ffff },
+> +		.crtc = { 1022, 766, 4, 4 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = 0xffff,
+> +		.max_scale = DRM_PLANE_NO_SCALING,
+> +		.can_position = true,
+> +		/* Should not be rounded to 0x20001, which would be upscaling. */
+> +		.src_expected = { 0, 0, 2 << 16, 2 << 16 },
+> +		.crtc_expected = { 1022, 766, 2, 2 },
+> +	},
+> +	{
+> +		.name = "rounding4",
+> +		.msg = "Should succeed by clipping to exact multiple",
+> +		.src = { 0x1ffff, 0x1ffff, 0x403ffff, 0x303ffff },
+> +		.crtc = { -2, -2, 1028, 772 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = 0xffff,
+> +		.max_scale = DRM_PLANE_NO_SCALING,
+> +		.can_position = false,
+> +		.src_expected = { 0x3fffe, 0x3fffe, 1024 << 16, 768 << 16 },
+> +		.crtc_expected = { 0, 0, 1024, 768 },
+> +	},
+> +};
+> +
+> +KUNIT_ARRAY_PARAM(drm_check_plane_state, drm_check_plane_state_tests, drm_check_plane_state_desc);
+> +
+> +static void drm_check_invalid_plane_state(struct kunit *test)
+> +{
+> +	const struct drm_check_plane_state_test *params = test->param_value;
+> +	struct drm_plane_state *plane_state = test->priv;
+> +
+> +	KUNIT_ASSERT_LT_MSG(test,
+> +			    drm_atomic_helper_check_plane_state(plane_state, &crtc_state,
+> +								params->min_scale,
+> +								params->max_scale,
+> +								params->can_position, false),
+> +			    0, params->msg);
+> +}
+> +
+> +static const struct drm_check_plane_state_test drm_check_invalid_plane_state_tests[] = {
+> +	{
+> +		.name = "positioning_invalid",
+> +		.msg = "Should not be able to position on the crtc with can_position=false",
+> +		.src = { 0, 0, 1023 << 16, 767 << 16 },
+> +		.crtc = { 0, 0, 1023, 767 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = DRM_PLANE_NO_SCALING,
+> +		.max_scale = DRM_PLANE_NO_SCALING,
+> +		.can_position = false,
+> +	},
+> +	{
+> +		.name = "upscaling_invalid",
+> +		.msg = "Upscaling out of range should fail",
+> +		.src = { 0, 0, 512 << 16, 384 << 16 },
+> +		.crtc = { 0, 0, 1024, 768 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = 0x8001,
+> +		.max_scale = DRM_PLANE_NO_SCALING,
+> +		.can_position = false,
+> +	},
+> +	{
+> +		.name = "downscaling_invalid",
+> +		.msg = "Downscaling out of range should fail",
+> +		.src = { 0, 0, 2048 << 16, 1536 << 16 },
+> +		.crtc = { 0, 0, 1024, 768 },
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.min_scale = DRM_PLANE_NO_SCALING,
+> +		.max_scale = 0x1ffff,
+> +		.can_position = false,
+> +	},
+> +};
+> +
+> +KUNIT_ARRAY_PARAM(drm_check_invalid_plane_state, drm_check_invalid_plane_state_tests,
+> +		  drm_check_plane_state_desc);
+> +
+>  static struct kunit_case drm_plane_helper_test[] = {
+> -	KUNIT_CASE(igt_check_plane_state),
+> +	KUNIT_CASE_PARAM(drm_check_plane_state, drm_check_plane_state_gen_params),
+> +	KUNIT_CASE_PARAM(drm_check_invalid_plane_state, drm_check_invalid_plane_state_gen_params),
+>  	{}
+>  };
+>  
+>  static struct kunit_suite drm_plane_helper_test_suite = {
+>  	.name = "drm_plane_helper",
+> +	.init = drm_plane_helper_init,
+>  	.test_cases = drm_plane_helper_test,
+>  };
+>  
