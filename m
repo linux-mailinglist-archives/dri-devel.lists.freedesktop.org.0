@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8585A311A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 23:36:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB5A5A3128
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 23:36:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E859510E6FB;
-	Fri, 26 Aug 2022 21:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4A3710E803;
+	Fri, 26 Aug 2022 21:35:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D65810E6D7;
- Fri, 26 Aug 2022 21:35:24 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8116C10E6D8;
+ Fri, 26 Aug 2022 21:35:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661549724; x=1693085724;
+ t=1661549727; x=1693085727;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Z1pbq0Unb+uKrKT2+NJlh/dxpG6pjO0aRXlnYSq7W5M=;
- b=cFmGnL0ifAMGAlhDzDqWju+HCsOPLg7aLHZYSnasvlXChOyOW703+8/5
- wrlUgxFiwsPENa/MioFSFQpXnt4HGdijBaQGiOJU1cPqYQdK2sXE4RR9J
- tjQdVnEFv3FMW3IFfmTZhBxGv9AEwAmNU8Eept6ZSFmuHdwYox55/gWXE
- X2MLR7SuWFHb71+jfMvx9tispPEYQiIaH1LN8D7NEbsDU5tZkRjdu1elA
- pQM9zUgMobxx7BG4RFF9wDn3roIL69bdbmPBEYsTsGQdJOF2D84hu9ddT
- yHVa7V42ep4ZBBhVWwmTnxSTTVBdSL2hxDSD7soXj/fxfZvY33iZkOABl g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="356315592"
-X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="356315592"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2022 14:35:23 -0700
+ bh=wa3cllefe8tNwRjOMj8usyvDkEmC5ANY8uff3LM9IwM=;
+ b=F2umXytoNGYkdkiuk6+H+3oVeKsuaxuWakHcblUE3Iut+0S26LDkFFTb
+ zNVlJgcO632vUwj4aleGwRKLayt5qWynE9uYnRCFniEMShz02TJMFjHmz
+ L3kI7zAuKkSrcfz1op506QF1XVzrWj5vh8FL8Vvd2ApNKJq9jJJBsY5KM
+ tF8rHJeSn+XjGcsr1pkxcbwyn1JvftdVHWfNT1GuZ3WMusn/qCGWVoHAa
+ fJP1+q9xQ11cDR9SNQjjxLZRQ3iBD/QRYcK4VP4FSkNYOZpmWcN0cW7xg
+ aOOBqrgpcjenSSunCWhCLldhkMLjxSuiKeryw06Ng7vTr71dFQt7XmBx5 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="380902815"
+X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="380902815"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2022 14:35:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="587444582"
+X-IronPort-AV: E=Sophos;i="5.93,266,1654585200"; d="scan'208";a="643805802"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga006.jf.intel.com with SMTP; 26 Aug 2022 14:35:20 -0700
+ by orsmga001.jf.intel.com with SMTP; 26 Aug 2022 14:35:24 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Sat, 27 Aug 2022 00:35:19 +0300
+ Sat, 27 Aug 2022 00:35:23 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 05/11] drm/edid: Only parse VRR range for continuous frequency
- displays
-Date: Sat, 27 Aug 2022 00:34:55 +0300
-Message-Id: <20220826213501.31490-6-ville.syrjala@linux.intel.com>
+Subject: [PATCH 06/11] drm/edid: Extract drm_gtf2_mode()
+Date: Sat, 27 Aug 2022 00:34:56 +0300
+Message-Id: <20220826213501.31490-7-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
 References: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
@@ -59,46 +58,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Manasi Navare <manasi.d.navare@intel.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Since we only use the parsed vrefresh range to determine
-if VRR should be supported we should only accept continuous
-frequency displays here.
+Extract the GTF vs. GTF2 logic into a separate function.
+We'll have a second user soon.
 
-Cc: Manasi Navare <manasi.d.navare@intel.com>
-Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_edid.c | 47 ++++++++++++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 856d304a1354..b459fdf12b58 100644
+index b459fdf12b58..0c7cbe9b44f5 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -6064,7 +6064,10 @@ static void drm_get_vrr_range(struct drm_connector *connector,
- 		.drm_edid = drm_edid,
- 	};
+@@ -3113,6 +3113,35 @@ static int drm_mode_hsync(const struct drm_display_mode *mode)
+ 	return DIV_ROUND_CLOSEST(mode->clock, mode->htotal);
+ }
  
--	if (!version_greater(drm_edid, 1, 1))
-+	if (!version_greater(drm_edid, 1, 3))
-+		return;
++static struct drm_display_mode *
++drm_gtf2_mode(struct drm_device *dev,
++	      const struct drm_edid *drm_edid,
++	      int hsize, int vsize, int vrefresh_rate)
++{
++	struct drm_display_mode *mode;
 +
-+	if (!(drm_edid->edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ))
- 		return;
- 
- 	drm_for_each_detailed_block(drm_edid, get_vrr_range, &closure);
++	/*
++	 * This is potentially wrong if there's ever a monitor with
++	 * more than one ranges section, each claiming a different
++	 * secondary GTF curve.  Please don't do that.
++	 */
++	mode = drm_gtf_mode(dev, hsize, vsize, vrefresh_rate, 0, 0);
++	if (!mode)
++		return NULL;
++
++	if (drm_mode_hsync(mode) > drm_gtf2_hbreak(drm_edid)) {
++		drm_mode_destroy(dev, mode);
++		mode = drm_gtf_mode_complex(dev, hsize, vsize,
++					    vrefresh_rate, 0, 0,
++					    drm_gtf2_m(drm_edid),
++					    drm_gtf2_2c(drm_edid),
++					    drm_gtf2_k(drm_edid),
++					    drm_gtf2_2j(drm_edid));
++	}
++
++	return mode;
++}
++
+ /*
+  * Take the standard timing params (in this case width, aspect, and refresh)
+  * and convert them into a real mode using CVT/GTF/DMT.
+@@ -3201,23 +3230,7 @@ static struct drm_display_mode *drm_mode_std(struct drm_connector *connector,
+ 		mode = drm_gtf_mode(dev, hsize, vsize, vrefresh_rate, 0, 0);
+ 		break;
+ 	case LEVEL_GTF2:
+-		/*
+-		 * This is potentially wrong if there's ever a monitor with
+-		 * more than one ranges section, each claiming a different
+-		 * secondary GTF curve.  Please don't do that.
+-		 */
+-		mode = drm_gtf_mode(dev, hsize, vsize, vrefresh_rate, 0, 0);
+-		if (!mode)
+-			return NULL;
+-		if (drm_mode_hsync(mode) > drm_gtf2_hbreak(drm_edid)) {
+-			drm_mode_destroy(dev, mode);
+-			mode = drm_gtf_mode_complex(dev, hsize, vsize,
+-						    vrefresh_rate, 0, 0,
+-						    drm_gtf2_m(drm_edid),
+-						    drm_gtf2_2c(drm_edid),
+-						    drm_gtf2_k(drm_edid),
+-						    drm_gtf2_2j(drm_edid));
+-		}
++		mode = drm_gtf2_mode(dev, drm_edid, hsize, vsize, vrefresh_rate);
+ 		break;
+ 	case LEVEL_CVT:
+ 		mode = drm_cvt_mode(dev, hsize, vsize, vrefresh_rate, 0, 0,
 -- 
 2.35.1
 
