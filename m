@@ -1,58 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE01F5A28C4
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 15:44:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E93095A28DA
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 15:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E30DC10E90F;
-	Fri, 26 Aug 2022 13:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF1710E920;
+	Fri, 26 Aug 2022 13:52:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0A210E90F;
- Fri, 26 Aug 2022 13:44:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661521483; x=1693057483;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=MSnUTu6FaQCyjdRNvKe1+Uu2Wb/cFVcz00a0vJvcSVA=;
- b=HvDI9qke6NtExlaOO0T6Ti8hTP7j43tIAOXn2DdB8gxhBr4WbvIc+bw3
- LUl6dep7IDjNhQiHFdC+cTwfymIMNmVA+Ov6MtrOIoiYHqICw4u2p6IY+
- NxcmRWeWNg6bT6E0gQ7m9M/tXv0u4Lr5m64FAoCXgUDCPi8frfOyiG4fd
- 9lsvjAzMrWyp92mGZ9m60DS9FsjIF4no7ESyg8vlqRh2o0D/4mUIYAIvr
- eOAr62t+TYxSyw3Vrn/oV4cgq5DrOdaDiozMKcFBjf/uNqC05zEgi8OhH
- iNqGT9c4c/mMsHs9fqcR9YVM95GDkB5kMrwHUkJmTa7Mnt4Kse0b5XKLw A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="320604253"
-X-IronPort-AV: E=Sophos;i="5.93,265,1654585200"; d="scan'208";a="320604253"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2022 06:44:42 -0700
-X-IronPort-AV: E=Sophos;i="5.93,265,1654585200"; d="scan'208";a="561442376"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.16.200])
- ([10.213.16.200])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2022 06:44:38 -0700
-Message-ID: <1d8cc163-2435-42bc-83c8-62648d3c5ada@intel.com>
-Date: Fri, 26 Aug 2022 15:44:36 +0200
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9C410E910
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 13:52:15 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id bq23so2081089lfb.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 06:52:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=lTzV7n7YCX+2rNWBDGnjMopVLA2KjEwwfdhSN/SUuIQ=;
+ b=v4orgEt+Ur+7MTTMWfRNCAhqjJWT7FuDT9PJ32ngcplFQEi/WHUTZS4Ej5BZaqnY6k
+ 7sSPLlNmeQ5rWJVLzjU1VC4dv6dWPPaugV8iZNIHPh+xKD/wu1cHwznHOAJ6Dw8eQZ0V
+ hzePykCuNsBJCZ/RGyMop4Ta5b92A2TucKtRsEbr7YGduAP4kjkR6qbmgr/OATyQNvlo
+ pjHRaqUOPCczgXgMpzWnUBOmx/hcZ/CYq28w3Y8c7b214LkKMKBJcR6YKhus569Y7lHR
+ blPOH0i2XZmlcbI97AyBHsrah0/t77fBK1rzKfVPkUUSECQ//jGXgkUklh0wmSJwB6bg
+ U2ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=lTzV7n7YCX+2rNWBDGnjMopVLA2KjEwwfdhSN/SUuIQ=;
+ b=tSEe87fPggNgk0Sdp200E8x1ujl7UNtO5D9mD6ijQbovs6k0c3uAaZ35CbbuWINuZ1
+ FsJmSqkHmZ/H9YMSPtMp3fR1ZM27D5URlgQIJc+qagbM6wpyWr+/OAvz3Ba5sYV0Cly8
+ IJb9Uz9EnmSlHFxCYW/kZCN1/LmEvP6yErG3VGqwuHmq9/YcaOurXCvtRpLyirYwc4uE
+ wJyAjcOhUv5XQQtxATEo55aGxPbC66HH7ENcUuhFqhoXZokfu6dJztmOBsK+qdqbf36r
+ b0XGjQtParJktLBtOPU+GLZ7mZD/YGBdz53FW8qua1dynOxTKIOVuv2UeluyJ2R099dv
+ pMFw==
+X-Gm-Message-State: ACgBeo0vdQzeTptEGfLDAH2OrFUmidgZywBIzK9CGD6pA665EYAIvkN0
+ VEU32czAU9YoxYiKtVEfbgj3WA==
+X-Google-Smtp-Source: AA6agR5PK2neleXjNF0K3AJOAc0RaleB3Pq+FuSAeBmtSFLkJx+AxFxMsVP6Wp/QFsnK2NL3vjxsRA==
+X-Received: by 2002:a05:6512:210b:b0:492:e4cb:b93a with SMTP id
+ q11-20020a056512210b00b00492e4cbb93amr2457810lfr.601.1661521933823; 
+ Fri, 26 Aug 2022 06:52:13 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ g1-20020a2eb5c1000000b0026181467eb4sm472629ljn.114.2022.08.26.06.52.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 06:52:13 -0700 (PDT)
+Message-ID: <648214d3-df31-9554-7b42-c69d72fe1ba9@linaro.org>
+Date: Fri, 26 Aug 2022 16:52:12 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.13.0
-Subject: Re: [Intel-gfx] [PATCH v9 1/8] overflow: Move and add few utility
- macros into overflow
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-References: <20220824084514.2261614-1-gwan-gyeong.mun@intel.com>
- <20220824084514.2261614-2-gwan-gyeong.mun@intel.com>
- <202208250848.1C77B9C38@keescook>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <202208250848.1C77B9C38@keescook>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [RFC] drm/bridge: adv7533: remove dynamic lane switching from
+ adv7533 bridge
+Content-Language: en-GB
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <1660005330-12369-1-git-send-email-quic_abhinavk@quicinc.com>
+ <YvK4SpvF0zwtaIM9@pendragon.ideasonboard.com>
+ <2933a555-d000-3fc3-5336-778238545b80@linaro.org>
+ <ef88ed87-fd32-5c50-d220-fd43b238bd7c@linaro.org>
+ <Ywi0u4E5+MUx9wCk@pendragon.ideasonboard.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <Ywi0u4E5+MUx9wCk@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,245 +78,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, jani.nikula@intel.com,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, intel-gfx@lists.freedesktop.org,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, airlied@linux.ie,
- matthew.auld@intel.com, intel-gfx-trybot@lists.freedesktop.org,
- mchehab@kernel.org, nirmoy.das@intel.com
+Cc: jernej.skrabec@gmail.com, andrzej.hajda@intel.com, narmstrong@baylibre.com,
+ airlied@linux.ie, sam@ravnborg.org, jonas@kwiboo.se,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, robert.foss@linaro.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com, colin.king@intel.com,
+ freedreno@lists.freedesktop.org, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.08.2022 18:47, Kees Cook wrote:
-> On Wed, Aug 24, 2022 at 05:45:07PM +0900, Gwan-gyeong Mun wrote:
->> It moves overflows_type utility macro into overflow header from i915_utils
->> header. The overflows_type can be used to catch the truncaion (overflow)
->> between different data types. And it adds check_assign() macro which
->> performs an assigning source value into destination ptr along with an
->> overflow check. overflow_type macro has been improved to handle the signbit
->> by gcc's built-in overflow check function. And it adds overflows_ptr()
->> helper macro for checking the overflows between a value and a pointer
->> type/value.
->>
->> v3: Add is_type_unsigned() macro (Mauro)
->>      Modify overflows_type() macro to consider signed data types (Mauro)
->>      Fix the problem that safe_conversion() macro always returns true
->> v4: Fix kernel-doc markups
->> v6: Move macro addition location so that it can be used by other than drm
->>      subsystem (Jani, Mauro, Andi)
->>      Change is_type_unsigned to is_unsigned_type to have the same name form
->>      as is_signed_type macro
->> v8: Add check_assign() and remove safe_conversion() (Kees)
->>      Fix overflows_type() to use gcc's built-in overflow function (Andrzej)
->>      Add overflows_ptr() to allow overflow checking when assigning a value
->>      into a pointer variable (G.G.)
->> v9: Fix overflows_type() to use __builtin_add_overflow() instead of
->>      __builtin_add_overflow_p() (Andrzej)
->>      Fix overflows_ptr() to use overflows_type() with the unsigned long type
->>      (Andrzej)
->>
->> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Cc: Matthew Auld <matthew.auld@intel.com>
->> Cc: Nirmoy Das <nirmoy.das@intel.com>
->> Cc: Jani Nikula <jani.nikula@intel.com>
->> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->> Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
->> Cc: Kees Cook <keescook@chromium.org>
->> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org> (v5)
->> ---
->>   drivers/gpu/drm/i915/i915_user_extensions.c |  3 +-
->>   drivers/gpu/drm/i915/i915_utils.h           |  5 +-
->>   include/linux/overflow.h                    | 62 +++++++++++++++++++++
->>   3 files changed, 64 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_user_extensions.c b/drivers/gpu/drm/i915/i915_user_extensions.c
->> index c822d0aafd2d..6f6b5b910968 100644
->> --- a/drivers/gpu/drm/i915/i915_user_extensions.c
->> +++ b/drivers/gpu/drm/i915/i915_user_extensions.c
->> @@ -50,8 +50,7 @@ int i915_user_extensions(struct i915_user_extension __user *ext,
->>   		if (err)
->>   			return err;
->>   
->> -		if (get_user(next, &ext->next_extension) ||
->> -		    overflows_type(next, ext))
->> +		if (get_user(next, &ext->next_extension) || overflows_ptr(next))
->>   			return -EFAULT;
->>   
->>   		ext = u64_to_user_ptr(next);
+On 26/08/2022 14:55, Laurent Pinchart wrote:
+> Hello,
 > 
-> I continue to dislike the layers of macros and specialization here.
-> This is just a fancy version of check_assign():
+> On Fri, Aug 26, 2022 at 01:17:43PM +0300, Dmitry Baryshkov wrote:
+>> On 22/08/2022 19:31, Dmitry Baryshkov wrote:
+>>> On 09/08/2022 22:40, Laurent Pinchart wrote:
+>>>> On Mon, Aug 08, 2022 at 05:35:30PM -0700, Abhinav Kumar wrote:
+>>>>> adv7533 bridge tries to dynamically switch lanes based on the
+>>>>> mode by detaching and attaching the mipi dsi device.
+>>>>>
+>>>>> This approach is incorrect because as per the DSI spec the
+>>>>> number of lanes is fixed at the time of system design or initial
+>>>>> configuration and may not change dynamically.
+>>>>
+>>>> Is that really so ? The number of lanes connected on the board is
+>>>> certainlyset at design time, but a lower number of lanes can be used at
+>>>> runtime. It shouldn't change dynamically while the display is on, but it
+>>>> could change at mode set time.
+>>>
+>>> I'm not sure if I interpreted the standard correctly, but I tended to
+>>> have the same interpretation as Abhinav did.
+>>>
+>>> Anyway, even if we allow the drivers to switch the amount of lanes, this
+>>> should not happen in the form of detach()/attach() cycle. The drivers
 > 
-> 	if (get_user(next, &ext->next_extension) || check_assign(next, &ext))
-> 		return -EFAULT;
+> Agreed.
 > 
-> However, the __builtin_*_overflow() family only wants to work on
-> integral types, so this needs to be slightly expanded:
+>>> use mipi_dsi_attach() as way to signal the DSI hosts that the sink
+>>> device is ready. Some of DSI hosts (including MSM one) would bind
+>>> components from the attach callback.
+>>>
+>>> If we were to support dynamically changing the amount of lanes, I would
+>>> ask for additional mipi_dsi API call telling the host to switch the
+>>> amount of lanes. And note that this can open the can of worms. Different
+>>> hosts might have different requirements here. For example for the MSM
+>>> platform the amount of lanes is programmed during bridge_pre_enable
+>>> chain call, so it is possible to just set the amount of lanes following
+>>> the msm_dsi_device::lanes. Other hosts might have other requirements.
 > 
-> 	uintptr_t kptr;
-> 	...
-> 	if (get_user(next, &ext->next_extension) || check_assign(next, &kptr))
-> 		return -EFAULT;
-> 
-> 	ext = (void * __user)kptr;
-> 
-> But, it does seem like the actual problem here is that u64_to_user_ptr()
-> is not performing the checking? It's used heavily in the drm code.
-> 
-> Is a check_assign_user_ptr() needed?
-> 
->> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
->> index c10d68cdc3ca..eb0ded23fa9c 100644
->> --- a/drivers/gpu/drm/i915/i915_utils.h
->> +++ b/drivers/gpu/drm/i915/i915_utils.h
->> @@ -32,6 +32,7 @@
->>   #include <linux/types.h>
->>   #include <linux/workqueue.h>
->>   #include <linux/sched/clock.h>
->> +#include <linux/overflow.h>
->>   
->>   #ifdef CONFIG_X86
->>   #include <asm/hypervisor.h>
->> @@ -111,10 +112,6 @@ bool i915_error_injected(void);
->>   #define range_overflows_end_t(type, start, size, max) \
->>   	range_overflows_end((type)(start), (type)(size), (type)(max))
->>   
->> -/* Note we don't consider signbits :| */
->> -#define overflows_type(x, T) \
->> -	(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
->> -
->>   #define ptr_mask_bits(ptr, n) ({					\
->>   	unsigned long __v = (unsigned long)(ptr);			\
->>   	(typeof(ptr))(__v & -BIT(n));					\
->> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
->> index f1221d11f8e5..6af9df1d67a1 100644
->> --- a/include/linux/overflow.h
->> +++ b/include/linux/overflow.h
->> @@ -52,6 +52,68 @@ static inline bool __must_check __must_check_overflow(bool overflow)
->>   	return unlikely(overflow);
->>   }
->>   
->> +/**
->> + * overflows_type - helper for checking the overflows between data types or
->> + *                  values
->> + *
->> + * @x: Source value or data type for overflow check
->> + * @T: Destination value or data type for overflow check
->> + *
->> + * It compares the values or data type between the first and second argument to
->> + * check whether overflow can occur when assigning the first argument to the
->> + * variable of the second argument. Source and Destination can be singned or
->> + * unsigned data types. Source and Destination can be different data types.
->> + *
->> + * Returns:
->> + * True if overflow can occur, false otherwise.
->> + */
->> +#define overflows_type(x, T) __must_check_overflow(({	\
->> +	typeof(T) v = 0;				\
->> +	__builtin_add_overflow((x), v, &v);		\
->> +}))
-> 
-> I'd like to avoid "externalizing" these kinds of checks when the better
-> path is to catch the issue at operation type (add, sub, mul, assign).
-> Looking at existing users, I see stuff like:
-> 
->                  if (overflows_type(item.query_id - 1, unsigned long))
->                          return -EINVAL;
-> 
->                  func_idx = item.query_id - 1;
-> 
-> This requires too much open-coded checking, IMO. It's better as:
-> 
-> 		if (check_assign(item.query_id - 1, &func_idx))
-> 			return -EINVAL;
-> 
-> or other similar:
-> 
->          if (overflows_type(user->slice_mask, context->slice_mask) ||
-> 	...
->          context->slice_mask = user->slice_mask;
-> 
-> and some that don't make sense to me. Why check argument types? Is this
-> trying to avoid implicit type conversions?
-> 
-> So, if it's _really_ needed, I can live with adding overflows_type().
-> 
->> +
->> +/**
->> + * overflows_ptr - helper for checking the occurrence of overflows when a value
->> + *                 assigns to  the pointer data type
->> + *
->> + * @x: Source value for overflow check
->> + *
->> + * gcc's built-in overflow check functions don't support checking between the
->> + * pointer type and non-pointer type. And ILP32 and LP64 have the same bit size
->> + * between long and pointer. Therefore it internally compares the source value
->> + * and unsigned long data type for checking overflow.
->> + *
->> + * Returns:
->> + * True if overflow can occur, false otherwise.
->> + */
->> +#define overflows_ptr(x) __must_check_overflow(overflows_type(x, unsigned long))
-> 
-> I'd rather not have this -- it's just a specialized use of
-> overflows_type(), and only used in 1 place.
-> 
->> +
->> +/**
->> + * check_assign - perform an assigning source value into destination ptr along
->> + *                with an overflow check.
->> + *
->> + * @value: Source value
->> + * @ptr: Destination pointer address, If the pointer type is not used,
->> + *       a warning message is output during build.
->> + *
->> + * It checks internally the ptr is a pointer type. And it uses gcc's built-in
->> + * overflow check function.
->> + * It does not use the check_*() wrapper functions, but directly uses gcc's
->> + * built-in overflow check function so that it can be used even when
->> + * the type of value and the type pointed to by ptr are different without build
->> + * warning messages.
-> 
-> This is a good point: the check_{add,sub,mul}_overflow() helpers
-> currently require all the params be the same type, which rather limits
-> their usage. Perhaps this can be weakened now that we're not using[1]
-> the fallback logic any more? (Separate patch.)
-> 
->> + *
->> + * Returns:
->> + * If the value would overflow the destination, it returns true. If not return
->> + * false. When overflow does not occur, the assigning into ptr from value
->> + * succeeds. It follows the return policy as other check_*_overflow() functions
->> + * return non-zero as a failure.
->> + */
->> +#define check_assign(value, ptr) __must_check_overflow(({	\
->> +	typecheck_pointer(ptr); 		\
->> +	__builtin_add_overflow(0, value, ptr);	\
->> +}))
-> 
-> But yes, this looks correct. I really like it. :)
+> Conceptually, I would expect the number of effective lanes to be
+> selected at mode set time, because it has to be done while the output is
+> disabled.
 
+There is one tightly coupled question. The dual-DSI (or bonded-DSI) 
+mode. Currently it is exposed as two independent DSI hosts. If we allow 
+changing the amount of DSI lanes at runtime, bonded DSI mode would 
+become complicated by fixing amount of lanes for each of outputs (or 
+switching them in tight loop). And then comes the question of switching 
+between single-DSI and bonded-DSI at runtime.
 
-One more thing, I suspect __builtin_add_overflow checks already if ptr 
-is pointer, so typecheck_pointer seems redundant.
+> With the atomic API for bridges the .mode_set() operation is
+> deprecated, so .pre_enable() sounds best, but there's a potential issue:
+> the .pre_enable() operation is called from sink to source. It means that
+> a DSI sink .pre_enable() operation would need to call a DSI host
+> operation to set (or maybe negotiate instead of just setting a fixed
+> value) the number of lanes first if it wants to control the sink through
+> DCS at .pre_enable() time. We'd have to see how that fits.
 
-Regards
-Andrzej
+What is the fate of the patchset that implemented 'parent-first' opt-in 
+for the drm_bridge chains? It was supposed to solve this this kind of 
+issues. I'm asking because until it is merged some DSI hosts (e.g. the 
+msm dsi) turn on the power in .mode_set() to allow the pre_enable() 
+callbacks work when the DSI link is in LP11 mode.
 
+Back then I voted for the explicit mipi_dsi_power_on kind of calls, 
+which would allow the sink bridge to prepare for the DSI powerup (e.g. 
+by setting the amount of lanes), power up the DSI host, putting the link 
+into LP11 and after that communicate with the sink using the DSI data 
+lanes.
 
 > 
->> +
->>   /*
->>    * For simplicity and code hygiene, the fallback code below insists on
->>    * a, b and *d having the same type (similar to the min() and max()
->> -- 
->> 2.37.1
->>
+>>> Thus said I'd suggest accepting this patch and maybe working on the
+>>> API/support for the lane switching as a followup.
 > 
-> -Kees
+> I don't have a personal need for the ADV7533 so I won't really complain
+> about any potential regression this may introduce (given that it fixes a
+> deadlock maybe things are completely broken already and nothing can
+> regress). I'd like to see this fixed though, doing it as a follow up is
+> too often a way to avoid doing it at all :-)
+
+I don't know if this sounds like a promise, we are supporting several 
+devices which use adv75xx (including famous dragonboard410c and less 
+known Inforce ifc6510). So it might be (*) in our interest to restore 
+this functionality. However as it requires adding additional API, design 
+& negotiations might take some time.
+
+(*) might be if it limits the functionality of the device by limiting 
+support for different modes. If not... why care then?
+
+
+> In any case, the commit message should be reworded to explain the
+> rationale and what needs to be done. Adding a TODO or FIXME comment in
+> the code would also help.
 > 
-> [1] 4eb6bd55cfb2 ("compiler.h: drop fallback overflow checkers")
-> 
+
+-- 
+With best wishes
+Dmitry
 
