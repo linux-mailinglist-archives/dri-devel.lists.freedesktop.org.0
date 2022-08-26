@@ -2,42 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586985A2749
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 13:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF645A2758
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 14:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5F810E87A;
-	Fri, 26 Aug 2022 11:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFA910E569;
+	Fri, 26 Aug 2022 12:05:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E549710E88D;
- Fri, 26 Aug 2022 11:59:28 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F5C82B3;
- Fri, 26 Aug 2022 13:59:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661515167;
- bh=CS5piaRjXy+DxHLV3y95syJlOsE1ZwwfLPtC1JebilU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lUWF/5pBONXKSORhwZRZ63v81J8IzAy+y7wkmRIf5WmdZBbKUam41CyKmCQjhUC5D
- 4aNdVrwGWLtZCJyqN0veGloOYtXrJEZo7WUdAs10Jyuvr1Ks9ysM/7RGcfz1f01A87
- knktRFCsJTPJiG9fmvUQz2tIuoMG2gGiUeuD1KbQ=
-Date: Fri, 26 Aug 2022 14:59:20 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [RFC] drm/bridge: adv7533: remove dynamic lane switching from
- adv7533 bridge
-Message-ID: <Ywi1mILX/CI26EFR@pendragon.ideasonboard.com>
-References: <1660005330-12369-1-git-send-email-quic_abhinavk@quicinc.com>
- <YvK4SpvF0zwtaIM9@pendragon.ideasonboard.com>
- <b1a291ca-2a63-47ac-775e-72d2ebfa43fa@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DBCE10E569
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 12:05:27 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27QBPbIk027154;
+ Fri, 26 Aug 2022 12:05:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2022-7-12;
+ bh=csTBbfLz9c0aM1UmSZfeWjyiVcCdYXAurhfMobPOzak=;
+ b=qgmj3UxoYXgyBIBzh8RA0nvXKKepnGX18Pff2fSL2+kroGWGnyc0XdKaRVnTSIWgnc7g
+ 5rX287TJMOxbccwK4EI3XjXJjuBfIPJqOW+xcQV7DS1HpAJjD8KUG9h2coDNOdVCMglc
+ PJnnSrWQJKUAcyXsQoafvHikzLgMcmtLMOFgT505yjQ3IA0fTPLr6pHss8tGKPgM2mJl
+ Zsur7FKYF+umrv4yxIRhbE/kjZ/KSkZs0RhHk4JqqhtahZJxl3rNkfyGQcPua+WOQwrW
+ PRxxB6kMVhUAeT6CNISOMqEx4+v5dJW3Z1JPBX/UlqlXCZbT+YJ4DN6ik3XYdPKhd6zG ig== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3j55nyfr9r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 26 Aug 2022 12:05:21 +0000
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 27Q8OoOc016229; Fri, 26 Aug 2022 12:05:20 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3j5n6p81ft-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 26 Aug 2022 12:05:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ax4z8oeqY1Bo2MSHFlP1SdZthPmrxx7sqT02KjVvGoIAO7BggFweMhAQ6x7J9mgHnRiSbjS/KgKUYZw/DsNcK2kZXTBrPT4q/e5s+8E9AlcYYZdnRkijkchBUmOZDUPxnrpOYALRm5ENAbRTrjiG8NVbPOxaq8aqSx0/0O+V0Ry2EG1DTpl8oeZ8Y41EjtwKP9ZduDsFNnFH0Nm1o7OXerHAQWNO1L4VUePel3rzaQ24pCQePGs6hf9oXslVDqQxciNNqKWV1cXR0mbR4o8Vkh7deOhgiuKsSBMHPGAUOmoVCtXo2VR8gpkvazwE5csh7KOxysEWFFCEKl1ujyTz7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=csTBbfLz9c0aM1UmSZfeWjyiVcCdYXAurhfMobPOzak=;
+ b=ktsutK5av9H1Ut7vobzCVnDZJrukSxpmE47cMemlEBP856r9/RRQkS4hb1Mj09n6x3ncxmytd61qR8wH4P8O/ipNYoGx0SkLRYt3swg5DOML9FKuMfN2MsNEEyt0MhKe8tIu/v1auZz0H4xHZZfBP8g74f5fiwWrzOWj56kWPZD9PUCOlU3aLTtYUhdHy8hTythwmTuL6DQD1R+IHL8hthjSgqLTP4IV2I8GVsbtAoFlN7DSz+rqVVoDbwNvlBM+yAEsKqJY5pvNItZ+CbtTY8cEJnfmQJ/hMj2taZOmCcjpCqMqTGBkmVqb2eh5T7HdcOWvqmqDCzYNZjnmwDRSSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=csTBbfLz9c0aM1UmSZfeWjyiVcCdYXAurhfMobPOzak=;
+ b=B+vOf9P3wEwDg8i/voxpT5u8VidYdullBTT77xxQoNgc2WhKrDcUaJ5f9Xb4j/PCENW5L7IjpZEq73Fb1RpQTO7NagM4xMBe+P0cZ85joNF+AWULA6e/EFaLBf4OduFxlbwNvPqTcAG/WDI9CpYGd69ixlgPKVZiTWn1wSVxtpQ=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CY4PR10MB1576.namprd10.prod.outlook.com
+ (2603:10b6:903:2c::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Fri, 26 Aug
+ 2022 12:05:18 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::209e:de4d:68ea:c026]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::209e:de4d:68ea:c026%3]) with mapi id 15.20.5566.016; Fri, 26 Aug 2022
+ 12:05:18 +0000
+Date: Fri, 26 Aug 2022 15:05:07 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH] drm/tve200: Fix smatch warning
+Message-ID: <20220826120507.GI2030@kadam>
+References: <20220505215019.2332613-1-linus.walleij@linaro.org>
+ <CACRpkdZKUGu_BCP1sUWU_-ObNuc9MhgO98WRi-6OT4Vv-VYibg@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b1a291ca-2a63-47ac-775e-72d2ebfa43fa@quicinc.com>
+In-Reply-To: <CACRpkdZKUGu_BCP1sUWU_-ObNuc9MhgO98WRi-6OT4Vv-VYibg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MR2P264CA0187.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501::26)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: eab83488-fefe-40a3-e21d-08da875b3e06
+X-MS-TrafficTypeDiagnostic: CY4PR10MB1576:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JWpsHrQ4T/1BKjeWanItruMfpaj+TiyBVj+wFdsdStK1vWK9wxNEsmTHI4Le1BCilNNg9Irbyh9Asl3NQAMiPcLikAnF+I0PYlt52YprXbF7tJVixznoOvsCkQPry/foNtclZW6JO2HEurhs1q+zfmPME0vj1Dj7siUD8fxrCTUnraWlq/+pW4t1Ihci3qWT26xeyWlHsWqJwiTz/74rIhYRXgWWtghrhKSO/IYUQ6ij2rR7OL1wLFLBeh2mEpGNhAeiIajr+YdHoK+f2oI4NIunf/3jSySWsEj3KBqELokZNZu3bVaMe2J75qwd8L4n1g1OAB6U6NZY1Om5ORh2UAmrCX/85lo70grygHCJRQtqf/lIkjtkw34kPyJETZ2d7W1vpTQC/328691rCcA9YKLt75+lSEPj4r1vTvSALQU33V+i8tg4WBTLT0BKOqlr9Ar3LRRFH9EQlu9dkL+et29QdIQZvMbRVh5i58r46nhNT6Zgz8oadlKMACGtiKYyhNKH/sMIduvxFAqFiS9euQar+FbtC6b1ty/dRBsjbKQOqMyRghGpp9KcEwtIlCZP3i+CT5SO+ANsMdluUTZ0b3PyhWGn/+S+8hDh7+rSGgvUGEs3ZV2itMLWZphx1HIsAg8nBbPqpNC4nWCuWC5Q1wvg4IKduNUHoocRE9s8lwgTnqbgPM+1sGdeO1pmygbKENOY9UOfbTcYQSaD6I/0a48a8lVKknUArMh/1u8UCSxaSSHd05S0W9eN3YAJapCR472Tbdwyuwn4HVUx7rzGrA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(7916004)(136003)(396003)(376002)(346002)(366004)(39860400002)(26005)(6486002)(1076003)(66476007)(6916009)(4326008)(33716001)(44832011)(66556008)(316002)(186003)(66946007)(41300700001)(9686003)(6512007)(52116002)(33656002)(6506007)(53546011)(478600001)(8676002)(6666004)(86362001)(38350700002)(5660300002)(2906002)(54906003)(4744005)(8936002)(38100700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ML3EGx2F9FipuSPDkedeCDwacwQuvvzNSF+GHTR+9CK95UKsgKeI912TttxW?=
+ =?us-ascii?Q?ICmz6HaPSdWAeroypfNpHTSW+a4vt7FFTsL002rHTEmpBqNhP92v0N9E8VdB?=
+ =?us-ascii?Q?CmPo2W5txImFOxNl7f3ttrpD202J07gT4EPzbGVHaR8c/TgkCVsn/CWuEQac?=
+ =?us-ascii?Q?JM2G8NHIIGr9wOgngllZJp+UGmOaCeWTaDnlS8GGQJaeRpuqT68wF3aujPV/?=
+ =?us-ascii?Q?5PJIfPGPe+Wy9l2IDPev6EScC9akv9MmliVAtp4msDo8VF/jGhx/GNZsOOK8?=
+ =?us-ascii?Q?FgB+qCcXyYqkplJmkQHsECiljZ2rku2nE3UPEz8E6jvtiqMdwYt1fGmWzZqZ?=
+ =?us-ascii?Q?NwZLoyoHmtdkNiGkAOMSJw7mpN6ZuULszxClry1rGfMzJ+zP/dfkixi3ocJ3?=
+ =?us-ascii?Q?DJT4IKeNMmEcapUiU1mBfUuiaEWLY8nwlM/J7YAkneKqL8NQ3/rrpTYuZydK?=
+ =?us-ascii?Q?1Dzk2GQrSCJ8YErhlA3yC+gG4irJ1EMPY0scpc38TuOJNp1yXIgyVgyQlNfB?=
+ =?us-ascii?Q?0+xgr10AgKMUiPtpIiZzPa6ktHcisKS9y83sxBZlPZoJ3uj1dTi3NYQS7SB1?=
+ =?us-ascii?Q?QLMJajRghf8D3awZH6Z4DilATPTNKI/IPP+DQJLrvwc8X2HOGN1oobEIIBle?=
+ =?us-ascii?Q?KbA8AMV53XMN5Y2HpPQn9swDVDnUtKCN8KXb067oadzSgwIexiuXTw7Sq+71?=
+ =?us-ascii?Q?ISOsgMkZ9OfElecvRNImN74OuJRY9kzBdN2O1JDYl+6gyJcrMZqC6RpeP8v5?=
+ =?us-ascii?Q?cROzoGvPA8/xlveIw0fDJwiDGyWfYwAqmEVEHUIS8uFBS7PIuCsdK+XjaKdS?=
+ =?us-ascii?Q?NzVK4EwrQSj0kvb2WjX2zKF2JtU8kDigUdM9IpZXShdshNZOyvYXE650tqLu?=
+ =?us-ascii?Q?NZEur1/kOk2pw3ef4n1CaDNjtmRzh4czW0bhZIejbsnxSG8z2Q9+22VuQ8Px?=
+ =?us-ascii?Q?G+F2Y7iUmdYEGzFAAJ47ywQPIk0KCTlJeiQUiq/ekzOll1+6sDxPX2OuKyuw?=
+ =?us-ascii?Q?MePsDEABaXH6RD2i7Ly+jP0stDfxQzI/gXzZGsqFGPG7yxww80R9A+rmjqDd?=
+ =?us-ascii?Q?4nlsA/hPsnpFFYjYyY48QnFVv786EKDQRkSpqeGIu8i3t4P8Ryqe4qRUuvl2?=
+ =?us-ascii?Q?mMBvzG0IBd6Z0MUqj+BWID6H59RnQGP+UMvidliyibWe11coqrQxI5Db4BCU?=
+ =?us-ascii?Q?UlcYRdkpSJV6AevcFfEqLdYz45Jeb6swI1TG52OoawVLV0RcSfFk0BEBJhay?=
+ =?us-ascii?Q?rV2ggdn4l+sgua6nA7iy6FYEf5nz0mVdFLi31TcpRUuKxwB89Ux0249Su7lf?=
+ =?us-ascii?Q?EyOtPAFireE2vo36AWfbVsdZe17vjYtdHUkEvSUj7SkRXYkIvtYP+XCj6tG1?=
+ =?us-ascii?Q?2+r1cNXi8E0YUNTUXIRVC0lc1wGKaJSbejjQ4SsijziZj80RX9O3afFL38UR?=
+ =?us-ascii?Q?YTPnU0jemqLAu9pd1Zfl3o/yyACb2AaYkcb/4VQE6hbMjaXtUC9DtmmnlFgD?=
+ =?us-ascii?Q?TMd790ICU6QnHz/ANvms34W9V7ngxWWTVqE+NKwyP55I2LloDv272AVHowjJ?=
+ =?us-ascii?Q?NeZVRoF7sm7HnyB7BKfJc6mdHMvsqLito7BIvwR3M1e3BgF1ri3FRdGYddOn?=
+ =?us-ascii?Q?XQ=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eab83488-fefe-40a3-e21d-08da875b3e06
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2022 12:05:18.0633 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bN+9OxGGIhgTHU0F4TvP3eLh55qgCBOWkhTT6E8AmuBngCxKAPuHJAHlgU7CzvMhxG8wwCapAk2KkPwbvUl21AsZWu8Gry2gk8xtf8KhTeQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1576
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-26_06,2022-08-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ suspectscore=0
+ mlxlogscore=999 mlxscore=0 spamscore=0 adultscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208260051
+X-Proofpoint-ORIG-GUID: 1zNyufYLrDCv2CSAUaIGt7wAeHUulPDz
+X-Proofpoint-GUID: 1zNyufYLrDCv2CSAUaIGt7wAeHUulPDz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,287 +152,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@gmail.com, andrzej.hajda@intel.com, narmstrong@baylibre.com,
- airlied@linux.ie, sam@ravnborg.org, jonas@kwiboo.se,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- robert.foss@linaro.org, dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com, colin.king@intel.com,
- freedreno@lists.freedesktop.org, maxime@cerno.tech
+Cc: linux-arm-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Abhinav,
-
-On Tue, Aug 09, 2022 at 02:47:32PM -0700, Abhinav Kumar wrote:
-> On 8/9/2022 12:40 PM, Laurent Pinchart wrote:
-> > On Mon, Aug 08, 2022 at 05:35:30PM -0700, Abhinav Kumar wrote:
-> >> adv7533 bridge tries to dynamically switch lanes based on the
-> >> mode by detaching and attaching the mipi dsi device.
-> >>
-> >> This approach is incorrect because as per the DSI spec the
-> >> number of lanes is fixed at the time of system design or initial
-> >> configuration and may not change dynamically.
-> > 
-> > Is that really so ? The number of lanes connected on the board is
-> > certainlyset at design time, but a lower number of lanes can be used at
-> > runtime. It shouldn't change dynamically while the display is on, but it
-> > could change at mode set time.
+On Fri, Aug 26, 2022 at 01:35:56PM +0200, Linus Walleij wrote:
+> On Thu, May 5, 2022 at 11:52 PM Linus Walleij <linus.walleij@linaro.org> wrote:
 > 
-> So as per the spec it says this:
+> > The "ret" variable is ambiguously returning something that
+> > could be zero in the tve200_modeset_init() function, assign
+> > it an explicit error return code to make this unambiguous.
+> >
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > 
-> "The number of Lanes used shall be a static parameter. It shall be fixed 
-> at the time of system design or initial configuration and may not change 
-> dynamically. Typically, the peripheral’s bandwidth requirement and its 
-> corresponding Lane configuration establishes the number of Lanes used in 
-> a system."
+> Would someone show mercy on this patch and review it so I
+> can apply it?
 > 
-> But I do agree with you that this does not prohibit us from changing the 
-> lanes during mode_set time because display might have been off.
+> Dan maybe? If it solves the problem you reported.
 
-Yes, I would consider mode set time as "initial configuration".
+Yes.  This patch makes me happy.  Thanks!
 
-> Although, I really did not see any other bridges doing it this way.
-> 
-> At the same time, detach() and attach() cycle seems the incorrect way to 
-> do it here.
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-I fully agree.
+regards,
+dan carpenter
 
-> We did think of another approach of having a new mipi_dsi_op to 
-> reconfigure the host without the component_del()/component_add() because 
-> most of the host drivers also do component_del()/component_add() in 
-> detach()/attach().
-
-Anything that avoids the usage of the component framework is likely a
-good idea :-) I'd really like to see it go.
-
-> But that would not work here either because this bridge is after the DSI 
-> controller's bridge in the chain.
-> 
-> Hence DSI controller's modeset would happen earlier than this one.
-
-With the atomic bridge API the .mode_set() operation is deprecated in
-favour of the atomic version of the enable and pre-enable operations.
-Pre-enable would likely be a good time to handle this.
-
-> So even if we do have another op to reconfigure the host , this bridge's 
-> modeset would be too late to call that new op.
-> 
-> It complicates things a bit, so we thought that not supporting dynamic 
-> lane switching would be the better way forward unless there is another 
-> suggestion on how to support this.
-> 
-> >> In addition this method of dynamic switch of detaching and
-> >> attaching the mipi dsi device also results in removing
-> >> and adding the component which is not necessary.
-> > 
-> > Yes, that doesn't look good, and the .mode_valid() operation is
-> > definitely not the right point where to set the number of lanes.
-> 
-> I didnt follow this. Did you mean mode_set() is not the right point to 
-> set the number of lanes?
-
-Mode set time is conceptually the right point (but the .mode_set()
-operation isn't, given the above), but .mode_valid() isn't.
-.mode_valid() validates a mode, it should not affect the hardware
-configuration in any way.
-
-> So without this change, adv7533 changes the number of lanes during 
-> mode_set time followed by a detach/attach cycle.
-> 
-> >> This approach is also prone to deadlocks. So for example, on the
-> >> db410c whenever this path is executed with lockdep enabled,
-> >> this results in a deadlock due to below ordering of locks.
-> >>
-> >> -> #1 (crtc_ww_class_acquire){+.+.}-{0:0}:
-> >>          lock_acquire+0x6c/0x90
-> >>          drm_modeset_acquire_init+0xf4/0x150
-> >>          drmm_mode_config_init+0x220/0x770
-> >>          msm_drm_bind+0x13c/0x654
-> >>          try_to_bring_up_aggregate_device+0x164/0x1d0
-> >>          __component_add+0xa8/0x174
-> >>          component_add+0x18/0x2c
-> >>          dsi_dev_attach+0x24/0x30
-> >>          dsi_host_attach+0x98/0x14c
-> >>          devm_mipi_dsi_attach+0x38/0xb0
-> >>          adv7533_attach_dsi+0x8c/0x110
-> >>          adv7511_probe+0x5a0/0x930
-> >>          i2c_device_probe+0x30c/0x350
-> >>          really_probe.part.0+0x9c/0x2b0
-> >>          __driver_probe_device+0x98/0x144
-> >>          driver_probe_device+0xac/0x14c
-> >>          __device_attach_driver+0xbc/0x124
-> >>          bus_for_each_drv+0x78/0xd0
-> >>          __device_attach+0xa8/0x1c0
-> >>          device_initial_probe+0x18/0x24
-> >>          bus_probe_device+0xa0/0xac
-> >>          deferred_probe_work_func+0x90/0xd0
-> >>          process_one_work+0x28c/0x6b0
-> >>          worker_thread+0x240/0x444
-> >>          kthread+0x110/0x114
-> >>          ret_from_fork+0x10/0x20
-> >>
-> >> -> #0 (component_mutex){+.+.}-{3:3}:
-> >>          __lock_acquire+0x1280/0x20ac
-> >>          lock_acquire.part.0+0xe0/0x230
-> >>          lock_acquire+0x6c/0x90
-> >>          __mutex_lock+0x84/0x400
-> >>          mutex_lock_nested+0x3c/0x70
-> >>          component_del+0x34/0x170
-> >>          dsi_dev_detach+0x24/0x30
-> >>          dsi_host_detach+0x20/0x64
-> >>          mipi_dsi_detach+0x2c/0x40
-> >>          adv7533_mode_set+0x64/0x90
-> >>          adv7511_bridge_mode_set+0x210/0x214
-> >>          drm_bridge_chain_mode_set+0x5c/0x84
-> >>          crtc_set_mode+0x18c/0x1dc
-> >>          drm_atomic_helper_commit_modeset_disables+0x40/0x50
-> >>          msm_atomic_commit_tail+0x1d0/0x6e0
-> >>          commit_tail+0xa4/0x180
-> >>          drm_atomic_helper_commit+0x178/0x3b0
-> >>          drm_atomic_commit+0xa4/0xe0
-> >>          drm_client_modeset_commit_atomic+0x228/0x284
-> >>          drm_client_modeset_commit_locked+0x64/0x1d0
-> >>          drm_client_modeset_commit+0x34/0x60
-> >>          drm_fb_helper_lastclose+0x74/0xcc
-> >>          drm_lastclose+0x3c/0x80
-> >>          drm_release+0xfc/0x114
-> >>          __fput+0x70/0x224
-> >>          ____fput+0x14/0x20
-> >>          task_work_run+0x88/0x1a0
-> >>          do_exit+0x350/0xa50
-> >>          do_group_exit+0x38/0xa4
-> >>          __wake_up_parent+0x0/0x34
-> >>          invoke_syscall+0x48/0x114
-> >>          el0_svc_common.constprop.0+0x60/0x11c
-> >>          do_el0_svc+0x30/0xc0
-> >>          el0_svc+0x58/0x100
-> >>          el0t_64_sync_handler+0x1b0/0x1bc
-> >>          el0t_64_sync+0x18c/0x190
-> >>
-> >> Due to above reasons, remove the dynamic lane switching
-> >> code from adv7533 bridge chip and filter out the modes
-> >> which would need different number of lanes as compared
-> >> to the initialization time using the mode_valid callback.
-> >>
-> >> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> >> ---
-> >>   drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 ++-
-> >>   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 ++++++++++++++----
-> >>   drivers/gpu/drm/bridge/adv7511/adv7533.c     | 25 +++++++++++++------------
-> >>   3 files changed, 29 insertions(+), 17 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> >> index 9e3bb8a8ee40..0a7cec80b75d 100644
-> >> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> >> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> >> @@ -417,7 +417,8 @@ static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
-> >>   
-> >>   void adv7533_dsi_power_on(struct adv7511 *adv);
-> >>   void adv7533_dsi_power_off(struct adv7511 *adv);
-> >> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode);
-> >> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
-> >> +		const struct drm_display_mode *mode);
-> >>   int adv7533_patch_registers(struct adv7511 *adv);
-> >>   int adv7533_patch_cec_registers(struct adv7511 *adv);
-> >>   int adv7533_attach_dsi(struct adv7511 *adv);
-> >> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> >> index 5bb9300040dd..1115ef9be83c 100644
-> >> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> >> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> >> @@ -697,7 +697,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
-> >>   }
-> >>   
-> >>   static enum drm_mode_status adv7511_mode_valid(struct adv7511 *adv7511,
-> >> -			      struct drm_display_mode *mode)
-> >> +			      const struct drm_display_mode *mode)
-> >>   {
-> >>   	if (mode->clock > 165000)
-> >>   		return MODE_CLOCK_HIGH;
-> >> @@ -791,9 +791,6 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
-> >>   	regmap_update_bits(adv7511->regmap, 0x17,
-> >>   		0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
-> >>   
-> >> -	if (adv7511->type == ADV7533 || adv7511->type == ADV7535)
-> >> -		adv7533_mode_set(adv7511, adj_mode);
-> >> -
-> >>   	drm_mode_copy(&adv7511->curr_mode, adj_mode);
-> >>   
-> >>   	/*
-> >> @@ -913,6 +910,18 @@ static void adv7511_bridge_mode_set(struct drm_bridge *bridge,
-> >>   	adv7511_mode_set(adv, mode, adj_mode);
-> >>   }
-> >>   
-> >> +static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
-> >> +		const struct drm_display_info *info,
-> >> +		const struct drm_display_mode *mode)
-> >> +{
-> >> +	struct adv7511 *adv = bridge_to_adv7511(bridge);
-> >> +
-> >> +	if (adv->type == ADV7533 || adv->type == ADV7535)
-> >> +		return adv7533_mode_valid(adv, mode);
-> >> +	else
-> >> +		return adv7511_mode_valid(adv, mode);
-> >> +}
-> >> +
-> >>   static int adv7511_bridge_attach(struct drm_bridge *bridge,
-> >>   				 enum drm_bridge_attach_flags flags)
-> >>   {
-> >> @@ -960,6 +969,7 @@ static const struct drm_bridge_funcs adv7511_bridge_funcs = {
-> >>   	.enable = adv7511_bridge_enable,
-> >>   	.disable = adv7511_bridge_disable,
-> >>   	.mode_set = adv7511_bridge_mode_set,
-> >> +	.mode_valid = adv7511_bridge_mode_valid,
-> >>   	.attach = adv7511_bridge_attach,
-> >>   	.detect = adv7511_bridge_detect,
-> >>   	.get_edid = adv7511_bridge_get_edid,
-> >> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> >> index ef6270806d1d..4a6d45edf431 100644
-> >> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> >> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> >> @@ -100,26 +100,27 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
-> >>   	regmap_write(adv->regmap_cec, 0x27, 0x0b);
-> >>   }
-> >>   
-> >> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode)
-> >> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
-> >> +		const struct drm_display_mode *mode)
-> >>   {
-> >> +	int lanes;
-> >>   	struct mipi_dsi_device *dsi = adv->dsi;
-> >> -	int lanes, ret;
-> >> -
-> >> -	if (adv->num_dsi_lanes != 4)
-> >> -		return;
-> >>   
-> >>   	if (mode->clock > 80000)
-> >>   		lanes = 4;
-> >>   	else
-> >>   		lanes = 3;
-> >>   
-> >> -	if (lanes != dsi->lanes) {
-> >> -		mipi_dsi_detach(dsi);
-> >> -		dsi->lanes = lanes;
-> >> -		ret = mipi_dsi_attach(dsi);
-> >> -		if (ret)
-> >> -			dev_err(&dsi->dev, "failed to change host lanes\n");
-> >> -	}
-> >> +	/*
-> >> +	 * number of lanes cannot be changed after initialization
-> >> +	 * as per section 6.1 of the DSI specification. Hence filter
-> >> +	 * out the modes which shall need different number of lanes
-> >> +	 * than what was configured in the device tree.
-> >> +	 */
-> >> +	if (lanes != dsi->lanes)
-> >> +		return MODE_BAD;
-> >> +
-> >> +	return MODE_OK;
-> >>   }
-> >>   
-> >>   int adv7533_patch_registers(struct adv7511 *adv)
-
--- 
-Regards,
-
-Laurent Pinchart
