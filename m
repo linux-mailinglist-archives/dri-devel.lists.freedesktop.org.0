@@ -2,42 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE035A220D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 09:38:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C76A5A221C
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 09:41:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDBA810E6E7;
-	Fri, 26 Aug 2022 07:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 721EF10E703;
+	Fri, 26 Aug 2022 07:41:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 217FA10E6E7
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 07:38:13 +0000 (UTC)
-Date: Fri, 26 Aug 2022 07:38:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1661499490; x=1661758690;
- bh=rAB7sbS8TgCVg7H7gMYgtwHBY3evsKvLH4X7oqTXPZ4=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=Z7esCrVCjfgYmL8T0+mL26ZzzYB38V9x4xuVKeesOaK6y0LoeQbeYDhz5+lT0gznq
- pynarrdSTZSuli7qx2qwazF72UKlLRrb+ublmIWt2T7Dm+XRjfjW/BFNUAX9vPH4Dl
- bXFXygdsLuHlzF3/9pAKgIiOpIkjeRPAsglwmc5lYfUdquPUL6vehbRwEEU/Tdydwi
- GYerGrGsTfnbi4t6nuJrLbt678injp54IgxTbKogbVWAKvOtx4W9JiBUrD0FulwI7R
- Fvl7tvNadGb8UjvdehSEzwYKQeMhWpIk6lOYOM9LGbQl1fYKgB9U8RxBAOUOJ6RZtb
- qjgCKJs/4Ba4Q==
-To: Alex Deucher <alexdeucher@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 4/4] amd/display: indicate support for atomic async
- page-flips on DCN
-Message-ID: <A_ZL55UlxqGGQnHrxTxvFZMCn1HkWbIuaZvtrOnir7mO6YCY8hhyYwjwKjv79SEEBLqbosVtxx0rVeCTso1RktRjY3ECNyLssw77of_D2sM=@emersion.fr>
-In-Reply-To: <CADnq5_MX0Qh7v-Wy1nBhMEWT9bhmQn4W-2Wo97CZgKcby1Xc+w@mail.gmail.com>
-References: <20220824150834.427572-1-contact@emersion.fr>
- <20220824150834.427572-5-contact@emersion.fr>
- <CADnq5_MX0Qh7v-Wy1nBhMEWT9bhmQn4W-2Wo97CZgKcby1Xc+w@mail.gmail.com>
-Feedback-ID: 1358184:user:proton
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95BF610E6DD;
+ Fri, 26 Aug 2022 07:41:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661499693; x=1693035693;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=4a+mq/UD4p7syg3FmT8VtB/pV7z7yScjTYhENi1QEF4=;
+ b=R/giv+cGwWNeguvduEk7CE81SDDKmJwV/GSbJb5ApCEkB5WHH6YC3uwa
+ ijeMuWwkrXbQzlav+70kqh8xYG7zxcQihYVBBh6Dinu+j1qwz/9jKDPXu
+ HxRoaDODqMawg0Lf8LBcxLUIralz5wASwDiuV+McInWeH6gYP0c1uEPjO
+ w88crV5IAvzruMHMUbmCICgtbbfyPzbM+RU0w3tMiJCQ8C7c18cWHAg8E
+ 9vJc/2UBtjMUK2LPnT3fFmtvyhL0W6JTD6cbHHCgmF+/USVo1kGBbf2Ax
+ BEkTg2I+t2VG0Fbky69smq3zQFRZL3gKri4+ShcsFUuDxhsw7W7OrxuBN Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="274200532"
+X-IronPort-AV: E=Sophos;i="5.93,264,1654585200"; d="scan'208";a="274200532"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2022 00:41:31 -0700
+X-IronPort-AV: E=Sophos;i="5.93,264,1654585200"; d="scan'208";a="671361734"
+Received: from plomuzio-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.40.203])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2022 00:41:28 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Intel graphics driver
+ community testing & development <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/i915/guc: Remove log size module parameters
+In-Reply-To: <20220826072438.147598-1-joonas.lahtinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220826072438.147598-1-joonas.lahtinen@linux.intel.com>
+Date: Fri, 26 Aug 2022 10:41:23 +0300
+Message-ID: <87mtbrh2os.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,66 +57,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: daniel.vetter@ffwll.ch, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, hwentlan@amd.com,
- nicholas.kazlauskas@amd.com, joshua@froggi.es
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, August 25th, 2022 at 20:22, Alex Deucher <alexdeucher@gmail.co=
-m> wrote:
+On Fri, 26 Aug 2022, Joonas Lahtinen <joonas.lahtinen@linux.intel.com> wrote:
+> Remove the module parameters for configuring GuC log size.
+>
+> We should instead rely on tuning the defaults to be usable for
+> reporting bugs.
 
-> On Wed, Aug 24, 2022 at 11:09 AM Simon Ser contact@emersion.fr wrote:
->=20
-> > amdgpu_dm_commit_planes already sets the flip_immediate flag for
-> > async page-flips. This flag is used to set the UNP_FLIP_CONTROL
-> > register. Thus, no additional change is required to handle async
-> > page-flips with the atomic uAPI.
-> >=20
-> > Note, async page-flips are still unsupported on DCE with the atomic
-> > uAPI. The mode_set_base callbacks unconditionally set the
-> > GRPH_SURFACE_UPDATE_H_RETRACE_EN field of the GRPH_FLIP_CONTROL
-> > register to 0, which disables async page-flips.
->=20
-> Can you elaborate a bit on this? We don't use hsync flips at all, even
-> in non-atomic, as far as I recall. The hardware can also do immediate
-> flips which take effect as soon as you update the base address
-> register which is what we use for async updates today IIRC.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-When user-space performs a page-flip with the legacy KMS uAPI on DCE
-ASICs, amdgpu_display_crtc_page_flip_target() is called. This function
-checks for the DRM_MODE_PAGE_FLIP_ASYNC flag, sets work->async, which
-is then passed as an argument to adev->mode_info.funcs->page_flip() by
-amdgpu_display_flip_work_func(). Looking at an implementation, for
-instance dce_v10_0_page_flip(), the async flag is used to set that
-GRPH_FLIP_CONTROL register:
+>
+> Fixes: 8ad0152afb1b ("drm/i915/guc: Make GuC log sizes runtime configurable")
+> Signed-off-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c |  7 +++----
+>  drivers/gpu/drm/i915/i915_params.c         | 12 ------------
+>  drivers/gpu/drm/i915/i915_params.h         |  3 ---
+>  3 files changed, 3 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+> index 3a2243b4ac9f..909e5079657b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+> @@ -79,9 +79,9 @@ static void _guc_log_init_sizes(struct intel_guc_log *log)
+>  		}
+>  	};
+>  	s32 params[GUC_LOG_SECTIONS_LIMIT] = {
+> -		i915->params.guc_log_size_crash,
+> -		i915->params.guc_log_size_debug,
+> -		i915->params.guc_log_size_capture,
+> +		GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE,
+> +		GUC_LOG_DEFAULT_DEBUG_BUFFER_SIZE,
+> +		GUC_LOG_DEFAULT_CAPTURE_BUFFER_SIZE,
+>  	};
+>  	int i;
+>  
+> @@ -90,7 +90,6 @@ static void _guc_log_init_sizes(struct intel_guc_log *log)
+>  
+>  	/* If debug size > 1MB then bump default crash size to keep the same units */
+>  	if (log->sizes[GUC_LOG_SECTIONS_DEBUG].bytes >= SZ_1M &&
+> -	    (i915->params.guc_log_size_crash == -1) &&
+>  	    GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE < SZ_1M)
+>  		log->sizes[GUC_LOG_SECTIONS_CRASH].bytes = SZ_1M;
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+> index 06ca5b822111..6fc475a5db61 100644
+> --- a/drivers/gpu/drm/i915/i915_params.c
+> +++ b/drivers/gpu/drm/i915/i915_params.c
+> @@ -171,18 +171,6 @@ i915_param_named(guc_log_level, int, 0400,
+>  	"GuC firmware logging level. Requires GuC to be loaded. "
+>  	"(-1=auto [default], 0=disable, 1..4=enable with verbosity min..max)");
+>  
+> -i915_param_named(guc_log_size_crash, int, 0400,
+> -	"GuC firmware logging buffer size for crash dumps (in MB)"
+> -	"(-1=auto [default], NB: max = 4, other restrictions apply)");
+> -
+> -i915_param_named(guc_log_size_debug, int, 0400,
+> -	"GuC firmware logging buffer size for debug logs (in MB)"
+> -	"(-1=auto [default], NB: max = 16, other restrictions apply)");
+> -
+> -i915_param_named(guc_log_size_capture, int, 0400,
+> -	"GuC error capture register dump buffer size (in MB)"
+> -	"(-1=auto [default], NB: max = 4, other restrictions apply)");
+> -
+>  i915_param_named_unsafe(guc_firmware_path, charp, 0400,
+>  	"GuC firmware path to use instead of the default one");
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
+> index f684d1ab8707..2733cb6cfe09 100644
+> --- a/drivers/gpu/drm/i915/i915_params.h
+> +++ b/drivers/gpu/drm/i915/i915_params.h
+> @@ -61,9 +61,6 @@ struct drm_printer;
+>  	param(int, invert_brightness, 0, 0600) \
+>  	param(int, enable_guc, -1, 0400) \
+>  	param(int, guc_log_level, -1, 0400) \
+> -	param(int, guc_log_size_crash, -1, 0400) \
+> -	param(int, guc_log_size_debug, -1, 0400) \
+> -	param(int, guc_log_size_capture, -1, 0400) \
+>  	param(char *, guc_firmware_path, NULL, 0400) \
+>  	param(char *, huc_firmware_path, NULL, 0400) \
+>  	param(char *, dmc_firmware_path, NULL, 0400) \
 
-=09/* flip at hsync for async, default is vsync */
-=09tmp =3D RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
-=09tmp =3D REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
-=09=09=09    GRPH_SURFACE_UPDATE_H_RETRACE_EN, async ? 1 : 0);
-=09WREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset, tmp);
-
-I don't know how the hardware works, but I assumed it would be
-necessary to do the same in the atomic uAPI code-path as well. However
-dce_v10_0_crtc_do_set_base() has this code block:
-
-=09/* Make sure surface address is updated at vertical blank rather than
-=09 * horizontal blank
-=09 */
-=09tmp =3D RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
-=09tmp =3D REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
-=09=09=09    GRPH_SURFACE_UPDATE_H_RETRACE_EN, 0);
-=09WREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset, tmp);
-
-Which unconditionally sets that same register.
-
-Either way, it's not a very big deal for this patch series, DCE and DCN
-are separate, DCE can be sorted out separately.
-
-Am I completely mistaken here?
-
-Thanks,
-
-Simon
+-- 
+Jani Nikula, Intel Open Source Graphics Center
