@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB025A2FAB
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 21:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0D25A2FDA
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 21:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15CF710E082;
-	Fri, 26 Aug 2022 19:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7490D10E25C;
+	Fri, 26 Aug 2022 19:24:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1B3C10E082
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 19:09:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CA29761ECC;
- Fri, 26 Aug 2022 19:09:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 39CFFC433D7;
- Fri, 26 Aug 2022 19:09:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661540965;
- bh=6QjjBEtO3m3aDTS+sboZqzDbXJWLUW4OKiYkV03Tt2w=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=e/TCZz2hY37f9KpO6CZd8D2gO7C30i8hmmHWet8r4ZdMDdiuuKQkJpm0//RBFp3YW
- xczMnDKevvpu2UQIzFdi+vSVxOd/J6N4BzUctogkvKfTrs2fRcjWwUXI9sa1mNYUf5
- 8nAzbhSbyP5v3mCJrLiAA1G0beT3Cl0cRDSzrFbadd8qUre34/WLUJVId4eOLQZV/L
- YsQ26wqA2t71efrOLIBzdAE47EGi8WtYWE1JNP5ELHYHGQnFduBcF4AgT307IBeBNE
- F7uMa9xKoHYjy4/9fiUIegu0zVxrOTU6KSrfO/KvvrsAEilSypLWLL3nW2Pdn4qi02
- cxv+5pKDqfPmg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 21AD9E2A040; Fri, 26 Aug 2022 19:09:25 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.0-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tzv9SAUpqMNh=4EuE3kCOYrsO9bW1vH8NiB+0rbOZv3LA@mail.gmail.com>
-References: <CAPM=9tzv9SAUpqMNh=4EuE3kCOYrsO9bW1vH8NiB+0rbOZv3LA@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9tzv9SAUpqMNh=4EuE3kCOYrsO9bW1vH8NiB+0rbOZv3LA@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-08-26-1
-X-PR-Tracked-Commit-Id: 100d0ae82b5c240a4dc17486698e67bf116bd598
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 78effb4a9b8c3589519b84759ac1757647072448
-Message-Id: <166154096513.10698.8394863129118772315.pr-tracker-bot@kernel.org>
-Date: Fri, 26 Aug 2022 19:09:25 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49A1510E227
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 19:24:38 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1oRewM-0000At-90; Fri, 26 Aug 2022 21:24:26 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH 1/4] dt-bindings: display: imx: add binding for i.MX8MP HDMI TX
+Date: Fri, 26 Aug 2022 21:24:21 +0200
+Message-Id: <20220826192424.3216734-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,22 +48,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 26 Aug 2022 14:30:12 +1000:
+The HDMI TX controller on the i.MX8MP SoC is a Synopsys designware IP
+core with a little bit of SoC integration around it.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-08-26-1
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Tested-by: Marek Vasut <marex@denx.de>
+---
+ .../bindings/display/imx/fsl,imx8mp-hdmi.yaml | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/78effb4a9b8c3589519b84759ac1757647072448
-
-Thank you!
-
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+new file mode 100644
+index 000000000000..14f7cd47209c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX8MP DWC HDMI TX Encoder
++
++maintainers:
++  - Lucas Stach <l.stach@pengutronix.de>
++
++description: |
++  The HDMI transmitter is a Synopsys DesignWare HDMI 2.0 TX controller IP.
++
++allOf:
++  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8mp-hdmi
++
++  reg:
++    maxItems: 1
++
++  reg-io-width:
++    const: 1
++
++  clocks:
++    maxItems: 5
++
++  clock-names:
++    items:
++      - {}
++      - {}
++      - const: cec
++      - const: pix
++      - const: fdcc
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - power-domains
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/imx8mp-clock.h>
++    #include <dt-bindings/power/imx8mp-power.h>
++
++    hdmi@32fd8000 {
++        compatible = "fsl,imx8mp-hdmi";
++        reg = <0x32fd8000 0x7eff>;
++        interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clk IMX8MP_CLK_HDMI_APB>,
++                 <&clk IMX8MP_CLK_HDMI_REF_266M>,
++                 <&clk IMX8MP_CLK_HDMI_FDCC_TST>,
++                 <&clk IMX8MP_CLK_32K>,
++                 <&hdmi_tx_phy>;
++        clock-names = "iahb", "isfr", "fdcc", "cec", "pix";
++        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX>;
++        reg-io-width = <1>;
++    };
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.30.2
+
