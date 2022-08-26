@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8BA5A3088
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 22:37:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0168C5A308A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 22:38:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDE8710E355;
-	Fri, 26 Aug 2022 20:37:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EED0510E39C;
+	Fri, 26 Aug 2022 20:38:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD47E10E330;
- Fri, 26 Aug 2022 20:37:21 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id u14so3374132oie.2;
- Fri, 26 Aug 2022 13:37:21 -0700 (PDT)
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6B2D10E39C;
+ Fri, 26 Aug 2022 20:38:32 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id o204so3342290oia.12;
+ Fri, 26 Aug 2022 13:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=u92nc+ilzmDmZ8KhgDmgn0xXKF9o01Oqnx4iuFaYN8c=;
- b=cKJIdZEfyQWsXVZ3GjN13n5C1BB7pQuL9RV5kZCYHWKP48enpjshNdQW23PxzIzIcL
- slXOSsPpIH5IEiuC5spoSh9Rn4Mcr7eh8c7U5hZMhS0t4Y6lDScTJqVqGrUfXBbumqEy
- +es7X2sP56w1Wc6pQ8rRh/pNcGqGuxySH0YWTMuZPAsJs1YzMpZvQQm9ijtqZe5veOGy
- 7Fh1qzGygsue0/TrH4XKBs3QW5H/YOBBe/SqHrc9s4A6vBJF8yaFNN35SJEVmhaYqg9G
- AnoocxHvnlBbh6k0nVSy5k694F4ITMm0UbLEKvAhx04JruUXmPsNgpWotFOQis8puogk
- GQDA==
+ bh=5mncRjzin9wlcZNDsEO172TV0Ul8tMZirzBBF90PHYg=;
+ b=gG4Knf/gdXVho0oGA/THgGs9YZMmPwAcRCZ9+8qInlAXXKSPV9AiMhXXcHykPvGmNe
+ u5ZC9B5lRxzTzTJ+isXDbsWquIYxI8Vj9eq1tlgv9HUApBJnv1oUDyGtjSxrNuENa4OF
+ CbscbARS9Vbnx5Tw+NmrSQ9y7il04f8AiKAHpdRzfAhQMrFo9NWKFj6GYZTvwNHRZw8+
+ jtyJ/SW/NXIb2kqxs5PHohVlhx6hYF8GxUe2x+tKXPJ5IYTsUj17pihXOh4X/ZJRfe64
+ pr3HUm3ntM8le3VxJfgxtGf8l+N7Ks8AgpG5DBpyRlw9KIufMZ1Oh+mutvcKlcZC32IK
+ qrhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=u92nc+ilzmDmZ8KhgDmgn0xXKF9o01Oqnx4iuFaYN8c=;
- b=R1wZy35F+2YVVYiCPYkelFTqFR4NiaoxIpmidnRS8pGqGFqhV6rjE7BHYbkrbrBonz
- eVAaoWLS+SMMX0BrxtyUj7fa6J4NXvfWcRbyCKUYkqKv9TCOtEfNPbmwcwegaomr2ybe
- W5MflFAk4iSdtgZw00AySJrO+UB9TQIiuC7J450wdOgQoN4Cc7skcKNiynkgERVxeLSl
- hy1xz/rBcNbwGLxd5LiWIw6rOzC9px3lzQy6Wp+NHaP3IBbKi9gVhK/S8J97+rXUITzu
- 3LBrix4q74VW/biyA10QpWAb3H4sKcuvNmoami37PI6A/X6qF86d2uGjTRogC/8J/L1O
- 3brw==
-X-Gm-Message-State: ACgBeo12ybdskNh8kEkibA1IpIekpE5nPf3EXmO7EYh9R3/AjHH5rom7
- woh9/2nImjWr/ziCcIvI/kzBGXvGzF1hl9BhbaQ=
-X-Google-Smtp-Source: AA6agR7ML20OfIMq+WgdppsSjJ35BwJNnV8hzve1HccmNoAAik00V72mVU4PZG3qOJgb6N3OGz/6mK/JeDoDUcwmdp4=
-X-Received: by 2002:a05:6808:2187:b0:344:eccd:3fc5 with SMTP id
- be7-20020a056808218700b00344eccd3fc5mr2539548oib.46.1661546241204; Fri, 26
- Aug 2022 13:37:21 -0700 (PDT)
+ bh=5mncRjzin9wlcZNDsEO172TV0Ul8tMZirzBBF90PHYg=;
+ b=cVT9h4mIIwyd/xRYEtXBjs9Kwr9qXos8bUH6z2yyGbtE4W1vI0OX6t0mQL1FQQnhJM
+ NdQbz0oUHlG/yxixCnpY5+u5+DiiTr7qNmEvhO0tj/PptAmxojkyTagoOikWCkuYH9Kf
+ f3b5RZktVfGQcQkTKb9klJiyOqWEkugbzDjgxhC4I8uThMnDqncdIHxBVRt6AJUJstmb
+ 9jTibsoPK04fuXnkK/rrg/eIbKHjhE+/a3isHyQJBfD2aQmyJVfNplcKdSHYqgi0p/Ot
+ iz1dekoejqLudh2CyqBfMYq7e1sWqwSQDe1JfyxqkYijytrk7WUTmfiWy4Bs6SeVAS89
+ JqvA==
+X-Gm-Message-State: ACgBeo1ilcrVed+jhJYzmlf3Jz48nMIxVEyDJ3rk/8a0P4nNwDw0D3ed
+ qSAhP9YBZLP+D09wbtfzQnq8EGh/SpUZW//ceGg2pCvQ
+X-Google-Smtp-Source: AA6agR6KadgKBn2RwRHJWrGBEuHgLqVDS6sb61DxTyadIWpwUClXCmOiYv8ghycHEYa/4ConkgAgjXz0ApLVT5ZeDbQ=
+X-Received: by 2002:a05:6808:138e:b0:345:13d1:fd66 with SMTP id
+ c14-20020a056808138e00b0034513d1fd66mr2405135oiw.96.1661546312148; Fri, 26
+ Aug 2022 13:38:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220826100052.22945-16-jmaselbas@kalray.eu>
-In-Reply-To: <20220826100052.22945-16-jmaselbas@kalray.eu>
+References: <20220826072357.252676-1-ye.xingchen@zte.com.cn>
+In-Reply-To: <20220826072357.252676-1-ye.xingchen@zte.com.cn>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 26 Aug 2022 16:37:09 -0400
-Message-ID: <CADnq5_Pp+0-PNgXvmdiYJjCF=NQAvzz1=ydJO+Deg4Pp8jA2Ng@mail.gmail.com>
-Subject: Re: [PATCH] drm: Fix repeated word in comments
-To: Jules Maselbas <jmaselbas@kalray.eu>
+Date: Fri, 26 Aug 2022 16:38:20 -0400
+Message-ID: <CADnq5_N+q9=oEYwiYxwRRgYeSfp+XaCxs6fwj9iFJsKhJOL2Tg@mail.gmail.com>
+Subject: Re: [PATCH linux-next] drm/amdgpu: Remove the unneeded result variable
+To: cgel.zte@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,130 +63,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Jack.Xiao@amd.com, guchun.chen@amd.com, airlied@linux.ie,
+ Bokun.Zhang@amd.com, Zeal Robot <zealci@zte.com.cn>, Xinhui.Pan@amd.com,
+ ricetons@gmail.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Prike.Liang@amd.com,
+ dri-devel@lists.freedesktop.org, ye xingchen <ye.xingchen@zte.com.cn>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 26, 2022 at 10:03 AM Jules Maselbas <jmaselbas@kalray.eu> wrote:
->
-> Remove redundant words `the` and `this`.
->
-> CC: David Airlie <airlied@linux.ie>
-> CC: Maxime Ripard <mripard@kernel.org>
-> CC: Thomas Zimmermann <tzimmermann@suse.de>
-> CC: amd-gfx@lists.freedesktop.org
-> CC: dri-devel@lists.freedesktop.org
-> Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
-
-Please split this up per driver.
-
-Thanks!
+Applied.  Thanks!
 
 Alex
 
+On Fri, Aug 26, 2022 at 3:24 AM <cgel.zte@gmail.com> wrote:
+>
+> From: ye xingchen <ye.xingchen@zte.com.cn>
+>
+> Return the value sdma_v5_2_start() directly instead of storing it in
+> another redundant variable.
+>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 > ---
->  .../gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_arcturus.h | 2 +-
->  .../gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_navi10.h   | 2 +-
->  drivers/gpu/drm/display/drm_dp_helper.c                         | 2 +-
->  drivers/gpu/drm/drm_panel_orientation_quirks.c                  | 2 +-
->  drivers/gpu/drm/i915/gvt/scheduler.c                            | 2 +-
->  drivers/gpu/drm/i915/i915_irq.c                                 | 2 +-
->  drivers/gpu/drm/panel/panel-novatek-nt35510.c                   | 2 +-
->  7 files changed, 7 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_arcturus.h b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_arcturus.h
-> index 43d43d6addc0..4164da83380f 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_arcturus.h
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_arcturus.h
-> @@ -486,7 +486,7 @@ typedef struct {
->    uint16_t Tvr_socLimit;            // Celcius
->    uint32_t FitLimit;                // Failures in time (failures per million parts over the defined lifetime)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+> index 83c6ccaaa9e4..95689ef4be10 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+> @@ -1413,12 +1413,9 @@ static int sdma_v5_2_sw_fini(void *handle)
 >
-> -  uint16_t PpmPowerLimit;           // Switch this this power limit when temperature is above PpmTempThreshold
-> +  uint16_t PpmPowerLimit;           // Switch this power limit when temperature is above PpmTempThreshold
->    uint16_t PpmTemperatureThreshold;
+>  static int sdma_v5_2_hw_init(void *handle)
+>  {
+> -       int r;
+>         struct amdgpu_device *adev = (struct amdgpu_device *)handle;
 >
->    // SECTION: Throttler settings
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_navi10.h b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_navi10.h
-> index 04752ade1016..ba7c68a20425 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_navi10.h
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_navi10.h
-> @@ -544,7 +544,7 @@ typedef struct {
->    uint16_t TplxLimit;               // Celcius
->    uint32_t FitLimit;                // Failures in time (failures per million parts over the defined lifetime)
+> -       r = sdma_v5_2_start(adev);
+> -
+> -       return r;
+> +       return sdma_v5_2_start(adev);
+>  }
 >
-> -  uint16_t PpmPowerLimit;           // Switch this this power limit when temperature is above PpmTempThreshold
-> +  uint16_t PpmPowerLimit;           // Switch this power limit when temperature is above PpmTempThreshold
->    uint16_t PpmTemperatureThreshold;
->
->    // SECTION: Throttler settings
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index e5bab236b3ae..32b295003f49 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -1597,7 +1597,7 @@ static int drm_dp_aux_reply_duration(const struct drm_dp_aux_msg *msg)
->
->  /*
->   * Calculate the length of the i2c transfer in usec, assuming
-> - * the i2c bus speed is as specified. Gives the the "worst"
-> + * the i2c bus speed is as specified. Gives the "worst"
->   * case estimate, ie. successful while as long as possible.
->   * Doesn't account the "MOT" bit, and instead assumes each
->   * message includes a START, ADDRESS and STOP. Neither does it
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index fc1728d46ac2..dde2f4c4c6cb 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -349,7 +349,7 @@ static const struct dmi_system_id orientation_data[] = {
->   * resolution expected by the quirk-table entry.
->   *
->   * Note this function is also used outside of the drm-subsys, by for example
-> - * the efifb code. Because of this this function gets compiled into its own
-> + * the efifb code. Because of this function gets compiled into its own
->   * kernel-module when built as a module.
->   *
->   * Returns:
-> diff --git a/drivers/gpu/drm/i915/gvt/scheduler.c b/drivers/gpu/drm/i915/gvt/scheduler.c
-> index d6fe94cd0fdb..7670ae4dd8fa 100644
-> --- a/drivers/gpu/drm/i915/gvt/scheduler.c
-> +++ b/drivers/gpu/drm/i915/gvt/scheduler.c
-> @@ -193,7 +193,7 @@ static int populate_shadow_context(struct intel_vgpu_workload *workload)
->                         workload->ring_context_gpa);
->
->         /* only need to ensure this context is not pinned/unpinned during the
-> -        * period from last submission to this this submission.
-> +        * period from last submission to this submission.
->          * Upon reaching this function, the currently submitted context is not
->          * supposed to get unpinned. If a misbehaving guest driver ever does
->          * this, it would corrupt itself.
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> index 73cebc6aa650..783a6ca41a61 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -65,7 +65,7 @@
->
->  /*
->   * Interrupt statistic for PMU. Increments the counter only if the
-> - * interrupt originated from the the GPU so interrupts from a device which
-> + * interrupt originated from the GPU so interrupts from a device which
->   * shares the interrupt line are not accounted.
->   */
->  static inline void pmu_irq_stats(struct drm_i915_private *i915,
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> index 40ea41b0a5dd..4085822f619a 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> @@ -231,7 +231,7 @@ struct nt35510_config {
->          * bits 0..2 in the lower nibble controls HCK, the booster clock
->          * frequency, the values are the same as for PCK in @bt1ctr.
->          * bits 4..5 in the upper nibble controls BTH, the boosting
-> -        * amplification for the the step-up circuit.
-> +        * amplification for the step-up circuit.
->          * 0 = AVDD + VDDB
->          * 1 = AVDD - AVEE
->          * 2 = AVDD - AVEE + VDDB
+>  static int sdma_v5_2_hw_fini(void *handle)
 > --
-> 2.17.1
->
+> 2.25.1
