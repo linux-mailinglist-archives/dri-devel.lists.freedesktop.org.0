@@ -1,66 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9339A5A255D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 12:05:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 938495A2587
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Aug 2022 12:11:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E12EF10E830;
-	Fri, 26 Aug 2022 10:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC2B10E827;
+	Fri, 26 Aug 2022 10:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D67E10E827
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 10:05:04 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id q7so1361088lfu.5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 03:05:04 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5489510E827
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 10:10:57 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id d8so1422062lfq.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Aug 2022 03:10:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=KzbOceaNTdDVnBmlwaML66Ag3gKl0lXdyJPKSYlfMfo=;
- b=q8eihlZNapUVxFRiEU7EF/LhPsaz08qpV4fS8UH0p1tLfCsASqzJK4ypoixw0h/ez4
- 6CbzJZjfGhPUqbHSpQRiDIJB8GL9CW4LQ9rhDaySA5C3rKbjesmGRlKZZGdpL1dHr4wk
- I5DCiPc7BjD/AnmMdsmpgv1bK2A3gfaIxeEIayc5QCybaFZHgCslg8K3X8Qo+lBUjELW
- KghkIm4r/LbqnSdq2kXDtYmIlYQgTNNL1nNWOp3pL4RZuggBCGYsfnrivqnV8IoQQ0vr
- clpfazGqs60ASVHKOPHj5Gut9iyLthfuMtsm3eOYpIjzLb5GELVJEkyZvYDTSsImlrAR
- QBmw==
+ :from:to:cc; bh=zBsaAPXHP/WINN92NN7t+ecJR0ITtEiUOYhWSRxDrOo=;
+ b=ZUeoL8+bFhmGyi/2xXx0UdI4XZSmxqCoQ/yHxfiLH/DU9QQGvq9wEZGUVjYwgMXwKi
+ 26HcnUPfHIWYzIKhYqQoZx90f3H0nrZfVGP/eqKhMhYGWJD04pqDRjmwvRzRM6h1tcaE
+ LRVVaFFo/wx3mmsFyOheVWHkOmEb2o1C4IziuaZBI94AH62n4M11qRSK7FOIrfQIzNf5
+ vThpod+1K9nDrs5ER0gKpQtabrijnomOc8918irJfKNNhsd2DNxbrg/VkjLVjWgoWFMf
+ kj7VPv/e9UqGXTgGWpvzn4orocfJ1/AjcFV9M5WeSnycQn0CMeGRZYnXfyhfkU9f+5aT
+ EtmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=KzbOceaNTdDVnBmlwaML66Ag3gKl0lXdyJPKSYlfMfo=;
- b=atEXyZpfKHErfm37wDtXJ+F3yXTCEggX30Hv34SH4+/YUydzhVCpauCiOE64iEZoWr
- ew2iHjssgqrfPnVK0XqtXwK+kPHp+JDc0cUbJL3h90ekxmHRcgGoqfUsYeYf6SoiagGl
- oMWBkwWnLWpSS3+8mP381slKZvpBJspP+g1j8JHFVsSwrntqxLjtStzQ7vjN8ts+oL0p
- p0y+qrcpLw5+ms+KuvBiMfgCUaZ1qwoZXnZ/MD/YyL/idmBkmVG5FJ9mN34/+/tB7CxW
- LPFbLsIlOSLX+ytybXwEQxgKuQ9dk2nRhphM0VLmD1gZcSbhJgDxy8rhf/a774Z9pLaW
- J6XQ==
-X-Gm-Message-State: ACgBeo2eLQmOfsQtCYFrOCBid0gDtdhEgqcsHZJgnKqehzN7QAFeTv0y
- mXYMHwQOzUlzv7NtU8s3+H0+cg==
-X-Google-Smtp-Source: AA6agR7XBftW2NwzU7hLIQQlu/k8toww0vgW9/YoDFtF97R9hU26kKpJdaP34/aFNMlrNfNooKaMIw==
-X-Received: by 2002:a05:6512:234c:b0:492:d9fd:da59 with SMTP id
- p12-20020a056512234c00b00492d9fdda59mr2174078lfu.63.1661508302738; 
- Fri, 26 Aug 2022 03:05:02 -0700 (PDT)
+ bh=zBsaAPXHP/WINN92NN7t+ecJR0ITtEiUOYhWSRxDrOo=;
+ b=zCAV1LvaXpVlMwwzwGVJtrVLsuyQTimY5o9iOsQXFlwcNCpT0qkO3yGvi34ukn2VRg
+ EMtFQqQcF0UtV7MItuYccN0c3sc11uX9nw23Mei5RrhAMs8DVZPRcb5MMjrd3gSlFJKW
+ 7pbKkVwpbgVTmdyxApOjk/HVqlL4VSuESIjYNKvC7F5PG7d61lC92riC+KFvY2qJpUvL
+ otpM5If6LxdrL9GMZZNNdHNckOH0sc884+Wrvu2pa/GxcpTLoesX32kHNqJ/J0Vs+l8m
+ cpBjSQba5eQx5RPsKlkW0B59QfqtkSJXdUCN5BpddshZlkPFaQDVg2/eb0vWfRJ9o5cX
+ Twbg==
+X-Gm-Message-State: ACgBeo3D5s8yNcqN/9cJji8ZEIcHEOv/RHoETr6ceUiGpyjzm8zez5Oy
+ 6s4lAPaY1mpoobMdhEbAn8wteg==
+X-Google-Smtp-Source: AA6agR5Ibvjx4/X46gslkNdnrORZcJxR+lxt0sY3ESbw+/23dXGNcAwyX3sJKgTU+5hglvPmE7IBFg==
+X-Received: by 2002:a05:6512:2248:b0:48a:f8f9:3745 with SMTP id
+ i8-20020a056512224800b0048af8f93745mr2137147lfu.256.1661508655644; 
+ Fri, 26 Aug 2022 03:10:55 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- j28-20020a056512029c00b0048b17852938sm329074lfp.162.2022.08.26.03.05.01
+ s15-20020a056512314f00b0047f7419de4asm330732lfi.180.2022.08.26.03.10.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 03:05:02 -0700 (PDT)
-Message-ID: <ca972ced-b4f7-2eb4-0381-095cedf5f356@linaro.org>
-Date: Fri, 26 Aug 2022 13:05:01 +0300
+ Fri, 26 Aug 2022 03:10:55 -0700 (PDT)
+Message-ID: <47e1460f-e775-d1cb-f622-ccac3044ff86@linaro.org>
+Date: Fri, 26 Aug 2022 13:10:54 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.1.2
-Subject: Re: [PATCH] msm/adreno: fix repeated words in comments
+Subject: Re: [PATCH] dt-bindings: display: Add missing
+ (unevaluated|additional)Properties on child nodes
 Content-Language: en-GB
-To: Dan Carpenter <dan.carpenter@oracle.com>
-References: <20220724073650.16460-1-wangjianli@cdjrlc.com>
- <0e16e719-4eb2-bfb3-6b77-88d5314757a1@linaro.org>
- <20220826095311.GG2030@kadam>
+To: Rob Herring <robh@kernel.org>, "James (Qian) Wang"
+ <james.qian.wang@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Andre Przywara <andre.przywara@arm.com>
+References: <20220823145649.3118479-11-robh@kernel.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220826095311.GG2030@kadam>
+In-Reply-To: <20220823145649.3118479-11-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,28 +89,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org, wangqing@vivo.com,
- wangjianli <wangjianli@cdjrlc.com>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/08/2022 12:53, Dan Carpenter wrote:
-> On Fri, Aug 26, 2022 at 12:45:09PM +0300, Dmitry Baryshkov wrote:
->> On 24/07/2022 10:36, wangjianli wrote:
->>>    Delete the redundant word 'in'.
->>
->> Could you please:
->> - adjust the commit subject to follow the rest of commit messages,
->> - drop the extra whitespace at the beginning of the commit message,
->> - add a correct Fixes tag.
+On 23/08/2022 17:56, Rob Herring wrote:
+> In order to ensure only documented properties are present, node schemas
+> must have unevaluatedProperties or additionalProperties set to false
+> (typically).
 > 
-> This doesn't fix a bug so the fixes tag is inappropriate.
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>   Documentation/devicetree/bindings/display/arm,komeda.yaml        | 1 +
+>   Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
+>   Documentation/devicetree/bindings/display/msm/gpu.yaml           | 1 +
 
-Well, it fixes a typo, but I see your point. Let's not insist on Fixes 
-for the comment fixes.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # msm
+
+>   .../bindings/display/samsung/samsung,exynos7-decon.yaml          | 1 +
+>   .../devicetree/bindings/display/samsung/samsung,fimd.yaml        | 1 +
+>   5 files changed, 5 insertions(+)
 
 
 -- 
