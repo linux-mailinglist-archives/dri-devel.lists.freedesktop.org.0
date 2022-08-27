@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6DD5A36A4
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 11:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2AB5A36A1
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 11:51:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCAF010EA2E;
-	Sat, 27 Aug 2022 09:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B6A10E6F3;
+	Sat, 27 Aug 2022 09:51:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0AC10E9F8;
- Sat, 27 Aug 2022 09:51:06 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A71710E66D;
+ Sat, 27 Aug 2022 09:51:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661593866; x=1693129866;
+ t=1661593875; x=1693129875;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hj5voETsBJyQ7Z5O3Yr92tzmoXzT1V0V2SATUF+LT64=;
- b=kE0RsFh/8SVEIVDiEibRcZGUsUCfiTG+aqVxyO18Fc0wnYC4CQzCfo1a
- jW09eWObseAg6c2Ote+Utpq4y2pb3wAUkFQJmYlWcDrgc1a3012W8N3L+
- h9uE0HLzTGk7z3+QQhUut1WjPBxFvOiFiXmugg+2xAZ5TaanzwFgSPHmp
- 7GhfwvELgPIatgNjjZlCfvbbDVsMpQew+sSQW1VIiES+Ga6dagOtY3yV0
- Wv8+3RjQVLj3Z4oMDdDJr5pqsnEv7R7imFqcfUiWfdBxsH5VGWjbc6zw+
- bTSDgVRX/F0Vt41/FP9Tm2w9L0BEj+x86gbfti6PDcTQPDzPRlDRI6GGR A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="294659616"
-X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="294659616"
+ bh=mqBSHZdc3I5LuPaSmmg6YFNTQtRdx9sXUMJ/SXpc5Yg=;
+ b=MX7nssXwnHl7Z3cDFIiNSidrx7GAGZHoKfK+VM3VclkIAW8H8p1ujB3O
+ ey3YqDtckCc1DqZhvUzF7ZVxjfmgVm1pm45pxaQPv6vIvv/rDk3hgkRzJ
+ XwmshRzoqlzMS3f+ooNkbRkLY2oAig84j9MIoaelWlzxAnseu9Sh2lJDf
+ F1juqGQPPwRvO7FhW8pQ6Ho4SUDD2CsLmf6zJpP6QD20ja9EiJnBRQ8HH
+ a6haq21jwytN/dSbBqZ4tKXL01R/f3LjLE+kPtm1tyO0k50P2GwPd4qrv
+ z+wEkWeg5hmZzH1GbCm67qLAABVKT8bjHe12b5o35WQzcZ6MOYe+RJxQx w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="295921585"
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="295921585"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2022 02:51:05 -0700
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2022 02:51:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="640353953"
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="640353976"
 Received: from sqa-gate.sh.intel.com (HELO michael.clx.dev.tsp.org)
  ([10.239.48.212])
- by orsmga008.jf.intel.com with ESMTP; 27 Aug 2022 02:50:56 -0700
+ by orsmga008.jf.intel.com with ESMTP; 27 Aug 2022 02:51:05 -0700
 From: Kevin Tian <kevin.tian@intel.com>
 To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -62,9 +62,9 @@ To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
  kvm@vger.kernel.org
-Subject: [PATCH 09/15] vfio/ap: Use the new device life cycle helpers
-Date: Sun, 28 Aug 2022 01:10:31 +0800
-Message-Id: <20220827171037.30297-10-kevin.tian@intel.com>
+Subject: [PATCH 10/15] vfio/fsl-mc: Use the new device life cycle helpers
+Date: Sun, 28 Aug 2022 01:10:32 +0800
+Message-Id: <20220827171037.30297-11-kevin.tian@intel.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20220827171037.30297-1-kevin.tian@intel.com>
 References: <20220827171037.30297-1-kevin.tian@intel.com>
@@ -88,114 +88,192 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yi Liu <yi.l.liu@intel.com>
 
-and manage available_instances inside @init/@release.
+Export symbol of vfio_release_device_set() so fsl-mc @init can handle
+the error path cleanly instead of assuming certain vfio core API can
+help release device_set afterwards.
 
 Signed-off-by: Yi Liu <yi.l.liu@intel.com>
 Signed-off-by: Kevin Tian <kevin.tian@intel.com>
 ---
- drivers/s390/crypto/vfio_ap_ops.c | 50 ++++++++++++++++++-------------
- 1 file changed, 29 insertions(+), 21 deletions(-)
+ drivers/vfio/fsl-mc/vfio_fsl_mc.c | 87 +++++++++++++++++++------------
+ drivers/vfio/vfio_main.c          |  3 +-
+ include/linux/vfio.h              |  1 +
+ 3 files changed, 56 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
-index 6c8c41fac4e1..803aadfd0876 100644
---- a/drivers/s390/crypto/vfio_ap_ops.c
-+++ b/drivers/s390/crypto/vfio_ap_ops.c
-@@ -684,42 +684,44 @@ static bool vfio_ap_mdev_filter_matrix(unsigned long *apm, unsigned long *aqm,
- 			     AP_DOMAINS);
+diff --git a/drivers/vfio/fsl-mc/vfio_fsl_mc.c b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
+index 3feff729f3ce..eec3cb914f57 100644
+--- a/drivers/vfio/fsl-mc/vfio_fsl_mc.c
++++ b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
+@@ -418,16 +418,7 @@ static int vfio_fsl_mc_mmap(struct vfio_device *core_vdev,
+ 	return vfio_fsl_mc_mmap_mmio(vdev->regions[index], vma);
  }
  
--static int vfio_ap_mdev_probe(struct mdev_device *mdev)
-+static int vfio_ap_mdev_init_dev(struct vfio_device *vdev)
- {
--	struct ap_matrix_mdev *matrix_mdev;
--	int ret;
-+	struct ap_matrix_mdev *matrix_mdev =
-+		container_of(vdev, struct ap_matrix_mdev, vdev);
- 
- 	if ((atomic_dec_if_positive(&matrix_dev->available_instances) < 0))
- 		return -EPERM;
- 
--	matrix_mdev = kzalloc(sizeof(*matrix_mdev), GFP_KERNEL);
--	if (!matrix_mdev) {
--		ret = -ENOMEM;
--		goto err_dec_available;
--	}
--	vfio_init_group_dev(&matrix_mdev->vdev, &mdev->dev,
--			    &vfio_ap_matrix_dev_ops);
+-static const struct vfio_device_ops vfio_fsl_mc_ops = {
+-	.name		= "vfio-fsl-mc",
+-	.open_device	= vfio_fsl_mc_open_device,
+-	.close_device	= vfio_fsl_mc_close_device,
+-	.ioctl		= vfio_fsl_mc_ioctl,
+-	.read		= vfio_fsl_mc_read,
+-	.write		= vfio_fsl_mc_write,
+-	.mmap		= vfio_fsl_mc_mmap,
+-};
 -
--	matrix_mdev->mdev = mdev;
-+	matrix_mdev->mdev = to_mdev_device(vdev->dev);
- 	vfio_ap_matrix_init(&matrix_dev->info, &matrix_mdev->matrix);
- 	matrix_mdev->pqap_hook = handle_pqap;
- 	vfio_ap_matrix_init(&matrix_dev->info, &matrix_mdev->shadow_apcb);
- 	hash_init(matrix_mdev->qtable.queues);
++static const struct vfio_device_ops vfio_fsl_mc_ops;
+ static int vfio_fsl_mc_bus_notifier(struct notifier_block *nb,
+ 				    unsigned long action, void *data)
+ {
+@@ -518,35 +509,49 @@ static void vfio_fsl_uninit_device(struct vfio_fsl_mc_device *vdev)
+ 	bus_unregister_notifier(&fsl_mc_bus_type, &vdev->nb);
+ }
  
+-static int vfio_fsl_mc_probe(struct fsl_mc_device *mc_dev)
++static int vfio_fsl_mc_init_dev(struct vfio_device *core_vdev)
+ {
+-	struct vfio_fsl_mc_device *vdev;
+-	struct device *dev = &mc_dev->dev;
++	struct vfio_fsl_mc_device *vdev =
++		container_of(core_vdev, struct vfio_fsl_mc_device, vdev);
++	struct fsl_mc_device *mc_dev = to_fsl_mc_device(core_vdev->dev);
+ 	int ret;
+ 
+-	vdev = kzalloc(sizeof(*vdev), GFP_KERNEL);
+-	if (!vdev)
+-		return -ENOMEM;
+-
+-	vfio_init_group_dev(&vdev->vdev, dev, &vfio_fsl_mc_ops);
+ 	vdev->mc_dev = mc_dev;
+ 	mutex_init(&vdev->igate);
+ 
+ 	if (is_fsl_mc_bus_dprc(mc_dev))
+-		ret = vfio_assign_device_set(&vdev->vdev, &mc_dev->dev);
++		ret = vfio_assign_device_set(core_vdev, &mc_dev->dev);
+ 	else
+-		ret = vfio_assign_device_set(&vdev->vdev, mc_dev->dev.parent);
++		ret = vfio_assign_device_set(core_vdev, mc_dev->dev.parent);
++
+ 	if (ret)
+-		goto out_uninit;
++		return ret;
+ 
+ 	ret = vfio_fsl_mc_init_device(vdev);
+ 	if (ret)
+-		goto out_uninit;
++		goto err_assign;
 +	return 0;
++
++err_assign:
++	vfio_release_device_set(core_vdev);
++	return ret;
 +}
 +
-+static int vfio_ap_mdev_probe(struct mdev_device *mdev)
++static int vfio_fsl_mc_probe(struct fsl_mc_device *mc_dev)
 +{
-+	struct ap_matrix_mdev *matrix_mdev;
++	struct vfio_fsl_mc_device *vdev;
++	struct device *dev = &mc_dev->dev;
 +	int ret;
 +
-+	matrix_mdev = vfio_alloc_device(ap_matrix_mdev, vdev, &mdev->dev,
-+					&vfio_ap_matrix_dev_ops);
-+	if (IS_ERR(matrix_mdev))
-+		return PTR_ERR(matrix_mdev);
-+
- 	ret = vfio_register_emulated_iommu_dev(&matrix_mdev->vdev);
- 	if (ret)
--		goto err_list;
-+		goto err_put_vdev;
- 	dev_set_drvdata(&mdev->dev, matrix_mdev);
- 	mutex_lock(&matrix_dev->mdevs_lock);
- 	list_add(&matrix_mdev->node, &matrix_dev->mdev_list);
- 	mutex_unlock(&matrix_dev->mdevs_lock);
- 	return 0;
++	vdev = vfio_alloc_device(vfio_fsl_mc_device, vdev, dev,
++				 &vfio_fsl_mc_ops);
++	if (IS_ERR(vdev))
++		return PTR_ERR(vdev);
  
--err_list:
--	vfio_uninit_group_dev(&matrix_mdev->vdev);
--	kfree(matrix_mdev);
--err_dec_available:
--	atomic_inc(&matrix_dev->available_instances);
-+err_put_vdev:
-+	vfio_put_device(&matrix_mdev->vdev);
+ 	ret = vfio_register_group_dev(&vdev->vdev);
+ 	if (ret) {
+ 		dev_err(dev, "VFIO_FSL_MC: Failed to add to vfio group\n");
+-		goto out_device;
++		goto out_put_vdev;
+ 	}
+ 
+ 	ret = vfio_fsl_mc_scan_container(mc_dev);
+@@ -557,30 +562,44 @@ static int vfio_fsl_mc_probe(struct fsl_mc_device *mc_dev)
+ 
+ out_group_dev:
+ 	vfio_unregister_group_dev(&vdev->vdev);
+-out_device:
+-	vfio_fsl_uninit_device(vdev);
+-out_uninit:
+-	vfio_uninit_group_dev(&vdev->vdev);
+-	kfree(vdev);
++out_put_vdev:
++	vfio_put_device(&vdev->vdev);
  	return ret;
  }
  
-@@ -766,6 +768,12 @@ static void vfio_ap_mdev_unlink_fr_queues(struct ap_matrix_mdev *matrix_mdev)
- 	}
- }
- 
-+static void vfio_ap_mdev_release_dev(struct vfio_device *vdev)
++void vfio_fsl_mc_release_dev(struct vfio_device *core_vdev)
 +{
-+	vfio_free_device(vdev);
-+	atomic_inc(&matrix_dev->available_instances);
++	struct vfio_fsl_mc_device *vdev =
++		container_of(core_vdev, struct vfio_fsl_mc_device, vdev);
++
++	vfio_fsl_uninit_device(vdev);
++	mutex_destroy(&vdev->igate);
++	vfio_free_device(core_vdev);
 +}
 +
- static void vfio_ap_mdev_remove(struct mdev_device *mdev)
+ static int vfio_fsl_mc_remove(struct fsl_mc_device *mc_dev)
  {
- 	struct ap_matrix_mdev *matrix_mdev = dev_get_drvdata(&mdev->dev);
-@@ -779,9 +787,7 @@ static void vfio_ap_mdev_remove(struct mdev_device *mdev)
- 	list_del(&matrix_mdev->node);
- 	mutex_unlock(&matrix_dev->mdevs_lock);
- 	mutex_unlock(&matrix_dev->guests_lock);
--	vfio_uninit_group_dev(&matrix_mdev->vdev);
--	kfree(matrix_mdev);
--	atomic_inc(&matrix_dev->available_instances);
-+	vfio_put_device(&matrix_mdev->vdev);
+ 	struct device *dev = &mc_dev->dev;
+ 	struct vfio_fsl_mc_device *vdev = dev_get_drvdata(dev);
+ 
+ 	vfio_unregister_group_dev(&vdev->vdev);
+-	mutex_destroy(&vdev->igate);
+-
+ 	dprc_remove_devices(mc_dev, NULL, 0);
+-	vfio_fsl_uninit_device(vdev);
+-
+-	vfio_uninit_group_dev(&vdev->vdev);
+-	kfree(vdev);
++	vfio_put_device(&vdev->vdev);
+ 	return 0;
  }
  
- static ssize_t name_show(struct mdev_type *mtype,
-@@ -1794,6 +1800,8 @@ static const struct attribute_group vfio_queue_attr_group = {
- };
++static const struct vfio_device_ops vfio_fsl_mc_ops = {
++	.name		= "vfio-fsl-mc",
++	.init		= vfio_fsl_mc_init_dev,
++	.release	= vfio_fsl_mc_release_dev,
++	.open_device	= vfio_fsl_mc_open_device,
++	.close_device	= vfio_fsl_mc_close_device,
++	.ioctl		= vfio_fsl_mc_ioctl,
++	.read		= vfio_fsl_mc_read,
++	.write		= vfio_fsl_mc_write,
++	.mmap		= vfio_fsl_mc_mmap,
++};
++
+ static struct fsl_mc_driver vfio_fsl_mc_driver = {
+ 	.probe		= vfio_fsl_mc_probe,
+ 	.remove		= vfio_fsl_mc_remove,
+diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+index af8aad116f2b..9485da17f2e6 100644
+--- a/drivers/vfio/vfio_main.c
++++ b/drivers/vfio/vfio_main.c
+@@ -141,7 +141,7 @@ int vfio_assign_device_set(struct vfio_device *device, void *set_id)
+ }
+ EXPORT_SYMBOL_GPL(vfio_assign_device_set);
  
- static const struct vfio_device_ops vfio_ap_matrix_dev_ops = {
-+	.init = vfio_ap_mdev_init_dev,
-+	.release = vfio_ap_mdev_release_dev,
- 	.open_device = vfio_ap_mdev_open_device,
- 	.close_device = vfio_ap_mdev_close_device,
- 	.ioctl = vfio_ap_mdev_ioctl,
+-static void vfio_release_device_set(struct vfio_device *device)
++void vfio_release_device_set(struct vfio_device *device)
+ {
+ 	struct vfio_device_set *dev_set = device->dev_set;
+ 
+@@ -161,6 +161,7 @@ static void vfio_release_device_set(struct vfio_device *device)
+ 	}
+ 	xa_unlock(&vfio_device_set_xa);
+ }
++EXPORT_SYMBOL_GPL(vfio_release_device_set);
+ 
+ #ifdef CONFIG_VFIO_NOIOMMU
+ static void *vfio_noiommu_open(unsigned long arg)
+diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+index e1e9e8352903..b0928a81b45a 100644
+--- a/include/linux/vfio.h
++++ b/include/linux/vfio.h
+@@ -168,6 +168,7 @@ int vfio_register_emulated_iommu_dev(struct vfio_device *device);
+ void vfio_unregister_group_dev(struct vfio_device *device);
+ 
+ int vfio_assign_device_set(struct vfio_device *device, void *set_id);
++void vfio_release_device_set(struct vfio_device *device);
+ 
+ int vfio_mig_get_next_state(struct vfio_device *device,
+ 			    enum vfio_device_mig_state cur_fsm,
 -- 
 2.21.3
 
