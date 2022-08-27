@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C693A5A362E
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 11:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39555A3675
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 11:50:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 949C810EA55;
-	Sat, 27 Aug 2022 09:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C97B210E6C5;
+	Sat, 27 Aug 2022 09:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB20310EA55
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 09:10:24 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id m3so4817781lfg.10
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 02:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=G6ho+wRO8rYfvijcCTYxQupUsh3eLpJX8XZ+ppvdKQY=;
- b=fGscFtXgbDHXpFk63GwbntNDE6o+7JisIwbUxbp0Vi4Qhh+TpX0+yKOnhBCFXSLUXT
- 1BSF8GKYsBUskl85vBT1MPmrUqi+kvUhZCZtxqryRH7NPrWwwcSHxpmrEcwQDbgm06Vn
- ezsnVfEA5epEL0oOzkChiYCEH5BeJrRs30PWfSE7OgUPaMcsCRxtqpS/4RVN8W/IaVOr
- B3b1wnWN0Zqu4DODkrs3PHNoZkd4DKhJSgEMR6e7SmqSz1j6dOPWDdXAJtcDRbT3ksTX
- UN0ISk//PBGj60C5f9m/VidGRBRMQ4whm0RWVFK6mNnGJfTFvmoCM37wFXBhJ8nJYIoe
- ILdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=G6ho+wRO8rYfvijcCTYxQupUsh3eLpJX8XZ+ppvdKQY=;
- b=HgbggM/3xN1Dhd/zT+kNH+6vKuWwaca8ljJfiKplf1ITamf4YauMMOiLtTMm9GxDLC
- t13WL5YirIkjvswO/6UL3luPViMnetpeciW8G9JaeZcX9bCBasTDJrhz6jDnwwqzUXmn
- l7z4/VIfli5NjUE9maTyKCe8EQl+8k9d5zAa/Bc0OK1uH29Lyg/1VAJAKnpH4e71/965
- qN6Sdfp2IPLgIlexVhFv9wq6v6qy09Sj1byBOuUrfkXUnJO7+spogtw10p8GRSAsnvW5
- Q/1ecfZ6L9gKkSKABqRmfhdDQUn2gg/NF/QBH2NhrfxZ7G2ok3/C5YclCpF7bAJDLMqJ
- aPSA==
-X-Gm-Message-State: ACgBeo33MlzCK0tkKnEos3JZYj5cP4F+9HDKVBSPPVwVpFYp4k0TnxEs
- Va+wPo3KaBMj85OhTzWRYwZBKA==
-X-Google-Smtp-Source: AA6agR7yPBM7OjOml60pN7cFppGPfr6PFS1ZfIsZXLAMYNOZJt4DKAXhiBvAkcvR0aL1wwqcBuNhkA==
-X-Received: by 2002:a05:6512:21b2:b0:492:e97d:c5ee with SMTP id
- c18-20020a05651221b200b00492e97dc5eemr3886133lft.599.1661591423284; 
- Sat, 27 Aug 2022 02:10:23 -0700 (PDT)
-Received: from [192.168.0.71] (82.131.98.15.cable.starman.ee. [82.131.98.15])
- by smtp.gmail.com with ESMTPSA id
- v23-20020a056512349700b00492e5219874sm606522lfr.258.2022.08.27.02.10.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 27 Aug 2022 02:10:22 -0700 (PDT)
-Message-ID: <9464bafc-1a91-ca2c-23a9-93c27d6d08c7@linaro.org>
-Date: Sat, 27 Aug 2022 12:10:21 +0300
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9E2910E678;
+ Sat, 27 Aug 2022 09:49:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661593787; x=1693129787;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uvIblq34aYIPJlbRVx73G0ZjG5Pc8EFbqlJh/UMzIhQ=;
+ b=BDLoQ8z8xR74yTmC6sfSDyZkdpky0EZrFHA/xyDtzU2ZlPDsO7nsJo58
+ ymh64BBngCVEJDCfFJwldBLiASD366HEzJnT+Tdfcnkjh1P9iF3fOEq7h
+ KYuu2sNmvT6kBtgnKu83AyyvKnXsXd5uv9hzurGUjhxAd1qZl+fwkkm0C
+ 3GdtOjdW7GuNuTvJSnEUi1evC6CKeG9gXInanUvplJXQbmIufwMMgwRek
+ x4Ell/ecic4HU+PfpjI5GfIuFfVF3wwbELONbl3MLH322f1VjXTTT8aUO
+ Ri4qXZRPZ7FS7ia1k66kNrBLooTYiqFR1tI48SdlwLSQP2QfAVuurLWvK A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="274401757"
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="274401757"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2022 02:49:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="640353741"
+Received: from sqa-gate.sh.intel.com (HELO michael.clx.dev.tsp.org)
+ ([10.239.48.212])
+ by orsmga008.jf.intel.com with ESMTP; 27 Aug 2022 02:49:38 -0700
+From: Kevin Tian <kevin.tian@intel.com>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Eric Farman <farman@linux.ibm.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Longfang Liu <liulongfang@huawei.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Eric Auger <eric.auger@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Abhishek Sahu <abhsahu@nvidia.com>, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ kvm@vger.kernel.org
+Subject: [PATCH 00/15] Tidy up vfio_device life cycle
+Date: Sun, 28 Aug 2022 01:10:22 +0800
+Message-Id: <20220827171037.30297-1-kevin.tian@intel.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 3/4] dt-bindings: display: imx: add binding for i.MX8MP
- HDMI PVI
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Philipp Zabel <p.zabel@pengutronix.de>
-References: <20220826192424.3216734-1-l.stach@pengutronix.de>
- <20220826192424.3216734-3-l.stach@pengutronix.de>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220826192424.3216734-3-l.stach@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,23 +80,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
- kernel@pengutronix.de
+Cc: Yi Liu <yi.l.liu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/08/2022 22:24, Lucas Stach wrote:
-> Add binding for the i.MX8MP HDMI parallel video interface block.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> Tested-by: Marek Vasut <marex@denx.de>
+The idea is to let vfio core manage the vfio_device life cycle instead
+of duplicating the logic cross drivers. Besides cleaner code in driver
+side this also allows adding struct device to vfio_device as the first
+step toward adding cdev uAPI in the future. Another benefit is that
+user can now look at sysfs to decide whether a device is bound to
+vfio [1], e.g.:
 
-Same question - how was it tested? This is v1, right?
+	/sys/devices/pci0000\:6f/0000\:6f\:01.0/vfio-dev/vfio0
 
-Rest looks good, except Laurent's comments.
+Though most drivers can fit the new model naturally:
+
+ - vfio_alloc_device() to allocate and initialize vfio_device
+ - vfio_put_device() to release vfio_device
+ - dev_ops->init() for driver private initialization
+ - dev_ops->release() for driver private cleanup
+
+vfio-ccw is the only exception due to a life cycle mess that its private
+structure mixes both parent and mdev info hence must be alloc/free'ed
+outside of the life cycle of vfio device.
+
+Per prior discussions this won't be fixed in short term by IBM folks [2].
+
+Instead of waiting this series introduces a few tricks to move forward:
+
+ - vfio_init_device() to initialize a pre-allocated device structure;
+
+ - require *EVERY* driver to implement @release and free vfio_device
+   inside. Then vfio-ccw can use a completion mechanism to delay the
+   free to css driver;
+
+The second trick is not a real burden to other drivers because they
+all require a @release for private cleanup anyay. Later once the ccw
+mess is fixed a simple cleanup can be done by moving free from @release
+to vfio core.
+
+Thanks
+Kevin
+
+[1] https://listman.redhat.com/archives/libvir-list/2022-August/233482.html
+[2] https://lore.kernel.org/all/0ee29bd6583f17f0ee4ec0769fa50e8ea6703623.camel@linux.ibm.com/
+
+Kevin Tian (6):
+  vfio: Add helpers for unifying vfio_device life cycle
+  drm/i915/gvt: Use the new device life cycle helpers
+  vfio/platform: Use the new device life cycle helpers
+  vfio/amba: Use the new device life cycle helpers
+  vfio/ccw: Use the new device life cycle helpers
+  vfio: Rename vfio_device_put() and vfio_device_try_get()
+
+Yi Liu (9):
+  vfio/pci: Use the new device life cycle helpers
+  vfio/mlx5: Use the new device life cycle helpers
+  vfio/hisi_acc: Use the new device life cycle helpers
+  vfio/mdpy: Use the new device life cycle helpers
+  vfio/mtty: Use the new device life cycle helpers
+  vfio/mbochs: Use the new device life cycle helpers
+  vfio/ap: Use the new device life cycle helpers
+  vfio/fsl-mc: Use the new device life cycle helpers
+  vfio: Add struct device to vfio_device
+
+ drivers/gpu/drm/i915/gvt/gvt.h                |   5 +-
+ drivers/gpu/drm/i915/gvt/kvmgt.c              |  52 ++++--
+ drivers/gpu/drm/i915/gvt/vgpu.c               |  31 ++--
+ drivers/s390/cio/vfio_ccw_ops.c               |  52 +++++-
+ drivers/s390/cio/vfio_ccw_private.h           |   3 +
+ drivers/s390/crypto/vfio_ap_ops.c             |  50 +++---
+ drivers/vfio/fsl-mc/vfio_fsl_mc.c             |  87 +++++----
+ .../vfio/pci/hisilicon/hisi_acc_vfio_pci.c    |  80 ++++-----
+ drivers/vfio/pci/mlx5/main.c                  |  49 ++++--
+ drivers/vfio/pci/vfio_pci.c                   |  20 +--
+ drivers/vfio/pci/vfio_pci_core.c              |  23 ++-
+ drivers/vfio/platform/vfio_amba.c             |  72 ++++++--
+ drivers/vfio/platform/vfio_platform.c         |  66 +++++--
+ drivers/vfio/platform/vfio_platform_common.c  |  61 +++----
+ drivers/vfio/platform/vfio_platform_private.h |  18 +-
+ drivers/vfio/vfio_main.c                      | 165 +++++++++++++++---
+ include/linux/vfio.h                          |  29 ++-
+ include/linux/vfio_pci_core.h                 |   6 +-
+ samples/vfio-mdev/mbochs.c                    |  73 +++++---
+ samples/vfio-mdev/mdpy.c                      |  81 +++++----
+ samples/vfio-mdev/mtty.c                      |  67 ++++---
+ 21 files changed, 724 insertions(+), 366 deletions(-)
 
 
-Best regards,
-Krzysztof
+base-commit: 1c23f9e627a7b412978b4e852793c5e3c3efc555
+-- 
+2.21.3
+
