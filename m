@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB7E5A39CA
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 21:45:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 320325A39CB
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 21:45:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA2E210ED2B;
-	Sat, 27 Aug 2022 19:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D28CE10ED30;
+	Sat, 27 Aug 2022 19:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5651110ED24;
- Sat, 27 Aug 2022 19:45:26 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3598910ED31;
+ Sat, 27 Aug 2022 19:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661629526; x=1693165526;
+ t=1661629533; x=1693165533;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bZ9+B1o/D1zRT6hV2AtJ7lVvAUEF2WK5WCBirwF4nsA=;
- b=SGmItLz5i/GtgLnS2xirYj8di++0HeKFf6xyt68U+fdPcuDRrQz29Fo4
- ihvVpc+99pvY6AJxG3ODfLT2TV/HaWSlozr5cKhfZLgMbhdaf53Cn08H4
- uz/Ub37/lRwgdhawAmfwHtz6ctOUSU0lfRvIvf8w1CBcAXLFtgsFo7Pyq
- nKvOT8kAYt4kukAFX4ZWnkOLWaFV7h6YxwGW2E3HZ4JbaZJIwatcRe+YS
- e8GoeGXHbyko8sInpr4t898rfEqlwSGC3t2c80Jq8uwTdQuBpubgQAg/R
- uhw8I1aFEIALmW8/N6VzNg84IQ0yraPIjHJQUmJsOIRC33ytIRNT/PeVq g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10452"; a="294695591"
-X-IronPort-AV: E=Sophos;i="5.93,269,1654585200"; d="scan'208";a="294695591"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2022 12:45:25 -0700
-X-IronPort-AV: E=Sophos;i="5.93,269,1654585200"; d="scan'208";a="640457661"
+ bh=vc4x2DdBiL7x1R+vGJX/p9tEHwv85Nk81El/oWV4R0E=;
+ b=O8SYyfEapzFdyBqmAuJsqDk4BQJKgskx431FBNEA4lKy2xiJQiEX+9P9
+ endlbXpYRNgK+xU6fic3QC1LvavRPQzp2WCfLO8k7W2Xk4Ihg6eT/XDYM
+ pa4J+rxIReALE27ymNZRotWH/eQCRYgOSJqmHhzQGwBqevHkJ7wYYrK00
+ rEtKt685OThSHvJG4qXI+83WOC5I9AhYaJ0PHKvexR6eBOVuEptXbHuTh
+ /uK3RZ/oPKPVupldkpjMSEGs5q6yc964Beb3AkqK345SjaqcEh0hEdkg6
+ QnA9gqJ6hNFqWleveYoD6jTJ0NA/9gpWIIdCMmo8dhvPJBoOLCxgVCxeu Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10452"; a="320800552"
+X-IronPort-AV: E=Sophos;i="5.93,269,1654585200"; d="scan'208";a="320800552"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2022 12:45:32 -0700
+X-IronPort-AV: E=Sophos;i="5.93,269,1654585200"; d="scan'208";a="587696725"
 Received: from hluxenbu-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.249.44.75])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2022 12:45:22 -0700
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2022 12:45:28 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH v3 02/17] drm/i915: Mark vm for vm_bind usage at creation
-Date: Sat, 27 Aug 2022 21:43:48 +0200
-Message-Id: <20220827194403.6495-3-andi.shyti@linux.intel.com>
+Subject: [RFC PATCH v3 03/17] drm/i915/gem: expose
+ i915_gem_object_max_page_size() in i915_gem_object.h
+Date: Sat, 27 Aug 2022 21:43:49 +0200
+Message-Id: <20220827194403.6495-4-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220827194403.6495-1-andi.shyti@linux.intel.com>
 References: <20220827194403.6495-1-andi.shyti@linux.intel.com>
@@ -67,74 +68,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 
-At vm creation time, add a flag to indicate that the new vm will use
-vm_bind only for object binding.
+To reuse i915_gem_object_max_page_size() in upcoming
+implementation, expose it in i915_gem_object.h
 
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 5 ++++-
- drivers/gpu/drm/i915/gt/intel_gtt.h         | 8 ++++++++
- include/uapi/drm/i915_drm.h                 | 3 ++-
- 3 files changed, 14 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_create.c | 16 +++++++++++++---
+ drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index fdd3e3bfd4088..2e25341f78ab6 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1808,7 +1808,7 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
- 	if (!HAS_FULL_PPGTT(i915))
- 		return -ENODEV;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+index 33673fe7ee0ac..b0aebcc52f83c 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+@@ -15,8 +15,17 @@
+ #include "i915_trace.h"
+ #include "i915_user_extensions.h"
  
--	if (args->flags)
-+	if (args->flags & I915_VM_CREATE_FLAGS_UNKNOWN)
- 		return -EINVAL;
+-static u32 object_max_page_size(struct intel_memory_region **placements,
+-				unsigned int n_placements)
++/**
++ * i915_gem_object_max_page_size() - max of min_page_size of the regions
++ * @placements:  list of regions
++ * @n_placements: number of the placements
++ *
++ * Calculates the max of the min_page_size of a list of placements passed in.
++ *
++ * Return: max of the min_page_size
++ */
++u32 i915_gem_object_max_page_size(struct intel_memory_region **placements,
++				  unsigned int n_placements)
+ {
+ 	u32 max_page_size = 0;
+ 	int i;
+@@ -99,7 +108,8 @@ __i915_gem_object_create_user_ext(struct drm_i915_private *i915, u64 size,
  
- 	ppgtt = i915_ppgtt_create(to_gt(i915), 0);
-@@ -1828,6 +1828,9 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
- 	if (err)
- 		goto err_put;
+ 	i915_gem_flush_free_objects(i915);
  
-+	if (args->flags & I915_VM_CREATE_FLAGS_USE_VM_BIND)
-+		ppgtt->vm.vm_bind_mode = true;
-+
- 	GEM_BUG_ON(id == 0); /* reserved for invalid/unassigned ppgtt */
- 	args->vm_id = id;
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index e639434e97fdb..da21088890b3b 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -271,6 +271,14 @@ struct i915_address_space {
- 	/* Skip pte rewrite on unbind for suspend. Protected by @mutex */
- 	bool skip_pte_rewrite:1;
+-	size = round_up(size, object_max_page_size(placements, n_placements));
++	size = round_up(size, i915_gem_object_max_page_size(placements,
++							    n_placements));
+ 	if (size == 0)
+ 		return ERR_PTR(-EINVAL);
  
-+	/**
-+	 * @vm_bind_mode: flag to indicate vm_bind method of binding
-+	 *
-+	 * True: allow only vm_bind method of binding.
-+	 * False: allow only legacy execbuff method of binding.
-+	 */
-+	bool vm_bind_mode:1;
-+
- 	u8 top;
- 	u8 pd_shift;
- 	u8 scratch_order;
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 520ad2691a99d..12435db751eb8 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -2522,7 +2522,8 @@ struct drm_i915_gem_vm_control {
- 	/** @extensions: Zero-terminated chain of extensions. */
- 	__u64 extensions;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 6f0a3ce355670..650de22248435 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -47,6 +47,8 @@ static inline bool i915_gem_object_size_2big(u64 size)
+ }
  
--	/** @flags: reserved for future usage, currently MBZ */
-+#define I915_VM_CREATE_FLAGS_USE_VM_BIND	(1u << 0)
-+#define I915_VM_CREATE_FLAGS_UNKNOWN	(-(I915_VM_CREATE_FLAGS_USE_VM_BIND << 1))
- 	__u32 flags;
+ void i915_gem_init__objects(struct drm_i915_private *i915);
++u32 i915_gem_object_max_page_size(struct intel_memory_region **placements,
++				  unsigned int n_placements);
  
- 	/** @vm_id: Id of the VM created or to be destroyed */
+ void i915_objects_module_exit(void);
+ int i915_objects_module_init(void);
 -- 
 2.34.1
 
