@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831995A3838
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 16:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFC15A38B6
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 18:12:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6057910E130;
-	Sat, 27 Aug 2022 14:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A6E10E579;
+	Sat, 27 Aug 2022 16:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2807510E130;
- Sat, 27 Aug 2022 14:55:01 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-11dca1c9c01so5624839fac.2; 
- Sat, 27 Aug 2022 07:55:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
- bh=71oNbZSndhwYBZLMwuwcdKtHK8hICgbu4SkrdHGyvgo=;
- b=VADkVaDFrfYfyMS5L6QaKumo8bJEIvIM3jOmOQwSQOYp5l6C7f5otO4udiSpuiSdST
- pplgFeKgaGXOGOlRRqCyIbGjFaKkQsk0yA1mr6efbvmUjQYxKhYVUjRRHa2+TQkOP1vB
- 0gu6GpACZTFUcACSKTopz8EqquwyYcktukvrOZf+RcwBOoSnTxa11wrASpMzGpKmQA7S
- XQaHk7GBY92UPjaoE+xX/z8Zi9I9TWGsmYUORxIgdFAdx5/55xO8+530rpvtUzKoY4Ze
- EoBAgUkshuvmafEqNRl9JSAzvRp3HKm4PnuaGszW0gmMv8KXSvjijaXtJr4KewhD9Vya
- ppQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc;
- bh=71oNbZSndhwYBZLMwuwcdKtHK8hICgbu4SkrdHGyvgo=;
- b=lLkbfnr2RxtATaHzn7AG7PW5GZpdsAJFp8pCJLH3T2pYFy+QZPnMuBZItS2SxwXU8B
- GfzCW4wbbtQ2sPMK+yCpOkTMRUkeaWrFzWSLH53l4fweYJWFJ5DssEghxBBdd4w3FU63
- XOO2DQd1whfubfP/1ytaKDNDL6qsiJqWKOw8v9QCN9cZuhzMdk+vf7jdewSAu0rsyFTK
- W3VrpA272zBNfZomIwUjqeJ04VbPWIeJIhY1mFLSqvJS+/up4WJiIXpgwJ/mC20PI6FT
- tUWPkIni1sVeorZj65DymSJ7sQ5EtGWivt3c2Usok/uSCJqTRG0Uf6UeEvO+qVFORrCG
- bovA==
-X-Gm-Message-State: ACgBeo3z8zHKHQgSpB/bT0tnGpXoqnQRmJ0Haw2QvwGGkKecAIZCbF46
- dzc7xIkY7gHKVajlueM3I+WKHNYz3Awuw5fjRJc=
-X-Google-Smtp-Source: AA6agR5p7lBN/SwHjcKbGWMaSSJ2WyTAkbH2cPGyeYXe1G8vUyraBERGrhqhlzU2aEDBsi3Nx/YMQiaGWNNTzDyNs2c=
-X-Received: by 2002:a05:6870:b692:b0:11d:482f:3642 with SMTP id
- cy18-20020a056870b69200b0011d482f3642mr4125585oab.38.1661612100391; Sat, 27
- Aug 2022 07:55:00 -0700 (PDT)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D195A10E15F
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 16:11:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zPmPnNZPACtq5NG+tqbATF9Mb19lHqa2VFl/1U7+gUI=; b=AhPD18DZbKKJmlXMNxIYTfrKst
+ fKssAO+7MzubKlPMFGuayViwHzeZwzg205Psce9ksNdiy6+qfNCeGKOpR49vwuKOgaYbarbLYTnj/
+ kdBEjjfXv+Vpr8DpdQmt+LSGIFgsKlRBmPAzRx6BuSJE56vz6mfeXEwX//wj+aRCUeBIgBDAZ2b7U
+ hiLQAOPSQGKpW7+ag68TV6M5WSpZQRLFxmIeRDr7F2rLHKau4LNPnAPbZgWYKttqYW0H8OQ/an1uk
+ giISumJkudveqD5XeevSpJuj/s943fJQz/ZRYMcpmmskNh0NDu8/5Ak5FtWtYahTrcXGLxH5zJ2ns
+ y5BdY1uw==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=65252)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oRyPV-0003Mx-Q9; Sat, 27 Aug 2022 18:11:49 +0200
+Message-ID: <3da6e58f-1e23-7106-abf2-206af0fabc13@tronnes.org>
+Date: Sat, 27 Aug 2022 18:11:42 +0200
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 27 Aug 2022 07:55:36 -0700
-Message-ID: <CAF6AEGtuY=jd44itwTkLXVqhnoKgY0BswPTrxDTxCiPG3WbmLA@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2022-08-27 for v6.0
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
+To: Dom Cobley <dom@raspberrypi.com>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
+ <20220822074800.qzyctchqn5usr55g@houat>
+ <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
+ <20220825155506.wqurh5r752qfufqs@houat>
+ <18737c8a-78f4-5b9f-aea2-588bc65c13d9@gmail.com>
+ <9d9ba040-99d7-25cb-ba10-1c132d7f7663@gmail.com>
+ <CANUESCG22TrxasYoE2U0OJ7TVzNAcs_9zkuAfBQfZrEbM4h9dg@mail.gmail.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <CANUESCG22TrxasYoE2U0OJ7TVzNAcs_9zkuAfBQfZrEbM4h9dg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,84 +61,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Mateusz Kwiatkowski <kfyatek@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Maxime Ripard <maxime@cerno.tech>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(one more time without forgetting dri-devel this time)
 
-Hi Dave,
 
-A few fixes for the v6.0 cycle.  I meant to send this a bit earlier
-but ended up at the bottom of other rabbit holes.  Summary below (and
-in tag msg)
+Den 26.08.2022 16.56, skrev Dom Cobley:
+> On Fri, 26 Aug 2022 at 05:08, Mateusz Kwiatkowski <kfyatek@gmail.com> wrote:
+>> - Commenting out the pm_runtime_put() / pm_runtime_get_sync() calls in vc4_vec.c
+>> - Reverting this PR by Dom Cobley a.k.a. popcornmix:
+>>    https://github.com/raspberrypi/linux/pull/4639
+>>
+>> Either of these approaches makes VEC mode switching work again. Obviously
+>> neither is appropriate for a permanent solution.
+> 
+> Might be worth trying the latest rpi-update firmware.
+> There was a change that affects restoring PIXEL/VEC clocks after a
+> power domain cycle.
+> There is also a fix for a USB boot breakage.
+> 
 
-The following changes since commit cb77085b1f0a86ef9dfba86b5f3ed6c3340c2ea3:
+That firmware gives me firmware timeout references in the 5 attempts
+I've done.
 
-  drm/msm/dpu: Fix for non-visible planes (2022-07-08 08:10:58 -0700)
+My first attempt gave me this:
 
-are available in the Git repository at:
+[  112.454982] WARNING: CPU: 2 PID: 855 at
+drivers/firmware/raspberrypi.c:63 rpi_firmware_property_list+0x204/0x270
+[  112.466985] Firmware transaction timeout
+...
+[  112.533740]  warn_slowpath_fmt from
+rpi_firmware_property_list+0x204/0x270
+[  112.541449]  rpi_firmware_property_list from
+rpi_firmware_property+0x68/0x94
+[  112.549326]  rpi_firmware_property from
+raspberrypi_clock_property+0x50/0x84
+[  112.557197]  raspberrypi_clock_property from
+raspberrypi_fw_set_rate+0x4c/0xc4
+[  112.565242]  raspberrypi_fw_set_rate from clk_change_rate+0x16c/0x6f8
+[  112.572502]  clk_change_rate from clk_core_set_rate_nolock+0x1c4/0x2a4
+[  112.579857]  clk_core_set_rate_nolock from
+clk_set_rate_range.part.0+0x128/0x2ac
+[  112.588091]  clk_set_rate_range.part.0 from
+vc4_atomic_commit_tail+0x2b4/0x854 [vc4]
+[  112.596832]  vc4_atomic_commit_tail [vc4] from commit_tail+0xa4/0x19c
+[  112.604269]  commit_tail from drm_atomic_helper_commit+0x16c/0x194
+[  112.611279]  drm_atomic_helper_commit from drm_atomic_commit+0xb4/0xec
+[  112.618625]  drm_atomic_commit from drm_mode_atomic_ioctl+0x8f0/0xb6c
+[  112.625877]  drm_mode_atomic_ioctl from drm_ioctl_kernel+0xcc/0x170
+[  112.632950]  drm_ioctl_kernel from drm_ioctl+0x1d8/0x374
+[  112.639056]  drm_ioctl from sys_ioctl+0xe4/0xbac
+[  112.644462]  sys_ioctl from ret_fast_syscall+0x0/0x1c
+...
+[  112.726171] raspberrypi-clk soc:firmware:clocks: Failed to change
+fw-clk-core frequency: -110
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2022-08-27
+I've also done one with drm debug enabled.
+Kernel messages:
+https://gist.github.com/notro/53afe9fdc3d0afbf0fb12678be1ab377
 
-for you to fetch changes up to 174974d8463b77c2b4065e98513adb204e64de7d:
+Dom, in case you want to debug this I've uploaded a rpi-update'able
+archive plus config.txt and cmdline.txt.
+There are some custom overlays in there that are needed.
 
-  drm/msm/rd: Fix FIFO-full deadlock (2022-08-15 10:19:53 -0700)
+Kernel: tronnes.org/downloads/vec-kernel-2022-08-27.gz
+Build/setup info from another post:
+https://gist.github.com/notro/41c59d77c3022dc6d931d4f9547c4ea6
 
-----------------------------------------------------------------
-Fixes for v6.0
+I've tried this on another Pi4 (same revision: c03111) as well to rule
+out any hw issues. The first attempt also gave me an mmc fault (no dmesg
+-w) and the second one (dmesg -w) gave me the timeout.
 
-- Fix for inconsistent indenting in function msm_dsi_dphy_timing_calc_v3.
-  This fixes a smatch warning reported by kbot
-- Fix to make eDP the first connector in the connected list. This was
-  mainly done to address a screen corruption issue we were seeing on
-  sc7280 boards which have eDP as the primary display. The corruption
-  itself is from usermode but we decided to fix it this way because
-  things work correct with the primary display as the first one for
-  usermode
-- Fix to populate intf_cfg correctly before calling reset_intf_cfg().
-  Without this, the display pipeline is not torn down correctly for
-  writeback
-- Specify the correct number of DSI regulators for SDM660. It should
-  have been 1 but 2 was mentioned
-- Specify the correct number of DSI regulators for MSM8996. It should
-  have been 3 but 2 was mentioned
-- Fix for removing DP_RECOVERED_CLOCK_OUT_EN bit for tps4 link training
-  for DP. This was causing link training failures and hence no display
-  for a specific DP to HDMI cable on chromebooks
-- Fix probe-deferral crash in gpu devfreq
-- Fix gpu debugfs deadlock
-
-----------------------------------------------------------------
-Abhinav Kumar (1):
-      drm/msm/dpu: populate wb or intf before reset_intf_cfg
-
-Bjorn Andersson (1):
-      drm/msm/gpu: Drop qos request if devm_devfreq_add_device() fails
-
-Douglas Anderson (2):
-      drm/msm/dsi: Fix number of regulators for msm8996_dsi_cfg
-      drm/msm/dsi: Fix number of regulators for SDM660
-
-Kuogee Hsieh (2):
-      drm/msm/dp: make eDP panel as the first connected connector
-      drm/msm/dp: delete DP_RECOVERED_CLOCK_OUT_EN to fix tps4
-
-Rob Clark (1):
-      drm/msm/rd: Fix FIFO-full deadlock
-
-sunliming (1):
-      drm/msm/dsi: fix the inconsistent indenting
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 6 ++++++
- drivers/gpu/drm/msm/dp/dp_ctrl.c            | 2 +-
- drivers/gpu/drm/msm/dsi/dsi_cfg.c           | 4 ++--
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c       | 2 +-
- drivers/gpu/drm/msm/msm_drv.c               | 2 ++
- drivers/gpu/drm/msm/msm_gpu_devfreq.c       | 2 ++
- drivers/gpu/drm/msm/msm_rd.c                | 3 +++
- 7 files changed, 17 insertions(+), 4 deletions(-)
+Noralf.
