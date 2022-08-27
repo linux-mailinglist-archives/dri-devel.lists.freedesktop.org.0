@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D194A5A37FA
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 15:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1477F5A37FF
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 15:51:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C775510E856;
-	Sat, 27 Aug 2022 13:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90CDF10E445;
+	Sat, 27 Aug 2022 13:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54B2610E856
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 13:46:22 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3100D10E445
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 13:51:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id CB16CB8076E
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 13:46:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 92ED8C4347C
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 13:46:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 74ADB60CF1
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 13:51:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D7AF4C433D7
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 13:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661607979;
- bh=5rTf14BVF+SznbHsntjsPOzANMhQ7r+dkLNI0XPRkU4=;
+ s=k20201202; t=1661608282;
+ bh=XW64LLVq53HuXI1MVlwjFkDy/avRwt9Xltxtlatekcc=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=PhZ7Bt8gH8K4pW89kAjTBIiOnJZSuv9/cNOgGBqyrOFiaXOK3u/9ffe+WzP1TlUb9
- 0BwPn8CY6z+dDfbb7TSpmJrTNIWLLZ5OvlrJmbc8XW2jVO/qSv9QOXbG5+6EESmOH9
- qnVKQk1mT0wf+s/waNxvjOBb9AN5+2I5VAWnz9xhmEYuKV8e+Km9FB/zYlH8OlEvN9
- HRfJg5ECYmvZcCWGy0b1R0msjEXL1SBliM1u4fxF6X2g1WCjGvWgYiDXcuitAvdo0M
- kePrRdr40E2Zop7O80QIrx9zBIZOw7QVp3xcEu0H5HEn+SYDmZvJAcqvMcnKx7Oq91
- G1m3MKqFz5k4w==
+ b=e3/E9pcTu3TwdmT7a/Die1JmaGUn7Dv/2xTTS7OiNit2tuOI7LAUKCVkwrw6BKo/v
+ eZGmUMRcn1M+o4nOKdpOlVBVY6E8pdrbNP1mKnd4Hin/LrQLYpo3eYG0sp+IKSyg2i
+ gQVBuJO3+vM1QCYvciZkKJvngQLMEei0S5+nEvxJoPj9FIqXrVhVu9g6+dGFkOTZnf
+ PLnGrZsDaBGRUy6lWlx7aFpdrAcDQiCjJT8w4Nn5695HldWZmfnsely3qrsHhS6SDt
+ 2H+844QZtbNibLKmj5N9t9sVkBB00g12OIatHMqD85H4LQGA3orzmvSsIKIH92Fs1m
+ ZfirAuWCq5ynw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 7F236C433E6; Sat, 27 Aug 2022 13:46:19 +0000 (UTC)
+ from userid 48) id BE908C04231; Sat, 27 Aug 2022 13:51:22 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216143] [bisected] garbled screen when starting X + dmesg
  cluttered with "[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed in the
  dependencies handling -1431655766!"
-Date: Sat, 27 Aug 2022 13:46:19 +0000
+Date: Sat, 27 Aug 2022 13:51:22 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -47,13 +47,13 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-216143-2300-9EHdNPbph4@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-216143-2300-PBAREyJ42Q@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216143-2300@https.bugzilla.kernel.org/>
 References: <bug-216143-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -82,17 +82,18 @@ Erhard F. (erhard_f@mailbox.org) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
- Attachment #301197|0                           |1
-        is obsolete|                            |
- Attachment #301573|0                           |1
-        is obsolete|                            |
- Attachment #301574|0                           |1
-        is obsolete|                            |
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |INVALID
 
---- Comment #12 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 301683
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301683&action=3Dedit
-kernel .config (kernel 5.19.4, AMD Ryzen 9 5950X)
+--- Comment #13 from Erhard F. (erhard_f@mailbox.org) ---
+Interesting! Found out this is a gcc vs. clang issue.
+
+Using a kernel built with the attached 5.19.4 config with clang-14.0.6 lead=
+s to
+the issue as described. Using a kernel built with the same config but with
+gcc-12.2.0 just works fine!
+
+I'll close here as it's clear this is not strictly an AMD driver issue.
 
 --=20
 You may reply to this email to add a comment.
