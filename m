@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C905A36AD
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 11:52:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A66025A36AE
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 11:52:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA4210EC3C;
-	Sat, 27 Aug 2022 09:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5153610EC37;
+	Sat, 27 Aug 2022 09:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6392310EC0F;
- Sat, 27 Aug 2022 09:51:32 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78DAC10EC37;
+ Sat, 27 Aug 2022 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661593892; x=1693129892;
+ t=1661593901; x=1693129901;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uk9c1IKIhHWVOggiLFDU6b5iWBQbqa1+V/OfrZ/l3b0=;
- b=ghNt7n8h2ec0/d34UxOoI809kejakm4x43uPW3GSxL1vDa9DK1Nfcrz1
- fIDP+EzP4y+6zlpjb83Rt4chpz74JjwMdtJsDvH0YjcQJ/afCPBnwMIQT
- prKnzO0cQFcckupwIJ35/bMrJvYv9EbOWbcnDFGIK+CuFuhCpB9Ehq8Rp
- Obqvlt/V5FwOUzGpA+y3aFxN/zegvF5vrHlBfTvJiZq0WCThXKbIJgE1a
- 0m9DmPSelfThzsObxEWBYTxM5dnMbEawZ/ktidu6FJc5wyWu2yw18XXsU
- KKnEoy/SPW48DxXc5sEVQ9P3rWjUXV7dlVKAz1tN+ebeUr1pys5+62osU A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="295921599"
-X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="295921599"
+ bh=FJZtx2DAL5tyUpLeMYSIIC/i025+oTLApzGlLG5VPEg=;
+ b=gJQwaRmvBeDROvfIcJm0BN8WIyzTH+/24wyGrCRdysw316LRB3RoejVQ
+ SLH42vAWSPK5gvWp6Pe4J80kpw3DcTSnGTUqfGlxnOMPgGXdXNeF4pdXH
+ rrTP6SXxOntGpDTEwkPLNZstTvv/4J4cmtCeBmYezKHBrxGlq9N0iCcMa
+ zLzgsKKvWuDagij6ujc12xozCkNgA3gBR9+kIH4gQcHaKa0Vlgk4qvkF7
+ QHujaL4+61FEgkHVR8Z6AT/hF4dxjgXbdnPiw1Ji1dCZYTpuFj/av769P
+ ZVOlsr2sr6V6fV2jMFtgT0H+WPhp3h7Xm+T2ZL4BI0+iFLQvCwhk2Lctg Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="293396051"
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="293396051"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2022 02:51:31 -0700
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2022 02:51:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="640354013"
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="640354028"
 Received: from sqa-gate.sh.intel.com (HELO michael.clx.dev.tsp.org)
  ([10.239.48.212])
- by orsmga008.jf.intel.com with ESMTP; 27 Aug 2022 02:51:23 -0700
+ by orsmga008.jf.intel.com with ESMTP; 27 Aug 2022 02:51:31 -0700
 From: Kevin Tian <kevin.tian@intel.com>
 To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -62,9 +62,9 @@ To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
  kvm@vger.kernel.org
-Subject: [PATCH 12/15] vfio/amba: Use the new device life cycle helpers
-Date: Sun, 28 Aug 2022 01:10:34 +0800
-Message-Id: <20220827171037.30297-13-kevin.tian@intel.com>
+Subject: [PATCH 13/15] vfio/ccw: Use the new device life cycle helpers
+Date: Sun, 28 Aug 2022 01:10:35 +0800
+Message-Id: <20220827171037.30297-14-kevin.tian@intel.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20220827171037.30297-1-kevin.tian@intel.com>
 References: <20220827171037.30297-1-kevin.tian@intel.com>
@@ -86,206 +86,230 @@ Cc: Yi Liu <yi.l.liu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement amba's own vfio_device_ops.
+ccw is the only exception which cannot use vfio_alloc_device() because
+its private device structure is designed to serve both mdev and parent.
+Life cycle of the parent is managed by css_driver so vfio_ccw_private
+must be allocated/freed in css_driver probe/remove path instead of
+conforming to vfio core life cycle for mdev.
 
-Remove vfio_platform_probe/remove_common() given no user now.
+Given that use a wait/completion scheme so the mdev remove path waits
+after vfio_put_device() until receiving a completion notification from
+@release. The completion indicates that all active references on
+vfio_device have been released.
+
+After that point although free of vfio_ccw_private is delayed to
+css_driver it's at least guaranteed to have no parallel reference on
+released vfio device part from other code paths.
+
+memset() in @probe is removed. vfio_device is either alreary cleared
+when probed for the first time or cleared in @release from last probe.
+
+The right fix is to introduce separate structures for mdev and parent,
+but this won't happen in short term per prior discussions.
+
+Remove vfio_init/uninit_group_dev() as no user now.
 
 Signed-off-by: Kevin Tian <kevin.tian@intel.com>
 ---
- drivers/vfio/platform/vfio_amba.c             | 72 ++++++++++++++-----
- drivers/vfio/platform/vfio_platform_common.c  | 50 -------------
- drivers/vfio/platform/vfio_platform_private.h |  3 -
- 3 files changed, 55 insertions(+), 70 deletions(-)
+ drivers/s390/cio/vfio_ccw_ops.c     | 52 +++++++++++++++++++++++++----
+ drivers/s390/cio/vfio_ccw_private.h |  3 ++
+ drivers/vfio/vfio_main.c            | 27 +++------------
+ include/linux/vfio.h                |  3 --
+ 4 files changed, 53 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/vfio/platform/vfio_amba.c b/drivers/vfio/platform/vfio_amba.c
-index 1aaa4f721bd2..ac31eaf8bca2 100644
---- a/drivers/vfio/platform/vfio_amba.c
-+++ b/drivers/vfio/platform/vfio_amba.c
-@@ -7,6 +7,7 @@
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/vfio.h>
-+#include <linux/pm_runtime.h>
- #include <linux/amba/bus.h>
+diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
+index 4a806a2273b5..9f8486c0d3d3 100644
+--- a/drivers/s390/cio/vfio_ccw_ops.c
++++ b/drivers/s390/cio/vfio_ccw_ops.c
+@@ -87,6 +87,15 @@ static struct attribute_group *mdev_type_groups[] = {
+ 	NULL,
+ };
  
- #include "vfio_platform_private.h"
-@@ -40,20 +41,16 @@ static int get_amba_irq(struct vfio_platform_device *vdev, int i)
- 	return ret ? ret : -ENXIO;
++static int vfio_ccw_mdev_init_dev(struct vfio_device *vdev)
++{
++	struct vfio_ccw_private *private =
++		container_of(vdev, struct vfio_ccw_private, vdev);
++
++	init_completion(&private->release_comp);
++	return 0;
++}
++
+ static int vfio_ccw_mdev_probe(struct mdev_device *mdev)
+ {
+ 	struct vfio_ccw_private *private = dev_get_drvdata(mdev->dev.parent);
+@@ -98,9 +107,9 @@ static int vfio_ccw_mdev_probe(struct mdev_device *mdev)
+ 	if (atomic_dec_if_positive(&private->avail) < 0)
+ 		return -EPERM;
+ 
+-	memset(&private->vdev, 0, sizeof(private->vdev));
+-	vfio_init_group_dev(&private->vdev, &mdev->dev,
+-			    &vfio_ccw_dev_ops);
++	ret = vfio_init_device(&private->vdev, &mdev->dev, &vfio_ccw_dev_ops);
++	if (ret)
++		return ret;
+ 
+ 	VFIO_CCW_MSG_EVENT(2, "sch %x.%x.%04x: create\n",
+ 			   private->sch->schid.cssid,
+@@ -109,16 +118,33 @@ static int vfio_ccw_mdev_probe(struct mdev_device *mdev)
+ 
+ 	ret = vfio_register_emulated_iommu_dev(&private->vdev);
+ 	if (ret)
+-		goto err_atomic;
++		goto err_put_vdev;
+ 	dev_set_drvdata(&mdev->dev, private);
+ 	return 0;
+ 
+-err_atomic:
+-	vfio_uninit_group_dev(&private->vdev);
++err_put_vdev:
++	vfio_put_device(&private->vdev);
+ 	atomic_inc(&private->avail);
+ 	return ret;
  }
  
--static int vfio_amba_probe(struct amba_device *adev, const struct amba_id *id)
-+static int vfio_amba_init_dev(struct vfio_device *core_vdev)
++static void vfio_ccw_mdev_release_dev(struct vfio_device *vdev)
++{
++	struct vfio_ccw_private *private =
++		container_of(vdev, struct vfio_ccw_private, vdev);
++
++	/*
++	 * We cannot free vfio_ccw_private here because it includes
++	 * parent info which must be free'ed by css driver.
++	 *
++	 * Use a workaround by memset'ing the core device part and
++	 * then notifying the remove path that all active references
++	 * to this device have been released.
++	 */
++	memset(vdev, 0, sizeof(*vdev));
++	complete(&private->release_comp);
++}
++
+ static void vfio_ccw_mdev_remove(struct mdev_device *mdev)
  {
--	struct vfio_platform_device *vdev;
-+	struct vfio_platform_device *vdev =
-+		container_of(core_vdev, struct vfio_platform_device, vdev);
-+	struct amba_device *adev = to_amba_device(core_vdev->dev);
+ 	struct vfio_ccw_private *private = dev_get_drvdata(mdev->dev.parent);
+@@ -130,7 +156,17 @@ static void vfio_ccw_mdev_remove(struct mdev_device *mdev)
+ 
+ 	vfio_unregister_group_dev(&private->vdev);
+ 
+-	vfio_uninit_group_dev(&private->vdev);
++	vfio_put_device(&private->vdev);
++	/*
++	 * Wait for all active references on mdev are released so it
++	 * is safe to defer kfree() to a later point.
++	 *
++	 * TODO: the clean fix is to split parent/mdev info from ccw
++	 * private structure so each can be managed in its own life
++	 * cycle.
++	 */
++	wait_for_completion(&private->release_comp);
++
+ 	atomic_inc(&private->avail);
+ }
+ 
+@@ -592,6 +628,8 @@ static void vfio_ccw_mdev_request(struct vfio_device *vdev, unsigned int count)
+ }
+ 
+ static const struct vfio_device_ops vfio_ccw_dev_ops = {
++	.init = vfio_ccw_mdev_init_dev,
++	.release = vfio_ccw_mdev_release_dev,
+ 	.open_device = vfio_ccw_mdev_open_device,
+ 	.close_device = vfio_ccw_mdev_close_device,
+ 	.read = vfio_ccw_mdev_read,
+diff --git a/drivers/s390/cio/vfio_ccw_private.h b/drivers/s390/cio/vfio_ccw_private.h
+index cd24b7fada91..63d9202b29c7 100644
+--- a/drivers/s390/cio/vfio_ccw_private.h
++++ b/drivers/s390/cio/vfio_ccw_private.h
+@@ -88,6 +88,7 @@ struct vfio_ccw_crw {
+  * @req_trigger: eventfd ctx for signaling userspace to return device
+  * @io_work: work for deferral process of I/O handling
+  * @crw_work: work for deferral process of CRW handling
++ * @release_comp: synchronization helper for vfio device release
+  */
+ struct vfio_ccw_private {
+ 	struct vfio_device vdev;
+@@ -113,6 +114,8 @@ struct vfio_ccw_private {
+ 	struct eventfd_ctx	*req_trigger;
+ 	struct work_struct	io_work;
+ 	struct work_struct	crw_work;
++
++	struct completion	release_comp;
+ } __aligned(8);
+ 
+ int vfio_ccw_sch_quiesce(struct subchannel *sch);
+diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+index 9485da17f2e6..15a612153c13 100644
+--- a/drivers/vfio/vfio_main.c
++++ b/drivers/vfio/vfio_main.c
+@@ -482,21 +482,6 @@ static struct vfio_device *vfio_group_get_device(struct vfio_group *group,
+ /*
+  * VFIO driver API
+  */
+-void vfio_init_group_dev(struct vfio_device *device, struct device *dev,
+-			 const struct vfio_device_ops *ops)
+-{
+-	init_completion(&device->comp);
+-	device->dev = dev;
+-	device->ops = ops;
+-}
+-EXPORT_SYMBOL_GPL(vfio_init_group_dev);
+-
+-void vfio_uninit_group_dev(struct vfio_device *device)
+-{
+-	vfio_release_device_set(device);
+-}
+-EXPORT_SYMBOL_GPL(vfio_uninit_group_dev);
+-
+ /*
+  * Alloc and initialize vfio_device so it can be registered to vfio
+  * core.
+@@ -543,20 +528,18 @@ int vfio_init_device(struct vfio_device *device, struct device *dev,
+ {
  	int ret;
  
--	vdev = kzalloc(sizeof(*vdev), GFP_KERNEL);
--	if (!vdev)
--		return -ENOMEM;
--
- 	vdev->name = kasprintf(GFP_KERNEL, "vfio-amba-%08x", adev->periphid);
--	if (!vdev->name) {
--		kfree(vdev);
-+	if (!vdev->name)
- 		return -ENOMEM;
--	}
+-	vfio_init_group_dev(device, dev, ops);
++	init_completion(&device->comp);
++	device->dev = dev;
++	device->ops = ops;
  
- 	vdev->opaque = (void *) adev;
- 	vdev->flags = VFIO_DEVICE_FLAGS_AMBA;
-@@ -61,26 +58,67 @@ static int vfio_amba_probe(struct amba_device *adev, const struct amba_id *id)
- 	vdev->get_irq = get_amba_irq;
- 	vdev->reset_required = false;
+ 	if (ops->init) {
+ 		ret = ops->init(device);
+ 		if (ret)
+-			goto out_uninit;
++			return ret;
+ 	}
  
--	ret = vfio_platform_probe_common(vdev, &adev->dev);
--	if (ret) {
-+	ret = vfio_platform_init_common(vdev);
-+	if (ret)
- 		kfree(vdev->name);
--		kfree(vdev);
--		return ret;
--	}
-+	return ret;
-+}
-+
-+static const struct vfio_device_ops vfio_amba_ops;
-+static int vfio_amba_probe(struct amba_device *adev, const struct amba_id *id)
-+{
-+	struct vfio_platform_device *vdev;
-+	int ret;
-+
-+	vdev = vfio_alloc_device(vfio_platform_device, vdev, &adev->dev,
-+				 &vfio_amba_ops);
-+	if (IS_ERR(vdev))
-+		return PTR_ERR(vdev);
- 
-+	ret = vfio_register_group_dev(&vdev->vdev);
-+	if (ret)
-+		goto out_put_vdev;
-+
-+	pm_runtime_enable(&adev->dev);
- 	dev_set_drvdata(&adev->dev, vdev);
+ 	kref_init(&device->kref);
  	return 0;
-+
-+out_put_vdev:
-+	vfio_put_device(&vdev->vdev);
-+	return ret;
-+}
-+
-+static void vfio_amba_release_dev(struct vfio_device *core_vdev)
-+{
-+	struct vfio_platform_device *vdev =
-+		container_of(core_vdev, struct vfio_platform_device, vdev);
-+
-+	vfio_platform_release_common(vdev);
-+	kfree(vdev->name);
-+	vfio_free_device(core_vdev);
- }
- 
- static void vfio_amba_remove(struct amba_device *adev)
- {
- 	struct vfio_platform_device *vdev = dev_get_drvdata(&adev->dev);
- 
--	vfio_platform_remove_common(vdev);
--	kfree(vdev->name);
--	kfree(vdev);
-+	vfio_unregister_group_dev(&vdev->vdev);
-+	pm_runtime_disable(vdev->device);
-+	vfio_put_device(&vdev->vdev);
- }
- 
-+static const struct vfio_device_ops vfio_platform_ops = {
-+	.name		= "vfio-platform",
-+	.init		= vfio_amba_init_dev,
-+	.release	= vfio_amba_release_dev,
-+	.open_device	= vfio_platform_open_device,
-+	.close_device	= vfio_platform_close_device,
-+	.ioctl		= vfio_platform_ioctl,
-+	.read		= vfio_platform_read,
-+	.write		= vfio_platform_write,
-+	.mmap		= vfio_platform_mmap,
-+};
-+
- static const struct amba_id pl330_ids[] = {
- 	{ 0, 0 },
- };
-diff --git a/drivers/vfio/platform/vfio_platform_common.c b/drivers/vfio/platform/vfio_platform_common.c
-index 4c01bf0adebb..7cc9ff87c3a3 100644
---- a/drivers/vfio/platform/vfio_platform_common.c
-+++ b/drivers/vfio/platform/vfio_platform_common.c
-@@ -674,56 +674,6 @@ void vfio_platform_release_common(struct vfio_platform_device *vdev)
- }
- EXPORT_SYMBOL_GPL(vfio_platform_release_common);
- 
--int vfio_platform_probe_common(struct vfio_platform_device *vdev,
--			       struct device *dev)
--{
--	int ret;
 -
--	vfio_init_group_dev(&vdev->vdev, dev, &vfio_platform_ops);
--
--	ret = vfio_platform_acpi_probe(vdev, dev);
--	if (ret)
--		ret = vfio_platform_of_probe(vdev, dev);
--
--	if (ret)
--		goto out_uninit;
--
--	vdev->device = dev;
--
--	ret = vfio_platform_get_reset(vdev);
--	if (ret && vdev->reset_required) {
--		dev_err(dev, "No reset function found for device %s\n",
--			vdev->name);
--		goto out_uninit;
--	}
--
--	ret = vfio_register_group_dev(&vdev->vdev);
--	if (ret)
--		goto put_reset;
--
--	mutex_init(&vdev->igate);
--
--	pm_runtime_enable(dev);
--	return 0;
--
--put_reset:
--	vfio_platform_put_reset(vdev);
 -out_uninit:
--	vfio_uninit_group_dev(&vdev->vdev);
+-	vfio_uninit_group_dev(device);
 -	return ret;
--}
--EXPORT_SYMBOL_GPL(vfio_platform_probe_common);
--
--void vfio_platform_remove_common(struct vfio_platform_device *vdev)
--{
--	vfio_unregister_group_dev(&vdev->vdev);
--
--	pm_runtime_disable(vdev->device);
--	vfio_platform_put_reset(vdev);
--	vfio_uninit_group_dev(&vdev->vdev);
--}
--EXPORT_SYMBOL_GPL(vfio_platform_remove_common);
--
- void __vfio_platform_register_reset(struct vfio_platform_reset_node *node)
- {
- 	mutex_lock(&driver_lock);
-diff --git a/drivers/vfio/platform/vfio_platform_private.h b/drivers/vfio/platform/vfio_platform_private.h
-index a769d649fb97..8d8fab516849 100644
---- a/drivers/vfio/platform/vfio_platform_private.h
-+++ b/drivers/vfio/platform/vfio_platform_private.h
-@@ -78,9 +78,6 @@ struct vfio_platform_reset_node {
- 	vfio_platform_reset_fn_t of_reset;
- };
+ }
+ EXPORT_SYMBOL_GPL(vfio_init_device);
  
--int vfio_platform_probe_common(struct vfio_platform_device *vdev,
--			       struct device *dev);
--void vfio_platform_remove_common(struct vfio_platform_device *vdev);
- int vfio_platform_init_common(struct vfio_platform_device *vdev);
- void vfio_platform_release_common(struct vfio_platform_device *vdev);
+@@ -577,7 +560,7 @@ void vfio_device_release(struct kref *kref)
+ 	struct vfio_device *device =
+ 			container_of(kref, struct vfio_device, kref);
  
+-	vfio_uninit_group_dev(device);
++	vfio_release_device_set(device);
+ 
+ 	/*
+ 	 * kvfree() cannot be done here due to a life cycle mess in
+diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+index b0928a81b45a..a36a65b966b5 100644
+--- a/include/linux/vfio.h
++++ b/include/linux/vfio.h
+@@ -160,9 +160,6 @@ static inline void vfio_put_device(struct vfio_device *device)
+ 	kref_put(&device->kref, vfio_device_release);
+ }
+ 
+-void vfio_init_group_dev(struct vfio_device *device, struct device *dev,
+-			 const struct vfio_device_ops *ops);
+-void vfio_uninit_group_dev(struct vfio_device *device);
+ int vfio_register_group_dev(struct vfio_device *device);
+ int vfio_register_emulated_iommu_dev(struct vfio_device *device);
+ void vfio_unregister_group_dev(struct vfio_device *device);
 -- 
 2.21.3
 
