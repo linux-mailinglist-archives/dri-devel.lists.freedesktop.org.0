@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D997B5A334D
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 03:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4565A3352
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 03:07:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 067C310EAC7;
-	Sat, 27 Aug 2022 01:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC7EE10EAC9;
+	Sat, 27 Aug 2022 01:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE80110EAC7
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 01:04:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD66B10EAC9
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 01:07:22 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A88F120A;
- Sat, 27 Aug 2022 03:04:31 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 122C64A8;
+ Sat, 27 Aug 2022 03:07:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661562271;
- bh=WOyHgEMzsUmZjwukdnKWFvD4AASLtWqiRnnpX83POBg=;
+ s=mail; t=1661562441;
+ bh=m8ksfH8nmGsyi5xEncklMbzTnnb0HB+1yaYcqVa1Zgg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o/KWvI6219Rdafw1d+LUYSmV98CVTpOUlcwcAn+40sEyRd0NAQwIyuIhwexQwsqfh
- 5Sd92ghJjn9Bqq7vlhInii3I0Znk9hhw47ePS4DIoKgR1hPUycJC/hRPQjYP1Nf42K
- rGVrbk5zgofKh/3RheZa0AcTqhJ0N66JMCpwRnS4=
-Date: Sat, 27 Aug 2022 04:04:23 +0300
+ b=SgrV/ylf4F8lYCjmqYu7MUo/LM+lesZNHUMCUgNrb6+ulCA4JGN9E15ei6EBQFOlw
+ BgCuJTWKegO9yKdVjG+85dVGytF1/enMCxew27lQtwU+fsCdNaRo6aoT6unZAsd0s/
+ iJcVRMQNBqABrysRuJ/3q9rUoDFQ/T3eZoVeW5jk=
+Date: Sat, 27 Aug 2022 04:07:13 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v5 1/4] drm/bridge: ti-sn65dsi86: check AUX errors better
-Message-ID: <Ywltl8yLRx9Wq+ux@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v5 2/4] drm/bridge: ti-sn65dsi86: Reject modes with too
+ large blanking
+Message-ID: <YwluQWegvcoW3w/d@pendragon.ideasonboard.com>
 References: <20220824130034.196041-1-tomi.valkeinen@ideasonboard.com>
- <20220824130034.196041-2-tomi.valkeinen@ideasonboard.com>
+ <20220824130034.196041-3-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220824130034.196041-2-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220824130034.196041-3-tomi.valkeinen@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,39 +61,59 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Wed, Aug 24, 2022 at 04:00:31PM +0300, Tomi Valkeinen wrote:
+On Wed, Aug 24, 2022 at 04:00:32PM +0300, Tomi Valkeinen wrote:
 > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
-> The driver does not check AUX_IRQ_STATUS_NAT_I2C_FAIL bit at all when
-> sending AUX transfers, which leads to the driver not returning an error.
+> The blanking related registers are 8 bits, so reject any modes
+> with larger blanking periods.
 > 
-> Add the check.
-
-That looks right.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 90bbabde1595..ba84215c1511 100644
+> index ba84215c1511..f085a037ff5b 100644
 > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -582,6 +582,11 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
->  		goto exit;
->  	}
+> @@ -752,6 +752,29 @@ ti_sn_bridge_mode_valid(struct drm_bridge *bridge,
+>  	if (mode->clock > 594000)
+>  		return MODE_CLOCK_HIGH;
 >  
-> +	if (val & AUX_IRQ_STATUS_NAT_I2C_FAIL) {
-> +		ret = -EIO;
-> +		goto exit;
-> +	}
+> +	/*
+> +	 * The blanking related registers are 8 bits, so reject any modes
+
+s/blanking register/blanking-related/
+
+> +	 * with larger blanking periods.
+> +	 */
 > +
->  	if (val & AUX_IRQ_STATUS_AUX_SHORT) {
->  		ret = regmap_read(pdata->regmap, SN_AUX_LENGTH_REG, &len);
->  		if (ret)
+> +	if ((mode->hsync_start - mode->hdisplay) > 0xff)
+> +		return MODE_HBLANK_WIDE;
+> +
+> +	if ((mode->vsync_start - mode->vdisplay) > 0xff)
+> +		return MODE_VBLANK_WIDE;
+> +
+> +	if ((mode->hsync_end - mode->hsync_start) > 0xff)
+> +		return MODE_HSYNC_WIDE;
+> +
+> +	if ((mode->vsync_end - mode->vsync_start) > 0xff)
+> +		return MODE_VSYNC_WIDE;
+> +
+> +	if ((mode->htotal - mode->hsync_end) > 0xff)
+> +		return MODE_HBLANK_WIDE;
+> +
+> +	if ((mode->vtotal - mode->vsync_end) > 0xff)
+> +		return MODE_VBLANK_WIDE;
+
+You could drop all inner parentheses. Up to you.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+>  	return MODE_OK;
+>  }
+>  
 
 -- 
 Regards,
