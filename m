@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106CF5A37A9
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 14:45:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 600905A37AE
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 14:47:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 142F610EC8C;
-	Sat, 27 Aug 2022 12:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3D9A10EC8E;
+	Sat, 27 Aug 2022 12:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 874D810EC8C
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 12:44:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C21E10EC8E
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 12:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661604283;
+ s=mimecast20190719; t=1661604417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zNyRZOkSzWJ9EYhoio6oWAIWSR6y4SVpHgKEpnVly0g=;
- b=SXicbRaX7ruTJV5B7Hx1IVqnCtSvZSyIHmzAtV4r14+J3b2H00Iv+qp1aurbByglTQBBfZ
- KvwGjBAnwmB5LEa8udLSfC45ER5uqgcq2fOVWwdZsXBhOzRAES8YzuXPapTJV3M5LpZmET
- z4rsrYQ9O0AUqV54A784CoCxztsKSLs=
+ bh=inruV9tiW8qwXrnkVI+Ao+ITZBbbO5sFc1aw762dWrY=;
+ b=da0ZpP84B948OI6WGi+WHFsOegSm52nV+3KC7gQr3qxelPAwPhc17VXIS+E4yMMv57Rf1N
+ WF4CuseDc9/P3b4ETX3FcVgECrwymX7tAWd1MgF1BRhZQBR9nqUx85wG6d8Jlny5PkgJlt
+ QdYneeLSY0KdAriv5/PNAaC1FR1zcbc=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-488-HWN0qVGwPxazzd8CO8jQAg-1; Sat, 27 Aug 2022 08:44:42 -0400
-X-MC-Unique: HWN0qVGwPxazzd8CO8jQAg-1
+ us-mta-518-yFV5lXp8PFCC9-4pIUW8Cg-1; Sat, 27 Aug 2022 08:46:49 -0400
+X-MC-Unique: yFV5lXp8PFCC9-4pIUW8Cg-1
 Received: by mail-ed1-f69.google.com with SMTP id
- z6-20020a05640240c600b0043e1d52fd98so2728831edb.22
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 05:44:42 -0700 (PDT)
+ y20-20020a056402359400b00447a871c48fso2701527edc.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 05:46:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc;
- bh=zNyRZOkSzWJ9EYhoio6oWAIWSR6y4SVpHgKEpnVly0g=;
- b=Jq3KaaGHyZSgttt332238pZEW5LWpm3KGxzBZjQVAvGobsV0SbCbvo+cwN8zmDPah/
- jM9l93dJsTfr+YQoiSTM3e2HIHZSwWCHd1HiGNPcSaWuLyApQrBkcqd/crhXSETA8Vy5
- qQgaFU6c2SOtkyaCQN7Zpl1Y0yJ3Ph8lVa4u0spiazBwQ2pJBPoknA7an3PayHFQToD7
- 6zbMcVDO2x9/6vbzyLEmGD7TODbOP2GFq799Rq4B22CEltX1ocQ9iaGaH7czGolSvb+a
- kubSFwpo+1T8mHiSutJ7fdwTbKhNyG61AaiHmPWgEhcB3En/cegy+46zaOWQoQsQSIzO
- l4SQ==
-X-Gm-Message-State: ACgBeo37bTjGgUnzLcXl6kYDS2rwNf79VehxI3Kh3QJwqrNAp2C64btR
- jvVkrLxo2XdhrU4YT+5ciGt2jis8qblkU/fmIb7eIdGW4tk3c+W/AdLb8f3mX1c4KKpO0MzRnrO
- VMSSjoug4EQWnWF1ErZzklZSCrQHd
-X-Received: by 2002:a05:6402:1769:b0:447:911f:976b with SMTP id
- da9-20020a056402176900b00447911f976bmr10127036edb.300.1661604281215; 
- Sat, 27 Aug 2022 05:44:41 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6vj29lcPuFbHHTDDtHSn5P5zzs852lz2t1xrhic61Dz/N0SAO3ArNPy/BmYfioHP+NzD+7QA==
-X-Received: by 2002:a05:6402:1769:b0:447:911f:976b with SMTP id
- da9-20020a056402176900b00447911f976bmr10127018edb.300.1661604280989; 
- Sat, 27 Aug 2022 05:44:40 -0700 (PDT)
+ bh=inruV9tiW8qwXrnkVI+Ao+ITZBbbO5sFc1aw762dWrY=;
+ b=KxuQj7Q4o07y3Et9i4hqngsEW17HRjhdTJEWXm9FzdH2hPhl/s6EOrNFUx0MRO0KXq
+ HjW5TgWprDSpiCCk3KkgA2XrXOOOTT04MzQyXu7I4QBF1bZTlzx9SM+MUmWBX0GMhEGb
+ sEqbClt1JhhPeSIVPpi1npD8kl6j7c0tiBjOZchDpsnSkQOKwc5aSnkw7F0nfud20Hg2
+ oY46YHmSXzqULc/W66sRd7AigGU9f0gIO6XybhXTvJjo14SNoVKaVgcK+xbudQGiBcH3
+ cuqdhul+5mBLUTQq1ZbMJ8vLj5ZfU0vDMd1PojkQipqOM6RcVbJ9dHZXmDf0AN2xQU2/
+ iz0Q==
+X-Gm-Message-State: ACgBeo030eypBfWh+aU+i8UY8+eEhAf5gNiPw4INUCtKINs2rdD3NDbQ
+ wlXgwnak8ymcWgn8wlFHtwoCYF1G4FBa3II0oqDmuVj5DUI3tsozSZ7v+5KeYrWIX1e4eQRMm4L
+ P9OA2qaoxSNv/5NKsLX5p7EsU0KXY
+X-Received: by 2002:a17:907:6890:b0:73d:a567:568c with SMTP id
+ qy16-20020a170907689000b0073da567568cmr8053183ejc.521.1661604408244; 
+ Sat, 27 Aug 2022 05:46:48 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5TSxNxFhHIWUgDFGh6o2o5A2lHYsq2gKou43zUNTrXz2A2rDfHNazARFNTXYh+19y8woSsTQ==
+X-Received: by 2002:a17:907:6890:b0:73d:a567:568c with SMTP id
+ qy16-20020a170907689000b0073da567568cmr8053169ejc.521.1661604408027; 
+ Sat, 27 Aug 2022 05:46:48 -0700 (PDT)
 Received: from fedora (nat-2.ign.cz. [91.219.240.2])
  by smtp.gmail.com with ESMTPSA id
- f23-20020a05640214d700b0043ba437fe04sm2758020edx.78.2022.08.27.05.44.39
+ cb11-20020a0564020b6b00b0044841a78c70sm104257edb.93.2022.08.27.05.46.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Aug 2022 05:44:40 -0700 (PDT)
+ Sat, 27 Aug 2022 05:46:47 -0700 (PDT)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
  "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: RE: [PATCH v2 2/3] Drivers: hv: Always reserve framebuffer region
- for Gen1 VMs
-In-Reply-To: <SN6PR2101MB1693BDB6EF855BCE594AE376D7729@SN6PR2101MB1693.namprd21.prod.outlook.com>
+Subject: RE: [PATCH v2 3/3] Drivers: hv: Never allocate anything besides
+ framebuffer from framebuffer memory region
+In-Reply-To: <SN6PR2101MB16935E50795FAE1FA352C416D7729@SN6PR2101MB1693.namprd21.prod.outlook.com>
 References: <20220825090024.1007883-1-vkuznets@redhat.com>
- <20220825090024.1007883-3-vkuznets@redhat.com>
- <SN6PR2101MB1693BDB6EF855BCE594AE376D7729@SN6PR2101MB1693.namprd21.prod.outlook.com>
-Date: Sat, 27 Aug 2022 14:44:39 +0200
-Message-ID: <87mtbpvoso.fsf@redhat.com>
+ <20220825090024.1007883-4-vkuznets@redhat.com>
+ <SN6PR2101MB16935E50795FAE1FA352C416D7729@SN6PR2101MB1693.namprd21.prod.outlook.com>
+Date: Sat, 27 Aug 2022 14:46:46 +0200
+Message-ID: <87k06tvop5.fsf@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -97,108 +97,119 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 > From: Vitaly Kuznetsov <vkuznets@redhat.com> Sent: Thursday, August 25, 2022 2:00 AM
 >> 
->> vmbus_reserve_fb() tries reserving framebuffer region iff
->> 'screen_info.lfb_base' is set. Gen2 VMs seem to have it set by EFI fb
->
-> Just so I'm clear, by "EFI fb" you mean the EFI layer code that sets
-> up the frame buffer before the Linux kernel ever boots, right?
-> You are not referring to the Linux kernel EFI framebuffer
-> driver, which may or may not be configured in the kernel.
-
-My very shallow understanding is that initially, screen_info comes from
-boot_params and this depends on how Linux was booted. Kernel EFI
-framebuffer (when enabled), however, gets it first and can modify it
-(see efifb_setup()) before we get to analyze it in Vmbus.
-
->
->> (or, in some edge cases like kexec, the address where the buffer was
->> moved, see https://lore.kernel.org/all/20201014092429.1415040-1-kasong@redhat.com/
->> but on Gen1 VM it depends on bootloader behavior. With grub, it depends
->> on 'gfxpayload=' setting but in some cases it is observed to be zero.
->> Relying on 'screen_info.lfb_base' to reserve framebuffer region is
->> risky. Instead, it is possible to get the address from the dedicated
->> PCI device which is always present.
+>> Passed through PCI device sometimes misbehave on Gen1 VMs when Hyper-V
+>> DRM driver is also loaded. Looking at IOMEM assignment, we can see e.g.
 >> 
->> Check for legacy PCI video device presence and reserve the whole
->> region for framebuffer on Gen1 VMs.
+>> $ cat /proc/iomem
+>> ...
+>> f8000000-fffbffff : PCI Bus 0000:00
+>>   f8000000-fbffffff : 0000:00:08.0
+>>     f8000000-f8001fff : bb8c4f33-2ba2-4808-9f7f-02f3b4da22fe
+>> ...
+>> fe0000000-fffffffff : PCI Bus 0000:00
+>>   fe0000000-fe07fffff : bb8c4f33-2ba2-4808-9f7f-02f3b4da22fe
+>>     fe0000000-fe07fffff : 2ba2:00:02.0
+>>       fe0000000-fe07fffff : mlx4_core
+>> 
+>> the interesting part is the 'f8000000' region as it is actually the
+>> VM's framebuffer:
+>> 
+>> $ lspci -v
+>> ...
+>> 0000:00:08.0 VGA compatible controller: Microsoft Corporation Hyper-V virtual VGA
+>> (prog-if 00 [VGA controller])
+>> 	Flags: bus master, fast devsel, latency 0, IRQ 11
+>> 	Memory at f8000000 (32-bit, non-prefetchable) [size=64M]
+>> ...
+>> 
+>>  hv_vmbus: registering driver hyperv_drm
+>>  hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm] Synthvid Version major 3, minor 5
+>>  hyperv_drm 0000:00:08.0: vgaarb: deactivate vga console
+>>  hyperv_drm 0000:00:08.0: BAR 0: can't reserve [mem 0xf8000000-0xfbffffff]
+>>  hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm] Cannot request framebuffer, boot fb still active?
+>> 
+>> Note: "Cannot request framebuffer" is not a fatal error in
+>> hyperv_setup_gen1() as the code assumes there's some other framebuffer
+>> device there but we actually have some other PCI device (mlx4 in this
+>> case) config space there!
+>
+> My apologies for not getting around to commenting on the previous
+> version of this patch.  The function hyperv_setup_gen1() and the
+> "Cannot request framebuffer" message have gone away as of
+> commit a0ab5abced55.
+>
+
+True, will fix!
+
+>> 
+>> The problem appears to be that vmbus_allocate_mmio() can allocate from
+>> the reserved framebuffer region (fb_overlap_ok), however, if the
+>> request to allocate MMIO comes from some other device before
+>> framebuffer region is taken, it can happily use framebuffer region for
+>> it. 
+>
+> Interesting. I had never looked at the details of vmbus_allocate_mmio().
+> The semantics one might assume of a parameter named "fb_overlap_ok"
+> aren't implemented because !fb_overlap_ok essentially has no effect.   The
+> existing semantics are really "prefer_fb_overlap".  This patch implements
+> the expected and needed semantics, which is to not allocate from the frame
+> buffer space when !fb_overlap_ok.
+>
+> If that's an accurate high level summary, maybe this commit message
+> could describe it that way?  The other details you provide about what can
+> go wrong should still be included as well.
+
+That's acually a very good summary! Let me update the commit message,
+I'll be sending out v3 shortly.
+
+>
+>> Note, Gen2 VMs are usually unaffected by the issue because
+>> framebuffer region is already taken by EFI fb (in case kernel supports
+>> it) but Gen1 VMs may have this region unclaimed by the time Hyper-V PCI
+>> pass-through driver tries allocating MMIO space if Hyper-V DRM/FB drivers
+>> load after it. Devices can be brought up in any sequence so let's
+>> resolve the issue by always ignoring 'fb_mmio' region for non-FB
+>> requests, even if the region is unclaimed.
 >> 
 >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 >> ---
->>  drivers/hv/vmbus_drv.c | 46 +++++++++++++++++++++++++++++-------------
->>  1 file changed, 32 insertions(+), 14 deletions(-)
+>>  drivers/hv/vmbus_drv.c | 10 +++++++++-
+>>  1 file changed, 9 insertions(+), 1 deletion(-)
 >> 
 >> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
->> index 23c680d1a0f5..536f68e563c6 100644
+>> index 536f68e563c6..3c833ea60db6 100644
 >> --- a/drivers/hv/vmbus_drv.c
 >> +++ b/drivers/hv/vmbus_drv.c
->> @@ -35,6 +35,7 @@
->>  #include <linux/kernel.h>
->>  #include <linux/syscore_ops.h>
->>  #include <linux/dma-map-ops.h>
->> +#include <linux/pci.h>
->>  #include <clocksource/hyperv_timer.h>
->>  #include "hyperv_vmbus.h"
->> 
->> @@ -2262,26 +2263,43 @@ static int vmbus_acpi_remove(struct acpi_device *device)
->> 
->>  static void vmbus_reserve_fb(void)
+>> @@ -2331,7 +2331,7 @@ int vmbus_allocate_mmio(struct resource **new, struct
+>> hv_device *device_obj,
+>>  			bool fb_overlap_ok)
 >>  {
->> -	int size;
->> +	resource_size_t start = 0, size;
->> +	struct pci_dev *pdev;
->> +
->> +	if (efi_enabled(EFI_BOOT)) {
->> +		/* Gen2 VM: get FB base from EFI framebuffer */
->> +		start = screen_info.lfb_base;
->> +		size = max_t(__u32, screen_info.lfb_size, 0x800000);
->> +	} else {
->> +		/* Gen1 VM: get FB base from PCI */
->> +		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
->> +				      PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
->> +		if (!pdev)
->> +			return;
->> +
->> +		if (pdev->resource[0].flags & IORESOURCE_MEM) {
->> +			start = pci_resource_start(pdev, 0);
->> +			size = pci_resource_len(pdev, 0);
->> +		}
->> +
->> +		/*
->> +		 * Release the PCI device so hyperv_drm or hyperv_fb driver can
->> +		 * grab it later.
->> +		 */
->> +		pci_dev_put(pdev);
->> +	}
->> +
->> +	if (!start)
->> +		return;
->> +
->>  	/*
->>  	 * Make a claim for the frame buffer in the resource tree under the
->>  	 * first node, which will be the one below 4GB.  The length seems to
->>  	 * be underreported, particularly in a Generation 1 VM.  So start out
->>  	 * reserving a larger area and make it smaller until it succeeds.
->>  	 */
->> -
->> -	if (screen_info.lfb_base) {
->> -		if (efi_enabled(EFI_BOOT))
->> -			size = max_t(__u32, screen_info.lfb_size, 0x800000);
->> -		else
->> -			size = max_t(__u32, screen_info.lfb_size, 0x4000000);
->> -
->> -		for (; !fb_mmio && (size >= 0x100000); size >>= 1) {
->> -			fb_mmio = __request_region(hyperv_mmio,
->> -						   screen_info.lfb_base, size,
->> -						   fb_mmio_name, 0);
->> -		}
->> -	}
->> +	for (; !fb_mmio && (size >= 0x100000); size >>= 1)
->> +		fb_mmio = __request_region(hyperv_mmio, start, size, fb_mmio_name, 0);
->>  }
+>>  	struct resource *iter, *shadow;
+>> -	resource_size_t range_min, range_max, start;
+>> +	resource_size_t range_min, range_max, start, end;
+>>  	const char *dev_n = dev_name(&device_obj->device);
+>>  	int retval;
 >> 
->>  /**
+>> @@ -2366,6 +2366,14 @@ int vmbus_allocate_mmio(struct resource **new, struct
+>> hv_device *device_obj,
+>>  		range_max = iter->end;
+>>  		start = (range_min + align - 1) & ~(align - 1);
+>>  		for (; start + size - 1 <= range_max; start += align) {
+>> +			end = start + size - 1;
+>> +
+>> +			/* Skip the whole fb_mmio region if not fb_overlap_ok */
+>> +			if (!fb_overlap_ok && fb_mmio &&
+>> +			    (((start >= fb_mmio->start) && (start <= fb_mmio->end)) ||
+>> +			     ((end >= fb_mmio->start) && (end <= fb_mmio->end))))
+>> +				continue;
+>> +
+>>  			shadow = __request_region(iter, start, size, NULL,
+>>  						  IORESOURCE_BUSY);
+>>  			if (!shadow)
 >> --
 >> 2.37.1
+>
+> Other than my musings on the commit message,
 >
 > Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 >
