@@ -2,40 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC335A3359
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 03:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4B35A3365
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 03:17:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A21310EAD0;
-	Sat, 27 Aug 2022 01:10:54 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4B910EAD0
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Aug 2022 01:10:51 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 433C24A8;
- Sat, 27 Aug 2022 03:10:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661562649;
- bh=tTU3IOe71yXnE9NPnmMuZnHbyq6VxhTerBcqCMDfuns=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bGvF86GyxJHqzfn6pK5xt0OzxZrr67DOrotmIMEOW7hNGCQXOOlDyRkwTTmehWy8u
- y/raJTfO/JvZk5TC/OVEnYc/szNuH2w1AtCHNGFbxf4mCjMQceEkTcuUz4PSTYgH6e
- p3+eKSCKFEYPZtfKaMh5kbWjaWBlIGOkoEwp+NWw=
-Date: Sat, 27 Aug 2022 04:10:41 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v5 4/4] drm/bridge: ti-sn65dsi86: Implement bridge
- connector operations
-Message-ID: <YwlvEa7c6xnhvGyj@pendragon.ideasonboard.com>
-References: <20220824130034.196041-1-tomi.valkeinen@ideasonboard.com>
- <20220824130034.196041-5-tomi.valkeinen@ideasonboard.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5A0910EADC;
+	Sat, 27 Aug 2022 01:17:01 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED5E10E98F;
+ Sat, 27 Aug 2022 01:16:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661563018; x=1693099018;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=U5wHK6cn/w1DPvN10flIV3T93gKIJNB9gDmqUf/BjK4=;
+ b=aFRy5jqWp924q6CkQI4kHsvZDGduFcjYxXkLU8MkyhZr+9YbXv5YtTqT
+ FHLdhYZHpuzMxPwn9kIUxfgLtg9yNkfYyTLvcjLGVcvBILRat8RqtqrSV
+ a4avl1clHZIZghcY4mGeUMJwsg0SYZuYWP0ip7np5o12laydI+KhZHQJj
+ KXe1SfW2VKX1Y5mgp0XIF0oXDdqZMoFRqJ4MoyO6kVYgz9n7GNwvBoQPh
+ QxLg4Dl+Yos9zLIsl67uck2fiacbvSPbOqvnBi7PhFOxcMspXie4yUPJT
+ 9rmsRGvpoyuncAB4TqoH9ILoNAvSXuEGhtM4zzJ/jvSMLV05FsvOevTc8 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="320733973"
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="320733973"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2022 18:16:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="610741930"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orsmga002.jf.intel.com with ESMTP; 26 Aug 2022 18:16:57 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v3 0/3] Drop version numbers from firmware files
+Date: Fri, 26 Aug 2022 18:16:59 -0700
+Message-Id: <20220827011702.3465334-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220824130034.196041-5-tomi.valkeinen@ideasonboard.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,138 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+From: John Harrison <John.C.Harrison@Intel.com>
 
-On Wed, Aug 24, 2022 at 04:00:34PM +0300, Tomi Valkeinen wrote:
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> Implement the bridge connector-related .get_edid() and .detect()
-> operations, and report the related bridge capabilities and type.
-> 
-> These ops are only added for DP mode. They should also be used for eDP
-> mode, but the driver seems to be mostly used for eDP and, according to
-> the comments, they've had issues with eDP panels and HPD. So better be
-> safe and only enable them for DP for now.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Upstream direction is to include the bare minimum of version numbers
+in firmware files and to replace them in the repo rather than
+accumulating them. For HuC, that means going completely versionless.
+For GuC, the major version needs to be kept as that indicates a break
+in backwards compatibility with the KMD.
 
-This patch is missing a third-party review, so I won't apply the series
-to my tree but will let you pushing it through drm-misc once we get the
-necessary review.
+v2: Fix a bunch of issues and add better documentation (some found in
+code review by Daniele, other through more thorough testing).
+v3: Fix GSC HuC version field and a comment type (review feedback from
+Daniele).
 
-> ---
-> Changes since v1:
-> 
-> - The connector .get_modes() operation doesn't rely on EDID anymore,
->   __ti_sn_bridge_get_edid() and ti_sn_bridge_get_edid() got merged
->   together
->  - Fix on top of Sam Ravnborg's DRM_BRIDGE_STATE_OPS
-> 
-> Changes since v2: [Kieran]
->  - Only support EDID on DRM_MODE_CONNECTOR_DisplayPort modes.
-> 
-> Changes since v3: [Kieran]
->  - Remove PM calls in ti_sn_bridge_get_edid() and simplify
-> 
-> Changes since v4:
->  - Add .detect()
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 28 +++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index a6b15ea4e84d..dd20624adc70 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -29,6 +29,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_bridge_connector.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_panel.h>
-> @@ -68,6 +69,7 @@
->  #define  BPP_18_RGB				BIT(0)
->  #define SN_HPD_DISABLE_REG			0x5C
->  #define  HPD_DISABLE				BIT(0)
-> +#define  HPD_DEBOUNCED_STATE			BIT(4)
->  #define SN_GPIO_IO_REG				0x5E
->  #define  SN_GPIO_INPUT_SHIFT			4
->  #define  SN_GPIO_OUTPUT_SHIFT			0
-> @@ -1163,10 +1165,33 @@ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
->  	pm_runtime_put_sync(pdata->dev);
->  }
->  
-> +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +	int val = 0;
-> +
-> +	pm_runtime_get_sync(pdata->dev);
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+CC: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
-Would this
 
-	int ret;
+John Harrison (3):
+  drm/i915/uc: Support for version reduced and multiple firmware files
+  drm/i915/uc: Add patch level version number support
+  drm/i915/uc: Enable version reduced firmware files for newest
+    platforms
 
-	ret = pm_runtime_resume_and_get(pdata->dev);
-	if (ret)
-		return connector_status_disconnected;
-
-(or possibly connector_status_unknown) help avoiding problems ?
-
-Apart from that, the patch looks good to me.
-
-> +	regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
-> +	pm_runtime_put_autosuspend(pdata->dev);
-> +
-> +	return val & HPD_DEBOUNCED_STATE ? connector_status_connected
-> +					 : connector_status_disconnected;
-> +}
-> +
-> +static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
-> +					  struct drm_connector *connector)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +
-> +	return drm_get_edid(connector, &pdata->aux.ddc);
-> +}
-> +
->  static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->  	.attach = ti_sn_bridge_attach,
->  	.detach = ti_sn_bridge_detach,
->  	.mode_valid = ti_sn_bridge_mode_valid,
-> +	.get_edid = ti_sn_bridge_get_edid,
-> +	.detect = ti_sn_bridge_detect,
->  	.atomic_pre_enable = ti_sn_bridge_atomic_pre_enable,
->  	.atomic_enable = ti_sn_bridge_atomic_enable,
->  	.atomic_disable = ti_sn_bridge_atomic_disable,
-> @@ -1262,6 +1287,9 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
->  	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
->  			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
->  
-> +	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> +		pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
-> +
->  	drm_bridge_add(&pdata->bridge);
->  
->  	ret = ti_sn_attach_host(pdata);
-> -- 
-> 2.34.1
-> 
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  10 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   8 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 468 ++++++++++++------
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h      |  39 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw_abi.h  |   8 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  16 +-
+ 6 files changed, 358 insertions(+), 191 deletions(-)
 
 -- 
-Regards,
+2.37.2
 
-Laurent Pinchart
