@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4579F5A36A0
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 11:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D531B5A36A2
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Aug 2022 11:51:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC0E210EBC9;
-	Sat, 27 Aug 2022 09:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A275810E9F8;
+	Sat, 27 Aug 2022 09:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDBE110EC0F;
- Sat, 27 Aug 2022 09:50:48 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7A210EB0E;
+ Sat, 27 Aug 2022 09:50:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661593848; x=1693129848;
+ t=1661593857; x=1693129857;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JALLvAHix16pmT4iPNwcdO+sde7wzIccTgaEgfejyUg=;
- b=FMEoLUIA7GO62TECsuunC49EyQU3VXE1jAvnthuhwk/dFipa4il6BHLU
- j0Dm5t4J1AL8s0roMQA376+6GVwnx1yIhgRw2nqyvfhi9mFvr0SnBElvy
- 3F+4AHVmJjgRyUbNBI4yQ2eVhSacK/LrauSr1hiUWcVTS4gr4uiqqinF3
- f0tFAXskpVVQ4cj9Ki8DKFVCAX2EikaSMY3bsmtLUH5DBAo3ETHqQxG77
- LtIQoGKanihI+ctZhcY0qDvycE1anQ002g7uGEYqCFnhuH57n36g01dLB
- H4Ztc6uBgfTVfaPzCSeE+b81RhS3UJ1J1FBnkxd4zB9PdczCzEBW5KCi6 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="277666430"
-X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="277666430"
+ bh=ujCVWp5YzWSx/8xCIp4Kk5tBeq4zrx7bfelpAvmdisQ=;
+ b=BMPcEKKofCNyaMTD3oRlfM8LwObkABsXnHZ3kSfFunAJ0R+drDpYA3J3
+ 5a1nli+ABuWl4a3E2gM85eer340hVbnxQDOB19cfSz94IjfC/F04FStHh
+ VeCcXFgTpoe44XXM7OY+CZU6fKCxVaKf683Jy2pQF308uLf6Gi0XJr4Qu
+ ALOFZGWRXd3UHsIV4JC/R4HtrRfSNSHCQamVUd1WONgZs5QMI8EFXVzAZ
+ OTh+nPhFigMKhgF16fJT+jMxlyhPxZyggYErBrCkOKHxj3WrhTxxjzXrU
+ 4kBvjpL0pDgKdfNNcks0Ul7HWhUVQKqoQJ03SNMqmBsBQIOMZjx4X/gMO A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10451"; a="356365743"
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="356365743"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2022 02:50:48 -0700
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2022 02:50:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="640353907"
+X-IronPort-AV: E=Sophos;i="5.93,267,1654585200"; d="scan'208";a="640353924"
 Received: from sqa-gate.sh.intel.com (HELO michael.clx.dev.tsp.org)
  ([10.239.48.212])
- by orsmga008.jf.intel.com with ESMTP; 27 Aug 2022 02:50:39 -0700
+ by orsmga008.jf.intel.com with ESMTP; 27 Aug 2022 02:50:48 -0700
 From: Kevin Tian <kevin.tian@intel.com>
 To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -62,9 +62,9 @@ To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
  kvm@vger.kernel.org
-Subject: [PATCH 07/15] vfio/mbochs: Use the new device life cycle helpers
-Date: Sun, 28 Aug 2022 01:10:29 +0800
-Message-Id: <20220827171037.30297-8-kevin.tian@intel.com>
+Subject: [PATCH 08/15] drm/i915/gvt: Use the new device life cycle helpers
+Date: Sun, 28 Aug 2022 01:10:30 +0800
+Message-Id: <20220827171037.30297-9-kevin.tian@intel.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20220827171037.30297-1-kevin.tian@intel.com>
 References: <20220827171037.30297-1-kevin.tian@intel.com>
@@ -86,145 +86,240 @@ Cc: Yi Liu <yi.l.liu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yi Liu <yi.l.liu@intel.com>
+Move vfio_device to the start of intel_vgpu as required by the new
+helpers.
 
-and manage avail_mbytes inside @init/@release.
+Change intel_gvt_create_vgpu() to use intel_vgpu as the first param
+as other vgpu helpers do.
 
-Signed-off-by: Yi Liu <yi.l.liu@intel.com>
 Signed-off-by: Kevin Tian <kevin.tian@intel.com>
 ---
- samples/vfio-mdev/mbochs.c | 73 ++++++++++++++++++++++++--------------
- 1 file changed, 46 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/i915/gvt/gvt.h   |  5 ++-
+ drivers/gpu/drm/i915/gvt/kvmgt.c | 52 ++++++++++++++++++++++----------
+ drivers/gpu/drm/i915/gvt/vgpu.c  | 31 +++++++------------
+ 3 files changed, 49 insertions(+), 39 deletions(-)
 
-diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
-index 344c2901a82b..df95f25fbc0e 100644
---- a/samples/vfio-mdev/mbochs.c
-+++ b/samples/vfio-mdev/mbochs.c
-@@ -505,13 +505,14 @@ static int mbochs_reset(struct mdev_state *mdev_state)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
+index 705689e64011..89fab7896fc6 100644
+--- a/drivers/gpu/drm/i915/gvt/gvt.h
++++ b/drivers/gpu/drm/i915/gvt/gvt.h
+@@ -172,6 +172,7 @@ struct intel_vgpu_submission {
+ #define KVMGT_DEBUGFS_FILENAME		"kvmgt_nr_cache_entries"
  
--static int mbochs_probe(struct mdev_device *mdev)
-+static int mbochs_init_dev(struct vfio_device *vdev)
+ struct intel_vgpu {
++	struct vfio_device vfio_device;
+ 	struct intel_gvt *gvt;
+ 	struct mutex vgpu_lock;
+ 	int id;
+@@ -211,7 +212,6 @@ struct intel_vgpu {
+ 
+ 	u32 scan_nonprivbb;
+ 
+-	struct vfio_device vfio_device;
+ 	struct vfio_region *region;
+ 	int num_regions;
+ 	struct eventfd_ctx *intx_trigger;
+@@ -494,8 +494,7 @@ void intel_gvt_clean_vgpu_types(struct intel_gvt *gvt);
+ 
+ struct intel_vgpu *intel_gvt_create_idle_vgpu(struct intel_gvt *gvt);
+ void intel_gvt_destroy_idle_vgpu(struct intel_vgpu *vgpu);
+-struct intel_vgpu *intel_gvt_create_vgpu(struct intel_gvt *gvt,
+-					 struct intel_vgpu_type *type);
++int intel_gvt_create_vgpu(struct intel_vgpu *vgpu, struct intel_vgpu_type *type);
+ void intel_gvt_destroy_vgpu(struct intel_vgpu *vgpu);
+ void intel_gvt_release_vgpu(struct intel_vgpu *vgpu);
+ void intel_gvt_reset_vgpu_locked(struct intel_vgpu *vgpu, bool dmlr,
+diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+index e3cd58946477..41bba40feef8 100644
+--- a/drivers/gpu/drm/i915/gvt/kvmgt.c
++++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+@@ -1546,7 +1546,33 @@ static const struct attribute_group *intel_vgpu_groups[] = {
+ 	NULL,
+ };
+ 
++static int intel_vgpu_init_dev(struct vfio_device *vfio_dev)
++{
++	struct mdev_device *mdev = to_mdev_device(vfio_dev->dev);
++	struct device *pdev = mdev_parent_dev(mdev);
++	struct intel_gvt *gvt = kdev_to_i915(pdev)->gvt;
++	struct intel_vgpu_type *type;
++	struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
++
++	type = &gvt->types[mdev_get_type_group_id(mdev)];
++	if (!type)
++		return -EINVAL;
++
++	vgpu->gvt = gvt;
++	return intel_gvt_create_vgpu(vgpu, type);
++}
++
++static void intel_vgpu_release_dev(struct vfio_device *vfio_dev)
++{
++	struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
++
++	intel_gvt_destroy_vgpu(vgpu);
++	vfio_free_device(vfio_dev);
++}
++
+ static const struct vfio_device_ops intel_vgpu_dev_ops = {
++	.init		= intel_vgpu_init_dev,
++	.release	= intel_vgpu_release_dev,
+ 	.open_device	= intel_vgpu_open_device,
+ 	.close_device	= intel_vgpu_close_device,
+ 	.read		= intel_vgpu_read,
+@@ -1558,35 +1584,28 @@ static const struct vfio_device_ops intel_vgpu_dev_ops = {
+ 
+ static int intel_vgpu_probe(struct mdev_device *mdev)
  {
--	int avail_mbytes = atomic_read(&mbochs_avail_mbytes);
-+	struct mdev_state *mdev_state =
-+		container_of(vdev, struct mdev_state, vdev);
-+	struct mdev_device *mdev = to_mdev_device(vdev->dev);
- 	const struct mbochs_type *type =
- 		&mbochs_types[mdev_get_type_group_id(mdev)];
--	struct device *dev = mdev_dev(mdev);
--	struct mdev_state *mdev_state;
-+	int avail_mbytes = atomic_read(&mbochs_avail_mbytes);
- 	int ret = -ENOMEM;
+-	struct device *pdev = mdev_parent_dev(mdev);
+-	struct intel_gvt *gvt = kdev_to_i915(pdev)->gvt;
+-	struct intel_vgpu_type *type;
+ 	struct intel_vgpu *vgpu;
+ 	int ret;
  
- 	do {
-@@ -520,14 +521,9 @@ static int mbochs_probe(struct mdev_device *mdev)
- 	} while (!atomic_try_cmpxchg(&mbochs_avail_mbytes, &avail_mbytes,
- 				     avail_mbytes - type->mbytes));
- 
--	mdev_state = kzalloc(sizeof(struct mdev_state), GFP_KERNEL);
--	if (mdev_state == NULL)
--		goto err_avail;
--	vfio_init_group_dev(&mdev_state->vdev, &mdev->dev, &mbochs_dev_ops);
+-	type = &gvt->types[mdev_get_type_group_id(mdev)];
+-	if (!type)
+-		return -EINVAL;
 -
- 	mdev_state->vconfig = kzalloc(MBOCHS_CONFIG_SPACE_SIZE, GFP_KERNEL);
--	if (mdev_state->vconfig == NULL)
--		goto err_mem;
-+	if (!mdev_state->vconfig)
-+		goto err_avail;
+-	vgpu = intel_gvt_create_vgpu(gvt, type);
++	vgpu = vfio_alloc_device(intel_vgpu, vfio_device, &mdev->dev,
++				 &intel_vgpu_dev_ops);
+ 	if (IS_ERR(vgpu)) {
+ 		gvt_err("failed to create intel vgpu: %ld\n", PTR_ERR(vgpu));
+ 		return PTR_ERR(vgpu);
+ 	}
  
- 	mdev_state->memsize = type->mbytes * 1024 * 1024;
- 	mdev_state->pagecount = mdev_state->memsize >> PAGE_SHIFT;
-@@ -535,10 +531,7 @@ static int mbochs_probe(struct mdev_device *mdev)
- 				    sizeof(struct page *),
- 				    GFP_KERNEL);
- 	if (!mdev_state->pages)
--		goto err_mem;
+-	vfio_init_group_dev(&vgpu->vfio_device, &mdev->dev,
+-			    &intel_vgpu_dev_ops);
 -
--	dev_info(dev, "%s: %s, %d MB, %ld pages\n", __func__,
--		 type->name, type->mbytes, mdev_state->pagecount);
-+		goto err_vconfig;
+ 	dev_set_drvdata(&mdev->dev, vgpu);
+ 	ret = vfio_register_emulated_iommu_dev(&vgpu->vfio_device);
+-	if (ret) {
+-		intel_gvt_destroy_vgpu(vgpu);
+-		return ret;
+-	}
++	if (ret)
++		goto out_put_vdev;
  
- 	mutex_init(&mdev_state->ops_lock);
- 	mdev_state->mdev = mdev;
-@@ -553,19 +546,47 @@ static int mbochs_probe(struct mdev_device *mdev)
- 	mbochs_create_config_space(mdev_state);
- 	mbochs_reset(mdev_state);
- 
-+	dev_info(vdev->dev, "%s: %s, %d MB, %ld pages\n", __func__,
-+		 type->name, type->mbytes, mdev_state->pagecount);
-+	return 0;
-+
-+err_vconfig:
-+	kfree(mdev_state->vconfig);
-+err_avail:
-+	atomic_add(type->mbytes, &mbochs_avail_mbytes);
-+	return ret;
-+}
-+
-+static int mbochs_probe(struct mdev_device *mdev)
-+{
-+	struct mdev_state *mdev_state;
-+	int ret = -ENOMEM;
-+
-+	mdev_state = vfio_alloc_device(mdev_state, vdev, &mdev->dev,
-+				       &mbochs_dev_ops);
-+	if (IS_ERR(mdev_state))
-+		return PTR_ERR(mdev_state);
-+
- 	ret = vfio_register_emulated_iommu_dev(&mdev_state->vdev);
- 	if (ret)
--		goto err_mem;
-+		goto err_put_vdev;
- 	dev_set_drvdata(&mdev->dev, mdev_state);
+ 	gvt_dbg_core("intel_vgpu_create succeeded for mdev: %s\n",
+ 		     dev_name(mdev_dev(mdev)));
  	return 0;
--err_mem:
--	vfio_uninit_group_dev(&mdev_state->vdev);
 +
-+err_put_vdev:
-+	vfio_put_device(&mdev_state->vdev);
++out_put_vdev:
++	vfio_put_device(&vgpu->vfio_device);
 +	return ret;
-+}
-+
-+static void mbochs_release_dev(struct vfio_device *vdev)
-+{
-+	struct mdev_state *mdev_state =
-+		container_of(vdev, struct mdev_state, vdev);
-+
- 	kfree(mdev_state->pages);
- 	kfree(mdev_state->vconfig);
--	kfree(mdev_state);
--err_avail:
--	atomic_add(type->mbytes, &mbochs_avail_mbytes);
--	return ret;
-+	vfio_free_device(vdev);
-+	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
  }
  
- static void mbochs_remove(struct mdev_device *mdev)
-@@ -573,11 +594,7 @@ static void mbochs_remove(struct mdev_device *mdev)
- 	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
+ static void intel_vgpu_remove(struct mdev_device *mdev)
+@@ -1595,7 +1614,8 @@ static void intel_vgpu_remove(struct mdev_device *mdev)
  
- 	vfio_unregister_group_dev(&mdev_state->vdev);
--	vfio_uninit_group_dev(&mdev_state->vdev);
--	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
--	kfree(mdev_state->pages);
--	kfree(mdev_state->vconfig);
--	kfree(mdev_state);
-+	vfio_put_device(&mdev_state->vdev);
+ 	if (WARN_ON_ONCE(vgpu->attached))
+ 		return;
+-	intel_gvt_destroy_vgpu(vgpu);
++
++	vfio_put_device(&vgpu->vfio_device);
  }
  
- static ssize_t mbochs_read(struct vfio_device *vdev, char __user *buf,
-@@ -1397,6 +1414,8 @@ static struct attribute_group *mdev_type_groups[] = {
+ static struct mdev_driver intel_vgpu_mdev_driver = {
+diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
+index 46da19b3225d..2f5c21fa8166 100644
+--- a/drivers/gpu/drm/i915/gvt/vgpu.c
++++ b/drivers/gpu/drm/i915/gvt/vgpu.c
+@@ -302,8 +302,6 @@ void intel_gvt_destroy_vgpu(struct intel_vgpu *vgpu)
+ 	mutex_lock(&gvt->lock);
+ 	intel_gvt_update_vgpu_types(gvt);
+ 	mutex_unlock(&gvt->lock);
+-
+-	vfree(vgpu);
+ }
  
- static const struct vfio_device_ops mbochs_dev_ops = {
- 	.close_device = mbochs_close_device,
-+	.init = mbochs_init_dev,
-+	.release = mbochs_release_dev,
- 	.read = mbochs_read,
- 	.write = mbochs_write,
- 	.ioctl = mbochs_ioctl,
+ #define IDLE_VGPU_IDR 0
+@@ -363,28 +361,23 @@ void intel_gvt_destroy_idle_vgpu(struct intel_vgpu *vgpu)
+ 	vfree(vgpu);
+ }
+ 
+-static struct intel_vgpu *__intel_gvt_create_vgpu(struct intel_gvt *gvt,
++static int __intel_gvt_create_vgpu(struct intel_vgpu *vgpu,
+ 		struct intel_vgpu_creation_params *param)
+ {
++	struct intel_gvt *gvt = vgpu->gvt;
+ 	struct drm_i915_private *dev_priv = gvt->gt->i915;
+-	struct intel_vgpu *vgpu;
+ 	int ret;
+ 
+ 	gvt_dbg_core("low %llu MB high %llu MB fence %llu\n",
+ 			param->low_gm_sz, param->high_gm_sz,
+ 			param->fence_sz);
+ 
+-	vgpu = vzalloc(sizeof(*vgpu));
+-	if (!vgpu)
+-		return ERR_PTR(-ENOMEM);
+-
+ 	ret = idr_alloc(&gvt->vgpu_idr, vgpu, IDLE_VGPU_IDR + 1, GVT_MAX_VGPU,
+ 		GFP_KERNEL);
+ 	if (ret < 0)
+-		goto out_free_vgpu;
++		return ret;
+ 
+ 	vgpu->id = ret;
+-	vgpu->gvt = gvt;
+ 	vgpu->sched_ctl.weight = param->weight;
+ 	mutex_init(&vgpu->vgpu_lock);
+ 	mutex_init(&vgpu->dmabuf_lock);
+@@ -437,7 +430,7 @@ static struct intel_vgpu *__intel_gvt_create_vgpu(struct intel_gvt *gvt,
+ 	if (ret)
+ 		goto out_clean_sched_policy;
+ 
+-	return vgpu;
++	return 0;
+ 
+ out_clean_sched_policy:
+ 	intel_vgpu_clean_sched_policy(vgpu);
+@@ -455,9 +448,7 @@ static struct intel_vgpu *__intel_gvt_create_vgpu(struct intel_gvt *gvt,
+ 	intel_vgpu_clean_mmio(vgpu);
+ out_clean_idr:
+ 	idr_remove(&gvt->vgpu_idr, vgpu->id);
+-out_free_vgpu:
+-	vfree(vgpu);
+-	return ERR_PTR(ret);
++	return ret;
+ }
+ 
+ /**
+@@ -470,11 +461,11 @@ static struct intel_vgpu *__intel_gvt_create_vgpu(struct intel_gvt *gvt,
+  * Returns:
+  * pointer to intel_vgpu, error pointer if failed.
+  */
+-struct intel_vgpu *intel_gvt_create_vgpu(struct intel_gvt *gvt,
+-				struct intel_vgpu_type *type)
++int intel_gvt_create_vgpu(struct intel_vgpu *vgpu, struct intel_vgpu_type *type)
+ {
++	struct intel_gvt *gvt = vgpu->gvt;
+ 	struct intel_vgpu_creation_params param;
+-	struct intel_vgpu *vgpu;
++	int ret;
+ 
+ 	param.primary = 1;
+ 	param.low_gm_sz = type->low_gm_size;
+@@ -488,15 +479,15 @@ struct intel_vgpu *intel_gvt_create_vgpu(struct intel_gvt *gvt,
+ 	param.high_gm_sz = BYTES_TO_MB(param.high_gm_sz);
+ 
+ 	mutex_lock(&gvt->lock);
+-	vgpu = __intel_gvt_create_vgpu(gvt, &param);
+-	if (!IS_ERR(vgpu)) {
++	ret = __intel_gvt_create_vgpu(vgpu, &param);
++	if (!ret) {
+ 		/* calculate left instance change for types */
+ 		intel_gvt_update_vgpu_types(gvt);
+ 		intel_gvt_update_reg_whitelist(vgpu);
+ 	}
+ 	mutex_unlock(&gvt->lock);
+ 
+-	return vgpu;
++	return ret;
+ }
+ 
+ /**
 -- 
 2.21.3
 
