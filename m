@@ -2,47 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3E55A3F19
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Aug 2022 20:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4CD5A3F48
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Aug 2022 21:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4181410EFAD;
-	Sun, 28 Aug 2022 18:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 308E710EEC6;
+	Sun, 28 Aug 2022 19:22:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E599510EFAD
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Aug 2022 18:26:46 +0000 (UTC)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4MG28j6SPTz9sCN;
- Sun, 28 Aug 2022 18:26:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1661711206; bh=cVZKV733FhwSJ9ann5TaxDwpk2a9uxqmV7l6k2LLnyA=;
- h=From:To:Cc:Subject:Date:From;
- b=U8giS/jsUXGNNlx9tL6PfLaLwB+1FJ2qEoArbjQEoIseotQceUjApFUtA2Xn4yEnm
- mrlawU81y2hJKRdtSo4Bm7LUOOBtFyT62u6snNDPRvcPaITBMgvMOSj29natpjuaSz
- CW7JVRAXnf13ld7OxycqXhnonyai3DfV6iGxQa4w=
-X-Riseup-User-ID: 632E099168EDC2B6EA5082995449A6C79448FAD18ED28205D4B018B63EC3B43B
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4MG28b1j5Qz20SJ;
- Sun, 28 Aug 2022 18:26:39 +0000 (UTC)
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
-To: Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
- tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
- siqueirajordao@riseup.net, Trevor Woerner <twoerner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>,
- David Gow <davidgow@google.com>, brendanhiggins@google.com,
- Arthur Grillo <arthur.grillo@usp.br>
-Subject: [PATCH] drm/mm: Reduce stack frame usage in __igt_reserve
-Date: Sun, 28 Aug 2022 15:25:43 -0300
-Message-Id: <20220828182543.155415-1-mairacanal@riseup.net>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3EAF10EEC6;
+ Sun, 28 Aug 2022 19:22:00 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27SJKtPn008995;
+ Sun, 28 Aug 2022 19:21:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=sDjRq8TtTtOhhdLNcU6fwDRQqh6Cf4gWnhHDwyUoa78=;
+ b=bg3Lrxj5COkokA0UNDOef+YLeepRPt/QwPZ2GIWO9WKQJxHdi8RzoDsDeZbYCw7ToMSr
+ 9a6vW/K6f+pxhZHgCF+Mqb/oB+1N4yMP3kXHIQ8v2Q4A6GyNiYzBVeI0KUCImEUllTrg
+ QN1rEerD+LH89WCLt8U5jXJk1wK5kndNPLtkHEaz1Bw5x3PQvosuFCluQ9wxs3kpVwDY
+ Big6BmzYwLTADdAnXjY8EMOTaTqmwzUsCkfp9RX3exMPE1thy2s3ijeII03cfAuwWlEC
+ 2xgdUr76SehKwfg1w+YCLY9NqsWIp2HM3EOA1QScalUK8VYrtJfi0HED7kpwzdKwgxf2 og== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j7cjf2m84-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 28 Aug 2022 19:21:46 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27SJLjtt031198
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 28 Aug 2022 19:21:45 GMT
+Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Sun, 28 Aug 2022 12:21:38 -0700
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ Rob Clark <robdclark@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, "Stephen
+ Boyd" <swboyd@chromium.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v5 0/6] clk/qcom: Support gdsc collapse polling using 'reset'
+ interface
+Date: Mon, 29 Aug 2022 00:51:13 +0530
+Message-ID: <1661714479-28981-1-git-send-email-quic_akhilpo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: mc4o8glu7q703h3L4d1-ddhZaMgHzsFL
+X-Proofpoint-ORIG-GUID: mc4o8glu7q703h3L4d1-ddhZaMgHzsFL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-28_12,2022-08-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ priorityscore=1501 mlxlogscore=999 phishscore=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 adultscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208280080
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,145 +81,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Douglas Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
+ krzysztof.kozlowski@linaro.org, Andy Gross <agross@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Sean Paul <sean@poorly.run>,
+ linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The struct drm_mm is being allocated on the stack, which is causing the
-following -Wframe-larger-than warning on ARM:
 
-../drivers/gpu/drm/tests/drm_mm_test.c:344:12: error: stack frame size
-(1064) exceeds limit (1024) in '__igt_reserve' [-Werror,-Wframe-larger-than]
+Some clients like adreno gpu driver would like to ensure that its gdsc
+is collapsed at hardware during a gpu reset sequence. This is because it
+has a votable gdsc which could be ON due to a vote from another subsystem
+like tz, hyp etc or due to an internal hardware signal. To allow
+this, gpucc driver can expose an interface to the client driver using
+reset framework. Using this the client driver can trigger a polling within
+the gdsc driver.
 
-static int __igt_reserve(struct kunit *test, unsigned int count, u64 size)
-           ^
-1 error generated.
+This series is rebased on top of linus's master branch.
 
-So, fix this warning by dynamically allocating the struct drm_mm.
+Related discussion: https://patchwork.freedesktop.org/patch/493144/
 
-Fixes: fc8d29e298cf ("drm: selftest: convert drm_mm selftest to KUnit")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Maíra Canal <mairacanal@riseup.net>
----
- drivers/gpu/drm/tests/drm_mm_test.c | 33 ++++++++++++++++-------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
+Changes in v5:
+- Nit: Remove a duplicate blank line (Krzysztof)
 
-diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
-index 1e2c1aa524bd..fbd8dcbc12ee 100644
---- a/drivers/gpu/drm/tests/drm_mm_test.c
-+++ b/drivers/gpu/drm/tests/drm_mm_test.c
-@@ -344,7 +344,7 @@ static bool check_reserve_boundaries(struct kunit *test, struct drm_mm *mm,
- static int __igt_reserve(struct kunit *test, unsigned int count, u64 size)
- {
- 	DRM_RND_STATE(prng, random_seed);
--	struct drm_mm mm;
-+	struct drm_mm *mm;
- 	struct drm_mm_node tmp, *nodes, *node, *next;
- 	unsigned int *order, n, m, o = 0;
- 	int ret, err;
-@@ -366,17 +366,20 @@ static int __igt_reserve(struct kunit *test, unsigned int count, u64 size)
- 	nodes = vzalloc(array_size(count, sizeof(*nodes)));
- 	KUNIT_ASSERT_TRUE(test, nodes);
- 
-+	mm = kunit_kzalloc(test, sizeof(struct drm_mm), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, mm);
-+
- 	ret = -EINVAL;
--	drm_mm_init(&mm, 0, count * size);
-+	drm_mm_init(mm, 0, count * size);
- 
--	if (!check_reserve_boundaries(test, &mm, count, size))
-+	if (!check_reserve_boundaries(test, mm, count, size))
- 		goto out;
- 
- 	for (n = 0; n < count; n++) {
- 		nodes[n].start = order[n] * size;
- 		nodes[n].size = size;
- 
--		err = drm_mm_reserve_node(&mm, &nodes[n]);
-+		err = drm_mm_reserve_node(mm, &nodes[n]);
- 		if (err) {
- 			KUNIT_FAIL(test, "reserve failed, step %d, start %llu\n",
- 				   n, nodes[n].start);
-@@ -390,23 +393,23 @@ static int __igt_reserve(struct kunit *test, unsigned int count, u64 size)
- 			goto out;
- 		}
- 
--		if (!expect_reserve_fail(test, &mm, &nodes[n]))
-+		if (!expect_reserve_fail(test, mm, &nodes[n]))
- 			goto out;
- 	}
- 
- 	/* After random insertion the nodes should be in order */
--	if (!assert_continuous(test, &mm, size))
-+	if (!assert_continuous(test, mm, size))
- 		goto out;
- 
- 	/* Repeated use should then fail */
- 	drm_random_reorder(order, count, &prng);
- 	for (n = 0; n < count; n++) {
--		if (!expect_reserve_fail(test, &mm, set_node(&tmp, order[n] * size, 1)))
-+		if (!expect_reserve_fail(test, mm, set_node(&tmp, order[n] * size, 1)))
- 			goto out;
- 
- 		/* Remove and reinsert should work */
- 		drm_mm_remove_node(&nodes[order[n]]);
--		err = drm_mm_reserve_node(&mm, &nodes[order[n]]);
-+		err = drm_mm_reserve_node(mm, &nodes[order[n]]);
- 		if (err) {
- 			KUNIT_FAIL(test, "reserve failed, step %d, start %llu\n",
- 				   n, nodes[n].start);
-@@ -415,16 +418,16 @@ static int __igt_reserve(struct kunit *test, unsigned int count, u64 size)
- 		}
- 	}
- 
--	if (!assert_continuous(test, &mm, size))
-+	if (!assert_continuous(test, mm, size))
- 		goto out;
- 
- 	/* Overlapping use should then fail */
- 	for (n = 0; n < count; n++) {
--		if (!expect_reserve_fail(test, &mm, set_node(&tmp, 0, size * count)))
-+		if (!expect_reserve_fail(test, mm, set_node(&tmp, 0, size * count)))
- 			goto out;
- 	}
- 	for (n = 0; n < count; n++) {
--		if (!expect_reserve_fail(test, &mm, set_node(&tmp, size * n, size * (count - n))))
-+		if (!expect_reserve_fail(test, mm, set_node(&tmp, size * n, size * (count - n))))
- 			goto out;
- 	}
- 
-@@ -437,7 +440,7 @@ static int __igt_reserve(struct kunit *test, unsigned int count, u64 size)
- 
- 		for (m = 0; m < n; m++) {
- 			node = &nodes[order[(o + m) % count]];
--			err = drm_mm_reserve_node(&mm, node);
-+			err = drm_mm_reserve_node(mm, node);
- 			if (err) {
- 				KUNIT_FAIL(test, "reserve failed, step %d/%d, start %llu\n",
- 					   m, n, node->start);
-@@ -448,15 +451,15 @@ static int __igt_reserve(struct kunit *test, unsigned int count, u64 size)
- 
- 		o += n;
- 
--		if (!assert_continuous(test, &mm, size))
-+		if (!assert_continuous(test, mm, size))
- 			goto out;
- 	}
- 
- 	ret = 0;
- out:
--	drm_mm_for_each_node_safe(node, next, &mm)
-+	drm_mm_for_each_node_safe(node, next, mm)
- 		drm_mm_remove_node(node);
--	drm_mm_takedown(&mm);
-+	drm_mm_takedown(mm);
- 	vfree(nodes);
- 	kfree(order);
- err:
+Changes in v4:
+- Update gpu dt-binding schema
+- Typo fix in commit text
+
+Changes in v3:
+- Use pointer to const for "struct qcom_reset_ops" in qcom_reset_map (Krzysztof)
+
+Changes in v2:
+- Return error when a particular custom reset op is not implemented. (Dmitry)
+
+Akhil P Oommen (6):
+  dt-bindings: clk: qcom: Support gpu cx gdsc reset
+  clk: qcom: Allow custom reset ops
+  clk: qcom: gdsc: Add a reset op to poll gdsc collapse
+  clk: qcom: gpucc-sc7280: Add cx collapse reset support
+  dt-bindings: drm/msm/gpu: Add optional resets
+  arm64: dts: qcom: sc7280: Add Reset support for gpu
+
+ .../devicetree/bindings/display/msm/gpu.yaml       |  6 +++++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi               |  3 +++
+ drivers/clk/qcom/gdsc.c                            | 23 ++++++++++++++----
+ drivers/clk/qcom/gdsc.h                            |  7 ++++++
+ drivers/clk/qcom/gpucc-sc7280.c                    | 10 ++++++++
+ drivers/clk/qcom/reset.c                           | 27 ++++++++++++++++++++++
+ drivers/clk/qcom/reset.h                           |  8 +++++++
+ include/dt-bindings/clock/qcom,gpucc-sc7280.h      |  3 +++
+ 8 files changed, 83 insertions(+), 4 deletions(-)
+
 -- 
-2.37.2
+2.7.4
 
