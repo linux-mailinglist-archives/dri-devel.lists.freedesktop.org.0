@@ -2,75 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CF85A3F65
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Aug 2022 21:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C52A5A3F6F
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Aug 2022 21:25:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4B1A10EFC6;
-	Sun, 28 Aug 2022 19:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8545710EFAF;
+	Sun, 28 Aug 2022 19:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 291A010EFC5;
- Sun, 28 Aug 2022 19:22:23 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27SJ3Alx005468;
- Sun, 28 Aug 2022 19:22:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=3h1aiXrphk5T2rqN3UBCgmzr+FGo6Il6A5/GglCrd1c=;
- b=Qyqb6spYS2VKS1IFGBOMsbaDW+5gwv3l1EOKSCZWVui9BofaVQzl3BlAFx3ApdI6Cgin
- KAq9L4VIrHERCTI9UhiPjKRJDFZnXtNV2ihC5nUGeHGlqacQ8dE9rH3ku1vLKGYdXRPy
- rmhyySfwE901ADd5Z75RMlpkhkFiYuC9Ym6l202lg8rZa12D9FxBOvP48jbdv8Rp1QQ3
- NeZqjZZMlmrSQaaktTSzM9muCHlsSpYvdB8LCOingC7b3Q5c5K6ugKQmu8/BxDHiV8VL
- 234704ONFxYIHzwPK1rNubdna0xtlVfQdJ+PPzK/IevbFa3NauHFD83C2y8eNx8dotKK IA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j7bc1av5j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 28 Aug 2022 19:22:19 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27SJMIPe006591
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 28 Aug 2022 19:22:18 GMT
-Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Sun, 28 Aug 2022 12:22:13 -0700
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: freedreno <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, "Stephen
- Boyd" <swboyd@chromium.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v5 6/6] arm64: dts: qcom: sc7280: Add Reset support for gpu
-Date: Mon, 29 Aug 2022 00:51:19 +0530
-Message-ID: <20220829005035.v5.6.I6a1fca5d53c886c05ea3e24cd4282d31c9c0cd0b@changeid>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1661714479-28981-1-git-send-email-quic_akhilpo@quicinc.com>
-References: <1661714479-28981-1-git-send-email-quic_akhilpo@quicinc.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CBEB10EFAF
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Aug 2022 19:25:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=zAHYVCWMSa2GkiBj19jjzwY2RqRsZ7LJnQxJnAPq1zg=; b=P8V23faQAMfvwOClKJ6XIrXpzc
+ KjvzHK7UOfyVy5euPzpRpwmPhLitNhoO1U1LzN8AITpRZSZbQbMW7NV05FfFcuPV0YVfaEnH8mjCS
+ gzTsXoBKPMZ6s2VWNGXcID7GDzzv7T/aEIRQcu5I7YrNv0QbqwehoYqNevXumHr2RlVN8YWn+FrPf
+ DPyFU/tqyX8J9yYsmm40FlH9uyGArTnvcwKOo+EXSkluSDpx3S6g7ncmDSd7Y0fzAD7WHJQNQLli0
+ AO6xPgDTmdR4cq3W7cThLVs1WfS89quANJpwPMk0IzC1LuAPO+reGc8QqcZr07E8rA/Nh0XCFSVg1
+ s4NeraQQ==;
+Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1oSNu7-002SHO-D7; Sun, 28 Aug 2022 19:25:07 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Documentation: fb: udlfb: clean up text and formatting
+Date: Sun, 28 Aug 2022 12:25:01 -0700
+Message-Id: <20220828192501.14232-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: DH18oDAMqqftS0tb6JdY1LwZbi37wk8F
-X-Proofpoint-GUID: DH18oDAMqqftS0tb6JdY1LwZbi37wk8F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-28_12,2022-08-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 clxscore=1015 priorityscore=1501
- spamscore=0 bulkscore=0 adultscore=0 malwarescore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208280080
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,40 +46,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org, Andy
- Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: linux-fbdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-doc@vger.kernel.org, Bernie Thompson <bernie@plugable.com>,
+ dri-devel@lists.freedesktop.org, Bagas Sanjaya <bagasdotme@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for Reset using GPUCC driver for GPU. This helps to ensure
-that GPU state is reset by making sure that CX head switch is collapsed.
+Clean up punctuation, spelling, and formatting for command line usage
+and modprobe config file usage in udlfb.rst.
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Bernie Thompson <bernie@plugable.com>
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Helge Deller <deller@gmx.de>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
+v2: use some text suggestions from Bagas Sanjaya (Thanks);
+    add a '.' at the end of a sentence.
 
-(no changes since v1)
+ Documentation/fb/udlfb.rst |   23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index e66fc67..f5257d6 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -2243,6 +2243,9 @@
- 			nvmem-cells = <&gpu_speed_bin>;
- 			nvmem-cell-names = "speed_bin";
+--- a/Documentation/fb/udlfb.rst
++++ b/Documentation/fb/udlfb.rst
+@@ -86,17 +86,24 @@ Module Options
+ Special configuration for udlfb is usually unnecessary. There are a few
+ options, however.
  
-+			resets = <&gpucc GPU_CX_COLLAPSE>;
-+			reset-names = "cx_collapse";
+-From the command line, pass options to modprobe
+-modprobe udlfb fb_defio=0 console=1 shadow=1
++From the command line, pass options to modprobe::
+ 
+-Or modify options on the fly at /sys/module/udlfb/parameters directory via
+-sudo nano fb_defio
+-change the parameter in place, and save the file.
++  modprobe udlfb fb_defio=0 console=1 shadow=1
+ 
+-Unplug/replug USB device to apply with new settings
++Or change options on the fly by editing
++/sys/module/udlfb/parameters/PARAMETER_NAME ::
+ 
+-Or for permanent option, create file like /etc/modprobe.d/udlfb.conf with text
+-options udlfb fb_defio=0 console=1 shadow=1
++  cd /sys/module/udlfb/parameters
++  ls # to see a list of parameter names
++  sudo nano PARAMETER_NAME
++  # change the parameter in place, and save the file.
 +
- 			gpu_opp_table: opp-table {
- 				compatible = "operating-points-v2";
++Unplug/replug USB device to apply with new settings.
++
++Or to apply options permanently, create a modprobe configuration file
++like /etc/modprobe.d/udlfb.conf with text::
++
++  options udlfb fb_defio=0 console=1 shadow=1
  
--- 
-2.7.4
-
+ Accepted boolean options:
+ 
