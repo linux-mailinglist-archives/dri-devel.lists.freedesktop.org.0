@@ -1,123 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBB75A3C12
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Aug 2022 08:06:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 684465A3C96
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Aug 2022 10:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D389010EE9E;
-	Sun, 28 Aug 2022 06:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3A710EEE6;
+	Sun, 28 Aug 2022 08:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2114.outbound.protection.outlook.com [40.107.114.114])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83A3310EE9E
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Aug 2022 06:06:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ev+Div2KhvJvguPUjIm0lrPZ9YEUymrmuMxq9QkSED+7uJEEkKKUYqHPpg2QuDVZYiVBJTVXaNkrhmeYbQxOaBz8RYQHv4QqG2r84WAXH0W0oA00mR9Jyala3VzwjzrqtGH7CJGoS4525cPp0VEtCSMctGeYXhNMKLo/qqpZYcO59+/fOjmx20iEBn6bKxmEIk1I2ylBSTwwei9q7IUM4zPTZ2LD4SuwqimO6PK986WW8iS/h71u4w/804FaSVjkdfmaOG/jgRIQUL3iJA/b14d16sS4ikyHGEUTnVrKGHHYE7YKXM64JHvM1+aabduo4j4rOPLLqSxUSFIxMvL8+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+8jnRXnU9JBB9lY9LzrXggv2skd438d7WPdU9ElfBjk=;
- b=DKR52Eu73OUHrAjKhqLZrPbTV3YxNp0a2eqgKNgEbdH4gs6KwSzTK7x3M8CG7B4fh40RQlaIMfSbYFAEcg/awJ9gAN70B1rzAR65SuhAhiM4b0pmECa0YzVZA22U7YPlLEcjBBJY7rJXU46i4KkJ2qVPFl9/VeW8YfRqJhI8olSbynqGh3D/XIEMRx+xrn64ClYXHC3Ma0m5llSHr/d/bkd9EXKMVejOs1ofJokNFAI1LsFgo9qJtYMA/DkHIGozOjqRYfWPgYwFTHMNWCAwc7mskXuacpYBxAcS+R8e1BnvWfoNQgpP7Ilw2CfaoSHv++42TFi6tKfAv2NsC4i3ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+8jnRXnU9JBB9lY9LzrXggv2skd438d7WPdU9ElfBjk=;
- b=vUjg1FAdTZL6Crz/PNrpiomgJ+QFWrjwgk5pfubCBuerPXubt3tdHJyo+Lxk3aV+kxdct35fHxv/EVZMD/Jv4xaWl2hYhw5pJVGmC5PE7SG+PRI5tCBRhU+/jJ1eOupTuji+4J04qK5PFgF9nX3kFmaeq87fDRqhPhlVpvotZ/o=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYAPR01MB2879.jpnprd01.prod.outlook.com (2603:1096:404:8d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Sun, 28 Aug
- 2022 06:05:57 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::14d3:5079:9de1:ceaf]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::14d3:5079:9de1:ceaf%3]) with mapi id 15.20.5566.021; Sun, 28 Aug 2022
- 06:05:56 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH 2/2] drm: rcar-du: Use %p4cc to print 4CC format
-Thread-Topic: [PATCH 2/2] drm: rcar-du: Use %p4cc to print 4CC format
-Thread-Index: AQHYuG7t+14tWNeQw0+zXqAYnK1OK63B25yAgACX7+CAAKPCgIAAwAZQ
-Date: Sun, 28 Aug 2022 06:05:55 +0000
-Message-ID: <OS0PR01MB5922C8DD684D606BDBD3DE9F86779@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220825103905.2450049-1-biju.das.jz@bp.renesas.com>
- <20220825103905.2450049-2-biju.das.jz@bp.renesas.com>
- <YwlboWrxzP7JWeg/@pendragon.ideasonboard.com>
- <OS0PR01MB592284D23CEF5354170765A886749@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <Ywpkc5ut97L3kTb1@pendragon.ideasonboard.com>
-In-Reply-To: <Ywpkc5ut97L3kTb1@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc484f4c-6605-474e-803d-08da88bb5ef4
-x-ms-traffictypediagnostic: TYAPR01MB2879:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YumbYOYmNs48OPC9vYt+WC3NA0vdx/QihCnbPLnxWK/tfoeek9i0dxFw2T1ibecGZ/LqLZlmoQQCY1Ye/DUiP2m/GUwkSHyH/kVLI47KOlF5E9GjbVp58kC5yF/g+Do6z6wgxsXmWuqczrYUT0c9wph38DFOQoOZ6lPnSCS53xtJqTuKL8PmwmrvklO1SLtKRXZEb6NNa9t9Ox763tBpVBoA0/sPOqt67493ZaYKifgp+vfKQkOkvsZ3vtKZ7S0N69fh6mc6ArNqN3HhlrI6UVUHLuOlGlzCdtfY8dRTnIeNKWi01x/HvbCdGqHLP6STC2JX6DYHoc+ajSAJK8PzxeyP0Bjh67GS9+Ekdweond9HqUr2Es6FUrIqoCnP3eTpbIjx7CmH8zYrkx3MNGVVAaQLCq0PIUrc31prBQkGEfiXGBXgM3wVw2SkNFeciTo5gKX7fWIF3ltnmBTOxAqrRCAcbMcHKaFxhvXtTPpHsEp8zB/TwWqElF+4mUYlwcrnvj7BylI16vAjOnzUJdty7AGd6Ia8oc9Io283nEyeFxcDHMrukAIJo07OawxBbn6fLUcYlJXhRT73nl12NeyVDg5LhAeMlxdS09/X9GNTEpqBltoXJcfwsGY5+HZoh+sTylvmDMn9/RMdyLwV2+hkjPHWvEAqYJrgdHa+PusLMj1qx9OGl4UkdbCGJOM/04LcjMSkn71zi7Nc1ZISa0/bdTbYKvD3UTtGDXR5YCUNYzC3CFSmbDTdEf4ZCLNesys2HGPO+qyuwSZnApwxCm+1Fg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(39860400002)(366004)(376002)(346002)(136003)(83380400001)(33656002)(6916009)(71200400001)(186003)(316002)(6506007)(107886003)(9686003)(7696005)(2906002)(26005)(38070700005)(55016003)(122000001)(41300700001)(478600001)(4326008)(8936002)(5660300002)(52536014)(76116006)(86362001)(54906003)(64756008)(66476007)(66946007)(38100700002)(8676002)(66446008)(66556008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZTEydFlwS1E5ZlVLTDNpVThRdjFIU08rakpiQmc5NHZSdlFpSWhMaGhmczg4?=
- =?utf-8?B?bk9LVFdmSXIxeVgrTStrNXl2OG9CV045SEp3bGtVYVBGYzdnd3Bjdld2WjI3?=
- =?utf-8?B?bmhaWnJvRmg1d0xzZWhuVmk0VmNzOFUrTFhWc3lyYzV1QWdsMWRTL0Q3dGhP?=
- =?utf-8?B?NVZTQStLSnZ5TlRXWkE2U0FCYm8rVHQzQWxvdzhIWmhvQ0hDU3dEcngvWm9y?=
- =?utf-8?B?RHRic2loVGM0ZGI2dzdFVmQxV2FYRXMvSHNRSVl5MGxKb2NXYm9NQ0JRWTZZ?=
- =?utf-8?B?M3gvVTZjOXlYOWVqTG4yQUQwdkNNR0M2Q2F2RkRkazJrcmV0K1dCNm9tbHhx?=
- =?utf-8?B?d3NVdXJRZnZ1K01FSHBabnVJVi9qdGZ1d2ZxbXpHTzBiaklXVEFGOU5DS0Zw?=
- =?utf-8?B?YlBDc1VmYitOclprM0ZkbmxUN09vYVJ1dHI0S3BGYmV6THVaL0lGVE1vNGUv?=
- =?utf-8?B?NHR1bTBHZm91Mng0RkF1OFo5a00xNFVnTkdJQXpxejhPcE82eTlyMzNEUUJM?=
- =?utf-8?B?bE52L0piWW8yVlJ0c28zYzBFM0Q5VnJ5RXFwK1dxMWJhY2tmMTNXZzFKdEw3?=
- =?utf-8?B?clIvbVdpejZ0RUVwdGFJNlF5Z1V5d3BnMmNPQXZlSE9PUy91RTB3elgwckdo?=
- =?utf-8?B?OTM3MmxzaXkzenhTbUtlY0JITXJFYkJhNDlLRjNDQjJSRzY1SG9weEkxSWhD?=
- =?utf-8?B?bE5KU1NIRzl0czUweXB2emlrYjJ6aE10ZE14UC9TRUpIZkJQWGRtSU4yVUFK?=
- =?utf-8?B?T0cxc1NPRG03K2xEQkJLK3BrY1dPbnNvU1JMRHZHbEprTng2a2RWaWlMc21M?=
- =?utf-8?B?WlR3am5pZFc3VmJ2WGpNbDd5RXIxckN2RW1kSkd3TXFtejZ4Uk0rTlpSMDZh?=
- =?utf-8?B?Tm1zY2tkUkZLTFZaNmN5VFZJa3RIOWxUREVyYVpXSm1oMzB1U3JpQS82YVBl?=
- =?utf-8?B?bThaODNwTVEyZE1IMWNvOGlmQ2o4ajFURDU2MXlaNEgvVEpMLzVaR1FrRTZh?=
- =?utf-8?B?T0UzNGpJSmlkcVNMZGZobVJBR0ZNMDZldUN0Z0tISG1qZnRRYmp5VVNrU0tr?=
- =?utf-8?B?QzVOTi9SK0FNcHFaNFdLK2FnQW80dlg5NTdGbjF1eTF0TGJ0dHpmeEJWQUFj?=
- =?utf-8?B?ZHZ2VnJYLzg2bUJRZW9HM3BFZmJWZUluc3kyOHRsNnkyUUNkMWc0djhvY0Q2?=
- =?utf-8?B?ekpTblRmWkFuMUVHb3dkUTRxNkREejRBWGluOWtBcG1NbDd4S29oclkzcjY0?=
- =?utf-8?B?MjFFS25YamoxT1BMY3JmSUYyRUlLMEh4WUROMTJOTWJEM2pvWE04bkVtWVFX?=
- =?utf-8?B?Sm5FZHE2MWEzTXNySE1GRU9EaWIzRmNNK1Nob01BTE1JSVlOcWM5SUJUTFJL?=
- =?utf-8?B?bnErTFZMekJaRUo3SzJqSmJVU0YxaHVHRTkva2FBNjRQclVZUWM4VXR1STdB?=
- =?utf-8?B?V1RZa094cHFCSjFkZjZZRW5LRFVKU1dBZTQzSUZFQ3d5RHlYSEtLaFFra1dB?=
- =?utf-8?B?R0pVTEpVOGFaQjlyMTVmQStITDJKMEZEKzE4d2RHVGY1Uk9pNGlZSUNPMlhq?=
- =?utf-8?B?M0ErbkNVbVJTOHNWT2F3ZktPcnVZSFZGNlJTWlRTdklqZFJkZ2dmQVZKVkNa?=
- =?utf-8?B?aGVHdDNIaTdnZTdIaWpNS1pwNW5GSUtXajJlWFEvVjBuTFovWEhuVFNhL2hP?=
- =?utf-8?B?b3l6amhIT2IwS0x0ZEgwL1ZtaVFsZy92VFBvelZBUzNsRWxNZzFYZlFSOWFp?=
- =?utf-8?B?RTNwVllRd1pwNlJvMUZVYm1EYWs3eHcrT1gwM3QxSjJYaDZhNWNXQ3pWUjlm?=
- =?utf-8?B?cjNYK1V3UHZmQ3lQakpLL0g1NDFMV1Y5S3VrMkNEUkFnRjJlbjZyT2o0eTZr?=
- =?utf-8?B?T1JmS0ZvMDVKMjVEMU45RU5aMFZVNkJsZzhDbjdMM2ZSVUdkUU5ZRTNPSUxa?=
- =?utf-8?B?NlNYRENoRmJNU0IwS1lGR2lWdXp6dHN0NHBHZkVwNGFNM2JPTGNPbFVBM0c1?=
- =?utf-8?B?N3FtNkR1aVJFbUJoUTlXcVVsWkJMaWM3Q01uWXVSNjdqMUNOZ1BoV25FT0xl?=
- =?utf-8?B?dnhvUUg5OHIwL2h1eHBvcFVRS1F1LzZ0UUhQcXFKZ0I2Mk5WNDhIamM5NEll?=
- =?utf-8?B?OUw5Y216VVJVYmpXZ3FaeEVYRnBOdEY0NXcxak9kL2tpVW52WVdLU3Nwa0hl?=
- =?utf-8?B?ZkE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF5B10EEE6
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Aug 2022 08:08:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661674126;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zGAHMAod5fLJkufKgg4C1wW7gbnQpDFzQ6kIZMFag6Q=;
+ b=KOAwI93eZbRtXeN2Su4anmbxQ4/vIcRhv6tYRBhPVNGwdQpSelmNIqQAfomHjQFFlRGZYD
+ YfZcSr4e1v/EWqSOICbEOTySfhri5JHaOD4geVu3DruNnuNEsPm4qAoX8MkVbdWiz19N9u
+ sNnWeRz+/xMSA9dG0cjCcl2tn9hitLg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-628-jtHkevbROmOMy1lMfquEeg-1; Sun, 28 Aug 2022 04:08:44 -0400
+X-MC-Unique: jtHkevbROmOMy1lMfquEeg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b13-20020a056402350d00b0043dfc84c533so3719619edd.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Aug 2022 01:08:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=zGAHMAod5fLJkufKgg4C1wW7gbnQpDFzQ6kIZMFag6Q=;
+ b=gYAfDcsNzU0A5ZyfaVIcQ0VoqGA72IHc1x4va/GOEJSxHHiLe8FwoItbs7n8V4ox5B
+ QQyMFGzxi3e5RtJCShmByK/FqCFI0rtZsh6FopPLNfHq5xmelX/GjGeTJl7RpFeOZUCt
+ nfERjnJIL67hkcraep8eaYy74fOWRj29VBije8hDTV1URuFLzdOTYLk1qF/Gr+ZQJU36
+ 5J2MdVsN7oAFvMRueXQZ7BcnOH+9gE4Za6LZW4HFlwSDmahhODHmnq11WG8GppV8L2d8
+ B0MOGZ1m8MrGyI8+0wKHJ1XMQ1uUlyG0VpCvrVMGC8br0nmZ85YJbyQ1s3J60fODahXT
+ pmeQ==
+X-Gm-Message-State: ACgBeo0frQJRxickeM55QnZAhQqMHml1kQ62AkSN5G0kQ4HSzxxd9o2f
+ IP8c3QGt8wPqgY/762UDdijkqmreNspwVIvEgEJJhOAFKdAWEJ6M6O+LS8gVOV7B9Gbfiv7BO23
+ huN1jzzRh7lSills/dRZCcTenFmpo
+X-Received: by 2002:a05:6402:3697:b0:448:2cf9:daf6 with SMTP id
+ ej23-20020a056402369700b004482cf9daf6mr4064616edb.199.1661674123393; 
+ Sun, 28 Aug 2022 01:08:43 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6xGBtrc+B58NI8jJjfSIBIrZIdXZL4jg591z30CuBlw6FHXNAWM1hu64MM6RFigyoIBMUL8w==
+X-Received: by 2002:a05:6402:3697:b0:448:2cf9:daf6 with SMTP id
+ ej23-20020a056402369700b004482cf9daf6mr4064599edb.199.1661674123097; 
+ Sun, 28 Aug 2022 01:08:43 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ l9-20020aa7c309000000b0043cc2c9f5adsm3945370edq.40.2022.08.28.01.08.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Aug 2022 01:08:42 -0700 (PDT)
+Message-ID: <02b72b1e-479e-3dda-21c2-222f42a23c5d@redhat.com>
+Date: Sun, 28 Aug 2022 10:08:36 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc484f4c-6605-474e-803d-08da88bb5ef4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2022 06:05:55.9065 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IbrBPC7o/3Y8Ds9PDtr8oZfNCbPrS4AiAhw2+KK/H6+YJrTY5d8Zs1ZYSCJ4zmGnsWtWzEbK9ST6DJL8DrBmpJ5JmbubGmsTxRKwVzREMaU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2879
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
+ properties
+To: Yusuf Khan <yusisamerican@gmail.com>
+References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
+ <CAJoG2+8a9edJOx85DqH1oAd97cgY=_SaRT8_qEssjDtuObbA=g@mail.gmail.com>
+ <b03afa5c-8c0c-4b52-1bec-a74f74b24d23@redhat.com>
+ <CAJoG2+-_oskWgqttmACAKPJdJym5zv8MQmcnPzob4AaFZKFzwg@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAJoG2+-_oskWgqttmACAKPJdJym5zv8MQmcnPzob4AaFZKFzwg@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,84 +91,310 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+ wayland <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGF1cmVudCwNCg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDIvMl0gZHJtOiByY2FyLWR1OiBV
-c2UgJXA0Y2MgdG8gcHJpbnQgNENDIGZvcm1hdA0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFNh
-dCwgQXVnIDI3LCAyMDIyIGF0IDA5OjA0OjI1QU0gKzAwMDAsIEJpanUgRGFzIHdyb3RlOg0KPiA+
-IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMi8yXSBkcm06IHJjYXItZHU6IFVzZSAlcDRjYyB0byBwcmlu
-dCA0Q0MgZm9ybWF0DQo+ID4gPiBPbiBUaHUsIEF1ZyAyNSwgMjAyMiBhdCAxMTozOTowNUFNICsw
-MTAwLCBCaWp1IERhcyB3cm90ZToNCj4gPiA+ID4gUmVwbGFjZSB1c2Ugb2Ygc3RydWN0IHJjYXJf
-ZHVfZm9ybWF0X2luZm8gd2l0aCAlcDRjYyBmb3IgcHJpbnRpbmcNCj4gPiA+ID4gNENDIGZvcm1h
-dHMuDQo+ID4gPg0KPiA+ID4gVGhlIGNvZGUgY2hhbmdlIGxvb2tzIGdvb2QsIGJ1dCBkb2Vzbid0
-IG1hdGNoIHRoZSBjb21taXQgbWVzc2FnZS4NCj4gPiA+IFlvdSdyZSBub3QgcmVwbGFjaW5nIHVz
-YWdlIG9mIHN0cnVjdCByY2FyX2R1X2Zvcm1hdF9pbmZvLiBJIHByb3Bvc2UNCj4gPiA+IHRoZSBm
-b2xsb3dpbmcgY29tbWl0IG1lc3NhZ2U6DQo+ID4gPg0KPiA+ID4gVXNlIHRoZSAlcDRjYyBmb3Jt
-YXQgc3BlY2lmaWVyIHRvIHByaW50IDRDQ3MsIHdoaWNoIHdpbGwgcHJvdmlkZSBhDQo+ID4gPiBt
-b3JlIHJlYWRhYmxlIG1lc3NhZ2UgdGhhbiB0aGUgcmF3IGhleCB2YWx1ZS4NCj4gPg0KPiA+IE9L
-Lg0KPiA+DQo+ID4gPiA+IFJlcG9ydGVkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0K3Jl
-bmVzYXNAZ2xpZGVyLmJlPg0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5k
-YXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gPiA+IC0tLQ0KPiA+ID4gPiAgZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV9rbXMuYyB8IDQgKystLQ0KPiA+ID4gPiAgMSBmaWxlIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gPiA+ID4NCj4gPiA+ID4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfa21zLmMNCj4gPiA+ID4g
-Yi9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X2ttcy5jDQo+ID4gPiA+IGluZGV4IDIx
-ODgxZmI1ZTg0YS4uOGMyNzE5ZWZkYTJhIDEwMDY0NA0KPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vcmNhci1kdS9yY2FyX2R1X2ttcy5jDQo+ID4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9yY2FyLWR1L3JjYXJfZHVfa21zLmMNCj4gPiA+ID4gQEAgLTQwNSw4ICs0MDUsOCBAQCByY2Fy
-X2R1X2ZiX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiA+ID4gPiBzdHJ1Y3QgZHJt
-X2ZpbGUgKmZpbGVfcHJpdiwNCj4gPiA+ID4NCj4gPiA+ID4gIAlmb3JtYXQgPSByY2FyX2R1X2Zv
-cm1hdF9pbmZvKG1vZGVfY21kLT5waXhlbF9mb3JtYXQpOw0KPiA+ID4gPiAgCWlmIChmb3JtYXQg
-PT0gTlVMTCkgew0KPiA+ID4gPiAtCQlkZXZfZGJnKGRldi0+ZGV2LCAidW5zdXBwb3J0ZWQgcGl4
-ZWwgZm9ybWF0ICUwOHhcbiIsDQo+ID4gPiA+IC0JCQltb2RlX2NtZC0+cGl4ZWxfZm9ybWF0KTsN
-Cj4gPiA+ID4gKwkJZGV2X2RiZyhkZXYtPmRldiwgInVuc3VwcG9ydGVkIHBpeGVsIGZvcm1hdCAl
-cDRjY1xuIiwNCj4gPiA+ID4gKwkJCSZtb2RlX2NtZC0+cGl4ZWxfZm9ybWF0KTsNCj4gPiA+ID4g
-IAkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7DQo+ID4gPiA+ICAJfQ0KPiA+ID4gPg0KPiA+ID4N
-Cj4gPiA+IFRoZXJlIGFyZSB0d28gb3RoZXIgb2NjdXJyZW5jZXM6DQo+ID4gPg0KPiA+ID4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfcGxhbmUuYw0KPiA+ID4g
-Yi9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X3BsYW5lLmMNCj4gPiA+IGluZGV4IDI2
-YjI1Y2E1ODk2OC4uODM2MzFlZTJmZmYxIDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV9wbGFuZS5jDQo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-cmNhci1kdS9yY2FyX2R1X3BsYW5lLmMNCj4gPiA+IEBAIC02MjYsOCArNjI2LDggQEAgaW50IF9f
-cmNhcl9kdV9wbGFuZV9hdG9taWNfY2hlY2soc3RydWN0DQo+ID4gPiBkcm1fcGxhbmUgKnBsYW5l
-LA0KPiA+ID4NCj4gPiA+ICAJKmZvcm1hdCA9IHJjYXJfZHVfZm9ybWF0X2luZm8oc3RhdGUtPmZi
-LT5mb3JtYXQtPmZvcm1hdCk7DQo+ID4gPiAgCWlmICgqZm9ybWF0ID09IE5VTEwpIHsNCj4gPiA+
-IC0JCWRldl9kYmcoZGV2LT5kZXYsICIlczogdW5zdXBwb3J0ZWQgZm9ybWF0ICUwOHhcbiIsIF9f
-ZnVuY19fLA0KPiA+ID4gLQkJCXN0YXRlLT5mYi0+Zm9ybWF0LT5mb3JtYXQpOw0KPiA+ID4gKwkJ
-ZGV2X2RiZyhkZXYtPmRldiwgIiVzOiB1bnN1cHBvcnRlZCBmb3JtYXQgJXA0Y2NcbiIsDQo+ID4g
-PiBfX2Z1bmNfXywNCj4gPiA+ICsJCQkmc3RhdGUtPmZiLT5mb3JtYXQtPmZvcm1hdCk7DQo+ID4g
-PiAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gPiA+ICAJfQ0KPiA+ID4NCj4gPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X3dyaXRlYmFjay5jDQo+ID4gPiBiL2Ry
-aXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfd3JpdGViYWNrLmMNCj4gPiA+IGluZGV4IDI1
-ZjUwYTI5N2MxMS4uOGNkMzdkN2I4YWUyIDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV93cml0ZWJhY2suYw0KPiA+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV93cml0ZWJhY2suYw0KPiA+ID4gQEAgLTE2Niw4ICsxNjYsOCBA
-QCBzdGF0aWMgaW50IHJjYXJfZHVfd2JfZW5jX2F0b21pY19jaGVjayhzdHJ1Y3QNCj4gPiA+IGRy
-bV9lbmNvZGVyICplbmNvZGVyLA0KPiA+ID4NCj4gPiA+ICAJd2Jfc3RhdGUtPmZvcm1hdCA9IHJj
-YXJfZHVfZm9ybWF0X2luZm8oZmItPmZvcm1hdC0+Zm9ybWF0KTsNCj4gPiA+ICAJaWYgKHdiX3N0
-YXRlLT5mb3JtYXQgPT0gTlVMTCkgew0KPiA+ID4gLQkJZGV2X2RiZyhkZXYtPmRldiwgIiVzOiB1
-bnN1cHBvcnRlZCBmb3JtYXQgJTA4eFxuIiwgX19mdW5jX18sDQo+ID4gPiAtCQkJZmItPmZvcm1h
-dC0+Zm9ybWF0KTsNCj4gPiA+ICsJCWRldl9kYmcoZGV2LT5kZXYsICIlczogdW5zdXBwb3J0ZWQg
-Zm9ybWF0ICVwNGNjXG4iLA0KPiA+ID4gX19mdW5jX18sDQo+ID4gPiArCQkJJmZiLT5mb3JtYXQt
-PmZvcm1hdCk7DQo+ID4gPiAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gPiA+ICAJfQ0KPiA+ID4NCj4g
-PiA+IEkgY2FuIGFkZCB0aGVzZSBjaGFuZ2VzIHRvIHRoZSBwYXRjaCBhbmQgdXBkYXRlIHRoZSBj
-b21taXQgbWVzc2FnZQ0KPiA+ID4gd2hlbiBhcHBseWluZyBpZiB5b3UncmUgZmluZSB3aXRoIHRo
-YXQuIEluIHRoYXQgY2FzZSwNCj4gPg0KPiA+IEkgYW0gb2sgd2l0aCBpdC4NCj4gPg0KPiA+IElz
-IGl0IHBvc3NpYmxlIGZvciB5b3UgdG8gc2hhcmUgdGhlIGdpdCB0cmVlIHdpdGggbGF0ZXN0IFJD
-YXIgRFUNCj4gY2hhbmdlcz8NCj4gPiBzbyB0aGF0IEkgY2FuIHJlYmFzZSBSQ2FyIERVIGxpYiBh
-bmQgUlovRzJMIERVIHdvcmsgb24gdG9wIG9mIHRoYXQuDQo+ID4NCj4gPiBDdXJyZW50bHkgSSBh
-bSByZWJhc2luZyBvbiB0b3Agb2YgZHJtX3RpcC4gUGxlYXNlIGxldCBtZSBrbm93Lg0KPiANCj4g
-U3VyZS4gVGhlIHRyZWUgaXMgYXZhaWxhYmxlIGF0IGdpdDovL2xpbnV4dHYub3JnL3BpbmNoYXJ0
-bC9tZWRpYS5naXQsDQo+IGFuZCBteSBkcm0gbmV4dCBicmFuY2ggZm9yIHRoZSBEVSBkcml2ZXIg
-aXMgZHJtL2R1L25leHQuDQoNClRoYW5rIHlvdSwgV2lsbCByZWJhc2Ugb24gZHJtL2R1L25leHQN
-Cg0KQ2hlZXJzLA0KQmlqdQ0KDQogDQo+ID4gPiBSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFy
-dCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPg0KPiANCj4gLS0NCj4gUmVnYXJk
-cywNCj4gDQo+IExhdXJlbnQgUGluY2hhcnQNCg==
+Hi,
+
+On 8/25/22 23:40, Yusuf Khan wrote:
+> Perhaps the Kconfig modifications could be postponed to stage 2
+> since for people running distros that suddenly decide to disable
+> /sys/class/backlight/ it may be impractical for them to recompile
+> their kernels and such.
+
+In step 1, the Kconfig option is just there to select the default
+setting of the kernel commandline parameter. So when a distro
+defaults that to disabling /sys/class/backlight (or making it
+read-only) then the user can simple override it on the kernel
+commandline. No re-compiling of kernels needed.
+
+> Also stage 2 should probably take ~2 decades
+> until it comes into being, for reference fbdev SPECIFIC drivers
+> were removed from fedora just recently and because of that there
+> were some issues with some user's systems. I understand it's much
+> easier to change from the /sys/class/backlight/ interface to the one
+> you have proposed than to change from fbdev to KMS though.
+
+Yes chances are we will be stuck with the old sysfs API for a long
+time to come. Note that since in some cases the backlight driver
+is not part of the GPU driver, but rather part of e.g. dell-laptop
+we will need the backlight-device abstraction in the kernel going
+forward regardless of what happens with /sys/class/backlight.
+
+So the cleanup resulting from removing it completely will not
+be that big as the backlight-device abstraction will stay it
+will only be the sysfs interface which disappears.
+
+As such just having a kernel cmdline parameter to hide/unhide
+it might be good enough.
+
+Regards,
+
+Hans
+
+
+
+> 
+> On Thu, Aug 25, 2022 at 3:27 AM Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com>> wrote:
+> 
+>     Hi Yusuf,
+> 
+>     On 8/24/22 04:18, Yusuf Khan wrote:
+>     > Sorry for the necro-bump, I hadnt seen this go by
+> 
+>     No problem.
+> 
+>     > My main concern with this proposal is the phasing out of /sys/class/backlight/.
+>     > Currently on the user(user, not userland) level its easier for me to just modify
+>     > the file and be done with it. xbacklight doesnt tell me when its failed,
+>     > brightnessctl doesnt make assumptions about what device is what, and
+>     > other brightness setting applications ive seen are much worse than them.
+>     > Someone needs to create a userland application thats less inconvenient
+>     > than `echo`ing into /sys/class/backlight with a name that human beings can
+>     > actually remember before I stop using the sysfs, perhaps "setbrightness"
+>     > could be the binary's name? Also I dont think its wise to disable or make it
+>     > read only though Kconfig as older apps may depend on it, maybe add a
+>     > kernel param that disables the old interface so bigger distros can pressure
+>     > app makers into changing the interface? As a big draw for DDC/CI is that
+>     > many displays support it as a way to change brightness(even if you arent
+>     > doing anything special that would break the old interface) perhaps it could
+>     > be an early adopter to that kernel parameter?
+> 
+>     Right, so deprecating the /sys/class/backlight API definitely is the last
+>     step and probably is years away. As you say hiding / making it read-only
+>     should probably be a kernel-parameter at first, with maybe a Kconfig
+>     option to set the default. So the depcration would go like this:
+> 
+>     1. Add:
+>     A kernel-parameter to allow hiding or read-only-ing the sysfs interface +
+>     Kconfig to select the default +
+>     dev_warn_once() when the old API is used
+> 
+>     2. (much later) Drop the Kconfig option and default to hiding/read-only
+> 
+>     3. (even later) Maybe completely remove the sysfs interface?
+> 
+>     Note the hiding vs read-only thing is to be decided. ATM I'm rather more
+>     focused on getting the new API in place then on deprecating the old one :)
+> 
+>     Anyways I fully agree that we need to do the deprecation carefully and
+>     slowly. This is likely going to take multiple years and then some ...
+> 
+>     Regards,
+> 
+>     Hans
+> 
+> 
+> 
+>     >
+>     > On Thu, Apr 7, 2022 at 10:39 AM Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com> <mailto:hdegoede@redhat.com <mailto:hdegoede@redhat.com>>> wrote:
+>     >
+>     >     As discussed already several times in the past:
+>     >      https://www.x.org/wiki/Events/XDC2014/XDC2014GoedeBacklight/ <https://www.x.org/wiki/Events/XDC2014/XDC2014GoedeBacklight/> <https://www.x.org/wiki/Events/XDC2014/XDC2014GoedeBacklight/ <https://www.x.org/wiki/Events/XDC2014/XDC2014GoedeBacklight/>>
+>     >      https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/ <https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/> <https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/ <https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/>>
+>     >
+>     >     The current userspace API for brightness control offered by
+>     >     /sys/class/backlight devices has various issues, the biggest 2 being:
+>     >
+>     >     1. There is no way to map the backlight device to a specific
+>     >        display-output / panel (1)
+>     >     2. Controlling the brightness requires root-rights requiring
+>     >        desktop-environments to use suid-root helpers for this.
+>     >
+>     >     As already discussed on various conference's hallway tracks
+>     >     and as has been proposed on the dri-devel list once before (2),
+>     >     it seems that there is consensus that the best way to to solve these
+>     >     2 issues is to add support for controlling a video-output's brightness
+>     >     through properties on the drm_connector.
+>     >
+>     >     This RFC outlines my plan to try and actually implement this,
+>     >     which has 3 phases:
+>     >
+>     >
+>     >     Phase 1: Stop registering multiple /sys/class/backlight devs for a single display
+>     >     =================================================================================
+>     >
+>     >     On x86 there can be multiple firmware + direct-hw-access methods
+>     >     for controlling the backlight and in some cases the kernel registers
+>     >     multiple backlight-devices for a single internal laptop LCD panel:
+>     >
+>     >     a) i915 and nouveau unconditionally register their "native" backlight dev
+>     >        even on devices where /sys/class/backlight/acpi_video0 must be used
+>     >        to control the backlight, relying on userspace to prefer the "firmware"
+>     >        acpi_video0 device over "native" devices.
+>     >     b) amdgpu and nouveau rely on the acpi_video driver initializing before
+>     >        them, which currently causes /sys/class/backlight/acpi_video0 to usually
+>     >        show up and then they register their own native backlight driver after
+>     >        which the drivers/acpi/video_detect.c code unregisters the acpi_video0
+>     >        device. This means that userspace briefly sees 2 devices and the
+>     >        disappearing of acpi_video0 after a brief time confuses the systemd
+>     >        backlight level save/restore code, see e.g.:
+>     >        https://bbs.archlinux.org/viewtopic.php?id=269920 <https://bbs.archlinux.org/viewtopic.php?id=269920> <https://bbs.archlinux.org/viewtopic.php?id=269920 <https://bbs.archlinux.org/viewtopic.php?id=269920>>
+>     >
+>     >     I already have a pretty detailed plan to tackle this, which I will
+>     >     post in a separate RFC email. I plan to start working on this right
+>     >     away, as it will be good to have this fixed regardless.
+>     >
+>     >
+>     >     Phase 2: Add drm_connector properties mirroring the matching backlight device
+>     >     =============================================================================
+>     >
+>     >     The plan is to add a drm_connector helper function, which optionally takes
+>     >     a pointer to the backlight device for the GPU's native backlight device,
+>     >     which will then mirror the backlight settings from the backlight device
+>     >     in a set of read/write brightness* properties on the connector.
+>     >
+>     >     This function can then be called by GPU drivers for the drm_connector for
+>     >     the internal panel and it will then take care of everything. When there
+>     >     is no native GPU backlight device, or when it should not be used then
+>     >     (on x86) the helper will use the acpi_video_get_backlight_type() to
+>     >     determine which backlight-device should be used instead and it will find
+>     >     + mirror that one.
+>     >
+>     >
+>     >     Phase 3: Deprecate /sys/class/backlight uAPI
+>     >     ============================================
+>     >
+>     >     Once most userspace has moved over to using the new drm_connector
+>     >     brightness props, a Kconfig option can be added to stop exporting
+>     >     the backlight-devices under /sys/class/backlight. The plan is to
+>     >     just disable the sysfs interface and keep the existing backlight-device
+>     >     internal kernel abstraction as is, since some abstraction for (non GPU
+>     >     native) backlight devices will be necessary regardless.
+>     >
+>     >     An alternative to disabling the sysfs class entirely, would be
+>     >     to allow setting it to read-only through Kconfig.
+>     >
+>     >
+>     >     What scale to use for the drm_connector bl_brightness property?
+>     >     ===============================================================
+>     >
+>     >     The tricky part of this plan is phase 2 and then esp. defining what the
+>     >     new brightness properties will look like and how they will work.
+>     >
+>     >     The biggest challenge here is to decide on a fixed scale for the main
+>     >     brightness property, say 0-65535, using scaling where the actual hw scale
+>     >     is different, or if this should simply be a 1:1 mirror of the current
+>     >     backlight interface, with the actual hw scale / brightness_max value
+>     >     exposed as a drm_connector property.
+>     >
+>     >     1:1 advantages / 0-65535 disadvantages
+>     >     - Userspace will likely move over to the connector-props quite slowly and
+>     >       we can expect various userspace bits, esp. also custom user scripts, to
+>     >       keep using the old uAPI for a long time. Using the 2 APIs are intermixed
+>     >       is fine when using a 1:1 brightness scale mapping. But if we end up doing
+>     >       a scaling round-trip all the time then eventually the brightness is going
+>     >       do drift. This can even happen if the user never changes the brightness
+>     >       when userspace saves it over suspend/resume or reboots.
+>     >     - Almost all laptops have brightness up/down hotkeys. E.g GNOME decides
+>     >       on a step size for the hotkeys by doing min(brightness_max/20, 1).
+>     >       Some of the vendor specific backlight fw APIs (e.g. dell-laptop) have
+>     >       only 8 steps. When giving userspace the actual max_brightness value, then
+>     >       this will all work just fine. When hardcode brightness_max to 65535 OTOH
+>     >       then in this case GNOME will still give the user 20 steps where only 1
+>     >       in every 2-3 steps actually changes the brightness which IMHO is
+>     >       an unacceptably bad user experience.
+>     >
+>     >     0-65535 advantages / 1:1 disadvantages
+>     >     - Without a fixed scale for the brightness property the brightness_max
+>     >       value may change after an userspace application's initial enumeration
+>     >       of the drm_connector. This can happen when neither the native GPU nor
+>     >       the acpi_video backlight devices are present/usable in this case
+>     >       acpi_video_get_backlight_type() will _assume_ a vendor specific fw API
+>     >       will be used for backlight control and the driver proving the "vendor"
+>     >       backlight device will show up much later and may even never show-up,
+>     >       so waiting for it is not an option. With a fixed 0-65535 scale userspace
+>     >       can just always assume this and the drm_connector backlight props helper
+>     >       code can even cache writes and send it to the actual backlight device
+>     >       when it shows up. With a 1:1 mapping userspace needs to listen for
+>     >       a uevent and then update the brightness range on such an event.
+>     >
+>     >     I believe that the 1:1 mapping advantages out way the disadvantages
+>     >     here. Also note that current userspace already blindly assumes that
+>     >     all relevant drivers are loaded before the graphical-environment
+>     >     starts and all the desktop environments as such already only do
+>     >     a single scan of /sys/class/backlight when they start. So when
+>     >     userspace forgets to add code to listen for the uevent when switching
+>     >     to the new API nothing changes; and with the uevent userspace actually
+>     >     gets a good mechanism to detect backlight drivers loading after
+>     >     the graphical-environment has already started.
+>     >
+>     >     So based on this here is my proposal for a set of new brightness
+>     >     properties on the drm_connector object. Note these are all prefixed with
+>     >     bl which stands for backlight, which is technically not correct for OLED.
+>     >     But we need a prefix to avoid a name collision with the "brightness"
+>     >     attribute which is part of the existing TV specific properties and IMHO
+>     >     it is good to have a common prefix to make it clear that these all
+>     >     belong together.
+>     >
+>     >
+>     >     The drm_connector brightness properties
+>     >     =======================================
+>     >
+>     >     bl_brightness: rw 0-int32_max property controlling the brightness setting
+>     >     of the connected display. The actual maximum of this will be less then
+>     >     int32_max and is given in bl_brightness_max.
+>     >
+>     >     bl_brightness_max: ro 0-int32_max property giving the actual maximum
+>     >     of the display's brightness setting. This will report 0 when brightness
+>     >     control is not available (yet).
+>     >
+>     >     bl_brightness_0_is_min_brightness: ro, boolean
+>     >     When this is set to true then it is safe to set brightness to 0
+>     >     without worrying that this completely turns the backlight off causing
+>     >     the screen to become unreadable. When this is false setting brightness
+>     >     to 0 may turn the backlight off, but this is _not_ guaranteed.
+>     >     This will e.g. be true when directly driving a PWM and the video-BIOS
+>     >     has provided a minimum (non 0) duty-cycle below which the driver will
+>     >     never go.
+>     >
+>     >     bl_brightness_control_method: ro, enum, possible values:
+>     >     none:     The GPU driver expects brightness control to be provided by another
+>     >               driver and that driver has not loaded yet.
+>     >     unknown:  The underlying control mechanism is unknown.
+>     >     pwm:      The brightness property directly controls the duty-cycle of a PWM
+>     >               output.
+>     >     firmware: The brightness is controlled through firmware calls.
+>     >     DDC/CI:   The brightness is controlled through the DDC/CI protocol.
+>     >     gmux:     The brightness is controlled by the GMUX.
+>     >     Note this enum may be extended in the future, so other values may
+>     >     be read, these should be treated as "unknown".
+>     >
+>     >     When brightness control becomes available after being reported
+>     >     as not available before (bl_brightness_control_method=="none")
+>     >     a uevent with CONNECTOR=<connector-id> and
+>     >     PROPERTY=<bl_brightness_control_method-id> will be generated
+>     >     at this point all the properties must be re-read.
+>     >
+>     >     When/once brightness control is available then all the read-only
+>     >     properties are fixed and will never change.
+>     >
+>     >     Besides the "none" value for no driver having loaded yet,
+>     >     the different bl_brightness_control_method values are intended for
+>     >     (userspace) heuristics for such things as the brightness setting
+>     >     linearly controlling electrical power or setting perceived brightness.
+>     >
+>     >     Regards,
+>     >
+>     >     Hans
+>     >
+>     >
+>     >     1) The need to be able to map the backlight device to a specific display
+>     >     has become clear once more with the recent proposal to add DDCDI support:
+>     >     https://lore.kernel.org/lkml/20220403230850.2986-1-yusisamerican@gmail.com/ <https://lore.kernel.org/lkml/20220403230850.2986-1-yusisamerican@gmail.com/> <https://lore.kernel.org/lkml/20220403230850.2986-1-yusisamerican@gmail.com/ <https://lore.kernel.org/lkml/20220403230850.2986-1-yusisamerican@gmail.com/>>
+>     >
+>     >     2) https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/ <https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/> <https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/ <https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/>>
+>     >     Note this proposal included a method for userspace to be able to tell the
+>     >     kernel if the native/acpi_video/vendor backlight device should be used,
+>     >     but this has been solved in the kernel for years now:
+>     >      https://www.spinics.net/lists/linux-acpi/msg50526.html <https://www.spinics.net/lists/linux-acpi/msg50526.html> <https://www.spinics.net/lists/linux-acpi/msg50526.html <https://www.spinics.net/lists/linux-acpi/msg50526.html>>
+>     >     An initial implementation of this proposal is available here:
+>     >      https://cgit.freedesktop.org/~mperes/linux/log/?h=backlight <https://cgit.freedesktop.org/~mperes/linux/log/?h=backlight> <https://cgit.freedesktop.org/~mperes/linux/log/?h=backlight <https://cgit.freedesktop.org/~mperes/linux/log/?h=backlight>>
+>     >
+> 
+
