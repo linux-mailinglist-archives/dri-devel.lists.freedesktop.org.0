@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8D25A54FD
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 21:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9F25A5512
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 21:57:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A393E10E5CF;
-	Mon, 29 Aug 2022 19:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5B1410E99C;
+	Mon, 29 Aug 2022 19:57:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
- [209.85.160.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC24C10E5CF;
- Mon, 29 Aug 2022 19:56:50 +0000 (UTC)
-Received: by mail-oa1-f42.google.com with SMTP id
- 586e51a60fabf-11dca1c9c01so11817732fac.2; 
- Mon, 29 Aug 2022 12:56:50 -0700 (PDT)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
+ [209.85.160.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1B9A10E5F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 19:57:03 +0000 (UTC)
+Received: by mail-oa1-f46.google.com with SMTP id
+ 586e51a60fabf-11f0fa892aeso3516969fac.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 12:57:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=/MOKxcoJc5kuHgE2PkdiTmIj2qZGQvjtgGW9C5gG2kA=;
- b=SWYIA2f0jxRkjaFgjPBPw0ezHEi885reUTgqKxAODJ4z8DMquTBc1YeevTYlvon3UE
- k7tu4WicFmD9kOpO1UmYKDcTvVZAP1msddD282xj9TbeBk+0Et2nLPRFl4My/AmwOB/P
- nyUK4sH9NbOHRVguQkWVFqjCEpyyeh4LSwzDwnMk6kMgH9ZrC3o10QpWCGfxhGHcNngt
- YjziyWQ6jbp3h+lKo9GE/JZSyxKUROemCfZpvQE+NmoyCCCkEk2QvVFlABttY+Qd13xO
- Tk306FVvtUzRtn/ro84kIg2wwmV0KqeMjjjfNbjC4juyIHBp33pCPxe0aeoRk8lUKA+1
- IJWQ==
-X-Gm-Message-State: ACgBeo0F3vsVmtWBpn3/jWI02DztC2/i01AMg3Zo/c4M9wx6BMwMkMVK
- 35SxhcbibTg11uJKaXMarw==
-X-Google-Smtp-Source: AA6agR4LCIMUE0t2pFGD5lbI+Ix6tCYdL75rhybEI6Ep3uRgE81TTWzgA53lYeHyjkHiC/kweLtZ1w==
-X-Received: by 2002:a05:6870:c884:b0:118:ae35:e200 with SMTP id
- er4-20020a056870c88400b00118ae35e200mr8851020oab.244.1661803009819; 
- Mon, 29 Aug 2022 12:56:49 -0700 (PDT)
+ bh=GLVAQhP67GqpGtvEpnaqWTR1PDtHdyGTARxFHlVUfXI=;
+ b=DR9ES11+MwZ+1j4uFF2RJ+cw5wjDekyB2rBZptVy+svEwcrKKE034cO3AcCagao8ds
+ I/zPW8IPOzZqeopVQeHK36ZVyHoUFTGo0kz9HivZr4XJb8rHsj17UODayXQQPOxvTaqL
+ CPxfqg5gu/fWF11yPRhmu+HqEntxTREB+fuafTbA7fJcHgFzg/aIHtAz2s5SwgwH3zt/
+ S7j/IyHU/DwyqaKwOsJGTGau06J93ONbQcCdkgjCqGAxOsGlGruSzCIQ/AE8AJllILNN
+ wdFBDcVJOmROqXsuj+cgnPP6R9i6h9IZq868xDR1tyTRayM+tzmm1M+UxVn+lA3Qngik
+ CuWQ==
+X-Gm-Message-State: ACgBeo39zs+fZqSLjmkyy9Td+Sa77IF1usdIL3wV5dgzy7Q2rWS5wDWc
+ l2P4VZa/ADtxpc+MhZdmfw==
+X-Google-Smtp-Source: AA6agR6eBhT1zUHqrOJZ/uUEbZLGeR5414KMfQ2WDOIIjfxxzxd629WqjvbKt3zCzPNSGvrXcGtFKg==
+X-Received: by 2002:a05:6808:99b:b0:345:d1f7:b42a with SMTP id
+ a27-20020a056808099b00b00345d1f7b42amr4824869oic.79.1661803023011; 
+ Mon, 29 Aug 2022 12:57:03 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- eo33-20020a056870eca100b0011cd9d8a4b7sm6671148oab.19.2022.08.29.12.56.47
+ p10-20020a4aa24a000000b0044897475dd0sm5559769ool.43.2022.08.29.12.57.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Aug 2022 12:56:49 -0700 (PDT)
-Received: (nullmailer pid 2313735 invoked by uid 1000);
- Mon, 29 Aug 2022 19:56:47 -0000
-Date: Mon, 29 Aug 2022 14:56:47 -0500
+ Mon, 29 Aug 2022 12:57:02 -0700 (PDT)
+Received: (nullmailer pid 2314237 invoked by uid 1000);
+ Mon, 29 Aug 2022 19:57:00 -0000
+Date: Mon, 29 Aug 2022 14:57:00 -0500
 From: Rob Herring <robh@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 5/5] dt-bindings: display: drop minItems equal to maxItems
-Message-ID: <20220829195647.GA2313625-robh@kernel.org>
-References: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
- <20220825113334.196908-5-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH RESEND - dt 1/2] dt-bindings: nvmem: qfprom: add IPQ8064
+ and SDM630 compatibles
+Message-ID: <20220829195700.GA2314199-robh@kernel.org>
+References: <20220825125410.232377-1-krzysztof.kozlowski@linaro.org>
+ <20220825125410.232377-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220825113334.196908-5-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220825125410.232377-2-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,57 +64,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>,
- Tomasz Figa <tomasz.figa@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-ide@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Kiran Gunda <kgunda@codeaurora.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-arm-msm@vger.kernel.org, Lee Jones <lee@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Andy Gross <agross@kernel.org>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, linux-clk@vger.kernel.org,
- Marek Vasut <marex@denx.de>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- linux-samsung-soc@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- linux-arm-msm@vger.kernel.org, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, Andre Przywara <andre.przywara@arm.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-tegra@vger.kernel.org,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>
+ Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 25 Aug 2022 14:33:34 +0300, Krzysztof Kozlowski wrote:
-> minItems, if missing, are implicitly equal to maxItems, so drop
-> redundant piece to reduce size of code.
+On Thu, 25 Aug 2022 15:54:09 +0300, Krzysztof Kozlowski wrote:
+> Document compatibles for QFPROM used on IPQ8064 and SDM630.  They are
+> compatible with generic QFPROM fallback.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml   | 1 -
->  .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 --
->  Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml | 2 --
->  .../bindings/display/samsung/samsung,exynos5433-decon.yaml      | 2 --
->  .../bindings/display/samsung/samsung,exynos5433-mic.yaml        | 1 -
->  .../bindings/display/samsung/samsung,exynos7-decon.yaml         | 1 -
->  .../devicetree/bindings/display/samsung/samsung,fimd.yaml       | 1 -
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml  | 1 -
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml   | 2 --
->  9 files changed, 13 deletions(-)
+>  Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
 
 Applied, thanks!
