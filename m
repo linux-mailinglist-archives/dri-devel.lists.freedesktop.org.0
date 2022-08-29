@@ -1,77 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325B75A4DDD
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 15:25:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1AB75A4E1E
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 15:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1431E10F275;
-	Mon, 29 Aug 2022 13:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE50510F2C7;
+	Mon, 29 Aug 2022 13:30:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92B7D10F275
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 13:24:53 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id b44so10098960edf.9
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 06:24:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
- :subject:date; bh=nuhT/P++FvT8IemUryIvS5isjY+Z8JaiL8Gjcc8y6PA=;
- b=diDtGw1WJAEZ74lUUjBA5DzxSq5w0aEbYngWFhzqJwDN/FfewJizGKtQ85uPeCQFFj
- n1OzbZgCuCb1BPJL9c1e/JMbN+OxPcmXRRMj2KJv7U8M8qqB+HhTr8faWV6JViG3oUmo
- F9fKbviqJ6AH9nMK5McgLpIqS+bLo/NJDvVTQbEeXoGqIjrVv3tRJVN5BoDYuh3S7yUe
- oyDSrYpSAcbHLGoZUpH53PGQaARyfCQJGWo6WPqelFFexcbphaB4zwJs+dw2Zf8wnLzM
- PkdknDnVmknv68i19VMmJ01gmctLwaMgFzgPP+X+eFc9IiaaAgqp+4yr4kS/WnI/hkRi
- M11g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject
- :x-gm-message-state:from:to:cc:subject:date;
- bh=nuhT/P++FvT8IemUryIvS5isjY+Z8JaiL8Gjcc8y6PA=;
- b=lR0qpLeqDjcwP8CP6iXjYxxm5Uz2feTLr9b0p7/MzKwfVyfDpn75/mBWuGh+7W9vDU
- UazBQeEuGZMI7xwQ1J9jSKZGGl9ntpIq9BtbnmPSlRD/VxGvWXD5HliF1wOHrCP9Ky8R
- eJflCS6BdOetPbo+apmHoXU+o85azxJ1a1jWpnwMbes5TC+iMDps5R16ZzOaXS95NBy7
- JCr1IO4jwx7bzptTahbR//agjsPZJpqrLH/snf5b3ut0dQtdxW/eYvm8ISmkQ3Yp1lP6
- 8TfrmB3ByQIIbz91FnpMbpIO49EC5F9bynPpmnAckMg/jj04JqJOuKY7SBidCu83afPb
- ldPw==
-X-Gm-Message-State: ACgBeo1WqU6gP5DnInB8UxIHrUD2CCojL621guyYxYAsQmJDU/2wl8fn
- RoDLbIGS9TVXogdEAjAvnGc=
-X-Google-Smtp-Source: AA6agR5F1sVpOm1FOzWqebOo51iWqKTQf0OjEXDWlIsGM1cxrldQANCfX1dd0EQrqDoK33ucoQKWWw==
-X-Received: by 2002:a05:6402:3219:b0:448:2994:df99 with SMTP id
- g25-20020a056402321900b004482994df99mr8079551eda.326.1661779491980; 
- Mon, 29 Aug 2022 06:24:51 -0700 (PDT)
-Received: from [192.168.1.10] ([46.249.74.23])
- by smtp.googlemail.com with ESMTPSA id
- 1-20020a170906218100b0073d03cb868csm4438546eju.75.2022.08.29.06.24.50
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 29 Aug 2022 06:24:51 -0700 (PDT)
-Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
- DMM/TILER
-To: Yongqin Liu <yongqin.liu@linaro.org>
-References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <5b6d3e7f-c638-fdc7-5080-44d34abed610@ideasonboard.com>
- <a3ed3a2c-86ce-1c85-e8aa-c08b54ad1a43@gmail.com>
- <CAMSo37XdZSZUHLWJj373DdtOBA9=uD8SJ7ywWCYF2pU1i4cB_g@mail.gmail.com>
- <ed4fe238-4fcd-1253-658f-18fe1e1f13b0@gmail.com>
- <CAMSo37V3U5nYng77jzSnKH73CTLhGYQJu11Q5wRt289se5nFJw@mail.gmail.com>
- <4128aed0-211a-d12a-6a86-deb4457d39f7@gmail.com>
- <CAMSo37W-DePLDP=zk-nY6FGcZuk0QzHj4=usrieyV0TNcNfbXw@mail.gmail.com>
- <da2a661e-9da0-850c-3067-8c1e8d5531bc@gmail.com>
- <CAMSo37VXNQeR0qZgzZONBwp_4z9CuUSJJJzhM7k+K39BcwvW6A@mail.gmail.com>
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <235621d0-2141-5ef9-bcd4-5c48b985b3a0@gmail.com>
-Date: Mon, 29 Aug 2022 16:24:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A163910F2C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 13:29:59 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 0A85D2B05A51;
+ Mon, 29 Aug 2022 09:29:56 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 29 Aug 2022 09:29:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1661779796; x=1661786996; bh=HUh8yIUAsJ
+ GdTvRqlTT3mYm7ABKsVcHBclO4qiURlnE=; b=B2iFD3eUvNPKHvzGFzDi2XNx/d
+ iBq6zww4I3HAy5Yk7A4zNpxqnmPAM7SJLO3fto8JXC0xjdishAgV4DMcgCzN5uDJ
+ 7JIDto9/UJ8ZtlWUHhFCfglEptY02VGypomMGSdTANM06LjChgxhS+TZ9xzDfZed
+ Dld1S0bakjM7kP42u6A314iAzssZ9U65mHPqLTOAQgTJwarzSdhuOSgHxi087sn0
+ cLL+WLh+hZ54p0iWwwsaDrzw2b/tvjx9jii+r4ZWGEELeunY3sZT3VwehA90C91D
+ YA/ub3i/1b0CAdL9/T1lR/jCEFj1TeIxknVWvYcTjm0TDPLkTNlIe2Xji2eQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1661779796; x=1661786996; bh=HUh8yIUAsJGdTvRqlTT3mYm7ABKs
+ VcHBclO4qiURlnE=; b=IMqdGteFlSIG7qJYnrXnVkAFvGtsbUq6Vgoad8XQSDZT
+ ekAeFS1XfOApy9f/QkYOUFoT0jnJ0NdaFdPfKuT0KAM3xkCweH7w24rIgos/JAoS
+ GvZEkGF2c75vlgQqM65jKOMDgdF5cJV0somoteUwLsUKxX+4WXiAQE/lCdh6m/+d
+ L6kbR2f0rxDy9gWeETuqbUwHnjvBjlEXlwDIlaMTH3ErJXI6LLu2CwZEO0HNhfCu
+ zx9GbWoZSQNNHcjnm0ugTBe0dbyfYNkRbxX3WvTung8GdbsER6DtXKWlmAAclHAr
+ q6qwvLV7ujrQcrr0sbCBVHyd5Fv7UudwKNz8uZZ+hg==
+X-ME-Sender: <xms:VL8MY_wV9dU7wVnbyqaN9u7TfRdOJqya8CEzxAe2bCFGABU0uNnX8w>
+ <xme:VL8MY3TgYF_D5BTNLXRKTWuf9Vet8dT9l4KulB3g5scnaPDSH6OR4_ZQyRudUD_lH
+ 6qtcQFJozCwoN8vaq4>
+X-ME-Received: <xmr:VL8MY5UhOCBaLo42vO9TiirhCa9IUbAmXlusfZKZjf0Xa3cVptscz103utHI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekuddgieejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpedvgfeivdeiueevuedtfeduleetveejjeeiffdukeduieevgedutdegtdfg
+ teekgfenucffohhmrghinhepihhtuhdrihhnthdprghrtghhihhvvgdrohhrghdpfhhrvg
+ gvshgvrhhvvgdrtghordhukhdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihii
+ vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvg
+ gthh
+X-ME-Proxy: <xmx:VL8MY5iWUZb4A828x81TB4ZUmiWfYaBxNG7JBgOVwNJtNIcofFxveQ>
+ <xmx:VL8MYxBzbS4MbtBxEmsatXAEDFwyv4TjmRTPF5i3dsL2GJYeMYMcDQ>
+ <xmx:VL8MYyL6oI1RfJ6_e21gfI_es-4Cuel4qqcyFwySCixCPMKYZvcWWw>
+ <xmx:VL8MYzzeeLQWUraaCt0CJQz-9HiUQoOduUn4gbDi41kYMWa2IF8sPkLnD54>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 29 Aug 2022 09:29:55 -0400 (EDT)
+Date: Mon, 29 Aug 2022 15:29:53 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mateusz Kwiatkowski <kfyatek@gmail.com>
+Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
+Message-ID: <20220829132953.sfv5yex2dhv76vrq@houat>
+References: <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
+ <20220817131454.qcuywcuc4ts4hswm@houat>
+ <CAMuHMdVPEgnnsY-4uuf=FDJ0YxWpch-0kZWFT_TZfcDvXLtwWQ@mail.gmail.com>
+ <20220818123934.eim2bfrgbxsmviqx@houat>
+ <CAMuHMdWXbHkrBZgsmUnU=q52+q7UZZNO3tgQW7Men+msQ1JDwQ@mail.gmail.com>
+ <20220818134200.cr22bftmjn226ehn@houat>
+ <CAMuHMdX6dyQaB34oeXwiCa2rDkxks0qNh=ekqh7Wd2kSNED9TA@mail.gmail.com>
+ <20220818154641.ouvrar5s74qu74zn@houat>
+ <CAMuHMdUjE0mwu8z5AksW4h1OwzDCQ5h1ZoCWDi+rC4p2Pu5O4g@mail.gmail.com>
+ <6d1dfaad-7310-a596-34dd-4a6d9aa95f65@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMSo37VXNQeR0qZgzZONBwp_4z9CuUSJJJzhM7k+K39BcwvW6A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="nz5dkcjwrefuclw4"
+Content-Disposition: inline
+In-Reply-To: <6d1dfaad-7310-a596-34dd-4a6d9aa95f65@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,302 +93,257 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Bajjuri, Praneeth" <praneeth@ti.com>, tomba@kernel.org, airlied@linux.ie,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, merlijn@wizzup.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tony@atomide.com, linux-omap@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
+--nz5dkcjwrefuclw4
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 29.08.22 г. 5:51 ч., Yongqin Liu wrote:
-> Hi, Ivaylo
-> 
-> Sorry for the late response, and Thanks very much for the detailed explanations!
-> 
-> On Thu, 18 Aug 2022 at 18:23, Ivaylo Dimitrov
-> <ivo.g.dimitrov.75@gmail.com> wrote:
->>
->> Hi,
->>
->> On 17.08.22 г. 7:52 ч., Yongqin Liu wrote:
->>> Hi, Ivaylo
->>>
->>> On Mon, 15 Aug 2022 at 14:23, Ivaylo Dimitrov
->>> <ivo.g.dimitrov.75@gmail.com> wrote:
->>>>
->>>> Hi Liu,
->>>>
->>>> On 14.08.22 г. 17:27 ч., Yongqin Liu wrote:
->>>>> Hi, IvayIo
->>>>>
->>>>> Thanks very much for the reply!
->>>>>
->>>>> On Sat, 13 Aug 2022 at 14:58, Ivaylo Dimitrov
->>>>> <ivo.g.dimitrov.75@gmail.com> wrote:
->>>>>>
->>>>>> Hi Liu,
->>>>>>
->>>>>> On 12.08.22 г. 7:35 ч., Yongqin Liu wrote:
->>>>>>> Hi, Ivaylo, Tomi
->>>>>>>
->>>>>>> We have one X15 Android AOSP master build, it could not have the home
->>>>>>> screen displayed
->>>>>>> on the hdmi monitor connected with this change, with the following
->>>>>>> message printed on the serial console
->>>>>>>         [  607.404205] omapdrm omapdrm.0: Failed to setup plane plane-0
->>>>>>>         [  607.410522] omapdrm omapdrm.0: Failed to setup plane plane-1
->>>>>>>         [  607.416381] omapdrm omapdrm.0: Failed to setup plane plane-2
->>>>>>>         [  607.422088] omapdrm omapdrm.0: Failed to setup plane plane-3
->>>>>>>
->>>>>>>        # for details, please check the link here: http://ix.io/47m1
->>>>>>>
->>>>>>> It will work with home screen displayed on the hdmi monitor if this
->>>>>>> change is reverted.
->>>>>>>
->>>>>>> Is this the broken problem you talked about here?
->>>>>>>
->>>>>>> And could you please give some suggestions on how to have the x15
->>>>>>> Android build work with this change?
->>>>>>>
->>>>>>
->>>>>> Make sure scanout (i.e. those to be displayed) buffers are actually
->>>>>> allocated as such - OMAP_BO_SCANOUT flag must be set when calling
->>>>>> omap_bo_new().
->>>>>
->>>>> I am not familiar with this area, I am sorry if I asked quite silly questions:(
->>>>> I googled omap_bo_new, and found it's a function of libdrm here[1], is
->>>>> it what you meant here?
->>>>>
->>>>
->>>> Yes, calling this function from userspace ends in kernel code the
->>>> $subject patch is part of.
->>>>
->>>>> If it's the omap_bo_new that we should pass OMAP_BO_SCANOUT when it is called,
->>>>> then is it the correct way to update omap_bo_new to add the OMAP_BO_SCANOUT flag
->>>>> before it calls omap_bo_new_impl?
->>>>>
->>>>
->>>> omap_bo_new() is fine and does not need any updates/fixes, it is the
->>>> code that uses it (whoever it is, I am not familiar with the userspace
->>>> you are using) that shall pass correct flags (third parameter) when
->>>> calling it.
->>>
->>> Sorry, I do not get the point here.
->>> Like you said, the code that calls omap_bo_new needs to pass OMAP_BO_SCANOUT,
->>> then IMO omap_bo_new should be the best place to add the OMAP_BO_SCANOUT flag,
->>> (like via flags = flags | OMAP_BO_SCANOUT), that could help avoid
->>> missing the flag by some code,
->>> and also avoids hacks/changes on the possible blob binaries.
->>>
->>> Do I misunderstand somewhere?
->>> Or is there some case that OMAP_BO_SCANOUT shouldn't be passed when
->>> omap_bo_new is called?
->>>
->>
->> Exactly. You need to pass OMAP_BO_SCANOUT only when you want your
->> buffers to be 'scanout' buffers(i.e. buffers that can be displayed on
->> screen), which is not always the case - there is no need offscreen
->> buffers or pixmaps to be scanout capable, for example. There are more
->> cases like that.
->>
->> The problem is that scanout buffer on OMAP4 allocate additional
->> resources in DMM/TILER (a piece of hardware) and those resources are
->> limited. Not only that, but DMM/TILER memory space eventually gets
->> fragmented over time (if you have lots of allocataoins/deallocations)
->> and you will start getting ENOMEM (or similar) errors.
->>
->> Ofc, in your particular use case you may never hit such issues.
-> 
-> Thanks, I understand the cases now.
-> 
-> 
->>>> BTW you shall really find who and how uses OMAP BO API, in theory it
->>>> might use ioctls directly and not call omap_bo_xxx functions.
->>>
->>> Do you mean the DRM_OMAP_GEM_NEW ioctl api?
->>> There is no place in the AOSP tree to call that except the
->>> omap_bo_new_impl function,
->>> which is called by the omap_bo_new and omap_bo_new_tiled functions.
->>> The omap_bo_new should not be called with the OMAP_BO_TILED flag,
->>> while the omap_bo_new_tiled should be called with the OMAP_BO_TILED flag
->>>
->>> Regarding to the omap_bo_new function, there are 2 places call it in
->>> the AOSP tree:
->>> #1 ./external/libkmsxx/kms++/src/omap/omapframebuffer.cpp
->>> #2 ./device/ti/beagle_x15/gpu/gralloc.am57x.so
->>>
->>> #1 seems not used in AOSP yet, and #2 is one blob binary we do not
->>> have the source for.
->>>
->>
->> I would bet on gralloc.am57x.so.
-> yeah, that's my guess as well.
-> 
->>>> strace
->>>> would be your friend there. or gdb, or whatever tools are used on
->>>> android. Or put some printfs() in omap_bo_new() that output the PID of
->>>> the calling process, etc.
->>>
->>> Thanks a lot for these great suggestions! Will use them when possible.
->>>
->>>>> And another question is that, since the userspace(libdrm) will be used
->>>>> to work with different kernel versions,
->>>>> like the old 4.14, 4.19, etc, do you think there will be problem to
->>>>> pass  OMAP_BO_SCANOUT
->>>>> from the userspace side with the old kernels(which does not have this change)?
->>>>> does this change need to be backported to the old kernel versions?
->>>>
->>>> There should not be any issue. The changes could be backported if one
->>>> hits the issues this $series is fixing, but there is no need.
->>>
->>> Thanks for the confirmation!
->>> I just boot-tested with adding OMAP_BO_SCANOUT in the omap_bo_new function,
->>> and it worked with the current 4.14, 4.19, and the mainline kernels.
->>> # via adding line "flags = flags | OMAP_BO_SCANOUT" in the omap_bo_new function.
->>>
->>
->> sure, the point is that with this change *every* BO will be allocated as
->> scanout BO, potentially leading to the above explained issues.
-> 
-> get it.
-> 
->>>>>
->>>>> And the last question is that, omap_bo_new might be called by some
->>>>> property binaries what not everyone
->>>>> could get the source to update, for such case what's your suggestions?
->>>>>
->>>>
->>>> Hard to say without knowing what that library would be.
->>>>
->>>> When I hit issues with closed blobs, sometimes I reverse-engineer them
->>>> to fix the issue, example:
->>>>
->>>> https://github.com/maemo-leste/sgx-ddk-um/tree/master/dbm
->>>>
->>>> This is REed libdbm from sgx-ddk-um 1.17.4948957, that is responsible
->>>> for allocating BOs (what omap_bo_new() does) but it uses DUMB buffers
->>>> API, instead of OMAP BO API.
->>>>
->>>> I guess you are using some older version of sgx-ddk-um, so you may fix
->>>> in similar way. Or binary patch.
->>>
->>> The blob binary that calls omap_bo_new is the gralloc.am57x.so here[2]:
->>> any suggestions with it?
->>> # sorry, I am not able to find out how you did the reverse-engineer
->>> work# with the dbm repository shared here,
->>> # not sure if you could give some tutorial steps for the similar
->>> reverse-engineer# work with gralloc.am57x.so
->>>
->>
->> Sorry, but it is like if you ask me to provide you with a tutorial on
->> how to do brain surgery :)
->>
->>> [2]: https://android.googlesource.com/device/ti/beagle-x15/+/refs/heads/master/gpu/gralloc.am57x.so
->>>
->>
->> I investigated this a bit and it seems it calls omap_bo_new() in a
->> wrapper function like:
->>
->> bo = omap_bo_new(dev, -page_size & (size + page_size - 1), ((param5 &
->> 0x800000) != 0) | OMAP_BO_WC | OMAP_BO_MEM_CONTIG);
->>
->> Didn't investigate further what param5 is, but it controls if
->> OMAP_BO_SCANOUT is passed to omap_bo_new or not.
->>
->> However, this library was not made with upstream kernel in mind, as
->> AFAIK OMAP_BO_MEM_CONTIG never made it upstream:
->>
->> https://yhbt.net/lore/all/2580272.MiZDHyRxZo@avalon/T/
->>
->> @Tomi - any comment?
->>
->> So, you have couple of options:
->>
->> 1. Ask TI for upstream-compatible library.
-> check is in progress, but it would take quite a long time I guess
->> 2. Try to push OMAP_BO_MEM_CONTIG patch upstream.
-> hmm, sounds like one impossible thing...
->> 3. Modify omap_bo_new() to something like:
->> .
->> #define OMAP_BO_MEM_CONTIG      0x00000008      /* only use contiguous dma mem */
->> .
->> if (flags & OMAP_BO_MEM_CONTIG)
->>     flags |= OMAP_BO_SCANOUT;
->> .
->> This will not achieve exactly what OMAP_BO_MEM_CONTIG is supposed to do,
->> but should make it work, at least.
-> 
-> This looks like the only doable thing at the moment, maybe one change
-> needs to be submitted to the mesa/drm repository.
-> I can submit a request on your #3 change to the mesa/drm repository
-> for discussion after some check if you do not mind.
-> 
+Hi Mateusz
 
-I doubt mesa/drm will accept such hack, I think you will need to support 
-your drm clone (with the above fix) until TI fixes the closed library.
+On Wed, Aug 24, 2022 at 06:42:18PM +0200, Mateusz Kwiatkowski wrote:
+> Hi Maxime,
+>=20
+> W dniu 18.08.2022 o 17:56, Geert Uytterhoeven pisze:
+> > Hi Maxime,
+> >
+> > On Thu, Aug 18, 2022 at 5:46 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >> On Thu, Aug 18, 2022 at 05:34:30PM +0200, Geert Uytterhoeven wrote:
+> >>> On Thu, Aug 18, 2022 at 3:42 PM Maxime Ripard <maxime@cerno.tech> wro=
+te:
+> >>>> I started adding more sanity checks to my code, and I just realised I
+> >>>> don't seem to be able to reach 720 pixels over a single line though.=
+ If
+> >>>> I understood it properly, and according to [1] the active part of a =
+line
+> >>>> is supposed to be 51.95us, and the blanking period taking 12.05us. [=
+2]
+> >>>> in the timing section has pretty much the same numbers, so it looks
+> >>>> sane.
+> >>>>
+> >>>> At 13.5Mhz, a pixel is going to take roughly 74ns, and 51950 / 74 =
+=3D 702
+> >>>> pixels
+> >>>>
+> >>>> It seems we can go push it to 52350 ns, but that still gives us only=
+ 706
+> >>>> pixels.
+> >>>>
+> >>>> Similarly, if I just choose to ignore that limit and just take the
+> >>>> active time I need, 720 * 74 =3D 53280ns
+> >>>>
+> >>>> That leaves us 10720ns for the blanking period, and that's not enoug=
+h to
+> >>>> fit even the minimum of the front porch, hsync and back porch (1.55 +
+> >>>> 4.5 + 5.5 =3D 11.55us).
+> >>>>
+> >>>> Are those constraints merely recommendations, or am I missing someth=
+ing?
+> >>>
+> >>> You are missing that the parts near the borders of the full image are
+> >>> part of the overscan range, and may or may not be visible, depending
+> >>> on your actual display.
+> >>> The full 768x576 image size from BT.656 is not visible on a typical P=
+AL display,
+> >>> and is more of an "absolute maximum rating", guaranteed to cover more
+> >>> than analog PAL.
+> >>
+> >> So the overscan range is not part of the active area, unlike what HDMI
+> >> is doing for example?
+> >
+> > Indeed. DVI-D and HDMI etc. are pure digital (let's ignore they are a
+> > digitized variant of old analog VGA ;-), hence there is a one-to-one
+> > match between pixels in the image and pixels on the screen (ignoring
+> > scaling).=A0 But even when using an analog VGA input on a modern
+> > digital display, you have controls to e.g. move the image.
+> >
+> >> Is there some minimal timings available somewhere to fit those absolute
+> >> maximum ratings?
+> >
+> > I guess they can be found on the Internet...
+>=20
+> Here are some references that I personally found useful:
+>=20
+> - ITU-R BT.601 <https://www.itu.int/rec/R-REC-BT.601/en>
+> =A0 This is *the* standard that pretty much every modern device that deal=
+s with
+> =A0 analog-style TV signal follows then converting to and from the digita=
+l domain.
+> =A0 For example in the figures on page 10 (12 in the PDF numbering) you c=
+an see
+> =A0 that the "time datum", i.e. start of horizontal sync pulse is canonic=
+ally
+> =A0 supposed to happen on sample 732 for 50 Hz or sample 736 for 59.94 Hz=
+ modes.
+>=20
+> =A0 BT.601 assumes 13.5 MHz sample rate / pixel clock, but you can propor=
+tionally
+> =A0 scale those for other pixel clocks.
+>=20
+> - ITU-R BT.1700 <https://www.itu.int/rec/R-REC-BT.1700/en>
+> =A0 This is *the* standard in force for actual analog composite video sig=
+nals.
+> =A0 The vertical sync specs are discrete, so they don't really change bet=
+ween
+> =A0 analog and digital domains. For horizontal sync, the values in those =
+specs
+> =A0 are given in microseconds/nanoseconds, but you can multiply those by =
+the
+> =A0 sampling rate for equivalent pixel counts.
+>=20
+> - Pembers' Ponderings
+> =A0 <https://web.archive.org/web/20160423225838/http://www.pembers.freese=
+rve.co.uk/>
+> =A0 An old archived website with a ton of resources about analog TV.
+> =A0 The "Line Standards" article will probably be most interesting to you.
 
-Regards,
-Ivo
+Thanks so much for all those resources, it's been super helpful :)
 
-> Thanks,
-> Yongqin Liu
-> 
->>>>>>> On Thu, 17 Feb 2022 at 23:29, Ivaylo Dimitrov
->>>>>>> <ivo.g.dimitrov.75@gmail.com> wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> On 17.02.22 г. 14:46 ч., Tomi Valkeinen wrote:
->>>>>>>>> Hi,
->>>>>>>>>
->>>>>>>>> On 19/01/2022 12:23, Ivaylo Dimitrov wrote:
->>>>>>>>>> On devices with DMM, all allocations are done through either DMM or
->>>>>>>>>> TILER.
->>>>>>>>>> DMM/TILER being a limited resource means that such allocations will start
->>>>>>>>>> to fail before actual free memory is exhausted. What is even worse is
->>>>>>>>>> that
->>>>>>>>>> with time DMM/TILER space gets fragmented to the point that even if we
->>>>>>>>>> have
->>>>>>>>>> enough free DMM/TILER space and free memory, allocation fails because
->>>>>>>>>> there
->>>>>>>>>> is no big enough free block in DMM/TILER space.
->>>>>>>>>>
->>>>>>>>>> Such failures can be easily observed with OMAP xorg DDX, for example -
->>>>>>>>>> starting few GUI applications (so buffers for their windows are
->>>>>>>>>> allocated)
->>>>>>>>>> and then rotating landscape<->portrait while closing and opening new
->>>>>>>>>> windows soon results in allocation failures.
->>>>>>>>>>
->>>>>>>>>> Fix that by mapping buffers through DMM/TILER only when really needed,
->>>>>>>>>> like, for scanout buffers.
->>>>>>>>>
->>>>>>>>> Doesn't this break users that get a buffer from omapdrm and expect it to
->>>>>>>>> be contiguous?
->>>>>>>>>
->>>>>>>>
->>>>>>>> If you mean dumb buffer, then no, this does not break users as dumb
->>>>>>>> buffers are allocated as scanout:
->>>>>>>>
->>>>>>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/omapdrm/omap_gem.c#L603
->>>>>>>>
->>>>>>>> If you mean omap_bo allocated buffers, then if users want
->>>>>>>> linear(scanout) buffer, then they request it explicitly by passing
->>>>>>>> OMAP_BO_SCANOUT.
->>>>>>>>
->>>>>>>> Ivo
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>
->>>>>
->>>>>
->>>
->>>
->>>
-> 
-> 
-> 
+> By the way, please note a couple of things:
+>=20
+> - The analog standards are very imprecise for modern digital norms, giving
+> =A0 considerable leeway for just about every timing. The allowed leeways =
+are
+> =A0 usually equivalent to a couple of pixels at the standard 13.5 MHz sam=
+pling
+> =A0 rate - and those are meant for the transmitting end. Receivers are us=
+ually
+> =A0 much more forgiving to maximize compatibility.
+
+Ok
+
+> - The 720-pixel standard of BT.601 is considerably wider than the active =
+width
+> =A0 specified in the analog standards. AFAIK this is intentional, to ensu=
+re that
+> =A0 no part of the actual image is missed during digitization, and to kee=
+p the
+> =A0 number a nice multiply of 16. The picture width given in the analog s=
+tandards
+> =A0 is equivalent to somewhere between 702 and 714 pixels (at 13.5 MHz cl=
+ock),
+> =A0 depending on the specific standard. And that includes overscan.
+
+Ok. I think it still makes sense to allow it, if only we were using it so f=
+ar :)
+
+I've done a first implementation in the v2 I just sent that seems to
+work ok, please let me know if I did anything stupid :)
+
+In particular, I chose, if we were between 702 and 720 pixels to disable
+all duration checks, and take the missing time from the front and back
+porch, in equal proportions.
+
+> - Same goes for the vertical active area. Original analog standards varied
+> =A0 wildly from country to country, before finally settling on 575 lines =
+for the
+> =A0 50 Hz standard and 485 lines for the 59.94 Hz standard. Or 576/486, d=
+epending
+> =A0 on how you count. The topmost line of those 576/486 starts at half th=
+e screen,
+> =A0 and the bottommost line ends at half the screen - so they are often c=
+ombined
+> =A0 when counting and given as 575/485. The digital 576i50 standard inclu=
+des
+> =A0 those half-lines. In the 59.94 Hz regions, 480 active digial lines en=
+ded up
+> =A0 the norm, because 486 does not have nice dividers, and also some of t=
+he
+> =A0 outermost lines which were always overscanned anyway, ended up used f=
+or things
+> =A0 like closed captioning over the years.
+
+Ok
+
+> - Speaking of closed captioning... a lot of different stuff were put in t=
+he
+> =A0 blanking interval over the years. Like teletext in Europe. There are =
+projects
+> =A0 like VBIT2 <https://github.com/peterkvt80/vbit2> which intentionally
+> =A0 reconfigure the Raspberry Pi composite output to include the blanking=
+ interval
+> =A0 in the framebuffer so that teletext can be output by drawing on the e=
+dge of
+> =A0 the "screen" (from the computer point of view).
+
+I'm not sure how we would support this in KMS to be honest. Asking for a
+wider mode and the userspace putting whatever it wants in the margins
+seems like a good choice.
+
+> - A lot of equipment outside the broadcast industry willingly violated th=
+ose
+> =A0 standards, and there are real world use cases for that. Film studios =
+used very
+> =A0 slightly modified TVs to make them sync with 24fps cameras - in that =
+variant,
+> =A0 "NTSC" could have e.g. 655 lines so that the TV would refresh at 48 H=
+z with
+> =A0 the same line frequency. Home computers and video game consoles output
+> =A0 progressive 262/312-line modes instead of interlaced 525/625 lines. A=
+nd often
+> =A0 changed the line frequency slightly as well, for various reasons. Tho=
+se
+> =A0 progressive modes are still favored by retro gaming and emulation ent=
+husiasts,
+> =A0 because they incur a specific look on CRT displays. Even playing back=
+ video
+> =A0 from a tape (especially home-grade, like VHS) could cause timings to =
+go wildly
+> =A0 out of spec, because of mechanical imprecisions.
+
+Ok
+
+> - There were multitude of standards predating the ubiquitous 525/60 and 6=
+25/50
+> =A0 modes. The British 405-line and French 819-line standards are the most
+> =A0 notorious, having lasted well into the 1980s, but there were also a l=
+ot of
+> =A0 wildly varying pre-WW2 television systems. And there are enthusiasts =
+dedicated
+> =A0 to preserving those.
+>=20
+> My point is that the norms for analog TV are rather loose, and I think we
+> shouldn't limit the drivers to only accepting the "proper" modes as defin=
+ed in
+> the spec. Those should of course be the default, but if non-standard mode=
+lines
+> can be generated - there are legitimate use cases why people might want t=
+hose.
+
+Yep, that part has been dropped. I'm still wondering if we'd need to
+still have a bunch of restrictions (like a total number of lines of 625
+with NTSC would be obviously invalid), but that can always be added
+later on if such a need comes up
+
+Maxime
+
+--nz5dkcjwrefuclw4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwy/UQAKCRDj7w1vZxhR
+xY42APwOsvncSxAfPJDjMsYPdJrF6RjZoxgtzLbD0q6LGfXtagEAtIeUVWPV593f
+GH0C7Vn3rH5UvYiKN3hr1vPeZ6SUIQQ=
+=Te78
+-----END PGP SIGNATURE-----
+
+--nz5dkcjwrefuclw4--
