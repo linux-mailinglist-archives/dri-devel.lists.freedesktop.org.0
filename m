@@ -1,52 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC735A5725
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 00:31:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 205695A576C
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 01:08:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0401A10F539;
-	Mon, 29 Aug 2022 22:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D63D10F5E4;
+	Mon, 29 Aug 2022 23:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C563F10F533;
- Mon, 29 Aug 2022 22:30:38 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C0171B8159F;
- Mon, 29 Aug 2022 22:30:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A49CC433C1;
- Mon, 29 Aug 2022 22:30:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661812235;
- bh=XR4jQathTB6ZptuH+sL9t6uDcotuMvsfdYzhSPZG6gI=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=R+WH0iPW9Zf1owPKGWvfw9Bm6hcGCZ1ybMoBzojSSsUvC4/ER0vvqTcP5EssPuV0v
- d16cqYHuosEVZK1krOIeion/MiZ7Dn1mTyMlR/hdnfAfyEhehy5PSc8ts6YdJoK2wu
- WikLN8F4DoVnPVV7NNipLykUvmKTzqbqoGcTZWroN2NRtWMqi4CuyklZ9bq+91gbvy
- HtM5WSn3PkOc908fgiFmh7JiyQx+R6HxpBakqwJM9y1gdgpokvQyADg/rR/EDv09do
- 6knZvPQ1M95yI5qT2/MpxX6yAgw6Xx+OAl69ImLTKYa7jBy29/E24HVgSI2yqiYzyZ
- Gp92yAP0lDLzA==
-Content-Type: text/plain; charset="utf-8"
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D582A10F5E4
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 23:08:38 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90431481;
+ Tue, 30 Aug 2022 01:08:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1661814516;
+ bh=V/noL5H3GGat0X1qZ40oI+6OfQ6QMlmf7rC/4vB+poY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=liE817KLQtHDm3GEbvXYnedB96v9ivXs4fQlkLc2UOi/l+cAVbqGII2V1UvJ3dDke
+ 1DF/inO4KuoaB+FNGd1bxvt53gRAy381yS0GEZ1YU9ojkb80WeNk4Kl2rvcvLxGzZv
+ aXw7BCWF2W6GEwvaL0fYudC5jljkpIVyrZe2XMNM=
+Date: Tue, 30 Aug 2022 02:08:27 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] dt-bindings: display: bridge: renesas,dw-hdmi: Fix
+ 'unevaluatedProperties' warnings
+Message-ID: <Yw1G69ny9tZrFWk4@pendragon.ideasonboard.com>
+References: <20220829215816.6206-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1661714479-28981-1-git-send-email-quic_akhilpo@quicinc.com>
-References: <1661714479-28981-1-git-send-email-quic_akhilpo@quicinc.com>
-Subject: Re: [PATCH v5 0/6] clk/qcom: Support gdsc collapse polling using
- 'reset' interface
-From: Stephen Boyd <sboyd@kernel.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
- freedreno <freedreno@lists.freedesktop.org>, linux-arm-msm@vger.kernel.org,
- Philipp Zabel <p.zabel@pengutronix.de>
-Date: Mon, 29 Aug 2022 15:30:33 -0700
-User-Agent: alot/0.10
-Message-Id: <20220829223035.5A49CC433C1@smtp.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220829215816.6206-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,69 +49,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-kernel@vger.kernel.org,
- Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
- krzysztof.kozlowski@linaro.org, Andy Gross <agross@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Sean Paul <sean@poorly.run>,
- linux-clk@vger.kernel.org
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Prabhakar <prabhakar.csengg@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Philipp
+Hi Prabhakar,
 
-Quoting Akhil P Oommen (2022-08-28 12:21:13)
->=20
-> Some clients like adreno gpu driver would like to ensure that its gdsc
-> is collapsed at hardware during a gpu reset sequence. This is because it
-> has a votable gdsc which could be ON due to a vote from another subsystem
-> like tz, hyp etc or due to an internal hardware signal. To allow
-> this, gpucc driver can expose an interface to the client driver using
-> reset framework. Using this the client driver can trigger a polling within
-> the gdsc driver.
+Thank you for the patch.
 
-Please include the reset maintainer on reset related patches.
+On Mon, Aug 29, 2022 at 10:58:16PM +0100, Lad Prabhakar wrote:
+> With 'unevaluatedProperties' support implemented, there's a number of
+> warnings when running dtbs_check:
+> 
+> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: hdmi@fead0000: Unevaluated properties are not allowed ('resets' was unexpected)
+> 	From schema: Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+> 
+> The main problem is that SoC DTSI's are including resets property, whereas
+> the renesas,dw-hdmi.yaml has 'unevaluatedProperties: false'. So just add
+> optional resets property to the binding.
 
--Stephen
+Given that all the DT sources in the kernel specify the resets property,
+how about making it mandatory ?
 
->=20
-> This series is rebased on top of linus's master branch.
->=20
-> Related discussion: https://patchwork.freedesktop.org/patch/493144/
->=20
-> Changes in v5:
-> - Nit: Remove a duplicate blank line (Krzysztof)
->=20
-> Changes in v4:
-> - Update gpu dt-binding schema
-> - Typo fix in commit text
->=20
-> Changes in v3:
-> - Use pointer to const for "struct qcom_reset_ops" in qcom_reset_map (Krz=
-ysztof)
->=20
-> Changes in v2:
-> - Return error when a particular custom reset op is not implemented. (Dmi=
-try)
->=20
-> Akhil P Oommen (6):
->   dt-bindings: clk: qcom: Support gpu cx gdsc reset
->   clk: qcom: Allow custom reset ops
->   clk: qcom: gdsc: Add a reset op to poll gdsc collapse
->   clk: qcom: gpucc-sc7280: Add cx collapse reset support
->   dt-bindings: drm/msm/gpu: Add optional resets
->   arm64: dts: qcom: sc7280: Add Reset support for gpu
->=20
->  .../devicetree/bindings/display/msm/gpu.yaml       |  6 +++++
->  arch/arm64/boot/dts/qcom/sc7280.dtsi               |  3 +++
->  drivers/clk/qcom/gdsc.c                            | 23 ++++++++++++++--=
---
->  drivers/clk/qcom/gdsc.h                            |  7 ++++++
->  drivers/clk/qcom/gpucc-sc7280.c                    | 10 ++++++++
->  drivers/clk/qcom/reset.c                           | 27 ++++++++++++++++=
-++++++
->  drivers/clk/qcom/reset.h                           |  8 +++++++
->  include/dt-bindings/clock/qcom,gpucc-sc7280.h      |  3 +++
->  8 files changed, 83 insertions(+), 4 deletions(-)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml    | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+> index 0c9785c8db51..a7e44e249dd3 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+> @@ -38,6 +38,9 @@ properties:
+>    clock-names:
+>      maxItems: 2
+>  
+> +  resets:
+> +    maxItems: 1
+> +
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
