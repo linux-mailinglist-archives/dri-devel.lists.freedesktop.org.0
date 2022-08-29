@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DF85A54AC
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 21:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 563AB5A54B3
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 21:47:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6714510E3E7;
-	Mon, 29 Aug 2022 19:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E49810E4F4;
+	Mon, 29 Aug 2022 19:47:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10EBA10E3DD;
- Mon, 29 Aug 2022 19:46:07 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-11c4d7d4683so11703229fac.8; 
- Mon, 29 Aug 2022 12:46:07 -0700 (PDT)
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F25AD10E4F4;
+ Mon, 29 Aug 2022 19:47:00 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-11f0fa892aeso3452499fac.7; 
+ Mon, 29 Aug 2022 12:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=vETszXP4tpDPkrySBXLgi1EkRM0QIaqBCFSpjffSf6A=;
- b=NwVZOfhTEFuNXz+pARnpVVoHpeMj7OR7hnfJiKnJnjG65J2EwYFa5F2LT5j9HaXnSu
- K6QI+xlxIA0ycuifqvLzWsYCk20WPrFSVOoORLYTbZ4gJKJAYQ1rQgBmja5WPZWI7uxv
- 8zo/nsJF9knzLhre8yyB919nv5LI/zCXHZlN18axFiPgvDyI+rgwlpwp8AQXDsLUO251
- No20kghi+90Wv6nW7MLjHFNsELraNG9l1sxa7nzYkEQ5tkMzoVeQQ3UnhJMFtJlz9LRb
- CQmxSjFAYq/LcRVyWMw1k1XZcEEIuqfE27KTI02WzG5gLFS95VDaUAlTQW2Eh2wOnT26
- Tp9w==
+ bh=pIRa4AL/ga0qHuILPyN2VKLZ3Y5dcsSScu21XOurOb4=;
+ b=j5xnVNrZZHkK2TQd0nhTcCbIu0g1VMB0PQ3Dpe6y36WlzfLHDhWGlLIpm45cV/cpk8
+ DpBge+ai3ax905WBogMbIuFO+dGnRJx9psvQm8xHVtlT24ifwyJg48+JfYRfyKCPYRAM
+ fcP6zvPrIZJ3+LdOWLxmABorbS6IbUltvkbewlFy4yw/NvBUz5yuLirVtUuL3GXXuhaS
+ WKVlwORVrIfYI0tNCOghGfSe5aBhi8ukxDm2HwkquRcOleo77D/lRujK6bqMHeCXakBK
+ y8SZfXc8X0DfCbDIRFCWBqaJoLLMi3NJVZ/n8a9SO0LU0uuAq8c1yoaaJN9LB30a1aDE
+ PtOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=vETszXP4tpDPkrySBXLgi1EkRM0QIaqBCFSpjffSf6A=;
- b=x0EWm3PGRkWExG+V6o8BD/1o7LG7s4QvUR0wF4w8pRih0aWwBboTxoryCqSlT0OOK7
- 5nSnkCPaAJV/OfWqmngql/clg5LnyHnE5jygDnPutA2rsmYDxEfrXROO+F5rL6a+ykLZ
- I/NqJ/Z/1ESDwG0+S0aiYXmTTPNVocs4JhFFYdgQKjDRgiQwU/MH/RFmro1/77pM1sPU
- hcV6lahwjEaSTjRAaytOvi5ghMwsRjIQn5Bl+5gsj9/Z1+RMQJjtkwGEPZTKqJBRKaCy
- W4tg17/AH4MqOg9E4Ts9etdWuVAN2nNz0ikOlDvE3dGX6KkbW4tC3kCuNHCkGqAZDZtr
- jKxQ==
-X-Gm-Message-State: ACgBeo3QDDP7g2Ej/EQ/vrBAsGWQM42pvletACA/HobK0El1C8pJHDlH
- Mef0wqCN9G5iUlMeE3xxcnUyoUr+L2rR29CiEXk=
-X-Google-Smtp-Source: AA6agR7YRRp6PNAzq4KftL331TiXIS5EjF73/0OlDNq0lmw7QCGwt3wKpQgAsM9gYb+yDZEiaZW0sg8C3OViNSuAqjY=
+ bh=pIRa4AL/ga0qHuILPyN2VKLZ3Y5dcsSScu21XOurOb4=;
+ b=ihH+CX/5Gcza1ARS+VEcbbPVIDzAUfRqLQNsLg21GERSLA2UX6PGBy8ppJY+8xm8Jz
+ FFoNG/32cKuoNevNJ47nHmIu5oDi8BlVAUYHwl7QXsSwvcbfQ2QqsFoDiICmdPKMzB7M
+ 6gMh2r44VzrjnYg5XJdzScWeMgotSZbZKOSCDDL9uwCRNkPeSnXaXT/NZcrxlgWkAuQD
+ o46C6Hq7ecXIx9vPVVGnQXo/aFC/pDeQzYdG6C5wf8nEYJSaqDlDMXXMw9WtyOYPnFQq
+ VdPoixnsKGbN+A4+KYv1eNw+6BWc90qz46xAmSQxzLRiitynbQEM2GRDvirmlggY+JuU
+ gLhw==
+X-Gm-Message-State: ACgBeo0XSEuSmwQC4zGhSDQS8I05gn17pZpKb1Z+mQknAEjWLYsyV8Av
+ U85jfdp5lRwo7pv/cuqZYUOFyTIOqA0YmsZrNlk=
+X-Google-Smtp-Source: AA6agR4RNzSmLQwqO8u3quSZyDeocAV+diVXBCD2YHvHQAbav7s7muxW4cME/KCDPiOHXY3V2Ygl2GO3qm+o0W+LD/g=
 X-Received: by 2002:a05:6808:138e:b0:345:13d1:fd66 with SMTP id
- c14-20020a056808138e00b0034513d1fd66mr8076771oiw.96.1661802366350; Mon, 29
- Aug 2022 12:46:06 -0700 (PDT)
+ c14-20020a056808138e00b0034513d1fd66mr8077995oiw.96.1661802420177; Mon, 29
+ Aug 2022 12:47:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220829121320.267892-1-cui.jinpeng2@zte.com.cn>
-In-Reply-To: <20220829121320.267892-1-cui.jinpeng2@zte.com.cn>
+References: <20220829122914.268251-1-cui.jinpeng2@zte.com.cn>
+In-Reply-To: <20220829122914.268251-1-cui.jinpeng2@zte.com.cn>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 29 Aug 2022 15:45:55 -0400
-Message-ID: <CADnq5_O6b5bhpppqjOrnXhyfk+jXeMcYiQCDLXDz_HcCujQ4Ag@mail.gmail.com>
-Subject: Re: [PATCH linux-next] drm/amd/display: remove redundant
- vertical_line_start variable
+Date: Mon, 29 Aug 2022 15:46:49 -0400
+Message-ID: <CADnq5_Nk5iiKWZ0eh0GxgHVsD0bz-=SbuzAZRs=Dw6oYfpy=qA@mail.gmail.com>
+Subject: Re: [PATCH linux-next] drm/amdkfd: remove redundant variables err and
+ ret
 To: cgel.zte@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,14 +65,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dale.zhao@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Yi-Ling.Chen2@amd.com, isabbasso@riseup.net,
- Anthony.Koo@amd.com, Jinpeng Cui <cui.jinpeng2@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>, Rodrigo.Siqueira@amd.com,
- amd-gfx@lists.freedesktop.org, alex.hung@amd.com, Jerry.Zuo@amd.com,
- sunpeng.li@amd.com, mwen@igalia.com, hanghong.ma@amd.com,
- agustin.gutierrez@amd.com, Sungjoon.Kim@amd.com, dingchen.zhang@amd.com,
- Xinhui.Pan@amd.com, Roman.Li@amd.com, alexander.deucher@amd.com,
+Cc: airlied@linux.ie, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Zeal Robot <zealci@zte.com.cn>, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, Jinpeng Cui <cui.jinpeng2@zte.com.cn>,
  christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -81,43 +77,61 @@ Applied.  Thanks!
 
 Alex
 
-On Mon, Aug 29, 2022 at 8:13 AM <cgel.zte@gmail.com> wrote:
+On Mon, Aug 29, 2022 at 8:29 AM <cgel.zte@gmail.com> wrote:
 >
 > From: Jinpeng Cui <cui.jinpeng2@zte.com.cn>
 >
-> Return value from expression directly instead of
-> taking this in another redundant variable.
+> Return value from kfd_wait_on_events() and io_remap_pfn_range() directly
+> instead of taking this in another redundant variable.
 >
 > Reported-by: Zeal Robot <zealci@zte.com.cn>
 > Signed-off-by: Jinpeng Cui <cui.jinpeng2@zte.com.cn>
 > ---
->  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> index 37246e965457..8f4f1ea447a7 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> @@ -3741,7 +3741,6 @@ int dcn10_get_vupdate_offset_from_vsync(struct pipe_ctx *pipe_ctx)
->         int vesa_sync_start;
->         int asic_blank_end;
->         int interlace_factor;
-> -       int vertical_line_start;
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> index 664e8b5d82c0..84da1a9ce37c 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> @@ -876,14 +876,11 @@ static int kfd_ioctl_wait_events(struct file *filp, struct kfd_process *p,
+>                                 void *data)
+>  {
+>         struct kfd_ioctl_wait_events_args *args = data;
+> -       int err;
 >
->         patched_crtc_timing = *dc_crtc_timing;
->         apply_front_porch_workaround(&patched_crtc_timing);
-> @@ -3757,10 +3756,8 @@ int dcn10_get_vupdate_offset_from_vsync(struct pipe_ctx *pipe_ctx)
->                         patched_crtc_timing.v_border_top)
->                         * interlace_factor;
->
-> -       vertical_line_start = asic_blank_end -
-> +       return asic_blank_end -
->                         pipe_ctx->pipe_dlg_param.vstartup_start + 1;
+> -       err = kfd_wait_on_events(p, args->num_events,
+> +       return kfd_wait_on_events(p, args->num_events,
+>                         (void __user *)args->events_ptr,
+>                         (args->wait_for_all != 0),
+>                         &args->timeout, &args->wait_result);
 > -
-> -       return vertical_line_start;
+> -       return err;
+>  }
+>  static int kfd_ioctl_set_scratch_backing_va(struct file *filep,
+>                                         struct kfd_process *p, void *data)
+> @@ -2860,7 +2857,6 @@ static int kfd_mmio_mmap(struct kfd_dev *dev, struct kfd_process *process,
+>                       struct vm_area_struct *vma)
+>  {
+>         phys_addr_t address;
+> -       int ret;
+>
+>         if (vma->vm_end - vma->vm_start != PAGE_SIZE)
+>                 return -EINVAL;
+> @@ -2880,12 +2876,11 @@ static int kfd_mmio_mmap(struct kfd_dev *dev, struct kfd_process *process,
+>                  process->pasid, (unsigned long long) vma->vm_start,
+>                  address, vma->vm_flags, PAGE_SIZE);
+>
+> -       ret = io_remap_pfn_range(vma,
+> +       return io_remap_pfn_range(vma,
+>                                 vma->vm_start,
+>                                 address >> PAGE_SHIFT,
+>                                 PAGE_SIZE,
+>                                 vma->vm_page_prot);
+> -       return ret;
 >  }
 >
->  void dcn10_calc_vupdate_position(
+>
 > --
 > 2.25.1
 >
