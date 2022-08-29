@@ -1,77 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545185A4E84
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 15:49:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DA35A4E76
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 15:48:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E9A510F2C5;
-	Mon, 29 Aug 2022 13:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBCD110F299;
+	Mon, 29 Aug 2022 13:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A450010F2A4
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 13:48:23 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id E936C32001E9;
- Mon, 29 Aug 2022 09:48:21 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 29 Aug 2022 09:48:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1661780901; x=1661867301; bh=7t
- kcVJpPFPqS73hkLSqNddoty8y7Mqppm3709Io+PbQ=; b=cCk43HMNF5nJBloa3/
- VVVsh4xZvTMMkHTYoKsGnbJdLTeB3BcIvI4cRvF2VZcVU8gdm/4I20mIMn88gje4
- Y5p0NlZge/cYFhqE8Q+RLqyvL416o/MNob3fem36f+sLxzGtOcJdYlHaIo9gZtQ7
- QnuFi5z+OdRdmyv6/skUyP0SrD59QZWhhdxrItWNQS23cFDfDl+RV4fxORfY/cP9
- IYfdHR6J2xLOYjT6QZs77kaJgR3a30kjf2mTvz/4l6dvEx+TVzDUZE52edyZ9DmE
- fKWrH7vkEgJmaSQSy1eGG4cJKO+PlGhpzrAX4djoGiLumqEgJ9mA/lbMrV6crCI/
- wHhQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1661780901; x=1661867301; bh=7tkcVJpPFPqS7
- 3hkLSqNddoty8y7Mqppm3709Io+PbQ=; b=tOrXG1dk2GkVsOFSd3zR/M5Se1B9v
- nD2H/3hfm1F9+Z9zDcMjS5CueLuJF5aQv8op1J8nmjI1KrPBA0tG8R/zaSJjsBkf
- hQzHh3XPjharhQJ4xbvIby46mAsqAzBXVwygNlVBHuuyUUDHq+8vkQqWVEDxSSBG
- 1+ueWROEbkqe72BuDIvUtdlDpJXTcdKW48IqBg5+rFaoCbSoGJ4F26xAlVslfcyI
- LJrXANwgn3lggb1rdvibyZZJ8Cs29D5NdQwejG6osGmWJxYUNp2nYMJ9fKKNqpkP
- OJI0gJg3rw8LSQ8CiMTe1Lu+4xQphGs3RZlMfmT4EJY1AfkJGhU2VvQEw==
-X-ME-Sender: <xms:pcMMY3J6ydrdOWkh5x7QHVdSkKFykSAZL3ML6S54PgDfI2r9GHNhoQ>
- <xme:pcMMY7Kq2TAF6NIuki3JtsjZByWq6bUWPlSAnU8hm01a5F2yebl_VJZSVLtqlDHdG
- JODYuN-6X4QKZtwaDY>
-X-ME-Received: <xmr:pcMMY_vxgQvBd97GqZeKZVD4xU_nC_oWzQJPF3UJboL8YjunvlLKlXUZsqh0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekuddgjedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:pcMMYwb2AqiEBrCJ9i5RF0Y8G6A7tuWMkGMoDpPJTVdrdjWIVk3QvQ>
- <xmx:pcMMY-boF3AUcXyQPpDF3Rx5NAywShobkDRQRCCCx0-YZ47_tgnVsA>
- <xmx:pcMMY0BqW9638b1qSX23-csnXJP2Ab1yx89h7ORVL8FgHTze4XO6eg>
- <xmx:pcMMY0mkeYZ2gZOJPtKzzPK4sufiThsRP8gNIxn6e7bl_f49P9Visg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 29 Aug 2022 09:48:20 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v4 8/8] drm/scdc: Document hotplug gotchas
-Date: Mon, 29 Aug 2022 15:47:31 +0200
-Message-Id: <20220829134731.213478-9-maxime@cerno.tech>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220829134731.213478-1-maxime@cerno.tech>
-References: <20220829134731.213478-1-maxime@cerno.tech>
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C10D10F28C;
+ Mon, 29 Aug 2022 13:48:02 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id r124so10358147oig.11;
+ Mon, 29 Aug 2022 06:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=boJNilqu5rkLXIrZXtZ+13kCjg+IVe8CBRV4aqjI3IQ=;
+ b=kMzNApZWAepG8844yhdKAszbolxRMCr4T+NZX6qZyk4HXX5WGa/xOKJMkyeaYeyGIV
+ gGPctdEYzEMmPH/0QF4SQjImmks2NCtrJJG5iRCh800OcIulJhnhJJvHLT6iPJC99Nsi
+ 4H+N+bZRUg1CWo0PPv4Pl2cjlCxqRxc/r/xp4KB0afY0jL0P1bPvNbODbM2AJCCHArz3
+ 4pyjCGQvX/e/9UPbCK80eF/+dqAmalmZRjQqfIw7F41sHKKheEyu2E24Bs7hVSDOBUYs
+ Fz1KUf8zkHrmHVMTsouCKyTk2BctKRG6UqIYDagyLyA/GUlzp4Ujyf9WbbgErxSwfPB0
+ uM3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=boJNilqu5rkLXIrZXtZ+13kCjg+IVe8CBRV4aqjI3IQ=;
+ b=kpZrkR4zlRu4wUhQuh2/mORSN6RjbaNy3UH+Awn6CZjffcVCVgf0VfykzYIeZPet3+
+ uU2WXrb9hWSKgDpqe1/trQyvtr9aTqcooCbr/ipgaOi9IeSNQCDlogP/aGEaE0rpVp4T
+ grYK7538Ez+DAm+bWEOSCt90oPvK9M0GfbcccZAfFeg1+XYcfMsqmw7YRJpe5sSC/BKk
+ PF6xdpY6JaLLmerXC8ZAjSi+yU0Y/BjKuvez9V11PzAztpvgZYDClYMyCjBsCe8AXuqh
+ fXWokf5bsPNTwpuIgLxUztk+2WEQy8UoTfAkdhi9NkUUenD/42h66E3iXs3e1tC8ap50
+ KDuA==
+X-Gm-Message-State: ACgBeo3gBqoyX5Za9bX7YShw5OcsosHfKkkz0gCRnn/bmABVCpJ2DqgD
+ PTFmncf5FRDHNHr9V/ZPCsKF7Nw7k0KX/XFkNdk=
+X-Google-Smtp-Source: AA6agR5ZkGCAzYchqafGj2oNqKZbHuDk+qOgihZvR2eaNfjMBopqDWWFPHuoApwE0QzrDc6rJ3T3cUdTjfbQ4dJyqLM=
+X-Received: by 2002:a05:6808:138e:b0:345:13d1:fd66 with SMTP id
+ c14-20020a056808138e00b0034513d1fd66mr7375330oiw.96.1661780881704; Mon, 29
+ Aug 2022 06:48:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220829123654.4333-1-nizhen@uniontech.com>
+In-Reply-To: <20220829123654.4333-1-nizhen@uniontech.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 29 Aug 2022 09:47:50 -0400
+Message-ID: <CADnq5_P9b3QbO_u4y+isN07WiErPKQRB1O1wvmhXMbV52PeV6Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/amdgpu: Add modeset module parameter support
+To: Zhen Ni <nizhen@uniontech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,44 +63,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ evan.quan@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's some interactions between the SCDC setup and the disconnection /
-reconnection of displays. Let's document it and a solution.
+On Mon, Aug 29, 2022 at 9:43 AM Zhen Ni <nizhen@uniontech.com> wrote:
+>
+> Nomodeset kernel parameter is for all graphics cards. Amdgpu cannot
+> be set separately in some scenarios, such as hybrid graphics(i + a).
+> Add modeset module parameter for amdgpu to set kernel mode separately.
+>
+> Signed-off-by: Zhen Ni <nizhen@uniontech.com>
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/display/drm_scdc_helper.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+amdgpu didn't support this option since it never supported the legacy
+drm mode that other older drivers did.  If you just want the option to
+keep the driver from loading, you can already do this by blacklisting
+the driver.  E.g.,
+modprobe.blacklist=amdgpu
 
-diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/display/drm_scdc_helper.c
-index 81881e81ceae..c3ad4ab2b456 100644
---- a/drivers/gpu/drm/display/drm_scdc_helper.c
-+++ b/drivers/gpu/drm/display/drm_scdc_helper.c
-@@ -35,6 +35,19 @@
-  * HDMI 2.0 specification. It is a point-to-point protocol that allows the
-  * HDMI source and HDMI sink to exchange data. The same I2C interface that
-  * is used to access EDID serves as the transport mechanism for SCDC.
-+ *
-+ * Note: The SCDC status is going to be lost when the display is
-+ * disconnected. This can happen physically when the user disconnects
-+ * the cable, but also when a display is switched on (such as waking up
-+ * a TV).
-+ *
-+ * This is further complicated by the fact that, upon a disconnection /
-+ * reconnection, KMS won't change the mode on its own. This means that
-+ * one can't just rely on setting the SCDC status on enable, but also
-+ * has to track the connector status changes using interrupts and
-+ * restore the SCDC status. The typical solution for this is to trigger an
-+ * empty modeset in drm_connector_helper_funcs.detect_ctx(), like what vc4 does
-+ * in vc4_hdmi_reset_link().
-  */
- 
- #define SCDC_I2C_SLAVE_ADDRESS 0x54
--- 
-2.37.1
+Alex
 
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 429fcdf28836..856a70370e3c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -107,6 +107,7 @@
+>  #define KMS_DRIVER_MINOR       48
+>  #define KMS_DRIVER_PATCHLEVEL  0
+>
+> +int amdgpu_modeset = -1;
+>  int amdgpu_vram_limit;
+>  int amdgpu_vis_vram_limit;
+>  int amdgpu_gart_size = -1; /* auto */
+> @@ -199,6 +200,13 @@ struct amdgpu_watchdog_timer amdgpu_watchdog_timer = {
+>         .period = 0x0, /* default to 0x0 (timeout disable) */
+>  };
+>
+> +/**
+> + * DOC: modeset (int)
+> + * Disable/Enable kernel modesetting (1 = enable, 0 = disable, -1 = auto (default)).
+> + */
+> +MODULE_PARM_DESC(modeset, "Disable/Enable kernel modesetting");
+> +module_param_named(modeset, amdgpu_modeset, int, 0400);
+> +
+>  /**
+>   * DOC: vramlimit (int)
+>   * Restrict the total amount of VRAM in MiB for testing.  The default is 0 (Use full VRAM).
+> @@ -2753,7 +2761,10 @@ static int __init amdgpu_init(void)
+>  {
+>         int r;
+>
+> -       if (drm_firmware_drivers_only())
+> +       if (drm_firmware_drivers_only() && amdgpu_modeset == -1)
+> +               amdgpu_modeset = 0;
+> +
+> +       if (amdgpu_modeset == 0)
+>                 return -EINVAL;
+>
+>         r = amdgpu_sync_init();
+> --
+> 2.20.1
+>
