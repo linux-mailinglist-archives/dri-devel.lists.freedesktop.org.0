@@ -1,51 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E025A4EEE
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 16:14:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3105A4EF1
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 16:15:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99B0E10F13C;
-	Mon, 29 Aug 2022 14:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E142910F1D4;
+	Mon, 29 Aug 2022 14:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D0B110F13C;
- Mon, 29 Aug 2022 14:14:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661782471; x=1693318471;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=+4TOCeNd5iz1aL0fhEmhVh+hpLbLwO+LY5ZaMMmawU0=;
- b=OmSwFbBjgFQ16k+3n5jxRTl9oqvEdtu7Fv4e38PiTqonGl9QRH5c7Djw
- f+DCWlqRjyJ2fzZxKbnMWpuujTp42vTLi48JdloI9yQ2y22SchLltKETr
- cwd9HNcAZJU4SP5YW3cAxhbc0vRYmTxPjb82ZKtnEG5metJpyyAttJ34z
- K9ytXpF/ww7hSjjgnFOEr1leDeJrrMfO6gDgjnRe3j3FDs3NWSU0hsecy
- d8JziBc8SArC/i/tbbNWkyWNM/BNLTzXR0e1WGGsKdOB2iBUGUoIqEgi3
- Lny5+4dSjzODwC/ie8YnLNPSRmxJDmzkOhz5OrfXX+Ib5ubwRnHgV93DU g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="293647245"
-X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="293647245"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2022 07:14:16 -0700
-X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="939591027"
-Received: from idecesar-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.53.198])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2022 07:14:13 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: wangjianli <wangjianli@cdjrlc.com>, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: Re: [PATCH] drm/i915: fix repeated words in comments
-In-Reply-To: <20220823141639.13053-1-wangjianli@cdjrlc.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220823141639.13053-1-wangjianli@cdjrlc.com>
-Date: Mon, 29 Aug 2022 17:14:02 +0300
-Message-ID: <87y1v7dtn9.fsf@intel.com>
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4A510F1D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 14:15:09 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id g21so6097802qka.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 07:15:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=+LNH7GWYgSUzsjvph8IQNcroBifhiDios4fo6CTY2/U=;
+ b=Umq1L58/8ZVt6T36VRrhc6x8It27sWetXhEsskg/w4LPGhJIMvkAQmNjYsV98iyMD6
+ Mx00vgvUJgORyjpQ6XOKxf2Uj+hPt+gCS/PmjT4T0u3op6FsT6lMwA5lRhMUCOhB3TkG
+ sBq9SPVrmQKw5ZDlWeoUGEe0HEu3VoiHPz+vpEQU7sd0lPjvGPQIWz2bYwUHtUm0eAlz
+ Z1fyy9YxPyaYtG+Ei68Zz60hvJVdGWdgB/RnvqLtKdkGR4XCHal6wsSI8bDQbq6IcHGB
+ Ir5wMeN/w0Na1zgDw+op7nV2Vhzg1xdW8EF78mfVcgARbdZl0FRUWdGQZrW5HojGayK4
+ Xj+w==
+X-Gm-Message-State: ACgBeo17RS46DQ2ilAxPbvE+g35BW35CziHtuIKqLLWHMidNhk4dN6d4
+ BfPKSoX6VaqeCRAl0nwSnCaq00PBtEMf8g==
+X-Google-Smtp-Source: AA6agR7pP4Z5o2tv9gpFZ0QBglqnrUhwdwaw+sJddgxJNfjGxOOjoPFBm+pd2pUTDtAKUUgsK9DALg==
+X-Received: by 2002:a05:620a:370f:b0:6bc:1ea1:b466 with SMTP id
+ de15-20020a05620a370f00b006bc1ea1b466mr8544030qkb.564.1661782507481; 
+ Mon, 29 Aug 2022 07:15:07 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com.
+ [209.85.128.175]) by smtp.gmail.com with ESMTPSA id
+ z20-20020ac87f94000000b003051ea4e7f6sm5471825qtj.48.2022.08.29.07.15.06
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Aug 2022 07:15:06 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-334dc616f86so198699597b3.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 07:15:06 -0700 (PDT)
+X-Received: by 2002:a25:415:0:b0:696:814:7c77 with SMTP id
+ 21-20020a250415000000b0069608147c77mr8612505ybe.36.1661782506395; 
+ Mon, 29 Aug 2022 07:15:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
+ <20220817131454.qcuywcuc4ts4hswm@houat>
+ <CAMuHMdVPEgnnsY-4uuf=FDJ0YxWpch-0kZWFT_TZfcDvXLtwWQ@mail.gmail.com>
+ <20220818123934.eim2bfrgbxsmviqx@houat>
+ <CAMuHMdWXbHkrBZgsmUnU=q52+q7UZZNO3tgQW7Men+msQ1JDwQ@mail.gmail.com>
+ <20220818134200.cr22bftmjn226ehn@houat>
+ <CAMuHMdX6dyQaB34oeXwiCa2rDkxks0qNh=ekqh7Wd2kSNED9TA@mail.gmail.com>
+ <20220818154641.ouvrar5s74qu74zn@houat>
+ <CAMuHMdUjE0mwu8z5AksW4h1OwzDCQ5h1ZoCWDi+rC4p2Pu5O4g@mail.gmail.com>
+ <6d1dfaad-7310-a596-34dd-4a6d9aa95f65@gmail.com>
+ <20220829132953.sfv5yex2dhv76vrq@houat>
+In-Reply-To: <20220829132953.sfv5yex2dhv76vrq@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 29 Aug 2022 16:14:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXxoEYV7v-R+o4eMJEiV_xGUgpN6sUbZ95r_qewV5QpRA@mail.gmail.com>
+Message-ID: <CAMuHMdXxoEYV7v-R+o4eMJEiV_xGUgpN6sUbZ95r_qewV5QpRA@mail.gmail.com>
+Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,42 +76,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wangjianli <wangjianli@cdjrlc.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ linux-sunxi@lists.linux.dev, Mateusz Kwiatkowski <kfyatek@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Aug 2022, wangjianli <wangjianli@cdjrlc.com> wrote:
->  Delete the redundant word 'the'.
+Hi Maxime,
+
+On Mon, Aug 29, 2022 at 3:30 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Wed, Aug 24, 2022 at 06:42:18PM +0200, Mateusz Kwiatkowski wrote:
+> > - Speaking of closed captioning... a lot of different stuff were put in the
+> >   blanking interval over the years. Like teletext in Europe. There are projects
+> >   like VBIT2 <https://github.com/peterkvt80/vbit2> which intentionally
+> >   reconfigure the Raspberry Pi composite output to include the blanking interval
+> >   in the framebuffer so that teletext can be output by drawing on the edge of
+> >   the "screen" (from the computer point of view).
 >
-> Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
+> I'm not sure how we would support this in KMS to be honest. Asking for a
+> wider mode and the userspace putting whatever it wants in the margins
+> seems like a good choice.
 
-Already fixed by commit 78f48aa6f50b ("drm/i915/irq: Fix a "the the"
-typo").
+s/wider/higher/
 
-What is this sudden influx of patches fixing repeated words everywhere?
+Teletext is transmitted in the "visible" parts of (horizontal) lines, but during
+the vertical blank.
 
-BR,
-Jani.
+Gr{oetje,eeting}s,
 
+                        Geert
 
-> ---
->  drivers/gpu/drm/i915/i915_irq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> index 73cebc6aa650..783a6ca41a61 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -65,7 +65,7 @@
->  
->  /*
->   * Interrupt statistic for PMU. Increments the counter only if the
-> - * interrupt originated from the the GPU so interrupts from a device which
-> + * interrupt originated from the GPU so interrupts from a device which
->   * shares the interrupt line are not accounted.
->   */
->  static inline void pmu_irq_stats(struct drm_i915_private *i915,
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
