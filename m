@@ -1,53 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9E45A4596
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 10:59:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA5B5A45ED
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 11:19:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D39FA10F10A;
-	Mon, 29 Aug 2022 08:59:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14BF010F0FD;
+	Mon, 29 Aug 2022 09:19:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9671110F101;
- Mon, 29 Aug 2022 08:59:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661763553; x=1693299553;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=PfBjtqfIpcS8CoTv/YjLo/naSLWkJaJ3mxlPJQ6m0vY=;
- b=lY6SqbZrpj/zVK46D5vDP6sPaPSb/sp8FAnP2TLQouQUIQv4M1QmlF+H
- r+nolPJww1NiZcfmutijtXMyuceJ/T82q4rZpNeda+oJGCTNhU2+hqLGL
- TiFOQsOoYxMj+D7tpF3bDsPUP4V5nOs49xWAgaO5iY/BduE91scsrgLfk
- 8Xqn9bWlyRHOm/nCwOUAzqUruZiE1n/DtnwwcFXcyuH1p5mPtjWxdNvW9
- IOLGHHmgbSVRCh0MMeExRJZcr/7vvhkpEfMUw4cOQhM+B8NXy1X7eQNjD
- vAef13tIsI5rlCdIhGL6vQ4X2zI+IRdYfhv8w5m4G4R1DuXu1baeUwtOp Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10453"; a="274597172"
-X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="274597172"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2022 01:59:03 -0700
-X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="672303547"
-Received: from idecesar-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.53.198])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2022 01:59:00 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 05/11] drm/edid: Only parse VRR range for continuous
- frequency displays
-In-Reply-To: <20220826213501.31490-6-ville.syrjala@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
- <20220826213501.31490-6-ville.syrjala@linux.intel.com>
-Date: Mon, 29 Aug 2022 11:58:53 +0300
-Message-ID: <87wnarfmsy.fsf@intel.com>
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0A0C910F0FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 09:19:10 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.93,272,1654527600"; d="scan'208";a="132941421"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie6.idc.renesas.com with ESMTP; 29 Aug 2022 18:19:09 +0900
+Received: from localhost.localdomain (unknown [10.226.93.63])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0FA1F40083CE;
+ Mon, 29 Aug 2022 18:19:04 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v6 0/2] Add RZ/G2L DSI driver
+Date: Mon, 29 Aug 2022 10:18:59 +0100
+Message-Id: <20220829091901.641784-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,53 +41,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Manasi Navare <manasi.d.navare@intel.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 27 Aug 2022, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> Since we only use the parsed vrefresh range to determine
-> if VRR should be supported we should only accept continuous
-> frequency displays here.
->
-> Cc: Manasi Navare <manasi.d.navare@intel.com>
-> Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+This patch series aims to support the MIPI DSI encoder found in the RZ/G2L
+SoC. It currently supports DSI video mode only.
 
-Makes sense, at least for sane EDIDs. :p
+This unit supports MIPI Alliance Specification for Display Serial Interface (DSI)
+Specification. This unit provides a solution for transmitting MIPI DSI compliant
+digital video and packets. Normative References are below.
+* MIPI Alliance Specification for Display Serial Interface Version 1.3.1
+* MIPI Alliance Specification for D-PHY Version 2.1
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+The following are key features of this unit.
 
-> ---
->  drivers/gpu/drm/drm_edid.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 856d304a1354..b459fdf12b58 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -6064,7 +6064,10 @@ static void drm_get_vrr_range(struct drm_connector=
- *connector,
->  		.drm_edid =3D drm_edid,
->  	};
->=20=20
-> -	if (!version_greater(drm_edid, 1, 1))
-> +	if (!version_greater(drm_edid, 1, 3))
-> +		return;
-> +
-> +	if (!(drm_edid->edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ))
->  		return;
->=20=20
->  	drm_for_each_detailed_block(drm_edid, get_vrr_range, &closure);
+* 1 channel
+* The number of Lane: 4-lane
+* Support up to Full HD (1920 × 1080), 60 fps (RGB888)
+* Maximum Bandwidth: 1.5 Gbps per lane
+* Support Output Data Format: RGB666 / RGB888
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+v5->v6:
+ * Updated commit description
+ * Moved handling of arst and prst from rzg2l_mipi_dsi_startup->runtime
+   PM suspend/resume handlers.
+ * Max lane capability read at probe(), and enforced in
+   rzg2l_mipi_dsi_host_attach()
+ * Simplified vich1ppsetr setting.
+ * Renamed hsclk_running_mode,hsclk_mode->is_clk_cont.
+ * Fixed typo in probe error message(arst->rst).
+ * Reordered DRM bridge initaization in probe()
+ * Updated typo in e-mail address.
+v4->v5:
+ * Added Ack from Sam.
+ * Added a trivial change, replaced rzg2l_mipi_dsi_parse_dt()
+   with drm_of_get_data_lanes_count_ep() in probe.
+v3->v4:
+ * Updated error handling in rzg2l_mipi_dsi_startup() and rzg2l_mipi_dsi_atomic_enable().
+v2->v3:
+ * Added Rb tag from Geert and Laurent
+ * Fixed the typo "Receive" -> "transmit"
+ * Added accepible values for data-lanes
+ * Sorted Header file in the example
+ * Added SoC specific compaible along with generic one.
+ * pass rzg2l_mipi_dsi pointer to {Link,Phy} register rd/wr function instead
+   of the memory pointer
+ * Fixed the comment in rzg2l_mipi_dsi_startup()
+ * Removed unnecessary dbg message from rzg2l_mipi_dsi_start_video()
+ * DRM bridge parameter initialization moved to probe
+ * Replaced dev_dbg->dev_err in rzg2l_mipi_dsi_parse_dt()
+ * Inserted the missing blank lane after return in probe()
+ * Added missing MODULE_DEVICE_TABLE
+ * Added include linux/bits.h in header file
+ * Fixed various macros in header file.
+ * Reorder the make file for DSI, so that it is no more dependent
+   on RZ/G2L DU patch series.
+v1->v2:
+ * Added full path for dsi-controller.yaml
+ * Modeled DSI + D-PHY as single block and updated reg property
+ * Fixed typo D_PHY->D-PHY
+ * Updated description
+ * Added interrupts and interrupt-names and updated the example 
+ * Driver rework based on dt-binding changes (DSI + D-PHY) as single block
+ * Replaced link_mmio and phy_mmio with mmio in struct rzg2l_mipi_dsi
+ * Replaced rzg2l_mipi_phy_write with rzg2l_mipi_dsi_phy_write
+   and rzg2l_mipi_dsi_link_write
+ * Replaced rzg2l_mipi_phy_read->rzg2l_mipi_dsi_link_read
+RFC->v1:
+ * Added a ref to dsi-controller.yaml.
+ * Added "depends on ARCH_RENESAS || COMPILE_TEST" on KCONFIG
+   and dropped DRM as it is implied by DRM_BRIDGE
+ * Used devm_reset_control_get_exclusive() for reset handle
+ * Removed bool hsclkmode from struct rzg2l_mipi_dsi
+ * Added error check for pm, using pm_runtime_resume_and_get() instead of
+   pm_runtime_get_sync()
+ * Added check for unsupported formats in rzg2l_mipi_dsi_host_attach()
+ * Avoided read-modify-write stopping hsclock
+ * Used devm_platform_ioremap_resource for resource allocation
+ * Removed unnecessary assert call from probe and remove.
+ * wrap the line after the PTR_ERR() in probe()
+ * Updated reset failure messages in probe
+ * Fixed the typo arstc->prstc
+ * Made hex constants to lower case.
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-23-biju.das.jz@bp.renesas.com/
+
+Biju Das (2):
+  dt-bindings: display: bridge: Document RZ/G2L MIPI DSI TX bindings
+  drm: rcar-du: Add RZ/G2L DSI driver
+
+ .../bindings/display/bridge/renesas,dsi.yaml  | 182 +++++
+ drivers/gpu/drm/rcar-du/Kconfig               |   8 +
+ drivers/gpu/drm/rcar-du/Makefile              |   2 +
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 703 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
+ 5 files changed, 1046 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
+
+-- 
+2.25.1
+
