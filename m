@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E299A5A4FF8
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 17:15:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9145A503D
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 17:33:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D694710F392;
-	Mon, 29 Aug 2022 15:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38FE510F386;
+	Mon, 29 Aug 2022 15:33:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB7D210F391
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 15:15:13 +0000 (UTC)
-Date: Mon, 29 Aug 2022 15:15:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1661786112; x=1662045312;
- bh=EEkAXvkmbHxeai88mh9TxAx4tKP8/BdSF8aQZBkGoLg=;
- h=Date:To:From:Reply-To:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID;
- b=LhLEH+X7btfZOwGdoaB0VhYsaVuMkYxGrPvKeegTyB+bTGGnFqGgTLPq24YhCNBZw
- 67fuKeQjGGHC85rgoVH/RdFsG/uPSAPX9LEqIIZXa5AWtE2YcwOMaGCXJZsmrdPTnI
- hGFSLK/xYFwcWmJ4M4D2Awl9nS1co704wFQfHac5XY2yXsNb9zxf1ABJ5qcmwBo+DO
- svhBsoOGX/wf9+XmvqAgzwEAltqS5bF/FwHXIxk1qC4xAtKsxKk0dhADB9PWch9veR
- F8T1juDC8enyXWNtQw6SFtPSdd+QtAhndAU6ClFXEoLVAeaaUDi97Zb9kUXjszZ4Eb
- FyoL0s+YW4Jyg==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v2 3/3] drm/bridge: log message on atomic_check() and
- mode_fixup() failure
-Message-ID: <20220829151451.152114-3-contact@emersion.fr>
-In-Reply-To: <20220829151451.152114-1-contact@emersion.fr>
-References: <20220829151451.152114-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A30EA10F386
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 15:32:59 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id t5so10619283edc.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 08:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=ZArUof/tV8vEA7cUaNGmSfJdv26wC+8pM/ls3PBeVLg=;
+ b=ICfBU60rq0WcgJembo6E+2XxO3lBPw0daTEH5pnddr85acZzEGaR3XOIyFLDGD2PRA
+ UK/twfa5KWe0H+cjGy4RSdA4qzRUZOIZuUsAfHaCo/tr7+6WWXVGZNQxzpHN/YyLT1oD
+ AFSFpaBPNDfLge7uFI6PsISYXXacqaLSDtS+uztKv684KBBAvjEVR+jfkqrrw/uKFVjx
+ sOTMmQU09gKLz3q0xIPryf2nwSD34iHUspDy23qRDSs6CqxRH4ZvRCsmx3pJH7+QMrCQ
+ JRTXlHyrfh78kcqFUOwUjUICNnVv6GTREPJcASwYLv8c0t4P4aejcVdzIZ7m9W3syn/z
+ 5OGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=ZArUof/tV8vEA7cUaNGmSfJdv26wC+8pM/ls3PBeVLg=;
+ b=vgOw0e6pcQdLeAKpYxOo93VN+P8qgsarxlPBIF7BtrRK0XejSGTpVhaspkSlvLw3QS
+ we7rVDTOqLtx8O+/watfxNFHLkBFCIENiBt3bqBBPjRy2jUcLx43FGfe62ZTMol0eoan
+ PCNXTdgeM94EdsiLIoyKcIvTbbm3kDF/txDL5wsofFlMpzDdzLi00Qhxygg6MuJB0rlW
+ AuT5H6Vc63eQpqYuBvfFBxWFoj/+SLZceNbZ3MAPjnXaS0CDhBXXOk62wOPESSTC3393
+ zCfbTQuW7OZxXpjOj2VGxu03vJxVQyjLwiXEOLwlaGn4B/froCbZxC0NiZGW8bk9VtME
+ GY2A==
+X-Gm-Message-State: ACgBeo3ZZd+LLG6cfglYhd5lswjuvqTdKIBeZ1N4cbytulMYZT4p0YBA
+ MFeFa4azRUSlLs4hk48nuxQuZXaYmjTp9g7QTg0lPQ==
+X-Google-Smtp-Source: AA6agR6dLRYVA48vbAs2WI7NkpgEFqGhs/y5RA6OY1xAARoFSF8O+Rf9MomS1YM0T7xzb/zSAq62gqKqzzwPDMUHb1w=
+X-Received: by 2002:a05:6402:290d:b0:448:32f5:1e7 with SMTP id
+ ee13-20020a056402290d00b0044832f501e7mr8138333edb.50.1661787178100; Mon, 29
+ Aug 2022 08:32:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220801125419.167562-1-marex@denx.de>
+ <59e76231-9c67-eb53-a84c-4d4d3f4341e0@baylibre.com>
+In-Reply-To: <59e76231-9c67-eb53-a84c-4d4d3f4341e0@baylibre.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 29 Aug 2022 17:32:47 +0200
+Message-ID: <CAG3jFytavDJpXedjnO8WZOBXwXEu81EV-qZddXZCJnabpb96xA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: lvds-codec: Fix error checking of
+ drm_of_lvds_get_data_mapping()
+To: Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,56 +65,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This helps user-space understand why an atomic commit fails.
+On Wed, 10 Aug 2022 at 11:27, Neil Armstrong <narmstrong@baylibre.com> wrote:
+>
+> On 01/08/2022 14:54, Marek Vasut wrote:
+> > The drm_of_lvds_get_data_mapping() returns either negative value on
+> > error or MEDIA_BUS_FMT_* otherwise. The check for 'ret' would also
+> > catch the positive case of MEDIA_BUS_FMT_* and lead to probe failure
+> > every time 'data-mapping' DT property is specified.
+> >
+> > Fixes: 7c4dd0a266527 ("drm: of: Add drm_of_lvds_get_data_mapping")
+> > Signed-off-by: Marek Vasut <marex@denx.de>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > To: dri-devel@lists.freedesktop.org
+> > ---
+> >   drivers/gpu/drm/bridge/lvds-codec.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+> > index 702ea803a743c..39e7004de7200 100644
+> > --- a/drivers/gpu/drm/bridge/lvds-codec.c
+> > +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> > @@ -180,7 +180,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
+> >               of_node_put(bus_node);
+> >               if (ret == -ENODEV) {
+> >                       dev_warn(dev, "missing 'data-mapping' DT property\n");
+> > -             } else if (ret) {
+> > +             } else if (ret < 0) {
+> >                       dev_err(dev, "invalid 'data-mapping' DT property\n");
+> >                       return ret;
+> >               } else {
+>
+> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 
-v2: new patch
-
-Signed-off-by: Simon Ser <contact@emersion.fr>
----
- drivers/gpu/drm/drm_bridge.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 1545c50fd1c8..c41c728b0c28 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -830,12 +830,26 @@ static int drm_atomic_bridge_check(struct drm_bridge =
-*bridge,
-=20
- =09=09ret =3D bridge->funcs->atomic_check(bridge, bridge_state,
- =09=09=09=09=09=09  crtc_state, conn_state);
--=09=09if (ret)
-+=09=09if (ret) {
-+=09=09=09drm_dbg_atomic(bridge->dev,
-+=09=09=09=09       "bridge driver check failed for [CRTC:%d:%s] and [CONNE=
-CTOR:%d:%s]\n",
-+=09=09=09=09       crtc_state->crtc->base.id,
-+=09=09=09=09       crtc_state->crtc->name,
-+=09=09=09=09       conn_state->connector->base.id,
-+=09=09=09=09       conn_state->connector->name);
- =09=09=09return ret;
-+=09=09}
- =09} else if (bridge->funcs->mode_fixup) {
- =09=09if (!bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
--=09=09=09=09=09       &crtc_state->adjusted_mode))
-+=09=09=09=09=09       &crtc_state->adjusted_mode)) {
-+=09=09=09drm_dbg_atomic(bridge->dev,
-+=09=09=09=09       "bridge mode fixup failed for [CRTC:%d:%s] and [CONNECT=
-OR:%d:%s]\n",
-+=09=09=09=09       crtc_state->crtc->base.id,
-+=09=09=09=09       crtc_state->crtc->name,
-+=09=09=09=09       conn_state->connector->base.id,
-+=09=09=09=09       conn_state->connector->name);
- =09=09=09return -EINVAL;
-+=09=09}
- =09}
-=20
- =09return 0;
---=20
-2.37.2
-
-
+Applied to drm-misc-next.
