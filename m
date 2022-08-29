@@ -2,68 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3105A4EF1
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 16:15:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE555A4F2A
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 16:27:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E142910F1D4;
-	Mon, 29 Aug 2022 14:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9908510F2DE;
+	Mon, 29 Aug 2022 14:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
- [209.85.222.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4A510F1D8
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 14:15:09 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id g21so6097802qka.5
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 07:15:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=+LNH7GWYgSUzsjvph8IQNcroBifhiDios4fo6CTY2/U=;
- b=Umq1L58/8ZVt6T36VRrhc6x8It27sWetXhEsskg/w4LPGhJIMvkAQmNjYsV98iyMD6
- Mx00vgvUJgORyjpQ6XOKxf2Uj+hPt+gCS/PmjT4T0u3op6FsT6lMwA5lRhMUCOhB3TkG
- sBq9SPVrmQKw5ZDlWeoUGEe0HEu3VoiHPz+vpEQU7sd0lPjvGPQIWz2bYwUHtUm0eAlz
- Z1fyy9YxPyaYtG+Ei68Zz60hvJVdGWdgB/RnvqLtKdkGR4XCHal6wsSI8bDQbq6IcHGB
- Ir5wMeN/w0Na1zgDw+op7nV2Vhzg1xdW8EF78mfVcgARbdZl0FRUWdGQZrW5HojGayK4
- Xj+w==
-X-Gm-Message-State: ACgBeo17RS46DQ2ilAxPbvE+g35BW35CziHtuIKqLLWHMidNhk4dN6d4
- BfPKSoX6VaqeCRAl0nwSnCaq00PBtEMf8g==
-X-Google-Smtp-Source: AA6agR7pP4Z5o2tv9gpFZ0QBglqnrUhwdwaw+sJddgxJNfjGxOOjoPFBm+pd2pUTDtAKUUgsK9DALg==
-X-Received: by 2002:a05:620a:370f:b0:6bc:1ea1:b466 with SMTP id
- de15-20020a05620a370f00b006bc1ea1b466mr8544030qkb.564.1661782507481; 
- Mon, 29 Aug 2022 07:15:07 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com.
- [209.85.128.175]) by smtp.gmail.com with ESMTPSA id
- z20-20020ac87f94000000b003051ea4e7f6sm5471825qtj.48.2022.08.29.07.15.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Aug 2022 07:15:06 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-334dc616f86so198699597b3.8
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 07:15:06 -0700 (PDT)
-X-Received: by 2002:a25:415:0:b0:696:814:7c77 with SMTP id
- 21-20020a250415000000b0069608147c77mr8612505ybe.36.1661782506395; 
- Mon, 29 Aug 2022 07:15:06 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389C810F2DD;
+ Mon, 29 Aug 2022 14:27:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661783244; x=1693319244;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=NUz1jJcbJ1/Hsp5cNd+z53+9gjXd6c9c4lg/Ll6+Nvk=;
+ b=iE7CeRf6AeHJd1oqplNsJ0ZVLazYs+AOGNrgJIRSrDbFvvqsk+AgZwWL
+ 0mesXHv9KW/R6Fa4Jv6OJGafXrQkCtX7OJ2WkB0FckYxSTMLnRHhifum0
+ SkBpFcvMWuc3wxV91b5B7Q7I5sNGu4kfJAssvdoq5MkXNsc9Zz/teXrYT
+ 8Ov5aDadZJxq8MgK1xc5yT0jLJzBNCryLkmXFN6/iLT+at7CoaT2DFNPg
+ 4dWvYlSo1ETc8s+FsNtftPqK6S5OOesbagwLBllJB0Bq6Kvh4/y5at/Ic
+ artKj1hdFylPZYZUfDpSk/nTmwWKGB1ySx806W0QerrGjg2uRiNlsSbJt g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="381206043"
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="381206043"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2022 07:17:25 -0700
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="679637633"
+Received: from idecesar-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.53.198])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2022 07:17:23 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jilin Yuan <yuanjilin@cdjrlc.com>, airlied@linux.ie, daniel@ffwll.ch
+Subject: Re: [PATCH] drm/i915: fix repeated words in comments
+In-Reply-To: <20220823123044.24593-1-yuanjilin@cdjrlc.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220823123044.24593-1-yuanjilin@cdjrlc.com>
+Date: Mon, 29 Aug 2022 17:17:16 +0300
+Message-ID: <87v8qbdthv.fsf@intel.com>
 MIME-Version: 1.0
-References: <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
- <20220817131454.qcuywcuc4ts4hswm@houat>
- <CAMuHMdVPEgnnsY-4uuf=FDJ0YxWpch-0kZWFT_TZfcDvXLtwWQ@mail.gmail.com>
- <20220818123934.eim2bfrgbxsmviqx@houat>
- <CAMuHMdWXbHkrBZgsmUnU=q52+q7UZZNO3tgQW7Men+msQ1JDwQ@mail.gmail.com>
- <20220818134200.cr22bftmjn226ehn@houat>
- <CAMuHMdX6dyQaB34oeXwiCa2rDkxks0qNh=ekqh7Wd2kSNED9TA@mail.gmail.com>
- <20220818154641.ouvrar5s74qu74zn@houat>
- <CAMuHMdUjE0mwu8z5AksW4h1OwzDCQ5h1ZoCWDi+rC4p2Pu5O4g@mail.gmail.com>
- <6d1dfaad-7310-a596-34dd-4a6d9aa95f65@gmail.com>
- <20220829132953.sfv5yex2dhv76vrq@houat>
-In-Reply-To: <20220829132953.sfv5yex2dhv76vrq@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 29 Aug 2022 16:14:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXxoEYV7v-R+o4eMJEiV_xGUgpN6sUbZ95r_qewV5QpRA@mail.gmail.com>
-Message-ID: <CAMuHMdXxoEYV7v-R+o4eMJEiV_xGUgpN6sUbZ95r_qewV5QpRA@mail.gmail.com>
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,51 +56,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev, Mateusz Kwiatkowski <kfyatek@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: intel-gfx@lists.freedesktop.org, Jilin Yuan <yuanjilin@cdjrlc.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-On Mon, Aug 29, 2022 at 3:30 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Wed, Aug 24, 2022 at 06:42:18PM +0200, Mateusz Kwiatkowski wrote:
-> > - Speaking of closed captioning... a lot of different stuff were put in the
-> >   blanking interval over the years. Like teletext in Europe. There are projects
-> >   like VBIT2 <https://github.com/peterkvt80/vbit2> which intentionally
-> >   reconfigure the Raspberry Pi composite output to include the blanking interval
-> >   in the framebuffer so that teletext can be output by drawing on the edge of
-> >   the "screen" (from the computer point of view).
+On Tue, 23 Aug 2022, Jilin Yuan <yuanjilin@cdjrlc.com> wrote:
+>  Delete the redundant word 'other'.
+>  Delete the redundant word 'the'.
+>  Delete the redundant word 'will'.
 >
-> I'm not sure how we would support this in KMS to be honest. Asking for a
-> wider mode and the userspace putting whatever it wants in the margins
-> seems like a good choice.
+> Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 
-s/wider/higher/
+Doesn't apply because some of the hunks were already fixed by other
+commits.
 
-Teletext is transmitted in the "visible" parts of (horizontal) lines, but during
-the vertical blank.
+BR,
+Jani.
 
-Gr{oetje,eeting}s,
 
-                        Geert
+> ---
+>  drivers/gpu/drm/i915/i915_gem_evict.c | 2 +-
+>  drivers/gpu/drm/i915/i915_irq.c       | 4 ++--
+>  drivers/gpu/drm/i915/i915_memcpy.h    | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
+> index f025ee4fa526..028e509e1628 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_evict.c
+> +++ b/drivers/gpu/drm/i915/i915_gem_evict.c
+> @@ -256,7 +256,7 @@ i915_gem_evict_something(struct i915_address_space *vm,
+>  	goto search_again;
+>  
+>  found:
+> -	/* drm_mm doesn't allow any other other operations while
+> +	/* drm_mm doesn't allow any other operations while
+>  	 * scanning, therefore store to-be-evicted objects on a
+>  	 * temporary list and take a reference for all before
+>  	 * calling unbind (which may remove the active reference
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> index 73cebc6aa650..1e4a705bc5cc 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -65,7 +65,7 @@
+>  
+>  /*
+>   * Interrupt statistic for PMU. Increments the counter only if the
+> - * interrupt originated from the the GPU so interrupts from a device which
+> + * interrupt originated from the GPU so interrupts from a device which
+>   * shares the interrupt line are not accounted.
+>   */
+>  static inline void pmu_irq_stats(struct drm_i915_private *i915,
+> @@ -2175,7 +2175,7 @@ static irqreturn_t ilk_irq_handler(int irq, void *arg)
+>  	raw_reg_write(regs, DEIER, de_ier & ~DE_MASTER_IRQ_CONTROL);
+>  
+>  	/* Disable south interrupts. We'll only write to SDEIIR once, so further
+> -	 * interrupts will will be stored on its back queue, and then we'll be
+> +	 * interrupts will be stored on its back queue, and then we'll be
+>  	 * able to process them after we restore SDEIER (as soon as we restore
+>  	 * it, we'll get an interrupt if SDEIIR still has something to process
+>  	 * due to its back queue). */
+> diff --git a/drivers/gpu/drm/i915/i915_memcpy.h b/drivers/gpu/drm/i915/i915_memcpy.h
+> index 3df063a3293b..126dfb4352f0 100644
+> --- a/drivers/gpu/drm/i915/i915_memcpy.h
+> +++ b/drivers/gpu/drm/i915/i915_memcpy.h
+> @@ -18,7 +18,7 @@ void i915_unaligned_memcpy_from_wc(void *dst, const void *src, unsigned long len
+>  /* The movntdqa instructions used for memcpy-from-wc require 16-byte alignment,
+>   * as well as SSE4.1 support. i915_memcpy_from_wc() will report if it cannot
+>   * perform the operation. To check beforehand, pass in the parameters to
+> - * to i915_can_memcpy_from_wc() - since we only care about the low 4 bits,
+> + * i915_can_memcpy_from_wc() - since we only care about the low 4 bits,
+>   * you only need to pass in the minor offsets, page-aligned pointers are
+>   * always valid.
+>   *
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Jani Nikula, Intel Open Source Graphics Center
