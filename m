@@ -2,50 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1815A5301
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 19:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC57F5A5311
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 19:23:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDF3510E903;
-	Mon, 29 Aug 2022 17:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0951B10E97F;
+	Mon, 29 Aug 2022 17:23:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A20B310E903
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 17:21:24 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 0EA5483AD1;
- Mon, 29 Aug 2022 19:21:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1661793682;
- bh=/t9IPGi/RI1ZedJnT2roTytYov5WBNHMjNcRVVrKQU8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=qcONwg9zsYXrBnlqyQTdPDJtNAwhSGKSnOEBvPxDNuQpK9HHaL4uAlfwXy9pV/cGi
- yFdgxW+faSQGdQS3jt1PFky1bxNKdvm+o2TbTd1cJ3MOu4eGp+qReWfuPTWTQPVFm4
- ygAtKSIG/pJrs5LeQVxmbJr6jdbNCr2MdQiXDie69qcNwKw5sv+CkuT/+QG/5Yg5PQ
- fwdVVAhn52c/KvIsYdScyCEnznrrTBA1Ug+JG8OU6ZsNSAVYIx+BSqdn4RYUSvmgps
- ZTLI4sf2v+VYrXjIWOsV1e+RQ4IMjepu7kriRThGowSjzO3vRmv+E1Cr00u8KxaVyI
- F5Dahss1HSEww==
-Message-ID: <3c3665ff-6428-db9d-eec5-7643cbbd43aa@denx.de>
-Date: Mon, 29 Aug 2022 19:21:21 +0200
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com
+ [IPv6:2607:f8b0:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A73410E97F
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 17:23:43 +0000 (UTC)
+Received: by mail-il1-x129.google.com with SMTP id l6so3089304ilk.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 10:23:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=9ng/QoMPZV7sTTnrg5WAOHlmn6itHCmlnE31tAyev1Q=;
+ b=AcquUG/qVIxo6tZwDJuGD4L6OwE/aGAt18UzXWW2WRwfh2SqUWrHtqlcvp96EYbBwG
+ lOPU+YDt0TTSt++07j+YqzXCtD9Q1n4Kq46YXnyceTSfimwa3Oab5TBRI5t61Q8AYdfE
+ F8+qidBmuq82JXns6k29MkFNWht0UDpQxuXKk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=9ng/QoMPZV7sTTnrg5WAOHlmn6itHCmlnE31tAyev1Q=;
+ b=hW2rN8Nn1m8aj2EWGgNVIqjiXq6PXjFPNufidLXoPT3TtiHb9S2A7cHoAFdyBBbh1Y
+ yMQ8BI6tLbkMoShPIXc9CpXx/zQd+TJIH/C2QRQIqCXws9ySI885tzJ5ujIJnWw1Vzcl
+ yvO8o6JmO44ede8VrdQXNkSsAcDBmTw9/Y0Ot4xKIpfuj6JOjxRpe3u8LitKKWGtkYeg
+ oNbouKgTEkndDMSmAptuFoHpmCHVjveOJ3KFFb9vnpkjn746SjRry4VQ2ZqnsOCtprcg
+ OlJGYI3Zu7jZRjy0sOnA1HOaBnonWBIbLzjLqfWJvQiuZssIECSxNzEmHwOHcIqp1CEZ
+ oqJQ==
+X-Gm-Message-State: ACgBeo159G14Zq6paqh/vvbdBN/cwr7NiphKQyhGQWfKhT/feeO+nfbB
+ +y337+8hP8WMDwZZJMhZiZjO1ReweRSOeZUE
+X-Google-Smtp-Source: AA6agR5l9c2JQHAAax1bePxIqNdGIouXGl5qE8vxtDYG7SV6PzJW1XkH9Qh8fhs3WHN4Z9qItdW+uw==
+X-Received: by 2002:a05:6e02:8e2:b0:2ea:e76d:ef8a with SMTP id
+ n2-20020a056e0208e200b002eae76def8amr4271030ilt.157.1661793822710; 
+ Mon, 29 Aug 2022 10:23:42 -0700 (PDT)
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com.
+ [209.85.166.54]) by smtp.gmail.com with ESMTPSA id
+ r29-20020a056638045d00b003435cef00eesm4437149jap.124.2022.08.29.10.23.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Aug 2022 10:23:40 -0700 (PDT)
+Received: by mail-io1-f54.google.com with SMTP id r141so7127771iod.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 10:23:40 -0700 (PDT)
+X-Received: by 2002:a05:6638:388e:b0:33c:b603:516 with SMTP id
+ b14-20020a056638388e00b0033cb6030516mr10669371jav.133.1661793819928; Mon, 29
+ Aug 2022 10:23:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH 2/2] drm: bridge: icn6211: Add support for external REFCLK
-To: Robert Foss <robert.foss@linaro.org>
-References: <20220801131747.183041-1-marex@denx.de>
- <20220801131747.183041-2-marex@denx.de>
- <CAG3jFysY96ocbVBadmNYh6G=CxxYg+fiEK3aeQ9XSVjdwm_oYQ@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAG3jFysY96ocbVBadmNYh6G=CxxYg+fiEK3aeQ9XSVjdwm_oYQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20220824130034.196041-1-tomi.valkeinen@ideasonboard.com>
+ <20220824130034.196041-3-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220824130034.196041-3-tomi.valkeinen@ideasonboard.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 29 Aug 2022 10:23:27 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WUirzYMcHe_XxnJoom7N7RkuyQ8xDp03k+NNTR5F50JQ@mail.gmail.com>
+Message-ID: <CAD=FV=WUirzYMcHe_XxnJoom7N7RkuyQ8xDp03k+NNTR5F50JQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] drm/bridge: ti-sn65dsi86: Reject modes with too
+ large blanking
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,39 +74,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/29/22 16:54, Robert Foss wrote:
-> Hey Marek,
-
 Hi,
 
-> On Mon, 1 Aug 2022 at 15:18, Marek Vasut <marex@denx.de> wrote:
->>
->> The ICN6211 is capable of deriving its internal PLL clock from either
->> MIPI DSI HS clock, external REFCLK clock, or even internal oscillator.
->> Currently supported is only the first option. Add support for external
->> REFCLK clock input in addition to that.
->>
->> There is little difference between these options, except that in case
->> of MIPI DSI HS clock input, the HS clock are pre-divided by a fixed /4
->> divider before being fed to the PLL input, while in case of external
->> REFCLK, the RECLK clock are fed directly into the PLL input.
->>
->> Per exceptionally poor documentation, the REFCLK must be in range of
->> 10..154 MHz.
+On Wed, Aug 24, 2022 at 6:00 AM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+>
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>
+> The blanking related registers are 8 bits, so reject any modes
+> with larger blanking periods.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index ba84215c1511..f085a037ff5b 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -752,6 +752,29 @@ ti_sn_bridge_mode_valid(struct drm_bridge *bridge,
+>         if (mode->clock > 594000)
+>                 return MODE_CLOCK_HIGH;
+>
+> +       /*
+> +        * The blanking related registers are 8 bits, so reject any modes
+> +        * with larger blanking periods.
+> +        */
+> +
+> +       if ((mode->hsync_start - mode->hdisplay) > 0xff)
+> +               return MODE_HBLANK_WIDE;
+> +
+> +       if ((mode->vsync_start - mode->vdisplay) > 0xff)
+> +               return MODE_VBLANK_WIDE;
+> +
+> +       if ((mode->hsync_end - mode->hsync_start) > 0xff)
+> +               return MODE_HSYNC_WIDE;
 
-[...]
+Please double-check your patch. Reading through
+ti_sn_bridge_set_video_timings(), I see "mode->hsync_end -
+mode->hsync_start" is allowed to be up to 0x7fff. The datasheet seems
+to confirm. If I got that right it means you're rejecting valid modes.
 
-> This patch looks good to me, but it doesn't apply on drm-misc-next. Do
-> you mind re-spinning it?
+I didn't validate any of your other checks, but at least that one seems wrong.
 
-I already see this patch in drm-misc-next, so it was applied already:
+SInce this already had a Reviewed-by tag, being explicit:
 
-378e0f9f0b3e0 ("drm: bridge: icn6211: Add support for external REFCLK")
-
-I think all is good ?
+Naked-by: Douglas Anderson <dianders@chromium.org>
