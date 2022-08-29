@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0F85A538B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 19:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 220555A539B
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 19:56:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCF3010EAB7;
-	Mon, 29 Aug 2022 17:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E9EF10EAF5;
+	Mon, 29 Aug 2022 17:55:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4170310EAB7;
- Mon, 29 Aug 2022 17:54:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDBD10EABC;
+ Mon, 29 Aug 2022 17:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661795690; x=1693331690;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=HCiHs8vLMyexpVKSId1zABKKFE4uWnv5fRximSaW/fM=;
- b=GDXLNZX3L77tWg9KN6/pA+0j8tEx0o8C/XCvXhFSlmz7i9FdhF70MMQB
- frpvB+WUoxGPumfWtLVkSKwW4XBXKFqZ9yXQbSHMf4ywEV5Zn+b+ZEWJq
- ek1ppdbgFNlIYoLxHeJ6harxAlleyodIyTxrITyxALOcgndBIRuDeMbVm
- Lku9BxBevEFbdz4F3q6mIWpNjtLi4x0OCvLsQiWE/dXwPttJg8RSrvw4M
- q7yIjmnBsDv4H9nsC+fqVFLA4IBhXxCX6fC4RrF5a584wj2fUGWH4GqGj
- aUAKZnqyzFzFWSM4zVlsbs1nT+AK23qv8fXToVTD7vtvm6Wds1Bc10RYm Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="381246657"
-X-IronPort-AV: E=Sophos;i="5.93,273,1654585200"; d="scan'208";a="381246657"
+ t=1661795691; x=1693331691;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=+W8c6Q2l2+MEvSCQbmgOZfhOIwYolBVLFUbyIDJ7M6k=;
+ b=QNFAx/LQGcWGgInFy2toV9pUv2oiUuBCryegQqupruF+ZUosWv6KGKvE
+ li6IfDdL4ERUb8zb2sSTg6ml7rauQQLl/3iNugtygdHDjTeh38UJYLtFf
+ rinx2VEh5P4W/UXwim7vzmtZn45HNMS9YJ66jQAde4/9Lqla0XObzQ3Yl
+ zm+6NB4vMxcIoWhXi/YKg1lTGqneCtnqwdl7CCwte/vZGZtO7aQL2X2s9
+ Kw9ZFFdb775y2SjL/54jUa6Cr2o6jUviqwgWZdakUgSY/1DnrNZdVfUST
+ ORTmIkcWlZTTYL/IqZCwQ2nTLDRFkYrFe8AhJGtk/SW2u2cdVYBDP0EbR A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="381246658"
+X-IronPort-AV: E=Sophos;i="5.93,273,1654585200"; d="scan'208";a="381246658"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Aug 2022 10:02:43 -0700
-X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="562297203"
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="562297206"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Aug 2022 10:02:43 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 0/8] i915: Add "standalone media" support for MTL
-Date: Mon, 29 Aug 2022 10:02:30 -0700
-Message-Id: <20220829170238.969875-1-matthew.d.roper@intel.com>
+Subject: [PATCH 1/8] drm/i915: Move locking and unclaimed check into
+ mmio_debug_{suspend, resume}
+Date: Mon, 29 Aug 2022 10:02:31 -0700
+Message-Id: <20220829170238.969875-2-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220829170238.969875-1-matthew.d.roper@intel.com>
+References: <20220829170238.969875-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,64 +60,90 @@ Cc: dri-devel@lists.freedesktop.org, radhakrishna.sripada@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Starting with MTL, media functionality has moved into a new, second GT
-at the hardware level.  This new GT, referred to as "standalone media"
-in the spec, has its own GuC, power management/forcewake, etc.  The
-general non-engine GT registers for standalone media start at 0x380000,
-but otherwise use the same MMIO offsets as the primary GT.
+Moving the locking for MMIO debug (and the final check for unclaimed
+accesses when resuming debug after a userspace-initiated forcewake) will
+make it simpler to completely skip MMIO debug handling on uncores that
+don't support it in future patches.
 
-Standalone media has a lot of similarity to the remote tiles
-present on platforms like xehpsdv and pvc, and our i915 implementation 
-can share much of the general "multi GT" infrastructure between the two
-types of platforms.  However there are a few notable differences
-we must deal with:
- - The 0x380000 offset only applies to the non-engine GT registers
-   (which the specs refer to as "GSI" registers).  The engine registers
-   remain at their usual locations (e.g., 0x1C0000 for VCS0).
- - Unlike platforms with remote tiles, all interrupt handling for
-   standalone media still happens via the primary GT.
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/intel_uncore.c | 41 +++++++++++++++--------------
+ 1 file changed, 21 insertions(+), 20 deletions(-)
 
-
-Matt Roper (8):
-  drm/i915: Move locking and unclaimed check into
-    mmio_debug_{suspend,resume}
-  drm/i915: Only hook up uncore->debug for primary uncore
-  drm/i915: Use managed allocations for extra uncore objects
-  drm/i915: Prepare more multi-GT initialization
-  drm/i915: Rename and expose common GT early init routine
-  drm/i915/xelpmp: Expose media as another GT
-  drm/i915/mtl: Use primary GT's irq lock for media GT
-  drm/i915/mtl: Hook up interrupts for standalone media
-
- drivers/gpu/drm/i915/Makefile                 |  1 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 10 +--
- drivers/gpu/drm/i915/gt/intel_gt.c            | 88 ++++++++++++++-----
- drivers/gpu/drm/i915/gt/intel_gt.h            |  4 +-
- drivers/gpu/drm/i915/gt/intel_gt_irq.c        | 35 ++++++--
- drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c     |  8 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 10 +++
- drivers/gpu/drm/i915/gt/intel_gt_types.h      |  5 +-
- drivers/gpu/drm/i915/gt/intel_rps.c           | 26 +++---
- drivers/gpu/drm/i915/gt/intel_sa_media.c      | 47 ++++++++++
- drivers/gpu/drm/i915/gt/intel_sa_media.h      | 15 ++++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 24 ++---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  4 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  4 +-
- drivers/gpu/drm/i915/i915_driver.c            |  6 +-
- drivers/gpu/drm/i915/i915_drv.h               |  5 ++
- drivers/gpu/drm/i915/i915_irq.c               |  4 +-
- drivers/gpu/drm/i915/i915_pci.c               | 15 ++++
- drivers/gpu/drm/i915/intel_device_info.h      | 19 ++++
- drivers/gpu/drm/i915/intel_uncore.c           | 80 +++++++++++------
- drivers/gpu/drm/i915/intel_uncore.h           | 23 ++++-
- drivers/gpu/drm/i915/pxp/intel_pxp.c          |  4 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_irq.c      | 14 +--
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  4 +-
- .../gpu/drm/i915/selftests/mock_gem_device.c  |  1 +
- 25 files changed, 340 insertions(+), 116 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.h
-
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index 9b81b2543ce2..e717ea55484a 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -50,23 +50,33 @@ intel_uncore_mmio_debug_init_early(struct intel_uncore_mmio_debug *mmio_debug)
+ 	mmio_debug->unclaimed_mmio_check = 1;
+ }
+ 
+-static void mmio_debug_suspend(struct intel_uncore_mmio_debug *mmio_debug)
++static void mmio_debug_suspend(struct intel_uncore *uncore)
+ {
+-	lockdep_assert_held(&mmio_debug->lock);
++	spin_lock(&uncore->debug->lock);
+ 
+ 	/* Save and disable mmio debugging for the user bypass */
+-	if (!mmio_debug->suspend_count++) {
+-		mmio_debug->saved_mmio_check = mmio_debug->unclaimed_mmio_check;
+-		mmio_debug->unclaimed_mmio_check = 0;
++	if (!uncore->debug->suspend_count++) {
++		uncore->debug->saved_mmio_check = uncore->debug->unclaimed_mmio_check;
++		uncore->debug->unclaimed_mmio_check = 0;
+ 	}
++
++	spin_unlock(&uncore->debug->lock);
+ }
+ 
+-static void mmio_debug_resume(struct intel_uncore_mmio_debug *mmio_debug)
++static bool check_for_unclaimed_mmio(struct intel_uncore *uncore);
++
++static void mmio_debug_resume(struct intel_uncore *uncore)
+ {
+-	lockdep_assert_held(&mmio_debug->lock);
++	spin_lock(&uncore->debug->lock);
++
++	if (!--uncore->debug->suspend_count)
++		uncore->debug->unclaimed_mmio_check = uncore->debug->saved_mmio_check;
+ 
+-	if (!--mmio_debug->suspend_count)
+-		mmio_debug->unclaimed_mmio_check = mmio_debug->saved_mmio_check;
++	if (check_for_unclaimed_mmio(uncore))
++		drm_info(&uncore->i915->drm,
++			 "Invalid mmio detected during user access\n");
++
++	spin_unlock(&uncore->debug->lock);
+ }
+ 
+ static const char * const forcewake_domain_names[] = {
+@@ -677,9 +687,7 @@ void intel_uncore_forcewake_user_get(struct intel_uncore *uncore)
+ 	spin_lock_irq(&uncore->lock);
+ 	if (!uncore->user_forcewake_count++) {
+ 		intel_uncore_forcewake_get__locked(uncore, FORCEWAKE_ALL);
+-		spin_lock(&uncore->debug->lock);
+-		mmio_debug_suspend(uncore->debug);
+-		spin_unlock(&uncore->debug->lock);
++		mmio_debug_suspend(uncore);
+ 	}
+ 	spin_unlock_irq(&uncore->lock);
+ }
+@@ -695,14 +703,7 @@ void intel_uncore_forcewake_user_put(struct intel_uncore *uncore)
+ {
+ 	spin_lock_irq(&uncore->lock);
+ 	if (!--uncore->user_forcewake_count) {
+-		spin_lock(&uncore->debug->lock);
+-		mmio_debug_resume(uncore->debug);
+-
+-		if (check_for_unclaimed_mmio(uncore))
+-			drm_info(&uncore->i915->drm,
+-				 "Invalid mmio detected during user access\n");
+-		spin_unlock(&uncore->debug->lock);
+-
++		mmio_debug_resume(uncore);
+ 		intel_uncore_forcewake_put__locked(uncore, FORCEWAKE_ALL);
+ 	}
+ 	spin_unlock_irq(&uncore->lock);
 -- 
 2.37.2
 
