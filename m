@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563AB5A54B3
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 21:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E6F5A54D4
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 21:54:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E49810E4F4;
-	Mon, 29 Aug 2022 19:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B517210E582;
+	Mon, 29 Aug 2022 19:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F25AD10E4F4;
- Mon, 29 Aug 2022 19:47:00 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-11f0fa892aeso3452499fac.7; 
- Mon, 29 Aug 2022 12:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=pIRa4AL/ga0qHuILPyN2VKLZ3Y5dcsSScu21XOurOb4=;
- b=j5xnVNrZZHkK2TQd0nhTcCbIu0g1VMB0PQ3Dpe6y36WlzfLHDhWGlLIpm45cV/cpk8
- DpBge+ai3ax905WBogMbIuFO+dGnRJx9psvQm8xHVtlT24ifwyJg48+JfYRfyKCPYRAM
- fcP6zvPrIZJ3+LdOWLxmABorbS6IbUltvkbewlFy4yw/NvBUz5yuLirVtUuL3GXXuhaS
- WKVlwORVrIfYI0tNCOghGfSe5aBhi8ukxDm2HwkquRcOleo77D/lRujK6bqMHeCXakBK
- y8SZfXc8X0DfCbDIRFCWBqaJoLLMi3NJVZ/n8a9SO0LU0uuAq8c1yoaaJN9LB30a1aDE
- PtOg==
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com
+ [209.85.160.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E21410E57A
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 19:54:41 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id
+ 586e51a60fabf-11ba6e79dd1so11732448fac.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 12:54:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=pIRa4AL/ga0qHuILPyN2VKLZ3Y5dcsSScu21XOurOb4=;
- b=ihH+CX/5Gcza1ARS+VEcbbPVIDzAUfRqLQNsLg21GERSLA2UX6PGBy8ppJY+8xm8Jz
- FFoNG/32cKuoNevNJ47nHmIu5oDi8BlVAUYHwl7QXsSwvcbfQ2QqsFoDiICmdPKMzB7M
- 6gMh2r44VzrjnYg5XJdzScWeMgotSZbZKOSCDDL9uwCRNkPeSnXaXT/NZcrxlgWkAuQD
- o46C6Hq7ecXIx9vPVVGnQXo/aFC/pDeQzYdG6C5wf8nEYJSaqDlDMXXMw9WtyOYPnFQq
- VdPoixnsKGbN+A4+KYv1eNw+6BWc90qz46xAmSQxzLRiitynbQEM2GRDvirmlggY+JuU
- gLhw==
-X-Gm-Message-State: ACgBeo0XSEuSmwQC4zGhSDQS8I05gn17pZpKb1Z+mQknAEjWLYsyV8Av
- U85jfdp5lRwo7pv/cuqZYUOFyTIOqA0YmsZrNlk=
-X-Google-Smtp-Source: AA6agR4RNzSmLQwqO8u3quSZyDeocAV+diVXBCD2YHvHQAbav7s7muxW4cME/KCDPiOHXY3V2Ygl2GO3qm+o0W+LD/g=
-X-Received: by 2002:a05:6808:138e:b0:345:13d1:fd66 with SMTP id
- c14-20020a056808138e00b0034513d1fd66mr8077995oiw.96.1661802420177; Mon, 29
- Aug 2022 12:47:00 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=en3iithyevFDMatFS08w+upETMWdwpkw/XCDou7WR5U=;
+ b=BA+EmKWiFDgXa21WzMaeb4eXic+/YYx9vSkEGmPQIOEX+3ovhqgvk9phYGO7ZFC9v/
+ nyOligjU8q6M0vV9xCsvxKt317wNZ0PQCDoOdBExeGXw2JkM/mcvu1HqQOe1KMfCUFjB
+ qvsN/IuIM9nPc4rcy99Ik+nZHFL/8egJA+lAa4Y5gHxRuKdMz+wfiW5ZZvk7QFOSyrjA
+ kCeCsCaaiD+ClkNERcnZvEFFnE6OyYOWA8VDxWL/mroUu84q7caeVbXmX2NGxGvPfV9V
+ kx5l7J9DeoJrrD8t5+sAbA4EFZB17uHLZ3XtD0uViHoLIMqKRz3xmL4yI01TEI02OLyU
+ YTxg==
+X-Gm-Message-State: ACgBeo1MDnOAx5BrzAynGYIHvyn58a+g0ROVqZP8XX6MoBgde4tTe+Pw
+ A45SNfIIGR/ErOHKDbOmFg==
+X-Google-Smtp-Source: AA6agR7rAR5OhLrkKvgL0sKFBxfUGYd4vR/SwtAF4HU/wjmE/n1PKq6py+EqKTY+iSpPcaT9UGHZ7Q==
+X-Received: by 2002:a05:6870:4606:b0:10d:c8b2:7f7d with SMTP id
+ z6-20020a056870460600b0010dc8b27f7dmr8443721oao.238.1661802880370; 
+ Mon, 29 Aug 2022 12:54:40 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ bk9-20020a056830368900b006370b948974sm5942235otb.32.2022.08.29.12.54.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Aug 2022 12:54:40 -0700 (PDT)
+Received: (nullmailer pid 2309224 invoked by uid 1000);
+ Mon, 29 Aug 2022 19:54:38 -0000
+Date: Mon, 29 Aug 2022 14:54:38 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] dt-bindings: display: synopsys, dw-hdmi: drop ref from
+ reg-io-width
+Message-ID: <20220829195438.GA2309143-robh@kernel.org>
+References: <20220823101031.387082-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-References: <20220829122914.268251-1-cui.jinpeng2@zte.com.cn>
-In-Reply-To: <20220829122914.268251-1-cui.jinpeng2@zte.com.cn>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 29 Aug 2022 15:46:49 -0400
-Message-ID: <CADnq5_Nk5iiKWZ0eh0GxgHVsD0bz-=SbuzAZRs=Dw6oYfpy=qA@mail.gmail.com>
-Subject: Re: [PATCH linux-next] drm/amdkfd: remove redundant variables err and
- ret
-To: cgel.zte@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220823101031.387082-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,73 +63,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Zeal Robot <zealci@zte.com.cn>, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, Jinpeng Cui <cui.jinpeng2@zte.com.cn>,
- christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Mon, Aug 29, 2022 at 8:29 AM <cgel.zte@gmail.com> wrote:
->
-> From: Jinpeng Cui <cui.jinpeng2@zte.com.cn>
->
-> Return value from kfd_wait_on_events() and io_remap_pfn_range() directly
-> instead of taking this in another redundant variable.
->
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Jinpeng Cui <cui.jinpeng2@zte.com.cn>
+On Tue, 23 Aug 2022 13:10:31 +0300, Krzysztof Kozlowski wrote:
+> reg-io-width is a standard property, so no need for defining its type
+> with $ref.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> index 664e8b5d82c0..84da1a9ce37c 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> @@ -876,14 +876,11 @@ static int kfd_ioctl_wait_events(struct file *filp, struct kfd_process *p,
->                                 void *data)
->  {
->         struct kfd_ioctl_wait_events_args *args = data;
-> -       int err;
->
-> -       err = kfd_wait_on_events(p, args->num_events,
-> +       return kfd_wait_on_events(p, args->num_events,
->                         (void __user *)args->events_ptr,
->                         (args->wait_for_all != 0),
->                         &args->timeout, &args->wait_result);
-> -
-> -       return err;
->  }
->  static int kfd_ioctl_set_scratch_backing_va(struct file *filep,
->                                         struct kfd_process *p, void *data)
-> @@ -2860,7 +2857,6 @@ static int kfd_mmio_mmap(struct kfd_dev *dev, struct kfd_process *process,
->                       struct vm_area_struct *vma)
->  {
->         phys_addr_t address;
-> -       int ret;
->
->         if (vma->vm_end - vma->vm_start != PAGE_SIZE)
->                 return -EINVAL;
-> @@ -2880,12 +2876,11 @@ static int kfd_mmio_mmap(struct kfd_dev *dev, struct kfd_process *process,
->                  process->pasid, (unsigned long long) vma->vm_start,
->                  address, vma->vm_flags, PAGE_SIZE);
->
-> -       ret = io_remap_pfn_range(vma,
-> +       return io_remap_pfn_range(vma,
->                                 vma->vm_start,
->                                 address >> PAGE_SHIFT,
->                                 PAGE_SIZE,
->                                 vma->vm_page_prot);
-> -       return ret;
->  }
->
->
-> --
-> 2.25.1
->
+>  .../devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml     | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+
+Applied, thanks!
