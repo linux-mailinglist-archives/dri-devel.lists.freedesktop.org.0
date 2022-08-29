@@ -2,55 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6305A44E6
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 10:22:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5811B5A4503
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 10:28:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61E6810F0EA;
-	Mon, 29 Aug 2022 08:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2035010F0E6;
+	Mon, 29 Aug 2022 08:28:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B69B10F0EA
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 08:22:00 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id se27so6438706ejb.8
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 01:22:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=dAu938+Oc5mmzjcZqeDNo0n6Ic/OC5Iebo5+bvbeIlQ=;
- b=S05WLIaYvLEStJ3gGMMKH52lOiWEJgFv0Dd+lh4rPi32bLBExEI1pWbMaWpoumXNRm
- 5W9dwUGD8Wdlj2Jo9Wc3KGi/xMitspg0eiOtIcENPT5syIqaKdTtBbkcFtfg9yOIEMRk
- m1LepqzD1QgP3GnulESmegs1N0PqBEetmKHoxM8Z6yMDrlQGVW5KPfJ5J8dQKSUQ87+v
- NpZFktqx+d4D5WpkiQGrPB1HU1SmbOcM3Xl8wJBp5CvMjVhLvfa+DjryG+k2gylmFyeU
- yBBo5NebURxq1eu70bi2pRj9hRO1v+OG7XbecTfIQPIrADFLcAOxJFtXi8zq4/1ERAJL
- 77AQ==
-X-Gm-Message-State: ACgBeo3UjXZTzbrmxP+8fESRxHwG0wH4mpAJnHX+mtN4kPqPEj8ZRMjJ
- FllJsxd0bE4z+ZJ8Rdwna8k=
-X-Google-Smtp-Source: AA6agR4Ybr2UgIEU+qrHAzGwv5MpAVbR6OPx5lPWEIs541g91T5ruAA8qLZAUON8aPyJBiz2vvRqlQ==
-X-Received: by 2002:a17:906:ee86:b0:741:89bc:27a1 with SMTP id
- wt6-20020a170906ee8600b0074189bc27a1mr2951197ejb.725.1661761318644; 
- Mon, 29 Aug 2022 01:21:58 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
- by smtp.gmail.com with ESMTPSA id
- fh10-20020a1709073a8a00b007307d099ed7sm4130572ejc.121.2022.08.29.01.21.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Aug 2022 01:21:58 -0700 (PDT)
-Message-ID: <3746264c-adb1-80b4-02d2-13f0790fe322@kernel.org>
-Date: Mon, 29 Aug 2022 10:21:56 +0200
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E65B110F0E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 08:28:17 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 21EDF58024B;
+ Mon, 29 Aug 2022 04:28:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 29 Aug 2022 04:28:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1661761694; x=1661768894; bh=WyDZXkUvNq
+ q4D0ys6jWjIG48RlHKq49MwSu6MMSlx50=; b=pcgQG1ej6+y0m7r6DiMBbYPc08
+ 6Tg1eOTSepyvQmZxCSlULRt2iHE7knKMWeZvGrun29ZniyukW65rq740Ny8rdnvP
+ wM7up1mWPM7KSoF6ECLVmizsIegz9xc/3oShVa7yGTzcvTEfmg1LB5nJ91Farpn8
+ 3kFvaC7hRprWxqGT+KZ8O8GUqQ86LD9ibCIDHuETLiH3hSJ/8JnRXXjyI7DCtIH2
+ FoFhHwd9AXJgrSiTL2p02R6D1YFV57MTMuPsJ6+zmaDVCCUAnNajGLNiNIMwdYxs
+ dDCFrPrA2MBCLvSLE6NMrO0JbjKA0WyyP8lAnwG7k/NOxiDCExp3VO4Jhduw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1661761694; x=1661768894; bh=WyDZXkUvNqq4D0ys6jWjIG48RlHK
+ q49MwSu6MMSlx50=; b=yH9L3dwU+BM7jqIUnUji3NTnNFQu0SshB8oh4lGV1/Qq
+ TDI1OhLZmFpTFW4X2DxH8tC66akwDO5+mf9GGIR0IWNq5I7WxVqQZd3U9dGOjAdH
+ yJS3gZzds7K6AtpJERpzRWG0sQ23BHyLauPzMWQAOCbe2zGYH/xuEjhQnZfT3HJ0
+ iIMOrzwHC06X83sO/b3RCOe4IUpL4Mvg82/gepUIdTIUad/Qxb0GBGu6XWNqC7gx
+ O2Lv5T/wRIFI+GKRoA6vDHl6NHbbHbgelR/zOXHNAnWBllu8ncLeb4rcIIMAmNgM
+ 8jxbkr2jq+nGf7vAOyWZT6oIz90oHLSMSvzQ7CQHXg==
+X-ME-Sender: <xms:nHgMYxY2A4ykQGvsFzJnc35gPBn6FxisToBs3EdyCOE55OekURZCtA>
+ <xme:nHgMY4bnM7gY496bdnurVGht7a5AxE477IKpHVSnWAxEY1bX-xnPK2fm8BkaKzgD3
+ u2e2YG1Gi40zeacoXg>
+X-ME-Received: <xmr:nHgMYz9QBKsNgPrdI7VDRmqaBrhSGpHSbUXasZ593l-Zquaj1QqsLnn1F1ir>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekuddgtdehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeeljeeugfegveetleevkeetffegudevieetieeugeeugeeivddtjeejvdef
+ feetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:nHgMY_ow5pHV0rSxiGc4MvEbrbiAc7aHw8xiJIUsZYCUkUWxmjh7tw>
+ <xmx:nHgMY8o6vx0u6-toU5HvO0BEQdVthR3WUvyc3QiQ_VtSdoWUEeC1Kw>
+ <xmx:nHgMY1QgXFj6sK1CpnQpdrPeODRxNP79qhr4DjFjqrVAt20ECAiE_A>
+ <xmx:nngMY1YTK8jVd5f_LplnVCWLcQMSRvqd2B2zxST_G1IQeJWOpau9XQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 29 Aug 2022 04:28:11 -0400 (EDT)
+Date: Mon, 29 Aug 2022 10:28:09 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Message-ID: <20220829082809.6xhd4zzs7ootax2z@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <37a76651-a457-e50d-9a05-00ca9ed5d729@tronnes.org>
+ <20220825134408.dioj2lbycl7jm3ld@houat>
+ <863beb42-1012-b38a-0c3d-89b7e035aa82@tronnes.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] tty/vt: Remove printable variable
-Content-Language: en-US
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>
-References: <20220826202419.198535-1-daniel.vetter@ffwll.ch>
-From: Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <20220826202419.198535-1-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="75abns6ys2rry5o6"
+Content-Disposition: inline
+In-Reply-To: <863beb42-1012-b38a-0c3d-89b7e035aa82@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,74 +87,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yangxi Xiang <xyangxi5@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Xuezhi Zhang <zhangxuezhi1@coolpad.com>, nick black <dankamongmen@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26. 08. 22, 22:24, Daniel Vetter wrote:
-> Every since the 0.99.7A release when console_register() was introduced
-> it's become impossible to call vt_console_print (called
-> console_print() back then still) directly. Which means the
-> initialization issue this variable protected against is no more.
-> 
-> Give it a send off with style and let it rest in peace.
 
-FWIW:
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+--75abns6ys2rry5o6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In hopes, nothing breaks.
+On Thu, Aug 25, 2022 at 05:13:29PM +0200, Noralf Tr=F8nnes wrote:
+>=20
+>=20
+> Den 25.08.2022 15.44, skrev Maxime Ripard:
+> > Hi,
+> >=20
+> > On Sat, Aug 20, 2022 at 10:12:46PM +0200, Noralf Tr=F8nnes wrote:
+> >>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> >>> index 1e9996b33cc8..78275e68ff66 100644
+> >>> --- a/include/drm/drm_connector.h
+> >>> +++ b/include/drm/drm_connector.h
+> >>> @@ -143,6 +143,32 @@ enum subpixel_order {
+> >>> =20
+> >>>  };
+> >>> =20
+> >>> +#define DRM_MODE_TV_NORM_NTSC_443	(1 << 0)
+> >>> +#define DRM_MODE_TV_NORM_NTSC_J		(1 << 1)
+> >>> +#define DRM_MODE_TV_NORM_NTSC_M		(1 << 2)
+> >>> +#define DRM_MODE_TV_NORM_PAL_60		(1 << 3)
+> >>> +#define DRM_MODE_TV_NORM_PAL_B		(1 << 4)
+> >>> +#define DRM_MODE_TV_NORM_PAL_D		(1 << 5)
+> >>> +#define DRM_MODE_TV_NORM_PAL_G		(1 << 6)
+> >>> +#define DRM_MODE_TV_NORM_PAL_H		(1 << 7)
+> >>> +#define DRM_MODE_TV_NORM_PAL_I		(1 << 8)
+> >>> +#define DRM_MODE_TV_NORM_PAL_M		(1 << 9)
+> >>> +#define DRM_MODE_TV_NORM_PAL_N		(1 << 10)
+> >>> +#define DRM_MODE_TV_NORM_PAL_NC		(1 << 11)
+> >>> +#define DRM_MODE_TV_NORM_SECAM_60	(1 << 12)
+> >>> +#define DRM_MODE_TV_NORM_SECAM_B	(1 << 13)
+> >>> +#define DRM_MODE_TV_NORM_SECAM_D	(1 << 14)
+> >>> +#define DRM_MODE_TV_NORM_SECAM_G	(1 << 15)
+> >>> +#define DRM_MODE_TV_NORM_SECAM_K	(1 << 16)
+> >>> +#define DRM_MODE_TV_NORM_SECAM_K1	(1 << 17)
+> >>> +#define DRM_MODE_TV_NORM_SECAM_L	(1 << 18)
+> >>> +#define DRM_MODE_TV_NORM_HD480I		(1 << 19)
+> >>> +#define DRM_MODE_TV_NORM_HD480P		(1 << 20)
+> >>> +#define DRM_MODE_TV_NORM_HD576I		(1 << 21)
+> >>> +#define DRM_MODE_TV_NORM_HD576P		(1 << 22)
+> >>> +#define DRM_MODE_TV_NORM_HD720P		(1 << 23)
+> >>> +#define DRM_MODE_TV_NORM_HD1080I	(1 << 24)
+> >>> +
+> >>
+> >> This is an area where DRM overlaps with v4l2, see:
+> >> - include/dt-bindings/display/sdtv-standards.h
+> >> - v4l2_norm_to_name()
+> >>
+> >> Maybe we should follow suit, but if we do our own thing please mention
+> >> why in the commit message.
+> >=20
+> > Are you suggesting that we'd share that definition with v4l2?
+> >=20
+>=20
+> If possible, yes.
+>=20
+> > I've tried to share some code in the past between v4l2 and DRM, and it
+> > got completely shut down so it's not something I'd like to try again, if
+> > possible.
+> >=20
+>=20
+> But that is a good enough reason not to do so. I just got the impression
+> from some of Laurent's emails a while back that there was some
+> cooperativ atmosphere, but I might be mistaken in my reading/understandin=
+g.
 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jiri Slaby <jirislaby@kernel.org>
-> Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
-> Cc: nick black <dankamongmen@gmail.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Cc: Yangxi Xiang <xyangxi5@gmail.com>
-> Cc: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
-> ---
->   drivers/tty/vt/vt.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-> index ae9c926acd6f..4d29e4a17db7 100644
-> --- a/drivers/tty/vt/vt.c
-> +++ b/drivers/tty/vt/vt.c
-> @@ -157,7 +157,6 @@ static void set_palette(struct vc_data *vc);
->   
->   #define vt_get_kmsg_redirect() vt_kmsg_redirect(-1)
->   
-> -static int printable;		/* Is console ready for printing? */
->   int default_utf8 = true;
->   module_param(default_utf8, int, S_IRUGO | S_IWUSR);
->   int global_cursor_default = -1;
-> @@ -3085,8 +3084,6 @@ static void vt_console_print(struct console *co, const char *b, unsigned count)
->   	int kmsg_console;
->   
->   	/* console busy or not yet initialized */
-> -	if (!printable)
-> -		return;
->   	if (!spin_trylock(&printing_lock))
->   		return;
->   
-> @@ -3537,7 +3534,6 @@ static int __init con_init(void)
->   	pr_info("Console: %s %s %dx%d\n",
->   		vc->vc_can_do_color ? "colour" : "mono",
->   		display_desc, vc->vc_cols, vc->vc_rows);
-> -	printable = 1;
->   
->   	console_unlock();
->   
+Here's the original thread:
+https://lore.kernel.org/lkml/cover.8ec406bf8f4f097e9dc909d5aac466556822f592=
+=2E1555487650.git-series.maxime.ripard@bootlin.com/
 
-thanks,
--- 
-js
-suse labs
+It ended up stalling completely, without any will from either DRM or
+v4l2 to get this through. So I will not work on anything like that until
+both maintainership teams have expressed that it's something they
+actually want.
 
+> It is ofc possible to just copy the values from sdtv-standards.h, but I
+> see that hd* is missing from that list, so not sure if there's much
+> point if it has to be extended without changing the source.
+
+HD formats were dropped, so it's not a big deal. However, we are missing
+a few formats, but that were never used by either nouveau, i915 or any
+other driver. I'm not sure it's worth adding at that point, and we can
+always extend it later.
+
+Maxime
+
+--75abns6ys2rry5o6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwx4mQAKCRDj7w1vZxhR
+xYZDAQCtPJtDdO69aAVR+V32mB49Ic+bSm58hf0Ef9S43x8CQQEA6046rKs4GgON
+IjqfdYygrMMKGLb9fH70LvlsWbizSgA=
+=ydq5
+-----END PGP SIGNATURE-----
+
+--75abns6ys2rry5o6--
