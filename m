@@ -2,57 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D065A542A
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 20:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804085A548C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 21:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFE4610F58D;
-	Mon, 29 Aug 2022 18:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ADB710E19E;
+	Mon, 29 Aug 2022 19:29:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9083C10F58D
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 18:46:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=LIXwPXe6uDCw8puUWwXJwlt9Qctgfa7237R9Ay9Rr94=; b=lEkiEUddmC83T3gPlX9iC1HPqE
- SNqV0HNvj3WohDUJb3awRux40lCfk6tyQB/y/P0NkxAmJvnLotHmUwjl8aOOgP7Mq2i6NQQK+Qfzy
- aGX/MisxWkzuPdRvBFUrgVFV5Pp5E73ZOuHT2POkj46RBMOqXiYPFKcqFeqYAz83p2JMvS2jO7pEf
- 1Nfovc1pcY/rW+YbwdLiXSg03RCMaci4y5cXg2twznwbCvQHEeFLKuqBYsK06/LVq5t3DUgZOvADK
- 7zf9RrPQcFL/TgKO86KFtdoAnMH8IPBBc/k4+dp4YbP4PPdWhQGbwwkVcLgx7cXqgK+UELGvisvi2
- nlmQP40g==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=60573)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oSjme-00079u-AJ; Mon, 29 Aug 2022 20:46:52 +0200
-Message-ID: <f6289e5d-98e3-1a0d-f514-136e2b7978c1@tronnes.org>
-Date: Mon, 29 Aug 2022 20:46:42 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E75D10E10D
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 19:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661801366;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NAZKF9lRFNNcMrII+/b/0ru4RwayBGArEpvrWgZLTtY=;
+ b=GWLkWDlQPO3fHGFXoOAQhNz4fWgRuL99X3E3O4MUeeG5Ojn2vw2Nc7J7uDJYIo7/zhO4eu
+ aAgyeT4OsxKC4xa0z0Xj12apT/S7hAi2cFTu3E6YRTRFAjZcM19KdPMgYyIZO1cYu6wA1F
+ M6zA+S3KsOfHN9UmwEOsqPOP6PNcDWs=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-467-aFAXcxWbNiaM6ZH3pW1g2g-1; Mon, 29 Aug 2022 15:29:24 -0400
+X-MC-Unique: aFAXcxWbNiaM6ZH3pW1g2g-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ ci6-20020a05622a260600b0034370b6f5d6so7162422qtb.14
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 12:29:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:user-agent:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=NAZKF9lRFNNcMrII+/b/0ru4RwayBGArEpvrWgZLTtY=;
+ b=biAvrWkitG51LKn3M1lJwgemejTLWLZtXSdkZz823nPYLRalYyFxYVBwYiKM+Tn063
+ PVmVDftS3nrdKmEFXVEOkJNKbGRhTYL0MMHCooFSZHFlzy4U2h9UuIwyz3HKtecVbTrt
+ /Y6VJzEzj03MQPypph2AkY8Feoumimb5HWUU3tC8/s3LKE8RElfEd4PFY035Y/dpVzJ6
+ 8b154j4LC8jX+bJblZ1VthOKpVEy5kthym6a+It3VE35HixlsLwdx3RsaFyAEoJ9gqOP
+ 4AVL+S8EKSjH1v+YXPixRW6HZkeEhYEqcvEU2ePvnKKAaH1BJ3pbYyZg4YfNax5eLqyH
+ 7lsw==
+X-Gm-Message-State: ACgBeo1EYdikiQqcWBAcnVKa+n1L411g4cXrw4VqTLkMftyO1OJPQJO4
+ VHPQm+R/wivNCaW7nPr1YQR24aMpnCNd3mDPJnfKMjRNpzSn3hla8Dw/dVJ6Z8YlguNlhB4Exp+
+ tJcV800B/rQGoFTwsQqYNWau7FL+G
+X-Received: by 2002:a05:622a:1998:b0:343:6452:dbd9 with SMTP id
+ u24-20020a05622a199800b003436452dbd9mr11693579qtc.423.1661801364312; 
+ Mon, 29 Aug 2022 12:29:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7+GHOS/YfR8FcgwHS7TK7EPgZo+4FuxJBHAlWiiX+pqkpOMQm1MetO1dRBHjQE0m9pcXFNag==
+X-Received: by 2002:a05:622a:1998:b0:343:6452:dbd9 with SMTP id
+ u24-20020a05622a199800b003436452dbd9mr11693564qtc.423.1661801364088; 
+ Mon, 29 Aug 2022 12:29:24 -0700 (PDT)
+Received: from [192.168.8.139] (pool-100-0-245-4.bstnma.fios.verizon.net.
+ [100.0.245.4]) by smtp.gmail.com with ESMTPSA id
+ bs31-20020a05620a471f00b006bb83c2be40sm6788483qkb.59.2022.08.29.12.29.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Aug 2022 12:29:22 -0700 (PDT)
+Message-ID: <99877e918d2154f1322cdecbbea1a5f2cd36c5d3.camel@redhat.com>
+Subject: Re: [PATCH v2 1/3] drm/atomic-helper: print message on driver
+ connector check failure
+From: Lyude Paul <lyude@redhat.com>
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+Date: Mon, 29 Aug 2022 15:29:22 -0400
+In-Reply-To: <20220829151451.152114-1-contact@emersion.fr>
+References: <20220829151451.152114-1-contact@emersion.fr>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 01/41] drm/tests: Order Kunit tests in Makefile
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
- Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-1-459522d653a7@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-1-459522d653a7@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,107 +85,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thanks for this! We definitely need more logging like this in DRM. for patches
+1 and 2:
 
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Den 29.08.2022 15.11, skrev Maxime Ripard:
-> Since we've recently added a ton of tests, the list starts to be a bit
+On Mon, 2022-08-29 at 15:14 +0000, Simon Ser wrote:
+> Sometimes drivers are missing logs when they return EINVAL.
+> Printing the failure here in common code can help understand where
+> EINVAL is coming from.
 > 
-> of a mess and creates unneeded conflicts.
+> All other atomic_check() calls in this file already have similar
+> logging.
 > 
+> v2: add missing newlines
 > 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Lyude Paul <lyude@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
 > 
-> Let's order it alphabetically.
-> 
-> 
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> 
-> 
-
-Something has gone wrong with this patchset, there are double line endings.
-
-I looked at the patchwork version and it look all right there so I
-figured it might have fixed up the patches, but it failed:
-
-git apply -v --check
-/home/pi/tinydrm.gud-gadget/workdirs/tv_norm_gadget/500003.patch
-Checking patch drivers/gpu/drm/tests/Makefile...
-error: while searching for:
-# SPDX-License-Identifier: GPL-2.0?
-?
-obj-$(CONFIG_DRM_KUNIT_TEST) += drm_format_helper_test.o
-drm_damage_helper_test.o \?
-        drm_cmdline_parser_test.o drm_rect_test.o drm_format_test.o
-drm_plane_helper_test.o \?
-        drm_dp_mst_helper_test.o drm_framebuffer_test.o drm_buddy_test.o
-drm_mm_test.o?
-
-error: patch failed: drivers/gpu/drm/tests/Makefile:1
-error: drivers/gpu/drm/tests/Makefile: patch does not apply
-
-ERROR: Failed check apply patch
-
-pi@build-server:~/tinydrm.gud-gadget$ file
-workdirs/tv_norm_gadget/500003.patch
-workdirs/tv_norm_gadget/500003.patch: unified diff output, ASCII text,
-with CRLF, LF line terminators
-
-Noralf.
-
-> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-> 
-> index 91b70f7d2769..2d9f49b62ecb 100644
-> 
-> --- a/drivers/gpu/drm/tests/Makefile
-> 
-> +++ b/drivers/gpu/drm/tests/Makefile
-> 
-> @@ -1,5 +1,13 @@
-> 
->  # SPDX-License-Identifier: GPL-2.0
-> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index c6abfd3d4b62..4aa05b626b57 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -702,8 +702,12 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
 >  
-> 
-> -obj-$(CONFIG_DRM_KUNIT_TEST) += drm_format_helper_test.o drm_damage_helper_test.o \
-> 
-> -	drm_cmdline_parser_test.o drm_rect_test.o drm_format_test.o drm_plane_helper_test.o \
-> 
-> -	drm_dp_mst_helper_test.o drm_framebuffer_test.o drm_buddy_test.o drm_mm_test.o
-> 
-> +obj-$(CONFIG_DRM_KUNIT_TEST) += \
-> 
-> +	drm_buddy_test.o \
-> 
-> +	drm_cmdline_parser_test.o \
-> 
-> +	drm_damage_helper_test.o \
-> 
-> +	drm_dp_mst_helper_test.o \
-> 
-> +	drm_format_helper_test.o \
-> 
-> +	drm_format_test.o \
-> 
-> +	drm_framebuffer_test.o \
-> 
-> +	drm_mm_test.o \
-> 
-> +	drm_plane_helper_test.o \
-> 
-> +	drm_rect_test.o
-> 
-> 
-> 
+>  		if (funcs->atomic_check)
+>  			ret = funcs->atomic_check(connector, state);
+> -		if (ret)
+> +		if (ret) {
+> +			drm_dbg_atomic(dev,
+> +				       "[CONNECTOR:%d:%s] driver check failed\n",
+> +				       connector->base.id, connector->name);
+>  			return ret;
+> +		}
+>  
+>  		connectors_mask |= BIT(i);
+>  	}
+> @@ -745,8 +749,12 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+>  
+>  		if (funcs->atomic_check)
+>  			ret = funcs->atomic_check(connector, state);
+> -		if (ret)
+> +		if (ret) {
+> +			drm_dbg_atomic(dev,
+> +				       "[CONNECTOR:%d:%s] driver check failed\n",
+> +				       connector->base.id, connector->name);
+>  			return ret;
+> +		}
+>  	}
+>  
+>  	/*
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
