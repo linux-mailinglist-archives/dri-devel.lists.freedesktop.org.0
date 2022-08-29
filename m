@@ -2,78 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71ADF5A4B4A
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 14:14:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130925A4BB0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 14:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0930910F194;
-	Mon, 29 Aug 2022 12:14:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E5C10EE71;
+	Mon, 29 Aug 2022 12:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5034110F18A
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 12:14:04 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id A3DD12B05FEA;
- Mon, 29 Aug 2022 08:13:59 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 29 Aug 2022 08:14:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1661775239; x=1661782439; bh=mTveQVWkV1
- vZ4UHqLteArY1kTT3T3MkF8rU++sYP7DQ=; b=deQ85rmXbmk9EU5yPkeT4FeMzw
- ajssLQD6g5oBcELNrx4UU+HbXmlm0HidRFe7oyKb3gVjx4SF4t96+MIvCiauIQZ6
- VkkFblw4iMQtqKR/igP21fIjxUxTpIQfnZnlPmsa4tgUOnPjVK8+09gXQx+7MQEt
- zSQiQ5nD50lpJNZh8MaEeJd35xziKHuU7RL5Vvt7nyWXtZNUFdUx2rHgY2DyKmIE
- Y+WOVKYpJnJnkQDv1RvApX9WS4BCZm3hnvpngtlRdjEQ9jtGbbJFNAqGfmCBaoZ2
- z0N8Wb1KccCN6URDL7oQ4kpCizVLnIffHfmYflWHSPkM9NOM4d5uJz+5Hfeg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1661775239; x=1661782439; bh=mTveQVWkV1vZ4UHqLteArY1kTT3T
- 3MkF8rU++sYP7DQ=; b=bWRLiPP6oKwtq6YNktjqK55u0c0PEav/PI4LGA7vm0G8
- 07eaFtMArYcfxlmNU+esxlAqtTOcqxEJI0B9bx8pqxdFLiRfSgxQX+Yocd9WBf7r
- Dlqds0ZumsVLHaEYV2WspNGz7rFuvTHIhCSmH36loAiUCRMCRiL0ZDdNYI7CPnCI
- WszS8SwUfmie0luDpSOU2HB4hpe6dvX9VlxVFvSmjzFuUedE8UdXp1r5anCg19xY
- bYr+KTt8uMK5ml/ysZOohGMU+xc8NUkvF7qm3v0qHnXye+0teFqx71Bfi9X0Cz2K
- jNTHsNaK//4NL7H6A2HqzDay85EaIA12z85Wsdnucg==
-X-ME-Sender: <xms:hK0MY_1QCn_R1BmmnxYAy3j6uhGZZygDu_p_2RHAd9ixYpyWWZDBYg>
- <xme:hK0MY-HlWbNhRy8ItowbMFBHJYowZcmHAR7cDG8lci27-ILoQHCYfQpACwOByuu4h
- ODelh2VwEKk9tlxOMo>
-X-ME-Received: <xmr:hK0MY_5emyLwnuAZIri9nU2E9eHtZ8jf_PfKI4qtJUXHtKg4gDXwPGKDjFzx>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekuddgheduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
- ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:hK0MY00Si24mBss2GM-eZAjZix3b0D2b_KyPBQEI4wgG0h4NRlPAUQ>
- <xmx:hK0MYyG95-S3OtXNrTChJqHmDuTQb1Zt-u4id3SxS12uflby4kKVkQ>
- <xmx:hK0MY1_J6SPLxOjfnCKxflyCvOm-NSPvpsuUVfgV9zIWAtJM4Nu1CQ>
- <xmx:h60MY72ttPo2qpGntjgEJEHlcnFhBX1-UTwtzc4bhCAfQ3lAmDASOkWPUzA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 29 Aug 2022 08:13:56 -0400 (EDT)
-Date: Mon, 29 Aug 2022 14:13:53 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v1 23/35] drm/vc4: vec: Convert to the new TV mode property
-Message-ID: <20220829121353.kbgjmkmmcdtm5ujs@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-23-3d53ae722097@cerno.tech>
- <0255f7c6-0484-6456-350d-cf24f3fee5d6@tronnes.org>
- <20220824152619.5def5b2puj5b2a3o@houat>
- <7bdcc3c4-e04c-c2f3-5691-bcbdb158276f@tronnes.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="uu4iphtbpnfop3qu"
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E01710EE71
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 12:26:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kGMgxgsxFSMOJk5167+7PmOCZ0M2SBsp2mvk+KYesbEZPUPp3akBZeUmiM8nDo+rpgcrEVkO4nC/K4mx9HQUZRaQyoZt+9cCeROsnZiYLfHCAyO37ppqMGHCbspEqUM2+uWpxVDCu8X1sORIrJ4zGZUfWC3dR+UjdPW18NGyBDSKhZBKlENqKZVZGcR1OfktrVDOFjSVpjq+xYwzJkFfhKHuyCADNtSnxEqyhfY48x3DOHFds/DSgDkp6OOtLUVxLvYKC2F99IYQRd1X/glzFMoHXqTjsi+G7bI31Ii2sggL8mt3b8aoQ5qoqCtBoC1PT84IMSJ9MTNS8grDc3bxEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IbwXDpJGRH+ypHPkiFWe+78jvoWSYu8UMm1FN4DiKhM=;
+ b=R4JiYXFXBgQjxc7QI0DkWni/aPXORHq9NbtMCJqmYUqJD5YhpqlrgDzmFXZcKrQokQwiz1V0s+w6nD87yJdUoQxxSrupAxYL/ZT/nxkOqPq/fV8WhitkD25COF9r3FtUOaRVsGd6UQL+LoVDf1+5uPBxHSjrXujwLX+EVSP4EGU93QynIY3X0A+xIFDZ/MgfqNiDRETnwQp/O0EM9GUyJWD+QKy+1BzcCJw+VNg09dQgQu2rIeSZvxWYR4ybz9TXok3at2JSmZNw7vJzTjXbDXYAizjk0BtWA23mQyFtazElz+5zvCV1kiIf8Osdz3xxCv2lyDxQcKLnmNRKN0hJtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IbwXDpJGRH+ypHPkiFWe+78jvoWSYu8UMm1FN4DiKhM=;
+ b=plzzlXD4M66MKhIXDsleLH8gYbSgigMnQVsR93KtbtlcAnXYqIRm794Xgjyd364gCUwdBmvF5vLExV1ABcv8iqKvnLE+UxNihJ2HZCpqlliDmWShgMtE4se+cdbyuUM1bEU8CRwx0ZEKziqkbbdX10ggE3s9jHeAfG3C468ca6rIS7H7jNWCgxGzmUVJOc68eG624wK+PBKaWIVziD3kKskL1Xn6mSPFy0UbjtNrKoL5jW75SrYJ89e2uJLDUYV5xLrU2EIypco8zktiIl6YszrFDLtHVFe/sTUmqTVewLBt83HSLdLIgq/Gjsg6DShHQkgSZlF+UjTD9kUk8bcRwA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MN2PR12MB2893.namprd12.prod.outlook.com (2603:10b6:208:107::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.21; Mon, 29 Aug
+ 2022 12:26:43 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5%8]) with mapi id 15.20.5566.021; Mon, 29 Aug 2022
+ 12:26:43 +0000
+Date: Mon, 29 Aug 2022 09:26:41 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: [PATCH 4/4] vfio/pci: Allow MMIO regions to be exported through
+ dma-buf
+Message-ID: <YwywgciH6BiWz4H1@nvidia.com>
+References: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
+ <4-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
+ <YwxIxWQQ/ENiFak+@yzhao56-desk.sh.intel.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7bdcc3c4-e04c-c2f3-5691-bcbdb158276f@tronnes.org>
+In-Reply-To: <YwxIxWQQ/ENiFak+@yzhao56-desk.sh.intel.com>
+X-ClientProxiedBy: BL1PR13CA0382.namprd13.prod.outlook.com
+ (2603:10b6:208:2c0::27) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 793fcde3-ed85-4266-e9e9-08da89b9bb2c
+X-MS-TrafficTypeDiagnostic: MN2PR12MB2893:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2fdAB9d28xbZTAmkfhcEuIQACPe1GssXLPbdgujwWN2zuw2+45KT/omrW1Ur8ErYKflSWLUtuNIAmkTI6EL7ttRsggNp9klXFTYPAHANTp+2YxBbqZa6x41IQk007g4aV2EHcdPQgnQbZ1rGKEXGY1YO4shPugzvlDHYQS+6Khf3OGsoMB8AtnPAPFV5/fvfdstUin9f3adAEpkGa1TxX3BjyWTg4kLg2ohZvIJKppO4iJtJTXZEvXCrDd8nLg2KkEIa3Rm3PLlJOQMTrbkXTekTYgsuiOfYtG+bBQw1uaTgUAWWgaJeQIHTFCFo/VNi5v6V1I2jSAvFBZd+HLmqHZkKbivuUHAIcge4ZRdusmYueKA5sv0qBtq6DuO/JfRndktjG7wBWIkcPIuWSMR3Z9tmBZssyrqhlsWXPkKR5O6sbAGPmTEBb+38jxLDTkL6uvFZnKzAdaCwuIXSh4ZAmp4arSaDxhUqgFAgUESb8WBRPbYMzk9qooeG9Yi1Sj3Erdx3uC6BZZ9NccAxcqDI/XxyXI910k8MEyqQ2nAXPSn9CRDDW9gFdzWVeNjwJEXKuJaNDQ9F6hRZ2F6raob6oGXiIhMUjlNRiiSXto/GaLjWmdFn+5ng5nne8t+VehTfJeLOb36zxaniolOjx3UnrvzL5Oqb2WRcYBM33yOl44Rjjm5GFxcPN+KX5hk4HAYcaAmWqYPs8p3y5r1SeugRCA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(396003)(39860400002)(346002)(366004)(136003)(86362001)(6512007)(26005)(6486002)(478600001)(6506007)(41300700001)(186003)(38100700002)(83380400001)(6916009)(66476007)(2616005)(66946007)(5660300002)(66556008)(8676002)(8936002)(4326008)(316002)(2906002)(36756003)(54906003)(7416002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yofZyt/44rjsZRoYdadLlFutisL3k0YE05zvlw4OF4mPB3swIZ0xeA4PbAAL?=
+ =?us-ascii?Q?5aTUIz3wQWAfqQ1YFgTwLjljAcTak558GSxWlIw3ZHKgyfIS65h3Jokzf3q+?=
+ =?us-ascii?Q?+kwTF05JrZbb+hsUCZvfglG1mKhMscaT2zGbppuVWLjJ8KBbrJISZCvpz2ag?=
+ =?us-ascii?Q?4I+F0+E6uD8ReBUTx1mBbuNOj4n9Qf4slYMNs+t7T887SpfWTnNlSCBT+Het?=
+ =?us-ascii?Q?jlJNKteEJvb7/5CHFP/oJhj6FY+x3WDNvBkOTzMUrz6dZKi3BTl0DcQlg4ml?=
+ =?us-ascii?Q?QLGSPav+RdB1kV1GkcPtfugMnqBc5u4bCsNSkQ447IuwszXOonVtOT4JXypD?=
+ =?us-ascii?Q?AUJcwFJQII9NuJtsg8Pl0IugqF5R67xgOz2eKZlhv712mw5p6iCdg7uBfcG1?=
+ =?us-ascii?Q?Slh6qNznwNxoZImOI+FODQnYrVJov5ceZ7KcmdgGeGgiu0EV7S8qq1gHp3VR?=
+ =?us-ascii?Q?u7EMK6VdTfcqxuho3us9oN/LptInAy3J8NOJd4Z5X3Sm6U+jiE043agSGfK+?=
+ =?us-ascii?Q?QUaoKoEd2hnCDkYFiz/tI8OvH5WGZ8WVzgsAIG7xTe1LFQmc1wRurWN2MXEO?=
+ =?us-ascii?Q?D4XSthD9hKC+xmZk+8FUtLKWcj+/3ZMOlwuZHT96xC++0kWbJx/iRXrfcMZe?=
+ =?us-ascii?Q?zkI21Zr0Xwiogp6ev9EZfzLDUbeV1859aS4n/UpyMIEgdfumhlQQoPc4IlmA?=
+ =?us-ascii?Q?hEKejMkglifXgrggEfchp7h66u1RkIX/djB6c0feHXhdBOUDXT6XXDtAz+Jj?=
+ =?us-ascii?Q?uFWfE8kTjS1dVabBJz+KCyv2OoTh6LzEt74KXqVxlyAe/g+MjbQPt0kRxiE7?=
+ =?us-ascii?Q?r2o49m49FnxfyoGB1HYZMx+fcws6UrCoG7RBsfyo4eCs7E99JZCRMZ/YX3fZ?=
+ =?us-ascii?Q?ZJL1f58yGWMPsRsxY7ePnn2rF8KzLTEOzYVRB3xe3i4gjp7+ymJdzShmZUYW?=
+ =?us-ascii?Q?2hYabEoFS9xzojj5piAaqlyWVyl0iZyfmQ+6ZiYSoOyUMZbd7Hl6cEiwNlTF?=
+ =?us-ascii?Q?X2cqUvQm3F1+kPIJ8Xhgk2KaUGtudhly9XIn8aPJbgivVvW8u17VCgTv0vs6?=
+ =?us-ascii?Q?Aw9DFfboWzNava4IHEs9lCtD33VFSYhDiMJNLs4QbDndiirHLMMlcO0bN83R?=
+ =?us-ascii?Q?M3ZP4AzDl1ajHuOqUoB2Pc1/3n7V3qMA/9/m6CDwPy+NJN0Cp+Lz7ra4Nu+M?=
+ =?us-ascii?Q?SkvI4RRKzq8ld3RwghRtuAAqQ8FueDTvsfEGA11WKz4K70U0hnwLD0nPWoIv?=
+ =?us-ascii?Q?pKyq8DImsGRLFhuniPVwUlfYTizbRzxSYRORItmXZZYM48gijpuBGW4HeMED?=
+ =?us-ascii?Q?DEod+qKXuBa0+8jQ3tvi2j1kzzRre3TBXCptpahPdpHv3Vzuhq48W05Kn5Ip?=
+ =?us-ascii?Q?J1gClCDb4v53+PFsUZstYH+PPMiQU43j/XE+5CFZlMaLBrKS92mLywm9Lx+D?=
+ =?us-ascii?Q?D+g4oSadqXfl3imF2bGZFwl3s34j4Q8W8TYysbyVNDdbuONi9aMQrFE2uTrF?=
+ =?us-ascii?Q?joMHkvONx+FqypY+zBGNagk0zuTAUPrFxhaolb46AU0Cu7k5lMKF2VoRphUZ?=
+ =?us-ascii?Q?edt1CW0j+m/iE5H1Qp4N41p8GtkLWeA8PwGvuWpQ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 793fcde3-ed85-4266-e9e9-08da89b9bb2c
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2022 12:26:43.0927 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gTNGDrCImZGhIDREbRfCZWkQtTUWAwShrC1plgebmlmdHKbCp1oUxr2skncrej+Y
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB2893
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,116 +116,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Leon Romanovsky <leon@kernel.org>, kvm@vger.kernel.org,
+ linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Oded Gabbay <ogabbay@kernel.org>, Cornelia Huck <cohuck@redhat.com>,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Alex Williamson <alex.williamson@redhat.com>,
+ Maor Gottlieb <maorg@nvidia.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Aug 29, 2022 at 01:04:05PM +0800, Yan Zhao wrote:
 
---uu4iphtbpnfop3qu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > +static struct sg_table *
+> > +vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
+> > +		     enum dma_data_direction dir)
+> > +{
+> > +	size_t sgl_size = dma_get_max_seg_size(attachment->dev);
+> > +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
+> > +	struct scatterlist *sgl;
+> > +	struct sg_table *sgt;
+> > +	dma_addr_t dma_addr;
+> > +	unsigned int nents;
+> > +	size_t offset;
+> > +	int ret;
+> > +
+> > +	dma_resv_assert_held(priv->dmabuf->resv);
+> > +
+> > +	if (!attachment->peer2peer)
+> > +		return ERR_PTR(-EPERM);
+> > +
+> > +	if (!priv->revoked)
+> > +		return ERR_PTR(-ENODEV);
+> > +
+> > +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+> > +	if (!sgt)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	nents = DIV_ROUND_UP(priv->dmabuf->size, sgl_size);
+> > +	ret = sg_alloc_table(sgt, nents, GFP_KERNEL);
+> > +	if (ret)
+> > +		goto err_kfree_sgt;
+> > +
+> > +	/*
+> > +	 * Since the memory being mapped is a device memory it could never be in
+> > +	 * CPU caches.
+> > +	 */
+> > +	dma_addr = dma_map_resource(
+> > +		attachment->dev,
+> > +		pci_resource_start(priv->vdev->pdev, priv->index) +
+> > +			priv->offset,
+> > +		priv->dmabuf->size, dir, DMA_ATTR_SKIP_CPU_SYNC);
+> dma_map_resource maps the phys to an IOVA in device's
+> default_domain, which, however, may not be the domain that the device is
+> currently attached to.
 
-Hi Noralf,
+dmabuf is defined only in terms of the DMA API, so it creates a SGL
+with DMA API mapped dma_addr's
 
-On Thu, Aug 25, 2022 at 03:14:01PM +0200, Noralf Tr=F8nnes wrote:
-> Den 24.08.2022 17.26, skrev Maxime Ripard:
-> > On Sat, Aug 20, 2022 at 07:22:48PM +0200, Noralf Tr=F8nnes wrote:
-> >> Den 29.07.2022 18.35, skrev Maxime Ripard:
-> >>> Now that the core can deal fine with analog TV modes, let's convert t=
-he vc4
-> >>> VEC driver to leverage those new features.
-> >>>
-> >>> We've added some backward compatibility to support the old TV mode pr=
-operty
-> >>> and translate it into the new TV norm property.
-> >>>
-> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >>>
-> >>> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_=
-vec.c
-> >>
-> >>>  static int vc4_vec_connector_get_modes(struct drm_connector *connect=
-or)
-> >>>  {
-> >>> -	struct drm_connector_state *state =3D connector->state;
-> >>>  	struct drm_display_mode *mode;
-> >>> =20
-> >>> -	mode =3D drm_mode_duplicate(connector->dev,
-> >>> -				  vc4_vec_tv_modes[state->tv.mode].mode);
-> >>> +	mode =3D drm_mode_duplicate(connector->dev, &drm_mode_480i);
-> >>> +	if (!mode) {
-> >>> +		DRM_ERROR("Failed to create a new display mode\n");
-> >>> +		return -ENOMEM;
-> >>> +	}
-> >>> +
-> >>> +	drm_mode_probed_add(connector, mode);
-> >>> +
-> >>> +	mode =3D drm_mode_duplicate(connector->dev, &drm_mode_576i);
-> >>
-> >> Maybe the mode that matches tv.norm should be marked as preferred so
-> >> userspace knows which one to pick?
-> >=20
-> > I'm not sure how realistic that would be. Doing this based on the driver
-> > / cmdline preference is going to be fairly easy, but then it's a
-> > property, it's going to be updated, and we probably don't want to mess
-> > around the mode flags based on new property values?
-> >=20
->=20
-> Strictly speaking we need to fire an event to userspace if the mode
-> changes, and this is probably not straightforward to do underneath
-> modeset locks, would probably need a worker.
+> So, the importer of this sgt will convert this dma_addr back to phys?
 
-I'm not sure this would work in all cases. Kodi for example doesn't
-handle hotplug events at all, so we might end up in situations where the
-state is not consistent anymore.
+No, it is illegal to call this API if the importer is not using the
+DMA API.
 
-Even if we were to only expose one mode to the userspace, depending on
-the current TV mode, userspace could still end up trying to push a mode
-into KMS that isn't the one we expose anymore, so I'm not sure we can
-solve this entirely.
+I'm expecting to propose some new dmabuf API for this use-case, when
+we get to it. For now all importers use the DMA API.
 
-> Clever userspace like GNOME will try to use the active mode, so it will
-> handle this that way. If someone has set up the pipeline first that is.
-> drm_client/fbdev and plymouth can do that because they honour userdef mod=
-es.
->=20
-> Other userspace that don't know the userdef flag will fallback to the
-> first mode which is NTSC which is also the default tvmode, so maybe this
-> is good enough. PAL users will have to specify the mode, or teach their
-> program about the userdef flag.
->=20
-> But ofc relying on the userdef flag depends on the fact that there's a
-> mode on the kernel command line, but maybe there's no way to avoid that
-> since much/most? userspace treat "unknown" connector status as
-> disconnected so many will have to force the connector to "connected"
-> anyway. At least I don't know any way to permanetly force the connector
-> status other than using video=3D.
+> BTW, I don't see the assignment of priv->index in below
+> vfio_pci_core_feature_dma_buf(), is it equal to
+> get_dma_buf.region_index ?
 
-You can do it through sysfs as well, in .../status
+Yes, I noticed that too and have fixed it - the testing was all done
+on index 0.
 
-Maxime
-
---uu4iphtbpnfop3qu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwytgQAKCRDj7w1vZxhR
-xdrUAP4k5/bAViOVsfkyqYMzYbFSqC3YumRaateY7yAcEsSePgEA8/P6xzOj3aWN
-v+oUtOVIlchXHuCettlv2W7y1xCzCgs=
-=mGM/
------END PGP SIGNATURE-----
-
---uu4iphtbpnfop3qu--
+Jason
