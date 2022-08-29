@@ -1,69 +1,157 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436C85A4F63
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 16:36:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C05245A4F8C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 16:47:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7FD10F33E;
-	Mon, 29 Aug 2022 14:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8B2610F34B;
+	Mon, 29 Aug 2022 14:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39C7E10F33E
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 14:36:22 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 27TEa5jp096105;
- Mon, 29 Aug 2022 09:36:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1661783765;
- bh=gIjobuj25VwYHhU2meciIxstdQKmrtNhg8wDeOhTtuw=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=I6pogAPsErP8x0B8QqeaiLaBdqS8j8jkYFXUudgFLU6+IEKaqMhbp0w6FBQxkczrx
- HEv2k/I39hVZMJlzxo/oP009JKPiGxQRHMOcv5yweNiUbL3OpYX3RjyOZWvOVTP+Zb
- cYSUMx0Ej0Ow0dMSndVAgx9TC4JIrdeInJSTjNZU=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 27TEa5UX048839
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 29 Aug 2022 09:36:05 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Mon, 29
- Aug 2022 09:36:04 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Mon, 29 Aug 2022 09:36:04 -0500
-Received: from [10.250.32.193] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 27TEa4ru105501;
- Mon, 29 Aug 2022 09:36:04 -0500
-Message-ID: <5dc2c212-4967-ab2d-c016-f3b3a854fe32@ti.com>
-Date: Mon, 29 Aug 2022 09:36:03 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
- DMM/TILER
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA7DE10F349;
+ Mon, 29 Aug 2022 14:47:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661784465; x=1693320465;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=uPf9I6qFk7WLbMNC8kYygo7Ehk6Kg4Mwqe7EHtuUteg=;
+ b=Xl8wgRn7R6vewIemU0IynSD3jtnlrxwMFzeidO5QzmsLPutWYP1MUfHF
+ R4iFGfhg7U1m3rKF6GzfcymsmOi95uVwP7Wd1rxe1kDOalYlYt1dkwuAy
+ gSm4IdPxLL3kIVK1c2+X+TxjWIPBLxgdaUNlXhS5gn2Igl26Od98sWL7x
+ 0ayqT3iIgD6yhThOZiK7iJCxmoqOUS7E2+0KSWZq7Af5pH6Wj9ILyUG8g
+ rx6DQ/g+cUnUT1QjZPljLCQfoeIaf0wiAY0wkIv87Ichpfwra5Ib/5Evj
+ G09zoyWAdrHmJO2mKmGRx0V36iyZ7eH3QbovCKS3+fbjCcSRWweC8wop6 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="274660792"
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="274660792"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2022 07:44:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="588187819"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga006.jf.intel.com with ESMTP; 29 Aug 2022 07:43:25 -0700
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 29 Aug 2022 07:43:24 -0700
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 29 Aug 2022 07:43:24 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Mon, 29 Aug 2022 07:43:24 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Mon, 29 Aug 2022 07:43:23 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RGaPZieQfHD20DenuAWoSwOoU5crURD6i70JA4wLMuJssCbckYq6yeBNVQ1jOvTmg4Xrupr8arospJy/q7FqUQMJ7QcBDCMy6kzeLopkjxhqp0B2Nyush480cQ7LFyninTn/9txvqQ/fLV6vSoCiO2D1XhNe/3jiI2e4AlQ0Mmxju5gcyIi0LMejWepR1P3hRtnQuRSC2IrYrqkbPbnfvDZqQsv67EVRlitdf4wPLYsm4hcHqnMcOOS5nNFjfATzdPs2c2sSsbrgYL+Ys3nI4mzRE3XiOLs9RcpxhnhI7+ew76ar8pAQjcEfYymDpcKA+FUX0sYDiT0S40APg0NqZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uPf9I6qFk7WLbMNC8kYygo7Ehk6Kg4Mwqe7EHtuUteg=;
+ b=UTVmr/Uf+lMBI71rRHWXpmpWSiHCzvbperPxMakdqxsdQVlLMJ7nWJ/rcz6atvD5tokyWXR7bde7ImkS2uo0nedJ8IeQEZlOLlA0Zzdd+nwMbe6zp8tLCxAvoVbSbe6FsmF5cQ7OPqaeoFaqMTDmwawLJ1b89NFs6S/6EtKWiRz3ocBM4kM05gCH7GtIyNkjBAk7BZk9Alo0denT0l9jTTr2jETZDA022AQtW3YnSU3LzFBpi8wi0ffSIcWBHglcm5cyqwQ1T8yjDv0pWZuqMSnHaGGRAXG9Flx2lJT9RRi1Ekowjh/aT4jEWO+ghKvmSQLK4H7dkpgpQdoxLKgs5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CO1PR11MB4962.namprd11.prod.outlook.com (2603:10b6:303:99::23)
+ by DM6PR11MB4298.namprd11.prod.outlook.com (2603:10b6:5:204::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.19; Mon, 29 Aug
+ 2022 14:43:20 +0000
+Received: from CO1PR11MB4962.namprd11.prod.outlook.com
+ ([fe80::cc64:11a0:a0c1:93af]) by CO1PR11MB4962.namprd11.prod.outlook.com
+ ([fe80::cc64:11a0:a0c1:93af%8]) with mapi id 15.20.5566.021; Mon, 29 Aug 2022
+ 14:43:20 +0000
+From: "Govindapillai, Vinod" <vinod.govindapillai@intel.com>
+To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH 4/4] drm/i915: Extract drm_dp_atomic_find_vcpi_slots cycle
+ to separate function
+Thread-Topic: [PATCH 4/4] drm/i915: Extract drm_dp_atomic_find_vcpi_slots
+ cycle to separate function
+Thread-Index: AQHYu43YqBEYhlZJ+U2awBIaT/+IQK3F9D8A
+Date: Mon, 29 Aug 2022 14:43:19 +0000
+Message-ID: <1a73089ee68f49de8c30934f00ccddf7890651e3.camel@intel.com>
+References: <20220829095832.21770-1-stanislav.lisovskiy@intel.com>
+ <20220829095832.21770-5-stanislav.lisovskiy@intel.com>
+In-Reply-To: <20220829095832.21770-5-stanislav.lisovskiy@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, Yongqin Liu
- <yongqin.liu@linaro.org>
-References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <5b6d3e7f-c638-fdc7-5080-44d34abed610@ideasonboard.com>
- <a3ed3a2c-86ce-1c85-e8aa-c08b54ad1a43@gmail.com>
- <CAMSo37XdZSZUHLWJj373DdtOBA9=uD8SJ7ywWCYF2pU1i4cB_g@mail.gmail.com>
- <ed4fe238-4fcd-1253-658f-18fe1e1f13b0@gmail.com>
- <CAMSo37V3U5nYng77jzSnKH73CTLhGYQJu11Q5wRt289se5nFJw@mail.gmail.com>
- <4128aed0-211a-d12a-6a86-deb4457d39f7@gmail.com>
- <CAMSo37W-DePLDP=zk-nY6FGcZuk0QzHj4=usrieyV0TNcNfbXw@mail.gmail.com>
- <da2a661e-9da0-850c-3067-8c1e8d5531bc@gmail.com>
- <CAMSo37VXNQeR0qZgzZONBwp_4z9CuUSJJJzhM7k+K39BcwvW6A@mail.gmail.com>
- <235621d0-2141-5ef9-bcd4-5c48b985b3a0@gmail.com>
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <235621d0-2141-5ef9-bcd4-5c48b985b3a0@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3d51a5c4-31a8-4ead-ef4b-08da89ccd104
+x-ms-traffictypediagnostic: DM6PR11MB4298:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: EFIObfkIn9QCUq4OWlttRpDQ7T1HnHo45ucYXnLEJE7zakpLAxsWAY22+pmn9b6hJ0tFTPha+vnZCDCY84Z7njJqc0H3ELdQxKL9ngDkLlQPZo8RKEYE3eYDzUmZPseIU9w5tGNe2HyDfKgIGm4CRnvBntuo3i/SpY0hhdAbhUBaxS6gu2R6BVgaSbjF8NflyRaK5qjaNHUnS4rfNJ3/1cw4x6FLIWkr2T3c4pVt6bTtMHxJ+h8zNeTARqzNYRZrWhBPiuHQW/tzAkdyx17iuL9g9pf2GdyRuxwD+Tq+yYJYCb4FPm39iAEpczpLNCbvG17CG/zV2eqgmrtaJoyip9SgUWYVUpo12lRRFCE2SrYaDiiydYRHn8TT5qCx0e6/jjoQzPSjspQQW14dDeL8T15h5ENn8TEEwZY+cintvu8nWcbpw3q0FgmptVdVtzC43YfoGzUDgjjam7+K/X4xyiIUL+Yu2/ijxszh/Uv+eqPiNJz/LiXGH+3xNWmH/ATIJkS/Ldajqkt+25ldjq5obcpBU1zRDdpZIqK2Hu3yzNI+5Ahytdalin27m7tZwroVWY20Vegxm8bKQ9iiU6UIfR98sLuPmJvgPfEYgvYmLHivyEVwm5P8Pgl6ZY0HFbuAlt0LfFcKCDNQwplSH/YiBZsTB0m/OPELMP9h+m9AuzZlCqbUApQm0Oosk1bFN3cWuX249uIhw2GahjI81NzYOqsUCzbj++/4oz+Lz3EGBXN6ArQq4N3RJAucO88HVjh/ANwIlaUd1xFUDAZCOktONg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO1PR11MB4962.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(136003)(366004)(376002)(396003)(346002)(39860400002)(4326008)(66446008)(8676002)(64756008)(66476007)(91956017)(450100002)(110136005)(316002)(54906003)(76116006)(5660300002)(2906002)(38100700002)(66946007)(66556008)(8936002)(122000001)(86362001)(36756003)(38070700005)(6506007)(6512007)(82960400001)(26005)(107886003)(71200400001)(41300700001)(478600001)(6486002)(2616005)(83380400001)(186003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZDdaU0pRU3dwM0RJdVJsNXIyNDZRY2hxSVZRcmVBV3lUY2lVeVIvQ25Ta1hx?=
+ =?utf-8?B?eHNhaHgyam9KTXoxa1Zsc0p1Q2hDWlRNK1F5aTJlRkVyb0w2Mnk1bkxoQWZ0?=
+ =?utf-8?B?OENMeFlRRUhRcVlWa2h5RUtyY0tlY1FOY0V1SkNtZlhNSFdPOFdZRy9GWkdW?=
+ =?utf-8?B?ZTlGdXdvSHVDL2NodUMxTHY0aGtPVlQxUFhPLzk1c2YzSHhhM1czODJOQkVp?=
+ =?utf-8?B?cy90bnEzVytCbnUzOFp5NHg4T01zVTZVZGo2NnMwYlg0a3JVZkJJRllVOXM5?=
+ =?utf-8?B?Y05tckZhOGZkODY4OHR0YkVEQkNJeDdOdnU2d3NTQ0tNbGhrb21UQmFRbDgw?=
+ =?utf-8?B?SUlSV1I4eDZ5bjhKYTBjSzFabjhpYUJ5MkcybkticzdkdWQ0blZsdld0ZG5R?=
+ =?utf-8?B?azVwbUVtMGdaVHJTQUNsWUNMZ25XaVExK2R4RHVQazdxMy9SWmZVSVNlelZO?=
+ =?utf-8?B?L2hRY2FKaXh5WmFQVU9DdjJhMDhXYmF2TTZVam1sYWVITDFuMjIxemRqZ3RI?=
+ =?utf-8?B?dnJFVkkvbkdnbjc3RzNVRFF6WE1senZvbEUwckNmQ1B1V3YwUnZvQmp6Z2ZH?=
+ =?utf-8?B?QWhUUzFyZ1BGUzg4UDFhcHBOSVFzajk3UDdqUC8rc0JWWWovT2xad0VxL3Np?=
+ =?utf-8?B?NmRDM2FLRUh4UytJRlhIV0FQaTdjbkUwWlErcnRid0tmUDNxb1BnZSs4WFFO?=
+ =?utf-8?B?ZEs4WDA4MkpHazUyVXMwWC9scE5RbTFUdFRWb0lJNW5xLzRVMzBpcHdpcjcw?=
+ =?utf-8?B?OHcxSFZXR3N1eDhESmlTODVVdGcvVW5JdTRGRXNkVDI3MGdGYXd5RUgwcGla?=
+ =?utf-8?B?MUt2ZGxPUng0Yk1TWFVvYjNsQ096bVJ6L0w5MWtIaC9kSEpmYWpYb0Z5RENl?=
+ =?utf-8?B?K013cFVJY3NsV3RrSDFyWlVYWFR1MUJLY2VDVWZvTzhmRHJsU2lRVEg2RGQv?=
+ =?utf-8?B?Mzc5cmNvbDhFWmo0ZklkSGx2TGlzRXU2bVhOUEFucG5PeGd5Ti9VSmpFTEhq?=
+ =?utf-8?B?MnMyOE1IS0NlYVEyUjJOSFcxc0Y1andWaEd2NVplQjFYNk92THFrbE9iL0h5?=
+ =?utf-8?B?WkhiOWRlMkVTNTlkLzJvbFdpUmlXK2hQOTlMR0lVK00yamhqMWVPQ0M3TFhv?=
+ =?utf-8?B?a2w2Q1c5Zk4wMTV0OWpwY2RPL2ZXa0pXUzlsUHAwa2xQWUkzbzFHM1JTM3J0?=
+ =?utf-8?B?UjhubEdadzVxUUVTNmlsT0llaEpGaHZNajBnTmluZ2F2UXpPamh4RTZKOUJw?=
+ =?utf-8?B?Q0dkUlBZakNacTQ0aVVuRm1VWkZNc2IrU2xzSW0vVEkvNTlYeWVzQmp0bVRp?=
+ =?utf-8?B?Z01ZMWpsSndWTkdjVmhLcXF5d1h3SWt6ajFxODBueXNqYndnbWJCRzBDV01R?=
+ =?utf-8?B?eW1ES01Pbk82TTBZNTUxc0dkd0VQdllGQkF4ZlZKK2lmZFRXTERadWN1aVpY?=
+ =?utf-8?B?ZFJqOXVneHhpejJWNGNEVE4wMlY0REpXRXZiM1VoV3pJNmczUmtVVERYdFJ2?=
+ =?utf-8?B?STNGaUtTVnBXZzIwcE5XOEsyTUt4dDhqdFZObHJuN3hWVjlzTFZZRDU4dFQ4?=
+ =?utf-8?B?WmNlaFlZa05zQU5GK1E3TDdoM2Fadnh4N2J3SUV1alFtcjZqZ0RmTXhDVUhP?=
+ =?utf-8?B?Q0o4MjA2blA0cmVsVW9tRzNneGRGMW5xcUpYZWRoaVR4R3JRVC94bFlnMXhq?=
+ =?utf-8?B?aHBpeTJXRjg1a1JPeEYyNnZsUU9FZFNMaG43dlkwYWRFMWhOcVI2bHdaaURE?=
+ =?utf-8?B?VHFhRVJmcUNMTkhLUVJRUTFWUzZjZXpqM0xxaDNrcG14QjBxdjIxYmdlaGU0?=
+ =?utf-8?B?Z0R0WDJLS2hHYzVubU8xcUpyV0VNODBVK1d1UXBwUHJOclB1T2ltTldZZ0t2?=
+ =?utf-8?B?ODVWV3RqZUNhLzlNcTJIRXRnMkhLdG9qL1pQUVhTVGcwY1ZlbUxYZEg0T1lP?=
+ =?utf-8?B?Z2FpNU51c1JEQ2lHc09MUmhaWTBPWFl2T0pOVnN5aFBPSzdNNzdVNzdLU29J?=
+ =?utf-8?B?MG9jdW5wSUZaSUJPR1NQanY0SjU4Qk9yZGE5WTF4SUpMNjVoVTZNbGM3a1Bh?=
+ =?utf-8?B?UnNiSHIrbndkVXkvOHpWdEx4THNOaTVlZm1ub2ZZdWNNLzlxNmZQcVVBSERL?=
+ =?utf-8?B?Vkswa2RLYlkwb29rcldGK2dtMTFqc29xaWpBZnJ3U3c5WTZWeXdWSWJtdXB2?=
+ =?utf-8?Q?KfxiD11+nNFz2Brnltj1FQE=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7C70FE61F320F54D8A42BF51267A74FD@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4962.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d51a5c4-31a8-4ead-ef4b-08da89ccd104
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2022 14:43:19.9285 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nO6cUAFmxpSirTUOh6BobA66aWbrM58jcHXmE4e2JvViWdQnsjRENtQ8haw2Er0XCN5ujcNumGA7oYAqHLWQ+3qMy3WVvQIt8HnGV8qLwWk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4298
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,346 +164,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomba@kernel.org, "Bajjuri, Praneeth" <praneeth@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, merlijn@wizzup.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, tony@atomide.com, linux-omap@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Nikula,
+ Jani" <jani.nikula@intel.com>, "Navare, Manasi D" <manasi.d.navare@intel.com>,
+ "Saarinen, Jani" <jani.saarinen@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/29/22 8:24 AM, Ivaylo Dimitrov wrote:
-> Hi,
-> 
-> 
-> On 29.08.22 г. 5:51 ч., Yongqin Liu wrote:
->> Hi, Ivaylo
->>
->> Sorry for the late response, and Thanks very much for the detailed explanations!
->>
->> On Thu, 18 Aug 2022 at 18:23, Ivaylo Dimitrov
->> <ivo.g.dimitrov.75@gmail.com> wrote:
->>>
->>> Hi,
->>>
->>> On 17.08.22 г. 7:52 ч., Yongqin Liu wrote:
->>>> Hi, Ivaylo
->>>>
->>>> On Mon, 15 Aug 2022 at 14:23, Ivaylo Dimitrov
->>>> <ivo.g.dimitrov.75@gmail.com> wrote:
->>>>>
->>>>> Hi Liu,
->>>>>
->>>>> On 14.08.22 г. 17:27 ч., Yongqin Liu wrote:
->>>>>> Hi, IvayIo
->>>>>>
->>>>>> Thanks very much for the reply!
->>>>>>
->>>>>> On Sat, 13 Aug 2022 at 14:58, Ivaylo Dimitrov
->>>>>> <ivo.g.dimitrov.75@gmail.com> wrote:
->>>>>>>
->>>>>>> Hi Liu,
->>>>>>>
->>>>>>> On 12.08.22 г. 7:35 ч., Yongqin Liu wrote:
->>>>>>>> Hi, Ivaylo, Tomi
->>>>>>>>
->>>>>>>> We have one X15 Android AOSP master build, it could not have the home
->>>>>>>> screen displayed
->>>>>>>> on the hdmi monitor connected with this change, with the following
->>>>>>>> message printed on the serial console
->>>>>>>>         [  607.404205] omapdrm omapdrm.0: Failed to setup plane plane-0
->>>>>>>>         [  607.410522] omapdrm omapdrm.0: Failed to setup plane plane-1
->>>>>>>>         [  607.416381] omapdrm omapdrm.0: Failed to setup plane plane-2
->>>>>>>>         [  607.422088] omapdrm omapdrm.0: Failed to setup plane plane-3
->>>>>>>>
->>>>>>>>        # for details, please check the link here: http://ix.io/47m1
->>>>>>>>
->>>>>>>> It will work with home screen displayed on the hdmi monitor if this
->>>>>>>> change is reverted.
->>>>>>>>
->>>>>>>> Is this the broken problem you talked about here?
->>>>>>>>
->>>>>>>> And could you please give some suggestions on how to have the x15
->>>>>>>> Android build work with this change?
->>>>>>>>
->>>>>>>
->>>>>>> Make sure scanout (i.e. those to be displayed) buffers are actually
->>>>>>> allocated as such - OMAP_BO_SCANOUT flag must be set when calling
->>>>>>> omap_bo_new().
->>>>>>
->>>>>> I am not familiar with this area, I am sorry if I asked quite silly questions:(
->>>>>> I googled omap_bo_new, and found it's a function of libdrm here[1], is
->>>>>> it what you meant here?
->>>>>>
->>>>>
->>>>> Yes, calling this function from userspace ends in kernel code the
->>>>> $subject patch is part of.
->>>>>
->>>>>> If it's the omap_bo_new that we should pass OMAP_BO_SCANOUT when it is called,
->>>>>> then is it the correct way to update omap_bo_new to add the OMAP_BO_SCANOUT flag
->>>>>> before it calls omap_bo_new_impl?
->>>>>>
->>>>>
->>>>> omap_bo_new() is fine and does not need any updates/fixes, it is the
->>>>> code that uses it (whoever it is, I am not familiar with the userspace
->>>>> you are using) that shall pass correct flags (third parameter) when
->>>>> calling it.
->>>>
->>>> Sorry, I do not get the point here.
->>>> Like you said, the code that calls omap_bo_new needs to pass OMAP_BO_SCANOUT,
->>>> then IMO omap_bo_new should be the best place to add the OMAP_BO_SCANOUT flag,
->>>> (like via flags = flags | OMAP_BO_SCANOUT), that could help avoid
->>>> missing the flag by some code,
->>>> and also avoids hacks/changes on the possible blob binaries.
->>>>
->>>> Do I misunderstand somewhere?
->>>> Or is there some case that OMAP_BO_SCANOUT shouldn't be passed when
->>>> omap_bo_new is called?
->>>>
->>>
->>> Exactly. You need to pass OMAP_BO_SCANOUT only when you want your
->>> buffers to be 'scanout' buffers(i.e. buffers that can be displayed on
->>> screen), which is not always the case - there is no need offscreen
->>> buffers or pixmaps to be scanout capable, for example. There are more
->>> cases like that.
->>>
->>> The problem is that scanout buffer on OMAP4 allocate additional
->>> resources in DMM/TILER (a piece of hardware) and those resources are
->>> limited. Not only that, but DMM/TILER memory space eventually gets
->>> fragmented over time (if you have lots of allocataoins/deallocations)
->>> and you will start getting ENOMEM (or similar) errors.
->>>
->>> Ofc, in your particular use case you may never hit such issues.
->>
->> Thanks, I understand the cases now.
->>
->>
->>>>> BTW you shall really find who and how uses OMAP BO API, in theory it
->>>>> might use ioctls directly and not call omap_bo_xxx functions.
->>>>
->>>> Do you mean the DRM_OMAP_GEM_NEW ioctl api?
->>>> There is no place in the AOSP tree to call that except the
->>>> omap_bo_new_impl function,
->>>> which is called by the omap_bo_new and omap_bo_new_tiled functions.
->>>> The omap_bo_new should not be called with the OMAP_BO_TILED flag,
->>>> while the omap_bo_new_tiled should be called with the OMAP_BO_TILED flag
->>>>
->>>> Regarding to the omap_bo_new function, there are 2 places call it in
->>>> the AOSP tree:
->>>> #1 ./external/libkmsxx/kms++/src/omap/omapframebuffer.cpp
->>>> #2 ./device/ti/beagle_x15/gpu/gralloc.am57x.so
->>>>
->>>> #1 seems not used in AOSP yet, and #2 is one blob binary we do not
->>>> have the source for.
->>>>
->>>
->>> I would bet on gralloc.am57x.so.
->> yeah, that's my guess as well.
->>
->>>>> strace
->>>>> would be your friend there. or gdb, or whatever tools are used on
->>>>> android. Or put some printfs() in omap_bo_new() that output the PID of
->>>>> the calling process, etc.
->>>>
->>>> Thanks a lot for these great suggestions! Will use them when possible.
->>>>
->>>>>> And another question is that, since the userspace(libdrm) will be used
->>>>>> to work with different kernel versions,
->>>>>> like the old 4.14, 4.19, etc, do you think there will be problem to
->>>>>> pass  OMAP_BO_SCANOUT
->>>>>> from the userspace side with the old kernels(which does not have this change)?
->>>>>> does this change need to be backported to the old kernel versions?
->>>>>
->>>>> There should not be any issue. The changes could be backported if one
->>>>> hits the issues this $series is fixing, but there is no need.
->>>>
->>>> Thanks for the confirmation!
->>>> I just boot-tested with adding OMAP_BO_SCANOUT in the omap_bo_new function,
->>>> and it worked with the current 4.14, 4.19, and the mainline kernels.
->>>> # via adding line "flags = flags | OMAP_BO_SCANOUT" in the omap_bo_new function.
->>>>
->>>
->>> sure, the point is that with this change *every* BO will be allocated as
->>> scanout BO, potentially leading to the above explained issues.
->>
->> get it.
->>
->>>>>>
->>>>>> And the last question is that, omap_bo_new might be called by some
->>>>>> property binaries what not everyone
->>>>>> could get the source to update, for such case what's your suggestions?
->>>>>>
->>>>>
->>>>> Hard to say without knowing what that library would be.
->>>>>
->>>>> When I hit issues with closed blobs, sometimes I reverse-engineer them
->>>>> to fix the issue, example:
->>>>>
->>>>> https://github.com/maemo-leste/sgx-ddk-um/tree/master/dbm
->>>>>
->>>>> This is REed libdbm from sgx-ddk-um 1.17.4948957, that is responsible
->>>>> for allocating BOs (what omap_bo_new() does) but it uses DUMB buffers
->>>>> API, instead of OMAP BO API.
->>>>>
->>>>> I guess you are using some older version of sgx-ddk-um, so you may fix
->>>>> in similar way. Or binary patch.
->>>>
->>>> The blob binary that calls omap_bo_new is the gralloc.am57x.so here[2]:
->>>> any suggestions with it?
->>>> # sorry, I am not able to find out how you did the reverse-engineer
->>>> work# with the dbm repository shared here,
->>>> # not sure if you could give some tutorial steps for the similar
->>>> reverse-engineer# work with gralloc.am57x.so
->>>>
->>>
->>> Sorry, but it is like if you ask me to provide you with a tutorial on
->>> how to do brain surgery :)
->>>
->>>> [2]: https://android.googlesource.com/device/ti/beagle-x15/+/refs/heads/master/gpu/gralloc.am57x.so
->>>>
->>>
->>> I investigated this a bit and it seems it calls omap_bo_new() in a
->>> wrapper function like:
->>>
->>> bo = omap_bo_new(dev, -page_size & (size + page_size - 1), ((param5 &
->>> 0x800000) != 0) | OMAP_BO_WC | OMAP_BO_MEM_CONTIG);
->>>
->>> Didn't investigate further what param5 is, but it controls if
->>> OMAP_BO_SCANOUT is passed to omap_bo_new or not.
->>>
->>> However, this library was not made with upstream kernel in mind, as
->>> AFAIK OMAP_BO_MEM_CONTIG never made it upstream:
->>>
->>> https://yhbt.net/lore/all/2580272.MiZDHyRxZo@avalon/T/
->>>
->>> @Tomi - any comment?
->>>
->>> So, you have couple of options:
->>>
->>> 1. Ask TI for upstream-compatible library.
->> check is in progress, but it would take quite a long time I guess
->>> 2. Try to push OMAP_BO_MEM_CONTIG patch upstream.
->> hmm, sounds like one impossible thing...
->>> 3. Modify omap_bo_new() to something like:
->>> .
->>> #define OMAP_BO_MEM_CONTIG      0x00000008      /* only use contiguous dma mem */
->>> .
->>> if (flags & OMAP_BO_MEM_CONTIG)
->>>     flags |= OMAP_BO_SCANOUT;
->>> .
->>> This will not achieve exactly what OMAP_BO_MEM_CONTIG is supposed to do,
->>> but should make it work, at least.
->>
->> This looks like the only doable thing at the moment, maybe one change
->> needs to be submitted to the mesa/drm repository.
->> I can submit a request on your #3 change to the mesa/drm repository
->> for discussion after some check if you do not mind.
->>
-> 
-> I doubt mesa/drm will accept such hack, I think you will need to support your drm clone (with the above fix) until TI fixes the closed library.
-> 
-
-
-Hi all,
-
-Just got around to reading this thread. I work with the TI gralloc lib
-and can generate new versions as needed (I was probably the one who compiled
-the version you have now). I've wanted to have our gralloc layer open source'd
-as there is nothing really propriety in it (and I re-wrote a lot of it already)
-and to avoid issues like this. But it interacts with the GPU code in some places,
-so it's up to Imagination :(. The actual code in question if it helps is:
-
-	if(ui32Flags & PVRSRV_MEM_CACHED)
-		flags &= ~OMAP_BO_CACHE_MASK;
-	else
-		flags |= OMAP_BO_WC;
-
-	if (ui32Flags & PVRSRV_HAP_CONTIG)
-		flags |= OMAP_BO_SCANOUT;
-
-	flags &= ~OMAP_BO_TILED_MASK;
-	flags |= 0x00000008;
-	flags |= OMAP_BO_WC;
-
-	bo = omap_bo_new(dev, size, flags);
-
-As you can see we use 0x00000008 (OMAP_BO_MEM_CONTIG) unconditionally.
-This was a hack added since even non-scanout buffers sometimes need
-to be contiguous (video decoder surfaces), but we had no way back
-then to communicate this to the gralloc layer. I think your best
-bet would be to modify the gralloc lib to not do that, or put it
-under the CONTIG check.
-
-If you tell me what the code should look like, I can rebuild the
-lib and post a copy.
-
-Long term, I'd like to start using DMA-BUF Heaps for CMA memory
-allocations in gralloc and elsewhere, then drop out the DMM/TILER
-support from OMAPDRM, since it never really belonged there in
-the first place (being a IOMMU unrelated to the display/GPU).
-
-Thanks,
-Andrew
-
-
-> Regards,
-> Ivo
-> 
->> Thanks,
->> Yongqin Liu
->>
->>>>>>>> On Thu, 17 Feb 2022 at 23:29, Ivaylo Dimitrov
->>>>>>>> <ivo.g.dimitrov.75@gmail.com> wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> On 17.02.22 г. 14:46 ч., Tomi Valkeinen wrote:
->>>>>>>>>> Hi,
->>>>>>>>>>
->>>>>>>>>> On 19/01/2022 12:23, Ivaylo Dimitrov wrote:
->>>>>>>>>>> On devices with DMM, all allocations are done through either DMM or
->>>>>>>>>>> TILER.
->>>>>>>>>>> DMM/TILER being a limited resource means that such allocations will start
->>>>>>>>>>> to fail before actual free memory is exhausted. What is even worse is
->>>>>>>>>>> that
->>>>>>>>>>> with time DMM/TILER space gets fragmented to the point that even if we
->>>>>>>>>>> have
->>>>>>>>>>> enough free DMM/TILER space and free memory, allocation fails because
->>>>>>>>>>> there
->>>>>>>>>>> is no big enough free block in DMM/TILER space.
->>>>>>>>>>>
->>>>>>>>>>> Such failures can be easily observed with OMAP xorg DDX, for example -
->>>>>>>>>>> starting few GUI applications (so buffers for their windows are
->>>>>>>>>>> allocated)
->>>>>>>>>>> and then rotating landscape<->portrait while closing and opening new
->>>>>>>>>>> windows soon results in allocation failures.
->>>>>>>>>>>
->>>>>>>>>>> Fix that by mapping buffers through DMM/TILER only when really needed,
->>>>>>>>>>> like, for scanout buffers.
->>>>>>>>>>
->>>>>>>>>> Doesn't this break users that get a buffer from omapdrm and expect it to
->>>>>>>>>> be contiguous?
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> If you mean dumb buffer, then no, this does not break users as dumb
->>>>>>>>> buffers are allocated as scanout:
->>>>>>>>>
->>>>>>>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/omapdrm/omap_gem.c#L603
->>>>>>>>>
->>>>>>>>> If you mean omap_bo allocated buffers, then if users want
->>>>>>>>> linear(scanout) buffer, then they request it explicitly by passing
->>>>>>>>> OMAP_BO_SCANOUT.
->>>>>>>>>
->>>>>>>>> Ivo
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>
->>>>>>
->>>>>>
->>>>
->>>>
->>>>
->>
->>
->>
+SGkgU3RhbiwKCkkgd29uZGVyIGlmIGl0IGlzIGJldHRlciBpZiB5b3UgcmVvcmRlciB0aGUgMyBh
+bmQgNCBwYXRjaGVzIGluIHRoaXMgLSBtb3ZlIHRoaXMgNC80IGJlZm9yZSB0aGUgM3JkCm9uZSBh
+bmQgbW9kaWZ5IHRoZSAzcmQgb25lIGFjY29yZGluZ2x5LgoKQWxzbywgaW5zdGVhZCBvZiBnZXR0
+aW5nIHJpZCBvZiBsaW1pdHMsIGtlZXAgbGltaXRzIGFuZCBwb3B1bGF0ZSB0aGUgbGltaXRzIGFj
+Y29yZGluZyB0byBkc2Mgb3IKbm9ybWFsIGRwX21zdC4gV2hhdCBkbyB5b3UgdGhpbms/CgpCUgp2
+aW5vZAoKCk9uIE1vbiwgMjAyMi0wOC0yOSBhdCAxMjo1OCArMDMwMCwgU3RhbmlzbGF2IExpc292
+c2tpeSB3cm90ZToKPiBXZSBhcmUgdXNpbmcgYWxtb3N0IHNhbWUgY29kZSB0byBsb29wIHRocm91
+Z2ggYnBwcyB3aGlsZSBjYWxsaW5nCj4gZHJtX2RwX2F0b21pY19maW5kX3ZjcGlfc2xvdHMgLSBs
+ZXRzIHJlbW92ZSB0aGlzIGR1cGxpY2F0aW9uIGJ5Cj4gaW50cm9kdWNpbmcgYSBuZXcgZnVuY3Rp
+b24gaW50ZWxfZHBfbXN0X2ZpbmRfdmNwaV9zbG90c19mb3JfYnBwCj4gCj4gU2lnbmVkLW9mZi1i
+eTogU3RhbmlzbGF2IExpc292c2tpeSA8c3RhbmlzbGF2Lmxpc292c2tpeUBpbnRlbC5jb20+Cj4g
+LS0tCj4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX21zdC5jIHwgODgg
+KysrKysrKysrKystLS0tLS0tLS0tCj4gwqAxIGZpbGUgY2hhbmdlZCwgNDYgaW5zZXJ0aW9ucygr
+KSwgNDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2Rpc3BsYXkvaW50ZWxfZHBfbXN0LmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aW50ZWxfZHBfbXN0LmMKPiBpbmRleCA5NGQ3ZTdmODRjNTEuLjJhNTI0ODE2ZGJmZCAxMDA2NDQK
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX21zdC5jCj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9tc3QuYwo+IEBAIC00NCwx
+MCArNDQsMTQgQEAKPiDCoCNpbmNsdWRlICJpbnRlbF9ob3RwbHVnLmgiCj4gwqAjaW5jbHVkZSAi
+c2tsX3NjYWxlci5oIgo+IMKgCj4gLXN0YXRpYyBpbnQgaW50ZWxfZHBfbXN0X2NvbXB1dGVfbGlu
+a19jb25maWcoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIsCj4gLcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSwKPiAtwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRlICpjb25u
+X3N0YXRlLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGxpbmtfY29uZmln
+X2xpbWl0cyAqbGltaXRzKQo+ICtzdGF0aWMgaW50IGludGVsX2RwX21zdF9maW5kX3ZjcGlfc2xv
+dHNfZm9yX2JwcChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0
+YXRlLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW50IG1heF9icHAs
+Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpbnQgbWluX2JwcCwKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBsaW5rX2NvbmZpZ19s
+aW1pdHMgKmxpbWl0cywKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0
+cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRlICpjb25uX3N0YXRlLAo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgaW50IHN0ZXAsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBib29sIGRzYykKPiDCoHsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRy
+bV9hdG9taWNfc3RhdGUgKnN0YXRlID0gY3J0Y19zdGF0ZS0+dWFwaS5zdGF0ZTsKPiDCoMKgwqDC
+oMKgwqDCoMKgc3RydWN0IGludGVsX2RwX21zdF9lbmNvZGVyICppbnRlbF9tc3QgPSBlbmNfdG9f
+bXN0KGVuY29kZXIpOwo+IEBAIC01OCw3ICs2Miw2IEBAIHN0YXRpYyBpbnQgaW50ZWxfZHBfbXN0
+X2NvbXB1dGVfbGlua19jb25maWcoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIsCj4gwqDC
+oMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1ID0gdG9faTkxNShjb25u
+ZWN0b3ItPmJhc2UuZGV2KTsKPiDCoMKgwqDCoMKgwqDCoMKgY29uc3Qgc3RydWN0IGRybV9kaXNw
+bGF5X21vZGUgKmFkanVzdGVkX21vZGUgPQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgJmNydGNfc3RhdGUtPmh3LmFkanVzdGVkX21vZGU7Cj4gLcKgwqDCoMKgwqDCoMKgYm9vbCBj
+b25zdGFudF9uID0gZHJtX2RwX2hhc19xdWlyaygmaW50ZWxfZHAtPmRlc2MsIERQX0RQQ0RfUVVJ
+UktfQ09OU1RBTlRfTik7Cj4gwqDCoMKgwqDCoMKgwqDCoGludCBicHAsIHNsb3RzID0gLUVJTlZB
+TDsKPiDCoMKgwqDCoMKgwqDCoMKgaW50IHJldCA9IDA7Cj4gwqAKPiBAQCAtNzEsMTkgKzc0LDIx
+IEBAIHN0YXRpYyBpbnQgaW50ZWxfZHBfbXN0X2NvbXB1dGVfbGlua19jb25maWcoc3RydWN0IGlu
+dGVsX2VuY29kZXIgKmVuY29kZXIsCj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgLy8gVE9ETzogSGFu
+ZGxlIHBibl9kaXYgY2hhbmdlcyBieSBhZGRpbmcgYSBuZXcgTVNUIGhlbHBlcgo+IMKgwqDCoMKg
+wqDCoMKgwqBpZiAoIW1zdF9zdGF0ZS0+cGJuX2Rpdikgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqBtc3Rfc3RhdGUtPnBibl9kaXYgPSBkcm1fZHBfZ2V0X3ZjX3BheWxvYWRfYnco
+JmludGVsX2RwLT5tc3RfbWdyLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGltaXRzLT5tYXhfcmF0ZSwKPiAtwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGxpbWl0cy0+bWF4X2xhbmVfY291bnQpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBtc3Rfc3RhdGUtPnBibl9kaXYgPSAhZHNjID8gZHJtX2RwX2dldF92Y19wYXlsb2FkX2J3KCZp
+bnRlbF9kcC0+bXN0X21nciwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY3J0Y19zdGF0ZS0+cG9y
+dF9jbG9jaywKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY3J0Y19zdGF0ZS0+bGFuZV9jb3VudCkg
+OiAwOwo+IMKgwqDCoMKgwqDCoMKgwqB9Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqBmb3IgKGJwcCA9
+IGxpbWl0cy0+bWF4X2JwcDsgYnBwID49IGxpbWl0cy0+bWluX2JwcDsgYnBwIC09IDIgKiAzKSB7
+Cj4gK8KgwqDCoMKgwqDCoMKgZm9yIChicHAgPSBtYXhfYnBwOyBicHAgPj0gbWluX2JwcDsgYnBw
+IC09IHN0ZXApIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNydGNfc3RhdGUt
+PnBpcGVfYnBwID0gYnBwOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBj
+cnRjX3N0YXRlLT5wYm4gPSBkcm1fZHBfY2FsY19wYm5fbW9kZShhZGp1c3RlZF9tb2RlLT5jcnRj
+X2Nsb2NrLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGNydGNfc3RhdGUtPnBpcGVfYnBwLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZhbHNlKTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkc2MgPyBicHAgPDwgNCA6IGNydGNfc3RhdGUtPnBp
+cGVfYnBwLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGRzYyk7Cj4gKwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc2xvdHMgPSBk
+cm1fZHBfYXRvbWljX2ZpbmRfdGltZV9zbG90cyhzdGF0ZSwgJmludGVsX2RwLT5tc3RfbWdyLAo+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25uZWN0
+b3ItPnBvcnQsIGNydGNfc3RhdGUtPnBibik7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbm5lY3Rvci0+cG9ydCwKPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY3J0Y19zdGF0ZS0+cGJuKTsKPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmIChzbG90cyA9PSAtRURFQURMSykKPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gc2xvdHM7
+Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoc2xvdHMgPj0gMCkgewo+IEBA
+IC0xMDEsMTEgKzEwNiwzMiBAQCBzdGF0aWMgaW50IGludGVsX2RwX21zdF9jb21wdXRlX2xpbmtf
+Y29uZmlnKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLAo+IMKgwqDCoMKgwqDCoMKgwqBp
+ZiAocmV0ICYmIHNsb3RzID49IDApCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBz
+bG90cyA9IHJldDsKPiDCoAo+IC3CoMKgwqDCoMKgwqDCoGlmIChzbG90cyA8IDApIHsKPiArwqDC
+oMKgwqDCoMKgwqBpZiAoc2xvdHMgPCAwKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgZHJtX2RiZ19rbXMoJmk5MTUtPmRybSwgImZhaWxlZCBmaW5kaW5nIHZjcGkgc2xvdHM6JWRc
+biIsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIHNsb3RzKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIHNsb3RzOwo+ICt9Cj4gKwo+
+ICsKPiArc3RhdGljIGludCBpbnRlbF9kcF9tc3RfY29tcHV0ZV9saW5rX2NvbmZpZyhzdHJ1Y3Qg
+aW50ZWxfZW5jb2RlciAqZW5jb2RlciwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0
+cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKmNvbm5fc3RhdGUsCj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgbGlua19jb25maWdfbGltaXRzICpsaW1pdHMp
+Cj4gK3sKPiArwqDCoMKgwqDCoMKgwqBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqYWRq
+dXN0ZWRfbW9kZSA9Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCZjcnRjX3N0YXRl
+LT5ody5hZGp1c3RlZF9tb2RlOwo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBpbnRlbF9kcF9tc3Rf
+ZW5jb2RlciAqaW50ZWxfbXN0ID0gZW5jX3RvX21zdChlbmNvZGVyKTsKPiArwqDCoMKgwqDCoMKg
+wqBzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwID0gJmludGVsX21zdC0+cHJpbWFyeS0+ZHA7Cj4g
+K8KgwqDCoMKgwqDCoMKgYm9vbCBjb25zdGFudF9uID0gZHJtX2RwX2hhc19xdWlyaygmaW50ZWxf
+ZHAtPmRlc2MsIERQX0RQQ0RfUVVJUktfQ09OU1RBTlRfTik7Cj4gK8KgwqDCoMKgwqDCoMKgaW50
+IHNsb3RzID0gLUVJTlZBTDsKPiArCj4gK8KgwqDCoMKgwqDCoMKgc2xvdHMgPSBpbnRlbF9kcF9t
+c3RfZmluZF92Y3BpX3Nsb3RzX2Zvcl9icHAoZW5jb2RlciwgY3J0Y19zdGF0ZSwgbGltaXRzLT5t
+YXhfYnBwLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+bGltaXRzLT5taW5fYnBwLCBsaW1pdHMsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBjb25uX3N0YXRlLCAyICogMywgZmFsc2UpOwo+ICsKPiArwqDCoMKg
+wqDCoMKgwqBpZiAoc2xvdHMgPCAwKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+cmV0dXJuIHNsb3RzOwo+IC3CoMKgwqDCoMKgwqDCoH0KPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqBp
+bnRlbF9saW5rX2NvbXB1dGVfbV9uKGNydGNfc3RhdGUtPnBpcGVfYnBwLAo+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjcnRjX3N0
+YXRlLT5sYW5lX2NvdW50LAo+IEBAIC0xMjMsMjUgKzE0OSwyMSBAQCBzdGF0aWMgaW50IGludGVs
+X2RwX2RzY19tc3RfY29tcHV0ZV9saW5rX2NvbmZpZyhzdHJ1Y3QgaW50ZWxfZW5jb2Rlcgo+ICpl
+bmNvZGVyLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBk
+cm1fY29ubmVjdG9yX3N0YXRlICpjb25uX3N0YXRlLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBsaW5rX2NvbmZpZ19saW1pdHMgKmxpbWl0cykKPiDCoHsK
+PiAtwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUgPSBjcnRjX3N0
+YXRlLT51YXBpLnN0YXRlOwo+IC3CoMKgwqDCoMKgwqDCoHN0cnVjdCBpbnRlbF9kcF9tc3RfZW5j
+b2RlciAqaW50ZWxfbXN0ID0gZW5jX3RvX21zdChlbmNvZGVyKTsKPiAtwqDCoMKgwqDCoMKgwqBz
+dHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwID0gJmludGVsX21zdC0+cHJpbWFyeS0+ZHA7Cj4gwqDC
+oMKgwqDCoMKgwqDCoHN0cnVjdCBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3RvciA9Cj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0b19pbnRlbF9jb25uZWN0b3IoY29ubl9zdGF0ZS0+
+Y29ubmVjdG9yKTsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgaW50ZWxfZHBfbXN0X2VuY29kZXIg
+KmludGVsX21zdCA9IGVuY190b19tc3QoZW5jb2Rlcik7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0
+IGludGVsX2RwICppbnRlbF9kcCA9ICZpbnRlbF9tc3QtPnByaW1hcnktPmRwOwo+IMKgwqDCoMKg
+wqDCoMKgwqBzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IHRvX2k5MTUoY29ubmVjdG9y
+LT5iYXNlLmRldik7Cj4gwqDCoMKgwqDCoMKgwqDCoGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9t
+b2RlICphZGp1c3RlZF9tb2RlID0KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCZj
+cnRjX3N0YXRlLT5ody5hZGp1c3RlZF9tb2RlOwo+IMKgwqDCoMKgwqDCoMKgwqBib29sIGNvbnN0
+YW50X24gPSBkcm1fZHBfaGFzX3F1aXJrKCZpbnRlbF9kcC0+ZGVzYywKPiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgRFBfRFBDRF9RVUlSS19DT05TVEFOVF9OKTsKPiAtwqDCoMKgwqDCoMKg
+wqBpbnQgYnBwLCBzbG90cyA9IC1FSU5WQUw7Cj4gK8KgwqDCoMKgwqDCoMKgaW50IHNsb3RzID0g
+LUVJTlZBTDsKPiDCoMKgwqDCoMKgwqDCoMKgaW50IGksIG51bV9icGM7Cj4gwqDCoMKgwqDCoMKg
+wqDCoHU4IGRzY19icGNbM10gPSB7MH07Cj4gwqDCoMKgwqDCoMKgwqDCoGludCBtaW5fYnBwLCBt
+YXhfYnBwOwo+IMKgwqDCoMKgwqDCoMKgwqB1OCBkc2NfbWF4X2JwYzsKPiDCoAo+IC3CoMKgwqDC
+oMKgwqDCoGNydGNfc3RhdGUtPmxhbmVfY291bnQgPSBsaW1pdHMtPm1heF9sYW5lX2NvdW50Owo+
+IC3CoMKgwqDCoMKgwqDCoGNydGNfc3RhdGUtPnBvcnRfY2xvY2sgPSBsaW1pdHMtPm1heF9yYXRl
+Owo+IC0KPiDCoMKgwqDCoMKgwqDCoMKgLyogTWF4IERTQyBJbnB1dCBCUEMgZm9yIElDTCBpcyAx
+MCBhbmQgZm9yIFRHTCsgaXMgMTIgKi8KPiDCoMKgwqDCoMKgwqDCoMKgaWYgKERJU1BMQVlfVkVS
+KGk5MTUpID49IDEyKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHNjX21heF9i
+cGMgPSBtaW5fdCh1OCwgMTIsIGNvbm5fc3RhdGUtPm1heF9yZXF1ZXN0ZWRfYnBjKTsKPiBAQCAt
+MTYyLDI5ICsxODQsMTEgQEAgc3RhdGljIGludCBpbnRlbF9kcF9kc2NfbXN0X2NvbXB1dGVfbGlu
+a19jb25maWcoc3RydWN0IGludGVsX2VuY29kZXIKPiAqZW5jb2RlciwKPiDCoMKgwqDCoMKgwqDC
+oMKgZHJtX2RiZ19rbXMoJmk5MTUtPmRybSwgIkRTQyBTaW5rIHN1cHBvcnRlZCBtaW4gYnBwICVk
+IG1heCBicHAgJWRcbiIsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+bWluX2JwcCwgbWF4X2JwcCk7Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqBmb3IgKGJwcCA9IG1heF9i
+cHA7IGJwcCA+PSBtaW5fYnBwOyBicHAgLT0gMiAqIDMpIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgY3J0Y19zdGF0ZS0+cGJuID0gZHJtX2RwX2NhbGNfcGJuX21vZGUoYWRqdXN0
+ZWRfbW9kZS0+Y3J0Y19jbG9jaywKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBicHAgPDwgNCwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0cnVlKTsKPiArwqDCoMKgwqDCoMKgwqBzbG90cyA9IGlu
+dGVsX2RwX21zdF9maW5kX3ZjcGlfc2xvdHNfZm9yX2JwcChlbmNvZGVyLCBjcnRjX3N0YXRlLCBt
+YXhfYnBwLCBtaW5fYnBwLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgbGltaXRzLCBjb25uX3N0YXRlLCAyICogMywgdHJ1ZSk7Cj4gwqAKPiAtwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc2xvdHMgPSBkcm1fZHBfYXRvbWljX2ZpbmRfdmNwaV9z
+bG90cyhzdGF0ZSwgJmludGVsX2RwLT5tc3RfbWdyLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25uZWN0b3ItPnBvcnQsCj4gLcKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNydGNfc3RhdGUtPnBibiwgMCk7
+Cj4gLQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZGJnX2ttcygmaTkxNS0+
+ZHJtLCAiVHJ5aW5nIGJwcCAlZCBnb3QgJWQgcGJuICVkIHNsb3RzXG4iLAo+IC3CoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJwcCwgY3J0Y19zdGF0
+ZS0+cGJuLCBzbG90cyk7Cj4gLQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAo
+c2xvdHMgPT0gLUVERUFETEspCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqByZXR1cm4gc2xvdHM7Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oGlmIChzbG90cyA+PSAwKQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgYnJlYWs7Cj4gLcKgwqDCoMKgwqDCoMKgfQo+IC0KPiAtwqDCoMKgwqDCoMKgwqBp
+ZiAoc2xvdHMgPCAwKSB7Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRybV9kYmdf
+a21zKCZpOTE1LT5kcm0sICJmYWlsZWQgZmluZGluZyB2Y3BpIHNsb3RzOiVkXG4iLAo+IC3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNsb3RzKTsK
+PiArwqDCoMKgwqDCoMKgwqBpZiAoc2xvdHMgPCAwKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgcmV0dXJuIHNsb3RzOwo+IC3CoMKgwqDCoMKgwqDCoH0KPiDCoAo+IMKgwqDCoMKg
+wqDCoMKgwqBpbnRlbF9saW5rX2NvbXB1dGVfbV9uKGNydGNfc3RhdGUtPnBpcGVfYnBwLAo+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBjcnRjX3N0YXRlLT5sYW5lX2NvdW50LAoK
