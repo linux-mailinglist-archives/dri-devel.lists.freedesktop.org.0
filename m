@@ -2,52 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515F95A4686
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 11:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2715A4695
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 11:57:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 935A710F12B;
-	Mon, 29 Aug 2022 09:53:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DDA610F146;
+	Mon, 29 Aug 2022 09:57:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664BA10F12B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 09:53:03 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 96ED166016BE;
- Mon, 29 Aug 2022 10:53:01 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1661766782;
- bh=tyHVP8TVsJx7dsp4RoCLCe9+RAOLMn7P+Kx5RBRj4vk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LGbv0gfi1N/Vte34r6F56RHV1wAfbo207qYXVmTbX0COv5wDShGObyvRyS94XCdqE
- PjGPoUn/p0qNc+yorYkQm/3xgtr7RIhqpRVnQ+jZz3kwh6lOju6z4JcXqPVj5sKHsb
- DYXoqtrTnge7+/082g90s3IqH24Q8aAkXlu38qo/2FnlY1+b2t3L7KcnK6Bqr5nSwJ
- QZTTmT5u79TdvTzgg46MbUalFaSv3pP06uM0nueQcSCaMzrBQKzoX4PfjTHn/P5eI5
- nh7tNeBRkO28ab7+G/26wFFze5w3UBIDsCnvFsopmmUyGKGOqqQrAenijG9VBxX3Kn
- tPghf7FU/eSYw==
-Message-ID: <8ccf007b-e411-3a56-e5aa-629264cdafee@collabora.com>
-Date: Mon, 29 Aug 2022 11:52:59 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B1BC10F135;
+ Mon, 29 Aug 2022 09:57:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661767067; x=1693303067;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1/WC0STSVuD6OMeZYN8vZR6OiptU4XaBw+g+tWXqM8k=;
+ b=SKRhP57bow6BQMLYJNUZmyID/x0VldYOffYxJuGepnQF4ZX6vmcuIs5e
+ Rg4nRzWD7m6zRwGlnl2wzEhbFLzCaY03+qEfpcdye82ZSkCrTAFv9KioG
+ pMt/6F6GNH5wY9NlFT4Qp9Z96PZ+npdhuL2cTmXrKtb5WKQ3FZK+7498j
+ kdpvPlEywybxyn63lUq2kVCX/kTu+23JKxUwhTo0GFMAXw4N93twQAJs8
+ lEo3C8xutlZfNekSi0Bc1Ob9XIpuzeKDQhjnQUeY8LQpwDCtKIAcfVhIJ
+ l6gG/HuI79bPXdsW2cWcjuikl0ooo4Jss6AghbQ/buz1OfB3EMH1t6mu+ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10453"; a="293601509"
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="293601509"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2022 02:57:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="700527725"
+Received: from unknown (HELO slisovsk-Lenovo-ideapad-720S-13IKB.fi.intel.com)
+ ([10.237.72.65])
+ by FMSMGA003.fm.intel.com with ESMTP; 29 Aug 2022 02:57:44 -0700
+From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/4] Add DP MST DSC support to i915
+Date: Mon, 29 Aug 2022 12:58:28 +0300
+Message-Id: <20220829095832.21770-1-stanislav.lisovskiy@intel.com>
+X-Mailer: git-send-email 2.24.1.485.gad05a3d8e5
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4,2/2] drm: mediatek: Adjust the dpi output format to
- MT8186
-Content-Language: en-US
-To: xinlei.lee@mediatek.com, matthias.bgg@gmail.com,
- rex-bc.chen@mediatek.com, jason-jh.lin@mediatek.com,
- yongqiang.niu@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- airlied@linux.ie, daniel@ffwll.ch
-References: <1661743308-29120-1-git-send-email-xinlei.lee@mediatek.com>
- <1661743308-29120-3-git-send-email-xinlei.lee@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <1661743308-29120-3-git-send-email-xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,68 +55,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: manasi.d.navare@intel.com, vinod.govindapillai@intel.com,
+ jani.nikula@intel.com, dri-devel@lists.freedesktop.org,
+ Stanislav.Lisovskiy@intel.com, jani.saarinen@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 29/08/22 05:21, xinlei.lee@mediatek.com ha scritto:
-> From: Xinlei Lee <xinlei.lee@mediatek.com>
-> 
-> Dpi output needs to adjust the output format to dual edge for MT8186.
-> 
-> Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> 
-> ---
->   drivers/gpu/drm/mediatek/mtk_dpi.c      | 32 +++++++++++++++++++++++++
->   drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  5 ++++
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c  |  2 ++
->   3 files changed, 39 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index fb0b79704636..c23ef7deef26 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -14,6 +14,7 @@
->   #include <linux/of_graph.h>
->   #include <linux/pinctrl/consumer.h>
->   #include <linux/platform_device.h>
-> +#include <linux/soc/mediatek/mtk-mmsys.h>
->   #include <linux/types.h>
->   
->   #include <video/videomode.h>
-> @@ -28,6 +29,7 @@
->   #include "mtk_disp_drv.h"
->   #include "mtk_dpi_regs.h"
->   #include "mtk_drm_ddp_comp.h"
-> +#include "mtk_drm_drv.h"
->   
->   enum mtk_dpi_out_bit_num {
->   	MTK_DPI_OUT_BIT_NUM_8BITS,
-> @@ -80,6 +82,7 @@ struct mtk_dpi {
->   	struct pinctrl_state *pins_dpi;
->   	u32 output_fmt;
->   	int refcount;
-> +	struct device *mmsys_dev;
->   };
->   
->   static inline struct mtk_dpi *bridge_to_dpi(struct drm_bridge *b)
-> @@ -133,6 +136,8 @@ struct mtk_dpi_yc_limit {
->    * @yuv422_en_bit: Enable bit of yuv422.
->    * @csc_enable_bit: Enable bit of CSC.
->    * @pixels_per_iter: Quantity of transferred pixels per iteration.
-> + * @edge_cfg_in_mmsys: If the edge configuration for DPI's output needs to be
-> + *		       set in MMSYS.
+Currently we have only DSC support for DP SST.
 
-  * @edge_cfg_in_mmsys: Edge configuration for DPI output has to be set in MMSYS.
+Stanislav Lisovskiy (4):
+  drm: Add missing DP DSC extended capability definitions.
+  drm/i915: Fix intel_dp_mst_compute_link_config
+  drm/i915: Add DSC support to MST path
+  drm/i915: Extract drm_dp_atomic_find_vcpi_slots cycle to separate
+    function
 
-fits in one line and it's more immediate to read.
+ drivers/gpu/drm/i915/display/intel_dp.c     |  73 +++----
+ drivers/gpu/drm/i915/display/intel_dp.h     |  17 ++
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 205 ++++++++++++++++++--
+ include/drm/display/drm_dp.h                |  10 +-
+ 4 files changed, 246 insertions(+), 59 deletions(-)
 
-After which...
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+-- 
+2.24.1.485.gad05a3d8e5
 
