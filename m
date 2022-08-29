@@ -1,43 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231655A4F77
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 16:41:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E025A4EEE
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 16:14:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC69610F32C;
-	Mon, 29 Aug 2022 14:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B0E10F13C;
+	Mon, 29 Aug 2022 14:14:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 7450 seconds by postgrey-1.36 at gabe;
- Mon, 29 Aug 2022 14:41:23 UTC
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE2410F32C
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 14:41:22 +0000 (UTC)
-X-QQ-mid: bizesmtp72t1661776623taqf4by8
-Received: from localhost.localdomain ( [58.240.82.166])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 29 Aug 2022 20:36:57 +0800 (CST)
-X-QQ-SSF: 01400000002000C0K000B00A0000000
-X-QQ-FEAT: ao4JQgu0M3/UgU+YkHy4njb4NNdIn11x9nwLEL07GbnOzmiQXUMUeaKluCk/G
- GWneyTH3RyNn9YPtOJX1r+pKTbLJAZhBaG5JtqljRhiFnkjCKIpMm+e8eEFqNW7yFXElM1C
- WB03tfyjp6jCR+lkhukBGnL03JVi/SR/FIqx8P5xwhzmJVVnrNCIvXMy++KKF7MqaR2nlKn
- 2LaoSuWZ+zTN9Xhw2lf20BOUaKM1ja3TWaoOk8FN3FWXMzrdTQxjecE1+G5nqRyigBrJCxS
- n0+2Nsd6dgwKEh38a3k40Al1j4ifoGaBhTNQXEkj4SGIStP4/9TrNFrhVEqhhAkVNEqBMNB
- APZy4G1SPFqke7zO+yRC0eA0zvssfSH1dg76/RBQ08YUX+i+UGj7Y0p4PKjfA==
-X-QQ-GoodBg: 2
-From: Zhen Ni <nizhen@uniontech.com>
-To: airlied@linux.ie,
-	daniel@ffwll.ch,
-	evan.quan@amd.com
-Subject: [PATCH] drm/amd/amdgpu: Add modeset module parameter support
-Date: Mon, 29 Aug 2022 20:36:54 +0800
-Message-Id: <20220829123654.4333-1-nizhen@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D0B110F13C;
+ Mon, 29 Aug 2022 14:14:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661782471; x=1693318471;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=+4TOCeNd5iz1aL0fhEmhVh+hpLbLwO+LY5ZaMMmawU0=;
+ b=OmSwFbBjgFQ16k+3n5jxRTl9oqvEdtu7Fv4e38PiTqonGl9QRH5c7Djw
+ f+DCWlqRjyJ2fzZxKbnMWpuujTp42vTLi48JdloI9yQ2y22SchLltKETr
+ cwd9HNcAZJU4SP5YW3cAxhbc0vRYmTxPjb82ZKtnEG5metJpyyAttJ34z
+ K9ytXpF/ww7hSjjgnFOEr1leDeJrrMfO6gDgjnRe3j3FDs3NWSU0hsecy
+ d8JziBc8SArC/i/tbbNWkyWNM/BNLTzXR0e1WGGsKdOB2iBUGUoIqEgi3
+ Lny5+4dSjzODwC/ie8YnLNPSRmxJDmzkOhz5OrfXX+Ib5ubwRnHgV93DU g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="293647245"
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="293647245"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2022 07:14:16 -0700
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; d="scan'208";a="939591027"
+Received: from idecesar-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.53.198])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2022 07:14:13 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: wangjianli <wangjianli@cdjrlc.com>, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: Re: [PATCH] drm/i915: fix repeated words in comments
+In-Reply-To: <20220823141639.13053-1-wangjianli@cdjrlc.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220823141639.13053-1-wangjianli@cdjrlc.com>
+Date: Mon, 29 Aug 2022 17:14:02 +0300
+Message-ID: <87y1v7dtn9.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvr:qybglogicsvr5
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,58 +58,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhen Ni <nizhen@uniontech.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: wangjianli <wangjianli@cdjrlc.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nomodeset kernel parameter is for all graphics cards. Amdgpu cannot
-be set separately in some scenarios, such as hybrid graphics(i + a).
-Add modeset module parameter for amdgpu to set kernel mode separately.
+On Tue, 23 Aug 2022, wangjianli <wangjianli@cdjrlc.com> wrote:
+>  Delete the redundant word 'the'.
+>
+> Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
 
-Signed-off-by: Zhen Ni <nizhen@uniontech.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+Already fixed by commit 78f48aa6f50b ("drm/i915/irq: Fix a "the the"
+typo").
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 429fcdf28836..856a70370e3c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -107,6 +107,7 @@
- #define KMS_DRIVER_MINOR	48
- #define KMS_DRIVER_PATCHLEVEL	0
- 
-+int amdgpu_modeset = -1;
- int amdgpu_vram_limit;
- int amdgpu_vis_vram_limit;
- int amdgpu_gart_size = -1; /* auto */
-@@ -199,6 +200,13 @@ struct amdgpu_watchdog_timer amdgpu_watchdog_timer = {
- 	.period = 0x0, /* default to 0x0 (timeout disable) */
- };
- 
-+/**
-+ * DOC: modeset (int)
-+ * Disable/Enable kernel modesetting (1 = enable, 0 = disable, -1 = auto (default)).
-+ */
-+MODULE_PARM_DESC(modeset, "Disable/Enable kernel modesetting");
-+module_param_named(modeset, amdgpu_modeset, int, 0400);
-+
- /**
-  * DOC: vramlimit (int)
-  * Restrict the total amount of VRAM in MiB for testing.  The default is 0 (Use full VRAM).
-@@ -2753,7 +2761,10 @@ static int __init amdgpu_init(void)
- {
- 	int r;
- 
--	if (drm_firmware_drivers_only())
-+	if (drm_firmware_drivers_only() && amdgpu_modeset == -1)
-+		amdgpu_modeset = 0;
-+
-+	if (amdgpu_modeset == 0)
- 		return -EINVAL;
- 
- 	r = amdgpu_sync_init();
+What is this sudden influx of patches fixing repeated words everywhere?
+
+BR,
+Jani.
+
+
+> ---
+>  drivers/gpu/drm/i915/i915_irq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> index 73cebc6aa650..783a6ca41a61 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -65,7 +65,7 @@
+>  
+>  /*
+>   * Interrupt statistic for PMU. Increments the counter only if the
+> - * interrupt originated from the the GPU so interrupts from a device which
+> + * interrupt originated from the GPU so interrupts from a device which
+>   * shares the interrupt line are not accounted.
+>   */
+>  static inline void pmu_irq_stats(struct drm_i915_private *i915,
+
 -- 
-2.20.1
-
+Jani Nikula, Intel Open Source Graphics Center
