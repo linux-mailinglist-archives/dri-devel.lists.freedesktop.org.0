@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A6F5A4D55
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 15:15:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619775A4D5D
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 15:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0622A10F240;
-	Mon, 29 Aug 2022 13:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F43C10F25B;
+	Mon, 29 Aug 2022 13:15:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 073BF10F231
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 13:15:10 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id D00CF2B06078;
- Mon, 29 Aug 2022 09:15:06 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEEFC10F231
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 13:15:16 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 3C1002B06079;
+ Mon, 29 Aug 2022 09:15:13 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 29 Aug 2022 09:15:09 -0400
+ by compute2.internal (MEProxy); Mon, 29 Aug 2022 09:15:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1661778906; x=
- 1661786106; bh=Geyfyn7lfIjW9QZzqjQEZrV6BKt6Cr6Jw67lImD/OP4=; b=h
- 33Sqoi3MkH+ZfTUG5VyM/1Yc4D0pxeQLMY9HSQHQ9Mo2IG1PDJUNCVB3pqA9rvnL
- LMEKXt4dmv0GP0ITDYj/FfUZCwY15kFl0QdezZEf+TDII8t/6NhrR2pG8lfdD++7
- NeE/0udJEPaol0QQoe3yfkJzOzVLUneLEp+0Nt09Bxxgoaxmx2GmbU/qsgTiI0js
- ATh3k2IB2n00v5oUh/H8snvsQCI17AhnLXatMoWEKsQOsyi5mJbJ6TLo8dOUeDDm
- ebhsRkqfPzYj6g/0V/FWZMGcINYxs0eyHBG6ZAT85WMspC5azLuoHo+oyJg43Mvy
- IfUnKoNoU0/A19XLmZh5A==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1661778912; x=
+ 1661786112; bh=Cy32MWV8KYEmUS1RyGwWX/yQEjQBWMj/hXAbB2FpSbs=; b=V
+ s4RNIpSxGeLQo1UWIoyjlMUQe2kKesyCj00VfmTnmA9s9809cRUTc1FY6i9RyLIS
+ o6oM8OQNSa+LoOX3ilxktbPyOqhY28lk4l95SvMzowQnC9i7p5nNgJ+rurtgqQyR
+ aeKWX5TaqBTFDj86loR8aBpYmX7U5HYNwGwjezJukbNFdSVgPkdFtkecMyb2Lk+Y
+ BnrNI8xva/TuVhnCFcRtSZawg0rT2jeMmFkJ2z/5yT9L202/xHzYGwr99BwEWN63
+ I4yy9eVWAtJNKlexbdCQaoYoXFei+8wrwoRNAdgdnLwDkxVPXxomadxKHK2vv7GG
+ nI6r74d/X93ysd/fCssdA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661778906; x=
- 1661786106; bh=Geyfyn7lfIjW9QZzqjQEZrV6BKt6Cr6Jw67lImD/OP4=; b=3
- Bjv21wSh+GGHvc5hlBIDbzL3rKJF7MtA9EN/oaUUinAyKYv9FP8JEhwty3Gxx4Mc
- AVqF2CHgMXYa99YqyJGyr47vci3oBHhHtPT41H4FixhO8T2EkP2Xr11FsKcOEOte
- 3yH5F/kyqxt0IY5QDRMpUeKpvrmg5ERKdUWcatbn34ENW5F6gBo8JYwq3ok6x/wC
- 8oV9h9Mb6bsRWOEugQAZpZDfDx+l++ASlzQ4IsM1d7w1Q9FHtvc1fkXaR3s8+L4v
- Z8SbooHfl3vcmjVqdIQ9V3MNlcfpUEEna6w7Ll35wX7YeSPl9ZxbCpX7+/3P16kJ
- DUSmGdh31y/ZWOWPRX44Q==
-X-ME-Sender: <xms:2rsMY8JCdF_8rteGEr2k2yvQvhEBGnq9oQvCRPBEQayX95Y_HN5I7g>
- <xme:2rsMY8LUSCcC0VEGgs0qrwXBu9pIftsmHF101NVYfZ7iyFHKddotBBCBbJI9LoKUg
- l6kKqSrV_0MfxruZyI>
-X-ME-Received: <xmr:2rsMY8s6YX-G6cO9GjDtYI3LOp8psHcne1FsHvtym8aZAuJSVvo7F0eyjrNo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekuddgieefucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661778912; x=
+ 1661786112; bh=Cy32MWV8KYEmUS1RyGwWX/yQEjQBWMj/hXAbB2FpSbs=; b=1
+ SbjYncYrBzBlWAhPZio1zMuS1gF3Tuw/UJSvnjsxHB4IMZNtXjgSRIyC9PJzxZbY
+ dZ0wibnoYzomzbiK8gCH2DqK5gu/uSlLRgnIhbGDbVNrgt79CGRwS5oUbG0UXwHe
+ OES/fBSbLfjGtD65t7dVE8ckm8biUqW6CW1N9Oo0bS51SYvj/nZ0cAcK/0SvXnu+
+ /Ma6rIq0xRHU98/CSilD292MvmY81AkEeMY4RrQMI9oXLbK6YHxHL/CHX5c+TVN3
+ gqxrYZK/M0qmCBe3ZeoaJdishLgqIg+cWaIWH3zukyx17ec/M8EWR4E15cqPfAkZ
+ N7O0RSVVjvdch78d1oTJA==
+X-ME-Sender: <xms:4LsMYy5rqAcxGSbmlVmw92RrO8cMXwF2PgIVky7ANkonHLrtf2kJZg>
+ <xme:4LsMY74SX43GMhpl2E7sCd_GJOtyVqzfGWm1RPrIkPhgIKvwIs5hrP0MaB_o3vuYL
+ DtzkBR35jaAdnu0owI>
+X-ME-Received: <xmr:4LsMYxcH2p43M9xbM63IynEIiAg4UeS48NeWfhKCpnYA_wdWnMdhL-e69PBB>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekuddgieegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhggtgfogfesthhqredtredtjeenucfhrhhomhepofgr
  gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
  frrghtthgvrhhnpeefiedvfefggffgffehveejieffuddtgffhjefggeetieduvdeileet
- lefgveegtdenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhroh
+ lefgveegtdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:2rsMY5bWPxkAVFpDeM43i4y_BVD63X8wGJmW6fAM1R81raTncLzWCg>
- <xmx:2rsMYzbmhD1B_2j8SrSNGK_75-LzYQC9Ywi4hMPZmczx1gL8M0oBCA>
- <xmx:2rsMY1AlGSd7E8HpeiuRyAdKh7xwlBoJh9MY27lytQZhq2hJD2_0WA>
- <xmx:2rsMY9zSQ2tNxwqPsy_4R-vp1fu-0LcZF8Y0y42MtY_gRvlqp9q5ko7iVfI>
+X-ME-Proxy: <xmx:4LsMY_IaS0W-q_Ac4y_dh7FP304dFAizyLlha88koiUAXTCWiKNTzw>
+ <xmx:4LsMY2Kpi-rJcTmFKKSYnmYoXfVE7q16mGfjsKzPsVCFn46czlYVKw>
+ <xmx:4LsMYwzH4_qoibpjvsBtEV8CMuDSdistNt0RfgnpYUyU8ZicRqzHRg>
+ <xmx:4LsMY_i-jlos2mlt_jq9eXUYJ9YtyiK24AgyGRmcjXqWRlQKiKNwxnjAvEA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 29 Aug 2022 09:15:05 -0400 (EDT)
+ 29 Aug 2022 09:15:11 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
  David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
@@ -75,20 +75,20 @@ To: Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v2 28/41] drm/vc4: vec: Fix timings for VEC modes
-Date: Mon, 29 Aug 2022 15:11:42 +0200
-Message-Id: <20220728-rpi-analog-tv-properties-v2-28-459522d653a7@cerno.tech>
+Subject: [PATCH v2 29/41] drm/vc4: vec: Switch for common modes
+Date: Mon, 29 Aug 2022 15:11:43 +0200
+Message-Id: <20220728-rpi-analog-tv-properties-v2-29-459522d653a7@cerno.tech>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.10.0-dev-65ba7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1306; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=9tioiA5EY1yO34HzEK5H+VWpSJS31+Xh9uw365Ba2yU=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk8uxRU4rkSg9yPxRosun83wiov2a7/nrxu9Y6Aph1rXLe0
- 7mLuKGVhEONikBVTZIkRNl8Sd2rW6042vnkwc1iZQIYwcHEKwETu7GZkmMWzwP741qhVqtP7flkdWf
- nO+EBY5h7n/M235WT1pRIuMDIyrP2h9Snyj8H1n6cVJOKSZlgmxAnPyzI2qlKMVZz4s/sLBwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1771; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=ul/McL233i67f1nEv4GMQq5Y+Mz3yULy3JKyqht7K6U=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk8uxScppTyPA6c1CT3/72hZHRYkmxbl0+oeE+68H7NMBaG
+ KYc7SlkYxLgYZMUUWWKEzZfEnZr1upONbx7MHFYmkCEMXJwCMBGp1YwMUyYynfdOaz62c20d82dHjm
+ enCsvPav52uCj7gfsoe0FJFyPD2u7zHxnX1Zy8rrFL0sB8sodJRpxW3O6ym1V+q6tV0zx5AA==
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 Content-Transfer-Encoding: quoted-printable
@@ -115,41 +115,59 @@ Cc: Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>=0D
+Now that the core has a definition for the 525 and 625 lines analog TV=0D
+modes, let's switch to it for vc4.=0D
 =0D
-This commit fixes vertical timings of the VEC (composite output) modes=0D
-to accurately represent the 525-line ("NTSC") and 625-line ("PAL") ITU-R=0D
-standards.=0D
-=0D
-Previous timings were actually defined as 502 and 601 lines, resulting=0D
-in non-standard 62.69 Hz and 52 Hz signals being generated,=0D
-respectively.=0D
-=0D
-Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>=0D
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>=0D
 =0D
 diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c=
 =0D
-index 4d7bc7c20704..d1d40b69279e 100644=0D
+index d1d40b69279e..63e4e617e321 100644=0D
 --- a/drivers/gpu/drm/vc4/vc4_vec.c=0D
 +++ b/drivers/gpu/drm/vc4/vc4_vec.c=0D
-@@ -227,14 +227,14 @@ static const struct debugfs_reg32 vec_regs[] =3D {=0D
- static const struct drm_display_mode ntsc_mode =3D {=0D
- 	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,=0D
- 		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,=0D
--		 480, 480 + 3, 480 + 3 + 3, 480 + 3 + 3 + 16, 0,=0D
-+		 480, 480 + 7, 480 + 7 + 6, 525, 0,=0D
- 		 DRM_MODE_FLAG_INTERLACE)=0D
+@@ -224,38 +224,24 @@ static const struct debugfs_reg32 vec_regs[] =3D {=0D
+ 	VC4_REG32(VEC_DAC_MISC),=0D
  };=0D
  =0D
- static const struct drm_display_mode pal_mode =3D {=0D
- 	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,=0D
- 		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,=0D
--		 576, 576 + 2, 576 + 2 + 3, 576 + 2 + 3 + 20, 0,=0D
-+		 576, 576 + 4, 576 + 4 + 6, 625, 0,=0D
- 		 DRM_MODE_FLAG_INTERLACE)=0D
- };=0D
- =0D
+-static const struct drm_display_mode ntsc_mode =3D {=0D
+-	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,=0D
+-		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,=0D
+-		 480, 480 + 7, 480 + 7 + 6, 525, 0,=0D
+-		 DRM_MODE_FLAG_INTERLACE)=0D
+-};=0D
+-=0D
+-static const struct drm_display_mode pal_mode =3D {=0D
+-	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,=0D
+-		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,=0D
+-		 576, 576 + 4, 576 + 4 + 6, 625, 0,=0D
+-		 DRM_MODE_FLAG_INTERLACE)=0D
+-};=0D
+-=0D
+ static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] =3D {=0D
+ 	[VC4_VEC_TV_MODE_NTSC] =3D {=0D
+-		.mode =3D &ntsc_mode,=0D
++		.mode =3D &drm_mode_480i,=0D
+ 		.config0 =3D VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,=0D
+ 		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,=0D
+ 	},=0D
+ 	[VC4_VEC_TV_MODE_NTSC_J] =3D {=0D
+-		.mode =3D &ntsc_mode,=0D
++		.mode =3D &drm_mode_480i,=0D
+ 		.config0 =3D VEC_CONFIG0_NTSC_STD,=0D
+ 		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,=0D
+ 	},=0D
+ 	[VC4_VEC_TV_MODE_PAL] =3D {=0D
+-		.mode =3D &pal_mode,=0D
++		.mode =3D &drm_mode_576i,=0D
+ 		.config0 =3D VEC_CONFIG0_PAL_BDGHI_STD,=0D
+ 		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,=0D
+ 	},=0D
+ 	[VC4_VEC_TV_MODE_PAL_M] =3D {=0D
+-		.mode =3D &pal_mode,=0D
++		.mode =3D &drm_mode_576i,=0D
+ 		.config0 =3D VEC_CONFIG0_PAL_BDGHI_STD,=0D
+ 		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,=0D
+ 		.custom_freq =3D 0x223b61d1,=0D
 =0D
 -- =0D
 b4 0.10.0-dev-65ba7=0D
