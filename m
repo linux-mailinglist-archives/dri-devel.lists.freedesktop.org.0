@@ -1,58 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EAF05A4EA5
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 15:56:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 231655A4F77
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Aug 2022 16:41:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC3410F1BA;
-	Mon, 29 Aug 2022 13:56:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC69610F32C;
+	Mon, 29 Aug 2022 14:41:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A268B10EE16
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 13:56:43 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id y3so15891225ejc.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 06:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=UUksF+3n6Z6Vv7as77dwd1d0dIdOzku40fVIFRcpS7c=;
- b=JLJrEW14rZu3r0yKDTDdvyLTSmBNqOHlW7ZywpZIP1o0qAEyH5F9NQr7NFwTlgc22t
- VmWmnFwSyaLF3H53dnP824wq4kmM0miMR1kIVGcPeoCWh0e+X2leRLa+w3rqY7vbd+Sq
- 49t0I7NOUMoHJusEbcoVvIa7Z34nTIutqNEPB3GGFmdT/RKmBKXJPHjpbuAd14fseYLf
- yH00hqz0aoIJkKVG6fmEDWvrg158TwSG3dFofmIN7b1jS44kdASevUngYMhtx+qrudU1
- l4YpLgE5HLrVjLcBy9JXvz9ZimkdehoWkkW5QGR+OS86gcqn16vIkFW+a8gJLhorMbet
- qU/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=UUksF+3n6Z6Vv7as77dwd1d0dIdOzku40fVIFRcpS7c=;
- b=pZOwzBa/8WUk0fSB8H1S9aB4LirSlb2txfSfM5MH7rPjBgZIctbeOy159RRwXVnlY7
- ZHemNu4Da66ClV+UKfTQxpI4p0qm7Cm0cTUovehOvXf3fmdwRCVATDDNnGoORlXrqqZt
- 3geCxSn4opsO6UzqXO6Qylw/pGf6PTIaJkv92pg1NcI+juGF49Iq3ANkPvWTaiQjWBu7
- mWoUCvsf4nintBST/30Cdv0ebmZQp1ix+xYS4Ss+DvbLDiz6pvvhyFY5n90oREDCW41h
- zsWvZnU9gauKbbcjJQVifhvYTccyQNAB3CUsro7JLdv2rQnuDJGAei3SsWYafW76ANtO
- EmWA==
-X-Gm-Message-State: ACgBeo0L8ALlfFBBv7mBVVI98CyPASbQWo4hjnRVgaItjUzL1HtPYF/R
- KmWiyLlhM/JLDXcAoQocOeRJ3WMIrRTuRr0YVY+yUg==
-X-Google-Smtp-Source: AA6agR4R1TOlwHtkdeW/5iqUgtHZjFsmMRQANoBtf5XmwzZYZOxbOMJMZJtWqslHrHmGX2eE1rwBmGuWncmdK1uZE3M=
-X-Received: by 2002:a17:907:7d91:b0:731:7ecb:1e5b with SMTP id
- oz17-20020a1709077d9100b007317ecb1e5bmr13718953ejc.78.1661781402126; Mon, 29
- Aug 2022 06:56:42 -0700 (PDT)
+X-Greylist: delayed 7450 seconds by postgrey-1.36 at gabe;
+ Mon, 29 Aug 2022 14:41:23 UTC
+Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE2410F32C
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 14:41:22 +0000 (UTC)
+X-QQ-mid: bizesmtp72t1661776623taqf4by8
+Received: from localhost.localdomain ( [58.240.82.166])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Mon, 29 Aug 2022 20:36:57 +0800 (CST)
+X-QQ-SSF: 01400000002000C0K000B00A0000000
+X-QQ-FEAT: ao4JQgu0M3/UgU+YkHy4njb4NNdIn11x9nwLEL07GbnOzmiQXUMUeaKluCk/G
+ GWneyTH3RyNn9YPtOJX1r+pKTbLJAZhBaG5JtqljRhiFnkjCKIpMm+e8eEFqNW7yFXElM1C
+ WB03tfyjp6jCR+lkhukBGnL03JVi/SR/FIqx8P5xwhzmJVVnrNCIvXMy++KKF7MqaR2nlKn
+ 2LaoSuWZ+zTN9Xhw2lf20BOUaKM1ja3TWaoOk8FN3FWXMzrdTQxjecE1+G5nqRyigBrJCxS
+ n0+2Nsd6dgwKEh38a3k40Al1j4ifoGaBhTNQXEkj4SGIStP4/9TrNFrhVEqhhAkVNEqBMNB
+ APZy4G1SPFqke7zO+yRC0eA0zvssfSH1dg76/RBQ08YUX+i+UGj7Y0p4PKjfA==
+X-QQ-GoodBg: 2
+From: Zhen Ni <nizhen@uniontech.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch,
+	evan.quan@amd.com
+Subject: [PATCH] drm/amd/amdgpu: Add modeset module parameter support
+Date: Mon, 29 Aug 2022 20:36:54 +0800
+Message-Id: <20220829123654.4333-1-nizhen@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20220726033058.403715-1-xji@analogixsemi.com>
- <9385f8642e6ad5491a036360c644dc21b9a3f009.camel@mediatek.com>
- <CAJMQK-injwWcNVC-niYTgbFQ3R6yOMGkSX+vAuwWAEiMhhft3Q@mail.gmail.com>
-In-Reply-To: <CAJMQK-injwWcNVC-niYTgbFQ3R6yOMGkSX+vAuwWAEiMhhft3Q@mail.gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 29 Aug 2022 15:56:31 +0200
-Message-ID: <CAG3jFysrLDQjc8d=LX4hon029to2xJOqwEyXzNOE9J3z+TJk8w@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: Support HDMI_I2S audio format
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvr:qybglogicsvr5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,78 +50,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- qwen@analogixsemi.com, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, Jiaxin Yu <jiaxin.yu@mediatek.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, bliang@analogixsemi.com,
- Xin Ji <xji@analogixsemi.com>
+Cc: Zhen Ni <nizhen@uniontech.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Aug 2022 at 10:58, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> On Tue, Jul 26, 2022 at 5:16 PM Jiaxin Yu <jiaxin.yu@mediatek.com> wrote:
-> >
-> > On Tue, 2022-07-26 at 11:30 +0800, Xin Ji wrote:
-> > > 1. Support HDMI_I2S audio format.
-> > > 2. Return 0 if there is no sink connection in .hw_param callback.
-> > >
-> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > ---
-> > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 23 +++++++++++++++++--
-> > > ----
-> > >  1 file changed, 17 insertions(+), 6 deletions(-)
-> > >
-> > Acked-by: Jiaxin Yu<jiaxin.yu@mediatek.com>
-> Acked-by: Hsin-Yi Wang <hsinyi@chromium.org>
->
-> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > index 79fc7a50b497..c74b5df4cade 100644
-> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > @@ -1797,8 +1797,13 @@ static int anx7625_audio_hw_params(struct
-> > > device *dev, void *data,
-> > >       int wl, ch, rate;
-> > >       int ret = 0;
-> > >
-> > > -     if (fmt->fmt != HDMI_DSP_A) {
-> > > -             DRM_DEV_ERROR(dev, "only supports DSP_A\n");
-> > > +     if (anx7625_sink_detect(ctx) == connector_status_disconnected)
-> > > {
-> > > +             DRM_DEV_DEBUG_DRIVER(dev, "DP not connected\n");
-> > > +             return 0;
-> > > +     }
-> > > +
-> > > +     if (fmt->fmt != HDMI_DSP_A && fmt->fmt != HDMI_I2S) {
-> > > +             DRM_DEV_ERROR(dev, "only supports DSP_A & I2S\n");
-> > >               return -EINVAL;
-> > >       }
-> > >
-> > > @@ -1806,10 +1811,16 @@ static int anx7625_audio_hw_params(struct
-> > > device *dev, void *data,
-> > >                            params->sample_rate, params->sample_width,
-> > >                            params->cea.channels);
-> > >
-> > > -     ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-> > > -                                 AUDIO_CHANNEL_STATUS_6,
-> > > -                                 ~I2S_SLAVE_MODE,
-> > > -                                 TDM_SLAVE_MODE);
-> > > +     if (fmt->fmt == HDMI_DSP_A)
-> > > +             ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-> > > +                                        AUDIO_CHANNEL_STATUS_6,
-> > > +                                        ~I2S_SLAVE_MODE,
-> > > +                                        TDM_SLAVE_MODE);
-> > > +     else
-> > > +             ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-> > > +                                        AUDIO_CHANNEL_STATUS_6,
-> > > +                                        ~TDM_SLAVE_MODE,
-> > > +                                        I2S_SLAVE_MODE);
-> > >
-> > >       /* Word length */
-> > >       switch (params->sample_width) {
-> >
+Nomodeset kernel parameter is for all graphics cards. Amdgpu cannot
+be set separately in some scenarios, such as hybrid graphics(i + a).
+Add modeset module parameter for amdgpu to set kernel mode separately.
 
-Applied to drm-misc-next.
+Signed-off-by: Zhen Ni <nizhen@uniontech.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 429fcdf28836..856a70370e3c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -107,6 +107,7 @@
+ #define KMS_DRIVER_MINOR	48
+ #define KMS_DRIVER_PATCHLEVEL	0
+ 
++int amdgpu_modeset = -1;
+ int amdgpu_vram_limit;
+ int amdgpu_vis_vram_limit;
+ int amdgpu_gart_size = -1; /* auto */
+@@ -199,6 +200,13 @@ struct amdgpu_watchdog_timer amdgpu_watchdog_timer = {
+ 	.period = 0x0, /* default to 0x0 (timeout disable) */
+ };
+ 
++/**
++ * DOC: modeset (int)
++ * Disable/Enable kernel modesetting (1 = enable, 0 = disable, -1 = auto (default)).
++ */
++MODULE_PARM_DESC(modeset, "Disable/Enable kernel modesetting");
++module_param_named(modeset, amdgpu_modeset, int, 0400);
++
+ /**
+  * DOC: vramlimit (int)
+  * Restrict the total amount of VRAM in MiB for testing.  The default is 0 (Use full VRAM).
+@@ -2753,7 +2761,10 @@ static int __init amdgpu_init(void)
+ {
+ 	int r;
+ 
+-	if (drm_firmware_drivers_only())
++	if (drm_firmware_drivers_only() && amdgpu_modeset == -1)
++		amdgpu_modeset = 0;
++
++	if (amdgpu_modeset == 0)
+ 		return -EINVAL;
+ 
+ 	r = amdgpu_sync_init();
+-- 
+2.20.1
+
