@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875735A5D4E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 09:49:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D35F65A5D52
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 09:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6B9E10EA15;
-	Tue, 30 Aug 2022 07:49:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECE1310E8E9;
+	Tue, 30 Aug 2022 07:49:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27F5B10E97B
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 07:49:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 484FD10E9A9
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 07:49:16 +0000 (UTC)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 236936601F01;
- Tue, 30 Aug 2022 08:48:58 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 686806601F01;
+ Tue, 30 Aug 2022 08:49:14 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1661845738;
- bh=fT0227eahgGco+B/fdgFL8+iaRaRPcPQTjtJP9VXwnI=;
+ s=mail; t=1661845755;
+ bh=ZtcFXim2qq7Y5hMJ+YdDBhB84JBbL99ub5L+GYg2dh8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FrP3J6DFJ28dD3nRVTgN3pEQFXmoKE/0F+ZHVNW5n1268kyqEOkIFGJrfOjT45Zvm
- Q4Rym35OPq/fjjud6jAA2JXepW0KcjWigcmDBCOUpjmoTJawQy45gptQjOAl+59Fop
- 3AR72y+MQmDowAOGLuQJd77CD0EpIwKTPoaH0ywXKu8lY7FSLrTnrlDraKR3TThVLP
- +kJIVNT59bXhINlVZ6ay09saAZn93WR4VcfIrx0DLiDX2zEmeYXBl/xnF5qXCUJLTv
- 1u6jTytkku9ZL7kLBaC/UXkgbVJEBjDFK5U4BtLtfsNJTuyNT7v4l2X/HJcca3Y0if
- L2NsGik/4h6bw==
-Message-ID: <e3aa38cf-5779-eb56-83aa-d3089f17ff79@collabora.com>
-Date: Tue, 30 Aug 2022 09:48:55 +0200
+ b=LFeLUho0SjjplBBxWPqOqI+WNcbEf0dHrzy9EW7kzePaGPZJ5CsFWprHVa8eLbDu9
+ HhHz9tKLM64lYNcTcW9yP0h1EpdbsmCoIjcrg90kCKS0+oYS2UWwZuK1ptqH4BIwBA
+ JdDkLMB8o+w63OOGvzREOnwD3alI16HCrwDhRIV1UOr3ZbxmF0zylfdsUgZlnxAXBZ
+ LmeEcNRw+VVKc3AP0S30IdLAs6nO7NkkA+4RYT2iyrbWjnLxftsC5kgk8RcYi+cYKf
+ xW4gK1ntZMvCPPupmrb/YrgZ9AayF4/fMZuM2tij6FOqnCzZpV3nH9Ae6FJUbgcijt
+ B/WQ+7RYucKIg==
+Message-ID: <a209aea3-bf23-4670-91d0-e7f41ac57833@collabora.com>
+Date: Tue, 30 Aug 2022 09:49:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 1/3] dt-bindings: mediatek: Add gamma compatible for
- mt8195
+Subject: Re: [PATCH v2 3/3] arm64: dts: Modify gamma compatible for mt8195
 Content-Language: en-US
 To: "zheng-yan.chen" <zheng-yan.chen@mediatek.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Matthias Brugger <matthias.bgg@gmail.com>
 References: <20220830063929.13390-1-zheng-yan.chen@mediatek.com>
- <20220830063929.13390-2-zheng-yan.chen@mediatek.com>
+ <20220830063929.13390-4-zheng-yan.chen@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220830063929.13390-2-zheng-yan.chen@mediatek.com>
+In-Reply-To: <20220830063929.13390-4-zheng-yan.chen@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,17 +67,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 30/08/22 08:39, zheng-yan.chen ha scritto:
-> mt8195 uses 10bit-to-12bit gamma-LUT, which is not compatible with
-> current 9bit-to-10bit gamma-LUT.
+> Modify gamma compatible for mt8195.
 > 
-> This patch thus add constant compatible for mt8195, which means that
-> mt8195 should only use specified mt8195 gamma driver data.
-> 
-> Also, delete related compatible from enum, to ensure that
-> mt8195 will not accidentally get others' gamma driver data and thus
-> cause fatal error.
-> 
-> Fixes: a79257bae9bf ("dt-bindings: display: mediatek: add mt8195 SoC binding for vdosys0")
+> Fixes: 16590e634f1d ("arm64: dts: mt8195: Add display node for vdosys0")
 > Signed-off-by: zheng-yan.chen <zheng-yan.chen@mediatek.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
