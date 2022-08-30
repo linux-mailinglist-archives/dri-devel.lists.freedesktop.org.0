@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6EC5A6A41
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:27:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9335A6A43
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:27:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4AC210E2BE;
-	Tue, 30 Aug 2022 17:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42F0810E2C1;
+	Tue, 30 Aug 2022 17:27:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3463C10E2B8;
- Tue, 30 Aug 2022 17:26:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB2DD10E2BD;
+ Tue, 30 Aug 2022 17:26:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C95E6B81D30;
- Tue, 30 Aug 2022 17:26:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B9C1C433C1;
- Tue, 30 Aug 2022 17:26:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 42BB6617A0;
+ Tue, 30 Aug 2022 17:26:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D366C433D6;
+ Tue, 30 Aug 2022 17:26:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661880390;
- bh=JArKBCEL/uMuvvvG5tPJeSOSfdRI7vlyp45mKEbpU+U=;
+ s=k20201202; t=1661880400;
+ bh=pVGX3lUAokxnhXBJdkUrS/2va8kh1ON7b6FM2FZm/c0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ea/+Yb4xiriJsepuMTMxq+BikTYi99vZ8CRJXdBIoTEu5+GVhdr6pPxeF26d0x8u8
- yvw5jaceEQU77W8cPxdu0VMw66xRwR67JRQhM9EAy7jBEmYeyIzFKo2qVD518D2LPt
- hAc3W3qAwceutz+cnOfUb5OPMKRvpjZaMpyN/2UjUnojgLHC5QDGtVfdQkUu7bwMAn
- ejUH6iFmqK9YJCdJOKXf53nbl52fsDFTtQyJCfq2/bHqt1ljxeTtWIuHJGcjsBDh9t
- QeMFoKp5X3uSZQvxunTRIFPagMcv1fOFX8QOVo6V+5KQRMrx8JQNoslDHxyeN6lZNV
- kBgnSYIT+cnQw==
+ b=B8ih82nwZRVXfs0yyFn8Tw4IYdPK8j5hwC8BTssGhAQRqiovMvjdjM7DW1TBqTq0M
+ Rn1iJZaCWdAnByod1iiYvQalXUM2LQ50d2L1q19OH3+0tJ62fGCEPwKtgD/pexz2Ri
+ 63xuu0Q17IziF072E/0vSGvZpd3i1tHNMF5AKEHb9jXkWbNZ8GvoDc53INat3CcrYO
+ z8N5i9+5OEcyQLjRArLp/ByY7X4RePWGwbH/2yr1J3v/SvKK0WtyC5Y/t4FdzS2xtj
+ y6/ZbfPj89mwn9VsZDhFO8a026Cp07I0W+sAIGh6YiHnlNztcKQ0NnRW4PXu19UecA
+ dqu1bVdRXEhYQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/10] drm/amdgpu: mmVM_L2_CNTL3 register not
- initialized correctly
-Date: Tue, 30 Aug 2022 13:25:41 -0400
-Message-Id: <20220830172541.581820-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 2/8] drm/amdgpu: Check num_gfx_rings for gfx v9_0
+ rb setup.
+Date: Tue, 30 Aug 2022 13:26:25 -0400
+Message-Id: <20220830172631.581969-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220830172541.581820-1-sashal@kernel.org>
-References: <20220830172541.581820-1-sashal@kernel.org>
+In-Reply-To: <20220830172631.581969-1-sashal@kernel.org>
+References: <20220830172631.581969-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -55,39 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- guchun.chen@amd.com, airlied@linux.ie, Qu Huang <jinsdb@126.com>,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, YiPeng.Chai@amd.com,
- mario.limonciello@amd.com, Alex Deucher <alexander.deucher@amd.com>,
- evan.quan@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, tao.zhou1@amd.com, airlied@linux.ie,
+ Xinhui.Pan@amd.com, ricetons@gmail.com, amd-gfx@lists.freedesktop.org,
+ desowin@gmail.com, victor.skvortsov@amd.com, YiPeng.Chai@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Candice Li <candice.li@amd.com>, christian.koenig@amd.com,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qu Huang <jinsdb@126.com>
+From: Candice Li <candice.li@amd.com>
 
-[ Upstream commit b8983d42524f10ac6bf35bbce6a7cc8e45f61e04 ]
+[ Upstream commit c351938350ab9b5e978dede2c321da43de7eb70c ]
 
-The mmVM_L2_CNTL3 register is not assigned an initial value
+No need to set up rb when no gfx rings.
 
-Signed-off-by: Qu Huang <jinsdb@126.com>
+Signed-off-by: Candice Li <candice.li@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
-index c963eec58c702..923bc097a00b2 100644
---- a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
-@@ -155,6 +155,7 @@ static void mmhub_v1_0_init_cache_regs(struct amdgpu_device *adev)
- 	tmp = REG_SET_FIELD(tmp, VM_L2_CNTL2, INVALIDATE_L2_CACHE, 1);
- 	WREG32_SOC15(MMHUB, 0, mmVM_L2_CNTL2, tmp);
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index 53186c5e1066b..bb0d32b4be74d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -1514,7 +1514,8 @@ static void gfx_v9_0_gpu_init(struct amdgpu_device *adev)
  
-+	tmp = mmVM_L2_CNTL3_DEFAULT;
- 	if (adev->gmc.translate_further) {
- 		tmp = REG_SET_FIELD(tmp, VM_L2_CNTL3, BANK_SELECT, 12);
- 		tmp = REG_SET_FIELD(tmp, VM_L2_CNTL3,
+ 	gfx_v9_0_tiling_mode_table_init(adev);
+ 
+-	gfx_v9_0_setup_rb(adev);
++	if (adev->gfx.num_gfx_rings)
++		gfx_v9_0_setup_rb(adev);
+ 	gfx_v9_0_get_cu_info(adev, &adev->gfx.cu_info);
+ 
+ 	/* XXX SH_MEM regs */
 -- 
 2.35.1
 
