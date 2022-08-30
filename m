@@ -1,72 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282F45A6557
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 15:43:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2F45A655A
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 15:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F09910E0E1;
-	Tue, 30 Aug 2022 13:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 748C310E0E5;
+	Tue, 30 Aug 2022 13:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 879CD10E0E1;
- Tue, 30 Aug 2022 13:43:00 +0000 (UTC)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27UDcdj5018226;
- Tue, 30 Aug 2022 13:42:48 GMT
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC9710E0E5;
+ Tue, 30 Aug 2022 13:43:44 +0000 (UTC)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27UDRwnW023927;
+ Tue, 30 Aug 2022 13:43:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=dLMj4scT81hn+piIbAARyqrM8RYZW+n5ahtgpt1B8BU=;
- b=E+EFWoEUKDGLYpQzvmjFv2E6WiW7Cltu3RhfxFO0GXgKUCXxQX4SYSLYLZzRm/rnfkkf
- y97miLE5w/iSJSfToy9BFgMSRwN89Oii8exSmy4HNWiqBNIPMSKoRM6E9yDYoM0N6xOf
- mib2DWDNDHc/W1Pas4JbC1WZQsRKrkTo5brV4kGCq+p84yGmKFwN23qsGfS6hYPQ7+ZH
- xvDYqFi+/EOEOCg21StOIJem5F/0A18c5pQsK9GUOuQaOWlwSfhEdkzP7Ob0ZrCprWI2
- Nhb6PMQynXz+8hrKS00En035zgneTS4Eake6oYMBecxF/8AueHGwvRMIbg24VtxTpOVC +Q== 
+ bh=YFAKHxu5wcKQ3UK0MPzzxJnNMBONFL5WOcAvofUE3bw=;
+ b=n6TYPcc2EEb678JhhWrpENhKY5a0ZXNQzGelXBS+3+lCPr6s82vmVAGoVmPROY9DPi4l
+ DpcmzJAoBJhHFKuWICXIo9zWlU3MC6AX4hY+dbOPzbkKzrOxqLakgTYWHn+o4QaMyx5e
+ FK1y098IJYEdFQQyoxp+2gha+P5MBYxRltL2UUwVeJv1Jduz6rkz7jt4ph4T9hW2KrFM
+ n1m+w65c70EdD06MRVgNz3GLhSSpQKf8yEtj29UIHN43WMl3OdHGhros9gfhp2LGpuIQ
+ unNhz9NT3XzwovWR6Iv9oG2WSL4WdfBcZSJMUXOhoqA/gM1qKJfY6xqzbOXgl5BGMblE Nw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j9k439dkx-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j9kf68qdb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 13:42:48 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27UDckmC018907;
- Tue, 30 Aug 2022 13:42:47 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j9k439dk4-1
+ Tue, 30 Aug 2022 13:43:30 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27UDSdlX026996;
+ Tue, 30 Aug 2022 13:43:29 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j9kf68qce-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 13:42:47 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27UDaSft028999;
- Tue, 30 Aug 2022 13:42:45 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma02wdc.us.ibm.com with ESMTP id 3j7aw9c0jx-1
+ Tue, 30 Aug 2022 13:43:29 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27UDaBTF031062;
+ Tue, 30 Aug 2022 13:43:27 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 3j7awas13e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 13:42:45 +0000
+ Tue, 30 Aug 2022 13:43:27 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27UDgjo9197318
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27UDhQia5178046
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Aug 2022 13:42:45 GMT
+ Tue, 30 Aug 2022 13:43:26 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0DFB52805C;
- Tue, 30 Aug 2022 13:42:45 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 9321F28059;
+ Tue, 30 Aug 2022 13:43:26 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 369D528058;
- Tue, 30 Aug 2022 13:42:43 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id B326028058;
+ Tue, 30 Aug 2022 13:43:24 +0000 (GMT)
 Received: from [9.160.64.167] (unknown [9.160.64.167])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 30 Aug 2022 13:42:43 +0000 (GMT)
-Message-ID: <907c54c6-7f5b-77f3-c284-45604c60c12e@linux.ibm.com>
-Date: Tue, 30 Aug 2022 09:42:42 -0400
+ Tue, 30 Aug 2022 13:43:24 +0000 (GMT)
+Message-ID: <e81f5b86-f5ce-2a2b-bc05-5ef73fc318b5@linux.ibm.com>
+Date: Tue, 30 Aug 2022 09:43:24 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 01/15] vfio: Add helpers for unifying vfio_device life
- cycle
+Subject: Re: [PATCH 09/15] vfio/ap: Use the new device life cycle helpers
 Content-Language: en-US
 To: Kevin Tian <kevin.tian@intel.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, 
  Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
@@ -94,22 +93,22 @@ To: Kevin Tian <kevin.tian@intel.com>, Zhenyu Wang <zhenyuw@linux.intel.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-s390@vger.kernel.org, kvm@vger.kernel.org
 References: <20220827171037.30297-1-kevin.tian@intel.com>
- <20220827171037.30297-2-kevin.tian@intel.com>
+ <20220827171037.30297-10-kevin.tian@intel.com>
 From: Anthony Krowiak <akrowiak@linux.ibm.com>
-In-Reply-To: <20220827171037.30297-2-kevin.tian@intel.com>
+In-Reply-To: <20220827171037.30297-10-kevin.tian@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: UInNfzO6UhsQq9SoGPUVlLqjbU3nCkc-
-X-Proofpoint-ORIG-GUID: RsKFVoA40hj8rxhPhQ80Xt5teHYxtGki
+X-Proofpoint-ORIG-GUID: IdluEtB4hu3CV0euTFXaRaPw-5HY7ylp
+X-Proofpoint-GUID: eVg-uI5lnP3oaIxLLf2Oml3yenLlz5VK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-30_08,2022-08-30_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  mlxscore=0 bulkscore=0
- adultscore=0 spamscore=0 mlxlogscore=999 clxscore=1011 phishscore=0
- impostorscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=999 spamscore=0 phishscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2207270000 definitions=main-2208300067
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -129,229 +128,114 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Reviewed-by: Tony Krowiak <akrowiak@linux.ibm.com>
 
-I have a couple of review comments, but nothing critical that would 
-prevent my r-b.
-
 On 8/27/22 1:10 PM, Kevin Tian wrote:
-> The idea is to let vfio core manage the vfio_device life cycle instead
-> of duplicating the logic cross drivers. This is also a preparatory
-> step for adding struct device into vfio_device.
+> From: Yi Liu <yi.l.liu@intel.com>
 >
-> New pair of helpers together with a kref in vfio_device:
+> and manage available_instances inside @init/@release.
 >
->   - vfio_alloc_device()
->   - vfio_put_device()
->
-> Drivers can register @init/@release callbacks to manage any private
-> state wrapping the vfio_device.
->
-> However vfio-ccw doesn't fit this model due to a life cycle mess
-> that its private structure mixes both parent and mdev info hence must
-> be allocated/free'ed outside of the life cycle of vfio device.
->
-> Per prior discussions this won't be fixed in short term by IBM folks.
->
-> Instead of waiting introduce another helper vfio_init_device() so ccw
-> can call it to initialize a pre-allocated vfio_device.
->
-> Further implication of the ccw trick is that vfio_device cannot be
-> free'ed uniformly in vfio core. Instead, require *EVERY* driver to
-> implement @release and free vfio_device inside. Then ccw can choose
-> to delay the free at its own discretion.
->
-> Another trick down the road is that kvzalloc() is used to accommodate
-> the need of gvt which uses vzalloc() while all others use kzalloc().
-> So drivers should call a helper vfio_free_device() to free the
-> vfio_device instead of assuming that kfree() or vfree() is appliable.
->
-> Later once the ccw mess is fixed we can remove those tricks and
-> fully handle structure alloc/free in vfio core.
->
-> Existing vfio_{un}init_group_dev() will be deprecated after all
-> existing usages are converted to the new model.
->
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Co-developed-by: Yi Liu <yi.l.liu@intel.com>
 > Signed-off-by: Yi Liu <yi.l.liu@intel.com>
 > Signed-off-by: Kevin Tian <kevin.tian@intel.com>
 > ---
->   drivers/vfio/vfio_main.c | 92 ++++++++++++++++++++++++++++++++++++++++
->   include/linux/vfio.h     | 25 ++++++++++-
->   2 files changed, 116 insertions(+), 1 deletion(-)
+>   drivers/s390/crypto/vfio_ap_ops.c | 50 ++++++++++++++++++-------------
+>   1 file changed, 29 insertions(+), 21 deletions(-)
 >
-> diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-> index 7cb56c382c97..af8aad116f2b 100644
-> --- a/drivers/vfio/vfio_main.c
-> +++ b/drivers/vfio/vfio_main.c
-> @@ -496,6 +496,98 @@ void vfio_uninit_group_dev(struct vfio_device *device)
+> diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
+> index 6c8c41fac4e1..803aadfd0876 100644
+> --- a/drivers/s390/crypto/vfio_ap_ops.c
+> +++ b/drivers/s390/crypto/vfio_ap_ops.c
+> @@ -684,42 +684,44 @@ static bool vfio_ap_mdev_filter_matrix(unsigned long *apm, unsigned long *aqm,
+>   			     AP_DOMAINS);
 >   }
->   EXPORT_SYMBOL_GPL(vfio_uninit_group_dev);
 >   
-> +/*
-> + * Alloc and initialize vfio_device so it can be registered to vfio
-> + * core.
-> + *
-> + * Drivers should use the wrapper vfio_alloc_device() for allocation.
-> + * @size is the size of the structure to be allocated, including any
-> + * private data used by the driver.
-
-
-It seems the purpose of the wrapper is to ensure that the object being 
-allocated has as its first field a struct vfio_device object and to 
-return its container. Why not just make that a requirement for this 
-function - which I would rename vfio_alloc_device - and document it in 
-the prologue? The caller can then cast the return pointer or use 
-container_of.
-
-
-> + *
-> + * Driver may provide an @init callback to cover device private data.
-> + *
-> + * Use vfio_put_device() to release the structure after success return.
-> + */
-> +struct vfio_device *_vfio_alloc_device(size_t size, struct device *dev,
-> +		const struct vfio_device_ops *ops)
-> +{
-> +	struct vfio_device *device;
-> +	int ret;
-> +
-> +	if (WARN_ON(size < sizeof(struct vfio_device)))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	device = kvzalloc(size, GFP_KERNEL);
-> +	if (!device)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ret = vfio_init_device(device, dev, ops);
-> +	if (ret)
-> +		goto out_free;
-> +	return device;
-> +
-> +out_free:
-> +	kvfree(device);
-> +	return ERR_PTR(ret);
-> +}
-> +EXPORT_SYMBOL_GPL(_vfio_alloc_device);
-> +
-> +/*
-> + * Initialize a vfio_device so it can be registered to vfio core.
-> + *
-> + * Only vfio-ccw driver should call this interface.
-> + */
-> +int vfio_init_device(struct vfio_device *device, struct device *dev,
-> +		     const struct vfio_device_ops *ops)
-> +{
-> +	int ret;
-> +
-> +	vfio_init_group_dev(device, dev, ops);
-> +
-> +	if (ops->init) {
-> +		ret = ops->init(device);
-> +		if (ret)
-> +			goto out_uninit;
-> +	}
-> +
-> +	kref_init(&device->kref);
-> +	return 0;
-> +
-> +out_uninit:
-> +	vfio_uninit_group_dev(device);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_init_device);
-> +
-> +/*
-> + * The helper called by driver @release callback to free the device
-> + * structure. Drivers which don't have private data to clean can
-> + * simply use this helper as its @release.
-> + */
-> +void vfio_free_device(struct vfio_device *device)
-> +{
-> +	kvfree(device);
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_free_device);
-> +
-> +/* Release helper called by vfio_put_device() */
-> +void vfio_device_release(struct kref *kref)
-> +{
-> +	struct vfio_device *device =
-> +			container_of(kref, struct vfio_device, kref);
-> +
-> +	vfio_uninit_group_dev(device);
-> +
-> +	/*
-> +	 * kvfree() cannot be done here due to a life cycle mess in
-> +	 * vfio-ccw. Before the ccw part is fixed all drivers are
-> +	 * required to support @release and call vfio_free_device()
-> +	 * from there.
-> +	 */
-> +	device->ops->release(device);
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_device_release);
-> +
->   static struct vfio_group *vfio_noiommu_group_alloc(struct device *dev,
->   		enum vfio_group_type type)
+> -static int vfio_ap_mdev_probe(struct mdev_device *mdev)
+> +static int vfio_ap_mdev_init_dev(struct vfio_device *vdev)
 >   {
-> diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-> index e05ddc6fe6a5..e1e9e8352903 100644
-> --- a/include/linux/vfio.h
-> +++ b/include/linux/vfio.h
-> @@ -45,7 +45,8 @@ struct vfio_device {
->   	struct kvm *kvm;
+> -	struct ap_matrix_mdev *matrix_mdev;
+> -	int ret;
+> +	struct ap_matrix_mdev *matrix_mdev =
+> +		container_of(vdev, struct ap_matrix_mdev, vdev);
 >   
->   	/* Members below here are private, not for driver use */
-> -	refcount_t refcount;
-> +	struct kref kref;	/* object life cycle */
-> +	refcount_t refcount;	/* user count on registered device*/
->   	unsigned int open_count;
->   	struct completion comp;
->   	struct list_head group_next;
-> @@ -55,6 +56,8 @@ struct vfio_device {
->   /**
->    * struct vfio_device_ops - VFIO bus driver device callbacks
->    *
-> + * @init: initialize private fields in device structure
-> + * @release: Reclaim private fields in device structure
->    * @open_device: Called when the first file descriptor is opened for this device
->    * @close_device: Opposite of open_device
->    * @read: Perform read(2) on device file descriptor
-> @@ -72,6 +75,8 @@ struct vfio_device {
->    */
->   struct vfio_device_ops {
->   	char	*name;
-> +	int	(*init)(struct vfio_device *vdev);
-> +	void	(*release)(struct vfio_device *vdev);
->   	int	(*open_device)(struct vfio_device *vdev);
->   	void	(*close_device)(struct vfio_device *vdev);
->   	ssize_t	(*read)(struct vfio_device *vdev, char __user *buf,
-> @@ -137,6 +142,24 @@ static inline int vfio_check_feature(u32 flags, size_t argsz, u32 supported_ops,
->   	return 1;
->   }
+>   	if ((atomic_dec_if_positive(&matrix_dev->available_instances) < 0))
+>   		return -EPERM;
 >   
-> +struct vfio_device *_vfio_alloc_device(size_t size, struct device *dev,
-> +				       const struct vfio_device_ops *ops);
-> +#define vfio_alloc_device(dev_struct, member, dev, ops)				\
-> +	container_of(_vfio_alloc_device(sizeof(struct dev_struct) +		\
-> +					BUILD_BUG_ON_ZERO(offsetof(		\
-> +						struct dev_struct, member)),	\
-> +					dev, ops),				\
-> +		     struct dev_struct, member)
-
-
-I found the use of this macro confusing and unnecessary. I'd prefer 
-vfio_alloc_device be a function (see my comments above).
-
-
-> +
-> +int vfio_init_device(struct vfio_device *device, struct device *dev,
-> +		     const struct vfio_device_ops *ops);
-> +void vfio_free_device(struct vfio_device *device);
-> +void vfio_device_release(struct kref *kref);
-> +static inline void vfio_put_device(struct vfio_device *device)
-> +{
-> +	kref_put(&device->kref, vfio_device_release);
+> -	matrix_mdev = kzalloc(sizeof(*matrix_mdev), GFP_KERNEL);
+> -	if (!matrix_mdev) {
+> -		ret = -ENOMEM;
+> -		goto err_dec_available;
+> -	}
+> -	vfio_init_group_dev(&matrix_mdev->vdev, &mdev->dev,
+> -			    &vfio_ap_matrix_dev_ops);
+> -
+> -	matrix_mdev->mdev = mdev;
+> +	matrix_mdev->mdev = to_mdev_device(vdev->dev);
+>   	vfio_ap_matrix_init(&matrix_dev->info, &matrix_mdev->matrix);
+>   	matrix_mdev->pqap_hook = handle_pqap;
+>   	vfio_ap_matrix_init(&matrix_dev->info, &matrix_mdev->shadow_apcb);
+>   	hash_init(matrix_mdev->qtable.queues);
+>   
+> +	return 0;
 > +}
 > +
->   void vfio_init_group_dev(struct vfio_device *device, struct device *dev,
->   			 const struct vfio_device_ops *ops);
->   void vfio_uninit_group_dev(struct vfio_device *device);
+> +static int vfio_ap_mdev_probe(struct mdev_device *mdev)
+> +{
+> +	struct ap_matrix_mdev *matrix_mdev;
+> +	int ret;
+> +
+> +	matrix_mdev = vfio_alloc_device(ap_matrix_mdev, vdev, &mdev->dev,
+> +					&vfio_ap_matrix_dev_ops);
+> +	if (IS_ERR(matrix_mdev))
+> +		return PTR_ERR(matrix_mdev);
+> +
+>   	ret = vfio_register_emulated_iommu_dev(&matrix_mdev->vdev);
+>   	if (ret)
+> -		goto err_list;
+> +		goto err_put_vdev;
+>   	dev_set_drvdata(&mdev->dev, matrix_mdev);
+>   	mutex_lock(&matrix_dev->mdevs_lock);
+>   	list_add(&matrix_mdev->node, &matrix_dev->mdev_list);
+>   	mutex_unlock(&matrix_dev->mdevs_lock);
+>   	return 0;
+>   
+> -err_list:
+> -	vfio_uninit_group_dev(&matrix_mdev->vdev);
+> -	kfree(matrix_mdev);
+> -err_dec_available:
+> -	atomic_inc(&matrix_dev->available_instances);
+> +err_put_vdev:
+> +	vfio_put_device(&matrix_mdev->vdev);
+>   	return ret;
+>   }
+>   
+> @@ -766,6 +768,12 @@ static void vfio_ap_mdev_unlink_fr_queues(struct ap_matrix_mdev *matrix_mdev)
+>   	}
+>   }
+>   
+> +static void vfio_ap_mdev_release_dev(struct vfio_device *vdev)
+> +{
+> +	vfio_free_device(vdev);
+> +	atomic_inc(&matrix_dev->available_instances);
+> +}
+> +
+>   static void vfio_ap_mdev_remove(struct mdev_device *mdev)
+>   {
+>   	struct ap_matrix_mdev *matrix_mdev = dev_get_drvdata(&mdev->dev);
+> @@ -779,9 +787,7 @@ static void vfio_ap_mdev_remove(struct mdev_device *mdev)
+>   	list_del(&matrix_mdev->node);
+>   	mutex_unlock(&matrix_dev->mdevs_lock);
+>   	mutex_unlock(&matrix_dev->guests_lock);
+> -	vfio_uninit_group_dev(&matrix_mdev->vdev);
+> -	kfree(matrix_mdev);
+> -	atomic_inc(&matrix_dev->available_instances);
+> +	vfio_put_device(&matrix_mdev->vdev);
+>   }
+>   
+>   static ssize_t name_show(struct mdev_type *mtype,
+> @@ -1794,6 +1800,8 @@ static const struct attribute_group vfio_queue_attr_group = {
+>   };
+>   
+>   static const struct vfio_device_ops vfio_ap_matrix_dev_ops = {
+> +	.init = vfio_ap_mdev_init_dev,
+> +	.release = vfio_ap_mdev_release_dev,
+>   	.open_device = vfio_ap_mdev_open_device,
+>   	.close_device = vfio_ap_mdev_close_device,
+>   	.ioctl = vfio_ap_mdev_ioctl,
