@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44E35A63CC
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 14:47:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F27FB5A6439
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 14:59:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90DC910E031;
-	Tue, 30 Aug 2022 12:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3CB810E0CE;
+	Tue, 30 Aug 2022 12:59:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1802810E031
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 12:46:48 +0000 (UTC)
-Date: Tue, 30 Aug 2022 12:46:40 +0000
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB6210E0BF;
+ Tue, 30 Aug 2022 12:58:59 +0000 (UTC)
+Date: Tue, 30 Aug 2022 12:58:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1661863606; x=1662122806;
- bh=PAMpdWw6iah9QhaIO/AnDcvL5qIL+0mG/mAdJFZiORg=;
+ s=protonmail3; t=1661864337; x=1662123537;
+ bh=JbJ8pny8WkXF+APpWNNDBSQ1nzirbBno8I1tYwCiudk=;
  h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
  References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
  Feedback-ID:Message-ID;
- b=d2eiWZV89fBoSJ7TL9kjUX8hsgRDJyWAKybw6Exv+/XucwhildwmwUAkeL1tWqwsU
- tqTmA9KtX6vU3uI0C8xjKruzi65tr2h18bFUlIKMRzoAuJYAtt5ncYqpjOrwIXa32U
- inhoN+5bGWq3SlOL4127BiMuo113Fv+lbN16xEKnaIW6Y3JZUiuO1KyvgF6P9zDZsH
- tj2fJBvrX0224ea6zL1m6t6BwjlZUABUeW7Gb0tqwO+ywR7PKxUWEPQSW+bvbk/Oj3
- DT7Lvcz9xhmShglO02OD7ELzMBcSvaBynHTHBPWbifJ7n8AqAAeIflKfafROQQ98/C
- oDr9xYkIfteTw==
+ b=QHa5bdYVErtJQJIPVUSczJuIzaH2i8OleeuHTi6gw6EdDCltSbUhHW5bOJpKsnVIk
+ s3gQ48uLHseOE87Pi3SfGSEdD4bjYyL3uewjrHvB3viTMgBA2w7923nsVPUb1uzLbb
+ v/utRlVWaQeY9fzrpegr2w1uZMEPkcMiKXUr1JOYQI2qyE9sWv6ftIMlngnPYQ8plu
+ f4ketQ++kFLy/RAf+JuwZUsY/xLRLC8iBUqMYRwfQxOmjhgip3qZvmmWMPP3pc9L9k
+ 19PFpk7goWNft763nbO27GKZbqovX3rlnWpGi8h5Qrmdti/MTwtACAxY0yUVApu/rL
+ MnzWEiUvrCUxg==
 To: =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: drm: document uAPI page-flip flags
-Message-ID: <jmQy1pXmwi-YHqNW0Oqu9E5oq7Xo0qQGt-QsWcfsJKcY-fI7fPkEWI1nZlYs4L_lGc_57VTEp6GwoB9KbrYOZ95Y6Wjzsa4Sx-zLenSyimM=@emersion.fr>
-In-Reply-To: <318188b5-3078-14f3-83a3-8eeda995f425@mailbox.org>
-References: <20220824174459.441976-1-contact@emersion.fr>
- <20220826115355.668e13ca@eldfell>
- <ASSNOUe9wtsXskZjVlf1X4pl53T7pVE0MfEzkQ_h4cX0tjnF7e3cxpwGpRNPudmIHoRuW4kz_v1AeTpXgouLpTYcI8q-lPTzc1YMLR8JiJM=@emersion.fr>
- <20220830111626.77307042@eldfell>
- <318188b5-3078-14f3-83a3-8eeda995f425@mailbox.org>
+Subject: Re: [PATCH 3/4] drm: introduce DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP
+Message-ID: <fuMqV8ApgDP5KbyvpvUtqTrigZjHfbW14uWyOuphpw8cSl39nUUWgtyTLbfC32BKFiKD-NcmydNkJQAZ9Q5nb0nz7gkiXth2HQyOsRI0Lj8=@emersion.fr>
+In-Reply-To: <f7465260-5f5b-44da-4119-7bae9c8e9c8d@mailbox.org>
+References: <20220824150834.427572-1-contact@emersion.fr>
+ <20220824150834.427572-4-contact@emersion.fr> <YwiB/xQf6Z6ScU+Z@intel.com>
+ <mCt6wEhtsKHH_vfQEi0RwUQspNiKfFez4v8ZWlMW-sqZ5xaiUqMpRCF7na84A2nOLw5MA59fQ6IWddLCAg76XwWagCYMthzTLKLPQ9m0MfI=@emersion.fr>
+ <f7465260-5f5b-44da-4119-7bae9c8e9c8d@mailbox.org>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -52,13 +51,16 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org, mwen@igalia.com,
+ Pekka Paalanen <ppaalanen@gmail.com>, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, joshua@froggi.es, hwentlan@amd.com,
+ nicholas.kazlauskas@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, August 30th, 2022 at 10:31, Michel D=C3=A4nzer <michel.daenzer@=
+(Oops, I replied to the wrong thread. Re-sending to the correct one.)
+
+On Tuesday, August 30th, 2022 at 10:41, Michel D=C3=A4nzer <michel.daenzer@=
 mailbox.org> wrote:
 
 > > For the atomic uAPI, we need to pick on of these two approaches:
@@ -76,9 +78,9 @@ ich
 > >    needs to only apply an update if async flip is possible, in which ca=
 se this
 > >    approach falls short.
->=20
+>
 > The future is now. :)
->=20
+>
 > As I described in the documentation patch discussion, this approach would
 > make it tricky for a Wayland compositor to decide if it should use an asy=
 nc
