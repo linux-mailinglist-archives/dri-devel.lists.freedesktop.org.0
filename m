@@ -1,58 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49A55A6370
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 14:35:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CBCF5A6436
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 14:58:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79AB410E0A2;
-	Tue, 30 Aug 2022 12:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02C3210E0AD;
+	Tue, 30 Aug 2022 12:58:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E120210E0A2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 12:35:08 +0000 (UTC)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4MH6G33z0Jz9spH;
- Tue, 30 Aug 2022 12:35:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1661862908; bh=OW5Si2V5toqtmIHNaREVvGMPB0YJovcvgLjrqBDWMP0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VRQX0iazTanVS5OceiJXZsNOZurFR6J6wCyykFuUK6WFMDOpJsOrs0UPDQUO+d33G
- WEvACnYOpROhdazpsJvBRbP66IKP9ARhEDe3Ixl4q9flwxW8fA8nWzvcl26VXhkMov
- 5VW6GwaC0F7Miinq8IRccOhzjvvkWG6Of13Qo2Bk=
-X-Riseup-User-ID: BBFF72A898285B82B5AA53FEBBD26A988533D0558A62D62D26F14A98968C09B5
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4MH6Fs35Yvz5vP3;
- Tue, 30 Aug 2022 12:34:57 +0000 (UTC)
-Message-ID: <1109a3f0-3b07-e354-91dc-b786370f5ccf@riseup.net>
-Date: Tue, 30 Aug 2022 09:34:53 -0300
+X-Greylist: delayed 1346 seconds by postgrey-1.36 at gabe;
+ Tue, 30 Aug 2022 12:58:24 UTC
+Received: from smtp2.uni-freiburg.de (smtp2.uni-freiburg.de
+ [IPv6:2001:7c0:2500:4::25:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 536E610E0AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 12:58:24 +0000 (UTC)
+Delivery-date: Tue, 30 Aug 2022 14:58:24 +0200
+Received: from fe2.uni-freiburg.de ([132.230.2.222] helo=uni-freiburg.de) port
+ 54734 by smtp2.uni-freiburg.de with esmtp ( Exim )
+ id 1oT0TD-0008CE-8L
+ for dri-devel@lists.freedesktop.org; Tue, 30 Aug 2022 14:35:56 +0200
+Received: from [132.230.8.113] (account simon.rettberg@rz.uni-freiburg.de HELO
+ computer) by mail.uni-freiburg.de (CommuniGate Pro SMTP 6.3.14)
+ with ESMTPSA id 94944979; Tue, 30 Aug 2022 14:35:56 +0200
+Date: Tue, 30 Aug 2022 14:35:55 +0200
+From: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
+To: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/display: Don't assume dual mode adaptors support i2c
+ sub-addressing
+Message-ID: <20220830143555.22064236@computer>
+Organization: Rechenzentrum Uni Freiburg
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 19/41] drm/modes: Introduce the tv_mode property as a
- command-line option
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-19-459522d653a7@cerno.tech>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-19-459522d653a7@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,367 +47,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: Rafael Gieschke <rafael.gieschke@rz.uni-freiburg.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Current dual mode adaptor ("DP++") detection code assumes that all adaptors
+support i2c sub-addressing for read operations from the DP-HDMI adaptor ID
+buffer.  It has been observed that multiple adaptors do not in fact
+support this, and always return data starting at register 0.  On
+affected adaptors, the code failed to read the proper registers that
+would identify the device as a type 2 adaptor, and handled those as
+type 1, limiting the TMDS clock to 165MHz.
+Fix this by always reading the ID buffer starting from offset 0, and
+discarding any bytes before the actual offset of interest.
 
-On 8/29/22 10:11, Maxime Ripard wrote:
-> Our new tv mode option allows to specify the TV mode from a property.
-> However, it can still be useful, for example to avoid any boot time
-> artifact, to set that property directly from the kernel command line.
-> 
-> Let's add some code to allow it, and some unit tests to exercise that code.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index 73d01e755496..a759a4ba0036 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -2115,6 +2115,30 @@ static int drm_mode_parse_panel_orientation(const char *delim,
->  	return 0;
->  }
->  
-> +static int drm_mode_parse_tv_mode(const char *delim,
-> +				  struct drm_cmdline_mode *mode)
-> +{
-> +	const char *value;
-> +	unsigned int len;
+Signed-off-by: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
+Reviewed-by: Rafael Gieschke <rafael.gieschke@rz.uni-freiburg.de>
+---
+We had problems with multiple different "4k ready" DP++ adaptors only
+resulting in 1080p resolution on Linux.  While one of them turned out to
+actually just be a type1 adaptor, the others, according to the data
+retrieved via i2cdump, were in fact proper type2 adaptors, advertising a
+TMDS clock of 300MHz.  As it turned out, none of them supported
+sub-addressing when reading from the DP-HDMI adaptor ID buffer via i2c.
+The existing code suggested that this is known to happen with "broken"
+type1 adaptors, but evidently, type2 adaptors are also affected.
+We tried finding authoritative documentation on whether or not this is
+allowed behaviour, but since all the official VESA docs are paywalled,
+the best we could come up with was the spec sheet for Texas Instruments'
+SNx5DP149 chip family.[1]  It explicitly mentions that sub-addressing is
+supported for register writes, but *not* for reads (See NOTE in
+section 8.5.3).  Unless TI blatantly and openly decided to violate the
+VESA spec, one could take that as a strong hint that sub-addressing is
+in fact not mandated by VESA.
 
-Looks like this variable len is not being used and is producing the
-following warning:
+[1] https://www.ti.com/lit/ds/symlink/sn75dp149.pdf
+---
+ .../gpu/drm/display/drm_dp_dual_mode_helper.c | 52 ++++++++++---------
+ 1 file changed, 28 insertions(+), 24 deletions(-)
 
-../drivers/gpu/drm/drm_modes.c:2122:15: warning: unused variable 'len'
-[-Wunused-variable]
-        unsigned int len;
-                     ^
-
-Best Regards,
-- Maíra Canal
-
-> +	int ret;
-> +
-> +	if (*delim != '=')
-> +		return -EINVAL;
-> +
-> +	value = delim + 1;
-> +	delim = strchr(value, ',');
-> +	if (!delim)
-> +		delim = value + strlen(value);
-> +
-> +	ret = drm_get_tv_mode_from_name(value, delim - value);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	mode->tv_mode = ret;
-> +
-> +	return 0;
-> +}
-> +
->  static int drm_mode_parse_cmdline_options(const char *str,
->  					  bool freestanding,
->  					  const struct drm_connector *connector,
-> @@ -2184,6 +2208,9 @@ static int drm_mode_parse_cmdline_options(const char *str,
->  		} else if (!strncmp(option, "panel_orientation", delim - option)) {
->  			if (drm_mode_parse_panel_orientation(delim, mode))
->  				return -EINVAL;
-> +		} else if (!strncmp(option, "tv_mode", delim - option)) {
-> +			if (drm_mode_parse_tv_mode(delim, mode))
-> +				return -EINVAL;
->  		} else {
->  			return -EINVAL;
->  		}
-> @@ -2212,20 +2239,22 @@ struct drm_named_mode {
->  	unsigned int xres;
->  	unsigned int yres;
->  	unsigned int flags;
-> +	unsigned int tv_mode;
->  };
->  
-> -#define NAMED_MODE(_name, _pclk, _x, _y, _flags)	\
-> +#define NAMED_MODE(_name, _pclk, _x, _y, _flags, _mode)	\
->  	{						\
->  		.name = _name,				\
->  		.pixel_clock_khz = _pclk,		\
->  		.xres = _x,				\
->  		.yres = _y,				\
->  		.flags = _flags,			\
-> +		.tv_mode = _mode,			\
->  	}
->  
->  static const struct drm_named_mode drm_named_modes[] = {
-> -	NAMED_MODE("NTSC", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE),
-> -	NAMED_MODE("PAL", 13500, 720, 576, DRM_MODE_FLAG_INTERLACE),
-> +	NAMED_MODE("NTSC", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_NTSC_M),
-> +	NAMED_MODE("PAL", 13500, 720, 576, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_PAL_B),
->  };
->  
->  static int drm_mode_parse_cmdline_named_mode(const char *name,
-> @@ -2271,6 +2300,7 @@ static int drm_mode_parse_cmdline_named_mode(const char *name,
->  		cmdline_mode->xres = mode->xres;
->  		cmdline_mode->yres = mode->yres;
->  		cmdline_mode->interlace = !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
-> +		cmdline_mode->tv_mode = mode->tv_mode;
->  		cmdline_mode->specified = true;
->  
->  		return 1;
-> diff --git a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
-> index 59b29cdfdd35..f1e73ed65be0 100644
-> --- a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
-> +++ b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
-> @@ -885,6 +885,201 @@ static void drm_cmdline_test_multiple_options(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
->  }
->  
-> +static void drm_cmdline_test_tv_options(struct kunit *test,
-> +					const char *cmdline,
-> +					const struct drm_display_mode *expected_mode,
-> +					unsigned int expected_tv_mode)
-> +{
-> +	struct drm_cmdline_mode mode = { };
-> +
-> +	KUNIT_EXPECT_TRUE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> +									  &no_connector, &mode));
-> +	KUNIT_EXPECT_TRUE(test, mode.specified);
-> +	KUNIT_EXPECT_EQ(test, mode.xres, expected_mode->hdisplay);
-> +	KUNIT_EXPECT_EQ(test, mode.yres, expected_mode->vdisplay);
-> +	KUNIT_EXPECT_EQ(test, mode.tv_mode, expected_tv_mode);
-> +
-> +	KUNIT_EXPECT_FALSE(test, mode.refresh_specified);
-> +
-> +	KUNIT_EXPECT_FALSE(test, mode.bpp_specified);
-> +
-> +	KUNIT_EXPECT_FALSE(test, mode.rb);
-> +	KUNIT_EXPECT_FALSE(test, mode.cvt);
-> +	KUNIT_EXPECT_EQ(test, mode.interlace, !!(expected_mode->flags & DRM_MODE_FLAG_INTERLACE));
-> +	KUNIT_EXPECT_FALSE(test, mode.margins);
-> +	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_ntsc_443(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x480i,tv_mode=NTSC-443",
-> +				    drm_mode_analog_ntsc_480i(NULL),
-> +				    DRM_MODE_TV_MODE_NTSC_443);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_ntsc_j(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x480i,tv_mode=NTSC-J",
-> +				    drm_mode_analog_ntsc_480i(NULL),
-> +				    DRM_MODE_TV_MODE_NTSC_J);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_ntsc_m(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x480i,tv_mode=NTSC-M",
-> +				    drm_mode_analog_ntsc_480i(NULL),
-> +				    DRM_MODE_TV_MODE_NTSC_M);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_pal_60(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=PAL-60",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_PAL_60);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_pal_b(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=PAL-B",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_PAL_B);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_pal_d(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=PAL-D",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_PAL_D);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_pal_g(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=PAL-G",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_PAL_G);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_pal_h(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=PAL-H",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_PAL_H);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_pal_i(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=PAL-I",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_PAL_I);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_pal_m(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x480i,tv_mode=PAL-M",
-> +				    drm_mode_analog_ntsc_480i(NULL),
-> +				    DRM_MODE_TV_MODE_PAL_M);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_pal_n(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=PAL-N",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_PAL_N);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_pal_nc(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=PAL-Nc",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_PAL_NC);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_secam_60(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=SECAM-60",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_SECAM_60);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_secam_b(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=SECAM-B",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_SECAM_B);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_secam_d(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=SECAM-D",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_SECAM_D);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_secam_g(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=SECAM-G",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_SECAM_G);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_secam_k(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=SECAM-K",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_SECAM_K);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_secam_k1(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=SECAM-K1",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_SECAM_K1);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_secam_l(struct kunit *test)
-> +{
-> +	drm_cmdline_test_tv_options(test,
-> +				    "720x576i,tv_mode=SECAM-L",
-> +				    drm_mode_analog_pal_576i(NULL),
-> +				    DRM_MODE_TV_MODE_SECAM_L);
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_invalid(struct kunit *test)
-> +{
-> +	struct drm_cmdline_mode mode = { };
-> +	const char *cmdline = "720x480i,tv_mode=invalid";
-> +
-> +	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> +									   &no_connector, &mode));
-> +}
-> +
-> +static void drm_cmdline_test_tv_option_truncated(struct kunit *test)
-> +{
-> +	struct drm_cmdline_mode mode = { };
-> +	const char *cmdline = "720x480i,tv_mode=NTSC";
-> +
-> +	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> +									   &no_connector, &mode));
-> +}
-> +
->  static void drm_cmdline_test_invalid_option(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -1047,6 +1242,27 @@ static struct kunit_case drm_cmdline_parser_tests[] = {
->  	KUNIT_CASE(drm_cmdline_test_name_refresh_invalid_mode),
->  	KUNIT_CASE(drm_cmdline_test_name_option),
->  	KUNIT_CASE(drm_cmdline_test_name_bpp_option),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_ntsc_443),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_ntsc_j),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_ntsc_m),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_pal_60),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_pal_b),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_pal_d),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_pal_g),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_pal_h),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_pal_i),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_pal_m),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_pal_n),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_pal_nc),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_secam_60),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_secam_b),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_secam_d),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_secam_g),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_secam_k),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_secam_k1),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_secam_l),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_invalid),
-> +	KUNIT_CASE(drm_cmdline_test_tv_option_truncated),
->  	KUNIT_CASE(drm_cmdline_test_rotate_0),
->  	KUNIT_CASE(drm_cmdline_test_rotate_90),
->  	KUNIT_CASE(drm_cmdline_test_rotate_180),
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 49d261977d4e..9589108ba202 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1447,6 +1447,11 @@ struct drm_cmdline_mode {
->  	 * @tv_margins: TV margins to apply to the mode.
->  	 */
->  	struct drm_connector_tv_margins tv_margins;
-> +
-> +	/**
-> +	 * @tv_mode: TV mode standard. See DRM_MODE_TV_MODE_*.
-> +	 */
-> +	enum drm_connector_tv_mode tv_mode;
->  };
->  
->  /**
-> 
+diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+index 3ea53bb67..6147da983 100644
+--- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+@@ -63,23 +63,42 @@
+ ssize_t drm_dp_dual_mode_read(struct i2c_adapter *adapter,
+ 			      u8 offset, void *buffer, size_t size)
+ {
++	int ret;
++	u8 zero = 0;
++	char *tmpbuf;
++	/*
++	 * As sub-addressing is not supported by all adaptors,
++	 * always explicitly read from the start and discard
++	 * any bytes that come before the requested offset.
++	 * This way, no matter whether the adaptor supports it
++	 * or not, we'll end up reading the proper data.
++	 */
+ 	struct i2c_msg msgs[] = {
+ 		{
+ 			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
+ 			.flags = 0,
+ 			.len = 1,
+-			.buf = &offset,
++			.buf = &zero,
+ 		},
+ 		{
+ 			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
+ 			.flags = I2C_M_RD,
+-			.len = size,
+-			.buf = buffer,
++			.len = size + offset,
++			.buf = NULL,
+ 		},
+ 	};
+-	int ret;
+ 
++	tmpbuf = kmalloc(size + offset, GFP_KERNEL);
++	if (!tmpbuf)
++		return -ENOMEM;
++
++	msgs[1].buf = tmpbuf;
+ 	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
++	if (ret == ARRAY_SIZE(msgs))
++		memcpy(buffer, tmpbuf + offset, size);
++
++	kfree(tmpbuf);
++
+ 	if (ret < 0)
+ 		return ret;
+ 	if (ret != ARRAY_SIZE(msgs))
+@@ -208,18 +227,6 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
+ 	if (ret)
+ 		return DRM_DP_DUAL_MODE_UNKNOWN;
+ 
+-	/*
+-	 * Sigh. Some (maybe all?) type 1 adaptors are broken and ack
+-	 * the offset but ignore it, and instead they just always return
+-	 * data from the start of the HDMI ID buffer. So for a broken
+-	 * type 1 HDMI adaptor a single byte read will always give us
+-	 * 0x44, and for a type 1 DVI adaptor it should give 0x00
+-	 * (assuming it implements any registers). Fortunately neither
+-	 * of those values will match the type 2 signature of the
+-	 * DP_DUAL_MODE_ADAPTOR_ID register so we can proceed with
+-	 * the type 2 adaptor detection safely even in the presence
+-	 * of broken type 1 adaptors.
+-	 */
+ 	ret = drm_dp_dual_mode_read(adapter, DP_DUAL_MODE_ADAPTOR_ID,
+ 				    &adaptor_id, sizeof(adaptor_id));
+ 	drm_dbg_kms(dev, "DP dual mode adaptor ID: %02x (err %zd)\n", adaptor_id, ret);
+@@ -233,11 +240,10 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
+ 				return DRM_DP_DUAL_MODE_TYPE2_DVI;
+ 		}
+ 		/*
+-		 * If neither a proper type 1 ID nor a broken type 1 adaptor
+-		 * as described above, assume type 1, but let the user know
+-		 * that we may have misdetected the type.
++		 * If not a proper type 1 ID, still assume type 1, but let
++		 * the user know that we may have misdetected the type.
+ 		 */
+-		if (!is_type1_adaptor(adaptor_id) && adaptor_id != hdmi_id[0])
++		if (!is_type1_adaptor(adaptor_id))
+ 			drm_err(dev, "Unexpected DP dual mode adaptor ID %02x\n", adaptor_id);
+ 
+ 	}
+@@ -343,10 +349,8 @@ EXPORT_SYMBOL(drm_dp_dual_mode_get_tmds_output);
+  * @enable: enable (as opposed to disable) the TMDS output buffers
+  *
+  * Set the state of the TMDS output buffers in the adaptor. For
+- * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register. As
+- * some type 1 adaptors have problems with registers (see comments
+- * in drm_dp_dual_mode_detect()) we avoid touching the register,
+- * making this function a no-op on type 1 adaptors.
++ * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register.
++ * Type1 adaptors do not support any register writes.
+  *
+  * Returns:
+  * 0 on success, negative error code on failure
+-- 
+2.35.1
