@@ -1,34 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC505A6A67
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:29:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C585A6A6E
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:29:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E603B10E2CD;
-	Tue, 30 Aug 2022 17:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC2F710E2D2;
+	Tue, 30 Aug 2022 17:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 898A710E2CE;
- Tue, 30 Aug 2022 17:29:12 +0000 (UTC)
-Date: Tue, 30 Aug 2022 17:29:01 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1330A10E2D5;
+ Tue, 30 Aug 2022 17:29:21 +0000 (UTC)
+Date: Tue, 30 Aug 2022 17:29:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1661880550; x=1662139750;
- bh=NOspkeCyisteflDWfgfPp47h9Zxnl1e89Ifouu8WMi0=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
- Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
- b=NOjN1q7uC7m/78qMhm81hkpiwHEVcL+zEsQ7VxcgaTtA64I+Yu6CLtXyNX1gJYVBE
- wgp07kwjkcBUHNCv1XWxPTcgxmUp4Y2Auvem4jSz+BvEZotSWV0/hBMUIJF4GT7n/a
- 9/q95fEtcSnas4PYrbscDAhg/m+SfEc8YK6Tcpb1dVBsI65F1444tcZi4Ouf1dOWRW
- DvGNMKfHrmj8lr8PfK/EEYc1Jhbgs6GqR37Iplef2bIjYrspQZU6IXuHRUQwnFfPw0
- GZPbua7fHMjVZCXNJLBeUZ7gYrcAXNDwu+UarIXr4rkPUI7q1s7eU1eZam+ZmIFa3j
- KWw9yEzL1nmHg==
+ s=protonmail3; t=1661880559; x=1662139759;
+ bh=QybztqqzZ9KjWXjEk2ogkfvfJoSMXPwmtjjt64VUG+4=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
+ Feedback-ID:Message-ID;
+ b=IIMGPCUpxOFiCL4YDDinVVwFp4nU5vSWYktnrPk69KojJ6KLDWtwRMfzrTuF9hgu0
+ NUcOvs25sJgGrWaNkVHsu8WHcGubsuca4EA5hRjIikFdLyFJGfBH52uWZsvmO5FXIV
+ NEe5SA20h9hPsFiIe/L6j5hmJZOEUcTW2mxWtU7XT1y+RpHPDiL3N2EC9VPBUJVkd0
+ gDSxOXctMo5OVF3i5l28gprdRe8TVTMtOQ8O7R/zDVJNvmYQPnOUahA3tU70qMwYxt
+ 6dg0gSowzGzuGCVv1yKrGkXnvH5frJzmwDc5bJspL5Xiw/ix7rD2GjLSSfuJIx8xCf
+ PVgAPi6iWLpOw==
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  wayland-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v2 0/6] Add support for atomic async page-flips
-Message-ID: <20220830172851.269402-1-contact@emersion.fr>
+Subject: [PATCH v2 1/6] amd/display: only accept async flips for fast updates
+Message-ID: <20220830172851.269402-2-contact@emersion.fr>
+In-Reply-To: <20220830172851.269402-1-contact@emersion.fr>
+References: <20220830172851.269402-1-contact@emersion.fr>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -52,42 +55,83 @@ Cc: andrealmeid@igalia.com, daniel.vetter@ffwll.ch, mwen@igalia.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds support for DRM_MODE_PAGE_FLIP_ASYNC for atomic
-commits, aka. "immediate flip" (which might result in tearing).
-The feature was only available via the legacy uAPI, however for
-gaming use-cases it may be desirable to enable it via the atomic
-uAPI too.
+Up until now, amdgpu was silently degrading to vsync when
+user-space requested an async flip but the hardware didn't support
+it.
 
-- v1: https://patchwork.freedesktop.org/series/107683/
-- User-space patch: https://github.com/Plagman/gamescope/pull/595
-- IGT patch: https://patchwork.freedesktop.org/series/107681/
+The hardware doesn't support immediate flips when the update changes
+the FB pitch, the DCC state, the rotation, enables or disables CRTCs
+or planes, etc. This is reflected in the dm_crtc_state.update_type
+field: UPDATE_TYPE_FAST means that immediate flip is supported.
 
-Main changes in v2: add docs, fail atomic commit if async flip isn't
-possible.
+Silently degrading async flips to vsync is not the expected behavior
+from a uAPI point-of-view. Xorg expects async flips to fail if
+unsupported, to be able to fall back to a blit. i915 already behaves
+this way.
 
-Tested on an AMD Picasso iGPU.
+This patch aligns amdgpu with uAPI expectations and returns a failure
+when an async flip is not possible.
 
-Simon Ser (6):
-  amd/display: only accept async flips for fast updates
-  drm: document DRM_MODE_PAGE_FLIP_ASYNC
-  drm: introduce drm_mode_config.atomic_async_page_flip_not_supported
-  drm: allow DRM_MODE_PAGE_FLIP_ASYNC for atomic commits
-  drm: introduce DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP
-  amd/display: indicate support for atomic async page-flips on DC
+v2: new patch
 
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  8 ++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 10 +++++++
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  1 +
- drivers/gpu/drm/drm_atomic_uapi.c             | 28 +++++++++++++++++--
- drivers/gpu/drm/drm_ioctl.c                   |  5 ++++
- drivers/gpu/drm/i915/display/intel_display.c  |  1 +
- drivers/gpu/drm/nouveau/nouveau_display.c     |  1 +
- drivers/gpu/drm/vc4/vc4_kms.c                 |  1 +
- include/drm/drm_mode_config.h                 | 11 ++++++++
- include/uapi/drm/drm.h                        | 10 ++++++-
- include/uapi/drm/drm_mode.h                   | 11 ++++++++
- 11 files changed, 83 insertions(+), 4 deletions(-)
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Joshua Ashton <joshua@froggi.es>
+Cc: Melissa Wen <mwen@igalia.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Harry Wentland <hwentlan@amd.com>
+Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c      |  8 ++++++++
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 10 ++++++++++
+ 2 files changed, 18 insertions(+)
 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gp=
+u/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 9ab01c58bedb..7f96d81f4e0d 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7613,7 +7613,15 @@ static void amdgpu_dm_commit_planes(struct drm_atomi=
+c_state *state,
+ =09=09/*
+ =09=09 * Only allow immediate flips for fast updates that don't
+ =09=09 * change FB pitch, DCC state, rotation or mirroing.
++=09=09 *
++=09=09 * dm_crtc_helper_atomic_check() only accepts async flips with
++=09=09 * fast updates.
+ =09=09 */
++=09=09if (crtc->state->async_flip &&
++=09=09    acrtc_state->update_type !=3D UPDATE_TYPE_FAST)
++=09=09=09drm_warn_once(state->dev,
++=09=09=09=09      "[PLANE:%d:%s] async flip with non-fast update\n",
++=09=09=09=09      plane->base.id, plane->name);
+ =09=09bundle->flip_addrs[planes_count].flip_immediate =3D
+ =09=09=09crtc->state->async_flip &&
+ =09=09=09acrtc_state->update_type =3D=3D UPDATE_TYPE_FAST;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drive=
+rs/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+index 594fe8a4d02b..97ead857f507 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+@@ -388,6 +388,16 @@ static int dm_crtc_helper_atomic_check(struct drm_crtc=
+ *crtc,
+ =09=09return -EINVAL;
+ =09}
+=20
++=09/* Only allow async flips for fast updates that don't change the FB
++=09 * pitch, the DCC state, rotation, etc. */
++=09if (crtc_state->async_flip &&
++=09    dm_crtc_state->update_type !=3D UPDATE_TYPE_FAST) {
++=09=09drm_dbg_atomic(crtc->dev,
++=09=09=09       "[CRTC:%d:%s] async flips are only supported for fast upda=
+tes\n",
++=09=09=09       crtc->base.id, crtc->name);
++=09=09return -EINVAL;
++=09}
++
+ =09/* In some use cases, like reset, no stream is attached */
+ =09if (!dm_crtc_state->stream)
+ =09=09return 0;
 --=20
 2.37.2
 
