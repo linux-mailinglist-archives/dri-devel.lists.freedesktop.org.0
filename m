@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC99C5A6981
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3905A6984
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:19:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B812B10E245;
-	Tue, 30 Aug 2022 17:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEA9010E24A;
+	Tue, 30 Aug 2022 17:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7C010E242;
- Tue, 30 Aug 2022 17:19:09 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E62A410E242;
+ Tue, 30 Aug 2022 17:19:17 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0682661734;
- Tue, 30 Aug 2022 17:19:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8108C433C1;
- Tue, 30 Aug 2022 17:19:06 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3E284B81D12;
+ Tue, 30 Aug 2022 17:19:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61997C43140;
+ Tue, 30 Aug 2022 17:19:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661879948;
- bh=QBsjK9oGm5O9r4YTpxdmvu68qWH0C2oAEG1TyScOEnA=;
+ s=k20201202; t=1661879955;
+ bh=Gf6K69+lkv4ZJgkil7/pyHJXXMnEeC5gYZJ9LHoQ7lU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CgvZvQn4290m3P/ibZRlay+67pEXm/8buecgrlSPFM8Q6fdHmNEavmBM1bnTuRt2h
- Z8LjpG4PbIRkL0bPLS+JPo/fGO+3jzvFjSymcrR67+ZZOwmPuKTxRBS/etgmjqQxT0
- UzJ23Ga5L/1nBD3V0JUTjdus7uJOJHzQmB8wlUSsIH4kacoFwZopMqEk0neDuoQ5wF
- BFfFSmtqJ0HUg9dTDxUEihQ5GvO2NmOIiiutg0Af8fKtjEP2OLQYUsx38FBr4cCewF
- ziMK//M5ZHy7oANgzXpSqOp8bjqbyKA0RMvq095Lufb0oxV4zC2LaBbfjr8zbS1mGi
- nVREjQCBN8YVg==
+ b=HKP3vYY24CmubrNCKO3BRXr+e22U110iV5ZJPtAZeJ6n3Yi5XHdYRPbl5Kmw23cwO
+ HYWO4RSq8ImfEcQWxOjVXV5ZTBXeYeuZ8ZDIFQZUe8lCQgUAy4lnmRrJ/mndJjterd
+ ImzlvHtPb7cNGKIaFcOA4KyQkm2DkgKK/oEQ9rORdoR36+x7Z2EFoHffcYvUXvepb1
+ epSjpYZcl2VOEZyepTV95Dok94gxnqdMRqJoHwVofM5Uc84S+/lsZlGXIBIXtQXjqZ
+ 7tmG2/ay22CPURFhdnc1jg3qQOb8XQ4K6385zIONsGxR2tIpOeXIF+YJliFp8IyOO8
+ iDo00+zMmNw9g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 10/33] drm/amdgpu: fix hive reference leak when
- adding xgmi device
-Date: Tue, 30 Aug 2022 13:18:01 -0400
-Message-Id: <20220830171825.580603-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 11/33] drm/amdgpu: Check num_gfx_rings for gfx
+ v9_0 rb setup.
+Date: Tue, 30 Aug 2022 13:18:02 -0400
+Message-Id: <20220830171825.580603-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220830171825.580603-1-sashal@kernel.org>
 References: <20220830171825.580603-1-sashal@kernel.org>
@@ -55,48 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Amaranath.Somalapuram@amd.com,
- guchun.chen@amd.com, airlied@linux.ie, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, YiPeng Chai <YiPeng.Chai@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- shaoyun.liu@amd.com, lang.yu@amd.com, christian.koenig@amd.com,
+Cc: Sasha Levin <sashal@kernel.org>, tao.zhou1@amd.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com, ricetons@gmail.com,
+ evan.quan@amd.com, victor.skvortsov@amd.com, YiPeng.Chai@amd.com,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Candice Li <candice.li@amd.com>, christian.koenig@amd.com,
  Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: YiPeng Chai <YiPeng.Chai@amd.com>
+From: Candice Li <candice.li@amd.com>
 
-[ Upstream commit f5994da72ba124a3d0463672fdfbec073e3bb72f ]
+[ Upstream commit c351938350ab9b5e978dede2c321da43de7eb70c ]
 
-Only amdgpu_get_xgmi_hive but no amdgpu_put_xgmi_hive
-which will leak the hive reference.
+No need to set up rb when no gfx rings.
 
-Signed-off-by: YiPeng Chai <YiPeng.Chai@amd.com>
+Signed-off-by: Candice Li <candice.li@amd.com>
 Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 3adebb63680e0..ea2b74c0fd229 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -2482,12 +2482,14 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
- 			if (!hive->reset_domain ||
- 			    !amdgpu_reset_get_reset_domain(hive->reset_domain)) {
- 				r = -ENOENT;
-+				amdgpu_put_xgmi_hive(hive);
- 				goto init_failed;
- 			}
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index 5349ca4d19e38..6d8ff3b099422 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -2587,7 +2587,8 @@ static void gfx_v9_0_constants_init(struct amdgpu_device *adev)
  
- 			/* Drop the early temporary reset domain we created for device */
- 			amdgpu_reset_put_reset_domain(adev->reset_domain);
- 			adev->reset_domain = hive->reset_domain;
-+			amdgpu_put_xgmi_hive(hive);
- 		}
- 	}
+ 	gfx_v9_0_tiling_mode_table_init(adev);
+ 
+-	gfx_v9_0_setup_rb(adev);
++	if (adev->gfx.num_gfx_rings)
++		gfx_v9_0_setup_rb(adev);
+ 	gfx_v9_0_get_cu_info(adev, &adev->gfx.cu_info);
+ 	adev->gfx.config.db_debug2 = RREG32_SOC15(GC, 0, mmDB_DEBUG2);
  
 -- 
 2.35.1
