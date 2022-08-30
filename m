@@ -2,75 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41325A6F2A
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 23:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572905A7060
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 00:08:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4200510E1BA;
-	Tue, 30 Aug 2022 21:31:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95CD10E1ED;
+	Tue, 30 Aug 2022 22:08:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDCE310E1DE
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 21:31:27 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id k22so12709535ljg.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 14:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc;
- bh=ycOUS51f/+hxr26Bfki5rqNC0+Cghd136Ub/gFA0SaA=;
- b=kSqNn3A96fFfYAvZMnZM6fCkCnjNdGOAfgbjh9xsCUhPlw304ML9UOEGEq0noWgIeP
- e8mzpa9LJOTPz3mo314puee4Fei78Xd3dwfhduIl+R9me/flZOEnbstk45R5T8xMBH5j
- qj1SBot1DkuqGKcyF7RI8id8AqXjy7LQG9OWw/dcdOmtkhYzextF2jhnGSmja1hGlzqs
- 8uFyhJM+XooSUzJnWBsnt2T9p8alpMeedc8qVliCE16DCl0Nea+DeCk5ybxPVZk/RlN9
- 3wS6qGlyAK0i3imci6ec/k3ZZuvuHvx8V/aL+wP4XOiVLZG8emIw8ni+mIZBgQVmJWF/
- gsLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc;
- bh=ycOUS51f/+hxr26Bfki5rqNC0+Cghd136Ub/gFA0SaA=;
- b=aCZQR7IFzK7sow8VH2tIE29wOSJv9C/U6wUlMC8+EbtSsCiWNPOMMrHx4vWLFqgDRy
- ek3L+mEjvjmAJCJwYmjn1WsTPoYDt6Cm/D+zImAVaADWGKEVrwalqQL9Zg0VwMh8oCha
- 6BZ4P7iiQW3MrTcSOv82VfdF5LNQZFoXsppRLM/yyL6hCTwg5hr7aOtr2NoTkh+58Q3Q
- vXZ+rIR9ZUsuTFjnGjtyl7KCVT71s1IBtESnHf/cH5hMk9hASzNfJoY9qi85OLN76Om5
- ISSbTbLHxVQpYcsQnFO3YkgzOZeFZbN1lJakydpus2EThbZ8p1XZ2dZPedQ3y6HE/0ZA
- VMlA==
-X-Gm-Message-State: ACgBeo2w6vMvkysU/bXuolPshUMQ7H3LOY5/rkwUteaofEjdzEJVRa6g
- Vkwm7fkevTr5qWalN7f4egk=
-X-Google-Smtp-Source: AA6agR4S4WuypWhRAErxoi920Fo8fv4SJcbnBpQK5wzzMSWUXZMHydNeVYFmYA2Bqfe1pnKLfGrkYg==
-X-Received: by 2002:a05:651c:507:b0:25e:73af:1661 with SMTP id
- o7-20020a05651c050700b0025e73af1661mr8063374ljp.195.1661895086153; 
- Tue, 30 Aug 2022 14:31:26 -0700 (PDT)
-Received: from ?IPV6:2a02:a31a:a240:1700:d40b:b088:5bfe:3b81?
- ([2a02:a31a:a240:1700:d40b:b088:5bfe:3b81])
- by smtp.googlemail.com with ESMTPSA id
- x7-20020a056512078700b0048b0aa2f87csm1733424lfr.181.2022.08.30.14.31.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 14:31:25 -0700 (PDT)
-From: kFYatek <kfyatek@gmail.com>
-X-Google-Original-From: kFYatek <kfyatek+publicgit@gmail.com>
-Message-ID: <a2ebfb0b-7b54-8059-036b-7aa1bdf4dd78@gmail.com>
-Date: Tue, 30 Aug 2022 23:31:21 +0200
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3927910E1ED;
+ Tue, 30 Aug 2022 22:07:59 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3A399B81DF5;
+ Tue, 30 Aug 2022 22:07:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D815FC433B5;
+ Tue, 30 Aug 2022 22:07:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1661897276;
+ bh=L+0C7TtIOD/Ef/B4ShCL80VUG/4ow+VLTmcSoy58e0k=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=TVIS9TKtjJ9v8EdZhy5Q+N1KnYNao6GXnWRgDYhzBwzkO4ViD2u/da9POwLXSWPUI
+ UCIkDApwWkz3Mp3AdBWenXAeL/bU9bP2y9YifaGsHoE03CXCP025g2/6FCzEpjXuwL
+ SzQped21zTr9R06pceC4sq36Mn5qLx4mLj+UJTqpO4xDfvq9suZ7fUpee6wvDa93la
+ W3cO0m5sFx394Ha0zShNd/6bm/0aa6cwZZ+5D456wGVspZsfEqboPvWsly9SSq527g
+ RLMlgMzp68rp/tBiiJcoS9fhzz377kUFMfr1/l1Qn93jDGFqLr+DfWutNu2Fmxqmpd
+ 0hAawc+EdHdcQ==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.2.0
-Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
-Content-Language: pl
-To: Dom Cobley <dom@raspberrypi.com>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
- <20220822074800.qzyctchqn5usr55g@houat>
- <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
- <20220825155506.wqurh5r752qfufqs@houat>
- <18737c8a-78f4-5b9f-aea2-588bc65c13d9@gmail.com>
- <9d9ba040-99d7-25cb-ba10-1c132d7f7663@gmail.com>
- <CANUESCG22TrxasYoE2U0OJ7TVzNAcs_9zkuAfBQfZrEbM4h9dg@mail.gmail.com>
-In-Reply-To: <CANUESCG22TrxasYoE2U0OJ7TVzNAcs_9zkuAfBQfZrEbM4h9dg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220825113334.196908-3-krzysztof.kozlowski@linaro.org>
+References: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
+ <20220825113334.196908-3-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 3/5] dt-bindings: clock: drop minItems equal to maxItems
+From: Stephen Boyd <sboyd@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Andre Przywara <andre.przywara@arm.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ David S. Miller <davem@davemloft.net>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Inki Dae <inki.dae@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Laur
+ ent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Marek Vasut <marex@denx.de>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ Sean Paul <sean@poorly.run>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Tomasz Figa <tomasz.figa@gmail.com>,
+ Vladimir Zapolskiy <vz@mleia.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+ , linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Date: Tue, 30 Aug 2022 15:07:54 -0700
+User-Agent: alot/0.10
+Message-Id: <20220830220755.D815FC433B5@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,41 +88,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <maxime@cerno.tech>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W dniu 26.08.2022 o 16:56, Dom Cobley pisze:
-> On Fri, 26 Aug 2022 at 05:08, Mateusz Kwiatkowski <kfyatek@gmail.com> wrote:
->> - Commenting out the pm_runtime_put() / pm_runtime_get_sync() calls in vc4_vec.c
->> - Reverting this PR by Dom Cobley a.k.a. popcornmix:
->>    https://github.com/raspberrypi/linux/pull/4639
->>
->> Either of these approaches makes VEC mode switching work again. Obviously
->> neither is appropriate for a permanent solution.
-> Might be worth trying the latest rpi-update firmware.
-> There was a change that affects restoring PIXEL/VEC clocks after a
-> power domain cycle.
-> There is also a fix for a USB boot breakage.
->
-> If you still have an issue that occurs in downstream pi tree but not
-> upstream, then create a linux github issue.
+Quoting Krzysztof Kozlowski (2022-08-25 04:33:32)
+> minItems, if missing, are implicitly equal to maxItems, so drop
+> redundant piece to reduce size of code.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
 
-Hi Dom,
-
-I just tested the 868f1cf firmware and its associated kernel, and everything
-works like a charm for me, both USB boot and VEC power management.
-
-Thanks!
-
+Applied to clk-next
