@@ -2,39 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205695A576C
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 01:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 580105A5A0D
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 05:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D63D10F5E4;
-	Mon, 29 Aug 2022 23:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCFD310E9A1;
+	Tue, 30 Aug 2022 03:33:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D582A10F5E4
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Aug 2022 23:08:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90431481;
- Tue, 30 Aug 2022 01:08:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661814516;
- bh=V/noL5H3GGat0X1qZ40oI+6OfQ6QMlmf7rC/4vB+poY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=liE817KLQtHDm3GEbvXYnedB96v9ivXs4fQlkLc2UOi/l+cAVbqGII2V1UvJ3dDke
- 1DF/inO4KuoaB+FNGd1bxvt53gRAy381yS0GEZ1YU9ojkb80WeNk4Kl2rvcvLxGzZv
- aXw7BCWF2W6GEwvaL0fYudC5jljkpIVyrZe2XMNM=
-Date: Tue, 30 Aug 2022 02:08:27 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] dt-bindings: display: bridge: renesas,dw-hdmi: Fix
- 'unevaluatedProperties' warnings
-Message-ID: <Yw1G69ny9tZrFWk4@pendragon.ideasonboard.com>
-References: <20220829215816.6206-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4F5410E8A2;
+ Tue, 30 Aug 2022 03:33:22 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27U1lI1Q012962;
+ Tue, 30 Aug 2022 03:33:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=UscvJRCGL8aIhbEbnV0kRxJdqJmZQHUYzgxZBMlXxpI=;
+ b=DRR9unyDTFyEr2j2r+XNCR5F7w7FjkZgxWNdz8xzL6J4XrBIvH6YhH6XTtmLSukEa11U
+ 3TFHkSisBKGGRuMitkdxgzgGMk09PNuPZR08cGqMa31/dPNxXhaSW0dzW8er8pZJIO9b
+ U8Pm+MjP/X53OKoxPmOTJGVTXbm5j7GQY+Eei2HwVdKKr11gnH3VJ79itimlfSAFRUli
+ +fIcncUwJTkDjXkcjjAbvDNme7nMijNnwqLmFBHxY3hmcTVeCdGRuZgVJvooqhaAQ2Fg
+ hqZZahwvpRP2huB/agIDQAcfxRgJNJJXxfeBYOXNKTmIUcK/itcR4cs1g7GFbNHmt69M rQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j8w4ta5cp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Aug 2022 03:33:19 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27U3XIER022174
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Aug 2022 03:33:18 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Mon, 29 Aug 2022 20:33:17 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [RFC PATCH 0/3] Limit pluggable display modes
+Date: Mon, 29 Aug 2022 20:33:06 -0700
+Message-ID: <1661830389-22439-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220829215816.6206-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: MeyFFJKYUBhB5TQkZtkNGcG4CXoHSwBy
+X-Proofpoint-ORIG-GUID: MeyFFJKYUBhB5TQkZtkNGcG4CXoHSwBy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-29_13,2022-08-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 mlxscore=0
+ mlxlogscore=999 clxscore=1015 phishscore=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208300015
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,61 +76,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Prabhakar <prabhakar.csengg@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: dianders@chromium.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
+As reported on https://gitlab.freedesktop.org/drm/msm/-/issues/17, currently
+there is no mechanism to limit the display output to the pluggable displays
+and it lets users connect any monitor on any chipset based device.
 
-Thank you for the patch.
+This can lead to undefined behavior because lets say the display
+advertises an unsupported pixel clock as its preferred resolution, then
+the end-user can experience undefined behavior such as black screen,
+crash or an underrun.
 
-On Mon, Aug 29, 2022 at 10:58:16PM +0100, Lad Prabhakar wrote:
-> With 'unevaluatedProperties' support implemented, there's a number of
-> warnings when running dtbs_check:
-> 
-> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: hdmi@fead0000: Unevaluated properties are not allowed ('resets' was unexpected)
-> 	From schema: Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> 
-> The main problem is that SoC DTSI's are including resets property, whereas
-> the renesas,dw-hdmi.yaml has 'unevaluatedProperties: false'. So just add
-> optional resets property to the binding.
+The capabilities of every chipset are advertised in the product
+specification for both on-device displays and pluggable displays.
 
-Given that all the DT sources in the kernel specify the resets property,
-how about making it mandatory ?
+Documents such as [1], [2] and [3] can easily be found on the vendor's
+website which advertise the max resolution support for that chipset.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Utilize this information to filter out the resolutions which have
+pixel clock more than the supported limits.
 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml    | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> index 0c9785c8db51..a7e44e249dd3 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> @@ -38,6 +38,9 @@ properties:
->    clock-names:
->      maxItems: 2
->  
-> +  resets:
-> +    maxItems: 1
-> +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->  
+This change only addresses pluggable displays because the underlying
+assumption is that for the built-in displays, the display being chosen
+for the product will be done so after referring to the advertised limits.
+
+For calculating the pixel clock, the value has been taken from the CEA
+speficiation if the resolution is a CEA one and from the CVT specification
+for non-CEA.
+
+This change has only been compile tested so far to get a general feedback
+first and once it takes a final shape, will validate on whatever devices I have
+and will appreciate help from others who have devices which I dont.
+
+[1]: https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/prod_brief_qcom_sd7c.pdf
+[2]: https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/prod_brief_qcom_sd7c_gen2.pdf
+[3]: https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/prod_brief_qcom_sd8cx_gen2.pdf
+
+Abhinav Kumar (3):
+  drm/msm/dpu: add max external pixel clock for all targets
+  drm/msm: filter out modes for DSI bridge having unsupported clock
+  drm/msm: filter out modes for DP/eDP bridge having unsupported clock
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  8 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        | 18 ++++++++----
+ drivers/gpu/drm/msm/dp/dp_display.c            | 16 +++++++++--
+ drivers/gpu/drm/msm/dp/dp_parser.h             |  1 -
+ drivers/gpu/drm/msm/dsi/dsi.c                  |  5 ++++
+ drivers/gpu/drm/msm/dsi/dsi.h                  |  6 ++--
+ drivers/gpu/drm/msm/dsi/dsi_host.c             | 40 ++++++++++++++++++++++----
+ drivers/gpu/drm/msm/dsi/dsi_manager.c          |  2 +-
+ drivers/gpu/drm/msm/msm_drv.h                  |  9 ++++--
+ 10 files changed, 88 insertions(+), 19 deletions(-)
 
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
