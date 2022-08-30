@@ -2,59 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D139D5A6564
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 15:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B645A62D2
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 14:03:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3E610E04F;
-	Tue, 30 Aug 2022 13:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F26C010E073;
+	Tue, 30 Aug 2022 12:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB7BB890B2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 10:03:13 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-3413ad0640dso104877727b3.13
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 03:03:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=I3uyFklCX86QnaO4FGwtK3r174JBbykuqGUsbUF86CM=;
- b=SvE6u95A8KIYBCs4xKxTiCYBbxBSN2iF5GZ9kH5C/9wkg0aMPTTH37wmp6hMOIWLtS
- kC/9M7nTr3ZMa29TCkbg8BVblGpxJtPFxhnW8FJqUavlqEUtwodde3Xio4iCYWBbiz+z
- hHvwesFhf9khHthd7cskM2WeM28No/t0xUfgmB4T+KGuP5CQTrgnZvlIHI7T9gdPywIU
- tdb0UkPXOLOJwSGT6n2VUf/sjEKB0/gcO6ewRhMieGfTGS2g1d0Tl8nqGkj44st+zkfF
- f3/s9my62nvIu2qVuPTxTwzHqj5p7ZazPXEyDGE/e08LSjCIVVwpX0hJFmgu9qKGUShC
- NX8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=I3uyFklCX86QnaO4FGwtK3r174JBbykuqGUsbUF86CM=;
- b=M57vwGu+CgGWHrTYdF+sTmfH7kP0xLo9K7FmwYtPxl79TOazaqMpHGlWZ0+mqCSMk2
- EFv0CXmouc9AmrR83hVsUiUaMrxR67BH3tFrd7UP2u2XlIS0Wout8dLFLjh3NhbFpiDj
- QdMsGH3hUZHSq9Jg/+UlRoiFTrFDUiNTOJ3l+mFS/U2XfyBS4frzovBZ24JOnDfqmc2Z
- nJOp5nkCAZ5W4GWwfFXjlubP62rZex6r7AEaGPrca6YD4lHQNE2/ziyq5i4w+3JNVyvP
- ByF+CCl2l2JBPclHzICrA33gJWWa8biFohfyW07bpEZ4LOLp+AioMRGy0qqEibmJPSQq
- iF0g==
-X-Gm-Message-State: ACgBeo3f7nHuKTR8EkwgsTlElvi3904r3TOsFqF80QwpKPud62AOBp2U
- ukQDcJy8lSEMoAiOcIigpTmcP/4Zzjdi46mLpRs=
-X-Google-Smtp-Source: AA6agR7cJuSH4etKCu9hKCZHGR2bD5vDU9CYpMir88OlfN8Q5rHi5hJI+n41bex3eVce9XadXKx3EOprlFLuWLXffl4=
-X-Received: by 2002:a05:6902:1146:b0:699:ba1f:8934 with SMTP id
- p6-20020a056902114600b00699ba1f8934mr10959552ybu.354.1661853792903; Tue, 30
- Aug 2022 03:03:12 -0700 (PDT)
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21B9E10E073;
+ Tue, 30 Aug 2022 12:03:38 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7213D5802D9;
+ Tue, 30 Aug 2022 08:03:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 30 Aug 2022 08:03:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1661861016; x=
+ 1661868216; bh=Un4EFnpmCrjF0op+CQJbf6xj3KV7/HPMuOuXK7AEo2I=; b=D
+ tvEwgKsQqnUenjfacp4PZwK0ZhaN/HT87mq75are5HFk0XfZglYSMRXUP2aNVpdO
+ tabv3AyDoz4CT5k++l9c3y9JHGnsYqDVm7cgR/iWQye24reLcluU/RRGezMHMa3o
+ 26lJD1g9RgnfgW/OANYyo9K4c6vWlN71CduB2tRPAJqZq16cgjpZieIr87H4Jlg7
+ CMhS9/azps7Am17rwoqUK1Uzi2DSu+b8JpaWS9CO4G+HZmfnAPs/5HNsjBkwTnzN
+ ipQSgsrTKotKvLM9y8XxkH7d+I9Z2kpDV/7B7h5Pj3SpiRe4LvYuUnsxAp9CyoMZ
+ AwL0Hm7CQETZv9e626ipQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661861016; x=
+ 1661868216; bh=Un4EFnpmCrjF0op+CQJbf6xj3KV7/HPMuOuXK7AEo2I=; b=3
+ 6dbXYWyKPwm/+6hbuyU/giI2uQ63drNFQSePRhBlilQ67WGUWjcWLI1p+LqEK73g
+ fs0NRJU95nYgN8bDHN8FFYkRwp8xIREz5mPdBI26UdsvXS/065X+RwB5GxhnS7De
+ rKK6aH8bgofjNfDGB4pg6ieTA8OIAtlPiMqiN5aA38ZA7g7KDM7sUn9DyxZVOCOe
+ vrAeQ7vrwxvCPu8swnYxmAZY1Ax1Ud1UUMQ8fqiDPb28jmFFKhi09+a0LWmcu3Xn
+ 7E4+8+7+U/xAMvq+LZ7fMjdTdaqwxfwhcecTw/1UJu+ZPvkslXODYswUAoZdUdOo
+ vaJgClnI41QuGh/kzRTgA==
+X-ME-Sender: <xms:l_wNY6oGFCuPrXLu_lICDTdCbSEu35J3iVJVjDE6nUcPvveRoHEZiw>
+ <xme:l_wNY4quMS5CXVM1erpTf7cw2djyVbwpuQRrcz2Jhxok1vKHyOF8yaKwhraLbbSse
+ sSXcX3CLE88lmpFNxA>
+X-ME-Received: <xmr:l_wNY_Okj9gTra9L6Fm8reAM8HlENdzUrpVeFZ0H_Ckc2Ky9DkU-Uuh76b0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekfedggeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
+ feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:l_wNY575QlKLJhE0dUITZhr1Y2xjKtL3jvcKcW6f6p2TbHDxlpTffA>
+ <xmx:l_wNY54AtJBpBRMzVSilS5LlYoWV0xW1oilUo4CAO7DJ4OoEQbFw9A>
+ <xmx:l_wNY5jTwGvBb8C8tqMpNARDm_YnrE5LfgJuayPRMJOXWiSvsec9ig>
+ <xmx:mPwNY16sLANYyD2X2vgc2p_03AS9Unm3tT13yoQ8vkPx2iJxXj6aNQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 30 Aug 2022 08:03:34 -0400 (EDT)
+Date: Tue, 30 Aug 2022 14:03:30 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 14/41] drm/modes: Move named modes parsing to a
+ separate function
+Message-ID: <20220830120330.6f5f22d35gu7cbr3@houat>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-14-459522d653a7@cerno.tech>
+ <CAMuHMdV9wVgHFfwHoqtBoYzJDnjDmKTfaZkAKvTVKh1Y-2x1pA@mail.gmail.com>
+ <87czcidnb8.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220829215816.6206-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <e455ebd7-7949-47d6-5f9b-9869dfdd601d@linaro.org>
-In-Reply-To: <e455ebd7-7949-47d6-5f9b-9869dfdd601d@linaro.org>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 30 Aug 2022 11:02:46 +0100
-Message-ID: <CA+V-a8so2GYf5PZAPmCzyZayYXVqnVZ7LBLbb-WUqSeWvVX_vA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: bridge: renesas,dw-hdmi: Fix
- 'unevaluatedProperties' warnings
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Tue, 30 Aug 2022 13:47:49 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87czcidnb8.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,45 +88,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Robert Foss <robert.foss@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Biju Das <biju.das.jz@bp.renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+Hi,
 
-Thank you for the review.
-
-On Tue, Aug 30, 2022 at 10:23 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 30/08/2022 00:58, Lad Prabhakar wrote:
-> > With 'unevaluatedProperties' support implemented, there's a number of
-> > warnings when running dtbs_check:
+On Tue, Aug 30, 2022 at 01:43:07PM +0300, Jani Nikula wrote:
+> On Tue, 30 Aug 2022, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Mon, Aug 29, 2022 at 3:13 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >> +#define STR_STRICT_EQ(str, len, cmp) \
+> >> +       ((strlen(cmp) =3D=3D len) && !strncmp(str, cmp, len))
 > >
-> > arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: hdmi@fead0000: Unevaluated properties are not allowed ('resets' was unexpected)
-> >       From schema: Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> >
-> > The main problem is that SoC DTSI's are including resets property, whereas
-> > the renesas,dw-hdmi.yaml has 'unevaluatedProperties: false'. So just add
-> > optional resets property to the binding.
->
-> This is not main problem. I already commented on two of your similar
-> patches, so same applies here. Please describe real problem.
->
-Sure will do that and send a v2 (and also for the reset of the patches).
+> > This is not part of the move, but newly added.
+>=20
+> The same construct is also duplicated elsewhere in the series, and I
+> kept being confused by it.
 
-Cheers,
-Prabhakar
+I'm not sure what is confusing, but I can add a comment if needed.
+
+> The above is precisely the same as:
+>=20
+> 	str_has_prefix(str, cmp) =3D=3D len
+
+Here, it's used to make sure we don't have a named mode starting with
+either e, d, or D.
+
+If I understood str_has_prefix() right, str_has_prefix("DUMB-MODE", "D")
+=3D=3D strlen("DUMB-MODE") would return true, while it's actually what we
+want to avoid.
+
+It's also used indeed in drm_get_tv_mode_from_name(), where we try to
+match a list of names with one passed as argument.
+
+With drm_get_tv_mode_from_name("NSTC", strlen("NTSC")), we would end up
+calling str_has_prefix("NTSC-J", "NTSC") =3D=3D strlen("NTSC-J") which would
+work. However, we end up calling prefix not a prefix, but an entire
+string we want to match against, which is very confusing to me too.
+
+Maxime
