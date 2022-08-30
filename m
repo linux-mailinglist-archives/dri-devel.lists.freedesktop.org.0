@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975D25A6990
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:20:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB075A6993
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CCBF10E24F;
-	Tue, 30 Aug 2022 17:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 691FD10E253;
+	Tue, 30 Aug 2022 17:21:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6A610E24F
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 17:20:48 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D643510E252
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 17:20:55 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B7ED861799;
- Tue, 30 Aug 2022 17:20:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB21DC433C1;
- Tue, 30 Aug 2022 17:20:45 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 88A1CB81CD3;
+ Tue, 30 Aug 2022 17:20:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46326C433C1;
+ Tue, 30 Aug 2022 17:20:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661880047;
- bh=150roaC0CNIdd5b+cfmwKH6lTavcFXqnMha7Lc8lO5g=;
+ s=k20201202; t=1661880053;
+ bh=SiimXSh2Ur3GproHmiMWpVk5SoQv/iNe1BlOzQpcE3g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NAna+t3I9XfWr8j0C6GGhKqIUB0y6GhddjSZrgtiqXrFmgBIGT83aJ1YEGsKFu8Rj
- IImmn77OwftNI1kdOKVN9Qxe1ftJE0wbK+qhhS1gAAFQ1/cPdOQTuubuMO7K2ywWtk
- 9YtuRNuIchzq1IUg9YNouPpqnqlnb7xzMkSn4j5mQpJqZ/9aUBmkX5I01qtd+P6sst
- RD7Nk/DUhJpNmQ6g0yZ+fedgpEmgplp/ySqgugaQeY5JhYctSOT+9XtnJfD9DJqtGt
- w3H+IlebBDmrtwAOrTGwy5AlxKna8XbBMVjO3pk2unEPukaNMf1P2Iz9565E44rVcV
- Smqx48WusyY0g==
+ b=pGXgE+9HZIxov0U7SLss5jgDPOEv7XcsKdHPF2KIpyW+qv1iIi/80bZN2X4ZbIlgu
+ r43Ucwq+zh0d7Hn87ZRAdQ2dh5H6uG17AXumVZJ56QKULyoZ9YAJLKVLPfqsd4IHz8
+ DDS9KLoH1sphyPfnkDZDfvoM/pcL+ULcZCHybE8AVipZqOGIIYq5+m5fo/V5FqDJc4
+ 3A9zOzxkJJFqBi5gIRIVOdUmp0HtWATaMVCQ+6hDjMqxfsQZj+4cHrdXyI1KJAc3eS
+ 4ziJy/h8YIMOrrCwwvEW8GqF/uhITXyr6G9C7pPdaKQCFkRZdR0DaoyHbql/lxERMD
+ +2sTjC0ClUhEA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 27/33] fbdev: omapfb: Fix tests for
- platform_get_irq() failure
-Date: Tue, 30 Aug 2022 13:18:18 -0400
-Message-Id: <20220830171825.580603-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 28/33] fbdev: fb_pm2fb: Avoid potential divide by
+ zero error
+Date: Tue, 30 Aug 2022 13:18:19 -0400
+Message-Id: <20220830171825.580603-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220830171825.580603-1-sashal@kernel.org>
 References: <20220830171825.580603-1-sashal@kernel.org>
@@ -55,49 +56,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, jiapeng.chong@linux.alibaba.com,
- linux-fbdev@vger.kernel.org, arnd@arndb.de, b.zolnierkie@samsung.com,
- Yu Zhe <yuzhe@nfschina.com>, Helge Deller <deller@gmx.de>,
- guozhengkui@vivo.com, gustavoars@kernel.org, dri-devel@lists.freedesktop.org,
- tony@atomide.com, linux-omap@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Letu Ren <fantasquex@gmail.com>, baihaowen@meizu.com,
+ Helge Deller <deller@gmx.de>, Zheyu Ma <zheyuma97@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yu Zhe <yuzhe@nfschina.com>
+From: Letu Ren <fantasquex@gmail.com>
 
-[ Upstream commit acf4c6205e862304681234a6a4375b478af12552 ]
+[ Upstream commit 19f953e7435644b81332dd632ba1b2d80b1e37af ]
 
-The platform_get_irq() returns negative error codes.  It can't actually
-return zero.
+In `do_fb_ioctl()` of fbmem.c, if cmd is FBIOPUT_VSCREENINFO, var will be
+copied from user, then go through `fb_set_var()` and
+`info->fbops->fb_check_var()` which could may be `pm2fb_check_var()`.
+Along the path, `var->pixclock` won't be modified. This function checks
+whether reciprocal of `var->pixclock` is too high. If `var->pixclock` is
+zero, there will be a divide by zero error. So, it is necessary to check
+whether denominator is zero to avoid crash. As this bug is found by
+Syzkaller, logs are listed below.
 
-Signed-off-by: Yu Zhe <yuzhe@nfschina.com>
+divide error in pm2fb_check_var
+Call Trace:
+ <TASK>
+ fb_set_var+0x367/0xeb0 drivers/video/fbdev/core/fbmem.c:1015
+ do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1110
+ fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1189
+
+Reported-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Letu Ren <fantasquex@gmail.com>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/omap/omapfb_main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/pm2fb.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
-index 292fcb0a24fc9..6ff237cee7f87 100644
---- a/drivers/video/fbdev/omap/omapfb_main.c
-+++ b/drivers/video/fbdev/omap/omapfb_main.c
-@@ -1643,14 +1643,14 @@ static int omapfb_do_probe(struct platform_device *pdev,
- 		goto cleanup;
- 	}
- 	fbdev->int_irq = platform_get_irq(pdev, 0);
--	if (!fbdev->int_irq) {
-+	if (fbdev->int_irq < 0) {
- 		dev_err(&pdev->dev, "unable to get irq\n");
- 		r = ENXIO;
- 		goto cleanup;
+diff --git a/drivers/video/fbdev/pm2fb.c b/drivers/video/fbdev/pm2fb.c
+index d3be2c64f1c08..8fd79deb1e2ae 100644
+--- a/drivers/video/fbdev/pm2fb.c
++++ b/drivers/video/fbdev/pm2fb.c
+@@ -617,6 +617,11 @@ static int pm2fb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
+ 		return -EINVAL;
  	}
  
- 	fbdev->ext_irq = platform_get_irq(pdev, 1);
--	if (!fbdev->ext_irq) {
-+	if (fbdev->ext_irq < 0) {
- 		dev_err(&pdev->dev, "unable to get irq\n");
- 		r = ENXIO;
- 		goto cleanup;
++	if (!var->pixclock) {
++		DPRINTK("pixclock is zero\n");
++		return -EINVAL;
++	}
++
+ 	if (PICOS2KHZ(var->pixclock) > PM2_MAX_PIXCLOCK) {
+ 		DPRINTK("pixclock too high (%ldKHz)\n",
+ 			PICOS2KHZ(var->pixclock));
 -- 
 2.35.1
 
