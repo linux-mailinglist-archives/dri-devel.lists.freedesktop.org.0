@@ -2,51 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456545A6955
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3375D5A6967
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB27C10E0FA;
-	Tue, 30 Aug 2022 17:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5FB10E22E;
+	Tue, 30 Aug 2022 17:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
- (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 831D810E0FA
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 17:13:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
- message-id:subject:cc:to:from:date:from;
- bh=n3BfHw5PefRvzcOIO6sgbfBKO6vC5BZ/oJ9fLf1w7GI=;
- b=VvuIHcgm31RoGQz/bWZ5bFZuISuKqIdIicu+On8vsop1D78qHCpn/yy8CsOOdaVQsB81WFvaLcIMo
- /rE71LDC3EPWHR+HQQ5XHUwLKgM+0TH5x+aATQ8Emj55g9d8HHc9M2vZhpRvtlZjcNLvlE4z7fPLhc
- RjszyNcyb4PyHOxp/u0cw/vosQjseeRA2BDy9oQDEyX0svSDAy1fDZZQLD6uwB3OiL2C9B0DnXI+eP
- yyK2lRhBLPdeAe+5Pp5jTn4nXILSq0K+f2VOaM2o2zEUpgqS5Y4xERo1RsiDo4DdNIBDFBH0p3P+6/
- BPxQKuKg4dnOqdS0PXs3mNzZqkoKkxQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
- message-id:subject:cc:to:from:date:from;
- bh=n3BfHw5PefRvzcOIO6sgbfBKO6vC5BZ/oJ9fLf1w7GI=;
- b=JraHDPTkoXnCs3RESpCFN6h2F7rJWy/53sl/xQ6XzCzk8Kl2sSIlsswXAMyFkKt/hV5TjzdXDt2aV
- rAfACMhBQ==
-X-HalOne-Cookie: 941d2c37e9c4c58e81edbe42287d739f4454378b
-X-HalOne-ID: 13648c46-2887-11ed-a6d1-d0431ea8a283
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 13648c46-2887-11ed-a6d1-d0431ea8a283;
- Tue, 30 Aug 2022 17:13:34 +0000 (UTC)
-Date: Tue, 30 Aug 2022 19:13:32 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] tty/vt: Remove printable variable
-Message-ID: <Yw5FPM8iHDxHmVwk@ravnborg.org>
-References: <20220830132803.403744-1-daniel.vetter@ffwll.ch>
- <20220830134117.416003-1-daniel.vetter@ffwll.ch>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DCE510E22E
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 17:18:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C8D2F6172F;
+ Tue, 30 Aug 2022 17:18:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19438C433B5;
+ Tue, 30 Aug 2022 17:18:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1661879915;
+ bh=rsBZ9omJFlXHM0Xnd/vfXJa6R/hMrsdX9ze4QNMC77g=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=SzL9Y6BKyT76d1+fdRAWVThk1hNkIpLXZ5nbjrZlRYUhP1hLnRJYtchsjHDrigI5Z
+ pxWtqogInrp2H7Q7Sn9cm7dJNLV3Em+E7JLcQKc5DNKOmTKihKcKkGHlAdyGZO1nHF
+ U61bsQijNvO2yS58zM1gJLnJILDXs5Vk0cGB+SyejCGi3HcvV0fK09AZxqGnmmS79r
+ 43XnW1IrJSstb4zK9JKYNCJOvo4YQjOQXBzDOsMezK/Fb8k9tSVezfw7lKXlainYlC
+ KB4Xu0IsGz2HFm2i5g+brWOa3dhSebZkRVSNtFEcSzLCUamRp3agTATRybZxqS+58z
+ 0sJh9z/4lZKKA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 05/33] drm/vc4: hdmi: Depends on CONFIG_PM
+Date: Tue, 30 Aug 2022 13:17:56 -0400
+Message-Id: <20220830171825.580603-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220830171825.580603-1-sashal@kernel.org>
+References: <20220830171825.580603-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220830134117.416003-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,42 +54,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yangxi Xiang <xyangxi5@gmail.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- nick black <dankamongmen@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Xuezhi Zhang <zhangxuezhi1@coolpad.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Jiri Slaby <jirislaby@kernel.org>,
- Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, Sasha Levin <sashal@kernel.org>,
+ emma@anholt.net, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+From: Maxime Ripard <maxime@cerno.tech>
 
-On Tue, Aug 30, 2022 at 03:41:17PM +0200, Daniel Vetter wrote:
-> Every since the 0.99.7A release when console_register() was introduced
-> it's become impossible to call vt_console_print (called
-> console_print() back then still) directly. Which means the
-> initialization issue this variable protected against is no more.
-> 
-> Give it a send off with style and let it rest in peace.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jiri Slaby <jirislaby@kernel.org>
-> Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
-> Cc: nick black <dankamongmen@gmail.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Cc: Yangxi Xiang <xyangxi5@gmail.com>
-> Cc: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+[ Upstream commit 72e2329e7c9bbe15e7a813670497ec9c6f919af3 ]
 
-I saw this was sent again on accident, but that sdoes not prevent me
-from adding a:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+We already depend on runtime PM to get the power domains and clocks for
+most of the devices supported by the vc4 driver, so let's just select it
+to make sure it's there.
 
-I was a bit reluctant to r-b it, but well this looks obviously correct,
-so ...
+Link: https://lore.kernel.org/r/20220629123510.1915022-38-maxime@cerno.tech
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+(cherry picked from commit f1bc386b319e93e56453ae27e9e83817bb1f6f95)
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/vc4/Kconfig    | 1 +
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-	Sam
+diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
+index 061be9a6619df..b0f3117102ca5 100644
+--- a/drivers/gpu/drm/vc4/Kconfig
++++ b/drivers/gpu/drm/vc4/Kconfig
+@@ -8,6 +8,7 @@ config DRM_VC4
+ 	depends on DRM
+ 	depends on SND && SND_SOC
+ 	depends on COMMON_CLK
++	depends on PM
+ 	select DRM_DISPLAY_HDMI_HELPER
+ 	select DRM_DISPLAY_HELPER
+ 	select DRM_KMS_HELPER
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 23ff6aa5e8f60..c5702f22fe1a8 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -2875,7 +2875,7 @@ static int vc5_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused vc4_hdmi_runtime_suspend(struct device *dev)
++static int vc4_hdmi_runtime_suspend(struct device *dev)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+ 
+-- 
+2.35.1
+
