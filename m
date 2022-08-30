@@ -1,53 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251F85A6AF5
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:38:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C96505A6BC2
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 20:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0523810E26D;
-	Tue, 30 Aug 2022 17:38:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE1910E02F;
+	Tue, 30 Aug 2022 18:08:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0473110E26D;
- Tue, 30 Aug 2022 17:38:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661881088; x=1693417088;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=goOc+0B0NZfPnakxgeKQGI63/lRVcoKsA3+HgN2AVBs=;
- b=CBZX1QEueJvT41qFJvBg+jVE7AkRn7QOeSumuUi6E10XEey7wV9vgGwl
- xQmfAoneqFRe0695esBJQU+vrnj3UW4P0BnrMaxlobdPI2QSDYpSUas5l
- QChQwV0KY4H0sR0rKE3I9aXTZZuVp0OBI0ZVv3WGBsSH5omSgzEDMcuft
- vO6eJXGNeUlNnVX/ZFYMj/D/fACfWY8Wb0Q3LwEYyaesT9c/Qex1Bml41
- JvGiwF2bbw245FcU4cP+S54aOTsYna7hxGb/lqaAzGYCSGpSYT8++kyoP
- sULXSC2B425acT9jECZYVuoJX9eB0IA3Sxf88unUXlvkHExFEko+LJncu g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="292831928"
-X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; d="scan'208";a="292831928"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2022 10:37:59 -0700
-X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; d="scan'208";a="754128304"
-Received: from aaram-mobl1.ger.corp.intel.com (HELO [10.213.233.249])
- ([10.213.233.249])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2022 10:37:57 -0700
-Message-ID: <e7a987e4-e306-bf6e-7d17-c5189eecaf49@intel.com>
-Date: Tue, 30 Aug 2022 18:37:55 +0100
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 879E810E02F
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 18:08:27 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id p16so20686427ejb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 11:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:content-language:in-reply-to:mime-version
+ :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+ :subject:date; bh=jXXGaSH+LzmXXbPUT3jEtW2Nm9tCbJ23kAhFelj4/UI=;
+ b=GqOSBwv1YK+A7Mb1equalINdHRuqpp1aEf1gzJELuYodsQqDNneY8QgUm1sJP9C7n2
+ YlGH8Df1ahxfyFPgCZ91EvBYexqftfL/C3povlv0krCSMFm/8uQglkIfoOyALbpV04yc
+ mZumiKZ7JX8QrH8wytf7OXgCZS/+C7MUyt00I2f0Z0Svilf6miRhWZmpEF8ibKgnHu/t
+ JJxIJg/X4Rg71fokNziRvRAQFUnB8ODT5ShNBMOlH1dySVV7gLVQgcv5wqBr4KbZ5tH1
+ uTuO4FigNxRTSvGmA2M10VsxLEhu6q0zG6rbDcr3ME6endO37eyHwnuzj7AyqFoj+cK7
+ aENg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:content-language:in-reply-to:mime-version
+ :user-agent:date:message-id:from:references:cc:to:subject
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=jXXGaSH+LzmXXbPUT3jEtW2Nm9tCbJ23kAhFelj4/UI=;
+ b=A1q9RZBcOb+gxJgC88lFFc7+TuSxosJb9yauii9Pu81t+OAyQC539rXHTC5w1I45lO
+ 0JcDR5adAGnQMCdcbjuCaf1C4s0yUVgU3I9ILInfJGlOgAp/P1BlFRaJ/TgQhjporwzR
+ eq6rSm/Hx8lA6KjQg95Wa0LtsdPjwWqxjKmuKlFCpzs58E7kroPcp8SNewyPpCV1+clg
+ Tw6P3k4Q2sDvsNxRKH4cddo8kXyP372kxbHpiGOLIY+ylDQgZM2XgWmoFlzq4QaL8v+e
+ rIUAb4vhx61CbiY6sxKdOltD+8sC7pYIir6Khc01fCNpTBMWZa4+Z19nk/EyRIb3bpid
+ XE4g==
+X-Gm-Message-State: ACgBeo0D4HGBrAGQwglxCGpO2M6gFUAKujy16d7djdXlGZbaosZyWN7J
+ DAcoUS3E71kSmHF92QzoMII=
+X-Google-Smtp-Source: AA6agR7I6Kro0gm3iRAIJRdyaM5Z01ZJudCHbpC4biu2BNn3iA6Jo4paJUuMaRGwAvHnxZjKKlUs/Q==
+X-Received: by 2002:a17:906:4fd0:b0:73d:be5b:291d with SMTP id
+ i16-20020a1709064fd000b0073dbe5b291dmr17745504ejw.506.1661882905888; 
+ Tue, 30 Aug 2022 11:08:25 -0700 (PDT)
+Received: from [192.168.1.10] ([46.249.74.23])
+ by smtp.googlemail.com with ESMTPSA id
+ h8-20020a50ed88000000b004463b99bc09sm7725272edr.88.2022.08.30.11.08.24
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 30 Aug 2022 11:08:25 -0700 (PDT)
+Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
+ DMM/TILER
+To: Yongqin Liu <yongqin.liu@linaro.org>, Andrew Davis <afd@ti.com>
+References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <5b6d3e7f-c638-fdc7-5080-44d34abed610@ideasonboard.com>
+ <a3ed3a2c-86ce-1c85-e8aa-c08b54ad1a43@gmail.com>
+ <CAMSo37XdZSZUHLWJj373DdtOBA9=uD8SJ7ywWCYF2pU1i4cB_g@mail.gmail.com>
+ <ed4fe238-4fcd-1253-658f-18fe1e1f13b0@gmail.com>
+ <CAMSo37V3U5nYng77jzSnKH73CTLhGYQJu11Q5wRt289se5nFJw@mail.gmail.com>
+ <4128aed0-211a-d12a-6a86-deb4457d39f7@gmail.com>
+ <CAMSo37W-DePLDP=zk-nY6FGcZuk0QzHj4=usrieyV0TNcNfbXw@mail.gmail.com>
+ <da2a661e-9da0-850c-3067-8c1e8d5531bc@gmail.com>
+ <CAMSo37VXNQeR0qZgzZONBwp_4z9CuUSJJJzhM7k+K39BcwvW6A@mail.gmail.com>
+ <235621d0-2141-5ef9-bcd4-5c48b985b3a0@gmail.com>
+ <5dc2c212-4967-ab2d-c016-f3b3a854fe32@ti.com>
+ <CAMSo37W+Z2hn_wJ9At1nyJX6XnpZx9JLXJv9g6DoqoaqqjUATw@mail.gmail.com>
+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <0eb026d9-faaa-68cb-cdcd-7d031acfbb03@gmail.com>
+Date: Tue, 30 Aug 2022 21:08:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.0
-Subject: Re: [RFC PATCH v3 04/17] drm/i915: Implement bind and unbind of object
+In-Reply-To: <CAMSo37W+Z2hn_wJ9At1nyJX6XnpZx9JLXJv9g6DoqoaqqjUATw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
-To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20220827194403.6495-1-andi.shyti@linux.intel.com>
- <20220827194403.6495-5-andi.shyti@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220827194403.6495-5-andi.shyti@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,747 +87,395 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>, Andi Shyti <andi@etezian.org>,
- Ramalingam C <ramalingampc2008@gmail.com>
+Cc: tomba@kernel.org, "Bajjuri, Praneeth" <praneeth@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, merlijn@wizzup.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ airlied@linux.ie, tony@atomide.com, linux-omap@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/08/2022 20:43, Andi Shyti wrote:
-> From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Hi,
+
+On 30.08.22 г. 18:08 ч., Yongqin Liu wrote:
+> HI, Andrew
 > 
-> Implement the bind and unbind of an object at the specified GPU virtual
-> addresses.
+> Thanks a lot for the information! And great to have you here!
 > 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Signed-off-by: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/Makefile                 |   1 +
->   drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  21 ++
->   .../drm/i915/gem/i915_gem_vm_bind_object.c    | 322 ++++++++++++++++++
->   drivers/gpu/drm/i915/gt/intel_gtt.c           |  10 +
->   drivers/gpu/drm/i915/gt/intel_gtt.h           |   9 +
->   drivers/gpu/drm/i915/i915_driver.c            |   1 +
->   drivers/gpu/drm/i915/i915_vma.c               |   3 +-
->   drivers/gpu/drm/i915/i915_vma.h               |   2 -
->   drivers/gpu/drm/i915/i915_vma_types.h         |  14 +
->   include/uapi/drm/i915_drm.h                   | 163 +++++++++
->   10 files changed, 543 insertions(+), 3 deletions(-)
->   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
->   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+> Hi, Ivaylo
 > 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 522ef9b4aff32..4e1627e96c6e0 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -165,6 +165,7 @@ gem-y += \
->   	gem/i915_gem_ttm_move.o \
->   	gem/i915_gem_ttm_pm.o \
->   	gem/i915_gem_userptr.o \
-> +	gem/i915_gem_vm_bind_object.o \
->   	gem/i915_gem_wait.o \
->   	gem/i915_gemfs.o
->   i915-y += \
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
-> new file mode 100644
-> index 0000000000000..ebc493b7dafc1
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
-> @@ -0,0 +1,21 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2022 Intel Corporation
-> + */
-> +
-> +#ifndef __I915_GEM_VM_BIND_H
-> +#define __I915_GEM_VM_BIND_H
-> +
-> +#include "i915_drv.h"
-> +
-> +struct i915_vma *
-> +i915_gem_vm_bind_lookup_vma(struct i915_address_space *vm, u64 va);
-> +void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj);
-> +
-> +int i915_gem_vm_bind_ioctl(struct drm_device *dev, void *data,
-> +			   struct drm_file *file);
-> +int i915_gem_vm_unbind_ioctl(struct drm_device *dev, void *data,
-> +			     struct drm_file *file);
-> +
-> +void i915_gem_vm_unbind_vma_all(struct i915_address_space *vm);
-> +#endif /* __I915_GEM_VM_BIND_H */
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-> new file mode 100644
-> index 0000000000000..dadd1d4b1761b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-> @@ -0,0 +1,322 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2022 Intel Corporation
-> + */
-> +
-> +#include <linux/interval_tree_generic.h>
-> +
-> +#include "gem/i915_gem_vm_bind.h"
-> +#include "gem/i915_gem_context.h"
-> +#include "gt/gen8_engine_cs.h"
-> +
-> +#include "i915_drv.h"
-> +#include "i915_gem_gtt.h"
-> +
-> +#define START(node) ((node)->start)
-> +#define LAST(node) ((node)->last)
-> +
-> +INTERVAL_TREE_DEFINE(struct i915_vma, rb, u64, __subtree_last,
-> +		     START, LAST, static inline, i915_vm_bind_it)
-> +
-> +#undef START
-> +#undef LAST
-> +
-> +/**
-> + * DOC: VM_BIND/UNBIND ioctls
-> + *
-> + * DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM buffer
-> + * objects (BOs) or sections of a BOs at specified GPU virtual addresses on a
-> + * specified address space (VM). Multiple mappings can map to the same physical
-> + * pages of an object (aliasing). These mappings (also referred to as persistent
-> + * mappings) will be persistent across multiple GPU submissions (execbuf calls)
-> + * issued by the UMD, without user having to provide a list of all required
-> + * mappings during each submission (as required by older execbuf mode).
-> + *
-> + * The VM_BIND/UNBIND calls allow UMDs to request a timeline out fence for
-> + * signaling the completion of bind/unbind operation.
-> + *
-> + * VM_BIND feature is advertised to user via I915_PARAM_VM_BIND_VERSION.
-> + * User has to opt-in for VM_BIND mode of binding for an address space (VM)
-> + * during VM creation time via I915_VM_CREATE_FLAGS_USE_VM_BIND extension.
-> + *
-> + * VM_BIND/UNBIND ioctl calls executed on different CPU threads concurrently
-> + * are not ordered. Furthermore, parts of the VM_BIND/UNBIND operations can be
-> + * done asynchronously, when valid out fence is specified.
-> + *
-> + * VM_BIND locking order is as below.
-> + *
-> + * 1) vm_bind_lock mutex will protect vm_bind lists. This lock is taken in
-> + *    vm_bind/vm_unbind ioctl calls, in the execbuf path and while releasing the
-> + *    mapping.
-> + *
-> + *    In future, when GPU page faults are supported, we can potentially use a
-> + *    rwsem instead, so that multiple page fault handlers can take the read
-> + *    side lock to lookup the mapping and hence can run in parallel.
-> + *    The older execbuf mode of binding do not need this lock.
-> + *
-> + * 2) The object's dma-resv lock will protect i915_vma state and needs
-> + *    to be held while binding/unbinding a vma in the async worker and while
-> + *    updating dma-resv fence list of an object. Note that private BOs of a VM
-> + *    will all share a dma-resv object.
-> + *
-> + * 3) Spinlock/s to protect some of the VM's lists like the list of
-> + *    invalidated vmas (due to eviction and userptr invalidation) etc.
-> + */
-> +
-> +/**
-> + * i915_gem_vm_bind_lookup_vma() - lookup for the vma with a starting addr
-> + * @vm: virtual address space in which vma needs to be looked for
-> + * @va: starting addr of the vma
-> + *
-> + * retrieves the vma with a starting address from the vm's vma tree.
-> + *
-> + * Returns: returns vma on success, NULL on failure.
-> + */
-> +struct i915_vma *
-> +i915_gem_vm_bind_lookup_vma(struct i915_address_space *vm, u64 va)
-> +{
-> +	lockdep_assert_held(&vm->vm_bind_lock);
-> +
-> +	return i915_vm_bind_it_iter_first(&vm->va, va, va);
-> +}
-> +
-> +/**
-> + * i915_gem_vm_bind_remove() - Remove vma from the vm bind list
-> + * @vma: vma that needs to be removed
-> + * @release_obj: object to be release or not
-> + *
-> + * Removes the vma from the vm's lists custom interval tree
-> + */
-> +void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
-> +{
-> +	lockdep_assert_held(&vma->vm->vm_bind_lock);
-> +
-> +	if (!list_empty(&vma->vm_bind_link)) {
-> +		list_del_init(&vma->vm_bind_link);
-> +		i915_vm_bind_it_remove(vma, &vma->vm->va);
-> +
-> +		/* Release object */
-> +		if (release_obj)
-> +			i915_gem_object_put(vma->obj);
-> +	}
-> +}
-> +
-> +static int i915_gem_vm_unbind_vma(struct i915_address_space *vm,
-> +				  struct i915_vma *vma,
-> +				  struct drm_i915_gem_vm_unbind *va)
-> +{
-> +	struct drm_i915_gem_object *obj;
-> +	int ret;
-> +
-> +	if (vma) {
-> +		obj = vma->obj;
-> +		i915_vma_destroy(vma);
-> +
-> +		goto exit;
-> +	}
-> +
-> +	if (!va)
-> +		return -EINVAL;
-> +
-> +	ret = mutex_lock_interruptible(&vm->vm_bind_lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	va->start = gen8_noncanonical_addr(va->start);
-> +	vma = i915_gem_vm_bind_lookup_vma(vm, va->start);
-> +
-> +	if (!vma)
-> +		ret = -ENOENT;
-> +	else if (vma->size != va->length)
-> +		ret = -EINVAL;
-> +
-> +	if (ret) {
-> +		mutex_unlock(&vm->vm_bind_lock);
-> +		return ret;
-> +	}
-> +
-> +	i915_gem_vm_bind_remove(vma, false);
-> +
-> +	mutex_unlock(&vm->vm_bind_lock);
-> +
-> +	/* Destroy vma and then release object */
-> +	obj = vma->obj;
-> +	ret = i915_gem_object_lock(obj, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	i915_vma_destroy(vma);
-> +	i915_gem_object_unlock(obj);
-> +
-> +exit:
-> +	i915_gem_object_put(obj);
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * i915_gem_vm_unbind_vma_all() - Unbind all vmas from an address space
-> + * @vm: Address spece from which vma binding needs to be removed
-> + *
-> + * Unbind all userspace requested object binding
-> + */
-> +void i915_gem_vm_unbind_vma_all(struct i915_address_space *vm)
-> +{
-> +	struct i915_vma *vma, *t;
-> +
-> +	list_for_each_entry_safe(vma, t, &vm->vm_bound_list, vm_bind_link)
-> +		WARN_ON(i915_gem_vm_unbind_vma(vm, vma, NULL));
-> +}
-> +
-> +static struct i915_vma *vm_bind_get_vma(struct i915_address_space *vm,
-> +					struct drm_i915_gem_object *obj,
-> +					struct drm_i915_gem_vm_bind *va)
-> +{
-> +	struct i915_ggtt_view view;
-> +	struct i915_vma *vma;
-> +
-> +	va->start = gen8_noncanonical_addr(va->start);
-> +	vma = i915_gem_vm_bind_lookup_vma(vm, va->start);
-> +	if (vma)
-> +		return ERR_PTR(-EEXIST);
-> +
-> +	view.type = I915_GGTT_VIEW_PARTIAL;
-> +	view.partial.offset = va->offset >> PAGE_SHIFT;
-> +	view.partial.size = va->length >> PAGE_SHIFT;
-> +	vma = i915_vma_instance(obj, vm, &view);
-> +	if (IS_ERR(vma))
-> +		return vma;
-> +
-> +	vma->start = va->start;
-> +	vma->last = va->start + va->length - 1;
-> +
-> +	return vma;
-> +}
-> +
-> +static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
-> +				struct drm_i915_gem_vm_bind *va,
-> +				struct drm_file *file)
-> +{
-> +	struct drm_i915_gem_object *obj;
-> +	struct i915_vma *vma = NULL;
-> +	struct i915_gem_ww_ctx ww;
-> +	u64 pin_flags;
-> +	int ret = 0;
-> +
-> +	if (!vm->vm_bind_mode)
-> +		return -EOPNOTSUPP;
-> +
-> +	obj = i915_gem_object_lookup(file, va->handle);
-> +	if (!obj)
-> +		return -ENOENT;
-> +
-> +	if (!va->length ||
-> +	    !IS_ALIGNED(va->offset | va->length,
-> +			i915_gem_object_max_page_size(obj->mm.placements,
-> +						      obj->mm.n_placements)) ||
-> +	    range_overflows_t(u64, va->offset, va->length, obj->base.size)) {
-> +		ret = -EINVAL;
-> +		goto put_obj;
-> +	}
-> +
-> +	ret = mutex_lock_interruptible(&vm->vm_bind_lock);
-> +	if (ret)
-> +		goto put_obj;
-> +
-> +	vma = vm_bind_get_vma(vm, obj, va);
-> +	if (IS_ERR(vma)) {
-> +		ret = PTR_ERR(vma);
-> +		goto unlock_vm;
-> +	}
-> +
-> +	for_i915_gem_ww(&ww, ret, true) {
-> +retry:
-> +		ret = i915_gem_object_lock(vma->obj, &ww);
-> +		if (ret)
-> +			goto out_ww;
-> +
-> +		ret = i915_vma_pin_ww(vma, &ww, 0, 0, pin_flags);
-> +		if (ret)
-> +			goto out_ww;
-> +
-> +		/* Make it evictable */
-> +		__i915_vma_unpin(vma);
-> +
-> +		list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
-> +		i915_vm_bind_it_insert(vma, &vm->va);
-> +
-> +out_ww:
-> +		if (ret == -EDEADLK) {
-> +			ret = i915_gem_ww_ctx_backoff(&ww);
-> +			if (!ret)
-> +				goto retry;
-> +		} else {
-> +			/* Hold object reference until vm_unbind */
-> +			i915_gem_object_get(vma->obj);
-> +		}
-> +	}
+> With the code provided by Andrew, could you please help give suggestions
+> on how to modify it in the gralloc lib side?
+> 
+> to add the OMAP_BO_SCANOUT flag unconditionally as OMAP_BO_MEM_CONTIG?
+> 
 
-Just a drive-by-comment, since this looks a little strange at a glance. 
-The main idea behind for_i915_gem_ww() is to handle this type of stuff 
-for you.
+I don't think adding OMAP_BO_SCANOUT unconditionally is a good idea - we 
+already agreed on why. Without having access to the whole source code, I 
+would not make blind suggestions and would leave between you (as user) 
+and Andrew (as a provider) to agree on what is the best way to fix the 
+issue. Still, see the comments bellow.
 
-With the usual pattern this would look something like:
+> Thanks,
+> Yongqin Liu
+> 
+> On Mon, 29 Aug 2022 at 22:36, Andrew Davis <afd@ti.com> wrote:
+>>
+>> On 8/29/22 8:24 AM, Ivaylo Dimitrov wrote:
+>>> Hi,
+>>>
+>>>
+>>> On 29.08.22 г. 5:51 ч., Yongqin Liu wrote:
+>>>> Hi, Ivaylo
+>>>>
+>>>> Sorry for the late response, and Thanks very much for the detailed explanations!
+>>>>
+>>>> On Thu, 18 Aug 2022 at 18:23, Ivaylo Dimitrov
+>>>> <ivo.g.dimitrov.75@gmail.com> wrote:
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> On 17.08.22 г. 7:52 ч., Yongqin Liu wrote:
+>>>>>> Hi, Ivaylo
+>>>>>>
+>>>>>> On Mon, 15 Aug 2022 at 14:23, Ivaylo Dimitrov
+>>>>>> <ivo.g.dimitrov.75@gmail.com> wrote:
+>>>>>>>
+>>>>>>> Hi Liu,
+>>>>>>>
+>>>>>>> On 14.08.22 г. 17:27 ч., Yongqin Liu wrote:
+>>>>>>>> Hi, IvayIo
+>>>>>>>>
+>>>>>>>> Thanks very much for the reply!
+>>>>>>>>
+>>>>>>>> On Sat, 13 Aug 2022 at 14:58, Ivaylo Dimitrov
+>>>>>>>> <ivo.g.dimitrov.75@gmail.com> wrote:
+>>>>>>>>>
+>>>>>>>>> Hi Liu,
+>>>>>>>>>
+>>>>>>>>> On 12.08.22 г. 7:35 ч., Yongqin Liu wrote:
+>>>>>>>>>> Hi, Ivaylo, Tomi
+>>>>>>>>>>
+>>>>>>>>>> We have one X15 Android AOSP master build, it could not have the home
+>>>>>>>>>> screen displayed
+>>>>>>>>>> on the hdmi monitor connected with this change, with the following
+>>>>>>>>>> message printed on the serial console
+>>>>>>>>>>          [  607.404205] omapdrm omapdrm.0: Failed to setup plane plane-0
+>>>>>>>>>>          [  607.410522] omapdrm omapdrm.0: Failed to setup plane plane-1
+>>>>>>>>>>          [  607.416381] omapdrm omapdrm.0: Failed to setup plane plane-2
+>>>>>>>>>>          [  607.422088] omapdrm omapdrm.0: Failed to setup plane plane-3
+>>>>>>>>>>
+>>>>>>>>>>         # for details, please check the link here: http://ix.io/47m1
+>>>>>>>>>>
+>>>>>>>>>> It will work with home screen displayed on the hdmi monitor if this
+>>>>>>>>>> change is reverted.
+>>>>>>>>>>
+>>>>>>>>>> Is this the broken problem you talked about here?
+>>>>>>>>>>
+>>>>>>>>>> And could you please give some suggestions on how to have the x15
+>>>>>>>>>> Android build work with this change?
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> Make sure scanout (i.e. those to be displayed) buffers are actually
+>>>>>>>>> allocated as such - OMAP_BO_SCANOUT flag must be set when calling
+>>>>>>>>> omap_bo_new().
+>>>>>>>>
+>>>>>>>> I am not familiar with this area, I am sorry if I asked quite silly questions:(
+>>>>>>>> I googled omap_bo_new, and found it's a function of libdrm here[1], is
+>>>>>>>> it what you meant here?
+>>>>>>>>
+>>>>>>>
+>>>>>>> Yes, calling this function from userspace ends in kernel code the
+>>>>>>> $subject patch is part of.
+>>>>>>>
+>>>>>>>> If it's the omap_bo_new that we should pass OMAP_BO_SCANOUT when it is called,
+>>>>>>>> then is it the correct way to update omap_bo_new to add the OMAP_BO_SCANOUT flag
+>>>>>>>> before it calls omap_bo_new_impl?
+>>>>>>>>
+>>>>>>>
+>>>>>>> omap_bo_new() is fine and does not need any updates/fixes, it is the
+>>>>>>> code that uses it (whoever it is, I am not familiar with the userspace
+>>>>>>> you are using) that shall pass correct flags (third parameter) when
+>>>>>>> calling it.
+>>>>>>
+>>>>>> Sorry, I do not get the point here.
+>>>>>> Like you said, the code that calls omap_bo_new needs to pass OMAP_BO_SCANOUT,
+>>>>>> then IMO omap_bo_new should be the best place to add the OMAP_BO_SCANOUT flag,
+>>>>>> (like via flags = flags | OMAP_BO_SCANOUT), that could help avoid
+>>>>>> missing the flag by some code,
+>>>>>> and also avoids hacks/changes on the possible blob binaries.
+>>>>>>
+>>>>>> Do I misunderstand somewhere?
+>>>>>> Or is there some case that OMAP_BO_SCANOUT shouldn't be passed when
+>>>>>> omap_bo_new is called?
+>>>>>>
+>>>>>
+>>>>> Exactly. You need to pass OMAP_BO_SCANOUT only when you want your
+>>>>> buffers to be 'scanout' buffers(i.e. buffers that can be displayed on
+>>>>> screen), which is not always the case - there is no need offscreen
+>>>>> buffers or pixmaps to be scanout capable, for example. There are more
+>>>>> cases like that.
+>>>>>
+>>>>> The problem is that scanout buffer on OMAP4 allocate additional
+>>>>> resources in DMM/TILER (a piece of hardware) and those resources are
+>>>>> limited. Not only that, but DMM/TILER memory space eventually gets
+>>>>> fragmented over time (if you have lots of allocataoins/deallocations)
+>>>>> and you will start getting ENOMEM (or similar) errors.
+>>>>>
+>>>>> Ofc, in your particular use case you may never hit such issues.
+>>>>
+>>>> Thanks, I understand the cases now.
+>>>>
+>>>>
+>>>>>>> BTW you shall really find who and how uses OMAP BO API, in theory it
+>>>>>>> might use ioctls directly and not call omap_bo_xxx functions.
+>>>>>>
+>>>>>> Do you mean the DRM_OMAP_GEM_NEW ioctl api?
+>>>>>> There is no place in the AOSP tree to call that except the
+>>>>>> omap_bo_new_impl function,
+>>>>>> which is called by the omap_bo_new and omap_bo_new_tiled functions.
+>>>>>> The omap_bo_new should not be called with the OMAP_BO_TILED flag,
+>>>>>> while the omap_bo_new_tiled should be called with the OMAP_BO_TILED flag
+>>>>>>
+>>>>>> Regarding to the omap_bo_new function, there are 2 places call it in
+>>>>>> the AOSP tree:
+>>>>>> #1 ./external/libkmsxx/kms++/src/omap/omapframebuffer.cpp
+>>>>>> #2 ./device/ti/beagle_x15/gpu/gralloc.am57x.so
+>>>>>>
+>>>>>> #1 seems not used in AOSP yet, and #2 is one blob binary we do not
+>>>>>> have the source for.
+>>>>>>
+>>>>>
+>>>>> I would bet on gralloc.am57x.so.
+>>>> yeah, that's my guess as well.
+>>>>
+>>>>>>> strace
+>>>>>>> would be your friend there. or gdb, or whatever tools are used on
+>>>>>>> android. Or put some printfs() in omap_bo_new() that output the PID of
+>>>>>>> the calling process, etc.
+>>>>>>
+>>>>>> Thanks a lot for these great suggestions! Will use them when possible.
+>>>>>>
+>>>>>>>> And another question is that, since the userspace(libdrm) will be used
+>>>>>>>> to work with different kernel versions,
+>>>>>>>> like the old 4.14, 4.19, etc, do you think there will be problem to
+>>>>>>>> pass  OMAP_BO_SCANOUT
+>>>>>>>> from the userspace side with the old kernels(which does not have this change)?
+>>>>>>>> does this change need to be backported to the old kernel versions?
+>>>>>>>
+>>>>>>> There should not be any issue. The changes could be backported if one
+>>>>>>> hits the issues this $series is fixing, but there is no need.
+>>>>>>
+>>>>>> Thanks for the confirmation!
+>>>>>> I just boot-tested with adding OMAP_BO_SCANOUT in the omap_bo_new function,
+>>>>>> and it worked with the current 4.14, 4.19, and the mainline kernels.
+>>>>>> # via adding line "flags = flags | OMAP_BO_SCANOUT" in the omap_bo_new function.
+>>>>>>
+>>>>>
+>>>>> sure, the point is that with this change *every* BO will be allocated as
+>>>>> scanout BO, potentially leading to the above explained issues.
+>>>>
+>>>> get it.
+>>>>
+>>>>>>>>
+>>>>>>>> And the last question is that, omap_bo_new might be called by some
+>>>>>>>> property binaries what not everyone
+>>>>>>>> could get the source to update, for such case what's your suggestions?
+>>>>>>>>
+>>>>>>>
+>>>>>>> Hard to say without knowing what that library would be.
+>>>>>>>
+>>>>>>> When I hit issues with closed blobs, sometimes I reverse-engineer them
+>>>>>>> to fix the issue, example:
+>>>>>>>
+>>>>>>> https://github.com/maemo-leste/sgx-ddk-um/tree/master/dbm
+>>>>>>>
+>>>>>>> This is REed libdbm from sgx-ddk-um 1.17.4948957, that is responsible
+>>>>>>> for allocating BOs (what omap_bo_new() does) but it uses DUMB buffers
+>>>>>>> API, instead of OMAP BO API.
+>>>>>>>
+>>>>>>> I guess you are using some older version of sgx-ddk-um, so you may fix
+>>>>>>> in similar way. Or binary patch.
+>>>>>>
+>>>>>> The blob binary that calls omap_bo_new is the gralloc.am57x.so here[2]:
+>>>>>> any suggestions with it?
+>>>>>> # sorry, I am not able to find out how you did the reverse-engineer
+>>>>>> work# with the dbm repository shared here,
+>>>>>> # not sure if you could give some tutorial steps for the similar
+>>>>>> reverse-engineer# work with gralloc.am57x.so
+>>>>>>
+>>>>>
+>>>>> Sorry, but it is like if you ask me to provide you with a tutorial on
+>>>>> how to do brain surgery :)
+>>>>>
+>>>>>> [2]: https://android.googlesource.com/device/ti/beagle-x15/+/refs/heads/master/gpu/gralloc.am57x.so
+>>>>>>
+>>>>>
+>>>>> I investigated this a bit and it seems it calls omap_bo_new() in a
+>>>>> wrapper function like:
+>>>>>
+>>>>> bo = omap_bo_new(dev, -page_size & (size + page_size - 1), ((param5 &
+>>>>> 0x800000) != 0) | OMAP_BO_WC | OMAP_BO_MEM_CONTIG);
+>>>>>
+>>>>> Didn't investigate further what param5 is, but it controls if
+>>>>> OMAP_BO_SCANOUT is passed to omap_bo_new or not.
+>>>>>
+>>>>> However, this library was not made with upstream kernel in mind, as
+>>>>> AFAIK OMAP_BO_MEM_CONTIG never made it upstream:
+>>>>>
+>>>>> https://yhbt.net/lore/all/2580272.MiZDHyRxZo@avalon/T/
+>>>>>
+>>>>> @Tomi - any comment?
+>>>>>
+>>>>> So, you have couple of options:
+>>>>>
+>>>>> 1. Ask TI for upstream-compatible library.
+>>>> check is in progress, but it would take quite a long time I guess
+>>>>> 2. Try to push OMAP_BO_MEM_CONTIG patch upstream.
+>>>> hmm, sounds like one impossible thing...
+>>>>> 3. Modify omap_bo_new() to something like:
+>>>>> .
+>>>>> #define OMAP_BO_MEM_CONTIG      0x00000008      /* only use contiguous dma mem */
+>>>>> .
+>>>>> if (flags & OMAP_BO_MEM_CONTIG)
+>>>>>      flags |= OMAP_BO_SCANOUT;
+>>>>> .
+>>>>> This will not achieve exactly what OMAP_BO_MEM_CONTIG is supposed to do,
+>>>>> but should make it work, at least.
+>>>>
+>>>> This looks like the only doable thing at the moment, maybe one change
+>>>> needs to be submitted to the mesa/drm repository.
+>>>> I can submit a request on your #3 change to the mesa/drm repository
+>>>> for discussion after some check if you do not mind.
+>>>>
+>>>
+>>> I doubt mesa/drm will accept such hack, I think you will need to support your drm clone (with the above fix) until TI fixes the closed library.
+>>>
+>>
+>>
+>> Hi all,
+>>
 
-for_i915_gem_ww(&ww, ret, true) {
-     ret = i915_gem_object_lock(vma->obj, &ww);
-     if (ret)
-         continue;
+Hi, glad to see you are doing fine :)
 
-     ret = i915_vma_pin_ww(vma, &ww, 0, 0, pin_flags);
-     if (ret)
-         continue;
+>> Just got around to reading this thread. I work with the TI gralloc lib
+>> and can generate new versions as needed (I was probably the one who compiled
+>> the version you have now). I've wanted to have our gralloc layer open source'd
+>> as there is nothing really propriety in it (and I re-wrote a lot of it already)
+>> and to avoid issues like this. But it interacts with the GPU code in some places,
+>> so it's up to Imagination :(. The actual code in question if it helps is:
+>>
+>>          if(ui32Flags & PVRSRV_MEM_CACHED)
+>>                  flags &= ~OMAP_BO_CACHE_MASK;
+>>          else
+>>                  flags |= OMAP_BO_WC;
+>>
+>>          if (ui32Flags & PVRSRV_HAP_CONTIG)
+>>                  flags |= OMAP_BO_SCANOUT;
+>>
 
-     __i915_vma_unpin(vma);
-     list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
-     i915_vm_bind_it_insert(vma, &vm->va);
-     i915_gem_object_get(vma->obj);
-}
+Why is PVRSRV_HAP_CONTIG not set if the code requesting the buffer needs 
+contiguous memory? Who is responsible for setting it?
 
-Does that not work here? If it doesn't then probably we shouldn't use 
-for_i915_gem_ww() here.
+>>          flags &= ~OMAP_BO_TILED_MASK;
+>>          flags |= 0x00000008;
+>>          flags |= OMAP_BO_WC;
+>>
+>>          bo = omap_bo_new(dev, size, flags);
+>>
+>> As you can see we use 0x00000008 (OMAP_BO_MEM_CONTIG) unconditionally.
+>> This was a hack added since even non-scanout buffers sometimes need
+>> to be contiguous (video decoder surfaces), but we had no way back
 
-> +
-> +unlock_vm:
-> +	mutex_unlock(&vm->vm_bind_lock);
-> +
-> +put_obj:
-> +	i915_gem_object_put(obj);
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * i915_gem_vm_bind_ioctl() - ioctl function for binding an obj into
-> + * virtual address
-> + * @dev: drm device associated to the virtual address
-> + * @data: data related to the vm bind required
-> + * @file: drm_file related to he ioctl
-> + *
-> + * Implements a function to bind the object into the virtual address
-> + *
-> + * Returns 0 on success, error code on failure.
-> + */
-> +int i915_gem_vm_bind_ioctl(struct drm_device *dev, void *data,
-> +			   struct drm_file *file)
-> +{
-> +	struct drm_i915_gem_vm_bind *args = data;
-> +	struct i915_address_space *vm;
-> +	int ret;
-> +
-> +	vm = i915_gem_vm_lookup(file->driver_priv, args->vm_id);
-> +	if (unlikely(!vm))
-> +		return -ENOENT;
-> +
-> +	ret = i915_gem_vm_bind_obj(vm, args, file);
-> +
-> +	i915_vm_put(vm);
-> +	return ret;
-> +}
-> +
-> +/**
-> + * i915_gem_vm_unbind_ioctl() - ioctl function for unbinding an obj from
-> + * virtual address
-> + * @dev: drm device associated to the virtual address
-> + * @data: data related to the binding that needs to be unbinded
-> + * @file: drm_file related to the ioctl
-> + *
-> + * Implements a function to unbind the object from the virtual address
-> + *
-> + * Returns 0 on success, error code on failure.
-> + */
-> +int i915_gem_vm_unbind_ioctl(struct drm_device *dev, void *data,
-> +			     struct drm_file *file)
-> +{
-> +	struct drm_i915_gem_vm_unbind *args = data;
-> +	struct i915_address_space *vm;
-> +	int ret;
-> +
-> +	vm = i915_gem_vm_lookup(file->driver_priv, args->vm_id);
-> +	if (unlikely(!vm))
-> +		return -ENOENT;
-> +
-> +	ret = i915_gem_vm_unbind_vma(vm, NULL, args);
-> +
-> +	i915_vm_put(vm);
-> +	return ret;
-> +}
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> index b67831833c9a3..cb188377b7bd9 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> @@ -12,6 +12,7 @@
->   
->   #include "gem/i915_gem_internal.h"
->   #include "gem/i915_gem_lmem.h"
-> +#include "gem/i915_gem_vm_bind.h"
->   #include "i915_trace.h"
->   #include "i915_utils.h"
->   #include "intel_gt.h"
-> @@ -176,6 +177,8 @@ int i915_vm_lock_objects(struct i915_address_space *vm,
->   void i915_address_space_fini(struct i915_address_space *vm)
->   {
->   	drm_mm_takedown(&vm->mm);
-> +	GEM_BUG_ON(!RB_EMPTY_ROOT(&vm->va.rb_root));
-> +	mutex_destroy(&vm->vm_bind_lock);
->   }
->   
->   /**
-> @@ -204,6 +207,8 @@ static void __i915_vm_release(struct work_struct *work)
->   
->   	__i915_vm_close(vm);
->   
-> +	i915_gem_vm_unbind_vma_all(vm);
-> +
->   	/* Synchronize async unbinds. */
->   	i915_vma_resource_bind_dep_sync_all(vm);
->   
-> @@ -282,6 +287,11 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
->   
->   	INIT_LIST_HEAD(&vm->bound_list);
->   	INIT_LIST_HEAD(&vm->unbound_list);
-> +
-> +	vm->va = RB_ROOT_CACHED;
-> +	INIT_LIST_HEAD(&vm->vm_bind_list);
-> +	INIT_LIST_HEAD(&vm->vm_bound_list);
-> +	mutex_init(&vm->vm_bind_lock);
->   }
->   
->   void *__px_vaddr(struct drm_i915_gem_object *p)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> index da21088890b3b..06a259475816b 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> @@ -259,6 +259,15 @@ struct i915_address_space {
->   	 */
->   	struct list_head unbound_list;
->   
-> +	/** @vm_bind_lock: Mutex to protect @vm_bind_list and @vm_bound_list */
-> +	struct mutex vm_bind_lock;
-> +	/** @vm_bind_list: List of vm_binding in process */
-> +	struct list_head vm_bind_list;
-> +	/** @vm_bound_list: List of vm_binding completed */
-> +	struct list_head vm_bound_list;
-> +	/* @va: tree of persistent vmas */
-> +	struct rb_root_cached va;
-> +
->   	/* Global GTT */
->   	bool is_ggtt:1;
->   
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index 1332c70370a68..9a9010fd9ecfa 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -68,6 +68,7 @@
->   #include "gem/i915_gem_ioctls.h"
->   #include "gem/i915_gem_mman.h"
->   #include "gem/i915_gem_pm.h"
-> +#include "gem/i915_gem_vm_bind.h"
->   #include "gt/intel_gt.h"
->   #include "gt/intel_gt_pm.h"
->   #include "gt/intel_rc6.h"
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index 2603717164900..092ae4309d8a1 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -29,6 +29,7 @@
->   #include "display/intel_frontbuffer.h"
->   #include "gem/i915_gem_lmem.h"
->   #include "gem/i915_gem_tiling.h"
-> +#include "gem/i915_gem_vm_bind.h"
->   #include "gt/intel_engine.h"
->   #include "gt/intel_engine_heartbeat.h"
->   #include "gt/intel_gt.h"
-> @@ -234,6 +235,7 @@ vma_create(struct drm_i915_gem_object *obj,
->   	spin_unlock(&obj->vma.lock);
->   	mutex_unlock(&vm->mutex);
->   
-> +	INIT_LIST_HEAD(&vma->vm_bind_link);
->   	return vma;
->   
->   err_unlock:
-> @@ -290,7 +292,6 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
->   {
->   	struct i915_vma *vma;
->   
-> -	GEM_BUG_ON(view && !i915_is_ggtt_or_dpt(vm));
->   	GEM_BUG_ON(!kref_read(&vm->ref));
->   
->   	spin_lock(&obj->vma.lock);
-> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> index 33a58f605d75c..15eac55a3e274 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.h
-> +++ b/drivers/gpu/drm/i915/i915_vma.h
-> @@ -164,8 +164,6 @@ i915_vma_compare(struct i915_vma *vma,
->   {
->   	ptrdiff_t cmp;
->   
-> -	GEM_BUG_ON(view && !i915_is_ggtt_or_dpt(vm));
-> -
->   	cmp = ptrdiff(vma->vm, vm);
->   	if (cmp)
->   		return cmp;
-> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-> index be6e028c3b57d..f746fecae85ed 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_types.h
-> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
-> @@ -289,6 +289,20 @@ struct i915_vma {
->   	/** This object's place on the active/inactive lists */
->   	struct list_head vm_link;
->   
-> +	/** @vm_bind_link: node for the vm_bind related lists of vm */
-> +	struct list_head vm_bind_link;
-> +
-> +	/** Interval tree structures for persistent vma */
-> +
-> +	/** @rb: node for the interval tree of vm for persistent vmas */
-> +	struct rb_node rb;
-> +	/** @start: start endpoint of the rb node */
-> +	u64 start;
-> +	/** @last: Last endpoint of the rb node */
-> +	u64 last;
-> +	/** @__subtree_last: last in subtree */
-> +	u64 __subtree_last;
-> +
->   	struct list_head obj_link; /* Link in the object's VMA list */
->   	struct rb_node obj_node;
->   	struct hlist_node obj_hash;
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 12435db751eb8..3da0e07f84bbd 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -1507,6 +1507,41 @@ struct drm_i915_gem_execbuffer2 {
->   #define i915_execbuffer2_get_context_id(eb2) \
->   	((eb2).rsvd1 & I915_EXEC_CONTEXT_ID_MASK)
->   
-> +/**
-> + * struct drm_i915_gem_timeline_fence - An input or output timeline fence.
-> + *
-> + * The operation will wait for input fence to signal.
-> + *
-> + * The returned output fence will be signaled after the completion of the
-> + * operation.
-> + */
-> +struct drm_i915_gem_timeline_fence {
-> +	/** @handle: User's handle for a drm_syncobj to wait on or signal. */
-> +	__u32 handle;
-> +
-> +	/**
-> +	 * @flags: Supported flags are:
-> +	 *
-> +	 * I915_TIMELINE_FENCE_WAIT:
-> +	 * Wait for the input fence before the operation.
-> +	 *
-> +	 * I915_TIMELINE_FENCE_SIGNAL:
-> +	 * Return operation completion fence as output.
-> +	 */
-> +	__u32 flags;
-> +#define I915_TIMELINE_FENCE_WAIT            (1 << 0)
-> +#define I915_TIMELINE_FENCE_SIGNAL          (1 << 1)
-> +#define __I915_TIMELINE_FENCE_UNKNOWN_FLAGS (-(I915_TIMELINE_FENCE_SIGNAL << 1))
-> +
-> +	/**
-> +	 * @value: A point in the timeline.
-> +	 * Value must be 0 for a binary drm_syncobj. A Value of 0 for a
-> +	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
-> +	 * binary one.
-> +	 */
-> +	__u64 value;
-> +};
-> +
->   struct drm_i915_gem_pin {
->   	/** Handle of the buffer to be pinned. */
->   	__u32 handle;
-> @@ -3718,6 +3753,134 @@ struct drm_i915_gem_create_ext_protected_content {
->   /* ID of the protected content session managed by i915 when PXP is active */
->   #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
->   
-> +/**
-> + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
-> + *
-> + * This structure is passed to VM_BIND ioctl and specifies the mapping of GPU
-> + * virtual address (VA) range to the section of an object that should be bound
-> + * in the device page table of the specified address space (VM).
-> + * The VA range specified must be unique (ie., not currently bound) and can
-> + * be mapped to whole object or a section of the object (partial binding).
-> + * Multiple VA mappings can be created to the same section of the object
-> + * (aliasing).
-> + *
-> + * The @start, @offset and @length must be 4K page aligned. However the DG2
-> + * and XEHPSDV has 64K page size for device local memory and has compact page
-> + * table. On those platforms, for binding device local-memory objects, the
-> + * @start, @offset and @length must be 64K aligned. Also, UMDs should not mix
-> + * the local memory 64K page and the system memory 4K page bindings in the same
-> + * 2M range.
-> + *
-> + * Error code -EINVAL will be returned if @start, @offset and @length are not
-> + * properly aligned. In version 1 (See I915_PARAM_VM_BIND_VERSION), error code
-> + * -ENOSPC will be returned if the VA range specified can't be reserved.
-> + *
-> + * VM_BIND/UNBIND ioctl calls executed on different CPU threads concurrently
-> + * are not ordered. Furthermore, parts of the VM_BIND operation can be done
-> + * asynchronously, if valid @fence is specified.
-> + */
-> +struct drm_i915_gem_vm_bind {
-> +	/** @vm_id: VM (address space) id to bind */
-> +	__u32 vm_id;
-> +
-> +	/** @handle: Object handle */
-> +	__u32 handle;
-> +
-> +	/** @start: Virtual Address start to bind */
-> +	__u64 start;
-> +
-> +	/** @offset: Offset in object to bind */
-> +	__u64 offset;
-> +
-> +	/** @length: Length of mapping to bind */
-> +	__u64 length;
-> +
-> +	/**
-> +	 * @flags: Currently reserved, MBZ.
-> +	 *
-> +	 * Note that @fence carries its own flags.
-> +	 */
-> +	__u64 flags;
-> +
-> +	/**
-> +	 * @fence: Timeline fence for bind completion signaling.
-> +	 *
-> +	 * Timeline fence is of format struct drm_i915_gem_timeline_fence.
-> +	 *
-> +	 * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
-> +	 * is invalid, and an error will be returned.
-> +	 *
-> +	 * If I915_TIMELINE_FENCE_SIGNAL flag is not set, then out fence
-> +	 * is not requested and binding is completed synchronously.
-> +	 */
-> +	struct drm_i915_gem_timeline_fence fence;
-> +
-> +	/**
-> +	 * @extensions: Zero-terminated chain of extensions.
-> +	 *
-> +	 * For future extensions. See struct i915_user_extension.
-> +	 */
-> +	__u64 extensions;
-> +};
-> +
-> +/**
-> + * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
-> + *
-> + * This structure is passed to VM_UNBIND ioctl and specifies the GPU virtual
-> + * address (VA) range that should be unbound from the device page table of the
-> + * specified address space (VM). VM_UNBIND will force unbind the specified
-> + * range from device page table without waiting for any GPU job to complete.
-> + * It is UMDs responsibility to ensure the mapping is no longer in use before
-> + * calling VM_UNBIND.
-> + *
-> + * If the specified mapping is not found, the ioctl will simply return without
-> + * any error.
-> + *
-> + * VM_BIND/UNBIND ioctl calls executed on different CPU threads concurrently
-> + * are not ordered. Furthermore, parts of the VM_UNBIND operation can be done
-> + * asynchronously, if valid @fence is specified.
-> + */
-> +struct drm_i915_gem_vm_unbind {
-> +	/** @vm_id: VM (address space) id to bind */
-> +	__u32 vm_id;
-> +
-> +	/** @rsvd: Reserved, MBZ */
-> +	__u32 rsvd;
-> +
-> +	/** @start: Virtual Address start to unbind */
-> +	__u64 start;
-> +
-> +	/** @length: Length of mapping to unbind */
-> +	__u64 length;
-> +
-> +	/**
-> +	 * @flags: Currently reserved, MBZ.
-> +	 *
-> +	 * Note that @fence carries its own flags.
-> +	 */
-> +	__u64 flags;
-> +
-> +	/**
-> +	 * @fence: Timeline fence for unbind completion signaling.
-> +	 *
-> +	 * Timeline fence is of format struct drm_i915_gem_timeline_fence.
-> +	 *
-> +	 * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
-> +	 * is invalid, and an error will be returned.
-> +	 *
-> +	 * If I915_TIMELINE_FENCE_SIGNAL flag is not set, then out fence
-> +	 * is not requested and unbinding is completed synchronously.
-> +	 */
-> +	struct drm_i915_gem_timeline_fence fence;
-> +
-> +	/**
-> +	 * @extensions: Zero-terminated chain of extensions.
-> +	 *
-> +	 * For future extensions. See struct i915_user_extension.
-> +	 */
-> +	__u64 extensions;
-> +};
-> +
->   #if defined(__cplusplus)
->   }
->   #endif
+Hmm, why would video decoder need linear memory? No MMU?
+
+>> then to communicate this to the gralloc layer. I think your best
+>> bet would be to modify the gralloc lib to not do that, or put it
+>> under the CONTIG check.
+>>
+
+Does that mean that now there is a way? If that's the case, then what 
+needs to be fixed is the application requesting the buffer to send the 
+truth about what it needs to gralloc.
+
+>> If you tell me what the code should look like, I can rebuild the
+>> lib and post a copy.
+>>
+>> Long term, I'd like to start using DMA-BUF Heaps for CMA memory
+>> allocations in gralloc and elsewhere, then drop out the DMM/TILER
+>> support from OMAPDRM, since it never really belonged there in
+>> the first place (being a IOMMU unrelated to the display/GPU).
+>>
+
+Umm, how will we rotate scanout buffers then?
+
+>> Thanks,
+>> Andrew
+>>
+
+
+>>
+>>> Regards,
+>>> Ivo
+>>>
+>>>> Thanks,
+>>>> Yongqin Liu
+>>>>
+>>>>>>>>>> On Thu, 17 Feb 2022 at 23:29, Ivaylo Dimitrov
+>>>>>>>>>> <ivo.g.dimitrov.75@gmail.com> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> On 17.02.22 г. 14:46 ч., Tomi Valkeinen wrote:
+>>>>>>>>>>>> Hi,
+>>>>>>>>>>>>
+>>>>>>>>>>>> On 19/01/2022 12:23, Ivaylo Dimitrov wrote:
+>>>>>>>>>>>>> On devices with DMM, all allocations are done through either DMM or
+>>>>>>>>>>>>> TILER.
+>>>>>>>>>>>>> DMM/TILER being a limited resource means that such allocations will start
+>>>>>>>>>>>>> to fail before actual free memory is exhausted. What is even worse is
+>>>>>>>>>>>>> that
+>>>>>>>>>>>>> with time DMM/TILER space gets fragmented to the point that even if we
+>>>>>>>>>>>>> have
+>>>>>>>>>>>>> enough free DMM/TILER space and free memory, allocation fails because
+>>>>>>>>>>>>> there
+>>>>>>>>>>>>> is no big enough free block in DMM/TILER space.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Such failures can be easily observed with OMAP xorg DDX, for example -
+>>>>>>>>>>>>> starting few GUI applications (so buffers for their windows are
+>>>>>>>>>>>>> allocated)
+>>>>>>>>>>>>> and then rotating landscape<->portrait while closing and opening new
+>>>>>>>>>>>>> windows soon results in allocation failures.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Fix that by mapping buffers through DMM/TILER only when really needed,
+>>>>>>>>>>>>> like, for scanout buffers.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Doesn't this break users that get a buffer from omapdrm and expect it to
+>>>>>>>>>>>> be contiguous?
+>>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> If you mean dumb buffer, then no, this does not break users as dumb
+>>>>>>>>>>> buffers are allocated as scanout:
+>>>>>>>>>>>
+>>>>>>>>>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/omapdrm/omap_gem.c#L603
+>>>>>>>>>>>
+>>>>>>>>>>> If you mean omap_bo allocated buffers, then if users want
+>>>>>>>>>>> linear(scanout) buffer, then they request it explicitly by passing
+>>>>>>>>>>> OMAP_BO_SCANOUT.
+>>>>>>>>>>>
+>>>>>>>>>>> Ivo
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>
+>>>>
+>>>>
+> 
+> 
+> 
