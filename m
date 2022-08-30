@@ -1,52 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E642E5A630C
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 14:16:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E92725A636D
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 14:33:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874C910E083;
-	Tue, 30 Aug 2022 12:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7E410E086;
+	Tue, 30 Aug 2022 12:33:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4941110E066;
- Tue, 30 Aug 2022 12:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661861800; x=1693397800;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=52PCyKTdgzHM1v5lqVHkUeO6LuVqdjgSjXh5Y8kU9K8=;
- b=kjnT96m6IjPeHI68sT8FgG5nbWs4mZdBxIGOv3bv1Gb8+vK1uUfybbYr
- FecMEztSFzlzfxlgPG5d4PqkxlviTD43Cl+Ai1ELemn9wihNrg5Ay7h+D
- PdA9pebr1bCioW1w8qozmB0XT68KMZlGOOeSFBUjezqU2GbhYkhOPPBsh
- 1gVcDQNtyLHgLLeQ/3OZyZ6+bvSu8PlbYqkiI/fOh3H0usJF7QGS3sRi+
- p5VqLmkaX6fdSPrygz++TBKXkgpkrVE/n74qu4UiXDUbD+E6nUcMkLgeP
- yrq2Zs6jxrlRfOjItrraOtyV2ytAzAhEKEgvjXV97Osigd5engYUR1zhr w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="296436273"
-X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; d="scan'208";a="296436273"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2022 05:16:39 -0700
-X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; d="scan'208";a="672843519"
-Received: from unknown (HELO intel.com) ([10.237.72.65])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2022 05:16:37 -0700
-Date: Tue, 30 Aug 2022 15:17:16 +0300
-From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-To: "Govindapillai, Vinod" <vinod.govindapillai@intel.com>
-Subject: Re: [PATCH 4/4] drm/i915: Extract drm_dp_atomic_find_vcpi_slots
- cycle to separate function
-Message-ID: <Yw3kNPkBaOVcgmPk@intel.com>
-References: <20220829095832.21770-1-stanislav.lisovskiy@intel.com>
- <20220829095832.21770-5-stanislav.lisovskiy@intel.com>
- <1a73089ee68f49de8c30934f00ccddf7890651e3.camel@intel.com>
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3DD10E086;
+ Tue, 30 Aug 2022 12:33:24 +0000 (UTC)
+Date: Tue, 30 Aug 2022 12:33:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1661862801; x=1662122001;
+ bh=k4bjCIZlfR6uAEnqa7JIBECWzqVFuz3cOXa0dtxIcxY=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
+ Feedback-ID:Message-ID;
+ b=OWb7DjjpNRddgGqi45oPUClR2novWSTKiKxATdvCweQV0g91qJXUYaEPCxDga4pF2
+ dOBteW8f2w6Nkc73Me9HyKBtOL+IhpLiigNqxLTyZQxVV8/DN8Qnvu3M7QuWNptoEv
+ fbXkvZDonZUqmHJE8pI3o6B41NkBb2RYAZh9ILxWubQtq48ek/YU0ZcvnAPSCDPinA
+ gzDBdGuMo/mpad/CJj03iL3Wru4LLKF/8FLW7wCT1DF/pBLMpdwR4Fc4/0qgduroz5
+ eHR8yN5sulEzZLZr3e+nASd/GakJwISkFDfz0uVCV1Pf93+RPdHpLubL8eXs5ewq04
+ 8jMP6GsCbGn6w==
+To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 3/4] drm: introduce DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP
+Message-ID: <sJDm7mQ_I6f_f57JcZtnc2UQY0UC4xYACRJ_mysKwd7bUT7S4j-ypHmTB-QXwuvFFcpi7bupnVg8sV7-ylo0ocn0x3cmaatMtm5tlw-wtao=@emersion.fr>
+In-Reply-To: <Yw3FdhzAst1RRPxy@intel.com>
+References: <20220824150834.427572-1-contact@emersion.fr>
+ <20220824150834.427572-4-contact@emersion.fr> <YwiB/xQf6Z6ScU+Z@intel.com>
+ <mCt6wEhtsKHH_vfQEi0RwUQspNiKfFez4v8ZWlMW-sqZ5xaiUqMpRCF7na84A2nOLw5MA59fQ6IWddLCAg76XwWagCYMthzTLKLPQ9m0MfI=@emersion.fr>
+ <Yw3FdhzAst1RRPxy@intel.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1a73089ee68f49de8c30934f00ccddf7890651e3.camel@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,215 +50,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>, "Navare,
- Manasi D" <manasi.d.navare@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Saarinen,
- Jani" <jani.saarinen@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: daniel.vetter@ffwll.ch, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
+ Pekka Paalanen <ppaalanen@gmail.com>, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, hwentlan@amd.com, nicholas.kazlauskas@amd.com,
+ joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 29, 2022 at 05:43:19PM +0300, Govindapillai, Vinod wrote:
-> Hi Stan,
-> 
-> I wonder if it is better if you reorder the 3 and 4 patches in this - move this 4/4 before the 3rd
-> one and modify the 3rd one accordingly.
+On Tuesday, August 30th, 2022 at 10:08, Ville Syrj=C3=A4l=C3=A4 <ville.syrj=
+ala@linux.intel.com> wrote:
 
-Was thiking about that, but decided to first introduce a new function, using same code, so that
-we don't mix introduction of the new functionality with code optimization, also it then becomes
-obvious why we need to remove that duplicate code.
-But.. may be you are right - I could first extract that function and introduce new DSC functionality 
-using it.
+> > In the documentation patch discussion [1], it appears it's not clear wh=
+at
+> > drivers should do when async flip isn't possible with the legacy uAPI.
+> >
+> > For the atomic uAPI, we need to pick on of these two approaches:
+> >
+> > 1. Let the kernel fall back to a sync flip if async isn't possible. Thi=
+s
+> >    simplifies user-space, but then user-space has no reliable way to fi=
+gure out
+> >    what really happened (sync or async?). That could be fixed with a ne=
+w
+> >    read-only CRTC prop indicating whether the last flip was async or no=
+t.
+> >    However, maybe someone will come up in the future with user-space wh=
+ich
+> >    needs to only apply an update if async flip is possible, in which ca=
+se this
+> >    approach falls short.
+> > 2. Make the kernel return EINVAL if async flip isn't possible. This add=
+s more
+> >    complexity to user-space, but enables a more reliable and determinis=
+tic
+> >    uAPI. This is also more consistent with the rest of the existing ato=
+mic
+> >    uAPI.
+>=20
+> The current behaviour is somewhat a combination of the two. We return
+> an error if async flip is not possible at all given the current state.
+>=20
+> When async flip is possible we return success, but may still internally
+> fall back to a sync flip for the first flip. That is required on some
+> borked hardware that can't switch from sync flips to async flips without
+> doing an extra sync flip. Also on some other hardware we intentionally
+> fall back to a sync flip for the first async flip, so that we can
+> reprogram some display FIFO stuff (aimed to make the subsequent async
+> flips faster).
 
-> 
-> Also, instead of getting rid of limits, keep limits and populate the limits according to dsc or
-> normal dp_mst. What do you think?
+Hm. Would it be possible for the atomic uAPI to return EINVAL in this case =
+too,
+to let user-space know what really happened? I suppose user-space could the=
+n
+(mistakenly) assume that async flip is never possible, and never try again?
 
-Yeah, was wondering if someone asks this, problem is that in non DSC case limits structure contains
-exactly min, max bpps which we need, so can be passed on nicely, however in DSC case those are not the same:
+> > Note, current user-space would only need to opportunistically enable as=
+ync
+> > flip. IOW, I think that for current user-space plans "async if possible=
+,
+> > otherwise sync" is good enough. That behavior maps well to the Vulkan p=
+resent
+> > modes as well (which says that "this mode *may* result in visible teari=
+ng", but
+> > doesn't guarantee it).
+>=20
+> The current behaviour is to fall back to a blit if the async
+> flip fails. So you still get the same effective behaviour, just
+> not as efficient. I think that's a reasonable way to handle it.
 
-max_bpp = min_t(u8, dsc_max_bpc * 3, limits->max_bpp);
-min_bpp = limits->min_bpp;
+After some discussion on IRC: the above describes Xorg's behavior.
 
-So we would need to create some other limits struct, which we will populate with those(I guess 
-we shouldn't replace the ones, which were calculated for non-DSC case in current limits), so I didn't
-see much benefit in using it as an argument, if we can't pass it rightaway in both cases.
+To reproduce this behavior with the atomic uAPI, it is necessary to use
+approach (2): make the atomic commit fail if async flip isn't possible, to =
+let
+user-space fall back to a blit.
 
-Stan
+> > Another possible shortcoming of the proposed new uAPI here is that user=
+-space
+> > cannot submit a single atomic commit which updates multiple CRTCs, and
+> > individually select which CRTC does an async flip. This could be fixed =
+with
+> > a "ASYNC_FLIP" CRTC prop which the kernel always resets to 0 on commit.=
+ I'm not
+> > sure we want/need to cross that bridge right now, it would be easy enou=
+gh to
+> > add as a second step if some user-space would benefit from it.
+>=20
+> Technically it should really be per-plane since that is what does
+> the flip. But I have a feeling that allowing a mix of async and
+> sync in the same commit is just going to make everything more
+> complicated without really helping anything (async flips won't
+> happen atomically anyway with anything else).
 
-> 
-> BR
-> vinod
-> 
-> 
-> On Mon, 2022-08-29 at 12:58 +0300, Stanislav Lisovskiy wrote:
-> > We are using almost same code to loop through bpps while calling
-> > drm_dp_atomic_find_vcpi_slots - lets remove this duplication by
-> > introducing a new function intel_dp_mst_find_vcpi_slots_for_bpp
-> > 
-> > Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 88 +++++++++++----------
-> >  1 file changed, 46 insertions(+), 42 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > index 94d7e7f84c51..2a524816dbfd 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > @@ -44,10 +44,14 @@
-> >  #include "intel_hotplug.h"
-> >  #include "skl_scaler.h"
-> >  
-> > -static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
-> > -                                           struct intel_crtc_state *crtc_state,
-> > -                                           struct drm_connector_state *conn_state,
-> > -                                           struct link_config_limits *limits)
-> > +static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
-> > +                                               struct intel_crtc_state *crtc_state,
-> > +                                               int max_bpp,
-> > +                                               int min_bpp,
-> > +                                               struct link_config_limits *limits,
-> > +                                               struct drm_connector_state *conn_state,
-> > +                                               int step,
-> > +                                               bool dsc)
-> >  {
-> >         struct drm_atomic_state *state = crtc_state->uapi.state;
-> >         struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
-> > @@ -58,7 +62,6 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
-> >         struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> >         const struct drm_display_mode *adjusted_mode =
-> >                 &crtc_state->hw.adjusted_mode;
-> > -       bool constant_n = drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CONSTANT_N);
-> >         int bpp, slots = -EINVAL;
-> >         int ret = 0;
-> >  
-> > @@ -71,19 +74,21 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
-> >  
-> >         // TODO: Handle pbn_div changes by adding a new MST helper
-> >         if (!mst_state->pbn_div) {
-> > -               mst_state->pbn_div = drm_dp_get_vc_payload_bw(&intel_dp->mst_mgr,
-> > -                                                             limits->max_rate,
-> > -                                                             limits->max_lane_count);
-> > +               mst_state->pbn_div = !dsc ? drm_dp_get_vc_payload_bw(&intel_dp->mst_mgr,
-> > +                                                                    crtc_state->port_clock,
-> > +                                                                    crtc_state->lane_count) : 0;
-> >         }
-> >  
-> > -       for (bpp = limits->max_bpp; bpp >= limits->min_bpp; bpp -= 2 * 3) {
-> > +       for (bpp = max_bpp; bpp >= min_bpp; bpp -= step) {
-> >                 crtc_state->pipe_bpp = bpp;
-> >  
-> >                 crtc_state->pbn = drm_dp_calc_pbn_mode(adjusted_mode->crtc_clock,
-> > -                                                      crtc_state->pipe_bpp,
-> > -                                                      false);
-> > +                                                      dsc ? bpp << 4 : crtc_state->pipe_bpp,
-> > +                                                      dsc);
-> > +
-> >                 slots = drm_dp_atomic_find_time_slots(state, &intel_dp->mst_mgr,
-> > -                                                     connector->port, crtc_state->pbn);
-> > +                                                     connector->port,
-> > +                                                     crtc_state->pbn);
-> >                 if (slots == -EDEADLK)
-> >                         return slots;
-> >                 if (slots >= 0) {
-> > @@ -101,11 +106,32 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
-> >         if (ret && slots >= 0)
-> >                 slots = ret;
-> >  
-> > -       if (slots < 0) {
-> > +       if (slots < 0)
-> >                 drm_dbg_kms(&i915->drm, "failed finding vcpi slots:%d\n",
-> >                             slots);
-> > +
-> > +       return slots;
-> > +}
-> > +
-> > +
-> > +static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
-> > +                                           struct intel_crtc_state *crtc_state,
-> > +                                           struct drm_connector_state *conn_state,
-> > +                                           struct link_config_limits *limits)
-> > +{
-> > +       const struct drm_display_mode *adjusted_mode =
-> > +               &crtc_state->hw.adjusted_mode;
-> > +       struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
-> > +       struct intel_dp *intel_dp = &intel_mst->primary->dp;
-> > +       bool constant_n = drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CONSTANT_N);
-> > +       int slots = -EINVAL;
-> > +
-> > +       slots = intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state, limits->max_bpp,
-> > +                                                    limits->min_bpp, limits,
-> > +                                                    conn_state, 2 * 3, false);
-> > +
-> > +       if (slots < 0)
-> >                 return slots;
-> > -       }
-> >  
-> >         intel_link_compute_m_n(crtc_state->pipe_bpp,
-> >                                crtc_state->lane_count,
-> > @@ -123,25 +149,21 @@ static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder
-> > *encoder,
-> >                                                 struct drm_connector_state *conn_state,
-> >                                                 struct link_config_limits *limits)
-> >  {
-> > -       struct drm_atomic_state *state = crtc_state->uapi.state;
-> > -       struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
-> > -       struct intel_dp *intel_dp = &intel_mst->primary->dp;
-> >         struct intel_connector *connector =
-> >                 to_intel_connector(conn_state->connector);
-> > +       struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
-> > +       struct intel_dp *intel_dp = &intel_mst->primary->dp;
-> >         struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> >         const struct drm_display_mode *adjusted_mode =
-> >                 &crtc_state->hw.adjusted_mode;
-> >         bool constant_n = drm_dp_has_quirk(&intel_dp->desc,
-> >                                            DP_DPCD_QUIRK_CONSTANT_N);
-> > -       int bpp, slots = -EINVAL;
-> > +       int slots = -EINVAL;
-> >         int i, num_bpc;
-> >         u8 dsc_bpc[3] = {0};
-> >         int min_bpp, max_bpp;
-> >         u8 dsc_max_bpc;
-> >  
-> > -       crtc_state->lane_count = limits->max_lane_count;
-> > -       crtc_state->port_clock = limits->max_rate;
-> > -
-> >         /* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
-> >         if (DISPLAY_VER(i915) >= 12)
-> >                 dsc_max_bpc = min_t(u8, 12, conn_state->max_requested_bpc);
-> > @@ -162,29 +184,11 @@ static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder
-> > *encoder,
-> >         drm_dbg_kms(&i915->drm, "DSC Sink supported min bpp %d max bpp %d\n",
-> >                     min_bpp, max_bpp);
-> >  
-> > -       for (bpp = max_bpp; bpp >= min_bpp; bpp -= 2 * 3) {
-> > -               crtc_state->pbn = drm_dp_calc_pbn_mode(adjusted_mode->crtc_clock,
-> > -                                                      bpp << 4,
-> > -                                                      true);
-> > +       slots = intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state, max_bpp, min_bpp,
-> > +                                                    limits, conn_state, 2 * 3, true);
-> >  
-> > -               slots = drm_dp_atomic_find_vcpi_slots(state, &intel_dp->mst_mgr,
-> > -                                                     connector->port,
-> > -                                                     crtc_state->pbn, 0);
-> > -
-> > -               drm_dbg_kms(&i915->drm, "Trying bpp %d got %d pbn %d slots\n",
-> > -                           bpp, crtc_state->pbn, slots);
-> > -
-> > -               if (slots == -EDEADLK)
-> > -                       return slots;
-> > -               if (slots >= 0)
-> > -                       break;
-> > -       }
-> > -
-> > -       if (slots < 0) {
-> > -               drm_dbg_kms(&i915->drm, "failed finding vcpi slots:%d\n",
-> > -                           slots);
-> > +       if (slots < 0)
-> >                 return slots;
-> > -       }
-> >  
-> >         intel_link_compute_m_n(crtc_state->pipe_bpp,
-> >                                crtc_state->lane_count,
-> 
+Agreed.
+
+> One (crazy?) idea I had for the atomic api is that we could even
+> reject most of the properties already on the uapi level before anyone
+> gets to examine the final state. Ie. as soon as the atomic ioctl sees
+> eg. a gamma LUT property change it would just immediately return
+> an error if async flip is also requested.
+
+Hm, I guess... Although amdgpu doesn't really need this, it already has all
+of the logic checking for stuff like gamma LUT property change + async. Cou=
+ld
+maybe be a DRM helper if other drivers need it.
