@@ -1,45 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9046B5A5ECA
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 11:00:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C345A5ED0
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 11:01:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA59710ED68;
-	Tue, 30 Aug 2022 09:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5C7389B33;
+	Tue, 30 Aug 2022 09:01:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C01DC10ED68
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 09:00:17 +0000 (UTC)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
- [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 557A4481;
- Tue, 30 Aug 2022 11:00:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661850015;
- bh=13U3J7Z6tmsyRvv1tAhEkWsgbcllLRwexO7xNIX81X4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=T84QAoY0PN6tqlzn4JjSyGb5xvpMeFMYAxN0vDxN9eqthBDUHQDt16SbMDb4F5+nR
- 7oPDKCzkoXhxR2z6xAOG873v8wu+JeV9HoKwmz4Ladqqp9TKRT/JvpjpLmeyBQLL69
- OwtpegtVXX91laQpLohNyPzSmEMqc/4u4DVsR0ss=
-Message-ID: <ed60ea8b-bcc4-4a99-5133-8cd4b010d09b@ideasonboard.com>
-Date: Tue, 30 Aug 2022 12:00:12 +0300
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE0E10E324
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 09:00:56 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id v26so4360800lfd.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 02:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc;
+ bh=b0ZumS/YLQNCHLAsr86H4b/bAgEp1WOghgZrXkTetmo=;
+ b=lKQB64vh9bHwWDFKPY63j9DpjL6HnUQcUMDx+GZBTcw9xBEqkHP2Yhm+/2sxUuhHyp
+ 7HcO4l6N1Ch/1y/F3Wxljgx4UMPvJLcK9MnhG7Pde/Z4zb40eUfwmsIRIiWN2Uzztx0+
+ 3R5QTlyUhc4Yzi7Gx3i1OpTiu6OTRIXUMKBM1CfzrYicb/fv1RN+34yYL53f6VqtA2yp
+ /FhpAso6GQPX0zDIeX+r/maM2aGQBxDLh50JLbGX46XAIJJ/ZfJiRbaQ3s/E9T5MvG7U
+ udO8MDlQXv5Z9k/5K9qBdAsFUE0K/6o5NOzPkyDtmeAQS2/t7X+Xl68Fa2E2j2G+PvXI
+ UI/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc;
+ bh=b0ZumS/YLQNCHLAsr86H4b/bAgEp1WOghgZrXkTetmo=;
+ b=xXzsm3wjLpKDcxGijANkgnJ7enKZ+/QCQ4xoy+spFapjQgc3tPvczt65urO08QZ5by
+ 3LLU9HXkpXu5FTz75ov5wFSE7V14QyBFOT//bVTCh9qa4/acabIr0DT6Y3VMdEAyJ1EN
+ /mSVRgChWwvCO4wAjswiPtVW+0pjCyTyvOxL38NCXLlegcVzHzTw+EMkTXDSU/b62acX
+ ri1PvM92+eaYXy4TdJ0KUusYNOw6KMRUWpY0AulEE5ntTl2meE7l74EaoSAsntnHvtA9
+ 4ELXTuksOK0f62j62u41/W/+/xdDqqMn+RBoCIGkea7BlOWX88g9MjJaBGdzNevzmqzq
+ NKbw==
+X-Gm-Message-State: ACgBeo3oltbrycE2w3jbT6OGzuro+LUhwMh7p05jwq7I2x9A8ra8Mnog
+ 03hTXTNqfEMbe1s9tNx7vVI=
+X-Google-Smtp-Source: AA6agR6QF38FPsQeJSYnppw2FmVPQc7r4YXgeXgyKcX0cRIXkmRsOUKrbZUrdmCFmiHqSzuluweyig==
+X-Received: by 2002:a05:6512:15aa:b0:494:7a2a:cc1f with SMTP id
+ bp42-20020a05651215aa00b004947a2acc1fmr592670lfb.36.1661850055024; 
+ Tue, 30 Aug 2022 02:00:55 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ x8-20020ac25dc8000000b0048a8c907fe9sm1542632lfq.167.2022.08.30.02.00.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Aug 2022 02:00:54 -0700 (PDT)
+Date: Tue, 30 Aug 2022 12:00:50 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: drm: document uAPI page-flip flags
+Message-ID: <20220830120050.1699a8da@eldfell>
+In-Reply-To: <Yw3NQ2MmhJbsxV3h@intel.com>
+References: <20220824174459.441976-1-contact@emersion.fr>
+ <20220826115355.668e13ca@eldfell>
+ <ASSNOUe9wtsXskZjVlf1X4pl53T7pVE0MfEzkQ_h4cX0tjnF7e3cxpwGpRNPudmIHoRuW4kz_v1AeTpXgouLpTYcI8q-lPTzc1YMLR8JiJM=@emersion.fr>
+ <20220830111626.77307042@eldfell> <Yw3NQ2MmhJbsxV3h@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v5 4/4] drm/bridge: ti-sn65dsi86: Implement bridge
- connector operations
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>
-References: <20220824130034.196041-1-tomi.valkeinen@ideasonboard.com>
- <20220824130034.196041-5-tomi.valkeinen@ideasonboard.com>
- <CAD=FV=UzcmDx+yZ5YQ3gqA_8Bc36YvtK8EH3MGTKtdmekjs5ew@mail.gmail.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <CAD=FV=UzcmDx+yZ5YQ3gqA_8Bc36YvtK8EH3MGTKtdmekjs5ew@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/RP=nBm5sazytbDYlQoi1Y6.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,117 +72,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--Sig_/RP=nBm5sazytbDYlQoi1Y6.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 29/08/2022 20:38, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Aug 24, 2022 at 6:00 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->>
->> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>
->> Implement the bridge connector-related .get_edid() and .detect()
->> operations, and report the related bridge capabilities and type.
->>
->> These ops are only added for DP mode. They should also be used for eDP
->> mode, but the driver seems to be mostly used for eDP and, according to
->> the comments, they've had issues with eDP panels and HPD. So better be
->> safe and only enable them for DP for now.
-> 
-> Just to be clear: the "They should also be used for eDP" is not correct.
-> 
-> * The detect() function should be returning whether the display is
-> physically there. For eDP it is _always_ physically there. Thus for
+On Tue, 30 Aug 2022 11:41:39 +0300
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
-Really? I thought detect() is the polling counter-part of HPD interrupt. 
-What is the point of returning true from detect() if the display is 
-there, but cannot be used?
+> On Tue, Aug 30, 2022 at 11:16:26AM +0300, Pekka Paalanen wrote:
 
-> eDP the _correct_ implementation for detect is to always return true.
-> Yes, there is a line called HPD for eDP and yes that line is used for
-> full DisplayPort for detecting a display. For eDP, though, HPD does
-> not detect the presence of a display. A display is always there.
+> > Hence, "has been displayed" is not it because the flip-done event is
+> > emitted before the new FB contents have been scanned out. That scanout
+> > cycle is only starting when the flip is done. The flip timestamp should
+> > correspond to the time when the first real pixel of the new FB hits the
+> > monitor cable.
+> >=20
+> > A flip is done, when it is guaranteed that the next (or on-going, in
+> > case of tearing) scanout cycle will use the new FB, IOW the hardware
+> > programming has been done I believe.
+> >=20
+> > If the flip is sync'd to vblank, the timestamp is as above, but the
+> > actual event might be emitted somewhat before or after the instant of
+> > the timestamp. Some drivers can predict the timestamp so can send the
+> > event early, others don't.
+> >=20
+> > If the flip is tearing, then I'm not sure what the timestamp is or when
+> > the event is emitted. =20
+>=20
+> For i915 we emit the event when the hardware has indicated the
+> flip has completed (ie. it has really started scanout from the
+> new fb). After that you can safely reuse the old fb without
+> accidentally doing frontbuffer rendering. It takes a bit of
+> time (some smallish number of scanlines) for the hardware to
+> flush the FIFOs/TLBs/whatever.
+>=20
+> And IIRC we just send the last sampled vblank timestamp for
+> the event. That is, the timestamp should look the same as
+> for a sync flip submitted during the previous frame. I was
+> thinking of making it more or less show the current time
+> of the flip done indication as that's when the scanout
+> from the new fb starts, but pretty much everyone else was
+> of the opinion that there is no point in doing that.
 
-But for eDP it still signals the actual availability of the display, 
-similarly to DP, doesn't it? You can't communicate with the monitor or 
-read the EDID until you get the HPD.
+Ugh. So we have two different meanings for the completion timestamp:
 
-> * For eDP implementing get_edid() is done in the panel so that power
-> sequencing can be done properly. While it could have been designed
-> other ways, that's how we ended up in the end. Thus eDP controllers
-> don't implement get_edid().
+sync flip: when the first pixel from the new FB is emitted into the
+	video signal
 
-Ok. I guess eDP panels do what they want and the drivers cannot rely on 
-the HPD.
+async flip: something irrelevant
 
-Or is the whole point here that because eDP panel drivers deal with the 
-panel quirks, the get_edid() and also detect (if any) is handled by the 
-eDP panel driver, and thus the bridge should not implement get_edid() 
-nor detect() for eDP?
+*sigh*
 
->> @@ -1163,10 +1165,33 @@ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
->>          pm_runtime_put_sync(pdata->dev);
->>   }
->>
->> +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
->> +{
->> +       struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
->> +       int val = 0;
->> +
->> +       pm_runtime_get_sync(pdata->dev);
->> +       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
->> +       pm_runtime_put_autosuspend(pdata->dev);
->> +
->> +       return val & HPD_DEBOUNCED_STATE ? connector_status_connected
->> +                                        : connector_status_disconnected;
->> +}
-> 
-> I thought in the end we decided that you _could_ get a hot plug detect
-> interrupt if you just did a pm_runtime_get_sync() sometime earlier in
-> the case of DP. Basically you're just saying that if you're DP that
-> you always powered up. Doing some searches makes me find some
-> discussion at:
-> 
-> https://lore.kernel.org/r/20220310152227.2122960-4-kieran.bingham+renesas@ideasonboard.com
-> 
-> Specifically, the right answer is: "In general the pm_runtime_get
-> reference need to go with the IRQ enabling"
-> 
-> In any case, if we want to start with just implementing "detect"
-> that's OK with me...
+To me it would make sense for both to use the same definition, if
+that's technically possible. The point is to know roughly where the
+tear line is which could then answer the question "did it actually
+tear" which is related to the silent falling back to sync flips.
 
-Yes, I have the HPD interrupt working in my branch, kind of. The problem 
-is that with the HPD interrupt I encountered issues (even if the monitor 
-was always connected): every now and then the dsi86 does not display 
-anything and I get a spam of LOSS_OF_DP_SYNC_LOCK_ERR errors, and I 
-couldn't figure out the problem. All the registers on the DSI source and 
-DSI sink side looked identical, so it hints to some kind of race issue, 
-which might well be there even with polling, but just doesn't seem to 
-trigger.
 
-To make things worse, the board in question is a remote board and I 
-can't actually test the HPD, i.e. plugging in and out the cable, 
-changing the monitors, powering up/down the monitors, etc.
+Thanks,
+pq
 
-On top of that, a few years back I had a lot of problems working on 
-Cadence DP controller, dealing with all kinds of corner case race issues 
-with DP HPD and trying to comply with the DP spec, which made me realize 
-that DP is just really complex.
+--Sig_/RP=nBm5sazytbDYlQoi1Y6.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-So, I thought it's better if I just try to get a minimum version working 
-so that we can have a picture on a monitor, without even trying to claim 
-real HPD support.
+-----BEGIN PGP SIGNATURE-----
 
-  Tomi
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmMN0cMACgkQI1/ltBGq
+qqevWQ//Xn3DaC/1WRc+xroHGg6ylCRqlZ00Z8OtKq12mglMLHsM9uUx1edBgQ1j
+1SrYC6zqDbCMw5usdPhPV+WEZqKyAFpxaQuO29dh0NQUel+EkLGW4YFIPyeqr+0u
+5H52y4VatpnfgyGRU3cRqyZbNZt3RxyyD4gN0DzlhfoAeugqONP1ftXFKnjXByi9
+FHtPthpNmkubRExlQNUHwv9RFxSZg/UB3bVGRrHJHko8yI1WAbDLPopybFZCqId0
+oUN+9DSHsHywXTbpI+6g9t6XijUv/jACJK2VCvMCz/Hu5qpcFFwHgg7OH7S0CToX
+p9CWusfJCAF8tNKus6Jl08Xjt/WwEtbkSmHxhtVnBcE9nscQw6yWsjAYWTManFAa
+TFZfBC7FF6R3q1hEO5TDg0wRyJfsrTqtBR5LMt5tWrGqkprpCnvU3UNSkcb0FhqY
+ZY4w7pu7oLwRuFHcfsFlxl3aXUAOJ+eUa0xoK6KHkb7Wv+5aycHKZZzVn7977aJk
+LjYOy+y8GiCUt6pOLhHCVY0hnfLkZUSaPdiv32H7ak/eFLrKMxEHsAJnR0EosM3k
+WVIwvBt+F2nrMPP/7KpSSr67r5CVhofS6IvZ1+05XurGG927rDyrqfWkzx/wJ+MI
+FKLxw9lzJOKtHfybpZ5TqBiTqNmmUA3ZfxgMCuRUMnftosBq79A=
+=Bevf
+-----END PGP SIGNATURE-----
+
+--Sig_/RP=nBm5sazytbDYlQoi1Y6.--
