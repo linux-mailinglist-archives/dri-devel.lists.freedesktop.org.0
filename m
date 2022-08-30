@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB075A6993
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:21:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CAF5A6995
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:21:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 691FD10E253;
-	Tue, 30 Aug 2022 17:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A8C10E255;
+	Tue, 30 Aug 2022 17:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D643510E252
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 17:20:55 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A6B810E253
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 17:21:00 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 88A1CB81CD3;
- Tue, 30 Aug 2022 17:20:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46326C433C1;
- Tue, 30 Aug 2022 17:20:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id ED2A26172E;
+ Tue, 30 Aug 2022 17:20:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FACFC433D7;
+ Tue, 30 Aug 2022 17:20:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661880053;
- bh=SiimXSh2Ur3GproHmiMWpVk5SoQv/iNe1BlOzQpcE3g=;
+ s=k20201202; t=1661880059;
+ bh=zneAbTP5pou8p5X4jgg4eabYrBfqHrjpDXDezHwggak=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pGXgE+9HZIxov0U7SLss5jgDPOEv7XcsKdHPF2KIpyW+qv1iIi/80bZN2X4ZbIlgu
- r43Ucwq+zh0d7Hn87ZRAdQ2dh5H6uG17AXumVZJ56QKULyoZ9YAJLKVLPfqsd4IHz8
- DDS9KLoH1sphyPfnkDZDfvoM/pcL+ULcZCHybE8AVipZqOGIIYq5+m5fo/V5FqDJc4
- 3A9zOzxkJJFqBi5gIRIVOdUmp0HtWATaMVCQ+6hDjMqxfsQZj+4cHrdXyI1KJAc3eS
- 4ziJy/h8YIMOrrCwwvEW8GqF/uhITXyr6G9C7pPdaKQCFkRZdR0DaoyHbql/lxERMD
- +2sTjC0ClUhEA==
+ b=mcA7kVhbZoxJslRWTloppfylEyunXU8ezZNM1tDwpeoX1TwyCclnzJIadF5pTC75Y
+ aGWGszK+3EM0/h2UJVx4+KH8+/s7dsWk3D43bq5EWrnRVZi13/l/X7Eqhb/H4zR90r
+ O/vIKjm+oCKPi85zo1GJT6vJcW52WDQg/rhsMPMvz6P3cSDXUM9C3Gmv+uKZmvH4HC
+ HD3cxThS6oeG+idu1vTmu+SccspOUp9I3W7h8k4x7WUZ8miG7BrByx5MJTfKHgvZmX
+ hg4ZyJqSKxR8s+StUKoS8py3pKU7pB6ZuQJ83FETzsrI/GhwTrKd5RaeyVwOAcgEeX
+ afR2mTnKu+gJQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 28/33] fbdev: fb_pm2fb: Avoid potential divide by
- zero error
-Date: Tue, 30 Aug 2022 13:18:19 -0400
-Message-Id: <20220830171825.580603-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 29/33] fbdev: fbcon: Destroy mutex on freeing
+ struct fb_info
+Date: Tue, 30 Aug 2022 13:18:20 -0400
+Message-Id: <20220830171825.580603-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220830171825.580603-1-sashal@kernel.org>
 References: <20220830171825.580603-1-sashal@kernel.org>
@@ -57,56 +57,42 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Letu Ren <fantasquex@gmail.com>, baihaowen@meizu.com,
- Helge Deller <deller@gmx.de>, Zheyu Ma <zheyuma97@gmail.com>,
- dri-devel@lists.freedesktop.org
+ Shigeru Yoshida <syoshida@redhat.com>, Helge Deller <deller@gmx.de>,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, wangqing@vivo.com,
+ tzimmermann@suse.de, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Letu Ren <fantasquex@gmail.com>
+From: Shigeru Yoshida <syoshida@redhat.com>
 
-[ Upstream commit 19f953e7435644b81332dd632ba1b2d80b1e37af ]
+[ Upstream commit 58559dfc1ebba2ae0c7627dc8f8991ae1984c6e3 ]
 
-In `do_fb_ioctl()` of fbmem.c, if cmd is FBIOPUT_VSCREENINFO, var will be
-copied from user, then go through `fb_set_var()` and
-`info->fbops->fb_check_var()` which could may be `pm2fb_check_var()`.
-Along the path, `var->pixclock` won't be modified. This function checks
-whether reciprocal of `var->pixclock` is too high. If `var->pixclock` is
-zero, there will be a divide by zero error. So, it is necessary to check
-whether denominator is zero to avoid crash. As this bug is found by
-Syzkaller, logs are listed below.
+It's needed to destroy bl_curve_mutex on freeing struct fb_info since
+the mutex is embedded in the structure and initialized when it's
+allocated.
 
-divide error in pm2fb_check_var
-Call Trace:
- <TASK>
- fb_set_var+0x367/0xeb0 drivers/video/fbdev/core/fbmem.c:1015
- do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1110
- fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1189
-
-Reported-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Letu Ren <fantasquex@gmail.com>
+Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/pm2fb.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/video/fbdev/core/fbsysfs.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/video/fbdev/pm2fb.c b/drivers/video/fbdev/pm2fb.c
-index d3be2c64f1c08..8fd79deb1e2ae 100644
---- a/drivers/video/fbdev/pm2fb.c
-+++ b/drivers/video/fbdev/pm2fb.c
-@@ -617,6 +617,11 @@ static int pm2fb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
- 		return -EINVAL;
- 	}
+diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
+index c2a60b187467e..4d7f63892dcc4 100644
+--- a/drivers/video/fbdev/core/fbsysfs.c
++++ b/drivers/video/fbdev/core/fbsysfs.c
+@@ -84,6 +84,10 @@ void framebuffer_release(struct fb_info *info)
+ 	if (WARN_ON(refcount_read(&info->count)))
+ 		return;
  
-+	if (!var->pixclock) {
-+		DPRINTK("pixclock is zero\n");
-+		return -EINVAL;
-+	}
++#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
++	mutex_destroy(&info->bl_curve_mutex);
++#endif
 +
- 	if (PICOS2KHZ(var->pixclock) > PM2_MAX_PIXCLOCK) {
- 		DPRINTK("pixclock too high (%ldKHz)\n",
- 			PICOS2KHZ(var->pixclock));
+ 	kfree(info->apertures);
+ 	kfree(info);
+ }
 -- 
 2.35.1
 
