@@ -1,91 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4D75A68EA
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 18:58:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7448B5A693F
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC3A10E1DA;
-	Tue, 30 Aug 2022 16:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A36D010E20F;
+	Tue, 30 Aug 2022 17:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8192C10E1DA;
- Tue, 30 Aug 2022 16:58:12 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27UFxJTm028885;
- Tue, 30 Aug 2022 16:58:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=5Wf6+OkpJlbMMlkzUeaHJttZ4+wKwZmkQLfCuv3YGbI=;
- b=ePU0x17jHUirtMZYvZBIuWKeWoMyRTPh9iJ3Jnsy0g4g3bcovHNjCl0DDoQWUA9Enyuw
- 8xSLHYzca8m7vTG0OlTHf6Ux3G2Mz8vmFcAmB2/51w1n3WIMLQ84DxWRjMIr+5pzOUlE
- xrwv+njI1uIUD9Wa6hQAMyTewgJesh2+0zVQUwhzl73D/guOVBH6SnVdlWYSw6/nu8jg
- MaDwu/nGAe4NQpXCi4D9A6+xhRlveviGUPyk9lVZMsUa8vgwLwPGlWU4m2nJg7UtMmvt
- lpmO3M+X9H1Kiwh44kGh3kBLac4gKdYZgLXW+IKkENzcYpcv3kEFP7pYzT480tz00g7h LQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j9jm4gqj9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 16:58:07 +0000
-Received: from pps.filterd (NALASPPMTA01.qualcomm.com [127.0.0.1])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 27UGv4dg026790; 
- Tue, 30 Aug 2022 16:58:06 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 3j7cbkmq64-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 16:58:06 +0000
-Received: from NALASPPMTA01.qualcomm.com (NALASPPMTA01.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27UGw5ji027514;
- Tue, 30 Aug 2022 16:58:05 GMT
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 27UGw4RF027510
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 16:58:05 +0000
-Received: from [10.111.165.88] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 30 Aug
- 2022 09:58:02 -0700
-Message-ID: <38a03147-058c-53e5-ea3f-68e40ad39ec4@quicinc.com>
-Date: Tue, 30 Aug 2022 09:58:00 -0700
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B94AF10E20F
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 17:07:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=yATArImrPbIdbkbJ+hsnN/9dIbuyx0Cx7ksTH+tJO44=;
+ b=H5+GfBkE0jpfYLFU7yyVM/gA1deuEIZOq+/PTfaXJnFmH41wG5uqfMJxqBFjQEEQjkQiuij/zpg+d
+ zQA+voxGCBrNH7e3Vpl6eC7jaxN2+wLdbYtbDwlA8K9RqYa3t5FEYX4Aj8DCcCo++wurSKgzdgYejN
+ rnTKeLtPmuYjQILB0lto7Qx1Jmj/MO2m08AIwCHB9wki7m5BCMwST41pfT/YQvu7QKmECcP0FnLl+e
+ gASLKDAuMzcfQDDqZvb7z8LWqLLmlGQyyRjpOKLjpVs0+3XtTQlkJwImf4TC2yUUehXwTwTaOqeXC2
+ atiOAJINQUpCYEwnsTjPPHvMQS+1dxA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=yATArImrPbIdbkbJ+hsnN/9dIbuyx0Cx7ksTH+tJO44=;
+ b=BTqJZD30Y7DGArUp4cCUmXdRg3NTadt6T+dHuoltm2mE5UWbmaC3aMlZTZb7P8e4SRpUMIbHMLfUJ
+ 9vNyqg6AQ==
+X-HalOne-Cookie: d4c5467cf0517736179749e36de942919052f25d
+X-HalOne-ID: 3ac09ed2-2886-11ed-824a-d0431ea8bb10
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 3ac09ed2-2886-11ed-824a-d0431ea8bb10;
+ Tue, 30 Aug 2022 17:07:30 +0000 (UTC)
+Date: Tue, 30 Aug 2022 19:07:29 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] tty/vt: Add console_lock check to vt_console_print()
+Message-ID: <Yw5D0QeSt9TYy/41@ravnborg.org>
+References: <20220830132803.403744-1-daniel.vetter@ffwll.ch>
+ <20220830144945.430528-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dsi: Remove use of device_node in
- dsi_host_parse_dt()
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20220829165450.217628-1-nathan@kernel.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220829165450.217628-1-nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: RdoyeJjpYfi6TAnYZH_N9WCrNw_tGLHS
-X-Proofpoint-GUID: RdoyeJjpYfi6TAnYZH_N9WCrNw_tGLHS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-30_10,2022-08-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0
- adultscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- phishscore=0 clxscore=1011 suspectscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208300078
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220830144945.430528-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,61 +59,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, Tom Rix <trix@redhat.com>,
- freedreno@lists.freedesktop.org
+Cc: Petr Mladek <pmladek@suse.com>, Yangxi Xiang <xyangxi5@gmail.com>,
+ John Ogness <john.ogness@linutronix.de>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Xuezhi Zhang <zhangxuezhi1@coolpad.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ nick black <dankamongmen@gmail.com>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Jiri Slaby <jirislaby@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Daniel,
 
+On Tue, Aug 30, 2022 at 04:49:45PM +0200, Daniel Vetter wrote:
+> I'm scratching my head why we have this printing_lock. Digging through
+> historical git trees shows that:
+> - Added in 1.1.73, and I found absolutely no reason why.
+> - Converted to atomic bitops in 2.1.125pre2, I guess as part of SMP
+>   enabling/bugfixes.
+> - Converted to a proper spinlock in b0940003f25d ("vt: bitlock fix")
+>   because the hand-rolled atomic version lacked necessary memory
+>   barriers.
+> 
+> Digging around in lore for that time period did also not shed further
+> light.
+> 
+> The only reason I think this might still be relevant today is that (to
+> my understanding at least, ymmv) during an oops we might be printing
+> without console_lock held. See console_flush_on_panic() and the
+> comments in there - we flush out the console buffers irrespective of
+> whether we managed to acquire the right locks.
+> 
+> The strange thing is that this reason is fairly recent, because the
+> console flushing was historically done without oops_in_progress set.
+> This only changed in c7c3f05e341a ("panic: avoid deadlocks in
+> re-entrant console drivers"), which removed the call to
+> bust_spinlocks(0) (which decrements oops_in_progress again) before
+> flushing out the console (which back then was open coded as a
+> console_trylock/unlock pair).
+> 
+> Note that this entire mess should be properly fixed in the
+> printk/console layer, and not inflicted on each implementation.
+> 
+> For now just document what's going on and check that in all other
+> cases callers obey the locking rules.
+> 
+> v2: WARN_CONSOLE_UNLOCKED already checks for oops_in_progress
+> (something else that should be fixed I guess), hence remove the
+> open-coded check I've had.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+> Cc: Yangxi Xiang <xyangxi5@gmail.com>
+> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: nick black <dankamongmen@gmail.com>
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: John Ogness <john.ogness@linutronix.de>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
 
-On 8/29/2022 9:54 AM, Nathan Chancellor wrote:
-> Clang warns:
+It is always good to warn in case assumptions do not hold.
+And thanks for the comment.
+
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+Hmm, I prefer to start comments with upper-case, but in vt.c there is no
+specific style.
+
+	Sam
+
+> --
+> Note that this applies on top of my earlier vt patch:
 > 
->    drivers/gpu/drm/msm/dsi/dsi_host.c:1903:14: error: variable 'device_node' is uninitialized when used here [-Werror,-Wuninitialized]
->            of_node_put(device_node);
->                        ^~~~~~~~~~~
->    drivers/gpu/drm/msm/dsi/dsi_host.c:1870:44: note: initialize the variable 'device_node' to silence this warning
->            struct device_node *endpoint, *device_node;
->                                                      ^
->                                                      = NULL
->    1 error generated.
+> https://lore.kernel.org/lkml/20220826202419.198535-1-daniel.vetter@ffwll.ch/
 > 
-> device_node's assignment was removed but not all of its uses. Remove the
-> call to of_node_put() and the variable declaration to clean up the
-> warning.
-> 
-> Fixes: 5f8cdece42ff ("drm/msm/dsi: switch to DRM_PANEL_BRIDGE")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1700
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Expect more, I'm digging around in here a bit ...
+> -Daniel
 > ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+>  drivers/tty/vt/vt.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 57a4c0fa614b..7fbf391c024f 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1867,7 +1867,7 @@ static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
->   {
->   	struct device *dev = &msm_host->pdev->dev;
->   	struct device_node *np = dev->of_node;
-> -	struct device_node *endpoint, *device_node;
-> +	struct device_node *endpoint;
->   	int ret = 0;
->   
->   	/*
-> @@ -1900,8 +1900,6 @@ static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
->   		}
->   	}
->   
-> -	of_node_put(device_node);
-> -
->   err:
->   	of_node_put(endpoint);
->   
-> 
-> base-commit: 5f8cdece42ff0c615e213b6619d29487f9f409d7
+> diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+> index 4d29e4a17db7..a6be32798fad 100644
+> --- a/drivers/tty/vt/vt.c
+> +++ b/drivers/tty/vt/vt.c
+> @@ -3083,7 +3083,9 @@ static void vt_console_print(struct console *co, const char *b, unsigned count)
+>  	ushort start_x, cnt;
+>  	int kmsg_console;
+>  
+> -	/* console busy or not yet initialized */
+> +	WARN_CONSOLE_UNLOCKED();
+> +
+> +	/* this protects against concurrent oops only */
+>  	if (!spin_trylock(&printing_lock))
+>  		return;
+>  
+> -- 
+> 2.37.2
