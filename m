@@ -1,53 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47BFB5A64E2
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 15:36:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 528A95A6537
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 15:41:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CEC310E0C8;
-	Tue, 30 Aug 2022 13:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAC2D10E0E2;
+	Tue, 30 Aug 2022 13:41:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0679C10E0E1;
- Tue, 30 Aug 2022 13:36:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661866599; x=1693402599;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=O9CgTkDBOczWNsw6xgnL7AlVgHCVygWfHTMUKa/QgD8=;
- b=d8YuDrvsUXU2NT992PGZ3eotpCrktdhojJf8pVMRj+fcwKWLbe0GZZtm
- jIBdjYv2oBkMDZIFCGt0iwkkk+w3bWFoJQMIJbJcuzWe+hJ2ghHT98L4i
- OMusSZaWd7GqULYvF89gQeXFn4tQxEDnoT1jX4trc5g8wxt9atYHYqTpw
- 6F4yJsF+gDuDjh7aPBm2xnpL6W2GHTa+xsIr4QOmKae71qY0PTx6HzO56
- QmD6PPInon52r0u7HIqpLW0eLTI54DM2sDmukr+j+/wrnWS/qNSAgIYBx
- uTnL1+dOqEX7tnhE1iHeTHce9nEtcN5FjQRoHFnYqerJvY/6Uv8pJFc2O w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="295176323"
-X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; d="scan'208";a="295176323"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2022 06:36:38 -0700
-X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; d="scan'208";a="672867819"
-Received: from amrabet-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.41.211])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2022 06:36:31 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 14/41] drm/modes: Move named modes parsing to a
- separate function
-In-Reply-To: <20220830120330.6f5f22d35gu7cbr3@houat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-14-459522d653a7@cerno.tech>
- <CAMuHMdV9wVgHFfwHoqtBoYzJDnjDmKTfaZkAKvTVKh1Y-2x1pA@mail.gmail.com>
- <87czcidnb8.fsf@intel.com> <20220830120330.6f5f22d35gu7cbr3@houat>
-Date: Tue, 30 Aug 2022 16:36:23 +0300
-Message-ID: <875yi9etuw.fsf@intel.com>
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9788F10E0E1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 13:41:21 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id h1so5811022wmd.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 06:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=4DJawcmHJDXK/larmzbFcsxblDinNYvWhKtjvg3WYsE=;
+ b=NezfSURzPSk6ZZckYTP5Ey/86r35sJ8o0R6U5GZ6U34lrn3+OwN1vMTPscLU25Kxlh
+ iFif4+GWl6ROmPgoirU8vInFZiTAq4jiuNaj6hzDRRgxAX/gpgoTIva231WLIbNMlUYZ
+ I8bvzWqjx6F5CDKnwTyhmX8kUDzLcrSyPHL1M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=4DJawcmHJDXK/larmzbFcsxblDinNYvWhKtjvg3WYsE=;
+ b=UwcJdRjVl0Cm9PwrnIWSjCM6sRD+/RxZotPqNM+U7LhLtxIX6o12PhhO9KmgnfEKRb
+ 0f6Ju3vA+gasXWBarrMooDm3qVeiyVkIDDAP6R5ncP0lGzo+W9XxWr0GeVltvpZ1x91S
+ gakBLwDH8R2zrcPupcGNP2xibUkpqiVBJkZwZuTgQ+Tl4y8XsAM1P2NeWOCe7Fi9NPZb
+ TwUWrXURnlGbhQ/QXdC+0bmP1tVEW+02zK/eCHO6w49Ghoi63As2LIQI9PSVf26DCLvv
+ mQO6YTNp9K40SJZKkyqdZH/U7A81sAfDs3XK7lJl+iskwOzswCQ2TUBlKuiGHxx41NA3
+ p3tw==
+X-Gm-Message-State: ACgBeo2fX+nSXy6L1cYz9GtibxXZAucwpm0RvizQkfYuiYEitRCq832M
+ SbWlNb4IrQ7hZVguJrfkuzCGbQ==
+X-Google-Smtp-Source: AA6agR42uGyLFvr7VwfI8PKUOEjVgy62XeoPV+pO67oUMX9x7WyQAogYCnLFV8idBlRmO3NhaooWRA==
+X-Received: by 2002:a7b:c8c1:0:b0:3a5:bb57:e7a9 with SMTP id
+ f1-20020a7bc8c1000000b003a5bb57e7a9mr9764114wml.18.1661866879992; 
+ Tue, 30 Aug 2022 06:41:19 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ bd22-20020a05600c1f1600b003a8436e2a94sm8421146wmb.16.2022.08.30.06.41.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Aug 2022 06:41:19 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] tty/vt: Remove printable variable
+Date: Tue, 30 Aug 2022 15:41:17 +0200
+Message-Id: <20220830134117.416003-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220830132803.403744-1-daniel.vetter@ffwll.ch>
+References: <20220830132803.403744-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,81 +67,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
+Cc: Yangxi Xiang <xyangxi5@gmail.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Xuezhi Zhang <zhangxuezhi1@coolpad.com>, nick black <dankamongmen@gmail.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Jiri Slaby <jirislaby@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Aug 2022, Maxime Ripard <maxime@cerno.tech> wrote:
-> Hi,
->
-> On Tue, Aug 30, 2022 at 01:43:07PM +0300, Jani Nikula wrote:
->> On Tue, 30 Aug 2022, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> > On Mon, Aug 29, 2022 at 3:13 PM Maxime Ripard <maxime@cerno.tech> wrote:
->> >> +#define STR_STRICT_EQ(str, len, cmp) \
->> >> +       ((strlen(cmp) == len) && !strncmp(str, cmp, len))
->> >
->> > This is not part of the move, but newly added.
->> 
->> The same construct is also duplicated elsewhere in the series, and I
->> kept being confused by it.
->
-> I'm not sure what is confusing, but I can add a comment if needed.
+Every since the 0.99.7A release when console_register() was introduced
+it's become impossible to call vt_console_print (called
+console_print() back then still) directly. Which means the
+initialization issue this variable protected against is no more.
 
-STR_STRICT_EQ() is what's confusing. I have to look at the
-implementation to understand what it means. What does "strict" string
-equality mean?
+Give it a send off with style and let it rest in peace.
 
->
->> The above is precisely the same as:
->> 
->> 	str_has_prefix(str, cmp) == len
->
-> Here, it's used to make sure we don't have a named mode starting with
-> either e, d, or D.
->
-> If I understood str_has_prefix() right, str_has_prefix("DUMB-MODE", "D")
-> == strlen("DUMB-MODE") would return true, while it's actually what we
-> want to avoid.
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>
+Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+Cc: nick black <dankamongmen@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Yangxi Xiang <xyangxi5@gmail.com>
+Cc: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+---
+ drivers/tty/vt/vt.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-That's not true, str_has_prefix("DUMB-MODE", "D") == strlen("D") is.
-
-> It's also used indeed in drm_get_tv_mode_from_name(), where we try to
-> match a list of names with one passed as argument.
->
-> With drm_get_tv_mode_from_name("NSTC", strlen("NTSC")), we would end up
-> calling str_has_prefix("NTSC-J", "NTSC") == strlen("NTSC-J") which would
-> work. However, we end up calling prefix not a prefix, but an entire
-> string we want to match against, which is very confusing to me too.
-
-If I get this right, you have a string and you want to check if that has
-a certain prefix. Additionally, you want to check the prefix is a
-certain length.
-
-Sure, that the prefix is a certain length is more of a property of the
-string, which is NUL terminated later than at length, but that's doesn't
-really matter.
-
-That condition is simply str_has_prefix(string, prefix) == length.
-
-BR,
-Jani.
-
-
+diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+index ae9c926acd6f..4d29e4a17db7 100644
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -157,7 +157,6 @@ static void set_palette(struct vc_data *vc);
+ 
+ #define vt_get_kmsg_redirect() vt_kmsg_redirect(-1)
+ 
+-static int printable;		/* Is console ready for printing? */
+ int default_utf8 = true;
+ module_param(default_utf8, int, S_IRUGO | S_IWUSR);
+ int global_cursor_default = -1;
+@@ -3085,8 +3084,6 @@ static void vt_console_print(struct console *co, const char *b, unsigned count)
+ 	int kmsg_console;
+ 
+ 	/* console busy or not yet initialized */
+-	if (!printable)
+-		return;
+ 	if (!spin_trylock(&printing_lock))
+ 		return;
+ 
+@@ -3537,7 +3534,6 @@ static int __init con_init(void)
+ 	pr_info("Console: %s %s %dx%d\n",
+ 		vc->vc_can_do_color ? "colour" : "mono",
+ 		display_desc, vc->vc_cols, vc->vc_rows);
+-	printable = 1;
+ 
+ 	console_unlock();
+ 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.37.2
+
