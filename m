@@ -2,71 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDB05A6016
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 12:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27325A604A
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 12:07:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 072BE88C3D;
-	Tue, 30 Aug 2022 10:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED1D10E00C;
+	Tue, 30 Aug 2022 10:07:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53B9B890B2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 10:03:03 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id bn9so10781372ljb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 03:03:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=+Rmf6Ay/5f9NnZwdZRewRAWeUIFEVxm3g3aQu9VQRg4=;
- b=P0J8K0R7ZZqi6Jsr1dj02/aY0fuWShyfs2bZj+MZZ8gPn5iVvSjI/79ZsYMxzinfwz
- MNndVVaIsJPtL70GXStzlwNXHj6K0gb74SLgWUT7RRwbmIPbnxAWsQ8gHlbJQ2JB2KSL
- 6BpZpoKnYD6w6pOeM2AadeKBziK+hYOF9M7aeNgKTFhLBn0CtVBwYvvSocucy81J3X5B
- CZgKUSS31ZUTr6353s+0CeKI1VoZ3OpZAhZd0f4X+vnloGG816uQ0HD+L+oD2uT28Bdn
- 6L3FPQ+pDIepyo5QdJdXtYa7l6z+Ko9L3l01QBe4RxhHNNuzBdszogrMrL59ug3B+NVC
- rgwg==
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01FC210E00C;
+ Tue, 30 Aug 2022 10:07:09 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id c20so8094973qtw.8;
+ Tue, 30 Aug 2022 03:07:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=+Rmf6Ay/5f9NnZwdZRewRAWeUIFEVxm3g3aQu9VQRg4=;
- b=8FeJGK02VyOMOvcf0JoODQsd5jxmMhodx4ACbOevxDlUg7ZP7nZkfqnRPdIm60BATp
- k5vAwhUI/Z5ZqRtlxqZtobwYsJKULCeac0sybgMPxKn3y8qPbmTUEWYASRrHttF7odQ4
- 2uslwhFC1EQ/+PEMcvx0Alod/pZk7SJpcST/tJRRsUBBgt4Uw4MQ4N3PXrLaIAygEaJL
- 1ThHeQDv7x8pbjFqT+YHKBrJRqz58sjHoYI3j8g8hW5R2t9s6YRe6V2QpM7C/H/Tox1d
- JqpqVwhtBL5U5McvE6Ov2ejSgmBcjwT3Dd27y7uve54nKYSX/BWOJlW7xi+pT0eLefN/
- w5uQ==
-X-Gm-Message-State: ACgBeo1IUeK9FA05cUytnqZFWm10Nz4LnYFe3ylBSXZ9b0aSZeqgr7gJ
- yo/VAdLAdn8xbNq8olGzcKK62Q==
-X-Google-Smtp-Source: AA6agR7gmsLtXHKiV5/+nl4hdZyDBOEekrdwrl2N0/Dt19xwRjqcrEz1LF6+TNZhAHJwBOXqhHa8Hg==
-X-Received: by 2002:a2e:b282:0:b0:25e:46b6:ff33 with SMTP id
- 2-20020a2eb282000000b0025e46b6ff33mr6645589ljx.503.1661853781591; 
- Tue, 30 Aug 2022 03:03:01 -0700 (PDT)
-Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv.
- [109.73.99.134]) by smtp.gmail.com with ESMTPSA id
- p9-20020a2eba09000000b0025df5f38da8sm1707002lja.119.2022.08.30.03.03.00
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=B6sPmfOEwPF2h7f07mGfudT4aQe+F6kN6ETICFIZHMY=;
+ b=o4+XEGitnnYqoqgpcZSIvG7RMttE7byKzwJfldKa3rgmfRywsHWOGZFZwmR2Gys3GK
+ NtKbFA4Ho3GdaYUwo1PZp0O5x+Ew5maD9izZYp0K3w5A+S+o3xxRmpJLw1ZDaxSO+Opu
+ ZIitImslMx8RuWP9OEpkuQXeILQVLpe4ZzS210YKI1eSqoK0Hm/Op/33kMjkZ2QEgBZa
+ iB3YzwubfFebxXwhtqPNBYhJSH1Sib+OUA59igCYBo+Q2rL6gK4Mgl68Cf16R8co5pmg
+ /pjeR7ohR8Zgp3Hp+DyoQndiNBvDVXbMZvo7swgW+BGcGusDvHsKPjfU8iJP/uHesJJu
+ xOWw==
+X-Gm-Message-State: ACgBeo0ssKdgqMiDSPPeZ6qKYLi2evRqxWnKGweBCspI4XCBekPqnvi/
+ QBjMt8x+kFOxEx+EbSZRe/Nvr/zLpz8l8g==
+X-Google-Smtp-Source: AA6agR7HTStCAJjuMUvrtkPAuP1jQedksE3tAKTXBMgTCKhbb2AQh+bPCaiA2m4ZBWoTGlm8li0dLA==
+X-Received: by 2002:a05:622a:1788:b0:344:7c86:f9a1 with SMTP id
+ s8-20020a05622a178800b003447c86f9a1mr13617175qtk.22.1661854028519; 
+ Tue, 30 Aug 2022 03:07:08 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
+ [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
+ az11-20020a05620a170b00b006bbd0ae9c05sm8039630qkb.130.2022.08.30.03.07.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 03:03:01 -0700 (PDT)
-Message-ID: <6f5183b9-7979-b71d-6051-23752cd9580e@linaro.org>
-Date: Tue, 30 Aug 2022 13:02:59 +0300
+ Tue, 30 Aug 2022 03:07:07 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-3321c2a8d4cso260683937b3.5; 
+ Tue, 30 Aug 2022 03:07:07 -0700 (PDT)
+X-Received: by 2002:a25:8e84:0:b0:696:466c:baa with SMTP id
+ q4-20020a258e84000000b00696466c0baamr10033148ybl.604.1661854027231; Tue, 30
+ Aug 2022 03:07:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v5 5/6] dt-bindings: drm/msm/gpu: Add optional resets
-Content-Language: en-US
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <1661714479-28981-1-git-send-email-quic_akhilpo@quicinc.com>
- <20220829005035.v5.5.Ieffadd08a071a233213ced4406bf84bb5922ab9a@changeid>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220829005035.v5.5.Ieffadd08a071a233213ced4406bf84bb5922ab9a@changeid>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-14-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-14-459522d653a7@cerno.tech>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Aug 2022 12:06:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV9wVgHFfwHoqtBoYzJDnjDmKTfaZkAKvTVKh1Y-2x1pA@mail.gmail.com>
+Message-ID: <CAMuHMdV9wVgHFfwHoqtBoYzJDnjDmKTfaZkAKvTVKh1Y-2x1pA@mail.gmail.com>
+Subject: Re: [PATCH v2 14/41] drm/modes: Move named modes parsing to a
+ separate function
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,29 +67,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Ben Skeggs <bskeggs@redhat.com>, linux-sunxi@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/08/2022 22:21, Akhil P Oommen wrote:
-> Add an optional reference to GPUCC reset which can be used to ensure cx
-> gdsc collapse during gpu recovery.
-> 
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> ---
-> 
-> Changes in v5:
-> - Nit: Remove a duplicate blank line (Krzysztof)
+Hi Maxime,
 
-FWIW:
+On Mon, Aug 29, 2022 at 3:13 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> The current construction of the named mode parsing doesn't allow to extend
+> it easily. Let's move it to a separate function so we can add more
+> parameters and modes.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Thanks for your patch!
 
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -1909,6 +1909,9 @@ void drm_connector_list_update(struct drm_connector *connector)
+>  }
+>  EXPORT_SYMBOL(drm_connector_list_update);
+>
+> +#define STR_STRICT_EQ(str, len, cmp) \
+> +       ((strlen(cmp) == len) && !strncmp(str, cmp, len))
 
-Best regards,
-Krzysztof
+This is not part of the move, but newly added.
+
+> +
+>  static int drm_mode_parse_cmdline_bpp(const char *str, char **end_ptr,
+>                                       struct drm_cmdline_mode *mode)
+>  {
+> @@ -2208,6 +2211,52 @@ static const char * const drm_named_modes_whitelist[] = {
+>         "PAL",
+>  };
+>
+> +static int drm_mode_parse_cmdline_named_mode(const char *name,
+> +                                            unsigned int name_end,
+> +                                            struct drm_cmdline_mode *cmdline_mode)
+> +{
+> +       unsigned int i;
+> +
+> +       if (!name_end)
+> +               return 0;
+
+This is already checked by the caller.
+
+> +
+> +       /* If the name starts with a digit, it's not a named mode */
+> +       if (isdigit(name[0]))
+> +               return 0;
+> +
+> +       /*
+> +        * If there's an equal sign in the name, the command-line
+> +        * contains only an option and no mode.
+> +        */
+> +       if (strnchr(name, name_end, '='))
+> +               return 0;
+> +
+> +       /* The connection status extras can be set without a mode. */
+> +       if (STR_STRICT_EQ(name, name_end, "d") ||
+> +           STR_STRICT_EQ(name, name_end, "D") ||
+> +           STR_STRICT_EQ(name, name_end, "e"))
+> +               return 0;
+
+These checks are not part of the move, and should probably be added
+in a separate patch.
+
+> +
+> +       /*
+> +        * We're sure we're a named mode at that point, iterate over the
+> +        * list of modes we're aware of.
+> +        */
+> +       for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> +               int ret;
+> +
+> +               ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> +               if (ret != name_end)
+> +                       continue;
+> +
+> +               strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]);
+> +               cmdline_mode->specified = true;
+> +
+> +               return 1;
+> +       }
+> +
+> +       return -EINVAL;
+> +}
+> +
+>  /**
+>   * drm_mode_parse_command_line_for_connector - parse command line modeline for connector
+>   * @mode_option: optional per connector mode option
+> @@ -2244,7 +2293,7 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+>         const char *bpp_ptr = NULL, *refresh_ptr = NULL, *extra_ptr = NULL;
+>         const char *options_ptr = NULL;
+>         char *bpp_end_ptr = NULL, *refresh_end_ptr = NULL;
+> -       int i, len, ret;
+> +       int len, ret;
+>
+>         memset(mode, 0, sizeof(*mode));
+>         mode->panel_orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
+> @@ -2285,17 +2334,19 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+>                 parse_extras = true;
+>         }
+>
+> -       /* First check for a named mode */
+> -       for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> -               ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> -               if (ret == mode_end) {
+> -                       if (refresh_ptr)
+> -                               return false; /* named + refresh is invalid */
+>
+> -                       strcpy(mode->name, drm_named_modes_whitelist[i]);
+> -                       mode->specified = true;
+> -                       break;
+> -               }
+> +       if (mode_end) {
+> +               ret = drm_mode_parse_cmdline_named_mode(name, mode_end, mode);
+> +               if (ret < 0)
+> +                       return false;
+> +
+> +               /*
+> +                * Having a mode that starts by a letter (and thus is named)
+> +                * and an at-sign (used to specify a refresh rate) is
+> +                * disallowed.
+> +                */
+> +               if (ret && refresh_ptr)
+> +                       return false;
+>         }
+>
+>         /* No named mode? Check for a normal mode argument, e.g. 1024x768 */
+>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
