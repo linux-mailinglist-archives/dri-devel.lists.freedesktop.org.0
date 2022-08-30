@@ -1,71 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4777A5A687A
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 18:33:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4D75A68EA
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 18:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6920510E1C8;
-	Tue, 30 Aug 2022 16:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC3A10E1DA;
+	Tue, 30 Aug 2022 16:58:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com
- [IPv6:2607:f8b0:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83C9410E1C8
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 16:33:08 +0000 (UTC)
-Received: by mail-il1-x135.google.com with SMTP id y17so905185ilb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 09:33:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=ciXFSEs9r0N1LD91dtfpuJIFP0vahmRP9WDesA1Qhrw=;
- b=lgwfbgVg+azcvOZPzBts94TKWwBwKKtdinKOHcL+PKZYUqzkypjPZ48kCmvwv2Nw5l
- 3ZlFmIetZFXi/KM2ARrCl1E8q+5dhDSK6khN5SktQvRQyq6Lk3+LNe4932E38304io8d
- Qgpv9b1tqmK0sUYUZtgvGmPiw6wktQuO06WXw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=ciXFSEs9r0N1LD91dtfpuJIFP0vahmRP9WDesA1Qhrw=;
- b=Ej7gxxTi/N6SEq8/DLGsurRXJXGmYJfdtWy6WBZWIyDbBxtzQwqtPJpK4t4AgxbRss
- ca9HWAZ4zE6nOzXIu2y27OYsLprVs1VYeu5QRc5MnIHFBoVNvsULf8icFg3pYSqOCPZR
- uWpx4QgbvQave9ic3NfZ+s6Soi/g2tHkF1/XEPLnqdhUEB9cJqsQFx7Pi5YPKtyqZXlB
- FrXBnSVc36RSeRy01VvgSPwasIsvcYTM0aYjqFnehQL3it6cpZhMxwpPV/YKOvMRpHlH
- Y4g3TUAQKYRDdMauWg9h9vHteZ/XrYipvpotGS281/sRCYjxlkTAfwzjoQXbceqM/XdD
- fATw==
-X-Gm-Message-State: ACgBeo3dOPh464MAw6x7UGwjgf+MhbDy2V/xNiSsZr3x9rZgSAUqA6JT
- h1D6VC/ORnDg+cZVnX3lE5PwftYkp2ufCyJi
-X-Google-Smtp-Source: AA6agR4488STKdSf4uupZsUXFAL4OjLhghOkHPrent1Tcuap48YRDAO0Wy9UXEYvRzywJeTX4fKmTw==
-X-Received: by 2002:a05:6e02:1685:b0:2ea:447a:df8b with SMTP id
- f5-20020a056e02168500b002ea447adf8bmr12628236ila.66.1661877187210; 
- Tue, 30 Aug 2022 09:33:07 -0700 (PDT)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com.
- [209.85.166.52]) by smtp.gmail.com with ESMTPSA id
- i7-20020a02a0c7000000b00349d044cddfsm5626716jah.119.2022.08.30.09.33.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 09:33:06 -0700 (PDT)
-Received: by mail-io1-f52.google.com with SMTP id 62so9689804iov.5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 09:33:06 -0700 (PDT)
-X-Received: by 2002:a6b:5f0b:0:b0:688:c460:87ff with SMTP id
- t11-20020a6b5f0b000000b00688c46087ffmr11002214iob.56.1661877185716; Tue, 30
- Aug 2022 09:33:05 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8192C10E1DA;
+ Tue, 30 Aug 2022 16:58:12 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27UFxJTm028885;
+ Tue, 30 Aug 2022 16:58:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=5Wf6+OkpJlbMMlkzUeaHJttZ4+wKwZmkQLfCuv3YGbI=;
+ b=ePU0x17jHUirtMZYvZBIuWKeWoMyRTPh9iJ3Jnsy0g4g3bcovHNjCl0DDoQWUA9Enyuw
+ 8xSLHYzca8m7vTG0OlTHf6Ux3G2Mz8vmFcAmB2/51w1n3WIMLQ84DxWRjMIr+5pzOUlE
+ xrwv+njI1uIUD9Wa6hQAMyTewgJesh2+0zVQUwhzl73D/guOVBH6SnVdlWYSw6/nu8jg
+ MaDwu/nGAe4NQpXCi4D9A6+xhRlveviGUPyk9lVZMsUa8vgwLwPGlWU4m2nJg7UtMmvt
+ lpmO3M+X9H1Kiwh44kGh3kBLac4gKdYZgLXW+IKkENzcYpcv3kEFP7pYzT480tz00g7h LQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j9jm4gqj9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Aug 2022 16:58:07 +0000
+Received: from pps.filterd (NALASPPMTA01.qualcomm.com [127.0.0.1])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 27UGv4dg026790; 
+ Tue, 30 Aug 2022 16:58:06 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 3j7cbkmq64-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Aug 2022 16:58:06 +0000
+Received: from NALASPPMTA01.qualcomm.com (NALASPPMTA01.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27UGw5ji027514;
+ Tue, 30 Aug 2022 16:58:05 GMT
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 27UGw4RF027510
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Aug 2022 16:58:05 +0000
+Received: from [10.111.165.88] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 30 Aug
+ 2022 09:58:02 -0700
+Message-ID: <38a03147-058c-53e5-ea3f-68e40ad39ec4@quicinc.com>
+Date: Tue, 30 Aug 2022 09:58:00 -0700
 MIME-Version: 1.0
-References: <20220824130034.196041-1-tomi.valkeinen@ideasonboard.com>
- <20220824130034.196041-5-tomi.valkeinen@ideasonboard.com>
- <CAD=FV=UzcmDx+yZ5YQ3gqA_8Bc36YvtK8EH3MGTKtdmekjs5ew@mail.gmail.com>
- <ed60ea8b-bcc4-4a99-5133-8cd4b010d09b@ideasonboard.com>
- <CAD=FV=VuJnFa+Egkw0_yckwRd_05rUi+Y-hzxzof0Ki=8BOdMg@mail.gmail.com>
- <61274dc0-1377-9330-67b6-0d8abff6e21b@ideasonboard.com>
-In-Reply-To: <61274dc0-1377-9330-67b6-0d8abff6e21b@ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 30 Aug 2022 09:32:52 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UW34fvZ0kOMtvt0nDk4AhnUbJjxdV+Avd8BjHwdBU85g@mail.gmail.com>
-Message-ID: <CAD=FV=UW34fvZ0kOMtvt0nDk4AhnUbJjxdV+Avd8BjHwdBU85g@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] drm/bridge: ti-sn65dsi86: Implement bridge
- connector operations
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dsi: Remove use of device_node in
+ dsi_host_parse_dt()
+Content-Language: en-US
+To: Nathan Chancellor <nathan@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20220829165450.217628-1-nathan@kernel.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220829165450.217628-1-nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: RdoyeJjpYfi6TAnYZH_N9WCrNw_tGLHS
+X-Proofpoint-GUID: RdoyeJjpYfi6TAnYZH_N9WCrNw_tGLHS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-30_10,2022-08-30_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0
+ adultscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ phishscore=0 clxscore=1011 suspectscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208300078
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,129 +98,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Tom Rix <trix@redhat.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Aug 30, 2022 at 9:11 AM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
->
-> >>> eDP the _correct_ implementation for detect is to always return true.
-> >>> Yes, there is a line called HPD for eDP and yes that line is used for
-> >>> full DisplayPort for detecting a display. For eDP, though, HPD does
-> >>> not detect the presence of a display. A display is always there.
-> >>
-> >> But for eDP it still signals the actual availability of the display,
-> >> similarly to DP, doesn't it? You can't communicate with the monitor or
-> >> read the EDID until you get the HPD.
-> >
-> > It signals that the display has finished booting, _not_ whether the
-> > display is there. The display is always there.
-> >
-> > There are simply two concepts:
-> > 1. Is a display there?
-> > 2. Can I talk to the display?
-> >
-> > I assert that the way that "detect" is used in the DRM core is for #1.
->
-> Why is that? Can you point to any specific piece of code?
->
-> I didn't look it closely, but I believe in my testing I saw that the
-> framework expects to be able to read EDID after detect() reports that
-> the display is connected. And if EDID read fails, then you get only the
-> default modes, even if the display was ready very soon afterwards. If so
-> that hints more towards 2.
-
-I guess it's mostly the chicken and egg problem. In your model, how
-does the panel get turned on? Let's say that the eDP panel is off at
-bootup, right? So "HPD" will not be high. detect() will say that
-nothing is there. Since nothing is there, nobody will ever try to call
-get_edid() nor will they ever try turning on the panel. ...and since
-nobody turns on the panel HPD will never be high.
-
-Now let's imagine that there is some rule to turn the panel on once at
-bootup. Great, you'll see the panel at bootup. ...but then what
-happens when you go through a modeset or suspend/resume or similar?
-We'll turn the panel off as part of the modeset, HPD will go low, and
-it will look like the panel is gone forever.
-
-This is why detect() has to always say that an eDP panel is present.
-If this isn't true the panel will never be turned on because we'll
-never know it's there.
 
 
-> > In theory one could try to conflate the two. Everyone keeps trying
->
-> I agree here, they are not the same.
->
-> > until they think about it more. Probably because the signal is named
-> > HPD and everyone reads that as "hot plug detect". Worst. Name. Ever.
-> > In any case, here lies dragons. Specifically if you conflate these two
-> > concepts then when do you know to provide power to the display?
-> > Remember, you can't detect the display until it's powered. ...but why
-> > would you power it if you thought it wasn't there? You could power it
-> > once at bootup, but then if someone turns the display off how will you
-> > ever know that you can power it back on? It'll look like the display
-> > was removed...
->
-> But here's my question: if detect() tells whether the display is
-> physically there, why do we need it?
->
-> If the display is not hot-pluggable, then, as you say, it's always
-> there, and detect() is unnecessary. The panel driver always assumes the
-> panel is there and will power it up. So detect is not really needed.
-
-Right. I conflated these two, sorry. Having detect() unimplemented and
-having it always return true are the same thing and the DRM core
-treats them the same as far as I'm aware.
-
-
-> > It gets down to making sure things are powered. If the eDP controller
-> > implements get_edid() then the eDP controller needs to know how to
-> > power on the panel in response to that get_edid(). Remember, this is
-> > eDP and we have to _always_ say the panel is there even when HPD
-> > hasn't been asserted. See the above rant^H^H^H^H explanation. While
-> > it's possible to have the eDP controller call down the bridge chain to
-> > power the panel temporarily for get_edid() (early patches of mine did
-> > that), in the end we decided it made more sense to have this driven by
-> > the panel driver.
->
-> I agree here, the panel driver has to drive the process. That's actually
-> how I designed the old omapfb display subsystem (well, DP didn't exist
-> then), everything originated from the display driver, not the crtc side.
->
-> However, my argument is that someone, be it the display or the source
-> driver, should offer detect() and get_edid(),
-
-If you implement get_edid() I believe it won't be the end of the world
-because the panel's version will be picked first. However, it feels
-clearer to me to not implement it if it's not going to be used / won't
-work for eDP.
-
-
-> and afaics it makes sense
-> for detect() to report whether the display is ready or not (usually HPD
-> if it is connected, but could be via some other means).
-
-I think detect() is actually harmful for eDP, as per my argument
-above. If we detect the panel is "gone" then we'll turn off the power
-to the panel. We'll never detect the panel again and we'll never again
-have a reason to power the panel on.
-
-
-> However, I have to say this is perhaps sidetracking this patch =). I can
-> drop the comment in question from the description as it's somewhat
-> irrelevant wrt. this patch.
-
-Sounds good!
-
--Doug
+On 8/29/2022 9:54 AM, Nathan Chancellor wrote:
+> Clang warns:
+> 
+>    drivers/gpu/drm/msm/dsi/dsi_host.c:1903:14: error: variable 'device_node' is uninitialized when used here [-Werror,-Wuninitialized]
+>            of_node_put(device_node);
+>                        ^~~~~~~~~~~
+>    drivers/gpu/drm/msm/dsi/dsi_host.c:1870:44: note: initialize the variable 'device_node' to silence this warning
+>            struct device_node *endpoint, *device_node;
+>                                                      ^
+>                                                      = NULL
+>    1 error generated.
+> 
+> device_node's assignment was removed but not all of its uses. Remove the
+> call to of_node_put() and the variable declaration to clean up the
+> warning.
+> 
+> Fixes: 5f8cdece42ff ("drm/msm/dsi: switch to DRM_PANEL_BRIDGE")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1700
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 57a4c0fa614b..7fbf391c024f 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -1867,7 +1867,7 @@ static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
+>   {
+>   	struct device *dev = &msm_host->pdev->dev;
+>   	struct device_node *np = dev->of_node;
+> -	struct device_node *endpoint, *device_node;
+> +	struct device_node *endpoint;
+>   	int ret = 0;
+>   
+>   	/*
+> @@ -1900,8 +1900,6 @@ static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
+>   		}
+>   	}
+>   
+> -	of_node_put(device_node);
+> -
+>   err:
+>   	of_node_put(endpoint);
+>   
+> 
+> base-commit: 5f8cdece42ff0c615e213b6619d29487f9f409d7
