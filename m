@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E3B5A5DD7
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 10:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECED15A5DDB
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 10:16:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6000810EBB5;
-	Tue, 30 Aug 2022 08:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9089210EBBD;
+	Tue, 30 Aug 2022 08:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7BB810EBB5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 08:15:34 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id og21so20546974ejc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 01:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=s+gdl9H5n8j4hKv3w97SJ726qTudg1e81QWIUDUaB48=;
- b=pNqWd8jFVhhrMDvbwttW3wGMsTlmWu5+Q3CZG0rQLkWDO2fqB/7QUzz0Jp6Lv4TF7p
- MfaN1jd5T8UBxVpJMjaScALQPXXksv7qJo4Unz1ZDS7fG6NdGsBmq47t1c6ZbJQTiPo2
- ZX1nx7beoEhFLn5QI3x4is034HNKHwEuiqW0+vNEDKHUeLJNYlCJJm0v7udvPBAK60eJ
- TQG0qGHkFDIbBW9Nn8eQg0H7LLCWDw7B2z6SpF5Ph5OPA16fL/HEa4mt3eu8WNUvOJxG
- /mnusbaU0Bh32ixzvGu7DbDwomf4nh0fE/f1QHJj/8QmfrSTNLyNHXtjJ1srRHMfd4nS
- FDqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=s+gdl9H5n8j4hKv3w97SJ726qTudg1e81QWIUDUaB48=;
- b=gV5mBygQat+SQYOPDeNaNcOFSEfO3YkoECXSN7WZH4Q9VozZls8cUUoulfmY8EAOjO
- mMQZLybkd5nJKkEjlQdP46g793e402aIvpypBnbFNxZ72L8jbbfPPezmzR9k9E9UpShf
- Ev+rqtLR1a3rXtyFWuvL3DzId66wd9m+obXA62Jyi9y0MM+q/rUsRJQr4RhHHUArCwII
- BF57zU4DcEsEGA6NACoOX6QTFOxgpwPl4zNikL4LzV6G65Wgv71WRtxFF9bMKp3CYwZT
- +C87yKy9LhMWE3bS0o6f4qAtk61xv+TkNtXI8dbZfOI+FTq0Ektc0WuvMScgOb+nV4pw
- hNkg==
-X-Gm-Message-State: ACgBeo05zUPcGRh66lY6pAiGbZY/xsgUVyuYZcHjJRca8HMXP7RPgMAY
- vYB89hDYCzmIpUrXIo2xrtwTLE7PvUcWaL0DMMUKfg==
-X-Google-Smtp-Source: AA6agR7c/Yn6ztwSwjOFO/3EFw4sNtHKHsxhBfWJr74L8Ao8x8881pMcSw1YmFEJRpnxwLgiv4Xl5r5p3ger0qeh6Kk=
-X-Received: by 2002:a17:907:7d91:b0:731:7ecb:1e5b with SMTP id
- oz17-20020a1709077d9100b007317ecb1e5bmr16189024ejc.78.1661847333431; Tue, 30
- Aug 2022 01:15:33 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7CA810EBBD
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 08:16:02 +0000 (UTC)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
+ [91.158.154.79])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42EFD481;
+ Tue, 30 Aug 2022 10:16:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1661847360;
+ bh=ApBwk4f3KoSc9NbmtbDrFXaF6qmqL8hvYhHNyNP1PU8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tY3FmSX476zW18wzvioGrYJZv99JEAuPO1sE5b5UrxzU0Hn9fap29g64NbGV/3C7O
+ XsvV0/dxAVIJmF8tQd2f8BMjJlbCTYh7y2XmUwKwPjqFQV2YcjZNNkEww5TrGNEsTA
+ +++1cGt0O5UdB3pTOas143+zSsFXTnZ7F+7d0Dy0=
+Message-ID: <e77bbe3c-c6dd-56e0-5a04-de7c9313620d@ideasonboard.com>
+Date: Tue, 30 Aug 2022 11:15:57 +0300
 MIME-Version: 1.0
-References: <20220830045756.1655954-1-treapking@chromium.org>
-In-Reply-To: <20220830045756.1655954-1-treapking@chromium.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 30 Aug 2022 10:15:21 +0200
-Message-ID: <CAG3jFysagrW_SKFmO1CEbwpOQhCmWGSVgghvEQcFgfPSdaFv0w@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: it6505: Fix the order of DP_SET_POWER
- commands
-To: Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v5 2/4] drm/bridge: ti-sn65dsi86: Reject modes with too
+ large blanking
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>
+References: <20220824130034.196041-1-tomi.valkeinen@ideasonboard.com>
+ <20220824130034.196041-3-tomi.valkeinen@ideasonboard.com>
+ <CAD=FV=WUirzYMcHe_XxnJoom7N7RkuyQ8xDp03k+NNTR5F50JQ@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <CAD=FV=WUirzYMcHe_XxnJoom7N7RkuyQ8xDp03k+NNTR5F50JQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,70 +52,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Aug 2022 at 06:58, Pin-yen Lin <treapking@chromium.org> wrote:
->
-> Send DP_SET_POWER_D3 command to the downstream before stopping DP, so the
-> suspend process will not be interrupted by the HPD interrupt. Also modify
-> the order in .atomic_enable callback to make the callbacks symmetric.
->
-> Fixes: 46ca7da7f1e8 ("drm/bridge: it6505: Send DPCD SET_POWER to downstream")
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> ---
->
-> Changes in v2:
-> - Correct "fixes" tag.
-> - Collect "Reviewed-by" tag.
->
->  drivers/gpu/drm/bridge/ite-it6505.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index f9251ec49bf0..2bb957cffd94 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -2951,9 +2951,6 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
->         if (ret)
->                 dev_err(dev, "Failed to setup AVI infoframe: %d", ret);
->
-> -       it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
-> -                                    DP_SET_POWER_D0);
-> -
->         it6505_update_video_parameter(it6505, mode);
->
->         ret = it6505_send_video_infoframe(it6505, &frame);
-> @@ -2963,6 +2960,9 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
->
->         it6505_int_mask_enable(it6505);
->         it6505_video_reset(it6505);
-> +
-> +       it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
-> +                                    DP_SET_POWER_D0);
->  }
->
->  static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
-> @@ -2974,9 +2974,9 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
->         DRM_DEV_DEBUG_DRIVER(dev, "start");
->
->         if (it6505->powered) {
-> -               it6505_video_disable(it6505);
->                 it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
->                                              DP_SET_POWER_D3);
-> +               it6505_video_disable(it6505);
->         }
->  }
->
-> --
-> 2.37.2.672.g94769d06f0-goog
->
+Hi Doug,
 
-Applied to drm-misc-next.
+On 29/08/2022 20:23, Doug Anderson wrote:
+> Hi,
+> 
+> On Wed, Aug 24, 2022 at 6:00 AM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+>>
+>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>
+>> The blanking related registers are 8 bits, so reject any modes
+>> with larger blanking periods.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 +++++++++++++++++++++++
+>>   1 file changed, 23 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> index ba84215c1511..f085a037ff5b 100644
+>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> @@ -752,6 +752,29 @@ ti_sn_bridge_mode_valid(struct drm_bridge *bridge,
+>>          if (mode->clock > 594000)
+>>                  return MODE_CLOCK_HIGH;
+>>
+>> +       /*
+>> +        * The blanking related registers are 8 bits, so reject any modes
+>> +        * with larger blanking periods.
+>> +        */
+>> +
+>> +       if ((mode->hsync_start - mode->hdisplay) > 0xff)
+>> +               return MODE_HBLANK_WIDE;
+>> +
+>> +       if ((mode->vsync_start - mode->vdisplay) > 0xff)
+>> +               return MODE_VBLANK_WIDE;
+>> +
+>> +       if ((mode->hsync_end - mode->hsync_start) > 0xff)
+>> +               return MODE_HSYNC_WIDE;
+> 
+> Please double-check your patch. Reading through
+> ti_sn_bridge_set_video_timings(), I see "mode->hsync_end -
+> mode->hsync_start" is allowed to be up to 0x7fff. The datasheet seems
+> to confirm. If I got that right it means you're rejecting valid modes.
+> 
+> I didn't validate any of your other checks, but at least that one seems wrong.
+
+Indeed, I misread the spec. The pulse width registers are 15 bits. The 
+front and back porch are 8 bits.
+
+Thanks!
+
+  Tomi
