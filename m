@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE9B5A6A46
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981565A6A45
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 19:27:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63F7710E2C3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C321D10E2C5;
 	Tue, 30 Aug 2022 17:27:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A39410E2C2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 17:27:06 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1EBE10E2BE;
+ Tue, 30 Aug 2022 17:27:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 97C5A617BD;
- Tue, 30 Aug 2022 17:27:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E3EEC433C1;
- Tue, 30 Aug 2022 17:27:04 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 38186B81D35;
+ Tue, 30 Aug 2022 17:27:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94EA2C433D7;
+ Tue, 30 Aug 2022 17:27:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661880425;
- bh=DnYQUcsVH32s4uZbj997262p3sc1ImMPNTeT3izOTnk=;
+ s=k20201202; t=1661880430;
+ bh=b06b0l8kwYRi7e3XNh/w/6ReSmTYreK4a3sgVSKi4b4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JTz+XukYPka2V8EUJH5G71d9eByxlOgEx56lOQ5mKrJn8vNKLqCwPGO4R2Y3qoW8L
- SA+LHUQTFyY3Z1hVMCVZrLP/oNzIgKH8rpd+xGgWP6mQADvavicvZ0GPrrvItqTusi
- 3IJtT1glg1JlCF/5vGjMkxN1j/rfG1Bh6uDj1k8yKGRbgUAhrKPI+mnqhmiZ4Ftk07
- eZwRL2eGW+BBNL4LpR/G3geImU/5PHrzGj5cxdETCgBhpMYm69TVwOjaVLz90B9r/2
- vM+564p7tHZzQJu02yjkMe7pRvorxVUL5sPZwLuaH85rSkLclMT+WiVvFHE/pqyw0K
- dshYpQLu0XouQ==
+ b=mSvDIG2ASXI76XK48FS952DwVJpFa+9xdQz+2OWFde+KnRlJ5EiKBNb7OSzw+bv/4
+ EghNI81CNu6wT6WmqhGuXP9AYQjnRZTbyUIIxv3E2G9PUBJBjS7/i+c67u5OHRFfTF
+ DCuWN13cVKPg5mCE3UbCV2u3qSamtV5lhhC6KXew2cYwEmvRYVFMmhOpIPaxZiGNDw
+ 1WrGLeLuW9TE6X+NRYq5wBpmLt7K3WqVoJndNMm5aCXpI5ey2YGwfdstaSPaCvM2gx
+ KXKbZbl1xxbMr89GQ14rYUjRMPwGbD/jJSuvTXiGMh8xgpoAxZ12jHy8LnZt6ZwOS3
+ uhD2DkoG5EIxA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 8/8] fbdev: chipsfb: Add missing
- pci_disable_device() in chipsfb_pci_init()
-Date: Tue, 30 Aug 2022 13:26:31 -0400
-Message-Id: <20220830172631.581969-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 2/6] drm/radeon: add a force flush to delay work
+ when radeon
+Date: Tue, 30 Aug 2022 13:27:02 -0400
+Message-Id: <20220830172706.582088-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220830172631.581969-1-sashal@kernel.org>
-References: <20220830172631.581969-1-sashal@kernel.org>
+In-Reply-To: <20220830172706.582088-1-sashal@kernel.org>
+References: <20220830172706.582088-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,37 +56,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- mpe@ellerman.id.au, Helge Deller <deller@gmx.de>, christophe.leroy@csgroup.eu,
- dri-devel@lists.freedesktop.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Xinhui.Pan@amd.com,
+ Zhenneng Li <lizhenneng@kylinos.cn>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yang Yingliang <yangyingliang@huawei.com>
+From: Zhenneng Li <lizhenneng@kylinos.cn>
 
-[ Upstream commit 07c55c9803dea748d17a054000cbf1913ce06399 ]
+[ Upstream commit f461950fdc374a3ada5a63c669d997de4600dffe ]
 
-Add missing pci_disable_device() in error path in chipsfb_pci_init().
+Although radeon card fence and wait for gpu to finish processing current batch rings,
+there is still a corner case that radeon lockup work queue may not be fully flushed,
+and meanwhile the radeon_suspend_kms() function has called pci_set_power_state() to
+put device in D3hot state.
+Per PCI spec rev 4.0 on 5.3.1.4.1 D3hot State.
+> Configuration and Message requests are the only TLPs accepted by a Function in
+> the D3hot state. All other received Requests must be handled as Unsupported Requests,
+> and all received Completions may optionally be handled as Unexpected Completions.
+This issue will happen in following logs:
+Unable to handle kernel paging request at virtual address 00008800e0008010
+CPU 0 kworker/0:3(131): Oops 0
+pc = [<ffffffff811bea5c>]  ra = [<ffffffff81240844>]  ps = 0000 Tainted: G        W
+pc is at si_gpu_check_soft_reset+0x3c/0x240
+ra is at si_dma_is_lockup+0x34/0xd0
+v0 = 0000000000000000  t0 = fff08800e0008010  t1 = 0000000000010000
+t2 = 0000000000008010  t3 = fff00007e3c00000  t4 = fff00007e3c00258
+t5 = 000000000000ffff  t6 = 0000000000000001  t7 = fff00007ef078000
+s0 = fff00007e3c016e8  s1 = fff00007e3c00000  s2 = fff00007e3c00018
+s3 = fff00007e3c00000  s4 = fff00007fff59d80  s5 = 0000000000000000
+s6 = fff00007ef07bd98
+a0 = fff00007e3c00000  a1 = fff00007e3c016e8  a2 = 0000000000000008
+a3 = 0000000000000001  a4 = 8f5c28f5c28f5c29  a5 = ffffffff810f4338
+t8 = 0000000000000275  t9 = ffffffff809b66f8  t10 = ff6769c5d964b800
+t11= 000000000000b886  pv = ffffffff811bea20  at = 0000000000000000
+gp = ffffffff81d89690  sp = 00000000aa814126
+Disabling lock debugging due to kernel taint
+Trace:
+[<ffffffff81240844>] si_dma_is_lockup+0x34/0xd0
+[<ffffffff81119610>] radeon_fence_check_lockup+0xd0/0x290
+[<ffffffff80977010>] process_one_work+0x280/0x550
+[<ffffffff80977350>] worker_thread+0x70/0x7c0
+[<ffffffff80977410>] worker_thread+0x130/0x7c0
+[<ffffffff80982040>] kthread+0x200/0x210
+[<ffffffff809772e0>] worker_thread+0x0/0x7c0
+[<ffffffff80981f8c>] kthread+0x14c/0x210
+[<ffffffff80911658>] ret_from_kernel_thread+0x18/0x20
+[<ffffffff80981e40>] kthread+0x0/0x210
+ Code: ad3e0008  43f0074a  ad7e0018  ad9e0020  8c3001e8  40230101
+ <88210000> 4821ed21
+So force lockup work queue flush to fix this problem.
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-Signed-off-by: Helge Deller <deller@gmx.de>
+Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/chipsfb.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/radeon/radeon_device.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
-index 413b465e69d8e..7ca149ab86d20 100644
---- a/drivers/video/fbdev/chipsfb.c
-+++ b/drivers/video/fbdev/chipsfb.c
-@@ -432,6 +432,7 @@ static int chipsfb_pci_init(struct pci_dev *dp, const struct pci_device_id *ent)
-  err_release_fb:
- 	framebuffer_release(p);
-  err_disable:
-+	pci_disable_device(dp);
-  err_out:
- 	return rc;
- }
+diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+index 82b01123c3868..227c4733de2ea 100644
+--- a/drivers/gpu/drm/radeon/radeon_device.c
++++ b/drivers/gpu/drm/radeon/radeon_device.c
+@@ -1661,6 +1661,9 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
+ 		if (r) {
+ 			/* delay GPU reset to resume */
+ 			radeon_fence_driver_force_completion(rdev, i);
++		} else {
++			/* finish executing delayed work */
++			flush_delayed_work(&rdev->fence_drv[i].lockup_work);
+ 		}
+ 	}
+ 
 -- 
 2.35.1
 
