@@ -1,115 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2F45A655A
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 15:43:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CD95A65E5
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 16:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 748C310E0E5;
-	Tue, 30 Aug 2022 13:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2452610E02D;
+	Tue, 30 Aug 2022 14:06:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC9710E0E5;
- Tue, 30 Aug 2022 13:43:44 +0000 (UTC)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27UDRwnW023927;
- Tue, 30 Aug 2022 13:43:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=YFAKHxu5wcKQ3UK0MPzzxJnNMBONFL5WOcAvofUE3bw=;
- b=n6TYPcc2EEb678JhhWrpENhKY5a0ZXNQzGelXBS+3+lCPr6s82vmVAGoVmPROY9DPi4l
- DpcmzJAoBJhHFKuWICXIo9zWlU3MC6AX4hY+dbOPzbkKzrOxqLakgTYWHn+o4QaMyx5e
- FK1y098IJYEdFQQyoxp+2gha+P5MBYxRltL2UUwVeJv1Jduz6rkz7jt4ph4T9hW2KrFM
- n1m+w65c70EdD06MRVgNz3GLhSSpQKf8yEtj29UIHN43WMl3OdHGhros9gfhp2LGpuIQ
- unNhz9NT3XzwovWR6Iv9oG2WSL4WdfBcZSJMUXOhoqA/gM1qKJfY6xqzbOXgl5BGMblE Nw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j9kf68qdb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 13:43:30 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27UDSdlX026996;
- Tue, 30 Aug 2022 13:43:29 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j9kf68qce-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 13:43:29 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27UDaBTF031062;
- Tue, 30 Aug 2022 13:43:27 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 3j7awas13e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 13:43:27 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27UDhQia5178046
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Aug 2022 13:43:26 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9321F28059;
- Tue, 30 Aug 2022 13:43:26 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B326028058;
- Tue, 30 Aug 2022 13:43:24 +0000 (GMT)
-Received: from [9.160.64.167] (unknown [9.160.64.167])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 30 Aug 2022 13:43:24 +0000 (GMT)
-Message-ID: <e81f5b86-f5ce-2a2b-bc05-5ef73fc318b5@linux.ibm.com>
-Date: Tue, 30 Aug 2022 09:43:24 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60FF810E02D;
+ Tue, 30 Aug 2022 14:06:20 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ t8-20020a9d5908000000b0063b41908168so67148oth.8; 
+ Tue, 30 Aug 2022 07:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=y3fQo2Q3lqRWYYWZ5VGbMuYgWpaQiSUdmI4Mq8INkBQ=;
+ b=Th7IuIUdewTPU3ylhrL9gvKnzMxRhIFg+TKreloC84Tatn41sVFzttkRDLXIzn1xBV
+ zZhZgeUpGUBAPpfTI7oT50TfRaeNmwQXop9++ZTIKzIyQ++RpICuPxiqlu8r7JkZRt2/
+ 5bwmqqJzQUJ3RBG1qkaKjlQVDxLb56YFbhr1lXfPs7N6McoJ9qGKRVYZSpZiT55ZA8Cj
+ cTbha88ZKJQw0+ZpBipHhRZFtPjicCwnoLsTmm6qyR/41snrq0aFu4KB9Pgc5V7EQnjJ
+ 0lGF2PkmlH1E4p6RfXTIQtTmb6xjo1yi+KcF41AMFwB3mcD1Pen4tippE0pih/6aTYXe
+ HUxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=y3fQo2Q3lqRWYYWZ5VGbMuYgWpaQiSUdmI4Mq8INkBQ=;
+ b=vnvTr+G4ZeUKB5beEml3uuJy7YfsChXC9kuDjar5MdPFadX0tVad8PPQasMobLQztu
+ RdUrTwXpWGgmjVH7p7OcoPH1mYbIJGOrNf195zYnHJHUx2MZNn9+ctBkj8HRTX/Ahlnq
+ iZ/43XDletmAmGGpd7Fp6LuuEWiCjhmiAAJVY3x1tx7vUCFPpKWjt3ukEoB49ARJVGxT
+ 6W5iIRZnp0e80ay5hmawdCg3fR3yk5IajGQ+DChCDssH7VL5nhJ6qOXrAuoAMx9tHq00
+ XyLszR7AbYPIRsBzevW2637eduU+VnSxePtaQB2t7hh8dWSkLe3mDij5ZY5K+buRFwFj
+ 4pog==
+X-Gm-Message-State: ACgBeo2OWNH0injVqHMWJ0UB3p8obi7mgCVHF8wRfnuGjFzuJvP+9x3w
+ QxB5bGYdNUlEhIKjItIu+YLTWTI7EqhDM7dwmY4=
+X-Google-Smtp-Source: AA6agR4hdFqyla262W8KfIT3yQBtoLxqzkiOgW/wCs0v4B39MmJ531AMDzUo7qk6nK5dvApLfaM3skCfFWdSaFu4lZg=
+X-Received: by 2002:a9d:6ad7:0:b0:636:f76b:638a with SMTP id
+ m23-20020a9d6ad7000000b00636f76b638amr8792615otq.233.1661868379637; Tue, 30
+ Aug 2022 07:06:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 09/15] vfio/ap: Use the new device life cycle helpers
-Content-Language: en-US
-To: Kevin Tian <kevin.tian@intel.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, 
- Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Eric Farman <farman@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Longfang Liu <liulongfang@huawei.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>,
- Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>, Abhishek Sahu <abhsahu@nvidia.com>,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-s390@vger.kernel.org, kvm@vger.kernel.org
-References: <20220827171037.30297-1-kevin.tian@intel.com>
- <20220827171037.30297-10-kevin.tian@intel.com>
-From: Anthony Krowiak <akrowiak@linux.ibm.com>
-In-Reply-To: <20220827171037.30297-10-kevin.tian@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: IdluEtB4hu3CV0euTFXaRaPw-5HY7ylp
-X-Proofpoint-GUID: eVg-uI5lnP3oaIxLLf2Oml3yenLlz5VK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-30_08,2022-08-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- mlxlogscore=999 spamscore=0 phishscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208300067
+References: <20220824150834.427572-1-contact@emersion.fr>
+ <20220824150834.427572-5-contact@emersion.fr>
+ <CADnq5_MX0Qh7v-Wy1nBhMEWT9bhmQn4W-2Wo97CZgKcby1Xc+w@mail.gmail.com>
+ <A_ZL55UlxqGGQnHrxTxvFZMCn1HkWbIuaZvtrOnir7mO6YCY8hhyYwjwKjv79SEEBLqbosVtxx0rVeCTso1RktRjY3ECNyLssw77of_D2sM=@emersion.fr>
+ <CADnq5_NMHWGOdW5Gfr4wK6o5j7PnYKW57Gg6UbbUJfnONdHY1w@mail.gmail.com>
+ <2uZ8U_CJxQ9zlnv1lIRhMtwKYU-uuOuhzef2hbvONDPGN-t9Pm4fSejJNLm3ThkJIj1ZkDZwizu49Xactvx-ykn-0Rc23CzsBUXe3Xg_-XI=@emersion.fr>
+In-Reply-To: <2uZ8U_CJxQ9zlnv1lIRhMtwKYU-uuOuhzef2hbvONDPGN-t9Pm4fSejJNLm3ThkJIj1ZkDZwizu49Xactvx-ykn-0Rc23CzsBUXe3Xg_-XI=@emersion.fr>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 30 Aug 2022 10:06:08 -0400
+Message-ID: <CADnq5_PX_d0hsoTSLsyZpEHg9hu33x8LhyLOGFMZRo0WWdKPvw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] amd/display: indicate support for atomic async
+ page-flips on DCN
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,120 +70,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yi Liu <yi.l.liu@intel.com>
+Cc: daniel.vetter@ffwll.ch, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, hwentlan@amd.com,
+ nicholas.kazlauskas@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Tony Krowiak <akrowiak@linux.ibm.com>
+On Tue, Aug 30, 2022 at 3:08 AM Simon Ser <contact@emersion.fr> wrote:
+>
+> On Friday, August 26th, 2022 at 16:39, Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> > On Fri, Aug 26, 2022 at 3:38 AM Simon Ser <contact@emersion.fr> wrote:
+> > >
+> > > On Thursday, August 25th, 2022 at 20:22, Alex Deucher <alexdeucher@gmail.com> wrote:
+> > >
+> > > > On Wed, Aug 24, 2022 at 11:09 AM Simon Ser contact@emersion.fr wrote:
+> > > >
+> > > > > amdgpu_dm_commit_planes already sets the flip_immediate flag for
+> > > > > async page-flips. This flag is used to set the UNP_FLIP_CONTROL
+> > > > > register. Thus, no additional change is required to handle async
+> > > > > page-flips with the atomic uAPI.
+> > > > >
+> > > > > Note, async page-flips are still unsupported on DCE with the atomic
+> > > > > uAPI. The mode_set_base callbacks unconditionally set the
+> > > > > GRPH_SURFACE_UPDATE_H_RETRACE_EN field of the GRPH_FLIP_CONTROL
+> > > > > register to 0, which disables async page-flips.
+> > > >
+> > > > Can you elaborate a bit on this? We don't use hsync flips at all, even
+> > > > in non-atomic, as far as I recall. The hardware can also do immediate
+> > > > flips which take effect as soon as you update the base address
+> > > > register which is what we use for async updates today IIRC.
+> > >
+> > > When user-space performs a page-flip with the legacy KMS uAPI on DCE
+> > > ASICs, amdgpu_display_crtc_page_flip_target() is called. This function
+> > > checks for the DRM_MODE_PAGE_FLIP_ASYNC flag, sets work->async, which
+> > > is then passed as an argument to adev->mode_info.funcs->page_flip() by
+> > > amdgpu_display_flip_work_func(). Looking at an implementation, for
+> > > instance dce_v10_0_page_flip(), the async flag is used to set that
+> > > GRPH_FLIP_CONTROL register:
+> > >
+> > >         /* flip at hsync for async, default is vsync */
+> > >         tmp = RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
+> > >         tmp = REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
+> > >                             GRPH_SURFACE_UPDATE_H_RETRACE_EN, async ? 1 : 0);
+> > >         WREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset, tmp);
+> > >
+> > > I don't know how the hardware works, but I assumed it would be
+> > > necessary to do the same in the atomic uAPI code-path as well. However
+> > > dce_v10_0_crtc_do_set_base() has this code block:
+> > >
+> > >         /* Make sure surface address is updated at vertical blank rather than
+> > >          * horizontal blank
+> > >          */
+> > >         tmp = RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
+> > >         tmp = REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
+> > >                             GRPH_SURFACE_UPDATE_H_RETRACE_EN, 0);
+> > >         WREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset, tmp);
+> > >
+> > > Which unconditionally sets that same register.
+> > >
+> > > Either way, it's not a very big deal for this patch series, DCE and DCN
+> > > are separate, DCE can be sorted out separately.
+> > >
+> > > Am I completely mistaken here?
+> >
+> > I checked the code and it looks like only DCE11 and newer support
+> > immediate flips.  E.g.,
+> >
+> >         /* flip immediate for async, default is vsync */
+> >         tmp = RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
+> >         tmp = REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
+> >                             GRPH_SURFACE_UPDATE_IMMEDIATE_EN, async ? 1 : 0);
+> >
+> > in dce_v11_0.c.
+> >
+> > Either way, the non-DC display code is not atomic anyway, so I don't
+> > think this is an issue.  We still support async flips via the
+> > non-atomic API.  I agree this is not blocking for the patch series,
+> > just thinking out loud mostly.
+>
+> Michel pointed out that DC can drive both DCN and DCE. This was a
+> misunderstanding on my end, I thought DC could only drive DCN. I'll reword the
+> commit message to refer to DC instead of DCN.
+>
+> This begs the question, should we bother to set the
+> atomic_async_page_flip_not_supported flag on non-atomic drivers? I've just
+> slapped the flag everywhere for simplicity's sake, but maybe it would make more
+> sense to just set it for atomic-capable drivers. Especially if the long-term
+> goal is to convert all atomic drivers to support async flips and eventually
+> remove atomic_async_page_flip_not_supported.
 
-On 8/27/22 1:10 PM, Kevin Tian wrote:
-> From: Yi Liu <yi.l.liu@intel.com>
+yeah, I think we can drop the flag for non-atomic.  amdgpu at least
+already supports async flips.
+
 >
-> and manage available_instances inside @init/@release.
->
-> Signed-off-by: Yi Liu <yi.l.liu@intel.com>
-> Signed-off-by: Kevin Tian <kevin.tian@intel.com>
-> ---
->   drivers/s390/crypto/vfio_ap_ops.c | 50 ++++++++++++++++++-------------
->   1 file changed, 29 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
-> index 6c8c41fac4e1..803aadfd0876 100644
-> --- a/drivers/s390/crypto/vfio_ap_ops.c
-> +++ b/drivers/s390/crypto/vfio_ap_ops.c
-> @@ -684,42 +684,44 @@ static bool vfio_ap_mdev_filter_matrix(unsigned long *apm, unsigned long *aqm,
->   			     AP_DOMAINS);
->   }
->   
-> -static int vfio_ap_mdev_probe(struct mdev_device *mdev)
-> +static int vfio_ap_mdev_init_dev(struct vfio_device *vdev)
->   {
-> -	struct ap_matrix_mdev *matrix_mdev;
-> -	int ret;
-> +	struct ap_matrix_mdev *matrix_mdev =
-> +		container_of(vdev, struct ap_matrix_mdev, vdev);
->   
->   	if ((atomic_dec_if_positive(&matrix_dev->available_instances) < 0))
->   		return -EPERM;
->   
-> -	matrix_mdev = kzalloc(sizeof(*matrix_mdev), GFP_KERNEL);
-> -	if (!matrix_mdev) {
-> -		ret = -ENOMEM;
-> -		goto err_dec_available;
-> -	}
-> -	vfio_init_group_dev(&matrix_mdev->vdev, &mdev->dev,
-> -			    &vfio_ap_matrix_dev_ops);
-> -
-> -	matrix_mdev->mdev = mdev;
-> +	matrix_mdev->mdev = to_mdev_device(vdev->dev);
->   	vfio_ap_matrix_init(&matrix_dev->info, &matrix_mdev->matrix);
->   	matrix_mdev->pqap_hook = handle_pqap;
->   	vfio_ap_matrix_init(&matrix_dev->info, &matrix_mdev->shadow_apcb);
->   	hash_init(matrix_mdev->qtable.queues);
->   
-> +	return 0;
-> +}
-> +
-> +static int vfio_ap_mdev_probe(struct mdev_device *mdev)
-> +{
-> +	struct ap_matrix_mdev *matrix_mdev;
-> +	int ret;
-> +
-> +	matrix_mdev = vfio_alloc_device(ap_matrix_mdev, vdev, &mdev->dev,
-> +					&vfio_ap_matrix_dev_ops);
-> +	if (IS_ERR(matrix_mdev))
-> +		return PTR_ERR(matrix_mdev);
-> +
->   	ret = vfio_register_emulated_iommu_dev(&matrix_mdev->vdev);
->   	if (ret)
-> -		goto err_list;
-> +		goto err_put_vdev;
->   	dev_set_drvdata(&mdev->dev, matrix_mdev);
->   	mutex_lock(&matrix_dev->mdevs_lock);
->   	list_add(&matrix_mdev->node, &matrix_dev->mdev_list);
->   	mutex_unlock(&matrix_dev->mdevs_lock);
->   	return 0;
->   
-> -err_list:
-> -	vfio_uninit_group_dev(&matrix_mdev->vdev);
-> -	kfree(matrix_mdev);
-> -err_dec_available:
-> -	atomic_inc(&matrix_dev->available_instances);
-> +err_put_vdev:
-> +	vfio_put_device(&matrix_mdev->vdev);
->   	return ret;
->   }
->   
-> @@ -766,6 +768,12 @@ static void vfio_ap_mdev_unlink_fr_queues(struct ap_matrix_mdev *matrix_mdev)
->   	}
->   }
->   
-> +static void vfio_ap_mdev_release_dev(struct vfio_device *vdev)
-> +{
-> +	vfio_free_device(vdev);
-> +	atomic_inc(&matrix_dev->available_instances);
-> +}
-> +
->   static void vfio_ap_mdev_remove(struct mdev_device *mdev)
->   {
->   	struct ap_matrix_mdev *matrix_mdev = dev_get_drvdata(&mdev->dev);
-> @@ -779,9 +787,7 @@ static void vfio_ap_mdev_remove(struct mdev_device *mdev)
->   	list_del(&matrix_mdev->node);
->   	mutex_unlock(&matrix_dev->mdevs_lock);
->   	mutex_unlock(&matrix_dev->guests_lock);
-> -	vfio_uninit_group_dev(&matrix_mdev->vdev);
-> -	kfree(matrix_mdev);
-> -	atomic_inc(&matrix_dev->available_instances);
-> +	vfio_put_device(&matrix_mdev->vdev);
->   }
->   
->   static ssize_t name_show(struct mdev_type *mtype,
-> @@ -1794,6 +1800,8 @@ static const struct attribute_group vfio_queue_attr_group = {
->   };
->   
->   static const struct vfio_device_ops vfio_ap_matrix_dev_ops = {
-> +	.init = vfio_ap_mdev_init_dev,
-> +	.release = vfio_ap_mdev_release_dev,
->   	.open_device = vfio_ap_mdev_open_device,
->   	.close_device = vfio_ap_mdev_close_device,
->   	.ioctl = vfio_ap_mdev_ioctl,
+> Thanks for the hint regarding DCE10. It sounds like it may be worthwhile to
+> unset drm_mode_config.async_page_flip on DCE10 and earlier, to indicate to
+> user-space that async page-flips are not supported on these ASICs? Right now it
+> seems like we indicate that we support them, and then ignore the ASYNC_FLIP
+> flag?
+
+Async flips work fine with the current code.  I think I did the
+initial implementation on DCE10.  We set
+GRPH_SURFACE_UPDATE_H_RETRACE_EN dynamically in dce_v10_0_page_flip()
+based on the type of flip selected.
+
+Alex
