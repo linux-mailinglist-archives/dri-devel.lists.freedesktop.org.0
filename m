@@ -2,46 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8781C5A6633
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 16:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E055A6637
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 16:24:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B54D910E0F4;
-	Tue, 30 Aug 2022 14:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3AE810E0F8;
+	Tue, 30 Aug 2022 14:24:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 812B010E0EE
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 14:24:04 +0000 (UTC)
-Date: Tue, 30 Aug 2022 14:23:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1661869441; x=1662128641;
- bh=lvuD2mk0iCdYimHBJgDWku2ro8PxhDA+/QGClxKI3Cc=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=jqs2+7NJJvB3x3Qu9lC/llN67Fi9v/RPwv0/tzMc0U562UFPQwfRSHGjdnV4HWw8k
- U4/qbE49YYBxOt5oUZJkijz5eFGhuzCHJLaBCDwjwid5WScn4QsgjYl8nauE8lLDa9
- Nv66cmARVg6QISpEzt+4qj4eiOOOk/uNm9B4TYhbXxnA8FLInfZies83NygeBYQn0B
- vl/jd601p5pq4Bru8m3gggql96gjlD6VnhL9EpjB9Mk7Y0bcI+Wz/xcxq1PRAb5sBp
- 7zq986XNBKWc0hAlNx25zK5lBcstMGTLqAE7AJV2tkndbt4j0SjbsYIml5cif9np82
- oiolGmhSrcAJA==
-To: Alex Deucher <alexdeucher@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 4/4] amd/display: indicate support for atomic async
- page-flips on DCN
-Message-ID: <2ceFF1QUjpWpVaQxW7MgRgDlU-Ff3UPBZLRET1On9G_S5IxK-i4Ye2zGgx5KeEJVXwMCyaG2TIBG7RW4L5lciqbQhE-uitglBBgqTwhKCck=@emersion.fr>
-In-Reply-To: <CADnq5_PX_d0hsoTSLsyZpEHg9hu33x8LhyLOGFMZRo0WWdKPvw@mail.gmail.com>
-References: <20220824150834.427572-1-contact@emersion.fr>
- <20220824150834.427572-5-contact@emersion.fr>
- <CADnq5_MX0Qh7v-Wy1nBhMEWT9bhmQn4W-2Wo97CZgKcby1Xc+w@mail.gmail.com>
- <A_ZL55UlxqGGQnHrxTxvFZMCn1HkWbIuaZvtrOnir7mO6YCY8hhyYwjwKjv79SEEBLqbosVtxx0rVeCTso1RktRjY3ECNyLssw77of_D2sM=@emersion.fr>
- <CADnq5_NMHWGOdW5Gfr4wK6o5j7PnYKW57Gg6UbbUJfnONdHY1w@mail.gmail.com>
- <2uZ8U_CJxQ9zlnv1lIRhMtwKYU-uuOuhzef2hbvONDPGN-t9Pm4fSejJNLm3ThkJIj1ZkDZwizu49Xactvx-ykn-0Rc23CzsBUXe3Xg_-XI=@emersion.fr>
- <CADnq5_PX_d0hsoTSLsyZpEHg9hu33x8LhyLOGFMZRo0WWdKPvw@mail.gmail.com>
-Feedback-ID: 1358184:user:proton
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9611610E0F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 14:24:21 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id lx1so22454032ejb.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 07:24:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=A9MdfBpTYZweRzcx0dE2DjVkPmCEU7qIzUPOygK0u3Y=;
+ b=PrJpNjXxS/kHCmg3zADO3pAI+WRrI0XP21sq/wz47VAQ12xjjbncXLYGJX1VNayTfP
+ E44HTE0ac5ORJCWKKgbbUJEzGDuioC/WEw2weUoosz7sWiz47vB/VI1XZgE3T3WirnPy
+ sVnkKTRtZs2v4sna9FAaGbnbeBiraaCXZKNxa4487kpet5gJlU0ad7Ws8PUcXUOZBLxj
+ feLvciPzn4g4AzPPjpp2G4tH2l/pXRCEggUv05W+qHGFmpL2bDDY4MMr6de6HeSqxcur
+ 5+6ZATGsB5GGFFzm+6Elb/j2UELv3Fj2GK9JpUaGgbDb1LRVbr50yklz3qUyCZkXndcI
+ GQ6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=A9MdfBpTYZweRzcx0dE2DjVkPmCEU7qIzUPOygK0u3Y=;
+ b=DxJdZ+gRNdUyQAPvmGioAehywH+oiMTboWcwEYC+oazY/iRMjpmZ6OE7lkA25tweNg
+ dt8RqDV5msPaOl1XoNt17Lvpy6eEl1d0zKW3k1eEut2wJHVKEGb/WO2kPtoNtyNm1X/V
+ bhS/72IbHk05lu36/FRppymUj3vaXsOMU/rZ4B2QrhXSih7+oCvHExMpIgJmJzLrVE3G
+ yU7mzKD8Weh53bL1wzoq+3bn/XbtTgXpoWi2m9wHZRUURTWHxVvbwXRWERtkA/H5jvFW
+ NbMPWKCBXlbQALm92MUgCBe8NIe+6lWmx7dp0Zj/YPpl5SazP4DM4Bk5/cOPnpUrTWl3
+ pMow==
+X-Gm-Message-State: ACgBeo22bvT3lWekQJ+0k9wnxjYvJwRDSmf4ewqpIXD3i4TO6ilgi1gV
+ Fj8UfH2v6T4PvXzSPzlNC+Xr8JvLaaAir6c4Z7UuWQ==
+X-Google-Smtp-Source: AA6agR6rk/3ZCEAGhGdlEIe1iBV/6Pk7Zr4lQyB2xbohhGWKkJSMTywMD4pMVUuVfGgD/C21Z09ZtrsmM/DDKQ/lUnY=
+X-Received: by 2002:a17:906:8a74:b0:73d:d6bd:660b with SMTP id
+ hy20-20020a1709068a7400b0073dd6bd660bmr16584196ejc.200.1661869459972; Tue, 30
+ Aug 2022 07:24:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220720155210.365977-1-jagan@amarulasolutions.com>
+ <CGME20220720155316eucas1p2ab58c67670ef8f30f0827fdbe5c41ef2@eucas1p2.samsung.com>
+ <20220720155210.365977-7-jagan@amarulasolutions.com>
+ <8598bc48-ab5d-92fe-076a-c1e6ca74fccd@samsung.com>
+ <CAPY8ntCrOqYbE7X5vCP7xa9xqJY8RwpO68hWhg1UuYusd3EQCA@mail.gmail.com>
+ <CAMty3ZC0pfwHff8Q0Dhh5iyipVmYVo3Gb6zEgEh7x9hQcK=oJw@mail.gmail.com>
+In-Reply-To: <CAMty3ZC0pfwHff8Q0Dhh5iyipVmYVo3Gb6zEgEh7x9hQcK=oJw@mail.gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 30 Aug 2022 15:24:04 +0100
+Message-ID: <CAPY8ntB3WwwWBLrJ9T_Zxc=K1PidmJo1pKYQP8UoeFaG0iuh_A@mail.gmail.com>
+Subject: Re: [PATCH v3 06/13] drm: bridge: samsung-dsim: Add DSI init in
+ bridge pre_enable()
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,145 +70,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: daniel.vetter@ffwll.ch, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, hwentlan@amd.com,
- nicholas.kazlauskas@amd.com, joshua@froggi.es
+Cc: Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, August 30th, 2022 at 16:06, Alex Deucher <alexdeucher@gmail.com=
-> wrote:
+Hi Jagan
 
-> On Tue, Aug 30, 2022 at 3:08 AM Simon Ser contact@emersion.fr wrote:
->=20
-> > On Friday, August 26th, 2022 at 16:39, Alex Deucher alexdeucher@gmail.c=
-om wrote:
-> >=20
-> > > On Fri, Aug 26, 2022 at 3:38 AM Simon Ser contact@emersion.fr wrote:
-> > >=20
-> > > > On Thursday, August 25th, 2022 at 20:22, Alex Deucher alexdeucher@g=
-mail.com wrote:
-> > > >=20
-> > > > > On Wed, Aug 24, 2022 at 11:09 AM Simon Ser contact@emersion.fr wr=
-ote:
-> > > > >=20
-> > > > > > amdgpu_dm_commit_planes already sets the flip_immediate flag fo=
-r
-> > > > > > async page-flips. This flag is used to set the UNP_FLIP_CONTROL
-> > > > > > register. Thus, no additional change is required to handle asyn=
-c
-> > > > > > page-flips with the atomic uAPI.
-> > > > > >=20
-> > > > > > Note, async page-flips are still unsupported on DCE with the at=
-omic
-> > > > > > uAPI. The mode_set_base callbacks unconditionally set the
-> > > > > > GRPH_SURFACE_UPDATE_H_RETRACE_EN field of the GRPH_FLIP_CONTROL
-> > > > > > register to 0, which disables async page-flips.
-> > > > >=20
-> > > > > Can you elaborate a bit on this? We don't use hsync flips at all,=
- even
-> > > > > in non-atomic, as far as I recall. The hardware can also do immed=
-iate
-> > > > > flips which take effect as soon as you update the base address
-> > > > > register which is what we use for async updates today IIRC.
-> > > >=20
-> > > > When user-space performs a page-flip with the legacy KMS uAPI on DC=
-E
-> > > > ASICs, amdgpu_display_crtc_page_flip_target() is called. This funct=
-ion
-> > > > checks for the DRM_MODE_PAGE_FLIP_ASYNC flag, sets work->async, whi=
-ch
-> > > > is then passed as an argument to adev->mode_info.funcs->page_flip()=
- by
-> > > > amdgpu_display_flip_work_func(). Looking at an implementation, for
-> > > > instance dce_v10_0_page_flip(), the async flag is used to set that
-> > > > GRPH_FLIP_CONTROL register:
-> > > >=20
-> > > > /* flip at hsync for async, default is vsync */
-> > > > tmp =3D RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
-> > > > tmp =3D REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
-> > > > GRPH_SURFACE_UPDATE_H_RETRACE_EN, async ? 1 : 0);
-> > > > WREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset, tmp);
-> > > >=20
-> > > > I don't know how the hardware works, but I assumed it would be
-> > > > necessary to do the same in the atomic uAPI code-path as well. Howe=
-ver
-> > > > dce_v10_0_crtc_do_set_base() has this code block:
-> > > >=20
-> > > > /* Make sure surface address is updated at vertical blank rather th=
-an
-> > > > * horizontal blank
-> > > > */
-> > > > tmp =3D RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
-> > > > tmp =3D REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
-> > > > GRPH_SURFACE_UPDATE_H_RETRACE_EN, 0);
-> > > > WREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset, tmp);
-> > > >=20
-> > > > Which unconditionally sets that same register.
-> > > >=20
-> > > > Either way, it's not a very big deal for this patch series, DCE and=
- DCN
-> > > > are separate, DCE can be sorted out separately.
-> > > >=20
-> > > > Am I completely mistaken here?
-> > >=20
-> > > I checked the code and it looks like only DCE11 and newer support
-> > > immediate flips. E.g.,
-> > >=20
-> > > /* flip immediate for async, default is vsync */
-> > > tmp =3D RREG32(mmGRPH_FLIP_CONTROL + amdgpu_crtc->crtc_offset);
-> > > tmp =3D REG_SET_FIELD(tmp, GRPH_FLIP_CONTROL,
-> > > GRPH_SURFACE_UPDATE_IMMEDIATE_EN, async ? 1 : 0);
-> > >=20
-> > > in dce_v11_0.c.
-> > >=20
-> > > Either way, the non-DC display code is not atomic anyway, so I don't
-> > > think this is an issue. We still support async flips via the
-> > > non-atomic API. I agree this is not blocking for the patch series,
-> > > just thinking out loud mostly.
-> >=20
-> > Michel pointed out that DC can drive both DCN and DCE. This was a
-> > misunderstanding on my end, I thought DC could only drive DCN. I'll rew=
-ord the
-> > commit message to refer to DC instead of DCN.
-> >=20
-> > This begs the question, should we bother to set the
-> > atomic_async_page_flip_not_supported flag on non-atomic drivers? I've j=
-ust
-> > slapped the flag everywhere for simplicity's sake, but maybe it would m=
-ake more
-> > sense to just set it for atomic-capable drivers. Especially if the long=
--term
-> > goal is to convert all atomic drivers to support async flips and eventu=
-ally
-> > remove atomic_async_page_flip_not_supported.
->=20
-> yeah, I think we can drop the flag for non-atomic. amdgpu at least
-> already supports async flips.
->=20
-> > Thanks for the hint regarding DCE10. It sounds like it may be worthwhil=
-e to
-> > unset drm_mode_config.async_page_flip on DCE10 and earlier, to indicate=
- to
-> > user-space that async page-flips are not supported on these ASICs? Righ=
-t now it
-> > seems like we indicate that we support them, and then ignore the ASYNC_=
-FLIP
-> > flag?
->=20
-> Async flips work fine with the current code. I think I did the
-> initial implementation on DCE10. We set
-> GRPH_SURFACE_UPDATE_H_RETRACE_EN dynamically in dce_v10_0_page_flip()
-> based on the type of flip selected.
+On Mon, 29 Aug 2022 at 19:31, Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> Hi Dave,
+>
+> On Fri, Jul 22, 2022 at 9:35 PM Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> >
+> > Hi Jagan and Marek.
+> >
+> > On Fri, 22 Jul 2022 at 16:35, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+> > >
+> > > On 20.07.2022 17:52, Jagan Teki wrote:
+> > > > Host transfer() in DSI master will invoke only when the DSI commands
+> > > > are sent from DSI devices like DSI Panel or DSI bridges and this
+> > > > host transfer wouldn't invoke for I2C-based-DSI bridge drivers.
+> > > >
+> > > > Handling DSI host initialization in transfer calls misses the
+> > > > controller setup for I2C configured DSI bridges.
+> > > >
+> > > > This patch adds the DSI initialization from transfer to bridge
+> > > > pre_enable as the bridge pre_enable API is invoked by core as
+> > > > it is common across all classes of DSI device drivers.
+> > >
+> > > This is still problematic in case of Exynos. Without a workaround like this
+> > >
+> > > https://github.com/mszyprow/linux/commit/11bbfc61272da9610dd5c574bb8ef838dc150961
+> > >
+> > > the display on the all real DSI panels on my Exynos based boards is broken.
+> >
+> > I'd queried on the other thread trying to address DSI operation [1] as
+> > to whether the test for STOP_STATE (presumably LP-11) at [2] was
+> > actually valid, but had no response.
+> > There is no need to check for bus contention at that point, but should
+> > it happen the driver doesn't write the registers in lines 862-868
+> > having returned -EFAULT at line 853. The controller is therefore only
+> > partially initialised.
+>
+> Can you link me if you have any updated series on this? or the
+> existing one is the latest one itself?
 
-Hm, can you elaborate on the difference between "immediate flip" (as in
-UNP_FLIP_CONTROL) and GRPH_SURFACE_UPDATE_H_RETRACE_EN? What are their
-relationship with KMS's concept of "async flips"?
+I've not updated my patch set as I didn't think there had been any
+significant review comments to action -
+https://patchwork.freedesktop.org/series/100252/ is still the latest.
 
-Also you said earlier:
+Sam had suggested changing upstream to prev/next, but seeing as no one
+else has expressed a view on that I didn't see much point in
+respinning. If others agree with Sam, then I'll do it.
 
-> We don't use hsync flips at all, even in non-atomic, as far as I recall.
+Checking I do note that the suggested change to drop
+drm_bridge_chain_* API has been done by Sam. I don't see that having
+been merged, but once it is patch 1 needs to be dropped / reworked.
 
-Is "hsync flip" controlled by GRPH_SURFACE_UPDATE_H_RETRACE_EN, or is it
-something else entirely?
+I don't have any Exynos hardware, so can't really help out on the DSI
+issues there other than making suggestions by inspection of the code.
+
+  Dave
+
+> Thanks,
+> Jagan.
