@@ -1,18 +1,18 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB905A6CAC
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 21:01:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0155A6D4D
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 21:27:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 430E310E3AE;
-	Tue, 30 Aug 2022 19:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7285410E3D2;
+	Tue, 30 Aug 2022 19:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no
  [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 759AE10E3AE;
- Tue, 30 Aug 2022 19:01:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF26E10E0B5;
+ Tue, 30 Aug 2022 19:27:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  ; s=ds202112;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -20,22 +20,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Rllac/XBbPbgc0gXaatB94fUM3CKp+p+IW8GoH/lPX8=; b=JVyR6ILGL5tXGtsY/mj8MZRAtl
- ml2JCOZF22V4aySHRZaADzfFTFWNoHLi3MyzwokAbfdOA1uauqNPjjDS4/i3XTzlgKnYBAsw36vYb
- tJF7QCR7MWAL5ErWDQg64sfKTlxTkcSimRhrzhxOb1BuPl8yFrbBaUzqonjjc8ZPezh17iLL2yEhJ
- Q/BU4R8sKuIR2tlMffCI2Ttglr57w7F6U7khQ2sSDlaHmHrR11DOmp+amCXXWeLau14MniH0u3QdF
- n9w/mAKmdSN6E8uJvyURSmrdse6FJTsb3xOLAzDZ6Ojd6qu4E93AxkgPjPUx4yM+DWUmM77foeYQZ
- 9vkumwxg==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=63560)
+ bh=Jw/BMXkk2bSHu/Tn+I+6WJ+P0/BJrbEZIqETssOewfE=; b=FepPHpMH52mF3S0z0Dm1b4Eacx
+ 9+AXytqqf2FpuKYbi23zay3TpsN1Qa5Q9ZkzqxJjCttzr9TbuU3Y1j/0qcm5VAs+WPWFBSs8c7qjs
+ Ow5sr31xj7N3A3bvEX668fQGtcUvcKdM7cSj52sWE9TkD0gMAMWjUAfsp32+l7lCQ85m/Me1gusc1
+ Bijp7ApUsaRAyASgzl0JpYLAKf134opQ/OVT9w+laZNSwPdSYEqPkUXnZ6oc+o6ps0anvP72eR/Hi
+ lxMQf2MbxPx9Kg5GtUca4Efma7JwlR1CB4y7YhlP5O2HKvik27Ie2kJPKAzIuX4xEJIwxTGRSCnOv
+ X+uONqhA==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=64134)
  by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oT6U7-0004Rm-3e; Tue, 30 Aug 2022 21:01:15 +0200
-Message-ID: <199cf4b3-8ace-e047-3050-b810cf0c6b63@tronnes.org>
-Date: Tue, 30 Aug 2022 21:01:08 +0200
+ id 1oT6tW-0001t3-6u; Tue, 30 Aug 2022 21:27:30 +0200
+Message-ID: <8d99b275-d0c2-c7be-5abc-8db17f8792ad@tronnes.org>
+Date: Tue, 30 Aug 2022 21:27:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 32/41] drm/vc4: vec: Convert to the new TV mode property
+Subject: Re: [PATCH v2 06/41] drm/connector: Rename legacy TV property
 To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
  Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -49,9 +49,9 @@ To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-32-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-6-459522d653a7@cerno.tech>
 From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-32-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-6-459522d653a7@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,164 +81,153 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Den 29.08.2022 15.11, skrev Maxime Ripard:
-> Now that the core can deal fine with analog TV modes, let's convert the vc4
+> The current tv_mode has driver-specific values that don't allow to
 > 
-> VEC driver to leverage those new features.
+> easily share code using it, either at the userspace or kernel level.
 > 
 > 
 > 
-> We've added some backward compatibility to support the old TV mode property
+> Since we're going to introduce a new, generic, property that fit the
 > 
-> and translate it into the new TV norm property.
+> same purpose, let's rename this one to legacy_tv_mode to make it
+> 
+> obvious we should move away from it.
 > 
 > 
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > 
-> 
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> 
-> index ba6f81908923..58286acf4b9e 100644
-> 
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> 
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
 
-> @@ -192,7 +200,7 @@ enum vc4_vec_tv_mode_id {
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
 > 
->  };
+> index 1d5e3cccb9e3..5cfad8b6ad83 100644
 > 
->  
+> --- a/include/drm/drm_connector.h
 > 
->  struct vc4_vec_tv_mode {
+> +++ b/include/drm/drm_connector.h
 > 
-> -	const struct drm_display_mode *mode;
+> @@ -695,7 +695,7 @@ struct drm_connector_tv_margins {
 > 
-> +	unsigned int mode;
+>   * @select_subconnector: selected subconnector
 > 
->  	u32 config0;
+>   * @subconnector: detected subconnector
 > 
->  	u32 config1;
+>   * @margins: TV margins
 > 
->  	u32 custom_freq;
+> - * @mode: TV mode
 > 
-> @@ -226,28 +234,50 @@ static const struct debugfs_reg32 vec_regs[] = {
+> + * @legacy_mode: Legacy TV mode, driver specific value
 > 
->  };
+>   * @brightness: brightness in percent
 > 
->  
+>   * @contrast: contrast in percent
 > 
->  static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
+>   * @flicker_reduction: flicker reduction in percent
 > 
-> -	[VC4_VEC_TV_MODE_NTSC] = {
+> @@ -707,7 +707,7 @@ struct drm_tv_connector_state {
 > 
-> -		.mode = &drm_mode_480i,
+>  	enum drm_mode_subconnector select_subconnector;
 > 
-> +	{
+>  	enum drm_mode_subconnector subconnector;
 > 
-> +		.mode = DRM_MODE_TV_MODE_NTSC_M,
+>  	struct drm_connector_tv_margins margins;
 > 
->  		.config0 = VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,
+> -	unsigned int mode;
 > 
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> 
->  	},
-> 
-> -	[VC4_VEC_TV_MODE_NTSC_J] = {
-> 
-> -		.mode = &drm_mode_480i,
-> 
-> +	{
-> 
-> +		.mode = DRM_MODE_TV_MODE_NTSC_J,
-> 
->  		.config0 = VEC_CONFIG0_NTSC_STD,
-> 
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> 
->  	},
-> 
-> -	[VC4_VEC_TV_MODE_PAL] = {
-> 
-> -		.mode = &drm_mode_576i,
-> 
-> +	{
-> 
-> +		.mode = DRM_MODE_TV_MODE_PAL_B,
-> 
->  		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
-> 
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> 
->  	},
-> 
-> -	[VC4_VEC_TV_MODE_PAL_M] = {
-> 
-> -		.mode = &drm_mode_480i,
-> 
-> +	{
-> 
-> +		.mode = DRM_MODE_TV_MODE_PAL_M,
-> 
->  		.config0 = VEC_CONFIG0_PAL_M_STD,
-> 
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> 
->  	},
-> 
->  };
-> 
->  
-> 
-> +static inline const struct vc4_vec_tv_mode *
-> 
-> +vc4_vec_tv_mode_lookup(unsigned int mode)
-> 
-> +{
-> 
-> +	unsigned int i;
-> 
-> +
-> 
-> +	for (i = 0; i < ARRAY_SIZE(vc4_vec_tv_modes); i++) {
-> 
-> +		const struct vc4_vec_tv_mode *tv_mode = &vc4_vec_tv_modes[i];
-> 
-> +
-> 
-> +		if (tv_mode->mode == mode)
-> 
-> +			return tv_mode;
-> 
-> +	}
-> 
-> +
-> 
-> +	return NULL;
-> 
-> +}
-> 
-> +
-> 
-> +static const struct drm_prop_enum_list tv_mode_names[] = {
+> +	unsigned int legacy_mode;
 
-Maybe call it legacy_tv_mode_enums?
+I suggest you do a build of the affected drivers after adding this patch
+to make sure you have changed all mode -> legacy_mode occurrences
+_before_ adding back mode in a later patch.
 
-> 
-> +	{ VC4_VEC_TV_MODE_NTSC, "NTSC", },
-> 
-> +	{ VC4_VEC_TV_MODE_NTSC_J, "NTSC-J", },
-> 
-> +	{ VC4_VEC_TV_MODE_PAL, "PAL", },
-> 
-> +	{ VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
+A simple grep gave me these:
 
-If you use DRM_MODE_TV_MODE_* here you don't need to translate the value
-using the switch statement in get/set property, you can use the value
-directly to get/set tv.mode.
+drivers/gpu/drm/vc4/vc4_vec.c:
+vc4_vec_tv_modes[state->tv.mode].mode);
+drivers/gpu/drm/vc4/vc4_vec.c:  vec->tv_mode =
+&vc4_vec_tv_modes[conn_state->tv.mode];
+drivers/gpu/drm/vc4/vc4_vec.c:  vec_mode =
+&vc4_vec_tv_modes[conn_state->tv.mode];
+drivers/gpu/drm/i915/display/intel_tv.c:        int format =
+conn_state->tv.mode;
+drivers/gpu/drm/i915/display/intel_tv.c:
+connector->state->tv.mode = i;
+drivers/gpu/drm/i915/display/intel_tv.c:        if (old_state->tv.mode
+!= new_state->tv.mode ||
+drivers/gpu/drm/i915/display/intel_tv.c:        state->tv.mode =
+initial_mode;
+drivers/gpu/drm/i915/display/intel_tv.c:
+   state->tv.mode);
+drivers/gpu/drm/i915/display/intel_sdvo.c:      format_map = 1 <<
+conn_state->tv.mode;
+drivers/gpu/drm/i915/display/intel_sdvo.c:      format_map = 1 <<
+conn_state->tv.mode;
+drivers/gpu/drm/i915/display/intel_sdvo.c:                      if
+(state->tv.mode == intel_sdvo_connector->tv_format_supported[i]) {
+drivers/gpu/drm/i915/display/intel_sdvo.c:              state->tv.mode =
+intel_sdvo_connector->tv_format_supported[val];
+drivers/gpu/drm/i915/display/intel_sdvo.c:
+intel_sdvo_connector->base.base.state->tv.mode =
+intel_sdvo_connector->tv_format_supported[0];
+
+Not so easy to grep for is this in gud:
+
+static unsigned int *gud_connector_tv_state_val(u16 prop, struct
+drm_tv_connector_state *state)
+{
+	switch (prop) {
+...
+	case GUD_PROPERTY_TV_MODE:
+		return &state->mode;
 
 Noralf.
 
 > 
-> +};
+>  	unsigned int brightness;
+> 
+>  	unsigned int contrast;
+> 
+>  	unsigned int flicker_reduction;
+> 
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> 
+> index 6b5e01295348..35a827175c24 100644
+> 
+> --- a/include/drm/drm_mode_config.h
+> 
+> +++ b/include/drm/drm_mode_config.h
+> 
+> @@ -714,11 +714,13 @@ struct drm_mode_config {
+> 
+>  	 * between different TV connector types.
+> 
+>  	 */
+> 
+>  	struct drm_property *tv_select_subconnector_property;
+> 
+> +
+> 
+>  	/**
+> 
+> -	 * @tv_mode_property: Optional TV property to select
+> 
+> +	 * @legacy_tv_mode_property: Optional TV property to select
+> 
+>  	 * the output TV mode.
+> 
+>  	 */
+> 
+> -	struct drm_property *tv_mode_property;
+> 
+> +	struct drm_property *legacy_tv_mode_property;
+> 
+> +
+> 
+>  	/**
+> 
+>  	 * @tv_left_margin_property: Optional TV property to set the left
+> 
+>  	 * margin (expressed in pixels).
+> 
+> 
+> 
