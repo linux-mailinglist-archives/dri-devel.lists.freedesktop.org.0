@@ -2,64 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC995A67AE
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 17:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3AB5A67ED
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 18:10:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37F4E10E153;
-	Tue, 30 Aug 2022 15:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 559BF10E184;
+	Tue, 30 Aug 2022 16:09:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
- [IPv6:2607:f8b0:4864:20::d33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA06E10E153
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 15:47:47 +0000 (UTC)
-Received: by mail-io1-xd33.google.com with SMTP id 62so9569286iov.5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 08:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5286C10E184
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 16:09:50 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id y3so23200676ejc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 09:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=9f2bO9sEBdq+wgciheHTKF7TZKiz92E+7DCQ/5qexd0=;
- b=hbufoTwEPykpa51OHC80c1lNeHDkPA9Syp/0nviAloJ905gGMGBophKG498BPZGv0g
- xN7wqPhyjGhJ6x/9aWVh0LFYBT6YB/GustCVXqbxObHu3yKIXR2NjGKpcjuXII6wIrQ6
- cEpQZ/2nb7f/UbVFFeBpheb9gb7G8k6uanF60=
+ :mime-version:from:to:cc;
+ bh=bBkJiLuPHjOc9NWEYiRCYWyb3Lk5w/JeF/xlR5gs4hs=;
+ b=XPEwTKllwP1ym8NH2MPi12cERuOXKvzToq1oclsHzPcc1Glnle6r/NFlQokXjBIIH6
+ QbUIZt/BkPuid6DIjI1Vr1Vdz1jNExePcE/fnA1ZYUHhV0WFCbsdRPgsH+1uFgnncCBA
+ fnNh11UqEc6qpLtRik9hewPbH6OdSEbk/Lf8OImyvimIms6oaFcMx9nfhFwbG07mw4fJ
+ IbzZjHnAOO0Vy2IWXuaQOKvjlwLj9ZC1kN8U/jzWsWHBIaJWSOy6x6ESYSZpQ9Q0elkG
+ rHYfUF3ps30aUtGDdHCldqK6t8EggS+UDxdnGJVpF1D174/MpIkqo7Luwt5H/m78xs9e
+ jRcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=9f2bO9sEBdq+wgciheHTKF7TZKiz92E+7DCQ/5qexd0=;
- b=y4GzOTC7sB8+yTf17EALVwWMeOGcriZOLAis5lDJHebG6OmgDqY5FuTDLklmFJCEm7
- TsncRvyDE5IGVtS7XzqeD+c1RxW0Bu5JUP3DBoO1l8P/+XdLMDBYni/zp7hAed5P2/7P
- UkgS1VN3eltG6QFI7oVh+g/ZuXlqt5/XVdN1t+VpSiYK3uej1UnKWGbC3fFa/yW7dvim
- bLP9D8ve5oaqDXfow3QoHlXfr8exOh8/gRll6DMTaJ+f0TdcG5oBVF7wTXpomLai6boJ
- 67s1aMDtaebTBAtowjqKhbG3vGMRHax5N9j1HuSuMs7N909+2Rcg3oD8UvMciPojPbV4
- U/Ow==
-X-Gm-Message-State: ACgBeo13prnT0vo/ODbxH1GiQ5rkBmfvjjv7pRWMLQdZDIe330ZTsK9Q
- S9lYF5xk3NW41VNL9VHvyJTzjN7/aCXQ6EIe
-X-Google-Smtp-Source: AA6agR7Sb984JY3s2wGAhJDq1QPW90W0ORFcjkPiF7Ngn5vCJr7xff1X2FQdTnXBjP24CsQbrSc3nA==
-X-Received: by 2002:a05:6638:2411:b0:346:86a0:d325 with SMTP id
- z17-20020a056638241100b0034686a0d325mr13195842jat.28.1661874466577; 
- Tue, 30 Aug 2022 08:47:46 -0700 (PDT)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com.
- [209.85.166.178]) by smtp.gmail.com with ESMTPSA id
- u127-20020a022385000000b00349c6e9f804sm5656326jau.81.2022.08.30.08.47.45
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 08:47:45 -0700 (PDT)
-Received: by mail-il1-f178.google.com with SMTP id l6so4656297ilk.13
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 08:47:45 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1789:b0:2ea:ccd4:d0ed with SMTP id
- y9-20020a056e02178900b002eaccd4d0edmr7210776ilu.177.1661874465309; Tue, 30
- Aug 2022 08:47:45 -0700 (PDT)
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=bBkJiLuPHjOc9NWEYiRCYWyb3Lk5w/JeF/xlR5gs4hs=;
+ b=DPqVW8mfVzJBjY8FDPa+ZqVzdBN/5be5FlREry6Ip2KjqVa4rtHmOhe7X0lcbtA/w3
+ ClOLVTvAIz1iMwlNJqSt7doJoWcqv7NNgPCzr47Ut/6RAjlAf+OXFBeyEwpQXereiciJ
+ oSzHGBd176vzhzTXCehDVwdBt4soLc8ZfC8xV8OWrosusCLw0+qsm4TBm6OmU3yHvc9c
+ R/qJA6rd4hlry8RmXKa2gBvw49j2f5bZIUiQBtIUofii1vx4b6AGLmqyFSv073CeTmzt
+ XJNWh39ygm701DlbmxJHL4a8pzpSoPGS+2KcdSwsX60nCkerYZWvbbDAUjx7FIagDXAa
+ /8/A==
+X-Gm-Message-State: ACgBeo0ksBdQGQfs/kREe8XcWR33u/riDifMdhocfn8xsqmmQvK6UkaF
+ 5jTMlwdjPh5Dohz4AZ/XjQCD1lK3rGLkez1dSH75pw==
+X-Google-Smtp-Source: AA6agR68Jkwl8a4TplCo8Yl1LhaJADY2dOVH3kd3Zh8IjJCaXlyxmwq9SthjYYsC1kRXV7hRaetHqfS/rGP6l4A13co=
+X-Received: by 2002:a17:906:cc5d:b0:73d:c534:1aaa with SMTP id
+ mm29-20020a170906cc5d00b0073dc5341aaamr17272840ejb.626.1661875788788; Tue, 30
+ Aug 2022 09:09:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220822105340.1.I66a9a5577f9b0af66492ef13c47bc78ed85e5d6b@changeid>
- <YwjhxQjiJeQ0u5rh@ravnborg.org>
-In-Reply-To: <YwjhxQjiJeQ0u5rh@ravnborg.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 30 Aug 2022 08:47:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U+2OJzXvkXKbvm=veJeoxpHs_sHhs-maNGCWjPowCeJQ@mail.gmail.com>
-Message-ID: <CAD=FV=U+2OJzXvkXKbvm=veJeoxpHs_sHhs-maNGCWjPowCeJQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add myself as a reviewer for panel-edp.c
-To: Sam Ravnborg <sam@ravnborg.org>
+References: <216591bc-28bb-0453-10bb-59e268dff540@I-love.SAKURA.ne.jp>
+ <df5e1060-7cb6-77e3-4f2e-9e97ac8693f5@I-love.SAKURA.ne.jp>
+In-Reply-To: <df5e1060-7cb6-77e3-4f2e-9e97ac8693f5@I-love.SAKURA.ne.jp>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 30 Aug 2022 18:09:37 +0200
+Message-ID: <CAG3jFysypCBdCeh8Ry5che-ikCAe-cWq2Y_x-kdqptTOvQ5Zhg@mail.gmail.com>
+Subject: Re: [PATCH v3] gpu/drm/bridge/cadence: avoid flush_scheduled_work()
+ usage
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,26 +65,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, Aug 26, 2022 at 8:07 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> On Mon, Aug 22, 2022 at 10:53:59AM -0700, Douglas Anderson wrote:
-> > panel-edp changes go through the drm-misc tree (as per the "DRM PANEL
-> > DRIVERS" entry in MAINTAINERS), but ever since splitting panel-edp out
-> > of panel-simple I've been trying to keep a close eye on it. Make that
-> > official by listing me as a reviewer.
-> >
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-Pushed with Sam's ack.
-
-e6545831a17b MAINTAINERS: Add myself as a reviewer for panel-edp.c
-
--Doug
+Applied to drm-misc-next.
