@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161E65A5E58
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 10:41:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C29955A5E5C
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 10:42:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3A6510ECCF;
-	Tue, 30 Aug 2022 08:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38EF410ED3A;
+	Tue, 30 Aug 2022 08:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
- [IPv6:2001:67c:2050:0:465::101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E04210ED40
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 08:41:40 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4MH14c4KWkz9sXk;
- Tue, 30 Aug 2022 10:41:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1661848896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K5ZPMVhxadbf9vtrHMXgTodBWRS2OT9QwH85pNlr7vI=;
- b=anG3YmkURmaFLsPuqRjcIMcad4YoiniCjjAzfFlA5zQAspE4AEUgcq7D2y/SZhai+D4k8o
- B0e3Tehj7sIYxQCrco2oXN/k9wTy9+yllWadygTrxs5FZl7lJ/qzSMynssH+xhz/Ise8un
- frCRjF6WzJ4frs+M4s1cleEjecy7A72Oqg3QxMzftHHYNzINFM14Rxhs/gnmFKvYzaIfbH
- wtnqSNiLpMZcGx8lRW3BASy3yboz9YbikjV8kdSHVeYIZ7RMF3ZCZnmn+/5ZD94/PrRmD2
- EC1oWlac884s1U3x6qZID5HcjZg3TOejpbogGxk4FYgiVfSPSy2s+a8Qguzvsw==
-Message-ID: <f7465260-5f5b-44da-4119-7bae9c8e9c8d@mailbox.org>
-Date: Tue, 30 Aug 2022 10:41:33 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1002110ECCF
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 08:41:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661848903; x=1693384903;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=ohscrdQ7oHXKrXL12sHJ8LJr7s161Sc7HqkuvrFABVM=;
+ b=iu7HClZxzJ59Pv35/WvyxVcqmWY16snMjJpWI8zWSsKulByIYPjVTsHu
+ MieTiLITl4b7y7vvET/ZuM6gq+o71u7EiRcy31gPEdWL3fQu6lzgP3zC8
+ 8UTWv6uUNSWOK0mE/HRAzjt0a0ViGTVdYgBYA5toOiDtJ6czfcukZFDNe
+ F51ZE/HH/0TSYM/HXuhNwnNJN7JlTH97Az4GewrK7A5+9sweP0IF6Di74
+ w/rzse29a0URMMwWI96tOFkPPd9+Yyhogph/MlzyVRI31XIXftOmTDERB
+ jLB/v2umXb1rsClF+W0c9k+vsx8YJbFJHsYJruybboh6DFtrqNeq6iLce A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="274869252"
+X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; d="scan'208";a="274869252"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Aug 2022 01:41:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; d="scan'208";a="700911244"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by FMSMGA003.fm.intel.com with SMTP; 30 Aug 2022 01:41:39 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 30 Aug 2022 11:41:39 +0300
+Date: Tue, 30 Aug 2022 11:41:39 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: drm: document uAPI page-flip flags
+Message-ID: <Yw3NQ2MmhJbsxV3h@intel.com>
+References: <20220824174459.441976-1-contact@emersion.fr>
+ <20220826115355.668e13ca@eldfell>
+ <ASSNOUe9wtsXskZjVlf1X4pl53T7pVE0MfEzkQ_h4cX0tjnF7e3cxpwGpRNPudmIHoRuW4kz_v1AeTpXgouLpTYcI8q-lPTzc1YMLR8JiJM=@emersion.fr>
+ <20220830111626.77307042@eldfell>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/4] drm: introduce DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP
-Content-Language: en-CA
-To: Simon Ser <contact@emersion.fr>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20220824150834.427572-1-contact@emersion.fr>
- <20220824150834.427572-4-contact@emersion.fr> <YwiB/xQf6Z6ScU+Z@intel.com>
- <mCt6wEhtsKHH_vfQEi0RwUQspNiKfFez4v8ZWlMW-sqZ5xaiUqMpRCF7na84A2nOLw5MA59fQ6IWddLCAg76XwWagCYMthzTLKLPQ9m0MfI=@emersion.fr>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <mCt6wEhtsKHH_vfQEi0RwUQspNiKfFez4v8ZWlMW-sqZ5xaiUqMpRCF7na84A2nOLw5MA59fQ6IWddLCAg76XwWagCYMthzTLKLPQ9m0MfI=@emersion.fr>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: m1jzb69eucxk65q75c6dnq3yw975qcrp
-X-MBO-RS-ID: a885e6d48843c64160b
-X-Rspamd-Queue-Id: 4MH14c4KWkz9sXk
+In-Reply-To: <20220830111626.77307042@eldfell>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,79 +62,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org, mwen@igalia.com,
- Pekka Paalanen <ppaalanen@gmail.com>, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, hwentlan@amd.com, nicholas.kazlauskas@amd.com,
- joshua@froggi.es
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-08-29 18:01, Simon Ser wrote:
-> On Friday, August 26th, 2022 at 10:19, Ville Syrj√§l√§ <ville.syrjala@linux.intel.com> wrote:
->> On Wed, Aug 24, 2022 at 03:08:55PM +0000, Simon Ser wrote:
->>> This new kernel capability indicates whether async page-flips are
->>> supported via the atomic uAPI. DRM clients can use it to check
->>> for support before feeding DRM_MODE_PAGE_FLIP_ASYNC to the kernel.
->>
->> I think we'd need to clarify the semantics of the async flag
->> for atomic commits.
->>
->> Eg. on Intel hw only pure page flips are possible async, if you do
->> anything else (change plane size/pos/scaling/etc.) you will need
->> to do a sync update. Technically not even all page flips (from the
->> uapi POV) might be possible as the exact scanout source address
->> is specified via two registers, only one of which can be update
->> async. So technically the two framebuffers might be laid out
->> just slightly differently which could prevent an async flip.
->> Also only some subset of planes actually support async flips.
+On Tue, Aug 30, 2022 at 11:16:26AM +0300, Pekka Paalanen wrote:
+> On Mon, 29 Aug 2022 15:37:52 +0000
+> Simon Ser <contact@emersion.fr> wrote:
 > 
-> Also IIRC some format modifiers don't support async flip at all (CCS)?
+> > CC Ville for the ASYNC bits, see below.
+> > 
+> > On Friday, August 26th, 2022 at 10:53, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > 
+> > > > +/**
+> > > > + * DRM_MODE_PAGE_FLIP_EVENT
+> > > > + *
+> > > > + * Request that the kernel sends back a vblank event (see
+> > > > + * struct drm_event_vblank) when the page-flip is done.  
+> > > 
+> > > ...with type = DRM_EVENT_FLIP_COMPLETE?
+> > > 
+> > > This was a bit new to me, because libdrm abstracts vblank and pageflip
+> > > events into different APIs.  
+> > 
+> > Indeed.
+> > 
+> > Maybe should clarify what "done" means here? Would "when the page-flip has been
+> > displayed on-screen" be correct?
 > 
->> And on hw where multiple planes support it on the same crtc, only one
->> plane can do it at a time. Well, more accurately we can only select
->> one plane at a time to give us the "flip done" interrupt. I guess
->> if the user wants to async flip multiple planes at the same time
->> we could do them serially as opposed to in parallel to make sure
->> all the flips actually happened before we signal completion of the
->> entire commit. Async flips of multiple planes probably won't
->> happen atomically anyway so doing them serially seems fine.
->>
->> ATM in i915 we probably don't have sufficient state checks in
->> place to catch all the restrictions, and instead in part we rely
->> on the limited scope of the legacy async flip ioctl to make sure
->> the operation doesn't attempt something the hw can't do.
+> Good idea, but definition is not quite that AFAIU. I would understand
+> "displayed" as "turned into light" or at least fully sent to the cable,
+> when we are talking at this level of detail.
 > 
-> Yeah, that makes sense.
+> Hence, "has been displayed" is not it because the flip-done event is
+> emitted before the new FB contents have been scanned out. That scanout
+> cycle is only starting when the flip is done. The flip timestamp should
+> correspond to the time when the first real pixel of the new FB hits the
+> monitor cable.
 > 
-> In the documentation patch discussion [1], it appears it's not clear what
-> drivers should do when async flip isn't possible with the legacy uAPI.
+> A flip is done, when it is guaranteed that the next (or on-going, in
+> case of tearing) scanout cycle will use the new FB, IOW the hardware
+> programming has been done I believe.
 > 
-> For the atomic uAPI, we need to pick on of these two approaches:
+> If the flip is sync'd to vblank, the timestamp is as above, but the
+> actual event might be emitted somewhat before or after the instant of
+> the timestamp. Some drivers can predict the timestamp so can send the
+> event early, others don't.
 > 
-> 1. Let the kernel fall back to a sync flip if async isn't possible. This
->    simplifies user-space, but then user-space has no reliable way to figure out
->    what really happened (sync or async?). That could be fixed with a new
->    read-only CRTC prop indicating whether the last flip was async or not.
->    However, maybe someone will come up in the future with user-space which
->    needs to only apply an update if async flip is possible, in which case this
->    approach falls short.
+> If the flip is tearing, then I'm not sure what the timestamp is or when
+> the event is emitted.
 
-The future is now. :)
+For i915 we emit the event when the hardware has indicated the
+flip has completed (ie. it has really started scanout from the
+new fb). After that you can safely reuse the old fb without
+accidentally doing frontbuffer rendering. It takes a bit of
+time (some smallish number of scanlines) for the hardware to
+flush the FIFOs/TLBs/whatever.
 
-As I described in the documentation patch discussion, this approach would make it tricky for a Wayland compositor to decide if it should use an async commit (which needs to be done ASAP to serve the intended purpose) or not (in which case the compositor may want to delay the commit as long as possible for minimal latency).
-
-
-> Another possible shortcoming of the proposed new uAPI here is that user-space
-> cannot submit a single atomic commit which updates multiple CRTCs, and
-> individually select which CRTC does an async flip. This could be fixed with
-> a "ASYNC_FLIP" CRTC prop which the kernel always resets to 0 on commit. I'm not
-> sure we want/need to cross that bridge right now, it would be easy enough to
-> add as a second step if some user-space would benefit from it.
-
-I thought about this as well, but I came to the conclusion it shouldn't be needed. User space can do one commit for the sync CRTC/s planes first and another commit for the async ones afterwards.
-
+And IIRC we just send the last sampled vblank timestamp for
+the event. That is, the timestamp should look the same as
+for a sync flip submitted during the previous frame. I was
+thinking of making it more or less show the current time
+of the flip done indication as that's when the scanout
+from the new fb starts, but pretty much everyone else was
+of the opinion that there is no point in doing that.
 
 -- 
-Earthling Michel D√§nzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
-
+Ville Syrj‰l‰
+Intel
