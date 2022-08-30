@@ -1,39 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B0D5A5BF4
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 08:39:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B38335A5BF7
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Aug 2022 08:40:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A18C210E3DC;
-	Tue, 30 Aug 2022 06:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB5310E53C;
+	Tue, 30 Aug 2022 06:39:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1239810E3DC
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 06:39:37 +0000 (UTC)
-X-UUID: ec1ab97799734ca5912ccf4ee443ad2b-20220830
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DCF010E53C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Aug 2022 06:39:43 +0000 (UTC)
+X-UUID: 00fe4f578de9493a88a4e782fe7f912c-20220830
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=fqdqJAHd6E12G7qb0S5KwKQe8DyXVaMfgcLvT0zlqSY=; 
- b=Niloyf/l4YebSOuudvjioZ786U0+15NLGgzSf1uA8N3P4072jxH5L/s9csdoitw0Tt1BhgeWQKRnsRLOmB6wpJQbRalDOteF0m6+D8D0SE9JBMUANAGHkD3QWJ+6VQUsGYzdpqAMnky0XvL/TVX31VMADbtl00W6rtOMkvBCJKE=;
+ h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=TQs6Q3+RWefSzzUisUoYCLIBCbSdiczGmhp+W4Fkwq0=; 
+ b=nK1t6B9yqpNX3ZNQ8OWYoVrWKkBIZl5HY5inE3+V7FG4txBLC/15u7lBdu2v8hTThvDkfBl9VHsLc1miDUPgx+F3YarucIYZUmBaT481CzvaEQiM2HIA4ELdxK/qsYgnRsLe4Kvzj+R7BlilbDHunViSojuB2gxDHlsGLiOmXAs=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:9fba6ede-3742-4ad4-9b44-a994ad7ed951, OB:0,
+X-CID-O-INFO: VERSION:1.1.10, REQID:6b8e30dc-5e28-4aca-962f-7deec50affc3, OB:0,
  L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
- Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18, CLOUDID:94c7fb55-e800-47dc-8adf-0c936acf4f1b,
+ OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Relea
+ se_Ham,ACTION:release,TS:100
+X-CID-INFO: VERSION:1.1.10, REQID:6b8e30dc-5e28-4aca-962f-7deec50affc3, OB:0,
+ LOB
+ :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS
+ 981B3D,ACTION:quarantine,TS:100
+X-CID-META: VersionHash:84eae18, CLOUDID:a6df8420-1c20-48a5-82a0-25f9c331906d,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: ec1ab97799734ca5912ccf4ee443ad2b-20220830
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <zheng-yan.chen@mediatek.com>)
+ OID:d2add9fb9bc3,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 00fe4f578de9493a88a4e782fe7f912c-20220830
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <zheng-yan.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 889232506; Tue, 30 Aug 2022 14:39:33 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ with ESMTP id 1218137919; Tue, 30 Aug 2022 14:39:33 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.792.15; Tue, 30 Aug 2022 14:39:32 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -43,10 +47,12 @@ From: zheng-yan.chen <zheng-yan.chen@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
  <matthias.bgg@gmail.com>
-Subject: [PATCH v2 0/3] Add gamma lut support for mt8195
-Date: Tue, 30 Aug 2022 14:39:26 +0800
-Message-ID: <20220830063929.13390-1-zheng-yan.chen@mediatek.com>
+Subject: [PATCH v2 1/3] dt-bindings: mediatek: Add gamma compatible for mt8195
+Date: Tue, 30 Aug 2022 14:39:27 +0800
+Message-ID: <20220830063929.13390-2-zheng-yan.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220830063929.13390-1-zheng-yan.chen@mediatek.com>
+References: <20220830063929.13390-1-zheng-yan.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -72,45 +78,40 @@ Cc: devicetree@vger.kernel.org, "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the gamma_set_common() function for previous SoC,
-such as  mt8173 and mt8183, is designed for 9bit-to-10bit
-conversion.
-mt8195 is using 10bit-to-12bit conversion, which is
-not compatible with the previous function.
+mt8195 uses 10bit-to-12bit gamma-LUT, which is not compatible with
+current 9bit-to-10bit gamma-LUT.
 
-Thus, need to update the function to fit the need of mt8195.
+This patch thus add constant compatible for mt8195, which means that
+mt8195 should only use specified mt8195 gamma driver data.
 
+Also, delete related compatible from enum, to ensure that
+mt8195 will not accidentally get others' gamma driver data and thus
+cause fatal error.
+
+Fixes: a79257bae9bf ("dt-bindings: display: mediatek: add mt8195 SoC binding for vdosys0")
+Signed-off-by: zheng-yan.chen <zheng-yan.chen@mediatek.com>
 ---
-Base on series [1]:
-[1]: Add driver nodes for MT8195 SoC
-- https://patchwork.kernel.org/project/linux-mediatek/list/?series=666741
----
+ .../devicetree/bindings/display/mediatek/mediatek,gamma.yaml   | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Change in v2:
-        1. fix global variable in mtk_disp_gamma.c
-        2. update mask calculation and delete not-necessary variables
-        3. fix shift-bit problem.
-        4. fix commit messages for dt-binding
-        5. fix dts gamma label.
-
-
-zheng-yan.chen (3):
-  dt-bindings: mediatek: Add gamma compatible for mt8195
-  drm/mediatek: Add gamma lut support for mt8195
-  arm64: dts: Modify gamma compatible for mt8195
-
- .../display/mediatek/mediatek,gamma.yaml      |   3 +-
- arch/arm64/boot/dts/mediatek/mt8195.dtsi      |   2 +-
- drivers/gpu/drm/mediatek/mtk_disp_aal.c       |   2 +-
- drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   3 +-
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c     | 102 +++++++++++++-----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   5 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   1 -
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |   1 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |   2 +
- 10 files changed, 88 insertions(+), 34 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
+index a89ea0ea7542..fbd7b9664a78 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
+@@ -25,11 +25,12 @@ properties:
+           - const: mediatek,mt8173-disp-gamma
+       - items:
+           - const: mediatek,mt8183-disp-gamma
++      - items:
++          - const: mediatek,mt8195-disp-gamma
+       - items:
+           - enum:
+               - mediatek,mt8186-disp-gamma
+               - mediatek,mt8192-disp-gamma
+-              - mediatek,mt8195-disp-gamma
+           - const: mediatek,mt8183-disp-gamma
+ 
+   reg:
 -- 
 2.18.0
 
