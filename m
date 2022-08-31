@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1585A8877
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 23:51:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB3D5A887E
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 23:51:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E56910E4F9;
-	Wed, 31 Aug 2022 21:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BD9C10E50F;
+	Wed, 31 Aug 2022 21:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F3DF10E4F5;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFE410E4FC;
  Wed, 31 Aug 2022 21:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1661982633; x=1693518633;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=8qIdCsXl422rxt7x7xP4TmgMkVREVPDUrEd9tvF9wkY=;
- b=Rah3bggfvu1xInZ7uyblpykLXFvFp1n2XaIglrpymkZSU7zt1FprtCMI
- S/c3I+hTCH60Iyd/GUaQf88SirCZSE0da+h1j9yWqD7ByrFbzwaDD4TwX
- uPxru05SvthMZf0F1zz3r1uE5tOT5oB+tuyzGmOWyUaH4XDqzob8RuJTo
- thKzxPh/jcq8I4eoCvBxGbhd2gSqu92xGcX/3bm1OYiBxb4vIVNFx1Yld
- m+Z0gkU2LyMOQDuCbgUKjXWQ2zbPLdYMcj3WzKTxWl7Y+8G8XMEb+eqTM
- VhYCRETwxLKk0wW3g3sj0ptZ2qVsXel5y/5s9tvuH4n/cC1EMR3XGseTc w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="357270167"
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="357270167"
+ bh=0+8rlYXMj72qCk6HjdAqhiECsNGTLqQrR1uLFxxPqBk=;
+ b=axvWr4eVXLwCHtUEWqyIRnDuP17gjyiqw4AzTHQKyfkZ3LWU2aF+DzQs
+ dD+jZ73BNLk6o6bvaQ7s6tbqBY+HuMClimSvtw+XVyPnlB0kT7srBcqBc
+ 6FFAxBI7nbhJEq5Z1VtTJTaRfa7HLinklD+PMuTESC71fnMedtLTFe/vq
+ vJEoVzNIdTCbDwGoMTtPCUOa5L1pYsKVzAVEFQdaQ4YKKcj+8oJs9GCOk
+ Awj4QSnuAYP5mVhqS3VjHmzT3n8TX8Qp3AkVeKVZB35BCH5cGEnT+A7tr
+ cGkTlKdUcHQr99qRysW2QmW8vKp8DSb3oSSGLNJ1mHF0Uorgpb09HTqxM w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="357270168"
+X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="357270168"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  31 Aug 2022 14:50:32 -0700
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="940586239"
+X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="940586243"
 Received: from invictus.jf.intel.com ([10.165.21.206])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  31 Aug 2022 14:50:32 -0700
 From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 09/11] drm/i915/mtl: Update MBUS_DBOX credits
-Date: Wed, 31 Aug 2022 14:49:56 -0700
-Message-Id: <20220831214958.109753-10-radhakrishna.sripada@intel.com>
+Subject: [PATCH v3 10/11] drm/i915/mtl: Update CHICKEN_TRANS* register
+ addresses
+Date: Wed, 31 Aug 2022 14:49:57 -0700
+Message-Id: <20220831214958.109753-11-radhakrishna.sripada@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220831214958.109753-1-radhakrishna.sripada@intel.com>
 References: <20220831214958.109753-1-radhakrishna.sripada@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,126 +60,156 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Display version 14 platforms have different credits values compared to ADL-P.
-Update the credits based on pipe usage.
+From: Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>
 
-v2: Simplify DBOX BW Credit definition(MattR)
+In Display version 14, Transcoder Chicken Registers are moved from DPRZ to DRPOS
+to reduce register signal crossings for Unit Interface Optimization.
 
-Bspec: 49213
+This patch modifies the CHICKEN_TRANS macro to add a DISPLAY_VER check for
+calculating the correct platform offsets.
 
-Cc: Jose Roberto de Souza <jose.souza@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Original Author: Caz Yokoyama
-Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
+(And also updates existing CHICKEN_TRANS occurrences to the new definition)
+
+v2: Omit display version check in i915_reg.h(Jani)
+
+Bspec: 34387, 50054
+Cc: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>
 Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 ---
- drivers/gpu/drm/i915/i915_reg.h |  4 +++
- drivers/gpu/drm/i915/intel_pm.c | 47 ++++++++++++++++++++++++++++++---
- 2 files changed, 47 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 14 ++++++++---
+ drivers/gpu/drm/i915/display/intel_dp_mst.c  |  5 +++-
+ drivers/gpu/drm/i915/display/intel_psr.c     |  6 +++--
+ drivers/gpu/drm/i915/i915_reg.h              | 25 +++++++++++++++-----
+ 4 files changed, 38 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index be7cff722196..a3d0d12084a9 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -618,7 +618,10 @@ void intel_disable_transcoder(const struct intel_crtc_state *old_crtc_state)
+ 	if (!IS_I830(dev_priv))
+ 		val &= ~PIPECONF_ENABLE;
+ 
+-	if (DISPLAY_VER(dev_priv) >= 12)
++	if (DISPLAY_VER(dev_priv) >= 14)
++		intel_de_rmw(dev_priv, MTL_CHICKEN_TRANS(cpu_transcoder),
++			     FECSTALL_DIS_DPTSTREAM_DPTTG, 0);
++	else if (DISPLAY_VER(dev_priv) >= 12)
+ 		intel_de_rmw(dev_priv, CHICKEN_TRANS(cpu_transcoder),
+ 			     FECSTALL_DIS_DPTSTREAM_DPTTG, 0);
+ 
+@@ -1838,7 +1841,9 @@ static void hsw_set_frame_start_delay(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+ 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+-	i915_reg_t reg = CHICKEN_TRANS(crtc_state->cpu_transcoder);
++	enum transcoder transcoder = crtc_state->cpu_transcoder;
++	i915_reg_t reg = DISPLAY_VER(dev_priv) >= 14 ? MTL_CHICKEN_TRANS(transcoder) :
++			 CHICKEN_TRANS(transcoder);
+ 	u32 val;
+ 
+ 	val = intel_de_read(dev_priv, reg);
+@@ -4033,6 +4038,7 @@ static bool hsw_get_pipe_config(struct intel_crtc *crtc,
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+ 	struct intel_display_power_domain_set power_domain_set = { };
++	i915_reg_t reg;
+ 	bool active;
+ 	u32 tmp;
+ 
+@@ -4124,7 +4130,9 @@ static bool hsw_get_pipe_config(struct intel_crtc *crtc,
+ 	}
+ 
+ 	if (!transcoder_is_dsi(pipe_config->cpu_transcoder)) {
+-		tmp = intel_de_read(dev_priv, CHICKEN_TRANS(pipe_config->cpu_transcoder));
++		reg = DISPLAY_VER(dev_priv) >= 14 ? MTL_CHICKEN_TRANS(pipe_config->cpu_transcoder) :
++			CHICKEN_TRANS(pipe_config->cpu_transcoder);
++		tmp = intel_de_read(dev_priv, reg);
+ 
+ 		pipe_config->framestart_delay = REG_FIELD_GET(HSW_FRAME_START_DELAY_MASK, tmp) + 1;
+ 	} else {
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 13abe2b2170e..298004cae5a5 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -568,7 +568,10 @@ static void intel_mst_enable_dp(struct intel_atomic_state *state,
+ 	drm_dp_add_payload_part2(&intel_dp->mst_mgr, &state->base,
+ 				 drm_atomic_get_mst_payload_state(mst_state, connector->port));
+ 
+-	if (DISPLAY_VER(dev_priv) >= 12 && pipe_config->fec_enable)
++	if (DISPLAY_VER(dev_priv) >= 14 && pipe_config->fec_enable)
++		intel_de_rmw(dev_priv, MTL_CHICKEN_TRANS(trans), 0,
++			     FECSTALL_DIS_DPTSTREAM_DPTTG);
++	else if (DISPLAY_VER(dev_priv) >= 12 && pipe_config->fec_enable)
+ 		intel_de_rmw(dev_priv, CHICKEN_TRANS(trans), 0,
+ 			     FECSTALL_DIS_DPTSTREAM_DPTTG);
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index 079b7d3d0c53..da2d0661b630 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -1139,7 +1139,8 @@ static void intel_psr_enable_source(struct intel_dp *intel_dp,
+ 
+ 	if (intel_dp->psr.psr2_enabled) {
+ 		if (DISPLAY_VER(dev_priv) == 9)
+-			intel_de_rmw(dev_priv, CHICKEN_TRANS(cpu_transcoder), 0,
++			intel_de_rmw(dev_priv,
++				     CHICKEN_TRANS(cpu_transcoder), 0,
+ 				     PSR2_VSC_ENABLE_PROG_HEADER |
+ 				     PSR2_ADD_VERTICAL_LINE_COUNT);
+ 
+@@ -1149,7 +1150,8 @@ static void intel_psr_enable_source(struct intel_dp *intel_dp,
+ 		 * cause issues if non-supported panels are used.
+ 		 */
+ 		if (IS_ALDERLAKE_P(dev_priv))
+-			intel_de_rmw(dev_priv, CHICKEN_TRANS(cpu_transcoder), 0,
++			intel_de_rmw(dev_priv,
++				     CHICKEN_TRANS(cpu_transcoder), 0,
+ 				     ADLP_1_BASED_X_GRANULARITY);
+ 
+ 		/* Wa_16011168373:adl-p */
 diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index d22fabe35a0c..f9237586ab4f 100644
+index f9237586ab4f..8be7685e8a3e 100644
 --- a/drivers/gpu/drm/i915/i915_reg.h
 +++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -1125,8 +1125,12 @@
- #define MBUS_DBOX_REGULATE_B2B_TRANSACTIONS_EN	REG_BIT(16) /* tgl+ */
- #define MBUS_DBOX_BW_CREDIT_MASK		REG_GENMASK(15, 14)
- #define MBUS_DBOX_BW_CREDIT(x)			REG_FIELD_PREP(MBUS_DBOX_BW_CREDIT_MASK, x)
-+#define MBUS_DBOX_BW_4CREDITS_MTL		REG_FIELD_PREP(MBUS_DBOX_BW_CREDIT_MASK, 0x2)
-+#define MBUS_DBOX_BW_8CREDITS_MTL		REG_FIELD_PREP(MBUS_DBOX_BW_CREDIT_MASK, 0x3)
- #define MBUS_DBOX_B_CREDIT_MASK			REG_GENMASK(12, 8)
- #define MBUS_DBOX_B_CREDIT(x)			REG_FIELD_PREP(MBUS_DBOX_B_CREDIT_MASK, x)
-+#define MBUS_DBOX_I_CREDIT_MASK			REG_GENMASK(7, 5)
-+#define MBUS_DBOX_I_CREDIT(x)			REG_FIELD_PREP(MBUS_DBOX_I_CREDIT_MASK, x)
- #define MBUS_DBOX_A_CREDIT_MASK			REG_GENMASK(3, 0)
- #define MBUS_DBOX_A_CREDIT(x)			REG_FIELD_PREP(MBUS_DBOX_A_CREDIT_MASK, x)
+@@ -5717,17 +5717,30 @@
+ #define  SKL_PLANE1_STRETCH_MAX_X1	REG_FIELD_PREP(SKL_PLANE1_STRETCH_MAX_MASK, 3)
+ #define CHICKEN_PIPESL_1(pipe) _MMIO_PIPE(pipe, _CHICKEN_PIPESL_1_A, _CHICKEN_PIPESL_1_B)
  
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index ebce6171ccef..b19a1ecb010e 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -8448,6 +8448,27 @@ void intel_dbuf_post_plane_update(struct intel_atomic_state *state)
- 				new_dbuf_state->enabled_slices);
- }
- 
-+static bool xelpdp_is_one_pipe_per_dbuf_bank(enum pipe pipe, u8 active_pipes)
-+{
-+	switch (pipe) {
-+	case PIPE_A:
-+	case PIPE_D:
-+		if (is_power_of_2(active_pipes & (BIT(PIPE_A) | BIT(PIPE_D))))
-+			return true;
-+		break;
-+	case PIPE_B:
-+	case PIPE_C:
-+		if (is_power_of_2(active_pipes & (BIT(PIPE_B) | BIT(PIPE_C))))
-+			return true;
-+		break;
-+	default: /* to suppress compiler warning */
-+		MISSING_CASE(pipe);
-+		break;
-+	}
++#define _MTL_CHICKEN_TRANS_A	0x604e0
++#define _MTL_CHICKEN_TRANS_B	0x614e0
++#define _MTL_CHICKEN_TRANS_C	0x624e0
++#define _MTL_CHICKEN_TRANS_D	0x634e0
 +
-+	return false;
-+}
+ #define _CHICKEN_TRANS_A	0x420c0
+ #define _CHICKEN_TRANS_B	0x420c4
+ #define _CHICKEN_TRANS_C	0x420c8
+ #define _CHICKEN_TRANS_EDP	0x420cc
+ #define _CHICKEN_TRANS_D	0x420d8
+-#define CHICKEN_TRANS(trans)	_MMIO(_PICK((trans), \
+-					    [TRANSCODER_EDP] = _CHICKEN_TRANS_EDP, \
+-					    [TRANSCODER_A] = _CHICKEN_TRANS_A, \
+-					    [TRANSCODER_B] = _CHICKEN_TRANS_B, \
+-					    [TRANSCODER_C] = _CHICKEN_TRANS_C, \
+-					    [TRANSCODER_D] = _CHICKEN_TRANS_D))
 +
- void intel_mbus_dbox_update(struct intel_atomic_state *state)
- {
- 	struct drm_i915_private *i915 = to_i915(state->base.dev);
-@@ -8467,20 +8488,28 @@ void intel_mbus_dbox_update(struct intel_atomic_state *state)
- 	     new_dbuf_state->active_pipes == old_dbuf_state->active_pipes))
- 		return;
- 
-+	if (DISPLAY_VER(i915) >= 14)
-+		val |= MBUS_DBOX_I_CREDIT(2);
++#define  CHICKEN_TRANS(trans)		    _MMIO(_PICK((trans), \
++						[TRANSCODER_EDP] = _CHICKEN_TRANS_EDP, \
++						[TRANSCODER_A] = _CHICKEN_TRANS_A, \
++						[TRANSCODER_B] = _CHICKEN_TRANS_B, \
++						[TRANSCODER_C] = _CHICKEN_TRANS_C, \
++						[TRANSCODER_D] = _CHICKEN_TRANS_D))
 +
- 	if (DISPLAY_VER(i915) >= 12) {
- 		val |= MBUS_DBOX_B2B_TRANSACTIONS_MAX(16);
- 		val |= MBUS_DBOX_B2B_TRANSACTIONS_DELAY(1);
- 		val |= MBUS_DBOX_REGULATE_B2B_TRANSACTIONS_EN;
- 	}
- 
--	/* Wa_22010947358:adl-p */
--	if (IS_ALDERLAKE_P(i915))
-+	if (DISPLAY_VER(i915) >= 14)
-+		val |= new_dbuf_state->joined_mbus ? MBUS_DBOX_A_CREDIT(12) :
-+						     MBUS_DBOX_A_CREDIT(8);
-+	else if (IS_ALDERLAKE_P(i915))
-+		/* Wa_22010947358:adl-p */
- 		val |= new_dbuf_state->joined_mbus ? MBUS_DBOX_A_CREDIT(6) :
- 						     MBUS_DBOX_A_CREDIT(4);
- 	else
- 		val |= MBUS_DBOX_A_CREDIT(2);
- 
--	if (IS_ALDERLAKE_P(i915)) {
-+	if (DISPLAY_VER(i915) >= 14) {
-+		val |= MBUS_DBOX_B_CREDIT(0xA);
-+	} else if (IS_ALDERLAKE_P(i915)) {
- 		val |= MBUS_DBOX_BW_CREDIT(2);
- 		val |= MBUS_DBOX_B_CREDIT(8);
- 	} else if (DISPLAY_VER(i915) >= 12) {
-@@ -8492,10 +8521,20 @@ void intel_mbus_dbox_update(struct intel_atomic_state *state)
- 	}
- 
- 	for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		u32 pipe_val = val;
++#define  MTL_CHICKEN_TRANS(trans)	    _MMIO(_PICK((trans), \
++						[TRANSCODER_A] = _MTL_CHICKEN_TRANS_A, \
++						[TRANSCODER_B] = _MTL_CHICKEN_TRANS_B, \
++						[TRANSCODER_C] = _MTL_CHICKEN_TRANS_C, \
++						[TRANSCODER_D] = _MTL_CHICKEN_TRANS_D))
 +
- 		if (!new_crtc_state->hw.active ||
- 		    !intel_crtc_needs_modeset(new_crtc_state))
- 			continue;
- 
--		intel_de_write(i915, PIPE_MBUS_DBOX_CTL(crtc->pipe), val);
-+		if (DISPLAY_VER(i915) >= 14) {
-+			if (xelpdp_is_one_pipe_per_dbuf_bank(crtc->pipe,
-+							     new_dbuf_state->active_pipes))
-+				pipe_val |= MBUS_DBOX_BW_8CREDITS_MTL;
-+			else
-+				pipe_val |= MBUS_DBOX_BW_4CREDITS_MTL;
-+		}
-+
-+		intel_de_write(i915, PIPE_MBUS_DBOX_CTL(crtc->pipe), pipe_val);
- 	}
- }
+ #define  HSW_FRAME_START_DELAY_MASK	REG_GENMASK(28, 27)
+ #define  HSW_FRAME_START_DELAY(x)	REG_FIELD_PREP(HSW_FRAME_START_DELAY_MASK, x)
+ #define  VSC_DATA_SEL_SOFTWARE_CONTROL	REG_BIT(25) /* GLK */
 -- 
 2.25.1
 
