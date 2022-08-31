@@ -1,37 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093D15A807A
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 16:43:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A27E75A8078
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 16:42:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E00610E408;
-	Wed, 31 Aug 2022 14:43:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93C6810E403;
+	Wed, 31 Aug 2022 14:42:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78B2A10E408
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 14:43:03 +0000 (UTC)
-Date: Wed, 31 Aug 2022 14:41:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1661956948; x=1662216148;
- bh=LxF+jMPq4Hua2UMddQTAibMZH9xlhgXyZujRdoCmFUM=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
- Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
- b=aqqgK7QrKjDsk/fqOIm7AjlUFx+ia8sweFwNlMhJp9Im7WLZ8O5zmMYOfz06dt3Vw
- yvmpCtiLSB84sUzisH0NL3Y1UZmJlfpzF8/Bzdu3dt6GoYxS0k36wuYB0BBRqCIgZM
- sOLyfxzFa7uKLXiFvdDkHfjFyzfGfGMNUu/GFGi45ySK1u3eiccbfm64m6AzT4Uto/
- DvclwRix7bpPhXa5DEYB5bvMItBt4dVM2vCJ9cvorNwiQz51GzR1kuBE/yMYpO9hrj
- Wg6hdF1inJIqs5j4hQVBX5rVhJfLOXnGOvufDb95EBItQjrdH8HrdfD35YOfjT1JzD
- jfjjQymh8wF3w==
-To: "xorg-announce@lists.x.org" <xorg-announce@lists.x.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: [ANNOUNCE] libdrm 2.4.113
-Message-ID: <-KFops-dFPakbmfKPwAPAPJAphOC6uUKnvFXu0efzV7ia-jb0zFD2YdpO1F7RMhV2xLFNSR0DZLWb0qUpaA4a0IrJM9y5oyDcs_ZiTRzjuA=@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D272E10E403
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 14:42:18 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 5864932007D7;
+ Wed, 31 Aug 2022 10:42:12 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 31 Aug 2022 10:42:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1661956930; x=1662043330; bh=wgddTPMrnv5MJa6nI4oUHuH16TmALCsoINA
+ DyvR3vOM=; b=bEEJXBO5F4bg/rhDlik9lU4mJq35Xq06kI/Ay8gtE9R5I/Pqg+Y
+ 01K9rxdCVMbJ1Q83HaUuHcQ8km4PO68AEJnAP5OIZr0QzaZ2Et7kEDsGs1gVG/JK
+ H1ZitwxG8j0JZ+r3LvVzNpzCDjEzgwJnjXWUGK6VaXlVT24Az2DmuOtKOG59YCU/
+ ljEHx3mA/DHSN9D0HQO49dvTY2CFzWxjXKbZuOy92IR6/pYmhgiYOeBeiiCfwUAh
+ ewWzCxntg3wMwckU926xU+2bHsyp4P9KIAavrqXe4QcxokmDEKJ+DnyyTkdjiU7G
+ ohy/2eAUN6/dezcEEJmdlCpipDSs3S0m5HQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661956930; x=
+ 1662043330; bh=wgddTPMrnv5MJa6nI4oUHuH16TmALCsoINADyvR3vOM=; b=4
+ B3s0nf2VTHp3uC2IkmvyWvrrLSUPEXw6ZoYAv7I2p7k9MXAojEm99iG+vS53tu3v
+ E9Mwf2lgxx2xjhKjQB0r99TakUTnsSKT34qyMAgU3UKktesWYDsxG1G1f471pWMw
+ 0RP78eOBxcNBW10o3XwE6swoaMYXAeHu/rlLtlchZ+iA07gTKs8rlVRYTOE6W9zh
+ iJOaDyvsmltm4P4oAkIeYKhxk9OmixXxU5F+zzHJacRu1rjRkQZu1ZW90zfXh910
+ ZWnlPyKVjHMxrJjJGOQnSaaPO6kV1PnmDQ100Ok1BfkH/04hq3oU2nMR2yJCVpCu
+ YMa4BCbzjnNN336kNtHqQ==
+X-ME-Sender: <xms:QHMPY71THxvMOkHW22SJHYLklFaGuY8rOwTCjg5NtRC__Nu7DmE2lg>
+ <xme:QHMPY6GRxBEdCRDL8wVgLzs0WNBorLV6fdIBVfgmtJ9DFv5__oSVPMKTOVOxwZ4iy
+ XpcS10M48bih-yjODk>
+X-ME-Received: <xmr:QHMPY77_VAF5dxzZggPSTv5PqjfCzixz-mXeYVEEK2E4lmJXcLAyopR0pDgH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekiedghedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkgggtugesthdtredttddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedtleevgfehjeejfeekgeelffeiveektdeguddujeetiedvhfdvuedtheehvdfg
+ jeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:QHMPYw0EAbsVd68V-TNC5e1awIQ8-sFhicdPPLe5u9NTHCSNQjO_XQ>
+ <xmx:QHMPY-ErUsfwMcW2KWJbcgREzGicy3jlvT00qjicyBaxD53DqK9Hbw>
+ <xmx:QHMPYx9xu8Mq8bV3PTBSqRynUkxGmPYpsuglKfr1Fyx4mHYZkdexSw>
+ <xmx:QnMPY2RP8hNoGD0N29CeC8WE9lsiopPMjrlQ2PqF0oLUGK56HVFRBA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 31 Aug 2022 10:42:07 -0400 (EDT)
+Date: Wed, 31 Aug 2022 16:42:05 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <maxime@cerno.tech>, Christoph Lameter <cl@linux.com>,
+ Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <roman.gushchin@linux.dev>
+Subject: RaspberryPi4 Panic in net_ns_init()
+Message-ID: <20220831144205.iirdun6bf3j5v6q4@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,78 +91,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, netdev@vger.kernel.org,
+ Martin Roukala <martin.roukala@mupuf.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Alex Deucher (1):
-      amdgpu: update marketing names for 22.20
+Hi,
 
-Eric Curtin (1):
-      tests/util: Add simpledrm driver
+Sorry for the fairly broad list of recipients, I'm not entirely sure
+where the issue lies exactly, and it seems like multiple areas are
+involved.
 
-Eric Engestrom (9):
-      ci: remove system meson before installing the pip one
-      ci: fix the tested meson version
-      ci/freedesktop: bump python version of docutils package as 3.8 no lon=
-ger exists
-      ci: bump images tags to take !255 into effect
-      meson: fix value of `auto` for a bunch of drivers
-      ci: drop dead script since e722ba9f67
-      meson: convert auto combos into proper features
-      meson: simplify some more build options by using features
-      atomic: fix atomic_add_unless() fallback's return value
+Martin reported me an issue discovered with the VC4 DRM driver that
+would prevent the RaspberryPi4 from booting entirely. At boot, and
+apparently before the console initialization, the board would just die.
 
-Flora Cui (2):
-      tests/amdgpu: refactor dispatch/draw test
-      tests/amdgpu: add dispatch/draw test for gfx11
+It first appeared when both DYNAMIC_DEBUG and DRM_VC4 were built-in. We
+started to look into what configuration would trigger it.
 
-Hawking Zhang (1):
-      tests/amdgpu: skip gfx CE subtest in gfx11
+It looks like a good reproducer is:
 
-James Zhu (1):
-      tests/amdgpu: enable vcn swRing test for version 4 and later
+ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make -j18 defconfig mod2yesconfig
+./scripts/config -e CONFIG_DYNAMIC_DEBUG
+ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make -j18 olddefconfig
 
-Likun Gao (2):
-      tests/amdgpu: add sdma corrupted header hang test
-      tests/amdgpu: add sdma slow copy linear hang test
+If we enable earlycon, we end up with:
 
-Matt Roper (2):
-      lib: sync i915_pciids.h with kernel
-      intel: Hook up new platforms IDs
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd083]
+[    0.000000] Linux version 6.0.0-rc3 (max@houat) (aarch64-linux-gnu-gcc (GCC) 12.1.1 20220507 (Red Hat Cross 12.1.1-1), GNU ld version 2.37-7.fc36) #52 SMP PREEMPT Wed Aug 31 14:28:41 CEST 2022
+[    0.000000] random: crng init done
+[    0.000000] Machine model: Raspberry Pi 4 Model B Rev 1.1
+[    0.000000] earlycon: uart8250 at MMIO32 0x00000000fe215040 (options '')
+[    0.000000] printk: bootconsole [uart8250] enabled
+[    0.000000] efi: UEFI not found.
+[    0.000000] Reserved memory: bypass linux,cma node, using cmdline CMA params instead
+[    0.000000] OF: reserved mem: node linux,cma compatible matching fail
+[    0.000000] NUMA: No NUMA configuration found
+[    0.000000] NUMA: Faking a node at [mem 0x0000000000000000-0x00000000fbffffff]
+[    0.000000] NUMA: NODE_DATA [mem 0xfb815b40-0xfb817fff]
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000000000000-0x000000003fffffff]
+[    0.000000]   DMA32    [mem 0x0000000040000000-0x00000000fbffffff]
+[    0.000000]   Normal   empty
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000000000000-0x000000003b3fffff]
+[    0.000000]   node   0: [mem 0x0000000040000000-0x00000000fbffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x00000000fbffffff]
+[    0.000000] On node 0, zone DMA32: 19456 pages in unavailable ranges
+[    0.000000] On node 0, zone DMA32: 16384 pages in unavailable ranges
+[    0.000000] cma: Reserved 512 MiB at 0x000000000ee00000
+[    0.000000] percpu: Embedded 21 pages/cpu s48040 r8192 d29784 u86016
+[    0.000000] Detected PIPT I-cache on CPU0
+[    0.000000] CPU features: detected: Spectre-v2
+[    0.000000] CPU features: detected: Spectre-v3a
+[    0.000000] CPU features: detected: Spectre-v4
+[    0.000000] CPU features: detected: Spectre-BHB
+[    0.000000] CPU features: detected: Kernel page table isolation (KPTI)
+[    0.000000] CPU features: detected: ARM erratum 1742098
+[    0.000000] CPU features: detected: ARM errata 1165522, 1319367, or 1530923
+[    0.000000] Fallback order for Node 0: 0
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 996912
+[    0.000000] Policy zone: DMA32
+[    0.000000] Kernel command line: video=Composite-1:720x480@60i,margin_left=32,margin_right=32,margin_top=32,margin_bottom=32 dma.dmachans=0x37f5 bcm2709.boardrev=0xc03111 bcm2709.serial=0xb7f44626 bcm2709.uart_clock=48000000 bcm2709.disk_led_gpio=42 bcm2709.disk_led_active_low=0 smsc95xx.macaddr=DC:A6:32:0E:F7:01 vc_mem.mem_base=0x3ec00000 vc_mem.mem_size=0x40000000  root=/dev/nfs nfsroot=192.168.20.10:/srv/nfs/rpi/bullseye64 rw 8250.nr_uarts=1 cma=512M ip=dhcp console=ttyS0,115200 earlycon=uart8250,mmio32,0xfe215040
+[    0.000000] Dentry cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+[    0.000000] mem auto-init: stack:all(zero), heap alloc:off, heap free:off
+[    0.000000] software IO TLB: area num 4.
+[    0.000000] software IO TLB: mapped [mem 0x0000000037400000-0x000000003b400000] (64MB)
+[    0.000000] Memory: 3312220K/4050944K available (30656K kernel code, 5924K rwdata, 18912K rodata, 11584K init, 672K bss, 214436K reserved, 524288K cma-reserved)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000] rcu: Preemptible hierarchical RCU implementation.
+[    0.000000] rcu: 	RCU event tracing is enabled.
+[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=256 to nr_cpu_ids=4.
+[    0.000000] 	Trampoline variant of Tasks RCU enabled.
+[    0.000000] 	Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+[    0.000000] Root IRQ handler: gic_handle_irq
+[    0.000000] GIC: Using split EOI/Deactivate mode
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] arch_timer: cp15 timer(s) running at 54.00MHz (phys).
+[    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0xc743ce346, max_idle_ns: 440795203123 ns
+[    0.000001] sched_clock: 56 bits at 54MHz, resolution 18ns, wraps every 4398046511102ns
+[    0.008648] Console: colour dummy device 80x25
+[    0.013237] Calibrating delay loop (skipped), value calculated using timer frequency.. 108.00 BogoMIPS (lpj=216000)
+[    0.023803] pid_max: default: 32768 minimum: 301
+[    0.028540] LSM: Security Framework initializing
+[    0.033252] Kernel panic - not syncing: Could not allocate generic netns
+[    0.040026] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.0.0-rc3 #52
+[    0.046363] Hardware name: Raspberry Pi 4 Model B Rev 1.1 (DT)
+[    0.052255] Call trace:
+[    0.054721]  dump_backtrace+0xe4/0x124
+[    0.058525]  show_stack+0x1c/0x5c
+[    0.061878]  dump_stack_lvl+0x64/0x80
+[    0.065582]  dump_stack+0x1c/0x38
+[    0.068932]  panic+0x170/0x328
+[    0.072020]  net_ns_init+0x88/0x134
+[    0.075548]  start_kernel+0x628/0x69c
+[    0.079251]  __primary_switched+0xbc/0xc4
+[    0.083311] ---[ end Kernel panic - not syncing: Could not allocate generic netns ]---
 
-Matt Turner (1):
-      intel: Avoid aliasing violation
+So it seems that net_alloc_generic() fails, and the only reason I could
+see is if kzalloc() fails, so now I'm super confused.
 
-Matthieu Herrb (1):
-      Remove unused 3rd parameter to open(2)
+It looks like the board has plenty (~3GB) of RAM available at boot, and
+most importantly I don't see the relationship between a DRM driver,
+DYNAMIC_DEBUG, and SLAB or the network namespace.
 
-Ruijing Dong (2):
-      tests/amdgpu/vcn: align comments for AMDGPU_HW_IP_VCN_ENC
-      tests/amdgpu/vcn: add unified queue support in vcn4
+After a bit more experiments,
 
-Simon Ser (3):
-      xf86drm: add drmGetFormatName()
-      tests/modetest: use drmGetFormatName()
-      build: bump to version 2.4.113
+ * ./scripts/config -e CONFIG_DYNAMIC_DEBUG -d CONFIG_DRM_VC4 still has
+   that panic, so it looks like VC4 itself isn't involved.
 
-Simon Zeni (1):
-      build: make tests optional
+ * ./scripts/config -e CONFIG_DYNAMIC_DEBUG -d CONFIG_DRM works, so DRM
+   seems to be involved somehow. It has a number of memory management
+   dependencies, so it's probably a side effect of DRM being there.
 
-Stephan Lachnit (1):
-      build: set c_std to c11
+ * make defconfig mod2yesconfig (so without DYNAMIC_DEBUG, with DRM)
+   works too.
 
-Sui Jingfeng (1):
-      meson: auto-enable etnaviv on arm, arc, mips and loongarch architectu=
-res
+So it looks to me like there's indeed some interaction between DRM,
+DYNAMIC_DEBUG, SLAB and/or the network namespace, but I'm not entirely
+sure where to go from there. Any ideas?
 
-git tag: libdrm-2.4.113
-
-https://dri.freedesktop.org/libdrm/libdrm-2.4.113.tar.xz
-SHA256: 7fd7eb2967f63beb4606f22d50e277d993480d05ef75dd88a9bd8e677323e5e1  l=
-ibdrm-2.4.113.tar.xz
-SHA512: fca9834ce090f63ce6dc6d04491a2c5e86162fdddfc8ea70d55a6cdeb401be65638=
-8aae1577e58f463a78d8dc502be0a641908784819874e20bbec9a39a057e0  libdrm-2.4.1=
-13.tar.xz
-PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.113.tar.xz.sig
+Maxime
