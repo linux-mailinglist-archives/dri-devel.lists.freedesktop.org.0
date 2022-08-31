@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024F35A77F8
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 09:47:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 030EF5A781E
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 09:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23A0E10E21F;
-	Wed, 31 Aug 2022 07:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEABA10E220;
+	Wed, 31 Aug 2022 07:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B73E10E220
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 07:47:43 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3C8206601688;
- Wed, 31 Aug 2022 08:47:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1661932061;
- bh=W0y4oUWuQ2sZvJSfYO8MdMV3XL/CKswNqbqU/lyBoyw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Ln16OWmxMVHFq6RDvuyB5G4weOtKDPCtEvlw/LKzyRI6QvqpqazUNDh6p7Y8kzufF
- gRJwaOpeFU/rIfp6mbRB/lBHK2aUjmb8QIB1hTdoME0XKp3BlF7ga6nC4112pkglzZ
- jmCuklfEHfDvmXPeTiGBJOkG7rRf9DtvFS5RhwJb8kpUoUjyZZ3ufojMvr1lzMCdJq
- 4q0SUs+ox5wdPLjqxMy6+gnh1ELoTZkB+V1TBlYa1H9Tlemp1Rj1uhVwQIiWjTjPnq
- Za9XmZaGxAERAKVxeD9rEo07KZxRpodMEZnlDWL0SD04POTQ+XCBi/AjhOj3pJ3skX
- DnoBqoYG+wbHQ==
-Message-ID: <2620c49f-1e55-efb0-bd21-ab8567030485@collabora.com>
-Date: Wed, 31 Aug 2022 09:47:38 +0200
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6978F10E218;
+ Wed, 31 Aug 2022 07:50:20 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id m7so9866752lfq.8;
+ Wed, 31 Aug 2022 00:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date;
+ bh=PVVv6Ijo5X7bHT+aWBd16hu08aIIwrSDZ/C445vNba4=;
+ b=mSxDh5xfDTzioextED+TUTA0XtgSs6vQMCv9tSYx1udfw9Iig4KBCnezF0Z8hhnN99
+ gUzie+jgPx9keTFlMk6X6nR0FZKWFmVHO7lgteFok+l+1+AnqzJrSMNCa+W37O1T2V+M
+ xXxzfZoZiNg8a5tcmRk/GLYw+QMijhgOfvlQqicOKhk7YH7GXrMwEoPxNHdVpyD434Gr
+ IsSPRtmdxvlwpIdZRsIYCLbCFJiz0MesTFE4Hv5YJqlk5a8NDtA4YMA15uemrH7e3RiW
+ KKi+Ag/6aI26AXm9c7noQ+L7vJi9VLENIYsj7XavX/IzDv3820bI6CwJdRCpsDXa5hMr
+ OlqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date;
+ bh=PVVv6Ijo5X7bHT+aWBd16hu08aIIwrSDZ/C445vNba4=;
+ b=fln/X3ab821nmqlfjukBqluNHAWSJHaQzkvuUExeL3H8psynUBpYYmF4pTFeLkYVP8
+ q0NaPpcSdkRuxdCWgEWPISAdyeIRHhgHj4izS6OXilB3WgLxaWb44Xj41UvzaSUEpw3U
+ bl+zaz9jYnrtefKtfjjUnTEgtT6lcWyfsajkRfTLc6G0bF0kBaDUw37m+YwB2gze1UQf
+ xjtiN6b4M9faRWOdUOEPzCm7grGBwih6gicJA/9ZCeU40h+G34vdR1QTpDjSbkijxuyU
+ J1WcMAGAY3H55v8inOH6r4ZWQgio7/r/jw7mKbez2pbFafqacNm2gasVeLouQAR4nzXd
+ KWUA==
+X-Gm-Message-State: ACgBeo3IldWNX1/vqDwHS4ShIxUjFc2x54rQELedUhfy0X0HtXHz1//J
+ FP06deWSyoaYHIgxWiCL07A=
+X-Google-Smtp-Source: AA6agR5YLRBsfLgLV+h9snWty+bxn8l2wcLQBZhB4dTn9oUl6Bodlrml3u91/PXZzNLpS1Dk+JlTmg==
+X-Received: by 2002:a05:6512:e98:b0:492:cf3c:8860 with SMTP id
+ bi24-20020a0565120e9800b00492cf3c8860mr8644867lfb.603.1661932218578; 
+ Wed, 31 Aug 2022 00:50:18 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ s22-20020a056512203600b0049472aa5186sm779738lfs.295.2022.08.31.00.50.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Aug 2022 00:50:18 -0700 (PDT)
+Date: Wed, 31 Aug 2022 10:50:07 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2 4/6] drm: allow DRM_MODE_PAGE_FLIP_ASYNC for atomic
+ commits
+Message-ID: <20220831105007.69e4c3e0@eldfell>
+In-Reply-To: <20220830172851.269402-5-contact@emersion.fr>
+References: <20220830172851.269402-1-contact@emersion.fr>
+ <20220830172851.269402-5-contact@emersion.fr>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v2 3/3] arm64: dts: Modify gamma compatible for mt8195
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- "zheng-yan.chen" <zheng-yan.chen@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20220830063929.13390-1-zheng-yan.chen@mediatek.com>
- <20220830063929.13390-4-zheng-yan.chen@mediatek.com>
- <a209aea3-bf23-4670-91d0-e7f41ac57833@collabora.com>
- <bf2b277e-8b02-6a44-e463-6b7c4a697ce7@linaro.org>
- <b61776761eb0ab9a0b1dcf29d908e4bfd789d2ac.camel@mediatek.com>
- <22eb5611-84e2-23e9-f70b-48bef351133f@linaro.org>
-Content-Language: en-US
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <22eb5611-84e2-23e9-f70b-48bef351133f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/ir6mu=Qydqg1FRLlg0vEf8d";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,44 +71,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: andrealmeid@igalia.com, daniel.vetter@ffwll.ch,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ mwen@igalia.com, dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ joshua@froggi.es, hwentlan@amd.com, nicholas.kazlauskas@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 31/08/22 08:04, Krzysztof Kozlowski ha scritto:
-> On 31/08/2022 05:29, zheng-yan.chen wrote:
->> On Tue, 2022-08-30 at 12:14 +0300, Krzysztof Kozlowski wrote:
->>> On 30/08/2022 10:49, AngeloGioacchino Del Regno wrote:
->>>> Il 30/08/22 08:39, zheng-yan.chen ha scritto:
->>>>> Modify gamma compatible for mt8195.
->>>>>
->>>>> Fixes: 16590e634f1d ("arm64: dts: mt8195: Add display node for
->>>>> vdosys0")
->>>>> Signed-off-by: zheng-yan.chen <zheng-yan.chen@mediatek.com>
->>>>
->>>> Reviewed-by: AngeloGioacchino Del Regno <
->>>> angelogioacchino.delregno@collabora.com>
->>>
->>> Please also perform review on the commit msg and backport status.
->>>
+--Sig_/ir6mu=Qydqg1FRLlg0vEf8d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Ack.
+On Tue, 30 Aug 2022 17:29:35 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-Cheers,
-Angelo
+> If the driver supports it, allow user-space to supply the
+> DRM_MODE_PAGE_FLIP_ASYNC flag to request an async page-flip.
+> Set drm_crtc_state.async_flip accordingly.
+>=20
+> Document that drivers will reject atomic commits if an async
+> flip isn't possible. This allows user-space to fall back to
+> something else. For instance, Xorg falls back to a blit.
+> Another option is to wait as close to the next vblank as
+> possible before performing the page-flip to reduce latency.
+>=20
+> v2: document new uAPI
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Co-developed-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: Melissa Wen <mwen@igalia.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Harry Wentland <hwentlan@amd.com>
+> Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_uapi.c | 28 +++++++++++++++++++++++++---
+>  include/uapi/drm/drm_mode.h       |  4 ++++
+>  2 files changed, 29 insertions(+), 3 deletions(-)
 
->>> Best regards,
->>> Krzysztof
->> Hello Krzysztof,
->> Thanks for the review,
->> I will fix it at the next version.
-> 
-> This was to AngeloGioacchino...
-> 
-> Best regards,
-> Krzysztof
+...
 
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 86a292c3185a..cce1a1bea645 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -942,6 +942,10 @@ struct hdr_output_metadata {
+>   * Request that the page-flip is performed as soon as possible, ie. with=
+ no
+>   * delay due to waiting for vblank. This may cause tearing to be visible=
+ on
+>   * the screen.
+> + *
+> + * When used with atomic uAPI, the driver will return an error if the ha=
+rdware
+> + * doesn't support performing an asynchronous page-flip for this update.
+> + * User-space should handle this, e.g. by falling back to a regular page=
+-flip.
+>   */
+>  #define DRM_MODE_PAGE_FLIP_ASYNC 0x02
+>  #define DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE 0x4
+
+Hi Simon,
+
+recalling what Ville explained that enabling async flips might require
+one more sync flip first, how is that supposed to work?
+
+A TEST_ONLY commit is not allowed to change hardware state, and a
+failing real commit is not allowed to change hardware state either
+(right?), therefore a failing async flip cannot prepare the next flip
+to be async, meaning async will never work.
+
+
+Thanks,
+pq
+
+--Sig_/ir6mu=Qydqg1FRLlg0vEf8d
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmMPEq8ACgkQI1/ltBGq
+qqcb/hAAjnciNpwLhqax42+2jsviI5tEK8B9cW7QW51eTO+c3hStURgE50+WNhNy
+CxJ4t6niSfNfw/MYMJkjfAE4vncgSTerxb/TA3ConOla5g4AT7kfYCxE6T1MM8Hq
+PFnMZLsLqzUokxnvjQDI5wMPVx78yk0oZfx9oXLEHBmUKP5q2uyJb3unAO49ZMV4
+yUWEQx7UfkB5Iyohxal5s7kzKMLFw6yL2jvIuh5mm3HzHBJDCU6Ccom1e4w9PyeP
+5RlXOC1C2pQH6eo7mapDe04d0wXrG2vVr0K+MLCJOcvYnfIw6cbxodttBCNXKUuV
+SRg2we+hDOEH0EUzR0PuGMHcRNdpH6kawFtR4bv4JiwnnzWOqRbnmQSSuZkzHglz
+QBhNx1g/zy3U8LmMV96yYX0q8Myk149VgqR+R5GazLStvoR31lSaE5jDAFVYe3JT
+U+fKq/9a0FrMSsqCli03UvI8DgWaps/Axjs9KvYoqz1IJINf33TIii2S0VcMB+Fa
+ABSGKQTOvtfyurGuOoYWGSYIO8ynVZwTLOTLLpHhsFjTGhLb6s9/2iOz1QK3jR6l
+l3cLeNcv4mGNKabZ13DBYfqAuizfCTcYRqsaGG9BZG6Fsr2v/stQxFgvuOCY9rjr
+DhAs3ILeslU27UFGkgZM4OtXszqH388kNVIyf+vULwx9fQAKj0w=
+=pHkz
+-----END PGP SIGNATURE-----
+
+--Sig_/ir6mu=Qydqg1FRLlg0vEf8d--
