@@ -1,84 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27E75A8078
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 16:42:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBD85A80A9
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 16:53:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C6810E403;
-	Wed, 31 Aug 2022 14:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2C410E41A;
+	Wed, 31 Aug 2022 14:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D272E10E403
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 14:42:18 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 5864932007D7;
- Wed, 31 Aug 2022 10:42:12 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 31 Aug 2022 10:42:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1661956930; x=1662043330; bh=wgddTPMrnv5MJa6nI4oUHuH16TmALCsoINA
- DyvR3vOM=; b=bEEJXBO5F4bg/rhDlik9lU4mJq35Xq06kI/Ay8gtE9R5I/Pqg+Y
- 01K9rxdCVMbJ1Q83HaUuHcQ8km4PO68AEJnAP5OIZr0QzaZ2Et7kEDsGs1gVG/JK
- H1ZitwxG8j0JZ+r3LvVzNpzCDjEzgwJnjXWUGK6VaXlVT24Az2DmuOtKOG59YCU/
- ljEHx3mA/DHSN9D0HQO49dvTY2CFzWxjXKbZuOy92IR6/pYmhgiYOeBeiiCfwUAh
- ewWzCxntg3wMwckU926xU+2bHsyp4P9KIAavrqXe4QcxokmDEKJ+DnyyTkdjiU7G
- ohy/2eAUN6/dezcEEJmdlCpipDSs3S0m5HQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661956930; x=
- 1662043330; bh=wgddTPMrnv5MJa6nI4oUHuH16TmALCsoINADyvR3vOM=; b=4
- B3s0nf2VTHp3uC2IkmvyWvrrLSUPEXw6ZoYAv7I2p7k9MXAojEm99iG+vS53tu3v
- E9Mwf2lgxx2xjhKjQB0r99TakUTnsSKT34qyMAgU3UKktesWYDsxG1G1f471pWMw
- 0RP78eOBxcNBW10o3XwE6swoaMYXAeHu/rlLtlchZ+iA07gTKs8rlVRYTOE6W9zh
- iJOaDyvsmltm4P4oAkIeYKhxk9OmixXxU5F+zzHJacRu1rjRkQZu1ZW90zfXh910
- ZWnlPyKVjHMxrJjJGOQnSaaPO6kV1PnmDQ100Ok1BfkH/04hq3oU2nMR2yJCVpCu
- YMa4BCbzjnNN336kNtHqQ==
-X-ME-Sender: <xms:QHMPY71THxvMOkHW22SJHYLklFaGuY8rOwTCjg5NtRC__Nu7DmE2lg>
- <xme:QHMPY6GRxBEdCRDL8wVgLzs0WNBorLV6fdIBVfgmtJ9DFv5__oSVPMKTOVOxwZ4iy
- XpcS10M48bih-yjODk>
-X-ME-Received: <xmr:QHMPY77_VAF5dxzZggPSTv5PqjfCzixz-mXeYVEEK2E4lmJXcLAyopR0pDgH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekiedghedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkgggtugesthdtredttddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedtleevgfehjeejfeekgeelffeiveektdeguddujeetiedvhfdvuedtheehvdfg
- jeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:QHMPYw0EAbsVd68V-TNC5e1awIQ8-sFhicdPPLe5u9NTHCSNQjO_XQ>
- <xmx:QHMPY-ErUsfwMcW2KWJbcgREzGicy3jlvT00qjicyBaxD53DqK9Hbw>
- <xmx:QHMPYx9xu8Mq8bV3PTBSqRynUkxGmPYpsuglKfr1Fyx4mHYZkdexSw>
- <xmx:QnMPY2RP8hNoGD0N29CeC8WE9lsiopPMjrlQ2PqF0oLUGK56HVFRBA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 31 Aug 2022 10:42:07 -0400 (EDT)
-Date: Wed, 31 Aug 2022 16:42:05 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <maxime@cerno.tech>, Christoph Lameter <cl@linux.com>,
- Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <roman.gushchin@linux.dev>
-Subject: RaspberryPi4 Panic in net_ns_init()
-Message-ID: <20220831144205.iirdun6bf3j5v6q4@houat>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B390910E413;
+ Wed, 31 Aug 2022 14:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661957628; x=1693493628;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=pj1wf4Ov4TT1gaC9pARNTcENbaaXMLa2tOEXAz25CyM=;
+ b=G7/zPAKozSRZMDTBdBN8iloYa4Uuox2xdJwVkdwx3jY+6DhXXcCKet0E
+ jndeZgor0lTtXdDNGgEScukZCoWRo0WA4Dhhu2DflwhkIvrkeTIMg8Fs6
+ TRTQVaXF3t4e0Fbn6FwvXc0Ug16LS+cP4j1yCdWuhw8GjvRB/hc8UC1sa
+ +RjrYZSSrU4Ea6J4FLKsChXI6mDz2SSZByNYTV7gMwo9hhsCzr1KYDpih
+ +wSh+Pysr/VGKVpbwsv9aLu6nE2O125dljd3lvwGGSbOrIYwf4XCupKof
+ C0R4VFMfEmXNm9dB+1jRDKYuZPXJPT1ukAhtUwO8q6c0CvVBiX7UdoCxC g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="321603046"
+X-IronPort-AV: E=Sophos;i="5.93,278,1654585200"; d="scan'208";a="321603046"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2022 07:53:35 -0700
+X-IronPort-AV: E=Sophos;i="5.93,278,1654585200"; d="scan'208";a="641897575"
+Received: from salwamoh-mobl.gar.corp.intel.com (HELO [10.214.169.63])
+ ([10.214.169.63])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2022 07:53:32 -0700
+Message-ID: <d96ee168-f298-63fe-058c-cd421e2c49a0@intel.com>
+Date: Wed, 31 Aug 2022 15:53:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.2.0
+Subject: Re: [PATCH 1/3] drm/i915: audit bo->resource usage
+Content-Language: en-GB
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+References: <20220824142353.10293-1-luben.tuikov@amd.com>
+ <1de21f6e-4b11-ee9b-1b54-fd67728766ad@amd.com>
+ <cc4c59ad-5d69-b174-5464-bd9896459169@intel.com>
+ <ce090a95-a822-5079-7b86-0c949e98cd64@amd.com>
+ <3f3715fb-1f2b-83a5-bff7-6e06164e5546@intel.com>
+ <9c7cc7ea-dd30-6df5-3f06-97a6c6d254e0@amd.com>
+ <55d88b45-6986-de38-d574-d0ce7d06c62e@intel.com>
+ <1392ea7c-88a3-9a56-1ccb-e2f16cd55f72@amd.com>
+ <303ae81e-d9af-6912-8cdb-c881015da634@intel.com>
+ <7047e694-997c-2082-48cb-f9f628c40183@amd.com>
+ <50b37045-87de-04d0-7464-afcb5f9a2a0d@intel.com>
+ <06f90d85-2f31-e815-fd5a-f19af141df63@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <06f90d85-2f31-e815-fd5a-f19af141df63@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,132 +73,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, netdev@vger.kernel.org,
- Martin Roukala <martin.roukala@mupuf.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: Luben Tuikov <luben.tuikov@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 31/08/2022 14:34, Christian König wrote:
+> Am 31.08.22 um 14:50 schrieb Matthew Auld:
+>> On 31/08/2022 13:35, Christian König wrote:
+>>> Am 31.08.22 um 14:06 schrieb Matthew Auld:
+>>>> On 31/08/2022 12:03, Christian König wrote:
+>>>>> Am 31.08.22 um 12:37 schrieb Matthew Auld:
+>>>>>> [SNIP]
+>>>>>>>>
+>>>>>>>> That hopefully just leaves i915_ttm_shrink(), which is swapping 
+>>>>>>>> out shmem ttm_tt and is calling ttm_bo_validate() with empty 
+>>>>>>>> placements to force the pipeline-gutting path, which importantly 
+>>>>>>>> unpopulates the ttm_tt for us (since ttm_tt_unpopulate is not 
+>>>>>>>> exported it seems). But AFAICT it looks like that will now also 
+>>>>>>>> nuke the bo->resource, instead of just leaving it in system 
+>>>>>>>> memory. My assumption is that when later calling 
+>>>>>>>> ttm_bo_validate(), it will just do the bo_move_null() in 
+>>>>>>>> i915_ttm_move(), instead of re-populating the ttm_tt and then 
+>>>>>>>> potentially copying it back to local-memory?
+>>>>>>>
+>>>>>>> Well you do ttm_bo_validate() with something like GTT domain, 
+>>>>>>> don't you? This should result in re-populating the tt object, but 
+>>>>>>> I'm not 100% sure if that really works as expected.
+>>>>>>
+>>>>>> AFAIK for domains we either have system memory (which uses ttm_tt 
+>>>>>> and might be shmem underneath) or local-memory. But perhaps i915 
+>>>>>> is doing something wrong here, or abusing TTM in some way. I'm not 
+>>>>>> sure tbh.
+>>>>>>
+>>>>>> Anyway, I think we have two cases here:
+>>>>>>
+>>>>>> - We have some system memory only object. After doing 
+>>>>>> i915_ttm_shrink(), bo->resource is now NULL. We then call 
+>>>>>> ttm_bo_validate() at some later point, but here we don't need to 
+>>>>>> copy anything, but it also looks like ttm_bo_handle_move_mem() 
+>>>>>> won't populate the ttm_tt or us either, since mem_type == 
+>>>>>> TTM_PL_SYSTEM. It looks like i915_ttm_move() was taking care of 
+>>>>>> this, but now we just call ttm_bo_move_null().
+>>>>>>
+>>>>>> - We have a local-memory only object, which was evicted to shmem, 
+>>>>>> and then swapped out by the shrinker like above. The bo->resource 
+>>>>>> is NULL. However this time when calling ttm_bo_validate() we need 
+>>>>>> to actually do a copy in i915_ttm_move(), as well as re-populate 
+>>>>>> the ttm_tt. i915_ttm_move() was taking care of this, but now we 
+>>>>>> just call ttm_bo_move_null().
+>>>>>>
+>>>>>> Perhaps i915 is doing something wrong in the above two cases?
+>>>>>
+>>>>> Mhm, as far as I can see that should still work.
+>>>>>
+>>>>> See previously you should got a transition from SYSTEM->GTT in 
+>>>>> i915_ttm_move() to re-create your backing store. Not you get 
+>>>>> NULL->SYSTEM which is handled by ttm_bo_move_null() and then 
+>>>>> SYSTEM->GTT.
+>>>>
+>>>> What is GTT here in TTM world? Also I'm not seeing where there is 
+>>>> this SYSTEM->GTT transition? Maybe I'm blind. Just to be clear, i915 
+>>>> is only calling ttm_bo_validate() once when acquiring the pages, and 
+>>>> we don't call it again, unless it was evicted (and potentially 
+>>>> swapped out).
+>>>
+>>> Well GTT means TTM_PL_TT.
+>>>
+>>> And calling it only once is perfectly fine, TTM will internally see 
+>>> that we need two hops to reach TTM_PL_TT and so does the NULL->SYSTEM 
+>>> transition and then SYSTEM->TT.
+>>
+>> Ah interesting, so that's what the multi-hop thing does. But AFAICT 
+>> i915 is not using either TTM_PL_TT or -EMULTIHOP.
+> 
+> Mhm, it could be that we then have a problem and the i915 driver only 
+> sees NULL->TT directly. But I really don't know the i915 driver code 
+> good enough to judge that.
+> 
+> Can you take a look at this and test it maybe?
 
-Sorry for the fairly broad list of recipients, I'm not entirely sure
-where the issue lies exactly, and it seems like multiple areas are
-involved.
+I'll grab a machine and try to see what is going on here.
 
-Martin reported me an issue discovered with the VC4 DRM driver that
-would prevent the RaspberryPi4 from booting entirely. At boot, and
-apparently before the console initialization, the board would just die.
+> 
+>>
+>> Also what is the difference between TTM_PL_TT and TM_PL_SYSTEM? When 
+>> should you use one over the other?
+> 
+> TTM_PL_SYSTEM means the device is not accessing the buffer and TTM has 
+> the control over the backing store and can swapout/swapin as it wants it.
+> 
+> TTM_PL_TT means that the device is accessing the data (TT stands for 
+> translation table) and so TTM can't swap the backing store in/out.
+> 
+> TTM_PL_VRAM well that one is obvious.
 
-It first appeared when both DYNAMIC_DEBUG and DRM_VC4 were built-in. We
-started to look into what configuration would trigger it.
+Thanks for the explanation. So it looks like i915 is using TTM_PL_SYSTEM 
+even for device access it seems.
 
-It looks like a good reproducer is:
-
-ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make -j18 defconfig mod2yesconfig
-./scripts/config -e CONFIG_DYNAMIC_DEBUG
-ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make -j18 olddefconfig
-
-If we enable earlycon, we end up with:
-
-[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd083]
-[    0.000000] Linux version 6.0.0-rc3 (max@houat) (aarch64-linux-gnu-gcc (GCC) 12.1.1 20220507 (Red Hat Cross 12.1.1-1), GNU ld version 2.37-7.fc36) #52 SMP PREEMPT Wed Aug 31 14:28:41 CEST 2022
-[    0.000000] random: crng init done
-[    0.000000] Machine model: Raspberry Pi 4 Model B Rev 1.1
-[    0.000000] earlycon: uart8250 at MMIO32 0x00000000fe215040 (options '')
-[    0.000000] printk: bootconsole [uart8250] enabled
-[    0.000000] efi: UEFI not found.
-[    0.000000] Reserved memory: bypass linux,cma node, using cmdline CMA params instead
-[    0.000000] OF: reserved mem: node linux,cma compatible matching fail
-[    0.000000] NUMA: No NUMA configuration found
-[    0.000000] NUMA: Faking a node at [mem 0x0000000000000000-0x00000000fbffffff]
-[    0.000000] NUMA: NODE_DATA [mem 0xfb815b40-0xfb817fff]
-[    0.000000] Zone ranges:
-[    0.000000]   DMA      [mem 0x0000000000000000-0x000000003fffffff]
-[    0.000000]   DMA32    [mem 0x0000000040000000-0x00000000fbffffff]
-[    0.000000]   Normal   empty
-[    0.000000] Movable zone start for each node
-[    0.000000] Early memory node ranges
-[    0.000000]   node   0: [mem 0x0000000000000000-0x000000003b3fffff]
-[    0.000000]   node   0: [mem 0x0000000040000000-0x00000000fbffffff]
-[    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x00000000fbffffff]
-[    0.000000] On node 0, zone DMA32: 19456 pages in unavailable ranges
-[    0.000000] On node 0, zone DMA32: 16384 pages in unavailable ranges
-[    0.000000] cma: Reserved 512 MiB at 0x000000000ee00000
-[    0.000000] percpu: Embedded 21 pages/cpu s48040 r8192 d29784 u86016
-[    0.000000] Detected PIPT I-cache on CPU0
-[    0.000000] CPU features: detected: Spectre-v2
-[    0.000000] CPU features: detected: Spectre-v3a
-[    0.000000] CPU features: detected: Spectre-v4
-[    0.000000] CPU features: detected: Spectre-BHB
-[    0.000000] CPU features: detected: Kernel page table isolation (KPTI)
-[    0.000000] CPU features: detected: ARM erratum 1742098
-[    0.000000] CPU features: detected: ARM errata 1165522, 1319367, or 1530923
-[    0.000000] Fallback order for Node 0: 0
-[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 996912
-[    0.000000] Policy zone: DMA32
-[    0.000000] Kernel command line: video=Composite-1:720x480@60i,margin_left=32,margin_right=32,margin_top=32,margin_bottom=32 dma.dmachans=0x37f5 bcm2709.boardrev=0xc03111 bcm2709.serial=0xb7f44626 bcm2709.uart_clock=48000000 bcm2709.disk_led_gpio=42 bcm2709.disk_led_active_low=0 smsc95xx.macaddr=DC:A6:32:0E:F7:01 vc_mem.mem_base=0x3ec00000 vc_mem.mem_size=0x40000000  root=/dev/nfs nfsroot=192.168.20.10:/srv/nfs/rpi/bullseye64 rw 8250.nr_uarts=1 cma=512M ip=dhcp console=ttyS0,115200 earlycon=uart8250,mmio32,0xfe215040
-[    0.000000] Dentry cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
-[    0.000000] Inode-cache hash table entries: 262144 (order: 9, 2097152 bytes, linear)
-[    0.000000] mem auto-init: stack:all(zero), heap alloc:off, heap free:off
-[    0.000000] software IO TLB: area num 4.
-[    0.000000] software IO TLB: mapped [mem 0x0000000037400000-0x000000003b400000] (64MB)
-[    0.000000] Memory: 3312220K/4050944K available (30656K kernel code, 5924K rwdata, 18912K rodata, 11584K init, 672K bss, 214436K reserved, 524288K cma-reserved)
-[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
-[    0.000000] rcu: Preemptible hierarchical RCU implementation.
-[    0.000000] rcu: 	RCU event tracing is enabled.
-[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=256 to nr_cpu_ids=4.
-[    0.000000] 	Trampoline variant of Tasks RCU enabled.
-[    0.000000] 	Tracing variant of Tasks RCU enabled.
-[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
-[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
-[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
-[    0.000000] Root IRQ handler: gic_handle_irq
-[    0.000000] GIC: Using split EOI/Deactivate mode
-[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
-[    0.000000] arch_timer: cp15 timer(s) running at 54.00MHz (phys).
-[    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0xc743ce346, max_idle_ns: 440795203123 ns
-[    0.000001] sched_clock: 56 bits at 54MHz, resolution 18ns, wraps every 4398046511102ns
-[    0.008648] Console: colour dummy device 80x25
-[    0.013237] Calibrating delay loop (skipped), value calculated using timer frequency.. 108.00 BogoMIPS (lpj=216000)
-[    0.023803] pid_max: default: 32768 minimum: 301
-[    0.028540] LSM: Security Framework initializing
-[    0.033252] Kernel panic - not syncing: Could not allocate generic netns
-[    0.040026] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.0.0-rc3 #52
-[    0.046363] Hardware name: Raspberry Pi 4 Model B Rev 1.1 (DT)
-[    0.052255] Call trace:
-[    0.054721]  dump_backtrace+0xe4/0x124
-[    0.058525]  show_stack+0x1c/0x5c
-[    0.061878]  dump_stack_lvl+0x64/0x80
-[    0.065582]  dump_stack+0x1c/0x38
-[    0.068932]  panic+0x170/0x328
-[    0.072020]  net_ns_init+0x88/0x134
-[    0.075548]  start_kernel+0x628/0x69c
-[    0.079251]  __primary_switched+0xbc/0xc4
-[    0.083311] ---[ end Kernel panic - not syncing: Could not allocate generic netns ]---
-
-So it seems that net_alloc_generic() fails, and the only reason I could
-see is if kzalloc() fails, so now I'm super confused.
-
-It looks like the board has plenty (~3GB) of RAM available at boot, and
-most importantly I don't see the relationship between a DRM driver,
-DYNAMIC_DEBUG, and SLAB or the network namespace.
-
-After a bit more experiments,
-
- * ./scripts/config -e CONFIG_DYNAMIC_DEBUG -d CONFIG_DRM_VC4 still has
-   that panic, so it looks like VC4 itself isn't involved.
-
- * ./scripts/config -e CONFIG_DYNAMIC_DEBUG -d CONFIG_DRM works, so DRM
-   seems to be involved somehow. It has a number of memory management
-   dependencies, so it's probably a side effect of DRM being there.
-
- * make defconfig mod2yesconfig (so without DYNAMIC_DEBUG, with DRM)
-   works too.
-
-So it looks to me like there's indeed some interaction between DRM,
-DYNAMIC_DEBUG, SLAB and/or the network namespace, but I'm not entirely
-sure where to go from there. Any ideas?
-
-Maxime
+> 
+> Thanks,
+> Christian.
+> 
+>>
+>>>
+>>> As far as I can see that should work like it did before.
+>>>
+>>> Christian.
+>>>
+>>>>
+>>>>>
+>>>>> If you just validated to SYSTEM memory before I think the tt object 
+>>>>> wouldn't have been populated either.
+>>>>>
+>>>>> Regards,
+>>>>> Christian.
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> Thanks,
+>>>>>>> Christian.
+>>>>>>>
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> I've been considering to replacing the ttm_bo_type with a bunch 
+>>>>>>>>> of behavior flags for a bo. I'm hoping that this will clean 
+>>>>>>>>> things up a bit.
+>>>>>>>>>
+>>>>>>>>> Regards,
+>>>>>>>>> Christian.
+>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>>>       caching = i915_ttm_select_tt_caching(obj);
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c 
+>>>>>>>>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>>>>>>>>>>> index 9a7e50534b84bb..c420d1ab605b6f 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>>>>>>>>>>> @@ -560,7 +560,7 @@ int i915_ttm_move(struct 
+>>>>>>>>>>>> ttm_buffer_object *bo, bool evict,
+>>>>>>>>>>>>       bool clear;
+>>>>>>>>>>>>       int ret;
+>>>>>>>>>>>> -    if (GEM_WARN_ON(!obj)) {
+>>>>>>>>>>>> +    if (GEM_WARN_ON(!obj) || !bo->resource) {
+>>>>>>>>>>>>           ttm_bo_move_null(bo, dst_mem);
+>>>>>>>>>>>>           return 0;
+>>>>>>>>>>>>       }
+>>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>
+>>>>>
+>>>
+> 
