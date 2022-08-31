@@ -2,79 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56AC35A88E0
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 00:17:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCB15A8971
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 01:13:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEF4510E4FC;
-	Wed, 31 Aug 2022 22:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3277510E536;
+	Wed, 31 Aug 2022 23:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEE9710E4F6;
- Wed, 31 Aug 2022 22:17:15 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27VLo3Z1007109;
- Wed, 31 Aug 2022 22:16:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=0AWZK2JritVLOwMklM8b3UUT3+DXka2c/qsVayHyR18=;
- b=Wbs5HnXXbAumTeP5kZSIoCvZXrryxZ85jcI9r7O7kxdwPjUzbtpolJEQ8Ln5Ia1MPLvH
- Yj/OcRwhlLoFHKmsxH4YivPg2qLBZvt4OhtPGZrcJmU2bVmDMGIapxvnHlRTeWDzHe7A
- vPZhlhExF1DVzUBoMxf3na5ttV8VfEOpur7AxA03frJlOCt64CyrD+FtraZEfvHpGzdn
- NY2gLLMkgd+nQdAmMwDHZ4cY3r34RVKbeWwiP7kzJq5NgYzZSuB+M1kP+mMS140/xqaN
- tHBY0+/NDKdYJ0UX2gdodNwQZSJeKl5lPtW484b8YWCqBqZFWeuO0JU89tixkWC9QMQN ig== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jaa0t1ghu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 Aug 2022 22:16:49 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27VMGmTK004273
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 Aug 2022 22:16:48 GMT
-Received: from [10.111.165.88] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 31 Aug
- 2022 15:16:46 -0700
-Message-ID: <d0dfbcd5-0299-3810-9cf1-e2d0a19ce321@quicinc.com>
-Date: Wed, 31 Aug 2022 15:16:44 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v1 1/4] drm/msm/mdp5: stop overriding drvdata
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20220620213054.1872954-1-dmitry.baryshkov@linaro.org>
- <20220620213054.1872954-2-dmitry.baryshkov@linaro.org>
- <251f0ce1-05cd-548e-9253-82adbc1038ce@quicinc.com>
- <CAA8EJpogK9BbrSzgJp+Rb_Op2+JBFsTdQHxpTFz28c2biE8AUw@mail.gmail.com>
- <7bdfc4da-740b-9e4d-647c-a349b0bfa1f9@quicinc.com>
- <047e1001-754d-0913-fcbe-a4747c5df8b8@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <047e1001-754d-0913-fcbe-a4747c5df8b8@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC10E10E530
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 23:12:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lMuCRCMuT6p/FKulXWO8gbB38MYXhfsuOmjGiuepKm6nUWGqmRpuoN5NVk0W3vcR93JHIDuikx8N1GLflkKz29Wg5nMq8tV19/im69xfxrbRHaS955fiVL/V5hcGRuvLzIydc6Umi9aobBPHSAPxehysrg1lchsskSsvYHflEMzy4CmySgn3XLdnomMKT3jz/GBmovD7drzvBiUD7hr9ZDO0y5KaLa2WicA6J31BuCsXm8LwV1KWn6jyl98Q+dX+enxJsk6dHe3aZ3w9nbWPK3wcwS8KOJkfyb1Phi5VSjHxzuM3gnlRtfWudHrOR1vpM9DupNRc/s6IYWew0CHbpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XZhg0vFUSkiUQYS7H1fY0vREXOHo5YKAPQOLbz46IC8=;
+ b=dO/sQJCsWuf/vCofk9HB9IU2sdDJ1GfJrErXOvDN76YlIL27TOXVAzRYGdBvT5bmJFsBzrJp810Bx5X84xlyKTJVVOuhRLzIycgf2d3Is0qeaiIXaINrKBdPAIg9HPP1nZsCiiK0+h45sOv4Lhm6fkQDgO2+oyEbmZNYqYv92aJn97SBiVgO06HBjYHTErY/zpMSqyLDxVzmr70xJ7K2VE7pHRvwMBEYzQFkWw4h1/6uGICboJAHgm3X52ftLEtibWD8h4F9qzCgPWNDglwnRZu6VHNmyz5YtXMGMuk/9Y+vGMvD+U2Ojkh/YmYUtfVSXsnjO73ADMue3STtatYgXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XZhg0vFUSkiUQYS7H1fY0vREXOHo5YKAPQOLbz46IC8=;
+ b=jvch4Shf9Gg2FulnRc0PvVqeJ6rQxRvYfKRazQhYlyU7jLH31Hkg2yCkqkkJRzJi8F641RY20BVQt3tQBEVTZI8wgMsS7+M1bGmb9qHxlHcYi3bTDqTHGDG7rGg14N1Idr6At2uaQQ13XritM6u4iMBQ/gVUdcAG8qJgcCKuWnU6kZtnVDL2uhyTVzvSzPvUX6mmA/FZLPxAz3Moc/3ct1S6URBQLsdZTcphT+tANjl3/hyeTpbqkuO/0CE60nPFTwihGRnepMzmPP6ezFU37zWeriT6yeEq0MICfSURlNKQlAAB70U/Lkw+N35Z3KzgIumj4aupOgmkz3+5srguCg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MW5PR12MB5650.namprd12.prod.outlook.com (2603:10b6:303:19e::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 31 Aug
+ 2022 23:12:47 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5%7]) with mapi id 15.20.5588.010; Wed, 31 Aug 2022
+ 23:12:47 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Cornelia Huck <cohuck@redhat.com>, dri-devel@lists.freedesktop.org,
+ kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [PATCH v2 0/4] Allow MMIO regions to be exported through dma-buf
+Date: Wed, 31 Aug 2022 20:12:40 -0300
+Message-Id: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 9K_xUvsr2BSShGym20kHecIUr_b9n4wp
-X-Proofpoint-ORIG-GUID: 9K_xUvsr2BSShGym20kHecIUr_b9n4wp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-31_14,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 adultscore=0
- mlxlogscore=999 phishscore=0 suspectscore=0 mlxscore=0 malwarescore=0
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208310108
+X-ClientProxiedBy: BLAPR05CA0004.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::8) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3c41f172-9517-4621-990b-08da8ba650b0
+X-MS-TrafficTypeDiagnostic: MW5PR12MB5650:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EdA9knTyDyxcoVGacDHJ6fj74BWMGqUm5GCli3jb5dsHvnABIlMhNhVXwoBI1NQTHy5RpgF8G+dMdtmlR8LfK2P/A9nAkc+rQM3dTLRwQAKJzvo67oWqeh3AcfeIXFk+rY4+LKDg7Y3diIFv9hcuDIUU+DsqMyobk7r3TQZ3V4JWgM6eakeH/+izVenkmgGfn75fGlHx4ibSUy4h31kE8SXU8caiWQQdsQ0mBK2eq5sl6LXAAZXwjIsvVuRlhdB/ukcT2/XIA9E23bYKbJvtVHQTfFfKVgzdGLv8lJ2JF0beLNmzsgTLweiQaf3DlAudNr6FWAnsTXqRpG5ngSzQg3IdXp8pYLyX8xhKR6CCTb64PYzlSG1zA2q2GCI5kM30wLiDEsnb0Feh2EY/q1m8ONykSTh0RyD6b2Qj2gBbytHqca58DrCem2hj2IfZm0pHeI+vnXsbcnWrx2V9U+9JOOp9w9otm+HWb1R/ht8fR7wotYvnEccRlGGgffohR8c4W7T/T0M0IfNDb92KeIYJcHOGtE/TaXfy3Irc5j60qAf9b80grdOKegsa8ep22ZAoBZex0N0grS4X44UYbzOMoODwR8hN+31w7ZwUMVnJR+M107Ke5EJRyFzUdCClEeaquIpJRh3p0NCM5FYosxNtsvCrOWfj2C7CojQ6iB5fKL2GKXxswqSKEZ7zZn0fjPO9BvjAD6fNi34ZqkTJFAuOF+iO3ctyfhPli/F/rx5/TiA15U4SMnM33ITt4Z0svZHCLjXUSybRcQaqXNEOuUlswBw4TvC0kfIAuqh6fvjBejLaJcUXWJK0KQWvkwb43TrwAmVAhA6XIc7gUW+S+bMrU6pw8jakOFrNDWlwE1jhLOQPJmiepkHSaZbDsJDmzgBV
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(366004)(376002)(346002)(136003)(396003)(39860400002)(6506007)(66476007)(66556008)(8676002)(4326008)(316002)(8936002)(6512007)(26005)(6666004)(86362001)(110136005)(478600001)(6486002)(966005)(38100700002)(54906003)(41300700001)(186003)(2906002)(66946007)(7416002)(2616005)(36756003)(83380400001)(66574015)(5660300002)(4216001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TzcyM2hORWIrMWxsdmxrQ2RjRzMvYzhmWEttdmk3eEo2NkpFUXhwSWNRRTJj?=
+ =?utf-8?B?YVFUVHBQdWU1NHdwNmVaTnBjWHlTa2J0bkpSQjNEOHV6YitMN1lTbkVmTkIy?=
+ =?utf-8?B?OEFHeDVaNmx4UHFwMml6NTY0OGF4Z2tncVM1SUgwTndnTEJtYWM4V2NxZTBt?=
+ =?utf-8?B?MTgxZnluSmU4MlZ3VFk3TmtyNHpuVDZaUkRkSUp6aEpKRC9ZMnFPT0NVUDFx?=
+ =?utf-8?B?VzlHYWVGZzNpaS83OUYzaWRjM1VJVzdONkQ1WmRBenlYY254Qys2cXl6N0dH?=
+ =?utf-8?B?V2hqayttZytlckhiUnltTnNKWXNpYVBzYjdONy9IVGxFZVdrcGpESEw3TkE2?=
+ =?utf-8?B?TERWeVF6T2g2UDdGL3FlTDFJd3ltZmtsckpMWlRjUkFtOGU4czRZd041OHQv?=
+ =?utf-8?B?MmJwWjRvVmFEVFBXajlrNUxGN2FLaFo0L2d5YlFsaE44ZnlERmdxMS9mSGpy?=
+ =?utf-8?B?SWpRRFdzS1FJM1JFUjdPYnVZMHByNUUrdmViZHV1V0xwbnQvL1UyQUk2RUxB?=
+ =?utf-8?B?TUV4ZFBtMC9xYk9FeEhha0dvUjlNNFJVc0ZzcTNFYk5udWUwdXRGazZCOUZr?=
+ =?utf-8?B?N21sdVNzVWR1RnhxelZ6TzlrT3UxZ3ltSzVxc1h2WnJROTF1NTNIRDA3SDFJ?=
+ =?utf-8?B?L2tvd2ZFalZmSXlXcENlMG5YQSt5UVlwT3JNOXF0QUQyY2U4SWZoR1gxVGFz?=
+ =?utf-8?B?UktHZzNDc1luMzFKejVYSmFwTFlwTDBCaEx4MVEwRTM1NG1oT0QxMXdjL3R6?=
+ =?utf-8?B?RlA5Qk5seXI0RXVNeHJMdjZKS1hzQkhYQ05WbjQ4cFcvZUlRc2wzdW5hNEpo?=
+ =?utf-8?B?TUZDOVZZQW9EeDJaeFdONXI2OEpYblRZbnJObExnRlVPcjFLOXBLM0xZMVl3?=
+ =?utf-8?B?dDlaa0xKdEtWZmVEN0tsSFVTVk4vS2E0dDAyUHhrelRDd28vM0tycWt2ajVz?=
+ =?utf-8?B?SlpHQVFmbUxNeEdZVmwvdEp1eXdlSWlDaHNGN2E5M1VQQ2I1MkZocW9RZ1lp?=
+ =?utf-8?B?TjFBRUpiUjl4NEpXdC9XcEFMQUtFTmpQTWVMdXNFNXFxd3NMcm9LRjgxQUZM?=
+ =?utf-8?B?RlJ5aTcwOUFGTk5MMTFuQUU0Wkx4SzFoUjJqelo4SzRsYzJmV0Z0bXZyN2RY?=
+ =?utf-8?B?UDJ6aWsyWkJPN2l5Z0Z1L1RuVzdLZWZHWFVPeVJ4RlgwTEVSOWdXczRQNWpT?=
+ =?utf-8?B?bDI0L3JKbis5emJqL2ZoUlI5N3FEVW4zL2NudVgyTTg1dTNKVGp5S0JUMWtz?=
+ =?utf-8?B?S1Q5dVYzYlFPMnNEYUVUNDM4aVJBWklGTUo2OFZDMlNxcFowY1NQcXNvRjhH?=
+ =?utf-8?B?VTVOZWxOcWxOMy9icFZkSExlaXBzaEdjSUZCL3UwMXE2M0cvQTFIQllQbWdi?=
+ =?utf-8?B?NzhGa1RGTklYQ3RoUXU2RjltOHJHMDk4UFV1UVZhalBwbnlNMlRSUlJrKzZ6?=
+ =?utf-8?B?U0d4VjhVQmZLME5PKzNjT25idlNFS21xVnoyNGFsSTJhV0RnZ0kzWSsxb1ll?=
+ =?utf-8?B?eUg0b2xXYUwxU3JBOW5iR0s2NlowN09LaDF3enkzbzBKaVpVUGI3OUdoSU94?=
+ =?utf-8?B?Y3hLbTI1clplT2F2T2VhY0N4TXBUc2x0YjRVSHZ2WWR2TnBkUWg4RnIyZkpP?=
+ =?utf-8?B?Y0hTLzJRYytyT0VuRUtLdzhkMjdSemVabmVpWm4valk3ODJmTWNHc01Zakgx?=
+ =?utf-8?B?dGVJVm4yOTVvNlFQcWRSUGREdlN0MXZ3ZE1MaWh6eGo2QXNKeXJBWmJlTU9D?=
+ =?utf-8?B?RGdjaXlrSHV4RTZtSStQOURiV3FkRHpGWUcySzJLbndjUmVHZDRJMlM5UGRD?=
+ =?utf-8?B?aHlLUUxRUkJMM3R0cW5ZbkVnYjlJZEhsc3JKSjRIQThwMldtbUhBa2d2WFpz?=
+ =?utf-8?B?U1AxaTNpMFJuZ1NFWVk5QkR6Rk9acm1hMyswUlVZUjNoeTJETzREOU14N2dK?=
+ =?utf-8?B?VG5XcnU3Qm53d21Pb1I2V3F6QWUvanJ1QnFRNEY2NG12S1IxQzIvemZHaGpp?=
+ =?utf-8?B?Q2JEL0RIaUFDcHFNemRaZXhIWWxCS0lIZzJtMmUrZkFibUJxejVzK0RqYUZD?=
+ =?utf-8?B?WXo4WG9hcVk0elI0TVZ5NjliTGpzSnBIS25JMGt1U3RySzh2Mlg2cDBXTVFj?=
+ =?utf-8?Q?orkgMcw55w/u6iY077VuJ1Xdy?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c41f172-9517-4621-990b-08da8ba650b0
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 23:12:46.1879 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mab9YO5WahAspTBsnF1oePGcZCJIffhNF6kcJjnNb0GjJl9OHMaHV1lI7B9Rmtlh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5650
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,158 +124,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
+Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Oded Gabbay <ogabbay@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+dma-buf has become a way to safely acquire a handle to non-struct page
+memory that can still have lifetime controlled by the exporter. Notably
+RDMA can now import dma-buf FDs and build them into MRs which allows for
+PCI P2P operations. Extend this to allow vfio-pci to export MMIO memory
+from PCI device BARs.
+
+This series supports a use case for SPDK where a NVMe device will be owned
+by SPDK through VFIO but interacting with a RDMA device. The RDMA device
+may directly access the NVMe CMB or directly manipulate the NVMe device's
+doorbell using PCI P2P.
+
+However, as a general mechanism, it can support many other scenarios with
+VFIO. I imagine this dmabuf approach to be usable by iommufd as well for
+generic and safe P2P mappings.
+
+This series goes after the "Break up ioctl dispatch functions to one
+function per ioctl" series.
+
+This is on github: https://github.com/jgunthorpe/linux/commits/vfio_dma_buf
+
+v2:
+ - Name the new file dma_buf.c
+ - Restore orig_nents before freeing
+ - Fix reversed logic around priv->revoked
+ - Set priv->index
+ - Rebased on v2 "Break up ioctl dispatch functions"
+v1: https://lore.kernel.org/r/0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com
+
+Cc: linux-rdma@vger.kernel.org
+Cc: Oded Gabbay <ogabbay@kernel.org>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Maor Gottlieb <maorg@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+
+Jason Gunthorpe (4):
+  dma-buf: Add dma_buf_try_get()
+  vfio: Add vfio_device_get()
+  vfio_pci: Do not open code pci_try_reset_function()
+  vfio/pci: Allow MMIO regions to be exported through dma-buf
+
+ drivers/vfio/pci/Makefile          |   1 +
+ drivers/vfio/pci/dma_buf.c         | 269 +++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_config.c |  22 ++-
+ drivers/vfio/pci/vfio_pci_core.c   |  33 +++-
+ drivers/vfio/pci/vfio_pci_priv.h   |  24 +++
+ drivers/vfio/vfio_main.c           |   3 +-
+ include/linux/dma-buf.h            |  13 ++
+ include/linux/vfio.h               |   6 +
+ include/linux/vfio_pci_core.h      |   1 +
+ include/uapi/linux/vfio.h          |  18 ++
+ 10 files changed, 368 insertions(+), 22 deletions(-)
+ create mode 100644 drivers/vfio/pci/dma_buf.c
 
 
-On 8/26/2022 7:23 AM, Dmitry Baryshkov wrote:
-> On 24/08/2022 20:20, Abhinav Kumar wrote:
->>
->>
->> On 8/24/2022 1:29 AM, Dmitry Baryshkov wrote:
->>> On Wed, 24 Aug 2022 at 04:25, Abhinav Kumar 
->>> <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 6/20/2022 2:30 PM, Dmitry Baryshkov wrote:
->>>>> The rest of the code expects that master's device drvdata is the
->>>>> struct msm_drm_private instance. Do not override the mdp5's drvdata.
->>>>>
->>>>> Fixes: 6874f48bb8b0 ("drm/msm: make mdp5/dpu devices master 
->>>>> components")
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>
->>>> Is this just for consistency across mdp5/dpu drivers?
->>>>
->>>> What issue was seen if mdp5's platform data is overwritten?
->>>
->>> I think there was a crash in mdp5_destroy, but I did not capture the
->>> log at the moment.
->>>
->>> As you can see, the mdp5_destroy() expects to get mdp5_kms pointer
->>> from the drvdata. However the msm_drv_probe sets the drvdata to
->>> msm_drm_private instance. Boom.
->>
->> Yes, I see that msm_drv_probe sets the drvdata to msm_drm_private.
->> But I also see that mdp5_init then sets it to
->>
->> platform_set_drvdata(pdev, mdp5_kms);
->>
->> Does this not override it then?
-> 
-> It does. But then the mdp5_pm_ops use msm_pm_prepare()/_complete(). And 
-> these calls expect the msm_drm_private instance in the drvdata. Maybe I 
-> stumbled upon this. I don't remember exactly, unfortunately.
-> 
+base-commit: 285fef0ff7f1a97d8acd380971c061985d8dafb5
+-- 
+2.37.2
 
-This explanation makes sense to me. Understood. Hence,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-
->> Also seems like the commit which introduced it is present since april, 
->> this should have happened even earlier then right?
->>
->>>
->>>>
->>>>> ---
->>>>>    drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 19 +++++++++----------
->>>>>    1 file changed, 9 insertions(+), 10 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c 
->>>>> b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->>>>> index c668a4b27cc6..daf5b5ca7233 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->>>>> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->>>>> @@ -203,7 +203,7 @@ static int mdp5_set_split_display(struct 
->>>>> msm_kms *kms,
->>>>> slave_encoder);
->>>>>    }
->>>>>
->>>>> -static void mdp5_destroy(struct platform_device *pdev);
->>>>> +static void mdp5_destroy(struct mdp5_kms *mdp5_kms);
->>>>>
->>>>>    static void mdp5_kms_destroy(struct msm_kms *kms)
->>>>>    {
->>>>> @@ -223,7 +223,7 @@ static void mdp5_kms_destroy(struct msm_kms *kms)
->>>>>        }
->>>>>
->>>>>        mdp_kms_destroy(&mdp5_kms->base);
->>>>> -     mdp5_destroy(mdp5_kms->pdev);
->>>>> +     mdp5_destroy(mdp5_kms);
->>>>>    }
->>>>>
->>>>>    #ifdef CONFIG_DEBUG_FS
->>>>> @@ -651,9 +651,8 @@ static int mdp5_kms_init(struct drm_device *dev)
->>>>>        return ret;
->>>>>    }
->>>>>
->>>>> -static void mdp5_destroy(struct platform_device *pdev)
->>>>> +static void mdp5_destroy(struct mdp5_kms *mdp5_kms)
->>>>>    {
->>>>> -     struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
->>>>>        int i;
->>>>>
->>>>>        if (mdp5_kms->ctlm)
->>>>> @@ -667,7 +666,7 @@ static void mdp5_destroy(struct platform_device 
->>>>> *pdev)
->>>>>                kfree(mdp5_kms->intfs[i]);
->>>>>
->>>>>        if (mdp5_kms->rpm_enabled)
->>>>> -             pm_runtime_disable(&pdev->dev);
->>>>> +             pm_runtime_disable(&mdp5_kms->pdev->dev);
->>>>>
->>>>>        drm_atomic_private_obj_fini(&mdp5_kms->glob_state);
->>>>>        drm_modeset_lock_fini(&mdp5_kms->glob_state_lock);
->>>>> @@ -816,8 +815,6 @@ static int mdp5_init(struct platform_device 
->>>>> *pdev, struct drm_device *dev)
->>>>>                goto fail;
->>>>>        }
->>>>>
->>>>> -     platform_set_drvdata(pdev, mdp5_kms);
->>>>> -
->>>>>        spin_lock_init(&mdp5_kms->resource_lock);
->>>>>
->>>>>        mdp5_kms->dev = dev;
->>>>> @@ -915,7 +912,7 @@ static int mdp5_init(struct platform_device 
->>>>> *pdev, struct drm_device *dev)
->>>>>        return 0;
->>>>>    fail:
->>>>>        if (mdp5_kms)
->>>>> -             mdp5_destroy(pdev);
->>>>> +             mdp5_destroy(mdp5_kms);
->>>>>        return ret;
->>>>>    }
->>>>>
->>>>> @@ -975,7 +972,8 @@ static int mdp5_dev_remove(struct 
->>>>> platform_device *pdev)
->>>>>    static __maybe_unused int mdp5_runtime_suspend(struct device *dev)
->>>>>    {
->>>>>        struct platform_device *pdev = to_platform_device(dev);
->>>>> -     struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
->>>>> +     struct msm_drm_private *priv = platform_get_drvdata(pdev);
->>>>> +     struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
->>>>>
->>>>>        DBG("");
->>>>>
->>>>> @@ -985,7 +983,8 @@ static __maybe_unused int 
->>>>> mdp5_runtime_suspend(struct device *dev)
->>>>>    static __maybe_unused int mdp5_runtime_resume(struct device *dev)
->>>>>    {
->>>>>        struct platform_device *pdev = to_platform_device(dev);
->>>>> -     struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
->>>>> +     struct msm_drm_private *priv = platform_get_drvdata(pdev);
->>>>> +     struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
->>>>>
->>>>>        DBG("");
->>>>>
->>>
->>>
->>>
-> 
