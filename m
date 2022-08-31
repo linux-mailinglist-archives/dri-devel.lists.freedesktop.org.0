@@ -2,46 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C08F5A88DC
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 00:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56AC35A88E0
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 00:17:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D969D10E4F5;
-	Wed, 31 Aug 2022 22:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF4510E4FC;
+	Wed, 31 Aug 2022 22:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1738E10E4F5
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 22:15:18 +0000 (UTC)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4MHz513cSjzDs1Z;
- Wed, 31 Aug 2022 22:15:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1661984117; bh=BCP+7raKdlaKpGMvntK5ySVtDszgtPBDjBpeJnJN514=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OgkcPJ+LKnprOMT82ZfIZ9etzZWVHPUViR41H1WzEGQxaKgiHZXn7WhKFuaBAWpCR
- wuN5Bbnt7m5/1iibBtemPVkpSNS8R8wsK6rEgDjCtxX2P1G+ffhjP62MloV5S66vrI
- o4/IpAKYAp917l1qpJnKlXlv1r8wYc/c5+Lu8Ja4=
-X-Riseup-User-ID: 823A3E7979DFCE69BA24660538A70A080A40A5F874DB9E6DD36FE53F60229F82
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4MHz4z0M5tz1yPj;
- Wed, 31 Aug 2022 22:15:14 +0000 (UTC)
-Message-ID: <a314c255-03cc-da7b-b595-77402ec6dda4@riseup.net>
-Date: Wed, 31 Aug 2022 19:15:11 -0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEE9710E4F6;
+ Wed, 31 Aug 2022 22:17:15 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27VLo3Z1007109;
+ Wed, 31 Aug 2022 22:16:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=0AWZK2JritVLOwMklM8b3UUT3+DXka2c/qsVayHyR18=;
+ b=Wbs5HnXXbAumTeP5kZSIoCvZXrryxZ85jcI9r7O7kxdwPjUzbtpolJEQ8Ln5Ia1MPLvH
+ Yj/OcRwhlLoFHKmsxH4YivPg2qLBZvt4OhtPGZrcJmU2bVmDMGIapxvnHlRTeWDzHe7A
+ vPZhlhExF1DVzUBoMxf3na5ttV8VfEOpur7AxA03frJlOCt64CyrD+FtraZEfvHpGzdn
+ NY2gLLMkgd+nQdAmMwDHZ4cY3r34RVKbeWwiP7kzJq5NgYzZSuB+M1kP+mMS140/xqaN
+ tHBY0+/NDKdYJ0UX2gdodNwQZSJeKl5lPtW484b8YWCqBqZFWeuO0JU89tixkWC9QMQN ig== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jaa0t1ghu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 31 Aug 2022 22:16:49 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27VMGmTK004273
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 31 Aug 2022 22:16:48 GMT
+Received: from [10.111.165.88] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 31 Aug
+ 2022 15:16:46 -0700
+Message-ID: <d0dfbcd5-0299-3810-9cf1-e2d0a19ce321@quicinc.com>
+Date: Wed, 31 Aug 2022 15:16:44 -0700
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] drm/format: Split into more granular test cases
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v1 1/4] drm/msm/mdp5: stop overriding drvdata
 Content-Language: en-US
-To: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20220831215608.349269-1-michal.winiarski@intel.com>
- <20220831215608.349269-2-michal.winiarski@intel.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20220831215608.349269-2-michal.winiarski@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20220620213054.1872954-1-dmitry.baryshkov@linaro.org>
+ <20220620213054.1872954-2-dmitry.baryshkov@linaro.org>
+ <251f0ce1-05cd-548e-9253-82adbc1038ce@quicinc.com>
+ <CAA8EJpogK9BbrSzgJp+Rb_Op2+JBFsTdQHxpTFz28c2biE8AUw@mail.gmail.com>
+ <7bdfc4da-740b-9e4d-647c-a349b0bfa1f9@quicinc.com>
+ <047e1001-754d-0913-fcbe-a4747c5df8b8@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <047e1001-754d-0913-fcbe-a4747c5df8b8@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 9K_xUvsr2BSShGym20kHecIUr_b9n4wp
+X-Proofpoint-ORIG-GUID: 9K_xUvsr2BSShGym20kHecIUr_b9n4wp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-31_14,2022-08-31_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 suspectscore=0 mlxscore=0 malwarescore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208310108
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,372 +87,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
- =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michał
 
-Some very minor nits inline, but either way:
 
-Reviewed-by: Maíra Canal <mairacanal@riseup.net>
-
-On 8/31/22 18:56, Michał Winiarski wrote:
-> While we have multiple test cases, most of them check multiple
-> conditions, calling the function that is tested multiple times with
-> different arguments (with comments that indicate test case boundary).
-> This usually means that it can be easily converted into multiple test
-> cases.
+On 8/26/2022 7:23 AM, Dmitry Baryshkov wrote:
+> On 24/08/2022 20:20, Abhinav Kumar wrote:
+>>
+>>
+>> On 8/24/2022 1:29 AM, Dmitry Baryshkov wrote:
+>>> On Wed, 24 Aug 2022 at 04:25, Abhinav Kumar 
+>>> <quic_abhinavk@quicinc.com> wrote:
+>>>>
+>>>>
+>>>>
+>>>> On 6/20/2022 2:30 PM, Dmitry Baryshkov wrote:
+>>>>> The rest of the code expects that master's device drvdata is the
+>>>>> struct msm_drm_private instance. Do not override the mdp5's drvdata.
+>>>>>
+>>>>> Fixes: 6874f48bb8b0 ("drm/msm: make mdp5/dpu devices master 
+>>>>> components")
+>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>
+>>>> Is this just for consistency across mdp5/dpu drivers?
+>>>>
+>>>> What issue was seen if mdp5's platform data is overwritten?
+>>>
+>>> I think there was a crash in mdp5_destroy, but I did not capture the
+>>> log at the moment.
+>>>
+>>> As you can see, the mdp5_destroy() expects to get mdp5_kms pointer
+>>> from the drvdata. However the msm_drv_probe sets the drvdata to
+>>> msm_drm_private instance. Boom.
+>>
+>> Yes, I see that msm_drv_probe sets the drvdata to msm_drm_private.
+>> But I also see that mdp5_init then sets it to
+>>
+>> platform_set_drvdata(pdev, mdp5_kms);
+>>
+>> Does this not override it then?
 > 
-> Passing output:
-> ============================================================
-> ================= drm_format (18 subtests) =================
-> [PASSED] drm_format_block_width_invalid
-> [PASSED] drm_format_block_width_one_plane
-> [PASSED] drm_format_block_width_two_plane
-> [PASSED] drm_format_block_width_three_plane
-> [PASSED] drm_format_block_width_tiled
-> [PASSED] drm_format_block_height_invalid
-> [PASSED] drm_format_block_height_one_plane
-> [PASSED] drm_format_block_height_two_plane
-> [PASSED] drm_format_block_height_three_plane
-> [PASSED] drm_format_block_height_tiled
-> [PASSED] drm_format_min_pitch_invalid
-> [PASSED] drm_format_min_pitch_one_plane_8bpp
-> [PASSED] drm_format_min_pitch_one_plane_16bpp
-> [PASSED] drm_format_min_pitch_one_plane_24bpp
-> [PASSED] drm_format_min_pitch_one_plane_32bpp
-> [PASSED] drm_format_min_pitch_two_plane
-> [PASSED] drm_format_min_pitch_three_plane_8bpp
-> [PASSED] drm_format_min_pitch_tiled
-
-As Jani pointed out in [1], "drm_" prefix can be a bit confusing. I will 
-send a patch tomorrow using the prefix "test_drm_" on all tests to make 
-the naming more consistent. It would be nice if this patch already hold 
-the new naming, but anyway I can send a patch changing it later with the 
-new prefix gets approved.
-
-[1] 
-https://lore.kernel.org/dri-devel/20220831104941.doc75juindcm5mcl@nostramo.hardline.pl/T/#m82b4e710063b47029a8bd4716d137e575640da9a
-
-> =================== [PASSED] drm_format ====================
-> ============================================================
-> Testing complete. Ran 18 tests: passed: 18
+> It does. But then the mdp5_pm_ops use msm_pm_prepare()/_complete(). And 
+> these calls expect the msm_drm_private instance in the drvdata. Maybe I 
+> stumbled upon this. I don't remember exactly, unfortunately.
 > 
-> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> ---
->   drivers/gpu/drm/tests/drm_format_test.c | 156 ++++++++++++++++--------
->   1 file changed, 108 insertions(+), 48 deletions(-)
+
+This explanation makes sense to me. Understood. Hence,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+
+>> Also seems like the commit which introduced it is present since april, 
+>> this should have happened even earlier then right?
+>>
+>>>
+>>>>
+>>>>> ---
+>>>>>    drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 19 +++++++++----------
+>>>>>    1 file changed, 9 insertions(+), 10 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c 
+>>>>> b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+>>>>> index c668a4b27cc6..daf5b5ca7233 100644
+>>>>> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+>>>>> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+>>>>> @@ -203,7 +203,7 @@ static int mdp5_set_split_display(struct 
+>>>>> msm_kms *kms,
+>>>>> slave_encoder);
+>>>>>    }
+>>>>>
+>>>>> -static void mdp5_destroy(struct platform_device *pdev);
+>>>>> +static void mdp5_destroy(struct mdp5_kms *mdp5_kms);
+>>>>>
+>>>>>    static void mdp5_kms_destroy(struct msm_kms *kms)
+>>>>>    {
+>>>>> @@ -223,7 +223,7 @@ static void mdp5_kms_destroy(struct msm_kms *kms)
+>>>>>        }
+>>>>>
+>>>>>        mdp_kms_destroy(&mdp5_kms->base);
+>>>>> -     mdp5_destroy(mdp5_kms->pdev);
+>>>>> +     mdp5_destroy(mdp5_kms);
+>>>>>    }
+>>>>>
+>>>>>    #ifdef CONFIG_DEBUG_FS
+>>>>> @@ -651,9 +651,8 @@ static int mdp5_kms_init(struct drm_device *dev)
+>>>>>        return ret;
+>>>>>    }
+>>>>>
+>>>>> -static void mdp5_destroy(struct platform_device *pdev)
+>>>>> +static void mdp5_destroy(struct mdp5_kms *mdp5_kms)
+>>>>>    {
+>>>>> -     struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
+>>>>>        int i;
+>>>>>
+>>>>>        if (mdp5_kms->ctlm)
+>>>>> @@ -667,7 +666,7 @@ static void mdp5_destroy(struct platform_device 
+>>>>> *pdev)
+>>>>>                kfree(mdp5_kms->intfs[i]);
+>>>>>
+>>>>>        if (mdp5_kms->rpm_enabled)
+>>>>> -             pm_runtime_disable(&pdev->dev);
+>>>>> +             pm_runtime_disable(&mdp5_kms->pdev->dev);
+>>>>>
+>>>>>        drm_atomic_private_obj_fini(&mdp5_kms->glob_state);
+>>>>>        drm_modeset_lock_fini(&mdp5_kms->glob_state_lock);
+>>>>> @@ -816,8 +815,6 @@ static int mdp5_init(struct platform_device 
+>>>>> *pdev, struct drm_device *dev)
+>>>>>                goto fail;
+>>>>>        }
+>>>>>
+>>>>> -     platform_set_drvdata(pdev, mdp5_kms);
+>>>>> -
+>>>>>        spin_lock_init(&mdp5_kms->resource_lock);
+>>>>>
+>>>>>        mdp5_kms->dev = dev;
+>>>>> @@ -915,7 +912,7 @@ static int mdp5_init(struct platform_device 
+>>>>> *pdev, struct drm_device *dev)
+>>>>>        return 0;
+>>>>>    fail:
+>>>>>        if (mdp5_kms)
+>>>>> -             mdp5_destroy(pdev);
+>>>>> +             mdp5_destroy(mdp5_kms);
+>>>>>        return ret;
+>>>>>    }
+>>>>>
+>>>>> @@ -975,7 +972,8 @@ static int mdp5_dev_remove(struct 
+>>>>> platform_device *pdev)
+>>>>>    static __maybe_unused int mdp5_runtime_suspend(struct device *dev)
+>>>>>    {
+>>>>>        struct platform_device *pdev = to_platform_device(dev);
+>>>>> -     struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
+>>>>> +     struct msm_drm_private *priv = platform_get_drvdata(pdev);
+>>>>> +     struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
+>>>>>
+>>>>>        DBG("");
+>>>>>
+>>>>> @@ -985,7 +983,8 @@ static __maybe_unused int 
+>>>>> mdp5_runtime_suspend(struct device *dev)
+>>>>>    static __maybe_unused int mdp5_runtime_resume(struct device *dev)
+>>>>>    {
+>>>>>        struct platform_device *pdev = to_platform_device(dev);
+>>>>> -     struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
+>>>>> +     struct msm_drm_private *priv = platform_get_drvdata(pdev);
+>>>>> +     struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
+>>>>>
+>>>>>        DBG("");
+>>>>>
+>>>
+>>>
+>>>
 > 
-> diff --git a/drivers/gpu/drm/tests/drm_format_test.c b/drivers/gpu/drm/tests/drm_format_test.c
-> index 0efa88bf56a9..1936d2d59908 100644
-> --- a/drivers/gpu/drm/tests/drm_format_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_test.c
-> @@ -9,100 +9,133 @@
->   
->   #include <drm/drm_fourcc.h>
->   
-> -static void igt_check_drm_format_block_width(struct kunit *test)
-> +static void drm_format_block_width_invalid(struct kunit *test)
->   {
->   	const struct drm_format_info *info = NULL;
->   
-> -	/* Test invalid arguments */
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
-> +}
-> +
-> +static void drm_format_block_width_one_plane(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
->   
-> -	/* Test 1 plane format */
-> -	info = drm_format_info(DRM_FORMAT_XRGB4444);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
-> +}
-> +
-> +static void drm_format_block_width_two_plane(struct kunit *test)
-
-s/plane/planes
-
-Best Regards,
-- Maíra Canal
-
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
->   
-> -	/* Test 2 planes format */
-> -	info = drm_format_info(DRM_FORMAT_NV12);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
-> +}
-> +
-> +static void drm_format_block_width_three_plane(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
->   
-> -	/* Test 3 planes format */
-> -	info = drm_format_info(DRM_FORMAT_YUV422);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 3), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
-> +}
-> +
-> +static void drm_format_block_width_tiled(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L0);
->   
-> -	/* Test a tiled format */
-> -	info = drm_format_info(DRM_FORMAT_X0L0);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 2);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
->   }
->   
-> -static void igt_check_drm_format_block_height(struct kunit *test)
-> +static void drm_format_block_height_invalid(struct kunit *test)
->   {
->   	const struct drm_format_info *info = NULL;
->   
-> -	/* Test invalid arguments */
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
-> +}
-> +
-> +static void drm_format_block_height_one_plane(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
->   
-> -	/* Test 1 plane format */
-> -	info = drm_format_info(DRM_FORMAT_XRGB4444);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
-> +}
-> +
-> +static void drm_format_block_height_two_plane(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
->   
-> -	/* Test 2 planes format */
-> -	info = drm_format_info(DRM_FORMAT_NV12);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
-> +}
-> +
-> +static void drm_format_block_height_three_plane(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
->   
-> -	/* Test 3 planes format */
-> -	info = drm_format_info(DRM_FORMAT_YUV422);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 1);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 3), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
-> +}
-> +
-> +static void drm_format_block_height_tiled(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L0);
->   
-> -	/* Test a tiled format */
-> -	info = drm_format_info(DRM_FORMAT_X0L0);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 2);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
->   }
->   
-> -static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
-> +static void drm_format_min_pitch_invalid(struct kunit *test)
->   {
->   	const struct drm_format_info *info = NULL;
->   
-> -	/* Test invalid arguments */
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-> +}
-> +
-> +static void drm_format_min_pitch_one_plane_8bpp(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_RGB332);
->   
-> -	/* Test 1 plane 8 bits per pixel format */
-> -	info = drm_format_info(DRM_FORMAT_RGB332);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-> @@ -118,10 +151,14 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
->   			(uint64_t)UINT_MAX);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
->   			(uint64_t)(UINT_MAX - 1));
-> +}
-> +
-> +static void drm_format_min_pitch_one_plane_16bpp(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
->   
-> -	/* Test 1 plane 16 bits per pixel format */
-> -	info = drm_format_info(DRM_FORMAT_XRGB4444);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-> @@ -137,10 +174,14 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
->   			(uint64_t)UINT_MAX * 2);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
->   			(uint64_t)(UINT_MAX - 1) * 2);
-> +}
-> +
-> +static void drm_format_min_pitch_one_plane_24bpp(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_RGB888);
->   
-> -	/* Test 1 plane 24 bits per pixel format */
-> -	info = drm_format_info(DRM_FORMAT_RGB888);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-> @@ -154,12 +195,16 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 671), 2013);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX),
->   			(uint64_t)UINT_MAX * 3);
-> -	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
-> +	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX - 1),
->   			(uint64_t)(UINT_MAX - 1) * 3);
-> +}
-> +
-> +static void drm_format_min_pitch_one_plane_32bpp(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_ABGR8888);
->   
-> -	/* Test 1 plane 32 bits per pixel format */
-> -	info = drm_format_info(DRM_FORMAT_ABGR8888);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-> @@ -173,17 +218,16 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 671), 2684);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX),
->   			(uint64_t)UINT_MAX * 4);
-> -	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
-> +	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX - 1),
->   			(uint64_t)(UINT_MAX - 1) * 4);
->   }
->   
-> -static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
-> +static void drm_format_min_pitch_two_plane(struct kunit *test)
->   {
-> -	const struct drm_format_info *info = NULL;
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
->   
-> -	/* Test 2 planes format */
-> -	info = drm_format_info(DRM_FORMAT_NV12);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-> @@ -211,10 +255,14 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
->   			(uint64_t)(UINT_MAX - 1));
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, (UINT_MAX - 1) /  2),
->   			(uint64_t)(UINT_MAX - 1));
-> +}
-> +
-> +static void drm_format_min_pitch_three_plane_8bpp(struct kunit *test)
-> +{
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
->   
-> -	/* Test 3 planes 8 bits per pixel format */
-> -	info = drm_format_info(DRM_FORMAT_YUV422);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, 0), 0);
-> @@ -256,13 +304,12 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
->   			(uint64_t)(UINT_MAX - 1) / 2);
->   }
->   
-> -static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
-> +static void drm_format_min_pitch_tiled(struct kunit *test)
->   {
-> -	const struct drm_format_info *info = NULL;
-> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L2);
->   
-> -	/* Test tiled format */
-> -	info = drm_format_info(DRM_FORMAT_X0L2);
->   	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
->   	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-> @@ -281,12 +328,25 @@ static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
->   }
->   
->   static struct kunit_case drm_format_tests[] = {
-> -	KUNIT_CASE(igt_check_drm_format_block_width),
-> -	KUNIT_CASE(igt_check_drm_format_block_height),
-> -	KUNIT_CASE(igt_check_drm_format_min_pitch_for_single_plane),
-> -	KUNIT_CASE(igt_check_drm_format_min_pitch_for_multi_planar),
-> -	KUNIT_CASE(igt_check_drm_format_min_pitch_for_tiled_format),
-> -	{ }
-> +	KUNIT_CASE(drm_format_block_width_invalid),
-> +	KUNIT_CASE(drm_format_block_width_one_plane),
-> +	KUNIT_CASE(drm_format_block_width_two_plane),
-> +	KUNIT_CASE(drm_format_block_width_three_plane),
-> +	KUNIT_CASE(drm_format_block_width_tiled),
-> +	KUNIT_CASE(drm_format_block_height_invalid),
-> +	KUNIT_CASE(drm_format_block_height_one_plane),
-> +	KUNIT_CASE(drm_format_block_height_two_plane),
-> +	KUNIT_CASE(drm_format_block_height_three_plane),
-> +	KUNIT_CASE(drm_format_block_height_tiled),
-> +	KUNIT_CASE(drm_format_min_pitch_invalid),
-> +	KUNIT_CASE(drm_format_min_pitch_one_plane_8bpp),
-> +	KUNIT_CASE(drm_format_min_pitch_one_plane_16bpp),
-> +	KUNIT_CASE(drm_format_min_pitch_one_plane_24bpp),
-> +	KUNIT_CASE(drm_format_min_pitch_one_plane_32bpp),
-> +	KUNIT_CASE(drm_format_min_pitch_two_plane),
-> +	KUNIT_CASE(drm_format_min_pitch_three_plane_8bpp),
-> +	KUNIT_CASE(drm_format_min_pitch_tiled),
-> +	{}
->   };
->   
->   static struct kunit_suite drm_format_test_suite = {
