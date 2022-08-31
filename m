@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3ED5A85A7
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 20:32:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8135A85AF
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 20:33:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DEE010E4E0;
-	Wed, 31 Aug 2022 18:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2098310E4EB;
+	Wed, 31 Aug 2022 18:33:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2A3910E4E0;
- Wed, 31 Aug 2022 18:31:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661970714; x=1693506714;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=o2Ftrt6s6ruHdV2MNerq/oWUDP4gJYggV0CnYVZ6fa8=;
- b=XqAVPGq+GjagGOXI/9NHwElcRN3btP+eWdHyS1hEgqBC6zAHmqYV6Kw/
- WIucHfMzWP5fVhpbl97oLsx+N6OHwG2pMNiH8Avt2Pj/9KJsogDaOpPRl
- x/erdtxh2o5Ubi/ari6CsyvHqMpdQzuZE2xucl8sbIHpXT/Y4oyQjxTFJ
- qJMN2v4cTC18T87H0wCBoTz3KMlGR1smBGw7dhkdvfeWk5hvKztDuiVSN
- iYA/2W8Ih9JlcF0C3nLECE00BKkvegzCqw9bihbeZUBZuSNhOzAbqYsFa
- UCgEjb1W/WOAVRwfSjdPXAKD6r3fidUoMRBvjqu8V8emlDmIrrZuN6O+V w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="296796972"
-X-IronPort-AV: E=Sophos;i="5.93,278,1654585200"; d="scan'208";a="296796972"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 11:31:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,278,1654585200"; d="scan'208";a="563132886"
-Received: from lkp-server02.sh.intel.com (HELO 811e2ceaf0e5) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 31 Aug 2022 11:31:22 -0700
-Received: from kbuild by 811e2ceaf0e5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oTSUk-0000a6-00;
- Wed, 31 Aug 2022 18:31:22 +0000
-Date: Thu, 01 Sep 2022 02:30:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 7fd22855300e693668c3397771b3a2b3948f827a
-Message-ID: <630fa8c5.moZxX4/JNtIfjYQO%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 802F510E4E6;
+ Wed, 31 Aug 2022 18:33:13 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3AAF322127;
+ Wed, 31 Aug 2022 18:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1661970792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8zhJNbuHBiMdGM8xu5MdwGFNU+wLrVr3NlIf0x71kpw=;
+ b=NLYASDNvrnsUdcgdR70yFOkuKhSFLtg9O7UAU1Xk+AWew/MOB9/FXRdu/DAoiqkJ7pQ4Sk
+ nHNYzu7F9sW9Il6sRfZQU7NXiHD/Jgm4GdO11hF2ZPZroWZF2XdZrY8F8cLd0hhCX7/+D3
+ cO7L62PM9r4/c6L4z3fRage6MlJM4WI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1661970792;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8zhJNbuHBiMdGM8xu5MdwGFNU+wLrVr3NlIf0x71kpw=;
+ b=NevTRDV2ckw/yoyJkMsk5+BYmJrxM4wnC9zJshPh3PUKbWZvIDJVNV6JHxCy6gDQlX3dVi
+ 88SrULiD7BfTh8Ag==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D3CD61332D;
+ Wed, 31 Aug 2022 18:33:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id H7dhMmepD2NrPAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 31 Aug 2022 18:33:11 +0000
+Date: Wed, 31 Aug 2022 20:33:10 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <Yw+pZnEbPxkJ1nHa@linux-uq9g.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,177 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- linux-wpan@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 7fd22855300e693668c3397771b3a2b3948f827a  Add linux-next specific files for 20220831
+Hi Dave and Daniel,
 
-Error/Warning reports:
+only a single fix from drm-misc this week.
 
-https://lore.kernel.org/linux-mm/202209010004.BZ0Et3LM-lkp@intel.com
-https://lore.kernel.org/llvm/202208312208.HjwleIeN-lkp@intel.com
+Best regards
+Thomas
 
-Error/Warning: (recently discovered and may have been fixed)
+drm-misc-fixes-2022-08-31:
+Short summary of fixes pull:
 
-drivers/base/regmap/regmap-mmio.c:221:17: error: implicit declaration of function 'writesb'; did you mean 'writeb'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:224:17: error: implicit declaration of function 'writesw'; did you mean 'writew'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:227:17: error: implicit declaration of function 'writesl'; did you mean 'writel'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:231:17: error: implicit declaration of function 'writesq'; did you mean 'writeq'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:231:17: error: implicit declaration of function 'writesq'; did you mean 'writesl'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:358:17: error: implicit declaration of function 'readsb'; did you mean 'readb'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:361:17: error: implicit declaration of function 'readsw'; did you mean 'readw'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:364:17: error: implicit declaration of function 'readsl'; did you mean 'readl'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:368:17: error: implicit declaration of function 'readsq'; did you mean 'readq'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:368:17: error: implicit declaration of function 'readsq'; did you mean 'readsl'? [-Werror=implicit-function-declaration]
-drivers/platform/mellanox/mlxreg-lc.c:866 mlxreg_lc_probe() warn: passing zero to 'PTR_ERR'
-net/ieee802154/nl802154.c:2503:26: error: 'NL802154_CMD_DEL_SEC_LEVEL' undeclared here (not in a function); did you mean 'NL802154_CMD_SET_CCA_ED_LEVEL'?
+ * dma-buf/dma-resv: Fence-handling fix
+The following changes since commit 6b04ce966a738ecdd9294c9593e48513c0dc90aa:
 
-Error/Warning ids grouped by kconfigs:
+  nouveau: explicitly wait on the fence in nouveau_bo_move_m2mf (2022-08-23 18:00:12 +0200)
 
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsb
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsl
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsw
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesb
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesl
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
-|   `-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesw
-|-- alpha-randconfig-r024-20220830
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsb
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsl
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsw
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesb
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesl
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
-|   `-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesw
-|-- arc-randconfig-r002-20220830
-|   `-- net-ieee802154-nl802154.c:error:NL802154_CMD_DEL_SEC_LEVEL-undeclared-here-(not-in-a-function)
-|-- i386-randconfig-s001
-|   `-- include-trace-events-kmem.h:sparse:sparse:restricted-gfp_t-degrades-to-integer
-|-- i386-randconfig-s002
-|   `-- include-trace-events-kmem.h:sparse:sparse:restricted-gfp_t-degrades-to-integer
-|-- i386-randconfig-s003
-|   `-- include-trace-events-kmem.h:sparse:sparse:restricted-gfp_t-degrades-to-integer
-|-- parisc-randconfig-r012-20220831
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsb
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsl
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsw
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesb
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesl
-|   `-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesw
-|-- powerpc-randconfig-s053-20220830
-|   `-- include-trace-events-kmem.h:sparse:sparse:restricted-gfp_t-degrades-to-integer
-|-- s390-randconfig-s052-20220830
-|   `-- include-trace-events-kmem.h:sparse:sparse:restricted-gfp_t-degrades-to-integer
-|-- sparc-allyesconfig
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
-|   `-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
-|-- sparc-buildonly-randconfig-r005-20220830
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
-|   `-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
-|-- sparc64-buildonly-randconfig-r006-20220830
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
-|   `-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
-|-- sparc64-randconfig-c042-20220830
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
-|   `-- net-ieee802154-nl802154.c:error:NL802154_CMD_DEL_SEC_LEVEL-undeclared-here-(not-in-a-function)
-clang_recent_errors
-`-- arm-randconfig-r006-20220830
-    `-- drivers-gpu-drm-amd-amdgpu-imu_v11_0_3.c:warning:no-previous-prototype-for-function-imu_v11_0_3_program_rlc_ram
+are available in the Git repository at:
 
-elapsed time: 725m
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-08-31
 
-configs tested: 76
-configs skipped: 2
+for you to fetch changes up to a3f7c10a269d5b77dd5822ade822643ced3057f0:
 
-gcc tested configs:
-arc                        vdk_hs38_defconfig
-arm                           u8500_defconfig
-arm                          badge4_defconfig
-arm                           tegra_defconfig
-powerpc                           allnoconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                           alldefconfig
-i386                                defconfig
-arm                         nhk8815_defconfig
-x86_64                              defconfig
-xtensa                  cadence_csp_defconfig
-x86_64                               rhel-8.3
-x86_64                    rhel-8.3-kselftests
-arm                          simpad_defconfig
-x86_64                          rhel-8.3-func
-m68k                           virt_defconfig
-x86_64                         rhel-8.3-kunit
-i386                          randconfig-a001
-arm                      footbridge_defconfig
-i386                          randconfig-a003
-ia64                                defconfig
-arc                  randconfig-r043-20220830
-x86_64                        randconfig-a013
-x86_64                           rhel-8.3-syz
-x86_64                           rhel-8.3-kvm
-i386                          randconfig-a005
-x86_64                        randconfig-a011
-x86_64                           allyesconfig
-sparc                            alldefconfig
-csky                              allnoconfig
-sh                               allmodconfig
-arc                               allnoconfig
-alpha                             allnoconfig
-riscv                             allnoconfig
-mips                             allyesconfig
-arm                                 defconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a015
-x86_64                        randconfig-a004
-i386                          randconfig-a014
-x86_64                        randconfig-a002
-i386                          randconfig-a012
-i386                             allyesconfig
-i386                          randconfig-a016
-x86_64                        randconfig-a006
-ia64                             allmodconfig
-m68k                             allyesconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-arm                         axm55xx_defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
+  dma-buf/dma-resv: check if the new fence is really later (2022-08-25 13:10:30 +0200)
 
-clang tested configs:
-arm                            mmp2_defconfig
-i386                          randconfig-a002
-hexagon              randconfig-r045-20220830
-x86_64                        randconfig-a012
-riscv                randconfig-r042-20220830
-i386                          randconfig-a006
-hexagon              randconfig-r041-20220830
-s390                 randconfig-r044-20220830
-i386                          randconfig-a004
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-i386                          randconfig-a011
-x86_64                        randconfig-a005
-i386                          randconfig-a015
-arm                       mainstone_defconfig
-arm                        magician_defconfig
-riscv                          rv32_defconfig
-x86_64                        randconfig-k001
-x86_64                          rhel-8.3-rust
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * dma-buf/dma-resv: Fence-handling fix
+
+----------------------------------------------------------------
+Christian König (1):
+      dma-buf/dma-resv: check if the new fence is really later
+
+ drivers/dma-buf/dma-resv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
