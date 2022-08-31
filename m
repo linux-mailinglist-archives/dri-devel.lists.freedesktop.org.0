@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FEE15A81B9
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 17:40:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFF35A81BA
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 17:41:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE0110E45B;
-	Wed, 31 Aug 2022 15:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D6B510E43D;
+	Wed, 31 Aug 2022 15:40:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B85310E43F;
- Wed, 31 Aug 2022 15:39:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D69710E446;
+ Wed, 31 Aug 2022 15:39:53 +0000 (UTC)
 Received: from dimapc.. (109-252-119-13.nat.spd-mgts.ru [109.252.119.13])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 172376601EAC;
- Wed, 31 Aug 2022 16:39:46 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 447B46601DEF;
+ Wed, 31 Aug 2022 16:39:49 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1661960389;
- bh=gdOsnqn+hkC/PYCc3SOTg9WbAqCE6tugxLVX0sLlB6k=;
+ s=mail; t=1661960392;
+ bh=iqiuG6elCAPxC5quyUMlq7dtDwEk3iewWUdCPSj6Wh0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WLF6bT+wDRofJAtDZk+i2VmH8A0ApZxbJPdBENc2WsfMj9DWX/4nsgRPP/X0h2cPc
- Q+z/ITW7+8jBiClYSOevkqmQMj5ZY4DTpwBrki3X+EQRNLP2wzw8WK7zREcI2bDSNX
- CD260pRQ/h3fXPMJUtuf2sIDljhle9yyNj7vamirWCHaWz+fe7J5lpxcHG6vWAGz9e
- L6hRXO87US7+C6URv9MmyZHsXIk5YtbmEYykRTw+ak23HugSPYn+3S1zv1CSdV5eSd
- YGI88Y9TXgnQiNuejbDWZszW0ZXlUt/kMba0/D//NaVvJm53xfBMrQT/MhpZ4I8oIk
- bkkBH5QjZiXmw==
+ b=iwuMv9xLnfekm41TGBF3RPAoCqh5F5XUSOeklx7AUykOfmI/q1IknjpSNZ1sgwms9
+ FH+iKb1PjnddqXSDd3gPdc3S4x7qKBGbECxVttU2VoIDti22io9srpaLNYzL7JF2bK
+ H5NL/0KIRX3oSAiKn7bB1kLUQB0IZrieWB210PjgAQaf2toiXVnABV2bjYkkDFQCkQ
+ TYqjc1E0NRgYFEOJBIeZgC385lqCtTKP3vOTqiNSP82Rdl12QbWUPyq1Jvkm++oAwp
+ kG1w1Gq/JuMLvurW/hngpCwCbvox273LAkvCIiy0BwT2EkiZwLv9+iRcEqAVzc9mFq
+ UYHJWGpANzUug==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -63,10 +63,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Tomi Valkeinen <tomba@kernel.org>, Russell King <linux@armlinux.org.uk>,
  Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>
-Subject: [PATCH v4 11/21] misc: fastrpc: Prepare to dynamic dma-buf locking
+Subject: [PATCH v4 12/21] xen/gntdev: Prepare to dynamic dma-buf locking
  specification
-Date: Wed, 31 Aug 2022 18:37:47 +0300
-Message-Id: <20220831153757.97381-12-dmitry.osipenko@collabora.com>
+Date: Wed, 31 Aug 2022 18:37:48 +0300
+Message-Id: <20220831153757.97381-13-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220831153757.97381-1-dmitry.osipenko@collabora.com>
 References: <20220831153757.97381-1-dmitry.osipenko@collabora.com>
@@ -93,38 +93,47 @@ Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare fastrpc to the common dynamic dma-buf locking convention by
-starting to use the unlocked versions of dma-buf API functions.
+Prepare gntdev driver to the common dynamic dma-buf locking convention
+by starting to use the unlocked versions of dma-buf API functions.
 
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/misc/fastrpc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/xen/gntdev-dmabuf.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 93ebd174d848..6fcfb2e9f7a7 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -310,8 +310,8 @@ static void fastrpc_free_map(struct kref *ref)
- 				return;
- 			}
- 		}
--		dma_buf_unmap_attachment(map->attach, map->table,
--					 DMA_BIDIRECTIONAL);
-+		dma_buf_unmap_attachment_unlocked(map->attach, map->table,
-+						  DMA_BIDIRECTIONAL);
- 		dma_buf_detach(map->buf, map->attach);
- 		dma_buf_put(map->buf);
- 	}
-@@ -726,7 +726,7 @@ static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
- 		goto attach_err;
- 	}
+diff --git a/drivers/xen/gntdev-dmabuf.c b/drivers/xen/gntdev-dmabuf.c
+index 940e5e9e8a54..4440e626b797 100644
+--- a/drivers/xen/gntdev-dmabuf.c
++++ b/drivers/xen/gntdev-dmabuf.c
+@@ -600,7 +600,7 @@ dmabuf_imp_to_refs(struct gntdev_dmabuf_priv *priv, struct device *dev,
  
--	map->table = dma_buf_map_attachment(map->attach, DMA_BIDIRECTIONAL);
-+	map->table = dma_buf_map_attachment_unlocked(map->attach, DMA_BIDIRECTIONAL);
- 	if (IS_ERR(map->table)) {
- 		err = PTR_ERR(map->table);
- 		goto map_err;
+ 	gntdev_dmabuf->u.imp.attach = attach;
+ 
+-	sgt = dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
++	sgt = dma_buf_map_attachment_unlocked(attach, DMA_BIDIRECTIONAL);
+ 	if (IS_ERR(sgt)) {
+ 		ret = ERR_CAST(sgt);
+ 		goto fail_detach;
+@@ -658,7 +658,7 @@ dmabuf_imp_to_refs(struct gntdev_dmabuf_priv *priv, struct device *dev,
+ fail_end_access:
+ 	dmabuf_imp_end_foreign_access(gntdev_dmabuf->u.imp.refs, count);
+ fail_unmap:
+-	dma_buf_unmap_attachment(attach, sgt, DMA_BIDIRECTIONAL);
++	dma_buf_unmap_attachment_unlocked(attach, sgt, DMA_BIDIRECTIONAL);
+ fail_detach:
+ 	dma_buf_detach(dma_buf, attach);
+ fail_free_obj:
+@@ -708,8 +708,8 @@ static int dmabuf_imp_release(struct gntdev_dmabuf_priv *priv, u32 fd)
+ 	attach = gntdev_dmabuf->u.imp.attach;
+ 
+ 	if (gntdev_dmabuf->u.imp.sgt)
+-		dma_buf_unmap_attachment(attach, gntdev_dmabuf->u.imp.sgt,
+-					 DMA_BIDIRECTIONAL);
++		dma_buf_unmap_attachment_unlocked(attach, gntdev_dmabuf->u.imp.sgt,
++						  DMA_BIDIRECTIONAL);
+ 	dma_buf = attach->dmabuf;
+ 	dma_buf_detach(attach->dmabuf, attach);
+ 	dma_buf_put(dma_buf);
 -- 
 2.37.2
 
