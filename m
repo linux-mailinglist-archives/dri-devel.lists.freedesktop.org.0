@@ -1,79 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C1B5A840C
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 19:15:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E77D95A843A
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 19:24:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A5110E415;
-	Wed, 31 Aug 2022 17:15:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E19110E4A7;
+	Wed, 31 Aug 2022 17:24:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C2E10E415
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 17:15:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661966116;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3wNDRJb+y9GkEb33I7HiMe0aeP3rl6XFj5xgf5bJFgc=;
- b=UllZ4waRVbg8pZ5KlSxCroRM9HN1CVkOxwjBKDG9GptMIg5d2xUuYPFnkwOYiWxFhnJGQg
- pEC4WtF2VO8txYQg2azqhQKF55HcprdpHubqPG4qKt5EFFC3t2tFS0jlgkBIBHrY9uj8ou
- AedEBEKCreL98OEI6dGKzLQrrR274hg=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-29-shlIcDiVMxuVo4L9EfkTUQ-1; Wed, 31 Aug 2022 13:15:15 -0400
-X-MC-Unique: shlIcDiVMxuVo4L9EfkTUQ-1
-Received: by mail-il1-f198.google.com with SMTP id
- c7-20020a056e020bc700b002e59be6ce85so10926602ilu.12
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 10:15:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc;
- bh=3wNDRJb+y9GkEb33I7HiMe0aeP3rl6XFj5xgf5bJFgc=;
- b=nISToSTCVoQUpVmRTBK1ayeIngOi2OPdvsNpse5AK2/LJjB1VZw5tSZCVeZZWvwdjh
- uA9PbiW1Q86VGlJj4a+vdPY9pFvGgLrmlGoM08p4acEFx1TozqDm4IwvSJsrhbdJQLe5
- svfgfO20wiQTaGohWeWtKUcXlL8gSxjRu0yUqZrXE8MWCIFyDMyXGf6hWdimgCiqXuwE
- vPeO+HHcR4Fh1YgJ4DWJ+FDRut+p+NcrwaVDcYODVI+oLduKB2pim0SA/5UNGrm8ARMf
- iXMpbxbqv1c1AiwY9pZ+IWuZ1RvEPxrrYWmaF52uM0FNKBHeQWPK13/XPaKf4Lizsypw
- fjzQ==
-X-Gm-Message-State: ACgBeo2vYyUL2KQOPLHhr2+j0KfW97YLkS1QYnzmQBN7A5LTXY1nVPgA
- vJzwxubU74/SSEcx+iA6L2YeL1HZBYrGfK9MgxWybDs40uFHHb7qWvYbpxjDYOcPLpsSMKw4rCv
- Md4zwnH3Vq6tpO/UzPQjB296Z5f7M
-X-Received: by 2002:a05:6638:dd4:b0:349:ebfd:e705 with SMTP id
- m20-20020a0566380dd400b00349ebfde705mr15532691jaj.4.1661966114842; 
- Wed, 31 Aug 2022 10:15:14 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7UqftyvxL/mEDNedrHFErMBY8p1pSeatls/DmKqtUta1ABwUYFXwUlUJQ1689Lfg3tEQsWAQ==
-X-Received: by 2002:a05:6638:dd4:b0:349:ebfd:e705 with SMTP id
- m20-20020a0566380dd400b00349ebfde705mr15532650jaj.4.1661966114600; 
- Wed, 31 Aug 2022 10:15:14 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- u190-20020a0223c7000000b00343617e8368sm7084182jau.99.2022.08.31.10.15.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 10:15:14 -0700 (PDT)
-Date: Wed, 31 Aug 2022 11:15:12 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH 15/15] vfio: Add struct device to vfio_device
-Message-ID: <20220831111512.4924e152.alex.williamson@redhat.com>
-In-Reply-To: <BN9PR11MB5276BF3B8D65B66DB292CAE58C789@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220827171037.30297-1-kevin.tian@intel.com>
- <20220827171037.30297-16-kevin.tian@intel.com>
- <20220830161838.4aa47045.alex.williamson@redhat.com>
- <Yw6i7btDKcUDPADP@ziepe.ca>
- <BN9PR11MB5276BF3B8D65B66DB292CAE58C789@BN9PR11MB5276.namprd11.prod.outlook.com>
-Organization: Red Hat
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6F5710E4A3;
+ Wed, 31 Aug 2022 17:24:09 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4MHrd45HRTz9sl2;
+ Wed, 31 Aug 2022 17:24:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1661966649; bh=mVdFZRuMxI+3AafMbrFo0sPT4vkxiLNMYUSUT2lThcs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=fBWG4uETfoUZGWsbA1GDK2R1ZouzKKgmLznouPTlC/7bWB4Yn3Ij/Vki6FsYoEw/x
+ JbDzGiLPmj7rCTzdUUXiAXu0e1jl1u4xnuQmYSRGUkGCPc+E/hhe6BmvdA+xJIp0Wl
+ qpYkoX0cfsnnSh7yH2zi8OjRVvqqJF6XK8OsNW3Q=
+X-Riseup-User-ID: CDEFAA06E31C7B42FEA4DF8C8C758D97D3814908FD7AFE91AE33B3FFFC8FC6CE
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4MHrcv64S5z1y9N;
+ Wed, 31 Aug 2022 17:23:59 +0000 (UTC)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To: Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Daniel Latypov <dlatypov@google.com>, David Gow <davidgow@google.com>
+Subject: [PATCH v2 0/8] drm/amd/display: Introduce KUnit to Display Mode
+ Library
+Date: Wed, 31 Aug 2022 14:22:31 -0300
+Message-Id: <20220831172239.344446-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,98 +58,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, David Airlie <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Kirti Wankhede <kwankhede@nvidia.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Longfang Liu <liulongfang@huawei.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Liu,
- Yi L" <yi.l.liu@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- Leon Romanovsky <leon@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
+Cc: kunit-dev@googlegroups.com, magalilemes00@gmail.com,
+ tales.aparecida@gmail.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, mwen@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ dri-devel@lists.freedesktop.org, Isabella Basso <isabbasso@riseup.net>,
+ andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 31 Aug 2022 06:10:51 +0000
-"Tian, Kevin" <kevin.tian@intel.com> wrote:
+Hello,
 
-> > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > Sent: Wednesday, August 31, 2022 7:53 AM
-> > 
-> > On Tue, Aug 30, 2022 at 04:18:38PM -0600, Alex Williamson wrote:  
-> > > On Sun, 28 Aug 2022 01:10:37 +0800
-> > > Kevin Tian <kevin.tian@intel.com> wrote:
-> > >  
-> > > > From: Yi Liu <yi.l.liu@intel.com>
-> > > >
-> > > > and replace kref. With it a 'vfio-dev/vfioX' node is created under the
-> > > > sysfs path of the parent, indicating the device is bound to a vfio
-> > > > driver, e.g.:
-> > > >
-> > > > /sys/devices/pci0000\:6f/0000\:6f\:01.0/vfio-dev/vfio0
-> > > >
-> > > > It is also a preparatory step toward adding cdev for supporting future
-> > > > device-oriented uAPI.  
-> > >
-> > > Shall we start Documentation/ABI/testing/vfio-dev now?  Thanks.  
-> > 
-> > I always thought that was something to use when adding new custom
-> > sysfs attributes?
-> > 
-> > Here we are just creating a standard struct device with its standard
-> > sysfs?
-> >   
-> 
-> There is nothing special for vfio-dev/vfioX. But from pci device p.o.v
-> this does introduce a custom node in the directory, which is probably
-> what Alex referred to?
+This series is version 2 of the introduction of unit testing to the
+AMDPGU driver [1].
 
-Yup, but not just for pci, we're adding a node into the device
-directory for any device bound to vfio.
+Our main goal is to bring unit testing to the AMD display driver; in
+particular, we'll focus on the Display Mode Library (DML) for DCN2.0,
+DMUB, and some of the DCE functions. This implementation intends to
+help developers to recognize bugs before they are merged into the
+mainline and also makes it possible for future code refactors of the
+AMD display driver.
 
-> Anyway if required following can be introduced:
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-devices-vfio-dev b/Documentation/ABI/testing/sysfs-devices-vfio-dev
-> new file mode 100644
-> index 000000000000..dfe8baaf1ccb
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-devices-vfio-dev
-> @@ -0,0 +1,8 @@
-> +What:		 /sys/.../<device>/vfio-dev/vfioX/
-> +Date:		 September 2022
-> +Contact:	 Yi Liu <yi.l.liu@intel.com>
-> +Description:
-> +		 This directory is created when the device is bound to a
-> +		 vfio driver. The layout under this directory matches what
-> +		 exists for a standard 'struct device'. 'X' is a random
-> +		 number marking this device in vfio.
+For the implementation of the tests, we decided to go with the Kernel
+Unit Testing Framework (KUnit). KUnit makes it possible to run test
+suites on kernel boot or load the tests as a module. It reports all test
+case results through a TAP (Test Anything Protocol) in the kernel log.
+Moreover, KUnit unifies the test structure and provides tools to
+simplify the testing for developers and CI systems.
 
-It's not really random, it's a unique index.  Seems like a good
-starting point.
+In regards to CI pipelines, we believe kunit_tool [2] provides
+ease of use, but we are also working on integrating KUnit into IGT.
 
-> 
-> At the start I thought it might make more sense to add it into an
-> existing vfio ABI file. But looks it doesn't exist.
-> 
-> Curious why nobody asked for ABI doc for /dev/vfio/vfio, /sys/class/vfio, etc...
+In this second version, we've chosen a mix of approaches to integrate
+KUnit tests into amdgpu:
+    1. Tests that use static functions are included through guards [3].
+    2. Tests without static functions are included through a Makefile.
 
-Oversight, there should probably be a sysfs-class-vfio file.  Thanks,
+We understand that testing static functions is not ideal, but taking into
+consideration that this driver relies heavily on static functions with
+complex behavior which would benefit from unit testing, otherwise, black-box
+tested through public functions with dozens of arguments and sometimes high
+cyclomatic complexity.
 
-Alex
+The first seven patches represent what we intend to do for the rest of the
+DML modules: systematic testing of the DML functions, especially mathematically
+complicated functions. Also, it shows how simple it is to add new tests to the DML.
+
+Among the tests, we highlight the dcn20_fpu_test, which, had it existed
+then, could catch the defects introduced to dcn20_fpu.c by 8861c27a6c [4]
+later fixed by 9ad5d02c2a [5].
+
+In this series, there's also an example of how unit tests can help avoid
+regressions and keep track of changes in behavior.
+
+Applying this series on top of the amd-staging-drm-next (787df47adb1f)
+and running its tests will fail the `dc_dmub_srv` test, you can verify
+that with:
+
+$ ./tools/testing/kunit/kunit.py run --arch=x86_64 \
+                --kunitconfig=drivers/gpu/drm/amd/display/tests
+
+```
+...
+[17:37:28] # Subtest: populate_subvp_cmd_drr_info_test
+[17:37:28] # populate_subvp_cmd_drr_info_test: pass:0 fail:5 skip:0 total:5
+[17:37:28] not ok 1 - populate_subvp_cmd_drr_info_test
+[17:37:28] ======== [FAILED] populate_subvp_cmd_drr_info_test =========
+[17:37:28] # Subtest: dc_dmub_srv
+[17:37:28] 1..1
+[17:37:28] # Totals: pass:0 fail:5 skip:0 total:5
+[17:37:28] not ok 4 - dc_dmub_srv
+[17:37:28] =================== [FAILED] dc_dmub_srv ===================
+[17:37:28] ============================================================
+[17:37:28] Testing complete. Passed: 88, Failed: 5, Crashed: 0, Skipped: 0, Errors: 0
+```
+Full output at: https://pastebin.com/PfmbXAJ9
+
+This is due to a known regression introduced by commit 5da7f4134357
+("drm/amd/display: fix 32 bit compilation errors in dc_dmub_srv.c")
+[6], which resulted in the struct's members being zero. As an
+exercise, you can revert the offending patch, run the tests again, and
+the test-series will result in success.
+
+```
+[17:41:44] Testing complete. Passed: 93, Failed: 0, Crashed: 0, Skipped: 0, Errors: 0
+```
+Full successful output: https://pastebin.com/Nn2rRRkd
+
+This series depends on a couple of KUnit patches already merged into
+torvalds/master, which themselves depend on older patches:
+
+commit 61695f8c5d51 ("kunit: split resource API from test.h into new resource.h")
+commit 2852ca7fba9f ("panic: Taint kernel if tests are run")
+commit cfc1d277891e ("module: Move all into module/")
+commit cdebea6968fa ("kunit: split resource API impl from test.c into new resource.c")
+commit cae56e1740f5 ("kunit: rename print_subtest_{start,end} for clarity (s/subtest/suite)")
+commit 1cdba21db2ca ("kunit: add ability to specify suite-level init and exit functions")
+commit c272612cb4a2 ("kunit: Taint the kernel when KUnit tests are run")
+commit 3d6e44623841 ("kunit: unify module and builtin suite definitions")
+commit a02353f49162 ("kunit: bail out of test filtering logic quicker if OOM")
+commit 1b11063d32d7 ("kunit: fix executor OOM error handling logic on non-UML")
+commit e5857d396f35 ("kunit: flatten kunit_suite*** to kunit_suite** in .kunit_test_suites")
+commit 94681e289bf5 ("kunit: executor: Fix a memory leak on failure in kunit_filter_tests")
+
+Thanks in advance for your time taking a look and sending any feedback!
+
+Best regards,
+Isabella Basso, Magali Lemes, Maíra Canal, and Tales Aparecida`
+
+[1] https://summerofcode.withgoogle.com/programs/2022/organizations/xorg-foundation
+[2] https://www.kernel.org/doc/html/latest/dev-tools/kunit/kunit-tool.html
+[3] https://docs.kernel.org/dev-tools/kunit/usage.html#testing-static-functions
+[4] https://lore.kernel.org/amd-gfx/20220603185042.3408844-6-Rodrigo.Siqueira@amd.com/
+[5] https://lore.kernel.org/amd-gfx/20220608164856.1870594-1-sunpeng.li@amd.com/
+[6] https://lore.kernel.org/amd-gfx/20220708052650.1029150-1-alexander.deucher@amd.com/
+
+---
+v1 -> v2: https://lore.kernel.org/amd-gfx/20220811004010.61299-1-tales.aparecida@gmail.com/
+
+- Add comments to display_mode_vba_20_test and display_rq_dlg_calc_20_test (Maíra Canal).
+- Fix checkpatch warnings (Maíra Canal).
+- Add three more tests to display_mode_vba_20 (Maíra Canal).
+- Create three Kconfig entries for the tests (Tales Aparecida).
+- Add a "depends on" in the Kconfig to assure no broken configs with UML (David Gow).
+- Create a Makefile for tests that don´t hold static function testing (Tales Aparecida).
+- Update the documentation with new Kconfig entries and more details on how to add new tests.
+- Add David's Reviewed-by.
+---
+
+Isabella Basso (1):
+  drm/amd/display: Introduce KUnit tests to display_rq_dlg_calc_20
+
+Magali Lemes (1):
+  drm/amd/display: Introduce KUnit tests for dcn20_fpu
+
+Maíra Canal (5):
+  drm/amd/display: Introduce KUnit tests to the bw_fixed library
+  drm/amd/display: Introduce KUnit tests to the display_mode_vba library
+  drm/amd/display: Introduce KUnit to dcn20/display_mode_vba_20 library
+  drm/amd/display: Introduce KUnit tests to dc_dmub_srv library
+  Documentation/gpu: Add Display Core Unit Test documentation
+
+Tales Aparecida (1):
+  drm/amd/display: Introduce KUnit tests for fixed31_32 library
+
+ .../gpu/amdgpu/display/display-test.rst       |  88 ++
+ Documentation/gpu/amdgpu/display/index.rst    |   1 +
+ drivers/gpu/drm/amd/display/Kconfig           |  51 +
+ drivers/gpu/drm/amd/display/Makefile          |   2 +-
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |   4 +
+ .../drm/amd/display/dc/dml/calcs/bw_fixed.c   |   3 +
+ .../dc/dml/dcn20/display_mode_vba_20.c        |   4 +
+ .../dc/dml/dcn20/display_rq_dlg_calc_20.c     |   4 +
+ .../gpu/drm/amd/display/tests/.kunitconfig    |   9 +
+ drivers/gpu/drm/amd/display/tests/Makefile    |  18 +
+ .../display/tests/dc/basics/fixpt31_32_test.c | 232 +++++
+ .../amd/display/tests/dc/dc_dmub_srv_test.c   | 285 ++++++
+ .../tests/dc/dml/calcs/bw_fixed_test.c        | 323 +++++++
+ .../tests/dc/dml/dcn20/dcn20_fpu_test.c       | 561 +++++++++++
+ .../dc/dml/dcn20/display_mode_vba_20_test.c   | 888 ++++++++++++++++++
+ .../dml/dcn20/display_rq_dlg_calc_20_test.c   | 124 +++
+ .../tests/dc/dml/display_mode_vba_test.c      | 741 +++++++++++++++
+ 17 files changed, 3337 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/gpu/amdgpu/display/display-test.rst
+ create mode 100644 drivers/gpu/drm/amd/display/tests/.kunitconfig
+ create mode 100644 drivers/gpu/drm/amd/display/tests/Makefile
+ create mode 100644 drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c
+ create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dc_dmub_srv_test.c
+ create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/calcs/bw_fixed_test.c
+ create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/dcn20_fpu_test.c
+ create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/display_mode_vba_20_test.c
+ create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/display_rq_dlg_calc_20_test.c
+ create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/display_mode_vba_test.c
+
+-- 
+2.37.2
 
