@@ -1,49 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2500C5A8880
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 23:51:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 665405A8879
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 23:51:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6786310E511;
-	Wed, 31 Aug 2022 21:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB2010E508;
+	Wed, 31 Aug 2022 21:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1405210E4F0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7410810E4F6;
  Wed, 31 Aug 2022 21:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1661982633; x=1693518633;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4Jy3myBUOLe2xYnSKVWN0bTdnwqvrashwRPhcHF/+KU=;
- b=Brieo9QGuPMdQ0NdVDLQ4qlNL8gNaNkUkNZIKyxAwbc0kUeJSCFo9/Lx
- k/NfAYwYzjPbBpBdZdJkA7FB3fkskxfwEMXA1k1mEsDFLLUqrsT82/t3H
- DDR1Gvx8RqR9tx+3ybSdpGq7o9M91WOYSReYjBC6ifFuPJqtUNAANegMI
- IXlJz8c6D/2UDK/9kr+aqk7w8EdgQalbTqMFwVF0rlQqHASfNDD3Wtnrm
- ggWM+3+cyAmJkTgTls2OH4Oj2NzKzvG7++SFtnKo5f9UnGeICZInLWqqb
- v6oGy111c9DMNEfpkDTmkTFsdQptb3emJxQVHjUZtM+u3ehNdZF03cDCo w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="296833062"
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="296833062"
+ bh=5qFkWI1M4EAjEBlzyf2YMFq2VMiN1UHbAprVMkxho4Q=;
+ b=R2r7Q4cq6PWJEtFh5GWHCGMT89azOfvrT2nfS7la7pTOm/ADDLIK/PSf
+ DH+0JGLxdEPQb/o5AHa4e1FEs2ljikKpjbvpNlAK0pCUCR2VtZu6LImtP
+ SOsBJ5KlwjiYuPZfoZnfeYXHTCWDNq0iWmYZGZJ1Opl4UD+pS4eU9Ajun
+ KhzI0gOmPseIL9xgnyvj34Ao1loHjkYyZYP1qnOMWlSEnR3GHuzkfSy9n
+ +qS+0bSfERGQydpfZQkf7hy2oX22z5fXV2YXS5HDY+fzEmSaz8+2nNPG3
+ rAnAllxh0O3a1Yp2nSbZJW0cDmoMQxmd/894Y4Gzv6LTdmHkpOdmciknF w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="296833065"
+X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="296833065"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  31 Aug 2022 14:50:31 -0700
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="940586216"
+X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="940586220"
 Received: from invictus.jf.intel.com ([10.165.21.206])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 14:50:30 -0700
+ 31 Aug 2022 14:50:31 -0700
 From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 03/11] drm/i915: Parse and set stepping for platforms with
- GMD
-Date: Wed, 31 Aug 2022 14:49:50 -0700
-Message-Id: <20220831214958.109753-4-radhakrishna.sripada@intel.com>
+Subject: [PATCH v3 04/11] drm/i915/mtl: Define engine context layouts
+Date: Wed, 31 Aug 2022 14:49:51 -0700
+Message-Id: <20220831214958.109753-5-radhakrishna.sripada@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220831214958.109753-1-radhakrishna.sripada@intel.com>
 References: <20220831214958.109753-1-radhakrishna.sripada@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,100 +59,143 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: José Roberto de Souza <jose.souza@intel.com>
+From: Matt Roper <matthew.d.roper@intel.com>
 
-The GMD step field do not properly match the current stepping convention
-that we use(STEP_A0, STEP_A1, STEP_B0...).
+The part of the media and blitter engine contexts that we care about for
+setting up an initial state are the same on MTL as they were on DG2
+(and PVC), so we need to update the driver conditions to re-use the DG2
+context table.
 
-One platform could have { arch = 12, rel = 70, step = 1 } and the
-actual stepping is STEP_B0 but without the translation of the step
-field would mean STEP_A1.
-That is why we will need to have gmd_to_intel_step tables for each IP.
+For render/compute engines, the part of the context images are nearly
+the same, although the layout had a very slight change --- one POSH
+register was removed and the placement of some LRI/noops adjusted
+slightly to compensate.
 
-Reviewed-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
+v2:
+ - Dg2, mtl xcs offsets slightly vary. Use a seperate offsets array(Bala)
+ - Drop unused registers in mtl rcs offsets.(Bala)
+
+Bspec: 46261, 46260, 45585
+Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 ---
- drivers/gpu/drm/i915/intel_step.c | 60 +++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_lrc.c | 81 ++++++++++++++++++++++++++++-
+ 1 file changed, 79 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_step.c b/drivers/gpu/drm/i915/intel_step.c
-index 42b3133d8387..0fa7147c7d0f 100644
---- a/drivers/gpu/drm/i915/intel_step.c
-+++ b/drivers/gpu/drm/i915/intel_step.c
-@@ -135,6 +135,48 @@ static const struct intel_step_info adlp_n_revids[] = {
- 	[0x0] = { COMMON_GT_MEDIA_STEP(A0), .display_step = STEP_D0 },
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index 070cec4ff8a4..ecb030ee39cd 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -264,6 +264,38 @@ static const u8 dg2_xcs_offsets[] = {
+ 	END
  };
  
-+struct gmd_to_intel_step {
-+	struct ip_version gmd;
-+	enum intel_step step;
++static const u8 mtl_xcs_offsets[] = {
++	NOP(1),
++	LRI(13, POSTED),
++	REG16(0x244),
++	REG(0x034),
++	REG(0x030),
++	REG(0x038),
++	REG(0x03c),
++	REG(0x168),
++	REG(0x140),
++	REG(0x110),
++	REG(0x1c0),
++	REG(0x1c4),
++	REG(0x1c8),
++	REG(0x180),
++	REG16(0x2b4),
++
++	NOP(1),
++	LRI(9, POSTED),
++	REG16(0x3a8),
++	REG16(0x28c),
++	REG16(0x288),
++	REG16(0x284),
++	REG16(0x280),
++	REG16(0x27c),
++	REG16(0x278),
++	REG16(0x274),
++	REG16(0x270),
++
++	END
 +};
 +
-+static const struct gmd_to_intel_step gmd_graphics_table[] = {
-+	{ .gmd.ver = 12, .gmd.rel = 70, .gmd.step = 0, .step = STEP_A0 },
-+	{ .gmd.ver = 12, .gmd.rel = 70, .gmd.step = 4, .step = STEP_B0 },
-+	{ .gmd.ver = 12, .gmd.rel = 71, .gmd.step = 0, .step = STEP_A0 },
-+	{ .gmd.ver = 12, .gmd.rel = 71, .gmd.step = 4, .step = STEP_B0 },
-+	{ .gmd.ver = 12, .gmd.rel = 73, .gmd.step = 0, .step = STEP_A0 },
-+	{ .gmd.ver = 12, .gmd.rel = 73, .gmd.step = 4, .step = STEP_B0 },
-+};
-+
-+static const struct gmd_to_intel_step gmd_media_table[] = {
-+	{ .gmd.ver = 13, .gmd.rel = 70, .gmd.step = 0, .step = STEP_A0 },
-+	{ .gmd.ver = 13, .gmd.rel = 70, .gmd.step = 4, .step = STEP_B0 },
-+};
-+
-+static const struct gmd_to_intel_step gmd_display_table[] = {
-+	{ .gmd.ver = 14, .gmd.rel = 0, .gmd.step = 0, .step = STEP_A0 },
-+	{ .gmd.ver = 14, .gmd.rel = 0, .gmd.step = 4, .step = STEP_B0 },
-+};
-+
-+static u8 gmd_to_intel_step(struct drm_i915_private *i915,
-+			    struct ip_version *gmd,
-+			    const struct gmd_to_intel_step *table,
-+			    int len)
-+{
-+	int i;
-+
-+	for (i = 0; i < len; i++) {
-+		if (table[i].gmd.ver == gmd->ver &&
-+		    table[i].gmd.rel == gmd->rel &&
-+		    table[i].gmd.step == gmd->step)
-+			return table[i].step;
-+	}
-+
-+	drm_dbg(&i915->drm, "Using future steppings\n");
-+	return STEP_FUTURE;
-+}
-+
- static void pvc_step_init(struct drm_i915_private *i915, int pci_revid);
+ static const u8 gen8_rcs_offsets[] = {
+ 	NOP(1),
+ 	LRI(14, POSTED),
+@@ -606,6 +638,47 @@ static const u8 dg2_rcs_offsets[] = {
+ 	END
+ };
  
- void intel_step_init(struct drm_i915_private *i915)
-@@ -144,6 +186,24 @@ void intel_step_init(struct drm_i915_private *i915)
- 	int revid = INTEL_REVID(i915);
- 	struct intel_step_info step = {};
++static const u8 mtl_rcs_offsets[] = {
++       NOP(1),
++       LRI(13, POSTED),
++       REG16(0x244),
++       REG(0x034),
++       REG(0x030),
++       REG(0x038),
++       REG(0x03c),
++       REG(0x168),
++       REG(0x140),
++       REG(0x110),
++       REG(0x1c0),
++       REG(0x1c4),
++       REG(0x1c8),
++       REG(0x180),
++       REG16(0x2b4),
++
++       NOP(1),
++       LRI(9, POSTED),
++       REG16(0x3a8),
++       REG16(0x28c),
++       REG16(0x288),
++       REG16(0x284),
++       REG16(0x280),
++       REG16(0x27c),
++       REG16(0x278),
++       REG16(0x274),
++       REG16(0x270),
++
++       NOP(2),
++       LRI(2, POSTED),
++       REG16(0x5a8),
++       REG16(0x5ac),
++
++       NOP(6),
++       LRI(1, 0),
++       REG(0x0c8),
++
++       END
++};
++
+ #undef END
+ #undef REG16
+ #undef REG
+@@ -624,7 +697,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
+ 		   !intel_engine_has_relative_mmio(engine));
  
-+	if (HAS_GMD_ID(i915)) {
-+		step.graphics_step = gmd_to_intel_step(i915,
-+						       &RUNTIME_INFO(i915)->graphics,
-+						       gmd_graphics_table,
-+						       ARRAY_SIZE(gmd_graphics_table));
-+		step.media_step = gmd_to_intel_step(i915,
-+						    &RUNTIME_INFO(i915)->media,
-+						    gmd_media_table,
-+						    ARRAY_SIZE(gmd_media_table));
-+		step.display_step = gmd_to_intel_step(i915,
-+						      &RUNTIME_INFO(i915)->display,
-+						      gmd_display_table,
-+						      ARRAY_SIZE(gmd_display_table));
-+		RUNTIME_INFO(i915)->step = step;
-+
-+		return;
-+	}
-+
- 	if (IS_PONTEVECCHIO(i915)) {
- 		pvc_step_init(i915, revid);
- 		return;
+ 	if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE) {
+-		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
++		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
++			return mtl_rcs_offsets;
++		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
+ 			return dg2_rcs_offsets;
+ 		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
+ 			return xehp_rcs_offsets;
+@@ -637,7 +712,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
+ 		else
+ 			return gen8_rcs_offsets;
+ 	} else {
+-		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
++		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
++			return mtl_xcs_offsets;
++		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
+ 			return dg2_xcs_offsets;
+ 		else if (GRAPHICS_VER(engine->i915) >= 12)
+ 			return gen12_xcs_offsets;
 -- 
 2.25.1
 
