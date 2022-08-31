@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EAD5A8668
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 21:06:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CDBF5A868C
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 21:15:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56A3910E032;
-	Wed, 31 Aug 2022 19:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9AD710E106;
+	Wed, 31 Aug 2022 19:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E71A10E032
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 19:06:07 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- t11-20020a17090a510b00b001fac77e9d1fso172557pjh.5
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 12:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=t9nkfZEyPsyobY4BF8QWflVAKFbRwcQ/dQ/3Tr/GPQ8=;
- b=lRzt2fZiaWLow8SiLm73H9pv8b9cRl7u+7+nwnwQ7Z0mkMQUznYorlPpHABLrcglg8
- InNdPtGVF2+ot1FxG9spMw/8yObsLBUJlA44b20855x8lH1rbSwew57f0eNpUArBZZHB
- QidKd8JfB1Ja0Ap3k9mWLvWGuITfFk27s2LlcH0SarQSxJHxSKheMH1NO0kUnQjmgafP
- eQ2qBkMqx8WOp22UYghY3Hl1pVzcBX4Ebz/IBYURByc3V23Nyz+hUjDv79lsjxunQR5I
- zk0REw/ud1Bu8kR5ZarYEExAhzJcMHuNFxNn7O/ZCe6DhmIPbEYNTZNDuQHzEv77wlY5
- /7jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=t9nkfZEyPsyobY4BF8QWflVAKFbRwcQ/dQ/3Tr/GPQ8=;
- b=m+DI2vvPN5yccVVlCYkWwEtO3rjViiLNUxo/CGoOR5syrGAluVfie4raJhorlMSy1Z
- 57vZYTEU0FtKATnHxPo1PwQAEduB1bvjIlmCEJagt+gJ0O261+1lPaoiUd4B3avgSzGc
- RarY12aDcTrB9ftPLriVcggCqubE8u0gAfKGarLDGqhUKpL1iLqv5oxLb55VBLE6uVYM
- bMP1yxINKPa6EL8/3qS/ljsK13YmkqwT3v/WKk/KKENe2HCb8B+P7+ASEi2WGFDGOal+
- ifuR1m85ekhapYEiXQSejeqGhzb3Zr4NfkAsskHr//y7aI53Ivjo0ZQXUXWEOdWBQ7D0
- klJw==
-X-Gm-Message-State: ACgBeo0S8O00T9pxg324m6PxXJz5CCBpimkfJXQ2pcWHahIExzznqJYh
- tUstgKuCEimJDRZcubqu2KUptFvr0+w=
-X-Google-Smtp-Source: AA6agR7SDIMoAlSBJxWQT/X2ybX2wf4K1lJyY9hJUb5G5fk7kiBfspMw3I9UZZXBecrP7I+oYEAnQA==
-X-Received: by 2002:a17:90b:1812:b0:1fd:d509:93e5 with SMTP id
- lw18-20020a17090b181200b001fdd50993e5mr4717865pjb.25.1661972767123; 
- Wed, 31 Aug 2022 12:06:07 -0700 (PDT)
-Received: from olv-glaptop.corp.google.com
- ([2620:0:1000:2514:7dac:af8e:fd67:5cf7])
- by smtp.gmail.com with ESMTPSA id
- h187-20020a62dec4000000b0053639773ad8sm11686053pfg.119.2022.08.31.12.06.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 12:06:06 -0700 (PDT)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: set fb_modifiers_not_supported
-Date: Wed, 31 Aug 2022 12:06:01 -0700
-Message-Id: <20220831190601.1295129-1-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3B9310E03D;
+ Wed, 31 Aug 2022 19:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=lFykXXuh414AMHOUrkjMCmREYuLQabBQPnrg6lAfPPY=; b=ZZ198Xf6PPUp/l53rhljFuGMcF
+ 4zuRseMWeZpoj311RIFnjrUYtADjn9wuJNnEsMO5CjZC+xEdH2c5qjeG0ILG3eq0DkS+/UAuBjtmA
+ lj9MawJD7bAGX1645naLEYPOhTdWjb1DKDqwDt5sCid+4EKbwJJ+m1nntHZqZTCOwtH2m0Y9w0pvq
+ ypgdce4iD49nSDTQOHr/OQAfe1DigWSkskMg6tndHXcqQjah9nFLMqXz3YF7rBpOLW1ZK9v7rG2Lt
+ fwCHewKIgkfbPSZuTdFO+kk9VvsODXV4OOvjxUHa5qpzXfN6R8L2vlOWdmejD3IUudqW/Bg3YIvS9
+ NvG7WR9A==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=57178)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oTTAj-0002O5-TA; Wed, 31 Aug 2022 21:14:45 +0200
+Message-ID: <dab9899b-b3e5-b99f-7219-9b5efa3a3591@tronnes.org>
+Date: Wed, 31 Aug 2022 21:14:36 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 18/41] drm/connector: Add a function to lookup a TV
+ mode by its name
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-18-459522d653a7@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-18-459522d653a7@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +67,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shao-Chuan Lee <shaochuan@chromium.org>, David Airlie <airlied@linux.ie>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, virtualization@lists.linux-foundation.org,
- Tomohito Esaki <etom@igel.co.jp>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Without this, the drm core advertises LINEAR modifier which is
-incorrect.
 
-Also userspace virgl does not support modifiers.  For example, it causes
-chrome on ozone/drm to fail with "Failed to create scanout buffer".
 
-Fixes: 2af104290da5 ("drm: introduce fb_modifiers_not_supported flag in mode_config")
-Suggested-by: Shao-Chuan Lee <shaochuan@chromium.org>
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
----
- drivers/gpu/drm/virtio/virtgpu_display.c | 2 ++
- 1 file changed, 2 insertions(+)
+Den 29.08.2022 15.11, skrev Maxime Ripard:
+> As part of the command line parsing rework coming in the next patches,
+> 
+> we'll need to lookup drm_connector_tv_mode values by their name, already
+> 
+> defined in drm_tv_mode_enum_list.
+> 
+> 
+> 
+> In order to avoid any code duplication, let's do a function that will
+> 
+> perform a lookup of a TV mode name and return its value.
+> 
+> 
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> 
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> 
+> index b1fcacd150e8..0fe01a1c20ad 100644
+> 
+> --- a/drivers/gpu/drm/drm_connector.c
+> 
+> +++ b/drivers/gpu/drm/drm_connector.c
+> 
+> @@ -1003,6 +1003,30 @@ static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
+> 
+>  };
+> 
+>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+> 
+>  
+> 
+> +/**
+> 
+> + * drm_get_tv_mode_from_name - Translates a TV mode name into its enum value
+> 
+> + * @name: TV Mode name we want to convert
+> 
+> + * @len: Length of @name
+> 
+> + *
+> 
+> + * Translates @name into an enum drm_connector_tv_mode.
+> 
+> + *
+> 
+> + * Returns: the enum value on success, a negative errno otherwise.
+> 
+> + */
+> 
+> +int drm_get_tv_mode_from_name(const char *name, size_t len)
+> 
+> +{
+> 
+> +	unsigned int i;
+> 
+> +
+> 
+> +	for (i = 0; i < ARRAY_SIZE(drm_tv_mode_enum_list); i++) {
+> 
+> +		const struct drm_prop_enum_list *item = &drm_tv_mode_enum_list[i];
+> 
+> +
+> 
+> +		if (strlen(item->name) == len && !strncmp(item->name, name, len))
+> 
+> +			return item->type;
+> 
+> +	}
+> 
+> +
+> 
+> +	return -EINVAL;
+> 
+> +}
+> 
+> +EXPORT_SYMBOL(drm_get_tv_mode_from_name)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index 5c7f198c0712..9ea7611a9e0f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -349,6 +349,8 @@ int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
- 	vgdev->ddev->mode_config.max_width = XRES_MAX;
- 	vgdev->ddev->mode_config.max_height = YRES_MAX;
- 
-+	vgdev->ddev->mode_config.fb_modifiers_not_supported = true;
-+
- 	for (i = 0 ; i < vgdev->num_scanouts; ++i)
- 		vgdev_output_init(vgdev, i);
- 
--- 
-2.37.2.789.g6183377224-goog
+Missing semicolon.
 
+Noralf.
+
+> 
+> +
+> 
+>  static const struct drm_prop_enum_list drm_tv_select_enum_list[] = {
+> 
+>  	{ DRM_MODE_SUBCONNECTOR_Automatic, "Automatic" }, /* DVI-I and TV-out */
+> 
+>  	{ DRM_MODE_SUBCONNECTOR_Composite, "Composite" }, /* TV-out */
+> 
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> 
+> index bb39d2bb806e..49d261977d4e 100644
+> 
+> --- a/include/drm/drm_connector.h
+> 
+> +++ b/include/drm/drm_connector.h
+> 
+> @@ -1943,6 +1943,8 @@ const char *drm_get_dp_subconnector_name(int val);
+> 
+>  const char *drm_get_content_protection_name(int val);
+> 
+>  const char *drm_get_hdcp_content_type_name(int val);
+> 
+>  
+> 
+> +int drm_get_tv_mode_from_name(const char *name, size_t len);
+> 
+> +
+> 
+>  int drm_mode_create_dvi_i_properties(struct drm_device *dev);
+> 
+>  void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector);
+> 
+>  
+> 
+> 
+> 
