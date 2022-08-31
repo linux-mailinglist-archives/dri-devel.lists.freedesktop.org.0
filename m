@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77D95A843A
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 19:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C68F5A843D
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 19:24:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E19110E4A7;
-	Wed, 31 Aug 2022 17:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0DC610E4A1;
+	Wed, 31 Aug 2022 17:24:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6F5710E4A3;
- Wed, 31 Aug 2022 17:24:09 +0000 (UTC)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D05DC10E4A2;
+ Wed, 31 Aug 2022 17:24:22 +0000 (UTC)
 Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
  client-signature RSA-PSS (2048 bits) client-digest SHA256)
  (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4MHrd45HRTz9sl2;
- Wed, 31 Aug 2022 17:24:08 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4MHrdK4s0qzDqVh;
+ Wed, 31 Aug 2022 17:24:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1661966649; bh=mVdFZRuMxI+3AafMbrFo0sPT4vkxiLNMYUSUT2lThcs=;
- h=From:To:Cc:Subject:Date:From;
- b=fBWG4uETfoUZGWsbA1GDK2R1ZouzKKgmLznouPTlC/7bWB4Yn3Ij/Vki6FsYoEw/x
- JbDzGiLPmj7rCTzdUUXiAXu0e1jl1u4xnuQmYSRGUkGCPc+E/hhe6BmvdA+xJIp0Wl
- qpYkoX0cfsnnSh7yH2zi8OjRVvqqJF6XK8OsNW3Q=
-X-Riseup-User-ID: CDEFAA06E31C7B42FEA4DF8C8C758D97D3814908FD7AFE91AE33B3FFFC8FC6CE
+ t=1661966662; bh=NDHsN7tnVRqVPKZrXkKij05R0LOwicpB7OiD2o8XhKg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=URTfpM06k9SIiwX80jPillT7G3nxqtPWTtu/UjdlAEH+F/w2DI07k4b/LVdqOB7jA
+ diFBtpZERB9QyhbkPwXDqNc/n7mDeMA9vet+PUeOLvwG0xPr2ger9btJ54KUTTl2T7
+ v6h+E+RXA4FFYNZddfK26v6Ik5PFd9B2JJ4FubeI=
+X-Riseup-User-ID: AA816DBB8AEBD43463B14E651A60ACB569D2A1D4CCA3690AD2C75C5004A625CD
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4MHrcv64S5z1y9N;
- Wed, 31 Aug 2022 17:23:59 +0000 (UTC)
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4MHrd86v7Yz1y9N;
+ Wed, 31 Aug 2022 17:24:12 +0000 (UTC)
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
 To: Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
  Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
@@ -39,10 +39,12 @@ To: Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
  Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  Daniel Latypov <dlatypov@google.com>, David Gow <davidgow@google.com>
-Subject: [PATCH v2 0/8] drm/amd/display: Introduce KUnit to Display Mode
- Library
-Date: Wed, 31 Aug 2022 14:22:31 -0300
-Message-Id: <20220831172239.344446-1-mairacanal@riseup.net>
+Subject: [PATCH v2 1/8] drm/amd/display: Introduce KUnit tests for fixed31_32
+ library
+Date: Wed, 31 Aug 2022 14:22:32 -0300
+Message-Id: <20220831172239.344446-2-mairacanal@riseup.net>
+In-Reply-To: <20220831172239.344446-1-mairacanal@riseup.net>
+References: <20220831172239.344446-1-mairacanal@riseup.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -67,170 +69,338 @@ Cc: kunit-dev@googlegroups.com, magalilemes00@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+From: Tales Aparecida <tales.aparecida@gmail.com>
 
-This series is version 2 of the introduction of unit testing to the
-AMDPGU driver [1].
+The fixed31_32 library performs a lot of the mathematical operations
+involving fixed-point arithmetic and the conversion of integers to
+fixed-point representation.
 
-Our main goal is to bring unit testing to the AMD display driver; in
-particular, we'll focus on the Display Mode Library (DML) for DCN2.0,
-DMUB, and some of the DCE functions. This implementation intends to
-help developers to recognize bugs before they are merged into the
-mainline and also makes it possible for future code refactors of the
-AMD display driver.
-
-For the implementation of the tests, we decided to go with the Kernel
-Unit Testing Framework (KUnit). KUnit makes it possible to run test
-suites on kernel boot or load the tests as a module. It reports all test
-case results through a TAP (Test Anything Protocol) in the kernel log.
-Moreover, KUnit unifies the test structure and provides tools to
-simplify the testing for developers and CI systems.
-
-In regards to CI pipelines, we believe kunit_tool [2] provides
-ease of use, but we are also working on integrating KUnit into IGT.
-
-In this second version, we've chosen a mix of approaches to integrate
-KUnit tests into amdgpu:
-    1. Tests that use static functions are included through guards [3].
-    2. Tests without static functions are included through a Makefile.
-
-We understand that testing static functions is not ideal, but taking into
-consideration that this driver relies heavily on static functions with
-complex behavior which would benefit from unit testing, otherwise, black-box
-tested through public functions with dozens of arguments and sometimes high
-cyclomatic complexity.
-
-The first seven patches represent what we intend to do for the rest of the
-DML modules: systematic testing of the DML functions, especially mathematically
-complicated functions. Also, it shows how simple it is to add new tests to the DML.
-
-Among the tests, we highlight the dcn20_fpu_test, which, had it existed
-then, could catch the defects introduced to dcn20_fpu.c by 8861c27a6c [4]
-later fixed by 9ad5d02c2a [5].
-
-In this series, there's also an example of how unit tests can help avoid
-regressions and keep track of changes in behavior.
-
-Applying this series on top of the amd-staging-drm-next (787df47adb1f)
-and running its tests will fail the `dc_dmub_srv` test, you can verify
-that with:
+This unit tests intend to assure the proper functioning of the basic
+mathematical operations of fixed-point arithmetic, such as
+multiplication, conversion from fractional to fixed-point number,
+and more. Use kunit_tool to run:
 
 $ ./tools/testing/kunit/kunit.py run --arch=x86_64 \
-                --kunitconfig=drivers/gpu/drm/amd/display/tests
+	--kunitconfig=drivers/gpu/drm/amd/display/tests/
 
-```
-...
-[17:37:28] # Subtest: populate_subvp_cmd_drr_info_test
-[17:37:28] # populate_subvp_cmd_drr_info_test: pass:0 fail:5 skip:0 total:5
-[17:37:28] not ok 1 - populate_subvp_cmd_drr_info_test
-[17:37:28] ======== [FAILED] populate_subvp_cmd_drr_info_test =========
-[17:37:28] # Subtest: dc_dmub_srv
-[17:37:28] 1..1
-[17:37:28] # Totals: pass:0 fail:5 skip:0 total:5
-[17:37:28] not ok 4 - dc_dmub_srv
-[17:37:28] =================== [FAILED] dc_dmub_srv ===================
-[17:37:28] ============================================================
-[17:37:28] Testing complete. Passed: 88, Failed: 5, Crashed: 0, Skipped: 0, Errors: 0
-```
-Full output at: https://pastebin.com/PfmbXAJ9
-
-This is due to a known regression introduced by commit 5da7f4134357
-("drm/amd/display: fix 32 bit compilation errors in dc_dmub_srv.c")
-[6], which resulted in the struct's members being zero. As an
-exercise, you can revert the offending patch, run the tests again, and
-the test-series will result in success.
-
-```
-[17:41:44] Testing complete. Passed: 93, Failed: 0, Crashed: 0, Skipped: 0, Errors: 0
-```
-Full successful output: https://pastebin.com/Nn2rRRkd
-
-This series depends on a couple of KUnit patches already merged into
-torvalds/master, which themselves depend on older patches:
-
-commit 61695f8c5d51 ("kunit: split resource API from test.h into new resource.h")
-commit 2852ca7fba9f ("panic: Taint kernel if tests are run")
-commit cfc1d277891e ("module: Move all into module/")
-commit cdebea6968fa ("kunit: split resource API impl from test.c into new resource.c")
-commit cae56e1740f5 ("kunit: rename print_subtest_{start,end} for clarity (s/subtest/suite)")
-commit 1cdba21db2ca ("kunit: add ability to specify suite-level init and exit functions")
-commit c272612cb4a2 ("kunit: Taint the kernel when KUnit tests are run")
-commit 3d6e44623841 ("kunit: unify module and builtin suite definitions")
-commit a02353f49162 ("kunit: bail out of test filtering logic quicker if OOM")
-commit 1b11063d32d7 ("kunit: fix executor OOM error handling logic on non-UML")
-commit e5857d396f35 ("kunit: flatten kunit_suite*** to kunit_suite** in .kunit_test_suites")
-commit 94681e289bf5 ("kunit: executor: Fix a memory leak on failure in kunit_filter_tests")
-
-Thanks in advance for your time taking a look and sending any feedback!
-
-Best regards,
-Isabella Basso, Magali Lemes, Maíra Canal, and Tales Aparecida`
-
-[1] https://summerofcode.withgoogle.com/programs/2022/organizations/xorg-foundation
-[2] https://www.kernel.org/doc/html/latest/dev-tools/kunit/kunit-tool.html
-[3] https://docs.kernel.org/dev-tools/kunit/usage.html#testing-static-functions
-[4] https://lore.kernel.org/amd-gfx/20220603185042.3408844-6-Rodrigo.Siqueira@amd.com/
-[5] https://lore.kernel.org/amd-gfx/20220608164856.1870594-1-sunpeng.li@amd.com/
-[6] https://lore.kernel.org/amd-gfx/20220708052650.1029150-1-alexander.deucher@amd.com/
-
+Reviewed-by: David Gow <davidgow@google.com>
+Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
 ---
-v1 -> v2: https://lore.kernel.org/amd-gfx/20220811004010.61299-1-tales.aparecida@gmail.com/
-
-- Add comments to display_mode_vba_20_test and display_rq_dlg_calc_20_test (Maíra Canal).
-- Fix checkpatch warnings (Maíra Canal).
-- Add three more tests to display_mode_vba_20 (Maíra Canal).
-- Create three Kconfig entries for the tests (Tales Aparecida).
-- Add a "depends on" in the Kconfig to assure no broken configs with UML (David Gow).
-- Create a Makefile for tests that don´t hold static function testing (Tales Aparecida).
-- Update the documentation with new Kconfig entries and more details on how to add new tests.
-- Add David's Reviewed-by.
----
-
-Isabella Basso (1):
-  drm/amd/display: Introduce KUnit tests to display_rq_dlg_calc_20
-
-Magali Lemes (1):
-  drm/amd/display: Introduce KUnit tests for dcn20_fpu
-
-Maíra Canal (5):
-  drm/amd/display: Introduce KUnit tests to the bw_fixed library
-  drm/amd/display: Introduce KUnit tests to the display_mode_vba library
-  drm/amd/display: Introduce KUnit to dcn20/display_mode_vba_20 library
-  drm/amd/display: Introduce KUnit tests to dc_dmub_srv library
-  Documentation/gpu: Add Display Core Unit Test documentation
-
-Tales Aparecida (1):
-  drm/amd/display: Introduce KUnit tests for fixed31_32 library
-
- .../gpu/amdgpu/display/display-test.rst       |  88 ++
- Documentation/gpu/amdgpu/display/index.rst    |   1 +
- drivers/gpu/drm/amd/display/Kconfig           |  51 +
+ drivers/gpu/drm/amd/display/Kconfig           |  13 +
  drivers/gpu/drm/amd/display/Makefile          |   2 +-
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |   4 +
- .../drm/amd/display/dc/dml/calcs/bw_fixed.c   |   3 +
- .../dc/dml/dcn20/display_mode_vba_20.c        |   4 +
- .../dc/dml/dcn20/display_rq_dlg_calc_20.c     |   4 +
- .../gpu/drm/amd/display/tests/.kunitconfig    |   9 +
- drivers/gpu/drm/amd/display/tests/Makefile    |  18 +
- .../display/tests/dc/basics/fixpt31_32_test.c | 232 +++++
- .../amd/display/tests/dc/dc_dmub_srv_test.c   | 285 ++++++
- .../tests/dc/dml/calcs/bw_fixed_test.c        | 323 +++++++
- .../tests/dc/dml/dcn20/dcn20_fpu_test.c       | 561 +++++++++++
- .../dc/dml/dcn20/display_mode_vba_20_test.c   | 888 ++++++++++++++++++
- .../dml/dcn20/display_rq_dlg_calc_20_test.c   | 124 +++
- .../tests/dc/dml/display_mode_vba_test.c      | 741 +++++++++++++++
- 17 files changed, 3337 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/gpu/amdgpu/display/display-test.rst
+ .../gpu/drm/amd/display/tests/.kunitconfig    |   6 +
+ drivers/gpu/drm/amd/display/tests/Makefile    |  12 +
+ .../display/tests/dc/basics/fixpt31_32_test.c | 232 ++++++++++++++++++
+ 5 files changed, 264 insertions(+), 1 deletion(-)
  create mode 100644 drivers/gpu/drm/amd/display/tests/.kunitconfig
  create mode 100644 drivers/gpu/drm/amd/display/tests/Makefile
  create mode 100644 drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dc_dmub_srv_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/calcs/bw_fixed_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/dcn20_fpu_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/display_mode_vba_20_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/display_rq_dlg_calc_20_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/display_mode_vba_test.c
 
+diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
+index 96cbc87f7b6b..cc44cfe88607 100644
+--- a/drivers/gpu/drm/amd/display/Kconfig
++++ b/drivers/gpu/drm/amd/display/Kconfig
+@@ -55,4 +55,17 @@ config DRM_AMD_SECURE_DISPLAY
+             Cooperate with specific DMCU FW.
+ 
+ 
++config AMD_DC_BASICS_KUNIT_TEST
++	bool "Enable KUnit tests for the 'basics' sub-component of DAL" if !KUNIT_ALL_TESTS
++	depends on DRM_AMD_DC && KUNIT
++	default KUNIT_ALL_TESTS
++	help
++		Enables unit tests for the Display Core. Only useful for kernel
++		devs running KUnit.
++
++		For more information on KUnit and unit tests in general please refer to
++		the KUnit documentation in Documentation/dev-tools/kunit/.
++
++		If unsure, say N.
++
+ endmenu
+diff --git a/drivers/gpu/drm/amd/display/Makefile b/drivers/gpu/drm/amd/display/Makefile
+index 2633de77de5e..0f329aab13f0 100644
+--- a/drivers/gpu/drm/amd/display/Makefile
++++ b/drivers/gpu/drm/amd/display/Makefile
+@@ -43,7 +43,7 @@ endif
+ #TODO: remove when Timing Sync feature is complete
+ subdir-ccflags-y += -DBUILD_FEATURE_TIMING_SYNC=0
+ 
+-DAL_LIBS = amdgpu_dm dc	modules/freesync modules/color modules/info_packet modules/power dmub/src
++DAL_LIBS = amdgpu_dm dc	modules/freesync modules/color modules/info_packet modules/power dmub/src tests
+ 
+ ifdef CONFIG_DRM_AMD_DC_HDCP
+ DAL_LIBS += modules/hdcp
+diff --git a/drivers/gpu/drm/amd/display/tests/.kunitconfig b/drivers/gpu/drm/amd/display/tests/.kunitconfig
+new file mode 100644
+index 000000000000..60f2ff8158f5
+--- /dev/null
++++ b/drivers/gpu/drm/amd/display/tests/.kunitconfig
+@@ -0,0 +1,6 @@
++CONFIG_KUNIT=y
++CONFIG_PCI=y
++CONFIG_DRM=y
++CONFIG_DRM_AMDGPU=y
++CONFIG_DRM_AMD_DC=y
++CONFIG_AMD_DC_BASICS_KUNIT_TEST=y
+\ No newline at end of file
+diff --git a/drivers/gpu/drm/amd/display/tests/Makefile b/drivers/gpu/drm/amd/display/tests/Makefile
+new file mode 100644
+index 000000000000..ef16497318e8
+--- /dev/null
++++ b/drivers/gpu/drm/amd/display/tests/Makefile
+@@ -0,0 +1,12 @@
++# SPDX-License-Identifier: MIT
++#
++# Makefile for the KUnit Tests for DC
++#
++
++ifdef CONFIG_AMD_DC_BASICS_KUNIT_TEST
++	DC_TESTS += dc/basics/fixpt31_32_test.o
++endif
++
++AMD_DAL_DC_TESTS = $(addprefix $(AMDDALPATH)/tests/,$(DC_TESTS))
++
++AMD_DISPLAY_FILES += $(AMD_DAL_DC_TESTS)
+diff --git a/drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c b/drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c
+new file mode 100644
+index 000000000000..2fc489203499
+--- /dev/null
++++ b/drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c
+@@ -0,0 +1,232 @@
++// SPDX-License-Identifier: MIT
++/* Unit tests for display/include/fixed31_32.h and dc/basics/fixpt31_32.c
++ *
++ * Copyright (C) 2022, Tales Aparecida <tales.aparecida@gmail.com>
++ */
++
++#include <kunit/test.h>
++#include "os_types.h"
++#include "fixed31_32.h"
++
++static const struct fixed31_32 dc_fixpt_minus_one = { -0x100000000LL };
++
++/**
++ * dc_fixpt_from_int_test - KUnit test for dc_fixpt_from_int
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_from_int_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++
++	res = dc_fixpt_from_int(0);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_zero.value);
++
++	res = dc_fixpt_from_int(1);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_from_int(-1);
++	KUNIT_EXPECT_EQ(test, res.value, -dc_fixpt_one.value);
++
++	res = dc_fixpt_from_int(INT_MAX);
++	KUNIT_EXPECT_EQ(test, res.value, 0x7FFFFFFF00000000LL);
++
++	res = dc_fixpt_from_int(INT_MIN);
++	KUNIT_EXPECT_EQ(test, res.value,
++			0x8000000000000000LL); /* implicit negative signal */
++}
++
++/**
++ * dc_fixpt_from_fraction_test - KUnit test for dc_fixpt_from_fraction
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_from_fraction_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++
++	/* Assert signal works as expected */
++	res = dc_fixpt_from_fraction(1LL, 1LL);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(-1LL, 1LL);
++	KUNIT_EXPECT_EQ(test, res.value, -dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(1LL, -1LL);
++	KUNIT_EXPECT_EQ(test, res.value, -dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(-1LL, -1LL);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	/* Assert that the greatest parameter values works as expected */
++	res = dc_fixpt_from_fraction(LLONG_MAX, LLONG_MAX);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(LLONG_MIN, LLONG_MIN);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	/* Edge case using the smallest fraction possible without LSB rounding */
++	res = dc_fixpt_from_fraction(1, 1LL << (FIXED31_32_BITS_PER_FRACTIONAL_PART));
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_epsilon.value);
++
++	/* Edge case using the smallest fraction possible with LSB rounding */
++	res = dc_fixpt_from_fraction(1, 1LL << (FIXED31_32_BITS_PER_FRACTIONAL_PART + 1));
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_epsilon.value);
++
++	/* Assert an nil numerator is a valid input */
++	res = dc_fixpt_from_fraction(0LL, LLONG_MAX);
++	KUNIT_EXPECT_EQ(test, res.value, 0LL);
++
++	/* Edge case using every bit of the decimal part without rounding */
++	res = dc_fixpt_from_fraction(8589934590LL, 8589934592LL);
++	KUNIT_EXPECT_EQ(test, res.value, 0x0FFFFFFFFLL);
++
++	res = dc_fixpt_from_fraction(-8589934590LL, 8589934592LL);
++	KUNIT_EXPECT_EQ(test, res.value, -0x0FFFFFFFFLL);
++
++	/* Edge case using every bit of the decimal part then rounding LSB */
++	res = dc_fixpt_from_fraction(8589934591LL, 8589934592LL);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(-8589934591LL, 8589934592LL);
++	KUNIT_EXPECT_EQ(test, res.value, -dc_fixpt_one.value);
++	/*  A repeating decimal in binary representation that doesn't round up the LSB */
++	res = dc_fixpt_from_fraction(4, 3);
++	KUNIT_EXPECT_EQ(test, res.value, 0x0000000155555555LL);
++
++	res = dc_fixpt_from_fraction(-4, 3);
++	KUNIT_EXPECT_EQ(test, res.value, -0x0000000155555555LL);
++
++	/* A repeating decimal in binary representation that rounds up the LSB */
++	res = dc_fixpt_from_fraction(5, 3);
++	KUNIT_EXPECT_EQ(test, res.value, 0x00000001AAAAAAABLL);
++
++	res = dc_fixpt_from_fraction(-5, 3);
++	KUNIT_EXPECT_EQ(test, res.value, -0x00000001AAAAAAABLL);
++}
++
++/**
++ * dc_fixpt_mul_test - KUnit test for dc_fixpt_mul
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_mul_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++	struct fixed31_32 arg;
++
++	/* Assert signal works as expected */
++	res = dc_fixpt_mul(dc_fixpt_one, dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_mul(dc_fixpt_minus_one, dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_minus_one.value);
++
++	res = dc_fixpt_mul(dc_fixpt_one, dc_fixpt_minus_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_minus_one.value);
++
++	res = dc_fixpt_mul(dc_fixpt_minus_one, dc_fixpt_minus_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	/* Assert that the greatest parameter values works as expected */
++	arg.value = LONG_MAX;
++	res = dc_fixpt_mul(arg, dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, arg.value);
++
++	arg.value = LONG_MIN;
++	res = dc_fixpt_mul(arg, dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, arg.value);
++
++	arg.value = LONG_MAX;
++	res = dc_fixpt_mul(dc_fixpt_one, arg);
++	KUNIT_EXPECT_EQ(test, res.value, arg.value);
++
++	arg.value = LONG_MIN;
++	res = dc_fixpt_mul(dc_fixpt_one, arg);
++	KUNIT_EXPECT_EQ(test, res.value, arg.value);
++
++	/* Assert it doesn't round LSB as expected */
++	arg.value = 0x7FFFFFFF7fffffffLL;
++	res = dc_fixpt_mul(arg, dc_fixpt_epsilon);
++	KUNIT_EXPECT_EQ(test, res.value, 0x000000007FFFFFFF);
++
++	/* Assert it rounds LSB as expected */
++	arg.value = 0x7FFFFFFF80000000LL;
++	res = dc_fixpt_mul(arg, dc_fixpt_epsilon);
++	KUNIT_EXPECT_EQ(test, res.value, 0x0000000080000000);
++}
++
++/**
++ * dc_fixpt_sqr_test - KUnit test for dc_fixpt_sqr
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_sqr_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++	struct fixed31_32 arg;
++
++	arg.value = dc_fixpt_one.value;
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	arg.value = dc_fixpt_minus_one.value;
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	arg.value = 0;
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value, 0);
++
++	/* Test some recognizable values */
++	arg = dc_fixpt_from_int(100);
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_from_int(10000).value);
++
++	arg = dc_fixpt_from_fraction(1, 100);
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value,
++			dc_fixpt_from_fraction(1, 10000).value);
++
++	/* LSB rounding */
++	arg = dc_fixpt_from_fraction(3, 2);
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value,
++			dc_fixpt_from_fraction(9, 4).value + 1LL);
++}
++
++/**
++ * dc_fixpt_recip_test - KUnit test for dc_fixpt_recip
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_recip_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++	struct fixed31_32 arg;
++
++	/* Assert 1/1 works as expected */
++	res = dc_fixpt_recip(dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	/* Assert smallest parameters work as expected. */
++	arg.value = 3LL;
++	res = dc_fixpt_recip(arg);
++	KUNIT_EXPECT_EQ(test, res.value, 0x5555555555555555LL);
++
++	arg.value = -3LL;
++	res = dc_fixpt_recip(arg);
++	KUNIT_EXPECT_EQ(test, res.value, -0x5555555555555555LL);
++}
++
++static struct kunit_case dc_basics_fixpt31_32_test_cases[] = {
++	KUNIT_CASE(dc_fixpt_from_int_test),
++	KUNIT_CASE(dc_fixpt_from_fraction_test),
++	KUNIT_CASE(dc_fixpt_mul_test),
++	KUNIT_CASE(dc_fixpt_sqr_test),
++	KUNIT_CASE(dc_fixpt_recip_test),
++	{}
++};
++
++static struct kunit_suite dc_basics_fixpt31_32_test_suite = {
++	.name = "dc_basics_fixpt31_32",
++	.test_cases = dc_basics_fixpt31_32_test_cases,
++};
++
++kunit_test_suites(&dc_basics_fixpt31_32_test_suite);
++
 -- 
 2.37.2
 
