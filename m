@@ -1,144 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F285B5A88A7
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 23:57:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8465A88D7
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 00:13:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 633BE10E4F0;
-	Wed, 31 Aug 2022 21:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8621010E4F3;
+	Wed, 31 Aug 2022 22:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9505210E3EB
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 21:57:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661983071; x=1693519071;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=E+dBs7Os0eBUZmFKrzgVpGNf3I+JCdvOgT9quBKcN/4=;
- b=a8XIyNn0dVhd54+izLRrLuqCup4G2ATbRkX6iSFQQZbOhdj/SZzKHtCS
- 0kjU49jQ5y0S9/cnLQI9RM1X1hWJ6SyfwwhYKdSzMLb9Lz0SZuY3YIZIB
- mk98zDVuAeRZFoipWirfc6gcdEsTx9UAJ0HCTjOJSnPA5N2pvu+OwE9lW
- 99nSsci22TDCOba3UzguqAyZLiiOiOv1nrfIUgrAZg8wCCwVli71JSTKx
- SIjFTQ2CRrkCjNgTmPbN2xGEfYSptST8ORIFgeR8VhdDS6DQbKzEy0P39
- zbnyHcXDfSr7FVVodcCH6BaGHJNBlRhpvLbmriYqwesA2j5a7zPi0ucL3 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="296834424"
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="296834424"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 14:57:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="612244974"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga002.jf.intel.com with ESMTP; 31 Aug 2022 14:57:50 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 31 Aug 2022 14:57:50 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 31 Aug 2022 14:57:50 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 31 Aug 2022 14:57:49 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2045.outbound.protection.outlook.com [40.107.94.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72F0F10E442;
+ Wed, 31 Aug 2022 22:13:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xf/zDZeS/UEW6KTxD7KTzAUJ6bqoLfp388wLu7qPChgb/dqsLKuNZWJsAHxQL8Nyup1Zu0B1+0FcbFIQDpRDj6ifAYuo9tmN8aUEJ0k0tEelbd8D458kOa3TY1H3u50Yb8Yy2rwyC/Vqvw79D4OUIg4YQ5woCfQnp4zMmwM0S98rduBhJmE01aN2D4bHtCDj8UQB7R6wBmi49q4qxAaL9+ANp/SpRw3eeUikhb4bNWxKiDYSe+WlMS0tOsRQRSAy6HD1n6X+C8SlvK4/mE0/IaXP5gZf0c67iOg6X6JPzdYtUaD6JlZHu0A+rrZzO7X1Ewga8oMOIar/pPdOMcn6rg==
+ b=MZEQt14tCU2uf/emXBuyO3EHQyzJRbeZMjbA1NPpeg/SETBuo0izUqCUjLkMKaSLsjfGnXToQsRi/3vrZ267E70p4Vs6pG2EVW7OBgCQ6f7y4VzLLFHMSRO/VksLG8w45Y4JxiYOia7msAsPHi05DT1wx1cO4jKCbKmXV12s341vJDTGnrWhEMcHmWjyfprB41hwaFm8Wv0QtGJsYF4+WBTdDORsWwOz+zWkzR1ThPzS9eeQdJQzlxDw82nBe1tuGgNo3otTjjsqA81Xyur6YXPtxY8iiGVVigfTDySrjY3Aid8cyQHDVFXovFWSPqVg1GlEiyAASOxAGbd+EMkBBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZbPZ1DblDnR4lKACAMonxasiGtyPm8q4iwR//nqOhBQ=;
- b=ZNB+L94XhfQ1SaeEPKO2MuHuXfg+8zacHTmpsv39eAyoiJgv+7lmzMioWSIVzcDAMhIlqAxL0i9FBEnfMe5hMJ7d5ey39UpBYs1eaFo3xydLlklB2gYmD5F0G8gvv5lDEJRfh6m3fTAq8uLv8YOTUhc8jo2JDIl3Hx1Y9GyQJbWZUcEbyZL/ECJVhfLHIsx4QK1grScPJH7d2UU6hG47h7NBkDcSKGoFfHTnqan8xqbMTZvfXKk2g2cdnWgHyVvowSvR2+k+nKd41ulY0VsINNpTQJIEV0gMxwRiDGn6/RutZPXqFdrfMuZxVClWnOCAorGnZEs3nDlAW0CYpmabMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- DS0PR11MB6349.namprd11.prod.outlook.com (2603:10b6:8:ce::11) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5566.21; Wed, 31 Aug 2022 21:57:42 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::b04c:807c:4ea0:c62e]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::b04c:807c:4ea0:c62e%9]) with mapi id 15.20.5566.021; Wed, 31 Aug 2022
- 21:57:42 +0000
-From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/format: Split into more granular test cases
-Date: Wed, 31 Aug 2022 23:56:08 +0200
-Message-ID: <20220831215608.349269-2-michal.winiarski@intel.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220831215608.349269-1-michal.winiarski@intel.com>
-References: <20220831215608.349269-1-michal.winiarski@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0165.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a2::10) To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+ bh=BKKWaBub33J75dHKFnyMRakUlufQOC1jqW0h1q1WIMw=;
+ b=A0t/b3kg8/+dlp898wSvLKRP4BSoiprQwnOc4abiKyf47wDp08zvZMLJf7JmyrYiWnVfdKo8Em4k+vVSRDZooTuC88Da/BCF4cdpJaKPmvkC0AD2JRhZhWqIe/aQukGKl1ZwBH1HYv6Zqpi0y0df3qN02KsWLd8JmBcqombfjt8whIiH8bx2KjiygHkY34ZGSARoI4czS5Z7U8cG5RtV1OMe5F+NXuIe0MLMnrf4bShoqZevk70SE3MWj1hfTFxTeak/0s+ej1Ro1IlUYQc28bYLJJVqWSN518zYU6MRdLYLc6/cYHsdoOB9nJOMbZgVOZxZK2ZLIp8VlAuLMQsriQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BKKWaBub33J75dHKFnyMRakUlufQOC1jqW0h1q1WIMw=;
+ b=Tng0k9t5cl1kNRHqHmoZWLGcH9qDNHsylhj/9CsQ3sxZpaNC4OfpP/VjDHoMGBP1ZP2B0tvewej+rSj2GplnNR2bH9Z0z+qYIFwKg31wRxs7MGzmYWB8dIMR8fl6ZMxGz4Q0y9bAYPopQ50esMhfHVmy8KsH0VIw+D6ggqhjrmo=
+Received: from DM6PR02CA0132.namprd02.prod.outlook.com (2603:10b6:5:1b4::34)
+ by DM6PR12MB4435.namprd12.prod.outlook.com (2603:10b6:5:2a6::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 31 Aug
+ 2022 22:13:26 +0000
+Received: from DM6NAM11FT080.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1b4:cafe::6f) by DM6PR02CA0132.outlook.office365.com
+ (2603:10b6:5:1b4::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10 via Frontend
+ Transport; Wed, 31 Aug 2022 22:13:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT080.mail.protection.outlook.com (10.13.173.105) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5588.10 via Frontend Transport; Wed, 31 Aug 2022 22:13:26 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 31 Aug
+ 2022 17:13:25 -0500
+Received: from jzuo-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
+ Transport; Wed, 31 Aug 2022 17:13:25 -0500
+From: Fangzhi Zuo <Jerry.Zuo@amd.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Ville Syrjala
+ <ville.syrjala@linux.intel.com>, David Airlie <airlied@linux.ie>, Lyude Paul
+ <lyude@redhat.com>, Alex Deucher <alexander.deucher@amd.com>, Harry Wentland
+ <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira
+ <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH] drm/dp: Avoid Reading DPCD_REV Before Native Aux Read
+Date: Wed, 31 Aug 2022 18:13:21 -0400
+Message-ID: <20220831221321.748264-1-Jerry.Zuo@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e0ccc402-b0cf-4f1b-fc38-08da8b9bd43d
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6349:EE_
+X-MS-Office365-Filtering-Correlation-Id: f1e7292a-321e-471d-8fb5-08da8b9e070b
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4435:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d1mbGGMthCr2bcghvImSr1PSgtFouxsYDExzzKcLsf2PVnk2Rk6L2DDL65WbpNZx5nmrNpBPNrUh7U3lfWpP3vqP9KfgYHZwX0C1k+Mi2YrFdXjYs3dizRNyKeYRmOQjeTyEV32mQpWhshdTR+6xAF0ZcQTycfCwL0Y1ymggRqxfr4tHw7dG/nohZuoYzrrbFU3Ve9HLzKLelQcN0hgXmMa/m+4gQlglQt5DSMTffuvgQk0VZRgDYBRRQBfOHqar6WgkBBCI95vD537NaZazQkfs8zf3sT6m73JnC+RfgLpsI/KwlRweyalnKKmo2BcOFKCq2VvFoznbff0cbn/XMEFCMwjaDZAfHP8qaW4hqEG1WvrqselZracO3GbX5BdrehqrBz38vV3g5zMkEUYU5H5p/7Cs65BaPzk9Md0pLLZIuPD1txlRHcEDjO0XqvF+2hLjQcimHVjRr9XdAS/V7cVVFB2VDWXpf4PSf+JTgkvSOcvzgxhTiLaT0fkIcnZ5mMQJ8NBeRsRFxSySFok/VGooRbrAQagXuLhGf2FP5hmxhoC6drcyc0TC0MJQvA1BFFr3N0qVOnA0QWSAIUkECRMXgpeW6tiu2uZtmPoHbzL/wrM4JWb8sbfYatQ71RWxpUW8q/bh/wG6Q+N0rYvQldlgA7SxfAqRI6oardi/EXyFlMkzoizJ+kfOtaS44Fuw4I2F5pjQsrrJA+M9ISEYKQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(376002)(396003)(346002)(366004)(39860400002)(136003)(5660300002)(66476007)(66556008)(66946007)(107886003)(478600001)(30864003)(8676002)(4326008)(6506007)(8936002)(6666004)(41300700001)(83380400001)(6486002)(86362001)(1076003)(82960400001)(186003)(6512007)(2616005)(26005)(38100700002)(316002)(6916009)(36756003)(2906002)(54906003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T0VjQTg4cnBzeTU5ZEZNcUVwWDVEcEIxb0lBdE5zbUd0djFkS0xLNnRuT2l4?=
- =?utf-8?B?ck5ORzB0RmtuSllXQ1RyNjVxNTMzNEQ2aHRLVVQveHZaUFQvR2NLLzdzMkhY?=
- =?utf-8?B?SEhSOEo0KzdHMm83ZVBySUQzaVJISTdsU3IxMFozVElXUUtOdERGYW5zWWxa?=
- =?utf-8?B?b253Z25CaEJ5YmI5aENHZmpsSFc2cjlueTluUEh1SmVMRDVtRkM2d1lreS9m?=
- =?utf-8?B?KzNZUUlIRm0rNEIrUFdCOU5RcGFHdlU5Rnl1bXM5ME81UHRSY2dVRGtMUjBN?=
- =?utf-8?B?MzNPcXFmS2ZwRDJZRXZueDFFWlNOcnE5eUJja1NhNnErOEVzMEhMY25INnRI?=
- =?utf-8?B?V1pPU2ttbnVmYXQzcVhDYkJvT0JpL3NVaXhuZnNkK0l1RnRiODNiN3lXbThW?=
- =?utf-8?B?c083UzVOYWRJdklGbkZ4S2JKRFF1NitjZ2s4eW55WVdwOXlXYStwUkg3c2Nt?=
- =?utf-8?B?cnpUSDZhQUNIWEcrcW5zWXZBOEwzVmJ4Q1hyY2ZQNHZIWXhoVm1BSmdMOXFQ?=
- =?utf-8?B?cXpHNk5uVzJaQnFGRktuVk0zdzNPQ1YvVHJUNWNHa0tzSkJxMTludUNwaDZ6?=
- =?utf-8?B?czZwQWhWcmMzTUJmdlR1Nk83MEttcDNsUndPU2g2aUxkdW9BcTBDZi8zT2JX?=
- =?utf-8?B?djlkdnU5Nmt0ZkF1UmpyckJFb2txazJQejVlT0JFdFpDRG1VeXA4aUZhQ2FI?=
- =?utf-8?B?WGdmc2FLYlBRckl3UUFGNlJOVnd4emdJeXNDK1IwR2xSaVg5TmhZSVVISS9R?=
- =?utf-8?B?UDE3R1hwTEl2U3ZhUU0zUWpNdGlBbTkvT09JQnVtSVg3Z0kyMU5ZZjJINFgw?=
- =?utf-8?B?UWtzdWI3NWVFNElReWx4dkRwRW1NSTQwY2RTL0pCQzlTMklzTEx4M2FzeGlU?=
- =?utf-8?B?K1I0VWpzQzZtVkt1ZWRMa1lnZXBOazduMHBBMVVKTTIwc2M3VG1XeHZFdUJl?=
- =?utf-8?B?cjZOU2wzTFJzMEVIT3hxaWk0TnRXbTlTMnJFYWY2R3AzMEdQV29PdXR2K3h0?=
- =?utf-8?B?MDI3cm9ldi9tUG9vQ3hROXZMVnJIeC9aa3ZJMXVvSW56cFdCK1o5NFBXaE53?=
- =?utf-8?B?VVFnMEVPbTlyQ0E1YUdNV25uRTFDNVdHeVp2TlFKd1N1dk9BWktLclJHaHFo?=
- =?utf-8?B?UFJxd2haaWE5WDBTbGpta2FjWlhndUZZenRFUllYSUlXS1ZWU2hFOEdVN2RE?=
- =?utf-8?B?cjhXSUtvdnFOS3BoYTQvSVBZQUl0ajJ1V3l6MmNFNTFaZGhTVmFCbkxjN0dP?=
- =?utf-8?B?Zmw5L1ZJaExPcG1YdTdrVnJTVzdycVVyWlg4STJnQlZTL05JVUxGZlVaMEhH?=
- =?utf-8?B?OW9FWDFnQTdDcFc3WmlZSWpGNkM2ak54RzN0SzhKQmFzeHhqZE14ZFdneVdT?=
- =?utf-8?B?QjNNVTFjVStuOWRSd0VGSGZIZlRubTM2blE5TTBISFRqTGdHVlN2NjJWSlVC?=
- =?utf-8?B?N2ROd3UxNS9kS0VteDVlcU02bE9xQXZEYmRsOGdNYXV1Q0N6Q0NUVkpTOW9E?=
- =?utf-8?B?RE9lRE1PNnZ2R3ZqaldRZVhnTzBBaWNHaEoxc1dLSUhsV1dRVlltVk5BU3h5?=
- =?utf-8?B?LzBnMnluVHY5ZDRkTGNnTnZKdmg3V3UxcjQ0YjR3ZDN1UUg0UFNxME5QeVdu?=
- =?utf-8?B?bDcrY0ptNHVwUytyajh4Zmthdm5SdTV0Wm5USFNlclgwQlhVUmpZdlgzMkpG?=
- =?utf-8?B?aGFYRTNhNmpwRnVIMXZvNGhNMGVKempGNnBEN3MrU2ZFcS8zLzd0dDNZR1JV?=
- =?utf-8?B?WFZueGZUcHljemE2eDBiN1hNcXMwNXpmOGFjV213K205TVd5aENmeTEvN2dQ?=
- =?utf-8?B?MktLSlJmaW5hTnV5Q3lwSU5Ya2pIcnFxenZiZnlOM1dCYm9IL1plcDVuS3lx?=
- =?utf-8?B?QnVYMnJTLzZDRFJaeFkrbzVTQmJ4SlV5MU52Z2N2RC9Qck9LL0Y0Umw1RnlK?=
- =?utf-8?B?cnRWdHFhaHo5Y0thbHZYNW9icGdjbFhDT2hvYTBCZEs2ZlJCVXFrYUR3bnYv?=
- =?utf-8?B?T2N6bVd5eHRKSkRzYzZ6aHdha0R2RGhPKy94enNTN3ZLdjQ1VVE2TUZNZXQx?=
- =?utf-8?B?aXJBc0pJYVFobXhTSUwzZmo1NU9vd05zNkZtbmlWdE1BTnA0ejBWMXFTeGRP?=
- =?utf-8?B?ZEdyTGdoeGozNkJMODBzdUdadVh0RXJYRFJEVjhwcm85cjlMWVNvQllxd1Za?=
- =?utf-8?B?SFE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0ccc402-b0cf-4f1b-fc38-08da8b9bd43d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 21:57:42.5414 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N8I0XkUrTuOqVOeEe4GNY7Ec/h9IjpqhnH+SUOttaZOOKHJULYwdV2Rf2jEmyV3Ek4q1L5K0xoEHWJtHgifF0olj0aY7lBfVeFQXxj0pL7E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6349
-X-OriginatorOrg: intel.com
+X-Microsoft-Antispam-Message-Info: Chv8vuVurB7zFIcxMSjNKs62m0IBGSe4vAA/hLqXdRRxV8//Sdj7lqe1U3EFnjl5pBHCgRjCrwr7lNxVb5wo9rU+fTlOA5SPHx9aMskVDO2SdkLyZ0fRpMlQD6AwBOzp6g6mT2UzUcXwB06h41uABBi7VpdqfDmG08ohP+MCwupUqRgkaFZtPtOh2+Jou9ZSEaOVBGevsw/xMEMPjMeP9vKmS2Nv5O84sCRtBPlnXNALyZF3QqjJ63XxJ4pautQ3R+q0s4uf/GwBAr5viZzKn5CKytIDD+jehZu1CSbKV4Nr30QNFphsHE8RjLxxJyqt6fB6KoYAyDmbCjZz7fNB6gZhp7yLQHsADWOZww800QLTV4MCcnwsH72JnbJMLkrZURgq44t+oHWK5pKqc8EeFjY5QKG0PIhvd3JpRFgiliuP473BItETL9WSd4VA72IyuzF6NjO3nAHmiOKpv3Sp7hXQixNFckYd1ELS/YYJ1AloAsnrR7vCCYhyexJpyAWmtmnSBW60tNXHBXwFMRzRNNgGL9eeSsxQLzOSD88MK8Fsa7sKQm5HM0VTmtKuTcoYoEXcTkfhPYY3hlD/m8RU4vPgrA0GDyDtV8xC9zCiV24Z4XZw+w6frSOcrgUZOLEz+AevYeOXWXV+/G6zclfJli9CYvyhUFxgdCiI60fk6L/Ohd15ie4WJGYvLw8Hq1b0kVU/6SkXUJsGf5ZD9JHu4N37eTBDzz3s4m8WT3VJi1XB+pJddIn581SFZ9b01q+h4KuvyGErA4z+Wg/mzRaWarwcRda+nN1171xCzwtcn6f0I30h1sSB6vRTR6YTrvF5
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(136003)(39860400002)(346002)(396003)(40470700004)(36840700001)(46966006)(186003)(2616005)(1076003)(36860700001)(83380400001)(336012)(426003)(47076005)(81166007)(86362001)(356005)(70586007)(82740400003)(40460700003)(8936002)(40480700001)(5660300002)(2906002)(70206006)(4326008)(8676002)(7696005)(6666004)(478600001)(54906003)(110136005)(26005)(6636002)(36756003)(316002)(41300700001)(82310400005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 22:13:26.4700 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1e7292a-321e-471d-8fb5-08da8b9e070b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT080.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4435
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,354 +102,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>, Javier
- Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
+Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While we have multiple test cases, most of them check multiple
-conditions, calling the function that is tested multiple times with
-different arguments (with comments that indicate test case boundary).
-This usually means that it can be easily converted into multiple test
-cases.
+The attempt to read DPCD_REV before any native aux read breaks
+majority of DP2 compliance.
 
-Passing output:
-============================================================
-================= drm_format (18 subtests) =================
-[PASSED] drm_format_block_width_invalid
-[PASSED] drm_format_block_width_one_plane
-[PASSED] drm_format_block_width_two_plane
-[PASSED] drm_format_block_width_three_plane
-[PASSED] drm_format_block_width_tiled
-[PASSED] drm_format_block_height_invalid
-[PASSED] drm_format_block_height_one_plane
-[PASSED] drm_format_block_height_two_plane
-[PASSED] drm_format_block_height_three_plane
-[PASSED] drm_format_block_height_tiled
-[PASSED] drm_format_min_pitch_invalid
-[PASSED] drm_format_min_pitch_one_plane_8bpp
-[PASSED] drm_format_min_pitch_one_plane_16bpp
-[PASSED] drm_format_min_pitch_one_plane_24bpp
-[PASSED] drm_format_min_pitch_one_plane_32bpp
-[PASSED] drm_format_min_pitch_two_plane
-[PASSED] drm_format_min_pitch_three_plane_8bpp
-[PASSED] drm_format_min_pitch_tiled
-=================== [PASSED] drm_format ====================
-============================================================
-Testing complete. Ran 18 tests: passed: 18
+The spec. requires DP_SINK_STATUS to be polled for the reset status
+DP_INTRA_HOP_AUX_REPLY_INDICATION during the clear training stage.
 
-Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+Polling DP_SINK_STATUS each time gets DPCD_REV read first
+that makes non link training regsiter DPCD_REV get read
+during UHBR link training. It violates DP2 compliance.
+
+Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
 ---
- drivers/gpu/drm/tests/drm_format_test.c | 156 ++++++++++++++++--------
- 1 file changed, 108 insertions(+), 48 deletions(-)
+ drivers/gpu/drm/display/drm_dp_helper.c | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_format_test.c b/drivers/gpu/drm/tests/drm_format_test.c
-index 0efa88bf56a9..1936d2d59908 100644
---- a/drivers/gpu/drm/tests/drm_format_test.c
-+++ b/drivers/gpu/drm/tests/drm_format_test.c
-@@ -9,100 +9,133 @@
- 
- #include <drm/drm_fourcc.h>
- 
--static void igt_check_drm_format_block_width(struct kunit *test)
-+static void drm_format_block_width_invalid(struct kunit *test)
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index e7c22c2ca90c..c7aa5bafa667 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -571,24 +571,6 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
  {
- 	const struct drm_format_info *info = NULL;
+ 	int ret;
  
--	/* Test invalid arguments */
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
-+}
-+
-+static void drm_format_block_width_one_plane(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
- 
--	/* Test 1 plane format */
--	info = drm_format_info(DRM_FORMAT_XRGB4444);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
-+}
-+
-+static void drm_format_block_width_two_plane(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
- 
--	/* Test 2 planes format */
--	info = drm_format_info(DRM_FORMAT_NV12);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
-+}
-+
-+static void drm_format_block_width_three_plane(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
- 
--	/* Test 3 planes format */
--	info = drm_format_info(DRM_FORMAT_YUV422);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 3), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
-+}
-+
-+static void drm_format_block_width_tiled(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L0);
- 
--	/* Test a tiled format */
--	info = drm_format_info(DRM_FORMAT_X0L0);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 2);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
- }
- 
--static void igt_check_drm_format_block_height(struct kunit *test)
-+static void drm_format_block_height_invalid(struct kunit *test)
- {
- 	const struct drm_format_info *info = NULL;
- 
--	/* Test invalid arguments */
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
-+}
-+
-+static void drm_format_block_height_one_plane(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
- 
--	/* Test 1 plane format */
--	info = drm_format_info(DRM_FORMAT_XRGB4444);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
-+}
-+
-+static void drm_format_block_height_two_plane(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
- 
--	/* Test 2 planes format */
--	info = drm_format_info(DRM_FORMAT_NV12);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
-+}
-+
-+static void drm_format_block_height_three_plane(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
- 
--	/* Test 3 planes format */
--	info = drm_format_info(DRM_FORMAT_YUV422);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 3), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
-+}
-+
-+static void drm_format_block_height_tiled(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L0);
- 
--	/* Test a tiled format */
--	info = drm_format_info(DRM_FORMAT_X0L0);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 2);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
- }
- 
--static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
-+static void drm_format_min_pitch_invalid(struct kunit *test)
- {
- 	const struct drm_format_info *info = NULL;
- 
--	/* Test invalid arguments */
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-+}
-+
-+static void drm_format_min_pitch_one_plane_8bpp(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_RGB332);
- 
--	/* Test 1 plane 8 bits per pixel format */
--	info = drm_format_info(DRM_FORMAT_RGB332);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-@@ -118,10 +151,14 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
- 			(uint64_t)UINT_MAX);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
- 			(uint64_t)(UINT_MAX - 1));
-+}
-+
-+static void drm_format_min_pitch_one_plane_16bpp(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
- 
--	/* Test 1 plane 16 bits per pixel format */
--	info = drm_format_info(DRM_FORMAT_XRGB4444);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-@@ -137,10 +174,14 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
- 			(uint64_t)UINT_MAX * 2);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
- 			(uint64_t)(UINT_MAX - 1) * 2);
-+}
-+
-+static void drm_format_min_pitch_one_plane_24bpp(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_RGB888);
- 
--	/* Test 1 plane 24 bits per pixel format */
--	info = drm_format_info(DRM_FORMAT_RGB888);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-@@ -154,12 +195,16 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 671), 2013);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX),
- 			(uint64_t)UINT_MAX * 3);
--	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX - 1),
- 			(uint64_t)(UINT_MAX - 1) * 3);
-+}
-+
-+static void drm_format_min_pitch_one_plane_32bpp(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_ABGR8888);
- 
--	/* Test 1 plane 32 bits per pixel format */
--	info = drm_format_info(DRM_FORMAT_ABGR8888);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-@@ -173,17 +218,16 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 671), 2684);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX),
- 			(uint64_t)UINT_MAX * 4);
--	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX - 1),
- 			(uint64_t)(UINT_MAX - 1) * 4);
- }
- 
--static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
-+static void drm_format_min_pitch_two_plane(struct kunit *test)
- {
--	const struct drm_format_info *info = NULL;
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
- 
--	/* Test 2 planes format */
--	info = drm_format_info(DRM_FORMAT_NV12);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-@@ -211,10 +255,14 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
- 			(uint64_t)(UINT_MAX - 1));
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, (UINT_MAX - 1) /  2),
- 			(uint64_t)(UINT_MAX - 1));
-+}
-+
-+static void drm_format_min_pitch_three_plane_8bpp(struct kunit *test)
-+{
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
- 
--	/* Test 3 planes 8 bits per pixel format */
--	info = drm_format_info(DRM_FORMAT_YUV422);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, 0), 0);
-@@ -256,13 +304,12 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
- 			(uint64_t)(UINT_MAX - 1) / 2);
- }
- 
--static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
-+static void drm_format_min_pitch_tiled(struct kunit *test)
- {
--	const struct drm_format_info *info = NULL;
-+	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L2);
- 
--	/* Test tiled format */
--	info = drm_format_info(DRM_FORMAT_X0L2);
- 	KUNIT_ASSERT_NOT_NULL(test, info);
-+
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-@@ -281,12 +328,25 @@ static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
- }
- 
- static struct kunit_case drm_format_tests[] = {
--	KUNIT_CASE(igt_check_drm_format_block_width),
--	KUNIT_CASE(igt_check_drm_format_block_height),
--	KUNIT_CASE(igt_check_drm_format_min_pitch_for_single_plane),
--	KUNIT_CASE(igt_check_drm_format_min_pitch_for_multi_planar),
--	KUNIT_CASE(igt_check_drm_format_min_pitch_for_tiled_format),
--	{ }
-+	KUNIT_CASE(drm_format_block_width_invalid),
-+	KUNIT_CASE(drm_format_block_width_one_plane),
-+	KUNIT_CASE(drm_format_block_width_two_plane),
-+	KUNIT_CASE(drm_format_block_width_three_plane),
-+	KUNIT_CASE(drm_format_block_width_tiled),
-+	KUNIT_CASE(drm_format_block_height_invalid),
-+	KUNIT_CASE(drm_format_block_height_one_plane),
-+	KUNIT_CASE(drm_format_block_height_two_plane),
-+	KUNIT_CASE(drm_format_block_height_three_plane),
-+	KUNIT_CASE(drm_format_block_height_tiled),
-+	KUNIT_CASE(drm_format_min_pitch_invalid),
-+	KUNIT_CASE(drm_format_min_pitch_one_plane_8bpp),
-+	KUNIT_CASE(drm_format_min_pitch_one_plane_16bpp),
-+	KUNIT_CASE(drm_format_min_pitch_one_plane_24bpp),
-+	KUNIT_CASE(drm_format_min_pitch_one_plane_32bpp),
-+	KUNIT_CASE(drm_format_min_pitch_two_plane),
-+	KUNIT_CASE(drm_format_min_pitch_three_plane_8bpp),
-+	KUNIT_CASE(drm_format_min_pitch_tiled),
-+	{}
- };
- 
- static struct kunit_suite drm_format_test_suite = {
+-	/*
+-	 * HP ZR24w corrupts the first DPCD access after entering power save
+-	 * mode. Eg. on a read, the entire buffer will be filled with the same
+-	 * byte. Do a throw away read to avoid corrupting anything we care
+-	 * about. Afterwards things will work correctly until the monitor
+-	 * gets woken up and subsequently re-enters power save mode.
+-	 *
+-	 * The user pressing any button on the monitor is enough to wake it
+-	 * up, so there is no particularly good place to do the workaround.
+-	 * We just have to do it before any DPCD access and hope that the
+-	 * monitor doesn't power down exactly after the throw away read.
+-	 */
+-	if (!aux->is_remote) {
+-		ret = drm_dp_dpcd_probe(aux, DP_DPCD_REV);
+-		if (ret < 0)
+-			return ret;
+-	}
+-
+ 	if (aux->is_remote)
+ 		ret = drm_dp_mst_dpcd_read(aux, offset, buffer, size);
+ 	else
 -- 
-2.37.3
+2.34.1
 
