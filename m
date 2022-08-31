@@ -1,109 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A285A8960
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 01:12:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD465A8966
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 01:13:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0345710E534;
-	Wed, 31 Aug 2022 23:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C56C10E530;
+	Wed, 31 Aug 2022 23:12:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-BN8-obe.outbound.protection.outlook.com
  (mail-bn8nam12on2040.outbound.protection.outlook.com [40.107.237.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 736B610E530
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC77210E532
  for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 23:12:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BzUYhq8vIvBEgXQeQwxZrEJdEs/fGEFxrQId53TyUOg2JSLgkiKtLv/28fdhgmv2W0tUyRyaVlyeT+NWWvX8zj4VcSm6mvwK9zw9VnWlNxpUTJOXTVuuJL+lApblEnPHNBIFVW1i1F2P2HF4S06tlYVZ3t51lZ5NnCT9ExD6FzIpqmfIYxpH58Ht4FovnC9A/HmuNu8t1Kku3DKiZKeHO+cjd2rPKaXNzbzCG+jxgLBJ/TobI0y+rTDYD9MbNmftzxsSRRGCMCincQ8PdfwjkstzZ1lsHhOD6kw9ayEaKYmrlLA2q6eQROmSrXa1oTydq9eYHikw+Tyfg+iiBARdSw==
+ b=TeqOLUCESowoVd/if+CxC3rlSKbfWx+dAp/ltGaRjLZ0h4wZdpq1grVleGUe4dHA014Jk2BSrbVX+TG1Ickb0XnshpGoYPp6sXURfyPwC2rpodsFTr1OuuXJXezsI0sH4EQhpYWIVJCt/Szk1I9SpxVI9Iiasp9yIf6manqh3uFnAZdVpPHKFylNOzrNHO/1w/uDxqlvIljaRKYSLYQB6avER/MIyhhjuuv4KWeVqR0Ihons/7aNsrTetF+gQmMFj4uUMXWnPL7BnzIorL0cFpySbhdcx1IN5Y2APha54qBwIfA7dVaUEL+Xnezl4D3sO2RbTy05VamJwoeghY2oGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=USMW3zpIpIRWv4YclcGaX6iF2O2lxUCWa1dx+H13kh8=;
- b=LtvKK9wpR4KMITAcfBxewMY0ULXFvY/+fSTYCSt3PiL/zGm8APTr1clCDABRqK1qRMAyhQS5dr7zr4/sEgIpRkw3jvJYSe78jzn0PgghAkFG3Tkuegoic4KdiIFJW3oHy5u+no+E+IXZLc9NEKYlA0bru+HuRrLyT0Rj/08RkPJvF8T5TlYw/RGvtz+cM7kygMZoZyRMTCuy7KEe+Pbugm2Fo+yY4h5hpi8nuJDmtqKkRGR65P2p8vYx2ETbFLCA0CEPDH1CCWraLcNEsaTK+gJcNB+OScMIKgIte+jVDzuWPhQzAHk4bNR+E7qYQOXXh1SBdqgdi/VpJFNWfgq++Q==
+ bh=z/6rbubLVDxVZJcotZ/eUCpfQERM89cbqN7lY3YK9CU=;
+ b=fsWn9tapkbfT3rc54VqwXgqKNd7G1C9uQux/N+39CkNfqmdKxCmggKK9aN9TFsqEC6pwK3rrnY0oWLtJUwbKD6eff6HQVnDNn5fS8oTwSL1SNPNzDx1zSaIKkKgrgoO6FkPT0Kh1N0ROFD9SLCuOLWlmEgz0v1p+IE0ILeI2yuw+HPe8gjnfLzwZYVuXYwCVtHJjNcKvxdSmHwT7SKtmhLIT/+bTo++xJ1KPxLKc2urKjwbP5NHtbcdpGc7NGqdKbaRsIPo4aKVFWOj9ZcBSz4AJ3dfycUidKmlXvU7HgxZRv2wjWmERqDzBbdQOJKOv8PSXUWBjuikOLKoFDxhVpA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=USMW3zpIpIRWv4YclcGaX6iF2O2lxUCWa1dx+H13kh8=;
- b=tD/cO0iPAA0AkTNIJdHymYgkGHZHBxrrPEwn25Tc0sJ/4CLpgz+gb+SMwewCGNs3y+cRCcn2w9m3qrrS2AU/uj20UN+Ixi8W7Um3HZyW2db7DYqA61B5FS9pgWBSRg4EY3ZFw8m6GaznAs15jw+wwhd6qAXNcwN9eE2d+kdiVXt1NjpimZ/FK9ozr4DAld1esebFcTFVAPy15NII7eLnIx2WfxV6CZzkeTdLmVwQnc+FiKzWYg48gDm4WfYanmWNy2htppYBOcz4ox8gC5maedTWoLTABYcxUNB3CD8PMgTeXVhZsXtxeJWH/Ia5gyl1rJ0o/u1IDhMkpnSOlUgqDw==
+ bh=z/6rbubLVDxVZJcotZ/eUCpfQERM89cbqN7lY3YK9CU=;
+ b=erNTCBZSPiJYdSThDQgZ8MeO9SYGuWXKu1Su6CXJUIkzgsdCRvhLvT6/SIP3y8n5BbawAEZa2aU8Tb8RGfOfLFf/ZjHm8dJOVBUm2aQkIL7N33OS7kJxNsBikjkefrH7vcd6hiXDzxjW0me/B6Zsm2rT3WikErIikbHgrcdgKjpLzACgooPorrHIbirUU+B6r1ZiUWoltx2zlL9D+4G555yhJ/AdKRKk0vAuIY65hRqKEKxpuRBdhyIpdAeFDRz1JvwWOcZ+a3Ja0GDnNJB1EwZk7b1F6dED/nPz3G5svIZkvkWE9YrOfU5z/IVcIWeiVAViUWtKih19nD99hQipaA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
  by DS0PR12MB6535.namprd12.prod.outlook.com (2603:10b6:8:c0::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Wed, 31 Aug
- 2022 23:12:45 +0000
+ 2022 23:12:46 +0000
 Received: from MN2PR12MB4192.namprd12.prod.outlook.com
  ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
  ([fe80::462:7fe:f04f:d0d5%7]) with mapi id 15.20.5588.010; Wed, 31 Aug 2022
- 23:12:45 +0000
+ 23:12:46 +0000
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: Alex Williamson <alex.williamson@redhat.com>,
  =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Cornelia Huck <cohuck@redhat.com>, dri-devel@lists.freedesktop.org,
  kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
  linux-media@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>
-Subject: [PATCH v2 2/4] vfio: Add vfio_device_get()
-Date: Wed, 31 Aug 2022 20:12:42 -0300
-Message-Id: <2-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+Subject: [PATCH v2 3/4] vfio_pci: Do not open code pci_try_reset_function()
+Date: Wed, 31 Aug 2022 20:12:43 -0300
+Message-Id: <3-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
 In-Reply-To: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
 References: 
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR01CA0026.prod.exchangelabs.com (2603:10b6:208:10c::39)
- To MN2PR12MB4192.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR10CA0035.namprd10.prod.outlook.com
+ (2603:10b6:208:120::48) To MN2PR12MB4192.namprd12.prod.outlook.com
  (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 34e94355-e66d-4669-576c-08da8ba65026
+X-MS-Office365-Filtering-Correlation-Id: 4817c742-1f29-4ed9-576c-08da8ba65026
 X-MS-TrafficTypeDiagnostic: DS0PR12MB6535:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 27Dzj2n5v8TyZD79VhOwC8lDGX20+T3Q8qnDj7kOHM4J+Yx8gUU6jxe3Q8nyAcUd62ZtwSoz5J+lmHvMgJcbSVcuwqqsr417UaadqtOY9dpl/3wG1Tb+PX5Cs0ULbp+p2oWi3480p6eXcN/eo1eadGegaOMqsEI3jbIWwJYwhJLtA4GcyMl8pofoP3hnm3rznQVIv3xgOxUEM9DQ9qFBHb+u94LSUXMw//AADzi8yosJe0s619nXIznT4cOLaZH4H1MM5Jp5LJ07zUYgh+Sl1/kHvzYYpIpIe+npSOcFR+Mz7SPsh6PcBnyopmxy3TNAuOGMnEz4CdWRpADw9HYhoj2yi+70T4ftzoFwACDzOPdkOAatmKVUE8UKfXenEzXTjMRcap+wBJ7sJuVOrLy6vxftCSMFQGb2LRPteLsfpiwhgMAmW1tUdoSFwI3cKwqNbo98umxUHAGXWd0fYySpToUhtgAZPEobHobbVFkFAH5kcE0RtD2CncJy9dKOJ1R7OLahtoMFtBveVaRkXGmrxY5mqS+D3DFdRs7ItLsGs9CmDCkOzHEHR8m8NzUUfkYg6G15EVsym67aA41VGtFeKVzI7cr/3YeIpg5UYMSM5J/htJs3c5/u21wgrZI7mgxONgDKuQebc+cNbtyV2AVt+xTfRkhE04qHfaVtkcgCfU1zjipT+Txb9+mxvYx90bIrBjLNEHSmbzk2V1vC78grn7ajkBu7JNQVVTCq6MBOC0fRV8Jh1DQTUEZUiTZHTG6N
+X-Microsoft-Antispam-Message-Info: rf2f2pLLdflDTOtQBuKO3sznnIIYeMovzmTT40qmxvDyx8hPGPu7yBuPTWtmueUOnrtzvMR56FhAcE4wt3cF266/JnvugVYqd9RaqZ5wC+O07MMx4BMwgvqqkYDZNiuju0ENH0xGAUFu0n+3iK+KB0JLY8JdMVZ9Pb02MQD2CQe3NxKBSe0uKlhgQqNFqpJjRYfzdTFT/c2alki6i2JyWXqoQW5OeSAfoMeaWNDY9kXftahgbIK0+25WnF3805cVNDZh3bPeQ/Au3/DB8qqKd7f5QU3h++DbVvspCP/cIyTGjIhQCM/gPxdubzxZjvLKtetuTczVApPLueRxw8r7/9ZILvp2iT3VO6SDfJ9WQuR4EJWZTBXUk7lGKhk3p0qYPSj/QcyS0jagHwoEhxHa3INa379pgY7iXsZrohBuboHlI9mz0YgjFZ/przPQ/ByLfPCu0lp6kekpa6fNsK+iyCG7qAKqhnbH1dyYQg36UL7I0RNzXTZumoRJLb8GEjXZViuFg3IXTAZ1igPteBPsQodtSCCwYRWKQpokjOBbNimu+Dh3xIPrtLp3+ZNX/dA4tI9FzBbH6uBsviiT1jWWQM+/2Hx1lA9BJKi7g+vHLzRN9Qv+kfNfLM1EKp8GzOAO+zyOtqAZsF0Fcftzk+B/oFNGaxgSjlqMdMLe0fceagd3obQ4zz0ExCy0kAtVtqZdt/Hx+PghxlJOmrwUA25adMIZzd5Ff/LsqF7ALj+SK2rlHBngNS3pkM/IlhjySFqp
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230016)(4636009)(136003)(396003)(39860400002)(376002)(366004)(346002)(186003)(2906002)(5660300002)(8936002)(7416002)(6506007)(2616005)(6666004)(6512007)(36756003)(6486002)(86362001)(41300700001)(26005)(478600001)(38100700002)(83380400001)(110136005)(4326008)(316002)(54906003)(66476007)(8676002)(66556008)(66946007)(4216001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vhTbf7T9Z/06KQ8FWS8wG8b3FxfoeuT5pU7bERsp4/g0EYlPqmx1qYLXz/mB?=
- =?us-ascii?Q?Y4dY7hU7F4E3RPaGeduTkioqOlkwbeyeIY5e+1dmgJ5RMIIwR0sWPM1SP3zA?=
- =?us-ascii?Q?2xDsToRIGyRMI9ZR/ATEqg2OYXEUd9JnauZ8MnOfQLqdSPjnvj/HtRbF9zfZ?=
- =?us-ascii?Q?gjko6YDSBRM+kNvQNlMUy/Er/u1wj163g+Mpf6jz8Lzb1jyPCBOQzyG1qpv/?=
- =?us-ascii?Q?TTGsT1YuxRBpHkwFJ2juSNb97AZ3B4saXYuwcA/WFRpDmXfql0HhnsSv/E+R?=
- =?us-ascii?Q?Ia3svkrL3b2bjqyPjHK+wBzKR8SRTtJDl+PiVgs9cyil14oXMG6Pd9OO0klW?=
- =?us-ascii?Q?jQaQ2g/USPjaZHAyKzBdnTGFJUOD3uTJwoZPd6T6pYTownFHrxV9gW9x7By5?=
- =?us-ascii?Q?pv4Cxd0ZDE7NHPT6O4gQtA6BLx2pYU0yX1xbD1a6lAfF4nJOWOyPeAJV1XPB?=
- =?us-ascii?Q?hJv7i63BCueLdgvmFlkhnaI6zFDPGyVp2raoQNvLBCpv5NvhOKUJiFvjHLLL?=
- =?us-ascii?Q?l1WVrmMphIGgTkiEBXuqPJa3jYMp5vMSLhgRtatE0CxL4gHKb01V+g7ESI0r?=
- =?us-ascii?Q?OxVIlvV9NMeNVtf8v3Ur0UANGUWa9X9JKqObG6j13Pxmo97lZcgmcetC+FNz?=
- =?us-ascii?Q?fdUxBKyLRo2VAzzpZRm8NLSNk4doWZuHSfY9JxDKTMJraW/jGfizNLkEWKbJ?=
- =?us-ascii?Q?RMRIZAMPrcZT9SEnGqrotSuKgL3NHMPMfZ81PiM9Yh0V5LXrtQBVI5EGcOCP?=
- =?us-ascii?Q?Z6d4XT3BBw5Zodq8A4vYxV8Z8bqo+qLEOhQ38bCOvtrHsMyfHLXiM7sme2Eb?=
- =?us-ascii?Q?Yv9GDjjp1od/O6fKo0nOWitB9XAzP0kIxkwdiM5IpjnLf67hvDyFdKzQWP4O?=
- =?us-ascii?Q?Hup7kqG/mmK8IbWqFI/pXrJRddYSXfVB08LQ+tHv9fj/7uYanJJI0w3I56ts?=
- =?us-ascii?Q?MM63KBUo5NevJ6CoVsBxQBpy3QawXL25m1Xl+9fXXye9PCPNxRxacfyhCWCW?=
- =?us-ascii?Q?nzV9QqmE5ZBKyWzz0dz7ipcs5TS2Hou0HrwK9CXuZe2XruPAy647gdeWQJjf?=
- =?us-ascii?Q?qv4g8q50pkScW4+fUBw2ILqXgJd0sEJIoa0x6RDRWnlpLbcstJ80Xt1vju38?=
- =?us-ascii?Q?VZkvy8QXNa9BDL4F0x52m7tKFRxlczCcTfTfA/2O5ui17ZdypUQa2ZRDdqYG?=
- =?us-ascii?Q?WccN9bKMzD9Lla8VmEs5Fye/EIu69+Eq4dIAh96AHYRmb2VyTjHJU28vl5R5?=
- =?us-ascii?Q?Oqna0998nnpS29H6LucWgEGra2SKLbs1vhRM1Q7elOoNdpokfc6j4tei2icc?=
- =?us-ascii?Q?tKmnHXk6waBNuMx8ODi1vI1Dbc/FYV5Rt38E+yBCVGjjOVo+5RpkFnv7h6uY?=
- =?us-ascii?Q?GvyHR+7vHD1rnZaSOetwtpJNvnkqzuYbzOkSs4asMFCuEow/5TreCiOXPuFt?=
- =?us-ascii?Q?jZro437VreDS6TotrNBC+XChn0LAoGpG4Q+pCfzl2Najefo9XCcgH0VR/1/V?=
- =?us-ascii?Q?m5cmTNasA/39GT/qm3mnUoYIiijn51oRdaIYNEcge1MEVtngI1PpufrmYB/c?=
- =?us-ascii?Q?FyLZl5+VrLQIq8FVH7bx6qrnN3K4ex/bAZGousdt?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uWPQE/eFrIq+T0Q6c7G9hUyTE+WgExvQy09M40l7gF3MaSXRpPdgsvlfzyqr?=
+ =?us-ascii?Q?x+VKdSZwXpLJKAOo8Za7q1CLDpeNaC/ugfT7gz1iAvJBRkkW23r4LgRNgVbq?=
+ =?us-ascii?Q?nPmAaALvd0GU3Ma0hFBTgpWX4ipMFSEaeQlCN1E1x5Nvq7jD9mQPKS6yLb8d?=
+ =?us-ascii?Q?ye+6VTHtkdz4OFb1+O/Nspp+13LV84Pn8OFd82S6kf36JRJzEEcwYgwlyCiR?=
+ =?us-ascii?Q?HZoX5Qbw1S6L+cCYacXwbADaIGRtY4JjobSulszd8bL+3eRkoszAZ4RqVAvR?=
+ =?us-ascii?Q?vuSvfCyfu7/N7GXBnaNDkFP+YPZMJwm+Mt2G7PIdmAQ8m2qN2PZWe6F46xkM?=
+ =?us-ascii?Q?bywGmiLUILpiz6fh5HDVFamRAJJChLoAXYK9lvO0mHi4HfCZWQUH2VQZmeUS?=
+ =?us-ascii?Q?18mONfSCq26RugYwzB58wzKRP2qXTpQFSZbYN3QFKY931tYV/EIcWDW7VAWy?=
+ =?us-ascii?Q?e0kMtrG27+5iZtXdqxgWGfvjuqdB/QA8YcjrzpLJmrkr4cSEoa+M9kga1m1z?=
+ =?us-ascii?Q?geDc7o/os7ZF/fdX/h9OLoGRnYslrKK59nHCGD9Z+DMKCYteGh4jSKM5fDnh?=
+ =?us-ascii?Q?ly+mocctfptSW4MQgzWo6Fkaup871S0cfFri9UevU9MTNXeui8fdNOJGrbUW?=
+ =?us-ascii?Q?Bpy8XY/UTlwGofAvvD6tCAv2emX7gCyfwX+hBvmpytXG3skaJXiatAF/tL6u?=
+ =?us-ascii?Q?zywnIg96AZX9yINK60t39I+1Fv8E94T5HXNCyi6tErW6ZlZDshRwBULTGsrB?=
+ =?us-ascii?Q?Z+2vBM3WVv3gCVFUrA3lEFlOmwH+tNV+twdpNynbmy+iTnUyx85GsYtrNmQt?=
+ =?us-ascii?Q?Wu5gNfSB3WBRZ+b0vBnUBVj2+vZxoT/7hV4yOKOfZ1bB41asXHHMOH0Mmit8?=
+ =?us-ascii?Q?FULYkb2o2XDHAG0se8lY8perYgdovBfYa1bOnHo10J+j6/breaVEakCE9RYA?=
+ =?us-ascii?Q?aui7Mnzj+5GD76DjjhKvZlO5Lz6DBm7n3ljH6/6B1SDbld9BHjtmou877ef0?=
+ =?us-ascii?Q?BDKEiGsQCZPh0v5kGKl4vkD43U20K0U3fquT1lpqmHy2Qm3IDVnV3shVmJfk?=
+ =?us-ascii?Q?xqzCeR83c0RHx1iSVbM2WyKGpt4kOdpRK4fc775tIPpYm9UhngXZeWhvgL++?=
+ =?us-ascii?Q?N0yAhr+gD2ZHxdLe15ymradE65+aVyQgLIXD6IbDTJBbWAbbbIcm+v6ZDnwF?=
+ =?us-ascii?Q?44EWmDXgFMwY+87QHT2ZM8nQ0lFrC0I9fL7J1up0BOTbx98PrIXzgOGyiF8L?=
+ =?us-ascii?Q?u/ZqWqJEe2AE4tTAUB9NQnengYnBqkPgQQLueF7uE+8Log/+VSng8TZzq/o1?=
+ =?us-ascii?Q?AGXMLQI4o/cXdfXFILfkY7LFbKv4mZXY8AuzLsxeLEKtjijQAUbgGL0ouN4u?=
+ =?us-ascii?Q?+LtII6cmrmoE6XZ4YjSF8AzlbyZOVH7Z8Kj4R9BmFe5XkgZZ4aNPIsEjrmfU?=
+ =?us-ascii?Q?mX2wsG//ql8yu9dGXrBLfuIZkNyKL4nT4Nje2B8KNejv7lmbFCGjOsT+gC5Q?=
+ =?us-ascii?Q?0HwIyNRgd/o1wpBnp8GJjh3RzGvTCXGLgn5KZvy2l/2uC5/98P16Q9mpeR0X?=
+ =?us-ascii?Q?L8GsvUsybQNUAl/nG1IwpdoeC4T53lZCk7aurFDy?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34e94355-e66d-4669-576c-08da8ba65026
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4817c742-1f29-4ed9-576c-08da8ba65026
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 23:12:45.3430 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 23:12:45.3586 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LTji+BNbB01eTVRTCHNQ2dfQ4rOu5XQVUm/+WVSQKHrB0dpdEosbtuFPVhz9k49H
+X-MS-Exchange-CrossTenant-UserPrincipalName: fDooWtpdc70DHJ4gM/0i2RBZFVblqtc1Plh2CLj4szJOHZ/FVhuBfWmpOLNMXtgt
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6535
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,50 +123,86 @@ Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To increment a reference the caller already holds. Export
-vfio_device_put() to pair with it.
+FLR triggered by an emulated config space write should not behave
+differently from a FLR triggered by VFIO_DEVICE_RESET, currently the
+config space path misses the power management.
+
+Consolidate all the call sites to invoke a single function.
 
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/vfio/vfio_main.c | 3 ++-
- include/linux/vfio.h     | 6 ++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/vfio/pci/vfio_pci_config.c | 14 ++++----------
+ drivers/vfio/pci/vfio_pci_core.c   |  5 ++---
+ drivers/vfio/pci/vfio_pci_priv.h   |  1 +
+ 3 files changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-index eb714a484662fc..dadbb5a7bb4c5b 100644
---- a/drivers/vfio/vfio_main.c
-+++ b/drivers/vfio/vfio_main.c
-@@ -451,11 +451,12 @@ static void vfio_group_get(struct vfio_group *group)
-  * Device objects - create, release, get, put, search
-  */
- /* Device reference always implies a group reference */
--static void vfio_device_put(struct vfio_device *device)
-+void vfio_device_put(struct vfio_device *device)
- {
- 	if (refcount_dec_and_test(&device->refcount))
- 		complete(&device->comp);
+diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
+index 4a350421c5f62a..d22921efa25987 100644
+--- a/drivers/vfio/pci/vfio_pci_config.c
++++ b/drivers/vfio/pci/vfio_pci_config.c
+@@ -893,11 +893,8 @@ static int vfio_exp_config_write(struct vfio_pci_core_device *vdev, int pos,
+ 						 pos - offset + PCI_EXP_DEVCAP,
+ 						 &cap);
+ 
+-		if (!ret && (cap & PCI_EXP_DEVCAP_FLR)) {
+-			vfio_pci_zap_and_down_write_memory_lock(vdev);
+-			pci_try_reset_function(vdev->pdev);
+-			up_write(&vdev->memory_lock);
+-		}
++		if (!ret && (cap & PCI_EXP_DEVCAP_FLR))
++			vfio_pci_try_reset_function(vdev);
+ 	}
+ 
+ 	/*
+@@ -975,11 +972,8 @@ static int vfio_af_config_write(struct vfio_pci_core_device *vdev, int pos,
+ 						pos - offset + PCI_AF_CAP,
+ 						&cap);
+ 
+-		if (!ret && (cap & PCI_AF_CAP_FLR) && (cap & PCI_AF_CAP_TP)) {
+-			vfio_pci_zap_and_down_write_memory_lock(vdev);
+-			pci_try_reset_function(vdev->pdev);
+-			up_write(&vdev->memory_lock);
+-		}
++		if (!ret && (cap & PCI_AF_CAP_FLR) && (cap & PCI_AF_CAP_TP))
++			vfio_pci_try_reset_function(vdev);
+ 	}
+ 
+ 	return count;
+diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+index 9273f1ffd0ddd0..885706944e4d96 100644
+--- a/drivers/vfio/pci/vfio_pci_core.c
++++ b/drivers/vfio/pci/vfio_pci_core.c
+@@ -960,8 +960,7 @@ static int vfio_pci_ioctl_set_irqs(struct vfio_pci_core_device *vdev,
+ 	return ret;
  }
-+EXPORT_SYMBOL_GPL(vfio_device_put);
  
- static bool vfio_device_try_get(struct vfio_device *device)
+-static int vfio_pci_ioctl_reset(struct vfio_pci_core_device *vdev,
+-				void __user *arg)
++int vfio_pci_try_reset_function(struct vfio_pci_core_device *vdev)
  {
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index e05ddc6fe6a556..25850b1e08cba9 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -143,6 +143,12 @@ void vfio_uninit_group_dev(struct vfio_device *device);
- int vfio_register_group_dev(struct vfio_device *device);
- int vfio_register_emulated_iommu_dev(struct vfio_device *device);
- void vfio_unregister_group_dev(struct vfio_device *device);
-+void vfio_device_put(struct vfio_device *device);
-+
-+static inline void vfio_device_get(struct vfio_device *device)
-+{
-+	refcount_inc(&device->refcount);
-+}
+ 	int ret;
  
- int vfio_assign_device_set(struct vfio_device *device, void *set_id);
+@@ -1202,7 +1201,7 @@ long vfio_pci_core_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
+ 	case VFIO_DEVICE_PCI_HOT_RESET:
+ 		return vfio_pci_ioctl_pci_hot_reset(vdev, uarg);
+ 	case VFIO_DEVICE_RESET:
+-		return vfio_pci_ioctl_reset(vdev, uarg);
++		return vfio_pci_try_reset_function(vdev);
+ 	case VFIO_DEVICE_SET_IRQS:
+ 		return vfio_pci_ioctl_set_irqs(vdev, uarg);
+ 	default:
+diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
+index 58b8d34c162cd6..5b1cb9a9838442 100644
+--- a/drivers/vfio/pci/vfio_pci_priv.h
++++ b/drivers/vfio/pci/vfio_pci_priv.h
+@@ -60,6 +60,7 @@ void vfio_config_free(struct vfio_pci_core_device *vdev);
+ int vfio_pci_set_power_state(struct vfio_pci_core_device *vdev,
+ 			     pci_power_t state);
  
++int vfio_pci_try_reset_function(struct vfio_pci_core_device *vdev);
+ bool __vfio_pci_memory_enabled(struct vfio_pci_core_device *vdev);
+ void vfio_pci_zap_and_down_write_memory_lock(struct vfio_pci_core_device *vdev);
+ u16 vfio_pci_memory_lock_and_enable(struct vfio_pci_core_device *vdev);
 -- 
 2.37.2
 
