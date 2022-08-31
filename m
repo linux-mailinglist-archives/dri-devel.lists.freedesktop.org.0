@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356A15A8450
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 19:26:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 521BF5A8451
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 19:26:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6C3610E4B8;
-	Wed, 31 Aug 2022 17:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62AF710E4BB;
+	Wed, 31 Aug 2022 17:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B01210E4B6;
- Wed, 31 Aug 2022 17:25:38 +0000 (UTC)
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03CA3893DB;
+ Wed, 31 Aug 2022 17:25:49 +0000 (UTC)
 Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
  client-signature RSA-PSS (2048 bits) client-digest SHA256)
  (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4MHrfn12QJzDqVh;
- Wed, 31 Aug 2022 17:25:37 +0000 (UTC)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4MHrg13Vqfz9sXD;
+ Wed, 31 Aug 2022 17:25:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1661966737; bh=Zl2DbSptfwvJ6z4ghhCleWXTJO/O1HiPPh6AzZvhaUk=;
+ t=1661966749; bh=zgz/vqcZ7xIgcfUJNphyU+VB98g7c6kVyKHZi3Qv44g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GhdYE+NL83iyUQmtUjTX8NogkPtwjs4LhK3hA0jEx1WRItCQLE8QwGVWx8mdJp7U6
- HiOEGKJ32dK6kG0AdbgsVHdYETgB6xv9cHptBUsUqD+cmuXPqu11NnRClpGOI0CLlu
- c2egzyRYDX3BGZ3h/rUKb9MV2vqU1yvnQJnZ+pZQ=
-X-Riseup-User-ID: DC118332539F4CC1490CE1F4F8DA739303F1957D88862E3F14EDD2974476CF79
+ b=awNsb26KDq1wa27YilzWiVH8Z+P53NUiREF6nFGuWcHzPUse8tpHoFPDqp9SzqZ1l
+ GXtkW17Y4//h2SckpwtfM2nlYuhqyFutP7dOvEpHgByJiqP+WNTtV/Qem9lmque488
+ WmbpQcQGZmfc4KJcFCYJCbp9LeVOrKK0tiwKbrck=
+X-Riseup-User-ID: CC5CC2AD114115B0E0042B7646EABB7DB293DA808DAA0258312EE7BC6F476138
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4MHrfd381Gz1y9N;
- Wed, 31 Aug 2022 17:25:29 +0000 (UTC)
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4MHrfs5xQvz1y9N;
+ Wed, 31 Aug 2022 17:25:41 +0000 (UTC)
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
 To: Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
  Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
@@ -39,9 +39,10 @@ To: Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
  Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  Daniel Latypov <dlatypov@google.com>, David Gow <davidgow@google.com>
-Subject: [PATCH v2 6/8] drm/amd/display: Introduce KUnit tests for dcn20_fpu
-Date: Wed, 31 Aug 2022 14:22:37 -0300
-Message-Id: <20220831172239.344446-7-mairacanal@riseup.net>
+Subject: [PATCH v2 7/8] drm/amd/display: Introduce KUnit tests to dc_dmub_srv
+ library
+Date: Wed, 31 Aug 2022 14:22:38 -0300
+Message-Id: <20220831172239.344446-8-mairacanal@riseup.net>
 In-Reply-To: <20220831172239.344446-1-mairacanal@riseup.net>
 References: <20220831172239.344446-1-mairacanal@riseup.net>
 MIME-Version: 1.0
@@ -68,600 +69,354 @@ Cc: kunit-dev@googlegroups.com, magalilemes00@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Magali Lemes <magalilemes00@gmail.com>
+Add unit test to the SubVP feature in order to avoid possible
+regressions and assure the code robustness.
 
-This commit adds unit tests to the functions dcn20_cap_soc_clocks and
-dcn21_update_bw_bounding_box from dcn20/dcn20_fpu.
-
-Signed-off-by: Magali Lemes <magalilemes00@gmail.com>
 Signed-off-by: Maíra Canal <mairacanal@riseup.net>
 ---
- drivers/gpu/drm/amd/display/tests/Makefile    |   3 +-
- .../tests/dc/dml/dcn20/dcn20_fpu_test.c       | 561 ++++++++++++++++++
- 2 files changed, 563 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/dcn20_fpu_test.c
+ drivers/gpu/drm/amd/display/Kconfig           |  13 +
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |   4 +
+ .../gpu/drm/amd/display/tests/.kunitconfig    |   1 +
+ .../amd/display/tests/dc/dc_dmub_srv_test.c   | 285 ++++++++++++++++++
+ 4 files changed, 303 insertions(+)
+ create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dc_dmub_srv_test.c
 
-diff --git a/drivers/gpu/drm/amd/display/tests/Makefile b/drivers/gpu/drm/amd/display/tests/Makefile
-index cc1e9edd38c3..a34677808e48 100644
---- a/drivers/gpu/drm/amd/display/tests/Makefile
-+++ b/drivers/gpu/drm/amd/display/tests/Makefile
-@@ -9,7 +9,8 @@ endif
+diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
+index 039227baedfa..f667b954f89f 100644
+--- a/drivers/gpu/drm/amd/display/Kconfig
++++ b/drivers/gpu/drm/amd/display/Kconfig
+@@ -93,4 +93,17 @@ config AMD_DC_BASICS_KUNIT_TEST
  
- ifdef CONFIG_DML_KUNIT_TEST
- 	CFLAGS_$(AMDDALPATH)/tests/dc/dml/display_mode_vba_test.o := $(dml_ccflags)
--	DC_TESTS += dc/dml/display_mode_vba_test.o
-+	CFLAGS_$(AMDDALPATH)/tests/dc/dml/dcn20/dcn20_fpu_test.o := $(dml_ccflags)
-+	DC_TESTS += dc/dml/display_mode_vba_test.o dc/dml/dcn20/dcn20_fpu_test.o
- endif
+ 		If unsure, say N.
  
- AMD_DAL_DC_TESTS = $(addprefix $(AMDDALPATH)/tests/,$(DC_TESTS))
-diff --git a/drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/dcn20_fpu_test.c b/drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/dcn20_fpu_test.c
++config AMD_DC_KUNIT_TEST
++	bool "Enable KUnit tests for the 'utils' sub-component of DAL" if !KUNIT_ALL_TESTS
++	depends on DRM_AMD_DC && KUNIT
++	default KUNIT_ALL_TESTS
++	help
++		Enables unit tests for the basics folder of Display Core. Only useful for
++		kernel devs running KUnit.
++
++		For more information on KUnit and unit tests in general please refer to
++		the KUnit documentation in Documentation/dev-tools/kunit/.
++
++		If unsure, say N.
++
+ endmenu
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
+index cd7225d98b3d..86f78fe017a6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
++++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
+@@ -819,3 +819,7 @@ void dc_dmub_srv_log_diagnostic_data(struct dc_dmub_srv *dc_dmub_srv)
+ 		diag_data.is_cw0_enabled,
+ 		diag_data.is_cw6_enabled);
+ }
++
++#if IS_ENABLED(CONFIG_AMD_DC_KUNIT_TEST)
++#include "../tests/dc/dc_dmub_srv_test.c"
++#endif
+diff --git a/drivers/gpu/drm/amd/display/tests/.kunitconfig b/drivers/gpu/drm/amd/display/tests/.kunitconfig
+index eb6f81601757..4c5861ad58bd 100644
+--- a/drivers/gpu/drm/amd/display/tests/.kunitconfig
++++ b/drivers/gpu/drm/amd/display/tests/.kunitconfig
+@@ -4,5 +4,6 @@ CONFIG_DRM=y
+ CONFIG_DRM_AMDGPU=y
+ CONFIG_DRM_AMD_DC=y
+ CONFIG_AMD_DC_BASICS_KUNIT_TEST=y
++CONFIG_AMD_DC_KUNIT_TEST=y
+ CONFIG_DCE_KUNIT_TEST=y
+ CONFIG_DML_KUNIT_TEST=y
+diff --git a/drivers/gpu/drm/amd/display/tests/dc/dc_dmub_srv_test.c b/drivers/gpu/drm/amd/display/tests/dc/dc_dmub_srv_test.c
 new file mode 100644
-index 000000000000..6b7ebb78fec9
+index 000000000000..3f1f15397090
 --- /dev/null
-+++ b/drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/dcn20_fpu_test.c
-@@ -0,0 +1,561 @@
++++ b/drivers/gpu/drm/amd/display/tests/dc/dc_dmub_srv_test.c
+@@ -0,0 +1,285 @@
 +// SPDX-License-Identifier: MIT
 +/*
-+ * KUnit tests for dml/dcn20/dcn20_fpu.h
++ * KUnit tests for dc_dmub_srv.c
 + *
-+ * Copyright (C) 2022, Magali Lemes <magalilemes00@gmail.com>
++ * Copyright (C) 2022, Maíra Canal <mairacanal@riseup.net>
 + */
 +
 +#include <kunit/test.h>
++#include "dc_dmub_srv.h"
 +
-+#include "dc/inc/resource.h"
-+#include "dc/inc/hw/clk_mgr.h"
-+#include "dc/dcn21/dcn21_resource.h"
-+
-+#include "dml/dcn20/dcn20_fpu.h"
-+
-+/**
-+ * DOC: Unit tests for AMDGPU DML dcn20/dcn20_fpu.h
-+ */
-+
-+struct dcn20_cap_soc_clocks_test_case {
++struct populate_subvp_cmd_drr_info_test_case {
 +	const char *desc;
-+	struct _vcs_dpi_soc_bounding_box_st bb;
-+	struct pp_smu_nv_clock_table max_clocks;
-+	const int clock_states;
-+	const struct _vcs_dpi_voltage_scaling_st expected_clock_limits[DC__VOLTAGE_STATES];
++	struct dc *dc;
++	struct pipe_ctx *subvp_pipe;
++	struct pipe_ctx *vblank_pipe;
++	const u8 drr_in_use;
++	const u8 drr_window_size_ms;
++	const u16 min_vtotal_supported;
++	const u16 max_vtotal_supported;
++	const u8 use_ramping;
 +};
 +
-+struct dcn21_update_bw_bounding_box_test_case {
-+	const char *desc;
-+	struct dc dc;
-+	struct clk_bw_params bw_params;
-+	const int clocks_to_compare;
-+	const struct _vcs_dpi_voltage_scaling_st expected_clock_limits[DC__VOLTAGE_STATES];
-+};
-+
-+struct dcn20_cap_soc_clocks_test_case dcn20_cap_soc_clocks_test_cases[] = {
++struct populate_subvp_cmd_drr_info_test_case populate_subvp_cmd_drr_info_cases[] = {
 +	{
-+		.desc = "4-state bounding box clock limits ",
-+		.bb = {
-+			.clock_limits = {
-+				{
-+					.dcfclk_mhz = 506.0,
-+					.fabricclk_mhz = 506.0,
-+					.dispclk_mhz = 1284.0,
-+					.dppclk_mhz = 400.0,
-+					.phyclk_mhz = 810.0,
-+					.socclk_mhz = 506.0,
-+					.dscclk_mhz = 428.0,
-+					.dram_speed_mts = 1600.0,
-+				},
-+				{
-+					.dcfclk_mhz = 540.0,
-+					.fabricclk_mhz = 540.0,
-+					.dispclk_mhz = 1284.0,
-+					.dppclk_mhz = 1284.0,
-+					.phyclk_mhz = 810.0,
-+					.socclk_mhz = 540.0,
-+					.dscclk_mhz = 428.0,
-+					.dram_speed_mts = 8000.0,
-+				},
-+				{
-+					.dcfclk_mhz = 675.0,
-+					.fabricclk_mhz = 675.0,
-+					.dispclk_mhz = 1284.0,
-+					.dppclk_mhz = 1284.0,
-+					.phyclk_mhz = 810.0,
-+					.socclk_mhz = 675.0,
-+					.dscclk_mhz = 428.0,
-+					.dram_speed_mts = 10000.0,
-+				},
-+				{
-+					.dcfclk_mhz = 1265.0,
-+					.fabricclk_mhz = 1266.0,
-+					.dispclk_mhz = 1284.0,
-+					.dppclk_mhz = 1284.0,
-+					.phyclk_mhz = 810.0,
-+					.socclk_mhz = 1266.0,
-+					.dscclk_mhz = 428.0,
-+					.dram_speed_mts = 15000.0,
-+				},
-+			},
-+			.num_states = 4,
++		.desc = "Same Clock Frequency",
++		.dc = &(struct dc) {
++			.caps = {
++				.subvp_prefetch_end_to_mall_start_us = 0,
++			}
 +		},
-+		.max_clocks = {
-+			.dcfClockInKhz = 1265000,
-+			.uClockInKhz = 875000,
-+			.fabricClockInKhz = 0,
-+			.displayClockInKhz = 1284000,
-+			.dppClockInKhz = 0,
-+			.phyClockInKhz = 810000,
-+			.socClockInKhz = 1266000,
-+			.dscClockInKhz = 0,
-+		},
-+		.clock_states = 4,
-+		.expected_clock_limits = {
-+			{
-+				.dcfclk_mhz = 506.0,
-+				.fabricclk_mhz = 506.0,
-+				.dispclk_mhz = 1284.0,
-+				.dppclk_mhz = 400.0,
-+				.phyclk_mhz = 810.0,
-+				.socclk_mhz = 506.0,
-+				.dscclk_mhz = 428.0,
-+				.dram_speed_mts = 1600.0,
-+			},
-+			{
-+				.dcfclk_mhz = 540.0,
-+				.fabricclk_mhz = 540.0,
-+				.dispclk_mhz = 1284.0,
-+				.dppclk_mhz = 1284.0,
-+				.phyclk_mhz = 810.0,
-+				.socclk_mhz = 540.0,
-+				.dscclk_mhz = 428.0,
-+				.dram_speed_mts = 8000.0,
-+			},
-+			{
-+				.dcfclk_mhz = 675.0,
-+				.fabricclk_mhz = 675.0,
-+				.dispclk_mhz = 1284.0,
-+				.dppclk_mhz = 1284.0,
-+				.phyclk_mhz = 810.0,
-+				.socclk_mhz = 675.0,
-+				.dscclk_mhz = 428.0,
-+				.dram_speed_mts = 10000.0,
-+			},
-+			{
-+				.dcfclk_mhz = 1265.0,
-+				.fabricclk_mhz = 1266.0,
-+				.dispclk_mhz = 1284.0,
-+				.dppclk_mhz = 1284.0,
-+				.phyclk_mhz = 810.0,
-+				.socclk_mhz = 1266.0,
-+				.dscclk_mhz = 428.0,
-+				.dram_speed_mts = 14000.0,
++		.subvp_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 2784,
++					.v_addressable = 1080,
++					.pix_clk_100hz = 1855800,
++				},
++				.mall_stream_config = {
++					.paired_stream = &(struct dc_stream_state) {
++						.timing = {
++							.h_total = 3600,
++							.v_total = 1111,
++							.v_addressable = 1080,
++							.v_front_porch = 3,
++							.pix_clk_100hz = 1855800,
++						},
++					},
++				},
 +			},
 +		},
++		.vblank_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 2784,
++					.v_total = 1111,
++					.v_addressable = 1080,
++					.pix_clk_100hz = 1855800,
++				},
++			},
++		},
++		.drr_in_use = true,
++		.use_ramping = false,
++		.drr_window_size_ms = 4,
++		.min_vtotal_supported = 63709,
++		.max_vtotal_supported = 363,
 +	},
 +	{
-+		.desc = "One duplicate clock state",
-+		.bb = {
-+			.clock_limits = {
-+				{
-+					.dcfclk_mhz = 506.0,
-+					.fabricclk_mhz = 506.0,
-+					.dispclk_mhz = 1284.0,
-+					.dppclk_mhz = 400.0,
-+					.phyclk_mhz = 810.0,
-+					.socclk_mhz = 506.0,
-+					.dscclk_mhz = 428.0,
-+					.dram_speed_mts = 1600.0,
-+				},
-+				{
-+					.dcfclk_mhz = 675.0,
-+					.fabricclk_mhz = 675.0,
-+					.dispclk_mhz = 1284.0,
-+					.dppclk_mhz = 1284.0,
-+					.phyclk_mhz = 810.0,
-+					.socclk_mhz = 675.0,
-+					.dscclk_mhz = 428.0,
-+					.dram_speed_mts = 10000.0,
-+				},
-+				{
-+					.dcfclk_mhz = 675.0,
-+					.fabricclk_mhz = 675.0,
-+					.dispclk_mhz = 1284.0,
-+					.dppclk_mhz = 1284.0,
-+					.phyclk_mhz = 810.0,
-+					.socclk_mhz = 675.0,
-+					.dscclk_mhz = 428.0,
-+					.dram_speed_mts = 10000.0,
-+				},
-+				{
-+					.dcfclk_mhz = 1265.0,
-+					.fabricclk_mhz = 1266.0,
-+					.dispclk_mhz = 1284.0,
-+					.dppclk_mhz = 1284.0,
-+					.phyclk_mhz = 810.0,
-+					.socclk_mhz = 1266.0,
-+					.dscclk_mhz = 428.0,
-+					.dram_speed_mts = 15000.0,
-+				},
-+			},
-+			.num_states = 4,
++		.desc = "Same Clock Frequency with Prefetch End to Mall Start",
++		.dc = &(struct dc) {
++			.caps = {
++				.subvp_prefetch_end_to_mall_start_us = 500,
++			}
 +		},
-+		.max_clocks = {
-+			.dcfClockInKhz = 1265000,
-+			.uClockInKhz = 875000,
-+			.fabricClockInKhz = 0,
-+			.displayClockInKhz = 1284000,
-+			.dppClockInKhz = 0,
-+			.phyClockInKhz = 810000,
-+			.socClockInKhz = 1266000,
-+			.dscClockInKhz = 0,
-+		},
-+		.clock_states = 3,
-+		.expected_clock_limits = {
-+			{
-+				.dcfclk_mhz = 506.0,
-+				.fabricclk_mhz = 506.0,
-+				.dispclk_mhz = 1284.0,
-+				.dppclk_mhz = 400.0,
-+				.phyclk_mhz = 810.0,
-+				.socclk_mhz = 506.0,
-+				.dscclk_mhz = 428.0,
-+				.dram_speed_mts = 1600.0,
-+			},
-+			{
-+				.dcfclk_mhz = 675.0,
-+				.fabricclk_mhz = 675.0,
-+				.dispclk_mhz = 1284.0,
-+				.dppclk_mhz = 1284.0,
-+				.phyclk_mhz = 810.0,
-+				.socclk_mhz = 675.0,
-+				.dscclk_mhz = 428.0,
-+				.dram_speed_mts = 10000.0,
-+			},
-+			{
-+				.dcfclk_mhz = 675.0,
-+				.fabricclk_mhz = 675.0,
-+				.dispclk_mhz = 1284.0,
-+				.dppclk_mhz = 1284.0,
-+				.phyclk_mhz = 810.0,
-+				.socclk_mhz = 675.0,
-+				.dscclk_mhz = 428.0,
-+				.dram_speed_mts = 10000.0,
++		.subvp_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 2784,
++					.v_addressable = 1080,
++					.pix_clk_100hz = 1855800,
++				},
++				.mall_stream_config = {
++					.paired_stream = &(struct dc_stream_state) {
++						.timing = {
++							.h_total = 3600,
++							.v_total = 1111,
++							.v_addressable = 1080,
++							.v_front_porch = 3,
++							.pix_clk_100hz = 1855800,
++						},
++					},
++				},
 +			},
 +		},
++		.vblank_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 2784,
++					.v_total = 1111,
++					.v_addressable = 1080,
++					.pix_clk_100hz = 1855800,
++				},
++			},
++		},
++		.drr_in_use = true,
++		.use_ramping = false,
++		.drr_window_size_ms = 4,
++		.min_vtotal_supported = 63709,
++		.max_vtotal_supported = 346,
 +	},
 +	{
-+		.desc = "Zeroed max clocks",
-+		.bb = {
-+			.clock_limits = {
-+				{
-+					.dcfclk_mhz = 506.0,
-+					.fabricclk_mhz = 506.0,
-+					.dispclk_mhz = 1284.0,
-+					.dppclk_mhz = 400.0,
-+					.phyclk_mhz = 810.0,
-+					.socclk_mhz = 506.0,
-+					.dscclk_mhz = 428.0,
-+					.dram_speed_mts = 1600.0,
++		.desc = "Same Clock Frequency Not Multiple of 2",
++		.dc = &(struct dc) {
++			.caps = {
++				.subvp_prefetch_end_to_mall_start_us = 0,
++			}
++		},
++		.subvp_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 2784,
++					.v_addressable = 1080,
++					.pix_clk_100hz = 1866743,
++				},
++				.mall_stream_config = {
++					.paired_stream = &(struct dc_stream_state) {
++						.timing = {
++							.h_total = 3600,
++							.v_total = 2400,
++							.v_addressable = 2360,
++							.v_front_porch = 4,
++							.pix_clk_100hz = 1866743,
++						},
++					},
 +				},
 +			},
-+			.num_states = 1,
 +		},
-+		.max_clocks = {
-+			.dcfClockInKhz = 0,
-+			.uClockInKhz = 0,
-+			.fabricClockInKhz = 0,
-+			.displayClockInKhz = 0,
-+			.dppClockInKhz = 0,
-+			.phyClockInKhz = 0,
-+			.socClockInKhz = 0,
-+			.dscClockInKhz = 0,
-+		},
-+		.clock_states = 1,
-+		.expected_clock_limits = {
-+			{
-+				.dcfclk_mhz = 506.0,
-+				.fabricclk_mhz = 506.0,
-+				.dispclk_mhz = 1284.0,
-+				.dppclk_mhz = 400.0,
-+				.phyclk_mhz = 810.0,
-+				.socclk_mhz = 506.0,
-+				.dscclk_mhz = 428.0,
-+				.dram_speed_mts = 1600.0,
++		.vblank_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 3600,
++					.v_total = 2400,
++					.v_addressable = 2360,
++					.pix_clk_100hz = 1866743,
++				},
 +			},
 +		},
++		.drr_in_use = true,
++		.use_ramping = false,
++		.drr_window_size_ms = 4,
++		.min_vtotal_supported = 1387,
++		.max_vtotal_supported = 399,
++	},
++	{
++		.desc = "Different Clock Frequency for smaller h_total and v_total",
++		.dc = &(struct dc) {
++			.caps = {
++				.subvp_prefetch_end_to_mall_start_us = 300,
++			}
++		},
++		.subvp_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 1280,
++					.v_addressable = 600,
++					.pix_clk_100hz = 1855800,
++				},
++				.mall_stream_config = {
++					.paired_stream = &(struct dc_stream_state) {
++						.timing = {
++							.h_total = 1280,
++							.v_total = 720,
++							.v_addressable = 600,
++							.v_front_porch = 4,
++							.pix_clk_100hz = 1866743,
++						},
++					},
++				},
++			},
++		},
++		.vblank_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 1280,
++					.v_total = 720,
++					.v_addressable = 600,
++					.pix_clk_100hz = 2100800,
++				},
++			},
++		},
++		.drr_in_use = true,
++		.use_ramping = false,
++		.drr_window_size_ms = 4,
++		.min_vtotal_supported = 1477,
++		.max_vtotal_supported = 212,
++	},
++	{
++		.desc = "Different Clock Frequency for approximately 1920x1080",
++		.dc = &(struct dc) {
++			.caps = {
++				.subvp_prefetch_end_to_mall_start_us = 0,
++			}
++		},
++		.subvp_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 1920,
++					.v_addressable = 1000,
++					.pix_clk_100hz = 1855800,
++				},
++				.mall_stream_config = {
++					.paired_stream = &(struct dc_stream_state) {
++						.timing = {
++							.h_total = 1911,
++							.v_total = 1080,
++							.v_addressable = 1000,
++							.v_front_porch = 7,
++							.pix_clk_100hz = 1866743,
++						},
++					},
++				},
++			},
++		},
++		.vblank_pipe = &(struct pipe_ctx) {
++			.stream = &(struct dc_stream_state) {
++				.timing = {
++					.h_total = 1280,
++					.v_total = 720,
++					.v_addressable = 600,
++					.pix_clk_100hz = 2100800,
++				},
++			},
++		},
++		.drr_in_use = true,
++		.use_ramping = false,
++		.drr_window_size_ms = 4,
++		.min_vtotal_supported = 2482,
++		.max_vtotal_supported = 247,
 +	},
 +};
 +
-+struct dcn21_update_bw_bounding_box_test_case dcn21_update_bw_bounding_box_test_data[] = {
-+	{
-+		.desc = "5-entry bounding box clocks table",
-+		.dc = {
-+			.res_pool = &(struct resource_pool) {
-+				.pipe_count = 2,
-+				.res_cap = &(struct resource_caps) {
-+					.num_timing_generator = 3
-+				},
-+			},
-+		},
-+		.bw_params = {
-+			.num_channels = 1,
-+			.clk_table = {
-+				.entries = {
-+					{
-+						.voltage = 0,
-+						.dcfclk_mhz = 200,
-+						.fclk_mhz = 400,
-+						.memclk_mhz = 800,
-+						.socclk_mhz = 0,
-+					},
-+					{
-+						.voltage = 0,
-+						.dcfclk_mhz = 201,
-+						.fclk_mhz = 800,
-+						.memclk_mhz = 1600,
-+						.socclk_mhz = 0,
-+					},
-+					{
-+						.voltage = 0,
-+						.dcfclk_mhz = 553,
-+						.fclk_mhz = 1067,
-+						.memclk_mhz = 1067,
-+						.socclk_mhz = 0,
-+					},
-+					{
-+						.voltage = 0,
-+						.dcfclk_mhz = 602,
-+						.fclk_mhz = 1333,
-+						.memclk_mhz = 1600,
-+						.socclk_mhz = 0,
-+					},
-+					{
-+						.voltage = 0,
-+						.dispclk_mhz = 1372,
-+						.dppclk_mhz = 1372,
-+						.phyclk_mhz = 810,
-+						.phyclk_d18_mhz = 667,
-+						.dtbclk_mhz = 600,
-+					},
-+				},
-+
-+				.num_entries = 5,
-+			},
-+		},
-+		.expected_clock_limits = {
-+			{
-+				.state = 0,
-+				.dcfclk_mhz = 200.0,
-+				.fabricclk_mhz = 400.0,
-+				.dispclk_mhz = 600.0,
-+				.dppclk_mhz = 400.0,
-+				.phyclk_mhz = 600.0,
-+				.socclk_mhz = 0.0,
-+				.dscclk_mhz = 205.67,
-+				.dram_speed_mts = 1600.0,
-+			},
-+			{
-+				.state = 1,
-+				.dcfclk_mhz = 200.0,
-+				.fabricclk_mhz = 400.0,
-+				.dispclk_mhz = 600.0,
-+				.dppclk_mhz = 400.0,
-+				.phyclk_mhz = 600.0,
-+				.socclk_mhz = 0.0,
-+				.dscclk_mhz = 205.67,
-+				.dram_speed_mts = 1600.0,
-+			},
-+			{
-+				.state = 2,
-+				.dcfclk_mhz = 201,
-+				.fabricclk_mhz = 800.0,
-+				.dispclk_mhz = 600.0,
-+				.dppclk_mhz = 400.0,
-+				.phyclk_mhz = 600.0,
-+				.socclk_mhz = 0.0,
-+				.dscclk_mhz = 205.67,
-+				.dram_speed_mts = 3200.0,
-+			},
-+			{
-+				.state = 3,
-+				.dcfclk_mhz = 553.0,
-+				.fabricclk_mhz = 1067.0,
-+				.dispclk_mhz = 757.89,
-+				.dppclk_mhz = 685.71,
-+				.phyclk_mhz = 600.0,
-+				.socclk_mhz = 0.0,
-+				.dscclk_mhz = 287.67,
-+				.dram_speed_mts = 2134.0,
-+			},
-+			{
-+				.state = 4,
-+				.dcfclk_mhz = 602.0,
-+				.fabricclk_mhz = 1333.0,
-+				.dispclk_mhz = 847.06,
-+				.dppclk_mhz = 757.89,
-+				.phyclk_mhz = 600.0,
-+				.socclk_mhz = 0.0,
-+				.dscclk_mhz = 318.334,
-+				.dram_speed_mts = 3200.0,
-+			},
-+			{
-+				.state = 5,
-+				.dcfclk_mhz = 0.0,
-+				.fabricclk_mhz = 0.0,
-+				.dispclk_mhz = 600.0,
-+				.dppclk_mhz = 400.0,
-+				.phyclk_mhz = 600.0,
-+				.socclk_mhz = 0.0,
-+				.dscclk_mhz = 205.67,
-+				.dram_speed_mts = 0.0,
-+			},
-+			{
-+				.state = 6,
-+				.dcfclk_mhz = 0.0,
-+				.fabricclk_mhz = 0.0,
-+				.dispclk_mhz = 600.0,
-+				.dppclk_mhz = 400.0,
-+				.phyclk_mhz = 600.0,
-+				.socclk_mhz = 0.0,
-+				.dscclk_mhz = 205.67,
-+				.dram_speed_mts = 0.0,
-+			},
-+		},
-+		.clocks_to_compare = 6,
-+	},
-+};
-+
-+/**
-+ * dcn20_cap_soc_clocks_test - KUnit test for dcn20_cap_soc_clocks
-+ * @test: represents a running instance of a test.
-+ */
-+static void dcn20_cap_soc_clocks_test(struct kunit *test)
-+{
-+	struct dcn20_cap_soc_clocks_test_case *test_param =
-+		(struct dcn20_cap_soc_clocks_test_case *)test->param_value;
-+	int i;
-+
-+	DC_FP_START();
-+	dcn20_cap_soc_clocks(&test_param->bb, test_param->max_clocks);
-+	DC_FP_END();
-+
-+	/* Check if no clock limit is higher than the specified maximum */
-+	for (i = 0; i < test_param->bb.num_states; i++) {
-+		KUNIT_EXPECT_EQ(test, test_param->bb.clock_limits[i].dcfclk_mhz,
-+				test_param->expected_clock_limits[i].dcfclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->bb.clock_limits[i].fabricclk_mhz,
-+				test_param->expected_clock_limits[i].fabricclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->bb.clock_limits[i].dispclk_mhz,
-+				test_param->expected_clock_limits[i].dispclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->bb.clock_limits[i].dppclk_mhz,
-+				test_param->expected_clock_limits[i].dppclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->bb.clock_limits[i].phyclk_mhz,
-+				test_param->expected_clock_limits[i].phyclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->bb.clock_limits[i].socclk_mhz,
-+				test_param->expected_clock_limits[i].socclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->bb.clock_limits[i].dscclk_mhz,
-+				test_param->expected_clock_limits[i].dscclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->bb.clock_limits[i].dram_speed_mts,
-+				test_param->expected_clock_limits[i].dram_speed_mts);
-+	}
-+
-+	KUNIT_EXPECT_EQ(test, test_param->clock_states, test_param->bb.num_states);
-+}
-+
-+static struct _vcs_dpi_soc_bounding_box_st original_dcn2_1_soc;
-+static struct _vcs_dpi_ip_params_st original_dcn2_1_ip;
-+
-+/**
-+ * dcn20_fpu_dcn21_update_bw_bounding_box_test_init - Store backup copies of DCN global structures
-+ * @test: represents a running instance of a test.
-+ */
-+int dcn20_fpu_dcn21_update_bw_bounding_box_test_init(struct kunit *test)
-+{
-+	memcpy(&original_dcn2_1_soc, &dcn2_1_soc, sizeof(struct _vcs_dpi_soc_bounding_box_st));
-+	memcpy(&original_dcn2_1_ip, &dcn2_1_ip, sizeof(struct _vcs_dpi_ip_params_st));
-+
-+	return 0;
-+}
-+
-+/**
-+ * dcn20_fpu_dcn21_update_bw_bounding_box_test_exit - Restore original values
-+ * of DCN global structures
-+ * @test: represents a running instance of a test.
-+ */
-+static void dcn20_fpu_dcn21_update_bw_bounding_box_test_exit(struct kunit *test)
-+{
-+	memcpy(&dcn2_1_soc, &original_dcn2_1_soc, sizeof(struct _vcs_dpi_soc_bounding_box_st));
-+	memcpy(&dcn2_1_ip, &original_dcn2_1_ip, sizeof(struct _vcs_dpi_ip_params_st));
-+}
-+
-+/**
-+ * dcn21_update_bw_bounding_box_test - KUnit test for dcn21_update_bw_bounding_box
-+ * @test: represents a running instance of a test.
-+ */
-+static void dcn21_update_bw_bounding_box_test(struct kunit *test)
-+{
-+	struct dcn21_update_bw_bounding_box_test_case *test_param =
-+		(struct dcn21_update_bw_bounding_box_test_case *)test->param_value;
-+	int i;
-+
-+	DC_FP_START();
-+	dcn21_update_bw_bounding_box(&test_param->dc, &test_param->bw_params);
-+	DC_FP_END();
-+
-+	KUNIT_EXPECT_EQ(test, test_param->dc.res_pool->res_cap->num_timing_generator,
-+			dcn2_1_ip.max_num_otg);
-+	KUNIT_EXPECT_EQ(test, test_param->dc.res_pool->pipe_count, dcn2_1_ip.max_num_dpp);
-+	KUNIT_EXPECT_EQ(test, test_param->bw_params.num_channels, dcn2_1_soc.num_chans);
-+
-+	for (i = 0; i <= test_param->clocks_to_compare; i++) {
-+		KUNIT_EXPECT_EQ(test, test_param->expected_clock_limits[i].state,
-+				dcn2_1_soc.clock_limits[i].state);
-+		KUNIT_EXPECT_EQ(test, test_param->expected_clock_limits[i].dcfclk_mhz,
-+				dcn2_1_soc.clock_limits[i].dcfclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->expected_clock_limits[i].fabricclk_mhz,
-+				dcn2_1_soc.clock_limits[i].fabricclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->expected_clock_limits[i].dispclk_mhz,
-+				dcn2_1_soc.clock_limits[i].dispclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->expected_clock_limits[i].dppclk_mhz,
-+				dcn2_1_soc.clock_limits[i].dppclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->expected_clock_limits[i].phyclk_mhz,
-+				dcn2_1_soc.clock_limits[i].phyclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->expected_clock_limits[i].socclk_mhz,
-+				dcn2_1_soc.clock_limits[i].socclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->expected_clock_limits[i].dscclk_mhz,
-+				dcn2_1_soc.clock_limits[i].dscclk_mhz);
-+		KUNIT_EXPECT_EQ(test, test_param->expected_clock_limits[i].dram_speed_mts,
-+				dcn2_1_soc.clock_limits[i].dram_speed_mts);
-+	}
-+
-+	if (test_param->bw_params.clk_table.num_entries)
-+		KUNIT_EXPECT_EQ(test, test_param->bw_params.clk_table.num_entries,
-+				dcn2_1_soc.num_states);
-+}
-+
-+static void dcn20_cap_soc_clocks_test_to_desc(struct dcn20_cap_soc_clocks_test_case *t, char *desc)
++static void populate_subvp_cmd_drr_info_test_to_desc(struct
++		populate_subvp_cmd_drr_info_test_case * t, char *desc)
 +{
 +	strcpy(desc, t->desc);
 +}
 +
-+static void dcn21_update_bw_bounding_box_test_to_desc
-+(struct dcn21_update_bw_bounding_box_test_case *t, char *desc)
++KUNIT_ARRAY_PARAM(populate_subvp_cmd_drr_info, populate_subvp_cmd_drr_info_cases,
++		  populate_subvp_cmd_drr_info_test_to_desc);
++
++static void populate_subvp_cmd_drr_info_test(struct kunit *test)
 +{
-+	strcpy(desc, t->desc);
++	const struct populate_subvp_cmd_drr_info_test_case *test_param =
++		test->param_value;
++	struct dmub_cmd_fw_assisted_mclk_switch_pipe_data_v2 *pipe_data;
++
++	pipe_data = kunit_kzalloc(test,
++				  sizeof(struct dmub_cmd_fw_assisted_mclk_switch_pipe_data_v2),
++				  GFP_KERNEL);
++
++	populate_subvp_cmd_drr_info(test_param->dc, test_param->subvp_pipe,
++				    test_param->vblank_pipe, pipe_data);
++
++	KUNIT_EXPECT_EQ(test, test_param->drr_in_use,
++			pipe_data->pipe_config.vblank_data.drr_info.drr_in_use);
++	KUNIT_EXPECT_EQ(test, test_param->drr_window_size_ms,
++			pipe_data->pipe_config.vblank_data.drr_info.drr_window_size_ms);
++	KUNIT_EXPECT_EQ(test, test_param->use_ramping,
++			pipe_data->pipe_config.vblank_data.drr_info.use_ramping);
++	KUNIT_EXPECT_EQ(test, test_param->min_vtotal_supported,
++			pipe_data->pipe_config.vblank_data.drr_info.min_vtotal_supported);
++	KUNIT_EXPECT_EQ(test, test_param->max_vtotal_supported,
++			pipe_data->pipe_config.vblank_data.drr_info.max_vtotal_supported);
 +}
 +
-+KUNIT_ARRAY_PARAM(dcn20_cap_soc_clocks,
-+		  dcn20_cap_soc_clocks_test_cases,
-+		  dcn20_cap_soc_clocks_test_to_desc);
-+
-+static struct kunit_case dcn20_fpu_test_cases[] = {
-+	KUNIT_CASE_PARAM(dcn20_cap_soc_clocks_test, dcn20_cap_soc_clocks_gen_params),
++static struct kunit_case dc_dmub_srv_cases[] = {
++	KUNIT_CASE_PARAM(populate_subvp_cmd_drr_info_test, populate_subvp_cmd_drr_info_gen_params),
 +	{  }
 +};
 +
-+static struct kunit_suite dcn20_fpu_test_suite = {
-+	.name = "dml_dcn20_fpu",
-+	.test_cases = dcn20_fpu_test_cases,
++static struct kunit_suite dc_dmub_srv_suite = {
++	.name = "dc_dmub_srv",
++	.test_cases = dc_dmub_srv_cases,
 +};
 +
-+KUNIT_ARRAY_PARAM(dcn21_update_bw_bounding_box,
-+		  dcn21_update_bw_bounding_box_test_data,
-+		  dcn21_update_bw_bounding_box_test_to_desc);
-+
-+static struct kunit_case dcn20_fpu_dcn21_update_bw_bounding_box_test_cases[] = {
-+	KUNIT_CASE_PARAM(dcn21_update_bw_bounding_box_test,
-+			 dcn21_update_bw_bounding_box_gen_params),
-+	{  }
-+};
-+
-+static struct kunit_suite dcn21_update_bw_bounding_box_test_suite = {
-+	.name = "dml_dcn20_fpu_dcn21_update_bw_bounding_box_test",
-+	.init = dcn20_fpu_dcn21_update_bw_bounding_box_test_init,
-+	.exit = dcn20_fpu_dcn21_update_bw_bounding_box_test_exit,
-+	.test_cases = dcn20_fpu_dcn21_update_bw_bounding_box_test_cases,
-+};
-+
-+kunit_test_suites(&dcn20_fpu_test_suite, &dcn21_update_bw_bounding_box_test_suite);
++kunit_test_suite(dc_dmub_srv_suite);
 -- 
 2.37.2
 
