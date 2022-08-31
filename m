@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3F05A7379
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 03:45:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE1B5A73DA
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 04:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE51C10E034;
-	Wed, 31 Aug 2022 01:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0910910E15B;
+	Wed, 31 Aug 2022 02:23:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A069B10E034;
- Wed, 31 Aug 2022 01:44:57 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id j14so7604684lfu.4;
- Tue, 30 Aug 2022 18:44:57 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 758A010E15B;
+ Wed, 31 Aug 2022 02:23:26 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id g7so1072507lfe.11;
+ Tue, 30 Aug 2022 19:23:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:from:to:cc;
- bh=drG6RMH0zFREgohP7fUu6e8MBztAwMPOm+LE74724sA=;
- b=EFsFMp+canY/hKJink3xfIjzSIs5nK0ATMHsiNLvxO07lOyOzwsvad8rVyDd2wmSeg
- cWCjphxF3TSGFFDKqyBmATL/jehCiz7Ylb6ULQwm/mKEET2IUotRhOyHBInnuwebAx/W
- o98i4bzpAYKvvI2sU//Sa2wKHsHNlK0Ik4KVSfjlV5E7mJwynZVYZggwdjMG3KRyfVMo
- xPbIu9xAaQjWAcnqbsVBfJmmxCjJL8AJzz30l+qNOOOt1j+HNC9Xoq1+ko3At8FQwbwc
- GgYRNngTbp8HBenXcqfoYJexOO63aFwrEEDYhvuQd/DuP/2j454qxLb21o5XEYcIYyWs
- Dtmg==
+ bh=D594wEp0LEmyYOAx7Tirjq3SGwda2pe5svLBID/NRVI=;
+ b=eyXn8XNL5R+c7skqJd2CXAmkkmv+PO53H99rqyOH87xBrXhsqaRc9Cafy09+sKEMJA
+ iijHh/Vgr/N8ms8DrRs7ZsyH/kfkPXSLcSAHRoh1+w4hJSgtLHkhgFqawSk+ZXu7vLVu
+ etWsQ2c8F5mlpD6pXL4Jnwu7reEvEQPvt2Kcq7iIfhsfn4Yu0eFb5/ZnRE0d433DYCkK
+ cdghwZHl1psSvBmHBmPiKQam64a3GgKwsjlObk+WtdqaHxXkPRZOKXlEsDxfpMbOFJ+F
+ qvawNpaI/5HTMI7FX7pKKny6H0CoBufGQKBaV+h3B0J6ooncWt1iyUW0Dhc0OQr52xk/
+ Icrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:x-gm-message-state:from:to:cc;
- bh=drG6RMH0zFREgohP7fUu6e8MBztAwMPOm+LE74724sA=;
- b=a+9GKQ8x74vzchXjZqTcNUgtGaemIPuVs7S3SK/lrPtviFWj6C2cpBLfX3BImm9yA0
- /rc1j+C/M7DZMKwr+wLSV4zHkOYyz5Iz0k2oDbo9fZ/7E3nOHWn/LmqGVXQkLnHNuop7
- WIbedVKLV7nBu5ZsQIJNv9Y51+XVZNJEsHTDYdb4vVYiA1honmGvM2o1VrI9kMUP7Vhc
- s/ORtNOca6bnxWBx3iU5xouDkIwj7yraCwBbN0kY4NJLv/CYpQt8NZy7xtBXI7mzOl8I
- 8JT4Xr+ercV6pa4dB+LJhzPb/j4WDcT4VxVro59U65R0hAlSjCAqZGxmYZwSy1rOZGhd
- 0Ofw==
-X-Gm-Message-State: ACgBeo3+AdI7rwyaPkU2Wbq2xgeuBuVfyMdceHVqlGdwrTTKiPBsj9wh
- 7BV9l/bpFMGmshvddeMOZw0=
-X-Google-Smtp-Source: AA6agR5Z8V/gUf3Mh2HitGw7sMfYSuNjRXxRlM0XOW/4Yz6ST42Ov+CXOy5ZF8ScFy9ud/OgRIMt7A==
-X-Received: by 2002:ac2:4901:0:b0:494:88dc:7efc with SMTP id
- n1-20020ac24901000000b0049488dc7efcmr411746lfi.408.1661910295748; 
- Tue, 30 Aug 2022 18:44:55 -0700 (PDT)
+ bh=D594wEp0LEmyYOAx7Tirjq3SGwda2pe5svLBID/NRVI=;
+ b=ONsodCQJDYGLAzmir2o5yxXoNw+Csqxt2vulJxJk3aNqmZmDXH4sxAuK7ITh3DddZj
+ GOURpw3Sz7//7Ipg25hgxH6qcI3u2Jc2zqgch9rG0lC1QmYXO/tyT7x8UzEK0BGDeg7m
+ 7N0ZiLVFqF3Rk9vMS/7h6OWQgPcRRva4Sxq1zik1DTc/PXB+9Bj2xl94hFWJJIhg7gbl
+ Re7JKKPdZbWi/RGNHZaMCYYj8qHAux5sxjfbfA16PBeTeZq3KSYp1NIpxGuj0IbSo5Mk
+ mgvOu7XcYte4oeUkvC0f8cCYxPF4SFlQ0pTUOZfJogw8xnBJIhX2/XvqVNI9fy/tweOi
+ RGmQ==
+X-Gm-Message-State: ACgBeo2eAjWedWz0Cs9xKe4AwX4VNlZyuqZH+ylp+UnB6GbcS7BxMNdO
+ J4N+DgJiXWg/nLdOqAA5Xe8=
+X-Google-Smtp-Source: AA6agR5RnfuFyIONMTqsPbIII5CYS1rbgB3cSxzqkqMVekfKEnddXN6p9IGLZ6Lzgilorerw0vcwmQ==
+X-Received: by 2002:a05:6512:1054:b0:494:8ce3:24c8 with SMTP id
+ c20-20020a056512105400b004948ce324c8mr235583lfb.360.1661912604645; 
+ Tue, 30 Aug 2022 19:23:24 -0700 (PDT)
 Received: from ?IPV6:2a02:a31a:a240:1700:d40b:b088:5bfe:3b81?
  ([2a02:a31a:a240:1700:d40b:b088:5bfe:3b81])
  by smtp.googlemail.com with ESMTPSA id
- g1-20020a0565123b8100b004948f583e6bsm42248lfv.138.2022.08.30.18.44.53
+ k9-20020a2eb749000000b00261eb75fa5dsm1960508ljo.41.2022.08.30.19.23.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 18:44:55 -0700 (PDT)
+ Tue, 30 Aug 2022 19:23:24 -0700 (PDT)
 From: Mateusz Kwiatkowski <kfyatek@gmail.com>
 X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
-Date: Wed, 31 Aug 2022 03:44:52 +0200
+Message-ID: <c8f8015a-75da-afa8-ca7f-b2b134cacd16@gmail.com>
+Date: Wed, 31 Aug 2022 04:23:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.2.0
-Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
- display modes
+Subject: Re: [PATCH v2 32/41] drm/vc4: vec: Convert to the new TV mode property
 Content-Language: pl
 To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
@@ -74,8 +73,8 @@ To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-32-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-32-459522d653a7@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,64 +100,98 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Maxime,
 
-Wow. That's an enormous amount of effort put into this patch.
+I tested your patchset on my Pi and it mostly works. Good work! However,
+I noticed a couple of issues.
 
-But I'm tempted to say that this is actually overengineered quite a bit :D
-Considering that there's no way to access all these calculations from user
-space, and I can't imagine anybody using anything else than those standard
-480i/576i (and maybe 240p/288p) modes at 13.5 MHz any time soon... I'm not
-sure if we actually need all this.
+> -static int vc4_vec_encoder_atomic_check(struct drm_encoder *encoder,
+> -                    struct drm_crtc_state *crtc_state,
+> -                    struct drm_connector_state *conn_state)
+> -{
+> -    const struct vc4_vec_tv_mode *vec_mode;
+> -
+> -    vec_mode = &vc4_vec_tv_modes[conn_state->tv.mode];
+> -
+> -    if (conn_state->crtc &&
+> -        !drm_mode_equal(vec_mode->mode, &crtc_state->adjusted_mode))
+> -        return -EINVAL;
+> -
+> -    return 0;
+> -}
 
-But anyway, I'm not the maintainer of this subsystem, so I'm not the one to
-decide.
+I may have said it myself that we should allow custom modelines without too
+much validation. The VC4 and VEC, however, have some considerable limitations
+when it comes to the modelines that they can reliably output.
 
-> +enum drm_mode_analog {
-> +    DRM_MODE_ANALOG_NTSC,
-> +    DRM_MODE_ANALOG_PAL,
-> +};
+In particular, attempting to use "50 Hz" timings in NTSC/PAL-M modes (or
+"60 Hz" in PAL/SECAM modes) results in a weirdly skewed image. Here's how it
+may look like:
+https://user-images.githubusercontent.com/4499762/187575940-736e7262-c82d-42f3-a2d8-f309cbd51139.png
 
-Using "NTSC" and "PAL" to describe the 50Hz and 60Hz analog TV modes is common,
-but strictly speaking a misnomer. Those are color encoding systems, and your
-patchset fully supports lesser used, but standard encodings for those (e.g.
-PAL-M for 60Hz and SECAM for 50Hz). I'd propose switching to some more neutral
-naming scheme. Some ideas:
+This is because if the CRTC does not trigger the sync pulses within an
+acceptable time window, the VEC apparently generates them itself. This causes
+the VEC sync pulses (which go onto the wire) not quite line up with the ones
+from the modeline, which results in what you see on the screenshot.
 
-- DRM_MODE_ANALOG_60_HZ / DRM_MODE_ANALOG_50_HZ (after standard refresh rate)
-- DRM_MODE_ANALOG_525_LINES / DRM_MODE_ANALOG_625_LINES (after standard line
-  count)
-- DRM_MODE_ANALOG_JM / DRM_MODE_ANALOG_BDGHIKLN (after corresponding ITU System
-  Letter Designations)
+I once wrote a validation function based on extensive testing of what
+produces a sensible output and what doesn't. You can find it here:
+https://github.com/raspberrypi/linux/pull/4406/commits/15c0c51. I think it
+might be a good idea to include something like that - even though I know it's
+somewhat ugly.
 
-> +#define NTSC_HFP_DURATION_TYP_NS    1500
-> +#define NTSC_HFP_DURATION_MIN_NS    1270
-> +#define NTSC_HFP_DURATION_MAX_NS    2220
+(BTW, those %2 checks on vertical timings in that linked commit can be ignored;
+those values are divided by 2 for interlaced modes anyway. Those checks were
+intended to ensure proper odd-first or even-first timings; I'm not sure if your
+code calculates those in the same way)
 
-You've defined those min/typ/max ranges, but you're not using the "typ" field
-for anything other than hslen. The actual "typical" value is thus always the
-midpoint, which isn't necessarily the best choice.
+>  static int vc4_vec_connector_get_modes(struct drm_connector *connector)
+>  {
+> -    struct drm_connector_state *state = connector->state;
+>      struct drm_display_mode *mode;
+> +    int count = 0;
+>  
+> -    mode = drm_mode_duplicate(connector->dev,
+> -                  vc4_vec_tv_modes[state->tv.mode].mode);
+> +    mode = drm_mode_analog_ntsc_480i(connector->dev);
+>      if (!mode) {
+>          DRM_ERROR("Failed to create a new display mode\n");
+>          return -ENOMEM;
+>      }
+>  
+>      drm_mode_probed_add(connector, mode);
+> +    count += 1;
+>  
+> -    return 1;
+> +    mode = drm_mode_analog_pal_576i(connector->dev);
+> +    if (!mode) {
+> +        DRM_ERROR("Failed to create a new display mode\n");
+> +        return -ENOMEM;
+> +    }
+> +
+> +    drm_mode_probed_add(connector, mode);
+> +    count += 1;
+> +
+> +    return count;
+> +}
 
-In particular, for the standard 720px wide modes at 13.5 MHz, hsync_start
-ends up being 735 for 480i and 734 for 576i, instead of 736 and 732 requested
-by BT.601. That's all obviously within tolerances, but the image ends up
-noticeably off-center (at least on modern TVs), especially in the 576i case.
+Xorg is pretty confused by these modes being reported like that. The 576i mode
+is *always* preferred, presumably because of the higher resolution. If the NTSC
+mode is set (via the kernel cmdline or just due to it being the default), this
+results in a mess on the screen - exactly the same thing as on the screenshot
+linked above.
 
-> +    htotal = params->line_duration_ns * pixel_clock_hz / NSEC_PER_SEC;
+Note that drm_helper_probe_add_cmdline_mode() *does* add the
+DRM_MODE_TYPE_USERDEF flag to the 480i mode, having detected it as preferred
+on the command line - but Xorg does not seem to care about that.
 
-You're multiplying an unsigned int and an unsigned long - both types are only
-required to be 32 bit, so this is likely to overflow. You need to use a cast to
-unsigned long long, and then call do_div() for 64-bit division.
+I remember Noralf suggesting setting DRM_MODE_TYPE_PREFERRED for the mode that
+corresponds to the currently chosen tv_mode - that would fix the problem.
+An alternative would be to _not_ add the "opposite" mode at all, like the
+current default Raspberry Pi OS kernel behaves.
 
-This actually overflowed on me on my Pi running ARM32 kernel, resulting in
-negative horizontal porch lengths, and drm_helper_probe_add_cmdline_mode()
-taking over the mode generation (badly), and a horrible mess on screen.
-
-> +    vfp = vfp_min + (porches_rem / 2);
-> +    vbp = porches - vfp;
-
-Relative position of the vertical sync within the VBI effectively moves the
-image up and down. Adding that (porches_rem / 2) moves the image up off center
-by that many pixels. I'd keep the VFP always at minimum to keep the image
-centered.
+Note that if you decide to add the modeline validation like I suggested in the
+comment above, then without setting the preferred mode properly, Xorg will just
+give up and sit on a blank screen until you run xrandr from another terminal
+if tv_mode incompatible with 576i is selected.
 
 Best regards,
 Mateusz Kwiatkowski
