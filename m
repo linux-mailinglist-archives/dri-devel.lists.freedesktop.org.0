@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F925A7906
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 10:27:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB315A7907
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 10:27:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59FFA10E24E;
-	Wed, 31 Aug 2022 08:27:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE7C10E0C2;
+	Wed, 31 Aug 2022 08:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C68F10E22C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC45610E24E
  for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 08:27:12 +0000 (UTC)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 45F456D1;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A6B9749;
  Wed, 31 Aug 2022 10:27:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1661934430;
- bh=sPutlenpkv89kpysD9S9N8fHkBkW6EdxILEEMeJD998=;
+ s=mail; t=1661934431;
+ bh=sc0etUTjXQN9f68TAFcomrI0mFtb5ro25RwpfPIju90=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jzQUcs4Essb20gUeoYnb0u/uqxH5or3DzH2xChS0rakBAAgmswy35FBd3ar17eHjV
- QMNxxv6Qa+hZak2LXBxwFqWxEJkN0iMplb6taxUTkTnLS82QhfAZ2BIoq5jvbc9rTu
- RnBUBKgqqalIiZRdsLZy4UObksSi6KcadGB8eRIs=
+ b=QtvJ7WAE90cbyQljXjEeF7n0ZloNHi4rI3mfZDUXbpYgegGFoBYL63D+JMdoXyquE
+ n3IGX1VQ9a59Gjmec3ZcjGwjn3YFFh8ShZgAHfveHAcQcPdc9RG37GsUGb3slxJmSR
+ SMz+fTddzSBY3aebxXywu12LUJdr3O7D6nMc6k78=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To: Douglas Anderson <dianders@chromium.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -31,10 +31,10 @@ To: Douglas Anderson <dianders@chromium.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v6 2/3] drm/bridge: ti-sn65dsi86: Support DisplayPort
- (non-eDP) mode
-Date: Wed, 31 Aug 2022 11:26:52 +0300
-Message-Id: <20220831082653.20449-3-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v6 3/3] drm/bridge: ti-sn65dsi86: Implement bridge connector
+ operations for DP
+Date: Wed, 31 Aug 2022 11:26:53 +0300
+Message-Id: <20220831082653.20449-4-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220831082653.20449-1-tomi.valkeinen@ideasonboard.com>
 References: <20220831082653.20449-1-tomi.valkeinen@ideasonboard.com>
@@ -59,87 +59,99 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Despite the SN65DSI86 being an eDP bridge, on some systems its output is
-routed to a DisplayPort connector. Enable DisplayPort mode when the next
-component in the display pipeline is detected as a DisplayPort
-connector, and disable eDP features in that case.
+Implement the bridge connector-related .get_edid() and .detect()
+operations for full DP mode, and report the related bridge capabilities
+and type.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reworked to set bridge type based on the next bridge/connector.
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
---
-Changes since v1/RFC:
- - Rebased on top of "drm/bridge: ti-sn65dsi86: switch to
-   devm_drm_of_get_bridge"
- - eDP/DP mode determined from the next bridge connector type.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Changes since v2:
- - Remove setting of Standard DP Scrambler Seed. (It's read-only).
- - Prevent setting DP_EDP_CONFIGURATION_SET in
-   ti_sn_bridge_atomic_enable()
- - Use Doug's suggested text for disabling ASSR on DP mode.
+---
+Changes since v1:
 
-Changes since v3:
- - Remove ASSR_CONTROL definition
+- The connector .get_modes() operation doesn't rely on EDID anymore,
+  __ti_sn_bridge_get_edid() and ti_sn_bridge_get_edid() got merged
+  together
+ - Fix on top of Sam Ravnborg's DRM_BRIDGE_STATE_OPS
+
+Changes since v2: [Kieran]
+ - Only support EDID on DRM_MODE_CONNECTOR_DisplayPort modes.
+
+Changes since v3: [Kieran]
+ - Remove PM calls in ti_sn_bridge_get_edid() and simplify
 
 Changes since v4:
- - Refactor code to configure the DP/eDP scrambler in one place.
+ - Add .detect()
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 28 +++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 09d3c65fa2ba..6e053e2af229 100644
+index 6e053e2af229..3c3561942eb6 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -92,6 +92,8 @@
- #define SN_DATARATE_CONFIG_REG			0x94
- #define  DP_DATARATE_MASK			GENMASK(7, 5)
- #define  DP_DATARATE(x)				((x) << 5)
-+#define SN_TRAINING_SETTING_REG			0x95
-+#define  SCRAMBLE_DISABLE			BIT(4)
- #define SN_ML_TX_MODE_REG			0x96
- #define  ML_TX_MAIN_LINK_OFF			0
- #define  ML_TX_NORMAL_MODE			BIT(0)
-@@ -1070,12 +1072,23 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+@@ -29,6 +29,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+@@ -68,6 +69,7 @@
+ #define  BPP_18_RGB				BIT(0)
+ #define SN_HPD_DISABLE_REG			0x5C
+ #define  HPD_DISABLE				BIT(0)
++#define  HPD_DEBOUNCED_STATE			BIT(4)
+ #define SN_GPIO_IO_REG				0x5E
+ #define  SN_GPIO_INPUT_SHIFT			4
+ #define  SN_GPIO_OUTPUT_SHIFT			0
+@@ -1158,10 +1160,33 @@ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
+ 	pm_runtime_put_sync(pdata->dev);
+ }
  
- 	/*
- 	 * The SN65DSI86 only supports ASSR Display Authentication method and
--	 * this method is enabled by default. An eDP panel must support this
-+	 * this method is enabled for eDP panels. An eDP panel must support this
- 	 * authentication method. We need to enable this method in the eDP panel
- 	 * at DisplayPort address 0x0010A prior to link training.
-+	 *
-+	 * As only ASSR is supported by SN65DSI86, for full DisplayPort displays
-+	 * we need to disable the scrambler.
- 	 */
--	drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
--			   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
-+	if (pdata->bridge.type == DRM_MODE_CONNECTOR_eDP) {
-+		drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
-+				   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
++static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
++{
++	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
++	int val = 0;
 +
-+		regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
-+				   SCRAMBLE_DISABLE, 0);
-+	} else {
-+		regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
-+				   SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
-+	}
++	pm_runtime_get_sync(pdata->dev);
++	regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
++	pm_runtime_put_autosuspend(pdata->dev);
++
++	return val & HPD_DEBOUNCED_STATE ? connector_status_connected
++					 : connector_status_disconnected;
++}
++
++static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
++					  struct drm_connector *connector)
++{
++	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
++
++	return drm_get_edid(connector, &pdata->aux.ddc);
++}
++
+ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+ 	.attach = ti_sn_bridge_attach,
+ 	.detach = ti_sn_bridge_detach,
+ 	.mode_valid = ti_sn_bridge_mode_valid,
++	.get_edid = ti_sn_bridge_get_edid,
++	.detect = ti_sn_bridge_detect,
+ 	.atomic_pre_enable = ti_sn_bridge_atomic_pre_enable,
+ 	.atomic_enable = ti_sn_bridge_atomic_enable,
+ 	.atomic_disable = ti_sn_bridge_atomic_disable,
+@@ -1257,6 +1282,9 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+ 	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
+ 			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
  
- 	bpp = ti_sn_bridge_get_bpp(connector);
- 	/* Set the DP output format (18 bpp or 24 bpp) */
-@@ -1241,6 +1254,8 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 
- 	pdata->bridge.funcs = &ti_sn_bridge_funcs;
- 	pdata->bridge.of_node = np;
-+	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
-+			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
- 
++	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
++		pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
++
  	drm_bridge_add(&pdata->bridge);
  
+ 	ret = ti_sn_attach_host(pdata);
 -- 
 2.34.1
 
