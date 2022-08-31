@@ -2,140 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346EE5A88A6
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 23:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F285B5A88A7
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 23:57:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 197D610E425;
-	Wed, 31 Aug 2022 21:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 633BE10E4F0;
+	Wed, 31 Aug 2022 21:57:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7497E10E425
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 21:57:41 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9505210E3EB
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 21:57:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661983061; x=1693519061;
- h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=zsPioFM5wYFWCkLRbTTswgDX0SQJrC8qqAHd8F95EWQ=;
- b=AHwta+XyjscMMqHgAD9FUgwOnJdYBFE72lJzzyh18JbyKOQC/78Lxr7w
- 3i0rZ7UrZULf24bzwuKEAd/Gm3Eg1Z5Q9wW3oKaLvDRQEB+40oqRNLUfK
- w9yCSHD6RkGCsyhthphvA6FMV4Ya0jL5864wQ+1PTPESw9rS4Wp/YSis1
- nmStadySGbDUZhd7t2lP2ADwkTo/m14HHX6NtM21LNQZJggN78h+QULie
- UNXlP4WsbWLeI7BJHieoWxWDk8z9rc69zDyA94DX9hh9AeOhOzSRxGpYw
- 1oUrqwA438SV8Bw7v1ySmffGtUasykUXhFbZSc65HW8mIZpEAZf+F4L0H Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="278571281"
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="278571281"
+ t=1661983071; x=1693519071;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=E+dBs7Os0eBUZmFKrzgVpGNf3I+JCdvOgT9quBKcN/4=;
+ b=a8XIyNn0dVhd54+izLRrLuqCup4G2ATbRkX6iSFQQZbOhdj/SZzKHtCS
+ 0kjU49jQ5y0S9/cnLQI9RM1X1hWJ6SyfwwhYKdSzMLb9Lz0SZuY3YIZIB
+ mk98zDVuAeRZFoipWirfc6gcdEsTx9UAJ0HCTjOJSnPA5N2pvu+OwE9lW
+ 99nSsci22TDCOba3UzguqAyZLiiOiOv1nrfIUgrAZg8wCCwVli71JSTKx
+ SIjFTQ2CRrkCjNgTmPbN2xGEfYSptST8ORIFgeR8VhdDS6DQbKzEy0P39
+ zbnyHcXDfSr7FVVodcCH6BaGHJNBlRhpvLbmriYqwesA2j5a7zPi0ucL3 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="296834424"
+X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="296834424"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 14:57:40 -0700
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2022 14:57:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="612244855"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga002.jf.intel.com with ESMTP; 31 Aug 2022 14:57:40 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="612244974"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga002.jf.intel.com with ESMTP; 31 Aug 2022 14:57:50 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 31 Aug 2022 14:57:39 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ 15.1.2375.31; Wed, 31 Aug 2022 14:57:50 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 31 Aug 2022 14:57:39 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Wed, 31 Aug 2022 14:57:50 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 31 Aug 2022 14:57:34 -0700
+ 15.1.2375.31; Wed, 31 Aug 2022 14:57:49 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nnQyhre8Q9a8pHJt5J/16o11fU9u2UAv32SUw7+m04DAOBzSVnJbGZVyGOpINpBQhpYOTmWzrsxOkfp4KgmNjjFpdhrUgaVeW68ecK/x2qXCYcUQZjZdQQCVaB2YxwBCA7M5WhAVNskhA1i8T2FQmXa8CSycpzHBHzPCpxS/UU9sh59TUEhzk5YOj98Nq+S6PE+5C761GGU8EiJu+/VcCboIMSxPnntufuSx+EMQfWMxLQmvaVKm9k64wbae6y792n7jSAmtBR7OGxDX6HcUVuh3he7rymA6lkRQIUY/VCR/6t7JfdZWUpw4TQUTr4mFQCy5LeyCrpJASzf6y26z4w==
+ b=Xf/zDZeS/UEW6KTxD7KTzAUJ6bqoLfp388wLu7qPChgb/dqsLKuNZWJsAHxQL8Nyup1Zu0B1+0FcbFIQDpRDj6ifAYuo9tmN8aUEJ0k0tEelbd8D458kOa3TY1H3u50Yb8Yy2rwyC/Vqvw79D4OUIg4YQ5woCfQnp4zMmwM0S98rduBhJmE01aN2D4bHtCDj8UQB7R6wBmi49q4qxAaL9+ANp/SpRw3eeUikhb4bNWxKiDYSe+WlMS0tOsRQRSAy6HD1n6X+C8SlvK4/mE0/IaXP5gZf0c67iOg6X6JPzdYtUaD6JlZHu0A+rrZzO7X1Ewga8oMOIar/pPdOMcn6rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k4GO6Oz0Pe/6p3WVWPjE6Ojfakw1hOwb2/mjOK32//0=;
- b=CXmfF4Hq/i+Xv7zvMq9Mixm4gqwZa1JYL3EnZQrCTLjxnyRTKoBoNyo+wKB9siGdEawzzDNcOPERF3IJCeNxq+us3H3UVuT7QrHcxX3ul55kcyAlfgoDSgDGBq/nVXZyKQ04B89M5JXhH3MIjpNnSOCx+W9uySDSx5PEAuXRKPE3a/e0HprCBcrHv3lATIxlxW/MNz4vf5bdH6F5KetyHk8hLhhWixTOFDCsuQR1HhImtF6Ghvw1cbx3qkOVkWcRmrl7o+IIoFQAN2cKD0cWjxbzCOlKciMf3Tin0bqbr2kABGhk08vaF6PanahGPzigF8LuXqIkH2ICUjmuIHeSEg==
+ bh=ZbPZ1DblDnR4lKACAMonxasiGtyPm8q4iwR//nqOhBQ=;
+ b=ZNB+L94XhfQ1SaeEPKO2MuHuXfg+8zacHTmpsv39eAyoiJgv+7lmzMioWSIVzcDAMhIlqAxL0i9FBEnfMe5hMJ7d5ey39UpBYs1eaFo3xydLlklB2gYmD5F0G8gvv5lDEJRfh6m3fTAq8uLv8YOTUhc8jo2JDIl3Hx1Y9GyQJbWZUcEbyZL/ECJVhfLHIsx4QK1grScPJH7d2UU6hG47h7NBkDcSKGoFfHTnqan8xqbMTZvfXKk2g2cdnWgHyVvowSvR2+k+nKd41ulY0VsINNpTQJIEV0gMxwRiDGn6/RutZPXqFdrfMuZxVClWnOCAorGnZEs3nDlAW0CYpmabMg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- MWHPR1101MB2144.namprd11.prod.outlook.com (2603:10b6:301:51::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 31 Aug
- 2022 21:57:32 +0000
+ DS0PR11MB6349.namprd11.prod.outlook.com (2603:10b6:8:ce::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5566.21; Wed, 31 Aug 2022 21:57:42 +0000
 Received: from DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::b04c:807c:4ea0:c62e]) by DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::b04c:807c:4ea0:c62e%9]) with mapi id 15.20.5566.021; Wed, 31 Aug 2022
- 21:57:32 +0000
+ 21:57:42 +0000
 From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/2] drm/format: Use appropriate types in expect/assert
-Date: Wed, 31 Aug 2022 23:56:07 +0200
-Message-ID: <20220831215608.349269-1-michal.winiarski@intel.com>
+Subject: [PATCH 2/2] drm/format: Split into more granular test cases
+Date: Wed, 31 Aug 2022 23:56:08 +0200
+Message-ID: <20220831215608.349269-2-michal.winiarski@intel.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220831215608.349269-1-michal.winiarski@intel.com>
+References: <20220831215608.349269-1-michal.winiarski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0022.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::10) To DM4PR11MB5373.namprd11.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0165.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a2::10) To DM4PR11MB5373.namprd11.prod.outlook.com
  (2603:10b6:5:394::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7a430f68-8f1a-4ec4-50ff-08da8b9bcdea
-X-MS-TrafficTypeDiagnostic: MWHPR1101MB2144:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0ccc402-b0cf-4f1b-fc38-08da8b9bd43d
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6349:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iaqFdFAN/jh06FhIaB4iXqEcwh+KQS8/8xQ0rdsRGdJ5RfB8ngPRzNrWOMyMi1BYDQz/6tfFTQbfP4xnGt3vJkkPqfLUssSqC7E1C/dtT3GR7FtEmA64o5xTbgAxfK64BEnAnIAvJpX4HpRaiQ7GLRioGLZSZ4eIaHnn//WMfVUteuvrVL0mNHrOuwjTxOz8o12lSwq0NMEyAYP1aQ16J6mRxnEyleGxQ63w3w7g4lKeyKPaZ8xoIE2MoooQ875jkDc9lJOjbl+bez249/PszuOQSQwEQluarRXZSBYOJq6JfrFdnObE6vxGaAUWvH+Fe9gkeElZYGOao/knDeou2Kq9UpYm6ZdEaOTqRzp8BuVY2YaSrICl8UIdw7iW8vS9U4dVZdFv32SpNteIbyyqzeuTIKetKaT+GSd3cYExxeAWQvnvLDPZLgo9XYpPhR+cn4dHrA5eb7/+zUnX9mr36BQHRLRo5KXIrIdP7igjLWiUN8NOgF+eBeOSDlp04oS5H2bc2anleU9bDr0BoDXjzBnT52GOHnwN+r24GH7LSYbkiSv3QK88X4ClH/2NsMjF/GzgXT7iLKD940w8JWViV5aJfT5yoZZkR+5YwK0rrGJlnhEJoGJJGBoVPk+ZkbiDLw8bKOs899Mw9u/AC6+iyuicoHiZNX7wS0b2i/Dt39YDPi43npYND+5l2VeloPlGE8S20aMn7P6GA0SNMrJ5AA==
+X-Microsoft-Antispam-Message-Info: d1mbGGMthCr2bcghvImSr1PSgtFouxsYDExzzKcLsf2PVnk2Rk6L2DDL65WbpNZx5nmrNpBPNrUh7U3lfWpP3vqP9KfgYHZwX0C1k+Mi2YrFdXjYs3dizRNyKeYRmOQjeTyEV32mQpWhshdTR+6xAF0ZcQTycfCwL0Y1ymggRqxfr4tHw7dG/nohZuoYzrrbFU3Ve9HLzKLelQcN0hgXmMa/m+4gQlglQt5DSMTffuvgQk0VZRgDYBRRQBfOHqar6WgkBBCI95vD537NaZazQkfs8zf3sT6m73JnC+RfgLpsI/KwlRweyalnKKmo2BcOFKCq2VvFoznbff0cbn/XMEFCMwjaDZAfHP8qaW4hqEG1WvrqselZracO3GbX5BdrehqrBz38vV3g5zMkEUYU5H5p/7Cs65BaPzk9Md0pLLZIuPD1txlRHcEDjO0XqvF+2hLjQcimHVjRr9XdAS/V7cVVFB2VDWXpf4PSf+JTgkvSOcvzgxhTiLaT0fkIcnZ5mMQJ8NBeRsRFxSySFok/VGooRbrAQagXuLhGf2FP5hmxhoC6drcyc0TC0MJQvA1BFFr3N0qVOnA0QWSAIUkECRMXgpeW6tiu2uZtmPoHbzL/wrM4JWb8sbfYatQ71RWxpUW8q/bh/wG6Q+N0rYvQldlgA7SxfAqRI6oardi/EXyFlMkzoizJ+kfOtaS44Fuw4I2F5pjQsrrJA+M9ISEYKQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(376002)(396003)(366004)(136003)(346002)(39860400002)(6486002)(4326008)(66556008)(478600001)(66476007)(8676002)(66946007)(316002)(54906003)(5660300002)(6916009)(8936002)(2906002)(30864003)(82960400001)(38100700002)(83380400001)(86362001)(36756003)(26005)(186003)(6506007)(107886003)(1076003)(2616005)(6512007)(6666004)(41300700001);
+ SFS:(13230016)(376002)(396003)(346002)(366004)(39860400002)(136003)(5660300002)(66476007)(66556008)(66946007)(107886003)(478600001)(30864003)(8676002)(4326008)(6506007)(8936002)(6666004)(41300700001)(83380400001)(6486002)(86362001)(1076003)(82960400001)(186003)(6512007)(2616005)(26005)(38100700002)(316002)(6916009)(36756003)(2906002)(54906003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OEZVZWNtL0pReHE5UzRFWWRibG5rYVA1NXFzREdiWWtad3I3YjRsdEpIV1cr?=
- =?utf-8?B?alRwVVNqSk4wWjdhRDNBT3JtU0s0T2ZUbDNGUHkvN2Z4NXFqVzNOcm5HTmhu?=
- =?utf-8?B?bGxKaFp5ZVhYVUFaVHoxTVh1a2dSOVphZVNQb2tKcE9oNnpudXlMSG5QRWVF?=
- =?utf-8?B?dG1aZXRWOXBnTkFzVVFuZWU0bE5mZUt4bWVjajZzVHl5UnFtMldCY3ZHc1I0?=
- =?utf-8?B?TVYzbnJkb2ZPaWhGZURtT2xIMVREU2VZandFSlZBOEh1RkhXbFFERko0UDha?=
- =?utf-8?B?aVBlc3ppMmdKR3hLNUNiTm1VZ08zdGJwTG90SWo3dDNrcDdCNkNnUEhvYlhi?=
- =?utf-8?B?ckFrcitkZVJXUmIrTVZWRDBhQVcvY0ZUZzVZTmdEb0VGeUlOc3JvVGppZy8v?=
- =?utf-8?B?SVF0Q3BJZXg5eERVV2sva24zcCt5WWhxa1k3S0hVc2hNZml6bHhKVWtwSXJJ?=
- =?utf-8?B?NkZSTndzUXJLSE5sdEUyN3QrUUFoQmZtK0ZBa1lXMVpkRDZ4UzFuNDBiUE13?=
- =?utf-8?B?Q3pDa3kzek11UUZBQ2cva0h4cHRlaWhWVGtxTXF3NytHeW9tQjZvNFJnVHVt?=
- =?utf-8?B?SkpCVzlPY0E2ekd2S3pwbk5xUEl1ZXJwMnFRUGpjNzJyL3RpMkFTV0xRWkR6?=
- =?utf-8?B?TU05bU1YQS8yZUtxMEFaaFJaTFFFZUEwQlZ6WEtYdzhyckJWT2VOcjFGMUdB?=
- =?utf-8?B?MnRlTENONFlXMEs4c2V5bE9LUUR0Qzl5Q3JueVYrZlcxc0dCc2IzclptTWx4?=
- =?utf-8?B?b2N4MGZnYzJrck5BZVpES3ZkMXZCQzhSbjkvTlk4ZTY4U2t1VEdzaGp1S2NX?=
- =?utf-8?B?cEhsZmhLLzJNTGNsbkk5eEl2emUxRVZTdnJaSjR6bkpVL2U2QTA3ODA5S0Nm?=
- =?utf-8?B?TzBQRWZwMmhaeTBkOUNUcml3MDhKMzVTNkxzYjgxdUxQMDI3U055OUxsVVFE?=
- =?utf-8?B?MExtTVlqbG1nbzhJTkRVejBkSmIxazZKYktLSGZDblFPaXpVTVpGOGFFdUFh?=
- =?utf-8?B?SHlYKzNBSDdOcUJxZytwWUdjOTQ3RndXRHZUd1ZmTmlBK1dkWmFVclByazdE?=
- =?utf-8?B?VUJhRHBacm9Ic29sY0t6eXI1OVdFc21KazBaWGlra1kwcmhWenByRmlPUlJ5?=
- =?utf-8?B?RWtWeFVFSjlmUTlURFpjTUxGaEllN29DZG16ZStRR0MwaU5vN0hQejF1Zm81?=
- =?utf-8?B?RjJwQ2cvNXUwOThuaC83N0RFUDFzVEIvcG5BR1BZV0tjZ0JSYTh2azJHREhG?=
- =?utf-8?B?SzFNL3h3a3ROYk4xMU5MY0RNcHlkR0dVV3NaQkJQTXBKOW1CNmZjSVZmNk4v?=
- =?utf-8?B?QlhVNjhYUmFUYjBPUnJlMFY1VkJVdEtOczU0WnYyV1BoempXVkVPbDhEWjA3?=
- =?utf-8?B?THRldW1WdURod2xGSGFuQTdhVHJSbGgwTThlcFBlaytrU0drSUdabnhpTTZN?=
- =?utf-8?B?dnFkMHVlbTU0OG5zVXJhY2JqMFlxOWdvZ3VKTk1kbzRXdjQwb0lwMm1RT2xk?=
- =?utf-8?B?U3RUbWF2RXQ5SDAxVWxnNnpCcktrL2JPZTdYK0RpVmdxTzZPemNCTGJQVUpr?=
- =?utf-8?B?WE5IMWxiK2p4S294SHBKRHdOZFZkOURVN3E2T3RMWi9qUi9ia1plVE5aWVRM?=
- =?utf-8?B?RDdKRlZuZENQWVh4SXNnM2V3cTVJQ3hWN2JOZHpTUktGeTJaYjVBZ3BncTEx?=
- =?utf-8?B?ZG53eXRzdmNCWXpCRzl0dG12RjZsZHJzZ0hWeFFrZ0QxclN6OGllUld5Wlhm?=
- =?utf-8?B?cERUVWJzT1U0ODdPL1JwRzEwN2NYK0F0MXlyRWlIUjdvUUxGNXAzZmo1ZG9Y?=
- =?utf-8?B?SHFJUTlSaUhpdlZsYUYxcXNmbmJMMExyZERLeDlhU3ZyRUFCWnpuWEsyangw?=
- =?utf-8?B?Yit2VUhJSDBQWWNpd3IwbE03Ym5IOUJ6VnRjazYvak9kbjZTbTgvZmxQV3FJ?=
- =?utf-8?B?MUg4MnBieVlyTnErUTErOWRrdkZhZlNibUFwbFJCbmFpV1BSSkNRUmp0M01D?=
- =?utf-8?B?c21MSnFmSnZ0dXN5cE1CM1VvaHhqM2FyMUpyVVg4N1JWUmE1MXFkTzZOZ0Fl?=
- =?utf-8?B?cWlXbWxsdnlHWHhzUlZDMW1XdWRaR1QxUU9tU09LRXdrM1R0WFIxUm5IQXlH?=
- =?utf-8?B?c1AyaXl2ZkdyLzFzZWl5Q0kydXZEZDNTMk1BUm5yeVJicXFuRkd4NlMwU3Vx?=
- =?utf-8?B?L1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a430f68-8f1a-4ec4-50ff-08da8b9bcdea
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T0VjQTg4cnBzeTU5ZEZNcUVwWDVEcEIxb0lBdE5zbUd0djFkS0xLNnRuT2l4?=
+ =?utf-8?B?ck5ORzB0RmtuSllXQ1RyNjVxNTMzNEQ2aHRLVVQveHZaUFQvR2NLLzdzMkhY?=
+ =?utf-8?B?SEhSOEo0KzdHMm83ZVBySUQzaVJISTdsU3IxMFozVElXUUtOdERGYW5zWWxa?=
+ =?utf-8?B?b253Z25CaEJ5YmI5aENHZmpsSFc2cjlueTluUEh1SmVMRDVtRkM2d1lreS9m?=
+ =?utf-8?B?KzNZUUlIRm0rNEIrUFdCOU5RcGFHdlU5Rnl1bXM5ME81UHRSY2dVRGtMUjBN?=
+ =?utf-8?B?MzNPcXFmS2ZwRDJZRXZueDFFWlNOcnE5eUJja1NhNnErOEVzMEhMY25INnRI?=
+ =?utf-8?B?V1pPU2ttbnVmYXQzcVhDYkJvT0JpL3NVaXhuZnNkK0l1RnRiODNiN3lXbThW?=
+ =?utf-8?B?c083UzVOYWRJdklGbkZ4S2JKRFF1NitjZ2s4eW55WVdwOXlXYStwUkg3c2Nt?=
+ =?utf-8?B?cnpUSDZhQUNIWEcrcW5zWXZBOEwzVmJ4Q1hyY2ZQNHZIWXhoVm1BSmdMOXFQ?=
+ =?utf-8?B?cXpHNk5uVzJaQnFGRktuVk0zdzNPQ1YvVHJUNWNHa0tzSkJxMTludUNwaDZ6?=
+ =?utf-8?B?czZwQWhWcmMzTUJmdlR1Nk83MEttcDNsUndPU2g2aUxkdW9BcTBDZi8zT2JX?=
+ =?utf-8?B?djlkdnU5Nmt0ZkF1UmpyckJFb2txazJQejVlT0JFdFpDRG1VeXA4aUZhQ2FI?=
+ =?utf-8?B?WGdmc2FLYlBRckl3UUFGNlJOVnd4emdJeXNDK1IwR2xSaVg5TmhZSVVISS9R?=
+ =?utf-8?B?UDE3R1hwTEl2U3ZhUU0zUWpNdGlBbTkvT09JQnVtSVg3Z0kyMU5ZZjJINFgw?=
+ =?utf-8?B?UWtzdWI3NWVFNElReWx4dkRwRW1NSTQwY2RTL0pCQzlTMklzTEx4M2FzeGlU?=
+ =?utf-8?B?K1I0VWpzQzZtVkt1ZWRMa1lnZXBOazduMHBBMVVKTTIwc2M3VG1XeHZFdUJl?=
+ =?utf-8?B?cjZOU2wzTFJzMEVIT3hxaWk0TnRXbTlTMnJFYWY2R3AzMEdQV29PdXR2K3h0?=
+ =?utf-8?B?MDI3cm9ldi9tUG9vQ3hROXZMVnJIeC9aa3ZJMXVvSW56cFdCK1o5NFBXaE53?=
+ =?utf-8?B?VVFnMEVPbTlyQ0E1YUdNV25uRTFDNVdHeVp2TlFKd1N1dk9BWktLclJHaHFo?=
+ =?utf-8?B?UFJxd2haaWE5WDBTbGpta2FjWlhndUZZenRFUllYSUlXS1ZWU2hFOEdVN2RE?=
+ =?utf-8?B?cjhXSUtvdnFOS3BoYTQvSVBZQUl0ajJ1V3l6MmNFNTFaZGhTVmFCbkxjN0dP?=
+ =?utf-8?B?Zmw5L1ZJaExPcG1YdTdrVnJTVzdycVVyWlg4STJnQlZTL05JVUxGZlVaMEhH?=
+ =?utf-8?B?OW9FWDFnQTdDcFc3WmlZSWpGNkM2ak54RzN0SzhKQmFzeHhqZE14ZFdneVdT?=
+ =?utf-8?B?QjNNVTFjVStuOWRSd0VGSGZIZlRubTM2blE5TTBISFRqTGdHVlN2NjJWSlVC?=
+ =?utf-8?B?N2ROd3UxNS9kS0VteDVlcU02bE9xQXZEYmRsOGdNYXV1Q0N6Q0NUVkpTOW9E?=
+ =?utf-8?B?RE9lRE1PNnZ2R3ZqaldRZVhnTzBBaWNHaEoxc1dLSUhsV1dRVlltVk5BU3h5?=
+ =?utf-8?B?LzBnMnluVHY5ZDRkTGNnTnZKdmg3V3UxcjQ0YjR3ZDN1UUg0UFNxME5QeVdu?=
+ =?utf-8?B?bDcrY0ptNHVwUytyajh4Zmthdm5SdTV0Wm5USFNlclgwQlhVUmpZdlgzMkpG?=
+ =?utf-8?B?aGFYRTNhNmpwRnVIMXZvNGhNMGVKempGNnBEN3MrU2ZFcS8zLzd0dDNZR1JV?=
+ =?utf-8?B?WFZueGZUcHljemE2eDBiN1hNcXMwNXpmOGFjV213K205TVd5aENmeTEvN2dQ?=
+ =?utf-8?B?MktLSlJmaW5hTnV5Q3lwSU5Ya2pIcnFxenZiZnlOM1dCYm9IL1plcDVuS3lx?=
+ =?utf-8?B?QnVYMnJTLzZDRFJaeFkrbzVTQmJ4SlV5MU52Z2N2RC9Qck9LL0Y0Umw1RnlK?=
+ =?utf-8?B?cnRWdHFhaHo5Y0thbHZYNW9icGdjbFhDT2hvYTBCZEs2ZlJCVXFrYUR3bnYv?=
+ =?utf-8?B?T2N6bVd5eHRKSkRzYzZ6aHdha0R2RGhPKy94enNTN3ZLdjQ1VVE2TUZNZXQx?=
+ =?utf-8?B?aXJBc0pJYVFobXhTSUwzZmo1NU9vd05zNkZtbmlWdE1BTnA0ejBWMXFTeGRP?=
+ =?utf-8?B?ZEdyTGdoeGozNkJMODBzdUdadVh0RXJYRFJEVjhwcm85cjlMWVNvQllxd1Za?=
+ =?utf-8?B?SFE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0ccc402-b0cf-4f1b-fc38-08da8b9bd43d
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 21:57:31.9567 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 21:57:42.5414 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9Xw1bVDdcwDINdJGAyTsHcwrWlvl6dKXcXM1OXm6DbQzeuhdnzjWyVxHoGJHyUOeQ1dcOdI7E6tl9qV/fLVoNtsHDI2j+D9pyfQXrhwVovs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2144
+X-MS-Exchange-CrossTenant-UserPrincipalName: N8I0XkUrTuOqVOeEe4GNY7Ec/h9IjpqhnH+SUOttaZOOKHJULYwdV2Rf2jEmyV3Ek4q1L5K0xoEHWJtHgifF0olj0aY7lBfVeFQXxj0pL7E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6349
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -157,265 +159,346 @@ Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_format_info_* functions don't return bool, and the info variable is a
-pointer.
-Expecting non-NULL info will cause the test to crash if it is NULL in
-checks that follow (which dereference it).
-Use appropriate KUNIT_EXPECT/KUNIT_ASSERT variants.
+While we have multiple test cases, most of them check multiple
+conditions, calling the function that is tested multiple times with
+different arguments (with comments that indicate test case boundary).
+This usually means that it can be easily converted into multiple test
+cases.
+
+Passing output:
+============================================================
+================= drm_format (18 subtests) =================
+[PASSED] drm_format_block_width_invalid
+[PASSED] drm_format_block_width_one_plane
+[PASSED] drm_format_block_width_two_plane
+[PASSED] drm_format_block_width_three_plane
+[PASSED] drm_format_block_width_tiled
+[PASSED] drm_format_block_height_invalid
+[PASSED] drm_format_block_height_one_plane
+[PASSED] drm_format_block_height_two_plane
+[PASSED] drm_format_block_height_three_plane
+[PASSED] drm_format_block_height_tiled
+[PASSED] drm_format_min_pitch_invalid
+[PASSED] drm_format_min_pitch_one_plane_8bpp
+[PASSED] drm_format_min_pitch_one_plane_16bpp
+[PASSED] drm_format_min_pitch_one_plane_24bpp
+[PASSED] drm_format_min_pitch_one_plane_32bpp
+[PASSED] drm_format_min_pitch_two_plane
+[PASSED] drm_format_min_pitch_three_plane_8bpp
+[PASSED] drm_format_min_pitch_tiled
+=================== [PASSED] drm_format ====================
+============================================================
+Testing complete. Ran 18 tests: passed: 18
 
 Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
 ---
- drivers/gpu/drm/tests/drm_format_test.c | 152 ++++++++++++------------
- 1 file changed, 76 insertions(+), 76 deletions(-)
+ drivers/gpu/drm/tests/drm_format_test.c | 156 ++++++++++++++++--------
+ 1 file changed, 108 insertions(+), 48 deletions(-)
 
 diff --git a/drivers/gpu/drm/tests/drm_format_test.c b/drivers/gpu/drm/tests/drm_format_test.c
-index afb4bca72187..0efa88bf56a9 100644
+index 0efa88bf56a9..1936d2d59908 100644
 --- a/drivers/gpu/drm/tests/drm_format_test.c
 +++ b/drivers/gpu/drm/tests/drm_format_test.c
-@@ -14,40 +14,40 @@ static void igt_check_drm_format_block_width(struct kunit *test)
+@@ -9,100 +9,133 @@
+ 
+ #include <drm/drm_fourcc.h>
+ 
+-static void igt_check_drm_format_block_width(struct kunit *test)
++static void drm_format_block_width_invalid(struct kunit *test)
+ {
  	const struct drm_format_info *info = NULL;
  
- 	/* Test invalid arguments */
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, -1));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, 1));
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
+-	/* Test invalid arguments */
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
++}
++
++static void drm_format_block_width_one_plane(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
  
- 	/* Test 1 plane format */
- 	info = drm_format_info(DRM_FORMAT_XRGB4444);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_width(info, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, 1));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, -1));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+-	/* Test 1 plane format */
+-	info = drm_format_info(DRM_FORMAT_XRGB4444);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
++}
++
++static void drm_format_block_width_two_plane(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
  
- 	/* Test 2 planes format */
- 	info = drm_format_info(DRM_FORMAT_NV12);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_width(info, 0));
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_width(info, 1));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, 2));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, -1));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+-	/* Test 2 planes format */
+-	info = drm_format_info(DRM_FORMAT_NV12);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
++}
++
++static void drm_format_block_width_three_plane(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
  
- 	/* Test 3 planes format */
- 	info = drm_format_info(DRM_FORMAT_YUV422);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_width(info, 0));
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_width(info, 1));
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_width(info, 2));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, 3));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, -1));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 3), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+-	/* Test 3 planes format */
+-	info = drm_format_info(DRM_FORMAT_YUV422);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 3), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
++}
++
++static void drm_format_block_width_tiled(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L0);
  
- 	/* Test a tiled format */
- 	info = drm_format_info(DRM_FORMAT_X0L0);
--	KUNIT_EXPECT_TRUE(test, info);
-+	KUNIT_ASSERT_NOT_NULL(test, info);
+-	/* Test a tiled format */
+-	info = drm_format_info(DRM_FORMAT_X0L0);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
  	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 2);
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, 1));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_width(info, -1));
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
  }
  
- static void igt_check_drm_format_block_height(struct kunit *test)
-@@ -55,40 +55,40 @@ static void igt_check_drm_format_block_height(struct kunit *test)
+-static void igt_check_drm_format_block_height(struct kunit *test)
++static void drm_format_block_height_invalid(struct kunit *test)
+ {
  	const struct drm_format_info *info = NULL;
  
- 	/* Test invalid arguments */
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, -1));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, 1));
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
+-	/* Test invalid arguments */
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
++}
++
++static void drm_format_block_height_one_plane(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
  
- 	/* Test 1 plane format */
- 	info = drm_format_info(DRM_FORMAT_XRGB4444);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_height(info, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, -1));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, 1));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
+-	/* Test 1 plane format */
+-	info = drm_format_info(DRM_FORMAT_XRGB4444);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
++}
++
++static void drm_format_block_height_two_plane(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
  
- 	/* Test 2 planes format */
- 	info = drm_format_info(DRM_FORMAT_NV12);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_height(info, 0));
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_height(info, 1));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, 2));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, -1));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+-	/* Test 2 planes format */
+-	info = drm_format_info(DRM_FORMAT_NV12);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
++}
++
++static void drm_format_block_height_three_plane(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
  
- 	/* Test 3 planes format */
- 	info = drm_format_info(DRM_FORMAT_YUV422);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_height(info, 0));
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_height(info, 1));
--	KUNIT_EXPECT_TRUE(test, drm_format_info_block_height(info, 2));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, 3));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, -1));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 1);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 3), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+-	/* Test 3 planes format */
+-	info = drm_format_info(DRM_FORMAT_YUV422);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 1);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 3), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
++}
++
++static void drm_format_block_height_tiled(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L0);
  
- 	/* Test a tiled format */
- 	info = drm_format_info(DRM_FORMAT_X0L0);
--	KUNIT_EXPECT_TRUE(test, info);
-+	KUNIT_ASSERT_NOT_NULL(test, info);
+-	/* Test a tiled format */
+-	info = drm_format_info(DRM_FORMAT_X0L0);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
  	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 2);
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, 1));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, -1));
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
  }
  
- static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
-@@ -96,16 +96,16 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+-static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
++static void drm_format_min_pitch_invalid(struct kunit *test)
+ {
  	const struct drm_format_info *info = NULL;
  
- 	/* Test invalid arguments */
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 0, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, -1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 1, 0));
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+-	/* Test invalid arguments */
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
++}
++
++static void drm_format_min_pitch_one_plane_8bpp(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_RGB332);
  
- 	/* Test 1 plane 8 bits per pixel format */
- 	info = drm_format_info(DRM_FORMAT_RGB332);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 0, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, -1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 1, 0));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+-	/* Test 1 plane 8 bits per pixel format */
+-	info = drm_format_info(DRM_FORMAT_RGB332);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+@@ -118,10 +151,14 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+ 			(uint64_t)UINT_MAX);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
+ 			(uint64_t)(UINT_MAX - 1));
++}
++
++static void drm_format_min_pitch_one_plane_16bpp(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
  
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 1), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 2), 2);
-@@ -121,10 +121,10 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+-	/* Test 1 plane 16 bits per pixel format */
+-	info = drm_format_info(DRM_FORMAT_XRGB4444);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+@@ -137,10 +174,14 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+ 			(uint64_t)UINT_MAX * 2);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
+ 			(uint64_t)(UINT_MAX - 1) * 2);
++}
++
++static void drm_format_min_pitch_one_plane_24bpp(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_RGB888);
  
- 	/* Test 1 plane 16 bits per pixel format */
- 	info = drm_format_info(DRM_FORMAT_XRGB4444);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 0, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, -1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 1, 0));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+-	/* Test 1 plane 24 bits per pixel format */
+-	info = drm_format_info(DRM_FORMAT_RGB888);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+@@ -154,12 +195,16 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 671), 2013);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX),
+ 			(uint64_t)UINT_MAX * 3);
+-	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
++	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX - 1),
+ 			(uint64_t)(UINT_MAX - 1) * 3);
++}
++
++static void drm_format_min_pitch_one_plane_32bpp(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_ABGR8888);
  
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 1), 2);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 2), 4);
-@@ -140,10 +140,10 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+-	/* Test 1 plane 32 bits per pixel format */
+-	info = drm_format_info(DRM_FORMAT_ABGR8888);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+@@ -173,17 +218,16 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 671), 2684);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX),
+ 			(uint64_t)UINT_MAX * 4);
+-	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
++	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX - 1),
+ 			(uint64_t)(UINT_MAX - 1) * 4);
+ }
  
- 	/* Test 1 plane 24 bits per pixel format */
- 	info = drm_format_info(DRM_FORMAT_RGB888);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 0, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, -1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 1, 0));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+-static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
++static void drm_format_min_pitch_two_plane(struct kunit *test)
+ {
+-	const struct drm_format_info *info = NULL;
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
  
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 1), 3);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 2), 6);
-@@ -159,10 +159,10 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+-	/* Test 2 planes format */
+-	info = drm_format_info(DRM_FORMAT_NV12);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+@@ -211,10 +255,14 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
+ 			(uint64_t)(UINT_MAX - 1));
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, (UINT_MAX - 1) /  2),
+ 			(uint64_t)(UINT_MAX - 1));
++}
++
++static void drm_format_min_pitch_three_plane_8bpp(struct kunit *test)
++{
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
  
- 	/* Test 1 plane 32 bits per pixel format */
- 	info = drm_format_info(DRM_FORMAT_ABGR8888);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 0, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, -1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 1, 0));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+-	/* Test 3 planes 8 bits per pixel format */
+-	info = drm_format_info(DRM_FORMAT_YUV422);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, 0), 0);
+@@ -256,13 +304,12 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
+ 			(uint64_t)(UINT_MAX - 1) / 2);
+ }
  
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 1), 4);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 2), 8);
-@@ -183,11 +183,11 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
+-static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
++static void drm_format_min_pitch_tiled(struct kunit *test)
+ {
+-	const struct drm_format_info *info = NULL;
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L2);
  
- 	/* Test 2 planes format */
- 	info = drm_format_info(DRM_FORMAT_NV12);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 0, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, -1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 2, 0));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, 0), 0);
+-	/* Test tiled format */
+-	info = drm_format_info(DRM_FORMAT_X0L2);
+ 	KUNIT_ASSERT_NOT_NULL(test, info);
++
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+@@ -281,12 +328,25 @@ static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
+ }
  
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 1), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 1), 2);
-@@ -214,12 +214,12 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
+ static struct kunit_case drm_format_tests[] = {
+-	KUNIT_CASE(igt_check_drm_format_block_width),
+-	KUNIT_CASE(igt_check_drm_format_block_height),
+-	KUNIT_CASE(igt_check_drm_format_min_pitch_for_single_plane),
+-	KUNIT_CASE(igt_check_drm_format_min_pitch_for_multi_planar),
+-	KUNIT_CASE(igt_check_drm_format_min_pitch_for_tiled_format),
+-	{ }
++	KUNIT_CASE(drm_format_block_width_invalid),
++	KUNIT_CASE(drm_format_block_width_one_plane),
++	KUNIT_CASE(drm_format_block_width_two_plane),
++	KUNIT_CASE(drm_format_block_width_three_plane),
++	KUNIT_CASE(drm_format_block_width_tiled),
++	KUNIT_CASE(drm_format_block_height_invalid),
++	KUNIT_CASE(drm_format_block_height_one_plane),
++	KUNIT_CASE(drm_format_block_height_two_plane),
++	KUNIT_CASE(drm_format_block_height_three_plane),
++	KUNIT_CASE(drm_format_block_height_tiled),
++	KUNIT_CASE(drm_format_min_pitch_invalid),
++	KUNIT_CASE(drm_format_min_pitch_one_plane_8bpp),
++	KUNIT_CASE(drm_format_min_pitch_one_plane_16bpp),
++	KUNIT_CASE(drm_format_min_pitch_one_plane_24bpp),
++	KUNIT_CASE(drm_format_min_pitch_one_plane_32bpp),
++	KUNIT_CASE(drm_format_min_pitch_two_plane),
++	KUNIT_CASE(drm_format_min_pitch_three_plane_8bpp),
++	KUNIT_CASE(drm_format_min_pitch_tiled),
++	{}
+ };
  
- 	/* Test 3 planes 8 bits per pixel format */
- 	info = drm_format_info(DRM_FORMAT_YUV422);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 0, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 2, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, -1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 3, 0));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 3, 0), 0);
- 
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 1), 1);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 1), 1);
-@@ -262,10 +262,10 @@ static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
- 
- 	/* Test tiled format */
- 	info = drm_format_info(DRM_FORMAT_X0L2);
--	KUNIT_EXPECT_TRUE(test, info);
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 0, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, -1, 0));
--	KUNIT_EXPECT_FALSE(test, drm_format_info_min_pitch(info, 1, 0));
-+	KUNIT_ASSERT_NOT_NULL(test, info);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
-+	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
- 
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 1), 2);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 2), 4);
+ static struct kunit_suite drm_format_test_suite = {
 -- 
 2.37.3
 
