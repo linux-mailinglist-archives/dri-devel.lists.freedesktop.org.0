@@ -2,42 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1E75A80B8
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 16:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97115A80D5
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 17:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BDF110E41F;
-	Wed, 31 Aug 2022 14:56:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C51A10E426;
+	Wed, 31 Aug 2022 15:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3B410E41D
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 14:56:22 +0000 (UTC)
-Date: Wed, 31 Aug 2022 14:56:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1661957779; x=1662216979;
- bh=Qra7sfzlyFSrPLPAucwGFMvDPD4go5KG4w+hkvWi+D4=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=W4u8eLsxQBAP6RqWpZ1vTUaDBch7tXKWJLSJUe8vX8gPuS1d+HtjpetzMtgXP3Oef
- 8lr/f4qjADAl5FPzC7fS06no3X5qtoF70ewQdpCol82XuY8zRRQ8xn1Zm0u6fWre8h
- PsL+vruRQrVPZiOBlYoFtyQ3SEX1bCdEVLeZcw2zkY94ZljWC7603LD8Pn7Ukz046Z
- ICCnhinulgNq7OePMlrdaJqjh9DSBeXNpg5fyOIIPVJ2jYQIVbXvyRjuWVac9fkIuO
- u0OaCHgofhziLDcfxXDEsDrDJ/0l3JQxVlO9fUwmu4fFS+bf6jV96lN4wLM3prDcvI
- pxZEH79+nlMrQ==
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2 4/6] drm: allow DRM_MODE_PAGE_FLIP_ASYNC for atomic
- commits
-Message-ID: <Z4_OkSeCcfjYtgQvRf-w3-_YSFzvSJvy0s9p2VyP5GDMcRp8Gsw9drHctcYOM0aJgXXUKqWL5cB4TEunPlw6d9kktuLVt2ZnwaGkM2u9GCc=@emersion.fr>
-In-Reply-To: <20220831105007.69e4c3e0@eldfell>
-References: <20220830172851.269402-1-contact@emersion.fr>
- <20220830172851.269402-5-contact@emersion.fr>
- <20220831105007.69e4c3e0@eldfell>
-Feedback-ID: 1358184:user:proton
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B257210E421
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 15:03:26 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id a36so14968372edf.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 08:03:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=Wvt6ITeF/X4JRSxdtK92jcKPth5+KtUlEAYbOxr/jds=;
+ b=PddbYj3qG05D1/L5GWquq87ECVO4EbUwFENnYFzNQL2UqGwNkl9svThio3fJoS1Xj2
+ mmCGnKGnMsMVQSIqJmeBWiLM/VxF5Zuftj4L8bV4+SXaMbCBlffHpWUMtqyu+kY+/v/Q
+ M9xWIbikP2nLLWQHu267ekz+EL+G1ArpvB8fs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Wvt6ITeF/X4JRSxdtK92jcKPth5+KtUlEAYbOxr/jds=;
+ b=dgBZlZBySrWb1w2ekcDsSgoJ4xakxmJsFK/X5CHgaZ/1SYK17LT+0uddoxTyCAmJBa
+ wB3nLF6CWM86pdz/oxKb+stp00Bl9qJjh5XYeN4syXK4DUeakyBpolSjBG5wzLWL/Mhf
+ 0EcfSSFm5HCbTxHfuPraImCHsra1RmUpERfuEvKtTEVlyFJJNaMkAKO1qxzSl0OF7VYR
+ jRcSguA9JbX0xr7PZfd+S49ZhiLujxYlrGYbDpN5cCaYBttv7zYOT71Emg2R4DGXNrI3
+ 68VRh88tlnalh3cHWo1hqmaJf+1vkSrZzb7iZvlCkFJh//sqOwEdsGrDDrbx8O1n61l+
+ Hrng==
+X-Gm-Message-State: ACgBeo18vIHp+Cd6aw9gZ8w+OnHo1JD5ETniHiCphCvobmn77dKiMtyC
+ jKJWsCYs/wj9Qb/ik5VKQsNzEixkwGqUHaG0Xms=
+X-Google-Smtp-Source: AA6agR7muVd7IJ/zK3EpIdFuq/kaGVCgvkJ7S1fzu9bzAjePbmLUUlH6CP8d2BoAQd+oN4Q0dVb1yA==
+X-Received: by 2002:a05:6402:515:b0:447:780c:39d6 with SMTP id
+ m21-20020a056402051500b00447780c39d6mr25297618edv.265.1661958204988; 
+ Wed, 31 Aug 2022 08:03:24 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
+ [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
+ kx17-20020a170907775100b00734a9503bcasm7292137ejc.135.2022.08.31.08.03.23
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Aug 2022 08:03:23 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id m16so18630499wru.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 08:03:23 -0700 (PDT)
+X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id
+ b13-20020adff90d000000b0020cde324d35mr12130960wrr.583.1661958202933; Wed, 31
+ Aug 2022 08:03:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220720162314.1.Ieef5bc3848df40b71605b70bb571d6429e8978de@changeid>
+In-Reply-To: <20220720162314.1.Ieef5bc3848df40b71605b70bb571d6429e8978de@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 31 Aug 2022 08:03:11 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WC0QUaZsHQHhc+TAV2JXT64rnxDh9OvskpVrZAXzfz=Q@mail.gmail.com>
+Message-ID: <CAD=FV=WC0QUaZsHQHhc+TAV2JXT64rnxDh9OvskpVrZAXzfz=Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Fix typo in kerneldoc comment
+ (appers=>appears)
+To: Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,49 +73,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: andrealmeid@igalia.com, daniel.vetter@ffwll.ch,
- amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- mwen@igalia.com, dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- joshua@froggi.es, hwentlan@amd.com, nicholas.kazlauskas@amd.com
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>, LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, August 31st, 2022 at 09:50, Pekka Paalanen <ppaalanen@gmail.c=
-om> wrote:
+Sam,
 
-> > diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> > index 86a292c3185a..cce1a1bea645 100644
-> > --- a/include/uapi/drm/drm_mode.h
-> > +++ b/include/uapi/drm/drm_mode.h
-> > @@ -942,6 +942,10 @@ struct hdr_output_metadata {
-> > * Request that the page-flip is performed as soon as possible, ie. with=
- no
-> > * delay due to waiting for vblank. This may cause tearing to be visible=
- on
-> > * the screen.
-> > + *
-> > + * When used with atomic uAPI, the driver will return an error if the =
-hardware
-> > + * doesn't support performing an asynchronous page-flip for this updat=
-e.
-> > + * User-space should handle this, e.g. by falling back to a regular pa=
-ge-flip.
-> > */
-> > #define DRM_MODE_PAGE_FLIP_ASYNC 0x02
-> > #define DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE 0x4
->=20
-> Hi Simon,
->=20
-> recalling what Ville explained that enabling async flips might require
-> one more sync flip first, how is that supposed to work?
->=20
-> A TEST_ONLY commit is not allowed to change hardware state, and a
-> failing real commit is not allowed to change hardware state either
-> (right?), therefore a failing async flip cannot prepare the next flip
-> to be async, meaning async will never work.
+On Wed, Jul 20, 2022 at 4:23 PM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> Ever since I got the spell-check working in my editor this one has
+> been bugging me. Fix it.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+>  drivers/gpu/drm/panel/panel-edp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index e6645d6e9b59..07a383dff548 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -53,7 +53,7 @@ struct panel_delay {
+>          * before the HPD signal is reliable. Ideally this is 0 but some panels,
+>          * board designs, or bad pulldown configs can cause a glitch here.
+>          *
+> -        * NOTE: on some old panel data this number appers to be much too big.
+> +        * NOTE: on some old panel data this number appears to be much too big.
+>          * Presumably some old panels simply didn't have HPD hooked up and put
+>          * the hpd_absent here because this field predates the
+>          * hpd_absent. While that works, it's non-ideal.
 
-I'd blame it on bad hw, and make it one special quirk in the driver,
-just like it does now.
+Maybe you'd be willing to give me an "Ack" for this stupid little
+patch so I can land it? ;-)
 
-Ville, thoughts?
+-Doug
