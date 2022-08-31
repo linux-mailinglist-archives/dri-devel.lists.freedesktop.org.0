@@ -1,60 +1,149 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103B65A7B66
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 12:37:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D375A7BAF
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Aug 2022 12:49:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82ED810E310;
-	Wed, 31 Aug 2022 10:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5582010E30A;
+	Wed, 31 Aug 2022 10:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71F1110E30D;
- Wed, 31 Aug 2022 10:37:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E05FC10E30D
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 10:49:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661942237; x=1693478237;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=qA6OPvUYbvBGOeKSSVGC+o61f90o46BxujW0go1d+4I=;
- b=GMt+xjcFu49gRCyoMHoOiYkG0rM+diiyQA3TJUYg8YpOMTruA75ICFCq
- 5rGTaEb6mU+ZX0svZ/F1H7KaKX9LRmeSjj2J9ZMIZwgEpGSSM4aJ80QPx
- hzxwWcVeNk5u63wqBxiwIry1FOXrFH9mheEJIT4Bx4hapVT6Oxi16qxOj
- /bOMFBoerKu/EurzRbHsnHarDYvgirUBy4WOEUIOEyI5Rjv1Ep169DruF
- F3ntGTBXUJZNeEqvUVj0C8a0O1Il5u4u3FC3WKC5mY+WozsOEgs+nAEQz
- GrS+ZzuYQ82l8STju0GLLne8RBPnsuVL+o5zhgF9QVX8f2EAhMMCj14O5 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="292996351"
-X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; d="scan'208";a="292996351"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ t=1661942991; x=1693478991;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=jjR8M7HxCRAG1lPIRX8h7AISPvLtmNtbtROo6f/MTrI=;
+ b=ZwVUNBv3ZAHNhGViqUwYhgp8ky/JZ26wgvXxZn9wGLY5I6nI1S7ihxsl
+ I0Sir0jzMeiOXfcj4s+MQRGxwJnuSJz49tsYrXnWMe0/8jQY1OJ2HHEaO
+ JUpSZ452ocguOCT73WZKQwl0xK0WgX2Pnsg6ODXO2R+QXZMJlQfA9zac8
+ lfa4zwVixvNmM9RRx8xxFCjPgqBswoZtY5k0bIWQdqsTwS3SeSm7uHpv4
+ DdFCwcGjubZ2uP8F56c340uPoEH65heMw+4e/S9mKS3nbaYdeVezZkQf8
+ TzO6P027qH6w7hRDJEAr70Std1d2G3nnJDZt3uXKLvoiBBBMbyBd3aCMz w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="292997700"
+X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; d="scan'208";a="292997700"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 03:37:16 -0700
-X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; d="scan'208";a="641799551"
-Received: from salwamoh-mobl.gar.corp.intel.com (HELO [10.214.169.63])
- ([10.214.169.63])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 03:37:13 -0700
-Message-ID: <55d88b45-6986-de38-d574-d0ce7d06c62e@intel.com>
-Date: Wed, 31 Aug 2022 11:37:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.0
-Subject: Re: [PATCH 1/3] drm/i915: audit bo->resource usage
-Content-Language: en-GB
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-References: <20220824142353.10293-1-luben.tuikov@amd.com>
- <1de21f6e-4b11-ee9b-1b54-fd67728766ad@amd.com>
- <cc4c59ad-5d69-b174-5464-bd9896459169@intel.com>
- <ce090a95-a822-5079-7b86-0c949e98cd64@amd.com>
- <3f3715fb-1f2b-83a5-bff7-6e06164e5546@intel.com>
- <9c7cc7ea-dd30-6df5-3f06-97a6c6d254e0@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <9c7cc7ea-dd30-6df5-3f06-97a6c6d254e0@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ 31 Aug 2022 03:49:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; d="scan'208";a="645194604"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga001.jf.intel.com with ESMTP; 31 Aug 2022 03:49:51 -0700
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 31 Aug 2022 03:49:50 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 31 Aug 2022 03:49:50 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Wed, 31 Aug 2022 03:49:50 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Wed, 31 Aug 2022 03:49:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Efb6pyRwhDHosGRApz8f9xvaz5DHnFoYuV0GyEgwnDTCDOld81EAUrJCyeoJaX4WGabIIpeac7WZUSZ6kyONQFVC9Xy/Y0UWaIsRfhvnjDct9Zjmqu9whk4z27CdzeKYT4x/3LlZvDXrPfgsJefOL87yYpQRd3oce/0p+73XV+jkNWpyLOly4vhfbirma8tJCsJny6ZUGo7BWI0ruLVFGvgPWD6W9y/1LePYcqhFs0VBC2ux6lPSGNVmJWpIw/AwAXsM/nlmCMREma7OYXfeWhk50FW44iXKO7Bm8+mm8zC13Uj6O4pXVRiNbU/Jz/gBh23f14TJ3xlrPaCchZvVfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hrrtLZQAQ+/fwtXZg5xxcSeLtCPITtTiK2Lozt9OwUU=;
+ b=hX2OFulbYJI1wi0T8Pk1T1+ZVCpLnV8xfANZBEesE+GCLr7pZKXpB6ot0yCg48JEYUzhVKJfn2thxggk++h74YAuLAIp1BqMS9QZcW8Xs7wgv32tTCqbzTUhmf1XNlnPSgEKSunHPZ0ctYMXKJhZhXyPRjaySC/I6NCmKdRiZw+RLl0QzE7gvKNMYaXnqJDiOiK7v/rS80ORCnNgmONaWnJANC1q5HZODl3coM8IyK0UlFg+puKRzbxR/3E6+ttVx8vduo1NGa41hJYVWu10mXxwC+FxyizZKAMeX9tawFUpqUf1Vr0eXFSRVTEHsDkrVlHCNnq6jwT9ds062J31xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
+ DM6PR11MB3996.namprd11.prod.outlook.com (2603:10b6:5:196::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5566.21; Wed, 31 Aug 2022 10:49:49 +0000
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::b04c:807c:4ea0:c62e]) by DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::b04c:807c:4ea0:c62e%9]) with mapi id 15.20.5566.021; Wed, 31 Aug 2022
+ 10:49:48 +0000
+Date: Wed, 31 Aug 2022 12:49:41 +0200
+From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
+Subject: Re: [PATCH 1/2] drm/tests: Split drm_framebuffer_create_test into
+ parameterized tests
+Message-ID: <20220831104941.doc75juindcm5mcl@nostramo.hardline.pl>
+References: <20220830211603.191734-1-mairacanal@riseup.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220830211603.191734-1-mairacanal@riseup.net>
+X-ClientProxiedBy: FR0P281CA0077.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::16) To DM4PR11MB5373.namprd11.prod.outlook.com
+ (2603:10b6:5:394::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 28df23b4-9a0e-437b-2f74-08da8b3e8650
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3996:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NY1kqs/vVudugLuITOe5+qME+2SsJgWsSjjACao5akk6egu8kIkBdkYOTcJ1gek/P2e0WWStSPkfPBEAjzbSEGl/Ujux3+g/1i/NESAWmfz3e24qiJozhEumAzsqJfbSgRGe2JZTpHuuMR8KQn3IsQJQxPzeESQW/R8r2LWn/uq/+wfMvXBkdcPL3fHAJtsctH+NGSbStKdovRUNfo8xzc0oKFLNheQVX8XHFuXY1kSxN9dUQ28S5YEjUcEQalzzm71LMyYtzKdMi12tovUzN14mElBOBVNjICInTOaDMLX0FMP8TybgpbQR/ms4ODjZWWNCKdkn+Ug3SHOdZRbhBxczGecqyhKDNFqgJURa/W/cN79VxBvGacsX3+UGrKTCRaubpmagwgSzLA6cvhBsh/AEyJbfmjyhjGsTmUF97aQtT+3oXrqW0xCHZOSYPYoeWnKnZ1Q5UrATePusc807YZiAAc+XJC29qVSqoKXS4iJZ8LNLKT1tHEXom7cs2ky+eBhqLv0wD+4vq3hCEeN9jF4ELNP9McBPPOID8v7oDjRWCBCZkKW9BfJjMN/YIKSs28wX28hGlfNg85CISrdjN8+7oojNETXuAoaDVQw12nbks1gPZEYfhgdmbpdNLA2di3A/Z/49BVqZoyf9F12099TSF6p7LXZxpUUOhhHxE2GTdfduvHvHQyswXgW2coN2kyosZjt2LA70mCIUhaoQ5GoBfzwAZS3uAg8wcjotUS8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(39860400002)(376002)(346002)(366004)(396003)(136003)(4326008)(8676002)(2906002)(66476007)(7416002)(66946007)(66556008)(6506007)(8936002)(6512007)(6666004)(478600001)(54906003)(316002)(26005)(6916009)(966005)(6486002)(9686003)(41300700001)(186003)(1076003)(83380400001)(38100700002)(5660300002)(82960400001)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NkJyTFJObWdCTWZ4L3NIdGRzUlVMT2t1MVAyRjRZM2orWWtXQUc0ZXo5NDZk?=
+ =?utf-8?B?bXJJbWtjdnVYUFFxNVJ4bXppUnVFWHc1REFOVjhkZTllazYrZmlvK0doRHdt?=
+ =?utf-8?B?ckpXNmR5UWo1bndnNjBlMU9vQm1EajhGcEtNQlBaMFQwZ1lRaU5UTUFaVjNV?=
+ =?utf-8?B?QU81eG5KZVhmYTJCb3FGUzFhZ0VyZ3JJWDZEbWNHRHg0bVYxL2NZOHk2d1Vo?=
+ =?utf-8?B?Z2YxQmdjWTdkNEx6T1RFSExjZU9xWmFvakdVejY0cWZzbzdHa3gyZUY0azJv?=
+ =?utf-8?B?cjlHM0ljNGZXSEJ3dk96aDFwY0tsZFFlNndKNk5TL2JJUFVRZzM3V1gzZzZw?=
+ =?utf-8?B?WXU4TDRmak9VTy93Y3d2cFhFN1lQVnJPUFhqUFNFQVhrVXh1cWJmOEk1ODFP?=
+ =?utf-8?B?dWk2bFNTUWhGRzE0RTc1MC9ManZzRkQxWHhXR0hRNkQyQStvd3RDSHZ3Y2t5?=
+ =?utf-8?B?aDUzelhEQkZGeExLTTgzUE00UFladW5lRnp0OFMzWlIzakhwVHdkVnJyellO?=
+ =?utf-8?B?cnZpQi9EWTVvS2gzdE1vZEZSMko0YnNzVERXTmo3cWpFOFBrM0RZZVpSYjhC?=
+ =?utf-8?B?VVRjNmtCY2djSGxPSzYwQmh4cHNKQjl6a1duL3YvbG50bDJmYVREcnkwOURE?=
+ =?utf-8?B?dGViL0x6SlVIUnlGYzJXYmZyWWdxcVR2Yk9oUHROdllNa1lGRUFjdW5mMVQ5?=
+ =?utf-8?B?NldZWjBMZFRFQ3BGZGJvajYxTWxPbS9ZQlU1N2c2aHVzVFBwR0dyL1JZdzBr?=
+ =?utf-8?B?TG1yUnE0U0U5djBycWh4WCtHd0I5dCs4ejJYZmwxMkZXaS9xcWpab3ZQUDRK?=
+ =?utf-8?B?aCtOVThpWDNqSVl1MkxpSWg4M0VFYXFsTXdmRmcyNmMyT1poVXlhSmR0UXcy?=
+ =?utf-8?B?KzdrcVBkSzg3citwWS9iVnVvN0k1OUJTOWw4YkhpMGZMNDMxN1I0Qk5NaThX?=
+ =?utf-8?B?d25scTg4ZFVOWXV1aFF1eFdJZTR1WDlWTnFKcFJjZnZnZHVRNkExQUlPdExN?=
+ =?utf-8?B?Vi9kNDAwRmh2VDZ3VTlGMTBodlZvdTNPUWtaUlROT1RDRzUrSE9aUDNSaWtp?=
+ =?utf-8?B?M2FHYnNQU2haTFVJTHBBV3BSZjIzdjdrS3M3QUtQcWllQjVMdXdiMXlSOE1J?=
+ =?utf-8?B?VUVMSFQrOUJFejlKUU5GS09iZHhQc3h2eG9JcE9sNzBWa1Fwc0g2WlExdjZh?=
+ =?utf-8?B?S1RSMWRpZzVCZytkaE1DUFQ4TnJFaHFmS1I5eW9ObTVQZGx2L3NmcGp5RGRu?=
+ =?utf-8?B?Z3E3RGwwaVQ1eENWbjYyL2xQTDl5SHR5QzNRaTYrR0tpcUxtK05TTDVFRmZQ?=
+ =?utf-8?B?K2p0MzFNWE1iMFh3V0tVYjZkWjhla2Z2V0RoYWkxTVdmb1Znbis2Qzd4bWdy?=
+ =?utf-8?B?SXNDY2N0Q1YyZ1FQT3dQZUZCVUVxUVVUK1VKSGkxRW1wb0RHdmhVZWJ6a0lV?=
+ =?utf-8?B?azl2aTVDaGM4OXFybzh2dFZtWVFmZWZqM3F1S25odHhnM3V5RlpXS3hTMzls?=
+ =?utf-8?B?L2tMdGZ5NlNBTFhrTWtqbXNuMXNQb3grbUpkM0R5T0YrcGM3ZzF5a1FRMXNZ?=
+ =?utf-8?B?MkdmSUdkRlNhNGxKazhjbmVHdTVtZzltVU5yamMvcDB3Tk5McDZhMGtPakFC?=
+ =?utf-8?B?SXYreWxZUVlCaUZzNEFCTlNzZGJaZmdjc2pJaUQwTlI1M09RL3RBVUFrdUF4?=
+ =?utf-8?B?NFJ3eG1oUkJPMTNJL3pCSnNScnlzRE8xUEZKeE1BZ3B1dGc0L0s2cFJ1UVhD?=
+ =?utf-8?B?d3JkM3BQUWg3Vy84QTMwVUFaNmU5eC94d0V5ckNtVkdqb1Q5MlZEUWtiNXhO?=
+ =?utf-8?B?ZTAxOEVoZ0VoV2RGMVZWNURoU1Z5ZEVseXNGZks2OU1oTGoyTERSL3RKR2lX?=
+ =?utf-8?B?YkJleTNiTzlFeW52SmhnTllUSk5CVE9BT21sUWZYR1VCREYzc2JuSmxqcU9Q?=
+ =?utf-8?B?MnpScnQydGw2WStqWmwvMlVBMElhTDl6SE1BS080Nm94OU5YSEdQeU11NVZN?=
+ =?utf-8?B?ekNZdnA1d3AwelhkZFJUeTl4ZEpKMkh5NWxCZlhCQW5UTlcrZWVuYSs1a2RV?=
+ =?utf-8?B?TUdEbXl5T2ZiL21CbnFPTWp2YTU0cXo5Wk41bVlpbm12eVVVc3kwWGUySkJQ?=
+ =?utf-8?B?MjBhdUdmallSRVcyTnlQeUtiMGNkb0VyZjNPQXJBWkJVZWlHTW8xU0k5QjRI?=
+ =?utf-8?B?TWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28df23b4-9a0e-437b-2f74-08da8b3e8650
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 10:49:48.5856 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UXGWuphzuJvGZ4RtAljYO1y3HeLcFqxe8JUYkmxFnq/4BjaGzSZhw6LK+UQk6srJj2ky6x0o9TWTRjn8TNPqNf8AeCRw9bau1/c0M0SW3Ts=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3996
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,191 +156,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: linux-kselftest@vger.kernel.org, David Gow <davidgow@google.com>,
+ siqueirajordao@riseup.net, magalilemes00@gmail.com,
+ David Airlie <airlied@linux.ie>, tales.aparecida@gmail.com,
+ Arthur Grillo <arthur.grillo@usp.br>, brendanhiggins@google.com,
+ Javier Martinez
+ Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mwen@igalia.com, kunit-dev@googlegroups.com,
+ =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/08/2022 10:38, Christian König wrote:
-> Am 31.08.22 um 11:26 schrieb Matthew Auld:
->> On 31/08/2022 09:16, Christian König wrote:
->>> Hi Matthew,
->>>
->>> Am 30.08.22 um 12:45 schrieb Matthew Auld:
->>>> Hi,
->>>>
->>>> On 30/08/2022 08:33, Christian König wrote:
->>>>> Hi guys,
->>>>>
->>>>> can we get an rb/acked-by for this i915 change?
->>>>>
->>>>> Basically we are just making sure that the driver doesn't crash 
->>>>> when bo->resource is NULL and a bo doesn't have any backing store 
->>>>> assigned to it.
->>>>>
->>>>> The Intel CI seems to be happy with this change, so I'm pretty sure 
->>>>> it is correct.
->>>>
->>>> It looks like DG2/DG1 (which happen to use TTM here) are no longer 
->>>> loading the module:
->>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fintel-gfx-ci.01.org%2Ftree%2Fdrm-tip%2FPatchwork_107680v1%2Findex.html&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7Ccaca567b3279492450fd08da8b32e598%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637975347967354305%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=apanfOjzSWD2vduINzr2j6F2DiIBC93hLRnnGJcGQ5o%3D&amp;reserved=0?
->>>>
->>>> According to the logs the firmware is failing to load, so perhaps 
->>>> related to I915_BO_ALLOC_CPU_CLEAR, since that is one of the rare 
->>>> users. See below.
->>>>
->>>>>
->>>>> Thanks,
->>>>> Christian.
->>>>>
->>>>> Am 24.08.22 um 16:23 schrieb Luben Tuikov:
->>>>>> From: Christian König <christian.koenig@amd.com>
->>>>>>
->>>>>> Make sure we can at least move and alloc TT objects without 
->>>>>> backing store.
->>>>>>
->>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>>> ---
->>>>>>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 6 ++----
->>>>>>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 2 +-
->>>>>>   2 files changed, 3 insertions(+), 5 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c 
->>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>>> index bc9c432edffe03..45ce2d1f754cc4 100644
->>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>>> @@ -271,8 +271,6 @@ static struct ttm_tt 
->>>>>> *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->>>>>>   {
->>>>>>       struct drm_i915_private *i915 = container_of(bo->bdev, 
->>>>>> typeof(*i915),
->>>>>>                                bdev);
->>>>>> -    struct ttm_resource_manager *man =
->>>>>> -        ttm_manager_type(bo->bdev, bo->resource->mem_type);
->>>>>>       struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
->>>>>>       unsigned long ccs_pages = 0;
->>>>>>       enum ttm_caching caching;
->>>>>> @@ -286,8 +284,8 @@ static struct ttm_tt 
->>>>>> *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->>>>>>       if (!i915_tt)
->>>>>>           return NULL;
->>>>>> -    if (obj->flags & I915_BO_ALLOC_CPU_CLEAR &&
->>>>>> -        man->use_tt)
->>>>>> +    if (obj->flags & I915_BO_ALLOC_CPU_CLEAR && bo->resource &&
->>>>>> +        ttm_manager_type(bo->bdev, bo->resource->mem_type)->use_tt)
->>>>>>           page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
->>>>
->>>> AFAICT i915 was massively relying on everything starting out in a 
->>>> "dummy" system memory resource (ttm_tt), where it then later 
->>>> "transitions" to the real resource. And if we need to clear the 
->>>> memory we rely on ZERO_ALLOC being set before calling into the 
->>>> i915_ttm_move() callback (even when allocating local-memory).
->>>>
->>>> For ttm_bo_type_device objects (userspace stuff) it looks like this 
->>>> was previously handled by ttm_bo_validate() always doing:
->>>>
->>>>   ret = ttm_tt_create(bo, true); /* clear = true */
->>>>
->>>> Which we would always hit since the resource was always "compatible" 
->>>> for the dummy case. But it looks like this is no longer even called, 
->>>> since we can now call into ttm_move with bo->resource == NULL, which 
->>>> still calls tt_create eventually, which not always with clear = true.
->>>>
->>>> All other objects are then ttm_bo_type_kernel so we don't care about 
->>>> clearing, except in the rare case of ALLOC_CPU_CLEAR, which was 
->>>> handled as per above in i915_ttm_tt_create(). But I think here 
->>>> bo->resource is NULL at the start when first creating the object, 
->>>> which will skip setting ZERO_ALLOC, which might explain the CI failure.
->>>>
->>>> The other possible concern (not sure since CI didn't get that far) 
->>>> is around ttm_bo_pipeline_gutting(), which now leaves bo->resource = 
->>>> NULL. It looks like i915_ttm_shrink() was relying on that to 
->>>> unpopulate the ttm_tt. When later calling ttm_bo_validate(), 
->>>> i915_ttm_move() would see the SWAPPED flag set on the ttm_tt , 
->>>> re-populate it and then potentially move it back to local-memory.
->>>>
->>>> What are your thoughts here? Also sorry if i915 is making a bit of 
->>>> mess here.
->>>
->>> First of all thanks a lot for taking a look. We previously got 
->>> reports about strange crashes with this patch, but couldn't really 
->>> reproduce them (even not by sending them out again). This explains 
->>> that a bit.
->>>
->>> The simplest solution would be to just change the && into a ||, e.g. 
->>> when previously either no resource is allocated or the resource 
->>> requires to use a tt we clear it.
->>>
->>> That should give you the same behavior as before, but I agree that 
->>> this is a bit messy.
->>
->> Yeah, that should do the trick.
->>
->> That hopefully just leaves i915_ttm_shrink(), which is swapping out 
->> shmem ttm_tt and is calling ttm_bo_validate() with empty placements to 
->> force the pipeline-gutting path, which importantly unpopulates the 
->> ttm_tt for us (since ttm_tt_unpopulate is not exported it seems). But 
->> AFAICT it looks like that will now also nuke the bo->resource, instead 
->> of just leaving it in system memory. My assumption is that when later 
->> calling ttm_bo_validate(), it will just do the bo_move_null() in 
->> i915_ttm_move(), instead of re-populating the ttm_tt and then 
->> potentially copying it back to local-memory?
+On Tue, Aug 30, 2022 at 06:16:02PM -0300, Maíra Canal wrote:
+> The igt_check_drm_framebuffer_create is based on a loop that executes
+> tests for all createbuffer_tests test cases. This could be better
+> represented by parameterized tests, provided by KUnit.
 > 
-> Well you do ttm_bo_validate() with something like GTT domain, don't you? 
-> This should result in re-populating the tt object, but I'm not 100% sure 
-> if that really works as expected.
-
-AFAIK for domains we either have system memory (which uses ttm_tt and 
-might be shmem underneath) or local-memory. But perhaps i915 is doing 
-something wrong here, or abusing TTM in some way. I'm not sure tbh.
-
-Anyway, I think we have two cases here:
-
-- We have some system memory only object. After doing i915_ttm_shrink(), 
-bo->resource is now NULL. We then call ttm_bo_validate() at some later 
-point, but here we don't need to copy anything, but it also looks like 
-ttm_bo_handle_move_mem() won't populate the ttm_tt or us either, since 
-mem_type == TTM_PL_SYSTEM. It looks like i915_ttm_move() was taking care 
-of this, but now we just call ttm_bo_move_null().
-
-- We have a local-memory only object, which was evicted to shmem, and 
-then swapped out by the shrinker like above. The bo->resource is NULL. 
-However this time when calling ttm_bo_validate() we need to actually do 
-a copy in i915_ttm_move(), as well as re-populate the ttm_tt. 
-i915_ttm_move() was taking care of this, but now we just call 
-ttm_bo_move_null().
-
-Perhaps i915 is doing something wrong in the above two cases?
-
+> So, convert the igt_check_drm_framebuffer_create test into parameterized tests.
 > 
-> Thanks,
-> Christian.
+> Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+
+Now that we have separate testcases, we may also want to consider using .init
+for mock_drm_device instead of a global
+(see:
+https://lore.kernel.org/dri-devel/20220117232259.180459-5-michal.winiarski@intel.com/
+for reference)
+
+Either way:
+Reviewed-by: Michał Winiarski <michal.winiarski@intel.com>
+
+-Michał
+
+> ---
+>  drivers/gpu/drm/tests/drm_framebuffer_test.c | 23 +++++++++-----------
+>  1 file changed, 10 insertions(+), 13 deletions(-)
 > 
->>
->>>
->>> I've been considering to replacing the ttm_bo_type with a bunch of 
->>> behavior flags for a bo. I'm hoping that this will clean things up a 
->>> bit.
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>>>>       caching = i915_ttm_select_tt_caching(obj);
->>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c 
->>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
->>>>>> index 9a7e50534b84bb..c420d1ab605b6f 100644
->>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
->>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
->>>>>> @@ -560,7 +560,7 @@ int i915_ttm_move(struct ttm_buffer_object 
->>>>>> *bo, bool evict,
->>>>>>       bool clear;
->>>>>>       int ret;
->>>>>> -    if (GEM_WARN_ON(!obj)) {
->>>>>> +    if (GEM_WARN_ON(!obj) || !bo->resource) {
->>>>>>           ttm_bo_move_null(bo, dst_mem);
->>>>>>           return 0;
->>>>>>       }
->>>>>
->>>
-> 
+> diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> index ec7a08ba4056..3e46fd9f6615 100644
+> --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> @@ -25,7 +25,7 @@ struct drm_framebuffer_test {
+>  	const char *name;
+>  };
