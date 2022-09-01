@@ -2,46 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C7A5A941A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 12:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5BD5A945B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 12:23:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0DBE10E695;
-	Thu,  1 Sep 2022 10:17:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A188910E693;
+	Thu,  1 Sep 2022 10:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA04710E694
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 10:17:41 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1oThGU-0007Ov-7H; Thu, 01 Sep 2022 12:17:38 +0200
-Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1oThGQ-000073-U2; Thu, 01 Sep 2022 12:17:34 +0200
-Date: Thu, 1 Sep 2022 12:17:34 +0200
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Subject: Re: [PATCH v6 2/6] clk: qcom: Allow custom reset ops
-Message-ID: <20220901101734.GA32271@pengutronix.de>
-References: <1661923108-789-1-git-send-email-quic_akhilpo@quicinc.com>
- <20220831104741.v6.2.I75baff799a363bbb960376539e3a0f737377c3f1@changeid>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4BCF10E693
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 10:23:15 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id bq23so23742560lfb.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Sep 2022 03:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=dLbCWfK4QmdJs7B89yEoeU6QwY4dXcohZFWGLKtUTsc=;
+ b=h2+A2BMyZiBwssZxYJxKnySz3kv+mE7nXsD5i057SMt2SxV6I74dE2F9nLNz+j6GE8
+ PqKxIGBxKmXn9RAb5DQp/mqbpeiI9i2Dy7vGrejO4o3MGkqCqAusjZtMLMCrMmwnHXho
+ mepPIt+LXe+c0luRlHDpP1lIUAygSdTPo2rcrWX0ctoTVzrRNAs/oBbr9VweUwSATpuK
+ 9cGrqQthgv1BdKoKiN7QM4SprjzHM7Ho1ZsKtoFEgJklk7F1T2zfzy2p5R12tYFlZYUA
+ p+X/GgFNzSYqD6/QWr2tM0xezIZ82SQJ9n174uNkskO3uOJkb8fQGprUP4vCc8SJsLXn
+ FcZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=dLbCWfK4QmdJs7B89yEoeU6QwY4dXcohZFWGLKtUTsc=;
+ b=Dt5hm4XxuI3O9L+PBSZ/0I0N+F/ZaaPwfGO4nJUw57eJZTd9EGzpD6gfvKi6RRWLQC
+ DZUXuO8cvU5K8U8De8m647CrFdrbOjx/gLI3hfiNXb1TalEjYIyEhnUfui9mDw+fl5D5
+ +ENGp5/QoWijrpeHerTw5uuIgr7U/2La1UEavQd1RCcI3qHhrOjKG4AZZk8eCZw8VqIc
+ SqIRhh56eVcmfNRknWTAWFJCd4ZsTwEv/UGT/wPQ2h37a/ef2oGcpzwcNlOO93KD54QK
+ OvsNe2I5WEEA8KZtcjGR6Q70t5ly+6hSiPsT1msQ/TdnUeFFtOQUo34JDpJRGiBw0IuX
+ YdCg==
+X-Gm-Message-State: ACgBeo3ixjdpigcVJFVjL7qjNclxmJNeuBLt8z07rbh23J3mfbdEEDbm
+ ulImdJLewmxnz+lwW09kfc32jg==
+X-Google-Smtp-Source: AA6agR4Zy/Gm2ggKt/jupHdrH7Zi/UaPrufCcJTzhkcDEqnHk73w+lcALlQz6BTv9U9M3fdlOzbIGw==
+X-Received: by 2002:a05:6512:1195:b0:491:a3b7:b56 with SMTP id
+ g21-20020a056512119500b00491a3b70b56mr9725811lfr.686.1662027793942; 
+ Thu, 01 Sep 2022 03:23:13 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ z19-20020a056512371300b004949ea5480fsm123453lfr.97.2022.09.01.03.23.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Sep 2022 03:23:13 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v6 00/12] dt-bindings: display/msm: rework MDSS and DPU
+ bindings
+Date: Thu,  1 Sep 2022 13:23:00 +0300
+Message-Id: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220831104741.v6.2.I75baff799a363bbb960376539e3a0f737377c3f1@changeid>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,93 +72,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, krzysztof.kozlowski@linaro.org,
- Andy Gross <agross@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Akhil,
+Create separate YAML schema for MDSS devicesd$ (both for MDP5 and DPU
+devices). Cleanup DPU schema files, so that they do not contain schema
+for both MDSS and DPU nodes. Apply misc small fixes to the DPU schema
+afterwards. Add schema for the MDSS and DPU on sm8250 platform.
 
-On Wed, Aug 31, 2022 at 10:48:23AM +0530, Akhil P Oommen wrote:
-> Allow soc specific clk drivers to specify a custom reset operation. We
-> will use this in an upcoming patch to allow gpucc driver to specify a
-> differet reset operation for cx_gdsc.
-> 
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> 
-> (no changes since v3)
-> 
-> Changes in v3:
-> - Use pointer to const for "struct qcom_reset_ops" in qcom_reset_map (Krzysztof)
-> 
-> Changes in v2:
-> - Return error when a particular custom reset op is not implemented. (Dmitry)
-> 
->  drivers/clk/qcom/reset.c | 27 +++++++++++++++++++++++++++
->  drivers/clk/qcom/reset.h |  8 ++++++++
->  2 files changed, 35 insertions(+)
-> 
-> diff --git a/drivers/clk/qcom/reset.c b/drivers/clk/qcom/reset.c
-> index 819d194..b7ae4a3 100644
-> --- a/drivers/clk/qcom/reset.c
-> +++ b/drivers/clk/qcom/reset.c
-> @@ -13,6 +13,21 @@
->  
->  static int qcom_reset(struct reset_controller_dev *rcdev, unsigned long id)
->  {
-> +	struct qcom_reset_controller *rst;
-> +	const struct qcom_reset_map *map;
-> +
-> +	rst = to_qcom_reset_controller(rcdev);
-> +	map = &rst->reset_map[id];
-> +
-> +	if (map->ops && map->ops->reset)
-> +		return map->ops->reset(map->priv);
-> +	/*
-> +	 * If custom ops is implemented but just not this callback, return
-> +	 * error
-> +	 */
-> +	else if (map->ops)
-> +		return -EOPNOTSUPP;
-> +
+Changes since v5:
+ - Dropped the core clock from mdss.yaml. It will be handled in a
+   separate patchset together with adding the clock itself.
+ - Fixed a typo in two commit subjects (mdm -> msm).
 
-It doesn't seem necessary to stack reset_ops -> qcom_reset_ops for what
-you need here.
-Just add an optional const struct reset_ops * to qcom_cc_desc and feed
-that into qcom_cc_really_probe to replace &qcom_reset_ops.
+Changes since v4:
+ - Created separate mdss-common.yaml
+ - Rather than squashing everything into mdss.yaml, create individual
+   schema files for MDSS devices.
 
-[...]
-> +struct qcom_reset_ops {
-> +	int (*reset)(void *priv);
-> +	int (*assert)(void *priv);
-> +	int (*deassert)(void *priv);
+Changes since v3:
+ - Changed mdss->(dpu, dsi, etc.) relationship into the tight binding
+   depending on the mdss compatible string.
+ - Added sm8250 dpu schema and added qcom,sm8250-mdss to mdss.yaml
 
-Why add assert and deassert ops? There doesn't seem to be any user.
+Changes since v2:
+ - Added a patch to allow opp-table under the dpu* nodes.
+ - Removed the c&p issue which allowed the @0 nodes under the MDSS
+   device node.
 
-> +};
-> +
->  struct qcom_reset_map {
->  	unsigned int reg;
->  	u8 bit;
-> +	const struct qcom_reset_ops *ops;
-> +	void *priv;
+Changes since v1:
+ - Renamed DPU device nodes from mdp@ to display-controller@
+ - Described removal of mistakenly mentioned "lut" clock
+ - Switched mdss.yaml to use $ref instead of fixing compatible strings
+ - Dropped mdp-opp-table description (renamed by Krzysztof in his
+   patchset)
+ - Reworked DPU's ports definitions. Dropped description of individual
+   ports, left only /ports $ref and description in dpu-common.yaml.
 
-Adding per-reset ops + priv counters seems excessive to me.
 
-Are you expecting different reset controls in the same reset controller
-to have completely different ops at some point? If so, I would wonder
-whether it wouldn't be better to split the reset controller in that
-case. Either way, for the GDSC collapse workaround this does not seem
-to be required at all.
+Dmitry Baryshkov (12):
+  dt-bindings: display/msm: split qcom,mdss bindings
+  dt-bindings: display/msm: add gcc-bus clock to dpu-smd845
+  dt-bindings: display/msm: add interconnects property to
+    qcom,mdss-smd845
+  dt-bindings: display/msm: move common DPU properties to
+    dpu-common.yaml
+  dt-bindings: display/msm: move common MDSS properties to
+    mdss-common.yaml
+  dt-bindings: display/msm: split dpu-sc7180 into DPU and MDSS parts
+  dt-bindings: display/msm: split dpu-sc7280 into DPU and MDSS parts
+  dt-bindings: display/msm: split dpu-sdm845 into DPU and MDSS parts
+  dt-bindings: display/msm: split dpu-msm8998 into DPU and MDSS parts
+  dt-bindings: display/msm: split dpu-qcm2290 into DPU and MDSS parts
+  dt-bindings: display/msm: add missing device nodes to mdss-* schemas
+  dt-bindings: display/msm: add support for the display on SM8250
 
-regards
-Philipp
+ .../bindings/display/msm/dpu-common.yaml      |  44 +++
+ .../bindings/display/msm/dpu-msm8998.yaml     | 229 ++++-----------
+ .../bindings/display/msm/dpu-qcm2290.yaml     | 235 ++++------------
+ .../bindings/display/msm/dpu-sc7180.yaml      | 257 ++++-------------
+ .../bindings/display/msm/dpu-sc7280.yaml      | 266 +++++-------------
+ .../bindings/display/msm/dpu-sdm845.yaml      | 234 ++++-----------
+ .../bindings/display/msm/dpu-sm8250.yaml      |  96 +++++++
+ .../devicetree/bindings/display/msm/mdp5.txt  |  30 +-
+ .../bindings/display/msm/mdss-common.yaml     |  83 ++++++
+ .../bindings/display/msm/mdss-msm8998.yaml    |  88 ++++++
+ .../bindings/display/msm/mdss-qcm2290.yaml    |  92 ++++++
+ .../bindings/display/msm/mdss-sc7180.yaml     | 103 +++++++
+ .../bindings/display/msm/mdss-sc7280.yaml     | 112 ++++++++
+ .../bindings/display/msm/mdss-sdm845.yaml     |  92 ++++++
+ .../bindings/display/msm/mdss-sm8250.yaml     | 106 +++++++
+ .../devicetree/bindings/display/msm/mdss.yaml | 166 +++++++++++
+ 16 files changed, 1264 insertions(+), 969 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-common.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sm8250.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-msm8998.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-qcm2290.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-sc7180.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-sc7280.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-sdm845.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-sm8250.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/mdss.yaml
+
+-- 
+2.35.1
+
