@@ -1,74 +1,152 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C495AA380
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 01:10:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 364495AA3BC
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 01:31:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE9610E0C7;
-	Thu,  1 Sep 2022 23:10:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB1B10E39B;
+	Thu,  1 Sep 2022 23:31:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D00A10E0C7
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 23:10:01 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 281JHW4s000509;
- Thu, 1 Sep 2022 23:09:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=5aGSELhtk4L7f+Hhlr43lmGgZR0X7F0egwbFXr7Fc4k=;
- b=V1BYtYoWG4Jneuh96zeH43uWitvfJSpzpxOgUVP20WH7LGCFxv3L7SxCYbDZhetIipU+
- 0+mJ/0lDVkJdbXjzPTUQDEVcC2LvHV1JN8B+Cfn8vw6fXBsQo+gD40qB7Nxs9XR0GkWM
- CW2GMgGJqP6G1U9jUXuKNDH/lZUGxL2Q/AWQYC3v8VhiNBAyJ8qgE4xsGm2Qunvr/MoL
- LWaMmgK3VVbZYG44ct3I5cDTRvMLhCSE/mrb8V7DOHK9z/lnL4SoyUfPJYbcPvhynMMw
- hi0tnxb3PhGBfxSrtxZ+SH7B/YwDDGtASRaPvJES9BMJH8knduXV+FDpAkTFQj26xz/P pQ== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jafkx46sd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Sep 2022 23:09:55 +0000
-Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com
- [10.53.140.1])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 281N9sRu011349
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 Sep 2022 23:09:54 GMT
-Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F97710E39B;
+ Thu,  1 Sep 2022 23:31:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662075096; x=1693611096;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=KdDrGxgxWuBJT0g8Q0i6PT6J8hBWdcK7W1DT4z1xd/k=;
+ b=RgS9LtM1CBF8vj2IN2OoQqe2sglTrl6jYz1zvQTamMPYsiGKYI1zLQLn
+ fTI/0g+t5y4+YIqH5+3j869dpHJ9EN/tr+tenUqE0HTc2D4e8zsAAoWlf
+ iJnUzwwUzWzWyf7BZGycocvpFp4X/yc+QfIn00YmapELfCYEbTMs6ONae
+ ph+G4P2X/P0ezcq7cXumlHkfoV8gHLBbfpGUvoYZwdo5pdwD/9EYx7KuV
+ Vv8KAIbs1KtBQLYVRX2zmIX8VF+qzU1wHZmQtUScm8LcybuCepYznCf0E
+ zADZv8a06WNcn6aObIuiUtY6LxdJWouPEpxx1GQWFAYUqIMquNVBTxtZ5 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="382150866"
+X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; d="scan'208";a="382150866"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2022 16:31:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; d="scan'208";a="755038756"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga001.fm.intel.com with ESMTP; 01 Sep 2022 16:31:36 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 1 Sep 2022 16:31:35 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 1 Sep 2022 16:31:35 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 1 Sep 2022 16:31:35 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.174)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Thu, 1 Sep 2022 16:09:54 -0700
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [RESEND PATCH libdrm v3 2/2] tests/modetest: Add support for
- writeback connector
-Date: Thu, 1 Sep 2022 16:09:24 -0700
-Message-ID: <20220901230924.145-3-quic_jesszhan@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220901230924.145-1-quic_jesszhan@quicinc.com>
-References: <20220901230924.145-1-quic_jesszhan@quicinc.com>
-MIME-Version: 1.0
+ 15.1.2375.31; Thu, 1 Sep 2022 16:31:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vtp6vqIxy6UZ6oSAJMa/873pswFRmCGpDw7T+dKZgeYb2H89K+5mxwDKZRHbUwKnpngazJx3lASUcTg15vDHXYh6/TowvoT2yUYhFqY5F6r5Gk5mozLLfqQY9Hxw2quGB+QuhlH8bH8S1qLJvrxPjQa3KhSXCedEq5ZreeDjeKt9UZr1LIeiIXhEohZiy1n7g3Xtm+ANeavyzoJ2itmCVzkRUcev0hggMJew94ErZgbV95KZgcUeWNg1Z3L/qNoDfZzho2keDyZascko0QAz9VgNOixN/PHikdaMKG8GUrYP2amBe+UKqL8wV9/3PyN99uZv443wMJdsko4TqVkVjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gjESd9h++0B5UhZAw1eqOm8ZuBNnl1u/UJDZT3X6TfU=;
+ b=CUmnSGaZV9nQNpcTDXpvoEyaxD5jNEbJ1R6fnD2luFSek3pFqDAK9mlF45uqE6LNojDvltoU5bNjtGv4NEen+sOR2aaQ8EHKDbf7q4V4PBPBkrkkM88T10M4FvoNkD7k9XJKz0W3vudYkBV+okQfWnJr3o9aPfL0zeCCC+fO448HzeZu12cCmb9aDqVbOSTZnZbd0qtHeAJUH1oAsK94e1gX9QXbRZs+jsGZ/J+9WW6YV1d80zc9KB7ZcfrHffCqAzfX8fPrxUDvBUx8P2Wf/PXniPzAEM5GzfkIQlCVNk+eMqrY6Xo5TOoqA04zvMfWay8ZEhq6GRaPktqc0DSKRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ DS0PR11MB6349.namprd11.prod.outlook.com (2603:10b6:8:ce::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5588.11; Thu, 1 Sep 2022 23:31:34 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::1977:59e7:5a28:24e1]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::1977:59e7:5a28:24e1%9]) with mapi id 15.20.5588.012; Thu, 1 Sep 2022
+ 23:31:33 +0000
+Message-ID: <ee2553bb-3b74-1b3d-d467-d4457105c5f7@intel.com>
+Date: Thu, 1 Sep 2022 16:31:31 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [Intel-gfx] [PATCH 6/8] drm/i915/xelpmp: Expose media as another
+ GT
+Content-Language: en-US
+To: Matt Roper <matthew.d.roper@intel.com>, <intel-gfx@lists.freedesktop.org>
+References: <20220829170238.969875-1-matthew.d.roper@intel.com>
+ <20220829170238.969875-7-matthew.d.roper@intel.com>
+From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20220829170238.969875-7-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 2a8DHMvTQUyRsYNPGHgIlAF-kRlzd5Lp
-X-Proofpoint-GUID: 2a8DHMvTQUyRsYNPGHgIlAF-kRlzd5Lp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-09-01_12,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- clxscore=1015 spamscore=0 mlxlogscore=999 malwarescore=0 impostorscore=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2209010102
+X-ClientProxiedBy: SJ0PR13CA0001.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c0::6) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 71277e56-ca95-4b44-a7bd-08da8c721b3c
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6349:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: E02YqobI/EuMovrt4LRNW6jTGcuDXpaRBzMSDU5ezkm8w5dCjg0rKnHW1L5R8lmptuKcl4G9qRhIKUS36ueAGTekXRPvvnkym1aJ8xMPKlOk6yVysnsGqcFI1yIjcUaUXAW4krKTwvt7cB5DpBAe6WXdyjGaXnKEHffQyk7o4ZJhLDIaDUeCaC6aYK2VTsEgZdpVaqE5mQ+j+bgP+XCofK7/qq6BUOWr9d+xR7hyEvC9WVuXOIkU9tUUf/CDIlEK2YGY6tUIk1zAqE3cPysgGfJUKqyif7j41QDs8gQ1WSVon75gNzBhYRhTlGNGmD2UUoqHnr38h1r2r8DHOpR79xy+GCHcM5lx4zSEoiI3OK1LTmV1H1OsSKjBjxzA5uAL50csBTlSqGMKZ2IwPq+TnALVLgELG1YtovWowVLpSX4V1Lc/J233EEaXkCdT1k8Xol2BQRkQkL5Nnf8AQCq6bNMFJ8aERnAR6/9FonZ0rZZIXvGBfbvZYQjA25ZeghQokrPG0c70RdPBFC/WKEeaGBYTSUEOvSqDZOD85Z2jJOXQqmpPa9V2I8peRTiWw2yH1kKN03QfVByBS1/CppYUCnastiTzuBPiPQR8zdezY+PWymI/1ZwEYN+FcqYWwAhM7pWbceJtiJ405235wteDuC+oQSvQu6GZMbnd0M0qSENcPoJt2bBAOosqLP9gj7HM7tB0gB6LVnT6mMNyvwEjxRfYkRa/OiJCDgpJ5zKlrE9oBzm0OTZEo36QDJmK/2ThS9qPQu6iCTh2TUjajaFCVg1Rk/az4TmmFAn0wm3fX7k=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(396003)(136003)(366004)(346002)(376002)(39860400002)(2616005)(83380400001)(186003)(8676002)(316002)(66946007)(450100002)(31686004)(6486002)(478600001)(66556008)(36756003)(4326008)(66476007)(41300700001)(26005)(6512007)(86362001)(5660300002)(53546011)(8936002)(31696002)(6506007)(82960400001)(38100700002)(2906002)(30864003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVBSbVZJMStBUjREbGNEOEcrclJqOWZyU1IwNTFWMTA1VzFrVmxXRmExbXRw?=
+ =?utf-8?B?WFhGOWZVMFg4MHZ0SU9veHZxY1phbXRTQ05YbDJaSWd4T2xCWk42UU80QjhS?=
+ =?utf-8?B?aVhQa3l3TzR0VjUzN0t2d01VVXRMQU5rS0p4R01FM0QxaVB4ckcvWi9iWlRh?=
+ =?utf-8?B?dzExcldUNVVOa2RxK3EvSGExTGdmSXM0TkcwM1AyYUh1NVcxaWp3SG1kVTNO?=
+ =?utf-8?B?VHR1bFJPOGh3TGhIckJVTDE4T3YxVEwvbFplN1pPek9mWW5Jdi9DWEYwNHl6?=
+ =?utf-8?B?QTRYamo4RHorTnh1eDBhZkUrMEtBVDJzUnJCdlFVMWNwcUNFaDA2UTZGVkcy?=
+ =?utf-8?B?cGx1T3pEaVVZZGxUZ053RnBBVXlTN0lPTmN1NG9PdGl2ZWNPR0Z1M2FwTGwz?=
+ =?utf-8?B?NnNBdFJsZmcxb3R2TGZZTjBiOE5LTFMxZjY0Z1k4SzRUVzloOTR1LzgreG9l?=
+ =?utf-8?B?MmlpU0FVT29YR3k0UGpLb295d3R4Z3AvbUNXZ3duNDFwQkJXRytqUm1ZUFFU?=
+ =?utf-8?B?WnpFd3p2WWlUVkowcWJ6eldwVHlWU2QxUUtHTzRBRXBnTHVVRG15aWJxMHdx?=
+ =?utf-8?B?cWtJS1pTZ0huMk40V1FpTUNiK1V2MDFpNmIydVErRHBPT21Hdy90WWlTeHdV?=
+ =?utf-8?B?YmI2RUowY0ZwL3Vuc1BiVmI2bWQ2VmVyRnpKaTIrdUZhSHcwRk4wNVZmRWpx?=
+ =?utf-8?B?Sjl6dmM2OGFHYm1nOEI0ei9ZK1gxV2xEZmVhemtyZ2NON0h6bXU3cHBFN1ly?=
+ =?utf-8?B?eTd0d2RnaUtEWEo2cFRNczJzSDQ1Zzd5Wk5zQ0VxV2Y4UlZ0dmF6UlZGZXlN?=
+ =?utf-8?B?bmZvYlE5Sm1kY2dRWno1eEdENmZJL0JBby9qdXFCekxiS2JxT0REQUVkSlVj?=
+ =?utf-8?B?ZnZGNGZYdy95dmpLa0ZmVlBJd04vNnV2WGZrbUhPR3d5NElqZW5rWW9KOGVn?=
+ =?utf-8?B?amJZRXpRS1lCWGovM2I5RFZsWW52WThSZWVoaDJkbi9lWEZhNU5pbDN5UWlw?=
+ =?utf-8?B?TjM5dE1PUnI0ZFRMMTcrWVh6cjRYY3ltZGlBdStiUjhYTGE5V3dpOE1TYWt6?=
+ =?utf-8?B?WVVxM0N5b2h5YzFIY21kdHlHeno5RW5FbGdUSVlWNW9NRkc4S2pkbHQ5SlJO?=
+ =?utf-8?B?RUFtd3M2SjFOM2JoWVZBeTFJYUFNTklPOWhXYVkrOUV2UXlFQXlXNU1UM0Ex?=
+ =?utf-8?B?cW5lRUowZlVXczVXR0F3ZVlNMFpCbjdxTVcySGhIUWptdzd4d29MaUhkRllF?=
+ =?utf-8?B?RmVqT2UwcE5EN015cVRhcUJCWFZmdEhvR2pXai94c2NiWHpDbmMxNHl2cTA3?=
+ =?utf-8?B?MlRaaHovQ3Z4d0p6V1FlcnluN1ZJeVdZUG9jaDFoa3A3cWp5Y1dWUExKR2hE?=
+ =?utf-8?B?a29jb2JJOTFBMGlxQ1U2eXo4d09Xc1hDdEFPWXBxakZ1NmMwYmxuNmNVZDNy?=
+ =?utf-8?B?Q1RobWwxYlovTjVjT1dMc1RHTHhsSG5RVGRmR3J2RFJlYTZReklPTE1sRGRR?=
+ =?utf-8?B?dmZiK1ppb25iS1FPakxBNFVjSzJublNvTTFOTVZ5amRCelcwZC9RTittTWVh?=
+ =?utf-8?B?cSs5YUlTWG9zVWE1b3V5YzAxUGxPNEgvems1YTNZR25YZHdGK3RXcHQranVI?=
+ =?utf-8?B?azB3aVA5bFJWQlJPcmljenJTZUpTQkF2alpuaEVsT1lBMGZnd0o4WTl6MWFR?=
+ =?utf-8?B?YVR2alZrbWFpM2RTNURTbEdLQ2hDUHNEMXpmckl1N0NvQmtqaXh6L0ZOQzJG?=
+ =?utf-8?B?SEV5RThuZzlrcS9FbVZBL1ZkMTM2MGxPcytST3J2TlVKcjRhRUU3ZWk2UTB6?=
+ =?utf-8?B?dVdFMmRrNUdWL0h6RzBtRGtZbUdNV0FHcG96TldHZUNvUXczVHNwNkNxL0dZ?=
+ =?utf-8?B?TjdCV2p5VXJoc1RRS3BKM2VZT3hkN2ZjSGFLTXhIeTFzNWZPZm42NnBPaEI0?=
+ =?utf-8?B?bjNFUHQxZ0E0eTlzZ2pjZUs0bzZ1N1libTdsdU02NVpsZUU0Z25rU0ozbjdE?=
+ =?utf-8?B?OGJNY0tJNUFscWZlQmZqbE5tcHRweDc3L3BwbWxYcnF6NDAzN3I5MmxSVTU1?=
+ =?utf-8?B?VElkVWdjbEN3ZHErZGtUbVg5NCswSzNGMkVDUmt2anhWcTEyZzNJSjc4SFp3?=
+ =?utf-8?B?WFlDK2NyLzkyM2k1VmhzbHd2ZnNyMlhORWxkSFNLMUxreU9UeE5leGpSR2lu?=
+ =?utf-8?Q?+V2jImduJNb9EDFVwbYPxWc=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71277e56-ca95-4b44-a7bd-08da8c721b3c
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2022 23:31:33.8871 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XU2AvhJ5i6z0Mb2rrHuXW/KsxUmSVPqgo9ePrmfyxYFZzaF7SQMvDcBALiqrbOCMyY2D7LB2AxY/9Be9Obmlhb5b2uJoty7QdHaHumIIK/o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6349
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,401 +159,349 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rohith Iyer <quic_rohiiyer@quicinc.com>, quic_abhinavk@quicinc.com,
- hoegsberg@google.com, dmitry.baryshkov@linaro.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rohith Iyer <quic_rohiiyer@quicinc.com>
 
-Add writeback support to modetest with the below options:
 
-- Passing in -c will now also show the writeback connector
+On 8/29/2022 10:02 AM, Matt Roper wrote:
+> Xe_LPM+ platforms have "standalone media."  I.e., the media unit is
+> designed as an additional GT with its own engine list, GuC, forcewake,
+> etc.  Let's allow platforms to include media GTs in their device info.
+>
+> Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>   drivers/gpu/drm/i915/Makefile            |  1 +
+>   drivers/gpu/drm/i915/gt/intel_gt.c       | 12 ++++++--
+>   drivers/gpu/drm/i915/gt/intel_gt_regs.h  |  8 +++++
+>   drivers/gpu/drm/i915/gt/intel_sa_media.c | 39 ++++++++++++++++++++++++
+>   drivers/gpu/drm/i915/gt/intel_sa_media.h | 15 +++++++++
+>   drivers/gpu/drm/i915/i915_pci.c          | 15 +++++++++
+>   drivers/gpu/drm/i915/intel_device_info.h |  5 ++-
+>   drivers/gpu/drm/i915/intel_uncore.c      | 16 ++++++++--
+>   drivers/gpu/drm/i915/intel_uncore.h      | 20 ++++++++++--
+>   9 files changed, 123 insertions(+), 8 deletions(-)
+>   create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.c
+>   create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.h
+>
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 522ef9b4aff3..e83e4cd46968 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -123,6 +123,7 @@ gt-y += \
+>   	gt/intel_ring.o \
+>   	gt/intel_ring_submission.o \
+>   	gt/intel_rps.o \
+> +	gt/intel_sa_media.o \
+>   	gt/intel_sseu.o \
+>   	gt/intel_sseu_debugfs.o \
+>   	gt/intel_timeline.o \
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index d21ec11346a5..2a29502289cb 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -776,10 +776,15 @@ void intel_gt_driver_late_release_all(struct drm_i915_private *i915)
+>   	}
+>   }
+>   
+> -static int intel_gt_tile_setup(struct intel_gt *gt, phys_addr_t phys_addr)
+> +static int intel_gt_tile_setup(struct intel_gt *gt,
+> +			       phys_addr_t phys_addr,
+> +			       u32 gsi_offset)
 
-- Test a built-in mode on writeback connector
+This is only called from intel_gt_probe_all with gsi_offset = 0, so the 
+extra param isn't really used at this point. I'm guessing the intent 
+here is to keep the function params the same as intel_sa_mediagt_setup, 
+so we can assign this to gtdef->setup() for "normal" extra tiles on 
+xehpsdv and pvc. Maybe add a comment about it above here, so no one 
+accidentally optimizes this out?
 
-- Test a custom mode from user input on writeback connector
-  Usage: "./modetest -M msm -x <connector_id>:<mode_parameters>
-            -a -P <plane_id>@<crtc_id>:<widthxheight>+0+0@RG24."
-  Refer to --help for exact syntax
+>   {
+>   	int ret;
+>   
+> +	/* GSI offset is only applicable for media GTs */
+> +	drm_WARN_ON(&gt->i915->drm, gsi_offset);
+> +
+>   	if (!gt_is_root(gt)) {
+>   		struct intel_uncore *uncore;
+>   
+> @@ -832,7 +837,7 @@ int intel_gt_probe_all(struct drm_i915_private *i915)
+>   	gt->info.engine_mask = RUNTIME_INFO(i915)->platform_engine_mask;
+>   
+>   	drm_dbg(&i915->drm, "Setting up %s\n", gt->name);
+> -	ret = intel_gt_tile_setup(gt, phys_addr);
+> +	ret = intel_gt_tile_setup(gt, phys_addr, 0);
+>   	if (ret)
+>   		return ret;
+>   
+> @@ -862,7 +867,8 @@ int intel_gt_probe_all(struct drm_i915_private *i915)
+>   			goto err;
+>   		}
+>   
+> -		ret = gtdef->setup(gt, phys_addr + gtdef->mapping_base);
+> +		ret = gtdef->setup(gt, phys_addr + gtdef->mapping_base,
+> +				   gtdef->gsi_offset);
+>   		if (ret)
+>   			goto err;
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> index 94f9ddcfb3a5..05a40ef33258 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> @@ -1576,4 +1576,12 @@
+>   
+>   #define GEN12_SFC_DONE(n)			_MMIO(0x1cc000 + (n) * 0x1000)
+>   
+> +/*
+> + * Standalone Media's non-engine GT registers are located at their regular GT
+> + * offsets plus 0x380000.  This extra offset is stored inside the intel_uncore
+> + * structure so that the existing code can be used for both GTs without
+> + * modification.
+> + */
+> +#define MTL_MEDIA_GSI_BASE			0x380000
+> +
+>   #endif /* __INTEL_GT_REGS__ */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_sa_media.c b/drivers/gpu/drm/i915/gt/intel_sa_media.c
+> new file mode 100644
+> index 000000000000..8c5c519457cc
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gt/intel_sa_media.c
+> @@ -0,0 +1,39 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2021 Intel Corporation
+> + */
+> +
+> +#include <drm/drm_managed.h>
+> +
+> +#include "i915_drv.h"
+> +#include "gt/intel_gt.h"
+> +#include "gt/intel_sa_media.h"
+> +
+> +int intel_sa_mediagt_setup(struct intel_gt *gt, phys_addr_t phys_addr,
+> +			   u32 gsi_offset)
+> +{
+> +	struct drm_i915_private *i915 = gt->i915;
+> +	struct intel_uncore *uncore;
+> +
+> +	uncore = drmm_kzalloc(&i915->drm, sizeof(*uncore), GFP_KERNEL);
+> +	if (!uncore)
+> +		return -ENOMEM;
+> +
+> +	uncore->gsi_offset = gsi_offset;
+> +
+> +	intel_gt_common_init_early(gt);
+> +	intel_uncore_init_early(uncore, gt);
 
-- Dump the writeback output buffer to bitstream
-  Usage: "./modetest -M msm -s <connector_id>:<widthxheight>
-          -a -o <filepath>
-          -P <plane_id>@<crtc_id>:<widthxheight>+0+0@RG24"
+Where is the initialization of this uncore completed (i.e. call to 
+intel_uncore_init_mmio) ? Can't find it in follow up patches and without 
+it the register access on the media GT would be broken since the 
+function pointers in the uncore struct won't be set. Not a blocker since 
+this is still early enabling, but I'd prefer if this limitation (and 
+follow up remediation plan) was stated in the commit message or cover 
+letter.
 
-This currently supports a singular writeback connector.
+> +
+> +	/*
+> +	 * Standalone media shares the general MMIO space with the primary
+> +	 * GT.  We'll re-use the primary GT's mapping.
+> +	 */
+> +	uncore->regs = i915->uncore.regs;
+> +	if (drm_WARN_ON(&i915->drm, uncore->regs == NULL))
+> +		return -EIO;
+> +
+> +	gt->uncore = uncore;
+> +	gt->phys_addr = phys_addr;
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/gpu/drm/i915/gt/intel_sa_media.h b/drivers/gpu/drm/i915/gt/intel_sa_media.h
+> new file mode 100644
+> index 000000000000..3afb310de932
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gt/intel_sa_media.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2021 Intel Corporation
+> + */
+> +#ifndef __INTEL_SA_MEDIA__
+> +#define __INTEL_SA_MEDIA__
+> +
+> +#include <linux/types.h>
+> +
+> +struct intel_gt;
+> +
+> +int intel_sa_mediagt_setup(struct intel_gt *gt, phys_addr_t phys_addr,
+> +			   u32 gsi_offset);
+> +
+> +#endif /* __INTEL_SA_MEDIA_H__ */
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index 857e8bb6865c..7183778a69c2 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -26,6 +26,9 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/i915_pciids.h>
+>   
+> +#include "gt/intel_gt_regs.h"
+> +#include "gt/intel_sa_media.h"
+> +
+>   #include "i915_driver.h"
+>   #include "i915_drv.h"
+>   #include "i915_pci.h"
+> @@ -1114,6 +1117,17 @@ static const struct intel_device_info pvc_info = {
+>   	.display.has_cdclk_crawl = 1, \
+>   	.__runtime.fbc_mask = BIT(INTEL_FBC_A) | BIT(INTEL_FBC_B)
+>   
+> +static const struct intel_gt_definition xelpmp_extra_gt[] = {
+> +	{
+> +		.type = GT_MEDIA,
+> +		.name = "Standalone Media GT",
+> +		.setup = intel_sa_mediagt_setup,
+> +		.gsi_offset = MTL_MEDIA_GSI_BASE,
+> +		.engine_mask = BIT(VECS0) | BIT(VCS0) | BIT(VCS2),
+> +	},
+> +	{}
+> +};
+> +
+>   __maybe_unused
+>   static const struct intel_device_info mtl_info = {
+>   	XE_HP_FEATURES,
+> @@ -1127,6 +1141,7 @@ static const struct intel_device_info mtl_info = {
+>   	.media.ver = 13,
+>   	PLATFORM(INTEL_METEORLAKE),
+>   	.display.has_modular_fia = 1,
+> +	.extra_gt_list = xelpmp_extra_gt,
+>   	.has_flat_ccs = 0,
+>   	.has_snoop = 1,
+>   	.__runtime.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+> index e0b79dc0fccc..eb4bcf65e91e 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.h
+> +++ b/drivers/gpu/drm/i915/intel_device_info.h
+> @@ -247,14 +247,17 @@ struct intel_runtime_info {
+>   enum intel_gt_type {
+>   	GT_PRIMARY,
+>   	GT_TILE,
+> +	GT_MEDIA,
+>   };
+>   
+>   struct intel_gt_definition {
+>   	enum intel_gt_type type;
+>   	char *name;
+>   	int (*setup)(struct intel_gt *gt,
+> -		     phys_addr_t phys_addr);
+> +		     phys_addr_t phys_addr,
+> +		     u32 gsi_offset);
+>   	u32 mapping_base;
+> +	u32 gsi_offset;
+>   	intel_engine_mask_t engine_mask;
+>   };
+>   
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+> index 6841f76533f9..be88fb95cb45 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.c
+> +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> @@ -1780,10 +1780,15 @@ __gen2_read(64)
+>   #undef GEN2_READ_FOOTER
+>   #undef GEN2_READ_HEADER
+>   
+> +#define IS_GSI_REG(reg) ((reg) < 0x40000)
+> +
+>   #define GEN6_READ_HEADER(x) \
+> -	u32 offset = i915_mmio_reg_offset(reg); \
+> +	u32 offset; \
+>   	unsigned long irqflags; \
+>   	u##x val = 0; \
+> +	if (IS_GSI_REG(reg.reg)) \
+> +		reg.reg += uncore->gsi_offset; \
+> +	offset = i915_mmio_reg_offset(reg); \
 
-Changes made in V2:
-- Added helper method that checks if user pipe has writeback connector
-- Added error message for dump flag if no writeback connector is found
-- Polls on the writeback fence fd until writeback is complete
+I was initially confused here on why you were modifying reg.reg to then 
+extract it, but then I realized other function further down use the reg 
+variable as well, so this would adapt it for them all. However, it still 
+seem weird to me to use both offset and reg in an interleaved way in the 
+code and IMO we should converge on one. It looks like there is only one 
+use of "offset", so maybe that's the one we can drop. Not something that 
+needs to be done in this patch, just reflecting on it.
 
-Changes made in V3:
-- Resolved compiler warnings
-- Defined ETIME to ETIMEDOUT in cases where ETIME is undefined
+>   	assert_rpm_wakelock_held(uncore->rpm); \
+>   	spin_lock_irqsave(&uncore->lock, irqflags); \
+>   	unclaimed_reg_debug(uncore, reg, true, true)
+> @@ -1885,8 +1890,11 @@ __gen2_write(32)
+>   #undef GEN2_WRITE_HEADER
+>   
+>   #define GEN6_WRITE_HEADER \
+> -	u32 offset = i915_mmio_reg_offset(reg); \
+> +	u32 offset; \
+>   	unsigned long irqflags; \
+> +	if (IS_GSI_REG(reg.reg)) \
+> +		reg.reg += uncore->gsi_offset; \
+> +	offset = i915_mmio_reg_offset(reg); \
+>   	trace_i915_reg_rw(true, reg, val, sizeof(val), trace); \
+>   	assert_rpm_wakelock_held(uncore->rpm); \
+>   	spin_lock_irqsave(&uncore->lock, irqflags); \
+> @@ -2265,6 +2273,10 @@ int intel_uncore_setup_mmio(struct intel_uncore *uncore, phys_addr_t phys_addr)
+>   
+>   void intel_uncore_cleanup_mmio(struct intel_uncore *uncore)
+>   {
+> +	/* The media GT re-uses the primary GT's register mapping */
+> +	if (uncore->gt->type == GT_MEDIA)
+> +		return;
+> +
+>   	iounmap(uncore->regs);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
+> index 6100d0f4498a..1b7311a4b98b 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.h
+> +++ b/drivers/gpu/drm/i915/intel_uncore.h
+> @@ -135,6 +135,16 @@ struct intel_uncore {
+>   
+>   	spinlock_t lock; /** lock is also taken in irq contexts. */
+>   
+> +	/*
+> +	 * Do we need to apply an additional offset to reach the beginning
+> +	 * of the basic non-engine GT registers (referred to as "GSI" on
+> +	 * newer platforms, or "GT block" on older platforms)?  If so, we'll
+> +	 * track that here and apply it transparently to registers in the
+> +	 * appropriate range to maintain compatibility with our existing
+> +	 * register definitions and GT code.
+> +	 */
+> +	u32 gsi_offset;
+> +
+>   	unsigned int flags;
+>   #define UNCORE_HAS_FORCEWAKE		BIT(0)
+>   #define UNCORE_HAS_FPGA_DBG_UNCLAIMED	BIT(1)
+> @@ -298,14 +308,20 @@ intel_wait_for_register_fw(struct intel_uncore *uncore,
+>   static inline u##x__ __raw_uncore_read##x__(const struct intel_uncore *uncore, \
+>   					    i915_reg_t reg) \
+>   { \
+> -	return read##s__(uncore->regs + i915_mmio_reg_offset(reg)); \
+> +	u32 offset = i915_mmio_reg_offset(reg); \
+> +	if (offset < 0x40000) \
 
-Co-developed-by: Rohith Iyer <quic_rohiiyer@quicinc.com>
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- tests/modetest/buffers.c  |  19 ++++
- tests/modetest/buffers.h  |   1 +
- tests/modetest/modetest.c | 183 ++++++++++++++++++++++++++++++++++----
- 3 files changed, 184 insertions(+), 19 deletions(-)
+Any reason not to have IS_GSI_REG() defined in this header and used here?
 
-diff --git a/tests/modetest/buffers.c b/tests/modetest/buffers.c
-index 8a8d9e01..279d7b28 100644
---- a/tests/modetest/buffers.c
-+++ b/tests/modetest/buffers.c
-@@ -353,3 +353,22 @@ void bo_destroy(struct bo *bo)
- 
- 	free(bo);
- }
-+
-+void bo_dump(struct bo *bo, const char *filename)
-+{
-+	FILE *fp;
-+
-+	if (!bo || !filename)
-+		return;
-+
-+	fp = fopen(filename, "wb");
-+	if (fp) {
-+		void *addr;
-+
-+		bo_map(bo, &addr);
-+		printf("Dumping buffer %p to file %s.\n", bo->ptr, filename);
-+		fwrite(bo->ptr, 1, bo->size, fp);
-+		bo_unmap(bo);
-+		fclose(fp);
-+	}
-+}
-diff --git a/tests/modetest/buffers.h b/tests/modetest/buffers.h
-index 7f95396b..cbd54e9e 100644
---- a/tests/modetest/buffers.h
-+++ b/tests/modetest/buffers.h
-@@ -36,5 +36,6 @@ struct bo *bo_create(int fd, unsigned int format,
- 		   unsigned int handles[4], unsigned int pitches[4],
- 		   unsigned int offsets[4], enum util_fill_pattern pattern);
- void bo_destroy(struct bo *bo);
-+void bo_dump(struct bo *bo, const char *filename);
- 
- #endif
-diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
-index 2c31c4fc..8073d143 100644
---- a/tests/modetest/modetest.c
-+++ b/tests/modetest/modetest.c
-@@ -68,8 +68,13 @@
- #include "buffers.h"
- #include "cursor.h"
- 
-+#ifndef ETIME
-+#define ETIME ETIMEDOUT
-+#endif
-+
- static enum util_fill_pattern primary_fill = UTIL_PATTERN_SMPTE;
- static enum util_fill_pattern secondary_fill = UTIL_PATTERN_TILES;
-+static enum util_fill_pattern plain_fill = UTIL_PATTERN_PLAIN;
- 
- struct crtc {
- 	drmModeCrtc *crtc;
-@@ -128,6 +133,7 @@ struct device {
- 
- 	int use_atomic;
- 	drmModeAtomicReq *req;
-+	int32_t writeback_fence_fd;
- };
- 
- static inline int64_t U642I64(uint64_t val)
-@@ -135,6 +141,11 @@ static inline int64_t U642I64(uint64_t val)
- 	return (int64_t)*((int64_t *)&val);
- }
- 
-+static inline uint64_t to_user_pointer(const void *ptr)
-+{
-+	return (uintptr_t)ptr;
-+}
-+
- static float mode_vrefresh(drmModeModeInfo *mode)
- {
- 	return  mode->clock * 1000.00
-@@ -811,6 +822,10 @@ struct pipe_arg {
- 	struct crtc *crtc;
- 	unsigned int fb_id[2], current_fb_id;
- 	struct timeval start;
-+	unsigned int out_fb_id;
-+	struct bo *out_bo;
-+	bool custom;
-+	bool dump;
- 
- 	int swap_count;
- };
-@@ -917,27 +932,43 @@ static struct crtc *pipe_find_crtc(struct device *dev, struct pipe_arg *pipe)
- 	return &dev->resources->crtcs[crtc_idx - 1];
- }
- 
-+static int parse_mode_string(char *mode_string, drmModeModeInfo *user_mode)
-+{
-+	return sscanf(mode_string, "%u,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%u,%s",
-+			&user_mode->clock, &user_mode->hdisplay, &user_mode->hsync_start,
-+			&user_mode->hsync_end, &user_mode->htotal, &user_mode->hskew,
-+			&user_mode->vdisplay, &user_mode->vsync_start, &user_mode->vsync_end,
-+			&user_mode->vtotal, &user_mode->vscan, &user_mode->vrefresh,
-+			user_mode->name);
-+}
-+
- static int pipe_find_crtc_and_mode(struct device *dev, struct pipe_arg *pipe)
- {
- 	drmModeModeInfo *mode = NULL;
- 	int i;
-+	static drmModeModeInfo user_mode;
- 
--	pipe->mode = NULL;
--
--	for (i = 0; i < (int)pipe->num_cons; i++) {
--		mode = connector_find_mode(dev, pipe->con_ids[i],
--					   pipe->mode_str, pipe->vrefresh);
--		if (mode == NULL) {
--			if (pipe->vrefresh)
--				fprintf(stderr,
--				"failed to find mode "
--				"\"%s-%.2fHz\" for connector %s\n",
--				pipe->mode_str, pipe->vrefresh, pipe->cons[i]);
--			else
--				fprintf(stderr,
--				"failed to find mode \"%s\" for connector %s\n",
--				pipe->mode_str, pipe->cons[i]);
-+	if (pipe->custom) {
-+		if (parse_mode_string(pipe->mode_str, &user_mode) == 13)
-+			mode = &user_mode;
-+		else
- 			return -EINVAL;
-+	} else {
-+		for (i = 0; i < (int)pipe->num_cons; i++) {
-+			mode = connector_find_mode(dev, pipe->con_ids[i],
-+						   pipe->mode_str, pipe->vrefresh);
-+			if (mode == NULL) {
-+				if (pipe->vrefresh)
-+					fprintf(stderr,
-+					"failed to find mode "
-+					"\"%s-%.2fHz\" for connector %s\n",
-+					pipe->mode_str, pipe->vrefresh, pipe->cons[i]);
-+				else
-+					fprintf(stderr,
-+					"failed to find mode \"%s\" for connector %s\n",
-+					pipe->mode_str, pipe->cons[i]);
-+				return -EINVAL;
-+			}
- 		}
- 	}
- 
-@@ -1441,6 +1472,24 @@ static int pipe_resolve_connectors(struct device *dev, struct pipe_arg *pipe)
- 	return 0;
- }
- 
-+static bool pipe_has_writeback_connector(struct device *dev, struct pipe_arg *pipes,
-+		unsigned int count)
-+{
-+	drmModeConnector *connector;
-+	unsigned int i, j;
-+
-+	for (j = 0; j < count; j++) {
-+		struct pipe_arg *pipe = &pipes[j];
-+
-+		for (i = 0; i < pipe->num_cons; i++) {
-+			connector = get_connector_by_id(dev, pipe->con_ids[i]);
-+			if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
-+				return true;
-+		}
-+	}
-+	return false;
-+}
-+
- static int pipe_attempt_connector(struct device *dev, drmModeConnector *con,
- 		struct pipe_arg *pipe)
- {
-@@ -1662,6 +1711,70 @@ static void set_mode(struct device *dev, struct pipe_arg *pipes, unsigned int co
- 	}
- }
- 
-+static void writeback_config(struct device *dev, struct pipe_arg *pipes, unsigned int count)
-+{
-+	drmModeConnector *connector;
-+	unsigned int i, j;
-+
-+	for (j = 0; j < count; j++) {
-+		struct pipe_arg *pipe = &pipes[j];
-+
-+		for (i = 0; i < pipe->num_cons; i++) {
-+			connector = get_connector_by_id(dev, pipe->con_ids[i]);
-+			if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK) {
-+				bo_fb_create(dev->fd, pipes[j].fourcc, pipe->mode->hdisplay,
-+					 pipe->mode->vdisplay, plain_fill, &pipe->out_bo,
-+					 &pipe->out_fb_id);
-+				add_property(dev, pipe->con_ids[i], "WRITEBACK_FB_ID",
-+					 pipe->out_fb_id);
-+				add_property(dev, pipe->con_ids[i], "WRITEBACK_OUT_FENCE_PTR",
-+					 to_user_pointer(&dev->writeback_fence_fd));
-+			}
-+		}
-+	}
-+}
-+
-+static int poll_writeback_fence(int fd, int timeout)
-+{
-+	struct pollfd fds = { fd, POLLIN };
-+	int ret;
-+
-+	do {
-+		ret = poll(&fds, 1, timeout);
-+		if (ret > 0) {
-+			if (fds.revents & (POLLERR | POLLNVAL))
-+				return -EINVAL;
-+
-+			return 0;
-+		} else if (ret == 0) {
-+			return -ETIME;
-+		} else {
-+			ret = -errno;
-+			if (ret == -EINTR || ret == -EAGAIN)
-+				continue;
-+			return ret;
-+		}
-+	} while (1);
-+
-+}
-+
-+static void dump_output_fb(struct device *dev, struct pipe_arg *pipes, char *dump_path,
-+			unsigned int count)
-+{
-+	drmModeConnector *connector;
-+	unsigned int i, j;
-+
-+	for (j = 0; j < count; j++) {
-+		struct pipe_arg *pipe = &pipes[j];
-+
-+		for (i = 0; i < pipe->num_cons; i++) {
-+			connector = get_connector_by_id(dev, pipe->con_ids[i]);
-+			if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
-+				bo_dump(pipe->out_bo, dump_path);
-+		}
-+	}
-+}
-+
- static void atomic_clear_mode(struct device *dev, struct pipe_arg *pipes, unsigned int count)
- {
- 	unsigned int i;
-@@ -1990,7 +2103,7 @@ static void parse_fill_patterns(char *arg)
- 
- static void usage(char *name)
- {
--	fprintf(stderr, "usage: %s [-acDdefMPpsCvrw]\n", name);
-+	fprintf(stderr, "usage: %s [-acDdefMPpsCvrwx]\n", name);
- 
- 	fprintf(stderr, "\n Query options:\n\n");
- 	fprintf(stderr, "\t-c\tlist connectors\n");
-@@ -2000,7 +2113,12 @@ static void usage(char *name)
- 
- 	fprintf(stderr, "\n Test options:\n\n");
- 	fprintf(stderr, "\t-P <plane_id>@<crtc_id>:<w>x<h>[+<x>+<y>][*<scale>][@<format>]\tset a plane\n");
--	fprintf(stderr, "\t-s <connector_id>[,<connector_id>][@<crtc_id>]:[#<mode index>]<mode>[-<vrefresh>][@<format>]\tset a mode\n");
-+	fprintf(stderr, "\t-s <connector_id>[,<connector_id>][@<crtc_id>]:[#<mode index>]");
-+	fprintf(stderr, "<mode>[-<vrefresh>][@<format>]\tset a built-in mode\n");
-+	fprintf(stderr, "\t-x <connector_id>[@<crtc_id>]:<clock,hdisplay,hsyncstart,hsyncend,");
-+	fprintf(stderr, "htotal,hskew,vdisplay,vsyncstart,vsyncend,vtotal,vscan,");
-+	fprintf(stderr, "vrefresh,name>\tset a custom mode\n");
-+	fprintf(stderr, "\t-o <desired file path> \t Dump writeback output buffer to file\n");
- 	fprintf(stderr, "\t-C\ttest hw cursor\n");
- 	fprintf(stderr, "\t-v\ttest vsynced page flipping\n");
- 	fprintf(stderr, "\t-r\tset the preferred mode for all connectors\n");
-@@ -2017,7 +2135,7 @@ static void usage(char *name)
- 	exit(0);
- }
- 
--static char optstr[] = "acdD:efF:M:P:ps:Cvrw:";
-+static const char optstr[] = "acdD:efF:M:o:P:ps:Cvrw:x:";
- 
- int main(int argc, char **argv)
- {
-@@ -2040,6 +2158,7 @@ int main(int argc, char **argv)
- 	struct property_arg *prop_args = NULL;
- 	unsigned int args = 0;
- 	int ret;
-+	char *dump_path;
- 
- 	memset(&dev, 0, sizeof dev);
- 
-@@ -2078,6 +2197,10 @@ int main(int argc, char **argv)
- 			/* Preserve the default behaviour of dumping all information. */
- 			args--;
- 			break;
-+		case 'o':
-+			pipe_args->dump = true;
-+			dump_path = optarg;
-+			break;
- 		case 'P':
- 			plane_args = realloc(plane_args,
- 					     (plane_count + 1) * sizeof *plane_args);
-@@ -2096,6 +2219,7 @@ int main(int argc, char **argv)
- 			crtcs = 1;
- 			planes = 1;
- 			break;
-+		case 'x':
- 		case 's':
- 			pipe_args = realloc(pipe_args,
- 					    (count + 1) * sizeof *pipe_args);
-@@ -2107,7 +2231,7 @@ int main(int argc, char **argv)
- 
- 			if (parse_connector(&pipe_args[count], optarg) < 0)
- 				usage(argv[0]);
--
-+			pipe_args->custom = (c == 'x');
- 			count++;
- 			break;
- 		case 'C':
-@@ -2163,6 +2287,7 @@ int main(int argc, char **argv)
- 
- 	if (use_atomic) {
- 		ret = drmSetClientCap(dev.fd, DRM_CLIENT_CAP_ATOMIC, 1);
-+		drmSetClientCap(dev.fd, DRM_CLIENT_CAP_WRITEBACK_CONNECTORS, 1);
- 		if (ret) {
- 			fprintf(stderr, "no atomic modesetting support: %s\n", strerror(errno));
- 			drmClose(dev.fd);
-@@ -2206,6 +2331,12 @@ int main(int argc, char **argv)
- 			if (set_preferred || count)
- 				set_mode(&dev, pipe_args, count);
- 
-+			if (pipe_has_writeback_connector(&dev, pipe_args, count))
-+				writeback_config(&dev, pipe_args, count);
-+			else if (pipe_args->dump)
-+				fprintf(stderr,
-+						"No writeback connector found - dump will be skipped.\n");
-+
- 			if (plane_count)
- 				atomic_set_planes(&dev, plane_args, plane_count, false);
- 
-@@ -2215,6 +2346,20 @@ int main(int argc, char **argv)
- 				return 1;
- 			}
- 
-+			/*
-+			 * Since only writeback connectors have an output fb, this should only be
-+			 * called for writeback.
-+			 */
-+			if (pipe_has_writeback_connector(&dev, pipe_args, count)) {
-+				ret = poll_writeback_fence(dev.writeback_fence_fd, 1000);
-+				if (ret)
-+					fprintf(stderr,
-+							"Poll for writeback error: %d. Skipping Dump.\n",
-+							ret);
-+				else if (pipe_args->dump)
-+					dump_output_fb(&dev, pipe_args, dump_path, count);
-+			}
-+
- 			if (test_vsync)
- 				atomic_test_page_flip(&dev, pipe_args, plane_args, plane_count);
- 
--- 
-2.31.0
+Daniele
+
+> +		offset += uncore->gsi_offset; \
+> +	return read##s__(uncore->regs + offset); \
+>   }
+>   
+>   #define __raw_write(x__, s__) \
+>   static inline void __raw_uncore_write##x__(const struct intel_uncore *uncore, \
+>   					   i915_reg_t reg, u##x__ val) \
+>   { \
+> -	write##s__(val, uncore->regs + i915_mmio_reg_offset(reg)); \
+> +	u32 offset = i915_mmio_reg_offset(reg); \
+> +	if (offset < 0x40000) \
+> +		offset += uncore->gsi_offset; \
+> +	write##s__(val, uncore->regs + offset); \
+>   }
+>   __raw_read(8, b)
+>   __raw_read(16, w)
 
