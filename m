@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADF75A9103
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 09:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6835A910B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 09:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 900C810E62F;
-	Thu,  1 Sep 2022 07:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB27C10E64A;
+	Thu,  1 Sep 2022 07:47:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2071.outbound.protection.outlook.com [40.107.220.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94A7E10E5F8;
- Thu,  1 Sep 2022 07:46:24 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2070.outbound.protection.outlook.com [40.107.93.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0FC410E5F8;
+ Thu,  1 Sep 2022 07:47:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JYF6CATeI+6DMfZ2tRRlKduD8WPzHMv6bSYyirIfsQu2hQSZuuCBYXLnNhIbQjuOSb1Zw04E5IKL1SFnAggA30jBLh8KBwl8wlGVdoszP5rOxkubv8msRT1fjJ6ZVON65L0rfqCqKsdf20VkOqEubVB4VEB8Z3jlknyg4JUAmgyMuwM2squqFyVPLFAp6OI3hn1P/z+cLnlMzVsTOW8Vf5L5K0cPnt8RXTKN9ukn6R06PhJ8jYbbVgFCZSKUiXokJibF6LIZGnUS9/vCpfgkyvTwj2XuMG8pIWd9MZwitYFAS8FjLjT2FO55Y0gG9bEm1DGcD8SmyLQSzCyR2Qegjg==
+ b=aPG0t1a2d6ycTpZIduUFcLk+dCEvP27AJaT7Vs3uQzE8CbLjYUDeEuhn1q8xJrfN9GXPRhJrIrshSIExVfX6a076U1Nfgv4vEDDjf/kGzNhT4n74FT/TcXqhuvWUe/v1EHACy3sHtkz8CbC6CtQyJfbqK7v+mD3a7zSPYNNtilw1baQKtl4XZNIdm6b8LPo+caQ/xr9RTp+4tXUJTfrMEwNdPTYFCGsXTZiPdCRum6rT6pEad93h+gzg+r57TjYjePs5Mtgh+nW8hfqr0FTzv4ONTzamPvR8e5mc3fkToDTk1akGStHQDlxMCjcf68Imq/lMTd/9WgWhIap1wk/5dQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OB6rZhHYcnVAQMefbqlbTnswcKBiw5jcMh1AY9IE3Tk=;
- b=Od6Xl8ZThS84xk0Rk/lR52x3IgyukWM0sjhepRr10A5G3USqphH/eDF90x76pNUhNOV4Uwg2xty7SG+mTTLy/IPgKvQyBurw7Fa9G4XsCHtgtW37yaAicnyx4MKXXOKJVfOUhlVC4fjdPqzCf5UopwROC1cNsyq+gpt9HJHMgVzmgF/8hGI+SeJVyAh4tV973rXbd9SCXBslKxzCab1jqDIQmIrwBuhIrZ9E32wKG6FwOq/1/dT7SaQlMaORZS9UL7ZpiwxfBvBHV4aNpbbjpiRLjQydR/kIf3bXlh2wSWvZRN919MvtCU41m4DWM1xT2n4TMuog+4dbmxcNXJ3wSw==
+ bh=D/Bdyndzcla1GmGf06qfQ4CIfG9ZrhA2pOhkF4w4RcI=;
+ b=AzXNO/Ebgs7KsYboZQ81Sy9mXuqZse2alEpRnI8UFdmC36QKnTbaqkUYfMF/bc84LUJO1O8LNobeayXJdMd8B1+vZ1ulcTfN7V8vn9utAeTKDa8VIcIuGRY43YD6T6EKFu+VoG6YORXh45i/dQ5Z6kuDUJcQWVWN6HjAq1i9Hi0mUYUTA++ku9cm6teMExm4Rh0MZlcxU8taIL/OJAKU5tE5hM4jP6TJ/1rAosqC716u3cEBjvNbJPZH+9i7EACPlQ5SnlxUP0u5+sF2ShnC7d8X4MA8y//6QJ3BlB5zbOLr4W3/TGMV1nI6KgiPlzWN+R93zPx/ZPJxTAPGItBBmQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OB6rZhHYcnVAQMefbqlbTnswcKBiw5jcMh1AY9IE3Tk=;
- b=oVczly8sePR3s3duE7P+4uNT72RxjAKYAKkF4EuQ6O/6i3gHPxpD8jkTRGoftXQCTtdREXCrQaJYEhVDUwyWuIPzEIItN4fjN61NFaZgMXKvb1CxEZsCO2rpwbW8Yo1VoLJKLr+aUdl0RdAfWar2vXo4/naHdzquJirUQ5n7UE8=
+ bh=D/Bdyndzcla1GmGf06qfQ4CIfG9ZrhA2pOhkF4w4RcI=;
+ b=QHhWeo5JdnCPYgnKYkkB4WTvB4iI0sk32s+d2dQqETr8PVjd5a633escMfpuCZ1RBQkUpAH+jC95L2t4yEY26qWRpru2M+T5XcUfeha5T9pAoJv5XqBONOTUnX8aWnzb9NpkCU4hZ7eTJuuBS2dyTIoiB/OxJ08upO7PH7L3UoY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS0PR12MB6461.namprd12.prod.outlook.com (2603:10b6:8:c7::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.21; Thu, 1 Sep
- 2022 07:46:21 +0000
+ by SJ0PR12MB7068.namprd12.prod.outlook.com (2603:10b6:a03:4ae::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Thu, 1 Sep
+ 2022 07:47:12 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::4524:eda6:873a:8f94]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::4524:eda6:873a:8f94%7]) with mapi id 15.20.5588.012; Thu, 1 Sep 2022
- 07:46:18 +0000
-Message-ID: <23cc241c-5710-895e-eb33-3f12ce8e865a@amd.com>
-Date: Thu, 1 Sep 2022 09:46:04 +0200
+ 07:47:11 +0000
+Message-ID: <fd3ceab5-585f-c814-5df6-408f25e96354@amd.com>
+Date: Thu, 1 Sep 2022 09:46:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v4 20/21] media: videobuf2: Stop using internal dma-buf
- lock
+Subject: Re: [PATCH v4 21/21] dma-buf: Remove obsoleted internal lock
 Content-Language: en-US
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -77,73 +76,73 @@ To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>
 References: <20220831153757.97381-1-dmitry.osipenko@collabora.com>
- <20220831153757.97381-21-dmitry.osipenko@collabora.com>
+ <20220831153757.97381-22-dmitry.osipenko@collabora.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220831153757.97381-21-dmitry.osipenko@collabora.com>
+In-Reply-To: <20220831153757.97381-22-dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0062.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:49::23) To BN8PR12MB3587.namprd12.prod.outlook.com
+X-ClientProxiedBy: AS9PR07CA0005.eurprd07.prod.outlook.com
+ (2603:10a6:20b:46c::28) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bd114ec9-afa8-42d0-86bf-08da8bee0e0c
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6461:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e46d7f8-95a1-43b4-ab5e-08da8bee2dac
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB7068:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HY7yeMjY4Da+bR91y3J01f9hYzkvgzrI9W1QEAGtrdocWAen0H+9fJbMmYFOX/CHE8Aij+4F3AIr9PJ92gFdHhtNJkb7oWCS6Z7o6DAMIQYeYzyca9gQUJse6tlrrOCfwATRkiPj5TIghVOOLkM7AEO6g3bnyQ+UXJ/hyO8UCS/8ZWk86ZjfWzEeKjRqfjndTDtMf5PaT6La6TgJzta6tWnafgcQFnc9+wvfZtk7MfCJvEhz42oinqObPNWX5pkIOnJPliScpUFgxGrmiLn3lK0sQhwX4JqiTG4SkrqobQ45KECtUIdge9b1e2h4cfDSI5CKe9mSajZJAgC4F0cR1IzX+saRoUO69tTZABH6mRQV1emvM75Q4fsW3e/PzwhDh96sbleurY1w+ONP8DCoKacd4iur6/ajnA542hCYo7iuBJfpA8tc+QKdLf1O1qbWvIbE5nV0KW9g2bGBqhq3bFe++urPvEb6pTLNZ7VQ6p3xJpf+L51/6UBCPjGbMplMcVSWuTdN5H8bnmUdz70iKdjWM8TON1k2vXkxmVeTQ1Qr0sfao7Xl+omVgcsyNJnA9qlVXpGrqrSIGp7LUYT7JDj1eiOgM3UXfSnOHHV0CkbRjOWhdHusT8RNpF/5eLVczQJYoSvGYYYzVPfu0wWP0nvSB8m9Jvilpag2wvud8T7AOtjX1oo522Xe6zdN9LdoDpt440ffN+WvN5rPygsbgrbC2P5N/Qq9BpoP838d4IMmwQJmP37G5J1ReMDci2Pop9suNfB4C2a6ItyZ4HnvXBjtkYPpK8i1+936I5FS0AjTPDhy3PCQgfrr1PGC0Moe
+X-Microsoft-Antispam-Message-Info: G04l9/jWR2wcOGf4mzqMHPpFHGj6dRta1rTvry398jlRnBYgTPPgoNz8A8LV0ejXK5MoD4hlKvziGfZzBoRm5M/bZieHhjEflISu4+0G6gwRA6pLSwNHVeI9i7xkm/83vIwgkX4JAxMZtP1JrbJ68hatX68KyIW8RquOYllAfmRLSpfX6p51SZqluLqPwlnV/7EH0GEEK+ctpGI5BdeQc+DNaUKB4TnnP/X7mTj0Gr71uME5l3BYDj+VN61qZOP7A2zlB3Vukl8CKeJC37mpFKIgaS7Byyhp3pOUTmK47BTC1slgYL6IKhdPHQ9vNW+JettpXcOLr8SxqBOoZvbHaybGsqhOmjMQEIjsMT49ReWhA50rqtjno44PAqnkNqOE0AQgBUQrgT7iQweyWQ/uN4Vst7yF4K42y799A1C1FRpPabOSSvd6OLAdO7jYjMfeA4s9ozYv+p8dljYzTqE0qa51VwcHKt60j5PaXTQW3g1cs9z/dBy0EK6KqJLJKdKKqbgrXXd5PeetxFrJkaGU17HYIbT0nSnourNArYUeNLdNcniSoX2U/WIraPjpplTssF5s+1kIWqe0XHPshBoZOiaGye24FCz7zgFFn+85tdaFt4+liBWJA6KOc6UnLka7tUJZPZ+aB5xdnqXAsVxpY1zXK2+ATj7P1WjOX5aZspcW2G1cWygdJSn93GUbQNemK3dPlVT5HkvizxfZ4Wyii+/DcM7EQxo4AIe6750du1PXToYDiDGezZv63xrcKlTf/rMSTNcEUlWRSK3ONJ66OK941P909SNWJy7MDeDj8a9LQRVfbvNJtDcm33nlKUxx
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(136003)(376002)(39860400002)(366004)(396003)(66476007)(38100700002)(186003)(2616005)(66574015)(4326008)(8936002)(66946007)(316002)(36756003)(83380400001)(7406005)(8676002)(110136005)(7416002)(31686004)(2906002)(66556008)(5660300002)(6512007)(6666004)(921005)(31696002)(86362001)(6506007)(41300700001)(478600001)(26005)(6486002)(45980500001)(43740500002);
+ SFS:(13230016)(4636009)(39860400002)(376002)(136003)(396003)(346002)(366004)(31686004)(316002)(110136005)(38100700002)(186003)(86362001)(921005)(31696002)(36756003)(2616005)(2906002)(83380400001)(6486002)(41300700001)(8676002)(66556008)(66476007)(66946007)(4326008)(478600001)(7416002)(6666004)(8936002)(7406005)(5660300002)(6506007)(66574015)(6512007)(26005)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d3ZlczRPaGNOd3hRV2pOdVNnUnVoak1pV0FJWnpIanFSNThFWENtbWVmemxi?=
- =?utf-8?B?Tk9tWkErK2ZuckVMZGp5NDVVZUpZcmxjVHJPSjF4QnhIWTBjT0NLYVIyS0or?=
- =?utf-8?B?TEtLVWtxTDJjbDFUdFpsaHo1MUdiR1RzY05TR1NmNENJTGhVOHlFb0NaaVJZ?=
- =?utf-8?B?YjNCK0ZnRjNya3ZvS0xkSGc4a1FHZTRZOERDVHlqZ3BYdDgrZ1pHMXVYckc3?=
- =?utf-8?B?NmFITlVTcnR4bHRucDZVbVFxbFlEcytRTDRKWHpjZjVvY280a2dDS0VqbmdR?=
- =?utf-8?B?OEhLSXc4OUYwWmUyanhRbVNqY0RPbU9ueUZDSEw0WVVGeHJiMWVoU05QTzNF?=
- =?utf-8?B?eHZqSFBLU2RyaTJ4T09wT2FUdzlLRkpXbnBFYWZiYmk0ZFRqR3VLMjg5ZFkv?=
- =?utf-8?B?alF6MHBuamp4a3htaG8xZUlmQ1lVTXhIcHB1STJXUWhoaXZ3bHBVNnFacTdt?=
- =?utf-8?B?a0o0S2pYRVpqRUxtTExXU0Izbktya2xoZWdRaS9TZzdTNjhrTi8ram1lWEda?=
- =?utf-8?B?TE5qM1R3M3pkcmxuMWlVZkpaU1p4L290Rk1lMDIyYURzUFNoZ0RRQm81aXd0?=
- =?utf-8?B?WU5UV1lNNVNsYWRJQTd3MkVWSUxobE1RNnhYTHEwTExERzdUUndGQzlZRlJ6?=
- =?utf-8?B?YVFPT0NlZ3VpT0RldFVFMjRISks0SFhqK2tSZ0dRYU9pMG5OMURxVHg2cm82?=
- =?utf-8?B?WS84ZSt3cGpYYVA4ZGVNMVRoZXlYdnBTOEhvcEV0blVoQUF5dTZHalVIZlU4?=
- =?utf-8?B?NVNWcEVpL0FWUlhSMExiU2xCRjlIZ2QrZUtOYmFIYnY0ZTE4L08yNjN6cnd6?=
- =?utf-8?B?T0dLU0luMUg5NTd1NEF6WUlWQkFYNEs0dFpVR0xCVTAzTzNCZjFNYzBWeUVU?=
- =?utf-8?B?U0MwcnQrRzEwMVovNFdiSEtHNmJSUE82bWt3bmxLa2ErY2hVLzFGMjV6T1lh?=
- =?utf-8?B?cytLT3FjWU8zU2VHRE1qZ2NYdDJXaXhtOHhYN1VyRnVaZ01oNU1NS0t3MmJO?=
- =?utf-8?B?MW5tTzNnV05YK3dtd1V0NDdSUmdPVUsyaHBYSzNLSkljMUprcWZRcWhxTnZ1?=
- =?utf-8?B?TU9Ranh6TU1uR3dFR2wyVk8yTkVoTTZsQnBxTUtGV09GV25PbVdORi95cEww?=
- =?utf-8?B?cklNYUZWYVluY2ZROUNYSXNEd2g4c3ZSblFIMktXUW5NZzFpL2NxbzJPQmhO?=
- =?utf-8?B?NzltRHRGc1ZsRi9QU05IMWVsWld2cEphUUZabXFSY1F0MzUvSGx4UnlXc3Zt?=
- =?utf-8?B?RUNnU3JpVHcvd3FVNXRCVzBTVVovRUZOVFA3MUIyalp6d1pGRTlTdSt3Qkp5?=
- =?utf-8?B?MThuV2ZHSlJad2tzdVV4VDBZSTdmM0FLY3duVklRaEZHR0kzZXB1NjA4OTB6?=
- =?utf-8?B?L0xSWHFqVDNlVXd6K0p1N3owUXFOejVpZmUwb1RjTmswanpjazF0MHNpc3hJ?=
- =?utf-8?B?OXhwNCtvYzJ3RXlJcTNHZUdJZmVwNHhPblFibnBHekowem5rOGVtVmZ3Uld4?=
- =?utf-8?B?MmpSWFFxa0xQUkxkZTBJSGM1c0FpTjZYcnJaSXVtRUlkUG0wS1VucFJETGdE?=
- =?utf-8?B?UlVQangxQytoYlZpWVJsandpendCRW1ZY0pIdG1kTGM4ZzdjL1g1Ris1N0pj?=
- =?utf-8?B?cWUvQk01MXJQOVRKNWdqcHFYdHRlL3ZsbTZYQllINFJTU2JXakNyVHBpeDQr?=
- =?utf-8?B?bEpQSGNMNUJmRUNCaU9tdk5KYkp1UUJodFI1TURGN3Vqc2tMTTVOK1lqYysv?=
- =?utf-8?B?Rll3dEpJTDJscWtNYk9rZmp6aDM2NDFrM1k1N256K0liQ3VNZjFvN1VrTzF3?=
- =?utf-8?B?akY2d2doUVZKQU1mNVZmRmdzTEdESGQyN3F5QXlGVWlVMlpyUmFQUFc0SjJv?=
- =?utf-8?B?bTNKM1BCZWNMYzBnR2JQdVBpaWV3a2tNQXVPdGRRdzJ2MTY5Y3A4ZEVIOTRh?=
- =?utf-8?B?ZUkweHlwV1pPeDVNWk10Z0RTeEVsLzhuekt6MlZNSHF1UGV3bGEwSWRIYTRN?=
- =?utf-8?B?eTJJa1VTU21CaTBSQ2FFU2JvU3F3NW84YXYyNmMzMFdmTkZPdWY5aEdKVWZT?=
- =?utf-8?B?NkptSmxCTktvenVFMUN6RkdoRU1zRTJPUGg0c1JQMTQwdGUxM2M1ZkxocHZY?=
- =?utf-8?Q?H1eB4HsNweQWCW0HB70BzFWI8?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YzNjYVh3bjRSREJWbkcwTTY2UFJ6UFptZExGRldSanB4RXhncGkxTEtuUHNk?=
+ =?utf-8?B?UXBzVGNoUC9xVHE5TGZYa0RwbGE0cFcrcmUwamhHd1llMkVHTkMyQktGOGhh?=
+ =?utf-8?B?aHpBVkl3U0FyVGpUc0pZK2Ywa3lOaTgyckZIMUtlQXBXTjh5NkpwbkdHendZ?=
+ =?utf-8?B?UVE2b0hVK2FTUVEvWEUwVVR6b0FqNERHVjlnNVAzNmNKNnlkMzB3di9iTFRi?=
+ =?utf-8?B?SDE2eFhpYmIzZEdGUFBYYjh2ZVBZcnJLNFlFMDlzYk9aNkhzY2N4SmxCQU1X?=
+ =?utf-8?B?cXJYSTl0ZzBFSS9nU0w0bnBPQzlPMkczVXRDZDR0dkJ6L3F1ZW5sRE02a3p0?=
+ =?utf-8?B?WHJkTGF2QktuVnFKK21LV09CK050dW56d0o3c21qMWRGVnFvenhnMG1vVURr?=
+ =?utf-8?B?bWwwYTBTc3VaeUUwVGNmZThCR3NQQXd6S3I0bEMrbVFMSENpSzhEZWZ4MGkr?=
+ =?utf-8?B?UStYVStBbVo2elBnbEFTQllxdFFoRDNQWFNDL0lYSm9JclpzSnFncUZSSDRR?=
+ =?utf-8?B?SkxNSTg4eThlTjVuQXRTZzR6cERSTDZwR1FqZTJCYnV0MWdtb0Frc3JIdlh4?=
+ =?utf-8?B?WHB3cHFIb0NCK3EwMWxMRWppWmdoMU14eDNvTWxZdXNjMG9tbkVoNHIwRXFK?=
+ =?utf-8?B?eW9od2hXT2hXNU5yUVhEVFpVNEFoYVI3ZC91MEdrMlUxc0hIUHg2VDhDRTMy?=
+ =?utf-8?B?NjJpTmhNdDFUaXQxYVN5WnZUNkVIcFpLUjRVYlY5cmpMazd0QUZSYjhqek1j?=
+ =?utf-8?B?MkxlUHBFbDFhclpVU3JIb2NtRjg4bzBYNUVJSW5pUEFKWExuTUpGb3h1SjZo?=
+ =?utf-8?B?VDlwNnE3MlhuRGJqdUdxb3dsWmMvME5tQlBZbjByQlRTVkh2U2g3U0t3Q0ht?=
+ =?utf-8?B?R0FFV2VwQ0RyVFlVclRaRk9FM0l6MTRuTWFYRldqYWNwYnRwLzRIdGp4QW9v?=
+ =?utf-8?B?d1Y5Sms4VHdmK2J0ZmgxWUxERGZjS0ZIczAxN2l5dkE2Z2s2Q0I5dEJlYjh3?=
+ =?utf-8?B?YWhVYWNpZmwrdWhWbUJUTGwrSWYvN1IwcFAwUi9jMlgrZko2cTF1WUhITXR3?=
+ =?utf-8?B?SkRNbXJrUEZFZVZ1bitveVA3U2RhOWhZZTFOV2YwdmtjY0dwUVFhRTd3MGdG?=
+ =?utf-8?B?bk52Uk9nTGJZdW9ZaDVHUUx3NGdkNlFWbzQrTmZsMFNyaTlXZDk1SUVlSXcr?=
+ =?utf-8?B?dklUSXh6aHF5bnp4bEROdnJUWjhQd2RZdVZzQ29iOHprK003aEVUVzY5dHo0?=
+ =?utf-8?B?U2gvazlUWkdxSi9wSFY2UFFnZTBRbVJnVHJPOXlBRjZ3NHNCQnc4cDk1OUZS?=
+ =?utf-8?B?b2dzQnVRYmZaTlhXTldqaGE5WHpkcXhvem0wQWRzZVVod0xHbGI4V0g2b3Fh?=
+ =?utf-8?B?aXpoTysrcjZVcWx6TCtvU1hZcWNMWW5uVytuM0JCVmFPTzZxVFlNWmZDTEFS?=
+ =?utf-8?B?dGZ4VENoQWpJY2sraDBUTzY3QnVzYXloNm5sTGI3Qkx4N3ZuWVo5SEVCdXFV?=
+ =?utf-8?B?dmV0NUtQMmp2Mk5GMTNadW9VMGNwZS9NQ2hRV1k5dFpxTHcvZDEwcXNuRVI5?=
+ =?utf-8?B?bld4a2c2WFdIUnhWcmtPd09Yay9UL1ZXclhGN256ajZrV3pUbGk5YmgrTzVE?=
+ =?utf-8?B?aXpUOGdDVUg3M1hoaExhOWhCK3lGV2ptaDdwbFh2VGpIL2pGSjJyS3gzaEsr?=
+ =?utf-8?B?emRoSjZvRnlqS3hGVm12N3BNVnc2TnY0S0RKRURraEhrSFZ5blpYcTVaOXdJ?=
+ =?utf-8?B?bDVvZ0hJR1YzeGJIWmphMkFZZEJWenUrSWRidzExTkdranFuS09DbzdYVTEr?=
+ =?utf-8?B?akRVQ1oxZHplaEQyMyt5T05aYi93UXl2QThnVmNWZWR4c3hDVmxYdEF1TThu?=
+ =?utf-8?B?cklyeGVlRkFxOGxWSUZpdzdFQXdkWkQ1ekRnWldwaE52WFFVdFNYNEFadkQ3?=
+ =?utf-8?B?RGgvM2pONEsrT1BDMHdsOVk3V2R4WFZLeWk4eWhWSk9RYXRrbUt3RlVvcjd6?=
+ =?utf-8?B?R1FrN2laaXl1VW00SGh1WWl0NEZHOS96VFNoZjZWRnpPajJrNnNBUnhsdk9V?=
+ =?utf-8?B?UHQrLzg0TlhUVXZDbTFGV2Z4cHBOaUtzMWhpdXkzbVE2RllXUktsOWl1OWhH?=
+ =?utf-8?Q?O/rAMylHuTAEoHWME4UOlIt3n?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd114ec9-afa8-42d0-86bf-08da8bee0e0c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e46d7f8-95a1-43b4-ab5e-08da8bee2dac
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2022 07:46:18.5369 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2022 07:47:11.3301 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pLxtFJx0qx+lCPScLqVYvHbiuZEbwwFcWElc/PZZ8hTRYZ0m2hwf5oPEikT89ypv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6461
+X-MS-Exchange-CrossTenant-UserPrincipalName: uf0HmlRAio7B1t1ZrPjLhQVBm0H/97h+pRNX+q/ypQEEyT+GZrbM4JEDfPR+jfau
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7068
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,139 +165,106 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am 31.08.22 um 17:37 schrieb Dmitry Osipenko:
-> All drivers that use dma-bufs have been moved to the updated locking
-> specification and now dma-buf reservation is guaranteed to be locked
-> by importers during the mapping operations. There is no need to take
-> the internal dma-buf lock anymore. Remove locking from the videobuf2
-> memory allocators.
+> The internal dma-buf lock isn't needed anymore because the updated
+> locking specification claims that dma-buf reservation must be locked
+> by importers, and thus, the internal data is already protected by the
+> reservation lock. Remove the obsoleted internal lock.
 >
-> Acked-by: Tomasz Figa <tfiga@chromium.org>
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Acked-by: Christian König <christian.koenig@amd.com>
 > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Acked-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
 > ---
->   drivers/media/common/videobuf2/videobuf2-dma-contig.c | 11 +----------
->   drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 11 +----------
->   drivers/media/common/videobuf2/videobuf2-vmalloc.c    | 11 +----------
->   3 files changed, 3 insertions(+), 30 deletions(-)
+>   drivers/dma-buf/dma-buf.c | 14 ++++----------
+>   include/linux/dma-buf.h   |  9 ---------
+>   2 files changed, 4 insertions(+), 19 deletions(-)
 >
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> index 79f4d8301fbb..555bd40fa472 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -382,18 +382,12 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
->   	struct dma_buf_attachment *db_attach, enum dma_data_direction dma_dir)
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 97ce884fad76..772fdd9eeed8 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -656,7 +656,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>   
+>   	dmabuf->file = file;
+>   
+> -	mutex_init(&dmabuf->lock);
+>   	INIT_LIST_HEAD(&dmabuf->attachments);
+>   
+>   	mutex_lock(&db_list.lock);
+> @@ -1502,7 +1501,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
+>   int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
 >   {
->   	struct vb2_dc_attachment *attach = db_attach->priv;
-> -	/* stealing dmabuf mutex to serialize map/unmap operations */
-> -	struct mutex *lock = &db_attach->dmabuf->lock;
->   	struct sg_table *sgt;
+>   	struct iosys_map ptr;
+> -	int ret = 0;
+> +	int ret;
 >   
-> -	mutex_lock(lock);
-> -
->   	sgt = &attach->sgt;
->   	/* return previously mapped sg table */
-> -	if (attach->dma_dir == dma_dir) {
-> -		mutex_unlock(lock);
-> +	if (attach->dma_dir == dma_dir)
->   		return sgt;
-> -	}
+>   	iosys_map_clear(map);
 >   
->   	/* release any previous cache */
->   	if (attach->dma_dir != DMA_NONE) {
-> @@ -409,14 +403,11 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
->   	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
->   			    DMA_ATTR_SKIP_CPU_SYNC)) {
->   		pr_err("failed to map scatterlist\n");
-> -		mutex_unlock(lock);
->   		return ERR_PTR(-EIO);
+> @@ -1514,28 +1513,25 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
+>   	if (!dmabuf->ops->vmap)
+>   		return -EINVAL;
+>   
+> -	mutex_lock(&dmabuf->lock);
+>   	if (dmabuf->vmapping_counter) {
+>   		dmabuf->vmapping_counter++;
+>   		BUG_ON(iosys_map_is_null(&dmabuf->vmap_ptr));
+>   		*map = dmabuf->vmap_ptr;
+> -		goto out_unlock;
+> +		return 0;
 >   	}
 >   
->   	attach->dma_dir = dma_dir;
+>   	BUG_ON(iosys_map_is_set(&dmabuf->vmap_ptr));
 >   
-> -	mutex_unlock(lock);
-> -
->   	return sgt;
+>   	ret = dmabuf->ops->vmap(dmabuf, &ptr);
+>   	if (WARN_ON_ONCE(ret))
+> -		goto out_unlock;
+> +		return ret;
+>   
+>   	dmabuf->vmap_ptr = ptr;
+>   	dmabuf->vmapping_counter = 1;
+>   
+>   	*map = dmabuf->vmap_ptr;
+>   
+> -out_unlock:
+> -	mutex_unlock(&dmabuf->lock);
+> -	return ret;
+> +	return 0;
 >   }
+>   EXPORT_SYMBOL_NS_GPL(dma_buf_vmap, DMA_BUF);
 >   
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index 36ecdea8d707..36981a5b5c53 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -424,18 +424,12 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
->   	struct dma_buf_attachment *db_attach, enum dma_data_direction dma_dir)
->   {
->   	struct vb2_dma_sg_attachment *attach = db_attach->priv;
-> -	/* stealing dmabuf mutex to serialize map/unmap operations */
-> -	struct mutex *lock = &db_attach->dmabuf->lock;
->   	struct sg_table *sgt;
+> @@ -1577,13 +1573,11 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
+>   	BUG_ON(dmabuf->vmapping_counter == 0);
+>   	BUG_ON(!iosys_map_is_equal(&dmabuf->vmap_ptr, map));
 >   
-> -	mutex_lock(lock);
-> -
->   	sgt = &attach->sgt;
->   	/* return previously mapped sg table */
-> -	if (attach->dma_dir == dma_dir) {
-> -		mutex_unlock(lock);
-> +	if (attach->dma_dir == dma_dir)
->   		return sgt;
-> -	}
->   
->   	/* release any previous cache */
->   	if (attach->dma_dir != DMA_NONE) {
-> @@ -446,14 +440,11 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
->   	/* mapping to the client with new direction */
->   	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
->   		pr_err("failed to map scatterlist\n");
-> -		mutex_unlock(lock);
->   		return ERR_PTR(-EIO);
+> -	mutex_lock(&dmabuf->lock);
+>   	if (--dmabuf->vmapping_counter == 0) {
+>   		if (dmabuf->ops->vunmap)
+>   			dmabuf->ops->vunmap(dmabuf, map);
+>   		iosys_map_clear(&dmabuf->vmap_ptr);
 >   	}
->   
->   	attach->dma_dir = dma_dir;
->   
-> -	mutex_unlock(lock);
-> -
->   	return sgt;
+> -	mutex_unlock(&dmabuf->lock);
 >   }
+>   EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap, DMA_BUF);
 >   
-> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> index 7831bf545874..41db707e43a4 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> @@ -267,18 +267,12 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
->   	struct dma_buf_attachment *db_attach, enum dma_data_direction dma_dir)
->   {
->   	struct vb2_vmalloc_attachment *attach = db_attach->priv;
-> -	/* stealing dmabuf mutex to serialize map/unmap operations */
-> -	struct mutex *lock = &db_attach->dmabuf->lock;
->   	struct sg_table *sgt;
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index f11b5bbc2f37..6fa8d4e29719 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -326,15 +326,6 @@ struct dma_buf {
+>   	/** @ops: dma_buf_ops associated with this buffer object. */
+>   	const struct dma_buf_ops *ops;
 >   
-> -	mutex_lock(lock);
+> -	/**
+> -	 * @lock:
+> -	 *
+> -	 * Used internally to serialize list manipulation, attach/detach and
+> -	 * vmap/unmap. Note that in many cases this is superseeded by
+> -	 * dma_resv_lock() on @resv.
+> -	 */
+> -	struct mutex lock;
 > -
->   	sgt = &attach->sgt;
->   	/* return previously mapped sg table */
-> -	if (attach->dma_dir == dma_dir) {
-> -		mutex_unlock(lock);
-> +	if (attach->dma_dir == dma_dir)
->   		return sgt;
-> -	}
->   
->   	/* release any previous cache */
->   	if (attach->dma_dir != DMA_NONE) {
-> @@ -289,14 +283,11 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
->   	/* mapping to the client with new direction */
->   	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
->   		pr_err("failed to map scatterlist\n");
-> -		mutex_unlock(lock);
->   		return ERR_PTR(-EIO);
->   	}
->   
->   	attach->dma_dir = dma_dir;
->   
-> -	mutex_unlock(lock);
-> -
->   	return sgt;
->   }
->   
+>   	/**
+>   	 * @vmapping_counter:
+>   	 *
 
