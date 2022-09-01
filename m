@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B6F5A8F5F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 09:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68495A8F95
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 09:16:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E541810E5F7;
-	Thu,  1 Sep 2022 07:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2CA110E5EE;
+	Thu,  1 Sep 2022 07:16:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2057.outbound.protection.outlook.com [40.107.243.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ECC710E5EA;
- Thu,  1 Sep 2022 07:08:52 +0000 (UTC)
+ (mail-dm6nam12on2072.outbound.protection.outlook.com [40.107.243.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D53D910E5EE;
+ Thu,  1 Sep 2022 07:16:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ql/KZU/ARogmc3djY7zEHYdjTsEqbz8aJy++asQ6RR17I1KklOYnATOIM5RRI229ggZke5AmEOmzxnOmrUvDPvrlEWSXY6V2M1OcCv7HznMvPQClrPJtQk2wX9H5kqdw03gU+sIZ/aYosmwQBxdBrBXn2Gx84y0/jyu3bWFbCcJpq05tUElppOScz8xUMrivpGNlUcioumEGS8DVLp42g5M28TIoBBMtFjuvhtfzMAmm/+u4PXzwl1Ifyu7OlmVAYCWXbL8Bxfks/JEW0FjxF7vacozpYgzosWAxeLsnYcgHvrI8vaDeyc77IwE41Qg4lpXJ3BoJRdMi1VS8ie4MJg==
+ b=C7FWfhsNIwuOy3OT430mYaGey6sF8Vu5uEaDtfN1ZjawwylmzfN73TkMV4zrqYXYmL0q96pwqkHSUuYqU+IMKhBSOn3IQ3E4eluFz3k+kJP3mvQvjPGthlcHwjfvF4SvuPsw7QV/Mxn3BuoRVx9j5L3A4y3F4lOhAHKHKRIoapJi4cDhule0jB8nMGTtrKzYgH7onq0pYi1DeoQz75UeP+cHAheeZjtFdxXLMfpYylAgWnlAgLKaVzwY9MRAXgbdGSFUPFSvioX5PD/A5a4dbrdJ8b/EThSK+kktS19t4QkgoDP2nKnmsx7AFyVCMbLgcA2e9Eb6bp1AQbR72xYamA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dYrS77+HQPJHoGzaw8g5OgzEBMpUsCYp7gFxAxTLWuk=;
- b=hWeM6gBbr/S1fwMI1sIomm/5U8ws/75v5ILUZeDLK661R2cf1PELBZDbaqU07vxJNEXnTV6f0G+uYbmEaWj8NBgKimQ2dGFmzuNV7UrzhKR52WenktWrcFQlugPWOBon5eq/+fcXefXvbZccrmRB61Mzlt+Wqny7TE4omew6LRyPLmmglASr1Xuj3A7d9idS9T+zLUX70NR2LY1HAljhG7StjGeLwJXWsalLGg3PuaKph7580888K9DX6Lwo352IM9Rhw+0S/uuHq+ZKlkmt8aTzGLnGWwL1MNG+SGeyyIIARdJIS/V9J3zFpqwLTPVwC/SEFY2orCNgsWmMhIXpiQ==
+ bh=NHLVt8A/betNG8SaQLcMk/gr0EGqztrxEPR0r60twJk=;
+ b=K98IkF/UVErQl1bxJO17OG1G3BL2n4TR46E8bahAnqMJ2XhqYVCQNsWU7j+kEV3BVw7Be+NK9U0JCBG8azwKxQnpaIkaOyNh1WAwK21t6yWcDmStM2/Ub9yh7at4js2hatO+k58NGRPwQHefQzX9RGC0al4gPq7SSA0DeI1Kzyk/tDgsoa/6FDp2vS0/bmhMfzRzZM+3cuGwtfZaEUGAnhvE+lJliiGCmxQUc5WEdar5VCLJSnl8mez9KjxQ+2Hi0V2H00UcJGGyYZ0Na3r1eqRfEKGWEhg4AdXqxgn9Tj001YOjZTF3nRDK2rGYtmXFP3clr0uMSgM+POEeP0TnDQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dYrS77+HQPJHoGzaw8g5OgzEBMpUsCYp7gFxAxTLWuk=;
- b=m9ukBm8VR0C+D8Ryqo4p+ZlcAg9mBaDAczVNLu54bCUZCPRMEt8A05MsXLVr5uC4nW/adh+pR6ODmFCL4Iy/A3aUhjyO44q7rkM3Kk9a6HEjTr5rp/K2Gdh+/LaZ+AbR2tr3eRSzXNPINcz8jOadJ+s7O8Umgqc8r78bwHIzlFw=
+ bh=NHLVt8A/betNG8SaQLcMk/gr0EGqztrxEPR0r60twJk=;
+ b=WoSPa4NKSM+sNNoVSdwEiaNK3CYxWcJM8VyLXLT/1fUeGc8nLV6z6hqveZ/Z6jzaTIFgXD1G85X61HeMqMolDmQjS2jBFPljYyTbStfB1dKRAxY3nex415jYHMIdge6xGHzxdaLd1f5jcFsr7voeme/zkSCkzsz2CUmEqxZLOoY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
- by CH0PR12MB5388.namprd12.prod.outlook.com (2603:10b6:610:d7::15)
+ by BL3PR12MB6547.namprd12.prod.outlook.com (2603:10b6:208:38e::6)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.11; Thu, 1 Sep
- 2022 07:08:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Thu, 1 Sep
+ 2022 07:16:44 +0000
 Received: from BYAPR12MB3589.namprd12.prod.outlook.com
  ([fe80::a997:c7f:aea0:764a]) by BYAPR12MB3589.namprd12.prod.outlook.com
  ([fe80::a997:c7f:aea0:764a%4]) with mapi id 15.20.5566.021; Thu, 1 Sep 2022
- 07:08:50 +0000
-Message-ID: <12ad2b83-212b-8a7d-e10f-32543024974b@amd.com>
-Date: Thu, 1 Sep 2022 09:08:34 +0200
+ 07:16:43 +0000
+Message-ID: <192b9a30-6f15-3702-c679-c3f26b76c9ef@amd.com>
+Date: Thu, 1 Sep 2022 09:16:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v4 17/21] dma-buf: Move dma_buf_map_attachment() to
- dynamic locking specification
+Subject: Re: [PATCH v4 19/21] dma-buf: Document dynamic locking convention
 Content-Language: en-US
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -77,73 +76,73 @@ To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>
 References: <20220831153757.97381-1-dmitry.osipenko@collabora.com>
- <20220831153757.97381-18-dmitry.osipenko@collabora.com>
+ <20220831153757.97381-20-dmitry.osipenko@collabora.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220831153757.97381-18-dmitry.osipenko@collabora.com>
+In-Reply-To: <20220831153757.97381-20-dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P195CA0014.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:209:81::27) To BYAPR12MB3589.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM6PR05CA0009.eurprd05.prod.outlook.com
+ (2603:10a6:20b:2e::22) To BYAPR12MB3589.namprd12.prod.outlook.com
  (2603:10b6:a03:df::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fa757217-b21b-42f1-4e0f-08da8be8d1e3
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5388:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5e18351-2cd4-41b9-f3c2-08da8be9ec5b
+X-MS-TrafficTypeDiagnostic: BL3PR12MB6547:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kQPZTLmke1dWgktwLEcxUjzQPs+7LTz66Nq2Vdt7Q+AS35p1lIzXr+s7DI5jd9ctfAul+KTseKPYw8t4DyhAlCbxopHZxjtfKCAgW9cfH/E6kZLoSIyWteJAT1ol2lrRKL3bRRxIzING/d9vqSffRIdexxPi/XAZ4BJgYnv1RvXiUBkSJ6jtJdTBRUfVX9Oj6ced5kBMbL4oOS5n3JYMw3LJgIa3t0VAEL7yVnWid+7Cioru2GBPXPhYvTjVuebdZ2xsUaDcRdLwIIrnzwPweEn3Q08uNNW31mX6QskY62BWmPGwAuSztm5HOGHrBzZk8TWqZnDk7geNgLH4TfYZ/6rYOIWdkAFcKINYtNxlH0srUvkvwVA6C8T9c2jRHX66QrCI1iyYA2sDZgzpp2GhXvIpuZ3TeVF67a/vpZlihGvIBHdBtwFQJvkugeBXvYopYMsfcQp9kvN3D0TEVruit+MezAIpWoq1Zg1OD7ql+34xcd+ZpuJ12/faExGzUB/2jDT1k+TFxD9zyb0vUtLaJURfptm+/9W3jJFMNJI0Ev6W3zxhIU3l/htI36breAsch7k8nYErFTk/ql+C+w7k9UoiHhHvMGygGA2uE5wHWOwPbpRD5S+PIoeETdjg9IvwVdYAMnPNoh4QLEEbYDK1kUnEsMf4ZXrXoffsZV5zfu0akFxIyixI9oEnMGj0GMLi4htG6e8WF5vkLXkc+gQMz8Ez6dxyQHaJ7K/v20oauOodSJs3MoDDuzTKnRnE1MZnCP3Eixq0RAno1z4Xb5sd8ia9Ndk2+bvjlNUMp328bxvAZaQ4F79WuFA3s9zQho5/
+X-Microsoft-Antispam-Message-Info: 4AArAxg4nVDu1rhkdi0sNgfrkQsWv+kLvK2ItSwhgIFNzvFeRMASaBVoRGVxBONS745plw8B7i0cnajmxceI/9/O+b3BSSb6ERlL02JLrCNEl++PdQyqxWBFXfREO1y5N5qqtoWKs4s1NlJdOjE/breaBH2RfCQjZnJhUoEka7PcJ+xcMkdoT3D6l/jRRmMcrJd5Sz1Zzme0poH7NokTYcuvgaDitYpkM8rGBLykUW3iBzwrdmYvEvEbMbqw+hBDupzxPuzkjNwcdhwbXPQj0SFslYtIAxcQZQNjDw7Qv7BeSovaOAx6E2eu3LAY4BkA9/NxU9MGtduw45bRVfUmXMHl5ZXPfNfmQxQ0uODW+N6CGT63KjhZnw0Au3nvBTKZnFZwBagO3wuJXt6QIgrm/sgVk543QU/gVjE2pBzFJ3G7Dlf/RaekCRWq6OQMUSJm24Z/CQMTxNqgme5ohCe3CfgeeJbkfkoWibkS6R2GioAn8P3XcqMTxy4gGm8249WNTp7V+2JliOZ2TlVBiByK+uyD+tq0JexBmta9HGbaWutqDBTIyTGcapvwwroLY9gklWM7i7Q+2kX0t2xgEYzHgt9mOn8Bsxf/8zQHew8wkh3TK18AoAix1okNy1wFik0V1WNpkVW7bYPUm3vyPJMwcLWxchRwNp7gG2LS99ycTp2CHZ1kiaGd35lRO7jUd37o0B9MWmXi5UJXdbNpUrNYHH5qhZv2yraTgWK7yGHw6MuCxwXLzahX8vKE4aHxh1rHb4qWLKoOJCW/BVCQqjEnRNSNiGPuDl6uPzuPvk8sT3QpA4kFoXWlp+mQhXRgXbrY
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(346002)(376002)(136003)(39860400002)(366004)(83380400001)(38100700002)(66556008)(110136005)(316002)(66476007)(4326008)(8676002)(66946007)(478600001)(36756003)(6486002)(31686004)(6666004)(5660300002)(8936002)(41300700001)(921005)(31696002)(86362001)(2616005)(66574015)(186003)(7416002)(7406005)(26005)(6506007)(2906002)(6512007)(45980500001)(43740500002);
+ SFS:(13230016)(4636009)(136003)(346002)(376002)(366004)(39860400002)(396003)(7416002)(66556008)(66946007)(8676002)(4326008)(31686004)(921005)(66574015)(66476007)(36756003)(186003)(5660300002)(2906002)(8936002)(7406005)(316002)(110136005)(6486002)(478600001)(6666004)(41300700001)(6512007)(2616005)(6506007)(31696002)(26005)(38100700002)(83380400001)(86362001)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TkFhcTc0Q05IN0lFTjRFZDFPcHZyZTdBR0l2OWoxTEJWMHgxdHZEMTZYdzFh?=
- =?utf-8?B?N1d6SGRTeHZiV1pqd3l1dlJsK2pCM3FqcGNEM1NOOExPSVlJbENmMVVkOEZ3?=
- =?utf-8?B?Zm1DUitDMVVQNXVkUWIxU2NWajNwNjArUXlscFlWT2FIVFdTK1p6R0RwSkh0?=
- =?utf-8?B?OWo1cFY2Z3ovWXdBZ2NTSHd0TkFYaGNZTVl6dCtYcEx6LzArWGtBQmlPQlJh?=
- =?utf-8?B?dVN1QjJOb2w0WDNGN2ZUSzRrUjR3YjYzbTY5SDNzWHhaRFlsa2Fqd3MyMmZU?=
- =?utf-8?B?K21qWG5iMDBEQ2pUVkFNcnhod0c0QWtXMytFRUVab0h2ZURMcTIvNElDYkRi?=
- =?utf-8?B?NXpGclB2M2hmZlVGajY2Z2lKdW5xajVKQ2p0K2VZdFFXVVc0UjNYUm1ZNldq?=
- =?utf-8?B?eEhoNG0yMnlZK0E5dys1cENjS0l2S0xVdGtONnBEL09VKzNLM2p5WEtWRVpX?=
- =?utf-8?B?Qi9aL1V6aVh2ODVpYkNQS2ZJSXR5L1F5NU1LMDBhbzVNMFRsM2E1Y1N0MjVV?=
- =?utf-8?B?WTF2clE1TU9KaVFJcGJxZVJsMTM0NU1Fb0N5KytaeUxQN2ZWSmw0RTZacmZw?=
- =?utf-8?B?bklCZm1xWVdQbEpVSW1rYnYveW9DUDl2VTdrdHVKMXlQR3FmSjVjYnBYdkh3?=
- =?utf-8?B?ZU9helMzQldPQnpVTnJUSEU5aWpMZjBDaThZdjI0K3htb2RacVY1eitTS24w?=
- =?utf-8?B?NjdIMzNZZGJOUTJRZ2pIUkl4MVRLM1RSdWtUTkwxL04rUFgzbEowNW1zVEtT?=
- =?utf-8?B?ajJhTS80dkhuUDdoQ0tFWGF6RFd3V0VaWGJSUzBQMVA2QXI1MlIvZlJMVkgw?=
- =?utf-8?B?S1huSk1Xcit0Y01XRmZmOHc0bTVwQXJ4RmZkZFgzSFc2Zk9WTU44QVM2Z1k5?=
- =?utf-8?B?U2xHWU1lVTc4T2tPN3pGaGdBeWlyLyt1SjFEckdZVGlTMmsxd08yam0wV1pB?=
- =?utf-8?B?THE3UzRKYmEzWmw1OG1JWjA3NnUvSGgvSWIwNGlIZ2F5ZGVjUVZrK1ZkdzhG?=
- =?utf-8?B?OEFYL0ZSL05sYjF0NVRiNFhYVjR3c3Frcm9SYmdhOGV4a05oUEVQdVdiQVFF?=
- =?utf-8?B?RXhGQXd1OUdTTWd3Y2hrTHlxRVVkY0h5dG5tcUdLUFlINkNWZ3Zpd1pqWWFt?=
- =?utf-8?B?dnk2QWx3dG9naVVIK2k1K3VxdHc1UjhMTUxsY0RJTElhVUhuekE4dGxzaE5h?=
- =?utf-8?B?RjZ4VHFQeHBoVDRTS1MwbXJnZGVLZTlhb0p4L3JqanJlQ2tSUmttSmo0MGNU?=
- =?utf-8?B?cFJDdGpHSHRHcFRFQmRpYlRxdmFBajNBZHo0aVRYeEtwYkpQWmlsblNsTkJG?=
- =?utf-8?B?bTh3djlwWUZWS3pHTzBlUkJLdjV3cENvK21yZmtQZmQ1OG50K0M2TXBzMWNh?=
- =?utf-8?B?NmtBY001S0NYNG0yM2t3SlYwNTJTWHhDQ0lVVm5sRnlIVDBEMEJEZkJuZElN?=
- =?utf-8?B?SmpJSG9uZi81Z25oeEJVSWZNeWh5d3RtWFBXdWUwUnNZY0JxNTc1WmNwdG5w?=
- =?utf-8?B?YmdQRkkxbWR2TXZueXlhQWt0QWNlZGpEQ1BpU21wMThnSzB0ckhiTUhUaHhM?=
- =?utf-8?B?REtnZjFBRmhXRVBheFlNUlMwem9qTXk4RlpWbER6aVdZSnNEVmp4cUlrc0dt?=
- =?utf-8?B?QzlQQjVpUmFONThLQ3ZYaEIyUHMyQnkzcWQ5RW9oL0IzNHhXOW4xU2hZcW1E?=
- =?utf-8?B?V1BERXlWZ2NwbmlUWDQ1MmhaRDZWeVRNTkRPdXJvWlJ1SUc2QTcwakEzNFhu?=
- =?utf-8?B?OTYwaWw2ZGRNdTNUOGlTaXVmR2xiaVA3QjU1allidzMzUG91WjdEREFZYzlx?=
- =?utf-8?B?WjhVNWVyN2lSaE1LWnlYbFp0OEZBWmY4VjJacUs0QU9EckdHSkRIcnA0TXdv?=
- =?utf-8?B?THpTME5SMFpXb1hnR3ZQRXdCOERlYUVnenh5ZU9rMk5WYjNPaWN2YS8rM201?=
- =?utf-8?B?bisvK2dFclArcHpqd3BvbW9obkwrcEpRL2J2TEVqb2FmNDlrRGZuZDhjbVgv?=
- =?utf-8?B?Yk93bzFyZTllc3NPMmhNQVVkTUhaaTFWTnVEOEhOUVlocDhFd3owMmlFUkJV?=
- =?utf-8?B?YThqd0RIV1lQVStPZjVGMElZWStIdUxFREpDd21kb2ZEekdWSEpwS1JiMU9L?=
- =?utf-8?Q?bFgm42R3SB4hj52xAJ+fG8iDp?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnNkL1Y0YnBRM2FRSEFSUEFKSXFBdys5ZmxROHNtYXo5ZFgyZ0hXVEI2a1RC?=
+ =?utf-8?B?eDdJbWhReVdmUHo1VWVVY2QzY3pFYU1WRnF5S0t3MnpEak1jT1BLZlgxSEVs?=
+ =?utf-8?B?a1hBcmJwbS9FTlZRMktsVkhnQXA3Ulk5VEVuanFlZDdVaWxDZXNPZkZaSVpa?=
+ =?utf-8?B?ZDRJZngrTTArLzUyOVc5K25vc1NUVmZKUWZLdXhkMnNHU1lvLzNWcnN5OWhx?=
+ =?utf-8?B?TEJ6a2JYYlIxUkdwM1ZyTHVmeVJYWjhTejdWdFFBcndDUFg0ZmVzVEh6elc0?=
+ =?utf-8?B?WVlxV3lGWjJqLzlsd1ZCdkxwUUZkcnJpYTJqd29SRXpKQUthVWJRNmJVZVlC?=
+ =?utf-8?B?WHAvVkw5cEVvbUR6ejM5U1l1SDBvQzFHeFFOUjdMajFXb1VQZUtNM3NDRU9F?=
+ =?utf-8?B?ekdNSk1qemZoK05kQytYamsyTitrZEFvakxFcGc0YlpRR1RlY296ZzNDaURi?=
+ =?utf-8?B?bC9TbDBqTG00WXAwUzRqNmxodjhTWVowd0crTzZjV0l6bmh0UWZ6N0FSSUtq?=
+ =?utf-8?B?UUs3eXM5YjFOU2FwQWM1NldYdlNhc0FPTFRuQ3lMQzR6VjJjdzJmZmxUV3Nu?=
+ =?utf-8?B?ajRvYWlhY3VIZ1hQRThIaEhYNGVBc3JIT0twZjdFUnIvTTViSmE3VlVDOENS?=
+ =?utf-8?B?UFQ5TmRrVXZ2a2tiaXkrUkJ5R2diZUF0YlZkMGRFL3dpaktnMnBOaVBUUS9s?=
+ =?utf-8?B?TER5RVlFOHMyU25JT0RHVjJzZWloTm1ISHpSNGVFQXN6eUhxWFY2OFBucUhL?=
+ =?utf-8?B?SllJV3V6QnFHOHVaZWhaSmJLblNlNkpKNDlmcTdNWnpieldDQkJHQ3RrUkdK?=
+ =?utf-8?B?dDFFU0tEbzlScnFGZlNMYjRrT1ZsMEczNVh2UjAzNVdrclJaRzJ3UmdySUsz?=
+ =?utf-8?B?bTBEQWd1UGNXakJxSWY5WTRIVjBpcDljWStFMzZMcDZPajBxYWR1VGtRblhh?=
+ =?utf-8?B?Wlo0ZE9XWVUveDlzN3pESmN1eFpCYlZiS09lK0UzRGg4UWRPSkxkUnZJWFFR?=
+ =?utf-8?B?YXpsYXhKQ1VkM2I4dlhhamJyME92VnlmRVZpWFJiZlRHLzc5UlpHNVRFVmNm?=
+ =?utf-8?B?WTRGemZQNGcvZk4yVGZ2azZuYVVrWDJQSmFqVWZJdEx5RWpxcVFpMGIxZmly?=
+ =?utf-8?B?eTNZSURqbzFZeFlldGM2UVpQT3lEanZvVFEvQUZZZTFvcVJhbXl6bTVFUERM?=
+ =?utf-8?B?aEpBb3BjdVN4UUs5dGEyUUxTYWVQMFduQ1BYSE5MdXltU1c1cmhGM1JrcW1v?=
+ =?utf-8?B?TXlPcjdUZENLdEk0WksrRTgzY0F6WXRTa29NWmN2WlJwU1YxMTFERlE5a0s0?=
+ =?utf-8?B?YXVMY1BoaVF0c01GaEFRenVKWlhMYkEyUHZzZnNOMlZjY2Fvd0xhWXA1Uk5O?=
+ =?utf-8?B?U0RYR2pmWHgvSm5GUWJnZ2NFTzBqWmRGTmZ5eWZLdHdyeWVhTS9HeDN5NzRU?=
+ =?utf-8?B?ZzVUcVZrSnZjTDh1UmN5bHF5OVJ1cVhld2wxRDZjNmtuQUlBYnFxY0hyVnJh?=
+ =?utf-8?B?cHRzOTNrVGp5REZzenY2VFk2bloyVmNYRUV6K3huaUw2a0dWWFU4YkVPNGFP?=
+ =?utf-8?B?VFFwQnpxNlFuZVhtWGZzbjU1SXYyTkFwR2N3UHJmMjIweSt1Uk4xRVd4cjZW?=
+ =?utf-8?B?dklmMGppVlJSVGZsYk51ZVRpNE5SV2RaSHdBaEpoenNpamI5NjVBZk0xejhx?=
+ =?utf-8?B?TmIySUY1MXB2Szg2T1J1OEcxSFg1RjhrVnBpWTFVa24xU0drOERaNEhVOGcr?=
+ =?utf-8?B?VkIvallrV3BUVDB4MFJFOFk0WmptbUJLUU1zcnNETldGc05jWDJ3RE03M1RS?=
+ =?utf-8?B?ZWNOc2ZRd3Zwaks2YmorbUROeTdSYVNxcUhrekw2MXhIQ09SdTVMZXREVUto?=
+ =?utf-8?B?VTlIR1pHc0xMeW91NkpYMTY3cmJVTE9EWXV0MHZIVGsrMFVuVndGVGlaWE9R?=
+ =?utf-8?B?TUJyTW5aelNNNlFlNFlvV0xvY3FRbncyRW1YRnlUZHZDRVhxK2E5NGtKak04?=
+ =?utf-8?B?MHNOQnlSbVMreWhJdmxwQWlRZlVmbjdEWUxjZC81eHJic1doVEpZNzFFWXhk?=
+ =?utf-8?B?WnlWTmFUTGlRRU0xeXJTcHpPVkVwUkJwVkRsUzkxcHlKZnRvKzAxTjBCMGN0?=
+ =?utf-8?Q?BMMjt9L5JlYolxgAYc2AgQyJI?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa757217-b21b-42f1-4e0f-08da8be8d1e3
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5e18351-2cd4-41b9-f3c2-08da8be9ec5b
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2022 07:08:50.1823 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2022 07:16:43.8561 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SNv2bKLzz9y15OH+m10oUa0Ivt+7taTfssAvY+DRz11UqI0BCHqudTOPjtNZOHPx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5388
+X-MS-Exchange-CrossTenant-UserPrincipalName: m2uzCUa36if5xNJgp6hjWo3+LnOorUhKbWbiHjxBFPC6dUgghPP+e4hbLY4ArK3k
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6547
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,54 +165,109 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am 31.08.22 um 17:37 schrieb Dmitry Osipenko:
-> Move dma-buf attachment mapping functions to the dynamic locking
-> specification by asserting that the reservation lock is held.
+> Add documentation for the dynamic locking convention. The documentation
+> tells dma-buf API users when they should take the reservation lock and
+> when not.
 >
 > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
 Reviewed-by: Christian König <christian.koenig@amd.com>
 
 > ---
->   drivers/dma-buf/dma-buf.c | 10 ++--------
->   1 file changed, 2 insertions(+), 8 deletions(-)
+>   Documentation/driver-api/dma-buf.rst |  6 +++
+>   drivers/dma-buf/dma-buf.c            | 64 ++++++++++++++++++++++++++++
+>   2 files changed, 70 insertions(+)
 >
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> index 36a76cbe9095..622b8156d212 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -119,6 +119,12 @@ DMA Buffer ioctls
+>   
+>   .. kernel-doc:: include/uapi/linux/dma-buf.h
+>   
+> +DMA-BUF locking convention
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +.. kernel-doc:: drivers/dma-buf/dma-buf.c
+> +   :doc: locking convention
+> +
+>   Kernel Functions and Structures Reference
+>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   
 > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 073942bf5ae9..8e928fe6e8df 100644
+> index d9130486cb8f..97ce884fad76 100644
 > --- a/drivers/dma-buf/dma-buf.c
 > +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1037,8 +1037,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->   	if (WARN_ON(!attach || !attach->dmabuf))
->   		return ERR_PTR(-EINVAL);
+> @@ -794,6 +794,70 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+>   	return sg_table;
+>   }
 >   
-> -	if (dma_buf_attachment_is_dynamic(attach))
-> -		dma_resv_assert_held(attach->dmabuf->resv);
-> +	dma_resv_assert_held(attach->dmabuf->resv);
->   
->   	if (attach->sgt) {
->   		/*
-> @@ -1053,7 +1052,6 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->   	}
->   
->   	if (dma_buf_is_dynamic(attach->dmabuf)) {
-> -		dma_resv_assert_held(attach->dmabuf->resv);
->   		if (!IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY)) {
->   			r = attach->dmabuf->ops->pin(attach);
->   			if (r)
-> @@ -1142,15 +1140,11 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
->   	if (WARN_ON(!attach || !attach->dmabuf || !sg_table))
->   		return;
->   
-> -	if (dma_buf_attachment_is_dynamic(attach))
-> -		dma_resv_assert_held(attach->dmabuf->resv);
-> +	dma_resv_assert_held(attach->dmabuf->resv);
->   
->   	if (attach->sgt == sg_table)
->   		return;
->   
-> -	if (dma_buf_is_dynamic(attach->dmabuf))
-> -		dma_resv_assert_held(attach->dmabuf->resv);
-> -
->   	__unmap_dma_buf(attach, sg_table, direction);
->   
->   	if (dma_buf_is_dynamic(attach->dmabuf) &&
+> +/**
+> + * DOC: locking convention
+> + *
+> + * In order to avoid deadlock situations between dma-buf exports and importers,
+> + * all dma-buf API users must follow the common dma-buf locking convention.
+> + *
+> + * Convention for importers
+> + *
+> + * 1. Importers must hold the dma-buf reservation lock when calling these
+> + *    functions:
+> + *
+> + *     - dma_buf_pin()
+> + *     - dma_buf_unpin()
+> + *     - dma_buf_map_attachment()
+> + *     - dma_buf_unmap_attachment()
+> + *     - dma_buf_vmap()
+> + *     - dma_buf_vunmap()
+> + *
+> + * 2. Importers must not hold the dma-buf reservation lock when calling these
+> + *    functions:
+> + *
+> + *     - dma_buf_attach()
+> + *     - dma_buf_dynamic_attach()
+> + *     - dma_buf_detach()
+> + *     - dma_buf_export(
+> + *     - dma_buf_fd()
+> + *     - dma_buf_get()
+> + *     - dma_buf_put()
+> + *     - dma_buf_mmap()
+> + *     - dma_buf_begin_cpu_access()
+> + *     - dma_buf_end_cpu_access()
+> + *     - dma_buf_map_attachment_unlocked()
+> + *     - dma_buf_unmap_attachment_unlocked()
+> + *     - dma_buf_vmap_unlocked()
+> + *     - dma_buf_vunmap_unlocked()
+> + *
+> + * Convention for exporters
+> + *
+> + * 1. These &dma_buf_ops callbacks are invoked with unlocked dma-buf
+> + *    reservation and exporter can take the lock:
+> + *
+> + *     - &dma_buf_ops.attach()
+> + *     - &dma_buf_ops.detach()
+> + *     - &dma_buf_ops.release()
+> + *     - &dma_buf_ops.begin_cpu_access()
+> + *     - &dma_buf_ops.end_cpu_access()
+> + *
+> + * 2. These &dma_buf_ops callbacks are invoked with locked dma-buf
+> + *    reservation and exporter can't take the lock:
+> + *
+> + *     - &dma_buf_ops.pin()
+> + *     - &dma_buf_ops.unpin()
+> + *     - &dma_buf_ops.map_dma_buf()
+> + *     - &dma_buf_ops.unmap_dma_buf()
+> + *     - &dma_buf_ops.mmap()
+> + *     - &dma_buf_ops.vmap()
+> + *     - &dma_buf_ops.vunmap()
+> + *
+> + * 3. Exporters must hold the dma-buf reservation lock when calling these
+> + *    functions:
+> + *
+> + *     - dma_buf_move_notify()
+> + */
+> +
+>   /**
+>    * dma_buf_dynamic_attach - Add the device to dma_buf's attachments list
+>    * @dmabuf:		[in]	buffer to attach device to.
 
