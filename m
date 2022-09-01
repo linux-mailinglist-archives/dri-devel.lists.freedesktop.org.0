@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D78C5A8CE3
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 06:43:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDB85A8D18
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 07:09:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8340510E583;
-	Thu,  1 Sep 2022 04:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6A9810E592;
+	Thu,  1 Sep 2022 05:09:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0ED010E574
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 04:42:03 +0000 (UTC)
-X-UUID: f321b2dec3b34e16974cc00da7162e9c-20220901
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=wUiZHJMPP2vSpfxe/mbTbSnmztzLDmwWnQP1odHMthU=; 
- b=d/hf7lGrWr+gX2xFedMVmE2g+lmPn8ScY4yEGoiLJg+xmPOMc1FqOp6n4Y5ToVdR4vq8zTlqif8zWm4K/PgKXEzsj1zfwegl2SZBTCbN7LVdkpawTO7aWiGhJomos54gT7qStM6pm+gn9u61p83Zko9PvJ3F9uEPhopwXpE3i4k=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:c9542f8f-370d-46b7-aeb9-e34d374ebcb0, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Releas
- e_Ham,ACTION:release,TS:-25
-X-CID-META: VersionHash:84eae18, CLOUDID:cb18c520-1c20-48a5-82a0-25f9c331906d,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:
- nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: f321b2dec3b34e16974cc00da7162e9c-20220901
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1235069391; Thu, 01 Sep 2022 12:41:54 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 1 Sep 2022 12:41:53 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Thu, 1 Sep 2022 12:41:53 +0800
-From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
- <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <matthias.bgg@gmail.com>,
- <deller@gmx.de>, <airlied@linux.ie>
-Subject: [PATCH v17 10/10] drm/mediatek: dp: Audio support for MT8195
-Date: Thu, 1 Sep 2022 12:41:49 +0800
-Message-ID: <20220901044149.16782-11-rex-bc.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220901044149.16782-1-rex-bc.chen@mediatek.com>
-References: <20220901044149.16782-1-rex-bc.chen@mediatek.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5CC010E589;
+ Thu,  1 Sep 2022 05:09:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662008974; x=1693544974;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=oghHaCX8vh/GCQ4Eh06KYASFNT3lVURZcM3gfn+fdVQ=;
+ b=Brw8zfS72UYRmBY1WJ458XZI/A7Z3o5Bkbf/bnjiaEz9hTEiaIYEkJLw
+ RQMm0pv4iUuQrOXL/XnhsjNzUdfxN25CyfbgaN5jMEnWWD+YXT+LD7XMx
+ hq9IJxAFwg2JaNh6MTOTvqqD/iHT7JnslAwJc5xp7wkbpL8HNV9lj/fFa
+ QId/sHQTuo5YKmzQEYi5DHOSM/jXuIo5qyAAVvMCtutX9drRuZv/2nB9f
+ OG3S1Y9EMPRWbMThhDYsehWh9gK76jWHlDEA+NYTDxJPLgYv3aNv7Y3vs
+ TatkOeF0CHpzDIQ9C72iPJDxxaSPaDRPLwxqPnPAkQXx6Xp4DZ++udbMT Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="295623247"
+X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="295623247"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2022 22:09:32 -0700
+X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="589329868"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2022 22:09:32 -0700
+Date: Wed, 31 Aug 2022 22:09:11 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH v3 10/17] drm/i915/vm_bind: Implement
+ I915_GEM_EXECBUFFER3 ioctl
+Message-ID: <20220901050910.GG10283@nvishwa1-DESK>
+References: <20220827194403.6495-1-andi.shyti@linux.intel.com>
+ <20220827194403.6495-11-andi.shyti@linux.intel.com>
+ <8ecb0b8f-f253-1318-444a-8370960c6140@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8ecb0b8f-f253-1318-444a-8370960c6140@linux.intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,766 +60,1160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: Ramalingam C <ramalingampc2008@gmail.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guillaume Ranquet <granquet@baylibre.com>
+On Wed, Aug 31, 2022 at 08:38:48AM +0100, Tvrtko Ursulin wrote:
+>
+>On 27/08/2022 20:43, Andi Shyti wrote:
+>>From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>
+>>Implement new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only
+>>works in vm_bind mode. The vm_bind mode only works with
+>>this new execbuf3 ioctl.
+>>
+>>The new execbuf3 ioctl will not have any list of objects to validate
+>>bind as all required objects binding would have been requested by the
+>>userspace before submitting the execbuf3.
+>>
+>>And the legacy support like relocations etc are removed.
+>>
+>>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+>>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>---
+>>  drivers/gpu/drm/i915/Makefile                 |    1 +
+>>  .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 1000 +++++++++++++++++
+>>  drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |    2 +
+>>  include/uapi/drm/i915_drm.h                   |   62 +
+>>  4 files changed, 1065 insertions(+)
+>>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+>>
+>>diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+>>index 4e1627e96c6e0..38cd1c5bc1a55 100644
+>>--- a/drivers/gpu/drm/i915/Makefile
+>>+++ b/drivers/gpu/drm/i915/Makefile
+>>@@ -148,6 +148,7 @@ gem-y += \
+>>  	gem/i915_gem_dmabuf.o \
+>>  	gem/i915_gem_domain.o \
+>>  	gem/i915_gem_execbuffer.o \
+>>+	gem/i915_gem_execbuffer3.o \
+>>  	gem/i915_gem_internal.o \
+>>  	gem/i915_gem_object.o \
+>>  	gem/i915_gem_lmem.o \
+>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+>>new file mode 100644
+>>index 0000000000000..a3d767cd9f808
+>>--- /dev/null
+>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+>>@@ -0,0 +1,1000 @@
+>>+// SPDX-License-Identifier: MIT
+>>+/*
+>>+ * Copyright © 2022 Intel Corporation
+>>+ */
+>>+
+>>+#include <linux/dma-resv.h>
+>>+#include <linux/sync_file.h>
+>>+#include <linux/uaccess.h>
+>>+
+>>+#include <drm/drm_syncobj.h>
+>>+
+>>+#include "gt/intel_context.h"
+>>+#include "gt/intel_gpu_commands.h"
+>>+#include "gt/intel_gt.h"
+>>+#include "gt/intel_gt_pm.h"
+>>+#include "gt/intel_ring.h"
+>>+
+>>+#include "i915_drv.h"
+>>+#include "i915_file_private.h"
+>>+#include "i915_gem_context.h"
+>>+#include "i915_gem_ioctls.h"
+>>+#include "i915_gem_vm_bind.h"
+>>+#include "i915_trace.h"
+>>+
+>>+#define __EXEC3_ENGINE_PINNED		BIT_ULL(32)
+>>+#define __EXEC3_INTERNAL_FLAGS		(~0ull << 32)
+>>+
+>>+/* Catch emission of unexpected errors for CI! */
+>>+#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
+>>+#undef EINVAL
+>>+#define EINVAL ({ \
+>>+	DRM_DEBUG_DRIVER("EINVAL at %s:%d\n", __func__, __LINE__); \
+>>+	22; \
+>>+})
+>>+#endif
+>>+
+>>+/**
+>>+ * DOC: User command execution with execbuf3 ioctl
+>>+ *
+>>+ * A VM in VM_BIND mode will not support older execbuf mode of binding.
+>>+ * The execbuf ioctl handling in VM_BIND mode differs significantly from the
+>>+ * older execbuf2 ioctl (See struct drm_i915_gem_execbuffer2).
+>>+ * Hence, a new execbuf3 ioctl has been added to support VM_BIND mode. (See
+>>+ * struct drm_i915_gem_execbuffer3). The execbuf3 ioctl will not accept any
+>>+ * execlist. Hence, no support for implicit sync.
+>>+ *
+>>+ * The new execbuf3 ioctl only works in VM_BIND mode and the VM_BIND mode only
+>>+ * works with execbuf3 ioctl for submission.
+>>+ *
+>>+ * The execbuf3 ioctl directly specifies the batch addresses instead of as
+>>+ * object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
+>>+ * support many of the older features like in/out/submit fences, fence array,
+>>+ * default gem context etc. (See struct drm_i915_gem_execbuffer3).
+>>+ *
+>>+ * In VM_BIND mode, VA allocation is completely managed by the user instead of
+>>+ * the i915 driver. Hence all VA assignment, eviction are not applicable in
+>>+ * VM_BIND mode. Also, for determining object activeness, VM_BIND mode will not
+>>+ * be using the i915_vma active reference tracking. It will instead check the
+>>+ * dma-resv object's fence list for that.
+>>+ *
+>>+ * So, a lot of code supporting execbuf2 ioctl, like relocations, VA evictions,
+>>+ * vma lookup table, implicit sync, vma active reference tracking etc., are not
+>>+ * applicable for execbuf3 ioctl.
+>>+ */
+>>+
+>>+struct eb_fence {
+>>+	struct drm_syncobj *syncobj;
+>>+	struct dma_fence *dma_fence;
+>>+	u64 value;
+>>+	struct dma_fence_chain *chain_fence;
+>>+};
+>>+
+>>+/**
+>>+ * struct i915_execbuffer - execbuf struct for execbuf3
+>>+ * @i915: reference to the i915 instance we run on
+>>+ * @file: drm file reference
+>>+ * args: execbuf3 ioctl structure
+>>+ * @gt: reference to the gt instance ioctl submitted for
+>>+ * @context: logical state for the request
+>>+ * @gem_context: callers context
+>>+ * @requests: requests to be build
+>>+ * @composite_fence: used for excl fence in dma_resv objects when > 1 BB submitted
+>>+ * @ww: i915_gem_ww_ctx instance
+>>+ * @num_batches: number of batches submitted
+>>+ * @batch_addresses: addresses corresponds to the submitted batches
+>>+ * @batches: references to the i915_vmas corresponding to the batches
+>>+ */
+>>+struct i915_execbuffer {
+>>+	struct drm_i915_private *i915;
+>>+	struct drm_file *file;
+>>+	struct drm_i915_gem_execbuffer3 *args;
+>>+
+>>+	struct intel_gt *gt;
+>>+	struct intel_context *context;
+>>+	struct i915_gem_context *gem_context;
+>>+
+>>+	struct i915_request *requests[MAX_ENGINE_INSTANCE + 1];
+>>+	struct dma_fence *composite_fence;
+>>+
+>>+	struct i915_gem_ww_ctx ww;
+>>+
+>>+	unsigned int num_batches;
+>>+	u64 batch_addresses[MAX_ENGINE_INSTANCE + 1];
+>>+	struct i915_vma *batches[MAX_ENGINE_INSTANCE + 1];
+>>+
+>>+	struct eb_fence *fences;
+>>+	unsigned long num_fences;
+>>+};
+>>+
+>>+static int eb_pin_engine(struct i915_execbuffer *eb, bool throttle);
+>>+
+>>+static int eb_select_context(struct i915_execbuffer *eb)
+>>+{
+>>+	struct i915_gem_context *ctx;
+>>+
+>>+	ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->ctx_id);
+>>+	if (IS_ERR(ctx))
+>>+		return PTR_ERR(ctx);
+>>+
+>>+	eb->gem_context = ctx;
+>>+	return 0;
+>>+}
+>>+
+>>+static struct i915_vma *
+>>+eb_find_vma(struct i915_address_space *vm, u64 addr)
+>>+{
+>>+	u64 va;
+>>+
+>>+	lockdep_assert_held(&vm->vm_bind_lock);
+>>+
+>>+	va = gen8_noncanonical_addr(addr & PIN_OFFSET_MASK);
+>>+	return i915_gem_vm_bind_lookup_vma(vm, va);
+>>+}
+>>+
+>>+static int eb_lookup_vma_all(struct i915_execbuffer *eb)
+>>+{
+>>+	unsigned int i, current_batch = 0;
+>>+	struct i915_vma *vma;
+>>+
+>>+	for (i = 0; i < eb->num_batches; i++) {
+>>+		vma = eb_find_vma(eb->context->vm, eb->batch_addresses[i]);
+>>+		if (!vma)
+>>+			return -EINVAL;
+>>+
+>>+		eb->batches[current_batch] = vma;
+>>+		++current_batch;
+>>+	}
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static void eb_release_vma_all(struct i915_execbuffer *eb, bool final)
+>>+{
+>>+}
+>>+
+>>+static int eb_validate_vma_all(struct i915_execbuffer *eb)
+>>+{
+>>+	/* only throttle once, even if we didn't need to throttle */
+>>+	for (bool throttle = true;; throttle = false) {
+>>+		int err;
+>>+
+>>+		err = eb_pin_engine(eb, throttle);
+>>+		if (!err)
+>>+			return 0;
+>>+
+>>+		if (err != -EDEADLK)
+>>+			return err;
+>>+
+>>+		err = i915_gem_ww_ctx_backoff(&eb->ww);
+>>+		if (err)
+>>+			return err;
+>>+	}
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+/*
+>>+ * Using two helper loops for the order of which requests / batches are created
+>>+ * and added the to backend. Requests are created in order from the parent to
+>>+ * the last child. Requests are added in the reverse order, from the last child
+>>+ * to parent. This is done for locking reasons as the timeline lock is acquired
+>>+ * during request creation and released when the request is added to the
+>>+ * backend. To make lockdep happy (see intel_context_timeline_lock) this must be
+>>+ * the ordering.
+>>+ */
+>>+#define for_each_batch_create_order(_eb, _i) \
+>>+	for ((_i) = 0; (_i) < (_eb)->num_batches; ++(_i))
+>>+#define for_each_batch_add_order(_eb, _i) \
+>>+	BUILD_BUG_ON(!typecheck(int, _i)); \
+>>+	for ((_i) = (_eb)->num_batches - 1; (_i) >= 0; --(_i))
+>>+
+>>+static int eb_move_to_gpu(struct i915_execbuffer *eb)
+>>+{
+>>+	/* Unconditionally flush any chipset caches (for streaming writes). */
+>>+	intel_gt_chipset_flush(eb->gt);
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static int eb_request_submit(struct i915_execbuffer *eb,
+>>+			     struct i915_request *rq,
+>>+			     struct i915_vma *batch,
+>>+			     u64 batch_len)
+>>+{
+>>+	struct intel_engine_cs *engine = rq->context->engine;
+>>+	int err;
+>>+
+>>+	if (intel_context_nopreempt(rq->context))
+>>+		__set_bit(I915_FENCE_FLAG_NOPREEMPT, &rq->fence.flags);
+>>+
+>>+	/*
+>>+	 * After we completed waiting for other engines (using HW semaphores)
+>>+	 * then we can signal that this request/batch is ready to run. This
+>>+	 * allows us to determine if the batch is still waiting on the GPU
+>>+	 * or actually running by checking the breadcrumb.
+>>+	 */
+>>+	if (engine->emit_init_breadcrumb) {
+>>+		err = engine->emit_init_breadcrumb(rq);
+>>+		if (err)
+>>+			return err;
+>>+	}
+>>+
+>>+	return engine->emit_bb_start(rq, batch->node.start, batch_len, 0);
+>>+}
+>>+
+>>+static int eb_submit(struct i915_execbuffer *eb)
+>>+{
+>>+	unsigned int i;
+>>+	int err;
+>>+
+>>+	err = eb_move_to_gpu(eb);
+>>+
+>>+	for_each_batch_create_order(eb, i) {
+>>+		if (!eb->requests[i])
+>>+			break;
+>>+
+>>+		trace_i915_request_queue(eb->requests[i], 0);
+>>+		if (!err)
+>>+			err = eb_request_submit(eb, eb->requests[i],
+>>+						eb->batches[i],
+>>+						eb->batches[i]->size);
+>>+	}
+>>+
+>>+	return err;
+>>+}
+>>+
+>>+static struct i915_request *eb_throttle(struct i915_execbuffer *eb, struct intel_context *ce)
+>>+{
+>>+	struct intel_ring *ring = ce->ring;
+>>+	struct intel_timeline *tl = ce->timeline;
+>>+	struct i915_request *rq;
+>>+
+>>+	/*
+>>+	 * Completely unscientific finger-in-the-air estimates for suitable
+>>+	 * maximum user request size (to avoid blocking) and then backoff.
+>>+	 */
+>>+	if (intel_ring_update_space(ring) >= PAGE_SIZE)
+>>+		return NULL;
+>>+
+>>+	/*
+>>+	 * Find a request that after waiting upon, there will be at least half
+>>+	 * the ring available. The hysteresis allows us to compete for the
+>>+	 * shared ring and should mean that we sleep less often prior to
+>>+	 * claiming our resources, but not so long that the ring completely
+>>+	 * drains before we can submit our next request.
+>>+	 */
+>>+	list_for_each_entry(rq, &tl->requests, link) {
+>>+		if (rq->ring != ring)
+>>+			continue;
+>>+
+>>+		if (__intel_ring_space(rq->postfix,
+>>+				       ring->emit, ring->size) > ring->size / 2)
+>>+			break;
+>>+	}
+>>+	if (&rq->link == &tl->requests)
+>>+		return NULL; /* weird, we will check again later for real */
+>>+
+>>+	return i915_request_get(rq);
+>>+}
+>>+
+>>+static int eb_pin_timeline(struct i915_execbuffer *eb, struct intel_context *ce,
+>>+			   bool throttle)
+>>+{
+>>+	struct intel_timeline *tl;
+>>+	struct i915_request *rq = NULL;
+>>+
+>>+	/*
+>>+	 * Take a local wakeref for preparing to dispatch the execbuf as
+>>+	 * we expect to access the hardware fairly frequently in the
+>>+	 * process, and require the engine to be kept awake between accesses.
+>>+	 * Upon dispatch, we acquire another prolonged wakeref that we hold
+>>+	 * until the timeline is idle, which in turn releases the wakeref
+>>+	 * taken on the engine, and the parent device.
+>>+	 */
+>>+	tl = intel_context_timeline_lock(ce);
+>>+	if (IS_ERR(tl))
+>>+		return PTR_ERR(tl);
+>>+
+>>+	intel_context_enter(ce);
+>>+	if (throttle)
+>>+		rq = eb_throttle(eb, ce);
+>>+	intel_context_timeline_unlock(tl);
+>>+
+>>+	if (rq) {
+>>+		bool nonblock = eb->file->filp->f_flags & O_NONBLOCK;
+>>+		long timeout = nonblock ? 0 : MAX_SCHEDULE_TIMEOUT;
+>>+
+>>+		if (i915_request_wait(rq, I915_WAIT_INTERRUPTIBLE,
+>>+				      timeout) < 0) {
+>>+			i915_request_put(rq);
+>>+
+>>+			/*
+>>+			 * Error path, cannot use intel_context_timeline_lock as
+>>+			 * that is user interruptable and this clean up step
+>>+			 * must be done.
+>>+			 */
+>>+			mutex_lock(&ce->timeline->mutex);
+>>+			intel_context_exit(ce);
+>>+			mutex_unlock(&ce->timeline->mutex);
+>>+
+>>+			if (nonblock)
+>>+				return -EWOULDBLOCK;
+>>+			else
+>>+				return -EINTR;
+>>+		}
+>>+		i915_request_put(rq);
+>>+	}
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static int eb_pin_engine(struct i915_execbuffer *eb, bool throttle)
+>>+{
+>>+	struct intel_context *ce = eb->context, *child;
+>>+	int err;
+>>+	int i = 0, j = 0;
+>>+
+>>+	GEM_BUG_ON(eb->args->flags & __EXEC3_ENGINE_PINNED);
+>>+
+>>+	if (unlikely(intel_context_is_banned(ce)))
+>>+		return -EIO;
+>>+
+>>+	/*
+>>+	 * Pinning the contexts may generate requests in order to acquire
+>>+	 * GGTT space, so do this first before we reserve a seqno for
+>>+	 * ourselves.
+>>+	 */
+>>+	err = intel_context_pin_ww(ce, &eb->ww);
+>>+	if (err)
+>>+		return err;
+>>+
+>>+	for_each_child(ce, child) {
+>>+		err = intel_context_pin_ww(child, &eb->ww);
+>>+		GEM_BUG_ON(err);	/* perma-pinned should incr a counter */
+>>+	}
+>>+
+>>+	for_each_child(ce, child) {
+>>+		err = eb_pin_timeline(eb, child, throttle);
+>>+		if (err)
+>>+			goto unwind;
+>>+		++i;
+>>+	}
+>>+	err = eb_pin_timeline(eb, ce, throttle);
+>>+	if (err)
+>>+		goto unwind;
+>>+
+>>+	eb->args->flags |= __EXEC3_ENGINE_PINNED;
+>>+	return 0;
+>>+
+>>+unwind:
+>>+	for_each_child(ce, child) {
+>>+		if (j++ < i) {
+>>+			mutex_lock(&child->timeline->mutex);
+>>+			intel_context_exit(child);
+>>+			mutex_unlock(&child->timeline->mutex);
+>>+		}
+>>+	}
+>>+	for_each_child(ce, child)
+>>+		intel_context_unpin(child);
+>>+	intel_context_unpin(ce);
+>>+	return err;
+>>+}
+>>+
+>>+static int
+>>+eb_select_engine(struct i915_execbuffer *eb)
+>>+{
+>>+	struct intel_context *ce, *child;
+>>+	unsigned int idx;
+>>+	int err;
+>>+
+>>+	if (!i915_gem_context_user_engines(eb->gem_context))
+>>+		return -EINVAL;
+>>+
+>>+	idx = eb->args->engine_idx;
+>>+	ce = i915_gem_context_get_engine(eb->gem_context, idx);
+>>+	if (IS_ERR(ce))
+>>+		return PTR_ERR(ce);
+>>+
+>>+	eb->num_batches = ce->parallel.number_children + 1;
+>>+
+>>+	for_each_child(ce, child)
+>>+		intel_context_get(child);
+>>+	intel_gt_pm_get(ce->engine->gt);
+>>+
+>>+	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+>>+		err = intel_context_alloc_state(ce);
+>>+		if (err)
+>>+			goto err;
+>>+	}
+>>+	for_each_child(ce, child) {
+>>+		if (!test_bit(CONTEXT_ALLOC_BIT, &child->flags)) {
+>>+			err = intel_context_alloc_state(child);
+>>+			if (err)
+>>+				goto err;
+>>+		}
+>>+	}
+>>+
+>>+	/*
+>>+	 * ABI: Before userspace accesses the GPU (e.g. execbuffer), report
+>>+	 * EIO if the GPU is already wedged.
+>>+	 */
+>>+	err = intel_gt_terminally_wedged(ce->engine->gt);
+>>+	if (err)
+>>+		goto err;
+>>+
+>>+	if (!i915_vm_tryget(ce->vm)) {
+>>+		err = -ENOENT;
+>>+		goto err;
+>>+	}
+>>+
+>>+	eb->context = ce;
+>>+	eb->gt = ce->engine->gt;
+>>+
+>>+	/*
+>>+	 * Make sure engine pool stays alive even if we call intel_context_put
+>>+	 * during ww handling. The pool is destroyed when last pm reference
+>>+	 * is dropped, which breaks our -EDEADLK handling.
+>>+	 */
+>>+	return err;
+>>+
+>>+err:
+>>+	intel_gt_pm_put(ce->engine->gt);
+>>+	for_each_child(ce, child)
+>>+		intel_context_put(child);
+>>+	intel_context_put(ce);
+>>+	return err;
+>>+}
+>>+
+>>+static void
+>>+eb_put_engine(struct i915_execbuffer *eb)
+>>+{
+>>+	struct intel_context *child;
+>>+
+>>+	i915_vm_put(eb->context->vm);
+>>+	intel_gt_pm_put(eb->gt);
+>>+	for_each_child(eb->context, child)
+>>+		intel_context_put(child);
+>>+	intel_context_put(eb->context);
+>>+}
+>>+
+>>+static void
+>>+__free_fence_array(struct eb_fence *fences, unsigned int n)
+>>+{
+>>+	while (n--) {
+>>+		drm_syncobj_put(ptr_mask_bits(fences[n].syncobj, 2));
+>>+		dma_fence_put(fences[n].dma_fence);
+>>+		dma_fence_chain_free(fences[n].chain_fence);
+>>+	}
+>>+	kvfree(fences);
+>>+}
+>>+
+>>+static int add_timeline_fence_array(struct i915_execbuffer *eb)
+>>+{
+>>+	struct drm_i915_gem_timeline_fence __user *user_fences;
+>>+	struct eb_fence *f;
+>>+	u64 nfences;
+>>+	int err = 0;
+>>+
+>>+	nfences = eb->args->fence_count;
+>>+	if (!nfences)
+>>+		return 0;
+>>+
+>>+	/* Check multiplication overflow for access_ok() and kvmalloc_array() */
+>>+	BUILD_BUG_ON(sizeof(size_t) > sizeof(unsigned long));
+>>+	if (nfences > min_t(unsigned long,
+>>+			    ULONG_MAX / sizeof(*user_fences),
+>>+			    SIZE_MAX / sizeof(*f)) - eb->num_fences)
+>>+		return -EINVAL;
+>>+
+>>+	user_fences = u64_to_user_ptr(eb->args->timeline_fences);
+>>+	if (!access_ok(user_fences, nfences * sizeof(*user_fences)))
+>>+		return -EFAULT;
+>>+
+>>+	f = krealloc(eb->fences,
+>>+		     (eb->num_fences + nfences) * sizeof(*f),
+>>+		     __GFP_NOWARN | GFP_KERNEL);
+>>+	if (!f)
+>>+		return -ENOMEM;
+>>+
+>>+	eb->fences = f;
+>>+	f += eb->num_fences;
+>>+
+>>+	BUILD_BUG_ON(~(ARCH_KMALLOC_MINALIGN - 1) &
+>>+		     ~__I915_TIMELINE_FENCE_UNKNOWN_FLAGS);
+>>+
+>>+	while (nfences--) {
+>>+		struct drm_i915_gem_timeline_fence user_fence;
+>>+		struct drm_syncobj *syncobj;
+>>+		struct dma_fence *fence = NULL;
+>>+		u64 point;
+>>+
+>>+		if (__copy_from_user(&user_fence,
+>>+				     user_fences++,
+>>+				     sizeof(user_fence)))
+>>+			return -EFAULT;
+>>+
+>>+		if (user_fence.flags & __I915_TIMELINE_FENCE_UNKNOWN_FLAGS)
+>>+			return -EINVAL;
+>>+
+>>+		syncobj = drm_syncobj_find(eb->file, user_fence.handle);
+>>+		if (!syncobj) {
+>>+			DRM_DEBUG("Invalid syncobj handle provided\n");
+>>+			return -ENOENT;
+>>+		}
+>>+
+>>+		fence = drm_syncobj_fence_get(syncobj);
+>>+
+>>+		if (!fence && user_fence.flags &&
+>>+		    !(user_fence.flags & I915_TIMELINE_FENCE_SIGNAL)) {
+>>+			DRM_DEBUG("Syncobj handle has no fence\n");
+>>+			drm_syncobj_put(syncobj);
+>>+			return -EINVAL;
+>>+		}
+>>+
+>>+		point = user_fence.value;
+>>+		if (fence)
+>>+			err = dma_fence_chain_find_seqno(&fence, point);
+>>+
+>>+		if (err && !(user_fence.flags & I915_TIMELINE_FENCE_SIGNAL)) {
+>>+			DRM_DEBUG("Syncobj handle missing requested point %llu\n", point);
+>>+			dma_fence_put(fence);
+>>+			drm_syncobj_put(syncobj);
+>>+			return err;
+>>+		}
+>>+
+>>+		/*
+>>+		 * A point might have been signaled already and
+>>+		 * garbage collected from the timeline. In this case
+>>+		 * just ignore the point and carry on.
+>>+		 */
+>>+		if (!fence && !(user_fence.flags & I915_TIMELINE_FENCE_SIGNAL)) {
+>>+			drm_syncobj_put(syncobj);
+>>+			continue;
+>>+		}
+>>+
+>>+		/*
+>>+		 * For timeline syncobjs we need to preallocate chains for
+>>+		 * later signaling.
+>>+		 */
+>>+		if (point != 0 && user_fence.flags & I915_TIMELINE_FENCE_SIGNAL) {
+>>+			/*
+>>+			 * Waiting and signaling the same point (when point !=
+>>+			 * 0) would break the timeline.
+>>+			 */
+>>+			if (user_fence.flags & I915_TIMELINE_FENCE_WAIT) {
+>>+				DRM_DEBUG("Trying to wait & signal the same timeline point.\n");
+>>+				dma_fence_put(fence);
+>>+				drm_syncobj_put(syncobj);
+>>+				return -EINVAL;
+>>+			}
+>>+
+>>+			f->chain_fence = dma_fence_chain_alloc();
+>>+			if (!f->chain_fence) {
+>>+				drm_syncobj_put(syncobj);
+>>+				dma_fence_put(fence);
+>>+				return -ENOMEM;
+>>+			}
+>>+		} else {
+>>+			f->chain_fence = NULL;
+>>+		}
+>>+
+>>+		f->syncobj = ptr_pack_bits(syncobj, user_fence.flags, 2);
+>>+		f->dma_fence = fence;
+>>+		f->value = point;
+>>+		f++;
+>>+		eb->num_fences++;
+>>+	}
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static void put_fence_array(struct eb_fence *fences, int num_fences)
+>>+{
+>>+	if (fences)
+>>+		__free_fence_array(fences, num_fences);
+>>+}
+>>+
+>>+static int
+>>+await_fence_array(struct i915_execbuffer *eb,
+>>+		  struct i915_request *rq)
+>>+{
+>>+	unsigned int n;
+>>+
+>>+	for (n = 0; n < eb->num_fences; n++) {
+>>+		int err;
+>>+
+>>+		struct drm_syncobj *syncobj;
+>>+		unsigned int flags;
+>>+
+>>+		syncobj = ptr_unpack_bits(eb->fences[n].syncobj, &flags, 2);
+>>+
+>>+		if (!eb->fences[n].dma_fence)
+>>+			continue;
+>>+
+>>+		err = i915_request_await_dma_fence(rq, eb->fences[n].dma_fence);
+>>+		if (err < 0)
+>>+			return err;
+>>+	}
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static void signal_fence_array(const struct i915_execbuffer *eb,
+>>+			       struct dma_fence * const fence)
+>>+{
+>>+	unsigned int n;
+>>+
+>>+	for (n = 0; n < eb->num_fences; n++) {
+>>+		struct drm_syncobj *syncobj;
+>>+		unsigned int flags;
+>>+
+>>+		syncobj = ptr_unpack_bits(eb->fences[n].syncobj, &flags, 2);
+>>+		if (!(flags & I915_TIMELINE_FENCE_SIGNAL))
+>>+			continue;
+>>+
+>>+		if (eb->fences[n].chain_fence) {
+>>+			drm_syncobj_add_point(syncobj,
+>>+					      eb->fences[n].chain_fence,
+>>+					      fence,
+>>+					      eb->fences[n].value);
+>>+			/*
+>>+			 * The chain's ownership is transferred to the
+>>+			 * timeline.
+>>+			 */
+>>+			eb->fences[n].chain_fence = NULL;
+>>+		} else {
+>>+			drm_syncobj_replace_fence(syncobj, fence);
+>>+		}
+>>+	}
+>>+}
+>Semi-random place to ask - how many of the code here is direct copy of 
+>existing functions from i915_gem_execbuffer.c? There seems to be some 
+>100% copies at least. And then some more with small tweaks. Spend some 
+>time and try to figure out some code sharing?
+>
 
-This patch adds audio support to the DP driver for MT8195 with up to 8
-channels.
+During VM_BIND design review, maintainers expressed thought on keeping
+execbuf3 completely separate and not touch the legacy execbuf path.
 
-Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dp.c     | 482 +++++++++++++++++++++++++-
- drivers/gpu/drm/mediatek/mtk_dp_reg.h |  51 +++
- 2 files changed, 532 insertions(+), 1 deletion(-)
+I also think, execbuf3 should be fully separate. We can do some code
+sharing where is a close 100% copy (there is a TODO in cover letter).
+There are some changes like the timeline fence array handling here
+which looks similar, but the uapi is not exactly the same. Probably,
+we should keep them separate and not try to force code sharing at
+least at this point.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index dd34dae417e5..dfa942ca62da 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -29,6 +29,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/soc/mediatek/mtk_sip_svc.h>
-+#include <sound/hdmi-codec.h>
- #include <video/videomode.h>
- 
- #include "mtk_dp_reg.h"
-@@ -47,6 +48,8 @@
- #define MTK_DP_TBC_BUF_READ_START_ADDR 0x8
- #define MTK_DP_TRAIN_VOLTAGE_LEVEL_RETRY 5
- #define MTK_DP_TRAIN_DOWNSCALE_RETRY 10
-+#define MTK_DP_VERSION 0x11
-+#define MTK_DP_SDP_AUI 0x4
- 
- enum {
- 	MTK_DP_CAL_GLB_BIAS_TRIM = 0,
-@@ -71,9 +74,18 @@ struct mtk_dp_train_info {
- 	unsigned int channel_eq_pattern;
- };
- 
-+struct mtk_dp_audio_cfg {
-+	bool detect_monitor;
-+	int sad_count;
-+	int sample_rate;
-+	int word_length_bits;
-+	int channels;
-+};
-+
- struct mtk_dp_info {
- 	enum dp_pixelformat format;
- 	struct videomode vm;
-+	struct mtk_dp_audio_cfg audio_cur_cfg;
- };
- 
- struct mtk_dp_efuse_fmt {
-@@ -111,12 +123,22 @@ struct mtk_dp {
- 	struct phy *phy;
- 	struct regmap *regs;
- 	struct timer_list debounce_timer;
-+
-+	/* For audio */
-+	bool audio_enable;
-+	hdmi_codec_plugged_cb plugged_cb;
-+	struct platform_device *audio_pdev;
-+
-+	struct device *codec_dev;
-+	/* protect the plugged_cb as it's used in both bridge ops and audio */
-+	struct mutex update_plugged_status_lock;
- };
- 
- struct mtk_dp_data {
- 	int bridge_type;
- 	unsigned int smc_cmd;
- 	const struct mtk_dp_efuse_fmt *efuse_fmt;
-+	bool audio_supported;
- };
- 
- static const struct mtk_dp_efuse_fmt mt8195_edp_efuse_fmt[MTK_DP_CAL_MAX] = {
-@@ -512,6 +534,169 @@ static void mtk_dp_pg_enable(struct mtk_dp *mtk_dp, bool enable)
- 			   PGEN_PATTERN_SEL_VAL << 4, PGEN_PATTERN_SEL_MASK);
- }
- 
-+static void mtk_dp_audio_setup_channels(struct mtk_dp *mtk_dp,
-+					struct mtk_dp_audio_cfg *cfg)
-+{
-+	u32 channel_enable_bits;
-+
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC1_P0_3324,
-+			   AUDIO_SOURCE_MUX_DP_ENC1_P0_DPRX,
-+			   AUDIO_SOURCE_MUX_DP_ENC1_P0_MASK);
-+
-+	/* audio channel count change reset */
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC1_P0_33F4,
-+			   DP_ENC_DUMMY_RW_1, DP_ENC_DUMMY_RW_1);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC1_P0_3304,
-+			   AU_PRTY_REGEN_DP_ENC1_P0_MASK |
-+			   AU_CH_STS_REGEN_DP_ENC1_P0_MASK |
-+			   AUDIO_SAMPLE_PRSENT_REGEN_DP_ENC1_P0_MASK,
-+			   AU_PRTY_REGEN_DP_ENC1_P0_MASK |
-+			   AU_CH_STS_REGEN_DP_ENC1_P0_MASK |
-+			   AUDIO_SAMPLE_PRSENT_REGEN_DP_ENC1_P0_MASK);
-+
-+	switch (cfg->channels) {
-+	case 2:
-+		channel_enable_bits = AUDIO_2CH_SEL_DP_ENC0_P0_MASK |
-+				      AUDIO_2CH_EN_DP_ENC0_P0_MASK;
-+		break;
-+	case 8:
-+	default:
-+		channel_enable_bits = AUDIO_8CH_SEL_DP_ENC0_P0_MASK |
-+				      AUDIO_8CH_EN_DP_ENC0_P0_MASK;
-+		break;
-+	}
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3088,
-+			   channel_enable_bits | AU_EN_DP_ENC0_P0,
-+			   AUDIO_2CH_SEL_DP_ENC0_P0_MASK |
-+			   AUDIO_2CH_EN_DP_ENC0_P0_MASK |
-+			   AUDIO_8CH_SEL_DP_ENC0_P0_MASK |
-+			   AUDIO_8CH_EN_DP_ENC0_P0_MASK |
-+			   AU_EN_DP_ENC0_P0);
-+
-+	/* audio channel count change reset */
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC1_P0_33F4, 0, DP_ENC_DUMMY_RW_1);
-+
-+	/* enable audio reset */
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC1_P0_33F4,
-+			   DP_ENC_DUMMY_RW_1_AUDIO_RST_EN,
-+			   DP_ENC_DUMMY_RW_1_AUDIO_RST_EN);
-+}
-+
-+static void mtk_dp_audio_channel_status_set(struct mtk_dp *mtk_dp,
-+					    struct mtk_dp_audio_cfg *cfg)
-+{
-+	struct snd_aes_iec958 iec = { 0 };
-+
-+	switch (cfg->sample_rate) {
-+	case 32000:
-+		iec.status[3] = IEC958_AES3_CON_FS_32000;
-+		break;
-+	case 44100:
-+		iec.status[3] = IEC958_AES3_CON_FS_44100;
-+		break;
-+	case 48000:
-+		iec.status[3] = IEC958_AES3_CON_FS_48000;
-+		break;
-+	case 88200:
-+		iec.status[3] = IEC958_AES3_CON_FS_88200;
-+		break;
-+	case 96000:
-+		iec.status[3] = IEC958_AES3_CON_FS_96000;
-+		break;
-+	case 192000:
-+		iec.status[3] = IEC958_AES3_CON_FS_192000;
-+		break;
-+	default:
-+		iec.status[3] = IEC958_AES3_CON_FS_NOTID;
-+		break;
-+	}
-+
-+	switch (cfg->word_length_bits) {
-+	case 16:
-+		iec.status[4] = IEC958_AES4_CON_WORDLEN_20_16;
-+		break;
-+	case 20:
-+		iec.status[4] = IEC958_AES4_CON_WORDLEN_20_16 |
-+				IEC958_AES4_CON_MAX_WORDLEN_24;
-+		break;
-+	case 24:
-+		iec.status[4] = IEC958_AES4_CON_WORDLEN_24_20 |
-+				IEC958_AES4_CON_MAX_WORDLEN_24;
-+		break;
-+	default:
-+		iec.status[4] = IEC958_AES4_CON_WORDLEN_NOTID;
-+	}
-+
-+	/* IEC 60958 consumer channel status bits */
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_308C,
-+			   0, CH_STATUS_0_DP_ENC0_P0_MASK);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3090,
-+			   iec.status[3] << 8, CH_STATUS_1_DP_ENC0_P0_MASK);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3094,
-+			   iec.status[4], CH_STATUS_2_DP_ENC0_P0_MASK);
-+}
-+
-+static void mtk_dp_audio_sdp_asp_set_channels(struct mtk_dp *mtk_dp,
-+					      int channels)
-+{
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_312C,
-+			   (min(8, channels) - 1) << 8,
-+			   ASP_HB2_DP_ENC0_P0_MASK | ASP_HB3_DP_ENC0_P0_MASK);
-+}
-+
-+static void mtk_dp_audio_set_divider(struct mtk_dp *mtk_dp)
-+{
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_30BC,
-+			   AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2,
-+			   AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_MASK);
-+}
-+
-+static void mtk_dp_sdp_trigger_aui(struct mtk_dp *mtk_dp)
-+{
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC1_P0_3280,
-+			   MTK_DP_SDP_AUI, SDP_PACKET_TYPE_DP_ENC1_P0_MASK);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC1_P0_3280,
-+			   SDP_PACKET_W_DP_ENC1_P0, SDP_PACKET_W_DP_ENC1_P0);
-+}
-+
-+static void mtk_dp_sdp_set_data(struct mtk_dp *mtk_dp, u8 *data_bytes)
-+{
-+	mtk_dp_bulk_16bit_write(mtk_dp, MTK_DP_ENC1_P0_3200,
-+				data_bytes, 0x10);
-+}
-+
-+static void mtk_dp_sdp_set_header_aui(struct mtk_dp *mtk_dp,
-+				      struct dp_sdp_header *header)
-+{
-+	u32 db_addr = MTK_DP_ENC0_P0_30D8 + (MTK_DP_SDP_AUI - 1) * 8;
-+
-+	mtk_dp_bulk_16bit_write(mtk_dp, db_addr, (u8 *)header, 4);
-+}
-+
-+static void mtk_dp_disable_sdp_aui(struct mtk_dp *mtk_dp)
-+{
-+	/* Disable periodic send */
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_30A8 & 0xfffc, 0,
-+			   0xff << ((MTK_DP_ENC0_P0_30A8 & 3) * 8));
-+}
-+
-+static void mtk_dp_setup_sdp_aui(struct mtk_dp *mtk_dp,
-+				 struct dp_sdp *sdp)
-+{
-+	u32 shift;
-+
-+	mtk_dp_sdp_set_data(mtk_dp, sdp->db);
-+	mtk_dp_sdp_set_header_aui(mtk_dp, &sdp->sdp_header);
-+	mtk_dp_disable_sdp_aui(mtk_dp);
-+
-+	shift = (MTK_DP_ENC0_P0_30A8 & 3) * 8;
-+
-+	mtk_dp_sdp_trigger_aui(mtk_dp);
-+	/* Enable periodic sending */
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_30A8 & 0xfffc,
-+			   0x05 << shift, 0xff << shift);
-+}
-+
- static void mtk_dp_aux_irq_clear(struct mtk_dp *mtk_dp)
- {
- 	mtk_dp_write(mtk_dp, MTK_DP_AUX_P0_3640, DP_AUX_P0_3640_VAL);
-@@ -1041,6 +1226,32 @@ static void mtk_dp_video_mute(struct mtk_dp *mtk_dp, bool enable)
- 		mtk_dp->data->smc_cmd, enable, res.a0, res.a1);
- }
- 
-+static void mtk_dp_audio_mute(struct mtk_dp *mtk_dp, bool mute)
-+{
-+	u32 val[3];
-+
-+	if (mute) {
-+		val[0] = VBID_AUDIO_MUTE_FLAG_SW_DP_ENC0_P0 |
-+			 VBID_AUDIO_MUTE_FLAG_SEL_DP_ENC0_P0;
-+		val[1] = 0;
-+		val[2] = 0;
-+	} else {
-+		val[0] = 0;
-+		val[1] = AU_EN_DP_ENC0_P0;
-+		/* Send one every two frames */
-+		val[2] = 0x0F;
-+	}
-+
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3030,
-+			   val[0],
-+			   VBID_AUDIO_MUTE_FLAG_SW_DP_ENC0_P0 |
-+			   VBID_AUDIO_MUTE_FLAG_SEL_DP_ENC0_P0);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3088,
-+			   val[1], AU_EN_DP_ENC0_P0);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_30A4,
-+			   val[2], AU_TS_CFG_DP_ENC0_P0_MASK);
-+}
-+
- static void mtk_dp_power_enable(struct mtk_dp *mtk_dp)
- {
- 	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_RESET_AND_PROBE,
-@@ -1080,6 +1291,76 @@ static void mtk_dp_initialize_priv_data(struct mtk_dp *mtk_dp)
- 
- 	mtk_dp->info.format = DP_PIXELFORMAT_RGB;
- 	memset(&mtk_dp->info.vm, 0, sizeof(struct videomode));
-+	mtk_dp->audio_enable = false;
-+}
-+
-+static void mtk_dp_sdp_set_down_cnt_init(struct mtk_dp *mtk_dp,
-+					 u32 sram_read_start)
-+{
-+	u32 sdp_down_cnt_init = 0;
-+	struct drm_display_mode mode;
-+	struct videomode *vm = &mtk_dp->info.vm;
-+
-+	drm_display_mode_from_videomode(vm, &mode);
-+
-+	if (mode.clock > 0)
-+		sdp_down_cnt_init = sram_read_start *
-+				    mtk_dp->train_info.link_rate * 2700 * 8 /
-+				    (mode.clock * 4);
-+
-+	switch (mtk_dp->train_info.lane_count) {
-+	case 1:
-+		sdp_down_cnt_init = max_t(u32, sdp_down_cnt_init, 0x1A);
-+		break;
-+	case 2:
-+		/* case for LowResolution && High Audio Sample Rate */
-+		sdp_down_cnt_init = max_t(u32, sdp_down_cnt_init, 0x10);
-+		sdp_down_cnt_init += mode.vtotal <= 525 ? 4 : 0;
-+		break;
-+	case 4:
-+	default:
-+		sdp_down_cnt_init = max_t(u32, sdp_down_cnt_init, 6);
-+		break;
-+	}
-+
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3040,
-+			   sdp_down_cnt_init,
-+			   SDP_DOWN_CNT_INIT_DP_ENC0_P0_MASK);
-+}
-+
-+static void mtk_dp_sdp_set_down_cnt_init_in_hblank(struct mtk_dp *mtk_dp)
-+{
-+	int pix_clk_mhz;
-+	u32 dc_offset;
-+	u32 spd_down_cnt_init = 0;
-+	struct drm_display_mode mode;
-+	struct videomode *vm = &mtk_dp->info.vm;
-+
-+	drm_display_mode_from_videomode(vm, &mode);
-+
-+	pix_clk_mhz = mtk_dp->info.format == DP_PIXELFORMAT_YUV420 ?
-+		      mode.clock / 2000 : mode.clock / 1000;
-+
-+	switch (mtk_dp->train_info.lane_count) {
-+	case 1:
-+		spd_down_cnt_init = 0x20;
-+		break;
-+	case 2:
-+		dc_offset = (mode.vtotal <= 525) ? 0x14 : 0x00;
-+		spd_down_cnt_init = 0x18 + dc_offset;
-+		break;
-+	case 4:
-+	default:
-+		dc_offset = (mode.vtotal <= 525) ? 0x08 : 0x00;
-+		if (pix_clk_mhz > mtk_dp->train_info.link_rate * 27)
-+			spd_down_cnt_init = 0x8;
-+		else
-+			spd_down_cnt_init = 0x10 + dc_offset;
-+		break;
-+	}
-+
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC1_P0_3364, spd_down_cnt_init,
-+			   SDP_DOWN_CNT_INIT_IN_HBLANK_DP_ENC1_P0_MASK);
- }
- 
- static void mtk_dp_setup_tu(struct mtk_dp *mtk_dp)
-@@ -1091,6 +1372,8 @@ static void mtk_dp_setup_tu(struct mtk_dp *mtk_dp)
- 				    MTK_DP_PIX_PER_ADDR);
- 	mtk_dp_set_sram_read_start(mtk_dp, sram_read_start);
- 	mtk_dp_setup_encoder(mtk_dp);
-+	mtk_dp_sdp_set_down_cnt_init_in_hblank(mtk_dp);
-+	mtk_dp_sdp_set_down_cnt_init(mtk_dp, sram_read_start);
- }
- 
- static void mtk_dp_set_tx_out(struct mtk_dp *mtk_dp)
-@@ -1342,6 +1625,20 @@ static int mtk_dp_parse_capabilities(struct mtk_dp *mtk_dp)
- 	return 0;
- }
- 
-+static bool mtk_dp_edid_parse_audio_capabilities(struct mtk_dp *mtk_dp,
-+						 struct mtk_dp_audio_cfg *cfg)
-+{
-+	if (!mtk_dp->data->audio_supported)
-+		return false;
-+
-+	if (mtk_dp->info.audio_cur_cfg.sad_count <= 0) {
-+		drm_info(mtk_dp->drm_dev, "The SADs is NULL\n");
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
- static void mtk_dp_train_change_mode(struct mtk_dp *mtk_dp)
- {
- 	phy_reset(mtk_dp->phy);
-@@ -1446,6 +1743,46 @@ static void mtk_dp_video_enable(struct mtk_dp *mtk_dp, bool enable)
- 	}
- }
- 
-+static void mtk_dp_audio_sdp_setup(struct mtk_dp *mtk_dp,
-+				   struct mtk_dp_audio_cfg *cfg)
-+{
-+	struct dp_sdp sdp;
-+	struct hdmi_audio_infoframe frame;
-+
-+	hdmi_audio_infoframe_init(&frame);
-+	frame.coding_type = HDMI_AUDIO_CODING_TYPE_PCM;
-+	frame.channels = cfg->channels;
-+	frame.sample_frequency = cfg->sample_rate;
-+
-+	switch (cfg->word_length_bits) {
-+	case 16:
-+		frame.sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
-+		break;
-+	case 20:
-+		frame.sample_size = HDMI_AUDIO_SAMPLE_SIZE_20;
-+		break;
-+	case 24:
-+	default:
-+		frame.sample_size = HDMI_AUDIO_SAMPLE_SIZE_24;
-+		break;
-+	}
-+
-+	hdmi_audio_infoframe_pack_for_dp(&frame, &sdp, MTK_DP_VERSION);
-+
-+	mtk_dp_audio_sdp_asp_set_channels(mtk_dp, cfg->channels);
-+	mtk_dp_setup_sdp_aui(mtk_dp, &sdp);
-+}
-+
-+static void mtk_dp_audio_setup(struct mtk_dp *mtk_dp,
-+			       struct mtk_dp_audio_cfg *cfg)
-+{
-+	mtk_dp_audio_sdp_setup(mtk_dp, cfg);
-+	mtk_dp_audio_channel_status_set(mtk_dp, cfg);
-+
-+	mtk_dp_audio_setup_channels(mtk_dp, cfg);
-+	mtk_dp_audio_set_divider(mtk_dp);
-+}
-+
- static int mtk_dp_video_config(struct mtk_dp *mtk_dp)
- {
- 	mtk_dp_config_mn_mode(mtk_dp);
-@@ -1489,6 +1826,10 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
- 		drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
- 
- 		if (!mtk_dp->train_info.cable_plugged_in) {
-+			mtk_dp_disable_sdp_aui(mtk_dp);
-+			memset(&mtk_dp->info.audio_cur_cfg, 0,
-+			       sizeof(mtk_dp->info.audio_cur_cfg));
-+
- 			mtk_dp->need_debounce = false;
- 			mod_timer(&mtk_dp->debounce_timer,
- 				  jiffies + msecs_to_jiffies(100) - 1);
-@@ -1575,6 +1916,16 @@ static int mtk_dp_dt_parse(struct mtk_dp *mtk_dp,
- 	return 0;
- }
- 
-+static void mtk_dp_update_plugged_status(struct mtk_dp *mtk_dp)
-+{
-+	mutex_lock(&mtk_dp->update_plugged_status_lock);
-+	if (mtk_dp->plugged_cb && mtk_dp->codec_dev)
-+		mtk_dp->plugged_cb(mtk_dp->codec_dev,
-+				   mtk_dp->enabled &
-+				   mtk_dp->info.audio_cur_cfg.detect_monitor);
-+	mutex_unlock(&mtk_dp->update_plugged_status_lock);
-+}
-+
- static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
- {
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
-@@ -1615,7 +1966,6 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
- 					   DP_PWR_STATE_MASK);
- 		}
- 	}
--
- 	return ret;
- }
- 
-@@ -1625,6 +1975,8 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
- 	bool enabled = mtk_dp->enabled;
- 	struct edid *new_edid = NULL;
-+	struct mtk_dp_audio_cfg *audio_caps = &mtk_dp->info.audio_cur_cfg;
-+	struct cea_sad *sads;
- 
- 	if (!enabled) {
- 		drm_bridge_chain_pre_enable(bridge);
-@@ -1650,6 +2002,11 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
- 		new_edid = NULL;
- 	}
- 
-+	if (new_edid) {
-+		audio_caps->sad_count = drm_edid_to_sad(new_edid, &sads);
-+		audio_caps->detect_monitor = drm_detect_monitor_audio(new_edid);
-+	}
-+
- 	if (!enabled) {
- 		/* power off panel */
- 		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
-@@ -1843,7 +2200,19 @@ static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 
- 	mtk_dp_video_enable(mtk_dp, true);
- 
-+	mtk_dp->audio_enable =
-+		mtk_dp_edid_parse_audio_capabilities(mtk_dp,
-+						     &mtk_dp->info.audio_cur_cfg);
-+	if (mtk_dp->audio_enable) {
-+		mtk_dp_audio_setup(mtk_dp, &mtk_dp->info.audio_cur_cfg);
-+		mtk_dp_audio_mute(mtk_dp, false);
-+	} else {
-+		memset(&mtk_dp->info.audio_cur_cfg, 0,
-+		       sizeof(mtk_dp->info.audio_cur_cfg));
-+	}
-+
- 	mtk_dp->enabled = true;
-+	mtk_dp_update_plugged_status(mtk_dp);
- 
- 	return;
- power_off_aux:
-@@ -1858,7 +2227,9 @@ static void mtk_dp_bridge_atomic_disable(struct drm_bridge *bridge,
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
- 
- 	mtk_dp->enabled = false;
-+	mtk_dp_update_plugged_status(mtk_dp);
- 	mtk_dp_video_enable(mtk_dp, false);
-+	mtk_dp_audio_mute(mtk_dp, true);
- 
- 	if (mtk_dp->train_info.cable_plugged_in) {
- 		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
-@@ -2015,6 +2386,100 @@ static void mtk_dp_debounce_timer(struct timer_list *t)
- 	mtk_dp->need_debounce = true;
- }
- 
-+/*
-+ * HDMI audio codec callbacks
-+ */
-+static int mtk_dp_audio_hw_params(struct device *dev, void *data,
-+				  struct hdmi_codec_daifmt *daifmt,
-+				  struct hdmi_codec_params *params)
-+{
-+	struct mtk_dp *mtk_dp = dev_get_drvdata(dev);
-+
-+	if (!mtk_dp->enabled) {
-+		dev_err(mtk_dp->dev, "%s, DP is not ready!\n", __func__);
-+		return -ENODEV;
-+	}
-+
-+	mtk_dp->info.audio_cur_cfg.channels = params->cea.channels;
-+	mtk_dp->info.audio_cur_cfg.sample_rate = params->sample_rate;
-+
-+	mtk_dp_audio_setup(mtk_dp, &mtk_dp->info.audio_cur_cfg);
-+
-+	return 0;
-+}
-+
-+static int mtk_dp_audio_startup(struct device *dev, void *data)
-+{
-+	struct mtk_dp *mtk_dp = dev_get_drvdata(dev);
-+
-+	mtk_dp_audio_mute(mtk_dp, false);
-+
-+	return 0;
-+}
-+
-+static void mtk_dp_audio_shutdown(struct device *dev, void *data)
-+{
-+	struct mtk_dp *mtk_dp = dev_get_drvdata(dev);
-+
-+	mtk_dp_audio_mute(mtk_dp, true);
-+}
-+
-+static int mtk_dp_audio_get_eld(struct device *dev, void *data, uint8_t *buf,
-+				size_t len)
-+{
-+	struct mtk_dp *mtk_dp = dev_get_drvdata(dev);
-+
-+	if (mtk_dp->enabled)
-+		memcpy(buf, mtk_dp->conn->eld, len);
-+	else
-+		memset(buf, 0, len);
-+
-+	return 0;
-+}
-+
-+static int mtk_dp_audio_hook_plugged_cb(struct device *dev, void *data,
-+					hdmi_codec_plugged_cb fn,
-+					struct device *codec_dev)
-+{
-+	struct mtk_dp *mtk_dp = data;
-+
-+	mutex_lock(&mtk_dp->update_plugged_status_lock);
-+	mtk_dp->plugged_cb = fn;
-+	mtk_dp->codec_dev = codec_dev;
-+	mutex_unlock(&mtk_dp->update_plugged_status_lock);
-+
-+	mtk_dp_update_plugged_status(mtk_dp);
-+
-+	return 0;
-+}
-+
-+static const struct hdmi_codec_ops mtk_dp_audio_codec_ops = {
-+	.hw_params = mtk_dp_audio_hw_params,
-+	.audio_startup = mtk_dp_audio_startup,
-+	.audio_shutdown = mtk_dp_audio_shutdown,
-+	.get_eld = mtk_dp_audio_get_eld,
-+	.hook_plugged_cb = mtk_dp_audio_hook_plugged_cb,
-+	.no_capture_mute = 1,
-+};
-+
-+static int mtk_dp_register_audio_driver(struct device *dev)
-+{
-+	struct mtk_dp *mtk_dp = dev_get_drvdata(dev);
-+	struct hdmi_codec_pdata codec_data = {
-+		.ops = &mtk_dp_audio_codec_ops,
-+		.max_i2s_channels = 8,
-+		.i2s = 1,
-+		.data = mtk_dp,
-+	};
-+
-+	mtk_dp->audio_pdev = platform_device_register_data(dev,
-+							   HDMI_CODEC_DRV_NAME,
-+							   PLATFORM_DEVID_AUTO,
-+							   &codec_data,
-+							   sizeof(codec_data));
-+	return PTR_ERR_OR_ZERO(mtk_dp->audio_pdev);
-+}
-+
- static int mtk_dp_probe(struct platform_device *pdev)
- {
- 	struct mtk_dp *mtk_dp;
-@@ -2059,8 +2524,19 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, ret,
- 				     "failed to request mediatek dptx irq\n");
- 
-+	mutex_init(&mtk_dp->update_plugged_status_lock);
-+
- 	platform_set_drvdata(pdev, mtk_dp);
- 
-+	if (mtk_dp->data->audio_supported) {
-+		ret = mtk_dp_register_audio_driver(dev);
-+		if (ret) {
-+			dev_err(dev, "Failed to register audio driver: %d\n",
-+				ret);
-+			return ret;
-+		}
-+	}
-+
- 	mtk_dp->phy_dev = platform_device_register_data(dev, "mediatek-dp-phy",
- 							PLATFORM_DEVID_AUTO,
- 							&mtk_dp->regs,
-@@ -2106,6 +2582,8 @@ static int mtk_dp_remove(struct platform_device *pdev)
- 	del_timer_sync(&mtk_dp->debounce_timer);
- 	drm_bridge_remove(&mtk_dp->bridge);
- 	platform_device_unregister(mtk_dp->phy_dev);
-+	if (mtk_dp->audio_pdev)
-+		platform_device_unregister(mtk_dp->audio_pdev);
- 
- 	return 0;
- }
-@@ -2141,12 +2619,14 @@ static const struct mtk_dp_data mt8195_edp_data = {
- 	.bridge_type = DRM_MODE_CONNECTOR_eDP,
- 	.smc_cmd = MTK_DP_SIP_ATF_EDP_VIDEO_UNMUTE,
- 	.efuse_fmt = mt8195_edp_efuse_fmt,
-+	.audio_supported = false,
- };
- 
- static const struct mtk_dp_data mt8195_dp_data = {
- 	.bridge_type = DRM_MODE_CONNECTOR_DisplayPort,
- 	.smc_cmd = MTK_DP_SIP_ATF_VIDEO_UNMUTE,
- 	.efuse_fmt = mt8195_dp_efuse_fmt,
-+	.audio_supported = true,
- };
- 
- static const struct of_device_id mtk_dp_of_match[] = {
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-index 3f01ba44871f..096ad6572a5e 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-+++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-@@ -115,6 +115,8 @@
- #define HSW_SEL_DP_ENC0_P0				BIT(7)
- #define VSP_SEL_DP_ENC0_P0				BIT(8)
- #define VSW_SEL_DP_ENC0_P0				BIT(9)
-+#define VBID_AUDIO_MUTE_FLAG_SW_DP_ENC0_P0		BIT(11)
-+#define VBID_AUDIO_MUTE_FLAG_SEL_DP_ENC0_P0		BIT(12)
- #define MTK_DP_ENC0_P0_3034			0x3034
- #define MTK_DP_ENC0_P0_3038			0x3038
- #define VIDEO_SOURCE_SEL_DP_ENC0_P0_MASK		BIT(11)
-@@ -139,6 +141,38 @@
- #define SDP_VSYNC_RISING_MASK_DP_ENC0_P0_MASK		BIT(8)
- #define MTK_DP_ENC0_P0_3064			0x3064
- #define HDE_NUM_LAST_DP_ENC0_P0_MASK			GENMASK(15, 0)
-+#define MTK_DP_ENC0_P0_3088			0x3088
-+#define AU_EN_DP_ENC0_P0				BIT(6)
-+#define AUDIO_8CH_EN_DP_ENC0_P0_MASK			BIT(7)
-+#define AUDIO_8CH_SEL_DP_ENC0_P0_MASK			BIT(8)
-+#define AUDIO_2CH_EN_DP_ENC0_P0_MASK			BIT(14)
-+#define AUDIO_2CH_SEL_DP_ENC0_P0_MASK			BIT(15)
-+#define MTK_DP_ENC0_P0_308C			0x308c
-+#define CH_STATUS_0_DP_ENC0_P0_MASK			GENMASK(15, 0)
-+#define MTK_DP_ENC0_P0_3090			0x3090
-+#define CH_STATUS_1_DP_ENC0_P0_MASK			GENMASK(15, 0)
-+#define MTK_DP_ENC0_P0_3094			0x3094
-+#define CH_STATUS_2_DP_ENC0_P0_MASK			GENMASK(7, 0)
-+#define MTK_DP_ENC0_P0_30A0			0x30a0
-+#define DP_ENC0_30A0_MASK				(BIT(7) | BIT(8) | BIT(12))
-+#define MTK_DP_ENC0_P0_30A4			0x30a4
-+#define AU_TS_CFG_DP_ENC0_P0_MASK			GENMASK(7, 0)
-+#define MTK_DP_ENC0_P0_30A8			0x30a8
-+#define MTK_DP_ENC0_P0_30BC			0x30bc
-+#define ISRC_CONT_DP_ENC0_P0				BIT(0)
-+#define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_MASK	GENMASK(10, 8)
-+#define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_MUL_2	(1 << 8)
-+#define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_MUL_4	(2 << 8)
-+#define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_MUL_8	(3 << 8)
-+#define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2	(5 << 8)
-+#define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_4	(6 << 8)
-+#define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_8	(7 << 8)
-+#define MTK_DP_ENC0_P0_30D8			0x30d8
-+#define MTK_DP_ENC0_P0_312C			0x312c
-+#define ASP_HB2_DP_ENC0_P0_MASK				GENMASK(7, 0)
-+#define ASP_HB3_DP_ENC0_P0_MASK				GENMASK(15, 8)
-+#define MTK_DP_ENC0_P0_3130			0x3130
-+#define MTK_DP_ENC0_P0_3138			0x3138
- #define MTK_DP_ENC0_P0_3154			0x3154
- #define PGEN_HTOTAL_DP_ENC0_P0_MASK			GENMASK(13, 0)
- #define MTK_DP_ENC0_P0_3158			0x3158
-@@ -167,9 +201,23 @@
- #define ISRC1_HB3_DP_ENC0_P0_MASK			GENMASK(15, 8)
- 
- /* offset: ENC1_OFFSET (0x3200) */
-+#define MTK_DP_ENC1_P0_3200			0x3200
-+#define MTK_DP_ENC1_P0_3280			0x3280
-+#define SDP_PACKET_TYPE_DP_ENC1_P0_MASK			GENMASK(4, 0)
-+#define SDP_PACKET_W_DP_ENC1_P0				BIT(5)
-+#define SDP_PACKET_W_DP_ENC1_P0_MASK			BIT(5)
-+#define MTK_DP_ENC1_P0_328C			0x328c
-+#define VSC_DATA_RDY_VESA_DP_ENC1_P0_MASK		BIT(7)
- #define MTK_DP_ENC1_P0_3300			0x3300
- #define VIDEO_AFIFO_RDY_SEL_DP_ENC1_P0_VAL		2
- #define VIDEO_AFIFO_RDY_SEL_DP_ENC1_P0_MASK		GENMASK(9, 8)
-+#define MTK_DP_ENC1_P0_3304			0x3304
-+#define AU_PRTY_REGEN_DP_ENC1_P0_MASK			BIT(8)
-+#define AU_CH_STS_REGEN_DP_ENC1_P0_MASK			BIT(9)
-+#define AUDIO_SAMPLE_PRSENT_REGEN_DP_ENC1_P0_MASK	BIT(12)
-+#define MTK_DP_ENC1_P0_3324			0x3324
-+#define AUDIO_SOURCE_MUX_DP_ENC1_P0_MASK		GENMASK(9, 8)
-+#define AUDIO_SOURCE_MUX_DP_ENC1_P0_DPRX		0
- #define MTK_DP_ENC1_P0_3364			0x3364
- #define SDP_DOWN_CNT_IN_HBLANK_DP_ENC1_P0_VAL		0x20
- #define SDP_DOWN_CNT_INIT_IN_HBLANK_DP_ENC1_P0_MASK	GENMASK(11, 0)
-@@ -186,6 +234,9 @@
- 							 VIDEO_STABLE_CNT_THRD_DP_ENC1_P0 | \
- 							 SDP_DP13_EN_DP_ENC1_P0 | \
- 							 BS2BS_MODE_DP_ENC1_P0)
-+#define MTK_DP_ENC1_P0_33F4			0x33f4
-+#define DP_ENC_DUMMY_RW_1_AUDIO_RST_EN			BIT(0)
-+#define DP_ENC_DUMMY_RW_1				BIT(9)
- 
- /* offset: TRANS_OFFSET (0x3400) */
- #define MTK_DP_TRANS_P0_3400				0x3400
--- 
-2.18.0
+Niranjana
 
+>Regards,
+>
+>Tvrtko
+>
+>>+
+>>+static int parse_timeline_fences(struct i915_execbuffer *eb)
+>>+{
+>>+	return add_timeline_fence_array(eb);
+>>+}
+>>+
+>>+static int parse_batch_addresses(struct i915_execbuffer *eb)
+>>+{
+>>+	struct drm_i915_gem_execbuffer3 *args = eb->args;
+>>+	u64 __user *batch_addr = u64_to_user_ptr(args->batch_address);
+>>+
+>>+	if (copy_from_user(eb->batch_addresses, batch_addr,
+>>+			   sizeof(batch_addr[0]) * eb->num_batches))
+>>+		return -EFAULT;
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static void retire_requests(struct intel_timeline *tl, struct i915_request *end)
+>>+{
+>>+	struct i915_request *rq, *rn;
+>>+
+>>+	list_for_each_entry_safe(rq, rn, &tl->requests, link)
+>>+		if (rq == end || !i915_request_retire(rq))
+>>+			break;
+>>+}
+>>+
+>>+static int eb_request_add(struct i915_execbuffer *eb, struct i915_request *rq,
+>>+			  int err, bool last_parallel)
+>>+{
+>>+	struct intel_timeline * const tl = i915_request_timeline(rq);
+>>+	struct i915_sched_attr attr = {};
+>>+	struct i915_request *prev;
+>>+
+>>+	lockdep_assert_held(&tl->mutex);
+>>+	lockdep_unpin_lock(&tl->mutex, rq->cookie);
+>>+
+>>+	trace_i915_request_add(rq);
+>>+
+>>+	prev = __i915_request_commit(rq);
+>>+
+>>+	/* Check that the context wasn't destroyed before submission */
+>>+	if (likely(!intel_context_is_closed(eb->context))) {
+>>+		attr = eb->gem_context->sched;
+>>+	} else {
+>>+		/* Serialise with context_close via the add_to_timeline */
+>>+		i915_request_set_error_once(rq, -ENOENT);
+>>+		__i915_request_skip(rq);
+>>+		err = -ENOENT; /* override any transient errors */
+>>+	}
+>>+
+>>+	if (intel_context_is_parallel(eb->context)) {
+>>+		if (err) {
+>>+			__i915_request_skip(rq);
+>>+			set_bit(I915_FENCE_FLAG_SKIP_PARALLEL,
+>>+				&rq->fence.flags);
+>>+		}
+>>+		if (last_parallel)
+>>+			set_bit(I915_FENCE_FLAG_SUBMIT_PARALLEL,
+>>+				&rq->fence.flags);
+>>+	}
+>>+
+>>+	__i915_request_queue(rq, &attr);
+>>+
+>>+	/* Try to clean up the client's timeline after submitting the request */
+>>+	if (prev)
+>>+		retire_requests(tl, prev);
+>>+
+>>+	mutex_unlock(&tl->mutex);
+>>+
+>>+	return err;
+>>+}
+>>+
+>>+static int eb_request_add_all(struct i915_execbuffer *eb, int err)
+>>+{
+>>+	int i;
+>>+
+>>+	/*
+>>+	 * We iterate in reverse order of creation to release timeline mutexes in
+>>+	 * same order.
+>>+	 */
+>>+	for_each_batch_add_order(eb, i) {
+>>+		struct i915_request *rq = eb->requests[i];
+>>+
+>>+		if (!rq)
+>>+			continue;
+>>+
+>>+		err = eb_request_add(eb, rq, err, i == 0);
+>>+	}
+>>+
+>>+	return err;
+>>+}
+>>+
+>>+static void eb_requests_get(struct i915_execbuffer *eb)
+>>+{
+>>+	unsigned int i;
+>>+
+>>+	for_each_batch_create_order(eb, i) {
+>>+		if (!eb->requests[i])
+>>+			break;
+>>+
+>>+		i915_request_get(eb->requests[i]);
+>>+	}
+>>+}
+>>+
+>>+static void eb_requests_put(struct i915_execbuffer *eb)
+>>+{
+>>+	unsigned int i;
+>>+
+>>+	for_each_batch_create_order(eb, i) {
+>>+		if (!eb->requests[i])
+>>+			break;
+>>+
+>>+		i915_request_put(eb->requests[i]);
+>>+	}
+>>+}
+>>+
+>>+static int
+>>+eb_composite_fence_create(struct i915_execbuffer *eb)
+>>+{
+>>+	struct dma_fence_array *fence_array;
+>>+	struct dma_fence **fences;
+>>+	unsigned int i;
+>>+
+>>+	GEM_BUG_ON(!intel_context_is_parent(eb->context));
+>>+
+>>+	fences = kmalloc_array(eb->num_batches, sizeof(*fences), GFP_KERNEL);
+>>+	if (!fences)
+>>+		return -ENOMEM;
+>>+
+>>+	for_each_batch_create_order(eb, i) {
+>>+		fences[i] = &eb->requests[i]->fence;
+>>+		__set_bit(I915_FENCE_FLAG_COMPOSITE,
+>>+			  &eb->requests[i]->fence.flags);
+>>+	}
+>>+
+>>+	fence_array = dma_fence_array_create(eb->num_batches,
+>>+					     fences,
+>>+					     eb->context->parallel.fence_context,
+>>+					     eb->context->parallel.seqno++,
+>>+					     false);
+>>+	if (!fence_array) {
+>>+		kfree(fences);
+>>+		return -ENOMEM;
+>>+	}
+>>+
+>>+	/* Move ownership to the dma_fence_array created above */
+>>+	for_each_batch_create_order(eb, i)
+>>+		dma_fence_get(fences[i]);
+>>+
+>>+	eb->composite_fence = &fence_array->base;
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static int
+>>+eb_fences_add(struct i915_execbuffer *eb, struct i915_request *rq)
+>>+{
+>>+	int err;
+>>+
+>>+	if (unlikely(eb->gem_context->syncobj)) {
+>>+		struct dma_fence *fence;
+>>+
+>>+		fence = drm_syncobj_fence_get(eb->gem_context->syncobj);
+>>+		err = i915_request_await_dma_fence(rq, fence);
+>>+		dma_fence_put(fence);
+>>+		if (err)
+>>+			return err;
+>>+	}
+>>+
+>>+	if (eb->fences) {
+>>+		err = await_fence_array(eb, rq);
+>>+		if (err)
+>>+			return err;
+>>+	}
+>>+
+>>+	if (intel_context_is_parallel(eb->context)) {
+>>+		err = eb_composite_fence_create(eb);
+>>+		if (err)
+>>+			return err;
+>>+	}
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static struct intel_context *
+>>+eb_find_context(struct i915_execbuffer *eb, unsigned int context_number)
+>>+{
+>>+	struct intel_context *child;
+>>+
+>>+	if (likely(context_number == 0))
+>>+		return eb->context;
+>>+
+>>+	for_each_child(eb->context, child)
+>>+		if (!--context_number)
+>>+			return child;
+>>+
+>>+	GEM_BUG_ON("Context not found");
+>>+
+>>+	return NULL;
+>>+}
+>>+
+>>+static int eb_requests_create(struct i915_execbuffer *eb)
+>>+{
+>>+	unsigned int i;
+>>+	int err;
+>>+
+>>+	for_each_batch_create_order(eb, i) {
+>>+		/* Allocate a request for this batch buffer nice and early. */
+>>+		eb->requests[i] = i915_request_create(eb_find_context(eb, i));
+>>+		if (IS_ERR(eb->requests[i])) {
+>>+			err = PTR_ERR(eb->requests[i]);
+>>+			eb->requests[i] = NULL;
+>>+			return err;
+>>+		}
+>>+
+>>+		/*
+>>+		 * Only the first request added (committed to backend) has to
+>>+		 * take the in fences into account as all subsequent requests
+>>+		 * will have fences inserted inbetween them.
+>>+		 */
+>>+		if (i + 1 == eb->num_batches) {
+>>+			err = eb_fences_add(eb, eb->requests[i]);
+>>+			if (err)
+>>+				return err;
+>>+		}
+>>+
+>>+		if (eb->batches[i])
+>>+			eb->requests[i]->batch_res =
+>>+				i915_vma_resource_get(eb->batches[i]->resource);
+>>+	}
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static int
+>>+i915_gem_do_execbuffer(struct drm_device *dev,
+>>+		       struct drm_file *file,
+>>+		       struct drm_i915_gem_execbuffer3 *args)
+>>+{
+>>+	struct drm_i915_private *i915 = to_i915(dev);
+>>+	struct i915_execbuffer eb;
+>>+	int err;
+>>+
+>>+	BUILD_BUG_ON(__EXEC3_INTERNAL_FLAGS & ~__I915_EXEC3_UNKNOWN_FLAGS);
+>>+
+>>+	eb.i915 = i915;
+>>+	eb.file = file;
+>>+	eb.args = args;
+>>+
+>>+	eb.fences = NULL;
+>>+	eb.num_fences = 0;
+>>+
+>>+	memset(eb.requests, 0, sizeof(struct i915_request *) *
+>>+	       ARRAY_SIZE(eb.requests));
+>>+	eb.composite_fence = NULL;
+>>+
+>>+	err = parse_timeline_fences(&eb);
+>>+	if (err)
+>>+		return err;
+>>+
+>>+	err = eb_select_context(&eb);
+>>+	if (unlikely(err))
+>>+		goto err_fences;
+>>+
+>>+	err = eb_select_engine(&eb);
+>>+	if (unlikely(err))
+>>+		goto err_context;
+>>+
+>>+	err = parse_batch_addresses(&eb);
+>>+	if (unlikely(err))
+>>+		goto err_engine;
+>>+
+>>+	mutex_lock(&eb.context->vm->vm_bind_lock);
+>>+
+>>+	err = eb_lookup_vma_all(&eb);
+>>+	if (err) {
+>>+		eb_release_vma_all(&eb, true);
+>>+		goto err_vm_bind_lock;
+>>+	}
+>>+
+>>+	i915_gem_ww_ctx_init(&eb.ww, true);
+>>+
+>>+	err = eb_validate_vma_all(&eb);
+>>+	if (err)
+>>+		goto err_vma;
+>>+
+>>+	ww_acquire_done(&eb.ww.ctx);
+>>+
+>>+	err = eb_requests_create(&eb);
+>>+	if (err) {
+>>+		if (eb.requests[0])
+>>+			goto err_request;
+>>+		else
+>>+			goto err_vma;
+>>+	}
+>>+
+>>+	err = eb_submit(&eb);
+>>+
+>>+err_request:
+>>+	eb_requests_get(&eb);
+>>+	err = eb_request_add_all(&eb, err);
+>>+
+>>+	if (eb.fences)
+>>+		signal_fence_array(&eb, eb.composite_fence ?
+>>+				   eb.composite_fence :
+>>+				   &eb.requests[0]->fence);
+>>+
+>>+	if (unlikely(eb.gem_context->syncobj)) {
+>>+		drm_syncobj_replace_fence(eb.gem_context->syncobj,
+>>+					  eb.composite_fence ?
+>>+					  eb.composite_fence :
+>>+					  &eb.requests[0]->fence);
+>>+	}
+>>+
+>>+	if (eb.composite_fence)
+>>+		dma_fence_put(eb.composite_fence);
+>>+
+>>+	eb_requests_put(&eb);
+>>+
+>>+err_vma:
+>>+	eb_release_vma_all(&eb, true);
+>>+	WARN_ON(err == -EDEADLK);
+>>+	i915_gem_ww_ctx_fini(&eb.ww);
+>>+err_vm_bind_lock:
+>>+	mutex_unlock(&eb.context->vm->vm_bind_lock);
+>>+err_engine:
+>>+	eb_put_engine(&eb);
+>>+err_context:
+>>+	i915_gem_context_put(eb.gem_context);
+>>+err_fences:
+>>+	put_fence_array(eb.fences, eb.num_fences);
+>>+	return err;
+>>+}
+>>+
+>>+int
+>>+i915_gem_execbuffer3_ioctl(struct drm_device *dev, void *data,
+>>+			   struct drm_file *file)
+>>+{
+>>+	struct drm_i915_gem_execbuffer3 *args = data;
+>>+	int err;
+>>+
+>>+	if (args->flags & __I915_EXEC3_UNKNOWN_FLAGS)
+>>+		return -EINVAL;
+>>+
+>>+	err = i915_gem_do_execbuffer(dev, file, args);
+>>+
+>>+	args->flags &= ~__I915_EXEC3_UNKNOWN_FLAGS;
+>>+	return err;
+>>+}
+>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+>>index 28d6526e32ab0..b7a1e9725a841 100644
+>>--- a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+>>@@ -18,6 +18,8 @@ int i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>>  			      struct drm_file *file);
+>>  int i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+>>  			       struct drm_file *file);
+>>+int i915_gem_execbuffer3_ioctl(struct drm_device *dev, void *data,
+>>+			       struct drm_file *file);
+>>  int i915_gem_get_aperture_ioctl(struct drm_device *dev, void *data,
+>>  				struct drm_file *file);
+>>  int i915_gem_get_caching_ioctl(struct drm_device *dev, void *data,
+>>diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>>index 3da0e07f84bbd..ea1906873f278 100644
+>>--- a/include/uapi/drm/i915_drm.h
+>>+++ b/include/uapi/drm/i915_drm.h
+>>@@ -1542,6 +1542,68 @@ struct drm_i915_gem_timeline_fence {
+>>  	__u64 value;
+>>  };
+>>+/**
+>>+ * struct drm_i915_gem_execbuffer3 - Structure for DRM_I915_GEM_EXECBUFFER3
+>>+ * ioctl.
+>>+ *
+>>+ * DRM_I915_GEM_EXECBUFFER3 ioctl only works in VM_BIND mode and VM_BIND mode
+>>+ * only works with this ioctl for submission.
+>>+ * See I915_VM_CREATE_FLAGS_USE_VM_BIND.
+>>+ */
+>>+struct drm_i915_gem_execbuffer3 {
+>>+	/**
+>>+	 * @ctx_id: Context id
+>>+	 *
+>>+	 * Only contexts with user engine map are allowed.
+>>+	 */
+>>+	__u32 ctx_id;
+>>+
+>>+	/**
+>>+	 * @engine_idx: Engine index
+>>+	 *
+>>+	 * An index in the user engine map of the context specified by @ctx_id.
+>>+	 */
+>>+	__u32 engine_idx;
+>>+
+>>+	/**
+>>+	 * @batch_address: Batch gpu virtual address/es.
+>>+	 *
+>>+	 * For normal submission, it is the gpu virtual address of the batch
+>>+	 * buffer. For parallel submission, it is a pointer to an array of
+>>+	 * batch buffer gpu virtual addresses with array size equal to the
+>>+	 * number of (parallel) engines involved in that submission (See
+>>+	 * struct i915_context_engines_parallel_submit).
+>>+	 */
+>>+	__u64 batch_address;
+>>+
+>>+	/** @flags: Currently reserved, MBZ */
+>>+	__u64 flags;
+>>+#define __I915_EXEC3_UNKNOWN_FLAGS (~0)
+>>+
+>>+	/** @rsvd1: Reserved, MBZ */
+>>+	__u32 rsvd1;
+>>+
+>>+	/** @fence_count: Number of fences in @timeline_fences array. */
+>>+	__u32 fence_count;
+>>+
+>>+	/**
+>>+	 * @timeline_fences: Pointer to an array of timeline fences.
+>>+	 *
+>>+	 * Timeline fences are of format struct drm_i915_gem_timeline_fence.
+>>+	 */
+>>+	__u64 timeline_fences;
+>>+
+>>+	/** @rsvd2: Reserved, MBZ */
+>>+	__u64 rsvd2;
+>>+
+>>+	/**
+>>+	 * @extensions: Zero-terminated chain of extensions.
+>>+	 *
+>>+	 * For future extensions. See struct i915_user_extension.
+>>+	 */
+>>+	__u64 extensions;
+>>+};
+>>+
+>>  struct drm_i915_gem_pin {
+>>  	/** Handle of the buffer to be pinned. */
+>>  	__u32 handle;
