@@ -2,82 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A28E5AA353
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 00:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED9A5AA382
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 01:10:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3629A10E396;
-	Thu,  1 Sep 2022 22:52:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 241C510E397;
+	Thu,  1 Sep 2022 23:10:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43E2510E37B;
- Thu,  1 Sep 2022 22:52:11 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id bn9so574973ljb.6;
- Thu, 01 Sep 2022 15:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc;
- bh=Dhwd+COjDW5ThjQ0eGNlcg2FwWXLsRihwwituLHXIZw=;
- b=Qg20bj9HVOA0O2Dv7pbgLFpIerRd3OpfYftDq4iLQONPRjHm8OE5FicN0K1WL1v+S3
- bISpN5k4Xg9gTk37HMqAreo6nvuLyU3JTBpgQLIjzDvBJIqAXMP5MfRK4NHoGkdf8jpo
- 3glN34VMEDD6Gh+Zf1murR+o5lg06tWVopJIiQgpwbgHGnSUZUKhfMxhxUfv/PKpvsCf
- qwtgF3sgpUqP0AbUb+d/a1esSHZ+I5KHKcW+5WE2OKOtNa+X+J/AAtNMS15RdoIDBSEy
- T+m/BQNhtbsQ6WmcJD2FSngsG3cTf0OyGVh/5RtK7l/wyzsThnJPsLTNCVmQ7lejIS6h
- shRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc;
- bh=Dhwd+COjDW5ThjQ0eGNlcg2FwWXLsRihwwituLHXIZw=;
- b=Fd99hL1u+xo4KfogEckDrFppovOpq2htnG7hmysVP0dlV01lJjiWjUYuNGF0QlrtKB
- CLP16JJUEg1jdcI4Kqx0mkk67JFzDp3qwecfs/w8ITXqpxJ112WLKmvUGhMjfSMjX1oU
- q500eDp2jNCZGbZEln3nGh/wa3QEYjCBQmfQu2LrOamr5Xsci27L8qMavSs1OqV0BOe6
- kB+jbIyV7yMIT/mtOxaZ0e5WtwMPXcPlLZSifBzD3nXFco6GLOHdrZHfk8NoRHJv82Bt
- /kEGheXDwjMmKk5/J1iqN2hd4zecE7Txbwr8fyiiju8QqsFto5PmmvmSwoMJElOldUQE
- qOjQ==
-X-Gm-Message-State: ACgBeo2IgvLFYuE+Zd+6FGvB4X5oxPh6fTGVFoYrI22c6L8pDDtseE9p
- 8+GcWoZay2IpeamjalNsIYE=
-X-Google-Smtp-Source: AA6agR5VyqkvxxIZF1flgFAUFyuS1vlvIP1xurquBEUnw5mRA/4PMLSVlwqN/Hy1Kir2419wd9jhSA==
-X-Received: by 2002:a2e:bd0e:0:b0:268:c03b:cf56 with SMTP id
- n14-20020a2ebd0e000000b00268c03bcf56mr1277850ljq.393.1662072729392; 
- Thu, 01 Sep 2022 15:52:09 -0700 (PDT)
-Received: from ?IPV6:2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852?
- ([2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852])
- by smtp.googlemail.com with ESMTPSA id
- w9-20020a2e1609000000b0025e15fe421bsm29224ljd.17.2022.09.01.15.52.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Sep 2022 15:52:08 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <768daa58-d1cd-7e9d-4f6e-722f2b0afab9@gmail.com>
-Date: Fri, 2 Sep 2022 00:52:06 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E14010E36C
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 23:10:01 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 281N9Vf4015097;
+ Thu, 1 Sep 2022 23:09:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=zzEDn2gG4eEN+SuetViKysC73T6CtsSoXhWh3JdeakU=;
+ b=j/YpL2nhZqTp10K597/z1ajYoRdFA5qSkYmpi0GWU7xS+LXHnVCzl3OU3NWU5LdwsLX3
+ pZiwhJHhxa3rBuIZoO4bhTyaHC4m+QO/6cvaLaI3gurqUlyh+dFQ01xgyqG81bxD1p/w
+ TCDQA0lMC31AeVtxsND5Q8PcAhKRnTpGehsD5fMC5ojis7ePOTKVA1kBGczb40YdrTwC
+ d18lpakz6k6Ltp50hddlfZFq6wvqnCDIhJeLorkQiythUJUak4fAOK6Nfp7yXLgYh+rY
+ hC4uT8l4SoEl62ZAqsmQYRuYk9G50CHpDwRXGYTdzpXzVyxSwVd1x0TY3jXYxrLPgIIs DA== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jb3u8ga0a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Sep 2022 23:09:51 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 281N9oRr028825
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 1 Sep 2022 23:09:50 GMT
+Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Thu, 1 Sep 2022 16:09:50 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [RESEND PATCH libdrm v3 0/2] Add Writeback Support for Modetest
+Date: Thu, 1 Sep 2022 16:09:22 -0700
+Message-ID: <20220901230924.145-1-quic_jesszhan@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.2.0
-Subject: Re: [PATCH v2 20/41] drm/modes: Properly generate a drm_display_mode
- from a named mode
-Content-Language: pl
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-20-459522d653a7@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-20-459522d653a7@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: P_xnb-R2BihIwbk7h9deYu4wVrEh24oF
+X-Proofpoint-ORIG-GUID: P_xnb-R2BihIwbk7h9deYu4wVrEh24oF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-09-01_12,2022-08-31_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ priorityscore=1501 impostorscore=0 bulkscore=0 mlxlogscore=900
+ suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
+ malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2207270000 definitions=main-2209010102
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,23 +78,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Hans de Goede <hdegoede@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: quic_abhinavk@quicinc.com, hoegsberg@google.com,
+ dmitry.baryshkov@linaro.org, Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Resending to correct typo in email list and adding "Signed-off-by" to
+Patch [1/2] ("tests/modetest: Allocate drmModeAtomicReq before setting
+properties"
 
-> +        if (!named_mode->tv_mode)
-> +            continue;
+---
 
-As mentioned in the previous email replying to 19/41, this makes it impossible
-to specify DRM_MODE_TV_MODE_NTSC_443 as currently defined in the named mode
-successfully.
+Add writeback support to modetest with the below options:
 
-Best regards,
-Mateusz Kwiatkowski
+- Passing in -c will now also show the writeback connector
+
+- Test a built-in mode on writeback connector
+
+- Test a custom mode from user input on writeback connector
+  Usage: "./modetest -M msm -x <connector_id>:<mode_parameters>
+            -a -P <plane_id>@<crtc_id>:<widthxheight>+0+0@RG24."
+  Refer to --help for exact syntax
+
+- Dump the writeback output buffer to bitstream
+  Usage: "./modetest -M msm -s <connector_id>:<widthxheight>
+          -a -o <filepath>
+          -P <plane_id>@<crtc_id>:<widthxheight>+0+0@RG24"
+
+This currently supports a singular writeback connector.
+This patch also fixes a bug for running modetest with the atomic flag.
+
+Changes made in V2:
+- Added helper method that checks if user pipe has writeback connector
+- Added error message for dump flag if no writeback connector is found
+- Polls on the writeback fence fd until writeback is complete
+
+Changes made in V3:
+- Resolved compiler warnings
+- Defined ETIME to ETIMEDOUT in cases where ETIME is undefined
+
+Rohith Iyer (2):
+  tests/modetest: Allocate drmModeAtomicReq before setting properties
+  tests/modetest: Add support for writeback connector
+
+ tests/modetest/buffers.c  |  19 ++++
+ tests/modetest/buffers.h  |   1 +
+ tests/modetest/modetest.c | 187 ++++++++++++++++++++++++++++++++++----
+ 3 files changed, 187 insertions(+), 20 deletions(-)
+
+-- 
+2.31.0
+
