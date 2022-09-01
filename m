@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A0C5A8FB3
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 09:18:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D081C5A8FB7
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 09:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7ACE10E61D;
-	Thu,  1 Sep 2022 07:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00A5710E60D;
+	Thu,  1 Sep 2022 07:18:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D3C310E614;
- Thu,  1 Sep 2022 07:18:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA0710E61E;
+ Thu,  1 Sep 2022 07:18:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662016690; x=1693552690;
+ t=1662016702; x=1693552702;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=d9HV5kRnZmeL8WOt4MMISsBwTXV0aLXgH/DZUxxhT4Y=;
- b=dXFhiHQx+BkeHjIhkDJ4RL808xweInJFRI962T47GJJiO50Mezj4kf8u
- FqRLa4UwADY4U8DXTx2k4YBpouLb4jpYjzMcm/WuHwxNQ5ROBAU5gx3kv
- PXzDEGMTX9RMYzM5MRxI5fYrpaM7z7qQzVkkOy8MgW1E5ndeT7pu3vW+X
- OUSSfymYlBmRMlx8hv/gaw1wlfiyYdbcVPmn9QHf774Hqvv9WTNZ6O9iK
- grWdKDJaIa4xLQApQHgEfFkrMOKG1yZvFzYEXastsrNImbYkuYQNT1M25
- 8FVq0WiCbVNfZM9xgs04P4+RHdGOgAlpq+rQ/ws42inCghQLWzQrjSpBo w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="295643270"
-X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="295643270"
+ bh=QCqnH5yyFKRSM/tDdALx86Zz7Ypn4WP/5pwxdmZHGPQ=;
+ b=jJaVCwWtOH/xORi1wFWvkPIBpfsMNS88aE8JnNXly8CKEkc7U3sFhAUp
+ jYCXOj8bGiPxZxWSw6kRuup6yn/bFdrVQB+pUsnWEYSKdbVhtfmPP+8Eo
+ BukPshvBpPy2qXSi1+kPRYxiXzKmMcbaTyRZs+3AGtVXb1z8GrZPwSDBr
+ pcDvd/sNsB7OQZnO1nhfrc/fR7cJ8xJmAQs9AjHv0LjmIPGPo0y1Brj8L
+ eyEhn/nDZpoBtuJ0MhegAAsfKcsDWp5gy5d4caj99uRP7aq1ngMth4vWG
+ oeDgXyWgcxzhRr0IkmO9Tj0D5K0FkrgaLfdHNHVcsFU9OOnSucfLpgEQY w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="295643300"
+X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="295643300"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2022 00:18:09 -0700
+ 01 Sep 2022 00:18:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="673720045"
+X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="673720107"
 Received: from sqa-gate.sh.intel.com (HELO michael.clx.dev.tsp.org)
  ([10.239.48.212])
- by fmsmga008.fm.intel.com with ESMTP; 01 Sep 2022 00:17:59 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 01 Sep 2022 00:18:08 -0700
 From: Kevin Tian <kevin.tian@intel.com>
 To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -62,9 +62,9 @@ To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
  kvm@vger.kernel.org
-Subject: [PATCH v2 04/15] vfio/hisi_acc: Use the new device life cycle helpers
-Date: Thu,  1 Sep 2022 22:37:36 +0800
-Message-Id: <20220901143747.32858-5-kevin.tian@intel.com>
+Subject: [PATCH v2 05/15] vfio/mdpy: Use the new device life cycle helpers
+Date: Thu,  1 Sep 2022 22:37:37 +0800
+Message-Id: <20220901143747.32858-6-kevin.tian@intel.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20220901143747.32858-1-kevin.tian@intel.com>
 References: <20220901143747.32858-1-kevin.tian@intel.com>
@@ -88,210 +88,148 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yi Liu <yi.l.liu@intel.com>
 
-Tidy up @probe so all migration specific initialization logic is moved
-to migration specific @init callback.
-
-Remove vfio_pci_core_{un}init_device() given no user now.
+and manage mdpy_count inside @init/@release.
 
 Signed-off-by: Yi Liu <yi.l.liu@intel.com>
 Signed-off-by: Kevin Tian <kevin.tian@intel.com>
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 ---
- .../vfio/pci/hisilicon/hisi_acc_vfio_pci.c    | 80 +++++++++----------
- drivers/vfio/pci/vfio_pci_core.c              | 30 -------
- include/linux/vfio_pci_core.h                 |  4 -
- 3 files changed, 37 insertions(+), 77 deletions(-)
+ samples/vfio-mdev/mdpy.c | 81 +++++++++++++++++++++++-----------------
+ 1 file changed, 47 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-index ea762e28c1cc..f6e9c6b52eaa 100644
---- a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-+++ b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-@@ -1213,8 +1213,28 @@ static const struct vfio_migration_ops hisi_acc_vfio_pci_migrn_state_ops = {
- 	.migration_get_state = hisi_acc_vfio_pci_get_device_state,
- };
+diff --git a/samples/vfio-mdev/mdpy.c b/samples/vfio-mdev/mdpy.c
+index e8c46eb2e246..a07dac16d873 100644
+--- a/samples/vfio-mdev/mdpy.c
++++ b/samples/vfio-mdev/mdpy.c
+@@ -216,61 +216,77 @@ static int mdpy_reset(struct mdev_state *mdev_state)
+ 	return 0;
+ }
  
-+static int hisi_acc_vfio_pci_migrn_init_dev(struct vfio_device *core_vdev)
-+{
-+	struct hisi_acc_vf_core_device *hisi_acc_vdev = container_of(core_vdev,
-+			struct hisi_acc_vf_core_device, core_device.vdev);
-+	struct pci_dev *pdev = to_pci_dev(core_vdev->dev);
-+	struct hisi_qm *pf_qm = hisi_acc_get_pf_qm(pdev);
-+
-+	hisi_acc_vdev->vf_id = pci_iov_vf_id(pdev) + 1;
-+	hisi_acc_vdev->pf_qm = pf_qm;
-+	hisi_acc_vdev->vf_dev = pdev;
-+	mutex_init(&hisi_acc_vdev->state_mutex);
-+
-+	core_vdev->migration_flags = VFIO_MIGRATION_STOP_COPY;
-+	core_vdev->mig_ops = &hisi_acc_vfio_pci_migrn_state_ops;
-+
-+	return vfio_pci_core_init_dev(core_vdev);
-+}
-+
- static const struct vfio_device_ops hisi_acc_vfio_pci_migrn_ops = {
- 	.name = "hisi-acc-vfio-pci-migration",
-+	.init = hisi_acc_vfio_pci_migrn_init_dev,
-+	.release = vfio_pci_core_release_dev,
- 	.open_device = hisi_acc_vfio_pci_open_device,
- 	.close_device = hisi_acc_vfio_pci_close_device,
- 	.ioctl = hisi_acc_vfio_pci_ioctl,
-@@ -1228,6 +1248,8 @@ static const struct vfio_device_ops hisi_acc_vfio_pci_migrn_ops = {
- 
- static const struct vfio_device_ops hisi_acc_vfio_pci_ops = {
- 	.name = "hisi-acc-vfio-pci",
-+	.init = vfio_pci_core_init_dev,
-+	.release = vfio_pci_core_release_dev,
- 	.open_device = hisi_acc_vfio_pci_open_device,
- 	.close_device = vfio_pci_core_close_device,
- 	.ioctl = vfio_pci_core_ioctl,
-@@ -1239,63 +1261,36 @@ static const struct vfio_device_ops hisi_acc_vfio_pci_ops = {
- 	.match = vfio_pci_core_match,
- };
- 
--static int
--hisi_acc_vfio_pci_migrn_init(struct hisi_acc_vf_core_device *hisi_acc_vdev,
--			     struct pci_dev *pdev, struct hisi_qm *pf_qm)
--{
--	int vf_id;
--
--	vf_id = pci_iov_vf_id(pdev);
--	if (vf_id < 0)
--		return vf_id;
--
--	hisi_acc_vdev->vf_id = vf_id + 1;
--	hisi_acc_vdev->core_device.vdev.migration_flags =
--					VFIO_MIGRATION_STOP_COPY;
--	hisi_acc_vdev->pf_qm = pf_qm;
--	hisi_acc_vdev->vf_dev = pdev;
--	mutex_init(&hisi_acc_vdev->state_mutex);
--
--	return 0;
--}
--
- static int hisi_acc_vfio_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+-static int mdpy_probe(struct mdev_device *mdev)
++static int mdpy_init_dev(struct vfio_device *vdev)
  {
- 	struct hisi_acc_vf_core_device *hisi_acc_vdev;
-+	const struct vfio_device_ops *ops = &hisi_acc_vfio_pci_ops;
- 	struct hisi_qm *pf_qm;
-+	int vf_id;
- 	int ret;
++	struct mdev_state *mdev_state =
++		container_of(vdev, struct mdev_state, vdev);
++	struct mdev_device *mdev = to_mdev_device(vdev->dev);
+ 	const struct mdpy_type *type =
+ 		&mdpy_types[mdev_get_type_group_id(mdev)];
+-	struct device *dev = mdev_dev(mdev);
+-	struct mdev_state *mdev_state;
+ 	u32 fbsize;
+-	int ret;
++	int ret = -ENOMEM;
  
--	hisi_acc_vdev = kzalloc(sizeof(*hisi_acc_vdev), GFP_KERNEL);
--	if (!hisi_acc_vdev)
+ 	if (mdpy_count >= max_devices)
 -		return -ENOMEM;
 -
- 	pf_qm = hisi_acc_get_pf_qm(pdev);
- 	if (pf_qm && pf_qm->ver >= QM_HW_V3) {
--		ret = hisi_acc_vfio_pci_migrn_init(hisi_acc_vdev, pdev, pf_qm);
--		if (!ret) {
--			vfio_pci_core_init_device(&hisi_acc_vdev->core_device, pdev,
--						  &hisi_acc_vfio_pci_migrn_ops);
--			hisi_acc_vdev->core_device.vdev.mig_ops =
--					&hisi_acc_vfio_pci_migrn_state_ops;
--		} else {
-+		vf_id = pci_iov_vf_id(pdev);
-+		if (vf_id >= 0)
-+			ops = &hisi_acc_vfio_pci_migrn_ops;
-+		else
- 			pci_warn(pdev, "migration support failed, continue with generic interface\n");
--			vfio_pci_core_init_device(&hisi_acc_vdev->core_device, pdev,
--						  &hisi_acc_vfio_pci_ops);
--		}
--	} else {
--		vfio_pci_core_init_device(&hisi_acc_vdev->core_device, pdev,
--					  &hisi_acc_vfio_pci_ops);
- 	}
+-	mdev_state = kzalloc(sizeof(struct mdev_state), GFP_KERNEL);
+-	if (mdev_state == NULL)
+-		return -ENOMEM;
+-	vfio_init_group_dev(&mdev_state->vdev, &mdev->dev, &mdpy_dev_ops);
++		return ret;
  
-+	hisi_acc_vdev = vfio_alloc_device(hisi_acc_vf_core_device,
-+					  core_device.vdev, &pdev->dev, ops);
-+	if (IS_ERR(hisi_acc_vdev))
-+		return PTR_ERR(hisi_acc_vdev);
+ 	mdev_state->vconfig = kzalloc(MDPY_CONFIG_SPACE_SIZE, GFP_KERNEL);
+-	if (mdev_state->vconfig == NULL) {
+-		ret = -ENOMEM;
+-		goto err_state;
+-	}
++	if (!mdev_state->vconfig)
++		return ret;
+ 
+ 	fbsize = roundup_pow_of_two(type->width * type->height * type->bytepp);
+ 
+ 	mdev_state->memblk = vmalloc_user(fbsize);
+-	if (!mdev_state->memblk) {
+-		ret = -ENOMEM;
+-		goto err_vconfig;
+-	}
+-	dev_info(dev, "%s: %s (%dx%d)\n", __func__, type->name, type->width,
+-		 type->height);
++	if (!mdev_state->memblk)
++		goto out_vconfig;
+ 
+ 	mutex_init(&mdev_state->ops_lock);
+ 	mdev_state->mdev = mdev;
+-	mdev_state->type    = type;
++	mdev_state->type = type;
+ 	mdev_state->memsize = fbsize;
+ 	mdpy_create_config_space(mdev_state);
+ 	mdpy_reset(mdev_state);
+ 
++	dev_info(vdev->dev, "%s: %s (%dx%d)\n", __func__, type->name, type->width,
++		 type->height);
 +
- 	dev_set_drvdata(&pdev->dev, &hisi_acc_vdev->core_device);
- 	ret = vfio_pci_core_register_device(&hisi_acc_vdev->core_device);
+ 	mdpy_count++;
++	return 0;
++
++out_vconfig:
++	kfree(mdev_state->vconfig);
++	return ret;
++}
++
++static int mdpy_probe(struct mdev_device *mdev)
++{
++	struct mdev_state *mdev_state;
++	int ret;
++
++	mdev_state = vfio_alloc_device(mdev_state, vdev, &mdev->dev,
++				       &mdpy_dev_ops);
++	if (IS_ERR(mdev_state))
++		return PTR_ERR(mdev_state);
+ 
+ 	ret = vfio_register_emulated_iommu_dev(&mdev_state->vdev);
  	if (ret)
--		goto out_free;
-+		goto out_put_vdev;
+-		goto err_mem;
++		goto err_put_vdev;
+ 	dev_set_drvdata(&mdev->dev, mdev_state);
  	return 0;
- 
--out_free:
--	vfio_pci_core_uninit_device(&hisi_acc_vdev->core_device);
--	kfree(hisi_acc_vdev);
-+out_put_vdev:
-+	vfio_put_device(&hisi_acc_vdev->core_device.vdev);
- 	return ret;
+-err_mem:
++
++err_put_vdev:
++	vfio_put_device(&mdev_state->vdev);
++	return ret;
++}
++
++static void mdpy_release_dev(struct vfio_device *vdev)
++{
++	struct mdev_state *mdev_state =
++		container_of(vdev, struct mdev_state, vdev);
++
+ 	vfree(mdev_state->memblk);
+-err_vconfig:
+ 	kfree(mdev_state->vconfig);
+-err_state:
+-	vfio_uninit_group_dev(&mdev_state->vdev);
+-	kfree(mdev_state);
+-	return ret;
++	vfio_free_device(vdev);
++	mdpy_count--;
  }
  
-@@ -1304,8 +1299,7 @@ static void hisi_acc_vfio_pci_remove(struct pci_dev *pdev)
- 	struct hisi_acc_vf_core_device *hisi_acc_vdev = hssi_acc_drvdata(pdev);
+ static void mdpy_remove(struct mdev_device *mdev)
+@@ -280,12 +296,7 @@ static void mdpy_remove(struct mdev_device *mdev)
+ 	dev_info(&mdev->dev, "%s\n", __func__);
  
- 	vfio_pci_core_unregister_device(&hisi_acc_vdev->core_device);
--	vfio_pci_core_uninit_device(&hisi_acc_vdev->core_device);
--	kfree(hisi_acc_vdev);
-+	vfio_put_device(&hisi_acc_vdev->core_device.vdev);
- }
- 
- static const struct pci_device_id hisi_acc_vfio_pci_table[] = {
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index 708b61d1b364..f29d780e327e 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -1860,36 +1860,6 @@ void vfio_pci_core_release_dev(struct vfio_device *core_vdev)
- }
- EXPORT_SYMBOL_GPL(vfio_pci_core_release_dev);
- 
--void vfio_pci_core_init_device(struct vfio_pci_core_device *vdev,
--			       struct pci_dev *pdev,
--			       const struct vfio_device_ops *vfio_pci_ops)
--{
--	vfio_init_group_dev(&vdev->vdev, &pdev->dev, vfio_pci_ops);
--	vdev->pdev = pdev;
--	vdev->irq_type = VFIO_PCI_NUM_IRQS;
--	mutex_init(&vdev->igate);
--	spin_lock_init(&vdev->irqlock);
--	mutex_init(&vdev->ioeventfds_lock);
--	INIT_LIST_HEAD(&vdev->dummy_resources_list);
--	INIT_LIST_HEAD(&vdev->ioeventfds_list);
--	mutex_init(&vdev->vma_lock);
--	INIT_LIST_HEAD(&vdev->vma_list);
--	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
--	init_rwsem(&vdev->memory_lock);
--}
--EXPORT_SYMBOL_GPL(vfio_pci_core_init_device);
+ 	vfio_unregister_group_dev(&mdev_state->vdev);
+-	vfree(mdev_state->memblk);
+-	kfree(mdev_state->vconfig);
+-	vfio_uninit_group_dev(&mdev_state->vdev);
+-	kfree(mdev_state);
 -
--void vfio_pci_core_uninit_device(struct vfio_pci_core_device *vdev)
--{
--	mutex_destroy(&vdev->igate);
--	mutex_destroy(&vdev->ioeventfds_lock);
--	mutex_destroy(&vdev->vma_lock);
--	vfio_uninit_group_dev(&vdev->vdev);
--	kfree(vdev->region);
--	kfree(vdev->pm_save);
--}
--EXPORT_SYMBOL_GPL(vfio_pci_core_uninit_device);
--
- int vfio_pci_core_register_device(struct vfio_pci_core_device *vdev)
- {
- 	struct pci_dev *pdev = vdev->pdev;
-diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-index 98c8c66e2400..9f10ff34b2ba 100644
---- a/include/linux/vfio_pci_core.h
-+++ b/include/linux/vfio_pci_core.h
-@@ -230,13 +230,9 @@ static inline void vfio_pci_zdev_close_device(struct vfio_pci_core_device *vdev)
- void vfio_pci_core_set_params(bool nointxmask, bool is_disable_vga,
- 			      bool is_disable_idle_d3);
- void vfio_pci_core_close_device(struct vfio_device *core_vdev);
--void vfio_pci_core_init_device(struct vfio_pci_core_device *vdev,
--			       struct pci_dev *pdev,
--			       const struct vfio_device_ops *vfio_pci_ops);
- int vfio_pci_core_init_dev(struct vfio_device *core_vdev);
- void vfio_pci_core_release_dev(struct vfio_device *core_vdev);
- int vfio_pci_core_register_device(struct vfio_pci_core_device *vdev);
--void vfio_pci_core_uninit_device(struct vfio_pci_core_device *vdev);
- void vfio_pci_core_unregister_device(struct vfio_pci_core_device *vdev);
- extern const struct pci_error_handlers vfio_pci_core_err_handlers;
- int vfio_pci_core_sriov_configure(struct vfio_pci_core_device *vdev,
+-	mdpy_count--;
++	vfio_put_device(&mdev_state->vdev);
+ }
+ 
+ static ssize_t mdpy_read(struct vfio_device *vdev, char __user *buf,
+@@ -708,6 +719,8 @@ static struct attribute_group *mdev_type_groups[] = {
+ };
+ 
+ static const struct vfio_device_ops mdpy_dev_ops = {
++	.init = mdpy_init_dev,
++	.release = mdpy_release_dev,
+ 	.read = mdpy_read,
+ 	.write = mdpy_write,
+ 	.ioctl = mdpy_ioctl,
 -- 
 2.21.3
 
