@@ -1,81 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B6B5A984B
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 15:17:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CB55A98F9
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 15:35:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED04D10E5A8;
-	Thu,  1 Sep 2022 13:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A8E10E70B;
+	Thu,  1 Sep 2022 13:35:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994DA10E5A8
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 13:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662038252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dbU0ErSCeBzcqs0VQ9yr78KT5w2WG2r+58K65PvKptQ=;
- b=SmZ0mNBCdhdJ5C4A4eefTfWvROV2ESKzaw9sRo71lrdkiS7CFT5swtpSXbSvRXGKtzv45f
- f7Jd52dJHE6TFuXfXACO9KSEPtE7Ejc/HqZFiZnjdYbc3IRWW97PPEwnk8IR7h5Fy6xYsh
- bsklvI8mKNDgJo1CFiUiPowRNVdsBrQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-587-Tf8XcaVeM9uWRWgGWTM5mQ-1; Thu, 01 Sep 2022 09:17:29 -0400
-X-MC-Unique: Tf8XcaVeM9uWRWgGWTM5mQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p19-20020a05600c1d9300b003a5c3141365so1248940wms.9
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Sep 2022 06:17:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=dbU0ErSCeBzcqs0VQ9yr78KT5w2WG2r+58K65PvKptQ=;
- b=qFGnEkytdJjYKAmN733avOrfhjhKX59CTj0oa4h7kmZoTtiFQccwghQT3fUYJTkjYp
- kk0pBvFRXZ6VtXH5YGC5YNdqAroB3zlYLQK05mpqOv5UXDgaFNggWdXXW9OzWImsE8DS
- 7Tx+OSNtYmKD3oY9Ifsr3n0ogAfk+VsehT6RakZ2l2b4sDLEoXEu4NvsOYstINWz6mzj
- 36nqlAuxtrVy3++x3FadUO9jxbd+r4KCHjDjD/XewBw6tOaDLY9KSsfJmD8RizQ24oI0
- mOLZq7cVIwYm6jJOZwWw/kiJsuPfGPLUi7pQB0bEOG6WUIyn5LuHaR7iRq0z9zNnetpJ
- ovuA==
-X-Gm-Message-State: ACgBeo1dnOcgj94qHv245AzmtlLg0otgSVOZfesRX1RXYhQd4rvSK6hF
- gBZFnliSCCqhoSbBMADQSfuD6vXwAVpuskpau7lvpoILr4dZTU5VJipLB4CgfQQaAcb51uzcTCI
- reqkw5xyiKcgGZY6w3g4ZWmE7YXOQ
-X-Received: by 2002:adf:eb10:0:b0:225:70d5:e994 with SMTP id
- s16-20020adfeb10000000b0022570d5e994mr14332338wrn.425.1662038248616; 
- Thu, 01 Sep 2022 06:17:28 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7MFLzLBOV4HiscaGRSbKZajVvC/dHCpC9549jZEyDkd1lo6YzUYUmct/A+r7uLnmWiTNjnrA==
-X-Received: by 2002:adf:eb10:0:b0:225:70d5:e994 with SMTP id
- s16-20020adfeb10000000b0022570d5e994mr14332322wrn.425.1662038248419; 
- Thu, 01 Sep 2022 06:17:28 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- z14-20020adfd0ce000000b002253fd19a6asm17374003wrh.18.2022.09.01.06.17.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Sep 2022 06:17:27 -0700 (PDT)
-Message-ID: <087acab2-c230-fe5d-9ab3-2b8a18e42175@redhat.com>
-Date: Thu, 1 Sep 2022 15:17:25 +0200
+X-Greylist: delayed 902 seconds by postgrey-1.36 at gabe;
+ Thu, 01 Sep 2022 13:35:05 UTC
+Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDC710E70B
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 13:35:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
+ q=dns/txt; i=@phytec.de; t=1662038400; x=1664630400;
+ h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vp3xvjQcmglGaYzEUWwXOLvXsKqe1G37RVHCE4LfBtM=;
+ b=mRJP8ejfdoTSQo0mg2hRNZdpWcgBWVN2lRaaUDLal0bzkzh6Y8FrlOaKehZDUasu
+ gVxpJVNQgVbs39oZczBNCEqSbZPhDuyGjChQakknilvONHv4KZtbAY+cXsKcQVij
+ IXA308PvEXBE1kTpaBH4txlfSIDu/GKSRJsnPtxWc38=;
+X-AuditID: ac14000a-83bf370000003940-31-6310b1804c97
+Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
+ (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 60.D7.14656.081B0136;
+ Thu,  1 Sep 2022 15:20:00 +0200 (CEST)
+Received: from augenblix2.phytec.de (172.25.0.11) by Berlix.phytec.de
+ (172.25.0.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 1 Sep
+ 2022 15:20:00 +0200
+From: Teresa Remmet <t.remmet@phytec.de>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/bridge: tc358775: Do not soft reset i2c-slave controller
+Date: Thu, 1 Sep 2022 15:19:51 +0200
+Message-ID: <20220901131951.1116512-1-t.remmet@phytec.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 2/2] drm/tests: Change "igt_" prefix to "test_drm_"
-To: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Ma=c3=adra_Canal?=
- <mairacanal@riseup.net>
-References: <20220901124210.591994-1-mairacanal@riseup.net>
- <20220901124210.591994-2-mairacanal@riseup.net>
- <20220901125530.b56s4zisnkfuigvc@houat>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220901125530.b56s4zisnkfuigvc@houat>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.25.0.11]
+X-ClientProxiedBy: Florix.phytec.de (172.25.0.13) To Berlix.phytec.de
+ (172.25.0.12)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMLMWRmVeSWpSXmKPExsWyRpKBR7dho0CywcZGY4v7iz+zWFz5+p7N
+ 4vn8dYwWJ99cZbHonLiE3eJQX7TFp1kPmR3YPd7faGX32DnrLrvH7I6ZrB6L97xk8jgx4RKT
+ x51re9g87ncfZwpgj+KySUnNySxLLdK3S+DKmPlhIlNBE0fF021PmBoYr7N1MXJySAiYSFw6
+ 2MzaxcjFISSwhEli3c5/YAkhgceMEu2/MkFsNgENiacrTjN1MXJwiAioSsz6aQ5Szywwl0li
+ z9k/7CA1wgK+Ekc2/2QHqWERUJFofCsBEuYVsJS4+PwcE8QueYmZl76zQ8QFJU7OfMICYjMD
+ xZu3zmaGsCUkDr54wQxxgrzErksnGWF6p517zQxhh0oc2bSaaQKjwCwko2YhGTULyagFjMyr
+ GIVyM5OzU4sys/UKMipLUpP1UlI3MYICXoSBawdj3xyPQ4xMHIyHGCU4mJVEeL+f40kW4k1J
+ rKxKLcqPLyrNSS0+xCjNwaIkznu/hylRSCA9sSQ1OzW1ILUIJsvEwSnVwGgUmitcyXu8XKev
+ kvFaNuOdTZe+77lad3JCUcvWKcyz9t7Kf+8wuTw1d11e13QZ9i77rClTfnXoyD3dz/Ks+1Hh
+ E6mtRxdqF165sazAYduWJXZJEUJ5Gde/Flw6fpFhb+aVTIcnq/x11CoEM7U2LI/+tVopaknX
+ kb9pV++2Lnz9YE/lHtE9sSeVWIozEg21mIuKEwFE/1IyZgIAAA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,49 +69,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michal.winiarski@intel.com, Arthur Grillo <arthur.grillo@usp.br>,
- siqueirajordao@riseup.net, magalilemes00@gmail.com,
- David Airlie <airlied@linux.ie>, tales.aparecida@gmail.com,
- brendanhiggins@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mwen@igalia.com,
- David Gow <davidgow@google.com>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
- kunit-dev@googlegroups.com
+Cc: Jonas Karlman <jonas@kwiboo.se>, Robert Foss <robert.foss@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, upstream@phytec.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/1/22 14:55, Maxime Ripard wrote:
-> Hi,
-> 
-> On Thu, Sep 01, 2022 at 09:42:10AM -0300, Maíra Canal wrote:
->> With the introduction of KUnit, IGT is no longer the only option to run
->> the DRM unit tests, as the tests can be run through kunit-tool or on
->> real hardware with CONFIG_KUNIT.
->>
->> Therefore, remove the "igt_" prefix from the tests and replace it with
->> the "test_drm_" prefix, making the tests' names independent from the tool
->> used.
->>
->> Signed-off-by: Maíra Canal <mairacanal@riseup.net>
->>
->> ---
->> v1 -> v2: https://lore.kernel.org/dri-devel/20220830211603.191734-1-mairacanal@riseup.net/
->> - Change "drm_" prefix to "test_drm_", as "drm_" can be a bit confusing (Jani Nikula).
-> 
-> I appreciate it's a bit of a bikeshed but I disagree with this. The
-> majority of the kunit tests already out there start with the framework
-> name, including *all* the examples in the kunit doc. Plus, it's fairly
-> obvious that it's a test, kunit is only about running tests in the first
-> place.
->
+Soft reset during tc_bridge_enable() is triggered by setting all available
+reset control bits in the SYSRST register.
+But as noted in the data sheet resetting the i2c-slave controller should
+be only done over DSI and is only useful for chip debugging.
+So do not set RSTI2CS (bit0).
 
-Agree with Maxime on this.
+Signed-off-by: Teresa Remmet <t.remmet@phytec.de>
+---
+ drivers/gpu/drm/bridge/tc358775.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+index f1c6e62b0e1d..a5f5eae1e80f 100644
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -408,7 +408,7 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+ 		 (val >> 8) & 0xFF, val & 0xFF);
+ 
+ 	d2l_write(tc->i2c, SYSRST, SYS_RST_REG | SYS_RST_DSIRX | SYS_RST_BM |
+-		  SYS_RST_LCD | SYS_RST_I2CM | SYS_RST_I2CS);
++		  SYS_RST_LCD | SYS_RST_I2CM);
+ 	usleep_range(30000, 40000);
+ 
+ 	d2l_write(tc->i2c, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.25.1
 
