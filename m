@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB49C5AA34B
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 00:46:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A28E5AA353
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 00:52:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6C5710E373;
-	Thu,  1 Sep 2022 22:46:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3629A10E396;
+	Thu,  1 Sep 2022 22:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A550B10E36C;
- Thu,  1 Sep 2022 22:46:34 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id bt10so853563lfb.1;
- Thu, 01 Sep 2022 15:46:34 -0700 (PDT)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43E2510E37B;
+ Thu,  1 Sep 2022 22:52:11 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id bn9so574973ljb.6;
+ Thu, 01 Sep 2022 15:52:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:from:to:cc;
- bh=j9JPtLXuGOAthdbqCGaZBEMPKdA+qziCC+Oox2WhyWE=;
- b=KeZRTpmg+yfKKrQlCWb6p9FCrXOfw+fAObK0nGPdoQQEB9jXrfaidZettyBeWa3nIV
- cOJHlY1O1waPz+lWUwvlk6O1GTp1OgOoT3QMrLYrtRNgSiZe8oO/nj9ihZAFKUeShrKo
- eZzD5wo3kchE7FbSnMJJSNSc7SkMe/AwUN2hrEx5QlHXysXfWa8bbvhaVxtr++E3utU8
- P+QAzv5pgUgN+NVWi9HJbQVusoZd5if6AUN8zXlSTRHzLJR2+7BUcjx9J4NDI6K0uoTC
- /2TNVxNYQTq15lTo5xELyjfNMDWWt1snAGJlPXjRN6aivFyUt5+admL+PKyoAO6TBUOA
- yy7Q==
+ bh=Dhwd+COjDW5ThjQ0eGNlcg2FwWXLsRihwwituLHXIZw=;
+ b=Qg20bj9HVOA0O2Dv7pbgLFpIerRd3OpfYftDq4iLQONPRjHm8OE5FicN0K1WL1v+S3
+ bISpN5k4Xg9gTk37HMqAreo6nvuLyU3JTBpgQLIjzDvBJIqAXMP5MfRK4NHoGkdf8jpo
+ 3glN34VMEDD6Gh+Zf1murR+o5lg06tWVopJIiQgpwbgHGnSUZUKhfMxhxUfv/PKpvsCf
+ qwtgF3sgpUqP0AbUb+d/a1esSHZ+I5KHKcW+5WE2OKOtNa+X+J/AAtNMS15RdoIDBSEy
+ T+m/BQNhtbsQ6WmcJD2FSngsG3cTf0OyGVh/5RtK7l/wyzsThnJPsLTNCVmQ7lejIS6h
+ shRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:x-gm-message-state:from:to:cc;
- bh=j9JPtLXuGOAthdbqCGaZBEMPKdA+qziCC+Oox2WhyWE=;
- b=6luDXYkKehHdAnYdMJhk7cI6qElyi/2uvi09jmZZpzeGEQRX2ABLsr0CorWc3UHcr6
- nUenpoYfuMg9X5J0NGrAddsfJ1ueQMorvF/+jXRRNF1hbeZzdx9SN/IKeYR9+0I4QYTA
- sRhYUMSGLAk7tY/gfLzL+aTnfMx/NmihFAafMznLUjEViWILP6Lo+tDQonnsMiji3ST9
- dquQ4beGD15WxXL94jtrIAyyVfvmOcJvhnElMp6XepEU6Cs2pXjGaJRuUc3koUt/Kf7c
- HIj3COyiWjA5atvgY8kEsdHGozYg7bLnjGaqAtEJBzPzoWxmpSQB6LucLNoBuvaM26tm
- sSgg==
-X-Gm-Message-State: ACgBeo3LuUC0i9CiaA+b0Bh0HduCorSfvThLnk/Wo1o+ux3mkr3zw8ep
- KhG5q4EDKdHgnXbG74vJeDQ=
-X-Google-Smtp-Source: AA6agR4DDf2sl/p3w9svbMNnoZK7uBdh14I0I0N23iu/YSRY24vtSyAPu3BWH8/9FpD2KRu1t1XcVA==
-X-Received: by 2002:a05:6512:10c4:b0:492:d006:2b13 with SMTP id
- k4-20020a05651210c400b00492d0062b13mr11967803lfg.398.1662072392749; 
- Thu, 01 Sep 2022 15:46:32 -0700 (PDT)
+ bh=Dhwd+COjDW5ThjQ0eGNlcg2FwWXLsRihwwituLHXIZw=;
+ b=Fd99hL1u+xo4KfogEckDrFppovOpq2htnG7hmysVP0dlV01lJjiWjUYuNGF0QlrtKB
+ CLP16JJUEg1jdcI4Kqx0mkk67JFzDp3qwecfs/w8ITXqpxJ112WLKmvUGhMjfSMjX1oU
+ q500eDp2jNCZGbZEln3nGh/wa3QEYjCBQmfQu2LrOamr5Xsci27L8qMavSs1OqV0BOe6
+ kB+jbIyV7yMIT/mtOxaZ0e5WtwMPXcPlLZSifBzD3nXFco6GLOHdrZHfk8NoRHJv82Bt
+ /kEGheXDwjMmKk5/J1iqN2hd4zecE7Txbwr8fyiiju8QqsFto5PmmvmSwoMJElOldUQE
+ qOjQ==
+X-Gm-Message-State: ACgBeo2IgvLFYuE+Zd+6FGvB4X5oxPh6fTGVFoYrI22c6L8pDDtseE9p
+ 8+GcWoZay2IpeamjalNsIYE=
+X-Google-Smtp-Source: AA6agR5VyqkvxxIZF1flgFAUFyuS1vlvIP1xurquBEUnw5mRA/4PMLSVlwqN/Hy1Kir2419wd9jhSA==
+X-Received: by 2002:a2e:bd0e:0:b0:268:c03b:cf56 with SMTP id
+ n14-20020a2ebd0e000000b00268c03bcf56mr1277850ljq.393.1662072729392; 
+ Thu, 01 Sep 2022 15:52:09 -0700 (PDT)
 Received: from ?IPV6:2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852?
  ([2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852])
  by smtp.googlemail.com with ESMTPSA id
- u25-20020a056512041900b00492d6ae2386sm29410lfk.96.2022.09.01.15.46.30
+ w9-20020a2e1609000000b0025e15fe421bsm29224ljd.17.2022.09.01.15.52.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Sep 2022 15:46:32 -0700 (PDT)
+ Thu, 01 Sep 2022 15:52:08 -0700 (PDT)
 From: Mateusz Kwiatkowski <kfyatek@gmail.com>
 X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <2f607c7d-6da1-c8df-1c02-8dd344a92343@gmail.com>
-Date: Fri, 2 Sep 2022 00:46:29 +0200
+Message-ID: <768daa58-d1cd-7e9d-4f6e-722f2b0afab9@gmail.com>
+Date: Fri, 2 Sep 2022 00:52:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.2.0
-Subject: Re: [PATCH v2 19/41] drm/modes: Introduce the tv_mode property as a
- command-line option
+Subject: Re: [PATCH v2 20/41] drm/modes: Properly generate a drm_display_mode
+ from a named mode
 Content-Language: pl
 To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
@@ -74,8 +74,8 @@ To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-19-459522d653a7@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-19-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-20-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-20-459522d653a7@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,33 +101,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Maxime,
 
-> @@ -2212,20 +2239,22 @@ struct drm_named_mode {
->      unsigned int xres;
->      unsigned int yres;
->      unsigned int flags;
-> +    unsigned int tv_mode;
->  };
+> +        if (!named_mode->tv_mode)
+> +            continue;
 
-Are _all_ named modes supposed to be about analog TV?
-
-If so, then probably this structure should be renamed drm_named_analog_tv_mode
-or something.
-
-If not, then including tv_mode in all of them sounds almost dangrous. 0 is a
-valid value for enum drm_connector_tv_mode, corresponding to
-DRM_MODE_TV_MODE_NTSC_443. This is a very weird default (maybe it shouldn't be
-the one that has a numeric value of 0?) and if there ever is a named mode that
-is not related to analog TV, it looks that it will refer to NTSC-443.
-
-Not sure where could that actually propagate, and maybe what I'm saying can't
-happen, but I'm imagining weird scenarios where a GPU that has both a
-VGA/HDMI/whatever output, and a composite output, switches to NTSC-443 on the
-composite output by default because a named mode for the modern output is
-selected.
-
-Maybe something like DRM_MODE_TV_MODE_NONE = 0 would make sense?
-
-Maybe not. This is not an actual suggestion, just "thinking out loud".
+As mentioned in the previous email replying to 19/41, this makes it impossible
+to specify DRM_MODE_TV_MODE_NTSC_443 as currently defined in the named mode
+successfully.
 
 Best regards,
 Mateusz Kwiatkowski
