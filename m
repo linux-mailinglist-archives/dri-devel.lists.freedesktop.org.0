@@ -1,80 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721935AA0C4
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 22:16:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 174335AA0CE
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 22:20:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCC9110E20D;
-	Thu,  1 Sep 2022 20:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4EB10E225;
+	Thu,  1 Sep 2022 20:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C79410E1B4
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 20:16:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662063387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ShxcPF4Eq/4VuhK0YuLPN2dIglWIe3dTsSJxTWOrspQ=;
- b=RUL2FUJFiRVdFABhzSQ++8T5JHXq2ZTaTjKAT22CK04/XjFqW0oAqnPEArqGe1MnICvi8f
- +Np6YKTUUGfPZLPvbw/It/7dQhNG068LT/jes2MWhYij1uNHei32lNHJfA7y809RKY8uu0
- ED1hBLWFC+K62ptN246AbL7vAh26Nps=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-423-5oohuZgjNHazgWGVyzbWFA-1; Thu, 01 Sep 2022 16:16:26 -0400
-X-MC-Unique: 5oohuZgjNHazgWGVyzbWFA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- s9-20020a05620a254900b006b54dd4d6deso246349qko.3
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Sep 2022 13:16:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:user-agent:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=ShxcPF4Eq/4VuhK0YuLPN2dIglWIe3dTsSJxTWOrspQ=;
- b=8MFK0uvPGOBfcBrrJxSJkgDPffJUWYyhjvWGo3bqOsWocL7WOk8S2P46jhtV0H1OVB
- HY+3Pq8vAp5TkTRf//lRsXk0l1VuCExAfuhKRO2n4fDo8h/nnxoyi0qXToAR1yKnx8Mc
- 8coK4/hMKRezAAaF7VcyiNSXOzr3BBpoc3LPQt4wJnWYBrt407t6RSO+vyeBivUUmjrR
- Rm1SQOoZCM16fCX+EaAk7hHsANjVNxTSKEi53bvAuMtoYCj7u0SfHU+rjUuJyUKf1hBL
- SFAvamDwBi/5oIhTRG72Mz3diJeTWP5yZ9MvdmixACxY/kCmy1uwhYF6opgDL5hCEfnK
- B6yg==
-X-Gm-Message-State: ACgBeo2Kz5nNSAmu16lL1iN4x2TMMX2fR/J4vBHxsxgO/JXqQKavkzCR
- H8PjBNC5b6NITaEOHt1QX5q+dHGVR96wRh96dwMBSwfgOMXdGfEC0f4HDxrNeRMjUtCOmh4iB2x
- vKqEstNKvDoka2je6UGNjbNQO8DGC
-X-Received: by 2002:a05:620a:4553:b0:6bb:1dd0:e44c with SMTP id
- u19-20020a05620a455300b006bb1dd0e44cmr21170564qkp.543.1662063386429; 
- Thu, 01 Sep 2022 13:16:26 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4SXoUZt30A0xKlvUByAmirOD7wWDVTeEB40+CkCT1+zPJotJQ/iOqWav7vFUEdmX088i/ZHA==
-X-Received: by 2002:a05:620a:4553:b0:6bb:1dd0:e44c with SMTP id
- u19-20020a05620a455300b006bb1dd0e44cmr21170540qkp.543.1662063386195; 
- Thu, 01 Sep 2022 13:16:26 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c48:e00:e786:1aff:4f5c:c549?
- ([2600:4040:5c48:e00:e786:1aff:4f5c:c549])
- by smtp.gmail.com with ESMTPSA id
- l1-20020a05620a28c100b006b5e1aeb777sm12671930qkp.43.2022.09.01.13.16.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 13:16:25 -0700 (PDT)
-Message-ID: <4a44b0d4511e20fc32a9d9de8e6d12ec62c9f51b.camel@redhat.com>
-Subject: Re: [PATCH 2/9] drm/nouveau: convert to using is_hdmi and has_audio
- from display info
-From: Lyude Paul <lyude@redhat.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Date: Thu, 01 Sep 2022 16:16:24 -0400
-In-Reply-To: <e2fa3e97b0989a50b9050d0518844d1f403385ea.1662036058.git.jani.nikula@intel.com>
-References: <cover.1662036058.git.jani.nikula@intel.com>
- <e2fa3e97b0989a50b9050d0518844d1f403385ea.1662036058.git.jani.nikula@intel.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB80310E213;
+ Thu,  1 Sep 2022 20:20:23 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 281JHjfq011034;
+ Thu, 1 Sep 2022 20:20:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=7NdMKjCGr0VH2jWf99Ve+nXSQZagUgzEpQTAIP2HZc4=;
+ b=N7MQ++j1zzlVZo+jZzD9xTnA9UPKT4OqxhshqBUvwERux2q0HtbTU0ySNxJ0pCRSmr/v
+ NPjQPQNs4/1EiDFY9k5yj6VVTEsZJwhOWz+L8NVNHLIHcIHI0ECwT+noBQTLQXprShlL
+ UPgAm0Ub+Nx/t4SPhs0Dpvk49B3uiGzo1g7TaZZLrWRDa3goP5C5sbRB5WnFXDyTUmTD
+ kq/XDrr7L3V9bFS0SVL79vjEA467uo3B6s9KRzatXMFQ5aeLs5Gov6JEv2gZ5rcAxpyz
+ 0IPwNNaVC3L6hBpl8QU7tm9qzeVYRcjx3XlzKG+TOlqmMb1vvjGGQrAAhgkGqcU+otlt VA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ja79knp0g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Sep 2022 20:20:17 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 281KKGrn004976
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 1 Sep 2022 20:20:16 GMT
+Received: from [10.216.21.90] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 1 Sep 2022
+ 13:20:11 -0700
+Message-ID: <2339be29-c35a-67a4-8e98-daf247dd77dd@quicinc.com>
+Date: Fri, 2 Sep 2022 01:50:07 +0530
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v6 3/6] clk: qcom: gdsc: Add a reset op to poll gdsc
+ collapse
+Content-Language: en-US
+To: Philipp Zabel <p.zabel@pengutronix.de>
+References: <1661923108-789-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20220831104741.v6.3.I162c4be55f230cd439f0643f1624527bdc8a9831@changeid>
+ <20220901102817.GB32271@pengutronix.de>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20220901102817.GB32271@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: RrxUfKEOlK-krrFliA-9F3YbRt6ORIds
+X-Proofpoint-ORIG-GUID: RrxUfKEOlK-krrFliA-9F3YbRt6ORIds
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-09-01_12,2022-08-31_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015
+ adultscore=0 mlxscore=0 malwarescore=0 suspectscore=0 impostorscore=0
+ priorityscore=1501 phishscore=0 mlxlogscore=999 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209010088
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,118 +85,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Karol Herbst <kherbst@redhat.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, krzysztof.kozlowski@linaro.org,
+ Andy Gross <agross@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+On 9/1/2022 3:58 PM, Philipp Zabel wrote:
+> On Wed, Aug 31, 2022 at 10:48:24AM +0530, Akhil P Oommen wrote:
+>> Add a reset op compatible function to poll for gdsc collapse.
+>>
+>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>
+>> (no changes since v2)
+>>
+>> Changes in v2:
+>> - Minor update to function prototype
+>>
+>>   drivers/clk/qcom/gdsc.c | 23 +++++++++++++++++++----
+>>   drivers/clk/qcom/gdsc.h |  7 +++++++
+>>   2 files changed, 26 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/clk/qcom/gdsc.c b/drivers/clk/qcom/gdsc.c
+>> index 44520ef..2d0f1d1 100644
+>> --- a/drivers/clk/qcom/gdsc.c
+>> +++ b/drivers/clk/qcom/gdsc.c
+>> @@ -17,6 +17,7 @@
+>>   #include <linux/reset-controller.h>
+>>   #include <linux/slab.h>
+>>   #include "gdsc.h"
+>> +#include "reset.h"
+>>   
+>>   #define PWR_ON_MASK		BIT(31)
+>>   #define EN_REST_WAIT_MASK	GENMASK_ULL(23, 20)
+>> @@ -116,7 +117,8 @@ static int gdsc_hwctrl(struct gdsc *sc, bool en)
+>>   	return regmap_update_bits(sc->regmap, sc->gdscr, HW_CONTROL_MASK, val);
+>>   }
+>>   
+>> -static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status)
+>> +static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status,
+>> +		s64 timeout_us, unsigned int interval_ms)
+>>   {
+>>   	ktime_t start;
+>>   
+>> @@ -124,7 +126,9 @@ static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status)
+>>   	do {
+>>   		if (gdsc_check_status(sc, status))
+>>   			return 0;
+>> -	} while (ktime_us_delta(ktime_get(), start) < TIMEOUT_US);
+>> +		if (interval_ms)
+>> +			msleep(interval_ms);
+>> +	} while (ktime_us_delta(ktime_get(), start) < timeout_us);
+> Could this loop be implemented with read_poll_timeout()?
+I felt it is not worth the code churn. Currently, we hit this path only 
+during GPU recovery which is a rare event.
+>
+>>   	if (gdsc_check_status(sc, status))
+>>   		return 0;
+>> @@ -172,7 +176,7 @@ static int gdsc_toggle_logic(struct gdsc *sc, enum gdsc_status status)
+>>   		udelay(1);
+>>   	}
+>>   
+>> -	ret = gdsc_poll_status(sc, status);
+>> +	ret = gdsc_poll_status(sc, status, TIMEOUT_US, 0);
+>>   	WARN(ret, "%s status stuck at 'o%s'", sc->pd.name, status ? "ff" : "n");
+>>   
+>>   	if (!ret && status == GDSC_OFF && sc->rsupply) {
+>> @@ -343,7 +347,7 @@ static int _gdsc_disable(struct gdsc *sc)
+>>   		 */
+>>   		udelay(1);
+>>   
+>> -		ret = gdsc_poll_status(sc, GDSC_ON);
+>> +		ret = gdsc_poll_status(sc, GDSC_ON, TIMEOUT_US, 0);
+>>   		if (ret)
+>>   			return ret;
+>>   	}
+>> @@ -565,3 +569,14 @@ int gdsc_gx_do_nothing_enable(struct generic_pm_domain *domain)
+>>   	return 0;
+>>   }
+>>   EXPORT_SYMBOL_GPL(gdsc_gx_do_nothing_enable);
+>> +
+>> +int gdsc_wait_for_collapse(void *priv)
+>> +{
+>> +	struct gdsc *sc = priv;
+>> +	int ret;
+>> +
+>> +	ret = gdsc_poll_status(sc, GDSC_OFF, 500000, 5);
+>> +	WARN(ret, "%s status stuck at 'on'", sc->pd.name);
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL_GPL(gdsc_wait_for_collapse);
+> Superficially, using this as a reset op seems like abuse of the reset
+> controller API. Calling reset_control_reset() on this in the GPU driver
+> will not trigger a reset signal on the GPU's "cx_collapse" reset input.
+>
+> So at the very least, this patchset should contain an explanation why
+> this is a good idea regardless, and how this is almost a reset control.
+>
+> I have read the linked discussion, and I'm not sure I understand all
+> of it, so please correct me if I'm wrong: There is some other way to
+> force the GDSC into a state that will eventually cause a GPU reset, and
+> this is just the remaining part to make sure that the workaround dance
+> is finished?
+>
+> If so, it should be explained that this depends on something else to
+> actually indirectly trigger the reset, and where this happens.
 
-Also, went ahead and tested this for you on one of my machines:
+Let me clarify a bit. In Qcom gpu subsystem, power collapse is the only 
+way to properly reset the cx domain. Power collapse is a bit complex 
+here because multiple subsystems/drivers can keep a vote on the 
+regulator which blocks power collapse. So we remove the vote from gpu 
+driver and poll (with a reasonable timeout obviously) until everyone 
+removes their vote and gdsc collapses.
 
-Tested-by: Lyude Paul <lyude@redhat.com>
+I suppose generally a reset implementation would look like this:
 
-On Thu, 2022-09-01 at 15:47 +0300, Jani Nikula wrote:
-> Prefer the parsed results for is_hdmi and has_audio in display info over
-> calling drm_detect_hdmi_monitor() and drm_detect_monitor_audio(),
-> respectively.
-> 
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: nouveau@lists.freedesktop.org
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/nouveau/dispnv50/disp.c     | 8 ++++----
->  drivers/gpu/drm/nouveau/dispnv50/head.c     | 8 +-------
->  drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
->  3 files changed, 6 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> index 33c97d510999..d0d9494b729c 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -769,7 +769,7 @@ nv50_audio_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
->  				     (0x0100 << nv_crtc->index),
->  	};
->  
-> -	if (!drm_detect_monitor_audio(nv_connector->edid))
-> +	if (!nv_connector->base.display_info.has_audio)
->  		return;
->  
->  	mutex_lock(&drm->audio.lock);
-> @@ -839,7 +839,7 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
->  	int ret;
->  	int size;
->  
-> -	if (!drm_detect_hdmi_monitor(nv_connector->edid))
-> +	if (!nv_connector->base.display_info.is_hdmi)
->  		return;
->  
->  	hdmi = &nv_connector->base.display_info.hdmi;
-> @@ -1705,7 +1705,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
->  
->  	if ((disp->disp->object.oclass == GT214_DISP ||
->  	     disp->disp->object.oclass >= GF110_DISP) &&
-> -	    drm_detect_monitor_audio(nv_connector->edid))
-> +	    nv_connector->base.display_info.has_audio)
->  		hda = true;
->  	nv50_outp_acquire(nv_encoder, hda);
->  
-> @@ -1721,7 +1721,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
->  			 */
->  			if (mode->clock >= 165000 &&
->  			    nv_encoder->dcb->duallink_possible &&
-> -			    !drm_detect_hdmi_monitor(nv_connector->edid))
-> +			    !nv_connector->base.display_info.is_hdmi)
->  				proto = NV507D_SOR_SET_CONTROL_PROTOCOL_DUAL_TMDS;
->  		} else {
->  			proto = NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE_TMDS_B;
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
-> index c3c57be54e1c..8b5bc834f1b3 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/head.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
-> @@ -127,14 +127,8 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
->  	struct drm_display_mode *omode = &asyh->state.adjusted_mode;
->  	struct drm_display_mode *umode = &asyh->state.mode;
->  	int mode = asyc->scaler.mode;
-> -	struct edid *edid;
->  	int umode_vdisplay, omode_hdisplay, omode_vdisplay;
->  
-> -	if (connector->edid_blob_ptr)
-> -		edid = (struct edid *)connector->edid_blob_ptr->data;
-> -	else
-> -		edid = NULL;
-> -
->  	if (!asyc->scaler.full) {
->  		if (mode == DRM_MODE_SCALE_NONE)
->  			omode = umode;
-> @@ -162,7 +156,7 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
->  	 */
->  	if ((asyc->scaler.underscan.mode == UNDERSCAN_ON ||
->  	    (asyc->scaler.underscan.mode == UNDERSCAN_AUTO &&
-> -	     drm_detect_hdmi_monitor(edid)))) {
-> +	     connector->display_info.is_hdmi))) {
->  		u32 bX = asyc->scaler.underscan.hborder;
->  		u32 bY = asyc->scaler.underscan.vborder;
->  		u32 r = (asyh->view.oH << 19) / asyh->view.oW;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> index 1991bbb1d05c..2ef5fb8df4ed 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> @@ -1012,7 +1012,7 @@ get_tmds_link_bandwidth(struct drm_connector *connector)
->  	unsigned duallink_scale =
->  		nouveau_duallink && nv_encoder->dcb->duallink_possible ? 2 : 1;
->  
-> -	if (drm_detect_hdmi_monitor(nv_connector->edid)) {
-> +	if (nv_connector->base.display_info.is_hdmi) {
->  		info = &nv_connector->base.display_info;
->  		duallink_scale = 1;
->  	}
+reset {
+         Step 1: Trigger a reset pulse
+         Step 2: Wait/poll for reset to complete
+}
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+We skip step1 because we don't have a way to force it during gpu reset. 
+Instead of that, we just remove the gdsc vote from the gpu driver. So 
+all that is left to do here is step 2.
+
+Like you suggested, I think it would be better if we document this in 
+patch 4.
+
+Thanks for the review. Please let me know if you have any feedback.
+
+-Akhil.
+>
+> regards
+> Philipp
 
