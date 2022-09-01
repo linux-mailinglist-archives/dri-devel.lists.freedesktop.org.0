@@ -1,81 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DCD5A8B31
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 04:06:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7915A8CC6
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 06:42:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1B2C10E228;
-	Thu,  1 Sep 2022 02:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6018110E574;
+	Thu,  1 Sep 2022 04:42:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14A6A10E06F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 02:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661997957;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/Uc9eSniapYBlyChWU+AZI0xqtO1iDX5hC1kW3YMyLk=;
- b=hIsGtrnsSUPnPskoXOk+xXH12hhdTVUEWcM09lotc8eVqGCjHCmIjal937YbdiPXn3FQ/b
- GXFk41btq54jFxCidyNq3Zcd3Ic/7+FJ1LlXswwDB4HlxuM0ue60+ddMUDOWv+uD0oLjI/
- xuXsn3OxVrjkjMIFORpis9QKjdELRac=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-496-yGBZf8oZM8O5VJTuP2n79w-1; Wed, 31 Aug 2022 22:05:56 -0400
-X-MC-Unique: yGBZf8oZM8O5VJTuP2n79w-1
-Received: by mail-io1-f69.google.com with SMTP id
- c2-20020a6bec02000000b00689b26e92f0so9766982ioh.6
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Aug 2022 19:05:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc;
- bh=/Uc9eSniapYBlyChWU+AZI0xqtO1iDX5hC1kW3YMyLk=;
- b=wOI+REalIsjjIbrb4cPiU7bK0sV6LMZeTEM/c4ECkOfLE9/11Rxj0hpZHiwfW33jdr
- LzS47jy2CG9kx88rADQoSSzmX1u9r+sTUUgxvMiOEGHBAdVR3XTPwXlfPLxbsJa9GGLz
- 5AA/rXNPwjg/rlecY/ouHD3gjM/MuN2w6GLcfZB1hZ6/XlQJkH0HUGvjxrgH92GFtw1A
- X3dWY71OPOY4pnVi+4Au+SUjBFGCayPdTPskJwidAgmi8DWP0YO63vNQrbdeU9S9YxsG
- l+FxpqvbyS7eMgXKN1YREXcvxPzOg9x81kwwn0q9+frTftYFsJ1E3R0ojoCMHR0ZNscA
- /mMQ==
-X-Gm-Message-State: ACgBeo2CJmfkjDI9BxOn+FDPh6y+PX6/HsBv1JGQE8P0HkdElLfiZ2Qj
- 8mnM2xC7bBdtj5hLmlN2n2L2MTeMedzpeAvaYcrsH3ln1prK4FltprCQ2veUaz9wP5yJxq5eA0x
- /RMWFWCQW0jXkLC1H6ckuvNeHe+lY
-X-Received: by 2002:a02:caa6:0:b0:349:bbca:9a90 with SMTP id
- e6-20020a02caa6000000b00349bbca9a90mr16413140jap.203.1661997955737; 
- Wed, 31 Aug 2022 19:05:55 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR69HUeX58FMkYxODUyoKw5kYP6agdJ53j1pRzyBTmGQRYpiiEtOoSguPX68IkBTLGR0Abgyow==
-X-Received: by 2002:a02:caa6:0:b0:349:bbca:9a90 with SMTP id
- e6-20020a02caa6000000b00349bbca9a90mr16413094jap.203.1661997955449; 
- Wed, 31 Aug 2022 19:05:55 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- u7-20020a02b1c7000000b0034293459b44sm7434106jah.142.2022.08.31.19.05.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 19:05:55 -0700 (PDT)
-Date: Wed, 31 Aug 2022 20:05:52 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH 15/15] vfio: Add struct device to vfio_device
-Message-ID: <20220831200552.12169ae3.alex.williamson@redhat.com>
-In-Reply-To: <BN9PR11MB527652B0557897BDA08B5FE38C7B9@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220827171037.30297-1-kevin.tian@intel.com>
- <20220827171037.30297-16-kevin.tian@intel.com>
- <20220830161838.4aa47045.alex.williamson@redhat.com>
- <Yw6i7btDKcUDPADP@ziepe.ca>
- <BN9PR11MB5276BF3B8D65B66DB292CAE58C789@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220831111512.4924e152.alex.williamson@redhat.com>
- <BN9PR11MB527652B0557897BDA08B5FE38C7B9@BN9PR11MB5276.namprd11.prod.outlook.com>
-Organization: Red Hat
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D37610E572
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 04:42:00 +0000 (UTC)
+X-UUID: 5a4744e5364a4d5284e8aaca2539ec7c-20220901
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=7PPjWp2lc53aGyi9W+go/TW8PgfGTy4LMx8ByvPvI60=; 
+ b=KV+OVC1SFB4liBXZU3E5l4F1eYLBvqt+BwkCNer/PoBaKqGP5cii/+TFPGPple0jMGbndqKkBC+/AnjKkLTRD7VcXcbgYZ2I6+KKNHK78f1fj5EmpC06/+crRwLQpLon8PNcJGfnEvpSXF46cuB5prF4Xf0bAO1zbUYB+1qI+q0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10, REQID:728efbd0-14ae-46f7-8f94-7327358bcf84, OB:0,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Releas
+ e_Ham,ACTION:release,TS:-25
+X-CID-META: VersionHash:84eae18, CLOUDID:c8003c56-e800-47dc-8adf-0c936acf4f1b,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 5a4744e5364a4d5284e8aaca2539ec7c-20220901
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1579076028; Thu, 01 Sep 2022 12:41:53 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 1 Sep 2022 12:41:51 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Thu, 1 Sep 2022 12:41:51 +0800
+From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <matthias.bgg@gmail.com>,
+ <deller@gmx.de>, <airlied@linux.ie>
+Subject: [PATCH v17 00/10] Add MT8195 DisplayPort driver
+Date: Thu, 1 Sep 2022 12:41:39 +0800
+Message-ID: <20220901044149.16782-1-rex-bc.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,130 +63,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, David Airlie <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Kirti Wankhede <kwankhede@nvidia.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Longfang Liu <liulongfang@huawei.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Liu,
- Yi L" <yi.l.liu@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- Leon Romanovsky <leon@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
+ wenst@chromium.org, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 1 Sep 2022 00:46:51 +0000
-"Tian, Kevin" <kevin.tian@intel.com> wrote:
+This patch is separated from v10 which is including dp driver, phy driver
+and dpintf driver. This series is only contained the DisplayPort driver.
 
-> > From: Alex Williamson <alex.williamson@redhat.com>
-> > Sent: Thursday, September 1, 2022 1:15 AM
-> > 
-> > On Wed, 31 Aug 2022 06:10:51 +0000
-> > "Tian, Kevin" <kevin.tian@intel.com> wrote:
-> >   
-> > > > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > > > Sent: Wednesday, August 31, 2022 7:53 AM
-> > > >
-> > > > On Tue, Aug 30, 2022 at 04:18:38PM -0600, Alex Williamson wrote:  
-> > > > > On Sun, 28 Aug 2022 01:10:37 +0800
-> > > > > Kevin Tian <kevin.tian@intel.com> wrote:
-> > > > >  
-> > > > > > From: Yi Liu <yi.l.liu@intel.com>
-> > > > > >
-> > > > > > and replace kref. With it a 'vfio-dev/vfioX' node is created under the
-> > > > > > sysfs path of the parent, indicating the device is bound to a vfio
-> > > > > > driver, e.g.:
-> > > > > >
-> > > > > > /sys/devices/pci0000\:6f/0000\:6f\:01.0/vfio-dev/vfio0
-> > > > > >
-> > > > > > It is also a preparatory step toward adding cdev for supporting future
-> > > > > > device-oriented uAPI.  
-> > > > >
-> > > > > Shall we start Documentation/ABI/testing/vfio-dev now?  Thanks.  
-> > > >
-> > > > I always thought that was something to use when adding new custom
-> > > > sysfs attributes?
-> > > >
-> > > > Here we are just creating a standard struct device with its standard
-> > > > sysfs?
-> > > >  
-> > >
-> > > There is nothing special for vfio-dev/vfioX. But from pci device p.o.v
-> > > this does introduce a custom node in the directory, which is probably
-> > > what Alex referred to?  
-> > 
-> > Yup, but not just for pci, we're adding a node into the device
-> > directory for any device bound to vfio.
-> >   
-> > > Anyway if required following can be introduced:
-> > >
-> > > diff --git a/Documentation/ABI/testing/sysfs-devices-vfio-dev  
-> > b/Documentation/ABI/testing/sysfs-devices-vfio-dev  
-> > > new file mode 100644
-> > > index 000000000000..dfe8baaf1ccb
-> > > --- /dev/null
-> > > +++ b/Documentation/ABI/testing/sysfs-devices-vfio-dev
-> > > @@ -0,0 +1,8 @@
-> > > +What:		 /sys/.../<device>/vfio-dev/vfioX/
-> > > +Date:		 September 2022
-> > > +Contact:	 Yi Liu <yi.l.liu@intel.com>
-> > > +Description:
-> > > +		 This directory is created when the device is bound to a
-> > > +		 vfio driver. The layout under this directory matches what
-> > > +		 exists for a standard 'struct device'. 'X' is a random
-> > > +		 number marking this device in vfio.  
-> > 
-> > It's not really random, it's a unique index.  Seems like a good
-> > starting point.
-> >   
-> > >
-> > > At the start I thought it might make more sense to add it into an
-> > > existing vfio ABI file. But looks it doesn't exist.
-> > >
-> > > Curious why nobody asked for ABI doc for /dev/vfio/vfio, /sys/class/vfio,  
-> > etc...
-> > 
-> > Oversight, there should probably be a sysfs-class-vfio file.  Thanks,
-> >   
-> 
-> I can help add one.
-> 
-> btw I plan to respin v2 tomorrow. Regarding to this ABI thing there are
-> three options:
-> 
-> 1) Just add sysfs-devices-vfio-dev in this series. Later merge to
->    sysfs-class-vfio once the latter is introduced in a separate patch.
+This series can be tested using 5.19-rc2 kernel and I test it in MT8195
+Tomato Chromebook. Modetest these modes:
 
-This.  Thanks,
+for eDP:
+  #0 2256x1504 60.00 2256 2304 2336 2536 1504 1507 1513 1549 235690 flags: phsync, nvsync; type: preferred, driver
+  #1 2256x1504 48.00 2256 2304 2336 2536 1504 1507 1513 1549 188550 flags: phsync, nvsync; type: driver
 
-Alex
+for DP:
+  #0 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500 flags: phsync, pvsync; type: preferred, driver
+  #1 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352 flags: phsync, pvsync; type: driver
+  #2 1920x1080 50.00 1920 2448 2492 2640 1080 1084 1089 1125 148500 flags: phsync, pvsync; type: driver
+  #3 1680x1050 59.95 1680 1784 1960 2240 1050 1053 1059 1089 146250 flags: nhsync, pvsync; type: driver
+  #4 1600x900 60.00 1600 1624 1704 1800 900 901 904 1000 108000 flags: phsync, pvsync; type: driver
+  #5 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000 flags: phsync, pvsync; type: driver
+  #6 1280x800 59.81 1280 1352 1480 1680 800 803 809 831 83500 flags: nhsync, pvsync; type: driver
+  #7 1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+  #8 1280x720 59.94 1280 1390 1430 1650 720 725 730 750 74176 flags: phsync, pvsync; type: driver
+  #9 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+  #10 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags: nhsync, nvsync; type: driver
+  #11 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags: phsync, pvsync; type: driver
+  #12 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags: nhsync, nvsync; type: driver
+  #13 720x480 60.00 720 736 798 858 480 489 495 525 27027 flags: nhsync, nvsync; type: driver
+  #14 720x480 59.94 720 736 798 858 480 489 495 525 27000 flags: nhsync, nvsync; type: driver
+  #15 640x480 60.00 640 656 752 800 480 490 492 525 25200 flags: nhsync, nvsync; type: driver
+  #16 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags: nhsync, nvsync; type: driver
 
-> 
-> 2) Do sysfs-class-vfio in this series, including both existing vfio ABIs and
->    the new vfio-dev.
-> 
-> 3) No ABI file in this series. Handle it in a separate patch with
->    sysfs-class-vfio.
-> 
-> Which one do  you prefer to?
-> 
-> Thanks
-> Kevin
-> 
+Changes from v16 for dp driver:
+dp drivers:
+  - Add platform data to separate function.
+  - Refine training flow.
+  - Refine atomic enable/disable flow.
+  - Refine irq flow.
+  - Refactor coding style of efuse data.
+  - Remove many unused code.
+
+Changes from v15 for dp driver:
+dt-binding:
+  - Modify maintainers' comments.
+common part:
+  - Drop modification of cea_sad helpers because we don't use them anymore.
+dp drivers:
+  - Remove some unused register definitions.
+  - Extract the same drivers for training function.
+  - Use of device data for feature variables to judge what we want to do instead of using is_edp.
+  - Drop retry patch because we don't encounter this issue in current drivers.
+
+Changes from v14 for dp driver:
+dt-binding:
+  - Add more description for difference of edp and dp.
+  - Add description that why we don't need clock property.
+common part:
+  - Fix reviewers' comments.
+dp drivers:
+  - Expand drivers to one function of irq handle.
+  - Fix reviewers' comments.
+  - Remove some redundant check.
+  - Remove limitation of 60fps.
+  - Add one patch for adding retry.
+  - Add unregister flow of audio platform.
+
+Changes from v13 for dp driver:
+dt-binding:
+  - Move data-lanes to port.
+dp drivers:
+  - Reporting for data-lanes using port.
+  - Remove unnecessary drivers.
+  - Refine mtk_dp_aux_transfer().
+  - Refine mtk_dp_hpd_isr_handler().
+  - Remove fec related drivers.
+
+Changes from v12 for dp driver:
+dt-binding:
+  - Fix build error.
+embedded dp drivers:
+  - Revise Kconfig to let this driver independent.
+  - Drop some unused/redundant drivers.
+  - Move some features to patches of external dp and audio.
+  - Refine format error control flow.
+  - Add error control of write register functions.
+  - Use mtk sip common definitions.
+
+Changes from v11 for dp driver:
+dt-binding:
+  - Use data-lanes to determine the max supported lane numbers.
+  - Add mhz to max-linkrate to show the units.
+embedded dp drivers:
+  - Modify Makefile.
+  - Drop some unused/redundant drivers.
+  - Move some features to patches of external dp and audio.
+  - Modify break condition of training loop to control cr/eq fail.
+  - Replace some function/definition with ones of common drm drivers.
+  - Remove dp_lock mutex because it's only locked in power_on/off.
+  - Add drm_dp_aux_(un)register in mtk_dp_bridge_(de)attach.
+
+Changes from v10 for dp driver:
+- Drop return value for write registers to make code more clear.
+- Refine training state.
+- Add property for dt-binding.
+- Add new bug fix patches for audio and suspend.
+- Rebase to v5.19-rc1.
+
+Changes from v9:
+- The DP-Phy is back to being a child device of the DP driver (as in v8)
+- hot plug detection has been added back to Embedded Display Port... as
+  after discussing with mediatek experts, this is needed eventhough the
+  Embedded Display port is not un-pluggable
+- rebased on linux-next
+- simplified/split train_handler function, as suggested by Rex
+- added comments on the sleep/delays present in the code
+- removed previous patch introducing retries when receiving AUX_DEFER as
+  this is already handled in the dp_aux framework
+- added max-lane and max-linkrate device tree u8 properties instead of
+  hardcoded #defines
+
+Older revisions:
+RFC - https://lore.kernel.org/linux-mediatek/20210816192523.1739365-1-msp@baylibre.com/
+v1  - https://lore.kernel.org/linux-mediatek/20210906193529.718845-1-msp@baylibre.com/
+v2  - https://lore.kernel.org/linux-mediatek/20210920084424.231825-1-msp@baylibre.com/
+v3  - https://lore.kernel.org/linux-mediatek/20211001094443.2770169-1-msp@baylibre.com/
+v4  - https://lore.kernel.org/linux-mediatek/20211011094624.3416029-1-msp@baylibre.com/
+v5  - https://lore.kernel.org/all/20211021092707.3562523-1-msp@baylibre.com/
+v6  - https://lore.kernel.org/linux-mediatek/20211110130623.20553-1-granquet@baylibre.com/
+v7  - https://lore.kernel.org/linux-mediatek/20211217150854.2081-1-granquet@baylibre.com/
+v8  - https://lore.kernel.org/linux-mediatek/20220218145437.18563-1-granquet@baylibre.com/
+v9  - https://lore.kernel.org/all/20220327223927.20848-1-granquet@baylibre.com/
+v10 - https://lore.kernel.org/all/20220523104758.29531-1-granquet@baylibre.com/
+v11 - https://lore.kernel.org/r/20220610105522.13449-1-rex-bc.chen@mediatek.com
+v12 - https://lore.kernel.org/all/20220627080341.5087-1-rex-bc.chen@mediatek.com/
+v13 - https://lore.kernel.org/all/20220701062808.18596-1-rex-bc.chen@mediatek.com/
+v14 - https://lore.kernel.org/all/20220712111223.13080-1-rex-bc.chen@mediatek.com/
+v15 - https://lore.kernel.org/all/20220727045035.32225-1-rex-bc.chen@mediatek.com/
+v16 - https://lore.kernel.org/all/20220805101459.3386-1-rex-bc.chen@mediatek.com/
+
+Bo-Chen Chen (4):
+  drm/mediatek: dp: Add multiple bridge types support
+  drm/mediatek: dp: Add multiple smc commands support
+  drm/mediatek: dp: Add multiple calibration data formats support
+  drm/mediatek: dp: Determine device of next_bridge
+
+Guillaume Ranquet (2):
+  drm/mediatek: dp: Add MT8195 External DisplayPort support
+  drm/mediatek: dp: Audio support for MT8195
+
+Jitao Shi (1):
+  drm/mediatek: dp: Add hpd debounce
+
+Markus Schneider-Pargmann (3):
+  dt-bindings: mediatek,dp: Add Display Port binding
+  video/hdmi: Add audio_infoframe packing for DP
+  drm/mediatek: Add MT8195 Embedded DisplayPort driver
+
+ .../display/mediatek/mediatek,dp.yaml         |  116 +
+ drivers/gpu/drm/mediatek/Kconfig              |    9 +
+ drivers/gpu/drm/mediatek/Makefile             |    2 +
+ drivers/gpu/drm/mediatek/mtk_dp.c             | 2661 +++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_dp_reg.h         |  356 +++
+ drivers/video/hdmi.c                          |   82 +-
+ include/drm/display/drm_dp.h                  |    2 +
+ include/linux/hdmi.h                          |    7 +-
+ 8 files changed, 3215 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
+
+-- 
+2.18.0
 
