@@ -1,68 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFD25A9478
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 12:24:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 246B95A949A
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 12:28:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7AEE10E6C0;
-	Thu,  1 Sep 2022 10:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA01C10E6B4;
+	Thu,  1 Sep 2022 10:28:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C164D10E6A3
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 10:23:26 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id p16so5709517lfd.6
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Sep 2022 03:23:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=bv3T8WPYFThl+f9nEQNBZ4CF4xXVMlb0Mv8v7lUGZ9g=;
- b=xmPRWKjiz0waRhbK6pLq57Z6PA0VgBUw8r8Os5JD4kUxPDsFYkFi8FdunEzpp9w0uZ
- 9tn6NSstbWsjm95KjpWDhHpn4YD9RNKxfDGm2jSK8ibqAxacH0cYwPvXcuKiBsBjw0pk
- bP1FiphBCN2DBqhV9ioMZmGwpIdFSOt3Cg1WCtMQtzZOBR2wFxs7fBn2KPH/kx50NG4M
- LUCEv8NtuzNMw2fKP9PLn8NH9nphDI++WBYslUfaUSCpJm6SpNcOVWebvxSDUe63UJgL
- QZQ5jiYIsiVfsBs3iU3y0IEcf0HWemtJTmtTvHiLIHG86uALZTMVX3EjK5ebpZNC927T
- jBCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=bv3T8WPYFThl+f9nEQNBZ4CF4xXVMlb0Mv8v7lUGZ9g=;
- b=48AiZQ1/xYJPC/iMetArkicI8R76n3f50qk+sDOSsKItSXO8uvFUq6+BO++tHvIq6o
- Kec4MqvZw4qhd0u6ubKEKnVoU/aFoaWGil73zy+5s4R3qmyFGDhe0DFjISWXuLuDtEJ1
- QV/G4ppzAMtsQirRYiFO36kZ74uTBHUrP9hAneGxhn0xMRHUwnvVXWTWyJMvFp2WPYOH
- dFydDpIJgzYzNNLK8wOzIpqv873whmKIX2SGQn4ZLug3VsMB45S7Mt2lNF8VMw0VDES1
- Tg3iCqI7QYqJeDzatTSZAl0K4++vtK/BPVRTSmfrv8qM2Tv22lUlZ5OwWUTAOc7nAaDo
- oe3Q==
-X-Gm-Message-State: ACgBeo3WFzupPXcWIPe2Q4xl2qvE9KIM2JhwSCAci0SaBu2tbSL/zZtr
- rqVwY5GR6mZIPVAWVRx7BoOurg==
-X-Google-Smtp-Source: AA6agR5nxdf5EcsmpllSAXsT4JRuD8m4TR9S7TEUZxY7KzbF0fjuT1NQDEgmBv7mYuI8rcSOi2cJqg==
-X-Received: by 2002:a05:6512:1585:b0:494:9fd0:2ca with SMTP id
- bp5-20020a056512158500b004949fd002camr400670lfb.439.1662027806314; 
- Thu, 01 Sep 2022 03:23:26 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- z19-20020a056512371300b004949ea5480fsm123453lfr.97.2022.09.01.03.23.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 03:23:25 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v6 12/12] dt-bindings: display/msm: add support for the
- display on SM8250
-Date: Thu,  1 Sep 2022 13:23:12 +0300
-Message-Id: <20220901102312.2005553-13-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
-References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C20A10E6B2
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 10:28:23 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <pza@pengutronix.de>)
+ id 1oThQq-0000YK-87; Thu, 01 Sep 2022 12:28:20 +0200
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <pza@pengutronix.de>)
+ id 1oThQn-0000Tb-NO; Thu, 01 Sep 2022 12:28:17 +0200
+Date: Thu, 1 Sep 2022 12:28:17 +0200
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Subject: Re: [PATCH v6 3/6] clk: qcom: gdsc: Add a reset op to poll gdsc
+ collapse
+Message-ID: <20220901102817.GB32271@pengutronix.de>
+References: <1661923108-789-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20220831104741.v6.3.I162c4be55f230cd439f0643f1624527bdc8a9831@changeid>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220831104741.v6.3.I162c4be55f230cd439f0643f1624527bdc8a9831@changeid>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,258 +55,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, krzysztof.kozlowski@linaro.org,
+ Andy Gross <agross@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DPU and MDSS schemas to describe MDSS and DPU blocks on the Qualcomm
-SM8250 platform.
+On Wed, Aug 31, 2022 at 10:48:24AM +0530, Akhil P Oommen wrote:
+> Add a reset op compatible function to poll for gdsc collapse.
+> 
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> 
+> (no changes since v2)
+> 
+> Changes in v2:
+> - Minor update to function prototype
+> 
+>  drivers/clk/qcom/gdsc.c | 23 +++++++++++++++++++----
+>  drivers/clk/qcom/gdsc.h |  7 +++++++
+>  2 files changed, 26 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/clk/qcom/gdsc.c b/drivers/clk/qcom/gdsc.c
+> index 44520ef..2d0f1d1 100644
+> --- a/drivers/clk/qcom/gdsc.c
+> +++ b/drivers/clk/qcom/gdsc.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/reset-controller.h>
+>  #include <linux/slab.h>
+>  #include "gdsc.h"
+> +#include "reset.h"
+>  
+>  #define PWR_ON_MASK		BIT(31)
+>  #define EN_REST_WAIT_MASK	GENMASK_ULL(23, 20)
+> @@ -116,7 +117,8 @@ static int gdsc_hwctrl(struct gdsc *sc, bool en)
+>  	return regmap_update_bits(sc->regmap, sc->gdscr, HW_CONTROL_MASK, val);
+>  }
+>  
+> -static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status)
+> +static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status,
+> +		s64 timeout_us, unsigned int interval_ms)
+>  {
+>  	ktime_t start;
+>  
+> @@ -124,7 +126,9 @@ static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status)
+>  	do {
+>  		if (gdsc_check_status(sc, status))
+>  			return 0;
+> -	} while (ktime_us_delta(ktime_get(), start) < TIMEOUT_US);
+> +		if (interval_ms)
+> +			msleep(interval_ms);
+> +	} while (ktime_us_delta(ktime_get(), start) < timeout_us);
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../bindings/display/msm/dpu-sm8250.yaml      |  96 ++++++++++++++++
- .../bindings/display/msm/mdss-common.yaml     |   4 +-
- .../bindings/display/msm/mdss-sm8250.yaml     | 106 ++++++++++++++++++
- 3 files changed, 204 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sm8250.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-sm8250.yaml
+Could this loop be implemented with read_poll_timeout()?
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sm8250.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sm8250.yaml
-new file mode 100644
-index 000000000000..9bc2ee4a6589
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/dpu-sm8250.yaml
-@@ -0,0 +1,96 @@
-+# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/dpu-sm8250.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm Display DPU dt properties for SM8250
-+
-+maintainers:
-+  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+
-+description: |
-+  Device tree bindings for the DPU display controller for SM8250 target.
-+
-+allOf:
-+  - $ref: /schemas/display/msm/dpu-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: qcom,sm8250-dpu
-+
-+  reg:
-+    items:
-+      - description: Address offset and size for mdp register set
-+      - description: Address offset and size for vbif register set
-+
-+  reg-names:
-+    items:
-+      - const: mdp
-+      - const: vbif
-+
-+  clocks:
-+    items:
-+      - description: Display ahb clock
-+      - description: Display hf axi clock
-+      - description: Display core clock
-+      - description: Display vsync clock
-+
-+  clock-names:
-+    items:
-+      - const: iface
-+      - const: bus
-+      - const: core
-+      - const: vsync
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,dispcc-sm8250.h>
-+    #include <dt-bindings/clock/qcom,gcc-sm8250.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interconnect/qcom,sm8250.h>
-+    #include <dt-bindings/power/qcom-rpmpd.h>
-+
-+    display-controller@ae01000 {
-+      compatible = "qcom,sm8250-dpu";
-+      reg = <0x0ae01000 0x8f000>,
-+            <0x0aeb0000 0x2008>;
-+      reg-names = "mdp", "vbif";
-+
-+      clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+               <&gcc GCC_DISP_HF_AXI_CLK>,
-+               <&dispcc DISP_CC_MDSS_MDP_CLK>,
-+               <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+      clock-names = "iface", "bus", "core", "vsync";
-+
-+      assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+      assigned-clock-rates = <19200000>;
-+
-+      operating-points-v2 = <&mdp_opp_table>;
-+      power-domains = <&rpmhpd SM8250_MMCX>;
-+
-+      interrupt-parent = <&mdss>;
-+      interrupts = <0>;
-+
-+      ports {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        port@0 {
-+          reg = <0>;
-+          endpoint {
-+            remote-endpoint = <&dsi0_in>;
-+          };
-+        };
-+
-+        port@1 {
-+          reg = <1>;
-+          endpoint {
-+            remote-endpoint = <&dsi1_in>;
-+          };
-+        };
-+      };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-index 053c1e889552..a0a54cd63100 100644
---- a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-@@ -27,11 +27,11 @@ properties:
- 
-   clocks:
-     minItems: 2
--    maxItems: 3
-+    maxItems: 4
- 
-   clock-names:
-     minItems: 2
--    maxItems: 3
-+    maxItems: 4
- 
-   interrupts:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/msm/mdss-sm8250.yaml b/Documentation/devicetree/bindings/display/msm/mdss-sm8250.yaml
-new file mode 100644
-index 000000000000..d581d10fea2d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/mdss-sm8250.yaml
-@@ -0,0 +1,106 @@
-+# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/mdss-sm8250.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm Display MDSS dt properties for SM8250 target
-+
-+maintainers:
-+  - Krishna Manikandan <quic_mkrishn@quicinc.com>
-+
-+description: |
-+  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
-+  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
-+  bindings of MDSS are mentioned for SM8250 target.
-+
-+allOf:
-+  - $ref: /schemas/display/msm/mdss-common.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: qcom,sm8250-mdss
-+
-+  clocks:
-+    items:
-+      - description: Display AHB clock from gcc
-+      - description: Display hf axi clock
-+      - description: Display sf axi clock
-+      - description: Display core clock
-+
-+  clock-names:
-+    items:
-+      - const: iface
-+      - const: bus
-+      - const: nrt_bus
-+      - const: core
-+
-+  iommus:
-+    maxItems: 1
-+
-+  interconnects:
-+    maxItems: 2
-+
-+  interconnect-names:
-+    maxItems: 2
-+
-+patternProperties:
-+  "^display-controller@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,sm8250-dpu
-+
-+  "^dsi@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,mdss-dsi-ctrl
-+
-+  "^dsi-phy@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,dsi-phy-7nm
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,dispcc-sm8250.h>
-+    #include <dt-bindings/clock/qcom,gcc-sm8250.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interconnect/qcom,sm8250.h>
-+    #include <dt-bindings/power/qcom-rpmpd.h>
-+
-+    display-subsystem@ae00000 {
-+      compatible = "qcom,sm8250-mdss";
-+      reg = <0x0ae00000 0x1000>;
-+      reg-names = "mdss";
-+
-+      interconnects = <&mmss_noc MASTER_MDP_PORT0 &mc_virt SLAVE_EBI_CH0>,
-+                      <&mmss_noc MASTER_MDP_PORT1 &mc_virt SLAVE_EBI_CH0>;
-+      interconnect-names = "mdp0-mem", "mdp1-mem";
-+
-+      power-domains = <&dispcc MDSS_GDSC>;
-+
-+      clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+               <&gcc GCC_DISP_HF_AXI_CLK>,
-+               <&gcc GCC_DISP_SF_AXI_CLK>,
-+               <&dispcc DISP_CC_MDSS_MDP_CLK>;
-+      clock-names = "iface", "bus", "nrt_bus", "core";
-+
-+      interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+      interrupt-controller;
-+      #interrupt-cells = <1>;
-+
-+      iommus = <&apps_smmu 0x820 0x402>;
-+
-+      status = "disabled";
-+
-+      #address-cells = <1>;
-+      #size-cells = <1>;
-+      ranges;
-+    };
-+...
--- 
-2.35.1
+>  	if (gdsc_check_status(sc, status))
+>  		return 0;
+> @@ -172,7 +176,7 @@ static int gdsc_toggle_logic(struct gdsc *sc, enum gdsc_status status)
+>  		udelay(1);
+>  	}
+>  
+> -	ret = gdsc_poll_status(sc, status);
+> +	ret = gdsc_poll_status(sc, status, TIMEOUT_US, 0);
+>  	WARN(ret, "%s status stuck at 'o%s'", sc->pd.name, status ? "ff" : "n");
+>  
+>  	if (!ret && status == GDSC_OFF && sc->rsupply) {
+> @@ -343,7 +347,7 @@ static int _gdsc_disable(struct gdsc *sc)
+>  		 */
+>  		udelay(1);
+>  
+> -		ret = gdsc_poll_status(sc, GDSC_ON);
+> +		ret = gdsc_poll_status(sc, GDSC_ON, TIMEOUT_US, 0);
+>  		if (ret)
+>  			return ret;
+>  	}
+> @@ -565,3 +569,14 @@ int gdsc_gx_do_nothing_enable(struct generic_pm_domain *domain)
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(gdsc_gx_do_nothing_enable);
+> +
+> +int gdsc_wait_for_collapse(void *priv)
+> +{
+> +	struct gdsc *sc = priv;
+> +	int ret;
+> +
+> +	ret = gdsc_poll_status(sc, GDSC_OFF, 500000, 5);
+> +	WARN(ret, "%s status stuck at 'on'", sc->pd.name);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(gdsc_wait_for_collapse);
 
+Superficially, using this as a reset op seems like abuse of the reset
+controller API. Calling reset_control_reset() on this in the GPU driver
+will not trigger a reset signal on the GPU's "cx_collapse" reset input.
+
+So at the very least, this patchset should contain an explanation why
+this is a good idea regardless, and how this is almost a reset control.
+
+I have read the linked discussion, and I'm not sure I understand all
+of it, so please correct me if I'm wrong: There is some other way to
+force the GDSC into a state that will eventually cause a GPU reset, and
+this is just the remaining part to make sure that the workaround dance
+is finished?
+
+If so, it should be explained that this depends on something else to
+actually indirectly trigger the reset, and where this happens.
+
+regards
+Philipp
