@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98F45A9461
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 12:24:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBA95A9468
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 12:24:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23D6D10E6A1;
-	Thu,  1 Sep 2022 10:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 557E510E6AA;
+	Thu,  1 Sep 2022 10:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C37110E69E
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 10:23:18 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id w19so14413052ljj.7
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Sep 2022 03:23:18 -0700 (PDT)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68A310E699
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Sep 2022 10:23:19 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id m7so14815310lfq.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Sep 2022 03:23:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=gHw35hCInqQhuDYl7ZZa1qf6fa7wiZH9XT+GfWRFFMc=;
- b=rFB9/u4T8YvCl32MoibWldYrtApWUE2Mwc3abtCfGjSKZe5TERbmeA/TeP7TaH/Xk6
- 3lbvJPDfMz58BulZbM9mBiLT7dcmeUgJgR7+o0H0M+VrXUz0C8zfDdT5k6OYmEuZ6FjI
- F3O1YR+WwHVhUWhIwGalHCOnDCHlEgbEfCTZXO09NYSAGx0ztqcxNBKUmruHaQG7svBf
- PkJ7PxWpP8cSY/Zxf0bNLjuFxfsTj7xyFNdkPtAoY+idBHwYKRxmKQlHN56W3GldOHYs
- ztdCSt5hp6Mc4aVZit0CzYcNVd7PkPf//hb/VfYhRA4ycBSKUmJ9jth57xHFTxKubZdi
- HPbg==
+ bh=S5rOAiBOQhV9HJ1M+D/hRwWg34A/BT47JDpJ80EyBP0=;
+ b=GNb/UJuLtKH7wvp8HdTx7ECgQY25C+K6F/b+v8mSYb5uNWgv1meK7Xlam4mWxZJdMS
+ RXog33Iihwg9xsrpaUhzR9doRVKlVrhMwyT7JE4IlgzAWyent0FdlwF/LSXECuHuHxN8
+ GVhjS9sly8UBZIKLFVPKLkh1OQPsmx82+YcvnLitUIuoh5alaykidpGUybdr0QnUSaFU
+ a1gPPxqwaV0GAIFuLOTueLSO5fVa/qhah6wI/vALA1lL/lu0KbO332nud0aB5GANkGSM
+ pQndZtleqZDxBL/e12Et2JQaGteiEImNsbKZ5D9aLkuRs9t1L5aO8IiyNuIBWWd4YgjA
+ MhYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=gHw35hCInqQhuDYl7ZZa1qf6fa7wiZH9XT+GfWRFFMc=;
- b=oqr3Dibb8XkeAbYUeqDekN5v4ADaSBRstbz5umploXF+CxgyNcE+D9itP7bTo/efqD
- YzeZ3gIkH231IddKsIBErRoD2Xj66YEejG9J6RILElbCs7KhV6EStgj5Fa3RRkDH0m79
- 57kMDrjRIP2Rx19iIisQgsnQieu7u5OaXhsZq0IRbKeObIqAKqS/MrMRuyVnf35WU8fF
- eb4GDSaJCL9Euq8GqyHyhiN5Oa1NEgbCCXtPEpw+s6Ffr0EWmAw9PjtE/S4kTvF7/U79
- DVYsWj14gPuYgy6765KC4frY0wLd5DnmHT+u4PWsvdwEWEnjILepKRWFfBtdVhCqDzpJ
- wyVw==
-X-Gm-Message-State: ACgBeo1PaQ7YtQAT6+YcuHUwX85I4Kb7OsQHFgRZgPySzHovQnZcFYSa
- WlLqWkxjA3tE1W48kNN+q9OLlQ==
-X-Google-Smtp-Source: AA6agR4gytM8sG5Cdwi+tanY8MLQ8kDkTvqfVr/BW4fEhYGQZ6oOgajiBYV3dnWiX+CAm8JI4s5DKw==
-X-Received: by 2002:a2e:92ce:0:b0:261:e39e:2c1d with SMTP id
- k14-20020a2e92ce000000b00261e39e2c1dmr9275777ljh.273.1662027796776; 
- Thu, 01 Sep 2022 03:23:16 -0700 (PDT)
+ bh=S5rOAiBOQhV9HJ1M+D/hRwWg34A/BT47JDpJ80EyBP0=;
+ b=lcMmycknkj+aQoPeMTag1tbmnQrtcwYofTeiXBtDWcuMyVNoBqz1fDDcdeJD9IlXKw
+ cgzKE8XaERQg7HoI4lP+hvbtnD+y5KDRx2uyp9a5f1LIeu1Hr7wtdywmOjdKYulVMAP2
+ Ov8s/Llpbept22ktoVOFsib5zOdr/jP8uI8vBiU1zO7/FkCOvKSf4Cyxz5pqpiTY0Gbp
+ eaD7G8MHZJLIBaNdweZO1A+cIsjPhD0ImKLQo2iJBcsjdNgeS1efb13iys1Ilm53w8fT
+ TBLRkzUAk/5V0KlWken12L1bWthAFNoWujXId1eSSB8TGSjvKyyoTMHtXxglvsYP6HS6
+ tlgA==
+X-Gm-Message-State: ACgBeo1oig8flCmQ/jgPA/1gwVcQ3KsrP7Iudu+napEDcPB30RKKiN9M
+ 1nNmFDReak3ki3uXPmk3gfDbJA==
+X-Google-Smtp-Source: AA6agR508sT2Rj3XDruBvQtYfaRxPy3YJ5nU0nf3ocKGo6wujWEaf7z9Ot6qtLOIdNCdtfAvlY8lBQ==
+X-Received: by 2002:a05:6512:2313:b0:48a:e615:289b with SMTP id
+ o19-20020a056512231300b0048ae615289bmr10114531lfu.201.1662027797761; 
+ Thu, 01 Sep 2022 03:23:17 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
  z19-20020a056512371300b004949ea5480fsm123453lfr.97.2022.09.01.03.23.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 03:23:16 -0700 (PDT)
+ Thu, 01 Sep 2022 03:23:17 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -54,10 +54,10 @@ To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v6 03/12] dt-bindings: display/msm: add interconnects property
- to qcom, mdss-smd845
-Date: Thu,  1 Sep 2022 13:23:03 +0300
-Message-Id: <20220901102312.2005553-4-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v6 04/12] dt-bindings: display/msm: move common DPU properties
+ to dpu-common.yaml
+Date: Thu,  1 Sep 2022 13:23:04 +0300
+Message-Id: <20220901102312.2005553-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
 References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
@@ -83,37 +83,388 @@ Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add interconnects required for the SDM845 MDSS device tree node. This
-change was made in the commit c8c61c09e38b ("arm64: dts: qcom: sdm845:
-Add interconnects property for display"), but was not reflected in the
-schema.
+Move properties common to all DPU DT nodes to the dpu-common.yaml.
+
+Note, this removes description of individual DPU port@ nodes. However
+such definitions add no additional value. The reg values do not
+correspond to hardware INTF indices. The driver discovers and binds
+these ports not paying any care for the order of these items. Thus just
+leave the reference to graph.yaml#/properties/ports and the description.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../devicetree/bindings/display/msm/dpu-sdm845.yaml    | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../bindings/display/msm/dpu-common.yaml      | 44 ++++++++++++++++++
+ .../bindings/display/msm/dpu-msm8998.yaml     | 46 ++-----------------
+ .../bindings/display/msm/dpu-qcm2290.yaml     | 41 ++---------------
+ .../bindings/display/msm/dpu-sc7180.yaml      | 45 ++----------------
+ .../bindings/display/msm/dpu-sc7280.yaml      | 45 ++----------------
+ .../bindings/display/msm/dpu-sdm845.yaml      | 46 ++-----------------
+ 6 files changed, 64 insertions(+), 203 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-common.yaml
 
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-common.yaml b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
+new file mode 100644
+index 000000000000..bf5764e9932b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
+@@ -0,0 +1,44 @@
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/dpu-common.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm Display DPU dt properties (common properties)
++
++maintainers:
++  - Krishna Manikandan <quic_mkrishn@quicinc.com>
++  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++  - Rob Clark <robdclark@gmail.com>
++
++description: |
++  Common properties for QCom DPU display controller.
++
++properties:
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  operating-points-v2: true
++  opp-table:
++    type: object
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    description: |
++      Contains the list of output ports from DPU device. These ports
++      connect to interfaces that are external to the DPU hardware,
++      such as DSI, DP etc.
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - interrupts
++  - power-domains
++  - operating-points-v2
++  - ports
++
++additionalProperties: true
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+index 253665c693e6..0d6743eabd27 100644
+--- a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+@@ -62,7 +62,10 @@ patternProperties:
+   "^display-controller@[0-9a-f]+$":
+     type: object
+     description: Node containing the properties of DPU.
+-    additionalProperties: false
++    unevaluatedProperties: false
++
++    allOf:
++      - $ref: /schemas/display/msm/dpu-common.yaml#
+ 
+     properties:
+       compatible:
+@@ -99,47 +102,6 @@ patternProperties:
+           - const: core
+           - const: vsync
+ 
+-      interrupts:
+-        maxItems: 1
+-
+-      power-domains:
+-        maxItems: 1
+-
+-      operating-points-v2: true
+-      opp-table:
+-        type: object
+-
+-      ports:
+-        $ref: /schemas/graph.yaml#/properties/ports
+-        description: |
+-          Contains the list of output ports from DPU device. These ports
+-          connect to interfaces that are external to the DPU hardware,
+-          such as DSI, DP etc. Each output port contains an endpoint that
+-          describes how it is connected to an external interface.
+-
+-        properties:
+-          port@0:
+-            $ref: /schemas/graph.yaml#/properties/port
+-            description: DPU_INTF1 (DSI1)
+-
+-          port@1:
+-            $ref: /schemas/graph.yaml#/properties/port
+-            description: DPU_INTF2 (DSI2)
+-
+-        required:
+-          - port@0
+-          - port@1
+-
+-    required:
+-      - compatible
+-      - reg
+-      - reg-names
+-      - clocks
+-      - interrupts
+-      - power-domains
+-      - operating-points-v2
+-      - ports
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+index c5824e1d2382..bec3c131c0dc 100644
+--- a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+@@ -74,7 +74,10 @@ patternProperties:
+   "^display-controller@[0-9a-f]+$":
+     type: object
+     description: Node containing the properties of DPU.
+-    additionalProperties: false
++    unevaluatedProperties: false
++
++    allOf:
++      - $ref: /schemas/display/msm/dpu-common.yaml#
+ 
+     properties:
+       compatible:
+@@ -107,42 +110,6 @@ patternProperties:
+           - const: lut
+           - const: vsync
+ 
+-      interrupts:
+-        maxItems: 1
+-
+-      power-domains:
+-        maxItems: 1
+-
+-      operating-points-v2: true
+-      opp-table:
+-        type: object
+-
+-      ports:
+-        $ref: /schemas/graph.yaml#/properties/ports
+-        description: |
+-          Contains the list of output ports from DPU device. These ports
+-          connect to interfaces that are external to the DPU hardware,
+-          such as DSI. Each output port contains an endpoint that
+-          describes how it is connected to an external interface.
+-
+-        properties:
+-          port@0:
+-            $ref: /schemas/graph.yaml#/properties/port
+-            description: DPU_INTF1 (DSI1)
+-
+-        required:
+-          - port@0
+-
+-    required:
+-      - compatible
+-      - reg
+-      - reg-names
+-      - clocks
+-      - interrupts
+-      - power-domains
+-      - operating-points-v2
+-      - ports
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
+index 4890bc25f3fd..732b9d8f968a 100644
+--- a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
+@@ -73,7 +73,10 @@ patternProperties:
+   "^display-controller@[0-9a-f]+$":
+     type: object
+     description: Node containing the properties of DPU.
+-    additionalProperties: false
++    unevaluatedProperties: false
++
++    allOf:
++      - $ref: /schemas/display/msm/dpu-common.yaml#
+ 
+     properties:
+       compatible:
+@@ -108,46 +111,6 @@ patternProperties:
+           - const: core
+           - const: vsync
+ 
+-      interrupts:
+-        maxItems: 1
+-
+-      power-domains:
+-        maxItems: 1
+-
+-      operating-points-v2: true
+-      opp-table:
+-        type: object
+-
+-      ports:
+-        $ref: /schemas/graph.yaml#/properties/ports
+-        description: |
+-          Contains the list of output ports from DPU device. These ports
+-          connect to interfaces that are external to the DPU hardware,
+-          such as DSI, DP etc. Each output port contains an endpoint that
+-          describes how it is connected to an external interface.
+-
+-        properties:
+-          port@0:
+-            $ref: /schemas/graph.yaml#/properties/port
+-            description: DPU_INTF1 (DSI1)
+-
+-          port@2:
+-            $ref: /schemas/graph.yaml#/properties/port
+-            description: DPU_INTF0 (DP)
+-
+-        required:
+-          - port@0
+-
+-    required:
+-      - compatible
+-      - reg
+-      - reg-names
+-      - clocks
+-      - interrupts
+-      - power-domains
+-      - operating-points-v2
+-      - ports
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
+index 584d646021d5..4889129660c6 100644
+--- a/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
+@@ -72,7 +72,10 @@ patternProperties:
+   "^display-controller@[0-9a-f]+$":
+     type: object
+     description: Node containing the properties of DPU.
+-    additionalProperties: false
++    unevaluatedProperties: false
++
++    allOf:
++      - $ref: /schemas/display/msm/dpu-common.yaml#
+ 
+     properties:
+       compatible:
+@@ -106,46 +109,6 @@ patternProperties:
+           - const: core
+           - const: vsync
+ 
+-      interrupts:
+-        maxItems: 1
+-
+-      power-domains:
+-        maxItems: 1
+-
+-      operating-points-v2: true
+-      opp-table:
+-        type: object
+-
+-      ports:
+-        $ref: /schemas/graph.yaml#/properties/ports
+-        description: |
+-          Contains the list of output ports from DPU device. These ports
+-          connect to interfaces that are external to the DPU hardware,
+-          such as DSI, DP etc. Each output port contains an endpoint that
+-          describes how it is connected to an external interface.
+-
+-        properties:
+-          port@0:
+-            $ref: /schemas/graph.yaml#/properties/port
+-            description: DPU_INTF1 (DSI)
+-
+-          port@1:
+-            $ref: /schemas/graph.yaml#/properties/port
+-            description: DPU_INTF5 (EDP)
+-
+-        required:
+-          - port@0
+-
+-    required:
+-      - compatible
+-      - reg
+-      - reg-names
+-      - clocks
+-      - interrupts
+-      - power-domains
+-      - operating-points-v2
+-      - ports
+-
+ required:
+   - compatible
+   - reg
 diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
-index 3cb2ae336996..ff19555d04e2 100644
+index ff19555d04e2..b275f928a921 100644
 --- a/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
-@@ -57,6 +57,16 @@ properties:
- 
-   ranges: true
- 
-+  interconnects:
-+    items:
-+      - description: Interconnect path specifying the port ids for data bus
-+      - description: Interconnect path specifying the port ids for data bus
+@@ -75,7 +75,10 @@ patternProperties:
+   "^display-controller@[0-9a-f]+$":
+     type: object
+     description: Node containing the properties of DPU.
+-    additionalProperties: false
++    unevaluatedProperties: false
 +
-+  interconnect-names:
-+    items:
-+      - const: mdp0-mem
-+      - const: mdp1-mem
-+
-   resets:
-     items:
-       - description: MDSS_CORE reset
++    allOf:
++      - $ref: /schemas/display/msm/dpu-common.yaml#
+ 
+     properties:
+       compatible:
+@@ -108,47 +111,6 @@ patternProperties:
+           - const: core
+           - const: vsync
+ 
+-      interrupts:
+-        maxItems: 1
+-
+-      power-domains:
+-        maxItems: 1
+-
+-      operating-points-v2: true
+-      opp-table:
+-        type: object
+-
+-      ports:
+-        $ref: /schemas/graph.yaml#/properties/ports
+-        description: |
+-          Contains the list of output ports from DPU device. These ports
+-          connect to interfaces that are external to the DPU hardware,
+-          such as DSI, DP etc. Each output port contains an endpoint that
+-          describes how it is connected to an external interface.
+-
+-        properties:
+-          port@0:
+-            $ref: /schemas/graph.yaml#/properties/port
+-            description: DPU_INTF1 (DSI1)
+-
+-          port@1:
+-            $ref: /schemas/graph.yaml#/properties/port
+-            description: DPU_INTF2 (DSI2)
+-
+-        required:
+-          - port@0
+-          - port@1
+-
+-    required:
+-      - compatible
+-      - reg
+-      - reg-names
+-      - clocks
+-      - interrupts
+-      - power-domains
+-      - operating-points-v2
+-      - ports
+-
+ required:
+   - compatible
+   - reg
 -- 
 2.35.1
 
