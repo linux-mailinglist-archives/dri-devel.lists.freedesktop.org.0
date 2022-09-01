@@ -2,77 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4876A5AA18E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Sep 2022 23:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8C15AA1DA
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 00:00:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE9F10E333;
-	Thu,  1 Sep 2022 21:37:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E44DD10E348;
+	Thu,  1 Sep 2022 22:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABFBD10E333;
- Thu,  1 Sep 2022 21:37:40 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 281JHWi4018918;
- Thu, 1 Sep 2022 21:37:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=LevqhUuWD1J9uonqMLIeQZ8iSl9I2MiO8O8i/ay53F4=;
- b=almQ0uCgm1HwMhoJ04p3iDgav/C3FglkrTOQyQxmTlPUwU40zgoWu77Ex/ibDFXjODq/
- m154WQvtqKIzdU+4YDI4rtqvAHjt6d64hKSDZ/vhQrXR3O4WghCPFBQlXdExsmzZzfoh
- qhiNhji/GuV/rcI2/A0DViUcb4xfUHGkkv4uOIrj3irZzLxIJW2iMV0x3XXwxvnIYJ+E
- IiLe6hLgANbPOF3fMjyoABtPjXf8/+o4ca28pzZnTsQZU9XosjGJ4uM3ZCHnvHMtVhrH
- Pri9p4hXvKcvroBPXRuC8Z3JTe5tmNG8aiO7lZihfK+ouCG7eosZY+oIok8DEPNldDrR sA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jabgcw6st-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Sep 2022 21:37:35 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 281LbYOp009925
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 Sep 2022 21:37:34 GMT
-Received: from [10.111.173.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 1 Sep 2022
- 14:37:32 -0700
-Message-ID: <9627ff41-6bd8-e380-0e8e-438aecdb824f@quicinc.com>
-Date: Thu, 1 Sep 2022 14:37:30 -0700
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DDD610E33B;
+ Thu,  1 Sep 2022 22:00:39 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id bt10so724051lfb.1;
+ Thu, 01 Sep 2022 15:00:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:from:to:cc;
+ bh=9ZOA/uLVkdbadD8sl+x2FgrUVnWNaT54IH6CMV7M0qU=;
+ b=LHm7XQKmoioehKLe+x8wv4sg51dxY3iK7GBIf0ie+fcfdWHmpj8uhKVo1qfStRYUDt
+ hYYwKyXLa6F8Vss8qsGXnhsSbaWjrIFZiJWH0w+6WT1drr8SW/5N5uWQUY13CtCu8RT7
+ XFGF/pp/ZAdp6alq7wI37+qWMkMsD15jW9A1A3zaqPv8x1Ugm06xru39RntLJn/t21Zd
+ Io+z1YLdKsVMwCmBwJgUdIXcFGDcNDdzsiH8DINgDlhluHlE98GV0dVvSpde0N5jFpG/
+ 4M6RwAzfFXYpV1BXP/VnjdTCqnFT6/utQ9dJtdN/u84FrH7SItMET/4Tm6x8CjaYhOPO
+ 0DtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:x-gm-message-state:from:to:cc;
+ bh=9ZOA/uLVkdbadD8sl+x2FgrUVnWNaT54IH6CMV7M0qU=;
+ b=gGQkfy3UtYK3mMTYfQWTCfVx/9Ze79mtVuNrVg+SoLNrcMtv/qC+b8FnzACzQWXN7/
+ dYn/jSOEjEhtJKRACSgXtD4gJmDPRweYdOoF04dE16pZo9oNKjTPN+h6u+OK200/lqcX
+ bYhkmhtDZVrj13FbTyKF5ZXWHu25uSLN0evBGsITjvAoXZMdI9hICrFj7hTzHARIdfQh
+ BWwV+g+mjBXG12WKto286WtTk9tN8vCCvmvlHaY0PJNf9g6VmPVWAPwu75KJiKyOyUxV
+ bEoWOcboL7fxkpEQ9mFTDh3gkg+SVBYtZBnr/r7dzHlYuC0+yNhFGQPE4ef6OE5Gg1TU
+ iC1A==
+X-Gm-Message-State: ACgBeo0jx+LmuBto2+1P/FjTOn/FoQa3M4YNG6cGBEPtpgj2lUfssZJd
+ Wyil5+G/0GV6hmi3FcFmN1s=
+X-Google-Smtp-Source: AA6agR4a/l8hP1u0P8WpD1zmFedHFbGPzszs2HMqNR8fDJ9LD3T/K1IWhmRhwuymqEvOv4w8sp3YdA==
+X-Received: by 2002:a05:6512:3503:b0:481:4470:4134 with SMTP id
+ h3-20020a056512350300b0048144704134mr11024002lfs.42.1662069637088; 
+ Thu, 01 Sep 2022 15:00:37 -0700 (PDT)
+Received: from ?IPV6:2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852?
+ ([2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852])
+ by smtp.googlemail.com with ESMTPSA id
+ w15-20020a2e160f000000b0025e4e7c016dsm25477ljd.16.2022.09.01.15.00.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Sep 2022 15:00:36 -0700 (PDT)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <30a9d7cd-d9ff-3177-ac6c-e7c1f966d89a@gmail.com>
+Date: Fri, 2 Sep 2022 00:00:33 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v1 2/4] drm/msm/dpu: move resource allocation to the
- _probe function
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20220620213054.1872954-1-dmitry.baryshkov@linaro.org>
- <20220620213054.1872954-3-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220620213054.1872954-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: rTBI604HoyFyxizXuxdSl7Ms1-zoxLIG
-X-Proofpoint-GUID: rTBI604HoyFyxizXuxdSl7Ms1-zoxLIG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-09-01_12,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 phishscore=0 bulkscore=0
- priorityscore=1501 mlxlogscore=999 spamscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209010094
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.2.0
+Subject: Re: [PATCH v2 09/41] drm/connector: Add TV standard property
+Content-Language: pl
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-9-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-9-459522d653a7@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,118 +89,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Hans de Goede <hdegoede@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
+W dniu 29.08.2022 o 15:11, Maxime Ripard pisze:
+> The TV mode property has been around for a while now to select and get the
+> current TV mode output on an analog TV connector.
+>
+> Despite that property name being generic, its content isn't and has been
+> driver-specific which makes it hard to build any generic behaviour on top
+> of it, both in kernel and user-space.
+>
+> Let's create a new bitmask tv norm property, that can contain any of the
+> analog TV standards currently supported by kernel drivers. Each driver can
+> then pass in a bitmask of the modes it supports.
 
-On 6/20/2022 2:30 PM, Dmitry Baryshkov wrote:
-> To let the probe function bail early if any of the resources is
-> unavailable, move resource allocattion from kms_init directly to the
-  allocation
-> probe callback. While we are at it, replace irq_of_parse_and_map() with
-> platform_get_irq().
-Any specific reason to replace this?
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This is not a bitmask property anymore, you've just changed it to an enum.
+The commit message is now misleading.
 
-With those two addressed,
+> +static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
+> +    { DRM_MODE_TV_MODE_NTSC_443, "NTSC-443" },
+> +    { DRM_MODE_TV_MODE_NTSC_J, "NTSC-J" },
+> +    { DRM_MODE_TV_MODE_NTSC_M, "NTSC-M" },
+> +    { DRM_MODE_TV_MODE_PAL_60, "PAL-60" },
+> +    { DRM_MODE_TV_MODE_PAL_B, "PAL-B" },
+> +    { DRM_MODE_TV_MODE_PAL_D, "PAL-D" },
+> +    { DRM_MODE_TV_MODE_PAL_G, "PAL-G" },
+> +    { DRM_MODE_TV_MODE_PAL_H, "PAL-H" },
+> +    { DRM_MODE_TV_MODE_PAL_I, "PAL-I" },
+> +    { DRM_MODE_TV_MODE_PAL_M, "PAL-M" },
+> +    { DRM_MODE_TV_MODE_PAL_N, "PAL-N" },
+> +    { DRM_MODE_TV_MODE_PAL_NC, "PAL-Nc" },
+> +    { DRM_MODE_TV_MODE_SECAM_60, "SECAM-60" },
+> +    { DRM_MODE_TV_MODE_SECAM_B, "SECAM-B" },
+> +    { DRM_MODE_TV_MODE_SECAM_D, "SECAM-D" },
+> +    { DRM_MODE_TV_MODE_SECAM_G, "SECAM-G" },
+> +    { DRM_MODE_TV_MODE_SECAM_K, "SECAM-K" },
+> +    { DRM_MODE_TV_MODE_SECAM_K1, "SECAM-K1" },
+> +    { DRM_MODE_TV_MODE_SECAM_L, "SECAM-L" },
+> +};
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 62 +++++++++++++------------
->   1 file changed, 32 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index ae13a3a5d8a5..756be04d804b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1206,31 +1206,13 @@ static int dpu_kms_init(struct drm_device *ddev)
->   	struct device *dev = ddev->dev;
->   	struct platform_device *pdev = to_platform_device(dev);
->   	struct dpu_kms *dpu_kms;
-> -	int irq;
->   	struct dev_pm_opp *opp;
->   	int ret = 0;
->   	unsigned long max_freq = ULONG_MAX;
->   
-> -	dpu_kms = devm_kzalloc(&pdev->dev, sizeof(*dpu_kms), GFP_KERNEL);
-> +	dpu_kms = to_dpu_kms(priv->kms);
->   	if (!dpu_kms)
-> -		return -ENOMEM;
-> -
-> -	ret = devm_pm_opp_set_clkname(dev, "core");
-> -	if (ret)
-> -		return ret;
-> -	/* OPP table is optional */
-> -	ret = devm_pm_opp_of_add_table(dev);
-> -	if (ret && ret != -ENODEV) {
-> -		dev_err(dev, "invalid OPP table in device tree\n");
-> -		return ret;
-> -	}
-> -
-> -	ret = devm_clk_bulk_get_all(&pdev->dev, &dpu_kms->clocks);
-> -	if (ret < 0) {
-> -		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
-> -		return ret;
-> -	}
-> -	dpu_kms->num_clocks = ret;
-> +		return -EINVAL;
->   
->   	opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
->   	if (!IS_ERR(opp))
-> @@ -1249,21 +1231,41 @@ static int dpu_kms_init(struct drm_device *ddev)
->   	pm_runtime_enable(&pdev->dev);
->   	dpu_kms->rpm_enabled = true;
->   
-> -	priv->kms = &dpu_kms->base;
-> -
-> -	irq = irq_of_parse_and_map(dpu_kms->pdev->dev.of_node, 0);
-> -	if (!irq) {
-> -		DPU_ERROR("failed to get irq\n");
-> -		return -EINVAL;
-> -	}
-> -	dpu_kms->base.irq = irq;
-> -
->   	return 0;
->   }
->   
->   static int dpu_dev_probe(struct platform_device *pdev)
->   {
-> -	return msm_drv_probe(&pdev->dev, dpu_kms_init, NULL);
-> +	struct device *dev = &pdev->dev;
-> +	struct dpu_kms *dpu_kms;
-> +	int irq;
-> +	int ret = 0;
+I did not comment on it the last time, but this list looks a little bit random.
+
+Compared to the standards defined by V4L2, you also define SECAM-60 (a good
+thing to define, because why not), but don't define PAL-B1, PAL-D1, PAL-K,
+SECAM-H, SECAM-LC (whatever that is - probably just another name for SECAM-L,
+see my comment about PAL-Nc below), or NTSC-M-KR (a Korean variant of NTSC).
+
+Like I mentioned previously, I'm personally not a fan of including all those
+CCIR/ITU system variants, as they don't mean any difference to the output unless
+there is an RF modulator involved. But I get it that they have already been used
+and regressing probably wouldn't be a very good idea. But in that case keeping
+it consistent with the set of values used by V4L2 would be wise, I think.
+
+> +/**
+> + * drm_mode_create_tv_properties - create TV specific connector properties
+> + * @dev: DRM device
+> + * @supported_tv_modes: Bitmask of TV modes supported (See DRM_MODE_TV_MODE_*)
 > +
-> +	dpu_kms = devm_kzalloc(dev, sizeof(*dpu_kms), GFP_KERNEL);
-> +	if (!dpu_kms)
-> +		return -ENOMEM;
+> + * Called by a driver's TV initialization routine, this function creates
+> + * the TV specific connector properties for a given device.  Caller is
+> + * responsible for allocating a list of format names and passing them to
+> + * this routine.
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+> +int drm_mode_create_tv_properties(struct drm_device *dev,
+> +                  unsigned int supported_tv_modes)
+
+supported_tv_modes is supposed to be a bitmask of BIT(DRM_MODE_TV_MODE_*)
+(or (1<<DRM_MODE_TV_MODE_*)) rather than DRM_MODE_TV_MODE_* directly, but this
+is not said explicitly anywhere in this doc comment.
+
+> +    /**
+> +     * @DRM_MODE_TV_MODE_PAL_NC: Seems equivalent to
+> +     * @DRM_MODE_TV_MODE_PAL_N.
+> +     */
+> +    DRM_MODE_TV_MODE_PAL_NC,
+
+AFAIK, the entire reason that "PAL-Nc" is ever mentioned as something separate
+from PAL-N is a result of a misunderstanding or misreading of the CCIR/ITU
+documents. See also the posting signed as Alchaemist here:
+https://en.wikipedia.org/wiki/Talk:PAL#PAL-N_versus_PAL-Nc
+
+That being said, we probably want to keep it if we want to remaing compatible
+with the loads of software and drivers which enumerate those as separate
+systems. But from a technical standpoint, PAL-N and PAL-Nc (and N/PAL, PAL-CN
+etc.) are just different "spellings" referring to exactly the same system.
+
+> +    /**
+> +     * @DRM_MODE_TV_MODE_SECAM_K: CCIR System G together with the
+> +     * SECAM color system. Similar to @DRM_MODE_TV_MODE_SECAM_G but
+> +     * with different channels.
+> +     */
+> +    DRM_MODE_TV_MODE_SECAM_K,
 > +
-> +	ret = devm_pm_opp_set_clkname(dev, "core");
-> +	if (ret)
-> +		return ret;
-> +	/* OPP table is optional */
-> +	ret = devm_pm_opp_of_add_table(dev);
-> +	if (ret && ret != -ENODEV)
-> +		return dev_err_probe(dev, ret, "invalid OPP table in device tree\n");
-> +
-> +	ret = devm_clk_bulk_get_all(&pdev->dev, &dpu_kms->clocks);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "failed to parse clocks\n");
-> +
-> +	dpu_kms->num_clocks = ret;
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return dev_err_probe(dev, irq, "failed to get irq\n");
-> +
-> +	dpu_kms->base.irq = irq;
-> +
-> +	return msm_drv_probe(&pdev->dev, dpu_kms_init, &dpu_kms->base);
->   }
->   
->   static int dpu_dev_remove(struct platform_device *pdev)
+> +    /**
+> +     * @DRM_MODE_TV_MODE_SECAM_K1: CCIR System G together with the
+> +     * SECAM color system. Similar to @DRM_MODE_TV_MODE_SECAM_G and
+> +     * @DRM_MODE_TV_MODE_SECAM_K but with different channels.
+> +     */
+> +    DRM_MODE_TV_MODE_SECAM_K1,
+
+Typos: you meant CCIR Systems K and K1, not System G.
+
+Best regards,
+Mateusz Kwiatkowski
