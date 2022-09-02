@@ -1,52 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2445AAEEE
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 14:32:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CC65AAF2C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 14:34:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9025A10E825;
-	Fri,  2 Sep 2022 12:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3301C10E827;
+	Fri,  2 Sep 2022 12:34:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A7EE10E825;
- Fri,  2 Sep 2022 12:31:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662121914; x=1693657914;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=IuiSPA2Vod5Okb6hXPyaRmII69cYstSbavpo0ayfOuE=;
- b=PCmlWVlxqS68IOHioaMAYVl5wsyZ/29Xab6yu6GVLaLqWsnM3DWqayH6
- Zr+36c5B5eBZDZctmwVT9VPCWdeHLjxAbUts+0tLUUmB7gBb7owNrhm1g
- L8HD7jLk+9cWQq/CEZB8POb+OMcM22mdTD2JTDZSnH8KpuuauvjhiSqaK
- bPilywY2ILVy2GznXrd6OOiakaEXsiP1nix0+j/9gSyd/ZFezOG/3kUkX
- dRVPnXcKFVgC89c8VU+biSMI3qpzmUQx2rEGpPbiEn1ejQMe7P4rZ4jU8
- 4VhpildYUH9xocr/Kth5m2O6GAnD2uFm5OK2EiKQtc3aTqkrQNg2vt2wM A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="278986052"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="278986052"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 05:31:52 -0700
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="941274686"
-Received: from svandene-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.55.245])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 05:31:50 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 10/11] drm/edid: Make version checks less convoluted
-In-Reply-To: <20220826213501.31490-11-ville.syrjala@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
- <20220826213501.31490-11-ville.syrjala@linux.intel.com>
-Date: Fri, 02 Sep 2022 15:31:39 +0300
-Message-ID: <87pmgedkk4.fsf@intel.com>
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 366FF10E827
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 12:34:12 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id E4371320090C;
+ Fri,  2 Sep 2022 08:34:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 02 Sep 2022 08:34:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1662122046; x=1662208446; bh=69wBoD2FcW
+ S+VJub/o1SXKNMgpIXHt/jaTIMdQTQNes=; b=XHrR1ZCQoQmpvRT/cPY/9LcNB5
+ HbYvLIIwbwJ3I8tAiCkQeqeD6ac4sQxkWFElK4/2M96NO42Hn11H07JT/QFVXr8z
+ kjDkscAYB/o/TxBPAsTcp+fBpWSD/X1HfCWtH3LgmeNzI7tSVefpoYfjRXCfJCN8
+ yDK2T/6mdgHaynbM6eZ0TXnzYtHqgCrJqnqkHxz6vRRzIfyplybtYLDBG8aDYvI8
+ pUTzvXG+HUMzuuTVOYAws1tvn7az6LV1uZdaFlVENwuar4NRxgqpiKmI7/ofJtsr
+ Hdv3DLT5DJHI3FWooBjmEE43LrvAwr5PqO+XYyjq6nrmo8PliVuHhkTGbZeA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1662122046; x=1662208446; bh=69wBoD2FcWS+VJub/o1SXKNMgpIX
+ Ht/jaTIMdQTQNes=; b=CWTAamlIdomT+2ReqO+SVhE0ewgiqv4yZ5OnRNWDwcWE
+ X+8+FemvxwpBtL7ywc/vsmj75bkH8tMuLI15yvL0uqDa8/So7C9tjphjJ/4HlESX
+ RkAKKO07mO5oNGEPr+G1FKsJtliCuhZBW17aBw6gamPUMJa4F5P8KkwPf2pftijZ
+ tM8Ih6E6wiVykyxgp/vBxmhEmr46bOVdJLJz9AILj7bmhvZ6mZNL/15uUiLHO1R5
+ DPcjpytHi9i6NFcJNfHaInErfSGLL/eKd+sTtPv0iRCd2PPKhcBWEvzZZwiLL0tE
+ hNsr1L3frvU1jNbOHl3IQ4yXzpfKT0mAiv3hF74pBA==
+X-ME-Sender: <xms:PfgRYzY0V9T6oHAQHYFq_qp488C0-vJwmhaKBtvMkoo--Pptnv3k_Q>
+ <xme:PfgRYybbx_9WsuS45POrQj46N9ZoIAtv9JfUFyFTQm_BgBUoYbTjEDmtfPAPI5y6s
+ JmtzIX7xj6wM1L5yjY>
+X-ME-Received: <xmr:PfgRY1_LZGkpshpvDD9gA_AiArZJHnu4dD16PaWXHxuc2vSX2-Ev4UR0Zw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeltddgheeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeeljeeugfegveetleevkeetffegudevieetieeugeeugeeivddtjeejvdef
+ feetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:PfgRY5pdGZEc6150lT0Pj62iRT2PDLE_CEy5Zbw-1_46mEj43zL5Cw>
+ <xmx:PfgRY-r6IKQCQHWo131B_1vTIKy_IvK3_85AfmrLwbBg9l0FlI2bqQ>
+ <xmx:PfgRY_StF0AYljou5s-fvHd8GAt3KYRXn70kCZ7iTDDTXUGXH1UBaQ>
+ <xmx:PvgRYzjM24CXnQqyMUH2ejZ8atEu4eK32NXN-shDmoLTZ3mzmTN61g>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 2 Sep 2022 08:34:04 -0400 (EDT)
+Date: Fri, 2 Sep 2022 14:34:00 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 2/2] drm/tests: Change "igt_" prefix to "test_drm_"
+Message-ID: <20220902123400.5ljgc7z6zw34d64m@houat>
+References: <20220901124210.591994-1-mairacanal@riseup.net>
+ <20220901124210.591994-2-mairacanal@riseup.net>
+ <20220901125530.b56s4zisnkfuigvc@houat>
+ <04aeba53-793c-3196-3137-915f0640dc2a@riseup.net>
+ <87h71qfbi9.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="je6h4ueg2vhmqv2d"
+Content-Disposition: inline
+In-Reply-To: <87h71qfbi9.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,128 +87,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: michal.winiarski@intel.com, David Gow <davidgow@google.com>,
+ siqueirajordao@riseup.net, magalilemes00@gmail.com,
+ David Airlie <airlied@linux.ie>, tales.aparecida@gmail.com,
+ Arthur Grillo <arthur.grillo@usp.br>, brendanhiggins@google.com,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mwen@igalia.com,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, kunit-dev@googlegroups.com,
+ =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 27 Aug 2022, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> Get rid of the confusing version_greater() stuff and
-> simply compare edid->revision directly everwhere. Half
-> the places already did it this way, and since we actually
-> reject any EDID with edid->version!=3D1 it's a perfectly
-> sane thing to do.
->
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+--je6h4ueg2vhmqv2d
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  drivers/gpu/drm/drm_edid.c | 25 ++++++++-----------------
->  1 file changed, 8 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 0fe06e5fd6e0..e7f46260dfe7 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1572,15 +1572,6 @@ struct drm_edid {
->  	const struct edid *edid;
->  };
->=20=20
-> -static bool version_greater(const struct drm_edid *drm_edid,
-> -			    u8 version, u8 revision)
-> -{
-> -	const struct edid *edid =3D drm_edid->edid;
-> -
-> -	return edid->version > version ||
-> -		(edid->version =3D=3D version && edid->revision > revision);
-> -}
-> -
->  static int edid_hfeeodb_extension_block_count(const struct edid *edid);
->=20=20
->  static int edid_hfeeodb_block_count(const struct edid *edid)
-> @@ -3652,7 +3643,7 @@ do_inferred_modes(const struct detailed_timing *tim=
-ing, void *c)
->  						  closure->drm_edid,
->  						  timing);
->=20=20
-> -	if (!version_greater(closure->drm_edid, 1, 1))
-> +	if (closure->drm_edid->edid->revision < 2)
->  		return; /* GTF not defined yet */
->=20=20
->  	switch (range->flags) {
-> @@ -3667,7 +3658,7 @@ do_inferred_modes(const struct detailed_timing *tim=
-ing, void *c)
->  							  timing);
->  		break;
->  	case DRM_EDID_CVT_SUPPORT_FLAG:
-> -		if (!version_greater(closure->drm_edid, 1, 3))
-> +		if (closure->drm_edid->edid->revision < 4)
->  			break;
->=20=20
->  		closure->modes +=3D drm_cvt_modes_for_range(closure->connector,
-> @@ -3688,7 +3679,7 @@ static int add_inferred_modes(struct drm_connector =
-*connector,
->  		.drm_edid =3D drm_edid,
->  	};
->=20=20
-> -	if (version_greater(drm_edid, 1, 0))
-> +	if (drm_edid->edid->revision >=3D 1)
->  		drm_for_each_detailed_block(drm_edid, do_inferred_modes, &closure);
->=20=20
->  	return closure.modes;
-> @@ -3765,7 +3756,7 @@ static int add_established_modes(struct drm_connect=
-or *connector,
->  		}
->  	}
->=20=20
-> -	if (version_greater(drm_edid, 1, 0))
-> +	if (edid->revision >=3D 1)
->  		drm_for_each_detailed_block(drm_edid, do_established_modes,
->  					    &closure);
->=20=20
-> @@ -3820,7 +3811,7 @@ static int add_standard_modes(struct drm_connector =
-*connector,
->  		}
->  	}
->=20=20
-> -	if (version_greater(drm_edid, 1, 0))
-> +	if (drm_edid->edid->revision >=3D 1)
->  		drm_for_each_detailed_block(drm_edid, do_standard_modes,
->  					    &closure);
->=20=20
-> @@ -3900,7 +3891,7 @@ add_cvt_modes(struct drm_connector *connector, cons=
-t struct drm_edid *drm_edid)
->  		.drm_edid =3D drm_edid,
->  	};
->=20=20
-> -	if (version_greater(drm_edid, 1, 2))
-> +	if (drm_edid->edid->revision >=3D 3)
->  		drm_for_each_detailed_block(drm_edid, do_cvt_mode, &closure);
->=20=20
->  	/* XXX should also look for CVT codes in VTB blocks */
-> @@ -3955,7 +3946,7 @@ static int add_detailed_modes(struct drm_connector =
-*connector,
->  		.quirks =3D quirks,
->  	};
->=20=20
-> -	if (version_greater(drm_edid, 1, 3))
-> +	if (drm_edid->edid->revision >=3D 4)
->  		closure.preferred =3D true; /* first detailed timing is always preferr=
-ed */
->  	else
->  		closure.preferred =3D
-> @@ -6144,7 +6135,7 @@ static void drm_get_vrr_range(struct drm_connector =
-*connector,
->  		.drm_edid =3D drm_edid,
->  	};
->=20=20
-> -	if (!version_greater(drm_edid, 1, 3))
-> +	if (drm_edid->edid->revision < 4)
->  		return;
->=20=20
->  	if (!(drm_edid->edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ))
+On Fri, Sep 02, 2022 at 11:04:14AM +0300, Jani Nikula wrote:
+> On Thu, 01 Sep 2022, Ma=EDra Canal <mairacanal@riseup.net> wrote:
+> > Hi Maxime,
+> >
+> > On 9/1/22 09:55, Maxime Ripard wrote:
+> >> Hi,
+> >>=20
+> >> On Thu, Sep 01, 2022 at 09:42:10AM -0300, Ma=EDra Canal wrote:
+> >>> With the introduction of KUnit, IGT is no longer the only option to r=
+un
+> >>> the DRM unit tests, as the tests can be run through kunit-tool or on
+> >>> real hardware with CONFIG_KUNIT.
+> >>>
+> >>> Therefore, remove the "igt_" prefix from the tests and replace it with
+> >>> the "test_drm_" prefix, making the tests' names independent from the =
+tool
+> >>> used.
+> >>>
+> >>> Signed-off-by: Ma=EDra Canal <mairacanal@riseup.net>
+> >>>
+> >>> ---
+> >>> v1 -> v2: https://lore.kernel.org/dri-devel/20220830211603.191734-1-m=
+airacanal@riseup.net/
+> >>> - Change "drm_" prefix to "test_drm_", as "drm_" can be a bit confusi=
+ng (Jani Nikula).
+> >>=20
+> >> I appreciate it's a bit of a bikeshed but I disagree with this. The
+> >> majority of the kunit tests already out there start with the framework
+> >> name, including *all* the examples in the kunit doc. Plus, it's fairly
+> >> obvious that it's a test, kunit is only about running tests in the fir=
+st
+> >> place.
+> >
+> > Would it be better to keep it as "drm_"?
+>=20
+> That's not "keeping". That's renaming igt to drm.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Well, there's like half the tests that are prefixed with drm, the other
+with igt, so it's both really
+
+> > Currently, I don't think it is appropriate to hold the "igt_" prefix, as
+> > the tests are not IGT exclusive, but I don't have a strong opinion on
+> > using the "drm_" or the "test_drm" prefixes.
+>=20
+> I repeat my stance that "drm_" alone is confusing.
+
+What are you confusing it with?
+
+> For the reason alone that it pollutes the code tagging tools, mixing
+> actual drm_ types and functions with unit test functions.
+
+I don't get it, I'm sorry. All these functions are static and not part
+of any API, so I can't see how it would pollute a code tagging tool. Or
+at least, not more than any driver does.
+
+And we're part of a larger project here, it's about consistency with the
+rest of the ecosystem.
+
+Maxime
+
+--je6h4ueg2vhmqv2d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxH4OAAKCRDj7w1vZxhR
+xcnGAQDfG15wrc3ceeKSo7qsOykhYDbwylJuO4xitBZoirs0ZgD/ecLkzhEgtAOv
+b++wHEVZEq7FPSdzWgIwHQIiRnLixgA=
+=zFJ3
+-----END PGP SIGNATURE-----
+
+--je6h4ueg2vhmqv2d--
