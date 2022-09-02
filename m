@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D445AAFF0
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 14:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910CD5AB0FB
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 15:01:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87FAA10E828;
-	Fri,  2 Sep 2022 12:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECBA610E830;
+	Fri,  2 Sep 2022 13:01:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF9710E82B;
- Fri,  2 Sep 2022 12:46:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662122767; x=1693658767;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=3gwVHlrTsPkNzuLM1RkqgziFv66dPQP0iNTuxReQkTk=;
- b=Rbp4CofyPCG9+0cfRYOpLGRWxsD+jMkJ002qvwfXGauzJmNyydG+TXV4
- +2RTM95qsdAVefAxmL458OKKn2EZl5+mEM8SnWsUJxk77EE+c4I4eRRXQ
- RbHYxZKykjFHsMW6rUIafJSCUxoqdOV5pd8labLaxSnPB5ddJMLxlBltS
- LasxvO81e4WN3iHRp705T58bxnV7b5yA41+5SN5qyCMfU/MQN9zsSD7ZY
- 5SBIy1F2iiQkjjxMQThRNWry6LFT1FnwSlcvCsxGHxKCQWhWZcG3dF56P
- WYtASEySjMQW30KHMi1HFlJQ8vCcN10VXzYkPDKYonJD3kmw7IWUuC2Ej w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="276372797"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="276372797"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 05:45:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="716507768"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga002.fm.intel.com with SMTP; 02 Sep 2022 05:45:55 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 02 Sep 2022 15:45:55 +0300
-Date: Fri, 2 Sep 2022 15:45:54 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 07/11] drm/edid: Use GTF2 for inferred modes
-Message-ID: <YxH7ApmwbP99kKr4@intel.com>
-References: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
- <20220826213501.31490-8-ville.syrjala@linux.intel.com>
- <87v8q6dku4.fsf@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C258210E82F;
+ Fri,  2 Sep 2022 13:01:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A95F4B82ADD;
+ Fri,  2 Sep 2022 13:01:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2882C433C1;
+ Fri,  2 Sep 2022 13:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1662123683;
+ bh=2Bz/efN2/mg1731d5K4pjKr79RYPaHO217/mHswxl4Y=;
+ h=From:To:Cc:Subject:Date:From;
+ b=K/WL4KZPAlSuht5rqlHSv5eY4DFfjY9gDUj2mqBn+KnYx0byowdhu2Z25fx2k1FIA
+ a6njcrtpRvGUnLQvKBi1UYfAdwHkiegRVUWv3hvrplGcuMR0Zwd+CWhyD86w94wKIn
+ N22QsLhhAWrCcwkNn6uKjfUf859qv1iWPTxzvoCg=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng^Ci@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deuc her <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com
+Subject: [PATCH] drm/amd/display: fix memory leak when using debugfs_lookup()
+Date: Fri,  2 Sep 2022 15:01:05 +0200
+Message-Id: <20220902130105.139138-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1866;
+ i=gregkh@linuxfoundation.org; h=from:subject;
+ bh=2Bz/efN2/mg1731d5K4pjKr79RYPaHO217/mHswxl4Y=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDMmC/yZsOu+8L1Mx8IXV1LtsrzJY/ZoOyKvVmH27M98zdcG9
+ uSo/OmJZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAi0fIMC9Zfmp9y7XLhBFaZa0Kzdc
+ U3nHD0UmSY7/s/eFtrCMv55BPFc1lj7uS9ETn4EQA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87v8q6dku4.fsf@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,108 +60,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Leo Li <sunpeng.li@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org,
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ hersen wu <hersenxs.wu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Wayne Lin <Wayne.Lin@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ Yongzhi Liu <lyz_cs@pku.edu.cn>, Mikita Lipski <mikita.lipski@amd.com>,
+ Thelford Williams <tdwilliamsiv@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 02, 2022 at 03:25:39PM +0300, Jani Nikula wrote:
-> On Sat, 27 Aug 2022, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >
-> > For some resaon we only use the secondary GTF curve for the
-> > standard timings. Use it for inferred modes as well.
-> >
-> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_edid.c | 35 ++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 34 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index 0c7cbe9b44f5..fed2bdd55c09 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -3546,6 +3546,35 @@ static int drm_gtf_modes_for_range(struct drm_connector *connector,
-> >  	return modes;
-> >  }
-> >  
-> > +static int drm_gtf2_modes_for_range(struct drm_connector *connector,
-> > +				    const struct drm_edid *drm_edid,
-> > +				    const struct detailed_timing *timing)
-> > +{
-> > +	int i, modes = 0;
-> > +	struct drm_display_mode *newmode;
-> > +	struct drm_device *dev = connector->dev;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(extra_modes); i++) {
-> > +		const struct minimode *m = &extra_modes[i];
-> > +
-> > +		newmode = drm_gtf2_mode(dev, drm_edid, m->w, m->h, m->r);
-> > +		if (!newmode)
-> > +			return modes;
-> > +
-> > +		drm_mode_fixup_1366x768(newmode);
-> > +		if (!mode_in_range(newmode, drm_edid, timing) ||
-> > +		    !valid_inferred_mode(connector, newmode)) {
-> > +			drm_mode_destroy(dev, newmode);
-> > +			continue;
-> > +		}
-> > +
-> > +		drm_mode_probed_add(connector, newmode);
-> > +		modes++;
-> > +	}
-> > +
-> > +	return modes;
-> > +}
-> > +
-> >  static int drm_cvt_modes_for_range(struct drm_connector *connector,
-> >  				   const struct drm_edid *drm_edid,
-> >  				   const struct detailed_timing *timing)
-> > @@ -3594,7 +3623,11 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
-> >  		return; /* GTF not defined yet */
-> >  
-> >  	switch (range->flags) {
-> > -	case DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG: /* XXX could do more */
-> > +	case DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG:
-> > +		closure->modes += drm_gtf2_modes_for_range(closure->connector,
-> > +							   closure->drm_edid,
-> > +							   timing);
-> > +		break;
-> >  	case DRM_EDID_DEFAULT_GTF_SUPPORT_FLAG:
-> 
-> Additionally, per spec:
-> 
-> * Default GTF supported if bit 0 in Feature Support Byte at address 18h = 1
-> 
-> * Secondary GTF supported --- requires support for Default GTF
-> 
-> So I guess both of these would need the edid->features &
-> DRM_EDID_FEATURE_DEFAULT_GTF check?
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  Fix this up by properly
+calling dput().
 
-There is one actually
-	if (drm_edid->edid->features & DRM_EDID_FEATURE_DEFAULT_GTF)
-	                num_modes += add_inferred_modes(connector, drm_edid);
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian KÃ¶nig" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Wayne Lin <Wayne.Lin@amd.com>
+Cc: hersen wu <hersenxs.wu@amd.com>
+Cc: Wenjing Liu <wenjing.liu@amd.com>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Thelford Williams <tdwilliamsiv@gmail.com>
+Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>
+Cc: Yongzhi Liu <lyz_cs@pku.edu.cn>
+Cc: Mikita Lipski <mikita.lipski@amd.com>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Cc: Sean Paul <seanpaul@chromium.org>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Though as I think I mentioned in some of these patches a lot of
-real world EDIDs don't set the default gtf/continuous frequency
-bit but still include a range descriptor. While illegal, I think
-a reasonable interpretation might be that they want us to use 
-the formula specified in the range descriptor for the non-DMT
-standard timings, while still indicating that other timings
-generated by said formula are not supported. 
-
-> 
-> Other than that,
-> 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> 
-> 
-> >  		closure->modes += drm_gtf_modes_for_range(closure->connector,
-> >  							  closure->drm_edid,
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
-
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 0e48824f55e3..ee242d9d8b06 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -3288,6 +3288,7 @@ void crtc_debugfs_init(struct drm_crtc *crtc)
+ 				   &crc_win_y_end_fops);
+ 	debugfs_create_file_unsafe("crc_win_update", 0644, dir, crtc,
+ 				   &crc_win_update_fops);
++	dput(dir);
+ #endif
+ 	debugfs_create_file("amdgpu_current_bpc", 0644, crtc->debugfs_entry,
+ 			    crtc, &amdgpu_current_bpc_fops);
 -- 
-Ville Syrjälä
-Intel
+2.37.3
+
