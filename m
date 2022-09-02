@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898EF5ABAB1
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 00:11:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC515ABAF2
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 00:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0589D10E91B;
-	Fri,  2 Sep 2022 22:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8648F10E86B;
+	Fri,  2 Sep 2022 22:53:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEA510E91B;
- Fri,  2 Sep 2022 22:11:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662156684; x=1693692684;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=1eCM+X1gSy3dYSGBPLiEK7oGOPBSCSSJ1UJ8MTmAs/w=;
- b=JXh4AbPH+NavFXOHKZ6ANRSyLcbSqN5aYRBXIiypFcpkvFl2PMSAdh1m
- qcB0BmGy570OnxocXyCUJD17njlu647cZfBVn4LU/lGvhSMGFqvJDQcj6
- ueh16RVFYuJD1U8dvpt1GR3O+Bg89ddAFrPWe8xnI37wpqkuj63DaN+Y/
- NGaYhEbRKy0v/TaOmef3yUus1n+djfmpf0BFDDLeM9kUneCHvSG8crTU+
- R3VaVK9Im5swWH+KI+EUXXb5fGy0N4sS1mi1hPsJddyKy78dsGj0sz0Lo
- TQr96bIM/e8Q0evCw8w2gVfq91yb2Qpq3J4WFhSR0sS8NbZSXiJutUq2V Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10458"; a="276496667"
-X-IronPort-AV: E=Sophos;i="5.93,285,1654585200"; d="scan'208";a="276496667"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 15:11:23 -0700
-X-IronPort-AV: E=Sophos;i="5.93,285,1654585200"; d="scan'208";a="643080161"
-Received: from invictus.jf.intel.com ([10.165.21.188])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 15:11:23 -0700
-From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4.1] drm/i915: Move display and media IP version to runtime
- info
-Date: Fri,  2 Sep 2022 15:10:54 -0700
-Message-Id: <20220902221054.173524-1-radhakrishna.sripada@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220902060342.151824-2-radhakrishna.sripada@intel.com>
-References: <20220902060342.151824-2-radhakrishna.sripada@intel.com>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B867110E86B
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 22:53:16 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4MKCqv6s4NzDrFl;
+ Fri,  2 Sep 2022 22:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1662159196; bh=i2F1c9iVsqZkDzJzJ6RHqg0ckfbot+Zkzd9ahCdNz0s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kUCEmXh7zX1JHy1VsNLd21up+NmwYy0af7IVmEYEPZ9/4aL0zPshrCX2SiJqFcJDL
+ HhRlnlNbbm9T7qm9ubwFTGZbKulOH6oqd1Wn2SJxNc67OrRy993jKjBXu052DLDSlM
+ lacB8dBFRF6aJzCUOIZnWtP1A3yvJjm871C+wcD4=
+X-Riseup-User-ID: CEDC724E390C6B4B331BDB7D15FA2D97D997D4091360D282775AAD1DE1285803
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4MKCqm6LGxz1yQr;
+ Fri,  2 Sep 2022 22:53:08 +0000 (UTC)
+Message-ID: <5343a9c6-d560-fc8b-e828-2e08810e4de0@riseup.net>
+Date: Fri, 2 Sep 2022 19:53:05 -0300
 MIME-Version: 1.0
+Subject: Re: [PATCH v2 2/2] drm/tests: Change "igt_" prefix to "test_drm_"
+To: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+References: <20220901124210.591994-1-mairacanal@riseup.net>
+ <20220901124210.591994-2-mairacanal@riseup.net>
+ <20220901125530.b56s4zisnkfuigvc@houat>
+ <04aeba53-793c-3196-3137-915f0640dc2a@riseup.net> <87h71qfbi9.fsf@intel.com>
+ <20220902123400.5ljgc7z6zw34d64m@houat> <87mtbidj3b.fsf@intel.com>
+ <20220902133828.ufwp6bgzd37yu6bv@nostramo.hardline.pl>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220902133828.ufwp6bgzd37yu6bv@nostramo.hardline.pl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,280 +58,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Arthur Grillo <arthur.grillo@usp.br>, siqueirajordao@riseup.net,
+ magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
+ tales.aparecida@gmail.com, brendanhiggins@google.com,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mwen@igalia.com,
+ Maxime Ripard <maxime@cerno.tech>, David Gow <davidgow@google.com>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Future platforms can read the IP version from a register and the
-IP version numbers need not be hard coded in device info. Move the
-ip version for media and display to runtime info.
+On 9/2/22 10:38, Michał Winiarski wrote:
+> On Fri, Sep 02, 2022 at 04:03:20PM +0300, Jani Nikula wrote:
+>> On Fri, 02 Sep 2022, Maxime Ripard <maxime@cerno.tech> wrote:
+>>> On Fri, Sep 02, 2022 at 11:04:14AM +0300, Jani Nikula wrote:
+>>>> On Thu, 01 Sep 2022, Maíra Canal <mairacanal@riseup.net> wrote:
+>>>>> Hi Maxime,
+>>>>>
+>>>>> On 9/1/22 09:55, Maxime Ripard wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On Thu, Sep 01, 2022 at 09:42:10AM -0300, Maíra Canal wrote:
+>>>>>>> With the introduction of KUnit, IGT is no longer the only option to run
+>>>>>>> the DRM unit tests, as the tests can be run through kunit-tool or on
+>>>>>>> real hardware with CONFIG_KUNIT.
+>>>>>>>
+>>>>>>> Therefore, remove the "igt_" prefix from the tests and replace it with
+>>>>>>> the "test_drm_" prefix, making the tests' names independent from the tool
+>>>>>>> used.
+>>>>>>>
+>>>>>>> Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+>>>>>>>
+>>>>>>> ---
+>>>>>>> v1 -> v2: https://lore.kernel.org/dri-devel/20220830211603.191734-1-mairacanal@riseup.net/
+>>>>>>> - Change "drm_" prefix to "test_drm_", as "drm_" can be a bit confusing (Jani Nikula).
+>>>>>>
+>>>>>> I appreciate it's a bit of a bikeshed but I disagree with this. The
+>>>>>> majority of the kunit tests already out there start with the framework
+>>>>>> name, including *all* the examples in the kunit doc. Plus, it's fairly
+>>>>>> obvious that it's a test, kunit is only about running tests in the first
+>>>>>> place.
+>>>>>
+>>>>> Would it be better to keep it as "drm_"?
+>>>>
+>>>> That's not "keeping". That's renaming igt to drm.
+>>>
+>>> Well, there's like half the tests that are prefixed with drm, the other
+>>> with igt, so it's both really
+>>>
+>>>>> Currently, I don't think it is appropriate to hold the "igt_" prefix, as
+>>>>> the tests are not IGT exclusive, but I don't have a strong opinion on
+>>>>> using the "drm_" or the "test_drm" prefixes.
+>>>>
+>>>> I repeat my stance that "drm_" alone is confusing.
+>>>
+>>> What are you confusing it with?
+>>>
+>>>> For the reason alone that it pollutes the code tagging tools, mixing
+>>>> actual drm_ types and functions with unit test functions.
+>>>
+>>> I don't get it, I'm sorry. All these functions are static and not part
+>>> of any API, so I can't see how it would pollute a code tagging tool. Or
+>>> at least, not more than any driver does.
+>>>
+>>> And we're part of a larger project here, it's about consistency with the
+>>> rest of the ecosystem.
+>>
+>> Okay, so I'm just going to explain what I mean, but say "whatever" right
+>> after and move on.
+>>
+>> For example, drm_buddy_test.c includes drm_buddy.h so with the igt_ ->
+>> drm_ rename none of the test functions may clash with the drm_buddy_
+>> prefixed existing functions. Ditto for all tests similarly.
+>>
+>> For example drm_buddy_alloc_range() as a name sounds like something that
+>> allocs a range, not something that tests range allocation. On the other
+>> hand, you have drm_buddy_alloc_blocks() which is actually a real
+>> drm_buddy function, not a test. What would you call a test that tests
+>> that? Here, we end up with names that are all prefixed drm_buddy and you
+>> won't know what's the actual function and what's the test unless you
+>> look it up.
+>>
+>> I use code tagging that I can use for finding and completing
+>> e.g. functions. Currently I have the following completions, for
+>> igt_buddy_ and drm_buddy_, respectively:
+>>
+>> Possible completions are:
+>> igt_buddy_alloc_limit 	igt_buddy_alloc_optimistic 	igt_buddy_alloc_pathological
+>> igt_buddy_alloc_pessimistic 	igt_buddy_alloc_range 	igt_buddy_alloc_smoke
+>>
+>> Possible completions are:
+>> drm_buddy_alloc_blocks 	drm_buddy_block 	drm_buddy_block_is_allocated 	drm_buddy_block_is_free
+>> drm_buddy_block_is_split 	drm_buddy_block_offset 	drm_buddy_block_order 	drm_buddy_block_print
+>> drm_buddy_block_size 	drm_buddy_block_state 	drm_buddy_block_trim 	drm_buddy_fini
+>> drm_buddy_free_block 	drm_buddy_free_list 	drm_buddy_init 	drm_buddy_init_test
+>> drm_buddy_module_exit 	drm_buddy_module_init 	drm_buddy_print
+>>
+>> With the patch at hand, they'll all be lumped under drm_buddy_
+>> completions, and some of them will be actual drm buddy functions and
+>> some not.
+>>
+>> I just find it a very odd convention to name the tests in a way that's
+>> indistinguishable from the real things. Even *within* drm_buddy_test.c
+>> where you read the test code. Because currently you do have calls to
+>> igt_buddy_ prefixed functions from other igt_buddy_ prefixed functions,
+>> along with the drm_buddy_ prefixed calls. I think it's just going to be
+>> a mess.
+>>
+>> /rant
+>>
+>> Whatever. Moving on.
+> 
+> KUnit docs [1] state:
+> https://docs.kernel.org/dev-tools/kunit/style.html#test-cases
+> "As tests are themselves functions, their names cannot conflict with other
+> C identifiers in the kernel. This may require some creative naming."
+> And give examples of names. But this should be local to individual test suite -
+> as long as the test is readable, and the name describes what it is testing, we
+> should be fine. We don't even need to pass drm_* prefix, as this convention is
+> expected for test suites, not test cases [2].
+> 
+> Having said that - I do believe that igt_* prefix don't belong here (which is
+> why I'm progressively trying to get rid of in the patches that refactor some of
+> the tests).
+> I agree with Jani - can we take it on a case-by-case basis?
+> If the test name is too similar to the function that it is testing, we could go
+> with one of the following (taking igt_buddy_alloc_limit as example):
+> drm_buddy_test_alloc_limit
+> test_drm_buddy_alloc_limit
+> buddy_test_alloc_limit
+> test_buddy_alloc_limit
+> 
+> And either of those is fine in my opinion (I'd personally go with
+> test_buddy_alloc_limit in this case).
+> We don't really need a DRM-wide (or worse, kernel wide) convention for test case
+> names (it's only really needed for test suites).
 
-On platforms where hard coding of IP version is required, update
-the IP version in __runtime under device_info.
+Although I do like the idea of having a DRM-wide name convention for
+test cases as it would ease the identification of test cases, I can see
+that consensus on this matter might be hard. So I guess we can take case
+by case.
 
-v2:
- - Avoid name collision for ip versions(Jani)
-v4.1:
- - Fix build error in mock_gem_device.c
+But as it would be nice to remove the "igt_" prefix from the tests, a
+first name convention might be needed. Currently, I'm not sure in which
+direction to go for removing the "igt_" from the tests.
 
-Suggested-by: Jani Nikula <jani.nikula@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
----
- drivers/gpu/drm/i915/i915_drv.h               | 14 +++----
- drivers/gpu/drm/i915/i915_pci.c               | 38 +++++++++----------
- drivers/gpu/drm/i915/intel_device_info.c      | 28 +++++++++-----
- drivers/gpu/drm/i915/intel_device_info.h      | 15 +++++---
- .../gpu/drm/i915/selftests/mock_gem_device.c  |  2 +-
- 5 files changed, 54 insertions(+), 43 deletions(-)
+For me, any of the options mentioned above would be okay, with a slight
+preference for the test_drm_ one.
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index c9cca165bf5d..f85a470397a5 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -469,19 +469,19 @@ static inline struct intel_gt *to_gt(struct drm_i915_private *i915)
- 
- #define IP_VER(ver, rel)		((ver) << 8 | (rel))
- 
--#define GRAPHICS_VER(i915)		(RUNTIME_INFO(i915)->graphics.ver)
--#define GRAPHICS_VER_FULL(i915)		IP_VER(RUNTIME_INFO(i915)->graphics.ver, \
--					       RUNTIME_INFO(i915)->graphics.rel)
-+#define GRAPHICS_VER(i915)		(RUNTIME_INFO(i915)->graphics.version.ver)
-+#define GRAPHICS_VER_FULL(i915)		IP_VER(RUNTIME_INFO(i915)->graphics.version.ver, \
-+					       RUNTIME_INFO(i915)->graphics.version.rel)
- #define IS_GRAPHICS_VER(i915, from, until) \
- 	(GRAPHICS_VER(i915) >= (from) && GRAPHICS_VER(i915) <= (until))
- 
--#define MEDIA_VER(i915)			(INTEL_INFO(i915)->media.ver)
--#define MEDIA_VER_FULL(i915)		IP_VER(INTEL_INFO(i915)->media.ver, \
--					       INTEL_INFO(i915)->media.rel)
-+#define MEDIA_VER(i915)			(RUNTIME_INFO(i915)->media.version.ver)
-+#define MEDIA_VER_FULL(i915)		IP_VER(RUNTIME_INFO(i915)->media.version.ver, \
-+					       RUNTIME_INFO(i915)->media.version.rel)
- #define IS_MEDIA_VER(i915, from, until) \
- 	(MEDIA_VER(i915) >= (from) && MEDIA_VER(i915) <= (until))
- 
--#define DISPLAY_VER(i915)	(INTEL_INFO(i915)->display.ver)
-+#define DISPLAY_VER(i915)	(RUNTIME_INFO(i915)->display.version.ver)
- #define IS_DISPLAY_VER(i915, from, until) \
- 	(DISPLAY_VER(i915) >= (from) && DISPLAY_VER(i915) <= (until))
- 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 26b25d9434d6..f6aaf938c53c 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -34,9 +34,9 @@
- 
- #define PLATFORM(x) .platform = (x)
- #define GEN(x) \
--	.__runtime.graphics.ver = (x), \
--	.media.ver = (x), \
--	.display.ver = (x)
-+	.__runtime.graphics.version.ver = (x), \
-+	.__runtime.media.version.ver = (x), \
-+	.__runtime.display.version.ver = (x)
- 
- #define I845_PIPE_OFFSETS \
- 	.display.pipe_offsets = { \
-@@ -740,7 +740,7 @@ static const struct intel_device_info bxt_info = {
- static const struct intel_device_info glk_info = {
- 	GEN9_LP_FEATURES,
- 	PLATFORM(INTEL_GEMINILAKE),
--	.display.ver = 10,
-+	.__runtime.display.version.ver = 10,
- 	.display.dbuf.size = 1024 - 4, /* 4 blocks for bypass path allocation */
- 	GLK_COLORS,
- };
-@@ -919,7 +919,7 @@ static const struct intel_device_info rkl_info = {
- static const struct intel_device_info dg1_info = {
- 	GEN12_FEATURES,
- 	DGFX_FEATURES,
--	.__runtime.graphics.rel = 10,
-+	.__runtime.graphics.version.rel = 10,
- 	PLATFORM(INTEL_DG1),
- 	.__runtime.pipe_mask = BIT(PIPE_A) | BIT(PIPE_B) | BIT(PIPE_C) | BIT(PIPE_D),
- 	.require_force_probe = 1,
-@@ -962,7 +962,7 @@ static const struct intel_device_info adl_s_info = {
- 	.display.has_hotplug = 1,						\
- 	.display.has_ipc = 1,							\
- 	.display.has_psr = 1,							\
--	.display.ver = 13,							\
-+	.__runtime.display.version.ver = 13,							\
- 	.__runtime.pipe_mask = BIT(PIPE_A) | BIT(PIPE_B) | BIT(PIPE_C) | BIT(PIPE_D),	\
- 	.display.pipe_offsets = {						\
- 		[TRANSCODER_A] = PIPE_A_OFFSET,					\
-@@ -1006,8 +1006,8 @@ static const struct intel_device_info adl_p_info = {
- 		I915_GTT_PAGE_SIZE_2M
- 
- #define XE_HP_FEATURES \
--	.__runtime.graphics.ver = 12, \
--	.__runtime.graphics.rel = 50, \
-+	.__runtime.graphics.version.ver = 12, \
-+	.__runtime.graphics.version.rel = 50, \
- 	XE_HP_PAGE_SIZES, \
- 	.dma_mask_size = 46, \
- 	.has_3d_pipeline = 1, \
-@@ -1027,8 +1027,8 @@ static const struct intel_device_info adl_p_info = {
- 	.__runtime.ppgtt_type = INTEL_PPGTT_FULL
- 
- #define XE_HPM_FEATURES \
--	.media.ver = 12, \
--	.media.rel = 50
-+	.__runtime.media.version.ver = 12, \
-+	.__runtime.media.version.rel = 50
- 
- __maybe_unused
- static const struct intel_device_info xehpsdv_info = {
-@@ -1053,8 +1053,8 @@ static const struct intel_device_info xehpsdv_info = {
- 	XE_HP_FEATURES, \
- 	XE_HPM_FEATURES, \
- 	DGFX_FEATURES, \
--	.__runtime.graphics.rel = 55, \
--	.media.rel = 55, \
-+	.__runtime.graphics.version.rel = 55, \
-+	.__runtime.media.version.rel = 55, \
- 	PLATFORM(INTEL_DG2), \
- 	.has_4tile = 1, \
- 	.has_64k_pages = 1, \
-@@ -1097,8 +1097,8 @@ static const struct intel_device_info pvc_info = {
- 	XE_HPC_FEATURES,
- 	XE_HPM_FEATURES,
- 	DGFX_FEATURES,
--	.__runtime.graphics.rel = 60,
--	.media.rel = 60,
-+	.__runtime.graphics.version.rel = 60,
-+	.__runtime.media.version.rel = 60,
- 	PLATFORM(INTEL_PONTEVECCHIO),
- 	.display = { 0 },
- 	.has_flat_ccs = 0,
-@@ -1111,7 +1111,7 @@ static const struct intel_device_info pvc_info = {
- 
- #define XE_LPDP_FEATURES	\
- 	XE_LPD_FEATURES,	\
--	.display.ver = 14,	\
-+	.__runtime.display.version.ver = 14,	\
- 	.display.has_cdclk_crawl = 1, \
- 	.__runtime.fbc_mask = BIT(INTEL_FBC_A) | BIT(INTEL_FBC_B)
- 
-@@ -1123,9 +1123,9 @@ static const struct intel_device_info mtl_info = {
- 	 * Real graphics IP version will be obtained from hardware GMD_ID
- 	 * register.  Value provided here is just for sanity checking.
- 	 */
--	.__runtime.graphics.ver = 12,
--	.__runtime.graphics.rel = 70,
--	.media.ver = 13,
-+	.__runtime.graphics.version.ver = 12,
-+	.__runtime.graphics.version.rel = 70,
-+	.__runtime.media.version.ver = 13,
- 	PLATFORM(INTEL_METEORLAKE),
- 	.display.has_modular_fia = 1,
- 	.has_flat_ccs = 0,
-@@ -1281,7 +1281,7 @@ bool i915_pci_resource_valid(struct pci_dev *pdev, int bar)
- 
- static bool intel_mmio_bar_valid(struct pci_dev *pdev, struct intel_device_info *intel_info)
- {
--	int gttmmaddr_bar = intel_info->__runtime.graphics.ver == 2 ? GEN2_GTTMMADR_BAR : GTTMMADR_BAR;
-+	int gttmmaddr_bar = intel_info->__runtime.graphics.version.ver == 2 ? GEN2_GTTMMADR_BAR : GTTMMADR_BAR;
- 
- 	return i915_pci_resource_valid(pdev, gttmmaddr_bar);
- }
-diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-index 0a1f97b35f2b..56f19683dd55 100644
---- a/drivers/gpu/drm/i915/intel_device_info.c
-+++ b/drivers/gpu/drm/i915/intel_device_info.c
-@@ -92,21 +92,29 @@ void intel_device_info_print(const struct intel_device_info *info,
- 			     const struct intel_runtime_info *runtime,
- 			     struct drm_printer *p)
- {
--	if (runtime->graphics.rel)
--		drm_printf(p, "graphics version: %u.%02u\n", runtime->graphics.ver,
--			   runtime->graphics.rel);
-+	if (runtime->graphics.version.rel)
-+		drm_printf(p, "graphics version: %u.%02u\n",
-+			   runtime->graphics.version.ver,
-+			   runtime->graphics.version.rel);
- 	else
--		drm_printf(p, "graphics version: %u\n", runtime->graphics.ver);
-+		drm_printf(p, "graphics version: %u\n",
-+			   runtime->graphics.version.ver);
- 
--	if (info->media.rel)
--		drm_printf(p, "media version: %u.%02u\n", info->media.ver, info->media.rel);
-+	if (runtime->media.version.rel)
-+		drm_printf(p, "media version: %u.%02u\n",
-+			   runtime->media.version.ver,
-+			   runtime->media.version.rel);
- 	else
--		drm_printf(p, "media version: %u\n", info->media.ver);
-+		drm_printf(p, "media version: %u\n",
-+			   runtime->media.version.ver);
- 
--	if (info->display.rel)
--		drm_printf(p, "display version: %u.%02u\n", info->display.ver, info->display.rel);
-+	if (runtime->display.version.rel)
-+		drm_printf(p, "display version: %u.%02u\n",
-+			   runtime->display.version.ver,
-+			   runtime->display.version.rel);
- 	else
--		drm_printf(p, "display version: %u\n", info->display.ver);
-+		drm_printf(p, "display version: %u\n",
-+			   runtime->display.version.ver);
- 
- 	drm_printf(p, "gt: %d\n", info->gt);
- 	drm_printf(p, "memory-regions: %x\n", runtime->memory_regions);
-diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-index 6904ad03ca19..d36cf25f1d5f 100644
---- a/drivers/gpu/drm/i915/intel_device_info.h
-+++ b/drivers/gpu/drm/i915/intel_device_info.h
-@@ -200,7 +200,15 @@ struct ip_version {
- };
- 
- struct intel_runtime_info {
--	struct ip_version graphics;
-+	struct {
-+		struct ip_version version;
-+	} graphics;
-+	struct {
-+		struct ip_version version;
-+	} media;
-+	struct {
-+		struct ip_version version;
-+	} display;
- 
- 	/*
- 	 * Platform mask is used for optimizing or-ed IS_PLATFORM calls into
-@@ -246,8 +254,6 @@ struct intel_runtime_info {
- };
- 
- struct intel_device_info {
--	struct ip_version media;
--
- 	enum intel_platform platform;
- 
- 	unsigned int dma_mask_size; /* available DMA address bits */
-@@ -259,9 +265,6 @@ struct intel_device_info {
- #undef DEFINE_FLAG
- 
- 	struct {
--		u8 ver;
--		u8 rel;
--
- 		u8 abox_mask;
- 
- 		struct {
-diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-index f5904e659ef2..869b952c13a0 100644
---- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-@@ -172,7 +172,7 @@ struct drm_i915_private *mock_gem_device(void)
- 	/* Using the global GTT may ask questions about KMS users, so prepare */
- 	drm_mode_config_init(&i915->drm);
- 
--	RUNTIME_INFO(i915)->graphics.ver = -1;
-+	RUNTIME_INFO(i915)->graphics.version.ver = -1;
- 
- 	RUNTIME_INFO(i915)->page_sizes =
- 		I915_GTT_PAGE_SIZE_4K |
--- 
-2.34.1
+Mentioning "test" on the test case really helps distinguish the API and
+the test cases. Most of the KUnit tests that I saw have the "test" in
+some part of the function (sometimes in the beginning, sometimes in the
+end, or after the subsystem prefix). So, I guess using "test" on the
+functions is not a bad practice, or redundant.
 
+Best Regards,
+- Maíra Canal
+
+> 
+> [1] https://docs.kernel.org/dev-tools/kunit/style.html#test-cases
+> [2] https://docs.kernel.org/dev-tools/kunit/style.html#suites
+> 
+> -Michał
+> 
+>>
+>>
+>> BR,
+>> Jani.
+>>
+>>
+>> -- 
+>> Jani Nikula, Intel Open Source Graphics Center
