@@ -2,49 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDE45AAD45
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 13:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6D35AAD9C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 13:28:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7479410E7FC;
-	Fri,  2 Sep 2022 11:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A631810E7DA;
+	Fri,  2 Sep 2022 11:28:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 754AD10E800;
- Fri,  2 Sep 2022 11:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662117289; x=1693653289;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=X7IKFVPPvozRQoVXAEPchifeq0wc72nPse9BauvYMbA=;
- b=HHXJiUmasoh6w6/ZTGun9dNx5qGW6HreD4FMcWcmIBuTresI335G2p9d
- PRJb0Wv4gcXzuXZ0kVmKag1JYaIqB27u12v4MhKjNmpRoB82hzK2bizaU
- IXXERZkySSIn9AddvSGtpygEo6TZehr/KRBv58AJ7KQZojTjXDG0buGXO
- tcsNz1F6viNrhqvWbU98NHyISzUAfvszIMkHHuN/b5gHluSpyvsDuVxJV
- BvPv9RPQI7WJBwSxKuzgUTQIFhWj1WC5aj8fELvYC5Qg7LEQ6W3AHZJQL
- H2WejImdnC8Uqc9yyD7x+JtL/drBc9Q++fc8qWmziaXaFIt10WLKMB//4 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="278974911"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="278974911"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 04:14:48 -0700
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="642873209"
-Received: from ideak-desk.fi.intel.com ([10.237.72.175])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 04:14:46 -0700
-Date: Fri, 2 Sep 2022 14:14:42 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [PATCH v7 1/3] drm/i915/hpd: suspend MST at the end of
- intel_modeset_driver_remove
-Message-ID: <YxHlohZu/jCxSyJK@ideak-desk.fi.intel.com>
-References: <20220826141929.189681-1-andrzej.hajda@intel.com>
- <20220826141929.189681-2-andrzej.hajda@intel.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52FBC10E7DA;
+ Fri,  2 Sep 2022 11:28:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=3P4G0s8jHHnMDuhy8+v0Q+ixmj390VbhdMQwj5y5Wjc=; b=bZtQWi7EyAVPLA42Rzf8cb5JdM
+ G/3PyoSsE4+TzQ45xyyuvyIG/+TEOpTWEC9Otb+gWl6o0joUn+Fb2soBCKyda0m/awdEZrUKc7uak
+ z51s4DGVhtB++KNaE9LcvK41LZ+PM5S/HiBly41wGr52SLb4ElQBdb5IssVAsOaMMzlyCEgKM7B4P
+ wiVGMqooxE9e6urqnga+WXRKxxZVYoGuxulJw2ZV1V29cJpJe+yW0s0LvhhpPHIehl5vgWFClYJI4
+ xk9vQt5rQTEuzB79xm1Vd+fefkG8uvdSATf2/klQmygxH9N0KRAJEPTZEgVWsKx0Q385qyG2Lyz62
+ t3IxvyDQ==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=64065)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oU4qX-0004pl-Pv; Fri, 02 Sep 2022 13:28:25 +0200
+Message-ID: <020d44e6-884b-a817-8265-3461638cac71@tronnes.org>
+Date: Fri, 2 Sep 2022 13:28:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220826141929.189681-2-andrzej.hajda@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 00/41] drm: Analog TV Improvements
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,82 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Arun R Murthy <arun.r.murthy@intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 26, 2022 at 04:19:27PM +0200, Andrzej Hajda wrote:
-> i915->hotplug.dig_port_work can be queued from intel_hpd_irq_handler
-> called by IRQ handler or by intel_hpd_trigger_irq called from dp_mst.
-> Since dp_mst is suspended after irq handler uninstall, a cleaner approach
-> is to cancel hpd work after intel_dp_mst_suspend, otherwise we risk
-> use-after-free.
+
+
+Den 01.09.2022 21.35, skrev Noralf Trønnes:
 > 
-> It should fix following WARNINGS:
-> [283.405824] cpu_latency_qos_update_request called for unknown object
-> [283.405866] WARNING: CPU: 2 PID: 240 at kernel/power/qos.c:296 cpu_latency_qos_update_request+0x2d/0x100
-> [283.405912] CPU: 2 PID: 240 Comm: kworker/u64:9 Not tainted 5.18.0-rc6-Patchwork_103738v3-g1672d1c43e43+ #1
-> [283.405915] Hardware name: Intel Corporation Raptor Lake Client Platform/RPL-S ADP-S DDR5 UDIMM CRB, BIOS RPLSFWI1.R00.2397.A01.2109300731 09/30/2021
-> [283.405916] Workqueue: i915-dp i915_digport_work_func [i915]
-> [283.406020] RIP: 0010:cpu_latency_qos_update_request+0x2d/0x100
+> 
+> I have finally found a workaround for my kernel hangs.
+> 
+> Dom had a look at my kernel and found that the VideoCore was fine, and
+> he said this:
+> 
+>> That suggests cause of lockup was on arm side rather than VC side.
+>>
+>> But it's hard to diagnose further. Once you've had a peripheral not
+>> respond, the AXI bus locks up and no further operations are possible.
+>> Usual causes of this are required clocks being stopped or domains
+>> disabled and then trying to access the hardware.
+>>
+> 
+> So when I got this on my 64-bit build:
+> 
+> [  166.702171] SError Interrupt on CPU1, code 0x00000000bf000002 -- SError
+> [  166.702187] CPU: 1 PID: 8 Comm: kworker/u8:0 Tainted: G        W
+>     5.19.0-rc6-00096-gba7973977976-dirty #1
+> [  166.702200] Hardware name: Raspberry Pi 4 Model B Rev 1.1 (DT)
+> [  166.702206] Workqueue: events_freezable_power_ thermal_zone_device_check
+> [  166.702231] pstate: 200000c5 (nzCv daIF -PAN -UAO -TCO -DIT -SSBS
+> BTYPE=--)
+> [  166.702242] pc : regmap_mmio_read32le+0x10/0x28
+> [  166.702261] lr : regmap_mmio_read+0x44/0x70
 > ...
-> [283.406040] Call Trace:
-> [283.406041]  <TASK>
-> [283.406044]  intel_dp_aux_xfer+0x60e/0x8e0 [i915]
-> [283.406131]  ? finish_swait+0x80/0x80
-> [283.406139]  intel_dp_aux_transfer+0xc5/0x2b0 [i915]
-> [283.406218]  drm_dp_dpcd_access+0x79/0x130 [drm_display_helper]
-> [283.406227]  drm_dp_dpcd_read+0xe2/0xf0 [drm_display_helper]
-> [283.406233]  intel_dp_hpd_pulse+0x134/0x570 [i915]
-> [283.406308]  ? __down_killable+0x70/0x140
-> [283.406313]  i915_digport_work_func+0xba/0x150 [i915]
+> [  166.702606]  bcm2711_get_temp+0x58/0xb0 [bcm2711_thermal]
 > 
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4586
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5558
-> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
+> I wondered if that reg read was stalled due to a clock being stopped.
+> 
+> Lo and behold, disabling runtime pm and keeping the vec clock running
+> all the time fixed it[1].
+> 
+> I don't know what the problem is, but at least I can now test this patchset.
+> 
+> [1] https://gist.github.com/notro/23b984e7fa05cfbda2db50a421cac065
+> 
 
-Reviewed-by: Imre Deak <imre.deak@intel.com>
+It turns out I didn't have to disable runtime pm:
+https://gist.github.com/notro/0adcfcb12460b54e54458afe11dc8ea2
 
-> ---
->  drivers/gpu/drm/i915/display/intel_display.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index a0f84cbe974fc3..524c4580ae6bc9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -9000,6 +9000,13 @@ void intel_modeset_driver_remove(struct drm_i915_private *i915)
->  
->  	flush_work(&i915->atomic_helper.free_work);
->  	drm_WARN_ON(&i915->drm, !llist_empty(&i915->atomic_helper.free_list));
-> +
-> +	/*
-> +	 * MST topology needs to be suspended so we don't have any calls to
-> +	 * fbdev after it's finalized. MST will be destroyed later as part of
-> +	 * drm_mode_config_cleanup()
-> +	 */
-> +	intel_dp_mst_suspend(i915);
->  }
->  
->  /* part #2: call after irq uninstall */
-> @@ -9014,13 +9021,6 @@ void intel_modeset_driver_remove_noirq(struct drm_i915_private *i915)
->  	 */
->  	intel_hpd_poll_fini(i915);
->  
-> -	/*
-> -	 * MST topology needs to be suspended so we don't have any calls to
-> -	 * fbdev after it's finalized. MST will be destroyed later as part of
-> -	 * drm_mode_config_cleanup()
-> -	 */
-> -	intel_dp_mst_suspend(i915);
-> -
->  	/* poll work can call into fbdev, hence clean that up afterwards */
->  	intel_fbdev_fini(i915);
->  
-> -- 
-> 2.25.1
-> 
+Noralf.
