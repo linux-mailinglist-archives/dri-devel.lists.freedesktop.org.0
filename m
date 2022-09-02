@@ -1,82 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E7F5AB324
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 16:14:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 013115AB33C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 16:18:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0631B10E85C;
-	Fri,  2 Sep 2022 14:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E12A710E85E;
+	Fri,  2 Sep 2022 14:18:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E85CC10E85D
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 14:13:49 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id u9so4162832ejy.5
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Sep 2022 07:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
- :subject:date; bh=HkrATxSxYMCe0d7NXJjjTPjg+fttoARS4eUl41blu5w=;
- b=NduYS7PCIsDXxPfL5Br7uVDo6RJM9+ySlErZm3KCBet1l9r9TwuYska2u8fCRMcgLh
- 9gk9DIwT2CfgR7fatE4fZVIUJYo+EmLf/jnHm4x1NasKUeRdh13RNA7myulovXTISfwo
- ZYVfnt8ABe656b1pt7Fb8E9f7zw7NjpOMPMj7lUv2PB5HjAri2NeRq63Bmb5SE9vPlnz
- Rz0qylx892+bw7HCiV56kkyMpUNo8l8lFoHPw8qt95ndKdKQyGYHnhzvILpVrXVt8i1C
- UjE10Te6DqlEq9YMKKWE167ORfDCWTWPLBesimByIFz2ryw59ToSpdPovCM5apRBeR7g
- MJnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject
- :x-gm-message-state:from:to:cc:subject:date;
- bh=HkrATxSxYMCe0d7NXJjjTPjg+fttoARS4eUl41blu5w=;
- b=0svE+r461/1Emv1iUfajjgO0DXL4KlsDnlmWGb5dUvreDqUz1g+u1/rtb7/ExMTKnM
- XZ4+sLp2malalPmdfsal6FRltZQgAy/nmZMaYnRnoVt2kKheFkSevTMFdgrk+TZvym9a
- OPWSq5TdiX0fGn0gX75rpOKxWYk4IDOLzmxe76Q/Jgo+BwuMWePaBvpHjaVq0fa5M2+C
- 7dpm0X6H4Fvy0bWCZmrrXiU9LxOSrwb1I9j21r0lHjcr6n2tVjW3EDh660yaOYttvQLW
- 20x8K7bFN8PUvB2XOOp0m5cPEb/s3ZbUlvN6CCjfXQe8F5h97GpaiOAzJkM2iOWIJyoW
- iQpw==
-X-Gm-Message-State: ACgBeo2iuff1j6yYXvW7Z5A41AUk7NS0ge9rFV1dfDqoVW9wUD1/rw2Y
- yxFY5JWfKONl9jXCXT7wlLE=
-X-Google-Smtp-Source: AA6agR7LpAO/9YUwEpkixKSLf8mxhsTi6MQ1eOya0YVrrolkRNNl5OdpQemWUcoLGnp5qDqB6fulGA==
-X-Received: by 2002:a17:907:3f0a:b0:730:994f:8d57 with SMTP id
- hq10-20020a1709073f0a00b00730994f8d57mr26794680ejc.538.1662128028496; 
- Fri, 02 Sep 2022 07:13:48 -0700 (PDT)
-Received: from [192.168.1.10] ([46.249.74.23])
- by smtp.googlemail.com with ESMTPSA id
- gk1-20020a17090790c100b007420aaba67esm1320609ejb.36.2022.09.02.07.13.47
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 02 Sep 2022 07:13:47 -0700 (PDT)
-Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
- DMM/TILER
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Yongqin Liu <yongqin.liu@linaro.org>, Andrew Davis <afd@ti.com>
-References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <5b6d3e7f-c638-fdc7-5080-44d34abed610@ideasonboard.com>
- <a3ed3a2c-86ce-1c85-e8aa-c08b54ad1a43@gmail.com>
- <CAMSo37XdZSZUHLWJj373DdtOBA9=uD8SJ7ywWCYF2pU1i4cB_g@mail.gmail.com>
- <ed4fe238-4fcd-1253-658f-18fe1e1f13b0@gmail.com>
- <CAMSo37V3U5nYng77jzSnKH73CTLhGYQJu11Q5wRt289se5nFJw@mail.gmail.com>
- <4128aed0-211a-d12a-6a86-deb4457d39f7@gmail.com>
- <CAMSo37W-DePLDP=zk-nY6FGcZuk0QzHj4=usrieyV0TNcNfbXw@mail.gmail.com>
- <da2a661e-9da0-850c-3067-8c1e8d5531bc@gmail.com>
- <CAMSo37VXNQeR0qZgzZONBwp_4z9CuUSJJJzhM7k+K39BcwvW6A@mail.gmail.com>
- <235621d0-2141-5ef9-bcd4-5c48b985b3a0@gmail.com>
- <5dc2c212-4967-ab2d-c016-f3b3a854fe32@ti.com>
- <CAMSo37W+Z2hn_wJ9At1nyJX6XnpZx9JLXJv9g6DoqoaqqjUATw@mail.gmail.com>
- <0eb026d9-faaa-68cb-cdcd-7d031acfbb03@gmail.com>
- <db245ada-2f2e-c65d-ef14-35ea4adda123@ideasonboard.com>
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <9ba1a8a3-fd3e-7879-8f47-ec991888d5f7@gmail.com>
-Date: Fri, 2 Sep 2022 17:13:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAAB810E846
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 14:18:42 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4MK0QB2z3Vz9sQp;
+ Fri,  2 Sep 2022 14:18:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1662128322; bh=1wxIRzrbo7POg1TlN8L3bWVz7p+G/CUdWBkFnf+64SA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kzmK3vTCWjYdkuSC2sjffaw+toISalqTE2cyfFHFkY+DG80zwvO5pb7seuSCnJ3Fj
+ dLmx2LQLWm5r39qkykZMdUUuQxMIh4brUlcPo2AZh4/Mej8kL32U2F9s+xwH2954PL
+ 4OHRP1X/JvkPDlrcEW1HdtvdNuvMMVQISgAQMOnI=
+X-Riseup-User-ID: 7E02D132B451C3B9586BD4FBA183A8605884C75ED578BAF2349F26ECF4A46E41
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4MK0Q81JTcz1yTJ;
+ Fri,  2 Sep 2022 14:18:39 +0000 (UTC)
+Message-ID: <7be422fd-55d6-8c98-24c9-7c46814c1f68@riseup.net>
+Date: Fri, 2 Sep 2022 11:18:36 -0300
 MIME-Version: 1.0
-In-Reply-To: <db245ada-2f2e-c65d-ef14-35ea4adda123@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Subject: Re: [PATCH 2/2] drm/format: Split into more granular test cases
+Content-Language: en-US
+To: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>
+References: <20220831215608.349269-1-michal.winiarski@intel.com>
+ <20220831215608.349269-2-michal.winiarski@intel.com>
+ <a314c255-03cc-da7b-b595-77402ec6dda4@riseup.net>
+ <20220902140627.rqzyvfaosf25cz5v@nostramo.hardline.pl>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220902140627.rqzyvfaosf25cz5v@nostramo.hardline.pl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,72 +55,363 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Bajjuri, Praneeth" <praneeth@ti.com>, merlijn@wizzup.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, tony@atomide.com, linux-omap@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
+ =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 30.08.22 г. 21:23 ч., Tomi Valkeinen wrote:
-> On 30/08/2022 21:08, Ivaylo Dimitrov wrote:
-> 
->>>>          flags &= ~OMAP_BO_TILED_MASK;
->>>>          flags |= 0x00000008;
->>>>          flags |= OMAP_BO_WC;
->>>>
->>>>          bo = omap_bo_new(dev, size, flags);
->>>>
->>>> As you can see we use 0x00000008 (OMAP_BO_MEM_CONTIG) unconditionally.
->>>> This was a hack added since even non-scanout buffers sometimes need
->>>> to be contiguous (video decoder surfaces), but we had no way back
+On 9/2/22 11:06, Michał Winiarski wrote:
+> On Wed, Aug 31, 2022 at 07:15:11PM -0300, Maíra Canal wrote:
+>> Hi Michał
 >>
->> Hmm, why would video decoder need linear memory? No MMU?
-> 
-> Not sure about this case, but many/most IPs don't have MMU. E.g. CSI-2 
-> or parallel capture.
-> 
->>>> If you tell me what the code should look like, I can rebuild the
->>>> lib and post a copy.
->>>>
->>>> Long term, I'd like to start using DMA-BUF Heaps for CMA memory
->>>> allocations in gralloc and elsewhere, then drop out the DMM/TILER
->>>> support from OMAPDRM, since it never really belonged there in
->>>> the first place (being a IOMMU unrelated to the display/GPU).
->>>>
+>> Some very minor nits inline, but either way:
 >>
->> Umm, how will we rotate scanout buffers then?
+>> Reviewed-by: Maíra Canal <mairacanal@riseup.net>
+>>
+>> On 8/31/22 18:56, Michał Winiarski wrote:
+>>> While we have multiple test cases, most of them check multiple
+>>> conditions, calling the function that is tested multiple times with
+>>> different arguments (with comments that indicate test case boundary).
+>>> This usually means that it can be easily converted into multiple test
+>>> cases.
+>>>
+>>> Passing output:
+>>> ============================================================
+>>> ================= drm_format (18 subtests) =================
+>>> [PASSED] drm_format_block_width_invalid
+>>> [PASSED] drm_format_block_width_one_plane
+>>> [PASSED] drm_format_block_width_two_plane
+>>> [PASSED] drm_format_block_width_three_plane
+>>> [PASSED] drm_format_block_width_tiled
+>>> [PASSED] drm_format_block_height_invalid
+>>> [PASSED] drm_format_block_height_one_plane
+>>> [PASSED] drm_format_block_height_two_plane
+>>> [PASSED] drm_format_block_height_three_plane
+>>> [PASSED] drm_format_block_height_tiled
+>>> [PASSED] drm_format_min_pitch_invalid
+>>> [PASSED] drm_format_min_pitch_one_plane_8bpp
+>>> [PASSED] drm_format_min_pitch_one_plane_16bpp
+>>> [PASSED] drm_format_min_pitch_one_plane_24bpp
+>>> [PASSED] drm_format_min_pitch_one_plane_32bpp
+>>> [PASSED] drm_format_min_pitch_two_plane
+>>> [PASSED] drm_format_min_pitch_three_plane_8bpp
+>>> [PASSED] drm_format_min_pitch_tiled
+>>
+>> As Jani pointed out in [1], "drm_" prefix can be a bit confusing. I will
+>> send a patch tomorrow using the prefix "test_drm_" on all tests to make the
+>> naming more consistent. It would be nice if this patch already hold the new
+>> naming, but anyway I can send a patch changing it later with the new prefix
+>> gets approved.
+>>
+>> [1] https://lore.kernel.org/dri-devel/20220831104941.doc75juindcm5mcl@nostramo.hardline.pl/T/#m82b4e710063b47029a8bd4716d137e575640da9a
 > 
-> Didn't we discuss this earlier in this thread. Or some other thread. 
-> Related to VRFB... I'm not sure =).
+> Sure - I can resend with different naming convention if needed.
+
+The naming convention ended up being more complicated than I originally 
+thought, so I believe it is great as it is. If the patch doesn't get 
+other feedback and anyone pushes it, I can push in a couple of days.
+
+Best Regards,
+- Maíra Canal
+
 > 
-
-Yeah, I think so. VRFB is still on my list though, along with TE support 
-for droid4 :).
-
-> Anyway, neither VRFB nor DMM/TILER are part of the DSS. They're part of 
-> the memory subsystem. They can be used without DSS being in the setup. 
-> Thus the code for VRFB and DMM/TILER should not be in the DSS driver.
->
-
-Makes sense.
-
-> The DSS driver should still, of course, support DMM/TILER (and maybe 
-> VRFB some day) in the "use" sense, i.e. so that DSS can use the 
-> DMM/TILER provided from another driver.
+>>
+>>> =================== [PASSED] drm_format ====================
+>>> ============================================================
+>>> Testing complete. Ran 18 tests: passed: 18
+>>>
+>>> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/tests/drm_format_test.c | 156 ++++++++++++++++--------
+>>>    1 file changed, 108 insertions(+), 48 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/tests/drm_format_test.c b/drivers/gpu/drm/tests/drm_format_test.c
+>>> index 0efa88bf56a9..1936d2d59908 100644
+>>> --- a/drivers/gpu/drm/tests/drm_format_test.c
+>>> +++ b/drivers/gpu/drm/tests/drm_format_test.c
+>>> @@ -9,100 +9,133 @@
+>>>    #include <drm/drm_fourcc.h>
+>>> -static void igt_check_drm_format_block_width(struct kunit *test)
+>>> +static void drm_format_block_width_invalid(struct kunit *test)
+>>>    {
+>>>    	const struct drm_format_info *info = NULL;
+>>> -	/* Test invalid arguments */
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
+>>> +}
+>>> +
+>>> +static void drm_format_block_width_one_plane(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
+>>> -	/* Test 1 plane format */
+>>> -	info = drm_format_info(DRM_FORMAT_XRGB4444);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+>>> +}
+>>> +
+>>> +static void drm_format_block_width_two_plane(struct kunit *test)
+>>
+>> s/plane/planes
 > 
-
-Ah, this is what I was missing all the time, for some reason I was left 
-with the impression that userland will have to know about those details. 
-Now it is clear.
-
-> But how exactly that's to be implemented, I don't know.
+> NV12 format has two planes, therefore it's a two-plane format.
 > 
-
-Seems Andrew has an idea.
-
-Ivo
-
->   Tomi
+> -Michał
+> 
+>>
+>> Best Regards,
+>> - Maíra Canal
+>>
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
+>>> -	/* Test 2 planes format */
+>>> -	info = drm_format_info(DRM_FORMAT_NV12);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+>>> +}
+>>> +
+>>> +static void drm_format_block_width_three_plane(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
+>>> -	/* Test 3 planes format */
+>>> -	info = drm_format_info(DRM_FORMAT_YUV422);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 2), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 3), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+>>> +}
+>>> +
+>>> +static void drm_format_block_width_tiled(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L0);
+>>> -	/* Test a tiled format */
+>>> -	info = drm_format_info(DRM_FORMAT_X0L0);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 0), 2);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, 1), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_width(info, -1), 0);
+>>>    }
+>>> -static void igt_check_drm_format_block_height(struct kunit *test)
+>>> +static void drm_format_block_height_invalid(struct kunit *test)
+>>>    {
+>>>    	const struct drm_format_info *info = NULL;
+>>> -	/* Test invalid arguments */
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
+>>> +}
+>>> +
+>>> +static void drm_format_block_height_one_plane(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
+>>> -	/* Test 1 plane format */
+>>> -	info = drm_format_info(DRM_FORMAT_XRGB4444);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
+>>> +}
+>>> +
+>>> +static void drm_format_block_height_two_plane(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
+>>> -	/* Test 2 planes format */
+>>> -	info = drm_format_info(DRM_FORMAT_NV12);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+>>> +}
+>>> +
+>>> +static void drm_format_block_height_three_plane(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
+>>> -	/* Test 3 planes format */
+>>> -	info = drm_format_info(DRM_FORMAT_YUV422);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 2), 1);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 3), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+>>> +}
+>>> +
+>>> +static void drm_format_block_height_tiled(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L0);
+>>> -	/* Test a tiled format */
+>>> -	info = drm_format_info(DRM_FORMAT_X0L0);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 0), 2);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, 1), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_block_height(info, -1), 0);
+>>>    }
+>>> -static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+>>> +static void drm_format_min_pitch_invalid(struct kunit *test)
+>>>    {
+>>>    	const struct drm_format_info *info = NULL;
+>>> -	/* Test invalid arguments */
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+>>> +}
+>>> +
+>>> +static void drm_format_min_pitch_one_plane_8bpp(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_RGB332);
+>>> -	/* Test 1 plane 8 bits per pixel format */
+>>> -	info = drm_format_info(DRM_FORMAT_RGB332);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+>>> @@ -118,10 +151,14 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+>>>    			(uint64_t)UINT_MAX);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
+>>>    			(uint64_t)(UINT_MAX - 1));
+>>> +}
+>>> +
+>>> +static void drm_format_min_pitch_one_plane_16bpp(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB4444);
+>>> -	/* Test 1 plane 16 bits per pixel format */
+>>> -	info = drm_format_info(DRM_FORMAT_XRGB4444);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+>>> @@ -137,10 +174,14 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+>>>    			(uint64_t)UINT_MAX * 2);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
+>>>    			(uint64_t)(UINT_MAX - 1) * 2);
+>>> +}
+>>> +
+>>> +static void drm_format_min_pitch_one_plane_24bpp(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_RGB888);
+>>> -	/* Test 1 plane 24 bits per pixel format */
+>>> -	info = drm_format_info(DRM_FORMAT_RGB888);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+>>> @@ -154,12 +195,16 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 671), 2013);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX),
+>>>    			(uint64_t)UINT_MAX * 3);
+>>> -	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
+>>> +	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX - 1),
+>>>    			(uint64_t)(UINT_MAX - 1) * 3);
+>>> +}
+>>> +
+>>> +static void drm_format_min_pitch_one_plane_32bpp(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_ABGR8888);
+>>> -	/* Test 1 plane 32 bits per pixel format */
+>>> -	info = drm_format_info(DRM_FORMAT_ABGR8888);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+>>> @@ -173,17 +218,16 @@ static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 671), 2684);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX),
+>>>    			(uint64_t)UINT_MAX * 4);
+>>> -	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
+>>> +	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, UINT_MAX - 1),
+>>>    			(uint64_t)(UINT_MAX - 1) * 4);
+>>>    }
+>>> -static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
+>>> +static void drm_format_min_pitch_two_plane(struct kunit *test)
+>>>    {
+>>> -	const struct drm_format_info *info = NULL;
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_NV12);
+>>> -	/* Test 2 planes format */
+>>> -	info = drm_format_info(DRM_FORMAT_NV12);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+>>> @@ -211,10 +255,14 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
+>>>    			(uint64_t)(UINT_MAX - 1));
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, (UINT_MAX - 1) /  2),
+>>>    			(uint64_t)(UINT_MAX - 1));
+>>> +}
+>>> +
+>>> +static void drm_format_min_pitch_three_plane_8bpp(struct kunit *test)
+>>> +{
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_YUV422);
+>>> -	/* Test 3 planes 8 bits per pixel format */
+>>> -	info = drm_format_info(DRM_FORMAT_YUV422);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, 0), 0);
+>>> @@ -256,13 +304,12 @@ static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
+>>>    			(uint64_t)(UINT_MAX - 1) / 2);
+>>>    }
+>>> -static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
+>>> +static void drm_format_min_pitch_tiled(struct kunit *test)
+>>>    {
+>>> -	const struct drm_format_info *info = NULL;
+>>> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_X0L2);
+>>> -	/* Test tiled format */
+>>> -	info = drm_format_info(DRM_FORMAT_X0L2);
+>>>    	KUNIT_ASSERT_NOT_NULL(test, info);
+>>> +
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, -1, 0), 0);
+>>>    	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 1, 0), 0);
+>>> @@ -281,12 +328,25 @@ static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
+>>>    }
+>>>    static struct kunit_case drm_format_tests[] = {
+>>> -	KUNIT_CASE(igt_check_drm_format_block_width),
+>>> -	KUNIT_CASE(igt_check_drm_format_block_height),
+>>> -	KUNIT_CASE(igt_check_drm_format_min_pitch_for_single_plane),
+>>> -	KUNIT_CASE(igt_check_drm_format_min_pitch_for_multi_planar),
+>>> -	KUNIT_CASE(igt_check_drm_format_min_pitch_for_tiled_format),
+>>> -	{ }
+>>> +	KUNIT_CASE(drm_format_block_width_invalid),
+>>> +	KUNIT_CASE(drm_format_block_width_one_plane),
+>>> +	KUNIT_CASE(drm_format_block_width_two_plane),
+>>> +	KUNIT_CASE(drm_format_block_width_three_plane),
+>>> +	KUNIT_CASE(drm_format_block_width_tiled),
+>>> +	KUNIT_CASE(drm_format_block_height_invalid),
+>>> +	KUNIT_CASE(drm_format_block_height_one_plane),
+>>> +	KUNIT_CASE(drm_format_block_height_two_plane),
+>>> +	KUNIT_CASE(drm_format_block_height_three_plane),
+>>> +	KUNIT_CASE(drm_format_block_height_tiled),
+>>> +	KUNIT_CASE(drm_format_min_pitch_invalid),
+>>> +	KUNIT_CASE(drm_format_min_pitch_one_plane_8bpp),
+>>> +	KUNIT_CASE(drm_format_min_pitch_one_plane_16bpp),
+>>> +	KUNIT_CASE(drm_format_min_pitch_one_plane_24bpp),
+>>> +	KUNIT_CASE(drm_format_min_pitch_one_plane_32bpp),
+>>> +	KUNIT_CASE(drm_format_min_pitch_two_plane),
+>>> +	KUNIT_CASE(drm_format_min_pitch_three_plane_8bpp),
+>>> +	KUNIT_CASE(drm_format_min_pitch_tiled),
+>>> +	{}
+>>>    };
+>>>    static struct kunit_suite drm_format_test_suite = {
