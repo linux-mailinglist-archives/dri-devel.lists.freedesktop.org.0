@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BAF5AA9EA
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 10:25:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8BD5AAAC1
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 10:58:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3432D10E7D2;
-	Fri,  2 Sep 2022 08:25:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61F2910E665;
+	Fri,  2 Sep 2022 08:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C658F10E7BE
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 08:25:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662107111; x=1693643111;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=H9oHbXM3gEQ38vlwRtxoT0imlgiBARzw4vLE3Lcj4Oo=;
- b=dhDd9PdFdXH8+J0a5rBi16hgd5q0131loWWp7DHnSkhaA0b+RmfHe+Wp
- Qxhd8lOYFA+NhSuAHSs+x3r6uihKWOTZNx2cc2pLJH3h3Cmpyd8ArrqIn
- lYSAOPSQEAVplyEtIHXTeJHB+7KtdXTmPXbBAtQ8EoF0QuxhThrgL1hJs
- 3gd4OnpyF3S+YdX45Ea5CYhkkg2rY6ANDRg6rk4e0UiSBPVqNE9q7SD+v
- dIkZq0bBu7ENErx0FY81kiclcOvDPEVgAbCk8Sqh/X4hwOl22F7Qg/D9l
- FEfjtJFDaqLy7phQuCLZftj2LFFGcdvXyj0AOOsiCM4Cu4LKNptabyT7j w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="293509634"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="293509634"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 01:25:11 -0700
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="674262908"
-Received: from svandene-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.55.245])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 01:25:05 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>, =?utf-8?Q?Ma=C3=ADra?= Canal
- <mairacanal@riseup.net>
-Subject: Re: [PATCH v2 2/2] drm/tests: Change "igt_" prefix to "test_drm_"
-In-Reply-To: <20220902080817.is2dqqe5sxxhj6qo@houat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220901124210.591994-1-mairacanal@riseup.net>
- <20220901124210.591994-2-mairacanal@riseup.net>
- <20220901125530.b56s4zisnkfuigvc@houat>
- <04aeba53-793c-3196-3137-915f0640dc2a@riseup.net>
- <20220902080817.is2dqqe5sxxhj6qo@houat>
-Date: Fri, 02 Sep 2022 11:24:54 +0300
-Message-ID: <874jxqfajt.fsf@intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F3B210E665
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 08:58:06 +0000 (UTC)
+X-UUID: 55bd09ba86ae45aeb6c12ff406430924-20220902
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=LjdTy1xd5BYoKHJkgGQjVcamnY1XU8R1SpCmvWnZVUs=; 
+ b=AQYfPnEB1lf1xCywnf/7nQX5ptfQ8yrDYBoQKx81Q3s5mCiHpvqOApsZXr2E1ZU8YRUU4kxXXe2PmUWi0DV4bgtVB/v/2Knnh20nyTn7SmBSjdhOGNzgoeDwVU1s5dkB8jygWgdU+eUKSHr/5qq8kWdnnRy5O3R/jpvX52jv9f8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10, REQID:e58f0edb-4376-49fc-bd67-41fb7b4bb93a, OB:0,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
+ Ham,ACTION:release,TS:0
+X-CID-META: VersionHash:84eae18, CLOUDID:3f566756-e800-47dc-8adf-0c936acf4f1b,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 55bd09ba86ae45aeb6c12ff406430924-20220902
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1814608957; Fri, 02 Sep 2022 16:58:00 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 2 Sep 2022 16:57:58 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 2 Sep 2022 16:57:58 +0800
+Message-ID: <e5e925911c428cab87bbe12cda1dd657e1bb5075.camel@mediatek.com>
+Subject: Re: [PATCH v17 10/10] drm/mediatek: dp: Audio support for MT8195
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Fri, 2 Sep 2022 16:57:58 +0800
+In-Reply-To: <20220901044149.16782-11-rex-bc.chen@mediatek.com>
+References: <20220901044149.16782-1-rex-bc.chen@mediatek.com>
+ <20220901044149.16782-11-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,62 +68,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michal.winiarski@intel.com, David Gow <davidgow@google.com>,
- siqueirajordao@riseup.net, magalilemes00@gmail.com,
- David Airlie <airlied@linux.ie>, tales.aparecida@gmail.com,
- Arthur Grillo <arthur.grillo@usp.br>, brendanhiggins@google.com,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mwen@igalia.com, kunit-dev@googlegroups.com,
- =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 02 Sep 2022, Maxime Ripard <maxime@cerno.tech> wrote:
-> On Thu, Sep 01, 2022 at 07:33:18PM -0300, Ma=C3=ADra Canal wrote:
->> Hi Maxime,
->>=20
->> On 9/1/22 09:55, Maxime Ripard wrote:
->> > Hi,
->> >=20
->> > On Thu, Sep 01, 2022 at 09:42:10AM -0300, Ma=C3=ADra Canal wrote:
->> >> With the introduction of KUnit, IGT is no longer the only option to r=
-un
->> >> the DRM unit tests, as the tests can be run through kunit-tool or on
->> >> real hardware with CONFIG_KUNIT.
->> >>
->> >> Therefore, remove the "igt_" prefix from the tests and replace it with
->> >> the "test_drm_" prefix, making the tests' names independent from the =
-tool
->> >> used.
->> >>
->> >> Signed-off-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
->> >>
->> >> ---
->> >> v1 -> v2: https://lore.kernel.org/dri-devel/20220830211603.191734-1-m=
-airacanal@riseup.net/
->> >> - Change "drm_" prefix to "test_drm_", as "drm_" can be a bit confusi=
-ng (Jani Nikula).
->> >=20
->> > I appreciate it's a bit of a bikeshed but I disagree with this. The
->> > majority of the kunit tests already out there start with the framework
->> > name, including *all* the examples in the kunit doc. Plus, it's fairly
->> > obvious that it's a test, kunit is only about running tests in the fir=
-st
->> > place.
->>=20
->> Would it be better to keep it as "drm_"?
->>=20
->> Currently, I don't think it is appropriate to hold the "igt_" prefix, as
->> the tests are not IGT exclusive, but I don't have a strong opinion on
->> using the "drm_" or the "test_drm" prefixes.
->
-> Yes, using drm as our prefix everywhere seems like a good idea :)
+Hi, Bo-Chen:
 
-Disagreed for reasons explained in other mails.
+On Thu, 2022-09-01 at 12:41 +0800, Bo-Chen Chen wrote:
+> From: Guillaume Ranquet <granquet@baylibre.com>
+> 
+> This patch adds audio support to the DP driver for MT8195 with up to
+> 8
+> channels.
+> 
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dp.c     | 482
+> +++++++++++++++++++++++++-
+>  drivers/gpu/drm/mediatek/mtk_dp_reg.h |  51 +++
+>  2 files changed, 532 insertions(+), 1 deletion(-)
+> 
+> 
 
-BR,
-Jani.
+[snip]
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+> +#define MTK_DP_ENC0_P0_308C			0x308c
+> +#define CH_STATUS_0_DP_ENC0_P0_MASK			GENMASK(15, 0)
+> +#define MTK_DP_ENC0_P0_3090			0x3090
+> +#define CH_STATUS_1_DP_ENC0_P0_MASK			GENMASK(15, 0)
+> +#define MTK_DP_ENC0_P0_3094			0x3094
+> +#define CH_STATUS_2_DP_ENC0_P0_MASK			GENMASK(7, 0)
+> +#define MTK_DP_ENC0_P0_30A0			0x30a0
+
+Useless, so drop it.
+
+Regards,
+CK
+
+> +#define DP_ENC0_30A0_MASK				(BIT(7) |
+> BIT(8) | BIT(12))
+> +#define MTK_DP_ENC0_P0_30A4			0x30a4
+> +#define AU_TS_CFG_DP_ENC0_P0_MASK			GENMASK(7, 0)
+> +#define MTK_DP_ENC0_P0_30A8			0x30a8
+> 
+
