@@ -1,79 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8935AA983
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 10:08:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC89D5AA990
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 10:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAD7910E7A5;
-	Fri,  2 Sep 2022 08:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2CF110E78A;
+	Fri,  2 Sep 2022 08:12:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60CE510E7A6
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 08:08:25 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 27D515C01E1;
- Fri,  2 Sep 2022 04:08:22 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 02 Sep 2022 04:08:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1662106102; x=1662192502; bh=oXx8G2C70O
- 6z7Y/AAZDRV0BkSeYx27XRk/1S/V+785o=; b=AoNigvqd/+Gl1lrbqAJj3zRlf4
- Uz+mv5mzgXm5dv6SnTveWgJEojTFNdY3TgmnvZO0vUzy9ewsXpJ2SHyfVA7L6xG2
- 9uXzBJh8xCZItDt5VMInEky88lFLt+kCHzZtW/dhkoUTmVFkJKllnNWbw4BODecl
- BORICHIGuoWFWHYavNu89rTZMAMjuljt0KD9bHABb8ijEVdoQ6haqi97J56RbQJe
- 4FNRn59X/EjKlmqM4B5pYidgzaAfoIrpfYOMg3DGeJaKnwKDJTgM2JSh4Z4B0WTx
- zUJaIekrZltZVUMU6Vqu+FB3NjFbgnMZ6C2dUe7eP6ZGpfqos72XhhgHuIAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1662106102; x=1662192502; bh=oXx8G2C70O6z7Y/AAZDRV0BkSeYx
- 27XRk/1S/V+785o=; b=zmrjfZ1MPWS1YUuIsqTqNX9e/+ow093v35x8nLRMtfi9
- HrhCV5/rXKAvyeq3PHNHQOU5PKk0Phmf5Riv57CfRsW4N3SoKrKXE12HbZemqUeR
- U22nz+9tSQvL+CkhKnBpqyDSIVS50nT4/sHCjjo5ZAXrErYGXhEXVhJyaOuG4QKd
- FHMDHaDloo8M4WcxG0BcOcqgJaMUOt42WhjOsAhBG3lOe7ogA0U/4yqyQZGp8i3e
- 7OsDc61NmPFUkeg904NEVEZJI35US9Hx4E9Rkbnu1Eeg5E7GPmL+4HSUS6Uj+Gjp
- 6k5puXHIc7J/PYpe9ftSiusdabk4CahrCcdjljQNuA==
-X-ME-Sender: <xms:9bkRY7Gvvk_fjYmLfEx9LpWNeCw-dVkoRKCu052gjNKz4oYGH1suRw>
- <xme:9bkRY4XwKwOhreqFx_QK-ACNNceJvifIm7tpNmG6sbSJY7e0_BgHC5OXlUpAYP3Hx
- NBPM5HxPJOIAoJpiK8>
-X-ME-Received: <xmr:9bkRY9I-ydv9qTMuOheMvOdcRUY2Bpmbg_AVBrb9np8sn2wFAxP2QCoR4w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeltddgtdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeljeeugfegveetleevkeetffegudevieetieeugeeugeeivddtjeejvdef
- feetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:9bkRY5HXm61F4PcxLNK5m3rQg8z2teZN-HZOQWzL1Y2mZJC5Gp6npA>
- <xmx:9bkRYxXT9qIjLUEkWBe6eJb-wlNSxIy3FF3Kl2TTcu1Zlgw8ikPM1Q>
- <xmx:9bkRY0Na_3KoCTFKeDnS_NrgD3qAjgw5AiV4tQr85JIsexiy3hNQdQ>
- <xmx:9rkRY4MXrD0wx5qHwdfAbxRIyLEgoNzehIkf2gd_q0YkGZ_c3AvKTg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 2 Sep 2022 04:08:20 -0400 (EDT)
-Date: Fri, 2 Sep 2022 10:08:17 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
-Subject: Re: [PATCH v2 2/2] drm/tests: Change "igt_" prefix to "test_drm_"
-Message-ID: <20220902080817.is2dqqe5sxxhj6qo@houat>
-References: <20220901124210.591994-1-mairacanal@riseup.net>
- <20220901124210.591994-2-mairacanal@riseup.net>
- <20220901125530.b56s4zisnkfuigvc@houat>
- <04aeba53-793c-3196-3137-915f0640dc2a@riseup.net>
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7120610E78A
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 08:12:10 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id w2so1204103pld.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Sep 2022 01:12:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=Sp6uHF5Iwvu00Tbj0ZOEc8ZB60lUbaBAN+8ZZ79Xoug=;
+ b=A6F63bK7HuYUTHZh1eppDTtnh1ZFOzfBh3saxCb2SKKPs7fBu3CdSWfk/Arg/V3f7Q
+ 9SmP4JRE56f0w+5xIrPjQyuqDDSMUd3hlqDaApWjOLNUFIfPT6qDUILmb/+fEdw9MSQG
+ F2ZRFaAu95IQ4ueeHQRzV3Ae6WHh6oionqyVy3mJnE8LIXcw+ZJhNmXsLh2GOTrrQlXu
+ bd+ub7Rb/AptqI+yxDlkIcIjPeceWNocciUkVHoOXWXGJksMyJGmEiDFpTi7INytCBRw
+ hRmhzEXnyH7d534du13VS6TJ/tQNzFdB1DPubpm0uOXpy09qOaYNmLON4qH5glrWFYb+
+ 8ENQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=Sp6uHF5Iwvu00Tbj0ZOEc8ZB60lUbaBAN+8ZZ79Xoug=;
+ b=jnU+8AyVTI3TLhgrAkn8xn0tZXrC3HGoW51mVofywZtme0fWjaz47mnq5gG6c/LxRF
+ scCufzfaqsuUgT5YJK5W432Wk2rynm/RUQ2QHt9G0KoiTlI1OBaRf3omdjCvNdoTRwJp
+ MGRHA65qfjUgBf4JIfj0e1NmK4JrUNhabhI2yQeRPxyspve6aQi4sthU1GiA1dpCIyw4
+ 6aND0c+Ny8iW5X5MghLsv3vgx7apd0zLcXoi9OOtze/yjGBASACOeEstNbr1YMJ4K6Jz
+ sZT4TW+UpxOKD30ib4OsMViA/B2Rp7v622fe53sgaNqqq08lLI9+bXBM9ovEQGB9rqUJ
+ PzZQ==
+X-Gm-Message-State: ACgBeo2RoasnDaG6UGFtskyBFZh12z+tlwgMwTkplxz47A3FG3fROer7
+ VAoteR8vngPyKMr4rcrLO+s=
+X-Google-Smtp-Source: AA6agR7tT9ErYh2E5Np94U1vZlfLy+m04TJYCSxWQ5NWkn48/4IAiJ5neS7k/0wnjmYs8aHsR23Jqw==
+X-Received: by 2002:a17:902:d509:b0:16f:1e1:2063 with SMTP id
+ b9-20020a170902d50900b0016f01e12063mr34155758plg.131.1662106330062; 
+ Fri, 02 Sep 2022 01:12:10 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id
+ b8-20020a170902d50800b0017550eaa3eesm978052plg.71.2022.09.02.01.12.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Sep 2022 01:12:09 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: zhang.songyi@zte.com.cn
+To: airlied@linux.ie
+Subject: [PATCH linux-next] drm/dp_helper: Remove the unneeded result variable
+Date: Fri,  2 Sep 2022 08:12:03 +0000
+Message-Id: <20220902081203.320165-1-zhang.songyi@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="76a7tdldm3qyyhst"
-Content-Disposition: inline
-In-Reply-To: <04aeba53-793c-3196-3137-915f0640dc2a@riseup.net>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,72 +68,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michal.winiarski@intel.com, David Gow <davidgow@google.com>,
- siqueirajordao@riseup.net, magalilemes00@gmail.com,
- David Airlie <airlied@linux.ie>, tales.aparecida@gmail.com,
- Arthur Grillo <arthur.grillo@usp.br>, brendanhiggins@google.com,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- mwen@igalia.com, dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net
+Cc: jani.nikula@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Zeal Robot <zealci@zte.com.cn>, zhang songyi <zhang.songyi@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: zhang songyi <zhang.songyi@zte.com.cn>
 
---76a7tdldm3qyyhst
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Return the drm_dp_dpcd_writeb() directly instead of storing it in another
+redundant variable.
 
-On Thu, Sep 01, 2022 at 07:33:18PM -0300, Ma=EDra Canal wrote:
-> Hi Maxime,
->=20
-> On 9/1/22 09:55, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Thu, Sep 01, 2022 at 09:42:10AM -0300, Ma=EDra Canal wrote:
-> >> With the introduction of KUnit, IGT is no longer the only option to run
-> >> the DRM unit tests, as the tests can be run through kunit-tool or on
-> >> real hardware with CONFIG_KUNIT.
-> >>
-> >> Therefore, remove the "igt_" prefix from the tests and replace it with
-> >> the "test_drm_" prefix, making the tests' names independent from the t=
-ool
-> >> used.
-> >>
-> >> Signed-off-by: Ma=EDra Canal <mairacanal@riseup.net>
-> >>
-> >> ---
-> >> v1 -> v2: https://lore.kernel.org/dri-devel/20220830211603.191734-1-ma=
-iracanal@riseup.net/
-> >> - Change "drm_" prefix to "test_drm_", as "drm_" can be a bit confusin=
-g (Jani Nikula).
-> >=20
-> > I appreciate it's a bit of a bikeshed but I disagree with this. The
-> > majority of the kunit tests already out there start with the framework
-> > name, including *all* the examples in the kunit doc. Plus, it's fairly
-> > obvious that it's a test, kunit is only about running tests in the first
-> > place.
->=20
-> Would it be better to keep it as "drm_"?
->=20
-> Currently, I don't think it is appropriate to hold the "igt_" prefix, as
-> the tests are not IGT exclusive, but I don't have a strong opinion on
-> using the "drm_" or the "test_drm" prefixes.
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: zhang songyi <zhang.songyi@zte.com.cn>
+---
+ drivers/gpu/drm/display/drm_dp_helper.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Yes, using drm as our prefix everywhere seems like a good idea :)
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index 92990a3d577a..09b282b704fa 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -2925,16 +2925,13 @@ EXPORT_SYMBOL(drm_dp_get_pcon_max_frl_bw);
+  */
+ int drm_dp_pcon_frl_prepare(struct drm_dp_aux *aux, bool enable_frl_ready_hpd)
+ {
+-	int ret;
+ 	u8 buf = DP_PCON_ENABLE_SOURCE_CTL_MODE |
+ 		 DP_PCON_ENABLE_LINK_FRL_MODE;
+ 
+ 	if (enable_frl_ready_hpd)
+ 		buf |= DP_PCON_ENABLE_HPD_READY;
+ 
+-	ret = drm_dp_dpcd_writeb(aux, DP_PCON_HDMI_LINK_CONFIG_1, buf);
+-
+-	return ret;
++	return drm_dp_dpcd_writeb(aux, DP_PCON_HDMI_LINK_CONFIG_1, buf);
+ }
+ EXPORT_SYMBOL(drm_dp_pcon_frl_prepare);
+ 
+-- 
+2.25.1
 
-Maxime
 
---76a7tdldm3qyyhst
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxG58QAKCRDj7w1vZxhR
-xT6yAQDBwt2ucJpi8xbfOexsSn0IwtFEfMVmlzrn0/gz/emVbgEAwWwWnzbG5bKB
-w4pOcdJqPCvfrvxmbjUcFF/2yU3CAwg=
-=4LKf
------END PGP SIGNATURE-----
-
---76a7tdldm3qyyhst--
