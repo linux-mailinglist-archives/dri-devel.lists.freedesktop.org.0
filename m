@@ -2,60 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B185AAD2A
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 13:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDE45AAD45
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 13:14:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3249D10E804;
-	Fri,  2 Sep 2022 11:11:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7479410E7FC;
+	Fri,  2 Sep 2022 11:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEC5310E809
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 11:11:29 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id b142so1287467iof.10
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Sep 2022 04:11:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=0uxRZBOPLi+NS9/RxnDo7X4RCP5qkt6gVLnbm7RHdG0=;
- b=MDDK0E/FDsqrvMBSeQgKwGIHYGkmcNOk/JK2LfBWtKTnvz8UXigbZgJ8amIbXTgeZ0
- CJ58uJ3ILTmOU9dOiBID8MtuvQeceTweyTewSDUirG6oCXMlHs1hrKQYMH7eVLpSccXa
- nHqWLMPfhbDGIWv2gnaL4YKxq3V9NJkQYjTpQJJSGpzPb3EbkvG7hbP7rAPuHCqSECkC
- kI8o7dM3EolwUV/EKm2doVCxGCeq2fL2fyyb3G2jmjnRZwUY/1cMGSf83187L2r4fz+3
- yjUjQGsQIzwsbufaR/UV5lx5UNLm9Euadt2cY1Pp/uFFnoGXgxJWzLMnAZ06h81ayuXT
- P0Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=0uxRZBOPLi+NS9/RxnDo7X4RCP5qkt6gVLnbm7RHdG0=;
- b=yUtXr8R7LCHLiazLIlht0U2Uj0O9FI7vE73wmB7TZ1EMLfZbsf6KZcQQnVH42XgcUw
- cY/Yr5fm4D7ySzu40llBQi4E3wV/Dm+9RQFoNi8YYuz0RdcwJSTB46tly2+MOA6Nknd0
- M7bY5EV3HFOjUaf3hYyfBXVkU3WrTLTGQQBwLPSL3czPZE3rgj0Adj9oG48/xJ6nuH97
- HN431mRnTR4D9wU/PI/h2qz7taRPe5s/xOlh1VkVo/3Qi4OEJi1xY9Bh9yo9EUf3Ueef
- R4Np6DJKggb8mahWjFykTz6yux53I/njR9balMfADEs3wZ8iqmM46TMiMZGAmNLlp57+
- 6UyQ==
-X-Gm-Message-State: ACgBeo3DMHzClj4kEDSGB6GOv9ZfMXtmdILvZyNv2XIwZlOroYemEOED
- GDMRPEh1KVhIpi/sugnw2z6RpgnhjU7LI9hb9rhdqg==
-X-Google-Smtp-Source: AA6agR46FuiTckak+7eI/hkJWGysIYCuexaGhU1eFwLL1oMDPn4WchWwt+YhdAsfjM/PsTajny0RiajCzr8ncAGjJpw=
-X-Received: by 2002:a6b:3f88:0:b0:689:c144:328a with SMTP id
- m130-20020a6b3f88000000b00689c144328amr16521320ioa.63.1662117089052; Fri, 02
- Sep 2022 04:11:29 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 754AD10E800;
+ Fri,  2 Sep 2022 11:14:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662117289; x=1693653289;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=X7IKFVPPvozRQoVXAEPchifeq0wc72nPse9BauvYMbA=;
+ b=HHXJiUmasoh6w6/ZTGun9dNx5qGW6HreD4FMcWcmIBuTresI335G2p9d
+ PRJb0Wv4gcXzuXZ0kVmKag1JYaIqB27u12v4MhKjNmpRoB82hzK2bizaU
+ IXXERZkySSIn9AddvSGtpygEo6TZehr/KRBv58AJ7KQZojTjXDG0buGXO
+ tcsNz1F6viNrhqvWbU98NHyISzUAfvszIMkHHuN/b5gHluSpyvsDuVxJV
+ BvPv9RPQI7WJBwSxKuzgUTQIFhWj1WC5aj8fELvYC5Qg7LEQ6W3AHZJQL
+ H2WejImdnC8Uqc9yyD7x+JtL/drBc9Q++fc8qWmziaXaFIt10WLKMB//4 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="278974911"
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="278974911"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2022 04:14:48 -0700
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="642873209"
+Received: from ideak-desk.fi.intel.com ([10.237.72.175])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2022 04:14:46 -0700
+Date: Fri, 2 Sep 2022 14:14:42 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [PATCH v7 1/3] drm/i915/hpd: suspend MST at the end of
+ intel_modeset_driver_remove
+Message-ID: <YxHlohZu/jCxSyJK@ideak-desk.fi.intel.com>
+References: <20220826141929.189681-1-andrzej.hajda@intel.com>
+ <20220826141929.189681-2-andrzej.hajda@intel.com>
 MIME-Version: 1.0
-References: <1659608930-4370-1-git-send-email-quic_kalyant@quicinc.com>
- <CAA8EJpoAN4CVMKNouh3pPtX-5rnBeL3_T60M5cNhirNEmNeEkQ@mail.gmail.com>
- <BN0PR02MB8142FFB573A4D05B0560A13996639@BN0PR02MB8142.namprd02.prod.outlook.com>
- <04d77534-e2b5-b860-a59e-e1a511ed35ae@linaro.org>
- <BN0PR02MB8142049D9867BFD4CBC9B285967A9@BN0PR02MB8142.namprd02.prod.outlook.com>
-In-Reply-To: <BN0PR02MB8142049D9867BFD4CBC9B285967A9@BN0PR02MB8142.namprd02.prod.outlook.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 2 Sep 2022 14:11:17 +0300
-Message-ID: <CAA8EJprs02M05BPDP6Pb6htLKkH2nVG7o5MKu_1+_A3zeOnNcA@mail.gmail.com>
-Subject: Re: [v1] drm/msm/disp/dpu1: add support for hierarchical flush for
- dspp in sc7280
-To: Kalyan Thota <kalyant@qti.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220826141929.189681-2-andrzej.hajda@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,63 +57,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "dianders@chromium.org" <dianders@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "swboyd@chromium.org" <swboyd@chromium.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "Vinod Polimera \(QUIC\)" <quic_vpolimer@quicinc.com>
+Reply-To: imre.deak@intel.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Arun R Murthy <arun.r.murthy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2 Sept 2022 at 12:35, Kalyan Thota <kalyant@qti.qualcomm.com> wrote:
->
->
->
-> >-----Original Message-----
-> >From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >Sent: Friday, August 26, 2022 5:02 PM
-> >To: Kalyan Thota <kalyant@qti.qualcomm.com>; Kalyan Thota (QUIC)
-> ><quic_kalyant@quicinc.com>; dianders@chromium.org
-> >Cc: dri-devel@lists.freedesktop.org; linux-arm-msm@vger.kernel.org;
-> >freedreno@lists.freedesktop.org; devicetree@vger.kernel.org; linux-
-> >kernel@vger.kernel.org; robdclark@gmail.com; swboyd@chromium.org; Vinod
-> >Polimera (QUIC) <quic_vpolimer@quicinc.com>; Abhinav Kumar (QUIC)
-> ><quic_abhinavk@quicinc.com>
-> >Subject: Re: [v1] drm/msm/disp/dpu1: add support for hierarchical flush for dspp
-> >in sc7280
+On Fri, Aug 26, 2022 at 04:19:27PM +0200, Andrzej Hajda wrote:
+> i915->hotplug.dig_port_work can be queued from intel_hpd_irq_handler
+> called by IRQ handler or by intel_hpd_trigger_irq called from dp_mst.
+> Since dp_mst is suspended after irq handler uninstall, a cleaner approach
+> is to cancel hpd work after intel_dp_mst_suspend, otherwise we risk
+> use-after-free.
+> 
+> It should fix following WARNINGS:
+> [283.405824] cpu_latency_qos_update_request called for unknown object
+> [283.405866] WARNING: CPU: 2 PID: 240 at kernel/power/qos.c:296 cpu_latency_qos_update_request+0x2d/0x100
+> [283.405912] CPU: 2 PID: 240 Comm: kworker/u64:9 Not tainted 5.18.0-rc6-Patchwork_103738v3-g1672d1c43e43+ #1
+> [283.405915] Hardware name: Intel Corporation Raptor Lake Client Platform/RPL-S ADP-S DDR5 UDIMM CRB, BIOS RPLSFWI1.R00.2397.A01.2109300731 09/30/2021
+> [283.405916] Workqueue: i915-dp i915_digport_work_func [i915]
+> [283.406020] RIP: 0010:cpu_latency_qos_update_request+0x2d/0x100
+> ...
+> [283.406040] Call Trace:
+> [283.406041]  <TASK>
+> [283.406044]  intel_dp_aux_xfer+0x60e/0x8e0 [i915]
+> [283.406131]  ? finish_swait+0x80/0x80
+> [283.406139]  intel_dp_aux_transfer+0xc5/0x2b0 [i915]
+> [283.406218]  drm_dp_dpcd_access+0x79/0x130 [drm_display_helper]
+> [283.406227]  drm_dp_dpcd_read+0xe2/0xf0 [drm_display_helper]
+> [283.406233]  intel_dp_hpd_pulse+0x134/0x570 [i915]
+> [283.406308]  ? __down_killable+0x70/0x140
+> [283.406313]  i915_digport_work_func+0xba/0x150 [i915]
+> 
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4586
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5558
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
 
-Ugh. I'd kindly ask to fix your email client to behave like a normal one.
+Reviewed-by: Imre Deak <imre.deak@intel.com>
 
-> >>>> @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
-> >>>>          ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
-> >>>>          ops->get_bitmask_sspp = dpu_hw_ctl_get_bitmask_sspp;
-> >>>>          ops->get_bitmask_mixer = dpu_hw_ctl_get_bitmask_mixer;
-> >>>> -       ops->get_bitmask_dspp = dpu_hw_ctl_get_bitmask_dspp;
-> >>>> +       if (cap & BIT(DPU_CTL_HIERARCHICAL_FLUSH)) {
-> >>>> +               ops->get_bitmask_dspp =
-> >>>> + dpu_hw_ctl_get_bitmask_dspp_v1;
-> >>>
-> >>> We have used _v1 for active CTLs. What is the relationship between
-> >>> CTL_HIERARCHILCAL_FLUSH and active CTLs?
-> >> Active CTL design replaces legacy CTL_MEM_SEL, CTL_OUT_SEL registers
-> >> in grouping the resources such as WB, INTF, pingpong, DSC etc into the
-> >> data path DSPP hierarchical flush will gives us a finer control on which post
-> >processing blocks to be flushed as part of the composition ( like IGC, PCC, GC ..
-> >etc ) These blocks are contained in DSPP package.
-> >
-> >So, I assume that hierarchical DSPP flush does not exist on non-active CTL SoCs.
-> >Which supported SoCs do support the hierarchichal DSPP flush?
-> >
-> Dspp Sub-block flush is supported from the DPU 7-series, the only target in the catalogue is sc7280.
-
-Ack, thanks.
-
-
--- 
-With best wishes
-Dmitry
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index a0f84cbe974fc3..524c4580ae6bc9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -9000,6 +9000,13 @@ void intel_modeset_driver_remove(struct drm_i915_private *i915)
+>  
+>  	flush_work(&i915->atomic_helper.free_work);
+>  	drm_WARN_ON(&i915->drm, !llist_empty(&i915->atomic_helper.free_list));
+> +
+> +	/*
+> +	 * MST topology needs to be suspended so we don't have any calls to
+> +	 * fbdev after it's finalized. MST will be destroyed later as part of
+> +	 * drm_mode_config_cleanup()
+> +	 */
+> +	intel_dp_mst_suspend(i915);
+>  }
+>  
+>  /* part #2: call after irq uninstall */
+> @@ -9014,13 +9021,6 @@ void intel_modeset_driver_remove_noirq(struct drm_i915_private *i915)
+>  	 */
+>  	intel_hpd_poll_fini(i915);
+>  
+> -	/*
+> -	 * MST topology needs to be suspended so we don't have any calls to
+> -	 * fbdev after it's finalized. MST will be destroyed later as part of
+> -	 * drm_mode_config_cleanup()
+> -	 */
+> -	intel_dp_mst_suspend(i915);
+> -
+>  	/* poll work can call into fbdev, hence clean that up afterwards */
+>  	intel_fbdev_fini(i915);
+>  
+> -- 
+> 2.25.1
+> 
