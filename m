@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62CE5AA8C0
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 09:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BEC5AA8C4
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 09:32:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B9310E78C;
-	Fri,  2 Sep 2022 07:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEAAC10E78E;
+	Fri,  2 Sep 2022 07:32:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B57810E78C;
- Fri,  2 Sep 2022 07:31:53 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id q15so1073471pfn.11;
- Fri, 02 Sep 2022 00:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=P0R9Y+4dB3fRcttMdLXdxOe5yLYU2jvdRFUhiOX93Zg=;
- b=k5q1QbmCXfOYOV8VpYKWG61L3L9sU/bLkPdBZgWYlNidsibXAya40hV9tS883X2ZZN
- 3kA0r8itsawEx8lVa1Yiq+AF03dd8RXpnVKL+OJMnGX/67GF0t2vrbMc4NDTU9LsIe3K
- 7KV+hHa58XkhAOveOujHuYCOW2xIuToJkIWYY01/e9e/cFNsHRbz+GwDRcBVwKM49oA5
- k0Gt9mkOplHQyvGc3Syua+gD3nu0tb1xo8D4g73HuOTigBgdCnoVHCPQ5hKaDQk57Wjq
- vzrlDO4b6bIH5qSFT+SvcY6HasUNeGeiGxhYOxo5eYIYS0kyMjt+3JwhbBBPGjdxtRQe
- ShZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=P0R9Y+4dB3fRcttMdLXdxOe5yLYU2jvdRFUhiOX93Zg=;
- b=EmiM/Ls9kVFbIaV0laW4HpYf0jG+50w0rP9BZM3RylM1iYGoHI/K4WpEq7zchMv667
- vmprOHytsJsDMjVJQTXeRWHqcH9ETCbGh/xKNi1OnhOr+FymUOcpKKcW9Tv/99HicYup
- nAPJjh1CxOLysQ27TPvv+MWx3PbBHBWYOZdGDPMgUCA7G28fqbj920xuAlUFR/kpKC9J
- 8wL32ewlhYy6wYkibkTezPfKpQmIr46n7oXdNuX7Yxe5837Jcp3iQeRKGYFfP9ey1B9Q
- YU+wVta0R2gDYg1RP5VxUtxsraCOKz0MPX08B7lE6Tkd/ByHIM7hDFx5xgmjyVC+cP4f
- f4fQ==
-X-Gm-Message-State: ACgBeo2/JFUCY8X77nNCFCB9Kde/ztg/w9QrEk9dlZZYWZMfIXtFSgCx
- y6XMUITZOARc5k+5+84mNEM=
-X-Google-Smtp-Source: AA6agR4kjmE6UsN8xdYrbeqJT8QfxOodjebOdNs9GfnxcZXzmeDl2dIJ56PNgzA65XAn+2GX2uuwcg==
-X-Received: by 2002:a05:6a00:3406:b0:535:f76f:c971 with SMTP id
- cn6-20020a056a00340600b00535f76fc971mr35291353pfb.5.1662103913057; 
- Fri, 02 Sep 2022 00:31:53 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id
- e18-20020a656892000000b0041d6cda2d60sm738183pgt.66.2022.09.02.00.31.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Sep 2022 00:31:52 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: ye.xingchen@zte.com.cn
-To: alexander.deucher@amd.com
-Subject: [PATCH linux-next] drm/radeon/ci_dpm: Remove the unneeded result
- variable
-Date: Fri,  2 Sep 2022 07:31:48 +0000
-Message-Id: <20220902073148.319536-1-ye.xingchen@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7041510E78E
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 07:32:22 +0000 (UTC)
+X-UUID: 37ba8d69d9544fff83dab4228e52ad2b-20220902
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=qM1qgq1MV7finP/aae8s5yQZ0OBqyz3rZqiMvkPhvrk=; 
+ b=G4r3C5h5cHvAVDcRRHHgoPLBhlLRM0Vb4tnJrd/KpEQwrnDgIiM/5pzW4RcEgdoVbJkT3ez4P0ZcOB1hjX2oWRZwlO7/ExPeWm61Y+LPFtIefh41VHAXhpbR7+pWlaAIv0U7NP7YhRZpMaI9OJfwSgs7cRi72eukcsdlrujD/ro=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10, REQID:6c390545-a2b1-498b-ada8-8ac6fa5c2923, OB:0,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
+ Ham,ACTION:release,TS:0
+X-CID-META: VersionHash:84eae18, CLOUDID:81f5ec20-1c20-48a5-82a0-25f9c331906d,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:
+ nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 37ba8d69d9544fff83dab4228e52ad2b-20220902
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1567408428; Fri, 02 Sep 2022 15:32:16 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Fri, 2 Sep 2022 15:32:15 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Fri, 2 Sep 2022 15:32:14 +0800
+Message-ID: <8ae888c3f478112bca0ae40543de878f829f2470.camel@mediatek.com>
+Subject: Re: [PATCH v17 05/10] drm/mediatek: dp: Add multiple smc commands
+ support
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Fri, 2 Sep 2022 15:32:14 +0800
+In-Reply-To: <20220901044149.16782-6-rex-bc.chen@mediatek.com>
+References: <20220901044149.16782-1-rex-bc.chen@mediatek.com>
+ <20220901044149.16782-6-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,47 +69,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, ye xingchen <ye.xingchen@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>, Xinhui.Pan@amd.com,
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+Hi, Bo-Chen:
 
-Return the value ci_load_smc_ucode() directly instead of storing it in
-another redundant variable.
+On Thu, 2022-09-01 at 12:41 +0800, Bo-Chen Chen wrote:
+> The smc commands of eDP and DP are different. We add smc_cmd to the
+> device data to define them.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
----
- drivers/gpu/drm/radeon/ci_dpm.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_dpm.c
-index ac006bed4743..8ef25ab305ae 100644
---- a/drivers/gpu/drm/radeon/ci_dpm.c
-+++ b/drivers/gpu/drm/radeon/ci_dpm.c
-@@ -2056,7 +2056,7 @@ static void ci_clear_vc(struct radeon_device *rdev)
- static int ci_upload_firmware(struct radeon_device *rdev)
- {
- 	struct ci_power_info *pi = ci_get_pi(rdev);
--	int i, ret;
-+	int i;
- 
- 	for (i = 0; i < rdev->usec_timeout; i++) {
- 		if (RREG32_SMC(RCU_UC_EVENTS) & BOOT_SEQ_DONE)
-@@ -2067,9 +2067,7 @@ static int ci_upload_firmware(struct radeon_device *rdev)
- 	ci_stop_smc_clock(rdev);
- 	ci_reset_smc(rdev);
- 
--	ret = ci_load_smc_ucode(rdev, pi->sram_end);
--
--	return ret;
-+	return ci_load_smc_ucode(rdev, pi->sram_end);
- 
- }
- 
--- 
-2.25.1
+> 
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dp.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c
+> b/drivers/gpu/drm/mediatek/mtk_dp.c
+> index 2696c1ac1a47..971bd744cdb2 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -112,6 +112,7 @@ struct mtk_dp {
+>  
+>  struct mtk_dp_data {
+>  	int bridge_type;
+> +	unsigned int smc_cmd;
+>  };
+>  static const struct mtk_dp_efuse_fmt
+> mtk_dp_efuse_data[MTK_DP_CAL_MAX] = {
+>  	[MTK_DP_CAL_GLB_BIAS_TRIM] = {
+> @@ -945,11 +946,11 @@ static void mtk_dp_video_mute(struct mtk_dp
+> *mtk_dp, bool enable)
+>  			   VIDEO_MUTE_SW_DP_ENC0_P0);
+>  
+>  	arm_smccc_smc(MTK_DP_SIP_CONTROL_AARCH32,
+> -		      MTK_DP_SIP_ATF_EDP_VIDEO_UNMUTE, enable,
+> +		      mtk_dp->data->smc_cmd, enable,
+>  		      0, 0, 0, 0, 0, &res);
+>  
+>  	dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-
+> 0x%lx\n",
+> -		MTK_DP_SIP_ATF_EDP_VIDEO_UNMUTE, enable, res.a0,
+> res.a1);
+> +		mtk_dp->data->smc_cmd, enable, res.a0, res.a1);
+>  }
+>  
+>  static void mtk_dp_power_enable(struct mtk_dp *mtk_dp)
+> @@ -1981,6 +1982,7 @@ static SIMPLE_DEV_PM_OPS(mtk_dp_pm_ops,
+> mtk_dp_suspend, mtk_dp_resume);
+>  
+>  static const struct mtk_dp_data mt8195_edp_data = {
+>  	.bridge_type = DRM_MODE_CONNECTOR_eDP,
+> +	.smc_cmd = MTK_DP_SIP_ATF_EDP_VIDEO_UNMUTE,
+>  };
+>  
+>  static const struct of_device_id mtk_dp_of_match[] = {
+
