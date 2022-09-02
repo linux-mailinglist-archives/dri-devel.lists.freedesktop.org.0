@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D7C5AB566
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 17:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F3D5AB567
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 17:39:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48C2110E88B;
-	Fri,  2 Sep 2022 15:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D43B10E88E;
+	Fri,  2 Sep 2022 15:39:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEBB10E88B
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 15:39:14 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-12566bc8e52so2355739fac.12
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Sep 2022 08:39:14 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F75210E88B
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 15:39:15 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-11f11d932a8so5633575fac.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Sep 2022 08:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=wVT/+hzYG59qverNNvdNMIl01LfKKg4Ig0L4UOrZzME=;
- b=D7QBqv86PXV7VpG/63WMFicdLKvBrf/n+sAZMQ84rnaoD8LgpM0affVBlZhdrVX61Z
- bPK8VrQmQr5sTHtw+JmpeJBn6rO7LT5lxKFQAoWOBXxVZXzMGqdEfSH89mQlkFEblb05
- 2cwrjIfIdZw3wFvtgNnwIhVy1iIsgyW2Y+2D98pJ8WhTEweRCUpzEyqRfuSdIT/HAuns
- AhXDFSBDHBGPe2GYXS+4Ucw9S5OhFm9CSb457OZAMLEGcOzvcpQs1Nm8+BzEABMoCJhS
- hatLVuGH43qFTa+PY0x4NGXP/Ojy0ySmblyBUG5Zr/fbJLDJGyN1t1LVxBtPcbXAFbac
- X7QQ==
+ bh=+6U56AoJu0pVTqLDXXEhuyie64nJRbZENPj+HwQDbkY=;
+ b=P/WwaxO4vIxdyfJ7COxmnc7VS/y8qyf1o8pcn7f71yL1RQ222o6DWc2sE6lsGAF6R0
+ JsBshSDQ6yxkEWgL20OjoPrr/Qz2u/eJYmV+gGsFeuz3nAlMyuCBkCjR7a5vWjMpEeoR
+ WU7/KKMmeSCM2QZVtAMNVqkuEYxjmgxJqsPh137pVg12mMMta9CuT3rI+NXUr7k5Lh4M
+ OX8u0s4t7U/UDcAvW1sGmeiqfLCsmKrMz6kxhfs+R8q5zVJ48ZHNq2lBn3LXbn16f7nx
+ vXj8b1bY/j86lh4zAu5JQefMmRS1ZUqk80dxbqybPnP4dL1U5HZNyn249JmmTGPScZIi
+ ouXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=wVT/+hzYG59qverNNvdNMIl01LfKKg4Ig0L4UOrZzME=;
- b=nGqo/glgbebtidynslPLwoNncKYrD524vlhwM9/7V1f2MDQeB7CmYKfZW40mOyvSQP
- 8u9pFEnHuUn53pG03rsdNqWvkEPeVFveLhdk5fdB3hisBeWXBiW9BJ45R443SwY/uUlD
- TgQH+q8GxU7p+8+Va6DXI8mpJggGDmQVUhzEEWEWnNMx7pUoq4ADguecXtmbc7mR9lqA
- vFwhOZcZI/Y8qLLty/xU7mCAjriuTK0S4kMGrkY4CL5RRPr/AIRyDOLJ/PKiY2APgm4x
- TZblqpw/bUUDgiz4wFMa4rtE0nilHl5PI3IesLJfoy6oYRE7bEPvSqiw6M/Bm9blxG37
- 9tIQ==
-X-Gm-Message-State: ACgBeo1EUA4MP8x79YkOgoVkDLqWYLvpLfcTaDW1ZA4V8fkk6FyzB2b6
- VRId64zvNm96buiP326WR0rzqY82lts=
-X-Google-Smtp-Source: AA6agR7VCgdDPcg1rddqKq2S93+KC28187R3vGAK8Rcta2L+vutPL4d75+JID7CG6RCzZdaQ68fiSQ==
-X-Received: by 2002:a05:6870:e308:b0:123:2825:84da with SMTP id
- z8-20020a056870e30800b00123282584damr2289466oad.254.1662133153297; 
- Fri, 02 Sep 2022 08:39:13 -0700 (PDT)
+ bh=+6U56AoJu0pVTqLDXXEhuyie64nJRbZENPj+HwQDbkY=;
+ b=cn9/RI+MxsUO6QYE3Rlvt7kQP9b2qgGpF1HM2mR1bDkKBAgOqCj0IShjqY9U7SB8Jf
+ JowOdjQ06ASGNaOmecBJmVbfg18nYxK43fGFf5RRrxL018JFax7THbcepMIEAFv6w9Kp
+ YAAGUt+wn9Yfd2uBoZeauf4OV5KQM5G24OYyARXjAQ5GmSaCD5vPYfH7wAGB4DQdpyyM
+ YDn0Q4GOw0Pg8BqEN6ggxW/9PqM4H8qGnMBA8AOXmqesuA8Zz1+aMgtUKzwA1WFOYLG8
+ Pgd9gYzeLoMFgF5TMp+eJaJ7KVgjNXNlCYY9iZa0Gggw/nvjxUHteVj6gmKiyvJYL0ce
+ 9J9A==
+X-Gm-Message-State: ACgBeo3Sai9ahF4NxC6++XgGrbhjKcUvO7nYKp5g43SIJrpdtC/xqI61
+ yLxfV4OEbARQUo9b45FPk0VyJ+48u5c=
+X-Google-Smtp-Source: AA6agR6v9a9Wp1TErKTHMNLCTH9pCFCOQ1WCt2ZG+Urr7s+3/VCLoGYxSQ50X6+BRZXw0by7Kc51Lw==
+X-Received: by 2002:a05:6808:45:b0:343:50ef:1d73 with SMTP id
+ v5-20020a056808004500b0034350ef1d73mr2057851oic.161.1662133154342; 
+ Fri, 02 Sep 2022 08:39:14 -0700 (PDT)
 Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
  [76.183.134.35]) by smtp.gmail.com with ESMTPSA id
- e28-20020a544f1c000000b003436fa2c23bsm1087209oiy.7.2022.09.02.08.39.12
+ e28-20020a544f1c000000b003436fa2c23bsm1087209oiy.7.2022.09.02.08.39.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Sep 2022 08:39:12 -0700 (PDT)
+ Fri, 02 Sep 2022 08:39:13 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V2 1/2] dt-bindings: Add byteswap order to chrontel ch7033
-Date: Fri,  2 Sep 2022 10:39:05 -0500
-Message-Id: <20220902153906.31000-2-macroalpha82@gmail.com>
+Subject: [PATCH V2 2/2] drm/bridge: chrontel-ch7033: Add byteswap order setting
+Date: Fri,  2 Sep 2022 10:39:06 -0500
+Message-Id: <20220902153906.31000-3-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220902153906.31000-1-macroalpha82@gmail.com>
 References: <20220902153906.31000-1-macroalpha82@gmail.com>
@@ -81,42 +81,57 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Update dt-binding documentation to add support for setting byteswap of
-chrontel ch7033.
-
-New property name of chrontel,byteswap added to set the byteswap order.
-This property is optional.
+Add the option to set the byteswap order in the devicetree. For the
+official HDMI DIP for the NTC CHIP the byteswap order needs to be
+RGB, however the driver sets it as BGR. With this patch the driver
+will remain at BGR unless manually specified via devicetree.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
 ---
- .../bindings/display/bridge/chrontel,ch7033.yaml    | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/drm/bridge/chrontel-ch7033.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
-index bb6289c7d375..984b90893583 100644
---- a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
-@@ -14,6 +14,19 @@ properties:
-   compatible:
-     const: chrontel,ch7033
+diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+index ba060277c3fd..c5719908ce2d 100644
+--- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
++++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+@@ -68,6 +68,7 @@ enum {
+ 	BYTE_SWAP_GBR	= 3,
+ 	BYTE_SWAP_BRG	= 4,
+ 	BYTE_SWAP_BGR	= 5,
++	BYTE_SWAP_MAX	= 6,
+ };
  
-+  chrontel,byteswap:
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    enum:
-+      - 0  # BYTE_SWAP_RGB
-+      - 1  # BYTE_SWAP_RBG
-+      - 2  # BYTE_SWAP_GRB
-+      - 3  # BYTE_SWAP_GBR
-+      - 4  # BYTE_SWAP_BRG
-+      - 5  # BYTE_SWAP_BGR
-+    description: |
-+      Set the byteswap value of the bridge. This is optional and if not
-+      set value of BYTE_SWAP_BGR is used.
-+
-   reg:
-     maxItems: 1
-     description: I2C address of the device
+ /* Page 0, Register 0x19 */
+@@ -355,6 +356,8 @@ static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
+ 	int hsynclen = mode->hsync_end - mode->hsync_start;
+ 	int vbporch = mode->vsync_start - mode->vdisplay;
+ 	int vsynclen = mode->vsync_end - mode->vsync_start;
++	u8 byte_swap;
++	int ret;
+ 
+ 	/*
+ 	 * Page 4
+@@ -398,8 +401,16 @@ static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
+ 	regmap_write(priv->regmap, 0x15, vbporch);
+ 	regmap_write(priv->regmap, 0x16, vsynclen);
+ 
+-	/* Input color swap. */
+-	regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
++	/* Input color swap. Byte order is optional and will default to
++	 * BYTE_SWAP_BGR to preserve backwards compatibility with existing
++	 * driver.
++	 */
++	ret = of_property_read_u8(priv->bridge.of_node, "chrontel,byteswap",
++				  &byte_swap);
++	if (!ret && byte_swap < BYTE_SWAP_MAX)
++		regmap_update_bits(priv->regmap, 0x18, SWAP, byte_swap);
++	else
++		regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
+ 
+ 	/* Input clock and sync polarity. */
+ 	regmap_update_bits(priv->regmap, 0x19, 0x1, mode->clock >> 16);
 -- 
 2.25.1
 
