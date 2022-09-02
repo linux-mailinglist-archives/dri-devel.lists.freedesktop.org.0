@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDDD25AAE9A
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 14:26:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E335AAEB1
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 14:28:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9B2010E81D;
-	Fri,  2 Sep 2022 12:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1065110E822;
+	Fri,  2 Sep 2022 12:28:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76DB410E81D;
- Fri,  2 Sep 2022 12:25:59 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C261A10E823;
+ Fri,  2 Sep 2022 12:27:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662121559; x=1693657559;
+ t=1662121679; x=1693657679;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version:content-transfer-encoding;
- bh=aeA64hMJA/gJdR3f3l1l6Uujc6m+pQRcwKk/VANiLRY=;
- b=UaBlTU2U9SKyXlOS+qylxq98qe6c6veMyOsWb1Z8OFZtoP2+/SFrwqy0
- 9RnqeP7CzbgjWKb7tB+cJP0DSoEuAVAJzMx91GxW1bxSwmm/J+/T2g7zR
- ddrZ5vL7SXsN6Hmmxrv9AT1u2vuuP9l8tRIeVYudGxP4xRo4HDH3k5tW0
- w9ecCxfmdxqovFYUYZNhG2M41Fmb6bbMxfs+ZJgve/QTZFztrM8BTQ7IE
- Tndtqvs01EWYcbIypH72BIuudQDXiKrbZwesfUWH2b/saw91lX5zYl2eT
- wVbq9mAGJo+BcpEXFHFL+hd31IaAykc+Y1Ex/HuDGVgh+ZGF7L5PSh32V g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="296750101"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="296750101"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 05:25:55 -0700
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="590051533"
+ bh=xEwub+bDCVNMXU4dXKK8mDCWrRISO1zl7rEi+q+Kai8=;
+ b=NQhuPp6zR85YXWUwsLgqg7X/RKi+whBwQ43JEJN/UywPPCVcqvrYmgvT
+ hJO0v4DrCpXKr9IeiLdR4d5BW7xHrVJCUTeb9kN1wA5J3CDHGucMrDEre
+ QW8zdqoyzGma63FYYGLl1D3Q7FIO4q1PP2xRK3P7tVBySvWvdvsL5NsL8
+ lUf6iBSsTYMx9jyvFHzlKU35Ku9DqmNiYRas1AuHuFp7SEIbCHi2G1UEp
+ wT4cmwmsJlb6l0AY2NRFXzW4kgg2TwOA6WWDZgBnrLKLlWlx9pqS17vXF
+ WMAkDf0J4u5rrBDirouUT/cr89v0L47PIQyfXkiQMT5BpERF8z+63bHHI g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="278985273"
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="278985273"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2022 05:27:59 -0700
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="674338274"
 Received: from svandene-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.55.245])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 05:25:51 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2022 05:27:57 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Ville Syrjala <ville.syrjala@linux.intel.com>,
  dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 07/11] drm/edid: Use GTF2 for inferred modes
-In-Reply-To: <20220826213501.31490-8-ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 09/11] drm/edid: Unconfuse preferred timing stuff a bit
+In-Reply-To: <20220826213501.31490-10-ville.syrjala@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20220826213501.31490-1-ville.syrjala@linux.intel.com>
- <20220826213501.31490-8-ville.syrjala@linux.intel.com>
-Date: Fri, 02 Sep 2022 15:25:39 +0300
-Message-ID: <87v8q6dku4.fsf@intel.com>
+ <20220826213501.31490-10-ville.syrjala@linux.intel.com>
+Date: Fri, 02 Sep 2022 15:27:46 +0300
+Message-ID: <87sfladkql.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -66,86 +66,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Sat, 27 Aug 2022, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
 > From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 >
-> For some resaon we only use the secondary GTF curve for the
-> standard timings. Use it for inferred modes as well.
+> For EDID 1.4 the first detailed timing is always preferred,
+> for older EDIDs there was a feature flag to indicate the same.
+> While correct, the code setting that up is rather confusing.
+> Restate it in a slightly more straightforward manner.
 >
 > Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 35 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 34 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 0c7cbe9b44f5..fed2bdd55c09 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -3546,6 +3546,35 @@ static int drm_gtf_modes_for_range(struct drm_conn=
-ector *connector,
->  	return modes;
->  }
->=20=20
-> +static int drm_gtf2_modes_for_range(struct drm_connector *connector,
-> +				    const struct drm_edid *drm_edid,
-> +				    const struct detailed_timing *timing)
-> +{
-> +	int i, modes =3D 0;
-> +	struct drm_display_mode *newmode;
-> +	struct drm_device *dev =3D connector->dev;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(extra_modes); i++) {
-> +		const struct minimode *m =3D &extra_modes[i];
-> +
-> +		newmode =3D drm_gtf2_mode(dev, drm_edid, m->w, m->h, m->r);
-> +		if (!newmode)
-> +			return modes;
-> +
-> +		drm_mode_fixup_1366x768(newmode);
-> +		if (!mode_in_range(newmode, drm_edid, timing) ||
-> +		    !valid_inferred_mode(connector, newmode)) {
-> +			drm_mode_destroy(dev, newmode);
-> +			continue;
-> +		}
-> +
-> +		drm_mode_probed_add(connector, newmode);
-> +		modes++;
-> +	}
-> +
-> +	return modes;
-> +}
-> +
->  static int drm_cvt_modes_for_range(struct drm_connector *connector,
->  				   const struct drm_edid *drm_edid,
->  				   const struct detailed_timing *timing)
-> @@ -3594,7 +3623,11 @@ do_inferred_modes(const struct detailed_timing *ti=
-ming, void *c)
->  		return; /* GTF not defined yet */
->=20=20
->  	switch (range->flags) {
-> -	case DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG: /* XXX could do more */
-> +	case DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG:
-> +		closure->modes +=3D drm_gtf2_modes_for_range(closure->connector,
-> +							   closure->drm_edid,
-> +							   timing);
-> +		break;
->  	case DRM_EDID_DEFAULT_GTF_SUPPORT_FLAG:
-
-Additionally, per spec:
-
-* Default GTF supported if bit 0 in Feature Support Byte at address 18h =3D=
- 1
-
-* Secondary GTF supported --- requires support for Default GTF
-
-So I guess both of these would need the edid->features &
-DRM_EDID_FEATURE_DEFAULT_GTF check?
-
-Other than that,
 
 Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-
-
->  		closure->modes +=3D drm_gtf_modes_for_range(closure->connector,
->  							  closure->drm_edid,
+> ---
+>  drivers/gpu/drm/drm_edid.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index c1c85b9e1208..0fe06e5fd6e0 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3952,13 +3952,14 @@ static int add_detailed_modes(struct drm_connecto=
+r *connector,
+>  	struct detailed_mode_closure closure =3D {
+>  		.connector =3D connector,
+>  		.drm_edid =3D drm_edid,
+> -		.preferred =3D true,
+>  		.quirks =3D quirks,
+>  	};
+>=20=20
+> -	if (closure.preferred && !version_greater(drm_edid, 1, 3))
+> +	if (version_greater(drm_edid, 1, 3))
+> +		closure.preferred =3D true; /* first detailed timing is always preferr=
+ed */
+> +	else
+>  		closure.preferred =3D
+> -		    (drm_edid->edid->features & DRM_EDID_FEATURE_PREFERRED_TIMING);
+> +			drm_edid->edid->features & DRM_EDID_FEATURE_PREFERRED_TIMING;
+>=20=20
+>  	drm_for_each_detailed_block(drm_edid, do_detailed_mode, &closure);
 
 --=20
 Jani Nikula, Intel Open Source Graphics Center
