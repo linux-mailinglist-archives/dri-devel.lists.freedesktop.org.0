@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4125AA8B0
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 09:22:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A62CE5AA8C0
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 09:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E7B310E78B;
-	Fri,  2 Sep 2022 07:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B9310E78C;
+	Fri,  2 Sep 2022 07:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0079010E78B
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 07:22:42 +0000 (UTC)
-X-UUID: 35051b864fc44fc0ab1da91be3e8e01b-20220902
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=jBUU3V4XFnZyK0U7HAevIpvYAVw8v4fGi9VKp93Zo6w=; 
- b=pNyXidXXMlC2ZvDheJW83d6iSa2UKteEBzbN9dYmiMYL1sUBZhzUy/f+2V/QJrnXjrnwK5hwLjNClR93XnRygPRH3R1yv3m1SUFH0atYcQjr+QAa5/qNyre+uxSJ4VPFDFTY1roRBhH+ngXGMV4QLz6q7WSL+qG3+d5XdMAoo64=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:42e1bdb2-12d5-43fa-a173-850779970c5c, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
- Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18, CLOUDID:1d7b6dd0-20bd-4e5e-ace8-00692b7ab380,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:
- nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 35051b864fc44fc0ab1da91be3e8e01b-20220902
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1997302502; Fri, 02 Sep 2022 15:22:37 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 2 Sep 2022 15:22:36 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Fri, 2 Sep 2022 15:22:35 +0800
-Message-ID: <475ece688e497d77779a29626daf9aef93dddf01.camel@mediatek.com>
-Subject: Re: [PATCH v17 04/10] drm/mediatek: dp: Add multiple bridge types
- support
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
- <airlied@linux.ie>
-Date: Fri, 2 Sep 2022 15:22:35 +0800
-In-Reply-To: <20220901044149.16782-5-rex-bc.chen@mediatek.com>
-References: <20220901044149.16782-1-rex-bc.chen@mediatek.com>
- <20220901044149.16782-5-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B57810E78C;
+ Fri,  2 Sep 2022 07:31:53 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id q15so1073471pfn.11;
+ Fri, 02 Sep 2022 00:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=P0R9Y+4dB3fRcttMdLXdxOe5yLYU2jvdRFUhiOX93Zg=;
+ b=k5q1QbmCXfOYOV8VpYKWG61L3L9sU/bLkPdBZgWYlNidsibXAya40hV9tS883X2ZZN
+ 3kA0r8itsawEx8lVa1Yiq+AF03dd8RXpnVKL+OJMnGX/67GF0t2vrbMc4NDTU9LsIe3K
+ 7KV+hHa58XkhAOveOujHuYCOW2xIuToJkIWYY01/e9e/cFNsHRbz+GwDRcBVwKM49oA5
+ k0Gt9mkOplHQyvGc3Syua+gD3nu0tb1xo8D4g73HuOTigBgdCnoVHCPQ5hKaDQk57Wjq
+ vzrlDO4b6bIH5qSFT+SvcY6HasUNeGeiGxhYOxo5eYIYS0kyMjt+3JwhbBBPGjdxtRQe
+ ShZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=P0R9Y+4dB3fRcttMdLXdxOe5yLYU2jvdRFUhiOX93Zg=;
+ b=EmiM/Ls9kVFbIaV0laW4HpYf0jG+50w0rP9BZM3RylM1iYGoHI/K4WpEq7zchMv667
+ vmprOHytsJsDMjVJQTXeRWHqcH9ETCbGh/xKNi1OnhOr+FymUOcpKKcW9Tv/99HicYup
+ nAPJjh1CxOLysQ27TPvv+MWx3PbBHBWYOZdGDPMgUCA7G28fqbj920xuAlUFR/kpKC9J
+ 8wL32ewlhYy6wYkibkTezPfKpQmIr46n7oXdNuX7Yxe5837Jcp3iQeRKGYFfP9ey1B9Q
+ YU+wVta0R2gDYg1RP5VxUtxsraCOKz0MPX08B7lE6Tkd/ByHIM7hDFx5xgmjyVC+cP4f
+ f4fQ==
+X-Gm-Message-State: ACgBeo2/JFUCY8X77nNCFCB9Kde/ztg/w9QrEk9dlZZYWZMfIXtFSgCx
+ y6XMUITZOARc5k+5+84mNEM=
+X-Google-Smtp-Source: AA6agR4kjmE6UsN8xdYrbeqJT8QfxOodjebOdNs9GfnxcZXzmeDl2dIJ56PNgzA65XAn+2GX2uuwcg==
+X-Received: by 2002:a05:6a00:3406:b0:535:f76f:c971 with SMTP id
+ cn6-20020a056a00340600b00535f76fc971mr35291353pfb.5.1662103913057; 
+ Fri, 02 Sep 2022 00:31:53 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id
+ e18-20020a656892000000b0041d6cda2d60sm738183pgt.66.2022.09.02.00.31.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Sep 2022 00:31:52 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: ye.xingchen@zte.com.cn
+To: alexander.deucher@amd.com
+Subject: [PATCH linux-next] drm/radeon/ci_dpm: Remove the unneeded result
+ variable
+Date: Fri,  2 Sep 2022 07:31:48 +0000
+Message-Id: <20220902073148.319536-1-ye.xingchen@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,90 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+Cc: airlied@linux.ie, ye xingchen <ye.xingchen@zte.com.cn>,
+ Zeal Robot <zealci@zte.com.cn>, Xinhui.Pan@amd.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-On Thu, 2022-09-01 at 12:41 +0800, Bo-Chen Chen wrote:
-> The bridge types of eDP and DP are different. We add device data to
-> this driver and add bridge_type to the device data to define them.
+Return the value ci_load_smc_ucode() directly instead of storing it in
+another redundant variable.
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+---
+ drivers/gpu/drm/radeon/ci_dpm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-> 
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dp.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c
-> b/drivers/gpu/drm/mediatek/mtk_dp.c
-> index e2ec9b02b1aa..2696c1ac1a47 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -101,6 +101,7 @@ struct mtk_dp {
->  	struct drm_device *drm_dev;
->  	struct drm_dp_aux aux;
->  
-> +	const struct mtk_dp_data *data;
->  	struct mtk_dp_info info;
->  	struct mtk_dp_train_info train_info;
->  
-> @@ -109,6 +110,9 @@ struct mtk_dp {
->  	struct regmap *regs;
->  };
->  
-> +struct mtk_dp_data {
-> +	int bridge_type;
-> +};
->  static const struct mtk_dp_efuse_fmt
-> mtk_dp_efuse_data[MTK_DP_CAL_MAX] = {
->  	[MTK_DP_CAL_GLB_BIAS_TRIM] = {
->  		.idx = 3,
-> @@ -1871,6 +1875,7 @@ static int mtk_dp_probe(struct platform_device
-> *pdev)
->  		return -ENOMEM;
->  
->  	mtk_dp->dev = dev;
-> +	mtk_dp->data = (struct mtk_dp_data
-> *)of_device_get_match_data(dev);
->  
->  	irq_num = platform_get_irq(pdev, 0);
->  	if (irq_num < 0)
-> @@ -1925,7 +1930,7 @@ static int mtk_dp_probe(struct platform_device
-> *pdev)
->  
->  	mtk_dp->bridge.ops =
->  		DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
-> DRM_BRIDGE_OP_HPD;
-> -	mtk_dp->bridge.type = DRM_MODE_CONNECTOR_eDP;
-> +	mtk_dp->bridge.type = mtk_dp->data->bridge_type;
->  
->  	drm_bridge_add(&mtk_dp->bridge);
->  
-> @@ -1974,8 +1979,15 @@ static int mtk_dp_resume(struct device *dev)
->  
->  static SIMPLE_DEV_PM_OPS(mtk_dp_pm_ops, mtk_dp_suspend,
-> mtk_dp_resume);
->  
-> +static const struct mtk_dp_data mt8195_edp_data = {
-> +	.bridge_type = DRM_MODE_CONNECTOR_eDP,
-> +};
-> +
->  static const struct of_device_id mtk_dp_of_match[] = {
-> -	{ .compatible = "mediatek,mt8195-edp-tx" },
-> +	{
-> +		.compatible = "mediatek,mt8195-edp-tx",
-> +		.data = &mt8195_edp_data,
-> +	},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mtk_dp_of_match);
-
+diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_dpm.c
+index ac006bed4743..8ef25ab305ae 100644
+--- a/drivers/gpu/drm/radeon/ci_dpm.c
++++ b/drivers/gpu/drm/radeon/ci_dpm.c
+@@ -2056,7 +2056,7 @@ static void ci_clear_vc(struct radeon_device *rdev)
+ static int ci_upload_firmware(struct radeon_device *rdev)
+ {
+ 	struct ci_power_info *pi = ci_get_pi(rdev);
+-	int i, ret;
++	int i;
+ 
+ 	for (i = 0; i < rdev->usec_timeout; i++) {
+ 		if (RREG32_SMC(RCU_UC_EVENTS) & BOOT_SEQ_DONE)
+@@ -2067,9 +2067,7 @@ static int ci_upload_firmware(struct radeon_device *rdev)
+ 	ci_stop_smc_clock(rdev);
+ 	ci_reset_smc(rdev);
+ 
+-	ret = ci_load_smc_ucode(rdev, pi->sram_end);
+-
+-	return ret;
++	return ci_load_smc_ucode(rdev, pi->sram_end);
+ 
+ }
+ 
+-- 
+2.25.1
