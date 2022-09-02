@@ -1,48 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A545AA621
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 05:04:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 734305AA61E
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Sep 2022 05:04:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37A8A10E4BC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3562810E337;
 	Fri,  2 Sep 2022 03:04:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 472 seconds by postgrey-1.36 at gabe;
- Fri, 02 Sep 2022 03:03:59 UTC
 Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id BB68410E337
+ by gabe.freedesktop.org (Postfix) with ESMTP id 11BE410E4BC
  for <dri-devel@lists.freedesktop.org>; Fri,  2 Sep 2022 03:03:59 +0000 (UTC)
 Received: from localhost.localdomain (unknown [124.16.138.126])
- by APP-03 (Coremail) with SMTP id rQCowADHzkq8cBFjs39uAA--.13267S2;
- Fri, 02 Sep 2022 10:55:56 +0800 (CST)
+ by APP-03 (Coremail) with SMTP id rQCowAD37FHMcBFjLoZuAA--.13835S2;
+ Fri, 02 Sep 2022 10:56:12 +0800 (CST)
 From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 To: deller@gmx.de, broonie@kernel.org, maarten.lankhorst@linux.intel.com,
  daniel.vetter@ffwll.ch
-Subject: [PATCH 1/2] video: fbdev: gbefb: Convert to use dev_groups
-Date: Fri,  2 Sep 2022 10:55:55 +0800
-Message-Id: <20220902025555.3833920-1-jiasheng@iscas.ac.cn>
+Subject: [PATCH 2/2] video: fbdev: gbefb: Remove unproper information
+Date: Fri,  2 Sep 2022 10:56:12 +0800
+Message-Id: <20220902025612.3833972-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowADHzkq8cBFjs39uAA--.13267S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zr4xAF4kJrWkXFWxuw1rZwb_yoW8ur1fpa
- n5JFySgr4UG3WUGw47Cr4UWa45Ar1vva4rXryxKw4S9r15ZrW8Wa4kJa4UA3s5JFykW3Wj
- qr1Dtay8CF4qgF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
- WxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK
- 6r4UMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Gr0_
- Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbb18P
- UUUUU==
+X-CM-TRANSID: rQCowAD37FHMcBFjLoZuAA--.13835S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4DKw4kKF13Jw1xGr15Jwb_yoW3JFcEkw
+ s8ZFZxWryqkr1vg3W8Kr4Y9ry0kF1qqFy3XFn3Kryft343Ar1rX34UZr1Fg398ZF4jvFnx
+ X3Z09r4xZ3sakjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbcAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+ 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+ 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_
+ Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+ WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+ 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+ 4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVW8JVW3JwCI42IY6I8E87Iv67AKxVW8JVWxJwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOyCGUUUUU
 X-Originating-IP: [124.16.138.126]
 X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,69 +59,29 @@ Cc: linux-fbdev@vger.kernel.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver core supports the ability to handle the creation and removal
-of device-specific sysfs files in a race-free manner. Moreover, it can
-guarantee the success of creation. Therefore, it should be better to
-convert to use dev_groups.
+When drivers are working properly, they are quiet.
+Therefore, the fb_info() should be removed.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
- drivers/video/fbdev/gbefb.c | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ drivers/video/fbdev/gbefb.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/video/fbdev/gbefb.c b/drivers/video/fbdev/gbefb.c
-index 6b4d5a7f3e15..1582c718329c 100644
+index 1582c718329c..7e39ab939691 100644
 --- a/drivers/video/fbdev/gbefb.c
 +++ b/drivers/video/fbdev/gbefb.c
-@@ -1072,17 +1072,12 @@ static ssize_t gbefb_show_rev(struct device *device, struct device_attribute *at
- 
- static DEVICE_ATTR(revision, S_IRUGO, gbefb_show_rev, NULL);
- 
--static void gbefb_remove_sysfs(struct device *dev)
--{
--	device_remove_file(dev, &dev_attr_size);
--	device_remove_file(dev, &dev_attr_revision);
--}
--
--static void gbefb_create_sysfs(struct device *dev)
--{
--	device_create_file(dev, &dev_attr_size);
--	device_create_file(dev, &dev_attr_revision);
--}
-+static struct attribute *gbefb_attrs[] = {
-+	&dev_attr_size.attr,
-+	&dev_attr_revision.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(gbefb);
- 
- /*
-  * Initialization
-@@ -1221,7 +1216,6 @@ static int gbefb_probe(struct platform_device *p_dev)
- 	}
+@@ -1217,10 +1217,6 @@ static int gbefb_probe(struct platform_device *p_dev)
  
  	platform_set_drvdata(p_dev, info);
--	gbefb_create_sysfs(&p_dev->dev);
  
- 	fb_info(info, "%s rev %d @ 0x%08x using %dkB memory\n",
- 		info->fix.id, gbe_revision, (unsigned)GBE_BASE,
-@@ -1248,7 +1242,6 @@ static int gbefb_remove(struct platform_device* p_dev)
- 	gbe_turn_off();
- 	arch_phys_wc_del(par->wc_cookie);
- 	release_mem_region(GBE_BASE, sizeof(struct sgi_gbe));
--	gbefb_remove_sysfs(&p_dev->dev);
- 	framebuffer_release(info);
- 
+-	fb_info(info, "%s rev %d @ 0x%08x using %dkB memory\n",
+-		info->fix.id, gbe_revision, (unsigned)GBE_BASE,
+-		gbe_mem_size >> 10);
+-
  	return 0;
-@@ -1259,6 +1252,7 @@ static struct platform_driver gbefb_driver = {
- 	.remove = gbefb_remove,
- 	.driver	= {
- 		.name = "gbefb",
-+		.dev_groups	= gbefb_groups,
- 	},
- };
  
+ out_gbe_unmap:
 -- 
 2.25.1
 
