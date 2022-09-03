@@ -2,47 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4865ABB3C
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 01:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2485ABB95
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 02:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 543B510E94E;
-	Fri,  2 Sep 2022 23:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF6B10E941;
+	Sat,  3 Sep 2022 00:14:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A017510E943;
- Fri,  2 Sep 2022 23:33:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662161594; x=1693697594;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=uY+fJvshZNiD1fF0ohfl8G2A+0ye096XnRaY3AHjlgM=;
- b=SSfqaZjNGXIlfAWHz3pUEyDYoP1e/ODNAe9km5GZgVCRAJPe/3A61+zY
- F2lMM5ao39ypCp3aCKNi0hS3ZaNUykRhH/pjqtf00pTMChnkuSz4PzDpB
- fZeMn00UG7sRHkS0QoP/43jEoqWGu5bRkmd/Awc92yxcOhI6ui2Weggs8
- qtXsWzJorNSgtjFfUByEwRKr0Q/BOfbnufkhkDUz605we5HSNstRhniRy
- /183Yi9KcyPI7s0pmHq15HvhudDBT7omUkBm9kb7pHq9yc3EX4yK3+um2
- KVlpKCB2fjFmwk91lZ8JwL9l4pMMKkGeTf1NXt0lHU8ytONwVST3A2Itr A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10458"; a="279123431"
-X-IronPort-AV: E=Sophos;i="5.93,285,1654585200"; d="scan'208";a="279123431"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 16:33:13 -0700
-X-IronPort-AV: E=Sophos;i="5.93,285,1654585200"; d="scan'208";a="941464216"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 16:33:12 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 12/12] drm/i915/mtl: Hook up interrupts for standalone media
-Date: Fri,  2 Sep 2022 16:32:57 -0700
-Message-Id: <20220902233257.3088492-13-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220902233257.3088492-1-matthew.d.roper@intel.com>
-References: <20220902233257.3088492-1-matthew.d.roper@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C17ED10E972
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Sep 2022 00:14:44 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58E946DD;
+ Sat,  3 Sep 2022 02:14:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1662164082;
+ bh=yw8Xn9EUhF7fvpckcshCzrIt/G3gDbianF6IJIGwebw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WR6gMYBT44If+e6UVg/jWqhuoHZ0UQNlw8nBcmT/uXpART+WM5AD3ygIvuP+meA+t
+ mZwm1M3Eo7xVjp5+2by7NbxvQjbQoGFvk7WOnDKcm7n1ULxyGJYBc5ujTOICpBHsNT
+ wNdC8GWxNEBuF4Ngi15pJg9rsZAfDFpE+fLo96A0=
+Date: Sat, 3 Sep 2022 03:14:29 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH V2 2/2] drm/bridge: chrontel-ch7033: Add byteswap order
+ setting
+Message-ID: <YxKcZSQ8awIefBQX@pendragon.ideasonboard.com>
+References: <20220902153906.31000-1-macroalpha82@gmail.com>
+ <20220902153906.31000-3-macroalpha82@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220902153906.31000-3-macroalpha82@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,125 +48,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Anusha Srivatsa <anusha.srivatsa@intel.com>, dri-devel@lists.freedesktop.org
+Cc: krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se, airlied@linux.ie,
+ robert.foss@linaro.org, narmstrong@baylibre.com,
+ Chris Morgan <macromorgan@hotmail.com>, dri-devel@lists.freedesktop.org,
+ lkundrak@v3.sk, andrzej.hajda@intel.com, robh+dt@kernel.org,
+ jernej.skrabec@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Top-level handling of standalone media interrupts will be processed as
-part of the primary GT's interrupt handler (since primary and media GTs
-share an MMIO space, unlike remote tile setups).  When we get down to
-the point of handling engine interrupts, we need to take care to lookup
-VCS and VECS engines in the media GT rather than the primary.
+Hi Chris,
 
-There are also a couple of additional "other" instance bits that
-correspond to the media GT's GuC and media GT's power management
-interrupts; we need to direct those to the media GT instance as well.
+Thank you for the patch.
 
-Bspec: 45605
-Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_irq.c   | 19 +++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gt_regs.h  |  2 ++
- drivers/gpu/drm/i915/gt/intel_sa_media.c |  7 +++++++
- drivers/gpu/drm/i915/i915_drv.h          |  3 +++
- 4 files changed, 31 insertions(+)
+On Fri, Sep 02, 2022 at 10:39:06AM -0500, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Add the option to set the byteswap order in the devicetree. For the
+> official HDMI DIP for the NTC CHIP the byteswap order needs to be
+> RGB, however the driver sets it as BGR. With this patch the driver
+> will remain at BGR unless manually specified via devicetree.
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>  drivers/gpu/drm/bridge/chrontel-ch7033.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+> index ba060277c3fd..c5719908ce2d 100644
+> --- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
+> +++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+> @@ -68,6 +68,7 @@ enum {
+>  	BYTE_SWAP_GBR	= 3,
+>  	BYTE_SWAP_BRG	= 4,
+>  	BYTE_SWAP_BGR	= 5,
+> +	BYTE_SWAP_MAX	= 6,
+>  };
+>  
+>  /* Page 0, Register 0x19 */
+> @@ -355,6 +356,8 @@ static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
+>  	int hsynclen = mode->hsync_end - mode->hsync_start;
+>  	int vbporch = mode->vsync_start - mode->vdisplay;
+>  	int vsynclen = mode->vsync_end - mode->vsync_start;
+> +	u8 byte_swap;
+> +	int ret;
+>  
+>  	/*
+>  	 * Page 4
+> @@ -398,8 +401,16 @@ static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
+>  	regmap_write(priv->regmap, 0x15, vbporch);
+>  	regmap_write(priv->regmap, 0x16, vsynclen);
+>  
+> -	/* Input color swap. */
+> -	regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
+> +	/* Input color swap. Byte order is optional and will default to
+> +	 * BYTE_SWAP_BGR to preserve backwards compatibility with existing
+> +	 * driver.
+> +	 */
+> +	ret = of_property_read_u8(priv->bridge.of_node, "chrontel,byteswap",
+> +				  &byte_swap);
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-index 0dfd0c42d00d..f26882fdc24c 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-@@ -59,11 +59,17 @@ static void
- gen11_other_irq_handler(struct intel_gt *gt, const u8 instance,
- 			const u16 iir)
- {
-+	struct intel_gt *media_gt = gt->i915->media_gt;
-+
- 	if (instance == OTHER_GUC_INSTANCE)
- 		return guc_irq_handler(&gt->uc.guc, iir);
-+	if (instance == OTHER_MEDIA_GUC_INSTANCE && media_gt)
-+		return guc_irq_handler(&media_gt->uc.guc, iir);
- 
- 	if (instance == OTHER_GTPM_INSTANCE)
- 		return gen11_rps_irq_handler(&gt->rps, iir);
-+	if (instance == OTHER_MEDIA_GTPM_INSTANCE && media_gt)
-+		return gen11_rps_irq_handler(&media_gt->rps, iir);
- 
- 	if (instance == OTHER_KCR_INSTANCE)
- 		return intel_pxp_irq_handler(&gt->pxp, iir);
-@@ -81,6 +87,18 @@ gen11_engine_irq_handler(struct intel_gt *gt, const u8 class,
- {
- 	struct intel_engine_cs *engine;
- 
-+	/*
-+	 * Platforms with standalone media have their media engines in another
-+	 * GT.
-+	 */
-+	if (MEDIA_VER(gt->i915) >= 13 &&
-+	    (class == VIDEO_DECODE_CLASS || class == VIDEO_ENHANCEMENT_CLASS)) {
-+		if (!gt->i915->media_gt)
-+			goto err;
-+
-+		gt = gt->i915->media_gt;
-+	}
-+
- 	if (instance <= MAX_ENGINE_INSTANCE)
- 		engine = gt->engine_class[class][instance];
- 	else
-@@ -89,6 +107,7 @@ gen11_engine_irq_handler(struct intel_gt *gt, const u8 class,
- 	if (likely(engine))
- 		return intel_engine_cs_irq(engine, iir);
- 
-+err:
- 	WARN_ONCE(1, "unhandled engine interrupt class=0x%x, instance=0x%x\n",
- 		  class, instance);
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index fb2c56777480..2275ee47da95 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -1554,6 +1554,8 @@
- #define   OTHER_GTPM_INSTANCE			1
- #define   OTHER_KCR_INSTANCE			4
- #define   OTHER_GSC_INSTANCE			6
-+#define   OTHER_MEDIA_GUC_INSTANCE		16
-+#define   OTHER_MEDIA_GTPM_INSTANCE		17
- 
- #define GEN11_IIR_REG_SELECTOR(x)		_MMIO(0x190070 + ((x) * 4))
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_sa_media.c b/drivers/gpu/drm/i915/gt/intel_sa_media.c
-index 5516e9c363a4..e8f3d18c12b8 100644
---- a/drivers/gpu/drm/i915/gt/intel_sa_media.c
-+++ b/drivers/gpu/drm/i915/gt/intel_sa_media.c
-@@ -36,5 +36,12 @@ int intel_sa_mediagt_setup(struct intel_gt *gt, phys_addr_t phys_addr,
- 	gt->uncore = uncore;
- 	gt->phys_addr = phys_addr;
- 
-+	/*
-+	 * For current platforms we can assume there's only a single
-+	 * media GT and cache it for quick lookup.
-+	 */
-+	drm_WARN_ON(&i915->drm, i915->media_gt);
-+	i915->media_gt = gt;
-+
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index d4b45c7e931d..5a21242a6706 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -365,6 +365,9 @@ struct drm_i915_private {
- 
- 	struct kobject *sysfs_gt;
- 
-+	/* Quick lookup of media GT (current platforms only have one) */
-+	struct intel_gt *media_gt;
-+
- 	struct {
- 		struct i915_gem_contexts {
- 			spinlock_t lock; /* locks list */
+That's quite inefficient, please parse the device tree at probe time,
+and cache the value.
+
+> +	if (!ret && byte_swap < BYTE_SWAP_MAX)
+> +		regmap_update_bits(priv->regmap, 0x18, SWAP, byte_swap);
+> +	else
+> +		regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
+>  
+>  	/* Input clock and sync polarity. */
+>  	regmap_update_bits(priv->regmap, 0x19, 0x1, mode->clock >> 16);
+
 -- 
-2.37.2
+Regards,
 
+Laurent Pinchart
