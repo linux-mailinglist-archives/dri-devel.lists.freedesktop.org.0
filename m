@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2485ABB95
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 02:15:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B245ABB9A
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 02:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFF6B10E941;
-	Sat,  3 Sep 2022 00:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB3E910E954;
+	Sat,  3 Sep 2022 00:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C17ED10E972
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Sep 2022 00:14:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D5DB10E949
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Sep 2022 00:17:37 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58E946DD;
- Sat,  3 Sep 2022 02:14:42 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 783186DD;
+ Sat,  3 Sep 2022 02:17:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1662164082;
- bh=yw8Xn9EUhF7fvpckcshCzrIt/G3gDbianF6IJIGwebw=;
+ s=mail; t=1662164255;
+ bh=P3z29BkLY8pp5QffYlk19e0Qtl1KILoEFtI0UY7fAdE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WR6gMYBT44If+e6UVg/jWqhuoHZ0UQNlw8nBcmT/uXpART+WM5AD3ygIvuP+meA+t
- mZwm1M3Eo7xVjp5+2by7NbxvQjbQoGFvk7WOnDKcm7n1ULxyGJYBc5ujTOICpBHsNT
- wNdC8GWxNEBuF4Ngi15pJg9rsZAfDFpE+fLo96A0=
-Date: Sat, 3 Sep 2022 03:14:29 +0300
+ b=twNQ42Hfd5MMCl4KY7fIFFwxw0HHAfRqast+K+Knhgy+4bEi/yEFixxuxSiBYSv4R
+ 1/bM0VD4qsGjr33GceoM8BlM+XWHK3xGjg6vSEYY73NJ6mTndodg/i5r2REHTzrT4q
+ 512WrT37Dvz1+H0VwARREeIgavTQiCiuZ/dLxNQs=
+Date: Sat, 3 Sep 2022 03:17:23 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH V2 2/2] drm/bridge: chrontel-ch7033: Add byteswap order
- setting
-Message-ID: <YxKcZSQ8awIefBQX@pendragon.ideasonboard.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: Add byteswap order to chrontel ch7033
+Message-ID: <YxKdE7ZQ97NsuqZk@pendragon.ideasonboard.com>
 References: <20220902153906.31000-1-macroalpha82@gmail.com>
- <20220902153906.31000-3-macroalpha82@gmail.com>
+ <20220902153906.31000-2-macroalpha82@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220902153906.31000-3-macroalpha82@gmail.com>
+In-Reply-To: <20220902153906.31000-2-macroalpha82@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,64 +59,52 @@ Hi Chris,
 
 Thank you for the patch.
 
-On Fri, Sep 02, 2022 at 10:39:06AM -0500, Chris Morgan wrote:
+On Fri, Sep 02, 2022 at 10:39:05AM -0500, Chris Morgan wrote:
 > From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Add the option to set the byteswap order in the devicetree. For the
-> official HDMI DIP for the NTC CHIP the byteswap order needs to be
-> RGB, however the driver sets it as BGR. With this patch the driver
-> will remain at BGR unless manually specified via devicetree.
+> Update dt-binding documentation to add support for setting byteswap of
+> chrontel ch7033.
+> 
+> New property name of chrontel,byteswap added to set the byteswap order.
+> This property is optional.
 > 
 > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > Reviewed-by: Robert Foss <robert.foss@linaro.org>
 > ---
->  drivers/gpu/drm/bridge/chrontel-ch7033.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
+>  .../bindings/display/bridge/chrontel,ch7033.yaml    | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-> index ba060277c3fd..c5719908ce2d 100644
-> --- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
-> +++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-> @@ -68,6 +68,7 @@ enum {
->  	BYTE_SWAP_GBR	= 3,
->  	BYTE_SWAP_BRG	= 4,
->  	BYTE_SWAP_BGR	= 5,
-> +	BYTE_SWAP_MAX	= 6,
->  };
+> diff --git a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> index bb6289c7d375..984b90893583 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> @@ -14,6 +14,19 @@ properties:
+>    compatible:
+>      const: chrontel,ch7033
 >  
->  /* Page 0, Register 0x19 */
-> @@ -355,6 +356,8 @@ static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
->  	int hsynclen = mode->hsync_end - mode->hsync_start;
->  	int vbporch = mode->vsync_start - mode->vdisplay;
->  	int vsynclen = mode->vsync_end - mode->vsync_start;
-> +	u8 byte_swap;
-> +	int ret;
->  
->  	/*
->  	 * Page 4
-> @@ -398,8 +401,16 @@ static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
->  	regmap_write(priv->regmap, 0x15, vbporch);
->  	regmap_write(priv->regmap, 0x16, vsynclen);
->  
-> -	/* Input color swap. */
-> -	regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
-> +	/* Input color swap. Byte order is optional and will default to
-> +	 * BYTE_SWAP_BGR to preserve backwards compatibility with existing
-> +	 * driver.
-> +	 */
-> +	ret = of_property_read_u8(priv->bridge.of_node, "chrontel,byteswap",
-> +				  &byte_swap);
+> +  chrontel,byteswap:
+> +    $ref: /schemas/types.yaml#/definitions/uint8
+> +    enum:
+> +      - 0  # BYTE_SWAP_RGB
+> +      - 1  # BYTE_SWAP_RBG
+> +      - 2  # BYTE_SWAP_GRB
+> +      - 3  # BYTE_SWAP_GBR
+> +      - 4  # BYTE_SWAP_BRG
+> +      - 5  # BYTE_SWAP_BGR
+> +    description: |
+> +      Set the byteswap value of the bridge. This is optional and if not
+> +      set value of BYTE_SWAP_BGR is used.
 
-That's quite inefficient, please parse the device tree at probe time,
-and cache the value.
+I don't think this belongs to the device tree. The source of data
+connected to the CH7033 input could use different formats. This
+shouldn't be hardcoded, but queried at runtime, using the input and
+output media bus formats infrastructure that the DRM bridge framework
+includes.
 
-> +	if (!ret && byte_swap < BYTE_SWAP_MAX)
-> +		regmap_update_bits(priv->regmap, 0x18, SWAP, byte_swap);
-> +	else
-> +		regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
->  
->  	/* Input clock and sync polarity. */
->  	regmap_update_bits(priv->regmap, 0x19, 0x1, mode->clock >> 16);
+> +
+>    reg:
+>      maxItems: 1
+>      description: I2C address of the device
 
 -- 
 Regards,
