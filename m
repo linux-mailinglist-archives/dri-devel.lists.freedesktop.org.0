@@ -1,118 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DAB5ACA13
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 07:58:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 031025ACAA3
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:30:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6D7710E145;
-	Mon,  5 Sep 2022 05:57:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE4D10E1A1;
+	Mon,  5 Sep 2022 06:29:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2051.outbound.protection.outlook.com [40.107.220.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E215510E144;
- Mon,  5 Sep 2022 05:57:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l5bziuQ+qVSDwtMzvLF9wL2xzmygyXEtd+fkMc+I09XUeIe0cPqM9NqH65FKwYlLC9SAwZYfIYqNWg8FV5WZD6BsjcWi0I8leXLntIQs9G+oYzPo4X1wORyTul8JhRshO9tIBwozh0cylYGsIpJsnSo1s2Zj7DIvndlx0R2O2i1OoSEzgDPUbHSM2h2VuzW3Jbrghvj/6At3uwvmOlHtmpZP5VxOYokcPmz6CZBfMF4P+yHyKCwzKLnRp1lWdKuWKn8kmRYHrDfRJLaHSNUDH5yf225QHjxxqlpV+eVXh1pXShuA/RoI4N1/8TwoNjW/k98D84sO975BefbEQGEd9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lC8vGtRwT/KRZ6x7pRO7qgJQFrlS4DTqsFROwOjQK9Y=;
- b=oAN2SoVrfJOwQMVw7AlhD53JnAIottPZCLHuBaCkT/rLH0oC4qrUuLbsXjqjs5eBduNCeS0E9FaNo12TMVV4joho6J1pJrHqGGtxOqLqMcY+4szcj1wuBEfQiMTEE5YNlzE7g2h2cve5vzJXMxec9SNcLZ7ms881Vmi4Gwx4CYKJUoUZ2sHmKnVBNxibD/27t1C5Bz42B8OcFA6EopkbQ9z5SYhqcQ0To2HdZOPcvm5fQRM/FUAkEAuMB3JyiUNySg5sQg67bEgZfrhm5MS+t/0RSCUMb4MIgONFt6cogQgpowCv634bHgzgWFmbp1O3VvMISzog8ywzF7RSnARXSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lC8vGtRwT/KRZ6x7pRO7qgJQFrlS4DTqsFROwOjQK9Y=;
- b=07d+2dizhnwPD/gn2b23NNoBO4pAKnmKxqVJtSI9NU9osiO1DOxlEOaJlpaB/og6P1IxRjjCXJTDEXIEWXJv0oNfF5NP9XKFJuHpKV9Bv8opRs4WXVCGEEv2vjeVF7Xgg3bwJukaGwflYgxF9k4DYfAEtHSQTSYD6z4bA6Jjulg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BY5PR12MB4113.namprd12.prod.outlook.com (2603:10b6:a03:207::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Mon, 5 Sep
- 2022 05:57:45 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94%7]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
- 05:57:44 +0000
-Message-ID: <9cc09bec-650d-cfbb-f8be-89fa81343004@amd.com>
-Date: Mon, 5 Sep 2022 07:57:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2] drm/sced: Add FIFO sched policy to rq
-Content-Language: en-US
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <20220903024817.528107-1-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220903024817.528107-1-andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM7PR03CA0013.eurprd03.prod.outlook.com
- (2603:10a6:20b:130::23) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59AF210E517
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Sep 2022 18:45:51 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 168295C00EC;
+ Sat,  3 Sep 2022 14:40:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Sat, 03 Sep 2022 14:40:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxfierke.com;
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1662230427; x=1662316827; bh=IqiTG1t+/u
+ o+949kVmzHS54OgkIf4SBM3u2xKwWgX0k=; b=eIR7SFqm4EG5TV6Vi7SUm9Y4go
+ gf/PLH+BddaaCkqTp3iiUi87wW7Q2/hMWP54nTsPBj4bwlUZJbfkDzgPuMje5Xmu
+ yx0G878H/5FfZqJ1t9UTRiRHzqjsiNPhfrnOeqDqVy/rHM/ytbX1OvIOCCps10Il
+ NX05AcmC0FqjJ+eKYyPTUQ2AtesSIC9hSunbIA+xROxoMre8md/Xd4WvMOpFytx0
+ uMrzlVtnEHydoChEKtD4Bmw52c5nANsQzQShIAyoVjzHuiXXTzMZ9Huz0Fg8S5l8
+ BtS3dgsTbtKHBFPdVDJ3PGyWnztuWSnU6C9lv2Le947G2p6QaEGt5B4vLIng==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1662230427; x=1662316827; bh=IqiTG1t+/uo+949kVmzHS54OgkIf4SBM3u2
+ xKwWgX0k=; b=dZknFVdegFPWrBvFPFYzP5krm/GnYOSDoyIDwphRBFlwkVvtGvR
+ sKABzgpcOHKYNjyZGKQtdxfU3mKvzHpM1tg+Pw8nB5lDoAz+WQu/TGc2w5jSpqat
+ QJIPTGevF97EyVa+ih1F38LrhLt+hM92F/QFBTv4Z+Icvqxw1FCE0vF+tIkPeAOQ
+ 0irehDy+xfbni6NR7NzDivhcdCZ5OYTgOPkJPCfJzzwOshwmQBJYcxB3uSJ+QA6A
+ odTZgfzSkIAWck/a9YEQV2xuE6QC6rxCD5rigU9nVQC4M3DZDpTLOP/mogF87SSQ
+ 4y0ymVU1m+wOlGsK8aaVJRq2xOe/bDdka2w==
+X-ME-Sender: <xms:mp8TY7cihske003pFzWZoHd2sbANtTWIfzUc85N10Llewflqq0xMkA>
+ <xme:mp8TYxNO90tIFbgluK9auOQcmdtpOahyOIAon5ZEkKw6wjzZsV_N6kVnMeq2Yr3Ns
+ l97YFAFhAZuTp4cssA>
+X-ME-Received: <xmr:mp8TY0ioVfP3ylMZueRaxOaVWQ8ypAUeuSvLUGY7ZS8J-FHwGwsQML5w_PLYXMAZcdsXO77KRBex0B8OTIEb9rTtjXerGqwP4ivMQtcs1NCMUs-ceg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdelvddgudefudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
+ dtredttdenucfhrhhomhepofgrgicuhfhivghrkhgvuceomhgrgiesmhgrgihfihgvrhhk
+ vgdrtghomheqnecuggftrfgrthhtvghrnhepvddtffffgedvjeehhedugeekfefggffggf
+ eguddtieehudehhefhfeegkefgkedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigse
+ hmrgigfhhivghrkhgvrdgtohhm
+X-ME-Proxy: <xmx:mp8TY8_C7GfSwRpaaAU6hCjNXPB5Ff_CW6AUpGuENSKj9JQrMuwZdQ>
+ <xmx:mp8TY3uw7Etx-EwiydFy6-tm3l8UMVCotKuv1zPwjua1MO8Mz4hwow>
+ <xmx:mp8TY7FCoNZTzERvxg_W9JaiqvkyiIsQL7HZstyo_g1Nb5ytoK-lRg>
+ <xmx:m58TYwH8sYUl_xHTEQotUdjkRSRE9Cgq1hbK0f4_zPJNg3dUcbiahw>
+Feedback-ID: idee9475d:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 3 Sep 2022 14:40:25 -0400 (EDT)
+From: Max Fierke <max@maxfierke.com>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Subject: [PATCH v2 0/4] Introduce ClockworkPi CWD686 DRM panel driver
+Date: Sat,  3 Sep 2022 13:37:49 -0500
+Message-Id: <20220903183753.25736-1-max@maxfierke.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 85e7506e-3950-4d91-2e01-08da8f038d49
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4113:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zL9pJwT+l7HM7pMnuX/eSsP8owpaxe6Uxuv7gnhgmzenkYg58mJJtb9WmGI0QnqXXTrJ3KBLd2CbcBK8bbDb3bKDQ1POEi0+T6fO8m5Wxj3+ITbPrcMmKbYhPFIuJJWNW3aKvjB/XA4+GAXa+xdH9rSbZR6HllqumF6/lXBMFXtcbVNji+PUToEKhGrckdJyEDv7rTxC4txLRthJ9GvOlgeYSVHOnmbQPXKR6nzV3h0zsxLhXwsjNrPolCtIiTccXdFs5zsNSaiZX63bLHCEcL4yLcVtGgV/3osZ8B965D4Pwnyla0wSKIiB7IrKutDMrZDSl7YSDST43BgcaPw8KDi+3nQZfsimQaBkg0g1YBZlpMlJTxw4hrqHvVL+uuWCZwkwNAg1ZskWdU9wrPoeFN8npJnYvhM9jHxFq/eXgbsZmyXyrFrTid0LX0gN1inTzY3v7ZaNBgaXCa30KDQLLeiqCjjhSJroL1MlR0bmgwRyCX41fe42VbtEyyFQi1uLY9ebN9j0DCWk2IK55uqOTRqqPZpI5f0lQI2osr5k0QLhduBu9j6mDZAGMrriRmP4P8GI5pdS8gxYfsog3H9x5GO4nWXEXF8WB3Eg4InlsHuN2RHyDlHD5zMkWXRNEKEhZ45br/Ot40Y+9RXHVMnJPnz64brG6BkazDAu7W5FN30JZxU1CUdktpiZoXvHVfsjxKFfnR+bsNMFeIJc3qK6UX99+h/KN7RMnkfc7hourKsVhIvB+jpexfUx6pE4smCi+nuX5owYJTrqMSf8BmWGc6B0xvgG4YD6mpQTKCXcSRY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(39850400004)(136003)(396003)(346002)(366004)(6512007)(2616005)(186003)(5660300002)(26005)(8936002)(86362001)(36756003)(31696002)(31686004)(41300700001)(6666004)(6486002)(6506007)(478600001)(83380400001)(316002)(66946007)(450100002)(38100700002)(2906002)(66476007)(4326008)(8676002)(66556008)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WElYNmlTLy90bDVpcTl5ZzJ6T1dwRWNIWjExVzVQV0V1R1lOK2o4UXNKRTZy?=
- =?utf-8?B?WHZlRDk2UWNOd2xSbjkrYUM5MlZVYWpXNFljWW1zZGxwUEJUajlSQ1IzY0E3?=
- =?utf-8?B?S0lMYTJMdk5qclljZk9RNGdFZEROaFR2S1didlJhMGljOVp1OW91Q2ZIM0Vi?=
- =?utf-8?B?QWFDN2JCRVpQdzRYK0dVTThwVnNKZWc5YzVoTEQwQWtLWWtxVUIzTkUzWlhD?=
- =?utf-8?B?UFlQaDZycTN4NWdVeTVPd3RlMDZML2xzSlp5OEZxeXJGZzBlVzNxVmhFeEF2?=
- =?utf-8?B?SVMvL1kzTHdOb0VoMHh2QmdFOGZRejRqQk1hNDN5YWFUVW9VTElKMGQwL0Iz?=
- =?utf-8?B?anhSTGF4STRHdEVPUFBIQlpTb3BOb1B5S21IVVliNkxRbzRnT2JHZ0l0NnFP?=
- =?utf-8?B?ZTRvbjNSMFkwQy9LMUpCcmxRUVBXWmFFZ2kyTW8vSlpNVGZjUUNXRlhRWmRq?=
- =?utf-8?B?eHlXMlFnVkZsVmk4MFpWRUorUXExUGdxcFRkZ1lVTDJyVHd1Z0MvMGUrZjdJ?=
- =?utf-8?B?Wk5HVTlrckUvMGZGZWUyYTUrZU5FRHkyeVFrdktsUlpKU0ZUYUdOTy9JeDdY?=
- =?utf-8?B?N2NCc1VUNWYwMW40VFBWMzBoS0szN0RnNmtKTmlJYnUvaDk2WS9nNEtEZXNs?=
- =?utf-8?B?Um0wZ1Zpc2dWc0Fsdk1rd3pPZmpaQkNtM1lmQVltbGZXYlZmY3JYbTdIZ2R0?=
- =?utf-8?B?dG5xUVVuekMzU1RsR1lqTlNlOVFjZ0w2cFQ3MDBzbVN2UGNqVW90ang5bWJC?=
- =?utf-8?B?MjBmTWpDeGp4RjlqZHFWQ05OSUNDZnZEUVNzZG5jdlQ1bE92eGN5dWhqeFZt?=
- =?utf-8?B?b2dpaDB3ak5ISjY4ZzY0OGVmcnBGN2FETno3SFlJbGhuSE1Ed0YrdHVjYTM1?=
- =?utf-8?B?MHArci9XT0FEMVFSZmc1MW1BajRaNXNPMUVsOG1KVXd1dkpJUUVxN0JRV2Zk?=
- =?utf-8?B?ZWd6alVEZ2x3Z0ZOVExzandHdkcrU1ZXdjBxaVVFYWMrOFJLY1ZWYnlRQXh6?=
- =?utf-8?B?U0NHeENDWmZHelViY3ppeDlyYTFOOWE0OWFDWElJZ1pycU00bDg4UlVtWHhh?=
- =?utf-8?B?bEtra3o2cXRZWjV0N1pMcW0rWXBWRGh4NjlaQzRIQzNLc1JYTUR2MW5Ta2RC?=
- =?utf-8?B?YXV1Z1BXT3VEMlJYM3NINlU4bU5URm9ra2JNNWczeG5iaDM4M2hHazE2MFgv?=
- =?utf-8?B?bXh6RXBCbGpHN1BmckFXSzFRUlpGQy95L1pjd0NSMWc4ZmNjNWdDVjV4YUV0?=
- =?utf-8?B?OHBCc3kxcVo1dllLcFRIb09LSmVVQW96emFHUm0rZVBqSG9JYTNuajFpMDIr?=
- =?utf-8?B?b29kb3hRYm56R0t1NUdoejNmRDFHRmdleU5jMm8rR3FGNWZGY1hRZHpTaFVp?=
- =?utf-8?B?MVlrQ3MzK3Z1SWxGamgyaXJYeEJVS2NFODV5RVh4Ui9iL2VmclYrOUJDckND?=
- =?utf-8?B?c0tqVlZYOUJEQ2hTRmZHMDc4NzF1QTFRRW1tY1lINkx1SEdRb0ZBNjNCeGVF?=
- =?utf-8?B?QXpLQ1lLODlVVXNmb1llVWxWWllndThwT0F4WVFpZWh3b09mM3JyVTlGUjIz?=
- =?utf-8?B?aTQwaVl1QzdhMmxONEJkRDcxRDA1cy94Qyt2ZWZJWkkzOGZIWEVtdUE5dVlh?=
- =?utf-8?B?bXc4MzRFYnlBeEgzbHJ0RUw3UmZuQVFCZ0JJa25SMFVDRDBTR1MvWXNpcEs0?=
- =?utf-8?B?OERBOXM2NGpqcnBHUlFpVFZlTXQ2M1g4c1BLVGJoK3cyTDZadnIvZlRnVVlu?=
- =?utf-8?B?TnRrQ2xMdGs3eUJ0c1lGMVA4WHUxcXdVUEZxNEFGNEJkbE1LOWdDUXd1SDJZ?=
- =?utf-8?B?T1oxaXFtbEpxZVFiR2R4K3ZxUHlYYXNGMzgzTWgvL05DZW5xeURFaWJnM0lD?=
- =?utf-8?B?WWl3UzVMV3B2bzJ1L0lFdklQc1BpMWJWNTFETnRlZnBYT3hrZ0ZUcHZMRzdT?=
- =?utf-8?B?aFNNNkFQMkdld0dCU1F3MFJHRDhLTllpUHN4aTE4OTErTVJJRWgyMkJvbzRT?=
- =?utf-8?B?WHVpbWxzaFJmWFg5Z050VERucWhQUWxQK09ZdnBVUzJ4ZWFGMW5Kb2pwV0NX?=
- =?utf-8?B?Y3JsTHJ2Q0kxQkxlb3BKbE9kUk5WOXNFVHJtYytJdWM5SHlsVFVoZlo4NW1U?=
- =?utf-8?Q?WTxY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85e7506e-3950-4d91-2e01-08da8f038d49
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 05:57:44.7372 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5fW303F8PKYYCY4U+JFngChO2n/6froYwHVuPyDcPtwQTjIJqy4JdQ41R47aZliy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4113
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 05 Sep 2022 06:28:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,78 +81,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Li Yunxiang <Yunxiang.Li@amd.com>, luben.tuikov@amd.com,
- amd-gfx@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Max Fierke <max@maxfierke.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The ClockworkPi DevTerm (all models) uses a 6.86" IPS display
+of unknown provenance, which uses the Chipone ICNL9707 IC driver[1].
 
+The display panel I have has two model numbers: TXW686001 and WTL068601G,
+but cannot find any manufacturer associated with either, so opting for the
+ClockworkPi model number.
 
-Am 03.09.22 um 04:48 schrieb Andrey Grodzovsky:
-> Poblem: Given many entities competing for same rq on
-> same scheduler an uncceptabliy long wait time for some
-> jobs waiting stuck in rq before being picked up are
-> observed (seen using  GPUVis).
-> The issue is due to Round Robin policy used by scheduler
-> to pick up the next entity for execution. Under stress
-> of many entities and long job queus within entity some
-> jobs could be stack for very long time in it's entity's
-> queue before being popped from the queue and executed
-> while for other entites with samller job queues a job
-> might execute ealier even though that job arrived later
-> then the job in the long queue.
->
-> Fix:
-> Add FIFO selection policy to entites in RQ, chose next enitity
-> on rq in such order that if job on one entity arrived
-> ealrier then job on another entity the first job will start
-> executing ealier regardless of the length of the entity's job
-> queue.
->
-> v2:
-> Switch to rb tree structure for entites based on TS of
-> oldest job waiting in job queue of enitity. Improves next
-> enitity extraction to O(1). Enitity TS update
-> O(log(number of entites in rq))
->
-> Drop default option in module control parameter.
->
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> Tested-by: Li Yunxiang (Teddy) <Yunxiang.Li@amd.com>
-[SNIP]
->   /**
-> @@ -313,6 +330,14 @@ struct drm_sched_job {
->   
->   	/** @last_dependency: tracks @dependencies as they signal */
->   	unsigned long			last_dependency;
-> +
-> +
-> +	/**
-> +	* @submit_ts:
-> +	*
-> +	* Marks job submit time
+This driver is based on the GPL-licensed driver released by ClockworkPi[1],
+authored by Pinfan Zhu, with some additional cleanup, rotation support,
+and display sleep re-enabling done by me.
 
-Maybe write something like "When the job was pushed into the entity queue."
+[1] https://github.com/clockworkpi/DevTerm/blob/main/Schematics/ICNL9707_Datasheet.pdf
+[2] https://github.com/clockworkpi/DevTerm/blob/main/Code/patch/armbian_build_a06/patch/kernel-004-panel.patch
 
-Apart from that I leave it to Luben and you to get this stuff upstream.
+Thanks to Krzysztof Kozlowski, Rob Herring, and Sam Ravnborg for their
+prior reviews and apologies for the long delay between patch set versions.
 
-Thanks,
-Christian.
+Changes in v2:
+ - dt-bindings: remove redundant backlight example
+ - add missing regulators
+ - remove some unused properties from definition (e.g. enable_gpio, supply)
+ - reorder includes
+ - remove redundant ctx->backlight in favor of backlight through drm_panel_of_backlight
+ - remove now-unneeded ctx->enabled and enable/disable hooks
+ - replace ICNL9707_DCS macro with mipi_dsi_dcs_write_seq
+ - use dev_err_probe instead of checking EPROBE_DEFER
+ - fixed return type of cwd686_remove to be void following changes to mipi_dsi_driver
+ - add .get_orientation callback
 
-> +	*/
-> +	ktime_t                         submit_ts;
->   };
->   
->   static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_job,
-> @@ -501,6 +526,10 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
->   void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->   				struct drm_sched_entity *entity);
->   
-> +void drm_sched_rq_update_fifo(struct drm_sched_entity *entity, ktime_t ts,
-> +			      bool remove_only);
-> +
-> +
->   int drm_sched_entity_init(struct drm_sched_entity *entity,
->   			  enum drm_sched_priority priority,
->   			  struct drm_gpu_scheduler **sched_list,
+Max Fierke (4):
+  dt-bindings: vendor-prefixes: Add prefix for ClockworkPi
+  dt-bindings: display: Add ClockworkPi CWD686 panel
+  drm: panel: Add driver for ClockworkPi cwd686 panel
+  drm/panel: clockworkpi-cwd686: Implement .get_orientation callback
 
+ .../display/panel/clockworkpi,cwd686.yaml     |  63 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/gpu/drm/panel/Kconfig                 |  12 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-clockworkpi-cwd686.c  | 456 ++++++++++++++++++
+ 5 files changed, 534 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/clockworkpi,cwd686.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-clockworkpi-cwd686.c
+
+-- 
+2.37.1
