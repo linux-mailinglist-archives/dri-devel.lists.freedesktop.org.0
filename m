@@ -1,44 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871CE5ABDBB
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 10:00:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 562635ABEB7
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 13:17:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3FC10E9A0;
-	Sat,  3 Sep 2022 07:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4CB10E9AE;
+	Sat,  3 Sep 2022 11:17:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 345 seconds by postgrey-1.36 at gabe;
- Sat, 03 Sep 2022 07:59:48 UTC
-Received: from mail-m11874.qiye.163.com (mail-m11874.qiye.163.com
- [115.236.118.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F01510E9A4
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Sep 2022 07:59:48 +0000 (UTC)
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m11874.qiye.163.com (Hmail) with ESMTPA id 9B6753C0308;
- Sat,  3 Sep 2022 15:53:57 +0800 (CST)
-Message-ID: <bb8152e7-8c52-090e-1a41-953f789eaf15@rock-chips.com>
-Date: Sat, 3 Sep 2022 15:53:56 +0800
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46D8C10E9AE;
+ Sat,  3 Sep 2022 11:16:56 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id qh18so8353303ejb.7;
+ Sat, 03 Sep 2022 04:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=2awJnvzg80kHaK9GkpoYgVAO7zYSHwTiiBNZbOvF4aI=;
+ b=XI+c5McA3dizsm6fZCGiITKNiybSQzrNraXfk2IlPWV4nRcjuKqF//FwwEDS8lK8lB
+ DIcb+j9zyu5XRQXXZB6/UpiBpgBiMHS80n488dgSmq0XCOdpo+Svb2usI33xk759giU3
+ GpVTdgZ+spuoe8x95AGIETQth+Ta0SBfhSxdcc4f+7PE6u4PoxjXQCz13xEYy4yfMuWO
+ 5GsKeZ5IiRL1ryq4+M/U5zQInWW2lFV9ipRISP+ow9UUjMpqD0E0YKToKfw3eUmXCOVk
+ Lo0aB4+/FhVK6gSHMGgM1NrmQne9wjoXs5lpiupaiBE8m2MEqTpHnjk0VOJ3+xueZ9+q
+ suvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=2awJnvzg80kHaK9GkpoYgVAO7zYSHwTiiBNZbOvF4aI=;
+ b=1An/7HuA7a2QCKu0hXIFjMP405C8QZ2jrCJdSuftpUQxSxb4raUqnLJAs/eS8qBX6H
+ U8XvB4pZki4WsQwfoYaa2/BHrVxHBJrf+VjE7jsOsAjPVTleefZyDoU7nTDHADN+zlli
+ DqhYuA3Zk5cfrQf+En+tAvtsv9thh9RKI9HOVO9hDQQFHrBb8eq7YdYc6gW6dyg3bfVR
+ hDHG2ZYTyNo6TKgTZ4UHcHb9BRHAdNA2tdssr0fjPWdL3yq/1OE/YGT3sfJuTcVgr2YV
+ zUc8u7I0akcSk/oJtictvLXCWSrUV2ClXyyGQrnvj3/N2Vy0eTECQ2HU9lTmqaEaMAKP
+ aPcQ==
+X-Gm-Message-State: ACgBeo3FIVGF7UX9BtA0jNvKrEPepfv9tBFcacJD13yWmNxFZwMtLKnc
+ duAayPGzmToiVffZ8K0brzQMCsf36tePPInTVQY=
+X-Google-Smtp-Source: AA6agR6S8YvBSw95AGMo4y6mLXD2eFo0L6WwDUm5OxWY2zB3dGTmILtHEMIbNUc0s1LU9oCPccztzdWibHuXBjdFo+o=
+X-Received: by 2002:a17:907:7215:b0:741:416f:fb59 with SMTP id
+ dr21-20020a170907721500b00741416ffb59mr24265089ejc.150.1662203814640; Sat, 03
+ Sep 2022 04:16:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/2] drm/rockchip: dw_hdmi: Add 4k@30 support
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>
-References: <20220822152017.1523679-1-s.hauer@pengutronix.de>
- <20220824070742.GA28387@pengutronix.de>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20220824070742.GA28387@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFJSktLSjdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSkoaVhgaTR5ISB4fQk8eT1UTARMWGhIXJB
- QOD1lXWRgSC1lBWU5DVUlJVUxVSkpPWVdZFhoPEhUdFFlBWU9LSFVKSktDSUNVSktLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NCI6Myo6Cz0eKjkfPT0SPDUw
- MChPCj1VSlVKTU1JSkJKTUhDSkNOVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSE1JSzcG
-X-HM-Tid: 0a830257953c2eb0kusn9b6753c0308
+References: <20220826190728.3213793-1-l.stach@pengutronix.de>
+In-Reply-To: <20220826190728.3213793-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Sat, 3 Sep 2022 13:16:43 +0200
+Message-ID: <CAH9NwWc46-gggmK0_qkpiHxMnbGiCJJ2jwc4ogFvK-62PabeFQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/etnaviv: add HWDB entry for GC7000 r6203
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,72 +63,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: algea.cao@rock-chips.com, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Adam Ford <aford173@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha:
+Hi all
 
-On 8/24/22 15:07, Sascha Hauer wrote:
-> Hi Andy Et al.,
+Am Fr., 26. Aug. 2022 um 21:07 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
 >
-> On Mon, Aug 22, 2022 at 05:20:15PM +0200, Sascha Hauer wrote:
->> This series adds support for 4k@30 to the rockchip HDMI controller. This
->> has been tested on a rk3568 rock3a board. It should be possible to add
->> 4k@60 support the same way, but it doesn't work for me, so let's add
->> 4k@30 as a first step.
-> I tried adding 4k@60 support the same way, just by adding the missing
-> fields for 600MHz in the PLL/phy settings. I get a picture on the
-> screen, but it's not very stable: The monitor often gets black, scans
-> through the different HDMI inputs and then syncs again. Also when I
-> re-plug the cable while weston is running I won't get any picture
-> anymore (the same works fine with lower resolutions). I also tried
-> the Rock3a 4.19 Kernel which is based on the Rockchip Kernel and I saw
-> similar problems there.
+> From: Marco Felsch <m.felsch@pengutronix.de>
 >
-> Do you have an idea what could go wrong there?
-
-
-4K HDMI output from hdmi need very carefully tuning  of HDMI PHY and PLL.
-
-I can make sure that HDMI 4K output on rk3399/rk3288/rk356x are work 
-fine with our
-
-vendor kernel, but the upstream kernel is only can run at 1080p output, 
-I have tested
-
-on rk3399 and rk3568-evb1[0]
-
-
-I am not  familiar with hdmi tuning, so I am sorry i can't give detail 
-idea about this issue,
-
-maybe a more carefully comparison with hdmi driver and pll 
-configuration  between upstream kernel and rockchip 4.19 kernel?
-
-I think you have rk356x evb board, do you have a detail test about 4K 
-HDMI output with this board? If you have issue about 4k hdmi output
-
-on this board with rockchip 4.19 kernel, we can help to figure it out.
-
-Anyway, I loop Algea to the list, he is maintaining our hdmi 
-development, but I am sorry to say that he is
-
-also very busy😅
-
-I don't have a rock3a, so I can't confirm the problem you described on 
-4.19 kernel.
-
-
-
-
-[0]https://patchwork.kernel.org/project/linux-rockchip/patch/20220225075150.2729401-16-s.hauer@pengutronix.de/
-
-
-
+> The GPU is found on the NXP i.MX8MN SoC. The feature bits are taken from
+> the NXP downstream kernel driver 6.4.3.p2.
 >
-> Sascha
->
->
+
+Can we stop adding new entries to the kernel hwdb and start to
+establish a hwdb in the userspace aka mesa?
+The kernel provides all the needed information to the user space so
+"all" that's left is to add the mesa side. You might
+ask why? It is much simpler to maintain such a database in the user
+space (thanks to stable patch releases of mesa) than
+forcing users to update their kernels to get this new database entry.
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
