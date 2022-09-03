@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DA15ABD64
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 08:10:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B435ABD66
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 08:11:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40BD010E77B;
-	Sat,  3 Sep 2022 06:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4F810E987;
+	Sat,  3 Sep 2022 06:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9804110E77B
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Sep 2022 06:06:58 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id d12so3806192plr.6
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Sep 2022 23:06:58 -0700 (PDT)
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA00710E77B
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Sep 2022 06:07:01 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id l5so3809697pjy.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Sep 2022 23:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=schmorgal.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=py5Y0Qaf4PxCG0tcE0IMumOn8gfqYfS1sNrqUe6Qubw=;
- b=Xq8zSPfLEU6xzfhSfzvaThWR+khiq/LaCdQEVJBYFxRsOd7JjYMwVkFisU/8H5uU7F
- nUiGkdCFO4ZGUGj61sMPG4eaeGAK/vhG4KAuzSJ4vrE3q0j2yw+JMzItB8U5/5YEHon2
- ghlxjfWLzyYOKWh5MX1I3uUA7mBZ4GwvOx6eU=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=Hqs+EOWSoVn8x/QAKmfg4Hu1Z05+52oHCjQloLi5jzQ=;
+ b=Q3JZBdTwrV9sR7Edp6HSHF70gt77E2SNZYWVht+P2XUcr5IPt24yxv21sH5atPk/Zj
+ YzZ2mHkn746G357ZxRFm42UBc3BLKMxQe9as0HTQy7jsSVsqW2dewmRUtJgCcqTd71lJ
+ n9H1ADFCyxHMtYq7vcFWj4qHLN6XcO9rTB48o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=py5Y0Qaf4PxCG0tcE0IMumOn8gfqYfS1sNrqUe6Qubw=;
- b=E8eEb014aAOYhT9CMheQBRl2WWp3yeebs1dt3UOQxPvQQd/3LFQ1zQYbLYLNZXVf3y
- ypKYfV7VD4fXGn9nIrB/w147bxzs0zFmxwnP0H/f2maNJ/3mWzwxmcFezAD9Yywj6OEi
- ieD6+HjkjGhku2Wkw90tpjv0AP2WSmfZrZLcz6ohq7cF8fG1t6BSlxd6BcRFQvyX4XEv
- 7iojLum7jbQB4pu21HmaCgA/RrNuclphZEWViUbtv+bBz1Sp6xLrJeHeKhIJw7qeoJbN
- Olsc0hjWDMjSGUpUE2NmRrBvgNwEwuJT9KosqFGt5E1ms6VCitPK81B/i2UpYa5OmxA2
- JOKw==
-X-Gm-Message-State: ACgBeo08+7ntMtsq7oVTonV0QlX0t70Dmntm1puLgWJI2KkFoIq4pP2O
- OFa54BoG8MZOIpY+gcxbWPluFA==
-X-Google-Smtp-Source: AA6agR7/u/4EbZMJfQ06VEfBmYTGMFsMtuHoiMGb+/ZUcagUJB8L4821HZEMG+HDPmdtHUYWwq3xtQ==
-X-Received: by 2002:a17:903:22c4:b0:175:41bc:9596 with SMTP id
- y4-20020a17090322c400b0017541bc9596mr16512413plg.112.1662185218128; 
- Fri, 02 Sep 2022 23:06:58 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Hqs+EOWSoVn8x/QAKmfg4Hu1Z05+52oHCjQloLi5jzQ=;
+ b=nb2LCrjh8l7T6yZvSkw+FUeXRSarVMgYlBwW+YIKaZwNH28UNJGZKqT4rXEK2Wk/Yz
+ AWEH0CvPqkxbQfDsFSQlTIB3AT6RqfkpjbmRbTKFpzR+Z9IE0/1E4+N4x/Dw6t2BrhA/
+ 2Hw2aA2opy3/2W/LRtcDralaAZdgiAo+OybKIqbQKzlOjq0bVnDlsi1k/vVHaNY5RLIt
+ 3uc/C61xwWjouJkauFY6R/3gvYc/cKv4sYjlXKHT6aW8/8DxFmgkPvbeX7KPuQhNMzix
+ KcofZpBpZMm8yVnE3XL6p1PxE+iOmP2+sLYnJUB8Hx61N+pPk3VzECpvbS400YfMGBAC
+ oLRQ==
+X-Gm-Message-State: ACgBeo1nfSZUbQzqSeC5MHJiq8Vh95qa9UTdEX/uiqZm3Oovjg+XX4Nt
+ gCLKNGT1V9iO7wyM6Ed78srjqw==
+X-Google-Smtp-Source: AA6agR6Rlahf8BH6dUKZjItBDrclPm4u0ueSF2l2JtZWYwLxbahSL+34Ja9X8R3Hecx5NAp6dhWeWQ==
+X-Received: by 2002:a17:902:aa01:b0:172:b0dc:ba40 with SMTP id
+ be1-20020a170902aa0100b00172b0dcba40mr39250123plb.101.1662185221217; 
+ Fri, 02 Sep 2022 23:07:01 -0700 (PDT)
 Received: from localhost.localdomain ([50.45.132.243])
  by smtp.gmail.com with ESMTPSA id
- v28-20020aa799dc000000b00537ab89c66csm3048793pfi.143.2022.09.02.23.06.57
+ v28-20020aa799dc000000b00537ab89c66csm3048793pfi.143.2022.09.02.23.07.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Sep 2022 23:06:57 -0700 (PDT)
+ Fri, 02 Sep 2022 23:07:00 -0700 (PDT)
 From: Doug Brown <doug@schmorgal.com>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 0/2] drm/etnaviv: GC300 fixes
-Date: Fri,  2 Sep 2022 23:05:56 -0700
-Message-Id: <20220903060558.55167-1-doug@schmorgal.com>
+Subject: [PATCH 1/2] drm/etnaviv: add missing quirks for GC300
+Date: Fri,  2 Sep 2022 23:05:57 -0700
+Message-Id: <20220903060558.55167-2-doug@schmorgal.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220903060558.55167-1-doug@schmorgal.com>
+References: <20220903060558.55167-1-doug@schmorgal.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 03 Sep 2022 06:10:40 +0000
@@ -74,24 +77,44 @@ Cc: Doug Brown <doug@schmorgal.com>, etnaviv@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series contains a few special cases for supporting the GC300
-properly. These were found in the drivers in the vivante_kernel_drivers
-repository. These changes were tested on a PXA168 with GC300 revision
-0x2201 (date 0x20080814, time 0x12051100), which already has an existing
-special case in the driver to modify the revision to 0x1051.
+The GC300's features register doesn't specify that a 2D pipe is
+available, and like the GC600, its idle register reports zero bits where
+modules aren't present.
 
-I was a little unsure of the "correct" way to do the fixup to the power
-register offsets. I implemented the change in gpu_write and gpu_read,
-but if someone has a better idea I would be happy to do it differently.
-
-Doug Brown (2):
-  drm/etnaviv: add missing quirks for GC300
-  drm/etnaviv: fix power register offset on GC300
-
+Signed-off-by: Doug Brown <doug@schmorgal.com>
+---
  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 11 +++++++++--
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h | 16 ++++++++++++++--
- 2 files changed, 23 insertions(+), 4 deletions(-)
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 37018bc55810..f667e7906d1f 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -416,6 +416,12 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 	if (gpu->identity.model == chipModel_GC700)
+ 		gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
+ 
++	/* These models/revisions don't have the 2D pipe bit */
++	if ((gpu->identity.model == chipModel_GC500 &&
++	     gpu->identity.revision <= 2) ||
++	    gpu->identity.model == chipModel_GC300)
++		gpu->identity.features |= chipFeatures_PIPE_2D;
++
+ 	if ((gpu->identity.model == chipModel_GC500 &&
+ 	     gpu->identity.revision < 2) ||
+ 	    (gpu->identity.model == chipModel_GC300 &&
+@@ -449,8 +455,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 				gpu_read(gpu, VIVS_HI_CHIP_MINOR_FEATURE_5);
+ 	}
+ 
+-	/* GC600 idle register reports zero bits where modules aren't present */
+-	if (gpu->identity.model == chipModel_GC600)
++	/* GC600/300 idle register reports zero bits where modules aren't present */
++	if (gpu->identity.model == chipModel_GC600 ||
++	    gpu->identity.model == chipModel_GC300)
+ 		gpu->idle_mask = VIVS_HI_IDLE_STATE_TX |
+ 				 VIVS_HI_IDLE_STATE_RA |
+ 				 VIVS_HI_IDLE_STATE_SE |
 -- 
 2.25.1
 
