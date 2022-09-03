@@ -1,71 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031025ACAA3
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:30:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD855ACA8F
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:29:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE4D10E1A1;
-	Mon,  5 Sep 2022 06:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DFF110E167;
+	Mon,  5 Sep 2022 06:28:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59AF210E517
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E08410E3C8
  for <dri-devel@lists.freedesktop.org>; Sat,  3 Sep 2022 18:45:51 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 168295C00EC;
- Sat,  3 Sep 2022 14:40:27 -0400 (EDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 72DE65C00F2;
+ Sat,  3 Sep 2022 14:40:31 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Sat, 03 Sep 2022 14:40:27 -0400
+ by compute3.internal (MEProxy); Sat, 03 Sep 2022 14:40:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxfierke.com;
  h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1662230427; x=1662316827; bh=IqiTG1t+/u
- o+949kVmzHS54OgkIf4SBM3u2xKwWgX0k=; b=eIR7SFqm4EG5TV6Vi7SUm9Y4go
- gf/PLH+BddaaCkqTp3iiUi87wW7Q2/hMWP54nTsPBj4bwlUZJbfkDzgPuMje5Xmu
- yx0G878H/5FfZqJ1t9UTRiRHzqjsiNPhfrnOeqDqVy/rHM/ytbX1OvIOCCps10Il
- NX05AcmC0FqjJ+eKYyPTUQ2AtesSIC9hSunbIA+xROxoMre8md/Xd4WvMOpFytx0
- uMrzlVtnEHydoChEKtD4Bmw52c5nANsQzQShIAyoVjzHuiXXTzMZ9Huz0Fg8S5l8
- BtS3dgsTbtKHBFPdVDJ3PGyWnztuWSnU6C9lv2Le947G2p6QaEGt5B4vLIng==
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1662230431; x=
+ 1662316831; bh=piNgzvHSj4JEWJsVB08bq+orA413gDpxIity4wOa2Lc=; b=K
+ V4w0Xr4pHx9XO0eiVFm/ibG6sXKB+EpNtkkNTYDBPy8H3CoXgTNpPyAnsA9vih5t
+ VcGitEUs0FkdFCCtAlIln0f+ebm+FZivwVTG6GmUN93xYx/hQXgBShU2DpxERjZI
+ Yytjzp+3R8ch5IBrcdiFsFw/90aV/O46zqWa/KgMIxT29j9Wa8AWi8qwBPfS1gDr
+ gzF8bIsbK6YOx+Tn+eW4C/+acm6CekLuv0kxZ00iiwP7dlMRgFdmUvxKIID+Mpm7
+ GbGJgFXZZLgpSTv/1odC9pjzZYJ1J2KZhTQm572kMEvKch2JQA74niFdpadcaYsS
+ fekLEYMYJOwykdbw8Qtfw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1662230427; x=1662316827; bh=IqiTG1t+/uo+949kVmzHS54OgkIf4SBM3u2
- xKwWgX0k=; b=dZknFVdegFPWrBvFPFYzP5krm/GnYOSDoyIDwphRBFlwkVvtGvR
- sKABzgpcOHKYNjyZGKQtdxfU3mKvzHpM1tg+Pw8nB5lDoAz+WQu/TGc2w5jSpqat
- QJIPTGevF97EyVa+ih1F38LrhLt+hM92F/QFBTv4Z+Icvqxw1FCE0vF+tIkPeAOQ
- 0irehDy+xfbni6NR7NzDivhcdCZ5OYTgOPkJPCfJzzwOshwmQBJYcxB3uSJ+QA6A
- odTZgfzSkIAWck/a9YEQV2xuE6QC6rxCD5rigU9nVQC4M3DZDpTLOP/mogF87SSQ
- 4y0ymVU1m+wOlGsK8aaVJRq2xOe/bDdka2w==
-X-ME-Sender: <xms:mp8TY7cihske003pFzWZoHd2sbANtTWIfzUc85N10Llewflqq0xMkA>
- <xme:mp8TYxNO90tIFbgluK9auOQcmdtpOahyOIAon5ZEkKw6wjzZsV_N6kVnMeq2Yr3Ns
- l97YFAFhAZuTp4cssA>
-X-ME-Received: <xmr:mp8TY0ioVfP3ylMZueRaxOaVWQ8ypAUeuSvLUGY7ZS8J-FHwGwsQML5w_PLYXMAZcdsXO77KRBex0B8OTIEb9rTtjXerGqwP4ivMQtcs1NCMUs-ceg>
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1662230431; x=1662316831; bh=piNgzvHSj4JEW
+ JsVB08bq+orA413gDpxIity4wOa2Lc=; b=p/g2XW67O22lzgEmKvEk7PGCxtMqa
+ zubW9iITdsSBSVP0Mc67WR/u0IF4Mxb6IIT4VAMC+trWWdLcucsnn+/Xj878wJ+Q
+ 3vHzeHw6IGIc5AVMwt3/8i/a20VMOL6vGFSiOLAGXaTj72ZQhkw4rqbYgMrLEeSv
+ UxKacvvg51hyE8BQCBU1qSp7jtwutguUkngPoeyUepxQfA67KTDXHh0rtk7NFQHj
+ rSzxvaXjcaAXmgvpux08z8OPgxs88lMYXBb/mwAhEvPVr1/MHPYNM+Mf10CAPprj
+ zMH0jp+CK3pw8fjhqpAIMVR4ypWu6B9NTSOEg+LelW9Cur/4Rsp/KvIZQ==
+X-ME-Sender: <xms:n58TY7F_DlevC79ofiY35pqaqkqWnmBf0_uiFtvk19SPJw_U3qPdWg>
+ <xme:n58TY4WAB5VEtq5vw7ZpE4pcLisRyEZOnV7oQ9cm-upVuK7Aje8Hc_W0OLbH46a3M
+ kIm9IP6fSbFc_MKGDo>
+X-ME-Received: <xmr:n58TY9KOpfmu7bFleL5qhO5E145xT9402q1A9omESIKPSb7YhQUd163dpTfn-WjXqEbXYvyOYgLHCd6CuxEO6ucVi3-hIf-1RJe7cX1E4v-jh98JqQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdelvddgudefudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
- dtredttdenucfhrhhomhepofgrgicuhfhivghrkhgvuceomhgrgiesmhgrgihfihgvrhhk
- vgdrtghomheqnecuggftrfgrthhtvghrnhepvddtffffgedvjeehhedugeekfefggffggf
- eguddtieehudehhefhfeegkefgkedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhen
- ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigse
- hmrgigfhhivghrkhgvrdgtohhm
-X-ME-Proxy: <xmx:mp8TY8_C7GfSwRpaaAU6hCjNXPB5Ff_CW6AUpGuENSKj9JQrMuwZdQ>
- <xmx:mp8TY3uw7Etx-EwiydFy6-tm3l8UMVCotKuv1zPwjua1MO8Mz4hwow>
- <xmx:mp8TY7FCoNZTzERvxg_W9JaiqvkyiIsQL7HZstyo_g1Nb5ytoK-lRg>
- <xmx:m58TYwH8sYUl_xHTEQotUdjkRSRE9Cgq1hbK0f4_zPJNg3dUcbiahw>
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgig
+ ucfhihgvrhhkvgcuoehmrgigsehmrgigfhhivghrkhgvrdgtohhmqeenucggtffrrghtth
+ gvrhhnpeduleevvddtfffhuefgleeiveevvdehgfevtdetfeekvedvhfeikeduueetfeeg
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igsehmrgigfhhivghrkhgvrdgtohhm
+X-ME-Proxy: <xmx:n58TY5HnSRTgXRpoQd1k8LzGOlsM8gQj9OBOJkHVpkEeOXCh-JlBtg>
+ <xmx:n58TYxWjc31eS45eU8M4sv9Rc-4iHSC3q0gHnUFAePizJfU4e-_rBg>
+ <xmx:n58TY0PqA13p9YqajkE0sLippM3OLkjWdW1w0T3GHwcHSPYzshOspA>
+ <xmx:n58TY2WZy9DLBmH5k3cZ82mikJ4vyxUQ4FrkCrM2pzcMK0cEt0r-OQ>
 Feedback-ID: idee9475d:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 3 Sep 2022 14:40:25 -0400 (EDT)
+ 3 Sep 2022 14:40:30 -0400 (EDT)
 From: Max Fierke <max@maxfierke.com>
 To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
  daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Subject: [PATCH v2 0/4] Introduce ClockworkPi CWD686 DRM panel driver
-Date: Sat,  3 Sep 2022 13:37:49 -0500
-Message-Id: <20220903183753.25736-1-max@maxfierke.com>
+Subject: [PATCH v2 1/4] dt-bindings: vendor-prefixes: Add prefix for
+ ClockworkPi
+Date: Sat,  3 Sep 2022 13:37:50 -0500
+Message-Id: <20220903183753.25736-2-max@maxfierke.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220903183753.25736-1-max@maxfierke.com>
+References: <20220903183753.25736-1-max@maxfierke.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 05 Sep 2022 06:28:39 +0000
@@ -82,53 +86,34 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Max Fierke <max@maxfierke.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ClockworkPi DevTerm (all models) uses a 6.86" IPS display
-of unknown provenance, which uses the Chipone ICNL9707 IC driver[1].
+Add a prefix for Clockwork Tech LLC, known as ClockworkPi. They
+produce a number of hobbyist devices, including the ClockworkPi
+DevTerm and GameShell.
 
-The display panel I have has two model numbers: TXW686001 and WTL068601G,
-but cannot find any manufacturer associated with either, so opting for the
-ClockworkPi model number.
+Signed-off-by: Max Fierke <max@maxfierke.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This driver is based on the GPL-licensed driver released by ClockworkPi[1],
-authored by Pinfan Zhu, with some additional cleanup, rotation support,
-and display sleep re-enabling done by me.
-
-[1] https://github.com/clockworkpi/DevTerm/blob/main/Schematics/ICNL9707_Datasheet.pdf
-[2] https://github.com/clockworkpi/DevTerm/blob/main/Code/patch/armbian_build_a06/patch/kernel-004-panel.patch
-
-Thanks to Krzysztof Kozlowski, Rob Herring, and Sam Ravnborg for their
-prior reviews and apologies for the long delay between patch set versions.
-
-Changes in v2:
- - dt-bindings: remove redundant backlight example
- - add missing regulators
- - remove some unused properties from definition (e.g. enable_gpio, supply)
- - reorder includes
- - remove redundant ctx->backlight in favor of backlight through drm_panel_of_backlight
- - remove now-unneeded ctx->enabled and enable/disable hooks
- - replace ICNL9707_DCS macro with mipi_dsi_dcs_write_seq
- - use dev_err_probe instead of checking EPROBE_DEFER
- - fixed return type of cwd686_remove to be void following changes to mipi_dsi_driver
- - add .get_orientation callback
-
-Max Fierke (4):
-  dt-bindings: vendor-prefixes: Add prefix for ClockworkPi
-  dt-bindings: display: Add ClockworkPi CWD686 panel
-  drm: panel: Add driver for ClockworkPi cwd686 panel
-  drm/panel: clockworkpi-cwd686: Implement .get_orientation callback
-
- .../display/panel/clockworkpi,cwd686.yaml     |  63 +++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- drivers/gpu/drm/panel/Kconfig                 |  12 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-clockworkpi-cwd686.c  | 456 ++++++++++++++++++
- 5 files changed, 534 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/clockworkpi,cwd686.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-clockworkpi-cwd686.c
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 7a326168d1d2..b9cf4f02c362 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -254,6 +254,8 @@ patternProperties:
+     description: Cirrus Logic, Inc.
+   "^cisco,.*":
+     description: Cisco Systems, Inc.
++  "^clockworkpi,.*":
++    description: Clockwork Tech LLC
+   "^cloudengines,.*":
+     description: Cloud Engines, Inc.
+   "^cnm,.*":
 -- 
 2.37.1
+
