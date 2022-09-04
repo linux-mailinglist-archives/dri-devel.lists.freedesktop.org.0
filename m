@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1D05AC6E5
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:44:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C23375AC6DD
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:44:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A61C010E20F;
-	Sun,  4 Sep 2022 21:42:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB4010E23D;
+	Sun,  4 Sep 2022 21:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
- [IPv6:2607:f8b0:4864:20::d29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86C4E10E12F;
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
+ [IPv6:2607:f8b0:4864:20::d31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E56D710E134;
  Sun,  4 Sep 2022 21:42:13 +0000 (UTC)
-Received: by mail-io1-xd29.google.com with SMTP id h78so5628051iof.13;
+Received: by mail-io1-xd31.google.com with SMTP id c4so5673061iof.3;
  Sun, 04 Sep 2022 14:42:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=uH+4PavI6tAvpP/bjllSxBrsqqx6lF8VrU02FESH7jw=;
- b=KSguwditGP/8FfWJ8QbYlUiwq8c5izqFVOSRXyhmdm05P40z31yyLERnx/4KMPZ18U
- yGQR/CcjnDmULO16vw9EZu863miip8Q4Ywm4OktFjjZNUdUqH0muQK6Hts5AQIQFY6EB
- Gnd8tvXDTP4gJcju+NDHoa6XhCzxcDglfVGpQH0OUqyXe+AwXj6MR3J0j7QIftZAI5mj
- aaAjnkm2GGxbLWKdhe9FWSpkC220hHqlwQNKss4GdfYbEiEqODGTAqXksS6qf8YV6XOx
- K+5l+OjHWI7q3CG8hiEA7+JF714yQmdURuxM/WmEm8lMmPJufYDfmHmioTV5V0ZMKzak
- OMig==
+ bh=PbqFdyxSi0Pp6DU3HKsSvwhQJYj8Q2VNhxZwCrpnF6M=;
+ b=VsDvR0vs9q2FKCQfOJtjIj8FHz9/Z3bqLVP6coIdC18//1aR2LaIbaZwWf9Z6tEGfl
+ 5LATbVVqKiBlBcSVvzROupFX7UszhsGWDUy+bmPT1qGZcI1Zqa5qU39Qb2kqg4sRO0kw
+ fgQxDQpiLWZ85LuT4smVr3O+O5zuSTuXZnwG3Rv/A16MfL6bVIcM4HNldOSP2KESU/gT
+ V20+cxV8kGInvZOnWna6gEYV1K+GBUIItJpcmPhCpXQ4cyszHg26A0WRN3M3WtAN/wBm
+ medsQTQakd/d2p87LqtCTlPg3npIOQkOQZQTqCeT1ibwK4SGN1YC/clvc4rCKuFX7YAD
+ 0pxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=uH+4PavI6tAvpP/bjllSxBrsqqx6lF8VrU02FESH7jw=;
- b=GXqvhABD/jZoIL5+7NTzjFJdyFFcypNsYVsNr+00tzzIq898u9Z/E1gnVuz8fXQvpZ
- BmWYcwk6sNZJu0pcSoGS+dGKhfJZCDnt9tYHBuassbCdH77j5Lf2Jf064djI9p3LQR4r
- ma3OAEGqzQQc7YnnEgI6ZVzDmdRKZhH0hCD/WiKTib5euD5hJBo5c2jgucxK5JlB/puE
- JZbnGXXmIYsp/CHdXUcjGG6VSVH5ktPbBUFcGrrPmilFhpn4jTmed4es5sn7DuQBCjYI
- qH59K0Alj/SPG3/TEKLozdxSPIleoJk3O470KXHmZZU8XEoOvXRmjn+ntSZNlw5T3YwV
- dCyQ==
-X-Gm-Message-State: ACgBeo35sgMykxe7liW6rwRF96jCl2f7+tvSswHjzIwHK5NpUWIbeGAx
- +vnzK9QpJMabspeGCENDWis=
-X-Google-Smtp-Source: AA6agR47srkJpi3DXb58PnE0nCQCRP4+fmezLwneAZEvxkrMVJGtdvwOuDoiXOHxF1d7qDgzdSj+Lg==
-X-Received: by 2002:a05:6602:140d:b0:68b:1bd1:1c54 with SMTP id
- t13-20020a056602140d00b0068b1bd11c54mr18562369iov.9.1662327731887; 
- Sun, 04 Sep 2022 14:42:11 -0700 (PDT)
+ bh=PbqFdyxSi0Pp6DU3HKsSvwhQJYj8Q2VNhxZwCrpnF6M=;
+ b=HY40IgpXerJiE61XL2fafyrwIwJWYmmPJOcG+1SFuYYJ7lH5wf4HpRIiy4peQBqWJN
+ 4d/K13pOs21qaIqr3YPiQXFTZFkVCNE+yWVEDPevaGkGn8m2QqXNc4ZO2oUpXS1IxANh
+ Dww1j/8aQkGqjCPdZWyFbKdpL0H5y6dDGy/l1Vw67FdCB5FCIgqUSG7zSB7WEx0IkQSL
+ AbM+cUCUsqoBhbe9KTLOcyWHtnxEApQUYtOsAOW9O38/YAT+qxA8VuloRTVikHwVFz5u
+ VY5o3CN/xODOI6DXaYRG5DzAqlEv4PGtGI9jGxa/gmszDB2CdOXje/1qBau9RZxUjtPt
+ Sotg==
+X-Gm-Message-State: ACgBeo0atqoXRP7cND5q6ZxogqgXDjnbXsRzQtzPajkkGHJheIHigEJG
+ f3Javx6UoBF6QJy7192G6OM=
+X-Google-Smtp-Source: AA6agR7fSTOVCWKQ249DqThxtdMK6mWi8uoaxMmg3jSWwtFYYJA/nulJNENKG3FHhy/TNLExju0ubQ==
+X-Received: by 2002:a05:6638:3385:b0:339:ea59:a31f with SMTP id
+ h5-20020a056638338500b00339ea59a31fmr23089435jav.55.1662327732789; 
+ Sun, 04 Sep 2022 14:42:12 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.42.11
+ e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.42.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 14:42:11 -0700 (PDT)
+ Sun, 04 Sep 2022 14:42:12 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v6 02/57] dyndbg: fix module.dyndbg handling
-Date: Sun,  4 Sep 2022 15:40:39 -0600
-Message-Id: <20220904214134.408619-3-jim.cromie@gmail.com>
+Subject: [PATCH v6 03/57] dyndbg: show both old and new in change-info
+Date: Sun,  4 Sep 2022 15:40:40 -0600
+Message-Id: <20220904214134.408619-4-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220904214134.408619-1-jim.cromie@gmail.com>
 References: <20220904214134.408619-1-jim.cromie@gmail.com>
@@ -78,42 +78,46 @@ Cc: daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk, seanpaul@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For CONFIG_DYNAMIC_DEBUG=N, the ddebug_dyndbg_module_param_cb()
-stub-fn is too permissive:
+print "old => new" flag values to the info("change") message.
 
-bash-5.1# modprobe drm JUNKdyndbg
-bash-5.1# modprobe drm dyndbgJUNK
-[   42.933220] dyndbg param is supported only in CONFIG_DYNAMIC_DEBUG builds
-[   42.937484] ACPI: bus type drm_connector registered
+no functional change.
 
-This caused no ill effects, because unknown parameters are either
-ignored by default with an "unknown parameter" warning, or ignored
-because dyndbg allows its no-effect use on non-dyndbg builds.
-
-But since the code has an explicit feedback message, it should be
-issued accurately.  Fix with strcmp for exact param-name match.
-
-Reported-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Fixes: b48420c1d301 dynamic_debug: make dynamic-debug work for module initialization
 Acked-by: Jason Baron <jbaron@akamai.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/linux/dynamic_debug.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ lib/dynamic_debug.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index dce631e678dd..f30b01aa9fa4 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -201,7 +201,7 @@ static inline int ddebug_remove_module(const char *mod)
- static inline int ddebug_dyndbg_module_param_cb(char *param, char *val,
- 						const char *modname)
- {
--	if (strstr(param, "dyndbg")) {
-+	if (!strcmp(param, "dyndbg")) {
- 		/* avoid pr_warn(), which wants pr_fmt() fully defined */
- 		printk(KERN_WARNING "dyndbg param is supported only in "
- 			"CONFIG_DYNAMIC_DEBUG builds\n");
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index a56c1286ffa4..8faf584f2f4b 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -156,7 +156,7 @@ static int ddebug_change(const struct ddebug_query *query,
+ 	struct ddebug_table *dt;
+ 	unsigned int newflags;
+ 	unsigned int nfound = 0;
+-	struct flagsbuf fbuf;
++	struct flagsbuf fbuf, nbuf;
+ 
+ 	/* search for matching ddebugs */
+ 	mutex_lock(&ddebug_lock);
+@@ -217,11 +217,12 @@ static int ddebug_change(const struct ddebug_query *query,
+ 				static_branch_enable(&dp->key.dd_key_true);
+ 			}
+ #endif
++			v4pr_info("changed %s:%d [%s]%s %s => %s\n",
++				  trim_prefix(dp->filename), dp->lineno,
++				  dt->mod_name, dp->function,
++				  ddebug_describe_flags(dp->flags, &fbuf),
++				  ddebug_describe_flags(newflags, &nbuf));
+ 			dp->flags = newflags;
+-			v4pr_info("changed %s:%d [%s]%s =%s\n",
+-				 trim_prefix(dp->filename), dp->lineno,
+-				 dt->mod_name, dp->function,
+-				 ddebug_describe_flags(dp->flags, &fbuf));
+ 		}
+ 	}
+ 	mutex_unlock(&ddebug_lock);
 -- 
 2.37.2
 
