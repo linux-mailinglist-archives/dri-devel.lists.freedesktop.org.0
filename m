@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B475AC745
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:46:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A74845AC732
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:45:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59F6310E2D8;
-	Sun,  4 Sep 2022 21:43:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A15B510E292;
+	Sun,  4 Sep 2022 21:42:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A0E10E140;
- Sun,  4 Sep 2022 21:42:18 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id s3so1910938ilv.4;
- Sun, 04 Sep 2022 14:42:18 -0700 (PDT)
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com
+ [IPv6:2607:f8b0:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5473310E135;
+ Sun,  4 Sep 2022 21:42:19 +0000 (UTC)
+Received: by mail-il1-x12a.google.com with SMTP id a9so3885278ilh.1;
+ Sun, 04 Sep 2022 14:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=a7DZCtJXdhSHu/g5l+Gfz3Grwf1u1lU78G+9NH5FV+4=;
- b=Jkkv7Uh7bMpbU+r6NlVBVYvbcfasFu4S18WrtPiOTovRP/fBU0eokGYClnWQb7wddC
- DJ2DbVzsV7l0UCuqjr+/R6KQlSzLD5J92WNj7XSoVVY8gqVI9s5+LywRHe/BNZ0ZDJCc
- DBl/2kKsA3D/oCquCqonuGQe5CgfatnSAtbCiKvVrFPbB6oGvCcBuFm2/uYygIQIwATx
- /9hnZoDjFPUZ988quw0t0Q6f4uHxj8Y7bfuMSk0/m2vgl7WvaETEtWFom2mBW8A8JJcp
- dzHb6d84REzzsRPCW3uadJ6MxO4TQxHz/Xw5lgx7Ma3qC+o1NzDn+smeH30H24e+PkJ2
- LgyQ==
+ bh=774vPkNjj+tHobVK7wxTpiFngzuHiOZuQGU68liCSfs=;
+ b=C7K+Yu8rS5CfqjlNHPHnOaD4zxwfuunfcvyOT5g9f9rMen9a6bVHcvqbwXA2+Y+9Kz
+ RKQbD2pNaDWCYN70iNH05lkOWO4RBz/bQ8/cRwN6WEZcEvurKwq1+mOrxYFqPOqFAgqc
+ jTojshygRsAzBiQhplkoP1HY15Ecq9/KjZAyKP3dmiszNKFO5leOY1ZvfEMxlgqXIOZd
+ dYRX5/7LlkpgOOE5bEoz36HFy0JsAvZ+ng4hTn9uDioPYMM7Bu0T/tVRPEgpDqQID6iV
+ nipB6JonPPNto+aq00YwjoQiAFGv/V/8G9n0DURSqGi4XiyI78KNHcGZM6RuJDkxs46Z
+ 26bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=a7DZCtJXdhSHu/g5l+Gfz3Grwf1u1lU78G+9NH5FV+4=;
- b=7Yd6MdY9SyhBayB5zsxy1M56DH3c5LQ/I3q+YBW2yjYjzMlmonfXHaQU9YTGq0+y7T
- hy/luOgAhHf9764iobubPsypHscCtruM33duHOF02eDuX1hWS2szVhf91g71zK9uffwq
- 1MzF14MMq/teNPfp5/Vq5o8z62e6e1BBIG2w94j5nYb2CKwzZWlceQFjMkBd/QHb9P6W
- WmsvJfQdasF7RoclxD+oLTyQ1Aofi6uFeNGAj7MJJ3FLngfipFGOx3qHRbDb8ts1Wp5G
- 3hcWVfy+4xaIykYJsMatRrVRBNekW0s+5BT+Qns/2Ok8GOAAOsg+MsbfkBDtaxLY9fKy
- lpiA==
-X-Gm-Message-State: ACgBeo2nNfei7qrPCFb6Et6ihxlZEoTqYAD4ZcjijhMfqv+1Rogb9Qu4
- MC/4EH/23RKDoFvxUWpgdhb61v3Q9V4=
-X-Google-Smtp-Source: AA6agR7hw62bgxem2HOBZn5lz7k1Ka/rS42TkERRx352o8pyZNwU2vSuXFqs3ENfjD7w6M0xKnvuiQ==
-X-Received: by 2002:a92:cdae:0:b0:2f1:8d4e:403e with SMTP id
- g14-20020a92cdae000000b002f18d4e403emr4891ild.129.1662327737641; 
- Sun, 04 Sep 2022 14:42:17 -0700 (PDT)
+ bh=774vPkNjj+tHobVK7wxTpiFngzuHiOZuQGU68liCSfs=;
+ b=R2SoRJgSUlpl4QRrVWuV7ldF9UIQG4Z2TeOqAkDu6f0cD8aYkbzRF3LBFpK1hm/pC4
+ +mwYbSZT96ebqajyPEpJ4UFoBZccDEm7Tp8nF6E2S85fHYYoD/8kFdQfwMA3uSL/6+fp
+ iffQkFFQCAICGBKr/rR6tnHbgpfW22pmDKKPE6+KLxx4m8A5CWj4givl8jsoZT7m96J1
+ nUWamMmDz51rR+NuLJbGoHFYYsb6fKaTWPG15OgV4no4p475URgFWKz6TTcxkZ/ETt2q
+ GMUZxPM2BxiG8nTfszBOj7CRGZlQ0tIiWdfxc9hj3foy4IpC6wweyZaXWYK2gNcjPh4k
+ 2P+Q==
+X-Gm-Message-State: ACgBeo0PfsByV8MLt2m3TrjcvY10AHV9EMrgLfsLryJ5bi4X5GacSQZO
+ 2a50DQ+4mvUbzV1ZhI2eTS4=
+X-Google-Smtp-Source: AA6agR5dk7sIC47F0zJwtTKZLwCG1OGpPQGC5vGCcEQBykOFT3Gx9Uw/vzxF/89YxMKOB4dB9YkQUQ==
+X-Received: by 2002:a05:6e02:148d:b0:2ee:82e:63fc with SMTP id
+ n13-20020a056e02148d00b002ee082e63fcmr7362054ilk.289.1662327738560; 
+ Sun, 04 Sep 2022 14:42:18 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.42.16
+ e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.42.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 14:42:17 -0700 (PDT)
+ Sun, 04 Sep 2022 14:42:18 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v6 08/57] dyndbg: add test_dynamic_debug module
-Date: Sun,  4 Sep 2022 15:40:45 -0600
-Message-Id: <20220904214134.408619-9-jim.cromie@gmail.com>
+Subject: [PATCH v6 09/57] dyndbg: drop EXPORTed dynamic_debug_exec_queries
+Date: Sun,  4 Sep 2022 15:40:46 -0600
+Message-Id: <20220904214134.408619-10-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220904214134.408619-1-jim.cromie@gmail.com>
 References: <20220904214134.408619-1-jim.cromie@gmail.com>
@@ -78,150 +78,89 @@ Cc: daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk, seanpaul@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide a simple module to allow testing DYNAMIC_DEBUG behavior.  It
-calls do_prints() from module-init, and with a sysfs-node.
+This exported fn is unused, and will not be needed. Lets dump it.
 
-  dmesg -C
-  dmesg -w &
-  modprobe test_dynamic_debug dyndbg=+p
-  echo 1 > /sys/module/dynamic_debug/parameters/verbose
+The export was added to let drm control pr_debugs, as part of using
+them to avoid drm_debug_enabled overheads.  But its better to just
+implement the drm.debug bitmap interface, then its available for
+everyone.
 
-  cat /sys/module/test_dynamic_debug/parameters/do_prints
-  echo module test_dynamic_debug +mftl > /proc/dynamic_debug/control
-  echo junk > /sys/module/test_dynamic_debug/parameters/do_prints
-
+Fixes: a2d375eda771 ("dyndbg: refine export, rename to dynamic_debug_exec_queries()")
+Fixes: 4c0d77828d4f ("dyndbg: export ddebug_exec_queries")
 Acked-by: Jason Baron <jbaron@akamai.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- MAINTAINERS              |  2 ++
- lib/Kconfig.debug        | 10 ++++++
- lib/Makefile             |  1 +
- lib/test_dynamic_debug.c | 70 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 83 insertions(+)
- create mode 100644 lib/test_dynamic_debug.c
+ include/linux/dynamic_debug.h |  9 ---------
+ lib/dynamic_debug.c           | 29 -----------------------------
+ 2 files changed, 38 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 41762df1be0c..c4465981df31 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7222,6 +7222,8 @@ M:	Jason Baron <jbaron@akamai.com>
- S:	Maintained
- F:	include/linux/dynamic_debug.h
- F:	lib/dynamic_debug.c
-+M:	Jim Cromie <jim.cromie@gmail.com>
-+F:	lib/test_dynamic_debug.c
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index f30b01aa9fa4..8d9eec5f6d8b 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -55,9 +55,6 @@ struct _ddebug {
  
- DYNAMIC INTERRUPT MODERATION
- M:	Tal Gilboa <talgi@nvidia.com>
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 183c37502119..5bf7897d9095 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2587,6 +2587,16 @@ config TEST_STATIC_KEYS
+ #if defined(CONFIG_DYNAMIC_DEBUG_CORE)
  
- 	  If unsure, say N.
+-/* exported for module authors to exercise >control */
+-int dynamic_debug_exec_queries(const char *query, const char *modname);
+-
+ int ddebug_add_module(struct _ddebug *tab, unsigned int n,
+ 				const char *modname);
+ extern int ddebug_remove_module(const char *mod_name);
+@@ -221,12 +218,6 @@ static inline int ddebug_dyndbg_module_param_cb(char *param, char *val,
+ 				rowsize, groupsize, buf, len, ascii);	\
+ 	} while (0)
  
-+config TEST_DYNAMIC_DEBUG
-+	tristate "Test DYNAMIC_DEBUG"
-+	depends on DYNAMIC_DEBUG
-+	help
-+	  This module registers a tracer callback to count enabled
-+	  pr_debugs in a 'do_debugging' function, then alters their
-+	  enablements, calls the function, and compares counts.
-+
-+	  If unsure, say N.
-+
- config TEST_KMOD
- 	tristate "kmod stress tester"
- 	depends on m
-diff --git a/lib/Makefile b/lib/Makefile
-index f0a855eed891..c893114029b8 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -83,6 +83,7 @@ obj-$(CONFIG_TEST_SORT) += test_sort.o
- obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
-+obj-$(CONFIG_TEST_DYNAMIC_DEBUG) += test_dynamic_debug.o
- obj-$(CONFIG_TEST_PRINTF) += test_printf.o
- obj-$(CONFIG_TEST_SCANF) += test_scanf.o
- obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
-diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-new file mode 100644
-index 000000000000..ba3882ca3e48
---- /dev/null
-+++ b/lib/test_dynamic_debug.c
-@@ -0,0 +1,70 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Kernel module for testing dynamic_debug
-+ *
-+ * Authors:
-+ *      Jim Cromie	<jim.cromie@gmail.com>
-+ */
-+
-+#define pr_fmt(fmt) "test_dd: " fmt
-+
-+#include <linux/module.h>
-+
-+static void do_prints(void); /* device under test */
-+
-+/* run tests by reading or writing sysfs node */
-+
-+static int param_set_do_prints(const char *instr, const struct kernel_param *kp)
-+{
-+	do_prints();
-+	return 0;
-+}
-+
-+static int param_get_do_prints(char *buffer, const struct kernel_param *kp)
-+{
-+	do_prints();
-+	return scnprintf(buffer, PAGE_SIZE, "did do_prints\n");
-+}
-+
-+static const struct kernel_param_ops param_ops_do_prints = {
-+	.set = param_set_do_prints,
-+	.get = param_get_do_prints,
-+};
-+
-+module_param_cb(do_prints, &param_ops_do_prints, NULL, 0600);
-+
-+static void do_alpha(void)
-+{
-+	pr_debug("do alpha\n");
-+}
-+static void do_beta(void)
-+{
-+	pr_debug("do beta\n");
-+}
-+
-+static void do_prints(void)
-+{
-+	do_alpha();
-+	do_beta();
-+}
-+
-+static int __init test_dynamic_debug_init(void)
-+{
-+	pr_debug("init start\n");
-+
-+	do_prints();
-+
-+	pr_debug("init done\n");
-+	return 0;
-+}
-+
-+static void __exit test_dynamic_debug_exit(void)
-+{
-+	pr_debug("exiting\n");
-+}
-+
-+module_init(test_dynamic_debug_init);
-+module_exit(test_dynamic_debug_exit);
-+
-+MODULE_AUTHOR("Jim Cromie <jim.cromie@gmail.com>");
-+MODULE_LICENSE("GPL");
+-static inline int dynamic_debug_exec_queries(const char *query, const char *modname)
+-{
+-	pr_warn("kernel not built with CONFIG_DYNAMIC_DEBUG_CORE\n");
+-	return 0;
+-}
+-
+ #endif /* !CONFIG_DYNAMIC_DEBUG_CORE */
+ 
+ #endif
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 5a849716220a..e96dc216463b 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -558,35 +558,6 @@ static int ddebug_exec_queries(char *query, const char *modname)
+ 	return nfound;
+ }
+ 
+-/**
+- * dynamic_debug_exec_queries - select and change dynamic-debug prints
+- * @query: query-string described in admin-guide/dynamic-debug-howto
+- * @modname: string containing module name, usually &module.mod_name
+- *
+- * This uses the >/proc/dynamic_debug/control reader, allowing module
+- * authors to modify their dynamic-debug callsites. The modname is
+- * canonically struct module.mod_name, but can also be null or a
+- * module-wildcard, for example: "drm*".
+- */
+-int dynamic_debug_exec_queries(const char *query, const char *modname)
+-{
+-	int rc;
+-	char *qry; /* writable copy of query */
+-
+-	if (!query) {
+-		pr_err("non-null query/command string expected\n");
+-		return -EINVAL;
+-	}
+-	qry = kstrndup(query, PAGE_SIZE, GFP_KERNEL);
+-	if (!qry)
+-		return -ENOMEM;
+-
+-	rc = ddebug_exec_queries(qry, modname);
+-	kfree(qry);
+-	return rc;
+-}
+-EXPORT_SYMBOL_GPL(dynamic_debug_exec_queries);
+-
+ #define PREFIX_SIZE 64
+ 
+ static int remaining(int wrote)
 -- 
 2.37.2
 
