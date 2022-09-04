@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5035AC7D1
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:50:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 050AD5AC7A7
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:49:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D069410EA41;
-	Sun,  4 Sep 2022 21:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0140B10E3E6;
+	Sun,  4 Sep 2022 21:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87C0D10E274;
- Sun,  4 Sep 2022 21:42:55 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id m16so861619ilg.3;
- Sun, 04 Sep 2022 14:42:55 -0700 (PDT)
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C651E10E279;
+ Sun,  4 Sep 2022 21:42:56 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id a9so3885645ilh.1;
+ Sun, 04 Sep 2022 14:42:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=jSafBWcpIkewykTpB/1313WvVuyh8yQZEmhBKVyM37c=;
- b=kbrF6hjoM+H17g9j3Wc1/6pJQXLvRnZ3Vs2WK1V3kWoZOwTfI3zERDRkFgtpBOrFAe
- aGn093m3smVeCRZc5LHalL7AoxbuS4AQdvZJaVIGnimvkEeM+rU3RRvd61Y/+6IWXHfl
- kzGQAdJFvZEfilUjxUNjkQBoZrnnNuWzDxd3Yt6Ikt65YhKsu8QQofbdJP1Nb7Jw0VW5
- kMVkkJh4rdB9IpjDMcRVjEMDMbxOf5ddpY8akTKF8dSThHmxapKpkB5IEwhZVzCE7tj7
- 3JBKIi1e8jUIyR7UaiNXs4jjXjUOieSwp2MgZNZauf5xpbvtBGKzVaok6AF7eoTkzZnt
- HL9g==
+ bh=58gChvxjBedxDU/dSXgKq8f75Aq/PMP0VWOkECUeGr8=;
+ b=J2tQsdq2kkHf85Z9ASRTiHs9OI3ZDVILIcK9yZOObu9+KlrqqjVNIjRz1rl5rphOwC
+ 2Qfnz0oI/RsX3V70MD8E8G/yZztrNm2ZfOZnCp9690q1IH4JJ+adDmarycETlY/12rhr
+ Db+6+SqEctFD/7m0SrX4AuGqEeuaJOmohsGrTlCLPTPTc/eFNhQn9dKNl96NeOx5rxdC
+ vum//49JpYe1Z4oGVnwyv1uBitMZ8t5aokHuE388ICOZLGyjaZC6ZUwl7qnvJ1ZVUgUl
+ OCs0CimfeNixxoHVLc+cIByGyUxmeix8tj9SCyBEQkzsOFFYl2FMPL60Yd7P36fczO+9
+ Pthw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=jSafBWcpIkewykTpB/1313WvVuyh8yQZEmhBKVyM37c=;
- b=Ux/oBWXjiQp/BI2yIpYb8ZY4JoeRA+6gA3oNygkVgE7z3cr/8RtS6CYmllyluveauK
- ry05MfXQHLvU6z7TpbUq/3MvnrMdkVfyxWgmP1tBvkOH4a10feMjLYd/eYEiuCTpK2Z+
- UzTTL42qR3l8GEVFRAfefnsA0LEWgHjg6UGKuTUl6v/XshMpPngqp1Fu3x1wtJfPDyJ6
- Un+tVq7MGZqD0F3R+CI8hKrqth75PoqKEXyNXQzM+YwY3kDAgL+5AiwDDHtRw57SPLJJ
- nmIRyghRRQic0AnemNnOxQrvfEKjhixmbw65NflGxU/Yeo7AI8Fkqe5eMSmd9beBSEkP
- hnhg==
-X-Gm-Message-State: ACgBeo1zDez6qKe9BIX7IXDnbNstS4LUnO4kDRy5CQpQjdw4eQOR8AQZ
- Fjr/ZkOzwaAayIfn9wgAcGU=
-X-Google-Smtp-Source: AA6agR5AVD3WIg2eP3iWjFE39m5/nR6rpJNEPwSMnDilTle2doeCtgXvqbPXlS48tak7nK63rsd6XQ==
-X-Received: by 2002:a05:6e02:1b86:b0:2f1:76ec:4b91 with SMTP id
- h6-20020a056e021b8600b002f176ec4b91mr848152ili.191.1662327775227; 
- Sun, 04 Sep 2022 14:42:55 -0700 (PDT)
+ bh=58gChvxjBedxDU/dSXgKq8f75Aq/PMP0VWOkECUeGr8=;
+ b=40EF5BeWK2riML1AnsptLdQO1pAJ4GmMCO6f4hyXKhH5A1sfUXMGkN9Zk2v/tlrnED
+ WhACTNdfVmmYswZ5PBpZOineVllPf57uN3yOPIApcP5VSvTh74SqtpLde4vc7c9QdeTv
+ 3I88cCiLbVJkwsXYAqUVzEvfR8JqQUJg9zyShyFUMAAPJ98sdfaShY+OFUAELebydSA9
+ 3sxe2b+7lGKjG80YZvWYDHEQW/kttlCDz9mHC7Wgz4gCEPU5z3gE7oBUcFqCXVHIecc5
+ nU4ZIB+LQPkVVe4K+KtMPFfEybbtFg9y0pbIJcW+g2FF0wLwD0iT91tEc10F57EzRsEp
+ ZEdA==
+X-Gm-Message-State: ACgBeo2DxxsLqoT1UUh4A1gNYDI7M3njNEjEXApkVpkaKH4cMr02TnK/
+ g8wMpsKEYlqXYkzceJuhXEA=
+X-Google-Smtp-Source: AA6agR61bCYoBFhO606MrMj2e5JJ9ontZpH/7gcxtdHyPlYtKYvvYkTqL53A1Ak5xf1hQmk380rWDQ==
+X-Received: by 2002:a05:6e02:16cd:b0:2ea:e75b:f357 with SMTP id
+ 13-20020a056e0216cd00b002eae75bf357mr19038138ilx.110.1662327776105; 
+ Sun, 04 Sep 2022 14:42:56 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.42.54
+ e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.42.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 14:42:54 -0700 (PDT)
+ Sun, 04 Sep 2022 14:42:55 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v6 47/57] dyndbg: demote iter->site in _init
-Date: Sun,  4 Sep 2022 15:41:24 -0600
-Message-Id: <20220904214134.408619-48-jim.cromie@gmail.com>
+Subject: [PATCH v6 48/57] dyndbg: add .gnu.linkonce slot in vmlinux.lds.h KEEPs
+Date: Sun,  4 Sep 2022 15:41:25 -0600
+Message-Id: <20220904214134.408619-49-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220904214134.408619-1-jim.cromie@gmail.com>
 References: <20220904214134.408619-1-jim.cromie@gmail.com>
@@ -78,23 +78,43 @@ Cc: daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk, seanpaul@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
----
- lib/dynamic_debug.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Add linker symbols and KEEPs for .gnu.linkonce.dyndbg and
+.gnu.linkonce.dyndbg_sites sections, placing them in front of their
+respective dyndbg and dyndbg_sites sections.
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 059212df68f9..65b0a1025ddf 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -1547,7 +1547,7 @@ static int __init dynamic_debug_init(void)
- 	}
- 	iter = iter_mod_start = __start___dyndbg;
- 	site = site_mod_start = __start___dyndbg_sites;
--	modname = iter->site->_modname;
-+	modname = site->_modname;
- 	i = mod_sites = mod_ct = site_base = 0;
- 
- 	for (; iter < __stop___dyndbg; iter++, site++, i++, mod_sites++) {
+This placement gives us a known relative offset (ie -1) from the start
+of the vector to the header, letting us use container_of to get it.
+The _index added previously allows determining &descs[0] from any
+desc[N].
+
+The .gnu.linkonce. collapses possible multiple declarations into a
+single allocation, with a single address.
+
+todo: will need similar for modules.lds.h
+
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ include/asm-generic/vmlinux.lds.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index 1e7ee65e8591..20fdea9efd78 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -348,9 +348,13 @@
+ 	__start___dyndbg_classes = .;					\
+ 	KEEP(*(__dyndbg_classes))					\
+ 	__stop___dyndbg_classes = .;					\
++	__dyndbg_header = .;						\
++	KEEP(*(.gnu.linkonce.dyndbg))					\
+ 	__start___dyndbg = .;						\
+ 	KEEP(*(__dyndbg))						\
+ 	__stop___dyndbg = .;						\
++	__dyndbg_site_header = .;					\
++	KEEP(*(.gnu.linkonce.dyndbg_sites))				\
+ 	__start___dyndbg_sites = .;					\
+ 	KEEP(*(__dyndbg_sites))						\
+ 	__stop___dyndbg_sites = .;					\
 -- 
 2.37.2
 
