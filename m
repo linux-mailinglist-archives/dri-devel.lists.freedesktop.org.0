@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BFB5ACA9F
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:30:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC24A5ACA96
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:29:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838AB10E16C;
-	Mon,  5 Sep 2022 06:29:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11F4E10E16B;
+	Mon,  5 Sep 2022 06:28:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbg.qq.com (bg4.exmail.qq.com [43.155.65.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D90D10E0E4
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Sep 2022 15:55:40 +0000 (UTC)
-X-QQ-mid: bizesmtp86t1662306931tqenw327
-Received: from localhost.localdomain ( [182.148.14.80])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Sun, 04 Sep 2022 23:55:29 +0800 (CST)
-X-QQ-SSF: 01000000002000C0C000B00A0000000
-X-QQ-FEAT: cGHDSTRkEGTN3g6tOlY56dy8LcXEPHgjMg9VAeJ5rPJWyK4sTJG5tpbxhSQa9
- DcWyXh8LSrFj2thO/vu58b7YAf6yHy8TlMyFKvs3xLRfDHFWAzPapJd9l7TlADRHdf0pRmu
- W64ktJ0k9d49gzSZyJwSqKT4o05S5DZRH0CYDX/heuy7do30ex6STNrY98bHNges+qrrUOy
- tR8CpAZyKoWY2keR0gbROBICO5VvabQhhoei/BnDpWWDUU0SFdq55RC4R7T04IOrif2EHEv
- 5Y4VddaaWXZyM4vkcgerg/iEI3cLjtzD7sxCMbQ4y+eGtEm4zxLCultX7HKj0aFqx6j99S2
- KDRw1KqlWbhrPaAvVAbN8Hl3f3VALHChMDqgyPrUqmocoveRj+Z0v2kWjqSEw==
-X-QQ-GoodBg: 0
-From: Shaomin Deng <dengshaomin@cdjrlc.com>
-To: thomas@winischhofer.net,
-	deller@gmx.de,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] video: Delete unneeded word in comments
-Date: Sun,  4 Sep 2022 11:55:28 -0400
-Message-Id: <20220904155528.28270-1-dengshaomin@cdjrlc.com>
-X-Mailer: git-send-email 2.35.1
+Received: from m12-13.163.com (m12-13.163.com [220.181.12.13])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DEED010E11F;
+ Sun,  4 Sep 2022 18:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=0Cixm
+ +IIyxb326ssYKv/Au9Yv7Sc+F7nhziOB8Ue01o=; b=opPn+ZhzMSd99l1shlpjA
+ xKjFwDqQuroq9cM9LAUu4Si5L6Jo3oc7IkFafdc6j/lP0VoDgBeIuFzFZ+bn3iHB
+ eSRbVuZy1upto6hd0uD+Cag31oS8+0xI/Dee/hyFrBQVbtuw/nURcaliZ7RB//CN
+ BRFEO8R5tAJ2Zk6//qmjRA=
+Received: from f00160-VMware-Virtual-Platform.localdomain (unknown
+ [1.203.67.201])
+ by smtp9 (Coremail) with SMTP id DcCowADXz7Vm7xRjeH6ieQ--.9485S4;
+ Mon, 05 Sep 2022 02:33:23 +0800 (CST)
+From: Jingyu Wang <jingyuwang_vip@163.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, Felix.Kuehling@amd.com
+Subject: [PATCH] drm/amdgpu: cleanup coding style in amdgpu_sync.c file
+Date: Mon,  5 Sep 2022 02:33:07 +0800
+Message-Id: <20220904183307.14550-1-jingyuwang_vip@163.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
+X-CM-TRANSID: DcCowADXz7Vm7xRjeH6ieQ--.9485S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Jw1kJryDJFyrAFyrCr43GFg_yoW8JF1UpF
+ 1fJr4jgr45ZFWa93srAF1kZF93t3W7XFyxKr17Zw4Fqws8ZF15JF1FyrW0vFyDWrs8CF42
+ yrWqqayrZFnIvF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEsXonUUUUU=
+X-Originating-IP: [1.203.67.201]
+X-CM-SenderInfo: 5mlqw5xxzd0whbyl1qqrwthudrp/xtbCoA5yF1zmWD1eTwABsE
 X-Mailman-Approved-At: Mon, 05 Sep 2022 06:28:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,30 +51,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shaomin Deng <dengshaomin@cdjrlc.com>
+Cc: Jingyu Wang <jingyuwang_vip@163.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Delete the unneeded word "the" in sis_accel.c.
+This is a patch to the amdgpu_sync.c file that fixes some warnings found by the checkpatch.pl tool
 
-Signed-off-by: Shaomin Deng <dengshaomin@cdjrlc.com>
+Signed-off-by: Jingyu Wang <jingyuwang_vip@163.com>
 ---
- drivers/video/fbdev/sis/sis_accel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/sis/sis_accel.c b/drivers/video/fbdev/sis/sis_accel.c
-index 1914ab5a5a91..5850e4325f07 100644
---- a/drivers/video/fbdev/sis/sis_accel.c
-+++ b/drivers/video/fbdev/sis/sis_accel.c
-@@ -202,7 +202,7 @@ SiS310SubsequentScreenToScreenCopy(struct sis_video_info *ivideo, int src_x, int
- 	 * and destination blitting areas overlap and
- 	 * adapt the bitmap addresses synchronously
- 	 * if the coordinates exceed the valid range.
--	 * The the areas do not overlap, we do our
-+	 * The areas do not overlap, we do our
- 	 * normal check.
- 	 */
- 	if((mymax - mymin) < height) {
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+index 504af1b93bfa..090e66a1b284 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: MIT
+ /*
+  * Copyright 2014 Advanced Micro Devices, Inc.
+  * All Rights Reserved.
+@@ -315,6 +316,7 @@ struct dma_fence *amdgpu_sync_get_fence(struct amdgpu_sync *sync)
+ 	struct hlist_node *tmp;
+ 	struct dma_fence *f;
+ 	int i;
++
+ 	hash_for_each_safe(sync->fences, i, tmp, e, node) {
+ 
+ 		f = e->fence;
+@@ -392,7 +394,7 @@ void amdgpu_sync_free(struct amdgpu_sync *sync)
+ {
+ 	struct amdgpu_sync_entry *e;
+ 	struct hlist_node *tmp;
+-	unsigned i;
++	unsigned int i;
+ 
+ 	hash_for_each_safe(sync->fences, i, tmp, e, node) {
+ 		hash_del(&e->node);
+
+base-commit: e47eb90a0a9ae20b82635b9b99a8d0979b757ad8
+prerequisite-patch-id: fefd0009b468430bb223fc92e4abe9710518b1ea
 -- 
-2.35.1
+2.34.1
 
