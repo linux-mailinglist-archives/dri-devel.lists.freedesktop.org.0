@@ -1,70 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADD85AC5F9
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 21:08:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A05B5AC6B6
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:42:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5A810E02F;
-	Sun,  4 Sep 2022 19:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E42510E12D;
+	Sun,  4 Sep 2022 21:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B31C10E02F
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Sep 2022 19:08:22 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id m7so10380321lfq.8
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Sep 2022 12:08:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=YlkqaOEVfnAcJNdhPnwwyOFkWGniyUwZfTkbWM3JHJU=;
- b=QPTVeGwGHyB4PL/sHpYy7p22E6WFaqGiRYwoqgTJz+HosSqH4kTIcJrx+WvKKcTaif
- X5+5jekS2yhUfmoL43nWc7zFasmiZYcm2Tb5Bk5ERZESMdDXCCe2w1LdA2M961efLlu6
- r5cIuXiOMzfYjYLhFa0qv/5d97ItAlmwnPaqRKqix9TxnrCMbjjaGvL19fTgzlTnNZHT
- +3RqmCDdYOtKu8dlDqIyjCC0nIccSoTH3BNtP6uyGfWpQTnsdb6oYNspTDzu5DnOZo65
- JSZ0cqbwxijrCcbMOkLmdbjvWF450RP2MWtnZYXYus8jYTv7ySiOIMOYQPwb+v6+eBW7
- +nXw==
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C912D10E010;
+ Sun,  4 Sep 2022 21:41:59 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id k2so3867452ilu.9;
+ Sun, 04 Sep 2022 14:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=Rk0v3z6nbpdvu88IImrHMGbLoUUPdnPRh/3Godzt1FA=;
+ b=J2j1esbki5TiJj8l6H2Q6c2JHxiCFaB7O6YGdT/pn7Ag+2yqvlGJJweNSqogG5zEb3
+ diZzFKrda46JEN7PyM8gc/0Xahl4bAs5OoUt1yopJui7ZMfGo//PDQeA59ddFWxzg3vz
+ gqvfrHJ06LSDXQQTH322kmGT2t5nLF5iYUtCtLULrNzzZclYuwWFMpEPMJNuuaJz2f5E
+ KlO5OmjsdjFozKTAmalEqVDHQzJH1gBZ4o6kAqUA0n3MRbhARGj+Pg2J3y5bONpqxZMN
+ 9gxyQ4asUPXvVEsUeYypcYKMsqMw/Nl60eI1KOPpWsEPBmGHn30hJUDfnigMHVwuBZIX
+ 6LBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=YlkqaOEVfnAcJNdhPnwwyOFkWGniyUwZfTkbWM3JHJU=;
- b=eBbALL6s5FN5lS5+4/t2x44sEYo5/5LavfRZXA9zSpUQt/6H2+JqofDaFU8MsY2NiR
- GMXapFKDzShdA+kWo+MRmdozBX2M76FQ/1fRVIMU1aT9WYQ0nDyKpEV+NWATwI2f/8kO
- aVeaSz7ah3fqv+8o8+TitBCv96qBu329fMTSPRkHsFy92VsrjmX288wMmYgsokjs3S5r
- VTak0qlSbmvs0QE80VMDliT9ABLFk7TiNWKzFIJL32QAUGjTN8lfhWNcMq+AW7SWJfOc
- KDOc0d6oeMCZX5ReudkT0JqaXng0ochnCnciwCn8Z24ovIK6NNp7p9FvqRIn6cCGvKiT
- rROg==
-X-Gm-Message-State: ACgBeo1aoV5ZVWXrT/wb9ZkH68OifzXs4pCRhh/wAeQkW9CEg7mBeg1Z
- D62IocyTJFK5IOX3pU47hIFNRw==
-X-Google-Smtp-Source: AA6agR7p5IsnW2ri1U1OVp+ptkLLArOLKqo0mv2HoCsVhvLQZUTZmSmhIRi0jPVkHoGttS5sY9kypQ==
-X-Received: by 2002:ac2:4e15:0:b0:48b:7a5f:923c with SMTP id
- e21-20020ac24e15000000b0048b7a5f923cmr16415296lfr.134.1662318500695; 
- Sun, 04 Sep 2022 12:08:20 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- a24-20020ac25218000000b0048a7ef09b22sm985464lfl.274.2022.09.04.12.08.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Sep 2022 12:08:20 -0700 (PDT)
-Message-ID: <167a7200-264f-3214-d4b1-e1daaafb6985@linaro.org>
-Date: Sun, 4 Sep 2022 22:08:18 +0300
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=Rk0v3z6nbpdvu88IImrHMGbLoUUPdnPRh/3Godzt1FA=;
+ b=LRf12Rx0wnojkkQPoOTGpOgpZeqpTdlovBLIzbba7+ETDQGi0akLp4rY3f44hax0xi
+ JRP4Qr9Q6FRFgw9YBMy7cdAFsvBal4kPv4YpIXiBNHfKAqBloNF6iEXur15wYVLM1zj3
+ E88MA2Bf5qNOPq0GdZiQx8EtYKmwAJWRHQgziu5NyCcghZGSwbklGidIfvKGMZAzeo/F
+ HU4jOp0BdWjaCE5B5D+1b5a9h2LGwbUIdcsq9sSb2ykNOX19kff0E+O/zj+HHeMevMST
+ 91Elct/tJowb0i5H4FySgRLK0/LKHVrvNp+yoN7pm8dq2O/p/bL7gqPH1LOWa1LsbWJf
+ Y4tA==
+X-Gm-Message-State: ACgBeo2QniuxEuw1T3TtILtKhYgRN5dA35pr61havREbwdDXaanobYpT
+ pkg2N/rybc86hpBiguFTDEU=
+X-Google-Smtp-Source: AA6agR7CD92JSdC+7MhP3s0TXTkBFP2IYi9ja006MgU6Xo9IdJnxicAEFaNporcaAvAi1/sbjpYAow==
+X-Received: by 2002:a05:6e02:543:b0:2eb:5d3c:dde6 with SMTP id
+ i3-20020a056e02054300b002eb5d3cdde6mr12602343ils.84.1662327719085; 
+ Sun, 04 Sep 2022 14:41:59 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+ by smtp.googlemail.com with ESMTPSA id
+ e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.41.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Sep 2022 14:41:58 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: jbaron@akamai.com, gregkh@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v6 00/57] DYNDBG: opt-in class'd debug for modules, use in drm.
+Date: Sun,  4 Sep 2022 15:40:37 -0600
+Message-Id: <20220904214134.408619-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 2/4] dt-bindings: display: Add ClockworkPi CWD686 panel
-Content-Language: en-US
-To: Max Fierke <max@maxfierke.com>, thierry.reding@gmail.com,
- sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org
-References: <20220903183753.25736-1-max@maxfierke.com>
- <20220903183753.25736-3-max@maxfierke.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220903183753.25736-3-max@maxfierke.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,70 +70,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk, seanpaul@chromium.org,
+ joe@perches.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/09/2022 21:37, Max Fierke wrote:
-> The CWD686 is a 6.86" IPS LCD panel used as the primary
-> display in the ClockworkPi DevTerm portable (all cores)
-> 
-> Signed-off-by: Max Fierke <max@maxfierke.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> Changes in v2 (Krzysztof Kozlowski and Rob Herring's Suggestions)
->  - remove redundant backlight example
->  - add missing regulators
-> 
->  .../display/panel/clockworkpi,cwd686.yaml     | 63 +++++++++++++++++++
->  1 file changed, 63 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/clockworkpi,cwd686.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/clockworkpi,cwd686.yaml b/Documentation/devicetree/bindings/display/panel/clockworkpi,cwd686.yaml
-> new file mode 100644
-> index 000000000000..eaf55d629266
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/clockworkpi,cwd686.yaml
-> @@ -0,0 +1,63 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/clockworkpi,cwd686.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ClockworkPi CWD686 6.86" IPS LCD panel
-> +
-> +maintainers:
-> +  - Max Fierke <max@maxfierke.com>
-> +
-> +description: |
-> +  The ClockworkPi CWD686 is a 6.86" ICNL9707-based IPS LCD panel used within the
-> +  ClockworkPi DevTerm series of portable devices. The panel has a 480x1280
-> +  resolution and uses 24 bit RGB per pixel.
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: clockworkpi,cwd686
-> +
-> +  reg:
-> +    description: DSI virtual channel used by that screen
-> +    maxItems: 1
+hi Greg, Jason, DRM-folk, Steven,
 
-You still need blank line here.
+If Im not too late for linux-next in this cycle, heres V6.  Diffs are minor:
 
-> +  iovcc-supply:
-> +    description: regulator that supplies the iovcc voltage
+ - rebased onto e47eb90a0a9a (tag: next-20220901, linux-next/master)
+   gets past Kconfig conflict, same for drm-tip.
+ - uint debug_level, not ulong.  to fit nouveau.
+ - -1 on param-read-back, to match prev write val.
+ - added back tracefs parts, missing from -V5
+   updated for tracing/events: Add __vstring() and __assign_vstr() helper macros
+   no decorations-lite in TP_printk, do it right later.
+ - commit-msg tweaks
 
-And here...
+Theres also new RFC stuff with the potential to reduce the size of the
+__dyndbgs section by 20%.  Not ready for prime time, or linux-next,
+but I hope compelling.
 
-> +  vci-supply:
-> +    description: regulator that supplies the vci voltage
-> +
+FEATURE DESCRIPTION
+
+dyndbg provides DECLARE_DYNAMIC_DEBUG_CLASSMAP() which allows module
+authors to declare "good" class-names, of 4 types.
+
+  DYNAMIC_DEBUG_CLASSMAP(drm_debug_classes,
+  			DD_CLASS_TYPE_DISJOINT_BITS, offset,
+                        "DRM_UT_CORE",
+                        "DRM_UT_DRIVER",
+                        "DRM_UT_KMS",
+                        "DRM_UT_PRIME",
+                        "DRM_UT_ATOMIC",
+                        "DRM_UT_VBL",
+                        "DRM_UT_STATE",
+                        "DRM_UT_LEASE",
+                        "DRM_UT_DP",
+                        "DRM_UT_DRMRES");
+
+That usage authorizes dyndbg to set class'd pr_debugs accordingly:
+
+  echo class DRM_UT_CORE +p > /proc/dynamic_debug/control
+  echo class DRM_UT_KMS  +p > /proc/dynamic_debug/control
+
+Because the DRM modules declare the same classes, they each authorize
+dyndbg with the same classnames, which allows dyndbg to effect changes
+to its selected class'd prdbgs.
+
+Opting in by using the macro effectively privatizes the limited
+63-classes available per module; only modules which share classnames
+must coordinate their use of the common range, and they can
+independently use the remaining id-space.
+
+Other dyndbg filtering pertains too, so single sites can be selected.
 
 
-Best regards,
-Krzysztof
+4 DD_CLASS_TYPE_*_*s determine 2 behaviors:
+
+  DISJOINT	bits are independent, like drm.debug categories
+  LEVELs	3>2, turns on level-2, like nouveau debug-levels
+  NUM/BITS	numeric input, bitmap if disjoint, else 0-32.
+  NAMES		accept proper names, like DRM_UT_CORE
+
+Dyndbg provides param-callbacks which enforce those behaviors:
+
+  # DISJOINT_BITS
+  echo 0x03 > /sys/module/drm/parameters/debug
+
+  # LEVEL_NUM
+  echo 3 > /sys/module/drm/nouveau/debug-mumble*
+
+  # DISJOINT_NAMES
+  echo +DRM_UT_CORE,+DRM_UT_KMS,-DRM_UT_DRIVER > /sys/module/drm/parameters/debug_categories
+
+  # LEVEL_NAMES
+  echo NV_TRACE > /sys/module/nouveau/parameters/debug-mumble*
+
+That design choice is allowed cuz verbosity is always attached to a
+(user visible) interface, and theres no reason not to put the
+implementation there (in the callback).  It also considerably
+simplifies things; ddebug_change can treat class_id's as disjoint,
+period.
+
+
+Jim Cromie (57):
+prep:
+  dyndbg: fix static_branch manipulation
+  dyndbg: fix module.dyndbg handling
+  dyndbg: show both old and new in change-info
+  dyndbg: reverse module walk in cat control
+  dyndbg: reverse module.callsite walk in cat control
+  dyndbg: use ESCAPE_SPACE for cat control
+  dyndbg: let query-modname override actual module name
+  dyndbg: add test_dynamic_debug module
+  dyndbg: drop EXPORTed dynamic_debug_exec_queries
+  dyndbg: cleanup auto vars in dynamic_debug_init
+  dyndbg: gather __dyndbg[] state into struct _ddebug_info
+
+class feature:
+  dyndbg: add class_id to pr_debug callsites
+  dyndbg: add __pr_debug_cls for testing
+  dyndbg: add DECLARE_DYNDBG_CLASSMAP macro
+  kernel/module: add __dyndbg_classes section
+  dyndbg: add ddebug_attach_module_classes
+  dyndbg: validate class FOO by checking with module
+  doc-dyndbg: describe "class CLASS_NAME" query support
+  doc-dyndbg: edit dynamic-debug-howto for brevity, audience
+  dyndbg: add drm.debug style (drm/parameters/debug) bitmap support
+  dyndbg: test DECLARE_DYNDBG_CLASSMAP, sysfs nodes
+
+drm-use-case:
+  drm_print: condense enum drm_debug_category
+  drm: POC drm on dyndbg - use in core, 2 helpers, 3 drivers.
+  drm_print: interpose drm_*dbg with forwarding macros
+  drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro
+  drm-print.h: include dyndbg header
+  drm-print: add drm_dbg_driver to improve namespace symmetry
+  drm_print: refine drm_debug_enabled for jump-label
+  drm_print: prefer bare printk KERN_DEBUG on generic fn
+  drm_print: add _ddebug descriptor to drm_*dbg prototypes
+  nouveau: change nvkm_debug/trace to use dev_dbg POC
+  nouveau: adapt NV_DEBUG, NV_ATOMIC to use DRM.debug
+  nouveau: WIP add 2 LEVEL_NUM classmaps for CLI, SUBDEV
+
+dyndbg-tracefs:
+  dyndbg: add _DPRINTK_FLAGS_ENABLED
+  dyndbg: add _DPRINTK_FLAGS_TRACE
+  dyndbg: add write-events-to-tracefs code
+  dyndbg: add 2 trace-events: drm_debug, drm_devdbg
+  dyndbg: add 2 more trace-events: pr_debug, dev_dbg
+  dyndbg/drm: POC add tracebits sysfs-knob
+
+RFC-20%-data-reclaim:
+  dyndbg: abstraction macros for modname,function,filename fields
+  dyndbg: split repeating columns to new struct _ddebug_site
+  dyndbg: shrink lineno field by 2 bits
+  dyndbg: add _index,_map to struct _ddebug
+  dyndbg: extend __ddebug_add_module proto to allow packing sites
+  dyndbg: de-duplicate sites
+  dyndbg: drop site-> in add-module, more needed
+  dyndbg: demote iter->site in _init
+  dyndbg: add .gnu.linkonce slot in vmlinux.lds.h KEEPs
+  dyndbg: add structs _ddebug_hdr, _ddebug_site_hdr
+  dyndbg: count unique callsites
+  dyndbg: prevent build bugs via -DNO_DYNAMIC_DEBUG_TABLE
+  dyndbg: add DEFINE_DYNAMIC_DEBUG_TABLE, use it tacitly RFC
+  dyndbg: add/use is_dyndbg_header then set _uplink
+  dyndbg: add .gnu.linkonce. & __dyndbg* sections in module.lds.h
+  dyndbg: dynamic_debug_sites_reclaim() using free_reserved_page() WAG
+  dyndbg: work ddebug_map_site
+  dyndbg: fiddle with readback value on LEVEL_NAMES types
+
+ .../admin-guide/dynamic-debug-howto.rst       | 249 +++---
+ MAINTAINERS                                   |   2 +
+ arch/arm/boot/compressed/Makefile             |   2 +
+ arch/sparc/vdso/Makefile                      |   2 +
+ arch/x86/boot/compressed/Makefile             |   1 +
+ arch/x86/entry/vdso/Makefile                  |   3 +
+ arch/x86/purgatory/Makefile                   |   1 +
+ drivers/firmware/efi/libstub/Makefile         |   3 +-
+ drivers/gpu/drm/Kconfig                       |  12 +
+ drivers/gpu/drm/Makefile                      |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  14 +
+ drivers/gpu/drm/display/drm_dp_helper.c       |  13 +
+ drivers/gpu/drm/drm_crtc_helper.c             |  13 +
+ drivers/gpu/drm/drm_print.c                   |  83 +-
+ drivers/gpu/drm/i915/i915_params.c            |  12 +
+ .../gpu/drm/nouveau/include/nvkm/core/debug.h |  16 +
+ .../drm/nouveau/include/nvkm/core/subdev.h    |  17 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  20 +
+ drivers/gpu/drm/nouveau/nouveau_drv.h         |  16 +-
+ drivers/gpu/drm/nouveau/nvkm/core/subdev.c    |  23 +
+ include/asm-generic/module.lds.h              |  12 +-
+ include/asm-generic/vmlinux.lds.h             |  10 +
+ include/drm/drm_print.h                       |  85 +-
+ include/linux/dynamic_debug.h                 | 286 ++++++-
+ include/trace/events/drm.h                    |  54 ++
+ include/trace/events/dyndbg.h                 |  73 ++
+ kernel/module/internal.h                      |   4 +-
+ kernel/module/main.c                          |  22 +-
+ lib/Kconfig.debug                             |  10 +
+ lib/Makefile                                  |   1 +
+ lib/dynamic_debug.c                           | 792 +++++++++++++++---
+ lib/test_dynamic_debug.c                      | 165 ++++
+ 32 files changed, 1680 insertions(+), 338 deletions(-)
+ create mode 100644 include/trace/events/drm.h
+ create mode 100644 include/trace/events/dyndbg.h
+ create mode 100644 lib/test_dynamic_debug.c
+
+-- 
+2.37.2
+
