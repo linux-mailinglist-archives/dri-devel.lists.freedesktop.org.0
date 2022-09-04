@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4845AC140
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Sep 2022 21:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EADF15AC249
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 06:21:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C779E10E060;
-	Sat,  3 Sep 2022 19:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB8B10E6B5;
+	Sun,  4 Sep 2022 04:20:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1EE10E060;
- Sat,  3 Sep 2022 19:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662234669; x=1693770669;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=3NPntIDVBvHXGIzNn2Egr3SFUyvwpkrt48LyCws0pmg=;
- b=ZddUeGP/KjZPOFmWKUwBrFbBn62bGyRUMBSm3igNYhlpK/iW/JpTxvwq
- 7XeoyxOeJ4HnzzJyWi/hzZVnpn7mC+lhJWeWbQp+e9YB6OG+Xm7Qr2ut9
- rhMmEZDYLArrhREBdFO6IKB7bokLlVIR6vgr67yzqlxrEXeJFvZSIskak
- fXmgH2yt0fobEuqrINSOBsq323jw0aZ9BjS+fbaWPGhEm24j0SSfUOxd3
- uS0p8dTYODp1FzkrJmD3vRqqNDT7pYZbcGLDV8Yaeevc6oxpOUvdAD1aO
- zatAnzYby32zhq8DOM6FZQQUIDXWCghoYzIL2eusbuNV0V48sdypgVgWJ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10459"; a="357897766"
-X-IronPort-AV: E=Sophos;i="5.93,287,1654585200"; d="scan'208";a="357897766"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2022 12:51:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,287,1654585200"; d="scan'208";a="739193302"
-Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 03 Sep 2022 12:51:03 -0700
-Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oUZAU-00026P-1a;
- Sat, 03 Sep 2022 19:51:02 +0000
-Date: Sun, 4 Sep 2022 03:50:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Daniel Latypov <dlatypov@google.com>, David Gow <davidgow@google.com>
-Subject: Re: [PATCH v2 6/8] drm/amd/display: Introduce KUnit tests for
- dcn20_fpu
-Message-ID: <202209040310.aa1jd14e-lkp@intel.com>
-References: <20220831172239.344446-7-mairacanal@riseup.net>
+X-Greylist: delayed 455 seconds by postgrey-1.36 at gabe;
+ Sun, 04 Sep 2022 04:20:46 UTC
+Received: from mail.gtsys.com.hk
+ (tunnel316222-pt.tunnel.tserv25.sin1.ipv6.he.net [IPv6:2001:470:35:5f1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED40010E6B5
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Sep 2022 04:20:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.gtsys.com.hk (Postfix) with ESMTP id 1426F229A2E6
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Sep 2022 12:13:10 +0800 (HKT)
+X-Virus-Scanned: Debian amavisd-new at gtsys.com.hk
+Received: from mail.gtsys.com.hk ([127.0.0.1])
+ by localhost (mail.gtsys.com.hk [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id uXsjHVnnxVjy for <dri-devel@lists.freedesktop.org>;
+ Sun,  4 Sep 2022 12:13:09 +0800 (HKT)
+Received: from s01.gtsys.com.hk (unknown [10.128.4.2])
+ by mail.gtsys.com.hk (Postfix) with ESMTP id DC1B0229A2E4
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Sep 2022 12:13:09 +0800 (HKT)
+Received: from [10.128.1.32] (unknown [182.239.117.154])
+ by s01.gtsys.com.hk (Postfix) with ESMTPSA id A9BC1C019F2
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Sep 2022 12:13:09 +0800 (HKT)
+Content-Type: multipart/alternative;
+ boundary="------------AkzzFM5pu9INZbCT9o9b8VGe"
+Message-ID: <254478a0-4077-00fb-7923-2d8d45f1c59a@gtsys.com.hk>
+Date: Sun, 4 Sep 2022 12:13:08 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220831172239.344446-7-mairacanal@riseup.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+From: Chris Ruehl <chris.ruehl@gtsys.com.hk>
+Subject: mesa-22.3.0-devel + linux-5.19.6 + mediapipe: panfrost js fault
+To: dri-devel@lists.freedesktop.org
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,78 +52,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, magalilemes00@gmail.com, tales.aparecida@gmail.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- dri-devel@lists.freedesktop.org, Isabella Basso <isabbasso@riseup.net>,
- andrealmeid@riseup.net, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi "Ma�ra,
+This is a multi-part message in MIME format.
+--------------AkzzFM5pu9INZbCT9o9b8VGe
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you for the patch! Perhaps something to improve:
+Hi,
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-intel/for-linux-next drm-tip/drm-tip linus/master v6.0-rc3 next-20220901]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Something you might have a head up for it,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-amd-display-Introduce-KUnit-to-Display-Mode-Library/20220901-012715
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220904/202209040310.aa1jd14e-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/6b01e906d58654fb9c209fa848883658d203b073
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ma-ra-Canal/drm-amd-display-Introduce-KUnit-to-Display-Mode-Library/20220901-012715
-        git checkout 6b01e906d58654fb9c209fa848883658d203b073
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+have a mediapipe application for POSE which use the T860 GPU for the calculation
+but the kernel driver report error (js fault) - I see one or 2 calculation 
+frames on the mat-picture output only before
+the pipe stop working.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Linux bullseye64 5.19.6 #1 SMP PREEMPT Fri Sep 2 02:25:59 UTC 2022 aarch64 GNU/Linux
 
-All warnings (new ones prefixed by >>):
+[    5.164415] panfrost ff9a0000.gpu: clock rate = 500000000
+[    5.169845] panfrost ff9a0000.gpu: [drm:panfrost_devfreq_init [panfrost]] 
+Failed to register cooling device
+[    5.169989] panfrost ff9a0000.gpu: mali-t860 id 0x860 major 0x2 minor 0x0 
+status 0x0
+[    5.169999] panfrost ff9a0000.gpu: features: 00000000,00000407, issues: 
+00000000,24040400
+[    5.170008] panfrost ff9a0000.gpu: Features: L2:0x07120206 Shader:0x00000000 
+Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
+[    5.170017] panfrost ff9a0000.gpu: shader_present=0xf l2_present=0x1
+[    5.206827] [drm] Initialized panfrost 1.2.0 20180908 for ff9a0000.gpu on minor 1
+...
+[  162.862064] panfrost ff9a0000.gpu: js fault, js=1, status=DATA_INVALID_FAULT, 
+head=0xaba7100, tail=0xaba7100
+[  162.862269] panfrost ff9a0000.gpu: js fault, js=1, status=DATA_INVALID_FAULT, 
+head=0xa1e0100, tail=0xa1e0100
 
->> drivers/gpu/drm/amd/amdgpu/../display/tests/dc/dml/dcn20/dcn20_fpu_test.c:455:5: warning: no previous prototype for 'dcn20_fpu_dcn21_update_bw_bounding_box_test_init' [-Wmissing-prototypes]
-     455 | int dcn20_fpu_dcn21_update_bw_bounding_box_test_init(struct kunit *test)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/resource.h:28,
-                    from drivers/gpu/drm/amd/amdgpu/../display/tests/dc/dml/dcn20/dcn20_fpu_test.c:10:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:137:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
-     137 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
-         |                      ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:134:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
-     134 | static const u8 DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:132:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
-     132 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5, 0};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:131:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
-     131 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3, 0};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+Have a RK3399 customized board and compiled the mesa drivers for it
 
+meson $1 . build/ \
+-D dri-drivers= \
+-D vulkan-drivers= \
+-D gallium-drivers=panfrost,kmsro \
+-D llvm=disabled \
+-D libunwind=false \
+-D platforms=x11,wayland
 
-vim +/dcn20_fpu_dcn21_update_bw_bounding_box_test_init +455 drivers/gpu/drm/amd/amdgpu/../display/tests/dc/dml/dcn20/dcn20_fpu_test.c
+glmark2 runs flawless scores 588.
 
-   450	
-   451	/**
-   452	 * dcn20_fpu_dcn21_update_bw_bounding_box_test_init - Store backup copies of DCN global structures
-   453	 * @test: represents a running instance of a test.
-   454	 */
- > 455	int dcn20_fpu_dcn21_update_bw_bounding_box_test_init(struct kunit *test)
-   456	{
-   457		memcpy(&original_dcn2_1_soc, &dcn2_1_soc, sizeof(struct _vcs_dpi_soc_bounding_box_st));
-   458		memcpy(&original_dcn2_1_ip, &dcn2_1_ip, sizeof(struct _vcs_dpi_ip_params_st));
-   459	
-   460		return 0;
-   461	}
-   462	
+Same code run on a x86_64 with an AMD GPU working fine.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Anything help fix the bug is welcome.
+
+Thanks
+Chris
+--------------AkzzFM5pu9INZbCT9o9b8VGe
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#f1f4f7">
+    Hi,<br>
+    <br>
+    Something you might have a head up for it,<br>
+    <br>
+    have a mediapipe application for POSE which use the T860 GPU for the
+    calculation<br>
+    but the kernel driver report error (js fault) - I see one or 2
+    calculation frames on the mat-picture output only before<br>
+    the pipe stop working.<br>
+    <br>
+    Linux bullseye64 5.19.6 #1 SMP PREEMPT Fri Sep 2 02:25:59 UTC 2022
+    aarch64 GNU/Linux<br>
+    <br>
+    [    5.164415] panfrost ff9a0000.gpu: clock rate = 500000000<br>
+    [    5.169845] panfrost ff9a0000.gpu: [drm:panfrost_devfreq_init
+    [panfrost]] Failed to register cooling device<br>
+    [    5.169989] panfrost ff9a0000.gpu: mali-t860 id 0x860 major 0x2
+    minor 0x0 status 0x0<br>
+    [    5.169999] panfrost ff9a0000.gpu: features: 00000000,00000407,
+    issues: 00000000,24040400<br>
+    [    5.170008] panfrost ff9a0000.gpu: Features: L2:0x07120206
+    Shader:0x00000000 Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff
+    JS:0x7<br>
+    [    5.170017] panfrost ff9a0000.gpu: shader_present=0xf
+    l2_present=0x1<br>
+    [    5.206827] [drm] Initialized panfrost 1.2.0 20180908 for
+    ff9a0000.gpu on minor 1<br>
+    ...<br>
+    [  162.862064] panfrost ff9a0000.gpu: js fault, js=1,
+    status=DATA_INVALID_FAULT, head=0xaba7100, tail=0xaba7100<br>
+    [  162.862269] panfrost ff9a0000.gpu: js fault, js=1,
+    status=DATA_INVALID_FAULT, head=0xa1e0100, tail=0xa1e0100<br>
+    <br>
+    Have a RK3399 customized board and compiled the mesa drivers for it<br>
+    <br>
+    meson $1 . build/ \<br>
+    -D dri-drivers= \<br>
+    -D vulkan-drivers= \<br>
+    -D gallium-drivers=panfrost,kmsro \<br>
+    -D llvm=disabled \<br>
+    -D libunwind=false \<br>
+    -D platforms=x11,wayland<br>
+    <br>
+    glmark2 runs flawless scores 588.<br>
+    <br>
+    Same code run on a x86_64 with an AMD GPU working fine. <br>
+    <br>
+    Anything help fix the bug is welcome.<br>
+    <br>
+    Thanks<br>
+    Chris<br>
+  </body>
+</html>
+
+--------------AkzzFM5pu9INZbCT9o9b8VGe--
