@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD9D5AC730
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2015AC738
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:46:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A97210E29A;
-	Sun,  4 Sep 2022 21:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13EB710E27A;
+	Sun,  4 Sep 2022 21:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE55610E133;
- Sun,  4 Sep 2022 21:42:28 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id e195so5690551iof.1;
- Sun, 04 Sep 2022 14:42:28 -0700 (PDT)
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D46F110E163;
+ Sun,  4 Sep 2022 21:42:29 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id s11so3868108ilt.7;
+ Sun, 04 Sep 2022 14:42:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=CX6qv1cFIAak2H7Dm87W0kPuSMznCRZBjCF+tQ4X600=;
- b=Q3cfmH2LyzD2M1ZLD1pNAYsFedbjIhzATxm909rJnzqncgvkGEna14g3zmelu6oNst
- yGRhbYN/jRA+ojsvvywLPGWaCcX47VMRUnKRP92jnlsGfo1gGsS/0pX+v8XIDy5+K1wv
- hcfhFf3zOBj2FBQR39ZiBbHIk3gixOCnKUR2CMrawaeq1wqnvitFf/VGPNqkBkPIpnls
- 56wnzrcfUPLjZXmU8QQUnd4C5IE+42uE+JPwWFrONI+gkyiM0SOy/zS4gmQQTKnJrSEh
- AmFmI41xFzMh/EU0bL2Kwgx3PqC/fsLN3iAS+RAov2KWCcsxbl/Ax9pu0IhieIAi3uwK
- Zk8g==
+ bh=ER34tpiRxpxrqbyeNfK9kTxedh1cey5Wd7+bTMMeAt0=;
+ b=gUiSZYP/k1pFS83DqE+EmB82be55p+NVZac494a9x4xvG65y6FIZ6bn2Dug8vAHY9q
+ qzJdTJ0xaj0Tydn2YUrikCBWFQcFjSz5g9K7vIAtbjGAnIZi4K/jJs2sHNZBJ+baoA8l
+ URtbxytNiVq1d9Gu6B/r7QOd6vTqF0GZqhWye1MbM7fFBWlQFQAJXor/wBXat4Nk7Et/
+ pEIU7EQnt5M5neYGmrgk6SH/GT1IUmqsTEaBMUPKKfJBHtQW3Zxu7sdHRGllR577eVYj
+ MSfDzcicu+qbF1uZp/QhiDLJS0y/yQR5YspuuKz5kZ2xpPb3n6kFqaSM4iSEEbLHVncg
+ ltBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=CX6qv1cFIAak2H7Dm87W0kPuSMznCRZBjCF+tQ4X600=;
- b=Otxeed0nn20MyKkmhAu5eOaYiPqKDYDsKNLS7B3IDgTY7U17oKqKJwBSY8YIP8Qu1v
- +DD4+qIqkkl4gI1964Dp59rWFLCQnXBz8epZq72jpvwrvKGReTBBwsrNySuGohmn2YAS
- 5V5n9SBJJ5ZJUMYrgquw7+75iA0Ou04GtMZJQLBOavBOzrSkJ2d+L4framURc2PEN0SA
- SL1YhKQJnFkWB88lpV+xsdhnIa2tdnHh7tskXj1hhcpDNuN5S7ketd7lj08F/zPNw4hL
- kGt0HPQnp8zRSWbww5jYYfZePrSuxwOFm4Ceg4883aZDS/CBSI9bSWHpcSL90UCp0TJL
- eG9Q==
-X-Gm-Message-State: ACgBeo0/0tino0LTnv8syzGYAWiXXAAT7BbfIe4d7NKLoX6ahy43CnzK
- xtSEdf0K+MXdmnLV+bTPXAw=
-X-Google-Smtp-Source: AA6agR6FDmbgVlOi+VH2xD/wJEH/An47KuIR8rJmhUndQnxcZqdaaNF4vm3Z/VHoIzRdq/aFbHaolw==
-X-Received: by 2002:a02:cb57:0:b0:34c:b847:d5fb with SMTP id
- k23-20020a02cb57000000b0034cb847d5fbmr9181329jap.32.1662327748378; 
- Sun, 04 Sep 2022 14:42:28 -0700 (PDT)
+ bh=ER34tpiRxpxrqbyeNfK9kTxedh1cey5Wd7+bTMMeAt0=;
+ b=Ms/hYuY3s3IdUKrfA5eCvB1j6J2LzRsgu/rS9Jta2V81XDKBFJRungciE6007ckQEz
+ 52pSIsBwnH0F/KgpTA08hfY2Jy/k45ulHF/oguvXRXlArNNynbto+9ke4mXIiU1PFNqX
+ yDfPzQOU/5mrDz0hlBlub4CVN9bP+wzYKxsvweumA0svRCww2XSFm/vEozboXRfekNCp
+ sWeywDtR3tarXFRqmql+e/eZils8dEo8ZcVbS4mu4U6jtwgeLaL4eP3IIcfwi2FVEtG3
+ 83W0L3P3GpAOe63d92tAFZ6VT8UTvV5zXC0Lr58XSfzTtpMC0gGhjNEvvTrx6a7kt0X4
+ TBLA==
+X-Gm-Message-State: ACgBeo1iXc0A/p6TcE8f/M5azp6h0zSGykQHOFkJjwPBu5NQ4Yrgqcw/
+ Z/ZtYdny5Ll1LXmiuzlXLkA=
+X-Google-Smtp-Source: AA6agR58q6IyXd9WZ12hKcbIiqtMN6VqpqX1EWImJSjgdussO16aRw1Y1NKPghl79c/vNyaNEGfwGw==
+X-Received: by 2002:a92:2c0e:0:b0:2ea:c3b8:433c with SMTP id
+ t14-20020a922c0e000000b002eac3b8433cmr19399396ile.107.1662327749404; 
+ Sun, 04 Sep 2022 14:42:29 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.42.27
+ e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.42.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 14:42:27 -0700 (PDT)
+ Sun, 04 Sep 2022 14:42:29 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v6 19/57] doc-dyndbg: edit dynamic-debug-howto for brevity,
- audience
-Date: Sun,  4 Sep 2022 15:40:56 -0600
-Message-Id: <20220904214134.408619-20-jim.cromie@gmail.com>
+Subject: [PATCH v6 20/57] dyndbg: add drm.debug style (drm/parameters/debug)
+ bitmap support
+Date: Sun,  4 Sep 2022 15:40:57 -0600
+Message-Id: <20220904214134.408619-21-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220904214134.408619-1-jim.cromie@gmail.com>
 References: <20220904214134.408619-1-jim.cromie@gmail.com>
@@ -74,381 +74,446 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk,
- seanpaul@chromium.org, joe@perches.com
+Cc: daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk, seanpaul@chromium.org,
+ joe@perches.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rework/modernize docs:
+Add kernel_param_ops and callbacks to use a class-map to validate and
+apply input to a sysfs-node, which allows users to control classes
+defined in that class-map.  This supports uses like:
 
- - use /proc/dynamic_debug/control in examples
-   its *always* there (when dyndbg is config'd), even when <debugfs> is not.
-   drop <debugfs> talk, its a distraction here.
+  echo 0x3 > /sys/module/drm/parameters/debug
 
- - alias ddcmd='echo $* > /proc/dynamic_debug/control
-   focus on args: declutter, hide boilerplate, make pwd independent.
+IE add these:
 
- - swap sections: Viewing before Controlling. control file as Catalog.
+ - int param_set_dyndbg_classes()
+ - int param_get_dyndbg_classes()
+ - struct kernel_param_ops param_ops_dyndbg_classes
 
- - focus on use by a system administrator
-   add an alias to make examples more readable
-   drop grep-101 lessons, admins know this.
+Following the model of kernel/params.c STANDARD_PARAM_DEFS, these are
+non-static and exported.  This might be unnecessary here.
 
- - use init/main.c as 1st example, thread it thru doc where useful.
-   everybodys kernel boots, runs these.
+get/set use an augmented kernel_param; the arg refs a new struct
+ddebug_class_param, which contains:
 
- - add *prdbg* api section
-   to the bottom of the file, its for developers more than admins.
-   move list of api functions there.
+- A ptr to user's state-store; a union of &ulong for drm.debug, &int
+  for nouveau level debug.  By ref'g the client's bit-state _var, code
+  coordinates with existing code (like drm_debug_enabled) which uses
+  it, so existing/remaining calls can work unchanged.  Changing
+  drm.debug to a ulong allows use of BIT() etc.
 
- - simplify - drop extra words, phrases, sentences.
+- FLAGS: dyndbg.flags toggled by changes to bitmap. Usually just "p".
 
- - add "decorator" flags line to unify "prefix", trim fmlt descriptions
+- MAP: a pointer to struct ddebug_classes_map, which maps those
+  class-names to .class_ids 0..N that the module is using.  This
+  class-map is declared & initialized by DECLARE_DYNDBG_CLASSMAP.
 
-CC: linux-doc@vger.kernel.org
+- map-type: 4 enums DD_CLASS_TYPE_* select 2 input forms and 2 meanings.
+
+numeric input:
+  DD_CLASS_TYPE_DISJOINT_BITS	integer input, independent bits. ie: drm.debug
+  DD_CLASS_TYPE_LEVEL_NUM	integer input, 0..N levels
+
+classnames-list (comma separated) input:
+  DD_CLASS_TYPE_DISJOINT_NAMES	each name affects a bit, others preserved
+  DD_CLASS_TYPE_LEVEL_NAMES	names have level meanings, like kern_levels.h
+
+_NAMES    - comma-separated classnames (with optional +-)
+_NUM      - numeric input, 0-N expected
+_BITS     - numeric input, 0x1F bitmap form expected
+
+_DISJOINT - bits are independent
+_LEVEL    - (x<y) on bit-pos.
+
+_DISJOINT treats input like a bit-vector (ala drm.debug), and sets
+each bit accordingly.  LEVEL is layered on top of this.
+
+_LEVEL treats input like a bit-pos:N, then sets bits(0..N)=1, and
+bits(N+1..max)=0.  This applies (bit<N) semantics on top of disjoint
+bits.
+
+USAGES:
+
+A potentially typical _DISJOINT_NAMES use:
+
+  echo +DRM_UT_CORE,+DRM_UT_KMS,-DRM_UT_DRIVER,-DRM_UT_ATOMIC \
+       > /sys/module/drm/parameters/debug_catnames
+
+A naive _LEVEL_NAMES use, with one class, that sets all in the
+class-map according to (x<y):
+
+  : problem seen
+  echo +L7 > /sys/module/test_dynamic_debug/parameters/p_level_names
+  : problem solved
+  echo -L1 > /sys/module/test_dynamic_debug/parameters/p_level_names
+
+Note this artifact:
+
+  : this is same as prev cmd (due to +/-)
+  echo L0 > /sys/module/test_dynamic_debug/parameters/p_level_names
+
+  : this is "even-more" off, but same wo __pr_debug_class(L0, "..").
+  echo -L0 > /sys/module/test_dynamic_debug/parameters/p_level_names
+
+A stress-test/make-work usage (kid toggling a light switch):
+
+  echo +L7,L0,L7,L0,L7,L0,L7,L0,L7,L0,L7,L0,L7 \
+       > /sys/module/test_dynamic_debug/parameters/p_level_names
+
+ddebug_apply_class_bitmap(): inside-fn, works on bitmaps, receives
+new-bits, finds diffs vs client-bitvector holding "current" state,
+and issues exec_query to commit the adjustment.
+
+param_set_dyndbg_classes(): interface fn, sends _NAMES to
+param_set_dyndbg_classnames() and returns, falls thru to handle _BITS,
+_NUM internally, and calls ddebug_apply_class_bitmap().  Finishes by
+updating state.
+
+param_set_dyndbg_classnames(): handles classnames-list in loop, calls
+ddebug_apply_class_bitmap for each, then updates state.
+
+NOTES:
+
+_LEVEL_ is overlay on _DISJOINT_; inputs are converted to a bitmask,
+by the callbacks.  IOW this is possible, and possibly confusing:
+
+  echo class V3 +p > control
+  echo class V1 -p > control
+
+IMO thats ok, relative verbosity is an interface property.
+
+_LEVEL_NUM maps still need class-names, even though the names are not
+usable at the sysfs interface (unlike with _NAMES style).  The names
+are the only way to >control the classes.
+
+ - It must have a "V0" name,
+   something below "V1" to turn "V1" off.
+   __pr_debug_cls(V0,..) is printk, don't do that.
+
+ - "class names" is required at the >control interface.
+ - relative levels are not enforced at >control
+
+_LEVEL_NAMES bear +/- signs, which alters the on-bit-pos by 1.  IOW,
++L2 means L0,L1,L2, and -L2 means just L0,L1.  This kinda spoils the
+readback fidelity, since the L0 bit gets turned on by any use of any
+L*, except "-L0".
+
+All the interface uncertainty here pertains to the _NAMES features.
+Nobody has actually asked for this, so its practical (if a little
+tedious) to split it out.
+
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-
 ---
-fixup-doc: trailing colons for block headers, trim fedora numbers. Bagas
----
- .../admin-guide/dynamic-debug-howto.rst       | 235 +++++++++---------
- 1 file changed, 117 insertions(+), 118 deletions(-)
+. drop kp->mod->name as unneeded (build-dependent) <lkp>
+. param_set_dyndbg_classnames, not _class_strings
+. DD_CLASS_TYPE_* name changes, per Jason
+. callbacks:
+  extend comments on DD_CLASS_TYPE_* handling, flow notes
+  varname changes
+. kdoc tweaks
+. add stub macro: #define KP_NAME(kp)	kp->name
+  later, add "$module." prefix when config doesn't do it
+. s/struct ddebug_classes_bitmap_param/struct ddebug_class_param/
+. fix levels state handling
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index d8954ab05c7b..faa22f77847a 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -5,30 +5,19 @@ Dynamic debug
- Introduction
- ============
+v4 had trouble where level-type's state was fouled by conversion to
+bitmap form given to apply-bitmap.  fix by:
+
+   (simplify/clarify)
+   add old-bits, new-bits to sysfs-iface&support
+   use CLASSMAP_BITMASK more
+   in param_set_dyndbg_class{es,names}():
+      move state-saving inside switches, and tailor it to type.
+      this preserves lvl-state, vs -v4 which didnt.
+
+I could "hack" in an offset, but the problem feels deeper.
+
+The root-problem may be the ambiguity wrt 0x0 > knob; per a
+input-is-assert-bitpos interpretation, it turns on bit 0.
+
+Thus far, code has avoided this ambiguity, by recommending against
+coding pr_dbg_cls(V0|L0, ""), which makes "+L0" & "-L0" equivalent,
+and "0" silent.
+
+That might be "too clever by 1/2"; accepting an int, so -1 means
+all-bits-off as well as verbosity-off, might be the better way.
+
+fix-lvl-sz
+---
+ include/linux/dynamic_debug.h |  21 ++++
+ lib/dynamic_debug.c           | 212 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 233 insertions(+)
+
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index 9073a43a2039..41682278d2e8 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -119,6 +119,15 @@ struct _ddebug_info {
+ 	unsigned int num_classes;
+ };
  
--This document describes how to use the dynamic debug (dyndbg) feature.
-+Dynamic debug allows you to dynamically enable/disable kernel
-+debug-print code to obtain additional kernel information.
- 
--Dynamic debug is designed to allow you to dynamically enable/disable
--kernel code to obtain additional kernel information.  Currently, if
--``CONFIG_DYNAMIC_DEBUG`` is set, then all ``pr_debug()``/``dev_dbg()`` and
--``print_hex_dump_debug()``/``print_hex_dump_bytes()`` calls can be dynamically
--enabled per-callsite.
-+If ``/proc/dynamic_debug/control`` exists, your kernel has dynamic
-+debug.  You'll need root access (sudo su) to use this.
- 
--If you do not want to enable dynamic debug globally (i.e. in some embedded
--system), you may set ``CONFIG_DYNAMIC_DEBUG_CORE`` as basic support of dynamic
--debug and add ``ccflags := -DDYNAMIC_DEBUG_MODULE`` into the Makefile of any
--modules which you'd like to dynamically debug later.
-+Dynamic debug provides:
- 
--If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is just
--shortcut for ``print_hex_dump(KERN_DEBUG)``.
-+ * a Catalog of all *prdbgs* in your kernel.
-+   ``cat /proc/dynamic_debug/control`` to see them.
- 
--For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
--its ``prefix_str`` argument, if it is constant string; or ``hexdump``
--in case ``prefix_str`` is built dynamically.
--
--Dynamic debug has even more useful features:
--
-- * Simple query language allows turning on and off debugging
--   statements by matching any combination of 0 or 1 of:
-+ * a Simple query/command language to alter *prdbgs* by selecting on
-+   any combination of 0 or 1 of:
- 
-    - source filename
-    - function name
-@@ -37,107 +26,88 @@ Dynamic debug has even more useful features:
-    - format string
-    - class name (as known/declared by each module)
- 
-- * Provides a debugfs control file: ``<debugfs>/dynamic_debug/control``
--   which can be read to display the complete list of known debug
--   statements, to help guide you
--
--Controlling dynamic debug Behaviour
--===================================
--
--The behaviour of ``pr_debug()``/``dev_dbg()`` are controlled via writing to a
--control file in the 'debugfs' filesystem. Thus, you must first mount
--the debugfs filesystem, in order to make use of this feature.
--Subsequently, we refer to the control file as:
--``<debugfs>/dynamic_debug/control``. For example, if you want to enable
--printing from source file ``svcsock.c``, line 1603 you simply do::
--
--  nullarbor:~ # echo 'file svcsock.c line 1603 +p' >
--				<debugfs>/dynamic_debug/control
--
--If you make a mistake with the syntax, the write will fail thus::
--
--  nullarbor:~ # echo 'file svcsock.c wtf 1 +p' >
--				<debugfs>/dynamic_debug/control
--  -bash: echo: write error: Invalid argument
--
--Note, for systems without 'debugfs' enabled, the control file can be
--found in ``/proc/dynamic_debug/control``.
--
- Viewing Dynamic Debug Behaviour
- ===============================
- 
--You can view the currently configured behaviour of all the debug
--statements via::
-+You can view the currently configured behaviour in the *prdbg* catalog::
- 
--  nullarbor:~ # cat <debugfs>/dynamic_debug/control
-+  :#> head -n7 /proc/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
--  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
--  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
--  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
--  ...
-+  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\012
-+  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\012"
-+  init/main.c:1424 [main]run_init_process =_ "  with arguments:\012"
-+  init/main.c:1426 [main]run_init_process =_ "    %s\012"
-+  init/main.c:1427 [main]run_init_process =_ "  with environment:\012"
-+  init/main.c:1429 [main]run_init_process =_ "    %s\012"
- 
-+The 3rd space-delimited column shows the current flags, preceded by
-+a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
- 
--You can also apply standard Unix text manipulation filters to this
--data, e.g.::
-+Controlling dynamic debug Behaviour
-+===================================
- 
--  nullarbor:~ # grep -i rdma <debugfs>/dynamic_debug/control  | wc -l
--  62
-+The behaviour of *prdbg* sites are controlled by writing
-+query/commands to the control file.  Example::
- 
--  nullarbor:~ # grep -i tcp <debugfs>/dynamic_debug/control | wc -l
--  42
-+  # grease the interface
-+  :#> alias ddcmd='echo $* > /proc/dynamic_debug/control'
- 
--The third column shows the currently enabled flags for each debug
--statement callsite (see below for definitions of the flags).  The
--default value, with no flags enabled, is ``=_``.  So you can view all
--the debug statement callsites with any non-default flags::
-+  :#> ddcmd '-p; module main func run* +p'
-+  :#> grep =p /proc/dynamic_debug/control
-+  init/main.c:1424 [main]run_init_process =p "  with arguments:\012"
-+  init/main.c:1426 [main]run_init_process =p "    %s\012"
-+  init/main.c:1427 [main]run_init_process =p "  with environment:\012"
-+  init/main.c:1429 [main]run_init_process =p "    %s\012"
- 
--  nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
--  # filename:lineno [module]function flags format
--  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
-+Error messages go to console/syslog::
++struct ddebug_class_param {
++	union {
++		unsigned long *bits;
++		unsigned int *lvl;
++	};
++	char flags[8];
++	const struct ddebug_class_map *map;
++};
 +
-+  :#> ddcmd mode foo +p
-+  dyndbg: unknown keyword "mode"
-+  dyndbg: query parse failed
-+  bash: echo: write error: Invalid argument
+ #if defined(CONFIG_DYNAMIC_DEBUG_CORE)
+ 
+ int ddebug_add_module(struct _ddebug_info *dyndbg, const char *modname);
+@@ -278,6 +287,10 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+ 				   KERN_DEBUG, prefix_str, prefix_type,	\
+ 				   rowsize, groupsize, buf, len, ascii)
+ 
++struct kernel_param;
++int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp);
++int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp);
 +
-+If debugfs is also enabled and mounted, ``dynamic_debug/control`` is
-+also under the mount-dir, typically ``/sys/kernel/debug/``.
+ /* for test only, generally expect drm.debug style macro wrappers */
+ #define __pr_debug_cls(cls, fmt, ...) do {			\
+ 	BUILD_BUG_ON_MSG(!__builtin_constant_p(cls),		\
+@@ -324,6 +337,14 @@ static inline int ddebug_dyndbg_module_param_cb(char *param, char *val,
+ 				rowsize, groupsize, buf, len, ascii);	\
+ 	} while (0)
  
- Command Language Reference
- ==========================
- 
--At the lexical level, a command comprises a sequence of words separated
-+At the basic lexical level, a command is a sequence of words separated
- by spaces or tabs.  So these are all equivalent::
- 
--  nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
--				<debugfs>/dynamic_debug/control
--  nullarbor:~ # echo -n '  file   svcsock.c     line  1603 +p  ' >
--				<debugfs>/dynamic_debug/control
--  nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd file svcsock.c line 1603 +p
-+  :#> ddcmd "file svcsock.c line 1603 +p"
-+  :#> ddcmd '  file   svcsock.c     line  1603 +p  '
- 
- Command submissions are bounded by a write() system call.
- Multiple commands can be written together, separated by ``;`` or ``\n``::
- 
--  ~# echo "func pnpacpi_get_resources +p; func pnp_assign_mem +p" \
--     > <debugfs>/dynamic_debug/control
--
--If your query set is big, you can batch them too::
--
--  ~# cat query-batch-file > <debugfs>/dynamic_debug/control
-+  :#> ddcmd "func pnpacpi_get_resources +p; func pnp_assign_mem +p"
-+  :#> ddcmd <<"EOC"
-+  func pnpacpi_get_resources +p
-+  func pnp_assign_mem +p
-+  EOC
-+  :#> cat query-batch-file > /proc/dynamic_debug/control
- 
--Another way is to use wildcards. The match rule supports ``*`` (matches
--zero or more characters) and ``?`` (matches exactly one character). For
--example, you can match all usb drivers::
-+You can also use wildcards in each query term. The match rule supports
-+``*`` (matches zero or more characters) and ``?`` (matches exactly one
-+character). For example, you can match all usb drivers::
- 
--  ~# echo "file drivers/usb/* +p" > <debugfs>/dynamic_debug/control
-+  :#> ddcmd file "drivers/usb/*" +p	# "" to suppress shell expansion
- 
--At the syntactical level, a command comprises a sequence of match
--specifications, followed by a flags change specification::
-+Syntactically, a command is pairs of keyword values, followed by a
-+flags change or setting::
- 
-   command ::= match-spec* flags-spec
- 
--The match-spec's are used to choose a subset of the known pr_debug()
--callsites to which to apply the flags-spec.  Think of them as a query
--with implicit ANDs between each pair.  Note that an empty list of
--match-specs will select all debug statement callsites.
-+The match-spec's select *prdbgs* from the catalog, upon which to apply
-+the flags-spec, all constraints are ANDed together.  An absent keyword
-+is the same as keyword "*".
- 
--A match specification comprises a keyword, which controls the
--attribute of the callsite to be compared, and a value to compare
--against.  Possible keywords are:::
++struct kernel_param;
++static inline int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
++{ return 0; }
++static inline int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
++{ return 0; }
 +
-+A match specification is a keyword, which selects the attribute of
-+the callsite to be compared, and a value to compare against.  Possible
-+keywords are:::
+ #endif /* !CONFIG_DYNAMIC_DEBUG_CORE */
  
-   match-spec ::= 'func' string |
- 		 'file' string |
-@@ -213,6 +183,7 @@ class
- 
- 	class DRM_UT_KMS	# a DRM.debug category
- 	class JUNK		# silent non-match
-+	// class TLD_*		# NOTICE: no wildcard in class names
- 
- line
-     The given line number or range of line numbers is compared
-@@ -239,17 +210,16 @@ of the characters::
- The flags are::
- 
-   p    enables the pr_debug() callsite.
--  f    Include the function name in the printed message
--  l    Include line number in the printed message
--  m    Include module name in the printed message
--  t    Include thread ID in messages not generated from interrupt context
--  _    No flags are set. (Or'd with others on input)
-+  _    enables no flags.
- 
--For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only ``p`` flag
--have meaning, other flags ignored.
-+  Decorator flags add to the message-prefix, in order:
-+  t    Include thread ID, or <intr>
-+  m    Include module name
-+  f    Include the function name
-+  l    Include line number
- 
--For display, the flags are preceded by ``=``
--(mnemonic: what the flags are currently equal to).
-+For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
-+the ``p`` flag has meaning, other flags are ignored.
- 
- Note the regexp ``^[-+=][flmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-flmpt``.
-@@ -324,7 +294,7 @@ For ``CONFIG_DYNAMIC_DEBUG`` kernels, any settings given at boot-time (or
- enabled by ``-DDEBUG`` flag during compilation) can be disabled later via
- the debugfs interface if the debug messages are no longer needed::
- 
--   echo "module module_name -p" > <debugfs>/dynamic_debug/control
-+   echo "module module_name -p" > /proc/dynamic_debug/control
- 
- Examples
- ========
-@@ -332,37 +302,31 @@ Examples
- ::
- 
-   // enable the message at line 1603 of file svcsock.c
--  nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'file svcsock.c line 1603 +p'
- 
-   // enable all the messages in file svcsock.c
--  nullarbor:~ # echo -n 'file svcsock.c +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'file svcsock.c +p'
- 
-   // enable all the messages in the NFS server module
--  nullarbor:~ # echo -n 'module nfsd +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'module nfsd +p'
- 
-   // enable all 12 messages in the function svc_process()
--  nullarbor:~ # echo -n 'func svc_process +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'func svc_process +p'
- 
-   // disable all 12 messages in the function svc_process()
--  nullarbor:~ # echo -n 'func svc_process -p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'func svc_process -p'
- 
-   // enable messages for NFS calls READ, READLINK, READDIR and READDIR+.
--  nullarbor:~ # echo -n 'format "nfsd: READ" +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'format "nfsd: READ" +p'
- 
-   // enable messages in files of which the paths include string "usb"
--  nullarbor:~ # echo -n 'file *usb* +p' > <debugfs>/dynamic_debug/control
-+  :#> ddcmd 'file *usb* +p' > /proc/dynamic_debug/control
- 
-   // enable all messages
--  nullarbor:~ # echo -n '+p' > <debugfs>/dynamic_debug/control
-+  :#> ddcmd '+p' > /proc/dynamic_debug/control
- 
-   // add module, function to all enabled messages
--  nullarbor:~ # echo -n '+mf' > <debugfs>/dynamic_debug/control
-+  :#> ddcmd '+mf' > /proc/dynamic_debug/control
- 
-   // boot-args example, with newlines and comments for readability
-   Kernel command line: ...
-@@ -375,3 +339,38 @@ Examples
-     dyndbg="file init/* +p #cmt ; func parse_one +p"
-     // enable pr_debugs in 2 functions in a module loaded later
-     pc87360.dyndbg="func pc87360_init_device +p; func pc87360_find +p"
++extern const struct kernel_param_ops param_ops_dyndbg_classes;
 +
-+Kernel Configuration
-+====================
+ #endif
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index db96ded78c3f..009f2ead09c1 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -596,6 +596,218 @@ static int ddebug_exec_queries(char *query, const char *modname)
+ 	return nfound;
+ }
+ 
++/* apply a new bitmap to the sys-knob's current bit-state */
++static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
++				     unsigned long *new_bits, unsigned long *old_bits)
++{
++#define QUERY_SIZE 128
++	char query[QUERY_SIZE];
++	const struct ddebug_class_map *map = dcp->map;
++	int matches = 0;
++	int bi, ct;
 +
-+Dynamic Debug is enabled via kernel config items::
++	v2pr_info("apply: 0x%lx to: 0x%lx\n", *new_bits, *old_bits);
 +
-+  CONFIG_DYNAMIC_DEBUG=y	# build catalog, enables CORE
-+  CONFIG_DYNAMIC_DEBUG_CORE=y	# enable mechanics only, skip catalog
++	for (bi = 0; bi < map->length; bi++) {
++		if (test_bit(bi, new_bits) == test_bit(bi, old_bits))
++			continue;
 +
-+If you do not want to enable dynamic debug globally (i.e. in some embedded
-+system), you may set ``CONFIG_DYNAMIC_DEBUG_CORE`` as basic support of dynamic
-+debug and add ``ccflags := -DDYNAMIC_DEBUG_MODULE`` into the Makefile of any
-+modules which you'd like to dynamically debug later.
++		snprintf(query, QUERY_SIZE, "class %s %c%s", map->class_names[bi],
++			 test_bit(bi, new_bits) ? '+' : '-', dcp->flags);
 +
++		ct = ddebug_exec_queries(query, NULL);
++		matches += ct;
 +
-+Kernel *prdbg* API
-+==================
++		v2pr_info("bit_%d: %d matches on class: %s -> 0x%lx\n", bi,
++			  ct, map->class_names[bi], *new_bits);
++	}
++	return matches;
++}
 +
-+The following functions are cataloged and controllable when dynamic
-+debug is enabled::
++/* stub to later conditionally add "$module." prefix where not already done */
++#define KP_NAME(kp)	kp->name
 +
-+  pr_debug()
-+  dev_dbg()
-+  print_hex_dump_debug()
-+  print_hex_dump_bytes()
++#define CLASSMAP_BITMASK(width) ((1UL << (width)) - 1)
 +
-+Otherwise, they are off by default; ``ccflags += -DDEBUG`` or
-+``#define DEBUG`` in a source file will enable them appropriately.
++/* accept comma-separated-list of [+-] classnames */
++static int param_set_dyndbg_classnames(const char *instr, const struct kernel_param *kp)
++{
++	const struct ddebug_class_param *dcp = kp->arg;
++	const struct ddebug_class_map *map = dcp->map;
++	unsigned long curr_bits, old_bits;
++	char *cl_str, *p, *tmp;
++	int cls_id, totct = 0;
++	bool wanted;
 +
-+If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is
-+just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
++	cl_str = tmp = kstrdup(instr, GFP_KERNEL);
++	p = strchr(cl_str, '\n');
++	if (p)
++		*p = '\0';
 +
-+For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
-+its ``prefix_str`` argument, if it is constant string; or ``hexdump``
-+in case ``prefix_str`` is built dynamically.
++	/* start with previously set state-bits, then modify */
++	curr_bits = old_bits = *dcp->bits;
++	vpr_info("\"%s\" > %s:0x%lx\n", cl_str, KP_NAME(kp), curr_bits);
++
++	for (; cl_str; cl_str = p) {
++		p = strchr(cl_str, ',');
++		if (p)
++			*p++ = '\0';
++
++		if (*cl_str == '-') {
++			wanted = false;
++			cl_str++;
++		} else {
++			wanted = true;
++			if (*cl_str == '+')
++				cl_str++;
++		}
++		cls_id = match_string(map->class_names, map->length, cl_str);
++		if (cls_id < 0) {
++			pr_err("%s unknown to %s\n", cl_str, KP_NAME(kp));
++			continue;
++		}
++
++		/* have one or more valid class_ids of one *_NAMES type */
++		switch (map->map_type) {
++		case DD_CLASS_TYPE_DISJOINT_NAMES:
++			/* the +/- pertains to a single bit */
++			if (test_bit(cls_id, &curr_bits) == wanted) {
++				v3pr_info("no change on %s\n", cl_str);
++				continue;
++			}
++			curr_bits ^= BIT(cls_id);
++			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, dcp->bits);
++			*dcp->bits = curr_bits;
++			v2pr_info("%s: changed bit %d:%s\n", KP_NAME(kp), cls_id,
++				  map->class_names[cls_id]);
++			break;
++		case DD_CLASS_TYPE_LEVEL_NAMES:
++			/* cls_id = N in 0..max. wanted +/- determines N or N-1 */
++			old_bits = CLASSMAP_BITMASK(*dcp->lvl);
++			curr_bits = CLASSMAP_BITMASK(cls_id + (wanted ? 1 : 0 ));
++
++			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, &old_bits);
++			*dcp->lvl = (cls_id + (wanted ? 1 : 0));
++			v2pr_info("%s: changed bit-%d: \"%s\" %lx->%lx\n", KP_NAME(kp), cls_id,
++				  map->class_names[cls_id], old_bits, curr_bits);
++			break;
++		default:
++			pr_err("illegal map-type value %d\n", map->map_type);
++		}
++	}
++	kfree(tmp);
++	vpr_info("total matches: %d\n", totct);
++	return 0;
++}
++
++/**
++ * param_set_dyndbg_classes - class FOO >control
++ * @instr: string echo>d to sysfs, input depends on map_type
++ * @kp:    kp->arg has state: bits/lvl, map, map_type
++ *
++ * Enable/disable prdbgs by their class, as given in the arguments to
++ * DECLARE_DYNDBG_CLASSMAP.  For LEVEL map-types, enforce relative
++ * levels by bitpos.
++ *
++ * Returns: 0 or <0 if error.
++ */
++int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
++{
++	const struct ddebug_class_param *dcp = kp->arg;
++	const struct ddebug_class_map *map = dcp->map;
++	unsigned long inrep, new_bits, old_bits;
++	int rc, totct = 0;
++
++	switch (map->map_type) {
++
++	case DD_CLASS_TYPE_DISJOINT_NAMES:
++	case DD_CLASS_TYPE_LEVEL_NAMES:
++		/* handle [+-]classnames list separately, we are done here */
++		return param_set_dyndbg_classnames(instr, kp);
++
++	case DD_CLASS_TYPE_DISJOINT_BITS:
++	case DD_CLASS_TYPE_LEVEL_NUM:
++		/* numeric input, accept and fall-thru */
++		rc = kstrtoul(instr, 0, &inrep);
++		if (rc) {
++			pr_err("expecting numeric input: %s > %s\n", instr, KP_NAME(kp));
++			return -EINVAL;
++		}
++		break;
++	default:
++		pr_err("%s: bad map type: %d\n", KP_NAME(kp), map->map_type);
++		return -EINVAL;
++	}
++
++	/* only _BITS,_NUM (numeric) map-types get here */
++	switch (map->map_type) {
++	case DD_CLASS_TYPE_DISJOINT_BITS:
++		/* expect bits. mask and warn if too many */
++		if (inrep & ~CLASSMAP_BITMASK(map->length)) {
++			pr_warn("%s: input: 0x%lx exceeds mask: 0x%lx, masking\n",
++				KP_NAME(kp), inrep, CLASSMAP_BITMASK(map->length));
++			inrep &= CLASSMAP_BITMASK(map->length);
++		}
++		v2pr_info("bits:%lx > %s\n", inrep, KP_NAME(kp));
++		totct += ddebug_apply_class_bitmap(dcp, &inrep, dcp->bits);
++		*dcp->bits = inrep;
++		break;
++	case DD_CLASS_TYPE_LEVEL_NUM:
++		/* input is bitpos, of highest verbosity to be enabled */
++		if (inrep > map->length) {
++			pr_warn("%s: level:%ld exceeds max:%d, clamping\n",
++				KP_NAME(kp), inrep, map->length);
++			inrep = map->length;
++		}
++		old_bits = CLASSMAP_BITMASK(*dcp->lvl);
++		new_bits = CLASSMAP_BITMASK(inrep);
++		v2pr_info("lvl:%ld bits:0x%lx > %s\n", inrep, new_bits, KP_NAME(kp));
++		totct += ddebug_apply_class_bitmap(dcp, &new_bits, &old_bits);
++		*dcp->lvl = inrep;
++		break;
++	default:
++		pr_warn("%s: bad map type: %d\n", KP_NAME(kp), map->map_type);
++	}
++	vpr_info("%s: total matches: %d\n", KP_NAME(kp), totct);
++	return 0;
++}
++EXPORT_SYMBOL(param_set_dyndbg_classes);
++
++/**
++ * param_get_dyndbg_classes - classes reader
++ * @buffer: string description of controlled bits -> classes
++ * @kp:     kp->arg has state: bits, map
++ *
++ * Reads last written state, underlying prdbg state may have been
++ * altered by direct >control.  Displays 0x for DISJOINT, 0-N for
++ * LEVEL Returns: #chars written or <0 on error
++ */
++int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
++{
++	const struct ddebug_class_param *dcp = kp->arg;
++	const struct ddebug_class_map *map = dcp->map;
++
++	switch (map->map_type) {
++
++	case DD_CLASS_TYPE_DISJOINT_NAMES:
++	case DD_CLASS_TYPE_DISJOINT_BITS:
++		return scnprintf(buffer, PAGE_SIZE, "0x%lx\n", *dcp->bits);
++
++	case DD_CLASS_TYPE_LEVEL_NAMES:
++	case DD_CLASS_TYPE_LEVEL_NUM:
++		return scnprintf(buffer, PAGE_SIZE, "%d\n", *dcp->lvl);
++	default:
++		return -1;
++	}
++}
++EXPORT_SYMBOL(param_get_dyndbg_classes);
++
++const struct kernel_param_ops param_ops_dyndbg_classes = {
++	.set = param_set_dyndbg_classes,
++	.get = param_get_dyndbg_classes,
++};
++EXPORT_SYMBOL(param_ops_dyndbg_classes);
++
+ #define PREFIX_SIZE 64
+ 
+ static int remaining(int wrote)
 -- 
 2.37.2
 
