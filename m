@@ -1,60 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B105AD634
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:22:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B99935AD652
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:27:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA7810E99A;
-	Mon,  5 Sep 2022 15:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E906610EA3F;
+	Mon,  5 Sep 2022 15:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E37A10E99A
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:22:19 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id g21so6477572qka.5
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 08:22:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=+ZiqcY4iwW4z7/E7mCAKrjs2qkOwesFoeuU+408Ac8o=;
- b=VFmGFDTElC9gVBP4IH125hq51A7FGr51vQ9KGLGqsDH5FAEMbMbUXIVHi85ww+a0fI
- GziSfVv/AV96vVMyihm0a9WLMAOVaqURD6Z6C0QYsgp+rD6u9b5XKuySpRwB9/4ukD5r
- ntRcngBKUZIdj1p7dnKxVpS61IIJC70YsoWsdaYgU3yQ1OeaPC6Dp8pG57kfBWmOL/93
- L/IFFf00dHT3zgOp5UKnif6AxMU2wmHM+SIXzgJwfA+idsrUzSPhTV0Cy8bk19HNDekI
- +ldaJp7J0Y+v4fVjKkwUglDoR826zDL6l5uW2KrYqW3xGquKc2bpuTp1y4lh/YVJ6mAK
- GUTw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADC6A10EA3F
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:27:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662391644;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BENTc3SWGB4BWWG2iajoQJSVj5Fw7ENwsYJf9LzZDOc=;
+ b=JrOArjWXRW1hBjT+62zajkBRDKxUnemuOT9iZg2MKtvgW17Z5CjxTAY5/p7KRQrmhKSf6O
+ QgtfkZPMIEGkriRVkS8eacT2bdQd6aZF6tYPGRF7g/wVYcXmqTnO7RZs2C73HSwWjdl7xm
+ zrH6HboQS9/31dGOU/iBNJBoKRL/wd0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-146-yB9NT8F-NeWaaWgBngPFoA-1; Mon, 05 Sep 2022 11:27:23 -0400
+X-MC-Unique: yB9NT8F-NeWaaWgBngPFoA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hp14-20020a1709073e0e00b00741a2093c4aso2506238ejc.20
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 08:27:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=+ZiqcY4iwW4z7/E7mCAKrjs2qkOwesFoeuU+408Ac8o=;
- b=wKSX/GIx1ju7EZ2+z5TSv1z4H56w4fMEzetzEWRRN3S79qhVFjtYqm2AXI14H6Nncs
- 6eMnzYJKxrPt21S2heaw0EwDcg5nn8LQ7f8dFBz+fBfYkRntVlP9NJ+p3r5kJVf26af4
- ntAhBLmMcc3tCW0jK8jl8Q2J9Sc9pehuC8MWmxW11c50IFR5htMNAZgGspVJyzuZosMw
- 2PhPLSp2qxkF6V6Z21O/CFxadYfP4S8x74sA7E1GxYHMSttf268FxTwZGt0Wz39P9DK6
- MXonrgsfQTF3SaSB3EInt2GWax9zLfGojXmsiLHGtj0pYn6s2O2chd7860qiXxNBwP/g
- I0IA==
-X-Gm-Message-State: ACgBeo08tzS3/bSv3qTjUUvVb2eDgjZfiBlOn5pIWfLHyms2/z44MMVI
- MEMyK67L1s/EkP34tJEwPZXIXunoWABhsQ38Z8U=
-X-Google-Smtp-Source: AA6agR6eqDleGJQNbmaUKo+DXkG0Owzp6XfxQg6gg92/7A34V7uBDxuh7YdkC5fcKcuRE7T6e8KsWIJlWSuvkZ2TzuU=
-X-Received: by 2002:a05:620a:410e:b0:6bc:5cdc:88ec with SMTP id
- j14-20020a05620a410e00b006bc5cdc88ecmr33187504qko.734.1662391338268; Mon, 05
- Sep 2022 08:22:18 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=BENTc3SWGB4BWWG2iajoQJSVj5Fw7ENwsYJf9LzZDOc=;
+ b=PRt0rpBLCAk9gSEuBqmyXuacykEUPjtS3Orkxv+1UTtsezLUN60qBDHlD4ytY29org
+ j2m7eCEUelYZIqVXC5rqrNTTlZulCozp2qa24fm0I1dcAWSL26QgAttFHaiVc0Ezrprb
+ sX7xO7fPaS2pFrp+XLmBrmf1cNgX0P9hlDJTrMKxH9lRl0JHJzoo7f2CqlBSCfnBhYYS
+ 1ee/HOpLs9o7s5F1vfpIpEnHroiv2URFbV2l3h/WqiqeaeHKEscWFX7YcNgZ8E/63BgR
+ KXBQoRH/3cfIsLCDJwxZlHGZdOnRnJeK8eWgyYtQGw3uWupgi5F16kCwl8XULkVEdNRB
+ VYAQ==
+X-Gm-Message-State: ACgBeo0z2UQDTX+KTWeYrWIzyfBmNiSDp3Tlq3WSXad1JUBt/iMnEuLV
+ fCwk3mMCWoigD8CNM03oViihQRVZZJylpiycIYjybgsUL4+C6ExRHPzh0t4s8CPzMf/Kb25RWez
+ YXtFNBVPrUehDLmpen0kQpr8XH/sc
+X-Received: by 2002:aa7:cb13:0:b0:448:3759:8c57 with SMTP id
+ s19-20020aa7cb13000000b0044837598c57mr34560725edt.8.1662391642887; 
+ Mon, 05 Sep 2022 08:27:22 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4cgqjDj71pPF1s5eWep0UxzIGtBSbww7xJGV60Wk3FNDdc4XOKRNaNLC58VwLuKmtk2E0Qcw==
+X-Received: by 2002:aa7:cb13:0:b0:448:3759:8c57 with SMTP id
+ s19-20020aa7cb13000000b0044837598c57mr34560713edt.8.1662391642704; 
+ Mon, 05 Sep 2022 08:27:22 -0700 (PDT)
+Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ r7-20020aa7cb87000000b0044ea7b8f57bsm1027934edt.1.2022.09.05.08.27.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Sep 2022 08:27:22 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
+ liviu.dudau@arm.com, brian.starkey@arm.com
+Subject: [PATCH RESEND drm-misc-next 0/7] drm/arm/hdlcd: use drm managed
+ resources
+Date: Mon,  5 Sep 2022 17:27:12 +0200
+Message-Id: <20220905152719.128539-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-10-b29adfb27a6c@gmail.com>
- <CAHp75Vd35EOy=mP25=9fmYfqQnbafgotHw1fxk-TdGk6Oc8g8Q@mail.gmail.com>
- <75e60144-9fa2-d6ba-bc92-edd23f7e7189@roeck-us.net>
-In-Reply-To: <75e60144-9fa2-d6ba-bc92-edd23f7e7189@roeck-us.net>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 5 Sep 2022 18:21:42 +0300
-Message-ID: <CAHp75VcisCTYoRp-=713YKtwi7BQyPKGiUhF4DkpfAFtvDXCiQ@mail.gmail.com>
-Subject: Re: [PATCH v1 10/11] watchdog: bd9576_wdt: switch to using
- devm_fwnode_gpiod_get()
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,104 +81,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- USB <linux-usb@vger.kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- David Airlie <airlied@linux.ie>, linux-pci <linux-pci@vger.kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- LINUXWATCHDOG <linux-watchdog@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Richard Weinberger <richard@nod.at>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 5, 2022 at 6:13 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> On 9/5/22 04:09, Andy Shevchenko wrote:
-> > On Mon, Sep 5, 2022 at 9:33 AM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
+Hi,
 
-...
+This patch series converts the driver to use drm managed resources to prevent
+potential use-after-free issues on driver unbind/rebind and to get rid of the
+usage of deprecated APIs.
 
-> >> +       count = device_property_count_u32(dev->parent, "rohm,hw-timeout-ms");
-> >> +       if (count < 0 && count != -EINVAL)
-> >> +               return count;
-> >> +
-> >> +       if (count > 0) {
-> >
-> >> +               if (count > ARRAY_SIZE(hw_margin))
-> >> +                       return -EINVAL;
-> >
-> > Why double check? You may move it out of the (count > 0).
->
-> Two checks will always be needed, so I don't entirely see
-> how that would be better.
+Danilo Krummrich (7):
+  drm/arm/hdlcd: use drmm_* to allocate driver structures
+  drm/arm/hdlcd: replace drm->dev_private with drm_to_hdlcd_priv()
+  drm/arm/hdlcd: crtc: use drmm_crtc_init_with_planes()
+  drm/arm/hdlcd: plane: use drm managed resources
+  drm/arm/hdlcd: use drm_dev_unplug()
+  drm/arm/hdlcd: crtc: protect device resources after removal
+  drm/arm/hdlcd: debugfs: protect device resources after removal
 
-But not nested. That's my point:
+ drivers/gpu/drm/arm/hdlcd_crtc.c | 78 ++++++++++++++++++++++++--------
+ drivers/gpu/drm/arm/hdlcd_drv.c  | 36 ++++++++-------
+ drivers/gpu/drm/arm/hdlcd_drv.h  |  2 +
+ 3 files changed, 79 insertions(+), 37 deletions(-)
 
-if (count > ARRAY_SIZE())
-  return ...
-if (count > 0)
-  ...
 
-> >> -       if (ret == 1)
-> >> -               hw_margin_max = hw_margin[0];
-> >
-> >> +               ret = device_property_read_u32_array(dev->parent,
-> >> +                                                    "rohm,hw-timeout-ms",
-> >> +                                                    hw_margin, count);
-> >> +               if (ret < 0)
-> >> +                       return ret;
-> >
-> > So, only this needs the count > 0 check since below already has it implicitly.
-> >
-> Sorry, I don't understand this comment.
-
-if (count > 0) {
-  ret = device_property_read_u32_array(...);
-  ...
-}
-if (count == 1)
- ...
-if (count == 2)
- ...
-
-But here it might be better to have the nested conditionals.
-
-> >> -       if (ret == 2) {
-> >> -               hw_margin_max = hw_margin[1];
-> >> -               hw_margin_min = hw_margin[0];
-> >> +               if (count == 1)
-> >> +                       hw_margin_max = hw_margin[0];
-> >> +
-> >> +               if (count == 2) {
-> >> +                       hw_margin_max = hw_margin[1];
-> >> +                       hw_margin_min = hw_margin[0];
-> >> +               }
-> >>          }
-
+base-commit: 8fe444eb326869823f3788a4b4da5dca03339d10
 -- 
-With Best Regards,
-Andy Shevchenko
+2.37.2
+
