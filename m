@@ -1,62 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756FB5ACB85
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:57:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A605ACB8E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 09:01:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84CF110E1DC;
-	Mon,  5 Sep 2022 06:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D935110E1D8;
+	Mon,  5 Sep 2022 07:00:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2C0C10E1C1
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 06:57:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4573210E1D8
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 07:00:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9AD235FA65;
- Mon,  5 Sep 2022 06:57:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662361054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Du+MlP2Yl1ABAUJ9kkgAnwYcYjALA4LIxIbsigEof6M=;
- b=i/KAkOmivK5BZuthVnmMCMoTnoVEXDwjxeYb829YRhITj3Oh1sic0w1qxJXtF2fU14nyvf
- FlDo+vVzOKF/HKDSB3qmNFdmzZiLGQAH+UIeS39lLRKIFcwlGh3+7Fkje9NV5wddOa0CF0
- qPj9i+w/+XEC7tTjasrvsbKfIc/nk+g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662361054;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Du+MlP2Yl1ABAUJ9kkgAnwYcYjALA4LIxIbsigEof6M=;
- b=QALCGGTl9WDHcggn3ZAv7PRsS93kqFPYMa9C3WTj1PzvA9qlbdbwuLY/M6UAF7ve+58sg5
- 8oKYtCANn0EGXOBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A33B139C7;
- Mon,  5 Sep 2022 06:57:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id /KTfIN6dFWNtYwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 05 Sep 2022 06:57:34 +0000
-Message-ID: <44b97fac-e879-e396-b8f2-f9459a5f913c@suse.de>
-Date: Mon, 5 Sep 2022 08:57:34 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4C5AE610D5;
+ Mon,  5 Sep 2022 07:00:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D7C2C4347C;
+ Mon,  5 Sep 2022 07:00:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1662361249;
+ bh=sMqNChAqUECLA/JxRoCLreDX4YMFCPUAc1lHPAydczs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jQjAxvsHcmQag5VnQ24RHPh71SfFAnZs3r5os/qxcy2nP7pTiLrT8aZ2UJaioDTdX
+ sGsVDpUjt9mNTJD1dW9aYcOALEb/jjWD0tvFriCDkrKnWVUJvIP7WqJglzJaMnRFS2
+ TsdugTYds2kNcKwWnNS0pI0CnwAdOf4NHbUt1cf9oalUU8EmzRVxw8LgZyN8zlLoem
+ ft9mOcKkFeipIujNN+nhxULQAa2YtPZlRdezV5Bx2YBixBzIBh+MMmwMIhxO5cJxzy
+ zFG1mfj+u+Lub4ECQeFYAZGmVT7vE84nZY9fgIUnFx9Hoecvlb8u37uBG8v3SPolrE
+ 4VCPdOFkB7Pcg==
+Received: by pali.im (Postfix)
+ id 3D0927D7; Mon,  5 Sep 2022 09:00:46 +0200 (CEST)
+Date: Mon, 5 Sep 2022 09:00:46 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v1 06/11] PCI: aardvark: switch to using
+ devm_gpiod_get_optional()
+Message-ID: <20220905070046.46nlhczkck2ufr4x@pali>
+References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-6-b29adfb27a6c@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
-Content-Language: en-US
-To: Wang Yugui <wangyugui@e16-tech.com>
-References: <20220902135242.2447.409509F4@e16-tech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220902135242.2447.409509F4@e16-tech.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------UM8pkqILa6GdZDzceZxhHLD7"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-6-b29adfb27a6c@gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,91 +57,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, David Airlie <airlied@linux.ie>,
+ linux-pci@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mtd@lists.infradead.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-watchdog@vger.kernel.org,
+ Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>, linux-gpio@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm-kernel@lists.infradead.org, Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org,
+ Richard Weinberger <richard@nod.at>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------UM8pkqILa6GdZDzceZxhHLD7
-Content-Type: multipart/mixed; boundary="------------afWQ3cfDllIgPOkaJu5D0Rii";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Wang Yugui <wangyugui@e16-tech.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <44b97fac-e879-e396-b8f2-f9459a5f913c@suse.de>
-Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
-References: <20220902135242.2447.409509F4@e16-tech.com>
-In-Reply-To: <20220902135242.2447.409509F4@e16-tech.com>
+On Sunday 04 September 2022 23:30:58 Dmitry Torokhov wrote:
+> I would like to stop exporting OF-specific devm_gpiod_get_from_of_node()
+> so that gpiolib can be cleaned a bit, so let's switch to the generic
+> device property API.
+> 
+> I believe that the only reason the driver, instead of the standard
+> devm_gpiod_get_optional(), used devm_gpiod_get_from_of_node() is
+> because it wanted to set up a pretty consumer name for the GPIO,
 
---------------afWQ3cfDllIgPOkaJu5D0Rii
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+IIRC consumer name is not used at all.
 
-SGkNCg0KQW0gMDIuMDkuMjIgdW0gMDc6NTIgc2NocmllYiBXYW5nIFl1Z3VpOg0KPiBIaSwN
-Cj4gDQo+IG1nYWcyMDAgYnJva2VuIG9uIGtlcm5lbC02LjAtcmMzIG9uIERFTEwvVDYyMC4N
-Cj4gDQo+IFNlZSB0aGUgYXR0YWNoZW1lbnRtZW50IGZpbGUgZm9yIHRoZSBncmFwaCBvdXRw
-dXQuDQoNClRoYW5rcyBmb3IgcmVwb3J0aW5nIHRoZSBidWcuIFdlIHJlY2VudGx5IHJlZmFj
-dG9yZWQgc29tZSBjb2RlIG9mIHRoZSANCmRyaXZlci4gQ2FuIHlvdSBiaXNlY3QgdG8gdGhl
-IGNoYW5nZSB0aGF0IGludHJvZHVjZWQgdGhlIHByb2JsZW0/DQoNCkJlc3QgcmVnYXJkcw0K
-VGhvbWFzDQoNCj4gDQo+IFtyb290QFQ2MjAgfl0jIGRtZXNnICB8Z3JlcCAtaSAndmdhXHxt
-Z2EnDQo+IFsgICAgMC41ODg5NDBdIENvbnNvbGU6IGNvbG91ciBWR0ErIDgweDI1DQo+IFsg
-ICAgNC45MTgyMTRdIHBjaSAwMDAwOjBhOjAwLjA6IHZnYWFyYjogc2V0dGluZyBhcyBib290
-IFZHQSBkZXZpY2UNCj4gWyAgICA0LjkxOTAyOF0gcGNpIDAwMDA6MGE6MDAuMDogdmdhYXJi
-OiBicmlkZ2UgY29udHJvbCBwb3NzaWJsZQ0KPiBbICAgIDQuOTE5MDI4XSBwY2kgMDAwMDow
-YTowMC4wOiB2Z2FhcmI6IFZHQSBkZXZpY2UgYWRkZWQ6IGRlY29kZXM9aW8rbWVtLG93bnM9
-aW8rbWVtLGxvY2tzPW5vbmUNCj4gWyAgICA0Ljk0MTA1OF0gdmdhYXJiOiBsb2FkZWQNCj4g
-WyAgICA5LjM4NTQ4NV0gbWdhZzIwMCAwMDAwOjBhOjAwLjA6IHZnYWFyYjogZGVhY3RpdmF0
-ZSB2Z2EgY29uc29sZQ0KPiBbICAgIDkuNTEwNjg4XSBbZHJtXSBJbml0aWFsaXplZCBtZ2Fn
-MjAwIDEuMC4wIDIwMTEwNDE4IGZvciAwMDAwOjBhOjAwLjAgb24gbWlub3IgMA0KPiBbICAg
-IDkuNTIzMTQ1XSBmYmNvbjogbWdhZzIwMGRybWZiIChmYjApIGlzIHByaW1hcnkgZGV2aWNl
-DQo+IFsgICAgOS42NDE1NDNdIG1nYWcyMDAgMDAwMDowYTowMC4wOiBbZHJtXSBmYjA6IG1n
-YWcyMDBkcm1mYiBmcmFtZSBidWZmZXIgZGV2aWNlDQo+IA0KPiANCj4gbW9yZSBpbmZvOg0K
-PiAxLCBUaGlzIERFTEwvVDYyMCB3b3JrcyB3ZWxsIHdpdGgga2VybmVsIDUuMTUuNjMsDQo+
-ICAgICAgc28gdGhpcyBpcyBub3QgYSAgaGFyZHdhcmUgZXJyb3IuDQo+IA0KPiAyLCBERUxM
-L1Q2NDAgd29ya3Mgd2VsbCB3aXRoIGtlcm5lbCA2LjAtcmMgYW5kIDUuMTUuNjMuDQo+ICAg
-ICAgYm90aCBERUxML1Q2MjAgYW5kIERFTEwvVDY0MCB1c2UgdGhlIGRyaXZlciAnbWdhZzIw
-MCcuDQo+IA0KPiBbcm9vdEBUNjQwIH5dIyAgZG1lc2cgIHxncmVwIC1pICd2Z2FcfG1nYScN
-Cj4gWyAgIDEwLjE2MTUwMF0gcGNpIDAwMDA6MDM6MDAuMDogdmdhYXJiOiBzZXR0aW5nIGFz
-IGJvb3QgVkdBIGRldmljZQ0KPiBbICAgMTAuMTYyNDYzXSBwY2kgMDAwMDowMzowMC4wOiB2
-Z2FhcmI6IFZHQSBkZXZpY2UgYWRkZWQ6IGRlY29kZXM9aW8rbWVtLG93bnM9aW8rbWVtLGxv
-Y2tzPW5vbmUNCj4gWyAgIDEwLjE3NjUyN10gcGNpIDAwMDA6MDM6MDAuMDogdmdhYXJiOiBi
-cmlkZ2UgY29udHJvbCBwb3NzaWJsZQ0KPiBbICAgMTAuMTgyNDY1XSB2Z2FhcmI6IGxvYWRl
-ZA0KPiBbICAgMTEuODMyODM5XSBmYjA6IEVGSSBWR0EgZnJhbWUgYnVmZmVyIGRldmljZQ0K
-PiBbICAgMjEuMzAzODI2XSBtZ2FnMjAwIDAwMDA6MDM6MDAuMDogdmdhYXJiOiBkZWFjdGl2
-YXRlIHZnYSBjb25zb2xlDQo+IFsgICAyMS4zMTk0OThdIFtkcm1dIEluaXRpYWxpemVkIG1n
-YWcyMDAgMS4wLjAgMjAxMTA0MTggZm9yIDAwMDA6MDM6MDAuMCBvbiBtaW5vciAwDQo+IFsg
-ICAyMS4zMzAyMjNdIGZiY29uOiBtZ2FnMjAwZHJtZmIgKGZiMCkgaXMgcHJpbWFyeSBkZXZp
-Y2UNCj4gWyAgIDIxLjMzMjE0MF0gbWdhZzIwMCAwMDAwOjAzOjAwLjA6IFtkcm1dIGRybV9w
-bGFuZV9lbmFibGVfZmJfZGFtYWdlX2NsaXBzKCkgbm90IGNhbGxlZA0KPiBbICAgMjEuNzQx
-NjI5XSBtZ2FnMjAwIDAwMDA6MDM6MDAuMDogW2RybV0gZmIwOiBtZ2FnMjAwZHJtZmIgZnJh
-bWUgYnVmZmVyIGRldmljZQ0KPiANCj4gQmVzdCBSZWdhcmRzDQo+IFdhbmcgWXVndWkgKHdh
-bmd5dWd1aUBlMTYtdGVjaC5jb20pDQo+IDIwMjIvMDkvMDINCj4gDQoNCi0tIA0KVGhvbWFz
-IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJn
-LCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJl
-cjogSXZvIFRvdGV2DQo=
+The reason was to specify full name of DTS property, for easier
+identification of the code. DTS property is "reset-gpios" but API
+specify only "reset".
 
---------------afWQ3cfDllIgPOkaJu5D0Rii--
-
---------------UM8pkqILa6GdZDzceZxhHLD7
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMVnd4FAwAAAAAACgkQlh/E3EQov+CA
-yhAAqZ1yOlZoVsQU571eJySV4p6KJOrAgR/JJgkN3jCai0jcxYikf674JabbeIdP5n353lxOjlMa
-qAnhIwaD084Q05Vh01i9poyVS2C2smhUJiLzXyqc/ZiAjSt9XD1XT+3rdMSdnGaI4LaaJX4I33gU
-LiS+dsSR139Xowa2AIainCR/cuWSehSibvyi45/9QRQ5Oaa0Pylb1QqnqL11MHdHwnBp6aUO3A3O
-GMrKUXjw0q56EOjwrFnPN1HogcCRYmnFz2f40vMxQe1yBP516zi5aUHDa8wfofxtFysG5FIl7MPC
-xht2yPKYDgiljGT8tIPIrE3DZPoblI7gxGRA7gANcSV64LjMHAeEBZp1q70cA5oskjBqAN71rIhK
-6+ytlOYAqs1NEG7/+Yt6oFEB2NMUUorceQ8g6Tr8ZCueYNhiBLbThzSXN3qbuk3BO6qqQtcW/MHA
-h28dMa1bd4xnq3xtLVDxy5dXSb4KMBjmgAgqLW/0wbThbqOLkhFl/LOZDH3jKaZ+6p2PQs9SpZNO
-P0SV3AD77aoRnWvcuLsicdM5BE0aMLPH2FYHKBMbYEzaswQEVLvW0ea5IqYlApDegOKAWNxAwJ5o
-Z/y+HZAWAaM/m+rYWGH17X6UgQZH2LaNqRpxbjALLvy7IyasG/6pSfhF1isQ9USGGzQfBcz5iQqS
-MQc=
-=DRaX
------END PGP SIGNATURE-----
-
---------------UM8pkqILa6GdZDzceZxhHLD7--
+> and we now have a special API for that.
+> 
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> 
+> diff --git a/drivers/pci/controller/pci-aardvark.c b/drivers/pci/controller/pci-aardvark.c
+> index 4834198cc86b..4a8a4a8522cb 100644
+> --- a/drivers/pci/controller/pci-aardvark.c
+> +++ b/drivers/pci/controller/pci-aardvark.c
+> @@ -1856,20 +1856,19 @@ static int advk_pcie_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> -	pcie->reset_gpio = devm_gpiod_get_from_of_node(dev, dev->of_node,
+> -						       "reset-gpios", 0,
+> -						       GPIOD_OUT_LOW,
+> -						       "pcie1-reset");
+> +	pcie->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+>  	ret = PTR_ERR_OR_ZERO(pcie->reset_gpio);
+>  	if (ret) {
+> -		if (ret == -ENOENT) {
+> -			pcie->reset_gpio = NULL;
+> -		} else {
+> -			if (ret != -EPROBE_DEFER)
+> -				dev_err(dev, "Failed to get reset-gpio: %i\n",
+> -					ret);
+> -			return ret;
+> -		}
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to get reset-gpio: %i\n",
+> +				ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = gpiod_set_consumer_name(pcie->reset_gpio, "pcie1-reset");
+> +	if (ret) {
+> +		dev_err(dev, "Failed to set reset gpio name: %d\n", ret);
+> +		return ret;
+>  	}
+>  
+>  	ret = of_pci_get_max_link_speed(dev->of_node);
+> 
+> -- 
+> b4 0.10.0-dev-fc921
