@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A65F5ACF3B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 11:55:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 392145ACF55
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 11:56:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA28B10E22C;
-	Mon,  5 Sep 2022 09:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A656A10E287;
+	Mon,  5 Sep 2022 09:56:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6AD010E22C
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 09:55:30 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id z29so12312301lfb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 02:55:30 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37BD110E275
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 09:56:32 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id p7so12398396lfu.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 02:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=m6bwvWKIYsYkkQiw6WkHW3VenkfYyqcqiN7fetf2fKA=;
- b=IHLIbQ5vHZQVIyqqjxII8xfEjM3Q6fZoeMqDFdIiU0vsFp6oi7h0IwMdNfx1vPlnFp
- ZPEemHQtgtDg6DfHplUdQ9jQ9sLqz7D7QN4FLqbsDi3rJNDxpjjlWDcgUMOkA9w2Tjs9
- x9VWcOV0/2DW1Hg36LsG6DteksM93YpJyP0rfadAndCJKb/yY4pF55KE51FqNTxioDRe
- KBJzVpsAFs2k6LKzsnJmjaNF0PAQrTJoMhIKZekTRu34MSjNFM9c+GyRzLjBHe1ybOQZ
- eLbeL6kyIXJDXmENmbtGhQKPn5KPfZrIYSXNEMQPhMhg5ikHY+XI6LCK0LoPM/K1/Mnt
- uzTQ==
+ bh=RdubYDDix+oOh2a0h//nboO40BpZ5xfyyxVZCNAs3B0=;
+ b=et2BStfuMMuGC6Hmc0ahP2YMtl2IOvVs82z7fBLtShtRiNOLZEUcKr2FN+yvHNZxWj
+ hUQof0CelJPy6k645QZnNEtobw55lyLfO/xzbj7BHjhPUtrr6ZyyJrZD5+wJPU8x4s/V
+ wDTG6XP1BvwPE/YT5IW93WWtvTubg44nQ/U2m0Ukxn8zuXPeusqOLZkrZIQo7BaTII3T
+ tjpw7YIxVKZOVR6ozOO29YwJBQZS8KoqWz1HV/AEJBiJwCnjVlLgAcdY8jrwxwGrjJtw
+ gmvPsEX0owb2idPOc8tLiT8uceUOa827MJ139sBCmc4Km7ZtH35OknAdtVpmn61dpmua
+ LvYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=m6bwvWKIYsYkkQiw6WkHW3VenkfYyqcqiN7fetf2fKA=;
- b=1wnmhV3Da82+QWIb2biUZfNwoi00i/VIghayDRBnwccTDHb/HCx4PZpF+lVuRt+tDG
- NlCxTvuVOy1iBtOF3kyNOJg1GI89taEgquQNM9I2fDXWvrUr7wCAY0jMfy9VoHevdvTd
- R+xcDHU410WW6UKWLDU7TA6Pe9WCCz5DKYh0yw96aRU00VjYZekX6f/npCCn1Ea6wk1x
- 47BA9Awz0grP2A4TzRC7azAmb0UCWx3dc+jh5vhkibboIvIJcrgS4/4AN5EVRMJ+BIiv
- fJAIJQQNiytX07XZcq8fVgcvUrHzSnp/YQ31+QEGbIRjjc23ReOIG8Jc/C0ybLRVrtGX
- vk/A==
-X-Gm-Message-State: ACgBeo2Q7iu6hqnG6iG9qvIa7aVTVgE234gUG4tWaRY4BFq87Hd38cvl
- hX3ALVuL2WGCiOlKRt4xlqI=
-X-Google-Smtp-Source: AA6agR4gwPt5aivllJzzHsjCuIDbWlzFIp6/PHCkmSvNiw6IUsaZdTaionvGINkVRjZdKCtkzi3jFA==
-X-Received: by 2002:a19:6b16:0:b0:48c:e218:7c51 with SMTP id
- d22-20020a196b16000000b0048ce2187c51mr15164353lfa.681.1662371728951; 
- Mon, 05 Sep 2022 02:55:28 -0700 (PDT)
-Received: from [172.16.194.135] ([213.255.186.46])
+ bh=RdubYDDix+oOh2a0h//nboO40BpZ5xfyyxVZCNAs3B0=;
+ b=n9TipAyxzjrk32ISsIjnir2tRnDW9x0aWLd9IOB47pS/a6tZo6eVfogCWr8oJXLeNZ
+ R8gSNIbuZ3iCP/Csg/JChr64bmRkTGAMpjPA2j5pERzwZndJ8odD0fGzQhReBCH5KRfp
+ 0UIK+/khofOG50zE68kRtw69hCiMqjdHsOb5mlMG2raRYAjAbsIBAG4pU1yJXlsXoYtg
+ 1SrN78yaaD3ajZckap8B5J+PxiexNl3z+Bis6IojIKwl2HjxttWh8U1UneGvWcxHmA7+
+ XgTHu4BnJ2O0r7xP2UY3Car2rjqFycje4ZnyWOqq1o8cntHwcXdb1g2SULDXLwzPpkGD
+ IoQQ==
+X-Gm-Message-State: ACgBeo3LjJtoMau2sgGnyv3YXtIfFCfwc7KKXlEySXhu9dd+RC8v4gPK
+ L83q7k57Z0araAMLSfQr3d4=
+X-Google-Smtp-Source: AA6agR49m1znt1xCwEgykIjaaYQRJwjqD0WPTDOx4N16eYQFUBRnr5DGteFNKPh7H42GT7aHHRsE7g==
+X-Received: by 2002:a05:6512:13a4:b0:479:3b9f:f13c with SMTP id
+ p36-20020a05651213a400b004793b9ff13cmr15342515lfa.380.1662371790521; 
+ Mon, 05 Sep 2022 02:56:30 -0700 (PDT)
+Received: from [172.16.194.136] ([213.255.186.46])
  by smtp.gmail.com with ESMTPSA id
- v27-20020ac258fb000000b0048b13d0b896sm1141980lfo.141.2022.09.05.02.55.27
+ o4-20020ac25e24000000b004965e80b761sm40259lfg.224.2022.09.05.02.56.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 02:55:28 -0700 (PDT)
-Message-ID: <4a536310-3f79-d248-dc48-5cdbd640e04a@gmail.com>
-Date: Mon, 5 Sep 2022 12:55:26 +0300
+ Mon, 05 Sep 2022 02:56:30 -0700 (PDT)
+Message-ID: <0b051f7e-1754-cb69-c0df-0bae08c967fd@gmail.com>
+Date: Mon, 5 Sep 2022 12:56:28 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH v1 08/11] regulator: bd71815: switch to using
+Subject: Re: [PATCH v1 09/11] regulator: bd9576: switch to using
  devm_fwnode_gpiod_get()
 Content-Language: en-US
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -80,9 +80,9 @@ To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
  Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Pali_Roh=c3=a1r?=
  <pali@kernel.org>
 References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-8-b29adfb27a6c@gmail.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-9-b29adfb27a6c@gmail.com>
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-8-b29adfb27a6c@gmail.com>
+In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-9-b29adfb27a6c@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,32 +110,15 @@ On 9/5/22 09:31, Dmitry Torokhov wrote:
 > so that gpiolib can be cleaned a bit, so let's switch to the generic
 > fwnode property API.
 > 
+> While at it switch the rest of the calls to read properties in
+> bd957x_probe() to the generic device property API as well.
+> 
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
 
 Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
-> 
-> diff --git a/drivers/regulator/bd71815-regulator.c b/drivers/regulator/bd71815-regulator.c
-> index acaa6607898e..c2b8b8be7824 100644
-> --- a/drivers/regulator/bd71815-regulator.c
-> +++ b/drivers/regulator/bd71815-regulator.c
-> @@ -571,11 +571,10 @@ static int bd7181x_probe(struct platform_device *pdev)
->   		dev_err(&pdev->dev, "No parent regmap\n");
->   		return -ENODEV;
->   	}
-> -	ldo4_en = devm_gpiod_get_from_of_node(&pdev->dev,
-> -					      pdev->dev.parent->of_node,
-> -						 "rohm,vsel-gpios", 0,
-> -						 GPIOD_ASIS, "ldo4-en");
->   
-> +	ldo4_en = devm_fwnode_gpiod_get(&pdev->dev,
-> +					dev_fwnode(pdev->dev.parent),
-> +					"rohm,vsel", GPIOD_ASIS, "ldo4-en");
->   	if (IS_ERR(ldo4_en)) {
->   		ret = PTR_ERR(ldo4_en);
->   		if (ret != -ENOENT)
-> 
-
+Thanks!
 
 -- 
 Matti Vaittinen
