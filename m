@@ -2,49 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A605ACB8E
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 09:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC98B5ACC08
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 09:08:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D935110E1D8;
-	Mon,  5 Sep 2022 07:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94A9710E1E5;
+	Mon,  5 Sep 2022 07:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4573210E1D8
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 07:00:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF8E810E1E5
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 07:08:35 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4C5AE610D5;
- Mon,  5 Sep 2022 07:00:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D7C2C4347C;
- Mon,  5 Sep 2022 07:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662361249;
- bh=sMqNChAqUECLA/JxRoCLreDX4YMFCPUAc1lHPAydczs=;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 64FE461135;
+ Mon,  5 Sep 2022 07:08:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45CEBC433C1;
+ Mon,  5 Sep 2022 07:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1662361714;
+ bh=vYHfuWjCZoXX0Gw8KXiBoC4i4HN/XJ+fPiLchONGM5c=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jQjAxvsHcmQag5VnQ24RHPh71SfFAnZs3r5os/qxcy2nP7pTiLrT8aZ2UJaioDTdX
- sGsVDpUjt9mNTJD1dW9aYcOALEb/jjWD0tvFriCDkrKnWVUJvIP7WqJglzJaMnRFS2
- TsdugTYds2kNcKwWnNS0pI0CnwAdOf4NHbUt1cf9oalUU8EmzRVxw8LgZyN8zlLoem
- ft9mOcKkFeipIujNN+nhxULQAa2YtPZlRdezV5Bx2YBixBzIBh+MMmwMIhxO5cJxzy
- zFG1mfj+u+Lub4ECQeFYAZGmVT7vE84nZY9fgIUnFx9Hoecvlb8u37uBG8v3SPolrE
- 4VCPdOFkB7Pcg==
-Received: by pali.im (Postfix)
- id 3D0927D7; Mon,  5 Sep 2022 09:00:46 +0200 (CEST)
-Date: Mon, 5 Sep 2022 09:00:46 +0200
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+ b=wG3gzO9Psb2hRlSqZ1vx7n8hLkY1e6xNNY+SQYmTOvVmGmyNNVsjd54+dCpyMs7aP
+ yCKVlkHm9E1H7UtjcmrvRGcwIgnm62t0dEEmNfrytaZ+Zuyi6+jguZ/KBOqPZ3dukT
+ anoJx+666aasH5ZH3x3yAeZCXbRYJumJ2nucWUpc=
+Date: Mon, 5 Sep 2022 09:08:31 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v1 06/11] PCI: aardvark: switch to using
- devm_gpiod_get_optional()
-Message-ID: <20220905070046.46nlhczkck2ufr4x@pali>
+Subject: Re: [PATCH v1 00/11] Get rid of [devm_]gpiod_get_from_of_node()
+ public APIs
+Message-ID: <YxWgb7wCzQBvEW2h@kroah.com>
 References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-6-b29adfb27a6c@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-6-b29adfb27a6c@gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,68 +68,25 @@ Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
  Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Wim Van Sebroeck <wim@linux-watchdog.org>,
  linux-arm-kernel@lists.infradead.org, Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org,
- Richard Weinberger <richard@nod.at>,
+ linux-usb@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ linux-kernel@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+ Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
  Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sunday 04 September 2022 23:30:58 Dmitry Torokhov wrote:
-> I would like to stop exporting OF-specific devm_gpiod_get_from_of_node()
-> so that gpiolib can be cleaned a bit, so let's switch to the generic
-> device property API.
+On Sun, Sep 04, 2022 at 11:30:52PM -0700, Dmitry Torokhov wrote:
+> I would like to stop exporting OF-specific [devm_]gpiod_get_from_of_node()
+> so that gpiolib can be cleaned a bit. We can do that by switching drivers
+> to use generic fwnode API ([devm_]fwnode_gpiod_get()). By doing so we open
+> the door to augmenting device tree and ACPI information through secondary
+> software properties (once we teach gpiolib how to handle those).
 > 
-> I believe that the only reason the driver, instead of the standard
-> devm_gpiod_get_optional(), used devm_gpiod_get_from_of_node() is
-> because it wanted to set up a pretty consumer name for the GPIO,
-
-IIRC consumer name is not used at all.
-
-The reason was to specify full name of DTS property, for easier
-identification of the code. DTS property is "reset-gpios" but API
-specify only "reset".
-
-> and we now have a special API for that.
+> I hope that relevant maintainers will take patches through their trees and
+> then we could merge the last one some time after -rc1.
 > 
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> 
-> diff --git a/drivers/pci/controller/pci-aardvark.c b/drivers/pci/controller/pci-aardvark.c
-> index 4834198cc86b..4a8a4a8522cb 100644
-> --- a/drivers/pci/controller/pci-aardvark.c
-> +++ b/drivers/pci/controller/pci-aardvark.c
-> @@ -1856,20 +1856,19 @@ static int advk_pcie_probe(struct platform_device *pdev)
->  		return ret;
->  	}
->  
-> -	pcie->reset_gpio = devm_gpiod_get_from_of_node(dev, dev->of_node,
-> -						       "reset-gpios", 0,
-> -						       GPIOD_OUT_LOW,
-> -						       "pcie1-reset");
-> +	pcie->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
->  	ret = PTR_ERR_OR_ZERO(pcie->reset_gpio);
->  	if (ret) {
-> -		if (ret == -ENOENT) {
-> -			pcie->reset_gpio = NULL;
-> -		} else {
-> -			if (ret != -EPROBE_DEFER)
-> -				dev_err(dev, "Failed to get reset-gpio: %i\n",
-> -					ret);
-> -			return ret;
-> -		}
-> +		if (ret != -EPROBE_DEFER)
-> +			dev_err(dev, "Failed to get reset-gpio: %i\n",
-> +				ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = gpiod_set_consumer_name(pcie->reset_gpio, "pcie1-reset");
-> +	if (ret) {
-> +		dev_err(dev, "Failed to set reset gpio name: %d\n", ret);
-> +		return ret;
->  	}
->  
->  	ret = of_pci_get_max_link_speed(dev->of_node);
-> 
-> -- 
-> b4 0.10.0-dev-fc921
+
+Nice work, I'll go add the USB ones to my tree now, thanks!
+
+greg k-h
