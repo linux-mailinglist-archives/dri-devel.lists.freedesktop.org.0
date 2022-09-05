@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDC75AD969
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 21:09:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD84E5AD968
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 21:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5AD10E4B8;
-	Mon,  5 Sep 2022 19:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5610210E4B9;
+	Mon,  5 Sep 2022 19:09:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA34810E4B9
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 19:08:55 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-1278624b7c4so5042037fac.5
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 12:08:55 -0700 (PDT)
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D688010E4B8
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 19:08:59 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ v2-20020a056830090200b006397457afecso6663666ott.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 12:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=+qiUrtGYnOI5edUdL9shgvJK75JvJoeBXe4g6mB0cww=;
- b=mRmPVQdkNwWi9P8mJxKLwsfyrzTrMTO+cBxDUxvuA59lgDyHbCjqWj1CQYnqM+cFGb
- jaZbdGtvc+N047nivLNCVddeHgqlxjASAY24LYAcMVkZKuy76iAemuz+ic0/JsafX8Q1
- 8lYxlknigrLDhhrUym9H2sj894b+AvrivYxAraDDjvjnU5FSykzQTlU2hU9EZw9qqfY2
- kkEjWpfjYFTc4OTb0KpUZUaZuvAyo66n28DurIKC9g+3Lr8CvQXBYjOyPEWBrzzNUqFA
- /EW0/rFtwWnxETqufai1w41fgvOAQJlXe5f6lAXW3peLknIsy4UqJtjk9KQmIb76c+4x
- 3+Sw==
+ bh=NWJhnUimVkxjF+4Gb04O1Spyhmg7+xfGLsFhVgz9iF0=;
+ b=hobZc5/O5pgTpfEPWqEISoW3j0BlkWJ7buTWvPaFh5jp/Ib7kXYx+7Rgl1okbMEcS0
+ qwz+s/f46ZZC0SwpPevRMQLkWWYLnw6GNI8Gj9nTTyE9Lq7NBwXPI4RxsahWpb8rrHfc
+ 6TylrpsD/JnCq19ZfoLZQYpNb1aYdtJJ3cZ/Hb72Z5C74nAsWUDCERGFOF0f0ruthcZ9
+ 2nalj6rB3D/0ji8k0Bw5+JTpot/VueY+DEe8Cd6RymCVlKGvG8ysjSXZrTALQBfWYzmM
+ 1rMRh2jdbBO416xc31wpBrozKIuf39PMfT/oTElEYB7CB1OkRy0631FR+3/V1RPk8d33
+ t3ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=+qiUrtGYnOI5edUdL9shgvJK75JvJoeBXe4g6mB0cww=;
- b=PODWzwUspFL6Wb99/wJd28XbhrIuHaVEEzyici4UDiCv84QaJGXF4RugMxBWAWpWJC
- u9LiKVgJoV/tS5BpLxA67Oy+HdXc180SWy9NcJzfbSv8Ct3Di9Ua8nu5uhP4c12aOOI1
- 26R1t/IRnmXx4FGIERZ486h4RnXGpLWuCryPx+uLNnhkRnCYbzqlZM2kiTQ5xFpXdu0q
- XXfgnYMri+m7hKmTftWl6ELLHW5Zf44UryZ33VzlY9PEYgCYVDM4WI1Jk5W6UgeDZ0vf
- wVahdpMFdGgT6qwAHLN7xxeNGASIwcrsJz+b8hVRle+sq+TDST9/4F+7MnAtIs6wAy6c
- /Jfg==
-X-Gm-Message-State: ACgBeo3s+FrLLw7j1W9yq08eE9Yl2jSYCRigN/h6MYQgmwGHGWSwgtuY
- TMyRQUbquQJ3jnT6N6s9nMY=
-X-Google-Smtp-Source: AA6agR4IICBr5CQ5y9QtIdkgenXk5V+3vpMjeHvUU75GmEoRzX9PW0TBA4r1eKCu4/f6yaRiUtt03g==
-X-Received: by 2002:a05:6870:5250:b0:127:4360:a00b with SMTP id
- o16-20020a056870525000b001274360a00bmr3973964oai.13.1662404935373; 
- Mon, 05 Sep 2022 12:08:55 -0700 (PDT)
+ bh=NWJhnUimVkxjF+4Gb04O1Spyhmg7+xfGLsFhVgz9iF0=;
+ b=ezyIQxWNvOM/s0xYZnrjdI8ROzclEpB8kCbHnMcbpOimYBzrj7S0L7d6tT3uE0VQYX
+ 8XSNRPnnxChfEia4tILIFnrJrEIPgoV5n1KoNWDO5zPCy2I3JneaGSqYVnys/G6aPIqW
+ nHlcICGaz5i6kiOSqHpVmvTSVpc6THtCn9P0xPGgoQqgJVfAeoPVQf5eF1lxNh9Sc0as
+ 482MwV1EJTX3chdZhN/LmTv7hy5ZygAyVNkFpiIA5o9y/QLMsVVmucvyY8sf2qSozdGm
+ HzuDcLgL8utHFWb+LrwvBYhPooao3wuGTChHDPRfJ61CH62sPlvMl9ZGKAFTZcOD+hth
+ tmcA==
+X-Gm-Message-State: ACgBeo1bSt9wW+WoMhHD2IFE0UQ7xg9OpneTeGr3GROdGsjBHX9UzdmX
+ GJF2OGGtE1ObNvGkipKAp1F5UMiAJH4=
+X-Google-Smtp-Source: AA6agR7OLlAZPG+aZCd/XXuNFSP3cgcYryoDHuowOKPGnbHpX31K0JZADct44EJLptX4mFCAEf3FuA==
+X-Received: by 2002:a9d:5617:0:b0:639:4766:904f with SMTP id
+ e23-20020a9d5617000000b006394766904fmr19692522oti.319.1662404939154; 
+ Mon, 05 Sep 2022 12:08:59 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7f4:21c0:3f1:e4fc:3866:255e])
  by smtp.googlemail.com with ESMTPSA id
- z6-20020a4a9846000000b0044b61af8816sm3328465ooi.41.2022.09.05.12.08.52
+ z6-20020a4a9846000000b0044b61af8816sm3328465ooi.41.2022.09.05.12.08.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 12:08:55 -0700 (PDT)
+ Mon, 05 Sep 2022 12:08:58 -0700 (PDT)
 From: Igor Torrente <igormtorrente@gmail.com>
 To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
  tzimmermann@suse.de
-Subject: [PATCH v7 8/9] drm: vkms: Adds XRGB_16161616 and ARGB_1616161616
- formats
-Date: Mon,  5 Sep 2022 16:08:10 -0300
-Message-Id: <20220905190811.25024-9-igormtorrente@gmail.com>
+Subject: [PATCH v7 9/9] drm: vkms: Add support to the RGB565 format
+Date: Mon,  5 Sep 2022 16:08:11 -0300
+Message-Id: <20220905190811.25024-10-igormtorrente@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220905190811.25024-1-igormtorrente@gmail.com>
 References: <20220905190811.25024-1-igormtorrente@gmail.com>
@@ -80,75 +79,89 @@ Cc: hamohammed.sa@gmail.com, airlied@linux.ie, leandro.ribeiro@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will be useful to write tests that depends on these formats.
+This commit also adds new helper macros to deal with fixed-point
+arithmetic.
 
-ARGB and XRGB follows the a similar implementation of the former formats.
-Just adjusting for 16 bits per channel.
+It was done to improve the precision of the conversion to ARGB16161616
+since the "conversion ratio" is not an integer.
 
 V3: Adapt the handlers to the new format introduced in patch 7 V3.
 V5: Minor improvements
-    Added le16_to_cpu/cpu_to_le16 to the 16 bits color read/writes.
+V6: Minor improvements (Pekka Paalanen)
 
 Reviewed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c   | 77 +++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_plane.c     |  5 +-
- drivers/gpu/drm/vkms/vkms_writeback.c |  2 +
- 3 files changed, 83 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/vkms_formats.c   | 70 +++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_plane.c     |  6 ++-
+ drivers/gpu/drm/vkms/vkms_writeback.c |  3 +-
+ 3 files changed, 76 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 33803d3e30b7..b583da7fe0b1 100644
+index b583da7fe0b1..30bf8e6660ad 100644
 --- a/drivers/gpu/drm/vkms/vkms_formats.c
 +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -78,6 +78,41 @@ static void XRGB8888_to_argb_u16(struct line_buffer *stage_buffer,
+@@ -5,6 +5,23 @@
+ 
+ #include "vkms_formats.h"
+ 
++/* The following macros help doing fixed point arithmetic. */
++/*
++ * With Fixed-Point scale 15 we have 17 and 15 bits of integer and fractional
++ * parts respectively.
++ *  | 0000 0000 0000 0000 0.000 0000 0000 0000 |
++ * 31                                          0
++ */
++#define SHIFT 15
++
++#define INT_TO_FIXED(a) ((a) << SHIFT)
++#define FIXED_MUL(a, b) ((s32)(((s64)(a) * (b)) >> SHIFT))
++#define FIXED_DIV(a, b) ((s32)(((s64)(a) << SHIFT) / (b)))
++/* This macro converts a fixed point number to int, and round half up it */
++#define FIXED_TO_INT_ROUND(a) (((a) + (1 << (SHIFT - 1))) >> SHIFT)
++#define INT_TO_FIXED_DIV(a, b) (FIXED_DIV(INT_TO_FIXED(a), INT_TO_FIXED(b)))
++#define INT_TO_FIXED_DIV(a, b) (FIXED_DIV(INT_TO_FIXED(a), INT_TO_FIXED(b)))
++
+ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
+ {
+ 	return frame_info->offset + (y * frame_info->pitch)
+@@ -112,6 +129,30 @@ static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
  	}
  }
  
-+static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-+				     const struct vkms_frame_info *frame_info,
-+				     int y)
++static void RGB565_to_argb_u16(struct line_buffer *stage_buffer,
++			       const struct vkms_frame_info *frame_info, int y)
 +{
 +	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
 +	u16 *src_pixels = get_packed_src_addr(frame_info, y);
 +	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-+			    stage_buffer->n_pixels);
++			       stage_buffer->n_pixels);
 +
-+	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-+		out_pixels[x].a = le16_to_cpu(src_pixels[3]);
-+		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-+		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-+		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-+	}
-+}
++	s32 fp_rb_ratio = INT_TO_FIXED_DIV(65535, 31);
++	s32 fp_g_ratio = INT_TO_FIXED_DIV(65535, 63);
 +
-+static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-+				     const struct vkms_frame_info *frame_info,
-+				     int y)
-+{
-+	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-+	u16 *src_pixels = get_packed_src_addr(frame_info, y);
-+	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-+			    stage_buffer->n_pixels);
++	for (size_t x = 0; x < x_limit; x++, src_pixels++) {
++		u16 rgb_565 = le16_to_cpu(*src_pixels);
++		s32 fp_r = INT_TO_FIXED((rgb_565 >> 11) & 0x1f);
++		s32 fp_g = INT_TO_FIXED((rgb_565 >> 5) & 0x3f);
++		s32 fp_b = INT_TO_FIXED(rgb_565 & 0x1f);
 +
-+	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
 +		out_pixels[x].a = (u16)0xffff;
-+		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-+		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-+		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
++		out_pixels[x].r = FIXED_TO_INT_ROUND(FIXED_MUL(fp_r, fp_rb_ratio));
++		out_pixels[x].g = FIXED_TO_INT_ROUND(FIXED_MUL(fp_g, fp_g_ratio));
++		out_pixels[x].b = FIXED_TO_INT_ROUND(FIXED_MUL(fp_b, fp_rb_ratio));
 +	}
 +}
 +
-+
+ 
  /*
   * The following  functions take an line of argb_u16 pixels from the
-  * src_buffer, convert them to a specific format, and store them in the
-@@ -130,6 +165,40 @@ static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
+@@ -199,6 +240,31 @@ static void argb_u16_to_XRGB16161616(struct vkms_frame_info *frame_info,
  	}
  }
  
-+static void argb_u16_to_ARGB16161616(struct vkms_frame_info *frame_info,
-+				     const struct line_buffer *src_buffer, int y)
++static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
++			       const struct line_buffer *src_buffer, int y)
 +{
 +	int x_dst = frame_info->dst.x1;
 +	u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
@@ -156,86 +169,77 @@ index 33803d3e30b7..b583da7fe0b1 100644
 +	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
 +			    src_buffer->n_pixels);
 +
-+	for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
-+		dst_pixels[3] = cpu_to_le16(in_pixels[x].a);
-+		dst_pixels[2] = cpu_to_le16(in_pixels[x].r);
-+		dst_pixels[1] = cpu_to_le16(in_pixels[x].g);
-+		dst_pixels[0] = cpu_to_le16(in_pixels[x].b);
-+	}
-+}
++	s32 fp_rb_ratio = INT_TO_FIXED_DIV(65535, 31);
++	s32 fp_g_ratio = INT_TO_FIXED_DIV(65535, 63);
 +
-+static void argb_u16_to_XRGB16161616(struct vkms_frame_info *frame_info,
-+				     const struct line_buffer *src_buffer, int y)
-+{
-+	int x_dst = frame_info->dst.x1;
-+	u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-+	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-+	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-+			    src_buffer->n_pixels);
++	for (size_t x = 0; x < x_limit; x++, dst_pixels++) {
++		s32 fp_r = INT_TO_FIXED(in_pixels[x].r);
++		s32 fp_g = INT_TO_FIXED(in_pixels[x].g);
++		s32 fp_b = INT_TO_FIXED(in_pixels[x].b);
 +
-+	for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
-+		dst_pixels[3] = 0xffff;
-+		dst_pixels[2] = cpu_to_le16(in_pixels[x].r);
-+		dst_pixels[1] = cpu_to_le16(in_pixels[x].g);
-+		dst_pixels[0] = cpu_to_le16(in_pixels[x].b);
++		u16 r = FIXED_TO_INT_ROUND(FIXED_DIV(fp_r, fp_rb_ratio));
++		u16 g = FIXED_TO_INT_ROUND(FIXED_DIV(fp_g, fp_g_ratio));
++		u16 b = FIXED_TO_INT_ROUND(FIXED_DIV(fp_b, fp_rb_ratio));
++
++		*dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
 +	}
 +}
 +
  void *get_frame_to_line_function(u32 format)
  {
  	switch (format) {
-@@ -137,6 +206,10 @@ void *get_frame_to_line_function(u32 format)
- 		return &ARGB8888_to_argb_u16;
- 	case DRM_FORMAT_XRGB8888:
- 		return &XRGB8888_to_argb_u16;
-+	case DRM_FORMAT_ARGB16161616:
-+		return &ARGB16161616_to_argb_u16;
-+	case DRM_FORMAT_XRGB16161616:
-+		return &XRGB16161616_to_argb_u16;
+@@ -210,6 +276,8 @@ void *get_frame_to_line_function(u32 format)
+ 		return &ARGB16161616_to_argb_u16;
+ 	case DRM_FORMAT_XRGB16161616:
+ 		return &XRGB16161616_to_argb_u16;
++	case DRM_FORMAT_RGB565:
++		return &RGB565_to_argb_u16;
  	default:
  		return NULL;
  	}
-@@ -149,6 +222,10 @@ void *get_line_to_frame_function(u32 format)
- 		return &argb_u16_to_ARGB8888;
- 	case DRM_FORMAT_XRGB8888:
- 		return &argb_u16_to_XRGB8888;
-+	case DRM_FORMAT_ARGB16161616:
-+		return &argb_u16_to_ARGB16161616;
-+	case DRM_FORMAT_XRGB16161616:
-+		return &argb_u16_to_XRGB16161616;
+@@ -226,6 +294,8 @@ void *get_line_to_frame_function(u32 format)
+ 		return &argb_u16_to_ARGB16161616;
+ 	case DRM_FORMAT_XRGB16161616:
+ 		return &argb_u16_to_XRGB16161616;
++	case DRM_FORMAT_RGB565:
++		return &argb_u16_to_RGB565;
  	default:
  		return NULL;
  	}
 diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index d5f3fbfc0f7c..f823fe315de6 100644
+index f823fe315de6..f4319066adcc 100644
 --- a/drivers/gpu/drm/vkms/vkms_plane.c
 +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -13,11 +13,14 @@
+@@ -13,14 +13,16 @@
  
  static const u32 vkms_formats[] = {
  	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_XRGB16161616
+-	DRM_FORMAT_XRGB16161616
++	DRM_FORMAT_XRGB16161616,
++	DRM_FORMAT_RGB565
  };
  
  static const u32 vkms_plane_formats[] = {
  	DRM_FORMAT_ARGB8888,
--	DRM_FORMAT_XRGB8888
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_XRGB16161616,
-+	DRM_FORMAT_ARGB16161616
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_XRGB16161616,
+-	DRM_FORMAT_ARGB16161616
++	DRM_FORMAT_ARGB16161616,
++	DRM_FORMAT_RGB565
  };
  
  static struct drm_plane_state *
 diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 0ce5e28d260d..16feea884646 100644
+index 16feea884646..84a51cd281b9 100644
 --- a/drivers/gpu/drm/vkms/vkms_writeback.c
 +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -16,6 +16,8 @@
- 
+@@ -17,7 +17,8 @@
  static const u32 vkms_wb_formats[] = {
  	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_XRGB16161616,
-+	DRM_FORMAT_ARGB16161616
+ 	DRM_FORMAT_XRGB16161616,
+-	DRM_FORMAT_ARGB16161616
++	DRM_FORMAT_ARGB16161616,
++	DRM_FORMAT_RGB565
  };
  
  static const struct drm_connector_funcs vkms_wb_connector_funcs = {
