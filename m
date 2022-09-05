@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EF65ACAAB
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:31:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBF45ACAAF
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:31:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DDDC10E1B1;
-	Mon,  5 Sep 2022 06:31:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B05F10E1B6;
+	Mon,  5 Sep 2022 06:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A51D510E1B0
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 06:31:14 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id 202so7282464pgc.8
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Sep 2022 23:31:14 -0700 (PDT)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 224E310E1B2
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 06:31:17 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id l65so7730262pfl.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Sep 2022 23:31:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=U194c+dv3L8PGxjQRUqmKsyVJlhonDrX8vTPY/i9hXs=;
- b=Fkbc/qOj6ZS7IqaqFcyPDPM8EDvYCU7OGChWB/9DpWkiWqS2dcKh9l1ojNoGhPTnaD
- njtjyQXo+Rn/WKjPbWSgQwcSRXqdDOgJDGXNJQq5SFjXCfctlSjW18o5uDca1l2zvr9s
- qI1PzrfdfgBUibYLHx0f78UFpIn7lM4srMFlpQG6GGUAs+9ir4zw3UO2CcA6EiK7Fjf1
- bf4cjTs1g6ppz8vMIVX34VakImJ62Z/3L44MxW6WWlAwFP7SjkuSosBV+uw4t/dQJPMK
- jdTwvre314VlwpC1eofIVn09IiP/lYmwjM75pESkwXfDC4BXtIhlz1s+2S/HOBFZhOcr
- KREw==
+ bh=JcNarHX5vDGjVT4u3bJlQD1+cgrqWKhTPjcJ8WgPV+Y=;
+ b=DxvplDrIsh+KijXXFdPyzxvt874fwO8Mrl8/8AeOKCJE+XbHxvUZFRKCE2GWxXKh/D
+ umFYRihOe+jne0ztML2y6mc0jbRPpGBhC1g0NvUfpp6EeLk7jk01cUaRoaJOQGKx5afd
+ lMrQqjCzBLO0lmmWRuQTMiLdS80KFr2EMlRBbDQ43Cvwei0LgWRjAJ8gs1Hh7H+I8nL+
+ T7StbBazi7jgrWFhxeXo3Gac0AKQAJdX41kNsF1jErc6zj3GvAoSXS8rPqIvQoiy9CfD
+ STWwhnuDN61n/ngUeJ4+XMum2eLhXHNuROQUxZWikj/bqGNqJIg0uK7dakXt3T7vhKRj
+ +Zvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=U194c+dv3L8PGxjQRUqmKsyVJlhonDrX8vTPY/i9hXs=;
- b=kgM5sB2JsodkODhZMecZ4APqvyOpdg1JF7LWd8DiQrllbnkCHiFUk+6SeXp0bcS0e2
- f6iRB/XZZZApj4lcfM1bREoklJpRdcMKh5CxzpkboVGJCkRHdGmmIcEQLaETZ1HkgijV
- t8Am686xE2tEGdFdTk7uvBKyDW+dPM6NSbephhg3mRE/GWzUVpcI9pCPPlciq3k/byUw
- rOjTRLpraGElbOjzeI2HnW+3Pkht7qF2Q8g26/X2clDX5iFfO8heFB57s4uB7Ez3tl8H
- pZgkHF6XTXD7j4QJv+q5WxuA5dXjzKircCpA0qdEQlxyaDKYBTFWqIz4LA+q0XKQkPNB
- EUzg==
-X-Gm-Message-State: ACgBeo1AcWjQA1CdoSeqT0AYEdYe9qkktdPHryrAC9v6ImixJQygUZkJ
- MzqY12nAFqZrENGVYC0y/WY=
-X-Google-Smtp-Source: AA6agR5AcoEUClPAM45JZ1w1Bqqw5txpdGe6Mc9rimWxG6gO38z3tQNrUedFo00QOImtqhFwVKAqJg==
-X-Received: by 2002:a63:914c:0:b0:42b:a8fa:eb4a with SMTP id
- l73-20020a63914c000000b0042ba8faeb4amr34343614pge.481.1662359473959; 
- Sun, 04 Sep 2022 23:31:13 -0700 (PDT)
+ bh=JcNarHX5vDGjVT4u3bJlQD1+cgrqWKhTPjcJ8WgPV+Y=;
+ b=D1tnmQT377brgc+y3Ho3t3Ecb6JaxN1PPYcJ/ekzuyonzcYNQQztrXFdR515LHFHKx
+ jVTAKuPS/wj9RE/u0XUKYKPEbyglEn88xCGwodk6dNRxYz9cBE7J/oDcQHy2FeyZyS/L
+ eXMuA9q8gK9U4owGEHB2apSuD5ZXGARn4ZHR3j/k3fEfkS46TjY7zE42ZBuiqgxCUvKi
+ 85ixBn7CCHY+Ex/0m3NAE7wDTnYOzUiGsxe2J34FTrEX5+4tD/6i7LCeDvBTP+b67nyI
+ okoeLf+TOsXkg78Ffs1PJene9+NrSONkziaqeonKosT+8GulkUrR0DhWOJjnFkPbGUUO
+ h8jg==
+X-Gm-Message-State: ACgBeo3x15/eD3FBr8zOeh900zA9a5xWwgPBn05Z1BtsXKsq5srjX5r4
+ 17cjeZlwXrcDg5mVvGwHK1o=
+X-Google-Smtp-Source: AA6agR7ElJwXFJbXTWS13gywL0+xg7ynmUWpG94uiTchE1mDeAqtJvkeWg4KKm6lqy6WE6s/yuBdHA==
+X-Received: by 2002:a63:fc11:0:b0:430:41b4:acf5 with SMTP id
+ j17-20020a63fc11000000b0043041b4acf5mr19872386pgi.408.1662359476546; 
+ Sun, 04 Sep 2022 23:31:16 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com
  ([2620:15c:202:201:7332:f188:2984:5930])
  by smtp.gmail.com with ESMTPSA id
- d197-20020a6336ce000000b0042254fce5e7sm5710653pga.50.2022.09.04.23.31.11
+ d197-20020a6336ce000000b0042254fce5e7sm5710653pga.50.2022.09.04.23.31.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 23:31:13 -0700 (PDT)
+ Sun, 04 Sep 2022 23:31:16 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Mark Brown <broonie@kernel.org>,
  Matti Vaittinen <mazziesaccount@gmail.com>,
@@ -74,9 +74,10 @@ To: Thierry Reding <thierry.reding@gmail.com>, Mark Brown <broonie@kernel.org>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
  Bjorn Helgaas <bhelgaas@google.com>,
  =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-Subject: [PATCH v1 02/11] drm/tegra: switch to using devm_fwnode_gpiod_get
-Date: Sun,  4 Sep 2022 23:30:54 -0700
-Message-Id: <20220903-gpiod_get_from_of_node-remove-v1-2-b29adfb27a6c@gmail.com>
+Subject: [PATCH v1 03/11] mtd: rawnand: stm32_fmc2: switch to using
+ devm_fwnode_gpiod_get()
+Date: Sun,  4 Sep 2022 23:30:55 -0700
+Message-Id: <20220903-gpiod_get_from_of_node-remove-v1-3-b29adfb27a6c@gmail.com>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
 In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
 References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
@@ -104,35 +105,28 @@ Cc: linux-watchdog@vger.kernel.org, linux-pci@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I would like to limit (or maybe even remove) use of
-[devm_]gpiod_get_from_of_node in drivers so that gpiolib can be cleaned
-a bit, so let's switch to the generic device property API. It may even
-help with handling secondary fwnodes when gpiolib is taught to handle
-gpios described by swnodes.
+I would like to stop exporting OF-specific devm_gpiod_get_from_of_node()
+so that gpiolib can be cleaned a bit, so let's switch to the generic
+fwnode property API.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index 47d26b5d9945..a8925dcd7edd 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -133,11 +133,11 @@ int tegra_output_probe(struct tegra_output *output)
- 		}
+diff --git a/drivers/mtd/nand/raw/stm32_fmc2_nand.c b/drivers/mtd/nand/raw/stm32_fmc2_nand.c
+index 87c1c7dd97eb..7e466b840368 100644
+--- a/drivers/mtd/nand/raw/stm32_fmc2_nand.c
++++ b/drivers/mtd/nand/raw/stm32_fmc2_nand.c
+@@ -1799,9 +1799,8 @@ static int stm32_fmc2_nfc_parse_child(struct stm32_fmc2_nfc *nfc,
+ 		nand->cs_used[i] = cs;
  	}
  
--	output->hpd_gpio = devm_gpiod_get_from_of_node(output->dev,
--						       output->of_node,
--						       "nvidia,hpd-gpio", 0,
--						       GPIOD_IN,
--						       "HDMI hotplug detect");
-+	output->hpd_gpio = devm_fwnode_gpiod_get(output->dev,
-+					of_fwnode_handle(output->of_node),
-+					"nvidia,hpd",
-+					GPIOD_IN,
-+					"HDMI hotplug detect");
- 	if (IS_ERR(output->hpd_gpio)) {
- 		if (PTR_ERR(output->hpd_gpio) != -ENOENT)
- 			return PTR_ERR(output->hpd_gpio);
+-	nand->wp_gpio = devm_gpiod_get_from_of_node(nfc->dev, dn,
+-						    "wp-gpios", 0,
+-						    GPIOD_OUT_HIGH, "wp");
++	nand->wp_gpio = devm_fwnode_gpiod_get(nfc->dev, of_fwnode_handle(dn),
++					      "wp", GPIOD_OUT_HIGH, "wp");
+ 	if (IS_ERR(nand->wp_gpio)) {
+ 		ret = PTR_ERR(nand->wp_gpio);
+ 		if (ret != -ENOENT)
 
 -- 
 b4 0.10.0-dev-fc921
