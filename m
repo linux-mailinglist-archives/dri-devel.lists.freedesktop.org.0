@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92765AD40F
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 15:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF105AD411
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 15:38:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9374710E390;
-	Mon,  5 Sep 2022 13:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E92110E3A4;
+	Mon,  5 Sep 2022 13:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 655B610E392
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2EC10E390
  for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 13:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1662385065;
@@ -19,30 +19,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qlXy84+lXzAItqIjSvNR0nd6mlh+QwIJravLphNSzXc=;
- b=X8qN6Saac50QkQsClmsm39U8XfsUkKGA/EGr4qmpjW7SOgRtlX5v63DBSDbIA0G65Q9r8n
- rRj45Oen6JX5rkeM5NWo46swlA0qM0/E1C8jheUzK5xmi63kE9GINvT111t+q2o/zASkw6
- Up8lojRBgCaZATUicIjINzVAouwNjus=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=B/pXD7aQbta8VpoKA60AQUB7mtKPR9zOjvt9Jr1a3+Q=;
+ b=TAEXFSKdCOMS1vzMJIthojwb7Dsq+vrtNALYbSzJa6eGKfY7oRs96sdnH9eaDVpx3JRa36
+ YG03GLunS95s2dhyvIs91/xqFlG4MiQEDqhSIqQbPVxR1lr7IHxGq0GgAgxolEzSjPIFFk
+ ix5iGo+fT8CrilqgSIAYa8MJhvSPuYk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-201-ho9SsE4COmK7PP7ulbOyAQ-1; Mon, 05 Sep 2022 09:37:42 -0400
-X-MC-Unique: ho9SsE4COmK7PP7ulbOyAQ-1
+ us-mta-404-9bUeBEtJMxaxnP7S5Yq6Cg-1; Mon, 05 Sep 2022 09:37:44 -0400
+X-MC-Unique: 9bUeBEtJMxaxnP7S5Yq6Cg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 593658037AA;
- Mon,  5 Sep 2022 13:37:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C105B29ABA14;
+ Mon,  5 Sep 2022 13:37:43 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.195.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36CA44010E4D;
- Mon,  5 Sep 2022 13:37:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E76340D282E;
+ Mon,  5 Sep 2022 13:37:42 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Subject: [PATCH 1/3] drm/gma500: Fix BUG: sleeping function called from
- invalid context errors
-Date: Mon,  5 Sep 2022 15:37:36 +0200
-Message-Id: <20220905133738.466490-2-hdegoede@redhat.com>
+Subject: [PATCH 2/3] drm/gma500: Fix crtc_vblank reference leak when userspace
+ queues multiple events
+Date: Mon,  5 Sep 2022 15:37:37 +0200
+Message-Id: <20220905133738.466490-3-hdegoede@redhat.com>
 In-Reply-To: <20220905133738.466490-1-hdegoede@redhat.com>
 References: <20220905133738.466490-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -67,96 +67,62 @@ Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gma_crtc_page_flip() was holding the event_lock spinlock while calling
-crtc_funcs->mode_set_base() which takes ww_mutex.
+The gma500 page-flip code kinda assume that userspace never queues more
+then 1 vblank event. So basically it assume that userspace does:
 
-The only reason to hold event_lock is to clear gma_crtc->page_flip_event
-on mode_set_base() errors.
+- page-flip
+- wait for vblank event
+- render
+- page-flip
+- etc.
 
-Instead unlock it after setting gma_crtc->page_flip_event and on
-errors re-take the lock and clear gma_crtc->page_flip_event it
-it is still set.
+In the case where userspace would submit 2 page-flips without waiting
+for the first to finish, the current code will just overwrite
+gma_crtc->page_flip_event with the event from the 2nd page-flip.
 
-This fixes the following WARN/stacktrace:
+Before this patch if page-flips are submitted then drm_crtc_vblank_get()
+will get called twice, where drm_crtc_vblank_put(crtc) will only be run
+once, since only 1 event will get reported (the last event set in
+gma_crtc->page_flip_event).
 
-[  512.122953] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:870
-[  512.123004] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 1253, name: gnome-shell
-[  512.123031] preempt_count: 1, expected: 0
-[  512.123048] RCU nest depth: 0, expected: 0
-[  512.123066] INFO: lockdep is turned off.
-[  512.123080] irq event stamp: 0
-[  512.123094] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-[  512.123134] hardirqs last disabled at (0): [<ffffffff8d0ec28c>] copy_process+0x9fc/0x1de0
-[  512.123176] softirqs last  enabled at (0): [<ffffffff8d0ec28c>] copy_process+0x9fc/0x1de0
-[  512.123207] softirqs last disabled at (0): [<0000000000000000>] 0x0
-[  512.123233] Preemption disabled at:
-[  512.123241] [<0000000000000000>] 0x0
-[  512.123275] CPU: 3 PID: 1253 Comm: gnome-shell Tainted: G        W         5.19.0+ #1
-[  512.123304] Hardware name: Packard Bell dot s/SJE01_CT, BIOS V1.10 07/23/2013
-[  512.123323] Call Trace:
-[  512.123346]  <TASK>
-[  512.123370]  dump_stack_lvl+0x5b/0x77
-[  512.123412]  __might_resched.cold+0xff/0x13a
-[  512.123458]  ww_mutex_lock+0x1e/0xa0
-[  512.123495]  psb_gem_pin+0x2c/0x150 [gma500_gfx]
-[  512.123601]  gma_pipe_set_base+0x76/0x240 [gma500_gfx]
-[  512.123708]  gma_crtc_page_flip+0x95/0x130 [gma500_gfx]
-[  512.123808]  drm_mode_page_flip_ioctl+0x57d/0x5d0
-[  512.123897]  ? drm_mode_cursor2_ioctl+0x10/0x10
-[  512.123936]  drm_ioctl_kernel+0xa1/0x150
-[  512.123984]  drm_ioctl+0x21f/0x420
-[  512.124025]  ? drm_mode_cursor2_ioctl+0x10/0x10
-[  512.124070]  ? rcu_read_lock_bh_held+0xb/0x60
-[  512.124104]  ? lock_release+0x1ef/0x2d0
-[  512.124161]  __x64_sys_ioctl+0x8d/0xd0
-[  512.124203]  do_syscall_64+0x58/0x80
-[  512.124239]  ? do_syscall_64+0x67/0x80
-[  512.124267]  ? trace_hardirqs_on_prepare+0x55/0xe0
-[  512.124300]  ? do_syscall_64+0x67/0x80
-[  512.124340]  ? rcu_read_lock_sched_held+0x10/0x80
-[  512.124377]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-[  512.124411] RIP: 0033:0x7fcc4a70740f
-[  512.124442] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-[  512.124470] RSP: 002b:00007ffda73f5390 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[  512.124503] RAX: ffffffffffffffda RBX: 000055cc9e474500 RCX: 00007fcc4a70740f
-[  512.124524] RDX: 00007ffda73f5420 RSI: 00000000c01864b0 RDI: 0000000000000009
-[  512.124544] RBP: 00007ffda73f5420 R08: 000055cc9c0b0cb0 R09: 0000000000000034
-[  512.124564] R10: 0000000000000000 R11: 0000000000000246 R12: 00000000c01864b0
-[  512.124584] R13: 0000000000000009 R14: 000055cc9df484d0 R15: 000055cc9af5d0c0
-[  512.124647]  </TASK>
+Fix the crtc_vblank reference leak by not calling drm_crtc_vblank_get()
+when replacing a still set gma_crtc->page_flip_event with a new one.
+
+And while at it add a warning for when userspace tries to queue
+multiple page-flips with events attached which gma500 currently
+does not support.
+
+Note this is not a real fix for the issue of the gma500 code not
+supporting multiple page-flips events being pending, but it at least
+improves the situation a bit.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/gma500/gma_display.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/gma500/gma_display.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
-index bd40c040a2c9..cf038e322164 100644
+index cf038e322164..c4084301afb4 100644
 --- a/drivers/gpu/drm/gma500/gma_display.c
 +++ b/drivers/gpu/drm/gma500/gma_display.c
-@@ -532,15 +532,19 @@ int gma_crtc_page_flip(struct drm_crtc *crtc,
- 		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+@@ -528,10 +528,13 @@ int gma_crtc_page_flip(struct drm_crtc *crtc,
  
- 		gma_crtc->page_flip_event = event;
-+		spin_unlock_irqrestore(&dev->event_lock, flags);
+ 	if (event) {
+ 		spin_lock_irqsave(&dev->event_lock, flags);
+-
+-		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+-
+-		gma_crtc->page_flip_event = event;
++		if (!gma_crtc->page_flip_event) {
++			WARN_ON(drm_crtc_vblank_get(crtc) != 0);
++			gma_crtc->page_flip_event = event;
++		} else {
++			drm_warn_once(dev, "page_flip_event already set, gma500 does not support queing multiple events\n");
++			gma_crtc->page_flip_event = event;
++		}
+ 		spin_unlock_irqrestore(&dev->event_lock, flags);
  
  		/* Call this locked if we want an event at vblank interrupt. */
- 		ret = crtc_funcs->mode_set_base(crtc, crtc->x, crtc->y, old_fb);
- 		if (ret) {
--			gma_crtc->page_flip_event = NULL;
--			drm_crtc_vblank_put(crtc);
-+			spin_lock_irqsave(&dev->event_lock, flags);
-+			if (gma_crtc->page_flip_event) {
-+				gma_crtc->page_flip_event = NULL;
-+				drm_crtc_vblank_put(crtc);
-+			}
-+			spin_unlock_irqrestore(&dev->event_lock, flags);
- 		}
- 
--		spin_unlock_irqrestore(&dev->event_lock, flags);
- 	} else {
- 		ret = crtc_funcs->mode_set_base(crtc, crtc->x, crtc->y, old_fb);
- 	}
 -- 
 2.36.1
 
