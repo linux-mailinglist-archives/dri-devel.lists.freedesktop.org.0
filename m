@@ -2,72 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5C15AD7C3
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 18:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A5A5AD7D5
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 18:48:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9409410E448;
-	Mon,  5 Sep 2022 16:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 039F210E327;
+	Mon,  5 Sep 2022 16:48:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 543E010E448;
- Mon,  5 Sep 2022 16:44:47 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id bq23so13824926lfb.7;
- Mon, 05 Sep 2022 09:44:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date;
- bh=pg/PAiNvnu7vtuOyQRQ/USUHgpjKV+PX2R3Qe58I9a8=;
- b=gpdNZAEDxje8wnITyn+RZoWmy+HDFnOquwNGCkPFH4u26oFe9BJkGsChjuvli+EpUC
- udG041BUDBCsixXiASZMPopuq5kkYgAZ75M5qx/664s54esc8z1HhBFqbN3K9kHPpL1i
- /c/k2keYZOCrifzS9i3Jol3/Ys8sNIUeajA/nxV7uULUR3TcQoLuptOLB6RGc/f719/2
- O/X4incruiAcIvG6rSJmQeWED2QziZfV7nNN+Xw4npnDsDvap4T4VaB6gU99RsKT0/sK
- ObY9ODTZh1llvOmzGkvb7+zUE3IWaTV/TsOIDkNGg6kHEUV4Ijytw/jtF/wsnn40KB7l
- WmKw==
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E9710E327
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 16:48:18 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id qh18so18146803ejb.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 09:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=vFf1NC6e/rXutxdhKSLLrUKw8nDhPmH+BJYLwhNt7yw=;
+ b=OxL4rVf+D+fKCzNOe9TQVDoMnh3EEoNcvQiMeDXPlP+kxFVp8p8JFZXkc3bdYqa3ak
+ 691sPhlXD/oheR4/nNStORcTlIGLbQuFwhfkpLd0it2H0SztxNxY4Re4xQL0y1K2WN/M
+ YWc+c0t6TcZJLaBpJZ5hk/feOKsV/LnhkSZw8KEyBWY+0+BZSWjwkEY5bguyzzqRVup+
+ bui6FbMAtvRVU5OMyOud6uBOjomUrAt6SQDWFc/cyDYs2KymJ1dzPOZeNUTT7nrOfef8
+ oNyxRwxqdxnTuiXfEZDtQqc717YgrBFHmUmYYPSNdOqzap2vrefvja3picn38zkEVXs1
+ xM2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date;
- bh=pg/PAiNvnu7vtuOyQRQ/USUHgpjKV+PX2R3Qe58I9a8=;
- b=MkhxCQONUXlubNxbbx/NHGId4pCjcxQSBxl6i556YH6RZyWtarIZnH4r4rqAPDF1Ae
- 2SMkkpWTn2cRrtRSnmM3HqZMyeuWcVmG2IrvMs4FhevTkZNVT8D98Cpi/35KlDsald2I
- +hx4m+qV46Rj2fYKP9U8ADei168DJAY0ot9xiz05n+iC4llDjBQ8Y4nQac5nRQ4aDRSg
- V9NPmZa5RxP7uRMSvuMD2LRW4/3MO6bEMqs+yH4X7sdimv6a0xUcLI8BangKtRW7Aub8
- dexkCj7q6TWhjY7goaK75o5CQ/1t1I30NASufNbvytV/ASNVjE8g/EOSbZ90FUoFzhj7
- lH0w==
-X-Gm-Message-State: ACgBeo0fK2SrVBhKD4mXet0JsIpApfGJgCDavZ5c3d1J193QTGHGxSM7
- wqRbdVDBCzs+ATEHDmW4ufU=
-X-Google-Smtp-Source: AA6agR5QgKJH0v/+7sAguBYeCvG9a+g/CeSbeIITanudZorCWC9+TludMawIYPfRu4Xh0pTJ0sIw1w==
-X-Received: by 2002:a05:6512:ba2:b0:494:6d93:e9ee with SMTP id
- b34-20020a0565120ba200b004946d93e9eemr11762898lfv.378.1662396285601; 
- Mon, 05 Sep 2022 09:44:45 -0700 (PDT)
-Received: from ?IPV6:2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852?
- ([2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852])
- by smtp.googlemail.com with ESMTPSA id
- q5-20020a2eb4a5000000b0025e59f125fbsm1469514ljm.53.2022.09.05.09.44.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 09:44:45 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
-Date: Mon, 5 Sep 2022 18:44:42 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=vFf1NC6e/rXutxdhKSLLrUKw8nDhPmH+BJYLwhNt7yw=;
+ b=BaHb0fALN0AYOqb7h2LAQjlqoSQAMdd7PsQnLIAIrJ9jWLeWajY2RLtWRJaqkXbLlp
+ FNEnbFX9QHlnz+LLiAnAeT/+abawOBp+GfxsDMg0oYSISmXJeWK95ugWHrJQtowIvXwH
+ wYmk2QBEFaSoNcKI694FyyrCG+A52MjD1kV295Olx42s25gP+f7jn5+0x8GKSj8h55T1
+ XKWI6k5ziA3/mjNXJ3NBhCDBpnzCwFOjQdPlyQpn95uuUCNs0jSSmMUDTxA23OokXeca
+ kBpXp+HpGdrn56sKUsBKraGOSf1ZLJDL3A+fSTvihJV2t/JX2kjwj1ZhslgoyrHAzHnJ
+ KLqw==
+X-Gm-Message-State: ACgBeo0HVy80fBYW8ko+9cZa3UjiLCmBcg5jL176tynRwU8LKo1yCJB9
+ NW2T1Ul/OR1y1TrsbzrucgewHwYkp8ne2vlzmsWtTw==
+X-Google-Smtp-Source: AA6agR5NLqtR8oGfFTf8feIBOe08qSCAQgSn3cBwuBtLBXKmRKosxUcLTwt7GXQEJ7mpo2ehybr7vEnFmXmgLF1srr4=
+X-Received: by 2002:a17:907:6092:b0:731:59f0:49ac with SMTP id
+ ht18-20020a170907609200b0073159f049acmr36298700ejc.383.1662396497455; Mon, 05
+ Sep 2022 09:48:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.2.1
-Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
- display modes
-Content-Language: pl
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
- <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
- <20220905133755.gcmmntg3wnecyqjq@houat>
-In-Reply-To: <20220905133755.gcmmntg3wnecyqjq@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220903130833.541463-1-xji@analogixsemi.com>
+In-Reply-To: <20220903130833.541463-1-xji@analogixsemi.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 5 Sep 2022 18:48:06 +0200
+Message-ID: <CAG3jFyum5M8iGdW++c7rayUn4ogJ6izWaX7VaqMfV7ShAe_kRQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: Set HPD irq detect window to 2ms
+To: Xin Ji <xji@analogixsemi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,55 +63,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
- intel-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Cc: dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, qwen@analogixsemi.com,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, mliu@analogixsemi.com,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, hsinyi@chromium.org,
+ bliang@analogixsemi.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi Xin,
 
-W dniu 5.09.2022 o 15:37, Maxime Ripard pisze:
->>> +    vfp = vfp_min + (porches_rem / 2);
->>> +    vbp = porches - vfp;
->>
->> Relative position of the vertical sync within the VBI effectively moves the
->> image up and down. Adding that (porches_rem / 2) moves the image up off center
->> by that many pixels. I'd keep the VFP always at minimum to keep the image
->> centered.
+On Sat, 3 Sept 2022 at 15:09, Xin Ji <xji@analogixsemi.com> wrote:
 >
-> And you would increase the back porch only then?
+> Some panels trigger HPD irq due to noise, the HPD debounce
+> may be 1.8ms, exceeding the default irq detect window, ~1.4ms.
+> This patch set HPD irq detection window to 2ms to
+> tolerate the HPD noise.
+>
+> Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> ---
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 14 ++++++++++++++
+>  drivers/gpu/drm/bridge/analogix/anx7625.h |  6 ++++++
+>  2 files changed, 20 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index c74b5df4cade..0c323b5a1c99 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -1440,6 +1440,20 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
+>
+>  static int anx7625_read_hpd_status_p0(struct anx7625_data *ctx)
+>  {
+> +       int ret;
+> +
+> +       /* Set irq detect window to 2ms */
+> +       ret = anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> +                               HPD_DET_TIMER_BIT0_7, HPD_TIME & 0xFF);
+> +       ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> +                                HPD_DET_TIMER_BIT8_15,
+> +                                (HPD_TIME >> 8) & 0xFF);
+> +       ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> +                                HPD_DET_TIMER_BIT16_23,
+> +                                (HPD_TIME >> 16) & 0xFF);
 
-Well, increasing vbp only gives a centered image with the default 480i/576i
-resolutions. However, only ever changing vbp will cause the image to be always
-at the bottom of the screen when the active line count is decreased (e.g.
-setting the resolution to 720x480 but for 50Hz "PAL" - like many game consoles
-did back in the day).
+Does the HPD debounce timer register need to be written for every HPD
+status read?
 
-I believe that the perfect solution would:
-
-- Use the canonical / standard-defined blanking line counts for the standard
-  vertical resolutions (480/486/576)
-- Increase vfp and vbp from there by the same number if a smaller number of
-  active lines is specified, so that the resulting image is centered
-- Likewise, decrease vfp and vbp by the same number if the active line number
-  is larger and there is still leeway (this should allow for seamless handling
-  of 480i vs. 486i for 60 Hz "NTSC")
-- If even more active lines are specified, once the limit for vfp is hit, then
-  decrease vbp only - the resulting image will definitely be off-center, but
-  there's no other way
-
-I hope this makes sense for you as well.
-
-Best regards,
-Mateusz Kwiatkowski
+> +       if (ret < 0)
+> +               return ret;
+> +
+>         return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
+>  }
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> index e257a84db962..14f33d6be289 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> @@ -132,6 +132,12 @@
+>  #define I2S_SLAVE_MODE 0x08
+>  #define AUDIO_LAYOUT   0x01
+>
+> +#define HPD_DET_TIMER_BIT0_7   0xea
+> +#define HPD_DET_TIMER_BIT8_15  0xeb
+> +#define HPD_DET_TIMER_BIT16_23 0xec
+> +/* HPD debounce time 2ms for 27M clock */
+> +#define HPD_TIME               54000
+> +
+>  #define AUDIO_CONTROL_REGISTER 0xe6
+>  #define TDM_TIMING_MODE 0x08
+>
+> --
+> 2.25.1
+>
