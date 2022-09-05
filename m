@@ -1,78 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E7F5AD622
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:20:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A87B65AD623
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:21:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A61510EA22;
-	Mon,  5 Sep 2022 15:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 072AB10E428;
+	Mon,  5 Sep 2022 15:21:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC8110E41B
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662391246;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hPqOotGSruHudwMIkA2GhgTM0KbwtUxu9NgLFadghJM=;
- b=MGnZiADzzYFrKi2uPVMv5v6QgkAHDMj0sIUw/JjijoJQ5zFm9g5jM91IxUrAfx1tgdi4KU
- vusnRUsZ1XKpDzuW7tsAdqcfL9FJMPmF8VX7jdEU7EXTSYESkwkdGguVoBQcSCzoIe579F
- DwcMv+lH5fCFEiTqp57tafgvUM+UBVQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-607-1oemnaw1MsGR-TFc7CF9hA-1; Mon, 05 Sep 2022 11:20:45 -0400
-X-MC-Unique: 1oemnaw1MsGR-TFc7CF9hA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c64-20020a1c3543000000b003a61987ffb3so5481783wma.6
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 08:20:45 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3650710EA39
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:21:10 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id cu2so17857382ejb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 08:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=KBtkxhGJK7CyNF6xfmTW48XibhBbnytd5RaveyvFGdo=;
+ b=Q2iqgZjMVxCOqPOP0fpSKpQdx4CyNMxhh3pX6HD7ITBOxWspt2RFETKOaz5h3YFPDm
+ xXz8vJYybdm+73YxSEWTmtqi/94ewzka7WNM3OnkwLFR95yrwcNFa/LF4pW3LQmtui2C
+ rzbp4ddibLfxH3s0i7pz3yXbV1p3CGzgqUKkHDMmFKcULss2VCYKDWl3NMkV8FPl3r0n
+ S08ShuRCLwkSXf+O04kPRc5r0zE/4D3+LxOScJ9Pn8idshSIKRUK5wn/yzCtF6wOK3XP
+ f/UA/k07Ro2CtHQrmIKdEjMDTFM5SNstqDYZtgz7MiHlpcmOCuRbBIE0eY+XZmc8rA1Y
+ Q0cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=hPqOotGSruHudwMIkA2GhgTM0KbwtUxu9NgLFadghJM=;
- b=wqc96pRT/kg1owyEGN8w/3o8CAGxpWmIu9zqsB4F53XNT1lsOZul0JoP10wqm1DBRA
- Pc4meMmjj944Xv9F7s+sAufabqlEPeNdigNuUqPrtpxE7zvzOZkEV0GBwtz3/hI7n5ed
- RhCu8XqRLM/+ENHoW94WkUIV4SwHJbVbOJRHTBQdYUD+Y/OowljXwIcvi+lSTVng99nd
- hKAtcMWmk2pm4Aj/sl1ko19FvsTWDWTSNXkw656/2bDceg3j0elC2CANaBe1v6YQH59f
- QS7MSF2fAlnPh8CCxEddccfYSAXmPc9En5sMM6E8BTm3ozO7SdxJelKJ4KXyWXFX4JM8
- n/+g==
-X-Gm-Message-State: ACgBeo0GTNYKBBaDdecOIk67TpNa3xeoRabZjhNCXrrLFbt7yk6OLAa6
- 3YRS7uwEgZzPs/HKf4rN7X66+X5E0/+LOw5Y59fza+Aym+GuW7h6uHtL34sqCXyy9hLkiiemurH
- xozM5REiEO9QWY+yJuwxvJILzjiwA
-X-Received: by 2002:a05:600c:1c0f:b0:3a5:4d6b:a883 with SMTP id
- j15-20020a05600c1c0f00b003a54d6ba883mr11252458wms.45.1662391244721; 
- Mon, 05 Sep 2022 08:20:44 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7nVSVriafKyRymiV7fyQtuEeLvMSSb3JbyLOA78o+7ULCvGCL0DCvbENDPzt7s804RJJ3wAg==
-X-Received: by 2002:a05:600c:1c0f:b0:3a5:4d6b:a883 with SMTP id
- j15-20020a05600c1c0f00b003a54d6ba883mr11252445wms.45.1662391244580; 
- Mon, 05 Sep 2022 08:20:44 -0700 (PDT)
-Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- m5-20020adff385000000b00228c792aaaasm1383446wro.100.2022.09.05.08.20.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 08:20:44 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
- liviu.dudau@arm.com, brian.starkey@arm.com
-Subject: [PATCH RESEND drm-misc-next 8/8] drm/arm/malidp: drv: protect device
- resources after removal
-Date: Mon,  5 Sep 2022 17:20:41 +0200
-Message-Id: <20220905152041.98451-2-dakr@redhat.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220905151910.98279-1-dakr@redhat.com>
-References: <20220905151910.98279-1-dakr@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=KBtkxhGJK7CyNF6xfmTW48XibhBbnytd5RaveyvFGdo=;
+ b=tohn75tFaxUO0MTQBm/akuF15ohYKbYG/0q0oUxBMnt+MUvuM/AIUrDgf77jQyR2v3
+ Nk5CAtzPE62zp8OYe8dbdbM3y+ltrVQm4ANnSoDf0MrWSZsUomevkRIMuErYGP3TY/7L
+ ww7F4JC7e6h8rjwfyhf4vir4CtxlZPeBxFVWzjFzHnCyFSMySt//JUml22FaxU7/UFp5
+ zgpRwALc7YLtP0C/k3q7cBT5flm1Xey57PIURNZrSpnc91PiPR4MedLxzdE4ovINYAjV
+ a4JrSSNS3kRP/tMcS3MPwik9hzcOUiAh9sglyvk7kxtYz+euIheopRcX6RRghGYcuWOo
+ 87xg==
+X-Gm-Message-State: ACgBeo2K25Tf6+c9X2xeHv5hG9S2CdP+RZa8d1NcN09UCh8vrpHgDSfg
+ C4CjeBz009MJ0HGpdBBYpfIy2SHTircjsfRhtg09iQ==
+X-Google-Smtp-Source: AA6agR5Rrox9qKkk144516ElYfGthOF8W3ZWFx6D0B+Bj9kfBYUY99eTp8W4Fw5cgraESd2pxD14qp0JQAWsMQSykBw=
+X-Received: by 2002:a17:906:d550:b0:733:8e1a:f7 with SMTP id
+ cr16-20020a170906d55000b007338e1a00f7mr36873318ejc.580.1662391268656; Mon, 05
+ Sep 2022 08:21:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20220902153906.31000-1-macroalpha82@gmail.com>
+ <20220902153906.31000-2-macroalpha82@gmail.com>
+ <YxKdE7ZQ97NsuqZk@pendragon.ideasonboard.com>
+In-Reply-To: <YxKdE7ZQ97NsuqZk@pendragon.ideasonboard.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 5 Sep 2022 17:20:57 +0200
+Message-ID: <CAG3jFyu5_ZOn48=y=5u=NyALefczQUxiwVJnJW=irvE5sK4tKw@mail.gmail.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: Add byteswap order to chrontel ch7033
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,52 +65,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se, airlied@linux.ie,
+ narmstrong@baylibre.com, Chris Morgan <macromorgan@hotmail.com>,
+ dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
+ lkundrak@v3.sk, andrzej.hajda@intel.com, robh+dt@kernel.org,
+ jernej.skrabec@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(Hardware) resources which are bound to the driver and device lifecycle
-must not be accessed after the device and driver are unbound.
+Thanks Laurent,
 
-However, the DRM device isn't freed as long as the last user didn't
-close it, hence userspace can still call into the driver.
+On Sat, 3 Sept 2022 at 02:17, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Chris,
+>
+> Thank you for the patch.
+>
+> On Fri, Sep 02, 2022 at 10:39:05AM -0500, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> >
+> > Update dt-binding documentation to add support for setting byteswap of
+> > chrontel ch7033.
+> >
+> > New property name of chrontel,byteswap added to set the byteswap order.
+> > This property is optional.
+> >
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> > ---
+> >  .../bindings/display/bridge/chrontel,ch7033.yaml    | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> > index bb6289c7d375..984b90893583 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> > @@ -14,6 +14,19 @@ properties:
+> >    compatible:
+> >      const: chrontel,ch7033
+> >
+> > +  chrontel,byteswap:
+> > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > +    enum:
+> > +      - 0  # BYTE_SWAP_RGB
+> > +      - 1  # BYTE_SWAP_RBG
+> > +      - 2  # BYTE_SWAP_GRB
+> > +      - 3  # BYTE_SWAP_GBR
+> > +      - 4  # BYTE_SWAP_BRG
+> > +      - 5  # BYTE_SWAP_BGR
+> > +    description: |
+> > +      Set the byteswap value of the bridge. This is optional and if not
+> > +      set value of BYTE_SWAP_BGR is used.
+>
+> I don't think this belongs to the device tree. The source of data
+> connected to the CH7033 input could use different formats. This
+> shouldn't be hardcoded, but queried at runtime, using the input and
+> output media bus formats infrastructure that the DRM bridge framework
+> includes.
 
-Therefore protect the critical sections which are accessing those
-resources with drm_dev_enter() and drm_dev_exit().
+Chris, will you have a look at submitting a fix for this during the coming days?
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/arm/malidp_drv.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+If not, we can revert this series and apply a fixed version later.
 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index aedd30f5f451..8bb8e8d14461 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -234,9 +234,12 @@ static void malidp_atomic_commit_tail(struct drm_atomic_state *state)
- 	struct malidp_drm *malidp = drm_to_malidp(drm);
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state;
--	int i;
-+	int i, idx;
- 	bool fence_cookie = dma_fence_begin_signalling();
- 
-+	if (!drm_dev_enter(drm, &idx))
-+		return;
-+
- 	pm_runtime_get_sync(drm->dev);
- 
- 	/*
-@@ -267,6 +270,8 @@ static void malidp_atomic_commit_tail(struct drm_atomic_state *state)
- 	pm_runtime_put(drm->dev);
- 
- 	drm_atomic_helper_cleanup_planes(drm, state);
-+
-+	drm_dev_exit(idx);
- }
- 
- static const struct drm_mode_config_helper_funcs malidp_mode_config_helpers = {
--- 
-2.37.2
-
+>
+> > +
+> >    reg:
+> >      maxItems: 1
+> >      description: I2C address of the device
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
