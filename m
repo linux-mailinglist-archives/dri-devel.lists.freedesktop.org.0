@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA025AC7B0
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Sep 2022 23:49:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292305AC8A2
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 04:00:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4175010E1BE;
-	Sun,  4 Sep 2022 21:44:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC7F10E123;
+	Mon,  5 Sep 2022 02:00:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81D4610E2CB;
- Sun,  4 Sep 2022 21:43:05 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id 62so5674429iov.5;
- Sun, 04 Sep 2022 14:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=gc3CEPtxYjk29+Wh9qd9Uhba+Qcycq/xTeA557V/yJA=;
- b=pjBlhL+ATdSasCB8eiAlDBtg6VQZe3cAxxbzs1dn4fhsTGll1ZJKZVPkMR2mAe6vQD
- +1ZUleBqb9yFLUkLQLuRp4esV7jUMm+9nkPY8LhEgMfb+aZzAVC2mkPJrqbpGbEQhkRo
- beZ5FNifB5rdJxWg7R8D5bcVcnK7tDty4bpm3uL/kbFe0gGnoJy6MFouLJWvzkGtbSFw
- KbDqjScDXUcFQ9R/5Be0XLDU0graPMWJvrt9XQvpuQIZmHQO8jVZA6GPpMTQquJWxpzE
- uymD2AvAzBcc+9sFlbROngihXuT8MzFti5OGgYB/TVQyB52NFye/DNbIZ9Wq82jlh8uk
- kuiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=gc3CEPtxYjk29+Wh9qd9Uhba+Qcycq/xTeA557V/yJA=;
- b=aDGqCwjdA+bWLEIBtyn+2NjY/j2CF/7TdOJRCEZHdERfGB1Z4A4segeRQ2oj/yeOSU
- k85aROVZZdqzYQ4k0oxHX5QDmTb+vvDOg5gjhTwDhDOkrqZ0ilce6rtU7IFgaRBc3+g6
- T0SgAZ1YdqOny+VsQwbmVrVir/RESYaLWFRfGCE9xYeeTzZ0UEPQSJZabuXwDGeWYQ/s
- BuRPDjXAx3tnFtn0lztTnYlpsmFwpbL6HrUsgFACFRo3HrMcC9FzjliMVF1QbsFYaRA3
- c0PD5G8dUyAb8xyq34R0CXkY8UhvL3ag6Mo5xYSrh3rWF5VhiodwEr7dA4ewyFGwPrN7
- dENg==
-X-Gm-Message-State: ACgBeo3efeaURAKS0u/8VUQMvjU/QZ3jJvddx9dF7mbbZhrjGq6izDQk
- t8w0H6xnZzUhN0I5tIyR9ow=
-X-Google-Smtp-Source: AA6agR62BzXzT17KlWx9uqQOlpAhM116jyafKxT3anpuAMgqBhik1FZ5pmVPGg2GE9QdKZVv5ooKrQ==
-X-Received: by 2002:a05:6638:24c2:b0:346:ce9e:3eff with SMTP id
- y2-20020a05663824c200b00346ce9e3effmr25894336jat.262.1662327784843; 
- Sun, 04 Sep 2022 14:43:04 -0700 (PDT)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
- by smtp.googlemail.com with ESMTPSA id
- e12-20020a056602044c00b006889ea7be7bsm3727688iov.29.2022.09.04.14.43.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 14:43:04 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: jbaron@akamai.com, gregkh@linuxfoundation.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v6 57/57] dyndbg: fiddle with readback value on LEVEL_NAMES
- types
-Date: Sun,  4 Sep 2022 15:41:34 -0600
-Message-Id: <20220904214134.408619-58-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220904214134.408619-1-jim.cromie@gmail.com>
-References: <20220904214134.408619-1-jim.cromie@gmail.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E84B10E123
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 01:59:58 +0000 (UTC)
+X-UUID: 35f887af141e4cda82ea300b8afa496d-20220905
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=RBTVq5JWRZGciHt3zVoLMLM2akIEZ/UY1juZ7uS87mg=; 
+ b=R3j9U1a1mmltwNpfuUxhlYuFMuQh+f2M203UHIHmYH0hmTJHmk2XXEOfIXgaWD6MMvcwybTw+9PqIfl2e3ypq6kSpK753wsaoTvTpkkgxgGP4m3ULMNkfTIa6REX+IUZHpX+ke0I0DrlYVqfXKY9FuDFLkEAksyL+u2tv6tXOWw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10, REQID:2cb8b398-e193-43fd-a5ef-11e4c1825775, OB:0,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
+ Ham,ACTION:release,TS:0
+X-CID-META: VersionHash:84eae18, CLOUDID:93679b56-e800-47dc-8adf-0c936acf4f1b,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 35f887af141e4cda82ea300b8afa496d-20220905
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1106842216; Mon, 05 Sep 2022 09:59:52 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 5 Sep 2022 09:59:50 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Mon, 5 Sep 2022 09:59:49 +0800
+Message-ID: <8b8edee34e6bfa5d4a87defeedb799be685be867.camel@mediatek.com>
+Subject: Re: [PATCH v4,1/2] soc: mediatek: Add mmsys func to adapt to dpi
+ output for MT8186
+From: xinlei.lee <xinlei.lee@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ <matthias.bgg@gmail.com>, <rex-bc.chen@mediatek.com>,
+ <jason-jh.lin@mediatek.com>, <yongqiang.niu@mediatek.com>,
+ <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+Date: Mon, 5 Sep 2022 09:59:55 +0800
+In-Reply-To: <3e33e564-a62d-d07c-f214-0f1857b99a9c@collabora.com>
+References: <1661743308-29120-1-git-send-email-xinlei.lee@mediatek.com>
+ <1661743308-29120-2-git-send-email-xinlei.lee@mediatek.com>
+ <3e33e564-a62d-d07c-f214-0f1857b99a9c@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,37 +70,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk, seanpaul@chromium.org,
- joe@perches.com
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-my test scripts were writing one val, reading back val+1
+On Mon, 2022-08-29 at 11:52 +0200, AngeloGioacchino Del Regno wrote:
+> Il 29/08/22 05:21, xinlei.lee@mediatek.com ha scritto:
+> > From: Xinlei Lee <xinlei.lee@mediatek.com>
+> > 
+> > Add mmsys func to manipulate dpi output format config for MT8186.
+> > 
+> > Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
+> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > ---
+> >   drivers/soc/mediatek/mt8186-mmsys.h    | 1 +
+> >   drivers/soc/mediatek/mtk-mmsys.c       | 8 ++++++++
+> >   include/linux/soc/mediatek/mtk-mmsys.h | 3 +++
+> >   3 files changed, 12 insertions(+)
+> > 
+> > diff --git a/drivers/soc/mediatek/mt8186-mmsys.h
+> > b/drivers/soc/mediatek/mt8186-mmsys.h
+> > index eb1ad9c37a9c..6eca3445bea3 100644
+> > --- a/drivers/soc/mediatek/mt8186-mmsys.h
+> > +++ b/drivers/soc/mediatek/mt8186-mmsys.h
+> > @@ -3,6 +3,7 @@
+> >   #ifndef __SOC_MEDIATEK_MT8186_MMSYS_H
+> >   #define __SOC_MEDIATEK_MT8186_MMSYS_H
+> >   
+> > +#define MT8186_DPI_OUTPUT_FORMAT		0x400
+> 
+> For readability, can we please rename this definition to
+> 
+> MT8186_MMSYS_DPI_OUTPUT_FORMAT
+> 
+> Thanks,
+> Angelo
+> 
 
-  echo L3 > p_level_names
-  cat p_level_names
-  L4
+Hi Angelo:
 
-fix this w a -1 offset.
+ok, I will revise it in the next version.
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- lib/dynamic_debug.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 11fea1f818a7..7d458601a61b 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -830,6 +830,8 @@ int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
- 		return scnprintf(buffer, PAGE_SIZE, "0x%lx\n", *dcp->bits);
- 
- 	case DD_CLASS_TYPE_LEVEL_NAMES:
-+		return scnprintf(buffer, PAGE_SIZE, "%d\n", *dcp->lvl - 1);
-+
- 	case DD_CLASS_TYPE_LEVEL_NUM:
- 		return scnprintf(buffer, PAGE_SIZE, "%d\n", *dcp->lvl);
- 	default:
--- 
-2.37.2
+Best Regards!
+Xinlei
 
