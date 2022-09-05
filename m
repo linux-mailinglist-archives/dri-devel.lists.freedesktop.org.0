@@ -1,52 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A295ACDF4
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 10:49:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3585ACE4D
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 10:57:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63DA310E21E;
-	Mon,  5 Sep 2022 08:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C524A10E219;
+	Mon,  5 Sep 2022 08:57:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1C510E21E
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 08:49:48 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E47FF10E218;
+ Mon,  5 Sep 2022 08:56:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662367788; x=1693903788;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=4D3RAQxQy6SFrkYw939qLRwPf9Fd7iF48Kn/A1uq7TQ=;
- b=cHf36KZOgTZ+JXKG7eMMNfAKzi1eb4aZRE+2VkJTE8aU3DaCeSL9G7zD
- ScOr/UZhCXcg/iEWBQmi6uPEYAYg5fGXyofzW4N4V5FIxBmqZtO1bcK8k
- 6TBPt2x4sX/z/DCYzEd90Ijq1tKn5/8E5Mhgza503Fdck0Fy0b+k2NpDD
- woSkKztmwCc4zkAOBrBAlbyMsLQYIR2pOVRdoe0qbkU7SxHC8HQY/h7bQ
- j+bKQ01xgjkURXHBGTqRIrnm+du1U9YVxi+jBniSV/bzJQw8mEzdkgrfn
- VBJ2bEg8QCoHlvzVmyj+VKdHRCAiD2gyFiDrJSIcmE/Op3zSqQHE8vHD/ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="297129834"
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="297129834"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 01:49:47 -0700
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="675199754"
-Received: from smaciag-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.57.57])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 01:49:44 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jingyu Wang <jingyuwang_vip@163.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
- daniel@ffwll.ch, Joe Perches <joe@perches.com>
-Subject: Re: [PATCH] drm/print: cleanup coding style in drm_print.h
-In-Reply-To: <87wnaib45t.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220904203818.16775-1-jingyuwang_vip@163.com>
- <87wnaib45t.fsf@intel.com>
-Date: Mon, 05 Sep 2022 11:49:28 +0300
-Message-ID: <87sfl6b3zb.fsf@intel.com>
+ t=1662368216; x=1693904216;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=4IGGKd6QRL4yUbxu6TyMhUQTT7AcWazweynIGokMp+w=;
+ b=dAAci0ANjdfMLIqLQfEoBB7LnSx2ElTlBRBx32cSEmwZ5wPHCjszBScp
+ j2HITHgs5Jmm8hW8mjgCAwnR+qHw7j+UE3M8nB7CJ+QKBoZ0JNBi4FRhw
+ 4N0JvTQsAJw4CPm3d9ppPz2yCrMS0BaSY5p3dk+TQ+J3Kpv3bLpHVoG7D
+ PWzbkVSORXW+aqUc4g494MlapNtYNmY9TkrJI9KNrd7vE93vv5i80/IzH
+ sSQE31Sr7UDJiTLI/jgDumg+XnjqeTSocPo+xYv4sje4B6v/o1fPE6PZp
+ 1s7+kqwa/SMtzgjGWYDC6RJhHu67BUK8GZdIQM4rNg9zOmM9/JukA7RHx w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="296347041"
+X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="296347041"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 01:56:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="755961700"
+Received: from unknown (HELO slisovsk-Lenovo-ideapad-720S-13IKB.fi.intel.com)
+ ([10.237.72.65])
+ by fmsmga001.fm.intel.com with ESMTP; 05 Sep 2022 01:56:54 -0700
+From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/4] Add DP MST DSC support to i915
+Date: Mon,  5 Sep 2022 11:57:40 +0300
+Message-Id: <20220905085744.29637-1-stanislav.lisovskiy@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,34 +55,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingyu Wang <jingyuwang_vip@163.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: manasi.d.navare@intel.com, vinod.govindapillai@intel.com,
+ jani.nikula@intel.com, dri-devel@lists.freedesktop.org,
+ Stanislav.Lisovskiy@intel.com, jani.saarinen@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 05 Sep 2022, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Mon, 05 Sep 2022, Jingyu Wang <jingyuwang_vip@163.com> wrote:
->> Fix everything checkpatch.pl complained about in drm_print.h
+Currently we have only DSC support for DP SST.
 
-[...]
+Stanislav Lisovskiy (4):
+  drm: Add missing DP DSC extended capability definitions.
+  drm/i915: Fix intel_dp_mst_compute_link_config
+  drm/i915: Extract drm_dp_atomic_find_vcpi_slots cycle to separate
+    function
+  drm/i915: Add DSC support to MST path
 
->>  static inline void
->> -drm_vprintf(struct drm_printer *p, const char *fmt, va_list *va)
->> +drm_vprintf(struct drm_printer *p, const char *fmt, va_list * va)
->
-> Checkpatch is just confused here. Look at all the other params, why
-> would you add an extra space here?
-
-Joe, can you help me out here please, I can't figure out why checkpatch
-is complaining here:
-
-include/drm/drm_print.h:106: CHECK:SPACING: spaces preferred around that '*' (ctx:WxV)
-#106: FILE: include/drm/drm_print.h:106:
-+drm_vprintf(struct drm_printer *p, const char *fmt, va_list *va)
-
-
-BR,
-Jani.
+ drivers/gpu/drm/i915/display/intel_dp.c     |  73 ++++----
+ drivers/gpu/drm/i915/display/intel_dp.h     |  17 ++
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 195 ++++++++++++++++++--
+ include/drm/display/drm_dp.h                |  10 +-
+ 4 files changed, 237 insertions(+), 58 deletions(-)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.37.3
+
