@@ -1,59 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2114E5AD3FB
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 15:34:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D89C05AD40D
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 15:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9937010E3A3;
-	Mon,  5 Sep 2022 13:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1486D10E38E;
+	Mon,  5 Sep 2022 13:37:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0646D10E392
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 13:34:36 +0000 (UTC)
-X-UUID: 8f920604186b45f8b2a34c2503a252b0-20220905
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=iRIAj0Q5VGCCYXa/JA34bvTWQOgLB6kzMGu2dibBv94=; 
- b=AaVBUGcYdUiUqRH/45svFFYhSJaT1wg8upq0fB6/m7l/wqpkShmyM8eoj5AlCFLvmhU7UpB4zJp+k9DlhXb/QgBWYNU07QmNlDHbstn7wjz7KLlpRS2qa9F+xOpgZAqeMORgTbTS6grqYWGTtzLDmhsCwA9vyyQKHOCAEpWndAE=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:f99b9a44-e922-4266-9376-108944dd91ba, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Releas
- e_Ham,ACTION:release,TS:-25
-X-CID-META: VersionHash:84eae18, CLOUDID:2ee63b21-1c20-48a5-82a0-25f9c331906d,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 8f920604186b45f8b2a34c2503a252b0-20220905
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1815453828; Mon, 05 Sep 2022 21:34:33 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 5 Sep 2022 21:34:31 +0800
-Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Mon, 5 Sep 2022 21:34:31 +0800
-From: <xinlei.lee@mediatek.com>
-To: <matthias.bgg@gmail.com>, <angelogioacchino.delregno@collabora.com>,
- <rex-bc.chen@mediatek.com>, <jason-jh.lin@mediatek.com>,
- <chunkuang.hu@kernel.org>, <yongqiang.niu@mediatek.com>,
- <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH v5,2/2] drm: mediatek: Adjust the dpi output format to MT8186
-Date: Mon, 5 Sep 2022 21:34:23 +0800
-Message-ID: <1662384863-17281-3-git-send-email-xinlei.lee@mediatek.com>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <1662384863-17281-1-git-send-email-xinlei.lee@mediatek.com>
-References: <1662384863-17281-1-git-send-email-xinlei.lee@mediatek.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E844010E38E
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 13:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662385062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=euM8p/oF3VMfu7X8U7bTPRCu86DFEL3unpCKNWNsbB4=;
+ b=TGhBJj4ZP8TlXchMwaSnFXOfMxNCEjrRo/r5n2wau+S60c+NUFbjOitzn2jNiJ8mksoNjE
+ L4zSbdu2tSuuaHDcvJHJ0jSbXqNydESTSE6dM7PId/J+auCn35FA77VDIrGkWmkfjLRCFH
+ uEBgwv2KQMFIkGVJ/gvykX9BHcm/3c4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-669-gFM5ONXkNu6OtXj1VreWSw-1; Mon, 05 Sep 2022 09:37:41 -0400
+X-MC-Unique: gFM5ONXkNu6OtXj1VreWSw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C857D29ABA10;
+ Mon,  5 Sep 2022 13:37:40 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.195.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF0A040D282E;
+ Mon,  5 Sep 2022 13:37:39 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 0/3] drm/gma500: Fix 2 locking related WARN_ON oopses
+Date: Mon,  5 Sep 2022 15:37:35 +0200
+Message-Id: <20220905133738.466490-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="yes"
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-MTK: N
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,155 +59,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xinlei Lee <xinlei.lee@mediatek.com>
+Hi All,
 
-Dpi output needs to adjust the output format to dual edge for MT8186.
+I have been testing the gma500 code on a Packard Bell Dot SC (Intel Atom
+N2600, cedarview) laptop because I'm working on aligning the gma500
+backlight code with the changes done to other drivers in the recent
+backlight refactoring.
 
-Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Nílas F. R. A. Prado <nfraprado@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_dpi.c      | 31 +++++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  5 ++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c  |  2 ++
- 3 files changed, 38 insertions(+)
+During the testing I noticed dmesg filling with a WARN_ON constantly
+triggering.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 630a4e301ef6..ffe4a4b70a0f 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -15,6 +15,7 @@
- #include <linux/of_graph.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
-+#include <linux/soc/mediatek/mtk-mmsys.h>
- #include <linux/types.h>
+This series consists of 3 small non backlight fixes,
+2 of which fix WARN_ON oopses/backtraces.
 
- #include <video/videomode.h>
-@@ -30,6 +31,7 @@
- #include "mtk_disp_drv.h"
- #include "mtk_dpi_regs.h"
- #include "mtk_drm_ddp_comp.h"
-+#include "mtk_drm_drv.h"
+Regards,
 
- enum mtk_dpi_out_bit_num {
- 	MTK_DPI_OUT_BIT_NUM_8BITS,
-@@ -82,6 +84,7 @@ struct mtk_dpi {
- 	struct pinctrl_state *pins_dpi;
- 	u32 output_fmt;
- 	int refcount;
-+	struct device *mmsys_dev;
- };
+Hans
 
- static inline struct mtk_dpi *bridge_to_dpi(struct drm_bridge *b)
-@@ -135,6 +138,7 @@ struct mtk_dpi_yc_limit {
-  * @yuv422_en_bit: Enable bit of yuv422.
-  * @csc_enable_bit: Enable bit of CSC.
-  * @pixels_per_iter: Quantity of transferred pixels per iteration.
-+ * @edge_cfg_in_mmsys: If the edge configuration for DPI's output needs to be set in MMSYS.
-  */
- struct mtk_dpi_conf {
- 	unsigned int (*cal_factor)(int clock);
-@@ -153,6 +157,7 @@ struct mtk_dpi_conf {
- 	u32 yuv422_en_bit;
- 	u32 csc_enable_bit;
- 	u32 pixels_per_iter;
-+	bool edge_cfg_in_mmsys;
- };
 
- static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val, u32 mask)
-@@ -449,6 +454,9 @@ static void mtk_dpi_dual_edge(struct mtk_dpi *dpi)
- 		mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING,
- 			     dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_LE ?
- 			     EDGE_SEL : 0, EDGE_SEL);
-+		if (dpi->conf->edge_cfg_in_mmsys)
-+			mtk_mmsys_ddp_dpi_fmt_config(dpi->mmsys_dev, DPI_RGB888_DDR_CON,
-+						     DPI_FORMAT_MASK);
- 	} else {
- 		mtk_dpi_mask(dpi, DPI_DDR_SETTING, DDR_EN | DDR_4PHASE, 0);
- 	}
-@@ -778,8 +786,10 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct mtk_dpi *dpi = dev_get_drvdata(dev);
- 	struct drm_device *drm_dev = data;
-+	struct mtk_drm_private *priv = drm_dev->dev_private;
- 	int ret;
+Hans de Goede (3):
+  drm/gma500: Fix BUG: sleeping function called from invalid context
+    errors
+  drm/gma500: Fix crtc_vblank reference leak when userspace queues
+    multiple events
+  drm/gma500: Fix WARN_ON(lock->magic != lock) error
 
-+	dpi->mmsys_dev = priv->mmsys_dev;
- 	ret = drm_simple_encoder_init(drm_dev, &dpi->encoder,
- 				      DRM_MODE_ENCODER_TMDS);
- 	if (ret) {
-@@ -930,6 +940,24 @@ static const struct mtk_dpi_conf mt8183_conf = {
- 	.csc_enable_bit = CSC_ENABLE,
- };
+ drivers/gpu/drm/gma500/gem.c         |  4 ++--
+ drivers/gpu/drm/gma500/gma_display.c | 21 ++++++++++++++-------
+ 2 files changed, 16 insertions(+), 9 deletions(-)
 
-+static const struct mtk_dpi_conf mt8186_conf = {
-+	.cal_factor = mt8183_calculate_factor,
-+	.reg_h_fre_con = 0xe0,
-+	.max_clock_khz = 150000,
-+	.output_fmts = mt8183_output_fmts,
-+	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-+	.edge_cfg_in_mmsys = true,
-+	.pixels_per_iter = 1,
-+	.is_ck_de_pol = true,
-+	.swap_input_support = true,
-+	.support_direct_pin = true,
-+	.dimension_mask = HPW_MASK,
-+	.hvsize_mask = HSIZE_MASK,
-+	.channel_swap_shift = CH_SWAP,
-+	.yuv422_en_bit = YUV422_EN,
-+	.csc_enable_bit = CSC_ENABLE,
-+};
-+
- static const struct mtk_dpi_conf mt8192_conf = {
- 	.cal_factor = mt8183_calculate_factor,
- 	.reg_h_fre_con = 0xe0,
-@@ -1080,6 +1108,9 @@ static const struct of_device_id mtk_dpi_of_ids[] = {
- 	{ .compatible = "mediatek,mt8183-dpi",
- 	  .data = &mt8183_conf,
- 	},
-+	{ .compatible = "mediatek,mt8186-dpi",
-+	  .data = &mt8186_conf,
-+	},
- 	{ .compatible = "mediatek,mt8192-dpi",
- 	  .data = &mt8192_conf,
- 	},
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-index 62bd4931b344..779e868ffb1a 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-@@ -235,4 +235,9 @@
- #define MATRIX_SEL_RGB_TO_JPEG		0
- #define MATRIX_SEL_RGB_TO_BT601		2
-
-+/* Values for DPI configuration in MMSYS address space */
-+#define DPI_FORMAT_MASK			0x1
-+#define DPI_RGB888_DDR_CON		BIT(0)
-+#define DPI_RGB565_SDR_CON		BIT(1)
-+
- #endif /* __MTK_DPI_REGS_H */
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 5f02f8d0e4fc..28eb1ac91c15 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -631,6 +631,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8183-dpi",
- 	  .data = (void *)MTK_DPI },
-+	{ .compatible = "mediatek,mt8186-dpi",
-+	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8192-dpi",
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8195-dp-intf",
---
-2.18.0
+-- 
+2.36.1
 
