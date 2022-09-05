@@ -1,59 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DE25AD5C1
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:09:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE085AD5D3
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:14:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C19110E3FD;
-	Mon,  5 Sep 2022 15:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE57C10E40A;
+	Mon,  5 Sep 2022 15:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE98910E3F9;
- Mon,  5 Sep 2022 15:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662390542; x=1693926542;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=C8JMmGtA70vG2m2C6NWOtCM5PtgVfohPoc+fOZ5x1Uc=;
- b=SdoGZW0ymYWRTO1koLmVNovpx2YDwJpWCSnMvkzPgcem81nP2V61HulL
- 3/eOGQMWzSroL+f5yADpJ4A9ukDK8O4lQLFVR0xOlNSVpiYTDMjqOXUY7
- m4pETXwl8p7HjbyJRn1U8SaO/59et2Xa5d8r0118exQsZClOJcBVw8uwB
- qEAx+pfbYeewhRA8nsuvxNDFTS7xmBhPoEDak5puUhZsGmHGyWkN/VLls
- T2FkmAnQDr1YWbMrplsd3+4fyTOdXFgI+Esqiu87t1Ub+FzBsAIHH/z/p
- qEeJir+azsS+m319iJ1PmWNTRWIi5bWcctbqpuydZQERR/Mo8hz+hJsY8 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="296411362"
-X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="296411362"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 08:09:00 -0700
-X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="675324113"
-Received: from hpigot-mobl1.ger.corp.intel.com (HELO [10.213.237.107])
- ([10.213.237.107])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 08:08:58 -0700
-Message-ID: <c8055bb0-1aee-c6fb-1b59-f1cd36c39a50@linux.intel.com>
-Date: Mon, 5 Sep 2022 16:08:57 +0100
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B81910E3FC
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:13:55 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ x1-20020a17090ab00100b001fda21bbc90so12446338pjq.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 08:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=BaV7TSh2pF8riJo3FYVJlB4Fd0IV89ZBF58eyTHpzCY=;
+ b=hkkpU5LscmWAGSEo3MfEtadx9VW4xDHJEup50A1r2cVLlq4cuETMEDvzQMWJ+25cub
+ uKJeKBqoA/7oOn5M03KfF2SrWzMp8y/6jxlU6IOGtXhf5NBV25gS8epBm0aJ0S2QGuaI
+ RjUYEWJv07AS8q77FSCkemAnzO0cF5SSPIB8vUM+JQ9+01vDbgKIvCwDLFJ0pxGW/o9D
+ wfMCMCN77OXaTjmH8xcwvQmxfsPP25DPJzASvB1sg54cKUVgwF0SrI+mVebrCUQXQcEH
+ UD6AosLEX29RH6M8jzXceVG7LBfIA3BiQKPCSDkkI0IwATFYFoPoughaGzGm0KCEERIH
+ sz6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=BaV7TSh2pF8riJo3FYVJlB4Fd0IV89ZBF58eyTHpzCY=;
+ b=JmB36VbBSzChQziylOhfaYoO6x0UWOya0ucO1z1FpvZm3Lcf5o8GrNzeDXmG4S431L
+ tKdxEJOTav/NrG3nmGmLw6SuuEMba6uwNeYtAdYOcvYRVXNAgqIPfJkJYVKD2swlbF4b
+ Fjb+TYuibUthAHKVs2RG+BWbfzZoZE/dbHIHYiAivUH9NaHuW4EvTlYMNngQuYbkd7SE
+ rJSFX50isnB3AowsSjUJuYwi5w7uA+BThdSOiAXsqkPpp7wbW3yyIeRA3ilJ6mpofVDg
+ 5ZTLKk01Rfx4T+laRacMMfV73ybb9ZFYBGp+zndxEqqJQqDjkH/92i8lp+anHW96H+iZ
+ tU0g==
+X-Gm-Message-State: ACgBeo3IHCH+wB0ZhyuYmy748vzHa65S5r4kXeFYdL0w07LKDBSb2u6r
+ vbSo680ScGOTV7Igvh2JUQQ=
+X-Google-Smtp-Source: AA6agR759HBK1+PQYcZT7IJSAKYI4KNMvzd+GSuzCkEXpLGsOPIUySqoQ8VGjyqne3MH/nAfFroOyA==
+X-Received: by 2002:a17:90b:164f:b0:1f5:4ced:ed81 with SMTP id
+ il15-20020a17090b164f00b001f54ceded81mr19722762pjb.122.1662390835165; 
+ Mon, 05 Sep 2022 08:13:55 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ u15-20020a170903124f00b00176ba091cd3sm1684281plh.196.2022.09.05.08.13.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 08:13:48 -0700 (PDT)
+Message-ID: <75e60144-9fa2-d6ba-bc92-edd23f7e7189@roeck-us.net>
+Date: Mon, 5 Sep 2022 08:13:39 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [Intel-gfx] [RFC PATCH v3 10/17] drm/i915/vm_bind: Implement
- I915_GEM_EXECBUFFER3 ioctl
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 10/11] watchdog: bd9576_wdt: switch to using
+ devm_fwnode_gpiod_get()
 Content-Language: en-US
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-References: <20220827194403.6495-1-andi.shyti@linux.intel.com>
- <20220827194403.6495-11-andi.shyti@linux.intel.com>
- <8ecb0b8f-f253-1318-444a-8370960c6140@linux.intel.com>
- <20220901050910.GG10283@nvishwa1-DESK>
- <f0ee82ec-03bd-1e02-affe-98f127b2d72a@linux.intel.com>
- <20220902054158.GJ10283@nvishwa1-DESK>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220902054158.GJ10283@nvishwa1-DESK>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-10-b29adfb27a6c@gmail.com>
+ <CAHp75Vd35EOy=mP25=9fmYfqQnbafgotHw1fxk-TdGk6Oc8g8Q@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAHp75Vd35EOy=mP25=9fmYfqQnbafgotHw1fxk-TdGk6Oc8g8Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,166 +80,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ramalingam C <ramalingampc2008@gmail.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, David Airlie <airlied@linux.ie>,
+ linux-pci <linux-pci@vger.kernel.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-tegra <linux-tegra@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ LINUXWATCHDOG <linux-watchdog@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ USB <linux-usb@vger.kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Richard Weinberger <richard@nod.at>,
+ =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 02/09/2022 06:41, Niranjana Vishwanathapura wrote:
-> On Thu, Sep 01, 2022 at 08:58:57AM +0100, Tvrtko Ursulin wrote:
+On 9/5/22 04:09, Andy Shevchenko wrote:
+> On Mon, Sep 5, 2022 at 9:33 AM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
 >>
+>> I would like to stop exporting OF-specific devm_gpiod_get_from_of_node()
+>> so that gpiolib can be cleaned a bit, so let's switch to the generic
+>> fwnode property API.
 >>
->> On 01/09/2022 06:09, Niranjana Vishwanathapura wrote:
->>> On Wed, Aug 31, 2022 at 08:38:48AM +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 27/08/2022 20:43, Andi Shyti wrote:
->>>>> From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->>>>>
->>>>> Implement new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only
->>>>> works in vm_bind mode. The vm_bind mode only works with
->>>>> this new execbuf3 ioctl.
->>>>>
->>>>> The new execbuf3 ioctl will not have any list of objects to validate
->>>>> bind as all required objects binding would have been requested by the
->>>>> userspace before submitting the execbuf3.
->>>>>
->>>>> And the legacy support like relocations etc are removed.
->>>>>
->>>>> Signed-off-by: Niranjana Vishwanathapura 
->>>>> <niranjana.vishwanathapura@intel.com>
->>>>> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
->>>>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>>>> ---
->>
->> [snip]
->>
->>>>> +static void signal_fence_array(const struct i915_execbuffer *eb,
->>>>> +                   struct dma_fence * const fence)
->>>>> +{
->>>>> +    unsigned int n;
->>>>> +
->>>>> +    for (n = 0; n < eb->num_fences; n++) {
->>>>> +        struct drm_syncobj *syncobj;
->>>>> +        unsigned int flags;
->>>>> +
->>>>> +        syncobj = ptr_unpack_bits(eb->fences[n].syncobj, &flags, 2);
->>>>> +        if (!(flags & I915_TIMELINE_FENCE_SIGNAL))
->>>>> +            continue;
->>>>> +
->>>>> +        if (eb->fences[n].chain_fence) {
->>>>> +            drm_syncobj_add_point(syncobj,
->>>>> +                          eb->fences[n].chain_fence,
->>>>> +                          fence,
->>>>> +                          eb->fences[n].value);
->>>>> +            /*
->>>>> +             * The chain's ownership is transferred to the
->>>>> +             * timeline.
->>>>> +             */
->>>>> +            eb->fences[n].chain_fence = NULL;
->>>>> +        } else {
->>>>> +            drm_syncobj_replace_fence(syncobj, fence);
->>>>> +        }
->>>>> +    }
->>>>> +}
->>>> Semi-random place to ask - how many of the code here is direct copy 
->>>> of existing functions from i915_gem_execbuffer.c? There seems to be 
->>>> some 100% copies at least. And then some more with small tweaks. 
->>>> Spend some time and try to figure out some code sharing?
->>>>
->>>
->>> During VM_BIND design review, maintainers expressed thought on keeping
->>> execbuf3 completely separate and not touch the legacy execbuf path.
->>
->> Got a link so this maintainer can see what exactly was said? Just to 
->> make sure there isn't any misunderstanding on what "completely 
->> separate" means to different people.
+>> While at it switch the rest of the calls to read properties in
 > 
-> Here is one (search for copypaste/copy-paste)
-> https://patchwork.freedesktop.org/patch/486608/?series=93447&rev=3
-> It is hard to search for old discussion threads. May be maintainers
-> can provide feedback here directly. Dave, Daniel? :)
-
-Thanks. I had a read and don't see a fundamental conflict with what I 
-said. Conclusion seemed to be to go with a new ioctl and implement code 
-sharing where it makes sense. Which is what TODO in the cover letter 
-acknowledges so there should be no disagreement really.
-
->>> I also think, execbuf3 should be fully separate. We can do some code
->>> sharing where is a close 100% copy (there is a TODO in cover letter).
->>> There are some changes like the timeline fence array handling here
->>> which looks similar, but the uapi is not exactly the same. Probably,
->>> we should keep them separate and not try to force code sharing at
->>> least at this point.
->>
->> Okay did not spot that TODO in the cover. But fair since it is RFC to 
->> be unfinished.
->>
->> I do however think it should be improved before considering the merge. 
->> Because looking at the patch, 100% copies are:
->>
->> for_each_batch_create_order
->> for_each_batch_add_order
->> eb_throttle
->> eb_pin_timeline
->> eb_pin_engine
->> eb_put_engine
->> __free_fence_array
->> put_fence_array
->> await_fence_array
->> signal_fence_array
->> retire_requests
->> eb_request_add
->> eb_requests_get
->> eb_requests_put
->> eb_find_context
->>
->> Quite a lot.
->>
->> Then there is a bunch of almost same functions which could be shared 
->> if there weren't two incompatible local struct i915_execbuffer's. 
->> Especially given when the out fence TODO item gets handled a chunk 
->> more will also become a 100% copy.
->>
+> it, switch
 > 
-> There are difinitely a few which is 100% copies hence should have a
-> shared code.
-> But some are not. Like, fence_array stuff though looks very similar,
-> the uapi structures are different between execbuf3 and legacy execbuf.
-> The internal flags are also different (eg., __EXEC3_ENGINE_PINNED vs
-> __EXEC_ENGINE_PINNED) which causes minor differences hence not a
-> 100% copy.
+>> bd9576_wdt_probe() to the generic device property API as well.
 > 
-> So, I am not convinced if it is worth carrying legacy stuff into
-> execbuf3 code. I think we need to look at these on a case by case
-> basis and see if abstracting common functionality to a separate
-> shared code makes sense or it is better to keep the code separate.
-
-No one is suggesting to carry any legacy stuff into eb3. What I'd 
-suggest is to start something like i915_gem_eb_common.h|c and stuff the 
-100% copies from the above list in there.
-
-Common struct eb with struct eb2 and eb3 inheriting from it should do 
-the trick. Similarly eb->flags shouldn't be a hard problem to solve.
-
-Then you see what remains and whether it makes sense to consolidate further.
-
-Regards,
-
-Tvrtko
-
->> This could be done by having a common struct i915_execbuffer and then 
->> eb2 and eb3 specific parts which inherit from it. After that is done 
->> it should be easier to see if it makes sense to do something more and 
->> how.
+> ...
 > 
-> I am not a big fan of it. I think we should not try to load the execbuf3
-> code with the legacy stuff.
+>>          struct device *dev = &pdev->dev;
 > 
-> Niranjana
+> struct device *parent = dev->parent;
 > 
->>
->> Regards,
->>
->> Tvrtko
+> can make your code slightly neater.
+> 
+> ...
+> 
+>> +       count = device_property_count_u32(dev->parent, "rohm,hw-timeout-ms");
+>> +       if (count < 0 && count != -EINVAL)
+>> +               return count;
+>> +
+>> +       if (count > 0) {
+> 
+>> +               if (count > ARRAY_SIZE(hw_margin))
+>> +                       return -EINVAL;
+> 
+> Why double check? You may move it out of the (count > 0).
+> 
+
+Two checks will always be needed, so I don't entirely see
+how that would be better.
+
+> ...
+> 
+>> -       if (ret == 1)
+>> -               hw_margin_max = hw_margin[0];
+> 
+>> +               ret = device_property_read_u32_array(dev->parent,
+>> +                                                    "rohm,hw-timeout-ms",
+>> +                                                    hw_margin, count);
+>> +               if (ret < 0)
+>> +                       return ret;
+> 
+> So, only this needs the count > 0 check since below already has it implicitly.
+> 
+Sorry, I don't understand this comment.
+
+Guenter
+
+>> -       if (ret == 2) {
+>> -               hw_margin_max = hw_margin[1];
+>> -               hw_margin_min = hw_margin[0];
+>> +               if (count == 1)
+>> +                       hw_margin_max = hw_margin[0];
+>> +
+>> +               if (count == 2) {
+>> +                       hw_margin_max = hw_margin[1];
+>> +                       hw_margin_min = hw_margin[0];
+>> +               }
+>>          }
+> 
+
