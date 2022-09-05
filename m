@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23A65ACCD0
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 09:40:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D485ACD08
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 09:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC75510E1E4;
-	Mon,  5 Sep 2022 07:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E56DC10E1FC;
+	Mon,  5 Sep 2022 07:46:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12-17.163.com (m12-17.163.com [220.181.12.17])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5D78910E1E4;
- Mon,  5 Sep 2022 07:40:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=EMi/Z
- gj9wd3UokgHoYhHpcxMljDXWLwRjVfKKXNyK5s=; b=oJYVB6zEjq6n/zMRqvrNO
- fo0T/l2Aa8VtEAM1PbND93ajzc13kl9hgahDn/mXxgNwzr5vnyWM88kzcLYhu6GB
- YrRs0AOghQIX0VOBwJKgXs95WiXBAhQmhsTFTNslKEE5k1BkHiI0zdhsRmN5rmnQ
- DzV+xmhDdDrELet9Wh6cHk=
-Received: from f00160-VMware-Virtual-Platform.localdomain (unknown
- [1.203.67.201])
- by smtp13 (Coremail) with SMTP id EcCowADXupuspxVjn6FyaA--.43620S4;
- Mon, 05 Sep 2022 15:39:35 +0800 (CST)
-From: Jingyu Wang <jingyuwang_vip@163.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, andrey.grodzovsky@amd.com,
- ray.huang@amd.com, Hawking.Zhang@amd.com, Likun.Gao@amd.com,
- Jack.Xiao@amd.com, len.brown@intel.com
-Subject: [PATCH] drm/amdgpu: recleanup coding style in amdgpu_fence.c
-Date: Mon,  5 Sep 2022 15:39:22 +0800
-Message-Id: <20220905073922.22738-1-jingyuwang_vip@163.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D97F10E1F5;
+ Mon,  5 Sep 2022 07:46:22 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id e17so2597314edc.5;
+ Mon, 05 Sep 2022 00:46:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=Ns0e6BF5lsSCBTPKI8hcA6JQ2wSlm+RnddxbYzGwY78=;
+ b=RxePfGbUgFr9m1wzXfMcTyrFLm8VXH3Yjx/yfWE1dMrqrFq06nWkoMsCfSzy5EzaNc
+ zkvReGjw1pXYSieHpawZtsbp5SfsbV0sgEO025cH+8zNr0qXEeVAKzG+nVwKkxY+Y2z6
+ 8PZfmamY9BII8PaTZVTkWWMzy80ttmH0L0j8Kx9BpU3sAFm2gIhnqrN4WWAMpgODdvgs
+ RIWPxIUMJEyU3jyYOIWksqLB0g+IUVvJaiT/+vfXkhfHcEpFyqtgJHcd3LCsq0zrTm14
+ nRFXPkAFkOEywh8Q1ncIiuWym8mfHtpF/gGHXSB4J1ahZlYtmM3Y/XO88mosIj9W6eZG
+ Sy7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Ns0e6BF5lsSCBTPKI8hcA6JQ2wSlm+RnddxbYzGwY78=;
+ b=pdmJS3v0AeH1Qsfaba6EF0jlNlLAgTpmkp0f3YHpOJtZj0+TqwljDphN1YJQmLSceS
+ gvQusVjyx8vPGI/qfGFxFeXripl168s+5LMbLgO23+mq4O/W4dR3inPd5sw0tAZOTS2W
+ vi5Z7GENMCjgrwPrjpkNdlVGQTCAjkC+r7rvuwgcZo6vLwmx0hEJfu/zqdN9vN3z82iQ
+ 9udYAeqBkSgi126+boi/phZX9i9tEc5XCWCUdqD9XmSxEy0B2Tzgc+pFOf+ngfjfvI2C
+ dyXt3nxGsvznvpKEyMQnKKEO0nw9RcRY8RLEI1v+U9X8Zwq7GifxHBNyAw5uo/QFo0JB
+ JTGQ==
+X-Gm-Message-State: ACgBeo2oZArDE/1YdKbbxLOuUjGrZvoCxbQEUgdByhJatZeTLyCrh64M
+ dsJDQ0nqu+1e/Xc/zlqMqRD/7jof+eZwBw4ttcs=
+X-Google-Smtp-Source: AA6agR5wybEqXz4dGsViNshife/UNSpksZhb2GioQ2olydywe0lOqHmE3AnukOX3V2PeaiKO4gRc+Yv2kqPhN/RGYDA=
+X-Received: by 2002:a05:6402:1f02:b0:445:f674:eac0 with SMTP id
+ b2-20020a0564021f0200b00445f674eac0mr41072891edb.370.1662363980652; Mon, 05
+ Sep 2022 00:46:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EcCowADXupuspxVjn6FyaA--.43620S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCr17KFyDWFWxCw1xGw1xXwb_yoW5Zr1kpF
- 4fKry5KrWDZF1UWrW8AF1vvFnxKw10qF10grW7A34Sgwn8ZF15K3WIyrWjqrWDCF4kur4a
- kFW7Za45ZF1jqF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zMzuAUUUUUU=
-X-Originating-IP: [1.203.67.201]
-X-CM-SenderInfo: 5mlqw5xxzd0whbyl1qqrwthudrp/1tbishhzF1UMWQynIQAAsE
+References: <tencent_E1BBF05904DFB73C478DCD592740AAE0780A@qq.com>
+ <CAJedcCxVW++iH49UFZp9ruUuTcNubWCH6Wsqe11K4COB3E8msg@mail.gmail.com>
+ <CAJedcCw1eJqjSK+yR7eQMDheNtH3Mjm+viwt00xAhnmrfpq2pw@mail.gmail.com>
+In-Reply-To: <CAJedcCw1eJqjSK+yR7eQMDheNtH3Mjm+viwt00xAhnmrfpq2pw@mail.gmail.com>
+From: Zheng Hacker <hackerzheng666@gmail.com>
+Date: Mon, 5 Sep 2022 15:46:09 +0800
+Message-ID: <CAJedcCweHjD78F7iydiq6Xc2iH=t_3m=H9JKnaCooToUk32FvQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry.
+To: xmzyshypnc <1002992920@qq.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,103 +65,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingyu Wang <jingyuwang_vip@163.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: alex000young@gmail.com, security@kernel.org,
+ dri-devel@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com,
+ airlied@linux.ie, Greg KH <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ zhi.a.wang@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix everything checkpatch.pl complained about in amdgpu_fence.c,
-modified use "} else {", sent it again, thx.
+I rewrote the letter. Hope it works.
 
-Signed-off-by: Jingyu Wang <jingyuwang_vip@163.com>
+There is a double-free security bug in split_2MB_gtt_entry.
+
+Here is a calling chain :
+ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entry.
+If intel_gvt_dma_map_guest_page failed, it will call
+ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
+kfree(spt). But the caller does not notice that, and it will call
+ppgtt_free_spt again in error path.
+
+Fix this by returning the result of ppgtt_invalidate_spt to split_2MB_gtt_entry.
+
+Signed-off-by: Zheng Wang
+
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/gvt/gtt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-index 8adeb7469f1e..0759d86d92da 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-@@ -1,3 +1,4 @@
-+// SPDX-License-Identifier: MIT
- /*
-  * Copyright 2009 Jerome Glisse.
-  * All Rights Reserved.
-@@ -42,7 +43,6 @@
- #include "amdgpu_reset.h"
- 
- /*
-- * Fences
-  * Fences mark an event in the GPUs pipeline and are used
-  * for GPU/CPU synchronization.  When the fence is written,
-  * it is expected that all buffers associated with that fence
-@@ -139,7 +139,7 @@ static u32 amdgpu_fence_read(struct amdgpu_ring *ring)
-  * Returns 0 on success, -ENOMEM on failure.
-  */
- int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f, struct amdgpu_job *job,
--		      unsigned flags)
-+		      unsigned int flags)
- {
- 	struct amdgpu_device *adev = ring->adev;
- 	struct dma_fence *fence;
-@@ -173,11 +173,11 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f, struct amd
- 				       adev->fence_context + ring->idx, seq);
- 			/* Against remove in amdgpu_job_{free, free_cb} */
- 			dma_fence_get(fence);
--		}
--		else
-+		} else {
- 			dma_fence_init(fence, &amdgpu_fence_ops,
- 				       &ring->fence_drv.lock,
- 				       adev->fence_context + ring->idx, seq);
-+		}
- 	}
- 
- 	amdgpu_ring_emit_fence(ring, ring->fence_drv.gpu_addr,
-@@ -393,7 +393,7 @@ signed long amdgpu_fence_wait_polling(struct amdgpu_ring *ring,
-  * Returns the number of emitted fences on the ring.  Used by the
-  * dynpm code to ring track activity.
-  */
--unsigned amdgpu_fence_count_emitted(struct amdgpu_ring *ring)
-+unsigned int amdgpu_fence_count_emitted(struct amdgpu_ring *ring)
- {
- 	uint64_t emitted;
- 
-@@ -422,7 +422,7 @@ unsigned amdgpu_fence_count_emitted(struct amdgpu_ring *ring)
-  */
- int amdgpu_fence_driver_start_ring(struct amdgpu_ring *ring,
- 				   struct amdgpu_irq_src *irq_src,
--				   unsigned irq_type)
-+				   unsigned int irq_type)
- {
- 	struct amdgpu_device *adev = ring->adev;
- 	uint64_t index;
-@@ -594,6 +594,7 @@ void amdgpu_fence_driver_hw_init(struct amdgpu_device *adev)
- 
- 	for (i = 0; i < AMDGPU_MAX_RINGS; i++) {
- 		struct amdgpu_ring *ring = adev->rings[i];
-+
- 		if (!ring || !ring->fence_drv.initialized)
- 			continue;
- 
-@@ -772,6 +773,7 @@ static int amdgpu_debugfs_fence_info_show(struct seq_file *m, void *unused)
- 
- 	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
- 		struct amdgpu_ring *ring = adev->rings[i];
-+
- 		if (!ring || !ring->fence_drv.initialized)
- 			continue;
- 
-@@ -845,6 +847,7 @@ static void amdgpu_debugfs_reset_work(struct work_struct *work)
- 						  reset_work);
- 
- 	struct amdgpu_reset_context reset_context;
-+
- 	memset(&reset_context, 0, sizeof(reset_context));
- 
- 	reset_context.method = AMD_RESET_METHOD_NONE;
-
-base-commit: e47eb90a0a9ae20b82635b9b99a8d0979b757ad8
--- 
-2.34.1
-
+diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+index ce0eb03709c3..9f14fded8c0c 100644
+--- a/drivers/gpu/drm/i915/gvt/gtt.c
++++ b/drivers/gpu/drm/i915/gvt/gtt.c
+@@ -1215,7 +1215,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
+                ret = intel_gvt_dma_map_guest_page(vgpu, start_gfn + sub_index,
+                                                   PAGE_SIZE, &dma_addr);
+                if (ret) {
+-                       ppgtt_invalidate_spt(spt);
++                       ret = ppgtt_invalidate_spt(spt);
+                        return ret;
+                }
+                sub_se.val64 = se->val64;
+--
+2.25.1
