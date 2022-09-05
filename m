@@ -1,76 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D1B5AD851
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 19:23:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D6E5AD873
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 19:38:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 577E610E468;
-	Mon,  5 Sep 2022 17:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3167810E46F;
+	Mon,  5 Sep 2022 17:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4051F10E465
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 17:23:17 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id bj12so18260605ejb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 10:23:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=3g5pXO8vt8VikNU0nvZUDcJj8Xo4WnKc2gEqOdfk/2Q=;
- b=kMTQO0WUPetKeIUvcWZYfOX/DronrP0ofp64pmqZgKYCc0kUackunOXwB4iHEeqOyH
- CfavNCA+7H6XKO3VvCOJ/R6dsoRzdJrPTTjKXyNKUSquYd+u80h3DQdTIQTeCYymaS/b
- 88trMIUvJgHYJgRd1SULijR8wyvxd9HcssorkQripYdLDxrGpKxzGnEifUWjDo9Iflm5
- BMUHeZ8tvzZsSBnuzKuft+KeU3XLBCDLjG3VfSoy+n+zKLJ5flEoU+8+s+MhpvsktleV
- ZinXicUkywI0oDWEgr4o/7QmSDaiHRjNTRgU3tzBLdW9Uwb5GPJxWV4XlXrcwbt+Grb7
- a8dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=3g5pXO8vt8VikNU0nvZUDcJj8Xo4WnKc2gEqOdfk/2Q=;
- b=PHMaskjEauRCyxcPy/KPq/vNFd69x7bNGmtRzqSwpcVBzsXElsc/dptnuGTmza3Kq7
- MHt7r0Kt529GKYQEZknzyuHjdNQtd+GxREzHqbtk73jt1gmQg8ZXHVKDsHH9fIMRVUYW
- VBmIBJOhoRMEEMiR6fUFnSuy7p/x2FJ1tjTiVykTu1X1p79BhVyl8zPYM4zbpVmUV5GQ
- v5bI2ttIxgacW5f8DlXrM2mVEv5xJSSSQIG1EYMvW2qEkgma3kY3mkh4OhQi4W7KlO28
- h/A/B30F4sJqGgH2GGCOEM6s6B8v2F1U7/Rb27jEvlusxaeZhlB2heXvn8v6EK4tz9Dj
- knIA==
-X-Gm-Message-State: ACgBeo0HRavZxG+nE4n0Sn4RaagsBaFM1R0rjdVMO5FYmFiEjEpCSp1G
- UDsoMoZLazIzvA/DsSEa1Fk=
-X-Google-Smtp-Source: AA6agR5mO71WxQwcBosJgPPuyOgbeJkdL8BB5q4tXfaGtIduchOQwHXDPDKlqipYIz267eLU8kBI3Q==
-X-Received: by 2002:a17:907:7fa5:b0:730:5d54:4c24 with SMTP id
- qk37-20020a1709077fa500b007305d544c24mr36795658ejc.641.1662398595531; 
- Mon, 05 Sep 2022 10:23:15 -0700 (PDT)
-Received: from kista.localnet (82-149-1-172.dynamic.telemach.net.
- [82.149.1.172]) by smtp.gmail.com with ESMTPSA id
- r21-20020aa7d595000000b0043cc2c9f5adsm2699473edq.40.2022.09.05.10.23.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 10:23:15 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
- Marcel Ziswiler <marcel.ziswiler@toradex.com>, Vinod Koul <vkoul@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Subject: Re: [PATCH v3 2/5] arm64: dts: allwinner: h6: Add cooling map for GPU
-Date: Mon, 05 Sep 2022 19:23:13 +0200
-Message-ID: <5855006.lOV4Wx5bFT@kista>
-In-Reply-To: <20220905171601.79284-3-peron.clem@gmail.com>
-References: <20220905171601.79284-1-peron.clem@gmail.com>
- <20220905171601.79284-3-peron.clem@gmail.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6190B10E471
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 17:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662399496; x=1693935496;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=wwrxaBGmctdtRWscxmq8fW9GaRxCVf5lDzYYiT5pUZ4=;
+ b=n9YNZ152ziwqd5qxpEGCGJZhSPUbrldTSOS79UTQTgDjEJy0up86t6pT
+ Mju+7w1b4h88/ETwaHsz6OiN8fnm+CRxmzedSWypzRGS4fzkNGv7R7d8T
+ MN5AsKZCGgIbGdYwx42WKSu4G9dmcbLdjKlffvExfLRnQJajuM6GIZu+f
+ bifpqOdUAq9DoIQ6gso45WAYxHsRFOAyWnrLfL8JtrcX4VIN3yGSACP1u
+ IlMQykoVt19XN9YqGk+R8UZNSiB2IS9r+HFTDzlDCJl1j7bMMDB0tcpa5
+ ftPSNTD/r9EWqcCKkHM6vazQgj5DQBm2gOzFpirZt7lC+OiU1HV7a7rEy A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="276171966"
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="276171966"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 10:38:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="675360713"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by fmsmga008.fm.intel.com with SMTP; 05 Sep 2022 10:38:12 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 05 Sep 2022 20:38:11 +0300
+Date: Mon, 5 Sep 2022 20:38:11 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v4 4/8] drm/vc4: hdmi: Simplify the hotplug handling
+Message-ID: <YxY0A8RQsGZkwrtU@intel.com>
+References: <20220829134731.213478-1-maxime@cerno.tech>
+ <20220829134731.213478-5-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220829134731.213478-5-maxime@cerno.tech>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,114 +60,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne ponedeljek, 05. september 2022 ob 19:15:58 CEST je Cl=E9ment P=E9ron=20
-napisal(a):
-> Add a simple cooling map for the GPU.
->=20
-> This cooling map come from the vendor kernel 4.9 with a
-> 2=B0C hysteresis added.
->=20
-> Signed-off-by: Cl=E9ment P=E9ron <peron.clem@gmail.com>
+On Mon, Aug 29, 2022 at 03:47:27PM +0200, Maxime Ripard wrote:
+> Our detect callback has a bunch of operations to perform depending on
+> the current and last status of the connector, such a setting the CEC
+> physical address or enabling the scrambling again.
+> 
+> This is currently dealt with a bunch of if / else statetements that make
+> it fairly difficult to read and extend.
+> 
+> Let's move all that logic to a function of its own.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 51 +++++++++++++++++++-
->  1 file changed, 49 insertions(+), 2 deletions(-)
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi index
-> 5a28303d3d4c..1259ab0c3956 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> @@ -186,6 +186,7 @@ gpu: gpu@1800000 {
->  			clocks =3D <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
->  			clock-names =3D "core", "bus";
->  			resets =3D <&ccu RST_BUS_GPU>;
-> +			#cooling-cells =3D <2>;
->  			status =3D "disabled";
->  		};
->=20
-> @@ -1072,9 +1073,55 @@ map0 {
->  		};
->=20
->  		gpu-thermal {
-> -			polling-delay-passive =3D <0>;
-> -			polling-delay =3D <0>;
-> +			polling-delay-passive =3D <1000>;
-> +			polling-delay =3D <2000>;
->  			thermal-sensors =3D <&ths 1>;
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 66 ++++++++++++++++++++++------------
+>  1 file changed, 44 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index b786645eaeb7..9fad57ebdd11 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -273,17 +273,53 @@ static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi) {}
+>  
+>  static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder);
+>  
+> +static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+> +				    enum drm_connector_status status)
+> +{
+> +	struct drm_connector *connector = &vc4_hdmi->connector;
+> +	struct edid *edid;
 > +
-> +			trips {
-> +				gpu_alert0: gpu-alert-0 {
-> +					temperature =3D <95000>;
-> +					hysteresis =3D <2000>;
-> +					type =3D "passive";
-> +				};
+> +	/*
+> +	 * NOTE: This function should really be called with
+> +	 * vc4_hdmi->mutex held, but doing so results in reentrancy
+> +	 * issues since cec_s_phys_addr_from_edid might call
+> +	 * .adap_enable, which leads to that funtion being called with
+> +	 * our mutex held.
+> +	 *
+> +	 * Concurrency isn't an issue at the moment since we don't share
+> +	 * any state with any of the other frameworks so we can ignore
+> +	 * the lock for now.
+> +	 */
 > +
-> +				gpu_alert1: gpu-alert-1 {
-> +					temperature =3D=20
-> <100000>;
-> +					hysteresis =3D <2000>;
-> +					type =3D "passive";
-> +				};
-> +
-> +				gpu_alert2: gpu-alert-2 {
-> +					temperature =3D=20
-> <105000>;
-> +					hysteresis =3D <2000>;
-> +					type =3D "passive";
-> +				};
-> +
-> +				gpu-crit {
-> +					temperature =3D=20
-> <115000>;
-> +					hysteresis =3D <0>;
-> +					type =3D "critical";
-> +				};
-> +			};
-> +
-> +			cooling-maps {
-> +				// Fordid the GPU to go over=20
-756MHz
+> +	if (status == connector->status)
+> +		return;
 
-Typo: Fordid -> Forbid
+This looks to have a change in behaviour to not call
+vc4_hdmi_enable_scrambling() unless a change in the
+connector status was detected. The previous code called
+it regarless.
 
-Also next below.
+When I was doing the i915 stuff I did have a sink that
+left hpd asserted while turned off, and when powering
+back up it instead generated a pulse on the hpd line.
+Not sure if such a pulse is always slow enough that
+you can reasonably guarantee a detection of both edges...
 
-Best regards,
-Jernej
+Apart from that (and the cec locking mess that I dared
+not even look at) the rest of the series looks OK to me.
 
-> +				map0 {
-> +					trip =3D <&gpu_alert0>;
-> +					cooling-device =3D <&gpu
->  1 THERMAL_NO_LIMIT>;
-> +				};
 > +
-> +				// Fordid the GPU to go over
-> 624MHz
-> +				map1 {
-> +					trip =3D <&gpu_alert1>;
-> +					cooling-device =3D <&gpu=20
-> 2 THERMAL_NO_LIMIT>;
-> +				};
+> +	if (status == connector_status_disconnected) {
+> +		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+> +		return;
+> +	}
 > +
-> +				// Fordid the GPU to go over=20
-> 576MHz
-> +				map2 {
-> +					trip =3D <&gpu_alert2>;
-> +					cooling-device =3D <&gpu=20
-> 3 THERMAL_NO_LIMIT>;
-> +				};
-> +			};
->  		};
->  	};
->  };
-> --
-> 2.34.1
+> +	edid = drm_get_edid(connector, vc4_hdmi->ddc);
+> +	if (!edid)
+> +		return;
+> +
+> +	cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
+> +	kfree(edid);
+> +
+> +	vc4_hdmi_enable_scrambling(&vc4_hdmi->encoder.base.base);
+> +}
+> +
+>  static enum drm_connector_status
+>  vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+>  {
+>  	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+> -	bool connected = false;
+> +	enum drm_connector_status status = connector_status_disconnected;
+>  
+>  	/*
+>  	 * NOTE: This function should really take vc4_hdmi->mutex, but
+>  	 * doing so results in reentrancy issues since
+> -	 * cec_s_phys_addr_from_edid might call .adap_enable, which
+> -	 * leads to that funtion being called with our mutex held.
+> +	 * vc4_hdmi_handle_hotplug() can call into other functions that
+> +	 * would take the mutex while it's held here.
+>  	 *
+>  	 * Concurrency isn't an issue at the moment since we don't share
+>  	 * any state with any of the other frameworks so we can ignore
+> @@ -294,31 +330,17 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+>  
+>  	if (vc4_hdmi->hpd_gpio) {
+>  		if (gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio))
+> -			connected = true;
+> +			status = connector_status_connected;
+>  	} else {
+>  		if (vc4_hdmi->variant->hp_detect &&
+>  		    vc4_hdmi->variant->hp_detect(vc4_hdmi))
+> -			connected = true;
+> +			status = connector_status_connected;
+>  	}
+>  
+> -	if (connected) {
+> -		if (connector->status != connector_status_connected) {
+> -			struct edid *edid = drm_get_edid(connector, vc4_hdmi->ddc);
+> -
+> -			if (edid) {
+> -				cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
+> -				kfree(edid);
+> -			}
+> -		}
+> -
+> -		vc4_hdmi_enable_scrambling(&vc4_hdmi->encoder.base);
+> -		pm_runtime_put(&vc4_hdmi->pdev->dev);
+> -		return connector_status_connected;
+> -	}
+> -
+> -	cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+> +	vc4_hdmi_handle_hotplug(vc4_hdmi, status);
+>  	pm_runtime_put(&vc4_hdmi->pdev->dev);
+> -	return connector_status_disconnected;
+> +
+> +	return status;
+>  }
+>  
+>  static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+> -- 
+> 2.37.1
 
-
+-- 
+Ville Syrjälä
+Intel
