@@ -1,45 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5215ACD59
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 10:04:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F36A95ACD67
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 10:07:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1E1110E200;
-	Mon,  5 Sep 2022 08:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A292910E1FE;
+	Mon,  5 Sep 2022 08:07:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D39610E1FE;
- Mon,  5 Sep 2022 08:04:18 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFF3210E1FE
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 08:07:11 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C0945610A5;
- Mon,  5 Sep 2022 08:04:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A350AC433D6;
- Mon,  5 Sep 2022 08:04:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1662365057;
- bh=ZviM3XQ2DcMV3uk7a7yxPjcP+JOLn+NSZCdFHlInwuI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WDuXJgJ/tP3RSsm/7imHBc/Vd0Qlz/CuALQErsD1g1FZNdNo7l1LNgbYOdnREqrZs
- Gl6QXF+9ALdBybSasdsVT+9FKbHk2JjlOdT4kdYmAp7koRZbH7r6MuC1+fnz0rV6Yn
- bcSzBHv8ARR0pQ1uMZe5l0j/3FI18MI3TYPv+N1A=
-Date: Mon, 5 Sep 2022 10:04:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Zheng Hacker <hackerzheng666@gmail.com>
-Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry.
-Message-ID: <YxWtfjfpNsoPUrgh@kroah.com>
-References: <tencent_E1BBF05904DFB73C478DCD592740AAE0780A@qq.com>
- <CAJedcCxVW++iH49UFZp9ruUuTcNubWCH6Wsqe11K4COB3E8msg@mail.gmail.com>
- <CAJedcCw1eJqjSK+yR7eQMDheNtH3Mjm+viwt00xAhnmrfpq2pw@mail.gmail.com>
- <CAJedcCweHjD78F7iydiq6Xc2iH=t_3m=H9JKnaCooToUk32FvQ@mail.gmail.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 55DF05FCC1;
+ Mon,  5 Sep 2022 08:07:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662365230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/NJNYr1ZZWkZlS/CIb8/BdZir7eBfNDShQAVYsGVnXI=;
+ b=nTvaI4ZX47yHiHNtrHtVq/Nr74mNkIXIIYir6SOO/utoy0sHnDqSem6xWGa9RKed/CDnzS
+ 160+/R4q0SoGUCC0s2Cz/uIhaptLxxzMtfB7Aacr9jcomCFcWgsjeVo6uvdWFYYFUU6tlG
+ Crl7yQdnIwJzczIWy8uPdVffhJtajtM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662365230;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/NJNYr1ZZWkZlS/CIb8/BdZir7eBfNDShQAVYsGVnXI=;
+ b=yzEFg+8h1U7/Nu7qxMaf40eXxHmDMortzox6KS8RptzyKBqkSiYZj5UEO3iKKWf0w7ADql
+ xv06lVN/hNeyvpAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E04913A66;
+ Mon,  5 Sep 2022 08:07:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id sHs8Di6uFWP1AQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 05 Sep 2022 08:07:10 +0000
+Message-ID: <4c9d7300-66b4-555a-84dd-b070664144cf@suse.de>
+Date: Mon, 5 Sep 2022 10:07:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJedcCweHjD78F7iydiq6Xc2iH=t_3m=H9JKnaCooToUk32FvQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 04/12] Revert "drm/udl: Kill pending URBs at suspend and
+ disconnect"
+To: Takashi Iwai <tiwai@suse.de>
+References: <20220816153655.27526-1-tiwai@suse.de>
+ <20220816153655.27526-5-tiwai@suse.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220816153655.27526-5-tiwai@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------LPSQ13HLN6EPEyDgJ9wTLDk0"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,53 +71,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex000young@gmail.com, security@kernel.org,
- dri-devel@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com,
- airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, xmzyshypnc <1002992920@qq.com>,
- rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
- zhi.a.wang@intel.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 05, 2022 at 03:46:09PM +0800, Zheng Hacker wrote:
-> I rewrote the letter. Hope it works.
-> 
-> There is a double-free security bug in split_2MB_gtt_entry.
-> 
-> Here is a calling chain :
-> ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entry.
-> If intel_gvt_dma_map_guest_page failed, it will call
-> ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
-> kfree(spt). But the caller does not notice that, and it will call
-> ppgtt_free_spt again in error path.
-> 
-> Fix this by returning the result of ppgtt_invalidate_spt to split_2MB_gtt_entry.
-> 
-> Signed-off-by: Zheng Wang
-> 
-> ---
->  drivers/gpu/drm/i915/gvt/gtt.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
-> index ce0eb03709c3..9f14fded8c0c 100644
-> --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> @@ -1215,7 +1215,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
->                 ret = intel_gvt_dma_map_guest_page(vgpu, start_gfn + sub_index,
->                                                    PAGE_SIZE, &dma_addr);
->                 if (ret) {
-> -                       ppgtt_invalidate_spt(spt);
-> +                       ret = ppgtt_invalidate_spt(spt);
->                         return ret;
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------LPSQ13HLN6EPEyDgJ9wTLDk0
+Content-Type: multipart/mixed; boundary="------------0pGCk0q5qI59oUFsYIn35qX3";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <4c9d7300-66b4-555a-84dd-b070664144cf@suse.de>
+Subject: Re: [PATCH 04/12] Revert "drm/udl: Kill pending URBs at suspend and
+ disconnect"
+References: <20220816153655.27526-1-tiwai@suse.de>
+ <20220816153655.27526-5-tiwai@suse.de>
+In-Reply-To: <20220816153655.27526-5-tiwai@suse.de>
 
-But now you just lost the original error, shouldn't this succeed even if
-intel_gvt_dma_map_guest_page() failed?
+--------------0pGCk0q5qI59oUFsYIn35qX3
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-And how are you causing intel_gvt_dma_map_guest_page() to fail in a real
-system?
+SGkNCg0KQW0gMTYuMDguMjIgdW0gMTc6MzYgc2NocmllYiBUYWthc2hpIEl3YWk6DQo+IFRo
+aXMgcmV2ZXJ0cyB0aGUgcmVjZW50IGZpeCBjb21taXQNCj4gICAgZTI1ZDU5NTQyNjRkICgi
+ZHJtL3VkbDogS2lsbCBwZW5kaW5nIFVSQnMgYXQgc3VzcGVuZCBhbmQgZGlzY29ubmVjdCIp
+DQo+IGFzIGl0IHR1cm5lZCBvdXQgdG8gbGVhZCB0byBwb3RlbnRpYWwgaGFuZ3VwIGF0IGEg
+ZGlzY29ubmVjdGlvbiwgYW5kDQo+IGl0IGRvZXNuJ3QgaGVscCBtdWNoIGZvciBzdXNwZW5k
+L3Jlc3VtZSBwcm9ibGVtLCBlaXRoZXIuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBUYWthc2hp
+IEl3YWkgPHRpd2FpQHN1c2UuZGU+DQoNCkFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8
+dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdWRs
+L3VkbF9kcnYuaCAgICAgfCAgMiAtLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21h
+aW4uYyAgICB8IDI1ICsrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gICBkcml2ZXJzL2dw
+dS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMgfCAgMiAtLQ0KPiAgIDMgZmlsZXMgY2hhbmdlZCwg
+MyBpbnNlcnRpb25zKCspLCAyNiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRs
+X2Rydi5oDQo+IGluZGV4IDM3YzE0YjBmZjFmYy4uNTkyM2QyZTAyYmM4IDEwMDY0NA0KPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuaA0KPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vdWRsL3VkbF9kcnYuaA0KPiBAQCAtMzksNyArMzksNiBAQCBzdHJ1Y3QgdXJiX25v
+ZGUgew0KPiAgIA0KPiAgIHN0cnVjdCB1cmJfbGlzdCB7DQo+ICAgCXN0cnVjdCBsaXN0X2hl
+YWQgbGlzdDsNCj4gLQlzdHJ1Y3QgbGlzdF9oZWFkIGluX2ZsaWdodDsNCj4gICAJc3Bpbmxv
+Y2tfdCBsb2NrOw0KPiAgIAl3YWl0X3F1ZXVlX2hlYWRfdCBzbGVlcDsNCj4gICAJaW50IGF2
+YWlsYWJsZTsNCj4gQEAgLTg1LDcgKzg0LDYgQEAgc3RhdGljIGlubGluZSBzdHJ1Y3QgdXJi
+ICp1ZGxfZ2V0X3VyYihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPiAgIA0KPiAgIGludCB1
+ZGxfc3VibWl0X3VyYihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgdXJiICp1cmIs
+IHNpemVfdCBsZW4pOw0KPiAgIGludCB1ZGxfc3luY19wZW5kaW5nX3VyYnMoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldik7DQo+IC12b2lkIHVkbF9raWxsX3BlbmRpbmdfdXJicyhzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2KTsNCj4gICB2b2lkIHVkbF91cmJfY29tcGxldGlvbihzdHJ1Y3Qg
+dXJiICp1cmIpOw0KPiAgIA0KPiAgIGludCB1ZGxfaW5pdChzdHJ1Y3QgdWRsX2RldmljZSAq
+dWRsKTsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYyBi
+L2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYw0KPiBpbmRleCA3ZDFlNmJiYzE2NWMu
+LmE5ZjZiNzEwYjI1NCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxf
+bWFpbi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYw0KPiBAQCAt
+MTM1LDcgKzEzNSw3IEBAIHZvaWQgdWRsX3VyYl9jb21wbGV0aW9uKHN0cnVjdCB1cmIgKnVy
+YikNCj4gICAJdXJiLT50cmFuc2Zlcl9idWZmZXJfbGVuZ3RoID0gdWRsLT51cmJzLnNpemU7
+IC8qIHJlc2V0IHRvIGFjdHVhbCAqLw0KPiAgIA0KPiAgIAlzcGluX2xvY2tfaXJxc2F2ZSgm
+dWRsLT51cmJzLmxvY2ssIGZsYWdzKTsNCj4gLQlsaXN0X21vdmUoJnVub2RlLT5lbnRyeSwg
+JnVkbC0+dXJicy5saXN0KTsNCj4gKwlsaXN0X2FkZF90YWlsKCZ1bm9kZS0+ZW50cnksICZ1
+ZGwtPnVyYnMubGlzdCk7DQo+ICAgCXVkbC0+dXJicy5hdmFpbGFibGUrKzsNCj4gICAJc3Bp
+bl91bmxvY2tfaXJxcmVzdG9yZSgmdWRsLT51cmJzLmxvY2ssIGZsYWdzKTsNCj4gICANCj4g
+QEAgLTE4MCw3ICsxODAsNiBAQCBzdGF0aWMgaW50IHVkbF9hbGxvY191cmJfbGlzdChzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2LCBpbnQgY291bnQsIHNpemVfdCBzaXplKQ0KPiAgIHJldHJ5
+Og0KPiAgIAl1ZGwtPnVyYnMuc2l6ZSA9IHNpemU7DQo+ICAgCUlOSVRfTElTVF9IRUFEKCZ1
+ZGwtPnVyYnMubGlzdCk7DQo+IC0JSU5JVF9MSVNUX0hFQUQoJnVkbC0+dXJicy5pbl9mbGln
+aHQpOw0KPiAgIA0KPiAgIAlpbml0X3dhaXRxdWV1ZV9oZWFkKCZ1ZGwtPnVyYnMuc2xlZXAp
+Ow0KPiAgIAl1ZGwtPnVyYnMuY291bnQgPSAwOw0KPiBAQCAtMjQ3LDcgKzI0Niw3IEBAIHN0
+cnVjdCB1cmIgKnVkbF9nZXRfdXJiX3RpbWVvdXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwg
+bG9uZyB0aW1lb3V0KQ0KPiAgIAl9DQo+ICAgDQo+ICAgCXVub2RlID0gbGlzdF9maXJzdF9l
+bnRyeSgmdWRsLT51cmJzLmxpc3QsIHN0cnVjdCB1cmJfbm9kZSwgZW50cnkpOw0KPiAtCWxp
+c3RfbW92ZSgmdW5vZGUtPmVudHJ5LCAmdWRsLT51cmJzLmluX2ZsaWdodCk7DQo+ICsJbGlz
+dF9kZWxfaW5pdCgmdW5vZGUtPmVudHJ5KTsNCj4gICAJdWRsLT51cmJzLmF2YWlsYWJsZS0t
+Ow0KPiAgIA0KPiAgIHVubG9jazoNCj4gQEAgLTI4MSw3ICsyODAsNyBAQCBpbnQgdWRsX3N5
+bmNfcGVuZGluZ191cmJzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+ICAgCXNwaW5fbG9j
+a19pcnEoJnVkbC0+dXJicy5sb2NrKTsNCj4gICAJLyogMiBzZWNvbmRzIGFzIGEgc2FuZSB0
+aW1lb3V0ICovDQo+ICAgCWlmICghd2FpdF9ldmVudF9sb2NrX2lycV90aW1lb3V0KHVkbC0+
+dXJicy5zbGVlcCwNCj4gLQkJCQkJIGxpc3RfZW1wdHkoJnVkbC0+dXJicy5pbl9mbGlnaHQp
+LA0KPiArCQkJCQkgdWRsLT51cmJzLmF2YWlsYWJsZSA9PSB1ZGwtPnVyYnMuY291bnQsDQo+
+ICAgCQkJCQkgdWRsLT51cmJzLmxvY2ssDQo+ICAgCQkJCQkgbXNlY3NfdG9famlmZmllcygy
+MDAwKSkpDQo+ICAgCQlyZXQgPSAtRVRJTUVET1VUOw0KPiBAQCAtMjg5LDIzICsyODgsNiBA
+QCBpbnQgdWRsX3N5bmNfcGVuZGluZ191cmJzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+
+ICAgCXJldHVybiByZXQ7DQo+ICAgfQ0KPiAgIA0KPiAtLyoga2lsbCBwZW5kaW5nIFVSQnMg
+Ki8NCj4gLXZvaWQgdWRsX2tpbGxfcGVuZGluZ191cmJzKHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYpDQo+IC17DQo+IC0Jc3RydWN0IHVkbF9kZXZpY2UgKnVkbCA9IHRvX3VkbChkZXYpOw0K
+PiAtCXN0cnVjdCB1cmJfbm9kZSAqdW5vZGU7DQo+IC0NCj4gLQlzcGluX2xvY2tfaXJxKCZ1
+ZGwtPnVyYnMubG9jayk7DQo+IC0Jd2hpbGUgKCFsaXN0X2VtcHR5KCZ1ZGwtPnVyYnMuaW5f
+ZmxpZ2h0KSkgew0KPiAtCQl1bm9kZSA9IGxpc3RfZmlyc3RfZW50cnkoJnVkbC0+dXJicy5p
+bl9mbGlnaHQsDQo+IC0JCQkJCSBzdHJ1Y3QgdXJiX25vZGUsIGVudHJ5KTsNCj4gLQkJc3Bp
+bl91bmxvY2tfaXJxKCZ1ZGwtPnVyYnMubG9jayk7DQo+IC0JCXVzYl9raWxsX3VyYih1bm9k
+ZS0+dXJiKTsNCj4gLQkJc3Bpbl9sb2NrX2lycSgmdWRsLT51cmJzLmxvY2spOw0KPiAtCX0N
+Cj4gLQlzcGluX3VubG9ja19pcnEoJnVkbC0+dXJicy5sb2NrKTsNCj4gLX0NCj4gLQ0KPiAg
+IGludCB1ZGxfaW5pdChzdHJ1Y3QgdWRsX2RldmljZSAqdWRsKQ0KPiAgIHsNCj4gICAJc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiA9ICZ1ZGwtPmRybTsNCj4gQEAgLTM1NCw3ICszMzYsNiBA
+QCBpbnQgdWRsX2Ryb3BfdXNiKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+ICAgew0KPiAg
+IAlzdHJ1Y3QgdWRsX2RldmljZSAqdWRsID0gdG9fdWRsKGRldik7DQo+ICAgDQo+IC0JdWRs
+X2tpbGxfcGVuZGluZ191cmJzKGRldik7DQo+ICAgCXVkbF9mcmVlX3VyYl9saXN0KGRldik7
+DQo+ICAgCXB1dF9kZXZpY2UodWRsLT5kbWFkZXYpOw0KPiAgIAl1ZGwtPmRtYWRldiA9IE5V
+TEw7DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMNCj4gaW5kZXggMTg3YWJhMmQ3
+ODI1Li5jMzRkNTY0NzczYTMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwv
+dWRsX21vZGVzZXQuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tb2Rlc2V0
+LmMNCj4gQEAgLTM5OCw4ICszOTgsNiBAQCB1ZGxfc2ltcGxlX2Rpc3BsYXlfcGlwZV9kaXNh
+YmxlKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSkNCj4gICAJc3RydWN0
+IHVyYiAqdXJiOw0KPiAgIAljaGFyICpidWY7DQo+ICAgDQo+IC0JdWRsX2tpbGxfcGVuZGlu
+Z191cmJzKGRldik7DQo+IC0NCj4gICAJdXJiID0gdWRsX2dldF91cmIoZGV2KTsNCj4gICAJ
+aWYgKCF1cmIpDQo+ICAgCQlyZXR1cm47DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdy
+YXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1h
+bnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJC
+IDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-thanks,
 
-greg k-h
+--------------0pGCk0q5qI59oUFsYIn35qX3--
+
+--------------LPSQ13HLN6EPEyDgJ9wTLDk0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMVri0FAwAAAAAACgkQlh/E3EQov+BZ
+lRAAps71lhwY+FMEe+d8OdFbtnYP4CzCQPpz6/0QZEDV6oJtGuDjp+VrnKwGbi3cCrBcWrcYB/4k
+jbEEbhYqd8Siec69Dqu0syoK73ruKa5ODwbPatL3eNrSZRkA6vL07ooRf2HFokqka2591I4h4kl5
+IB3dI+Tn90uLTGEHx0Didlc7EZNlNGIXKg21mFwWgYOnOn6kK516NGxrnqcQWjia9TFda2osw3Mq
+w61p9ObIwmT4B5EBYfEtqkT0eHo/GL5MmekbsZ1L08jwIeDw5ic6quRuKCn4RjbU8spkH5Wnq6Xm
+QatC88jYi6DkGi47jncvBGRxtxS6gAHiPY+zlnM6v4xGIiaqUMLJRYrLeP5ic0RZ7IwR7l7xL8ob
+V5JNZD9I/QI5E/xGV6AjKZLRpjGXTOwnZ1RsOtj3IOjSaGQDA/u7diDJdC1mvPkYn4mG4TUR2GXW
+Bkl/A6f56caG5jij3FxtUxIQF4n6PpBr6pREF1sizN0jdEeIpyDT5mhX4ys1FqlVI6hRq6r1UDlm
+tFA+x27qPsKJQ0/HuAqa/OcoN9k37Cm/jt1dnjUqqmUnZMjRLwlU1Zs7XfTUvK1sLOEHczRkimCp
+h2izLHY6NRqXQD+C0p+A78JxSPXydkDzKun1FnSkbUWR4TStCi7ud7srStmZolvtzU3v3wNNKpvc
+HEM=
+=5TmK
+-----END PGP SIGNATURE-----
+
+--------------LPSQ13HLN6EPEyDgJ9wTLDk0--
