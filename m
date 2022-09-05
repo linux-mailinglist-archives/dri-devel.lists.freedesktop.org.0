@@ -2,59 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5A65AD7B2
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 18:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5C15AD7C3
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 18:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAFE210E447;
-	Mon,  5 Sep 2022 16:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9409410E448;
+	Mon,  5 Sep 2022 16:44:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9F910E447
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 16:39:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662395984; x=1693931984;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=UYJEY/SQG8QDZBOYJJY4nO80O+kbgOS3Lid6Gc+CEbQ=;
- b=BYApqGDERhmgvnZzi9qnGyWk9VVBll9nTDMypCM77FaphwpTT8EBf6Vh
- KhwCG+WTblBJvfs4T/Vb8Vanl/WH2D1fuz1BwbrRO7GIg0VgLHoGW2ePv
- dIBW7GUX5ZNvuWFaQPY65QjGQPzrG8fAZeyvHO7xUe73HZ1xh1f7Kx5i+
- 3bRY3e5XupQVuInqFb7bMnK3xFpeOhTTZDjrolSIARq2uTHGeYydd+3dj
- 9BaCLvKV9FsS2S+zXBAUzeGHK4dsBGcvsdLwao0kp5NXo+wtYBdZaHOCd
- wiNLnAamelaz0MgGF8RiCqpSmumjCjfTeXkslEWv1ZTGpHZZVsujgeTx5 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="276817866"
-X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="276817866"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 09:39:43 -0700
-X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="675346621"
-Received: from hpigot-mobl1.ger.corp.intel.com (HELO [10.213.237.107])
- ([10.213.237.107])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 09:39:40 -0700
-Message-ID: <3c702549-75f4-c640-9f9c-37d7fcbb1645@linux.intel.com>
-Date: Mon, 5 Sep 2022 17:39:39 +0100
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 543E010E448;
+ Mon,  5 Sep 2022 16:44:47 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id bq23so13824926lfb.7;
+ Mon, 05 Sep 2022 09:44:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:from:to:cc:subject:date;
+ bh=pg/PAiNvnu7vtuOyQRQ/USUHgpjKV+PX2R3Qe58I9a8=;
+ b=gpdNZAEDxje8wnITyn+RZoWmy+HDFnOquwNGCkPFH4u26oFe9BJkGsChjuvli+EpUC
+ udG041BUDBCsixXiASZMPopuq5kkYgAZ75M5qx/664s54esc8z1HhBFqbN3K9kHPpL1i
+ /c/k2keYZOCrifzS9i3Jol3/Ys8sNIUeajA/nxV7uULUR3TcQoLuptOLB6RGc/f719/2
+ O/X4incruiAcIvG6rSJmQeWED2QziZfV7nNN+Xw4npnDsDvap4T4VaB6gU99RsKT0/sK
+ ObY9ODTZh1llvOmzGkvb7+zUE3IWaTV/TsOIDkNGg6kHEUV4Ijytw/jtF/wsnn40KB7l
+ WmKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:x-gm-message-state:from:to:cc:subject:date;
+ bh=pg/PAiNvnu7vtuOyQRQ/USUHgpjKV+PX2R3Qe58I9a8=;
+ b=MkhxCQONUXlubNxbbx/NHGId4pCjcxQSBxl6i556YH6RZyWtarIZnH4r4rqAPDF1Ae
+ 2SMkkpWTn2cRrtRSnmM3HqZMyeuWcVmG2IrvMs4FhevTkZNVT8D98Cpi/35KlDsald2I
+ +hx4m+qV46Rj2fYKP9U8ADei168DJAY0ot9xiz05n+iC4llDjBQ8Y4nQac5nRQ4aDRSg
+ V9NPmZa5RxP7uRMSvuMD2LRW4/3MO6bEMqs+yH4X7sdimv6a0xUcLI8BangKtRW7Aub8
+ dexkCj7q6TWhjY7goaK75o5CQ/1t1I30NASufNbvytV/ASNVjE8g/EOSbZ90FUoFzhj7
+ lH0w==
+X-Gm-Message-State: ACgBeo0fK2SrVBhKD4mXet0JsIpApfGJgCDavZ5c3d1J193QTGHGxSM7
+ wqRbdVDBCzs+ATEHDmW4ufU=
+X-Google-Smtp-Source: AA6agR5QgKJH0v/+7sAguBYeCvG9a+g/CeSbeIITanudZorCWC9+TludMawIYPfRu4Xh0pTJ0sIw1w==
+X-Received: by 2002:a05:6512:ba2:b0:494:6d93:e9ee with SMTP id
+ b34-20020a0565120ba200b004946d93e9eemr11762898lfv.378.1662396285601; 
+ Mon, 05 Sep 2022 09:44:45 -0700 (PDT)
+Received: from ?IPV6:2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852?
+ ([2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852])
+ by smtp.googlemail.com with ESMTPSA id
+ q5-20020a2eb4a5000000b0025e59f125fbsm1469514ljm.53.2022.09.05.09.44.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 09:44:45 -0700 (PDT)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
+Date: Mon, 5 Sep 2022 18:44:42 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/4] dma-buf: Check status of enable-signaling bit on debug
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
- shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
- Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
- gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220905105653.13670-1-Arvind.Yadav@amd.com>
- <20220905105653.13670-2-Arvind.Yadav@amd.com>
- <0038fcff-35f1-87e3-aa26-cdd104a13628@amd.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <0038fcff-35f1-87e3-aa26-cdd104a13628@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.2.1
+Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
+ display modes
+Content-Language: pl
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
+ <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
+ <20220905133755.gcmmntg3wnecyqjq@houat>
+In-Reply-To: <20220905133755.gcmmntg3wnecyqjq@houat>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,76 +80,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
-On 05/09/2022 12:21, Christian König wrote:
-> Am 05.09.22 um 12:56 schrieb Arvind Yadav:
->> The core DMA-buf framework needs to enable signaling
->> before the fence is signaled. The core DMA-buf framework
->> can forget to enable signaling before the fence is signaled.
->> To avoid this scenario on the debug kernel, check the
->> DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT status bit before checking
->> the signaling bit status to confirm that enable_signaling
->> is enabled.
-> 
-> You might want to put this patch at the end of the series to avoid 
-> breaking the kernel in between.
-> 
+W dniu 5.09.2022 o 15:37, Maxime Ripard pisze:
+>>> +    vfp = vfp_min + (porches_rem / 2);
+>>> +    vbp = porches - vfp;
 >>
->> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
->> ---
->>   include/linux/dma-fence.h | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->> index 775cdc0b4f24..60c0e935c0b5 100644
->> --- a/include/linux/dma-fence.h
->> +++ b/include/linux/dma-fence.h
->> @@ -428,6 +428,11 @@ dma_fence_is_signaled_locked(struct dma_fence 
->> *fence)
->>   static inline bool
->>   dma_fence_is_signaled(struct dma_fence *fence)
->>   {
->> +#ifdef CONFIG_DEBUG_FS
-> 
-> CONFIG_DEBUG_FS is certainly wrong, probably better to check for 
-> CONFIG_DEBUG_WW_MUTEX_SLOWPATH here.
-> 
-> Apart from that looks good to me,
+>> Relative position of the vertical sync within the VBI effectively moves the
+>> image up and down. Adding that (porches_rem / 2) moves the image up off center
+>> by that many pixels. I'd keep the VFP always at minimum to keep the image
+>> centered.
+>
+> And you would increase the back porch only then?
 
-What's the full story in this series - I'm afraid the cover letter does not make it clear to a casual reader like myself? Where does the difference between debug and non debug kernel come from?
+Well, increasing vbp only gives a centered image with the default 480i/576i
+resolutions. However, only ever changing vbp will cause the image to be always
+at the bottom of the screen when the active line count is decreased (e.g.
+setting the resolution to 720x480 but for 50Hz "PAL" - like many game consoles
+did back in the day).
 
-And how do the proposed changes relate to the following kerneldoc excerpt:
+I believe that the perfect solution would:
 
-	 * Since many implementations can call dma_fence_signal() even when before
-	 * @enable_signaling has been called there's a race window, where the
-	 * dma_fence_signal() might result in the final fence reference being
-	 * released and its memory freed. To avoid this, implementations of this
-	 * callback should grab their own reference using dma_fence_get(), to be
-	 * released when the fence is signalled (through e.g. the interrupt
-	 * handler).
-	 *
-	 * This callback is optional. If this callback is not present, then the
-	 * driver must always have signaling enabled.
+- Use the canonical / standard-defined blanking line counts for the standard
+  vertical resolutions (480/486/576)
+- Increase vfp and vbp from there by the same number if a smaller number of
+  active lines is specified, so that the resulting image is centered
+- Likewise, decrease vfp and vbp by the same number if the active line number
+  is larger and there is still leeway (this should allow for seamless handling
+  of 480i vs. 486i for 60 Hz "NTSC")
+- If even more active lines are specified, once the limit for vfp is hit, then
+  decrease vbp only - the resulting image will definitely be off-center, but
+  there's no other way
 
-Is it now an error, or should be impossible condition, for "is signaled" to return true _unless_ signaling has been enabled?
+I hope this makes sense for you as well.
 
-If the statement (in a later patch) is signalling should always be explicitly enabled by the callers of dma_fence_add_callback, then what about the existing call to __dma_fence_enable_signaling from dma_fence_add_callback?
-
-Or if the rules are changing shouldn't kerneldoc be updated as part of the series?
-
-Regards,
-
-Tvrtko
-
-> Christian.
-> 
->> +    if (!test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &fence->flags))
->> +        return false;
->> +#endif
->> +
->>       if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>           return true;
-> 
+Best regards,
+Mateusz Kwiatkowski
