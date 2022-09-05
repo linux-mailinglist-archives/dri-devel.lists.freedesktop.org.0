@@ -1,45 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206185ADAF4
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 23:46:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E39945ADB1A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 00:08:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7D7210E2A0;
-	Mon,  5 Sep 2022 21:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D966E10E2BC;
+	Mon,  5 Sep 2022 22:07:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5D3C10E2A0
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 21:46:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Nx8GC4zN2UaS3+tECFgfy6WKVxCM6mTL9dQUXjF+T3Q=; b=M0ATbBO9CN61zp3BbLXp0ZX0LO
- UN3bwSN1/zDGlG32X08F0/wj4wtlKZmOa8/bcyZHsgnjUi9NLeOmvt7kmZlQ5C3Ez5GxQ/1xFC5LP
- Yj24BDFQ7bjtLvB4p7CFZIA74JJIFDTevQhIDANA9jHELUuf0XOZMd7qNsAgb+U6Xm0NFkGULld8K
- etgGqYwsl3hL44KYLIrtv+z+ZH8eZv52Z+Au7O9pd/JCv5+Di7A9sHA8APz1x2FIdSALtmveo/IL3
- pjXcw44brCbtz1VjQUZJCrwzZQh4dHAy5rA9CurW0oaflBmwkQ//U0EY4MZkIoviP9K7EILBeE+zd
- JCJqMquw==;
-Received: from [38.44.74.92] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oVJuu-00BJS1-Qm; Mon, 05 Sep 2022 23:46:04 +0200
-Date: Mon, 5 Sep 2022 20:45:51 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Igor Torrente <igormtorrente@gmail.com>
-Subject: Re: [PATCH v7 0/9] Add new formats support to vkms
-Message-ID: <20220905214551.re6lc47svocoesyf@mail.igalia.com>
-References: <20220905190811.25024-1-igormtorrente@gmail.com>
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1A810E2BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 22:07:53 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id b144so4784367pfb.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 15:07:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :from:to:cc:subject:date;
+ bh=DI+EGf5Iiw4yLnQOM0iLSEUhYarB1qtVETYwX3ATTlI=;
+ b=KDxaSPeOmIAHodHZoxO7+rPppr+0nc84E7WjJr09aHXf0y70VUqQeiGwM4ZbMT1+IG
+ aswpW6qIia4RuP0oy/zixSqOkdUMGcBdQBZ+zCXrSbs5gzJjxQbyCJKm+qaEmHP0fbLr
+ p+VnLtgDb/UqRnZ5jH6rY49caFH+X+TV7pDArSwV7zY/jQ9Qvi10MQT7HP3yHqCz6Ymq
+ 3ER0a2FyOYkl9+aJiUSNvNKZnQFKEXdO6qjVPIArqiSCS2eFf74FcrePSlFKeiFjZiPh
+ a3swNk1c3KCQbDFwBwgMcHrg1CM/Xc0KnXfSUNi2LqKeA1gvQb715UJnDwV5eFIZMn4E
+ JSRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=DI+EGf5Iiw4yLnQOM0iLSEUhYarB1qtVETYwX3ATTlI=;
+ b=03VBXOZ7qli8rvsGCxwAO6LIlzW9FolGp2pypLtHKFF7FE/9csdDcWIeHJlq9fR5FK
+ wsqRJ3Hz3FJwr+d+MkHsEB7jRjP8DwiILZZkahCBEVh54IglNlX2yT9264GtkeN/2Hr3
+ CylvHhDnvvyxszNsLSaoE2AYfd8sJprPWROtC1AGhQFad12v1712qY6GfoR0DZkqTJaz
+ 2nRKgcLnjVlzzoNOITLd5eKsz+UPN9QQLn+PORT3rJeEncpgdT1PykWlwgCfhFOQ2izx
+ 9MW00KU95tH1yeemHJ2SyKp2/ecJP9cSdNTyEnoQa37ym7C8FWJ9CAa/JfS7tlliDrz4
+ RwNQ==
+X-Gm-Message-State: ACgBeo1UB8l5LZAYAxyTCRWZbiONRYHhnDwfCiKl4mU3FwzVyJB0mEhs
+ l39KtEyv3vTjCWN5sBW7MrQ=
+X-Google-Smtp-Source: AA6agR5VFvTDdUbzbYgkiV1tQs8QlnywRsbF0wBwVMI81k5tziGUND19h0NyYI/NQTVei/R57vjcgw==
+X-Received: by 2002:a63:2cc2:0:b0:41c:681d:60d2 with SMTP id
+ s185-20020a632cc2000000b0041c681d60d2mr41816293pgs.502.1662415672598; 
+ Mon, 05 Sep 2022 15:07:52 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ m16-20020a170902db1000b00172dd10f64fsm8157821plx.263.2022.09.05.15.07.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 15:07:51 -0700 (PDT)
+Message-ID: <4a0d089d-6ac6-b92e-6ac7-3d3de0144b4b@roeck-us.net>
+Date: Mon, 5 Sep 2022 15:07:48 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jizrtriizn25xenx"
-Content-Disposition: inline
-In-Reply-To: <20220905190811.25024-1-igormtorrente@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-4-b29adfb27a6c@gmail.com>
+ <CAHp75VdMr7wru-2hD1HH3OS5JTNdzt6VRqB6OFoCp2JkiuiTjw@mail.gmail.com>
+ <YxZQj8bwJCx5rqDv@google.com>
+ <CAHp75VdHJS4YgrTK15OuY5sxodxKObUtzturL+YPXFQ3_wpxig@mail.gmail.com>
+ <YxZTS3Nl1YaMGoBC@google.com>
+ <CAHp75VeNajcf-Y6xvDDVwZijg6U53ggg1HQox1AZ74=wRut+1Q@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v1 04/11] usb: phy: tegra: switch to using devm_gpiod_get()
+In-Reply-To: <CAHp75VeNajcf-Y6xvDDVwZijg6U53ggg1HQox1AZ74=wRut+1Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,165 +82,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- tales.aparecida@gmail.com, leandro.ribeiro@collabora.com,
- melissa.srw@gmail.com, ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, ~lkcamp/patches@lists.sr.ht
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, David Airlie <airlied@linux.ie>,
+ linux-pci <linux-pci@vger.kernel.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-tegra <linux-tegra@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ LINUXWATCHDOG <linux-watchdog@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ USB <linux-usb@vger.kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Richard Weinberger <richard@nod.at>,
+ =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 9/5/22 12:55, Andy Shevchenko wrote:
+> On Mon, Sep 5, 2022 at 10:51 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+>> On Mon, Sep 05, 2022 at 10:41:40PM +0300, Andy Shevchenko wrote:
+>>> On Mon, Sep 5, 2022 at 10:40 PM Dmitry Torokhov
+>>> <dmitry.torokhov@gmail.com> wrote:
+>>>> On Mon, Sep 05, 2022 at 01:59:44PM +0300, Andy Shevchenko wrote:
+>>>>> On Mon, Sep 5, 2022 at 9:32 AM Dmitry Torokhov
+>>>>> <dmitry.torokhov@gmail.com> wrote:
+> 
+> ...
+> 
+>>>>>> -               gpiod = devm_gpiod_get_from_of_node(&pdev->dev, np,
+>>>>>> -                                                   "nvidia,phy-reset-gpio",
+>>>>>> -                                                   0, GPIOD_OUT_HIGH,
+>>>>>> -                                                   "ulpi_phy_reset_b");
+>>>>>> +               gpiod = devm_gpiod_get(&pdev->dev, "nvidia,phy-reset",
+>>>>>> +                                      GPIOD_OUT_HIGH);
+>>>>>>                  err = PTR_ERR_OR_ZERO(gpiod);
+>>>>>
+>>>>> What does _OR_ZERO mean now?
+>>>>
+>>>> This converts a pointer to an error code if a pointer represents
+>>>> ERR_PTR() encoded error, or 0 to indicate success.
+>>>
+>>> Yes, I know that. My point is, how is it useful now (or even before)?
+>>> I mean that devm_gpio_get() never returns NULL, right?
+>>
+>> What does returning NULL have to do with anything.
+> 
+> It has to do with a dead code. If defm_gpiod_get() does not return
+> NULL, then why do we even bother to check?
+> 
 
---jizrtriizn25xenx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+PTR_ERR_OR_ZERO() converts into an error code (if the pointer is an
+ERR_PTR) or 0 if it is a real pointer. Its purpose is not to convert
+NULL into 0, its purpose is to convert a pointer either into an error
+code or 0. That is what is done here, and it is done all over the place
+in the kernel. I don't see your problem with it. Care to explain ?
 
-On 09/05, Igor Torrente wrote:
-> Summary
-> =3D=3D=3D=3D=3D=3D=3D
-> This series of patches refactor some vkms components in order to introduce
-> new formats to the planes and writeback connector.
->=20
-> Now in the blend function, the plane's pixels are converted to ARGB161616=
-16
-> and then blended together.
->=20
-> The CRC is calculated based on the ARGB1616161616 buffer. And if required,
-> this buffer is copied/converted to the writeback buffer format.
->=20
-> And to handle the pixel conversion, new functions were added to convert
-> from a specific format to ARGB16161616 (the reciprocal is also true).
->=20
-Hi Igor,
+>> It converts a pointer
+>> to a "classic" return code, with negative errors and 0 on success.
+>>
+>> It allows to not use multiple IS_ERR/PTR_ERR in the code (I'd need 1
+>> IS_ERR and 2 PTR_ERR, one in dev_err() and another to return).
+> 
+> I don't see how this is relevant.
+> 
 
-Thanks for this great work!
-I just applied to drm-misc-next (I did some minor code-style fixes when
-applying too).
+You lost me. Really, please explain your problem with PTR_ERR_OR_ZERO().
 
-Best Regards,
-
-Melissa
-
-> Tests
-> =3D=3D=3D=3D=3D
-> This patch series was tested using the following igt tests:
-> -t ".*kms_plane.*"
-> -t ".*kms_writeback.*"
-> -t ".*kms_cursor_crc*"
-> -t ".*kms_flip.*"
->=20
-> New tests passing
-> -------------------
-> - pipe-A-cursor-size-change
-> - pipe-A-cursor-alpha-transparent
->=20
-> Performance
-> -----------
-> It's running slightly faster than the current implementation.
->=20
-> Results running the IGT[1] test
-> `igt@kms_cursor_crc@pipe-a-cursor-512x512-onscreen` ten times:
->=20
-> |                  Frametime                   |
-> |:--------------------------------------------:|
-> |  Implementation |  Current  |   This commit  |
-> |:---------------:|:---------:|:--------------:|
-> | frametime range |  9~22 ms  |     10~22 ms   |
-> |     Average     |  11.4 ms  |     12.32 ms   |
->=20
-> Memory consumption
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> It consumes less memory than the current implementation in
-> the common case (more detail in the commit message).
->=20
-> | Memory consumption (output dimensions) |
-> |:--------------------------------------:|
-> |       Current      |     This patch    |
-> |:------------------:|:-----------------:|
-> |   Width * Heigth   |     2 * Width     |
->=20
-> [1] IGT commit id: bc3f6833a12221a46659535dac06ebb312490eb4
->=20
-> XRGB to ARGB behavior
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> During the development, I decided to always fill the alpha channel of
-> the output pixel whenever the conversion from a format without an alpha
-> channel to ARGB16161616 is necessary. Therefore, I ignore the value
-> received from the XRGB and overwrite the value with 0xFFFF.
->=20
-> Primary plane and CRTC size
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> This patch series reworks the blend function to accept a primary plane wi=
-th
-> a different size and position from CRTC.
-> Because now we need to fill the background, we had a loss in
-> performance with this change
->=20
-> Alpha channel output for XRGB formats
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> There's still an open question about which value the writeback alpha chan=
-nel
-> should be for XRGB formats.
-> The current igt test implementation is expecting the channel to not be ch=
-ange.
-> But it's not entirely clear if this should be the behavior followed by vk=
-ms
-> (or any other driver).
->=20
-> Open issue: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/118
-> ---
-> Igor Torrente (9):
->   drm: vkms: Replace hardcoded value of `vkms_composer.map` to
->     DRM_FORMAT_MAX_PLANES
->   drm: vkms: Rename `vkms_composer` to `vkms_frame_info`
->   drm: drm_atomic_helper: Add a new helper to deal with the writeback
->     connector validation
->   drm: vkms: get the reference to `drm_framebuffer` instead if coping it
->   drm: vkms: Add fb information to `vkms_writeback_job`
->   drm: vkms: Refactor the plane composer to accept new formats
->   drm: vkms: Supports to the case where primary plane doesn't match the
->     CRTC
->   drm: vkms: Adds XRGB_16161616 and ARGB_1616161616 formats
->   drm: vkms: Add support to the RGB565 format
->=20
->  Documentation/gpu/vkms.rst            |   7 +-
->  drivers/gpu/drm/drm_atomic_helper.c   |  39 ++++
->  drivers/gpu/drm/vkms/Makefile         |   1 +
->  drivers/gpu/drm/vkms/vkms_composer.c  | 314 ++++++++++++--------------
->  drivers/gpu/drm/vkms/vkms_drv.h       |  33 ++-
->  drivers/gpu/drm/vkms/vkms_formats.c   | 302 +++++++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_formats.h   |  12 +
->  drivers/gpu/drm/vkms/vkms_plane.c     |  50 ++--
->  drivers/gpu/drm/vkms/vkms_writeback.c |  39 +++-
->  include/drm/drm_atomic_helper.h       |   3 +
->  10 files changed, 580 insertions(+), 220 deletions(-)
->  create mode 100644 drivers/gpu/drm/vkms/vkms_formats.c
->  create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
->=20
-> --=20
-> 2.30.2
->=20
-
---jizrtriizn25xenx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmMWbgUACgkQwqF3j0dL
-ehxFcA/8Dcg0cvKSTeymDCtb9XVSPaDhSlO7wxrMo3JB5ymF2NlMcHZN1gsk7t+P
-i3VY6AtqbXII2+vmArnyj8SHcgFSyhj4BmigaIhwDwxureUcJP+HAsWs4ozvc2Tc
-mbfUKxqH2XA6OnJsw57GJEUXeeAYwa+41ZWZE0GsYkUjOUTY9cRyiuiduaMJUpq5
-Q6+VUZWjFZns0H+Qt/yC3jIRV3aZJDFLObg6ArX0bph6m4zZ9Nir+jRtgUJ+4zZe
-ue82Y4NlltkyB1UADsmUbEh+3UsCaOJ27EuODPLLYAi+ROo3BGCVEPQSHLECBJJG
-KnV6kwrurOqp2mRL1Zfmg30qptu3bsKvi2j8Mtv+R0xgMDsf0A6jsQjXwHp35Pdy
-ud9ZOW/NkgAWWqqS+H7ql9+3JX5/KzCZRrdJlXe1T3VemK713ONAxN9tnZ6I8wOc
-K0dSKwem/iquM4ge0OA0L03JFk0ZqnE8lw4j7SUj2QW1jqguuazLN6K+s3/cpbjE
-7UgzLwfb1XFZ8I2prHQBRzN7UG5Tu0DDwOftGZGzrgo+aq3Fp5zsRsUqNPa5+0od
-iMxIQJ6CragNjJWlgKieLLli/ELqWqPgAMZ09fyMdH6AwsTauvZXT9Qk6AzSXr8C
-vr1/v8Z/scRMHRSZUNDckxYIWSr4QPI80VDuGWjPzion9wqH1Os=
-=jkGA
------END PGP SIGNATURE-----
-
---jizrtriizn25xenx--
+Thanks,
+Guenter
