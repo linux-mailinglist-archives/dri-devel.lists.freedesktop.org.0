@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6685A5ACE56
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 10:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88A95ACEAE
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 11:19:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24A8010E23E;
-	Mon,  5 Sep 2022 08:57:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69AD410E239;
+	Mon,  5 Sep 2022 09:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BBF210E218;
- Mon,  5 Sep 2022 08:57:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662368225; x=1693904225;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=0Gp2sYDYePVvesNfG6Vc2bcPys5prs27byW140RBgFs=;
- b=Yizsv/vT+XeOZjGobUQcbQTJXDIORVwY5d1B4H4nOkHUPoe9S4kjKP7R
- O6MJKoS0StBxg4hNF48u9LkX5IbiCEu8dNpPAyNH9WxYYXuvPLO3cxe9Z
- RtGISRzFVzhXJ5DsArQb5LVVZojMtPxBPV4/ycdcfvO18RdwAmf2Zwiyv
- Uvn7ejXxVhVEuozxnXfv0v4omlhU76+RPFRhxARZ9jrW/CjMoNLG7lsQq
- mmVDlgiAEu6UWVwsDfwhi08kex0UrZC+MwDitTrg6YW0WuOFrFhCfwgfi
- z82r2Ptbmtl1FWpkdHUMg9AMJqI1VzzQmEQ1z7yg2M/xk9I+UmLV/ltnx Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="296347077"
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="296347077"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 01:57:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="755961746"
-Received: from unknown (HELO slisovsk-Lenovo-ideapad-720S-13IKB.fi.intel.com)
- ([10.237.72.65])
- by fmsmga001.fm.intel.com with ESMTP; 05 Sep 2022 01:57:02 -0700
-From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/i915: Add DSC support to MST path
-Date: Mon,  5 Sep 2022 11:57:44 +0300
-Message-Id: <20220905085744.29637-5-stanislav.lisovskiy@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220905085744.29637-1-stanislav.lisovskiy@intel.com>
-References: <20220905085744.29637-1-stanislav.lisovskiy@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD9110E218
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 09:19:19 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2AFBD34AFE;
+ Mon,  5 Sep 2022 09:19:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662369558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+KfXzdsej2R8a3SdgchU2S09/NOa+dW7R/tpIWhRf0o=;
+ b=m8G1+Tbdjf5pDK2gjqjGzw5eARctZA93qf+6GWCwnssMtOuAk6TB3tf9v90iiUhZDJwXKh
+ 1Ag+RErjgHIUkhCrdnKEzWyN/IcUx55jTFulqoBI2Gy2e0h68twAY+7+S+H4E6dcg7KYXC
+ fuzgSHZtwRPwd1DOBqRMaAR8QGefQw0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662369558;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+KfXzdsej2R8a3SdgchU2S09/NOa+dW7R/tpIWhRf0o=;
+ b=8q57l8N+D0mDYznrlqLGvjFnL0dJP8R+xixZUl/cPeZ2tB3wK3kEeyxZ+ztErtChC16i3p
+ utPgZR+F5/qu/oAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ECD69139C7;
+ Mon,  5 Sep 2022 09:19:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id p7PEOBW/FWMmJAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 05 Sep 2022 09:19:17 +0000
+Message-ID: <c834cd82-3b55-6ceb-3af0-3a3126fcc354@suse.de>
+Date: Mon, 5 Sep 2022 11:19:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v3] drm/ast: add dmabuf/prime buffer sharing support
+Content-Language: en-US
+To: oushixiong <oushixiong@kylinos.cn>, Dave Airlie <airlied@redhat.com>
+References: <20220901124451.2523077-1-oushixiong@kylinos.cn>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220901124451.2523077-1-oushixiong@kylinos.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ByfTnMX8hi7dxzO6CUZv8nCW"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,418 +69,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: manasi.d.navare@intel.com, vinod.govindapillai@intel.com,
- jani.nikula@intel.com, dri-devel@lists.freedesktop.org,
- Stanislav.Lisovskiy@intel.com, jani.saarinen@intel.com
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Whenever we are not able to get enough timeslots
-for required PBN, let's try to allocate those
-using DSC, just same way as we do for SST.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ByfTnMX8hi7dxzO6CUZv8nCW
+Content-Type: multipart/mixed; boundary="------------FJRCP9xMoQplx469M88CqVVC";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: oushixiong <oushixiong@kylinos.cn>, Dave Airlie <airlied@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>, linux-media@vger.kernel.org
+Message-ID: <c834cd82-3b55-6ceb-3af0-3a3126fcc354@suse.de>
+Subject: Re: [PATCH v3] drm/ast: add dmabuf/prime buffer sharing support
+References: <20220901124451.2523077-1-oushixiong@kylinos.cn>
+In-Reply-To: <20220901124451.2523077-1-oushixiong@kylinos.cn>
 
-v2: Removed intel_dp_mst_dsc_compute_config and refactored
-    intel_dp_dsc_compute_config to support timeslots as a
-    parameter(Ville Syrjälä)
+--------------FJRCP9xMoQplx469M88CqVVC
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-v3: - Rebased
-    - Added a debug to see that we at least try reserving
-      VCPI slots using DSC, because currently its not visible
-      from the logs, thus making debugging more tricky.
-    - Moved timeslots to numerator, where it should be.
+SGksDQoNCkkndmUgYmVlbiBvbiB2YWNhdGlvbi4gU29ycnkgZm9yIHRoZSBsYXRlIHJlcGx5
+Lg0KDQpJIGhhdmUgcGxhbnMgdG8gcmVwbGFjZSBhc3QncyBtZW1vcnkgbWFuYWdlciB3aXRo
+IHRoZSBHRU0gU0hNRU0gaGVscGVycy4gDQpUaGVzZSBhbHJlYWR5IHN1cHBvcnQgUFJJTUUg
+YnVmZmVyIHNoYXJpbmcgYW5kIHRoZSB1c2VjYXNlIHlvdSBkZXNjcmliZS4gDQpJIGFsc28g
+Y29uc2lkZXIgdGhlIEdFTSBWUkFNIGhlbHBlcnMgdXNlZCBieSBhc3QgYXMgZGVwcmVjYXRl
+ZC4gVGhlcmUncyANCm5vIGJlbmVmaXQgb3ZlciBTSE1FTSBoZWxwZXJzLCBleGNlcHQgd2l0
+aCB0aGUgYm9jaHMgZHJpdmVyLiBTbyB3aGF0ZXZlciANCndlIG1lcmdlIGhlcmUsIG1pZ2h0
+IG5vdCBsaXZlIGZvciB0b28gbG9uZy4NCg0KQW0gMDEuMDkuMjIgdW0gMTQ6NDQgc2Nocmll
+YiBvdXNoaXhpb25nOg0KPiANCj4gVGhpcyBwYXRjaCBhZGRzIGFzdCBzcGVjaWZpYyBjb2Rl
+cyBmb3IgRFJNIHByaW1lIGZlYXR1cmUsIHRoaXMgaXMgdG8NCj4gYWxsb3cgZm9yIG9mZmxv
+YWRpbmcgb2YgcmVuZGluZyBpbiBvbmUgZGlyZWN0aW9uIGFuZCBvdXRwdXRzIGluIG90aGVy
+Lg0KPiANCj4gVGhpcyBwYXRjaCBpcyBkZXNpZ25lZCB0byBzb2x2ZSB0aGUgcHJvYmxlbSB0
+aGF0IHRoZSBBU1QgaXMgbm90IGRpc3BsYXllZA0KPiB3aGVuIHRoZSBzZXJ2ZXIgcGx1ZyBp
+biBhIGRpc2NyZXRlIGdyYXBoaWNzIGNhcmQgYXQgdGhlIHNhbWUgdGltZS4NCj4gV2UgY2Fs
+bCB0aGUgZGlydHkgY2FsbGJhY2sgZnVuY3Rpb24gdG8gY29weSB0aGUgcmVuZGVyaW5nIHJl
+c3VsdHMgb2YgdGhlDQo+IGRpc2NyZXRlIGdyYXBoaWNzIGNhcmQgdG8gdGhlIGFzdCBzaWRl
+IGJ5IGRtYS1idWYuDQoNCkkgYXNzdW1lIHRoYXQgdXNlcnNwYWNlIGd1YXJhbnRlZXMgdGhh
+dCBib3RoLCBBU1BFRUQgYW5kIGRpc2NyZXRlIA0KZGV2aWNlLCBhcmUgc2V0IHRoZSB0aGUg
+c2FtZSBkaXNwbGF5IHJlc29sdXRpb24/DQoNCj4gDQo+IHYxLT52MjoNCj4gICAgLSBGaXgg
+dGhlIGNvbW1lbnQuDQo+IHYyLT52MzoNCj4gICAgLSB3ZSByZW1vdmUgdGhlIGdlbV9wcmlt
+ZV9pbXBvcnRfc2dfdGFibGUgY2FsbGJhY2sgYW5kIHVzZSB0aGUNCj4gICAgICBnZW1fcHJp
+bWVfaW1wb3J0IGNhbGxiYWNrLCBiZWNhdXNlIGl0IGp1c3QgbWFwIGFuZCBhY2Nlc3MgdGhl
+IGJ1ZmZlcg0KPiAgICAgIHdpdGggdGhlIENQVS4gYW5kIGRvIG5vdCB0byBwaW4gdGhlIGJ1
+ZmZlci4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IG91c2hpeGlvbmcgPG91c2hpeGlvbmdAa3ls
+aW5vcy5jbj4NCj4gQWNrZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2Vu
+aWdAYW1kLmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMg
+IHwgIDI3ICsrKysrKysNCj4gICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgfCAx
+MjUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystDQo+ICAgMiBmaWxlcyBjaGFu
+Z2VkLCAxNTEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KDQpUaGVyZSdzIG5vdGhp
+bmcgc3BlY2lmaWNhbGx5IHRvIEFTVCBoZXJlLiBDb3VsZCB0aGlzIGJlIGJ1aWxkIG9uIEdF
+TSANClZSQU0gaGVscGVycyBpbnN0ZWFkPyBBIGhhbmRmdWwgb2Ygb3RoZXIgZHJpdmVycyBz
+aG91bGQgdGhlbiBiZSBhYmxlIHRvIA0KdXNlIHRoZSBmdW5jdGlvbmFsaXR5Lg0KDQo+IA0K
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMgYi9kcml2ZXJz
+L2dwdS9kcm0vYXN0L2FzdF9kcnYuYw0KPiBpbmRleCA3NDY1YzRmMDE1NmEuLmZkM2M0YmFk
+MmViNCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMNCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMNCj4gQEAgLTI4LDYgKzI4LDcg
+QEANCj4gICANCj4gICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+DQo+ICAgI2luY2x1ZGUg
+PGxpbnV4L3BjaS5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L2RtYS1idWYuaD4NCg0KU29ydCBh
+bHBoYWJldGljYWxseSBwbGVhc2UuDQoNCj4gICANCj4gICAjaW5jbHVkZSA8ZHJtL2RybV9h
+cGVydHVyZS5oPg0KPiAgICNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19oZWxwZXIuaD4NCj4g
+QEAgLTUwLDYgKzUxLDI5IEBAIG1vZHVsZV9wYXJhbV9uYW1lZChtb2Rlc2V0LCBhc3RfbW9k
+ZXNldCwgaW50LCAwNDAwKTsNCj4gICANCj4gICBERUZJTkVfRFJNX0dFTV9GT1BTKGFzdF9m
+b3BzKTsNCj4gICANCj4gK3N0YXRpYyBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmFzdF9nZW1f
+cHJpbWVfaW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICsJCQkJCQlzdHJ1Y3Qg
+ZG1hX2J1ZiAqZG1hX2J1ZikNCj4gK3sNCj4gKwlzdHJ1Y3QgZHJtX2dlbV92cmFtX29iamVj
+dCAqZ2JvOw0KPiArDQo+ICsJZ2JvID0gZHJtX2dlbV92cmFtX29mX2dlbShkbWFfYnVmLT5w
+cml2KTsNCj4gKwlpZiAoZ2JvLT5iby5iYXNlLmRldiA9PSBkZXYpIHsNCj4gKwkJLyoNCj4g
+KwkJICogSW1wb3J0aW5nIGRtYWJ1ZiBleHBvcnRlZCBmcm9tIG91dCBvd24gZ2VtIGluY3Jl
+YXNlcw0KPiArCQkgKiByZWZjb3VudCBvbiBnZW0gaXRzZWxmIGluc3RlYWQgb2YgZl9jb3Vu
+dCBvZiBkbWFidWYuDQo+ICsJCSAqLw0KPiArCQlkcm1fZ2VtX29iamVjdF9nZXQoJmdiby0+
+Ym8uYmFzZSk7DQo+ICsJCXJldHVybiAmZ2JvLT5iby5iYXNlOw0KPiArCX0NCj4gKw0KPiAr
+CWdibyA9IGRybV9nZW1fdnJhbV9jcmVhdGUoZGV2LCBkbWFfYnVmLT5zaXplLCAwKTsNCj4g
+KwlpZiAoSVNfRVJSKGdibykpDQo+ICsJCXJldHVybiBOVUxMOw0KPiArDQo+ICsJZ2V0X2Rt
+YV9idWYoZG1hX2J1Zik7DQo+ICsJcmV0dXJuICZnYm8tPmJvLmJhc2U7DQo+ICt9DQo+ICsN
+Cj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgYXN0X2RyaXZlciA9IHsNCj4g
+ICAJLmRyaXZlcl9mZWF0dXJlcyA9IERSSVZFUl9BVE9NSUMgfA0KPiAgIAkJCSAgIERSSVZF
+Ul9HRU0gfA0KPiBAQCAtNjMsNiArODcsOSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9k
+cml2ZXIgYXN0X2RyaXZlciA9IHsNCj4gICAJLm1pbm9yID0gRFJJVkVSX01JTk9SLA0KPiAg
+IAkucGF0Y2hsZXZlbCA9IERSSVZFUl9QQVRDSExFVkVMLA0KPiAgIA0KPiArCS5wcmltZV9m
+ZF90b19oYW5kbGUgPSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSwNCj4gKwkuZ2VtX3By
+aW1lX2ltcG9ydCA9IGFzdF9nZW1fcHJpbWVfaW1wb3J0LA0KPiArDQo+ICAgCURSTV9HRU1f
+VlJBTV9EUklWRVINCj4gICB9Ow0KPiAgIA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2FzdC9hc3RfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+
+IGluZGV4IDQ1YjU2YjM5YWQ0Ny4uNjVhNDM0MmM1NjIyIDEwMDY0NA0KPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Fz
+dC9hc3RfbW9kZS5jDQo+IEBAIC00OCw2ICs0OCw4IEBADQo+ICAgI2luY2x1ZGUgImFzdF9k
+cnYuaCINCj4gICAjaW5jbHVkZSAiYXN0X3RhYmxlcy5oIg0KPiAgIA0KPiArTU9EVUxFX0lN
+UE9SVF9OUyhETUFfQlVGKTsNCj4gKw0KPiAgIHN0YXRpYyBpbmxpbmUgdm9pZCBhc3RfbG9h
+ZF9wYWxldHRlX2luZGV4KHN0cnVjdCBhc3RfcHJpdmF0ZSAqYXN0LA0KPiAgIAkJCQkgICAg
+IHU4IGluZGV4LCB1OCByZWQsIHU4IGdyZWVuLA0KPiAgIAkJCQkgICAgIHU4IGJsdWUpDQo+
+IEBAIC0xNTM1LDggKzE1MzcsMTI5IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX21vZGVf
+Y29uZmlnX2hlbHBlcl9mdW5jcyBhc3RfbW9kZV9jb25maWdfaGVscGVyX2Z1bmNzID0NCj4g
+ICAJLmF0b21pY19jb21taXRfdGFpbCA9IGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF90YWls
+X3JwbSwNCj4gICB9Ow0KPiAgIA0KPiArc3RhdGljIGludCBhc3RfaGFuZGxlX2RhbWFnZShz
+dHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwgaW50IHgsIGludCB5LA0KPiArCQkJCQlpbnQg
+d2lkdGgsIGludCBoZWlnaHQpDQo+ICt7DQo+ICsJc3RydWN0IGRybV9nZW1fdnJhbV9vYmpl
+Y3QgKmRzdF9ibyA9IE5VTEw7DQo+ICsJdm9pZCAqZHN0ID0gTlVMTDsNCj4gKwlpbnQgcmV0
+ID0gMCwgaTsNCj4gKwl1bnNpZ25lZCBsb25nIG9mZnNldCA9IDA7DQo+ICsJYm9vbCB1bm1h
+cCA9IGZhbHNlOw0KPiArCXVuc2lnbmVkIGludCBieXRlc1BlclBpeGVsOw0KPiArCXN0cnVj
+dCBpb3N5c19tYXAgbWFwOw0KPiArCXN0cnVjdCBpb3N5c19tYXAgZG1hYnVmX21hcDsNCj4g
+Kw0KPiArCWJ5dGVzUGVyUGl4ZWwgPSBmYi0+Zm9ybWF0LT5jcHBbMF07DQo+ICsNCj4gKwlp
+ZiAoIWZiLT5vYmpbMF0tPmRtYV9idWYpDQo+ICsJCXJldHVybiAtRUlOVkFMOw0KPiArDQo+
+ICsJaWYgKCFmYi0+b2JqWzBdLT5kbWFfYnVmLT52bWFwX3B0ci52YWRkcikgew0KPiArCQly
+ZXQgPSBkbWFfYnVmX3ZtYXAoZmItPm9ialswXS0+ZG1hX2J1ZiwgJmRtYWJ1Zl9tYXApOw0K
+PiArCQlpZiAocmV0KQ0KPiArCQkJcmV0dXJuIHJldDsNCj4gKwl9IGVsc2UNCj4gKwkJZG1h
+YnVmX21hcC52YWRkciA9IGZiLT5vYmpbMF0tPmRtYV9idWYtPnZtYXBfcHRyLnZhZGRyOw0K
+DQpJdCdzIHRvbyBsYXRlIHRvIGNhbGwgZG1hX2J1Zl92bWFwKCkgaGVyZS4gVGhlIGNvcnJl
+Y3QgcGxhY2Ugd291bGQgYmUgDQpkcm1fcGxhbmVfaGVscGVyX2Z1bmNzLnByZXBhcmVfZmIg
+Zm9yIHRoZSB2bWFwIGFuZCB0aGUgcmVzdWx0aW5nIGFkZHJlc3MgDQp3b3VsZCBoYXZlIHRv
+IGJlIHN0b3JlZCBpbiBhIFZSQU0gcGxhbmUgc3RhdGUuICBUaGUgdnVubWFwIGNhbGwgd291
+bGQgZ28gDQppbnRvIGRybV9wbGFuZV9oZWxwZXJfZnVuY3MuY2xlYW51cF9mYi4NCg0KV2Ug
+YWxyZWFkeSBoYXZlIHByZXBhcmVfZmIvY2xlYW51cF9mYiBmb3IgdGhlIFZSQU0gaGVscGVy
+cy4gIFRoZXJlJ3Mgbm8gDQpWUkFNLXNwZWNpZmljIHBsYW5lLXN0YXRlIHlldC4NCg0KPiAr
+DQo+ICsJZHN0X2JvID0gZHJtX2dlbV92cmFtX29mX2dlbShmYi0+b2JqWzBdKTsNCj4gKw0K
+PiArCXJldCA9IGRybV9nZW1fdnJhbV9waW4oZHN0X2JvLCAwKTsNCj4gKwlpZiAocmV0KSB7
+DQo+ICsJCURSTV9FUlJPUigiYXN0X2JvX3BpbiBmYWlsZWRcbiIpOw0KPiArCQlyZXR1cm4g
+cmV0Ow0KPiArCX0NCg0KTGlrZSB2bWFwLCBwaW5uaW5nIHNob3VsZCBiZSBkb25lIGJ5IHRo
+ZSBleGlzdGluZyBwcmVwYXJlX2ZiIGhlbHBlcg0KZHJtX2dlbV92cmFtX3BsYW5lX2hlbHBl
+cl9wcmVwYXJlX2ZiKCkuDQoNCj4gKw0KPiArCWlmICghZHN0X2JvLT5tYXAudmFkZHIpIHsN
+Cj4gKwkJcmV0ID0gZHJtX2dlbV92cmFtX3ZtYXAoZHN0X2JvLCAmbWFwKTsNCj4gKwkJaWYg
+KHJldCkgew0KPiArCQkJZHJtX2dlbV92cmFtX3VucGluKGRzdF9ibyk7DQo+ICsJCQlEUk1f
+RVJST1IoImZhaWxlZCB0byB2bWFwIGZiY29uXG4iKTsNCj4gKwkJCXJldHVybiByZXQ7DQo+
+ICsJCX0NCj4gKwkJdW5tYXAgPSB0cnVlOw0KPiArCX0NCj4gKwlkc3QgPSBkc3RfYm8tPm1h
+cC52YWRkcjsNCj4gKw0KPiArCWZvciAoaSA9IHk7IGkgPCB5ICsgaGVpZ2h0OyBpKyspIHsN
+Cj4gKwkJb2Zmc2V0ID0gaSAqIGZiLT5waXRjaGVzWzBdICsgKHggKiBieXRlc1BlclBpeGVs
+KTsNCj4gKwkJbWVtY3B5X3RvaW8oZHN0ICsgb2Zmc2V0LCBkbWFidWZfbWFwLnZhZGRyICsg
+b2Zmc2V0LA0KPiArCQkJd2lkdGggKiBieXRlc1BlclBpeGVsKTsNCj4gKwl9DQoNCmRybV9m
+Yl9tZW1weSgpIGltcGxlbWVudHMgdGhpcyBsb2dpYyBhbHJlYWR5Lg0KDQo+ICsNCj4gKwlp
+ZiAodW5tYXApDQo+ICsJCWRybV9nZW1fdnJhbV92dW5tYXAoZHN0X2JvLCAmbWFwKTsNCj4g
+Kw0KPiArCWRybV9nZW1fdnJhbV91bnBpbihkc3RfYm8pOw0KDQpDbGVhbnVwIGdvZXMgaW50
+byBkcm1fZ2VtX3ZyYW1fcGxhbmVfaGVscGVyX2NsZWFudXBfZmIoKQ0KDQo+ICsNCj4gKwly
+ZXR1cm4gMDsNCj4gK30NCj4gKw0KPiArDQo+ICtzdGF0aWMgaW50IGFzdF91c2VyX2ZyYW1l
+YnVmZmVyX2RpcnR5KHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLA0KPiArCQkJCXN0cnVj
+dCBkcm1fZmlsZSAqZmlsZSwNCj4gKwkJCQl1bnNpZ25lZCBpbnQgZmxhZ3MsDQo+ICsJCQkJ
+dW5zaWduZWQgaW50IGNvbG9yLA0KPiArCQkJCXN0cnVjdCBkcm1fY2xpcF9yZWN0ICpjbGlw
+cywNCj4gKwkJCQl1bnNpZ25lZCBpbnQgbnVtX2NsaXBzKQ0KPiArew0KPiArCWludCBpLCBy
+ZXQgPSAwOw0KPiArDQo+ICsJZHJtX21vZGVzZXRfbG9ja19hbGwoZmItPmRldik7DQo+ICsJ
+aWYgKGZiLT5vYmpbMF0tPmRtYV9idWYpIHsNCj4gKwkJcmV0ID0gZG1hX2J1Zl9iZWdpbl9j
+cHVfYWNjZXNzKGZiLT5vYmpbMF0tPmRtYV9idWYsDQo+ICsJCQkJRE1BX0ZST01fREVWSUNF
+KTsNCj4gKwkJaWYgKHJldCkNCj4gKwkJCWdvdG8gdW5sb2NrOw0KPiArCX0NCg0KVGhpcyBp
+cyBhbHJlYWR5IGF2YWlsYWJsZSBpbiBkcm1fZ2VtX2ZiX2JlZ2luX2NwdV9hY2Nlc3MoKQ0K
+DQo+ICsNCj4gKwlmb3IgKGkgPSAwOyBpIDwgbnVtX2NsaXBzOyBpKyspIHsNCj4gKwkJcmV0
+ID0gYXN0X2hhbmRsZV9kYW1hZ2UoZmIsIGNsaXBzW2ldLngxLCBjbGlwc1tpXS55MSwNCj4g
+KwkJCQljbGlwc1tpXS54MiAtIGNsaXBzW2ldLngxLCBjbGlwc1tpXS55MiAtIGNsaXBzW2ld
+LnkxKTsNCj4gKwkJaWYgKHJldCkNCj4gKwkJCWJyZWFrOw0KPiArCX0NCj4gKw0KPiArCWlm
+IChmYi0+b2JqWzBdLT5kbWFfYnVmKSB7DQo+ICsJCWRtYV9idWZfZW5kX2NwdV9hY2Nlc3Mo
+ZmItPm9ialswXS0+ZG1hX2J1ZiwNCj4gKwkJCQlETUFfRlJPTV9ERVZJQ0UpOw0KDQpUaGF0
+J3MgaW4gZHJtX2dlbV9mYl9lbmRfY3B1X2FjY2VzcygpDQoNCj4gKwl9DQo+ICsNCj4gK3Vu
+bG9jazoNCj4gKwlkcm1fbW9kZXNldF91bmxvY2tfYWxsKGZiLT5kZXYpOw0KPiArDQo+ICsJ
+cmV0dXJuIHJldDsNCj4gK30NCj4gKw0KPiArc3RhdGljIHZvaWQgYXN0X3VzZXJfZnJhbWVi
+dWZmZXJfZGVzdHJveShzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYikNCj4gK3sNCj4gKwlz
+dHJ1Y3QgaW9zeXNfbWFwIGRtYWJ1Zl9tYXA7DQo+ICsNCj4gKwlpZiAoZmItPm9ialswXS0+
+ZG1hX2J1Zikgew0KPiArCQlkbWFidWZfbWFwLmlzX2lvbWVtID0gZmItPm9ialswXS0+ZG1h
+X2J1Zi0+dm1hcF9wdHIuaXNfaW9tZW07DQo+ICsJCWRtYWJ1Zl9tYXAudmFkZHIgPSBmYi0+
+b2JqWzBdLT5kbWFfYnVmLT52bWFwX3B0ci52YWRkcjsNCj4gKwkJaWYgKGRtYWJ1Zl9tYXAu
+dmFkZHIpDQo+ICsJCQlkbWFfYnVmX3Z1bm1hcChmYi0+b2JqWzBdLT5kbWFfYnVmLCAmZG1h
+YnVmX21hcCk7DQo+ICsJfQ0KPiArDQo+ICsJZHJtX2dlbV9mYl9kZXN0cm95KGZiKTsNCj4g
+K30NCj4gKw0KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZnJhbWVidWZmZXJfZnVuY3Mg
+YXN0X2dlbV9mYl9mdW5jc19kaXJ0eWZiID0gew0KPiArCS5kZXN0cm95CT0gYXN0X3VzZXJf
+ZnJhbWVidWZmZXJfZGVzdHJveSwNCj4gKwkuY3JlYXRlX2hhbmRsZQk9IGRybV9nZW1fZmJf
+Y3JlYXRlX2hhbmRsZSwNCj4gKwkuZGlydHkJCT0gYXN0X3VzZXJfZnJhbWVidWZmZXJfZGly
+dHksDQo+ICt9Ow0KPiArDQo+ICtzdGF0aWMgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqDQo+
+ICthc3RfZ2VtX2ZiX2NyZWF0ZV93aXRoX2RpcnR5KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
+IHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwNCj4gKwkJCQljb25zdCBzdHJ1Y3QgZHJtX21vZGVf
+ZmJfY21kMiAqbW9kZV9jbWQpDQo+ICt7DQo+ICsJcmV0dXJuIGRybV9nZW1fZmJfY3JlYXRl
+X3dpdGhfZnVuY3MoZGV2LCBmaWxlLCBtb2RlX2NtZCwNCj4gKwkJCQkJJmFzdF9nZW1fZmJf
+ZnVuY3NfZGlydHlmYik7DQo+ICt9DQo+ICsNCj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRy
+bV9tb2RlX2NvbmZpZ19mdW5jcyBhc3RfbW9kZV9jb25maWdfZnVuY3MgPSB7DQo+IC0JLmZi
+X2NyZWF0ZSA9IGRybV9nZW1fZmJfY3JlYXRlLA0KPiArCS5mYl9jcmVhdGUgPSBhc3RfZ2Vt
+X2ZiX2NyZWF0ZV93aXRoX2RpcnR5LA0KDQpBRkFJQ1QsIHRoZSB3aG9sZSBmcmFtZWJ1ZmZl
+ciB1cGRhdGUgY29kZSBjYW4gYmUgc29sdmVkIHdpdGggZXhpc3RpbmcgDQpnZW5lcmljIGhl
+bHBlcnMgYW5kIHRoZSBWUkFNIHVwZGF0ZXMgSSBvdXRsaW5lZCBhYm92ZS4gQXMgcGFydCBv
+ZiBhc3QncyANCmF0b21pYyB1cGRhdGUsIHRoZSBkaXNwbGF5ZWQgZGF0YSB3aWxsIGJlIHVw
+ZGF0ZWQgZnJvbSB0aGUgDQpkbWEtYnVmLWF0dGFjaGVkIGV4dGVybmFsIEJPLg0KDQpCdXQg
+YXMgSSBzYWlkLCBJIGNvbnNpZGVyIHRoZSBWUkFNIGhlbHBlcnMgYSBkZXByZWNhdGVkLiBB
+bmQgb25jZSBJIA0KbW92ZWQgYXN0IHRvIHRoZSBTSE1FTSBoZWxwZXJzLCB0aGUgZnVuY3Rp
+b25hbGl0eSB3aWxsIGJlIHRoZXJlIGFzIHdlbGwuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFz
+DQoNCg0KPiAgIAkubW9kZV92YWxpZCA9IGRybV92cmFtX2hlbHBlcl9tb2RlX3ZhbGlkLA0K
+PiAgIAkuYXRvbWljX2NoZWNrID0gZHJtX2F0b21pY19oZWxwZXJfY2hlY2ssDQo+ICAgCS5h
+dG9taWNfY29tbWl0ID0gZHJtX2F0b21pY19oZWxwZXJfY29tbWl0LA0KPiANCj4gDQo+IENv
+bnRlbnQtdHlwZTogVGV4dC9wbGFpbg0KPiANCj4gTm8gdmlydXMgZm91bmQNCj4gCQlDaGVj
+a2VkIGJ5IEhpbGxzdG9uZSBOZXR3b3JrIEFudGlWaXJ1cw0KDQotLSANClRob21hcyBaaW1t
+ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
+aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2Vy
+bWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2
+byBUb3Rldg0K
 
-v4: - Call drm_dp_mst_atomic_check already during link
-      config computation, because we need to know already
-      by this moment if uncompressed amount of VCPI slots
-      needed can fit, otherwise we need to use DSC.
-      (thanks to Vinod Govindapillai for pointing this out)
+--------------FJRCP9xMoQplx469M88CqVVC--
 
-v5: - Put pipe_config->bigjoiner_pipes back to original
-      condition in intel_dp_dsc_compute_config
-      (don't remember when I lost it)
+--------------ByfTnMX8hi7dxzO6CUZv8nCW
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-v6: - Removed unnecessary drm_dp_mst_atomic_check as it is
-      now always called in a newly introduced
-      intel_dp_mst_find_vcpi_slots_for_bpp function
-      (Vinod Govindapillai)
+-----BEGIN PGP SIGNATURE-----
 
-Reviewed-by: Vinod Govindapillai <vinod.govindapillai@intel.com>
-Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c     |  73 +++++------
- drivers/gpu/drm/i915/display/intel_dp.h     |  17 +++
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 127 ++++++++++++++++++++
- 3 files changed, 175 insertions(+), 42 deletions(-)
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMVvxUFAwAAAAAACgkQlh/E3EQov+B5
+tg/+Px95//AevtG1N56ywQrN2LD57bCQXU1kt/1yPqnLWTUXg5GX6DlLuG2QGnLkzQ1I36SPtdnI
+Om8NE7k4K5RSD+ebnlWw7nrLqR++IYXpNTRtDD1obbMNptl7kuuqw/q/8F7hFHvJWeaG+7RtgjiE
+oUrM8Nz2WL9u90BgHLj1MPV7B0QxWDQv3SmTFX07MKXb8RY2pIEd4CgDvatUSOlXAy4aUxFLULan
+ci1eMfpj2/T1qWR1jW51/c+DFpoh6HofXNfyERPyVkSpo1dEkivPbUWfNlPOeLQx+F3Uf329TqQx
+Ruy4MjfhUtuCIf6WVjtRLqvAfGnZR4/xqAHO9y+NpjSoWqY7pbGronySKVZ6pGH5VkNX9fkw9vGJ
+LDxyXEkZVSbagyTB+EGBzdhGwA4Zm1RNP6N/1AwBNGHLakxL0iJLnl/hGQ6Qp9Wzhn8BkthmCUSu
+sbpjZ+bQSP5gzaE3SqE+yCYEtK9vh4XQ8YyBK1VpttWc1wk5NW7WJRfO3axm/vINqESSxF094eDZ
+HA7mj5EmQSs31emUyYdQ0fgLmlfs5dXrUwkMGQ2Ju9ZXJj8xwJflSgtfdRAoPsx2J6/7EMJ2ES27
+AdD2eb0tdOiHgwqq/xxVsWX9xcCOShrPPWDPKyLlocErafHS0XuyreRo9lXwghJB+MdutLXs2OT4
+uBU=
+=8wYj
+-----END PGP SIGNATURE-----
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index dd7351c0bed1..b90dbe119cde 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -116,7 +116,6 @@ bool intel_dp_is_edp(struct intel_dp *intel_dp)
- }
- 
- static void intel_dp_unset_edid(struct intel_dp *intel_dp);
--static int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 dsc_max_bpc);
- 
- /* Is link rate UHBR and thus 128b/132b? */
- bool intel_dp_is_uhbr(const struct intel_crtc_state *crtc_state)
-@@ -661,11 +660,12 @@ small_joiner_ram_size_bits(struct drm_i915_private *i915)
- 		return 6144 * 8;
- }
- 
--static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
--				       u32 link_clock, u32 lane_count,
--				       u32 mode_clock, u32 mode_hdisplay,
--				       bool bigjoiner,
--				       u32 pipe_bpp)
-+u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
-+				u32 link_clock, u32 lane_count,
-+				u32 mode_clock, u32 mode_hdisplay,
-+				bool bigjoiner,
-+				u32 pipe_bpp,
-+				u32 timeslots)
- {
- 	u32 bits_per_pixel, max_bpp_small_joiner_ram;
- 	int i;
-@@ -676,8 +676,9 @@ static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
- 	 * for SST -> TimeSlotsPerMTP is 1,
- 	 * for MST -> TimeSlotsPerMTP has to be calculated
- 	 */
--	bits_per_pixel = (link_clock * lane_count * 8) /
-+	bits_per_pixel = (link_clock * lane_count * 8) * timeslots /
- 			 intel_dp_mode_to_fec_clock(mode_clock);
-+	drm_dbg_kms(&i915->drm, "Max link bpp: %u\n", bits_per_pixel);
- 
- 	/* Small Joiner Check: output bpp <= joiner RAM (bits) / Horiz. width */
- 	max_bpp_small_joiner_ram = small_joiner_ram_size_bits(i915) /
-@@ -726,9 +727,9 @@ static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
- 	return bits_per_pixel << 4;
- }
- 
--static u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
--				       int mode_clock, int mode_hdisplay,
--				       bool bigjoiner)
-+u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
-+				int mode_clock, int mode_hdisplay,
-+				bool bigjoiner)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	u8 min_slice_count, i;
-@@ -935,8 +936,8 @@ intel_dp_mode_valid_downstream(struct intel_connector *connector,
- 	return MODE_OK;
- }
- 
--static bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
--				    int hdisplay, int clock)
-+bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
-+			     int hdisplay, int clock)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 
-@@ -1023,7 +1024,7 @@ intel_dp_mode_valid(struct drm_connector *_connector,
- 							    target_clock,
- 							    mode->hdisplay,
- 							    bigjoiner,
--							    pipe_bpp) >> 4;
-+							    pipe_bpp, 1) >> 4;
- 			dsc_slice_count =
- 				intel_dp_dsc_get_slice_count(intel_dp,
- 							     target_clock,
-@@ -1328,7 +1329,7 @@ intel_dp_compute_link_config_wide(struct intel_dp *intel_dp,
- 	return -EINVAL;
- }
- 
--static int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
-+int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	int i, num_bpc;
-@@ -1428,10 +1429,11 @@ static int intel_dp_dsc_compute_params(struct intel_encoder *encoder,
- 	return drm_dsc_compute_rc_parameters(vdsc_cfg);
- }
- 
--static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
--				       struct intel_crtc_state *pipe_config,
--				       struct drm_connector_state *conn_state,
--				       struct link_config_limits *limits)
-+int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
-+				struct intel_crtc_state *pipe_config,
-+				struct drm_connector_state *conn_state,
-+				struct link_config_limits *limits,
-+				int timeslots)
- {
- 	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
- 	struct drm_i915_private *dev_priv = to_i915(dig_port->base.base.dev);
-@@ -1482,7 +1484,8 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 						    adjusted_mode->crtc_clock,
- 						    adjusted_mode->crtc_hdisplay,
- 						    pipe_config->bigjoiner_pipes,
--						    pipe_bpp);
-+						    pipe_bpp,
-+						    timeslots);
- 		dsc_dp_slice_count =
- 			intel_dp_dsc_get_slice_count(intel_dp,
- 						     adjusted_mode->crtc_clock,
-@@ -1494,27 +1497,13 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 			return -EINVAL;
- 		}
- 		pipe_config->dsc.compressed_bpp = min_t(u16,
--							       dsc_max_output_bpp >> 4,
--							       pipe_config->pipe_bpp);
-+							dsc_max_output_bpp >> 4,
-+							pipe_config->pipe_bpp);
- 		pipe_config->dsc.slice_count = dsc_dp_slice_count;
-+		drm_dbg_kms(&dev_priv->drm, "DSC: compressed bpp %d slice count %d\n",
-+			    pipe_config->dsc.compressed_bpp,
-+			    pipe_config->dsc.slice_count);
- 	}
--
--	/* As of today we support DSC for only RGB */
--	if (intel_dp->force_dsc_bpp) {
--		if (intel_dp->force_dsc_bpp >= 8 &&
--		    intel_dp->force_dsc_bpp < pipe_bpp) {
--			drm_dbg_kms(&dev_priv->drm,
--				    "DSC BPP forced to %d",
--				    intel_dp->force_dsc_bpp);
--			pipe_config->dsc.compressed_bpp =
--						intel_dp->force_dsc_bpp;
--		} else {
--			drm_dbg_kms(&dev_priv->drm,
--				    "Invalid DSC BPP %d",
--				    intel_dp->force_dsc_bpp);
--		}
--	}
--
- 	/*
- 	 * VDSC engine operates at 1 Pixel per clock, so if peak pixel rate
- 	 * is greater than the maximum Cdclock and if slice count is even
-@@ -1522,13 +1511,13 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 	 */
- 	if (adjusted_mode->crtc_clock > dev_priv->display.cdclk.max_cdclk_freq ||
- 	    pipe_config->bigjoiner_pipes) {
--		if (pipe_config->dsc.slice_count < 2) {
-+		if (pipe_config->dsc.slice_count > 1) {
-+			pipe_config->dsc.dsc_split = true;
-+		} else {
- 			drm_dbg_kms(&dev_priv->drm,
- 				    "Cannot split stream to use 2 VDSC instances\n");
- 			return -EINVAL;
- 		}
--
--		pipe_config->dsc.dsc_split = true;
- 	}
- 
- 	ret = intel_dp_dsc_compute_params(&dig_port->base, pipe_config);
-@@ -1617,7 +1606,7 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
- 			    str_yes_no(ret), str_yes_no(joiner_needs_dsc),
- 			    str_yes_no(intel_dp->force_dsc_en));
- 		ret = intel_dp_dsc_compute_config(intel_dp, pipe_config,
--						  conn_state, &limits);
-+						  conn_state, &limits, 1);
- 		if (ret < 0)
- 			return ret;
- 	}
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index a54902c713a3..c6539a6915e9 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -56,6 +56,11 @@ void intel_dp_encoder_flush_work(struct drm_encoder *encoder);
- int intel_dp_compute_config(struct intel_encoder *encoder,
- 			    struct intel_crtc_state *pipe_config,
- 			    struct drm_connector_state *conn_state);
-+int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
-+				struct intel_crtc_state *pipe_config,
-+				struct drm_connector_state *conn_state,
-+				struct link_config_limits *limits,
-+				int timeslots);
- bool intel_dp_is_edp(struct intel_dp *intel_dp);
- bool intel_dp_is_uhbr(const struct intel_crtc_state *crtc_state);
- bool intel_dp_is_port_edp(struct drm_i915_private *dev_priv, enum port port);
-@@ -96,6 +101,18 @@ void intel_read_dp_sdp(struct intel_encoder *encoder,
- 		       struct intel_crtc_state *crtc_state,
- 		       unsigned int type);
- bool intel_digital_port_connected(struct intel_encoder *encoder);
-+int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 dsc_max_bpc);
-+u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
-+				u32 link_clock, u32 lane_count,
-+				u32 mode_clock, u32 mode_hdisplay,
-+				bool bigjoiner,
-+				u32 pipe_bpp,
-+				u32 timeslots);
-+u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
-+				int mode_clock, int mode_hdisplay,
-+				bool bigjoiner);
-+bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
-+			     int hdisplay, int clock);
- 
- static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
- {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 79ac23495165..a8e4bb36f80f 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -91,6 +91,7 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
- 						      crtc_state->pbn);
- 		if (slots == -EDEADLK)
- 			return slots;
-+
- 		if (slots >= 0) {
- 			ret = drm_dp_mst_atomic_check(state);
- 			/*
-@@ -144,6 +145,63 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
- 	return 0;
- }
- 
-+static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
-+						struct intel_crtc_state *crtc_state,
-+						struct drm_connector_state *conn_state,
-+						struct link_config_limits *limits)
-+{
-+	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
-+	struct intel_dp *intel_dp = &intel_mst->primary->dp;
-+	struct intel_connector *connector =
-+		to_intel_connector(conn_state->connector);
-+	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	const struct drm_display_mode *adjusted_mode =
-+		&crtc_state->hw.adjusted_mode;
-+	bool constant_n = drm_dp_has_quirk(&intel_dp->desc,
-+					   DP_DPCD_QUIRK_CONSTANT_N);
-+	int slots = -EINVAL;
-+	int i, num_bpc;
-+	u8 dsc_bpc[3] = {0};
-+	int min_bpp, max_bpp;
-+	u8 dsc_max_bpc;
-+
-+	/* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
-+	if (DISPLAY_VER(i915) >= 12)
-+		dsc_max_bpc = min_t(u8, 12, conn_state->max_requested_bpc);
-+	else
-+		dsc_max_bpc = min_t(u8, 10, conn_state->max_requested_bpc);
-+
-+	max_bpp = min_t(u8, dsc_max_bpc * 3, limits->max_bpp);
-+	min_bpp = limits->min_bpp;
-+
-+	num_bpc = drm_dp_dsc_sink_supported_input_bpcs(intel_dp->dsc_dpcd,
-+						       dsc_bpc);
-+	for (i = 0; i < num_bpc; i++) {
-+		if (max_bpp >= dsc_bpc[i] * 3)
-+			if (min_bpp > dsc_bpc[i] * 3)
-+				min_bpp = dsc_bpc[i] * 3;
-+	}
-+
-+	drm_dbg_kms(&i915->drm, "DSC Sink supported min bpp %d max bpp %d\n",
-+		    min_bpp, max_bpp);
-+
-+	slots = intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state, max_bpp,
-+						     min_bpp, limits,
-+						     conn_state, 2 * 3, true);
-+
-+	if (slots < 0)
-+		return slots;
-+
-+	intel_link_compute_m_n(crtc_state->pipe_bpp,
-+			       crtc_state->lane_count,
-+			       adjusted_mode->crtc_clock,
-+			       crtc_state->port_clock,
-+			       &crtc_state->dp_m_n,
-+			       constant_n, crtc_state->fec_enable);
-+	crtc_state->dp_m_n.tu = slots;
-+
-+	return 0;
-+}
- static int intel_dp_mst_update_slots(struct intel_encoder *encoder,
- 				     struct intel_crtc_state *crtc_state,
- 				     struct drm_connector_state *conn_state)
-@@ -220,6 +278,29 @@ static int intel_dp_mst_compute_config(struct intel_encoder *encoder,
- 
- 	ret = intel_dp_mst_compute_link_config(encoder, pipe_config,
- 					       conn_state, &limits);
-+
-+	if (ret == -EDEADLK)
-+		return ret;
-+
-+	/* enable compression if the mode doesn't fit available BW */
-+	drm_dbg_kms(&dev_priv->drm, "Force DSC en = %d\n", intel_dp->force_dsc_en);
-+	if (ret || intel_dp->force_dsc_en) {
-+		/*
-+		 * Try to get at least some timeslots and then see, if
-+		 * we can fit there with DSC.
-+		 */
-+		drm_dbg_kms(&dev_priv->drm, "Trying to find VCPI slots in DSC mode\n");
-+
-+		ret = intel_dp_dsc_mst_compute_link_config(encoder, pipe_config,
-+							   conn_state, &limits);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = intel_dp_dsc_compute_config(intel_dp, pipe_config,
-+						  conn_state, &limits,
-+						  pipe_config->dp_m_n.tu);
-+	}
-+
- 	if (ret)
- 		return ret;
- 
-@@ -727,6 +808,10 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
- 	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
- 	int max_rate, mode_rate, max_lanes, max_link_clock;
- 	int ret;
-+	bool dsc = false, bigjoiner = false;
-+	u16 dsc_max_output_bpp = 0;
-+	u8 dsc_slice_count = 0;
-+	int target_clock = mode->clock;
- 
- 	if (drm_connector_is_unregistered(connector)) {
- 		*status = MODE_ERROR;
-@@ -764,6 +849,48 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
- 		return 0;
- 	}
- 
-+	if (intel_dp_need_bigjoiner(intel_dp, mode->hdisplay, target_clock)) {
-+		bigjoiner = true;
-+		max_dotclk *= 2;
-+	}
-+
-+	if (DISPLAY_VER(dev_priv) >= 10 &&
-+	    drm_dp_sink_supports_dsc(intel_dp->dsc_dpcd)) {
-+		/*
-+		 * TBD pass the connector BPC,
-+		 * for now U8_MAX so that max BPC on that platform would be picked
-+		 */
-+		int pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, U8_MAX);
-+
-+		if (drm_dp_sink_supports_fec(intel_dp->fec_capable)) {
-+			dsc_max_output_bpp =
-+				intel_dp_dsc_get_output_bpp(dev_priv,
-+							    max_link_clock,
-+							    max_lanes,
-+							    target_clock,
-+							    mode->hdisplay,
-+							    bigjoiner,
-+							    pipe_bpp, 1) >> 4;
-+			dsc_slice_count =
-+				intel_dp_dsc_get_slice_count(intel_dp,
-+							     target_clock,
-+							     mode->hdisplay,
-+							     bigjoiner);
-+		}
-+
-+		dsc = dsc_max_output_bpp && dsc_slice_count;
-+	}
-+
-+	/*
-+	 * Big joiner configuration needs DSC for TGL which is not true for
-+	 * XE_LPD where uncompressed joiner is supported.
-+	 */
-+	if (DISPLAY_VER(dev_priv) < 13 && bigjoiner && !dsc)
-+		return MODE_CLOCK_HIGH;
-+
-+	if (mode_rate > max_rate && !dsc)
-+		return MODE_CLOCK_HIGH;
-+
- 	*status = intel_mode_valid_max_plane_size(dev_priv, mode, false);
- 	return 0;
- }
--- 
-2.37.3
-
+--------------ByfTnMX8hi7dxzO6CUZv8nCW--
