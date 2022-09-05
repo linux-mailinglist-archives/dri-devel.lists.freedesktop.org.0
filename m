@@ -2,59 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FDE55ADA84
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 23:04:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B50B5ADA86
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 23:05:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E1210E095;
-	Mon,  5 Sep 2022 21:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67A9410E50E;
+	Mon,  5 Sep 2022 21:05:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3B2610E095
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 21:03:51 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id og21so19219369ejc.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 14:03:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=hoFfvxrcWLiLIIghJLr7YqFR/bl7ppCzpkpzcFf25Ks=;
- b=RJtkdpcWwDCjdU//f+NiUTQJO5kz/J/LQ4Oeb8FsER0ooLc9TUWAVJHwh16h0rFR6k
- jDNxcAT6fUKAWlYXkDzi9PRVLGCFhao6TAvvqUzCLnc6J1JgrkOg//ZWPBTqZXz06MLe
- g/E79BtcrSCZXcou4vgp2IFBghrcFJpfeHS130JLJDTFGdRTjjJVv3m8lMFyySNYfbdn
- zyHSJi+z2sGr74Gs8Ferhg3qHw1Rm2Rd7LpNg2QiPU+rsqNYeELsa2ObuGU9YVxZktXI
- +EIJDXEMJp+8DP7PW/zCtw+WHI1pL0md9UYJvdO9U0CdYO9jo7gVaKjIjDEh/+/hHVoD
- fvlQ==
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C914C10E0C1
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 21:05:38 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id v5so9398786plo.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 14:05:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=schmorgal.com; s=google;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date; bh=2xu9ufF7COCj2Pj+OFGVCC6niLar26JmSUKbKSGjg0s=;
+ b=bOaPh0dqRI00nYYxH8DTvSoT4UQ7GFMlMoDixV7Zx9s2PUWTDsEWwhZZNDa+i7AT3m
+ R3B/b1HSjULEZQm52p8koTtdz3JD8XcQj/lKMwYIAxkhyQ4lMl4rOuNdjoszs+Auqqv/
+ bFha2P3vi1TAYCJ/EJfg5XFdtI9gxMkI3AMGs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=hoFfvxrcWLiLIIghJLr7YqFR/bl7ppCzpkpzcFf25Ks=;
- b=7mwMlGTSH15SlU6aV80TX9DKEFhEQv7OZDcwqdrXMrV6BCbsUhJSuYEgveaMLDN2XO
- BOSuZZl+gjHQtLWnG6TkCEJCTG7ZP8Ay3BAzwmgSpsnpZHYI4AqjBcNzRVIpoYavUcKE
- LyDRDmpXlAGppgJGctlE6xLdbDKdQpVCsskNYg3a55PR6Hrw4sIWUHJJbXZBxNOKyDBi
- 9jQLu3Hxtyy8pYdIUi0/I8FzNC+e39I9PTvAiICw+apMxnB6AF4J3Wh5KK3TOl32fP7H
- lEv/ncLycl8KtCzGqWXSQCmrvNOvNcmA4gy8Mp2MYCaA+XHpC+IkdEx1UpWNWAlT3dny
- 42sQ==
-X-Gm-Message-State: ACgBeo1pMENj92bPSvCi8TuPLCFQg+zxHAgrdLe+sAv+pRhLdeYLUtxU
- Rjh2IOy44ewiFkMKeSvENGrjknixvPATE1+4aCH5EQ==
-X-Google-Smtp-Source: AA6agR4GWSThcRe2jCNjPhluqCCYiE882sQv//p+YmHWCdk54XKDzjUOkiYoAS2W+owpznoWxs2VPch3w1ZAdKXk+5E=
-X-Received: by 2002:a17:907:7242:b0:741:770b:dfc6 with SMTP id
- ds2-20020a170907724200b00741770bdfc6mr28207413ejc.203.1662411830025; Mon, 05
- Sep 2022 14:03:50 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=2xu9ufF7COCj2Pj+OFGVCC6niLar26JmSUKbKSGjg0s=;
+ b=T073B0TSy4WH6jiOIqLh2EfUzfLDCZO+Wq/qKRF9Kwig8RDsagqPZGiFAMfzi0VTKx
+ KCrsRYRKV4NGwmwrbfKoeIYcUtcPfybzn98Uq/hbtLusFs208Ju8xndm/ofviOVOpIHC
+ BOmW8iiaQNze9tr+z/0uV0FYg5fz3qIQ9JruZKvCFS/FV43Cc5MUrYupiN62qco3n8jH
+ E3LjcKlZXotJ3R6kRkVj06U9zK5KU53uvzfs/KhvGYngW2OW119e8ilbhVEAwQd27OZU
+ aXMbyCfgRgG1hgiVvgFSC8cL5ScA6Skq9YOn8sxt6u/HbRQfWQNJau5JVQ2oFo7teUOu
+ z/+w==
+X-Gm-Message-State: ACgBeo2oX1AZhRqAqa4gtNxw6JKmJPcrz5O60yVVBVNY+nSbpbkO3VwS
+ LJakNwV3m5wbC0/7peAkB/NkgQ==
+X-Google-Smtp-Source: AA6agR6f4ahCA5Yh1pr8IEekOEfXQy5/TBebnT92LfX5NZph+Hu1V5a8po6u/eWpc0pvmIf3/GWUsQ==
+X-Received: by 2002:a17:90b:4d8e:b0:200:73b4:4da2 with SMTP id
+ oj14-20020a17090b4d8e00b0020073b44da2mr5766559pjb.197.1662411938373; 
+ Mon, 05 Sep 2022 14:05:38 -0700 (PDT)
+Received: from [192.168.1.33] ([50.45.132.243])
+ by smtp.googlemail.com with ESMTPSA id
+ b4-20020a17090a7ac400b001fd9c63e56bsm10934825pjl.32.2022.09.05.14.05.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 14:05:37 -0700 (PDT)
+Message-ID: <6e97587f-e101-13cd-0d40-fa3dc4c625c9@schmorgal.com>
+Date: Mon, 5 Sep 2022 14:05:37 -0700
 MIME-Version: 1.0
-References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-2-b29adfb27a6c@gmail.com>
- <CAHp75Vc4yfh0JcY0B-vNawHTay5QNuhd7GAm86QZZZvUnQaMzQ@mail.gmail.com>
- <YxZP/exeVD7DQ5Hx@google.com>
-In-Reply-To: <YxZP/exeVD7DQ5Hx@google.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 5 Sep 2022 23:03:38 +0200
-Message-ID: <CACRpkda0iUTV=71eQf5_FdKWLe3Bu=U+Zny9_uJJL=5xXtnrnQ@mail.gmail.com>
-Subject: Re: [PATCH v1 02/11] drm/tegra: switch to using devm_fwnode_gpiod_get
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Mathias Nyman <mathias.nyman@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Content-Language: en-US
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
+References: <20220903060558.55167-1-doug@schmorgal.com>
+ <20220903060558.55167-3-doug@schmorgal.com>
+ <CAH9NwWd1Q6iGUZoB7j3zAd-Pj_vq4WueguyfhKeWdWo6SPJ+PQ@mail.gmail.com>
+From: Doug Brown <doug@schmorgal.com>
+Subject: Re: [PATCH 2/2] drm/etnaviv: fix power register offset on GC300
+In-Reply-To: <CAH9NwWd1Q6iGUZoB7j3zAd-Pj_vq4WueguyfhKeWdWo6SPJ+PQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,70 +73,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, David Airlie <airlied@linux.ie>,
- linux-pci <linux-pci@vger.kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-tegra <linux-tegra@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- LINUXWATCHDOG <linux-watchdog@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Guenter Roeck <linux@roeck-us.net>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- USB <linux-usb@vger.kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Richard Weinberger <richard@nod.at>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 5, 2022 at 9:37 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
-> On Mon, Sep 05, 2022 at 01:57:01PM +0300, Andy Shevchenko wrote:
-> > On Mon, Sep 5, 2022 at 9:32 AM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > I would like to limit (or maybe even remove) use of
-> > > [devm_]gpiod_get_from_of_node in drivers so that gpiolib can be cleaned
-> > > a bit, so let's switch to the generic device property API.
-> >
-> > > It may even
-> > > help with handling secondary fwnodes when gpiolib is taught to handle
-> > > gpios described by swnodes.
-> >
-> > I would remove this sentence from all commit messages since it's a
-> > debatable thing and might even not happen, so the above is a pure
-> > speculation.
->
-> I have the patches. Granted, I had them since '19 ;) but I'm rebasing
-> them and going to push them. I need them to convert bunch of input
-> drivers away from platform data.
+Hi Christian,
 
-That's good news!
+On 9/3/2022 4:49 AM, Christian Gmeiner wrote:
 
-Are you referring to this patch set mentioned in a discussion
-from 2017 thru 2020?
-https://lore.kernel.org/linux-input/20200826161222.GA1665100@dtor-ws/
+> I had a quick look at what vivantes kernel driver did. It uses a per
+> gpu instance variable powerBaseAddress
+> that gets set accordingly. I am not sure if I really like the
+> gpu_fix_reg_address(..) idea, as it gets called on every
+> register read and write. For me I see two other possible solutions:
+> 
+> 1) Add two seperate helpers ala gpu_read_power() and gpu_write_power()
+> where we do the if beast.
+> 2) Add a power register offset variable to etnaviv_gpu and explicitly
+> use it on for reads and writes - like the Vivante driver does.
+> 
+> But that's just my personal opinion. Can't wait to hear what Lucas thinks.
+> 
 
-I put aside GPIO descriptor conversion for input devices (keys, buttons)
-in board files anticipating a swnode mechanism.
+Thanks for reviewing so fast! I honestly agree. It felt kind of dirty
+modifying gpu_write and gpu_read. The reason I went for it is I was
+thinking that in most cases the compiler is going to optimize the ugly
+"if" out.
 
-Yours,
-Linus Walleij
+The two solutions listed above both sound good. They would need a
+special case in etnaviv_core_dump_registers, but that's probably much
+less nasty than modifying gpu_read and gpu_write. Any preferences from
+everyone on which of the other two options I should do? The
+gpu_read_power and gpu_write_power approach sounds pretty clean to me.
+
+Also, dropping David Airlie from the chain -- his email address bounced
+on my original patch messages.
+
+Doug
