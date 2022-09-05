@@ -1,57 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAF65AD58E
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 16:55:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCBC5AD594
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 16:57:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6486010E3D0;
-	Mon,  5 Sep 2022 14:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 312AB10E3EF;
+	Mon,  5 Sep 2022 14:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD7410E3D0
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 14:55:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DDF49B8119E;
- Mon,  5 Sep 2022 14:55:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55311C433D6;
- Mon,  5 Sep 2022 14:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662389702;
- bh=KP3EocuoUIX0AopCG1aLZXX8OYIQkU7XDQRdtjESgfQ=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=FdxBqiI3p6ZeO4T+XjgQ9CZ/qt69KGDmMaAKKfHX9rJZ8Jk2TFPVgg1SqnsdqhkRa
- WdDaWxcTHblfVGvoG78rdGhCY73SymRtwQ5E/O1+kJIRSFwSWC0iH+WVUYcuf4J/9I
- kQ4DrYany8AlhFZ13jcgU8XtxHsAoxcrTSwCZVrc48ljSqB9o/UKBtoojYJQze+tiV
- fvGYoDbk0jy7TuqUrjjHekuf1hzLJkMS/QgninQfO1rY7Se8Wee7G0k3IhatOzVCte
- WkV36G3IYztJIvQ66OoflpORRaQbBmetX5gw4GgXfwKRTNy74S54TTBmoN34wl7/kT
- uSzb6UrdEavlg==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Hunter <jonathanh@nvidia.com>, Rob Herring <robh@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Daniel Vetter <daniel@ffwll.ch>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Marc Zyngier <maz@kernel.org>, Krzysztof Wilczyński <kw@linux.com>,
- Linus Walleij <linus.walleij@linaro.org>, Felipe Balbi <balbi@kernel.org>, Pali Rohár <pali@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>
-In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
-References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
-Subject: Re: (subset) [PATCH v1 00/11] Get rid of
- [devm_]gpiod_get_from_of_node() public APIs
-Message-Id: <166238969501.661295.8416403465203041511.b4-ty@kernel.org>
-Date: Mon, 05 Sep 2022 15:54:55 +0100
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B032D10E3EF;
+ Mon,  5 Sep 2022 14:57:35 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5A39E580222;
+ Mon,  5 Sep 2022 10:57:33 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 05 Sep 2022 10:57:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1662389853; x=1662397053; bh=8QpD9QHWJ3
+ ZAcUP/Du443zVv5hbNZSb8ty9lWaa/wGU=; b=lXM2P4WcRuf2ASsUJZF7RCJkH6
+ Ylyv1uOXjUelst3OGCJ40g1RO9cicrzW0DqHtFx67qOZQepycOt7YODaS+Z3UCYU
+ xiUPjSX+t7Za0NcWq3NcKWcgr7XHoRHPOkVrpkAaK9xqXD5Zgxq1foaua3jyn6b7
+ 0eyaPuCXIONCQMeka19bc7gavaKm7QF1uedVc/PdcQ6jwHF+aLi3pHsE253hFhqy
+ EyD7BJb5w0faD7aDun6hDK9IKeDBA+AvggdMB52XffsrDNVrH8RSVaZVjphTLlM5
+ i1Whk8kNZP7VMTZwHCjzwFUJ7wEm+xrlPVTUNsBErjzBZ9t3Wa0f+D3iSX7g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1662389853; x=1662397053; bh=8QpD9QHWJ3ZAcUP/Du443zVv5hbN
+ ZSb8ty9lWaa/wGU=; b=eJLuR+KUme8o4FRaICwZbGRxSjB3xBftb4Gb7nWDUB7U
+ pv0r3P3krh6wz+XI/1n1JeQhUha+e0DnnieItY6gT2/1hAfhqeEAb5xQzjw7tOhm
+ p20Evv6rotQicrPL8uugGearEiwZRoZv9qWmM8cgP2sQeK/Ik2l2DFFtBvXMXFTi
+ 8C9putitPMtDKOfGpGhtY9FkL7TYMVXdIkMkk3vyoypSETZDe9I5Z/tRVd+GzrGs
+ fHEvHNzFhOu3/x+JSU/blWXyLOlVWvOMeSeDxsTt1yBbjlJQK7DhPbHIZ3k9weXd
+ KarSty3ixWH8DcV4u6stghnOewWvxAQ1JwGFbyWWsg==
+X-ME-Sender: <xms:XA4WY1fiBU1ECfDf7wmaBkisGTWTvm7s8Ies8w1PtVwZ1L5mbrQ8Fg>
+ <xme:XA4WYzOlBXenNXjKDVayk8WfQRF-pGVRHZjdD5yUuhOozYNWUMIzSPZJ9cbsqMn64
+ uuJQMDWlS14Mcixgjw>
+X-ME-Received: <xmr:XA4WY-iANzxwUTMWFgq-LsGvxR8KKEHoPP9JzTnmgX7lfJfZ6fDaSPaiyxY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeliedgkeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeevuddthffgfeeiffejgfeghfeludegkedtgefgffejtdegtddvleduvdfh
+ teehveenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:XA4WY---Ncx0ZtdxgQEbadw4u4oWLWaa-7P65288auVolghcPBvPqg>
+ <xmx:XA4WYxvKBL8vyFG3nWU1jEibhAPGnTExbgYL-TwX_LWRS97WjEKaHQ>
+ <xmx:XA4WY9HraN7M_qm-dwOKPjrqnwiQ1TNB6MxGXaTCeKryw8hkBIhprw>
+ <xmx:XQ4WYxdVilKmghQfD17Zzl66x1m1EWhGFxB48Aw90XtbjJoW3D6Qfw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 5 Sep 2022 10:57:32 -0400 (EDT)
+Date: Mon, 5 Sep 2022 16:57:29 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v2 00/41] drm: Analog TV Improvements
+Message-ID: <20220905145729.ln675jko3aw6sgzs@houat>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
+ <020d44e6-884b-a817-8265-3461638cac71@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fq3utlr2k6iltjfz"
+Content-Disposition: inline
+In-Reply-To: <020d44e6-884b-a817-8265-3461638cac71@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,52 +85,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-watchdog@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 4 Sep 2022 23:30:52 -0700, Dmitry Torokhov wrote:
-> I would like to stop exporting OF-specific [devm_]gpiod_get_from_of_node()
-> so that gpiolib can be cleaned a bit. We can do that by switching drivers
-> to use generic fwnode API ([devm_]fwnode_gpiod_get()). By doing so we open
-> the door to augmenting device tree and ACPI information through secondary
-> software properties (once we teach gpiolib how to handle those).
-> 
-> I hope that relevant maintainers will take patches through their trees and
-> then we could merge the last one some time after -rc1.
-> 
-> [...]
 
-Applied to
+--fq3utlr2k6iltjfz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+On Fri, Sep 02, 2022 at 01:28:16PM +0200, Noralf Tr=F8nnes wrote:
+>=20
+>=20
+> Den 01.09.2022 21.35, skrev Noralf Tr=F8nnes:
+> >=20
+> >=20
+> > I have finally found a workaround for my kernel hangs.
+> >=20
+> > Dom had a look at my kernel and found that the VideoCore was fine, and
+> > he said this:
+> >=20
+> >> That suggests cause of lockup was on arm side rather than VC side.
+> >>
+> >> But it's hard to diagnose further. Once you've had a peripheral not
+> >> respond, the AXI bus locks up and no further operations are possible.
+> >> Usual causes of this are required clocks being stopped or domains
+> >> disabled and then trying to access the hardware.
+> >>
+> >=20
+> > So when I got this on my 64-bit build:
+> >=20
+> > [  166.702171] SError Interrupt on CPU1, code 0x00000000bf000002 -- SEr=
+ror
+> > [  166.702187] CPU: 1 PID: 8 Comm: kworker/u8:0 Tainted: G        W
+> >     5.19.0-rc6-00096-gba7973977976-dirty #1
+> > [  166.702200] Hardware name: Raspberry Pi 4 Model B Rev 1.1 (DT)
+> > [  166.702206] Workqueue: events_freezable_power_ thermal_zone_device_c=
+heck
+> > [  166.702231] pstate: 200000c5 (nzCv daIF -PAN -UAO -TCO -DIT -SSBS
+> > BTYPE=3D--)
+> > [  166.702242] pc : regmap_mmio_read32le+0x10/0x28
+> > [  166.702261] lr : regmap_mmio_read+0x44/0x70
+> > ...
+> > [  166.702606]  bcm2711_get_temp+0x58/0xb0 [bcm2711_thermal]
+> >=20
+> > I wondered if that reg read was stalled due to a clock being stopped.
+> >=20
+> > Lo and behold, disabling runtime pm and keeping the vec clock running
+> > all the time fixed it[1].
+> >=20
+> > I don't know what the problem is, but at least I can now test this patc=
+hset.
+> >=20
+> > [1] https://gist.github.com/notro/23b984e7fa05cfbda2db50a421cac065
+> >=20
+>=20
+> It turns out I didn't have to disable runtime pm:
+> https://gist.github.com/notro/0adcfcb12460b54e54458afe11dc8ea2
 
-Thanks!
+If the bcm2711_thermal IP needs that clock to be enabled, it should grab
+a reference itself, but it looks like even the device tree binding
+doesn't ask for one.
 
-[08/11] regulator: bd71815: switch to using devm_fwnode_gpiod_get()
-        commit: 97c9278ec624a0d5d7c56aa20e16afc8aaa96557
-[09/11] regulator: bd9576: switch to using devm_fwnode_gpiod_get()
-        commit: 587bfe3f7a270f0a4076e624d318292324bdead8
+Maxime
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--fq3utlr2k6iltjfz
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxYOWQAKCRDj7w1vZxhR
+xZXhAP94pqs+pj7lGSsjwlmP/UEuFHEg9U2CXHj8wPM/2qMMIgEAnt6LqzGRnWKu
+1s/dJJP8pFIF3pOYAXRfYltS8OWIzAs=
+=ha9g
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+--fq3utlr2k6iltjfz--
