@@ -1,63 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292305AC8A2
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 04:00:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC595AC9C4
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 07:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC7F10E123;
-	Mon,  5 Sep 2022 02:00:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56B9310E116;
+	Mon,  5 Sep 2022 05:26:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E84B10E123
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 01:59:58 +0000 (UTC)
-X-UUID: 35f887af141e4cda82ea300b8afa496d-20220905
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=RBTVq5JWRZGciHt3zVoLMLM2akIEZ/UY1juZ7uS87mg=; 
- b=R3j9U1a1mmltwNpfuUxhlYuFMuQh+f2M203UHIHmYH0hmTJHmk2XXEOfIXgaWD6MMvcwybTw+9PqIfl2e3ypq6kSpK753wsaoTvTpkkgxgGP4m3ULMNkfTIa6REX+IUZHpX+ke0I0DrlYVqfXKY9FuDFLkEAksyL+u2tv6tXOWw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:2cb8b398-e193-43fd-a5ef-11e4c1825775, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
- Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18, CLOUDID:93679b56-e800-47dc-8adf-0c936acf4f1b,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 35f887af141e4cda82ea300b8afa496d-20220905
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1106842216; Mon, 05 Sep 2022 09:59:52 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 5 Sep 2022 09:59:50 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Mon, 5 Sep 2022 09:59:49 +0800
-Message-ID: <8b8edee34e6bfa5d4a87defeedb799be685be867.camel@mediatek.com>
-Subject: Re: [PATCH v4,1/2] soc: mediatek: Add mmsys func to adapt to dpi
- output for MT8186
-From: xinlei.lee <xinlei.lee@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- <matthias.bgg@gmail.com>, <rex-bc.chen@mediatek.com>,
- <jason-jh.lin@mediatek.com>, <yongqiang.niu@mediatek.com>,
- <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Date: Mon, 5 Sep 2022 09:59:55 +0800
-In-Reply-To: <3e33e564-a62d-d07c-f214-0f1857b99a9c@collabora.com>
-References: <1661743308-29120-1-git-send-email-xinlei.lee@mediatek.com>
- <1661743308-29120-2-git-send-email-xinlei.lee@mediatek.com>
- <3e33e564-a62d-d07c-f214-0f1857b99a9c@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EDB010E034
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 05:26:20 +0000 (UTC)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
+ [91.158.154.79])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 907904A8;
+ Mon,  5 Sep 2022 07:26:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1662355578;
+ bh=ZIS2sM0JMabntCUeGgPWf0WOLHcnI9Ueru0gCH+S8nU=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=JnCPhrOPzgFDbSXtD6F0N85Uu0vyiPgT3KxgixdgJev/8S8bx+ZAY0I4rvXXmaqPi
+ 7FbZTzdOr9Ss6Qe5IyExtSynBnGhRtyS3RalePMWE8xyfsZrtVXRzkcas+Gk0WY4qI
+ WNM3Jrmt3p434wSI8480yo/h0MY1BkBkxX1MZc/o=
+Message-ID: <a28a4858-c66a-6737-a9fc-502f591ba2d5@ideasonboard.com>
+Date: Mon, 5 Sep 2022 08:26:15 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/bridge_connector: enable HPD by default if supported
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+References: <20211225063151.2110878-1-nikita.yoush@cogentembedded.com>
+ <Yczy3UYpU2UMFQ6N@pendragon.ideasonboard.com>
+ <164563304251.4066078.10022034509552549983@Monstersaurus>
+ <YhZf+Fs2AP+btuJj@pendragon.ideasonboard.com>
+ <164563575394.4066078.17104997030535169083@Monstersaurus>
+ <7163f30b-6496-5762-0d9d-96834fb7452d@ideasonboard.com>
+In-Reply-To: <7163f30b-6496-5762-0d9d-96834fb7452d@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,52 +56,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-08-29 at 11:52 +0200, AngeloGioacchino Del Regno wrote:
-> Il 29/08/22 05:21, xinlei.lee@mediatek.com ha scritto:
-> > From: Xinlei Lee <xinlei.lee@mediatek.com>
-> > 
-> > Add mmsys func to manipulate dpi output format config for MT8186.
-> > 
-> > Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
-> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> > Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > ---
-> >   drivers/soc/mediatek/mt8186-mmsys.h    | 1 +
-> >   drivers/soc/mediatek/mtk-mmsys.c       | 8 ++++++++
-> >   include/linux/soc/mediatek/mtk-mmsys.h | 3 +++
-> >   3 files changed, 12 insertions(+)
-> > 
-> > diff --git a/drivers/soc/mediatek/mt8186-mmsys.h
-> > b/drivers/soc/mediatek/mt8186-mmsys.h
-> > index eb1ad9c37a9c..6eca3445bea3 100644
-> > --- a/drivers/soc/mediatek/mt8186-mmsys.h
-> > +++ b/drivers/soc/mediatek/mt8186-mmsys.h
-> > @@ -3,6 +3,7 @@
-> >   #ifndef __SOC_MEDIATEK_MT8186_MMSYS_H
-> >   #define __SOC_MEDIATEK_MT8186_MMSYS_H
-> >   
-> > +#define MT8186_DPI_OUTPUT_FORMAT		0x400
+On 31/08/2022 16:02, Tomi Valkeinen wrote:
+> Hi,
 > 
-> For readability, can we please rename this definition to
+> On 23/02/2022 19:02, Kieran Bingham wrote:
+>> Quoting Laurent Pinchart (2022-02-23 16:25:28)
+>>> Hello,
+>>>
+>>> On Wed, Feb 23, 2022 at 04:17:22PM +0000, Kieran Bingham wrote:
+>>>> Quoting Laurent Pinchart (2021-12-29 23:44:29)
+>>>>> On Sat, Dec 25, 2021 at 09:31:51AM +0300, Nikita Yushchenko wrote:
+>>>>>> Hotplug events reported by bridge drivers over 
+>>>>>> drm_bridge_hpd_notify()
+>>>>>> get ignored unless somebody calls drm_bridge_hpd_enable(). When the
+>>>>>> connector for the bridge is bridge_connector, such a call is done 
+>>>>>> from
+>>>>>> drm_bridge_connector_enable_hpd().
+>>>>>>
+>>>>>> However drm_bridge_connector_enable_hpd() is never called on init 
+>>>>>> paths,
+>>>>>> documentation suggests that it is intended for suspend/resume paths.
+>>>>>
+>>>>> Hmmmm... I'm in two minds about this. The problem description is
+>>>>> correct, but I wonder if HPD should be enabled unconditionally 
+>>>>> here, or
+>>>>> if this should be left to display drivers to control.
+>>>>> drivers/gpu/drm/imx/dcss/dcss-kms.c enables HPD manually at init time,
+>>>>> other drivers don't.
+>>>>>
+>>>>> It feels like this should be under control of the display controller
+>>>>> driver, but I can't think of a use case for not enabling HPD at init
+>>>>> time. Any second opinion from anyone ?
+>>>>
+>>>> This patch solves an issue I have where I have recently enabled HPD on
+>>>> the SN65DSI86, but without this, I do not get calls to my 
+>>>> .hpd_enable or
+>>>> .hpd_disable hooks that I have added to the ti_sn_bridge_funcs.
+>>>>
+>>>> So it needs to be enabled somewhere, and this seems reasonable to me?
+>>>> It's not directly related to the display controller - as it's a factor
+>>>> of the bridge?
+>>>>
+>>>> On Falcon-V3U with HPD additions to SN65DSI86:
+>>>> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>>
+>>> If you think this is right, then
+>>>
+>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
+>> I do, and at the very least it works for me, and fixes Nikita's issue so
+>> to me that's enough for:
 > 
-> MT8186_MMSYS_DPI_OUTPUT_FORMAT
+> So who disables the HPD now?
 > 
-> Thanks,
-> Angelo
-> 
+> Is the drm_bridge_connector_enable_hpd & 
+> drm_bridge_connector_disable_hpd documentation now wrong as they talk 
+> about suspend/resume handlers?
 
-Hi Angelo:
+To give more context, currently omapdrm enables the HPDs at init time 
+and disables them at remove time. With this patch, the HPDs are enabled 
+twice, leading to a WARN.
 
-ok, I will revise it in the next version.
+imx and msm drivers also seem to call drm_bridge_connector_enable_hpd(), 
+so I would guess those also WARN with this patch.
 
-Best Regards!
-Xinlei
+Afaics, this patch alone is broken, as it just disregards the drivers 
+that already enable the HPD, and also as it doesn't handle the disabling 
+of the HPD, or give any guidelines on how the drivers should now manage 
+the HPD.
 
+My suggestion is to revert this one.
+
+  Tomi
