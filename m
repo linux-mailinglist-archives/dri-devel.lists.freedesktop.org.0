@@ -1,90 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0FF5ACABA
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:31:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BD05ACB83
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 08:57:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82F7210E1CB;
-	Mon,  5 Sep 2022 06:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55B0D10E1CD;
+	Mon,  5 Sep 2022 06:57:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3433510E1C0
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 06:31:37 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id bh13so7306982pgb.4
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Sep 2022 23:31:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=VWe/av2g9WxE2lj2h4x591V5ZwS8Z03/LcbryzxlkEA=;
- b=FPP2yq86L9skh15r7N1HDwfFXjfhwE04FqrGjpXWX3EoG+Hta/Nx22nPNJ/t8eL/IT
- 995FRGeW2izU3ZnDl/g+qs7wv607HJhxhJLRKhjQySVeaGd/rcyGmQ5Dnqfcl11T18SW
- tf06zMMGUVVb++nYk6FQAZT51RRJv/TCyfcjagu1UIV6LyzKxdrLT9hwDVqC4uGAz5a0
- Be7w67SFlgs3U+MWq7aHprynEe0YTcQJZYCSCVTHuqqVBhC3GEdGsE0TTMUlhYcEurCk
- eJSLHJEc2TiP9THpBZ0gy6OAl61D32MouWj48AMltgxfb2ZvbZEmZcLtFm/YfFBmGpit
- 62Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=VWe/av2g9WxE2lj2h4x591V5ZwS8Z03/LcbryzxlkEA=;
- b=uWg/4KukXZL8BmzZSKUmcpkS4MrdMzw/C17s94OSgg1O5PqAwsPdDUDGd1K0zNRM+8
- OeOKDFFPrfdrE2eTvk12o2HQuRsGQPBPJJk6HtvIWdXxc5NswcR6Ly2T6y1L0+kyknRP
- I9+gPFtYYvJ+7U2906njW0DvjSShsFTQ8IG4zXpvHJUaHi9K89Yvqxk3Bur+o8CjV9XR
- PatAO+z3LWUzIplrde9DzliZLdzYIW3WtVHwDKqlhtFz7DdilPZUua56ZqPvOQBTpL2s
- dDTuO5iDeGNIR7f6HpOhK9rLa2abiZ5AWr0c+5AEp/UK6ILPMeYsVcH3vzuCNIpszIrr
- RojQ==
-X-Gm-Message-State: ACgBeo2sPhU1u5v+sx+MvkjX7YWCJJuCWx2GfB4RWlUSA6xMY+4XSCZX
- 6/j53rdwAYMCLjTUM8YIvZY=
-X-Google-Smtp-Source: AA6agR4W3IsValNDHTekJxMuYb/OG6bI5CbZaz1XpSVwcU2T/joFwOJw522EfWiYj1A+GUqUQaJ/Zw==
-X-Received: by 2002:a65:588d:0:b0:42a:2778:164f with SMTP id
- d13-20020a65588d000000b0042a2778164fmr42341736pgu.616.1662359496367; 
- Sun, 04 Sep 2022 23:31:36 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com
- ([2620:15c:202:201:7332:f188:2984:5930])
- by smtp.gmail.com with ESMTPSA id
- d197-20020a6336ce000000b0042254fce5e7sm5710653pga.50.2022.09.04.23.31.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 23:31:35 -0700 (PDT)
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Mark Brown <broonie@kernel.org>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Linus Walleij <linus.walleij@linaro.org>, Felipe Balbi <balbi@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Marc Zyngier <maz@kernel.org>, Richard Weinberger <richard@nod.at>,
- David Airlie <airlied@linux.ie>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Jonathan Hunter <jonathanh@nvidia.com>, Rob Herring <robh@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-Subject: [PATCH v1 11/11] gpiolib: of: remove [devm_]gpiod_get_from_of_node()
- APIs
-Date: Sun,  4 Sep 2022 23:31:03 -0700
-Message-Id: <20220903-gpiod_get_from_of_node-remove-v1-11-b29adfb27a6c@gmail.com>
-X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
-References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
+X-Greylist: delayed 470 seconds by postgrey-1.36 at gabe;
+ Mon, 05 Sep 2022 06:57:17 UTC
+Received: from condef-08.nifty.com (condef-08.nifty.com [202.248.20.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA5410E1C1;
+ Mon,  5 Sep 2022 06:57:17 +0000 (UTC)
+Received: from conssluserg-05.nifty.com ([10.126.8.84])by condef-08.nifty.com
+ with ESMTP id 2856isQN010025; Mon, 5 Sep 2022 15:44:54 +0900
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42]) (authenticated)
+ by conssluserg-05.nifty.com with ESMTP id 2856ic6t020651;
+ Mon, 5 Sep 2022 15:44:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2856ic6t020651
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1662360279;
+ bh=2/aEuTIGQY1eRCS8ZnFpEZnaZhJYBAN2YOqc0m45zS0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=lKAB6BQc70nahRxqaJZNtnfMD+5Yec10/NkTOmFn2bNQNge2AgFZW7dBoRJqR6MnI
+ xPC/bll5EYabRy5wk4VM/2t1rCwklXfH+QePUY2EHAAwAI/+OQYY/bQlEF+vfb41jq
+ O+0v+kq1iRSwlgz/idsyDS/fER9XuSMbET7bpuSSVbebJZfGOYlSQyXUZJAfiTqkJD
+ WW1rymTI7myf1KQPXzI+OEG5yl2tukVLr+4rx+aN9kYriAWLRWx3bo0/AFtZfrskkb
+ dN6ZtLlo7S6u9OdbHj7cLg6CxD2bQaclRl5Me77fQNz7p8voW1WVLVPGvzKwUB5QB3
+ cxlaHRJ2p496g==
+X-Nifty-SrcIP: [209.85.210.42]
+Received: by mail-ot1-f42.google.com with SMTP id
+ t11-20020a05683014cb00b0063734a2a786so5583752otq.11; 
+ Sun, 04 Sep 2022 23:44:39 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2AIAh+sior96jHTvoeAz1UYCB9FK2XGmDSb8T4sPgS0RJrVHvx
+ PMt3d31dQ5Xe6AsR/F5J/yE41p1MbJGScZMQzHE=
+X-Google-Smtp-Source: AA6agR5eDbGMjw3wtK6ZZjfyuxTtPhmoA7XbU6Z2YqLR6PluQmowVmlHe933hVZ0RY1QlSEEKDQLiJ+SNF7QSFqwxdE=
+X-Received: by 2002:a05:6830:658b:b0:63b:3501:7167 with SMTP id
+ cn11-20020a056830658b00b0063b35017167mr12590275otb.343.1662360278092; Sun, 04
+ Sep 2022 23:44:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.10.0-dev-fc921
-Content-Transfer-Encoding: 8bit
+References: <20220831184408.2778264-1-ndesaulniers@google.com>
+ <20220831184408.2778264-4-ndesaulniers@google.com>
+In-Reply-To: <20220831184408.2778264-4-ndesaulniers@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 5 Sep 2022 15:44:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQsAwUX-w8YQTxPRSi8S0MRcDtv2mc=umjF_3C3dA1-Kg@mail.gmail.com>
+Message-ID: <CAK7LNAQsAwUX-w8YQTxPRSi8S0MRcDtv2mc=umjF_3C3dA1-Kg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] Makefile.compiler: replace cc-ifversion with
+ compiler-specific macros
+To: Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,197 +65,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-watchdog@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: X86 ML <x86@kernel.org>, Michal Marek <michal.lkml@markovi.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Fangrui Song <maskray@google.com>,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ Tom Rix <trix@redhat.com>, Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
+ clang-built-linux <llvm@lists.linux.dev>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Nathan Chancellor <nathan@kernel.org>, Bill Wendling <morbo@google.com>,
+ Greg Thelen <gthelen@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Alexey Alexandrov <aalexand@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that everyone is using [devm_]fwnode_gpiod_get[_index]() APIs, we no
-longer need to expose OF-specific [devm_]gpiod_get_from_of_node().
+On Thu, Sep 1, 2022 at 3:44 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> cc-ifversion is GCC specific. Replace it with compiler specific
+> variants. Update the users of cc-ifversion to use these new macros.
+> Provide a helper for checking compiler versions for GCC and Clang
+> simultaneously, that will be used in a follow up patch.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Link: https://github.com/ClangBuiltLinux/linux/issues/350
+> Link: https://lore.kernel.org/llvm/CAGG=3QWSAUakO42kubrCap8fp-gm1ERJJAYXTnP1iHk_wrH=BQ@mail.gmail.com/
+> Suggested-by: Bill Wendling <morbo@google.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> Changes v1 -> v2:
+> * New patch.
+>
+>  Documentation/kbuild/makefiles.rst          | 44 +++++++++++++++------
+>  Makefile                                    |  4 +-
+>  drivers/gpu/drm/amd/display/dc/dml/Makefile | 12 ++----
+>  scripts/Makefile.compiler                   | 15 +++++--
+>  4 files changed, 49 insertions(+), 26 deletions(-)
+>
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index 11a296e52d68..e46f5b45c422 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -682,22 +682,42 @@ more details, with real examples.
+>         In the above example, -Wno-unused-but-set-variable will be added to
+>         KBUILD_CFLAGS only if gcc really accepts it.
+>
+> -    cc-ifversion
+> -       cc-ifversion tests the version of $(CC) and equals the fourth parameter
+> -       if version expression is true, or the fifth (if given) if the version
+> -       expression is false.
+> +    gcc-min-version
+> +       gcc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater than
+> +       or equal to the provided value and evaluates to y if so.
+>
+>         Example::
+>
+> -               #fs/reiserfs/Makefile
+> -               ccflags-y := $(call cc-ifversion, -lt, 0402, -O1)
+> +               cflags-$(call gcc-min-version, 70100) := -foo
+>
+> -       In this example, ccflags-y will be assigned the value -O1 if the
+> -       $(CC) version is less than 4.2.
+> -       cc-ifversion takes all the shell operators:
+> -       -eq, -ne, -lt, -le, -gt, and -ge
+> -       The third parameter may be a text as in this example, but it may also
+> -       be an expanded variable or a macro.
+> +       In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
+> +       $(CONFIG_GCC_VERSION) is >= 7.1.
+> +
+> +    clang-min-version
+> +       clang-min-version tests if the value of $(CONFIG_CLANG_VERSION) is greater
+> +       than or equal to the provided value and evaluates to y if so.
+> +
+> +       Example::
+> +
+> +               cflags-$(call clang-min-version, 110000) := -foo
+> +
+> +       In this example, cflags-y will be assigned the value -foo if $(CC) is clang
+> +       and $(CONFIG_CLANG_VERSION) is >= 11.0.0.
+> +
+> +    cc-min-version
+> +       cc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater
+> +       than or equal to the first value provided, or if the value of
+> +       $(CONFIG_CLANG_VERSION) is greater than or equal to the second value
+> +       provided, and evaluates
+> +       to y if so.
+> +
+> +       Example::
+> +
+> +               cflags-$(call cc-min-version, 70100, 110000) := -foo
+> +
+> +       In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
+> +       $(CONFIG_GCC_VERSION) is >= 7.1, or if $(CC) is clang and
+> +       $(CONFIG_CLANG_VERSION) is >= 11.0.0.
+>
+>      cc-cross-prefix
+>         cc-cross-prefix is used to check if there exists a $(CC) in path with
+> diff --git a/Makefile b/Makefile
+> index 952d354069a4..caa39ecb1136 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -972,7 +972,7 @@ ifdef CONFIG_CC_IS_GCC
+>  KBUILD_CFLAGS += -Wno-maybe-uninitialized
+>  endif
+>
+> -ifdef CONFIG_CC_IS_GCC
+> +ifeq ($(call gcc-min-version, 90100),y)
+>  # The allocators already balk at large sizes, so silence the compiler
+>  # warnings for bounds checks involving those possible values. While
+>  # -Wno-alloc-size-larger-than would normally be used here, earlier versions
+> @@ -984,7 +984,7 @@ ifdef CONFIG_CC_IS_GCC
+>  # ignored, continuing to default to PTRDIFF_MAX. So, left with no other
+>  # choice, we must perform a versioned check to disable this warning.
+>  # https://lore.kernel.org/lkml/20210824115859.187f272f@canb.auug.org.au
+> -KBUILD_CFLAGS += $(call cc-ifversion, -ge, 0901, -Wno-alloc-size-larger-than)
+> +KBUILD_CFLAGS += -Wno-alloc-size-larger-than
+>  endif
+>
+>  # disable invalid "can't wrap" optimizations for signed / pointers
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> index 86a3b5bfd699..d8ee4743b2e3 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> @@ -33,20 +33,14 @@ ifdef CONFIG_PPC64
+>  dml_ccflags := -mhard-float -maltivec
+>  endif
+>
+> -ifdef CONFIG_CC_IS_GCC
+> -ifeq ($(call cc-ifversion, -lt, 0701, y), y)
+> -IS_OLD_GCC = 1
+> -endif
+> -endif
+> -
+>  ifdef CONFIG_X86
+> -ifdef IS_OLD_GCC
+> +ifeq ($(call gcc-min-version, 70100),y)
+> +dml_ccflags += -msse2
+> +else
+>  # Stack alignment mismatch, proceed with caution.
+>  # GCC < 7.1 cannot compile code using `double` and -mpreferred-stack-boundary=3
+>  # (8B stack alignment).
+>  dml_ccflags += -mpreferred-stack-boundary=4
+> -else
+> -dml_ccflags += -msse2
+>  endif
+>  endif
+>
+> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+> index d1739f0d3ce3..13dade724fa3 100644
+> --- a/scripts/Makefile.compiler
+> +++ b/scripts/Makefile.compiler
+> @@ -61,9 +61,18 @@ cc-option-yn = $(call try-run,\
+>  cc-disable-warning = $(call try-run,\
+>         $(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
+>
+> -# cc-ifversion
+> -# Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
+> -cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
+> +# gcc-min-version
+> +# Usage: cflags-$(call gcc-min-version, 70100) += -foo
+> +gcc-min-version = $(shell [ $(CONFIG_GCC_VERSION) -ge $(1) ] && echo y)
+> +
+> +# clang-min-version
+> +# Usage: cflags-$(call clang-min-version, 110000) += -foo
+> +clang-min-version = $(shell [ $(CONFIG_CLANG_VERSION) -ge $(1) ] && echo y)
+> +
+> +# cc-min-version
+> +# Usage: cflags-$(call cc-min-version, 701000, 110000)
+> +#                                      ^ GCC   ^ Clang
+> +cc-min-version = $(filter y, $(call gcc-min-version, $(1)), $(call clang-min-version, $(2)))
 
-Note that we are keeping gpiod_get_from_of_node() but only as a private
-to gpiolib function.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-diff --git a/drivers/gpio/gpiolib-devres.c b/drivers/gpio/gpiolib-devres.c
-index 16a696249229..fe9ce6b19f15 100644
---- a/drivers/gpio/gpiolib-devres.c
-+++ b/drivers/gpio/gpiolib-devres.c
-@@ -129,61 +129,6 @@ struct gpio_desc *__must_check devm_gpiod_get_index(struct device *dev,
- }
- EXPORT_SYMBOL_GPL(devm_gpiod_get_index);
- 
--/**
-- * devm_gpiod_get_from_of_node() - obtain a GPIO from an OF node
-- * @dev:	device for lifecycle management
-- * @node:	handle of the OF node
-- * @propname:	name of the DT property representing the GPIO
-- * @index:	index of the GPIO to obtain for the consumer
-- * @dflags:	GPIO initialization flags
-- * @label:	label to attach to the requested GPIO
-- *
-- * Returns:
-- * On successful request the GPIO pin is configured in accordance with
-- * provided @dflags.
-- *
-- * In case of error an ERR_PTR() is returned.
-- */
--struct gpio_desc *devm_gpiod_get_from_of_node(struct device *dev,
--					      const struct device_node *node,
--					      const char *propname, int index,
--					      enum gpiod_flags dflags,
--					      const char *label)
--{
--	struct gpio_desc **dr;
--	struct gpio_desc *desc;
--
--	desc = gpiod_get_from_of_node(node, propname, index, dflags, label);
--	if (IS_ERR(desc))
--		return desc;
--
--	/*
--	 * For non-exclusive GPIO descriptors, check if this descriptor is
--	 * already under resource management by this device.
--	 */
--	if (dflags & GPIOD_FLAGS_BIT_NONEXCLUSIVE) {
--		struct devres *dres;
--
--		dres = devres_find(dev, devm_gpiod_release,
--				   devm_gpiod_match, &desc);
--		if (dres)
--			return desc;
--	}
--
--	dr = devres_alloc(devm_gpiod_release, sizeof(struct gpio_desc *),
--			  GFP_KERNEL);
--	if (!dr) {
--		gpiod_put(desc);
--		return ERR_PTR(-ENOMEM);
--	}
--
--	*dr = desc;
--	devres_add(dev, dr);
--
--	return desc;
--}
--EXPORT_SYMBOL_GPL(devm_gpiod_get_from_of_node);
--
- /**
-  * devm_fwnode_gpiod_get_index - get a GPIO descriptor from a given node
-  * @dev:	GPIO consumer
-diff --git a/drivers/gpio/gpiolib-of.c b/drivers/gpio/gpiolib-of.c
-index a037b50bef33..b0e0723b12ab 100644
---- a/drivers/gpio/gpiolib-of.c
-+++ b/drivers/gpio/gpiolib-of.c
-@@ -365,7 +365,6 @@ struct gpio_desc *gpiod_get_from_of_node(const struct device_node *node,
- 
- 	return desc;
- }
--EXPORT_SYMBOL_GPL(gpiod_get_from_of_node);
- 
- /*
-  * The SPI GPIO bindings happened before we managed to establish that GPIO
-diff --git a/drivers/gpio/gpiolib-of.h b/drivers/gpio/gpiolib-of.h
-index 8af2bc899aab..e0da568d6da3 100644
---- a/drivers/gpio/gpiolib-of.h
-+++ b/drivers/gpio/gpiolib-of.h
-@@ -3,6 +3,7 @@
- #ifndef GPIOLIB_OF_H
- #define GPIOLIB_OF_H
- 
-+struct device_node;
- struct gpio_chip;
- enum of_gpio_flags;
- 
-@@ -16,6 +17,10 @@ void of_gpiochip_remove(struct gpio_chip *gc);
- int of_gpio_get_count(struct device *dev, const char *con_id);
- bool of_gpio_need_valid_mask(const struct gpio_chip *gc);
- void of_gpio_dev_init(struct gpio_chip *gc, struct gpio_device *gdev);
-+struct gpio_desc *gpiod_get_from_of_node(const struct device_node *node,
-+					 const char *propname, int index,
-+					 enum gpiod_flags dflags,
-+					 const char *label);
- #else
- static inline struct gpio_desc *of_find_gpio(struct device *dev,
- 					     const char *con_id,
-@@ -38,6 +43,14 @@ static inline void of_gpio_dev_init(struct gpio_chip *gc,
- 				    struct gpio_device *gdev)
- {
- }
-+static inline
-+struct gpio_desc *gpiod_get_from_of_node(const struct device_node *node,
-+					 const char *propname, int index,
-+					 enum gpiod_flags dflags,
-+					 const char *label)
-+{
-+	return ERR_PTR(-ENOSYS);
-+}
- #endif /* CONFIG_OF_GPIO */
- 
- extern struct notifier_block gpio_of_notifier;
-diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
-index fe0f460d9a3b..37448ee17e81 100644
---- a/include/linux/gpio/consumer.h
-+++ b/include/linux/gpio/consumer.h
-@@ -615,54 +615,6 @@ struct gpio_desc *devm_fwnode_get_gpiod_from_child(struct device *dev,
- 	return devm_fwnode_gpiod_get_index(dev, child, con_id, 0, flags, label);
- }
- 
--#if IS_ENABLED(CONFIG_GPIOLIB) && IS_ENABLED(CONFIG_OF_GPIO)
--struct device_node;
--
--struct gpio_desc *gpiod_get_from_of_node(const struct device_node *node,
--					 const char *propname, int index,
--					 enum gpiod_flags dflags,
--					 const char *label);
--
--#else  /* CONFIG_GPIOLIB && CONFIG_OF_GPIO */
--
--struct device_node;
--
--static inline
--struct gpio_desc *gpiod_get_from_of_node(const struct device_node *node,
--					 const char *propname, int index,
--					 enum gpiod_flags dflags,
--					 const char *label)
--{
--	return ERR_PTR(-ENOSYS);
--}
--
--#endif /* CONFIG_GPIOLIB && CONFIG_OF_GPIO */
--
--#ifdef CONFIG_GPIOLIB
--struct device_node;
--
--struct gpio_desc *devm_gpiod_get_from_of_node(struct device *dev,
--					      const struct device_node *node,
--					      const char *propname, int index,
--					      enum gpiod_flags dflags,
--					      const char *label);
--
--#else  /* CONFIG_GPIOLIB */
--
--struct device_node;
--
--static inline
--struct gpio_desc *devm_gpiod_get_from_of_node(struct device *dev,
--					      const struct device_node *node,
--					      const char *propname, int index,
--					      enum gpiod_flags dflags,
--					      const char *label)
--{
--	return ERR_PTR(-ENOSYS);
--}
--
--#endif /* CONFIG_GPIOLIB */
--
- struct acpi_gpio_params {
- 	unsigned int crs_entry_index;
- 	unsigned int line_index;
+
+A more intuitive and more efficient form would be:
+
+  cc-min-version = $(or $(call gcc-min-version, $(1)), $(call
+clang-min-version, $(2)))
+
+
+
+In your implementation, both gcc-min-version and clang-min-version are
+expanded before being passed to $(filter ...).
+So the shell is always invoked twice.
+
+
+$(or A, B) is lazily expanded; A is evaluated first.
+If and only if A is empty, B is expanded.
+
+If gcc-min-version is met, the shell invocation in clang-min-version
+will be short-cut.
+
+
+
+But, I do not find a place where cc-min-version is useful.
+
+
+Looking at the next patch,
+
+
+
+# gcc-11+, clang-14+
+ifeq ($(call cc-min-version, 110000, 140000),y)
+dwarf-version-y := 5
+else
+dwarf-version-y := 4
+endif
+
+
+ ... can be written in a more simpler way:
+
+
+dwarf-version-y                                 := 4
+dwarf-version-$(call gcc-min-version, 110000)   := 5
+dwarf-version-$(call clang-min-version, 140000) := 5
+
+
+
+
+
+With $(call cc-min-version, 110000, 140000),
+you never know the meaning of 110000, 140000
+until you see the definition of this macro.
+So, you feel like adding the comment "gcc-11+, clang-14+".
+
+
+The latter form, the code is self-documenting.
+
+
+
+
+
+
+
+
+>  # ld-option
+>  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+> --
+> 2.37.2.672.g94769d06f0-goog
+>
+
 
 -- 
-b4 0.10.0-dev-fc921
+Best Regards
+Masahiro Yamada
