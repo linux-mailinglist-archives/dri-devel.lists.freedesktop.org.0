@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8725AD0A9
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 12:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8A75AD0AA
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 12:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C21210E2D1;
-	Mon,  5 Sep 2022 10:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4501110E2D2;
+	Mon,  5 Sep 2022 10:53:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F17D10E2D3
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 10:53:45 +0000 (UTC)
-Received: from [192.168.2.145] (unknown [109.252.119.13])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 245C010E2D5
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 10:53:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 481FC6601EE3;
- Mon,  5 Sep 2022 11:53:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1662375223;
- bh=tUTd2m3nR6U01woQKAodDrlaOuHhF5+x2TW8FD72guk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QDVKaBW+A1Hwo04iGcKbPUC1E2zUzzl+LF//Tj5x3fJdHDPLj2xM1R6GFnViVR1Gt
- cRv/C2z76XL5CAWqmwjvdtvHYFRRLxdwQKylPWDhkWIK3KRWz0xsckY1698E1Cn76e
- CKro+FXClUE06ko1BHN7mbOjuDN4Bk2zC7yU0YrY4WmPjFRqjJhxfbZHGfWYKN0XQR
- jSg6GHzW2x2FdpZHDGGuo+uU2HIO8itcP7y4fIKs54UhTa/a8JH8GvkRhZULqap4Ex
- KGIyQKIXamGfvLvR8ji2pvqiz2MFxJyzNvDe64dde6dh5+2iFEZix3Pksg0gDzvuHe
- JWk33/t/bjyJw==
-Message-ID: <80985882-c46f-cfb1-b077-a92866536678@collabora.com>
-Date: Mon, 5 Sep 2022 13:53:39 +0300
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 98186611CC;
+ Mon,  5 Sep 2022 10:53:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD170C43141;
+ Mon,  5 Sep 2022 10:53:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1662375225;
+ bh=KnM89UV/QXbr+bD5uW61IQuouhORuL6HjctA/n6mRg0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YXsW4xMlqP5G1yqVn2Vnp7wQDcPAoNf58U0cr8myKFBfvUzkhpC+Iscqcyg5rEIhZ
+ 0PMTgWItYJNmw8Z400ucNJ5B0XE0lekJpX4qyetV4qePiVhpwNvYixfPDpcUp14ikB
+ 22T/9xIpoVj9aJjbUdIR8NPhsD59irNN093isONgtwU/IDqAU6CwhROyPAZqKJ3Ax2
+ Sj/95TQsCXTmoey/B358xD1yE1qexDQ+Le/UUWfUT+rUg92OQbc5mebVHkcJj3e8vm
+ 1Cb0U86VmYuGN9CH7WKr97gNp1kG1ChXDQHt2IQgh1P4RW98tzTzb6AB6Z4u/ySvYP
+ V7b5ELppG5LAQ==
+Received: by pali.im (Postfix)
+ id E35A67D7; Mon,  5 Sep 2022 12:53:41 +0200 (CEST)
+Date: Mon, 5 Sep 2022 12:53:41 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v1 01/11] PCI: tegra: switch to using devm_fwnode_gpiod_get
+Message-ID: <20220905105341.z2pjlpljitws3j6l@pali>
+References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-1-b29adfb27a6c@gmail.com>
+ <20220905071902.fv4uozrsttk3mosu@pali>
+ <CAHp75Vf5R03nq6JmpVcVNX9L5CwM-uOmF39oHSZFP3QJe+GExQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v17 00/10] Add MT8195 DisplayPort driver
-Content-Language: en-US
-To: chunkuang.hu@kernel.org, angelogioacchino.delregno@collabora.com
-References: <20220901044149.16782-1-rex-bc.chen@mediatek.com>
- <af23462c-2d3b-470a-7fd6-2bf09a3174cb@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <af23462c-2d3b-470a-7fd6-2bf09a3174cb@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75Vf5R03nq6JmpVcVNX9L5CwM-uOmF39oHSZFP3QJe+GExQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,41 +58,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
- Dmitry Osipenko <digetx@gmail.com>, deller@gmx.de,
- Project_Global_Chrome_Upstream_Group@mediatek.com, wenst@chromium.org,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, devicetree@vger.kernel.org,
- jitao.shi@mediatek.com, tzimmermann@suse.de, liangxu.xu@mediatek.com,
- msp@baylibre.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
- granquet@baylibre.com, linux-kernel@vger.kernel.org
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ USB <linux-usb@vger.kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ David Airlie <airlied@linux.ie>, linux-pci <linux-pci@vger.kernel.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ LINUXWATCHDOG <linux-watchdog@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Richard Weinberger <richard@nod.at>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/4/22 15:59, Dmitry Osipenko wrote:
-> 01.09.2022 07:41, Bo-Chen Chen пишет:
->> This patch is separated from v10 which is including dp driver, phy driver
->> and dpintf driver. This series is only contained the DisplayPort driver.
->>
->> This series can be tested using 5.19-rc2 kernel and I test it in MT8195
->> Tomato Chromebook. Modetest these modes:
+On Monday 05 September 2022 13:49:21 Andy Shevchenko wrote:
+> On Mon, Sep 5, 2022 at 10:23 AM Pali Rohár <pali@kernel.org> wrote:
+> > On Sunday 04 September 2022 23:30:53 Dmitry Torokhov wrote:
 > 
-> Applied to drm-misc-next, thanks!
+> ...
+> 
+> > > -             rp->reset_gpio = devm_gpiod_get_from_of_node(dev, port,
+> > > -                                                          "reset-gpios", 0,
+> > > -                                                          GPIOD_OUT_LOW,
+> > > -                                                          label);
+> > > +             rp->reset_gpio = devm_fwnode_gpiod_get(dev,
+> > > +                                                    of_fwnode_handle(port),
+> > > +                                                    "reset",
+> > > +                                                    GPIOD_OUT_LOW,
+> > > +                                                    label);
+> >
+> > Why in pci-aardvark.c for PERST# reset-gpio you have used
+> > devm_gpiod_get_optional() and here in pci-tegra.c you have used
+> > devm_fwnode_gpiod_get()? I think that PERST# logic is same in both
+> > drivers.
+> 
+> It's not the same dev and its node in this case. There is one reset
+> for _all_ ports, here is the reset on _per port_ basis.
 
-Hello Chun-Kuang Hu,
-
-Angelo told me today that you wanted to pick up the MTK driver patches
-and I applied them all to the drm-misc instead just of the "video/hdmi"
-patch. The series was fully reviewed and tested, so I had no doubts when
-applied all the patches.
-
-The applied patches can't be reverted, so if you have more changes
-prepared for the MTK driver, then please rebase them on top of the
-latest drm-misc-next.
-
-Apologizes for this confusion. Please let us know if we can help you.
-
--- 
-Best regards,
-Dmitry
+aardvark is single port controller. So it is basically same.
