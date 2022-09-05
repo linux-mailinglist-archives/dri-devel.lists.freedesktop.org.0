@@ -2,125 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3596B5AD59B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 16:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DE25AD5C1
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A7C610E3FB;
-	Mon,  5 Sep 2022 14:58:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C19110E3FD;
+	Mon,  5 Sep 2022 15:09:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1anam02on2063.outbound.protection.outlook.com [40.107.96.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85FE710E03B
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 14:58:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P8ApC/5uZ7oi7rnZHDTl04As+0sjPs62JYiSU4f8RXATi7lNp4phhO/6cAKS7Jx4Nc4H+lTxlVgpx+WjmnwuRoshGcD/JSY05icpOXutfa0A63C4YBw/JLj66eGF95PoVEKthv0mtZEAZfZqIK93TLN45qhJ1wHLY2+Nrdh62xgwqDwpI3EWYvqxOWM35ore0RoNq3bteW3Q45z+uj+9719QtNKsK71IIbm0N76b5Azv9Qf6PoV7b1Rc0VkEK8Dp6I18RtsOhmSP1dEbjUEiCYIhKXJrdhJcRM1vWIeQhyL4Nt5kxj2N3XZauNc3XDlI2PCRoaQK2cMxAGNqzeIYjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+56O7ZwNu/V60IlYufm/5s2EWbglvy6wmv0UQMJofm8=;
- b=Mf4B3Oy48zg72rgeNkVf0ORj+VWC0+397lyb4C7qeNFSOwANi5MLPVDtFUWDFRbhcKymCdKQG0lshN58BhG8j0uJVpSzCrdRpTrRzECJdYMV45lnIWf6fWS+llbPRirMKED/v3nKpSsnD8nTBtfVrXetZR2I83i1qhMPwNizRcIaSoX9QzB/nCZWB004GxCWpTLhMiad2+r8tRJ+illuQ+4lCBBO2HNEInG1LHLShRN6HLxaD1vzOOADjCI71EuzTJ9/4HEPKTZCwnj4vXudJQ13wX0a08r6jhG/VfrRrYs+cxdWFV9nhLBD0CK1VHGDgR1bQXUAlple4Df2xceK2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+56O7ZwNu/V60IlYufm/5s2EWbglvy6wmv0UQMJofm8=;
- b=H0JckgeTGhgRAk4WRvLka113rcOdnKD9gTIAg4BzVLGfkrtK3ctarB1yTU3PmyDiWOBZrVgG+xPONZ2vik19+N4jmBfUxsRgcC0vDRBSR3xXCBujFnIXqCyhFEfGoaw4yx6C/YDRcWwkYe8HqfUKAf8tZeTfAaiePHZLMOROS0Q=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com (2603:10b6:510:1dc::15)
- by MN2PR12MB4302.namprd12.prod.outlook.com (2603:10b6:208:1de::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Mon, 5 Sep
- 2022 14:58:22 +0000
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::2e8f:6161:3959:aa0c]) by PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::2e8f:6161:3959:aa0c%5]) with mapi id 15.20.5588.015; Mon, 5 Sep 2022
- 14:58:22 +0000
-Message-ID: <979c371a-6210-161b-3541-ace6d68ef1a3@amd.com>
-Date: Mon, 5 Sep 2022 20:28:08 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 2/4] drm/sched: Add callback and enable signaling on debug
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE98910E3F9;
+ Mon,  5 Sep 2022 15:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662390542; x=1693926542;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=C8JMmGtA70vG2m2C6NWOtCM5PtgVfohPoc+fOZ5x1Uc=;
+ b=SdoGZW0ymYWRTO1koLmVNovpx2YDwJpWCSnMvkzPgcem81nP2V61HulL
+ 3/eOGQMWzSroL+f5yADpJ4A9ukDK8O4lQLFVR0xOlNSVpiYTDMjqOXUY7
+ m4pETXwl8p7HjbyJRn1U8SaO/59et2Xa5d8r0118exQsZClOJcBVw8uwB
+ qEAx+pfbYeewhRA8nsuvxNDFTS7xmBhPoEDak5puUhZsGmHGyWkN/VLls
+ T2FkmAnQDr1YWbMrplsd3+4fyTOdXFgI+Esqiu87t1Ub+FzBsAIHH/z/p
+ qEeJir+azsS+m319iJ1PmWNTRWIi5bWcctbqpuydZQERR/Mo8hz+hJsY8 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="296411362"
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="296411362"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 08:09:00 -0700
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="675324113"
+Received: from hpigot-mobl1.ger.corp.intel.com (HELO [10.213.237.107])
+ ([10.213.237.107])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 08:08:58 -0700
+Message-ID: <c8055bb0-1aee-c6fb-1b59-f1cd36c39a50@linux.intel.com>
+Date: Mon, 5 Sep 2022 16:08:57 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [Intel-gfx] [RFC PATCH v3 10/17] drm/i915/vm_bind: Implement
+ I915_GEM_EXECBUFFER3 ioctl
 Content-Language: en-US
-From: "Yadav, Arvind" <arvyadav@amd.com>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
- shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
- Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
- gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220905105653.13670-1-Arvind.Yadav@amd.com>
- <20220905105653.13670-3-Arvind.Yadav@amd.com>
- <96d14c8a-e3de-fcea-b3b1-434bc6a78ae4@amd.com>
- <5b84f7c1-99a6-02c8-2606-8986891a95b0@amd.com>
-In-Reply-To: <5b84f7c1-99a6-02c8-2606-8986891a95b0@amd.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+References: <20220827194403.6495-1-andi.shyti@linux.intel.com>
+ <20220827194403.6495-11-andi.shyti@linux.intel.com>
+ <8ecb0b8f-f253-1318-444a-8370960c6140@linux.intel.com>
+ <20220901050910.GG10283@nvishwa1-DESK>
+ <f0ee82ec-03bd-1e02-affe-98f127b2d72a@linux.intel.com>
+ <20220902054158.GJ10283@nvishwa1-DESK>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220902054158.GJ10283@nvishwa1-DESK>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0061.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:23::6) To PH7PR12MB6000.namprd12.prod.outlook.com
- (2603:10b6:510:1dc::15)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 26ce0c7c-3715-4e97-5dd6-08da8f4f1354
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4302:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KkOZN/jnv6hdPQ58R8AgCOj3/bDjTWNZ05+ywJ4Zm4ojwG4L1fhFBiwBq27tOMQ9ntUPlbwQNdSBhsBmKfqZ0E9NI7o3Ae7K8aNcJIR7YanMp3hl8NESpzYx0WAVCw20EMNYIL9Tv1EyoShZXRWQT7m5fU5kxuM/ibI1nfChC2Cn0axAzShWuwHcVDoPG/0V4vmtlAHt09rtc1QL2jmgTUXYr8rQEDNjAagoSWYGBDYPqx97q6Z7bj3I6/3R1gG6fFjkmHPl3HAargzlfoBr7MaQctSHqn9rVAx9NUZeuNmZWQjhRmosERMQFa8oFK0pcGKO8uMRGAohDLUANaj/JW0W6lD4FbVbCZ8XHy6ypePuKzzwiY8stxGUjkg1ApMljLOnVhaEXugQmyfXvHkbeckSbZTJKFqANukI26yjTc0HXWA3m/wtfCv+w9SUC2y9GgsnY+OSXWoRWO/xCMquDmfV6zObm1ln5/iTtrCUWkVkr5SV6yKjijT4KE0eCKwprS1WwC97A5VFqai+boeZ3dsKUsN3czUF2JaVNUyrNasvl8l+5hfDuvF0OrRikoWlv3RGeogysBUmoutB9tQV+C7NLAuOxSLa9XL1CI9OzqOCnxofdhvqrvXK8HFjX5+MLmVe2ysp6NZMK4mXkW7/E4+UG3SZxQU0C9y4a9eL8KvtEOOR5NhOqWP4ros5HX5HHM30RhKOlJ2tqC+7tGypLA3j70YKQUwQkVhqb8yM0TyaprMp81oBj6Lw3z3gpAMnXAfth0L/CtltTuWqQIui/eZznJU9w692RhVTIgf0fLxPZAj0muMoJuh06ah8K0yP
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB6000.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(346002)(396003)(39860400002)(136003)(376002)(66574015)(186003)(921005)(110136005)(2616005)(83380400001)(316002)(31686004)(8936002)(26005)(6486002)(2906002)(36756003)(6512007)(41300700001)(5660300002)(6506007)(53546011)(8676002)(31696002)(478600001)(38100700002)(66946007)(66476007)(6666004)(66556008)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDBkNk10TWpXcWx0Zkl1Mmw2MGRUbXNCVW4zUnFybjV5Qk1MakdPSmVIaVNj?=
- =?utf-8?B?eFZ4STlPTk1taHJsWUVubHR4cCs3WENPaExjVWJqamdSUTNiVUx3QjhNT0lO?=
- =?utf-8?B?Z3dZMmNHbXBIdUJTMC9NcldxZzVoc0pIMms2LzNkUTJ6NG1WMTFFRjFlS2JY?=
- =?utf-8?B?c2lVLzFRZFNIeHpTNEc2aHdZTWJYRVVXUDkvSUJJSXlhTitieHhOS1M3eTVT?=
- =?utf-8?B?cjJYdmdqYUhuOFRFME1LVnZ6N2pEbWlkT3dUT01zREtUNzBQSWUwQ20zY09Y?=
- =?utf-8?B?RXNsL0NuU0x6bGtCb21qeU02TjBVVWYvNVNFcnV0d3IwSkdRTU1sVHVmR3d1?=
- =?utf-8?B?UVFqUS9Gc2dUY2NEbEpOcEpuQmpyVUozZjBNc1lpKzVhV3R3YXpqaEVYTjZM?=
- =?utf-8?B?cWxQbnNoUTVibm9qRWswQmxyOExDaDB0NnFnTU5nRXZIUVdoS041Q0FrVTh3?=
- =?utf-8?B?ZjBYZmdEMlV3RWNQQ2JNRWNmT0dodUVNaHp5SFNRNkw0cFFuMnFGMHVzRmxP?=
- =?utf-8?B?VFlPaDcwVGpYRklmMVR2TnM5SzVTWXJONjVuMFVta3FlYzJmM1lOd2tNUzNV?=
- =?utf-8?B?QVltZGROamJ1a0UwUlFkRUt4Sm1lMkFyL2NTS2d2enVPc2FMK01WTVhhNHU1?=
- =?utf-8?B?QUtORm1QaDViS2l4SERyaVpqSnBOc0pRczM0Mm12QnVmc3dEZUhPUG9SQXcr?=
- =?utf-8?B?VDl3b1A0TldnZkJVSDI3Y0NSR1hGcTZGN0ZJL3NSd2VOb1lXdUdQQk55Nmxp?=
- =?utf-8?B?SlczcW9TaE5vOGx4YjhTN1pyeEM1WEdSbWp6dzRHY2NtSHgwRm5VWGRxYzJU?=
- =?utf-8?B?djNTWnBZSEw4QmNNUVZheWliZlBKQStpQnF2R1dMUzJ1cjd6aDQzMHd4N1cx?=
- =?utf-8?B?QVlyVGo1aHhGSnFxdlE1TElrRVo3OFlqTzJzYVkvdnJ2cFIwRkpXTGo0ZEt0?=
- =?utf-8?B?SEM2VWFCb1E3NkFvMlQvbkZmdlp4eEVjYkF2L002d2ZTbHY2ZklReGFoREE2?=
- =?utf-8?B?WklUQjVhK0VjbENrckFRYk5LdThLa1ptcGtjeXFWcEIwYTlaYjVTU0dhMHpD?=
- =?utf-8?B?VE1FRy9mRTFpN2NiNlFpMzRTaFZqODdSNkxnMmYzZksxWGF5YXgyZ2R3emkx?=
- =?utf-8?B?cjdDRHFkRGxxeWhKRklKdEpiMWxwSGttTlUyZVh6V29LQk1mRnhMNFVuUjlN?=
- =?utf-8?B?eFppQXI5Yy81eG1aT0FMQXV3djZNN2V4WXNSdTdQMndKYnJIQ3h2SVpsZVBD?=
- =?utf-8?B?ZFh1bDM2eHlaRGlZYzFWWHpNOTAvcDJjS1hTcWJTWGQ3ZHNISDgwZHgrRHor?=
- =?utf-8?B?dWIySXFFcENpOC9oUXZPMHdnSkFqVUd2SDdwYkRTcEJYcGpoS1psTnFuTEZU?=
- =?utf-8?B?WjVrb3hxY3F0Q0JieFJ2ajl4ZTJrWDJvVlp6Q2J5TFJ4RUVvOVRzZm9wMTVT?=
- =?utf-8?B?WmYrazlTVVpPaTRNTkV3cGFLZm50bERjK3Nob3hUY1l1RmxXTkRTUVJKTUQ4?=
- =?utf-8?B?Zm1ZMnMzR1owNnNtekRiaFhhWDlyTDRhcWV2TFQyM2FnVXpIYW1sbjYxbWhq?=
- =?utf-8?B?eWhNYmZpNkJjQmhZMTdHbFdDenZJMFF3UlJ4YTI2TytxUWFMZUZsY29mSkxQ?=
- =?utf-8?B?Ymc5QlNzeUhPM05DRHpqYndyaWtEZWpna1p3SDc4cC82NUJSMTRWNFlHNytx?=
- =?utf-8?B?SlR0YzdkSTgyT2NWVUpzeG1XeVhvK2dMYk43NFI1N2N2SW0yVUMvYS82VXhW?=
- =?utf-8?B?SmhXU1VFdnl3V0lISERuYlhKc2pxdERsSjgxWmFhVXlNdjVxU0UybjlSV1d1?=
- =?utf-8?B?YjViZHYvZVR5aGJIK3UwQ2pDK2NSejBINlQ1NXIxdUg5V3pLdG96Q2lKN3p4?=
- =?utf-8?B?ZUtOTDFBUTU4aWhzd0M3VHlHRldCTnRHbmhobHl6bjNnTGpIeUttN0NYMURI?=
- =?utf-8?B?emxlVEQ1aFZtbDBHVFRnelBDNE5QVWVFQW9SVVJBV2ZOb2hORCs4MFUzWGFN?=
- =?utf-8?B?ZHludUFJOG1MaTR3bERxMktZS2drQis3RmM1bUREU2paQ3ZZb1FoN3AvKzcx?=
- =?utf-8?B?cVpmWXp2MmlwUVE1L1hqS2lnSzNGZWhic0VxMmhRZElVV2pmMk13TlBJU0hP?=
- =?utf-8?Q?gkrr6Xs1rreays3Sy6mdxe86j?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26ce0c7c-3715-4e97-5dd6-08da8f4f1354
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6000.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 14:58:21.9258 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n4ywl8MsPNkrvedwLIHB2G+67UsY4NrX+Z8W0Pmo7AfnkFuSoEvyRJDGb3BUBd6PqyJ56Y9ZKUluovgs9h3IuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4302
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,94 +66,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Ramalingam C <ramalingampc2008@gmail.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 9/5/2022 7:16 PM, Yadav, Arvind wrote:
->
-> On 9/5/2022 4:55 PM, Christian König wrote:
+On 02/09/2022 06:41, Niranjana Vishwanathapura wrote:
+> On Thu, Sep 01, 2022 at 08:58:57AM +0100, Tvrtko Ursulin wrote:
 >>
 >>
->> Am 05.09.22 um 12:56 schrieb Arvind Yadav:
->>> Here's on debug adding an enable_signaling callback for finished
->>> fences and enabling software signaling for finished fence.
+>> On 01/09/2022 06:09, Niranjana Vishwanathapura wrote:
+>>> On Wed, Aug 31, 2022 at 08:38:48AM +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 27/08/2022 20:43, Andi Shyti wrote:
+>>>>> From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>>>>
+>>>>> Implement new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only
+>>>>> works in vm_bind mode. The vm_bind mode only works with
+>>>>> this new execbuf3 ioctl.
+>>>>>
+>>>>> The new execbuf3 ioctl will not have any list of objects to validate
+>>>>> bind as all required objects binding would have been requested by the
+>>>>> userspace before submitting the execbuf3.
+>>>>>
+>>>>> And the legacy support like relocations etc are removed.
+>>>>>
+>>>>> Signed-off-by: Niranjana Vishwanathapura 
+>>>>> <niranjana.vishwanathapura@intel.com>
+>>>>> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+>>>>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>>>> ---
+>>
+>> [snip]
+>>
+>>>>> +static void signal_fence_array(const struct i915_execbuffer *eb,
+>>>>> +                   struct dma_fence * const fence)
+>>>>> +{
+>>>>> +    unsigned int n;
+>>>>> +
+>>>>> +    for (n = 0; n < eb->num_fences; n++) {
+>>>>> +        struct drm_syncobj *syncobj;
+>>>>> +        unsigned int flags;
+>>>>> +
+>>>>> +        syncobj = ptr_unpack_bits(eb->fences[n].syncobj, &flags, 2);
+>>>>> +        if (!(flags & I915_TIMELINE_FENCE_SIGNAL))
+>>>>> +            continue;
+>>>>> +
+>>>>> +        if (eb->fences[n].chain_fence) {
+>>>>> +            drm_syncobj_add_point(syncobj,
+>>>>> +                          eb->fences[n].chain_fence,
+>>>>> +                          fence,
+>>>>> +                          eb->fences[n].value);
+>>>>> +            /*
+>>>>> +             * The chain's ownership is transferred to the
+>>>>> +             * timeline.
+>>>>> +             */
+>>>>> +            eb->fences[n].chain_fence = NULL;
+>>>>> +        } else {
+>>>>> +            drm_syncobj_replace_fence(syncobj, fence);
+>>>>> +        }
+>>>>> +    }
+>>>>> +}
+>>>> Semi-random place to ask - how many of the code here is direct copy 
+>>>> of existing functions from i915_gem_execbuffer.c? There seems to be 
+>>>> some 100% copies at least. And then some more with small tweaks. 
+>>>> Spend some time and try to figure out some code sharing?
+>>>>
 >>>
->>> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
->>> ---
->>>   drivers/gpu/drm/scheduler/sched_fence.c | 12 ++++++++++++
->>>   drivers/gpu/drm/scheduler/sched_main.c  |  4 +++-
->>>   2 files changed, 15 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c 
->>> b/drivers/gpu/drm/scheduler/sched_fence.c
->>> index 7fd869520ef2..ebd26cdb79a0 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>> @@ -122,16 +122,28 @@ static void 
->>> drm_sched_fence_release_finished(struct dma_fence *f)
->>>         dma_fence_put(&fence->scheduled);
->>>   }
->>> +#ifdef CONFIG_DEBUG_FS
->>> +static bool drm_sched_enable_signaling(struct dma_fence *f)
->>> +{
->>> +    return true;
->>> +}
->>> +#endif
->>>     static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
->>>       .get_driver_name = drm_sched_fence_get_driver_name,
->>>       .get_timeline_name = drm_sched_fence_get_timeline_name,
->>> +#ifdef CONFIG_DEBUG_FS
->>> +    .enable_signaling = drm_sched_enable_signaling,
->>> +#endif
->>>       .release = drm_sched_fence_release_scheduled,
->>>   };
->>>     static const struct dma_fence_ops drm_sched_fence_ops_finished = {
->>>       .get_driver_name = drm_sched_fence_get_driver_name,
->>>       .get_timeline_name = drm_sched_fence_get_timeline_name,
->>> +#ifdef CONFIG_DEBUG_FS
->>> +    .enable_signaling = drm_sched_enable_signaling,
->>> +#endif
+>>> During VM_BIND design review, maintainers expressed thought on keeping
+>>> execbuf3 completely separate and not touch the legacy execbuf path.
 >>
->> Adding the callback should not be necessary.
-> sure, I will remove this change.
->>
->>>       .release = drm_sched_fence_release_finished,
->>>   };
->>>   diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
->>> b/drivers/gpu/drm/scheduler/sched_main.c
->>> index e0ab14e0fb6b..140e3d8646e2 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -961,7 +961,9 @@ static int drm_sched_main(void *param)
->>>               s_fence->parent = dma_fence_get(fence);
->>>               /* Drop for original kref_init of the fence */
->>>               dma_fence_put(fence);
->>
->> Uff, not related to your patch but that looks wrong to me. The 
->> reference can only be dropped after the call to 
->> dma_fence_add_callback().
->>
-> Shall I take care with this patch or I will submit separate one ?
+>> Got a link so this maintainer can see what exactly was said? Just to 
+>> make sure there isn't any misunderstanding on what "completely 
+>> separate" means to different people.
+> 
+> Here is one (search for copypaste/copy-paste)
+> https://patchwork.freedesktop.org/patch/486608/?series=93447&rev=3
+> It is hard to search for old discussion threads. May be maintainers
+> can provide feedback here directly. Dave, Daniel? :)
 
-This changes was recently added by  Andrey Grodzovsky (commit : 
-45ecaea73) to fix the negative refcount.
+Thanks. I had a read and don't see a fundamental conflict with what I 
+said. Conclusion seemed to be to go with a new ioctl and implement code 
+sharing where it makes sense. Which is what TODO in the cover letter 
+acknowledges so there should be no disagreement really.
 
->>> -
->>> +#ifdef CONFIG_DEBUG_FS
->>> + dma_fence_enable_sw_signaling(&s_fence->finished);
->>> +#endif
+>>> I also think, execbuf3 should be fully separate. We can do some code
+>>> sharing where is a close 100% copy (there is a TODO in cover letter).
+>>> There are some changes like the timeline fence array handling here
+>>> which looks similar, but the uapi is not exactly the same. Probably,
+>>> we should keep them separate and not try to force code sharing at
+>>> least at this point.
 >>
->> This should always be called, independent of the config options set.
+>> Okay did not spot that TODO in the cover. But fair since it is RFC to 
+>> be unfinished.
 >>
->> Christian.
->
-> sure, I will remove the Config check.
->
-> ~arvind
->
+>> I do however think it should be improved before considering the merge. 
+>> Because looking at the patch, 100% copies are:
 >>
->>>               r = dma_fence_add_callback(fence, &sched_job->cb,
->>>                              drm_sched_job_done_cb);
->>>               if (r == -ENOENT)
+>> for_each_batch_create_order
+>> for_each_batch_add_order
+>> eb_throttle
+>> eb_pin_timeline
+>> eb_pin_engine
+>> eb_put_engine
+>> __free_fence_array
+>> put_fence_array
+>> await_fence_array
+>> signal_fence_array
+>> retire_requests
+>> eb_request_add
+>> eb_requests_get
+>> eb_requests_put
+>> eb_find_context
 >>
+>> Quite a lot.
+>>
+>> Then there is a bunch of almost same functions which could be shared 
+>> if there weren't two incompatible local struct i915_execbuffer's. 
+>> Especially given when the out fence TODO item gets handled a chunk 
+>> more will also become a 100% copy.
+>>
+> 
+> There are difinitely a few which is 100% copies hence should have a
+> shared code.
+> But some are not. Like, fence_array stuff though looks very similar,
+> the uapi structures are different between execbuf3 and legacy execbuf.
+> The internal flags are also different (eg., __EXEC3_ENGINE_PINNED vs
+> __EXEC_ENGINE_PINNED) which causes minor differences hence not a
+> 100% copy.
+> 
+> So, I am not convinced if it is worth carrying legacy stuff into
+> execbuf3 code. I think we need to look at these on a case by case
+> basis and see if abstracting common functionality to a separate
+> shared code makes sense or it is better to keep the code separate.
+
+No one is suggesting to carry any legacy stuff into eb3. What I'd 
+suggest is to start something like i915_gem_eb_common.h|c and stuff the 
+100% copies from the above list in there.
+
+Common struct eb with struct eb2 and eb3 inheriting from it should do 
+the trick. Similarly eb->flags shouldn't be a hard problem to solve.
+
+Then you see what remains and whether it makes sense to consolidate further.
+
+Regards,
+
+Tvrtko
+
+>> This could be done by having a common struct i915_execbuffer and then 
+>> eb2 and eb3 specific parts which inherit from it. After that is done 
+>> it should be easier to see if it makes sense to do something more and 
+>> how.
+> 
+> I am not a big fan of it. I think we should not try to load the execbuf3
+> code with the legacy stuff.
+> 
+> Niranjana
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
