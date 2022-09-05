@@ -2,70 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD795AD12B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 13:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D3B5AD12C
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 13:06:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA0210E2FB;
-	Mon,  5 Sep 2022 11:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BED710E2FA;
+	Mon,  5 Sep 2022 11:06:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7739E10E250;
- Mon,  5 Sep 2022 11:06:04 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id p16so16324415ejb.9;
- Mon, 05 Sep 2022 04:06:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=t6Kz0eQbLFf77qZLFmO+CDjlkZRTbzkdz9LiCWjVrVA=;
- b=VXucMFhmWUvXh7lMmxWwsxDBkbMJQvZwn5aEISGRa09piYGkzj5O+FLVFnvx38LewB
- d0X+q0FyCS1OsRU829wsQiskcLvO3EQeLPBUCLswHzhipiSKGN7nzqn7qY4i4DqwdfW4
- /nmmqkuhogdLATpHuEcJ0ftHcksK/AT1M6e4dJA+4js2LKHHtd5xP62qWul8EOMfNglJ
- INXePsJDRMowD0xRVpQOQaU19ia6BI/xwV35Q3k12D/NKVyjD130EsdZmf+bCe04vp7P
- kCnyzKXQILA7pKyw7NEdsDSbPB4WntXKjRJkW0XDkmVdzxqzaqGgVDdpSYPXUdKAEf6h
- 2zhw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A62F10E2FA
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 11:06:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662375970;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fO1i55RplxPZ02kGwMsg/12FGLiwqlnF30GYvzC7fc4=;
+ b=jKbj9MRYlfSjYjo16U/IAGn8p0R79VJvS2sDiYL2ymUhKGC/NEwNO4dk9jDiMFLSWgZ/yS
+ viXvIDPccBRx9ZYR4OAlQ2pWZLZn+V+ZKImRUwuWjYJ7RytyLlKhkb5J1Eh/r3fnozPUUh
+ J5i44AvOZgGwrlNGfiDlQ+sMSXiK2Ho=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-265-Pl1EQEmnOYiClPkFfzmOHw-1; Mon, 05 Sep 2022 07:06:09 -0400
+X-MC-Unique: Pl1EQEmnOYiClPkFfzmOHw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f18-20020a05600c4e9200b003a5f81299caso5221785wmq.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 04:06:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=t6Kz0eQbLFf77qZLFmO+CDjlkZRTbzkdz9LiCWjVrVA=;
- b=ZgJGqYspiunn63AJcfyfMvP1i5kZPDfK7pcA+oN+/vzIBDORTcRt1zGlMZHz+k0n21
- 2eYYUKmBdhqvzmi9EHTgj7iTA57csh73TaEM56Gnsi73lper3YInxzqdEESc9YaQM6mn
- ZKeSujUeDh0HkYB/4ZWprDN4IMYY47CMm7+ZsyvTdWE0bz+NFJnI44RfxP49U3XowY89
- FeK5UxsKsC5w+522pkihp9xq/hOd9ewiBf/Wqt8w0rExaLlZEtEQS1NV3zF8Xw+hY4Te
- O79RHGKtwe3PvlT98i5XMxMu5ORwsK7Qt5iEKLlD/Qdo+gl2qOKgOyGM7lFKbk8nDX4R
- jdsw==
-X-Gm-Message-State: ACgBeo0DRRUFDBykMO7YGLAl6cZ7DusvLUQqIUPsqRO/8VTq1IYBn1vR
- wUnM+VfVOYh6gpEH1hkiAGE=
-X-Google-Smtp-Source: AA6agR6le56GVVARBpvwCYDzLIAANysZF6VG4g3JzajOQu+r+vXwS0h9BvrLoINcXIbsPCSyHjA5ug==
-X-Received: by 2002:a17:907:2d2b:b0:731:2179:5ba with SMTP id
- gs43-20020a1709072d2b00b00731217905bamr37416889ejc.207.1662375962921; 
- Mon, 05 Sep 2022 04:06:02 -0700 (PDT)
-Received: from [192.168.178.21] (p4fc20f4e.dip0.t-ipconnect.de. [79.194.15.78])
- by smtp.gmail.com with ESMTPSA id
- m1-20020a17090607c100b0072ed9efc9dfsm4959898ejc.48.2022.09.05.04.06.00
+ bh=fO1i55RplxPZ02kGwMsg/12FGLiwqlnF30GYvzC7fc4=;
+ b=CCrW8jgqfANQi5OitqUuT6rg9WPSxJ8MsIBhxPnDo/h4KnemZiWdK91tNNCY05iWiA
+ Oe3SefD3xHQ6hXoy2fmPCZiG64t5daKle5aHXfG3KVqeEToTtw72ue7HWSLYnN9DK1Jw
+ JNuPmYw5X4uCHQjkMXHXm07zenqmNLbvKpN6P5CPHUnNyCEMyfyhxWhuuwGBSOm7EzFC
+ Mfg/YLA513a4GJ0XlU4oJ4fqkGKo7Sc2KIjfrbykn/PPl+KurPUZgYjJwxOhit/QcwuI
+ ZWwTVAvxglcWPMMWwLowSXmhFst3Y5sFyfdcbdJLzfjwnQOpzOF3NvCnOfKJhFoptVyn
+ v/Sw==
+X-Gm-Message-State: ACgBeo0BA6DU8sp6/8skdUqjyOx5rPYTnSh+/X0PjmM0/Kkp9UN0vMvq
+ 0PnjvS/qcx3uN7mrQkA5qDHjE2463FsNS12O2v3U4gABpg8PqI0N7Y/3YC5jfkMzdKsxaVh9Ptw
+ wx9ag6mzIwcsn3nh5zL2HJOzMs3KB
+X-Received: by 2002:a05:600c:22c7:b0:3a6:68e4:1e5f with SMTP id
+ 7-20020a05600c22c700b003a668e41e5fmr10553353wmg.46.1662375967616; 
+ Mon, 05 Sep 2022 04:06:07 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7TMlz0cg+Da+T5vw7hPchTgHKEuLCta7hHxP5YSvjT2BsJts1L8D8WV3F+qViax1jfzeQyfw==
+X-Received: by 2002:a05:600c:22c7:b0:3a6:68e4:1e5f with SMTP id
+ 7-20020a05600c22c700b003a668e41e5fmr10553335wmg.46.1662375967344; 
+ Mon, 05 Sep 2022 04:06:07 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ az24-20020adfe198000000b00228619a097esm6007312wrb.49.2022.09.05.04.06.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 04:06:01 -0700 (PDT)
-Message-ID: <8067007d-fc16-f038-cae2-e445a7748824@gmail.com>
-Date: Mon, 5 Sep 2022 13:05:59 +0200
+ Mon, 05 Sep 2022 04:06:07 -0700 (PDT)
+Message-ID: <3cb956d7-aac0-6a1a-6be1-098057e2fd03@redhat.com>
+Date: Mon, 5 Sep 2022 13:06:05 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/ttm: update bulk move object of ghost BO
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] drm/simpledrm: Drop superfluous primary plane
+ .atomic_check return logic
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20220831111243.1530620-1-javierm@redhat.com>
+ <43e3dead-6089-c342-5050-34d7325bcb24@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <43e3dead-6089-c342-5050-34d7325bcb24@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: "Yin, ZhenGuo (Chris)" <zhengyin@amd.com>,
- ZhenGuo Yin <zhenguo.yin@amd.com>, amd-gfx@lists.freedesktop.org
-References: <20220901092946.2030744-1-zhenguo.yin@amd.com>
- <df602f9a-d55e-e034-febd-ac15d76cfa28@gmail.com>
- <e42b6dac-de91-249c-4ccd-a379e209d6b0@gmail.com>
- <d769ba2c-c796-6544-91c3-936037b3d82b@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <d769ba2c-c796-6544-91c3-936037b3d82b@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,101 +87,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingwen.chen2@amd.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Yeah, I realized that as well after sending the first mail.
+Hello Thomas,
 
-The problem is that we keep the bulk move around when there currently 
-isn't any resource associated with the template.
-
-So the correct code should look something like this:
-
-if (fbo->base.resource) {
-     ttm_resource_set_bo(fbo->base.resource, &fbo->base);
-     bo->resource = NULL;
-     ttm_bo_set_bulk_move(&fbo->base, NULL);
-} else {
-     fbo->bulk_move = NULL;
-}
-
-Regards,
-Christian.
-
-Am 05.09.22 um 09:59 schrieb Yin, ZhenGuo (Chris):
-> Inside the function ttm_bo_set_bulk_move, it calls 
-> ttm_resource_del_bulk_move to remove the old resource from the 
-> bulk_move list.
+On 9/5/22 12:57, Thomas Zimmermann wrote:
+> Hi Javier
+> 
+> Am 31.08.22 um 13:12 schrieb Javier Martinez Canillas:
+>> The simpledrm_primary_plane_helper_atomic_check() function is more complex
+>> than needed. It first checks drm_atomic_helper_check_plane_state() returns
+>> value to decide whether to return this or zero.
+>>
+>> But it could just return that function return value directly. It also does
+>> a check if new_plane_state->visible isn't set, but returns zero regardless.
+>>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> ---
+>>
+>>   drivers/gpu/drm/tiny/simpledrm.c | 15 ++++-----------
+>>   1 file changed, 4 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+>> index a81f91814595..0be47f40247a 100644
+>> --- a/drivers/gpu/drm/tiny/simpledrm.c
+>> +++ b/drivers/gpu/drm/tiny/simpledrm.c
+>> @@ -485,21 +485,14 @@ static int simpledrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
+>>   	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
+>>   	struct drm_crtc *new_crtc = new_plane_state->crtc;
+>>   	struct drm_crtc_state *new_crtc_state = NULL;
+>> -	int ret;
+>>   
+>>   	if (new_crtc)
+>>   		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_crtc);
+>>   
+>> -	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
+>> -						  DRM_PLANE_NO_SCALING,
+>> -						  DRM_PLANE_NO_SCALING,
+>> -						  false, false);
+>> -	if (ret)
+>> -		return ret;
+>> -	else if (!new_plane_state->visible)
+>> -		return 0;
+>> -
+>> -	return 0;
+>> +	return drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
+>> +						   DRM_PLANE_NO_SCALING,
+>> +						   DRM_PLANE_NO_SCALING,
+>> +						   false, false);
+> 
+> I'm undecided on this change. I know it's correct and more to the point. 
+> But the call's logic is non-intuitive: the call either returns an error 
+> or we have to test ->visible afterwards. So I wrote it explicitly.
 >
-> If we set the bulk_move to NULL manually as suggested, the old 
-> resource attached in the ghost BO seems won't be removed from the 
-> bulk_move.
+
+Yes, but the check has no effect so I found it even less intuitive. Maybe
+add a comment then if you wan to keep the current code?
+ 
+> I saw that your change to ssd130x also uses the pattern. If we find more 
+> such drivers, we could implement the atomic check as a helper. I suggest 
+> drm_plane_helper_atomic_check_fixed() in drm_plane_helper.c
 >
-> On 9/1/2022 7:13 PM, Christian König wrote:
->> Am 01.09.22 um 13:11 schrieb Christian König:
->>> Am 01.09.22 um 11:29 schrieb ZhenGuo Yin:
->>>> [Why]
->>>> Ghost BO is released with non-empty bulk move object. There is a
->>>> warning trace:
->>>> WARNING: CPU: 19 PID: 1582 at ttm/ttm_bo.c:366 
->>>> ttm_bo_release+0x2e1/0x2f0 [amdttm]
->>>> Call Trace:
->>>>    amddma_resv_reserve_fences+0x10d/0x1f0 [amdkcl]
->>>>    amdttm_bo_put+0x28/0x30 [amdttm]
->>>>    amdttm_bo_move_accel_cleanup+0x126/0x200 [amdttm]
->>>>    amdgpu_bo_move+0x1a8/0x770 [amdgpu]
->>>>    ttm_bo_handle_move_mem+0xb0/0x140 [amdttm]
->>>>    amdttm_bo_validate+0xbf/0x100 [amdttm]
->>>>
->>>> [How]
->>>> The resource of ghost BO should be moved to LRU directly, instead of
->>>> using bulk move. The bulk move object of ghost BO should set to NULL
->>>> before function ttm_bo_move_to_lru_tail_unlocked.
->>>>
->>>> Fixed:·5b951e487fd6bf5f·("drm/ttm:·fix·bulk·move·handling·v2")
->>>> Signed-off-by: ZhenGuo Yin <zhenguo.yin@amd.com>
->>>
->>> Good catch, but the fix is not 100% correct. Please rather just NULL 
->>> the member while initializing the BO structure.
->>>
->>> E.g. something like this:
->>>
->>>  ....
->>>  fbo->base.pin_count = 0;
->>> +fbo->base.bulk_move= NULL;
->>>  if (bo->type != ttm_bo_type_sg)
->>>  ....
->>
->> On the other hand thinking about it that won't work either.
->>
->> You need to set bulk_move to NULL manually in an else clauses or 
->> something like this.
->>
->> Regards,
->> Christian.
->>
->>>
->>> Thanks,
->>> Christian.
->>>
->>>> ---
->>>>   drivers/gpu/drm/ttm/ttm_bo_util.c | 1 +
->>>>   1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c 
->>>> b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>>> index 1cbfb00c1d65..a90bbbd91910 100644
->>>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
->>>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>>> @@ -238,6 +238,7 @@ static int ttm_buffer_object_transfer(struct 
->>>> ttm_buffer_object *bo,
->>>>         if (fbo->base.resource) {
->>>>           ttm_resource_set_bo(fbo->base.resource, &fbo->base);
->>>> +        ttm_bo_set_bulk_move(&fbo->base, NULL);
->>>>           bo->resource = NULL;
->>>>       }
->>>
->>
+
+Sure. I can add a preparatory change in v2 that adds that helper and then
+use it in the follow-up patch.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
