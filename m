@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECE05AD0A8
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 12:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8725AD0A9
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 12:54:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDB3B10E2A8;
-	Mon,  5 Sep 2022 10:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C21210E2D1;
+	Mon,  5 Sep 2022 10:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 017BA10E28E;
- Mon,  5 Sep 2022 10:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662375217; x=1693911217;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=KLC/FW9KIe16SKVDU+/OtuamUatCXKhRTpO7Ttv3yrE=;
- b=ka5Pf/1owUyE+PCLG1iRjz1gZpPJh+TfhBuUbf+G9KkrkhvFebJ1Hm1H
- 7ZnHfrq/U/5d7EQrxgD9c3o0WOq2dNU29O58V4c8h2HopV0yB+xGHtVnz
- AhyPbjDXDuD8YdxyLvUx97+oDtG3EtT5QnHyEZcbS0YRoqmWWFJyQqv29
- 0aapjcLUShf8h+TNpvbWJ+zu0JBw7Ds2FAUeBTVyyYCfcuvANQIjEXOyN
- RedeLB3lExjdbVMvGXlpS1gWklmCW6nTCNhvS8woPQthqD8V0c59RQxtD
- VVIuABS0ZyHw3MHCJ8cjtODOx9lxYjEnQCkAxgyJwRxZx8yIZ+gF5tnIg A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="358079231"
-X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="358079231"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 03:53:36 -0700
-X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="675242538"
-Received: from icoco-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.202.248])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 03:53:35 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: consider HAS_FLAT_CCS() in needs_ccs_pages
-Date: Mon,  5 Sep 2022 11:53:29 +0100
-Message-Id: <20220905105329.41455-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.37.3
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F17D10E2D3
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 10:53:45 +0000 (UTC)
+Received: from [192.168.2.145] (unknown [109.252.119.13])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 481FC6601EE3;
+ Mon,  5 Sep 2022 11:53:42 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1662375223;
+ bh=tUTd2m3nR6U01woQKAodDrlaOuHhF5+x2TW8FD72guk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QDVKaBW+A1Hwo04iGcKbPUC1E2zUzzl+LF//Tj5x3fJdHDPLj2xM1R6GFnViVR1Gt
+ cRv/C2z76XL5CAWqmwjvdtvHYFRRLxdwQKylPWDhkWIK3KRWz0xsckY1698E1Cn76e
+ CKro+FXClUE06ko1BHN7mbOjuDN4Bk2zC7yU0YrY4WmPjFRqjJhxfbZHGfWYKN0XQR
+ jSg6GHzW2x2FdpZHDGGuo+uU2HIO8itcP7y4fIKs54UhTa/a8JH8GvkRhZULqap4Ex
+ KGIyQKIXamGfvLvR8ji2pvqiz2MFxJyzNvDe64dde6dh5+2iFEZix3Pksg0gDzvuHe
+ JWk33/t/bjyJw==
+Message-ID: <80985882-c46f-cfb1-b077-a92866536678@collabora.com>
+Date: Mon, 5 Sep 2022 13:53:39 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v17 00/10] Add MT8195 DisplayPort driver
+Content-Language: en-US
+To: chunkuang.hu@kernel.org, angelogioacchino.delregno@collabora.com
+References: <20220901044149.16782-1-rex-bc.chen@mediatek.com>
+ <af23462c-2d3b-470a-7fd6-2bf09a3174cb@gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <af23462c-2d3b-470a-7fd6-2bf09a3174cb@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,50 +55,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
+Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ Dmitry Osipenko <digetx@gmail.com>, deller@gmx.de,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, wenst@chromium.org,
+ Bo-Chen Chen <rex-bc.chen@mediatek.com>, devicetree@vger.kernel.org,
+ jitao.shi@mediatek.com, tzimmermann@suse.de, liangxu.xu@mediatek.com,
+ msp@baylibre.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+ granquet@baylibre.com, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just move the HAS_FLAT_CCS() check into needs_ccs_pages. This also then
-fixes i915_ttm_memcpy_allowed() which was incorrectly reporting true on
-DG1, even though it doesn't have small-BAR or flat-CCS.
+On 9/4/22 15:59, Dmitry Osipenko wrote:
+> 01.09.2022 07:41, Bo-Chen Chen пишет:
+>> This patch is separated from v10 which is including dp driver, phy driver
+>> and dpintf driver. This series is only contained the DisplayPort driver.
+>>
+>> This series can be tested using 5.19-rc2 kernel and I test it in MT8195
+>> Tomato Chromebook. Modetest these modes:
+> 
+> Applied to drm-misc-next, thanks!
 
-References: https://gitlab.freedesktop.org/drm/intel/-/issues/6605
-Fixes: efeb3caf4341 ("drm/i915/ttm: disallow CPU fallback mode for ccs pages")
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_object.c | 3 +++
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 2 +-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+Hello Chun-Kuang Hu,
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 389e9f157ca5..85482a04d158 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -723,6 +723,9 @@ bool i915_gem_object_needs_ccs_pages(struct drm_i915_gem_object *obj)
- 	bool lmem_placement = false;
- 	int i;
- 
-+	if (!HAS_FLAT_CCS(to_i915(obj->base.dev)))
-+		return false;
-+
- 	for (i = 0; i < obj->mm.n_placements; i++) {
- 		/* Compression is not allowed for the objects with smem placement */
- 		if (obj->mm.placements[i]->type == INTEL_MEMORY_SYSTEM)
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index bc9c432edffe..f64a3deb12fc 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -297,7 +297,7 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 		i915_tt->is_shmem = true;
- 	}
- 
--	if (HAS_FLAT_CCS(i915) && i915_gem_object_needs_ccs_pages(obj))
-+	if (i915_gem_object_needs_ccs_pages(obj))
- 		ccs_pages = DIV_ROUND_UP(DIV_ROUND_UP(bo->base.size,
- 						      NUM_BYTES_PER_CCS_BYTE),
- 					 PAGE_SIZE);
+Angelo told me today that you wanted to pick up the MTK driver patches
+and I applied them all to the drm-misc instead just of the "video/hdmi"
+patch. The series was fully reviewed and tested, so I had no doubts when
+applied all the patches.
+
+The applied patches can't be reverted, so if you have more changes
+prepared for the MTK driver, then please rebase them on top of the
+latest drm-misc-next.
+
+Apologizes for this confusion. Please let us know if we can help you.
+
 -- 
-2.37.3
-
+Best regards,
+Dmitry
