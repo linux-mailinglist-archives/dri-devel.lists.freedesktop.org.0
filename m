@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B885AD5FC
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:17:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 524ED5AD5FD
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:17:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A369B10E3FC;
-	Mon,  5 Sep 2022 15:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2660F10E40C;
+	Mon,  5 Sep 2022 15:17:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82FEB10E3FC
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:17:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9FE6A61325;
- Mon,  5 Sep 2022 15:17:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 024F9C433D6;
- Mon,  5 Sep 2022 15:17:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662391035;
- bh=+1JZVikczD6oMQstBHmmQ6IUy+FzfgWRuCZFth/S+Dw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JjbTx5WsrgNdOUEf0hAeeafisFv1eS6CmLwbhpwQvtLdLcpPH1peisZcFAhR5xTMZ
- Nr4nbdRktkjImvMIYnfyYcT33pNCCM3qy0U4PiMeM8ynYP5oJ+KgoPe17ExxQuily0
- tuXegK4H++l+ffyv6CWE6+VOanhV082OMtBVim7GWweaeUqFYPPg4bxuYsLCZJHgiR
- LMucXbg1Wtj5poQ9yZfXbhK2vKTi8Kg4rNguspyeq+PiRQ2kPg1AoV3EVK7HDAbA12
- XAj9zaehTm2IRrCSqw09jRmL4FnEoTSRxBteU8pTg1Fs8qL0kVnXQcNwPC8c7Nhqxb
- p3KAfpKGDnoJQ==
-Date: Mon, 5 Sep 2022 16:17:03 +0100
-From: Lee Jones <lee@kernel.org>
-To: ChiaEn Wu <peterwu.pub@gmail.com>
-Subject: Re: [PATCH v9 10/10] video: backlight: mt6370: Add MediaTek MT6370
- support
-Message-ID: <YxYS7/dZI69lMXeh@google.com>
-References: <20220830034042.9354-2-peterwu.pub@gmail.com>
- <20220830034042.9354-11-peterwu.pub@gmail.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E250310E40C;
+ Mon,  5 Sep 2022 15:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=usGuzrS9ubnodtwABmVJAgRg7YGR0CUzYO3sitN4zns=; b=bwzM7WTmRm21bB7V6grMXAtYlx
+ p3HMSWq0kB4uO5qmU62uWYQeKvypAsTTN8hN3857TJW4iuSaQps5ZyHxsCbncRVv2vIbFaVHIn5V8
+ MnpOCcW7owrJhhXpHt26t8GY591IxIR1pNCTLZpKtw1HkFTldPpGmeJ2K9U/R5CUR9RDs/00Sys+j
+ 647FgKNf/37yFPUh47ygSO3mWasmaAIGc1u/GYR5OyyTphfXwgEBtXSy+ElyXuWolHABFviCkWljy
+ scpTo4z+XIwLMILfGGtzicJx/vjVr9ZTILBKHfC1xltHgZITfjOGB4J/Kw7YE04mRSOjy0Rfzd+96
+ fZRzkgDQ==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=50895)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oVDqn-0002hw-D9; Mon, 05 Sep 2022 17:17:25 +0200
+Message-ID: <74c10e51-4034-a284-1a26-b7ba7fe45fbe@tronnes.org>
+Date: Mon, 5 Sep 2022 17:17:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 00/41] drm: Analog TV Improvements
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
+ <020d44e6-884b-a817-8265-3461638cac71@tronnes.org>
+ <20220905145729.ln675jko3aw6sgzs@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220905145729.ln675jko3aw6sgzs@houat>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220830034042.9354-11-peterwu.pub@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,48 +57,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- alice_chen@richtek.com, linux-iio@vger.kernel.org, broonie@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- cy_huang@richtek.com, pavel@ucw.cz, linux-leds@vger.kernel.org,
- daniel.thompson@linaro.org, deller@gmx.de, linux-pm@vger.kernel.org,
- andy.shevchenko@gmail.com, devicetree@vger.kernel.org,
- mazziesaccount@gmail.com, szunichen@gmail.com, chiaen_wu@richtek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- andriy.shevchenko@linux.intel.com, linux-arm-kernel@lists.infradead.org,
- jingoohan1@gmail.com, sre@kernel.org, robh+dt@kernel.org, jic23@kernel.org
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Aug 2022, ChiaEn Wu wrote:
 
-> From: ChiaEn Wu <chiaen_wu@richtek.com>
-> 
-> MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
-> with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
-> driver, display bias voltage supply, one general purpose LDO, and the
-> USB Type-C & PD controller complies with the latest USB Type-C and PD
-> standards.
-> 
-> Add support for the MediaTek MT6370 backlight driver.
-> It controls 4 channels of 8 series WLEDs in
-> 2048 (only for MT6370/MT6371) / 16384 (only for MT6372)
-> current steps (30 mA) in exponential or linear mapping curves.
-> 
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> ---
-> 
-> v9
-> - Revise the format of the comments.
-> ---
->  drivers/video/backlight/Kconfig            |  13 ++
->  drivers/video/backlight/Makefile           |   1 +
->  drivers/video/backlight/mt6370-backlight.c | 351 +++++++++++++++++++++++++++++
->  3 files changed, 365 insertions(+)
->  create mode 100644 drivers/video/backlight/mt6370-backlight.c
 
-Applied, thanks.
+Den 05.09.2022 16.57, skrev Maxime Ripard:
+> On Fri, Sep 02, 2022 at 01:28:16PM +0200, Noralf Trønnes wrote:
+>>
+>>
+>> Den 01.09.2022 21.35, skrev Noralf Trønnes:
+>>>
+>>>
+>>> I have finally found a workaround for my kernel hangs.
+>>>
+>>> Dom had a look at my kernel and found that the VideoCore was fine, and
+>>> he said this:
+>>>
+>>>> That suggests cause of lockup was on arm side rather than VC side.
+>>>>
+>>>> But it's hard to diagnose further. Once you've had a peripheral not
+>>>> respond, the AXI bus locks up and no further operations are possible.
+>>>> Usual causes of this are required clocks being stopped or domains
+>>>> disabled and then trying to access the hardware.
+>>>>
+>>>
+>>> So when I got this on my 64-bit build:
+>>>
+>>> [  166.702171] SError Interrupt on CPU1, code 0x00000000bf000002 -- SError
+>>> [  166.702187] CPU: 1 PID: 8 Comm: kworker/u8:0 Tainted: G        W
+>>>     5.19.0-rc6-00096-gba7973977976-dirty #1
+>>> [  166.702200] Hardware name: Raspberry Pi 4 Model B Rev 1.1 (DT)
+>>> [  166.702206] Workqueue: events_freezable_power_ thermal_zone_device_check
+>>> [  166.702231] pstate: 200000c5 (nzCv daIF -PAN -UAO -TCO -DIT -SSBS
+>>> BTYPE=--)
+>>> [  166.702242] pc : regmap_mmio_read32le+0x10/0x28
+>>> [  166.702261] lr : regmap_mmio_read+0x44/0x70
+>>> ...
+>>> [  166.702606]  bcm2711_get_temp+0x58/0xb0 [bcm2711_thermal]
+>>>
+>>> I wondered if that reg read was stalled due to a clock being stopped.
+>>>
+>>> Lo and behold, disabling runtime pm and keeping the vec clock running
+>>> all the time fixed it[1].
+>>>
+>>> I don't know what the problem is, but at least I can now test this patchset.
+>>>
+>>> [1] https://gist.github.com/notro/23b984e7fa05cfbda2db50a421cac065
+>>>
+>>
+>> It turns out I didn't have to disable runtime pm:
+>> https://gist.github.com/notro/0adcfcb12460b54e54458afe11dc8ea2
+> 
+> If the bcm2711_thermal IP needs that clock to be enabled, it should grab
+> a reference itself, but it looks like even the device tree binding
+> doesn't ask for one.
+> 
 
--- 
-Lee Jones [李琼斯]
+The first thing I tried was to unload the bcm2711_thermal module before
+running modeset and it still hung, so I don't think that's the problem.
+
+Noralf.
