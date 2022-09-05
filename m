@@ -2,57 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB305AD130
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 13:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7180C5AD135
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 13:12:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 004C110E2FC;
-	Mon,  5 Sep 2022 11:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297BC10E2FD;
+	Mon,  5 Sep 2022 11:12:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 731E910E2FC
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 11:09:46 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id j1so6181966qvv.8
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 04:09:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=ZD4YC1HXrtSaQEFJiBqrgz0UPEGxSAaPa+lNAJ8WZi0=;
- b=W0LYg/x6oLLMVr5A9MMBVb+TxN0pk4+3xuh3Q/ipfqH1hrq5kvR4C13ZGg+8+DEqSd
- gi1J5ByiQnS+4NrTCIvUT/kKaXn5hL9zW9YV18N0SnlPLU0irWOq7beGGmmV2it9I/V8
- TSz0IwHJZsNw1mnLJ+EmjO0aVsfTD6x8QeroaNTk/ISAjEimxSO9AuqJQS/RTnqxI8me
- UqWOiBI+Wn0HCU5QQ9nYXLzwM0PBRWriqZaCP3K1erw3D5FZR6d/x6x4b60TAHtECET6
- J6AxXbDHgN6gXzpMM9fNWwiGiQLT2KqoyWZt7c52eyHpDdJ+EY+BURgwhcI9q/0V9kVd
- TT/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=ZD4YC1HXrtSaQEFJiBqrgz0UPEGxSAaPa+lNAJ8WZi0=;
- b=clZ6rph7KdROatyOZRMNL3K+QzETsQTi8i6SDfrjyH/a5IuEHXivVQU0bExRE1FYdU
- 4Ov19GbO6jEAX0N8QFvv43clK6xUamDFrFNbQMFLW7z6zTXlJQ0BhO8Svfvt3z3Dc8Ew
- YXs7E14Lsg3S2H42s2d43DMilVhanQErywCXidCfk1DrCzbWnWnFn5eAyDY25Dy9/YYQ
- RV/ZyqBDQ3kb5K9sl1evVfepgoW2L2VYON1qaRPp2Ia6LgXm0SGHF3Z449lGsFYv7OaC
- 5WBqXXi1q+yEmAPAgWPQjlNxRlTvA2Vyoy9wW0IzY4WfWkxEV6UJmYDziijiCvn+4NBh
- 013g==
-X-Gm-Message-State: ACgBeo2U6KuznARKcnJC9RWZAjvexQZSEP6cPxCI5Ab4J+bgbr3HTEdc
- h7eiN34pSBaXrSdE3BmRQfGAk7Y5APGruBz65Cw=
-X-Google-Smtp-Source: AA6agR5jCq5/GjKb+apw06fa/2t9tC05H0ZPM5KdsjnljOtEm1B4hEVBpVM1iH3NQHKg14ReUnIBjf+3AuFTQfBZ7lg=
-X-Received: by 2002:a0c:e24b:0:b0:4a1:d41b:e280 with SMTP id
- x11-20020a0ce24b000000b004a1d41be280mr5474897qvl.11.1662376185481; Mon, 05
- Sep 2022 04:09:45 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE87410E2FD
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 11:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662376359; x=1693912359;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=VkC37ufijrsaG2XQJ9LB2dH5cIgpD6kBuzJI7Umol3w=;
+ b=JDnN8j88tMU0zLWjbzfMLxMG5LQxm9d/JsRgNtdqVVlhZ7wkD5gdtG2/
+ VtTx1JZaKfg66lXKNsXVQ9MSsBT/DFjrjGjNZcjtWloZxVIKYiD9xMDG2
+ PmFpCsgbL31YbBERvES6337CZITP0H7me/pLhkDmLE7Wbth3vSgZbz1aA
+ I/8uD57qzuoBw2b9Sz8i2uvyxxL1mzUnhClTL/Xe0MUKZriAamFmSqQU2
+ ++yvhTWmOxT1Y70m+Uu+m2X5zq7zhlnIqSKCoVTnuF5tIHyH2LeP5fG7d
+ gCLhLT6fPY25a5BeE4iVPrNuGkoFpVvuon5VD9h1pWriZNlIJu2eXBpOe g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="276761687"
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="276761687"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 04:12:39 -0700
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="675249924"
+Received: from smaciag-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.57.57])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 04:12:38 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/framebuffer: convert to drm_dbg_kms()
+In-Reply-To: <20220905103559.118561-1-contact@emersion.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220905103559.118561-1-contact@emersion.fr>
+Date: Mon, 05 Sep 2022 14:12:22 +0300
+Message-ID: <874jxmaxd5.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-10-b29adfb27a6c@gmail.com>
-In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-10-b29adfb27a6c@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 5 Sep 2022 14:09:09 +0300
-Message-ID: <CAHp75Vd35EOy=mP25=9fmYfqQnbafgotHw1fxk-TdGk6Oc8g8Q@mail.gmail.com>
-Subject: Re: [PATCH v1 10/11] watchdog: bd9576_wdt: switch to using
- devm_fwnode_gpiod_get()
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,97 +55,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, David Airlie <airlied@linux.ie>,
- linux-pci <linux-pci@vger.kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-tegra <linux-tegra@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- LINUXWATCHDOG <linux-watchdog@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- USB <linux-usb@vger.kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Richard Weinberger <richard@nod.at>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 5, 2022 at 9:33 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+On Mon, 05 Sep 2022, Simon Ser <contact@emersion.fr> wrote:
+> Replace DRM_DEBUG_KMS() with drm_dbg_kms() which allows specifying
+> the DRM device to provide more context.
 >
-> I would like to stop exporting OF-specific devm_gpiod_get_from_of_node()
-> so that gpiolib can be cleaned a bit, so let's switch to the generic
-> fwnode property API.
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+> ---
+>  drivers/gpu/drm/drm_framebuffer.c | 66 +++++++++++++++----------------
+>  1 file changed, 33 insertions(+), 33 deletions(-)
 >
-> While at it switch the rest of the calls to read properties in
-
-it, switch
-
-> bd9576_wdt_probe() to the generic device property API as well.
-
-...
-
->         struct device *dev = &pdev->dev;
-
-struct device *parent = dev->parent;
-
-can make your code slightly neater.
-
-...
-
-> +       count = device_property_count_u32(dev->parent, "rohm,hw-timeout-ms");
-> +       if (count < 0 && count != -EINVAL)
-> +               return count;
-> +
-> +       if (count > 0) {
-
-> +               if (count > ARRAY_SIZE(hw_margin))
-> +                       return -EINVAL;
-
-Why double check? You may move it out of the (count > 0).
-
-...
-
-> -       if (ret == 1)
-> -               hw_margin_max = hw_margin[0];
-
-> +               ret = device_property_read_u32_array(dev->parent,
-> +                                                    "rohm,hw-timeout-ms",
-> +                                                    hw_margin, count);
-> +               if (ret < 0)
-> +                       return ret;
-
-So, only this needs the count > 0 check since below already has it implicitly.
-
-> -       if (ret == 2) {
-> -               hw_margin_max = hw_margin[1];
-> -               hw_margin_min = hw_margin[0];
-> +               if (count == 1)
-> +                       hw_margin_max = hw_margin[0];
-> +
-> +               if (count == 2) {
-> +                       hw_margin_max = hw_margin[1];
-> +                       hw_margin_min = hw_margin[0];
-> +               }
->         }
+> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+> index 185b04762e2c..2dd97473ca10 100644
+> --- a/drivers/gpu/drm/drm_framebuffer.c
+> +++ b/drivers/gpu/drm/drm_framebuffer.c
+> @@ -87,13 +87,13 @@ int drm_framebuffer_check_src_coords(uint32_t src_x, uint32_t src_y,
+>  	    src_x > fb_width - src_w ||
+>  	    src_h > fb_height ||
+>  	    src_y > fb_height - src_h) {
+> -		DRM_DEBUG_KMS("Invalid source coordinates "
+> -			      "%u.%06ux%u.%06u+%u.%06u+%u.%06u (fb %ux%u)\n",
+> -			      src_w >> 16, ((src_w & 0xffff) * 15625) >> 10,
+> -			      src_h >> 16, ((src_h & 0xffff) * 15625) >> 10,
+> -			      src_x >> 16, ((src_x & 0xffff) * 15625) >> 10,
+> -			      src_y >> 16, ((src_y & 0xffff) * 15625) >> 10,
+> -			      fb->width, fb->height);
+> +		drm_dbg_kms(fb->dev, "Invalid source coordinates "
+> +			    "%u.%06ux%u.%06u+%u.%06u+%u.%06u (fb %ux%u)\n",
+> +			    src_w >> 16, ((src_w & 0xffff) * 15625) >> 10,
+> +			    src_h >> 16, ((src_h & 0xffff) * 15625) >> 10,
+> +			    src_x >> 16, ((src_x & 0xffff) * 15625) >> 10,
+> +			    src_y >> 16, ((src_y & 0xffff) * 15625) >> 10,
+> +			    fb->width, fb->height);
+>  		return -ENOSPC;
+>  	}
+>  
+> @@ -125,7 +125,7 @@ int drm_mode_addfb(struct drm_device *dev, struct drm_mode_fb_cmd *or,
+>  
+>  	r.pixel_format = drm_driver_legacy_fb_format(dev, or->bpp, or->depth);
+>  	if (r.pixel_format == DRM_FORMAT_INVALID) {
+> -		DRM_DEBUG("bad {bpp:%d, depth:%d}\n", or->bpp, or->depth);
+> +		drm_dbg_kms(dev, "bad {bpp:%d, depth:%d}\n", or->bpp, or->depth);
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -177,18 +177,18 @@ static int framebuffer_check(struct drm_device *dev,
+>  
+>  	/* check if the format is supported at all */
+>  	if (!__drm_format_info(r->pixel_format)) {
+> -		DRM_DEBUG_KMS("bad framebuffer format %p4cc\n",
+> -			      &r->pixel_format);
+> +		drm_dbg_kms(dev, "bad framebuffer format %p4cc\n",
+> +			    &r->pixel_format);
+>  		return -EINVAL;
+>  	}
+>  
+>  	if (r->width == 0) {
+> -		DRM_DEBUG_KMS("bad framebuffer width %u\n", r->width);
+> +		drm_dbg_kms(dev, "bad framebuffer width %u\n", r->width);
+>  		return -EINVAL;
+>  	}
+>  
+>  	if (r->height == 0) {
+> -		DRM_DEBUG_KMS("bad framebuffer height %u\n", r->height);
+> +		drm_dbg_kms(dev, "bad framebuffer height %u\n", r->height);
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -202,12 +202,12 @@ static int framebuffer_check(struct drm_device *dev,
+>  		u64 min_pitch = drm_format_info_min_pitch(info, i, width);
+>  
+>  		if (!block_size && (r->modifier[i] == DRM_FORMAT_MOD_LINEAR)) {
+> -			DRM_DEBUG_KMS("Format requires non-linear modifier for plane %d\n", i);
+> +			drm_dbg_kms(dev, "Format requires non-linear modifier for plane %d\n", i);
+>  			return -EINVAL;
+>  		}
+>  
+>  		if (!r->handles[i]) {
+> -			DRM_DEBUG_KMS("no buffer object handle for plane %d\n", i);
+> +			drm_dbg_kms(dev, "no buffer object handle for plane %d\n", i);
+>  			return -EINVAL;
+>  		}
+>  
+> @@ -218,20 +218,20 @@ static int framebuffer_check(struct drm_device *dev,
+>  			return -ERANGE;
+>  
+>  		if (block_size && r->pitches[i] < min_pitch) {
+> -			DRM_DEBUG_KMS("bad pitch %u for plane %d\n", r->pitches[i], i);
+> +			drm_dbg_kms(dev, "bad pitch %u for plane %d\n", r->pitches[i], i);
+>  			return -EINVAL;
+>  		}
+>  
+>  		if (r->modifier[i] && !(r->flags & DRM_MODE_FB_MODIFIERS)) {
+> -			DRM_DEBUG_KMS("bad fb modifier %llu for plane %d\n",
+> -				      r->modifier[i], i);
+> +			drm_dbg_kms(dev, "bad fb modifier %llu for plane %d\n",
+> +				    r->modifier[i], i);
+>  			return -EINVAL;
+>  		}
+>  
+>  		if (r->flags & DRM_MODE_FB_MODIFIERS &&
+>  		    r->modifier[i] != r->modifier[0]) {
+> -			DRM_DEBUG_KMS("bad fb modifier %llu for plane %d\n",
+> -				      r->modifier[i], i);
+> +			drm_dbg_kms(dev, "bad fb modifier %llu for plane %d\n",
+> +				    r->modifier[i], i);
+>  			return -EINVAL;
+>  		}
+>  
+> @@ -244,7 +244,7 @@ static int framebuffer_check(struct drm_device *dev,
+>  			if (r->pixel_format != DRM_FORMAT_NV12 ||
+>  					width % 128 || height % 32 ||
+>  					r->pitches[i] % 128) {
+> -				DRM_DEBUG_KMS("bad modifier data for plane %d\n", i);
+> +				drm_dbg_kms(dev, "bad modifier data for plane %d\n", i);
+>  				return -EINVAL;
+>  			}
+>  			break;
+> @@ -256,7 +256,7 @@ static int framebuffer_check(struct drm_device *dev,
+>  
+>  	for (i = info->num_planes; i < 4; i++) {
+>  		if (r->modifier[i]) {
+> -			DRM_DEBUG_KMS("non-zero modifier for unused plane %d\n", i);
+> +			drm_dbg_kms(dev, "non-zero modifier for unused plane %d\n", i);
+>  			return -EINVAL;
+>  		}
+>  
+> @@ -265,17 +265,17 @@ static int framebuffer_check(struct drm_device *dev,
+>  			continue;
+>  
+>  		if (r->handles[i]) {
+> -			DRM_DEBUG_KMS("buffer object handle for unused plane %d\n", i);
+> +			drm_dbg_kms(dev, "buffer object handle for unused plane %d\n", i);
+>  			return -EINVAL;
+>  		}
+>  
+>  		if (r->pitches[i]) {
+> -			DRM_DEBUG_KMS("non-zero pitch for unused plane %d\n", i);
+> +			drm_dbg_kms(dev, "non-zero pitch for unused plane %d\n", i);
+>  			return -EINVAL;
+>  		}
+>  
+>  		if (r->offsets[i]) {
+> -			DRM_DEBUG_KMS("non-zero offset for unused plane %d\n", i);
+> +			drm_dbg_kms(dev, "non-zero offset for unused plane %d\n", i);
+>  			return -EINVAL;
+>  		}
+>  	}
+> @@ -293,24 +293,24 @@ drm_internal_framebuffer_create(struct drm_device *dev,
+>  	int ret;
+>  
+>  	if (r->flags & ~(DRM_MODE_FB_INTERLACED | DRM_MODE_FB_MODIFIERS)) {
+> -		DRM_DEBUG_KMS("bad framebuffer flags 0x%08x\n", r->flags);
+> +		drm_dbg_kms(dev, "bad framebuffer flags 0x%08x\n", r->flags);
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+>  	if ((config->min_width > r->width) || (r->width > config->max_width)) {
+> -		DRM_DEBUG_KMS("bad framebuffer width %d, should be >= %d && <= %d\n",
+> -			  r->width, config->min_width, config->max_width);
+> +		drm_dbg_kms(dev, "bad framebuffer width %d, should be >= %d && <= %d\n",
+> +			    r->width, config->min_width, config->max_width);
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  	if ((config->min_height > r->height) || (r->height > config->max_height)) {
+> -		DRM_DEBUG_KMS("bad framebuffer height %d, should be >= %d && <= %d\n",
+> -			  r->height, config->min_height, config->max_height);
+> +		drm_dbg_kms(dev, "bad framebuffer height %d, should be >= %d && <= %d\n",
+> +			    r->height, config->min_height, config->max_height);
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+>  	if (r->flags & DRM_MODE_FB_MODIFIERS &&
+>  	    dev->mode_config.fb_modifiers_not_supported) {
+> -		DRM_DEBUG_KMS("driver does not support fb modifiers\n");
+> +		drm_dbg_kms(dev, "driver does not support fb modifiers\n");
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+> @@ -320,7 +320,7 @@ drm_internal_framebuffer_create(struct drm_device *dev,
+>  
+>  	fb = dev->mode_config.funcs->fb_create(dev, file_priv, r);
+>  	if (IS_ERR(fb)) {
+> -		DRM_DEBUG_KMS("could not create framebuffer\n");
+> +		drm_dbg_kms(dev, "could not create framebuffer\n");
+>  		return fb;
+>  	}
+>  
+> @@ -356,7 +356,7 @@ int drm_mode_addfb2(struct drm_device *dev,
+>  	if (IS_ERR(fb))
+>  		return PTR_ERR(fb);
+>  
+> -	DRM_DEBUG_KMS("[FB:%d]\n", fb->base.id);
+> +	drm_dbg_kms(dev, "[FB:%d]\n", fb->base.id);
+>  	r->fb_id = fb->base.id;
+>  
+>  	/* Transfer ownership to the filp for reaping on close */
+> @@ -384,7 +384,7 @@ int drm_mode_addfb2_ioctl(struct drm_device *dev,
+>  		 * then.  So block it to make userspace fallback to
+>  		 * ADDFB.
+>  		 */
+> -		DRM_DEBUG_KMS("addfb2 broken on bigendian");
+> +		drm_dbg_kms(dev, "addfb2 broken on bigendian");
+>  		return -EOPNOTSUPP;
+>  	}
+>  #endif
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Jani Nikula, Intel Open Source Graphics Center
