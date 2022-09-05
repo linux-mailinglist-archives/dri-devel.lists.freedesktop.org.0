@@ -2,51 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017745ACDEF
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 10:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B894E5ACDF0
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 10:44:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E6310E222;
-	Mon,  5 Sep 2022 08:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0C2210E231;
+	Mon,  5 Sep 2022 08:44:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA9710E21E;
- Mon,  5 Sep 2022 08:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662367455; x=1693903455;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:message-id:date;
- bh=nkHjrVD4emWC4r4IQzp4zCX1/KwviOvkm/4V+N1maYM=;
- b=bLzBdkgLb3XEkwKwomlMGqmEt60vkEeZUkmCE7U0GBFj2UE6xQd+42v1
- G0gOmBkYHEpKd/eoS/INNdnpsJXAAwctkE23TfJfRzVu0AL5g7fQqC4aW
- F4NU70uzNIIUnPAtBQr1ER2HZEUpgChGGzGIZcF/Q6F7AGHOjnD7Jg+ba
- ByHuQogwhU5/KGrfJS7zRF6ISI5EkmTt/tVyhR6CP9fTHYwvuYDB/Xd3K
- V1vtQZ+GljPKY9fIJf2uLPjhOYOHkrMyYN5Y0zxTMvUPUjKxXtzbx2VRW
- A/EF/qoL1pvmK3CN6nLmNBzuQx2J+jddhcWXwccbhi0PyTGHcAkdbXCQj A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="360295673"
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="360295673"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 01:44:14 -0700
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="942024872"
-Received: from mchiappe-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.15.7])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 01:44:12 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 270AF10E223
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 08:44:27 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C70F1387C5;
+ Mon,  5 Sep 2022 08:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662367465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j7usgTfA1btXrq89Yj/ii8Ydn7Gr0Xo1K2e0veaoIw0=;
+ b=brbVRbGvLtio6HMA3cCeYwmmJBRKmEAkoEZuIFZbBI9iVnWS4RLo6TRdJ5lc/5WK8wRyT0
+ s7KP0XVVhIqTkSJHDc/KJpg9wW/fXXjlrXBAeObcYNzf+qGsxrXHF3E+R6+GFXR58vfdz+
+ vlLYizg+7+rUFC4uclAQIDXVHNvu+yM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662367465;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j7usgTfA1btXrq89Yj/ii8Ydn7Gr0Xo1K2e0veaoIw0=;
+ b=RMuC/3jY0JLVueuy3a+/T8VCEYK6oNi5sXANoh8SwA+6RzMX2thKiq8DCUrbb1KpBPlzN2
+ gC+L++Ml3ywcfvDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ADF8A139C7;
+ Mon,  5 Sep 2022 08:44:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uZNhKem2FWN4FAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 05 Sep 2022 08:44:25 +0000
+Message-ID: <d3a0faf3-14ae-04a7-affe-4cd64570855f@suse.de>
+Date: Mon, 5 Sep 2022 10:44:25 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220826210233.406482-1-matthew.d.roper@intel.com>
-References: <20220826210233.406482-1-matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] Revert "drm/i915/dg2: Add preemption changes
- for Wa_14015141709"
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <166236745011.17509.17865778985614469573@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Mon, 05 Sep 2022 11:44:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 12/12] drm/udl: Sync pending URBs at the end of suspend
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>
+References: <20220816153655.27526-1-tiwai@suse.de>
+ <20220816153655.27526-13-tiwai@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220816153655.27526-13-tiwai@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------GOSHhmf3TQiCYjOpO0DqF5dI"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,100 +70,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Matt Roper (2022-08-27 00:02:33)
-> This reverts commit ca6920811aa5428270dd78af0a7a36b10119065a.
->=20
-> The intent of Wa_14015141709 was to inform us that userspace can no
-> longer control object-level preemption as it has on past platforms
-> (i.e., by twiddling register bit CS_CHICKEN1[0]).  The description of
-> the workaround in the spec wasn't terribly well-written, and when we
-> requested clarification from the hardware teams we were told that on the
-> kernel side we should also probably stop setting
-> FF_SLICE_CS_CHICKEN1[14], which is the register bit that directs the
-> hardware to honor the settings in per-context register CS_CHICKEN1.  It
-> turns out that this guidance about FF_SLICE_CS_CHICKEN1[14] was a
-> mistake; even though CS_CHICKEN1[0] is non-operational and useless to
-> userspace, there are other bits in the register that do still work and
-> might need to be adjusted by userspace in the future (e.g., to implement
-> other workarounds that show up).  If we don't set
-> FF_SLICE_CS_CHICKEN1[14] in i915, then those future workarounds would
-> not take effect.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------GOSHhmf3TQiCYjOpO0DqF5dI
+Content-Type: multipart/mixed; boundary="------------9IvtvQQ09kJK3IC5cW1xfClR";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <d3a0faf3-14ae-04a7-affe-4cd64570855f@suse.de>
+Subject: Re: [PATCH 12/12] drm/udl: Sync pending URBs at the end of suspend
+References: <20220816153655.27526-1-tiwai@suse.de>
+ <20220816153655.27526-13-tiwai@suse.de>
+In-Reply-To: <20220816153655.27526-13-tiwai@suse.de>
 
-Here we should be referencing Mesa/Compute runtime/etc. patches that
-intend to use these other bits.
+--------------9IvtvQQ09kJK3IC5cW1xfClR
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-This is to ensure that they're actually aware of the hardware changes
-ongoing and we end up with fully functional stack and not kernel doing
-something other than the userspace attempts to do.
+SGkNCg0KQW0gMTYuMDguMjIgdW0gMTc6MzYgc2NocmllYiBUYWthc2hpIEl3YWk6DQo+IEl0
+J3MgYmV0dGVyIHRvIHBlcmZvcm0gdGhlIHN5bmMgYXQgdGhlIHZlcnkgbGFzdCBvZiB0aGUg
+c3VzcGVuZA0KPiBpbnN0ZWFkIG9mIHRoZSBwaXBlLWRpc2FibGUgZnVuY3Rpb24sIHNvIHRo
+YXQgd2UgY2FuIGNhdGNoIGFsbCBwZW5kaW5nDQo+IFVSQnMgKGlmIGFueSkuDQo+IA0KPiBX
+aGlsZSB3ZSdyZSBhdCBpdCwgZHJvcCB0aGUgZXJyb3IgY29kZSBmcm9tIHVkbF9zeW5jX3Bl
+bmRpbmdfdXJiKCkNCj4gc2luY2Ugd2UgYmFzaWNhbGx5IGlnbm9yZSBpdDsgaW5zdGVhZCwg
+Z2l2ZSBhIGNsZWFyIGVycm9yIG1lc3NhZ2UNCj4gaW5kaWNhdGluZyBhIHByb2JsZW0uDQoN
+CkJ1dCBpZiB3ZSBmYWlsLCBzaG91bGRuJ3Qgd2UgcmVwb3J0IHRoYXQgZXJyb3IgdG8gdGhl
+IGNhbGxlciBvZiB0aGUgDQpzdXNwZW5kIGZ1bmN0aW9uPw0KDQpCZXN0IHJlZ2FyZHMNClRo
+b21hcw0KDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBUYWthc2hpIEl3YWkgPHRpd2FpQHN1c2Uu
+ZGU+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jICAgICB8IDgg
+KysrKysrKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuaCAgICAgfCAyICst
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbWFpbi5jICAgIHwgNiArKy0tLS0NCj4g
+ICBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMgfCAyIC0tDQo+ICAgNCBmaWxl
+cyBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jIGIvZHJpdmVycy9ncHUv
+ZHJtL3VkbC91ZGxfZHJ2LmMNCj4gaW5kZXggMGJhODhlNTQ3MmE5Li45MWVmZmRjZWZiNmQg
+MTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jDQo+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jDQo+IEBAIC0yMSw4ICsyMSwxNCBAQCBz
+dGF0aWMgaW50IHVkbF91c2Jfc3VzcGVuZChzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZXJm
+YWNlLA0KPiAgIAkJCSAgIHBtX21lc3NhZ2VfdCBtZXNzYWdlKQ0KPiAgIHsNCj4gICAJc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiA9IHVzYl9nZXRfaW50ZmRhdGEoaW50ZXJmYWNlKTsNCj4g
+KwlpbnQgcmV0Ow0KPiAgIA0KPiAtCXJldHVybiBkcm1fbW9kZV9jb25maWdfaGVscGVyX3N1
+c3BlbmQoZGV2KTsNCj4gKwlyZXQgPSBkcm1fbW9kZV9jb25maWdfaGVscGVyX3N1c3BlbmQo
+ZGV2KTsNCj4gKwlpZiAocmV0KQ0KPiArCQlyZXR1cm4gcmV0Ow0KPiArDQo+ICsJdWRsX3N5
+bmNfcGVuZGluZ191cmJzKGRldik7DQo+ICsJcmV0dXJuIDA7DQo+ICAgfQ0KPiAgIA0KPiAg
+IHN0YXRpYyBpbnQgdWRsX3VzYl9yZXN1bWUoc3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGVy
+ZmFjZSkNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5oIGIv
+ZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmgNCj4gaW5kZXggZDk0MzY4NGI1YmJiLi5i
+NGNjN2NjNTY4YzcgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Ry
+di5oDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5oDQo+IEBAIC03Nyw3
+ICs3Nyw3IEBAIHN0cnVjdCBkcm1fY29ubmVjdG9yICp1ZGxfY29ubmVjdG9yX2luaXQoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldik7DQo+ICAgc3RydWN0IHVyYiAqdWRsX2dldF91cmIoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldik7DQo+ICAgDQo+ICAgaW50IHVkbF9zdWJtaXRfdXJiKHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCB1cmIgKnVyYiwgc2l6ZV90IGxlbik7DQo+
+IC1pbnQgdWRsX3N5bmNfcGVuZGluZ191cmJzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpOw0K
+PiArdm9pZCB1ZGxfc3luY19wZW5kaW5nX3VyYnMoc3RydWN0IGRybV9kZXZpY2UgKmRldik7
+DQo+ICAgdm9pZCB1ZGxfdXJiX2NvbXBsZXRpb24oc3RydWN0IHVyYiAqdXJiKTsNCj4gICAN
+Cj4gICBpbnQgdWRsX2luaXQoc3RydWN0IHVkbF9kZXZpY2UgKnVkbCk7DQo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tYWluLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+dWRsL3VkbF9tYWluLmMNCj4gaW5kZXggYzFmNGI2MTk5OTQ5Li5kZjkyZjY1MThlMWMgMTAw
+NjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYw0KPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tYWluLmMNCj4gQEAgLTI5NCwxMCArMjk0LDkgQEAg
+aW50IHVkbF9zdWJtaXRfdXJiKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCB1cmIg
+KnVyYiwgc2l6ZV90IGxlbikNCj4gICB9DQo+ICAgDQo+ICAgLyogd2FpdCB1bnRpbCBhbGwg
+cGVuZGluZyBVUkJzIGhhdmUgYmVlbiBwcm9jZXNzZWQgKi8NCj4gLWludCB1ZGxfc3luY19w
+ZW5kaW5nX3VyYnMoc3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4gK3ZvaWQgdWRsX3N5bmNf
+cGVuZGluZ191cmJzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+ICAgew0KPiAgIAlzdHJ1
+Y3QgdWRsX2RldmljZSAqdWRsID0gdG9fdWRsKGRldik7DQo+IC0JaW50IHJldCA9IDA7DQo+
+ICAgDQo+ICAgCXNwaW5fbG9ja19pcnEoJnVkbC0+dXJicy5sb2NrKTsNCj4gICAJLyogMiBz
+ZWNvbmRzIGFzIGEgc2FuZSB0aW1lb3V0ICovDQo+IEBAIC0zMDUsOSArMzA0LDggQEAgaW50
+IHVkbF9zeW5jX3BlbmRpbmdfdXJicyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPiAgIAkJ
+CQkJIHVkbC0+dXJicy5hdmFpbGFibGUgPT0gdWRsLT51cmJzLmNvdW50LA0KPiAgIAkJCQkJ
+IHVkbC0+dXJicy5sb2NrLA0KPiAgIAkJCQkJIG1zZWNzX3RvX2ppZmZpZXMoMjAwMCkpKQ0K
+PiAtCQlyZXQgPSAtRVRJTUVET1VUOw0KPiArCQlkcm1fZXJyKGRldiwgIlRpbWVvdXQgZm9y
+IHN5bmNpbmcgcGVuZGluZyBVUkJzXG4iKTsNCj4gICAJc3Bpbl91bmxvY2tfaXJxKCZ1ZGwt
+PnVyYnMubG9jayk7DQo+IC0JcmV0dXJuIHJldDsNCj4gICB9DQo+ICAgDQo+ICAgaW50IHVk
+bF9pbml0KHN0cnVjdCB1ZGxfZGV2aWNlICp1ZGwpDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9t
+b2Rlc2V0LmMNCj4gaW5kZXggYmNhMzFjODkwMTA4Li45ZDcyMjg4ZDk5NjcgMTAwNjQ0DQo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21vZGVzZXQuYw0KPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMNCj4gQEAgLTM5MSw4ICszOTEsNiBAQCB1
+ZGxfc2ltcGxlX2Rpc3BsYXlfcGlwZV9kaXNhYmxlKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3Bs
+YXlfcGlwZSAqcGlwZSkNCj4gICAJYnVmID0gdWRsX2R1bW15X3JlbmRlcihidWYpOw0KPiAg
+IA0KPiAgIAl1ZGxfc3VibWl0X3VyYihkZXYsIHVyYiwgYnVmIC0gKGNoYXIgKil1cmItPnRy
+YW5zZmVyX2J1ZmZlcik7DQo+IC0NCj4gLQl1ZGxfc3luY19wZW5kaW5nX3VyYnMoZGV2KTsN
+Cj4gICB9DQo+ICAgDQo+ICAgc3RhdGljIHZvaWQNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
+bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
+R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
+CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90
+ZXYNCg==
 
-> This miscommunication came to light because another workaround
-> (Wa_16013994831) has now shown up that requires userspace to adjust the
-> value of CS_CHICKEN[10] in certain circumstances.  To ensure userspace's
-> updates to this chicken bit are handled properly by the hardware, we
-> need to make sure that FF_SLICE_CS_CHICKEN1[14] is once again set by the
-> kernel.
->=20
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+--------------9IvtvQQ09kJK3IC5cW1xfClR--
 
-Not too many Cc:s for a patch that impacts uAPI. Even the original patch
-being reverted definitely should have Cc:d mesa and some mesa devs.
+--------------GOSHhmf3TQiCYjOpO0DqF5dI
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> ---
->  drivers/gpu/drm/i915/gt/intel_workarounds.c | 2 +-
->  drivers/gpu/drm/i915/i915_drv.h             | 3 ---
->  2 files changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/dr=
-m/i915/gt/intel_workarounds.c
-> index 3cdb8294e13f..69a0c6a74474 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> @@ -2389,7 +2389,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, =
-struct i915_wa_list *wal)
->                              FF_DOP_CLOCK_GATE_DISABLE);
->         }
-> =20
-> -       if (HAS_PERCTX_PREEMPT_CTRL(i915)) {
-> +       if (IS_GRAPHICS_VER(i915, 9, 12)) {
->                 /* FtrPerCtxtPreemptionGranularityControl:skl,bxt,kbl,cfl=
-,cnl,icl,tgl */
+-----BEGIN PGP SIGNATURE-----
 
-According to the commit description, this is not the W/A being supported
-anymore by the whitelisting. Even if it's the same register we're talking a=
-bout
-different bits and different reasons.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMVtukFAwAAAAAACgkQlh/E3EQov+B5
+CRAAje/yTmXwT0sEzGSTv+RbVrlDmRiDX3YmKkxjt9lCNBDs1kousCHVolWAI4UyWq1xpwEQguNL
+6EUFJ+5r+zYv+lep4y0bkNcoyk2iKqgm5KelX9tVj2hnpb5dz7f43UDTj49LrkAgFZMzn5Ly9R+B
+vtRpmieGYuErzkj5znaKpEKuQ35TWMb7UchbmYgUgQmqGVEFD23UB32aLSXaZxjPkhSDkN5IqrCL
+qOqhn6vG8wVWxA2Kb/c4DLmJOTZUhK8nUJIIrfkI+AmkZNOgPxgS6liliqKA2QUvrWB4IXDjrWjf
+LuCBtaB5he26lIYh+rf3CeuXkQkQoMQXP4pRpgIbcngawWCtbNdEGVH1F3jwnGTjHFTQsDsibE2p
++2YYkFIHd/0HCC5W8Qn4/h1uz24tSXDjvAAL41aDeXeRYCClv38jlftYxCAE215zSjGsIwD7TEfz
+64gpLGiBbEm9Qmd55cwcEDU96W7WJsdLizojo8RJf6Ds5c1IF5+NVHv08y+lpgWDaIKKH2R9XIuH
+9ceRWTKsg8aiH9lB5FHhWoU+ZmWnm48k235XvUdFKIZ2ep36YsUtHOanzdPj6xq06xcpwVE3xpjk
+ZNpLs/7FHAt2UJPq3eWoII7DLhjWVzfxtA6MHIDbggsIayUbijZpVcdCeTkorPEDzqQPJNYQYEBn
+nOk=
+=XfFn
+-----END PGP SIGNATURE-----
 
-We should clearly indicate that.
-
-Can we have a followup patch where the reasoning is explained more
-clearly and the userspace side changes are being referenced and at least
-some userspace folks Cc'd?
-
-Regards, Joonas
-
->                 wa_masked_en(wal,
->                              GEN7_FF_SLICE_CS_CHICKEN1,
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_=
-drv.h
-> index 2b00ef3626db..d6a1ab6f65de 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1352,9 +1352,6 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  #define HAS_GUC_DEPRIVILEGE(dev_priv) \
->         (INTEL_INFO(dev_priv)->has_guc_deprivilege)
-> =20
-> -#define HAS_PERCTX_PREEMPT_CTRL(i915) \
-> -       ((GRAPHICS_VER(i915) >=3D 9) &&  GRAPHICS_VER_FULL(i915) < IP_VER=
-(12, 55))
-> -
->  #define HAS_D12_PLANE_MINIMIZATION(dev_priv) (IS_ROCKETLAKE(dev_priv) ||=
- \
->                                               IS_ALDERLAKE_S(dev_priv))
-> =20
-> --=20
-> 2.37.2
->=20
+--------------GOSHhmf3TQiCYjOpO0DqF5dI--
