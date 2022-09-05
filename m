@@ -1,127 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4D35AD68B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:32:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDBA5AD6DA
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9027210E409;
-	Mon,  5 Sep 2022 15:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D426F10E41E;
+	Mon,  5 Sep 2022 15:50:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2079.outbound.protection.outlook.com [40.107.243.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BB7210E409
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:32:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N7bKt4QQC33KY8/t2BES5avqCxN8RDX8LIP4oE9P9fCaJ+Q0D3Ow9piN0oNdJXhkznYzDZjba5yV5nzJo8vkiQuSlu2MLwEusUr0xnQ+ccfWSR5tmcqIxjVU/yqMe1w054S1qFHf6VCccFE6Uo/Asfw6aoKthgy4DS7PRSoZlE5mlNYbqCUDP4J6LX2LyOttoeHZl82Jag96uVE/ka3mcDap+7rPp7vQk5Q8cO+nkmPdTA/SrItnZyaEgJ1b2EH3t9fL+0xd9MIH3oM7TqrQJLtWOoVuOOPKjQNqGxt4rGSMOvhzqEhV2IQ6W4wo6fIsECalv+RW2TVRS2OPc+R9Rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yPcAxiR3eQg5ZV43nywZlrZzLuwPPSKfyhjh1V+9NBI=;
- b=FxCk2y3kJshucWT1TQhK7gx+r1MeKEZQseHtIS9raljWwf8oc361kHIJW4ZKXbnjz6hgFmysPfaiaibIZXTesbZtkWhZgE67v/TGNP2O96oaFJeSjGApVWBukNuCbuFYBSRVhHhP5n7zkqZSteu4vrdzJ5KqTBFiPhIxUF8qwF8+QynziJz8kViwE7ESXHF/KKbPYSD2Ig5VRnuMMjP/RK5sbukn8+dLitRh7IQDScsPSmZXzphoyvzC3RqLYlXIDGpXdy5MJZELGyGBCluS9CS+qKqGtTFq+CtGOoZ0fkS0dOVbrALsUUaIjQ8ZpELFCTvokSpSEqLzCjQao7No+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yPcAxiR3eQg5ZV43nywZlrZzLuwPPSKfyhjh1V+9NBI=;
- b=NzCfcFvnJJ+kB+eFkasmGmP0zRMmHVde6ppoGYJH81NK5zaAyIKagh71od2tSj1HApESrQZxDLu+y/PVam8cseipLdsfglVdeO1m9V5QmqEBWIuWxTWs/q2Q/DpY5ZB0+s9L1IePbyI59Gt3d7xpBkitOT+ZCJGQVL04PTmpHwg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MW4PR12MB7384.namprd12.prod.outlook.com (2603:10b6:303:22b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.15; Mon, 5 Sep
- 2022 15:32:24 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94%7]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
- 15:32:24 +0000
-Message-ID: <46ae09bb-2514-94b9-4497-e275bcc5f1ee@amd.com>
-Date: Mon, 5 Sep 2022 17:32:17 +0200
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE10810E41E
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:50:03 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ q15-20020a17090a304f00b002002ac83485so5037730pjl.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 08:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :from:to:cc:subject:date;
+ bh=3XrVUU9T8R4LO8OA1f5h+alUXAX2S0TQoRT3c9Li0zE=;
+ b=fb+biuem+7b7djICmUqeW/BHTeNp/mSIkZ0RvN2SXnaFs/5YyeMU+evecpiT94v82W
+ Wxfn0CSNmSmyFNdPp1gzvwV0fM9AjmN0MOmTdZboebJPVCoX17sG9lmzebM9ao53ceUW
+ yVd7msO4mdC3TWp+151flO1HCijMCEaMLiYb6sFX8Glvs7ZTTgoL3lCtGTKQ7fyXm+Gg
+ pHh/glh3NMkFwNQZT6QZHQG62OtYie95f/rnYvvh4Y8aPOmfyT9Ar+2EHwInZ1j+1+j+
+ Oy+Ig/euXQdz3oHAXN56OD5BQH1j8orR8xHQaKEnUQLjJ5W8lICDNDnwnI3x7eyp41JE
+ 4G+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=3XrVUU9T8R4LO8OA1f5h+alUXAX2S0TQoRT3c9Li0zE=;
+ b=qV12ErHFPGHvFxcXcn8SZRm3x4uylPdfayepebFx/TTwlKbi3RcaLJ3eRxWWUZX+cs
+ x4bz5sRzk3FjGAO3dbjC5vB2hIdSiZ1byN5xTqQSqIeza4nDdz4pA+9Cz89q4BSs/j7K
+ RSZBYT86cUIqIJvMTRHiwttSzdKAEdbJDOUnHW7eesBHby1jBrsZWan0SNZ4798ZkCG/
+ Gjdy7lw+BhKkOUBrvSAaHioFaHRpnqVAtGqjAQE1dX9ttQwo2Wv5KOD10qz+lOCp6VWC
+ 0+iBonOmV6tQ6fHSVlZ7i2VBnqE3UcOYzCerNO1b3fetepeKS01oJCchD4ekeXv+kJyy
+ kRog==
+X-Gm-Message-State: ACgBeo07XSwfAAMcyLqx+HtgIaYfSMIiZfZzZIOU0cVwQWMeN/1QkVOf
+ L57cIdTMAO9E1C8IUnKntKI=
+X-Google-Smtp-Source: AA6agR5VS25L+Z4dRUGvyFsOt5wkYCTLrQ7nt81wIVLfBBuODfZGLGcvsv14A7LgAxNP1Gl1OohTXw==
+X-Received: by 2002:a17:90a:c706:b0:1fd:e21e:7cb1 with SMTP id
+ o6-20020a17090ac70600b001fde21e7cb1mr20626775pjt.234.1662393003052; 
+ Mon, 05 Sep 2022 08:50:03 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a17090a348100b001faa4a6691asm10512410pjb.30.2022.09.05.08.49.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 08:50:01 -0700 (PDT)
+Message-ID: <c696b9bf-d0ce-1c6a-0ee3-939b180891be@roeck-us.net>
+Date: Mon, 5 Sep 2022 08:49:58 -0700
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 2/4] drm/sched: Add callback and enable signaling on debug
 Content-Language: en-US
-To: "Yadav, Arvind" <arvyadav@amd.com>, Arvind Yadav <Arvind.Yadav@amd.com>,
- andrey.grodzovsky@amd.com, shashank.sharma@amd.com,
- amaranath.somalapuram@amd.com, Arunpravin.PaneerSelvam@amd.com,
- sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
- daniel@ffwll.ch, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-References: <20220905105653.13670-1-Arvind.Yadav@amd.com>
- <20220905105653.13670-3-Arvind.Yadav@amd.com>
- <96d14c8a-e3de-fcea-b3b1-434bc6a78ae4@amd.com>
- <5b84f7c1-99a6-02c8-2606-8986891a95b0@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5b84f7c1-99a6-02c8-2606-8986891a95b0@amd.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-10-b29adfb27a6c@gmail.com>
+ <CAHp75Vd35EOy=mP25=9fmYfqQnbafgotHw1fxk-TdGk6Oc8g8Q@mail.gmail.com>
+ <75e60144-9fa2-d6ba-bc92-edd23f7e7189@roeck-us.net>
+ <CAHp75VcisCTYoRp-=713YKtwi7BQyPKGiUhF4DkpfAFtvDXCiQ@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v1 10/11] watchdog: bd9576_wdt: switch to using
+ devm_fwnode_gpiod_get()
+In-Reply-To: <CAHp75VcisCTYoRp-=713YKtwi7BQyPKGiUhF4DkpfAFtvDXCiQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0574.eurprd06.prod.outlook.com
- (2603:10a6:20b:486::12) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 36f422ba-b6e1-4977-2c0e-08da8f53d4c6
-X-MS-TrafficTypeDiagnostic: MW4PR12MB7384:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MD8Emrq1nqzhABNuHr5qIIcw3Z16fojCbJmHAgAVOKIPXQqVE2F5YeXzu0cgbU7DeURk417kG5ltweJLv+D9qgSg1vHG4utdVjDYRdeQsyjLKnj+v6GdvXS/TlcJbF11EwJRKKWE8qkkskvCZksb70Wny5LpmU12SMhEqrcg6aeG3L8utqBMnYWswZlB0apfySMQ71nHMULP35ba7T75UUOJr8DDc6yQL0eobV6KRzLlc0L2DutHtLded3AgLCPTVGkluvsNZ8BYDSMiULMls3kGACvJ7VgkZyfB6FybT6SJZBnv4/tPsCvOTsCqgryKIuMF2vXAoe8Vyb9ablVofq96lqh0UyBP3ziAyRuPcbAKBdTFWiLp+tdV740x/VTGP6fa1BpFbEkKumBDsHg5XbIwaFfevKZ+/g6UZYlirdmFWZQMoCCfN3PGG9/y8KPaiIt6CpsfODHjw1sPC02hwdovMPiERipe0++GLf+Cl33qSRWlFWJdjlZKA6SW0uCPPdoa1Y2oMoxo1o9hlV4yB1CEwxJK1sKg8+l2H/CprRrhwMqNZWZA21axyRchD9nIaImXPwhW6eVzjz8blB/N/UjCqEiZqI4rvsu/B17PN5xij8gKWxckTsVsZiPRe5AD72fEfn8maJjI7l5jfT46mR/h6DS2YFb1ocr142N9KY6CmKA/i5g9NpGZPN3i9wO/MGI/GrEdI71YIUZyAgGvNNanYzT1ebRb/URmfe1OslFsLF4fJeylrRlIuIRUQjXcMy//roWogqJ3uabAEvFApOoCqi+hRGu2aq3NTaxJCOBKXaiuHm3qTDVruueaXkMv
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(921005)(110136005)(316002)(2906002)(31686004)(66476007)(66556008)(66946007)(8676002)(478600001)(6506007)(53546011)(6486002)(41300700001)(8936002)(36756003)(6666004)(5660300002)(38100700002)(186003)(66574015)(6512007)(86362001)(2616005)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Uy8zR2FQMHZPcS9YZkZaV1lCcE11N2hXWk4zQ3hCSjlPTmJmU1dQVEVocjlI?=
- =?utf-8?B?eGUyT0tES1hXZkhFVTJoQ21yRHZpbTFtVW9SMmw5dWdVRERiZ3AxS3pLUWx0?=
- =?utf-8?B?MHhZVmVGelhzMDQwN1cvVDdzdzBIMFpMWFFmQzFWZ3J2WGVtanRQelE1U0dI?=
- =?utf-8?B?azI3bEUwSnRJdHREUm9jOVAyemk1am9yVVBqdzJMcGorSFRYWjNTK2hrNlQw?=
- =?utf-8?B?OE8xSkNWQ1U4cXVHdVE1RHJrUnEyOFdCc3Zid0pla3hlNTAyM0Nxb1E1T1RY?=
- =?utf-8?B?amRQTXRhKzVESGRsNVRiS3BJMlhsZkl3OGVXWktWNzE4Ti9ISlFGNXNuY0ov?=
- =?utf-8?B?YXgxUGthOVg5TDFYNngxamQwcmgvSG5ZbkpLNldSQ0hWVGd4RnBadFNkZktO?=
- =?utf-8?B?V1o0VWs3NUhDb0Y2TnFrTkVWY2JJV3VKdDNHRUhVdlJTYVhreFZJU3MwY0U4?=
- =?utf-8?B?U2pYZjN4Q2pvck1iZkd3bEFyNDNweHpFQ3pwczFjNlFBNE5DQ3BraHlXREhp?=
- =?utf-8?B?QWttVGdlZTIvVU5mOS9wN0Roa1d6MkgwbWR1NUNEc0MzRThDdVdpcXFJaG1n?=
- =?utf-8?B?OWo1Mks2QWVIdFNwUmUyTE9CZmZUa2l2dWtrTnoyTmJKRXhMWUpySk9ZSVJj?=
- =?utf-8?B?eDR6VDhuT1IzNVRBeEhaMzZHNzNMcjNGaWRjbzlPK01QdnFDVHA4TG1EbU1U?=
- =?utf-8?B?bjJaVm1HU3l5OXNMQlE2blcrSnp0TkZZZUsvWXNUdHN0K0lWa3R0dGplSG9Y?=
- =?utf-8?B?SHFIRUx4K3hiNG9tRmZJbTArc2RKWG90eU11UUVNNytRNCtaZm4vdjBkc3k1?=
- =?utf-8?B?bEU4U3hRL2txb3J1TEl5cFoxaGRVK3JsMjZwcytHVEN5YXJLN0pJM0QwWXpi?=
- =?utf-8?B?a0xzaVdjNUpnNkpUaktONUdiaVhJV2I1eERERlFXaG9VMGhjTTZESXlvUDA0?=
- =?utf-8?B?aWE1ekI3emdLOTIyU0RUT1hQODEzaUorZ25LNTFPK283V1JweHhTclcyUDlC?=
- =?utf-8?B?d1c2d29QcHJ5NnRRUVFrTjlxYStVaDFwTEorRTAzQkVMdzM4OHZzT2hoejNC?=
- =?utf-8?B?K3gwTSszOCs3d051UjlSYldOWXpKa0ErWHdPamxpVFpvcTNWK2RabmdZTTEv?=
- =?utf-8?B?V0tjN2VQVE8wNlp2TVNXaFFPaTc2UVhRNFRlalI5Zk83cFNrdUVDcjg3Qnpw?=
- =?utf-8?B?eFhvSDUwMDR0Y3k3RURzZTZRSkxYSVlSTzhFL2Y0SVhsOG9EUExXdldwZHl5?=
- =?utf-8?B?eWVXQVdISmI4ejVIeFdBOFFOeCs4c2tjV0RJQ25BM1o4ZFhGSnVWYVdoeXIv?=
- =?utf-8?B?VS9XTW5qR0dUcHBRUUhBbGtZVXVaYWpHSTlVaFBHMFlFQVhFQnZ0clRSdW1W?=
- =?utf-8?B?dFdkN29ENThVQjU4Zy9PZUh3SE5EWVU1UDlMc2pVOGNGVEJwLzNFZ2Z0RkFi?=
- =?utf-8?B?dnZNUHFkL1ZhblVBNHBjM1oxK1EwZGIrWGpkSlcyUE5pQi9VQ3BGeVBRMlpm?=
- =?utf-8?B?ckpBSktsa3Nub0ljRSs4WjZRNXZpM0tPY3VSYWlRd1hzYTVEbzhWU09UdjQy?=
- =?utf-8?B?eU5Oa0dQZnd6UytrZDByTGdvUzJZN2ZSMlhvUG01RzZ3c3AzTnVsQjkyRTFp?=
- =?utf-8?B?OGw3WEp4MWVVN1BHdnBiT3B3SzB4U2ZSOVhBUEtySmlMSHIyc0dDVHJ4VXRy?=
- =?utf-8?B?ZUp2cDhWYVF1MDVWQTgzRDd6TmEzNndteUoxYjFDQ005MG5lQnFzdGJiU2NO?=
- =?utf-8?B?TzhKcUtubStYdXNIWU5xSjlodG9lRksySGlGRW9FY1JxTmpUQmFpNER0QUU2?=
- =?utf-8?B?L2pIMSt1aTZqVzFqUGtuc1NWai9PTkN2dUN4QjRVTWhabXF2OVh1ZzNaVVN1?=
- =?utf-8?B?a20rYlNiVlI3NEQ2K2ZHQlc2Uk9HN09udUhRL2VicFRLWkp5Ymk4MXNXaE5W?=
- =?utf-8?B?SWU2Umg2Ui9UTndLUEZyQThiT2I2ZitIWXdiYzJXS21RUnBIWjR1NEpHejNl?=
- =?utf-8?B?WUZtdlY2NURGZEk0ZkhYZ1lmajlidmpxY0VXQnRnMWhhT0wxZ2tYYTFiTEVt?=
- =?utf-8?B?S0xSaVl6UlZXUnEwblRWUzA3VXhTcnIwQmZFSHdwNUFxMTVpNlZHbG5qOHNy?=
- =?utf-8?B?RCtHVGhTd3h2bDdRZ3JZOXh4LzBBUVZhNjZXd0tqKzZDaFBKZGFuRUhBWThJ?=
- =?utf-8?Q?JLjXknh0uaZ9/0Y8RtUu3KNMc4pPrnbTw9zMMFtHwcvb?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36f422ba-b6e1-4977-2c0e-08da8f53d4c6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 15:32:24.4598 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z7DYDqeZRIYPI7txKobZe4iUGold0IRO01BCu6Jy+m7h7Q3GaFVL4LzH+5GrMvyC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7384
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,56 +81,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ USB <linux-usb@vger.kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ David Airlie <airlied@linux.ie>, linux-pci <linux-pci@vger.kernel.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ LINUXWATCHDOG <linux-watchdog@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Richard Weinberger <richard@nod.at>,
+ =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.09.22 um 15:46 schrieb Yadav, Arvind:
-> On 9/5/2022 4:55 PM, Christian König wrote:
->> [SNIP]
+On 9/5/22 08:21, Andy Shevchenko wrote:
+> On Mon, Sep 5, 2022 at 6:13 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 9/5/22 04:09, Andy Shevchenko wrote:
+>>> On Mon, Sep 5, 2022 at 9:33 AM Dmitry Torokhov
+>>> <dmitry.torokhov@gmail.com> wrote:
+> 
+> ...
+> 
+>>>> +       count = device_property_count_u32(dev->parent, "rohm,hw-timeout-ms");
+>>>> +       if (count < 0 && count != -EINVAL)
+>>>> +               return count;
+>>>> +
+>>>> +       if (count > 0) {
+>>>
+>>>> +               if (count > ARRAY_SIZE(hw_margin))
+>>>> +                       return -EINVAL;
+>>>
+>>> Why double check? You may move it out of the (count > 0).
 >>
->> Am 05.09.22 um 12:56 schrieb Arvind Yadav:
->>>       .release = drm_sched_fence_release_finished,
->>>   };
->>>   diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
->>> b/drivers/gpu/drm/scheduler/sched_main.c
->>> index e0ab14e0fb6b..140e3d8646e2 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -961,7 +961,9 @@ static int drm_sched_main(void *param)
->>>               s_fence->parent = dma_fence_get(fence);
->>>               /* Drop for original kref_init of the fence */
->>>               dma_fence_put(fence);
->>
->> Uff, not related to your patch but that looks wrong to me. The 
->> reference can only be dropped after the call to 
->> dma_fence_add_callback().
->>
-> Shall I take care with this patch or I will submit separate one ?
+>> Two checks will always be needed, so I don't entirely see
+>> how that would be better.
+> 
+> But not nested. That's my point:
+> 
+> if (count > ARRAY_SIZE())
+>    return ...
+> if (count > 0)
+>    ...
+> 
 
+The old code has either 1 or two checks if there is no error.
+Your suggested code has always two checks. I don't see how that
+is an improvement.
 
-Separate one. It's probably no big deal since we grab another reference 
-right before, but still quite some broken coding.
+>>>> -       if (ret == 1)
+>>>> -               hw_margin_max = hw_margin[0];
+>>>
+>>>> +               ret = device_property_read_u32_array(dev->parent,
+>>>> +                                                    "rohm,hw-timeout-ms",
+>>>> +                                                    hw_margin, count);
+>>>> +               if (ret < 0)
+>>>> +                       return ret;
+>>>
+>>> So, only this needs the count > 0 check since below already has it implicitly.
+>>>
+>> Sorry, I don't understand this comment.
+> 
+> if (count > 0) {
+>    ret = device_property_read_u32_array(...);
+>    ...
+> }
+> if (count == 1)
+>   ...
+> if (count == 2)
+>   ...
+> 
+> But here it might be better to have the nested conditionals.
+> 
+
+We know that count is either 1 or 2 here, so strictly speaking
+	if (count == 1) {
+	} else {
+	}
+would be sufficient. On the other side, that depends on ARRAY_SIZE() being
+exactly 2, so
+	if (count == 1) {
+	} else if (count == 2) {
+	}
+would also make sense. Either way is fine with me. I'll leave it up
+to Dmitry to decide what he wants to do.
 
 Thanks,
-Christian.
+Guenter
 
->
->>> -
->>> +#ifdef CONFIG_DEBUG_FS
->>> + dma_fence_enable_sw_signaling(&s_fence->finished);
->>> +#endif
->>
->> This should always be called, independent of the config options set.
->>
->> Christian.
->
-> sure, I will remove the Config check.
->
-> ~arvind
->
->>
->>>               r = dma_fence_add_callback(fence, &sched_job->cb,
->>>                              drm_sched_job_done_cb);
->>>               if (r == -ENOENT)
->>
+>>>> -       if (ret == 2) {
+>>>> -               hw_margin_max = hw_margin[1];
+>>>> -               hw_margin_min = hw_margin[0];
+>>>> +               if (count == 1)
+>>>> +                       hw_margin_max = hw_margin[0];
+>>>> +
+>>>> +               if (count == 2) {
+>>>> +                       hw_margin_max = hw_margin[1];
+>>>> +                       hw_margin_min = hw_margin[0];
+>>>> +               }
+>>>>           }
+> 
 
