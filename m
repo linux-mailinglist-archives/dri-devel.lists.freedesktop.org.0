@@ -1,120 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19705AD177
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 13:24:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F21B05AD186
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 13:26:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB7610E314;
-	Mon,  5 Sep 2022 11:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D562910E30E;
+	Mon,  5 Sep 2022 11:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B25F810E30F
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 11:24:25 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220905112414euoutp0138ed92128e973566c1fa5fd1aa462492~R8x97pUTt0333303333euoutp01W
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 11:24:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220905112414euoutp0138ed92128e973566c1fa5fd1aa462492~R8x97pUTt0333303333euoutp01W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1662377054;
- bh=7flYTWURgvZWZJ0bllJwRUFaD/epPd9YT+NmvYtDtng=;
- h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
- b=Xuux5+M2XrmAJ8c6OjhTQp3M1kqGWaOo/bv9HtquwNEzW5GrG+oUBgpI7p3aQPqDU
- e+mgVpZ0QTNip/M2e6CGk4RRIz9pGgQJfJ5DZ4S6AYXrLY+84dcpOofAVDrMpazS5O
- h6oJ13mBao4+3f2MNIVQJU4sNFuDACq5ur5wdZ4U=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220905112404eucas1p102451e5139cc449cf30959fe4fc2427c~R8x0rjDPi2163221632eucas1p1j;
- Mon,  5 Sep 2022 11:24:04 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 9D.53.29727.35CD5136; Mon,  5
- Sep 2022 12:24:04 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220905112403eucas1p1b3154207ebea4d10684904144e17b3c0~R8x0LYf4s1126311263eucas1p1C;
- Mon,  5 Sep 2022 11:24:03 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220905112403eusmtrp253635c8319b725b5b58e8174cae82dcb~R8x0FDCaj1852618526eusmtrp22;
- Mon,  5 Sep 2022 11:24:03 +0000 (GMT)
-X-AuditID: cbfec7f2-21dff7000001741f-b8-6315dc535ddc
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id B9.C9.07473.35CD5136; Mon,  5
- Sep 2022 12:24:03 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220905112402eusmtip2e5ae6c1ea62e596e302614549e3dbf29~R8xy4wfX22248922489eusmtip2Z;
- Mon,  5 Sep 2022 11:24:02 +0000 (GMT)
-Message-ID: <d750a140-c87e-16af-7683-22d48f68305a@samsung.com>
-Date: Mon, 5 Sep 2022 13:24:02 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v4 02/12] drm: bridge: Add Samsung DSIM bridge driver
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2080.outbound.protection.outlook.com [40.107.223.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39F6910E30E
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 11:25:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iJHZw1aW3iJ9H8ot87aCJKqOXqomwC6OUFd2TITzCSCMjNe+Zvr0FMVolsRnLAjAtBxfJWdqAbh2moFIcLs5dMYRvyZhHxkYxQj2PMOEva0GOAH3NAqBpsm75IrqS2xZj9hewXnEpfEQrwW0bTevyIkeH5LqeVBWXUiTtc1Vuwbu2UgORl3eod7XL0QGGGXJSifesox7T5cLDYcN/2Si6XnBmGxTuVX10O/opEX4+SNsSDe+J2Dthh/+5nejurw18VqFZra3PDqyNNB/IVR/TmyLEkd56bPu2ed0EdgWQ9Cfa6WjYNJ74IOoaoFRY7QB3PoGdFbf0+RST4oeG/wGMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M62w+sA/4ZgJkn/JIBnuBpwTw8jDUHybcNoEpP8YN1M=;
+ b=ZyaLm70g4gD7Dp0RRzuk4ssXB/jVTGlwb7NG0MbQAXZA5U244OzuopuzKRlJX8rt408uWdympa1HJwF5aYvEHjEq0XwwcklC/5zXQkSs/taIME7tYvFnG4EcdLbDmg/QFL8jANZIaUJh3F3nXjVqxBbH61ANxRSNrZ81lHxbkRYUd8V82jA7prsWzsvA8YMXr+SN9B3NbrpBHQkhiYOb99ACzzXZ1VPylU9Q1mKrsf8RLX3Iiqgy1LqzoyTqNZArrKoiKPZZGAhLKX930KHEVY1W5ykseVekQnKQXTuZQ47MzDfQdRiQH0vPPf9VML79H4X809r7+kr0YgAu5z6xnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M62w+sA/4ZgJkn/JIBnuBpwTw8jDUHybcNoEpP8YN1M=;
+ b=AeHP94RjRUr9j9YgRfFzKkUXAe/ddOaORzf9KELLSzaYZd2n3Uh7OF1kHOXyscJDRshnJ4iZVUlPiaqzUtyCc8sJH+CFGxySOJB5vQotvx7k8g8K1qE0ewe7oowD7jcwV4NXsLE4un0Mq69uZ1JXyH/KqMcDcVsfB+ZYo0jOtfM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS7PR12MB6237.namprd12.prod.outlook.com (2603:10b6:8:97::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.12; Mon, 5 Sep
+ 2022 11:25:51 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4524:eda6:873a:8f94]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4524:eda6:873a:8f94%7]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
+ 11:25:51 +0000
+Message-ID: <96d14c8a-e3de-fcea-b3b1-434bc6a78ae4@amd.com>
+Date: Mon, 5 Sep 2022 13:25:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 2/4] drm/sched: Add callback and enable signaling on debug
 Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>, Joonyoung Shim
- <jy0922.shim@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
- Park <kyungmin.park@samsung.com>, Frieder Schrempf
- <frieder.schrempf@kontron.de>, Fancy Fang <chen.fang@nxp.com>, Tim Harvey
- <tharvey@gateworks.com>, Michael Nazzareno Trimarchi
- <michael@amarulasolutions.com>, Adam Ford <aford173@gmail.com>, Neil
- Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Tommaso Merciai
- <tommaso.merciai@amarulasolutions.com>, Marek Vasut <marex@denx.de>
-In-Reply-To: <7511aa28-a944-d241-5bea-8404008e7dce@samsung.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf0xTVxj19r2+lpq611LhinMznXGbycqYbLs4449sc8+pYWaduPGH1vKC
- bKWYFiaOLIKAYR3UUgk/io7GIjCQIQUMkM50TWmraAV0BCylw7FlIiAURFYyGO3Tjf/Od873
- 3XO+L5eLCcuIKG6KMp1WKWUKMcHDrzn+dr8hHVorf1Mbh4Y83RjymWZw9MhTR6B7Tx4TqOiy
- m430Ph2OZs06Av013Iuj22fGOei74moOqtVdJ5D593420gR+xFD5nessNH42B6DuB00YupmT
- jyObNhH5DSPL4vmHBOp1+TH0dOE2tiuCapz2sanHA/kc6geDC6dKXHY25S70ElSHwcuhKgsq
- 2JTJ8pBF2X81samhfgtB+b53sqiW6tNU82Q7i9K21gNqxvzSJy98wdueRCtSvqZV0TuO8o6b
- GlrAiYYNmQ8G84lsoIcaEMaFZCysWrJyNIDHFZJ1ALaaJwmmmAVw2tMFmGIGwCLvIuv5SO4Z
- O84ItQAau56wmWIawMDICBHs4pM7YH+lHQtinNwES31FOMML4I2K0RBeS8qhweEAQRxO7oXe
- G4EQj5GR8P5oVciNIGOgZkITyiQim9hwYrQklAkLuhXOj4QcwsidsMVRQDDTL8PctkqMyarl
- wauDAgZ/AG/N/flsh3A45mzlMPhFuNQRdOMu4zT4T/lWhs6E/Y+uPHvmPTjkDhDBFox8HTZ1
- RjP0blg414kzk2vgwISACbAG6q+VYQzNhwVnhUz3Zmhw/vSf5y89fZgOiA0rjmJYsbxhxSqG
- /32NAK8HkXSGOjWZVsco6ZMStSxVnaFMlsjTUs1g+e92Lzr97eDi2LTEBlhcYAOQi4lF/KR2
- kVzIT5Kd+oZWpR1RZShotQ2s5+LiSL485apMSCbL0umvaPoErXqusrhhUdmsC/fenl/dvLQa
- Pz2f6cx+NyvPXRCIz3Ecc1kuFW67TxSNKIl10tfKt+2UevZ33q15/9ytVVbBqv1E1ZXDX/7G
- DtMmLKRfTJiwHwwX+r89ZKwVZm1s2hwh3RA9oZU0Kl4Zf+dAerbOO/lpmXpKlOiQ2CSd87Hu
- 4Qjj+KStePGox3PyY/1gnH/XbtGhNmzPXVOW4vP4pN639J/Zz8fPebv6tkdbZqd6zl2YGt54
- Z8vPiQMLfxifFrurpbHUVP5lvnS92mf1WHr2NfisrR0fpdUItrblnTrwIS9cGJdbmlhHHcRU
- UbmW+sMlS6/mzR2LvXkkobHUuq6mpKLL1TfWId07uq9ZjKuPy2K2YCq17F+ki5zvKgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHKsWRmVeSWpSXmKPExsVy+t/xe7rBd0STDT5/FLS4c/s0s8X9xZ9Z
- LF7fXsFmceXrezaL3qXnWC0m3Z/AYvFl0wQ2ixf3LrJYnG16w27ROXEJu8XyCfvYLDY9vsZq
- 0fVrJbPFjPP7mCzetDUyWpx+tJ7Z4lRjK4vFob5oi0+zHgIlJ79ks7h44hOzxfffZ5kdxDzW
- frzP6vH+Riu7x7xZJ1g8ppw4wupxrucum8fOWXfZPWZ3zGT1WLznJZPHkauLWT3uXNvD5nG/
- +ziTx+Yl9R4b3+1g8ujbsorR4/MmuQD+KD2bovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj
- 81grI1MlfTublNSczLLUIn27BL2Mxas3Mxaslq14dLOVrYFxkkQXIyeHhICJRHPTEZYuRi4O
- IYGljBJXlm1jhUjISJyc1gBlC0v8udbFBlH0nlFi6vkGFpAEr4CdxLXZR5hBbBYBFYlp93uh
- 4oISJ2c+AbNFBZIlljTcBxskLOApcffkL7A4s4C4xK0n85lAbDYBQ4mutxALRAS2skq82rYO
- zGEW+MgocWnyFnaI1U1MEn+n/mQHaeEUsJfYfKyDDWKUmUTX1i5GCFteonnrbOYJjEKzkFwy
- C8nGWUhaZiFpWcDIsopRJLW0ODc9t9hQrzgxt7g0L10vOT93EyMw4Ww79nPzDsZ5rz7qHWJk
- 4mA8xCjBwawkwpuyQyRZiDclsbIqtSg/vqg0J7X4EKMpMDgmMkuJJucDU15eSbyhmYGpoYmZ
- pYGppZmxkjivZ0FHopBAemJJanZqakFqEUwfEwenVAPTVI6cGXIO0auuqf6YzGZldnROluz8
- DV5hb1ZcCWFaevyjRNCz8otOv6c8uz/VYctdacsZ9tvVHu5Pfj9T/Ni2matiJl6qWTgp5d6S
- pebOuhdVmXyEsj8Lq39TCeKquTTz4iomLfOp0l+1Lpzf8bbsoSpT34mTP1XUsi5t28ckXxqi
- ujiN8Yk2b9m0K2+6Jdkr53zdX/vy2qp6NonPQtw3Llb1LeY7tOul6uzn1/mXRkT953qgy3U8
- cHluOUdks8qT9TPiHys8P/JUWjhjr35y7VupV9Hn5nast3eYbhMVuIQ//YKifl7ugzneG36/
- F04zr7LvnvZOjfF79cY7LX3WG4/OjS4PvqCeFidoVfbXXomlOCPRUIu5qDgRAGgNCO7BAwAA
-X-CMS-MailID: 20220905112403eucas1p1b3154207ebea4d10684904144e17b3c0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220829184118eucas1p2cda47fa166cafcb904800a55a5f66180
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220829184118eucas1p2cda47fa166cafcb904800a55a5f66180
-References: <20220829184031.1863663-1-jagan@amarulasolutions.com>
- <CGME20220829184118eucas1p2cda47fa166cafcb904800a55a5f66180@eucas1p2.samsung.com>
- <20220829184031.1863663-3-jagan@amarulasolutions.com>
- <7511aa28-a944-d241-5bea-8404008e7dce@samsung.com>
+To: Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
+ shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
+ Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
+ gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20220905105653.13670-1-Arvind.Yadav@amd.com>
+ <20220905105653.13670-3-Arvind.Yadav@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220905105653.13670-3-Arvind.Yadav@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0060.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::17) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5adae3eb-7587-4db7-640b-08da8f316358
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6237:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yAosFKgPdJTNwt2WIXuUA8TrpjVnD3ZNBYQZIg2cuMfuXFu1bAV57dJctT28Qn78/VOUE0kAs3SK60XIMvyf9HqkPey7cn5H1DkMWoNSjx8mcROULJhUKvoSqrtCKEyC2LKPEziSGpkzQnOoOVSy6swi+7eL7Ij464+S8oeNv62OZzKdGS8lOJd/gbD1KEyb7uFCntwQe0UM1eQLl++5mYPFKHc4WlPpKBsfTy8iZwaWMLAxRmFhT6CInP6yoWkc7UYQxwL1IUgCv+dpgN9gqobETI6YouhJmCjgX6MRenBtAMNWuoLtLrzxY7XDx7owevKtp1aQuJamH2AvLS7S/OR4MfRPYX++f199iS8YMYvo0C9Z+ItQeckR0HvoLqivcOM2l1va1GQHs9sqFQ+3Wtdtzc2PD4EbqVC7+xU7A9qKghOx+LSERMj8yQJoEVgharVoxMMwZmRS3MeRftK36Dbm+IYRlQV0UROc7/5RgHSph/STz90BsrEYT+5Qb/m8LDXCFSyHdQeOJLpCGjm/KEfAIPyXAB2fUhhJrgSMp/GnNsBWYWCZJIUiJr1uNHGdFEvyDt683aNr3WQdhq4y2VLFNP1jJdZSjpddmYKpEEUCf7rlG4Nh3rCuICgAH4aNKMIFqFt9xtFP0KBobSbLUwFfNMEyhwFGhh1iAgQoYxMuExt96gqgIzIFs++v5rhOLzwRtDWmIPKPAfQcyQ8WzLOj8Lx8JSe+mJgamXqqcooqkzMRCA3THAJ0U9LofjbsEkFWAQ8QafrgWSsdj1EQSNKSjvoAcapWqRnuH9EcdUhPtg9GIMnySMJkFVbLQAhM
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(136003)(396003)(366004)(346002)(376002)(36756003)(6506007)(921005)(6512007)(2906002)(31686004)(38100700002)(478600001)(8936002)(6486002)(6666004)(5660300002)(316002)(41300700001)(31696002)(66476007)(26005)(66556008)(66946007)(86362001)(8676002)(186003)(83380400001)(2616005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ym82SENRQTNRSmNhTlY4Ny9ZbDFkaEg5OHg2MWRENXU4UWV0clU5Z3FxU09v?=
+ =?utf-8?B?dDEzSldLSkxaRWdySVZGZ0hEREtMRE9memZGRTlPcTl5MHBnQ3FkcEhjWU9n?=
+ =?utf-8?B?dEFUSlpZd0tsYjZjcGJHVzlRcVNOck5QOFhFZVF5azUzOVZrb1A0ZkRkeUlV?=
+ =?utf-8?B?R0tSdDdLbGR6Q0JlN2dlUHRTZ1c5am9EVTRqM0wrUjhtYitTOFIxSnpGT1Z0?=
+ =?utf-8?B?V050cE1pQXh4TjJpV2piZU9JenV2eEE1RklURElKQzFYZ3I5bWNEblFYSnpM?=
+ =?utf-8?B?Y2dHRU1WUTdFTlVKb1FndXNOcUMxbW9ZL0c0Yjk5MlJ2dHMrNld6N0pNTnRU?=
+ =?utf-8?B?Y3Y4eE5JQXlGeThTK1g1cTFlZ0V5L3h2b3dnL3gxRWdkd2JYdzRlalZZSzl0?=
+ =?utf-8?B?Y3pkcUlRNndCNXBtS3k3b0xoTEQ1U1Vmc3ZzZGFEMWxSZkFYdGpUeWZkOUx6?=
+ =?utf-8?B?cVVwbVkvanZEOVNaSTZnc3lFdWNYUy9Idm81YTN6RGR0dWhMR0xkaHhBSm1I?=
+ =?utf-8?B?NDZpM1YrcUZMUFpFL0p2ZmhJSFhwR0V2YzBKb2IxK25zd0NLYTdiT21oemEz?=
+ =?utf-8?B?WlpyajUrL0UwV054Y2dTcHdNcmFmSnoyTGVYaWZWdG5kQlVucENUOUFBTkdL?=
+ =?utf-8?B?c1d1NDY3U1FFdGZLU2tub09CUnRzMU4xcSs5S2trSVRKWk5pdUNuTnp4Y05q?=
+ =?utf-8?B?akl6T2ZEbkk4aFdBK1FCTzBNWXFoa016djFqVUQ3TWJOcExBRko1Tml5QXBV?=
+ =?utf-8?B?VUtOdHMyUXRZMFM2U28wV2ZpWVJnN0Z4RWpwWStDeDJBaGtHeUw2bStqWklZ?=
+ =?utf-8?B?MXhzd3J0eGlQU1k4amwrU3ErWnBNMDlVUmkyd0RHR2tzUTR3U3loMVZ3WXUx?=
+ =?utf-8?B?WmZQZ205dG1HUFdkMUZVQTBpVWZyRVJ4dXRGV1JHSUltL2JQSHh4T1BWNXhF?=
+ =?utf-8?B?aTdCamIyMys3WDZUQ2RIeHExN09MQUE5c2tKWng0ZlNvZUVWTWVUZ0RScldD?=
+ =?utf-8?B?dklKVWprYlJ6SXU0S2RUcTNjeXp5NGJhcjJOM1dkSW9qRzBJdXBaRW0zKzNI?=
+ =?utf-8?B?RTlFT2lPU29OdWdjaEYwOFBPWVgzb3VQa3Y5WmpiM3pnWDc3enRrcWVmeW9x?=
+ =?utf-8?B?SFFsamhqVlI0MFF2a29lN0Nqb0tIRjJDMU1qcWVtRTY0UjJmeEttUVBMUWJi?=
+ =?utf-8?B?S0YyVkIwUXZMbVN6QmRXZStQT3JsK1VFeGZacTQ3aCt2L2NhY3lmK1lMS0sw?=
+ =?utf-8?B?Ny94d0VBVmZrS3FlalFSczFqTmNnei8xOWRGZmIvdVdEdVBnaFRFYzh5T2Fp?=
+ =?utf-8?B?REsveHhVbG43R1RZYUI0bStFWFMyaVlUbm56QkFHd29id1huNERXR2ZzMllo?=
+ =?utf-8?B?SDhUUS8xemNaODJpNWdwTlR3K0lnQ01BeVBFU2p4QnFqYXd3czU2UzF5d2NS?=
+ =?utf-8?B?Y21XZU9QSTk2Umt2R3U4S3haQk1JdnFkeU5sMnVVbTBCMDVLMFI5YnlFL3Fw?=
+ =?utf-8?B?eWQrb0tzRzl5MS85bE1DOGlxVnUxMld6aTl1LzNHeHVaVGpSZUNBSDBQbmJp?=
+ =?utf-8?B?SUx1bWxkaU1sWURGV1I2YVprS3FHUngxaHRjaTZ2eFFGdkhWMnlQK0Fzemhu?=
+ =?utf-8?B?TUxrR2Y5YWp2aDUvYkxwK3k4aXlXQlVneUZpK0ZBOHNtWDRXdVEvdWFpcUhJ?=
+ =?utf-8?B?SGc2RStXRGFvNHlGcGVwd0h6Zkp0d042bmpFL29TR3ZuL1lCb1NudDh2Um4z?=
+ =?utf-8?B?RlFrNXVUSE9adDg0TGdvOUVuYVdKdkdwdTZIdkI1cUpWeTJrYnRsUlR0ZkZm?=
+ =?utf-8?B?K2tMbzFEMmxxdWgxc2tEMkhFdHJlMHpTc1ZRK3IySXFnWExMSFdYU09mRzFO?=
+ =?utf-8?B?UVhYSGV4ZUhGK2lQcHl3b053UG5aLzJoM2dVckx2aHZPWjFmWEppNkhaazFo?=
+ =?utf-8?B?WkpDNHVzL2tHb1VOZytUa2RWTnk4a3E4Nm5DdDl4Njg5blBzajRvbm9Qc0lL?=
+ =?utf-8?B?YWE4SXpFcHRVRVQ5WDJ1dDZ0bFVrUm5kWW9qNTdRNmNrbVo0bG5rUTA4UWZL?=
+ =?utf-8?B?eXlSaFo3MXErUVg0WWNwQ0x5RysxSjdYZVByYmcvWmptdHVWK3BaSkxtQkhG?=
+ =?utf-8?Q?u+LFrNfF1KKBb8YSOAWYVafEM?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5adae3eb-7587-4db7-640b-08da8f316358
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 11:25:51.1440 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xB8/TVc07AZmmnNOFfRGlhXcshH7rsNap/dBNHj6mG6guj8SaqdG39mPoUmzA6ki
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6237
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,106 +130,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
 
-On 02.09.2022 12:47, Marek Szyprowski wrote:
-> On 29.08.2022 20:40, Jagan Teki wrote:
->> Samsung MIPI DSIM controller is common DSI IP that can be used in 
->> various
->> SoCs like Exynos, i.MX8M Mini/Nano.
->>
->> In order to access this DSI controller between various platform SoCs,
->> the ideal way to incorporate this in the drm stack is via the drm bridge
->> driver.
->>
->> This patch is trying to differentiate platform-specific and bridge 
->> driver
->> code and keep maintaining the exynos_drm_dsi.c code as platform-specific
->> glue code and samsung-dsim.c as a common bridge driver code.
->>
->> - Exynos specific glue code is exynos specific te_irq, host_attach, and
->>    detach code along with conventional component_ops.
->>
->> - Samsung DSIM is a bridge driver which is common across all 
->> platforms and
->>    the respective platform-specific glue will initialize at the end 
->> of the
->>    probe. The platform-specific operations and other glue calls will 
->> invoke
->>    on associate code areas.
->>
->> v4:
->> * include Inki Dae in MAINTAINERS
->> * remove dsi_driver probe in exynos_drm_drv to support multi-arch build
+
+Am 05.09.22 um 12:56 schrieb Arvind Yadav:
+> Here's on debug adding an enable_signaling callback for finished
+> fences and enabling software signaling for finished fence.
 >
-> This breaks Exynos DRM completely as the Exynos DRM driver is not able 
-> to wait until the DSI driver is probed and registered as component.
+> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_fence.c | 12 ++++++++++++
+>   drivers/gpu/drm/scheduler/sched_main.c  |  4 +++-
+>   2 files changed, 15 insertions(+), 1 deletion(-)
 >
-> I will show how to rework this the way it is done in 
-> drivers/gpu/drm/exynos/exynos_dp.c and 
-> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c soon...
+> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+> index 7fd869520ef2..ebd26cdb79a0 100644
+> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> @@ -122,16 +122,28 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
+>   
+>   	dma_fence_put(&fence->scheduled);
+>   }
+> +#ifdef CONFIG_DEBUG_FS
+> +static bool drm_sched_enable_signaling(struct dma_fence *f)
+> +{
+> +	return true;
+> +}
+> +#endif
+>   
+>   static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
+>   	.get_driver_name = drm_sched_fence_get_driver_name,
+>   	.get_timeline_name = drm_sched_fence_get_timeline_name,
+> +#ifdef CONFIG_DEBUG_FS
+> +	.enable_signaling = drm_sched_enable_signaling,
+> +#endif
+>   	.release = drm_sched_fence_release_scheduled,
+>   };
+>   
+>   static const struct dma_fence_ops drm_sched_fence_ops_finished = {
+>   	.get_driver_name = drm_sched_fence_get_driver_name,
+>   	.get_timeline_name = drm_sched_fence_get_timeline_name,
+> +#ifdef CONFIG_DEBUG_FS
+> +	.enable_signaling = drm_sched_enable_signaling,
+> +#endif
 
-I've finally had some time to implement such approach, see 
-https://github.com/mszyprow/linux/tree/v6.0-dsi-v4-reworked
+Adding the callback should not be necessary.
 
-If you want me to send the patches against your v4 patchset, let me 
-know, but imho my changes are much more readable after squashing to the 
-original patches.
+>   	.release = drm_sched_fence_release_finished,
+>   };
+>   
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index e0ab14e0fb6b..140e3d8646e2 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -961,7 +961,9 @@ static int drm_sched_main(void *param)
+>   			s_fence->parent = dma_fence_get(fence);
+>   			/* Drop for original kref_init of the fence */
+>   			dma_fence_put(fence);
 
-Now the driver is fully multi-arch safe and ready for further 
-extensions. I've removed the weak functions, reworked the way the 
-plat_data is used (dropped the patch related to it) and restored 
-exynos-dsi driver as a part of the Exynos DRM drivers/subsystem. Feel 
-free to resend the above as v5 after testing on your hardware. At least 
-it properly works now on all Exynos boards I have, both compiled into 
-the kernel or as modules.
+Uff, not related to your patch but that looks wrong to me. The reference 
+can only be dropped after the call to dma_fence_add_callback().
 
->
->> v3:
->> * restore gpio related fixes
->> * restore proper bridge chain
->> * rework initialization issue
->> * fix header includes in proper way
->>
->> v2:
->> * fixed exynos dsi driver conversion (Marek Szyprowski)
->> * updated commit message
->> * updated MAINTAINERS file
->>
->> v1:
->> * don't maintain component_ops in bridge driver
->> * don't maintain platform glue code in bridge driver
->> * add platform-specific glue code and make a common bridge
->>
->> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
->> ---
->>   MAINTAINERS                             |    9 +
->>   drivers/gpu/drm/bridge/Kconfig          |   12 +
->>   drivers/gpu/drm/bridge/Makefile         |    1 +
->>   drivers/gpu/drm/bridge/samsung-dsim.c   | 1686 ++++++++++++++++++++++
->>   drivers/gpu/drm/exynos/Kconfig          |    1 +
->>   drivers/gpu/drm/exynos/exynos_drm_drv.c |    3 -
->>   drivers/gpu/drm/exynos/exynos_drm_drv.h |    1 -
->>   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 1715 +----------------------
->>   include/drm/bridge/samsung-dsim.h       |   99 ++
->>   9 files changed, 1868 insertions(+), 1659 deletions(-)
->>   create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
->>   create mode 100644 include/drm/bridge/samsung-dsim.h
->>
->> ...
->
-> Best regards
+> -
+> +#ifdef CONFIG_DEBUG_FS
+> +			dma_fence_enable_sw_signaling(&s_fence->finished);
+> +#endif
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+This should always be called, independent of the config options set.
+
+Christian.
+
+>   			r = dma_fence_add_callback(fence, &sched_job->cb,
+>   						   drm_sched_job_done_cb);
+>   			if (r == -ENOENT)
 
