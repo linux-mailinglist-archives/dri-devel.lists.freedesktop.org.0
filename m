@@ -2,126 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDEA5AD900
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 20:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E695AD909
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 20:33:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD7010E498;
-	Mon,  5 Sep 2022 18:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFBD710E49A;
+	Mon,  5 Sep 2022 18:33:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2062.outbound.protection.outlook.com [40.107.237.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF67710E499
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 18:26:49 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43A3410E49A
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 18:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662402799; x=1693938799;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=2cd4jRnlHv7H3/kqlXXmpWagYaGSEx1463bXD2ZGtw4=;
+ b=PJ5bFYmz4qNdtPECsGLcL27nG1hoR5aRLSyuVRALhbj4Hl/xXRDlWPL8
+ eHwwRSz6cuin01RzWuqr3Gh7aBBFocCkmDTeIm4enD+ooOWjlH94eWzDR
+ +qIyFm2Cv8cPRJGvfNFOG+VtfqGS6zvHurc/K29HqbqWlFvRJ1Gorxwnk
+ 4me0AI00czdkeNM0Pt+m9oJbKkyVAFDBS7La/UfbQhX2rDzrV6a4D5mWc
+ Dz4gu3Zsr1XlcLLqK9EV7MspFQOc/0dD9pYCcM0AqvH6flnRiJJtvZo1J
+ kDlwnBv6W4zjQrscpMvZEWhGWyWGny/9ZgCSAHuPC2iGak/4ecEspys2M g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="283432285"
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="283432285"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 11:33:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; d="scan'208";a="609731744"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga007.jf.intel.com with ESMTP; 05 Sep 2022 11:33:18 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 5 Sep 2022 11:33:18 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Mon, 5 Sep 2022 11:33:18 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.105)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Mon, 5 Sep 2022 11:33:17 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k5sU+SxfTVR/L2ga1+9lOmkBfRiw1C+CD452mCykTma0rr9dkqbXTd1B499jLCwwToyPxx7qDvY/dUqLrwFTwyg8HYwQSBlKEitAe6/NpvldftKYH6LiV3gTQOevTl3nRhmoMauys9Z6Sc+JncbPEL1OUAjXhgm8bAId4SoMLM0MIkvZUgXH4/bAHUOVaSrp+kRpFcGWTf1EPCCGqua0EAdo9PcyFZddbd2lgD4NlLJkciMfdSP09RjXBZhiIPLQ3P/JHH+Ktb3NU2u5N8upsnp+Lq8TvU+cGPMamPx0yPlN6WMgBF2uLTBQrwye5QN5WlcdpoLQ0SHEvZ8j9h98zA==
+ b=Mx8QKG+SMAlHYebkk4meEZEjhOlpqiyFbxthWRf2uyH212/DJYjXTT5O//aELOzzltbC4nwYQdfVlzCJngp9T61a555c79eS7LcIW5+orRDIfZprEpvMn1iYzUrHQ9w8KLLpoTkK2VAtXt+KKi+rtqovXmwTeVo6oh3ANdw1QA8rxP1V4liQWtaWdP6jfEjyoD/7w7QVmTPCBRnDg8Pje6aUBe86bzV3AxOmTlazGd74IYpBC816Rlvy06xseHFGdvxCoP82FZpg9jcirqsfiILy18KCjBjsnYMetfD/uJfGVXtUSMzfnVl9kCZ4GLuzksYV8CO7bTsjppBHBkMtEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=poSojd5kbTekZqSfy8QCPrycXD96N8UxYkoF+PazzD4=;
- b=EY0zFA6htxTqeyR9XGpspUIPAufg+w6bCQjXSH/LU+Oqamd5XrDJ4dpbsjlAs1xLmcij+dSvkDfeltL0tMWhRyB1Syk8C4oTuv+uKLUiJCRt0fRXceaEtxxKuC0b2toJFwumaI3hgan371E3kn4dfGar1ste5tOqZqBq90BAfEjXdRmmDLXnr96pNvt+yk951Jxxn7DvhtJuOnnRcgjXLsFNK/fNksUSylV3GMThSDO67BNQw5305dhgGpeRzfYWhwtcgRbDt8si+MzHGzaww0Q3ePop5QwWDKEZ39Cu8u6ZT0DuwIFytF1w28xUQR2I4EpeVpj6LZxAmh/X70pxHg==
+ bh=PkSVkHLCJpy5xU8fk+6tmZWpT/4kwmcA7pv3gFa+I+o=;
+ b=cK8qK6hg0l6nJyOgfR+XtuSiFgzzrh65NNqDFRHyo/NQy7wJZvKf8e9zPOD0JzKqWzaThSt1XV1damJXsaeQCIhc/q+rrOS730GDaDjKuehwM99nxlm4/AzWPdKTMUTz87gAxvyfCcSqTQ/4sLIFv8ksDZy1uzQBG9BioFRdBqIc+V9sKyV5IQUi/CfWc/kvz8OkSk++a0PKNzFNW/Wsm6cyDMMUO2ToBKhI2EZzmtOQxrexYehoZ3AxUjHGZHbj4z4pAsWqStFd6YM9rwVmrtx65Wy9TiZAxqPweQMerACa0i0HTCdVqjK5sdj5bPC0/miYehAFrSCWTSAY2Nn52g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=poSojd5kbTekZqSfy8QCPrycXD96N8UxYkoF+PazzD4=;
- b=2vEAlp1k3EvycXPxiwwEKbYtONiui88AekinCV8kyxPjOhqUzoF7i9g6D6KpNLQrNVon15jM8O/wCHkRlZIk5X1Z9IpSDscNgXwo791jZGBYfeYbZ2OUsioM/3fy5nKGKDAto9gf6XAlHuefdf0qS8AKH+aUiZopjSsG8yUONiI=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN2PR12MB4485.namprd12.prod.outlook.com (2603:10b6:208:269::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.11; Mon, 5 Sep
- 2022 18:26:47 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94%7]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
- 18:26:47 +0000
-Message-ID: <3da7b3c2-737e-a067-9018-8e743e59ef65@amd.com>
-Date: Mon, 5 Sep 2022 20:26:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/4] dma-buf: Check status of enable-signaling bit on debug
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
- shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
- Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
- gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220905105653.13670-1-Arvind.Yadav@amd.com>
- <20220905105653.13670-2-Arvind.Yadav@amd.com>
- <0038fcff-35f1-87e3-aa26-cdd104a13628@amd.com>
- <3c702549-75f4-c640-9f9c-37d7fcbb1645@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <3c702549-75f4-c640-9f9c-37d7fcbb1645@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
+ PH7PR11MB7004.namprd11.prod.outlook.com (2603:10b6:510:20b::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5588.10; Mon, 5 Sep 2022 18:33:16 +0000
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::b04c:807c:4ea0:c62e]) by DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::b04c:807c:4ea0:c62e%9]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
+ 18:33:16 +0000
+From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v3 1/2] drm/plane_helper: Print actual/expected values on
+ failure
+Date: Mon, 5 Sep 2022 20:32:22 +0200
+Message-ID: <20220905183223.390891-1-michal.winiarski@intel.com>
+X-Mailer: git-send-email 2.37.1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0144.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:96::19) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+X-ClientProxiedBy: FR3P281CA0123.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:94::9) To DM4PR11MB5373.namprd11.prod.outlook.com
+ (2603:10b6:5:394::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 58a2fea0-7a65-490d-019b-08da8f6c3131
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4485:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3585b407-28ce-4ce9-35f2-08da8f6d18bb
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7004:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tj4DW1lQ+s+sSZoQnV+Y1xE9LeXE+kirZWlzuAI4sIwReJWSP5yOFk7XgKo6wqd8rx+KZ9FLlHzhJH9CarZViz6TH8rf1wzhlWD/S0OPFyZaiJA0M+NCqq5MhIOEM7MQHYhMCY00KSCnxkVvov7hX1BIx4U3NKTodhoCsmATyht86d9FzXk9KPA3K692IkAP1BM440AQY2bf9185QCAlydu7xSfbmbCE3U2JI9gXB4fD5V6TOTIcT/3xI4XtA4o3XRjlpREcDLjvWJfcuZIFyd+rW42uXE0z2x3jfMgEcRGBSLcn4bQrWa9U7nA2UcIEjF4RLlsLhEB6U5/Lw65EmmoLLpQCa/Nu/cwt+QrOl2+UnxzEjuKrFxbhDXvpOL+digHrRnb3KYjxrRXfFzAH5/v8nRHIj9ydOF1W6L7TOrbrPU1OzU9KgUVm1IFfiU+4aCiYZioAJ2lnWbG65n3yhhPgTkyUhpHFcxwwxxwV87vDcuIWxNfeasvljlYXtE3I/NcY/lYcWcbR30VkwvAL74ig49hO3Jym0p3NOdX8Q0/mGUy4VtTKdD+EQR7UEZwAEorWqmHemhYLlBoWEnYauEZEV4BDfmpj0EmoLI1xzz7vdOtWsupCu4ljhf76uyp1yCmrUsAY+s1KTSNAM2tEqK8bi+b5J0GUT0dQv80jKw/PV9xCYZHwawOr/SjeQ+wOFTUMstX05tu9tLkQPzm5AYeB6hAIOXbMuEjtQyEcxF9jwjJr2k6ynCSQJHGsEjKzXeehm4LeoODyplmOsC8u3Ln5nb7eLA4oKBNopLisggRdaaR2g0VjmJCf6pGtnCSn
+X-Microsoft-Antispam-Message-Info: 7Zc+aSA9IdcEwTbDorVMaMkXWg0DEhPx/9BTYFeVfxhPkI/q7QaWDj2deje/0WMo07ZGNNz5gX1OTHOxxE7LSJz6kqWgFX80jVn+KO3hv8/L4JUlTeC4H4Lz87j7RV5mshVVt/Hm6FkrmdUndK1iLyYiepFVKdL5VG044RzIR4e6heT83gygk7rtZcNTQmkWklUNOgD4L1wzcPBDPVM/WPrNbn1mwUIevTtODAudBH+erN9Y/8Qvh9/u1UuiBY1ms9bop+2twSGOvpAxHjdJIH8mO15Q2pMfRQtXlDRCvybP1Pchq1BCpl+TVN5g02xYDrEgMAIBMN5F5ecBwsq+xf/X3are6Lf8EXclM2H1HOkFGuS1DWdWn9SMjFs96pfxN2V/qkqQgq2En12OIzFUGQ+zvhpnRqeWRjOj9bU5+9BLAbutGg84Hh48aATpN+E1ECf9+yR+7zqCz0fN2FY8YcJjUFqQmucPiAeKxgI8UQnRd06UTJE6MLYO4KQfHLHWEGXW3o7pSAlGThEI38D0QDG/XZq/WRfqcyiSe3lmUGQ61iFq6kdjpON1eG3PY34qJHLWoT0MEFk8EbYF7zIvsQzBN7xqrkMszS6UisbXnAq2N2RQAr/1qeHFIH7MYuwEjb/flMuGGCcXzVdpzFP8xj9vrTQwdx2D+/G/8xeIXigem/VFhkXwGJRSxYznie24S/77GPVshopB26byEVAuOw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(366004)(376002)(396003)(136003)(346002)(8676002)(83380400001)(66476007)(66574015)(66946007)(8936002)(66556008)(5660300002)(6506007)(478600001)(53546011)(6486002)(41300700001)(186003)(6666004)(6512007)(2616005)(316002)(86362001)(110136005)(31696002)(36756003)(31686004)(38100700002)(921005)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(366004)(346002)(136003)(39860400002)(396003)(376002)(86362001)(36756003)(66556008)(66946007)(4326008)(66476007)(8676002)(38100700002)(82960400001)(6512007)(478600001)(6506007)(186003)(6666004)(107886003)(41300700001)(83380400001)(6486002)(26005)(1076003)(316002)(54906003)(6916009)(2906002)(2616005)(5660300002)(8936002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L3F4SjdmQ2NpVDZSSXFGR2o3SHkvcDNCclZYa1NFSVJnbWRwVWR5MWZ2K29x?=
- =?utf-8?B?alNkUHBJQmY1ME5DRFdnSDdzdmIvMldCalNyQnduMFBpWTJVdDEzbms1MXVN?=
- =?utf-8?B?SWQzY002RzZXb3FoZXRKeDVKTFNzbWhsdzRLNExTOTVNN2VWZUM1V2xRRU0y?=
- =?utf-8?B?NkJnUklYQmpZdUE1K3lJYkNlRTl3SzcyRWhxZ1lEOGVwSDZpdjBzNWVpSGky?=
- =?utf-8?B?TlVZeE0zTGppRFNvNHJzTERHVkVRMERZTk9aWWRobDM4M1BuWXN5UU52ei9T?=
- =?utf-8?B?WkpaTkF0S2pBMWd5VjRsYWV1S2JJV0Z3N1N6YUZzUXNmbjNoTU1BSnRXZTdr?=
- =?utf-8?B?ZW11cno2U21rVHlrQUVnUStSclVneWh4TmV3VmNqY1dnb1NmMXlSSkZ5RkFq?=
- =?utf-8?B?SzJrSjZMeE5NYWxSa0l2RXl0YlBwbWZMcU5xcHRaNEVyUEtJVDJWaWZwcWNP?=
- =?utf-8?B?Ti9mZzU5L04vNTNtM0R0TWJVTTdkRnB5SnR0enhIaW03T0FLTlBhdDNaRHUv?=
- =?utf-8?B?d3g5NmJkTUJFS3BDZWRIOUlnQ0hhU3E5QjkyUWdnWkFUUU5udW5HcWxiemJU?=
- =?utf-8?B?VkxIRUgxcmdpYXRodGsrL2R3N0ZBcHpUdzVjMWZheThDV3h4Ylg1N1oyNHV2?=
- =?utf-8?B?NDJVdVFuaWd1bTRsVXRUcFYzUWhlS2pCQ2FwNjd0aXRheFBiVndvMjczWjcv?=
- =?utf-8?B?enBIRHpwRlQ0WlpySTlBSk55bGNvUncydTBnSy9IY0FyQkhzTkNiNzZPSGpO?=
- =?utf-8?B?WWtJdDhqLzVEdHNieTZlVkNyUThyWGdOeWZBZithek5vR1BoOFNqWVVkUDdw?=
- =?utf-8?B?WFAvOEhrZm9nN1dWaFZxL0tVMUJlemllYlRIcWdmK2d1ME5UTmNHZU1kYTRD?=
- =?utf-8?B?WlhYMkxSNElqeHJOMFlaVzlLdEcraTN2QlE4K3RNMlhXeGRURFYvSEF3cFpv?=
- =?utf-8?B?enBtcktwbFlMSWw4a3lWV251V0p5SHdyTEJjb0xhcUxSbkFqbzZySDBqaVFG?=
- =?utf-8?B?TlZoVGkzYk1Sc1JVdjE4dHhLMlQxcTlLWGJyL0FXL2MwRGhLRmFYS1RpK2Mv?=
- =?utf-8?B?cjY3aHVIdTdjZmlFdmdDcEh6ZjBtQStkSjFVY2pwaGlUVWNta3E1NE9OdDRD?=
- =?utf-8?B?OEh6N1d0c2dDY2NQSEZLc2laNmdsY0pHanNIK2VraUgzM3hEM2syVWFtVkc5?=
- =?utf-8?B?cDdrZzVyaDlmTlVUNTlSOWZPeEEyK2xjaVNiZjljL210ZzRONGpFMU9Wdi9N?=
- =?utf-8?B?eXRsWk16WnZPV1pkVnA3c1pUUHJpZXBBSitzdWdZK0VvV0twcTRkOEo3a1Rj?=
- =?utf-8?B?d3RtWlBDUld4TUJzUUNLRis4Y0xJby85VmRYcjJ5WlZPdE00anN4TStYTnhT?=
- =?utf-8?B?eW1sUDJCQUh0OElUR29oZXpzZ2hJTGhzalJWeFJSRzd3KzBWMkZpRUJMSnZO?=
- =?utf-8?B?by8wRDRDZ1Q1c1NqTVlVTWRmWTl1RkoxNm9NcFRzcU5iVXh2VS9VeUpIMTZ2?=
- =?utf-8?B?cjV4TFRhSjMzTXZPeG5aaUc3NEZrTWlsdEx6Lyt6NDRBbGdkR0F4RGc2N1E0?=
- =?utf-8?B?OEwzNkExWDdlRkhuYkNQRGZtamZZQUVqUE1qMnBwRmJCYk5sS1piTERmS3lp?=
- =?utf-8?B?ZFpvR3pZK1JnbUVsZmsxUGthS1lNOVdJSzBKZUpGUEdRaHMzSDBSYmp3Y1Zj?=
- =?utf-8?B?MUI1ckhIN1JOQkdYaXdFaTEyVDhidExQdjBRVGdNSVBXcHRoNDZyZTdyRTJM?=
- =?utf-8?B?RTBqcFVBaExZWXdTQWJ4bDR4anZFVW9NeHNpMnlxaXdFYUxUKzlOVmpubzBB?=
- =?utf-8?B?d2FSK05ERFdlRjJ2RjFaOHQyZGM3TzFBS3gwd0I2TEd2RHBoY0pzdjZWSEtn?=
- =?utf-8?B?eGlRd1hpcEJEU3lVN0JhbDZheUNoN1A4UlByMVhKcmx6SHhxdkFCbHdFc1NB?=
- =?utf-8?B?QmM5ak53dlljT0N3VnNBZVlrWjNkdjBOYlg1U1hSUXIyekxlVnBJa2tGUWU0?=
- =?utf-8?B?S2hQYUhuY2g0MU8xRUtCNEF1dk5URUFwM3BkdWhRb2pMU2J1aUMyaFRqa3lU?=
- =?utf-8?B?U2dtMnlITjVSQlJjYUpGUWszTkFhd0I5OHdCSVBkTitCOG40TFZNTFRSMkp4?=
- =?utf-8?B?N1NNSVd1eERKVFB5L3dRdFcyck5NSUJqRW1hYWc2SFJOMFMzdnVMRTJxa0hK?=
- =?utf-8?Q?NR36zzsc+5AIzb34udo7qtZkTy+VsDr3iwLtmnWTrqjT?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58a2fea0-7a65-490d-019b-08da8f6c3131
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVlwMXVsT1A5R3E1ZmtLSkpWK0IycW85Ni9yN0x1RjNndlVrRDZBai9FVmRP?=
+ =?utf-8?B?a1c5NUlDaWFOamZuUGJyNzM5cHRiNnZRUjdGYmticVFmSHhJOWgxUUdwVjUx?=
+ =?utf-8?B?SkUwZnIrODUvM0JNVUdrdHlwVE8zcG5LTGlJV2ZJTEpqUWpBNlFIek5jdExh?=
+ =?utf-8?B?S1IycytaLzdZVkhnQXZSdVNsNlpJd1ZHd2JrRjJEejlCOUNvQlVuMWVXY21t?=
+ =?utf-8?B?ZXNtWXRuZjBZY2Q5T24velNONUw0TUhGSFJSY0c1bElNelFYcS9pU09lbDBK?=
+ =?utf-8?B?UndHZk4rSHRFeVkvdTNyRWY1Wnlkc2c4NnhsYlhrblcyNE5DeW9mSWR4MEkr?=
+ =?utf-8?B?RGpsdDZVNFFvRUFSYzAxM1lTbHZ4aEU5cVc0WHJSWGwvdjhxM2hZWFhhMm5K?=
+ =?utf-8?B?SDJhb0tRcWRSZ0lILzhiT2dBaGxGQUxIME1wejZrNWxXaUcwZGtPcGVINWVm?=
+ =?utf-8?B?dUFscVlVd3hVeXZrMlFyQXJVeXJTTk9vdGExT1p4RHU1ZUJPcXE3aE1BRjFV?=
+ =?utf-8?B?dWVINVlyOUF2NnJaKytnR0hwYUp5VTJub1NyS1QxMDRHWG92VWJaWlM0QUJN?=
+ =?utf-8?B?ejlmOTdRbTM1ZmxwRlBpWXNwODkvek1veTVqV25IYWNCQkI4eThVSERiWGMz?=
+ =?utf-8?B?S2tUdm9jaTVpOStyR3F2YWQ0Ym9UeS9Bc1l2VEpPejFZNHozQWxKdDE5cW8y?=
+ =?utf-8?B?OGdQS1ZLOWpXRlBEMTkyczZLZndzYmpka0ZpWEdGdC9nejF4SDZpazBIR1J3?=
+ =?utf-8?B?cWVCY1A4V3AyODgxOFg4aWZ4R3dKdEN4YnFIWVJnV0ttdGllRDlHUHBRVk0r?=
+ =?utf-8?B?aDNTc0dMaUVuUHBsY1pRUXFjcHhTcE9GTkN0a2xNMGhpOFZpK0IyanFPeHZI?=
+ =?utf-8?B?VW5FRlNVd0t4RHFla0tRQ0lVeXE3Ty9Sb2J1TStuRHFrT0tzL2JDZDJmWk5O?=
+ =?utf-8?B?OVRKaThrTUd5aDRlUnY4U0FyNUZxaWxqcnN6UWw1Z0lOSE1UTjlqY1VDVU5J?=
+ =?utf-8?B?azc3Rmg0Q2VLOTA5MkcvSWxqWGtSUTloUWY2Qmg3N1doaFJSVkhmbXQ5ZGlR?=
+ =?utf-8?B?SkcvZTJ6eDdxR3RLYXQ0T0FKTEVFUUhhdTFFa3JvNEh0NDJnNGpudFE4Qk92?=
+ =?utf-8?B?d0ZwZmNlK1JZQmFTVCt2bStkM09remQrZW8wczFzME1PSlZRSmxHa05Xa2V0?=
+ =?utf-8?B?MlBmK0QzYVU1QkRod1BaQndReGh3bzBHTCtzcm9OWFhmbyt2R1Y0eWlTczdo?=
+ =?utf-8?B?QVBnUXBVSEs2dUVUcGJiTnc3KzBqQW43MjUwVEdhcUJRZWIxaExCaW1rVHFE?=
+ =?utf-8?B?WkMxWm9HMEFqa2VNSUYyVVhqemVuUU9yWXRXcDNCNmR1bWJmY29salcxY0M5?=
+ =?utf-8?B?Qkk2Zlhqc2tOeDQyTS9yTi93K0EvU1NxZFB0eWJKNDE4RVJldWZCOXpnSXlW?=
+ =?utf-8?B?S3gyVkJlNFc5cDBYbGZLYkpzbVpESU9ydDVhNEU1S3c1c3hvVlRmR3FHSk10?=
+ =?utf-8?B?UWlCanFyNG14RXhmdUFNbTN1bEFzRGRqTmVhSUV1bVRtbWp1MVQzUG5hNEZo?=
+ =?utf-8?B?MUlXMEdDaEt4c1UyK1BTQkRsdWpHWWtJTWtFak4xai9weFVTZktxazlrMWhM?=
+ =?utf-8?B?TW5GaVIrMWlleFA5UmVoTHZqNlNYSnBPbXN4aEpRc0p0YVlXTHoyeWVYOU1p?=
+ =?utf-8?B?aGN4cEV0VVljT0tUOG1ZVi9SNXM4RDc1aS8xall5M3MybEc4cThiaWNxU0hm?=
+ =?utf-8?B?U3ZidDRacHdIclRXaCs4NjJjZm5KZURzMVYwZndTUGpLalJEaThJWW9WT0VN?=
+ =?utf-8?B?NDhIeldqTnd3VWNJbkJvZnk0dGdZVXBTd2JIMzZsU2I0QXRHNlJ0RzFsNTBG?=
+ =?utf-8?B?Y2xRdkNGNEcyMldXeDI2dWFCSFA1T2ZqRnUvVUorM2YvRE50MDJWUEkwREcz?=
+ =?utf-8?B?eVVVeDBhWG5XbllwS0Z1MWZiUVdkYWlDeGNsdU9YM2VmbzNoWTV4QjBUSlJt?=
+ =?utf-8?B?SGgyZE5SQVRReU1qVkhud2tFNkVnUzFYMU45c3BXTHZsRFFzVi9jMXVlVUpK?=
+ =?utf-8?B?TnpwSUZwWnNCT20yMnpIdUFoZFpaT0RZbFRJLytNbVRjMmIxL3R1RXdFZTgz?=
+ =?utf-8?B?Z1ZoaTdkdVh3eHVRU0MzSGRZcjVodzNyMXZhbi9PMy80c0N5Z0s5dzNROHdS?=
+ =?utf-8?B?UWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3585b407-28ce-4ce9-35f2-08da8f6d18bb
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 18:26:47.3693 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 18:33:15.9693 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /+mmSSUxF8Ny4Qk/IpGZJiFqUWrbZYg8k5enzf7AXUwWU3fNpHyj3eqxDc+SooK4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4485
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7tDLr7F2W10s48C3ur3OeGj3dzJTFo4GVxFUDsZysnClJFzgDDhPRPlPNtxyweqbRu7jH2o9xaGwBiTlAXxCWfpEFFvTXgoH+MvAhwSCxs0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7004
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,123 +150,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Latypov <dlatypov@google.com>, Javier
+ Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.09.22 um 18:39 schrieb Tvrtko Ursulin:
->
-> On 05/09/2022 12:21, Christian König wrote:
->> Am 05.09.22 um 12:56 schrieb Arvind Yadav:
->>> The core DMA-buf framework needs to enable signaling
->>> before the fence is signaled. The core DMA-buf framework
->>> can forget to enable signaling before the fence is signaled.
->>> To avoid this scenario on the debug kernel, check the
->>> DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT status bit before checking
->>> the signaling bit status to confirm that enable_signaling
->>> is enabled.
->>
->> You might want to put this patch at the end of the series to avoid 
->> breaking the kernel in between.
->>
->>>
->>> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
->>> ---
->>>   include/linux/dma-fence.h | 5 +++++
->>>   1 file changed, 5 insertions(+)
->>>
->>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>> index 775cdc0b4f24..60c0e935c0b5 100644
->>> --- a/include/linux/dma-fence.h
->>> +++ b/include/linux/dma-fence.h
->>> @@ -428,6 +428,11 @@ dma_fence_is_signaled_locked(struct dma_fence 
->>> *fence)
->>>   static inline bool
->>>   dma_fence_is_signaled(struct dma_fence *fence)
->>>   {
->>> +#ifdef CONFIG_DEBUG_FS
->>
->> CONFIG_DEBUG_FS is certainly wrong, probably better to check for 
->> CONFIG_DEBUG_WW_MUTEX_SLOWPATH here.
->>
->> Apart from that looks good to me,
->
-> What's the full story in this series - I'm afraid the cover letter 
-> does not make it clear to a casual reader like myself? Where does the 
-> difference between debug and non debug kernel come from?
+Currently the values are printed with debug log level.
+Adjust the log level and link the output with the test by using kunit_err.
 
-We have a bug that the drm_sync file doesn't properly enable signaling 
-leading to an igt test failure.
+Example output:
+foo: dst: 20x20+10+10, expected: 10x10+0+0
+foo: EXPECTATION FAILED at drivers/gpu/drm/tests/drm_plane_helper_test.c:85
 
->
-> And how do the proposed changes relate to the following kerneldoc 
-> excerpt:
->
->      * Since many implementations can call dma_fence_signal() even 
-> when before
->      * @enable_signaling has been called there's a race window, where the
->      * dma_fence_signal() might result in the final fence reference being
->      * released and its memory freed. To avoid this, implementations 
-> of this
->      * callback should grab their own reference using dma_fence_get(), 
-> to be
->      * released when the fence is signalled (through e.g. the interrupt
->      * handler).
->      *
->      * This callback is optional. If this callback is not present, 
-> then the
->      * driver must always have signaling enabled.
->
-> Is it now an error, or should be impossible condition, for "is 
-> signaled" to return true _unless_ signaling has been enabled?
+Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+---
+ drivers/gpu/drm/tests/drm_plane_helper_test.c | 78 +++++++++++--------
+ 1 file changed, 44 insertions(+), 34 deletions(-)
 
-That's neither an error nor impossible. For debugging we just never 
-return signaled from the dma_fence_is_signaled() function when signaling 
-was not enabled before.
-
-I also plan to remove the return value from the enable_signaling 
-callback. That was just not very well designed.
-
->
-> If the statement (in a later patch) is signalling should always be 
-> explicitly enabled by the callers of dma_fence_add_callback, then what 
-> about the existing call to __dma_fence_enable_signaling from 
-> dma_fence_add_callback?
-
-Oh, good point. That sounds like we have some bug in the core dma_fence 
-code as well.
-
-Calls to dma_fence_add_callback() and dma_fence_wait() should enable 
-signaling implicitly and don't need an extra call for that.
-
-Only dma_fence_is_signaled() needs this explicit enabling of signaling 
-through dma_fence_enable_sw_signaling().
-
->
-> Or if the rules are changing shouldn't kerneldoc be updated as part of 
-> the series?
-
-I think the kerneldoc is just a bit misleading. The point is that when 
-you need to call dma_fence_enable_sw_signaling() you must hold a 
-reference to the fence object.
-
-But that's true for all the dma_fence_* functions. The race described in 
-the comment is just nonsense because you need to hold that reference anyway.
-
-Regards,
-Christian.
-
->
-> Regards,
->
-> Tvrtko
->
->> Christian.
->>
->>> +    if (!test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &fence->flags))
->>> +        return false;
->>> +#endif
->>> +
->>>       if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>>           return true;
->>
+diff --git a/drivers/gpu/drm/tests/drm_plane_helper_test.c b/drivers/gpu/drm/tests/drm_plane_helper_test.c
+index be6cff0020ed..0bbd42d2d37b 100644
+--- a/drivers/gpu/drm/tests/drm_plane_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_plane_helper_test.c
+@@ -10,6 +10,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_modes.h>
++#include <drm/drm_rect.h>
+ 
+ static void set_src(struct drm_plane_state *plane_state,
+ 		    unsigned int src_x, unsigned int src_y,
+@@ -21,26 +22,32 @@ static void set_src(struct drm_plane_state *plane_state,
+ 	plane_state->src_h = src_h;
+ }
+ 
+-static bool check_src_eq(struct drm_plane_state *plane_state,
++static bool check_src_eq(struct kunit *test, struct drm_plane_state *plane_state,
+ 			 unsigned int src_x, unsigned int src_y,
+ 			 unsigned int src_w, unsigned int src_h)
+ {
++	struct drm_rect expected = DRM_RECT_INIT(src_x, src_y, src_w, src_h);
++
+ 	if (plane_state->src.x1 < 0) {
+-		pr_err("src x coordinate %x should never be below 0.\n", plane_state->src.x1);
+-		drm_rect_debug_print("src: ", &plane_state->src, true);
++		kunit_err(test,
++			  "src x coordinate %x should never be below 0, src: " DRM_RECT_FP_FMT,
++			  plane_state->src.x1, DRM_RECT_FP_ARG(&plane_state->src));
+ 		return false;
+ 	}
+ 	if (plane_state->src.y1 < 0) {
+-		pr_err("src y coordinate %x should never be below 0.\n", plane_state->src.y1);
+-		drm_rect_debug_print("src: ", &plane_state->src, true);
++		kunit_err(test,
++			  "src y coordinate %x should never be below 0, src: " DRM_RECT_FP_FMT,
++			  plane_state->src.y1, DRM_RECT_FP_ARG(&plane_state->src));
+ 		return false;
+ 	}
+ 
+-	if (plane_state->src.x1 != src_x ||
+-	    plane_state->src.y1 != src_y ||
+-	    drm_rect_width(&plane_state->src) != src_w ||
+-	    drm_rect_height(&plane_state->src) != src_h) {
+-		drm_rect_debug_print("src: ", &plane_state->src, true);
++	if (plane_state->src.x1 != expected.x1 ||
++	    plane_state->src.y1 != expected.y1 ||
++	    drm_rect_width(&plane_state->src) != drm_rect_width(&expected) ||
++	    drm_rect_height(&plane_state->src) != drm_rect_height(&expected)) {
++		kunit_err(test, "src: " DRM_RECT_FP_FMT ", expected: " DRM_RECT_FP_FMT,
++			  DRM_RECT_FP_ARG(&plane_state->src), DRM_RECT_FP_ARG(&expected));
++
+ 		return false;
+ 	}
+ 
+@@ -57,15 +64,18 @@ static void set_crtc(struct drm_plane_state *plane_state,
+ 	plane_state->crtc_h = crtc_h;
+ }
+ 
+-static bool check_crtc_eq(struct drm_plane_state *plane_state,
++static bool check_crtc_eq(struct kunit *test, struct drm_plane_state *plane_state,
+ 			  int crtc_x, int crtc_y,
+ 			  unsigned int crtc_w, unsigned int crtc_h)
+ {
+-	if (plane_state->dst.x1 != crtc_x ||
+-	    plane_state->dst.y1 != crtc_y ||
+-	    drm_rect_width(&plane_state->dst) != crtc_w ||
+-	    drm_rect_height(&plane_state->dst) != crtc_h) {
+-		drm_rect_debug_print("dst: ", &plane_state->dst, false);
++	struct drm_rect expected = DRM_RECT_INIT(crtc_x, crtc_y, crtc_w, crtc_h);
++
++	if (plane_state->dst.x1 != expected.x1 ||
++	    plane_state->dst.y1 != expected.y1 ||
++	    drm_rect_width(&plane_state->dst) != drm_rect_width(&expected) ||
++	    drm_rect_height(&plane_state->dst) != drm_rect_height(&expected)) {
++		kunit_err(test, "dst: " DRM_RECT_FMT ", expected: " DRM_RECT_FMT,
++			  DRM_RECT_ARG(&plane_state->dst), DRM_RECT_ARG(&expected));
+ 
+ 		return false;
+ 	}
+@@ -109,8 +119,8 @@ static void igt_check_plane_state(struct kunit *test)
+ 						  false, false);
+ 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple clipping check should pass\n");
+ 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 1024 << 16, 768 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
++	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1024 << 16, 768 << 16));
++	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+ 
+ 	/* Rotated clipping + reflection, no scaling. */
+ 	plane_state.rotation = DRM_MODE_ROTATE_90 | DRM_MODE_REFLECT_X;
+@@ -120,8 +130,8 @@ static void igt_check_plane_state(struct kunit *test)
+ 						  false, false);
+ 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Rotated clipping check should pass\n");
+ 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 768 << 16, 1024 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
++	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 768 << 16, 1024 << 16));
++	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+ 	plane_state.rotation = DRM_MODE_ROTATE_0;
+ 
+ 	/* Check whether positioning works correctly. */
+@@ -140,8 +150,8 @@ static void igt_check_plane_state(struct kunit *test)
+ 						  true, false);
+ 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple positioning should work\n");
+ 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 1023 << 16, 767 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1023, 767));
++	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1023 << 16, 767 << 16));
++	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1023, 767));
+ 
+ 	/* Simple scaling tests. */
+ 	set_src(&plane_state, 0, 0, 512 << 16, 384 << 16);
+@@ -157,8 +167,8 @@ static void igt_check_plane_state(struct kunit *test)
+ 						  false, false);
+ 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Upscaling exactly 2x should work\n");
+ 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 512 << 16, 384 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
++	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 512 << 16, 384 << 16));
++	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+ 
+ 	set_src(&plane_state, 0, 0, 2048 << 16, 1536 << 16);
+ 	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
+@@ -170,8 +180,8 @@ static void igt_check_plane_state(struct kunit *test)
+ 						  0x20000, false, false);
+ 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed with exact scaling limit\n");
+ 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 2048 << 16, 1536 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
++	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2048 << 16, 1536 << 16));
++	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+ 
+ 	/* Testing rounding errors. */
+ 	set_src(&plane_state, 0, 0, 0x40001, 0x40001);
+@@ -182,8 +192,8 @@ static void igt_check_plane_state(struct kunit *test)
+ 						  true, false);
+ 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+ 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 2 << 16, 2 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 1022, 766, 2, 2));
++	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
++	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
+ 
+ 	set_src(&plane_state, 0x20001, 0x20001, 0x4040001, 0x3040001);
+ 	set_crtc(&plane_state, -2, -2, 1028, 772);
+@@ -193,9 +203,9 @@ static void igt_check_plane_state(struct kunit *test)
+ 						  false, false);
+ 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+ 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0x40002, 0x40002,
++	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x40002, 0x40002,
+ 					     1024 << 16, 768 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
++	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+ 
+ 	set_src(&plane_state, 0, 0, 0x3ffff, 0x3ffff);
+ 	set_crtc(&plane_state, 1022, 766, 4, 4);
+@@ -206,8 +216,8 @@ static void igt_check_plane_state(struct kunit *test)
+ 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+ 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+ 	/* Should not be rounded to 0x20001, which would be upscaling. */
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 2 << 16, 2 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 1022, 766, 2, 2));
++	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
++	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
+ 
+ 	set_src(&plane_state, 0x1ffff, 0x1ffff, 0x403ffff, 0x303ffff);
+ 	set_crtc(&plane_state, -2, -2, 1028, 772);
+@@ -217,9 +227,9 @@ static void igt_check_plane_state(struct kunit *test)
+ 						  false, false);
+ 	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
+ 	KUNIT_EXPECT_TRUE(test, plane_state.visible);
+-	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0x3fffe, 0x3fffe,
++	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x3fffe, 0x3fffe,
+ 					     1024 << 16, 768 << 16));
+-	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
++	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
+ }
+ 
+ static struct kunit_case drm_plane_helper_test[] = {
+-- 
+2.37.3
 
