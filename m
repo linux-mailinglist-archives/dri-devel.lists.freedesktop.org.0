@@ -1,62 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88A95ACEAE
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 11:19:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5435ACEE1
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 11:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69AD410E239;
-	Mon,  5 Sep 2022 09:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D777A10E230;
+	Mon,  5 Sep 2022 09:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD9110E218
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 09:19:19 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2AFBD34AFE;
- Mon,  5 Sep 2022 09:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662369558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+KfXzdsej2R8a3SdgchU2S09/NOa+dW7R/tpIWhRf0o=;
- b=m8G1+Tbdjf5pDK2gjqjGzw5eARctZA93qf+6GWCwnssMtOuAk6TB3tf9v90iiUhZDJwXKh
- 1Ag+RErjgHIUkhCrdnKEzWyN/IcUx55jTFulqoBI2Gy2e0h68twAY+7+S+H4E6dcg7KYXC
- fuzgSHZtwRPwd1DOBqRMaAR8QGefQw0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662369558;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+KfXzdsej2R8a3SdgchU2S09/NOa+dW7R/tpIWhRf0o=;
- b=8q57l8N+D0mDYznrlqLGvjFnL0dJP8R+xixZUl/cPeZ2tB3wK3kEeyxZ+ztErtChC16i3p
- utPgZR+F5/qu/oAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ECD69139C7;
- Mon,  5 Sep 2022 09:19:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id p7PEOBW/FWMmJAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 05 Sep 2022 09:19:17 +0000
-Message-ID: <c834cd82-3b55-6ceb-3af0-3a3126fcc354@suse.de>
-Date: Mon, 5 Sep 2022 11:19:17 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0322510E230;
+ Mon,  5 Sep 2022 09:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662370472; x=1693906472;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=A+OC6Y2Bf5j/f9bsF7mBM9QaD2AYxiJf/NoDoIp981s=;
+ b=Nw5DSW96soKNXS7IRSD+VdXfkPIvNwwzgaQTCaKBvF/hSZjI1Xuj99gl
+ wYfSwqVTUrnk1GsC48zh+EIPMvdY+Z9lGvdTT+pNfp8VAhdh7+T70USME
+ bJjBOCrrZfGn6YJn+LQPBkiqTKtmCblaKHTOUFMdzyAomQ+eddNZRVET8
+ bvGd2q+BrlDqstmpnhq4otn+uyKzcZ/jExul3H0p8TvNHWQrpU7CYb7f9
+ Ol52LypGq58uobMpyPtB1P/OJr64XSKZriUc20J1awmsK+w9T1rJwj4Ia
+ jAePVCy+/VxHe7g/sZ8EbP8PPdSZ8/ymHRHZUI6McV/xNWI+J6T1YYUP4 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="293933961"
+X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="293933961"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 02:34:31 -0700
+X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="675216301"
+Received: from hpigot-mobl1.ger.corp.intel.com (HELO [10.213.237.107])
+ ([10.213.237.107])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 02:34:29 -0700
+Message-ID: <8888dcc8-6adf-9474-6229-7c6d446f2104@linux.intel.com>
+Date: Mon, 5 Sep 2022 10:34:28 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v3] drm/ast: add dmabuf/prime buffer sharing support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Rename ggtt_view as gtt_view
 Content-Language: en-US
-To: oushixiong <oushixiong@kylinos.cn>, Dave Airlie <airlied@redhat.com>
-References: <20220901124451.2523077-1-oushixiong@kylinos.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220901124451.2523077-1-oushixiong@kylinos.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ByfTnMX8hi7dxzO6CUZv8nCW"
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220901183854.3446-1-niranjana.vishwanathapura@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220901183854.3446-1-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,221 +61,1003 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: daniel.vetter@ffwll.ch, thomas.hellstrom@intel.com, matthew.auld@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ByfTnMX8hi7dxzO6CUZv8nCW
-Content-Type: multipart/mixed; boundary="------------FJRCP9xMoQplx469M88CqVVC";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: oushixiong <oushixiong@kylinos.cn>, Dave Airlie <airlied@redhat.com>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, linux-media@vger.kernel.org
-Message-ID: <c834cd82-3b55-6ceb-3af0-3a3126fcc354@suse.de>
-Subject: Re: [PATCH v3] drm/ast: add dmabuf/prime buffer sharing support
-References: <20220901124451.2523077-1-oushixiong@kylinos.cn>
-In-Reply-To: <20220901124451.2523077-1-oushixiong@kylinos.cn>
 
---------------FJRCP9xMoQplx469M88CqVVC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 01/09/2022 19:38, Niranjana Vishwanathapura wrote:
+> So far, different views (normal, partial, rotated and remapped)
+> into the same object are only supported for GGTT mappings.
+> But with the upcoming VM_BIND feature, PPGTT will also use the
+> partial view mapping. Hence rename ggtt_view to more generic
+> gtt_view.
+> 
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 
-SGksDQoNCkkndmUgYmVlbiBvbiB2YWNhdGlvbi4gU29ycnkgZm9yIHRoZSBsYXRlIHJlcGx5
-Lg0KDQpJIGhhdmUgcGxhbnMgdG8gcmVwbGFjZSBhc3QncyBtZW1vcnkgbWFuYWdlciB3aXRo
-IHRoZSBHRU0gU0hNRU0gaGVscGVycy4gDQpUaGVzZSBhbHJlYWR5IHN1cHBvcnQgUFJJTUUg
-YnVmZmVyIHNoYXJpbmcgYW5kIHRoZSB1c2VjYXNlIHlvdSBkZXNjcmliZS4gDQpJIGFsc28g
-Y29uc2lkZXIgdGhlIEdFTSBWUkFNIGhlbHBlcnMgdXNlZCBieSBhc3QgYXMgZGVwcmVjYXRl
-ZC4gVGhlcmUncyANCm5vIGJlbmVmaXQgb3ZlciBTSE1FTSBoZWxwZXJzLCBleGNlcHQgd2l0
-aCB0aGUgYm9jaHMgZHJpdmVyLiBTbyB3aGF0ZXZlciANCndlIG1lcmdlIGhlcmUsIG1pZ2h0
-IG5vdCBsaXZlIGZvciB0b28gbG9uZy4NCg0KQW0gMDEuMDkuMjIgdW0gMTQ6NDQgc2Nocmll
-YiBvdXNoaXhpb25nOg0KPiANCj4gVGhpcyBwYXRjaCBhZGRzIGFzdCBzcGVjaWZpYyBjb2Rl
-cyBmb3IgRFJNIHByaW1lIGZlYXR1cmUsIHRoaXMgaXMgdG8NCj4gYWxsb3cgZm9yIG9mZmxv
-YWRpbmcgb2YgcmVuZGluZyBpbiBvbmUgZGlyZWN0aW9uIGFuZCBvdXRwdXRzIGluIG90aGVy
-Lg0KPiANCj4gVGhpcyBwYXRjaCBpcyBkZXNpZ25lZCB0byBzb2x2ZSB0aGUgcHJvYmxlbSB0
-aGF0IHRoZSBBU1QgaXMgbm90IGRpc3BsYXllZA0KPiB3aGVuIHRoZSBzZXJ2ZXIgcGx1ZyBp
-biBhIGRpc2NyZXRlIGdyYXBoaWNzIGNhcmQgYXQgdGhlIHNhbWUgdGltZS4NCj4gV2UgY2Fs
-bCB0aGUgZGlydHkgY2FsbGJhY2sgZnVuY3Rpb24gdG8gY29weSB0aGUgcmVuZGVyaW5nIHJl
-c3VsdHMgb2YgdGhlDQo+IGRpc2NyZXRlIGdyYXBoaWNzIGNhcmQgdG8gdGhlIGFzdCBzaWRl
-IGJ5IGRtYS1idWYuDQoNCkkgYXNzdW1lIHRoYXQgdXNlcnNwYWNlIGd1YXJhbnRlZXMgdGhh
-dCBib3RoLCBBU1BFRUQgYW5kIGRpc2NyZXRlIA0KZGV2aWNlLCBhcmUgc2V0IHRoZSB0aGUg
-c2FtZSBkaXNwbGF5IHJlc29sdXRpb24/DQoNCj4gDQo+IHYxLT52MjoNCj4gICAgLSBGaXgg
-dGhlIGNvbW1lbnQuDQo+IHYyLT52MzoNCj4gICAgLSB3ZSByZW1vdmUgdGhlIGdlbV9wcmlt
-ZV9pbXBvcnRfc2dfdGFibGUgY2FsbGJhY2sgYW5kIHVzZSB0aGUNCj4gICAgICBnZW1fcHJp
-bWVfaW1wb3J0IGNhbGxiYWNrLCBiZWNhdXNlIGl0IGp1c3QgbWFwIGFuZCBhY2Nlc3MgdGhl
-IGJ1ZmZlcg0KPiAgICAgIHdpdGggdGhlIENQVS4gYW5kIGRvIG5vdCB0byBwaW4gdGhlIGJ1
-ZmZlci4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IG91c2hpeGlvbmcgPG91c2hpeGlvbmdAa3ls
-aW5vcy5jbj4NCj4gQWNrZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2Vu
-aWdAYW1kLmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMg
-IHwgIDI3ICsrKysrKysNCj4gICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgfCAx
-MjUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystDQo+ICAgMiBmaWxlcyBjaGFu
-Z2VkLCAxNTEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KDQpUaGVyZSdzIG5vdGhp
-bmcgc3BlY2lmaWNhbGx5IHRvIEFTVCBoZXJlLiBDb3VsZCB0aGlzIGJlIGJ1aWxkIG9uIEdF
-TSANClZSQU0gaGVscGVycyBpbnN0ZWFkPyBBIGhhbmRmdWwgb2Ygb3RoZXIgZHJpdmVycyBz
-aG91bGQgdGhlbiBiZSBhYmxlIHRvIA0KdXNlIHRoZSBmdW5jdGlvbmFsaXR5Lg0KDQo+IA0K
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMgYi9kcml2ZXJz
-L2dwdS9kcm0vYXN0L2FzdF9kcnYuYw0KPiBpbmRleCA3NDY1YzRmMDE1NmEuLmZkM2M0YmFk
-MmViNCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMNCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMNCj4gQEAgLTI4LDYgKzI4LDcg
-QEANCj4gICANCj4gICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+DQo+ICAgI2luY2x1ZGUg
-PGxpbnV4L3BjaS5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L2RtYS1idWYuaD4NCg0KU29ydCBh
-bHBoYWJldGljYWxseSBwbGVhc2UuDQoNCj4gICANCj4gICAjaW5jbHVkZSA8ZHJtL2RybV9h
-cGVydHVyZS5oPg0KPiAgICNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19oZWxwZXIuaD4NCj4g
-QEAgLTUwLDYgKzUxLDI5IEBAIG1vZHVsZV9wYXJhbV9uYW1lZChtb2Rlc2V0LCBhc3RfbW9k
-ZXNldCwgaW50LCAwNDAwKTsNCj4gICANCj4gICBERUZJTkVfRFJNX0dFTV9GT1BTKGFzdF9m
-b3BzKTsNCj4gICANCj4gK3N0YXRpYyBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmFzdF9nZW1f
-cHJpbWVfaW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICsJCQkJCQlzdHJ1Y3Qg
-ZG1hX2J1ZiAqZG1hX2J1ZikNCj4gK3sNCj4gKwlzdHJ1Y3QgZHJtX2dlbV92cmFtX29iamVj
-dCAqZ2JvOw0KPiArDQo+ICsJZ2JvID0gZHJtX2dlbV92cmFtX29mX2dlbShkbWFfYnVmLT5w
-cml2KTsNCj4gKwlpZiAoZ2JvLT5iby5iYXNlLmRldiA9PSBkZXYpIHsNCj4gKwkJLyoNCj4g
-KwkJICogSW1wb3J0aW5nIGRtYWJ1ZiBleHBvcnRlZCBmcm9tIG91dCBvd24gZ2VtIGluY3Jl
-YXNlcw0KPiArCQkgKiByZWZjb3VudCBvbiBnZW0gaXRzZWxmIGluc3RlYWQgb2YgZl9jb3Vu
-dCBvZiBkbWFidWYuDQo+ICsJCSAqLw0KPiArCQlkcm1fZ2VtX29iamVjdF9nZXQoJmdiby0+
-Ym8uYmFzZSk7DQo+ICsJCXJldHVybiAmZ2JvLT5iby5iYXNlOw0KPiArCX0NCj4gKw0KPiAr
-CWdibyA9IGRybV9nZW1fdnJhbV9jcmVhdGUoZGV2LCBkbWFfYnVmLT5zaXplLCAwKTsNCj4g
-KwlpZiAoSVNfRVJSKGdibykpDQo+ICsJCXJldHVybiBOVUxMOw0KPiArDQo+ICsJZ2V0X2Rt
-YV9idWYoZG1hX2J1Zik7DQo+ICsJcmV0dXJuICZnYm8tPmJvLmJhc2U7DQo+ICt9DQo+ICsN
-Cj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgYXN0X2RyaXZlciA9IHsNCj4g
-ICAJLmRyaXZlcl9mZWF0dXJlcyA9IERSSVZFUl9BVE9NSUMgfA0KPiAgIAkJCSAgIERSSVZF
-Ul9HRU0gfA0KPiBAQCAtNjMsNiArODcsOSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9k
-cml2ZXIgYXN0X2RyaXZlciA9IHsNCj4gICAJLm1pbm9yID0gRFJJVkVSX01JTk9SLA0KPiAg
-IAkucGF0Y2hsZXZlbCA9IERSSVZFUl9QQVRDSExFVkVMLA0KPiAgIA0KPiArCS5wcmltZV9m
-ZF90b19oYW5kbGUgPSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSwNCj4gKwkuZ2VtX3By
-aW1lX2ltcG9ydCA9IGFzdF9nZW1fcHJpbWVfaW1wb3J0LA0KPiArDQo+ICAgCURSTV9HRU1f
-VlJBTV9EUklWRVINCj4gICB9Ow0KPiAgIA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2FzdC9hc3RfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+
-IGluZGV4IDQ1YjU2YjM5YWQ0Ny4uNjVhNDM0MmM1NjIyIDEwMDY0NA0KPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Fz
-dC9hc3RfbW9kZS5jDQo+IEBAIC00OCw2ICs0OCw4IEBADQo+ICAgI2luY2x1ZGUgImFzdF9k
-cnYuaCINCj4gICAjaW5jbHVkZSAiYXN0X3RhYmxlcy5oIg0KPiAgIA0KPiArTU9EVUxFX0lN
-UE9SVF9OUyhETUFfQlVGKTsNCj4gKw0KPiAgIHN0YXRpYyBpbmxpbmUgdm9pZCBhc3RfbG9h
-ZF9wYWxldHRlX2luZGV4KHN0cnVjdCBhc3RfcHJpdmF0ZSAqYXN0LA0KPiAgIAkJCQkgICAg
-IHU4IGluZGV4LCB1OCByZWQsIHU4IGdyZWVuLA0KPiAgIAkJCQkgICAgIHU4IGJsdWUpDQo+
-IEBAIC0xNTM1LDggKzE1MzcsMTI5IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX21vZGVf
-Y29uZmlnX2hlbHBlcl9mdW5jcyBhc3RfbW9kZV9jb25maWdfaGVscGVyX2Z1bmNzID0NCj4g
-ICAJLmF0b21pY19jb21taXRfdGFpbCA9IGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF90YWls
-X3JwbSwNCj4gICB9Ow0KPiAgIA0KPiArc3RhdGljIGludCBhc3RfaGFuZGxlX2RhbWFnZShz
-dHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwgaW50IHgsIGludCB5LA0KPiArCQkJCQlpbnQg
-d2lkdGgsIGludCBoZWlnaHQpDQo+ICt7DQo+ICsJc3RydWN0IGRybV9nZW1fdnJhbV9vYmpl
-Y3QgKmRzdF9ibyA9IE5VTEw7DQo+ICsJdm9pZCAqZHN0ID0gTlVMTDsNCj4gKwlpbnQgcmV0
-ID0gMCwgaTsNCj4gKwl1bnNpZ25lZCBsb25nIG9mZnNldCA9IDA7DQo+ICsJYm9vbCB1bm1h
-cCA9IGZhbHNlOw0KPiArCXVuc2lnbmVkIGludCBieXRlc1BlclBpeGVsOw0KPiArCXN0cnVj
-dCBpb3N5c19tYXAgbWFwOw0KPiArCXN0cnVjdCBpb3N5c19tYXAgZG1hYnVmX21hcDsNCj4g
-Kw0KPiArCWJ5dGVzUGVyUGl4ZWwgPSBmYi0+Zm9ybWF0LT5jcHBbMF07DQo+ICsNCj4gKwlp
-ZiAoIWZiLT5vYmpbMF0tPmRtYV9idWYpDQo+ICsJCXJldHVybiAtRUlOVkFMOw0KPiArDQo+
-ICsJaWYgKCFmYi0+b2JqWzBdLT5kbWFfYnVmLT52bWFwX3B0ci52YWRkcikgew0KPiArCQly
-ZXQgPSBkbWFfYnVmX3ZtYXAoZmItPm9ialswXS0+ZG1hX2J1ZiwgJmRtYWJ1Zl9tYXApOw0K
-PiArCQlpZiAocmV0KQ0KPiArCQkJcmV0dXJuIHJldDsNCj4gKwl9IGVsc2UNCj4gKwkJZG1h
-YnVmX21hcC52YWRkciA9IGZiLT5vYmpbMF0tPmRtYV9idWYtPnZtYXBfcHRyLnZhZGRyOw0K
-DQpJdCdzIHRvbyBsYXRlIHRvIGNhbGwgZG1hX2J1Zl92bWFwKCkgaGVyZS4gVGhlIGNvcnJl
-Y3QgcGxhY2Ugd291bGQgYmUgDQpkcm1fcGxhbmVfaGVscGVyX2Z1bmNzLnByZXBhcmVfZmIg
-Zm9yIHRoZSB2bWFwIGFuZCB0aGUgcmVzdWx0aW5nIGFkZHJlc3MgDQp3b3VsZCBoYXZlIHRv
-IGJlIHN0b3JlZCBpbiBhIFZSQU0gcGxhbmUgc3RhdGUuICBUaGUgdnVubWFwIGNhbGwgd291
-bGQgZ28gDQppbnRvIGRybV9wbGFuZV9oZWxwZXJfZnVuY3MuY2xlYW51cF9mYi4NCg0KV2Ug
-YWxyZWFkeSBoYXZlIHByZXBhcmVfZmIvY2xlYW51cF9mYiBmb3IgdGhlIFZSQU0gaGVscGVy
-cy4gIFRoZXJlJ3Mgbm8gDQpWUkFNLXNwZWNpZmljIHBsYW5lLXN0YXRlIHlldC4NCg0KPiAr
-DQo+ICsJZHN0X2JvID0gZHJtX2dlbV92cmFtX29mX2dlbShmYi0+b2JqWzBdKTsNCj4gKw0K
-PiArCXJldCA9IGRybV9nZW1fdnJhbV9waW4oZHN0X2JvLCAwKTsNCj4gKwlpZiAocmV0KSB7
-DQo+ICsJCURSTV9FUlJPUigiYXN0X2JvX3BpbiBmYWlsZWRcbiIpOw0KPiArCQlyZXR1cm4g
-cmV0Ow0KPiArCX0NCg0KTGlrZSB2bWFwLCBwaW5uaW5nIHNob3VsZCBiZSBkb25lIGJ5IHRo
-ZSBleGlzdGluZyBwcmVwYXJlX2ZiIGhlbHBlcg0KZHJtX2dlbV92cmFtX3BsYW5lX2hlbHBl
-cl9wcmVwYXJlX2ZiKCkuDQoNCj4gKw0KPiArCWlmICghZHN0X2JvLT5tYXAudmFkZHIpIHsN
-Cj4gKwkJcmV0ID0gZHJtX2dlbV92cmFtX3ZtYXAoZHN0X2JvLCAmbWFwKTsNCj4gKwkJaWYg
-KHJldCkgew0KPiArCQkJZHJtX2dlbV92cmFtX3VucGluKGRzdF9ibyk7DQo+ICsJCQlEUk1f
-RVJST1IoImZhaWxlZCB0byB2bWFwIGZiY29uXG4iKTsNCj4gKwkJCXJldHVybiByZXQ7DQo+
-ICsJCX0NCj4gKwkJdW5tYXAgPSB0cnVlOw0KPiArCX0NCj4gKwlkc3QgPSBkc3RfYm8tPm1h
-cC52YWRkcjsNCj4gKw0KPiArCWZvciAoaSA9IHk7IGkgPCB5ICsgaGVpZ2h0OyBpKyspIHsN
-Cj4gKwkJb2Zmc2V0ID0gaSAqIGZiLT5waXRjaGVzWzBdICsgKHggKiBieXRlc1BlclBpeGVs
-KTsNCj4gKwkJbWVtY3B5X3RvaW8oZHN0ICsgb2Zmc2V0LCBkbWFidWZfbWFwLnZhZGRyICsg
-b2Zmc2V0LA0KPiArCQkJd2lkdGggKiBieXRlc1BlclBpeGVsKTsNCj4gKwl9DQoNCmRybV9m
-Yl9tZW1weSgpIGltcGxlbWVudHMgdGhpcyBsb2dpYyBhbHJlYWR5Lg0KDQo+ICsNCj4gKwlp
-ZiAodW5tYXApDQo+ICsJCWRybV9nZW1fdnJhbV92dW5tYXAoZHN0X2JvLCAmbWFwKTsNCj4g
-Kw0KPiArCWRybV9nZW1fdnJhbV91bnBpbihkc3RfYm8pOw0KDQpDbGVhbnVwIGdvZXMgaW50
-byBkcm1fZ2VtX3ZyYW1fcGxhbmVfaGVscGVyX2NsZWFudXBfZmIoKQ0KDQo+ICsNCj4gKwly
-ZXR1cm4gMDsNCj4gK30NCj4gKw0KPiArDQo+ICtzdGF0aWMgaW50IGFzdF91c2VyX2ZyYW1l
-YnVmZmVyX2RpcnR5KHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLA0KPiArCQkJCXN0cnVj
-dCBkcm1fZmlsZSAqZmlsZSwNCj4gKwkJCQl1bnNpZ25lZCBpbnQgZmxhZ3MsDQo+ICsJCQkJ
-dW5zaWduZWQgaW50IGNvbG9yLA0KPiArCQkJCXN0cnVjdCBkcm1fY2xpcF9yZWN0ICpjbGlw
-cywNCj4gKwkJCQl1bnNpZ25lZCBpbnQgbnVtX2NsaXBzKQ0KPiArew0KPiArCWludCBpLCBy
-ZXQgPSAwOw0KPiArDQo+ICsJZHJtX21vZGVzZXRfbG9ja19hbGwoZmItPmRldik7DQo+ICsJ
-aWYgKGZiLT5vYmpbMF0tPmRtYV9idWYpIHsNCj4gKwkJcmV0ID0gZG1hX2J1Zl9iZWdpbl9j
-cHVfYWNjZXNzKGZiLT5vYmpbMF0tPmRtYV9idWYsDQo+ICsJCQkJRE1BX0ZST01fREVWSUNF
-KTsNCj4gKwkJaWYgKHJldCkNCj4gKwkJCWdvdG8gdW5sb2NrOw0KPiArCX0NCg0KVGhpcyBp
-cyBhbHJlYWR5IGF2YWlsYWJsZSBpbiBkcm1fZ2VtX2ZiX2JlZ2luX2NwdV9hY2Nlc3MoKQ0K
-DQo+ICsNCj4gKwlmb3IgKGkgPSAwOyBpIDwgbnVtX2NsaXBzOyBpKyspIHsNCj4gKwkJcmV0
-ID0gYXN0X2hhbmRsZV9kYW1hZ2UoZmIsIGNsaXBzW2ldLngxLCBjbGlwc1tpXS55MSwNCj4g
-KwkJCQljbGlwc1tpXS54MiAtIGNsaXBzW2ldLngxLCBjbGlwc1tpXS55MiAtIGNsaXBzW2ld
-LnkxKTsNCj4gKwkJaWYgKHJldCkNCj4gKwkJCWJyZWFrOw0KPiArCX0NCj4gKw0KPiArCWlm
-IChmYi0+b2JqWzBdLT5kbWFfYnVmKSB7DQo+ICsJCWRtYV9idWZfZW5kX2NwdV9hY2Nlc3Mo
-ZmItPm9ialswXS0+ZG1hX2J1ZiwNCj4gKwkJCQlETUFfRlJPTV9ERVZJQ0UpOw0KDQpUaGF0
-J3MgaW4gZHJtX2dlbV9mYl9lbmRfY3B1X2FjY2VzcygpDQoNCj4gKwl9DQo+ICsNCj4gK3Vu
-bG9jazoNCj4gKwlkcm1fbW9kZXNldF91bmxvY2tfYWxsKGZiLT5kZXYpOw0KPiArDQo+ICsJ
-cmV0dXJuIHJldDsNCj4gK30NCj4gKw0KPiArc3RhdGljIHZvaWQgYXN0X3VzZXJfZnJhbWVi
-dWZmZXJfZGVzdHJveShzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYikNCj4gK3sNCj4gKwlz
-dHJ1Y3QgaW9zeXNfbWFwIGRtYWJ1Zl9tYXA7DQo+ICsNCj4gKwlpZiAoZmItPm9ialswXS0+
-ZG1hX2J1Zikgew0KPiArCQlkbWFidWZfbWFwLmlzX2lvbWVtID0gZmItPm9ialswXS0+ZG1h
-X2J1Zi0+dm1hcF9wdHIuaXNfaW9tZW07DQo+ICsJCWRtYWJ1Zl9tYXAudmFkZHIgPSBmYi0+
-b2JqWzBdLT5kbWFfYnVmLT52bWFwX3B0ci52YWRkcjsNCj4gKwkJaWYgKGRtYWJ1Zl9tYXAu
-dmFkZHIpDQo+ICsJCQlkbWFfYnVmX3Z1bm1hcChmYi0+b2JqWzBdLT5kbWFfYnVmLCAmZG1h
-YnVmX21hcCk7DQo+ICsJfQ0KPiArDQo+ICsJZHJtX2dlbV9mYl9kZXN0cm95KGZiKTsNCj4g
-K30NCj4gKw0KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZnJhbWVidWZmZXJfZnVuY3Mg
-YXN0X2dlbV9mYl9mdW5jc19kaXJ0eWZiID0gew0KPiArCS5kZXN0cm95CT0gYXN0X3VzZXJf
-ZnJhbWVidWZmZXJfZGVzdHJveSwNCj4gKwkuY3JlYXRlX2hhbmRsZQk9IGRybV9nZW1fZmJf
-Y3JlYXRlX2hhbmRsZSwNCj4gKwkuZGlydHkJCT0gYXN0X3VzZXJfZnJhbWVidWZmZXJfZGly
-dHksDQo+ICt9Ow0KPiArDQo+ICtzdGF0aWMgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqDQo+
-ICthc3RfZ2VtX2ZiX2NyZWF0ZV93aXRoX2RpcnR5KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
-IHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwNCj4gKwkJCQljb25zdCBzdHJ1Y3QgZHJtX21vZGVf
-ZmJfY21kMiAqbW9kZV9jbWQpDQo+ICt7DQo+ICsJcmV0dXJuIGRybV9nZW1fZmJfY3JlYXRl
-X3dpdGhfZnVuY3MoZGV2LCBmaWxlLCBtb2RlX2NtZCwNCj4gKwkJCQkJJmFzdF9nZW1fZmJf
-ZnVuY3NfZGlydHlmYik7DQo+ICt9DQo+ICsNCj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRy
-bV9tb2RlX2NvbmZpZ19mdW5jcyBhc3RfbW9kZV9jb25maWdfZnVuY3MgPSB7DQo+IC0JLmZi
-X2NyZWF0ZSA9IGRybV9nZW1fZmJfY3JlYXRlLA0KPiArCS5mYl9jcmVhdGUgPSBhc3RfZ2Vt
-X2ZiX2NyZWF0ZV93aXRoX2RpcnR5LA0KDQpBRkFJQ1QsIHRoZSB3aG9sZSBmcmFtZWJ1ZmZl
-ciB1cGRhdGUgY29kZSBjYW4gYmUgc29sdmVkIHdpdGggZXhpc3RpbmcgDQpnZW5lcmljIGhl
-bHBlcnMgYW5kIHRoZSBWUkFNIHVwZGF0ZXMgSSBvdXRsaW5lZCBhYm92ZS4gQXMgcGFydCBv
-ZiBhc3QncyANCmF0b21pYyB1cGRhdGUsIHRoZSBkaXNwbGF5ZWQgZGF0YSB3aWxsIGJlIHVw
-ZGF0ZWQgZnJvbSB0aGUgDQpkbWEtYnVmLWF0dGFjaGVkIGV4dGVybmFsIEJPLg0KDQpCdXQg
-YXMgSSBzYWlkLCBJIGNvbnNpZGVyIHRoZSBWUkFNIGhlbHBlcnMgYSBkZXByZWNhdGVkLiBB
-bmQgb25jZSBJIA0KbW92ZWQgYXN0IHRvIHRoZSBTSE1FTSBoZWxwZXJzLCB0aGUgZnVuY3Rp
-b25hbGl0eSB3aWxsIGJlIHRoZXJlIGFzIHdlbGwuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFz
-DQoNCg0KPiAgIAkubW9kZV92YWxpZCA9IGRybV92cmFtX2hlbHBlcl9tb2RlX3ZhbGlkLA0K
-PiAgIAkuYXRvbWljX2NoZWNrID0gZHJtX2F0b21pY19oZWxwZXJfY2hlY2ssDQo+ICAgCS5h
-dG9taWNfY29tbWl0ID0gZHJtX2F0b21pY19oZWxwZXJfY29tbWl0LA0KPiANCj4gDQo+IENv
-bnRlbnQtdHlwZTogVGV4dC9wbGFpbg0KPiANCj4gTm8gdmlydXMgZm91bmQNCj4gCQlDaGVj
-a2VkIGJ5IEhpbGxzdG9uZSBOZXR3b3JrIEFudGlWaXJ1cw0KDQotLSANClRob21hcyBaaW1t
-ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
-aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2Vy
-bWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2
-byBUb3Rldg0K
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
---------------FJRCP9xMoQplx469M88CqVVC--
+Easily even r-b since I did scroll through it and it all looks 
+straightforward.
 
---------------ByfTnMX8hi7dxzO6CUZv8nCW
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Tvrtko
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMVvxUFAwAAAAAACgkQlh/E3EQov+B5
-tg/+Px95//AevtG1N56ywQrN2LD57bCQXU1kt/1yPqnLWTUXg5GX6DlLuG2QGnLkzQ1I36SPtdnI
-Om8NE7k4K5RSD+ebnlWw7nrLqR++IYXpNTRtDD1obbMNptl7kuuqw/q/8F7hFHvJWeaG+7RtgjiE
-oUrM8Nz2WL9u90BgHLj1MPV7B0QxWDQv3SmTFX07MKXb8RY2pIEd4CgDvatUSOlXAy4aUxFLULan
-ci1eMfpj2/T1qWR1jW51/c+DFpoh6HofXNfyERPyVkSpo1dEkivPbUWfNlPOeLQx+F3Uf329TqQx
-Ruy4MjfhUtuCIf6WVjtRLqvAfGnZR4/xqAHO9y+NpjSoWqY7pbGronySKVZ6pGH5VkNX9fkw9vGJ
-LDxyXEkZVSbagyTB+EGBzdhGwA4Zm1RNP6N/1AwBNGHLakxL0iJLnl/hGQ6Qp9Wzhn8BkthmCUSu
-sbpjZ+bQSP5gzaE3SqE+yCYEtK9vh4XQ8YyBK1VpttWc1wk5NW7WJRfO3axm/vINqESSxF094eDZ
-HA7mj5EmQSs31emUyYdQ0fgLmlfs5dXrUwkMGQ2Ju9ZXJj8xwJflSgtfdRAoPsx2J6/7EMJ2ES27
-AdD2eb0tdOiHgwqq/xxVsWX9xcCOShrPPWDPKyLlocErafHS0XuyreRo9lXwghJB+MdutLXs2OT4
-uBU=
-=8wYj
------END PGP SIGNATURE-----
-
---------------ByfTnMX8hi7dxzO6CUZv8nCW--
+> ---
+>   drivers/gpu/drm/i915/display/intel_display.c  |  2 +-
+>   drivers/gpu/drm/i915/display/intel_display.h  |  2 +-
+>   .../drm/i915/display/intel_display_types.h    |  2 +-
+>   drivers/gpu/drm/i915/display/intel_fb.c       | 18 ++---
+>   drivers/gpu/drm/i915/display/intel_fb_pin.c   |  4 +-
+>   drivers/gpu/drm/i915/display/intel_fb_pin.h   |  4 +-
+>   drivers/gpu/drm/i915/display/intel_fbdev.c    |  4 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_domain.c    |  4 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 16 ++---
+>   drivers/gpu/drm/i915/gem/i915_gem_object.h    |  2 +-
+>   .../drm/i915/gem/selftests/i915_gem_mman.c    |  4 +-
+>   drivers/gpu/drm/i915/gt/intel_reset.c         |  2 +-
+>   drivers/gpu/drm/i915/i915_debugfs.c           | 56 +++++++--------
+>   drivers/gpu/drm/i915/i915_drv.h               |  4 +-
+>   drivers/gpu/drm/i915/i915_gem.c               |  6 +-
+>   drivers/gpu/drm/i915/i915_vma.c               | 40 +++++------
+>   drivers/gpu/drm/i915/i915_vma.h               | 18 ++---
+>   drivers/gpu/drm/i915/i915_vma_types.h         | 42 ++++++------
+>   drivers/gpu/drm/i915/selftests/i915_vma.c     | 68 +++++++++----------
+>   19 files changed, 149 insertions(+), 149 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index be7cff722196..8251f87064f6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -670,7 +670,7 @@ bool intel_plane_uses_fence(const struct intel_plane_state *plane_state)
+>   
+>   	return DISPLAY_VER(dev_priv) < 4 ||
+>   		(plane->fbc &&
+> -		 plane_state->view.gtt.type == I915_GGTT_VIEW_NORMAL);
+> +		 plane_state->view.gtt.type == I915_GTT_VIEW_NORMAL);
+>   }
+>   
+>   /*
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.h b/drivers/gpu/drm/i915/display/intel_display.h
+> index e895277c4cd9..e322011877bb 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display.h
+> @@ -45,7 +45,7 @@ struct drm_modeset_acquire_ctx;
+>   struct drm_plane;
+>   struct drm_plane_state;
+>   struct i915_address_space;
+> -struct i915_ggtt_view;
+> +struct i915_gtt_view;
+>   struct intel_atomic_state;
+>   struct intel_crtc;
+>   struct intel_crtc_state;
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 0da9b208d56e..01977cd237eb 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -105,7 +105,7 @@ struct intel_fb_view {
+>   	 * In the normal view the FB object's backing store sg list is used
+>   	 * directly and hence the remap information here is not used.
+>   	 */
+> -	struct i915_ggtt_view gtt;
+> +	struct i915_gtt_view gtt;
+>   
+>   	/*
+>   	 * The GTT view (gtt.type) specific information for each FB color
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
+> index b191915ab351..eefa33c555ac 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
+> @@ -1395,7 +1395,7 @@ static u32 calc_plane_remap_info(const struct intel_framebuffer *fb, int color_p
+>   			       plane_view_height_tiles(fb, color_plane, dims, y));
+>   	}
+>   
+> -	if (view->gtt.type == I915_GGTT_VIEW_ROTATED) {
+> +	if (view->gtt.type == I915_GTT_VIEW_ROTATED) {
+>   		drm_WARN_ON(&i915->drm, remap_info->linear);
+>   		check_array_bounds(i915, view->gtt.rotated.plane, color_plane);
+>   
+> @@ -1420,7 +1420,7 @@ static u32 calc_plane_remap_info(const struct intel_framebuffer *fb, int color_p
+>   		/* rotate the tile dimensions to match the GTT view */
+>   		swap(tile_width, tile_height);
+>   	} else {
+> -		drm_WARN_ON(&i915->drm, view->gtt.type != I915_GGTT_VIEW_REMAPPED);
+> +		drm_WARN_ON(&i915->drm, view->gtt.type != I915_GTT_VIEW_REMAPPED);
+>   
+>   		check_array_bounds(i915, view->gtt.remapped.plane, color_plane);
+>   
+> @@ -1503,12 +1503,12 @@ calc_plane_normal_size(const struct intel_framebuffer *fb, int color_plane,
+>   }
+>   
+>   static void intel_fb_view_init(struct drm_i915_private *i915, struct intel_fb_view *view,
+> -			       enum i915_ggtt_view_type view_type)
+> +			       enum i915_gtt_view_type view_type)
+>   {
+>   	memset(view, 0, sizeof(*view));
+>   	view->gtt.type = view_type;
+>   
+> -	if (view_type == I915_GGTT_VIEW_REMAPPED && IS_ALDERLAKE_P(i915))
+> +	if (view_type == I915_GTT_VIEW_REMAPPED && IS_ALDERLAKE_P(i915))
+>   		view->gtt.remapped.plane_alignment = SZ_2M / PAGE_SIZE;
+>   }
+>   
+> @@ -1530,16 +1530,16 @@ int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *
+>   	int i, num_planes = fb->base.format->num_planes;
+>   	unsigned int tile_size = intel_tile_size(i915);
+>   
+> -	intel_fb_view_init(i915, &fb->normal_view, I915_GGTT_VIEW_NORMAL);
+> +	intel_fb_view_init(i915, &fb->normal_view, I915_GTT_VIEW_NORMAL);
+>   
+>   	drm_WARN_ON(&i915->drm,
+>   		    intel_fb_supports_90_270_rotation(fb) &&
+>   		    intel_fb_needs_pot_stride_remap(fb));
+>   
+>   	if (intel_fb_supports_90_270_rotation(fb))
+> -		intel_fb_view_init(i915, &fb->rotated_view, I915_GGTT_VIEW_ROTATED);
+> +		intel_fb_view_init(i915, &fb->rotated_view, I915_GTT_VIEW_ROTATED);
+>   	if (intel_fb_needs_pot_stride_remap(fb))
+> -		intel_fb_view_init(i915, &fb->remapped_view, I915_GGTT_VIEW_REMAPPED);
+> +		intel_fb_view_init(i915, &fb->remapped_view, I915_GTT_VIEW_REMAPPED);
+>   
+>   	for (i = 0; i < num_planes; i++) {
+>   		struct fb_plane_view_dims view_dims;
+> @@ -1620,8 +1620,8 @@ static void intel_plane_remap_gtt(struct intel_plane_state *plane_state)
+>   	u32 gtt_offset = 0;
+>   
+>   	intel_fb_view_init(i915, &plane_state->view,
+> -			   drm_rotation_90_or_270(rotation) ? I915_GGTT_VIEW_ROTATED :
+> -							      I915_GGTT_VIEW_REMAPPED);
+> +			   drm_rotation_90_or_270(rotation) ? I915_GTT_VIEW_ROTATED :
+> +							      I915_GTT_VIEW_REMAPPED);
+>   
+>   	src_x = plane_state->uapi.src.x1 >> 16;
+>   	src_y = plane_state->uapi.src.y1 >> 16;
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+> index bd6e7c98e751..c86e5d4ee016 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+> @@ -18,7 +18,7 @@
+>   
+>   static struct i915_vma *
+>   intel_pin_fb_obj_dpt(struct drm_framebuffer *fb,
+> -		     const struct i915_ggtt_view *view,
+> +		     const struct i915_gtt_view *view,
+>   		     bool uses_fence,
+>   		     unsigned long *out_flags,
+>   		     struct i915_address_space *vm)
+> @@ -79,7 +79,7 @@ intel_pin_fb_obj_dpt(struct drm_framebuffer *fb,
+>   struct i915_vma *
+>   intel_pin_and_fence_fb_obj(struct drm_framebuffer *fb,
+>   			   bool phys_cursor,
+> -			   const struct i915_ggtt_view *view,
+> +			   const struct i915_gtt_view *view,
+>   			   bool uses_fence,
+>   			   unsigned long *out_flags)
+>   {
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.h b/drivers/gpu/drm/i915/display/intel_fb_pin.h
+> index e4fcd0218d9d..de0efaa25905 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb_pin.h
+> +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.h
+> @@ -11,12 +11,12 @@
+>   struct drm_framebuffer;
+>   struct i915_vma;
+>   struct intel_plane_state;
+> -struct i915_ggtt_view;
+> +struct i915_gtt_view;
+>   
+>   struct i915_vma *
+>   intel_pin_and_fence_fb_obj(struct drm_framebuffer *fb,
+>   			   bool phys_cursor,
+> -			   const struct i915_ggtt_view *view,
+> +			   const struct i915_gtt_view *view,
+>   			   bool uses_fence,
+>   			   unsigned long *out_flags);
+>   
+> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> index c08ff6a5c2e9..94081bf05b99 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> @@ -198,8 +198,8 @@ static int intelfb_create(struct drm_fb_helper *helper,
+>   	struct drm_i915_private *dev_priv = to_i915(dev);
+>   	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>   	struct i915_ggtt *ggtt = to_gt(dev_priv)->ggtt;
+> -	const struct i915_ggtt_view view = {
+> -		.type = I915_GGTT_VIEW_NORMAL,
+> +	const struct i915_gtt_view view = {
+> +		.type = I915_GTT_VIEW_NORMAL,
+>   	};
+>   	intel_wakeref_t wakeref;
+>   	struct fb_info *info;
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> index 1674b0c5802b..d44a152ce680 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> @@ -397,7 +397,7 @@ struct i915_vma *
+>   i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
+>   				     struct i915_gem_ww_ctx *ww,
+>   				     u32 alignment,
+> -				     const struct i915_ggtt_view *view,
+> +				     const struct i915_gtt_view *view,
+>   				     unsigned int flags)
+>   {
+>   	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+> @@ -434,7 +434,7 @@ i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
+>   	 */
+>   	vma = ERR_PTR(-ENOSPC);
+>   	if ((flags & PIN_MAPPABLE) == 0 &&
+> -	    (!view || view->type == I915_GGTT_VIEW_NORMAL))
+> +	    (!view || view->type == I915_GTT_VIEW_NORMAL))
+>   		vma = i915_gem_object_ggtt_pin_ww(obj, ww, view, 0, alignment,
+>   						  flags | PIN_MAPPABLE |
+>   						  PIN_NONBLOCK);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> index 0c5c43852e24..3218981488cc 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> @@ -194,17 +194,17 @@ int i915_gem_mmap_gtt_version(void)
+>   	return 4;
+>   }
+>   
+> -static inline struct i915_ggtt_view
+> +static inline struct i915_gtt_view
+>   compute_partial_view(const struct drm_i915_gem_object *obj,
+>   		     pgoff_t page_offset,
+>   		     unsigned int chunk)
+>   {
+> -	struct i915_ggtt_view view;
+> +	struct i915_gtt_view view;
+>   
+>   	if (i915_gem_object_is_tiled(obj))
+>   		chunk = roundup(chunk, tile_row_pages(obj) ?: 1);
+>   
+> -	view.type = I915_GGTT_VIEW_PARTIAL;
+> +	view.type = I915_GTT_VIEW_PARTIAL;
+>   	view.partial.offset = rounddown(page_offset, chunk);
+>   	view.partial.size =
+>   		min_t(unsigned int, chunk,
+> @@ -212,7 +212,7 @@ compute_partial_view(const struct drm_i915_gem_object *obj,
+>   
+>   	/* If the partial covers the entire object, just create a normal VMA. */
+>   	if (chunk >= obj->base.size >> PAGE_SHIFT)
+> -		view.type = I915_GGTT_VIEW_NORMAL;
+> +		view.type = I915_GTT_VIEW_NORMAL;
+>   
+>   	return view;
+>   }
+> @@ -341,12 +341,12 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+>   					  PIN_NOEVICT);
+>   	if (IS_ERR(vma) && vma != ERR_PTR(-EDEADLK)) {
+>   		/* Use a partial view if it is bigger than available space */
+> -		struct i915_ggtt_view view =
+> +		struct i915_gtt_view view =
+>   			compute_partial_view(obj, page_offset, MIN_CHUNK_PAGES);
+>   		unsigned int flags;
+>   
+>   		flags = PIN_MAPPABLE | PIN_NOSEARCH;
+> -		if (view.type == I915_GGTT_VIEW_NORMAL)
+> +		if (view.type == I915_GTT_VIEW_NORMAL)
+>   			flags |= PIN_NONBLOCK; /* avoid warnings for pinned */
+>   
+>   		/*
+> @@ -357,7 +357,7 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+>   		vma = i915_gem_object_ggtt_pin_ww(obj, &ww, &view, 0, 0, flags);
+>   		if (IS_ERR(vma) && vma != ERR_PTR(-EDEADLK)) {
+>   			flags = PIN_MAPPABLE;
+> -			view.type = I915_GGTT_VIEW_PARTIAL;
+> +			view.type = I915_GTT_VIEW_PARTIAL;
+>   			vma = i915_gem_object_ggtt_pin_ww(obj, &ww, &view, 0, 0, flags);
+>   		}
+>   
+> @@ -394,7 +394,7 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+>   
+>   	/* Finally, remap it using the new GTT offset */
+>   	ret = remap_io_mapping(area,
+> -			       area->vm_start + (vma->ggtt_view.partial.offset << PAGE_SHIFT),
+> +			       area->vm_start + (vma->gtt_view.partial.offset << PAGE_SHIFT),
+>   			       (ggtt->gmadr.start + vma->node.start) >> PAGE_SHIFT,
+>   			       min_t(u64, vma->size, area->vm_end - area->vm_start),
+>   			       &ggtt->iomap);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> index 6f0a3ce35567..7317d4102955 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> @@ -543,7 +543,7 @@ struct i915_vma * __must_check
+>   i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
+>   				     struct i915_gem_ww_ctx *ww,
+>   				     u32 alignment,
+> -				     const struct i915_ggtt_view *view,
+> +				     const struct i915_gtt_view *view,
+>   				     unsigned int flags);
+>   
+>   void i915_gem_object_make_unshrinkable(struct drm_i915_gem_object *obj);
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> index afdd827e7fd1..b73c91aa5450 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> @@ -93,7 +93,7 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
+>   {
+>   	const unsigned long npages = obj->base.size / PAGE_SIZE;
+>   	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+> -	struct i915_ggtt_view view;
+> +	struct i915_gtt_view view;
+>   	struct i915_vma *vma;
+>   	unsigned long page;
+>   	u32 __iomem *io;
+> @@ -210,7 +210,7 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
+>   	}
+>   
+>   	for_each_prime_number_from(page, 1, npages) {
+> -		struct i915_ggtt_view view =
+> +		struct i915_gtt_view view =
+>   			compute_partial_view(obj, page, MIN_CHUNK_PAGES);
+>   		u32 __iomem *io;
+>   		struct page *p;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+> index 1211774e1d91..b36674356986 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+> @@ -776,7 +776,7 @@ static void revoke_mmaps(struct intel_gt *gt)
+>   			continue;
+>   
+>   		node = &vma->mmo->vma_node;
+> -		vma_offset = vma->ggtt_view.partial.offset << PAGE_SHIFT;
+> +		vma_offset = vma->gtt_view.partial.offset << PAGE_SHIFT;
+>   
+>   		unmap_mapping_range(gt->i915->drm.anon_inode->i_mapping,
+>   				    drm_vma_node_offset_addr(node) + vma_offset,
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+> index 3e99a6a88c3a..ae987e92251d 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> @@ -187,47 +187,47 @@ i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+>   			   stringify_page_sizes(vma->resource->page_sizes_gtt,
+>   						NULL, 0));
+>   		if (i915_vma_is_ggtt(vma) || i915_vma_is_dpt(vma)) {
+> -			switch (vma->ggtt_view.type) {
+> -			case I915_GGTT_VIEW_NORMAL:
+> +			switch (vma->gtt_view.type) {
+> +			case I915_GTT_VIEW_NORMAL:
+>   				seq_puts(m, ", normal");
+>   				break;
+>   
+> -			case I915_GGTT_VIEW_PARTIAL:
+> +			case I915_GTT_VIEW_PARTIAL:
+>   				seq_printf(m, ", partial [%08llx+%x]",
+> -					   vma->ggtt_view.partial.offset << PAGE_SHIFT,
+> -					   vma->ggtt_view.partial.size << PAGE_SHIFT);
+> +					   vma->gtt_view.partial.offset << PAGE_SHIFT,
+> +					   vma->gtt_view.partial.size << PAGE_SHIFT);
+>   				break;
+>   
+> -			case I915_GGTT_VIEW_ROTATED:
+> +			case I915_GTT_VIEW_ROTATED:
+>   				seq_printf(m, ", rotated [(%ux%u, src_stride=%u, dst_stride=%u, offset=%u), (%ux%u, src_stride=%u, dst_stride=%u, offset=%u)]",
+> -					   vma->ggtt_view.rotated.plane[0].width,
+> -					   vma->ggtt_view.rotated.plane[0].height,
+> -					   vma->ggtt_view.rotated.plane[0].src_stride,
+> -					   vma->ggtt_view.rotated.plane[0].dst_stride,
+> -					   vma->ggtt_view.rotated.plane[0].offset,
+> -					   vma->ggtt_view.rotated.plane[1].width,
+> -					   vma->ggtt_view.rotated.plane[1].height,
+> -					   vma->ggtt_view.rotated.plane[1].src_stride,
+> -					   vma->ggtt_view.rotated.plane[1].dst_stride,
+> -					   vma->ggtt_view.rotated.plane[1].offset);
+> +					   vma->gtt_view.rotated.plane[0].width,
+> +					   vma->gtt_view.rotated.plane[0].height,
+> +					   vma->gtt_view.rotated.plane[0].src_stride,
+> +					   vma->gtt_view.rotated.plane[0].dst_stride,
+> +					   vma->gtt_view.rotated.plane[0].offset,
+> +					   vma->gtt_view.rotated.plane[1].width,
+> +					   vma->gtt_view.rotated.plane[1].height,
+> +					   vma->gtt_view.rotated.plane[1].src_stride,
+> +					   vma->gtt_view.rotated.plane[1].dst_stride,
+> +					   vma->gtt_view.rotated.plane[1].offset);
+>   				break;
+>   
+> -			case I915_GGTT_VIEW_REMAPPED:
+> +			case I915_GTT_VIEW_REMAPPED:
+>   				seq_printf(m, ", remapped [(%ux%u, src_stride=%u, dst_stride=%u, offset=%u), (%ux%u, src_stride=%u, dst_stride=%u, offset=%u)]",
+> -					   vma->ggtt_view.remapped.plane[0].width,
+> -					   vma->ggtt_view.remapped.plane[0].height,
+> -					   vma->ggtt_view.remapped.plane[0].src_stride,
+> -					   vma->ggtt_view.remapped.plane[0].dst_stride,
+> -					   vma->ggtt_view.remapped.plane[0].offset,
+> -					   vma->ggtt_view.remapped.plane[1].width,
+> -					   vma->ggtt_view.remapped.plane[1].height,
+> -					   vma->ggtt_view.remapped.plane[1].src_stride,
+> -					   vma->ggtt_view.remapped.plane[1].dst_stride,
+> -					   vma->ggtt_view.remapped.plane[1].offset);
+> +					   vma->gtt_view.remapped.plane[0].width,
+> +					   vma->gtt_view.remapped.plane[0].height,
+> +					   vma->gtt_view.remapped.plane[0].src_stride,
+> +					   vma->gtt_view.remapped.plane[0].dst_stride,
+> +					   vma->gtt_view.remapped.plane[0].offset,
+> +					   vma->gtt_view.remapped.plane[1].width,
+> +					   vma->gtt_view.remapped.plane[1].height,
+> +					   vma->gtt_view.remapped.plane[1].src_stride,
+> +					   vma->gtt_view.remapped.plane[1].dst_stride,
+> +					   vma->gtt_view.remapped.plane[1].offset);
+>   				break;
+>   
+>   			default:
+> -				MISSING_CASE(vma->ggtt_view.type);
+> +				MISSING_CASE(vma->gtt_view.type);
+>   				break;
+>   			}
+>   		}
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index c9cca165bf5d..281079f0aa1b 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1019,12 +1019,12 @@ static inline void i915_gem_drain_workqueue(struct drm_i915_private *i915)
+>   struct i915_vma * __must_check
+>   i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+>   			    struct i915_gem_ww_ctx *ww,
+> -			    const struct i915_ggtt_view *view,
+> +			    const struct i915_gtt_view *view,
+>   			    u64 size, u64 alignment, u64 flags);
+>   
+>   struct i915_vma * __must_check
+>   i915_gem_object_ggtt_pin(struct drm_i915_gem_object *obj,
+> -			 const struct i915_ggtt_view *view,
+> +			 const struct i915_gtt_view *view,
+>   			 u64 size, u64 alignment, u64 flags);
+>   
+>   int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
+> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+> index c2d6172ba4bb..57402b2f7524 100644
+> --- a/drivers/gpu/drm/i915/i915_gem.c
+> +++ b/drivers/gpu/drm/i915/i915_gem.c
+> @@ -885,7 +885,7 @@ static void discard_ggtt_vma(struct i915_vma *vma)
+>   struct i915_vma *
+>   i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+>   			    struct i915_gem_ww_ctx *ww,
+> -			    const struct i915_ggtt_view *view,
+> +			    const struct i915_gtt_view *view,
+>   			    u64 size, u64 alignment, u64 flags)
+>   {
+>   	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+> @@ -896,7 +896,7 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+>   	GEM_WARN_ON(!ww);
+>   
+>   	if (flags & PIN_MAPPABLE &&
+> -	    (!view || view->type == I915_GGTT_VIEW_NORMAL)) {
+> +	    (!view || view->type == I915_GTT_VIEW_NORMAL)) {
+>   		/*
+>   		 * If the required space is larger than the available
+>   		 * aperture, we will not able to find a slot for the
+> @@ -987,7 +987,7 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+>   
+>   struct i915_vma * __must_check
+>   i915_gem_object_ggtt_pin(struct drm_i915_gem_object *obj,
+> -			 const struct i915_ggtt_view *view,
+> +			 const struct i915_gtt_view *view,
+>   			 u64 size, u64 alignment, u64 flags)
+>   {
+>   	struct i915_gem_ww_ctx ww;
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index 260371716490..e300f8070c1d 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -109,7 +109,7 @@ static void __i915_vma_retire(struct i915_active *ref)
+>   static struct i915_vma *
+>   vma_create(struct drm_i915_gem_object *obj,
+>   	   struct i915_address_space *vm,
+> -	   const struct i915_ggtt_view *view)
+> +	   const struct i915_gtt_view *view)
+>   {
+>   	struct i915_vma *pos = ERR_PTR(-E2BIG);
+>   	struct i915_vma *vma;
+> @@ -141,9 +141,9 @@ vma_create(struct drm_i915_gem_object *obj,
+>   	INIT_LIST_HEAD(&vma->obj_link);
+>   	RB_CLEAR_NODE(&vma->obj_node);
+>   
+> -	if (view && view->type != I915_GGTT_VIEW_NORMAL) {
+> -		vma->ggtt_view = *view;
+> -		if (view->type == I915_GGTT_VIEW_PARTIAL) {
+> +	if (view && view->type != I915_GTT_VIEW_NORMAL) {
+> +		vma->gtt_view = *view;
+> +		if (view->type == I915_GTT_VIEW_PARTIAL) {
+>   			GEM_BUG_ON(range_overflows_t(u64,
+>   						     view->partial.offset,
+>   						     view->partial.size,
+> @@ -151,10 +151,10 @@ vma_create(struct drm_i915_gem_object *obj,
+>   			vma->size = view->partial.size;
+>   			vma->size <<= PAGE_SHIFT;
+>   			GEM_BUG_ON(vma->size > obj->base.size);
+> -		} else if (view->type == I915_GGTT_VIEW_ROTATED) {
+> +		} else if (view->type == I915_GTT_VIEW_ROTATED) {
+>   			vma->size = intel_rotation_info_size(&view->rotated);
+>   			vma->size <<= PAGE_SHIFT;
+> -		} else if (view->type == I915_GGTT_VIEW_REMAPPED) {
+> +		} else if (view->type == I915_GTT_VIEW_REMAPPED) {
+>   			vma->size = intel_remapped_info_size(&view->remapped);
+>   			vma->size <<= PAGE_SHIFT;
+>   		}
+> @@ -248,7 +248,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>   static struct i915_vma *
+>   i915_vma_lookup(struct drm_i915_gem_object *obj,
+>   	   struct i915_address_space *vm,
+> -	   const struct i915_ggtt_view *view)
+> +	   const struct i915_gtt_view *view)
+>   {
+>   	struct rb_node *rb;
+>   
+> @@ -286,7 +286,7 @@ i915_vma_lookup(struct drm_i915_gem_object *obj,
+>   struct i915_vma *
+>   i915_vma_instance(struct drm_i915_gem_object *obj,
+>   		  struct i915_address_space *vm,
+> -		  const struct i915_ggtt_view *view)
+> +		  const struct i915_gtt_view *view)
+>   {
+>   	struct i915_vma *vma;
+>   
+> @@ -1203,7 +1203,7 @@ intel_remap_pages(struct intel_remapped_info *rem_info,
+>   }
+>   
+>   static noinline struct sg_table *
+> -intel_partial_pages(const struct i915_ggtt_view *view,
+> +intel_partial_pages(const struct i915_gtt_view *view,
+>   		    struct drm_i915_gem_object *obj)
+>   {
+>   	struct sg_table *st;
+> @@ -1247,33 +1247,33 @@ __i915_vma_get_pages(struct i915_vma *vma)
+>   	 */
+>   	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(vma->obj));
+>   
+> -	switch (vma->ggtt_view.type) {
+> +	switch (vma->gtt_view.type) {
+>   	default:
+> -		GEM_BUG_ON(vma->ggtt_view.type);
+> +		GEM_BUG_ON(vma->gtt_view.type);
+>   		fallthrough;
+> -	case I915_GGTT_VIEW_NORMAL:
+> +	case I915_GTT_VIEW_NORMAL:
+>   		pages = vma->obj->mm.pages;
+>   		break;
+>   
+> -	case I915_GGTT_VIEW_ROTATED:
+> +	case I915_GTT_VIEW_ROTATED:
+>   		pages =
+> -			intel_rotate_pages(&vma->ggtt_view.rotated, vma->obj);
+> +			intel_rotate_pages(&vma->gtt_view.rotated, vma->obj);
+>   		break;
+>   
+> -	case I915_GGTT_VIEW_REMAPPED:
+> +	case I915_GTT_VIEW_REMAPPED:
+>   		pages =
+> -			intel_remap_pages(&vma->ggtt_view.remapped, vma->obj);
+> +			intel_remap_pages(&vma->gtt_view.remapped, vma->obj);
+>   		break;
+>   
+> -	case I915_GGTT_VIEW_PARTIAL:
+> -		pages = intel_partial_pages(&vma->ggtt_view, vma->obj);
+> +	case I915_GTT_VIEW_PARTIAL:
+> +		pages = intel_partial_pages(&vma->gtt_view, vma->obj);
+>   		break;
+>   	}
+>   
+>   	if (IS_ERR(pages)) {
+>   		drm_err(&vma->vm->i915->drm,
+>   			"Failed to get pages for VMA view type %u (%ld)!\n",
+> -			vma->ggtt_view.type, PTR_ERR(pages));
+> +			vma->gtt_view.type, PTR_ERR(pages));
+>   		return PTR_ERR(pages);
+>   	}
+>   
+> @@ -1806,7 +1806,7 @@ void i915_vma_revoke_mmap(struct i915_vma *vma)
+>   	GEM_BUG_ON(!vma->obj->userfault_count);
+>   
+>   	node = &vma->mmo->vma_node;
+> -	vma_offset = vma->ggtt_view.partial.offset << PAGE_SHIFT;
+> +	vma_offset = vma->gtt_view.partial.offset << PAGE_SHIFT;
+>   	unmap_mapping_range(vma->vm->i915->drm.anon_inode->i_mapping,
+>   			    drm_vma_node_offset_addr(node) + vma_offset,
+>   			    vma->size,
+> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+> index 33a58f605d75..aecd9c64486b 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.h
+> +++ b/drivers/gpu/drm/i915/i915_vma.h
+> @@ -43,7 +43,7 @@
+>   struct i915_vma *
+>   i915_vma_instance(struct drm_i915_gem_object *obj,
+>   		  struct i915_address_space *vm,
+> -		  const struct i915_ggtt_view *view);
+> +		  const struct i915_gtt_view *view);
+>   
+>   void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
+>   #define I915_VMA_RELEASE_MAP BIT(0)
+> @@ -160,7 +160,7 @@ static inline void i915_vma_put(struct i915_vma *vma)
+>   static inline long
+>   i915_vma_compare(struct i915_vma *vma,
+>   		 struct i915_address_space *vm,
+> -		 const struct i915_ggtt_view *view)
+> +		 const struct i915_gtt_view *view)
+>   {
+>   	ptrdiff_t cmp;
+>   
+> @@ -170,8 +170,8 @@ i915_vma_compare(struct i915_vma *vma,
+>   	if (cmp)
+>   		return cmp;
+>   
+> -	BUILD_BUG_ON(I915_GGTT_VIEW_NORMAL != 0);
+> -	cmp = vma->ggtt_view.type;
+> +	BUILD_BUG_ON(I915_GTT_VIEW_NORMAL != 0);
+> +	cmp = vma->gtt_view.type;
+>   	if (!view)
+>   		return cmp;
+>   
+> @@ -181,7 +181,7 @@ i915_vma_compare(struct i915_vma *vma,
+>   
+>   	assert_i915_gem_gtt_types();
+>   
+> -	/* ggtt_view.type also encodes its size so that we both distinguish
+> +	/* gtt_view.type also encodes its size so that we both distinguish
+>   	 * different views using it as a "type" and also use a compact (no
+>   	 * accessing of uninitialised padding bytes) memcmp without storing
+>   	 * an extra parameter or adding more code.
+> @@ -191,14 +191,14 @@ i915_vma_compare(struct i915_vma *vma,
+>   	 * we assert above that all branches have the same address, and that
+>   	 * each branch has a unique type/size.
+>   	 */
+> -	BUILD_BUG_ON(I915_GGTT_VIEW_NORMAL >= I915_GGTT_VIEW_PARTIAL);
+> -	BUILD_BUG_ON(I915_GGTT_VIEW_PARTIAL >= I915_GGTT_VIEW_ROTATED);
+> -	BUILD_BUG_ON(I915_GGTT_VIEW_ROTATED >= I915_GGTT_VIEW_REMAPPED);
+> +	BUILD_BUG_ON(I915_GTT_VIEW_NORMAL >= I915_GTT_VIEW_PARTIAL);
+> +	BUILD_BUG_ON(I915_GTT_VIEW_PARTIAL >= I915_GTT_VIEW_ROTATED);
+> +	BUILD_BUG_ON(I915_GTT_VIEW_ROTATED >= I915_GTT_VIEW_REMAPPED);
+>   	BUILD_BUG_ON(offsetof(typeof(*view), rotated) !=
+>   		     offsetof(typeof(*view), partial));
+>   	BUILD_BUG_ON(offsetof(typeof(*view), rotated) !=
+>   		     offsetof(typeof(*view), remapped));
+> -	return memcmp(&vma->ggtt_view.partial, &view->partial, view->type);
+> +	return memcmp(&vma->gtt_view.partial, &view->partial, view->type);
+>   }
+>   
+>   struct i915_vma_work *i915_vma_work(void);
+> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+> index be6e028c3b57..ec0f6c9f57d0 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_types.h
+> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
+> @@ -67,30 +67,30 @@ enum i915_cache_level;
+>    * Implementation and usage
+>    *
+>    * GGTT views are implemented using VMAs and are distinguished via enum
+> - * i915_ggtt_view_type and struct i915_ggtt_view.
+> + * i915_gtt_view_type and struct i915_gtt_view.
+>    *
+>    * A new flavour of core GEM functions which work with GGTT bound objects were
+>    * added with the _ggtt_ infix, and sometimes with _view postfix to avoid
+> - * renaming  in large amounts of code. They take the struct i915_ggtt_view
+> + * renaming  in large amounts of code. They take the struct i915_gtt_view
+>    * parameter encapsulating all metadata required to implement a view.
+>    *
+>    * As a helper for callers which are only interested in the normal view,
+> - * globally const i915_ggtt_view_normal singleton instance exists. All old core
+> + * globally const i915_gtt_view_normal singleton instance exists. All old core
+>    * GEM API functions, the ones not taking the view parameter, are operating on,
+>    * or with the normal GGTT view.
+>    *
+>    * Code wanting to add or use a new GGTT view needs to:
+>    *
+>    * 1. Add a new enum with a suitable name.
+> - * 2. Extend the metadata in the i915_ggtt_view structure if required.
+> + * 2. Extend the metadata in the i915_gtt_view structure if required.
+>    * 3. Add support to i915_get_vma_pages().
+>    *
+>    * New views are required to build a scatter-gather table from within the
+> - * i915_get_vma_pages function. This table is stored in the vma.ggtt_view and
+> + * i915_get_vma_pages function. This table is stored in the vma.gtt_view and
+>    * exists for the lifetime of an VMA.
+>    *
+>    * Core API is designed to have copy semantics which means that passed in
+> - * struct i915_ggtt_view does not need to be persistent (left around after
+> + * struct i915_gtt_view does not need to be persistent (left around after
+>    * calling the core API functions).
+>    *
+>    */
+> @@ -130,11 +130,11 @@ struct intel_partial_info {
+>   	unsigned int size;
+>   } __packed;
+>   
+> -enum i915_ggtt_view_type {
+> -	I915_GGTT_VIEW_NORMAL = 0,
+> -	I915_GGTT_VIEW_ROTATED = sizeof(struct intel_rotation_info),
+> -	I915_GGTT_VIEW_PARTIAL = sizeof(struct intel_partial_info),
+> -	I915_GGTT_VIEW_REMAPPED = sizeof(struct intel_remapped_info),
+> +enum i915_gtt_view_type {
+> +	I915_GTT_VIEW_NORMAL = 0,
+> +	I915_GTT_VIEW_ROTATED = sizeof(struct intel_rotation_info),
+> +	I915_GTT_VIEW_PARTIAL = sizeof(struct intel_partial_info),
+> +	I915_GTT_VIEW_REMAPPED = sizeof(struct intel_remapped_info),
+>   };
+>   
+>   static inline void assert_i915_gem_gtt_types(void)
+> @@ -152,18 +152,18 @@ static inline void assert_i915_gem_gtt_types(void)
+>   	/* As we encode the size of each branch inside the union into its type,
+>   	 * we have to be careful that each branch has a unique size.
+>   	 */
+> -	switch ((enum i915_ggtt_view_type)0) {
+> -	case I915_GGTT_VIEW_NORMAL:
+> -	case I915_GGTT_VIEW_PARTIAL:
+> -	case I915_GGTT_VIEW_ROTATED:
+> -	case I915_GGTT_VIEW_REMAPPED:
+> +	switch ((enum i915_gtt_view_type)0) {
+> +	case I915_GTT_VIEW_NORMAL:
+> +	case I915_GTT_VIEW_PARTIAL:
+> +	case I915_GTT_VIEW_ROTATED:
+> +	case I915_GTT_VIEW_REMAPPED:
+>   		/* gcc complains if these are identical cases */
+>   		break;
+>   	}
+>   }
+>   
+> -struct i915_ggtt_view {
+> -	enum i915_ggtt_view_type type;
+> +struct i915_gtt_view {
+> +	enum i915_gtt_view_type type;
+>   	union {
+>   		/* Members need to contain no holes/padding */
+>   		struct intel_partial_info partial;
+> @@ -280,11 +280,11 @@ struct i915_vma {
+>   	/**
+>   	 * Support different GGTT views into the same object.
+>   	 * This means there can be multiple VMA mappings per object and per VM.
+> -	 * i915_ggtt_view_type is used to distinguish between those entries.
+> -	 * The default one of zero (I915_GGTT_VIEW_NORMAL) is default and also
+> +	 * i915_gtt_view_type is used to distinguish between those entries.
+> +	 * The default one of zero (I915_GTT_VIEW_NORMAL) is default and also
+>   	 * assumed in GEM functions which take no ggtt view parameter.
+>   	 */
+> -	struct i915_ggtt_view ggtt_view;
+> +	struct i915_gtt_view gtt_view;
+>   
+>   	/** This object's place on the active/inactive lists */
+>   	struct list_head vm_link;
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
+> index e3821398a5b0..71b52d5efef4 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
+> @@ -51,9 +51,9 @@ static bool assert_vma(struct i915_vma *vma,
+>   		ok = false;
+>   	}
+>   
+> -	if (vma->ggtt_view.type != I915_GGTT_VIEW_NORMAL) {
+> +	if (vma->gtt_view.type != I915_GTT_VIEW_NORMAL) {
+>   		pr_err("VMA created with wrong type [%d]\n",
+> -		       vma->ggtt_view.type);
+> +		       vma->gtt_view.type);
+>   		ok = false;
+>   	}
+>   
+> @@ -63,7 +63,7 @@ static bool assert_vma(struct i915_vma *vma,
+>   static struct i915_vma *
+>   checked_vma_instance(struct drm_i915_gem_object *obj,
+>   		     struct i915_address_space *vm,
+> -		     const struct i915_ggtt_view *view)
+> +		     const struct i915_gtt_view *view)
+>   {
+>   	struct i915_vma *vma;
+>   	bool ok = true;
+> @@ -91,7 +91,7 @@ checked_vma_instance(struct drm_i915_gem_object *obj,
+>   	}
+>   
+>   	if (i915_vma_compare(vma, vma->vm,
+> -			     i915_vma_is_ggtt(vma) ? &vma->ggtt_view : NULL)) {
+> +			     i915_vma_is_ggtt(vma) ? &vma->gtt_view : NULL)) {
+>   		pr_err("i915_vma_compare failed with itself\n");
+>   		return ERR_PTR(-EINVAL);
+>   	}
+> @@ -530,12 +530,12 @@ assert_remapped(struct drm_i915_gem_object *obj,
+>   	return sg;
+>   }
+>   
+> -static unsigned int remapped_size(enum i915_ggtt_view_type view_type,
+> +static unsigned int remapped_size(enum i915_gtt_view_type view_type,
+>   				  const struct intel_remapped_plane_info *a,
+>   				  const struct intel_remapped_plane_info *b)
+>   {
+>   
+> -	if (view_type == I915_GGTT_VIEW_ROTATED)
+> +	if (view_type == I915_GTT_VIEW_ROTATED)
+>   		return a->dst_stride * a->width + b->dst_stride * b->width;
+>   	else
+>   		return a->dst_stride * a->height + b->dst_stride * b->height;
+> @@ -569,9 +569,9 @@ static int igt_vma_rotate_remap(void *arg)
+>   
+>   		{ }
+>   	}, *a, *b;
+> -	enum i915_ggtt_view_type types[] = {
+> -		I915_GGTT_VIEW_ROTATED,
+> -		I915_GGTT_VIEW_REMAPPED,
+> +	enum i915_gtt_view_type types[] = {
+> +		I915_GTT_VIEW_ROTATED,
+> +		I915_GTT_VIEW_REMAPPED,
+>   		0,
+>   	}, *t;
+>   	const unsigned int max_pages = 64;
+> @@ -588,7 +588,7 @@ static int igt_vma_rotate_remap(void *arg)
+>   	for (t = types; *t; t++) {
+>   	for (a = planes; a->width; a++) {
+>   		for (b = planes + ARRAY_SIZE(planes); b-- != planes; ) {
+> -			struct i915_ggtt_view view = {
+> +			struct i915_gtt_view view = {
+>   				.type = *t,
+>   				.remapped.plane[0] = *a,
+>   				.remapped.plane[1] = *b,
+> @@ -602,11 +602,11 @@ static int igt_vma_rotate_remap(void *arg)
+>   			max_offset = max_pages - max_offset;
+>   
+>   			if (!plane_info[0].dst_stride)
+> -				plane_info[0].dst_stride = view.type == I915_GGTT_VIEW_ROTATED ?
+> +				plane_info[0].dst_stride = view.type == I915_GTT_VIEW_ROTATED ?
+>   									plane_info[0].height :
+>   									plane_info[0].width;
+>   			if (!plane_info[1].dst_stride)
+> -				plane_info[1].dst_stride = view.type == I915_GGTT_VIEW_ROTATED ?
+> +				plane_info[1].dst_stride = view.type == I915_GTT_VIEW_ROTATED ?
+>   									plane_info[1].height :
+>   									plane_info[1].width;
+>   
+> @@ -630,7 +630,7 @@ static int igt_vma_rotate_remap(void *arg)
+>   
+>   					expected_pages = remapped_size(view.type, &plane_info[0], &plane_info[1]);
+>   
+> -					if (view.type == I915_GGTT_VIEW_ROTATED &&
+> +					if (view.type == I915_GTT_VIEW_ROTATED &&
+>   					    vma->size != expected_pages * PAGE_SIZE) {
+>   						pr_err("VMA is wrong size, expected %lu, found %llu\n",
+>   						       PAGE_SIZE * expected_pages, vma->size);
+> @@ -638,7 +638,7 @@ static int igt_vma_rotate_remap(void *arg)
+>   						goto out_object;
+>   					}
+>   
+> -					if (view.type == I915_GGTT_VIEW_REMAPPED &&
+> +					if (view.type == I915_GTT_VIEW_REMAPPED &&
+>   					    vma->size > expected_pages * PAGE_SIZE) {
+>   						pr_err("VMA is wrong size, expected %lu, found %llu\n",
+>   						       PAGE_SIZE * expected_pages, vma->size);
+> @@ -668,13 +668,13 @@ static int igt_vma_rotate_remap(void *arg)
+>   
+>   					sg = vma->pages->sgl;
+>   					for (n = 0; n < ARRAY_SIZE(view.rotated.plane); n++) {
+> -						if (view.type == I915_GGTT_VIEW_ROTATED)
+> +						if (view.type == I915_GTT_VIEW_ROTATED)
+>   							sg = assert_rotated(obj, &view.rotated, n, sg);
+>   						else
+>   							sg = assert_remapped(obj, &view.remapped, n, sg);
+>   						if (IS_ERR(sg)) {
+>   							pr_err("Inconsistent %s VMA pages for plane %d: [(%d, %d, %d, %d, %d), (%d, %d, %d, %d, %d)]\n",
+> -							       view.type == I915_GGTT_VIEW_ROTATED ?
+> +							       view.type == I915_GTT_VIEW_ROTATED ?
+>   							       "rotated" : "remapped", n,
+>   							       plane_info[0].width,
+>   							       plane_info[0].height,
+> @@ -741,7 +741,7 @@ static bool assert_partial(struct drm_i915_gem_object *obj,
+>   }
+>   
+>   static bool assert_pin(struct i915_vma *vma,
+> -		       struct i915_ggtt_view *view,
+> +		       struct i915_gtt_view *view,
+>   		       u64 size,
+>   		       const char *name)
+>   {
+> @@ -759,8 +759,8 @@ static bool assert_pin(struct i915_vma *vma,
+>   		ok = false;
+>   	}
+>   
+> -	if (view && view->type != I915_GGTT_VIEW_NORMAL) {
+> -		if (memcmp(&vma->ggtt_view, view, sizeof(*view))) {
+> +	if (view && view->type != I915_GTT_VIEW_NORMAL) {
+> +		if (memcmp(&vma->gtt_view, view, sizeof(*view))) {
+>   			pr_err("(%s) VMA mismatch upon creation!\n",
+>   			       name);
+>   			ok = false;
+> @@ -772,9 +772,9 @@ static bool assert_pin(struct i915_vma *vma,
+>   			ok = false;
+>   		}
+>   	} else {
+> -		if (vma->ggtt_view.type != I915_GGTT_VIEW_NORMAL) {
+> +		if (vma->gtt_view.type != I915_GTT_VIEW_NORMAL) {
+>   			pr_err("Not the normal ggtt view! Found %d\n",
+> -			       vma->ggtt_view.type);
+> +			       vma->gtt_view.type);
+>   			ok = false;
+>   		}
+>   
+> @@ -818,14 +818,14 @@ static int igt_vma_partial(void *arg)
+>   		nvma = 0;
+>   		for_each_prime_number_from(sz, 1, npages) {
+>   			for_each_prime_number_from(offset, 0, npages - sz) {
+> -				struct i915_ggtt_view view;
+> +				struct i915_gtt_view view;
+>   
+> -				view.type = I915_GGTT_VIEW_PARTIAL;
+> +				view.type = I915_GTT_VIEW_PARTIAL;
+>   				view.partial.offset = offset;
+>   				view.partial.size = sz;
+>   
+>   				if (sz == npages)
+> -					view.type = I915_GGTT_VIEW_NORMAL;
+> +					view.type = I915_GTT_VIEW_NORMAL;
+>   
+>   				vma = checked_vma_instance(obj, vm, &view);
+>   				if (IS_ERR(vma)) {
+> @@ -976,9 +976,9 @@ static int igt_vma_remapped_gtt(void *arg)
+>   
+>   		{ }
+>   	}, *p;
+> -	enum i915_ggtt_view_type types[] = {
+> -		I915_GGTT_VIEW_ROTATED,
+> -		I915_GGTT_VIEW_REMAPPED,
+> +	enum i915_gtt_view_type types[] = {
+> +		I915_GTT_VIEW_ROTATED,
+> +		I915_GTT_VIEW_REMAPPED,
+>   		0,
+>   	}, *t;
+>   	struct drm_i915_gem_object *obj;
+> @@ -996,7 +996,7 @@ static int igt_vma_remapped_gtt(void *arg)
+>   
+>   	for (t = types; *t; t++) {
+>   		for (p = planes; p->width; p++) {
+> -			struct i915_ggtt_view view = {
+> +			struct i915_gtt_view view = {
+>   				.type = *t,
+>   				.rotated.plane[0] = *p,
+>   			};
+> @@ -1012,7 +1012,7 @@ static int igt_vma_remapped_gtt(void *arg)
+>   				goto out;
+>   
+>   			if (!plane_info[0].dst_stride)
+> -				plane_info[0].dst_stride = *t == I915_GGTT_VIEW_ROTATED ?
+> +				plane_info[0].dst_stride = *t == I915_GTT_VIEW_ROTATED ?
+>   								 p->height : p->width;
+>   
+>   			vma = i915_gem_object_ggtt_pin(obj, &view, 0, 0, PIN_MAPPABLE);
+> @@ -1021,7 +1021,7 @@ static int igt_vma_remapped_gtt(void *arg)
+>   				goto out;
+>   			}
+>   
+> -			GEM_BUG_ON(vma->ggtt_view.type != *t);
+> +			GEM_BUG_ON(vma->gtt_view.type != *t);
+>   
+>   			map = i915_vma_pin_iomap(vma);
+>   			i915_vma_unpin(vma);
+> @@ -1035,7 +1035,7 @@ static int igt_vma_remapped_gtt(void *arg)
+>   					unsigned int offset;
+>   					u32 val = y << 16 | x;
+>   
+> -					if (*t == I915_GGTT_VIEW_ROTATED)
+> +					if (*t == I915_GTT_VIEW_ROTATED)
+>   						offset = (x * plane_info[0].dst_stride + y) * PAGE_SIZE;
+>   					else
+>   						offset = (y * plane_info[0].dst_stride + x) * PAGE_SIZE;
+> @@ -1052,7 +1052,7 @@ static int igt_vma_remapped_gtt(void *arg)
+>   				goto out;
+>   			}
+>   
+> -			GEM_BUG_ON(vma->ggtt_view.type != I915_GGTT_VIEW_NORMAL);
+> +			GEM_BUG_ON(vma->gtt_view.type != I915_GTT_VIEW_NORMAL);
+>   
+>   			map = i915_vma_pin_iomap(vma);
+>   			i915_vma_unpin(vma);
+> @@ -1067,7 +1067,7 @@ static int igt_vma_remapped_gtt(void *arg)
+>   					u32 exp = y << 16 | x;
+>   					u32 val;
+>   
+> -					if (*t == I915_GGTT_VIEW_ROTATED)
+> +					if (*t == I915_GTT_VIEW_ROTATED)
+>   						src_idx = rotated_index(&view.rotated, 0, x, y);
+>   					else
+>   						src_idx = remapped_index(&view.remapped, 0, x, y);
+> @@ -1076,7 +1076,7 @@ static int igt_vma_remapped_gtt(void *arg)
+>   					val = ioread32(&map[offset / sizeof(*map)]);
+>   					if (val != exp) {
+>   						pr_err("%s VMA write test failed, expected 0x%x, found 0x%x\n",
+> -						       *t == I915_GGTT_VIEW_ROTATED ? "Rotated" : "Remapped",
+> +						       *t == I915_GTT_VIEW_ROTATED ? "Rotated" : "Remapped",
+>   						       exp, val);
+>   						i915_vma_unpin_iomap(vma);
+>   						err = -EINVAL;
