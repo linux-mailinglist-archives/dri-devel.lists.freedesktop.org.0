@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42FDB5AD9FC
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 21:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDE55ADA84
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 23:04:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 931EB10E321;
-	Mon,  5 Sep 2022 19:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3E1210E095;
+	Mon,  5 Sep 2022 21:03:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
- [IPv6:2607:f8b0:4864:20::e35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB4B510E321
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 19:56:07 +0000 (UTC)
-Received: by mail-vs1-xe35.google.com with SMTP id k2so9692436vsk.8
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 12:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3B2610E095
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 21:03:51 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id og21so19219369ejc.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 14:03:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=TxtKuUqRxkHzFdFIsdOfwVRYln8Ru/gjD+KQXu9iPWk=;
- b=oOTNddka/G5MmOs10MprjSwOych3GIj7p+oXSDb0g7K+MumOQ7dZI9fvJZbh5v/ZDF
- DkO1HuuP77CxrZ+nX3N/Lzhn/vUJoUctJFw7B5StarCr4bF9V9vn6OWirRi6MzdQqj30
- RSw/5Gc1rkcPkllIbByQHmgIVNflrb//j8OILQCPlm+kfxjDVj7A+Lyb1H1czT3F4/xi
- bz15Ht8yFZoqUyi30wGVEJqKiyzB6caNlhd6ZUpR1ANYxl8eNvELSRuii9PJ3S+s4ley
- Rp+HaIIqJfxdvV1TQotcVRJ+vu/DyoG1JpVG2rEiNSh0BPI5uNW/2ybVsLc3YOQ/Kl+P
- cZ2w==
+ bh=hoFfvxrcWLiLIIghJLr7YqFR/bl7ppCzpkpzcFf25Ks=;
+ b=RJtkdpcWwDCjdU//f+NiUTQJO5kz/J/LQ4Oeb8FsER0ooLc9TUWAVJHwh16h0rFR6k
+ jDNxcAT6fUKAWlYXkDzi9PRVLGCFhao6TAvvqUzCLnc6J1JgrkOg//ZWPBTqZXz06MLe
+ g/E79BtcrSCZXcou4vgp2IFBghrcFJpfeHS130JLJDTFGdRTjjJVv3m8lMFyySNYfbdn
+ zyHSJi+z2sGr74Gs8Ferhg3qHw1Rm2Rd7LpNg2QiPU+rsqNYeELsa2ObuGU9YVxZktXI
+ +EIJDXEMJp+8DP7PW/zCtw+WHI1pL0md9UYJvdO9U0CdYO9jo7gVaKjIjDEh/+/hHVoD
+ fvlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=TxtKuUqRxkHzFdFIsdOfwVRYln8Ru/gjD+KQXu9iPWk=;
- b=BxNUSTgPf4XftrNllbhTdQpYmsKzdt+7bpBuLBq+rlX+iXGqSAts/vTQDkDP4UyFsa
- 8oZx8KTXf1MzKP3vjO42Ph8SqzW+Dq1XAl6wotIQLpZ32+xjMtAzO+0GDjblX9Lwu3+w
- tmUtcsJ4evh5ZewTDAd+4SJJvX1BsUqTHiJDdhCR2XQkI3x0XTR/Ywh5qXXhCPoaALl8
- oAxZSGTtCjNat0NwKqdPRQW/o+UVIBsycfOp7FO8h70bTxlu5XFzIu+XlI7/eoQzdTqi
- Xw8txbDKd3M7tldKcxNHy+IuRr97VkVwz74MsSoEQMEIR4d4E9tOeF18YsMMHCYHlz4r
- 3vIA==
-X-Gm-Message-State: ACgBeo0dyirvD3F22oZOHo77uApZKyz14QIBQ35VFYIHGR7YvyB3iNXz
- ldEO1GUZegN+Fvm6T/2B3H6ACCfsJgfIbQm3U+w=
-X-Google-Smtp-Source: AA6agR40buubTfPsstG80DF+s22ldT4F+qiWGt4P8UBWfLfejzg6ynm6XI4ScnPvxtGB0Oeq1Upf5TBcnrM6rSa5o+Y=
-X-Received: by 2002:a67:e058:0:b0:390:e62d:8976 with SMTP id
- n24-20020a67e058000000b00390e62d8976mr11716363vsl.31.1662407766752; Mon, 05
- Sep 2022 12:56:06 -0700 (PDT)
+ bh=hoFfvxrcWLiLIIghJLr7YqFR/bl7ppCzpkpzcFf25Ks=;
+ b=7mwMlGTSH15SlU6aV80TX9DKEFhEQv7OZDcwqdrXMrV6BCbsUhJSuYEgveaMLDN2XO
+ BOSuZZl+gjHQtLWnG6TkCEJCTG7ZP8Ay3BAzwmgSpsnpZHYI4AqjBcNzRVIpoYavUcKE
+ LyDRDmpXlAGppgJGctlE6xLdbDKdQpVCsskNYg3a55PR6Hrw4sIWUHJJbXZBxNOKyDBi
+ 9jQLu3Hxtyy8pYdIUi0/I8FzNC+e39I9PTvAiICw+apMxnB6AF4J3Wh5KK3TOl32fP7H
+ lEv/ncLycl8KtCzGqWXSQCmrvNOvNcmA4gy8Mp2MYCaA+XHpC+IkdEx1UpWNWAlT3dny
+ 42sQ==
+X-Gm-Message-State: ACgBeo1pMENj92bPSvCi8TuPLCFQg+zxHAgrdLe+sAv+pRhLdeYLUtxU
+ Rjh2IOy44ewiFkMKeSvENGrjknixvPATE1+4aCH5EQ==
+X-Google-Smtp-Source: AA6agR4GWSThcRe2jCNjPhluqCCYiE882sQv//p+YmHWCdk54XKDzjUOkiYoAS2W+owpznoWxs2VPch3w1ZAdKXk+5E=
+X-Received: by 2002:a17:907:7242:b0:741:770b:dfc6 with SMTP id
+ ds2-20020a170907724200b00741770bdfc6mr28207413ejc.203.1662411830025; Mon, 05
+ Sep 2022 14:03:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-4-b29adfb27a6c@gmail.com>
- <CAHp75VdMr7wru-2hD1HH3OS5JTNdzt6VRqB6OFoCp2JkiuiTjw@mail.gmail.com>
- <YxZQj8bwJCx5rqDv@google.com>
- <CAHp75VdHJS4YgrTK15OuY5sxodxKObUtzturL+YPXFQ3_wpxig@mail.gmail.com>
- <YxZTS3Nl1YaMGoBC@google.com>
-In-Reply-To: <YxZTS3Nl1YaMGoBC@google.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 5 Sep 2022 22:55:30 +0300
-Message-ID: <CAHp75VeNajcf-Y6xvDDVwZijg6U53ggg1HQox1AZ74=wRut+1Q@mail.gmail.com>
-Subject: Re: [PATCH v1 04/11] usb: phy: tegra: switch to using devm_gpiod_get()
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-2-b29adfb27a6c@gmail.com>
+ <CAHp75Vc4yfh0JcY0B-vNawHTay5QNuhd7GAm86QZZZvUnQaMzQ@mail.gmail.com>
+ <YxZP/exeVD7DQ5Hx@google.com>
+In-Reply-To: <YxZP/exeVD7DQ5Hx@google.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 5 Sep 2022 23:03:38 +0200
+Message-ID: <CACRpkda0iUTV=71eQf5_FdKWLe3Bu=U+Zny9_uJJL=5xXtnrnQ@mail.gmail.com>
+Subject: Re: [PATCH v1 02/11] drm/tegra: switch to using devm_fwnode_gpiod_get
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Mathias Nyman <mathias.nyman@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,6 +71,7 @@ Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Vignesh Raghavendra <vigneshr@ti.com>, David Airlie <airlied@linux.ie>,
  linux-pci <linux-pci@vger.kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Liam Girdwood <lgirdwood@gmail.com>, linux-tegra <linux-tegra@vger.kernel.org>,
@@ -83,7 +83,8 @@ Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  LINUXWATCHDOG <linux-watchdog@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
  Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Guenter Roeck <linux@roeck-us.net>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
  Matti Vaittinen <mazziesaccount@gmail.com>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
@@ -100,46 +101,36 @@ Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 5, 2022 at 10:51 PM Dmitry Torokhov
+On Mon, Sep 5, 2022 at 9:37 PM Dmitry Torokhov
 <dmitry.torokhov@gmail.com> wrote:
-> On Mon, Sep 05, 2022 at 10:41:40PM +0300, Andy Shevchenko wrote:
-> > On Mon, Sep 5, 2022 at 10:40 PM Dmitry Torokhov
+> On Mon, Sep 05, 2022 at 01:57:01PM +0300, Andy Shevchenko wrote:
+> > On Mon, Sep 5, 2022 at 9:32 AM Dmitry Torokhov
 > > <dmitry.torokhov@gmail.com> wrote:
-> > > On Mon, Sep 05, 2022 at 01:59:44PM +0300, Andy Shevchenko wrote:
-> > > > On Mon, Sep 5, 2022 at 9:32 AM Dmitry Torokhov
-> > > > <dmitry.torokhov@gmail.com> wrote:
-
-...
-
-> > > > > -               gpiod = devm_gpiod_get_from_of_node(&pdev->dev, np,
-> > > > > -                                                   "nvidia,phy-reset-gpio",
-> > > > > -                                                   0, GPIOD_OUT_HIGH,
-> > > > > -                                                   "ulpi_phy_reset_b");
-> > > > > +               gpiod = devm_gpiod_get(&pdev->dev, "nvidia,phy-reset",
-> > > > > +                                      GPIOD_OUT_HIGH);
-> > > > >                 err = PTR_ERR_OR_ZERO(gpiod);
-> > > >
-> > > > What does _OR_ZERO mean now?
 > > >
-> > > This converts a pointer to an error code if a pointer represents
-> > > ERR_PTR() encoded error, or 0 to indicate success.
+> > > I would like to limit (or maybe even remove) use of
+> > > [devm_]gpiod_get_from_of_node in drivers so that gpiolib can be cleaned
+> > > a bit, so let's switch to the generic device property API.
 > >
-> > Yes, I know that. My point is, how is it useful now (or even before)?
-> > I mean that devm_gpio_get() never returns NULL, right?
+> > > It may even
+> > > help with handling secondary fwnodes when gpiolib is taught to handle
+> > > gpios described by swnodes.
+> >
+> > I would remove this sentence from all commit messages since it's a
+> > debatable thing and might even not happen, so the above is a pure
+> > speculation.
 >
-> What does returning NULL have to do with anything.
+> I have the patches. Granted, I had them since '19 ;) but I'm rebasing
+> them and going to push them. I need them to convert bunch of input
+> drivers away from platform data.
 
-It has to do with a dead code. If defm_gpiod_get() does not return
-NULL, then why do we even bother to check?
+That's good news!
 
-> It converts a pointer
-> to a "classic" return code, with negative errors and 0 on success.
->
-> It allows to not use multiple IS_ERR/PTR_ERR in the code (I'd need 1
-> IS_ERR and 2 PTR_ERR, one in dev_err() and another to return).
+Are you referring to this patch set mentioned in a discussion
+from 2017 thru 2020?
+https://lore.kernel.org/linux-input/20200826161222.GA1665100@dtor-ws/
 
-I don't see how this is relevant.
+I put aside GPIO descriptor conversion for input devices (keys, buttons)
+in board files anticipating a swnode mechanism.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Yours,
+Linus Walleij
