@@ -1,69 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C085AD9F5
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 21:54:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FDB5AD9FC
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 21:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0BAF10E0F5;
-	Mon,  5 Sep 2022 19:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 931EB10E321;
+	Mon,  5 Sep 2022 19:56:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 690DE10E0F5
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 19:54:27 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id v5so9285223plo.9
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 12:54:27 -0700 (PDT)
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
+ [IPv6:2607:f8b0:4864:20::e35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB4B510E321
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 19:56:07 +0000 (UTC)
+Received: by mail-vs1-xe35.google.com with SMTP id k2so9692436vsk.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 12:56:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date;
- bh=zxa96jF7Tq2NFS5Z0f+Vbe6tPHaqlTK7+tACu1Wc1bY=;
- b=p+w40zBKb360cS3t/20RQ9fj87kNmL9+wV2DVi2rkEnZbxImbIJc7pte6gUegPMA8a
- sFBB5aUkvaOM6b3Kj9qmd2ut1NKgO+CDhyFT91dG8+KUVoVf0gInhE/UOnfhB92XkSNY
- u8qMra/sYBIyNm2Awyf4P1TWUIjbeQASP/d7P9T5CM2s7DH926t2/T3HcNVk1DoW+UGS
- v796lRquHF7Qmw7ptQ1DqA4ajtoKb1+hxfBI6rfUByvolTPU6//4uMw0nmTfqEuWbj/R
- 2Evodr6uEdppBL0mwTkx6onhEejt0ETyPcrx+UWGe+X8/pqjNco8n2BX6gqU3Djw+OmE
- nbNQ==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=TxtKuUqRxkHzFdFIsdOfwVRYln8Ru/gjD+KQXu9iPWk=;
+ b=oOTNddka/G5MmOs10MprjSwOych3GIj7p+oXSDb0g7K+MumOQ7dZI9fvJZbh5v/ZDF
+ DkO1HuuP77CxrZ+nX3N/Lzhn/vUJoUctJFw7B5StarCr4bF9V9vn6OWirRi6MzdQqj30
+ RSw/5Gc1rkcPkllIbByQHmgIVNflrb//j8OILQCPlm+kfxjDVj7A+Lyb1H1czT3F4/xi
+ bz15Ht8yFZoqUyi30wGVEJqKiyzB6caNlhd6ZUpR1ANYxl8eNvELSRuii9PJ3S+s4ley
+ Rp+HaIIqJfxdvV1TQotcVRJ+vu/DyoG1JpVG2rEiNSh0BPI5uNW/2ybVsLc3YOQ/Kl+P
+ cZ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=zxa96jF7Tq2NFS5Z0f+Vbe6tPHaqlTK7+tACu1Wc1bY=;
- b=CUSw+8gud9nqyHQmjfwTgXKBDtyvSrs9aCNPO2t7xp8lOa/2Pnb9TZfbpOq9p+ZbZ8
- S2MH/K/9JPKsAxM/RhWRSviK58LF46logjkDlbLqi+oGQdNbO8y/sj6u+OzgijHKGQ1V
- xc02BDNpOIT352hybOPdlCzYvSUyJ4NWOJbn/qKY4BDKKNR9Ra65wUEESM+wjVrSUCWj
- AzsYeS9uddB7RXRh2DcAScOkZAnWItBwHW7ZwUFKJzPH74PfHMNTUrvDisX7nSwVB4RB
- 0u91ggOs/tcGBxRZCDhjuJpOGjeysInUHs5pxXnEVh8uHy/jzNcASulNBheR5nmr+g9V
- uCoA==
-X-Gm-Message-State: ACgBeo23tUFtZogAq/qbrYTukGI87Sp6VrT6eB8BcPpizPq8SRyMd6Tz
- U7iiYG+AW9zke3S6Ppwoyuw=
-X-Google-Smtp-Source: AA6agR5Cv7sHKUo7MkZvN9NCQW+TEQYIAszXUVs54FMP1ugGloikm17da8wbNClAm9HOmIskUrqfng==
-X-Received: by 2002:a17:903:248:b0:172:7520:db07 with SMTP id
- j8-20020a170903024800b001727520db07mr50029962plh.76.1662407666780; 
- Mon, 05 Sep 2022 12:54:26 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:7332:f188:2984:5930])
- by smtp.gmail.com with ESMTPSA id
- q14-20020a170902dace00b001754a3c5404sm7987874plx.212.2022.09.05.12.54.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 12:54:26 -0700 (PDT)
-Date: Mon, 5 Sep 2022 12:54:22 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v1 06/11] PCI: aardvark: switch to using
- devm_gpiod_get_optional()
-Message-ID: <YxZT7tDhW/7T+Snl@google.com>
-References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-6-b29adfb27a6c@gmail.com>
- <20220905070046.46nlhczkck2ufr4x@pali>
- <CAHp75VcFv7ipLqXmOwbXpY-_ccYNA9PgF0h4T8RY1Z-UNNpaTg@mail.gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=TxtKuUqRxkHzFdFIsdOfwVRYln8Ru/gjD+KQXu9iPWk=;
+ b=BxNUSTgPf4XftrNllbhTdQpYmsKzdt+7bpBuLBq+rlX+iXGqSAts/vTQDkDP4UyFsa
+ 8oZx8KTXf1MzKP3vjO42Ph8SqzW+Dq1XAl6wotIQLpZ32+xjMtAzO+0GDjblX9Lwu3+w
+ tmUtcsJ4evh5ZewTDAd+4SJJvX1BsUqTHiJDdhCR2XQkI3x0XTR/Ywh5qXXhCPoaALl8
+ oAxZSGTtCjNat0NwKqdPRQW/o+UVIBsycfOp7FO8h70bTxlu5XFzIu+XlI7/eoQzdTqi
+ Xw8txbDKd3M7tldKcxNHy+IuRr97VkVwz74MsSoEQMEIR4d4E9tOeF18YsMMHCYHlz4r
+ 3vIA==
+X-Gm-Message-State: ACgBeo0dyirvD3F22oZOHo77uApZKyz14QIBQ35VFYIHGR7YvyB3iNXz
+ ldEO1GUZegN+Fvm6T/2B3H6ACCfsJgfIbQm3U+w=
+X-Google-Smtp-Source: AA6agR40buubTfPsstG80DF+s22ldT4F+qiWGt4P8UBWfLfejzg6ynm6XI4ScnPvxtGB0Oeq1Upf5TBcnrM6rSa5o+Y=
+X-Received: by 2002:a67:e058:0:b0:390:e62d:8976 with SMTP id
+ n24-20020a67e058000000b00390e62d8976mr11716363vsl.31.1662407766752; Mon, 05
+ Sep 2022 12:56:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VcFv7ipLqXmOwbXpY-_ccYNA9PgF0h4T8RY1Z-UNNpaTg@mail.gmail.com>
+References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-4-b29adfb27a6c@gmail.com>
+ <CAHp75VdMr7wru-2hD1HH3OS5JTNdzt6VRqB6OFoCp2JkiuiTjw@mail.gmail.com>
+ <YxZQj8bwJCx5rqDv@google.com>
+ <CAHp75VdHJS4YgrTK15OuY5sxodxKObUtzturL+YPXFQ3_wpxig@mail.gmail.com>
+ <YxZTS3Nl1YaMGoBC@google.com>
+In-Reply-To: <YxZTS3Nl1YaMGoBC@google.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 5 Sep 2022 22:55:30 +0300
+Message-ID: <CAHp75VeNajcf-Y6xvDDVwZijg6U53ggg1HQox1AZ74=wRut+1Q@mail.gmail.com>
+Subject: Re: [PATCH v1 04/11] usb: phy: tegra: switch to using devm_gpiod_get()
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,14 +68,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Vignesh Raghavendra <vigneshr@ti.com>, David Airlie <airlied@linux.ie>,
  linux-pci <linux-pci@vger.kernel.org>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- linux-tegra <linux-tegra@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-tegra <linux-tegra@vger.kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
@@ -101,45 +92,54 @@ Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
  linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
  Felipe Balbi <balbi@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- USB <linux-usb@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ USB <linux-usb@vger.kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Richard Weinberger <richard@nod.at>,
- Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
  Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 05, 2022 at 01:47:41PM +0300, Andy Shevchenko wrote:
-> On Mon, Sep 5, 2022 at 10:02 AM Pali Rohár <pali@kernel.org> wrote:
-> > On Sunday 04 September 2022 23:30:58 Dmitry Torokhov wrote:
-> > > I would like to stop exporting OF-specific devm_gpiod_get_from_of_node()
-> > > so that gpiolib can be cleaned a bit, so let's switch to the generic
-> > > device property API.
+On Mon, Sep 5, 2022 at 10:51 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+> On Mon, Sep 05, 2022 at 10:41:40PM +0300, Andy Shevchenko wrote:
+> > On Mon, Sep 5, 2022 at 10:40 PM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> > > On Mon, Sep 05, 2022 at 01:59:44PM +0300, Andy Shevchenko wrote:
+> > > > On Mon, Sep 5, 2022 at 9:32 AM Dmitry Torokhov
+> > > > <dmitry.torokhov@gmail.com> wrote:
+
+...
+
+> > > > > -               gpiod = devm_gpiod_get_from_of_node(&pdev->dev, np,
+> > > > > -                                                   "nvidia,phy-reset-gpio",
+> > > > > -                                                   0, GPIOD_OUT_HIGH,
+> > > > > -                                                   "ulpi_phy_reset_b");
+> > > > > +               gpiod = devm_gpiod_get(&pdev->dev, "nvidia,phy-reset",
+> > > > > +                                      GPIOD_OUT_HIGH);
+> > > > >                 err = PTR_ERR_OR_ZERO(gpiod);
+> > > >
+> > > > What does _OR_ZERO mean now?
 > > >
-> > > I believe that the only reason the driver, instead of the standard
-> > > devm_gpiod_get_optional(), used devm_gpiod_get_from_of_node() is
-> > > because it wanted to set up a pretty consumer name for the GPIO,
+> > > This converts a pointer to an error code if a pointer represents
+> > > ERR_PTR() encoded error, or 0 to indicate success.
 > >
-> > IIRC consumer name is not used at all.
-> 
-> It's. The user space tools use it as a label. So, GPIO line can have
-> "name" (this is provider specific) and "label" (which is consumer
-> specific, i.o.w. how we use this line).
-> 
-> ...
-> 
-> > > +             if (ret != -EPROBE_DEFER)
-> > > +                     dev_err(dev, "Failed to get reset-gpio: %i\n",
-> > > +                             ret);
-> > > +             return ret;
-> 
-> I understand that in the input subsystem maintainer's hat you don't
-> like dev_err_probe(), but it's a good case to have it here.
+> > Yes, I know that. My point is, how is it useful now (or even before)?
+> > I mean that devm_gpio_get() never returns NULL, right?
+>
+> What does returning NULL have to do with anything.
 
-The driver currently does not use this API, so I elected not to
-introduce it in this series.
+It has to do with a dead code. If defm_gpiod_get() does not return
+NULL, then why do we even bother to check?
 
-Thanks,
+> It converts a pointer
+> to a "classic" return code, with negative errors and 0 on success.
+>
+> It allows to not use multiple IS_ERR/PTR_ERR in the code (I'd need 1
+> IS_ERR and 2 PTR_ERR, one in dev_err() and another to return).
+
+I don't see how this is relevant.
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
