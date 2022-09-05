@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94365AD620
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:20:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9F25AD621
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Sep 2022 17:20:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC72210E853;
-	Mon,  5 Sep 2022 15:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE7C10E426;
+	Mon,  5 Sep 2022 15:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC6310E8A2
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:19:34 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC2B110E41B
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 15:20:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662391173;
+ s=mimecast20190719; t=1662391246;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xSUtWAzK0ahA+zp/L7/UclMHTS5yPU+3r+RqIP2CU10=;
- b=ErAfJEEyJtG9xWrjK4QNl1L5ArtjXorxjTN0F/Qns+FnZAsNPvPrmFcliUthi6b2cRtvys
- v83pbQmuVEZdtBqK1dJI0QMaLfAnJe/Bij2+JgfkOMnReKlo4G6KNQo2CGb2G0HA8tFCdO
- /1HGsk1SL7L0ZcVqhhbKsOlolDtcrSY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9kBxkoMSoocenFWS5QnFTVJk53upsFpOoCTaLoDSzmI=;
+ b=Ym93OtH0ZaS4MDfuCQyYLeoLZhdqZ2BIofZ+hGpE3VJPU83rzlIRAX6K1WJkfq6iEFpCr9
+ iFRkKrr1/ZJ6F606twssKVv5MJEgRZYBXdg5FYoSnoH5SNW0ISw2hcjkFOd86CAs9Zr0T4
+ GoiaC2Sn2NDc7WzWgPF32mrifppxYK8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-43-PZ3T3njsPAuFavaAyOTvEg-1; Mon, 05 Sep 2022 11:19:32 -0400
-X-MC-Unique: PZ3T3njsPAuFavaAyOTvEg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f18-20020a05600c4e9200b003a5f81299caso5477003wmq.7
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 08:19:32 -0700 (PDT)
+ us-mta-198-F1LbeZZNN2GsBlfA-CDeAw-1; Mon, 05 Sep 2022 11:20:45 -0400
+X-MC-Unique: F1LbeZZNN2GsBlfA-CDeAw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s1-20020adf9781000000b002286cd81376so716627wrb.22
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 08:20:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=xSUtWAzK0ahA+zp/L7/UclMHTS5yPU+3r+RqIP2CU10=;
- b=i2MLizD3N5QOhWf6czF/1VTNiYwewluMPjZjH6cx6/TfzDyFhU/7Rj+lHdsHmSf5jj
- Bzcd5RqQrrzk/CzqAavUBIkd0+lgopOpiq3+x3mzamHNXzm2wrLrmzHPsFXjBmGkjz81
- urEF7jpfxriyzwJFoq1ghPrND7dTHcA80t9Jh+a1JRwPxNJ+0f0hgmxvWjzk1A5sprfF
- llTqZ6u8Tm1zMdt12VlH1W9vm0vDShzzp/TZDxpiIE4BLUZ2svC3Sq//YGg1PhCNI1Mq
- d7+/uZ8W9fXdbUuUIrMExiqUpoNx5vbE5SC3dZgNeJkM4y7oDcY8Jxe7KA/1Uad2zHyU
- A9Rg==
-X-Gm-Message-State: ACgBeo2EGDsF4a0eBmtF0oCATe/X79sXKNmf68qYCOyP8uQddDgnzOQ5
- XUfDsGwTOiWl6WbkMWtWb3Y/sZvssCphdVOoDeQzJJG/NzrD7EnZkLp2B1vp1CCWnXqNH263a5G
- qAOfXuSJ+AOCPig0qMphZWXVNhTgR
-X-Received: by 2002:a5d:48c7:0:b0:228:62d5:2818 with SMTP id
- p7-20020a5d48c7000000b0022862d52818mr5341886wrs.13.1662391171542; 
- Mon, 05 Sep 2022 08:19:31 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6KG28G6zxF6nBeebEbFNRpsDbrJRMcxpQj5CeuggUPfErxOJ+G3x3zAgSIgPxcSWg6+XzDqQ==
-X-Received: by 2002:a5d:48c7:0:b0:228:62d5:2818 with SMTP id
- p7-20020a5d48c7000000b0022862d52818mr5341871wrs.13.1662391171390; 
- Mon, 05 Sep 2022 08:19:31 -0700 (PDT)
+ bh=9kBxkoMSoocenFWS5QnFTVJk53upsFpOoCTaLoDSzmI=;
+ b=Qae+JVkMjp6Jwe5j3CXvoc1YQRCdpGqzXJR2dZ+d8NlWzyKABGA/V879V6nBjwyf3e
+ ZWWaS9+eVKNzIOPTECMVB8A2unIgePk9TNfDbxudgKOHWDNM98RxQHLCFn+jkPSR2nIA
+ eyJTOLG0G4a04686lpWS7LXspG1bvNtwEzhHBcKbTx2qcb5+blGPm/JbedHmhbTuzbHp
+ 5bvUS6rhJLnnsihVNotw2p+Re9hrRfm20QknWooLJxjd0lBG8XtwpjT3s2N4rtP0u6FE
+ Hd8qAU5XxTLqXQus75OqQtdZ2bI6XInaUqSyGgR6tVi6PllBTBoLUeZX4uWI+usIyXRt
+ zUHg==
+X-Gm-Message-State: ACgBeo2xCLa4CVb/Qf1ITvJ89asUCSzTB7iipxpBjufAN+P6l8Ojoipl
+ zudqZoIElwOJ7xEIJ7i0OtqKMfzXKrm/7DJ4/08REcuw22aXPUO/wKlke8fE478qa/8IgmrTad5
+ Tlq/HQtojCgzdKsWVRNd0pgAat840
+X-Received: by 2002:a05:6000:118e:b0:228:9373:70ae with SMTP id
+ g14-20020a056000118e00b00228937370aemr2737616wrx.467.1662391243882; 
+ Mon, 05 Sep 2022 08:20:43 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR57AZWTw36W89LbLt9c7lRycXE7G5TIWvzY7JI3W+d7SJ+dvNHGroLtZktX1idf6HX851gcKw==
+X-Received: by 2002:a05:6000:118e:b0:228:9373:70ae with SMTP id
+ g14-20020a056000118e00b00228937370aemr2737601wrx.467.1662391243671; 
+ Mon, 05 Sep 2022 08:20:43 -0700 (PDT)
 Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- j18-20020a5d4532000000b00220592005edsm9227024wra.85.2022.09.05.08.19.30
+ m5-20020adff385000000b00228c792aaaasm1383446wro.100.2022.09.05.08.20.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 08:19:31 -0700 (PDT)
+ Mon, 05 Sep 2022 08:20:43 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
  liviu.dudau@arm.com, brian.starkey@arm.com
-Subject: [PATCH RESEND drm-misc-next 6/8] drm/arm/malidp: plane: protect
- device resources after removal
-Date: Mon,  5 Sep 2022 17:19:08 +0200
-Message-Id: <20220905151910.98279-7-dakr@redhat.com>
+Subject: [PATCH RESEND drm-misc-next 7/8] drm/arm/malidp: crtc: protect device
+ resources after removal
+Date: Mon,  5 Sep 2022 17:20:40 +0200
+Message-Id: <20220905152041.98451-1-dakr@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220905151910.98279-1-dakr@redhat.com>
 References: <20220905151910.98279-1-dakr@redhat.com>
@@ -101,52 +101,144 @@ resources with drm_dev_enter() and drm_dev_exit().
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/arm/malidp_planes.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/arm/malidp_crtc.c | 41 +++++++++++++++++++++++++++++--
+ 1 file changed, 39 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-index 34547edf1ee3..d2ea60549454 100644
---- a/drivers/gpu/drm/arm/malidp_planes.c
-+++ b/drivers/gpu/drm/arm/malidp_planes.c
-@@ -790,9 +790,12 @@ static void malidp_de_plane_update(struct drm_plane *plane,
- 	u16 pixel_alpha = new_state->pixel_blend_mode;
- 	u8 plane_alpha = new_state->alpha >> 8;
- 	u32 src_w, src_h, dest_w, dest_h, val;
--	int i;
-+	int i, idx;
- 	struct drm_framebuffer *fb = plane->state->fb;
- 
-+	if (!drm_dev_enter(plane->dev, &idx))
-+		return;
-+
- 	mp = to_malidp_plane(plane);
+diff --git a/drivers/gpu/drm/arm/malidp_crtc.c b/drivers/gpu/drm/arm/malidp_crtc.c
+index dc01c43f6193..fa95278abae6 100644
+--- a/drivers/gpu/drm/arm/malidp_crtc.c
++++ b/drivers/gpu/drm/arm/malidp_crtc.c
+@@ -14,6 +14,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
++#include <drm/drm_drv.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+@@ -27,6 +28,7 @@ static enum drm_mode_status malidp_crtc_mode_valid(struct drm_crtc *crtc,
+ {
+ 	struct malidp_drm *malidp = crtc_to_malidp_device(crtc);
+ 	struct malidp_hw_device *hwdev = malidp->dev;
++	int idx;
  
  	/*
-@@ -897,16 +900,24 @@ static void malidp_de_plane_update(struct drm_plane *plane,
+ 	 * check that the hardware can drive the required clock rate,
+@@ -34,6 +36,9 @@ static enum drm_mode_status malidp_crtc_mode_valid(struct drm_crtc *crtc,
+ 	 */
+ 	long rate, req_rate = mode->crtc_clock * 1000;
  
- 	malidp_hw_write(mp->hwdev, val,
- 			mp->layer->base + MALIDP_LAYER_CONTROL);
++	if (!drm_dev_enter(&malidp->base, &idx))
++		return MODE_NOCLOCK;
 +
+ 	if (req_rate) {
+ 		rate = clk_round_rate(hwdev->pxlclk, req_rate);
+ 		if (rate != req_rate) {
+@@ -43,6 +48,8 @@ static enum drm_mode_status malidp_crtc_mode_valid(struct drm_crtc *crtc,
+ 		}
+ 	}
+ 
 +	drm_dev_exit(idx);
++
+ 	return MODE_OK;
  }
  
- static void malidp_de_plane_disable(struct drm_plane *plane,
- 				    struct drm_atomic_state *state)
- {
- 	struct malidp_plane *mp = to_malidp_plane(plane);
+@@ -53,6 +60,10 @@ static void malidp_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct malidp_hw_device *hwdev = malidp->dev;
+ 	struct videomode vm;
+ 	int err = pm_runtime_get_sync(crtc->dev->dev);
 +	int idx;
 +
-+	if (!drm_dev_enter(plane->dev, &idx))
++	if (!drm_dev_enter(&malidp->base, &idx))
 +		return;
  
- 	malidp_hw_clearbits(mp->hwdev,
- 			    LAYER_ENABLE | LAYER_FLOWCFG(LAYER_FLOWCFG_MASK),
- 			    mp->layer->base + MALIDP_LAYER_CONTROL);
+ 	if (err < 0) {
+ 		DRM_DEBUG_DRIVER("Failed to enable runtime power management: %d\n", err);
+@@ -68,6 +79,8 @@ static void malidp_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	hwdev->hw->modeset(hwdev, &vm);
+ 	hwdev->hw->leave_config_mode(hwdev);
+ 	drm_crtc_vblank_on(crtc);
 +
 +	drm_dev_exit(idx);
  }
  
- static const struct drm_plane_helper_funcs malidp_de_plane_helper_funcs = {
+ static void malidp_crtc_atomic_disable(struct drm_crtc *crtc,
+@@ -77,7 +90,10 @@ static void malidp_crtc_atomic_disable(struct drm_crtc *crtc,
+ 									 crtc);
+ 	struct malidp_drm *malidp = crtc_to_malidp_device(crtc);
+ 	struct malidp_hw_device *hwdev = malidp->dev;
+-	int err;
++	int err, idx;
++
++	if (!drm_dev_enter(&malidp->base, &idx))
++		return;
+ 
+ 	/* always disable planes on the CRTC that is being turned off */
+ 	drm_atomic_helper_disable_planes_on_crtc(old_state, false);
+@@ -91,6 +107,8 @@ static void malidp_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	if (err < 0) {
+ 		DRM_DEBUG_DRIVER("Failed to disable runtime power management: %d\n", err);
+ 	}
++
++	drm_dev_exit(idx);
+ }
+ 
+ static const struct gamma_curve_segment {
+@@ -260,7 +278,10 @@ static int malidp_crtc_atomic_check_scaling(struct drm_crtc *crtc,
+ 	u32 h_upscale_factor = 0; /* U16.16 */
+ 	u32 v_upscale_factor = 0; /* U16.16 */
+ 	u8 scaling = cs->scaled_planes_mask;
+-	int ret;
++	int idx, ret;
++
++	if (!drm_dev_enter(&malidp->base, &idx))
++		return -ENODEV;
+ 
+ 	if (!scaling) {
+ 		s->scale_enable = false;
+@@ -334,6 +355,9 @@ static int malidp_crtc_atomic_check_scaling(struct drm_crtc *crtc,
+ 	ret = hwdev->hw->se_calc_mclk(hwdev, s, &vm);
+ 	if (ret < 0)
+ 		return -EINVAL;
++
++	drm_dev_exit(idx);
++
+ 	return 0;
+ }
+ 
+@@ -498,9 +522,16 @@ static int malidp_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct malidp_drm *malidp = crtc_to_malidp_device(crtc);
+ 	struct malidp_hw_device *hwdev = malidp->dev;
++	int idx;
++
++	if (!drm_dev_enter(&malidp->base, &idx))
++		return -ENODEV;
+ 
+ 	malidp_hw_enable_irq(hwdev, MALIDP_DE_BLOCK,
+ 			     hwdev->hw->map.de_irq_map.vsync_irq);
++
++	drm_dev_exit(idx);
++
+ 	return 0;
+ }
+ 
+@@ -508,9 +539,15 @@ static void malidp_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct malidp_drm *malidp = crtc_to_malidp_device(crtc);
+ 	struct malidp_hw_device *hwdev = malidp->dev;
++	int idx;
++
++	if (!drm_dev_enter(&malidp->base, &idx))
++		return;
+ 
+ 	malidp_hw_disable_irq(hwdev, MALIDP_DE_BLOCK,
+ 			      hwdev->hw->map.de_irq_map.vsync_irq);
++
++	drm_dev_exit(idx);
+ }
+ 
+ static const struct drm_crtc_funcs malidp_crtc_funcs = {
 -- 
 2.37.2
 
