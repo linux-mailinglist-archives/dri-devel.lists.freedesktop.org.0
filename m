@@ -1,117 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FB25AF0C1
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 18:44:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 944AC5AF10E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 18:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD8D10E08A;
-	Tue,  6 Sep 2022 16:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F268D10E093;
+	Tue,  6 Sep 2022 16:49:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2080.outbound.protection.outlook.com [40.107.237.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32DB610E08A
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 16:44:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MaA9bEDX5z2MF5AcsstFdfCQqISJq27KJ0sm4UdQ63GPUxnEts7up/JC+nOvmPHT+0Hf1vsUQH7kRC/BdAeuCFMOk8JD3TPeIjA88Qf7cvHZy08PdBiv/hXamvKi9PLErCcwhDJtAU+HSMqieDdlgWaM9pp0Jh4eCJDaFwFPOIdRzrk3NwOv4yqH9Srhs/6v3An6Esrz9IrCVRv4jlst6374qPE05ExTZgZIesCB1ZToBtYTDrSNe2xFdKQ9b37usaS/JPL34ZCkaDbEQFXKxe0PkEH3NV/sWGLatalXpCIYvb962bZFdu/gBJqq3UU+e083u/y9fcylI7G3clittQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0a5KMK04bEnYSJbmXKpvsVC0KtUSLYXlzknatukfmpk=;
- b=hcXhhYvI2Nk4B998Yr6hBDOmT9hfPaPSCl2+lhRlQ+sEHVM7INnp7ISo/DHd0njMSn74uGVP8oqSDkuUuPGnUwC9zty3PyPMPyZAHDmMqQP4l3w3HTMRCu76G4QPT/JIKKwxJvingRhfakaGlQVaAZrQkzg0t0dI+AVkmxLF14MRUubv285xZh84rKgHzRpJfI8msbN52naJSWglaNX6tTRSLCOOFRXEOcbfMuM9oRnQWtA9HXQV7y7dUzz+riOlErp1ydxVlO2GhZX9HNpgOWlrl0r5/ZuNNQsCS8Pr8H3Uly23nPtJrR5CSplDcxgJog+VzzeVx5WOwlKi2JSugA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0a5KMK04bEnYSJbmXKpvsVC0KtUSLYXlzknatukfmpk=;
- b=RYvoUnmqN7kcX3rDJGH+ABxoZw8KC06Qfyef/rmS6cEh7xg1cF4KW3h96t1OffAOevwOoLovbk6FKXK6UiE/j4f1RnOj27wj5kht9Z9Cbuewr/RTY9ATKeGjmMU4LMz1o1EKM2U+yUmnYj9mPp4ihxOSK1AY+YS3Fmm0S3oRJ4hJqNtJnYV/Xppi5AI5HnrAHyUMdZgcRLEQUHKfMd5sQQRA7wBHZ25EvPQsIZsvCoiy42VauhwuH0G7ULeCe8jllFcBBmXEK59FDSSJCQEULprnCwJcqwO5gQ9G28nQyiwT8vuMSiMnagD22CrBIVAYVHJSb1cFsNF0W2x42yMTJg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by SJ0PR12MB5453.namprd12.prod.outlook.com (2603:10b6:a03:37f::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Tue, 6 Sep
- 2022 16:44:10 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5%7]) with mapi id 15.20.5588.018; Tue, 6 Sep 2022
- 16:44:10 +0000
-Date: Tue, 6 Sep 2022 13:44:09 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v2 1/4] dma-buf: Add dma_buf_try_get()
-Message-ID: <Yxd42anepRnmFJwe@nvidia.com>
-References: <1-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <18b3dd75-7995-a2a8-372b-1fd5838dfe1d@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <18b3dd75-7995-a2a8-372b-1fd5838dfe1d@amd.com>
-X-ClientProxiedBy: BLAPR03CA0001.namprd03.prod.outlook.com
- (2603:10b6:208:32b::6) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EAD710E711
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 16:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662482981;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yay+E2EHDZycvMLCYh8Yv6p9BOB/M7G94VLrkOGWvxY=;
+ b=hxKaftjHr5ZOkDkrYWzH359ZfRIXYFTxzkRnm+m0RqYZ9etWCuDJiTMmnvmLbJHvbBsF8A
+ /44rQGCQvY1q21xE/TtZJnEQratnwK5wS6QhesH48QhO6yJ75MdwgHbfHytHa1m8Swtu0C
+ GUgAhEAFw9SuIA7BETbLoWju8Sb8DxM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-668-fYJa-zbgPJy_GWj_7D6XwA-1; Tue, 06 Sep 2022 12:49:40 -0400
+X-MC-Unique: fYJa-zbgPJy_GWj_7D6XwA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hp14-20020a1709073e0e00b00741a2093c4aso4009068ejc.20
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 09:49:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=Yay+E2EHDZycvMLCYh8Yv6p9BOB/M7G94VLrkOGWvxY=;
+ b=6ML6WGcKt7wAS2DFmEfRDihdLg9qdrMCRBWA/vrdoJez4uDFOPjbSVgv2LioCff81g
+ EwXJvZydO3KM6zvurlFUOHvHnoeuh8IJtY0N67kjSSrr+PqC2Wfv+D7umwknGrT6xeGp
+ ZAaPHlPMQaLY6oBMcWWhskIZ07tD/whLjKXLKRRdIPaTOEa6zzWUdKOjKhpHimBirLjf
+ U4YPGrVNiUEENDsn/nULjADpZGxTeamaMyXoeW5V2LPlwIOvUb38kOGsJkPkWLL0FriX
+ l39/hbAlLT1L4aXXMHlZP9edM4+hC14thwwTyEC4kFpX0Z+B/T8RrZqdASFEYP9bQgVg
+ qSzQ==
+X-Gm-Message-State: ACgBeo0e/AvvFgBebXgJ0SqrVrJZGtt3P50Ekd5TZvXUAa/UJ4xozz47
+ lYpJ+ewgChQiz8iP2dQnZWB7IwUr4/Piyvt1ThTX3quYH0cuxRLZrD+Cskam1abFLtzQg/tqQy/
+ e6r53tiliuONVF7roYEEGn/Do/1KU
+X-Received: by 2002:a17:907:1b22:b0:741:8809:b4e6 with SMTP id
+ mp34-20020a1709071b2200b007418809b4e6mr30082789ejc.84.1662482978756; 
+ Tue, 06 Sep 2022 09:49:38 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7pRmh6PdtKGc6d4Q0ZOGIOZzH6n2u2UXifEDQLJtLCrdcTc2n54qb2K20XwdtN/S2EnCa8og==
+X-Received: by 2002:a17:907:1b22:b0:741:8809:b4e6 with SMTP id
+ mp34-20020a1709071b2200b007418809b4e6mr30082776ejc.84.1662482978484; 
+ Tue, 06 Sep 2022 09:49:38 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ kx16-20020a170907775000b007413aad3acbsm6776222ejc.165.2022.09.06.09.49.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Sep 2022 09:49:37 -0700 (PDT)
+Message-ID: <d9244cd6-9e20-eed2-b429-e69f81629a6e@redhat.com>
+Date: Tue, 6 Sep 2022 18:49:37 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9290245b-7afb-4ef6-1e09-08da90270598
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5453:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sv6FLW3Ar1+tcc3j1O/+3BYTHQ3ngYZlk4vQUqBZ0wWolZb1SovdYYe2QcuWe2EXCohEGK+o/tspaOyzzA5YstkJFYQc1UCg60DJmfvyR4dmsGNtyhGb0Z9VczE2TmdtJa+PjHvY3tZVpyAYpm2JfzIbg2vDx+mezXnCDeu+xASNrjCoSkzotl2YVGVnEnxH0KKUExi9vyyBHv0BVJcQ96LBNiLAtSS4fE1jpjEsXOQbLvfEIgRab4zXh3IdkKkcu/PODaOgYtXC6Mqu8ggLNiVSAsuTCnHBvQxCPxBu3hOIVqBAc5clOoCYAjPcKDb5U8MHvoYyWhg5U6KkwRp2Z0i2eHDgTtaUdJEkva/IQ1tCqw1bgmP5wyJQ0bq1f9fUEcd586LX/7iYj041grHxS75uXGDNW7Ju6gOJq8cykIZ/SrvDbiZ9uXKUNT2TR3af+k5E0vjcygIn898aBzd7NrWr0ocw0EESrj6S4yIjcULPJkrKtbV09erSS+bjif6gAY2zFEw7CmZnqIMcWmybHfOOKLkg2E0hoSb1m3xgxdcxPQXDnm6aqCt0Ap5EgtC0GgIu4c7de0CWV+05NwMmZNhlZ/YVmcjU2UqIs3iOCrqKhvgvjltKnzaeD9znxro1PtBOadPjRZpvexMQ278z5Ng0xhc2C6YVSaWM2UWa0n5Oev+AjroY0bIvV47//R8VS9AjgzkK6lNjDpJDKzWv9w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(376002)(396003)(366004)(39860400002)(346002)(36756003)(5660300002)(41300700001)(6486002)(26005)(2906002)(38100700002)(7416002)(478600001)(66476007)(66946007)(86362001)(66556008)(8676002)(4326008)(8936002)(6506007)(186003)(6916009)(6512007)(54906003)(66574015)(2616005)(316002)(83380400001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bzJtcy9NamlDTHdJKzh1LytqV0NONFBuME5EYzNXYllXd3FsK3IyVzBpRkI2?=
- =?utf-8?B?UzkxNGUyQnJwOWtXRmhXcFpLMW0zbmxyZTVQVkJ0UjhkRGpCekRoNjdRdW04?=
- =?utf-8?B?RG1vd0pzVkFpQmJSMHMvMVA0K2pPdXdNMVI5SUZvSjN6ZUJkcjcxQW5nM1I2?=
- =?utf-8?B?d3hZS0tjTHBLaWJLOXgrWVhNSXRWOU5jejJGL0NLU1Y5by83bXFXQ1VBNVYw?=
- =?utf-8?B?c2dNQTRrVDduV25tcXlUeXJDSG5qaUtZSTg0cUVHRU1GTEVrWGw4c1ZveEdj?=
- =?utf-8?B?MlhBUUtBL25kQnRsNXgzMDNRQVcwMUZkOWhuaStDUnZ4c2NRUHVDS1NWQWN6?=
- =?utf-8?B?VjdwblBmVkdqNkZBcys5c2syNklhNStBRk5mTThKVWo4OWtIV1pLa0dpWi9L?=
- =?utf-8?B?Smk3c1NyVmhOSnR0UVozZFNXMVlCUUNEdTFXMzVaZ1dGWkhjMUs3aHM0T1Rs?=
- =?utf-8?B?ckpBeUJ4aHphSXlTSnQrTE50QjkwY2xBS2wyRFZmbVdOUER1eTU0RUJjdkd6?=
- =?utf-8?B?cVJuaHA3TDdadkQ4YXdicklYNGNKUTEvbzBwYUwrUWVocHduMGNUbk9NRUFK?=
- =?utf-8?B?VUVydGFMckhnY0RqWjBlL0o0SVVHOW1jR0FjTGJKODBIaytzTTc3RXR1SzdZ?=
- =?utf-8?B?SnJIMDVLeWZSR1NFV2RSajlXYi96WHBRdlRZT2M3akd5QnFzOWduZWNkelhE?=
- =?utf-8?B?bkd4dzdEUDY0aVh2M1poVXpMc2d5ZWU4dFBUVHVrTXU0bjY4cHlQTVY1ajBa?=
- =?utf-8?B?Q3c5TEZTaHhyTkNVWFNncTBEVkhuWVJkSk5QUituOG0rdUhyZEcwcUo5N3Nm?=
- =?utf-8?B?d0FuWGgvM0hZZ2xmWVIxTU50Qi9Ba2hVQ0tqOWljQVNsdFd5UFhaazkydXhW?=
- =?utf-8?B?dFE0QWMzM0dlbTNqa3B3UndRWjY1ZzFTTUg0bmhSYk1HdUdUbzJhcEJTbnRk?=
- =?utf-8?B?K0xGZ3RrcW4rdnJjVURiY0hjZkJxMDNlU0FJaksrMU5IY2tHeGxhL0hNWkZH?=
- =?utf-8?B?UXBmVG9KQ1FONU9vQ1FtTE1rNXJwUjFWTmpwRnFxSkJSM0ZnNUIwMklUVExR?=
- =?utf-8?B?K0FYNHNYSStPUnJrZmtmMjF4bjlsRTV5c2VDRTZua0NOTXBUUEZwamoyV1pm?=
- =?utf-8?B?dlRHODhpYmpGSnpLZzVWRVdoc2Y2Y29XVW5kMkVQZ1M5RVNyeEJJSHNCYzQr?=
- =?utf-8?B?cG5GTW9JbllvSHB6Y2ZzRk84QXA5REFLY3JLR3dXRVJDVElUQnhBQ3dyRTM3?=
- =?utf-8?B?SlFkUkNNZWFoVzMrTmNvSHo1MjdsNVNsOFBKWHpCL1J0YmdHOXM0YlM3VXVh?=
- =?utf-8?B?bjhHalcwd0hUSTRIVm13YWdDaGx2bDljQVRjakNNbmlxV0VuSEg2d0pySmJJ?=
- =?utf-8?B?N2g1VEZRUXJ5TTJpdVBlbTV4aUpaQVFoRitnM092TWp0YWFUT3FuMW0ybFB3?=
- =?utf-8?B?VzlZaXBSZGVUS3RENFNJUzU4UXdsMUY3TVA4dmpmZm5tMkNZZ1dKcktvZ1VC?=
- =?utf-8?B?ODlRRFdaelprcTJTbDBTQzE4OVJLZU9ZZXVxcEQ3MGIrS2NRL2lFMW1OUGNy?=
- =?utf-8?B?MTQ2U3pqajA0Ry9XN1JoRldjcnIxNy9LSGlGUUVPMDQ2ZER6Q09ZbzcvdEx3?=
- =?utf-8?B?V3dneDZGdmtCR1kxOXNsblE3RDYrVlM0cmVXVHcweFdKTEx5VThaWEo5Ynoy?=
- =?utf-8?B?WVZQajZDdmVzWnVPOE1BYVNaY1A0Tk4vTVpHQW95ekt1cldlekk0ajVyc2dR?=
- =?utf-8?B?Vzg5aWJ5QWdBdG1uczkzSjQ0M2duRnE1cURPdE9rcnN6RVIwVk1EdVU3dWRl?=
- =?utf-8?B?WENzS0pQSHQ0UW5Udm12SU5neEN6VXVsOGQrd0hra0xhTUtKUVpscmd3L2R2?=
- =?utf-8?B?RXQzbDAwS3pIZDVwMGtaOEY0RE5PZDhRT3VjTlJvZ0p2ODRPZmtRVFlndEtq?=
- =?utf-8?B?Zm00ank4QmY4dmdIM2dzOGYrT3RnNHMwUGg1ektHTDVtc3BydGNEQlNQQndn?=
- =?utf-8?B?T3dkeTJwbnE0Mi9kU2E1ZTdtVlJ4L1BoOThxdTVCSlVRZ1Y5VEZQWlIrQTAy?=
- =?utf-8?B?Mk55R1pseCtmRnhyVEJUdkc3VW13OHFkd3h1bW9LTnBJandlNDVRV3p0NlJ2?=
- =?utf-8?Q?BQcnzdrmJD/tF8kygQCUbZoAP?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9290245b-7afb-4ef6-1e09-08da90270598
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 16:44:10.0044 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qL7Wh4xgJQrMir3DOCnBED3FxX3vWXnXUIRRWuUsrJDmSAB643rFzYZY2ygkMPM+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5453
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 1/3] drm/gma500: Fix BUG: sleeping function called from
+ invalid context errors
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+References: <20220905133738.466490-1-hdegoede@redhat.com>
+ <20220905133738.466490-2-hdegoede@redhat.com>
+ <CAMeQTsYi34r9Cv2Jp=DtOyjh6xex9xb49nFpw93eiinp7wHz2A@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAMeQTsYi34r9Cv2Jp=DtOyjh6xex9xb49nFpw93eiinp7wHz2A@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,48 +90,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, kvm@vger.kernel.org,
- linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Oded Gabbay <ogabbay@kernel.org>, Cornelia Huck <cohuck@redhat.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Alex Williamson <alex.williamson@redhat.com>, Maor Gottlieb <maorg@nvidia.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 01, 2022 at 09:55:08AM +0200, Christian König wrote:
-> Am 01.09.22 um 01:12 schrieb Jason Gunthorpe:
-> > Used to increment the refcount of the dma buf's struct file, only if the
-> > refcount is not zero. Useful to allow the struct file's lifetime to
-> > control the lifetime of the dmabuf while still letting the driver to keep
-> > track of created dmabufs.
-> > 
-> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > ---
-> >   include/linux/dma-buf.h | 13 +++++++++++++
-> >   1 file changed, 13 insertions(+)
-> > 
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 71731796c8c3a8..a35f1554f2fb36 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -618,6 +618,19 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags);
-> >   struct dma_buf *dma_buf_get(int fd);
-> >   void dma_buf_put(struct dma_buf *dmabuf);
-> > +/**
-> > + * dma_buf_try_get - try to get a reference on a dmabuf
-> > + * @dmabuf - the dmabuf to get
-> > + *
-> > + * Returns true if a reference was successfully obtained. The caller must
-> > + * interlock with the dmabuf's release function in some way, such as RCU, to
-> > + * ensure that this is not called on freed memory.
-> 
-> I still have a bad feeling about this, but I also see that we can only
-> choose between evils here.
-> 
-> Could you just call get_file_rcu() from the exporter with a comment
-> explaining why this works instead?
+Hi,
 
-I guess, are you sure? It seems very hacky.
+On 9/6/22 14:50, Patrik Jakobsson wrote:
+> On Mon, Sep 5, 2022 at 3:37 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> gma_crtc_page_flip() was holding the event_lock spinlock while calling
+>> crtc_funcs->mode_set_base() which takes ww_mutex.
+>>
+>> The only reason to hold event_lock is to clear gma_crtc->page_flip_event
+>> on mode_set_base() errors.
+>>
+>> Instead unlock it after setting gma_crtc->page_flip_event and on
+>> errors re-take the lock and clear gma_crtc->page_flip_event it
+>> it is still set.
+> 
+> Hi Hans, thanks for having a look at gma500.
+> 
+> See comments below.
+> 
+>>
+>> This fixes the following WARN/stacktrace:
+>>
+>> [  512.122953] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:870
+>> [  512.123004] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 1253, name: gnome-shell
+>> [  512.123031] preempt_count: 1, expected: 0
+>> [  512.123048] RCU nest depth: 0, expected: 0
+>> [  512.123066] INFO: lockdep is turned off.
+>> [  512.123080] irq event stamp: 0
+>> [  512.123094] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+>> [  512.123134] hardirqs last disabled at (0): [<ffffffff8d0ec28c>] copy_process+0x9fc/0x1de0
+>> [  512.123176] softirqs last  enabled at (0): [<ffffffff8d0ec28c>] copy_process+0x9fc/0x1de0
+>> [  512.123207] softirqs last disabled at (0): [<0000000000000000>] 0x0
+>> [  512.123233] Preemption disabled at:
+>> [  512.123241] [<0000000000000000>] 0x0
+>> [  512.123275] CPU: 3 PID: 1253 Comm: gnome-shell Tainted: G        W         5.19.0+ #1
+>> [  512.123304] Hardware name: Packard Bell dot s/SJE01_CT, BIOS V1.10 07/23/2013
+>> [  512.123323] Call Trace:
+>> [  512.123346]  <TASK>
+>> [  512.123370]  dump_stack_lvl+0x5b/0x77
+>> [  512.123412]  __might_resched.cold+0xff/0x13a
+>> [  512.123458]  ww_mutex_lock+0x1e/0xa0
+>> [  512.123495]  psb_gem_pin+0x2c/0x150 [gma500_gfx]
+>> [  512.123601]  gma_pipe_set_base+0x76/0x240 [gma500_gfx]
+>> [  512.123708]  gma_crtc_page_flip+0x95/0x130 [gma500_gfx]
+>> [  512.123808]  drm_mode_page_flip_ioctl+0x57d/0x5d0
+>> [  512.123897]  ? drm_mode_cursor2_ioctl+0x10/0x10
+>> [  512.123936]  drm_ioctl_kernel+0xa1/0x150
+>> [  512.123984]  drm_ioctl+0x21f/0x420
+>> [  512.124025]  ? drm_mode_cursor2_ioctl+0x10/0x10
+>> [  512.124070]  ? rcu_read_lock_bh_held+0xb/0x60
+>> [  512.124104]  ? lock_release+0x1ef/0x2d0
+>> [  512.124161]  __x64_sys_ioctl+0x8d/0xd0
+>> [  512.124203]  do_syscall_64+0x58/0x80
+>> [  512.124239]  ? do_syscall_64+0x67/0x80
+>> [  512.124267]  ? trace_hardirqs_on_prepare+0x55/0xe0
+>> [  512.124300]  ? do_syscall_64+0x67/0x80
+>> [  512.124340]  ? rcu_read_lock_sched_held+0x10/0x80
+>> [  512.124377]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>> [  512.124411] RIP: 0033:0x7fcc4a70740f
+>> [  512.124442] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+>> [  512.124470] RSP: 002b:00007ffda73f5390 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>> [  512.124503] RAX: ffffffffffffffda RBX: 000055cc9e474500 RCX: 00007fcc4a70740f
+>> [  512.124524] RDX: 00007ffda73f5420 RSI: 00000000c01864b0 RDI: 0000000000000009
+>> [  512.124544] RBP: 00007ffda73f5420 R08: 000055cc9c0b0cb0 R09: 0000000000000034
+>> [  512.124564] R10: 0000000000000000 R11: 0000000000000246 R12: 00000000c01864b0
+>> [  512.124584] R13: 0000000000000009 R14: 000055cc9df484d0 R15: 000055cc9af5d0c0
+>> [  512.124647]  </TASK>
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  drivers/gpu/drm/gma500/gma_display.c | 10 +++++++---
+>>  1 file changed, 7 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
+>> index bd40c040a2c9..cf038e322164 100644
+>> --- a/drivers/gpu/drm/gma500/gma_display.c
+>> +++ b/drivers/gpu/drm/gma500/gma_display.c
+>> @@ -532,15 +532,19 @@ int gma_crtc_page_flip(struct drm_crtc *crtc,
+>>                 WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+>>
+>>                 gma_crtc->page_flip_event = event;
+>> +               spin_unlock_irqrestore(&dev->event_lock, flags);
+>>
+>>                 /* Call this locked if we want an event at vblank interrupt. */
+> 
+> If we don't hold the event_lock around mode_set_base() we could
+> potentially get a vblank before we do the modeset. That would send the
+> event prematurely. I think this is what the comment tries to tell us.
 
-Jason
+There is no way to avoid the vblank-irq and the mode_set_base() call racing
+with each other and then delivering a blank event from what is actually
+the page-flip which just completed.
+
+Even with the old code, of we hold the lock over the mode_set_base() and then
+the vblank-irq triggers while we are holding the lock this will block the
+irq-handler until the mode_set_base() has completed (which is probably
+only a couple 100s of usecs / max 1 msec) and then as soon as
+gma_crtc_page_flip() releases the lock the irq-handler will continue
+running and still prematurely deliver the vblank event.
+
+In practice this is not a problem because userspace does:
+
+-submit frame
+-wait for vblank
+-render new frame
+-submit new frame
+-wait for vblank
+
+And the time it takes to render a new frame means that after the
+first wait for vblank userspace never hits the race, unless
+userspace cannot keep up (is rendering at say less then 60 fps)
+in that case it may hit the race if it is only barely keeping up
+and if it is only barely keeping up then userspace hitting / winning
+the race is actually a good thing, because then it should start
+rendering the next frame asap.
+
+So TL;DR: we cannot avoid sometimes racing but in practice this
+is not an issue. The kernel oopses this fixes OTOH are a real
+issue.
+
+I hope this helps explain why I still believe this is the right fix.
+
+Regards,
+
+Hans
+
+
+
+
+
+> 
+> -Patrik
+> 
+>>                 ret = crtc_funcs->mode_set_base(crtc, crtc->x, crtc->y, old_fb);
+>>                 if (ret) {
+>> -                       gma_crtc->page_flip_event = NULL;
+>> -                       drm_crtc_vblank_put(crtc);
+>> +                       spin_lock_irqsave(&dev->event_lock, flags);
+>> +                       if (gma_crtc->page_flip_event) {
+>> +                               gma_crtc->page_flip_event = NULL;
+>> +                               drm_crtc_vblank_put(crtc);
+>> +                       }
+>> +                       spin_unlock_irqrestore(&dev->event_lock, flags);
+>>                 }
+>>
+>> -               spin_unlock_irqrestore(&dev->event_lock, flags);
+>>         } else {
+>>                 ret = crtc_funcs->mode_set_base(crtc, crtc->x, crtc->y, old_fb);
+>>         }
+>> --
+>> 2.36.1
+>>
+> 
+
