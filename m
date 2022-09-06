@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606575AF476
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 21:33:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 058895AF4D6
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 21:53:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C77CC10E194;
-	Tue,  6 Sep 2022 19:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C17710EA6E;
+	Tue,  6 Sep 2022 19:52:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32A4010E194
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 19:33:33 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id b5so16969337wrr.5
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 12:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=HbHLG70UmLtGR8mHDZUxxp+bzLPchRix1BO7BipF8lk=;
- b=BW67QFA+r+Jmwen3wT684O2NiBqIp1dM1qGhN44EtS5Ru+B98pKBG/Gob9Lnsg5qT9
- jgw0j0Pbcr6XGkj4IV9Pja+0hfrlHm2FlSwEMYtUy8qprtlvFiGC9AsrfSb9uO9Q64gK
- hbN6s/0oeV/LxOFvii/r4h+kDxu/QCRknVP8Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=HbHLG70UmLtGR8mHDZUxxp+bzLPchRix1BO7BipF8lk=;
- b=TQO3mu9pBv7BiEvwbMyP+Te1lSfPzMfPFzk8A8PIk33O3z1+8aNsRzSEUXVgP2f8kg
- XJBj2g+45nu16J/VDTmVXkcvdxRITboqmVyJa8tBTHCAdRS8ucD+FTlRo69NTBU/fChh
- jPIYRXjPgWESuIRvo3OWH8YzJ/ichoJxCnuWYD/pdXg+882r2r34YKEAbiLF+sb6D+Ch
- nZ5jT3/PM7BuMdwQ1adW/EOartgi4cOk31FrCNz1ptqVGk/C7M3FtqZplfyF+TmsNsES
- nhRhOaj+trlImxZ+brlHYQEAxf56Wo3ouKcrwa2C3t0CnKejLAXb7fLMWnK1h6TgmEK0
- 9neg==
-X-Gm-Message-State: ACgBeo2SfknShYgfN9RJtYAwYRjQjxIZkJOEEbYlH7gIP56/L27TcTpr
- q8J2V6mVsnLZg2/3Rcbc/nMfpQ==
-X-Google-Smtp-Source: AA6agR4gzLaC0G/Q6mOA0auz/RCq1TcagOirT+ub2CK2UZA2lDoLJZSmUM8b4NYxfSzF8GGkugAZ8Q==
-X-Received: by 2002:adf:a3c2:0:b0:228:64c2:6c5c with SMTP id
- m2-20020adfa3c2000000b0022864c26c5cmr13686wrb.674.1662492811689; 
- Tue, 06 Sep 2022 12:33:31 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- p4-20020a5d48c4000000b00225239d9265sm13381950wrs.74.2022.09.06.12.33.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 12:33:31 -0700 (PDT)
-Date: Tue, 6 Sep 2022 21:33:29 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/udl: Restore display mode on resume
-Message-ID: <YxegiQFAv+OWjjqE@phenom.ffwll.local>
-References: <20220728073109.5640-1-tzimmermann@suse.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 303FD10EA65;
+ Tue,  6 Sep 2022 19:52:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662493957; x=1694029957;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=QXh+N8yFDnZSCWq7iaCGkV9oRPhO8WRuXHEx8NhlGzY=;
+ b=kuSSo0H9mnkkvMCozJPwPSyShICCeHb6jcHqx1zpQx1IR/YxjVkH2FTG
+ eYrvmA/l7o9LcADVXh7Zz/xuR68S2961yPAVOykIe8UwCFec3JH5bAcwH
+ lmMWSSiTQO6TvzaGj+yNYnX/WsMLGiY4EH1aWwbnpiEl7QOu3GfVlDyu0
+ l5/9vJN+96Mgi4mGG7EhXuqFgio94qkAMQwSI+EspF1WwBFUoUX7i5bTO
+ i0eYonJbpcxCm0pZSXD18mqmx4BxBaUAPpYKTS7b0Hy/BRj/hb34Poeq6
+ CrI95VNhpXQH5u5G3WMfE+Xba2WA0IKeXfPb2ONHE76dsCoC0MBZDv5vg w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="382987128"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="382987128"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2022 12:52:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="614216271"
+Received: from linux.intel.com ([10.54.29.200])
+ by orsmga002.jf.intel.com with ESMTP; 06 Sep 2022 12:52:35 -0700
+Received: from maurocar-mobl2 (maurocar-mobl2.ger.corp.intel.com
+ [10.252.44.186])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by linux.intel.com (Postfix) with ESMTPS id DBFA3580583;
+ Tue,  6 Sep 2022 12:52:32 -0700 (PDT)
+Date: Tue, 6 Sep 2022 21:35:18 +0200
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 30/39] docs: gpu: i915.rst: gt: add more
+ kernel-doc markups
+Message-ID: <20220906213509.6093e904@maurocar-mobl2>
+In-Reply-To: <YvIwkaYRbrd5+vtj@intel.com>
+References: <cover.1657699522.git.mchehab@kernel.org>
+ <d7d1f6d6516eb3a82041af1d5f40c2f550de40db.1657699522.git.mchehab@kernel.org>
+ <YvIwkaYRbrd5+vtj@intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220728073109.5640-1-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.18.0-4-amd64 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,72 +65,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, airlied@redhat.com, sean@poorly.run,
- dri-devel@lists.freedesktop.org
+Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 28, 2022 at 09:31:09AM +0200, Thomas Zimmermann wrote:
-> Restore the display mode whne resuming from suspend. Currently, the
-> display remains dark.
+On Tue, 9 Aug 2022 06:01:53 -0400
+Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+
+> On Wed, Jul 13, 2022 at 09:12:18AM +0100, Mauro Carvalho Chehab wrote:
+> > There are several documented GT kAPI that aren't currently part
+> > of the docs. Add them, as this allows identifying issues with
+> > badly-formatted tags.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > ---
+> > 
+> > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> > See [PATCH v2 00/39] at: https://lore.kernel.org/all/cover.1657699522.git.mchehab@kernel.org/
+> > 
+> >  Documentation/gpu/i915.rst | 43 +++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 42 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> > index 2ad7941a79f2..afd8c0e3c689 100644
+> > --- a/Documentation/gpu/i915.rst
+> > +++ b/Documentation/gpu/i915.rst
+> > @@ -149,7 +149,6 @@ Misc display functions
+> >  
+> >  .. kernel-doc:: drivers/gpu/drm/i915/display/skl_scaler.c
+> >  
+> > -
+> >  Plane Configuration
+> >  -------------------
+> >  
+> > @@ -308,6 +307,48 @@ Multicast/Replicated (MCR) Registers
+> >  .. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> >     :internal:
+> >  
+> > +GT engine
+> > +---------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> > +
+> > +GT context
+> > +----------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_context.h  
 > 
-> On resume, the CRTC's mode does not change, but the 'active' flag
-> changes to 'true'. Taking this into account when considering a mode
-> switch restores the display mode.
+> why does the context deserves a separated section and the
+> many others below no?
+
+Good question. The patches adding stuff to i915.rst are the
+hardest ones to produce, in the sense that it is not easy to have
+a common criteria about when creating or not a new section.
+
+I tried to follow the same as other things for the same type, but
+it is hard to classify.
+
+The main point is that they should be somewhere there, in order to start
+producing errors when building the docs. Reorganizing those markups should
+be easily done once all files with kernel-docs gets added there.
+
+Anyway, I'll keep this under:
+
+	Other GT functionality
+
+Section. We can shift things later on as needed.
+
+> > +
+> > +Graphics Translation Tables
+> > +---------------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_ggtt.c
+> > +
+> > +Other GT functionality
+> > +----------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gsc.h
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gtt.c
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gtt.h  
 > 
-> The bug is reproducable by using Gnome with udl and observing the
-> adapter's suspend/resume behavior.
+> Why aren't these gtt ones in the above block? why only
+> having the global gtt there?
+
+Makes sense. I'll place GTT together with GGTT.
+
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/udl/udl_modeset.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-> index e67c40a48fb4..bf17f38fdb54 100644
-> --- a/drivers/gpu/drm/udl/udl_modeset.c
-> +++ b/drivers/gpu/drm/udl/udl_modeset.c
-> @@ -8,6 +8,7 @@
->   * Copyright (C) 2009 Bernie Thompson <bernie@plugable.com>
->   */
->  
-> +#include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_damage_helper.h>
-> @@ -382,7 +383,7 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
->  
->  	udl_handle_damage(fb, &shadow_plane_state->data[0], 0, 0, fb->width, fb->height);
->  
-> -	if (!crtc_state->mode_changed)
-> +	if (!drm_atomic_crtc_needs_modeset(crtc_state))
->  		return;
-
-The helpers shouldn't even call you in this case. Which means you
-should outright remove this check. I think this simple dates back to the
-old legacy crtc helper implementation, where stuff like this was necessary
-because the crtc helpers just loved to disable you multiple times.
-
-Looking at git history this seems to have been a regression introduced by 
-997d33c35618 ("drm/udl: Inline DPMS code into CRTC enable and disable functions")
-
-So you need cc: stable here and all that. And before this change there was
-no such check either, so we don't need to backport if further.
-
-Since this seems to have been stuck for a while here's my upfront
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-for v2 with all these changes applied.
--Daniel
-
->  
->  	/* enable display */
-> -- 
-> 2.37.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_migrate.c
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_mocs.h
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_rc6.c
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_reset.c
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_rps_types.h
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_rps.c
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_sseu.c
+> > +
+> >  Memory Management and Command Submission
+> >  ========================================
+> >  
+> > -- 
+> > 2.36.1
+> >   
