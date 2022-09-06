@@ -2,50 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063395AF10D
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 18:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19BF5AF125
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 18:53:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89FFF10E70B;
-	Tue,  6 Sep 2022 16:49:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBA810E702;
+	Tue,  6 Sep 2022 16:52:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A5810E093;
- Tue,  6 Sep 2022 16:49:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662482975; x=1694018975;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Vl59Es854KxQuPs/UwzeJz7RUBVybrxJ5VLveZeE3HQ=;
- b=jjn9E5ncQKvH10IVBkn7xNX7/0zmC5BW4WD/QBbLh40SwT1DVnMgaS7j
- pSsmbNB87biqMcFRk8NsjnTSmSlGAPby6pAz7oYjHQ8w3+qwu+6w+kkgU
- jIjt2qJYIbpUMZTp/PWiwcTaT+G95RhsjLBTfkU4a9mFxOf+OoFPoyKBx
- AAjJv7Rh2aS2/EfpSFdUF1h1SjosZfSH5S/pG5VP7Zdcj6daz3lCTKKPf
- NmDeWwvr4I8khqsMPUYJaqqgEPVjDLFVcUkZEgbcYjKJDkBEZKlGYPnPa
- bAIB+XqAKORhs4FejbOWgKnjUByYwFScpwX9CTDRoQwmc0t12Mrnfi7ce A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="295381454"
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="295381454"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2022 09:49:34 -0700
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="675771691"
-Received: from unknown (HELO intel.com) ([10.237.72.65])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2022 09:49:32 -0700
-Date: Tue, 6 Sep 2022 19:50:17 +0300
-From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 1/4] drm: Add missing DP DSC extended capability
- definitions.
-Message-ID: <Yxd6SXEkPpMF4d5l@intel.com>
-References: <20220905085744.29637-1-stanislav.lisovskiy@intel.com>
- <20220905085744.29637-2-stanislav.lisovskiy@intel.com>
- <8735d4a7vm.fsf@intel.com> <87sfl48q5h.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 046DB10E097
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 16:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662483160;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rQ92NUT9dpOIOuh5JEtBNQB9tI+VZBsLJQDfjydKtY8=;
+ b=URXe2NEyqazQ4KrNMdLiNbdKKYPnzwnxziA+jYZGx/SsqmdTUAyvdNs09Bu+9IlEDRAv2G
+ l1YF7ZftcP+wM5azN73vTSFn3nTR7RfkmA8vRbzGZRN+lT9jqB845R6HA2BfcavSS7P03a
+ 4+ayU/GbmWEpFiflGrsr/s0nqKER578=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-172-ViDcLVbkMSSl5aup0WZOjQ-1; Tue, 06 Sep 2022 12:52:39 -0400
+X-MC-Unique: ViDcLVbkMSSl5aup0WZOjQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ x21-20020a05640226d500b0044856301c62so7919265edd.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 09:52:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=rQ92NUT9dpOIOuh5JEtBNQB9tI+VZBsLJQDfjydKtY8=;
+ b=EIBTLnrBUg2uh9szSaD9Q3UeJ2Fh9BnXTGzC5LlAui1Gzdh6fzybQ3UIHESWI1q9CL
+ mCidsPqmV1IsNY1rN3lP84Z2kC5xj6q6XQcRl0n48+gnf3mu4TQdLtJf8ElcCRqQjWOU
+ 9ojN4tXpXTGhg8zrNKqyrIoei/Uy+pWq+bLByPBoTkeYocV0nLkI9tjRBNlmIbSLYi1Z
+ Ht6K6LWBZUxsFuFIKSJIDq6T5kxgWjJhpt3cnXKVuVhoki2sLi0vNg1trkDrLr2SVXjJ
+ bGmEnOly2MtY7WfOf4otTG9l8uIVWYqk0p47Q8rjb32oYLG6uz6vz5EUBFYh0G9+Gbpt
+ 0eTg==
+X-Gm-Message-State: ACgBeo21ppOuxaALne7EbeVqBlXLPHuLZdQwTS9g3KGvqUNMAhEFacc6
+ nz0nLBWGufU4inUmBVs55gyN4hq/RJ8YPp3gpHy7da7gliG0q1FaMLDLEg6+5GQjTxRvDeJHecZ
+ i3gSkXu8VW/VwwloVZzzOazHn6rRr
+X-Received: by 2002:a17:907:971e:b0:731:48b3:6fb7 with SMTP id
+ jg30-20020a170907971e00b0073148b36fb7mr40754486ejc.267.1662483157950; 
+ Tue, 06 Sep 2022 09:52:37 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5VGNG+Occ2fyj39ID0jLmukzZ7WO16/W1HhzjGw7s/0lrDlWL3FId7joDN8+cdv4Cer+ercw==
+X-Received: by 2002:a17:907:971e:b0:731:48b3:6fb7 with SMTP id
+ jg30-20020a170907971e00b0073148b36fb7mr40754481ejc.267.1662483157823; 
+ Tue, 06 Sep 2022 09:52:37 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ by12-20020a0564021b0c00b00445e1489313sm8688660edb.94.2022.09.06.09.52.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Sep 2022 09:52:37 -0700 (PDT)
+Message-ID: <7db298d6-540d-cbc9-4ad3-76550a27fad9@redhat.com>
+Date: Tue, 6 Sep 2022 18:52:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87sfl48q5h.fsf@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 2/3] drm/gma500: Fix crtc_vblank reference leak when
+ userspace queues multiple events
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+References: <20220905133738.466490-1-hdegoede@redhat.com>
+ <20220905133738.466490-3-hdegoede@redhat.com>
+ <530089c9-59c2-8ff9-a547-b25d5ad04c59@mailbox.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <530089c9-59c2-8ff9-a547-b25d5ad04c59@mailbox.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,100 +91,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vinod.govindapillai@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, manasi.d.navare@intel.com,
- Thomas Zimmermann <tzimmermann@suse.de>, jani.saarinen@intel.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 06, 2022 at 06:43:22PM +0300, Jani Nikula wrote:
-> On Tue, 06 Sep 2022, Jani Nikula <jani.nikula@intel.com> wrote:
-> > On Mon, 05 Sep 2022, Stanislav Lisovskiy <stanislav.lisovskiy@intel.com> wrote:
-> >> Adding DP DSC register definitions, we might need for further
-> >> DSC implementation, supporting MST and DP branch pass-through mode.
-> >>
-> >> v2: - Fixed checkpatch comment warning
-> >> v3: - Removed function which is not yet used(Jani Nikula)
-> >>
-> >> Reviewed-by: Vinod Govindapillai <vinod.govindapillai@intel.com>
-> >>
-> >> Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-> >
-> > Maarten, Maxime, Thomas -
-> >
-> > So this got pushed to drm-intel-next without your acks. Apologies. Can
-> > we live with it, or want a revert?
-> 
-> I've reverted anyway for other reasons. But can we have an ack for the
-> future? :)
-> 
-> BR,
-> Jani.
+Hi Michel,
 
-I've resolved the conflict properly now(not the best way of learning about
-drm-rerere) but I guess its too late now. Sorry for the hassle.
-But what am I supposed to do now? Should proceed with merge again or 
-wait for some acks? 
-Patches basically would be the same anyway.
-
-Stan
-
+On 9/6/22 12:25, Michel Dänzer wrote:
+> On 2022-09-05 15:37, Hans de Goede wrote:
+>> The gma500 page-flip code kinda assume that userspace never queues more
+>> then 1 vblank event. So basically it assume that userspace does:
+>>
+>> - page-flip
+>> - wait for vblank event
+>> - render
+>> - page-flip
+>> - etc.
+>>
+>> In the case where userspace would submit 2 page-flips without waiting
+>> for the first to finish, the current code will just overwrite
+>> gma_crtc->page_flip_event with the event from the 2nd page-flip.
 > 
-> >
-> >
-> > BR,
-> > Jani.
-> >
-> >
-> >> ---
-> >>  include/drm/display/drm_dp.h | 10 +++++++++-
-> >>  1 file changed, 9 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-> >> index 6c0871164771..02c4b6f20478 100644
-> >> --- a/include/drm/display/drm_dp.h
-> >> +++ b/include/drm/display/drm_dp.h
-> >> @@ -239,6 +239,9 @@
-> >>  
-> >>  #define DP_DSC_SUPPORT                      0x060   /* DP 1.4 */
-> >>  # define DP_DSC_DECOMPRESSION_IS_SUPPORTED  (1 << 0)
-> >> +# define DP_DSC_PASS_THROUGH_IS_SUPPORTED   (1 << 1)
-> >> +# define DP_DSC_DYNAMIC_PPS_UPDATE_SUPPORT_COMP_TO_COMP    (1 << 2)
-> >> +# define DP_DSC_DYNAMIC_PPS_UPDATE_SUPPORT_UNCOMP_TO_COMP  (1 << 3)
-> >>  
-> >>  #define DP_DSC_REV                          0x061
-> >>  # define DP_DSC_MAJOR_MASK                  (0xf << 0)
-> >> @@ -277,12 +280,15 @@
-> >>  
-> >>  #define DP_DSC_BLK_PREDICTION_SUPPORT       0x066
-> >>  # define DP_DSC_BLK_PREDICTION_IS_SUPPORTED (1 << 0)
-> >> +# define DP_DSC_RGB_COLOR_CONV_BYPASS_SUPPORT (1 << 1)
-> >>  
-> >>  #define DP_DSC_MAX_BITS_PER_PIXEL_LOW       0x067   /* eDP 1.4 */
-> >>  
-> >>  #define DP_DSC_MAX_BITS_PER_PIXEL_HI        0x068   /* eDP 1.4 */
-> >>  # define DP_DSC_MAX_BITS_PER_PIXEL_HI_MASK  (0x3 << 0)
-> >>  # define DP_DSC_MAX_BITS_PER_PIXEL_HI_SHIFT 8
-> >> +# define DP_DSC_MAX_BPP_DELTA_VERSION_MASK  0x06
-> >> +# define DP_DSC_MAX_BPP_DELTA_AVAILABILITY  0x08
-> >>  
-> >>  #define DP_DSC_DEC_COLOR_FORMAT_CAP         0x069
-> >>  # define DP_DSC_RGB                         (1 << 0)
-> >> @@ -344,11 +350,13 @@
-> >>  # define DP_DSC_24_PER_DP_DSC_SINK          (1 << 2)
-> >>  
-> >>  #define DP_DSC_BITS_PER_PIXEL_INC           0x06F
-> >> +# define DP_DSC_RGB_YCbCr444_MAX_BPP_DELTA_MASK 0x1f
-> >> +# define DP_DSC_RGB_YCbCr420_MAX_BPP_DELTA_MASK 0xe0
-> >>  # define DP_DSC_BITS_PER_PIXEL_1_16         0x0
-> >>  # define DP_DSC_BITS_PER_PIXEL_1_8          0x1
-> >>  # define DP_DSC_BITS_PER_PIXEL_1_4          0x2
-> >>  # define DP_DSC_BITS_PER_PIXEL_1_2          0x3
-> >> -# define DP_DSC_BITS_PER_PIXEL_1            0x4
-> >> +# define DP_DSC_BITS_PER_PIXEL_1_1          0x4
-> >>  
-> >>  #define DP_PSR_SUPPORT                      0x070   /* XXX 1.2? */
-> >>  # define DP_PSR_IS_SUPPORTED                1
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+> This cannot happen. Common code returns -EBUSY for an attempt to submit a page flip while another one is still pending.
+
+Ah I did not know that, that is very useful to know, thank you.
+
+I will drop this patch for the next version of this patch-set
+(which will include some further fixes).
+
+Regards,
+
+Hans
+
