@@ -2,70 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AD65AF44D
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 21:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77075AF4D4
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 21:53:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16CD210E75E;
-	Tue,  6 Sep 2022 19:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD20010EA6C;
+	Tue,  6 Sep 2022 19:52:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3845F10E75E
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 19:16:59 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id j26so7414413wms.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 12:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date;
- bh=JEvsSrJgYklFhGk6ahEcCPzEIfyEDAvxEZnTiVWC9eA=;
- b=cdseVbcCEW+0adnYE1ZJVO9jG5brWhQdSFqN3fOdlrEMZH5usP0dx1z/CJ0XD0J0RL
- bAkiZpqCPSjVrxFM44dQKbC/U98L530af+pqaLl1etXUF0NmN9x37EU2WVo8cMWKcIDI
- 7lb6E97Ia78hjxUPcO4toxnqlaOGHpwjpM0oU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=JEvsSrJgYklFhGk6ahEcCPzEIfyEDAvxEZnTiVWC9eA=;
- b=vR965nvDvRrHGzYnXKDEo3f+ouBGpV9kWjasy22ZZn1cWXyaGKg3WAnXr8yXhoZ08O
- Z0/CYst5yhT4kZ+YAmB8A94zy6b68NjlOSzn+vP50Vg8u0183zVFbJ7QPGnqROR2IuxS
- 9Fjh4GfGbQUQKaheDUX/xEfl+m+RiZRlS3rD+j/nslBbnpIZND/ql4EaEvbtHRVVC3+F
- 2gc5RUPSyUxwjoM4U73gMkiN3+y2ENbp4NMoGJS8qyGALehaFLPGPSC2Khb6i/lOOCih
- gkSM/4VQpRl9frSgDnD15p/eE53GvPNjgGLHYLx6574cnbrrhKX95c5fSz2X2en1qf/0
- nyVw==
-X-Gm-Message-State: ACgBeo02BJIdWYtBwoZjdtEeYXb93GzM9O4eK/k5yTPd4n8zYI7dNZ8X
- JmXLw1lDMwE3XTeRfOdOcgfUBg==
-X-Google-Smtp-Source: AA6agR6OuHVb2pFJPiq3+DrxkjfxbowfIdQDMa1KkVrRU9rkHXQXlViPuHiqyxK7ZR4ooN7yTicD5Q==
-X-Received: by 2002:a05:600c:2e03:b0:3a5:3928:7958 with SMTP id
- o3-20020a05600c2e0300b003a539287958mr2411wmf.77.1662491817741; 
- Tue, 06 Sep 2022 12:16:57 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- i14-20020a05600c354e00b003a5dde32e4bsm23272538wmq.37.2022.09.06.12.16.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 12:16:56 -0700 (PDT)
-Date: Tue, 6 Sep 2022 21:16:54 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 04/10] drm/simpledrm: Compute framebuffer stride if
- not set
-Message-ID: <YxecprE8c8pwy5PB@phenom.ffwll.local>
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-5-tzimmermann@suse.de>
- <CAMuHMdWEah62Ho4C8NQr-qwz62pKQiJiTi8Fa4KcXNRzo7ySJA@mail.gmail.com>
- <4a7c2c1d-2bf9-84e7-9257-41fcfd66ab9d@redhat.com>
- <20f4e5e6-2ff2-af21-1f85-70a545d147bc@suse.de>
- <CAKMK7uGr_SbHAm7r5VNWgpM2cPMFYpCmyE_Aq8TYc84rOAtJpA@mail.gmail.com>
- <33ce5744-5d41-2501-6105-2585529820d2@suse.de>
- <b22b363c-187b-0783-32ab-f9683af2e20a@suse.de>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC9810EA65;
+ Tue,  6 Sep 2022 19:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662493955; x=1694029955;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=0JkPYEHioOtGLJAxsT5kA+8eXjUWG3XSjrJRIH80fII=;
+ b=Uf2BZRb+zdrPjdWwtcIjb4pA3E5yuykRoNit+KoZoJHytQEzg+rd5fHu
+ 5XdirDxoWZuJHfAiuUhfAGEK0/zn82tT4MhBzGxc8ehZJ6nyxDhPpaokE
+ g9DUW7SqnlGZxvfqmCVOCrYDrcP62mr24uH7HTsd6LqulrpQYSmvNzXH2
+ tZw8Pb/+QpsOvyiIcZ6RUBks/cGvNak6juzHXQGk0sZHBh4ceEFCskasF
+ fdNG1mwHaA5YG3w7cgezM5g9BfAdJgY3lSwo0JbsQHVMdbTdCnHVlwwVm
+ RoM3Mvt44E2OqgWoIEMPQM07hYIyLgFYLYpaYMSy9OTb5Vdw6wBVG9Gq/ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="360637568"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="360637568"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2022 12:52:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="717837480"
+Received: from linux.intel.com ([10.54.29.200])
+ by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2022 12:52:32 -0700
+Received: from maurocar-mobl2 (maurocar-mobl2.ger.corp.intel.com
+ [10.252.44.186])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by linux.intel.com (Postfix) with ESMTPS id CA236580583;
+ Tue,  6 Sep 2022 12:52:30 -0700 (PDT)
+Date: Tue, 6 Sep 2022 21:17:47 +0200
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 18/39] drm/i915: intel_pm.c: fix some
+ ascii artwork at kernel-doc
+Message-ID: <20220906211740.6b92f23d@maurocar-mobl2>
+In-Reply-To: <YvIu/oCnkDbdLqou@intel.com>
+References: <cover.1657699522.git.mchehab@kernel.org>
+ <b3657e96ea87a5803ed27d1cc0d9fa44b2f164cf.1657699522.git.mchehab@kernel.org>
+ <YvIu/oCnkDbdLqou@intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b22b363c-187b-0783-32ab-f9683af2e20a@suse.de>
-X-Operating-System: Linux phenom 5.18.0-4-amd64 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,135 +65,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
- Helge Deller <deller@gmx.de>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Paul Mackerras <paulus@samba.org>, Michal Suchanek <msuchanek@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 11, 2022 at 08:27:42PM +0200, Thomas Zimmermann wrote:
-> 
-> 
-> Am 11.08.22 um 20:26 schrieb Thomas Zimmermann:
-> > Hi Daniel
-> > 
-> > Am 11.08.22 um 19:23 schrieb Daniel Vetter:
-> > > On Wed, 27 Jul 2022 at 09:53, Thomas Zimmermann
-> > > <tzimmermann@suse.de> wrote:
-> > > > 
-> > > > Hi
-> > > > 
-> > > > Am 25.07.22 um 17:13 schrieb Javier Martinez Canillas:
-> > > > > Hello Geert,
-> > > > > 
-> > > > > On 7/21/22 16:46, Geert Uytterhoeven wrote:
-> > > > > > Hi Thomas,
-> > > > > > 
-> > > > > > On Wed, Jul 20, 2022 at 4:27 PM Thomas Zimmermann
-> > > > > > <tzimmermann@suse.de> wrote:
-> > > > > > > Compute the framebuffer's scanline stride length if not given by
-> > > > > > > the simplefb data.
-> > > > > > > 
-> > > > > > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > > 
-> > > > > > Thanks for your patch!
-> > > > > > 
-> > > > > > > --- a/drivers/gpu/drm/tiny/simpledrm.c
-> > > > > > > +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> > > > > > > @@ -743,6 +743,9 @@ static struct simpledrm_device
-> > > > > > > *simpledrm_device_create(struct drm_driver *drv,
-> > > > > > >                   drm_err(dev, "no simplefb configuration found\n");
-> > > > > > >                   return ERR_PTR(-ENODEV);
-> > > > > > >           }
-> > > > > > > +       if (!stride)
-> > > > > > > +               stride = format->cpp[0] * width;
-> > > > > > 
-> > > > > > DIV_ROUND_UP(drm_format_info_bpp(format) * width, 8)
-> > > > > > 
-> > > > > 
-> > > > > I think you meant here:
-> > > > > 
-> > > > > DIV_ROUND_UP(drm_format_info_bpp(format, 0) * width, 8) ?
-> > > > 
-> > > > I guess, that's the right function. My original code is correct, but cpp
-> > > > is also deprecated.
-> > > 
-> > > You all mean drm_format_info_min_pitch().
-> > 
-> > Thanks a lot. I wasn't even aware of this function, but I had almost
-> > written my own implementation of it.  I'll update the patch accordingly.
-> 
-> Arghh, too late. I merged that patch already.
+On Tue, 9 Aug 2022 05:55:10 -0400
+Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> On Wed, Jul 13, 2022 at 09:12:06AM +0100, Mauro Carvalho Chehab wrote:
+> > Preserving ascii artwork on kernel-docs is tricky, as it needs
+> > to respect both the Sphinx rules and be properly parsed by
+> > kernel-doc script.
+> > 
+> > The Sphinx syntax require code-blocks, which is:
+> > 
+> > 	::
+> > 
+> > followed by a blank line and indented lines.
+> > 
+> > But kernel-doc only works fine if the first and the last line
+> > are indented with the same amount of spaces.
+> > 
+> > Also, a "\" at the end means that the next line should be merged
+> > with the first one.  
+> 
+> my first reaction was: "do we really need those new empty ( ) blocks?"
+> 
+> Then I read this ;)
 
-Preemptively, if you can do the fixup patch (and it's not yet merged)?
--Daniel
+Yeah, it is tricky to get it right, due to kernel-doc + Sphinx here.
+Also, I bet that this would be needed even for ReST files with
+C code on it, as it is likely the C domain encoding at Sphinx that
+handles continuation lines with "\" at the end...
 
 > 
-> > 
-> > Best regards
-> > Thomas
-> > 
-> > > 
-> > > I really don't want drivers to go grab any of the legacy format info
-> > > fields like bpp or depth. switch() statements on the fourcc code for
-> > > programming registers, or one of the real helper functions in
-> > > drm_fourcc.c (there might be some gaps), but not ever going through
-> > > legacy concepts. Anything else just leads to subtle bugs when new
-> > > formats get added and oops suddenly the assumptions don't hold.
-> > > 
-> > > Those should be strictly limited to legacy (i.e. not drm_fourcc aware)
-> > > interfaces. Heck I think even fbdev emulation should completely switch
-> > > over to drm_fourcc/drm_format_info, but alas that's a pile of work and
-> > > not much payoff.
-> > > 
-> > > I'm trying to volunteer Same to add a legacy_bpp tag to the above
-> > > helper and appropriately limit it, I think limiting to formats with
-> > > depth!=0 is probably the right thing. And then we should probably
-> > > remove a pile of the cargo-culted depth!=0 entries too.
-> > > -Daniel
-> > > 
-> > > > 
-> > > > Best regards
-> > > > Thomas
-> > > > 
-> > > > > 
-> > > > > With that change,
-> > > > > 
-> > > > > Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-> > > > > 
-> > > > 
-> > > > -- 
-> > > > Thomas Zimmermann
-> > > > Graphics Driver Developer
-> > > > SUSE Software Solutions Germany GmbH
-> > > > Maxfeldstr. 5, 90409 Nürnberg, Germany
-> > > > (HRB 36809, AG Nürnberg)
-> > > > Geschäftsführer: Ivo Totev
-> > > 
-> > > 
-> > > 
-> > 
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 > 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Ivo Totev
-
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > 
+> > Change the ascii artwork to be on code-blocks, starting all
+> > lines at the same characters and not ending with a backslash.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > ---
+> > 
+> > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> > See [PATCH v2 00/39] at: https://lore.kernel.org/all/cover.1657699522.git.mchehab@kernel.org/
+> > 
+> >  drivers/gpu/drm/i915/intel_pm.c | 33 ++++++++++++++++++---------------
+> >  1 file changed, 18 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+> > index f06babdb3a8c..d3393752b04b 100644
+> > --- a/drivers/gpu/drm/i915/intel_pm.c
+> > +++ b/drivers/gpu/drm/i915/intel_pm.c
+> > @@ -684,18 +684,20 @@ static const struct intel_watermark_params i845_wm_info = {
+> >   * FIFO is relatively small compared to the amount of data
+> >   * fetched.
+> >   *
+> > - * The FIFO level vs. time graph might look something like:
+> > + * The FIFO level vs. time graph might look something like::
+> >   *
+> > - *   |\   |\
+> > - *   | \  | \
+> > - * __---__---__ (- plane active, _ blanking)
+> > - * -> time
+> > + *   ^
+> > + *   |   |\   |\      (                          )
+> > + *   |   | \  | \     (                          )
+> > + *   |   __---__---__ (- plane active, _ blanking)
+> > + *   +-------------------> time
+> >   *
+> > - * or perhaps like this:
+> > + * or perhaps like this::
+> >   *
+> > - *   |\|\  |\|\
+> > - * __----__----__ (- plane active, _ blanking)
+> > - * -> time
+> > + *   ^
+> > + *   |     |\|\  |\|\   (                          )
+> > + *   |   __----__----__ (- plane active, _ blanking)
+> > + *   +-------------------> time
+> >   *
+> >   * Returns:
+> >   * The watermark in bytes
+> > @@ -731,13 +733,14 @@ static unsigned int intel_wm_method1(unsigned int pixel_rate,
+> >   * FIFO is relatively large compared to the amount of data
+> >   * fetched.
+> >   *
+> > - * The FIFO level vs. time graph might look something like:
+> > + * The FIFO level vs. time graph might look something like::
+> >   *
+> > - *    |\___       |\___
+> > - *    |    \___   |    \___
+> > - *    |        \  |        \
+> > - * __ --__--__--__--__--__--__ (- plane active, _ blanking)
+> > - * -> time
+> > + *   ^
+> > + *   |     |\___       |\___        (                          )
+> > + *   |     |    \___   |    \___    (                          )
+> > + *   |     |        \  |        \   (                          )
+> > + *   |  __ --__--__--__--__--__--__ (- plane active, _ blanking)
+> > + *   +---------------------------------> time
+> >   *
+> >   * Returns:
+> >   * The watermark in bytes
+> > -- 
+> > 2.36.1
+> >   
