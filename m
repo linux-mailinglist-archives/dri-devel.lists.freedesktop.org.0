@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC79D5ADF72
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 08:12:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBBE5ADF74
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 08:12:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B6AA10E565;
-	Tue,  6 Sep 2022 06:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6147310E56F;
+	Tue,  6 Sep 2022 06:11:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B928F10E4D0
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Sep 2022 19:39:42 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id w2so12553699edc.0
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 12:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=7sK3Pxg5lI33PaTu+416/SIw+tV3vaPUu4gPNzWPobI=;
- b=NH4qlg6QZbeqoZj2Tm2AcMxa8dQt6DIOCmBbcpO/afGOmdkHJcxG6jxB6WcHA2zgZr
- idzdlVtYYBmnO5OjykgPHGjqJguRfUJ8AJ6wuCKJwhP2kPNBb1vbriSXXdqvRGzgOK+x
- 7QRwxQ2ZxFvWz+99M7MaMNy07R4c5Fk1fLBQ8J5h2tTPuIU5HkUIND5fT2SzEfFizdj0
- j1qedhwfOykL7oofHK38q0xsLgxlDMDSkanFA5SzEGZZX56RhDeE3JT8Cv1cMeoPxYbE
- wwtggQukF1Vi9dumdIfhYW5DEjfh+LWhGrMoQIBATY0KhSzp73lDSRCb714AKRbHeeMJ
- 09+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=7sK3Pxg5lI33PaTu+416/SIw+tV3vaPUu4gPNzWPobI=;
- b=o+NIBGOmQ2Sv2DaMN87zLF4SAoMY4OBkh+ITm8HsI1yenVQZ9sz94h+yu1Sw9vJkbF
- tcT7mPjzhkRhRsr85EFL5vV+KJrZgWW2lHOQDNOibh1JZunYx0BDUsra3G4nTvTVUhbY
- qzB/83n4IgenbQWYFoRaNM733lxGv9369/AF5ueEOwz14tQuQzFt2X5pjYB9LOze90ob
- wRbRiMax4cjhtQ1Ah9ILGANQOzf3rW17Z5JvRT3ugmPD4yyAWbRkom0wErb9oos9iIxr
- ggdbgJ97AEgZYYstl+sekiSXP88ZTO9dl1MWj41aUErL0boyn7RWuufKMVmyQLEPcgG8
- tGLw==
-X-Gm-Message-State: ACgBeo0Lo0vUkwkGAuCQ7XmiJhP1IK/nqN4HrgsdC7CsQ49jz0lOdQ+m
- OJ5IRlD0U6f0ec6G3sL38j4gP2uDYfYAOIJ/6UI=
-X-Google-Smtp-Source: AA6agR6gCIxLGxghgPAj+EP0DXZOoyA9fExHCpxZBIF9zuDXx572eXiJijGmbmWkD3eqAnsSwuyri4I9kFJQughdEyU=
-X-Received: by 2002:aa7:c610:0:b0:44e:9a0f:753a with SMTP id
- h16-20020aa7c610000000b0044e9a0f753amr3781906edq.140.1662406781082; Mon, 05
- Sep 2022 12:39:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220905171601.79284-1-peron.clem@gmail.com>
- <20220905171601.79284-5-peron.clem@gmail.com>
- <OS0PR01MB5922142861E78A1DD81AD1C9867F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922142861E78A1DD81AD1C9867F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Mon, 5 Sep 2022 21:39:29 +0200
-Message-ID: <CAJiuCceGZJr24hVjpP0ptOkG8bMFKr=QLj0LcyDX4fUy7Rr2xA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] drm/panfrost: devfreq: set opp to the recommended
- one to configure and enable regulator
-To: Biju Das <biju.das.jz@bp.renesas.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86E1B10E228
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 02:28:36 +0000 (UTC)
+X-UUID: e636a92e8cb948b5add80e87532ed3df-20220906
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=ndPvRAz0OsNARbIrZSVy1/GA0g4XNxb67xUe/x044fA=; 
+ b=C/pl7MHEV8TyU1oeQ+0D8VCZt8iwcWj56IFJ6Tdr0EoBLaxwGGAgkEYz609coV0kWD5AqSrIBlxVArziQ4CPvh+7fqT2GTgrZMMv2liQxeciPed3McRdkNsEti2QoGAdo9YqihQ8+kml1JMg2GZ+4eIDbelSTPZqehuWagVEyvo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10, REQID:d112f261-9b84-4a8b-b422-266528e40505, OB:0,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release
+ _Ham,ACTION:release,TS:-5
+X-CID-META: VersionHash:84eae18, CLOUDID:dda94921-1c20-48a5-82a0-25f9c331906d,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:
+ nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: e636a92e8cb948b5add80e87532ed3df-20220906
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <nathan.lu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 913421802; Tue, 06 Sep 2022 10:28:30 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Tue, 6 Sep 2022 10:28:28 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Tue, 6 Sep 2022 10:28:28 +0800
+Message-ID: <bc21af63b3babeec577a4b059f6e686f24be9001.camel@mediatek.com>
+Subject: Re: [PATCH v1 1/4] dt-bindings: mediatek: modify VDOSYS0 device
+ tree Documentations for MT8188
+From: Nathan Lu <nathan.lu@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
+ Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>
+Date: Tue, 6 Sep 2022 10:28:28 +0800
+In-Reply-To: <b0866ca8d749cd06f7b10b2f6eb44bf79d52dafb.camel@mediatek.com>
+References: <20220822033213.15769-1-nathan.lu@mediatek.com>
+ <20220822033213.15769-2-nathan.lu@mediatek.com>
+ <b0866ca8d749cd06f7b10b2f6eb44bf79d52dafb.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-Mailman-Approved-At: Tue, 06 Sep 2022 06:11:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,113 +72,312 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Will Deacon <will@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Steven Price <steven.price@arm.com>,
- Marcel Ziswiler <marcel.ziswiler@toradex.com>, Chen-Yu Tsai <wens@csie.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh+dt@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Bjorn Andersson <andersson@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: devicetree@vger.kernel.org, wsd_upstream@mediatek.com,
+ srv_heupstream@mediatek.com, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Moudy Ho <moudy.ho@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, lancelot.wu@mediatek.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi CK,
 
-On Mon, 5 Sept 2022 at 20:17, Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> Hi,
->
-> Thanks for the patch.
->
-> > Subject: [PATCH v3 4/5] drm/panfrost: devfreq: set opp to the recommend=
-ed
-> > one to configure and enable regulator
-> >
-> > devm_pm_opp_set_regulators() doesn't enable regulator, which make
-> > regulator framework switching it off during regulator_late_cleanup().
->
-> In that case, why not regulator_get()for
-> Dynamic regulator(non fixed regulator)??
+Thanks for your review, and appreciate for all comments and sugestions.
+I'll seperate mmsys/mutex/display to different patch and remove all
+unnecessary modify at next version
 
-Sorry I don't understand, what do you mean?
-
->
-> >
-> > Call dev_pm_opp_set_opp() with the recommend OPP in
-> > panfrost_devfreq_init() to enable the regulator and avoid any switch of=
-f
-> > by regulator_late_cleanup().
-> >
-> > Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
-> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+On Mon, 2022-08-22 at 13:36 +0800, CK Hu wrote:
+> Hi, Nathan:
+> 
+> On Mon, 2022-08-22 at 11:32 +0800, nathan.lu wrote:
+> > From: Nathan Lu <nathan.lu@mediatek.com>
+> > 
+> > modify VDOSYS0 device tree Documentations for MT8188.
+> > 
+> > Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
 > > ---
-> >  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > index 5110cd9b2425..67b242407156 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > @@ -131,6 +131,14 @@ int panfrost_devfreq_init(struct panfrost_device
-> > *pfdev)
-> >               return PTR_ERR(opp);
-> >
-> >       panfrost_devfreq_profile.initial_freq =3D cur_freq;
+> >  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml       | 1
 > > +
-> > +     /* Setup and enable regulator */
-> > +     ret =3D dev_pm_opp_set_opp(dev, opp);
-> > +     if (ret) {
-> > +             DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
-> > +             return ret;
-> > +     }
->
->
-> FYI,
-> On RZ/G2L mali gpu, we have fixed regulator and
-> I was able to do GPU OPP transition without any issues previously.
+> >  .../devicetree/bindings/display/mediatek/mediatek,aal.yaml     | 1
+> > +
+> >  .../devicetree/bindings/display/mediatek/mediatek,ccorr.yaml   | 1
+> > +
+> >  .../devicetree/bindings/display/mediatek/mediatek,color.yaml   | 1
+> > +
+> >  .../devicetree/bindings/display/mediatek/mediatek,dither.yaml  | 1
+> > +
+> >  .../devicetree/bindings/display/mediatek/mediatek,gamma.yaml   | 3
+> > ++-
+> >  .../devicetree/bindings/display/mediatek/mediatek,ovl.yaml     | 1
+> > +
+> >  .../bindings/display/mediatek/mediatek,postmask.yaml           | 1
+> > +
+> >  .../devicetree/bindings/display/mediatek/mediatek,rdma.yaml    |
+> > 2 
+> 
+> Separate the display part to another patch for the maintainer it
+> belong
+> to.
+> 
+> > ++
+> >  .../devicetree/bindings/soc/mediatek/mediatek,mutex.yaml       | 1
+> > +
+> >  10 files changed, 12 insertions(+), 1 deletion(-)
+> > 
+> > diff --git
+> > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > l
+> > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > l
+> > index 6ad023eec193..f26f61069181 100644
+> > ---
+> > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > l
+> > +++
+> > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > l
+> > @@ -30,6 +30,7 @@ properties:
+> >                - mediatek,mt8173-mmsys
+> >                - mediatek,mt8183-mmsys
+> >                - mediatek,mt8186-mmsys
+> > +              - mediatek,mt8188-mmsys
+> >                - mediatek,mt8192-mmsys
+> >                - mediatek,mt8195-mmsys
+> >                - mediatek,mt8365-mmsys
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.y
+> > am
+> > l
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.y
+> > am
+> > l
+> > index d4d585485e7b..92741486c24d 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.y
+> > am
+> > l
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.y
+> > am
+> > l
+> > @@ -31,6 +31,7 @@ properties:
+> >        - items:
+> >            - enum:
+> >                - mediatek,mt8186-disp-aal
+> > +              - mediatek,mt8188-disp-aal
+> >                - mediatek,mt8192-disp-aal
+> >                - mediatek,mt8195-disp-aal
+> >            - const: mediatek,mt8183-disp-aal
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr
+> > .y
+> > aml
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr
+> > .y
+> > aml
+> > index 63fb02014a56..fe444beff558 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr
+> > .y
+> > aml
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr
+> > .y
+> > aml
+> > @@ -27,6 +27,7 @@ properties:
+> >            - const: mediatek,mt8192-disp-ccorr
+> >        - items:
+> >            - enum:
+> > +              - mediatek,mt8188-disp-ccorr
+> >                - mediatek,mt8195-disp-ccorr
+> >            - const: mediatek,mt8192-disp-ccorr
+> >        - items:
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,color
+> > .y
+> > aml
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,color
+> > .y
+> > aml
+> > index d2f89ee7996f..62306c88f485 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,color
+> > .y
+> > aml
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,color
+> > .y
+> > aml
+> > @@ -37,6 +37,7 @@ properties:
+> >            - enum:
+> >                - mediatek,mt8183-disp-color
+> >                - mediatek,mt8186-disp-color
+> > +              - mediatek,mt8188-disp-color
+> >                - mediatek,mt8192-disp-color
+> >                - mediatek,mt8195-disp-color
+> >            - const: mediatek,mt8173-disp-color
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dithe
+> > r.
+> > yaml
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dithe
+> > r.
+> > yaml
+> > index 8ad8187c02d1..5c7445c174e5 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dithe
+> > r.
+> > yaml
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dithe
+> > r.
+> > yaml
+> > @@ -27,6 +27,7 @@ properties:
+> >        - items:
+> >            - enum:
+> >                - mediatek,mt8186-disp-dither
+> > +              - mediatek,mt8188-disp-dither
+> >                - mediatek,mt8192-disp-dither
+> >                - mediatek,mt8195-disp-dither
+> >            - const: mediatek,mt8183-disp-dither
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma
+> > .y
+> > aml
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma
+> > .y
+> > aml
+> > index a89ea0ea7542..3d6e20f6eb05 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma
+> > .y
+> > aml
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma
+> > .y
+> > aml
+> > @@ -12,7 +12,7 @@ maintainers:
+> >  
+> >  description: |
+> >    Mediatek display gamma correction, namely GAMMA, provides a
+> > nonlinear
+> > -  operation used to adjust luminance in display system.
+> > +  operation used to adjust luminance in?display system.
+> 
+> It's not necessary to modify this.
+> 
+> Regards,
+> CK
+> 
+> >    GAMMA device node must be siblings to the central MMSYS_CONFIG
+> > node.
+> >    For a description of the MMSYS_CONFIG binding, see
+> >    Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
+> > ml
+> > @@ -28,6 +28,7 @@ properties:
+> >        - items:
+> >            - enum:
+> >                - mediatek,mt8186-disp-gamma
+> > +              - mediatek,mt8188-disp-gamma
+> >                - mediatek,mt8192-disp-gamma
+> >                - mediatek,mt8195-disp-gamma
+> >            - const: mediatek,mt8183-disp-gamma
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.y
+> > am
+> > l
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.y
+> > am
+> > l
+> > index a2a27d0ca038..065e526f950e 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.y
+> > am
+> > l
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.y
+> > am
+> > l
+> > @@ -36,6 +36,7 @@ properties:
+> >            - const: mediatek,mt2701-disp-ovl
+> >        - items:
+> >            - enum:
+> > +              - mediatek,mt8188-disp-ovl
+> >                - mediatek,mt8195-disp-ovl
+> >            - const: mediatek,mt8183-disp-ovl
+> >        - items:
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,postm
+> > as
+> > k.yaml
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,postm
+> > as
+> > k.yaml
+> > index 654080bfbdfb..27de64495401 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,postm
+> > as
+> > k.yaml
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,postm
+> > as
+> > k.yaml
+> > @@ -26,6 +26,7 @@ properties:
+> >        - items:
+> >            - enum:
+> >                - mediatek,mt8186-disp-postmask
+> > +              - mediatek,mt8188-disp-postmask
+> >            - const: mediatek,mt8192-disp-postmask
+> >  
+> >    reg:
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.
+> > ya
+> > ml
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.
+> > ya
+> > ml
+> > index 0882ae86e6c4..d0e6c0dd4dfb 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.
+> > ya
+> > ml
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.
+> > ya
+> > ml
+> > @@ -30,6 +30,8 @@ properties:
+> >        - items:
+> >            - const: mediatek,mt8183-disp-rdma
+> >        - items:
+> > +          - enum:
+> > +              - mediatek,mt8188-disp-rdma
+> >            - const: mediatek,mt8195-disp-rdma
+> >        - items:
+> >            - enum:
+> > diff --git
+> > a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yam
+> > l
+> > b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yam
+> > l
+> > index 627dcc3e8b32..a5212a2a4dcc 100644
+> > ---
+> > a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yam
+> > l
+> > +++
+> > b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yam
+> > l
+> > @@ -30,6 +30,7 @@ properties:
+> >        - mediatek,mt8173-disp-mutex
+> >        - mediatek,mt8183-disp-mutex
+> >        - mediatek,mt8186-disp-mutex
+> > +      - mediatek,mt8188-disp-mutex
+> >        - mediatek,mt8192-disp-mutex
+> >        - mediatek,mt8195-disp-mutex
+> >  
+> 
+> 
 
-rzg2l-smarc-som.dtsi uses regulator reg_1p1v;
-which is marked as regulator-always-on; that's why
-regulator_late_cleanup() doesn't switch it off.
-
-Regards,
-Clement
-
->
-> root@smarc-rzg2l:~# cat /sys/class/devfreq/11840000.gpu/trans_stat
->      From  :   To
->            :  50000000  62500000 100000000 125000000 200000000 250000000 =
-400000000 500000000   time(ms)
-> *  50000000:         0         0         0         0         0         0 =
-        0         1       144
->    62500000:         0         0         0         0         0         0 =
-        0         0         0
->   100000000:         0         0         0         0         0         0 =
-        0         9       524
->   125000000:         0         0         9         0         0         0 =
-        0         3      2544
->   200000000:         0         0         0        11         0         0 =
-        0        46      3304
->   250000000:         1         0         0         0        33         0 =
-        0         0      7496
->   400000000:         0         0         0         0        16        19 =
-        0         0      2024
->   500000000:         1         0         0         1         8        15 =
-       35         0      4032
-> Total transition : 208
->
-> Cheers,
-> Biju
->
