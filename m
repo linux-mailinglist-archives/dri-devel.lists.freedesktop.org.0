@@ -1,87 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21635ADC4D
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 02:19:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 467705ADC69
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 02:33:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74E9E10E50C;
-	Tue,  6 Sep 2022 00:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6829D10E526;
+	Tue,  6 Sep 2022 00:33:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50E1210E50C
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 00:19:22 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id 145so9797246pfw.4
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 17:19:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=v4JA0M0hCIbFC7NXFN+IygsKVK4ZMU4qWYqYqoR4tJc=;
- b=fHHlrsomzS5RX1w3UIei5qFtxTClmy9iSQEvGb1yFamLQYZo+o6zDJ8zJUVbJLL82Y
- pkr7UJu0RGPOf+0J7r9ut0astM8MHGg1EaaL+qlGu/ue2aBOikrSmX+DoJq6OVnfYCTQ
- FMcozHAuaegI9kVFEFk5BCS8NUELgRVLurFlc4zQR+4mEluidRXNcvb1Uq6r9730CALq
- i+o2Z457eW9sgjxUmvKSOZs27VXpd+EYrVSuTXtKTDhoWiowlHQASX22DQpd3afScQaO
- NjyzcFcZoXy1i9cNJaiHRj8JaHrrDq+3JIoFmZc3azTXuJLuoblV3/wMiYnfYqdVD2x3
- dUTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=v4JA0M0hCIbFC7NXFN+IygsKVK4ZMU4qWYqYqoR4tJc=;
- b=6fEI2wnwHDuQQqWYdqu3rKY6mHxCnNlf2h0TniPllj1vGACgND1di/YtbE8uzcm2Hc
- zKVjMIS4Qqyf6/OhEEBaLBHXVf3YwH2O/PIhg0LuQHsXXxCsbE9ueDwoM1C7AXE2DYaR
- q3ejFEqt4ndgccxsE3yvKzQmZfZIEFsEvT6opmpx+g6MulXi3NAfa35jI2TBt4t2dGZt
- 5lAi19oYAJE0jgUx2i8StqHTvZgPeNiVxV63KDFsMbzMXtcF1636QBRDQDMDXPhK26tP
- 9V29I1yvMLV+JPXMeqOKqdl/DRajky7fXy9Fqpr0y+frotPEX4Kw4IjVe+cu8P2JNoZl
- bg/A==
-X-Gm-Message-State: ACgBeo3NWhHxk/c4UlpUwb+0u8+otRrvNKFdWmcnIYrGlZWXGuFzFvK2
- 4GDpA5t0pMrBnw4S/2eZTBkZdLmSDM4=
-X-Google-Smtp-Source: AA6agR6BSwkY2FCM/mxUqmLHetzPYwEnkn1n9g0P2sCyTVfQpw3+hUsDHc+Gpjiwldy8UpbPbUcIag==
-X-Received: by 2002:aa7:88c8:0:b0:536:926:700f with SMTP id
- k8-20020aa788c8000000b005360926700fmr53349294pff.72.1662423561657; 
- Mon, 05 Sep 2022 17:19:21 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:1190:fbfa:ae95:111c])
- by smtp.gmail.com with ESMTPSA id
- c10-20020a624e0a000000b0053e156e9475sm431528pfb.182.2022.09.05.17.19.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 17:19:21 -0700 (PDT)
-Date: Mon, 5 Sep 2022 17:19:17 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Mark Brown <broonie@kernel.org>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Linus Walleij <linus.walleij@linaro.org>, Felipe Balbi <balbi@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Marc Zyngier <maz@kernel.org>, Richard Weinberger <richard@nod.at>,
- David Airlie <airlied@linux.ie>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Jonathan Hunter <jonathanh@nvidia.com>, Rob Herring <robh@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Subject: Re: [PATCH v1 07/11] PCI: apple: switch to using
- fwnode_gpiod_get_index()
-Message-ID: <YxaSBRkAG/hKjFol@google.com>
-References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-7-b29adfb27a6c@gmail.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9FC110E526
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 00:33:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662424385; x=1693960385;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=RUVdfPOb6chs1+8BqyYEVqAOhl9fQh8rHeVVH/dD89Y=;
+ b=V4HRx/MHXpn7gZYe2ef8jf17GLmWuO0tdb6x63nKbDqGf5RynHh6GLGP
+ 921W/pXoQxyQF4dMq2K7G3U7nPP3iv9C9Nx6inCZrMQJRbXOa753oJsaL
+ 5clRmCRQG/DEbKa473fhqeJQVZ8QOfN7/fmPSokt1NjbvXcVsG/Ol6gDE
+ UliY3V1bBzMSjzSuOz//y67AiUWQARiYPBzXnAiGqH6MGkc8YEe3NEHgV
+ S+OlGSIKRDlpVlZdnwK/WPEqvFMV6rc0bBx3fswnD1K1P6/0M24YX+yBd
+ vC8HYbIgugKtTdjw4z9ChcL/52UP/caUmAZl76jPllAKRJP2Ls3Lu1oKQ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="297778396"
+X-IronPort-AV: E=Sophos;i="5.93,292,1654585200"; d="scan'208";a="297778396"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2022 17:33:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,292,1654585200"; d="scan'208";a="643957100"
+Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
+ by orsmga008.jf.intel.com with ESMTP; 05 Sep 2022 17:33:04 -0700
+Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oVMWV-0004fh-1B;
+ Tue, 06 Sep 2022 00:33:03 +0000
+Date: Tue, 6 Sep 2022 08:32:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Igor Torrente <igormtorrente@gmail.com>
+Subject: [drm-misc:for-linux-next 9/9]
+ drivers/gpu/drm/vkms/vkms_formats.c:259: undefined reference to `__divdi3'
+Message-ID: <202209060813.wci1hZUA-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-7-b29adfb27a6c@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,42 +56,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-watchdog@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: Melissa Wen <melissa.srw@gmail.com>, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 04, 2022 at 11:30:59PM -0700, Dmitry Torokhov wrote:
-> I would like to stop exporting OF-specific gpiod_get_from_of_node()
-> so that gpiolib can be cleaned a bit, so let's switch to the generic
-> fwnode property API.
-> 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> 
-> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-> index a2c3c207a04b..d83817d3ff86 100644
-> --- a/drivers/pci/controller/pcie-apple.c
-> +++ b/drivers/pci/controller/pcie-apple.c
-> @@ -516,8 +516,8 @@ static int apple_pcie_setup_port(struct apple_pcie *pcie,
->  	u32 stat, idx;
->  	int ret, i;
->  
-> -	reset = gpiod_get_from_of_node(np, "reset-gpios", 0,
-> -				       GPIOD_OUT_LOW, "PERST#");
-> +	reset = fwnode_gpiod_get_index(of_fwnode_handle(np),
-> +				       "reset", 0, GPIOD_OUT_LOW, "PERST#");
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   396369d6754993e40f1c84b2e22e40e92dfa4c49
+commit: 396369d6754993e40f1c84b2e22e40e92dfa4c49 [9/9] drm: vkms: Add support to the RGB565 format
+config: i386-randconfig-a006-20220905 (https://download.01.org/0day-ci/archive/20220906/202209060813.wci1hZUA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
+        git fetch --no-tags drm-misc for-linux-next
+        git checkout 396369d6754993e40f1c84b2e22e40e92dfa4c49
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-Hmm, I am looking at the driver and it leaks the reset gpio on
-unbind/unload. I guess it does not matter in practice, but still nice
-not to leak. Thankfully it is easy to cure by switching to devm option:
-devm_fwnode_gpiod_get().
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-I'll send and updated patch with a new justification.
+All errors (new ones prefixed by >>):
 
-Thanks.
+   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: drivers/gpu/drm/vkms/vkms_formats.o: in function `argb_u16_to_RGB565':
+>> drivers/gpu/drm/vkms/vkms_formats.c:259: undefined reference to `__divdi3'
+>> ld: drivers/gpu/drm/vkms/vkms_formats.c:260: undefined reference to `__divdi3'
+   ld: drivers/gpu/drm/vkms/vkms_formats.c:261: undefined reference to `__divdi3'
+
+
+vim +259 drivers/gpu/drm/vkms/vkms_formats.c
+
+   241	
+   242	static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
+   243				       const struct line_buffer *src_buffer, int y)
+   244	{
+   245		int x_dst = frame_info->dst.x1;
+   246		u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+   247		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+   248		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+   249				    src_buffer->n_pixels);
+   250	
+   251		s32 fp_rb_ratio = INT_TO_FIXED_DIV(65535, 31);
+   252		s32 fp_g_ratio = INT_TO_FIXED_DIV(65535, 63);
+   253	
+   254		for (size_t x = 0; x < x_limit; x++, dst_pixels++) {
+   255			s32 fp_r = INT_TO_FIXED(in_pixels[x].r);
+   256			s32 fp_g = INT_TO_FIXED(in_pixels[x].g);
+   257			s32 fp_b = INT_TO_FIXED(in_pixels[x].b);
+   258	
+ > 259			u16 r = FIXED_TO_INT_ROUND(FIXED_DIV(fp_r, fp_rb_ratio));
+ > 260			u16 g = FIXED_TO_INT_ROUND(FIXED_DIV(fp_g, fp_g_ratio));
+   261			u16 b = FIXED_TO_INT_ROUND(FIXED_DIV(fp_b, fp_rb_ratio));
+   262	
+   263			*dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
+   264		}
+   265	}
+   266	
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://01.org/lkp
