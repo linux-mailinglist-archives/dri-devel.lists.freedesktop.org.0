@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABDF5AE150
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 09:40:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EA55AE149
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 09:40:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4DD10E5A2;
-	Tue,  6 Sep 2022 07:40:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BCB810E59E;
+	Tue,  6 Sep 2022 07:40:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A459210E59A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C946110E59E
  for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 07:39:55 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5F7EA336E4;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 89FE133756;
  Tue,  6 Sep 2022 07:39:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1662449994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=4hFdCuz1aZgzmgtnY0njr/afmoWuavqMx5WcOQEpdOI=;
- b=COpvJ5d7tbAStYGhO7bc1zFXuUGKOb84iPIzkhLGUPAMkEwYhh68Dpc+0B1hFi1uhGTE+W
- KE5n1VS8NfhAYQubOl8V/ROcV/kQwTRjF4bHyI0+98T6CPE0pMXOG/Fjxnfg39LSzBdiqf
- EAw6mGGSK0oG4NLM76ZPHA7JOJ8ipKM=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3ZSIeVMVsulMoZL/eREczuKdSIQhE7iJhlZgLLf0GJ8=;
+ b=CyiajYbfN2fQJYtQ+cMGknsuE2udy7D4+YkyabyHksljeYCW3hnX/z9pwhfUTJX/rzkguR
+ w68czp52N7XrMeZK1R3E6ZBAN4WpVcYwnpB8X/zvKhnoDd7DPi2+jUzglwgHtvt+bMg9Te
+ mQPkw8FOYEUW0ZfSewzHX/zwmSNo/NI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1662449994;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=4hFdCuz1aZgzmgtnY0njr/afmoWuavqMx5WcOQEpdOI=;
- b=SsK9gb+qMRiNOhlwAW0W6mmxii6Nh0CKLY+0XskfgUak3e1lEIjAirAscWAacj/KOeCKp6
- 0iZJDHBDSbYghEBQ==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3ZSIeVMVsulMoZL/eREczuKdSIQhE7iJhlZgLLf0GJ8=;
+ b=btuzp2Y8VzDNsI7fz4Q7VRn41RdbRDcDnLRrCtQGW6TVEKGakBHiNv8mwDbJBM7al+TcU1
+ 598n1tCniajPXfAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3ED2D13A7A;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 64A5213A7A;
  Tue,  6 Sep 2022 07:39:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id O7OFDkr5FmPeOgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id iNWjF0r5FmPeOgAAMHmgww
  (envelope-from <tiwai@suse.de>); Tue, 06 Sep 2022 07:39:54 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 00/11] drm/udl: More fixes
-Date: Tue,  6 Sep 2022 09:39:40 +0200
-Message-Id: <20220906073951.2085-1-tiwai@suse.de>
+Subject: [PATCH v2 01/11] drm/udl: Restore display mode on resume
+Date: Tue,  6 Sep 2022 09:39:41 +0200
+Message-Id: <20220906073951.2085-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220906073951.2085-1-tiwai@suse.de>
+References: <20220906073951.2085-1-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,47 +71,45 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-this is a revised patch set for cleaning up and fixes for UDL driver.
-It covers the PM problems, regressions in the previous patch set,
-fixes for the stalls on some systems, as well as more hardening.
+Restore the display mode whne resuming from suspend. Currently, the
+display remains dark.
 
+On resume, the CRTC's mode does not change, but the 'active' flag
+changes to 'true'. Taking this into account when considering a mode
+switch restores the display mode.
 
-Takashi
+The bug is reproducable by using Gnome with udl and observing the
+adapter's suspend/resume behavior.
 
-===
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ drivers/gpu/drm/udl/udl_modeset.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-v1->v2: cleanups as suggested by Thomas
-- Drop numurbs parameter patch
-- Clean up / simplify clipping patch
-- Code cleanup and changes for urb management patch
-- Put Acks on some given patches
-
-===
-
-Takashi Iwai (8):
-  Revert "drm/udl: Kill pending URBs at suspend and disconnect"
-  drm/udl: Suppress error print for -EPROTO at URB completion
-  drm/udl: Increase the default URB list size to 20
-  drm/udl: Drop unneeded alignment
-  drm/udl: Fix potential URB leaks
-  drm/udl: Fix inconsistent urbs.count value during udl_free_urb_list()
-  drm/udl: Don't re-initialize stuff at retrying the URB list allocation
-  drm/udl: Sync pending URBs at the end of suspend
-
-Thomas Zimmermann (3):
-  drm/udl: Restore display mode on resume
-  drm/udl: Add reset_resume
-  drm/udl: Enable damage clipping
-
- drivers/gpu/drm/udl/udl_drv.c      | 19 +++++-
- drivers/gpu/drm/udl/udl_drv.h      | 13 +---
- drivers/gpu/drm/udl/udl_main.c     | 95 +++++++++++++++---------------
- drivers/gpu/drm/udl/udl_modeset.c  | 36 ++---------
- drivers/gpu/drm/udl/udl_transfer.c | 45 ++------------
- 5 files changed, 75 insertions(+), 133 deletions(-)
-
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 169110d8fc2e..df987644fb5d 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -8,6 +8,7 @@
+  * Copyright (C) 2009 Bernie Thompson <bernie@plugable.com>
+  */
+ 
++#include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_damage_helper.h>
+@@ -382,7 +383,7 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ 	udl_handle_damage(fb, &shadow_plane_state->data[0], 0, 0, fb->width, fb->height);
+ 
+-	if (!crtc_state->mode_changed)
++	if (!drm_atomic_crtc_needs_modeset(crtc_state))
+ 		return;
+ 
+ 	/* enable display */
 -- 
 2.35.3
 
