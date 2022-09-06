@@ -2,75 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4AA5AF559
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 22:06:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F8B5AF562
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 22:07:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB3F10E22A;
-	Tue,  6 Sep 2022 20:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 879C410E1A0;
+	Tue,  6 Sep 2022 20:07:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A46C10E173;
- Tue,  6 Sep 2022 20:06:14 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id a70so472036edf.10;
- Tue, 06 Sep 2022 13:06:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Ck2CZ63xlROKRuum+VYM3RwNiQt6GcNFVn5yjUBlhbU=;
- b=ga9QR8QkKm4EnEDibK+a4UuClq5Nes777nVtiyAuRinh0/Ie7mM1tSBVCLqEH1ugiO
- IlouNRGGlGMh8PAy0X4s9054Xim8TCwe/VTCAwjrlTZXNA3deVSy1W+0kPuHUKF5mEwa
- VTWo3H/ib5eNxXgdPa14jDUVTGHJ2tK67OXVAXeaI/dAT1e8V0IliyVBcbFMyNqRUK8J
- Nl9Ll59iDrM4I1zhPVWBkq3EN3RcA+ihfnEWg5akxMCg2CZM9H0H54FiZ+VU7vHQEVyq
- o1TomSxBabXQ1G2qK6IA+bOsodqiGTNWSOoMkVt0Vubj6i/Ya4sZOl9R2Aq5jCViRSCd
- ZuHQ==
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA05710E1A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 20:06:58 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id k9so17118366wri.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 13:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date; bh=QO0vmextOE7byXtCUGZRN9XcSr/2rfXe412VbGvJjJM=;
+ b=J6lgYCOZEm6bBbC+vgNLT5h6sXbIl/zhC5KHbAbAaIbpQat4Uc94xEaKNP3M1Zl35P
+ NU/ABrVCeRFXCA0/M5hfo6R7fg/3Y3SxpS1/mT3Bm2HQGjV8JmSbUeu7tgwk3/hNH38Q
+ 8jku8SAoH9mN8ulk+jY8cyMxOUiGywfmNE3Yg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Ck2CZ63xlROKRuum+VYM3RwNiQt6GcNFVn5yjUBlhbU=;
- b=hr3tRtNkjrpztCc/LxaL2A007hkvE5oF411ymyNWlXPsJmnKj37Cef+5xsMiqxodUP
- tTvCh0Y6oDpuUiTWNfF1BWvTrGIpUkefwrpNYREScYiqBii+ZztdbJ6knAgBMuZ9jv/K
- yt24N/6KeND76rTukE3tprV/xcglMRbpd2cQQNUZ5Kk2ApUwmp/XUJLT4DpbV+sm5iuE
- 9SnuYCpWzybC/r1+Cm3Pj3OYT4zAf5+6EQmsbjH5udKvLR4hlW7iwpbZ0L8HtsPhN+ql
- jyiIVG3QqmPggybGYAd3cDnFLx9+yU5RhzIXFIygn4iU55fkgP5JpBNfr5/dnZPuWSuW
- utIQ==
-X-Gm-Message-State: ACgBeo02rxhxuxHbYJw4ms/XlAasiMLQpCfBJPsDGzrbi/vLzdeqKPYG
- bwwP/MtCXbeWVDlfQUN2hlo=
-X-Google-Smtp-Source: AA6agR7CUAhPy+9MFPuH6DzgDy2S60+/E2h57c49ihYMLFNyPbmAh/8ehJuHA/jwsSZISEkVJfO+GA==
-X-Received: by 2002:aa7:d803:0:b0:44e:af34:e47e with SMTP id
- v3-20020aa7d803000000b0044eaf34e47emr233791edq.310.1662494773089; 
- Tue, 06 Sep 2022 13:06:13 -0700 (PDT)
-Received: from kista.localnet (82-149-1-172.dynamic.telemach.net.
- [82.149.1.172]) by smtp.gmail.com with ESMTPSA id
- wl23-20020a170907311700b0073d645e6dd8sm7123443ejb.223.2022.09.06.13.06.11
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=QO0vmextOE7byXtCUGZRN9XcSr/2rfXe412VbGvJjJM=;
+ b=JAAB069YsXDBE3JQnIudvfFPd1uC0bi5RUBWlvJqeCpOwv/YMZhdIDvbN1ggzK3MjF
+ BJezVcMbaS+FMO3GSnZMQIEi8a1YDWiJ7n81KH2VjtHQz9yxhZaMsuyhSmdJoyMn8gQD
+ 15kam2LlX9Plw5FrYtZPTyzxXWfP3EfT/CjspCYXasD3X7waEspGOi3aQmjwTtGD2HYR
+ /hPZtkVAUsJtOweS5ho1zS5hWJJ9NsztnGhob3JLjrHEeZHZQqDfOSU6NpGr+TdS0vPQ
+ KFblDsv3+zKAiaIup9Cc5lskAvGKVwloE3VBXlbtkkDu8Ol2AB1mRVsSHVEc3XDHxEN9
+ 19Fw==
+X-Gm-Message-State: ACgBeo3ye3gaCRbWoivn7zIvoD1scwqPeh3V5ugD7B05ous4uG0UtpVX
+ p11nsR6osAMsPxTsRAAE7m2DMw==
+X-Google-Smtp-Source: AA6agR6yg4CGNrCY5D2cKWurXhI1K66jKY3xXhCCZCA5RPRuvlIYkNbuxmMHwOFlGsbTsMBq12JbHg==
+X-Received: by 2002:adf:ebc3:0:b0:228:61a0:e8b with SMTP id
+ v3-20020adfebc3000000b0022861a00e8bmr74297wrn.676.1662494817423; 
+ Tue, 06 Sep 2022 13:06:57 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ g13-20020a05600c4ecd00b003a4c6e67f01sm26112639wmq.6.2022.09.06.13.06.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 13:06:12 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
+ Tue, 06 Sep 2022 13:06:56 -0700 (PDT)
+Date: Tue, 6 Sep 2022 22:06:55 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH 01/12] drm/udl: Restore display mode on resume
+Message-ID: <YxeoX5dikxsUjzJS@phenom.ffwll.local>
+Mail-Followup-To: Takashi Iwai <tiwai@suse.de>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
- Noralf =?ISO-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 37/41] drm/sun4i: tv: Remove useless function
-Date: Tue, 06 Sep 2022 22:06:10 +0200
-Message-ID: <1903427.PYKUYFuaPT@kista>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-37-459522d653a7@cerno.tech>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-37-459522d653a7@cerno.tech>
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20220816153655.27526-1-tiwai@suse.de>
+ <20220816153655.27526-2-tiwai@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220816153655.27526-2-tiwai@suse.de>
+X-Operating-System: Linux phenom 5.18.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,26 +72,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Hans de Goede <hdegoede@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <maxime@cerno.tech>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne ponedeljek, 29. avgust 2022 ob 15:11:51 CEST je Maxime Ripard napisal(a):
-> The drm_connector_to_sun4i_tv() function isn't used anywhere in the driver,
-> so let's remove it.
+On Tue, Aug 16, 2022 at 05:36:44PM +0200, Takashi Iwai wrote:
+> From: Thomas Zimmermann <tzimmermann@suse.de>
 > 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Restore the display mode whne resuming from suspend. Currently, the
+> display remains dark.
+> 
+> On resume, the CRTC's mode does not change, but the 'active' flag
+> changes to 'true'. Taking this into account when considering a mode
+> switch restores the display mode.
+> 
+> The bug is reproducable by using Gnome with udl and observing the
+> adapter's suspend/resume behavior.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+This patch isn't great and incomplete, see
 
-Best regards,
-Jernej
+https://lore.kernel.org/dri-devel/YxegiQFAv+OWjjqE@phenom.ffwll.local/
 
+You need cc: stable and fixes: 997d33c35618 and actually just remove the
+entire check :-)
+-Daniel
 
+> ---
+>  drivers/gpu/drm/udl/udl_modeset.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+> index 169110d8fc2e..df987644fb5d 100644
+> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> @@ -8,6 +8,7 @@
+>   * Copyright (C) 2009 Bernie Thompson <bernie@plugable.com>
+>   */
+>  
+> +#include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_damage_helper.h>
+> @@ -382,7 +383,7 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  
+>  	udl_handle_damage(fb, &shadow_plane_state->data[0], 0, 0, fb->width, fb->height);
+>  
+> -	if (!crtc_state->mode_changed)
+> +	if (!drm_atomic_crtc_needs_modeset(crtc_state))
+>  		return;
+>  
+>  	/* enable display */
+> -- 
+> 2.35.3
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
