@@ -1,60 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE025AE0D0
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 09:19:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ABDF5AE150
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 09:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B542910E58B;
-	Tue,  6 Sep 2022 07:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4DD10E5A2;
+	Tue,  6 Sep 2022 07:40:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D353B10E58E
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 07:19:20 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- s14-20020a17090a6e4e00b0020057c70943so4791356pjm.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 00:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=TM+CdNqSvUJq8RjCWX9SS8uu2mM48Yt8MlhJj2Gs6Ak=;
- b=FeXxDKPOjtUzqkwbv70fTVeIm+5VWurSEWn3UmqxM2xxL2yxAeHRE3vY1mBL31YmfA
- TCn1YnaFmP5nKpZRonMs5iU6m+5BDL6Zn42cPM4n7hdYKnYlPSFmNEAyUUYvzksEsbBM
- iG2H1AWtH5C9awoDq9qxL3qHr8lKGDi5U92yf37UmRHbhQRXOGJ9ZLEd2QUvWUGPwiTy
- f6DRQIjat4h6x78EER0Pz/g+z2z6XLYNlpTJLhbMBOwGF12cINHs6jZa8d7Gel1btnjy
- OAlJ4I7NuBhMOIXKwgTK6+JKdLk20L6gONdVSpEFxm4KlQJUC6WIpH1EhPo6DrrJ6+G3
- Yu5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=TM+CdNqSvUJq8RjCWX9SS8uu2mM48Yt8MlhJj2Gs6Ak=;
- b=o8fmMlJZwOrKTCqnGbhwG1IMs+F2CH0Q0pNqLbHFTCknmgsmmhMQpDKlt/6kldkybk
- livJvBfoV23j8bNE6Sv2SR5clKGe8+FQPt/gat5pzRzQ2rmMutNB2O4may2bO4k/Ymru
- iujaNa34X9PQr3FQnZeAo0RDAKEkKgVQFcFuyn/kg8YftKmE7TKYo7C6ISlerdHtlaS6
- 3hQoI4k8/aBwCyul2uobjFY81A4Z5zRxPkdAf1WHuFM6qedCj6qtiyjc3LiklSWyoGiq
- DJMp4Rh70UGk79XT/KfuNrMwIiNPYaSMievBhrCd6rrQH49vKSOVOQM6zBkOHOV8VwVd
- 1hgQ==
-X-Gm-Message-State: ACgBeo3/ckSFaP0fU0+oMbgWSUUAGmSzI9H0tZspE58Xklx0Oj7OA00G
- QRsSz8IxZrBfCc9xujecNbu1XqZOTys=
-X-Google-Smtp-Source: AA6agR7vqq1QTi7igOOkGXVbjDkp08nRulzSASvLFJk+vjwaKFa0LNvfAfCb2LlljT+4o/btBqahTA==
-X-Received: by 2002:a17:902:d2c3:b0:175:406f:5665 with SMTP id
- n3-20020a170902d2c300b00175406f5665mr30858501plc.76.1662448760477; 
- Tue, 06 Sep 2022 00:19:20 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id
- u195-20020a6279cc000000b00537eb00850asm9293775pfc.130.2022.09.06.00.19.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 00:19:20 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: ye.xingchen@zte.com.cn
-To: zackr@vmware.com
-Subject: [PATCH linux-next] drm/vmwgfx: Remove the unneeded result variable
-Date: Tue,  6 Sep 2022 07:19:16 +0000
-Message-Id: <20220906071916.337033-1-ye.xingchen@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A459210E59A
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 07:39:55 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5F7EA336E4;
+ Tue,  6 Sep 2022 07:39:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662449994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4hFdCuz1aZgzmgtnY0njr/afmoWuavqMx5WcOQEpdOI=;
+ b=COpvJ5d7tbAStYGhO7bc1zFXuUGKOb84iPIzkhLGUPAMkEwYhh68Dpc+0B1hFi1uhGTE+W
+ KE5n1VS8NfhAYQubOl8V/ROcV/kQwTRjF4bHyI0+98T6CPE0pMXOG/Fjxnfg39LSzBdiqf
+ EAw6mGGSK0oG4NLM76ZPHA7JOJ8ipKM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662449994;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4hFdCuz1aZgzmgtnY0njr/afmoWuavqMx5WcOQEpdOI=;
+ b=SsK9gb+qMRiNOhlwAW0W6mmxii6Nh0CKLY+0XskfgUak3e1lEIjAirAscWAacj/KOeCKp6
+ 0iZJDHBDSbYghEBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3ED2D13A7A;
+ Tue,  6 Sep 2022 07:39:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id O7OFDkr5FmPeOgAAMHmgww
+ (envelope-from <tiwai@suse.de>); Tue, 06 Sep 2022 07:39:54 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 00/11] drm/udl: More fixes
+Date: Tue,  6 Sep 2022 09:39:40 +0200
+Message-Id: <20220906073951.2085-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,64 +61,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, ye xingchen <ye.xingchen@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-graphics-maintainer@vmware.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+Hi,
 
-Return the value vmw_cotable_notify() directly instead of storing it in
-another redundant variable.
+this is a revised patch set for cleaning up and fixes for UDL driver.
+It covers the PM problems, regressions in the previous patch set,
+fixes for the stalls on some systems, as well as more hardening.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index f085dbd4736d..080c9c11277b 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -1263,7 +1263,6 @@ static int vmw_cmd_dx_define_query(struct vmw_private *dev_priv,
- 	VMW_DECLARE_CMD_VAR(*cmd, SVGA3dCmdDXDefineQuery);
- 	struct vmw_ctx_validation_info *ctx_node = VMW_GET_CTX_NODE(sw_context);
- 	struct vmw_resource *cotable_res;
--	int ret;
- 
- 	if (!ctx_node)
- 		return -EINVAL;
-@@ -1275,9 +1274,8 @@ static int vmw_cmd_dx_define_query(struct vmw_private *dev_priv,
- 		return -EINVAL;
- 
- 	cotable_res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXQUERY);
--	ret = vmw_cotable_notify(cotable_res, cmd->body.queryId);
- 
--	return ret;
-+	return vmw_cotable_notify(cotable_res, cmd->body.queryId);
- }
- 
- /**
-@@ -2576,7 +2574,6 @@ static int vmw_cmd_dx_so_define(struct vmw_private *dev_priv,
- 		uint32 defined_id;
- 	} *cmd;
- 	enum vmw_so_type so_type;
--	int ret;
- 
- 	if (!ctx_node)
- 		return -EINVAL;
-@@ -2586,9 +2583,8 @@ static int vmw_cmd_dx_so_define(struct vmw_private *dev_priv,
- 	if (IS_ERR(res))
- 		return PTR_ERR(res);
- 	cmd = container_of(header, typeof(*cmd), header);
--	ret = vmw_cotable_notify(res, cmd->defined_id);
- 
--	return ret;
-+	return vmw_cotable_notify(res, cmd->defined_id);
- }
- 
- /**
+Takashi
+
+===
+
+v1->v2: cleanups as suggested by Thomas
+- Drop numurbs parameter patch
+- Clean up / simplify clipping patch
+- Code cleanup and changes for urb management patch
+- Put Acks on some given patches
+
+===
+
+Takashi Iwai (8):
+  Revert "drm/udl: Kill pending URBs at suspend and disconnect"
+  drm/udl: Suppress error print for -EPROTO at URB completion
+  drm/udl: Increase the default URB list size to 20
+  drm/udl: Drop unneeded alignment
+  drm/udl: Fix potential URB leaks
+  drm/udl: Fix inconsistent urbs.count value during udl_free_urb_list()
+  drm/udl: Don't re-initialize stuff at retrying the URB list allocation
+  drm/udl: Sync pending URBs at the end of suspend
+
+Thomas Zimmermann (3):
+  drm/udl: Restore display mode on resume
+  drm/udl: Add reset_resume
+  drm/udl: Enable damage clipping
+
+ drivers/gpu/drm/udl/udl_drv.c      | 19 +++++-
+ drivers/gpu/drm/udl/udl_drv.h      | 13 +---
+ drivers/gpu/drm/udl/udl_main.c     | 95 +++++++++++++++---------------
+ drivers/gpu/drm/udl/udl_modeset.c  | 36 ++---------
+ drivers/gpu/drm/udl/udl_transfer.c | 45 ++------------
+ 5 files changed, 75 insertions(+), 133 deletions(-)
+
 -- 
-2.25.1
+2.35.3
+
