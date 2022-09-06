@@ -1,84 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19BF5AF125
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 18:53:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B9D5AF13A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 18:54:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBA810E702;
-	Tue,  6 Sep 2022 16:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55B1C10E097;
+	Tue,  6 Sep 2022 16:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 046DB10E097
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 16:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662483160;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rQ92NUT9dpOIOuh5JEtBNQB9tI+VZBsLJQDfjydKtY8=;
- b=URXe2NEyqazQ4KrNMdLiNbdKKYPnzwnxziA+jYZGx/SsqmdTUAyvdNs09Bu+9IlEDRAv2G
- l1YF7ZftcP+wM5azN73vTSFn3nTR7RfkmA8vRbzGZRN+lT9jqB845R6HA2BfcavSS7P03a
- 4+ayU/GbmWEpFiflGrsr/s0nqKER578=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-172-ViDcLVbkMSSl5aup0WZOjQ-1; Tue, 06 Sep 2022 12:52:39 -0400
-X-MC-Unique: ViDcLVbkMSSl5aup0WZOjQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- x21-20020a05640226d500b0044856301c62so7919265edd.12
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 09:52:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=rQ92NUT9dpOIOuh5JEtBNQB9tI+VZBsLJQDfjydKtY8=;
- b=EIBTLnrBUg2uh9szSaD9Q3UeJ2Fh9BnXTGzC5LlAui1Gzdh6fzybQ3UIHESWI1q9CL
- mCidsPqmV1IsNY1rN3lP84Z2kC5xj6q6XQcRl0n48+gnf3mu4TQdLtJf8ElcCRqQjWOU
- 9ojN4tXpXTGhg8zrNKqyrIoei/Uy+pWq+bLByPBoTkeYocV0nLkI9tjRBNlmIbSLYi1Z
- Ht6K6LWBZUxsFuFIKSJIDq6T5kxgWjJhpt3cnXKVuVhoki2sLi0vNg1trkDrLr2SVXjJ
- bGmEnOly2MtY7WfOf4otTG9l8uIVWYqk0p47Q8rjb32oYLG6uz6vz5EUBFYh0G9+Gbpt
- 0eTg==
-X-Gm-Message-State: ACgBeo21ppOuxaALne7EbeVqBlXLPHuLZdQwTS9g3KGvqUNMAhEFacc6
- nz0nLBWGufU4inUmBVs55gyN4hq/RJ8YPp3gpHy7da7gliG0q1FaMLDLEg6+5GQjTxRvDeJHecZ
- i3gSkXu8VW/VwwloVZzzOazHn6rRr
-X-Received: by 2002:a17:907:971e:b0:731:48b3:6fb7 with SMTP id
- jg30-20020a170907971e00b0073148b36fb7mr40754486ejc.267.1662483157950; 
- Tue, 06 Sep 2022 09:52:37 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5VGNG+Occ2fyj39ID0jLmukzZ7WO16/W1HhzjGw7s/0lrDlWL3FId7joDN8+cdv4Cer+ercw==
-X-Received: by 2002:a17:907:971e:b0:731:48b3:6fb7 with SMTP id
- jg30-20020a170907971e00b0073148b36fb7mr40754481ejc.267.1662483157823; 
- Tue, 06 Sep 2022 09:52:37 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- by12-20020a0564021b0c00b00445e1489313sm8688660edb.94.2022.09.06.09.52.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Sep 2022 09:52:37 -0700 (PDT)
-Message-ID: <7db298d6-540d-cbc9-4ad3-76550a27fad9@redhat.com>
-Date: Tue, 6 Sep 2022 18:52:36 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E744910E097
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 16:54:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 70E54615D8
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 16:54:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 532B9C43142
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 16:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1662483279;
+ bh=dlrLPJ9VW2sLiclVTeLOaDTCcrNnK0V5SGX9NqEZ+bQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mSScNXV5eNPo8Q03hxNBF1E7GxbLAdR4dQrRxWkLjglRTK1xh+T/4rqOjmigwjTY8
+ gqSPY7pxM2Ggi0f2szfwrD3iVoWzDhGiGopM1Z0DZ7FgzkuBRRMu/ufwHNQr3lGO7j
+ /bkDMZKGzDzt/B1TAdERWfCMAbQS3UYGOsU/xKBZKEhubggqoxorkrPeHBQQKTlyPd
+ npaAXKqlrsRd5G9PKa1D94x4RQ6LtShUNfs0BPs3MrpeW0KfYSXtMfF21voGUHmoTV
+ bKiCT3FrX8wBWHqftjbcK61d54GS/r0D9M9Z3nC68WpMODqU0FdeTJ6FFOtAEjC9Ln
+ IDwSJC/VY+Big==
+Received: by mail-lf1-f45.google.com with SMTP id q21so4093282lfo.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 09:54:39 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1f+nBWKtB5D0Uy4hGae0WkpKFVwZUpEqOZ9QA4r33FdmldekDF
+ XctjQV6VfON1uahyXLVHTtdgwzg1fSuXgGXzmWg=
+X-Google-Smtp-Source: AA6agR4ZsAa0US91WfUU+IaEHtFS7q8sGZYyOWOHOoq1tpEGuakqhXudOy2kGnEsGzQpN8MaarQDnosu8Aj4ieKBKDQ=
+X-Received: by 2002:a05:6512:2294:b0:494:8dc5:10af with SMTP id
+ f20-20020a056512229400b004948dc510afmr9295038lfu.426.1662483277282; Tue, 06
+ Sep 2022 09:54:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 2/3] drm/gma500: Fix crtc_vblank reference leak when
- userspace queues multiple events
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-References: <20220905133738.466490-1-hdegoede@redhat.com>
- <20220905133738.466490-3-hdegoede@redhat.com>
- <530089c9-59c2-8ff9-a547-b25d5ad04c59@mailbox.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <530089c9-59c2-8ff9-a547-b25d5ad04c59@mailbox.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220806163255.10404-1-markuss.broks@gmail.com>
+In-Reply-To: <20220806163255.10404-1-markuss.broks@gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 6 Sep 2022 18:54:26 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXHWWciFcO-ub4U4MB1VDifD_=bxiTVaTcBjTvYXzVTkgQ@mail.gmail.com>
+Message-ID: <CAMj1kXHWWciFcO-ub4U4MB1VDifD_=bxiTVaTcBjTvYXzVTkgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] Add generic framebuffer support to EFI earlycon
+ driver
+To: Markuss Broks <markuss.broks@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,35 +61,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-doc@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+ dri-devel@lists.freedesktop.org, Wei Ming Chen <jj251510319013@gmail.com>,
+ phone-devel@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-serial@vger.kernel.org, Michal Suchanek <msuchanek@suse.de>,
+ Kees Cook <keescook@chromium.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, Borislav Petkov <bp@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michel,
+On Sat, 6 Aug 2022 at 18:34, Markuss Broks <markuss.broks@gmail.com> wrote:
+>
+> Make the EFI earlycon driver be suitable for any linear framebuffers.
+> This should be helpful for early porting of boards with no other means of
+> output, like smartphones/tablets. There seems to be an issue with early_ioremap
+> function on ARM32, but I am unable to find the exact cause. It appears the mappings
+> returned by it are somehow incorrect, thus the driver is disabled on ARM. EFI early
+> console was disabled on IA64 previously because of missing early_memremap_prot,
+> and this is inherited to this driver.
+>
+> This patch also changes behavior on EFI systems, by selecting the mapping type
+> based on if the framebuffer region intersects with system RAM. If it does, it's
+> common sense that it should be in RAM as a whole, and so the system RAM mapping is
+> used. It was tested to be working on my PC (Intel Z490 platform), as well as several
+> ARM64 boards (Samsung Galaxy S9 (Exynos), iPad Air 2, Xiaomi Mi Pad 4, ...).
+>
+> Markuss Broks (2):
+>   drivers: serial: earlycon: Pass device-tree node
+>   efi: earlycon: Add support for generic framebuffers and move to fbdev
+>     subsystem
+>
+>
+> v1 -> v2:
+>
+> - a new patch correcting serial/earlycon.c argument name to "offset" instead
+>   of "node"
+> - move IA64 exclusion from EFI earlycon Kconfig to earlycon driver Kconfig
+>   (IA64 has no early_memremap_prot)
+> - move driver from fbdev to console subsystem
+> - select EFI earlycon by default
 
-On 9/6/22 12:25, Michel Dänzer wrote:
-> On 2022-09-05 15:37, Hans de Goede wrote:
->> The gma500 page-flip code kinda assume that userspace never queues more
->> then 1 vblank event. So basically it assume that userspace does:
->>
->> - page-flip
->> - wait for vblank event
->> - render
->> - page-flip
->> - etc.
->>
->> In the case where userspace would submit 2 page-flips without waiting
->> for the first to finish, the current code will just overwrite
->> gma_crtc->page_flip_event with the event from the 2nd page-flip.
-> 
-> This cannot happen. Common code returns -EBUSY for an attempt to submit a page flip while another one is still pending.
+Wasn't EFI earlycon already enabled by default?
 
-Ah I did not know that, that is very useful to know, thank you.
-
-I will drop this patch for the next version of this patch-set
-(which will include some further fixes).
-
-Regards,
-
-Hans
-
+> - fetch stride manually from device-tree, as on some devices it seems stride
+>   doesn't match the horizontal resolution * bpp.
+> - use saner format (e.g. 1920x1080x32 instead of 1920,1080,32).
+>
+>  .../admin-guide/kernel-parameters.txt         |  12 +-
+>  MAINTAINERS                                   |   5 +
+>  drivers/firmware/efi/Kconfig                  |   6 +-
+>  drivers/firmware/efi/Makefile                 |   1 -
+>  drivers/firmware/efi/earlycon.c               | 246 --------------
+>  drivers/tty/serial/earlycon.c                 |   3 +
+>  drivers/video/fbdev/Kconfig                   |  11 +
+>  drivers/video/fbdev/Makefile                  |   1 +
+>  drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
+>  include/linux/serial_core.h                   |   1 +
+>  10 files changed, 331 insertions(+), 256 deletions(-)
+>  delete mode 100644 drivers/firmware/efi/earlycon.c
+>  create mode 100644 drivers/video/fbdev/earlycon.c
+>
+> --
+> 2.37.0
+>
