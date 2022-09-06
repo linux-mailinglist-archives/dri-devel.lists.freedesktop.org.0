@@ -1,63 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7515AF454
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 21:18:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 337675AF456
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 21:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5650310E8B8;
-	Tue,  6 Sep 2022 19:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5B0810E8BD;
+	Tue,  6 Sep 2022 19:20:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E25AE10E8B8
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 19:18:13 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id az27so16908909wrb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 12:18:13 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6041010E8BD
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 19:20:13 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id b5so16920894wrr.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 12:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=ldW0aueJLSvFBgFoP+jVpya8KF5NDDRSTKWLEKQB0Mg=;
- b=UfB5K2IGJ3KmpZjfe/zyCnJmZ5c3Kq9j3d+0Rv76CZxF3H96scfi3BURNTLXDCp8NZ
- hD/ENVoNsH9mTdc8HeffjfefDZYsneYwEiy7VA2JNg6h7d2JdxWyHUXiPlQLdz4EP5rw
- 3mVD3HHGkOyrGMvtVhHpOPu/wTHimVHE+ZnGY=
+ bh=JBbOD4Th6LbVkQpdXwMwkeCYpgGwuYVhT5D76mqGpyk=;
+ b=ab1LeK9V8gMOBbPgIBIHOKTEZEsdj/tzazAJWdI0eLZkyQ+RmS+bj/I3JY2II1NVKK
+ bK2AAn6YIZone9eMQk+NVOtXwioYE5R9ldP0aI9wHeSIU5N4n0XbsyQFwq9xwN3Crtff
+ 6XfdfRKHsuEn0WfC61OZCmAylFZOxxwvbJQ2w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=ldW0aueJLSvFBgFoP+jVpya8KF5NDDRSTKWLEKQB0Mg=;
- b=eet/VxkATrvbTlQk+IQe6xLkYXO5vMXGnQ3Krw1a2VlVbmd1vpX+O+jrkoLjK+o/EL
- BYGk9Ip9sOmsNFPTkXCJxHFi/NJ2N/bhO3t23ssrhdGdMdn3LgcI4Tb0i+JuY5m3l7hO
- fyzM4lcGZOLrKQejdrHJcDwbEp1ZD1t4iPkxSsEHbUPfb3iNDpEERVuepPMLMB2jEVTL
- 2HnuvfnyAgX5SUQq7SD82LqHRuoC4WknOO1OXGiiQsjIRgbtWG9PwjjD22bv5d792Sgl
- fe/5GuNnjIcBxsjVUaTbDs7q4LFcWilrnAtf9Th+wDGXV3MYEwAi+Nix6vPOyTenrInc
- +Liw==
-X-Gm-Message-State: ACgBeo2ta6vwN8t5G8SuAz0Kgi0OHkpC7k/xWEZ6oKGPPm61f0uRF9K2
- AeDbVe6MFmt8Vv/NxPDJKii5Qw==
-X-Google-Smtp-Source: AA6agR7/xGFspJWbW+/38yyVTrYmpvw1aq1F4ekVwGK63qBo1VvKHy6ltg3qtJAHeQrqYUJh87qgVg==
-X-Received: by 2002:a5d:6d8f:0:b0:225:6285:47fb with SMTP id
- l15-20020a5d6d8f000000b00225628547fbmr29375256wrs.211.1662491891887; 
- Tue, 06 Sep 2022 12:18:11 -0700 (PDT)
+ bh=JBbOD4Th6LbVkQpdXwMwkeCYpgGwuYVhT5D76mqGpyk=;
+ b=Oruz79hNsx9mXPszEfSZ0Gmju09jS6GnUF/+AprAw5Kec6Elj2nSnqcJvZKeLL1IyI
+ RoRLuYjZxKXwJhYRrwHEZLREpRzPwHYCx7DeUvMkgg4p+Xnpo38sojTJ0XuEXcmkxsXB
+ A2XhYvRUFwjPArNf+Ob5oA/3FyLa58lkbhlN4OwBFrc2YsdonnVgYQUt0j5g9NqUTH1Y
+ 7j6DiiZ2DMBuso+r+n4O3VMeRs2d9HBgh4yk8bfWA6vYcpq4drGsl7FUv2PDcT8BnMOY
+ 0fjZGshlK5hzB40fo5AcgvnmTv6EQb0GXK6QqAznVEBfNo3Sw6/q4IytTKIkJ8Q0st2B
+ iYcQ==
+X-Gm-Message-State: ACgBeo3fsgUKErPM1WU8eN7jDbUL2P3DBNoA1IXx6ZmL+mhbg+IaqrqB
+ tRxGtIMEbR2IVRLr9IfehU4PBQ==
+X-Google-Smtp-Source: AA6agR7s5AlYlrOxghESsZ4+3Qcrs8fb9ngZ+hpcsivOwL4x4Ijuz8sD24+anIui5VOv8p/Q8Y2+LA==
+X-Received: by 2002:a5d:50c1:0:b0:228:d77e:4b33 with SMTP id
+ f1-20020a5d50c1000000b00228d77e4b33mr3101160wrt.677.1662492011422; 
+ Tue, 06 Sep 2022 12:20:11 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- bd7-20020a05600c1f0700b003a331c6bffdsm15569682wmb.47.2022.09.06.12.18.10
+ z16-20020a5d4c90000000b002254880c049sm13871298wrs.31.2022.09.06.12.20.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 12:18:11 -0700 (PDT)
-Date: Tue, 6 Sep 2022 21:18:09 +0200
+ Tue, 06 Sep 2022 12:20:10 -0700 (PDT)
+Date: Tue, 6 Sep 2022 21:20:09 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v4 00/41] DYNDBG: opt-in class'd debug for modules, use
- in drm.
-Message-ID: <Yxec8VRCQT5fJdqk@phenom.ffwll.local>
-References: <20220720153233.144129-1-jim.cromie@gmail.com>
- <CAJfuBxxPRj-u5S45pPfAEaE46ji0--MTVxryEAUPe1+1c1jgEw@mail.gmail.com>
- <17628790-3905-460d-8734-981cfa8e7e51@akamai.com>
- <YvUz2Nk6YHl+jVwR@phenom.ffwll.local> <YvXtQ7/FJFSVXlGU@kroah.com>
+To: Yunxiang Li <Yunxiang.Li@amd.com>
+Subject: Re: [PATCH 2/2] drm: get lock before accessing vblank refcount
+Message-ID: <YxedadEMAfWHON8P@phenom.ffwll.local>
+References: <20220722215234.129793-1-Yunxiang.Li@amd.com>
+ <20220722215234.129793-2-Yunxiang.Li@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YvXtQ7/FJFSVXlGU@kroah.com>
+In-Reply-To: <20220722215234.129793-2-Yunxiang.Li@amd.com>
 X-Operating-System: Linux phenom 5.18.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,66 +68,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Jason Baron <jbaron@akamai.com>, Sean Paul <seanpaul@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gvt-dev@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 12, 2022 at 08:03:47AM +0200, Greg KH wrote:
-> On Thu, Aug 11, 2022 at 06:52:40PM +0200, Daniel Vetter wrote:
-> > On Wed, Aug 03, 2022 at 04:13:05PM -0400, Jason Baron wrote:
-> > > 
-> > > 
-> > > On 8/3/22 15:56, jim.cromie@gmail.com wrote:
-> > > > On Wed, Jul 20, 2022 at 9:32 AM Jim Cromie <jim.cromie@gmail.com> wrote:
-> > > >>
-> > > > 
-> > > >> Hi Jason, Greg, DRM-folk,
-> > > >>
-> > > >> This adds 'typed' "class FOO" support to dynamic-debug, where 'typed'
-> > > >> means either DISJOINT (like drm debug categories), or VERBOSE (like
-> > > >> nouveau debug-levels).  Use it in DRM modules: core, helpers, and in
-> > > >> drivers i915, amdgpu, nouveau.
-> > > >>
-> > > > 
-> > > > This revision fell over, on a conflict with something in drm-MUMBLE
-> > > > 
-> > > > Error: patch https://urldefense.com/v3/__https://patchwork.freedesktop.org/api/1.0/series/106427/revisions/2/mbox/__;!!GjvTz_vk!UCPl5Uf32cDVwwysMTfaLwoGLWomargFXuR8HjBA3xsUOjxXHXC5hneAkP4iWK91yc-LjjJxWW89-51Z$ 
-> > > > not applied
-> > > > Applying: dyndbg: fix static_branch manipulation
-> > > > Applying: dyndbg: fix module.dyndbg handling
-> > > > Applying: dyndbg: show both old and new in change-info
-> > > > Applying: dyndbg: reverse module walk in cat control
-> > > > Applying: dyndbg: reverse module.callsite walk in cat control
-> > > > Applying: dyndbg: use ESCAPE_SPACE for cat control
-> > > > Applying: dyndbg: let query-modname override actual module name
-> > > > Applying: dyndbg: add test_dynamic_debug module
-> > > > Applying: dyndbg: drop EXPORTed dynamic_debug_exec_queries
-> > > > 
-> > > > Jason,
-> > > > those above are decent maintenance patches, particularly the drop export.
-> > > > It would be nice to trim this unused api this cycle.
-> > > 
-> > > Hi Jim,
-> > > 
-> > > Agreed - I was thinking the same thing. Feel free to add
-> > > Acked-by: Jason Baron <jbaron@akamai.com> to those first 9.
-> > 
-> > Does Greg KH usually pick up dyndbg patches or someone else or do I need
-> > to do something? Would be great to get some movement here since -rc1 goes
-> > out and merging will restart next week.
+On Fri, Jul 22, 2022 at 05:52:34PM -0400, Yunxiang Li wrote:
+> Acquire vbl_lock before accessing vblank refcount in drm_vblank_put,
+> just like everywhere else that access the refcount.
 > 
-> Yes, I can take these into my tree after -rc1 is out.
+> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
 
-[uncovering from an absolutely impressive cascade of holes :-(]
+The entire point of using atomic for the refcount is that we can check it
+lockless, so I'm not sure what you're trying to fix here?
 
-Did this happen and I can stop worrying here? I'd like to make sure these
-drm debug infra improvements keep moving.
+For the first patch I think it's clear that the bug needs to be fixed in
+amdgpu dc code already.
 -Daniel
+> ---
+>  drivers/gpu/drm/drm_vblank.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 159d13b5d97b..77b8c40fc7ba 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -1203,15 +1203,22 @@ EXPORT_SYMBOL(drm_crtc_vblank_get);
+>  void drm_vblank_put(struct drm_device *dev, unsigned int pipe)
+>  {
+>  	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> +	unsigned long irqflags;
+> +	int ret;
+>  
+>  	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
+>  		return;
+>  
+> -	if (drm_WARN_ON(dev, atomic_read(&vblank->refcount) == 0))
+> +	spin_lock_irqsave(&dev->vbl_lock, irqflags);
+> +	if (drm_WARN_ON(dev, atomic_read(&vblank->refcount) == 0)) {
+> +		spin_unlock_irqrestore(&dev->vbl_lock, irqflags);
+>  		return;
+> +	}
+>  
+>  	/* Last user schedules interrupt disable */
+> -	if (atomic_dec_and_test(&vblank->refcount)) {
+> +	ret = atomic_dec_and_test(&vblank->refcount);
+> +	spin_unlock_irqrestore(&dev->vbl_lock, irqflags);
+> +	if (ret) {
+>  		if (drm_vblank_offdelay == 0)
+>  			return;
+>  		else if (drm_vblank_offdelay < 0)
+> -- 
+> 2.37.1
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
