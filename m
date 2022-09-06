@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D275AEF26
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 17:43:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4B45AEF28
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 17:43:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCC9E10E6E5;
-	Tue,  6 Sep 2022 15:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ECD210E6E7;
+	Tue,  6 Sep 2022 15:43:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45EC110E6E5;
- Tue,  6 Sep 2022 15:42:52 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB7F10E6E4;
+ Tue,  6 Sep 2022 15:43:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662478972; x=1694014972;
+ t=1662479023; x=1694015023;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=q/t2xXJOCKIwwsKytBeRNJazqwWcqDJbNilXTWorb9M=;
- b=cRdvV8K2yVmt8IjXJ4W6983MFC8Ih70MStbAks/MBv42MCFk33YqlR3J
- FLgH/RVKgC4UPrEjNV3g9zLXYCUpLqdKcfWjcIqonr0iWsBNDusoS4BX3
- gr/2ff0r44aAjBD5Ls+2p9eVlYtANS5lr7DZ3RjqJCb3K5G1KtFXDpk6S
- TvX6u6V1hD4JtHewFxmCiBl3wxB6Xf9Bd7j+HqDBkBJaV7d+/0OBTayqW
- lrZF3uuwIXaN/X39BnMmf8UyRlL8LrSie/XfQr0568gntU7Z+T1ZdZOIg
- 5pC+D9IJ95duZfmzIuKi3ZAaWixMhRIju1zSKjkO0B6RV+DbaDM+RlAvf Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="360573240"
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="360573240"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2022 08:42:51 -0700
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="675743427"
+ bh=CaMgLHEjsfrl4wy2+FqMtiXTpfVitXdiE74La0RhvIU=;
+ b=ZAWW3/oHQhcAeceFAWn8ailtwn+QE4RAvneKhFA1s4XrbIy1K+rBCGI2
+ d1zpf+AcfUfHaLgZrtIEBxHsT3zAfuay2pjV2Yj/uNp0K/YuTDYCr0HbR
+ MBlgoeyfgk8tTpiC3VSvcLvonlOJaXoz04Dm9pPNjKbAudz9I2iIQn8+U
+ UoD0LC63vJEWN1Zh7I18NP6RkB1HHwYVXDesbspYGjuVdwyEuHzt0Dr8M
+ rn4YAvxMZiCNhPTnoqSTavHOCh7Pf09QwUlmjECEcy/DSZ8ETor7o0We4
+ 17L7zU/H+DOvm6PN95KjCdHNjzhYbYcIBJ5n2BZHmf9k6R/6/gi1ViKwb w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="382922938"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="382922938"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2022 08:43:42 -0700
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="644215558"
 Received: from amomin-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.44.228])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2022 08:42:48 -0700
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2022 08:43:39 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 0/4] Add DP MST DSC support to i915
-In-Reply-To: <20220905085744.29637-1-stanislav.lisovskiy@intel.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/4] drm: Add missing DP DSC extended capability
+ definitions.
+In-Reply-To: <8735d4a7vm.fsf@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20220905085744.29637-1-stanislav.lisovskiy@intel.com>
-Date: Tue, 06 Sep 2022 18:42:31 +0300
-Message-ID: <87v8q08q6w.fsf@intel.com>
+ <20220905085744.29637-2-stanislav.lisovskiy@intel.com>
+ <8735d4a7vm.fsf@intel.com>
+Date: Tue, 06 Sep 2022 18:43:22 +0300
+Message-ID: <87sfl48q5h.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,47 +61,89 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: manasi.d.navare@intel.com, vinod.govindapillai@intel.com,
- dri-devel@lists.freedesktop.org, Stanislav.Lisovskiy@intel.com,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, jani.saarinen@intel.com
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Stanislav.Lisovskiy@intel.com, jani.saarinen@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 05 Sep 2022, Stanislav Lisovskiy <stanislav.lisovskiy@intel.com> wrote:
-> Currently we have only DSC support for DP SST.
+On Tue, 06 Sep 2022, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Mon, 05 Sep 2022, Stanislav Lisovskiy <stanislav.lisovskiy@intel.com> wrote:
+>> Adding DP DSC register definitions, we might need for further
+>> DSC implementation, supporting MST and DP branch pass-through mode.
+>>
+>> v2: - Fixed checkpatch comment warning
+>> v3: - Removed function which is not yet used(Jani Nikula)
+>>
+>> Reviewed-by: Vinod Govindapillai <vinod.govindapillai@intel.com>
+>>
+>> Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+>
+> Maarten, Maxime, Thomas -
+>
+> So this got pushed to drm-intel-next without your acks. Apologies. Can
+> we live with it, or want a revert?
 
-As discussed elsewhere, the patches were modified while applying to
-resolve conflicts, leading to further conflicts in drm-tip rebuild, and
-eventually drm-tip build breakage. They would've created further
-conflicts in linux-next as well as drm-intel-next feature pull (or
-drm-next backmerge to drm-intel-next).
-
-I've gone ahead and reverted the commits from drm-intel-next directly,
-with Rodrigo's ack. The conflict resolution would have been messy and
-generated a bunch of extra work, and we needed to get drm-tip build back
-on track ASAP.
-
-We'll need to have a clean baseline to apply the patches on, i.e.
-drm-misc-next pull request to drm-next, and drm-next backmerge to
-drm-intel-next.
-
+I've reverted anyway for other reasons. But can we have an ack for the
+future? :)
 
 BR,
 Jani.
 
-
 >
-> Stanislav Lisovskiy (4):
->   drm: Add missing DP DSC extended capability definitions.
->   drm/i915: Fix intel_dp_mst_compute_link_config
->   drm/i915: Extract drm_dp_atomic_find_vcpi_slots cycle to separate
->     function
->   drm/i915: Add DSC support to MST path
 >
->  drivers/gpu/drm/i915/display/intel_dp.c     |  73 ++++----
->  drivers/gpu/drm/i915/display/intel_dp.h     |  17 ++
->  drivers/gpu/drm/i915/display/intel_dp_mst.c | 195 ++++++++++++++++++--
->  include/drm/display/drm_dp.h                |  10 +-
->  4 files changed, 237 insertions(+), 58 deletions(-)
+> BR,
+> Jani.
+>
+>
+>> ---
+>>  include/drm/display/drm_dp.h | 10 +++++++++-
+>>  1 file changed, 9 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+>> index 6c0871164771..02c4b6f20478 100644
+>> --- a/include/drm/display/drm_dp.h
+>> +++ b/include/drm/display/drm_dp.h
+>> @@ -239,6 +239,9 @@
+>>  
+>>  #define DP_DSC_SUPPORT                      0x060   /* DP 1.4 */
+>>  # define DP_DSC_DECOMPRESSION_IS_SUPPORTED  (1 << 0)
+>> +# define DP_DSC_PASS_THROUGH_IS_SUPPORTED   (1 << 1)
+>> +# define DP_DSC_DYNAMIC_PPS_UPDATE_SUPPORT_COMP_TO_COMP    (1 << 2)
+>> +# define DP_DSC_DYNAMIC_PPS_UPDATE_SUPPORT_UNCOMP_TO_COMP  (1 << 3)
+>>  
+>>  #define DP_DSC_REV                          0x061
+>>  # define DP_DSC_MAJOR_MASK                  (0xf << 0)
+>> @@ -277,12 +280,15 @@
+>>  
+>>  #define DP_DSC_BLK_PREDICTION_SUPPORT       0x066
+>>  # define DP_DSC_BLK_PREDICTION_IS_SUPPORTED (1 << 0)
+>> +# define DP_DSC_RGB_COLOR_CONV_BYPASS_SUPPORT (1 << 1)
+>>  
+>>  #define DP_DSC_MAX_BITS_PER_PIXEL_LOW       0x067   /* eDP 1.4 */
+>>  
+>>  #define DP_DSC_MAX_BITS_PER_PIXEL_HI        0x068   /* eDP 1.4 */
+>>  # define DP_DSC_MAX_BITS_PER_PIXEL_HI_MASK  (0x3 << 0)
+>>  # define DP_DSC_MAX_BITS_PER_PIXEL_HI_SHIFT 8
+>> +# define DP_DSC_MAX_BPP_DELTA_VERSION_MASK  0x06
+>> +# define DP_DSC_MAX_BPP_DELTA_AVAILABILITY  0x08
+>>  
+>>  #define DP_DSC_DEC_COLOR_FORMAT_CAP         0x069
+>>  # define DP_DSC_RGB                         (1 << 0)
+>> @@ -344,11 +350,13 @@
+>>  # define DP_DSC_24_PER_DP_DSC_SINK          (1 << 2)
+>>  
+>>  #define DP_DSC_BITS_PER_PIXEL_INC           0x06F
+>> +# define DP_DSC_RGB_YCbCr444_MAX_BPP_DELTA_MASK 0x1f
+>> +# define DP_DSC_RGB_YCbCr420_MAX_BPP_DELTA_MASK 0xe0
+>>  # define DP_DSC_BITS_PER_PIXEL_1_16         0x0
+>>  # define DP_DSC_BITS_PER_PIXEL_1_8          0x1
+>>  # define DP_DSC_BITS_PER_PIXEL_1_4          0x2
+>>  # define DP_DSC_BITS_PER_PIXEL_1_2          0x3
+>> -# define DP_DSC_BITS_PER_PIXEL_1            0x4
+>> +# define DP_DSC_BITS_PER_PIXEL_1_1          0x4
+>>  
+>>  #define DP_PSR_SUPPORT                      0x070   /* XXX 1.2? */
+>>  # define DP_PSR_IS_SUPPORTED                1
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
