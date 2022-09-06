@@ -2,67 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0696F5AF45F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 21:25:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8F75AF462
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 21:26:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69C3E10E1D2;
-	Tue,  6 Sep 2022 19:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5F810E8C1;
+	Tue,  6 Sep 2022 19:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C644F10E1D2
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 19:25:22 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- n23-20020a7bc5d7000000b003a62f19b453so10230190wmk.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 12:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date; bh=O7HFSBd6XXtgczqxk8rJIEgRQ1dsVZ7RdrRe4zB43BQ=;
- b=W6LImk3qCnRM04osl5Ur9jTV8Nl1Pnmr0Q8v74EVcYgRMeGZoxuj7cW7rcgLX4jrMf
- Eiyos7XlKMjnaJ52wkEG5ubnR6BRrd3VMTPFNCUmMAT2Jb4HTfrS3djtJhyKvAz7j2xw
- JCnw2JfKE0ELWOtcwLu7+o9JrkvzXBCztp1O0=
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33AC110E8C1
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 19:26:48 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id cu2so25675333ejb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 12:26:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=3oOVdi/bQtPCfcN+ik9XE1mlmO3wSv0j3YsV+Rxg9iA=;
+ b=oi+lsbgrsow9eDnffOWYdWZn4LHOIOGIOUe13rTHqTRCoiuHIMKfqZu2hMrnBmEDZf
+ sdpLszwKJF4wcItH10Gu5dYZH85MdPRVCwbugwAhEuAFcgxy6hkXnUaszaH8TcTxKbBT
+ dRfDl0qCbcEA/yByUASgFx/EuLvYr/BJYr27xx8NkZ4VRhKy4YkRwlDKzBJjFB8y9DO0
+ hwVyxz0Z6dgjavxRhDvcb3YBNnUROMbRikIG6tqHMf6AWhGvg0homiIxi7iyiu4FlMTY
+ bHfRzthhlW3dusDlm/x94JHGS5coTG5jDaStTJBO5aknisKj/UugmTQ/UcIi8Fa+gJMa
+ uUDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=O7HFSBd6XXtgczqxk8rJIEgRQ1dsVZ7RdrRe4zB43BQ=;
- b=TAymkxgAc1w4EZcct5+uPxp397BOZujmijtgUZvJDJQ1hk7WivfIJHcAILR/WBAYPz
- TkmVHIR2/8UyPK0TdqxPi+JxnAb1OADW8vhoTR48eWmuehoiSlBnDCr/nOrPlk6fWCf8
- MH3d+jNc5D2hO60qHeOQJk5OEtFpSG+WB7lvsy+e3ojey63pY4T9uiiQGhINOBg13iOj
- b+HeCi93ZkNi9nDH2GEOqp7IWpL2IcxFYQ43N/537ti6rbHDv+G0cm1LEToVfS/ICf68
- WkG+EPDELPc/fEmu8MmaWcB1mcksmMBQZl32yanY1XklBXBEyaAuRNl1qaBD9i8Apb3Q
- w/ZA==
-X-Gm-Message-State: ACgBeo2LhPNp9ih+F0CSZsDgzm250qdvhJilrx8mAK8VTgGmur2+hYSM
- GmGLeF0DfugXz4uGYDRswUcETQ==
-X-Google-Smtp-Source: AA6agR6y8oDo3luv78yosJfIkhgfExQRhucenfJOK7BenFEnE+87Wy3bt6e6H/YvRgAnXmqYxPzIwg==
-X-Received: by 2002:a05:600c:3ac6:b0:3a5:c03f:510d with SMTP id
- d6-20020a05600c3ac600b003a5c03f510dmr14693176wms.120.1662492320836; 
- Tue, 06 Sep 2022 12:25:20 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- p8-20020a1c5448000000b003a63a3b55c3sm22643853wmi.14.2022.09.06.12.25.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 12:25:20 -0700 (PDT)
-Date: Tue, 6 Sep 2022 21:25:18 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Alisa Khabibrakhmanova <khabibrakhmanova@ispras.ru>
-Subject: Re: [PATCH] drm/via: Add new condition to via_dma_cleanup()
-Message-ID: <YxeengBAncBqNab0@phenom.ffwll.local>
-Mail-Followup-To: Alisa Khabibrakhmanova <khabibrakhmanova@ispras.ru>,
- David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, ldv-project@linuxtesting.org
-References: <YuAjDvYey1hhI1AJ@ravnborg.org>
- <20220729090643.240778-1-khabibrakhmanova@ispras.ru>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=3oOVdi/bQtPCfcN+ik9XE1mlmO3wSv0j3YsV+Rxg9iA=;
+ b=ldwsFhIZc+J00/900f7U4cULKK7ts9Co4XoJDCJ4H2mXmDaWlirg/oqqPpp8GnwEJ/
+ bbrxQUBoiZo2u0HqWGL754Nw+eNMg2Vqt1v/d5ce3OZbBqtm/Z2lOccaG97cjol/4FVO
+ WDku3PEGtxpTNClJr+RESRdBdvImjuwXJjAk7czWsTlYHPL5kaa1FR8rGviao2MTg8AL
+ 1ZPSw5oiVExVseivgIPEvAOly0SqOz3YnvSVxnASsdopoy6AvQAAItmQCZZ+wzGkxW8u
+ Mss5tbV8ZnjaNFpNzivbct7JDOcAoaoG1WKMv8j8LO/CyZYi/9z27RT4O2gXPjsdG2AN
+ QMvw==
+X-Gm-Message-State: ACgBeo2Nhtih8r82PUKkJKylR60DW/BxBkULthLSFcU9JtoGpFdX4Vps
+ WgOd9bao4w8NLWGAJi30UZUh+s2e9Ac6lGwer0k=
+X-Google-Smtp-Source: AA6agR70GthhctG+XzaKnAyD3X1E8+YQzb/0n4Tcz5GSF++oD42tAArTNShHfOuNh/UxP2ah4WQAFSc4TdMmm+SuxC4=
+X-Received: by 2002:a17:906:9fc1:b0:761:9192:504f with SMTP id
+ hj1-20020a1709069fc100b007619192504fmr23306ejc.116.1662492406523; Tue, 06 Sep
+ 2022 12:26:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220729090643.240778-1-khabibrakhmanova@ispras.ru>
-X-Operating-System: Linux phenom 5.18.0-4-amd64 
+References: <20220906153034.153321-1-peron.clem@gmail.com>
+ <20220906153034.153321-4-peron.clem@gmail.com>
+ <12048299.O9o76ZdvQC@kista>
+In-Reply-To: <12048299.O9o76ZdvQC@kista>
+From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Date: Tue, 6 Sep 2022 21:26:34 +0200
+Message-ID: <CAJiuCceZg_6p4yo89e0X3fD9aXFs9Xik8b8KUM+Psdy_4paKPw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/5] arm64: dts: allwinner: h6: Add GPU OPP table
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,52 +67,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ldv-project@linuxtesting.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-sunxi@lists.linux.dev,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 29, 2022 at 12:06:43PM +0300, Alisa Khabibrakhmanova wrote:
-> Pointer dev_priv->mmio, which was checked for NULL at via_do_init_map(),
-> is passed to via_do_cleanup_map() and is dereferenced there without check.
-> 
-> The patch adds the condition in via_dma_cleanup() which prevents potential NULL
-> pointer dereference.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: 22f579c621e2 ("drm: Add via unichrome support")
-> Signed-off-by: Alisa Khabibrakhmanova <khabibrakhmanova@ispras.ru>
+Hi Jernej,
 
-This seems to have fallen through cracks, I applied it to drm-misc-next
-now.
+On Tue, 6 Sept 2022 at 21:10, Jernej =C5=A0krabec <jernej.skrabec@gmail.com=
+> wrote:
+>
+> Dne torek, 06. september 2022 ob 17:30:32 CEST je Cl=C3=A9ment P=C3=A9ron=
+ napisal(a):
+> > Add an Operating Performance Points table for the GPU to
+> > enable Dynamic Voltage & Frequency Scaling on the H6.
+> >
+> > The voltage range is set with minimal voltage set to the target
+> > and the maximal voltage set to 1.2V. This allow DVFS framework to
+> > work properly on board with fixed regulator.
+> >
+> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+> > ---
+> >  .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 87 +++++++++++++++++++
+> >  1 file changed, 87 insertions(+)
+> >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dts=
+i
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
+> > b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi new file mode 10=
+0644
+> > index 000000000000..b48049c4fc85
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
+> > @@ -0,0 +1,87 @@
+> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +// Copyright (C) 2022 Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+> > +
+> > +/ {
+> > +     gpu_opp_table: opp-table-gpu {
+> > +             compatible =3D "operating-points-v2";
+> > +
+> > +             opp-216000000 {
+> > +                     opp-hz =3D /bits/ 64 <216000000>;
+> > +                     opp-microvolt =3D <810000 810000 1200000>;
+> > +             };
+> > +
+> > +             opp-264000000 {
+> > +                     opp-hz =3D /bits/ 64 <264000000>;
+> > +                     opp-microvolt =3D <810000 810000 1200000>;
+> > +             };
+>
+> As mentioned in clock patch review, rates below 288 MHz are deemed unstab=
+le on
+> GPU PLL by vendor GPU kernel driver. At least in the BSP version that I h=
+ave.
+> Did you test these points? If not, better to drop them.
 
-Thanks for your patch.
--Daniel
+I changed the governor to userspace and set the freq to 216MHz / 264MHz
+Run glmark2 and didn't observe any glitch nor issue.
 
-> ---
->  drivers/gpu/drm/via/via_dri1.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/via/via_dri1.c b/drivers/gpu/drm/via/via_dri1.c
-> index d695d9291ece..691e3ceb0062 100644
-> --- a/drivers/gpu/drm/via/via_dri1.c
-> +++ b/drivers/gpu/drm/via/via_dri1.c
-> @@ -2961,7 +2961,7 @@ int via_dma_cleanup(struct drm_device *dev)
->  		drm_via_private_t *dev_priv =
->  		    (drm_via_private_t *) dev->dev_private;
->  
-> -		if (dev_priv->ring.virtual_start) {
-> +		if (dev_priv->ring.virtual_start && dev_priv->mmio) {
->  			via_cmdbuf_reset(dev_priv);
->  
->  			drm_legacy_ioremapfree(&dev_priv->ring.map, dev);
-> -- 
-> 2.34.1
-> 
+I'm not sure if it's enough to say it's stable but I didn't observe
+any strange behavior.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+Clement
+
+>
+> Best regards,
+> Jernej
+>
+> > +
+> > +             opp-312000000 {
+> > +                     opp-hz =3D /bits/ 64 <312000000>;
+> > +                     opp-microvolt =3D <810000 810000 1200000>;
+> > +             };
+> > +
+> > +             opp-336000000 {
+> > +                     opp-hz =3D /bits/ 64 <336000000>;
+> > +                     opp-microvolt =3D <810000 810000 1200000>;
+> > +             };
+> > +
+> > +             opp-360000000 {
+> > +                     opp-hz =3D /bits/ 64 <360000000>;
+> > +                     opp-microvolt =3D <820000 820000 1200000>;
+> > +             };
+> > +
+> > +             opp-384000000 {
+> > +                     opp-hz =3D /bits/ 64 <384000000>;
+> > +                     opp-microvolt =3D <830000 830000 1200000>;
+> > +             };
+> > +
+> > +             opp-408000000 {
+> > +                     opp-hz =3D /bits/ 64 <408000000>;
+> > +                     opp-microvolt =3D <840000 840000 1200000>;
+> > +             };
+> > +
+> > +             opp-420000000 {
+> > +                     opp-hz =3D /bits/ 64 <420000000>;
+> > +                     opp-microvolt =3D <850000 850000 1200000>;
+> > +             };
+> > +
+> > +             opp-432000000 {
+> > +                     opp-hz =3D /bits/ 64 <432000000>;
+> > +                     opp-microvolt =3D <860000 860000 1200000>;
+> > +             };
+> > +
+> > +             opp-456000000 {
+> > +                     opp-hz =3D /bits/ 64 <456000000>;
+> > +                     opp-microvolt =3D <870000 870000 1200000>;
+> > +             };
+> > +
+> > +             opp-504000000 {
+> > +                     opp-hz =3D /bits/ 64 <504000000>;
+> > +                     opp-microvolt =3D <890000 890000 1200000>;
+> > +             };
+> > +
+> > +             opp-540000000 {
+> > +                     opp-hz =3D /bits/ 64 <540000000>;
+> > +                     opp-microvolt =3D <910000 910000 1200000>;
+> > +             };
+> > +
+> > +             opp-576000000 {
+> > +                     opp-hz =3D /bits/ 64 <576000000>;
+> > +                     opp-microvolt =3D <930000 930000 1200000>;
+> > +             };
+> > +
+> > +             opp-624000000 {
+> > +                     opp-hz =3D /bits/ 64 <624000000>;
+> > +                     opp-microvolt =3D <950000 950000 1200000>;
+> > +             };
+> > +
+> > +             opp-756000000 {
+> > +                     opp-hz =3D /bits/ 64 <756000000>;
+> > +                     opp-microvolt =3D <1040000 1040000 1200000>;
+> > +             };
+> > +     };
+> > +};
+> > +
+> > +&gpu {
+> > +     operating-points-v2 =3D <&gpu_opp_table>;
+> > +};
+> > --
+> > 2.34.1
+>
+>
