@@ -1,36 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E783D5AE730
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 14:06:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7495AE749
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 14:10:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E72B710E628;
-	Tue,  6 Sep 2022 12:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3500410E629;
+	Tue,  6 Sep 2022 12:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B8C6E10E628
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 12:06:08 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46F1C139F;
- Tue,  6 Sep 2022 05:06:14 -0700 (PDT)
-Received: from [10.57.15.197] (unknown [10.57.15.197])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5A5E73F534;
- Tue,  6 Sep 2022 05:06:07 -0700 (PDT)
-Message-ID: <278d20f5-271f-7118-c6a5-c7854f694879@arm.com>
-Date: Tue, 6 Sep 2022 13:06:01 +0100
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E98E110E629
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 12:10:17 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id y3so22789736ejc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 05:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=vCwl8j+RWcYnHs2Ge4KIIN5Weh4JvqT5rY25vxWNLag=;
+ b=lOa6WYPsC1uUBdMQKtoUl2jwn4GzkujrcdNHqpHHagPEkQznc0SQeaek3uPXhsII9/
+ aWPQmIh2WGQPv77i4xNjBsSWZ8abLLQe+5DF3vYb4xuKgBVSFgzLmamx19gqzj+Qfi5q
+ Em92ghJNH10uPXU62B69AYerZ6D/8jZbKnj1kmFla5ZL8FK6XqyPf+4kqZ9++hn2PlII
+ Bsp9dHsaKTze2hAOo6NLT/sGZytLyUlAODLhJn49VeVWs3KkglxqcPf4RNCiGsruzntX
+ fVgwOzbzHgjK3Tzqz8Jj55H+wD8Fk8kC8PuzcwFx1aHhT/B65klc5BVwIi/sDedtJuY1
+ gkaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=vCwl8j+RWcYnHs2Ge4KIIN5Weh4JvqT5rY25vxWNLag=;
+ b=qLct+f8HGTEHh/PIsMyrcXLWjPoEw2K2BHCR93P23nEJyTQk0kAiLzT+pyStNplLCt
+ tki6TpvHOe/OHiDLA+YuyKEUgJYGcWn++nR4nbG+NfaJXmXWW0pO+6uYzY1DG+GbHOkK
+ LMjnd0HDM7qfjxaHo8aUhA5r/8ryWOOdVRzulzooQQEs0x9xqBxkAtQlweph9Ob8XCxx
+ bgim5AFkKOjHaAR/0vHfcXOKkhM7xAp5GJpp4Xt/rYIUjzSR2ZFTlZf58R5r4HSreYfb
+ veJWfuBWuYCE1Fjn+nvQWWZHBKPwhE5tlqxz75USqbc4knf5PTrXTylXLqJIx80lfK3Y
+ sccw==
+X-Gm-Message-State: ACgBeo3854aS8OrtR7SD0GXQxUU7qdK22jVtDMWlPwGJVeHpHgANvAlv
+ EkB87/Uc75YDlNYeooEhjB/lZfQ1uFpTbIsnMtDqog==
+X-Google-Smtp-Source: AA6agR7GgqK7ijpgcdaNkqRz3n6PJtmaaPGE/4WCyXXWgF5BzYxZFDL2Rnn6TA/iG4hP73Hpgtay6650+CxP+9k+oDY=
+X-Received: by 2002:a17:906:eece:b0:76f:5c6:2340 with SMTP id
+ wu14-20020a170906eece00b0076f05c62340mr2662494ejb.383.1662466215963; Tue, 06
+ Sep 2022 05:10:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: mesa-22.3.0-devel + linux-5.19.6 + mediapipe: panfrost js fault
-Content-Language: en-GB
-To: Chris Ruehl <chris.ruehl@gtsys.com.hk>, dri-devel@lists.freedesktop.org
-References: <254478a0-4077-00fb-7923-2d8d45f1c59a@gtsys.com.hk>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <254478a0-4077-00fb-7923-2d8d45f1c59a@gtsys.com.hk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220903130833.541463-1-xji@analogixsemi.com>
+ <CAG3jFyum5M8iGdW++c7rayUn4ogJ6izWaX7VaqMfV7ShAe_kRQ@mail.gmail.com>
+ <20220906025753.GA642918@anxtwsw-Precision-3640-Tower>
+In-Reply-To: <20220906025753.GA642918@anxtwsw-Precision-3640-Tower>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 6 Sep 2022 14:10:05 +0200
+Message-ID: <CAG3jFysnwnq7pQE4fKA3XiUzZPC0inJOyvszaf2QGNsMhqCVUw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: Set HPD irq detect window to 2ms
+To: Xin Ji <xji@analogixsemi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,60 +65,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, qwen@analogixsemi.com,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, mliu@analogixsemi.com,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, hsinyi@chromium.org,
+ bliang@analogixsemi.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-09-04 05:13, Chris Ruehl wrote:
-> Hi,
-> 
-> Something you might have a head up for it,
-> 
-> have a mediapipe application for POSE which use the T860 GPU for the 
-> calculation
-> but the kernel driver report error (js fault) - I see one or 2 
-> calculation frames on the mat-picture output only before
-> the pipe stop working.
-> 
-> Linux bullseye64 5.19.6 #1 SMP PREEMPT Fri Sep 2 02:25:59 UTC 2022 
-> aarch64 GNU/Linux
-> 
-> [    5.164415] panfrost ff9a0000.gpu: clock rate = 500000000
-> [    5.169845] panfrost ff9a0000.gpu: [drm:panfrost_devfreq_init 
-> [panfrost]] Failed to register cooling device
-> [    5.169989] panfrost ff9a0000.gpu: mali-t860 id 0x860 major 0x2 minor 
-> 0x0 status 0x0
-> [    5.169999] panfrost ff9a0000.gpu: features: 00000000,00000407, 
-> issues: 00000000,24040400
-> [    5.170008] panfrost ff9a0000.gpu: Features: L2:0x07120206 
-> Shader:0x00000000 Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
-> [    5.170017] panfrost ff9a0000.gpu: shader_present=0xf l2_present=0x1
-> [    5.206827] [drm] Initialized panfrost 1.2.0 20180908 for 
-> ff9a0000.gpu on minor 1
-> ...
-> [  162.862064] panfrost ff9a0000.gpu: js fault, js=1, 
-> status=DATA_INVALID_FAULT, head=0xaba7100, tail=0xaba7100
-> [  162.862269] panfrost ff9a0000.gpu: js fault, js=1, 
-> status=DATA_INVALID_FAULT, head=0xa1e0100, tail=0xa1e0100
-> 
-> Have a RK3399 customized board and compiled the mesa drivers for it
-> 
-> meson $1 . build/ \
-> -D dri-drivers= \
-> -D vulkan-drivers= \
-> -D gallium-drivers=panfrost,kmsro \
-> -D llvm=disabled \
-> -D libunwind=false \
-> -D platforms=x11,wayland
-> 
-> glmark2 runs flawless scores 588.
-> 
-> Same code run on a x86_64 with an AMD GPU working fine.
-> 
-> Anything help fix the bug is welcome.
+On Tue, 6 Sept 2022 at 04:58, Xin Ji <xji@analogixsemi.com> wrote:
+>
+> On Mon, Sep 05, 2022 at 06:48:06PM +0200, Robert Foss wrote:
+> > Hi Xin,
+> >
+> > On Sat, 3 Sept 2022 at 15:09, Xin Ji <xji@analogixsemi.com> wrote:
+> > >
+> > > Some panels trigger HPD irq due to noise, the HPD debounce
+> > > may be 1.8ms, exceeding the default irq detect window, ~1.4ms.
+> > > This patch set HPD irq detection window to 2ms to
+> > > tolerate the HPD noise.
+> > >
+> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 14 ++++++++++++++
+> > >  drivers/gpu/drm/bridge/analogix/anx7625.h |  6 ++++++
+> > >  2 files changed, 20 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > index c74b5df4cade..0c323b5a1c99 100644
+> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > @@ -1440,6 +1440,20 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
+> > >
+> > >  static int anx7625_read_hpd_status_p0(struct anx7625_data *ctx)
+> > >  {
+> > > +       int ret;
+> > > +
+> > > +       /* Set irq detect window to 2ms */
+> > > +       ret = anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > +                               HPD_DET_TIMER_BIT0_7, HPD_TIME & 0xFF);
+> > > +       ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > +                                HPD_DET_TIMER_BIT8_15,
+> > > +                                (HPD_TIME >> 8) & 0xFF);
+> > > +       ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > +                                HPD_DET_TIMER_BIT16_23,
+> > > +                                (HPD_TIME >> 16) & 0xFF);
+> >
+> > Does the HPD debounce timer register need to be written for every HPD
+> > status read?
+> Hi Robert Foss, yes, it is better to set it in every HPD status check, because the
+> HPD may be affected by noise, once the chip detect HPD is low, the timer
+> register will be automatically set to 1.4ms, so the driver better set it
+> in each check loop.
+>
+> Thanks,
+> Xin
+> >
+> > > +       if (ret < 0)
+> > > +               return ret;
+> > > +
+> > >         return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
+> > >  }
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > > index e257a84db962..14f33d6be289 100644
+> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > > @@ -132,6 +132,12 @@
+> > >  #define I2S_SLAVE_MODE 0x08
+> > >  #define AUDIO_LAYOUT   0x01
+> > >
+> > > +#define HPD_DET_TIMER_BIT0_7   0xea
+> > > +#define HPD_DET_TIMER_BIT8_15  0xeb
+> > > +#define HPD_DET_TIMER_BIT16_23 0xec
+> > > +/* HPD debounce time 2ms for 27M clock */
+> > > +#define HPD_TIME               54000
+> > > +
+> > >  #define AUDIO_CONTROL_REGISTER 0xe6
+> > >  #define TDM_TIMING_MODE 0x08
+> > >
+> > > --
+> > > 2.25.1
+> > >
 
-This is almost certainly a userspace problem, so you're best off raising 
-a Mesa issue with some more details - an apitrace of the failing 
-application and/or PAN_MESA_DEBUG=trace output capturing the offending 
-invalid descriptors would probably be a good starting point.
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-Robin.
+Applied to drm-misc-next.
