@@ -1,64 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC40D5AF3BF
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 20:37:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF5B5AF3E9
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 20:48:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3089A10E11A;
-	Tue,  6 Sep 2022 18:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C5B10E120;
+	Tue,  6 Sep 2022 18:48:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 594BF10E0EA
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 18:36:49 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-1274ec87ad5so15447844fac.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 11:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=y9g1AFP23iUxIbJ/LupHZ67b+12wZhLD3PiLPF+2Q5E=;
- b=ZDlPY9byR8JEcQu/dH3WKXa0aCDcAavSMotIz6syh2sUJv8mzy5U68jLhCCb78j//m
- aW6AhoCIFr47+jwmEyTMqZ+gTITnNufGsNqXCC/bLB51sa7kaCVz3vEhvL6skbsQ4p/l
- FWsZIf6yeH1NCP/6hP0CLLR+2TzV/VCyQER/OqJkj/QLopQtnIqSd+fP/PDIgwiPB/tq
- 1bV57+hcujLuAU4HO/Gkf+fTgBLy3mchyS/NG/DUCj6tyvqco5WJnuEu8YYhoLTKQhXU
- h21RZJ8VZWLSNOIwwYfE89BBtJ3hAxxuMaQQl6EUD0Jr82fvzoYQqg58ZFsf67wx/2dX
- T+Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=y9g1AFP23iUxIbJ/LupHZ67b+12wZhLD3PiLPF+2Q5E=;
- b=FhvLCddPxuouXJcKZC3Z7d+O1+3TIF6wLKRW1A+xXCFM9XPIDiKPmhHpaKAf/Euozq
- TlFhi4BSTepsLBEvdPyvBfUMHvSES7oddfX0AYjAuY89et2dnAkJts1iu8aa4wdlPY6u
- Zz/SjLl2sEFlovc/VEdKVwV+2ZYa+kdiU4V4JU1zB/jIl+WxQlZAioV+Ksfd/6+QIGLi
- dTtj5pLFVGm3sy+QYbKPjY+6Tk3knL+S5NcpnrJkIg6g1DIQlGK8ksmS4k2uQx1fS5ZZ
- 8FalwAdpDEBLBJtw4Z+LSMFlSzhApp4AJIVbQ875+GSkx3gshbbrRM+CuqV+K8mVLXmD
- 0Caw==
-X-Gm-Message-State: ACgBeo3+rLp6ARk1FhHwZv2ul7w0+I+nl4Tjl8DX1vWOMk1Otexcb/uB
- cGC8PUEUXgU0AlUmCMT7eftL1w/W97I=
-X-Google-Smtp-Source: AA6agR65tKewA/n8u3zJssvGA00Lj56dHbucb4LIBfb85mT7+/Pp0kVZ2UyelV6wT6DGV/upx/fk3g==
-X-Received: by 2002:a05:6808:643:b0:343:1207:b0b7 with SMTP id
- z3-20020a056808064300b003431207b0b7mr10624055oih.97.1662489407838; 
- Tue, 06 Sep 2022 11:36:47 -0700 (PDT)
-Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
- [76.183.134.35]) by smtp.gmail.com with ESMTPSA id
- j22-20020a9d7f16000000b00638ef9bb847sm6158887otq.79.2022.09.06.11.36.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 11:36:47 -0700 (PDT)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/panel: Add Samsung AMS495QA01 MIPI-DSI LCD panel
-Date: Tue,  6 Sep 2022 13:36:42 -0500
-Message-Id: <20220906183642.12505-3-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220906183642.12505-1-macroalpha82@gmail.com>
-References: <20220906183642.12505-1-macroalpha82@gmail.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2055.outbound.protection.outlook.com [40.107.220.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47E5110E0E6;
+ Tue,  6 Sep 2022 18:48:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b0X5ZSzjtLVy2WUcFj7MNPrRz3QrldDlZOXGMLyt4M/xbT3sZibrXGYOKkunjLVnCF8hMNY5yUqh0WLw1uwxMHGBBnXYvEHnmHWOdKp+75X70GZ6zUnd1/sDSW+oQ6dpC2g6veReKBzjOq73uD0jjWyQwjRd5h8WGyLCs7VrRDcto49tZ6XxA9bs16CrSC2Gwu6vtKyXp8LKGbyrEIX0afY8HgpUN1zGH74qH5KCmHvfISkF+3KbMuV4x3KCQx2F6x1dMeeZcNy7BC4GHXgSmdQOsCIDygrN5U7udtR6Q3tGJWdVQD6AP5vxCIcgEZu3aesEQ9pD/+kHjPcsk25ZAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kE75CFqv9047hRzrpj+7r89IgoQZEfeC4NUcb9HWVMA=;
+ b=W9pgBS/UmBy9TnII60PVKZd3l5lTLEgz69htJyf+xYps3TlxGvhfL564CuaHbFN5z2yK66Qm27egvnrbTc04CWlvRj7g4Y2oc0wdwYpWkU/M30Ih272Ps1Hntm9tMScezpmtjb+5lqkiatjAFr7ayZuKXq/dx+uLN2xAVIZm5L/AiMIXevcf0xDwUUn6MfJOkG7lmRmCGqDJt2yWw7+lIAZN8r5yW6hZjZhJzWKhJxjy3t1LtGRfhqU8Uz0+CsHODTly7S2gJ+65/jNvB1SjWu/6nbT3K1tvNjwPCRFJxPMgDSSWSeXVLb2DZUBJBGFfYNwTlCAkGyOrTx0MtoIgQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kE75CFqv9047hRzrpj+7r89IgoQZEfeC4NUcb9HWVMA=;
+ b=aE1bBXdeVDA28YtpFSGeRBm+0V7ib5tGABpvH4fWQF1z1wBKyYjmkub634dDTBRCXYj3ERiguaBg3rdXttU7bgFUlSu03e2Soic5IOMiArGdow8OPDdaAn9b8dms5CiuhVKiCe+agMLD9KSiQv4W6XJkeQYQMenpWjzGWGx0t50=
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
+ by BN9PR12MB5130.namprd12.prod.outlook.com (2603:10b6:408:137::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.11; Tue, 6 Sep
+ 2022 18:48:04 +0000
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::2428:2f57:b85c:757f]) by BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::2428:2f57:b85c:757f%7]) with mapi id 15.20.5588.017; Tue, 6 Sep 2022
+ 18:48:04 +0000
+From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+To: "Kuehling, Felix" <Felix.Kuehling@amd.com>, Jingyu Wang
+ <jingyuwang_vip@163.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/amdgpu: cleanup coding style in amdgpu_amdkfd_gpuvm.c
+Thread-Topic: [PATCH] drm/amdgpu: cleanup coding style in amdgpu_amdkfd_gpuvm.c
+Thread-Index: AQHYwQLu96H3UYws/U+s+2p4GZlXfq3SbAUAgABULVo=
+Date: Tue, 6 Sep 2022 18:48:04 +0000
+Message-ID: <BL1PR12MB51444461B0F15AAF3BE46F91F77E9@BL1PR12MB5144.namprd12.prod.outlook.com>
+References: <20220905083825.23429-1-jingyuwang_vip@163.com>
+ <18083c05-7636-2155-610b-2d1347f8585f@amd.com>
+In-Reply-To: <18083c05-7636-2155-610b-2d1347f8585f@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=True;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-09-06T18:48:03.635Z;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=0;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged; 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0104586a-20c4-45c6-8238-08da903854e4
+x-ms-traffictypediagnostic: BN9PR12MB5130:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bYGk6cJTFx/jlvyHt2krBB7tKsBcGMT+wM3XWMmpOZsUXHUmEo+QekAKoy0tdTzmpLLpNeaRLw7HxcNEJ3gcJFosehIlNzhemCjh/NsMLulSTqUf2RZo4zaYNuqAt6aG0PZ7b3DRkbGTN8Wn0moBsfgtuS6vsu4deNRHUiWDheghAO6gRqFSSdxC4qqRVHpkg5nyOBxX+DXFfzryxddIH5Hdott+JMWmuln2v0kp1RX7K++qciLX0DwXSj615OqlbjRnW88tMBCQABdz46lwlPtRaYxCF663F5saENMG85urD326zubrK7W89wHImu+0ea223cCE935LhVhC/J8i2TKAN9RCOqNRNuGEQcbuVUPyfDJ1hfm6XY/Esz+UiYH3ZIIrLrI7HUsgiknHSvZJQfd1yTIdvTovBaUSs7G82My0FwTu/In48SSAPGWhUhijHd18DNmhgRKH0KulRqV/v8J/5o0QvVUqtWrrk59nlPNd+n3Yl77KH07Te/u3M6NpASvp7GCcK9jIlHzEthgb8yJDCdA/BeaulQ3TVbGYZB8BJQtZ3e5/T0Wv+3aXyYe1d/17KJxSBxe02AEetuo3NmgxYuS0rg7rzhUsULCUk4jK2YdF/W9/xUcpflwLgKA38L7hG3AU1mDbrsmUuSp2NAwbJ80JzG57x2EavYvxAs1qS1xqW2zeJ/P/XP0DnoxNBPkkoSUcaFXAjp/NWAqEbblZO11YD6+4hRtP3o/suq/Ces13yD2ppgogGmHZS51fKVURHUcF4oQ9C9oGNIDPHg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(396003)(366004)(376002)(136003)(39860400002)(64756008)(6506007)(26005)(66446008)(9686003)(4326008)(66556008)(86362001)(76116006)(53546011)(66476007)(8676002)(122000001)(83380400001)(7696005)(71200400001)(55016003)(38100700002)(316002)(110136005)(33656002)(54906003)(8936002)(66946007)(5660300002)(38070700005)(41300700001)(19627405001)(478600001)(186003)(2906002)(52536014);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2mGkUmwV/13FkvDAoRVsrnYe0ZPG5pJ4TQm6cLIAxtcwYiAq7jaVGIHEPoES?=
+ =?us-ascii?Q?zPVuNGWyDKSpTl1qy0Fb4HBIWvpD7o/SA5xYaMBsA6XkqdcdBTismVXFr1Me?=
+ =?us-ascii?Q?HSOT4q49RTgvuPXeN9gDbxdqMo179L89FtITTI/nTkXE2LQEO19BCKfRnNFS?=
+ =?us-ascii?Q?XGZ73ASeFlf8KzV3aHkDelVV4Qs9fBUAyPzDbizGC3fGQOKrAyVtVoea0Lu2?=
+ =?us-ascii?Q?W1eqT5qAsf2NwVtpcRr4bi1fHsJsAXvwfvEBVc6MarczflikqLl4ls4dfcs8?=
+ =?us-ascii?Q?pU6spPatCTNG6YEUtzF1vWLR9lPuNYsJ6qM13nEp5Sxd117oWpofSsgMOi6P?=
+ =?us-ascii?Q?DrdxovNdhXJEHLroSzds4s7bJygJigSj2CbA63DJLI+VolRz9r6flZMM3qQf?=
+ =?us-ascii?Q?pJqJ9pNHHhH0GdZ907JWwvwtjiSB64QCH34wZiRc/II+e5/9vysAKT7pH5eP?=
+ =?us-ascii?Q?vFeTw/wqaUk8Ss8QEEkJODOqLI3xfVV3Jmes3mMMogn/iymrTC38LZb9aV0z?=
+ =?us-ascii?Q?1kZt/b7qgRKyBilP265V/3vCoP0iXYHZPJP3CGypyvzx9HeHHz3Fo0osGXA0?=
+ =?us-ascii?Q?y3iKyTD2zAzuDy5dUc3YMtLtJZz0yGKb7pxACteXpuiGGN7HQMDAp//Kuy2x?=
+ =?us-ascii?Q?YPrTUjIvm09fmcKg52Iuz16btHcrkZfC6fLc6zRiYCVdrDmsaZz7aBYyR74v?=
+ =?us-ascii?Q?j5owZOSqd60XZ6fbK1TD32m1N2eHpw/szTrTrt5nfq47FYNJ4lHOw6GPWv/9?=
+ =?us-ascii?Q?06LhcDSmQyLKmWMNAYMIU0AagwUD7snXCqK/fIycAhwa4gmBt0rXG+/u0LDE?=
+ =?us-ascii?Q?I82gretkUQncjsJQwJSUTFGaq1mMOEjiFEX4zupmDHbKbyNZRyAMPgGk8Bh/?=
+ =?us-ascii?Q?+R0EdOBd69JSrjuzVia78m7BSfTpbLezChi/lABC11hEYWTfVE0MvrLalgwx?=
+ =?us-ascii?Q?uGsT9fikuLdOv25V7piAtPBGLFylHd7ZtAF4iLuDrPvI/5w1eMbOZbajcdQW?=
+ =?us-ascii?Q?DiafYhnEpnB0qZ7EkE2qnRAhAfzoDZM4Urf7G8bqmQTHiWpQf6sBiZCV1Rhy?=
+ =?us-ascii?Q?XLiGP1ihyBP43Jzspn7ux+vOXM/suVtymEsGYrckQ4uPxYmbsOeUQmoZnfLG?=
+ =?us-ascii?Q?jjTDgWG3ymZTXDuqla51C6KfO3wdWRN+KpRGrnLZH2Ves/kzN9GhByjcwr4y?=
+ =?us-ascii?Q?CcR76zOZ4Q0IXVy2mZtRgwzcrHLQglBB57+AULkPscYBFqDqmIuNykC58Re1?=
+ =?us-ascii?Q?HM3TjBaOlYgCnb+p+EgWHyri4MU+5uAf+ggFCeLwcGRsc/eC218Arwd6vjhF?=
+ =?us-ascii?Q?J1ITUc81etq8JcURvfmrnLNDnBdpFIjbfc5hqfxNdEiQ9/b4jLvrm+mqKz0M?=
+ =?us-ascii?Q?nQFxPo3DJXqJB6ZCCwGlXTkRmWuY2IeVnmgS3VMFHqBa1RpNTO5AzXAGdWPh?=
+ =?us-ascii?Q?9ymArqZB0C2+4SbPK4HGq8Af9LtOarYWFf6Ya7+C7GCvuXk9nbb7Zxrbl2Pe?=
+ =?us-ascii?Q?UxcND7KUVC55BAq8J+F9IvvcsfNKM3AKs5NXhgR1pjvaJKX/wdZVBr6oHG3W?=
+ =?us-ascii?Q?DbZNUEYZADTdM73S2zE=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_BL1PR12MB51444461B0F15AAF3BE46F91F77E9BL1PR12MB5144namp_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0104586a-20c4-45c6-8238-08da903854e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Sep 2022 18:48:04.2551 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yHN57ejiwzxzLG4Mjbb/h3Cm75rkVqh/yUYjfXaPPLfI+2luXs+KW8tR5EVGTeh80R18oQJ/IcTPaPjJ70TiJg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,533 +125,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- airlied@linux.ie, Chris Morgan <macromorgan@hotmail.com>, robh+dt@kernel.org,
- thierry.reding@gmail.com, sam@ravnborg.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+--_000_BL1PR12MB51444461B0F15AAF3BE46F91F77E9BL1PR12MB5144namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Support Samsung AMS495QA01 panel as found on the Anbernic RG503. Note
-This panel receives video signals via DSI, however it receives
-commands via 3-wire SPI.
+[Public]
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- drivers/gpu/drm/panel/Kconfig                 |  10 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-samsung-ams495qa01.c  | 468 ++++++++++++++++++
- 3 files changed, 479 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-samsung-ams495qa01.c
+Yeah, seems to be a mix.  I don't have a strong opinion as long as it has M=
+IT.
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index a9043eacce97..954b66a2adee 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -444,6 +444,16 @@ config DRM_PANEL_RONBO_RB070D30
- 	  Say Y here if you want to enable support for Ronbo Electronics
- 	  RB070D30 1024x600 DSI panel.
- 
-+config DRM_PANEL_SAMSUNG_AMS495QA01
-+	tristate "Samsung AMS495QA01 DSI panel"
-+	depends on OF && SPI
-+	depends on DRM_MIPI_DSI
-+	select DRM_MIPI_DBI
-+	help
-+	  DRM panel driver for the Samsung AMS495QA01 panel. This panel
-+	  receives video data via DSI but commands via 3-Wire 9-bit
-+	  SPI.
-+
- config DRM_PANEL_SAMSUNG_ATNA33XC20
- 	tristate "Samsung ATNA33XC20 eDP panel"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 34e717382dbb..de0b57baf851 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -42,6 +42,7 @@ obj-$(CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN) += panel-raspberrypi-touchscreen
- obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM67191) += panel-raydium-rm67191.o
- obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
- obj-$(CONFIG_DRM_PANEL_RONBO_RB070D30) += panel-ronbo-rb070d30.o
-+obj-$(CONFIG_DRM_PANEL_SAMSUNG_AMS495QA01) += panel-samsung-ams495qa01.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20) += panel-samsung-atna33xc20.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_DB7430) += panel-samsung-db7430.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
-diff --git a/drivers/gpu/drm/panel/panel-samsung-ams495qa01.c b/drivers/gpu/drm/panel/panel-samsung-ams495qa01.c
-new file mode 100644
-index 000000000000..60afea40a60e
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-samsung-ams495qa01.c
-@@ -0,0 +1,468 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Samsung ams495qa01 MIPI-DSI panel driver
-+ * Copyright (C) 2022 Chris Morgan
-+ */
-+
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/spi/spi.h>
-+
-+#include <video/mipi_display.h>
-+
-+struct ams495qa01 {
-+	/** @dev: the container device */
-+	struct device *dev;
-+	/** @dbi: the DBI bus abstraction handle */
-+	struct mipi_dbi dbi;
-+	/** @panel: the DRM panel instance for this device */
-+	struct drm_panel panel;
-+	/** @reset: reset GPIO line */
-+	struct gpio_desc *reset;
-+	/** @enable: enable GPIO line */
-+	struct gpio_desc *enable;
-+	/** @regulators: VDD and ELVDD supply regulators */
-+	struct regulator_bulk_data regulators[2];
-+	/** @dsi_dev: DSI child device (panel) */
-+	struct mipi_dsi_device *dsi_dev;
-+	/** @bl_dev: pseudo-backlight device for oled panel */
-+	struct backlight_device *bl_dev;
-+};
-+
-+static const struct drm_display_mode ams495qa01_mode = {
-+	.clock = 33500,
-+	.hdisplay = 960,
-+	.hsync_start = 960 + 10,
-+	.hsync_end = 960 + 10 + 2,
-+	.htotal = 960 + 10 + 2 + 10,
-+	.vdisplay = 544,
-+	.vsync_start = 544 + 10,
-+	.vsync_end = 544 + 10 + 2,
-+	.vtotal = 544 + 10 + 2 + 10,
-+	.width_mm = 117,
-+	.height_mm = 74,
-+	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+};
-+
-+#define NUM_GAMMA_LEVELS	16
-+#define GAMMA_TABLE_COUNT	23
-+#define MAX_BRIGHTNESS		(NUM_GAMMA_LEVELS - 1)
-+
-+/* Table of gamma values provided in datasheet */
-+static u8 ams495qa01_gamma[NUM_GAMMA_LEVELS][GAMMA_TABLE_COUNT] = {
-+	{0x01, 0x79, 0x78, 0x8d, 0xd9, 0xdf, 0xd5, 0xcb, 0xcf, 0xc5,
-+	 0xe5, 0xe0, 0xe4, 0xdc, 0xb8, 0xd4, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x7d, 0x7c, 0x92, 0xd7, 0xdd, 0xd2, 0xcb, 0xd0, 0xc6,
-+	 0xe5, 0xe1, 0xe3, 0xda, 0xbd, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x7f, 0x7e, 0x95, 0xd7, 0xde, 0xd2, 0xcb, 0xcf, 0xc5,
-+	 0xe5, 0xe3, 0xe3, 0xda, 0xbf, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x82, 0x81, 0x99, 0xd6, 0xdd, 0xd1, 0xca, 0xcf, 0xc3,
-+	 0xe4, 0xe3, 0xe3, 0xda, 0xc2, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x84, 0x83, 0x9b, 0xd7, 0xde, 0xd2, 0xc8, 0xce, 0xc2,
-+	 0xe4, 0xe3, 0xe2, 0xd9, 0xc3, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x87, 0x86, 0x9f, 0xd6, 0xdd, 0xd1, 0xc7, 0xce, 0xc1,
-+	 0xe4, 0xe3, 0xe2, 0xd9, 0xc6, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x89, 0x89, 0xa2, 0xd5, 0xdb, 0xcf, 0xc8, 0xcf, 0xc2,
-+	 0xe3, 0xe3, 0xe1, 0xd9, 0xc7, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x8b, 0x8b, 0xa5, 0xd5, 0xdb, 0xcf, 0xc7, 0xce, 0xc0,
-+	 0xe3, 0xe3, 0xe1, 0xd8, 0xc7, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x8d, 0x8d, 0xa7, 0xd5, 0xdb, 0xcf, 0xc6, 0xce, 0xc0,
-+	 0xe4, 0xe4, 0xe1, 0xd7, 0xc8, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x8f, 0x8f, 0xaa, 0xd4, 0xdb, 0xce, 0xc6, 0xcd, 0xbf,
-+	 0xe3, 0xe3, 0xe1, 0xd7, 0xca, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x91, 0x91, 0xac, 0xd3, 0xda, 0xce, 0xc5, 0xcd, 0xbe,
-+	 0xe3, 0xe3, 0xe0, 0xd7, 0xca, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x93, 0x93, 0xaf, 0xd3, 0xda, 0xcd, 0xc5, 0xcd, 0xbe,
-+	 0xe2, 0xe3, 0xdf, 0xd6, 0xca, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x95, 0x95, 0xb1, 0xd2, 0xd9, 0xcc, 0xc4, 0xcd, 0xbe,
-+	 0xe2, 0xe3, 0xdf, 0xd7, 0xcc, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x99, 0x99, 0xb6, 0xd1, 0xd9, 0xcc, 0xc3, 0xcb, 0xbc,
-+	 0xe2, 0xe4, 0xdf, 0xd6, 0xcc, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x9c, 0x9c, 0xba, 0xd0, 0xd8, 0xcb, 0xc3, 0xcb, 0xbb,
-+	 0xe2, 0xe4, 0xdf, 0xd6, 0xce, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+	{0x01, 0x9f, 0x9f, 0xbe, 0xcf, 0xd7, 0xc9, 0xc2, 0xcb, 0xbb,
-+	 0xe1, 0xe3, 0xde, 0xd6, 0xd0, 0xd3, 0xfa, 0xed, 0xe6, 0x2f,
-+	 0x00, 0x2f},
-+};
-+
-+/*
-+ * Table of elvss values provided in datasheet and corresponds to
-+ * gamma values.
-+ */
-+static u8 ams495qa01_elvss[NUM_GAMMA_LEVELS] = {
-+	0x15, 0x15, 0x15, 0x15, 0x15, 0x15, 0x15, 0x15, 0x15, 0x15,
-+	0x15, 0x15, 0x14, 0x14, 0x13, 0x12,
-+};
-+
-+static inline struct ams495qa01 *to_ams495qa01(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct ams495qa01, panel);
-+}
-+
-+static int ams495qa01_update_gamma(struct mipi_dbi *dbi, u32 brightness)
-+{
-+	u32 tmp = brightness;
-+
-+	if (brightness > MAX_BRIGHTNESS)
-+		tmp = MAX_BRIGHTNESS;
-+
-+	/* Set gamma values */
-+	mipi_dbi_command_buf(dbi, 0xf9, ams495qa01_gamma[tmp],
-+			     ARRAY_SIZE(ams495qa01_gamma[tmp]));
-+	/* Set gamma change */
-+	mipi_dbi_command(dbi, 0xf9, 0x00);
-+	/* Undocumented command */
-+	mipi_dbi_command(dbi, 0x26, 0x00);
-+	/* Set ELVSS value */
-+	mipi_dbi_command(dbi, 0xb2, ams495qa01_elvss[tmp]);
-+
-+	return 0;
-+}
-+
-+static int ams495qa01_prepare(struct drm_panel *panel)
-+{
-+	struct ams495qa01 *db = to_ams495qa01(panel);
-+	struct mipi_dbi *dbi = &db->dbi;
-+	int ret;
-+
-+	/* Power up */
-+	ret = regulator_bulk_enable(ARRAY_SIZE(db->regulators),
-+				    db->regulators);
-+	if (ret) {
-+		dev_err(db->dev, "failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	/* Enable */
-+	if (db->enable)
-+		gpiod_set_value_cansleep(db->enable, 1);
-+
-+	msleep(50);
-+
-+	/* Reset */
-+	gpiod_set_value_cansleep(db->reset, 1);
-+	usleep_range(1000, 5000);
-+	gpiod_set_value_cansleep(db->reset, 0);
-+	msleep(20);
-+
-+	/* Panel Init Sequence */
-+
-+	/* Password to start command sequence */
-+	mipi_dbi_command(dbi, 0xf0, 0x5a, 0x5a);
-+	mipi_dbi_command(dbi, 0xf1, 0x5a, 0x5a);
-+
-+	/* Undocumented commands */
-+	mipi_dbi_command(dbi, 0xb0, 0x02);
-+	mipi_dbi_command(dbi, 0xf3, 0x3b);
-+
-+	/* Analog Power condition set */
-+	mipi_dbi_command(dbi, 0xf4, 0x33, 0x42, 0x00, 0x08);
-+	mipi_dbi_command(dbi, 0xf5, 0x00, 0x06, 0x26, 0x35, 0x03);
-+
-+	/* Undocumented commands */
-+	mipi_dbi_command(dbi, 0xf6, 0x02);
-+	mipi_dbi_command(dbi, 0xc6, 0x0b, 0x00, 0x00, 0x3c, 0x00, 0x22,
-+			 0x00, 0x00, 0x00, 0x00);
-+
-+	/* GTCON set */
-+	mipi_dbi_command(dbi, 0xf7, 0x20);
-+
-+	/* TEMP_SWIRE set */
-+	mipi_dbi_command(dbi, 0xb2, 0x06, 0x06, 0x06, 0x06);
-+
-+	/* ELVSS_CON set */
-+	mipi_dbi_command(dbi, 0xb1, 0x07, 0x00, 0x10);
-+
-+	/* Gateless signal set */
-+	mipi_dbi_command(dbi, 0xf8, 0x7f, 0x7a, 0x89, 0x67, 0x26, 0x38,
-+			 0x00, 0x00, 0x09, 0x67, 0x70, 0x88, 0x7a,
-+			 0x76, 0x05, 0x09, 0x23, 0x23, 0x23);
-+
-+	/* Undocumented commands */
-+	mipi_dbi_command(dbi, 0xb5, 0xff, 0xef, 0x35, 0x42, 0x0d, 0xd7,
-+			 0xff, 0x07, 0xff, 0xff, 0xfd, 0x00, 0x01,
-+			 0xff, 0x05, 0x12, 0x0f, 0xff, 0xff, 0xff,
-+			 0xff);
-+	mipi_dbi_command(dbi, 0xb4, 0x15);
-+	mipi_dbi_command(dbi, 0xb3, 0x00);
-+
-+	ams495qa01_update_gamma(dbi, MAX_BRIGHTNESS);
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(200);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	usleep_range(10000, 15000);
-+
-+	return 0;
-+}
-+
-+static int ams495qa01_unprepare(struct drm_panel *panel)
-+{
-+	struct ams495qa01 *db = to_ams495qa01(panel);
-+	struct mipi_dbi *dbi = &db->dbi;
-+
-+	/* Panel Exit Sequence */
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF);
-+	msleep(20);
-+	mipi_dbi_command(dbi, MIPI_DCS_ENTER_SLEEP_MODE);
-+	usleep_range(10000, 15000);
-+
-+	gpiod_set_value_cansleep(db->reset, 0);
-+
-+	if (db->enable)
-+		gpiod_set_value_cansleep(db->enable, 0);
-+	regulator_bulk_disable(ARRAY_SIZE(db->regulators),
-+			       db->regulators);
-+	msleep(20);
-+
-+	return 0;
-+}
-+
-+static int ams495qa01_get_modes(struct drm_panel *panel,
-+				struct drm_connector *connector)
-+{
-+	struct ams495qa01 *db = to_ams495qa01(panel);
-+	struct drm_display_mode *mode;
-+	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	mode = drm_mode_duplicate(connector->dev, &ams495qa01_mode);
-+	if (!mode) {
-+		dev_err(db->dev, "failed to add mode\n");
-+		return -ENOMEM;
-+	}
-+
-+	connector->display_info.bpc = 8;
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	connector->display_info.bus_flags =
-+		DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE |
-+		DRM_BUS_FLAG_DE_LOW;
-+	drm_display_info_set_bus_formats(&connector->display_info,
-+					 &bus_format, 1);
-+
-+	drm_mode_set_name(mode);
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs ams495qa01_drm_funcs = {
-+	.unprepare = ams495qa01_unprepare,
-+	.prepare = ams495qa01_prepare,
-+	.get_modes = ams495qa01_get_modes,
-+};
-+
-+static int ams495qa01_set_brightness(struct backlight_device *bd)
-+{
-+	struct ams495qa01 *db = bl_get_data(bd);
-+	struct mipi_dbi *dbi = &db->dbi;
-+	int brightness = bd->props.brightness;
-+
-+	ams495qa01_update_gamma(dbi, brightness);
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops ams495qa01_backlight_ops = {
-+	.update_status	= ams495qa01_set_brightness,
-+};
-+
-+static int ams495qa01_backlight_register(struct ams495qa01 *db)
-+{
-+	struct backlight_properties props = {
-+		.type		= BACKLIGHT_RAW,
-+		.brightness	= MAX_BRIGHTNESS,
-+		.max_brightness = MAX_BRIGHTNESS,
-+	};
-+	struct device *dev = db->dev;
-+	int ret = 0;
-+
-+	db->bl_dev = devm_backlight_device_register(dev, "panel", dev, db,
-+						     &ams495qa01_backlight_ops,
-+						     &props);
-+	if (IS_ERR(db->bl_dev)) {
-+		ret = PTR_ERR(db->bl_dev);
-+		dev_err(dev, "error registering backlight device (%d)\n", ret);
-+	}
-+
-+	return ret;
-+}
-+
-+static int ams495qa01_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct device_node *endpoint, *dsi_host_node;
-+	struct mipi_dsi_host *dsi_host;
-+	struct ams495qa01 *db;
-+	int ret;
-+	struct mipi_dsi_device_info info = {
-+		.type = "dupa",
-+		.channel = 0,
-+		.node = NULL,
-+	};
-+
-+	db = devm_kzalloc(dev, sizeof(*db), GFP_KERNEL);
-+	if (!db)
-+		return -ENOMEM;
-+
-+	spi_set_drvdata(spi, db);
-+
-+	db->dev = dev;
-+
-+	/*
-+	 * VCI   is the analog voltage supply
-+	 * VCCIO is the digital I/O voltage supply
-+	 */
-+	db->regulators[0].supply = "vdd";
-+	db->regulators[1].supply = "elvdd";
-+	ret = devm_regulator_bulk_get(dev,
-+				      ARRAY_SIZE(db->regulators),
-+				      db->regulators);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to get regulators\n");
-+
-+	db->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(db->reset)) {
-+		ret = PTR_ERR(db->reset);
-+		return dev_err_probe(dev, ret, "no RESET GPIO\n");
-+	}
-+
-+	db->enable = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
-+	if (IS_ERR(db->enable)) {
-+		ret = PTR_ERR(db->enable);
-+		return dev_err_probe(dev, ret, "cannot get ENABLE GPIO\n");
-+	}
-+
-+	ret = mipi_dbi_spi_init(spi, &db->dbi, NULL);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "MIPI DBI init failed\n");
-+
-+	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
-+	if (!endpoint) {
-+		dev_err(dev, "failed to get endpoint\n");
-+		return -ENODEV;
-+	}
-+
-+	dsi_host_node = of_graph_get_remote_port_parent(endpoint);
-+	if (!dsi_host_node) {
-+		dev_err(dev, "failed to get remote port parent\n");
-+		goto put_endpoint;
-+	}
-+
-+	dsi_host = of_find_mipi_dsi_host_by_node(dsi_host_node);
-+	if (!dsi_host) {
-+		dev_err(dev, "failed to find dsi host\n");
-+		goto put_host;
-+	}
-+
-+	info.node = of_graph_get_remote_port(endpoint);
-+	if (!info.node) {
-+		dev_err(dev, "failed to get remote port node\n");
-+		ret = -ENODEV;
-+		goto put_host;
-+	}
-+
-+	db->dsi_dev = devm_mipi_dsi_device_register_full(dev, dsi_host, &info);
-+	if (IS_ERR(db->dsi_dev)) {
-+		dev_err(dev, "failed to register dsi device: %ld\n",
-+			PTR_ERR(db->dsi_dev));
-+		ret = PTR_ERR(db->dsi_dev);
-+		goto put_host;
-+	}
-+
-+	db->dsi_dev->lanes = 2;
-+	db->dsi_dev->format = MIPI_DSI_FMT_RGB888;
-+	db->dsi_dev->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
-+
-+	drm_panel_init(&db->panel, dev, &ams495qa01_drm_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	ret = ams495qa01_backlight_register(db);
-+	if (ret < 0)
-+		return ret;
-+
-+	drm_panel_add(&db->panel);
-+
-+	ret = devm_mipi_dsi_attach(dev, db->dsi_dev);
-+	if (ret < 0) {
-+		dev_err(dev, "mipi_dsi_attach failed: %d\n", ret);
-+		drm_panel_remove(&db->panel);
-+		return ret;
-+	}
-+
-+	of_node_put(dsi_host_node);
-+	of_node_put(endpoint);
-+	return 0;
-+
-+put_host:
-+	of_node_put(dsi_host_node);
-+
-+put_endpoint:
-+	of_node_put(endpoint);
-+	return -ENODEV;
-+}
-+
-+static void ams495qa01_remove(struct spi_device *spi)
-+{
-+	struct ams495qa01 *db = spi_get_drvdata(spi);
-+
-+	drm_panel_remove(&db->panel);
-+}
-+
-+static const struct of_device_id ams495qa01_match[] = {
-+	{ .compatible = "samsung,ams495qa01", },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, ams495qa01_match);
-+
-+static const struct spi_device_id ams495qa01_ids[] = {
-+	{ "ams495qa01", 0 },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(spi, ams495qa01_ids);
-+
-+static struct spi_driver ams495qa01_driver = {
-+	.probe		= ams495qa01_probe,
-+	.remove		= ams495qa01_remove,
-+	.id_table	= ams495qa01_ids,
-+	.driver		= {
-+		.name	= "ams495qa01-panel",
-+		.of_match_table = ams495qa01_match,
-+	},
-+};
-+module_spi_driver(ams495qa01_driver);
-+
-+MODULE_AUTHOR("Chris Morgan <macromorgan@hotmail.com>");
-+MODULE_DESCRIPTION("Samsung ams495qa01 panel driver");
-+MODULE_LICENSE("GPL");
--- 
-2.25.1
+Alex
 
+________________________________
+From: Kuehling, Felix <Felix.Kuehling@amd.com>
+Sent: Tuesday, September 6, 2022 9:46 AM
+To: Jingyu Wang <jingyuwang_vip@163.com>; Deucher, Alexander <Alexander.Deu=
+cher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Pan, Xinhui <X=
+inhui.Pan@amd.com>; airlied@linux.ie <airlied@linux.ie>; daniel@ffwll.ch <d=
+aniel@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; dri-deve=
+l@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; linux-kernel@vge=
+r.kernel.org <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/amdgpu: cleanup coding style in amdgpu_amdkfd_gpuv=
+m.c
+
+
+Am 2022-09-05 um 04:38 schrieb Jingyu Wang:
+> Fix everything checkpatch.pl complained about in amdgpu_amdkfd_gpuvm.c
+>
+> Signed-off-by: Jingyu Wang <jingyuwang_vip@163.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> index cbd593f7d553..eff596c60c89 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> @@ -1,3 +1,4 @@
+> +// SPDX-License-Identifier: MIT
+
+I'm not sure if this is correct. We've used "GPL-2.0 OR MIT" in KFD. In
+amdgpu there is currently a mix of licenses. Alex, do you want to make a
+call on a consistent one to use in amdgpu?
+
+Other than that, this patch is
+
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+
+
+>   /*
+>    * Copyright 2014-2018 Advanced Micro Devices, Inc.
+>    *
+> @@ -1612,6 +1613,7 @@ size_t amdgpu_amdkfd_get_available_memory(struct am=
+dgpu_device *adev)
+>        uint64_t reserved_for_pt =3D
+>                ESTIMATE_PT_SIZE(amdgpu_amdkfd_total_mem_size);
+>        size_t available;
+> +
+>        spin_lock(&kfd_mem_limit.mem_limit_lock);
+>        available =3D adev->gmc.real_vram_size
+>                - adev->kfd.vram_used_aligned
+> @@ -2216,7 +2218,7 @@ int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct am=
+dgpu_device *adev,
+>   {
+>        if (atomic_read(&adev->gmc.vm_fault_info_updated) =3D=3D 1) {
+>                *mem =3D *adev->gmc.vm_fault_info;
+> -             mb();
+> +             mb(); /* make sure read happened */
+>                atomic_set(&adev->gmc.vm_fault_info_updated, 0);
+>        }
+>        return 0;
+>
+> base-commit: e47eb90a0a9ae20b82635b9b99a8d0979b757ad8
+
+--_000_BL1PR12MB51444461B0F15AAF3BE46F91F77E9BL1PR12MB5144namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<p style=3D"font-family:Arial;font-size:10pt;color:#008000;margin:15pt;" al=
+ign=3D"Left">
+[Public]<br>
+</p>
+<br>
+<div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Yeah, seems to be a mix.&nbsp; I don't have a strong opinion as long as it =
+has MIT.</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Alex</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Kuehling, Felix &lt;F=
+elix.Kuehling@amd.com&gt;<br>
+<b>Sent:</b> Tuesday, September 6, 2022 9:46 AM<br>
+<b>To:</b> Jingyu Wang &lt;jingyuwang_vip@163.com&gt;; Deucher, Alexander &=
+lt;Alexander.Deucher@amd.com&gt;; Koenig, Christian &lt;Christian.Koenig@am=
+d.com&gt;; Pan, Xinhui &lt;Xinhui.Pan@amd.com&gt;; airlied@linux.ie &lt;air=
+lied@linux.ie&gt;; daniel@ffwll.ch &lt;daniel@ffwll.ch&gt;<br>
+<b>Cc:</b> amd-gfx@lists.freedesktop.org &lt;amd-gfx@lists.freedesktop.org&=
+gt;; dri-devel@lists.freedesktop.org &lt;dri-devel@lists.freedesktop.org&gt=
+;; linux-kernel@vger.kernel.org &lt;linux-kernel@vger.kernel.org&gt;<br>
+<b>Subject:</b> Re: [PATCH] drm/amdgpu: cleanup coding style in amdgpu_amdk=
+fd_gpuvm.c</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText"><br>
+Am 2022-09-05 um 04:38 schrieb Jingyu Wang:<br>
+&gt; Fix everything checkpatch.pl complained about in amdgpu_amdkfd_gpuvm.c=
+<br>
+&gt;<br>
+&gt; Signed-off-by: Jingyu Wang &lt;jingyuwang_vip@163.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp;&nbsp; drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 4 +++-<=
+br>
+&gt;&nbsp;&nbsp; 1 file changed, 3 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/driver=
+s/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c<br>
+&gt; index cbd593f7d553..eff596c60c89 100644<br>
+&gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c<br>
+&gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c<br>
+&gt; @@ -1,3 +1,4 @@<br>
+&gt; +// SPDX-License-Identifier: MIT<br>
+<br>
+I'm not sure if this is correct. We've used &quot;GPL-2.0 OR MIT&quot; in K=
+FD. In <br>
+amdgpu there is currently a mix of licenses. Alex, do you want to make a <b=
+r>
+call on a consistent one to use in amdgpu?<br>
+<br>
+Other than that, this patch is<br>
+<br>
+Reviewed-by: Felix Kuehling &lt;Felix.Kuehling@amd.com&gt;<br>
+<br>
+<br>
+&gt;&nbsp;&nbsp; /*<br>
+&gt;&nbsp;&nbsp;&nbsp; * Copyright 2014-2018 Advanced Micro Devices, Inc.<b=
+r>
+&gt;&nbsp;&nbsp;&nbsp; *<br>
+&gt; @@ -1612,6 +1613,7 @@ size_t amdgpu_amdkfd_get_available_memory(struct=
+ amdgpu_device *adev)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; uint64_t reserved_for_pt =3D=
+<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; ESTIMATE_PT_SIZE(amdgpu_amdkfd_total_mem_size);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; size_t available;<br>
+&gt; +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock(&amp;kfd_mem_limit=
+.mem_limit_lock);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; available =3D adev-&gt;gmc.r=
+eal_vram_size<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; - adev-&gt;kfd.vram_used_aligned<br>
+&gt; @@ -2216,7 +2218,7 @@ int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct=
+ amdgpu_device *adev,<br>
+&gt;&nbsp;&nbsp; {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (atomic_read(&amp;adev-&g=
+t;gmc.vm_fault_info_updated) =3D=3D 1) {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; *mem =3D *adev-&gt;gmc.vm_fault_info;<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; mb();<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; mb(); /* make sure read happened */<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; atomic_set(&amp;adev-&gt;gmc.vm_fault_info_updated, 0);=
+<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0;<br>
+&gt;<br>
+&gt; base-commit: e47eb90a0a9ae20b82635b9b99a8d0979b757ad8<br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_BL1PR12MB51444461B0F15AAF3BE46F91F77E9BL1PR12MB5144namp_--
