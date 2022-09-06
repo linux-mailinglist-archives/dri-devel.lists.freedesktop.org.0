@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77065AE86C
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 14:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811695AE8BB
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 14:51:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF6A10E56D;
-	Tue,  6 Sep 2022 12:35:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1017810E655;
+	Tue,  6 Sep 2022 12:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8976010E678
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 12:34:33 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A7822B81895
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 12:34:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54F59C433B5
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 12:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662467670;
- bh=8rswhesIf7F5l4+vbHZDuYiPqhm8GcAPme7YzWlPZHo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=PiNv1XmT/gpk9znR9JgMI4/e7BI81aa2qWYK/59dSmcexqrMxxpeHHNYXOVgORVT+
- aNtMJHQF/LYb4TJ6/fr8ZBihYhKffPcMD8aD7d13wtmrjdCf+DnuOBkzByBaCaFknF
- Ic16wmoX4NEG7XlyXqWG8ihyxJjA4XvwKBbUlyboZfuE7fZ0ukqZ36Ce90YO0bxj3Y
- SOw2c3ksDzdeopDl2TOjx2ac2k0vxwqXeVzVqq0yLGG6BIY+eMyLwQ7jHnoM/jgpBy
- y5DXqGO1Ciz/Mi2MxwFG9+1TVvjBtwXLIsXssWCGMTAmjfcvozXT4duoRTuhtXRc9K
- NeUL0L7nLF39w==
-Received: by mail-il1-f172.google.com with SMTP id r7so5879186ile.11
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 05:34:30 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3m96GpSzPjd26H3GX1U031LVmV49yE0w0kxwb6/S8k4fWyTyLt
- EHSBu4g2KQ+j6QAe6Ukuc6iqsNTgPg/JnN9Plls=
-X-Google-Smtp-Source: AA6agR5t2EEfOfqFt/KzpOaxtGy9C1ikdONdFt3Yo84P649uJqUH/4H9gMVQanRhVGUj+eh8dpntM2no5PF+qGxQBb0=
-X-Received: by 2002:a92:c561:0:b0:2ed:a26a:8c65 with SMTP id
- b1-20020a92c561000000b002eda26a8c65mr12449599ilj.23.1662467669406; Tue, 06
- Sep 2022 05:34:29 -0700 (PDT)
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41BA910E65B
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 12:50:56 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id c198so1407863pfc.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 05:50:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=pIsthsU1/BjjIJXfCUPOariONLnpNy0n0ke42n9PRpQ=;
+ b=i+OQ/0fxRzGRIYqR0hllTsfxwv1VAo0IHvX94q67EhwQPVJg07NELYOX08GrkgGW1A
+ 8A5/QMVqbB4RRGCdX72wa3ySHaDxrWGcq4MSyMgu583CmUERRItvW912fEmuQDky6adT
+ uGzDAZerXnoIyS1FJfp61Ob8TV2VPV+0LeBU8R6bLZWLaK0QkiDAFoZwBfsiB/8iXmrO
+ tWOWzhiAcXkgETN+fWYo28eYbWnmhbb+z1Dg7MI5KpUD44G7sHa8HLyO4U8IvVtHXQr+
+ 82jmPe1+MTVNm0mbS32wIfiwMmmwflg+owrXl6e+ZLNO4fPKm0+AEK1eXzCKoGbo1q+V
+ 5apA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=pIsthsU1/BjjIJXfCUPOariONLnpNy0n0ke42n9PRpQ=;
+ b=vONwPoiZ+R+c0t3Z5M2aUyUdovsngpZ36H8ulXOxtSqLByh5zyRzm2BzPCdyKBH+ht
+ n+X9VLHTYSj95llIEDZesLr+tgr0Ir424AFuQXWAyU4kY22/Qyj3IlTDZ+yBg0UrMHiK
+ mHQQjXsmLtZwEHbvDC8FNBBLpJUa9QH9LjOOTzW0cXA4zNgslGe4FDQ4EoPqigi5/TAE
+ gfjdgglAkb2hfTqind0M8sbYmWGF2AxeUj9fjCatx9jSFpJ54e8/+ymiqivSlaFVvGqm
+ F0zAtrJAOrv0QcPE7//mL2pYg9t7vF2/bSY2Hmhnx7RMSPCgTV28PWlItMTCsT2ACsTx
+ 8kkg==
+X-Gm-Message-State: ACgBeo04x9eBl2hZWvromvKd7ww0lrkIL8UREUfJCp5uBUiVi8TWcZB3
+ hq62VA+K8SHOAwCGbksXXLAeYCaM8XLrevL1jOE=
+X-Google-Smtp-Source: AA6agR76EOcZdZnldbn/nhwWNmyxTS3mv7s7Gj8gLyVJQP23lPxofAiMWEiWXBNl9LiCLxoyFjKss2xw5+xrqEQujQc=
+X-Received: by 2002:a05:6a00:16c4:b0:535:890:d52 with SMTP id
+ l4-20020a056a0016c400b0053508900d52mr55380671pfc.9.1662468655738; Tue, 06 Sep
+ 2022 05:50:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <YxcYGzPv022G2vLm@infradead.org>
- <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com> <YxczjNIloP7TWcf2@nvidia.com>
-In-Reply-To: <YxczjNIloP7TWcf2@nvidia.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Tue, 6 Sep 2022 15:34:02 +0300
-X-Gmail-Original-Message-ID: <CAFCwf115rwTWzgPXcpog4u5NAvH4JO+Qis_fcx0mRrNR5AQcaQ@mail.gmail.com>
-Message-ID: <CAFCwf115rwTWzgPXcpog4u5NAvH4JO+Qis_fcx0mRrNR5AQcaQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-To: Jason Gunthorpe <jgg@nvidia.com>
+References: <20220905133738.466490-1-hdegoede@redhat.com>
+ <20220905133738.466490-2-hdegoede@redhat.com>
+In-Reply-To: <20220905133738.466490-2-hdegoede@redhat.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Tue, 6 Sep 2022 14:50:44 +0200
+Message-ID: <CAMeQTsYi34r9Cv2Jp=DtOyjh6xex9xb49nFpw93eiinp7wHz2A@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/gma500: Fix BUG: sleeping function called from
+ invalid context errors
+To: Hans de Goede <hdegoede@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,86 +65,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, Leon Romanovsky <leon@kernel.org>,
- KVM list <kvm@vger.kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Cornelia Huck <cohuck@redhat.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christoph Hellwig <hch@infradead.org>,
- Alex Williamson <alex.williamson@redhat.com>, Maor Gottlieb <maorg@nvidia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 6, 2022 at 2:48 PM Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Mon, Sep 5, 2022 at 3:37 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> On Tue, Sep 06, 2022 at 12:38:44PM +0200, Christian K=C3=B6nig wrote:
-> > Am 06.09.22 um 11:51 schrieb Christoph Hellwig:
-> > > > +{
-> > > > + struct vfio_pci_dma_buf *priv =3D dmabuf->priv;
-> > > > + int rc;
-> > > > +
-> > > > + rc =3D pci_p2pdma_distance_many(priv->vdev->pdev, &attachment->de=
-v, 1,
-> > > > +                               true);
-> > > This should just use pci_p2pdma_distance.
+> gma_crtc_page_flip() was holding the event_lock spinlock while calling
+> crtc_funcs->mode_set_base() which takes ww_mutex.
 >
-> OK
+> The only reason to hold event_lock is to clear gma_crtc->page_flip_event
+> on mode_set_base() errors.
 >
-> > > > + /*
-> > > > +  * Since the memory being mapped is a device memory it could neve=
-r be in
-> > > > +  * CPU caches.
-> > > > +  */
-> > > DMA_ATTR_SKIP_CPU_SYNC doesn't even apply to dma_map_resource, not su=
-re
-> > > where this wisdom comes from.
->
-> Habana driver
-I hate to throw the ball at someone else, but I actually copied the
-code from the amdgpu driver, from amdgpu_vram_mgr_alloc_sgt() iirc.
-And if you remember Jason, you asked why we use this specific define
-in the original review you did and I replied the following (to which
-you agreed and that's why we added the comment):
+> Instead unlock it after setting gma_crtc->page_flip_event and on
+> errors re-take the lock and clear gma_crtc->page_flip_event it
+> it is still set.
 
-"The memory behind this specific dma-buf has *always* resided on the
-device itself, i.e. it lives only in the 'device' domain (after all,
-it maps a PCI bar address which points to the device memory).
-Therefore, it was never in the 'CPU' domain and hence, there is no
-need to perform a sync of the memory to the CPU's cache, as it was
-never inside that cache to begin with.
+Hi Hans, thanks for having a look at gma500.
 
-This is not the same case as with regular memory which is dma-mapped
-and then copied into the device using a dma engine. In that case,
-the memory started in the 'CPU' domain and moved to the 'device'
-domain. When it is unmapped it will indeed be recycled to be used
-for another purpose and therefore we need to sync the CPU cache."
+See comments below.
 
-Oded
 >
-> > > > + dma_addr =3D dma_map_resource(
-> > > > +         attachment->dev,
-> > > > +         pci_resource_start(priv->vdev->pdev, priv->index) +
-> > > > +                 priv->offset,
-> > > > +         priv->dmabuf->size, dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > > This is not how P2P addresses are mapped.  You need to use
-> > > dma_map_sgtable and have the proper pgmap for it.
-> >
-> > The problem is once more that this is MMIO space, in other words regist=
-er
-> > BARs which needs to be exported/imported.
-> >
-> > Adding struct pages for it generally sounds like the wrong approach her=
-e.
-> > You can't even access this with the CPU or would trigger potentially
-> > unwanted hardware actions.
+> This fixes the following WARN/stacktrace:
 >
-> Right, this whole thing is the "standard" that dmabuf has adopted
-> instead of the struct pages. Once the AMD GPU driver started doing
-> this some time ago other drivers followed.
+> [  512.122953] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:870
+> [  512.123004] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 1253, name: gnome-shell
+> [  512.123031] preempt_count: 1, expected: 0
+> [  512.123048] RCU nest depth: 0, expected: 0
+> [  512.123066] INFO: lockdep is turned off.
+> [  512.123080] irq event stamp: 0
+> [  512.123094] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+> [  512.123134] hardirqs last disabled at (0): [<ffffffff8d0ec28c>] copy_process+0x9fc/0x1de0
+> [  512.123176] softirqs last  enabled at (0): [<ffffffff8d0ec28c>] copy_process+0x9fc/0x1de0
+> [  512.123207] softirqs last disabled at (0): [<0000000000000000>] 0x0
+> [  512.123233] Preemption disabled at:
+> [  512.123241] [<0000000000000000>] 0x0
+> [  512.123275] CPU: 3 PID: 1253 Comm: gnome-shell Tainted: G        W         5.19.0+ #1
+> [  512.123304] Hardware name: Packard Bell dot s/SJE01_CT, BIOS V1.10 07/23/2013
+> [  512.123323] Call Trace:
+> [  512.123346]  <TASK>
+> [  512.123370]  dump_stack_lvl+0x5b/0x77
+> [  512.123412]  __might_resched.cold+0xff/0x13a
+> [  512.123458]  ww_mutex_lock+0x1e/0xa0
+> [  512.123495]  psb_gem_pin+0x2c/0x150 [gma500_gfx]
+> [  512.123601]  gma_pipe_set_base+0x76/0x240 [gma500_gfx]
+> [  512.123708]  gma_crtc_page_flip+0x95/0x130 [gma500_gfx]
+> [  512.123808]  drm_mode_page_flip_ioctl+0x57d/0x5d0
+> [  512.123897]  ? drm_mode_cursor2_ioctl+0x10/0x10
+> [  512.123936]  drm_ioctl_kernel+0xa1/0x150
+> [  512.123984]  drm_ioctl+0x21f/0x420
+> [  512.124025]  ? drm_mode_cursor2_ioctl+0x10/0x10
+> [  512.124070]  ? rcu_read_lock_bh_held+0xb/0x60
+> [  512.124104]  ? lock_release+0x1ef/0x2d0
+> [  512.124161]  __x64_sys_ioctl+0x8d/0xd0
+> [  512.124203]  do_syscall_64+0x58/0x80
+> [  512.124239]  ? do_syscall_64+0x67/0x80
+> [  512.124267]  ? trace_hardirqs_on_prepare+0x55/0xe0
+> [  512.124300]  ? do_syscall_64+0x67/0x80
+> [  512.124340]  ? rcu_read_lock_sched_held+0x10/0x80
+> [  512.124377]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> [  512.124411] RIP: 0033:0x7fcc4a70740f
+> [  512.124442] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+> [  512.124470] RSP: 002b:00007ffda73f5390 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> [  512.124503] RAX: ffffffffffffffda RBX: 000055cc9e474500 RCX: 00007fcc4a70740f
+> [  512.124524] RDX: 00007ffda73f5420 RSI: 00000000c01864b0 RDI: 0000000000000009
+> [  512.124544] RBP: 00007ffda73f5420 R08: 000055cc9c0b0cb0 R09: 0000000000000034
+> [  512.124564] R10: 0000000000000000 R11: 0000000000000246 R12: 00000000c01864b0
+> [  512.124584] R13: 0000000000000009 R14: 000055cc9df484d0 R15: 000055cc9af5d0c0
+> [  512.124647]  </TASK>
 >
-> Now we have struct pages, almost, but I'm not sure if their limits are
-> compatible with VFIO? This has to work for small bars as well.
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/gma500/gma_display.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 >
-> Jason
+> diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
+> index bd40c040a2c9..cf038e322164 100644
+> --- a/drivers/gpu/drm/gma500/gma_display.c
+> +++ b/drivers/gpu/drm/gma500/gma_display.c
+> @@ -532,15 +532,19 @@ int gma_crtc_page_flip(struct drm_crtc *crtc,
+>                 WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+>
+>                 gma_crtc->page_flip_event = event;
+> +               spin_unlock_irqrestore(&dev->event_lock, flags);
+>
+>                 /* Call this locked if we want an event at vblank interrupt. */
+
+If we don't hold the event_lock around mode_set_base() we could
+potentially get a vblank before we do the modeset. That would send the
+event prematurely. I think this is what the comment tries to tell us.
+
+-Patrik
+
+>                 ret = crtc_funcs->mode_set_base(crtc, crtc->x, crtc->y, old_fb);
+>                 if (ret) {
+> -                       gma_crtc->page_flip_event = NULL;
+> -                       drm_crtc_vblank_put(crtc);
+> +                       spin_lock_irqsave(&dev->event_lock, flags);
+> +                       if (gma_crtc->page_flip_event) {
+> +                               gma_crtc->page_flip_event = NULL;
+> +                               drm_crtc_vblank_put(crtc);
+> +                       }
+> +                       spin_unlock_irqrestore(&dev->event_lock, flags);
+>                 }
+>
+> -               spin_unlock_irqrestore(&dev->event_lock, flags);
+>         } else {
+>                 ret = crtc_funcs->mode_set_base(crtc, crtc->x, crtc->y, old_fb);
+>         }
+> --
+> 2.36.1
+>
