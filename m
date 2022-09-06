@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D3B5AE6B4
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 13:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27505AE6BA
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 13:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C36410E622;
-	Tue,  6 Sep 2022 11:37:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE33310E620;
+	Tue,  6 Sep 2022 11:38:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 735A110E620;
- Tue,  6 Sep 2022 11:37:09 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id b16so14751102edd.4;
- Tue, 06 Sep 2022 04:37:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=M2uKdk7Tp89RSg1nNky+wcqDqkwDzuiMCD1W37dZrH0=;
- b=ZQTLztfGcVGjBsblOMebM+NFagwGsHE86jaN0nn5Ucp+OVvrMMNQeKea7Erer2AZTv
- 8WSgYVetr0SUIrYJZ0+e7yU/SKcRDrTPrm58bXWa26qdTJev+OTiAIpybgolEHth6ER3
- 7SqWSK6DRK/PqWU0dmWaTzvxR4ExDaYuiAPOEC0fxGVOdBtdfGSj5XnM6mi+0s+0pTZs
- udNATEjqtglI137EMLEmHkW7K7Ix/djafa4Y4qjJhPMUq/Thni4rH0q1ZvkDF40LuGto
- rXj9JnAls09vHek6yKWp4go5hBfkz26YX4cC4Zt42WRC2CpFdzGS4kzpB6DZgdXUeCvB
- PPnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=M2uKdk7Tp89RSg1nNky+wcqDqkwDzuiMCD1W37dZrH0=;
- b=3t1F2NWEyec1vT6w98sWbXUwoblR1YdRoqFpaGSxTbAWHEl/jw9+oOyEr5VyCkslDj
- 0P0lo4qHM5gLs1SDZNgYEaMh6XJTiMBqGYcqK/BZuJrNq4XQuc60S/djA6Vs5PXwUu4Q
- 2XlhmZR9k49yoqzcJxMONzCMLt5m0SDZ6cJIkXCLB2Zr9z/YAfO9CmWRj5TBxR4EcBon
- bKToSlp/z5U8R3bqIrchRTSRcCwt8u844BPT1e47FvdF5KMFs348WRv5zz/c/MpFiCQM
- Wt4g5hHPiRB/qUMWePFmCgtmCAkNjhzgpHxj4/7qRbQRAwaTpI7CluZzBHA3nuZOIDtF
- eYCA==
-X-Gm-Message-State: ACgBeo33hmwIiVFx5RfkMrJpzvo0o0Hh6o4zt9sJaOgZCkn7gzIuhORH
- YW1NsAaY86iiuYepe7AZAX0gnvYLymfaTSiub6M=
-X-Google-Smtp-Source: AA6agR7IKf/e9xKyzj81LJcXChDsfXfQhD46/b5OzVDrIs69K0v464O0PVRKlwhKyEF/Q3Jqvn8Le1k13liwXyHRDMw=
-X-Received: by 2002:aa7:df87:0:b0:44e:2851:7e8d with SMTP id
- b7-20020aa7df87000000b0044e28517e8dmr10684584edy.106.1662464227838; Tue, 06
- Sep 2022 04:37:07 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB7710E620
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 11:38:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662464327; x=1694000327;
+ h=message-id:date:mime-version:subject:from:to:references:
+ in-reply-to:content-transfer-encoding;
+ bh=VEJTkGxx44JImk6B2IUdv9204swC+QuEhIl64y3Z40U=;
+ b=QW4szLyIGO6f17I+w7BhxyLNxumUIze+BAxJMRJKL7TJe1Ezc434Dgic
+ 2pJvvg2vlPFag16OEumqfxpjiju/SWvvzCvzJA53hGIXf9HIwqqDZyIoE
+ smcQlYp6BCT/tNqo4sTVQ5GOT8SBOcXAXYLxjk7GRU1lZog0FN/g8JVEx
+ Y/flP2rfGy84wqPvfGOqINpYqzFrV8VgIACMDfG3eFyC9m9FOodOkovHJ
+ nQtYy69SDDupgltT21INCHFHnVI0cIfcKtcrcHhDq5xUGwPMR3VpljiPq
+ RflUzjsxL0j4eRta2QYS56LyIbfxo6qSGP/YqZh6+ys8c/7hh4KlDehbw Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="382865254"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="382865254"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2022 04:38:46 -0700
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; d="scan'208";a="644137416"
+Received: from holmesda-mobl.ger.corp.intel.com (HELO [10.213.204.21])
+ ([10.213.204.21])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2022 04:38:43 -0700
+Message-ID: <af01406e-2a09-c2ff-ff29-8a8c2a869d79@linux.intel.com>
+Date: Tue, 6 Sep 2022 12:38:41 +0100
 MIME-Version: 1.0
-References: <tencent_E1BBF05904DFB73C478DCD592740AAE0780A@qq.com>
- <CAJedcCxVW++iH49UFZp9ruUuTcNubWCH6Wsqe11K4COB3E8msg@mail.gmail.com>
- <CAJedcCw1eJqjSK+yR7eQMDheNtH3Mjm+viwt00xAhnmrfpq2pw@mail.gmail.com>
- <CAJedcCweHjD78F7iydiq6Xc2iH=t_3m=H9JKnaCooToUk32FvQ@mail.gmail.com>
- <YxWtfjfpNsoPUrgh@kroah.com>
-In-Reply-To: <YxWtfjfpNsoPUrgh@kroah.com>
-From: Zheng Hacker <hackerzheng666@gmail.com>
-Date: Tue, 6 Sep 2022 19:36:56 +0800
-Message-ID: <CAJedcCzMo51aiy=Dv7zn7VmL3gwkw7JgzwAPAB2Z27C9CnhoYA@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry.
-To: Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 4/4] dma-buf: Check status of enable-signaling bit on
+ debug
+Content-Language: en-US
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
+ shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
+ Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
+ gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20220905163502.4032-1-Arvind.Yadav@amd.com>
+ <20220905163502.4032-5-Arvind.Yadav@amd.com>
+ <f2e1367f-b056-b2af-365c-8ae4ef03f008@amd.com>
+ <ec41b299-4280-d8e4-7ab0-23b5ea6ad401@linux.intel.com>
+ <de799b93-1b55-c420-61d9-ad8fa926c7d2@amd.com>
+ <691e636f-07d6-f4d3-6d83-29a3834ac1a2@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <691e636f-07d6-f4d3-6d83-29a3834ac1a2@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,71 +72,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex000young@gmail.com, security@kernel.org,
- dri-devel@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com,
- airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, xmzyshypnc <1002992920@qq.com>,
- rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
- zhi.a.wang@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Greg,
 
-Alex has explained how we figured out the patch. We did analyze the
-code and found it possible to reach the vulnerability code. But we
-have no physical device in hand to test the driver. So we'd like to
-discuss with developers to see if the issue exists or not.
+On 06/09/2022 12:21, Tvrtko Ursulin wrote:
+> 
+> On 06/09/2022 11:43, Christian König wrote:
+>> Am 06.09.22 um 12:20 schrieb Tvrtko Ursulin:
+>>>
+>>> On 06/09/2022 09:39, Christian König wrote:
+>>>> Am 05.09.22 um 18:35 schrieb Arvind Yadav:
+>>>>> The core DMA-buf framework needs to enable signaling
+>>>>> before the fence is signaled. The core DMA-buf framework
+>>>>> can forget to enable signaling before the fence is signaled.
+>>>>
+>>>> This sentence is a bit confusing. I'm not a native speaker of 
+>>>> English either, but I suggest something like:
+>>>>
+>>>> "Fence signaling must be enable to make sure that the 
+>>>> dma_fence_is_signaled() function ever returns true."
+>>>>
+>>>>> To avoid this scenario on the debug kernel, check the
+>>>>> DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT status bit before checking
+>>>>> the signaling bit status to confirm that enable_signaling
+>>>>> is enabled.
+>>>>
+>>>> This describes the implementation, but we should rather describe the 
+>>>> background of the change. The implementation should be obvious. 
+>>>> Something like this maybe:
+>>>>
+>>>> "
+>>>> Since drivers and implementations sometimes mess this up enforce 
+>>>> correct behavior when DEBUG_WW_MUTEX_SLOWPATH is used during debugging.
+>>>>
+>>>> This should make any implementations bugs resulting in not signaled 
+>>>> fences much more obvious.
+>>>> "
+>>>
+>>> I think I follow the idea but am not sure coupling (well "coupling".. 
+>>> not really, but cross-contaminating in a way) dma-fence.c with a 
+>>> foreign and effectively unrelated concept of a ww mutex is the best way.
+>>>
+>>> Instead, how about a dma-buf specific debug kconfig option?
+>>
+>> Yeah, I was thinking about that as well.
+> 
+> Cool, lets see about the specifics below and then decide.
+> 
+>> The slowpath config option was just at hand because when you want to 
+>> test the slowpath you want to test this here as well.
+>>
+>>>
+>>> Condition would then be, according to my understanding of the rules 
+>>> and expectations, along the lines of:
+>>>
+>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>> index 775cdc0b4f24..147a9df2c9d0 100644
+>>> --- a/include/linux/dma-fence.h
+>>> +++ b/include/linux/dma-fence.h
+>>> @@ -428,6 +428,17 @@ dma_fence_is_signaled_locked(struct dma_fence 
+>>> *fence)
+>>>  static inline bool
+>>>  dma_fence_is_signaled(struct dma_fence *fence)
+>>>  {
+>>> +#ifdef CONFIG_DEBUG_DMAFENCE
+>>> +       /*
+>>> +        * Implementations not providing the enable_signaling 
+>>> callback are
+>>> +        * required to always have signaling enabled or fences are not
+>>> +        * guaranteed to ever signal.
+>>> +        */
+>>
+>> Well that comment is a bit misleading. The intention of the extra 
+>> check is to find bugs in the frontend and not the backend.
+> 
+> By backend you mean drivers/dma-buf/dma-fence.c and by front end driver 
+> specific implementations? Or simply users for dma-fence?
+> 
+> Could be that I got confused.. I was reading these two:
+> 
+> 
+>       * This callback is optional. If this callback is not present, then 
+> the
+>       * driver must always have signaling enabled.
+>       */
+>      bool (*enable_signaling)(struct dma_fence *fence);
+> 
+> And dma_fence_is_signaled:
+> 
+>   * Returns true if the fence was already signaled, false if not. Since 
+> this
+>   * function doesn't enable signaling, it is not guaranteed to ever return
+>   * true if dma_fence_add_callback(), dma_fence_wait() or
+>   * dma_fence_enable_sw_signaling() haven't been called before.
+> 
+> Right, I think I did get confused, apologies. What I was thinking was 
+> probably two separate conditions:
+> 
+>   static inline bool
+>   dma_fence_is_signaled(struct dma_fence *fence)
+>   {
+> +#ifdef CONFIG_DEBUG_DMAFENCE
+> +       if (WARN_ON_ONCE(!fence->ops->enable_signaling &&
+> +                        !test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, 
+> &fence->flags)))
+> +               return false;
+> +
+> +       if (!test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &fence->flags))
+> +               return false;
+> +#endif
+> +
 
-Best regards,
-Zheng Wang.
+Or simpler OFC:
 
-Greg KH <gregkh@linuxfoundation.org> =E4=BA=8E2022=E5=B9=B49=E6=9C=885=E6=
-=97=A5=E5=91=A8=E4=B8=80 16:04=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Sep 05, 2022 at 03:46:09PM +0800, Zheng Hacker wrote:
-> > I rewrote the letter. Hope it works.
-> >
-> > There is a double-free security bug in split_2MB_gtt_entry.
-> >
-> > Here is a calling chain :
-> > ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entry.
-> > If intel_gvt_dma_map_guest_page failed, it will call
-> > ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
-> > kfree(spt). But the caller does not notice that, and it will call
-> > ppgtt_free_spt again in error path.
-> >
-> > Fix this by returning the result of ppgtt_invalidate_spt to split_2MB_g=
-tt_entry.
-> >
-> > Signed-off-by: Zheng Wang
-> >
-> > ---
-> >  drivers/gpu/drm/i915/gvt/gtt.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/=
-gtt.c
-> > index ce0eb03709c3..9f14fded8c0c 100644
-> > --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> > @@ -1215,7 +1215,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu =
-*vgpu,
-> >                 ret =3D intel_gvt_dma_map_guest_page(vgpu, start_gfn + =
-sub_index,
-> >                                                    PAGE_SIZE, &dma_addr=
-);
-> >                 if (ret) {
-> > -                       ppgtt_invalidate_spt(spt);
-> > +                       ret =3D ppgtt_invalidate_spt(spt);
-> >                         return ret;
->
-> But now you just lost the original error, shouldn't this succeed even if
-> intel_gvt_dma_map_guest_page() failed?
->
-> And how are you causing intel_gvt_dma_map_guest_page() to fail in a real
-> system?
->
-> thanks,
->
-> greg k-h
+	if (!test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &fence->flags)) {
+		WARN_ON_ONCE(!fence->ops->enable_signaling);
+		return false;
+	}
+
+You could also run this core change past i915 CI to see if it catches anything. Just send to our trybot and see what happens? With the debug option enabled of course. Hope it won't be painful.
+
+Regards,
+
+Tvrtko
+
+>          if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>                  return true;
+> 
+> Not sure "is signaled" is the best place for the first one or that it 
+> should definitely be added.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> In other words somewhere in the drm_syncobj code we have a 
+>> dma_fence_is_signaled() call without matching 
+>> dma_fence_enable_sw_signaling().
+>>
+>> Regards,
+>> Christian.
+>>
+>>> + if (!fence->ops->enable_signaling &&
+>>> +           !test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &fence->flags))
+>>> +               return false;
+>>> +#endif
+>>> +
+>>>         if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>>                 return true;
+>>>
+>>> Thoughts?
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>>
+>>>>>
+>>>>> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+>>>>
+>>>> With the improved commit message this patch is Reviewed-by: 
+>>>> Christian König <christian.koenig@amd.com>
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>> ---
+>>>>>
+>>>>> Changes in v1 :
+>>>>> 1- Addressing Christian's comment to replace
+>>>>> CONFIG_DEBUG_WW_MUTEX_SLOWPATH instead of CONFIG_DEBUG_FS.
+>>>>> 2- As per Christian's comment moving this patch at last so
+>>>>> The version of this patch is also changed and previously
+>>>>> it was [PATCH 1/4]
+>>>>>
+>>>>>
+>>>>> ---
+>>>>>   include/linux/dma-fence.h | 5 +++++
+>>>>>   1 file changed, 5 insertions(+)
+>>>>>
+>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>>>> index 775cdc0b4f24..ba1ddc14c5d4 100644
+>>>>> --- a/include/linux/dma-fence.h
+>>>>> +++ b/include/linux/dma-fence.h
+>>>>> @@ -428,6 +428,11 @@ dma_fence_is_signaled_locked(struct dma_fence 
+>>>>> *fence)
+>>>>>   static inline bool
+>>>>>   dma_fence_is_signaled(struct dma_fence *fence)
+>>>>>   {
+>>>>> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+>>>>> +    if (!test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &fence->flags))
+>>>>> +        return false;
+>>>>> +#endif
+>>>>> +
+>>>>>       if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>>>>           return true;
+>>>>
+>>
