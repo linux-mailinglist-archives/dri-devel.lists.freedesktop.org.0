@@ -2,60 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1B15AE359
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 10:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF9B5AE35D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 10:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16C1B10E5ED;
-	Tue,  6 Sep 2022 08:45:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B003A10E5F2;
+	Tue,  6 Sep 2022 08:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 829A810E5EB
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 08:45:30 +0000 (UTC)
-X-UUID: 267112a62b4047098b432e57f60367c6-20220906
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=iXNrNuT55qB4UEKn0dm1EhQ6AW108Y1kOKA357cPY9Y=; 
- b=e1fhNF4kfa/U7ZwVk9QWr8gi+fn8qm+fpj5cXm0B0cF7+Vbs6IOtOiYu1jfMXNhzEn+40Ed9K2ICAxntQ4ZH4ML4Fl6eDanKUXNFFniYpIrNbTyavgkDYOg813HzyjWpzbnpoZ4J7c+fErlOLSW8KXH4o9R2N2MUcJU/FpKqI7M=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:04995f6d-02bf-4c75-8b73-4525f6a060bc, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release
- _Ham,ACTION:release,TS:-5
-X-CID-META: VersionHash:84eae18, CLOUDID:d8fc5721-1c20-48a5-82a0-25f9c331906d,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:
- nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 267112a62b4047098b432e57f60367c6-20220906
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <nathan.lu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1070819910; Tue, 06 Sep 2022 16:45:23 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 6 Sep 2022 16:45:21 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Tue, 6 Sep 2022 16:45:21 +0800
-From: nathan.lu <nathan.lu@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Matthias Brugger
- <matthias.bgg@gmail.com>
-Subject: [PATCH v2 6/6] drm/mediatek: add mediatek-drm of vdosys0 support for
- mt8188
-Date: Tue, 6 Sep 2022 16:44:49 +0800
-Message-ID: <20220906084449.20124-7-nathan.lu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220906084449.20124-1-nathan.lu@mediatek.com>
-References: <20220906084449.20124-1-nathan.lu@mediatek.com>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2053.outbound.protection.outlook.com [40.107.101.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4AF810E5F2;
+ Tue,  6 Sep 2022 08:46:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I5O1yUpoe3ELpiHsXVBedsiEwtVqXuMaohLaiVhM4B/uSWXiyRNqWX0Qr2qGhnMmz8Yafaqc7mkdAKJo7BxVKUEqv4GBKBVqYwrDDk9Kzefi7L81+sJ/ZLpHCuFCrrLOIRVJnL8QV+CqrUEVxfC8Xi5vOYRt9khHrsA8f8cykWvKirhNnbF+Mc4QOqESKUJVRzq7USs3aKTSoaWNT4ZWP34YRycefGShwGPvyX4mX4Vp4JPFok53uKWYC/mxbjUU3qV5iWzJSEiCIyjg7eyQnPCN3ETfv2sn4LX2o4ylJNXML8FpCkCflJPbPv8OnfN9m8ytisbx3/IqeobjfQn6Cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6QPLBU/eHcRnGJ/D+c/44QIeFauiGthEAYDVeWACFu4=;
+ b=n2EjysMQn9wYVt2Ql3OsP+sEaiy915/HZcuUYhO43W8DjP53T18mlx9gRI+xqGlK7aW5pt7r5fss/3AlV4kPoztAclTfQkqx293cCHYakq3oqENCjMkxyN4zb1tpAl4ZiAO3eR77pLc8dBlVWkjVmyjc7q87+UMTZaP4GU0XFwwYaEBOWldNrB2ZItit3D2HtxqMliE7olyGnliD/VnbQ0ICYwUjtMaasHPvyY8Vx6Qy4S+yMSihgP5pUaIuObTXQz8kaVxjCNI4/SLUnV3avO0JHZEnuja4mvGzfq5YNmVBJejc8QHK/TvoPAtR8zTzovsFEfinh1CmaTJV2vb46A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6QPLBU/eHcRnGJ/D+c/44QIeFauiGthEAYDVeWACFu4=;
+ b=pTFJUwwMEieJ8mHIkSzKp+kfEziTeUSgo/gJDSdcvwW/fZvTWxiuYOs0ron022hFoqxv8LlKnqINPHZBsfq3x3AzLePwmr02O7SMO2bxhXuXvj6zVWiVPfvN96mVdjYyUKRstK9omM55z0jJ3gr79KDBtxWnYr9egd807ez0Oxs=
+Received: from DS7PR03CA0212.namprd03.prod.outlook.com (2603:10b6:5:3ba::7) by
+ BN9PR12MB5065.namprd12.prod.outlook.com (2603:10b6:408:132::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Tue, 6 Sep
+ 2022 08:46:33 +0000
+Received: from DM6NAM11FT101.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3ba:cafe::a8) by DS7PR03CA0212.outlook.office365.com
+ (2603:10b6:5:3ba::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.17 via Frontend
+ Transport; Tue, 6 Sep 2022 08:46:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT101.mail.protection.outlook.com (10.13.172.208) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5588.10 via Frontend Transport; Tue, 6 Sep 2022 08:46:32 +0000
+Received: from amdoffice.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 6 Sep
+ 2022 03:46:30 -0500
+From: ZhenGuo Yin <zhenguo.yin@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v2] drm/ttm: update bulk move object of ghost BO
+Date: Tue, 6 Sep 2022 16:46:19 +0800
+Message-ID: <20220906084619.2545456-1-zhenguo.yin@amd.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-MTK: N
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c972730a-81ea-4288-481a-08da8fe44ccc
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5065:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ixixI7tEOG9xwu3J/JlxypCd0+1OkmhjCwKEKPbXxixtdI+sLFYKWLaTavTPqhhTirqQ5JZKwjOHap013DVXBn7c1qrK59tozfJZQYnsR4wbkYAk51SCxIaPLVJQfpFN6He0rIkbVE90vJiVPUjYjs7Re4a5/R1CEx7m4AbMwwh0w7FUo+ZaP3N6Y7jp2FC0zbpWB+nfqOo/d1kp5tP4q7De5azmKwg76+HY++OlYzRBUYsiKnqofKYfWh/tF3qD7Yi5YfmaOUjIrQDfO77Xj3hgFZzm55D9EuSF+jV7GYYyRUrSiT6T7mG78ATKu98QfX7Y54ro82mV21fuNK6DAZVh4vbdF3sH1l1dWjKnAawkh4AGQGjoHALndJ/WFPeir6FrTWpUKp44JMubhUVYCN3eCc7/JypXLLJuylpTO+G/6GPbyxYbVHuEysppZf0lSh81wFKP2p/8tZE56Gsnu1YFdU5jsdBWk1gDkNBau9whnqpo0uVErE/t0DYhgV8a+oBH12ld6l9SHL0ytlYsgitjtxBeAB/4n3ICXHacNCIAwBf2PAvgv/VHQURjUdR3ze8di4KiSKnXRQrmOHUtmh0W+UjwUyOQWiSaZQ9nuHG77E9vo6CQ9jbxoJkd7Ch/PlcsTjORguAnmZYO4pBu+SxgicRtycB2Jdk1hd0oCFQb4K70HcuREVaIwS2nkKbK9MyZlENV0SCpDtTBJ7tY56DBqXL4qccMiuRSmDP9e19VKKDY4lqpvpGVzBoN5jde2fd4AbJHDexG8mASZ8T6OSQArCnYI9iU3SSa40UEkAB50LHgVqYs+eZBREcZ2hNY
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(346002)(376002)(39860400002)(136003)(40470700004)(36840700001)(46966006)(40460700003)(82310400005)(316002)(40480700001)(54906003)(110136005)(86362001)(36756003)(82740400003)(2906002)(356005)(81166007)(426003)(36860700001)(5660300002)(8936002)(8676002)(70206006)(4326008)(83380400001)(336012)(70586007)(450100002)(16526019)(47076005)(2616005)(41300700001)(186003)(1076003)(6666004)(478600001)(26005)(7696005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 08:46:32.9180 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c972730a-81ea-4288-481a-08da8fe44ccc
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT101.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5065
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,89 +98,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, devicetree@vger.kernel.org,
- wsd_upstream@mediatek.com, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, Rex-BC
- Chen <rex-bc.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
- linux-mediatek@lists.infradead.org, lancelot.wu@mediatek.com,
- amy zhang <Amy.Zhang@mediatek.com>, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: ZhenGuo Yin <zhenguo.yin@amd.com>, jingwen.chen2@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Lu <nathan.lu@mediatek.com>
+[Why]
+Ghost BO is released with non-empty bulk move object. There is a
+warning trace:
+WARNING: CPU: 19 PID: 1582 at ttm/ttm_bo.c:366 ttm_bo_release+0x2e1/0x2f0 [amdttm]
+Call Trace:
+  amddma_resv_reserve_fences+0x10d/0x1f0 [amdkcl]
+  amdttm_bo_put+0x28/0x30 [amdttm]
+  amdttm_bo_move_accel_cleanup+0x126/0x200 [amdttm]
+  amdgpu_bo_move+0x1a8/0x770 [amdgpu]
+  ttm_bo_handle_move_mem+0xb0/0x140 [amdttm]
+  amdttm_bo_validate+0xbf/0x100 [amdttm]
 
-add driver data of mt8188 vdosys0 to mediatek-drm and the sub driver.
+[How]
+The resource of ghost BO should be moved to LRU directly, instead of
+using bulk move. The bulk move object of ghost BO should set to NULL
+before function ttm_bo_move_to_lru_tail_unlocked.
 
-Signed-off-by: amy zhang <Amy.Zhang@mediatek.com>
-Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
+v2: set bulk move to NULL manually if no resource associated with ghost BO
+
+Fixed: 5b951e487fd6bf5f ("drm/ttm: fix bulk move handling v2")
+Signed-off-by: ZhenGuo Yin <zhenguo.yin@amd.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 29 ++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index d72263c8a621..649f22ac8cab 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -178,6 +178,18 @@ static const unsigned int mt8186_mtk_ddp_ext[] = {
- 	DDP_COMPONENT_DPI0,
- };
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 1cbfb00c1d65..57a27847206f 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -239,6 +239,9 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+ 	if (fbo->base.resource) {
+ 		ttm_resource_set_bo(fbo->base.resource, &fbo->base);
+ 		bo->resource = NULL;
++		ttm_bo_set_bulk_move(&fbo->base, NULL);
++	} else {
++		fbo->base.bulk_move = NULL;
+ 	}
  
-+static const unsigned int mt8188_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_POSTMASK0,
-+	DDP_COMPONENT_DITHER0,
-+	DDP_COMPONENT_DP_INTF0,
-+};
-+
- static const unsigned int mt8192_mtk_ddp_main[] = {
- 	DDP_COMPONENT_OVL0,
- 	DDP_COMPONENT_OVL_2L0,
-@@ -323,6 +335,19 @@ static const struct mtk_mmsys_match_data mt8186_mmsys_match_data = {
- 	},
- };
- 
-+static const struct mtk_mmsys_driver_data mt8188_vdosys0_driver_data = {
-+	.main_path = mt8188_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8188_mtk_ddp_main),
-+	.mmsys_dev_num = 1,
-+};
-+
-+static const struct mtk_mmsys_match_data mt8188_mmsys_match_data = {
-+	.num_drv_data = 1,
-+	.drv_data = {
-+		&mt8188_vdosys0_driver_data,
-+	},
-+};
-+
- static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
- 	.main_path = mt8192_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
-@@ -376,6 +401,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8183_mmsys_match_data},
- 	{ .compatible = "mediatek,mt8186-mmsys",
- 	  .data = &mt8186_mmsys_match_data},
-+	{ .compatible = "mediatek,mt8188-mmsys",
-+	  .data = &mt8188_mmsys_match_data},
- 	{ .compatible = "mediatek,mt8192-mmsys",
- 	  .data = &mt8192_mmsys_match_data},
- 	{ .compatible = "mediatek,mt8195-mmsys",
-@@ -734,6 +761,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8186-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8188-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8192-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8195-disp-mutex",
+ 	dma_resv_init(&fbo->base.base._resv);
 -- 
-2.18.0
+2.35.1
 
