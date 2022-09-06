@@ -2,48 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467705ADC69
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 02:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA545ADC7A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Sep 2022 02:36:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6829D10E526;
-	Tue,  6 Sep 2022 00:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92FCF10E532;
+	Tue,  6 Sep 2022 00:35:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9FC110E526
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 00:33:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662424385; x=1693960385;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=RUVdfPOb6chs1+8BqyYEVqAOhl9fQh8rHeVVH/dD89Y=;
- b=V4HRx/MHXpn7gZYe2ef8jf17GLmWuO0tdb6x63nKbDqGf5RynHh6GLGP
- 921W/pXoQxyQF4dMq2K7G3U7nPP3iv9C9Nx6inCZrMQJRbXOa753oJsaL
- 5clRmCRQG/DEbKa473fhqeJQVZ8QOfN7/fmPSokt1NjbvXcVsG/Ol6gDE
- UliY3V1bBzMSjzSuOz//y67AiUWQARiYPBzXnAiGqH6MGkc8YEe3NEHgV
- S+OlGSIKRDlpVlZdnwK/WPEqvFMV6rc0bBx3fswnD1K1P6/0M24YX+yBd
- vC8HYbIgugKtTdjw4z9ChcL/52UP/caUmAZl76jPllAKRJP2Ls3Lu1oKQ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="297778396"
-X-IronPort-AV: E=Sophos;i="5.93,292,1654585200"; d="scan'208";a="297778396"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2022 17:33:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,292,1654585200"; d="scan'208";a="643957100"
-Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
- by orsmga008.jf.intel.com with ESMTP; 05 Sep 2022 17:33:04 -0700
-Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oVMWV-0004fh-1B;
- Tue, 06 Sep 2022 00:33:03 +0000
-Date: Tue, 6 Sep 2022 08:32:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Igor Torrente <igormtorrente@gmail.com>
-Subject: [drm-misc:for-linux-next 9/9]
- drivers/gpu/drm/vkms/vkms_formats.c:259: undefined reference to `__divdi3'
-Message-ID: <202209060813.wci1hZUA-lkp@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C470510E529
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 00:35:53 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 03FFB61193
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 00:35:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ECBFC4314E
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Sep 2022 00:35:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1662424551;
+ bh=AFVELCe6kckm5eVg8tSkLGzu73jpu1k+AHFc6+CYBcw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=nI77n7PyLi5FxsG5xVGzM7IPkRddyT0b0CMVM4SXMhWb+vUNwAV0WGNt4PA9n8CqS
+ zxVkXOyN5M/JlTZh6GqixESF8eOED5NoosbhPX2Hsbo0g74HUvcD5IqIAIzpnj5CaD
+ d4ygcuWBgqOpLZM9kiHSPuHX97fV/gU10RfgBZV6i4M0nptUl44AJG2NDDPrJ3KyGn
+ 1mg1nut4G2j0qOt/ZUizGE05HWc7HSg5muHqEVTDVysQf1oTx2lYiY2aW+xCf1axIQ
+ MnFiCmpbeoQzdH1L8YqUu19CRdilnf4OtxFGR0RF0l82/TvXGOFtk+ukltv8mWvtx4
+ CmdEvf4qo/wqw==
+Received: by mail-ot1-f48.google.com with SMTP id
+ y25-20020a056830109900b0063b3c1fe018so7119796oto.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Sep 2022 17:35:51 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3kDVgO3XSeLiw0do6Fac2rdBQbmOxvB0qRaqyP9yfFcNu0l3zX
+ Os7nNkMxovEqMdktUY9VB4MTQdjwfutMte3XiA==
+X-Google-Smtp-Source: AA6agR7JB46gDLcqHlczb2XMcJBrFON4MTYWbTLa6xhusijh7jtXlCYbGmC4KWVKQpa3XwKRkOEL4frns62DfuOfGIw=
+X-Received: by 2002:a05:6830:6999:b0:61d:26f8:94c1 with SMTP id
+ cy25-20020a056830699900b0061d26f894c1mr20597426otb.278.1662424550394; Mon, 05
+ Sep 2022 17:35:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20220901044149.16782-1-rex-bc.chen@mediatek.com>
+ <af23462c-2d3b-470a-7fd6-2bf09a3174cb@gmail.com>
+ <80985882-c46f-cfb1-b077-a92866536678@collabora.com>
+In-Reply-To: <80985882-c46f-cfb1-b077-a92866536678@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 6 Sep 2022 08:35:31 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-C8fmabcTrytpHowbHe8Y+tTmv=5SV+oKPjUNRLTaU9w@mail.gmail.com>
+Message-ID: <CAAOTY_-C8fmabcTrytpHowbHe8Y+tTmv=5SV+oKPjUNRLTaU9w@mail.gmail.com>
+Subject: Re: [PATCH v17 00/10] Add MT8195 DisplayPort driver
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,66 +63,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <melissa.srw@gmail.com>, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ krzysztof.kozlowski+dt@linaro.org, Dmitry Osipenko <digetx@gmail.com>,
+ deller@gmx.de, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Chen-Yu Tsai <wenst@chromium.org>, Bo-Chen Chen <rex-bc.chen@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ liangxu.xu@mediatek.com, Markus Schneider-Pargmann <msp@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Guillaume Ranquet <granquet@baylibre.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   396369d6754993e40f1c84b2e22e40e92dfa4c49
-commit: 396369d6754993e40f1c84b2e22e40e92dfa4c49 [9/9] drm: vkms: Add support to the RGB565 format
-config: i386-randconfig-a006-20220905 (https://download.01.org/0day-ci/archive/20220906/202209060813.wci1hZUA-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
-reproduce (this is a W=1 build):
-        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
-        git fetch --no-tags drm-misc for-linux-next
-        git checkout 396369d6754993e40f1c84b2e22e40e92dfa4c49
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+Hi, Dmitry:
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Dmitry Osipenko <dmitry.osipenko@collabora.com> =E6=96=BC 2022=E5=B9=B49=E6=
+=9C=885=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=886:53=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+>
+> On 9/4/22 15:59, Dmitry Osipenko wrote:
+> > 01.09.2022 07:41, Bo-Chen Chen =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> This patch is separated from v10 which is including dp driver, phy dri=
+ver
+> >> and dpintf driver. This series is only contained the DisplayPort drive=
+r.
+> >>
+> >> This series can be tested using 5.19-rc2 kernel and I test it in MT819=
+5
+> >> Tomato Chromebook. Modetest these modes:
+> >
+> > Applied to drm-misc-next, thanks!
+>
+> Hello Chun-Kuang Hu,
+>
+> Angelo told me today that you wanted to pick up the MTK driver patches
+> and I applied them all to the drm-misc instead just of the "video/hdmi"
+> patch. The series was fully reviewed and tested, so I had no doubts when
+> applied all the patches.
+>
+> The applied patches can't be reverted, so if you have more changes
+> prepared for the MTK driver, then please rebase them on top of the
+> latest drm-misc-next.
+>
+> Apologizes for this confusion. Please let us know if we can help you.
 
-All errors (new ones prefixed by >>):
+OK, if this cannot be reverted, I could only accept this. Normally,
+drm/mediatek patches would go though medaitek-drm-* branch. To prevent
+any confusion, it's better to discuss before pick up.
 
-   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: drivers/gpu/drm/vkms/vkms_formats.o: in function `argb_u16_to_RGB565':
->> drivers/gpu/drm/vkms/vkms_formats.c:259: undefined reference to `__divdi3'
->> ld: drivers/gpu/drm/vkms/vkms_formats.c:260: undefined reference to `__divdi3'
-   ld: drivers/gpu/drm/vkms/vkms_formats.c:261: undefined reference to `__divdi3'
+Regards,
+Chun-Kuang.
 
-
-vim +259 drivers/gpu/drm/vkms/vkms_formats.c
-
-   241	
-   242	static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
-   243				       const struct line_buffer *src_buffer, int y)
-   244	{
-   245		int x_dst = frame_info->dst.x1;
-   246		u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   247		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   248		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   249				    src_buffer->n_pixels);
-   250	
-   251		s32 fp_rb_ratio = INT_TO_FIXED_DIV(65535, 31);
-   252		s32 fp_g_ratio = INT_TO_FIXED_DIV(65535, 63);
-   253	
-   254		for (size_t x = 0; x < x_limit; x++, dst_pixels++) {
-   255			s32 fp_r = INT_TO_FIXED(in_pixels[x].r);
-   256			s32 fp_g = INT_TO_FIXED(in_pixels[x].g);
-   257			s32 fp_b = INT_TO_FIXED(in_pixels[x].b);
-   258	
- > 259			u16 r = FIXED_TO_INT_ROUND(FIXED_DIV(fp_r, fp_rb_ratio));
- > 260			u16 g = FIXED_TO_INT_ROUND(FIXED_DIV(fp_g, fp_g_ratio));
-   261			u16 b = FIXED_TO_INT_ROUND(FIXED_DIV(fp_b, fp_rb_ratio));
-   262	
-   263			*dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
-   264		}
-   265	}
-   266	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+>
+> --
+> Best regards,
+> Dmitry
