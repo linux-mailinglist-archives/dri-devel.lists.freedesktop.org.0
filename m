@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4915AF890
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 01:51:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1745AF8A7
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 01:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9DDA10E0A4;
-	Tue,  6 Sep 2022 23:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D724E10E105;
+	Tue,  6 Sep 2022 23:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 712BD10E0A9;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C9310E098;
  Tue,  6 Sep 2022 23:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1662508187; x=1694044187;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wAfVGZTmppGTptuyqunLKpjTsu/57ZUBpBca9euXg60=;
- b=Df3zWYWrjE33LAfb3OJuyHcQmxrvYzQrfOJLVRB3Bz+k9C/AHMcyq/Kz
- Xn/o0ZVj3Sw6m30Yrv6E7CvJa66r/wuNDvzUI89vHyL16pYzFleT1d83/
- U212XyGte5/A92Zja2yJt8xTwuCZC6FSrTBYBsPC0Iu8et7iMhZrnbeFv
- gyXQ5KPEHfB9MimBHw8TxIpq0BApOFnHC2i5z7lJvrM2spCWzNfHwuug2
- p2EdiAEBqgKS6ry5OrMnXP8fdSAEACB+cFq1003sQRm5/uxbWUNsBE0Ar
- PSSMCdIwSSn35tZHKvhAvQaWj7hR0NhvOh78CTJtsu9Ni8e6jLDkTX6Q/ A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="276477214"
-X-IronPort-AV: E=Sophos;i="5.93,295,1654585200"; d="scan'208";a="276477214"
+ bh=Gx1g/bJxfXXLcWi5G/O65Z1VuWmCk9iDmou8Sp3Wlfg=;
+ b=kSfqpTx6SVpDjNfGbwxvG0oYdKLCCZTmMcJAJP7mlvy4ybz1e4PzMR74
+ JXvcDnUQIA19a+bUEGO3hB4hNDN0sgMU448HNY7kRuNY4wsDDmUacemS9
+ stGZHFSL2h+4nxFOAfPh+0Qg+9bhzmXuNGiaAvwabqUp6zojDkJuz04dv
+ avvklIj8vyiRF28aNHiffrvPlxUIi8z/NpBYhjllkhaYr7MqVtZaMiLt5
+ 9ldsOCFcf5o8vQuSeEJE1NPZyNPKaGpQ9letwvAXBAbsamhMtI7yzu9DT
+ dAyqQSFwwj4my5Cek6qjXt2gHFJv+JMPQub08MUazK7/LUuv1VrnJNb2G g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="276477215"
+X-IronPort-AV: E=Sophos;i="5.93,295,1654585200"; d="scan'208";a="276477215"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 Sep 2022 16:49:46 -0700
-X-IronPort-AV: E=Sophos;i="5.93,295,1654585200"; d="scan'208";a="675920334"
+X-IronPort-AV: E=Sophos;i="5.93,295,1654585200"; d="scan'208";a="675920337"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 Sep 2022 16:49:46 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 10/14] drm/i915/uncore: Add GSI offset to uncore
-Date: Tue,  6 Sep 2022 16:49:30 -0700
-Message-Id: <20220906234934.3655440-11-matthew.d.roper@intel.com>
+Subject: [PATCH v3 11/14] drm/i915/mtl: Add gsi_offset when emitting aux table
+ invalidation
+Date: Tue,  6 Sep 2022 16:49:31 -0700
+Message-Id: <20220906234934.3655440-12-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220906234934.3655440-1-matthew.d.roper@intel.com>
 References: <20220906234934.3655440-1-matthew.d.roper@intel.com>
@@ -55,130 +56,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GT non-engine registers (referred to as "GSI" registers by the spec)
-have the same relative offsets on standalone media as they do on the
-primary GT, just with an additional "GSI offset" added to their MMIO
-address.  If we store this GSI offset in the standalone media's
-intel_uncore structure, it can be automatically applied to all GSI reg
-reads/writes that happen on that GT, allowing us to re-use our existing
-GT code with minimal changes.
+The aux table invalidation registers are a bit unique --- they're
+engine-centric registers that reside in the GSI register space rather
+than within the engines' regular MMIO ranges.  That means that when
+issuing invalidation on engines in the standalone media GT, the GSI
+offset must be added to the regular MMIO offset for the invalidation
+registers.
 
-Forcewake and shadowed register tables for the media GT (which will be
-added in a future patch) are listed as final addresses that already
-include the GSI offset, so we also need to add the GSI offset before
-doing lookups of registers in one of those tables.
-
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_types.h |  1 +
- drivers/gpu/drm/i915/intel_uncore.c      | 10 ++++++++--
- drivers/gpu/drm/i915/intel_uncore.h      | 22 ++++++++++++++++++++--
- 3 files changed, 29 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 15 ++++++++++-----
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.h |  3 ++-
+ drivers/gpu/drm/i915/gt/intel_lrc.c      |  9 ++++++---
+ 3 files changed, 18 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-index 0e139f7d75ed..82dc28643572 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-@@ -274,6 +274,7 @@ struct intel_gt_definition {
- 	enum intel_gt_type type;
- 	char *name;
- 	u32 mapping_base;
-+	u32 gsi_offset;
- 	intel_engine_mask_t engine_mask;
- };
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+index 98645797962f..e49fa6fa6aee 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+@@ -165,10 +165,12 @@ static u32 preparser_disable(bool state)
+ 	return MI_ARB_CHECK | 1 << 8 | state;
+ }
  
-diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-index 452b3a31e965..5cd423c7b646 100644
---- a/drivers/gpu/drm/i915/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/intel_uncore.c
-@@ -928,6 +928,9 @@ find_fw_domain(struct intel_uncore *uncore, u32 offset)
+-u32 *gen12_emit_aux_table_inv(u32 *cs, const i915_reg_t inv_reg)
++u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg)
  {
- 	const struct intel_forcewake_range *entry;
- 
-+	if (IS_GSI_REG(offset))
-+		offset += uncore->gsi_offset;
++	u32 gsi_offset = gt->uncore->gsi_offset;
 +
- 	entry = BSEARCH(offset,
- 			uncore->fw_domains_table,
- 			uncore->fw_domains_table_entries,
-@@ -1143,6 +1146,9 @@ static bool is_shadowed(struct intel_uncore *uncore, u32 offset)
- 	if (drm_WARN_ON(&uncore->i915->drm, !uncore->shadowed_reg_table))
- 		return false;
+ 	*cs++ = MI_LOAD_REGISTER_IMM(1) | MI_LRI_MMIO_REMAP_EN;
+-	*cs++ = i915_mmio_reg_offset(inv_reg);
++	*cs++ = i915_mmio_reg_offset(inv_reg) + gsi_offset;
+ 	*cs++ = AUX_INV;
+ 	*cs++ = MI_NOOP;
  
-+	if (IS_GSI_REG(offset))
-+		offset += uncore->gsi_offset;
-+
- 	return BSEARCH(offset,
- 		       uncore->shadowed_reg_table,
- 		       uncore->shadowed_reg_table_entries,
-@@ -1995,8 +2001,8 @@ static int __fw_domain_init(struct intel_uncore *uncore,
+@@ -254,7 +256,8 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
  
- 	d->uncore = uncore;
- 	d->wake_count = 0;
--	d->reg_set = uncore->regs + i915_mmio_reg_offset(reg_set);
--	d->reg_ack = uncore->regs + i915_mmio_reg_offset(reg_ack);
-+	d->reg_set = uncore->regs + i915_mmio_reg_offset(reg_set) + uncore->gsi_offset;
-+	d->reg_ack = uncore->regs + i915_mmio_reg_offset(reg_ack) + uncore->gsi_offset;
+ 		if (!HAS_FLAT_CCS(rq->engine->i915)) {
+ 			/* hsdes: 1809175790 */
+-			cs = gen12_emit_aux_table_inv(cs, GEN12_GFX_CCS_AUX_NV);
++			cs = gen12_emit_aux_table_inv(rq->engine->gt,
++						      cs, GEN12_GFX_CCS_AUX_NV);
+ 		}
  
- 	d->id = domain_id;
+ 		*cs++ = preparser_disable(false);
+@@ -313,9 +316,11 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
  
-diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
-index 4acb78a03233..7f1d7903a8f3 100644
---- a/drivers/gpu/drm/i915/intel_uncore.h
-+++ b/drivers/gpu/drm/i915/intel_uncore.h
-@@ -136,6 +136,16 @@ struct intel_uncore {
+ 	if (aux_inv) { /* hsdes: 1809175790 */
+ 		if (rq->engine->class == VIDEO_DECODE_CLASS)
+-			cs = gen12_emit_aux_table_inv(cs, GEN12_VD0_AUX_NV);
++			cs = gen12_emit_aux_table_inv(rq->engine->gt,
++						      cs, GEN12_VD0_AUX_NV);
+ 		else
+-			cs = gen12_emit_aux_table_inv(cs, GEN12_VE0_AUX_NV);
++			cs = gen12_emit_aux_table_inv(rq->engine->gt,
++						      cs, GEN12_VE0_AUX_NV);
+ 	}
  
- 	spinlock_t lock; /** lock is also taken in irq contexts. */
+ 	if (mode & EMIT_INVALIDATE)
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
+index 32e3d2b831bb..e4d24c811dd6 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
+@@ -13,6 +13,7 @@
+ #include "intel_gt_regs.h"
+ #include "intel_gpu_commands.h"
  
-+	/*
-+	 * Do we need to apply an additional offset to reach the beginning
-+	 * of the basic non-engine GT registers (referred to as "GSI" on
-+	 * newer platforms, or "GT block" on older platforms)?  If so, we'll
-+	 * track that here and apply it transparently to registers in the
-+	 * appropriate range to maintain compatibility with our existing
-+	 * register definitions and GT code.
-+	 */
-+	u32 gsi_offset;
-+
- 	unsigned int flags;
- #define UNCORE_HAS_FORCEWAKE		BIT(0)
- #define UNCORE_HAS_FPGA_DBG_UNCLAIMED	BIT(1)
-@@ -294,19 +304,27 @@ intel_wait_for_register_fw(struct intel_uncore *uncore,
- 					    2, timeout_ms, NULL);
- }
++struct intel_gt;
+ struct i915_request;
  
-+#define IS_GSI_REG(reg) ((reg) < 0x40000)
-+
- /* register access functions */
- #define __raw_read(x__, s__) \
- static inline u##x__ __raw_uncore_read##x__(const struct intel_uncore *uncore, \
- 					    i915_reg_t reg) \
- { \
--	return read##s__(uncore->regs + i915_mmio_reg_offset(reg)); \
-+	u32 offset = i915_mmio_reg_offset(reg); \
-+	if (IS_GSI_REG(offset)) \
-+		offset += uncore->gsi_offset; \
-+	return read##s__(uncore->regs + offset); \
- }
+ int gen8_emit_flush_rcs(struct i915_request *rq, u32 mode);
+@@ -45,7 +46,7 @@ u32 *gen8_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+ u32 *gen11_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
  
- #define __raw_write(x__, s__) \
- static inline void __raw_uncore_write##x__(const struct intel_uncore *uncore, \
- 					   i915_reg_t reg, u##x__ val) \
- { \
--	write##s__(val, uncore->regs + i915_mmio_reg_offset(reg)); \
-+	u32 offset = i915_mmio_reg_offset(reg); \
-+	if (IS_GSI_REG(offset)) \
-+		offset += uncore->gsi_offset; \
-+	write##s__(val, uncore->regs + offset); \
- }
- __raw_read(8, b)
- __raw_read(16, w)
+-u32 *gen12_emit_aux_table_inv(u32 *cs, const i915_reg_t inv_reg);
++u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg);
+ 
+ static inline u32 *
+ __gen8_emit_pipe_control(u32 *batch, u32 flags0, u32 flags1, u32 offset)
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index 070cec4ff8a4..08214683e130 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -1278,7 +1278,8 @@ gen12_emit_indirect_ctx_rcs(const struct intel_context *ce, u32 *cs)
+ 
+ 	/* hsdes: 1809175790 */
+ 	if (!HAS_FLAT_CCS(ce->engine->i915))
+-		cs = gen12_emit_aux_table_inv(cs, GEN12_GFX_CCS_AUX_NV);
++		cs = gen12_emit_aux_table_inv(ce->engine->gt,
++					      cs, GEN12_GFX_CCS_AUX_NV);
+ 
+ 	/* Wa_16014892111 */
+ 	if (IS_DG2(ce->engine->i915))
+@@ -1304,9 +1305,11 @@ gen12_emit_indirect_ctx_xcs(const struct intel_context *ce, u32 *cs)
+ 	/* hsdes: 1809175790 */
+ 	if (!HAS_FLAT_CCS(ce->engine->i915)) {
+ 		if (ce->engine->class == VIDEO_DECODE_CLASS)
+-			cs = gen12_emit_aux_table_inv(cs, GEN12_VD0_AUX_NV);
++			cs = gen12_emit_aux_table_inv(ce->engine->gt,
++						      cs, GEN12_VD0_AUX_NV);
+ 		else if (ce->engine->class == VIDEO_ENHANCEMENT_CLASS)
+-			cs = gen12_emit_aux_table_inv(cs, GEN12_VE0_AUX_NV);
++			cs = gen12_emit_aux_table_inv(ce->engine->gt,
++						      cs, GEN12_VE0_AUX_NV);
+ 	}
+ 
+ 	return cs;
 -- 
 2.37.2
 
