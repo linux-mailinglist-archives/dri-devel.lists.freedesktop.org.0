@@ -1,62 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08CA5B05B2
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 15:51:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C273F5B0628
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 16:11:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 008FA10E768;
-	Wed,  7 Sep 2022 13:51:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8316A10E63B;
+	Wed,  7 Sep 2022 14:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90C5810E768
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 13:50:59 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id e20so20470467wri.13
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 06:50:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=X0NRHzznEcchSri4bCoSt9nkeOdHiBAQ/5Pmte/Gyz8=;
- b=ZPGwmIXS/RcexDoa8uMC7Qrips3KiSqFH87cKBNHhTwrJyIbh+Gf46xHCuFlLz+D3r
- QJzjxWDnL/3wJ7vvsBEY1Rran3hIRJ8T7Apfg60js9xFLWTwZC8gcSHlapGLt6euwmcP
- wgNbvaxAKs/vl4DLQhzcnhAGxCj/OE1Nk8s5SsnoNQWY6ejjOfEbQcy1ij3+q6g7/rNs
- TGJ58yWg6fzHraOr7SAeKQyA5u0e1YJddwnU+sTLMYwvUCsuWPWsUM8CsZYsjyyqnDWT
- yBluKmdQc2i0pGvqpwH6/P1b+GDm9tvhHj33kDMuK8pjZ951VJygmrra4x9ZDpFAx2Dq
- S92Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=X0NRHzznEcchSri4bCoSt9nkeOdHiBAQ/5Pmte/Gyz8=;
- b=6HmxYPRa+SQShUT6+M097fZ7BtoDR37MHp9kN6RYR4KIgzplU8JrtSCskHLUxARFn2
- A9/m/nrnS+25zPKt3lEEUBk7KOTWJVzwiKdKMHmbel8TMrOfGFg3eVBusWtR3vJyik1c
- +PxRs2RRXdkCEnThngpyfPB2b7TSa7Me78s/oQ/h2iTJ845DIkpCkvLKDxfgP11Je139
- qd1bfwIKqVNvL6wJC6wZKOmXiQIBCVFfb/jXkIHmZgnFB8HEx0G76HApzxJ6DxvE+oyh
- 2WJHcuU918wyXVIBppcP2Wu20sfNlaGtVbTJyjqZnhhUur0rQyQQ6XppCh9fcOUhqlqL
- C9Hw==
-X-Gm-Message-State: ACgBeo07fHTqEO3LDl21ebeS1uoR7wgpD3A2ijbRCkIP1zsPJChCSWLK
- okywNtadge4P9RSrhxaKS7M=
-X-Google-Smtp-Source: AA6agR4RIMi9kvzI07nLVq88uJNBG/3Xnr/HatQQvRnewBFmASe0IG6eGxKCiJYiFkdZ1OToecCSkg==
-X-Received: by 2002:a05:6000:1867:b0:21f:f2cf:74a8 with SMTP id
- d7-20020a056000186700b0021ff2cf74a8mr2224870wri.344.1662558657922; 
- Wed, 07 Sep 2022 06:50:57 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- w3-20020a05600018c300b002206203ed3dsm18379698wrq.29.2022.09.07.06.50.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Sep 2022 06:50:57 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Bernie Thompson <bernie@plugable.com>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] fbdev: remove redundant initialization to variable identical
-Date: Wed,  7 Sep 2022 14:50:56 +0100
-Message-Id: <20220907135056.679617-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.37.1
+X-Greylist: delayed 928 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Sep 2022 10:01:50 UTC
+Received: from mail-m972.mail.163.com (mail-m972.mail.163.com [123.126.97.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0700710E4DC;
+ Wed,  7 Sep 2022 10:01:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=6YUzk
+ P4hI4MJG55mRUTRj+Zl4JF98Rmu8opT9JrlXq8=; b=DHdneHzli0u4DWLbeWeAp
+ i2ThrnDfKt2Nzgm4BQFizqFqZ9M/dRf9y1e+CPmXbl9fYKNaD8dvNdtLb28xYmqp
+ DiglvFz5BVMjYz48OfObkQSKgOj8/m118FiBssNNwZKuweMhr9mhS0vYAutAxrXp
+ b3VfffhNpPattkbsfA2PtY=
+Received: from localhost.localdomain (unknown [116.128.244.169])
+ by smtp2 (Coremail) with SMTP id GtxpCgDnac8RaBhj0Vovbg--.51651S2;
+ Wed, 07 Sep 2022 17:44:51 +0800 (CST)
+From: Zongmin Zhou <min_halo@163.com>
+To: airlied@redhat.com, kraxel@redhat.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/qxl: fix the suspend/resume issue on qxl device
+Date: Wed,  7 Sep 2022 17:44:23 +0800
+Message-Id: <20220907094423.93581-1-min_halo@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/mixed;
+	boundary="Add_By_Label_Mail_Nextpart_001"
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GtxpCgDnac8RaBhj0Vovbg--.51651S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAr4DKr17JrWftF4ktF1UJrb_yoW5tw18pF
+ W7GFykKrW8ArWUtF45CFZrCF1fZ39xtFWxWrWkK39xC3s8CF1kXF98t3y2vas8AFyUA3WS
+ qF4kt34Uua129aDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jnHUDUUUUU=
+X-Originating-IP: [116.128.244.169]
+X-CM-SenderInfo: pplqsxxdorqiywtou0bp/1tbisA51q1UMUafGbgABsm
+X-Mailman-Approved-At: Wed, 07 Sep 2022 14:11:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,36 +53,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, zhouzongmin@kylinos.cn,
+ Ming Xie <xieming@kylinos.cn>, spice-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The variable identical is being initialized with a value that is never
-read. The variable is being re-assigned later on. The initialization is
-redundant and can be removed.
+--Add_By_Label_Mail_Nextpart_001
+Content-Type: text/plain;
+Content-Transfer-Encoding: 8bit
 
-Cleans up clang scan-build warning:
-drivers/video/fbdev/udlfb.c:373:6: warning: Value stored to 'identical'
-during its initialization is never read [deadcode.DeadStores]
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+
+Details:
+Currently, when trying to suspend and resume with qxl device，
+there are some error messages after resuming,
+eventually caused to black screen and can't be recovered.
+
+The first error message:
+	[   64.668577][    C3] [drm] driver is in bug mode
+
+This error is due to guest qxl driver
+will call qxl_reinit_memslots(qdev) during system resume,
+but didn't call qxl_io_reset(qdev) before this,
+Then will cause the QXL_IO_MEMSLOT_ADD operation to fail on QEMU,
+qxl->guest_bug flag will be set，As a result,
+the QXL device can't communicate with guest qxl driver through the IO port.
+
+after fix the first error,can success to resume and login to desktop,
+but shortly after that will observe the second error message :
+	[  353.095343][  T863] qxl 0000:00:02.0: object_init failed for (262144, 0x00000001)
+	[  353.096660][  T863] [drm:qxl_gem_object_create [qxl]] *ERROR* Failed to allocate GEM object (260852, 1, 4096, -12)
+	[  353.097277][  T863] [drm:qxl_alloc_ioctl [qxl]] *ERROR* qxl_alloc_ioctl: failed to create gem ret=-12
+	[  368.197538][  T863] qxl 0000:00:02.0: object_init failed for (3149824, 0x00000001)
+	[  368.197541][  T863] [drm:qxl_alloc_bo_reserved [qxl]] *ERROR* failed to allocate VRAM BO
+
+The problem is caused by calling qxl_ring_init_hdr(qdev->release_ring)
+in qxl_drm_resume() function.
+When do QXL_IO_RESET,QEMU will call init_qxl_ram(),
+so params like prod,cons,notify_on_cons and notify_on_prod
+will be set to default value.
+Ring push/pop actions for release_ring can be performed normally.
+But call qxl_ring_init_hdr(qdev->release_ring)
+will eventually set notify_on_prod to number of QXL_RELEASE_RING_SIZE,
+affect the value of notify in qxl_push_free_res() function always be false,
+QEMU will no longer send events of QXL_INTERRUPT_DISPLAY to the
+guest qxl driver，so qxl_ring_pop() will never been called anymore，
+and can't do dma_fence_signal(),result to ttm_bo_wait_ctx(bo, ctx)
+always return EBUSY,fail to call qxl_bo_create().
+
+Test scenario:
+1) start virtual machine with qemu command "-device qxl-vga"
+2) click suspend botton to enter suspend mode
+3) resume and observe the error message in kernel logs,screen will be black
+
+Let's fix this by reset io and remove the qxl_ring_init_hdr calling.
+
+Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
+Suggested-by: Ming Xie<xieming@kylinos.cn>
 ---
- drivers/video/fbdev/udlfb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/qxl/qxl_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
-index c863244ef12c..216d49c9d47e 100644
---- a/drivers/video/fbdev/udlfb.c
-+++ b/drivers/video/fbdev/udlfb.c
-@@ -370,7 +370,7 @@ static int dlfb_trim_hline(const u8 *bback, const u8 **bfront, int *width_bytes)
- 	const unsigned long *back = (const unsigned long *) bback;
- 	const unsigned long *front = (const unsigned long *) *bfront;
- 	const int width = *width_bytes / sizeof(unsigned long);
--	int identical = width;
-+	int identical;
- 	int start = width;
- 	int end = width;
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index 1cb6f0c224bb..3044ca948ce2 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -194,7 +194,6 @@ static int qxl_drm_resume(struct drm_device *dev, bool thaw)
+ 	qdev->ram_header->int_mask = QXL_INTERRUPT_MASK;
+ 	if (!thaw) {
+ 		qxl_reinit_memslots(qdev);
+-		qxl_ring_init_hdr(qdev->release_ring);
+ 	}
+ 
+ 	qxl_create_monitors_object(qdev);
+@@ -220,6 +219,7 @@ static int qxl_pm_resume(struct device *dev)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct drm_device *drm_dev = pci_get_drvdata(pdev);
++	struct qxl_device *qdev = to_qxl(drm_dev);
+ 
+ 	pci_set_power_state(pdev, PCI_D0);
+ 	pci_restore_state(pdev);
+@@ -227,6 +227,7 @@ static int qxl_pm_resume(struct device *dev)
+ 		return -EIO;
+ 	}
+ 
++	qxl_io_reset(qdev);
+ 	return qxl_drm_resume(drm_dev, false);
+ }
  
 -- 
-2.37.1
+2.25.1
+
+
+--Add_By_Label_Mail_Nextpart_001
+
+Content-type: Text/plain
+
+No virus found
+		Checked by Hillstone Network AntiVirus
+
+--Add_By_Label_Mail_Nextpart_001--
 
