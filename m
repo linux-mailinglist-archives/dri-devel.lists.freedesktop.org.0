@@ -2,37 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47365B0360
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 13:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D87C5B0369
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 13:52:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F66410E5C9;
-	Wed,  7 Sep 2022 11:50:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D49E810E609;
+	Wed,  7 Sep 2022 11:52:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 307 seconds by postgrey-1.36 at gabe;
- Wed, 07 Sep 2022 11:49:57 UTC
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6745C10E45E;
- Wed,  7 Sep 2022 11:49:56 +0000 (UTC)
-X-UUID: 44b1be78730d4fa681aa5327e9b4996a-20220907
-X-UUID: 44b1be78730d4fa681aa5327e9b4996a-20220907
-Received: from cs2c.com.cn [(192.168.0.8)] by mailgw
- (envelope-from <zhouzongmin@kylinos.cn>) (Generic MTA)
- with ESMTP id 818561533; Wed, 07 Sep 2022 19:45:11 +0800
-Received: by cs2c.com.cn (NSMail, from userid 0)
- id 730EE18CF54FB; Wed,  7 Sep 2022 19:44:43 +0800 (CST)
-From: =?UTF-8?B?5ZGo5a6X5pWP?= <zhouzongmin@kylinos.cn>
-Subject: =?UTF-8?B?5Zue5aSNOiBSZTogW1BBVENIXSBkcm0vcXhsOiBmaXggdGhlIHN1c3BlbmQvcmVzdW1lIGlzc3VlIG9uIHF4bCBkZXZpY2U=?=
-To: =?UTF-8?B?R2VyZCBIb2ZmbWFubg==?= <kraxel@redhat.com>,
- =?UTF-8?B?Wm9uZ21pbiBaaG91?= <min_halo@163.com>,
-Date: Wed, 07 Sep 2022 19:44:43 +0800
-X-Mailer: NSMAIL 6.0
-Message-ID: <17jwdnyrd7z-17jxnls6f1s@nsmail6.0>
-References: 20220907101707.ghkrtsba4eeje43p@sirius.home.kraxel.org
-X-Delaysendtime: Wed, 07 Sep 2022 19:44:43 +0800
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68EC610E609
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 11:52:50 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id f11so8012131lfa.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 04:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=Q9TkKT3+r01vVZzm+xYD0OiOoUb1Biq2Sme618hwY2k=;
+ b=E2WS1W4kTl+lKYjh0LzH3Iv0PROxOKPqSSBUCjc6Ru0c/oRl2CwyXEESKCujDzMVZ4
+ vofTbLuMOSJy3uTdgF2dvEfMG3R4J8paHgPsRFJC3Q/RZLqojQAFvSoQ1kFcQZZeYW33
+ CKHo+Cl2RMBm/Fr4CFOfRQVW2doulrmXVYUgBIcAheY7NGPH+Rf095FHhf2kpfkbnjUf
+ emrsva18+hWuKfGqoEbqx5H3ec599rqRpxPytLgk12j69+ayiuTv8mtICSQmLOH3/r+2
+ iUYfbydwCc/0HQk6f5/SAfFZB8u7IF6qVBy+n3AL+qqxjmvZvDJHlKjK/7NWMId5I2dx
+ fyTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Q9TkKT3+r01vVZzm+xYD0OiOoUb1Biq2Sme618hwY2k=;
+ b=aoYfLdiJdJdHcJ32KfQc+HCDWOiyKDLdHM/1pmoF92gDEdLjg85u/AYIKC6g2z7KtU
+ WgqS6j6dtX25/tLHIyHoKfgMImE0s8wj9Fym5Dij2b9xhhpTQhbTTt+XBn/Ss52J1uqt
+ VLqbQGaenjyGv22e6fqt1CKYA8EfG9RqgdgCZYblyvX39vXNJSESiAzGD8pcdQcfixrh
+ FUes5DnOcTOfjd8rQSy1hPO/mr71iS9ixvTRUsAgFla1uPV9Mu2MbSsMT+XqdHDw++IC
+ lC1v0oRipK6h7LjkC5nWipt68irVe71cxshFwQCjid2sEhnVJrYtudeG/Lx6j59dNgAY
+ vG0Q==
+X-Gm-Message-State: ACgBeo16YhWqxSHo3Vfgsztl0EkgNTBV4+N2CWcpKkLy/IjqdUAw/S3u
+ HpvOzoo/QmRPs2sIqYL49D4iew==
+X-Google-Smtp-Source: AA6agR7gpVa5DIQ2h+vqaTkyvVoEIuRThZItL25KMOVg6jlA6fNSzQ7YUJDL6/meWk9lWYJT9jLdhA==
+X-Received: by 2002:a19:5602:0:b0:496:443d:f044 with SMTP id
+ k2-20020a195602000000b00496443df044mr1069081lfb.313.1662551568497; 
+ Wed, 07 Sep 2022 04:52:48 -0700 (PDT)
+Received: from krzk-bin.. (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+ by smtp.gmail.com with ESMTPSA id
+ g1-20020a0565123b8100b004947a12232bsm2383321lfv.275.2022.09.07.04.52.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Sep 2022 04:52:46 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: broonie@kernel.org, krzysztof.kozlowski@linaro.org, robh+dt@kernel.org,
+ daniel@ffwll.ch, linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ airlied@linux.ie, linux-samsung-soc@vger.kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, hdegoede@redhat.com, daniel.lezcano@linaro.org,
+ lee@kernel.org, cw00.choi@samsung.com
+Subject: Re: (subset) [PATCH 2/3] MAINTAINERS: pwm-fan: Drop Bartlomiej
+ Zolnierkiewicz
+Date: Wed,  7 Sep 2022 13:52:41 +0200
+Message-Id: <166255155747.50111.5480583055849352151.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220808101526.46556-2-krzysztof.kozlowski@linaro.org>
+References: <20220808101526.46556-1-krzysztof.kozlowski@linaro.org>
+ <20220808101526.46556-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary=nsmail-17kpq9rdj8y-17kpq9rdj8z
-X-ns-mid: webmail-6318842b-17jyxjll
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,53 +78,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- =?UTF-8?B?5ZGo5a6X5pWP?= <zhouzongmin@kylinos.cn>,
- =?UTF-8?B?6LCi5piO?= <xieming@kylinos.cn>, spice-devel@lists.freedesktop.org,
- airlied@redhat.com
+Cc: bzolnier@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This message is in MIME format.
+On Mon, 8 Aug 2022 13:15:25 +0300, Krzysztof Kozlowski wrote:
+> Bartlomiej's Samsung email address is not working since around last
+> year and there was no follow up patch take over of the drivers, so drop
+> the email from maintainers.
+> 
+> 
 
---nsmail-17kpq9rdj8y-17kpq9rdj8z
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Applied, thanks!
 
-PHA+RGVhciBHZXJkOjwvcD48cD48YnI+PC9wPjxwPlRoYW5rcyBmb3IgeW91
-ciByZXBseS48L3A+PHA+SWYgdGhlcmUgYXJlIGFueXRoaW5nIGVsc2UsIHBs
-ZWFzZSBmZWVsIGZyZWUgdG8gY29udGFjdCBtZS48L3A+PGJyPgoKICZuYnNw
-OyAmbmJzcDs8cD4tLS0tPC9wPjxkaXYgaWQ9ImNzMmNfbWFpbF9zaWdhdHVy
-ZSI+PHA+PC9wPjxwPjxicj48L3A+PC9kaXY+PHA+PC9wPjxkaXYgaWQ9InJl
-IiBzdHlsZT0ibWFyZ2luLWxlZnQ6MC41ZW07cGFkZGluZy1sZWZ0OjAuNWVt
-O2JvcmRlci1sZWZ0OjFweCBzb2xpZCBncmVlbjsiPjxicj48YnI+PGJyPgog
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7PGRpdiBzdHlsZT0iYmFja2dy
-b3VuZC1jb2xvcjojZjVmN2ZhIj48Yj7kuLvjgIDpopjvvJo8L2I+PHNwYW4g
-aWQ9InN1YmplY3QiPlJlOiBbUEFUQ0hdIGRybS9xeGw6IGZpeCB0aGUgc3Vz
-cGVuZC9yZXN1bWUgaXNzdWUgb24gcXhsIGRldmljZTwvc3Bhbj4KICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7PGJyPjxiPuaX
-peOAgOacn++8mjwvYj48c3BhbiBpZD0iZGF0ZSI+MjAyMi0wOS0wNyAxODox
-Nzwvc3Bhbj4KICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7PGJyPjxiPuWPkeS7tuS6uu+8mjwvYj48c3BhbiBpZD0iZnJvbSI+
-R2VyZCBIb2ZmbWFubjwvc3Bhbj4KICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7PGJyPjxiPuaUtuS7tuS6uu+8mjwvYj48c3Bh
-biBpZD0idG8iPlpvbmdtaW4gWmhvdTwvc3Bhbj4KICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7CiAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDs8L2Rpdj48YnI+CiAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDs8ZGl2IGlkPSJjb250ZW50Ij48ZGl2IGNsYXNzPSJ2aWV3ZXJfcGFy
-dCI+PGRpdj5PbiBXZWQsIFNlcCAwNywgMjAyMiBhdCAwNTo0NDoyM1BNICsw
-ODAwLCBab25nbWluIFpob3Ugd3JvdGU6PGJyPiZndDsgPGJyPiZndDsgRnJv
-bTogWm9uZ21pbiBaaG91ICZsdDt6aG91em9uZ21pbkBreWxpbm9zLmNuJmd0
-Ozxicj4mZ3Q7IDxicj4mZ3Q7IERldGFpbHM6PGJyPiZndDsgQ3VycmVudGx5
-LCB3aGVuIHRyeWluZyB0byBzdXNwZW5kIGFuZCByZXN1bWUgd2l0aCBxeGwg
-ZGV2aWNl77yMPGJyPiZndDsgdGhlcmUgYXJlIHNvbWUgZXJyb3IgbWVzc2Fn
-ZXMgYWZ0ZXIgcmVzdW1pbmcsPGJyPiZndDsgZXZlbnR1YWxseSBjYXVzZWQg
-dG8gYmxhY2sgc2NyZWVuIGFuZCBjYW4ndCBiZSByZWNvdmVyZWQuPGJyPjxi
-cj5bIGFuYWx5c2lzIHNuaXBwZWQgXTxicj48YnI+Jmd0OyBMZXQncyBmaXgg
-dGhpcyBieSByZXNldCBpbyBhbmQgcmVtb3ZlIHRoZSBxeGxfcmluZ19pbml0
-X2hkciBjYWxsaW5nLjxicj48YnI+UHVzaGVkIHRvIGRybS1taXNjLW5leHQ8
-YnI+PGJyPnRoYW5rcyw8YnI+ICZuYnNwO0dlcmQ8YnI+PGJyPjwvZGl2Pjwv
-ZGl2PjwvZGl2PjwvZGl2Pg==
+[2/3] MAINTAINERS: pwm-fan: Drop Bartlomiej Zolnierkiewicz
+      https://git.kernel.org/krzk/linux/c/1f88d1e5f9e5d965c2208edc2c757eaff8960bca
 
---nsmail-17kpq9rdj8y-17kpq9rdj8z--
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
