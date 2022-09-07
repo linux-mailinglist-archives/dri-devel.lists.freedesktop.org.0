@@ -1,63 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21505AFCF5
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 08:59:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D03525AFCF9
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 09:00:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C37F10E386;
-	Wed,  7 Sep 2022 06:59:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8EBA10E39C;
+	Wed,  7 Sep 2022 06:59:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 283A110E386
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 06:59:20 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B71722239D;
- Wed,  7 Sep 2022 06:59:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662533958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oiS1rwZIBzitKuZA5LjmyNlmvG7hjm1vVeLhMtULfAg=;
- b=HvvuTj4Zbvvv9X/nHdpUEWFKmCdOWhpIbaE4PCRC1wxo9sU/Wyl6M5dWb5WLoSbQlrU/gk
- 52+NPjpbaL1fdEbR/DrqOdBWnWTG6AQYyw5BYJpIkx0MaeG0DjoDjYpHHChWps9t9MSIcf
- Pdewolr55PH6Is1RG/2vOu+MlMKqOxw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662533958;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oiS1rwZIBzitKuZA5LjmyNlmvG7hjm1vVeLhMtULfAg=;
- b=nHxVSTefttcwRyLOO87QclJCKnoS3Y152tzpSL6KOlhVI4ncTHkw2OHnUw88dNciswJ6oS
- AVUm+TOI+4/ciSAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 998B713486;
- Wed,  7 Sep 2022 06:59:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id hW2EJEZBGGNNbQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 07 Sep 2022 06:59:18 +0000
-Message-ID: <a659a499-1afd-aec2-01da-bb79c11d0ba2@suse.de>
-Date: Wed, 7 Sep 2022 08:59:17 +0200
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB0D310E38F
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 06:59:51 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id u6so18209718eda.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 23:59:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date; bh=qvR1N7BkwDYnsAvrsfaIO11nwQpKCU3X2O+a+Y27DUY=;
+ b=JboZiw5UMpW3fLQ7FupCjwd6aK+mUdgjr5hh3TDItIM8ud3MPqItdIZvSBy6At4SrH
+ PwHoYA4AU7ZjeZqaYWaA3JMJIRefSwml0t4qwc+ktxSSMu3EjO0DighbDKTn3xqOODKU
+ 8aA5FL4HALl1QQW2k4T0rKr+B9yknpX5DSbnQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=qvR1N7BkwDYnsAvrsfaIO11nwQpKCU3X2O+a+Y27DUY=;
+ b=4LdmBuraQtvV+06AKy7vefTdSkjV9/pUhnQIh6hjpyzkSgP2QOtcKVvXKVPp8DmLhA
+ I+cGRWQkEhPurlzM1PayFQWpcy/aTdChaRjz9VU+LZGgtEWYwE1A22E6GaoREnaZOV9e
+ KhjIMhXkegzvGs8id/sgN+9SKXVwpR7knrNOeHyaXMNRKNMdjp18namULgB+iIGVpgYi
+ QbMtG1pN6YOHOwCe/Eu0nqKyqAmEOMfrelrq5KFwh3xZqu6NVx0MDFXkzFIrc+QPqHQU
+ oF0qurTXHke7bHS8bPGE8OdbHWjN0shfwPqv/A0VscMpMYlKvYF42xeiCfXhHT1NHLqL
+ JSQw==
+X-Gm-Message-State: ACgBeo2tw5GtnR0JhfnXQiOqe/zOBdvwQJRbvZw9cQ3SpNU/Ja0KXJwI
+ vFkKXnmt4r7RpoiDArbgKFFWgA==
+X-Google-Smtp-Source: AA6agR5JW86JYwYYzN91pflVev5axL6S1Bv3lsKRf4XqvatlwpwQmUIlpWFZiPfqhA85TeaL1Xn6kg==
+X-Received: by 2002:a05:6402:5cd:b0:446:5965:f4af with SMTP id
+ n13-20020a05640205cd00b004465965f4afmr1916771edx.12.1662533990421; 
+ Tue, 06 Sep 2022 23:59:50 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ s25-20020a170906bc5900b007081282cbd8sm7824571ejv.76.2022.09.06.23.59.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Sep 2022 23:59:49 -0700 (PDT)
+Date: Wed, 7 Sep 2022 08:59:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jim Cromie <jim.cromie@gmail.com>
+Subject: Re: [PATCH v6 39/57] dyndbg/drm: POC add tracebits sysfs-knob
+Message-ID: <YxhBZLAasKaBPEDT@phenom.ffwll.local>
+Mail-Followup-To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
+ gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ seanpaul@chromium.org, robdclark@gmail.com,
+ linux@rasmusvillemoes.dk, joe@perches.com
+References: <20220904214134.408619-1-jim.cromie@gmail.com>
+ <20220904214134.408619-40-jim.cromie@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] drm/udl: Enable damage clipping
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20220728074756.6108-1-tzimmermann@suse.de>
- <Yxeg/X7RNOpa58gg@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <Yxeg/X7RNOpa58gg@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------G6LZG4JBs2TnAdEs5tujCJR4"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220904214134.408619-40-jim.cromie@gmail.com>
+X-Operating-System: Linux phenom 5.18.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,81 +75,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, airlied@redhat.com, sean@poorly.run,
- dri-devel@lists.freedesktop.org
+Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, jbaron@akamai.com, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch, joe@perches.com,
+ intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------G6LZG4JBs2TnAdEs5tujCJR4
-Content-Type: multipart/mixed; boundary="------------ED7RIi0KuLvFh2lGLrRC5VvZ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@linux.ie, airlied@redhat.com, sean@poorly.run,
- dri-devel@lists.freedesktop.org
-Message-ID: <a659a499-1afd-aec2-01da-bb79c11d0ba2@suse.de>
-Subject: Re: [PATCH] drm/udl: Enable damage clipping
-References: <20220728074756.6108-1-tzimmermann@suse.de>
- <Yxeg/X7RNOpa58gg@phenom.ffwll.local>
-In-Reply-To: <Yxeg/X7RNOpa58gg@phenom.ffwll.local>
+On Sun, Sep 04, 2022 at 03:41:16PM -0600, Jim Cromie wrote:
+> clone DRM.debug interface to DRM.tracebits: ie map bits to
+> drm-debug-categories, except this interface enables messages to
+> tracefs, not to syslog.
+> 
+> 1- we reuse the class-map added previously.
+>    this reflects the single source of both syslog/trace events
+> 
+> 2- add a 2nd struct ddebug_classes_bitmap_param
+>    refs 1, reusing it.
+>    flags = "T", to enable trace-events on this callsite.
+> 
+> 3- module_param_cb([2]) - does the sysfs part
+> 
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 
---------------ED7RIi0KuLvFh2lGLrRC5VvZ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+All the drm patches (excluding nouveau) I haven't commented on:
 
-SGkNCg0KQW0gMDYuMDkuMjIgdW0gMjE6MzUgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
-biBUaHUsIEp1bCAyOCwgMjAyMiBhdCAwOTo0Nzo1NkFNICswMjAwLCBUaG9tYXMgWmltbWVy
-bWFubiB3cm90ZToNCj4+IENhbGwgZHJtX3BsYW5lX2VuYWJsZV9mYl9kYW1hZ2VfY2xpcHMo
-KSBhbmQgZ2l2ZSB1c2Vyc3BhY2UgYSBjaGFuY2UNCj4+IG9mIG1pbmltaXppbmcgdGhlIHVw
-ZGF0ZWQgZGlzcGxheSBhcmVhLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1
-L2RybS91ZGwvdWRsX21vZGVzZXQuYyB8IDEgKw0KPj4gICAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKykNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3VkbC91
-ZGxfbW9kZXNldC5jIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jDQo+PiBp
-bmRleCBlNjdjNDBhNDhmYjQuLmNlNDI3MTI4ZjAzNCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS91ZGwvdWRsX21vZGVzZXQuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3VkbC91ZGxfbW9kZXNldC5jDQo+PiBAQCAtNDc5LDYgKzQ3OSw3IEBAIGludCB1ZGxfbW9k
-ZXNldF9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+PiAgIAkJCQkJICAgZm9ybWF0
-X2NvdW50LCBOVUxMLCBjb25uZWN0b3IpOw0KPj4gICAJaWYgKHJldCkNCj4+ICAgCQlyZXR1
-cm4gcmV0Ow0KPj4gKwlkcm1fcGxhbmVfZW5hYmxlX2ZiX2RhbWFnZV9jbGlwcygmdWRsLT5k
-aXNwbGF5X3BpcGUucGxhbmUpOw0KPiANCj4gSSdtIGFzc3VtaW5nIHRoaXMgcGFzc2VzIHdp
-dGggYWxsIHRoZSBpZ3RzIHdlIGhhdmUgKEkgaG9wZSB0aG9zZSBmaW5hbGx5DQo+IGxhbmRl
-ZCkgYW5kIGEgZGFtYWdlLWNhcGFibGUgY29tcG9zaXRvciBkb2Vzbid0IGdvIGJvb20gZWl0
-aGVyPw0KPiANCj4gRWl0aGVyIHdheSBwYXRjaCBsZ3RtLiBSZXZpZXdlZC1ieTogRGFuaWVs
-IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4NCj4gDQo+IEFsc28gSSB3b25kZXIg
-d2hldGhlciB3ZSBzaG91bGQgaGF2ZSBhIGNoZWNrIGluIHRoZSBkYW1hZ2UgaGVscGVycyB0
-byBtYWtlDQo+IHN1cmUgZHJpdmVycyBkb24ndCBmb3JnZXQgdG8gY2FsbCB0aGlzIGZ1bmN0
-aW9uIHRvIHNldCB1cCB0aGUgdWFwaSAuLi4NCg0KSXQgd2FybnMsIGJ1dCB5b3UgY2FuIGln
-bm9yZSB0aGF0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBDaGVlcnMsIERh
-bmllbA0KPiANCj4+ICAgDQo+PiAgIAlkcm1fbW9kZV9jb25maWdfcmVzZXQoZGV2KTsNCj4+
-ICAgDQo+PiAtLSANCj4+IDIuMzcuMQ0KPj4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1h
-bm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25z
-IEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55
-DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRv
-dGV2DQo=
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
---------------ED7RIi0KuLvFh2lGLrRC5VvZ--
+I think nouveau I'll leave up to nouveau folks.
+-Daniel
 
---------------G6LZG4JBs2TnAdEs5tujCJR4
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMYQUUFAwAAAAAACgkQlh/E3EQov+CA
-lg//SHNT1fJS7Ns8DE8GSqZxoMeXM19GaJPvLWFl1sTlgkSjh2Z9zNSrkRmIEIgmardYMkpexgIq
-eagN2fLaApOs9xLBEZG1hCt9PB2YMDYNR+HnNEaO8NgIBz7uvvJ2+vbwwHUrR00VgInmdInQewoI
-bNwlPNv77od6KcekxmFR1bEzsB5KzpjYwzAplpYIx+/7uZ2eIw0y7BNDwipiwYrcu7PB9W7GRRgk
-UtnSGVSokpdUW2mkyV9JGK2akPlBBgGhrCKQrQIvG/ehfDvYEbQtss9wkk0Uib4rw9k9ODoNH+AU
-uOBShHhem+B0Zq125l8RSMLeK/aAq4MMUeP9ZPe2e2xdsOieGqkE+vIB0DOkUyj/y6gwqrqaHCBM
-OZxRUnJ87JNrguROPJcyO06zSfYY6gOKgqmp7oeRVE9mWxRGPA5kFYrMuoZNS6tQ0DfrMYO1TMFf
-61VqK9LqfV7LPphLEY7bUgosaZnEJ/GPfynzu7GkR5sJuHILkbUIPWRYLWXuEaxjSoa0IAkO5LLg
-ukIOYLhPsw0Kc+IJQE24J1qbBYF1Jmvcdai2O9SGBGqfRinakUtgwZiEooZgz+AQe9bUHg6XWPJJ
-/WBSy6873K/+oGGcNLIS96mr73eWcfmRLWHBjXDS1nsHGOnnL94KVMdKvFDkkOgpLTpdM6YuPEOG
-rgo=
-=oz5X
------END PGP SIGNATURE-----
+> ---
+>  drivers/gpu/drm/drm_print.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index c50edbf443d3..75d0cecd7e86 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -45,6 +45,9 @@
+>  unsigned long __drm_debug;
+>  EXPORT_SYMBOL(__drm_debug);
+>  
+> +unsigned long __drm_trace;
+> +EXPORT_SYMBOL(__drm_trace);
+> +
+>  MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
+>  "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
+>  "\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
+> @@ -77,6 +80,13 @@ static struct ddebug_class_param drm_debug_bitmap = {
+>  	.map = &drm_debug_classes,
+>  };
+>  module_param_cb(debug, &param_ops_dyndbg_classes, &drm_debug_bitmap, 0600);
+> +
+> +static struct ddebug_class_param drm_trace_bitmap = {
+> +	.bits = &__drm_trace,
+> +	.flags = "T",
+> +	.map = &drm_debug_classes,
+> +};
+> +module_param_cb(tracecats, &param_ops_dyndbg_classes, &drm_trace_bitmap, 0600);
+>  #endif
+>  
+>  void __drm_puts_coredump(struct drm_printer *p, const char *str)
+> -- 
+> 2.37.2
+> 
 
---------------G6LZG4JBs2TnAdEs5tujCJR4--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
