@@ -1,16 +1,16 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDDF5AFF4D
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 10:39:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C185AFF4A
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 10:39:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16BFF10E439;
-	Wed,  7 Sep 2022 08:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5554710E474;
+	Wed,  7 Sep 2022 08:39:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B27E810E449
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4AE89209
  for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 08:38:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,23 +18,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=rYp//Jg1lyxpKWkb291uTJu2CIqUef18RIn6yGFAgCg=; b=sk0s1bJUkmVcTL7zsheAfsjCAS
- J9oofWFE3mABrjS5FTMsVKaWtpfSKcCK2MVUpK487L2IE0mHYF5JVKaGUQNoOpMPT3roXExSJzFCF
- TmgRxT+lrhMu5tw94PZqYpzpCpPIIi/h+pwvxmSPAE08a7MfMhi3QnsiJ6mIgKZpFyc4FZGufq1t/
- i66h6lOnzBYTlM75b3MMYa6q++R1TGd28qL+s7gZ3vh35RY4MPYm5vV3u0tOgsErHndX9WAGXt4NY
- YpY7lWMWH7DwGLNR0e7nsz31IBLfBDCD0sHfmc4mTIZXSN8F/mEgdmsPpvVwEv3yRb1kECm/dfCRD
- FPNdnWQQ==;
+ bh=Pc7pEtDwcYVFEJuYVAoJKQqwwvMB2B5UCnI1TfHlPOE=; b=zL9qqgeZWf6Nqv6CZ/aMWTXvKB
+ 4HooJoxEcEwGEsPYD7pZCYg6oaP5N4brSdOTniISEn6369Xt3IZ0w+j71rBXMj8ksoMF+3ZFjKcnd
+ GEp5e05VxK3CV2GHYPIr4qIPYuZ6gRz0MXCBybmOzcNJwd8syE5bHm9zbBtDA/toUnxgYWptUdbZv
+ SQpVbBozbu7oA65HYs9cM7rNYqLbeIZeaOv6Zk6TGnLJ4yjFD+Tpi6nAlBjynHcZ2AgLVR/+lLaMH
+ 67Mx2iwdKzKma5XPvTdf5Lj/5FQplibN77wq3lKWfUkjdVz/gFcAFZW2y+xR8qmBquvyORMpLDp0r
+ KjIwPfwA==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1oVqaE-00DbXj-NQ; Wed, 07 Sep 2022 11:38:54 +0300
+ id 1oVqaE-00DbXj-UX; Wed, 07 Sep 2022 11:38:54 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 1/3] gpu: host1x: Select context device based on attached IOMMU
-Date: Wed,  7 Sep 2022 11:38:42 +0300
-Message-Id: <20220907083844.2486805-2-cyndis@kapsi.fi>
+Subject: [PATCH 2/3] dt-bindings: Add Host1x context stream IDs on Tegra234
+Date: Wed,  7 Sep 2022 11:38:43 +0300
+Message-Id: <20220907083844.2486805-3-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220907083844.2486805-1-cyndis@kapsi.fi>
 References: <20220907083844.2486805-1-cyndis@kapsi.fi>
@@ -62,70 +62,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-On Tegra234, engines that are programmed through Host1x channels can
-be attached to either the NISO0 or NISO1 SMMU. Because of that, when
-selecting a context device to use with an engine, we need to select
-one that is also attached to the same SMMU.
-
-Add a parameter to host1x_memory_context_alloc to specify which device
-we are allocating a context for, and use it to pick an appropriate
-context device.
+Add defines for stream IDs used for Host1x context isolation
+on Tegra234. The same stream IDs are used for both NISO0 and
+NISO1 SMMUs since Host1x's stream ID protection tables don't
+make a distinction between the two.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/drm/tegra/uapi.c | 2 +-
- drivers/gpu/host1x/context.c | 5 +++++
- include/linux/host1x.h       | 1 +
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ include/dt-bindings/memory/tegra234-mc.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
-index a98239cb0e29..5adab6b22916 100644
---- a/drivers/gpu/drm/tegra/uapi.c
-+++ b/drivers/gpu/drm/tegra/uapi.c
-@@ -116,7 +116,7 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
+diff --git a/include/dt-bindings/memory/tegra234-mc.h b/include/dt-bindings/memory/tegra234-mc.h
+index 75f0bd30d365..d9b21b64ed73 100644
+--- a/include/dt-bindings/memory/tegra234-mc.h
++++ b/include/dt-bindings/memory/tegra234-mc.h
+@@ -35,6 +35,16 @@
+ #define TEGRA234_SID_NVDEC	0x29
+ #define TEGRA234_SID_VIC	0x34
  
- 		if (supported)
- 			context->memory_context = host1x_memory_context_alloc(
--				host, get_task_pid(current, PIDTYPE_TGID));
-+				host, client->base.dev, get_task_pid(current, PIDTYPE_TGID));
- 
- 		if (IS_ERR(context->memory_context)) {
- 			if (PTR_ERR(context->memory_context) != -EOPNOTSUPP) {
-diff --git a/drivers/gpu/host1x/context.c b/drivers/gpu/host1x/context.c
-index b08cf11f9a66..8d6447cdd882 100644
---- a/drivers/gpu/host1x/context.c
-+++ b/drivers/gpu/host1x/context.c
-@@ -104,6 +104,7 @@ void host1x_memory_context_list_free(struct host1x_memory_context_list *cdl)
- }
- 
- struct host1x_memory_context *host1x_memory_context_alloc(struct host1x *host1x,
-+							  struct device *dev,
- 							  struct pid *pid)
- {
- 	struct host1x_memory_context_list *cdl = &host1x->context_list;
-@@ -118,6 +119,10 @@ struct host1x_memory_context *host1x_memory_context_alloc(struct host1x *host1x,
- 	for (i = 0; i < cdl->len; i++) {
- 		struct host1x_memory_context *cd = &cdl->devs[i];
- 
-+		if (cd->dev.iommu->iommu_dev != dev->iommu->iommu_dev) {
-+			continue;
-+		}
++/* Shared stream IDs */
++#define TEGRA234_SID_HOST1X_CTX0	0x35
++#define TEGRA234_SID_HOST1X_CTX1	0x36
++#define TEGRA234_SID_HOST1X_CTX2	0x37
++#define TEGRA234_SID_HOST1X_CTX3	0x38
++#define TEGRA234_SID_HOST1X_CTX4	0x39
++#define TEGRA234_SID_HOST1X_CTX5	0x3a
++#define TEGRA234_SID_HOST1X_CTX6	0x3b
++#define TEGRA234_SID_HOST1X_CTX7	0x3c
 +
- 		if (cd->owner == pid) {
- 			refcount_inc(&cd->ref);
- 			mutex_unlock(&cdl->lock);
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index cb2100d9b0ff..ef05de1f4f1e 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -469,6 +469,7 @@ struct host1x_memory_context {
- 
- #ifdef CONFIG_IOMMU_API
- struct host1x_memory_context *host1x_memory_context_alloc(struct host1x *host1x,
-+							  struct device *dev,
- 							  struct pid *pid);
- void host1x_memory_context_get(struct host1x_memory_context *cd);
- void host1x_memory_context_put(struct host1x_memory_context *cd);
+ /*
+  * memory client IDs
+  */
 -- 
 2.37.0
 
