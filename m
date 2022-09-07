@@ -1,55 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B525AFBBA
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 07:28:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59FBE5AFBEC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 07:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07BB010E27B;
-	Wed,  7 Sep 2022 05:28:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9D0B10E2E7;
+	Wed,  7 Sep 2022 05:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFC5910E27B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 05:28:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Ag5A/RmCropcVrgEGeSl2EI9o9geRtdOi57vqqT+CvE=; b=kQ2pBUusDPefhBlg4MGjWwa8ty
- +/GdLiFN+gF8drvcCy7WMoe4LgkhG8JbtbwxG79U6GI3M9xRam/Y7NOjUzSv5dFoNWnjwAYzAjy4p
- HVUbxizz4LyAksmsZCBTh4b/sjr9dbvOhdLXGYPzOmjaM1LfEVY1l0HyQCouemgcXGSWFaiGrx9TO
- MO3tkQhmX3tebsgXDWXjVOWEe6WYMUUV4jOWswYcYMVbxUt9GkhzSuF0JLalzUVsr2uc1/T02Vtyu
- QGrANyvBhdh991kfEx3d1v7swBspa7ftTgtWbEpoRk98smXz+uyR0OHH5aYnwFEkhTUSzOkLFpO3A
- pKKoHL3A==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=[192.168.1.10]) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <cyndis@kapsi.fi>)
- id 1oVnbR-00Chdy-OB; Wed, 07 Sep 2022 08:27:57 +0300
-Message-ID: <1dabfcbe-7729-1a96-816c-68ae524ed4aa@kapsi.fi>
-Date: Wed, 7 Sep 2022 08:27:56 +0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C75CA10E2AA;
+ Wed,  7 Sep 2022 05:47:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CA37D6172A;
+ Wed,  7 Sep 2022 05:47:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E37EC433C1;
+ Wed,  7 Sep 2022 05:47:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1662529634;
+ bh=0Y1yo7zpEr/ZpjFTW18hxa8Cia2WTAK/LX+I0bdJMKY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hamyFWLjhenvUp+Z8NDcW33e4ZyFmNZlJMvrc31bKy23NnTvvis3Cs11VCpVxBzJ3
+ kTSjtS3mIKk5eA5CMdEJBZfO2Zpjs6JvzAn89mJdg48Puq8WUW5hEvvmXtTWTURHqt
+ iGychBoNEbk+uyhJBl0HwUzkDvGLu7RnVTSOBdpI=
+Date: Wed, 7 Sep 2022 07:47:10 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v4 00/41] DYNDBG: opt-in class'd debug for modules, use
+ in drm.
+Message-ID: <YxgwXgEpzyqg0cjR@kroah.com>
+References: <20220720153233.144129-1-jim.cromie@gmail.com>
+ <CAJfuBxxPRj-u5S45pPfAEaE46ji0--MTVxryEAUPe1+1c1jgEw@mail.gmail.com>
+ <17628790-3905-460d-8734-981cfa8e7e51@akamai.com>
+ <YvUz2Nk6YHl+jVwR@phenom.ffwll.local> <YvXtQ7/FJFSVXlGU@kroah.com>
+ <Yxec8VRCQT5fJdqk@phenom.ffwll.local>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH 0/8] Support for NVDEC on Tegra234
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonathan Hunter <jonathanh@nvidia.com>
-References: <20220906132823.2390953-1-cyndis@kapsi.fi>
- <68ff1b7e-51e1-f1e5-dac7-5419472e396a@linaro.org>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <68ff1b7e-51e1-f1e5-dac7-5419472e396a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yxec8VRCQT5fJdqk@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,36 +54,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sameer Pujar <spujar@nvidia.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org,
- Ashish Mhetre <amhetre@nvidia.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Jason Baron <jbaron@akamai.com>, Sean Paul <seanpaul@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/6/22 20:50, Krzysztof Kozlowski wrote:
-> On 06/09/2022 15:28, Mikko Perttunen wrote:
->> From: Mikko Perttunen <mperttunen@nvidia.com>
->>
->> Hi all,
->>
->> this series adds support for the HW video decoder, NVDEC,
->> on Tegra234 (Orin). The main change is a switch from Falcon
->> to RISC-V for the internal microcontroller, which brings along
->> a change in how the engine is booted. Otherwise it is backwards
->> compatible with earlier versions.
+On Tue, Sep 06, 2022 at 09:18:09PM +0200, Daniel Vetter wrote:
+> On Fri, Aug 12, 2022 at 08:03:47AM +0200, Greg KH wrote:
+> > On Thu, Aug 11, 2022 at 06:52:40PM +0200, Daniel Vetter wrote:
+> > > On Wed, Aug 03, 2022 at 04:13:05PM -0400, Jason Baron wrote:
+> > > > 
+> > > > 
+> > > > On 8/3/22 15:56, jim.cromie@gmail.com wrote:
+> > > > > On Wed, Jul 20, 2022 at 9:32 AM Jim Cromie <jim.cromie@gmail.com> wrote:
+> > > > >>
+> > > > > 
+> > > > >> Hi Jason, Greg, DRM-folk,
+> > > > >>
+> > > > >> This adds 'typed' "class FOO" support to dynamic-debug, where 'typed'
+> > > > >> means either DISJOINT (like drm debug categories), or VERBOSE (like
+> > > > >> nouveau debug-levels).  Use it in DRM modules: core, helpers, and in
+> > > > >> drivers i915, amdgpu, nouveau.
+> > > > >>
+> > > > > 
+> > > > > This revision fell over, on a conflict with something in drm-MUMBLE
+> > > > > 
+> > > > > Error: patch https://urldefense.com/v3/__https://patchwork.freedesktop.org/api/1.0/series/106427/revisions/2/mbox/__;!!GjvTz_vk!UCPl5Uf32cDVwwysMTfaLwoGLWomargFXuR8HjBA3xsUOjxXHXC5hneAkP4iWK91yc-LjjJxWW89-51Z$ 
+> > > > > not applied
+> > > > > Applying: dyndbg: fix static_branch manipulation
+> > > > > Applying: dyndbg: fix module.dyndbg handling
+> > > > > Applying: dyndbg: show both old and new in change-info
+> > > > > Applying: dyndbg: reverse module walk in cat control
+> > > > > Applying: dyndbg: reverse module.callsite walk in cat control
+> > > > > Applying: dyndbg: use ESCAPE_SPACE for cat control
+> > > > > Applying: dyndbg: let query-modname override actual module name
+> > > > > Applying: dyndbg: add test_dynamic_debug module
+> > > > > Applying: dyndbg: drop EXPORTed dynamic_debug_exec_queries
+> > > > > 
+> > > > > Jason,
+> > > > > those above are decent maintenance patches, particularly the drop export.
+> > > > > It would be nice to trim this unused api this cycle.
+> > > > 
+> > > > Hi Jim,
+> > > > 
+> > > > Agreed - I was thinking the same thing. Feel free to add
+> > > > Acked-by: Jason Baron <jbaron@akamai.com> to those first 9.
+> > > 
+> > > Does Greg KH usually pick up dyndbg patches or someone else or do I need
+> > > to do something? Would be great to get some movement here since -rc1 goes
+> > > out and merging will restart next week.
+> > 
+> > Yes, I can take these into my tree after -rc1 is out.
 > 
-> You need to describe the dependencies, otherwise I would be free to go
-> with applying memory controllers part.
-
-Hi Krzysztof,
-
-the memory controller patch can be applied independently.
-
-Thanks,
-Mikko
-
+> [uncovering from an absolutely impressive cascade of holes :-(]
 > 
-> Best regards,
-> Krzysztof
+> Did this happen and I can stop worrying here? I'd like to make sure these
+> drm debug infra improvements keep moving.
 
+I didn't take these, and I think I saw a 6th series sent:
+	https://lore.kernel.org/r/20220904214134.408619-1-jim.cromie@gmail.com
+
+If you ack them, I will pick them up.
+
+thanks,
+
+greg k-h
