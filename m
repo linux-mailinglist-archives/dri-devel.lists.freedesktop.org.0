@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE685AFCF4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 08:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21505AFCF5
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 08:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B149310E27F;
-	Wed,  7 Sep 2022 06:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C37F10E386;
+	Wed,  7 Sep 2022 06:59:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F263810E27F
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 06:58:56 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id z8so18279698edb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 23:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date; bh=2gNmFVx2TEGLFSa4zBsixSZnh9eQ9z4yWeNaVxeeK4g=;
- b=W21X+LhexAUdAxr0oCHGTu0WjIq9/9ifNfTdMem+fhK3ovuwekY+R+r90ao/dkY7Sj
- P0zLYZpzxzk9eXKsS+UJ98ZBJThUTvpxzz3LE7umfDyr2DGmyZqnjfkUxeaFsbHZRg4R
- 1csIwITrYbgJBed3YN+F5CraQ27nrZ+BOGAgU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=2gNmFVx2TEGLFSa4zBsixSZnh9eQ9z4yWeNaVxeeK4g=;
- b=1wm8HdWD+zWp1DLumwA6CqKBK5Ov2zQBy/4dWzyhpKGdG2byFmfmUBkx75rHdSkn2u
- QlmQGPts/PDYUs2vq21QVn6YCZiUNWqTJ3qzaiohg86HshjrHGCL25hqPPLdKzznH61j
- 3R9lgti+q4W2jlhIbAGRCF8TlK8pwGkLk1tNcPGXVuFbo1ZZpWNYYlTX01dGsHMGBuSY
- TbwHnUMGp20SFm/wWPyDi5ws1ubZT0p37AGiWUzi1qEjkO/jroUUM2wpU5vaZE/1jfD5
- 9pg2SGXluiLIZb3vZhUpqC3EEyppxJ/f22K6uk045WHmSAadwN1e3xVLaVdNgciZuIpA
- fMFg==
-X-Gm-Message-State: ACgBeo2xgFZ7Sg+JP0loergOrlFSCaY7kog2SSW7ly/dJ5VsdVlTbiMD
- 0YyQxwR/OQ1R/dKCuyKY7ZNecQ==
-X-Google-Smtp-Source: AA6agR6Bvdxs9YoqSNE/Ldg1MqBjgM4kjkwuFObt3RQhUXcm4Ke86+QgppVIrbZOW1cascVYGteqjA==
-X-Received: by 2002:aa7:dc13:0:b0:443:3f15:8440 with SMTP id
- b19-20020aa7dc13000000b004433f158440mr1808846edu.274.1662533935396; 
- Tue, 06 Sep 2022 23:58:55 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- t25-20020aa7db19000000b0044e7c20d7a9sm5849339eds.37.2022.09.06.23.58.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 23:58:54 -0700 (PDT)
-Date: Wed, 7 Sep 2022 08:58:53 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH v2 02/11] drm/udl: Add reset_resume
-Message-ID: <YxhBLVyRmeUcxPIj@phenom.ffwll.local>
-Mail-Followup-To: Takashi Iwai <tiwai@suse.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20220906073951.2085-1-tiwai@suse.de>
- <20220906073951.2085-3-tiwai@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 283A110E386
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 06:59:20 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B71722239D;
+ Wed,  7 Sep 2022 06:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662533958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oiS1rwZIBzitKuZA5LjmyNlmvG7hjm1vVeLhMtULfAg=;
+ b=HvvuTj4Zbvvv9X/nHdpUEWFKmCdOWhpIbaE4PCRC1wxo9sU/Wyl6M5dWb5WLoSbQlrU/gk
+ 52+NPjpbaL1fdEbR/DrqOdBWnWTG6AQYyw5BYJpIkx0MaeG0DjoDjYpHHChWps9t9MSIcf
+ Pdewolr55PH6Is1RG/2vOu+MlMKqOxw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662533958;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oiS1rwZIBzitKuZA5LjmyNlmvG7hjm1vVeLhMtULfAg=;
+ b=nHxVSTefttcwRyLOO87QclJCKnoS3Y152tzpSL6KOlhVI4ncTHkw2OHnUw88dNciswJ6oS
+ AVUm+TOI+4/ciSAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 998B713486;
+ Wed,  7 Sep 2022 06:59:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id hW2EJEZBGGNNbQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 07 Sep 2022 06:59:18 +0000
+Message-ID: <a659a499-1afd-aec2-01da-bb79c11d0ba2@suse.de>
+Date: Wed, 7 Sep 2022 08:59:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220906073951.2085-3-tiwai@suse.de>
-X-Operating-System: Linux phenom 5.18.0-4-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] drm/udl: Enable damage clipping
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220728074756.6108-1-tzimmermann@suse.de>
+ <Yxeg/X7RNOpa58gg@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Yxeg/X7RNOpa58gg@phenom.ffwll.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------G6LZG4JBs2TnAdEs5tujCJR4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,94 +70,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: airlied@linux.ie, airlied@redhat.com, sean@poorly.run,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 06, 2022 at 09:39:42AM +0200, Takashi Iwai wrote:
-> From: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> Implement the reset_resume callback of struct usb_driver. Set the
-> standard channel when called.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  drivers/gpu/drm/udl/udl_drv.c  | 11 +++++++++++
->  drivers/gpu/drm/udl/udl_drv.h  |  1 +
->  drivers/gpu/drm/udl/udl_main.c |  2 +-
->  3 files changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-> index 5703277c6f52..0ba88e5472a9 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.c
-> +++ b/drivers/gpu/drm/udl/udl_drv.c
-> @@ -32,6 +32,16 @@ static int udl_usb_resume(struct usb_interface *interface)
->  	return drm_mode_config_helper_resume(dev);
->  }
->  
-> +static int udl_usb_reset_resume(struct usb_interface *interface)
-> +{
-> +	struct drm_device *dev = usb_get_intfdata(interface);
-> +	struct udl_device *udl = to_udl(dev);
-> +
-> +	udl_select_std_channel(udl);
-> +
-> +	return drm_mode_config_helper_resume(dev);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------G6LZG4JBs2TnAdEs5tujCJR4
+Content-Type: multipart/mixed; boundary="------------ED7RIi0KuLvFh2lGLrRC5VvZ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: airlied@linux.ie, airlied@redhat.com, sean@poorly.run,
+ dri-devel@lists.freedesktop.org
+Message-ID: <a659a499-1afd-aec2-01da-bb79c11d0ba2@suse.de>
+Subject: Re: [PATCH] drm/udl: Enable damage clipping
+References: <20220728074756.6108-1-tzimmermann@suse.de>
+ <Yxeg/X7RNOpa58gg@phenom.ffwll.local>
+In-Reply-To: <Yxeg/X7RNOpa58gg@phenom.ffwll.local>
 
-Bit a bikeshed, but in the driver load case it would be neat to put the
-call to udl_select_std_channel right above the call to
-drm_mode_config_reset. But that is _really_ a bikeshed :-)
+--------------ED7RIi0KuLvFh2lGLrRC5VvZ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Also thanks for sending me on a bit a wild goose chase trying to figure
-out what this reset_resume hook actually does and why.
+SGkNCg0KQW0gMDYuMDkuMjIgdW0gMjE6MzUgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
+biBUaHUsIEp1bCAyOCwgMjAyMiBhdCAwOTo0Nzo1NkFNICswMjAwLCBUaG9tYXMgWmltbWVy
+bWFubiB3cm90ZToNCj4+IENhbGwgZHJtX3BsYW5lX2VuYWJsZV9mYl9kYW1hZ2VfY2xpcHMo
+KSBhbmQgZ2l2ZSB1c2Vyc3BhY2UgYSBjaGFuY2UNCj4+IG9mIG1pbmltaXppbmcgdGhlIHVw
+ZGF0ZWQgZGlzcGxheSBhcmVhLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1
+L2RybS91ZGwvdWRsX21vZGVzZXQuYyB8IDEgKw0KPj4gICAxIGZpbGUgY2hhbmdlZCwgMSBp
+bnNlcnRpb24oKykNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3VkbC91
+ZGxfbW9kZXNldC5jIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jDQo+PiBp
+bmRleCBlNjdjNDBhNDhmYjQuLmNlNDI3MTI4ZjAzNCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS91ZGwvdWRsX21vZGVzZXQuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3VkbC91ZGxfbW9kZXNldC5jDQo+PiBAQCAtNDc5LDYgKzQ3OSw3IEBAIGludCB1ZGxfbW9k
+ZXNldF9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+PiAgIAkJCQkJICAgZm9ybWF0
+X2NvdW50LCBOVUxMLCBjb25uZWN0b3IpOw0KPj4gICAJaWYgKHJldCkNCj4+ICAgCQlyZXR1
+cm4gcmV0Ow0KPj4gKwlkcm1fcGxhbmVfZW5hYmxlX2ZiX2RhbWFnZV9jbGlwcygmdWRsLT5k
+aXNwbGF5X3BpcGUucGxhbmUpOw0KPiANCj4gSSdtIGFzc3VtaW5nIHRoaXMgcGFzc2VzIHdp
+dGggYWxsIHRoZSBpZ3RzIHdlIGhhdmUgKEkgaG9wZSB0aG9zZSBmaW5hbGx5DQo+IGxhbmRl
+ZCkgYW5kIGEgZGFtYWdlLWNhcGFibGUgY29tcG9zaXRvciBkb2Vzbid0IGdvIGJvb20gZWl0
+aGVyPw0KPiANCj4gRWl0aGVyIHdheSBwYXRjaCBsZ3RtLiBSZXZpZXdlZC1ieTogRGFuaWVs
+IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4NCj4gDQo+IEFsc28gSSB3b25kZXIg
+d2hldGhlciB3ZSBzaG91bGQgaGF2ZSBhIGNoZWNrIGluIHRoZSBkYW1hZ2UgaGVscGVycyB0
+byBtYWtlDQo+IHN1cmUgZHJpdmVycyBkb24ndCBmb3JnZXQgdG8gY2FsbCB0aGlzIGZ1bmN0
+aW9uIHRvIHNldCB1cCB0aGUgdWFwaSAuLi4NCg0KSXQgd2FybnMsIGJ1dCB5b3UgY2FuIGln
+bm9yZSB0aGF0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBDaGVlcnMsIERh
+bmllbA0KPiANCj4+ICAgDQo+PiAgIAlkcm1fbW9kZV9jb25maWdfcmVzZXQoZGV2KTsNCj4+
+ICAgDQo+PiAtLSANCj4+IDIuMzcuMQ0KPj4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1h
+bm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25z
+IEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55
+DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRv
+dGV2DQo=
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--------------ED7RIi0KuLvFh2lGLrRC5VvZ--
 
-> +}
-> +
->  /*
->   * FIXME: Dma-buf sharing requires DMA support by the importing device.
->   *        This function is a workaround to make USB devices work as well.
-> @@ -140,6 +150,7 @@ static struct usb_driver udl_driver = {
->  	.disconnect = udl_usb_disconnect,
->  	.suspend = udl_usb_suspend,
->  	.resume = udl_usb_resume,
-> +	.reset_resume = udl_usb_reset_resume,
->  	.id_table = id_table,
->  };
->  module_usb_driver(udl_driver);
-> diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-> index 28aaf75d71cf..37c14b0ff1fc 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.h
-> +++ b/drivers/gpu/drm/udl/udl_drv.h
-> @@ -95,6 +95,7 @@ int udl_render_hline(struct drm_device *dev, int log_bpp, struct urb **urb_ptr,
->  		     u32 byte_offset, u32 device_byte_offset, u32 byte_width);
->  
->  int udl_drop_usb(struct drm_device *dev);
-> +int udl_select_std_channel(struct udl_device *udl);
->  
->  #define CMD_WRITE_RAW8   "\xAF\x60" /**< 8 bit raw write command. */
->  #define CMD_WRITE_RL8    "\xAF\x61" /**< 8 bit run length command. */
-> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-> index fdafbf8f3c3c..7d1e6bbc165c 100644
-> --- a/drivers/gpu/drm/udl/udl_main.c
-> +++ b/drivers/gpu/drm/udl/udl_main.c
-> @@ -92,7 +92,7 @@ static int udl_parse_vendor_descriptor(struct udl_device *udl)
->  /*
->   * Need to ensure a channel is selected before submitting URBs
->   */
-> -static int udl_select_std_channel(struct udl_device *udl)
-> +int udl_select_std_channel(struct udl_device *udl)
->  {
->  	static const u8 set_def_chn[] = {0x57, 0xCD, 0xDC, 0xA7,
->  					 0x1C, 0x88, 0x5E, 0x15,
-> -- 
-> 2.35.3
-> 
+--------------G6LZG4JBs2TnAdEs5tujCJR4
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMYQUUFAwAAAAAACgkQlh/E3EQov+CA
+lg//SHNT1fJS7Ns8DE8GSqZxoMeXM19GaJPvLWFl1sTlgkSjh2Z9zNSrkRmIEIgmardYMkpexgIq
+eagN2fLaApOs9xLBEZG1hCt9PB2YMDYNR+HnNEaO8NgIBz7uvvJ2+vbwwHUrR00VgInmdInQewoI
+bNwlPNv77od6KcekxmFR1bEzsB5KzpjYwzAplpYIx+/7uZ2eIw0y7BNDwipiwYrcu7PB9W7GRRgk
+UtnSGVSokpdUW2mkyV9JGK2akPlBBgGhrCKQrQIvG/ehfDvYEbQtss9wkk0Uib4rw9k9ODoNH+AU
+uOBShHhem+B0Zq125l8RSMLeK/aAq4MMUeP9ZPe2e2xdsOieGqkE+vIB0DOkUyj/y6gwqrqaHCBM
+OZxRUnJ87JNrguROPJcyO06zSfYY6gOKgqmp7oeRVE9mWxRGPA5kFYrMuoZNS6tQ0DfrMYO1TMFf
+61VqK9LqfV7LPphLEY7bUgosaZnEJ/GPfynzu7GkR5sJuHILkbUIPWRYLWXuEaxjSoa0IAkO5LLg
+ukIOYLhPsw0Kc+IJQE24J1qbBYF1Jmvcdai2O9SGBGqfRinakUtgwZiEooZgz+AQe9bUHg6XWPJJ
+/WBSy6873K/+oGGcNLIS96mr73eWcfmRLWHBjXDS1nsHGOnnL94KVMdKvFDkkOgpLTpdM6YuPEOG
+rgo=
+=oz5X
+-----END PGP SIGNATURE-----
+
+--------------G6LZG4JBs2TnAdEs5tujCJR4--
