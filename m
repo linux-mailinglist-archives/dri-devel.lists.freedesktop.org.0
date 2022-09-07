@@ -2,79 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18165B0D35
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 21:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E5B5B0D3C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 21:28:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF5210E84B;
-	Wed,  7 Sep 2022 19:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7BB410E84F;
+	Wed,  7 Sep 2022 19:28:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1A110E846;
- Wed,  7 Sep 2022 19:27:39 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 287AZ87A010063;
- Wed, 7 Sep 2022 19:27:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=sjhTSJwyIaFxgPvK2KaJfTj9k1q7Kaz//1wBv/t4Ci8=;
- b=O/ryoNwdjTusqlaDCVm1FxrouK0PGpMuSlVA05xsQhDCiL+ZqgfeCs/ZqoKWDH7Py2PF
- 10wOwAJhgRKeElqotBryIVYdqHM4DpsmnQj+v1vje0nqq01hmPM+QiQqGAo9y1AAzFix
- NSWy7ZkquMU3/xZSNahJ6H3ATJDqYNicI6jJXkTcx8Ir2j9Q25EckgS+hIGUNLuS6NdC
- YO6gLOCXOpajq1nKaLyR7qInK3qAz+a+cUdnMamVsXbaMd0WAbWqHMhGH1u15qIPAleF
- f1beVOJHyRWWirW/Y8NM2JMmmNwRx4ej1F1UhSU8pIl4rsOvzM/W1oqtkI7IhqC8i0mW Aw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jeahhchum-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Sep 2022 19:27:35 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 287JRYmF001018
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 7 Sep 2022 19:27:34 GMT
-Received: from [10.111.169.242] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 7 Sep 2022
- 12:27:31 -0700
-Message-ID: <e48da369-f048-da43-8d58-828efbccd40e@quicinc.com>
-Date: Wed, 7 Sep 2022 12:27:30 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9584410E84E
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 19:28:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662578896;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KiJVkaahK7g7HgrZ8gR0FHcI33I8x0V7/8v5kVW14w0=;
+ b=fvjrZmlRlq0ti1op4DiA3pj70+bAIlm5ALLsLDnT36N1pyrOnT4plPTkBPOp9ebU0B0fvh
+ HxhEijedxa9a2HKJUoeFsIbQc+PYXcbqzNU+D/fqvqtnijmz/Dvj1Sw0wkqrtMibdEnGBu
+ qy+XdNaLwFd3ZuVi9lX3xxpP3zHD8Gk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-152-0PKP3YQbP7mf8-CtHJnRQQ-1; Wed, 07 Sep 2022 15:28:15 -0400
+X-MC-Unique: 0PKP3YQbP7mf8-CtHJnRQQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j22-20020a05600c485600b003a5e4420552so10645707wmo.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 12:28:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=KiJVkaahK7g7HgrZ8gR0FHcI33I8x0V7/8v5kVW14w0=;
+ b=NfagRoab1WvmjbbDHsTawCAWBxcTIbC/Iv5mwp5wv22rBbohRo0/6OXlbGk+MAAOfo
+ TOr98jf7e5wAwNEzy93vQ7/Rk7GzXIsUhV+DGI1uyIfFo1zPHUGcm9fqBKhShQQcvIg2
+ RbR1F9oFhAc6vqqGA7csAQJPPEZ2Bop+m9Nb6pNyxY/0QoaG6k/jKfh66bXXsKrjEWem
+ nlARgI0IbuaByY3d5aKulOG7QxS/5vpVJltlERx5w0SHbAWdrnoLnIXxw3sdbVuU67y6
+ Uy5xnxgsRg981DJiOprAute4PfxaTymiSK4g1jUwIk88DGuIGhILf1x0+4y/irFftU8m
+ bhig==
+X-Gm-Message-State: ACgBeo3MrWP6lD5uGfOGOzeOxPWNu2Gld5e9iVgx8O7rlQKXV1XSl4ji
+ KC2OQnH9we1LTK266DKB0mZnXprsAt7X/iEdjxOvDuH1XDcRgRd/q4xM+nJ9WrAAdr6Nh0SXxqP
+ Sn1LWQ8myY0qp7kITiV73rZkc13xL
+X-Received: by 2002:a05:6000:4005:b0:225:8b27:e6d5 with SMTP id
+ cy5-20020a056000400500b002258b27e6d5mr3027535wrb.603.1662578894411; 
+ Wed, 07 Sep 2022 12:28:14 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6HnMG0su63qjN0vVs/wzDR8Clqf5VRge5H/UHJDLWwX+4NBqFlm+JtOSTu2HRbCJtNmGOTeQ==
+X-Received: by 2002:a05:6000:4005:b0:225:8b27:e6d5 with SMTP id
+ cy5-20020a056000400500b002258b27e6d5mr3027489wrb.603.1662578894088; 
+ Wed, 07 Sep 2022 12:28:14 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ l5-20020a5d5265000000b00228cbac7a25sm10806298wrc.64.2022.09.07.12.28.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Sep 2022 12:28:13 -0700 (PDT)
+Message-ID: <18e95f82-e59b-fa18-4c21-13498fee5733@redhat.com>
+Date: Wed, 7 Sep 2022 21:28:09 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH v2 3/5] drm/msm/hdmi: move resource allocation
- to probe function
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 11/15] vfio/platform: Use the new device life cycle
+ helpers
+To: Kevin Tian <kevin.tian@intel.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, 
+ Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Longfang Liu <liulongfang@huawei.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Abhishek Sahu <abhsahu@nvidia.com>, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, kvm@vger.kernel.org
+References: <20220901143747.32858-1-kevin.tian@intel.com>
+ <20220901143747.32858-12-kevin.tian@intel.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20220901143747.32858-12-kevin.tian@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20220826093927.851597-1-dmitry.baryshkov@linaro.org>
- <20220826093927.851597-4-dmitry.baryshkov@linaro.org>
- <b1b6ba61-10a6-ba9e-ac79-8b4182d348d9@quicinc.com>
- <c379132c-e0b5-51d7-8b9a-708ef4c1d7b3@quicinc.com>
-In-Reply-To: <c379132c-e0b5-51d7-8b9a-708ef4c1d7b3@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Bg_l6_Xr8dbeFlIoVOUVDRDC2NeDJRE3
-X-Proofpoint-ORIG-GUID: Bg_l6_Xr8dbeFlIoVOUVDRDC2NeDJRE3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-07_10,2022-09-07_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 clxscore=1015 spamscore=0 malwarescore=0 lowpriorityscore=0
- adultscore=0 priorityscore=1501 impostorscore=0 mlxscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209070072
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,431 +112,299 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Reply-To: eric.auger@redhat.com
+Cc: Yi Liu <yi.l.liu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi kevin,
 
+On 9/1/22 16:37, Kevin Tian wrote:
+> Move vfio_device_ops from platform core to platform drivers so device
+> specific init/cleanup can be added.
+>
+> Introduce two new helpers vfio_platform_init/release_common() for the
+> use in driver @init/@release.
+>
+> vfio_platform_probe/remove_common() will be deprecated.
+>
+> Signed-off-by: Kevin Tian <kevin.tian@intel.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/vfio/platform/vfio_platform.c         | 66 +++++++++++++++----
+>  drivers/vfio/platform/vfio_platform_common.c  | 53 ++++++++++++---
+>  drivers/vfio/platform/vfio_platform_private.h | 15 +++++
+>  3 files changed, 111 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/vfio/platform/vfio_platform.c b/drivers/vfio/platform/vfio_platform.c
+> index 04f40c5acfd6..82cedcebfd90 100644
+> --- a/drivers/vfio/platform/vfio_platform.c
+> +++ b/drivers/vfio/platform/vfio_platform.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+>  #include <linux/vfio.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/platform_device.h>
+>  
+>  #include "vfio_platform_private.h"
+> @@ -36,14 +37,11 @@ static int get_platform_irq(struct vfio_platform_device *vdev, int i)
+>  	return platform_get_irq_optional(pdev, i);
+>  }
+>  
+> -static int vfio_platform_probe(struct platform_device *pdev)
+> +static int vfio_platform_init_dev(struct vfio_device *core_vdev)
+>  {
+> -	struct vfio_platform_device *vdev;
+> -	int ret;
+> -
+> -	vdev = kzalloc(sizeof(*vdev), GFP_KERNEL);
+> -	if (!vdev)
+> -		return -ENOMEM;
+> +	struct vfio_platform_device *vdev =
+> +		container_of(core_vdev, struct vfio_platform_device, vdev);
+> +	struct platform_device *pdev = to_platform_device(core_vdev->dev);
+>  
+>  	vdev->opaque = (void *) pdev;
+>  	vdev->name = pdev->name;
+> @@ -52,24 +50,64 @@ static int vfio_platform_probe(struct platform_device *pdev)
+>  	vdev->get_irq = get_platform_irq;
+>  	vdev->reset_required = reset_required;
+>  
+> -	ret = vfio_platform_probe_common(vdev, &pdev->dev);
+> -	if (ret) {
+> -		kfree(vdev);
+> -		return ret;
+> -	}
+> +	return vfio_platform_init_common(vdev);
+> +}
+> +
+> +static const struct vfio_device_ops vfio_platform_ops;
+> +static int vfio_platform_probe(struct platform_device *pdev)
+> +{
+> +	struct vfio_platform_device *vdev;
+> +	int ret;
+> +
+> +	vdev = vfio_alloc_device(vfio_platform_device, vdev, &pdev->dev,
+> +				 &vfio_platform_ops);
+> +	if (IS_ERR(vdev))
+> +		return PTR_ERR(vdev);
+> +
+> +	ret = vfio_register_group_dev(&vdev->vdev);
+> +	if (ret)
+> +		goto out_put_vdev;
+> +
+> +	pm_runtime_enable(&pdev->dev);
+>  	dev_set_drvdata(&pdev->dev, vdev);
+>  	return 0;
+> +
+> +out_put_vdev:
+> +	vfio_put_device(&vdev->vdev);
+> +	return ret;
+> +}
+> +
+> +static void vfio_platform_release_dev(struct vfio_device *core_vdev)
+> +{
+> +	struct vfio_platform_device *vdev =
+> +		container_of(core_vdev, struct vfio_platform_device, vdev);
+> +
+> +	vfio_platform_release_common(vdev);
+> +	vfio_free_device(core_vdev);
+>  }
+>  
+>  static int vfio_platform_remove(struct platform_device *pdev)
+>  {
+>  	struct vfio_platform_device *vdev = dev_get_drvdata(&pdev->dev);
+>  
+> -	vfio_platform_remove_common(vdev);
+> -	kfree(vdev);
+> +	vfio_unregister_group_dev(&vdev->vdev);
+> +	pm_runtime_disable(vdev->device);
+> +	vfio_put_device(&vdev->vdev);
+>  	return 0;
+>  }
+>  
+> +static const struct vfio_device_ops vfio_platform_ops = {
+> +	.name		= "vfio-platform",
+> +	.init		= vfio_platform_init_dev,
+> +	.release	= vfio_platform_release_dev,
+> +	.open_device	= vfio_platform_open_device,
+> +	.close_device	= vfio_platform_close_device,
+> +	.ioctl		= vfio_platform_ioctl,
+> +	.read		= vfio_platform_read,
+> +	.write		= vfio_platform_write,
+> +	.mmap		= vfio_platform_mmap,
+> +};
+> +
+>  static struct platform_driver vfio_platform_driver = {
+>  	.probe		= vfio_platform_probe,
+>  	.remove		= vfio_platform_remove,
+> diff --git a/drivers/vfio/platform/vfio_platform_common.c b/drivers/vfio/platform/vfio_platform_common.c
+> index 256f55b84e70..4c01bf0adebb 100644
+> --- a/drivers/vfio/platform/vfio_platform_common.c
+> +++ b/drivers/vfio/platform/vfio_platform_common.c
+> @@ -218,7 +218,7 @@ static int vfio_platform_call_reset(struct vfio_platform_device *vdev,
+>  	return -EINVAL;
+>  }
+>  
+> -static void vfio_platform_close_device(struct vfio_device *core_vdev)
+> +void vfio_platform_close_device(struct vfio_device *core_vdev)
+>  {
+>  	struct vfio_platform_device *vdev =
+>  		container_of(core_vdev, struct vfio_platform_device, vdev);
+> @@ -236,8 +236,9 @@ static void vfio_platform_close_device(struct vfio_device *core_vdev)
+>  	vfio_platform_regions_cleanup(vdev);
+>  	vfio_platform_irq_cleanup(vdev);
+>  }
+> +EXPORT_SYMBOL_GPL(vfio_platform_close_device);
+>  
+> -static int vfio_platform_open_device(struct vfio_device *core_vdev)
+> +int vfio_platform_open_device(struct vfio_device *core_vdev)
+>  {
+>  	struct vfio_platform_device *vdev =
+>  		container_of(core_vdev, struct vfio_platform_device, vdev);
+> @@ -273,9 +274,10 @@ static int vfio_platform_open_device(struct vfio_device *core_vdev)
+>  	vfio_platform_regions_cleanup(vdev);
+>  	return ret;
+>  }
+> +EXPORT_SYMBOL_GPL(vfio_platform_open_device);
+>  
+> -static long vfio_platform_ioctl(struct vfio_device *core_vdev,
+> -				unsigned int cmd, unsigned long arg)
+> +long vfio_platform_ioctl(struct vfio_device *core_vdev,
+> +			 unsigned int cmd, unsigned long arg)
+>  {
+>  	struct vfio_platform_device *vdev =
+>  		container_of(core_vdev, struct vfio_platform_device, vdev);
+> @@ -382,6 +384,7 @@ static long vfio_platform_ioctl(struct vfio_device *core_vdev,
+>  
+>  	return -ENOTTY;
+>  }
+> +EXPORT_SYMBOL_GPL(vfio_platform_ioctl);
+>  
+>  static ssize_t vfio_platform_read_mmio(struct vfio_platform_region *reg,
+>  				       char __user *buf, size_t count,
+> @@ -438,8 +441,8 @@ static ssize_t vfio_platform_read_mmio(struct vfio_platform_region *reg,
+>  	return -EFAULT;
+>  }
+>  
+> -static ssize_t vfio_platform_read(struct vfio_device *core_vdev,
+> -				  char __user *buf, size_t count, loff_t *ppos)
+> +ssize_t vfio_platform_read(struct vfio_device *core_vdev,
+> +			   char __user *buf, size_t count, loff_t *ppos)
+>  {
+>  	struct vfio_platform_device *vdev =
+>  		container_of(core_vdev, struct vfio_platform_device, vdev);
+> @@ -460,6 +463,7 @@ static ssize_t vfio_platform_read(struct vfio_device *core_vdev,
+>  
+>  	return -EINVAL;
+>  }
+> +EXPORT_SYMBOL_GPL(vfio_platform_read);
+>  
+>  static ssize_t vfio_platform_write_mmio(struct vfio_platform_region *reg,
+>  					const char __user *buf, size_t count,
+> @@ -515,8 +519,8 @@ static ssize_t vfio_platform_write_mmio(struct vfio_platform_region *reg,
+>  	return -EFAULT;
+>  }
+>  
+> -static ssize_t vfio_platform_write(struct vfio_device *core_vdev, const char __user *buf,
+> -				   size_t count, loff_t *ppos)
+> +ssize_t vfio_platform_write(struct vfio_device *core_vdev, const char __user *buf,
+> +			    size_t count, loff_t *ppos)
+>  {
+>  	struct vfio_platform_device *vdev =
+>  		container_of(core_vdev, struct vfio_platform_device, vdev);
+> @@ -537,6 +541,7 @@ static ssize_t vfio_platform_write(struct vfio_device *core_vdev, const char __u
+>  
+>  	return -EINVAL;
+>  }
+> +EXPORT_SYMBOL_GPL(vfio_platform_write);
+>  
+>  static int vfio_platform_mmap_mmio(struct vfio_platform_region region,
+>  				   struct vm_area_struct *vma)
+> @@ -558,7 +563,7 @@ static int vfio_platform_mmap_mmio(struct vfio_platform_region region,
+>  			       req_len, vma->vm_page_prot);
+>  }
+>  
+> -static int vfio_platform_mmap(struct vfio_device *core_vdev, struct vm_area_struct *vma)
+> +int vfio_platform_mmap(struct vfio_device *core_vdev, struct vm_area_struct *vma)
+>  {
+>  	struct vfio_platform_device *vdev =
+>  		container_of(core_vdev, struct vfio_platform_device, vdev);
+> @@ -598,6 +603,7 @@ static int vfio_platform_mmap(struct vfio_device *core_vdev, struct vm_area_stru
+>  
+>  	return -EINVAL;
+>  }
+> +EXPORT_SYMBOL_GPL(vfio_platform_mmap);
+>  
+>  static const struct vfio_device_ops vfio_platform_ops = {
+>  	.name		= "vfio-platform",
+> @@ -639,6 +645,35 @@ static int vfio_platform_of_probe(struct vfio_platform_device *vdev,
+>   * If the firmware is ACPI type, then acpi_disabled is 0. All other checks are
+>   * valid checks. We cannot claim that this system is DT.
+>   */
+> +int vfio_platform_init_common(struct vfio_platform_device *vdev)
+> +{
+> +	int ret;
+> +	struct device *dev = vdev->vdev.dev;
+> +
+> +	ret = vfio_platform_acpi_probe(vdev, dev);
+> +	if (ret)
+> +		ret = vfio_platform_of_probe(vdev, dev);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	vdev->device = dev;
+> +	mutex_init(&vdev->igate);
+> +
+> +	ret = vfio_platform_get_reset(vdev);
+> +	if (ret && vdev->reset_required)
+> +		dev_err(dev, "No reset function found for device %s\n",
+> +			vdev->name);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(vfio_platform_init_common);
+> +
+> +void vfio_platform_release_common(struct vfio_platform_device *vdev)
+> +{
+> +	vfio_platform_put_reset(vdev);
+> +}
+> +EXPORT_SYMBOL_GPL(vfio_platform_release_common);
+> +
+>  int vfio_platform_probe_common(struct vfio_platform_device *vdev,
+>  			       struct device *dev)
+>  {
+> diff --git a/drivers/vfio/platform/vfio_platform_private.h b/drivers/vfio/platform/vfio_platform_private.h
+> index 691b43f4b2b2..a769d649fb97 100644
+> --- a/drivers/vfio/platform/vfio_platform_private.h
+> +++ b/drivers/vfio/platform/vfio_platform_private.h
+> @@ -81,6 +81,21 @@ struct vfio_platform_reset_node {
+>  int vfio_platform_probe_common(struct vfio_platform_device *vdev,
+>  			       struct device *dev);
+>  void vfio_platform_remove_common(struct vfio_platform_device *vdev);
+> +int vfio_platform_init_common(struct vfio_platform_device *vdev);
+> +void vfio_platform_release_common(struct vfio_platform_device *vdev);
+> +
+> +int vfio_platform_open_device(struct vfio_device *core_vdev);
+> +void vfio_platform_close_device(struct vfio_device *core_vdev);
+> +long vfio_platform_ioctl(struct vfio_device *core_vdev,
+> +			 unsigned int cmd, unsigned long arg);
+> +ssize_t vfio_platform_read(struct vfio_device *core_vdev,
+> +			   char __user *buf, size_t count,
+> +			   loff_t *ppos);
+> +ssize_t vfio_platform_write(struct vfio_device *core_vdev,
+> +			    const char __user *buf,
+> +			    size_t count, loff_t *ppos);
+> +int vfio_platform_mmap(struct vfio_device *core_vdev,
+> +		       struct vm_area_struct *vma);
+>  
+>  int vfio_platform_irq_init(struct vfio_platform_device *vdev);
+>  void vfio_platform_irq_cleanup(struct vfio_platform_device *vdev);
+Looks good to me. I also ran basic non regression testing
 
-On 9/7/2022 12:09 PM, Abhinav Kumar wrote:
-> 
-> 
-> On 9/7/2022 11:54 AM, Abhinav Kumar wrote:
->>
->>
->> On 8/26/2022 2:39 AM, Dmitry Baryshkov wrote:
->>> Rather than having all resource allocation happen in the _bind function
->>> (resulting in possible EPROBE_DEFER returns and component bind/unbind
->>> cycles) allocate and check all resources in _probe function. While we
->>> are at it, use platform_get_irq() to get the IRQ rather than going
->>> through the irq_of_parse_and_map().
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-The change itself LGTM, so with some change log added, this is
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/hdmi/hdmi.c | 303 +++++++++++++++-----------------
->>>   1 file changed, 138 insertions(+), 165 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c 
->>> b/drivers/gpu/drm/msm/hdmi/hdmi.c
->>> index 4a364d8f4c0b..c298a36f3b42 100644
->>> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
->>> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
->>> @@ -76,8 +76,6 @@ static void msm_hdmi_destroy(struct hdmi *hdmi)
->>>       if (hdmi->i2c)
->>>           msm_hdmi_i2c_destroy(hdmi->i2c);
->>> -
->>> -    platform_set_drvdata(hdmi->pdev, NULL);
->>>   }
->>>   static int msm_hdmi_get_phy(struct hdmi *hdmi)
->>
->> Between v1 and v2, it just seems like a rebase to me on top of the 6.1 
->> MR. But what about moving msm_hdmi_get_phy() to probe(). I thought you 
->> were going to check that as well for v2.
-> 
-> Please ignore this part of the comment, I see that moving 
-> msm_hdmi_get_phy() to probe() is in the patch 5 of this series.
-> 
-> Thanks for making that change.
-> 
-> The below comment still holds true.
-> 
->>
->> A change log would have been nice here. Because as part of the rebase 
->> looks like we even migrate to using panel bridge for hdmi driver.
->>
->> Usage of drm_of_find_panel_or_bridge was not present in v1 and wasnt 
->> obvious from the commit text either.
->>
->>> @@ -117,142 +115,10 @@ static int msm_hdmi_get_phy(struct hdmi *hdmi)
->>>    * we are to EPROBE_DEFER we want to do it here, rather than later
->>>    * at modeset_init() time
->>>    */
->>> -static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
->>> +static int msm_hdmi_init(struct hdmi *hdmi)
->>>   {
->>> -    struct hdmi_platform_config *config = pdev->dev.platform_data;
->>> -    struct hdmi *hdmi = NULL;
->>> -    struct resource *res;
->>> -    int i, ret;
->>> -
->>> -    hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
->>> -    if (!hdmi) {
->>> -        ret = -ENOMEM;
->>> -        goto fail;
->>> -    }
->>> -
->>> -    hdmi->pdev = pdev;
->>> -    hdmi->config = config;
->>> -    spin_lock_init(&hdmi->reg_lock);
->>> -
->>> -    ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, 0, NULL, 
->>> &hdmi->next_bridge);
->>> -    if (ret && ret != -ENODEV)
->>> -        goto fail;
->>> -
->>> -    hdmi->mmio = msm_ioremap(pdev, "core_physical");
->>> -    if (IS_ERR(hdmi->mmio)) {
->>> -        ret = PTR_ERR(hdmi->mmio);
->>> -        goto fail;
->>> -    }
->>> -
->>> -    /* HDCP needs physical address of hdmi register */
->>> -    res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->>> -        "core_physical");
->>> -    if (!res) {
->>> -        ret = -EINVAL;
->>> -        goto fail;
->>> -    }
->>> -    hdmi->mmio_phy_addr = res->start;
->>> -
->>> -    hdmi->qfprom_mmio = msm_ioremap(pdev, "qfprom_physical");
->>> -    if (IS_ERR(hdmi->qfprom_mmio)) {
->>> -        DRM_DEV_INFO(&pdev->dev, "can't find qfprom resource\n");
->>> -        hdmi->qfprom_mmio = NULL;
->>> -    }
->>> -
->>> -    hdmi->hpd_regs = devm_kcalloc(&pdev->dev,
->>> -                      config->hpd_reg_cnt,
->>> -                      sizeof(hdmi->hpd_regs[0]),
->>> -                      GFP_KERNEL);
->>> -    if (!hdmi->hpd_regs) {
->>> -        ret = -ENOMEM;
->>> -        goto fail;
->>> -    }
->>> -    for (i = 0; i < config->hpd_reg_cnt; i++)
->>> -        hdmi->hpd_regs[i].supply = config->hpd_reg_names[i];
->>> -
->>> -    ret = devm_regulator_bulk_get(&pdev->dev, config->hpd_reg_cnt, 
->>> hdmi->hpd_regs);
->>> -    if (ret) {
->>> -        DRM_DEV_ERROR(&pdev->dev, "failed to get hpd regulator: 
->>> %d\n", ret);
->>> -        goto fail;
->>> -    }
->>> -
->>> -    hdmi->pwr_regs = devm_kcalloc(&pdev->dev,
->>> -                      config->pwr_reg_cnt,
->>> -                      sizeof(hdmi->pwr_regs[0]),
->>> -                      GFP_KERNEL);
->>> -    if (!hdmi->pwr_regs) {
->>> -        ret = -ENOMEM;
->>> -        goto fail;
->>> -    }
->>> -
->>> -    for (i = 0; i < config->pwr_reg_cnt; i++)
->>> -        hdmi->pwr_regs[i].supply = config->pwr_reg_names[i];
->>> -
->>> -    ret = devm_regulator_bulk_get(&pdev->dev, config->pwr_reg_cnt, 
->>> hdmi->pwr_regs);
->>> -    if (ret) {
->>> -        DRM_DEV_ERROR(&pdev->dev, "failed to get pwr regulator: 
->>> %d\n", ret);
->>> -        goto fail;
->>> -    }
->>> -
->>> -    hdmi->hpd_clks = devm_kcalloc(&pdev->dev,
->>> -                      config->hpd_clk_cnt,
->>> -                      sizeof(hdmi->hpd_clks[0]),
->>> -                      GFP_KERNEL);
->>> -    if (!hdmi->hpd_clks) {
->>> -        ret = -ENOMEM;
->>> -        goto fail;
->>> -    }
->>> -    for (i = 0; i < config->hpd_clk_cnt; i++) {
->>> -        struct clk *clk;
->>> -
->>> -        clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
->>> -        if (IS_ERR(clk)) {
->>> -            ret = PTR_ERR(clk);
->>> -            DRM_DEV_ERROR(&pdev->dev, "failed to get hpd clk: %s 
->>> (%d)\n",
->>> -                    config->hpd_clk_names[i], ret);
->>> -            goto fail;
->>> -        }
->>> -
->>> -        hdmi->hpd_clks[i] = clk;
->>> -    }
->>> -
->>> -    hdmi->pwr_clks = devm_kcalloc(&pdev->dev,
->>> -                      config->pwr_clk_cnt,
->>> -                      sizeof(hdmi->pwr_clks[0]),
->>> -                      GFP_KERNEL);
->>> -    if (!hdmi->pwr_clks) {
->>> -        ret = -ENOMEM;
->>> -        goto fail;
->>> -    }
->>> -    for (i = 0; i < config->pwr_clk_cnt; i++) {
->>> -        struct clk *clk;
->>> -
->>> -        clk = msm_clk_get(pdev, config->pwr_clk_names[i]);
->>> -        if (IS_ERR(clk)) {
->>> -            ret = PTR_ERR(clk);
->>> -            DRM_DEV_ERROR(&pdev->dev, "failed to get pwr clk: %s 
->>> (%d)\n",
->>> -                    config->pwr_clk_names[i], ret);
->>> -            goto fail;
->>> -        }
->>> -
->>> -        hdmi->pwr_clks[i] = clk;
->>> -    }
->>> -
->>> -    hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", 
->>> GPIOD_IN);
->>> -    /* This will catch e.g. -EPROBE_DEFER */
->>> -    if (IS_ERR(hdmi->hpd_gpiod)) {
->>> -        ret = PTR_ERR(hdmi->hpd_gpiod);
->>> -        DRM_DEV_ERROR(&pdev->dev, "failed to get hpd gpio: (%d)\n", 
->>> ret);
->>> -        goto fail;
->>> -    }
->>> -
->>> -    if (!hdmi->hpd_gpiod)
->>> -        DBG("failed to get HPD gpio");
->>> -
->>> -    if (hdmi->hpd_gpiod)
->>> -        gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
->>> -
->>> -    devm_pm_runtime_enable(&pdev->dev);
->>> +    struct platform_device *pdev = hdmi->pdev;
->>> +    int ret;
->>>       hdmi->workq = alloc_ordered_workqueue("msm_hdmi", 0);
->>> @@ -276,13 +142,13 @@ static struct hdmi *msm_hdmi_init(struct 
->>> platform_device *pdev)
->>>           hdmi->hdcp_ctrl = NULL;
->>>       }
->>> -    return hdmi;
->>> +    return 0;
->>>   fail:
->>>       if (hdmi)
->>>           msm_hdmi_destroy(hdmi);
->>> -    return ERR_PTR(ret);
->>> +    return ret;
->>>   }
->>>   /* Second part of initialization, the drm/kms level modeset_init,
->>> @@ -332,13 +198,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->>>       drm_connector_attach_encoder(hdmi->connector, hdmi->encoder);
->>> -    hdmi->irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
->>> -    if (!hdmi->irq) {
->>> -        ret = -EINVAL;
->>> -        DRM_DEV_ERROR(dev->dev, "failed to get irq\n");
->>> -        goto fail;
->>> -    }
->>> -
->>>       ret = devm_request_irq(&pdev->dev, hdmi->irq,
->>>               msm_hdmi_irq, IRQF_TRIGGER_HIGH,
->>>               "hdmi_isr", hdmi);
->>> @@ -358,8 +217,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->>>       priv->bridges[priv->num_bridges++]       = hdmi->bridge;
->>> -    platform_set_drvdata(pdev, hdmi);
->>> -
->>>       return 0;
->>>   fail:
->>> @@ -387,7 +244,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->>>   static const char *hpd_reg_names_8960[] = {"core-vdda"};
->>>   static const char *hpd_clk_names_8960[] = {"core", "master_iface", 
->>> "slave_iface"};
->>> -static struct hdmi_platform_config hdmi_tx_8960_config = {
->>> +const static struct hdmi_platform_config hdmi_tx_8960_config = {
->>>           HDMI_CFG(hpd_reg, 8960),
->>>           HDMI_CFG(hpd_clk, 8960),
->>>   };
->>> @@ -397,7 +254,7 @@ static const char *pwr_clk_names_8x74[] = 
->>> {"extp", "alt_iface"};
->>>   static const char *hpd_clk_names_8x74[] = {"iface", "core", 
->>> "mdp_core"};
->>>   static unsigned long hpd_clk_freq_8x74[] = {0, 19200000, 0};
->>> -static struct hdmi_platform_config hdmi_tx_8974_config = {
->>> +const static struct hdmi_platform_config hdmi_tx_8974_config = {
->>>           HDMI_CFG(pwr_reg, 8x74),
->>>           HDMI_CFG(pwr_clk, 8x74),
->>>           HDMI_CFG(hpd_clk, 8x74),
->>> @@ -512,23 +369,12 @@ static int 
->>> msm_hdmi_register_audio_driver(struct hdmi *hdmi, struct device *dev)
->>>   static int msm_hdmi_bind(struct device *dev, struct device *master, 
->>> void *data)
->>>   {
->>>       struct msm_drm_private *priv = dev_get_drvdata(master);
->>> -    struct hdmi_platform_config *hdmi_cfg;
->>> -    struct hdmi *hdmi;
->>> -    struct device_node *of_node = dev->of_node;
->>> +    struct hdmi *hdmi = dev_get_drvdata(dev);
->>>       int err;
->>> -    hdmi_cfg = (struct hdmi_platform_config *)
->>> -            of_device_get_match_data(dev);
->>> -    if (!hdmi_cfg) {
->>> -        DRM_DEV_ERROR(dev, "unknown hdmi_cfg: %pOFn\n", of_node);
->>> -        return -ENXIO;
->>> -    }
->>> -
->>> -    dev->platform_data = hdmi_cfg;
->>> -
->>> -    hdmi = msm_hdmi_init(to_platform_device(dev));
->>> -    if (IS_ERR(hdmi))
->>> -        return PTR_ERR(hdmi);
->>> +    err = msm_hdmi_init(hdmi);
->>> +    if (err)
->>> +        return err;
->>>       priv->hdmi = hdmi;
->>>       err = msm_hdmi_register_audio_driver(hdmi, dev);
->>> @@ -561,6 +407,133 @@ static const struct component_ops msm_hdmi_ops = {
->>>   static int msm_hdmi_dev_probe(struct platform_device *pdev)
->>>   {
->>> +    const struct hdmi_platform_config *config;
->>> +    struct device *dev = &pdev->dev;
->>> +    struct hdmi *hdmi;
->>> +    struct resource *res;
->>> +    int i, ret;
->>> +
->>> +    config = of_device_get_match_data(dev);
->>> +    if (!config)
->>> +        return -EINVAL;
->>> +
->>> +    hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
->>> +    if (!hdmi)
->>> +        return -ENOMEM;
->>> +
->>> +    hdmi->pdev = pdev;
->>> +    hdmi->config = config;
->>> +    spin_lock_init(&hdmi->reg_lock);
->>> +
->>> +    ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, 0, NULL, 
->>> &hdmi->next_bridge);
->>> +    if (ret && ret != -ENODEV)
->>> +        return ret;
->>> +
->>> +    hdmi->mmio = msm_ioremap(pdev, "core_physical");
->>> +    if (IS_ERR(hdmi->mmio))
->>> +        return PTR_ERR(hdmi->mmio);
->>> +
->>> +    /* HDCP needs physical address of hdmi register */
->>> +    res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->>> +        "core_physical");
->>> +    if (!res)
->>> +        return -EINVAL;
->>> +    hdmi->mmio_phy_addr = res->start;
->>> +
->>> +    hdmi->qfprom_mmio = msm_ioremap(pdev, "qfprom_physical");
->>> +    if (IS_ERR(hdmi->qfprom_mmio)) {
->>> +        DRM_DEV_INFO(&pdev->dev, "can't find qfprom resource\n");
->>> +        hdmi->qfprom_mmio = NULL;
->>> +    }
->>> +
->>> +    hdmi->irq = platform_get_irq(pdev, 0);
->>> +    if (hdmi->irq < 0)
->>> +        return hdmi->irq;
->>> +
->>> +    hdmi->hpd_regs = devm_kcalloc(&pdev->dev,
->>> +                      config->hpd_reg_cnt,
->>> +                      sizeof(hdmi->hpd_regs[0]),
->>> +                      GFP_KERNEL);
->>> +    if (!hdmi->hpd_regs)
->>> +        return -ENOMEM;
->>> +
->>> +    for (i = 0; i < config->hpd_reg_cnt; i++)
->>> +        hdmi->hpd_regs[i].supply = config->hpd_reg_names[i];
->>> +
->>> +    ret = devm_regulator_bulk_get(&pdev->dev, config->hpd_reg_cnt, 
->>> hdmi->hpd_regs);
->>> +    if (ret)
->>> +        return dev_err_probe(dev, ret, "failed to get hpd 
->>> regulators\n");
->>> +
->>> +    hdmi->pwr_regs = devm_kcalloc(&pdev->dev,
->>> +                      config->pwr_reg_cnt,
->>> +                      sizeof(hdmi->pwr_regs[0]),
->>> +                      GFP_KERNEL);
->>> +    if (!hdmi->pwr_regs)
->>> +        return -ENOMEM;
->>> +
->>> +    for (i = 0; i < config->pwr_reg_cnt; i++)
->>> +        hdmi->pwr_regs[i].supply = config->pwr_reg_names[i];
->>> +
->>> +    ret = devm_regulator_bulk_get(&pdev->dev, config->pwr_reg_cnt, 
->>> hdmi->pwr_regs);
->>> +    if (ret)
->>> +        return dev_err_probe(dev, ret, "failed to get pwr 
->>> regulators\n");
->>> +
->>> +    hdmi->hpd_clks = devm_kcalloc(&pdev->dev,
->>> +                      config->hpd_clk_cnt,
->>> +                      sizeof(hdmi->hpd_clks[0]),
->>> +                      GFP_KERNEL);
->>> +    if (!hdmi->hpd_clks)
->>> +        return -ENOMEM;
->>> +
->>> +    for (i = 0; i < config->hpd_clk_cnt; i++) {
->>> +        struct clk *clk;
->>> +
->>> +        clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
->>> +        if (IS_ERR(clk))
->>> +            return dev_err_probe(dev, PTR_ERR(clk),
->>> +                         "failed to get hpd clk: %s\n",
->>> +                         config->hpd_clk_names[i]);
->>> +
->>> +        hdmi->hpd_clks[i] = clk;
->>> +    }
->>> +
->>> +    hdmi->pwr_clks = devm_kcalloc(&pdev->dev,
->>> +                      config->pwr_clk_cnt,
->>> +                      sizeof(hdmi->pwr_clks[0]),
->>> +                      GFP_KERNEL);
->>> +    if (!hdmi->pwr_clks)
->>> +        return -ENOMEM;
->>> +
->>> +    for (i = 0; i < config->pwr_clk_cnt; i++) {
->>> +        struct clk *clk;
->>> +
->>> +        clk = msm_clk_get(pdev, config->pwr_clk_names[i]);
->>> +        if (IS_ERR(clk))
->>> +            return dev_err_probe(dev, PTR_ERR(clk),
->>> +                         "failed to get pwr clk: %s\n",
->>> +                         config->pwr_clk_names[i]);
->>> +
->>> +        hdmi->pwr_clks[i] = clk;
->>> +    }
->>> +
->>> +    hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", 
->>> GPIOD_IN);
->>> +    /* This will catch e.g. -EPROBE_DEFER */
->>> +    if (IS_ERR(hdmi->hpd_gpiod))
->>> +        return dev_err_probe(dev, PTR_ERR(hdmi->hpd_gpiod),
->>> +                     "failed to get hpd gpio\n");
->>> +
->>> +    if (!hdmi->hpd_gpiod)
->>> +        DBG("failed to get HPD gpio");
->>> +
->>> +    if (hdmi->hpd_gpiod)
->>> +        gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
->>> +
->>> +    ret = devm_pm_runtime_enable(&pdev->dev);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    platform_set_drvdata(pdev, hdmi);
->>> +
->>>       return component_add(&pdev->dev, &msm_hdmi_ops);
->>>   }
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Tested-by: Eric Auger <eric.auger@redhat.com>
+
+Eric
+
