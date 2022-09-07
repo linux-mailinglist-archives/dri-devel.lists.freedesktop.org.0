@@ -2,83 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4690B5B066C
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 16:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B065B0682
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 16:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89FF110E784;
-	Wed,  7 Sep 2022 14:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A3810E787;
+	Wed,  7 Sep 2022 14:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 786 seconds by postgrey-1.36 at gabe;
- Wed, 07 Sep 2022 14:23:33 UTC
-Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com
- [IPv6:2620:100:9005:57f::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0092610E781;
- Wed,  7 Sep 2022 14:23:33 +0000 (UTC)
-Received: from pps.filterd (m0122331.ppops.net [127.0.0.1])
- by mx0b-00190b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 287Ae2DX004867;
- Wed, 7 Sep 2022 15:10:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=dTrQ7MrhUOBXmD1FAoFV49SHQ23WQ+8G8Ues2Ac95vs=;
- b=JrTmxYf8FWbfxHDr5DJ5YHcUij8SHTIOJDAFlUrfwypriOmW2XL0P6e3wf45O9BK2fpG
- Y5vF+kcnO9Vgff0crQGjxBn/hc5m/tGtl8147D/Ym+8kCX7CtBASFizUECnyAVh77Wyl
- nFizkgO/bj/7zwhRIUS/KxL9iUIazsB9ndUM1v+hUCLq4sSASSNP1hl7FTI9L8Fx2aSq
- LRn/7iAZq/fNajbU+51Q/1d8BL+BZgUMGF+yCZ2r+mWjwbkhTcdJ7LlppuonlfcKzTMS
- hb+jbhdLZigm7yYKA8SGm4R7N3xjf9kU2UjaSCDEzpL03o8teUMeil0jg2hlEi2Z2QeR EQ== 
-Received: from prod-mail-ppoint7
- (a72-247-45-33.deploy.static.akamaitechnologies.com [72.247.45.33] (may be
- forged))
- by mx0b-00190b01.pphosted.com (PPS) with ESMTPS id 3je9sdyb4q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Sep 2022 15:10:24 +0100
-Received: from pps.filterd (prod-mail-ppoint7.akamai.com [127.0.0.1])
- by prod-mail-ppoint7.akamai.com (8.17.1.5/8.17.1.5) with ESMTP id
- 287BTrkx021728; Wed, 7 Sep 2022 10:10:07 -0400
-Received: from prod-mail-relay18.dfw02.corp.akamai.com ([172.27.165.172])
- by prod-mail-ppoint7.akamai.com (PPS) with ESMTP id 3jc28xwut6-1;
- Wed, 07 Sep 2022 10:10:07 -0400
-Received: from [0.0.0.0] (unknown [172.27.119.138])
- by prod-mail-relay18.dfw02.corp.akamai.com (Postfix) with ESMTP id 5EA52118;
- Wed,  7 Sep 2022 14:10:06 +0000 (GMT)
-Message-ID: <92e3c2c4-4384-04ae-2016-ad9be8a3fc9b@akamai.com>
-Date: Wed, 7 Sep 2022 10:10:05 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EECC810E786;
+ Wed,  7 Sep 2022 14:27:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662560866; x=1694096866;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=C/0BgspO69Npume0XV7bCqu22fKI4mO/3lo+qpqVNUc=;
+ b=FUb4Kiz0Fa+56or0Ym9SRWq4vy7dcGCWvFSm+jHdiGmO2ZH0l2tBvdYo
+ rbMuYAfKkgvWLu3NR5tDDYh3K+alNNrtA+0uyI7lPc3RjjE3hxfm+jB2L
+ lQB7OJPhqm/8YQK5WPv6SS785PQQw+1oxw1EnrBEOh61/avlFCdOtCfMd
+ WaBV+Vvk6OwpNpN/vmGWk1s0aqCho6QzpYHbwLoGIi/CDVGUcjpl2DZ1M
+ FZfv8jyEX28ptJ18/rk+kRuJkP2R/tI9K7Qa8uQwXYGSTj1Kprl3w0ui3
+ 2k5WSGW1o+8nq6Qy/A7UXJPQRqtXyq2zLy0Nk5009vjpkkwO4fcIxt9ZG Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="276625451"
+X-IronPort-AV: E=Sophos;i="5.93,297,1654585200"; d="scan'208";a="276625451"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2022 07:27:46 -0700
+X-IronPort-AV: E=Sophos;i="5.93,297,1654585200"; d="scan'208";a="565534311"
+Received: from ideak-desk.fi.intel.com ([10.237.72.175])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2022 07:27:44 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/dp_mst: Avoid deleting payloads for connectors staying
+ enabled
+Date: Wed,  7 Sep 2022 17:25:42 +0300
+Message-Id: <20220907142542.1681994-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.31.1.189.g2e36527f23
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v6 10/57] dyndbg: cleanup auto vars in dynamic_debug_init
-Content-Language: en-US
-To: Jim Cromie <jim.cromie@gmail.com>, gregkh@linuxfoundation.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20220904214134.408619-1-jim.cromie@gmail.com>
- <20220904214134.408619-11-jim.cromie@gmail.com>
-From: Jason Baron <jbaron@akamai.com>
-In-Reply-To: <20220904214134.408619-11-jim.cromie@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-07_08,2022-09-07_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- spamscore=0 mlxscore=0
- mlxlogscore=999 phishscore=0 suspectscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2209070055
-X-Proofpoint-GUID: pQRCw3hmNV4Dnf3MrVmGF2JyV-FKuiJr
-X-Proofpoint-ORIG-GUID: pQRCw3hmNV4Dnf3MrVmGF2JyV-FKuiJr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-07_08,2022-09-07_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 adultscore=0
- impostorscore=0 bulkscore=0 mlxlogscore=999 clxscore=1011 phishscore=0
- lowpriorityscore=0 suspectscore=0 mlxscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2209070056
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,102 +55,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: joe@perches.com, daniel.vetter@ffwll.ch, seanpaul@chromium.org,
- linux@rasmusvillemoes.dk
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When an MST connector stays enabled during a commit the connector's MST
+state needs to be added to the atomic state, but the corresponding MST
+payload allocation shouldn't be set for deletion; fix such modesets by
+ensuring the above even if the connector was already enabled before the
+modeset.
 
+The issue led to the following:
+[  761.992923] i915 0000:00:02.0: drm_WARN_ON(payload->delete)
+[  761.992949] WARNING: CPU: 6 PID: 1401 at drivers/gpu/drm/display/drm_dp_mst_topology.c:4221 drm_dp_atomic_find_time_slots+0x236/0x280 [drm_display_helper]
+[  761.992955] Modules linked in: snd_hda_intel i915 drm_buddy drm_display_helper drm_kms_helper ttm drm snd_hda_codec_hdmi snd_intel_dspcfg snd_hda_codec snd_hwdep snd_hda_core snd_pcm prime_numbers i2c_algo_bit syscopyarea sysfillrect sysimgblt fb_sys_fops x86_pkg_temp_thermal cdc_ether coretemp crct10dif_pclmul usbnet crc32_pclmul mii ghash_clmulni_intel e1000e mei_me ptp i2c_i801 pps_core mei i2c_smbus intel_lpss_pci fuse [last unloaded: drm]
+[  761.992986] CPU: 6 PID: 1401 Comm: testdisplay Tainted: G     U             6.0.0-rc4-imre+ #565
+[  761.992989] Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR5 RVP, BIOS ADLPFWI1.R00.3135.A00.2203251419 03/25/2022
+[  761.992990] RIP: 0010:drm_dp_atomic_find_time_slots+0x236/0x280 [drm_display_helper]
+[  761.992994] Code: 4c 8b 67 50 4d 85 e4 75 03 4c 8b 27 e8 03 28 4e e1 48 c7 c1 8b 26 2c a0 4c 89 e2 48 c7 c7 a8 26 2c a0 48 89 c6 e8 31 d5 88 e1 <0f> 0b 49 8b 85 d0 00 00 00 4c 89 fa 48 c7 c6 a0 41 2c a0 48 8b 78
+[  761.992995] RSP: 0018:ffffc9000177ba60 EFLAGS: 00010286
+[  761.992998] RAX: 0000000000000000 RBX: ffff88810d2f1540 RCX: 0000000000000000
+[  761.992999] RDX: 0000000000000001 RSI: ffffffff82368a25 RDI: 00000000ffffffff
+[  761.993000] RBP: ffff888142299d80 R08: ffff8884adbfdfe8 R09: 00000000ffefffff
+[  761.993001] R10: ffff8884a6bfe000 R11: ffff8884ac443c30 R12: ffff888102972f90
+[  761.993002] R13: ffff8881163e2cf0 R14: 00000000000003ac R15: ffff88810c501000
+[  761.993003] FS:  00007f81e4c459c0(0000) GS:ffff888496500000(0000) knlGS:0000000000000000
+[  761.993004] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  761.993005] CR2: 0000555dac962a98 CR3: 0000000123a34006 CR4: 0000000000770ee0
+[  761.993006] PKRU: 55555554
+[  761.993007] Call Trace:
+[  761.993009]  <TASK>
+[  761.993012]  intel_dp_mst_compute_config+0x19a/0x350 [i915]
+[  761.993090]  intel_atomic_check+0xf37/0x3180 [i915]
+[  761.993168]  drm_atomic_check_only+0x5d3/0xa60 [drm]
+[  761.993182]  drm_atomic_commit+0x56/0xc0 [drm]
+[  761.993192]  ? drm_plane_get_damage_clips.cold+0x1c/0x1c [drm]
+[  761.993204]  drm_atomic_helper_set_config+0x78/0xc0 [drm_kms_helper]
+[  761.993214]  drm_mode_setcrtc+0x1ed/0x750 [drm]
+[  761.993232]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  761.993241]  drm_ioctl_kernel+0xb5/0x150 [drm]
+[  761.993252]  drm_ioctl+0x203/0x3d0 [drm]
+[  761.993261]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  761.993276]  __x64_sys_ioctl+0x8a/0xb0
+[  761.993281]  do_syscall_64+0x38/0x90
+[  761.993285]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+[  761.993287] RIP: 0033:0x7f81e551aaff
+[  761.993288] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 77 1f 48 8b 44 24 18 64 48 2b 04 25 28 00
+[  761.993290] RSP: 002b:00007fff4304af10 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[  761.993292] RAX: ffffffffffffffda RBX: 00007fff4304afa0 RCX: 00007f81e551aaff
+[  761.993293] RDX: 00007fff4304afa0 RSI: 00000000c06864a2 RDI: 0000000000000004
+[  761.993294] RBP: 00000000c06864a2 R08: 0000000000000000 R09: 0000555dac8a9c68
+[  761.993294] R10: 0000000000000000 R11: 0000000000000246 R12: 00000000000008c4
+[  761.993295] R13: 0000000000000004 R14: 0000555dac8a9c68 R15: 00007fff4304b098
+[  761.993301]  </TASK>
 
-On 9/4/22 17:40, Jim Cromie wrote:
-> rework var-names for clarity, regularity
-> rename variables
->   - n to mod_sites - it counts sites-per-module
->   - entries to i - display only
->   - iter_start to iter_mod_start - marks start of each module's subrange
->   - modct to mod_ct - stylistic
-> 
-> new iterator var:
->   - site - cursor parallel to iter
->     1st step towards 'demotion' of iter->site, for removal later
-> 
-> treat vars as iters:
->   - drop init at top
->     init just above for-loop, in a textual block
-> 
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> ---
->  lib/dynamic_debug.c | 33 +++++++++++++++++----------------
->  1 file changed, 17 insertions(+), 16 deletions(-)
-> 
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index e96dc216463b..2e8ebef3bd0d 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -1059,11 +1059,10 @@ static int __init dynamic_debug_init_control(void)
->  
->  static int __init dynamic_debug_init(void)
->  {
-> -	struct _ddebug *iter, *iter_start;
-> -	const char *modname = NULL;
-> +	struct _ddebug *iter, *iter_mod_start;
-> +	int ret, i, mod_sites, mod_ct;
-> +	const char *modname;
->  	char *cmdline;
-> -	int ret = 0;
-> -	int n = 0, entries = 0, modct = 0;
->  
->  	if (&__start___dyndbg == &__stop___dyndbg) {
->  		if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG)) {
-> @@ -1074,30 +1073,32 @@ static int __init dynamic_debug_init(void)
->  		ddebug_init_success = 1;
->  		return 0;
->  	}
-> -	iter = __start___dyndbg;
-> +
-> +	iter = iter_mod_start = __start___dyndbg;
->  	modname = iter->modname;
-> -	iter_start = iter;
-> -	for (; iter < __stop___dyndbg; iter++) {
-> -		entries++;
-> +	i = mod_sites = mod_ct = 0;
-> +
-> +	for (; iter < __stop___dyndbg; iter++, i++, mod_sites++) {
-> +
+Fixes: 083351e96386 ("drm/display/dp_mst: Fix modeset tracking in drm_dp_atomic_release_vcpi_slots()")
+Testcase: igt@testdisplay
+Cc: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Just a small nit here - not sure why there's an extra blank line here?
-But either way:
+diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+index 1de438151cc39..4442cc5602d45 100644
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -4322,6 +4322,9 @@ int drm_dp_atomic_release_time_slots(struct drm_atomic_state *state,
+ 		return -EINVAL;
+ 	}
+ 
++	if (new_conn_state->crtc)
++		return 0;
++
+ 	drm_dbg_atomic(mgr->dev, "[MST PORT:%p] TU %d -> 0\n", port, payload->time_slots);
+ 	if (!payload->delete) {
+ 		drm_dp_mst_put_port_malloc(port);
+-- 
+2.37.1
 
-Acked-by: Jason Baron <jbaron@akamai.com>
-
-
->  		if (strcmp(modname, iter->modname)) {
-> -			modct++;
-> -			ret = ddebug_add_module(iter_start, n, modname);
-> +			mod_ct++;
-> +			ret = ddebug_add_module(iter_mod_start, mod_sites, modname);
->  			if (ret)
->  				goto out_err;
-> -			n = 0;
-> +
-> +			mod_sites = 0;
->  			modname = iter->modname;
-> -			iter_start = iter;
-> +			iter_mod_start = iter;
->  		}
-> -		n++;
->  	}
-> -	ret = ddebug_add_module(iter_start, n, modname);
-> +	ret = ddebug_add_module(iter_mod_start, mod_sites, modname);
->  	if (ret)
->  		goto out_err;
->  
->  	ddebug_init_success = 1;
->  	vpr_info("%d prdebugs in %d modules, %d KiB in ddebug tables, %d kiB in __dyndbg section\n",
-> -		 entries, modct, (int)((modct * sizeof(struct ddebug_table)) >> 10),
-> -		 (int)((entries * sizeof(struct _ddebug)) >> 10));
-> +		 i, mod_ct, (int)((mod_ct * sizeof(struct ddebug_table)) >> 10),
-> +		 (int)((i * sizeof(struct _ddebug)) >> 10));
->  
->  	/* now that ddebug tables are loaded, process all boot args
->  	 * again to find and activate queries given in dyndbg params.
