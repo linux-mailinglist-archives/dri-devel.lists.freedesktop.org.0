@@ -1,87 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93455AFF28
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 10:36:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 357965AFF33
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 10:37:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047B210E481;
-	Wed,  7 Sep 2022 08:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9AFB10E47E;
+	Wed,  7 Sep 2022 08:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
  [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B403210E47A;
- Wed,  7 Sep 2022 08:35:56 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 6320A2B059B3;
- Wed,  7 Sep 2022 04:35:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 07 Sep 2022 04:35:56 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5A710E48D;
+ Wed,  7 Sep 2022 08:36:03 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id F1B372B058ED;
+ Wed,  7 Sep 2022 04:35:59 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 07 Sep 2022 04:36:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1662539752; x=
- 1662546952; bh=ajJh2Wx8MXMMsyiQmD1r2lPMNWPyf1jGQwAZU1Xo/Vo=; b=l
- 8go6mCkyswA9oBEMhyKItgLKUQof0p7NCMe3c4BY24qhihmcXOnPXOOCGA+JoENf
- r8LSrx6plFt3eRT6f+iRm13X+Ge7H5w/X8nYFD8uuCi/NNl1ka4pjepEzYGO2UD5
- jTxKdJ1NueGRqmPAZQU+8gTpKR3kgBz5IJYJxRUbHeh30VL5QZgIaLwF7Me7yFPF
- z90h5LYxXSLekU6PvQtCGOcfT065udK15EJNrD3wsdread9k9wI/swpy4eL5h1be
- NhX1Zlm1Zjycd6bXijWv9ZLbAMX26+6I/rmrNJa+xWqiG+0x8U41v3AbLBcb64aN
- AoRVH5RrvTBKGC3N3jBSQ==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1662539759; x=
+ 1662546959; bh=+31CEGbmU2q6Tt9vFnh1GvYZze8A0Y9E6qffTZZmQws=; b=u
+ QGc++gg2nrXp46+EgG0l8l4OcjXgq/2pkv2TfSkvp6wLLj47k9Pi5EXwVs/InCK8
+ MRVtLe9WmLCYDQYI2FvL8iBZcsE9UvplEu7Q3mNncpkq/1ZOZ/af0DIjzV3vDvbj
+ iTZnj449ezUMId9foaXdYciJ5t3tlL6uq1RrWj/5eU1BItxQQWuImzXlJoC6Y0Yc
+ KjY1OZHju5fJILmtgnKyUlOlvsIh3v3m8KEg7hIrjkUECnW68He/rgXbRai8a1Oq
+ VQMSdcnrEhyL5PvHKc0nwY+J2XMy7kGJr9dnXkzNiwTD9EFA7X0L64ZxRmfwTfnw
+ UA3LnJ0U8G9LeEq0tLkbA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662539752; x=
- 1662546952; bh=ajJh2Wx8MXMMsyiQmD1r2lPMNWPyf1jGQwAZU1Xo/Vo=; b=E
- 1cdASYEoVOrm0rC7xl467NtgJFSmEsw2hoTDcwC4BZFf1KmKqd09nO0DQvfYgja9
- zP/eEmvicvF5Wp11vuZ/vACkRYYnlwIzFON4NmUET4K1pAj6szj+FIJqy7KAQxzu
- 1qBkAXPa6CtajrCRxYwCobjWWEp0OqBu78kMjL0Mk8P3zLQLGVvwfFFBbmOKvyZ+
- A2OMSCle1irJJX7IUDglinlSYVgsSdYiFOT9nx5UOCf4wVqY9k33k8r6HaOa+xPm
- xP3/ueJrbPnp1TI6tJ7tGELFq1k8QhsGIKkRcsCZ9T6ox4vUUEQic/10vbdnC46R
- tWdx1r/jwgkfO3nlecE2Q==
-X-ME-Sender: <xms:6FcYY4GeGJ_bO0bJRklMK1f2_CTY62pLVtJG_U42Rc9mE08rzE5pBQ>
- <xme:6FcYYxV_xSC_HlhoX_XyrLKIj6qkqiUBpWsi8HkqA-oozMBdB1ykzP8fPnUg7F8UG
- qxVFd9i3FAeZWi6zVo>
-X-ME-Received: <xmr:6FcYYyJSALkWxYavLe0XO1MU2Jx6hm3iiT6ldqaux334v_mVTTaN1pYZL-U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgtdegucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662539759; x=
+ 1662546959; bh=+31CEGbmU2q6Tt9vFnh1GvYZze8A0Y9E6qffTZZmQws=; b=1
+ zweovl7obsyw0BjeznZHsJcrCoYgIZta+WYPyDYV8lXQdDbXdC7OmD0edzQMHSO1
+ btixTIUvblQXmWF8BJpGezYbkSOJDbB/PP3VWxSEkSj4bvVyWsfoG5l/WRDnhCV6
+ otfqR1L7AwgCqGW4JpI3C9A8uvuQutbcKDl7GL+7RDUbtLMoMj+V4jM301O7KhcF
+ biipavmqI4pockCvXv/93/ORM5s6K3AH8GKI2xm1kjyDdqa5nFRxpwEIA1E9DpPI
+ J6U4g2xHe8uSajrfxQpryYxz/2Hms72keen8peHqtkiboH1UHHMT12MEHNkDaNGo
+ g7d3gDBEBPGg1lAW2nOTg==
+X-ME-Sender: <xms:71cYYxgPUM3rEZToyZHY3Q1AmMLcoAUP_wRrJL_mnLmpGS8Fus0IjQ>
+ <xme:71cYY2AZvFqur6W2olk0PP5-izb8arx9hINBmc3oFE8wab5OmxqkWw2xE4-PnGz0n
+ D0--OFXVDfCwjQkWZo>
+X-ME-Received: <xmr:71cYYxFmwzztP4QAA35UvM7uF2pY76MuHRC0pi6gwYARHOnrImSrznLGEWU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgtdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
- vedufeeinecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
+ vedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:6FcYY6HwKIeqqXOW3dGvC14D5L7u-YlM6kNoiErEeFLzfsClVNMSNA>
- <xmx:6FcYY-XeTgPZEJHNts5dbaWMxkCIcGV4PojeiFGONcmA0V70QCvD2A>
- <xmx:6FcYY9NB2dbNdtIyEb49TE0RKiAUZy5QHDwIBb9_mPYb8dK_SztWeg>
- <xmx:6FcYYxccDmLVXh4M4g6iLcopyj4oX-SSZ_IcNu1K_wo_eAt0D-gMUvno-mM>
+X-ME-Proxy: <xmx:71cYY2QndYdiLosWAXfW2RLZmVt6x79a32BhBK0UhCcMZmQPOAQZhA>
+ <xmx:71cYY-xhuTJyEQrDeJf_-SqsOrBCNSRJPDxcRHWqsu8FWzquxQD7Tw>
+ <xmx:71cYY85VX5XtsBHLwVua7HpBOJErP1pKF0b_biUtym0BjuM8PciSlA>
+ <xmx:71cYY4oR6lr_ymdoW4t18GGRUDcHQc9f6RKrMHDiZ2bk4a8jepKC-ikSQns>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Sep 2022 04:35:51 -0400 (EDT)
+ 7 Sep 2022 04:35:58 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: David Airlie <airlied@linux.ie>, Samuel Holland <samuel@sholland.org>,
  Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
  Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
  Jani Nikula <jani.nikula@linux.intel.com>, Ben Skeggs <bskeggs@redhat.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Emma Anholt <emma@anholt.net>,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Lyude Paul <lyude@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lyude Paul <lyude@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <maxime@cerno.tech>
-Subject: Re: (subset) [PATCH v2 34/41] drm/sun4i: tv: Remove unused mode_valid
-Date: Wed,  7 Sep 2022 10:35:04 +0200
-Message-Id: <166253967461.2236193.2186831685710970121.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v2 35/41] drm/sun4i: tv: Convert to atomic hooks
+Date: Wed,  7 Sep 2022 10:35:05 +0200
+Message-Id: <166253967461.2236193.3184591776992284216.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-34-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-35-459522d653a7@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-34-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-35-459522d653a7@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -107,8 +107,9 @@ Cc: Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 29 Aug 2022 15:11:48 +0200, Maxime Ripard wrote:
-> The mode_valid implementation is pretty much a nop, let's remove it.
+On Mon, 29 Aug 2022 15:11:49 +0200, Maxime Ripard wrote:
+> The sun4i TV driver still uses legacy enable and disable hook
+> implementation. Let's convert to the atomic variants.
 > 
 > 
 
