@@ -2,58 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82F55B0C8A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 20:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4354B5B0CBC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 20:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5F310E826;
-	Wed,  7 Sep 2022 18:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB9110E832;
+	Wed,  7 Sep 2022 18:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBB610E826
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 18:35:21 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id 130so22867294ybw.8
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 11:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=STJNUAoDz8/H7GZWo2JC/f9FzlPrG+LEjtWrEMBbtXs=;
- b=RskBKCOfeFOaMxC6KYoO1H6x+3b5BOgf0WTEukFan66nkQS9frqNBSpq46LtZuBCV4
- dK6cNYLtIkbozPkYsjq8blAENOPmRaaWV1SVHk42judEYe6ZQmXQ9be56/fLxl2OmPfu
- Aw6ca/tM3cGUYfGTctoPHZPqSdeUk5A5+Tncgs8cYb4YDrjXgcvOjoUZkJQA4GQ30Vwl
- x9Hw2iBs7sgIuHdBr15dVtqthnyn+QXuLBjumdG04Bj5vHWQrEfvMKGhbU6tuhTdBoE+
- JOkxbtqalDnWAmyT3CvJzX0EonTumQpI5lnWbBKiqhO5s6W5QwxLtTwGyp5LiIaodCCa
- GeRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=STJNUAoDz8/H7GZWo2JC/f9FzlPrG+LEjtWrEMBbtXs=;
- b=hw8LFuoh8pbbIUln3pmN7XiLboo9DthrkKmGIuA/+1ebkrUk48ytNmrOcT+zgIyt2I
- ScOxRJlnCkAED9JC4rfWa4saKZNC7KwAmao2VjlO1yYq5Vh+ULgrBvsocBqNSRHqyorZ
- Saf1zNK1nFVbxM1xD5lsjYbDfU6BLInotGUMtgYE+R6a2Kj6UMlpBm9UROd+ydK1ho3J
- 0Yu7Ist3fWItn7/3sdxM8fHeGI5SgqxyDRbQVhq3GLdxDv4c4Tkm+50siSGKjyY5fekX
- 3Ay2j02NITttPNBnh1kPxEBG5BDxpJ9jABlIHYrHswmJyN5j6T0ZgGzitcHD519DvfJA
- U5nQ==
-X-Gm-Message-State: ACgBeo3PK+rv+g4pjdOcMdt4Zqi+6qru6Vni9Lf3zsoJJ3BGg87CPrgc
- 5dMVCkzNJQg7dQoLmoT2AwM2uq08KRsGZ5DECKk=
-X-Google-Smtp-Source: AA6agR4z5iyGc/KnbqOKgxH+QqziQC1XLVqpCtNUnd525QBq6NgFTnEt6ShlgjJeBS1/7kliuF78qGIlm6wja/49KCQ=
-X-Received: by 2002:a25:dbcb:0:b0:6a8:e19f:9938 with SMTP id
- g194-20020a25dbcb000000b006a8e19f9938mr4130188ybf.158.1662575720543; Wed, 07
- Sep 2022 11:35:20 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 974F810E682;
+ Wed,  7 Sep 2022 18:54:36 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 287HX4Zr026869;
+ Wed, 7 Sep 2022 18:54:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=TTCOAQh4O2DuIA91ePWqjHxSX3qFzkGJWWmsDFxcQPM=;
+ b=kD+e3XPkDzPTovm/vMMM5c9NaW/s31gLbwmsn3G8VWTGWVfYexjV3zHKina1ztuE0zWZ
+ iFODo0bsoKUxR1MyawTUrieN3mmS4QOW96ym8KwTFVWcxIV4ADmxZ8sOH4vvwGSnREhu
+ tCPHBvpLC3mHyhGH99X0cWsm5RpOUZIqN1xFddVYQSNOX+gwh4EJFxD/dykZOrgZyHPc
+ +NDEMagP4GXUWWY40AqudM7HLCX12bfShT0oHG0pHjc2OMDgE4J0u8Pu4iLYtFuGGbVx
+ JyQRITIn4QBIYJHc/rUh5p9zwY5DTHGSa70o552pdwb80r40jjrv0H06oujYX6tUGole SA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jerdpabfe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Sep 2022 18:54:31 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 287IsVQo001238
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 7 Sep 2022 18:54:31 GMT
+Received: from [10.111.169.242] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 7 Sep 2022
+ 11:54:29 -0700
+Message-ID: <b1b6ba61-10a6-ba9e-ac79-8b4182d348d9@quicinc.com>
+Date: Wed, 7 Sep 2022 11:54:27 -0700
 MIME-Version: 1.0
-References: <YxducgSzR6/zyHD7@debian>
- <CADVatmNfc1YT02v5-FaMoGN==MOx5ZJ=o8YMQAH19Gvf91betA@mail.gmail.com>
- <20220907170451.efhz62nkxybqxtaa@mail.igalia.com>
-In-Reply-To: <20220907170451.efhz62nkxybqxtaa@mail.igalia.com>
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Date: Wed, 7 Sep 2022 19:34:44 +0100
-Message-ID: <CADVatmNodAV4PB5jjARnowu=VGbgMWgBYDWPuwJe-f1WFaS8ow@mail.gmail.com>
-Subject: Re: build failure of next-20220906 due to 396369d67549 ("drm: vkms:
- Add support to the RGB565 format")
-To: Melissa Wen <mwen@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 3/5] drm/msm/hdmi: move resource allocation to probe
+ function
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220826093927.851597-1-dmitry.baryshkov@linaro.org>
+ <20220826093927.851597-4-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220826093927.851597-4-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: NMPhlBZbxZBlQkZWaUzALA3cg9wwa-90
+X-Proofpoint-ORIG-GUID: NMPhlBZbxZBlQkZWaUzALA3cg9wwa-90
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-07_10,2022-09-07_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 clxscore=1015
+ adultscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209070071
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,58 +85,412 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>, linux-next <linux-next@vger.kernel.org>,
- Igor Torrente <igormtorrente@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Melissa,
-
-On Wed, Sep 7, 2022 at 6:05 PM Melissa Wen <mwen@igalia.com> wrote:
->
-> On 09/06, Sudip Mukherjee wrote:
-> > On Tue, Sep 6, 2022 at 4:59 PM Sudip Mukherjee (Codethink)
-> > <sudipm.mukherjee@gmail.com> wrote:
-> > >
-> > > Hi All,
-> > >
-> > > The builds of next-20220906 fails for mips, xtensa and arm allmodconfig.
-> > >
-> > > The errors in mips and xtensa are:
-> > >
-> > > ERROR: modpost: "__divdi3" [drivers/gpu/drm/vkms/vkms.ko] undefined!
-> > > ERROR: modpost: "__udivdi3" [drivers/gpu/drm/vkms/vkms.ko] undefined!
-> > >
-> > > The error in arm is:
-> > >
-> > > ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/vkms/vkms.ko] undefined!
-> > > ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/vkms/vkms.ko] undefined!
-> > >
-> > >
-> > > Trying to do a git bisect to find out the offending commit.
-> >
-> > git bisect points to 396369d67549 ("drm: vkms: Add support to the
-> > RGB565 format")
->
-> Hi Sudip,
->
-> Thanks for pointing out this issue.
->
-> I think we can replace the macros that are triggering those compilation
-> error by functions in drm/drm_fixed.h that do the same calculation.
->
-> I checked those errors when building for arm and i386 and the issues are
-> fixed after applying the patch below. I appreciate if you can test.
-
-Sorry, could not test as the downloaded mbox is saying patch is
-corrupted and could not be applied. Can you please attach the patch or
-maybe send using git send-email.
 
 
--- 
-Regards
-Sudip
+On 8/26/2022 2:39 AM, Dmitry Baryshkov wrote:
+> Rather than having all resource allocation happen in the _bind function
+> (resulting in possible EPROBE_DEFER returns and component bind/unbind
+> cycles) allocate and check all resources in _probe function. While we
+> are at it, use platform_get_irq() to get the IRQ rather than going
+> through the irq_of_parse_and_map().
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/hdmi/hdmi.c | 303 +++++++++++++++-----------------
+>   1 file changed, 138 insertions(+), 165 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> index 4a364d8f4c0b..c298a36f3b42 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> @@ -76,8 +76,6 @@ static void msm_hdmi_destroy(struct hdmi *hdmi)
+>   
+>   	if (hdmi->i2c)
+>   		msm_hdmi_i2c_destroy(hdmi->i2c);
+> -
+> -	platform_set_drvdata(hdmi->pdev, NULL);
+>   }
+>   
+>   static int msm_hdmi_get_phy(struct hdmi *hdmi)
+
+Between v1 and v2, it just seems like a rebase to me on top of the 6.1 
+MR. But what about moving msm_hdmi_get_phy() to probe(). I thought you 
+were going to check that as well for v2.
+
+A change log would have been nice here. Because as part of the rebase 
+looks like we even migrate to using panel bridge for hdmi driver.
+
+Usage of drm_of_find_panel_or_bridge was not present in v1 and wasnt 
+obvious from the commit text either.
+
+> @@ -117,142 +115,10 @@ static int msm_hdmi_get_phy(struct hdmi *hdmi)
+>    * we are to EPROBE_DEFER we want to do it here, rather than later
+>    * at modeset_init() time
+>    */
+> -static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
+> +static int msm_hdmi_init(struct hdmi *hdmi)
+>   {
+> -	struct hdmi_platform_config *config = pdev->dev.platform_data;
+> -	struct hdmi *hdmi = NULL;
+> -	struct resource *res;
+> -	int i, ret;
+> -
+> -	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
+> -	if (!hdmi) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -
+> -	hdmi->pdev = pdev;
+> -	hdmi->config = config;
+> -	spin_lock_init(&hdmi->reg_lock);
+> -
+> -	ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, 0, NULL, &hdmi->next_bridge);
+> -	if (ret && ret != -ENODEV)
+> -		goto fail;
+> -
+> -	hdmi->mmio = msm_ioremap(pdev, "core_physical");
+> -	if (IS_ERR(hdmi->mmio)) {
+> -		ret = PTR_ERR(hdmi->mmio);
+> -		goto fail;
+> -	}
+> -
+> -	/* HDCP needs physical address of hdmi register */
+> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+> -		"core_physical");
+> -	if (!res) {
+> -		ret = -EINVAL;
+> -		goto fail;
+> -	}
+> -	hdmi->mmio_phy_addr = res->start;
+> -
+> -	hdmi->qfprom_mmio = msm_ioremap(pdev, "qfprom_physical");
+> -	if (IS_ERR(hdmi->qfprom_mmio)) {
+> -		DRM_DEV_INFO(&pdev->dev, "can't find qfprom resource\n");
+> -		hdmi->qfprom_mmio = NULL;
+> -	}
+> -
+> -	hdmi->hpd_regs = devm_kcalloc(&pdev->dev,
+> -				      config->hpd_reg_cnt,
+> -				      sizeof(hdmi->hpd_regs[0]),
+> -				      GFP_KERNEL);
+> -	if (!hdmi->hpd_regs) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -	for (i = 0; i < config->hpd_reg_cnt; i++)
+> -		hdmi->hpd_regs[i].supply = config->hpd_reg_names[i];
+> -
+> -	ret = devm_regulator_bulk_get(&pdev->dev, config->hpd_reg_cnt, hdmi->hpd_regs);
+> -	if (ret) {
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to get hpd regulator: %d\n", ret);
+> -		goto fail;
+> -	}
+> -
+> -	hdmi->pwr_regs = devm_kcalloc(&pdev->dev,
+> -				      config->pwr_reg_cnt,
+> -				      sizeof(hdmi->pwr_regs[0]),
+> -				      GFP_KERNEL);
+> -	if (!hdmi->pwr_regs) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -
+> -	for (i = 0; i < config->pwr_reg_cnt; i++)
+> -		hdmi->pwr_regs[i].supply = config->pwr_reg_names[i];
+> -
+> -	ret = devm_regulator_bulk_get(&pdev->dev, config->pwr_reg_cnt, hdmi->pwr_regs);
+> -	if (ret) {
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to get pwr regulator: %d\n", ret);
+> -		goto fail;
+> -	}
+> -
+> -	hdmi->hpd_clks = devm_kcalloc(&pdev->dev,
+> -				      config->hpd_clk_cnt,
+> -				      sizeof(hdmi->hpd_clks[0]),
+> -				      GFP_KERNEL);
+> -	if (!hdmi->hpd_clks) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -	for (i = 0; i < config->hpd_clk_cnt; i++) {
+> -		struct clk *clk;
+> -
+> -		clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
+> -		if (IS_ERR(clk)) {
+> -			ret = PTR_ERR(clk);
+> -			DRM_DEV_ERROR(&pdev->dev, "failed to get hpd clk: %s (%d)\n",
+> -					config->hpd_clk_names[i], ret);
+> -			goto fail;
+> -		}
+> -
+> -		hdmi->hpd_clks[i] = clk;
+> -	}
+> -
+> -	hdmi->pwr_clks = devm_kcalloc(&pdev->dev,
+> -				      config->pwr_clk_cnt,
+> -				      sizeof(hdmi->pwr_clks[0]),
+> -				      GFP_KERNEL);
+> -	if (!hdmi->pwr_clks) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -	for (i = 0; i < config->pwr_clk_cnt; i++) {
+> -		struct clk *clk;
+> -
+> -		clk = msm_clk_get(pdev, config->pwr_clk_names[i]);
+> -		if (IS_ERR(clk)) {
+> -			ret = PTR_ERR(clk);
+> -			DRM_DEV_ERROR(&pdev->dev, "failed to get pwr clk: %s (%d)\n",
+> -					config->pwr_clk_names[i], ret);
+> -			goto fail;
+> -		}
+> -
+> -		hdmi->pwr_clks[i] = clk;
+> -	}
+> -
+> -	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
+> -	/* This will catch e.g. -EPROBE_DEFER */
+> -	if (IS_ERR(hdmi->hpd_gpiod)) {
+> -		ret = PTR_ERR(hdmi->hpd_gpiod);
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to get hpd gpio: (%d)\n", ret);
+> -		goto fail;
+> -	}
+> -
+> -	if (!hdmi->hpd_gpiod)
+> -		DBG("failed to get HPD gpio");
+> -
+> -	if (hdmi->hpd_gpiod)
+> -		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
+> -
+> -	devm_pm_runtime_enable(&pdev->dev);
+> +	struct platform_device *pdev = hdmi->pdev;
+> +	int ret;
+>   
+>   	hdmi->workq = alloc_ordered_workqueue("msm_hdmi", 0);
+>   
+> @@ -276,13 +142,13 @@ static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
+>   		hdmi->hdcp_ctrl = NULL;
+>   	}
+>   
+> -	return hdmi;
+> +	return 0;
+>   
+>   fail:
+>   	if (hdmi)
+>   		msm_hdmi_destroy(hdmi);
+>   
+> -	return ERR_PTR(ret);
+> +	return ret;
+>   }
+>   
+>   /* Second part of initialization, the drm/kms level modeset_init,
+> @@ -332,13 +198,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>   
+>   	drm_connector_attach_encoder(hdmi->connector, hdmi->encoder);
+>   
+> -	hdmi->irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+> -	if (!hdmi->irq) {
+> -		ret = -EINVAL;
+> -		DRM_DEV_ERROR(dev->dev, "failed to get irq\n");
+> -		goto fail;
+> -	}
+> -
+>   	ret = devm_request_irq(&pdev->dev, hdmi->irq,
+>   			msm_hdmi_irq, IRQF_TRIGGER_HIGH,
+>   			"hdmi_isr", hdmi);
+> @@ -358,8 +217,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>   
+>   	priv->bridges[priv->num_bridges++]       = hdmi->bridge;
+>   
+> -	platform_set_drvdata(pdev, hdmi);
+> -
+>   	return 0;
+>   
+>   fail:
+> @@ -387,7 +244,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>   static const char *hpd_reg_names_8960[] = {"core-vdda"};
+>   static const char *hpd_clk_names_8960[] = {"core", "master_iface", "slave_iface"};
+>   
+> -static struct hdmi_platform_config hdmi_tx_8960_config = {
+> +const static struct hdmi_platform_config hdmi_tx_8960_config = {
+>   		HDMI_CFG(hpd_reg, 8960),
+>   		HDMI_CFG(hpd_clk, 8960),
+>   };
+> @@ -397,7 +254,7 @@ static const char *pwr_clk_names_8x74[] = {"extp", "alt_iface"};
+>   static const char *hpd_clk_names_8x74[] = {"iface", "core", "mdp_core"};
+>   static unsigned long hpd_clk_freq_8x74[] = {0, 19200000, 0};
+>   
+> -static struct hdmi_platform_config hdmi_tx_8974_config = {
+> +const static struct hdmi_platform_config hdmi_tx_8974_config = {
+>   		HDMI_CFG(pwr_reg, 8x74),
+>   		HDMI_CFG(pwr_clk, 8x74),
+>   		HDMI_CFG(hpd_clk, 8x74),
+> @@ -512,23 +369,12 @@ static int msm_hdmi_register_audio_driver(struct hdmi *hdmi, struct device *dev)
+>   static int msm_hdmi_bind(struct device *dev, struct device *master, void *data)
+>   {
+>   	struct msm_drm_private *priv = dev_get_drvdata(master);
+> -	struct hdmi_platform_config *hdmi_cfg;
+> -	struct hdmi *hdmi;
+> -	struct device_node *of_node = dev->of_node;
+> +	struct hdmi *hdmi = dev_get_drvdata(dev);
+>   	int err;
+>   
+> -	hdmi_cfg = (struct hdmi_platform_config *)
+> -			of_device_get_match_data(dev);
+> -	if (!hdmi_cfg) {
+> -		DRM_DEV_ERROR(dev, "unknown hdmi_cfg: %pOFn\n", of_node);
+> -		return -ENXIO;
+> -	}
+> -
+> -	dev->platform_data = hdmi_cfg;
+> -
+> -	hdmi = msm_hdmi_init(to_platform_device(dev));
+> -	if (IS_ERR(hdmi))
+> -		return PTR_ERR(hdmi);
+> +	err = msm_hdmi_init(hdmi);
+> +	if (err)
+> +		return err;
+>   	priv->hdmi = hdmi;
+>   
+>   	err = msm_hdmi_register_audio_driver(hdmi, dev);
+> @@ -561,6 +407,133 @@ static const struct component_ops msm_hdmi_ops = {
+>   
+>   static int msm_hdmi_dev_probe(struct platform_device *pdev)
+>   {
+> +	const struct hdmi_platform_config *config;
+> +	struct device *dev = &pdev->dev;
+> +	struct hdmi *hdmi;
+> +	struct resource *res;
+> +	int i, ret;
+> +
+> +	config = of_device_get_match_data(dev);
+> +	if (!config)
+> +		return -EINVAL;
+> +
+> +	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
+> +	if (!hdmi)
+> +		return -ENOMEM;
+> +
+> +	hdmi->pdev = pdev;
+> +	hdmi->config = config;
+> +	spin_lock_init(&hdmi->reg_lock);
+> +
+> +	ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, 0, NULL, &hdmi->next_bridge);
+> +	if (ret && ret != -ENODEV)
+> +		return ret;
+> +
+> +	hdmi->mmio = msm_ioremap(pdev, "core_physical");
+> +	if (IS_ERR(hdmi->mmio))
+> +		return PTR_ERR(hdmi->mmio);
+> +
+> +	/* HDCP needs physical address of hdmi register */
+> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+> +		"core_physical");
+> +	if (!res)
+> +		return -EINVAL;
+> +	hdmi->mmio_phy_addr = res->start;
+> +
+> +	hdmi->qfprom_mmio = msm_ioremap(pdev, "qfprom_physical");
+> +	if (IS_ERR(hdmi->qfprom_mmio)) {
+> +		DRM_DEV_INFO(&pdev->dev, "can't find qfprom resource\n");
+> +		hdmi->qfprom_mmio = NULL;
+> +	}
+> +
+> +	hdmi->irq = platform_get_irq(pdev, 0);
+> +	if (hdmi->irq < 0)
+> +		return hdmi->irq;
+> +
+> +	hdmi->hpd_regs = devm_kcalloc(&pdev->dev,
+> +				      config->hpd_reg_cnt,
+> +				      sizeof(hdmi->hpd_regs[0]),
+> +				      GFP_KERNEL);
+> +	if (!hdmi->hpd_regs)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < config->hpd_reg_cnt; i++)
+> +		hdmi->hpd_regs[i].supply = config->hpd_reg_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(&pdev->dev, config->hpd_reg_cnt, hdmi->hpd_regs);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to get hpd regulators\n");
+> +
+> +	hdmi->pwr_regs = devm_kcalloc(&pdev->dev,
+> +				      config->pwr_reg_cnt,
+> +				      sizeof(hdmi->pwr_regs[0]),
+> +				      GFP_KERNEL);
+> +	if (!hdmi->pwr_regs)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < config->pwr_reg_cnt; i++)
+> +		hdmi->pwr_regs[i].supply = config->pwr_reg_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(&pdev->dev, config->pwr_reg_cnt, hdmi->pwr_regs);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to get pwr regulators\n");
+> +
+> +	hdmi->hpd_clks = devm_kcalloc(&pdev->dev,
+> +				      config->hpd_clk_cnt,
+> +				      sizeof(hdmi->hpd_clks[0]),
+> +				      GFP_KERNEL);
+> +	if (!hdmi->hpd_clks)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < config->hpd_clk_cnt; i++) {
+> +		struct clk *clk;
+> +
+> +		clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
+> +		if (IS_ERR(clk))
+> +			return dev_err_probe(dev, PTR_ERR(clk),
+> +					     "failed to get hpd clk: %s\n",
+> +					     config->hpd_clk_names[i]);
+> +
+> +		hdmi->hpd_clks[i] = clk;
+> +	}
+> +
+> +	hdmi->pwr_clks = devm_kcalloc(&pdev->dev,
+> +				      config->pwr_clk_cnt,
+> +				      sizeof(hdmi->pwr_clks[0]),
+> +				      GFP_KERNEL);
+> +	if (!hdmi->pwr_clks)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < config->pwr_clk_cnt; i++) {
+> +		struct clk *clk;
+> +
+> +		clk = msm_clk_get(pdev, config->pwr_clk_names[i]);
+> +		if (IS_ERR(clk))
+> +			return dev_err_probe(dev, PTR_ERR(clk),
+> +					     "failed to get pwr clk: %s\n",
+> +					     config->pwr_clk_names[i]);
+> +
+> +		hdmi->pwr_clks[i] = clk;
+> +	}
+> +
+> +	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
+> +	/* This will catch e.g. -EPROBE_DEFER */
+> +	if (IS_ERR(hdmi->hpd_gpiod))
+> +		return dev_err_probe(dev, PTR_ERR(hdmi->hpd_gpiod),
+> +				     "failed to get hpd gpio\n");
+> +
+> +	if (!hdmi->hpd_gpiod)
+> +		DBG("failed to get HPD gpio");
+> +
+> +	if (hdmi->hpd_gpiod)
+> +		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
+> +
+> +	ret = devm_pm_runtime_enable(&pdev->dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	platform_set_drvdata(pdev, hdmi);
+> +
+>   	return component_add(&pdev->dev, &msm_hdmi_ops);
+>   }
+>   
