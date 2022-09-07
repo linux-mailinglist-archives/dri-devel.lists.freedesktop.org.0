@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE37F5AFF36
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 10:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4865AFF40
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 10:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD9810E494;
-	Wed,  7 Sep 2022 08:36:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF5C410E497;
+	Wed,  7 Sep 2022 08:36:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
  [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E2810E495;
- Wed,  7 Sep 2022 08:36:17 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 4245E2B05918;
- Wed,  7 Sep 2022 04:36:14 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E741C10E496;
+ Wed,  7 Sep 2022 08:36:24 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 929822B059B1;
+ Wed,  7 Sep 2022 04:36:21 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 07 Sep 2022 04:36:17 -0400
+ by compute2.internal (MEProxy); Wed, 07 Sep 2022 04:36:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1662539773; x=
- 1662546973; bh=rLFNfQ2mi/UOeK131VY+ISj9/vvbSVnssaatn4l2ajw=; b=J
- CjPBQQxAlWPg2C7odV5L7gB7R7vuVeN8kgJQ7iaa28d++BExy7+V5pE4aR8+ZbjH
- Ib99hn0RC3k9OqLHu3tB5qyHDikiBh4Wg8Ll4TqUB2ucnwVE3dRKoqwqC7reyBbB
- L4GAFUI4j8D2z9esUCjOH42UW2/uJiUV5Y8Cno7MjENu5Ba8Nba3V4mj2aZFcZX4
- nAn5UnMzBew5+2S1K8iGPQ90UkDmQBM1k0QF2TIMYfi0ndJXHWlAHissCJP4G8xp
- qli6HXewXKAjkfBz9TbCgyp39h9GOO6WOxWPwHxM24rQJvIqeBxPctikfMia1O1u
- 4XyGAtO/EkyqK/s3hJE1Q==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1662539781; x=
+ 1662546981; bh=BS4b0Z8Irw23ZNAOM5hB7VebotGLXvfqHpdIa+/zG1s=; b=t
+ l09WbowuLbT8jm96WAeCUUrd1eNzmZRfBD/iY6jqiRavJ9I6I5+2Bk50UynJ7yvx
+ LSLMOjZdw75uM+VCCZ47mh9rnilWpHQEOJM67vNSKwkWH+g6hUYLrAG2tLPUDGTP
+ 4qMW2zmZLCWZCuxDdWLHw9lvrWp1kiBnNCMU66TkZMD70hZNkfE24MtIluMcr//n
+ QUsowhfhe98S2HueaKBX77vrAA3uR3QinDzFMNY9eakBB5UZjV/v8Mtw1U3Mb6lh
+ ipaQ6lk07pWjJ3/OqZJkmDNfQXPmw4YkU/j/h1FXWUW3HmOKom5Esq6Z1e92d/71
+ YSN5M24/Xg7X8kJCrGpBg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662539773; x=
- 1662546973; bh=rLFNfQ2mi/UOeK131VY+ISj9/vvbSVnssaatn4l2ajw=; b=t
- NCRLRHxqulbbxBV03PmIAmnOKYjLg6BB3AkP51Kd9rwWBgEXLFAEKwAVVL8rEIct
- k1M0C24iHmsWnGy6e7bfU2n0uwQOzW2N7HwmpwfVip3CNRiailPddb0peJOOmNp6
- Q/2j6QGCUa/tC8N/VexznK+eeidLaQ4dMcfp9lp+VecRB2+P5SQ0kzJK6uHcDn/6
- kwbjoZoopdUPnCezeINTW1rgO167o67vbA/vhEbGOnuAiHF7fYr9HkgcoCmwqthA
- kvR/MCPW9W8lrwrK8EGxeHQsnE0aIPI9j8cYZ8ReokwLYoX4H6eo0LqKnz0EmZsA
- qI9+dWuF8bC7hGfvpX0vQ==
-X-ME-Sender: <xms:_VcYY3xPXPFnJZN-wnJtxmMSr0kRGTtOMVxgttFEryuKj1LuSlL4tw>
- <xme:_VcYY_Rb_ckUNXJRr4nC2U0Q4ak94pm7DrtGsIykRFrW_TbSDaB7OU-zj-uTMAEBF
- rI9MFyrCTGthBr7Rxk>
-X-ME-Received: <xmr:_VcYYxW3zfU4-h0vcRIpL4vSiZOhuMjeYGDBnESxmfLCa99wLBfFLMpyp28>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662539781; x=
+ 1662546981; bh=BS4b0Z8Irw23ZNAOM5hB7VebotGLXvfqHpdIa+/zG1s=; b=f
+ LhRUWCEHefT8J3TyGzBLDcZHumNpJ/UZPQii4UyXLPKzHrxarbey9LZQqiiUDZLS
+ agbj79N8olOSV8n5cg7+2g+0MbADaWIvk0x0T6/N8ryI2ytp+Bs180cn9O4SLeCt
+ WdvKkDPJnKlGUT0btNWxI4p/d1zY2H9KcoecmpL2l+B8/KGWGMgEKDmHWJKTUj62
+ 1ZdSQTjL7kk176NrF0ryMAMDMgqFAdxDnvx1/OkFsu/nlwibghLmJ0/aAiCopNpC
+ AUW1mITsWt51yGf3gItl0Zvi5LWQg9vxf58XLslFPDvmPQ5j+dXfBhijqWwq2Vqa
+ tFncSXJMA0rc7LZltu7hw==
+X-ME-Sender: <xms:BFgYY7D2WD-fdibki3_WWEN2ONFsVcM7bKzMdrpCRllbojjc_vC0MA>
+ <xme:BFgYYxhFuTgdOaDeASLZRel_22jX_LFfdQMDji4WhLCAyrAZoHMiy_rEe9ynMI0GI
+ qnNVsrxXDMmWf4USMo>
+X-ME-Received: <xmr:BFgYY2lTdhTGEXYWUHQYhPpV-5BSu9xeVMGXPmEA63dcQLUVcVSyd0INPe8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgtdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
- vedufeeinecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomh
+ vedufeeinecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:_VcYYxg-U71Q2w5G9kqWzUBCLE_kxC4MVisxf1YbAv_u0hVR1hB_pw>
- <xmx:_VcYY5DEnrCheau8dIKSAgNn4hogEMBIL4hEip9BMVz2bFIbYdnCbw>
- <xmx:_VcYY6Kt2W31GC47vlQ-ko8X5YaT_S6Hap2yy5dOZkxa3m6DWsfp1Q>
- <xmx:_VcYY35pKGM0K__e8jjWgvlkINmxNaorg0ufB80uZK39PeT_eXPhHLE2fpY>
+X-ME-Proxy: <xmx:BFgYY9xFAT0FmegtLc-mlF4NS9x4Vxu2ru2lo7vIziG9S2lvCByHbw>
+ <xmx:BFgYYwQrYoliWMISbxm9Y5iN_fUqyiqfTGg4qxsfQfk4N5wkqzZv7w>
+ <xmx:BFgYYwaFCFJh4BFDn-jQG8VpIzpH4gOt4A2OXwFj4RCnmhazdPh05Q>
+ <xmx:BVgYY4L7HGVMfy7l2PhL3b-RnxkJiSXHbCQXpOf5dX-sj_VC30az55TVt2g>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Sep 2022 04:36:12 -0400 (EDT)
+ 7 Sep 2022 04:36:20 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: David Airlie <airlied@linux.ie>, Samuel Holland <samuel@sholland.org>,
  Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
@@ -70,19 +70,19 @@ To: David Airlie <airlied@linux.ie>, Samuel Holland <samuel@sholland.org>,
  Emma Anholt <emma@anholt.net>,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Lyude Paul <lyude@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Karol Herbst <kherbst@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <maxime@cerno.tech>
-Subject: Re: (subset) [PATCH v2 38/41] drm/sun4i: tv: Remove useless destroy
- function
-Date: Wed,  7 Sep 2022 10:35:07 +0200
-Message-Id: <166253967462.2236193.13167889603983513294.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v2 39/41] drm/sun4i: tv: Rename error label
+Date: Wed,  7 Sep 2022 10:35:08 +0200
+Message-Id: <166253967462.2236193.10885754438673118272.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-38-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-39-459522d653a7@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-38-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-39-459522d653a7@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -108,11 +108,15 @@ Cc: Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 29 Aug 2022 15:11:52 +0200, Maxime Ripard wrote:
-> Our destroy implementation is just calling the generic helper, so let's
-> just remove our function and directly use the helper.
+On Mon, 29 Aug 2022 15:11:53 +0200, Maxime Ripard wrote:
+> The other error labels in sun4i_tv_bind() are named after the task they
+> perform (err_disable_clk to call clk_disable_unprepare for example).
 > 
+> However, the err_cleanup_connector is named after the calling site
+> (drm_connector_init failing) and will actually cleanup the encoder. Let's
+> rename it to err_cleanup_encoder to be consistent.
 > 
+> [...]
 
 Applied to drm/drm-misc (drm-misc-next).
 
