@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242CD5AFE33
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 09:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7425AFE35
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 09:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF77610E3ED;
-	Wed,  7 Sep 2022 07:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF8CA10E3F0;
+	Wed,  7 Sep 2022 07:57:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE0F10E455
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 07:56:52 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7162C20113;
- Wed,  7 Sep 2022 07:56:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662537410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lZWG+y75ush28Ds2NfEJI2PC4RGC7XuRO3Jo2D6Cimc=;
- b=r6fF6N9By+Md3VgwktESdrAinH8lYeUXKtRTDVefxsm96Nk6wDeurr4frXLIboVc503S9M
- qTncqMTj30vjXrAud+nEtX3FzdUFc2oaxl5j/TknNuizaTajlSQ/988cpRtUXJTOQVXWc1
- QSyh9ulLJ6Kn7I0GYa9VYcmr275byTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662537410;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lZWG+y75ush28Ds2NfEJI2PC4RGC7XuRO3Jo2D6Cimc=;
- b=JqmobuU5Nj2q5JkkkuBo+OcLzG2QRZP0A4n7/yE1u5nW9EJXBKv3dATULosvVXT0FFV4pW
- tlVFdemRoY2L1GAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 523D613A66;
- Wed,  7 Sep 2022 07:56:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id jEclE8JOGGP4BwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 07 Sep 2022 07:56:50 +0000
-Message-ID: <e1ae11b1-ff82-1e5a-ccba-c37a0d62b46e@suse.de>
-Date: Wed, 7 Sep 2022 09:56:49 +0200
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74A6510E3F0;
+ Wed,  7 Sep 2022 07:57:12 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-127ba06d03fso10536542fac.3; 
+ Wed, 07 Sep 2022 00:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc:subject:date;
+ bh=Qw2l2dKSKd2YLbeWRoh7YxUvU5Nv0dLKebPZixHGBN8=;
+ b=IgTxk9zikOhalSYTqbVYGUcK6g/rLqv265xBJi+b9t/2g1iFXamPYXLIO1ET0SPzB5
+ XLf1kX/NtN0YtZVsV4evHRL0MA4kAQiik1SusgZZaQlpOf3N97KXhpAvH4BYRlGycHrp
+ G2CJiSDsWyQIoXSqWJz7oddQ5fCMkx7vWBIrYuKWu3y73SiixUFtj3FMq8VvOGc5TVtW
+ QHU8cJHUQi8gZW5oDbwG4lriR9IfMygv6KrrkfjCKGFyBuSPLZNY8njDWfkRrGO9W5hY
+ Rclh11dqwLcJB3gj5AtZn3YfSQwEJH3hmPimy/seXDQssQvZT9uUnOUrU2c2FKvImtHL
+ gBOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=Qw2l2dKSKd2YLbeWRoh7YxUvU5Nv0dLKebPZixHGBN8=;
+ b=XhcBJ2NKwgFrHjYPrXoW1W5J6IELl2iHaELIFBakV7ZBYXK6oh6Kg04Segme7iPexU
+ KsguzMVf5RoHBSGnpzO70SIsLH8mEuH94jBETWXRdoiAjQkEOqXTatQFzZUlny7a7rWq
+ sqkvZPjYT6wocdi/N+pwjT/WhufibrsXg/wxqDVC0M8ofz1eAnwbrpUz15PwVQZUuOr5
+ 5g7kqFCAVmpmYWbff5kY0Fpnrmby1i/MRJ827kJMLsrXHBa9Re5sknO1OETMENB+J5e2
+ pf3u2+x5loogHoX9kzAC4xhmvijQCHnhutj0KI2lUpOQ4RhLwCVlxP+BTOfKD0UZAyIi
+ XsYw==
+X-Gm-Message-State: ACgBeo2Wr24EeRgNtIynQdGdyrny8L8IbDmL4y/3bzsS9mOqZJRNVLCo
+ 0wNeEXq7WoM+HE+/f+clEZChMmGAhMIwWBPb8aU=
+X-Google-Smtp-Source: AA6agR6bZ94mEIf2yGD/4l5J+phi9NkSnE3taatkvaNY+Zk6k6NpZm+UAPCeuA80bnssa5SuuEeRDLVGrb3OYq7S2J8=
+X-Received: by 2002:a05:6870:b692:b0:11d:482f:3642 with SMTP id
+ cy18-20020a056870b69200b0011d482f3642mr1120605oab.38.1662537431569; Wed, 07
+ Sep 2022 00:57:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] drm/aperture: Fix some kerneldoc comments
-Content-Language: en-US
-To: Thierry Reding <thierry.reding@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-References: <20220905162241.391226-1-thierry.reding@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220905162241.391226-1-thierry.reding@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------u7PF3wINqO8YX1b7fPFeb0K7"
+References: <20220801170459.1593706-1-robdclark@gmail.com>
+ <20220801170459.1593706-2-robdclark@gmail.com>
+ <YxejqOuHTjoO/iXg@phenom.ffwll.local>
+In-Reply-To: <YxejqOuHTjoO/iXg@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 7 Sep 2022 00:57:00 -0700
+Message-ID: <CAF6AEGvUqoCegMZY-h9O6_vc1i=gD-TPHnFyvCjDA558Xn_5dw@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v2 1/3] dma-buf: Add ioctl to query mmap
+ info
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,105 +74,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------u7PF3wINqO8YX1b7fPFeb0K7
-Content-Type: multipart/mixed; boundary="------------E7bxDrY6ZGxMXnDBxpCTcQQu";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org
-Message-ID: <e1ae11b1-ff82-1e5a-ccba-c37a0d62b46e@suse.de>
-Subject: Re: [PATCH] drm/aperture: Fix some kerneldoc comments
-References: <20220905162241.391226-1-thierry.reding@gmail.com>
-In-Reply-To: <20220905162241.391226-1-thierry.reding@gmail.com>
+On Tue, Sep 6, 2022 at 12:46 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Aug 01, 2022 at 10:04:55AM -0700, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > This is a fairly narrowly focused interface, providing a way for a VMM
+> > in userspace to tell the guest kernel what pgprot settings to use when
+> > mapping a buffer to guest userspace.
+> >
+> > For buffers that get mapped into guest userspace, virglrenderer returns
+> > a dma-buf fd to the VMM (crosvm or qemu).  In addition to mapping the
+> > pages into the guest VM, it needs to report to drm/virtio in the guest
+> > the cache settings to use for guest userspace.  In particular, on some
+> > architectures, creating aliased mappings with different cache attributes
+> > is frowned upon, so it is important that the guest mappings have the
+> > same cache attributes as any potential host mappings.
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> > v2. fix compiler warning
+>
+> I think I bikeshedded this on irc already, here for the record too.
 
---------------E7bxDrY6ZGxMXnDBxpCTcQQu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+You should look at v3 (which I confusingly titled as v2, sry):
 
-SGkNCg0KQW0gMDUuMDkuMjIgdW0gMTg6MjIgc2NocmllYiBUaGllcnJ5IFJlZGluZzoNCj4g
-RnJvbTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4NCj4gDQo+IFJld29y
-ZCBzb21lIGtlcm5lbGRvYyBjb21tZW50cyBmb3IgdGhlIERSTSBhcGVydHVyZSBoYW5kbGlu
-ZyBjb2RlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdA
-bnZpZGlhLmNvbT4NCg0KQWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFu
-bkBzdXNlLmRlPg0KDQpUaGFua3MhDQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Ry
-bV9hcGVydHVyZS5jIHwgMTAgKysrKystLS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA1IGlu
-c2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9hcGVydHVyZS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hcGVydHVy
-ZS5jDQo+IGluZGV4IGZkYjdkNWMxN2JhMS4uM2I4ZmRlZWFmZDUzIDEwMDY0NA0KPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2FwZXJ0dXJlLmMNCj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV9hcGVydHVyZS5jDQo+IEBAIC03NCw3ICs3NCw3IEBADQo+ICAgICogZ2l2ZW4g
-ZnJhbWVidWZmZXIgbWVtb3J5LiBPd25lcnNoaXAgb2YgdGhlIGZyYW1lYnVmZmVyIG1lbW9y
-eSBpcyBhY2hpZXZlZA0KPiAgICAqIGJ5IGNhbGxpbmcgZGV2bV9hcGVydHVyZV9hY3F1aXJl
-X2Zyb21fZmlybXdhcmUoKS4gT24gc3VjY2VzcywgdGhlIGRyaXZlcg0KPiAgICAqIGlzIHRo
-ZSBvd25lciBvZiB0aGUgZnJhbWVidWZmZXIgcmFuZ2UuIFRoZSBmdW5jdGlvbiBmYWlscyBp
-ZiB0aGUNCj4gLSAqIGZyYW1lYnVmZmVyIGlzIGFscmVhZHkgYnkgYW5vdGhlciBkcml2ZXIu
-IFNlZSBiZWxvdyBmb3IgYW4gZXhhbXBsZS4NCj4gKyAqIGZyYW1lYnVmZmVyIGlzIGFscmVh
-ZHkgb3duZWQgYnkgYW5vdGhlciBkcml2ZXIuIFNlZSBiZWxvdyBmb3IgYW4gZXhhbXBsZS4N
-Cj4gICAgKg0KPiAgICAqIC4uIGNvZGUtYmxvY2s6OiBjDQo+ICAgICoNCj4gQEAgLTExMiw3
-ICsxMTIsNyBAQA0KPiAgICAqDQo+ICAgICogVGhlIGdlbmVyaWMgZHJpdmVyIGlzIG5vdyBz
-dWJqZWN0IHRvIGZvcmNlZCByZW1vdmFsIGJ5IG90aGVyIGRyaXZlcnMuIFRoaXMNCj4gICAg
-KiBvbmx5IHdvcmtzIGZvciBwbGF0Zm9ybSBkcml2ZXJzIHRoYXQgc3VwcG9ydCBob3QgdW5w
-bHVnLg0KPiAtICogV2hlbiBhIGRyaXZlciBjYWxscyBkcm1fYXBlcnR1cmVfcmVtb3ZlX2Nv
-bmZsaWN0aW5nX2ZyYW1lYnVmZmVycygpIGV0IGFsDQo+ICsgKiBXaGVuIGEgZHJpdmVyIGNh
-bGxzIGRybV9hcGVydHVyZV9yZW1vdmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJzKCkgZXQg
-YWwuDQo+ICAgICogZm9yIHRoZSByZWdpc3RlcmVkIGZyYW1lYnVmZmVyIHJhbmdlLCB0aGUg
-YXBlcnR1cmUgaGVscGVycyBjYWxsDQo+ICAgICogcGxhdGZvcm1fZGV2aWNlX3VucmVnaXN0
-ZXIoKSBhbmQgdGhlIGdlbmVyaWMgZHJpdmVyIHVubG9hZHMgaXRzZWxmLiBJdA0KPiAgICAq
-IG1heSBub3QgYWNjZXNzIHRoZSBkZXZpY2UncyByZWdpc3RlcnMsIGZyYW1lYnVmZmVyIG1l
-bW9yeSwgUk9NLCBldGMNCj4gQEAgLTE2NCw3ICsxNjQsNyBAQCBFWFBPUlRfU1lNQk9MKGRl
-dm1fYXBlcnR1cmVfYWNxdWlyZV9mcm9tX2Zpcm13YXJlKTsNCj4gICAgKiBAcHJpbWFyeTog
-YWxzbyBraWNrIHZnYTE2ZmIgaWYgcHJlc2VudA0KPiAgICAqIEByZXFfZHJpdmVyOiByZXF1
-ZXN0aW5nIERSTSBkcml2ZXINCj4gICAgKg0KPiAtICogVGhpcyBmdW5jdGlvbiByZW1vdmVz
-IGdyYXBoaWNzIGRldmljZSBkcml2ZXJzIHdoaWNoIHVzZSBtZW1vcnkgcmFuZ2UgZGVzY3Jp
-YmVkIGJ5DQo+ICsgKiBUaGlzIGZ1bmN0aW9uIHJlbW92ZXMgZ3JhcGhpY3MgZGV2aWNlIGRy
-aXZlcnMgd2hpY2ggdXNlIHRoZSBtZW1vcnkgcmFuZ2UgZGVzY3JpYmVkIGJ5DQo+ICAgICog
-QGJhc2UgYW5kIEBzaXplLg0KPiAgICAqDQo+ICAgICogUmV0dXJuczoNCj4gQEAgLTE4Miw4
-ICsxODIsOCBAQCBFWFBPUlRfU1lNQk9MKGRybV9hcGVydHVyZV9yZW1vdmVfY29uZmxpY3Rp
-bmdfZnJhbWVidWZmZXJzKTsNCj4gICAgKiBAcGRldjogUENJIGRldmljZQ0KPiAgICAqIEBy
-ZXFfZHJpdmVyOiByZXF1ZXN0aW5nIERSTSBkcml2ZXINCj4gICAgKg0KPiAtICogVGhpcyBm
-dW5jdGlvbiByZW1vdmVzIGdyYXBoaWNzIGRldmljZSBkcml2ZXJzIHVzaW5nIG1lbW9yeSBy
-YW5nZSBjb25maWd1cmVkDQo+IC0gKiBmb3IgYW55IG9mIEBwZGV2J3MgbWVtb3J5IGJhcnMu
-IFRoZSBmdW5jdGlvbiBhc3N1bWVzIHRoYXQgUENJIGRldmljZSB3aXRoDQo+ICsgKiBUaGlz
-IGZ1bmN0aW9uIHJlbW92ZXMgZ3JhcGhpY3MgZGV2aWNlIGRyaXZlcnMgdXNpbmcgdGhlIG1l
-bW9yeSByYW5nZSBjb25maWd1cmVkDQo+ICsgKiBmb3IgYW55IG9mIEBwZGV2J3MgbWVtb3J5
-IGJhcnMuIFRoZSBmdW5jdGlvbiBhc3N1bWVzIHRoYXQgYSBQQ0kgZGV2aWNlIHdpdGgNCj4g
-ICAgKiBzaGFkb3dlZCBST00gZHJpdmVzIGEgcHJpbWFyeSBkaXNwbGF5IGFuZCBzbyBraWNr
-cyBvdXQgdmdhMTZmYi4NCj4gICAgKg0KPiAgICAqIFJldHVybnM6DQoNCi0tIA0KVGhvbWFz
-IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJn
-LCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJl
-cjogSXZvIFRvdGV2DQo=
+https://patchwork.freedesktop.org/patch/497799/?series=106847&rev=3
 
---------------E7bxDrY6ZGxMXnDBxpCTcQQu--
+> - this wont work for buffers which do change the mapping when they move
+>   (ttm can do that). And cros does make noises about discrete gpus I've
+>   heard, this matters even for you :-)
 
---------------u7PF3wINqO8YX1b7fPFeb0K7
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Correct, in v3 you could use DMA_BUF_MAP_INCOHERENT for this case (or
+we could add additional enum values.. DMA_BUF_MAP_IDK or whatever)
 
------BEGIN PGP SIGNATURE-----
+re: dgpu, I guess those will be pass-thru so not so relevant for this issue
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMYTsEFAwAAAAAACgkQlh/E3EQov+AK
-RA/6A7CD44THloFfAxPJJ5hfboc5LBAmrHgLhrKm3Aog6+Rlq4yzZbIEZp+B2RJaex+ANFelsYqF
-RY4wSuL+bJ1bhAwy8k1ddJUAsSsPZY1rfOBTImvjEq/5XxbKgsxNjOB+nqFLR8lkMpd4xzjYC9ya
-Q54a1aWbQh+67hKUpJYQF7e91dt43iNbiLLaMRYnkKTwoK6YKz9zNbMusWmDVKXxdQJIpFf1+p7W
-D/ay8OSInudQ5BGGE+PcS5JuCxfvYmIeXZZm0h19TQcdfaAGXHCaEsK7egsBCxi5skNX6bvhkp5E
-V3tp4ACyAeOR04L0nP45cRaEUPbE5HupwMoFxE/Xpr8YEdh1G6+YQQH5xiglkLR3vsE4eO+bXB34
-X8Mz25QCrMXu1DsBXPZpLdOK7XvSRv7s2y/Ej3zUbyFSC8xeR2e+BjVjLYEfO7tXVjKNn3rnon5C
-ZXODTYR6RkD8At5Ywwy7mRcXCGrqa76em6HueKk4YR59xw6Xu5TMgNkvA7xGzisiwZCpN7ApxQsd
-YtgtrNda10qElHM0Cb7HtLea+MFrEvKD8jH7Yq7cShZdqveq84YOdyLJhlfanz1jj3yT23GuSPx9
-t966SpaV22gmtn5U86yeGKV/MGE7BR55qEbXTaUx/8CsreldReugbjsURAD+mupqDrpBK2hZKjhk
-rXU=
-=Jeru
------END PGP SIGNATURE-----
+> - I'm pretty sure this will put is even more onto the nasty people list
+>   that dma-api folks maintain, especially with passing this all to
+>   userspace
+> - follow_pte() can figure this out internally in the kernel and kvm is
+>   already using this, and I think doing this all internally with mmu
+>   notifier and what not to make sure it all stays in sync is the right
+>   approach. So your kvm/whatever combo should be able to figure out wth
+>   it's supposed to be doing.
 
---------------u7PF3wINqO8YX1b7fPFeb0K7--
+This doesn't help, because the VMM is in userspace.. it is the VMM
+which needs this information.
+
+> I think if you make this a virtio special case like we've done with the
+> magic uuid stuff, then that would make sense. Making it a full dma-buf
+> interface doesn't imo.
+
+IMHO we can consider this (at least in case of v3) as a virtio
+special, at least in the sense that it is opt-in for the exporting
+driver, and exporting drivers are free to not play along
+
+BR,
+-R
+
+>
+> Cheers, Daniel
+>
+> >
+> >  drivers/dma-buf/dma-buf.c    | 26 ++++++++++++++++++++++++++
+> >  include/linux/dma-buf.h      |  7 +++++++
+> >  include/uapi/linux/dma-buf.h | 28 ++++++++++++++++++++++++++++
+> >  3 files changed, 61 insertions(+)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 32f55640890c..87c52f080274 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -326,6 +326,29 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+> >       return 0;
+> >  }
+> >
+> > +static long dma_buf_info(struct dma_buf *dmabuf, void __user *uarg)
+> > +{
+> > +     struct dma_buf_info arg;
+> > +
+> > +     if (copy_from_user(&arg, uarg, sizeof(arg)))
+> > +             return -EFAULT;
+> > +
+> > +     switch (arg.param) {
+> > +     case DMA_BUF_INFO_VM_PROT:
+> > +             if (!dmabuf->ops->mmap_info)
+> > +                     return -ENOSYS;
+> > +             arg.value = dmabuf->ops->mmap_info(dmabuf);
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     if (copy_to_user(uarg, &arg, sizeof(arg)))
+> > +             return -EFAULT;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static long dma_buf_ioctl(struct file *file,
+> >                         unsigned int cmd, unsigned long arg)
+> >  {
+> > @@ -369,6 +392,9 @@ static long dma_buf_ioctl(struct file *file,
+> >       case DMA_BUF_SET_NAME_B:
+> >               return dma_buf_set_name(dmabuf, (const char __user *)arg);
+> >
+> > +     case DMA_BUF_IOCTL_INFO:
+> > +             return dma_buf_info(dmabuf, (void __user *)arg);
+> > +
+> >       default:
+> >               return -ENOTTY;
+> >       }
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 71731796c8c3..6f4de64a5937 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -283,6 +283,13 @@ struct dma_buf_ops {
+> >        */
+> >       int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
+> >
+> > +     /**
+> > +      * @mmap_info:
+> > +      *
+> > +      * Return mmapping info for the buffer.  See DMA_BUF_INFO_VM_PROT.
+> > +      */
+> > +     int (*mmap_info)(struct dma_buf *);
+> > +
+> >       int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> >       void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> >  };
+> > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+> > index b1523cb8ab30..a41adac0f46a 100644
+> > --- a/include/uapi/linux/dma-buf.h
+> > +++ b/include/uapi/linux/dma-buf.h
+> > @@ -85,6 +85,32 @@ struct dma_buf_sync {
+> >
+> >  #define DMA_BUF_NAME_LEN     32
+> >
+> > +
+> > +/**
+> > + * struct dma_buf_info - Query info about the buffer.
+> > + */
+> > +struct dma_buf_info {
+> > +
+> > +#define DMA_BUF_INFO_VM_PROT      1
+> > +#  define DMA_BUF_VM_PROT_WC      0
+> > +#  define DMA_BUF_VM_PROT_CACHED  1
+> > +
+> > +     /**
+> > +      * @param: Which param to query
+> > +      *
+> > +      * DMA_BUF_INFO_BM_PROT:
+> > +      *     Query the access permissions of userspace mmap's of this buffer.
+> > +      *     Returns one of DMA_BUF_VM_PROT_x
+> > +      */
+> > +     __u32 param;
+> > +     __u32 pad;
+> > +
+> > +     /**
+> > +      * @value: Return value of the query.
+> > +      */
+> > +     __u64 value;
+> > +};
+> > +
+> >  #define DMA_BUF_BASE         'b'
+> >  #define DMA_BUF_IOCTL_SYNC   _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
+> >
+> > @@ -95,4 +121,6 @@ struct dma_buf_sync {
+> >  #define DMA_BUF_SET_NAME_A   _IOW(DMA_BUF_BASE, 1, __u32)
+> >  #define DMA_BUF_SET_NAME_B   _IOW(DMA_BUF_BASE, 1, __u64)
+> >
+> > +#define DMA_BUF_IOCTL_INFO   _IOWR(DMA_BUF_BASE, 2, struct dma_buf_info)
+> > +
+> >  #endif
+> > --
+> > 2.36.1
+> >
+> > _______________________________________________
+> > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
