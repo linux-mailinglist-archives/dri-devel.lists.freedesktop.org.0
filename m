@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8ECD5AFA32
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 04:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E463B5AFAAC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 05:33:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF2E10E091;
-	Wed,  7 Sep 2022 02:48:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2940B10E0D1;
+	Wed,  7 Sep 2022 03:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D309A10E086
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 02:48:40 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id j12so803579pfi.11
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 19:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=schmorgal.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=g/sgGJfevyyAQoqGwhzkZ/cC8g6d3FX7tOcGjYi4nUM=;
- b=kR8D/IHArYbi9BlwwF4KguJClJ7IqNUDmPCZGgtQKner5Wo4YKpwWuL8uBTRkTERu/
- VxBFqwUtj+fZj85DP9i8PIoIthd/CIKQiH4WFfq8H/5waw3/H0mKNZa22t5EN55Qhefh
- J+CrxdlMqcE5pcgsQug0jx4U7w81gHD4hNR60=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=g/sgGJfevyyAQoqGwhzkZ/cC8g6d3FX7tOcGjYi4nUM=;
- b=cCEJtuQatwL4Z5z5/ZBtAcDWKcmq3qm2cOaRgtiFJ2tnTEVTdeUyMxcwfgLtSgbKxK
- ezxzVT+0u4MtBkp9v70QWUC9JHviDJKdAsPIBFW8bv62VwnxxnnErXi8kqKocMUlgYdR
- iGTlJjGjVKyT0PBMFNTyQ6P0egqlKB+/Jl6i2gQe3W74NoFbxlCuj+Hfb7uaXIJ4aIb7
- 2yq8BCveH1ufyLFUSArgpaJ78FbOzq08Un8D7XsK6bVXUD2TJoEkBSqTU/vErdIbHPHP
- V/xH4LNZwp8DE9iJf0eBLIJRh5+B3Qplr96iUzICisvxzt9CBbF2i7hJVway8U22yvuT
- D84Q==
-X-Gm-Message-State: ACgBeo3+7d1+T2n0lkpoPTnN3HwUluQU0wXDmBnzULYT/P7jgzXuyUxN
- uuajp8iPWAYdayiYq8hKKGYaEQ==
-X-Google-Smtp-Source: AA6agR6zPz3gmKVyr/CY+VQejujRlvUZT0XIAPGG1Qg5Ic9IOPkhO6h1yA+TIV8+dQlhvg1G6PiFqw==
-X-Received: by 2002:a63:1456:0:b0:42b:d31b:3e2f with SMTP id
- 22-20020a631456000000b0042bd31b3e2fmr1481869pgu.353.1662518919869; 
- Tue, 06 Sep 2022 19:48:39 -0700 (PDT)
-Received: from localhost.localdomain ([50.45.132.243])
- by smtp.gmail.com with ESMTPSA id
- h16-20020a170902f55000b001754064ac31sm10733963plf.280.2022.09.06.19.48.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 19:48:39 -0700 (PDT)
-From: Doug Brown <doug@schmorgal.com>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 2/2] drm/etnaviv: fix power register offset on GC300
-Date: Tue,  6 Sep 2022 19:47:19 -0700
-Message-Id: <20220907024719.36478-3-doug@schmorgal.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220907024719.36478-1-doug@schmorgal.com>
-References: <20220907024719.36478-1-doug@schmorgal.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F27210E0C7;
+ Wed,  7 Sep 2022 03:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662521616; x=1694057616;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=SfejAOY8Vh2jAUqBZ0f9V/aBunIXhhUCDsNMgGKnSt4=;
+ b=ZkqWHOHQ8twSwK/Lp5Eiloib1aWA3cMd4v6EOVv8pPIaXBIt77w5IG/5
+ b/gOSVM0myjuWjskiyhAXJnARlB9xIZW6YP6O64YEdHUSt9Pkj4ggcifd
+ hH6zmsXY5LWIeZSe8nF51njH6gn7bTpraMsBMS19lC0kQ67d+ys2xYE7w
+ igknLeUy59aWEq0DRdVKkivGePP3SWO3IuEt21MAt5PyN3CSKrIvBz6nK
+ Ax0Ztpwa60Os4mp+rnm5SP1w9O5Esh/vqyl4DCfv2++Z9Eju+d5iY2Y/A
+ CjeZ/NdjkYxxgbXEOGaiLCx9p0xkiE+mWlYTKfUQwsyX6RsUM/912524D A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="295503968"
+X-IronPort-AV: E=Sophos;i="5.93,295,1654585200"; 
+ d="asc'?scan'208";a="295503968"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2022 20:33:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,295,1654585200"; 
+ d="asc'?scan'208";a="591521197"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.159.108])
+ by orsmga006.jf.intel.com with ESMTP; 06 Sep 2022 20:33:31 -0700
+Date: Wed, 7 Sep 2022 11:07:54 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Zheng Hacker <hackerzheng666@gmail.com>
+Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry.
+Message-ID: <20220907030754.GU1089@zhen-hp.sh.intel.com>
+References: <tencent_E1BBF05904DFB73C478DCD592740AAE0780A@qq.com>
+ <CAJedcCxVW++iH49UFZp9ruUuTcNubWCH6Wsqe11K4COB3E8msg@mail.gmail.com>
+ <CAJedcCw1eJqjSK+yR7eQMDheNtH3Mjm+viwt00xAhnmrfpq2pw@mail.gmail.com>
+ <CAJedcCweHjD78F7iydiq6Xc2iH=t_3m=H9JKnaCooToUk32FvQ@mail.gmail.com>
+ <YxWtfjfpNsoPUrgh@kroah.com>
+ <CAJedcCzMo51aiy=Dv7zn7VmL3gwkw7JgzwAPAB2Z27C9CnhoYA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="kGQlNN4Ir6FkfZg7"
+Content-Disposition: inline
+In-Reply-To: <CAJedcCzMo51aiy=Dv7zn7VmL3gwkw7JgzwAPAB2Z27C9CnhoYA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,155 +63,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Doug Brown <doug@schmorgal.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: tvrtko.ursulin@linux.intel.com, security@kernel.org, alex000young@gmail.com,
+ airlied@linux.ie, Greg KH <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, xmzyshypnc <1002992920@qq.com>,
+ rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ zhi.a.wang@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Older GC300 revisions have their power registers at an offset of 0x200
-rather than 0x100. Add new gpu_read_power and gpu_write_power functions
-to encapsulate accesses to the power addresses and fix the addresses.
 
-Signed-off-by: Doug Brown <doug@schmorgal.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_dump.c |  9 +++++++--
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 20 ++++++++++----------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 21 +++++++++++++++++++++
- 3 files changed, 38 insertions(+), 12 deletions(-)
+--kGQlNN4Ir6FkfZg7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-index f418e0b75772..df07a3c8f16a 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-@@ -83,10 +83,15 @@ static void etnaviv_core_dump_registers(struct core_dump_iterator *iter,
- {
- 	struct etnaviv_dump_registers *reg = iter->data;
- 	unsigned int i;
-+	u32 addr;
- 
- 	for (i = 0; i < ARRAY_SIZE(etnaviv_dump_registers); i++, reg++) {
--		reg->reg = cpu_to_le32(etnaviv_dump_registers[i]);
--		reg->value = cpu_to_le32(gpu_read(gpu, etnaviv_dump_registers[i]));
-+		addr = etnaviv_dump_registers[i];
-+		if (addr >= VIVS_PM_POWER_CONTROLS &&
-+		    addr <= VIVS_PM_PULSE_EATER)
-+			addr = gpu_fix_power_address(gpu, addr);
-+		reg->reg = cpu_to_le32(addr);
-+		reg->value = cpu_to_le32(gpu_read(gpu, addr));
- 	}
- 
- 	etnaviv_core_dump_header(iter, ETDUMP_BUF_REG, reg);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index f667e7906d1f..f6d08f556cf4 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -590,7 +590,7 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_gpu *gpu)
- 	u32 pmc, ppc;
- 
- 	/* enable clock gating */
--	ppc = gpu_read(gpu, VIVS_PM_POWER_CONTROLS);
-+	ppc = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
- 	ppc |= VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
- 
- 	/* Disable stall module clock gating for 4.3.0.1 and 4.3.0.2 revs */
-@@ -598,9 +598,9 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_gpu *gpu)
- 	    gpu->identity.revision == 0x4302)
- 		ppc |= VIVS_PM_POWER_CONTROLS_DISABLE_STALL_MODULE_CLOCK_GATING;
- 
--	gpu_write(gpu, VIVS_PM_POWER_CONTROLS, ppc);
-+	gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, ppc);
- 
--	pmc = gpu_read(gpu, VIVS_PM_MODULE_CONTROLS);
-+	pmc = gpu_read_power(gpu, VIVS_PM_MODULE_CONTROLS);
- 
- 	/* Disable PA clock gating for GC400+ without bugfix except for GC420 */
- 	if (gpu->identity.model >= chipModel_GC400 &&
-@@ -635,7 +635,7 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_gpu *gpu)
- 	pmc |= VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_RA_HZ;
- 	pmc |= VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_RA_EZ;
- 
--	gpu_write(gpu, VIVS_PM_MODULE_CONTROLS, pmc);
-+	gpu_write_power(gpu, VIVS_PM_MODULE_CONTROLS, pmc);
- }
- 
- void etnaviv_gpu_start_fe(struct etnaviv_gpu *gpu, u32 address, u16 prefetch)
-@@ -695,11 +695,11 @@ static void etnaviv_gpu_setup_pulse_eater(struct etnaviv_gpu *gpu)
- 	    (gpu->identity.features & chipFeatures_PIPE_3D))
- 	{
- 		/* Performance fix: disable internal DFS */
--		pulse_eater = gpu_read(gpu, VIVS_PM_PULSE_EATER);
-+		pulse_eater = gpu_read_power(gpu, VIVS_PM_PULSE_EATER);
- 		pulse_eater |= BIT(18);
- 	}
- 
--	gpu_write(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
-+	gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
- }
- 
- static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
-@@ -1301,9 +1301,9 @@ static void sync_point_perfmon_sample_pre(struct etnaviv_gpu *gpu,
- 	u32 val;
- 
- 	/* disable clock gating */
--	val = gpu_read(gpu, VIVS_PM_POWER_CONTROLS);
-+	val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
- 	val &= ~VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
--	gpu_write(gpu, VIVS_PM_POWER_CONTROLS, val);
-+	gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, val);
- 
- 	/* enable debug register */
- 	val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
-@@ -1334,9 +1334,9 @@ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
- 	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
- 
- 	/* enable clock gating */
--	val = gpu_read(gpu, VIVS_PM_POWER_CONTROLS);
-+	val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
- 	val |= VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
--	gpu_write(gpu, VIVS_PM_POWER_CONTROLS, val);
-+	gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, val);
- }
- 
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 85eddd492774..d4d139e88942 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -10,6 +10,8 @@
- #include "etnaviv_gem.h"
- #include "etnaviv_mmu.h"
- #include "etnaviv_drv.h"
-+#include "common.xml.h"
-+#include "state_hi.xml.h"
- 
- struct etnaviv_gem_submit;
- struct etnaviv_vram_mapping;
-@@ -159,6 +161,25 @@ static inline u32 gpu_read(struct etnaviv_gpu *gpu, u32 reg)
- 	return readl(gpu->mmio + reg);
- }
- 
-+static inline u32 gpu_fix_power_address(struct etnaviv_gpu *gpu, u32 reg)
-+{
-+	/* Power registers in GC300 < 2.0 are offset by 0x100 */
-+	if (gpu->identity.model == chipModel_GC300 &&
-+	    gpu->identity.revision < 0x2000)
-+		reg += 0x100;
-+	return reg;
-+}
-+
-+static inline void gpu_write_power(struct etnaviv_gpu *gpu, u32 reg, u32 data)
-+{
-+	writel(data, gpu->mmio + gpu_fix_power_address(gpu, reg));
-+}
-+
-+static inline u32 gpu_read_power(struct etnaviv_gpu *gpu, u32 reg)
-+{
-+	return readl(gpu->mmio + gpu_fix_power_address(gpu, reg));
-+}
-+
- int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value);
- 
- int etnaviv_gpu_init(struct etnaviv_gpu *gpu);
--- 
-2.25.1
+On 2022.09.06 19:36:56 +0800, Zheng Hacker wrote:
+> Hi Greg,
+>=20
+> Alex has explained how we figured out the patch. We did analyze the
+> code and found it possible to reach the vulnerability code. But we
+> have no physical device in hand to test the driver. So we'd like to
+> discuss with developers to see if the issue exists or not.
+>=20
+> Best regards,
+> Zheng Wang.
+>=20
+> Greg KH <gregkh@linuxfoundation.org> ???2022???9???5????????? 16:04??????=
+???
+> >
+> > On Mon, Sep 05, 2022 at 03:46:09PM +0800, Zheng Hacker wrote:
+> > > I rewrote the letter. Hope it works.
+> > >
+> > > There is a double-free security bug in split_2MB_gtt_entry.
+> > >
+> > > Here is a calling chain :
+> > > ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entry.
+> > > If intel_gvt_dma_map_guest_page failed, it will call
+> > > ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
+> > > kfree(spt). But the caller does not notice that, and it will call
+> > > ppgtt_free_spt again in error path.
+> > >
 
+It's a little mess in code so in theory it might be possible but
+intel_gvt_dma_map_guest_page won't fail in practise...
+
+> > > Fix this by returning the result of ppgtt_invalidate_spt to split_2MB=
+_gtt_entry.
+> > >
+
+I don't see why changing ret value can fix this issue, as it doesn't change
+any behavior e.g caller of ppgtt_populate_spt to handle possible different =
+error return.
+
+As current code looks assuming that ppgtt_invalidate_spt would free spt in =
+good case,
+I think the real cleanup should split that assumption and handle free in er=
+ror case properly.
+
+> > > Signed-off-by: Zheng Wang
+
+This misses proper email address.
+
+thanks
+
+> > >
+> > > ---
+> > >  drivers/gpu/drm/i915/gvt/gtt.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gv=
+t/gtt.c
+> > > index ce0eb03709c3..9f14fded8c0c 100644
+> > > --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> > > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> > > @@ -1215,7 +1215,7 @@ static int split_2MB_gtt_entry(struct intel_vgp=
+u *vgpu,
+> > >                 ret =3D intel_gvt_dma_map_guest_page(vgpu, start_gfn =
++ sub_index,
+> > >                                                    PAGE_SIZE, &dma_ad=
+dr);
+> > >                 if (ret) {
+> > > -                       ppgtt_invalidate_spt(spt);
+> > > +                       ret =3D ppgtt_invalidate_spt(spt);
+> > >                         return ret;
+> >
+> > But now you just lost the original error, shouldn't this succeed even if
+> > intel_gvt_dma_map_guest_page() failed?
+> >
+> > And how are you causing intel_gvt_dma_map_guest_page() to fail in a real
+> > system?
+> >
+> > thanks,
+> >
+> > greg k-h
+
+--kGQlNN4Ir6FkfZg7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYxgK9QAKCRCxBBozTXgY
+J1DZAJsH9UU2cPdrsdx4hf7SuJorjWTN/gCeKxA/bnVUbWogMgtUPWYV8HOG9+8=
+=3CHX
+-----END PGP SIGNATURE-----
+
+--kGQlNN4Ir6FkfZg7--
