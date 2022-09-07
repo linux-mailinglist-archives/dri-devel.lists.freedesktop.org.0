@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933DA5B0D99
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 21:59:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 171015B0DA4
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 22:00:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C618610E863;
-	Wed,  7 Sep 2022 19:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA5D10E867;
+	Wed,  7 Sep 2022 20:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
- [209.85.160.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2C810E863;
- Wed,  7 Sep 2022 19:59:06 +0000 (UTC)
-Received: by mail-oa1-f49.google.com with SMTP id
- 586e51a60fabf-127dca21a7dso11443845fac.12; 
- Wed, 07 Sep 2022 12:59:06 -0700 (PDT)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
+ [209.85.160.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1B2810E868;
+ Wed,  7 Sep 2022 20:00:09 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id
+ 586e51a60fabf-1278a61bd57so20195580fac.7; 
+ Wed, 07 Sep 2022 13:00:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=vEqVd2k+2TAPs8cnrAp8dbyIOEfZe94ggvuKkbHBjfE=;
- b=B+lCY8Hy1k2yYVFkibb9jjeV2U7vodfSc5Uxza2G7T2KHt4cailaGw5azuJ7bIAPUB
- HDBNLVLj59de+KRXrSsg6hT3kR6KojZQtmZIPEsJPI7GkrmixUJwo08D95wjrki2xMFf
- OeOSZNWCEMSaFQBs0n3wtvbPn20ku6zMATW9UQHWMB+CJpwKx6Beh3qyak49w1vzN75P
- wTgz2O4QwrEr1CK/X0Y6u7qTGfcTscBP318PVPyilRnNvbcqqQVLw+SnKi7s1hnFaNl0
- 32qWtxs7d7P0fS0AFZf4Te+VD8+HDwIfI9pQhZ5VxHd87oYj4xeMitzYZGTqmHKbGA08
- lHGA==
-X-Gm-Message-State: ACgBeo0PRe7iYLAn7KaPTxi9k/S0mrgCn7b194GfrWskA1/l5yStjNBI
- T3R3FaCuSnyQQjjriBSGrQ==
-X-Google-Smtp-Source: AA6agR7v7B3ZgVF/EuigyxD9vJaQk60vlALu+YF0C/uZRmm7ur/lJ+s7NOO5kAzLaxANl0JMB10s/A==
-X-Received: by 2002:a05:6870:d209:b0:127:5f0b:e18 with SMTP id
- g9-20020a056870d20900b001275f0b0e18mr69292oac.47.1662580745319; 
- Wed, 07 Sep 2022 12:59:05 -0700 (PDT)
+ bh=Ezjz3pR0ZD7JxS32x6H4PWVYd4DbErGzq0myuVFhl7k=;
+ b=4Flc37EN2dgzeS0e/kIVEoz74djBk+uqpkKdr6QKcSYYjhkweSFX/eOKqyMS6gsnQr
+ ka5mG+Vwdr525FRrOH9XV4L0VLK+mtKpbvPZ8LjafTbIvFfbYckE2Cpc1zauDKwHmj7Y
+ g6O8zvGlCRQXBDNrU8KNygy/Z3wAMio/4u8ydpU6SN9dfqjv/qFyFDd7VjgQpF8+HSVq
+ +tAp62eMIAAfIePoSdgUF9WNhgIjmHIel3ENZWENqEDdGhfdLyDKClxgDDV96+WvqLgK
+ hHdLNHigWxZEqdYGiwnjC4pmyXED+hAQSMedywDCOAdELT+il/16QWgWe44Q/oeSZpZ1
+ E+Pg==
+X-Gm-Message-State: ACgBeo2+OjkfqXED7SQAorqwXr9H0DdT8bKSC5Zr6dhAcDHn3hz5PoSu
+ SWYgxS/TnQ9A+0m57n72bw==
+X-Google-Smtp-Source: AA6agR6mtZOVx+jt1TqJIGzVJ9zUjh/ebkpMh6FfEDDo2YrBSHibeAEp46mZ6ufVap+F8l2EmOwnIw==
+X-Received: by 2002:aca:2810:0:b0:344:e898:35aa with SMTP id
+ 16-20020aca2810000000b00344e89835aamr44380oix.279.1662580808956; 
+ Wed, 07 Sep 2022 13:00:08 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- e14-20020a056870c0ce00b0010e73e252b8sm5936082oad.6.2022.09.07.12.59.04
+ o84-20020acaf057000000b0034484c532c7sm6821240oih.32.2022.09.07.13.00.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Sep 2022 12:59:05 -0700 (PDT)
-Received: (nullmailer pid 111227 invoked by uid 1000);
- Wed, 07 Sep 2022 19:59:04 -0000
-Date: Wed, 7 Sep 2022 14:59:04 -0500
+ Wed, 07 Sep 2022 13:00:08 -0700 (PDT)
+Received: (nullmailer pid 113022 invoked by uid 1000);
+ Wed, 07 Sep 2022 20:00:07 -0000
+Date: Wed, 7 Sep 2022 15:00:07 -0500
 From: Rob Herring <robh@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Subject: Re: [PATCH v6 04/12] dt-bindings: display/msm: move common DPU
  properties to dpu-common.yaml
-Message-ID: <20220907195904.GA98468-robh@kernel.org>
+Message-ID: <20220907200007.GB98468-robh@kernel.org>
 References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
  <20220901102312.2005553-5-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
@@ -108,65 +108,5 @@ On Thu, Sep 01, 2022 at 01:23:04PM +0300, Dmitry Baryshkov wrote:
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
 > +title: Qualcomm Display DPU dt properties (common properties)
-> +
-> +maintainers:
-> +  - Krishna Manikandan <quic_mkrishn@quicinc.com>
-> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> +  - Rob Clark <robdclark@gmail.com>
-> +
-> +description: |
-> +  Common properties for QCom DPU display controller.
-> +
-> +properties:
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  operating-points-v2: true
-> +  opp-table:
-> +    type: object
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +    description: |
-> +      Contains the list of output ports from DPU device. These ports
-> +      connect to interfaces that are external to the DPU hardware,
-> +      such as DSI, DP etc.
 
-Haven't we been over this already?
-
-You have to define 'port' nodes or else anything is allowed in them 
-(and endpoint nodes). If you want to define them as pattern, then fine. 
-But you must have a ref to graph.yaml#/properties/port.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - interrupts
-> +  - power-domains
-> +  - operating-points-v2
-> +  - ports
-> +
-> +additionalProperties: true
-> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
-> index 253665c693e6..0d6743eabd27 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
-> @@ -62,7 +62,10 @@ patternProperties:
->    "^display-controller@[0-9a-f]+$":
->      type: object
->      description: Node containing the properties of DPU.
-> -    additionalProperties: false
-> +    unevaluatedProperties: false
-> +
-> +    allOf:
-> +      - $ref: /schemas/display/msm/dpu-common.yaml#
-
-Don't need allOf here. (and elsewhere)
-
-Rob
+Qualcomm Display DPU common properties
