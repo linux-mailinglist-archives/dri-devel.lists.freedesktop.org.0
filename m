@@ -2,73 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298CF5AFBF4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 07:51:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1BC95AFBF5
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 07:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12CA110E2DA;
-	Wed,  7 Sep 2022 05:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6D7B10E2E9;
+	Wed,  7 Sep 2022 05:51:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6825C10E2DA
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 05:50:48 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id r18so682411eja.11
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 22:50:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date; bh=485XNaRuLgo/QNXREYEE3jQFUNZFYuPUp6wyA324/uM=;
- b=lXKB2dOByaXJeWp6iOGRoZ4RmLPZsu3HxzhaDnY3VxlB4vCBN7dn35f8/Kl/9WVfZp
- RnVffudQwdTclZc8hX0wTIQ3eNqmQ/74gM+x+8fG1kkqBpBy6mPY35LZJNh1ZW/Ea3k5
- cuJP2GV1youCGhJ4/XV1pgAiMBhenRllw1BzY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=485XNaRuLgo/QNXREYEE3jQFUNZFYuPUp6wyA324/uM=;
- b=dQunTsUM5Js4fmu2IP+4waL3pb7mextvYq+YQkJUipVhU9NAfY4aPIA+56rRFXC+Xg
- I5klNJzgNATv5Bnsqn3+f14o9JeOdWA+IZiLSS7VmVsoqD4Y02+bg4coXTNcgErDMhL5
- CmvK3gOXL2KxWgY1jumMhIbgylSEU8w0WveFK85J/vf3td2drgE2obyTD1rNK6z1nCo2
- APZgNvsgdY+S/OIT+oeWqVIYTQlCjq2WEHYLm2NQy5MxBNzcc4i4hIaqsCq3s+j4wkjs
- 48Pc1YYiEUOWfk0+zPpvMX1RDq4QmCqOiYhKA/ss9VFPnkgdL/dhpdmLitou0tz04tZg
- 0mMw==
-X-Gm-Message-State: ACgBeo1ck2TJxJlLGE4deChS+zRpSjcJw3vR009j5Hj0Ayv+9ejqepUr
- 5qTiqCqGxcm3wf1wetVAO0jUzQ==
-X-Google-Smtp-Source: AA6agR6IS7WtWkmlIgHja/YyJbP8C4ZcmZo3NwhtbPvtpZSOQuctBQnsweC1nqC8Sxd6HQmJa9tQkQ==
-X-Received: by 2002:a17:907:2e01:b0:731:1eb0:b9ff with SMTP id
- ig1-20020a1709072e0100b007311eb0b9ffmr1237025ejc.728.1662529846962; 
- Tue, 06 Sep 2022 22:50:46 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- eh13-20020a0564020f8d00b0044f0c01196esm887979edb.65.2022.09.06.22.50.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 22:50:46 -0700 (PDT)
-Date: Wed, 7 Sep 2022 07:50:44 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Subject: Re: build failure of next-20220906 due to 396369d67549 ("drm: vkms:
- Add support to the RGB565 format")
-Message-ID: <YxgxNPYl5LhKpHrk@phenom.ffwll.local>
-Mail-Followup-To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- linux-next <linux-next@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- Haneen Mohammed <hamohammed.sa@gmail.com>
-References: <YxducgSzR6/zyHD7@debian>
- <CADVatmNfc1YT02v5-FaMoGN==MOx5ZJ=o8YMQAH19Gvf91betA@mail.gmail.com>
- <8e4350df-0c73-6ca2-a25f-28a40a1856db@gmail.com>
- <YxgwdGtNTnDdIqAv@phenom.ffwll.local>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YxgwdGtNTnDdIqAv@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.18.0-4-amd64 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E282D10E2FE
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 05:51:07 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 41D2A20002;
+ Wed,  7 Sep 2022 05:51:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662529866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ftw2hmi+QJuhi5TyErM2+JnKdKAgrGBsgZA2NQ+f/M=;
+ b=kJotDGHB+PvIJ8fHk+kUbNp2sTfFugYjrWoRpCTmRBpkEZvLADeMM5LJL/pYSXigyUVuUE
+ AAUbbN4ihKh+EcTalB7j7YleHgnkm5MMzvdfvUic0Z7xeZnf9+B/+FChZ1E1duIY5p8D55
+ DNzJ/nZnJQ5oTYta14xqajfTohK/RBs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662529866;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ftw2hmi+QJuhi5TyErM2+JnKdKAgrGBsgZA2NQ+f/M=;
+ b=QKq1x1TtmN3hHaP26czN/wXX2n0kugYUOFDhU2da8HYJSoCWWu/FoLQZHoUImL82wYdWp+
+ Z4VwXfc7GkWHJ2Cg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1CF63139C7;
+ Wed,  7 Sep 2022 05:51:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id tf1JBkoxGGNaUwAAMHmgww
+ (envelope-from <tiwai@suse.de>); Wed, 07 Sep 2022 05:51:06 +0000
+Date: Wed, 07 Sep 2022 07:51:05 +0200
+Message-ID: <87sfl3enqu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 01/12] drm/udl: Restore display mode on resume
+In-Reply-To: <YxeoX5dikxsUjzJS@phenom.ffwll.local>
+References: <20220816153655.27526-1-tiwai@suse.de>
+ <20220816153655.27526-2-tiwai@suse.de>
+ <YxeoX5dikxsUjzJS@phenom.ffwll.local>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,54 +67,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>, linux-next <linux-next@vger.kernel.org>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 07, 2022 at 07:47:32AM +0200, Daniel Vetter wrote:
-> On Tue, Sep 06, 2022 at 08:35:49PM -0300, Igor Matheus Andrade Torrente wrote:
-> > On 9/6/22 18:26, Sudip Mukherjee wrote:
-> > > On Tue, Sep 6, 2022 at 4:59 PM Sudip Mukherjee (Codethink)
-> > > <sudipm.mukherjee@gmail.com> wrote:
-> > > > 
-> > > > Hi All,
-> > > > 
-> > > > The builds of next-20220906 fails for mips, xtensa and arm allmodconfig.
-> > > > 
-> > > > The errors in mips and xtensa are:
-> > > > 
-> > > > ERROR: modpost: "__divdi3" [drivers/gpu/drm/vkms/vkms.ko] undefined!
-> > > > ERROR: modpost: "__udivdi3" [drivers/gpu/drm/vkms/vkms.ko] undefined!
-> > > > 
-> > > > The error in arm is:
-> > > > 
-> > > > ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/vkms/vkms.ko] undefined!
-> > > > ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/vkms/vkms.ko] undefined!
-> > > > 
-> > > > 
-> > > > Trying to do a git bisect to find out the offending commit.
-> > > 
-> > > git bisect points to 396369d67549 ("drm: vkms: Add support to the
-> > > RGB565 format")
+On Tue, 06 Sep 2022 22:06:55 +0200,
+Daniel Vetter wrote:
+> 
+> On Tue, Aug 16, 2022 at 05:36:44PM +0200, Takashi Iwai wrote:
+> > From: Thomas Zimmermann <tzimmermann@suse.de>
 > > 
-> > Are these architectures incapable of doing 64bits int division?
+> > Restore the display mode whne resuming from suspend. Currently, the
+> > display remains dark.
+> > 
+> > On resume, the CRTC's mode does not change, but the 'active' flag
+> > changes to 'true'. Taking this into account when considering a mode
+> > switch restores the display mode.
+> > 
+> > The bug is reproducable by using Gnome with udl and observing the
+> > adapter's suspend/resume behavior.
+> > 
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
 > 
-> Yeah 32bit archs in general can't do that, and you have to use the right
-> macros because otherwise gcc falls back to its own built-ins, and those
-> don't exist in the kernel since the kernel isn't (cannot!) linked against
-> any userspace library.
+> This patch isn't great and incomplete, see
 > 
-> For pretty much this reasons it's really good to build test against 32bit
-> x86, or probably more relevant these days, 32bit arm.
+> https://lore.kernel.org/dri-devel/YxegiQFAv+OWjjqE@phenom.ffwll.local/
+> 
+> You need cc: stable and fixes: 997d33c35618 and actually just remove the
+> entire check :-)
 
-Forgot to add: include/math.h for all your division needs.
--Daniel
+OK, then is something like below?
+
+I already submitted v2 yesterday (as I overlooked your reply), so I'll
+respin v3 with this (and your ack) if that's OK.
+
+
+thanks,
+
+Takashi
+
+-- 8< --
+From: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] drm/udl: Restore display mode on resume
+
+Restore the display mode whne resuming from suspend. Currently, the
+display remains dark.
+
+On resume, the CRTC's mode does not change, but the 'active' flag
+changes to 'true'. Taking this into account when considering a mode
+switch restores the display mode.
+
+The bug is reproducable by using Gnome with udl and observing the
+adapter's suspend/resume behavior.
+
+Actually, the whole check added in udl_simple_display_pipe_enable()
+about the crtc_state->mode_changed was bogus.  We should drop the
+whole check and always apply the mode change in this function.
+
+[ tiwai -- Drop the mode_changed check entirely instead, per Daniel's
+  suggestion ]
+
+Fixes: 997d33c35618 ("drm/udl: Inline DPMS code into CRTC enable and disable functions")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ drivers/gpu/drm/udl/udl_modeset.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 169110d8fc2e..34ce5b43c5db 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -382,9 +382,6 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ 	udl_handle_damage(fb, &shadow_plane_state->data[0], 0, 0, fb->width, fb->height);
+ 
+-	if (!crtc_state->mode_changed)
+-		return;
+-
+ 	/* enable display */
+ 	udl_crtc_write_mode_to_hw(crtc);
+ }
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.35.3
+
