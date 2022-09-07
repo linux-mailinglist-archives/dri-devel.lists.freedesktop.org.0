@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724295AFAF7
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 06:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478665AFC0B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 07:55:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA3ED10E0E0;
-	Wed,  7 Sep 2022 04:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60F1C10E318;
+	Wed,  7 Sep 2022 05:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5711A10E109;
- Wed,  7 Sep 2022 04:11:16 +0000 (UTC)
-X-QQ-mid: bizesmtp81t1662523866tngcpo18
-Received: from localhost.localdomain ( [182.148.14.0])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 07 Sep 2022 12:11:04 +0800 (CST)
-X-QQ-SSF: 01000000000000D0F000000A0000000
-X-QQ-FEAT: bQsUcYFpAAYXdJRqwB80RHYaBxZP/Q/TG+x7ozmXciylMDFbSbygBd7c4qNHd
- iXGZIUiievK8azdmEVoz00pm7uV/hKUlFROQSHbxNQcJYSgVN7tFAid2Tr9eH37OSjG4y8R
- ZHtOMLA9b5Ds7DPocbpLHEAIrYa8s+Z/ZUFcmOEYGFagX6vtZRT7ptSmdtBMw0F64qdnuPc
- 45fg15gYbOMkyI6qsfm1+lOdVObeRnup9ckLA9DYZpt8MKPf/iSy47I136Np15+WwY8VEDi
- r6zqjGLezaOGMyPvsg4iJw2ekF+4y9qZVEt/w8jGE9WHvWFkvRJ4bkVQrv02ZBId2dVqjSN
- uIP9X+p8EaJ8z5B5shdWBMBKjvIXCL8emTDfNSOzpcvJhh1gxzZvIJfHuCyCw==
-X-QQ-GoodBg: 0
-From: Jilin Yuan <yuanjilin@cdjrlc.com>
-To: airlied@linux.ie,
-	daniel@ffwll.ch,
-	Charlene.Liu@amd.com
-Subject: [PATCH] drm/amd/display: fix repeated words in comments
-Date: Wed,  7 Sep 2022 12:10:58 +0800
-Message-Id: <20220907041058.935-1-yuanjilin@cdjrlc.com>
-X-Mailer: git-send-email 2.36.1
+X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Sep 2022 04:21:49 UTC
+Received: from out20-37.mail.aliyun.com (out20-37.mail.aliyun.com
+ [115.124.20.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E8A110E19E
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 04:21:49 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.04517506|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0144003-0.000615202-0.984985;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047199; MF=wangyugui@e16-tech.com; NM=1;
+ PH=DS; RN=2; RT=2; SR=0; TI=SMTPD_---.P9sOKGo_1662524168; 
+Received: from 192.168.2.112(mailfrom:wangyugui@e16-tech.com
+ fp:SMTPD_---.P9sOKGo_1662524168) by smtp.aliyun-inc.com;
+ Wed, 07 Sep 2022 12:16:09 +0800
+Date: Wed, 07 Sep 2022 12:16:13 +0800
+From: Wang Yugui <wangyugui@e16-tech.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
+In-Reply-To: <44b97fac-e879-e396-b8f2-f9459a5f913c@suse.de>
+References: <20220902135242.2447.409509F4@e16-tech.com>
+ <44b97fac-e879-e396-b8f2-f9459a5f913c@suse.de>
+Message-Id: <20220907121612.FBFC.409509F4@e16-tech.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="GB2312"
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
+X-Mailer: Becky! ver. 2.75.04 [en]
+X-Mailman-Approved-At: Wed, 07 Sep 2022 05:55:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,31 +48,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jilin Yuan <yuanjilin@cdjrlc.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Delete the redundant word 'in'.
+Hi,
 
-Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
----
- drivers/gpu/drm/amd/display/dc/dce/dce_audio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Am 02.09.22 um 07:52 schrieb Wang Yugui:
+> > Hi,
+> >
+> > mgag200 broken on kernel-6.0-rc3 on DELL/T620.
+> >
+> > See the attachementment file for the graph output.
+> 
+> Thanks for reporting the bug. We recently refactored some code of the driver. Can you bisect to the change that introduced the problem?
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c b/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
-index bdb6bac8dd97..c94a966c6612 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
-@@ -300,7 +300,7 @@ static void set_high_bit_rate_capable(
- 	AZ_REG_WRITE(AZALIA_F0_CODEC_PIN_CONTROL_RESPONSE_HBR, value);
- }
- 
--/* set video latency in in ms/2+1 */
-+/* set video latency in ms/2+1 */
- static void set_video_latency(
- 	struct audio *audio,
- 	int latency_in_ms)
--- 
-2.36.1
+5.19.3 works well on this DELL/T620.
+
+so this problem should be a regression of 6.0.
+
+other bisect seem difficult for me.
+
+Best Regards
+Wang Yugui (wangyugui@e16-tech.com)
+2022/09/07
+
+
+> 
+> Best regards
+> Thomas
+> 
+> >
+> > [root@T620 ~]# dmesg  |grep -i 'vga\|mga'
+> > [    0.588940] Console: colour VGA+ 80x25
+> > [    4.918214] pci 0000:0a:00.0: vgaarb: setting as boot VGA device
+> > [    4.919028] pci 0000:0a:00.0: vgaarb: bridge control possible
+> > [    4.919028] pci 0000:0a:00.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+> > [    4.941058] vgaarb: loaded
+> > [    9.385485] mgag200 0000:0a:00.0: vgaarb: deactivate vga console
+> > [    9.510688] [drm] Initialized mgag200 1.0.0 20110418 for 0000:0a:00.0 on minor 0
+> > [    9.523145] fbcon: mgag200drmfb (fb0) is primary device
+> > [    9.641543] mgag200 0000:0a:00.0: [drm] fb0: mgag200drmfb frame buffer device
+> >
+> >
+> > more info:
+> > 1, This DELL/T620 works well with kernel 5.15.63,
+> >      so this is not a  hardware error.
+> >
+> > 2, DELL/T640 works well with kernel 6.0-rc and 5.15.63.
+> >      both DELL/T620 and DELL/T640 use the driver 'mgag200'.
+> >
+> > [root@T640 ~]#  dmesg  |grep -i 'vga\|mga'
+> > [   10.161500] pci 0000:03:00.0: vgaarb: setting as boot VGA device
+> > [   10.162463] pci 0000:03:00.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+> > [   10.176527] pci 0000:03:00.0: vgaarb: bridge control possible
+> > [   10.182465] vgaarb: loaded
+> > [   11.832839] fb0: EFI VGA frame buffer device
+> > [   21.303826] mgag200 0000:03:00.0: vgaarb: deactivate vga console
+> > [   21.319498] [drm] Initialized mgag200 1.0.0 20110418 for 0000:03:00.0 on minor 0
+> > [   21.330223] fbcon: mgag200drmfb (fb0) is primary device
+> > [   21.332140] mgag200 0000:03:00.0: [drm] drm_plane_enable_fb_damage_clips() not called
+> > [   21.741629] mgag200 0000:03:00.0: [drm] fb0: mgag200drmfb frame buffer device
+> >
+> > Best Regards
+> > Wang Yugui (wangyugui@e16-tech.com)
+> > 2022/09/02
+> > 
+> -- Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N¨¹rnberg, Germany
+> (HRB 36809, AG N¨¹rnberg)
+> Gesch?ftsf¨¹hrer: Ivo Totev
+
 
