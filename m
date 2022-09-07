@@ -1,78 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4D65B03A9
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 14:11:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B09C85B03AF
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 14:11:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AAC210E73D;
-	Wed,  7 Sep 2022 12:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 411C010E749;
+	Wed,  7 Sep 2022 12:11:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3B8B10E73D;
- Wed,  7 Sep 2022 12:11:27 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 11B2E5802B9;
- Wed,  7 Sep 2022 08:11:27 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 07 Sep 2022 08:11:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1662552687; x=1662559887; bh=zDA579AoIY
- dDNR4aP7II6WOb5N9Vc2GJf+UG4mhMuI8=; b=xh83Sji/S5fGlHvvO0M89p4G7z
- yG9qqosL/cAMPjQTYP5c1hRx1uW8yt0ygT6kAvWkZkOEW1VNLR4R3bqktiOB8J2X
- 8rntACPKJHtPlw6gpkg488CmWrvp4PVFIIy0fDtjy7BDQGLMcQeLF4CM1kBNsF3r
- DvKvkwlEqhmyXyF7Njw/mV/MND8XaIeQojBIXmzhrdwNpFiS3MHAbsB1HjCw+luf
- mOhaCose89yP0EzYqLBzlHb5rF68sqojmq7+wuCSuwSTNJLsXxAYzkPkStIyC7lw
- gRSE9ILnQWIeS5E22BNrIKUAEo1pYsDVYfAUxhUvDJHsThVFjnA1ecDQW8wQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1662552687; x=1662559887; bh=zDA579AoIYdDNR4aP7II6WOb5N9V
- c2GJf+UG4mhMuI8=; b=XWKXdivSs5OwDPMC03jM59LWg7OoVGgkfw1rpP4G1+wj
- CvJA+0a/K6XnT1+OfeuMnI17fkt9iogRzJo9+3bs3KsaAE1RqrdjzQ/VZll8Ndo2
- ENsLeYX3OSQTgV/E9UzvY0BFyp8h0Qjw+slxi6pjCz1waqDhOO7cDt2IGQmFUfmY
- rNz/9vsDDHVqxl7Uo6YhDKkqEu3qcNp4UZq2U5QJgYxaU2XDvVDMCsbhwz8JjGWm
- oC6klcFem4SP63dlTJfTio9soptONAMrqJptc5VyKKwuOF025lJrUJ5l4MtLjnaG
- bVl0r5BmThoza/j3xGHDlklJdyhZqQd6xFQ/Xr3qLQ==
-X-ME-Sender: <xms:booYY7dJ7yBzajhFMtzryKFMxL-OIGY_JF2pLc-8u8r--HnYDY8IGA>
- <xme:booYYxPpxvCF8ayHSogxvXBBIH3zoIb98cDJBMSWTU7FuAK6YXDOcW7MyoaqFW4NC
- qQ7N7O6OGxU9KXZycY>
-X-ME-Received: <xmr:booYY0in_Ih4XWleTLyHUyosOGDjEgIEV34Cp_mENm1sEnF-H7vYMEzVuw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddggeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:booYY89VIT0sfe1JmDAaiGrD-5W8xJMEW06_9y7sLRI55IOF2lY6Ow>
- <xmx:booYY3tHYdMP2Ikq69ajiY1kRzD__mju6J0w8X_oB-FoJ4bE4XendQ>
- <xmx:booYY7GN7nZ8v7joHwkVmpB0hxr0n1xZXUEnhUYjF5G9lIVhjbvCeA>
- <xmx:b4oYY_dm5jryjGI9aYWnwWzUP3b5YHJM27gV33h2zOrTVnVQ9N-3Vg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Sep 2022 08:11:26 -0400 (EDT)
-Date: Wed, 7 Sep 2022 14:11:24 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 09/41] drm/connector: Add TV standard property
-Message-ID: <20220907121124.kda7wi33b5cmwhcr@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-9-459522d653a7@cerno.tech>
- <30a9d7cd-d9ff-3177-ac6c-e7c1f966d89a@gmail.com>
- <CAMuHMdU_yfr1ybNM9Dyk6n34Cqv5WJv1wZxQ_ZGJ_T8JCOeB2g@mail.gmail.com>
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02A4E10E748
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 12:11:36 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id b9so10278816qka.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 05:11:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=WIB8a4RMKIbsQgzbAFRigZUlzKpMzaK/mPjLu18jivg=;
+ b=HP3rDaJjD8dZmYIHrjdNkoDnmUw7g9uCc4vHBTmXsOrDzTaDzvVkGROQU4JiMIG6SF
+ qudhCqJZhmdnGxt9Qchu2u/Kb1AzirulrNQKlif2VVN775xzycYMvQlIejXeuRl9FUCV
+ B3sY2DzX6HPglZ4Tt6xcS2UP6H2y+QTtsv8hPxcu7qACinqcAbBEosQlGwToao3GbIXm
+ 9n3zqjh8c5lL3+Pt3dwF6hwztXdonsbyY8QaXeKX/rwCr1nuqyp6n1gg8cgYPm+00Q2X
+ HA4OSsdsbupGMsvkpLpJhuXakDbiiPMBOk6rzxqSUV5A1n0+hK7OQ2N2NVdOzCqW+cgi
+ GP2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=WIB8a4RMKIbsQgzbAFRigZUlzKpMzaK/mPjLu18jivg=;
+ b=UwgeMBCx02/lFJ1sOkFbfTrY79yx274UtlDDscYqLCrS52CLBvEdEmjXDbCgc06v6f
+ 9SmpUZFP6TXJlKIHN7Nr5F82qtDnoL2SSTeKwL6Jmf2S47rdr/7puPG1HdSRliolqCZF
+ 1xDfGNNyx3FMfqhi9vRSpt0ipN6OY54KaUvEdLS2jedpKNnQpLME4cbu41EG/L+kX6jm
+ hjRHW0pPsndY1uOF3sgojgvL2XF1KnG4x+msIUz6euLpoRnF9LVkuPCoG39F3uL7L8GY
+ WUmONP2tBjQ3aPqx1UFz5DwOBb7N3qm1eMhyypOmGVA8UTS4hWjJff/CpJViN6ftq9vD
+ 4gxw==
+X-Gm-Message-State: ACgBeo091B5Sz7UtOzJAzuxzSzJszvhD2pZiRbpwm4I+rUzfpH1d8SoI
+ 4tXDEi+Qa3vOcBzIOUbyM5XdmA==
+X-Google-Smtp-Source: AA6agR6Aqb9OjhZTxuJwTHCrpwMtc8lM+if3ZhE4tHVst9Nj0UDP4AirE5WpW+co8I96BvAuRRT3Qw==
+X-Received: by 2002:a05:620a:1402:b0:6bc:2055:6da0 with SMTP id
+ d2-20020a05620a140200b006bc20556da0mr2302837qkj.534.1662552695680; 
+ Wed, 07 Sep 2022 05:11:35 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129]) by smtp.gmail.com with ESMTPSA id
+ n3-20020a05620a294300b006b953a7929csm14765165qkp.73.2022.09.07.05.11.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Sep 2022 05:11:34 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1oVtu2-008YHj-0u;
+ Wed, 07 Sep 2022 09:11:34 -0300
+Date: Wed, 7 Sep 2022 09:11:34 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v2 01/15] vfio: Add helpers for unifying vfio_device life
+ cycle
+Message-ID: <YxiKdh6EDBZnTAGH@ziepe.ca>
+References: <20220901143747.32858-1-kevin.tian@intel.com>
+ <20220901143747.32858-2-kevin.tian@intel.com>
+ <YxcV05AVN4kqdPX6@infradead.org>
+ <BN9PR11MB5276EE6209C1E3D4662368DC8C419@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <YxiGpryRNrxvEoiY@infradead.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zkn4o5drgepunzyl"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdU_yfr1ybNM9Dyk6n34Cqv5WJv1wZxQ_ZGJ_T8JCOeB2g@mail.gmail.com>
+In-Reply-To: <YxiGpryRNrxvEoiY@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,129 +78,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Ben Skeggs <bskeggs@redhat.com>, linux-sunxi@lists.linux.dev,
- Mateusz Kwiatkowski <kfyatek@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Eric Farman <farman@linux.ibm.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Liu,
+ Yi L" <yi.l.liu@intel.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Leon Romanovsky <leon@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Sep 07, 2022 at 04:55:18AM -0700, Christoph Hellwig wrote:
+> On Wed, Sep 07, 2022 at 12:43:30AM +0000, Tian, Kevin wrote:
+> > > From: Christoph Hellwig
+> > > Sent: Tuesday, September 6, 2022 5:42 PM
+> > > 
+> > > What is the point?  This adds indirect calls, and actually creates
+> > > more boilerplate code in the drivers.  i.g. when using this code there
+> > > is more, and harder to read code.
+> > 
+> > The point is to align with struct device life cycle when it's introduced
+> > to vfio_device. The object is released via put_device() then what would
+> > be the alternative if the driver doesn't provide a @release callback?
+> > 
+> > and with @release then naturally @init is also expected.
+> 
+> No, with a release no @init is expected.  The init method is one
+> of the major obsfucations here, only topped by the weird
+> vfio_alloc_device macro.  Yes, that saves about 4 lines of code
+> in every driver, but places a burden on the struct layout and
+> very much obsfucated things.  Without vfio_alloc_device and
+> the init method I think much of this would make a lot more sense.
+> 
+> See the patch below that goes on top of this series to show how
+> undoing these two would look on mbochs.  It it a slight reduction
+> lines of code, but more readable and much less churn compared
+> to the status before this series.
 
---zkn4o5drgepunzyl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I've seen alot of error handling bugs caused by open-coding patterns
+like this. People get confused about what the lifecycle is and botch
+the error unwinds, almost 100% of the time :\ They call kfree when
+they should call put_device, they call put_device before initing
+enough stuff that the release callback doesn't crash, double free
+stuff by calling put_device at the wrong point, and so on.
 
-On Fri, Sep 02, 2022 at 09:35:20AM +0200, Geert Uytterhoeven wrote:
-> On Fri, Sep 2, 2022 at 12:00 AM Mateusz Kwiatkowski <kfyatek@gmail.com> w=
-rote:
-> > W dniu 29.08.2022 o 15:11, Maxime Ripard pisze:
-> > > The TV mode property has been around for a while now to select and ge=
-t the
-> > > current TV mode output on an analog TV connector.
-> > >
-> > > Despite that property name being generic, its content isn't and has b=
-een
-> > > driver-specific which makes it hard to build any generic behaviour on=
- top
-> > > of it, both in kernel and user-space.
-> > >
-> > > Let's create a new bitmask tv norm property, that can contain any of =
-the
-> > > analog TV standards currently supported by kernel drivers. Each drive=
-r can
-> > > then pass in a bitmask of the modes it supports.
-> >
-> > This is not a bitmask property anymore, you've just changed it to an en=
-um.
-> > The commit message is now misleading.
-> >
-> > > +static const struct drm_prop_enum_list drm_tv_mode_enum_list[] =3D {
-> > > +    { DRM_MODE_TV_MODE_NTSC_443, "NTSC-443" },
-> > > +    { DRM_MODE_TV_MODE_NTSC_J, "NTSC-J" },
-> > > +    { DRM_MODE_TV_MODE_NTSC_M, "NTSC-M" },
-> > > +    { DRM_MODE_TV_MODE_PAL_60, "PAL-60" },
-> > > +    { DRM_MODE_TV_MODE_PAL_B, "PAL-B" },
-> > > +    { DRM_MODE_TV_MODE_PAL_D, "PAL-D" },
-> > > +    { DRM_MODE_TV_MODE_PAL_G, "PAL-G" },
-> > > +    { DRM_MODE_TV_MODE_PAL_H, "PAL-H" },
-> > > +    { DRM_MODE_TV_MODE_PAL_I, "PAL-I" },
-> > > +    { DRM_MODE_TV_MODE_PAL_M, "PAL-M" },
-> > > +    { DRM_MODE_TV_MODE_PAL_N, "PAL-N" },
-> > > +    { DRM_MODE_TV_MODE_PAL_NC, "PAL-Nc" },
-> > > +    { DRM_MODE_TV_MODE_SECAM_60, "SECAM-60" },
-> > > +    { DRM_MODE_TV_MODE_SECAM_B, "SECAM-B" },
-> > > +    { DRM_MODE_TV_MODE_SECAM_D, "SECAM-D" },
-> > > +    { DRM_MODE_TV_MODE_SECAM_G, "SECAM-G" },
-> > > +    { DRM_MODE_TV_MODE_SECAM_K, "SECAM-K" },
-> > > +    { DRM_MODE_TV_MODE_SECAM_K1, "SECAM-K1" },
-> > > +    { DRM_MODE_TV_MODE_SECAM_L, "SECAM-L" },
-> > > +};
-> >
-> > I did not comment on it the last time, but this list looks a little bit=
- random.
-> >
-> > Compared to the standards defined by V4L2, you also define SECAM-60 (a =
-good
-> > thing to define, because why not), but don't define PAL-B1, PAL-D1, PAL=
--K,
-> > SECAM-H, SECAM-LC (whatever that is - probably just another name for SE=
-CAM-L,
-> > see my comment about PAL-Nc below), or NTSC-M-KR (a Korean variant of N=
-TSC).
-> >
-> > Like I mentioned previously, I'm personally not a fan of including all =
-those
-> > CCIR/ITU system variants, as they don't mean any difference to the outp=
-ut unless
-> > there is an RF modulator involved. But I get it that they have already =
-been used
-> > and regressing probably wouldn't be a very good idea. But in that case =
-keeping
-> > it consistent with the set of values used by V4L2 would be wise, I thin=
-k.
->=20
-> Exactly. Anything outputting RGB (e.g. through a SCART or VGA connector)
-> doesn't care about the color subcarrier or modulator parts.  Likewise,
-> anything outputting CVBS doesn't care about the modulator part.
->=20
-> Perhaps "generic" variants of NSTC and PAL/SECAM should be added, which
-> would really just mean 525/60 resp. 625/50.
->=20
-> Alternatively, the tv_mode field could be split in two parts (either
-> two separate fields, or bitwise), to maintain a clear separation between
-> lines/fields versus color encoding and RF modulation (with zero for the
-> latter meaning a generic version)? That would also keep the door open
-> for TV_MODE_405_50, TV_MODE_819_50, TV_MODE_750_50, TV_MODE_750_60, ...
+The advantage of init/release is the strict pairing and the core code
+helping get the error unwind right, by not calling release until init
+succeeds.
 
-Again, that property is only about color encoding and RF modulation. The
-lines numbers and whether it's interlaced or not is encoded in the mode,
-not here. So what you suggest is totally doable today.
+The advantage of the vfio_alloc_device() is not saving 4 lines, it is
+giving the drivers a simple/sane error handling strategy. Goto unwind
+inside init, release undoes everything init does and the probe path
+only calls put_device(). It is simple and logical to implement and
+hard to make subtle bugs.
 
-Maxime
+Specifically it eliminates the open coded transition of kfree to
+put_device that seems so difficult for people to get right.
 
---zkn4o5drgepunzyl
-Content-Type: application/pgp-signature; name="signature.asc"
+netdev has done a version of this, so has rdma, and it works well.
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxiKbAAKCRDj7w1vZxhR
-xd9CAP475gMVc9bgPfZRsSpr9ZicWPbCcdtwwB+SIZjyjWZwrgEAipAda0DdLowI
-RCIVTz/4+0X5TsSdP1wzG4wph1ePCQY=
-=iVLu
------END PGP SIGNATURE-----
-
---zkn4o5drgepunzyl--
+Jason
