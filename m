@@ -2,68 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A105AFC37
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 08:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74505AFC95
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 08:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1311A10E33B;
-	Wed,  7 Sep 2022 06:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587C910E35A;
+	Wed,  7 Sep 2022 06:37:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C93F10E337
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 06:13:07 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id e18so18150857edj.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 23:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date; bh=654Mx5KNflErskpZWsH78GwciP3JIpFtIohp9Xrffk8=;
- b=kTVxUA3e9XBedEkDMGUk5JWQTnlJeSjnLmlcU4pG1ZFUTA8PEjcLC2U6LgGg5ayxqm
- Zgz1xqYKHghLFxYUSQU/hJzNPVChEdbcp9aR9WcLZjA4/4dQYwSGSW6NVmg8GwpJgZiX
- NUpxPYYLtJzbT8z5kLMYvf8Iw/hk/fojCH37A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=654Mx5KNflErskpZWsH78GwciP3JIpFtIohp9Xrffk8=;
- b=N4MnSrYJBIyxSI7qrw6BN00xOxgSe6VrU+c+tls96oCLwBTi24TdYXA5kVzn/XGKyF
- IvByXj467qxc8UaWGpF1pfnV78OsP7oddWzysP54KAofZdx46nGV/yEw1l3I+MD9OLF8
- CLpXRsKEq8EaWf3/CR3J11w0BeOBvc2726/iBWJD8/lEEUq90HkYyReDhY6xNKb2LPHS
- mbZaSofSqLaay2dn3oFSvwjiUX6d5ibTUO6i7Uhzj+e+VGGUXucpf4cTUbouHTUmODh4
- 2C8QdNyDTqVnSmue9kxRd3x+Z/TFdCDlsdsDn4OfsUpE8W0TRkooLhzMIACG8zVVXasb
- EdKA==
-X-Gm-Message-State: ACgBeo2a3LDmghUP7Rfnej82qRS9QM6t9MQ8YcfTNoxoebugb2U5kcvc
- guHoQHWjueF0aP0cyaAfcj2rsobs8MpJlw==
-X-Google-Smtp-Source: AA6agR7EC4O8cL4v8Kr/JZ/weO0LUmT/WoVmEM5JZHGy6WvE2zVf2us/qRdDMvqkQPCJFFq2EBqEtg==
-X-Received: by 2002:a05:6402:3507:b0:448:b672:55ee with SMTP id
- b7-20020a056402350700b00448b67255eemr1752029edd.107.1662531185647; 
- Tue, 06 Sep 2022 23:13:05 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- kz16-20020a17090777d000b0073c8d4c9f38sm7935402ejc.177.2022.09.06.23.13.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 23:13:05 -0700 (PDT)
-Date: Wed, 7 Sep 2022 08:13:03 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jim Cromie <jim.cromie@gmail.com>
-Subject: Re: [PATCH v6 23/57] drm: POC drm on dyndbg - use in core, 2
- helpers, 3 drivers.
-Message-ID: <Yxg2b2stA27B6B0t@phenom.ffwll.local>
-Mail-Followup-To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
- gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- seanpaul@chromium.org, robdclark@gmail.com,
- linux@rasmusvillemoes.dk, joe@perches.com
-References: <20220904214134.408619-1-jim.cromie@gmail.com>
- <20220904214134.408619-24-jim.cromie@gmail.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2076.outbound.protection.outlook.com [40.107.237.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5302510E35A
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 06:37:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CRml5kptsSdfspDvgjHvqQttbeOBewQM3IaYrAgtYgwiqOkzJHPbpfjzQ8aJkrCAZl69IGdLAFxIldI7sPUBI1BbZbgXqUyYrGj8vwU1Moz2WdaLKAsG3eTnD6LmsUZRqnTXDWfV/uVI0x9IOXZpU98m+yyh4ulbrd+9RYqxJjss8vXlIeHU3EPwLWnbNUlleJug5deZUSWxwXypp0ziCxREsvLAMWpzQ86Yee56vIpO1Uw7wEHUJ1Y7poYdIdqo2TA1FPBmInTSHL6FT989DZ2n+YK4mqONb6Hp2Be62/S+hmBpK9EB4uDceDIDLh7kEHn7MDy9V+ec82m7mETH/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Do9sQBtPj0vzAqccJAjkUSR799gq4PfpGgx8uRRxKc=;
+ b=nemImdd+IZRIKwK3TqPBSboOejfQ/Uyw9yQFAikHUkq0oaKmpCrY7QqP+gaF/u0HVnBQL0bJCOPejUiAuh4oSfFkoabj3VGIOUX8+ljYtacB7HJgthJZGwCsaZSX7nWpNHMFFfZTA1e+byBP6OcHRVd7nboVjiSkL8oGahMnu5OVTKCuoW7icDUsA8DtyIxJMnpkuC+7Bm8SD/7J2FNhZ6a84ZopJWW2rV0EyjKTl4IsrMkiS1C/jdFtKJHGe9kvtHZiuUt2B5gxwNLvt3ovnLGLOWxGZpQicxGe7Vab+koiXxMLnPmeoJigGX3HxImq8nHBwzgaQK2UQzgaNqV53g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Do9sQBtPj0vzAqccJAjkUSR799gq4PfpGgx8uRRxKc=;
+ b=SZKE4PN5rmXKzXXjPC7BvV78WEouzHoD5vXJOObz8QNR4mFZ4AD1SYOhZWxjxw14Mnqnwi1sd260BZWTb7HcWa/bzhxs8D26KdWPvQhBpD8abTbFoHjMpuLA9Z8yiP20CFAey/tD6fjEfwEnp4Le74wlmVGMByfC7BGP7LZiO3g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by LV2PR12MB5943.namprd12.prod.outlook.com (2603:10b6:408:170::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.12; Wed, 7 Sep
+ 2022 06:37:53 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5612.012; Wed, 7 Sep 2022
+ 06:37:53 +0000
+Message-ID: <9b57b254-8d67-9937-5cec-783e7a4d8f56@amd.com>
+Date: Wed, 7 Sep 2022 08:37:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 1/4] drm/sched: Enable signaling for finished fence
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Arvind Yadav <Arvind.Yadav@amd.com>, shashank.sharma@amd.com,
+ amaranath.somalapuram@amd.com, Arunpravin.PaneerSelvam@amd.com,
+ sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
+ daniel@ffwll.ch, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+References: <20220905163502.4032-1-Arvind.Yadav@amd.com>
+ <20220905163502.4032-2-Arvind.Yadav@amd.com>
+ <5568fad0-1503-a0f3-222e-c238fd4eefdd@amd.com>
+ <ffb5acca-7c20-4497-d7d0-25508a6566d2@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ffb5acca-7c20-4497-d7d0-25508a6566d2@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0750.eurprd06.prod.outlook.com
+ (2603:10a6:20b:487::29) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220904214134.408619-24-jim.cromie@gmail.com>
-X-Operating-System: Linux phenom 5.18.0-4-amd64 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|LV2PR12MB5943:EE_
+X-MS-Office365-Filtering-Correlation-Id: bae217ee-bd27-4c0f-5997-08da909b7d85
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hXaakCuK4dfOJfXQZzbdiYy0CMD9idCTBvPOUCclfoOE0q/ScApJpGSKf6Ytyoi9yXHSkCmXQx4E1tkYlvz16QG+bPFldrhglsDt6IMG0ADdqRZtDHEgAWrRM8K/nL44eI1rzXT5OSi3sBzy9xl7/4lOoaU32mVYImXvLw/1jg+tM3jQ/Su4M+sbTZTFhYyWJyE1Kxp0nct2kDk9oJ7rBPhre8WkFWhWCA4LHWtkDZy02MugxZomvq4OCtJ6a4jRWDOvJkpztABR+GWRXNVhr0mB7ekKX5ejk9QN+e4r5dr9xcW/VhPf/XpJIBki0hRfKt5BE3xaBfeimO4cYo0etAMnjbYpqr3diUXMo28B8jSi2GXz27EI1GcNmfNI60YJAal2bm6Pjju80uUW0Z7SJFpl+/JPBfOZWwtEMGq+E49TvEb6E39tO1YdgSjXHACeWaWfjEPsCoee0ExKG3I2M92Dtwl6dq6g4KMLmDLwmH2jXqZ0Db5uPOGWjzYBPooEQev1rGU6DO+iHQdtS+7n/G5b1NPK0jhMXgBbHp+vyQSyDlBAhz8+KdrClbGq2Dy7YXSFKr4NeJKX/QLxIbOZMCCmRq5VN2Ov391yYr6afnt7uf1lc0TYJEXI3Ew5zZVC/U0fBWZeil8Im29+XgIC3n43LpbPHARS1wjCrphbjeK/jwfe3rfeNSgV4cIt+UNf6JIlwd6W3TrW5RJmRi8qi6feUP77oXaqsMlSVC2IeuBUwZ/uCivODJBedGHjRMw365OKCpP3DZMwyAgkSTJ+tXpgX3QlyGtzYLSijNA0IDyz3xKUAt3+VpNaWYEN/nuw
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(39860400002)(346002)(366004)(376002)(136003)(6666004)(36756003)(26005)(2616005)(6506007)(53546011)(86362001)(41300700001)(6512007)(921005)(66574015)(38100700002)(31696002)(186003)(5660300002)(8936002)(66556008)(66946007)(478600001)(66476007)(6486002)(2906002)(110136005)(8676002)(31686004)(316002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bE5XYTFJY3hMM1RFUG9oSUJ3VVZOWHl2MlRtOFhaR3NwU0xqMFlQVG1PU04r?=
+ =?utf-8?B?YlhRUlQzYUhOZGJNUWV0VUpCdzB2Z083RWpIV1oxT09ldFB2VzBxaXdtTlFF?=
+ =?utf-8?B?Mm8zTnJiaUhFcGd2SStERTJrSlhrcEJnakJtQ2gvRU5ERkhWNWdLZURkSE1x?=
+ =?utf-8?B?VEh2M0VIbUJZMmsvVzNjcXJURnFXMTVMdkxrWTRVc29PMGhzdUF1VlFoWEo2?=
+ =?utf-8?B?dUIyL2VuTm9ENXdHUVd0MHVLNnRwN1Y3Nitaa08xOWVKaTFTTGJ6QzI5RUht?=
+ =?utf-8?B?RnAzRnl1TFRBUjBuaVJFcy9zbVVpd1Z6b2hvekNReFFLSUJXSGJZaXZoeXYy?=
+ =?utf-8?B?QWZwTkNJQVVYbHQ4eTcvM3RpOXFPMWZTek5EYXk3dXd6RUJKQUlrWE82bS8x?=
+ =?utf-8?B?ZG9lczFBdEVCWTIzeU9POERHdCtPNG4rWFYvclJlY01qQXg0N21VUmFJd2Fa?=
+ =?utf-8?B?S1hpa1puLy9RdTFOQlgvYWVKNEg5R0wvaGZFUTJSYXpUcHZqcHA4eDExdlc3?=
+ =?utf-8?B?NzBmU0lUcDgvcER3YnJhVWQrY0FXU1hxOFlua2EvcENzMHV2M2ZoL0tBRlJp?=
+ =?utf-8?B?cEZhS1FDZjlrWUhZU3NXbTc3NE0zQkNXVHp2OEtUK1FhQjc5ekloNE80ZlFY?=
+ =?utf-8?B?Qnozc0V2Znd3citDQko0dEpBNWdXMjJWU3phVHlCbExPTHlPUzlPeklUekNi?=
+ =?utf-8?B?U3hxWW9KMjVRZWZOYkg4amMveTZTdjRNK1hPSm04UVg5MVdyalR0czNHYzZX?=
+ =?utf-8?B?YldIL3JUcllzaWIrWjNSSCtSM0RDdzZkK0ZXdE1jU2dmVlJnSktCNzdUcVZR?=
+ =?utf-8?B?RXZscFV6UEk2WXRmNUlqNHNQandqdnEwVVJEb3RDd3JydWt1WkNIck9QUm95?=
+ =?utf-8?B?bTg3WHZ4b2JuNDZZU1c4K0U4ZTVEMVZuTFFKUkJQRlNOUDlaTTN2dFI4UElB?=
+ =?utf-8?B?clYxenM5OXJtUzRLRVJncmd0ajNEZGo1MlFwemQxQnMxTCtxZ0ZtaXErcHFK?=
+ =?utf-8?B?bDFPdGlwZzJWNWJqYWN5VjVJVUpLMkltZnJoMW1wem4zcTVkMmsyT2pFaWtu?=
+ =?utf-8?B?MHhOUVoyZ1UxWXkwQkNZbDJnTU5FT2crOFo1UVNjQ002QnROYVFVZTU0U1RK?=
+ =?utf-8?B?WkUxZCtubGZ1TWZFZmpZaDFnREJxaDJHT0o0bFNWMjV4NmRDVkNRYWt6OUNQ?=
+ =?utf-8?B?NTd3NlgyU2l5QjIrVFpwT29GQWM1d1J6bHNzOE5xSHptL2RnVitlK2tvTVlS?=
+ =?utf-8?B?ZGRtUWkwci8xUUcwN3NEOG9BcnJJMERNOTNuVDRTdUNzS05WM2FaQUZIbThx?=
+ =?utf-8?B?dG0waFdxcHU2YWR3NVlmb0RwYkg5TkZpQ0JUdlpyS3MxamdIb1NVTFVGNEhM?=
+ =?utf-8?B?c09QRlgrdldIMmlPaEY5SkUwL0x2bVlGTFpyOGsyb0JoZmFQR082Z3oxSEpC?=
+ =?utf-8?B?NTlpQnZMbG9EVTl3djlIQWtlRm90RjlDUmNzSnBEYzltL1drd0hSdDZ5SjVD?=
+ =?utf-8?B?bS9oeThNSUI2OGFiTlFQaTFnYldHNVFUeHd2MElBLzFNZXpYTjluam5nZXRo?=
+ =?utf-8?B?eHRrOHM4ZDA3dWZhZER0aGRLS3Mzb2Zjenhqd2pXRm9SVVFsUnA3a3FvQU1D?=
+ =?utf-8?B?dkJPMmM1empubGhoS0lFUE5lMWtnWVc0ZE8zTVJCM1k1WnVoUlRFYWo5N3hW?=
+ =?utf-8?B?TWltWmNzUGh6L0YvcmhRL3RKeDl3ZXRtbkYwVHRtVnc1U0Q4Y0U5dXlCSUdT?=
+ =?utf-8?B?TENSWTNRU3hGMlc4cU00MGc1NTdUYVg4cGRkQjdtVXg4eE1RNUtCQm1TcTZJ?=
+ =?utf-8?B?QVpJNjhRZzNBaXh4ZDdFWlIvRVZBVit2d3N4WVFzZ1ZVajN6K2JpaXdUUTFM?=
+ =?utf-8?B?ak1BTUxlZU82N2RtelJkbHZtT0dWU2I0SmkrZTlIYWNLRVZMSkh0N3RLUzNa?=
+ =?utf-8?B?NTgzb2lTc09LakpybGFsK1ZyQ0NRYWFCSDFZNW1CZE0zNkpnTWlLQmMwSVlw?=
+ =?utf-8?B?YkZkdVpYdldJQmpUem5FRHRsOVZOY2VlOVM4R254R0ZxUlJYWEZWOWNNTWw2?=
+ =?utf-8?B?em5rbHhFS0FhaGhVTzQvOHBOOWhIclkrYTMzRUJ5YVpuQjA0MC96YmhJVlBx?=
+ =?utf-8?Q?A4Of4lqrVzZdLgn6t39Wl+MFm?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bae217ee-bd27-4c0f-5997-08da909b7d85
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 06:37:52.9224 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5F5Ib0uJS7ftRxbVPEK2m99Pwq4UsrJPs/9+0pEhtWIYZqC/jlOYuuiFUz4n6O7e
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5943
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,298 +133,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
- linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, jbaron@akamai.com, seanpaul@chromium.org,
- dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch, joe@perches.com,
- intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 04, 2022 at 03:41:00PM -0600, Jim Cromie wrote:
-> Use DECLARE_DYNDBG_CLASSMAP across DRM:
-> 
->  - in .c files, since macro defines/initializes a record
-> 
->  - in drivers, $mod_{drv,drm,param}.c
->    ie where param setup is done, since a classmap is param related
-> 
->  - in drm/drm_print.c
->    since existing __drm_debug param is defined there,
->    and we ifdef it, and provide an elaborated alternative.
-> 
->  - in drm_*_helper modules:
->    dp/drm_dp - 1st item in makefile target
->    drivers/gpu/drm/drm_crtc_helper.c - random pick iirc.
-> 
-> Since these modules all use identical CLASSMAP declarations (ie: names
-> and .class_id's) they will all respond together to "class DRM_UT_*"
-> query-commands:
-> 
->   :#> echo class DRM_UT_KMS +p > /proc/dynamic_debug/control
-> 
-> NOTES:
-> 
-> This changes __drm_debug from int to ulong, so BIT() is usable on it.
-> 
-> DRM's enum drm_debug_category values need to sync with the index of
-> their respective class-names here.  Then .class_id == category, and
-> dyndbg's class FOO mechanisms will enable drm_dbg(DRM_UT_KMS, ...).
-> 
-> Though DRM needs consistent categories across all modules, thats not
-> generally needed; modules X and Y could define FOO differently (ie a
-> different NAME => class_id mapping), changes are made according to
-> each module's private class-map.
-> 
-> No callsites are actually selected by this patch, since none are
-> class'd yet.
-> 
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+Am 06.09.22 um 21:55 schrieb Andrey Grodzovsky:
+>
+> On 2022-09-06 02:34, Christian König wrote:
+>> Am 05.09.22 um 18:34 schrieb Arvind Yadav:
+>>> Here's enabling software signaling for finished fence.
+>>>
+>>> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+>>> ---
+>>>
+>>> Changes in v1 :
+>>> 1- Addressing Christian's comment to remove CONFIG_DEBUG_FS check from
+>>> this patch.
+>>> 2- The version of this patch is also changed and previously
+>>> it was [PATCH 2/4]
+>>>
+>>> ---
+>>>   drivers/gpu/drm/scheduler/sched_main.c | 2 ++
+>>>   1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
+>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index e0ab14e0fb6b..fe72de0e2911 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -962,6 +962,8 @@ static int drm_sched_main(void *param)
+>>>               /* Drop for original kref_init of the fence */
+>>>               dma_fence_put(fence);
+>>>   + dma_fence_enable_sw_signaling(&s_fence->finished);
+>>
+>> Ok, this makes it a lot clearer. Previously I though that we have 
+>> some bug in dma_fence_add_callback().
+>>
+>> This is essentially the wrong place to call this, the finished fence 
+>> should be enabled by the caller and not here.
+>>
+>> There is also another problem in dma_fence_enable_sw_signaling(), it 
+>> returns early when the fence is already signaled:
+>>
+>>         if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>                 return;
+>>
+>> Please remove that one first.
+>
+>
+> Why we even need this explicit call if dma_fence_add_callback calls 
+> __dma_fence_enable_signaling anyway ?
 
-So maybe I should just try, but what happens if a drm module doesn't have
-these classbits declared? You simply have to use the raw number instead?
+Two different fence objects.
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 14 +++++++++++++
->  drivers/gpu/drm/display/drm_dp_helper.c | 13 ++++++++++++
->  drivers/gpu/drm/drm_crtc_helper.c       | 13 ++++++++++++
->  drivers/gpu/drm/drm_print.c             | 27 +++++++++++++++++++++++--
->  drivers/gpu/drm/i915/i915_params.c      | 12 +++++++++++
->  drivers/gpu/drm/nouveau/nouveau_drm.c   | 13 ++++++++++++
->  include/drm/drm_print.h                 |  3 ++-
->  7 files changed, 92 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index de7144b06e93..97e184f44a52 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -38,6 +38,8 @@
->  #include <linux/mmu_notifier.h>
->  #include <linux/suspend.h>
->  #include <linux/cc_platform.h>
-> +#include <linux/fb.h>
-> +#include <linux/dynamic_debug.h>
->  
->  #include "amdgpu.h"
->  #include "amdgpu_irq.h"
-> @@ -185,6 +187,18 @@ int amdgpu_vcnfw_log;
->  
->  static void amdgpu_drv_delayed_reset_work_handler(struct work_struct *work);
->  
-> +DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+The dma_fence_add_callback() is done on the hw fence we get in return of 
+submitting the job.
 
-Iirc we've talked about maybe some kbuild trickery so that any module
-under drivers/gpu/drm gets these by default. I don't think we need to have
-this for the first cut, but a macro to avoid the copypaste mistakes would
-be really good here.
+The dma_fence_enable_sw_signaling() here is done on the finished fence 
+we use to signal the completion externally.
 
-> +			"DRM_UT_CORE",
-> +			"DRM_UT_DRIVER",
-> +			"DRM_UT_KMS",
-> +			"DRM_UT_PRIME",
-> +			"DRM_UT_ATOMIC",
-> +			"DRM_UT_VBL",
-> +			"DRM_UT_STATE",
-> +			"DRM_UT_LEASE",
-> +			"DRM_UT_DP",
-> +			"DRM_UT_DRMRES");
-> +
->  struct amdgpu_mgpu_info mgpu_info = {
->  	.mutex = __MUTEX_INITIALIZER(mgpu_info.mutex),
->  	.delayed_reset_work = __DELAYED_WORK_INITIALIZER(
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 92990a3d577a..cbb9c4d6d8f2 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -30,6 +30,7 @@
->  #include <linux/sched.h>
->  #include <linux/seq_file.h>
->  #include <linux/string_helpers.h>
-> +#include <linux/dynamic_debug.h>
->  
->  #include <drm/display/drm_dp_helper.h>
->  #include <drm/display/drm_dp_mst_helper.h>
-> @@ -40,6 +41,18 @@
->  
->  #include "drm_dp_helper_internal.h"
->  
-> +DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
-> +			"DRM_UT_CORE",
-> +			"DRM_UT_DRIVER",
-> +			"DRM_UT_KMS",
-> +			"DRM_UT_PRIME",
-> +			"DRM_UT_ATOMIC",
-> +			"DRM_UT_VBL",
-> +			"DRM_UT_STATE",
-> +			"DRM_UT_LEASE",
-> +			"DRM_UT_DP",
-> +			"DRM_UT_DRMRES");
-> +
->  struct dp_aux_backlight {
->  	struct backlight_device *base;
->  	struct drm_dp_aux *aux;
-> diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
-> index 457448cc60f7..7d86020b5244 100644
-> --- a/drivers/gpu/drm/drm_crtc_helper.c
-> +++ b/drivers/gpu/drm/drm_crtc_helper.c
-> @@ -32,6 +32,7 @@
->  #include <linux/export.h>
->  #include <linux/kernel.h>
->  #include <linux/moduleparam.h>
-> +#include <linux/dynamic_debug.h>
->  
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
-> @@ -50,6 +51,18 @@
->  
->  #include "drm_crtc_helper_internal.h"
->  
-> +DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
-> +			"DRM_UT_CORE",
-> +			"DRM_UT_DRIVER",
-> +			"DRM_UT_KMS",
-> +			"DRM_UT_PRIME",
-> +			"DRM_UT_ATOMIC",
-> +			"DRM_UT_VBL",
-> +			"DRM_UT_STATE",
-> +			"DRM_UT_LEASE",
-> +			"DRM_UT_DP",
-> +			"DRM_UT_DRMRES");
-> +
->  /**
->   * DOC: overview
->   *
-> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> index f783d4963d4b..ec32df35a3e3 100644
-> --- a/drivers/gpu/drm/drm_print.c
-> +++ b/drivers/gpu/drm/drm_print.c
-> @@ -40,7 +40,7 @@
->   * __drm_debug: Enable debug output.
->   * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
->   */
-> -unsigned int __drm_debug;
-> +unsigned long __drm_debug;
->  EXPORT_SYMBOL(__drm_debug);
->  
->  MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
-> @@ -52,7 +52,30 @@ MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug cat
->  "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
->  "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
->  "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
-> -module_param_named(debug, __drm_debug, int, 0600);
-> +
-> +#if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
-> +module_param_named(debug, __drm_debug, ulong, 0600);
-> +#else
-> +/* classnames must match vals of enum drm_debug_category */
-> +DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
-> +			"DRM_UT_CORE",
-> +			"DRM_UT_DRIVER",
-> +			"DRM_UT_KMS",
-> +			"DRM_UT_PRIME",
-> +			"DRM_UT_ATOMIC",
-> +			"DRM_UT_VBL",
-> +			"DRM_UT_STATE",
-> +			"DRM_UT_LEASE",
-> +			"DRM_UT_DP",
-> +			"DRM_UT_DRMRES");
-> +
-> +static struct ddebug_class_param drm_debug_bitmap = {
-> +	.bits = &__drm_debug,
-> +	.flags = "p",
-> +	.map = &drm_debug_classes,
-> +};
-> +module_param_cb(debug, &param_ops_dyndbg_classes, &drm_debug_bitmap, 0600);
-> +#endif
->  
->  void __drm_puts_coredump(struct drm_printer *p, const char *str)
->  {
-> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-> index 6fc475a5db61..d1e4d528cb17 100644
-> --- a/drivers/gpu/drm/i915/i915_params.c
-> +++ b/drivers/gpu/drm/i915/i915_params.c
-> @@ -29,6 +29,18 @@
->  #include "i915_params.h"
->  #include "i915_drv.h"
->  
-> +DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
-> +			"DRM_UT_CORE",
-> +			"DRM_UT_DRIVER",
-> +			"DRM_UT_KMS",
-> +			"DRM_UT_PRIME",
-> +			"DRM_UT_ATOMIC",
-> +			"DRM_UT_VBL",
-> +			"DRM_UT_STATE",
-> +			"DRM_UT_LEASE",
-> +			"DRM_UT_DP",
-> +			"DRM_UT_DRMRES");
-> +
->  #define i915_param_named(name, T, perm, desc) \
->  	module_param_named(name, i915_modparams.name, T, perm); \
->  	MODULE_PARM_DESC(name, desc)
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> index 561309d447e0..fd99ec0f4257 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -28,6 +28,7 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/vga_switcheroo.h>
->  #include <linux/mmu_notifier.h>
-> +#include <linux/dynamic_debug.h>
->  
->  #include <drm/drm_aperture.h>
->  #include <drm/drm_crtc_helper.h>
-> @@ -70,6 +71,18 @@
->  #include "nouveau_svm.h"
->  #include "nouveau_dmem.h"
->  
-> +DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
-> +			"DRM_UT_CORE",
-> +			"DRM_UT_DRIVER",
-> +			"DRM_UT_KMS",
-> +			"DRM_UT_PRIME",
-> +			"DRM_UT_ATOMIC",
-> +			"DRM_UT_VBL",
-> +			"DRM_UT_STATE",
-> +			"DRM_UT_LEASE",
-> +			"DRM_UT_DP",
-> +			"DRM_UT_DRMRES");
-> +
->  MODULE_PARM_DESC(config, "option string to pass to driver core");
->  static char *nouveau_config;
->  module_param_named(config, nouveau_config, charp, 0400);
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index b3b470440e46..668273e36c2c 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -35,7 +35,7 @@
->  #include <drm/drm.h>
->  
->  /* Do *not* use outside of drm_print.[ch]! */
-> -extern unsigned int __drm_debug;
-> +extern unsigned long __drm_debug;
->  
->  /**
->   * DOC: print
-> @@ -275,6 +275,7 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
->   *
->   */
->  enum drm_debug_category {
-> +	/* These names must match those in DYNAMIC_DEBUG_CLASSBITS */
+Key point is the finished fence should be used by the frontend drivers 
+which uses the scheduler and not by the scheduler itself.
 
-I'd just put this into the kerneldoc, then you can also link to the
-DRM_PRINT_DECLARE_DEBUG_CLASSBITS macro or whatever you'll call the thing
-so drivers don't have to copypaste it all.
--Daniel
+Christian.
 
->  	/**
->  	 * @DRM_UT_CORE: Used in the generic drm code: drm_ioctl.c, drm_mm.c,
->  	 * drm_memory.c, ...
-> -- 
-> 2.37.2
-> 
+>
+> Andrey
+>
+>
+>>
+>> Thanks,
+>> Christian.
+>>
+>>
+>>> +
+>>>               r = dma_fence_add_callback(fence, &sched_job->cb,
+>>>                              drm_sched_job_done_cb);
+>>>               if (r == -ENOENT)
+>>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
