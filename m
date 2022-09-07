@@ -2,46 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FBE5AFBEC
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 07:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2265AFBED
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 07:47:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D0B10E2E7;
-	Wed,  7 Sep 2022 05:47:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0917010E2AA;
+	Wed,  7 Sep 2022 05:47:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C75CA10E2AA;
- Wed,  7 Sep 2022 05:47:15 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CA37D6172A;
- Wed,  7 Sep 2022 05:47:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E37EC433C1;
- Wed,  7 Sep 2022 05:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1662529634;
- bh=0Y1yo7zpEr/ZpjFTW18hxa8Cia2WTAK/LX+I0bdJMKY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hamyFWLjhenvUp+Z8NDcW33e4ZyFmNZlJMvrc31bKy23NnTvvis3Cs11VCpVxBzJ3
- kTSjtS3mIKk5eA5CMdEJBZfO2Zpjs6JvzAn89mJdg48Puq8WUW5hEvvmXtTWTURHqt
- iGychBoNEbk+uyhJBl0HwUzkDvGLu7RnVTSOBdpI=
-Date: Wed, 7 Sep 2022 07:47:10 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v4 00/41] DYNDBG: opt-in class'd debug for modules, use
- in drm.
-Message-ID: <YxgwXgEpzyqg0cjR@kroah.com>
-References: <20220720153233.144129-1-jim.cromie@gmail.com>
- <CAJfuBxxPRj-u5S45pPfAEaE46ji0--MTVxryEAUPe1+1c1jgEw@mail.gmail.com>
- <17628790-3905-460d-8734-981cfa8e7e51@akamai.com>
- <YvUz2Nk6YHl+jVwR@phenom.ffwll.local> <YvXtQ7/FJFSVXlGU@kroah.com>
- <Yxec8VRCQT5fJdqk@phenom.ffwll.local>
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6861910E2E9
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 05:47:36 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id nc14so27899765ejc.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Sep 2022 22:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date; bh=YtQGFFP4vhfdUxZhJrZK2jqmDRC5K71pRjy06kzufEA=;
+ b=D4MSYe3HuhjfTCnhlWTUWIOL1gN6qSsC/IeXJ+WxDvobPcnhhWhthaLWp0Je7KM9C9
+ xxNzLsp/6fSpM6Eo3j+14h/npT0wAePR8BbgHcgnA0v9OHztxQZcZ2kh5hfdkdywI7gT
+ OoVvmsCvGYfkaVg+Um+yGHT49wN9zNqGX2DyA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=YtQGFFP4vhfdUxZhJrZK2jqmDRC5K71pRjy06kzufEA=;
+ b=uGqrxnjEt9A8DUODiXsSZAfNDf4ikWxXHHbQr+cCwYJFLi2zhlcdXL9fo5crtuJkAS
+ /iD3Rj6Ixz7+XAY/6AD+4zLnNKK+xaStyorXy+jokUpiPrnJifiEeMGjah//8cDMBeXh
+ S18yB2tf2QPwvos7YUWODxyKuXaIQjP2pw90zqgqYxsFkfG0W8vsBoc3CrLPxoJabdb0
+ 7KKpMqeCpg0AaD7U4w4m5ji1lVBQm0wCW8I436oTxEJrj/uMkDk6OG2NhyC+Chz/SBKc
+ 6ZF3WrBq4Lwi6biwHP9vFYhKv6+O3ADWBkAa1n2BpxSJfK223kXWpAhQZMcUuK3wd154
+ tR4Q==
+X-Gm-Message-State: ACgBeo12pWvM/9d3/gcvBf7CR/Kmv5D9MxVxNZ7qaVtYEdnWepN4fyn/
+ g6lp2TE65F/Foih4CWWencU3QA==
+X-Google-Smtp-Source: AA6agR6l0Nv5Ojf99/mgkxk+bfFH+4lR+cupi/L8llhX+dNx0PezxjkLx3qkT51MqwmWQ0AJP9vECQ==
+X-Received: by 2002:a17:907:6d8a:b0:73b:d9e4:e628 with SMTP id
+ sb10-20020a1709076d8a00b0073bd9e4e628mr1189348ejc.75.1662529654688; 
+ Tue, 06 Sep 2022 22:47:34 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ e10-20020a1709062d4a00b0073dafb227c0sm7799536eji.161.2022.09.06.22.47.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Sep 2022 22:47:34 -0700 (PDT)
+Date: Wed, 7 Sep 2022 07:47:32 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Subject: Re: build failure of next-20220906 due to 396369d67549 ("drm: vkms:
+ Add support to the RGB565 format")
+Message-ID: <YxgwdGtNTnDdIqAv@phenom.ffwll.local>
+Mail-Followup-To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-next <linux-next@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>
+References: <YxducgSzR6/zyHD7@debian>
+ <CADVatmNfc1YT02v5-FaMoGN==MOx5ZJ=o8YMQAH19Gvf91betA@mail.gmail.com>
+ <8e4350df-0c73-6ca2-a25f-28a40a1856db@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yxec8VRCQT5fJdqk@phenom.ffwll.local>
+In-Reply-To: <8e4350df-0c73-6ca2-a25f-28a40a1856db@gmail.com>
+X-Operating-System: Linux phenom 5.18.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,72 +80,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Jason Baron <jbaron@akamai.com>, Sean Paul <seanpaul@chromium.org>,
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gvt-dev@lists.freedesktop.org
+ Melissa Wen <melissa.srw@gmail.com>, linux-next <linux-next@vger.kernel.org>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 06, 2022 at 09:18:09PM +0200, Daniel Vetter wrote:
-> On Fri, Aug 12, 2022 at 08:03:47AM +0200, Greg KH wrote:
-> > On Thu, Aug 11, 2022 at 06:52:40PM +0200, Daniel Vetter wrote:
-> > > On Wed, Aug 03, 2022 at 04:13:05PM -0400, Jason Baron wrote:
-> > > > 
-> > > > 
-> > > > On 8/3/22 15:56, jim.cromie@gmail.com wrote:
-> > > > > On Wed, Jul 20, 2022 at 9:32 AM Jim Cromie <jim.cromie@gmail.com> wrote:
-> > > > >>
-> > > > > 
-> > > > >> Hi Jason, Greg, DRM-folk,
-> > > > >>
-> > > > >> This adds 'typed' "class FOO" support to dynamic-debug, where 'typed'
-> > > > >> means either DISJOINT (like drm debug categories), or VERBOSE (like
-> > > > >> nouveau debug-levels).  Use it in DRM modules: core, helpers, and in
-> > > > >> drivers i915, amdgpu, nouveau.
-> > > > >>
-> > > > > 
-> > > > > This revision fell over, on a conflict with something in drm-MUMBLE
-> > > > > 
-> > > > > Error: patch https://urldefense.com/v3/__https://patchwork.freedesktop.org/api/1.0/series/106427/revisions/2/mbox/__;!!GjvTz_vk!UCPl5Uf32cDVwwysMTfaLwoGLWomargFXuR8HjBA3xsUOjxXHXC5hneAkP4iWK91yc-LjjJxWW89-51Z$ 
-> > > > > not applied
-> > > > > Applying: dyndbg: fix static_branch manipulation
-> > > > > Applying: dyndbg: fix module.dyndbg handling
-> > > > > Applying: dyndbg: show both old and new in change-info
-> > > > > Applying: dyndbg: reverse module walk in cat control
-> > > > > Applying: dyndbg: reverse module.callsite walk in cat control
-> > > > > Applying: dyndbg: use ESCAPE_SPACE for cat control
-> > > > > Applying: dyndbg: let query-modname override actual module name
-> > > > > Applying: dyndbg: add test_dynamic_debug module
-> > > > > Applying: dyndbg: drop EXPORTed dynamic_debug_exec_queries
-> > > > > 
-> > > > > Jason,
-> > > > > those above are decent maintenance patches, particularly the drop export.
-> > > > > It would be nice to trim this unused api this cycle.
-> > > > 
-> > > > Hi Jim,
-> > > > 
-> > > > Agreed - I was thinking the same thing. Feel free to add
-> > > > Acked-by: Jason Baron <jbaron@akamai.com> to those first 9.
+On Tue, Sep 06, 2022 at 08:35:49PM -0300, Igor Matheus Andrade Torrente wrote:
+> On 9/6/22 18:26, Sudip Mukherjee wrote:
+> > On Tue, Sep 6, 2022 at 4:59 PM Sudip Mukherjee (Codethink)
+> > <sudipm.mukherjee@gmail.com> wrote:
 > > > 
-> > > Does Greg KH usually pick up dyndbg patches or someone else or do I need
-> > > to do something? Would be great to get some movement here since -rc1 goes
-> > > out and merging will restart next week.
+> > > Hi All,
+> > > 
+> > > The builds of next-20220906 fails for mips, xtensa and arm allmodconfig.
+> > > 
+> > > The errors in mips and xtensa are:
+> > > 
+> > > ERROR: modpost: "__divdi3" [drivers/gpu/drm/vkms/vkms.ko] undefined!
+> > > ERROR: modpost: "__udivdi3" [drivers/gpu/drm/vkms/vkms.ko] undefined!
+> > > 
+> > > The error in arm is:
+> > > 
+> > > ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/vkms/vkms.ko] undefined!
+> > > ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/vkms/vkms.ko] undefined!
+> > > 
+> > > 
+> > > Trying to do a git bisect to find out the offending commit.
 > > 
-> > Yes, I can take these into my tree after -rc1 is out.
+> > git bisect points to 396369d67549 ("drm: vkms: Add support to the
+> > RGB565 format")
 > 
-> [uncovering from an absolutely impressive cascade of holes :-(]
-> 
-> Did this happen and I can stop worrying here? I'd like to make sure these
-> drm debug infra improvements keep moving.
+> Are these architectures incapable of doing 64bits int division?
 
-I didn't take these, and I think I saw a 6th series sent:
-	https://lore.kernel.org/r/20220904214134.408619-1-jim.cromie@gmail.com
+Yeah 32bit archs in general can't do that, and you have to use the right
+macros because otherwise gcc falls back to its own built-ins, and those
+don't exist in the kernel since the kernel isn't (cannot!) linked against
+any userspace library.
 
-If you ack them, I will pick them up.
+For pretty much this reasons it's really good to build test against 32bit
+x86, or probably more relevant these days, 32bit arm.
 
-thanks,
-
-greg k-h
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
