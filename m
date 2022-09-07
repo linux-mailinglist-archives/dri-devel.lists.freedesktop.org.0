@@ -1,48 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B065B0682
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 16:27:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFE55B070B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 16:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A3810E787;
-	Wed,  7 Sep 2022 14:27:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B204D10E789;
+	Wed,  7 Sep 2022 14:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EECC810E786;
- Wed,  7 Sep 2022 14:27:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662560866; x=1694096866;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=C/0BgspO69Npume0XV7bCqu22fKI4mO/3lo+qpqVNUc=;
- b=FUb4Kiz0Fa+56or0Ym9SRWq4vy7dcGCWvFSm+jHdiGmO2ZH0l2tBvdYo
- rbMuYAfKkgvWLu3NR5tDDYh3K+alNNrtA+0uyI7lPc3RjjE3hxfm+jB2L
- lQB7OJPhqm/8YQK5WPv6SS785PQQw+1oxw1EnrBEOh61/avlFCdOtCfMd
- WaBV+Vvk6OwpNpN/vmGWk1s0aqCho6QzpYHbwLoGIi/CDVGUcjpl2DZ1M
- FZfv8jyEX28ptJ18/rk+kRuJkP2R/tI9K7Qa8uQwXYGSTj1Kprl3w0ui3
- 2k5WSGW1o+8nq6Qy/A7UXJPQRqtXyq2zLy0Nk5009vjpkkwO4fcIxt9ZG Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="276625451"
-X-IronPort-AV: E=Sophos;i="5.93,297,1654585200"; d="scan'208";a="276625451"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2022 07:27:46 -0700
-X-IronPort-AV: E=Sophos;i="5.93,297,1654585200"; d="scan'208";a="565534311"
-Received: from ideak-desk.fi.intel.com ([10.237.72.175])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2022 07:27:44 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/dp_mst: Avoid deleting payloads for connectors staying
- enabled
-Date: Wed,  7 Sep 2022 17:25:42 +0300
-Message-Id: <20220907142542.1681994-1-imre.deak@intel.com>
-X-Mailer: git-send-email 2.31.1.189.g2e36527f23
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05FC110E786;
+ Wed,  7 Sep 2022 14:34:29 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 1F2A25804F0;
+ Wed,  7 Sep 2022 10:34:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 07 Sep 2022 10:34:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1662561267; x=1662568467; bh=JgmI+KGSUN
+ 45Wie/3+bjGkbyz5oOCqNiJe6kdug5myc=; b=fEOSeRjgEOD6B/j91iz7LAm2nV
+ zm9is7Er/ViHIxBpgpZb6lwibFClewD+iIDcvBDRp+1lmhPCyaLqGg7IA7cP8Xoc
+ wuPl4RWLG7DFN/l8Ef3DsxfT1cd2zQLRfIYCirzpNWoWvJn1u1DHeJKGdSUDI28z
+ 1jY0sVontbTSiey/BmEiACSSDUwkweDEP8Y88zWm/rexWHXi4G8cMuE0k+2Ubav8
+ yVcnkHbvjTtEanw7DdeSQbMbBEQZUlGAaHFddXqW8+k9yjnOhCF7l9h878Ua8DYW
+ sgayo4HxqN7j7DCzmcPR4NNETP7WQrV7L9DlqdV2OvKcqO+2mZ+6pYjLKaNA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1662561267; x=1662568467; bh=JgmI+KGSUN45Wie/3+bjGkbyz5oO
+ CqNiJe6kdug5myc=; b=QZsve74EP24R9KWs9WZsCIVkxBNujxPG60TN9puqze3c
+ o6aNhrxKdPVbGh09EQgmTIu30mCjSkY9oBqwNWg3cRbVT9CSGDTSlxglGLwGruZV
+ vARWixq4SBADNaeBNbJTGCIG9odD6/9WAWxTk4aOKFPICop9IO3pcwWu9wND5de0
+ WZ78qWyg0sbruHsLAn0/vTLXw7MuMI08liDizfiz6oJ2b/8T5ZAp2EpYm9J/sOJe
+ 0O49dbliLK8gjn2pXV+ferzud7lC4N6BLE7ZvbYFTFT4O8aQGL1u1rHr3lvb7iPF
+ JbqQ9W8hlaP3qBDs1foUJk1yTi+UzY3FpobNfifkdg==
+X-ME-Sender: <xms:8asYY4UgApzFGk9lMU7_nB2tWkGa-AKoUUX0oWcDTS3CdqsvjWxehQ>
+ <xme:8asYY8lyse5NlxOdtYZKWaUhjBYfIlgc_PNXrFKciTAfjC7Qq3BrGgdaXexQF6IP4
+ _6htb6-rtuvaukNo78>
+X-ME-Received: <xmr:8asYY8bNWiVMW6b0ICPcNAd1PBwNiJxeN_uWlug667bo_bseyV1obT25lA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgjeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+ ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:8asYY3Xt9CeqTnWDGGVrJ5rcfLCxdynDN_Tuorur4XGq8TurhI9oRQ>
+ <xmx:8asYYyn9v6pcPCPNk57ZF5sdNBvLCg3Mk5yuVjBTh0eo0nyrpqcTzA>
+ <xmx:8asYY8c85KGolaoPe5xQ-55tOyvH3qzMK8bWQUHa7IIVjNag736Oyg>
+ <xmx:86sYYw1Zv4Xn3p-SugSX5mxaWqbdQ2rTIZf99SeXJOpnlS5zi1wgMQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Sep 2022 10:34:24 -0400 (EDT)
+Date: Wed, 7 Sep 2022 16:34:21 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mateusz Kwiatkowski <kfyatek@gmail.com>
+Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
+ display modes
+Message-ID: <20220907143421.4iopqwhp3yfircsh@houat>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
+ <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
+ <20220905133755.gcmmntg3wnecyqjq@houat>
+ <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="xs3njf2uogpsrjq3"
+Content-Disposition: inline
+In-Reply-To: <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,81 +87,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When an MST connector stays enabled during a commit the connector's MST
-state needs to be added to the atomic state, but the corresponding MST
-payload allocation shouldn't be set for deletion; fix such modesets by
-ensuring the above even if the connector was already enabled before the
-modeset.
 
-The issue led to the following:
-[  761.992923] i915 0000:00:02.0: drm_WARN_ON(payload->delete)
-[  761.992949] WARNING: CPU: 6 PID: 1401 at drivers/gpu/drm/display/drm_dp_mst_topology.c:4221 drm_dp_atomic_find_time_slots+0x236/0x280 [drm_display_helper]
-[  761.992955] Modules linked in: snd_hda_intel i915 drm_buddy drm_display_helper drm_kms_helper ttm drm snd_hda_codec_hdmi snd_intel_dspcfg snd_hda_codec snd_hwdep snd_hda_core snd_pcm prime_numbers i2c_algo_bit syscopyarea sysfillrect sysimgblt fb_sys_fops x86_pkg_temp_thermal cdc_ether coretemp crct10dif_pclmul usbnet crc32_pclmul mii ghash_clmulni_intel e1000e mei_me ptp i2c_i801 pps_core mei i2c_smbus intel_lpss_pci fuse [last unloaded: drm]
-[  761.992986] CPU: 6 PID: 1401 Comm: testdisplay Tainted: G     U             6.0.0-rc4-imre+ #565
-[  761.992989] Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR5 RVP, BIOS ADLPFWI1.R00.3135.A00.2203251419 03/25/2022
-[  761.992990] RIP: 0010:drm_dp_atomic_find_time_slots+0x236/0x280 [drm_display_helper]
-[  761.992994] Code: 4c 8b 67 50 4d 85 e4 75 03 4c 8b 27 e8 03 28 4e e1 48 c7 c1 8b 26 2c a0 4c 89 e2 48 c7 c7 a8 26 2c a0 48 89 c6 e8 31 d5 88 e1 <0f> 0b 49 8b 85 d0 00 00 00 4c 89 fa 48 c7 c6 a0 41 2c a0 48 8b 78
-[  761.992995] RSP: 0018:ffffc9000177ba60 EFLAGS: 00010286
-[  761.992998] RAX: 0000000000000000 RBX: ffff88810d2f1540 RCX: 0000000000000000
-[  761.992999] RDX: 0000000000000001 RSI: ffffffff82368a25 RDI: 00000000ffffffff
-[  761.993000] RBP: ffff888142299d80 R08: ffff8884adbfdfe8 R09: 00000000ffefffff
-[  761.993001] R10: ffff8884a6bfe000 R11: ffff8884ac443c30 R12: ffff888102972f90
-[  761.993002] R13: ffff8881163e2cf0 R14: 00000000000003ac R15: ffff88810c501000
-[  761.993003] FS:  00007f81e4c459c0(0000) GS:ffff888496500000(0000) knlGS:0000000000000000
-[  761.993004] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  761.993005] CR2: 0000555dac962a98 CR3: 0000000123a34006 CR4: 0000000000770ee0
-[  761.993006] PKRU: 55555554
-[  761.993007] Call Trace:
-[  761.993009]  <TASK>
-[  761.993012]  intel_dp_mst_compute_config+0x19a/0x350 [i915]
-[  761.993090]  intel_atomic_check+0xf37/0x3180 [i915]
-[  761.993168]  drm_atomic_check_only+0x5d3/0xa60 [drm]
-[  761.993182]  drm_atomic_commit+0x56/0xc0 [drm]
-[  761.993192]  ? drm_plane_get_damage_clips.cold+0x1c/0x1c [drm]
-[  761.993204]  drm_atomic_helper_set_config+0x78/0xc0 [drm_kms_helper]
-[  761.993214]  drm_mode_setcrtc+0x1ed/0x750 [drm]
-[  761.993232]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[  761.993241]  drm_ioctl_kernel+0xb5/0x150 [drm]
-[  761.993252]  drm_ioctl+0x203/0x3d0 [drm]
-[  761.993261]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[  761.993276]  __x64_sys_ioctl+0x8a/0xb0
-[  761.993281]  do_syscall_64+0x38/0x90
-[  761.993285]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-[  761.993287] RIP: 0033:0x7f81e551aaff
-[  761.993288] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 77 1f 48 8b 44 24 18 64 48 2b 04 25 28 00
-[  761.993290] RSP: 002b:00007fff4304af10 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[  761.993292] RAX: ffffffffffffffda RBX: 00007fff4304afa0 RCX: 00007f81e551aaff
-[  761.993293] RDX: 00007fff4304afa0 RSI: 00000000c06864a2 RDI: 0000000000000004
-[  761.993294] RBP: 00000000c06864a2 R08: 0000000000000000 R09: 0000555dac8a9c68
-[  761.993294] R10: 0000000000000000 R11: 0000000000000246 R12: 00000000000008c4
-[  761.993295] R13: 0000000000000004 R14: 0000555dac8a9c68 R15: 00007fff4304b098
-[  761.993301]  </TASK>
+--xs3njf2uogpsrjq3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 083351e96386 ("drm/display/dp_mst: Fix modeset tracking in drm_dp_atomic_release_vcpi_slots()")
-Testcase: igt@testdisplay
-Cc: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 +++
- 1 file changed, 3 insertions(+)
+On Mon, Sep 05, 2022 at 06:44:42PM +0200, Mateusz Kwiatkowski wrote:
+> Hi Maxime,
+>=20
+> W dniu 5.09.2022 o 15:37, Maxime Ripard pisze:
+> >>> +=A0=A0=A0 vfp =3D vfp_min + (porches_rem / 2);
+> >>> +=A0=A0=A0 vbp =3D porches - vfp;
+> >>
+> >> Relative position of the vertical sync within the VBI effectively move=
+s the
+> >> image up and down. Adding that (porches_rem / 2) moves the image up of=
+f center
+> >> by that many pixels. I'd keep the VFP always at minimum to keep the im=
+age
+> >> centered.
+> >
+> > And you would increase the back porch only then?
+>=20
+> Well, increasing vbp only gives a centered image with the default 480i/57=
+6i
+> resolutions. However, only ever changing vbp will cause the image to be a=
+lways
+> at the bottom of the screen when the active line count is decreased (e.g.
+> setting the resolution to 720x480 but for 50Hz "PAL" - like many game con=
+soles
+> did back in the day).
+>=20
+> I believe that the perfect solution would:
+>=20
+> - Use the canonical / standard-defined blanking line counts for the stand=
+ard
+> =A0 vertical resolutions (480/486/576)
+> - Increase vfp and vbp from there by the same number if a smaller number =
+of
+> =A0 active lines is specified, so that the resulting image is centered
+> - Likewise, decrease vfp and vbp by the same number if the active line nu=
+mber
+> =A0 is larger and there is still leeway (this should allow for seamless h=
+andling
+> =A0 of 480i vs. 486i for 60 Hz "NTSC")
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 1de438151cc39..4442cc5602d45 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -4322,6 +4322,9 @@ int drm_dp_atomic_release_time_slots(struct drm_atomic_state *state,
- 		return -EINVAL;
- 	}
- 
-+	if (new_conn_state->crtc)
-+		return 0;
-+
- 	drm_dbg_atomic(mgr->dev, "[MST PORT:%p] TU %d -> 0\n", port, payload->time_slots);
- 	if (!payload->delete) {
- 		drm_dp_mst_put_port_malloc(port);
--- 
-2.37.1
+I'm not sure I understand how that's any different than the code you
+initially commented on.
 
+I would start by taking the entire blanking area, remove the sync
+period. We only have the two porches now, and I'm starting from the
+minimum, adding as many pixels in both (unless it's not an even number,
+in which case the backporch will have the extra pixel).
+
+Isn't it the same thing?
+
+> - If even more active lines are specified, once the limit for vfp is hit,=
+ then
+> =A0 decrease vbp only - the resulting image will definitely be off-center=
+, but
+> =A0 there's no other way
+
+Unless you only want me to consider the front porch maximum?
+
+Maxime
+
+--xs3njf2uogpsrjq3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxir7QAKCRDj7w1vZxhR
+xYnUAQDKFDkrZV/fLpjtD+btaCpKvPKkEUm37bnBk3TyD3SBTAD+I0kVAytjVinQ
+y5KTIrc3dKg0llXX1SWgrvw0OE2vMAI=
+=QW9g
+-----END PGP SIGNATURE-----
+
+--xs3njf2uogpsrjq3--
