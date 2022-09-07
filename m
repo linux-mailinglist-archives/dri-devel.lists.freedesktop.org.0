@@ -1,69 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF825B0466
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 14:54:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3EF5B051E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 15:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C03B10E754;
-	Wed,  7 Sep 2022 12:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B57E10E761;
+	Wed,  7 Sep 2022 13:29:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59F5B10E75D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 12:53:59 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id q21so8052562lfo.0
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 05:53:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=QdfsKhvFKhFoGHzsk/BoyO/Tmgkam11t7YqMDdkDMvA=;
- b=cfabybZRUHSTAN4CYZIqf5lWbwbUv80aicTWbp1K/+qlLzOg80739TUsdt/K1Kzv9/
- Tk2EZ671p89mbJ7bdrPoTDBsXrdFbYGzcpbmGJGw/wA+H3Y1WC1eZAXezu6AU8beLRN1
- 6vsmAlxgwFjRn+HFmRxPGGFHA8FhaMp9XuB2NdJ6yeKV/c70Pt8J2EyDxvM6WUxOKD/v
- YNyxqSM7mKzzxVcr6R5hGR5XOVWO6CYFnO5PzLE5wlPdXoZq9Y9c4kqSg74N66BSnnwH
- 5rsoQfOGR9N7PMsRrJbJ/yyqSQlSRWyzRZ9LWJIyvXqNrJ801ywCuAnanXRsILWQ+J2c
- 1J1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=QdfsKhvFKhFoGHzsk/BoyO/Tmgkam11t7YqMDdkDMvA=;
- b=YwY+AKTENp+OOj0McHbUetAwNR38j61e0cfdeXoBDuY6vzV0/alnBYHHJ0vx7NZLrU
- xLdBmw5E0LvkUuAF/tIE3LZsKZxgo5hyQqwfJdG6mWnBUvOgcciAlE8c1pikK2HkxcJN
- mhuHNQcVNy8zZi7pGOU0NqRP7Yj5jiqVc9WAeHR4nufOGw1NyparED8jLJlv8TsbNlKf
- OMZ0MH6r+fEufRGcrRimIfsQR3JBFtIo9dh7a+yosVf7HtWuZrMYCcsnaIIf0QOsD5MS
- lv0JGVct7vHk23/D6jfuexVaBjN1lvcfj/KxVAqCbNwLxJ3RXy3YDJjZOnvPgCHpkdk6
- dC9Q==
-X-Gm-Message-State: ACgBeo0FI//vNPzysPXlRQtgAjlR7ycn8frYd5TiLyeI39hG+vBCcKp9
- FeYZaNyGktKgLpvTlHmZQomQXg==
-X-Google-Smtp-Source: AA6agR4BwFb6nsuEJdos9OnnfDEhzv5czyPoYnsaY6U4L9wyIe5/4sEYDJrmkZX+UZi6V/friXgSQw==
-X-Received: by 2002:a05:6512:159c:b0:48a:efee:6f84 with SMTP id
- bp28-20020a056512159c00b0048aefee6f84mr978713lfb.627.1662555237699; 
- Wed, 07 Sep 2022 05:53:57 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- l18-20020a2e7012000000b00261ca0f940esm2532315ljc.62.2022.09.07.05.53.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Sep 2022 05:53:57 -0700 (PDT)
-Message-ID: <cbdbc7d8-a3b9-d960-68c7-457c947e4285@linaro.org>
-Date: Wed, 7 Sep 2022 14:53:56 +0200
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04olkn2098.outbound.protection.outlook.com [40.92.45.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97E0910E761
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 13:29:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gSpRavGoDk0winj1/GJHXaTtNxPNcjJtg1emFF+Hd/QTtz/H8n85DH1EIUJL1ZicVgQXXQlYyhehI9seYSoAwshC0rv6DVJxIjtARTiFERRV0aCOKVX3+5kH+OqGzEwA8UZXtYAV2KqBW/24TG6RA4bjM1RAsfKIMYTKuk9VP4OF8SCrcVDnsFSH1Fr1cD/3uNcD4cJMtqlRqLW3tzLZN8fapQAEXqckaWMdLWedE7qiXsVMt5xdz5oZs0W53+atuW+8zPdsZTe7RvSyYwZPSkILF5AX+Ndvl/Xr4P34eTWLlTFVws6CPeaS4MNXgVNCy4SNxHfsT1vepzYbrss/Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=it31qk/zpZ9dJqnupJp3wzJpN3CanlMvczd7TxYGnYI=;
+ b=BytbHh5PUKkAVaUzYrkDmbp60CTQivWIhKKgVg9bM/0SCyeIBxtsgMoojG4P5wMRfm4I0Qxh4p6A8vw/78PS+Z11MtCW0+ijQ5OgYWVsueQ7imgbqUHPsbj/3jdOA+eH908r/4HPc2dNKtILIenO1Ox+N3LDM+vi/Qi6gV46+rjz5hitllUxhuOlM6WaEdDQU84uq1xh1QE10NwqUwingh779gvTmHI2Af27OIwIC8I1KcITlPmuUkWsyN1vEMhgmBhLmtJzi0bLxT88oDQcp/gUB5bsAxIJJZVLcxwsp6EC+DTMnRjxZy/XrknYo8s7BnxMX9nSuO4v44Xxx1ii+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=it31qk/zpZ9dJqnupJp3wzJpN3CanlMvczd7TxYGnYI=;
+ b=HJBpHuL1cgJ91xipwDUwYQYTvq0csCcHVA3xFpH35PMvg4Xb+btfk994qQumOA7ss89ak9hAhZBqyxZH7/g5zwUACOEgWDZxqMddCAiCRuRbO893quaFBxL9kLe78TI0aSmFQp5eRe+shX1AmLq/JWK/U8Ntly6nneQ/3qWsP1ntJ0gbTChHvnVWAmVdzCIoyA9quM1prW4fo9tBY+ZNHhq2ZFdb/0D2MH4cPH2V5Tm/8Pc/rOTNuEZ9FY7i3QIeuGJp6623r2E3koc5mK5Yw5t5VkqvpXlqzBd+PF+HhegCx9+spo7B6hl7QoInzaQxH237rPg9ARHK3hQokQTWOw==
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
+ by BN6PR06MB2788.namprd06.prod.outlook.com (2603:10b6:404:11b::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.15; Wed, 7 Sep
+ 2022 13:29:11 +0000
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::9999:3123:e227:5259]) by SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::9999:3123:e227:5259%6]) with mapi id 15.20.5588.016; Wed, 7 Sep 2022
+ 13:29:11 +0000
+Date: Wed, 7 Sep 2022 08:29:06 -0500
+From: Chris Morgan <macromorgan@hotmail.com>
+To: Robert Foss <robert.foss@linaro.org>
+Subject: Re: [PATCH V2 1/2] dt-bindings: Add byteswap order to chrontel ch7033
+Message-ID: <SN6PR06MB5342DE0461F8573CE1E6DC54A5419@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20220902153906.31000-1-macroalpha82@gmail.com>
+ <20220902153906.31000-2-macroalpha82@gmail.com>
+ <YxKdE7ZQ97NsuqZk@pendragon.ideasonboard.com>
+ <CAG3jFyu5_ZOn48=y=5u=NyALefczQUxiwVJnJW=irvE5sK4tKw@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG3jFyu5_ZOn48=y=5u=NyALefczQUxiwVJnJW=irvE5sK4tKw@mail.gmail.com>
+X-TMN: [YSEFTSVK59+B2OlWZ6nfKF/WlvyFOP7+]
+X-ClientProxiedBy: DS7PR05CA0029.namprd05.prod.outlook.com
+ (2603:10b6:5:3b9::34) To SN6PR06MB5342.namprd06.prod.outlook.com
+ (2603:10b6:805:f9::31)
+X-Microsoft-Original-Message-ID: <20220907132906.GA29500@wintermute.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add NewVision NV3051D
- panel bindings
-Content-Language: en-US
-To: Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20220906185208.13395-1-macroalpha82@gmail.com>
- <20220906185208.13395-2-macroalpha82@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220906185208.13395-2-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ea434d2f-0e93-44bc-eeca-08da90d4f295
+X-MS-TrafficTypeDiagnostic: BN6PR06MB2788:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: i7n71XNMZCXiWmvjXsK2D3xmVTcE5bZH3a2jNqalSH2kdJj/jW2yrg6Zun8G26fmPgKqWwcE1G2yFNbNYMVpgDW0kEwPOFLeS/uh8L99MzBbKVbIXvcvCZQ7SVPcFBI2c7rkaaOgjCUeyixGnUg+McZQdGUr/s1AXxXTBPavuRktoTqTDAieZACXivVpdxhWB2xf17ckQVVp8mE/oFaI8jroA5bhhb5Npk9Mc1VUhJuK97nLg16cfz3MUC7nYQ+KEsiuKvM8kcaf1ZbHM7a5ncQFHrBRFLZxTRBk8TyIrTYQboHn/ZTONLBSEpHRlA8EnAxY44QG5xw4meB45vdhDyBr29ByMcIsJtwZbZVVqeDCZ78nL7EUD3qmsRf9kYJu1OndZ4eZAsPBEnZCBh7D6CEPcODlF30+MEXGcCfqbVdnci1DwS36jLXh0GJgnnxKApHZLZPTluFjjjkzoid2Lm7TanvQ/Bq1n+yJf/5/ixEgL4BRve256LRzyi9T4jzIWnqbymq7uaX5K+wCwabmRsF3W80Pc5n3Sc6pzq6dhvEMahZZA0L/UIRSQHJgS5Iec0MtzIzrPS2rrI2AiZ++NAkLDQT1xyBSeM6NQg7l2ge2xzuCX3Zes++4rgVPxhuxmBC1bTe0rr+PhxofoGlNoh2pJyQcGVP8eQJuQOrATRniP6ITNtzBH49dkphDGq/p
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZVb6PNoY4MLfZX3jvYOhz5esXQo2R0Iq4f2JqAeOxAJZJdG5tSpdxbX5PNZE?=
+ =?us-ascii?Q?crotiGnAZrcBsTc8d1/cwTftNSGiYmcFnEgTAnIeTiEyNKCXYqxdDZ8JUbLe?=
+ =?us-ascii?Q?IVBIMgb4NFXVNjdQ2RZvNXihuA170znfhn21n1dXX9O8lpSRFMIhxYyXV692?=
+ =?us-ascii?Q?c5qTYIiDpoEW7/8oRmw/GJvIDF4zy+bssdugPpHV+jxva8CW7/S9sQnWzQ9T?=
+ =?us-ascii?Q?nof0bTHYWvrLF8S4IyzLuIfrG59K1NzCcQokezwCEKxIVVYOLM7N3BO4WbeP?=
+ =?us-ascii?Q?m7/KCSZYTh3gDbgbg1qxQhwyyvW5WwbBI4nMubc+eA4g/4Dq32PK2l8bt5R7?=
+ =?us-ascii?Q?CnKX1UJQUmW6r5gBVuuyenYskbMuDQXwJzwTaAVXNBDDxQXIHAeeJ3asjAH8?=
+ =?us-ascii?Q?F3+E1w7Ac87To8K+p1sg2oH6nWsBaGRGr1lOSV0KPJOeMvN0caZ0vagf/1iY?=
+ =?us-ascii?Q?K3a1owrW8unP/rIYpoRXlsD2GzgtE8LERa7cy3m1e1obUzfoqWW+1ktsCfNs?=
+ =?us-ascii?Q?5OcJgL/xxh8PpH/j+pG16rRmI/pnkJ104FMG6ztri+hf/RVFxh1P9U2yHdL3?=
+ =?us-ascii?Q?sMOW+flrUhcpxYzmbkMX9KrFu/Tkco6mEpBpURqQSISlaTDqgZi8yzIV2jqq?=
+ =?us-ascii?Q?ZjGcsBqotVJmYcrzv1J3x9Sbqwj4okYFgfT01FN14GCc4MV3xJ1lVtCiOnBM?=
+ =?us-ascii?Q?pSIzfhEUQbXSHVIhu5/Xm/pN80FC3vv6lW5WG9OLJFcmnFXb/Aj3Yxt9BpLE?=
+ =?us-ascii?Q?/G7B2GhmJrKKnNOgPL6p16Rg0ztxUuWktLwKv1DXLxos8kMHa2Oqhthb6Xdh?=
+ =?us-ascii?Q?G49wwMsFyOt59qfFPcwaHA2v8zf+PmOHDFUJoU8bUZjXHCTCci3Q0xOwZy0l?=
+ =?us-ascii?Q?4+fZykfdBiZVe0aq68ksOF24JA5Dysw1rSc1BpHE2zK4TIz57zHHRTakDlx5?=
+ =?us-ascii?Q?hpPTrSKW7b5OOa1+OErmz0w28ZOPwaBWVRpQaCvqA/yOQGq5RGD0oBp1gdWx?=
+ =?us-ascii?Q?5dK7jJnm8h4Ne0OtAy1OoIc6RUX0DTTjyLQE8S0fivRVla+XruOtFB9t+pNW?=
+ =?us-ascii?Q?NVrP0Cn6KjME0IY/9wI1gGhkxpt5OpLkz5OZSQwT8iASpDk/rXUPaziwlRWb?=
+ =?us-ascii?Q?iilpoznCXtXtR1f2KXdZfDG2gHb4ZalEnMjhuocJI25kc3urB7r3SjXu+B4r?=
+ =?us-ascii?Q?p92wWvEDhvClUWC7T3MImj60i5gYSUP4WaAJ0bbU6GPmIXpiEuIiurZk79cG?=
+ =?us-ascii?Q?rN9EQD21ur9eTuKdEutmgC6dIQvZU40b7H4uPOzG5w=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea434d2f-0e93-44bc-eeca-08da90d4f295
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 13:29:11.1068 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR06MB2788
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,65 +104,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- airlied@linux.ie, Chris Morgan <macromorgan@hotmail.com>, robh+dt@kernel.org,
- thierry.reding@gmail.com, sam@ravnborg.org
+Cc: jernej.skrabec@gmail.com, jonas@kwiboo.se, airlied@linux.ie,
+ narmstrong@baylibre.com, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macroalpha82@gmail.com>, lkundrak@v3.sk, andrzej.hajda@intel.com,
+ robh+dt@kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/09/2022 20:52, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
+On Mon, Sep 05, 2022 at 05:20:57PM +0200, Robert Foss wrote:
+> Thanks Laurent,
 > 
-> Add documentation for the NewVision NV3051D panel bindings.
-> Note that for the two expected consumers of this panel binding
-> the underlying LCD model is unknown.
+> On Sat, 3 Sept 2022 at 02:17, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Chris,
+> >
+> > Thank you for the patch.
+> >
+> > On Fri, Sep 02, 2022 at 10:39:05AM -0500, Chris Morgan wrote:
+> > > From: Chris Morgan <macromorgan@hotmail.com>
+> > >
+> > > Update dt-binding documentation to add support for setting byteswap of
+> > > chrontel ch7033.
+> > >
+> > > New property name of chrontel,byteswap added to set the byteswap order.
+> > > This property is optional.
+> > >
+> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> > > ---
+> > >  .../bindings/display/bridge/chrontel,ch7033.yaml    | 13 +++++++++++++
+> > >  1 file changed, 13 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> > > index bb6289c7d375..984b90893583 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> > > @@ -14,6 +14,19 @@ properties:
+> > >    compatible:
+> > >      const: chrontel,ch7033
+> > >
+> > > +  chrontel,byteswap:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > > +    enum:
+> > > +      - 0  # BYTE_SWAP_RGB
+> > > +      - 1  # BYTE_SWAP_RBG
+> > > +      - 2  # BYTE_SWAP_GRB
+> > > +      - 3  # BYTE_SWAP_GBR
+> > > +      - 4  # BYTE_SWAP_BRG
+> > > +      - 5  # BYTE_SWAP_BGR
+> > > +    description: |
+> > > +      Set the byteswap value of the bridge. This is optional and if not
+> > > +      set value of BYTE_SWAP_BGR is used.
+> >
+> > I don't think this belongs to the device tree. The source of data
+> > connected to the CH7033 input could use different formats. This
+> > shouldn't be hardcoded, but queried at runtime, using the input and
+> > output media bus formats infrastructure that the DRM bridge framework
+> > includes.
 > 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  .../display/panel/newvision,nv3051d.yaml      | 48 +++++++++++++++++++
->  1 file changed, 48 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
+> Chris, will you have a look at submitting a fix for this during the coming days?
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-> new file mode 100644
-> index 000000000000..016168d8d7b2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-> @@ -0,0 +1,48 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/newvision,nv3051d.yaml#
+> If not, we can revert this series and apply a fixed version later.
 
-You need to document vendor prefix... but the filename does not match
-compatible.
+I'm not sure I understand (or know) what needs to be fixed. Presumably
+using something like EDID we can predict what color format we need to
+use for the connection between the bridge and the HDMI device, but
+wouldn't the color format between the SoC and bridge need to be
+constant?
 
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NewVision NV3051D based DSI panel driver
+If there's something I'm missing please let me know, I'm relatively
+unfamiliar with the display subsystems as a whole. I'll be happy
+to make the change once I'm clear what I need to change.
 
-This is confusing - compatibles say something else.
+Thank you for your help.
 
-> +
-> +maintainers:
-> +  - Chris Morgan <macromorgan@hotmail.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - anbernic,rg353p-panel
-> +      - anbernic,rg353v-panel
-
-Missing space, missing documentation for vendor prefix.
-
-Strip "panel" suffix unless device is multifunctional.
-
-> +  reg: true
-> +  backlight: true
-
-
-Best regards,
-Krzysztof
+> 
+> >
+> > > +
+> > >    reg:
+> > >      maxItems: 1
+> > >      description: I2C address of the device
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
