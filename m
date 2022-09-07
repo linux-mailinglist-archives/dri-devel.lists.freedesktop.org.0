@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90CF5AFFF9
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 11:10:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CFD65B0028
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 11:18:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7611A10E458;
-	Wed,  7 Sep 2022 09:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1778710E49D;
+	Wed,  7 Sep 2022 09:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88D6E10E458
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 09:10:01 +0000 (UTC)
-X-UUID: dee75b619a8d4534b146c29c92c05185-20220907
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=Vzld8+goQlqiIqPti/bu+pYq9RTDV3wEJHvdKjJwu3A=; 
- b=Ud+UiFD+TWYBvdt79SyVHqRNpx487pdfOOS15ZBEUxeE/cEQcgL9THztHeI+c4DLnh3mYePUKlyx2Rq3XnMMJQo+uwu9oV7RAdk/3QAXIkrHSwcSl8TpvNIBUth2F+y6Ffmy+9MIPbKuaDBM2pCE+02J5LJNkS02uKDtw1g+ZEk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:ad99b08f-b0b8-4e1b-85cd-4b5cc1d5015e, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release
- _Ham,ACTION:release,TS:-5
-X-CID-META: VersionHash:84eae18, CLOUDID:9aaa7e21-1c20-48a5-82a0-25f9c331906d,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: dee75b619a8d4534b146c29c92c05185-20220907
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 934491961; Wed, 07 Sep 2022 17:09:53 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 7 Sep 2022 17:09:52 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Wed, 7 Sep 2022 17:09:52 +0800
-Message-ID: <19ee3ece7d8b728375804a65d061dcab1a7725f0.camel@mediatek.com>
-Subject: Re: [PATCH v5,2/2] drm: mediatek: Adjust the dpi output format to
- MT8186
-From: CK Hu <ck.hu@mediatek.com>
-To: <xinlei.lee@mediatek.com>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <rex-bc.chen@mediatek.com>,
- <jason-jh.lin@mediatek.com>, <chunkuang.hu@kernel.org>,
- <yongqiang.niu@mediatek.com>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Date: Wed, 7 Sep 2022 17:09:51 +0800
-In-Reply-To: <1662384863-17281-3-git-send-email-xinlei.lee@mediatek.com>
-References: <1662384863-17281-1-git-send-email-xinlei.lee@mediatek.com>
- <1662384863-17281-3-git-send-email-xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4896D10E490
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 09:18:03 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0A96C33BE2;
+ Wed,  7 Sep 2022 09:18:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662542282; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pNFeH0aTtqiwvoaDUHgrBm2giae3XwwjNhPbl/t9kJo=;
+ b=r/Mjvhi5wz2Gnb93Lcd3Emw1w+VsAjbTxOgy3/oqrFg3/njA+F9IBB5KzWWeDXArStlaLC
+ OTn+dqYu09pa7apWK5hpfdfJyW561L33FHLwXnfLiUQJiIWEWln5thFTMDq25kM/gVbCMT
+ iEQ4UNl4QmMZk8XH3kp5BY7abFsf4qc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662542282;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pNFeH0aTtqiwvoaDUHgrBm2giae3XwwjNhPbl/t9kJo=;
+ b=jNiZMDUoTWEJAfB7pRvO0aNoSnp9OxDaO28IeJxh7uM4LXhYZawFGiShqUt2kTleS4203k
+ glIGfxQXh87qoYAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EBE5913486;
+ Wed,  7 Sep 2022 09:18:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Jq2eOMlhGGNlKwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 07 Sep 2022 09:18:01 +0000
+Message-ID: <149574f2-6dcf-f1bb-c7dc-3d6edaf52ef0@suse.de>
+Date: Wed, 7 Sep 2022 11:18:01 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
+Content-Language: en-US
+To: Wang Yugui <wangyugui@e16-tech.com>
+References: <20220907153847.E7FC.409509F4@e16-tech.com>
+ <5a00d713-5fb9-3c78-8785-5721f31b9e06@suse.de>
+ <20220907164723.CD41.409509F4@e16-tech.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220907164723.CD41.409509F4@e16-tech.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0cbiIiYmdOYbUvJMdSdI5LUc"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,187 +71,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Xinlei:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0cbiIiYmdOYbUvJMdSdI5LUc
+Content-Type: multipart/mixed; boundary="------------ufMp1SbAS5UKq2mKDwLlDbvb";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Wang Yugui <wangyugui@e16-tech.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <149574f2-6dcf-f1bb-c7dc-3d6edaf52ef0@suse.de>
+Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
+References: <20220907153847.E7FC.409509F4@e16-tech.com>
+ <5a00d713-5fb9-3c78-8785-5721f31b9e06@suse.de>
+ <20220907164723.CD41.409509F4@e16-tech.com>
+In-Reply-To: <20220907164723.CD41.409509F4@e16-tech.com>
 
-On Mon, 2022-09-05 at 21:34 +0800, xinlei.lee@mediatek.com wrote:
-> From: Xinlei Lee <xinlei.lee@mediatek.com>
-> 
-> Dpi output needs to adjust the output format to dual edge for MT8186.
+--------------ufMp1SbAS5UKq2mKDwLlDbvb
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Separate this patch into two patches. One is adding edge_cfg_in_mmsys,
-and another one is adding mt8186 dpi support.
+SGkNCg0KQW0gMDcuMDkuMjIgdW0gMTA6NDcgc2NocmllYiBXYW5nIFl1Z3VpOg0KPiBIaSwN
+Cj4gDQo+PiBBbSAwNy4wOS4yMiB1bSAwOTozOCBzY2hyaWViIFdhbmcgWXVndWk6DQo+Pj4g
+SGksDQo+Pj4NCj4+Pg0KPj4+PiBIaQ0KPj4+Pg0KPj4+PiBBbSAwNy4wOS4yMiB1bSAwNjox
+NiBzY2hyaWViIFdhbmcgWXVndWk6DQo+Pj4+PiBIaSwNCj4+Pj4+DQo+Pj4+Pj4gQW0gMDIu
+MDkuMjIgdW0gMDc6NTIgc2NocmllYiBXYW5nIFl1Z3VpOg0KPj4+Pj4+PiBIaSwNCj4+Pj4+
+Pj4NCj4+Pj4+Pj4gbWdhZzIwMCBicm9rZW4gb24ga2VybmVsLTYuMC1yYzMgb24gREVMTC9U
+NjIwLg0KPj4+Pj4+Pg0KPj4+Pj4+PiBTZWUgdGhlIGF0dGFjaGVtZW50bWVudCBmaWxlIGZv
+ciB0aGUgZ3JhcGggb3V0cHV0Lg0KPj4+Pj4+DQo+Pj4+Pj4gVGhhbmtzIGZvciByZXBvcnRp
+bmcgdGhlIGJ1Zy4gV2UgcmVjZW50bHkgcmVmYWN0b3JlZCBzb21lIGNvZGUgb2YgdGhlIGRy
+aXZlci4gQ2FuIHlvdSBiaXNlY3QgdG8gdGhlIGNoYW5nZSB0aGF0IGludHJvZHVjZWQgdGhl
+IHByb2JsZW0/DQo+Pj4+Pg0KPj4+Pj4gNS4xOS4zIHdvcmtzIHdlbGwgb24gdGhpcyBERUxM
+L1Q2MjAuDQo+Pj4+Pg0KPj4+Pj4gc28gdGhpcyBwcm9ibGVtIHNob3VsZCBiZSBhIHJlZ3Jl
+c3Npb24gb2YgNi4wLg0KPj4+Pj4NCj4+Pj4+IG90aGVyIGJpc2VjdCBzZWVtIGRpZmZpY3Vs
+dCBmb3IgbWUuDQo+Pj4+DQo+Pj4+IE9LLCB0aGFuayB5b3UuIENhbiB5b3UgcHJvdmlkZSB0
+aGUgZG1lc2cgbG9nIG9mIHRoZSBicm9rZW4gbWFjaGluZSBhbmQgdGhlIG91dHB1dCBvZiAn
+c3VkbyBsc3BjaSAtdm4nIHBsZWFzZT8NCj4+Pg0KPj4+IHBsZWFzZSBzZWUgdGhlIGF0dGFj
+aG1lbnQgZmlsZSBmb3IgdGhlIG91dHB1dCBvZiAnbHNwY2kgLXZuJy4NCj4+DQo+PiAgICAw
+YTowMC4wIDAzMDA6IDEwMmI6MDUzNCAocHJvZy1pZiAwMCBbVkdBIGNvbnRyb2xsZXJdKQ0K
+Pj4NCj4+IEl0J3MgdGhlIEcyMDBFUi4gSSdsbCB0cnkgdG8gZmluZCByZWxhdGVkIGNvZGUg
+dGhhdCB3ZSByZWNlbnRseSBjaGFuZ2VkLiBJIG1pZ2h0IGdldCBiYWNrIHRvIHlvdSBmb3Ig
+dGVzdGluZyBhIHBhdGNoLiBUaGFua3Mgc28gZmFyLg0KPiANCj4gdGhlIHBhdGNoIGJhc2Vk
+IG9uIGtlcm5lbCA2LjAocmM0KSB3aWxsIGJlIGVhc3kgdG8gYnVpbGQgYW5kIHRlc3QgaGVy
+ZS4NCj4gDQo+IEJ5IHRoZSB3YXksIHRoaXMgcHJvYmxlbSBoYXBwZW4gb24gREVMTC9UNjMw
+IHRvby4NCj4gYnV0IGl0IGRvZXMgbm90IGhhcHBlbiBvbiBERUxML1Q2NDAuDQo+IA0KPiBw
+bGVhc2Ugc2VlIHRoZSBhdHRhY2htZW50IGZpbGUgZm9yIHRoZSBvdXRwdXQgb2YgJ2xzcGNp
+IC12bicgb24NCj4gREVMTC9UNjMwIGFuZCBERUxML1Q2NDAuDQoNClRoYW5rcyBhIGxvdCwg
+YWdhaW4uIEFjY29yZGluZyB0byB0aGVzZSBmaWxlcywgdGhlIFQ2MzAgYWxzbyBoYXMgYSAN
+CkcyMDBFUiwgYnV0IHRoZSBUNjQwIGhhcyBhIEcyMDBFVzMuIEFzIEkgc2FpZCwgd2UgcmVj
+ZW50bHkgcmVmYWN0b3JlZCANCnRoZSBkcml2ZXIuIFRoZSBHMjAwRVIgaXMgc29tZWhvdyBk
+aWZmZXJlbnQgbm93LiBJJ2xsIGdldCBiYWNrIHRvIHlvdSBhcyANCnNvb24gYXMgSSBmaW5k
+IHNvbWV0aGluZy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gQmVzdCBSZWdh
+cmRzDQo+IFdhbmcgWXVndWkgKHdhbmd5dWd1aUBlMTYtdGVjaC5jb20pDQo+IDIwMjIvMDkv
+MDcNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZl
+bG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0
+ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJl
+cmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-I think the default value in mmsys (single edge) should work for some
-display so that mmsys hardware use single edge for default value. So I
-need you to describe more information why we need dual edge.
+--------------ufMp1SbAS5UKq2mKDwLlDbvb--
 
-> 
-> Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Nílas F. R. A. Prado <nfraprado@collabora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c      | 31
-> +++++++++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  5 ++++
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c  |  2 ++
->  3 files changed, 38 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index 630a4e301ef6..ffe4a4b70a0f 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -15,6 +15,7 @@
->  #include <linux/of_graph.h>
->  #include <linux/pinctrl/consumer.h>
->  #include <linux/platform_device.h>
-> +#include <linux/soc/mediatek/mtk-mmsys.h>
->  #include <linux/types.h>
-> 
->  #include <video/videomode.h>
-> @@ -30,6 +31,7 @@
->  #include "mtk_disp_drv.h"
->  #include "mtk_dpi_regs.h"
->  #include "mtk_drm_ddp_comp.h"
-> +#include "mtk_drm_drv.h"
-> 
->  enum mtk_dpi_out_bit_num {
->  	MTK_DPI_OUT_BIT_NUM_8BITS,
-> @@ -82,6 +84,7 @@ struct mtk_dpi {
->  	struct pinctrl_state *pins_dpi;
->  	u32 output_fmt;
->  	int refcount;
-> +	struct device *mmsys_dev;
->  };
-> 
->  static inline struct mtk_dpi *bridge_to_dpi(struct drm_bridge *b)
-> @@ -135,6 +138,7 @@ struct mtk_dpi_yc_limit {
->   * @yuv422_en_bit: Enable bit of yuv422.
->   * @csc_enable_bit: Enable bit of CSC.
->   * @pixels_per_iter: Quantity of transferred pixels per iteration.
-> + * @edge_cfg_in_mmsys: If the edge configuration for DPI's output
-> needs to be set in MMSYS.
->   */
->  struct mtk_dpi_conf {
->  	unsigned int (*cal_factor)(int clock);
-> @@ -153,6 +157,7 @@ struct mtk_dpi_conf {
->  	u32 yuv422_en_bit;
->  	u32 csc_enable_bit;
->  	u32 pixels_per_iter;
-> +	bool edge_cfg_in_mmsys;
->  };
-> 
->  static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val,
-> u32 mask)
-> @@ -449,6 +454,9 @@ static void mtk_dpi_dual_edge(struct mtk_dpi
-> *dpi)
->  		mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING,
->  			     dpi->output_fmt ==
-> MEDIA_BUS_FMT_RGB888_2X12_LE ?
->  			     EDGE_SEL : 0, EDGE_SEL);
-> +		if (dpi->conf->edge_cfg_in_mmsys)
-> +			mtk_mmsys_ddp_dpi_fmt_config(dpi->mmsys_dev,
-> DPI_RGB888_DDR_CON,
-> +						     DPI_FORMAT_MASK);
->  	} else {
->  		mtk_dpi_mask(dpi, DPI_DDR_SETTING, DDR_EN | DDR_4PHASE,
-> 0);
->  	}
-> @@ -778,8 +786,10 @@ static int mtk_dpi_bind(struct device *dev,
-> struct device *master, void *data)
->  {
->  	struct mtk_dpi *dpi = dev_get_drvdata(dev);
->  	struct drm_device *drm_dev = data;
-> +	struct mtk_drm_private *priv = drm_dev->dev_private;
->  	int ret;
-> 
-> +	dpi->mmsys_dev = priv->mmsys_dev;
->  	ret = drm_simple_encoder_init(drm_dev, &dpi->encoder,
->  				      DRM_MODE_ENCODER_TMDS);
->  	if (ret) {
-> @@ -930,6 +940,24 @@ static const struct mtk_dpi_conf mt8183_conf = {
->  	.csc_enable_bit = CSC_ENABLE,
->  };
-> 
-> +static const struct mtk_dpi_conf mt8186_conf = {
-> +	.cal_factor = mt8183_calculate_factor,
-> +	.reg_h_fre_con = 0xe0,
-> +	.max_clock_khz = 150000,
-> +	.output_fmts = mt8183_output_fmts,
-> +	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-> +	.edge_cfg_in_mmsys = true,
-> +	.pixels_per_iter = 1,
-> +	.is_ck_de_pol = true,
-> +	.swap_input_support = true,
-> +	.support_direct_pin = true,
-> +	.dimension_mask = HPW_MASK,
-> +	.hvsize_mask = HSIZE_MASK,
-> +	.channel_swap_shift = CH_SWAP,
-> +	.yuv422_en_bit = YUV422_EN,
-> +	.csc_enable_bit = CSC_ENABLE,
-> +};
-> +
->  static const struct mtk_dpi_conf mt8192_conf = {
->  	.cal_factor = mt8183_calculate_factor,
->  	.reg_h_fre_con = 0xe0,
-> @@ -1080,6 +1108,9 @@ static const struct of_device_id
-> mtk_dpi_of_ids[] = {
->  	{ .compatible = "mediatek,mt8183-dpi",
->  	  .data = &mt8183_conf,
->  	},
-> +	{ .compatible = "mediatek,mt8186-dpi",
-> +	  .data = &mt8186_conf,
-> +	},
->  	{ .compatible = "mediatek,mt8192-dpi",
->  	  .data = &mt8192_conf,
->  	},
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> index 62bd4931b344..779e868ffb1a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> @@ -235,4 +235,9 @@
->  #define MATRIX_SEL_RGB_TO_JPEG		0
->  #define MATRIX_SEL_RGB_TO_BT601		2
-> 
-> +/* Values for DPI configuration in MMSYS address space */
-> +#define DPI_FORMAT_MASK			0x1
-> +#define DPI_RGB888_DDR_CON		BIT(0)
-> +#define DPI_RGB565_SDR_CON		BIT(1)
+--------------0cbiIiYmdOYbUvJMdSdI5LUc
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-This is the mmsys register definition, so move these to mmsys driver.
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
-CK
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMYYckFAwAAAAAACgkQlh/E3EQov+BY
+iRAArRRxb/GvTpDGIJR+jOiR2MtAl7BGa2gbk7Mo8NxKgs5iXe0N436IK3zpiVMyETb6TPU7ej5h
+6PYzOFoWVtrKiPPnQLyrAWpAv5iHmfT5jgnv/hxld7Cw3o3CePAXr0moq2zMdfHwTPdV/SiVoAnp
+mjxDMsmPje4/hMQN797DmHJI8AEz/xZ8Sc3yDaM0t7mATkJ4bstsT0s4yUILUZ2+DbBFLkpQjNJi
++MkwHp/oXaVAYxS8cB5WOvdOp0/S1kFQsKG7xjOV9bbNZpu5mZc+5Lo4jLRshfOSwk1QYFGT2dJi
++n+WEOabloq0vXTSNnKrTXgp1iua2eMLrKG/se1FeReVQNq5v4y/nSBxMtmYetYYkr+tzmW3AMMH
+cyeFK3lC7JOaKgflLOG5kwToMVvEBboT5CKV9kV1tpvgxtT8XHBrqxSiQ1FJSiDcp67VzuDAQUOk
+Pa273yisWgq479qqIonxW9CVSuuVNFrgsrcvtkykX4uFgXU+1M1yxhUHSL3gwvgUXhNrv83SeNgk
+4KD2h7vlP/PHaqkLo2he8dbKslgsODg1ykoVNjltGAAINrE47JUQqXZ3INEZxZB7gqZ/vgV/Nce/
+iVTZl15HyDTG517QSNzrojwKjxVQsHuVCP7NeBYyK1HYGGYHiuCZBQeqzvNCtUZLHWkMIEE33Wvr
+9v4=
+=XOvY
+-----END PGP SIGNATURE-----
 
-> +
->  #endif /* __MTK_DPI_REGS_H */
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 5f02f8d0e4fc..28eb1ac91c15 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -631,6 +631,8 @@ static const struct of_device_id
-> mtk_ddp_comp_dt_ids[] = {
->  	  .data = (void *)MTK_DPI },
->  	{ .compatible = "mediatek,mt8183-dpi",
->  	  .data = (void *)MTK_DPI },
-> +	{ .compatible = "mediatek,mt8186-dpi",
-> +	  .data = (void *)MTK_DPI },
->  	{ .compatible = "mediatek,mt8192-dpi",
->  	  .data = (void *)MTK_DPI },
->  	{ .compatible = "mediatek,mt8195-dp-intf",
-> --
-> 2.18.0
-> 
-
+--------------0cbiIiYmdOYbUvJMdSdI5LUc--
