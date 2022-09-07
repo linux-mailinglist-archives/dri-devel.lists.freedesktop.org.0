@@ -1,81 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EAD5B071D
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 16:38:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CAD85B0771
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 16:47:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B1A710E791;
-	Wed,  7 Sep 2022 14:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42AA310E794;
+	Wed,  7 Sep 2022 14:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2724810E786;
- Wed,  7 Sep 2022 14:38:41 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7F43F580314;
- Wed,  7 Sep 2022 10:38:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 07 Sep 2022 10:38:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1662561520; x=1662568720; bh=G+dQi/CqDE
- Andi9GeELhOR4Fo+JzDcf4uQRnrofBKd8=; b=3FFUrZ7s6VxSN6vL5Cw4baUUa5
- jDBnxlmgMIp8WXQLYEovPXCkQh6iup20i9PZhFoxra1kWYALiWJTZXWq3TmijN13
- wOktSWoa4r9C2d/jfCHKOjD60uJdIV1cuw2dsF/I4D8umuBbgxF9XIjbv1CDZoRs
- RAQLXHXxejuH5YF82ejQpmx2qR/d4wDR6lZaS5Ovf+IX5gMMSapTfn7ISApQJDjD
- 0cPaQ+8P46SeUgUy1AQdKInb+GK1uCL3syzskNavZvuCAYDUHrpX04Rp+DupVEhJ
- EnsexyIYQUz53CjNBZqcaUnqrZP20gelrB0FmBIrMi5bOoPfrbStmlsSbntg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1662561520; x=1662568720; bh=G+dQi/CqDEAndi9GeELhOR4Fo+Jz
- Dcf4uQRnrofBKd8=; b=J1gj70TqeaZBOD/8F/Ysvvj+yYSkSbaho7x/umphLAnU
- DUE17Aqnpoa9lFiXO0DkkIV7pC8wKxK+D2hZwIdoyWZthInu9EQK//CrgXd7BAr8
- 8fsdivkrN/oFOLjVGwBH91Yh0285SHGE/BsQMwS9TGegZp6Q5W5brP1C94HVf5Io
- /GjHfnowkowVZDMXD3MthtXJTnw5n6pt308G7686nBE8GmwZynE/kR4xruMshW8c
- idaoHumZSyBEg0wb9D8BPb12LjqHZD1EGRqaDa5ZJKhCd0GVZBxspLBG7bCc6E0c
- 4pBJt/G9KiCH+hndbmPhXbgfK9r4uRuAQVxjn8V+YA==
-X-ME-Sender: <xms:8KwYY9oHdo_fef7xbGZvQ7RU6e5VqNtiwYTPzfH5zP1cBvBRPYXXKg>
- <xme:8KwYY_pPPbFPbihsZjJJ161P5ISbfJMsmByJfwS3HxBdv_w8GnpAgHW_vZwcxeZ0U
- rxCVJgLIQv0v2LDp_I>
-X-ME-Received: <xmr:8KwYY6MBzgqAzm8k0YKFAOjcXh_JzEkVwk9KeAbf6Zes-QmlekUYjit_Kg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgjeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
- ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:8KwYY46QVtCc1FB4h9YEHP1n5sKVROo8PqNFS5ybv2YrktUHAwxqjg>
- <xmx:8KwYY87k5h0Z88PudROgDw3LEkJ-mSadMDDDdHVsk_fUwn4PfV8fMA>
- <xmx:8KwYYwgcrz8kjGCriG7u5kEQ0bQX_6R7ku9_agV9z6YwESV4urxPXg>
- <xmx:8KwYY87sl9s6K8vlDCAbttgkC_W4xWTggHCz4yAWsg7BETWXCafDog>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Sep 2022 10:38:39 -0400 (EDT)
-Date: Wed, 7 Sep 2022 16:38:37 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
- display modes
-Message-ID: <20220907143837.ys76egf2yg5uyq2z@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
- <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
- <CAMuHMdWq3aOO4-2AReDeaC2VBJb=QJF2dTMZP=DGmwCg6ZOffA@mail.gmail.com>
- <20220905133251.js26hxdosibx4r4i@houat>
- <6ac67d1f-e5b5-2687-372f-4146eed5cc5d@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B80E410E78B
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 14:47:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E318C61948
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 14:47:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE520C43142
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 14:47:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1662562045;
+ bh=f2o1y7KshjpkY9lv8qUib+ioQ3G6ppr6671x+zJpSF4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=aLkBQKdLoh3iU88fbas6ii+45gySIpTjxbicxQs534bhWawTDK6a9h/Y8dROIVnYt
+ 5HqJs+58zWLLHVpz5+ed2hF8NhGRkKPP555vl4nHw7q6ixSz+tPA9ilmxHx0MsAeYA
+ xWIGsSs3YxTov4kyaEdIuTVVIp3A86248pvsxeb8mu4RQEkz87sLGuopFfcqzb3OSo
+ 9nSz3RS6bEKslJ8Or1KY5iNA0oRzTd3cyDOpW2ErfhwGE8LqhxGD/ir/2bSpFqoWo7
+ 9gRsrF/aiEtWxktJXYK2t9ntg0TqF/FFM6jTa3ma2wtLbw0K9iJvLqKzLvZVA3QA8R
+ ph0+BOJIq6vwQ==
+Received: by mail-il1-f175.google.com with SMTP id m16so4671585ilg.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 07:47:25 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2Koh9fx/iv0d2WPScCWKhSaPaIoDC+za8nANkjIeycflQbuKhm
+ UjftejxqSXp4wP+7VTFQ9pyEYpnNZkVbl4C0iyQ=
+X-Google-Smtp-Source: AA6agR4o6lWldMLAmLaGf8/79sK+50kODsD1YRVgj4S5LMXqrOSaAz5a6xplMki6HW5XZ9A7aIrChvyctdcUSFL6CzA=
+X-Received: by 2002:a05:6e02:1548:b0:2ea:836d:ac6c with SMTP id
+ j8-20020a056e02154800b002ea836dac6cmr2206779ilu.6.1662562044874; Wed, 07 Sep
+ 2022 07:47:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nnvo5o5a2xq4dkin"
-Content-Disposition: inline
-In-Reply-To: <6ac67d1f-e5b5-2687-372f-4146eed5cc5d@gmail.com>
+References: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <YxcYGzPv022G2vLm@infradead.org>
+ <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com> <YxczjNIloP7TWcf2@nvidia.com>
+ <YxiJJYtWgh1l0wxg@infradead.org> <YxiPh4u/92chN02C@nvidia.com>
+ <Yxiq5sjf/qA7xS8A@infradead.org>
+In-Reply-To: <Yxiq5sjf/qA7xS8A@infradead.org>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Wed, 7 Sep 2022 17:46:58 +0300
+X-Gmail-Original-Message-ID: <CAFCwf13sz_KAKJm60A_yyqDRo_4MQXWKHaasdMH=-PTGPnOZtg@mail.gmail.com>
+Message-ID: <CAFCwf13sz_KAKJm60A_yyqDRo_4MQXWKHaasdMH=-PTGPnOZtg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+To: Christoph Hellwig <hch@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,92 +65,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Leon Romanovsky <leon@kernel.org>, KVM list <kvm@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Cornelia Huck <cohuck@redhat.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Dan Williams <dan.j.williams@intel.com>, Maor Gottlieb <maorg@nvidia.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---nnvo5o5a2xq4dkin
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Sep 05, 2022 at 06:32:14PM +0200, Mateusz Kwiatkowski wrote:
-> Hi Maxime,
->=20
-> W dniu 5.09.2022 o 15:32, Maxime Ripard pisze:
-> > Hi,
+On Wed, Sep 7, 2022 at 5:30 PM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Wed, Sep 07, 2022 at 09:33:11AM -0300, Jason Gunthorpe wrote:
+> > Yes, you said that, and I said that when the AMD driver first merged
+> > it - but it went in anyhow and now people are using it in a bunch of
+> > places.
+>
+> drm folks made up their own weird rules, if they internally stick
+> to it they have to listen to it given that they ignore review comments,
+> but it violates the scatterlist API and has not business anywhere
+> else in the kernel.  And yes, there probably is a reason or two why
+> the drm code is unusually error prone.
+>
+> > > Why would small BARs be problematic for the pages?  The pages are more
+> > > a problem for gigantic BARs do the memory overhead.
 > >
-> > On Wed, Aug 31, 2022 at 10:14:28AM +0200, Geert Uytterhoeven wrote:
-> >>>> +enum drm_mode_analog {
-> >>>> +=A0=A0=A0 DRM_MODE_ANALOG_NTSC,
-> >>>> +=A0=A0=A0 DRM_MODE_ANALOG_PAL,
-> >>>> +};
-> >>>
-> >>> Using "NTSC" and "PAL" to describe the 50Hz and 60Hz analog TV modes =
-is common,
-> >>> but strictly speaking a misnomer. Those are color encoding systems, a=
-nd your
-> >>> patchset fully supports lesser used, but standard encodings for those=
- (e.g.
-> >>> PAL-M for 60Hz and SECAM for 50Hz). I'd propose switching to some mor=
-e neutral
-> >>> naming scheme. Some ideas:
-> >>>
-> >>> - DRM_MODE_ANALOG_60_HZ / DRM_MODE_ANALOG_50_HZ (after standard refre=
-sh rate)
-> >>> - DRM_MODE_ANALOG_525_LINES / DRM_MODE_ANALOG_625_LINES (after standa=
-rd line
-> >>>=A0=A0 count)
-> >>
-> >> IMHO these are bad names, as e.g. VGA640x480@60 is also analog, using
-> >> 60 Hz and 525 lines.=A0 Add "TV" to the name?
-> >>
-> >>> - DRM_MODE_ANALOG_JM / DRM_MODE_ANALOG_BDGHIKLN (after corresponding =
-ITU System
-> >>>=A0=A0 Letter Designations)
-> >>
-> >> Or DRM_MODE_ITU_*?
-> >> But given the long list of letters, this looks fragile to me.
-> >
-> > Does it matter at all? It's an internal API that isn't exposed at all.
-> > I'd rather have a common name that everyone can understand in this case
-> > rather than a *perfect* name where most will scratch their head
-> > wondering what it's about.
->=20
-> You may have a point. But in that case, maybe it'd make sense to at least=
- add
-> a short comment explaining what do you mean by "NTSC" and "PAL" in this c=
-ontext?
+> > How do I get a struct page * for a 4k BAR in vfio?
+>
+> I guess we have different definitions of small then :)
+>
+> But unless my understanding of the code is out out of data,
+> memremap_pages just requires the (virtual) start address to be 2MB
+> aligned, not the size.  Adding Dan for comments.
+>
+> That being said, what is the point of mapping say a 4k BAR for p2p?
+> You're not going to save a measurable amount of CPU overhead if that
+> is the only place you transfer to.
+I don't know what Jason had in mind, but I can see a use for that for
+writing to doorbells of a device.
+Today, usually what happens is that peer A reads/writes to peer B's
+memory through the large bar and then signals the host the operation
+was completed.
+Then the host s/w writes to the doorbell of the peer B to let him know
+he can continue with the execution as the data is now ready (or can be
+recycled).
+I can imagine peer A writing directly to the doorbell of peer B, and
+usually for that we would like to expose a very small area, probably a
+single 4K page.
 
-Consider it done :)
-
-Maxime
-
---nnvo5o5a2xq4dkin
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxis7QAKCRDj7w1vZxhR
-xTvFAP9Y3LOGR153AWzkGlQJzp68VIaTnrTJdhwA2F1nff9iPAEA5bUMZNpshaSy
-QX+PeKcbA3F+gDjgQKft9KnC247cTgA=
-=3r/y
------END PGP SIGNATURE-----
-
---nnvo5o5a2xq4dkin--
+Oded
