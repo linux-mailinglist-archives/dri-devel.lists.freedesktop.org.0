@@ -2,15 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C185AFF4A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 10:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262885AFF4E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 10:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5554710E474;
-	Wed,  7 Sep 2022 08:39:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAFB110E449;
+	Wed,  7 Sep 2022 08:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4AE89209
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABEDA10E439
  for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 08:38:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,23 +18,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Pc7pEtDwcYVFEJuYVAoJKQqwwvMB2B5UCnI1TfHlPOE=; b=zL9qqgeZWf6Nqv6CZ/aMWTXvKB
- 4HooJoxEcEwGEsPYD7pZCYg6oaP5N4brSdOTniISEn6369Xt3IZ0w+j71rBXMj8ksoMF+3ZFjKcnd
- GEp5e05VxK3CV2GHYPIr4qIPYuZ6gRz0MXCBybmOzcNJwd8syE5bHm9zbBtDA/toUnxgYWptUdbZv
- SQpVbBozbu7oA65HYs9cM7rNYqLbeIZeaOv6Zk6TGnLJ4yjFD+Tpi6nAlBjynHcZ2AgLVR/+lLaMH
- 67Mx2iwdKzKma5XPvTdf5Lj/5FQplibN77wq3lKWfUkjdVz/gFcAFZW2y+xR8qmBquvyORMpLDp0r
- KjIwPfwA==;
+ bh=jT5frHWY7B4ZP0qjbeH6vHceIPefnvxkWx2UzO9y614=; b=wKlwfxI+L4wmXntS/OJCKmxYwk
+ rj86Wn031mmAAmDRNTFMnTjsbhXIJRY6sw0z9/ZOVPk1eOy+4PlsOG2ZiIEo9dp3ibYU0CxYVb679
+ Ph5hfDKNVxrBPc17oxaPTq18VjMj6Wi5lOHa0XfNOWh8YBNvyLWKsZGKTjvDC7ov2yD0QFSl/fF6w
+ gZKzw0gJDGO59I6K81Jb3KBkLNZ/O2giCuSGjdxs91CjnKiEhADuYXViz/SXBIfHl8zDZp4gxf3oZ
+ rV9R0usxqfZ8mygKbiMf6AczkYFTEHryIQS3Zuw/Ut/LxSf29FvXLQlrNRbym/yz00/yw65B/2GAG
+ 9muJYNwQ==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1oVqaE-00DbXj-UX; Wed, 07 Sep 2022 11:38:54 +0300
+ id 1oVqaF-00DbXj-55; Wed, 07 Sep 2022 11:38:55 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 2/3] dt-bindings: Add Host1x context stream IDs on Tegra234
-Date: Wed,  7 Sep 2022 11:38:43 +0300
-Message-Id: <20220907083844.2486805-3-cyndis@kapsi.fi>
+Subject: [PATCH 3/3] arm64: tegra: Add context isolation domains on Tegra234
+Date: Wed,  7 Sep 2022 11:38:44 +0300
+Message-Id: <20220907083844.2486805-4-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220907083844.2486805-1-cyndis@kapsi.fi>
 References: <20220907083844.2486805-1-cyndis@kapsi.fi>
@@ -62,37 +62,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Add defines for stream IDs used for Host1x context isolation
-on Tegra234. The same stream IDs are used for both NISO0 and
-NISO1 SMMUs since Host1x's stream ID protection tables don't
-make a distinction between the two.
+Add Host1x context isolation domains on Tegra234. On Tegra234 we have
+two IOMMUs that are connected to Host1x-channel programmed engines,
+so we have to include domains for each of them.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- include/dt-bindings/memory/tegra234-mc.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/include/dt-bindings/memory/tegra234-mc.h b/include/dt-bindings/memory/tegra234-mc.h
-index 75f0bd30d365..d9b21b64ed73 100644
---- a/include/dt-bindings/memory/tegra234-mc.h
-+++ b/include/dt-bindings/memory/tegra234-mc.h
-@@ -35,6 +35,16 @@
- #define TEGRA234_SID_NVDEC	0x29
- #define TEGRA234_SID_VIC	0x34
+diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+index 65d49b27bc5f..d764bd98433a 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+@@ -570,6 +570,25 @@ host1x@13e00000 {
+ 			interconnect-names = "dma-mem";
+ 			iommus = <&smmu_niso1 TEGRA234_SID_HOST1X>;
  
-+/* Shared stream IDs */
-+#define TEGRA234_SID_HOST1X_CTX0	0x35
-+#define TEGRA234_SID_HOST1X_CTX1	0x36
-+#define TEGRA234_SID_HOST1X_CTX2	0x37
-+#define TEGRA234_SID_HOST1X_CTX3	0x38
-+#define TEGRA234_SID_HOST1X_CTX4	0x39
-+#define TEGRA234_SID_HOST1X_CTX5	0x3a
-+#define TEGRA234_SID_HOST1X_CTX6	0x3b
-+#define TEGRA234_SID_HOST1X_CTX7	0x3c
++			/* Context isolation domains */
++			iommu-map = <
++				0 &smmu_niso0 TEGRA234_SID_HOST1X_CTX0 1
++				1 &smmu_niso0 TEGRA234_SID_HOST1X_CTX1 1
++				2 &smmu_niso0 TEGRA234_SID_HOST1X_CTX2 1
++				3 &smmu_niso0 TEGRA234_SID_HOST1X_CTX3 1
++				4 &smmu_niso0 TEGRA234_SID_HOST1X_CTX4 1
++				5 &smmu_niso0 TEGRA234_SID_HOST1X_CTX5 1
++				6 &smmu_niso0 TEGRA234_SID_HOST1X_CTX6 1
++				7 &smmu_niso0 TEGRA234_SID_HOST1X_CTX7 1
++				8 &smmu_niso1 TEGRA234_SID_HOST1X_CTX0 1
++				9 &smmu_niso1 TEGRA234_SID_HOST1X_CTX1 1
++				10 &smmu_niso1 TEGRA234_SID_HOST1X_CTX2 1
++				11 &smmu_niso1 TEGRA234_SID_HOST1X_CTX3 1
++				12 &smmu_niso1 TEGRA234_SID_HOST1X_CTX4 1
++				13 &smmu_niso1 TEGRA234_SID_HOST1X_CTX5 1
++				14 &smmu_niso1 TEGRA234_SID_HOST1X_CTX6 1
++				15 &smmu_niso1 TEGRA234_SID_HOST1X_CTX7 1>;
 +
- /*
-  * memory client IDs
-  */
+ 			vic@15340000 {
+ 				compatible = "nvidia,tegra234-vic";
+ 				reg = <0x15340000 0x00040000>;
 -- 
 2.37.0
 
