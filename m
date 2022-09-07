@@ -1,57 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171015B0DA4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 22:00:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDAB5B0DBE
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 22:06:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA5D10E867;
-	Wed,  7 Sep 2022 20:00:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3EFE10E866;
+	Wed,  7 Sep 2022 20:05:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
- [209.85.160.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1B2810E868;
- Wed,  7 Sep 2022 20:00:09 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id
- 586e51a60fabf-1278a61bd57so20195580fac.7; 
- Wed, 07 Sep 2022 13:00:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=Ezjz3pR0ZD7JxS32x6H4PWVYd4DbErGzq0myuVFhl7k=;
- b=4Flc37EN2dgzeS0e/kIVEoz74djBk+uqpkKdr6QKcSYYjhkweSFX/eOKqyMS6gsnQr
- ka5mG+Vwdr525FRrOH9XV4L0VLK+mtKpbvPZ8LjafTbIvFfbYckE2Cpc1zauDKwHmj7Y
- g6O8zvGlCRQXBDNrU8KNygy/Z3wAMio/4u8ydpU6SN9dfqjv/qFyFDd7VjgQpF8+HSVq
- +tAp62eMIAAfIePoSdgUF9WNhgIjmHIel3ENZWENqEDdGhfdLyDKClxgDDV96+WvqLgK
- hHdLNHigWxZEqdYGiwnjC4pmyXED+hAQSMedywDCOAdELT+il/16QWgWe44Q/oeSZpZ1
- E+Pg==
-X-Gm-Message-State: ACgBeo2+OjkfqXED7SQAorqwXr9H0DdT8bKSC5Zr6dhAcDHn3hz5PoSu
- SWYgxS/TnQ9A+0m57n72bw==
-X-Google-Smtp-Source: AA6agR6mtZOVx+jt1TqJIGzVJ9zUjh/ebkpMh6FfEDDo2YrBSHibeAEp46mZ6ufVap+F8l2EmOwnIw==
-X-Received: by 2002:aca:2810:0:b0:344:e898:35aa with SMTP id
- 16-20020aca2810000000b00344e89835aamr44380oix.279.1662580808956; 
- Wed, 07 Sep 2022 13:00:08 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- o84-20020acaf057000000b0034484c532c7sm6821240oih.32.2022.09.07.13.00.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Sep 2022 13:00:08 -0700 (PDT)
-Received: (nullmailer pid 113022 invoked by uid 1000);
- Wed, 07 Sep 2022 20:00:07 -0000
-Date: Wed, 7 Sep 2022 15:00:07 -0500
-From: Rob Herring <robh@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v6 04/12] dt-bindings: display/msm: move common DPU
- properties to dpu-common.yaml
-Message-ID: <20220907200007.GB98468-robh@kernel.org>
-References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
- <20220901102312.2005553-5-dmitry.baryshkov@linaro.org>
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04A0F10E866
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 20:05:42 +0000 (UTC)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4MNCtF70mVz9sdZ;
+ Wed,  7 Sep 2022 20:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1662581142; bh=cQj2iyDMliA/bCXjKY1ERkLILYcbmwXjdapERd70sJw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=IVYuHBPOotuFsRzV32LbQk59Nc2o4WCdJfrgxVk5bMUHzU8Bw4h/w0fHqaORrX2nS
+ cNHd0VjAIj5bxXkUcRsQSwFW/vm3d/lt0C+0dtzTqNuHaCXlQu6npq+Vfq3D9g+lsZ
+ MWe5R0L7WgitZAZIRoKN6SikWSw9GVfVd+r/v2GA=
+X-Riseup-User-ID: 1C140A385A49F8B23FC455DD0D05073008D1958C1D7500AFA0B2AB16478369AB
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4MNCt66jTPz5vh4;
+ Wed,  7 Sep 2022 20:05:34 +0000 (UTC)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To: Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
+ tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
+ siqueirajordao@riseup.net, Trevor Woerner <twoerner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ David Gow <davidgow@google.com>, brendanhiggins@google.com,
+ Arthur Grillo <arthur.grillo@usp.br>, michal.winiarski@intel.com,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH v3 1/2] drm/tests: Split drm_framebuffer_create_test into
+ parameterized tests
+Date: Wed,  7 Sep 2022 17:02:46 -0300
+Message-Id: <20220907200247.89679-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220901102312.2005553-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,49 +59,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 01, 2022 at 01:23:04PM +0300, Dmitry Baryshkov wrote:
-> Move properties common to all DPU DT nodes to the dpu-common.yaml.
-> 
-> Note, this removes description of individual DPU port@ nodes. However
-> such definitions add no additional value. The reg values do not
-> correspond to hardware INTF indices. The driver discovers and binds
-> these ports not paying any care for the order of these items. Thus just
-> leave the reference to graph.yaml#/properties/ports and the description.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  .../bindings/display/msm/dpu-common.yaml      | 44 ++++++++++++++++++
->  .../bindings/display/msm/dpu-msm8998.yaml     | 46 ++-----------------
->  .../bindings/display/msm/dpu-qcm2290.yaml     | 41 ++---------------
->  .../bindings/display/msm/dpu-sc7180.yaml      | 45 ++----------------
->  .../bindings/display/msm/dpu-sc7280.yaml      | 45 ++----------------
->  .../bindings/display/msm/dpu-sdm845.yaml      | 46 ++-----------------
->  6 files changed, 64 insertions(+), 203 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-common.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-common.yaml b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
-> new file mode 100644
-> index 000000000000..bf5764e9932b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
-> @@ -0,0 +1,44 @@
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/msm/dpu-common.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm Display DPU dt properties (common properties)
+The igt_check_drm_framebuffer_create is based on a loop that executes
+tests for all createbuffer_tests test cases. This could be better
+represented by parameterized tests, provided by KUnit.
 
-Qualcomm Display DPU common properties
+So, convert the igt_check_drm_framebuffer_create into parameterized tests.
+
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+Reviewed-by: Michał Winiarski <michal.winiarski@intel.com>
+Reviewed-by: David Gow <davidgow@google.com>
+---
+v1 -> v2: https://lore.kernel.org/dri-devel/20220830211603.191734-1-mairacanal@riseup.net/
+- Use .init for mock_drm_device instead of a global variable. (Michał Winiarski)
+- Add Michał's Reviewed-by tag.
+
+v2 -> v3: https://lore.kernel.org/dri-devel/20220901124210.591994-1-mairacanal@riseup.net/
+- Add David's Reviewed-by tag.
+---
+ drivers/gpu/drm/tests/drm_framebuffer_test.c | 45 ++++++++++++--------
+ 1 file changed, 27 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+index ec7a08ba4056..6b6f6ff4f591 100644
+--- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
++++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+@@ -25,7 +25,7 @@ struct drm_framebuffer_test {
+ 	const char *name;
+ };
+ 
+-static struct drm_framebuffer_test createbuffer_tests[] = {
++static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
+ { .buffer_created = 1, .name = "ABGR8888 normal sizes",
+ 	.cmd = { .width = 600, .height = 600, .pixel_format = DRM_FORMAT_ABGR8888,
+ 		 .handles = { 1, 0, 0 }, .pitches = { 4 * 600, 0, 0 },
+@@ -330,43 +330,52 @@ static struct drm_mode_config_funcs mock_config_funcs = {
+ 	.fb_create = fb_create_mock,
+ };
+ 
+-static struct drm_device mock_drm_device = {
+-	.mode_config = {
++static int drm_framebuffer_test_init(struct kunit *test)
++{
++	struct drm_device *mock;
++
++	mock = kunit_kzalloc(test, sizeof(*mock), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mock);
++
++	mock->mode_config = (struct drm_mode_config) {
+ 		.min_width = MIN_WIDTH,
+ 		.max_width = MAX_WIDTH,
+ 		.min_height = MIN_HEIGHT,
+ 		.max_height = MAX_HEIGHT,
+ 		.funcs = &mock_config_funcs,
+-	},
+-};
++	};
+ 
+-static int execute_drm_mode_fb_cmd2(struct drm_mode_fb_cmd2 *r)
++	test->priv = mock;
++	return 0;
++}
++
++static void drm_test_framebuffer_create(struct kunit *test)
+ {
++	const struct drm_framebuffer_test *params = test->param_value;
++	struct drm_device *mock = test->priv;
+ 	int buffer_created = 0;
+ 
+-	mock_drm_device.dev_private = &buffer_created;
+-	drm_internal_framebuffer_create(&mock_drm_device, r, NULL);
+-	return buffer_created;
++	mock->dev_private = &buffer_created;
++	drm_internal_framebuffer_create(mock, &params->cmd, NULL);
++	KUNIT_EXPECT_EQ(test, params->buffer_created, buffer_created);
+ }
+ 
+-static void igt_check_drm_framebuffer_create(struct kunit *test)
++static void drm_framebuffer_test_to_desc(const struct drm_framebuffer_test *t, char *desc)
+ {
+-	int i = 0;
+-
+-	for (i = 0; i < ARRAY_SIZE(createbuffer_tests); i++) {
+-		KUNIT_EXPECT_EQ_MSG(test, createbuffer_tests[i].buffer_created,
+-				    execute_drm_mode_fb_cmd2(&createbuffer_tests[i].cmd),
+-		     "Test %d: \"%s\" failed\n", i, createbuffer_tests[i].name);
+-	}
++	strcpy(desc, t->name);
+ }
+ 
++KUNIT_ARRAY_PARAM(drm_framebuffer_create, drm_framebuffer_create_cases,
++		  drm_framebuffer_test_to_desc);
++
+ static struct kunit_case drm_framebuffer_tests[] = {
+-	KUNIT_CASE(igt_check_drm_framebuffer_create),
++	KUNIT_CASE_PARAM(drm_test_framebuffer_create, drm_framebuffer_create_gen_params),
+ 	{ }
+ };
+ 
+ static struct kunit_suite drm_framebuffer_test_suite = {
+ 	.name = "drm_framebuffer",
++	.init = drm_framebuffer_test_init,
+ 	.test_cases = drm_framebuffer_tests,
+ };
+ 
+-- 
+2.37.3
+
