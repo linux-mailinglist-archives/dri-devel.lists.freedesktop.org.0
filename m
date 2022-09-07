@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983065B0EFD
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 23:13:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B69A25B0F13
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 23:25:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6497010E898;
-	Wed,  7 Sep 2022 21:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B18510E8C6;
+	Wed,  7 Sep 2022 21:25:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0366210E897
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 21:13:21 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id p200so4392550yba.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 14:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=SJK16+uU9VJEIIC+Fyc2hg8dmVOoE7V69f5hgdf9kE4=;
- b=NtUZNHRVtILcxEdJzyYbhvTu6lkoDxvevKubhxPvpMJQ5Vbr3WMJuP7FFobpT02O0u
- SDNwi16ddRmxLfus5OBbt6+v5zo0WzHcsth9Ex+vvikfTuy+Fu7U0iL5lNUqpCj+Cx9z
- O4VbyF26LMWpSts+MvoivoU1S/Cu4FM0+0PiuCIHEYvtKItK33oIgnhxKRiaBH9cgfg9
- bWNY49JYQrY1tk9cqtkc353I/B453F9ZHQxzXXJqdqU+P82wWFMqEIsLOW1bZJISOqdx
- lWant4c+E3rY4RaWCYU4379LT/JW+TgvBt4b++23ByoeAtAaSv95WCUYM5zUsCghKcwC
- zrKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=SJK16+uU9VJEIIC+Fyc2hg8dmVOoE7V69f5hgdf9kE4=;
- b=xIDNJnIYPL+ZUzUIQfTicyt/GzWYYc6RI0/ie638vBOhLIk2B7WRGk4LQhCL12USfb
- qFteWCVqxSabsZnVF99DIkZEQV+VyFNsdP69OkjnUt5uLquGHTBBxgtK3dPZgtw9m+PU
- AqYxRKI/XF3L6ZZ0UEUbQNEduQlpDv67myS85+CJiwD8wyTuWY05S4lwu5VT/Coj3/LQ
- tnheLiwipYbMP4X5HdWxBYrFgRhsTheQn5fOkmP/ByiiYlD0lnyK5JN6ylWydqqLNJTM
- lPqqQ7c8Qv5+P6cH+OKHijC/OmnfKZ8zo1op1USig6i0qLEKON9cTHPK6/jXEGX4Ssr7
- RRnw==
-X-Gm-Message-State: ACgBeo1xxVndx4ANnnlEpRHIWzT99rC7paPun+4yJwGZhm3xYmiLu/Uj
- y3e+MaOSAooaq8NTbuAp4BIMBWPGjLLejy84ha5WsA==
-X-Google-Smtp-Source: AA6agR5vM/SputRDG2oAeSWV36MXAxdfUAjvvRWGWx+d7CpyXT+ZZ7ssin5/mMOx6PxOrE0DBqKbbKlAWxXlKNp/TWg=
-X-Received: by 2002:a5b:2ce:0:b0:67a:6054:9eb0 with SMTP id
- h14-20020a5b02ce000000b0067a60549eb0mr4423720ybp.15.1662585201138; Wed, 07
- Sep 2022 14:13:21 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 794FE10E8C6;
+ Wed,  7 Sep 2022 21:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662585915; x=1694121915;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=stjOlK+Zfq9XJOg5EUTTZehZcWwEPk42985eDYvcrvA=;
+ b=dGsIHVN/wAhXoJmwN+2OVidhZwBMsrasPLeIWAqC/ID+SMOQOe7Ehryb
+ sTeM/X3PrNTvX7Slk24E7LFbpqmQ0271zx4t0fOgKLOmGXIvikK57LTn2
+ Hs0dCCPpEa07TATnbBfD2fCDZAmd6Sncn5wOqGM4EnlfNKfw8YcHgZetU
+ 9z+x7u7mOIeZuIdyhGgGki9/FKzmK0ljpecx7FTT5WcPjMt/UAFlyzJgS
+ ZnTFTCQqOnLwuelqZVOy2h7BzBS0mtBa+RiK0BOIQn2NQAJSV+ynJdGux
+ lRiQGMqIJOspinYk9RcRK8AbR7yK/OYojnEDiQ7bStXsnSgExgK759z/O g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10463"; a="360965313"
+X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; d="scan'208";a="360965313"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2022 14:25:14 -0700
+X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; d="scan'208";a="565682743"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2022 14:25:14 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Document and future-proof preemption control policy
+Date: Wed,  7 Sep 2022 14:24:10 -0700
+Message-Id: <20220907212410.22623-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
- <20220901102312.2005553-5-dmitry.baryshkov@linaro.org>
- <20220907195904.GA98468-robh@kernel.org>
-In-Reply-To: <20220907195904.GA98468-robh@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 8 Sep 2022 00:13:10 +0300
-Message-ID: <CAA8EJpoJk-_LC25uyqkQ0Q8CYziNuU8nSnExm40542xZcvcbxQ@mail.gmail.com>
-Subject: Re: [PATCH v6 04/12] dt-bindings: display/msm: move common DPU
- properties to dpu-common.yaml
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,126 +53,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Jordan Justen <jordan.l.justen@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 7 Sept 2022 at 22:59, Rob Herring <robh@kernel.org> wrote:
->
-> On Thu, Sep 01, 2022 at 01:23:04PM +0300, Dmitry Baryshkov wrote:
-> > Move properties common to all DPU DT nodes to the dpu-common.yaml.
-> >
-> > Note, this removes description of individual DPU port@ nodes. However
-> > such definitions add no additional value. The reg values do not
-> > correspond to hardware INTF indices. The driver discovers and binds
-> > these ports not paying any care for the order of these items. Thus just
-> > leave the reference to graph.yaml#/properties/ports and the description.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  .../bindings/display/msm/dpu-common.yaml      | 44 ++++++++++++++++++
-> >  .../bindings/display/msm/dpu-msm8998.yaml     | 46 ++-----------------
-> >  .../bindings/display/msm/dpu-qcm2290.yaml     | 41 ++---------------
-> >  .../bindings/display/msm/dpu-sc7180.yaml      | 45 ++----------------
-> >  .../bindings/display/msm/dpu-sc7280.yaml      | 45 ++----------------
-> >  .../bindings/display/msm/dpu-sdm845.yaml      | 46 ++-----------------
-> >  6 files changed, 64 insertions(+), 203 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-common.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/msm/dpu-common.yaml b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
-> > new file mode 100644
-> > index 000000000000..bf5764e9932b
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
-> > @@ -0,0 +1,44 @@
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/msm/dpu-common.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Qualcomm Display DPU dt properties (common properties)
-> > +
-> > +maintainers:
-> > +  - Krishna Manikandan <quic_mkrishn@quicinc.com>
-> > +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > +  - Rob Clark <robdclark@gmail.com>
-> > +
-> > +description: |
-> > +  Common properties for QCom DPU display controller.
-> > +
-> > +properties:
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  operating-points-v2: true
-> > +  opp-table:
-> > +    type: object
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +    description: |
-> > +      Contains the list of output ports from DPU device. These ports
-> > +      connect to interfaces that are external to the DPU hardware,
-> > +      such as DSI, DP etc.
->
-> Haven't we been over this already?
->
-> You have to define 'port' nodes or else anything is allowed in them
-> (and endpoint nodes). If you want to define them as pattern, then fine.
-> But you must have a ref to graph.yaml#/properties/port.
+Intel hardware allows some preemption settings to be controlled either
+by the kernel-mode driver exclusively, or placed under control of the
+user-mode drivers; on Linux we always select the userspace control
+option.  The various registers involved in this are not documented very
+clearly; let's add some clarifying comments to help explain how this all
+works and provide some history on why our Linux drivers take the
+approach they do (which I believe differs from the path taken by certain
+other operating systems' drivers).
 
-Last time you asked to do this, I did a check. Adding any additional
-property results in a schema error. And this is logical.
-graph.yaml#/properties/ports already limits the node properties. I
-thus do not see a need to define port@[0-9a-f]+$. Did I miss anything?
+While we're at it, let's also remove the graphics version 12 upper bound
+on this programming.  As described, we don't have any plans to move away
+from UMD control of preemption settings on future platforms, and there's
+currently no reason to believe that the hardware will fundamentally
+change how these registers and settings work after version 12.
 
->
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - reg-names
-> > +  - clocks
-> > +  - interrupts
-> > +  - power-domains
-> > +  - operating-points-v2
-> > +  - ports
-> > +
-> > +additionalProperties: true
-> > diff --git a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
-> > index 253665c693e6..0d6743eabd27 100644
-> > --- a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
-> > +++ b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
-> > @@ -62,7 +62,10 @@ patternProperties:
-> >    "^display-controller@[0-9a-f]+$":
-> >      type: object
-> >      description: Node containing the properties of DPU.
-> > -    additionalProperties: false
-> > +    unevaluatedProperties: false
-> > +
-> > +    allOf:
-> > +      - $ref: /schemas/display/msm/dpu-common.yaml#
->
-> Don't need allOf here. (and elsewhere)
+Bspec: 45921, 45858, 45863
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Jordan Justen <jordan.l.justen@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 58 +++++++++++++++++++--
+ 1 file changed, 55 insertions(+), 3 deletions(-)
 
-Ack
-
->
-> Rob
-
-
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 6d2003d598e6..3e5a41378e81 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -2389,12 +2389,64 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 			     FF_DOP_CLOCK_GATE_DISABLE);
+ 	}
+ 
+-	if (IS_GRAPHICS_VER(i915, 9, 12)) {
+-		/* FtrPerCtxtPreemptionGranularityControl:skl,bxt,kbl,cfl,cnl,icl,tgl */
++	/*
++	 * Intel platforms that support fine-grained preemption (i.e., gen9 and
++	 * beyond) allow the kernel-mode driver to choose between two different
++	 * options for controlling preemption granularity and behavior.
++	 *
++	 * Option 1 (hardware default):
++	 *   Preemption settings are controlled in a global manner via
++	 *   kernel-only register CS_DEBUG_MODE1 (0x20EC).  Any granularity
++	 *   and settings chosen by the kernel-mode driver will apply to all
++	 *   userspace clients.
++	 *
++	 * Option 2:
++	 *   Preemption settings are controlled on a per-context basis via
++	 *   register CS_CHICKEN1 (0x2580).  CS_CHICKEN1 is saved/restored on
++	 *   context switch and is writable by userspace (e.g., via
++	 *   MI_LOAD_REGISTER_IMMEDIATE instructions placed in a batch buffer)
++	 *   which allows different userspace drivers/clients to select
++	 *   different settings, or to change those settings on the fly in
++	 *   response to runtime needs.  This option was known by name
++	 *   "FtrPerCtxtPreemptionGranularityControl" at one time, although
++	 *   that name is somewhat misleading as other non-granularity
++	 *   preemption settings are also impacted by this decision.
++	 *
++	 * On Linux, our policy has always been to let userspace drivers
++	 * control preemption granularity/settings (Option 2).  This was
++	 * originally mandatory on gen9 to prevent ABI breakage (old gen9
++	 * userspace developed before object-level preemption was enabled would
++	 * not behave well if i915 were to go with Option 1 and enable that
++	 * preemption in a global manner).  On gen9 each context would have
++	 * object-level preemption disabled by default (see
++	 * WaDisable3DMidCmdPreemption in gen9_ctx_workarounds_init), but
++	 * userspace drivers could opt-in to object-level preemption as they
++	 * saw fit.  For post-gen9 platforms, we continue to utilize Option 2;
++	 * even though it is no longer necessary for ABI compatibility when
++	 * enabling a new platform, it does ensure that userspace will be able
++	 * to implement any workarounds that show up requiring temporary
++	 * adjustments to preemption behavior at runtime.
++	 *
++	 * Notes/Workarounds:
++	 *  - Wa_14015141709:  On DG2 and early steppings of MTL,
++	 *      CS_CHICKEN1[0] does not disable object-level preemption as
++	 *      it is supposed to (nor does CS_DEBUG_MODE1[0] if we had been
++	 *      using Option 1).  Effectively this means userspace is unable
++	 *      to disable object-level preemption on these platforms/steppings
++	 *      despite the setting here.
++	 *
++	 *  - Wa_16013994831:  May require that userspace program
++	 *      CS_CHICKEN1[10] when certain runtime conditions are true.
++	 *      Userspace requires Option 2 to be in effect for their update of
++	 *      CS_CHICKEN1[10] to be effective.
++	 *
++	 * Other workarounds may appear in the future that will also require
++	 * Option 2 behavior to allow proper userspace implementation.
++	 */
++	if (GRAPHICS_VER(i915) >= 9)
+ 		wa_masked_en(wal,
+ 			     GEN7_FF_SLICE_CS_CHICKEN1,
+ 			     GEN9_FFSC_PERCTX_PREEMPT_CTRL);
+-	}
+ 
+ 	if (IS_SKYLAKE(i915) ||
+ 	    IS_KABYLAKE(i915) ||
 -- 
-With best wishes
-Dmitry
+2.37.2
+
