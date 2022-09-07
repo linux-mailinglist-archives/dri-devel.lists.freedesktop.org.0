@@ -1,57 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8035B0DAF
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 22:03:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB8E5B0DC3
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 22:08:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0255810E861;
-	Wed,  7 Sep 2022 20:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8065C10E864;
+	Wed,  7 Sep 2022 20:08:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A39810E861;
- Wed,  7 Sep 2022 20:03:37 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id
- m21-20020a9d6ad5000000b00638df677850so10997279otq.5; 
- Wed, 07 Sep 2022 13:03:37 -0700 (PDT)
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6893610E864
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Sep 2022 20:08:05 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id b136so2484310yba.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 13:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=76Ee32nm+xTMs5kfzOUpRMin+LosPvvaUUyBZQVbfSI=;
+ b=LVnDj6WocuThO0kgaYyOzA45PKsY6OTWEl6n0gZBNQdgMRJt9CrelX7gVqXLWMB1Zu
+ 4aeGdqeiNeV499Ja5nTWEKls8edO/cXhuisCzNXaMGNaLLiQ7A5s7A+h59bQqyxHALPo
+ 3cKkijg/UawHMRKRHsso7ergQwKkPnj1O/T5xn894n2CqfKAAxL1V/eYk6nOKe+wcawM
+ esN+VJICP4LxoVGd1pccpIUnB9smEpXDDbO2VpRAu6WqsC6E49Iya9Hle5yaV8G2uF94
+ 5peLBwlhkRXDy+pRh6qMCvw73W9dNX5OU704kWu32CXGKuUZQLrLr0qIqIjGLV+a4d0J
+ KRtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=HJtpL2X+zo8QGiAz4xLcd6dnwWmk0PxaqMgysL3AVC8=;
- b=10AcWhjBmgmP0ZnxUQsbXXaXvqQnQ/j1McXorfyiH6nLbad3VbXfU/D3EZZCV1LFUp
- 8VOlNWMNpB/Fil2B+eO7YjddxdW3jqqvtuiwXYN+B3OTqPi0KYWqwwVfVNTTBk8cbcfk
- +Tka1HC7v7qRqs8xPP7JjykB9Y9LMHAMapQaZT2ioG9Ue+T2TEdg4hHNoR+nnmRYB19m
- FIzXzAIDYSMzHLXS/+LiXwzCeKyUuEfdF4To1yZQ4WCAGuMOVzVzXrrYOvDyv0Uycix5
- 6AR6xZDzzNqsjTCxgUQy6G27IBIT1MhpwAs27UGWJjc3YzykQUAyJZ5XvoFcA8P0/mcw
- 8Ytg==
-X-Gm-Message-State: ACgBeo0cYpsMo4SFCVX+TTJJiLmR81lzvIC+qUCPtM/sY4r/Dqq13Z3+
- M57+xtUbFAdHX42Bjc9NLA==
-X-Google-Smtp-Source: AA6agR7IyMO/AfcshwHGYC1fPOTTYCdaa/6reZ0Ew4AMdBfoMVEEfqKL5j7akmLaX8uKO+dYpP2hag==
-X-Received: by 2002:a9d:6b15:0:b0:636:deac:5288 with SMTP id
- g21-20020a9d6b15000000b00636deac5288mr2156093otp.236.1662581016595; 
- Wed, 07 Sep 2022 13:03:36 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- z125-20020aca3383000000b00326cb6225f8sm6786337oiz.44.2022.09.07.13.03.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Sep 2022 13:03:36 -0700 (PDT)
-Received: (nullmailer pid 118890 invoked by uid 1000);
- Wed, 07 Sep 2022 20:03:35 -0000
-Date: Wed, 7 Sep 2022 15:03:35 -0500
-From: Rob Herring <robh@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v6 05/12] dt-bindings: display/msm: move common MDSS
- properties to mdss-common.yaml
-Message-ID: <20220907200335.GA113284-robh@kernel.org>
-References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
- <20220901102312.2005553-6-dmitry.baryshkov@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=76Ee32nm+xTMs5kfzOUpRMin+LosPvvaUUyBZQVbfSI=;
+ b=3jVNVenXfA/1nUB6d41XyJlS87rONEGa5WS2vnSeGcwtEj8owPKWJcFRz7dMrhot9f
+ D3pg4N7/bT9jJvaAsP0rXwH84E4zYt+R1U3l992J5NaTZb3EORR+GgHBrVbYIbbFEDbc
+ z1MsaaMZ3h66+UIWActZZhQNy00YmHlvF6c01THtqqHGFOOztEHZXeexMZ0URzToB11p
+ 4HW/Zv7XW2Y5E/yIfGqZ7XF33c0q6i/uAKDlRqgwCdNtc7QJ9weW0uqj6W7oVdPHX28B
+ 9cvodE+tSk8fTio33dCQNg6GX5JVWr73J9NkAPW1Sqap/Ns1CocGBHrD3ZDHFndZkN8Y
+ R5RA==
+X-Gm-Message-State: ACgBeo1rbqYpjcys9Dr8oqoKA4jIDqhlCn9RGMk3hEAC6l1HHIez0f9c
+ 989gXp24rFQ5btuysk6pvlvOyFqEn1ONR8EfTH0=
+X-Google-Smtp-Source: AA6agR6eJ2EnWBxsJPHnPXzCDJVQr335pc3iUxnXF3GY7dsWOsxaB0TzMgpZOWbjWc7t58kVq8o/XEKfD/KtEzbGroE=
+X-Received: by 2002:a05:6902:38a:b0:670:aa12:8908 with SMTP id
+ f10-20020a056902038a00b00670aa128908mr4255200ybs.446.1662581284544; Wed, 07
+ Sep 2022 13:08:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220901102312.2005553-6-dmitry.baryshkov@linaro.org>
+References: <YxducgSzR6/zyHD7@debian>
+ <CADVatmNfc1YT02v5-FaMoGN==MOx5ZJ=o8YMQAH19Gvf91betA@mail.gmail.com>
+ <20220907170451.efhz62nkxybqxtaa@mail.igalia.com>
+ <CADVatmNodAV4PB5jjARnowu=VGbgMWgBYDWPuwJe-f1WFaS8ow@mail.gmail.com>
+ <20220907192250.jfkpwaq54f2h7stf@mail.igalia.com>
+In-Reply-To: <20220907192250.jfkpwaq54f2h7stf@mail.igalia.com>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Wed, 7 Sep 2022 21:07:28 +0100
+Message-ID: <CADVatmN2u4RB2tamaJ8qc+Vj3A4Lk9py-4fVVMNOBxz07Zjv-g@mail.gmail.com>
+Subject: Re: build failure of next-20220906 due to 396369d67549 ("drm: vkms:
+ Add support to the RGB565 format")
+To: Melissa Wen <mwen@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,136 +68,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <melissa.srw@gmail.com>, linux-next <linux-next@vger.kernel.org>,
+ Igor Torrente <igormtorrente@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 01, 2022 at 01:23:05PM +0300, Dmitry Baryshkov wrote:
-> Move properties common to all MDSS DT nodes to the mdss-common.yaml.
-> 
-> This extends qcom,msm8998-mdss schema to allow interconnect nodes, which
-> will be added later, once msm8998 gains interconnect support.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  .../bindings/display/msm/dpu-msm8998.yaml     | 42 ++--------
->  .../bindings/display/msm/dpu-qcm2290.yaml     | 52 ++----------
->  .../bindings/display/msm/dpu-sc7180.yaml      | 51 ++----------
->  .../bindings/display/msm/dpu-sc7280.yaml      | 51 ++----------
->  .../bindings/display/msm/dpu-sdm845.yaml      | 55 ++----------
->  .../bindings/display/msm/mdss-common.yaml     | 83 +++++++++++++++++++
->  6 files changed, 116 insertions(+), 218 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+On Wed, Sep 7, 2022 at 8:23 PM Melissa Wen <mwen@igalia.com> wrote:
+>
+> On 09/07, Sudip Mukherjee wrote:
+> > Hi Melissa,
+> >
+> > On Wed, Sep 7, 2022 at 6:05 PM Melissa Wen <mwen@igalia.com> wrote:
+> > >
+> > > On 09/06, Sudip Mukherjee wrote:
+> > > > On Tue, Sep 6, 2022 at 4:59 PM Sudip Mukherjee (Codethink)
+> > > > <sudipm.mukherjee@gmail.com> wrote:
+> > > > >
+> > > > > Hi All,
+> > > > >
+> > > > > The builds of next-20220906 fails for mips, xtensa and arm allmodconfig.
+> > > > >
+> > > > > The errors in mips and xtensa are:
+> > > > >
+> > > > > ERROR: modpost: "__divdi3" [drivers/gpu/drm/vkms/vkms.ko] undefined!
+> > > > > ERROR: modpost: "__udivdi3" [drivers/gpu/drm/vkms/vkms.ko] undefined!
+> > > > >
+> > > > > The error in arm is:
+> > > > >
+> > > > > ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/vkms/vkms.ko] undefined!
+> > > > > ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/vkms/vkms.ko] undefined!
+> > > > >
+> > > > >
+> > > > > Trying to do a git bisect to find out the offending commit.
+> > > >
+> > > > git bisect points to 396369d67549 ("drm: vkms: Add support to the
+> > > > RGB565 format")
+> > >
+> > > Hi Sudip,
+> > >
+> > > Thanks for pointing out this issue.
+> > >
+> > > I think we can replace the macros that are triggering those compilation
+> > > error by functions in drm/drm_fixed.h that do the same calculation.
+> > >
+> > > I checked those errors when building for arm and i386 and the issues are
+> > > fixed after applying the patch below. I appreciate if you can test.
+> >
+> > Sorry, could not test as the downloaded mbox is saying patch is
+> > corrupted and could not be applied. Can you please attach the patch or
+> > maybe send using git send-email.
+>
+> Sorry, my bad. It's attached. Let me know if goes smoothly.
 
-[...]
+Thanks. That was perfect.
+And with that I can confirm I don't see the failure on mips and arm.
+Not tested on xtensa but should be fixed there also.
 
-> diff --git a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-> new file mode 100644
-> index 000000000000..053c1e889552
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/msm/mdss-common.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm Display MDSS dt properties (common properties)
+Tested-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 
-...MDSS common properties
 
-> +
-> +maintainers:
-> +  - Krishna Manikandan <quic_mkrishn@quicinc.com>
-> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> +  - Rob Clark <robdclark@gmail.com>
-> +
-> +description: |
-
-Don't need '|' if no formatting.
-
-> +  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
-> +  sub-blocks like DPU display controller, DSI and DP interfaces etc.
-> +
-> +properties:
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reg-names:
-> +    const: mdss
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    minItems: 2
-> +    maxItems: 3
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-controller: true
-> +
-> +  "#address-cells": true
-> +
-> +  "#size-cells": true
-> +
-> +  "#interrupt-cells":
-> +    const: 1
-> +
-> +  iommus:
-> +    minItems: 1
-> +    items:
-> +      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port0
-> +      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port1
-> +
-> +  ranges: true
-> +
-> +  interconnects:
-> +    minItems: 1
-> +    items:
-> +      - description: Interconnect path specifying the port ids for data bus
-> +      - description: Interconnect path specifying the port ids for data bus
-
-Same description twice...
-
-> +
-> +  interconnect-names:
-> +    minItems: 1
-> +    items:
-> +      - const: mdp0-mem
-> +      - const: mdp1-mem
-> +
-> +  resets:
-> +    items:
-> +      - description: MDSS_CORE reset
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - power-domains
-> +  - clocks
-> +  - interrupts
-> +  - interrupt-controller
-> +  - iommus
-> +  - ranges
-> +
-> +additionalProperties: true
-> -- 
-> 2.35.1
-> 
-> 
+-- 
+Regards
+Sudip
