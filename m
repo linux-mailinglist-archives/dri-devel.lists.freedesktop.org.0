@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA6C5B0EB3
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 22:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF8B5B0EB7
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Sep 2022 22:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B9AB10E88D;
-	Wed,  7 Sep 2022 20:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2FB10E894;
+	Wed,  7 Sep 2022 20:57:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2075.outbound.protection.outlook.com [40.107.92.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CFB010E885;
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5996E10E88E;
  Wed,  7 Sep 2022 20:57:33 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CLBA+VoFmpSIevPKR5rQ+A59D3DjOgSG7HmSNS3wQGL00teEJGs0z5s7rBXvCoI7eiNaL3NL4W0Ih/3vKOYUeRId96JjBfnZSdnIfVOgGWpIYX3Lbx+SNR39QM1Hk/l6Aoh3jwnDoiAmMWlfdhYabOfqk7t7XBQuJPRMqk92fXNcZsvIGyyChPqh1EzpWX4azHS9r6h/oM9AgwOtpf/mwhkNeQvzd/xVTMxCIprW0TJZa4vZYWSQngZKjLvg0c2PTIVsEN3WqxiLWWSemkpcabNXJilAQn+AOrGOfJWI3aLobHKK0K4QEXaBPVFD5kmi7nV/nbnx5wUw2ror371pJQ==
+ b=Tlm1XbYRbXp806CtLqgnJeQe9LNGaYf1SI4Rq+yncGqtAzdt2xLdW/cVqyzcaYj1e0x2jsGGOG6PoXeHcHVWvyOig56t8QFg2j+KxtCLTWvFRCfW2p6lZi5R4APkp/R0dlrf4Pqn0nqEcj+sAocs0HhLTXHZW1H8P18mCyxMVbhq2IqAHTGv7ifMW8Rln5tTK+qNay6g/yX7EwRbk3zQWuV3IsF46jKQS0o7zKHORcH+7+4qzRbk/Kf9eqQo+1ls2Uuh3aSpH7XvYL1QUXnV6LdohzAtbXN6kcI+YbZST74+8fEwZkO+mvXQWDlKfNYqIFWQjzpDP0S1ifKtDM2Gtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q3gpTIwv0LDi33/i5+y9kR9HQgBXprM7D4lLGDF7dF8=;
- b=fYuQtQT5T6nImvBzy0BAyNztM2WZySr2wCND9jUQ0IiS9BsvAPZOTCFWqbNQCO5XauXi7l+wLffd4u0a5js+jY6kBYYRSLIi/YeGNFNSI+4I3zFXidHuTHPUslwltKc35WmUrZO9yKLx9HF7vO8ymtoVr/LMVO7cBeRdwUuizis/ZZ2SEfA5u8q16zpglKxUhaZHTZHTq1SUf7Ss2ruw6bYUm27pe16jkmCM1UO7TtjcWREhVWfsWg2hemYtA1frFuwWWEMl0I6IwlTY9v2sUC1Ym/CPGQfu042gNEuQLzMNpLANAt8vxFcJ45OmSSip1VF5qRdyJjuW5G797f66uQ==
+ bh=7qN5vy5NuWqYy0Wqw4c0wXlHqSG0ce1NlPw4fY35hgY=;
+ b=FtOMNIP6hdCUqgfNW9Jx35ObjPktgZGSWOB91Djv8t1kupCL4Ax83ADWCCs11EP0I53yjr0+6gczeKx12ZDcz+z4YYHtAQjTE30EDeVtV7YjyksuxAmk5hWXyZti7Ugj1koT9LSNy0czYZhVT+ffFXHudqvJHkl8Qe0GOAixxiOGmV9LiqTcbHLsxED/gPmPSweEE0YnyP44p0nILh4vTYeB1eZAOlEuLTZOzSogmXMcJNe7LUA982i4JJJmsmy7klIeuJoDGJPLL0M8cJXlo5XBH28qlqxv9afmt8KvjwNdXeghjI8H0ElKeWc/zpqES70Ctv5LONboTwqBm4OOGw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q3gpTIwv0LDi33/i5+y9kR9HQgBXprM7D4lLGDF7dF8=;
- b=B/0gnw9sYo4sD+niCgUC1fLcoUcpPghhSbbCtZvo5fCtdVw7fVDLyCc0L8VsSewmnY/JbFHHrC/jF/qEemwJAtHsJGuv6SgJ+ZBSZrK/3W+QQ1dnf+TqgID3evqxlT7VkUqolp1iW5TyZop70mqmDw5znaG00kOsRkFalRHNEb4=
-Received: from BN7PR02CA0035.namprd02.prod.outlook.com (2603:10b6:408:20::48)
- by IA1PR12MB6529.namprd12.prod.outlook.com (2603:10b6:208:3a6::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 7 Sep
- 2022 20:57:30 +0000
+ bh=7qN5vy5NuWqYy0Wqw4c0wXlHqSG0ce1NlPw4fY35hgY=;
+ b=q4/Z6QXLyXJCXmnU9zwLzOa8YT+HWjXf5U7/inyBpPQCblQpQq6CP5vSgIJl0i2A8Lh5uo8E0pjoEweJ89cOFv9psLzHs36e67C/ZbPcdysEdLZRulcNxOL9sNs97KfJHeZu6j67DCoHfCVyaLsL7n/2G4v9jejUS7uFvfZvqMw=
+Received: from BN7PR02CA0007.namprd02.prod.outlook.com (2603:10b6:408:20::20)
+ by CH2PR12MB4152.namprd12.prod.outlook.com (2603:10b6:610:a7::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.12; Wed, 7 Sep
+ 2022 20:57:31 +0000
 Received: from BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:20:cafe::71) by BN7PR02CA0035.outlook.office365.com
- (2603:10b6:408:20::48) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14 via Frontend
- Transport; Wed, 7 Sep 2022 20:57:30 +0000
+ (2603:10b6:408:20:cafe::83) by BN7PR02CA0007.outlook.office365.com
+ (2603:10b6:408:20::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12 via Frontend
+ Transport; Wed, 7 Sep 2022 20:57:31 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -54,11 +54,12 @@ Received: from jz-tester.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  2022 15:57:29 -0500
 From: James Zhu <James.Zhu@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/4] drm/sched: returns struct drm_gpu_scheduler ** for
- drm_sched_pick_best
-Date: Wed, 7 Sep 2022 16:57:02 -0400
-Message-ID: <20220907205705.934688-1-James.Zhu@amd.com>
+Subject: [PATCH 2/4] drm/sched: implement new drm_sched_pick_best
+Date: Wed, 7 Sep 2022 16:57:03 -0400
+Message-ID: <20220907205705.934688-2-James.Zhu@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220907205705.934688-1-James.Zhu@amd.com>
+References: <20220907205705.934688-1-James.Zhu@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -67,26 +68,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT049:EE_|IA1PR12MB6529:EE_
-X-MS-Office365-Filtering-Correlation-Id: df14cd3c-ed4f-4385-e9e9-08da91139460
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT049:EE_|CH2PR12MB4152:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76ef8c1a-9187-40a2-e608-08da9113949e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Qy8rRjtMd5byvuc0b8b5Gaqmtx9L0LPH0MV2pCKp3UDBZua6NTWen0Jll95Hi038b/V1PXBy9cY1rOkyrKsdofHt1jILfMGBTr545LeAzwnpHvYUdZZB4aiay4gJ4/zUUI3Z3xVq8i0qKMl86JjX5VBXUhb++NQ9i8HTsQMd7fIwzZsvSlasyKu4nJbEwbHWi2R3EFUQJav71ByJKyP5I0FXL/Oz5lGRf6IN8h2icTbrGaB8l2CmIf6HYO8rs6Zk0Jhp3jLicNssZd86JBWzZ1tm5BAhfIvKmp1zsxKv1CA03Y+6J8Kk9jC/YC3CfIrnb5WAYeRWqjagz81HeG6JGZrpQSey6pryHQSO2a7WAlYFsqUdLrrg7amDgwtOlNaItol4rq+eAFEfOkPxeXOn+LwN/TcWNPM6v4FXItvlHPVQbb7P5L3AtgLvCBzxsQ+GWlXaH64NupOeBdGgGMuFs9T87I/ctLtoYyL92t+rpUje7ahOIPushZ3Kee58KvHkK5p4ujuLrsfXDl4DyYTTZ0Vj6Eir8LHn9JmxZQws+EY1nl+DtdXDuxi3+myF32ZzqOUI38BqO/PicowzyA37s6F4tRjhZaoamPmgs0yuIGFkapVizrG9nn9qSysNWpLPSSooJjYaQq+Xfqyl4t97cRuBllPAsriURjwtyI7w6Dr+bXd6gzC4h2HbOSzz4Zn0aMS/XKYFW0nsKEyce6hSfRfreizTPhM7lmZ1r0nG6NWt1vg5X7NPj78+SPFWOdzWGOPPqMyPH7CgBGr2joTQJ8HMDA5xxDyEZOPcJD5pVv7LK0XNz7Gp2uCbrtbJQoMB
+X-Microsoft-Antispam-Message-Info: WvFLc6pn6zkJAL+IBeBcpr3RNjivtzw34hbWNnrogVUWwbA7SlVyC3cEQ1mdTSVwh+mExTU3/W9POxt0/hfgc8weHMtvKd9UYu+OY6Bh/N8e0Pzg00T/E5L7NdrripGgRQfzonS1w2O88Leni0DRhED2VYjB6Nqy3+kgtVXqHjGdCsJIwC9lC+bI1J87VDjVBBzq/DQC1fpJP8s9ba5mK2O0kGltGP5qwkqU5vXhmq0ExgJAw6GilZNn6yi9Xvlnz6GdVVO7phFLrLEjgjkN5gFZexiS1XTyHYXqkbirVPTC88D4waSCvNXFYOPiYICa03Fm7oixekALaeNrvXqnoPtibsPIbMlqdJSEYApTLXXtoCG5kOaQt3ZG2KAhf2PzQTKpKZmbiO2s6V7VrHgaPnc2ALpFPR991HWGjF/bbMVu6DNTgSyAqixIqaW2WxGUkTPXNcxV12DB9Q++oA3GXiWqnwTbG2q1IsmZb4CmV7uyprnU+FdE5bHw+5g6jYBXY7eQEJ5kG2lNzfzyPt/79NtKBkvXmP67ZNXbDfCwK2KBr6Ln7XfFCz+F6LJURaKczo0aodu0KuDzgOcu1H1dYgKU7VWr8dYacb2oe2cpaPMghXkbHltN1FcW1i3JEo7BoHwUzy1HvY/q0sPuytYi2bWle0rzBYBLwSGRL7ew0LWvRsiBpu5Oy8XPVZMsPU80TRiRDKrJ9ngx6jRq2+fhxQNFAsqWAypVBnyWVWYdb1KcTr1QqNrKIRxKDqsscEkdrksbMrfkKbj6lnSS2of9t38gkEtPhW4FC7nfgEIfcNc=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(136003)(39860400002)(376002)(346002)(36840700001)(46966006)(40470700004)(426003)(40460700003)(110136005)(4326008)(316002)(54906003)(7696005)(41300700001)(6666004)(70206006)(70586007)(2906002)(4744005)(5660300002)(8676002)(450100002)(40480700001)(26005)(478600001)(82740400003)(81166007)(336012)(8936002)(82310400005)(356005)(86362001)(36756003)(83380400001)(2616005)(1076003)(16526019)(36860700001)(186003)(47076005)(36900700001);
+ SFS:(13230016)(4636009)(396003)(39860400002)(136003)(346002)(376002)(36840700001)(46966006)(40470700004)(8676002)(83380400001)(40480700001)(2616005)(1076003)(186003)(426003)(47076005)(82310400005)(70586007)(478600001)(70206006)(4326008)(336012)(7696005)(36756003)(16526019)(41300700001)(26005)(6666004)(82740400003)(40460700003)(36860700001)(81166007)(86362001)(8936002)(2906002)(110136005)(54906003)(5660300002)(450100002)(356005)(316002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 20:57:30.5194 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: df14cd3c-ed4f-4385-e9e9-08da91139460
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 20:57:30.9569 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76ef8c1a-9187-40a2-e608-08da9113949e
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6529
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,26 +104,63 @@ Cc: alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_pick_best returns struct drm_gpu_scheduler ** instead of
-struct drm_gpu_scheduler *
+drm_sched_pick_best return best selecetd ring schedul list's address.
 
 Signed-off-by: James Zhu <James.Zhu@amd.com>
 ---
- include/drm/gpu_scheduler.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
+ drivers/gpu/drm/scheduler/sched_main.c   | 14 ++++++++------
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 0fca8f38bee4..011f70a43397 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -529,7 +529,7 @@ void drm_sched_fence_finished(struct drm_sched_fence *fence);
- unsigned long drm_sched_suspend_timeout(struct drm_gpu_scheduler *sched);
- void drm_sched_resume_timeout(struct drm_gpu_scheduler *sched,
- 		                unsigned long remaining);
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 191c56064f19..f5595607995b 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -475,7 +475,7 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+ 		return;
+ 
+ 	spin_lock(&entity->rq_lock);
+-	sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
++	sched = *drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+ 	rq = sched ? &sched->sched_rq[entity->priority] : NULL;
+ 	if (rq != entity->rq) {
+ 		drm_sched_rq_remove_entity(entity->rq, entity);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 68317d3a7a27..111277f6c53c 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -863,12 +863,12 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+  * Returns pointer of the sched with the least load or NULL if none of the
+  * drm_gpu_schedulers are ready
+  */
 -struct drm_gpu_scheduler *
 +struct drm_gpu_scheduler **
  drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
- 		     unsigned int num_sched_list);
+ 		     unsigned int num_sched_list)
+ {
+-	struct drm_gpu_scheduler *sched, *picked_sched = NULL;
+-	int i;
++	struct drm_gpu_scheduler *sched;
++	int i, picked_idx = -1;
+ 	unsigned int min_score = UINT_MAX, num_score;
+ 
+ 	for (i = 0; i < num_sched_list; ++i) {
+@@ -883,11 +883,13 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+ 		num_score = atomic_read(sched->score);
+ 		if (num_score < min_score) {
+ 			min_score = num_score;
+-			picked_sched = sched;
++			picked_idx = i;
+ 		}
+ 	}
+-
+-	return picked_sched;
++	if (picked_idx != -1)
++		return &(sched_list[picked_idx]);
++	else
++		return (struct drm_gpu_scheduler **)(NULL);
+ }
+ EXPORT_SYMBOL(drm_sched_pick_best);
  
 -- 
 2.25.1
