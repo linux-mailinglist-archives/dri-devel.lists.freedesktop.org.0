@@ -1,120 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B365B147D
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 08:15:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5D85B1484
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 08:16:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A97A810E966;
-	Thu,  8 Sep 2022 06:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CAD810E969;
+	Thu,  8 Sep 2022 06:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2043.outbound.protection.outlook.com [40.107.244.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA8A010E965;
- Thu,  8 Sep 2022 06:15:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XFFbkBdDA5bXFqRL5MEFhILcolYV2NlB6FmkXuwRBi4eCEd+/FgwB3NT4kHSugVSICwltg6LP/YOApLoiKrGVb2WlMxhBIyS3y2sbN0PjplOAcL+I0zlvzIVcCkuR0419HLPzlwo52svM+6xBVmhXyX2Rc+64EJy3z2ACy+iam3VDBKTIG3YgrW64x4f0BoEmHXf2m9ep4WnfsLdCR3WvAJ45Mw1PXb2S+R4/exR3eQzlSCp0B8LQq+J7eO4Og1qgOlfaUiDVMmb6hGpMEcdMHIkFvaKoA2o2RbRB9NTAD0z6SeeEoZ/NlKFRQmn9Bi8Cb1fGUKPZRto3wI085Qm6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ueUjLpcr6Em2SI0S+JGZIZH9cIEEya+bDFgdhLT3SPM=;
- b=Kj6SFqc5ywzegy9Yq8nYZMdkYobrNhbjhLhcly9k1XYgwNjlnWKJKQwopDxm6mODLFeMBxh6UFVJFLqbwYGCSS+osAA4j+6DZ5t27zkwSg8c0YWB7t9lqbmDWSY95pmpSpMvx/1OAQXO2BvrZGJbUb9ho3RV7iitOzYJJw9UPvzsqX4zgXoeqxWCCJ70nPgNuB1aKOrWQ0dWCArP2S1Cmk36R+ghNrQZnfogrKOYvjKYmEFS6RcpxYP/PWB12t6fkeqqmRyVpfacDjzAOMH+/+mScvQ5ho09/8UAEUeeXOAzOz8XUiUEYEXeSpfALQ0qp1gf1FMUiVCwElMjiwZAOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ueUjLpcr6Em2SI0S+JGZIZH9cIEEya+bDFgdhLT3SPM=;
- b=iic3AXMj/LmE3OAO1HtkrQ2kGqUElDHn99qqsDAMYbgzNwXyxFm7Z6oeJMRPcmTVQmKlLdw4RjU/3BzwAb/BC7AOc7AT+waf43Q1Nps+0LXzy4eYq6RkfNbB5XqeHXbc8ocOZDIAwqJW97zc4C0RFB7Jlth1jBPSBB0uHKw6aYc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SA0PR12MB4382.namprd12.prod.outlook.com (2603:10b6:806:9a::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Thu, 8 Sep
- 2022 06:15:13 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5612.015; Thu, 8 Sep 2022
- 06:15:13 +0000
-Message-ID: <facee8f2-b674-5893-10fc-ef58ebd76358@amd.com>
-Date: Thu, 8 Sep 2022 08:15:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/4] drm/sched: always keep selecetd ring sched list in
- ctx entity
-Content-Language: en-US
-To: James Zhu <James.Zhu@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20220907205705.934688-1-James.Zhu@amd.com>
- <20220907205705.934688-3-James.Zhu@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220907205705.934688-3-James.Zhu@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR04CA0137.eurprd04.prod.outlook.com
- (2603:10a6:20b:48a::12) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA0PR12MB4382:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12fea712-b900-4ca4-3ad7-08da91617ddc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ls4erbP8gaxRCFvLHDnIrqALBU8DEFWmigVFf/ctgQxE39l/cT4rPSxoLSqPAqwkE3A4H7trOGk1/8ePd2S35ZyZ6enDXPHnl2Ejg2SU0mZPLaxu4Zng76UN1xm3vk6XfxLSKqyko2KiTHJ6A6Nl8jqDMkNWGNITpcNAKnAa9YjqCujR85CDM7GBzGGGJlZohQtL7ws3hRDdTNkz0wlPHw2/r8Cmirk7w6Cgnk00sUoYCKdp/GJ3uqCZDhzd89exaPteNhvtqPCuaADwgWIP5vdFMaAcM8R60Sqdd35Fho7kSDNI+3PJLeShGbqihGX1R1V/IoVgamJ8VwzrWn45gk5RsIamDvjV+/vY8QCoeY0drFg0wKTLxGk7Acx3+k0/WDoOmtQDnjanQv3HB0j37z4NZym/AGuZW0Ic0PjlEPJGFbx2eBqq1YlTZzd+eoRgzOvkl1pp1iSiTeJzF3BIiI9C5LL8qDW2eRqs9CS4zQ0nOo8G4kkfmvyit6u6tnA7ab+bOb+hWYzaPE/Qavg00u89vET6RRw/4iOxEEk3VD7kB2SRdlitspadouk7u3Vh9Ib6w2flBvC6wUZwl5427u7wb5B3NjgSK6gs3oU6n1gP+A2V6N8CZ6fT5ZM1zCE0lzkJc6c4DjMY2ik2mAbRPYOd7CCipFhF48lTyEHabhfG/dXKw1QuHWjqljzQRE27KfUkfwPlG4ehCMVxSS62iPwvcEgx9t4TvsNgFWc+9TkRTYBULjasg91GUDRoAoV1APr05ynYV1dgygVIobqHAZMsLoPpmV5oBkC6xRuhdEA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(366004)(346002)(136003)(376002)(39860400002)(83380400001)(186003)(2616005)(31686004)(86362001)(36756003)(316002)(5660300002)(8936002)(6486002)(450100002)(66556008)(8676002)(26005)(66946007)(478600001)(66476007)(4326008)(38100700002)(6666004)(41300700001)(2906002)(6512007)(31696002)(6506007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cW1rUFQvR3RtQVM2d1ZuTmJIWmpaWHRHbXB1c0R0cFFqQ1NTRm40SnZYMUpI?=
- =?utf-8?B?dkNBU2c5S2gvU0h6YWN3S0dESndSc05QVjRGMmQ3cGlWQTFvaTRMdFkrQ0xW?=
- =?utf-8?B?WjlBaFJmdmpBVE04djA2U2ZxSlhCdVpBLzVsdWZLVkpublBTUXZyRWdmWm5S?=
- =?utf-8?B?dC9TbDJmUWhGYlVtandTNFYyeVJqT3RCTytLc0FnbWtocGQzdlZtcnhVZ1Bl?=
- =?utf-8?B?NTdDbVhVNTluakNCK1Bmd25xZmtlMmZkSmlPdERLcDNlU2orRlJ1K1QySGs5?=
- =?utf-8?B?dmp5bzFjVFhkUjJnWUtVNnU0WkJmNTZuSGNjVnR4c3lHbWI0Qi9PaC9xM1ND?=
- =?utf-8?B?L1FITVBJZjJwaW9GM245T1lpUVVVZ3dxWURUcFB1QlZzcW9vb25PM2dyUVNj?=
- =?utf-8?B?bUp0dHdOcEx1Ni8yU3k1SG9iSzZPek1Id0psV0xBa2tzQVBMd0lRMitqakFD?=
- =?utf-8?B?RDZidU9WVk84b0trMUswb0JSRTBIVlVvMHo0VG9tTVZMVkJOWjNYa0lhcW9n?=
- =?utf-8?B?UVBmZmNIQVZ0STVnVWdXM2xldzdaZmQ3NkI1eG1GQ0RoaCticU5KOFJGY0Ju?=
- =?utf-8?B?TTlhZFNUUXJaRWZNQnpxM3lyVVJYd3pQTmtwTGE0TVV1V2J5RnFJMVVGbURD?=
- =?utf-8?B?UWtFSTN1bE95YlRMRFB0Q2lsU1BHSWdJcGlIZE82OSthVDJNRUl0Y2JJcFp3?=
- =?utf-8?B?TXBadFh3VjJnNHQvMWpZWXRueE9qM241NG56eTlaLzI4UTZ6MXlvV1RyclU4?=
- =?utf-8?B?cWRkbllqZTdSMUlJbDNqWlNCU09EMGlsdDVoa0k4cDFXYTZQbmZTcXVLTWFP?=
- =?utf-8?B?cS9Ya250UGhERkl4RDM0aGZ5SEorZ0l4YmtkclBjcWZITjNHeEw4SlZKVGx6?=
- =?utf-8?B?ZDVxUjd5RzZhVUhFTS9Mc2hBUHNFRG92ZUdKWUtsaWdkaWU3bW9zSzFWUVVH?=
- =?utf-8?B?a1lQNG9laXl4MHFPeW1UczBuN1lwWS9qYitQY3RiSDJrQlhLb3IrUStlWWJI?=
- =?utf-8?B?YVFnYTM0cEZLbCtFWjVsaVJkdStNdWRiejhYaU1wTktsMTV3OHBtTzd5Q2t0?=
- =?utf-8?B?NDJtdFIzSEFLdWtINmRpa3Y1NVNBaTJwM0RRYXFRa3hSVkFvQW9FZ2Y2OExH?=
- =?utf-8?B?VndNRGxJUzdFcTdRNHQ2QVFSblArcWhXN2JGNTZOdmhTVHQralZlL085RVJt?=
- =?utf-8?B?cU9ING5uZ1lUVHB2UWJyYkI4S2tyKzZ6Z0l2QnFlb0JBTko3VlBlZDFCQjUz?=
- =?utf-8?B?eDlkb0hWM2NyQk1pWWVzckxFRm1vUXNZQm91WG51Rml1MjU3MWVlR1NrOXN5?=
- =?utf-8?B?angwVFFUT00zSDM4aWp0QU9HS1dHZmo1V3pVQnpqS083ZTRWSVlwRCtYTUM1?=
- =?utf-8?B?czk2eE9tdTA3SC9EVkM3elZxWTdsWUpYa2ZWTURuZGZqb1pwdmxWQkVEdUZt?=
- =?utf-8?B?bmsyUWZYZ3B3cWVQWkp6czZtVTNZT0tTUXphaW9jMkNINDQ0YzRCa0FRY0xD?=
- =?utf-8?B?MDJoclVmRHNzazU2cWRVQk8vSnRFR3B5WHNwNkZIS0l4T3NUNDVlNEtIZW5G?=
- =?utf-8?B?MXlxdHcxbzRPS05lWkI1UEF4V1BjQVVZSS9xN1lTTXFlQTlpUzBpRE5CbEdO?=
- =?utf-8?B?SFc5ODl3eTI3NjFCRUxSWGtzNWcrSVJUQVl3d04xMEk2OFFxdGVPR2N0cjlX?=
- =?utf-8?B?NGxCRlNsc1JwZjltM0MwM3N5Ky96OHlDZjRtRDY0d0FReEZVaTY1UkZ2MW9i?=
- =?utf-8?B?bllwQnY2ejFQdC9OOUtkT1RwR0haMkRnL2ZlR1dFanR6Um1TcUQvWjAvdGF6?=
- =?utf-8?B?cGZwbzIwcUwvaVc0T3dGYWw0TG9VQW5lQWJFRlpINFFhTTZmellBS0ZvOHkv?=
- =?utf-8?B?MTZabS8yNlJNTk4ra0ZVT3FTTDVBZnR2cHFIam9DbzgvRU5VOFF0aWc1Y3Zn?=
- =?utf-8?B?cmZsV1RKdzFhY3Q3TVRQOGtycnlKazY4ZkFyUHR1aE4reC8vcWZOaTNHQ3F5?=
- =?utf-8?B?bGRMQzRnSjNBNEpYeXBGMGlyaEg4QStjdThEc09BT3VEU1VZMWNYejI2SjBB?=
- =?utf-8?B?a2hLRGJDSG5EeDlRUFVXTzVTekJsdmphNU4veUw5S3kyZUxVbksvbW5OakUr?=
- =?utf-8?Q?bRMP05Ldq0qxgQNiixQVOl6+I?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12fea712-b900-4ca4-3ad7-08da91617ddc
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 06:15:13.7817 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5nNcDKGiMFx35IvsfQ3h1jDB43brR3NkFZ0+3r+eKkTksiXtZYoeO4ifmowKGm/R
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4382
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B142F10E968;
+ Thu,  8 Sep 2022 06:16:19 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2885psqc028972;
+ Thu, 8 Sep 2022 06:16:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=lUhjfJ1ZplQ8/9znHOmo1ubgNXWxaHS+Zo/O5ytusWM=;
+ b=hQ4Y3IUI0n+a4VmEIuibwnK/6ylpX9pMI2I+Klmf90WMvXd9/CswYsHd/l6+lXhmXh3b
+ sKLI+X1DSNoRd8aKyy9X1MKVz85DQy5Afk1S1ov3cR2MbUR/71kn4lnSLO1UvHmbJjwe
+ stFrYKd9ouFUWTNVdjonawsNwQBhj1CpRrGp8q+dd+aoEX4bHy8hAwROIP8bJ44OvPoT
+ hkXan4jOTlD/tSuaj30THL/RdodXq0TOW5efh1aketZRmfHmRPTigGPF3JktBxZ9rrYC
+ JmqQrZm9GgozmZs1U5sqc4hvGrSN+jLD+97hDjTqJYF8+oDAd9gjV9NVmrcNHeos0E6i pg== 
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jf39xgv5t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Sep 2022 06:16:16 +0000
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2886GC37020835; 
+ Thu, 8 Sep 2022 06:16:12 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3jc00m2t6p-1;
+ Thu, 08 Sep 2022 06:16:12 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2886GC0U020825;
+ Thu, 8 Sep 2022 06:16:12 GMT
+Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
+ [10.204.66.210])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 2886GBJm020823;
+ Thu, 08 Sep 2022 06:16:12 +0000
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id 45E374372; Wed,  7 Sep 2022 23:16:11 -0700 (PDT)
+From: Kalyan Thota <quic_kalyant@quicinc.com>
+To: y@qualcomm.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [v3] drm/msm/disp/dpu1: add support for dspp sub block flush in sc7280
+Date: Wed,  7 Sep 2022 23:16:10 -0700
+Message-Id: <1662617770-2795-1-git-send-email-quic_kalyant@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <y>
+References: <y>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: aou5gqwR1aV8DEyccjM1GNEIuFYUl35n
+X-Proofpoint-GUID: aou5gqwR1aV8DEyccjM1GNEIuFYUl35n
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-08_04,2022-09-07_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=999
+ malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0 adultscore=0
+ spamscore=0 mlxscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2209080023
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,57 +85,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, dianders@chromium.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_vpolimer@quicinc.com, dmitry.baryshkov@linaro.org, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.09.22 um 22:57 schrieb James Zhu:
-> Always keep selecetd ring sched list in ctx entity.
+Flush mechanism for DSPP blocks has changed in sc7280 family, it
+allows individual sub blocks to be flushed in coordination with
+master flush control.
 
-I have no idea what you are doing here, but this certainly doesn't make 
-sense.
+Representation: master_flush && (PCC_flush | IGC_flush .. etc )
 
-Please explain a bit more.
+This change adds necessary support for the above design.
 
-Thanks,
-Christian.
+Changes in v1:
+- Few nits (Doug, Dmitry)
+- Restrict sub-block flush programming to dpu_hw_ctl file (Dmitry)
 
->
-> Signed-off-by: James Zhu <James.Zhu@amd.com>
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index f5595607995b..39dca9cb8e0d 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -71,7 +71,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->   	entity->guilty = guilty;
->   	entity->num_sched_list = num_sched_list;
->   	entity->priority = priority;
-> -	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
-> +	entity->sched_list = sched_list;
->   	entity->last_scheduled = NULL;
->   
->   	if(num_sched_list)
-> @@ -453,7 +453,7 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->   	struct drm_sched_rq *rq;
->   
->   	/* single possible engine and already selected */
-> -	if (!entity->sched_list)
-> +	if (entity->num_sched_list <= 1)
->   		return;
->   
->   	/* queue non-empty, stay on the same engine */
-> @@ -482,9 +482,6 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->   		entity->rq = rq;
->   	}
->   	spin_unlock(&entity->rq_lock);
-> -
-> -	if (entity->num_sched_list == 1)
-> -		entity->sched_list = NULL;
->   }
->   
->   /**
+Changes in v2:
+- Move the address offset to flush macro (Dmitry)
+- Seperate ops for the sub block flush (Dmitry)
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  5 +++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 35 ++++++++++++++++++++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     | 10 ++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h    |  7 ++++++
+ 6 files changed, 55 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 601d687..ab38a52 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -766,7 +766,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+ 
+ 		/* stage config flush mask */
+ 		ctl->ops.update_pending_flush_dspp(ctl,
+-			mixer[i].hw_dspp->idx);
++			mixer[i].hw_dspp->idx, DPU_DSPP_SUB_PCC);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 27f029f..0eecb2f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -65,7 +65,10 @@
+ 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
+ 
+ #define CTL_SC7280_MASK \
+-	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
++	(BIT(DPU_CTL_ACTIVE_CFG) | \
++	 BIT(DPU_CTL_FETCH_ACTIVE) | \
++	 BIT(DPU_CTL_VM_CFG) | \
++	 BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
+ 
+ #define MERGE_3D_SM8150_MASK (0)
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 38aa38a..6a0b784 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -191,6 +191,7 @@ enum {
+  * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
+  * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
+  * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
++ * @DPU_CTL_DSPP_BLOCK_FLUSH: CTL config to support dspp sub-block flush
+  * @DPU_CTL_MAX
+  */
+ enum {
+@@ -198,6 +199,7 @@ enum {
+ 	DPU_CTL_ACTIVE_CFG,
+ 	DPU_CTL_FETCH_ACTIVE,
+ 	DPU_CTL_VM_CFG,
++	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
+ 	DPU_CTL_MAX
+ };
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index a35ecb6..31c8c44 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -33,6 +33,7 @@
+ #define   CTL_INTF_FLUSH                0x110
+ #define   CTL_INTF_MASTER               0x134
+ #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
++#define   CTL_DSPP_n_FLUSH(n)		((0x13C) + ((n - 1) * 4))
+ 
+ #define CTL_MIXER_BORDER_OUT            BIT(24)
+ #define CTL_FLUSH_MASK_CTL              BIT(17)
+@@ -287,8 +288,9 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
+ }
+ 
+ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+-	enum dpu_dspp dspp)
++	enum dpu_dspp dspp, enum dpu_dspp_sub_blk dspp_sub_blk)
+ {
++
+ 	switch (dspp) {
+ 	case DSPP_0:
+ 		ctx->pending_flush_mask |= BIT(13);
+@@ -307,6 +309,31 @@ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+ 	}
+ }
+ 
++static void dpu_hw_ctl_update_pending_flush_dspp_subblocks(
++	struct dpu_hw_ctl *ctx,	enum dpu_dspp dspp, enum dpu_dspp_sub_blk dspp_sub_blk)
++{
++	uint32_t flushbits = 0, active;
++
++	switch (dspp_sub_blk) {
++	case DPU_DSPP_SUB_IGC:
++		flushbits = BIT(2);
++		break;
++	case DPU_DSPP_SUB_PCC:
++		flushbits = BIT(4);
++		break;
++	case DPU_DSPP_SUB_GC:
++		flushbits = BIT(5);
++		break;
++	default:
++		return;
++	}
++
++	active = DPU_REG_READ(&ctx->hw, CTL_DSPP_n_FLUSH(dspp));
++	DPU_REG_WRITE(&ctx->hw, CTL_DSPP_n_FLUSH(dspp), active | flushbits);
++
++	ctx->pending_flush_mask |= BIT(29);
++}
++
+ static u32 dpu_hw_ctl_poll_reset_status(struct dpu_hw_ctl *ctx, u32 timeout_us)
+ {
+ 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+@@ -675,7 +702,11 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+ 	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
+ 	ops->update_pending_flush_sspp = dpu_hw_ctl_update_pending_flush_sspp;
+ 	ops->update_pending_flush_mixer = dpu_hw_ctl_update_pending_flush_mixer;
+-	ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
++	if (cap & BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
++		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp_subblocks;
++	else
++		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
++
+ 	if (cap & BIT(DPU_CTL_FETCH_ACTIVE))
+ 		ops->set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
+ };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index 96c012e..227f1bd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -149,12 +149,18 @@ struct dpu_hw_ctl_ops {
+ 
+ 	/**
+ 	 * OR in the given flushbits to the cached pending_flush_mask
+-	 * No effect on hardware
++	 *
++	 * If the hardware supports dspp sub block flush, then sub-block
++	 * flushes are written to the hardware and main dspp flush will
++	 * be cached in the pending_flush_mask.
++	 *
+ 	 * @ctx       : ctl path ctx pointer
+ 	 * @blk       : DSPP block index
++	 * @dspp_sub_blk : DSPP sub-block index
+ 	 */
+ 	void (*update_pending_flush_dspp)(struct dpu_hw_ctl *ctx,
+-		enum dpu_dspp blk);
++		enum dpu_dspp blk,  enum dpu_dspp_sub_blk dspp_sub_blk);
++
+ 	/**
+ 	 * Write the value of the pending_flush_mask to hardware
+ 	 * @ctx       : ctl path ctx pointer
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+index d3b0ed0..c113d52 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+@@ -167,6 +167,13 @@ enum dpu_dspp {
+ 	DSPP_MAX
+ };
+ 
++enum dpu_dspp_sub_blk{
++	DPU_DSPP_SUB_PCC = 1,
++	DPU_DSPP_SUB_IGC,
++	DPU_DSPP_SUB_GC,
++	DPU_DSPP_SUB_MAX
++};
++
+ enum dpu_ctl {
+ 	CTL_0 = 1,
+ 	CTL_1,
+-- 
+2.7.4
 
