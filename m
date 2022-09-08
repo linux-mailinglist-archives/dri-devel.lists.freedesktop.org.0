@@ -2,70 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4DE5B21DA
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 17:18:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF2F5B224A
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 17:30:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61B8A10EB3F;
-	Thu,  8 Sep 2022 15:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3427B10EB3A;
+	Thu,  8 Sep 2022 15:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86A1B10E77C
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 15:18:05 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id i26so12532277lfp.11
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 08:18:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=/61fN8wXe1cF6+hB8wQz2CoLOe7SQuQ25cXLhUv9yHo=;
- b=WxbNZGYwJcgjuppu2mdBKFLaF7yFEGpMJkyrAK4IVoxV7XdVpSCe762tiSmhT06cMZ
- h/mvpRnr0he9SWfxGVO7XO5CSbKbgNSGU+noU0ydpYXIiCLpE6kPJhifaoVd2irCNOLP
- Wa5daRv94BmzwT53DT8D0uXrMkJ1PiYfwAjU09icRG+rTVRnE/1uS192w7mufW6MxrMd
- HyWxrdnHzdigeqVE7NKb7FPJtf1gTXS2iajEw9VDHfq7camhjw2bTBn17uATFQvQZrL9
- h7VLgMoQIvTgmdyS9HTwkqCLYuDyC2G3m7MdDCHZZCCO6TsQFgumoAF6B8ufiQUSOQDO
- M7Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=/61fN8wXe1cF6+hB8wQz2CoLOe7SQuQ25cXLhUv9yHo=;
- b=jgFu1wC3VT//tiX0RkJeRN40IyjrX+oboOGqq51w4DHA05Y9qyU9WtX+G4uGBNfDxI
- bv/U2+jkfottjQ8dOjnxhVKYAKfGeMvF7zWUP5ClAETE3WzxRi+QdIAVK4QBwfVVtmh8
- fG7mRA7zoS9vNX1LktEuGhase8Bx1ODpx8GA1iHm2Rub2CYzQUEaQAb6KZHjdBHdPC8x
- D+npgyY0nxGH57ISwPWSgoAxMCfhy7yT/PwD9cvi7b6Xc6TZQLu48uUyrlk4JJF4Jdfp
- 9IPdmoPcsL3eRvCxmkYsXS2DVFzHO3vF8V6slkT7I3wvrqx10hmzprO4yDDDJs1caGMv
- k9pg==
-X-Gm-Message-State: ACgBeo09V2/gpMjhO4RbB0ECANpIx6fdEeqCp+az+3451oFMwuKklgul
- lOaH+Dq4tnyjStywu77U+MevLw==
-X-Google-Smtp-Source: AA6agR4/vGtKteLhNWyXm/dlNO0bWhSZYQLjnjvT1mr61jpFMHUoxvmP2VPoyV4PQI2v8bwRqi42VA==
-X-Received: by 2002:ac2:4f03:0:b0:496:272:625d with SMTP id
- k3-20020ac24f03000000b004960272625dmr2782441lfr.303.1662650283838; 
- Thu, 08 Sep 2022 08:18:03 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- k5-20020ac257c5000000b004946bb30469sm3069662lfo.82.2022.09.08.08.18.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 08:18:02 -0700 (PDT)
-Message-ID: <1da154da-6c37-7dc6-9cfe-87d38efc4f28@linaro.org>
-Date: Thu, 8 Sep 2022 17:18:01 +0200
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2052.outbound.protection.outlook.com [40.107.101.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF5210E714;
+ Thu,  8 Sep 2022 15:30:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mYYc4fvWmfkAVl2cpUfFVQzouWZWspSRarDteCD5STN7TqbgHOXmKrUSna+3mzaZH/+yjtUUOCQxkFPdEqMdeHFX7Ip9wZMfotu1DODF9ytldi9vSTfTbxDlJzOdSYziFgXvyCHx/QWixiGVlQatN9K91tVkLriKCS9C+HdTasQKqx2CULO4p3TzM7UTYMY8EBU42UwHs0WyBFPFMxQtYzhlKn6+wFH7SVULYkF0OfRUvExqtvpbdTc3k7S+qR8o7wHHXRtqTrQ1XfuFEbZ+jwbQlf8xOHBF/rtj7yGjnlfa87MZ5gcYv6yTa4+KgN8rpsz1R+wuYBZa0pdaMsrMdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D6HqduO1asgN1lYLBUuHR26bfmSVGMmzFuSlpLymubw=;
+ b=M1ebyPqAZ1e+ZpSODK6XZCBFhp6uIQq4K8EBdFNkZj0ejwriXQG2uNuR/12Nb1FUz6ByOR857WwjV67AxVYrDtiLK2tCFS3BpTYDVjgTP8CdTGbFcd5Uj87hYNCerjhuZSOOQ5RVIanw0e6l73kFoMDoP6eB4DaXEpFpDfzQnKGKu052+ekh5YFSDeQgrXqpvwfqPQjWp15DTuMeKZW8CRxR4sKTXUcezwVztgRgyXRHQgf4eTTTDRgGlW205SDcnBNkF5LtVFl5OveNuDKKALknKaNBvcwNEhaEPEKymZmOaJXBY23/AgilHb15h3IOpXqt7WO1EPQTjfruwYQqHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D6HqduO1asgN1lYLBUuHR26bfmSVGMmzFuSlpLymubw=;
+ b=siAtUSJI5HkVxbePQFtHK054xgTzHNG5x/EJoFdw7UmQ8TMv5TOOWPbeSr8WrMLTXJG2iGpCtV6auG+VGNZzWhsB/ocK2VMgUs61Lqeuf6Ra4NddFMesqIuFHy8HxqRYoNHIRBcM+73C8HGD8Pf2p17sVWBC/4nXyIJo5oy+0FI=
+Received: from DM6PR14CA0056.namprd14.prod.outlook.com (2603:10b6:5:18f::33)
+ by DM6PR12MB4514.namprd12.prod.outlook.com (2603:10b6:5:2a7::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Thu, 8 Sep
+ 2022 15:30:05 +0000
+Received: from DM6NAM11FT077.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:18f:cafe::33) by DM6PR14CA0056.outlook.office365.com
+ (2603:10b6:5:18f::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12 via Frontend
+ Transport; Thu, 8 Sep 2022 15:30:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT077.mail.protection.outlook.com (10.13.173.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5612.13 via Frontend Transport; Thu, 8 Sep 2022 15:30:05 +0000
+Received: from jz-tester.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 8 Sep
+ 2022 10:30:01 -0500
+From: James Zhu <James.Zhu@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v3 3/4] drm/sched: always keep selected ring sched list in ctx
+ entity
+Date: Thu, 8 Sep 2022 11:29:45 -0400
+Message-ID: <20220908152945.949531-1-James.Zhu@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220907205705.934688-3-James.Zhu@amd.com>
+References: <20220907205705.934688-3-James.Zhu@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add NewVision NV3051D
- panel bindings
-Content-Language: en-US
-To: Chris Morgan <macromorgan@hotmail.com>
-References: <20220906185208.13395-1-macroalpha82@gmail.com>
- <20220906185208.13395-2-macroalpha82@gmail.com>
- <cbdbc7d8-a3b9-d960-68c7-457c947e4285@linaro.org>
- <SN6PR06MB534207102C2E8AFCE63C3231A5419@SN6PR06MB5342.namprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SN6PR06MB534207102C2E8AFCE63C3231A5419@SN6PR06MB5342.namprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT077:EE_|DM6PR12MB4514:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b15aaee-5a4d-473f-bc73-08da91af012d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XHvBDQMaNurb91Y4YZZh9BidwJIXK20aP24ZLmUaH7M8Hm0QRmMykHMh1/3ms1ZeUaGFnER4rSbeIOsRgubfrORHto/0Jz0PCIpE7hQtpnCDxU0nmr1U3X97CaGLos4sHsLnMGaG7OJmhairuQVdn1+pVoe95+Ks/94eH9IuaKW6jyeTxzD2UA319fuUUQKxTuz9fR6Lb7DXQVy36s1oyCGJ0LNFCNGg6MRPUuvxMSeBROEm3Rq6P56VSx2IWQL1+U4L3ElKyI2ik5HxM5EYcAZFCTYTK5sD5lPgyNhWRJd2Hq/agaskt5ZO4wt02mKCGNSZP/qKtfW00BLC3lrhsBYaQsc8TXkou52LmHTL15rpkrqFPwqkYOJt+cFkm9kdSKHj0Q741Sr/0VBCp2IiC8LsqdpaWdS+uiNHz1evGWxkDsVcfyFkYDD1hUuExgDVowaIqUwq2jOSYJKWBwPiHvaZaX9iy5uRt2CWGjJ6J5+OnL8IVB9oGhsgqYmw8Ki8YSPmlFuPA5wcFcUIM9hsF5wUMxazoyCS5dL5wXuD0d/cQIqpJ8cl7Wog2nmE0Pr3J/iKhYDWxy72AVcciUkivJlZsqyjaMf2U0qYctVG9qJ+EgBiXeklQMIW7bh7py/0c45pGe3FQvW/pQjniKvuYwZuYmJm4mRG66tDb4OoDDZyH/H2Jtqi/qrwSjSc25tQNieScXZLbiruBOgx/gRim5JF8TsOPUpCZFWk9n11JjMhpvNAYTSpQlQk9u8XaOUcX88UzFkDDcIp7dEO8t1bp8r/FobHq7CDy82jTlWNE1g=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(136003)(346002)(396003)(39860400002)(36840700001)(40470700004)(46966006)(356005)(82310400005)(83380400001)(54906003)(186003)(16526019)(86362001)(2616005)(110136005)(336012)(426003)(36756003)(36860700001)(316002)(1076003)(47076005)(6666004)(5660300002)(8936002)(478600001)(70206006)(70586007)(41300700001)(8676002)(4326008)(450100002)(40460700003)(40480700001)(82740400003)(26005)(81166007)(2906002)(7696005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 15:30:05.0331 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b15aaee-5a4d-473f-bc73-08da91af012d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT077.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4514
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,97 +101,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Chris Morgan <macroalpha82@gmail.com>, robh+dt@kernel.org,
- thierry.reding@gmail.com, sam@ravnborg.org
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/09/2022 15:35, Chris Morgan wrote:
-> On Wed, Sep 07, 2022 at 02:53:56PM +0200, Krzysztof Kozlowski wrote:
->> On 06/09/2022 20:52, Chris Morgan wrote:
->>> From: Chris Morgan <macromorgan@hotmail.com>
->>>
->>> Add documentation for the NewVision NV3051D panel bindings.
->>> Note that for the two expected consumers of this panel binding
->>> the underlying LCD model is unknown.
->>>
->>> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
->>> ---
->>>  .../display/panel/newvision,nv3051d.yaml      | 48 +++++++++++++++++++
->>>  1 file changed, 48 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
->>> new file mode 100644
->>> index 000000000000..016168d8d7b2
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
->>> @@ -0,0 +1,48 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: https://nam12.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fdisplay%2Fpanel%2Fnewvision%2Cnv3051d.yaml%23&amp;data=05%7C01%7C%7C69d30de15aea41517acb08da90d0079f%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C637981520397977782%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=qfuvbrQYP3rKnp%2ByPmPmn%2BCJJOQkNkTGT49FkJmIics%3D&amp;reserved=0
->>
->> You need to document vendor prefix... but the filename does not match
->> compatible.
-> 
-> Okay, will do that. This is a tricky one because while I know the panel
-> controller IC (a NewVision NV3051D) I don't actually know the LCD panel
-> itself, the vendor is somewhat tight lipped. I do know the product it
-> goes into, so that's why I did what I did with the compatible strings.
-> If that's not correct I guess let me know. I did see for other drivers
-> (such as the NewVision NV3052C) the driver was written for the IC
-> and the panel name was listed differently, hence what I was going for
-> here.
+Always keep selected ring sched list in ctx entity.
+Later entity->sched_list can always be used to track ring which
+is used in this ctx in amdgpu_ctx_fini_entity.
 
-If by "driver" you mean by "Linux driver", then it does not really
-matter. You describe here the hardware. The example of NV3052C follows
-this approach - proper compatible and file name matching hardware. Here
-your file name does not match hardware.
+v2: fixed typo
+v3. Update comments
 
-> 
->>
->>> +$schema: https://nam12.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=05%7C01%7C%7C69d30de15aea41517acb08da90d0079f%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C637981520397977782%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=AYwypW%2BA9xWCN6YYwC7oI5UDW6QmiP7%2FmAoKlm7x3jM%3D&amp;reserved=0
->>> +
->>> +title: NewVision NV3051D based DSI panel driver
->>
->> This is confusing - compatibles say something else.
->>
-> 
-> Right. Driver IC is the NV3051D, LCD panel itself is... well... not
-> sure...
+Signed-off-by: James Zhu <James.Zhu@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-I guess similarly to ltk035c5444t this should be documentation of panel?
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index f5595607995b..39dca9cb8e0d 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -71,7 +71,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 	entity->guilty = guilty;
+ 	entity->num_sched_list = num_sched_list;
+ 	entity->priority = priority;
+-	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
++	entity->sched_list = sched_list;
+ 	entity->last_scheduled = NULL;
+ 
+ 	if(num_sched_list)
+@@ -453,7 +453,7 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+ 	struct drm_sched_rq *rq;
+ 
+ 	/* single possible engine and already selected */
+-	if (!entity->sched_list)
++	if (entity->num_sched_list <= 1)
+ 		return;
+ 
+ 	/* queue non-empty, stay on the same engine */
+@@ -482,9 +482,6 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+ 		entity->rq = rq;
+ 	}
+ 	spin_unlock(&entity->rq_lock);
+-
+-	if (entity->num_sched_list == 1)
+-		entity->sched_list = NULL;
+ }
+ 
+ /**
+-- 
+2.25.1
 
-> 
->>> +
->>> +maintainers:
->>> +  - Chris Morgan <macromorgan@hotmail.com>
->>> +
->>> +allOf:
->>> +  - $ref: panel-common.yaml#
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - anbernic,rg353p-panel
->>> +      - anbernic,rg353v-panel
->>
->> Missing space, missing documentation for vendor prefix.
->>
->> Strip "panel" suffix unless device is multifunctional.
->>
-> 
-> The device name itself is Anbernic RG353P (and RG353V). The driver is
-> not multifunctional but again I don't really know what the LCD itself
-> is called so I'm trying to name it after the device. I only know the
-> driver IC.
-
-So skip panel.
-
-
-
-Best regards,
-Krzysztof
