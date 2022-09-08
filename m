@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018CB5B1947
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 11:52:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5DD5B1940
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 11:51:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE2410E9FC;
-	Thu,  8 Sep 2022 09:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E063210E9F0;
+	Thu,  8 Sep 2022 09:51:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B74A10E9F6
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A083910E9FC
  for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 09:51:20 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E37BA33800;
- Thu,  8 Sep 2022 09:51:18 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 153CE1F921;
+ Thu,  8 Sep 2022 09:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662630678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1662630679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I1ErYPXVLqmO4wSgRe8Qfl5K8BfkVWk802TWryoKr48=;
- b=twBOX8/r2pbp5pguSVOco7NM1nJ+2gir6mG4qY5MnfTMVonw7Gyx5JrF1Vsjk+QRcqmElY
- Yn5sqxUCZm3TdoRLgMc7yp7v6/KQpKPvyEMEc7+PaX6hhujHcDP/3wpibKKHP8HpbEZyHi
- Cl8vaA286Cd2f0r2kqCvDTH4sEGWg+8=
+ bh=y90h0r0za5ZtG0bczishRj8DeDfl2p1EUfhKR62Q6YQ=;
+ b=Il6YPRJq7VyzVgRoA3eTwHN6v2zhY7jFSS0HJNLH8jGuyCQwQhvgqvHdwfEEkxOB2DQE9T
+ yE6JBI4suwO1QuHsaij7aSNPSie4SNT905tmmUAUVadfi0ehjXP9IGLYNaRffTB4+m8bBk
+ JIoZNrfQj51j0DlfjYVkwkkAmKWPcqM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662630678;
+ s=susede2_ed25519; t=1662630679;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I1ErYPXVLqmO4wSgRe8Qfl5K8BfkVWk802TWryoKr48=;
- b=/C2tCWJlfKNJfd1E4rwU7BVI6WUfXZTo1Mas3ppP30Ir50bAvXEQ8kzrq8ZSoZVOIwpROf
- rPIlxPaodDXqQoAQ==
+ bh=y90h0r0za5ZtG0bczishRj8DeDfl2p1EUfhKR62Q6YQ=;
+ b=s9Airb08pBDJ81c5iRLWmxN9uiXuVy7AsXSlC1jLv5Zf3ubN/lt9TSOFbll6ZaTwvfG0xE
+ xVLPJ6oiLESeNHAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BA25813A72;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E50B913A6D;
  Thu,  8 Sep 2022 09:51:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gHTjLBa7GWNrUgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8IwPNxa7GWNrUgAAMHmgww
  (envelope-from <tiwai@suse.de>); Thu, 08 Sep 2022 09:51:18 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 01/12] drm/udl: Restore display mode on resume
-Date: Thu,  8 Sep 2022 11:51:04 +0200
-Message-Id: <20220908095115.23396-2-tiwai@suse.de>
+Subject: [PATCH v3 02/12] drm/udl: Add reset_resume
+Date: Thu,  8 Sep 2022 11:51:05 +0200
+Message-Id: <20220908095115.23396-3-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220908095115.23396-1-tiwai@suse.de>
 References: <20220908095115.23396-1-tiwai@suse.de>
@@ -72,47 +72,74 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Restore the display mode whne resuming from suspend. Currently, the
-display remains dark.
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-On resume, the CRTC's mode does not change, but the 'active' flag
-changes to 'true'. Taking this into account when considering a mode
-switch restores the display mode.
+Implement the reset_resume callback of struct usb_driver. Set the
+standard channel when called.
 
-The bug is reproducable by using Gnome with udl and observing the
-adapter's suspend/resume behavior.
-
-Actually, the whole check added in udl_simple_display_pipe_enable()
-about the crtc_state->mode_changed was bogus.  We should drop the
-whole check and always apply the mode change in this function.
-
-[ tiwai -- Drop the mode_changed check entirely instead, per Daniel's
-  suggestion ]
-
-Fixes: 997d33c35618 ("drm/udl: Inline DPMS code into CRTC enable and disable functions")
-Cc: <stable@vger.kernel.org>
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- drivers/gpu/drm/udl/udl_modeset.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/udl/udl_drv.c  | 11 +++++++++++
+ drivers/gpu/drm/udl/udl_drv.h  |  1 +
+ drivers/gpu/drm/udl/udl_main.c |  2 +-
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 169110d8fc2e..34ce5b43c5db 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -382,9 +382,6 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 
- 	udl_handle_damage(fb, &shadow_plane_state->data[0], 0, 0, fb->width, fb->height);
- 
--	if (!crtc_state->mode_changed)
--		return;
--
- 	/* enable display */
- 	udl_crtc_write_mode_to_hw(crtc);
+diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+index 5703277c6f52..0ba88e5472a9 100644
+--- a/drivers/gpu/drm/udl/udl_drv.c
++++ b/drivers/gpu/drm/udl/udl_drv.c
+@@ -32,6 +32,16 @@ static int udl_usb_resume(struct usb_interface *interface)
+ 	return drm_mode_config_helper_resume(dev);
  }
+ 
++static int udl_usb_reset_resume(struct usb_interface *interface)
++{
++	struct drm_device *dev = usb_get_intfdata(interface);
++	struct udl_device *udl = to_udl(dev);
++
++	udl_select_std_channel(udl);
++
++	return drm_mode_config_helper_resume(dev);
++}
++
+ /*
+  * FIXME: Dma-buf sharing requires DMA support by the importing device.
+  *        This function is a workaround to make USB devices work as well.
+@@ -140,6 +150,7 @@ static struct usb_driver udl_driver = {
+ 	.disconnect = udl_usb_disconnect,
+ 	.suspend = udl_usb_suspend,
+ 	.resume = udl_usb_resume,
++	.reset_resume = udl_usb_reset_resume,
+ 	.id_table = id_table,
+ };
+ module_usb_driver(udl_driver);
+diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
+index 28aaf75d71cf..37c14b0ff1fc 100644
+--- a/drivers/gpu/drm/udl/udl_drv.h
++++ b/drivers/gpu/drm/udl/udl_drv.h
+@@ -95,6 +95,7 @@ int udl_render_hline(struct drm_device *dev, int log_bpp, struct urb **urb_ptr,
+ 		     u32 byte_offset, u32 device_byte_offset, u32 byte_width);
+ 
+ int udl_drop_usb(struct drm_device *dev);
++int udl_select_std_channel(struct udl_device *udl);
+ 
+ #define CMD_WRITE_RAW8   "\xAF\x60" /**< 8 bit raw write command. */
+ #define CMD_WRITE_RL8    "\xAF\x61" /**< 8 bit run length command. */
+diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+index fdafbf8f3c3c..7d1e6bbc165c 100644
+--- a/drivers/gpu/drm/udl/udl_main.c
++++ b/drivers/gpu/drm/udl/udl_main.c
+@@ -92,7 +92,7 @@ static int udl_parse_vendor_descriptor(struct udl_device *udl)
+ /*
+  * Need to ensure a channel is selected before submitting URBs
+  */
+-static int udl_select_std_channel(struct udl_device *udl)
++int udl_select_std_channel(struct udl_device *udl)
+ {
+ 	static const u8 set_def_chn[] = {0x57, 0xCD, 0xDC, 0xA7,
+ 					 0x1C, 0x88, 0x5E, 0x15,
 -- 
 2.35.3
 
