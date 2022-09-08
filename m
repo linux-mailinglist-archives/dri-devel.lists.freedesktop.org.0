@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BE25B171F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 10:33:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2F15B174A
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 10:38:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0488410E9A3;
-	Thu,  8 Sep 2022 08:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 608DF10E99B;
+	Thu,  8 Sep 2022 08:38:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFA0910E9A6
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 08:33:40 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id r18so9105577eja.11
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 01:33:40 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7C010E99B
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 08:38:44 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id r18so9132304eja.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 01:38:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=ZlO9z6iariE6j62dDg3WdSSqBdCZFPhJNQtrGMOHOrM=;
- b=yoKt2dR8DpMlh2XORFcltXAYMgjes8PsrrPXKGawrKEhed4y+WSSTQmmNgG0Gf1SJu
- /FfQ3PEPixSLl61o/wNzP2mAl16GeJnsTLbhWLnWfaVkAwo6y83SYrJYUs2zfFeTOmCJ
- KCfvXIX2k6sUR9M4H2LnnadTsaJNBeTiS5ZBjIN9tOf2Kpq6GTWefCkCUFHSnLO/4AAN
- bF2Kwwu1NBRMUHGOV8o4kZ9m3PqjItvKGaAHum8EmxiW7WxhfY/+qFWuKiEN2m/2UZCf
- n8HtcVv1JxiPWMi7HHbrHpse1K4PW6ghIMCVLd1VC32slTHEjJxXugMgMhGNvWgPOPtq
- zkOg==
+ bh=SqPML+unsouuIp4FVHK4Uf7DFvDcdAzoCu01LQ5xtJU=;
+ b=SAoPOQWnZqu89mgLfBmiK5MrA8YCX5o9aGmYu4qqPNVoBkVnERkpNhCjHVCDQ9Zla1
+ dwqjtxWA+cJ6EDML6KOuvVZ4R6NIPdCxT8QAEB80mIcXpDf2Zf9m7S4FsFoMJ51USitH
+ Qd1pfZ4aI8HWIB9O1qt8jwZQ6YhUw0CUeBplhf899+yVwxpGxiGqmmXQn83Kl/G4s1eI
+ C+ZSChYFtQHAmgSz+vgZPMqj3wcCWnPZrWj/U9r/3gRuxpP0SGbraorsJPs29Q973tKF
+ kAzOfKhkV3IcUs1n2dwba5aeil8pWoUhDW7HjrjRLDXn9ByPmVyCvnNoBZTuKajNSFhw
+ VwcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=ZlO9z6iariE6j62dDg3WdSSqBdCZFPhJNQtrGMOHOrM=;
- b=qGKiARHvFFLgLM2pRTz0J/r5xMceFFxhdsmYSWLVdYOic7tXHD2RvIyiEntFCMrZ8Y
- OgfwCBkSyREZoZ1fImzFU6y+cSdWnQr/Z/HNz9MIvyDKs1X04dw3UjbiTYX0QQaIWB2x
- zRNmTU95zO74g3YOjxLowgz8e7uYmfCmvt0MMzTCZyPefX3jsLhO8JO0/VxpzsVEpNid
- BcRwxLlvAhtuuJKsapsKp+MkvrHLsrMh5C3aBHhfz2905AHR4W0DMz6YmHGHpmaNIXtR
- Ip46bBluVjYL7e82+1xM+GYlunZF5dtI9O3jPjkoQNG1wzj3ey1UI3CPEIIpgfUUTyeO
- SCtA==
-X-Gm-Message-State: ACgBeo1GJM/Q1j1FQzwr7F/iCPFz/U/6p+GTUE8Ggi4EazE02UK1eJyt
- mGRGxNbRhsZCFKUXO1Y+4ItfYjt9JlH8CHYQS6B3ZQ==
-X-Google-Smtp-Source: AA6agR6YdmowLCqDy13X6GVFnJajdgoAbYXT6/9jX+Ol46w4Ykshwr2tFJzDmJvExLu3Rbp1DyOQwdZVX8mDYcaxnJ0=
-X-Received: by 2002:a17:907:7242:b0:741:770b:dfc6 with SMTP id
- ds2-20020a170907724200b00741770bdfc6mr5235773ejc.203.1662626019497; Thu, 08
- Sep 2022 01:33:39 -0700 (PDT)
+ bh=SqPML+unsouuIp4FVHK4Uf7DFvDcdAzoCu01LQ5xtJU=;
+ b=4luHlqfOFzt+AZ4k9KlR6SNLrBmJ/e/HgGvL16tut35FVxGpu/CBckWwOENwU2Fo7e
+ AtGKPYSRVUP4BoxQ3NeipRsN3OfiAU0KiGl7FIdjrsLl9V7uf2S7XNmc6fuHR9Y15XlA
+ +f75niWtudZq8ossHpqsZr7UzE8adJYlgrURvGw9CdTFrWiFwi/xKWgEFyF2eMZJXe5p
+ 5FWRR++4+ckG9u08odzlU+6SlJ7n+SeAzGIADnzjyGxxEEU/C4lzvTs51W2cSqeAd8XU
+ ZfciZzoqKzTEpjPlMzZm+N01FLHASXqdx4JlzAzns43ybO2F1F01WmgW0Ky2Oxg5kxiR
+ v9jw==
+X-Gm-Message-State: ACgBeo3bL9l7Di3qJZQxchpzr136hg/5qibP6lAlidS4ePkPY1h9LRtb
+ vWjGSzeO4keAtCLpDceXJJFCgL/TYEMw52X1If+Jfw==
+X-Google-Smtp-Source: AA6agR5Qlu6bHigQRlsF7FnyAifGVWu07Yimovaj6W3A7lzSYgEVwFSZi08eyLAuAWp+B7C3eLgpufDg+xQ7EBPkK+Y=
+X-Received: by 2002:a17:907:a420:b0:765:70a4:c101 with SMTP id
+ sg32-20020a170907a42000b0076570a4c101mr5281501ejc.526.1662626322796; Thu, 08
+ Sep 2022 01:38:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-7-b29adfb27a6c@gmail.com>
- <YxaSBRkAG/hKjFol@google.com>
-In-Reply-To: <YxaSBRkAG/hKjFol@google.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-10-b29adfb27a6c@gmail.com>
+In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-10-b29adfb27a6c@gmail.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 8 Sep 2022 10:33:28 +0200
-Message-ID: <CACRpkdb2dYvNkyx7O24uURjSYcCPkGR+Gj=weCSG6GdcM1B7Xw@mail.gmail.com>
-Subject: Re: [PATCH v1 07/11] PCI: apple: switch to using
- fwnode_gpiod_get_index()
+Date: Thu, 8 Sep 2022 10:38:31 +0200
+Message-ID: <CACRpkdaeQFP+H786D=SG4s+sQmxScUzve-uWkm-Sg7xFDK_Syw@mail.gmail.com>
+Subject: Re: [PATCH v1 10/11] watchdog: bd9576_wdt: switch to using
+ devm_fwnode_gpiod_get()
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,37 +91,18 @@ Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 6, 2022 at 2:19 AM Dmitry Torokhov
+On Mon, Sep 5, 2022 at 8:31 AM Dmitry Torokhov
 <dmitry.torokhov@gmail.com> wrote:
 
-> On Sun, Sep 04, 2022 at 11:30:59PM -0700, Dmitry Torokhov wrote:
-> > I would like to stop exporting OF-specific gpiod_get_from_of_node()
-> > so that gpiolib can be cleaned a bit, so let's switch to the generic
-> > fwnode property API.
-> >
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> >
-> > diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-> > index a2c3c207a04b..d83817d3ff86 100644
-> > --- a/drivers/pci/controller/pcie-apple.c
-> > +++ b/drivers/pci/controller/pcie-apple.c
-> > @@ -516,8 +516,8 @@ static int apple_pcie_setup_port(struct apple_pcie *pcie,
-> >       u32 stat, idx;
-> >       int ret, i;
-> >
-> > -     reset = gpiod_get_from_of_node(np, "reset-gpios", 0,
-> > -                                    GPIOD_OUT_LOW, "PERST#");
-> > +     reset = fwnode_gpiod_get_index(of_fwnode_handle(np),
-> > +                                    "reset", 0, GPIOD_OUT_LOW, "PERST#");
+> I would like to stop exporting OF-specific devm_gpiod_get_from_of_node()
+> so that gpiolib can be cleaned a bit, so let's switch to the generic
+> fwnode property API.
 >
-> Hmm, I am looking at the driver and it leaks the reset gpio on
-> unbind/unload. I guess it does not matter in practice, but still nice
-> not to leak. Thankfully it is easy to cure by switching to devm option:
-> devm_fwnode_gpiod_get().
+> While at it switch the rest of the calls to read properties in
+> bd9576_wdt_probe() to the generic device property API as well.
 >
-> I'll send and updated patch with a new justification.
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-With that change:
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
