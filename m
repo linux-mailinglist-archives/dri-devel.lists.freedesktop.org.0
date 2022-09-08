@@ -1,80 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948D85B1C91
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 14:16:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BCA5B1D3A
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 14:37:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98EA410E9BF;
-	Thu,  8 Sep 2022 12:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE37F10EAD6;
+	Thu,  8 Sep 2022 12:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B78610E67F;
- Thu,  8 Sep 2022 12:16:30 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id EA3332B05A0A;
- Thu,  8 Sep 2022 08:16:26 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 08 Sep 2022 08:16:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1662639386; x=1662646586; bh=KrUSQEGonb
- AlAjJjGy+o4W945brRN+Avg2umBhBnQI0=; b=FDJ+i06umqUPBluRJ7zeRUbZGi
- N7jURhZXBmo5/S/Usa0N7J90mrtZzUzd9Nnaqc/FSn/y2WncCNW0R/moHpGLsUYL
- C5HWH/06WmYBIrzd3wE8FfKvD0KP4va0BIHvH8EF3nQZlPPz05ZBTb7yXqScAKuO
- 2cUl3GXynvvp+pozPGU+71VCeJvYCtvKDI5tFdQJ+tdXHAMzBJCwHKqsE0lKu/Pr
- A8ao6EFdwHVEEFLchW5crqmZTnlYgKcXUd/7CLSB+FPVSiwYJTLsjONLCGGyUb5y
- BFn+4WlR1jtVnr0gwwa1yiUURtwxTD5yuFucnCU7kZFiAss3Xjxn5XHd3GhA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1662639386; x=1662646586; bh=KrUSQEGonbAlAjJjGy+o4W945brR
- N+Avg2umBhBnQI0=; b=qSbjZbSSlScqRRb2KD+nkNMWqkO7dm28pU786LY/qda/
- 20Ta+Fxd1Nfb9NVVgPzUZ5oXSwIVH75WHvntED+kLxclil5DY0Pe1OLJHK/OlyA0
- gpWzwt0FgxfMKod2+RxptaSG392n33NPqK/rCJPfYeu9E9KTI49qaIpha15PJwFe
- n2fe8C/IedfcplqCjGsd87uRarm6rQxfP3WAZPBWsXbWbMkI3xxUOfRjmg/XKIdV
- wfYk/382pZzKgJ+qRyqYgkzd+uFzaBZ1CidqctyDK7PR+nulsm3G8tT4B47TdQdK
- yfTTbwtCbOcgqMJqt0PLyEhVSx/hdOjbLulLGn2KOQ==
-X-ME-Sender: <xms:Gd0ZYx-VJ_n8fwhNzqeinW9zRoOJIB3yBBBoJyfyI0tFQTcYQ_FvOg>
- <xme:Gd0ZY1t0XkgJ6p7z-6oK4s3Ru034OpDPdtxoRb1VE7LajPBjrkGKfmnncnLXy9nN8
- 7Ck7iK31cV8Qbo7GtE>
-X-ME-Received: <xmr:Gd0ZY_CkBdJCltHOl2jashFOaN-V8z3B7N42MUSuy5gtYWjK0NmyFuSuXw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtvddgheduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetudffhfdtieeuleeivdevgeefvdfggfejuefhtdekueetfeduhfejfeej
- veegueenucffohhmrghinhepmhhouggvrdhimhdpghhithhhuhgsrdgtohhmnecuvehluh
- hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegt
- vghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Gd0ZY1dGuvC2jLOJEshGqp-NA3ciXfOKnk7LWOZHvBKJlbHTDeS6kw>
- <xmx:Gd0ZY2Ph-WCqb7jAUhuUX7FJ_U8LaQhIzBiUa8BIUZN0-z70FI8IZA>
- <xmx:Gd0ZY3mFDu01G1S9U0_8Ss8uXVSawJwGIIWaxxMzuTa6inA22MpeFA>
- <xmx:Gt0ZY7ZmPog5GvP-mfXxmuJC3nvvPwh0VCe2U2NDnNmf_Ik9E6bz7qwRem4>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Sep 2022 08:16:25 -0400 (EDT)
-Date: Thu, 8 Sep 2022 14:16:23 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Subject: Re: [PATCH v2 32/41] drm/vc4: vec: Convert to the new TV mode property
-Message-ID: <20220908121623.m6n2zyk3aratb6ag@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-32-459522d653a7@cerno.tech>
- <199cf4b3-8ace-e047-3050-b810cf0c6b63@tronnes.org>
- <20220908112312.hlb7mzneuxnethhr@houat>
- <aa510ec2-a72d-364b-424e-816872ab6923@gmail.com>
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 542A610EACF
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 12:37:14 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id s13so9870785qvq.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 05:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=WcekcDNFeJzxZPSod6l4pgL2wFziikSEFQBuSo6O52M=;
+ b=KKyDjjUP/2p/6f7MjEn3kMEeJ9Uy23+vKM3cRtzBVt8VoKvtO19GZa9khWTOIgKXfU
+ i8Wg2YqI7xe6VOUzHA1blR13LADAZdvcQEwpXYTDVgQlqE6jyPfQLsPIW6IFt8PC1Twz
+ x1/2IkKExw1n1GVsGI2IcwHf6pcYkgxICIHCs5zME9TCi20awY/+j2rjTx1gBo2XawTZ
+ hkPlifBFFpN7SWmfPgwIEuuHCjIW6iQRdS0k/Y45tBs1sBIxtTNCbnlbGq2Q0vhyPQMt
+ KUHxfIEXp877QAvYoOIiX2SlcsbptrwrQuaci6jQ2mMpkHWg65mjQ+2UlqkyzZ97Lyu0
+ 1xuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=WcekcDNFeJzxZPSod6l4pgL2wFziikSEFQBuSo6O52M=;
+ b=0iRQHPfOJOgXsnmauHC4Iuy/tw7TZ0Jm+6/dingU397uCzjQAOte+IzmmE8gVpzMgV
+ bjGCMhNgP6yDC/UWOxgJxLLtOK0yYPbGwfkjwc9h7P0zFCWXZTVoNjPt00yvGaJ4l7xa
+ /c+gFrcPGO+pbDOrDd9SILJh7XlU+sD+tQtZRvDkMEKfGk1ifTY74RJXfds3GlyTjVrL
+ ls8BQAQdAgYx0bdO71clRnU2AJhRYxk5Sp8Fv+ljqYZNgSh9aTADMo0goteoblKhIfGY
+ E68ALS6Oxmf2RrNf4ospE7Omu4/WbPc8Q0ZLdYenAsAlmvDdq/wD+aZVEUW3WPMSK8Ta
+ UGOQ==
+X-Gm-Message-State: ACgBeo0EzH3DKYrpJLtt6zDM2kRBDYc9MLzMxsvKJiL4ZfBaIt0B/R08
+ zH/4OUs7kkaVtvqtZXr6qsP04Q==
+X-Google-Smtp-Source: AA6agR4iyYT8//K0u4eC6uIKjTIJa5MHHn5Yfbf3X3qv/3RmHXDYo2nTKmbY5oFt97DH+rTTDZyaNQ==
+X-Received: by 2002:a05:6214:c66:b0:499:2f1a:1cec with SMTP id
+ t6-20020a0562140c6600b004992f1a1cecmr6905971qvj.93.1662640633361; 
+ Thu, 08 Sep 2022 05:37:13 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129]) by smtp.gmail.com with ESMTPSA id
+ br7-20020a05622a1e0700b00344f91f6fe0sm14363098qtb.67.2022.09.08.05.37.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Sep 2022 05:37:09 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1oWGmJ-0090gF-SU;
+ Thu, 08 Sep 2022 09:37:07 -0300
+Date: Thu, 8 Sep 2022 09:37:07 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 15/15] vfio: Add struct device to vfio_device
+Message-ID: <Yxnh87ZIS2JwvN7D@ziepe.ca>
+References: <20220901143747.32858-1-kevin.tian@intel.com>
+ <20220901143747.32858-16-kevin.tian@intel.com>
+ <50d82b01-86a3-e6a3-06f7-7f98e60131eb@redhat.com>
+ <546463b8-54fa-2071-6a9a-e4087eb8bb2c@intel.com>
+ <4c9350cd-c2ce-dc84-9a29-210907d2a2a2@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="tdggbbxhdgn6r5uy"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aa510ec2-a72d-364b-424e-816872ab6923@gmail.com>
+In-Reply-To: <4c9350cd-c2ce-dc84-9a29-210907d2a2a2@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,89 +77,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
- intel-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, David Airlie <airlied@linux.ie>,
+ Eric Farman <farman@linux.ibm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>, linux-s390@vger.kernel.org,
+ Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org,
+ Leon Romanovsky <leon@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Kevin Tian <kevin.tian@intel.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Jason Herne <jjherne@linux.ibm.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Sep 08, 2022 at 11:39:07AM +0200, Eric Auger wrote:
 
---tdggbbxhdgn6r5uy
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 08, 2022 at 01:31:34PM +0200, Mateusz Kwiatkowski wrote:
-> W dniu 08.09.2022 o 13:23, Maxime Ripard pisze:
-> > Hi Noralf,
+> >> I am not totally clear about remaining 'struct device *dev;' in
+> >> vfio_device struct. I see it used in some places. Is it supposed to
+> >> disappear at some point?
 > >
-> > On Tue, Aug 30, 2022 at 09:01:08PM +0200, Noralf Tr=F8nnes wrote:
-> >>> +static const struct drm_prop_enum_list tv_mode_names[] =3D {
-> >>
-> >> Maybe call it legacy_tv_mode_enums?
-> >>
-> >>>
-> >>> +=A0=A0 =A0{ VC4_VEC_TV_MODE_NTSC, "NTSC", },
-> >>>
-> >>> +=A0=A0 =A0{ VC4_VEC_TV_MODE_NTSC_J, "NTSC-J", },
-> >>>
-> >>> +=A0=A0 =A0{ VC4_VEC_TV_MODE_PAL, "PAL", },
-> >>>
-> >>> +=A0=A0 =A0{ VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
-> >>
-> >> If you use DRM_MODE_TV_MODE_* here you don't need to translate the val=
-ue
-> >> using the switch statement in get/set property, you can use the value
-> >> directly to get/set tv.mode.
-> >
-> > I'm sorry, I'm not quite sure what you mean by that. If we expose the
-> > DRM_MODE_TV_MODE_* properties there, won't that change the values the
-> > userspace will need to use to set that property?
->=20
-> I'd just like to point out that if numerical values of these enums are yo=
-ur
-> concern, then you're (or perhaps I am ;) already breaking this by adding =
-new
-> modes in patch 33/41 in this series.
->=20
-> And the values (and names!) added by that patch (33/41) don't match those
-> currently used by the downstream version
-> (https://github.com/raspberrypi/linux/blob/rpi-5.15.y/drivers/gpu/drm/vc4=
-/vc4_vec.c).
-> If any userspace software is manipulating this property, it's most likely
-> targeting the downstream code. But since you're not aiming for consistenc=
-y with
-> that, I was under the impression that compatibility isn't a concern.
+> > no, Eric. *dev will not disappear, it stores the dev pointet passed in by
+> > caller of vfio_init_device().
+> 
+> yeah I see but you have device->device.parent = device->dev;
 
-I'm not really concerned about the compatibility with the downstream
-tree, if only because you already broke that compatibility with your
-patch :)
+IIRC we have a number of these redundancies now, often the drivers
+store another copy of the dev too.
 
-So you're right, I'll reorganize that patch to keep the backward
-compatibility.
+A significant use of dev is for printing things, what should be done
+here is to create a subsystem wide vfio_warn/etc that takes in the
+vfio_device, and then print properly from there. Now that we have a
+struct device all the prints should also include the VFIO struct
+device name, and then the PCI device perhaps in brackets.
 
-Maxime
-
---tdggbbxhdgn6r5uy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxndFwAKCRDj7w1vZxhR
-xZzpAQDu6178QjxcwYvkevzAeo7PrIc0OnYrnwJMv32MTXR4eQEAk5vzF3oEW4ES
-B3YR/wi67B2CLlhZDDEHOYE/bL80EQ8=
-=fmem
------END PGP SIGNATURE-----
-
---tdggbbxhdgn6r5uy--
+Jason
