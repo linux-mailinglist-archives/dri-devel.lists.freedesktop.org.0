@@ -1,122 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8CA5B1E8E
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 15:20:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 308CD5B1EDC
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 15:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1F910EAF3;
-	Thu,  8 Sep 2022 13:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C25010E5C0;
+	Thu,  8 Sep 2022 13:26:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6938310EAEA;
- Thu,  8 Sep 2022 13:19:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GxFctNl63DXqYBIJo/afIvleM4p/jzFmy3gHwmAOxSwob52vsSN9z0GUwNbTMN5CtOwwZDXL738STilv//yxmlqD1novxJLep41buxQ/fRCVicW71+sbgYlog/Y0FAr0zfc2zg2ge25YY3xoc7CpDHrf/Mtv6SjE0PkD9em9Y2kV7J6cmGBIp4qlJEoUdjEa+AnUNbiZYKq2+RmvOnmdiF5WPh2ExNcZTwMh24p9APWz5s3elZO2rY1bgEkT5WvlmKMIQqM4251kr8EHIsYx69gt4Zax/oHlIOp+FYL+nAMzf1dYhW0t1zB4bC16k2KoqwJn0vPWGyznhcytYGXEAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iqxb2FLT3BN6cAQnKipF+2J3+MIOzaU/KcF39Sj5Vz4=;
- b=QqbkXMvZpIlaXj8KxHdyT7Wf+v0uNTb/RsO3RFuNJlP7UDr7fCkGUbsA1vM+5B+WI/9AA3/BrRf6NilMhusQ12X/Yw61yNcaCnmYnjLhZ0XxD5rBaZaAsc9H6/q35npc3b7b4WW8Jsvwhmx8hXATR4/3zyj9rA7ZuHaloLDH3wNugF+r+8IO3BQRjYouKdTiYKj1eSVmq1TA5/zouf4V9WG+MKYvvxz8gu+z9DqY6PB2crFHJo+fc3YTb6iJyc5zzqSHuL33UVZizgrkfLxgoXKoXmBQcoCy7kqPZBXVmh0j5tME1uoecADBOgaBjEQgu3YuTDG8xOGkn/RfnrAWmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iqxb2FLT3BN6cAQnKipF+2J3+MIOzaU/KcF39Sj5Vz4=;
- b=BBZ5WBQRXTUONCK9tPGzu0pjE1L8plVOX33OhPoggfTsz/hnMhAaW2GmsAtF/1cTczKDOjJPaP4bNUFII7QV4wDKAVK1K2WgbwbTFXqOATOwewGfPOm1KxTkCzfjNrVu0+rYQFmr8YYVJpK4kTRQVu9lDZtOFURjX8ST7hYr0xk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1753.namprd12.prod.outlook.com (2603:10b6:3:10d::16)
- by SA1PR12MB6703.namprd12.prod.outlook.com (2603:10b6:806:253::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19; Thu, 8 Sep
- 2022 13:19:54 +0000
-Received: from DM5PR12MB1753.namprd12.prod.outlook.com
- ([fe80::d503:c616:dcf8:2ae8]) by DM5PR12MB1753.namprd12.prod.outlook.com
- ([fe80::d503:c616:dcf8:2ae8%8]) with mapi id 15.20.5588.018; Thu, 8 Sep 2022
- 13:19:53 +0000
-Message-ID: <3a30e256-7966-6f53-8ada-db4c27087259@amd.com>
-Date: Thu, 8 Sep 2022 09:19:51 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 3/4] drm/sched: always keep selecetd ring sched list in
- ctx entity
-Content-Language: en-CA
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- James Zhu <James.Zhu@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20220907205705.934688-1-James.Zhu@amd.com>
- <20220907205705.934688-3-James.Zhu@amd.com>
- <facee8f2-b674-5893-10fc-ef58ebd76358@amd.com>
-From: James Zhu <jamesz@amd.com>
-In-Reply-To: <facee8f2-b674-5893-10fc-ef58ebd76358@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0157.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::12) To DM5PR12MB1753.namprd12.prod.outlook.com
- (2603:10b6:3:10d::16)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C772010E5C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 13:26:40 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id l65so17914664pfl.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 06:26:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=ZLPf+1k6x08TqTxwKItwOZ2N4DIt82ytxggkEqqSg6o=;
+ b=EPJTfLmw2AwBIAAzuVugXup87vo881JSGO20TSHdZsiagxMnI6XEq80pPyPDXSQG2E
+ 911CaiivVqNp9il6o3Z1bqj0TTFRY32tYWQM9hFCGlzITIsav1xvB5VT9fl2DLgaBmnR
+ HUq6jNE9Wm39lMKomLeIw/huM28Zsu2SF4bWcM/VcbrHjHYZPzNycfGQl5OE97odI16A
+ ZUfiXhuA+jM+BJkvwleDtPj1fvAjc28b5IIhkUw4TznQwHsoQ+sDzIg1zPNpxuGYMOiN
+ hTgWiCbhWiVNN4QrGWhQq4GFpBoP5S80rGVDsKnaTbpEVZGz1PPriG+aw7zc6j3qyIba
+ lJLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=ZLPf+1k6x08TqTxwKItwOZ2N4DIt82ytxggkEqqSg6o=;
+ b=UZ5KLvJb3RMrmAzoyEYKXteL0EUnjnNGQ69H9590f8zdYvRtoMMPJtDivtQRXBNU+i
+ 2FpP6SHxmFNBtZVHI1ipZsjjh7E1FDm448hS4txPzMRKglb1wHl/mBOWCxt1o4vUM33k
+ AByTlFZVHeVZgFbsKIltXIcEXDg0lPDNC3ZLaH501IQglmVDRFiAI6lM4o7FoTIZxIlN
+ jLFz/X7tpjqqTA1qMBpWNnnHbkwUh51TOMY+8AocZExRlc/QCz2GQr5tWZACUYZHrOUi
+ fTwglO1x8LGFreKbHjtFbRru0sbD4B/99F1tdMM8uxzVHIXuWzhIZqAoQMhkGZLmHfOW
+ PTaQ==
+X-Gm-Message-State: ACgBeo2yzWOw1Bv/3Wh0wDg+mLzRIggATxSu2nY1LwN3nCipV3C6q/JN
+ uxyfZLhXuSyWERjK+THxx7t6ZnaHh5yo/aWqjR+wHCMy
+X-Google-Smtp-Source: AA6agR5/vVkSwSSq1INR2uvDKG91OoHQNBK9w0oIPOiX6hrsBT1hO8//LMBz/+iApDbVrlY5fLgtGkJJ50PCaBUyCig=
+X-Received: by 2002:a05:6a00:16c4:b0:535:890:d52 with SMTP id
+ l4-20020a056a0016c400b0053508900d52mr9139243pfc.9.1662643600177; Thu, 08 Sep
+ 2022 06:26:40 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75989842-1c47-4c50-b6b6-08da919cd11f
-X-MS-TrafficTypeDiagnostic: SA1PR12MB6703:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PmltcvA6EdpY39FMxVbqOmFCnCXcz7yoYOgZfd0IXDlVt8WMiZAOomKn+88nAhHXNnl30MxPRs4pj1pKHJzzTm0M0+sgm7dhmP1n+79CLjU+f3+Ups6NkLa67yERE/EUe7SS+zFqh6wY1UrdCelZqFk0pWvonrMNtjSLLnb1yw1Xq3OA2/Qbrd8l2AbDziWzKu2ooek5jr8MvFHr1bUgIvo/zEy6mgfGzz0ywWIW+U/CkEy0lei2AOjHII/+RpCW0Pmt59heLjSaVQurL9lME6aphcyF2GLhHK6aure3N1NgCJu3eoyC/eVeb0LbIuUhpurciAfmdBgPdS0CwaEW4aSje0oo3Xpfatrxm7TboTB2hGNblpyNhgvdVtDCj60jxdDFOhIkLvVKW8vT1rD32eahTHk3hGSv3bS8gf3C1i5hGRLUzZBzrwccbQYUfrGYkXoihfJO+j0qa567BZTno9AndPT7sizOCsDdGnJDTIGeiqD/DE0vWsKIBpxamwLsvwZySkfecVYmXUsg5p4xXlg8fVyeXdE4yHfGQYKHpKn5fATYJT32m1FH/xQTsSdwIh1eziRXofwxRig8A5go5FGZGHhDtASU62f2K6sCkAOyFUS6mlWROULAdc3t6nQ65JEGfviHBUlq50L0T5T/RGE/ctqZkDIVQjJL62rZIM8VbepuSWfDjpgWKUitWAkoKEN8xJ/4Nm+8n0zE+Kv6iA2moyflnD18Y3Upsm3oZ+dnYQIBdDi5HgZnpODVdaajGWmzT+FCjXf+FZIJaerPyXUP3r3663sUwMLWR+pMATA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(83380400001)(4326008)(186003)(66574015)(2616005)(38100700002)(6486002)(5660300002)(450100002)(8676002)(66476007)(66556008)(66946007)(110136005)(316002)(26005)(6506007)(6512007)(53546011)(41300700001)(478600001)(8936002)(2906002)(31686004)(31696002)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cEx5L3NTdDd2M1BNbHdwdW0wWXJNZWJ0Rkk3SW53RmJzSTZFUU9ibUxxSWQx?=
- =?utf-8?B?Q3FJcFFlU0s5Tno0djZyTkFGOVc0b2R0QnNSZGxFTWlqczFnTEhDbjJPaUtw?=
- =?utf-8?B?OVJDWDNYRHpMbFozQjQySWxJZXpUSUtnZy94ek5WeExncU92MlRvQjVpeFJv?=
- =?utf-8?B?M2NlNHdtdGdTajQ4YW1sZXREZUliL2FlRmRsdFR6NmhTUTdsQmpZZ0wxWTEv?=
- =?utf-8?B?TWRobjFVOUxBUDVvRU4yY3hUTnBHNW5hNXUvVzR3SHA0UVBPaE12TXJSMDc3?=
- =?utf-8?B?TE01VFowUVU5Ni9uMWY4SE16cENiOTR6NWZ1d0FUNXMvUHIydXhLRmRlVEVP?=
- =?utf-8?B?VUZlSGRuVThzUCtYS0p4V2FVSnY5UmxjT00zelVqWExjYXNSc1hDR1lHQzVU?=
- =?utf-8?B?N3pPL0Zjajg1eGxzSFZaMlhvTGR3cU1xdWc0TDBrQjlwV2doWmc0U28rZXhM?=
- =?utf-8?B?S0I1dURHVnk4ajd6V0c2Y3JVRW9VYlZNTEFubUVBNWR5TkRwY3M0UC9CZ29z?=
- =?utf-8?B?RE9BRWRSeXlXOXpZcmgxalBPZHBGMTFKazVWQ3BBSHFzSGVxNW0rSENFSUxM?=
- =?utf-8?B?THlMU3FOdmt1YXNYajY4Qk4xVHNLbTkzdUZHUUJaaHd1VnVyb2ZRektSUTV4?=
- =?utf-8?B?R2ZrZGo3VlBJaVdQTXNab2VkaVNReGdpRjZ4Nmx2WDQ1a1B6N3BQMVFxSGtR?=
- =?utf-8?B?aERBa1ZhOXBvbVR6cmdmR3hnL1RDTURPNjlYbVdTWGE5RDh2MnR0T2RyMlhJ?=
- =?utf-8?B?Q3lVdW1HOE5QcEZaNTFUWEJibHd4ZTRGaU1zQ05hR0xUUTFkMWRmYkkzemlh?=
- =?utf-8?B?Wit2UHZ5VTFDVzlIMk0wTTNpNW9HRVpFTWQ4TStiTE5Bc1doUU1Ld1VOWmdX?=
- =?utf-8?B?eVFmdWVjME0vbVdiOVhQTUp6bjExMnVmaE5QTzNKaWlJR2lNTTRXb2RRa0Rs?=
- =?utf-8?B?a0UxeXRsQjVXY2ZXdUh6Zk1CSGNQU3hZRjMrVTJFUzRLM0hoaVptVXpUbmxq?=
- =?utf-8?B?OFdIQ3ByWlU2NGJ5bEROT0hKQ3UzcnBQRUFXeVdlRERldENXL21oUlFSa2d0?=
- =?utf-8?B?QlBvV1o4K0tvcS9WWHIxWm03bTl1VkpBNitjQ2tJR0JyVG5RUVdrRWpjbDhJ?=
- =?utf-8?B?SjR0MUI1Q1JFY3dkNy9LYit1TGN2V2E5L0xZeHdQd2hmSEZpWFhORS9ISnJI?=
- =?utf-8?B?aWg0THJiblFaakx3RnVsaXJFZ2UvVEFIcmRxOVl5b2FIYnprUS9hN3V5UFAv?=
- =?utf-8?B?Z0lqSlNpcXpSQloyb3pydmVkMzV3QVpKMitIOHhSWVFUVzg1ZWxNTXpSSkVI?=
- =?utf-8?B?V2s4SEhpV2x2ODlPQjRDdkVwbmRCWGM4aS9wbmhyQjVVVytCZDlOSm1BMHh6?=
- =?utf-8?B?L2JLb09MMHorNzc1MlR1bHhtVDFJaEtjUStrMVNxUUYyU2pXbXJ6UlF1V1ZE?=
- =?utf-8?B?N2hKM010ditLWEdkT1BGQ1VZMlpXc1YyYXdKSzcvdG00Um5WYk1nUE9LVXht?=
- =?utf-8?B?TTdDWWpLSUZJKzJYd3dRQmxhK0tmQUVvYUV2K2ZhdFNFczhuOHo5MWVUZVpT?=
- =?utf-8?B?a21XVGtWbkNtYUF4VUxIZmpzMko3K0tkM1l4RDlKU0N3VTNXaFlwTURuR2Fl?=
- =?utf-8?B?Y2xtQkRHQ2hOVmJ3MGM2YXpQUFlMT0tMOEV4NzdzNTNwSWZTRXRqMEtWTXJZ?=
- =?utf-8?B?dCs2SzhScWFMMHhjK0xUZnIyRWdRTmlDazN1SCtSK0ZSTlI5aFNldjgwWWky?=
- =?utf-8?B?RTEvNkI0WVNvY0N6eHRTTzBjQ20zN1NvMk02TDVEMmIvNTA1clpCd2FwUnEv?=
- =?utf-8?B?bzVnWWx2STlUODZPNXRFSU5WQXozczZGcHM0bkFQMVR0d3dsVW1RS1ZlaUw5?=
- =?utf-8?B?TWx0ZHJML29DZDgvR0UrcEdpVjlGbWFNT2tTbHJ6UDM3S3ZnWG16QURnSW5O?=
- =?utf-8?B?RUZrYitQdm9JMHpCZWdTR3RXRzUzMWkrY1YxV0RJL1IxUmhNcXhlYk9PVldk?=
- =?utf-8?B?a0VCbVRrd1FhVG5TY1kyOW55ME15dSthaGJ2VlpYc2RhMENMK3l6NmovREdO?=
- =?utf-8?B?VURFYW1ST2xCSTVTMU1OSVRyU0lSRjdKTytLMmx2aW1qSE5hZy9yVUZheFBr?=
- =?utf-8?Q?mQWwWlOFnj4jSS991vFK0gsVl?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75989842-1c47-4c50-b6b6-08da919cd11f
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1753.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 13:19:53.7507 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ak/9+NN5WtLvdKrOE5xqwd3u4j13j043G6NYmnygNe0V71gZEvr2eFTID1qHZXdp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6703
+References: <20220906203852.527663-1-hdegoede@redhat.com>
+ <20220906203852.527663-4-hdegoede@redhat.com>
+In-Reply-To: <20220906203852.527663-4-hdegoede@redhat.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Thu, 8 Sep 2022 15:26:28 +0200
+Message-ID: <CAMeQTsYwrtAwb2_Lj2RyrWCov88Nq=-_tScD5dXC548Fog3X0w@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/gma500: Fix (vblank) IRQs not working after
+ suspend/resume
+To: Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,73 +65,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian
-
-I need use entity->sched_list to track ring (ring = container_of(sched, 
-struct amdgpu_ring, sched))
-
-during amdgpu_ctx_fini_entity.
-
-I think change here to keep selected ring sched list in 
-entity->sched_list won't change the original logic too much.
-
-Best Regards!
-
-James
-
-
-On 2022-09-08 2:15 a.m., Christian König wrote:
-> Am 07.09.22 um 22:57 schrieb James Zhu:
->> Always keep selecetd ring sched list in ctx entity.
+On Tue, Sep 6, 2022 at 10:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> I have no idea what you are doing here, but this certainly doesn't 
-> make sense.
+> Fix gnome-shell (and other page-flip users) hanging after suspend/resume
+> because of the gma500's IRQs not working.
 >
-> Please explain a bit more.
+> This fixes 2 problems with the IRQ handling:
 >
-> Thanks,
-> Christian.
+> 1. gma_power_off() calls gma_irq_uninstall() which does a free_irq(), but
+>    gma_power_on() called gma_irq_preinstall() + gma_irq_postinstall() which
+>    do not call request_irq. Replace the pre- + post-install calls with
+>    gma_irq_install() which does prep + request + post.
+
+Hmm, I don't think we're supposed to do free_irq() during suspend in
+the first place. request_irq() and free_irq() are normally only called
+in the pci device probe/remove hooks. Same is true for msi
+enable/disable.
+
+I can take this patch as is since it improves on the current situation
+but feel free to dig deeper if you like. On Poulsbo I can see
+interrupts not getting handled during suspend/resume even with this
+patch applied.
+
+-Patrik
+
 >
->>
->> Signed-off-by: James Zhu <James.Zhu@amd.com>
->> ---
->>   drivers/gpu/drm/scheduler/sched_entity.c | 7 ++-----
->>   1 file changed, 2 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
->> b/drivers/gpu/drm/scheduler/sched_entity.c
->> index f5595607995b..39dca9cb8e0d 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -71,7 +71,7 @@ int drm_sched_entity_init(struct drm_sched_entity 
->> *entity,
->>       entity->guilty = guilty;
->>       entity->num_sched_list = num_sched_list;
->>       entity->priority = priority;
->> -    entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
->> +    entity->sched_list = sched_list;
->>       entity->last_scheduled = NULL;
->>         if(num_sched_list)
->> @@ -453,7 +453,7 @@ void drm_sched_entity_select_rq(struct 
->> drm_sched_entity *entity)
->>       struct drm_sched_rq *rq;
->>         /* single possible engine and already selected */
->> -    if (!entity->sched_list)
->> +    if (entity->num_sched_list <= 1)
->>           return;
->>         /* queue non-empty, stay on the same engine */
->> @@ -482,9 +482,6 @@ void drm_sched_entity_select_rq(struct 
->> drm_sched_entity *entity)
->>           entity->rq = rq;
->>       }
->>       spin_unlock(&entity->rq_lock);
->> -
->> -    if (entity->num_sched_list == 1)
->> -        entity->sched_list = NULL;
->>   }
->>     /**
+> 2. After fixing 1. IRQs still do not work on a Packard Bell Dot SC (Intel
+>    Atom N2600, cedarview) netbook.
+>
+>    Cederview uses MSI interrupts and it seems that the BIOS re-configures
+>    things back to normal APIC based interrupts during S3 suspend. There is
+>    some MSI PCI-config registers save/restore code which tries to deal with
+>    this, but on the Packard Bell Dot SC this is not sufficient to restore
+>    MSI IRQ functionality after a suspend/resume.
+>
+>    Replace the PCI-config registers save/restore with pci_disable_msi() on
+>    suspend + pci_enable_msi() on resume. Fixing e.g. gnome-shell hanging.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/gma500/cdv_device.c      |  4 +---
+>  drivers/gpu/drm/gma500/oaktrail_device.c |  5 +----
+>  drivers/gpu/drm/gma500/power.c           |  8 +-------
+>  drivers/gpu/drm/gma500/psb_drv.c         |  2 +-
+>  drivers/gpu/drm/gma500/psb_drv.h         |  5 +----
+>  drivers/gpu/drm/gma500/psb_irq.c         | 15 ++++++++++++---
+>  drivers/gpu/drm/gma500/psb_irq.h         |  2 +-
+>  7 files changed, 18 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
+> index dd32b484dd82..ce96234f3df2 100644
+> --- a/drivers/gpu/drm/gma500/cdv_device.c
+> +++ b/drivers/gpu/drm/gma500/cdv_device.c
+> @@ -581,11 +581,9 @@ static const struct psb_offset cdv_regmap[2] = {
+>  static int cdv_chip_setup(struct drm_device *dev)
+>  {
+>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> -       struct pci_dev *pdev = to_pci_dev(dev->dev);
+>         INIT_WORK(&dev_priv->hotplug_work, cdv_hotplug_work_func);
+>
+> -       if (pci_enable_msi(pdev))
+> -               dev_warn(dev->dev, "Enabling MSI failed!\n");
+> +       dev_priv->use_msi = true;
+>         dev_priv->regmap = cdv_regmap;
+>         gma_get_core_freq(dev);
+>         psb_intel_opregion_init(dev);
+> diff --git a/drivers/gpu/drm/gma500/oaktrail_device.c b/drivers/gpu/drm/gma500/oaktrail_device.c
+> index 5923a9c89312..f90e628cb482 100644
+> --- a/drivers/gpu/drm/gma500/oaktrail_device.c
+> +++ b/drivers/gpu/drm/gma500/oaktrail_device.c
+> @@ -501,12 +501,9 @@ static const struct psb_offset oaktrail_regmap[2] = {
+>  static int oaktrail_chip_setup(struct drm_device *dev)
+>  {
+>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> -       struct pci_dev *pdev = to_pci_dev(dev->dev);
+>         int ret;
+>
+> -       if (pci_enable_msi(pdev))
+> -               dev_warn(dev->dev, "Enabling MSI failed!\n");
+> -
+> +       dev_priv->use_msi = true;
+>         dev_priv->regmap = oaktrail_regmap;
+>
+>         ret = mid_chip_setup(dev);
+> diff --git a/drivers/gpu/drm/gma500/power.c b/drivers/gpu/drm/gma500/power.c
+> index b91de6d36e41..66873085d450 100644
+> --- a/drivers/gpu/drm/gma500/power.c
+> +++ b/drivers/gpu/drm/gma500/power.c
+> @@ -139,8 +139,6 @@ static void gma_suspend_pci(struct pci_dev *pdev)
+>         dev_priv->regs.saveBSM = bsm;
+>         pci_read_config_dword(pdev, 0xFC, &vbt);
+>         dev_priv->regs.saveVBT = vbt;
+> -       pci_read_config_dword(pdev, PSB_PCIx_MSI_ADDR_LOC, &dev_priv->msi_addr);
+> -       pci_read_config_dword(pdev, PSB_PCIx_MSI_DATA_LOC, &dev_priv->msi_data);
+>
+>         pci_disable_device(pdev);
+>         pci_set_power_state(pdev, PCI_D3hot);
+> @@ -168,9 +166,6 @@ static bool gma_resume_pci(struct pci_dev *pdev)
+>         pci_restore_state(pdev);
+>         pci_write_config_dword(pdev, 0x5c, dev_priv->regs.saveBSM);
+>         pci_write_config_dword(pdev, 0xFC, dev_priv->regs.saveVBT);
+> -       /* restoring MSI address and data in PCIx space */
+> -       pci_write_config_dword(pdev, PSB_PCIx_MSI_ADDR_LOC, dev_priv->msi_addr);
+> -       pci_write_config_dword(pdev, PSB_PCIx_MSI_DATA_LOC, dev_priv->msi_data);
+>         ret = pci_enable_device(pdev);
+>
+>         if (ret != 0)
+> @@ -223,8 +218,7 @@ int gma_power_resume(struct device *_dev)
+>         mutex_lock(&power_mutex);
+>         gma_resume_pci(pdev);
+>         gma_resume_display(pdev);
+> -       gma_irq_preinstall(dev);
+> -       gma_irq_postinstall(dev);
+> +       gma_irq_install(dev);
+>         mutex_unlock(&power_mutex);
+>         return 0;
+>  }
+> diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+> index 1d8744f3e702..54e756b48606 100644
+> --- a/drivers/gpu/drm/gma500/psb_drv.c
+> +++ b/drivers/gpu/drm/gma500/psb_drv.c
+> @@ -383,7 +383,7 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
+>         PSB_WVDC32(0xFFFFFFFF, PSB_INT_MASK_R);
+>         spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
+>
+> -       gma_irq_install(dev, pdev->irq);
+> +       gma_irq_install(dev);
+>
+>         dev->max_vblank_count = 0xffffff; /* only 24 bits of frame count */
+>
+> diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+> index 0ea3d23575f3..731cc356c07a 100644
+> --- a/drivers/gpu/drm/gma500/psb_drv.h
+> +++ b/drivers/gpu/drm/gma500/psb_drv.h
+> @@ -490,6 +490,7 @@ struct drm_psb_private {
+>         int rpm_enabled;
+>
+>         /* MID specific */
+> +       bool use_msi;
+>         bool has_gct;
+>         struct oaktrail_gct_data gct_data;
+>
+> @@ -499,10 +500,6 @@ struct drm_psb_private {
+>         /* Register state */
+>         struct psb_save_area regs;
+>
+> -       /* MSI reg save */
+> -       uint32_t msi_addr;
+> -       uint32_t msi_data;
+> -
+>         /* Hotplug handling */
+>         struct work_struct hotplug_work;
+>
+> diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+> index e6e6d61bbeab..038f18ed0a95 100644
+> --- a/drivers/gpu/drm/gma500/psb_irq.c
+> +++ b/drivers/gpu/drm/gma500/psb_irq.c
+> @@ -316,17 +316,24 @@ void gma_irq_postinstall(struct drm_device *dev)
+>         spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
+>  }
+>
+> -int gma_irq_install(struct drm_device *dev, unsigned int irq)
+> +int gma_irq_install(struct drm_device *dev)
+>  {
+> +       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> +       struct pci_dev *pdev = to_pci_dev(dev->dev);
+>         int ret;
+>
+> -       if (irq == IRQ_NOTCONNECTED)
+> +       if (dev_priv->use_msi && pci_enable_msi(pdev)) {
+> +               dev_warn(dev->dev, "Enabling MSI failed!\n");
+> +               dev_priv->use_msi = false;
+> +       }
+> +
+> +       if (pdev->irq == IRQ_NOTCONNECTED)
+>                 return -ENOTCONN;
+>
+>         gma_irq_preinstall(dev);
+>
+>         /* PCI devices require shared interrupts. */
+> -       ret = request_irq(irq, gma_irq_handler, IRQF_SHARED, dev->driver->name, dev);
+> +       ret = request_irq(pdev->irq, gma_irq_handler, IRQF_SHARED, dev->driver->name, dev);
+>         if (ret)
+>                 return ret;
+>
+> @@ -369,6 +376,8 @@ void gma_irq_uninstall(struct drm_device *dev)
+>         spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
+>
+>         free_irq(pdev->irq, dev);
+> +       if (dev_priv->use_msi)
+> +               pci_disable_msi(pdev);
+>  }
+>
+>  int gma_crtc_enable_vblank(struct drm_crtc *crtc)
+> diff --git a/drivers/gpu/drm/gma500/psb_irq.h b/drivers/gpu/drm/gma500/psb_irq.h
+> index b51e395194ff..7648f69824a5 100644
+> --- a/drivers/gpu/drm/gma500/psb_irq.h
+> +++ b/drivers/gpu/drm/gma500/psb_irq.h
+> @@ -17,7 +17,7 @@ struct drm_device;
+>
+>  void gma_irq_preinstall(struct drm_device *dev);
+>  void gma_irq_postinstall(struct drm_device *dev);
+> -int  gma_irq_install(struct drm_device *dev, unsigned int irq);
+> +int  gma_irq_install(struct drm_device *dev);
+>  void gma_irq_uninstall(struct drm_device *dev);
+>
+>  int  gma_crtc_enable_vblank(struct drm_crtc *crtc);
+> --
+> 2.37.2
 >
