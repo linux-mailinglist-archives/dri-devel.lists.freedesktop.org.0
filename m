@@ -1,73 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2955B1E4B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 15:14:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AAE85B1E4F
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 15:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5BDF10E4CC;
-	Thu,  8 Sep 2022 13:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C51310E9C4;
+	Thu,  8 Sep 2022 13:14:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC5810E4CC
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 13:14:11 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id bt10so27667719lfb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 06:14:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=d6L8J87aB1v86b8RgudDsS+xKsHjOOrMMFG5XtkLsqo=;
- b=KHawKIkFgPkUxVPkrjS1pBxHZgetgHTNXzqxeOnAcSGLyIQMDySoPJY0z20Bkyivns
- RPFgcCuGjz4+xShlNPgjCl+R9EueMyB2ktLSK2dZpqECBuL0feaVHYpwNepFy7K7tYSu
- 2KvMpZD6jpzhfIwYGIZKHCxFgYI5bGqvoTmZWHyH8sMHA5ne2vHmdeHMcUdzXfZxdrrB
- DrvjEFNw6NB0C4OcfJ7W298bdxJKmhSiODQpTt1GczHtkKhnZfrsDf26fCWUok8Y0zbT
- DyXGnZFjOllz5290Yz1gzA/LcwKkLPd4YWczB9p99j3HJhONBxS5BBuVJOE3kBfLtayx
- ge8A==
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB0210E9C4;
+ Thu,  8 Sep 2022 13:14:49 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-11e9a7135easo44199993fac.6; 
+ Thu, 08 Sep 2022 06:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=PKx0v8N9YvEdbCnl3VJ9cuH9xcqQx+VnjaIOLPR9Czk=;
+ b=ZS/7JbXh65BNH4t6OPVZOW0t4raGc4c7dXcoWt2lmQ6mrH6/aE31PuYG0HeXHOq+Ub
+ 9oMQP+1k0cZrL/tYzvk2occ2c38JKtrEaRktgSx8eK7puJKnmTWkzu9gxA9uKwjM1im3
+ 3MqqaMBOgxL3Y6fBoIPlbo4O2GQ1iiTxSaeybjEaxO2d0tpa0XhK1mtdieziqctGY7/C
+ 6ZXXhX47Y7tPFr1MujrwSnTDmfMTXjURsqzv8PWl+X1kzza1gISo70QeB7Utaq7ZtUU9
+ 5/ySsPZo6J5vTXXXnUrTugE6VNAoUXY1KuxRk6bPZ/Y3USReD+noLy1OyIiKXOAS49KW
+ 6YCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=d6L8J87aB1v86b8RgudDsS+xKsHjOOrMMFG5XtkLsqo=;
- b=ZxvGj563Co9BAsr8oMkdGbN/4xNtXyu9gm3nKTU5czZpaI3HWlsCi7niPs65wKL8U3
- 81QomdWIVKCYVr4mrWTJyLccDUEqdLLd4qLvQVo7y2zSwSwYD4LO1FOMBQGDZIiaVvCS
- BVw3Z0nJDuUafCvoUqT8nwfccuod+HW2riQbgGG8Q09lTfjC/D+7x4vI8XmdLcw1FtgJ
- C7sRHFBvXHYJz1Aj/2KXqh/IlGgONEDJKF6oty58zyw9N4a726CGPkH5lyZLpp5utBsD
- NmAwQtEpy6Vq9BeoZaTlkOtK+zW7o+mzibgqaCgpoV2UozFhWgawVIJbhoeUlT8khef2
- kdGg==
-X-Gm-Message-State: ACgBeo3cl55oyKUOyFepqk6SkakPNk81GnH0eFus1hfjZa5rci+xaksl
- Qogc32l2mZrJXCOgQCmACDTBHw==
-X-Google-Smtp-Source: AA6agR4avfuGtI4mV/LW9eH4t+t9Zcbij4SZp+wKUzY4VSoj42JgpHx8sPN67mwk8vwBWDoNPbikJg==
-X-Received: by 2002:a05:6512:3f05:b0:497:9e06:255b with SMTP id
- y5-20020a0565123f0500b004979e06255bmr2549468lfa.175.1662642849511; 
- Thu, 08 Sep 2022 06:14:09 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- w22-20020a0565120b1600b004946d1f3cc4sm3028045lfu.164.2022.09.08.06.14.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 06:14:09 -0700 (PDT)
-Message-ID: <cd896ff3-47b7-43eb-c821-8c5fb53c6ae6@linaro.org>
-Date: Thu, 8 Sep 2022 15:14:07 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=PKx0v8N9YvEdbCnl3VJ9cuH9xcqQx+VnjaIOLPR9Czk=;
+ b=e3JzfjSvR/pJ8+/tIlvGt+cWZk0oZPB/IQX3Ll83CHBdckibw/iwu27UhYGTRdJNdk
+ vTZ+z+Y47tVoNXMBMCRO9cpnC1K+TbgyodwQ2RqvdLFIZNY8AyXE+1ux7laigKbzZGgX
+ TOgipYCx1tmcWHizlkEHygS4yY9MTjVNkfATFfg2lGvA6pzZzeC2HJrj+c27zzNEIWUo
+ AGiRzi73eqztevilFbPB8bKg6OSlkvN1cFPUoKYoTKDEExj1HHsVF5o8FjkqW9mg1GDe
+ 1O00b/ItO+qWe4emgv7Zqznj0vJfKc3MTMQiC+9DSqYri6jIvSAf4CakrYTln49Ts5Kb
+ 6T5w==
+X-Gm-Message-State: ACgBeo1tfmyl9LTSYHCUxa7Lv1v1jRZA8WgZvWawGOg8FM9Ufdxi04Po
+ c2xMxfpQolo8V1CT7/TtIyTK7c7s8EID5F/ItdY=
+X-Google-Smtp-Source: AA6agR63axWcWuoiPmLdv7JJo8NQ+7t/OC3Va7LB8HTyVVWAvafafRCGevZ5p9xF6ImC115Oou+1v2eU0FXaaNhWTVY=
+X-Received: by 2002:a05:6870:1783:b0:12a:f442:504d with SMTP id
+ r3-20020a056870178300b0012af442504dmr335621oae.46.1662642888600; Thu, 08 Sep
+ 2022 06:14:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 0/6] Add first version mt8188 vdosys0 driver
-Content-Language: en-US
-To: "nathan.lu" <nathan.lu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Matthias Brugger <matthias.bgg@gmail.com>
-References: <20220906084449.20124-1-nathan.lu@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220906084449.20124-1-nathan.lu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220906195721.143022-1-hamza.mahfooz@amd.com>
+In-Reply-To: <20220906195721.143022-1-hamza.mahfooz@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 8 Sep 2022 09:14:37 -0400
+Message-ID: <CADnq5_O0W-ipCCy3hsub5GwirjDTM76Xn3kAxgyZT5V+vDguSA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: use dirty framebuffer helper
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,33 +64,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, wsd_upstream@mediatek.com,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
- linux-mediatek@lists.infradead.org, lancelot.wu@mediatek.com,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Guchun Chen <guchun.chen@amd.com>, David Airlie <airlied@linux.ie>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Sean Paul <seanpaul@chromium.org>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Fernando Ramos <greenfoo@u92.eu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/09/2022 10:44, nathan.lu wrote:
-> From: Nathan Lu <nathan.lu@mediatek.com>
-> 
-> This path is based on [1] and [2]
-> [1] Add MediaTek SoC(vdosys1) support for mt8195
->     - https://patchwork.kernel.org/project/linux-mediatek/list/?series=658416
-> [2] Add MediaTek SoC DRM (vdosys1) support for mt8195
->     - https://patchwork.kernel.org/project/linux-mediatek/list/?series=665269
-> 
+On Tue, Sep 6, 2022 at 3:58 PM Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+>
+> Currently, we aren't handling DRM_IOCTL_MODE_DIRTYFB. So, use
+> drm_atomic_helper_dirtyfb() as the dirty callback in the amdgpu_fb_funcs
+> struct.
+>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
-Can you stop ccing internal/fake/non-existing email addresses?
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-Your message couldn't be delivered to wsd_upstream@mediatek.com because
-the remote server is misconfigured. See the technical details below for
-more information.
-
-
-Best regards,
-Krzysztof
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> index c20922a5af9f..5b09c8f4fe95 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> @@ -38,6 +38,7 @@
+>  #include <linux/pci.h>
+>  #include <linux/pm_runtime.h>
+>  #include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_damage_helper.h>
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+>  #include <drm/drm_fb_helper.h>
+> @@ -496,6 +497,7 @@ bool amdgpu_display_ddc_probe(struct amdgpu_connector *amdgpu_connector,
+>  static const struct drm_framebuffer_funcs amdgpu_fb_funcs = {
+>         .destroy = drm_gem_fb_destroy,
+>         .create_handle = drm_gem_fb_create_handle,
+> +       .dirty = drm_atomic_helper_dirtyfb,
+>  };
+>
+>  uint32_t amdgpu_display_supported_domains(struct amdgpu_device *adev,
+> --
+> 2.37.2
+>
