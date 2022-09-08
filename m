@@ -2,42 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0195B2013
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 16:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A3B5B201F
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 16:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C629F10EB08;
-	Thu,  8 Sep 2022 14:04:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF7310E9D7;
+	Thu,  8 Sep 2022 14:06:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4C710EB08
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 14:04:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=9PCcrYNVuozJIfp53KT8gGXpCNqGYX69AJYowNPVeYw=; b=iQ4saYWkSE/MVdkWrQECx66yii
- KUcxnGAfTtlUbkW97RR7eoRb9/5XNLdF6dzBh73cXFZ+JDVVoKdex7K+BLFr/0/2yUXaZ0/EWj7+b
- L4bA2KbrTIYfBAb0CveDctM8P0tYVqB9hudLqrJSj/xmWAdXripeiKuuKCNw39K0xSQJgpOpTuimK
- +cDoPEn8sg/vjF6lHOnFVNDna3rdk62MxLVXfFT3h1nuZdUYR6eB69kSyt3GcCmTXimlu85dH+1b6
- g5yTanINW20ooOpkotnn1m16jPPMFqNO57f35i2U0+61lSXtfKgPdSFBUsj98pjUTINskUC1ncgfh
- px92uTNg==;
-Received: from [2601:1c0:6280:3f0::a6b3]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1oWI8u-004Njw-Q9; Thu, 08 Sep 2022 14:04:32 +0000
-Message-ID: <3736000f-50eb-fd70-3660-580122ac948d@infradead.org>
-Date: Thu, 8 Sep 2022 07:04:32 -0700
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7AF10EB11
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 14:06:40 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id y18so5285374ljh.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 07:06:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=yyJq2F0UIbp+QN4RLKTqNQQiuOE3MJUDBVNBCzzbv0A=;
+ b=jN0L5qJ317FYKljRrrDKg+a+g5126FgqcjsqJcEV6qe4q4cnjglJnb/GMqroHSWfno
+ sZrYKtZEF//nog6SYx13NsBfirUJeskM5y8XqJLmkkKxMOgL+vokp5v5IdEQ5PBjF6BI
+ 3bMeDZ5EnPRZvtVt/jZ9UJ6d6Hs9xlZyOSOJ+ia6/FI4cicFsS7uY6AfO1mrcljv/gSA
+ MjKhwAHGNcsVgaibKu0NjzI7wmD0ZNUyc527Pn+oqDEWpObkABHLyhwCCrLPUmiw3XgY
+ M/N0CQc1kLbMjwrmvxwJzYDzQ1CVgUU0JPF9dNG2KWSqBM7LJzkCFx2uDfjanv4q36HD
+ 4Mjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=yyJq2F0UIbp+QN4RLKTqNQQiuOE3MJUDBVNBCzzbv0A=;
+ b=bvsyMnxJE5f8liWACPoPLz79zD6RoC4g+VIety4Rr709DzameKmjnmQaq/p+poqVs7
+ fydT3/Fem/9BZvyt0lSc+OdIBdYw+QMXThezXvmmgGcsMyfxI6sKBezyeD+Uuls/2xXW
+ en+rxrZCrv0oTsnLX94SwPm+p0X8DBzs6A4K508XDWBAYPpnYInqfLzTU7pDqMDg5M91
+ nSaFo9Xgh2m0q5xRVK56tbruzg749RQnLo3EqL7GlxhQWGg2Gf0eaOLhHv0cSbsqkh1G
+ 8xz3Rg/hUBuwpO5qT8vf9ZC7uWswmQVUWbgvA785R+RsIjFn9e8sLpHw0Rft3GulIqJm
+ Ldag==
+X-Gm-Message-State: ACgBeo1UP3Pnjc7sZ1zaIBjhR1yTG57ziuALtbqR6DBe+hzDoNJeWuzE
+ R+G88qcm7WOFIDNm1Sdci+xb4Q==
+X-Google-Smtp-Source: AA6agR5LPl1a0KPnCaPB/QMCDGFCxhQnxUbgV0nlJe5WM/dkbNUMQCIkWHKyqliNnOG3IZKiDM47rA==
+X-Received: by 2002:a2e:888f:0:b0:268:d10e:8a2b with SMTP id
+ k15-20020a2e888f000000b00268d10e8a2bmr2575455lji.114.1662645998508; 
+ Thu, 08 Sep 2022 07:06:38 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ v23-20020ac258f7000000b00497a5a91763sm1151817lfo.12.2022.09.08.07.06.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Sep 2022 07:06:37 -0700 (PDT)
+Message-ID: <837b2df1-551b-3e34-4ef3-6a301278f10f@linaro.org>
+Date: Thu, 8 Sep 2022 16:06:35 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] drm/vmwgfx: fix repeated words in comments
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 3/4] dt-bindings: display: Document Jadard JD9365DA-H3
+ DSI panel
 Content-Language: en-US
-To: wangjianli <wangjianli@cdjrlc.com>, zackr@vmware.com, airlied@linux.ie,
- daniel@ffwll.ch
-References: <20220908131541.39684-1-wangjianli@cdjrlc.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220908131541.39684-1-wangjianli@cdjrlc.com>
+To: Jagan Teki <jagan@edgeble.ai>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Linus Walleij <linus.walleij@linaro.org>
+References: <20220908135940.299324-1-jagan@edgeble.ai>
+ <20220908135940.299324-3-jagan@edgeble.ai>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220908135940.299324-3-jagan@edgeble.ai>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,36 +79,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/8/22 06:15, wangjianli wrote:
-> Delete the redundant word 'to'.
+On 08/09/2022 15:59, Jagan Teki wrote:
+> Jadard JD9365DA-H3 is WUXGA MIPI DSI panel and it support TFT
+> dot matrix LCD with 800RGBx1280 dots at maximum.
 > 
-> Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
+> Document it.
+> 
+> Cc: dri-devel@lists.freedesktop.org
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+> Signed-off-by: Jagan Teki <jagan@edgeble.ai>
 > ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> index f085dbd4736d..7677475b5d93 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> @@ -409,7 +409,7 @@ static int vmw_view_res_val_add(struct vmw_sw_context *sw_context,
->  
->  /**
->   * vmw_view_id_val_add - Look up a view and add it and the surface it's pointing
-> - * to to the validation list.
+> Changes for v2:
+> - collect Krzysztof ack
 
-No, it's correct without this change.
+There was no ack.
 
-> + * to the validation list.
->   *
->   * @sw_context: The software context holding the validation list.
->   * @view_type: The view type to look up.
+https://lore.kernel.org/all/f492ded6-16a8-6c15-2826-6ce2f784dffe@linaro.org/
 
--- 
-~Randy
+Best regards,
+Krzysztof
