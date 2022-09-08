@@ -2,69 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CFE5B1AD8
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 13:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78D75B1AE9
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 13:08:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E2010EA8E;
-	Thu,  8 Sep 2022 11:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC63E10EA98;
+	Thu,  8 Sep 2022 11:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A8EE10EA8E
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 11:05:13 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- t11-20020a05683014cb00b0063734a2a786so12089166otq.11
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 04:05:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=iQ9amRmmVnRxpXcE5umaGoOgZh5PL9H2v0qg5K1KUpw=;
- b=FkR3LY1OY2JlwgbK6I/79qBwFZ73IHRrFlPC3Iffg8LBfgJI+AqFA8VCbA9YE08PrM
- INNJheZf5j3f73H1vhNLXMuDn70X9fPyBDD+jCAnobS0TZSBROZVNzWOwqOmrgPiR4X3
- 5P7VcB5k9mDpdICWiiDFuC5zPWrB6/u8xAf8+sncmS8kb7Bla+CKu8u5p4fm/+T+x7+m
- dVz1nz6q8dgK0oHfSgFXiMdXIxuSj2U0NLURb/c2Xdq8uxAGwp277ar3dM0xycpTJOf/
- 3tpo4502HhrG7LSDWMES8UIi0wMv9BZgOCaIN64EAIxm68OLr/LWLrGVsUeoP4n+T6rZ
- L/tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=iQ9amRmmVnRxpXcE5umaGoOgZh5PL9H2v0qg5K1KUpw=;
- b=0B30ITd+xq3k8lVxQqetrL74f00OXmKqANZcsFgBLwba3Vy+mCt1G5Lg/LuPz4h5Jb
- HhSKkGGb2nhJrCz7oV2f0X9O6ttVlgGOzTLeqXoO9azehda7Kybg9hPGcN3JOYFi70y+
- 6AYag2x6EOc+uce/qnm+npI3kS7uPhKgbv7ZH+wo9NCVGiIaSh7D90RkSxGfZmxIp6sc
- 9lSQjPQ1D8BaI2dfRvLFoLrkyoUGQlQzgf1lM+lvt6gK+GmYGpSM3z/SdO6dzGDTr82K
- 5/juH+ZecnFkL4yn32xfR6k5zr0udf9JhdC7YbrCBlrT3IvzDO6VaI7jnd4jqnJ4UHtN
- /xHQ==
-X-Gm-Message-State: ACgBeo2NrLxXeHc9gcMHWyfKygwpABxVlqBsRI+i+4dXt2IhdBn9pWI8
- GknfUz9Un/dGXVZqH+5GHSm3oosKa0W4IeEPZ6mtZusYehtLe9nt
-X-Google-Smtp-Source: AA6agR6oPYe4JrZ5gu/uerMql5gyw17AaKYCYrvVsF0ZW3UpTBIJiNqJdevV3y7ZXiQ0z0Vsm5Xr0IU+z9DCnUfOgxg=
-X-Received: by 2002:a9d:809:0:b0:637:80b:3a3e with SMTP id
- 9-20020a9d0809000000b00637080b3a3emr3135706oty.328.1662635112371; 
- Thu, 08 Sep 2022 04:05:12 -0700 (PDT)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF2E10EA96;
+ Thu,  8 Sep 2022 11:08:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XTso2lYsCC8iTzRPDKEnkK64CCn3kmp9GKDnkmq6wwxpamWMi2Pu8tJ5Xy6ZV9FWzNl8+ufoe83E15oxYjTnJMv7Ye8rfi2RHES89YnwVh/AuE1k0nJAYaMmoy6Art0NRS3rhWEh7ZhlVzBK3sL3RAJFkBeUeV85YqEeB5iPHVHPnsYWWOIyMPV8mZqUGPJ9R7WW0lD5JWBvrA8gnNhNkzMX6Kg/FEbHYwi2jpgAeTAeeaZPbLIXYWFv+UMbpOU9r5Y+b5LdUbUL+y4/w38PKTpdvoWc/5v2yf8oKxiQ77LLwE5fqUIwu+CeArk6J5nVI1aQ92Wy7s4uZ1FhAXjr5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xAeh9E+dUhjG8xlzKu2bkThk1qRCo6Du5EXVk2jiJ8A=;
+ b=hJiypWesfZ6Txckloc7oKqE9Zn6Wkk2srLQhoKMtZw87Y2hvkuyfwdj1rhV6b6QVXNj0SfgbBhRfrsiof6Cf/pD/pRyDiSzFFiWb9LN9zjla6nT74fJqKwvASi8AGqOEPJ8YGXlSnN4AL/0/FEZXkxn1fP3kDZ5ISCBt0usIqSl0hnhEp6FJWRNxAFrqD/5GCkYnyXcQWG5bzcczkYk+Pb3jNMLy6MNVCItzC0CmCOz2YTuBfV0r77/2VYzJMaKfCHfh0Cpr/TnmL37SY9FxSe7BDExl/s4MGe378OWElKP6TSHDOaC8oCgOIDmc91lvqg09Cv9DYqPQ6EZVyitBGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xAeh9E+dUhjG8xlzKu2bkThk1qRCo6Du5EXVk2jiJ8A=;
+ b=i//u962E1OyPDhFIcQg1xB8ldBSuLmbLjJ130W2wVAwMG1LrF4zCUkCEEIu0hP/V0du9WJNF38RGA6q7etSoMD+HcD2906wvZbjhKx6H87n1DSdXld4LPHjKUdCWXg7fjdhczw64xrSdXkbHmk+Pua6BRVw88qDCxKfB4+HluGo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
+ by SA0PR12MB4429.namprd12.prod.outlook.com (2603:10b6:806:73::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Thu, 8 Sep
+ 2022 11:08:35 +0000
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::6cf:60a9:3ed3:7be3]) by MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::6cf:60a9:3ed3:7be3%7]) with mapi id 15.20.5612.019; Thu, 8 Sep 2022
+ 11:08:34 +0000
+Message-ID: <c0036ff6-b667-4c70-6d2b-d9ecbb10f508@amd.com>
+Date: Thu, 8 Sep 2022 16:38:24 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v6 1/6] drm/ttm: Add new callbacks to ttm res mgr
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20220812133048.2814-1-Arunpravin.PaneerSelvam@amd.com>
+ <b6ade0fe-367a-21f3-1942-a9d7eefcf1d3@amd.com>
+ <b0b4f3a0-0df5-8d2a-c1a0-ad6d721e9cba@amd.com>
+ <YxemSP4IrQQtmHps@phenom.ffwll.local>
+ <6988c6c3-892f-799b-0114-c2c8462c7ace@amd.com>
+ <YxjOOLGVbFvtrwrF@phenom.ffwll.local>
+ <291548ba-3fbe-6a7d-eda1-ac12f1e799ff@amd.com>
+From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <291548ba-3fbe-6a7d-eda1-ac12f1e799ff@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN2PR01CA0006.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:25::11) To MN2PR12MB4342.namprd12.prod.outlook.com
+ (2603:10b6:208:264::7)
 MIME-Version: 1.0
-References: <20220815095423.11131-1-dmitry.osipenko@collabora.com>
- <8230a356-be38-f228-4a8e-95124e8e8db6@amd.com>
- <YxenK8xZHC6Q4Eu4@phenom.ffwll.local>
-In-Reply-To: <YxenK8xZHC6Q4Eu4@phenom.ffwll.local>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 8 Sep 2022 04:04:56 -0700
-Message-ID: <CAF6AEGupz-2Kg9NtDB-agHXaWHT+RV3YAvDnxN0-5N+BLakbgg@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, 
- Huang Rui <ray.huang@amd.com>, Trigger Huang <Trigger.Huang@gmail.com>, 
- Gert Wollny <gert.wollny@collabora.com>, 
- Antonio Caggiano <antonio.caggiano@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- kvm@vger.kernel.org, 
- kernel@collabora.com, virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4342:EE_|SA0PR12MB4429:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a3bc6a0-5b9b-4bdf-b039-08da918a78d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: faQa6pa+OsQ9ayQqW/+KcR7AZQA+C9ti/ioQ2XX+rQ5aBesFIhPscT5NP2Te959zyY6X5L+a2mQYKELHLSHkfHgATHNCmroKzzMp3c+D1bASXEnGM4J2E4DUTPSXuRf2VxaAlGnCLkrsmbMbliK3TxlFzZnNPVpRHRyzbhrl+3mNzEmcsvapaV6ipUCB2m/MauOCCuyxDopz0RA2B4kKy8ZmJpUQ9jZqDs2qGdrwgxtVaW0mao1jGMjShrIcQEbtiOTKsA/fYL4CALuAtNHtmhNG45wbSJaprgXi15RNA3zDLESJK51szzb2JQOOn485IDe/jBlGVjc4HAUy7g6Rq8XMtVKkthdq25vFY24e3mAru0XNiav6kWPbvfzAkd10PEO28LoGkdfoIpwMqzd3UWiH6WG/aMTfIDzRPnPimHfbT/mp3AcJbaaZfp5I21T5t7ExbmKLuvE6e6lyoj1QFpB48zYVjuTm4xpNtAtuu2UBMkP1TzZan3kbgJXAMZRR44eMOKQWNkhC43LCyj7r00Zxh8nMgIvuFxmELKgaw6bgwrzYOPGJW5cLcq2Tu+xUhntAZNFrZUdD6HmaDOFVZFG/L1Kh5GW3cVM37sr8xsG/MMMhzcgst4rpGF7d9zrDoJoKM2uLVcjHO97bXa2uGOfn2zoqBKhRMoYZ6gPWV8wZtNKzv95MapLog3y9ukGU6ixxsH6s29gGwIGOm8r/yno0KqYd7ncY866f+V3RSM+fgU1AG78IQJr8xCDmThEIy7KW/vQIsyOCBYfM/eMfCtbpqNUdnCAaN66GgYSuAmw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(136003)(366004)(39860400002)(396003)(346002)(6506007)(6666004)(6512007)(53546011)(26005)(6486002)(478600001)(41300700001)(66574015)(186003)(2616005)(2906002)(8936002)(5660300002)(110136005)(316002)(66946007)(66556008)(66476007)(8676002)(4326008)(38100700002)(36756003)(31696002)(31686004)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QW5JNjIyYjBPL0RpTm5MT09FYTFQbnlJQjJEWElQOC9OWFdmSngrWjkwd1Nj?=
+ =?utf-8?B?TUpRazU5VXRyVllBNTJhMlFqTE1RNzZNSGRyTW11SGVqYUpYTmVBVE5MODFY?=
+ =?utf-8?B?cXE3dG4zcUx1Vnpybzg2WDRUbjFIa1dsMEJMS3ExbUdUeHg2RUt4MWpaakdn?=
+ =?utf-8?B?TFJaa1E3eURTY010WGF3eXBlUUluS0VWSHRycjVOeFVBUGhQeE9aZlVJSE1h?=
+ =?utf-8?B?YXpHZFdhN2NVWXZzZjJhTEM1NU1hMmxTdTBkUGl2Z2RKaGF0QXc0MWpxL0Nx?=
+ =?utf-8?B?UnRYN0dyQURxbFRYdmNIOU5sRkU3VlQyb1NVNURTTTkxUlpDVlpaenVsRXRs?=
+ =?utf-8?B?Zjhya2pJVExFTFJaSGYwMG54Q29XU1cvSG9NeW53LzZEenhVeUp1NXUzc2Jv?=
+ =?utf-8?B?aERHd0FtQk5TNkhtbC9BZXJJSjQvVlp1K0RBTGs0WHZ5ZmE0WngwdEZLNHF2?=
+ =?utf-8?B?RlZqRzh5TmZFRzR3SXhiOUtjVFRpd0NTUzljQjM4MDNnSkNrcmZqZlc5ckpT?=
+ =?utf-8?B?TnJWWWNIK3M5clVaemJ6bUNFZ3JqRDN2M3lLbGRvVURjQmpoVGIxb2JIaTJa?=
+ =?utf-8?B?Nlp0ajdSQnV1Wnc1YjVGUWRNcGRCRHhYaUJyeUpsMHRwUjY5SFZYNi9JZCtm?=
+ =?utf-8?B?K2hCZkZXK3FyZkRpT0IwRTlwTkNXVlg0V1ZLUStWamk4cmM4SDNKanpoWDl6?=
+ =?utf-8?B?SnJmdWlLa3pPaUJFSjhjM0syWlJyS0FQRUViaC85a3U4cTNiMWRnODB1NE10?=
+ =?utf-8?B?bDdnbTJJY1Azb1Q2ZFFpRkJyaEdpVEpMcnBoTTJEZmg2QmYySC91SUkycTZ1?=
+ =?utf-8?B?WXQ5NUZ6Y0wweWNyQmdtdWdhN1plbi8yL3BnbWVWQ3o0NXdJMUh1dWpiNjdH?=
+ =?utf-8?B?QVoxSEcrUXV1d053NnpzYlVId0k1Z3JGTEpkNDhlRjFHeUVibnduNXc0SkJ5?=
+ =?utf-8?B?NFoxUzRFTnNyK3lnY2lTemRqT2dNM3VCK0JHODFhTFNiV0MzdldZcDNZVnhy?=
+ =?utf-8?B?ZDkvVU9WWGkvQzgrZWFHN0daRXJHNW5zSHAva2dhdHRRaS90M2lYREdMWjln?=
+ =?utf-8?B?RHY0ZkM1dEVMV1dxMnJvMTZWaDlwa2g1ZUtEbkdNQmQ1Tkk2ZWRKM0tONzdk?=
+ =?utf-8?B?TEg5MDRDeXJaMmdmRG0zUWRWeDA0dWo3L1NGRkk3S1c4WlV2QWhkbHpxeDR0?=
+ =?utf-8?B?djd0c0R4ajhuTE5wSlVOV05pMjdkR0dCS3J0VWhDL2lkMUdNSFJUQkJaOVlq?=
+ =?utf-8?B?a3U5QjZQU0xXMmlLV3BocExqdVRJbVVETEFhSjJ0VUJROThka3liZC9rd3JU?=
+ =?utf-8?B?aE1PODJmcDBiSTVncmtOR0RXSjdZanV1c3JWVWY3M0lmOThFRHY5bzZUZFdC?=
+ =?utf-8?B?ZVNZa1QxSWFhdmk0ekg3aDlray9BMTk5bWtXb2hUOE5saTlkZyttWTZKa2VU?=
+ =?utf-8?B?U0p1R2NpSEMyMmdtMXltN2ExSHBiOHBYZSs5M05YeTBIcUF4blhYV0d0Rzgz?=
+ =?utf-8?B?cExjQ0RtbDcrUTI4M0NSdnhzOVd5YjlabDlMZ0RIeHlIOVdZZjM0RUJ2dHpQ?=
+ =?utf-8?B?bC8zVW1SVVpWeHQ2VEhiQWJYYjNqQUNSRVZ6RWJIMkZHYzhxZW1jckZ0QzhL?=
+ =?utf-8?B?cElMd0VXUmZzYWxGVEFlWVo3ekl4dHM2dDd3OXVvV3VDaTFQeHQ4aHZvek0v?=
+ =?utf-8?B?bm5pbWJKNi84eXkvdzNhTHFNVTFoVXg5NVovS2JuZmMrZmlCTUs2SFhNeWQy?=
+ =?utf-8?B?U3ZRczdGTXpwRjhxaFlGT0Vta001K3lzdlBwcTZ1a0lTRWtDWGhYYnFsdTZw?=
+ =?utf-8?B?amJ2VWZoMTBmZStiT0hmbGE3Z2t6OGpiOE5ZTnpwMFI5Vk05TVdYdjc2bHRH?=
+ =?utf-8?B?NS83SWVFbng3Ynk1TXFiUXNKOFVKWXVEUytiOWliT0F6Uyt2OXhTbEV4OG5z?=
+ =?utf-8?B?M3BNdkZJREdEZENWVkRySzg4N0RKdGVxZ0ZPNGxQUEtTWVBEK0Y1RmVkci93?=
+ =?utf-8?B?Rlh6MGxsblJlci9ac1p0R1FhVlI1WjdJRlVxR3Uvdmwvc09zVHcvVnBIQ2Rm?=
+ =?utf-8?B?Y0hWMFRJQ2ZCQlB0U0hvVklmU0c2cnVMdlBlNnRSWDU3dmt3MlVucEFwaVB0?=
+ =?utf-8?Q?R3KliTzR7SME+syG13rW+cu/D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a3bc6a0-5b9b-4bdf-b039-08da918a78d5
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 11:08:34.8724 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RRnjklm22WcjZVqCwABG7tskL8Q2scfOtPvqfKinqM1MyXCeqSFwNSPkbpbq4hQFuYVJ94QArG3/OQr07bcJWQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4429
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,150 +131,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ luben.tuikov@amd.com, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 6, 2022 at 1:01 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Aug 15, 2022 at 12:05:19PM +0200, Christian K=C3=B6nig wrote:
-> > Am 15.08.22 um 11:54 schrieb Dmitry Osipenko:
-> > > Higher order pages allocated using alloc_pages() aren't refcounted an=
-d they
-> > > need to be refcounted, otherwise it's impossible to map them by KVM. =
-This
-> > > patch sets the refcount of the tail pages and fixes the KVM memory ma=
-pping
-> > > faults.
-> > >
-> > > Without this change guest virgl driver can't map host buffers into gu=
-est
-> > > and can't provide OpenGL 4.5 profile support to the guest. The host
-> > > mappings are also needed for enabling the Venus driver using host GPU
-> > > drivers that are utilizing TTM.
-> > >
-> > > Based on a patch proposed by Trigger Huang.
-> >
-> > Well I can't count how often I have repeated this: This is an absolutel=
-y
-> > clear NAK!
-> >
-> > TTM pages are not reference counted in the first place and because of t=
-his
-> > giving them to virgl is illegal.
-> >
-> > Please immediately stop this completely broken approach. We have discus=
-sed
-> > this multiple times now.
->
-> Yeah we need to get this stuff closed for real by tagging them all with
-> VM_IO or VM_PFNMAP asap.
->
-> It seems ot be a recurring amount of fun that people try to mmap dma-buf
-> and then call get_user_pages on them.
->
-> Which just doesn't work. I guess this is also why Rob Clark send out that
-> dma-buf patch to expos mapping information (i.e. wc vs wb vs uncached).
 
-No, not really.. my patch was simply so that the VMM side of virtgpu
-could send the correct cache mode to the guest when handed a dma-buf
-;-)
 
-BR,
--R
+On 9/8/2022 11:34 AM, Christian König wrote:
+> Am 07.09.22 um 19:00 schrieb Daniel Vetter:
+>> [SNIP]
+>>>> I'm a bit confused why the bloat here ...
+>>> Drivers do have specialized implementations of the backend, e.g. 
+>>> VMWGFX have
+>>> his handle backend, amdgpu the VRAM backend with special placements, 
+>>> i915 is
+>>> completely special as well.
+>>>
+>>> Here we only move the decision if resources intersect or are 
+>>> compatible into
+>>> those specialized backends. Previously we had all this in a centralized
+>>> callback for all backends of a driver.
+>>>
+>>> See the switch in amdgpu_ttm_bo_eviction_valuable() for an example. 
+>>> Final
+>>> goal is to move all this stuff into the specialized backends and 
+>>> remove this
+>>> callback.
+>>>
+>>> The only driver where I couldn't figure out why we have duplicated 
+>>> all this
+>>> from the standard implementation is Nouveau.
+>> Yeah I didn't read this too carefully, apologies.
+>>
+>>>> Also please document new callbacks precisely with inline kerneldoc. 
+>>>> I know
+>>>> ttm docs aren't great yet, but they don't get better if we don't start
+>>>> somewhere. I think the in-depth comments for modeset vfuncs (e.g. in
+>>>> drm_modeset_helper_vtables.h) are a good standard here.
+>>> I thought we already did that. Please be a bit more specific.
+>> Yeah rushed this too, but the kerneldoc isn't too great yet. It's
+>> definitely not formatted correctly (you can't do a full function
+>> definition in a struct unfortunately, see the examples I linked). And it
+>> would be good to specificy what the default implementation is, that 
+>> there
+>> is one (i.e. the hook is optional) and when exactly a driver would 
+>> want to
+>> overwrite this. Atm it's a one-liner that explains exactly as much as 
+>> you
+>> can guess from the function interface anyway, that's not super userful.
+>> -Daniel
+>
+> Arun can you take care of improving this?
 
+Hi Christian,
+Yes, I will check on this.
+
+Thanks,
+Arun
 >
-> There seems to be some serious bonghits going on :-/
-> -Daniel
+> Thanks,
+> Christian.
 >
-> >
-> > Regards,
-> > Christian.
-> >
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Cc: Trigger Huang <Trigger.Huang@gmail.com>
-> > > Link: https://www.collabora.com/news-and-blog/blog/2021/11/26/venus-o=
-n-qemu-enabling-new-virtual-vulkan-driver/#qcom1343
-> > > Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com> # AMDGPU (=
-Qemu and crosvm)
-> > > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > > ---
-> > >   drivers/gpu/drm/ttm/ttm_pool.c | 25 ++++++++++++++++++++++++-
-> > >   1 file changed, 24 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm=
-_pool.c
-> > > index 21b61631f73a..11e92bb149c9 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> > > @@ -81,6 +81,7 @@ static struct page *ttm_pool_alloc_page(struct ttm_=
-pool *pool, gfp_t gfp_flags,
-> > >     unsigned long attr =3D DMA_ATTR_FORCE_CONTIGUOUS;
-> > >     struct ttm_pool_dma *dma;
-> > >     struct page *p;
-> > > +   unsigned int i;
-> > >     void *vaddr;
-> > >     /* Don't set the __GFP_COMP flag for higher order allocations.
-> > > @@ -93,8 +94,10 @@ static struct page *ttm_pool_alloc_page(struct ttm=
-_pool *pool, gfp_t gfp_flags,
-> > >     if (!pool->use_dma_alloc) {
-> > >             p =3D alloc_pages(gfp_flags, order);
-> > > -           if (p)
-> > > +           if (p) {
-> > >                     p->private =3D order;
-> > > +                   goto ref_tail_pages;
-> > > +           }
-> > >             return p;
-> > >     }
-> > > @@ -120,6 +123,23 @@ static struct page *ttm_pool_alloc_page(struct t=
-tm_pool *pool, gfp_t gfp_flags,
-> > >     dma->vaddr =3D (unsigned long)vaddr | order;
-> > >     p->private =3D (unsigned long)dma;
-> > > +
-> > > +ref_tail_pages:
-> > > +   /*
-> > > +    * KVM requires mapped tail pages to be refcounted because put_pa=
-ge()
-> > > +    * is invoked on them in the end of the page fault handling, and =
-thus,
-> > > +    * tail pages need to be protected from the premature releasing.
-> > > +    * In fact, KVM page fault handler refuses to map tail pages to g=
-uest
-> > > +    * if they aren't refcounted because hva_to_pfn_remapped() checks=
- the
-> > > +    * refcount specifically for this case.
-> > > +    *
-> > > +    * In particular, unreferenced tail pages result in a KVM "Bad ad=
-dress"
-> > > +    * failure for VMMs that use VirtIO-GPU when guest's Mesa VirGL d=
-river
-> > > +    * accesses mapped host TTM buffer that contains tail pages.
-> > > +    */
-> > > +   for (i =3D 1; i < 1 << order; i++)
-> > > +           page_ref_inc(p + i);
-> > > +
-> > >     return p;
-> > >   error_free:
-> > > @@ -133,6 +153,7 @@ static void ttm_pool_free_page(struct ttm_pool *p=
-ool, enum ttm_caching caching,
-> > >   {
-> > >     unsigned long attr =3D DMA_ATTR_FORCE_CONTIGUOUS;
-> > >     struct ttm_pool_dma *dma;
-> > > +   unsigned int i;
-> > >     void *vaddr;
-> > >   #ifdef CONFIG_X86
-> > > @@ -142,6 +163,8 @@ static void ttm_pool_free_page(struct ttm_pool *p=
-ool, enum ttm_caching caching,
-> > >     if (caching !=3D ttm_cached && !PageHighMem(p))
-> > >             set_pages_wb(p, 1 << order);
-> > >   #endif
-> > > +   for (i =3D 1; i < 1 << order; i++)
-> > > +           page_ref_dec(p + i);
-> > >     if (!pool || !pool->use_dma_alloc) {
-> > >             __free_pages(p, order);
-> >
+>>
+>>
+>>
+>>> Thanks,
+>>> Christian.
+>>>
+>>>> -Daniel
+>>>>
+>>>>> Thanks,
+>>>>> Arun
+>>>>>> Regards,
+>>>>>> Christian.
+>>>>>>
 >
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+
