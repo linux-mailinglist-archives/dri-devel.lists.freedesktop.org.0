@@ -1,78 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B45F5B1E7F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 15:18:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8CA5B1E8E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 15:20:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C81910EAE5;
-	Thu,  8 Sep 2022 13:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1F910EAF3;
+	Thu,  8 Sep 2022 13:20:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FF0B10EAE4;
- Thu,  8 Sep 2022 13:18:33 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 3FFCB2B05BBA;
- Thu,  8 Sep 2022 09:18:30 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 08 Sep 2022 09:18:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1662643109; x=1662650309; bh=peZAPoe3RK
- R6LaA58j2Tow8y68g/d3BSYQ3Pc87XUGY=; b=HqeaMgrK3xJVh8ppUvrDkhcU1g
- lTVZG4zsSYvHWV7l0tEzslAnqCrVydvWGWhl2Crw/3itbwiFPLkJvkVYASYEZ4ym
- DWqrY7+YD7G1iFbpMjNbsXLoEbp8NSZyi42R4+9GdgIvwBUjFtzrXf+aAiY6CXpv
- NvSF7bYFOhu27KXlYOOf9vZ9K1RDfBw5HVV1gMD7FmUxA30svYp/XSrDwZtfq/q+
- Yn2Y3ywNcBO7zVvq5wNRN/Qy25584MRc8Mf8k8ArYBhYlNGMemIFE7j3u7hQ9ikn
- o9a3EGvyt3jSChl44qwm9IbkkthHKIY48L8H1/nSCBvoa7q6d1Sp9ykKIGvg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1662643109; x=1662650309; bh=peZAPoe3RKR6LaA58j2Tow8y68g/
- d3BSYQ3Pc87XUGY=; b=TdtDcZ7aisUC788WDuwkYn8KgU9dtcIC8lnHZ+ill3kl
- MQQydSx0N7PadO5GA0H6p3cEIICW/uDgUCIxzt+BiFwybjl4dPhcdqnKwG7Er4wD
- S6NtPDC7xt4qTX/+HQCLj7CpFeh9rDbNc7wPUsQ0d3fuOYqOuI9k6OVJANDz0GLf
- hsldkfyH9Jm9EhRGPXvDK6vvhAAvTPz5yiATXuU72kO9bfhhK/OBN18YWp9WVf14
- go/4SIqEfwPTSnaEvT1GYoqJnYKMd1REBRpog6EaQ/P3Br2w4NxEpXRkRMixEcHa
- CrAPIH9ZWiWEhSJb2kvjggQm86GiTAVKzHw31lKH3A==
-X-ME-Sender: <xms:pOsZYwNWrPj2mLeJObYMt6YSnGkcD8Xe8wrtrhS8Gumrb9XsTF6TQg>
- <xme:pOsZY29tYePljP6cmi0tgOUXt3zN1GBt6_BhWrkxnk6SE-xGtyY21M3eEPJ_FO79C
- C1V4biIp_EluQWmcn0>
-X-ME-Received: <xmr:pOsZY3SqgXSYaY3LP-7droYRi5CoXBVWSSh4FTHwyFqM1HGFGTXA3RTN4A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtfedgtdegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeflefgheeuheelueegveefkedtgefgfeevkefggeevteefgefhkeetgeeg
- hfdtgeenucffohhmrghinhepghhithhhuhgsuhhsvghrtghonhhtvghnthdrtghomhdpgh
- hithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
- lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:pesZY4s3LRqSUcrFAmNQ1HgBQvX5sgpPjGON7SC8Mvc_3wFIv5sXHA>
- <xmx:pesZY4dMj78RnwKJdrCTlc6wYbs5qWt_INAFQrmEk9-BTaCeK90svQ>
- <xmx:pesZY817H27Fc7Zo_5vHAauR5wo8vXoNImMTM-OT6pM9Z3UGl0A3nw>
- <xmx:pesZYxOTFCWxesckTdcpa5a3R7c8JvOdfP-Kw6T-XEt0C3Ix8KyAFQxacZ8>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Sep 2022 09:18:28 -0400 (EDT)
-Date: Thu, 8 Sep 2022 15:18:24 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Subject: Re: [PATCH v2 32/41] drm/vc4: vec: Convert to the new TV mode property
-Message-ID: <20220908131824.jjbnh2wzhj3gkutz@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-32-459522d653a7@cerno.tech>
- <c8f8015a-75da-afa8-ca7f-b2b134cacd16@gmail.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6938310EAEA;
+ Thu,  8 Sep 2022 13:19:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GxFctNl63DXqYBIJo/afIvleM4p/jzFmy3gHwmAOxSwob52vsSN9z0GUwNbTMN5CtOwwZDXL738STilv//yxmlqD1novxJLep41buxQ/fRCVicW71+sbgYlog/Y0FAr0zfc2zg2ge25YY3xoc7CpDHrf/Mtv6SjE0PkD9em9Y2kV7J6cmGBIp4qlJEoUdjEa+AnUNbiZYKq2+RmvOnmdiF5WPh2ExNcZTwMh24p9APWz5s3elZO2rY1bgEkT5WvlmKMIQqM4251kr8EHIsYx69gt4Zax/oHlIOp+FYL+nAMzf1dYhW0t1zB4bC16k2KoqwJn0vPWGyznhcytYGXEAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Iqxb2FLT3BN6cAQnKipF+2J3+MIOzaU/KcF39Sj5Vz4=;
+ b=QqbkXMvZpIlaXj8KxHdyT7Wf+v0uNTb/RsO3RFuNJlP7UDr7fCkGUbsA1vM+5B+WI/9AA3/BrRf6NilMhusQ12X/Yw61yNcaCnmYnjLhZ0XxD5rBaZaAsc9H6/q35npc3b7b4WW8Jsvwhmx8hXATR4/3zyj9rA7ZuHaloLDH3wNugF+r+8IO3BQRjYouKdTiYKj1eSVmq1TA5/zouf4V9WG+MKYvvxz8gu+z9DqY6PB2crFHJo+fc3YTb6iJyc5zzqSHuL33UVZizgrkfLxgoXKoXmBQcoCy7kqPZBXVmh0j5tME1uoecADBOgaBjEQgu3YuTDG8xOGkn/RfnrAWmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Iqxb2FLT3BN6cAQnKipF+2J3+MIOzaU/KcF39Sj5Vz4=;
+ b=BBZ5WBQRXTUONCK9tPGzu0pjE1L8plVOX33OhPoggfTsz/hnMhAaW2GmsAtF/1cTczKDOjJPaP4bNUFII7QV4wDKAVK1K2WgbwbTFXqOATOwewGfPOm1KxTkCzfjNrVu0+rYQFmr8YYVJpK4kTRQVu9lDZtOFURjX8ST7hYr0xk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1753.namprd12.prod.outlook.com (2603:10b6:3:10d::16)
+ by SA1PR12MB6703.namprd12.prod.outlook.com (2603:10b6:806:253::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19; Thu, 8 Sep
+ 2022 13:19:54 +0000
+Received: from DM5PR12MB1753.namprd12.prod.outlook.com
+ ([fe80::d503:c616:dcf8:2ae8]) by DM5PR12MB1753.namprd12.prod.outlook.com
+ ([fe80::d503:c616:dcf8:2ae8%8]) with mapi id 15.20.5588.018; Thu, 8 Sep 2022
+ 13:19:53 +0000
+Message-ID: <3a30e256-7966-6f53-8ada-db4c27087259@amd.com>
+Date: Thu, 8 Sep 2022 09:19:51 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 3/4] drm/sched: always keep selecetd ring sched list in
+ ctx entity
+Content-Language: en-CA
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ James Zhu <James.Zhu@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20220907205705.934688-1-James.Zhu@amd.com>
+ <20220907205705.934688-3-James.Zhu@amd.com>
+ <facee8f2-b674-5893-10fc-ef58ebd76358@amd.com>
+From: James Zhu <jamesz@amd.com>
+In-Reply-To: <facee8f2-b674-5893-10fc-ef58ebd76358@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0157.namprd13.prod.outlook.com
+ (2603:10b6:208:2bd::12) To DM5PR12MB1753.namprd12.prod.outlook.com
+ (2603:10b6:3:10d::16)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="oe4rmkonoj7og4p4"
-Content-Disposition: inline
-In-Reply-To: <c8f8015a-75da-afa8-ca7f-b2b134cacd16@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 75989842-1c47-4c50-b6b6-08da919cd11f
+X-MS-TrafficTypeDiagnostic: SA1PR12MB6703:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PmltcvA6EdpY39FMxVbqOmFCnCXcz7yoYOgZfd0IXDlVt8WMiZAOomKn+88nAhHXNnl30MxPRs4pj1pKHJzzTm0M0+sgm7dhmP1n+79CLjU+f3+Ups6NkLa67yERE/EUe7SS+zFqh6wY1UrdCelZqFk0pWvonrMNtjSLLnb1yw1Xq3OA2/Qbrd8l2AbDziWzKu2ooek5jr8MvFHr1bUgIvo/zEy6mgfGzz0ywWIW+U/CkEy0lei2AOjHII/+RpCW0Pmt59heLjSaVQurL9lME6aphcyF2GLhHK6aure3N1NgCJu3eoyC/eVeb0LbIuUhpurciAfmdBgPdS0CwaEW4aSje0oo3Xpfatrxm7TboTB2hGNblpyNhgvdVtDCj60jxdDFOhIkLvVKW8vT1rD32eahTHk3hGSv3bS8gf3C1i5hGRLUzZBzrwccbQYUfrGYkXoihfJO+j0qa567BZTno9AndPT7sizOCsDdGnJDTIGeiqD/DE0vWsKIBpxamwLsvwZySkfecVYmXUsg5p4xXlg8fVyeXdE4yHfGQYKHpKn5fATYJT32m1FH/xQTsSdwIh1eziRXofwxRig8A5go5FGZGHhDtASU62f2K6sCkAOyFUS6mlWROULAdc3t6nQ65JEGfviHBUlq50L0T5T/RGE/ctqZkDIVQjJL62rZIM8VbepuSWfDjpgWKUitWAkoKEN8xJ/4Nm+8n0zE+Kv6iA2moyflnD18Y3Upsm3oZ+dnYQIBdDi5HgZnpODVdaajGWmzT+FCjXf+FZIJaerPyXUP3r3663sUwMLWR+pMATA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(83380400001)(4326008)(186003)(66574015)(2616005)(38100700002)(6486002)(5660300002)(450100002)(8676002)(66476007)(66556008)(66946007)(110136005)(316002)(26005)(6506007)(6512007)(53546011)(41300700001)(478600001)(8936002)(2906002)(31686004)(31696002)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cEx5L3NTdDd2M1BNbHdwdW0wWXJNZWJ0Rkk3SW53RmJzSTZFUU9ibUxxSWQx?=
+ =?utf-8?B?Q3FJcFFlU0s5Tno0djZyTkFGOVc0b2R0QnNSZGxFTWlqczFnTEhDbjJPaUtw?=
+ =?utf-8?B?OVJDWDNYRHpMbFozQjQySWxJZXpUSUtnZy94ek5WeExncU92MlRvQjVpeFJv?=
+ =?utf-8?B?M2NlNHdtdGdTajQ4YW1sZXREZUliL2FlRmRsdFR6NmhTUTdsQmpZZ0wxWTEv?=
+ =?utf-8?B?TWRobjFVOUxBUDVvRU4yY3hUTnBHNW5hNXUvVzR3SHA0UVBPaE12TXJSMDc3?=
+ =?utf-8?B?TE01VFowUVU5Ni9uMWY4SE16cENiOTR6NWZ1d0FUNXMvUHIydXhLRmRlVEVP?=
+ =?utf-8?B?VUZlSGRuVThzUCtYS0p4V2FVSnY5UmxjT00zelVqWExjYXNSc1hDR1lHQzVU?=
+ =?utf-8?B?N3pPL0Zjajg1eGxzSFZaMlhvTGR3cU1xdWc0TDBrQjlwV2doWmc0U28rZXhM?=
+ =?utf-8?B?S0I1dURHVnk4ajd6V0c2Y3JVRW9VYlZNTEFubUVBNWR5TkRwY3M0UC9CZ29z?=
+ =?utf-8?B?RE9BRWRSeXlXOXpZcmgxalBPZHBGMTFKazVWQ3BBSHFzSGVxNW0rSENFSUxM?=
+ =?utf-8?B?THlMU3FOdmt1YXNYajY4Qk4xVHNLbTkzdUZHUUJaaHd1VnVyb2ZRektSUTV4?=
+ =?utf-8?B?R2ZrZGo3VlBJaVdQTXNab2VkaVNReGdpRjZ4Nmx2WDQ1a1B6N3BQMVFxSGtR?=
+ =?utf-8?B?aERBa1ZhOXBvbVR6cmdmR3hnL1RDTURPNjlYbVdTWGE5RDh2MnR0T2RyMlhJ?=
+ =?utf-8?B?Q3lVdW1HOE5QcEZaNTFUWEJibHd4ZTRGaU1zQ05hR0xUUTFkMWRmYkkzemlh?=
+ =?utf-8?B?Wit2UHZ5VTFDVzlIMk0wTTNpNW9HRVpFTWQ4TStiTE5Bc1doUU1Ld1VOWmdX?=
+ =?utf-8?B?eVFmdWVjME0vbVdiOVhQTUp6bjExMnVmaE5QTzNKaWlJR2lNTTRXb2RRa0Rs?=
+ =?utf-8?B?a0UxeXRsQjVXY2ZXdUh6Zk1CSGNQU3hZRjMrVTJFUzRLM0hoaVptVXpUbmxq?=
+ =?utf-8?B?OFdIQ3ByWlU2NGJ5bEROT0hKQ3UzcnBQRUFXeVdlRERldENXL21oUlFSa2d0?=
+ =?utf-8?B?QlBvV1o4K0tvcS9WWHIxWm03bTl1VkpBNitjQ2tJR0JyVG5RUVdrRWpjbDhJ?=
+ =?utf-8?B?SjR0MUI1Q1JFY3dkNy9LYit1TGN2V2E5L0xZeHdQd2hmSEZpWFhORS9ISnJI?=
+ =?utf-8?B?aWg0THJiblFaakx3RnVsaXJFZ2UvVEFIcmRxOVl5b2FIYnprUS9hN3V5UFAv?=
+ =?utf-8?B?Z0lqSlNpcXpSQloyb3pydmVkMzV3QVpKMitIOHhSWVFUVzg1ZWxNTXpSSkVI?=
+ =?utf-8?B?V2s4SEhpV2x2ODlPQjRDdkVwbmRCWGM4aS9wbmhyQjVVVytCZDlOSm1BMHh6?=
+ =?utf-8?B?L2JLb09MMHorNzc1MlR1bHhtVDFJaEtjUStrMVNxUUYyU2pXbXJ6UlF1V1ZE?=
+ =?utf-8?B?N2hKM010ditLWEdkT1BGQ1VZMlpXc1YyYXdKSzcvdG00Um5WYk1nUE9LVXht?=
+ =?utf-8?B?TTdDWWpLSUZJKzJYd3dRQmxhK0tmQUVvYUV2K2ZhdFNFczhuOHo5MWVUZVpT?=
+ =?utf-8?B?a21XVGtWbkNtYUF4VUxIZmpzMko3K0tkM1l4RDlKU0N3VTNXaFlwTURuR2Fl?=
+ =?utf-8?B?Y2xtQkRHQ2hOVmJ3MGM2YXpQUFlMT0tMOEV4NzdzNTNwSWZTRXRqMEtWTXJZ?=
+ =?utf-8?B?dCs2SzhScWFMMHhjK0xUZnIyRWdRTmlDazN1SCtSK0ZSTlI5aFNldjgwWWky?=
+ =?utf-8?B?RTEvNkI0WVNvY0N6eHRTTzBjQ20zN1NvMk02TDVEMmIvNTA1clpCd2FwUnEv?=
+ =?utf-8?B?bzVnWWx2STlUODZPNXRFSU5WQXozczZGcHM0bkFQMVR0d3dsVW1RS1ZlaUw5?=
+ =?utf-8?B?TWx0ZHJML29DZDgvR0UrcEdpVjlGbWFNT2tTbHJ6UDM3S3ZnWG16QURnSW5O?=
+ =?utf-8?B?RUZrYitQdm9JMHpCZWdTR3RXRzUzMWkrY1YxV0RJL1IxUmhNcXhlYk9PVldk?=
+ =?utf-8?B?a0VCbVRrd1FhVG5TY1kyOW55ME15dSthaGJ2VlpYc2RhMENMK3l6NmovREdO?=
+ =?utf-8?B?VURFYW1ST2xCSTVTMU1OSVRyU0lSRjdKTytLMmx2aW1qSE5hZy9yVUZheFBr?=
+ =?utf-8?Q?mQWwWlOFnj4jSS991vFK0gsVl?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75989842-1c47-4c50-b6b6-08da919cd11f
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1753.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 13:19:53.7507 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ak/9+NN5WtLvdKrOE5xqwd3u4j13j043G6NYmnygNe0V71gZEvr2eFTID1qHZXdp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6703
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,161 +129,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
- intel-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Christian
 
---oe4rmkonoj7og4p4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I need use entity->sched_list to track ring (ring = container_of(sched, 
+struct amdgpu_ring, sched))
 
-On Wed, Aug 31, 2022 at 04:23:21AM +0200, Mateusz Kwiatkowski wrote:
-> I tested your patchset on my Pi and it mostly works. Good work! However,
-> I noticed a couple of issues.
->=20
-> > -static int vc4_vec_encoder_atomic_check(struct drm_encoder *encoder,
-> > -=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0struct drm_crtc_stat=
-e *crtc_state,
-> > -=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0struct drm_connector=
-_state *conn_state)
-> > -{
-> > -=A0=A0 =A0const struct vc4_vec_tv_mode *vec_mode;
-> > -
-> > -=A0=A0 =A0vec_mode =3D &vc4_vec_tv_modes[conn_state->tv.mode];
-> > -
-> > -=A0=A0 =A0if (conn_state->crtc &&
-> > -=A0=A0 =A0=A0=A0=A0 !drm_mode_equal(vec_mode->mode, &crtc_state->adjus=
-ted_mode))
-> > -=A0=A0 =A0=A0=A0 =A0return -EINVAL;
-> > -
-> > -=A0=A0 =A0return 0;
-> > -}
->=20
-> I may have said it myself that we should allow custom modelines without t=
-oo
-> much validation. The VC4 and VEC, however, have some considerable limitat=
-ions
-> when it comes to the modelines that they can reliably output.
->=20
-> In particular, attempting to use "50 Hz" timings in NTSC/PAL-M modes (or
-> "60 Hz" in PAL/SECAM modes) results in a weirdly skewed image. Here's how=
- it
-> may look like:
-> https://user-images.githubusercontent.com/4499762/187575940-736e7262-c82d=
--42f3-a2d8-f309cbd51139.png
->=20
-> This is because if the CRTC does not trigger the sync pulses within an
-> acceptable time window, the VEC apparently generates them itself. This ca=
-uses
-> the VEC sync pulses (which go onto the wire) not quite line up with the o=
-nes
-> from the modeline, which results in what you see on the screenshot.
->=20
-> I once wrote a validation function based on extensive testing of what
-> produces a sensible output and what doesn't. You can find it here:
-> https://github.com/raspberrypi/linux/pull/4406/commits/15c0c51. I think it
-> might be a good idea to include something like that - even though I know =
-it's
-> somewhat ugly.
+during amdgpu_ctx_fini_entity.
 
-I've reworked that code a bit, and it will be part of my next version.
+I think change here to keep selected ring sched list in 
+entity->sched_list won't change the original logic too much.
 
-> (BTW, those %2 checks on vertical timings in that linked commit can be ig=
-nored;
-> those values are divided by 2 for interlaced modes anyway. Those checks w=
-ere
-> intended to ensure proper odd-first or even-first timings; I'm not sure i=
-f your
-> code calculates those in the same way)
+Best Regards!
 
-Ack, I've removed them.
+James
 
-> >=A0 static int vc4_vec_connector_get_modes(struct drm_connector *connect=
-or)
-> >=A0 {
-> > -=A0=A0 =A0struct drm_connector_state *state =3D connector->state;
-> > =A0=A0=A0 =A0struct drm_display_mode *mode;
-> > +=A0=A0 =A0int count =3D 0;
-> > =A0
-> > -=A0=A0 =A0mode =3D drm_mode_duplicate(connector->dev,
-> > -=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0 vc4_vec_tv_modes[state->tv=
-=2Emode].mode);
-> > +=A0=A0 =A0mode =3D drm_mode_analog_ntsc_480i(connector->dev);
-> > =A0=A0=A0 =A0if (!mode) {
-> > =A0=A0=A0 =A0=A0=A0 =A0DRM_ERROR("Failed to create a new display mode\n=
-");
-> > =A0=A0=A0 =A0=A0=A0 =A0return -ENOMEM;
-> > =A0=A0=A0 =A0}
-> > =A0
-> > =A0=A0=A0 =A0drm_mode_probed_add(connector, mode);
-> > +=A0=A0 =A0count +=3D 1;
-> > =A0
-> > -=A0=A0 =A0return 1;
-> > +=A0=A0 =A0mode =3D drm_mode_analog_pal_576i(connector->dev);
-> > +=A0=A0 =A0if (!mode) {
-> > +=A0=A0 =A0=A0=A0 =A0DRM_ERROR("Failed to create a new display mode\n");
-> > +=A0=A0 =A0=A0=A0 =A0return -ENOMEM;
-> > +=A0=A0 =A0}
-> > +
-> > +=A0=A0 =A0drm_mode_probed_add(connector, mode);
-> > +=A0=A0 =A0count +=3D 1;
-> > +
-> > +=A0=A0 =A0return count;
-> > +}
->=20
-> Xorg is pretty confused by these modes being reported like that. The 576i=
- mode
-> is *always* preferred, presumably because of the higher resolution. If th=
-e NTSC
-> mode is set (via the kernel cmdline or just due to it being the default),=
- this
-> results in a mess on the screen - exactly the same thing as on the screen=
-shot
-> linked above.
->=20
-> Note that drm_helper_probe_add_cmdline_mode() *does* add the
-> DRM_MODE_TYPE_USERDEF flag to the 480i mode, having detected it as prefer=
-red
-> on the command line - but Xorg does not seem to care about that.
 
-I'm not quite sure why that would be the case. The usual logic to pick
-the preferred mode is to use either the mode with the flag or the first
-one.
-
-> I remember Noralf suggesting setting DRM_MODE_TYPE_PREFERRED for the mode=
- that
-> corresponds to the currently chosen tv_mode - that would fix the problem.
-> An alternative would be to _not_ add the "opposite" mode at all, like the
-> current default Raspberry Pi OS kernel behaves.
-
-I'll add it the PREFERRED flag then, switching the modes have other
-challenges.
-
-Maxime
-
---oe4rmkonoj7og4p4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxnroAAKCRDj7w1vZxhR
-xdi7AQCzv8VgoLgusukooavi5uzzw2ozZ+Tftp0NswFipI6XtAEAxsDX9XhrvZAd
-1mdv6bmwrkQ6l0bFk912Wm89BuSHnAc=
-=vZff
------END PGP SIGNATURE-----
-
---oe4rmkonoj7og4p4--
+On 2022-09-08 2:15 a.m., Christian König wrote:
+> Am 07.09.22 um 22:57 schrieb James Zhu:
+>> Always keep selecetd ring sched list in ctx entity.
+>
+> I have no idea what you are doing here, but this certainly doesn't 
+> make sense.
+>
+> Please explain a bit more.
+>
+> Thanks,
+> Christian.
+>
+>>
+>> Signed-off-by: James Zhu <James.Zhu@amd.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_entity.c | 7 ++-----
+>>   1 file changed, 2 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
+>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index f5595607995b..39dca9cb8e0d 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -71,7 +71,7 @@ int drm_sched_entity_init(struct drm_sched_entity 
+>> *entity,
+>>       entity->guilty = guilty;
+>>       entity->num_sched_list = num_sched_list;
+>>       entity->priority = priority;
+>> -    entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
+>> +    entity->sched_list = sched_list;
+>>       entity->last_scheduled = NULL;
+>>         if(num_sched_list)
+>> @@ -453,7 +453,7 @@ void drm_sched_entity_select_rq(struct 
+>> drm_sched_entity *entity)
+>>       struct drm_sched_rq *rq;
+>>         /* single possible engine and already selected */
+>> -    if (!entity->sched_list)
+>> +    if (entity->num_sched_list <= 1)
+>>           return;
+>>         /* queue non-empty, stay on the same engine */
+>> @@ -482,9 +482,6 @@ void drm_sched_entity_select_rq(struct 
+>> drm_sched_entity *entity)
+>>           entity->rq = rq;
+>>       }
+>>       spin_unlock(&entity->rq_lock);
+>> -
+>> -    if (entity->num_sched_list == 1)
+>> -        entity->sched_list = NULL;
+>>   }
+>>     /**
+>
