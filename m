@@ -1,48 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC125B106F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 01:33:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9105B10CB
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 02:09:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D850A10E54B;
-	Wed,  7 Sep 2022 23:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D784410E444;
+	Thu,  8 Sep 2022 00:08:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C44BB10E22D;
- Wed,  7 Sep 2022 23:33:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662593627; x=1694129627;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qKd+l6UBRJa0+GTjguk5p+CviZBh8gBgWHo8LB7Bjmc=;
- b=Qtl0/YJfw4unN5/cWc1JR96VHK558qpoaTXSKxNBmhHKyScIHitgTDM4
- ttBn3KMTyv3mdICAdFPQ81nTHBQCzN4P/0gar64RfwJ7gj/d6PTdkLTix
- +Ob+zxyKxWkvfqw1uVpHVKW7hwuv0L9kGm+03+KA25aLh5B3MfaK6QT4X
- cyJVr8gshoK3gw3p36sDBW/NSTUJHeHSpU5gXHYeqmWo5R5WnhJBqlGHj
- CwZugl0mS/lKCzPXGXRIDh59s/MQZ7Pksfh/4ud/etglHNLTGpyuXOOHF
- hhpaTLTlMzLuKS+qMDGJHWnFPHNx8FUOLOOIAezrnKjtRn/or1oJrrrjY w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10463"; a="298358425"
-X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; d="scan'208";a="298358425"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2022 16:33:46 -0700
-X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; d="scan'208";a="943105942"
-Received: from invictus.jf.intel.com ([10.165.21.188])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2022 16:33:46 -0700
-From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4.1] drm/i915/mtl: Define engine context layouts
-Date: Wed,  7 Sep 2022 16:33:17 -0700
-Message-Id: <20220907233317.357721-1-radhakrishna.sripada@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220902060342.151824-5-radhakrishna.sripada@intel.com>
-References: <20220902060342.151824-5-radhakrishna.sripada@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3013A10E3A0;
+ Thu,  8 Sep 2022 00:08:38 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28801o9P028776;
+ Thu, 8 Sep 2022 00:08:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=oDpVedNrosb5QjVee7Ck2ZJkahqy0+DbwH85mHpTNVk=;
+ b=KL0CG42jMqDASz3vWGnIHBoDYnrS9r8wEvhwK56vl+2XowZjC7/oSlzJOhF9T0paWgg0
+ UTmFLhRbC5KMVKZ61HZUNNquHfjB+IZ7rqlyWq/XRms3VkSFom/HaR425T5MlBylFpmX
+ ijOAyXwTHqyBYqgz1udXGwKpMJStgUv3rAMCo2JlLHspYooHbdpcO2Nz9igOJ8PvbjIj
+ LbVFt3H3bpNFgqEr+q8QDPp2JEQXt01g4V7HKymxZoRk8G11cCM1LuqRPZvJ1CaJg8He
+ aTcpKdIPmw3GGBR/ZRc1/0wNUIwGnFXnuFfOeM6iYN+3V3Xb6XwC7MZaJeadsyb3r3An 2g== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jefntc55m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Sep 2022 00:08:31 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28808Scf029715
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 8 Sep 2022 00:08:28 GMT
+Received: from [10.111.169.242] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 7 Sep 2022
+ 17:08:26 -0700
+Message-ID: <4f4862fd-4cbd-82ac-f162-e38c05c92423@quicinc.com>
+Date: Wed, 7 Sep 2022 17:08:24 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v6 1/4] drm/msm: clean event_thread->worker in case of an
+ error
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220617233328.1143665-1-dmitry.baryshkov@linaro.org>
+ <20220617233328.1143665-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220617233328.1143665-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: --FaAQ_84JarqRUgygYyrVVXD8YmkAZD
+X-Proofpoint-GUID: --FaAQ_84JarqRUgygYyrVVXD8YmkAZD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-07_10,2022-09-07_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0
+ adultscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
+ lowpriorityscore=0 phishscore=0 mlxscore=0 bulkscore=0 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209070089
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,149 +85,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Roper <matthew.d.roper@intel.com>
 
-The part of the media and blitter engine contexts that we care about for
-setting up an initial state are the same on MTL as they were on DG2
-(and PVC), so we need to update the driver conditions to re-use the DG2
-context table.
 
-For render/compute engines, the part of the context images are nearly
-the same, although the layout had a very slight change --- one POSH
-register was removed and the placement of some LRI/noops adjusted
-slightly to compensate.
+On 6/17/2022 4:33 PM, Dmitry Baryshkov wrote:
+> If worker creation fails, nullify the event_thread->worker, so that
+> msm_drm_uninit() doesn't try accessing invalid memory location. While we
+> are at it, remove duplicate assignment to the ret variable.
+> 
+> Fixes: 1041dee2178f ("drm/msm: use kthread_create_worker instead of kthread_run")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-v2:
- - Dg2, mtl xcs offsets slightly vary. Use a separate offsets array(Bala)
- - Drop unused registers in mtl rcs offsets.(Bala)
- - Add missing nop in xcs offsets(Bala)
+the change itself LGTM,
 
-Bspec: 46261, 46260, 45585
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_lrc.c | 82 ++++++++++++++++++++++++++++-
- 1 file changed, 80 insertions(+), 2 deletions(-)
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 070cec4ff8a4..a2247d39bdb7 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -264,6 +264,39 @@ static const u8 dg2_xcs_offsets[] = {
- 	END
- };
- 
-+static const u8 mtl_xcs_offsets[] = {
-+	NOP(1),
-+	LRI(13, POSTED),
-+	REG16(0x244),
-+	REG(0x034),
-+	REG(0x030),
-+	REG(0x038),
-+	REG(0x03c),
-+	REG(0x168),
-+	REG(0x140),
-+	REG(0x110),
-+	REG(0x1c0),
-+	REG(0x1c4),
-+	REG(0x1c8),
-+	REG(0x180),
-+	REG16(0x2b4),
-+	NOP(1),
-+
-+	NOP(1),
-+	LRI(9, POSTED),
-+	REG16(0x3a8),
-+	REG16(0x28c),
-+	REG16(0x288),
-+	REG16(0x284),
-+	REG16(0x280),
-+	REG16(0x27c),
-+	REG16(0x278),
-+	REG16(0x274),
-+	REG16(0x270),
-+
-+	END
-+};
-+
- static const u8 gen8_rcs_offsets[] = {
- 	NOP(1),
- 	LRI(14, POSTED),
-@@ -606,6 +639,47 @@ static const u8 dg2_rcs_offsets[] = {
- 	END
- };
- 
-+static const u8 mtl_rcs_offsets[] = {
-+       NOP(1),
-+       LRI(13, POSTED),
-+       REG16(0x244),
-+       REG(0x034),
-+       REG(0x030),
-+       REG(0x038),
-+       REG(0x03c),
-+       REG(0x168),
-+       REG(0x140),
-+       REG(0x110),
-+       REG(0x1c0),
-+       REG(0x1c4),
-+       REG(0x1c8),
-+       REG(0x180),
-+       REG16(0x2b4),
-+
-+       NOP(1),
-+       LRI(9, POSTED),
-+       REG16(0x3a8),
-+       REG16(0x28c),
-+       REG16(0x288),
-+       REG16(0x284),
-+       REG16(0x280),
-+       REG16(0x27c),
-+       REG16(0x278),
-+       REG16(0x274),
-+       REG16(0x270),
-+
-+       NOP(2),
-+       LRI(2, POSTED),
-+       REG16(0x5a8),
-+       REG16(0x5ac),
-+
-+       NOP(6),
-+       LRI(1, 0),
-+       REG(0x0c8),
-+
-+       END
-+};
-+
- #undef END
- #undef REG16
- #undef REG
-@@ -624,7 +698,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
- 		   !intel_engine_has_relative_mmio(engine));
- 
- 	if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE) {
--		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
-+		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
-+			return mtl_rcs_offsets;
-+		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
- 			return dg2_rcs_offsets;
- 		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
- 			return xehp_rcs_offsets;
-@@ -637,7 +713,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
- 		else
- 			return gen8_rcs_offsets;
- 	} else {
--		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
-+		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
-+			return mtl_xcs_offsets;
-+		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
- 			return dg2_xcs_offsets;
- 		else if (GRAPHICS_VER(engine->i915) >= 12)
- 			return gen12_xcs_offsets;
--- 
-2.34.1
+One minor nit below
+> ---
+>   drivers/gpu/drm/msm/msm_drv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 44485363f37a..1aab6bf86278 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -436,7 +436,7 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   		if (IS_ERR(priv->event_thread[i].worker)) {
+>   			ret = PTR_ERR(priv->event_thread[i].worker);
+>   			DRM_DEV_ERROR(dev, "failed to create crtc_event kthread\n");
 
+Can we print ret in this error message?
+
+> -			ret = PTR_ERR(priv->event_thread[i].worker);
+> +			priv->event_thread[i].worker = NULL;
+>   			goto err_msm_uninit;
+>   		}
+>   
