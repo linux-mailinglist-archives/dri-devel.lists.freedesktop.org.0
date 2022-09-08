@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6985B285C
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 23:19:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 295E55B285E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 23:19:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC45510E6C9;
-	Thu,  8 Sep 2022 21:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA98D10E6D7;
+	Thu,  8 Sep 2022 21:19:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2176510E6C9;
- Thu,  8 Sep 2022 21:18:54 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 288JNtlt006817;
- Thu, 8 Sep 2022 21:18:48 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60F1210E6D4;
+ Thu,  8 Sep 2022 21:18:57 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 288Ju1qM019269;
+ Thu, 8 Sep 2022 21:18:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=t+zvnrxkVhAaJLOW7/6oGGs4/8MFrNwkd7LOwSIRTDw=;
- b=pYI3xVZjOEAHbzy40iHThzgHHBApCBuDmj9WmvRwRh0VZTIT8N23oMtQMF3cojvkzIBw
- z8mamJo8nUlYlRw3ZYuR2gqoC2f6n1pdPKJLfdEnkMpUT/GwmOwbte6XNF1pRMYDFZfy
- I74Q/AxAv3/KCeym1JLjlU3JerupLi8EbenE+e2rWZDJ2S93GkHB6m1eIeXhmH3BLu4b
- 86VqnXiMwGZ9hTDWEyptrh7UYDDXPYk2PBXEhOlaD+QP3Ds6MKQY8U/Ojni9C4iFgali
- GLnZYzABAkq5j9oLzq/8bHRl0gIpfFyCoEJHGdC3qDGt6jWnopQ0Bxt1/093HBVjJ/T0 /Q== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=w/wD8BcUtkpwAsqfRAeRE4enhVaNgSTfXYBMfuE5VC4=;
+ b=LtENIrmiFnUiMdUDwUNhGDKyKvNdMXtnQLukf8CIZ87Pz60QpyC6SpHf+EE2g6pybTlY
+ QI+B1gfVtKZw0F5zBnGTZo0AKnGYWt9/4lTarjgPyID3xp9V0JYwuoURZj3z316ln1iK
+ KigU/bHHnDFwAd4y+Qu27XKaribOyMCj05KWXieAxyS8OtfEYqGuaVmlI7EKejrgQ7rc
+ K5sFd38AHBseY+U+bOwvLpX7G4leHXEPGTB3Cth0sOQhE+Ldq0ED8J9OZiqt1kMpy27S
+ 6diNZRq4fq8vUMx9eUVLwSnslD6fVBGz5rdbzWF2MPYLtB+rwaxVMp53bm32dnoIoywJ iw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jfcpbt9k9-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jer1x673p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Sep 2022 21:18:47 +0000
+ Thu, 08 Sep 2022 21:18:51 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 288LIlnH020104
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 288LIowu000622
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 8 Sep 2022 21:18:47 GMT
+ Thu, 8 Sep 2022 21:18:50 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Thu, 8 Sep 2022 14:18:46 -0700
+ 15.2.986.29; Thu, 8 Sep 2022 14:18:49 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
  <bjorn.andersson@linaro.org>
-Subject: [PATCH v4 0/2] cleared DP_DOWNSPREAD_CTRL register
-Date: Thu, 8 Sep 2022 14:18:35 -0700
-Message-ID: <1662671917-17194-1-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v4 1/2] drm/msm/dp: cleared DP_DOWNSPREAD_CTRL register before
+ start link training
+Date: Thu, 8 Sep 2022 14:18:36 -0700
+Message-ID: <1662671917-17194-2-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1662671917-17194-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1662671917-17194-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -57,17 +61,17 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: 2Kpp7qIh4Hw5r13L2CYQDKXSyA3m3_kS
-X-Proofpoint-GUID: 2Kpp7qIh4Hw5r13L2CYQDKXSyA3m3_kS
+X-Proofpoint-ORIG-GUID: fYTNsKOWfFy7OREgKdznfrTktV96SSGj
+X-Proofpoint-GUID: fYTNsKOWfFy7OREgKdznfrTktV96SSGj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-08_12,2022-09-08_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- clxscore=1015 bulkscore=0 mlxlogscore=905 lowpriorityscore=0
- malwarescore=0 mlxscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209080076
+ mlxscore=0 impostorscore=0
+ suspectscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ malwarescore=0 clxscore=1015 adultscore=0 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2209080076
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,17 +90,62 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cleared DP_DOWNSPREAD_CTRL register before start link training
+DOWNSPREAD_CTRL (0x107) shall be cleared to 0 upon power-on reset or an
+upstream device disconnect. This patch will enforce this rule by always
+cleared DOWNSPREAD_CTRL register to 0 before start link training. At rare
+case that DP MSA timing parameters may be mis-interpreted by the sink
+which causes audio sampling rate be calculated wrongly and cause audio
+did not work at sink if DOWNSPREAD_CTRL register is not cleared to 0.
 
-Kuogee Hsieh (2):
-  drm/msm/dp: cleared DP_DOWNSPREAD_CTRL register before start link
-    training
-  drm/msm/dp: retry 3 times if set sink to D0 poweer state failed
+Changes in v2:
+1) fix spelling at commit text
+2) merge ssc variable into encoding[0]
 
+Changes in v3:
+-- correct spelling of DOWNSPREAD_CTRL
+-- replace err with len of ssize_t
+
+Changes in v4:
+-- split into 2 patches
+
+Fixes: 154b5a7da0fd ("drm/msm/dp: add displayPort driver support")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
  drivers/gpu/drm/msm/dp/dp_ctrl.c | 13 +++++--------
- drivers/gpu/drm/msm/dp/dp_link.c | 21 ++++++++++++---------
- 2 files changed, 17 insertions(+), 17 deletions(-)
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index ab6aa13..2c74c59 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1245,8 +1245,7 @@ static int dp_ctrl_link_train(struct dp_ctrl_private *ctrl,
+ {
+ 	int ret = 0;
+ 	const u8 *dpcd = ctrl->panel->dpcd;
+-	u8 encoding = DP_SET_ANSI_8B10B;
+-	u8 ssc;
++	u8 encoding[] = { 0, DP_SET_ANSI_8B10B };
+ 	u8 assr;
+ 	struct dp_link_info link_info = {0};
+ 
+@@ -1258,13 +1257,11 @@ static int dp_ctrl_link_train(struct dp_ctrl_private *ctrl,
+ 
+ 	dp_aux_link_configure(ctrl->aux, &link_info);
+ 
+-	if (drm_dp_max_downspread(dpcd)) {
+-		ssc = DP_SPREAD_AMP_0_5;
+-		drm_dp_dpcd_write(ctrl->aux, DP_DOWNSPREAD_CTRL, &ssc, 1);
+-	}
++	if (drm_dp_max_downspread(dpcd))
++		encoding[0] |= DP_SPREAD_AMP_0_5;
+ 
+-	drm_dp_dpcd_write(ctrl->aux, DP_MAIN_LINK_CHANNEL_CODING_SET,
+-				&encoding, 1);
++	/* config DOWNSPREAD_CTRL and MAIN_LINK_CHANNEL_CODING_SET */
++	drm_dp_dpcd_write(ctrl->aux, DP_DOWNSPREAD_CTRL, encoding, 2);
+ 
+ 	if (drm_dp_alternate_scrambler_reset_cap(dpcd)) {
+ 		assr = DP_ALTERNATE_SCRAMBLER_RESET_ENABLE;
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
