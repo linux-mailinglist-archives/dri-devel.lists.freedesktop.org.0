@@ -1,58 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E905B23CF
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 18:44:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD475B23F7
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 18:52:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A892810EB63;
-	Thu,  8 Sep 2022 16:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C72210EB78;
+	Thu,  8 Sep 2022 16:51:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3107F10EB63
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 16:44:47 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id gh9so17513282ejc.8
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 09:44:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=I55acvKkYz3DOyOmmK+2+SP9JvKG4Jm+wWUWvY/NBUo=;
- b=EstMal6xg8rfG+Oj8gHgvLHf7wMAJlp+hZEAIMPt0PcV0t921QIrL/XuzStVWe8DCx
- qjI2Wo9A8F/ftwfsWbzW3H1v2NfnqcCXb3isEWCsoxl7X+T7t2iVbsmhnbr7B7WIuVei
- WV1jJtpooiNmIOlouAt8gxORvEd9Es5o0Co5ytfBhumDc660lsGxADudGsMdryXwyyJc
- wY/wg0wCpBZmUZfzldMXQXmL1AHrvojE1AuCzjPRpIGrul8p77wVaciZ+cMBypwfrpLn
- u9mgOI4fBBVc8Hp+2l4k7GBhg/5uf+7fAtVBQ4vNCYt4K5wBEaqFLPDI12KjP13vRo4M
- IauA==
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2524810EA02
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 16:51:42 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n17-20020a05600c501100b003a84bf9b68bso2269411wmr.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 09:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=e5KYqEBWQ8THQ17spmw0xDJTw5S+n1XJ78rOUrMQLWE=;
+ b=mrMqJeHL2N1h5YAyTrrec9CeEwKwlyw0SO1YzY2f9pfRJGSVdOlHcFrmGSKiXw1Apo
+ ScBrula6ozGf+tln/IXFTkzWqIP/D5NYEEBu7NoJUhGqkzh9AoM28r6qzDtTZnh0n+3O
+ GZL9ws3a8VAdYQSSBtB2J6kXuKlcmNF+TpVV2dV+XviwVdibSwcjpfjg9Gl9Y9DvmMrQ
+ 3vKTmRGcutvFGjffbl1PsGbkYZnm8Kp2ARj2Lt2IQCHG31+8QjhbI/CKAH4dd5s1Qrrq
+ +f9+ZubY6dtkvfoydCQWiLB3p5YYO1z5Ko+pcWcIhAej+JfYw/33EgEj+9qNBA8a/AOM
+ +upQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=I55acvKkYz3DOyOmmK+2+SP9JvKG4Jm+wWUWvY/NBUo=;
- b=6nlKy8/66gvyq4QZ/2wQZ8LDq/Xf7gslUwKnG3xaJLBUEYxAt3V7QT44ZTfYDtsAG0
- Xydub/dis7l6c/eMqERCf2y5DjWFTQNT+10no3Sy0QY33VfQ4ZW2Q29CwMKtxRrz1eY3
- Q3pUr3cnM3NDgCf8Q8h5+6DJbBepog1VS+WMvqOcq7+zRi97OEBPUhOGLQDXnQY4xYpq
- rdsTyxvFGV1U3s1uu4/ks+uH0vAdlkGI6es7oaHQjyWa5t4uNX+eqHXz3lLsJFD1Zy3H
- JwISEUXDQOjrlpr8gj+oOUVSGIWxuvHfPWg8JquXEPNsY9OIhUaBlWlGRJzOVXG/gV5k
- beng==
-X-Gm-Message-State: ACgBeo34+9w4BWWLy2nedZavRNxXNbwVEuUk7a/ck7VCx0RB6JH1AfAD
- jl0ZdT92yo3XnXFsZzgucgO62HyTpkn7Q4anxsXOXt4WxeM=
-X-Google-Smtp-Source: AA6agR5Mdh099Ytk4i1jONnr3q+bKGnzi87e7tJZcX8i7LMnmdcHRZvxABmpB0KInX5wXNGgF8IgvM3g81g7xSmKMHg=
-X-Received: by 2002:a17:906:845b:b0:770:86da:9702 with SMTP id
- e27-20020a170906845b00b0077086da9702mr5612971ejy.244.1662655485519; Thu, 08
- Sep 2022 09:44:45 -0700 (PDT)
+ bh=e5KYqEBWQ8THQ17spmw0xDJTw5S+n1XJ78rOUrMQLWE=;
+ b=cQGhFpQuDthgFegxrRp9hPyhOaStmWtAxbO22tfxVKGvEu/f2uH0kD/kSGOHby7LTD
+ EYPEUdo/VYdhEbHFuQftOJtZN40JKxXr4ADXVmLHMQ3SIcxxuLlZfUnFSFIJumUNjHR0
+ MWf5Q9HJFGrROAuTKmxtTV4IG9f+4Nt+jUT3cqaIVYhbwZSUgzLw5DcbjDodA2cLjpd6
+ i450j6Q5RoVCPRU034nxceyI1U3pHRekjcdl8qyR6sCCGij3Id0xDIfBUnHb80HJAfYI
+ 9UZg2yF9LXH8gJAC7GhgFCb8zlfwxqtVKrqwj+YWNACdp3gJ3Q4fhY6tOWOe9TxYZbeA
+ Heog==
+X-Gm-Message-State: ACgBeo3x23W07M0YyhL+kYh8TLjnlbaeXsemweIqQMHJ5vHcIr0f8ib1
+ 3zDrgu3vBYAwm5l5NFqM8sI=
+X-Google-Smtp-Source: AA6agR7PpD+198B5Y3yHlP3CrDqe+4xxzwp+pmGtD3TVKQAJdPtBsk5cDvgpY5VnGVgDIaunPcagbQ==
+X-Received: by 2002:a05:600c:3309:b0:3b2:973d:b533 with SMTP id
+ q9-20020a05600c330900b003b2973db533mr2951570wmp.105.1662655900588; 
+ Thu, 08 Sep 2022 09:51:40 -0700 (PDT)
+Received: from kista.localnet (82-149-1-172.dynamic.telemach.net.
+ [82.149.1.172]) by smtp.gmail.com with ESMTPSA id
+ j7-20020a05600c190700b003a342933727sm3814303wmq.3.2022.09.08.09.51.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Sep 2022 09:51:39 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
+Subject: Re: Re: Re: [PATCH v4 3/5] arm64: dts: allwinner: h6: Add GPU OPP
+ table
+Date: Thu, 08 Sep 2022 18:51:38 +0200
+Message-ID: <2313716.NG923GbCHz@kista>
+In-Reply-To: <1800669.atdPhlSkOF@kista>
+References: <20220906153034.153321-1-peron.clem@gmail.com>
+ <CAJiuCceZg_6p4yo89e0X3fD9aXFs9Xik8b8KUM+Psdy_4paKPw@mail.gmail.com>
+ <1800669.atdPhlSkOF@kista>
 MIME-Version: 1.0
-References: <7e047ee0-0243-d9d4-f0bc-7ed19ed33c19@quicinc.com>
-In-Reply-To: <7e047ee0-0243-d9d4-f0bc-7ed19ed33c19@quicinc.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 8 Sep 2022 09:44:34 -0700
-Message-ID: <CABdmKX2sGw-TwRYnHWuyaWYrxX7wgcK4gFSb5hGAwk0ztZxbcA@mail.gmail.com>
-Subject: Re: GPU device resource reservations with cgroups?
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,121 +74,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, Carl Vanderlip <quic_carlv@quicinc.com>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-sunxi@lists.linux.dev,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 16, 2022 at 1:39 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote=
-:
->
-> Hello cgroup experts,
->
-> I have a GPU device [1] that supports organizing its resources for the
-> purposes of supporting containers.  I am attempting to determine how to
-> represent this in the upstream kernel, and I wonder if it fits in cgroups=
-.
->
-> The device itself has a number of resource types =E2=80=93 compute cores,
-> memory, bus replicators, semaphores, and dma channels.  Any particular
-> workload may consume some set of these resources.  For example, a
-> workload may consume two compute cores, 1GB of memory, one dma channel,
-> but no semaphores and no bus replicators.
->
-> By default all of the resources are in a global pool.  This global pool
-> is managed by the device firmware.  Linux makes a request to the
-> firmware to load a workload.  The firmware reads the resource
-> requirements from the workload itself, and then checks the global pool.
-> If the global pool contains sufficient resources to satisfy the needs of
-> the workload, the firmware assigns the required resources from the
-> global pool to the workload.  If there are insufficient resources, the
-> workload request from Linux is rejected.
->
-> Some users may want to share the device between multiple containers, but
-> provide device level isolation between those containers.  For example, a
-> user may have 4 workloads to run, one per container, and each workload
-> takes 1/4th of the set of compute cores.  The user would like to reserve
-> sets of compute cores for each container so that container X always has
-> the expected set of resources available, and if container Y
-> malfunctions, it cannot =E2=80=9Csteal=E2=80=9D resources from container =
-X.
->
-> To support this, the firmware supports a concept of partitioning.  A
-> partition is a pool of resources which are removed from the global pool,
-> and pre-assigned to the partition=E2=80=99s pool.  A workload can then be=
- run
-> from within a partition, and it consumes resources from that partition=E2=
-=80=99s
-> pool instead of from the global pool.  The firmware manages creating
-> partitions and assigning resources to them.
->
-> Partitions do not nest.
->
-Do partitions have any significance in hardware, or are they just a
-logical concept? Does it matter which compute core / bus replicator /
-dma channel a user gets, or are they interchangeable between uses?
+Dne =C4=8Detrtek, 08. september 2022 ob 18:26:31 CEST je Jernej =C5=A0krabe=
+c napisal(a):
+> Dne torek, 06. september 2022 ob 21:26:34 CEST je Cl=C3=A9ment P=C3=A9ron=
+ napisal(a):
+> > Hi Jernej,
+> >=20
+> > On Tue, 6 Sept 2022 at 21:10, Jernej =C5=A0krabec <jernej.skrabec@gmail=
+=2Ecom>
+>=20
+> wrote:
+> > > Dne torek, 06. september 2022 ob 17:30:32 CEST je Cl=C3=A9ment P=C3=
+=A9ron
+>=20
+> napisal(a):
+> > > > Add an Operating Performance Points table for the GPU to
+> > > > enable Dynamic Voltage & Frequency Scaling on the H6.
+> > > >=20
+> > > > The voltage range is set with minimal voltage set to the target
+> > > > and the maximal voltage set to 1.2V. This allow DVFS framework to
+> > > > work properly on board with fixed regulator.
+> > > >=20
+> > > > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+> > > > ---
+> > > >=20
+> > > >  .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 87
+> > > >  +++++++++++++++++++
+> > > >  1 file changed, 87 insertions(+)
+> > > >  create mode 100644
+> > > >  arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
+> > > >=20
+> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
+> > > > b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi new file mode
+> > > > 100644
+> > > > index 000000000000..b48049c4fc85
+> > > > --- /dev/null
+> > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
+> > > > @@ -0,0 +1,87 @@
+> > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > > > +// Copyright (C) 2022 Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.co=
+m>
+> > > > +
+> > > > +/ {
+> > > > +     gpu_opp_table: opp-table-gpu {
+> > > > +             compatible =3D "operating-points-v2";
+> > > > +
+> > > > +             opp-216000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <216000000>;
+> > > > +                     opp-microvolt =3D <810000 810000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-264000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <264000000>;
+> > > > +                     opp-microvolt =3D <810000 810000 1200000>;
+> > > > +             };
+> > >=20
+> > > As mentioned in clock patch review, rates below 288 MHz are deemed
+> > > unstable on GPU PLL by vendor GPU kernel driver. At least in the BSP
+> > > version that I have. Did you test these points? If not, better to drop
+> > > them.
+> >=20
+> > I changed the governor to userspace and set the freq to 216MHz / 264MHz
+> > Run glmark2 and didn't observe any glitch nor issue.
+> >=20
+> > I'm not sure if it's enough to say it's stable but I didn't observe
+> > any strange behavior.
+>=20
+> Ok then.
+>=20
+> Forgot to ask, where did you get 1.2 V as an upper limit? H6 datasheet li=
+sts
+> max. GPU voltage as 1.08 V.
 
-> In the above user example, the user can create 4 partitions, and divide
-> up the compute cores among them.  Then the user can assign each
-> individual container their own individual partition.  Each container
-> would be limited to the resources within it=E2=80=99s assigned partition,=
- but
-> also that container would have exclusive access to those resources.
-> This essentially provides isolation, and some Quality of Service (QoS).
->
-> How this is currently implemented (in downstream), is perhaps not ideal.
->   A privileged daemon process reads a configuration file which defines
-> the number of partitions, and the set of resources assigned to each.
-> That daemon makes requests to the firmware to create the partitions, and
-> gets a unique ID for each.  Then the daemon makes a request to the
-> driver to create a =E2=80=9Cshadow device=E2=80=9D, which is a child dev =
-node.  The
-> driver verifies with the firmware that the partition ID is valid, and
-> then creates the dev node.  Internally the driver associates this shadow
-> device with the partition ID so that each request to the firmware is
-> tagged with the partition ID by the driver.  This tagging allows the
-> firmware to determine that a request is targeted for a specific
-> partition.  Finally, the shadow device is passed into the container,
-> instead of the normal dev node.  The userspace within the container
-> operates the shadow device normally.
->
-> One concern with the current implementation is that it is possible to
-> create a large number of partitions.  Since each partition is
-> represented by a shadow device dev node, this can create a large number
-> of dev nodes and exhaust the minor number space.
->
-> I wonder if this functionality is better represented by a cgroup.
-> Instead of creating a dev node for the partition, we can just run the
-> container process within the cgroup.  However it doesn=E2=80=99t look lik=
-e
-> cgroups have a concept of resource reservation.  It is just a limit.  If
-> that impression is accurate, then I struggle to see how to provide the
-> desired isolation as some entity not under the cgroup could consume all
-> of the device resources, leaving the containers unable to perform their
-> tasks.
+To answer my own question, absolute max. voltage is 1.3 V, so 1.2 V is stil=
+l=20
+somewhat acceptable and in practice, fixed regulator on Tanix TX6 board is=
+=20
+around 1.12 V. Boards with PMIC can set lower voltage anyway.
 
-Given the top-down resource distribution policy for cgroups, I think
-you'd have to have a cgroup subtree where limits for these resources
-are exclusively passed to, and maintain the placement of processes in
-the appropriate cgroup under this subtree (one per partition +
-global). The limit for these resources in all other subtrees under the
-root would need to be 0. The only trick would be to maintain the
-limit(s) on the global pool based on the sum of the limits for the
-partitions to ensure that the global pool cannot exhaust resources
-"reserved" for the partitions. If partitions don't come and go at
-runtime then that seems pretty straightforward, otherwise I could see
-the maintenance/adjustment of those limits as a source of frustration.
+All good.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+=20
+Best regards,
+Jernej
+=20
+> > Regards,
+> > Clement
+> >=20
+> > > Best regards,
+> > > Jernej
+> > >=20
+> > > > +
+> > > > +             opp-312000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <312000000>;
+> > > > +                     opp-microvolt =3D <810000 810000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-336000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <336000000>;
+> > > > +                     opp-microvolt =3D <810000 810000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-360000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <360000000>;
+> > > > +                     opp-microvolt =3D <820000 820000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-384000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <384000000>;
+> > > > +                     opp-microvolt =3D <830000 830000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-408000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <408000000>;
+> > > > +                     opp-microvolt =3D <840000 840000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-420000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <420000000>;
+> > > > +                     opp-microvolt =3D <850000 850000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-432000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <432000000>;
+> > > > +                     opp-microvolt =3D <860000 860000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-456000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <456000000>;
+> > > > +                     opp-microvolt =3D <870000 870000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-504000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <504000000>;
+> > > > +                     opp-microvolt =3D <890000 890000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-540000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <540000000>;
+> > > > +                     opp-microvolt =3D <910000 910000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-576000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <576000000>;
+> > > > +                     opp-microvolt =3D <930000 930000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-624000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <624000000>;
+> > > > +                     opp-microvolt =3D <950000 950000 1200000>;
+> > > > +             };
+> > > > +
+> > > > +             opp-756000000 {
+> > > > +                     opp-hz =3D /bits/ 64 <756000000>;
+> > > > +                     opp-microvolt =3D <1040000 1040000 1200000>;
+> > > > +             };
+> > > > +     };
+> > > > +};
+> > > > +
+> > > > +&gpu {
+> > > > +     operating-points-v2 =3D <&gpu_opp_table>;
+> > > > +};
+> > > > --
+> > > > 2.34.1
 
 
-
->
-> So, cgroup experts, does this sound like something that should be
-> represented by a cgroup, or is cgroup the wrong mechanism for this usecas=
-e?
->
-> [1] -
-> https://lore.kernel.org/all/1660588956-24027-1-git-send-email-quic_jhugo@=
-quicinc.com/
