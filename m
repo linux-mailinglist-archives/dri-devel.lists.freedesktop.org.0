@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8588A5B2EAF
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 08:20:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D74C85B2EAE
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 08:20:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7884810EBDB;
-	Fri,  9 Sep 2022 06:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B28A10EBD8;
+	Fri,  9 Sep 2022 06:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA24610EB44
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 15:53:00 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id e16so7583012wrx.7
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 08:53:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mathembedded-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=Id2LT9k8G/ueokdbdHl7YXqytu8/y6ruSySCO+cIye4=;
- b=FbGJ0HnY4ZWiobqMTTrJue3DCqjoaHBrQak+nZQCY+tJLvNVkKIwjOui5eJjViNsui
- uQAe+7gXaPenOLZjT5PvgVgaJx8IVvUBgn13j6h8ZykUi+HvID7YFTqvb9uBJaaWhV/E
- VUwv3Oy8VJRgZ9rP4FJlaiqSKst4oRigwRG+M4942x6FyBPJURlkrI+GqoJ33QkZaC95
- /yozL6BpULlb5IDwselUfaCAoYm6DqQ0UbxT2NrgTEmyT6LbRAP13aQhohoGp74VqY5V
- nnHxgwYCz2bcPrgIOn2Z7foXQNJp665D0zffWhCbJ0gpeK4FvRQkPsefIsYubuS68euH
- pKKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=Id2LT9k8G/ueokdbdHl7YXqytu8/y6ruSySCO+cIye4=;
- b=30w/OZN5qc/uWrXImD3p3pyZxyc7X8IvKiybbTKPm2w2RaTSz9ZWvZ+22UIDk8yYof
- EdkXV4OtjJE4RVlb+s7R2MHAFn0w5uEkdkCelEIob3Su7R9xMjynBlA5BpwySiDl0wAe
- itzqGr+hkZe/TWQDVc+tOw+pCSERoazCSZxIGK0dxBH78CkBLU+8a4VPdY7XaDfZ2fqK
- GxP9b6/5oWRQw0FRmxtOI5wwEgLHaHFQsnHFp3nfrZVJKmoa3OcxnZQLLM+b29IBbCk9
- gOzxAdX1G0ERTGlLQoXpR4veVTKB0M6pwdMRSqqzP0OIWz59m0b6Hj8YeXViVmQb+Lnd
- v44g==
-X-Gm-Message-State: ACgBeo31IL3nW1UtbGjpe4Latil7xI2MHWlHvVOTKLGL5sSHrskZ5hye
- xuyNBrG88useLE+RflVzJnfgzA==
-X-Google-Smtp-Source: AA6agR6uJvDyNQbO1hDU/VqkhLQhPvaLY4b6d5vG9v7he13nxHtrQpwcSj76LjhNXSy4cKJXysQ0qA==
-X-Received: by 2002:a5d:434a:0:b0:21d:aa7e:b1bb with SMTP id
- u10-20020a5d434a000000b0021daa7eb1bbmr5876689wrr.619.1662652379494; 
- Thu, 08 Sep 2022 08:52:59 -0700 (PDT)
-Received: from opal.home ([2a00:23c6:200d:d301:4971:140c:41b9:e178])
- by smtp.gmail.com with ESMTPSA id
- n13-20020a05600c3b8d00b003a845621c5bsm3793665wms.34.2022.09.08.08.52.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Sep 2022 08:52:59 -0700 (PDT)
-From: Stuart Menefy <stuart.menefy@mathembedded.com>
-To: Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org
-Subject: [PATCH] drm/meson: Fix OSD1 RGB to YCbCr coefficient
-Date: Thu,  8 Sep 2022 16:52:43 +0100
-Message-Id: <20220908155243.687143-1-stuart.menefy@mathembedded.com>
-X-Mailer: git-send-email 2.37.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5EBD410E568
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 22:06:11 +0000 (UTC)
+Received: from
+ linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
+ (linux.microsoft.com [13.77.154.182])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 9CF5C20B929C;
+ Thu,  8 Sep 2022 15:06:10 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9CF5C20B929C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1662674770;
+ bh=ch/5/cm2aut8sVA7LsCY7bS7GtYymUIOxpzSvQK1PWQ=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=jCCnNfQVhM9/unHCtZWNTvR6KP1h6I7SWG0furjlcpc0QvmkyMA/i9FMRrrJGlq2U
+ yZCSJ5Uvy8rukE5Fhip0TtfdoqDakhHDhqFlRI9WcBbvz1N4f+A6Oco0caqQZgxk4M
+ nLS9KdKZ22JVd4K1KQfse+l0e5d5toqAlbllDCVk=
+From: eahariha@linux.microsoft.com
+To: Deepak Rawat <drawat.floss@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Helge Deller <deller@gmx.de>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Easwar Hariharan <easwar.hariharan@microsoft.com>,
+ Colin Ian King <colin.i.king@googlemail.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hyperv@vger.kernel.org (open list:DRM DRIVER FOR HYPERV SYNTHETIC VIDEO
+ DEVICE), 
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR HYPERV SYNTHETIC
+ VIDEO DEVICE), linux-kernel@vger.kernel.org (open list),
+ netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
+ linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
+ linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM)
+Subject: [PATCH 2/3] pci_ids: Add Microsoft PCI Vendor ID,
+ and remove redundant definitions
+Date: Thu,  8 Sep 2022 15:05:56 -0700
+Message-Id: <1662674757-31945-2-git-send-email-eahariha@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1662674757-31945-1-git-send-email-eahariha@linux.microsoft.com>
+References: <1662674757-31945-1-git-send-email-eahariha@linux.microsoft.com>
 X-Mailman-Approved-At: Fri, 09 Sep 2022 06:19:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,40 +64,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Menefy <stuart.menefy@mathembedded.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VPP_WRAP_OSD1_MATRIX_COEF22.Coeff22 is documented as being bits 0-12,
-not 16-28.
+From: Easwar Hariharan <easwar.hariharan@microsoft.com>
 
-Without this the output tends to have a pink hue, changing it results
-in better color accuracy.
+Move the Microsoft PCI Vendor ID from the various drivers to the pci_ids
+file
 
-The vendor kernel doesn't use this register. However the code which
-sets VIU2_OSD1_MATRIX_COEF22 also uses bits 0-12. There is a slightly
-different style of registers for configuring some of the other matrices,
-which do use bits 16-28 for this coefficient, but those have names
-ending in MATRIX_COEF22_30, and this is not one of those.
-
-Signed-off-by: Stuart Menefy <stuart.menefy@mathembedded.com>
+Signed-off-by: Easwar Hariharan <easwar.hariharan@microsoft.com>
 ---
- drivers/gpu/drm/meson/meson_viu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 1 -
+ drivers/net/ethernet/microsoft/mana/gdma_main.c | 4 ----
+ drivers/video/fbdev/hyperv_fb.c                 | 3 ---
+ include/linux/pci_ids.h                         | 2 ++
+ 4 files changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_viu.c b/drivers/gpu/drm/meson/meson_viu.c
-index 51df4de..876ffe0 100644
---- a/drivers/gpu/drm/meson/meson_viu.c
-+++ b/drivers/gpu/drm/meson/meson_viu.c
-@@ -94,7 +94,7 @@ static void meson_viu_set_g12a_osd1_matrix(struct meson_drm *priv,
- 		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_COEF11_12));
- 	writel(((m[9] & 0x1fff) << 16) | (m[10] & 0x1fff),
- 		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_COEF20_21));
--	writel((m[11] & 0x1fff) << 16,
-+	writel((m[11] & 0x1fff),
- 		priv->io_base +	_REG(VPP_WRAP_OSD1_MATRIX_COEF22));
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+index 6d11e79..61083c7 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+@@ -23,7 +23,6 @@
+ #define DRIVER_MAJOR 1
+ #define DRIVER_MINOR 0
  
- 	writel(((m[18] & 0xfff) << 16) | (m[19] & 0xfff),
+-#define PCI_VENDOR_ID_MICROSOFT 0x1414
+ #define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
+ 
+ DEFINE_DRM_GEM_FOPS(hv_fops);
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+index 5f92401..00d8198 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+@@ -1465,10 +1465,6 @@ static void mana_gd_shutdown(struct pci_dev *pdev)
+ 	pci_disable_device(pdev);
+ }
+ 
+-#ifndef PCI_VENDOR_ID_MICROSOFT
+-#define PCI_VENDOR_ID_MICROSOFT 0x1414
+-#endif
+-
+ static const struct pci_device_id mana_id_table[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_PF_DEVICE_ID) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_VF_DEVICE_ID) },
+diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+index 886c564..a502c80 100644
+--- a/drivers/video/fbdev/hyperv_fb.c
++++ b/drivers/video/fbdev/hyperv_fb.c
+@@ -58,7 +58,6 @@
+ 
+ #include <linux/hyperv.h>
+ 
+-
+ /* Hyper-V Synthetic Video Protocol definitions and structures */
+ #define MAX_VMBUS_PKT_SIZE 0x4000
+ 
+@@ -74,10 +73,8 @@
+ #define SYNTHVID_DEPTH_WIN8 32
+ #define SYNTHVID_FB_SIZE_WIN8 (8 * 1024 * 1024)
+ 
+-#define PCI_VENDOR_ID_MICROSOFT 0x1414
+ #define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
+ 
+-
+ enum pipe_msg_type {
+ 	PIPE_MSG_INVALID,
+ 	PIPE_MSG_DATA,
+diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+index 6feade6..c008fda 100644
+--- a/include/linux/pci_ids.h
++++ b/include/linux/pci_ids.h
+@@ -2079,6 +2079,8 @@
+ #define PCI_DEVICE_ID_ICE_1712		0x1712
+ #define PCI_DEVICE_ID_VT1724		0x1724
+ 
++#define PCI_VENDOR_ID_MICROSOFT  	0x1414
++
+ #define PCI_VENDOR_ID_OXSEMI		0x1415
+ #define PCI_DEVICE_ID_OXSEMI_12PCI840	0x8403
+ #define PCI_DEVICE_ID_OXSEMI_PCIe840		0xC000
 -- 
-2.7.4
+1.8.3.1
 
