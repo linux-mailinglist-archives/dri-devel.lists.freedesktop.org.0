@@ -1,112 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53EA5B180B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 11:08:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5988E5B1814
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 11:10:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08ADA10E9D9;
-	Thu,  8 Sep 2022 09:08:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A362310E9BB;
+	Thu,  8 Sep 2022 09:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA6710E9D8
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 09:08:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662628110;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AAQa4isXcnz/CqAw9Or0VLGVMQujP+L3g/TlUU+ZO2I=;
- b=diCygZpyCdafwuD7e2PmbVE84zFzO+88akNjZeHQLvAzYyewPRiViBka9dsqGnitxPb45j
- hXUeDvM00U1tEUx7pyrUfZmYoA9/n77eIv3GKw5NCofbIOSCXuYy4zMji5BHPlgrQ/j3nd
- 23x3YYHlTTIMNupYFdMwjRbTMT6rs7g=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-411-XMaVAI2uNNCBeJckeNyvvA-1; Thu, 08 Sep 2022 05:08:29 -0400
-X-MC-Unique: XMaVAI2uNNCBeJckeNyvvA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- x22-20020a05620a259600b006b552a69231so14043485qko.18
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 02:08:29 -0700 (PDT)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE7B810E9BB;
+ Thu,  8 Sep 2022 09:09:53 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id t5so23289408edc.11;
+ Thu, 08 Sep 2022 02:09:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=lIbJZPrjKHbLawmYplyVNe7T2V7IAHLU3wOIAk3SPCY=;
+ b=RT+flP0e20Rx7yTxlmK9baTqcO82+tmfKOPfqBKdIRim1kuv2l5wG7AvUxae21EMrY
+ aPM3rLDM1YwhXFHONho8nS/0Ht2/vT6JQoosjBPJ7O8E8/1s+aEOhswoX5qNJJ/+1uBW
+ wDFjxZPtUi7ntvzOZokxfF1DhhsWJZwj4IpQdHMwteY37NIGSCmVecKvBKqSE3l0Cxnc
+ PgVv7aSHWME2t/yil0Kh6zQQ7fDmF5iGtbw7jZtdYWWLAD9xElcto3OZ76NCRCApSXnJ
+ oG6Vym5ika/fBRsJHYmEVbs9/gwbAgLSzOf5V5aRHq/a/Kp+91DiWZQ7jZ4ZBCuf9PR5
+ AN+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=AAQa4isXcnz/CqAw9Or0VLGVMQujP+L3g/TlUU+ZO2I=;
- b=ossm34186RbpIcXCTgEWiQ0Q9JqrpyG+eUvMAIsJKI0jtD72cJt1EbKIdMpMksPRdy
- ynaWDT++ysyKhYkMT3FEW+1LVBDtS1QNi8dRDK1a5HaSb49WYlZ+LCM6iT/SZI1Zz9j7
- TM85U+PfKdOTKmVRAqISRBmEpgNQSFlEyg7FcDX/mPrHLeGIA0QDwgeP++mHCB47PeyM
- ovnJIes1wQQSlekVKxtWSGt29bNzfweX+j3eUIJCB4N18FSP5viJ2c2OTkMHt6vUuyT9
- CrCYtHlYHnhHa5C9uEqX5aiCJ8Hcnbajo4AupjPkxVOhQwC7pysNRQ64TDIw1t1tI0Ih
- 5+gA==
-X-Gm-Message-State: ACgBeo2hCb17vKECB3BQWos6qqdmijmS9w7lIcmGc9QbRTfGbGqYjvfl
- tWGRNxqlvJP+K1lWVgTTXYMXO/hIAAkfu8Xlb4p2MFTwdd/FvjNzcGIz/SD0rDoZjUwm6CuYBla
- j+En3QR1ZDfM37YbWTmUxgEO43FZt
-X-Received: by 2002:ac8:58d2:0:b0:344:5698:a2e8 with SMTP id
- u18-20020ac858d2000000b003445698a2e8mr7273794qta.392.1662628109357; 
- Thu, 08 Sep 2022 02:08:29 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7WJ3e3rc/rDtFXXj3tevRpC3CGaundZvbMDIERUF76jhlMbQUf5uKHf0h+nvyWes4AGw7qCA==
-X-Received: by 2002:ac8:58d2:0:b0:344:5698:a2e8 with SMTP id
- u18-20020ac858d2000000b003445698a2e8mr7273747qta.392.1662628109111; 
- Thu, 08 Sep 2022 02:08:29 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- r3-20020ae9d603000000b006af0ce13499sm16489061qkk.115.2022.09.08.02.08.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 02:08:27 -0700 (PDT)
-Message-ID: <527db896-b064-2f02-ae96-6525496176c4@redhat.com>
-Date: Thu, 8 Sep 2022 11:08:21 +0200
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=lIbJZPrjKHbLawmYplyVNe7T2V7IAHLU3wOIAk3SPCY=;
+ b=vHaYjm0hYavoxq+k5KkTZaNBodbxGgmGJQKhujAKOHqRa3tPQ8VsNlxebdtG5zHh5s
+ kKPPV04lXij03u1x7bCf2u31MBbOr52TBI+xZlrh8aSCRIjaQGisUPuCoKZzzw3XIbB7
+ 19zacKoVslVBi1GMp/fHy7LwCVrf2rW9x5df+eh1xwGekJ+BZ8TFFrJmRYq/lKholHH1
+ ToEJjbROY9AgY/6Xyk1NmX7v0S41Zen+n4BKmYK65hmgmnEwvRJF+9z+ol0ZM//NNZUg
+ CpNFo6nn6mvRPTd6GrS813onSCb5TzQ80FbkozhhYbfC+L9P3C0vORnwBck6LMSh9Mc1
+ 2qcw==
+X-Gm-Message-State: ACgBeo2qSspVvaylUxUM48pP4c16eo3IhzN/Wh85uK8REwdQYrcsScot
+ skTef7mfF8dSUy+I1e8+Wybu3iWcVs7kqHOmQt8=
+X-Google-Smtp-Source: AA6agR4rF+e76GoR10h7poG0rnV0jc8VwRLn3xcHPhyxPnOYp5ls2vp7gGVf1IgI4ex50/LcAbEdsgjEEJYKKK4evkE=
+X-Received: by 2002:aa7:df87:0:b0:44e:2851:7e8d with SMTP id
+ b7-20020aa7df87000000b0044e28517e8dmr6390046edy.106.1662628192118; Thu, 08
+ Sep 2022 02:09:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 01/15] vfio: Add helpers for unifying vfio_device life
- cycle
-To: "Tian, Kevin" <kevin.tian@intel.com>,
- Zhenyu Wang <zhenyuw@linux.intel.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
- Jason Herne <jjherne@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Longfang Liu <liulongfang@huawei.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- Abhishek Sahu <abhsahu@nvidia.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>
-References: <20220901143747.32858-1-kevin.tian@intel.com>
- <20220901143747.32858-2-kevin.tian@intel.com>
- <90862543-9343-7389-a1ff-be9a011be64e@redhat.com>
- <BN9PR11MB527639DCC5706ADA8F0519D38C409@BN9PR11MB5276.namprd11.prod.outlook.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <BN9PR11MB527639DCC5706ADA8F0519D38C409@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <tencent_E1BBF05904DFB73C478DCD592740AAE0780A@qq.com>
+ <CAJedcCxVW++iH49UFZp9ruUuTcNubWCH6Wsqe11K4COB3E8msg@mail.gmail.com>
+ <CAJedcCw1eJqjSK+yR7eQMDheNtH3Mjm+viwt00xAhnmrfpq2pw@mail.gmail.com>
+ <CAJedcCweHjD78F7iydiq6Xc2iH=t_3m=H9JKnaCooToUk32FvQ@mail.gmail.com>
+ <YxWtfjfpNsoPUrgh@kroah.com>
+ <CAJedcCzMo51aiy=Dv7zn7VmL3gwkw7JgzwAPAB2Z27C9CnhoYA@mail.gmail.com>
+ <20220907030754.GU1089@zhen-hp.sh.intel.com>
+In-Reply-To: <20220907030754.GU1089@zhen-hp.sh.intel.com>
+From: Zheng Hacker <hackerzheng666@gmail.com>
+Date: Thu, 8 Sep 2022 17:09:40 +0800
+Message-ID: <CAJedcCxO_Rq0qMeLiHtY5+FuN1A1pDGsZd3gMtvUpm1xbAK3aA@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry.
+To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,37 +71,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>
+Cc: tvrtko.ursulin@linux.intel.com, security@kernel.org, alex000young@gmail.com,
+ airlied@linux.ie, Greg KH <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, xmzyshypnc <1002992920@qq.com>,
+ rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ zhi.a.wang@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kevin,
+Hi Zhenyu,
 
-On 9/8/22 08:19, Tian, Kevin wrote:
->> From: Eric Auger <eric.auger@redhat.com>
->> Sent: Thursday, September 8, 2022 3:28 AM
->>> +/*
->>> + * Alloc and initialize vfio_device so it can be registered to vfio
->>> + * core.
->>> + *
->>> + * Drivers should use the wrapper vfio_alloc_device() for allocation.
->>> + * @size is the size of the structure to be allocated, including any
->>> + * private data used by the driver.
->>> + *
->>> + * Driver may provide an @init callback to cover device private data.
->> nit: this comment may rather relate to the vfio_init_device function
-> Yes but vfio_init_device() is used only by ccw and presumably will be
-> abandoned once ccw fixes its life cycle mess. Given that I prefer to leaving
-> the comment here to be noted by broader users.
+This issue has been open for a few days. Could you plz write a patch
+for that :) I'm not familiar with the logical code here.
 
-OK
+Regards,
+Zheng Wang
 
-Eric
+Zhenyu Wang <zhenyuw@linux.intel.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=887=E6=
+=97=A5=E5=91=A8=E4=B8=89 11:33=E5=86=99=E9=81=93=EF=BC=9A
 >
->> Besides
->>
->> Reviewed-by: Eric Auger <eric.auger@redhat.com>
->>
-> Thanks and other comments adopted. 
-
+> On 2022.09.06 19:36:56 +0800, Zheng Hacker wrote:
+> > Hi Greg,
+> >
+> > Alex has explained how we figured out the patch. We did analyze the
+> > code and found it possible to reach the vulnerability code. But we
+> > have no physical device in hand to test the driver. So we'd like to
+> > discuss with developers to see if the issue exists or not.
+> >
+> > Best regards,
+> > Zheng Wang.
+> >
+> > Greg KH <gregkh@linuxfoundation.org> ???2022???9???5????????? 16:04????=
+?????
+> > >
+> > > On Mon, Sep 05, 2022 at 03:46:09PM +0800, Zheng Hacker wrote:
+> > > > I rewrote the letter. Hope it works.
+> > > >
+> > > > There is a double-free security bug in split_2MB_gtt_entry.
+> > > >
+> > > > Here is a calling chain :
+> > > > ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entr=
+y.
+> > > > If intel_gvt_dma_map_guest_page failed, it will call
+> > > > ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
+> > > > kfree(spt). But the caller does not notice that, and it will call
+> > > > ppgtt_free_spt again in error path.
+> > > >
+>
+> It's a little mess in code so in theory it might be possible but
+> intel_gvt_dma_map_guest_page won't fail in practise...
+>
+> > > > Fix this by returning the result of ppgtt_invalidate_spt to split_2=
+MB_gtt_entry.
+> > > >
+>
+> I don't see why changing ret value can fix this issue, as it doesn't chan=
+ge
+> any behavior e.g caller of ppgtt_populate_spt to handle possible differen=
+t error return.
+>
+> As current code looks assuming that ppgtt_invalidate_spt would free spt i=
+n good case,
+> I think the real cleanup should split that assumption and handle free in =
+error case properly.
+>
+> > > > Signed-off-by: Zheng Wang
+>
+> This misses proper email address.
+>
+> thanks
+>
+> > > >
+> > > > ---
+> > > >  drivers/gpu/drm/i915/gvt/gtt.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/=
+gvt/gtt.c
+> > > > index ce0eb03709c3..9f14fded8c0c 100644
+> > > > --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> > > > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> > > > @@ -1215,7 +1215,7 @@ static int split_2MB_gtt_entry(struct intel_v=
+gpu *vgpu,
+> > > >                 ret =3D intel_gvt_dma_map_guest_page(vgpu, start_gf=
+n + sub_index,
+> > > >                                                    PAGE_SIZE, &dma_=
+addr);
+> > > >                 if (ret) {
+> > > > -                       ppgtt_invalidate_spt(spt);
+> > > > +                       ret =3D ppgtt_invalidate_spt(spt);
+> > > >                         return ret;
+> > >
+> > > But now you just lost the original error, shouldn't this succeed even=
+ if
+> > > intel_gvt_dma_map_guest_page() failed?
+> > >
+> > > And how are you causing intel_gvt_dma_map_guest_page() to fail in a r=
+eal
+> > > system?
+> > >
+> > > thanks,
+> > >
+> > > greg k-h
