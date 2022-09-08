@@ -1,94 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF2F5B224A
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 17:30:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BA45B227B
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 17:36:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3427B10EB3A;
-	Thu,  8 Sep 2022 15:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35DD710EB47;
+	Thu,  8 Sep 2022 15:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2052.outbound.protection.outlook.com [40.107.101.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF5210E714;
- Thu,  8 Sep 2022 15:30:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mYYc4fvWmfkAVl2cpUfFVQzouWZWspSRarDteCD5STN7TqbgHOXmKrUSna+3mzaZH/+yjtUUOCQxkFPdEqMdeHFX7Ip9wZMfotu1DODF9ytldi9vSTfTbxDlJzOdSYziFgXvyCHx/QWixiGVlQatN9K91tVkLriKCS9C+HdTasQKqx2CULO4p3TzM7UTYMY8EBU42UwHs0WyBFPFMxQtYzhlKn6+wFH7SVULYkF0OfRUvExqtvpbdTc3k7S+qR8o7wHHXRtqTrQ1XfuFEbZ+jwbQlf8xOHBF/rtj7yGjnlfa87MZ5gcYv6yTa4+KgN8rpsz1R+wuYBZa0pdaMsrMdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D6HqduO1asgN1lYLBUuHR26bfmSVGMmzFuSlpLymubw=;
- b=M1ebyPqAZ1e+ZpSODK6XZCBFhp6uIQq4K8EBdFNkZj0ejwriXQG2uNuR/12Nb1FUz6ByOR857WwjV67AxVYrDtiLK2tCFS3BpTYDVjgTP8CdTGbFcd5Uj87hYNCerjhuZSOOQ5RVIanw0e6l73kFoMDoP6eB4DaXEpFpDfzQnKGKu052+ekh5YFSDeQgrXqpvwfqPQjWp15DTuMeKZW8CRxR4sKTXUcezwVztgRgyXRHQgf4eTTTDRgGlW205SDcnBNkF5LtVFl5OveNuDKKALknKaNBvcwNEhaEPEKymZmOaJXBY23/AgilHb15h3IOpXqt7WO1EPQTjfruwYQqHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D6HqduO1asgN1lYLBUuHR26bfmSVGMmzFuSlpLymubw=;
- b=siAtUSJI5HkVxbePQFtHK054xgTzHNG5x/EJoFdw7UmQ8TMv5TOOWPbeSr8WrMLTXJG2iGpCtV6auG+VGNZzWhsB/ocK2VMgUs61Lqeuf6Ra4NddFMesqIuFHy8HxqRYoNHIRBcM+73C8HGD8Pf2p17sVWBC/4nXyIJo5oy+0FI=
-Received: from DM6PR14CA0056.namprd14.prod.outlook.com (2603:10b6:5:18f::33)
- by DM6PR12MB4514.namprd12.prod.outlook.com (2603:10b6:5:2a7::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Thu, 8 Sep
- 2022 15:30:05 +0000
-Received: from DM6NAM11FT077.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:18f:cafe::33) by DM6PR14CA0056.outlook.office365.com
- (2603:10b6:5:18f::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12 via Frontend
- Transport; Thu, 8 Sep 2022 15:30:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT077.mail.protection.outlook.com (10.13.173.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5612.13 via Frontend Transport; Thu, 8 Sep 2022 15:30:05 +0000
-Received: from jz-tester.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 8 Sep
- 2022 10:30:01 -0500
-From: James Zhu <James.Zhu@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 3/4] drm/sched: always keep selected ring sched list in ctx
- entity
-Date: Thu, 8 Sep 2022 11:29:45 -0400
-Message-ID: <20220908152945.949531-1-James.Zhu@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220907205705.934688-3-James.Zhu@amd.com>
-References: <20220907205705.934688-3-James.Zhu@amd.com>
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E38A610EB47
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 15:36:10 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id nc14so38929485ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 08:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=knhMsKK0YzQCQKsiPtIuuMjv+O66fK9juB2+nIAHPk0=;
+ b=KfiYrfk6/8vzQ2y9m2B3d70Ln6jxPro9iQHMcnyBVr51+6I6SfcI70dnJnHWqHCLbE
+ aJ0jmwq7FZVQHflmDW5PlZ8FmTwwZILYAnf4a6PYNrrVqMzFdkKVGrjbC4QxwWgBTkYo
+ /gKG+JxCo++yPZryygU/Hzbxj0P4QZa7oUe0o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=knhMsKK0YzQCQKsiPtIuuMjv+O66fK9juB2+nIAHPk0=;
+ b=MzvrGHYUd01c8H/y3oAftliiIRNOUvJvH4Ju+IlDIe1Z0y4pWFc3HsxBvqMkb3l1LH
+ wG6yIeCHfcHS7jxAkqIpUiJ+H/JJ6UriamuIPEa1CKKn67Y+Z5otaXuol+pkEKwkrznD
+ obQdJSsCrXvNGbxfbRIvzGnXZPkIZw2IseemW91gZkvCOYOLyXbIjIR0Y3SDA9IdSL+m
+ eV7KjfO7M8D6X1CFhGa324i1xaOdO8O987niTbPYXj+TMJ8yUlYwlmZ4GpKqW6APPVFw
+ jGkTUAfYfSA275i5D7fULJHOk5uC7dXRtMbH0ziM3tSg4FlpBY/D8LuVAGCVF91JwmmK
+ BIWQ==
+X-Gm-Message-State: ACgBeo24qH9UXnywrm79fBFmL/cAVJTd+vCz1Dlyo8BKnnX+38Q/V3/t
+ IC3D70l1YBiYEprbG+eT/1XaMGarvTIZrG+yjpI=
+X-Google-Smtp-Source: AA6agR5VpO36nNR2IU1i9Sz7PsSFX+r+l96rDa9vF5Q+MxHcY881zRY3PZmgpsXeqdvyVvR8lMwq/Q==
+X-Received: by 2002:a17:906:ef90:b0:730:9cd8:56d7 with SMTP id
+ ze16-20020a170906ef9000b007309cd856d7mr6208231ejb.94.1662651369172; 
+ Thu, 08 Sep 2022 08:36:09 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com.
+ [209.85.221.46]) by smtp.gmail.com with ESMTPSA id
+ ty16-20020a170907c71000b0077086ee4633sm1373250ejc.53.2022.09.08.08.36.08
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Sep 2022 08:36:08 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id c11so22525477wrp.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 08:36:08 -0700 (PDT)
+X-Received: by 2002:a5d:4d0c:0:b0:228:cd9f:5a4c with SMTP id
+ z12-20020a5d4d0c000000b00228cd9f5a4cmr5725454wrt.138.1662651368080; Thu, 08
+ Sep 2022 08:36:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT077:EE_|DM6PR12MB4514:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b15aaee-5a4d-473f-bc73-08da91af012d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XHvBDQMaNurb91Y4YZZh9BidwJIXK20aP24ZLmUaH7M8Hm0QRmMykHMh1/3ms1ZeUaGFnER4rSbeIOsRgubfrORHto/0Jz0PCIpE7hQtpnCDxU0nmr1U3X97CaGLos4sHsLnMGaG7OJmhairuQVdn1+pVoe95+Ks/94eH9IuaKW6jyeTxzD2UA319fuUUQKxTuz9fR6Lb7DXQVy36s1oyCGJ0LNFCNGg6MRPUuvxMSeBROEm3Rq6P56VSx2IWQL1+U4L3ElKyI2ik5HxM5EYcAZFCTYTK5sD5lPgyNhWRJd2Hq/agaskt5ZO4wt02mKCGNSZP/qKtfW00BLC3lrhsBYaQsc8TXkou52LmHTL15rpkrqFPwqkYOJt+cFkm9kdSKHj0Q741Sr/0VBCp2IiC8LsqdpaWdS+uiNHz1evGWxkDsVcfyFkYDD1hUuExgDVowaIqUwq2jOSYJKWBwPiHvaZaX9iy5uRt2CWGjJ6J5+OnL8IVB9oGhsgqYmw8Ki8YSPmlFuPA5wcFcUIM9hsF5wUMxazoyCS5dL5wXuD0d/cQIqpJ8cl7Wog2nmE0Pr3J/iKhYDWxy72AVcciUkivJlZsqyjaMf2U0qYctVG9qJ+EgBiXeklQMIW7bh7py/0c45pGe3FQvW/pQjniKvuYwZuYmJm4mRG66tDb4OoDDZyH/H2Jtqi/qrwSjSc25tQNieScXZLbiruBOgx/gRim5JF8TsOPUpCZFWk9n11JjMhpvNAYTSpQlQk9u8XaOUcX88UzFkDDcIp7dEO8t1bp8r/FobHq7CDy82jTlWNE1g=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(136003)(346002)(396003)(39860400002)(36840700001)(40470700004)(46966006)(356005)(82310400005)(83380400001)(54906003)(186003)(16526019)(86362001)(2616005)(110136005)(336012)(426003)(36756003)(36860700001)(316002)(1076003)(47076005)(6666004)(5660300002)(8936002)(478600001)(70206006)(70586007)(41300700001)(8676002)(4326008)(450100002)(40460700003)(40480700001)(82740400003)(26005)(81166007)(2906002)(7696005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 15:30:05.0331 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b15aaee-5a4d-473f-bc73-08da91af012d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT077.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4514
+References: <20220908085454.1024167-1-wenst@chromium.org>
+In-Reply-To: <20220908085454.1024167-1-wenst@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 8 Sep 2022 08:35:55 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VgyOT0eJ9eqwqaHRw2L7ypsTkiyGeSyqu-rEBURj5TCg@mail.gmail.com>
+Message-ID: <CAD=FV=VgyOT0eJ9eqwqaHRw2L7ypsTkiyGeSyqu-rEBURj5TCg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/panel-edp: Fix delays for Innolux N116BCA-EA1
+To: Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,54 +72,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Always keep selected ring sched list in ctx entity.
-Later entity->sched_list can always be used to track ring which
-is used in this ctx in amdgpu_ctx_fini_entity.
+Hi,
 
-v2: fixed typo
-v3. Update comments
+On Thu, Sep 8, 2022 at 1:55 AM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> Commit 52824ca4502d ("drm/panel-edp: Better describe eDP panel delays")
+> clarified the various delays used for eDP panels, tying them to the eDP
+> panel timing diagram.
+>
+> For Innolux N116BCA-EA1, .prepare_to_enable would be:
+>
+>     t4_min + t5_min + t6_min + max(t7_max, t8_min)
+>
+> Since t4_min and t5_min are both 0, the panel can use either .enable or
+> .prepare_to_enable.
+>
+> As .enable is better defined, switch to using .enable for this panel.
+>
+> Also add .disable = 50, based on the datasheet's t9_min value. This
+> effectively makes the delays the same as delay_200_500_e80_d50.
+>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Fixes: 51d35631c970 ("drm/panel-simple: Add N116BCA-EA1")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Signed-off-by: James Zhu <James.Zhu@amd.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Yup, this looks like a good fix to me. Thanks! I guess that patch
+you're fixing was from a time before I had analyzed the eDP panel
+delays quite so closely.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index f5595607995b..39dca9cb8e0d 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -71,7 +71,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
- 	entity->guilty = guilty;
- 	entity->num_sched_list = num_sched_list;
- 	entity->priority = priority;
--	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
-+	entity->sched_list = sched_list;
- 	entity->last_scheduled = NULL;
- 
- 	if(num_sched_list)
-@@ -453,7 +453,7 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
- 	struct drm_sched_rq *rq;
- 
- 	/* single possible engine and already selected */
--	if (!entity->sched_list)
-+	if (entity->num_sched_list <= 1)
- 		return;
- 
- 	/* queue non-empty, stay on the same engine */
-@@ -482,9 +482,6 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
- 		entity->rq = rq;
- 	}
- 	spin_unlock(&entity->rq_lock);
--
--	if (entity->num_sched_list == 1)
--		entity->sched_list = NULL;
- }
- 
- /**
--- 
-2.25.1
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
+Given how non-controversial these types of patches are, I typically
+just apply them right away so I'll do that shortly. If this upsets
+anyone then please shout and I'll change my behavior. ;-)
+
+I've applied this one to drm-misc-fixes.
+
+8f7115c1923c drm/panel-edp: Fix delays for Innolux N116BCA-EA1
+
+-Doug
