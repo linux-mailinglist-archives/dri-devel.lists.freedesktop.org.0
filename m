@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5DD5B1940
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 11:51:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6545B194B
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 11:52:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E063210E9F0;
-	Thu,  8 Sep 2022 09:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 181DF10EA03;
+	Thu,  8 Sep 2022 09:51:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A083910E9FC
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A14D310E9FD
  for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 09:51:20 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 153CE1F921;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4D37533852;
  Thu,  8 Sep 2022 09:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1662630679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y90h0r0za5ZtG0bczishRj8DeDfl2p1EUfhKR62Q6YQ=;
- b=Il6YPRJq7VyzVgRoA3eTwHN6v2zhY7jFSS0HJNLH8jGuyCQwQhvgqvHdwfEEkxOB2DQE9T
- yE6JBI4suwO1QuHsaij7aSNPSie4SNT905tmmUAUVadfi0ehjXP9IGLYNaRffTB4+m8bBk
- JIoZNrfQj51j0DlfjYVkwkkAmKWPcqM=
+ bh=RtmXUyYM5wDG05NyTAj5v6qd8+MYp8/YqW7fq/oIS9s=;
+ b=sP/Z0Q6Oah5VeTPZEI/Hu4OPLWr3NdgMuLiorl0dDHvBs2wawQXM23ioxsPmXYmXgaXy1k
+ 5Cu1bhTtFolvFhNR9s9iVV3GWqlDmPFkfQjtQ59fU4/JoIrHSAFNLhoWQ5NsAoMBr3et7K
+ LlP2bfo2ycr2kg2RIY48qI9Lr+ppVLs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1662630679;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y90h0r0za5ZtG0bczishRj8DeDfl2p1EUfhKR62Q6YQ=;
- b=s9Airb08pBDJ81c5iRLWmxN9uiXuVy7AsXSlC1jLv5Zf3ubN/lt9TSOFbll6ZaTwvfG0xE
- xVLPJ6oiLESeNHAg==
+ bh=RtmXUyYM5wDG05NyTAj5v6qd8+MYp8/YqW7fq/oIS9s=;
+ b=W5qxp11i/ewtMpv4sOs42R+g4HM/UE7hvQN4W3LS9JG6yZXKDkGzeoFEzOHgHlXq+c43i1
+ 0MA7Z33xVafHPTCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E50B913A6D;
- Thu,  8 Sep 2022 09:51:18 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E45C13A6D;
+ Thu,  8 Sep 2022 09:51:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8IwPNxa7GWNrUgAAMHmgww
- (envelope-from <tiwai@suse.de>); Thu, 08 Sep 2022 09:51:18 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id AG6aBhe7GWNrUgAAMHmgww
+ (envelope-from <tiwai@suse.de>); Thu, 08 Sep 2022 09:51:19 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 02/12] drm/udl: Add reset_resume
-Date: Thu,  8 Sep 2022 11:51:05 +0200
-Message-Id: <20220908095115.23396-3-tiwai@suse.de>
+Subject: [PATCH v3 03/12] drm/udl: Enable damage clipping
+Date: Thu,  8 Sep 2022 11:51:06 +0200
+Message-Id: <20220908095115.23396-4-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220908095115.23396-1-tiwai@suse.de>
 References: <20220908095115.23396-1-tiwai@suse.de>
@@ -74,72 +74,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-Implement the reset_resume callback of struct usb_driver. Set the
-standard channel when called.
+Call drm_plane_enable_fb_damage_clips() and give userspace a chance
+of minimizing the updated display area.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- drivers/gpu/drm/udl/udl_drv.c  | 11 +++++++++++
- drivers/gpu/drm/udl/udl_drv.h  |  1 +
- drivers/gpu/drm/udl/udl_main.c |  2 +-
- 3 files changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/udl/udl_modeset.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index 5703277c6f52..0ba88e5472a9 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -32,6 +32,16 @@ static int udl_usb_resume(struct usb_interface *interface)
- 	return drm_mode_config_helper_resume(dev);
- }
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 34ce5b43c5db..b2377b706482 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -480,6 +480,7 @@ int udl_modeset_init(struct drm_device *dev)
+ 					   format_count, NULL, connector);
+ 	if (ret)
+ 		return ret;
++	drm_plane_enable_fb_damage_clips(&udl->display_pipe.plane);
  
-+static int udl_usb_reset_resume(struct usb_interface *interface)
-+{
-+	struct drm_device *dev = usb_get_intfdata(interface);
-+	struct udl_device *udl = to_udl(dev);
-+
-+	udl_select_std_channel(udl);
-+
-+	return drm_mode_config_helper_resume(dev);
-+}
-+
- /*
-  * FIXME: Dma-buf sharing requires DMA support by the importing device.
-  *        This function is a workaround to make USB devices work as well.
-@@ -140,6 +150,7 @@ static struct usb_driver udl_driver = {
- 	.disconnect = udl_usb_disconnect,
- 	.suspend = udl_usb_suspend,
- 	.resume = udl_usb_resume,
-+	.reset_resume = udl_usb_reset_resume,
- 	.id_table = id_table,
- };
- module_usb_driver(udl_driver);
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index 28aaf75d71cf..37c14b0ff1fc 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -95,6 +95,7 @@ int udl_render_hline(struct drm_device *dev, int log_bpp, struct urb **urb_ptr,
- 		     u32 byte_offset, u32 device_byte_offset, u32 byte_width);
+ 	drm_mode_config_reset(dev);
  
- int udl_drop_usb(struct drm_device *dev);
-+int udl_select_std_channel(struct udl_device *udl);
- 
- #define CMD_WRITE_RAW8   "\xAF\x60" /**< 8 bit raw write command. */
- #define CMD_WRITE_RL8    "\xAF\x61" /**< 8 bit run length command. */
-diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-index fdafbf8f3c3c..7d1e6bbc165c 100644
---- a/drivers/gpu/drm/udl/udl_main.c
-+++ b/drivers/gpu/drm/udl/udl_main.c
-@@ -92,7 +92,7 @@ static int udl_parse_vendor_descriptor(struct udl_device *udl)
- /*
-  * Need to ensure a channel is selected before submitting URBs
-  */
--static int udl_select_std_channel(struct udl_device *udl)
-+int udl_select_std_channel(struct udl_device *udl)
- {
- 	static const u8 set_def_chn[] = {0x57, 0xCD, 0xDC, 0xA7,
- 					 0x1C, 0x88, 0x5E, 0x15,
 -- 
 2.35.3
 
