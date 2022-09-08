@@ -1,66 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D715B1150
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 02:32:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE125B1156
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 02:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F109C10E3A0;
-	Thu,  8 Sep 2022 00:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E114C10E86B;
+	Thu,  8 Sep 2022 00:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE1FD10E3A0
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 00:32:28 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id u9so34280867ejy.5
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 17:32:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=yswe5UvynuPJmR7TROq3C4jcUZ2Pkk4MSSkw0eJxwM8=;
- b=RkxT4GcJVYPfiUjCX955mRFINqGAq8VNN+LptWtiNk61ojlzsZX1EH4in57b27Q/LO
- nStb2XViM4M5FE2zTh5UeL8Yq0cwNHwWw0lzxPY5Z4mMTesQbMvgFFVdKGfsapCzipDp
- JcBLTzaFfxQqmZaQswxYLJTgMv1n97y/FFzZHfOs7ewCMYKx9/3y+kLgk+FDt1VsAaaj
- +qyvrpsuSOTexTHnKv6NbvoHXOBnyneEBlNvNbKBvQw+7EFluonjlGWcc7bOVXqgsziq
- KwPlbO4cNU9YW53onLVS7YwSrJTm0Ih/M5fqWDnTXziOeqJkC1QddiOm1NY2oQgFAFCN
- nHwA==
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 689DF10E4D2
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 00:33:41 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-1278624b7c4so22021657fac.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Sep 2022 17:33:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date;
+ bh=SFGgCNsVzP2hA8dRTmquL78fgGPuknySv3KSwNZNScI=;
+ b=Q81Rgt/ogZrNSDyvddYfuQRSJ8jdaEmayIg48nQ+NGWpxOPy5bVQ9ah81XgTqkGOVt
+ vvtqTSu1hPnXtNsXtdz4D9ZsmnuP7BNRLuvt4tPVIVe0t6uTOCq7mOFEC1plsBc4cXlz
+ 75x15C7WUmzCKp7LopN4O6EJ3tLRy6ex56pxo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=yswe5UvynuPJmR7TROq3C4jcUZ2Pkk4MSSkw0eJxwM8=;
- b=B7PyezPOsSDUcI0YrIx5OmL78rIxtYkFh/mbVgEGKr22D7ntfnoRMAuQOzVpNevVmf
- Uy1oNgdPTx30b06iWMxtrEqPTNx+gwtWVFEpRKN27VlbzSgJTwhJ1l3oX+PNHwDRAiaw
- 4RtTY4ANuhrgfLHvlRKQ1jIQgCReaB7EUHoB2AD6Hj82w+ASlpJv2sKh/QsSMMb6F09M
- IfqYBGKx32Fhp8X3xPaeOGydehzPKXK/qra3s0z2xtbU9LVLxIYX7rCuaEjcOC8B8qsH
- BDQYIDWqPkigoe0NaB4BiYQE4hZZEAdBiRxrfLmovUGKdn1YoHx0qiT7nh+0Cu4ysfl6
- b9kA==
-X-Gm-Message-State: ACgBeo3/XQi/r3XGNSsSsrYMRSJzMMNn1RU3LkRtcj5wNp09KcNtVNiZ
- DprwfblxZ8YNEYg3U2xsMxFUNWECDGwvfDoRkvblLA==
-X-Google-Smtp-Source: AA6agR4uDJOCaTz0FVi+KJnVIm61TPqwATLn4YOd9952FLaly2lRXMCdPQHjmdT6KeTEoCF0irQD994IPBPL2xcbUxQ=
-X-Received: by 2002:a17:906:d54e:b0:73d:dcb2:39ac with SMTP id
- cr14-20020a170906d54e00b0073ddcb239acmr4090828ejc.520.1662597147359; Wed, 07
- Sep 2022 17:32:27 -0700 (PDT)
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=SFGgCNsVzP2hA8dRTmquL78fgGPuknySv3KSwNZNScI=;
+ b=EePzEqRI59JavGpbXJxYP8Tcrwg3x4ZbvqAjGdURJdvnDPFLwzVaF2X/SZ8wkMjSML
+ uqV5lWP3Qg0xAy6Jd4/CBC/RAy6PqvlsKLoyk4/NNwNOBaYEvs13GPX6pgc73M4CMM6y
+ XEhw57qcoOxx/x6aTq5SyU+ilh+YrZGZr/UFqEV4BMgKHypDi/KQrXPMj5BfNXrRhyJK
+ X8j4XKiMvlIBQI2NWfUrgm/dqZRqrzGepnVXSPjf0Xh3nKiJuLLrqLJ5/0s+Y1es8pwE
+ WId9aC1uZb8dF2Qah+g+rM0G8Gi/CMLVMhwOpg6LNRVBJKi0qjh5EGDeaGpp3eKN6+zr
+ CYgg==
+X-Gm-Message-State: ACgBeo0lP01sAk7gOZJi8UPEG47NWgYbCffpUGa0p4jFt0CY7kiBBpdp
+ KsAKgQTNdNxGpCfmzWlBPFjRmxh7GwA3B8QjqTQrvA==
+X-Google-Smtp-Source: AA6agR7dUC9ALQ+u12QBqrhvXOl+Y8+jQSSUkiS/zvQgXKCMc/haJFKwxJsnCL7AvxTgEh5+PbXshQcguphmlfr92QM=
+X-Received: by 2002:a05:6808:bca:b0:344:ef42:930f with SMTP id
+ o10-20020a0568080bca00b00344ef42930fmr424759oik.0.1662597220632; Wed, 07 Sep
+ 2022 17:33:40 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 7 Sep 2022 19:33:40 -0500
 MIME-Version: 1.0
-References: <20220815093905.134164-1-hsinyi@chromium.org>
- <CAD=FV=XYNKF8q1mttru_J188pYMjSphQsEfQAO1Bt7GvjJRKXw@mail.gmail.com>
- <CAJMQK-gjg9evLY3oP5rgaGoRdQQTLqnK2-FChaabJTCxLTTmYA@mail.gmail.com>
- <CAMuczyUH1tefU_4+dx495_5kdrxRdA3pmXS-eyjzMCcYFfjNXQ@mail.gmail.com>
- <CAJMQK-jEgRq68JXSWtS4y5_39vJ1pWCT2-Atg31__veRtnuREA@mail.gmail.com>
- <CAD=FV=UXFiA4hW8_cmO0Di-NCpqvkjTqqOfbc6DfD5Rs8aT6hA@mail.gmail.com>
- <CAD=FV=Vg5o-OxyQnemB+XfkGundDA-R31QhkmHJv4RmTMcF2gA@mail.gmail.com>
- <CAD=FV=Vqs+wPsOUgVK9VyzqDHewBR6HyQgcddQpe9Sd6OG6Nuw@mail.gmail.com>
-In-Reply-To: <CAD=FV=Vqs+wPsOUgVK9VyzqDHewBR6HyQgcddQpe9Sd6OG6Nuw@mail.gmail.com>
-From: Rock Chiu <rock.chiu@paradetech.corp-partner.google.com>
-Date: Thu, 8 Sep 2022 08:32:16 +0800
-Message-ID: <CAMuczyVbLE0mg9K4NNn=epWE9vVJjFbua=7gDtV+xLGqJ1+Jrw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ps8640: Add double reset T4 and T5 to
- power-on sequence
-To: Doug Anderson <dianders@chromium.org>
+In-Reply-To: <20220901091527.1992208-2-dmitry.baryshkov@linaro.org>
+References: <20220901091527.1992208-1-dmitry.baryshkov@linaro.org>
+ <20220901091527.1992208-2-dmitry.baryshkov@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 7 Sep 2022 19:33:40 -0500
+Message-ID: <CAE-0n52jqAR7cQmYygx5h=bO7kNt33F3BR2nyKWO5mTBtHH=iw@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] drm/msm/dp: fold disable_irq into devm_request_irq
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,78 +67,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Jason Yen <jason.yen@paradetech.corp-partner.google.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, Johan Hovold <johan@kernel.org>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Jason.
+Quoting Dmitry Baryshkov (2022-09-01 02:15:25)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index bfd0aeff3f0d..3173e6962a78 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1251,13 +1251,12 @@ int dp_display_request_irq(struct msm_dp *dp_display)
+>
+>         rc = devm_request_irq(&dp->pdev->dev, dp->irq,
+>                         dp_display_irq_handler,
+> -                       IRQF_TRIGGER_HIGH, "dp_display_isr", dp);
+> +                       IRQF_TRIGGER_HIGH | IRQF_NO_AUTOEN, "dp_display_isr", dp);
+>         if (rc < 0) {
+>                 DRM_ERROR("failed to request IRQ%u: %d\n",
+>                                 dp->irq, rc);
+>                 return rc;
+>         }
+> -       disable_irq(dp->irq);
 
--Rock
-
-Doug Anderson <dianders@chromium.org> =E6=96=BC 2022=E5=B9=B48=E6=9C=8830=
-=E6=97=A5 =E9=80=B1=E4=BA=8C =E6=B8=85=E6=99=A85:49=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> Hi,
->
-> On Mon, Aug 22, 2022 at 9:33 AM Doug Anderson <dianders@chromium.org> wro=
-te:
-> >
-> > Hi,
-> >
-> > On Thu, Aug 18, 2022 at 8:03 AM Doug Anderson <dianders@chromium.org> w=
-rote:
-> > >
-> > > Hi,
-> > >
-> > > On Wed, Aug 17, 2022 at 8:22 PM Hsin-Yi Wang <hsinyi@chromium.org> wr=
-ote:
-> > > >
-> > > > On Thu, Aug 18, 2022 at 11:19 AM Rock Chiu
-> > > > <rock.chiu@paradetech.corp-partner.google.com> wrote:
-> > > > >
-> > > > > How does T4/T5  impact the real case? We talked previously the T4=
-/T5
-> > > > > shouldn't cause user impact.
-> > > > > Do we have testing data from ODM?
-> > > > >
-> > > > Please leave comments below the previous comment's headline.
-> > > >
-> > > > I'm confused. The reason I upstreamed this patch is because this is=
- in
-> > > > your application note and you asked us to help upstream it. Now do =
-you
-> > > > mean that we don't need T4 and T5?
-> > >
-> > > I think Rock is asking what problems the extra delay is causing. In
-> > > other words: why do we care about keeping these delays short?
-> > >
-> > > The answer is that it affects boot speed and also resume speed of
-> > > devices. Adding these two delays here means that there's an extra 100
-> > > ms before the user can see something on the screen. That may not seem
-> > > like a lot, but those kinds of delays add up quickly. At least on
-> > > Chromebooks, booting quickly is always a big goal.
-> >
-> > While I'm not very happy with this change and I don't really
-> > understand why these delays need to be so long, if folks are really
-> > certain that we need them and can't make them shorter then I guess we
-> > can land it. I'll wait a few more days in case anyone wants to chime
-> > in with their thoughts.
->
-> I'll continue to grumble, but I did push it.
->
-> 55453c0914d9 drm/bridge: ps8640: Add double reset T4 and T5 to power-on s=
-equence
->
-> I pushed to "drm-misc-next" and not "drm-misc-fixes". It doesn't feel
-> massively urgent since apparently we've been without the
-> "double-reset" for years and having the extra bake time feels like the
-> better way to lean.
->
-> -Doug
+It would be better to not disable the irq at all and mask the irq in the
+hardware before requesting the irq. Can you add at least add a TODO for
+that?
