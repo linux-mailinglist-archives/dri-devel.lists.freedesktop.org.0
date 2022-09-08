@@ -1,74 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972405B2621
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 20:48:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BC35B264D
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 20:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC10110EBC1;
-	Thu,  8 Sep 2022 18:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBD7010EBC4;
+	Thu,  8 Sep 2022 18:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 362E210EBC1
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 18:48:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662662881;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+Eze3ns7vu3ZUKRiyZpms9Q8jqMwv3JwYb3aUxFrFpI=;
- b=dxnzRAJ/6WhU0Uk3angoSRNyVvepXE+EshOOcWssSRfOnbKFGw8XEN34FqUyRoF2VpKKnK
- M9V/JiXP2uNQhdcwECW2BcdSkBibhFQgak5LgLxssTQlD7qvp8lHUkGo3Z/jI6O7xyTQUy
- CYst8/G/HBB/u/CTLiQQxCHdt8ebjbY=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-153-iAy8-lxwPsCrYodDYReTWQ-1; Thu, 08 Sep 2022 14:48:00 -0400
-X-MC-Unique: iAy8-lxwPsCrYodDYReTWQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- c6-20020a0ce7c6000000b004abe95fbed8so3687676qvo.11
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 11:47:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=+Eze3ns7vu3ZUKRiyZpms9Q8jqMwv3JwYb3aUxFrFpI=;
- b=oroAro1zUYCq7+5KqMJk4oY8fUz+daJ8QSupZSmloQp9vD9dY7n16Wry0wbL6gLjwz
- iqTKcPAVvdUaNV+WeDax4WvPsR1SXWoHHpPl1M3pj9wAF0tOLT6SNYP8pkQZwIeaZg2C
- BMg8RGxXQ3l7E2Q12BVLnVR17J3ojq8yMUCc35lVyOwrJbSrT/U8nvOnb/9ftO/9wc/4
- l433eX9QOfNNLv7Ktg3icq+rVgV2JZFrMdxbtBcR0r6tXBeRydgRZbdywkG9Jeb6vS25
- qn7hw6wW1ovjWTGghbombM7lxibibpL7tBCM2HrwDqZ/e/dmy9yRNCbhC8QQkmnJGt9z
- wsXQ==
-X-Gm-Message-State: ACgBeo3ScC0WND/7D0aHI6oIpbdQP9MOmiUtqMCl9d3LRLMX1aA09Uk0
- 6K2Nj1Yw4xNTifGbA//jndyoQekmd8ChSXF/nT+uTa2unYyOEJOdw/LNGST2H7LTOTFcSXRnK0K
- 2pvy+NWVI/bmp6cAO/+I87TYkWHWNX1MTvDwH7a42pBzJ
-X-Received: by 2002:a05:620a:4384:b0:6bb:268c:1c3c with SMTP id
- a4-20020a05620a438400b006bb268c1c3cmr7672174qkp.16.1662662879415; 
- Thu, 08 Sep 2022 11:47:59 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR57h7h8mAy+MEGQpnrsw0Ab85qOzvcf7ShO8SUllhtoTH8zDtpuSbPiQ9CQ5bfw59KyB7BGDaLKXgg+vQn/Nl4=
-X-Received: by 2002:a05:620a:4384:b0:6bb:268c:1c3c with SMTP id
- a4-20020a05620a438400b006bb268c1c3cmr7672144qkp.16.1662662879048; Thu, 08 Sep
- 2022 11:47:59 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 802C510EBC4;
+ Thu,  8 Sep 2022 18:53:22 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 288ILCc2025860;
+ Thu, 8 Sep 2022 18:53:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=PVWQV9fVKCz51CeppBvuDOBVcv5Q22kv7TX1fJNpK1o=;
+ b=i+SgHvZ4h9qyxlSgImwCF02NuuWmsYhavGTkDif34665KAGUpatMK/prHk2sBymA0wni
+ qEDPR/5+/YVFGl3YWzQRA6FF6B+Y+bV2UaxqK+eZA2BjNd+ewxkgug7PH7ZYbMDlmab3
+ Ygo+EAJFEyC5II5Y8TLSedTxY04yjU6oWWjb46CmzvEQ6RWBb14dmbeIDZRQ5Sp/l5mA
+ gWoRBVzGwU2E39+Ah5y2JFjtJ+IcvFcwFiGGmkzTtNnyCohUZAjHJog7YWcppV1rcgt0
+ ng7fvchwP17vEG2Z3sJLgh2IrXfx7LCh/JOIMgUTGLImW9Yh/NyUSctJ3zTsSGoWeLmn Qg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jfdc7204q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Sep 2022 18:53:19 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 288IrIXJ023968
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 8 Sep 2022 18:53:18 GMT
+Received: from [10.111.169.242] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 8 Sep 2022
+ 11:53:16 -0700
+Message-ID: <b992a7ec-3c30-c2df-d173-74dc2a03dc56@quicinc.com>
+Date: Thu, 8 Sep 2022 11:53:14 -0700
 MIME-Version: 1.0
-References: <CACO55tspZpSCE7U1WB2QRExXe=C8E51Vj3Ss9=K71QWqP8MxHA@mail.gmail.com>
- <CAF6AEGtb5TNXj4Eo3ACUc_AG_iDeQroeKnN9RPPcBeNaWORsfg@mail.gmail.com>
- <CACO55ttztg76GOCoNWSse7Xu6LAOz66LUeeZ8AmCdePZhghokA@mail.gmail.com>
- <CACO55ttrvvk=zH7hGdfv7xxUoUONpxbbVDVd1bp_zKs5X3NiGQ@mail.gmail.com>
- <CAF6AEGu9gq8Nsw60ZmdUKTOM-mT7Z7SM6mKBkzNDiY9p9-Eh9g@mail.gmail.com>
- <CACO55tsgz6_c0wLzwBXdRfm9--NnSi6N+QBAuiLB+csc5Rkyfg@mail.gmail.com>
- <c9e47776a1328e077ce20643d0cd81dbf4381012.camel@collabora.com>
- <CACO55ttOspgm-XNHtjWROjRs_mrm23da_e_ytFjZesVUzPdVWA@mail.gmail.com>
-In-Reply-To: <CACO55ttOspgm-XNHtjWROjRs_mrm23da_e_ytFjZesVUzPdVWA@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 8 Sep 2022 20:47:48 +0200
-Message-ID: <CACO55tuLRUj1qBgyL3YQKD5J7svMQNHgFU0OhjYRBbaFGbCTWQ@mail.gmail.com>
-Subject: Re: Rust in our code base
-To: Jason Ekstrand <jason.ekstrand@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [RFC PATCH 2/3] drm/msm: filter out modes for DSI bridge having
+ unsupported clock
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <freedreno@lists.freedesktop.org>
+References: <1661830389-22439-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1661830389-22439-3-git-send-email-quic_abhinavk@quicinc.com>
+ <CAE-0n50JDpYUO10QzGocq0m_irJJ4Ag7zUv_hyPqPOb-2_=RkQ@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAE-0n50JDpYUO10QzGocq0m_irJJ4Ag7zUv_hyPqPOb-2_=RkQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: QgqRF9dh1teL0I_32pYLbWj5eco2f5q9
+X-Proofpoint-ORIG-GUID: QgqRF9dh1teL0I_32pYLbWj5eco2f5q9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-08_11,2022-09-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 mlxlogscore=999
+ spamscore=0 phishscore=0 clxscore=1015 adultscore=0 bulkscore=0
+ impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209080066
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,322 +85,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>, marek.olsak@amd.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Dylan Baker <dylan.c.baker@intel.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, mesa-dev@lists.freedesktop.org,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org, dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-will merge Rusticl tomorrow or so unless somebody complains.
+Hi Stephen
 
-On Wed, Aug 24, 2022 at 5:34 PM Karol Herbst <kherbst@redhat.com> wrote:
->
-> On Wed, Aug 24, 2022 at 5:18 PM Jason Ekstrand
-> <jason.ekstrand@collabora.com> wrote:
-> >
-> > +mesa-dev and my jlekstrand.net e-mail
-> >
-> > On Sun, 2022-08-21 at 20:44 +0200, Karol Herbst wrote:
-> > > On Sun, Aug 21, 2022 at 8:34 PM Rob Clark <robdclark@gmail.com>
-> > > wrote:
-> > > >
-> > > > On Sun, Aug 21, 2022 at 10:45 AM Karol Herbst <kherbst@redhat.com>
-> > > > wrote:
-> > > > >
-> > > > > On Sun, Aug 21, 2022 at 7:43 PM Karol Herbst <kherbst@redhat.com>
-> > > > > wrote:
-> > > > > >
-> > > > > > On Sun, Aug 21, 2022 at 5:46 PM Rob Clark <robdclark@gmail.com>
-> > > > > > wrote:
-> > > > > > >
-> > > > > > > On Sat, Aug 20, 2022 at 5:23 AM Karol Herbst
-> > > > > > > <kherbst@redhat.com> wrote:
-> > > > > > > >
-> > > > > > > > Hey everybody,
-> > > > > > > >
-> > > > > > > > so I think it's time to have this discussion for real.
-> > > > > > > >
-> > > > > > > > I am working on Rusticl
-> > > > > > > > (
-> > > > > > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/15
-> > > > > > > > 439)
-> > > > > > > > which I would like to merge quite soon.
-> > > > > > > >
-> > > > > > > > Others might also plan on starting kernel drivers written
-> > > > > > > > in Rust (and
-> > > > > > > > if people feel comfortable to discuss this as well, they
-> > > > > > > > might reply
-> > > > > > > > here)
-> > > > > > > >
-> > > > > > > > The overall implication of that is: if we are doing this,
-> > > > > > > > people (that
-> > > > > > > > is we) have to accept that touching Rust code will be part
-> > > > > > > > of our
-> > > > > > > > development process. There is no other sane way of doing
-> > > > > > > > it.
-> > > > > > > >
-> > > > > > > > I am not willing to wrap things in Rusticl so changing
-> > > > > > > > gallium APIs
-> > > > > > > > won't involve touching Rust code, and we also can't expect
-> > > > > > > > people to
-> > > > > > > > design their kernel drivers in weird ways "just because
-> > > > > > > > somebody
-> > > > > > > > doesn't want to deal with Rust"
-> > > > > > > >
-> > > > > > > > If we are going to do this, we have to do it for real,
-> > > > > > > > which means,
-> > > > > > > > Rust code will call C APIs directly and a change in those
-> > > > > > > > APIs will
-> > > > > > > > also require changes in Rust code making use of those APIs.
-> > > > > > > >
-> > > > > > > > I am so explicit on this very point, because we had some
-> > > > > > > > discussion on
-> > > > > > > > IRC where this was seen as a no-go at least from some
-> > > > > > > > people, which
-> > > > > > > > makes me think we have to find a mutual agreement on how it
-> > > > > > > > should be
-> > > > > > > > going forward.
-> > > > > > > >
-> > > > > > > > And I want to be very explicit here about the future of
-> > > > > > > > Rusticl as
-> > > > > > > > well: if the agreement is that people don't want to have to
-> > > > > > > > deal with
-> > > > > > > > Rust changing e.g. gallium, Rusticl is a dead project. I am
-> > > > > > > > not
-> > > > > > > > willing to come up with some trashy external-internal API
-> > > > > > > > just to
-> > > > > > > > maintain Rusticl outside of the mesa git repo.
-> > > > > > > > And doing it on a kernel level is even more of a no-go.
-> > > > > > > >
-> > > > > > > > So what are we all thinking about Rust in our core repos?
-> > > > > > >
-> > > > > > > I think there has to be willingness on the part of rust folks
-> > > > > > > to help
-> > > > > > > others who aren't so familiar with rust with these sorts of
-> > > > > > > API
-> > > > > > > changes.  You can't completely impose the burden on others
-> > > > > > > who have
-> > > > > > > never touched rust before.  That said, I expect a lot of API
-> > > > > > > changes
-> > > > > > > over time are simple enough that other devs could figure out
-> > > > > > > the
-> > > > > > > related rust side changes.
-> > > > > > >
-> > > > > >
-> > > > > > yeah, I agree here. I wouldn't say it's all the responsibility
-> > > > > > of
-> > > > > > developers changing APIs to also know how to change the code.
-> > > > > > So e.g.
-> > > > > > if an MR fails to compile and it's because of rusticl, I will
-> > > > > > help out
-> > > > > > and do the changes myself if necessary. But long term we have
-> > > > > > to
-> > > > > > accept that API changes also come with the implication of also
-> > > > > > having
-> > > > > > to touch Rust code.
-> > > > > >
-> > > > > > Short term it might be a learning opportunity for some/most,
-> > > > > > but long
-> > > > > > term it has to be accepted as a part of development to deal
-> > > > > > with Rust.
-> > > > > >
-> > > > > > > As long as folks who want to start introducing rust in mesa
-> > > > > > > and drm
-> > > > > > > realize they are also signing up to play the role of rust
-> > > > > > > tutor and
-> > > > > > > technical assistance, I don't see a problem.  But if they
-> > > > > > > aren't
-> > > > > > > around and willing to help, I could see this going badly.
-> > > > > > >
-> > > > > >
-> > > > > > Yep, I fully agree here. This is also the main reason I am
-> > > > > > bringing
-> > > > > > this up. Nobody should be left alone with having to deal with
-> > > > > > changing
-> > > > > > the code. On the other hand a "not having to touch Rust code
-> > > > > > when
-> > > > > > changing APIs" guarantee is something which is simply
-> > > > > > impossible to
-> > > > > > have in any sane architecture. So we should figure out under
-> > > > > > which
-> > > > > > circumstances it will be okay for everybody.
-> > > >
-> > > > Yeah, this sounds fine to me.
-> > > >
-> > > > > > At least I don't see a way how I can structure Rusticl so that
-> > > > > > somebody working on gallium won't have to also deal with
-> > > > > > rusticl. One
-> > > > > > possibility would be to have a libgallium.so file I can link
-> > > > > > to, but
-> > > > > > then it's all about "stable gallium API" vs "not having to
-> > > > > > touch rust
-> > > > > > code" and I hope everybody prefers the second :)
-> > > > > >
-> > > > >
-> > > > > uhm... I meant "stable gallium API" vs "dealing with Rust code on
-> > > > > API changes"
-> > > >
-> > > > Yeah, stable gallium ABI makes as much sense as stable drm (in-
-> > > > kernel)
-> > > > ABI (ie. it doesn't).  So even if we tried to make it so that folks
-> > > > who haven't used rust much (or at all) yet on the gallium side,
-> > > > we'll
-> > > > still have to deal with it on the kernel side.  So let's not design
-> > > > our APIs to avoid a learning curve.. lets' just recognize that the
-> > > > learning curve will be there.
-> >
-> > I think this is mostly fine.  If you're making a gallium change that
-> > touches all the drivers, you need cross-project review as well.
-> > Learning a bit of rust or asking one of the rust-knowledgable people to
-> > update rusticl's wrappers seems reasonable at that point.
-> >
-> > Where I would take issue is if various wrappers or inlines are
-> > duplicated in rust such that a change which wouldn't break drivers
-> > because they're all using the wrappers do break rust code.  I know
-> > that, at least at one point, rusticl had some of this which is why I'm
-> > pointing it out specifically.  I've not looked at the branch in a
-> > while, though.
-> >
->
-> The only thing I am aware of is that I have an iterator written in
-> rust for glsl's list implementation in order to iterate over variables
-> inside nir shaders. But yeah, that has the potential to blow up if
-> somebody decides to change how the list works without changing the
-> definition of the list. But as I am actually running piglit on rusticl
-> with llvmpipe, this might not be a problem we wouldn't catch.
->
-> > > > > > > I do also wonder a bit about code tooling (indexers, etc)..
-> > > > > > > I'm not
-> > > > > > > sure what the state of things when it comes to cross c<->rust
-> > > > > > > integration.  Ie. it is usually straightforward enough to
-> > > > > > > track down
-> > > > > > > all the spots in C code which would be affected by some
-> > > > > > > change.  It
-> > > > > > > might be easier to overlook things on the rust side.  On the
-> > > > > > > mesa
-> > > > > > > side, pre-merge CI jobs help to catch these issues.  Less
-> > > > > > > sure about
-> > > > > > > how to handle that on the kernel side.
-> > > > > > >
-> > > > > >
-> > > > > > At least for Rusticl it's all within meson/ninja. We use
-> > > > > > bindgen to
-> > > > > > generate the bindings automatically so you simply run into
-> > > > > > compilation
-> > > > > > issues. And for the kernel side I think that Linus wanted Rust
-> > > > > > to be
-> > > > > > non optional. If something uses it, you also make sure the Rust
-> > > > > > side
-> > > > > > compiles. And the build system is dynamic enough that you can
-> > > > > > also
-> > > > > > wire up bindgen and make it part of the normal development
-> > > > > > model.
-> > > > > >
-> > > > > > In regards to code tooling, for rust you usually rely on
-> > > > > > rust-analyzer. I've already figured out with dcbaker on how to
-> > > > > > integrate our meson setup with that. Atm I am able to get the
-> > > > > > full
-> > > > > > experience with VScode. Not sure if we also need to figure out
-> > > > > > how
-> > > > > > that can work with e.g. vim and how to deal with C <=> Rust
-> > > > > > boundaries.
-> > > >
-> > > > Yeah, I've used vscode with rust codebase (crosvm).. just not for a
-> > > > project that includes the combination of a significant amount of
-> > > > both
-> > > > .c and .rs.
-> > > >
-> > >
-> > > we have meson generate a rust-project.json file which you can point
-> > > rust-analyzer to: https://github.com/mesonbuild/meson/pull/10682
-> > >
-> > > Sadly there is no "real" integration of rust and C code, so all you
-> > > get are references to the bindgen generated files, but you can't jump
-> > > to the actual C headers from there.
-> >
-> > I would be very surprised if any sort of C refactoring tool could see
-> > through bindgen now, or in the future.  Seeing across language
-> > boundaries is tractable in C because it's basically a superset of C++.
-> > (Yes, I know it's not really.)  I wouldn't expect a static analyzer to
-> > see across a C/Python or C/Java boundary, so I don't expect it to be
-> > able to see across C/rust.  (Sadly, the boundary is sharp enough that
-> > that's a reasonable comparison.)
-> >
-> > > > If bindgen is integrated with the build system, that sounds fine as
-> > > > far as helping to not overlook changes that are needed on the .rs
-> > > > side
-> > > > of things.. crosvm seems to mainly make bindgen a manual step, but
-> > > > then again it is mostly used for external dependencies like the
-> > > > interface to virglrenderer
-> > > >
-> > > > Side note, from my experience with crosvm, please be careful about
-> > > > any
-> > > > external rust dependencies that are used.. rust still seems to be
-> > > > young enough and evolving quickly enough that thing can quickly
-> > > > turn
-> > > > into a big headache
-> > > >
-> > >
-> > > That's easy: meson doesn't support external crates, so no external
-> > > rust dependencies are used at the moment :)
-> > >
-> > > But yeah, I was planning on using some where it really makes sense,
-> > > but we can have this discussion once we get there. So far it all
-> > > works
-> > > without any external dependency besides bindgen.
-> >
-> > I think most of us are agreed here.  Mesa has pretty strict rules about
-> > pulling in piles of external dependencies and we don't want that to
-> > change just because we added a bit of rust.  There may be a crate or
-> > two that we want to pull in in the future but, for now, everything is
-> > core.
-> >
-> > One point not mentioned above is Rust compiler versions.  Because Rust
-> > is a rapidly evolving language, new features are being added to the
-> > language and standard library every day.  If we impose the same
-> > requirements on Rust that we're imposing on GCC where we still compile
-> > with a version from 10-15 years ago, that's going to really hamper
-> > development.  We probably don't want to require people to always pull
-> > the very latest compiler from nightly but I do think we want to be able
-> > to bump the compiler version once a year or something.  IDK how distros
-> > and others will feel about that.  Hopefully, they feel about the same
-> > way towards compiler requirement bumps as they feel towards rust
-> > itself.
-> >
->
-> yeah.. atm I actually require 1.59 which is quite new (Feb 2022). I
-> think we might want to make sure that at least debians rust compiles
-> rusticl in the future, but they also seem to be willing to packaging
-> specific versions if they need it for other things like Firefox. They
-> have rustc (1.48) and rustc-mozilla (1.51), where the latter is even
-> available in stretch. So we might actually decide to simply depend on
-> the same rust version Firefox uses, because that's something
-> distributions will have to deal with anyway.
->
-> > --Jason
-> >
-> > > > BR,
-> > > > -R
-> > > >
-> > > > > > > BR,
-> > > > > > > -R
-> > > > > > >
-> > > > > > > > CCing a bunch of people who think are the most impacted by
-> > > > > > > > it either
-> > > > > > > > from a reviewer/maintainer or developer perspective. If you
-> > > > > > > > think some
-> > > > > > > > others should be explicitly aware of this, please point
-> > > > > > > > them to this
-> > > > > > > > discussion here.
-> > > > > > > >
-> > > > > > > > Karol
-> > > > > > > >
-> > > > > > >
-> > > > >
-> > > >
-> > >
-> >
+On 9/7/2022 6:06 PM, Stephen Boyd wrote:
+> Quoting Abhinav Kumar (2022-08-29 20:33:08)
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+>> index 39bbabb5daf6..3a06a157d1b1 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
+>> @@ -265,6 +265,11 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
+>>          return ret;
+>>   }
+>>
+>> +void msm_dsi_set_max_extpclk(struct msm_dsi *msm_dsi, int max_ext_pclk)
+> 
+> Do we really need a 'setter' API for something like this? Why can't we
+> directly access the constant value for the max clk in the function that
+> uses it to limit modes?
 
+That constant value is part of the DPU catalog. the value needs to be 
+passed from the DPU to DSI/DP for it to use. Hence the setter API.
+
+In this RFC atleast, this is being modeled as a DPU catalog entry.
+
+> 
+>> +{
+>> +        msm_dsi_host_set_max_extpclk(msm_dsi->host, max_ext_pclk);
+>> +}
+>> +
+>>   void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct msm_dsi *msm_dsi)
+>>   {
+>>          msm_dsi_host_snapshot(disp_state, msm_dsi->host);
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+>> index 2a96b4fe7839..1be4ebb0f9c8 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+>> @@ -93,8 +93,9 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+>>   int msm_dsi_host_power_off(struct mipi_dsi_host *host);
+>>   int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+>>                                    const struct drm_display_mode *mode);
+>> -enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
+>> -                                           const struct drm_display_mode *mode);
+>> +enum drm_mode_status msm_dsi_host_mode_valid(struct mipi_dsi_host *host,
+>> +               const struct drm_display_mode *mode,
+>> +               struct drm_bridge *ext_bridge);
+>>   unsigned long msm_dsi_host_get_mode_flags(struct mipi_dsi_host *host);
+>>   int msm_dsi_host_register(struct mipi_dsi_host *host);
+>>   void msm_dsi_host_unregister(struct mipi_dsi_host *host);
+>> @@ -109,6 +110,7 @@ void msm_dsi_host_get_phy_clk_req(struct mipi_dsi_host *host,
+>>   void msm_dsi_host_destroy(struct mipi_dsi_host *host);
+>>   int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
+>>                                          struct drm_device *dev);
+>> +void msm_dsi_host_set_max_extpclk(struct mipi_dsi_host *host, int max_ext_pclk);
+>>   int msm_dsi_host_init(struct msm_dsi *msm_dsi);
+>>   int msm_dsi_runtime_suspend(struct device *dev);
+>>   int msm_dsi_runtime_resume(struct device *dev);
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> index 57a4c0fa614b..4428a6a66ee1 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> @@ -172,6 +172,9 @@ struct msm_dsi_host {
+>>          int dlane_swap;
+>>          int num_data_lanes;
+>>
+>> +       /* max pixel clock when used with a bridge chip */
+>> +       int max_ext_pclk;
+> 
+> Will pixel clock be negative? What units is this in? Hz?
+
+This is in Khz. It cannot be negative. I was also thinking of an 
+unsigned int for this but the drm_display_mode's clock is an int so i 
+also kept it like this.
+
+227 struct drm_display_mode {
+228 	/**
+229 	 * @clock:
+230 	 *
+231 	 * Pixel clock in kHz.
+232 	 */
+233 	int clock;		/* in kHz */
+234 	u16 hdisplay;
+
+
+> 
+>> +
+>>          /* from phy DT */
+>>          bool cphy_mode;
+>>
+>> @@ -2076,6 +2079,13 @@ int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
+>>          return 0;
+>>   }
+>>
+>> +void msm_dsi_host_set_max_extpclk(struct mipi_dsi_host *host, int max_ext_pclk)
+>> +{
+>> +       struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>> +
+>> +       msm_host->max_ext_pclk = max_ext_pclk;
+>> +}
+>> +
+>>   int msm_dsi_host_register(struct mipi_dsi_host *host)
+>>   {
+>>          struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>> @@ -2548,17 +2558,14 @@ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+>>          return 0;
+>>   }
+>>
+>> -enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
+>> -                                           const struct drm_display_mode *mode)
+>> +static enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
+>> +               const struct drm_display_mode *mode)
+>>   {
+>>          struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>>          struct drm_dsc_config *dsc = msm_host->dsc;
+>>          int pic_width = mode->hdisplay;
+>>          int pic_height = mode->vdisplay;
+>>
+>> -       if (!msm_host->dsc)
+>> -               return MODE_OK;
+>> -
+>>          if (pic_width % dsc->slice_width) {
+>>                  pr_err("DSI: pic_width %d has to be multiple of slice %d\n",
+>>                         pic_width, dsc->slice_width);
+>> @@ -2574,6 +2581,29 @@ enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
+>>          return MODE_OK;
+>>   }
+>>
+>> +enum drm_mode_status msm_dsi_host_mode_valid(struct mipi_dsi_host *host,
+>> +                                           const struct drm_display_mode *mode,
+>> +                                           struct drm_bridge *ext_bridge)
+>> +{
+>> +       struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>> +
+>> +       /* TODO: external bridge chip with DSI having DSC */
+>> +       if (msm_host->dsc)
+>> +               return msm_dsi_host_check_dsc(host, mode);
+>> +
+>> +       /* TODO: add same logic for non-dpu targets */
+>> +       if (!msm_host->max_ext_pclk)
+>> +               return MODE_OK;
+>> +
+>> +       if (ext_bridge) {
+>> +               if (ext_bridge->ops & DRM_BRIDGE_OP_HPD)
+> 
+> Nitpick: Collapse conditions
+> 
+> 	if (ext_bridge && (ext_bridge->ops & DRM_BRIDGE_OP_HPD))
+
+Ack
+> 
+> Also, what does HPD have to do with this?
+
+The documents referenced in the cover letter define the limits for 
+built-in and external displays.
+
+This series is targetted only for external displays with an underlying 
+assumption that built-in displays are chosen at design time of the 
+product and the product spec should be kept in mind while choosing them.
+
+But for external ( pluggable ) displays, this is not true as the 
+consumer can plug-in any monitor.
+
+Now, there is no rule that DSI cannot be used as the external display 
+with a DSI to HDMI or DSI to DP bridge chip.
+
+In those cases, we need to check if the ext_bridge has HPD support and 
+if so use this filtering of modes.
+
+After discussing with Dmitry, I do agree though that instead of checking 
+the next bridge, I should be checking the last bridge in the chain instead.
+
+So when i do push the next version, I should change this to check if the 
+last bridge has HPD support.
+
+> 
+>> +                       if (mode->clock > msm_host->max_ext_pclk)
+>> +                               return MODE_CLOCK_HIGH;
+>> +       }
+>> +
+>> +       return MODE_OK;
+>> +}
+>> +
+>>   unsigned long msm_dsi_host_get_mode_flags(struct mipi_dsi_host *host)
+>>   {
+>>          return to_msm_dsi_host(host)->mode_flags;
