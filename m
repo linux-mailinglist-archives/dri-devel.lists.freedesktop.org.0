@@ -1,57 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5556E5B17CA
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 10:55:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D3C5B17CE
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 10:55:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15A0510E9C8;
-	Thu,  8 Sep 2022 08:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C01F10E9C9;
+	Thu,  8 Sep 2022 08:55:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
  [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F7D810E9C8
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 08:55:09 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id pj10so6666698pjb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 01:55:08 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29C5F10E9C8
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 08:55:11 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ q15-20020a17090a304f00b002002ac83485so1723391pjl.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 01:55:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=uacXOofD8iMt8GLUR5lx4NNyko53fwtDtrMNESrEi8c=;
- b=CITPCIDUriXf+nDAVczMxdww75NlJvrkYEzD6+e9xKCS+gVi9AWf5wp4Hx49+wjx/I
- rCeT33PSgA704aayIDWByWvmBlFnby0oJy5zZZRfIRlnO83GPAWQ/7LDkqtcxOPGPp+N
- BHQppY+hkRZRKxeMeRsVquLb/tniJrf6EVcRQ=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=ZK3gsfh7RWbM9CrtWvTUZX33Bm/T3p94/yUzT2/I0OU=;
+ b=YmogQJprMr/RjjMlImkpkLfcp+AUyr1pSrltT5i1jjkh/48lBCoo7DQ6EBMcx4CIA1
+ Ew7JXnoTYEp3MpdEHmINpkmPkqdlNP5IZOJ5BqmYb7QMOMKcsx9n4V61kxlYvwODDHJ/
+ KZa74fEuebxJNQwcZGJ8jHUKTvCGq/+UOXnNs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=uacXOofD8iMt8GLUR5lx4NNyko53fwtDtrMNESrEi8c=;
- b=A4j9WrWIPS1o3xZ/8VRdB2n4WDTm6DwZ+PBrtiGv8P4LB27PLMkWo5b5vufVnfTKC9
- LCQLfpPpUuQnUfgPaEXAO0rAsioMDK19dQgLX2dRN4wk+zstHIpygLwNqgufBZAECErH
- /B08IWYUcUbmYt8yjWnLB+A1OVieDevlALg/rc133nftVO0Kl7KFDaibkZJLd3aIQamc
- Zq1hHkPM4O0vv43kw3vG3nyQg5RyuG2Uch9HLHxF2zOGfXP9Y/VjeaUBazpgKY1qNdou
- hd7wQjm1rsEIu3o5ZQBVvrv7Fy2OulsC6L5m+UttaLWuz8Q+lhKBG9+BSvVNC8CrURJ3
- OdIA==
-X-Gm-Message-State: ACgBeo0ER+knKHPLu/m6fv2SHb47OS666cwDYDkFsIhRnjkaMWSq3g/9
- apodZdUZdiVx72o/z31pCYNk+g==
-X-Google-Smtp-Source: AA6agR6NcpB09eefHHYXp6GkJKUOTTDK2AyTs5wLlrRzKJdAfD4PHYm6JQ29Zc8u7kSciiOn6EqWZA==
-X-Received: by 2002:a17:902:c94a:b0:16f:81c1:255a with SMTP id
- i10-20020a170902c94a00b0016f81c1255amr7603761pla.35.1662627308604; 
- Thu, 08 Sep 2022 01:55:08 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=ZK3gsfh7RWbM9CrtWvTUZX33Bm/T3p94/yUzT2/I0OU=;
+ b=k6EkYZ+V18Zmt7NMQkZ3kaxuqw6CLqOZz//OH9WNLRDqeR9d8d4VdsdIo+p0wV1OH6
+ 3BecRYPckGN6OzLJonmiwtcr7mS65WRzggwVdXBr61zf+FoRVkP7Rbt3Im7sL14rahoX
+ JEJzdkBHz2nJIyPNHtL9CAK7FAAW3N8MOVVqlkprETPftM9McygKFcF+izsYDDM9SuJJ
+ SragMUByONp6wP9kUvcmrCp4cuuu50pyUE7ApeOoOKuFKmcWLRlXXnc7tkPKNw6XqTLC
+ 0LeCgPXqZFLg8J5Qn1zp1dRNK6v2C2dYXnEgg8RHLvFBAqWv+hIJHvK9GJAJXrT1eNPK
+ YXgA==
+X-Gm-Message-State: ACgBeo1oAJYTwmNXlygrlHrgKuU5OuHwduRL+0n1q3Q/dq1TjIgAvjIa
+ 6K2H/bHhOUr2XEQOI0P0LEN6wQ==
+X-Google-Smtp-Source: AA6agR7+/jywm3x00fh+VStEJoKR8VdWUmDZ3AeFxeZiVW7XtGSjj4Hjpi+FdrUummQmeMktGomVTg==
+X-Received: by 2002:a17:902:b715:b0:174:dba3:8bca with SMTP id
+ d21-20020a170902b71500b00174dba38bcamr7806570pls.51.1662627310835; 
+ Thu, 08 Sep 2022 01:55:10 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com
  ([2401:fa00:1:10:c6ba:fe7c:d2b:242e])
  by smtp.gmail.com with ESMTPSA id
- mj19-20020a17090b369300b001f334aa9170sm1188629pjb.48.2022.09.08.01.55.06
+ mj19-20020a17090b369300b001f334aa9170sm1188629pjb.48.2022.09.08.01.55.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Sep 2022 01:55:08 -0700 (PDT)
+ Thu, 08 Sep 2022 01:55:10 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Douglas Anderson <dianders@chromium.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH 1/2] drm/panel-edp: Fix delays for Innolux N116BCA-EA1
-Date: Thu,  8 Sep 2022 16:54:53 +0800
-Message-Id: <20220908085454.1024167-1-wenst@chromium.org>
+Subject: [PATCH 2/2] drm/panel-edp: Add Innolux N120ACA-EA1 panel entry
+Date: Thu,  8 Sep 2022 16:54:54 +0800
+Message-Id: <20220908085454.1024167-2-wenst@chromium.org>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
+In-Reply-To: <20220908085454.1024167-1-wenst@chromium.org>
+References: <20220908085454.1024167-1-wenst@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,43 +75,28 @@ Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 52824ca4502d ("drm/panel-edp: Better describe eDP panel delays")
-clarified the various delays used for eDP panels, tying them to the eDP
-panel timing diagram.
+This panel has the same delay timing as N116BCA-EA1 from the same
+company, which is also the same as delay_200_500_e80_d50.
 
-For Innolux N116BCA-EA1, .prepare_to_enable would be:
+Add an entry for it.
 
-    t4_min + t5_min + t6_min + max(t7_max, t8_min)
-
-Since t4_min and t5_min are both 0, the panel can use either .enable or
-.prepare_to_enable.
-
-As .enable is better defined, switch to using .enable for this panel.
-
-Also add .disable = 50, based on the datasheet's t9_min value. This
-effectively makes the delays the same as delay_200_500_e80_d50.
-
-Cc: Douglas Anderson <dianders@chromium.org>
-Fixes: 51d35631c970 ("drm/panel-simple: Add N116BCA-EA1")
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- drivers/gpu/drm/panel/panel-edp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 2bef3e707a95..65e3a5361c80 100644
+index 65e3a5361c80..15e18a64b03d 100644
 --- a/drivers/gpu/drm/panel/panel-edp.c
 +++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1295,7 +1295,8 @@ static const struct panel_desc innolux_n116bca_ea1 = {
- 	},
- 	.delay = {
- 		.hpd_absent = 200,
--		.prepare_to_enable = 80,
-+		.enable = 80,
-+		.disable = 50,
- 		.unprepare = 500,
- 	},
- };
+@@ -1890,6 +1890,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
+ 
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x114c, &innolux_n116bca_ea1.delay, "N116BCA-EA1"),
++	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1247, &delay_200_500_e80_d50, "N120ACA-EA1"),
+ 
+ 	EDP_PANEL_ENTRY('I', 'V', 'O', 0x057d, &delay_200_500_e200, "R140NWF5 RH"),
+ 	EDP_PANEL_ENTRY('I', 'V', 'O', 0x854b, &delay_200_500_p2e100, "M133NW4J-R3"),
 -- 
 2.37.2.789.g6183377224-goog
 
