@@ -2,63 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB8E5B2779
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 22:12:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F6E5B279A
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 22:20:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFCE10E060;
-	Thu,  8 Sep 2022 20:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C29C10E662;
+	Thu,  8 Sep 2022 20:20:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F71A10E060
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 20:12:34 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id t7so23042756wrm.10
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 13:12:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=NZgMNXmwX6SnvwK87AGk7VHv1cRLy9ojL7C9GfQltcQ=;
- b=YJ4s58i5EeQ/uWSSo5Qua0Tu9JxeF7gHHmv6fGDm9QWyiqerXu4Ilr2+q5WcCokQpd
- s5ar2mQZ4qckmj8UstMJ1D5NmhDBLq/hZCLkj/1jV6CIx4Lotf4dIr8qxuN18hOdbaRK
- I3q+IFxGDa4L94z8INS+n2AlUJaBDKJ5s6GbSvprWURXKAUiyetY4D5W6f4J+dmAwoN/
- zFtoXWrNsEuFGpQTrpFvl9HvTgJTUPCPd4vSDKzcXyzL2ggoLchBpbC2TNy1CAh1tG2d
- uVX/3Wui6ini3rsil9KvPp43yLaUjvrqRUe3OgNIpv/8dX41fBz3KD8yrbz4cYzcavBj
- jOwg==
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED8B10E660
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 20:20:28 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id y18so6569110ljh.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 13:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=VOKz9BVOP52xmOqTjYmKPQXcHKZS+E6Y9TgNulPT/gM=;
+ b=dF32T47D/EQb9uPV9n6kVZZbiCtMoL5GjDC4B07uzLnyHxk00pBzHsIhaOQUJoHVms
+ IDx/trVvGUbvMk85ipFRSXLlm3ow62yozPE6oDBKw/8BK6Bch4HJn8s1P4WA9GOoCOa3
+ /dZ7sFLZ584tEJqMf00Tsv1ALYuaAyg8YPMaAWz3HL5+fv+SXAljFe6kISBpSe6+w77X
+ /n0jac6i91oNDPWQb8clOCfqnHPgIWa7IYi7pJKFIDHAE9uJ81PzPo7iVbpcU+ABSSwV
+ y5LqfleZ0GVq7rsAyxLudSOvLQBLxyauBZnfWi28ieKNsjWNxj8eGj34u8fGrU1cBvh3
+ ZAcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=NZgMNXmwX6SnvwK87AGk7VHv1cRLy9ojL7C9GfQltcQ=;
- b=l3pGUxcwVd5foOhS2SRKMliXwl49RQW6DH67bEgK/ULz0SUsw3wUhWLr0SUfkbV3/P
- G4sUkEESHmhHWGQPJPQGL2mCCKgoE9dwJTfT370QFR93mCQeW6XmXt9rVVBeLSfFdHDS
- slJ8EOLnwaeAsaf6G+NCdHvXy4EQE9YLYWYoXn1jyGtMsNLXJEAHK1xmYXPG8n+L8OBs
- DoKAwoEDYVPqrHdaLbd584mikAE0tcH1bwUebIcOo/3a7S9M7zAq1op7kFXwwDrzbqcR
- X1cY4y9VV1oMwQmJNCqfLSCTGomnI1/6PYazuViaCqNUEAGmUxLGwNAHI/FVLWXRlwXo
- 0Fvg==
-X-Gm-Message-State: ACgBeo01TEYMViXWKVKllxYmRa5fTT1DyQH0PcIFZTOhtlRT7p9v+hF+
- Uuen9/3HTi4yFjY/O2MFiXY=
-X-Google-Smtp-Source: AA6agR7zdskVsvESm8kGX7KqfMmGDv2c4HseHMS5FFGiG85C0bwgWAPGhSMfCb228haUWNp4WODYSw==
-X-Received: by 2002:a05:6000:1f9d:b0:228:6446:3d67 with SMTP id
- bw29-20020a0560001f9d00b0022864463d67mr6210529wrb.575.1662667952965; 
- Thu, 08 Sep 2022 13:12:32 -0700 (PDT)
-Received: from kista.localnet (82-149-1-172.dynamic.telemach.net.
- [82.149.1.172]) by smtp.gmail.com with ESMTPSA id
- o5-20020a05600c510500b003a3561d4f3fsm4852904wms.43.2022.09.08.13.12.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Sep 2022 13:12:32 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Subject: Re: [PATCH v4 0/5] Allwinner H6 GPU devfreq
-Date: Thu, 08 Sep 2022 22:12:31 +0200
-Message-ID: <4086439.1IzOArtZ34@kista>
-In-Reply-To: <20220906153034.153321-1-peron.clem@gmail.com>
-References: <20220906153034.153321-1-peron.clem@gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=VOKz9BVOP52xmOqTjYmKPQXcHKZS+E6Y9TgNulPT/gM=;
+ b=z2V0EOGkWPWUGOBNIzqlC/CuL+XWJqvzbU6MCW0w9tY++f3Cs+Jji6hdQYHFlp1zZy
+ Bo7DNvtW5aS79A8lSRxkkRhj9T8NgHkd2DofBhWzHfDWZ8FAqUnU3rOcyq5iapBK4sRT
+ G04OlJctnV9m46m0+pPTfU0nnwMACeYBOGYF4T9zrWy/3inch2mXxATaBhgbOUzw/1Wm
+ fDJzAk2ob8qnPfYSTwXcGR4qK7Me16aeSfZZh/HziwYmYT9kZBBFkxSOt6W7f6xhpIQ5
+ K/E7Drv9tYOANZR+Lp0sRN/5QMia0ImjeFM7MOWAQnC00z90WlnRAmoRVUw/xKODPJdA
+ WLaw==
+X-Gm-Message-State: ACgBeo31Cs25pEiut4iLms7KVAsK9qcqYx6f09ylela53CKsicXjvM8I
+ 1e1NWDE7UV1+BPBTDiT5n2Daew==
+X-Google-Smtp-Source: AA6agR5eJ8MNh09DV1LDxQKHWQdQTxffs/1OGe7Cb2m+Ag7Yva5nNhTEaLjOwqy3kHNs7jVFhpaR0A==
+X-Received: by 2002:a2e:aa13:0:b0:264:eb98:b7fd with SMTP id
+ bf19-20020a2eaa13000000b00264eb98b7fdmr2866734ljb.26.1662668426296; 
+ Thu, 08 Sep 2022 13:20:26 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ l10-20020a056512110a00b00497ad8e6d07sm701961lfg.222.2022.09.08.13.20.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Sep 2022 13:20:25 -0700 (PDT)
+Message-ID: <1ebe64a3-fab9-1dd7-517a-01001a176d9f@linaro.org>
+Date: Thu, 8 Sep 2022 23:20:24 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v6 01/12] dt-bindings: display/msm: split qcom,mdss
+ bindings
+Content-Language: en-GB
+To: Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
+ <20220901102312.2005553-2-dmitry.baryshkov@linaro.org>
+ <3e525135-d205-eddc-ff2d-98c8321386e3@linaro.org>
+ <20220908193705.GA3002673-robh@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220908193705.GA3002673-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,66 +79,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne torek, 06. september 2022 ob 17:30:29 CEST je Cl=E9ment P=E9ron napisal=
-(a):
-> Hi,
->=20
-> This is a refresh of previous patches sent to enable GPU Devfreq on H6
-> Beelink GS1 but that wasn't stable at that time[0].
->=20
-> With the recent fix on GPU PLL from Roman Stratiienko I have retested
-> and everything seems stable and works as expected[1].
->=20
-> Regards,
-> Clement
+On 08/09/2022 22:37, Rob Herring wrote:
+> On Thu, Sep 08, 2022 at 03:37:38PM +0200, Krzysztof Kozlowski wrote:
+>> On 01/09/2022 12:23, Dmitry Baryshkov wrote:
+>>> Split Mobile Display SubSystem (MDSS) root node bindings to the separate
+>>> yaml file. Changes to the existing (txt) schema:
+>>>   - Added optional "vbif_nrt_phys" region used by msm8996
+>>>   - Made "bus" and "vsync" clocks optional (they are not used by some
+>>>     platforms)
+>>>   - Added (optional) "core" clock added recently to the mdss driver
+>>>   - Added optional resets property referencing MDSS reset
+>>>   - Defined child nodes pointing to corresponding reference schema.
+>>>   - Dropped the "lut" clock. It was added to the schema by mistake (it is
+>>>     a part of mdp4 schema, not the mdss).
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>   .../devicetree/bindings/display/msm/mdp5.txt  |  30 +---
+>>>   .../devicetree/bindings/display/msm/mdss.yaml | 166 ++++++++++++++++++
+>>>   2 files changed, 167 insertions(+), 29 deletions(-)
+>>>   create mode 100644 Documentation/devicetree/bindings/display/msm/mdss.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/msm/mdp5.txt b/Documentation/devicetree/bindings/display/msm/mdp5.txt
+>>> index 43d11279c925..65d03c58dee6 100644
+>>> --- a/Documentation/devicetree/bindings/display/msm/mdp5.txt
+>>> +++ b/Documentation/devicetree/bindings/display/msm/mdp5.txt
+>>> @@ -2,37 +2,9 @@ Qualcomm adreno/snapdragon MDP5 display controller
+>>>   
+>>>   Description:
+>>>   
+>>> -This is the bindings documentation for the Mobile Display Subsytem(MDSS) that
+>>> -encapsulates sub-blocks like MDP5, DSI, HDMI, eDP etc, and the MDP5 display
+>>> +This is the bindings documentation for the MDP5 display
+>>>   controller found in SoCs like MSM8974, APQ8084, MSM8916, MSM8994 and MSM8996.
+>>>   
+>>> -MDSS:
+>>> -Required properties:
+>>> -- compatible:
+>>> -  * "qcom,mdss" - MDSS
+>>> -- reg: Physical base address and length of the controller's registers.
+>>> -- reg-names: The names of register regions. The following regions are required:
+>>> -  * "mdss_phys"
+>>> -  * "vbif_phys"
+>>> -- interrupts: The interrupt signal from MDSS.
+>>> -- interrupt-controller: identifies the node as an interrupt controller.
+>>> -- #interrupt-cells: specifies the number of cells needed to encode an interrupt
+>>> -  source, should be 1.
+>>> -- power-domains: a power domain consumer specifier according to
+>>> -  Documentation/devicetree/bindings/power/power_domain.txt
+>>> -- clocks: device clocks. See ../clocks/clock-bindings.txt for details.
+>>> -- clock-names: the following clocks are required.
+>>> -  * "iface"
+>>> -  * "bus"
+>>> -  * "vsync"
+>>> -- #address-cells: number of address cells for the MDSS children. Should be 1.
+>>> -- #size-cells: Should be 1.
+>>> -- ranges: parent bus address space is the same as the child bus address space.
+>>> -
+>>> -Optional properties:
+>>> -- clock-names: the following clocks are optional:
+>>> -  * "lut"
+>>> -
+>>>   MDP5:
+>>>   Required properties:
+>>>   - compatible:
+>>> diff --git a/Documentation/devicetree/bindings/display/msm/mdss.yaml b/Documentation/devicetree/bindings/display/msm/mdss.yaml
+>>> new file mode 100644
+>>> index 000000000000..8860fc55cca5
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/display/msm/mdss.yaml
+>>> @@ -0,0 +1,166 @@
+>>> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/display/msm/mdss.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Qualcomm Mobile Display SubSystem (MDSS)
+>>> +
+>>> +maintainers:
+>>> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> +  - Rob Clark <robdclark@gmail.com>
+>>> +
+>>> +description:
+>>> +  This is the bindings documentation for the Mobile Display Subsytem(MDSS) that
+>>> +  encapsulates sub-blocks like MDP5, DSI, HDMI, eDP, etc.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - qcom,mdss
+>>> +
+>>> +  reg:
+>>> +    minItems: 2
+>>> +    maxItems: 3
+>>> +
+>>> +  reg-names:
+>>> +    minItems: 2
+>>> +    items:
+>>> +      - const: mdss_phys
+>>> +      - const: vbif_phys
+>>> +      - const: vbif_nrt_phys
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>> +  interrupt-controller:
+>>> +    true
+>>
+>> If there is going to be v7 - please make it one line.
+>>
+>>> +
+>>> +  "#interrupt-cells":
+>>> +    const: 1
+>>> +
+>>> +  power-domains:
+>>> +    maxItems: 1
+>>> +    description: |
+>>> +      The MDSS power domain provided by GCC
+>>> +
+>>> +  clocks:
+>>> +    minItems: 1
+>>> +    items:
+>>> +      - description: Display abh clock
+>>> +      - description: Display axi clock
+>>> +      - description: Display vsync clock
+>>> +
+>>> +  clock-names:
+>>> +    minItems: 1
+>>> +    items:
+>>> +      - const: iface
+>>> +      - const: bus
+>>> +      - const: vsync
+>>> +
+>>> +  "#address-cells":
+>>> +    const: 1
+>>> +
+>>> +  "#size-cells":
+>>> +    const: 1
+>>> +
+>>> +  ranges:
+>>> +    true
+>>
+>> Ditto.
+>>
+>>> +
+>>> +  resets:
+>>> +    items:
+>>> +      - description: MDSS_CORE reset
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - reg
+>>> +  - reg-names
+>>> +  - interrupts
+>>> +  - interrupt-controller
+>>> +  - "#interrupt-cells"
+>>> +  - power-domains
+>>> +  - clocks
+>>> +  - clock-names
+>>> +  - "#address-cells"
+>>> +  - "#size-cells"
+>>> +  - ranges
+>>> +
+>>> +patternProperties:
+>>> +  "^mdp@[1-9a-f][0-9a-f]*$":
+>>> +    type: object
+>>> +    properties:
+>>> +      compatible:
+>>> +        const: qcom,mdp5
+>>> +
+>>> +  "^dsi@[1-9a-f][0-9a-f]*$":
+>>> +    type: object
+>>> +    properties:
+>>> +      compatible:
+>>> +        const: qcom,mdss-dsi-ctrl
+>>
+>> This should be ref to dsi-controller-main.yaml... or based on previous
+>> Rob's feedback you dropped it everywhere in children?
+> 
+> I don't think I said. I thought about it some, as yes, we normally have
+> done as you suggested. The downside is with a ref we'll do the whole
+> validation of the child node twice (unless the referenced schema has a
+> 'select: false') whereas here only 'compatible' is validated twice. This
+> way also complicates checking for unevaluatedProperties/additionalProperties.
+> 
+> So maybe better to keep with the 'normal' way and make this a ref.
 
-All patches except patch 4 pushed to sunxi tree. Thanks!
+Well.. I tried using $ref in the previous iteration, but then I faced 
+the fact that I can not use it. Using the $ref the node gets validated 
+even if it is disabled, and we do not want to do this. The nodes are 
+usually split in way that regulators are specified in the board DT file. 
+Thus disabled dsi/dsi-phy nodes do not get all the required regulators. 
+And dt-validate happily dumps tons of warnings for disabled nodes. Thus 
+I ended up with the compatible rather than $ref.
 
-Best regards,
-Jernej
 
->=20
-> 0:
-> https://lore.kernel.org/lkml/CAJiuCce58Gaxf_Qg2cnMwvOgUqYU__eKb3MDX1Fe_+4=
-7h
-> tg2bA@mail.gmail.com/ 1:
-> https://lore.kernel.org/linux-arm-kernel/2562485.k3LOHGUjKi@kista/T/
->=20
-> Changes since v3:
->  - Try to be more explicit for panfrost OPP patch
->  - Fix typo
->=20
-> Changes since v2:
->  - Fixes device-tree warnings
->  - Add panfrost fix to enable regulator
->  - Remove always-on regulator from device-tree
->  - Update cooling map from vendor kernel
->=20
->=20
-> Cl=E9ment P=E9ron (5):
->   arm64: defconfig: Enable devfreq cooling device
->   arm64: dts: allwinner: h6: Add cooling map for GPU
->   arm64: dts: allwinner: h6: Add GPU OPP table
->   drm/panfrost: devfreq: set opp to the recommended one to configure
->     regulator
->   arm64: dts: allwinner: beelink-gs1: Enable GPU OPP
->=20
->  .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  1 +
->  .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 87 +++++++++++++++++++
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 51 ++++++++++-
->  arch/arm64/configs/defconfig                  |  1 +
->  drivers/gpu/drm/panfrost/panfrost_devfreq.c   | 11 +++
->  5 files changed, 149 insertions(+), 2 deletions(-)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
->=20
-> --
-> 2.34.1
-
+-- 
+With best wishes
+Dmitry
 
