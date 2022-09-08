@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE805B1DF3
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 15:07:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C726E5B1DF5
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 15:07:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C99310EACE;
-	Thu,  8 Sep 2022 13:07:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6246310EAD7;
+	Thu,  8 Sep 2022 13:07:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
  [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7937010EAD7
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 13:06:54 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id z25so27654778lfr.2
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 06:06:54 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AA4310EAD9
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 13:07:08 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id x14so12253982lfu.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 06:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=gOAXxPoSqwbSOG0ofk9DT91+7QBHKnohIB4quLfJkAk=;
- b=i+RfaVmr6TwYbrjKu2rs37bY30XQzhyA7yLm4s9A22Uu+/HQYoKfOy5Q03iILzxn65
- 6NjhMKI92f/OlDQunY7TBeXo9SKKxkIw89N/07527phtr5Bp1ly67fDqatRR5S9spGBN
- mdYeT6DfN5K1a+fvCDD+94yXS/UAH2WXTnxZ17VjF6pW7Akk0qHnlLc+QKVHKiMFcrpP
- cPkFIMjqdfzWFGWn0ymj4wGf5NIFAvG+Z2078mv7kYKNBZtPQ9rAz86zbmlHA8F0U7Uz
- sb8k649vh0kUt6smBTqEHiugCuLgC4ZnJcji4aaAL/hQBUkyYZQv6DD7FWW4YpSYMHeJ
- mbRA==
+ bh=5u6/MtXpxn1tTwAaduJUsG0IZt/fBpU15ZKPc1fiE2o=;
+ b=ehPfB6s0nVoR+tfYmVzHTZew8S0nkhf/njyDNfgALVDMbGOdgHuGGmQui0Pd7WnIsF
+ I3JDjrelF0pvS8dBTeBTtCZc8FneI1LHcuAFJCg8RicNTf6nRpUjcfWcM0AR0EpgScdJ
+ yvtWWmj6+anIcTY/ll1vMJZV+kHOAn+Bso7lm/mzGAZKtTDAdHRmZzAglSa9AOo/5Lgv
+ ftsdKfEsM8lFNMy8ljTbmhzHftdY9nEWVi0dkpR1/FoN2XMM3756dODbS4srP5aCoeko
+ JN0omm9q5QGOZhll2wwXkOHiCqv66gb6+/Ad+QJz5I62NEGPizwF0b+PJmcqGwlIHj4I
+ JExA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=gOAXxPoSqwbSOG0ofk9DT91+7QBHKnohIB4quLfJkAk=;
- b=u/k9mPMRnNZnpIDFwwlOqx2Ty0QVO2HCty05FOvmDyq7oelzEHRHoMSpD5HpL3d3d8
- QsOUrwyVjGGOF1nxRb/tnp64+dOHe/IBz0AYzLgKoFg4vEUXgCvY8CMwYUYe1XybwGgp
- V9lepAUziapV2piRfKqcy8dQNuDT+TO2cCOG8QNp3PwTE91YxnfCiGzFESK1TViFZNQv
- pr/affQu3bCjbWnuqgnN4zS2doyVPSl61jblBGT7S7HzHjG5FTzHnjJklKNVcMUyN/ir
- 5i6UtW4qzMV3UsWmTtySczrnx+f7yowwE5HB5bq2pnOEtMYAy9ITJWyxawLtcAxDN6B6
- nCPA==
-X-Gm-Message-State: ACgBeo31hYaAUsuhLVzbtT+Ylvt/RKxmathmjhq/euTSoo7qJchJatIo
- +GFr9xHl8afKF1m+tXEpYdan7Q==
-X-Google-Smtp-Source: AA6agR7AH0qv7axgXMrX7mRX46ybs/CgAIoyHustwbaI5FQqFhUa2Ora0+qrERSUdxYriHwxcymxYg==
-X-Received: by 2002:a05:6512:3f90:b0:48a:826d:f727 with SMTP id
- x16-20020a0565123f9000b0048a826df727mr2541872lfa.281.1662642412767; 
- Thu, 08 Sep 2022 06:06:52 -0700 (PDT)
+ bh=5u6/MtXpxn1tTwAaduJUsG0IZt/fBpU15ZKPc1fiE2o=;
+ b=xeNUgZr1hCk3VpxIYyPji82wTOAuOkwXkEj1O2GIpUyukKB9TpUF8uD5IUestusKeV
+ 3vBrlHOvWnJ6zV5j1btG4VUSB62wlj2/5ehJVN+wUPeN4agx4E1xr1u4NdelcuNLhV9L
+ maxAYiahyc6jCg6FcMi3en4UhN0JVPYgxQr4oQYXOc3BADVQWZzNQScVroU0MvuU9hJH
+ 868TmAsdkAzpErLHK6d30d4wcI1NShqL5GfPD/+XLJrAKxhJnCuMSx0AE2DE3kbhcEVC
+ hsgehSCjdW9oLhspiurWKT/rdfHoeXRVCYqRF2AYAjLHFCEjFdXJLz57VXt8DOHsNtVl
+ t7hA==
+X-Gm-Message-State: ACgBeo2z5IBHsdvwnTdbhhb4+nsVI2VUAgV+mo0+85qTkGYCmQx8CD40
+ a/Pso+sUaB9i7IiDYNEQwHZiaQ==
+X-Google-Smtp-Source: AA6agR6wXnCQ6Vkqjjc03U6QxWxuJlZ7Fdfx0r4tDx4eRfk3Kfg7iqmZkdEZRBaoTN09hgyUFzPdFQ==
+X-Received: by 2002:a05:6512:10d0:b0:494:7811:e673 with SMTP id
+ k16-20020a05651210d000b004947811e673mr2559502lfg.400.1662642426042; 
+ Thu, 08 Sep 2022 06:07:06 -0700 (PDT)
 Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
  [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- v7-20020a2e9247000000b00264bb2351e8sm1623322ljg.7.2022.09.08.06.06.51
+ a25-20020a196619000000b00497cb9f95a0sm319728lfc.51.2022.09.08.06.07.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 06:06:52 -0700 (PDT)
-Message-ID: <cfa357f6-ac12-c391-b3a4-0175167dd358@linaro.org>
-Date: Thu, 8 Sep 2022 15:06:50 +0200
+ Thu, 08 Sep 2022 06:07:05 -0700 (PDT)
+Message-ID: <603072dc-3595-ed54-53de-e88a0579d78f@linaro.org>
+Date: Thu, 8 Sep 2022 15:07:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 1/6] dt-bindings: mediatek: modify VDOSYS0 display
- device tree Documentations for MT8188
+Subject: Re: [PATCH v2 2/6] dt-bindings: mediatek: modify VDOSYS0 mmsys device
+ tree Documentations for MT8188
 Content-Language: en-US
 To: "nathan.lu" <nathan.lu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -65,9 +65,9 @@ To: "nathan.lu" <nathan.lu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  <mcoquelin.stm32@gmail.com>, Alexandre Torgue
  <alexandre.torgue@foss.st.com>, Matthias Brugger <matthias.bgg@gmail.com>
 References: <20220906084449.20124-1-nathan.lu@mediatek.com>
- <20220906084449.20124-2-nathan.lu@mediatek.com>
+ <20220906084449.20124-3-nathan.lu@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220906084449.20124-2-nathan.lu@mediatek.com>
+In-Reply-To: <20220906084449.20124-3-nathan.lu@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,13 +96,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 06/09/2022 10:44, nathan.lu wrote:
 > From: Nathan Lu <nathan.lu@mediatek.com>
 > 
-> modify VDOSYS0 display device tree Documentations for MT8188.
-> 
-> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
-> ---
+> modify VDOSYS0 mmsys device tree Documentations for MT8188.
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
 Best regards,
