@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2F15B174A
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 10:38:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1A25B17B4
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 10:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 608DF10E99B;
-	Thu,  8 Sep 2022 08:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD9A810E9BC;
+	Thu,  8 Sep 2022 08:51:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7C010E99B
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 08:38:44 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id r18so9132304eja.11
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Sep 2022 01:38:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=SqPML+unsouuIp4FVHK4Uf7DFvDcdAzoCu01LQ5xtJU=;
- b=SAoPOQWnZqu89mgLfBmiK5MrA8YCX5o9aGmYu4qqPNVoBkVnERkpNhCjHVCDQ9Zla1
- dwqjtxWA+cJ6EDML6KOuvVZ4R6NIPdCxT8QAEB80mIcXpDf2Zf9m7S4FsFoMJ51USitH
- Qd1pfZ4aI8HWIB9O1qt8jwZQ6YhUw0CUeBplhf899+yVwxpGxiGqmmXQn83Kl/G4s1eI
- C+ZSChYFtQHAmgSz+vgZPMqj3wcCWnPZrWj/U9r/3gRuxpP0SGbraorsJPs29Q973tKF
- kAzOfKhkV3IcUs1n2dwba5aeil8pWoUhDW7HjrjRLDXn9ByPmVyCvnNoBZTuKajNSFhw
- VwcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=SqPML+unsouuIp4FVHK4Uf7DFvDcdAzoCu01LQ5xtJU=;
- b=4luHlqfOFzt+AZ4k9KlR6SNLrBmJ/e/HgGvL16tut35FVxGpu/CBckWwOENwU2Fo7e
- AtGKPYSRVUP4BoxQ3NeipRsN3OfiAU0KiGl7FIdjrsLl9V7uf2S7XNmc6fuHR9Y15XlA
- +f75niWtudZq8ossHpqsZr7UzE8adJYlgrURvGw9CdTFrWiFwi/xKWgEFyF2eMZJXe5p
- 5FWRR++4+ckG9u08odzlU+6SlJ7n+SeAzGIADnzjyGxxEEU/C4lzvTs51W2cSqeAd8XU
- ZfciZzoqKzTEpjPlMzZm+N01FLHASXqdx4JlzAzns43ybO2F1F01WmgW0Ky2Oxg5kxiR
- v9jw==
-X-Gm-Message-State: ACgBeo3bL9l7Di3qJZQxchpzr136hg/5qibP6lAlidS4ePkPY1h9LRtb
- vWjGSzeO4keAtCLpDceXJJFCgL/TYEMw52X1If+Jfw==
-X-Google-Smtp-Source: AA6agR5Qlu6bHigQRlsF7FnyAifGVWu07Yimovaj6W3A7lzSYgEVwFSZi08eyLAuAWp+B7C3eLgpufDg+xQ7EBPkK+Y=
-X-Received: by 2002:a17:907:a420:b0:765:70a4:c101 with SMTP id
- sg32-20020a170907a42000b0076570a4c101mr5281501ejc.526.1662626322796; Thu, 08
- Sep 2022 01:38:42 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB4AF10E9BA
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Sep 2022 08:51:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662627095;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yE6pLp5leFMoYWecHizspk2Fu+jK+/W7ym/2OW+JgHs=;
+ b=TJwJaMAHd6dXX0ri6EacQEgNiuJHo4xs9Oh+S+7dLJtjhrbBXiUih8rdWhSZeacEhVsGkn
+ pk+0KEmdVP1EQ8kEKTHoVDQdzHtMysj6moc4Qo57tcOo1Pn4AzwciLEo2sFpkTXeEsw8pR
+ s6h6zHVuic66KjPa4sQ9HRKe70NIKkc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-112-W0URJJUqPkW1CUuL1Xsc_g-1; Thu, 08 Sep 2022 04:51:32 -0400
+X-MC-Unique: W0URJJUqPkW1CUuL1Xsc_g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6706C80029D;
+ Thu,  8 Sep 2022 08:51:32 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 757A540CF8F0;
+ Thu,  8 Sep 2022 08:51:31 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: amd-gfx@lists.freedesktop.org, Ethan.Wellenreiter@amd.com,
+ alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/display: Remove var declaration in
+ dcn32_full_validate_bw_helper()
+Date: Thu,  8 Sep 2022 10:50:22 +0200
+Message-Id: <20220908085022.1263639-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <20220903-gpiod_get_from_of_node-remove-v1-10-b29adfb27a6c@gmail.com>
-In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-10-b29adfb27a6c@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 8 Sep 2022 10:38:31 +0200
-Message-ID: <CACRpkdaeQFP+H786D=SG4s+sQmxScUzve-uWkm-Sg7xFDK_Syw@mail.gmail.com>
-Subject: Re: [PATCH v1 10/11] watchdog: bd9576_wdt: switch to using
- devm_fwnode_gpiod_get()
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,45 +61,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, David Airlie <airlied@linux.ie>,
- linux-pci@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-mtd@lists.infradead.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-watchdog@vger.kernel.org,
- Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Jonathan Hunter <jonathanh@nvidia.com>, Guenter Roeck <linux@roeck-us.net>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel@lists.infradead.org, Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org,
- Richard Weinberger <richard@nod.at>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 5, 2022 at 8:31 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+The variable i is already declared as uint32_t in the same function.
 
-> I would like to stop exporting OF-specific devm_gpiod_get_from_of_node()
-> so that gpiolib can be cleaned a bit, so let's switch to the generic
-> fwnode property API.
->
-> While at it switch the rest of the calls to read properties in
-> bd9576_wdt_probe() to the generic device property API as well.
->
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+This fixes the following error, when compiling this code on older kernel:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c: In function 'dcn32_full_validate_bw_helper':
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:1018:3: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
+   for (int i = 0; i < dc->res_pool->pipe_count; i++) {
+   ^~~
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:1018:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:982:11: error: unused variable 'i' [-Werror=unused-variable]
+  uint32_t i = 0;
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Fixes: f5b9c1ffabce ("drm/amd/display: Re-initialize viewport after pipe merge")
 
-Yours,
-Linus Walleij
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index 8e4c9d0887ce..56f02b1ea808 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -1015,7 +1015,7 @@ static void dcn32_full_validate_bw_helper(struct dc *dc,
+ 
+ 		dcn32_merge_pipes_for_subvp(dc, context);
+ 		// to re-initialize viewport after the pipe merge
+-		for (int i = 0; i < dc->res_pool->pipe_count; i++) {
++		for (i = 0; i < dc->res_pool->pipe_count; i++) {
+ 			struct pipe_ctx *pipe_ctx = &context->res_ctx.pipe_ctx[i];
+ 
+ 			if (!pipe_ctx->plane_state || !pipe_ctx->stream)
+-- 
+2.37.3
+
