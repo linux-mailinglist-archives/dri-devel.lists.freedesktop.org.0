@@ -1,78 +1,177 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5D85B1484
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 08:16:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D04415B1491
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Sep 2022 08:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CAD810E969;
-	Thu,  8 Sep 2022 06:16:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 747BA10E972;
+	Thu,  8 Sep 2022 06:19:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B142F10E968;
- Thu,  8 Sep 2022 06:16:19 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2885psqc028972;
- Thu, 8 Sep 2022 06:16:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=lUhjfJ1ZplQ8/9znHOmo1ubgNXWxaHS+Zo/O5ytusWM=;
- b=hQ4Y3IUI0n+a4VmEIuibwnK/6ylpX9pMI2I+Klmf90WMvXd9/CswYsHd/l6+lXhmXh3b
- sKLI+X1DSNoRd8aKyy9X1MKVz85DQy5Afk1S1ov3cR2MbUR/71kn4lnSLO1UvHmbJjwe
- stFrYKd9ouFUWTNVdjonawsNwQBhj1CpRrGp8q+dd+aoEX4bHy8hAwROIP8bJ44OvPoT
- hkXan4jOTlD/tSuaj30THL/RdodXq0TOW5efh1aketZRmfHmRPTigGPF3JktBxZ9rrYC
- JmqQrZm9GgozmZs1U5sqc4hvGrSN+jLD+97hDjTqJYF8+oDAd9gjV9NVmrcNHeos0E6i pg== 
-Received: from apblrppmta02.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jf39xgv5t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Sep 2022 06:16:16 +0000
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2886GC37020835; 
- Thu, 8 Sep 2022 06:16:12 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3jc00m2t6p-1;
- Thu, 08 Sep 2022 06:16:12 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2886GC0U020825;
- Thu, 8 Sep 2022 06:16:12 GMT
-Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
- [10.204.66.210])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 2886GBJm020823;
- Thu, 08 Sep 2022 06:16:12 +0000
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 45E374372; Wed,  7 Sep 2022 23:16:11 -0700 (PDT)
-From: Kalyan Thota <quic_kalyant@quicinc.com>
-To: y@qualcomm.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [v3] drm/msm/disp/dpu1: add support for dspp sub block flush in sc7280
-Date: Wed,  7 Sep 2022 23:16:10 -0700
-Message-Id: <1662617770-2795-1-git-send-email-quic_kalyant@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <y>
-References: <y>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: aou5gqwR1aV8DEyccjM1GNEIuFYUl35n
-X-Proofpoint-GUID: aou5gqwR1aV8DEyccjM1GNEIuFYUl35n
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-08_04,2022-09-07_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=999
- malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0 adultscore=0
- spamscore=0 mlxscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2209080023
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A39B410E96D;
+ Thu,  8 Sep 2022 06:19:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662617988; x=1694153988;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=pcffSw4UDGF3QwYvasvTvyUhg+ZfIF3s7aN42bCQuck=;
+ b=cGbGxABGR5eVjUCTzt5L/9dE97iqZHgrKSeQRVs8fAsWmSppgyNTeZgW
+ BYieoH1vBeKpVbJtpaUpZ16P/xRDrtIUwTJtSNnxhPqSYt03CYC3RsWV1
+ li3dpr2D/C30ubedV8nhU2nPfNS9h0bxnr1EBG3xpW1T9GT5s8YzjFkx6
+ zU0M4xSL5Ch3w8H5jGyhEdFzTme1NUrn8pPAOeaOc+7IAFH0qNozIuyS+
+ IuuQ8aObdYAq40phBSc4w4upywo5EcqE5ObnrOlXWd93fqnGrkaQZIujn
+ rr8BO9wDp1TcBtMZxywtKnQKPVujPmp92J4GB0A/adZ1UjYexlj2yRWgy w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10463"; a="361042703"
+X-IronPort-AV: E=Sophos;i="5.93,299,1654585200"; d="scan'208";a="361042703"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2022 23:19:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,299,1654585200"; d="scan'208";a="592030298"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga006.jf.intel.com with ESMTP; 07 Sep 2022 23:19:47 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 7 Sep 2022 23:19:47 -0700
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 7 Sep 2022 23:19:47 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Wed, 7 Sep 2022 23:19:47 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.177)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Wed, 7 Sep 2022 23:19:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YaZDDkSZj8AHnoDr95vFbKd1u4wS0zg2RGZ/NwpVScwmxQsddvRn9LB5JnRW/tM0k3uwe56pl5Cfvv3Uuvmt/mKF+pdPCLqVBNRXVw1Eiry9FkosUjAIn9xVOx+GUQB+YInEnwrAYi1tAKl6geuJrM0xuFYRqQdFcvFwkoXDG+o8iT6uLz62sQYlrpSheaU/A220A2VxYnxhI/Zc1qEbQFx5oUWiAYEXvFufTBG0vNZo+lzN1ZehjBLSaCQILSN4MVXj4QD9pO0eZi8eMazCRZ+nnrXjDsXaU/ZacS7BuLUsrM+cdDfuJPhLV7v4SLqjJXUsgvlGetRq5ey41fvnBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pcffSw4UDGF3QwYvasvTvyUhg+ZfIF3s7aN42bCQuck=;
+ b=Kc4BMM7p65JEICwiiCBdt0d1+URultqzTZCZo+N8azMq7GjfqkprM4zcGwsCvQRXIZW3x6oaPnHJOPFulWKX4XraCsLnB3V/FX5N9YVJp6Jk6oN7VW3hTYOzEMgbwII9YIO9D2p1oPUb5g+Rx+eBhC8MMi4tncq6M1OLW/T+LPl2l0TEx2a4AHAXQ59tkBaTNU28fSK67ppCz/MPxikQo3gd369dgY24AKa/xkcyW0yGHCgKZIeaSxfxNplc7dgBHBuPuU5p2tPpxwauqAlCfQY9AM2gG+XNpZhX4X2qZKNeNvNmx1tWxso3HyXPDo9QxoOqE7v7BfvMoIDzc0OUHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by DM6PR11MB4425.namprd11.prod.outlook.com (2603:10b6:5:1d9::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Thu, 8 Sep
+ 2022 06:19:44 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::a435:3eff:aa83:73d7]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::a435:3eff:aa83:73d7%5]) with mapi id 15.20.5612.014; Thu, 8 Sep 2022
+ 06:19:44 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: "eric.auger@redhat.com" <eric.auger@redhat.com>, Zhenyu Wang
+ <zhenyuw@linux.intel.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Eric Farman
+ <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Vineeth Vijayan <vneethv@linux.ibm.com>, "Peter
+ Oberparleiter" <oberpar@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Harald Freudenberger
+ <freude@linux.ibm.com>, Diana Craciun <diana.craciun@oss.nxp.com>, "Alex
+ Williamson" <alex.williamson@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Longfang Liu <liulongfang@huawei.com>, Shameer Kolothum
+ <shameerali.kolothum.thodi@huawei.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yishai Hadas <yishaih@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Abhishek Sahu <abhsahu@nvidia.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Subject: RE: [PATCH v2 01/15] vfio: Add helpers for unifying vfio_device life
+ cycle
+Thread-Topic: [PATCH v2 01/15] vfio: Add helpers for unifying vfio_device life
+ cycle
+Thread-Index: AQHYvdLyg4z9as64RUeGfBAXbmJkJK3UZE+AgAC03LA=
+Date: Thu, 8 Sep 2022 06:19:43 +0000
+Message-ID: <BN9PR11MB527639DCC5706ADA8F0519D38C409@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20220901143747.32858-1-kevin.tian@intel.com>
+ <20220901143747.32858-2-kevin.tian@intel.com>
+ <90862543-9343-7389-a1ff-be9a011be64e@redhat.com>
+In-Reply-To: <90862543-9343-7389-a1ff-be9a011be64e@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|DM6PR11MB4425:EE_
+x-ms-office365-filtering-correlation-id: 3585e748-21fd-4622-7a7a-08da91621f15
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RnE99n9Lp+DSfKp0qse8YXKNsJacwYQQFwyy7yRJvYDAmqwX3PBccQENggVXz9EZlkuOVEll/1XHAu96PYv+iaX2xoLooL4AnHxR1hqo/qRoNhQPXHhu+xKgQEcU0PUpU5rv+BxK36cPh7zJq6BYwW7A1Rkgaub/3OjaMzZmfbJACy8rvkQoiZOoPwxQtOSu874bjt1DaaS9GGePZeR1or2Vm9ssMGAs8xjJOijMOSooYihWkQT4X44GHmAaEXep+wG8PSgDO1V9EYTGaMjwVfx5649K/oo3/hqRJl+KDg2d9NhHDiT4tIlnmCUBPDx86iSTetik7tNgWP7CC6PFgOoYlrwM/2+a+ho8HjqECxRE4I9t7nFnI1kb6qgkSp7omG8Ou2pyE7d3IOsLMU7T5ZjXXihkBonvAYbALwYSuY6MLpqjQinMD2dGX+QLqF9WiiSQD5CqcoTK9sk6y3Yre+NBmm72xB1uSGPU+WXlaJCAOJ17fJA/bT5sNpaHP+gi3n53qwhmGbiZW2cGKb6o0GdnkAcssHQvro5s0uMLEhJbunpyM82U1r+PX+cs4Lv5STNcfMYWbOijiL1wuNl2Gm1UP+iIBD536JqDdRd4SgbAkY0Pvcvghm0fQF8TE+Yc1evwKyeQyb/AzbbtnHYvgiA4sALVGn5woC147LR4BS+MqiC7XvA2IBAd7wsprcBgCHHA/i5/WDGgF2dRz2B19u1wPVQFBvHVVLwe3pEtPM4mJ6i3eH4BLLGjkTPvWjIC0ta3siretnmeCcJbl1FfBSvqnIm53Vz/cQi3gepUAuIgJVBGwu2kJN+YbEUrsxN5KCz5EB35RHsQSKC8E2nPoA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(346002)(376002)(366004)(136003)(396003)(39860400002)(82960400001)(38070700005)(921005)(38100700002)(122000001)(316002)(110136005)(71200400001)(7406005)(52536014)(5660300002)(4744005)(8936002)(7416002)(76116006)(66946007)(66476007)(4326008)(2906002)(64756008)(66446008)(8676002)(66556008)(186003)(41300700001)(55016003)(478600001)(7696005)(9686003)(86362001)(26005)(33656002)(6506007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z0UvTHdWeDlqcEsvSGxTRUJZU1JFdHdaSS9SdFBlVlpOaFNFdlg0N2huZllE?=
+ =?utf-8?B?R0diVk5NdFpiU1VXbzNBSTVyZ2pRKzJnSVdSMityTURFOTBqU1FzRDltWTJH?=
+ =?utf-8?B?OWFQdk9mU2pZZWFFRW8rcCtpVStDR1Y1OFUyeVpMT0tyN2RENnN6UUZIUi9E?=
+ =?utf-8?B?bzUySjc2a001ZDk1dUNSbWViZHkrT0JwTG1PR0hmQzFDWDNZaFl0RmR3TTY4?=
+ =?utf-8?B?TFdTZDdaT2V4SnRuYzQzTVpNZVFkQm92cC9OTlIvRzM1OFJSWHdBdlV6TEdM?=
+ =?utf-8?B?bDZ1WW9IV05jcWNFMC9mNGtkM3ZEVi93V0FRejF4WTl2amRtTUJZNHFqeDNI?=
+ =?utf-8?B?cHNRV2k3SFNtTEVYQmFSSUwyV2pnSGJHUitiTkZERjQzeWVVM0syeUE2YTR5?=
+ =?utf-8?B?YUVxUkJUaC92VkpnRW5vS0xEV3NSU1BhdWI0ZG9HTlU3d2ZKcnVYY2tOVStR?=
+ =?utf-8?B?MVZiSU9DWVZadmlwRC8yVzFqVmpGTFYxRXhLbTlaa004cmtKWEdNVVNkaUlm?=
+ =?utf-8?B?SEJLSUgwWVNRWERTM1lJV0Y3bWEvREp3Mk1mWnlMS216bFpXb0RlRUc4L0Vr?=
+ =?utf-8?B?Uk5OMk9pODdiMnJiOFpORzlwMWpleldaRkVvZ2RUV1Q2aGhWd3RrNm9yc2o5?=
+ =?utf-8?B?RTJ1VlF1N1JQQ3pIeEVNaDBvZnNYMTI0WTlHcTVsbDJxNlRpbU40Q0ZDTFJa?=
+ =?utf-8?B?Um5NaWtyWmdMSVJ4UHFnUGt6TVlmVTdaRnZqWm10Q1dXeFZjb0RRbVRBYWQv?=
+ =?utf-8?B?YTd1SXZBYnA0cEp2ZDB4QnBhRDRpbXgvVFY2NW5FWHVYQU9zcDVSYjBoTEdC?=
+ =?utf-8?B?RUp2V0IrVEVSVU5BUUttTWdveWxrbWVPdmNaMDNtLzUwdWhhWXRoVE9HTlFC?=
+ =?utf-8?B?cWsrTmhkaWlVTjlrYTlGdWV4dW9MbXR2N2NFdlplbE9rRHlnRjdHbzNmWkxa?=
+ =?utf-8?B?emtjRnlhb3NheWN2NFU2d2dZVXVsNTB5UGphV2hFblRRMFBIQmVOMTIwOFVV?=
+ =?utf-8?B?aHRrYmgyRVlHejZvUlFoSG9vTEpYS1hlKy91L0FyWDBGSTBtcEg2Rit3Qjk1?=
+ =?utf-8?B?RmVnVlljTTF1My8wS2p1KytZbSt3RGd4bFdOMGRQbkc5dlBWT1hQZXFDYzhS?=
+ =?utf-8?B?YlZFQ2Jsc0ZwRkJCZ09sbGZwMEo2TXpxUTFucUF6NlowbVdvTklmZ1FZbFdZ?=
+ =?utf-8?B?UFpCbjJrWTRXUitWT2hrUmtBT3E0Tit3cURZN29tcUFsWGFRcWxyTWdhSnZT?=
+ =?utf-8?B?QTRBcVNCZzU5UWorNmNtend0ZUh3d1BTZUMrWVd4VUJidWJhWHNwTG9QeWVH?=
+ =?utf-8?B?L0ppUnlhWWk5K0lWVU1ockRsallLV3JVZXdkdFErSU8vMXo3SnlLUFlLOWc3?=
+ =?utf-8?B?V3FVN09xMVpmWXZBZS9kQUNvemJQbFFxbzNDcnByTmMyenhXRVFBWTNqWWY2?=
+ =?utf-8?B?bzB6SlFwdHhWZUFnT1RDSVNqQlQxNFFUNzNRLzVCbFpRV3QwNWhORm5HTk41?=
+ =?utf-8?B?WHFvRERrM1hNUE52cXJjR1FHY0NSSFhhSVhkMjdQSnlvTENtc0tJZnlFakVC?=
+ =?utf-8?B?eHBCd3JGNDJ6WUpmYlRlVlVvR3M0SWl5NlFlbk1QR3JPc3NSYTlHNUh4MVJP?=
+ =?utf-8?B?M0ZDLy9ZTm9xbWNxdDBWcXRWaU1kWjJML0FPWFh1VWNjbG9kcUpQZUhnZkpx?=
+ =?utf-8?B?YXV1NGNIRmJJRnBzNVlPcEtDWTZEY0RVR240T0RMTUUyZEhWKzFaTlI0ekJZ?=
+ =?utf-8?B?dkdzY2NkTTl6YVBZaUp0d05UcjBvOWYrdVYrSkdJNzJuQXhSTjVOYTFiTHVr?=
+ =?utf-8?B?dkZ6dzVWQ29JMTNDc0dRTG1WTEpPSmlCYnJET3VmNTR2d2pGdDAzcC9QVnFi?=
+ =?utf-8?B?NEJRY2FwY1NRMERjYTZ6UXJhRzdHa1ZZTXFyNDN5aDdYS083bEtqKzB0cWtT?=
+ =?utf-8?B?SGNpYnV1RGFhb3dCQVlPWE5BTGdmUHJpS0ZKQ0YrVFAraTBSNjlrTzU5T0Er?=
+ =?utf-8?B?bXBkbnJleDFWazEyYWZuaThGVVhBUmpkQ0NSWVY2U3dFYldFakxpZXY3RFFI?=
+ =?utf-8?B?YVYzWnV1NHYwWW5qV1o3N2dlbmVudG9DZGMvRzNqVCt5eUltcU9TVk9kRkxz?=
+ =?utf-8?Q?tDCadOQTwJZsS+mDx6jE6danJ?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3585e748-21fd-4622-7a7a-08da91621f15
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2022 06:19:44.0190 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jpiCcFGatYH/oJ2OUxtmZMkYA/QpQb9Tnq6GqdykIUExk5iSjwk9n8TY4dPrwpDf5NnnhY1xaaHSxxjkUv2+Cg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4425
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,196 +184,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, dianders@chromium.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_vpolimer@quicinc.com, dmitry.baryshkov@linaro.org, swboyd@chromium.org
+Cc: "Liu, Yi L" <yi.l.liu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Flush mechanism for DSPP blocks has changed in sc7280 family, it
-allows individual sub blocks to be flushed in coordination with
-master flush control.
-
-Representation: master_flush && (PCC_flush | IGC_flush .. etc )
-
-This change adds necessary support for the above design.
-
-Changes in v1:
-- Few nits (Doug, Dmitry)
-- Restrict sub-block flush programming to dpu_hw_ctl file (Dmitry)
-
-Changes in v2:
-- Move the address offset to flush macro (Dmitry)
-- Seperate ops for the sub block flush (Dmitry)
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  5 +++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 35 ++++++++++++++++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     | 10 ++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h    |  7 ++++++
- 6 files changed, 55 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 601d687..ab38a52 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -766,7 +766,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
- 
- 		/* stage config flush mask */
- 		ctl->ops.update_pending_flush_dspp(ctl,
--			mixer[i].hw_dspp->idx);
-+			mixer[i].hw_dspp->idx, DPU_DSPP_SUB_PCC);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 27f029f..0eecb2f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -65,7 +65,10 @@
- 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
- 
- #define CTL_SC7280_MASK \
--	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
-+	(BIT(DPU_CTL_ACTIVE_CFG) | \
-+	 BIT(DPU_CTL_FETCH_ACTIVE) | \
-+	 BIT(DPU_CTL_VM_CFG) | \
-+	 BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
- 
- #define MERGE_3D_SM8150_MASK (0)
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 38aa38a..6a0b784 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -191,6 +191,7 @@ enum {
-  * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
-  * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
-  * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
-+ * @DPU_CTL_DSPP_BLOCK_FLUSH: CTL config to support dspp sub-block flush
-  * @DPU_CTL_MAX
-  */
- enum {
-@@ -198,6 +199,7 @@ enum {
- 	DPU_CTL_ACTIVE_CFG,
- 	DPU_CTL_FETCH_ACTIVE,
- 	DPU_CTL_VM_CFG,
-+	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
- 	DPU_CTL_MAX
- };
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index a35ecb6..31c8c44 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -33,6 +33,7 @@
- #define   CTL_INTF_FLUSH                0x110
- #define   CTL_INTF_MASTER               0x134
- #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
-+#define   CTL_DSPP_n_FLUSH(n)		((0x13C) + ((n - 1) * 4))
- 
- #define CTL_MIXER_BORDER_OUT            BIT(24)
- #define CTL_FLUSH_MASK_CTL              BIT(17)
-@@ -287,8 +288,9 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
- }
- 
- static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
--	enum dpu_dspp dspp)
-+	enum dpu_dspp dspp, enum dpu_dspp_sub_blk dspp_sub_blk)
- {
-+
- 	switch (dspp) {
- 	case DSPP_0:
- 		ctx->pending_flush_mask |= BIT(13);
-@@ -307,6 +309,31 @@ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
- 	}
- }
- 
-+static void dpu_hw_ctl_update_pending_flush_dspp_subblocks(
-+	struct dpu_hw_ctl *ctx,	enum dpu_dspp dspp, enum dpu_dspp_sub_blk dspp_sub_blk)
-+{
-+	uint32_t flushbits = 0, active;
-+
-+	switch (dspp_sub_blk) {
-+	case DPU_DSPP_SUB_IGC:
-+		flushbits = BIT(2);
-+		break;
-+	case DPU_DSPP_SUB_PCC:
-+		flushbits = BIT(4);
-+		break;
-+	case DPU_DSPP_SUB_GC:
-+		flushbits = BIT(5);
-+		break;
-+	default:
-+		return;
-+	}
-+
-+	active = DPU_REG_READ(&ctx->hw, CTL_DSPP_n_FLUSH(dspp));
-+	DPU_REG_WRITE(&ctx->hw, CTL_DSPP_n_FLUSH(dspp), active | flushbits);
-+
-+	ctx->pending_flush_mask |= BIT(29);
-+}
-+
- static u32 dpu_hw_ctl_poll_reset_status(struct dpu_hw_ctl *ctx, u32 timeout_us)
- {
- 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-@@ -675,7 +702,11 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
- 	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
- 	ops->update_pending_flush_sspp = dpu_hw_ctl_update_pending_flush_sspp;
- 	ops->update_pending_flush_mixer = dpu_hw_ctl_update_pending_flush_mixer;
--	ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
-+	if (cap & BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
-+		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp_subblocks;
-+	else
-+		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
-+
- 	if (cap & BIT(DPU_CTL_FETCH_ACTIVE))
- 		ops->set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
- };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-index 96c012e..227f1bd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-@@ -149,12 +149,18 @@ struct dpu_hw_ctl_ops {
- 
- 	/**
- 	 * OR in the given flushbits to the cached pending_flush_mask
--	 * No effect on hardware
-+	 *
-+	 * If the hardware supports dspp sub block flush, then sub-block
-+	 * flushes are written to the hardware and main dspp flush will
-+	 * be cached in the pending_flush_mask.
-+	 *
- 	 * @ctx       : ctl path ctx pointer
- 	 * @blk       : DSPP block index
-+	 * @dspp_sub_blk : DSPP sub-block index
- 	 */
- 	void (*update_pending_flush_dspp)(struct dpu_hw_ctl *ctx,
--		enum dpu_dspp blk);
-+		enum dpu_dspp blk,  enum dpu_dspp_sub_blk dspp_sub_blk);
-+
- 	/**
- 	 * Write the value of the pending_flush_mask to hardware
- 	 * @ctx       : ctl path ctx pointer
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index d3b0ed0..c113d52 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -167,6 +167,13 @@ enum dpu_dspp {
- 	DSPP_MAX
- };
- 
-+enum dpu_dspp_sub_blk{
-+	DPU_DSPP_SUB_PCC = 1,
-+	DPU_DSPP_SUB_IGC,
-+	DPU_DSPP_SUB_GC,
-+	DPU_DSPP_SUB_MAX
-+};
-+
- enum dpu_ctl {
- 	CTL_0 = 1,
- 	CTL_1,
--- 
-2.7.4
-
+PiBGcm9tOiBFcmljIEF1Z2VyIDxlcmljLmF1Z2VyQHJlZGhhdC5jb20+DQo+IFNlbnQ6IFRodXJz
+ZGF5LCBTZXB0ZW1iZXIgOCwgMjAyMiAzOjI4IEFNDQo+ID4gKy8qDQo+ID4gKyAqIEFsbG9jIGFu
+ZCBpbml0aWFsaXplIHZmaW9fZGV2aWNlIHNvIGl0IGNhbiBiZSByZWdpc3RlcmVkIHRvIHZmaW8N
+Cj4gPiArICogY29yZS4NCj4gPiArICoNCj4gPiArICogRHJpdmVycyBzaG91bGQgdXNlIHRoZSB3
+cmFwcGVyIHZmaW9fYWxsb2NfZGV2aWNlKCkgZm9yIGFsbG9jYXRpb24uDQo+ID4gKyAqIEBzaXpl
+IGlzIHRoZSBzaXplIG9mIHRoZSBzdHJ1Y3R1cmUgdG8gYmUgYWxsb2NhdGVkLCBpbmNsdWRpbmcg
+YW55DQo+ID4gKyAqIHByaXZhdGUgZGF0YSB1c2VkIGJ5IHRoZSBkcml2ZXIuDQo+ID4gKyAqDQo+
+ID4gKyAqIERyaXZlciBtYXkgcHJvdmlkZSBhbiBAaW5pdCBjYWxsYmFjayB0byBjb3ZlciBkZXZp
+Y2UgcHJpdmF0ZSBkYXRhLg0KPiBuaXQ6IHRoaXMgY29tbWVudCBtYXkgcmF0aGVyIHJlbGF0ZSB0
+byB0aGUgdmZpb19pbml0X2RldmljZSBmdW5jdGlvbg0KDQpZZXMgYnV0IHZmaW9faW5pdF9kZXZp
+Y2UoKSBpcyB1c2VkIG9ubHkgYnkgY2N3IGFuZCBwcmVzdW1hYmx5IHdpbGwgYmUNCmFiYW5kb25l
+ZCBvbmNlIGNjdyBmaXhlcyBpdHMgbGlmZSBjeWNsZSBtZXNzLiBHaXZlbiB0aGF0IEkgcHJlZmVy
+IHRvIGxlYXZpbmcNCnRoZSBjb21tZW50IGhlcmUgdG8gYmUgbm90ZWQgYnkgYnJvYWRlciB1c2Vy
+cy4NCg0KPiBCZXNpZGVzDQo+IA0KPiBSZXZpZXdlZC1ieTogRXJpYyBBdWdlciA8ZXJpYy5hdWdl
+ckByZWRoYXQuY29tPg0KPiANCg0KVGhhbmtzIGFuZCBvdGhlciBjb21tZW50cyBhZG9wdGVkLiAN
+Cg==
