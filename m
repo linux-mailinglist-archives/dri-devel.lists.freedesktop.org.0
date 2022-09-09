@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02EA5B3038
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 09:37:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C44355B3012
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 09:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F02AE10EC2D;
-	Fri,  9 Sep 2022 07:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21CB210EC20;
+	Fri,  9 Sep 2022 07:35:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C059910EBF5;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42AC210EBEC;
  Fri,  9 Sep 2022 07:34:56 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id ED1F261EFA;
- Fri,  9 Sep 2022 07:34:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69C4C43160;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 02C5161EF9;
+ Fri,  9 Sep 2022 07:34:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE421C43163;
  Fri,  9 Sep 2022 07:34:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1662708894;
- bh=EBt7UgSghKjU0MjW/yi1iqfwnhUuumqiRNK1oK1Mhu0=;
+ bh=6FugQNfwCgEw1JJvFTyuVhnI8BeADhszEtptPU10K6s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KJ165+GXx180sU6O/tAmqV1j2afwyCLK576k9hhrzaEW/sL7FBEiaALdKGN1f5r4m
- YWV7NZ0uwXAkG7Rp/KU0bij8+ayuy7Zr34xn/lNoOWu89X5YxpEcVcCFLdqaUerBts
- bM1tddvHNpufkOpup8BvTQFGeKAaisa2PRg5jOduaAkE12zcjvFrQv/r217fEJ9UGQ
- 8DvmxcOSN0CiYHbHza7o/2W13xqpvx7lkDhOvpTgiPqaLMVSdJSmxA4L/0JLvvOkJb
- AGCKeV+/WM3LdFCIUidhj/2GC4RcBuRW6XF3P8HRDc3mqUQFeUGrcuTyBez12m9KST
- DRg+vCr361FDQ==
+ b=swrCzgc5szS9OMZ4zFi1we/qvoXRCW02wZc/BbenhpvmOUwhV5DWd0Tmc5kas7ePr
+ DpIrOPJ59sTXS/Qc5cXvoMBMxfQGgwVnvYuGgiyaCp09wm4eFyO5G2esidN3p/0W88
+ IC96Ga4WUL7o7YmclgJjUZqDVFEQ3mgidLrp5H7u6j04sE5mCQUWIcl0nkbtLvpf9X
+ 4iuiOXx0vNA7yH/2ZixDp40ABnwXsUN8HO/qN/+S4byyDO2Wr6BNDKXccjjk1ql3BT
+ tgKu4gds1fbER6hm75LyF7BeCsGV05le8RWMjdf2sAZgKFFVX3w0T+RTrT+gV8R+pu
+ 7sWhV1vuNEE5w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oWYXG-007FGt-NL;
+ (envelope-from <mchehab@kernel.org>) id 1oWYXG-007FGx-PN;
  Fri, 09 Sep 2022 09:34:46 +0200
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH v3 20/37] drm/i915: dvo_ch7xxx.c: use SPDX header
-Date: Fri,  9 Sep 2022 09:34:27 +0200
-Message-Id: <a0931ff4061eb54fc2e0ad754e16cc7c2a6170aa.1662708705.git.mchehab@kernel.org>
+Subject: [PATCH v3 21/37] drm/i915: dvo_sil164.c: use SPDX header
+Date: Fri,  9 Sep 2022 09:34:28 +0200
+Message-Id: <b92bbe9087de47cc43ed0867e00c3113f9c68f4f.1662708705.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <cover.1662708705.git.mchehab@kernel.org>
 References: <cover.1662708705.git.mchehab@kernel.org>
@@ -63,7 +63,7 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This file is licensed with MIT license. Change its license text
+This file is licensed with MIT license.	Change its license text
 to use SPDX.
 
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
@@ -73,16 +73,17 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v3 00/37] at: https://lore.kernel.org/all/cover.1662708705.git.mchehab@kernel.org/
 
- drivers/gpu/drm/i915/display/dvo_ch7xxx.c | 33 +++++------------------
- 1 file changed, 6 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/i915/display/dvo_sil164.c | 32 +++++------------------
+ 1 file changed, 6 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/dvo_ch7xxx.c b/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
-index 1c1fe1f29675..b4d94a565fdb 100644
---- a/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
-+++ b/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
-@@ -1,30 +1,9 @@
+diff --git a/drivers/gpu/drm/i915/display/dvo_sil164.c b/drivers/gpu/drm/i915/display/dvo_sil164.c
+index 0dfa0a0209ff..12974f7c9dc1 100644
+--- a/drivers/gpu/drm/i915/display/dvo_sil164.c
++++ b/drivers/gpu/drm/i915/display/dvo_sil164.c
+@@ -1,30 +1,10 @@
 -/**************************************************************************
--
++// SPDX-License-Identifier: MIT
+ 
 -Copyright © 2006 Dave Airlie
 -
 -All Rights Reserved.
@@ -108,7 +109,6 @@ index 1c1fe1f29675..b4d94a565fdb 100644
 -SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -
 -**************************************************************************/
-+// SPDX-License-Identifier: MIT
 +/*
 + * Copyright © 2006 Dave Airlie
 + *
