@@ -1,29 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D975B3629
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:17:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D84C5B3626
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF7610EC78;
-	Fri,  9 Sep 2022 11:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5373B10EC76;
+	Fri,  9 Sep 2022 11:16:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD6CA10EC74
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 11:16:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 371E110EC72
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 11:16:47 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1oWc05-0002dP-2O; Fri, 09 Sep 2022 13:16:45 +0200
+ id 1oWc05-0002dP-IW; Fri, 09 Sep 2022 13:16:45 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: linux-mm@kvack.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 3/5] drm/gem: add functions to account GEM object memory
- usage
-Date: Fri,  9 Sep 2022 13:16:38 +0200
-Message-Id: <20220909111640.3789791-4-l.stach@pengutronix.de>
+Subject: [RFC PATCH 4/5] drm/cma-helper: account memory used by CMA GEM objects
+Date: Fri,  9 Sep 2022 13:16:39 +0200
+Message-Id: <20220909111640.3789791-5-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220909111640.3789791-1-l.stach@pengutronix.de>
 References: <20220909111640.3789791-1-l.stach@pengutronix.de>
@@ -53,77 +52,36 @@ Cc: Michal Hocko <mhocko@suse.com>, kernel@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds some functions which driver can call to make the MM aware
-of the resident memory used by the GEM object. As drivers will have
-different points where memory is made resident/pinned into system
-memory, this just adds the helper functions and drivers need to make
-sure to call them at the right points.
+CMA buffer are pinned into system memory as soon as they are allocated
+and will only disappear when they are freed.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/drm_gem.c | 37 +++++++++++++++++++++++++++++++++++++
- include/drm/drm_gem.h     |  3 +++
- 2 files changed, 40 insertions(+)
+ drivers/gpu/drm/drm_gem_cma_helper.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index b882f935cd4b..efccd0a1dde7 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1279,3 +1279,40 @@ drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
- 	ww_acquire_fini(acquire_ctx);
- }
- EXPORT_SYMBOL(drm_gem_unlock_reservations);
-+
-+/**
-+ * drm_gem_add_resident - Account memory used by GEM object to the
-+ * task which called drm_gem_object_init(). Call when the pages are
-+ * made resident in system memory, i.e. pinned for GPU usage.
-+ *
-+ * @obj: GEM buffer object
-+ */
-+void drm_gem_add_resident(struct drm_gem_object *obj)
-+{
-+	if (!mmget_not_zero(obj->mm))
-+		return;
-+
-+	add_mm_counter(obj->mm, MM_DRIVERPAGES, obj->size / PAGE_SIZE);
-+
-+	mmput(obj->mm);
-+}
-+EXPORT_SYMBOL(drm_gem_add_resident)
-+
-+/**
-+ * drm_gem_dec_resident - Remove memory used by GEM object accounted
-+ * to the task which called drm_gem_object_init(). Call this when the
-+ * pages backing the GEM object are no longer resident in system memory,
-+ * i.e. when freeing or unpinning the pages.
-+ *
-+ * @obj: GEM buffer object
-+ */
-+void drm_gem_dec_resident(struct drm_gem_object *obj)
-+{
-+	if (!mmget_not_zero(obj->mm))
-+		return;
-+
-+	add_mm_counter(obj->mm, MM_DRIVERPAGES, -(obj->size / PAGE_SIZE));
-+
-+	mmput(obj->mm);
-+}
-+EXPORT_SYMBOL(drm_gem_dec_resident)
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index d021a083c282..5951963a2f1a 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -374,6 +374,9 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 		     struct vm_area_struct *vma);
- int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+index 42abee9a0f4f..f0c4e7e6cc33 100644
+--- a/drivers/gpu/drm/drm_gem_cma_helper.c
++++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+@@ -162,6 +162,8 @@ struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
+ 		goto error;
+ 	}
  
-+void drm_gem_add_resident(struct drm_gem_object *obj);
-+void drm_gem_dec_resident(struct drm_gem_object *obj);
++	drm_gem_add_resident(&cma_obj->base);
 +
- /**
-  * drm_gem_object_get - acquire a GEM buffer object reference
-  * @obj: GEM buffer object
+ 	return cma_obj;
+ 
+ error:
+@@ -230,6 +232,8 @@ void drm_gem_cma_free(struct drm_gem_cma_object *cma_obj)
+ 	struct drm_gem_object *gem_obj = &cma_obj->base;
+ 	struct iosys_map map = IOSYS_MAP_INIT_VADDR(cma_obj->vaddr);
+ 
++	drm_gem_dec_resident(gem_obj);
++
+ 	if (gem_obj->import_attach) {
+ 		if (cma_obj->vaddr)
+ 			dma_buf_vunmap(gem_obj->import_attach->dmabuf, &map);
 -- 
 2.30.2
 
