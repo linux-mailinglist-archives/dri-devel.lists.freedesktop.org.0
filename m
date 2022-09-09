@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D84C5B3626
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:17:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 204925B3627
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5373B10EC76;
-	Fri,  9 Sep 2022 11:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B20C610EC77;
+	Fri,  9 Sep 2022 11:17:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 371E110EC72
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B42AB10EC74
  for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 11:16:47 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1oWc05-0002dP-IW; Fri, 09 Sep 2022 13:16:45 +0200
+ id 1oWc06-0002dP-1w; Fri, 09 Sep 2022 13:16:46 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: linux-mm@kvack.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 4/5] drm/cma-helper: account memory used by CMA GEM objects
-Date: Fri,  9 Sep 2022 13:16:39 +0200
-Message-Id: <20220909111640.3789791-5-l.stach@pengutronix.de>
+Subject: [RFC PATCH 5/5] drm/etnaviv: account memory used by GEM buffers
+Date: Fri,  9 Sep 2022 13:16:40 +0200
+Message-Id: <20220909111640.3789791-6-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220909111640.3789791-1-l.stach@pengutronix.de>
 References: <20220909111640.3789791-1-l.stach@pengutronix.de>
@@ -52,36 +52,36 @@ Cc: Michal Hocko <mhocko@suse.com>, kernel@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CMA buffer are pinned into system memory as soon as they are allocated
-and will only disappear when they are freed.
+Etnaviv GEM buffers are pinned into memory as soon as we allocate
+the pages backing the object and only disappear when freeing the
+GEM object as there is no shrinker hooked up for unused buffers.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/drm_gem_cma_helper.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 42abee9a0f4f..f0c4e7e6cc33 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -162,6 +162,8 @@ struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
- 		goto error;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index cc386f8a7116..bf3d75b8e154 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -67,6 +67,8 @@ static int etnaviv_gem_shmem_get_pages(struct etnaviv_gem_object *etnaviv_obj)
+ 
+ 	etnaviv_obj->pages = p;
+ 
++	drm_gem_add_resident(&etnaviv_obj->base);
++
+ 	return 0;
+ }
+ 
+@@ -79,6 +81,7 @@ static void put_pages(struct etnaviv_gem_object *etnaviv_obj)
+ 		etnaviv_obj->sgt = NULL;
  	}
+ 	if (etnaviv_obj->pages) {
++		drm_gem_dec_resident(&etnaviv_obj->base);
+ 		drm_gem_put_pages(&etnaviv_obj->base, etnaviv_obj->pages,
+ 				  true, false);
  
-+	drm_gem_add_resident(&cma_obj->base);
-+
- 	return cma_obj;
- 
- error:
-@@ -230,6 +232,8 @@ void drm_gem_cma_free(struct drm_gem_cma_object *cma_obj)
- 	struct drm_gem_object *gem_obj = &cma_obj->base;
- 	struct iosys_map map = IOSYS_MAP_INIT_VADDR(cma_obj->vaddr);
- 
-+	drm_gem_dec_resident(gem_obj);
-+
- 	if (gem_obj->import_attach) {
- 		if (cma_obj->vaddr)
- 			dma_buf_vunmap(gem_obj->import_attach->dmabuf, &map);
 -- 
 2.30.2
 
