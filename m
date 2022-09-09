@@ -1,82 +1,140 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE935B32B7
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 11:03:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D155B32E4
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 11:07:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D44210EC2F;
-	Fri,  9 Sep 2022 09:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32FB110EC22;
+	Fri,  9 Sep 2022 09:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1B010EC2F
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 09:03:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662714213;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rf0tKYf4n/E9K/9Wpb1fbOxuLZkhOrUw5/TCgkx9PNc=;
- b=LAjlZYKUnoYzGeLVbKCFejRS9hZeTm7r41b3xpQJVLD/6L94MImSV53ik+Pry3Y7LUjHda
- 5CkNceVYvARV1KyCD1Zk/ThIbxUg1eg/inIK8758YbvXediEmwyxNKbC8UFv4xDppiMqpa
- yQt6OY82t/SdY4nJt0xTMpoG+DklGdo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-246-WPcgtxVhPzu3N5czRpW-KA-1; Fri, 09 Sep 2022 05:03:32 -0400
-X-MC-Unique: WPcgtxVhPzu3N5czRpW-KA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- c14-20020a05640227ce00b0043e5df12e2cso806281ede.15
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 02:03:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=rf0tKYf4n/E9K/9Wpb1fbOxuLZkhOrUw5/TCgkx9PNc=;
- b=721rMfzhnWQ8laKrn7rLftU2Brg97Jv3nSMU0ao4JaKKcu9vBBE4uTEGcKDS6hfHJf
- ymH3reWfTOx2qwN5CYh8cMfp0r3xmkUqCcx9oep2I26vvM1qJzyQ9lQ2y8g15KkLzBLs
- A2Voe39+qCmlVQeCOXYec7gQCg2X1hE4y9QKiwmjwJb6gSQN2UDNyVvmHhpmzVFd4+jy
- K34VEofZlPBntm25bAcnVA77mUbdFPBJL/D4vOnswOByypZyEBrtervGqoQpg5Kfh6Qb
- ENItoU1fji/jbkFUfwLauriTqmjEpLa4X4C1sasLsra3iuZsHUCpuND4mz4ZF1PEHVrX
- EX4Q==
-X-Gm-Message-State: ACgBeo3IWdHUsSn6Q4GDkeFntLBg9cw7kGyZz6GCNZzV2hE97NZrrPsq
- i/Tkn2cpH9Jj0S54MOQlspxvg0rrSG5jIsG8/nQKfFhWTxQa1LODuJrssfEA7FvmStvU9Dob9Ni
- rcWmmobM9mVfuEm5usLTlqSS4fsw/
-X-Received: by 2002:a17:906:9b90:b0:738:60f9:c7d6 with SMTP id
- dd16-20020a1709069b9000b0073860f9c7d6mr9140961ejc.198.1662714210837; 
- Fri, 09 Sep 2022 02:03:30 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4sOJtjLVWzjb3GzSfgtXZkVgrOpHVLm/N/R0Vf9Mnfca33Irkbtz7XDVOvzQ3DQ/+B/9UdrQ==
-X-Received: by 2002:a17:906:9b90:b0:738:60f9:c7d6 with SMTP id
- dd16-20020a1709069b9000b0073860f9c7d6mr9140955ejc.198.1662714210584; 
- Fri, 09 Sep 2022 02:03:30 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- e6-20020a170906648600b00775f6081a87sm653942ejm.121.2022.09.09.02.03.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Sep 2022 02:03:30 -0700 (PDT)
-Message-ID: <a549e3a5-b04a-187b-43e3-cc0ac8e7b61a@redhat.com>
-Date: Fri, 9 Sep 2022 11:03:29 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF20710EC22;
+ Fri,  9 Sep 2022 09:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662714414; x=1694250414;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=GQIB7Wz0ukQHXM8EFrVU9mgAGovQqkPwjoPrmwh3jXM=;
+ b=SqR08jGN8CpTz64ugSTVvACV+GfzyHEJ0qvMXPJdfyhncQdalzLUUJNe
+ cS40GNmuK1PPQcTIijW6+pa5iU2BIKkK9QeSgej3pEcfqdyDBzOVSymvI
+ l7vbHs4XX9wJS8pE+SP9LVEFn4vIBp4a8o2qovn/Jy6UEbSYepZMWyBTr
+ KqxA8cVo0IqFmNHW3NBbN6HzyYqxesq++ozzMj+EillaCdOlIBtWe0mF0
+ fY3DR9nWzqE4nyxgrRzsMtncfRA+IgP/C2CXQXwotk9xLpOaL3yCL2ypN
+ D4PcD1N2YxrtO+W2jwC+ypHyx36l4TAVaHqg+RPJLXThianDbJyFXQu1C g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="296169488"
+X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="296169488"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2022 02:06:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="566302470"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga003.jf.intel.com with ESMTP; 09 Sep 2022 02:06:54 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 9 Sep 2022 02:06:53 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 9 Sep 2022 02:06:53 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Fri, 9 Sep 2022 02:06:53 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Fri, 9 Sep 2022 02:06:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eJaFZtluWe+dOG+OjaZhC+sGrLfj6Pap212+0Vm3kSv46ezvdy5uCCdrK3/uKeaHrs6SaPztdWjDjauRgParZhxPYs5AcJla+fLeH/BHBs6IWkD5uNLvr629NeqWBXxXb8eUuUTSEMnLyRjZhykVrmdVPaicNgqMBKYG1FxwE7IseWPn1jQBpmZ5Y+9sfEYl8DoPJ6fLeJQ2CRvWWUeXgV3UKbaru91w9tOdM26689Se6vXiQzY7mo8iboiQ5F85Ea7cS6BHrGi3wyVklyL7GYDP30NkiBUCE+txk08L9x+57US2DYuHBjqe/we1jixJnGxUqdEjuen7jNgIwT9iTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Wbk/mn2Tlk9e8vxdPAm3UdiFhnDb/a3i97O0sj6r0o=;
+ b=kyFuZ+b4D34e0XvrpaAIgWWl639caUxiAlpwOntftBAz5NZ5pqJHjlwxMOI5a1vQNGAmxBvrwKPNmxLR8HXMTS+XB0WlRmG8l2aFxBFEf0SZ+Q1SRnqvoThlyCAgeaEAW9gDxzjb5K4nz6TcKrgjc9VKfuhbc3e+kwllvvcKY2e7B12/KdemkcbyQ+d9h8UjZfk4WBNYvBG1BLeS5cX8XlfUSh4+AQy29Rtotkvr3cmaPnQcBzZtrAOlPm7j0eYol5ihuAmejgTe3aAeTNkCu5iGRjzxX1RBfdVTZNa6OK3LTlXNJl9VSpC5bfKci30HmNEDdwdbCx0WDfJNB70IUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by BL1PR11MB5956.namprd11.prod.outlook.com (2603:10b6:208:387::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Fri, 9 Sep
+ 2022 09:06:51 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::7ce8:1e4e:20d4:6bd4]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::7ce8:1e4e:20d4:6bd4%9]) with mapi id 15.20.5588.016; Fri, 9 Sep 2022
+ 09:06:51 +0000
+Date: Fri, 9 Sep 2022 05:06:46 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [Intel-gfx] [PATCH v3 27/37] docs: gpu: i915.rst: gt: add more
+ kernel-doc markups
+Message-ID: <YxsCJjdN0eJncD1a@intel.com>
+References: <cover.1662708705.git.mchehab@kernel.org>
+ <6d31414391976615b5c1818cafba066132c24e85.1662708705.git.mchehab@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <6d31414391976615b5c1818cafba066132c24e85.1662708705.git.mchehab@kernel.org>
+X-ClientProxiedBy: BY5PR03CA0005.namprd03.prod.outlook.com
+ (2603:10b6:a03:1e0::15) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 2/3] drm/gma500: Fix WARN_ON(lock->magic != lock) error
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-References: <20220906203852.527663-1-hdegoede@redhat.com>
- <20220906203852.527663-3-hdegoede@redhat.com>
- <CAMeQTsZEuhwDBsUAqtbSmC+uPpJh6V7z9c+0ahPC83Hv1TsOOw@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAMeQTsZEuhwDBsUAqtbSmC+uPpJh6V7z9c+0ahPC83Hv1TsOOw@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bc9ff8c5-e225-4a31-8d8e-08da9242a1de
+X-MS-TrafficTypeDiagnostic: BL1PR11MB5956:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ia6k1N8QTNdJeK83MFf/jll1Tw8DMiHUC2whcUeqo0LI4P5saxA1GCm4k9zpH/eAOGAvkOdBBOuBY7B6zzSgztjlEL8ARG5rXsYuyKtJw+0vwan0Gl4UkE7uTr8alEg2hZnqmgsMx187dpd9xdBrrYdkvsrzG/kj9mekcMO3nByvci/QsQOtYG3ozzQ1oyOaUFfRtYZ2QImn1MQZrM0zNg5VCQ2QDIM5XtabJzZGme2JRWKA+EL28jZnIYGUBbG5KrNmHrNvMJGRPh/A6rJZgrpcUz1bCC3xarkrGoCFwzn+LYJK04mmEzCagKhmir7O3dlq5Xq1sMslR8S2VAGJMVq9TmzETk1iqsU9L0l/Zjf3CTcpTwM59elJPvc7cYaLiA45Qu82f1cr5NS0iXGE5FZzLnDU4E6mKDEy72DjwRCCIas6HKZsyxDS/1OEWrmsUG4j49Dt+MjpGrh/3ZZ+JNCFix+shERuUAyB9nBu6xwPgSMao1KDH/88k/Ji3HegGavWbGygCqCUY3nndn+YBwNGbkWAhditQHKHFk8fYJcI8mP6niQTa+eopilhOsKT3SHc3JVHZTtpPEaeD0ogK6K1A5NwjoCYViZZiVYp3ObOzSGeVjWv6GhcIQcnRF3UUIa9GchMn9+9DN7I2s4SeNX8l6PQBwjOECjdXmuoJ1klhcKBudHgiSYwWvGtQpuLCV/oNUTsanT8sm9o+axGNpUQ110KpaE06/mirpKiu3I=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(396003)(346002)(136003)(39860400002)(366004)(376002)(26005)(82960400001)(38100700002)(316002)(6916009)(54906003)(4326008)(8676002)(5660300002)(44832011)(8936002)(7416002)(66476007)(2906002)(66946007)(66556008)(2616005)(6486002)(186003)(966005)(41300700001)(83380400001)(6666004)(478600001)(6506007)(86362001)(6512007)(36756003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+dlEawvtUSPLsj0Giqp28jv/PLhZAXPo8r8zFj7ZNkAuNlsBT6MJG6kgevbf?=
+ =?us-ascii?Q?7LvzMHXgbn7YJVoUVXjnVlxCCBvOMVnfdZ6B45Ner3L9ryCM9dSFf0PE1FQs?=
+ =?us-ascii?Q?T+ozOaUwZEdbewjWn/haWDY77tXyY+7xFawNBwJIGzTE8UKsv6BrZKMJnwKI?=
+ =?us-ascii?Q?kQnBrsq+NQA6DEw3XlItquDFj7u9IVctVTjfTHJHbIYtyhAjGdnpQP3O7N8M?=
+ =?us-ascii?Q?ynH+30iLGqyoZi4P2r4kgUozIrwHo4jm9tRUkd6aoKiRiPxBPHunXKzJ42EJ?=
+ =?us-ascii?Q?USHUtoGCn0pr67yqmTeUBUoHUxk1E0HcNRKKkQP+cOG69NZsoii0XgfHd323?=
+ =?us-ascii?Q?59HPrH9H4CDO9je+sEGCtGVzwArRAnInZ4kb2+WrYYO7Dp9/jgzkkv/248zF?=
+ =?us-ascii?Q?79de1oj0iNAa/085RIvHiLF+TwJlS8eOV20+yF1dsEhEarUosVrpY+qy+6+E?=
+ =?us-ascii?Q?sqmG9MegCbkpuaHEdGZlu6sXqVcDzlUjOE7Lu611/H0YLeWGMCHWRndFCFA1?=
+ =?us-ascii?Q?RHJLmobiS5XeqX/VRtxwRXCms/2dFAc/ewKKbvwJMSQ2CpkO8byw03Lvt0ds?=
+ =?us-ascii?Q?xMXTgWXGKu14S8IPPTKLGyITcLxAyEGWBChNQguERtLlg6ekyT52qWqjSaQ7?=
+ =?us-ascii?Q?fE8ux3T69ajHt074Y4VCe4XS+NA+LwP4JS3jqEYiSca5L/dZtafWeRgYGHe9?=
+ =?us-ascii?Q?TFAsZGLqI4zr0vjnvp9VoOG6iC7DYinKACw7FWg2M4PoRftoq0d7ougnu7Cs?=
+ =?us-ascii?Q?TbypLvUEl7C4yQkyQalVTEmHO3gNoXDHTQAvU9D0F9+XG3wq+hmmidsmBp+u?=
+ =?us-ascii?Q?dhg0WM2Zt2FHVvdc9/5NxyDt8MsF2EIgveCDQF9sQzDjacWSY5bn0I+8/qQq?=
+ =?us-ascii?Q?j3wfgbrI8gTkvI9kRrPFSeeSDni1vdMW+HubVKRZugkVf3jEsCr65T42cvdR?=
+ =?us-ascii?Q?vTiEYW4N8fwoZDBonjBW8LnblJKlmarDv0Q+LnyusFt4/1bpMAbx2v5qlPy7?=
+ =?us-ascii?Q?7CGeaHaykSD4y/dgF8wJljS8ZzWm0hewz2l7h/joAslYy6w/MGvVC6WXKCZ2?=
+ =?us-ascii?Q?KaAgkT/Y5qM3TXSE7XJL0nQBgYboWN54ls83UUr62lYFhqjStOs5OaMn59ji?=
+ =?us-ascii?Q?62tYsvqiidYH4vHHJ045iatV54sEvyNrMWjqWW+v5+vmUJ9MGSjAX55UIg7N?=
+ =?us-ascii?Q?jpemDKfSBek/9nWFmLOxpKj1P3I2WDEbsLciAlTrHT1FbmQm+tdH1Sf0Gkkk?=
+ =?us-ascii?Q?39FAecVHaCeL/BzfyO/5O61PK33lWz3JgJypyWicvKyRyDK90O/FcKZDmCzD?=
+ =?us-ascii?Q?+z4vXrAq/m18Ga0XDGnBEd9cq8EchJYlq0qf2UySmzhu4YuPr+3cp6n5qSJQ?=
+ =?us-ascii?Q?JANmf2gD7ImR1zj2lE0UIn6Xyz7ECYwK0Jd4n5QxA2KccH2GajPk9/l95xQO?=
+ =?us-ascii?Q?CBIvWVeEvyFpvGhg1JwxU5TKd4D2xrzGPg1wjnTr+d+wuDcojJryvPQKqtvf?=
+ =?us-ascii?Q?PZeHXXM2iIwCjWA6oSKuWzLkoIiVAO/w/R7ksUM6px3ji5qw7fwrlTnXD5nv?=
+ =?us-ascii?Q?rWleeu+Da/Pklbm/OcFvoPIfN7/y2ZrryxW8FU+u9xr4MXXwUqY+zOkrKr97?=
+ =?us-ascii?Q?0g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc9ff8c5-e225-4a31-8d8e-08da9242a1de
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2022 09:06:50.9747 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LsCXCCP0sVJCVfZgsMrFMTYiRpAWTNsQWdCK/P07KmxIWZfZDjtGaCJqelpMnhT5uOhGOXXDfpwRqcve0h6YmA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5956
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,123 +147,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Sep 09, 2022 at 09:34:34AM +0200, Mauro Carvalho Chehab wrote:
+> There are several documented GT kAPI that aren't currently part
+> of the docs. Add them, as this allows identifying issues with
+> badly-formatted tags.
+>
 
-On 9/9/22 10:20, Patrik Jakobsson wrote:
-> On Tue, Sep 6, 2022 at 10:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> psb_gem_unpin() calls dma_resv_lock() but the underlying ww_mutex
->> gets destroyed by drm_gem_object_release() move the
->> drm_gem_object_release() call in psb_gem_free_object() to after
->> the unpin to fix the below warning:
+In i915's commits we usually add a version history here
+to indicate what changed from the previous submission,
+something like
+
+v2: re-organizing the blocks to group gtt stuff.
+
+that helps reviewers to know if their change requested was
+addressed or not.
+
+but anyways:
+
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
 > 
-> Looks good. I'll apply this to drm-misc-fixes. Let me know if it
-> should go somewhere else.
-
-drm-misc-fixes sounds good to me, thank you.
-
-Regards,
-
-Hans
-
-
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH v3 00/37] at: https://lore.kernel.org/all/cover.1662708705.git.mchehab@kernel.org/
 > 
-> Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+>  Documentation/gpu/i915.rst | 40 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 39 insertions(+), 1 deletion(-)
 > 
->>
->> [   79.693962] ------------[ cut here ]------------
->> [   79.693992] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
->> [   79.694015] WARNING: CPU: 0 PID: 240 at kernel/locking/mutex.c:582 __ww_mutex_lock.constprop.0+0x569/0xfb0
->> [   79.694052] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer qrtr bnep ath9k ath9k_common ath9k_hw snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio snd_hda_codec_hdmi snd_hda_intel ath3k snd_intel_dspcfg mac80211 snd_intel_sdw_acpi btusb snd_hda_codec btrtl btbcm btintel btmtk bluetooth at24 snd_hda_core snd_hwdep uvcvideo snd_seq libarc4 videobuf2_vmalloc ath videobuf2_memops videobuf2_v4l2 videobuf2_common snd_seq_device videodev acer_wmi intel_powerclamp coretemp mc snd_pcm joydev sparse_keymap ecdh_generic pcspkr wmi_bmof cfg80211 i2c_i801 i2c_smbus snd_timer snd r8169 rfkill lpc_ich soundcore acpi_cpufreq zram rtsx_pci_sdmmc mmc_core serio_raw rtsx_pci gma500_gfx(E) video wmi ip6_tables ip_tables i2c_dev fuse
->> [   79.694436] CPU: 0 PID: 240 Comm: plymouthd Tainted: G        W   E      6.0.0-rc3+ #490
->> [   79.694457] Hardware name: Packard Bell dot s/SJE01_CT, BIOS V1.10 07/23/2013
->> [   79.694469] RIP: 0010:__ww_mutex_lock.constprop.0+0x569/0xfb0
->> [   79.694496] Code: ff 85 c0 0f 84 15 fb ff ff 8b 05 ca 3c 11 01 85 c0 0f 85 07 fb ff ff 48 c7 c6 30 cb 84 aa 48 c7 c7 a3 e1 82 aa e8 ac 29 f8 ff <0f> 0b e9 ed fa ff ff e8 5b 83 8a ff 85 c0 74 10 44 8b 0d 98 3c 11
->> [   79.694513] RSP: 0018:ffffad1dc048bbe0 EFLAGS: 00010282
->> [   79.694623] RAX: 0000000000000028 RBX: 0000000000000000 RCX: 0000000000000000
->> [   79.694636] RDX: 0000000000000001 RSI: ffffffffaa8b0ffc RDI: 00000000ffffffff
->> [   79.694650] RBP: ffffad1dc048bc80 R08: 0000000000000000 R09: ffffad1dc048ba90
->> [   79.694662] R10: 0000000000000003 R11: ffffffffaad62fe8 R12: ffff9ff302103138
->> [   79.694675] R13: ffff9ff306ec8000 R14: ffff9ff307779078 R15: ffff9ff3014c0270
->> [   79.694690] FS:  00007ff1cccf1740(0000) GS:ffff9ff3bc200000(0000) knlGS:0000000000000000
->> [   79.694705] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [   79.694719] CR2: 0000559ecbcb4420 CR3: 0000000013210000 CR4: 00000000000006f0
->> [   79.694734] Call Trace:
->> [   79.694749]  <TASK>
->> [   79.694761]  ? __schedule+0x47f/0x1670
->> [   79.694796]  ? psb_gem_unpin+0x27/0x1a0 [gma500_gfx]
->> [   79.694830]  ? lock_is_held_type+0xe3/0x140
->> [   79.694864]  ? ww_mutex_lock+0x38/0xa0
->> [   79.694885]  ? __cond_resched+0x1c/0x30
->> [   79.694902]  ww_mutex_lock+0x38/0xa0
->> [   79.694925]  psb_gem_unpin+0x27/0x1a0 [gma500_gfx]
->> [   79.694964]  psb_gem_unpin+0x199/0x1a0 [gma500_gfx]
->> [   79.694996]  drm_gem_object_release_handle+0x50/0x60
->> [   79.695020]  ? drm_gem_object_handle_put_unlocked+0xf0/0xf0
->> [   79.695042]  idr_for_each+0x4b/0xb0
->> [   79.695066]  ? _raw_spin_unlock_irqrestore+0x30/0x60
->> [   79.695095]  drm_gem_release+0x1c/0x30
->> [   79.695118]  drm_file_free.part.0+0x1ea/0x260
->> [   79.695150]  drm_release+0x6a/0x120
->> [   79.695175]  __fput+0x9f/0x260
->> [   79.695203]  task_work_run+0x59/0xa0
->> [   79.695227]  do_exit+0x387/0xbe0
->> [   79.695250]  ? seqcount_lockdep_reader_access.constprop.0+0x82/0x90
->> [   79.695275]  ? lockdep_hardirqs_on+0x7d/0x100
->> [   79.695304]  do_group_exit+0x33/0xb0
->> [   79.695331]  __x64_sys_exit_group+0x14/0x20
->> [   79.695353]  do_syscall_64+0x58/0x80
->> [   79.695376]  ? up_read+0x17/0x20
->> [   79.695401]  ? lock_is_held_type+0xe3/0x140
->> [   79.695429]  ? asm_exc_page_fault+0x22/0x30
->> [   79.695450]  ? lockdep_hardirqs_on+0x7d/0x100
->> [   79.695473]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
->> [   79.695493] RIP: 0033:0x7ff1ccefe3f1
->> [   79.695516] Code: Unable to access opcode bytes at RIP 0x7ff1ccefe3c7.
->> [   79.695607] RSP: 002b:00007ffed4413378 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
->> [   79.695629] RAX: ffffffffffffffda RBX: 00007ff1cd0159e0 RCX: 00007ff1ccefe3f1
->> [   79.695644] RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
->> [   79.695656] RBP: 0000000000000000 R08: ffffffffffffff80 R09: 00007ff1cd020b20
->> [   79.695671] R10: 0000000000000000 R11: 0000000000000246 R12: 00007ff1cd0159e0
->> [   79.695684] R13: 0000000000000000 R14: 00007ff1cd01aee8 R15: 00007ff1cd01af00
->> [   79.695733]  </TASK>
->> [   79.695746] irq event stamp: 725979
->> [   79.695757] hardirqs last  enabled at (725979): [<ffffffffa9132d54>] finish_task_switch.isra.0+0xe4/0x3f0
->> [   79.695780] hardirqs last disabled at (725978): [<ffffffffa9eb4113>] __schedule+0xdd3/0x1670
->> [   79.695803] softirqs last  enabled at (725974): [<ffffffffa90fbc9d>] __irq_exit_rcu+0xed/0x160
->> [   79.695825] softirqs last disabled at (725969): [<ffffffffa90fbc9d>] __irq_exit_rcu+0xed/0x160
->> [   79.695845] ---[ end trace 0000000000000000 ]---
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/gpu/drm/gma500/gem.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
->> index dffe37490206..4b7627a72637 100644
->> --- a/drivers/gpu/drm/gma500/gem.c
->> +++ b/drivers/gpu/drm/gma500/gem.c
->> @@ -112,12 +112,12 @@ static void psb_gem_free_object(struct drm_gem_object *obj)
->>  {
->>         struct psb_gem_object *pobj = to_psb_gem_object(obj);
->>
->> -       drm_gem_object_release(obj);
->> -
->>         /* Undo the mmap pin if we are destroying the object */
->>         if (pobj->mmapping)
->>                 psb_gem_unpin(pobj);
->>
->> +       drm_gem_object_release(obj);
->> +
->>         WARN_ON(pobj->in_gart && !pobj->stolen);
->>
->>         release_resource(&pobj->resource);
->> --
->> 2.37.2
->>
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 2ad7941a79f2..b668f36fb0a3 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -149,7 +149,6 @@ Misc display functions
+>  
+>  .. kernel-doc:: drivers/gpu/drm/i915/display/skl_scaler.c
+>  
+> -
+>  Plane Configuration
+>  -------------------
+>  
+> @@ -308,6 +307,45 @@ Multicast/Replicated (MCR) Registers
+>  .. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+>     :internal:
+>  
+> +GT engine
+> +---------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> +
+> +Graphics Translation Tables
+> +---------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gtt.c
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gtt.h
+> +
+> +Other GT functionality
+> +----------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_context.h
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gsc.h
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_migrate.c
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_mocs.h
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_rc6.c
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_reset.c
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_rps_types.h
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_rps.c
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_sseu.c
+> +
+>  Memory Management and Command Submission
+>  ========================================
+>  
+> -- 
+> 2.37.3
 > 
-
