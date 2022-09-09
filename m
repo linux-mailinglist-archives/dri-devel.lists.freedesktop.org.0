@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836DB5B3028
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 09:37:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CA95B3032
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 09:37:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBB2910EC17;
-	Fri,  9 Sep 2022 07:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9A6110EC24;
+	Fri,  9 Sep 2022 07:35:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF86B10EBF6;
- Fri,  9 Sep 2022 07:34:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7119C10EC00;
+ Fri,  9 Sep 2022 07:34:59 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C70EE61F1F;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C363761F1D;
  Fri,  9 Sep 2022 07:34:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AC63C4FF08;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5929DC43140;
  Fri,  9 Sep 2022 07:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1662708895;
- bh=WN++RRwqkrFhVGpR8k8bmcaqdPH2depWHiH3t3ENpiA=;
+ bh=LEEwLA3HnTZzfr9zSHnNeeHw98aU6/L5pK0OTNVwtts=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b32yhnuBct450ZyMteF3pPEpiFmuU+itZ+RCsrW1opvT2y35CoFlTXttw3s3x2AQi
- smBw4cfFSpJgR88Fu4iqQzFbZoe0uIcMeCu+G8MbVYtLawh0LFsWut7NEkljQ7Ak6f
- FQla/ScA9ts/3lKyxy34i3E7Tb+Ua+i0CUPhwJhj1nbNaE8Jkby1zxcWz13CNiSNi9
- zT5/CrRo73SOd4xNIgd1/pYMhAFmSYq25yhxrne50Sbb3euIv/Jkh9+jCTDaSNLmI0
- Kl7Mf4EMMHzuFtESVQM2c9Xv7C1/3Uk8oqMwzjaIL7eIZsKnQRV5/6Rp6Im70DHFQl
- 5qTz5ZLuCejnA==
+ b=f7UGACSNbEtGu64yyT3G5y2LBC1n7hfW6Ujyc55KReD5ZTT/nOqEfjXURmybSPY3k
+ AWF85KCDB5yLRHpEbhFvLwFJ2e767UOC4m6n8DRfjr00HAB41wkMXhnS9Z2ojMmC6D
+ J0bZl/hCJfJYQGBgyGmLLkx3vn8hgJg3mNuUXHpq/kY524pHPi3+JOpcKxqvFr0zLk
+ bZWTaEwhP9I6Wz1qi+6POuyC9AsQWI/fmS4oW1KYHjOwN//HzVFUdcLDB6GCUCMgJY
+ yNJCHPeoPwHEI2fqjdYI/hYDAwmQ+sk+iLKCVTartfAwYj1AI+wZgFO01L2yA73wG3
+ Cq1Q1UDLHGluA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oWYXH-007FHX-BG;
+ (envelope-from <mchehab@kernel.org>) id 1oWYXH-007FHb-Cz;
  Fri, 09 Sep 2022 09:34:47 +0200
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH v3 30/37] docs: gpu: i915.rst: PM: add more kernel-doc markups
-Date: Fri,  9 Sep 2022 09:34:37 +0200
-Message-Id: <130374a3963a13e2ba66d28385f919dafd3e37a2.1662708705.git.mchehab@kernel.org>
+Subject: [PATCH v3 31/37] docs: gpu: i915.rst: GEM/TTM: add more kernel-doc
+ markups
+Date: Fri,  9 Sep 2022 09:34:38 +0200
+Message-Id: <6b781d1506f1ac63869b0274893656ed5ba0e620.1662708705.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <cover.1662708705.git.mchehab@kernel.org>
 References: <cover.1662708705.git.mchehab@kernel.org>
@@ -63,8 +65,9 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both intel_runtime_pm.h and intel_pm.c contains kAPI for
-runtime PM. So, add them to the documentation.
+There are several documented GEM/TTM kAPI that aren't currently part
+of the docs. Add them, as this allows identifying issues with
+badly-formatted tags.
 
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -73,23 +76,57 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v3 00/37] at: https://lore.kernel.org/all/cover.1662708705.git.mchehab@kernel.org/
 
- Documentation/gpu/i915.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/gpu/i915.rst | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
 diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index da64ebdaa9e0..4ce04a457ccc 100644
+index 4ce04a457ccc..545fe630557a 100644
 --- a/Documentation/gpu/i915.rst
 +++ b/Documentation/gpu/i915.rst
-@@ -25,6 +25,10 @@ Runtime Power Management
- .. kernel-doc:: drivers/gpu/drm/i915/intel_uncore.c
-    :internal:
+@@ -612,6 +612,44 @@ Protected Objects
  
-+.. kernel-doc:: drivers/gpu/drm/i915/intel_runtime_pm.h
+ .. kernel-doc:: drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+ 
++Table Manager (TTM)
++-------------------
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/intel_pm.c
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_ttm.c
 +
- Interrupt Handling
- ------------------
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_ttm.h
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
++
++Graphics Execution Manager (GEM)
++--------------------------------
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_create.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_domain.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_internal.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_lmem.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_mman.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_object.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_object.h
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_region.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_region.h
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_userptr.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_wait.c
++
+ Microcontrollers
+ ================
  
 -- 
 2.37.3
