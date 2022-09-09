@@ -1,43 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198B55B3A37
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 16:01:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 143445B3A48
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 16:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98AF510ED81;
-	Fri,  9 Sep 2022 14:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C91010ED86;
+	Fri,  9 Sep 2022 14:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD7C310ED80;
- Fri,  9 Sep 2022 14:01:19 +0000 (UTC)
-Date: Fri, 09 Sep 2022 14:01:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1662732077; x=1662991277;
- bh=C60pLuHud11D9nKtULfHTleE6psuGlBBf0zrVj1sYT4=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=Z134zbWZCH9feKKvWvxNtE6VXOgGfDe0zX8wGsq0jFNzb48PWQeziYqTCqgNkTEha
- oviL8+IC3Ldg0GcENSVDm/ekNg4l7u61uNXZX2ps84VLODQ2Q8s6rOFSd9QtniezMs
- M0+18zSXBlU/AjMHCNkIFmwc81EyMjF6Pr2bZm0SjsuyrVCww2gdgP35oyyGXMZ2EC
- NM2tIiFfyrVQxdKvuH8ieb+YQ3iD8eXm3jpl7awqxcYU8sR2YfalZly0zdtnUc04Fb
- UbZVMHle+PDJYWjM77C9ivcz/+jDoC5RB5YbD1tgJm7n+8voBQxlHYFEP6rpnvtgzX
- wZJJslJG7vkwA==
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC v2] drm/kms: control display brightness through
- drm_connector properties
-Message-ID: <cQQRkjfHJeWwk18cW3TwpfFVRGqL3_aYkpiV-SAIdMk70Qs9nIm2zzIc_a_4jLwzPDLtUZZG221h8fCk0dLdyjKHBrsufJWPh7HhEkcWx6c=@emersion.fr>
-In-Reply-To: <20220909165346.51e92499@eldfell>
-References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
- <KBKl__LKqWb8-i0ErjSYiqJRJOf2AK48SVFIvyOYM-aGG_uZOal8BAm3VbkFJHc6Vquz1mFNugZkoFyz490r6N5UIM1a8JthAgFyDnQBtqk=@emersion.fr>
- <20220909165346.51e92499@eldfell>
-Feedback-ID: 1358184:user:proton
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A927A10ED87
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 14:01:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662732104;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mmurUuPfY4CSsGXMopu3kXzx5e5l7+stCxGfg5MZbeg=;
+ b=Qya1dqFhaXftSX9jPgMaT6h62sM8PghiUyXLcYLX/MEIaZbXHO6TCEQzFTqUNpfR11CTR2
+ Dg878xp3lSup0173QrlJfiSyYtnXNnYeI1eftN8/d5QS80Eiuk0a5nEpXW/whuW96+joFz
+ E6BA+bfwWjaR2trdkL6yv9dTgFOQ7R8=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-376-LB0zMJCKPwyWRINWS8MfHg-1; Fri, 09 Sep 2022 10:01:42 -0400
+X-MC-Unique: LB0zMJCKPwyWRINWS8MfHg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ gn30-20020a1709070d1e00b0074144af99d1so1075182ejc.17
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 07:01:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date;
+ bh=mmurUuPfY4CSsGXMopu3kXzx5e5l7+stCxGfg5MZbeg=;
+ b=A4wDiPjjEBFdw9lcBGDvYJ+z1t+Tf/Cw3a7MXdq76g6q14jTjHHRKxKA3AfdqjXRK5
+ EURR5WkHi7k33qTLV2XH5Utw1Ua6AcNdV33nT1vX44k9//w7UysYFm0gksKYat/Ml4ZS
+ AGoX1qn9ZZFkDHYqiZ85sDh6g7v1DjACuEeF9FKCoIP6UlQg7GDuQEApfgw+ocJtZyA6
+ I1mOX9tHERe0JMncY7hl/Bx2SfYxunMJCLJxNlWOeuN30wBO/62OpMtG3lmeXQy5MRm3
+ oxp31XMvFZ4QAbpq7On8AbzZzS5V9BnCyQg15uLB7gNLd3Ibwq3tnw/6nAXUGfyK6DNm
+ pDMA==
+X-Gm-Message-State: ACgBeo007y/GdPznxVBJdzOUQLAwd0XupMNIivBtS9YtXKeBJHGM9u37
+ ifEpSJ9Wb5VCHedw6mXOgDXL6ywfIIF/OKJXF0l6VEd0spABo9tn+tFBXGrHksm0lnXk5xEMOtF
+ uDRe/Ujyiy3rLyEFy8nt88V+TGiwo
+X-Received: by 2002:a17:906:846b:b0:770:82e5:1519 with SMTP id
+ hx11-20020a170906846b00b0077082e51519mr9690592ejc.221.1662732100552; 
+ Fri, 09 Sep 2022 07:01:40 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5cRBPXdEZPFZlONtBxXbkVKluQAB+eqr/N7QwxhdMBwFCwN/QJRPkdLZUifQ+2NbWPIwNn1Q==
+X-Received: by 2002:a17:906:846b:b0:770:82e5:1519 with SMTP id
+ hx11-20020a170906846b00b0077082e51519mr9690572ejc.221.1662732100345; 
+ Fri, 09 Sep 2022 07:01:40 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id
+ f4-20020a17090631c400b0073d6093ac93sm353806ejf.16.2022.09.09.07.01.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Sep 2022 07:01:39 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: eahariha@linux.microsoft.com
+Subject: Re: [PATCH 2/3] pci_ids: Add Microsoft PCI Vendor ID, and remove
+ redundant definitions
+In-Reply-To: <1662674757-31945-2-git-send-email-eahariha@linux.microsoft.com>
+References: <1662674757-31945-1-git-send-email-eahariha@linux.microsoft.com>
+ <1662674757-31945-2-git-send-email-eahariha@linux.microsoft.com>
+Date: Fri, 09 Sep 2022 16:01:37 +0200
+Message-ID: <87leqsr6im.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,73 +81,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: "open list:DRM DRIVER FOR HYPERV SYNTHETIC VIDEO
+ DEVICE" <linux-hyperv@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ Colin Ian King <colin.i.king@googlemail.com>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ "open list:DRM DRIVER FOR HYPERV
+ SYNTHETIC VIDEO DEVICE" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, Eric Dumazet <edumazet@google.com>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, Helge Deller <deller@gmx.de>,
+ Dexuan Cui <decui@microsoft.com>, Deepak Rawat <drawat.floss@gmail.com>,
+ Easwar Hariharan <easwar.hariharan@microsoft.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, September 9th, 2022 at 15:53, Pekka Paalanen <ppaalanen@gmail.co=
-m> wrote:
+eahariha@linux.microsoft.com writes:
 
-> On Fri, 09 Sep 2022 13:39:37 +0000
-> Simon Ser contact@emersion.fr wrote:
->=20
-> > On Friday, September 9th, 2022 at 12:12, Hans de Goede hdegoede@redhat.=
-com wrote:
-> >=20
-> > > Phase 3: Deprecate /sys/class/backlight uAPI
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >=20
-> > > Once most userspace has moved over to using the new drm_connector
-> > > brightness props, a Kconfig option can be added to stop exporting
-> > > the backlight-devices under /sys/class/backlight. The plan is to
-> > > just disable the sysfs interface and keep the existing backlight-devi=
-ce
-> > > internal kernel abstraction as is, since some abstraction for (non GP=
-U
-> > > native) backlight devices will be necessary regardless.
-> > >=20
-> > > It is unsure if we will ever be able to do this. For example people u=
-sing
-> > > non fully integrated desktop environments like e.g. sway often use cu=
-stom
-> > > scripts binded to hotkeys to get functionality like the brightness
-> > > up/down keyboard hotkeys changing the brightness. This typically invo=
-lves
-> > > e.g. the xbacklight utility.
-> > >=20
-> > > Even if the xbacklight utility is ported to use kms with the new conn=
-ector
-> > > object brightness properties then this still will not work because
-> > > changing the properties will require drm-master rights and e.g. sway =
-will
-> > > already hold those.
-> >=20
-> > I replied to this here in another thread 1.
-> >=20
-> > tl;dr I think it would be fine even for Sway-like compositors.
->=20
-> Furthermore, if other compositors are like Weston in their KMS state
-> handling, and do not track which property has already been programmed
-> to KMS and which hasn't, and instead just smash all KMS properties
-> every update anyway (it's also great for debugging, you always have the
-> full state in flight), anything changed via sysfs will be immediately
-> reverted.
->=20
-> Therefore I think there is a high probability that the external or
-> sysfs controls just naturally stop working anyway, even if the kernel
-> does not remove them first.
+> From: Easwar Hariharan <easwar.hariharan@microsoft.com>
+>
+> Move the Microsoft PCI Vendor ID from the various drivers to the pci_ids
+> file
+>
+> Signed-off-by: Easwar Hariharan <easwar.hariharan@microsoft.com>
+> ---
+>  drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 1 -
+>  drivers/net/ethernet/microsoft/mana/gdma_main.c | 4 ----
+>  drivers/video/fbdev/hyperv_fb.c                 | 3 ---
+>  include/linux/pci_ids.h                         | 2 ++
+>  4 files changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> index 6d11e79..61083c7 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> @@ -23,7 +23,6 @@
+>  #define DRIVER_MAJOR 1
+>  #define DRIVER_MINOR 0
+>  
+> -#define PCI_VENDOR_ID_MICROSOFT 0x1414
+>  #define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
+>  
+>  DEFINE_DRM_GEM_FOPS(hv_fops);
+> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> index 5f92401..00d8198 100644
+> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> @@ -1465,10 +1465,6 @@ static void mana_gd_shutdown(struct pci_dev *pdev)
+>  	pci_disable_device(pdev);
+>  }
+>  
+> -#ifndef PCI_VENDOR_ID_MICROSOFT
+> -#define PCI_VENDOR_ID_MICROSOFT 0x1414
+> -#endif
+> -
+>  static const struct pci_device_id mana_id_table[] = {
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_PF_DEVICE_ID) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_VF_DEVICE_ID) },
+> diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+> index 886c564..a502c80 100644
+> --- a/drivers/video/fbdev/hyperv_fb.c
+> +++ b/drivers/video/fbdev/hyperv_fb.c
+> @@ -58,7 +58,6 @@
+>  
+>  #include <linux/hyperv.h>
+>  
+> -
+>  /* Hyper-V Synthetic Video Protocol definitions and structures */
+>  #define MAX_VMBUS_PKT_SIZE 0x4000
+>  
+> @@ -74,10 +73,8 @@
+>  #define SYNTHVID_DEPTH_WIN8 32
+>  #define SYNTHVID_FB_SIZE_WIN8 (8 * 1024 * 1024)
+>  
+> -#define PCI_VENDOR_ID_MICROSOFT 0x1414
+>  #define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
+>  
+> -
+>  enum pipe_msg_type {
+>  	PIPE_MSG_INVALID,
+>  	PIPE_MSG_DATA,
+> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> index 6feade6..c008fda 100644
+> --- a/include/linux/pci_ids.h
+> +++ b/include/linux/pci_ids.h
+> @@ -2079,6 +2079,8 @@
+>  #define PCI_DEVICE_ID_ICE_1712		0x1712
+>  #define PCI_DEVICE_ID_VT1724		0x1724
+>  
+> +#define PCI_VENDOR_ID_MICROSOFT  	0x1414
+> +
+>  #define PCI_VENDOR_ID_OXSEMI		0x1415
+>  #define PCI_DEVICE_ID_OXSEMI_12PCI840	0x8403
+>  #define PCI_DEVICE_ID_OXSEMI_PCIe840		0xC000
 
-Ah yes, that's a good point. And this wouldn't be a kernel regression,
-it would be user-space like Sway or Weston taking the decision to use
-the new uAPI in a way which breaks the sysfs interface.
+I've sent a similar patch recently:
+https://lore.kernel.org/linux-hyperv/20220827130345.1320254-2-vkuznets@redhat.com/
 
-(User-space could also take the decision to _not_ break the sysfs
-interface, by implementing a simple "dirty" flag.)
+which Wei has already queued to hyperv/fixes. Moving
+PCI_DEVICE_ID_MICROSOFT_MANA_PF/VF definitions to 'pci_ids.h' does make
+sense but please rebase first.
+
+-- 
+Vitaly
+
