@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A9E5B35E0
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:01:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0524F5B35DD
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:01:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA23310EC87;
-	Fri,  9 Sep 2022 11:00:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 209F810EC83;
+	Fri,  9 Sep 2022 11:00:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B124710EC77;
- Fri,  9 Sep 2022 11:00:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4589510EC67;
+ Fri,  9 Sep 2022 11:00:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662721203; x=1694257203;
+ t=1662721207; x=1694257207;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=fusilmdSQD+FIBKYeUukiHJrxKRQ3B5pPSTTQeO8rTk=;
- b=IY4ByzcKZWkyGAT5DBxY8zhM1XHXGdCwRIhTUgBo5KFW4yns+wc2TnjB
- tgRZakZlh31BJ2HopaTvfTtVAlvGXoqrrRjq/1QPPxhH7vWPApzoiIWv/
- G8BHlstQNThIlkMCKZRm2S81V3wjv8g0kzfseMhHjCoY/m6plwBADRsur
- WjfCtHK74IyGaGzvQiP626M1qV6Mqoh9Exzc0KiuRWail39aDcHMqXs3Y
- jPI47H3xtcfjECb/CduFd7j0pk2RuCxGt92MHCSOuPmOAetGP79ar/bed
- +c6j7jDZYYSBFueIjM5mUcDqX0xO9DI0ArDH4X53hOz/Ij2KibyEREemL A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="359174707"
-X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="359174707"
+ bh=rbeLLMikeeyGnzJWYLFEPrxR618A28YgVik17/AHfoY=;
+ b=fadAGEUlRMTDOvHoTe/Gxg7S5kjFjlhOrgzcDYpZhpSH+RYt7qcmNZ7L
+ EuXZm9fVeS40nwufG+Vlv3UTwsyeuv0FntteHcdNgO+P43M25HZ1lgQXo
+ mEJKhOjiONPrR/1Rp9GfrS+A0QAbyZ+U0ibXdI/3IG5xcb1NYM6qO9Y0M
+ msRUZdmjO9PWTKcWhvJvAAe/OUNrh0V8yDDSWOmryj9I/wSOZ/B1OGlbD
+ SrYhAkNry5HDoMnRbnwJNeDZqTdycaRcTcxKKB6M7VP7CoSK4Lb0JdEl9
+ fmk+h3Ofm+2RpnsukmhIulwTVz+omFXP+cW65ddwbO9wtbtX3mRh4K2o3 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="359174715"
+X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="359174715"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 04:00:03 -0700
-X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="704370438"
+ 09 Sep 2022 04:00:07 -0700
+X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="704370507"
 Received: from clbarnes-mobl.amr.corp.intel.com (HELO
  paris.amr.corp.intel.com) ([10.254.42.92])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 04:00:00 -0700
+ 09 Sep 2022 04:00:03 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v10 7/9] drm/i915: Check if the size is too big while creating
- shmem file
-Date: Fri,  9 Sep 2022 19:59:11 +0900
-Message-Id: <20220909105913.752049-8-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v10 8/9] drm/i915: Use error code as -E2BIG when the size of
+ gem ttm object is too large
+Date: Fri,  9 Sep 2022 19:59:12 +0900
+Message-Id: <20220909105913.752049-9-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220909105913.752049-1-gwan-gyeong.mun@intel.com>
 References: <20220909105913.752049-1-gwan-gyeong.mun@intel.com>
@@ -68,13 +68,10 @@ Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The __shmem_file_setup() function returns -EINVAL if size is greater than
-MAX_LFS_FILESIZE. To handle the same error as other code that returns
--E2BIG when the size is too large, it add a code that returns -E2BIG when
-the size is larger than the size that can be handled.
-
-v4: If BITS_PER_LONG is 32, size > MAX_LFS_FILESIZE is always false, so it
-    checks only when BITS_PER_LONG is 64.
+The ttm_bo_init_reserved() functions returns -ENOSPC if the size is too big
+to add vma. The direct function that returns -ENOSPC is drm_mm_insert_node_in_range().
+To handle the same error as other code returning -E2BIG when the size is
+too large, it converts return value to -E2BIG.
 
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 Cc: Chris Wilson <chris@chris-wilson.co.uk>
@@ -82,37 +79,33 @@ Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Reported-by: kernel test robot <lkp@intel.com>
 Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index 339b0a9cf2d0..ca30060e34ab 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -541,6 +541,20 @@ static int __create_shmem(struct drm_i915_private *i915,
- 
- 	drm_gem_private_object_init(&i915->drm, obj, size);
- 
-+	/* XXX: The __shmem_file_setup() function returns -EINVAL if size is
-+	 * greater than MAX_LFS_FILESIZE.
-+	 * To handle the same error as other code that returns -E2BIG when
-+	 * the size is too large, we add a code that returns -E2BIG when the
-+	 * size is larger than the size that can be handled.
-+	 * If BITS_PER_LONG is 32, size > MAX_LFS_FILESIZE is always false,
-+	 * so we only needs to check when BITS_PER_LONG is 64.
-+	 * If BITS_PER_LONG is 32, E2BIG checks are processed when
-+	 * i915_gem_object_size_2big() is called before init_object() callback
-+	 * is called.
-+	 */
-+	if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
-+		return -E2BIG;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 6956d273fa5f..955635ae5982 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -1210,6 +1210,17 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), bo_type,
+ 				   &i915_sys_placement, page_size >> PAGE_SHIFT,
+ 				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
 +
- 	if (i915->mm.gemfs)
- 		filp = shmem_file_setup_with_mnt(i915->mm.gemfs, "i915", size,
- 						 flags);
++	/*
++	 * XXX: The ttm_bo_init_reserved() functions returns -ENOSPC if the size
++	 * is too big to add vma. The direct function that returns -ENOSPC is
++	 * drm_mm_insert_node_in_range(). To handle the same error as other code
++	 * that returns -E2BIG when the size is too large, it converts -ENOSPC to
++	 * -E2BIG.
++	 */
++	if (size >> PAGE_SHIFT > INT_MAX && ret == -ENOSPC)
++		ret = -E2BIG;
++
+ 	if (ret)
+ 		return i915_ttm_err_to_gem(ret);
+ 
 -- 
 2.37.1
 
