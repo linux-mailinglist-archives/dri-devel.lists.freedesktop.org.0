@@ -2,40 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56435B418A
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 23:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36895B4275
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 00:24:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACE910E002;
-	Fri,  9 Sep 2022 21:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A771510E128;
+	Fri,  9 Sep 2022 22:24:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id A449010E002
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 21:39:09 +0000 (UTC)
-Received: from [10.1.6.4] (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id EBC5F204B511;
- Fri,  9 Sep 2022 14:38:54 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EBC5F204B511
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1662759549;
- bh=HEB77Qr+BgFbrhvgrT5r3B5CMqSgOIIP8EpcVs2hwf4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SZa0rjF1zDP4m+KB/T+yVStYNKYgze+GvKFPj+ynp9Md6FJ6r485Q5mrf/UDbD3BI
- neNIpi5rcgd5k7qkR6H+Ww9L6ZDepSXLzS0NlE9UJExDGOo1+aSyi/7whkhq7cn/qN
- HQFA6TGs5koApHmFvSz4EFbS4U+R+CZKqRnQZ+WU=
-Content-Type: multipart/alternative;
- boundary="------------yKFIidYde7KVdW2n8zKFlHGi"
-Message-ID: <ec4a788c-aa55-1d29-6e6d-c0cee6898279@linux.microsoft.com>
-Date: Fri, 9 Sep 2022 21:38:49 +0000
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE9010E0DF;
+ Fri,  9 Sep 2022 22:24:05 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A318CB82628;
+ Fri,  9 Sep 2022 22:24:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64AD9C43470;
+ Fri,  9 Sep 2022 22:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1662762242;
+ bh=jYir94PMupIQABgyuc1d88q0jMHnHn5SyYXVlYCBsEc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=tB82VSfxvZsZYNJnN4grncwTfntY5H5jsy242B6TRCgU9mBHjWjZzzloGk5RFmJmX
+ MbgZo3QwQY1aJxVLdSIr472O/c2UTcj/XEa3MgOGvJJTJaKUyN7LTFpyK/bM4d30xp
+ N7sD00G6rqAPrIQTINHd8WgL3fIan1YGJ/JSM6P3vovFj6syg4ZuLKNoQdK0weC+i3
+ A4ne1OLB7tRCLgqOh8E+wkAN/paXuXp1db/ybXmA4R/yJkA1lI855HLcoukOtrKJcs
+ TwaKWDXt6i+5u6XigRRViSS5gd08T1Cmsnl5CQDPc0HSt2qtU7Ca1IEB3E3fbU34nw
+ DLHJlUUdeBfoA==
+Received: by mail-vk1-f180.google.com with SMTP id bi53so1430861vkb.12;
+ Fri, 09 Sep 2022 15:24:02 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0D4hKtbjAtvkIxHWNSCkRbqKTiau/Y30Bnagm2BSpnZNg1zaLQ
+ 2OGA/E8lZrD1RpXAKSasaSaY9RXl/m1/QIZw1w==
+X-Google-Smtp-Source: AA6agR4gWoUPXRqvgMiwoS4inzHviowpe/lpefLB9U6SBKicyMAUahdlUNji7TnYC0KiiXRUUyI4dQa+VqCUXYS9LNI=
+X-Received: by 2002:a1f:2995:0:b0:39e:9c49:7f60 with SMTP id
+ p143-20020a1f2995000000b0039e9c497f60mr5650976vkp.14.1662762241255; Fri, 09
+ Sep 2022 15:24:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 2/2] pci_ids: Add the various Microsoft PCI device IDs
-Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20220909193849.GA309868@bhelgaas>
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <20220909193849.GA309868@bhelgaas>
+References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
+ <20220901102312.2005553-2-dmitry.baryshkov@linaro.org>
+ <3e525135-d205-eddc-ff2d-98c8321386e3@linaro.org>
+ <20220908193705.GA3002673-robh@kernel.org>
+ <1ebe64a3-fab9-1dd7-517a-01001a176d9f@linaro.org>
+In-Reply-To: <1ebe64a3-fab9-1dd7-517a-01001a176d9f@linaro.org>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 9 Sep 2022 17:23:50 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLkV_fnUnc4cS=cdTvP3rKYAS011_+KZYiBGhXDx-pHnA@mail.gmail.com>
+Message-ID: <CAL_JsqLkV_fnUnc4cS=cdTvP3rKYAS011_+KZYiBGhXDx-pHnA@mail.gmail.com>
+Subject: Re: [PATCH v6 01/12] dt-bindings: display/msm: split qcom,
+ mdss bindings
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,316 +65,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR HYPERV SYNTHETIC VIDEO DEVICE"
- <linux-hyperv@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- Colin Ian King <colin.i.king@googlemail.com>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- "open list:DRM DRIVER FOR HYPERV SYNTHETIC VIDEO DEVICE"
- <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
- Eric Dumazet <edumazet@google.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- Helge Deller <deller@gmx.de>, Dexuan Cui <decui@microsoft.com>,
- Deepak Rawat <drawat.floss@gmail.com>,
- Easwar Hariharan <easwar.hariharan@microsoft.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Bjorn Helgaas <bhelgaas@google.com>,
- "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, vkuznets@redhat.com,
- "David S. Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------yKFIidYde7KVdW2n8zKFlHGi
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 9/9/22 19:38, Bjorn Helgaas wrote:
-> Please follow the PCI subject line conventions.  Discover it with
-> "git log --oneline include/linux/pci_ids.h".
+On Thu, Sep 8, 2022 at 3:20 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> On Fri, Sep 09, 2022 at 11:50:25AM -0700, Easwar Hariharan wrote:
->> From: Easwar Hariharan<easwar.hariharan@microsoft.com>
->>
-> Needs a commit log, even if it is nothing more than the subject line.
+> On 08/09/2022 22:37, Rob Herring wrote:
+> > On Thu, Sep 08, 2022 at 03:37:38PM +0200, Krzysztof Kozlowski wrote:
+> >> On 01/09/2022 12:23, Dmitry Baryshkov wrote:
+> >>> Split Mobile Display SubSystem (MDSS) root node bindings to the separate
+> >>> yaml file. Changes to the existing (txt) schema:
+> >>>   - Added optional "vbif_nrt_phys" region used by msm8996
+> >>>   - Made "bus" and "vsync" clocks optional (they are not used by some
+> >>>     platforms)
+> >>>   - Added (optional) "core" clock added recently to the mdss driver
+> >>>   - Added optional resets property referencing MDSS reset
+> >>>   - Defined child nodes pointing to corresponding reference schema.
+> >>>   - Dropped the "lut" clock. It was added to the schema by mistake (it is
+> >>>     a part of mdp4 schema, not the mdss).
+> >>>
+> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>> ---
+> >>>   .../devicetree/bindings/display/msm/mdp5.txt  |  30 +---
+> >>>   .../devicetree/bindings/display/msm/mdss.yaml | 166 ++++++++++++++++++
+> >>>   2 files changed, 167 insertions(+), 29 deletions(-)
+> >>>   create mode 100644 Documentation/devicetree/bindings/display/msm/mdss.yaml
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/display/msm/mdp5.txt b/Documentation/devicetree/bindings/display/msm/mdp5.txt
+> >>> index 43d11279c925..65d03c58dee6 100644
+> >>> --- a/Documentation/devicetree/bindings/display/msm/mdp5.txt
+> >>> +++ b/Documentation/devicetree/bindings/display/msm/mdp5.txt
+> >>> @@ -2,37 +2,9 @@ Qualcomm adreno/snapdragon MDP5 display controller
+> >>>
+> >>>   Description:
+> >>>
+> >>> -This is the bindings documentation for the Mobile Display Subsytem(MDSS) that
+> >>> -encapsulates sub-blocks like MDP5, DSI, HDMI, eDP etc, and the MDP5 display
+> >>> +This is the bindings documentation for the MDP5 display
+> >>>   controller found in SoCs like MSM8974, APQ8084, MSM8916, MSM8994 and MSM8996.
+> >>>
+> >>> -MDSS:
+> >>> -Required properties:
+> >>> -- compatible:
+> >>> -  * "qcom,mdss" - MDSS
+> >>> -- reg: Physical base address and length of the controller's registers.
+> >>> -- reg-names: The names of register regions. The following regions are required:
+> >>> -  * "mdss_phys"
+> >>> -  * "vbif_phys"
+> >>> -- interrupts: The interrupt signal from MDSS.
+> >>> -- interrupt-controller: identifies the node as an interrupt controller.
+> >>> -- #interrupt-cells: specifies the number of cells needed to encode an interrupt
+> >>> -  source, should be 1.
+> >>> -- power-domains: a power domain consumer specifier according to
+> >>> -  Documentation/devicetree/bindings/power/power_domain.txt
+> >>> -- clocks: device clocks. See ../clocks/clock-bindings.txt for details.
+> >>> -- clock-names: the following clocks are required.
+> >>> -  * "iface"
+> >>> -  * "bus"
+> >>> -  * "vsync"
+> >>> -- #address-cells: number of address cells for the MDSS children. Should be 1.
+> >>> -- #size-cells: Should be 1.
+> >>> -- ranges: parent bus address space is the same as the child bus address space.
+> >>> -
+> >>> -Optional properties:
+> >>> -- clock-names: the following clocks are optional:
+> >>> -  * "lut"
+> >>> -
+> >>>   MDP5:
+> >>>   Required properties:
+> >>>   - compatible:
+> >>> diff --git a/Documentation/devicetree/bindings/display/msm/mdss.yaml b/Documentation/devicetree/bindings/display/msm/mdss.yaml
+> >>> new file mode 100644
+> >>> index 000000000000..8860fc55cca5
+> >>> --- /dev/null
+> >>> +++ b/Documentation/devicetree/bindings/display/msm/mdss.yaml
+> >>> @@ -0,0 +1,166 @@
+> >>> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+> >>> +%YAML 1.2
+> >>> +---
+> >>> +$id: http://devicetree.org/schemas/display/msm/mdss.yaml#
+> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>> +
+> >>> +title: Qualcomm Mobile Display SubSystem (MDSS)
+> >>> +
+> >>> +maintainers:
+> >>> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>> +  - Rob Clark <robdclark@gmail.com>
+> >>> +
+> >>> +description:
+> >>> +  This is the bindings documentation for the Mobile Display Subsytem(MDSS) that
+> >>> +  encapsulates sub-blocks like MDP5, DSI, HDMI, eDP, etc.
+> >>> +
+> >>> +properties:
+> >>> +  compatible:
+> >>> +    enum:
+> >>> +      - qcom,mdss
+> >>> +
+> >>> +  reg:
+> >>> +    minItems: 2
+> >>> +    maxItems: 3
+> >>> +
+> >>> +  reg-names:
+> >>> +    minItems: 2
+> >>> +    items:
+> >>> +      - const: mdss_phys
+> >>> +      - const: vbif_phys
+> >>> +      - const: vbif_nrt_phys
+> >>> +
+> >>> +  interrupts:
+> >>> +    maxItems: 1
+> >>> +
+> >>> +  interrupt-controller:
+> >>> +    true
+> >>
+> >> If there is going to be v7 - please make it one line.
+> >>
+> >>> +
+> >>> +  "#interrupt-cells":
+> >>> +    const: 1
+> >>> +
+> >>> +  power-domains:
+> >>> +    maxItems: 1
+> >>> +    description: |
+> >>> +      The MDSS power domain provided by GCC
+> >>> +
+> >>> +  clocks:
+> >>> +    minItems: 1
+> >>> +    items:
+> >>> +      - description: Display abh clock
+> >>> +      - description: Display axi clock
+> >>> +      - description: Display vsync clock
+> >>> +
+> >>> +  clock-names:
+> >>> +    minItems: 1
+> >>> +    items:
+> >>> +      - const: iface
+> >>> +      - const: bus
+> >>> +      - const: vsync
+> >>> +
+> >>> +  "#address-cells":
+> >>> +    const: 1
+> >>> +
+> >>> +  "#size-cells":
+> >>> +    const: 1
+> >>> +
+> >>> +  ranges:
+> >>> +    true
+> >>
+> >> Ditto.
+> >>
+> >>> +
+> >>> +  resets:
+> >>> +    items:
+> >>> +      - description: MDSS_CORE reset
+> >>> +
+> >>> +required:
+> >>> +  - compatible
+> >>> +  - reg
+> >>> +  - reg-names
+> >>> +  - interrupts
+> >>> +  - interrupt-controller
+> >>> +  - "#interrupt-cells"
+> >>> +  - power-domains
+> >>> +  - clocks
+> >>> +  - clock-names
+> >>> +  - "#address-cells"
+> >>> +  - "#size-cells"
+> >>> +  - ranges
+> >>> +
+> >>> +patternProperties:
+> >>> +  "^mdp@[1-9a-f][0-9a-f]*$":
+> >>> +    type: object
+> >>> +    properties:
+> >>> +      compatible:
+> >>> +        const: qcom,mdp5
+> >>> +
+> >>> +  "^dsi@[1-9a-f][0-9a-f]*$":
+> >>> +    type: object
+> >>> +    properties:
+> >>> +      compatible:
+> >>> +        const: qcom,mdss-dsi-ctrl
+> >>
+> >> This should be ref to dsi-controller-main.yaml... or based on previous
+> >> Rob's feedback you dropped it everywhere in children?
+> >
+> > I don't think I said. I thought about it some, as yes, we normally have
+> > done as you suggested. The downside is with a ref we'll do the whole
+> > validation of the child node twice (unless the referenced schema has a
+> > 'select: false') whereas here only 'compatible' is validated twice. This
+> > way also complicates checking for unevaluatedProperties/additionalProperties.
+> >
+> > So maybe better to keep with the 'normal' way and make this a ref.
 >
-> Also read the top of include/linux/pci_ids.h, because it looks like
-> some of these are only used in one driver and hence do not need to be
-> in pci_ids.h.
-Thanks, this was a separate patch for exactly that reason instead of being
+> Well.. I tried using $ref in the previous iteration, but then I faced
+> the fact that I can not use it. Using the $ref the node gets validated
+> even if it is disabled, and we do not want to do this. The nodes are
+> usually split in way that regulators are specified in the board DT file.
+> Thus disabled dsi/dsi-phy nodes do not get all the required regulators.
+> And dt-validate happily dumps tons of warnings for disabled nodes. Thus
+> I ended up with the compatible rather than $ref.
 
-combined with the patch to move the vendor ID. I sent it anyway because
+Only warnings about required properties? Those are supposed to get
+filtered out if the node is disabled. Maybe being in a $ref doesn't
+work.
 
-of other device IDs in the pci_ids.h file used only by a single driver, 
-which I
-
-assume are legacy artifacts. After removing the MANA device IDs, the patch
-
-boils down to a trivial rename of the HYPERV_VIDEO device ID, so I'm just
-
-dropping this patch.
-- Easwar
->
->> Signed-off-by: Easwar Hariharan<easwar.hariharan@microsoft.com>
->> ---
->>   drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 2 +-
->>   drivers/net/ethernet/microsoft/mana/gdma.h      | 3 ---
->>   drivers/net/ethernet/microsoft/mana/gdma_main.c | 6 +++---
->>   drivers/video/fbdev/hyperv_fb.c                 | 4 ++--
->>   include/linux/pci_ids.h                         | 4 +++-
->>   5 files changed, 9 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
->> index f84d397..24c2def 100644
->> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
->> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
->> @@ -51,7 +51,7 @@ static void hyperv_pci_remove(struct pci_dev *pdev)
->>   static const struct pci_device_id hyperv_pci_tbl[] = {
->>   	{
->>   		.vendor = PCI_VENDOR_ID_MICROSOFT,
->> -		.device = PCI_DEVICE_ID_HYPERV_VIDEO,
->> +		.device = PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO,
->>   	},
->>   	{ /* end of list */ }
->>   };
->> diff --git a/drivers/net/ethernet/microsoft/mana/gdma.h b/drivers/net/ethernet/microsoft/mana/gdma.h
->> index 4a6efe6..9d3a9f7 100644
->> --- a/drivers/net/ethernet/microsoft/mana/gdma.h
->> +++ b/drivers/net/ethernet/microsoft/mana/gdma.h
->> @@ -476,9 +476,6 @@ struct gdma_eqe {
->>   
->>   #define GDMA_SRIOV_REG_CFG_BASE_OFF	0x108
->>   
->> -#define MANA_PF_DEVICE_ID 0x00B9
->> -#define MANA_VF_DEVICE_ID 0x00BA
->> -
->>   struct gdma_posted_wqe_info {
->>   	u32 wqe_size_in_bu;
->>   };
->> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
->> index 00d8198..18cf168 100644
->> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
->> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
->> @@ -1333,7 +1333,7 @@ static void mana_gd_cleanup(struct pci_dev *pdev)
->>   
->>   static bool mana_is_pf(unsigned short dev_id)
->>   {
->> -	return dev_id == MANA_PF_DEVICE_ID;
->> +	return dev_id == PCI_DEVICE_ID_MICROSOFT_MANA_PF;
->>   }
->>   
->>   static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->> @@ -1466,8 +1466,8 @@ static void mana_gd_shutdown(struct pci_dev *pdev)
->>   }
->>   
->>   static const struct pci_device_id mana_id_table[] = {
->> -	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_PF_DEVICE_ID) },
->> -	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_VF_DEVICE_ID) },
->> +	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_MICROSOFT_MANA_PF) },
->> +	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_MICROSOFT_MANA_VF) },
->>   	{ }
->>   };
->>   
->> diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
->> index b58b445..118e244 100644
->> --- a/drivers/video/fbdev/hyperv_fb.c
->> +++ b/drivers/video/fbdev/hyperv_fb.c
->> @@ -997,7 +997,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
->>   
->>   	if (!gen2vm) {
->>   		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
->> -			PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
->> +			PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO, NULL);
->>   		if (!pdev) {
->>   			pr_err("Unable to find PCI Hyper-V video\n");
->>   			return -ENODEV;
->> @@ -1311,7 +1311,7 @@ static int hvfb_resume(struct hv_device *hdev)
->>   static const struct pci_device_id pci_stub_id_table[] = {
->>   	{
->>   		.vendor      = PCI_VENDOR_ID_MICROSOFT,
->> -		.device      = PCI_DEVICE_ID_HYPERV_VIDEO,
->> +		.device      = PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO,
->>   	},
->>   	{ /* end of list */ }
->>   };
->> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
->> index 15b49e6..fe3517f 100644
->> --- a/include/linux/pci_ids.h
->> +++ b/include/linux/pci_ids.h
->> @@ -2080,7 +2080,9 @@
->>   #define PCI_DEVICE_ID_VT1724		0x1724
->>   
->>   #define PCI_VENDOR_ID_MICROSOFT		0x1414
->> -#define PCI_DEVICE_ID_HYPERV_VIDEO	0x5353
->> +#define PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO	0x5353
->> +#define PCI_DEVICE_ID_MICROSOFT_MANA_PF  	0x00B9
->> +#define PCI_DEVICE_ID_MICROSOFT_MANA_VF  	0x00BA
->>   
->>   #define PCI_VENDOR_ID_OXSEMI		0x1415
->>   #define PCI_DEVICE_ID_OXSEMI_12PCI840	0x8403
->> -- 
->> 1.8.3.1
->>
-
---------------yKFIidYde7KVdW2n8zKFlHGi
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 9/9/22 19:38, Bjorn Helgaas wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20220909193849.GA309868@bhelgaas">
-      <pre class="moz-quote-pre" wrap="">Please follow the PCI subject line conventions.  Discover it with
-"git log --oneline include/linux/pci_ids.h".
-
-On Fri, Sep 09, 2022 at 11:50:25AM -0700, Easwar Hariharan wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">From: Easwar Hariharan <a class="moz-txt-link-rfc2396E" href="mailto:easwar.hariharan@microsoft.com">&lt;easwar.hariharan@microsoft.com&gt;</a>
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Needs a commit log, even if it is nothing more than the subject line.
-
-Also read the top of include/linux/pci_ids.h, because it looks like
-some of these are only used in one driver and hence do not need to be
-in pci_ids.h.</pre>
-    </blockquote>
-    Thanks, this was a separate patch for exactly that reason instead of
-    being<br>
-    <br>
-    combined with the patch to move the vendor ID. I sent it anyway
-    because<br>
-    <br>
-    of other device IDs in the pci_ids.h file used only by a single
-    driver, which I<br>
-    <br>
-    assume are legacy artifacts. After removing the MANA device IDs, the
-    patch<br>
-    <br>
-    boils down to a trivial rename of the HYPERV_VIDEO device ID, so I'm
-    just<br>
-    <br>
-    dropping this patch.<br>
-    - Easwar<br>
-    <font size="2"></font>
-    <blockquote type="cite" cite="mid:20220909193849.GA309868@bhelgaas">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Signed-off-by: Easwar Hariharan <a class="moz-txt-link-rfc2396E" href="mailto:easwar.hariharan@microsoft.com">&lt;easwar.hariharan@microsoft.com&gt;</a>
----
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 2 +-
- drivers/net/ethernet/microsoft/mana/gdma.h      | 3 ---
- drivers/net/ethernet/microsoft/mana/gdma_main.c | 6 +++---
- drivers/video/fbdev/hyperv_fb.c                 | 4 ++--
- include/linux/pci_ids.h                         | 4 +++-
- 5 files changed, 9 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-index f84d397..24c2def 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-@@ -51,7 +51,7 @@ static void hyperv_pci_remove(struct pci_dev *pdev)
- static const struct pci_device_id hyperv_pci_tbl[] = {
- 	{
- 		.vendor = PCI_VENDOR_ID_MICROSOFT,
--		.device = PCI_DEVICE_ID_HYPERV_VIDEO,
-+		.device = PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO,
- 	},
- 	{ /* end of list */ }
- };
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma.h b/drivers/net/ethernet/microsoft/mana/gdma.h
-index 4a6efe6..9d3a9f7 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma.h
-+++ b/drivers/net/ethernet/microsoft/mana/gdma.h
-@@ -476,9 +476,6 @@ struct gdma_eqe {
- 
- #define GDMA_SRIOV_REG_CFG_BASE_OFF	0x108
- 
--#define MANA_PF_DEVICE_ID 0x00B9
--#define MANA_VF_DEVICE_ID 0x00BA
--
- struct gdma_posted_wqe_info {
- 	u32 wqe_size_in_bu;
- };
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 00d8198..18cf168 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -1333,7 +1333,7 @@ static void mana_gd_cleanup(struct pci_dev *pdev)
- 
- static bool mana_is_pf(unsigned short dev_id)
- {
--	return dev_id == MANA_PF_DEVICE_ID;
-+	return dev_id == PCI_DEVICE_ID_MICROSOFT_MANA_PF;
- }
- 
- static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-@@ -1466,8 +1466,8 @@ static void mana_gd_shutdown(struct pci_dev *pdev)
- }
- 
- static const struct pci_device_id mana_id_table[] = {
--	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_PF_DEVICE_ID) },
--	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_VF_DEVICE_ID) },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_MICROSOFT_MANA_PF) },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_MICROSOFT_MANA_VF) },
- 	{ }
- };
- 
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index b58b445..118e244 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -997,7 +997,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- 
- 	if (!gen2vm) {
- 		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
--			PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-+			PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO, NULL);
- 		if (!pdev) {
- 			pr_err("Unable to find PCI Hyper-V video\n");
- 			return -ENODEV;
-@@ -1311,7 +1311,7 @@ static int hvfb_resume(struct hv_device *hdev)
- static const struct pci_device_id pci_stub_id_table[] = {
- 	{
- 		.vendor      = PCI_VENDOR_ID_MICROSOFT,
--		.device      = PCI_DEVICE_ID_HYPERV_VIDEO,
-+		.device      = PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO,
- 	},
- 	{ /* end of list */ }
- };
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index 15b49e6..fe3517f 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -2080,7 +2080,9 @@
- #define PCI_DEVICE_ID_VT1724		0x1724
- 
- #define PCI_VENDOR_ID_MICROSOFT		0x1414
--#define PCI_DEVICE_ID_HYPERV_VIDEO	0x5353
-+#define PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO	0x5353
-+#define PCI_DEVICE_ID_MICROSOFT_MANA_PF  	0x00B9
-+#define PCI_DEVICE_ID_MICROSOFT_MANA_VF  	0x00BA
- 
- #define PCI_VENDOR_ID_OXSEMI		0x1415
- #define PCI_DEVICE_ID_OXSEMI_12PCI840	0x8403
--- 
-1.8.3.1
-
-</pre>
-      </blockquote>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------yKFIidYde7KVdW2n8zKFlHGi--
+Rob
