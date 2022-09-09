@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB625B4139
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 23:03:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A852C5B414A
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 23:09:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC1810EE75;
-	Fri,  9 Sep 2022 21:03:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD8B10E9C6;
+	Fri,  9 Sep 2022 21:09:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0350610EE70;
- Fri,  9 Sep 2022 21:03:39 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- l5-20020a05683004a500b0063707ff8244so1831289otd.12; 
- Fri, 09 Sep 2022 14:03:39 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B475A10E9C6;
+ Fri,  9 Sep 2022 21:09:15 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1279948d93dso7106749fac.10; 
+ Fri, 09 Sep 2022 14:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=Uoykyxij3BRm1w5cdSKbAr+cIMg9xvL7iGqxWJmeYek=;
- b=HD5+ddLacg39N7Vajzea2yIM1/+0ldtqLs90PkGSdQv+4kFvY3XKozrjGBvRysfabb
- Wmz80kO4jUSBo+7YqO8TVJEHTHZx3/O4XKH+aQE8NcWa+FbCoyLPI77nbPcofjr4bT1m
- s8O6gfLDm4lbpTnXbkOVcHzqVlwxeybBDYzhUb1yZIeXsFMcHSM3+wz/y8JqyPgpZLje
- 9M6Ya/dAIO2CDrLhoMomJ/eG2nsKAuXgnqZz8I5GkqBDSxrs4+ap4Bj4hDDswbrEiKtH
- eUls1+M5Ac9UjDP89BrLHec8mOXGiIWTDP1j/gLROyHpSbJb0R0xXppPEzHg0eKjI/4h
- 61Wg==
+ bh=7jvsuFLboFap0DqFA/F94XSGxZ5vpki++gWbUl4bVvA=;
+ b=Au7/wxInrHM2+FVGogak8BOmCEKU4fP6ejt+uu8CNyvGnOnKKmg3YfFDsmXi3AI3nn
+ sFiyvQGDDZiiJeIz6PR2+RXiV5paMtA/B+oQlM+x1ZVRfAubnFK35jdVEiTHZypLDSk0
+ NtyEkCqOeDfd/nrycdsCM0Z952j2YLpaohtOflkIMESmYI1j9VcP9fhE9kWudTqxdORH
+ rd5zg8dUXyt/HMTaultDr2IQoIqPo7lWTklGtoI5uAee9UKxffbOKYJx9pJb7Nk2pJvm
+ oFom7uH/LOHuKsMBc76e/XAbcnM0pB4leQN9pDtMOJLedqiT04hvNClGnjCEZMf3RmG8
+ 5P/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=Uoykyxij3BRm1w5cdSKbAr+cIMg9xvL7iGqxWJmeYek=;
- b=2nkwdyCWjp+Fdbs2Uc4gfeEglyHWKSmc/gEaHW0xcy0SSpzzxFo/MWiqN2ICFb6Hnf
- Tq21d5b6anblfaw/ubOrT6RN1P9x0jrPCDSyht+qi/cVd+5gQwOG5CHZPnAc6qxc4yIu
- dCJ5/O5mwo9cfkfPRGcN8UvRCn6pX2oqTZ5aii9qkFCskekXcM4ty3YcCqlx2gOfNGlX
- aGYIoTgoLqdvHxJQX/Zp84FAz2y9SPbLc1/eQ76IxFS6rR9sxo7AA+hWjEl5Qlj252CY
- xwD3IWUwutQyuSes1TlCx1ISZTaeB3uxtmhJvn1CpPPHLAM43jv6KZaAmTo+H0u8QS9o
- kvnw==
-X-Gm-Message-State: ACgBeo2xk5BaEntyHjzH9y8lz9aMfX1QKElgAqT6W+pq4ZVZiGd69psS
- YQDA7hDDHT8pm/B+8r2tfhjW3/0Cei6bUrzJ6zE=
-X-Google-Smtp-Source: AA6agR6TZ9fogjLGaU3AxZnOhtRZz+/6i3v9xw3ySQTdHb/U1ZUrlqcM/Z1KxrY61qFXkOO3Nv5aZ4HxqRJ26zzNjP4=
-X-Received: by 2002:a9d:12ce:0:b0:654:9bf:94ee with SMTP id
- g72-20020a9d12ce000000b0065409bf94eemr3424986otg.123.1662757419121; Fri, 09
- Sep 2022 14:03:39 -0700 (PDT)
+ bh=7jvsuFLboFap0DqFA/F94XSGxZ5vpki++gWbUl4bVvA=;
+ b=G2QSxPpOu32a6Trrg1PRvwgeNUYgKVmVzdj/eMfcL0FV3hs0k/9Qtcs0C0ZuIRmn1b
+ d+sGgG2EmlIrv13/sHHvAnOqQ5Qe+XNWt6KbflbIvzpA1DjgC7oSyodRgbqs3qcaDiYO
+ XOhhUwP/Gb0VMX5qrpf3Wzd3+XvFuZvbfjxBdquG/VBIuzb7BYKSbHoaw3wx/X2JGKnH
+ aCVTaCxsoKLJiq3uQWInrlTkTg3Zt0UKMqsu/zicgfdfNFIwKu8DdlKVC5btJFoRYgXW
+ oR7BLLQuM05lr2iDGOwkpYd6DeTbRKki0XrFPKitoM7xqc+MqNaUd7IUv/jblQqntrRQ
+ /MDw==
+X-Gm-Message-State: ACgBeo0s0wZ37vAuz7AsKh0fRb8+ztL031VrfILzAHl8+ClWsD+GNBCW
+ sF997FPnkqaKmZMbrFp1fiBcbSZh1Elos9A5zz0=
+X-Google-Smtp-Source: AA6agR6P3Z9Yu9X16sZVcmgZ+vejDXLgEOwexym9sd9UWT7wVFeWHkLdC9YDaDu7OcRPbLdR2ANVekydwJBWMDFUgco=
+X-Received: by 2002:a05:6808:138e:b0:345:13d1:fd66 with SMTP id
+ c14-20020a056808138e00b0034513d1fd66mr4554277oiw.96.1662757755081; Fri, 09
+ Sep 2022 14:09:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220908085022.1263639-1-jfalempe@redhat.com>
-In-Reply-To: <20220908085022.1263639-1-jfalempe@redhat.com>
+References: <20220909195330.85888-1-jingyuwang_vip@163.com>
+In-Reply-To: <20220909195330.85888-1-jingyuwang_vip@163.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 9 Sep 2022 17:03:28 -0400
-Message-ID: <CADnq5_P8VRw80TC5Tw6C7vYvgM5+-DP1=Uoz_TesBZ19OpD1=w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove var declaration in
- dcn32_full_validate_bw_helper()
-To: Jocelyn Falempe <jfalempe@redhat.com>
+Date: Fri, 9 Sep 2022 17:09:03 -0400
+Message-ID: <CADnq5_P+iumnU+UPk5=HjYD7ie5Kr+dYy0j6vPTRycH-H-nBeA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu/display: remove unneeded "default n" options
+To: Jingyu Wang <jingyuwang_vip@163.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,48 +64,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, Ethan.Wellenreiter@amd.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: airlied@linux.ie, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, arry.wentland@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Already fixed a few days ago.  Thanks for the patch.
+Applied.  Thanks,
 
 Alex
 
-On Thu, Sep 8, 2022 at 4:51 AM Jocelyn Falempe <jfalempe@redhat.com> wrote:
+On Fri, Sep 9, 2022 at 3:54 PM Jingyu Wang <jingyuwang_vip@163.com> wrote:
 >
-> The variable i is already declared as uint32_t in the same function.
+> Remove "default n" options. If the "default" line is removed, it
+> defaults to 'n'.
 >
-> This fixes the following error, when compiling this code on older kernel:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c: In function 'dcn32_full_validate_bw_helper':
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:1018:3: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
->    for (int i = 0; i < dc->res_pool->pipe_count; i++) {
->    ^~~
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:1018:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:982:11: error: unused variable 'i' [-Werror=unused-variable]
->   uint32_t i = 0;
->
-> Fixes: f5b9c1ffabce ("drm/amd/display: Re-initialize viewport after pipe merge")
->
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> Signed-off-by: Jingyu Wang <jingyuwang_vip@163.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/display/Kconfig | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-> index 8e4c9d0887ce..56f02b1ea808 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-> @@ -1015,7 +1015,7 @@ static void dcn32_full_validate_bw_helper(struct dc *dc,
+> diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
+> index 413d8c6d592f..6925e0280dbe 100644
+> --- a/drivers/gpu/drm/amd/display/Kconfig
+> +++ b/drivers/gpu/drm/amd/display/Kconfig
+> @@ -28,7 +28,6 @@ config DRM_AMD_DC_SI
+>         bool "AMD DC support for Southern Islands ASICs"
+>         depends on DRM_AMDGPU_SI
+>         depends on DRM_AMD_DC
+> -       default n
+>         help
+>           Choose this option to enable new AMD DC support for SI asics
+>           by default. This includes Tahiti, Pitcairn, Cape Verde, Oland.
+> @@ -43,7 +42,6 @@ config DEBUG_KERNEL_DC
 >
->                 dcn32_merge_pipes_for_subvp(dc, context);
->                 // to re-initialize viewport after the pipe merge
-> -               for (int i = 0; i < dc->res_pool->pipe_count; i++) {
-> +               for (i = 0; i < dc->res_pool->pipe_count; i++) {
->                         struct pipe_ctx *pipe_ctx = &context->res_ctx.pipe_ctx[i];
+>  config DRM_AMD_SECURE_DISPLAY
+>          bool "Enable secure display support"
+> -        default n
+>          depends on DEBUG_FS
+>          depends on DRM_AMD_DC_DCN
+>          help
 >
->                         if (!pipe_ctx->plane_state || !pipe_ctx->stream)
+> base-commit: 5957ac6635a1a12d4aa2661bbf04d3085a73372a
 > --
-> 2.37.3
+> 2.34.1
 >
