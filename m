@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 594985B2B0D
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 02:18:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E05B5B2B0F
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 02:18:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6BB10E873;
-	Fri,  9 Sep 2022 00:17:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9CA010E8C3;
+	Fri,  9 Sep 2022 00:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2A7A10E87B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00D2F10E87C;
  Fri,  9 Sep 2022 00:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662682605; x=1694218605;
+ t=1662682606; x=1694218606;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lTLWgolTrW4biwxf7YxUSJzLVmdGuEAZmEc0fjJIyc0=;
- b=KSLbAUX145Nma3JjwTeIGtlZZp4pCQI5A+UwUGcDZnnVvHDuf12M2q9b
- nL2fZaJ/Cje30dcnvp1hz8ZkWt/Enhhk0E0g/T+3uezjfPTiDadYMl9bT
- ttNzdv1bWAc4g19apknU3sDdTLRPd4JKwWc029dfiz+R9bbtkFK+fyiB6
- og5QEKaNnraQFaIMM7R/1C6xDA6cVetGmhBxSFlSogIvtllh91TvGPW9T
- e97E92NZkZMWJlD/cqUmZ0QtloiRYXjcSYC4WoL2VCUgRoVghG8pbzk9M
- VZoLcxWgvLrWiiksxhuw4YMVPuXEkgG5954jTf4DT2Qr0vx+Fq6abtMTz w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="294938845"
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="294938845"
+ bh=k/pvbPW3wwaX2jC/RyOHzw1x6ZqHDyTDvKOqsKADVME=;
+ b=c09tQ4OGXCs7iK7uvs5HjyWag1Fz3UoW5AGb5bh20b57JoyhC6fTA760
+ ZTfydIVh0LKdR6dKUkIbDHrn6PytapSY+J7o8C+rlmQh40WUzqjqu/CFE
+ u00fu4XU0VsalUqNFbl3L+fMJrpp4rB/pSLMuj2TiODe6UJkvflqKQjuq
+ uSIIzeboqoZSJNYSkT7NuDxpsLjkW5ElAAtG8iaiDcn7Q9zU0j4TsuhYg
+ A+mMaOVTbqbZF3e03Zo3mIqd/Bck9u+QJU4QosiRN/PRQH4v3OCFteaag
+ lHIp/jIvpWmOGJnXN22iSNPLBjWrHit4CVyW4zS+fuSIVQ7fIQfjl0Y2l g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="294938846"
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="294938846"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2022 17:16:42 -0700
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="676933202"
+ 08 Sep 2022 17:16:43 -0700
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="676933213"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2022 17:16:41 -0700
+ 08 Sep 2022 17:16:43 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 05/15] mei: pxp: add command streamer API to the PXP driver
-Date: Thu,  8 Sep 2022 17:16:02 -0700
-Message-Id: <20220909001612.728451-6-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v4 06/15] mei: pxp: support matching with a gfx discrete card
+Date: Thu,  8 Sep 2022 17:16:03 -0700
+Message-Id: <20220909001612.728451-7-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220909001612.728451-1-daniele.ceraolospurio@intel.com>
 References: <20220909001612.728451-1-daniele.ceraolospurio@intel.com>
@@ -64,99 +64,59 @@ Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vitaly Lubart <vitaly.lubart@intel.com>
+From: Tomas Winkler <tomas.winkler@intel.com>
 
-The discrete graphics card with GSC firmware
-using command streamer API hence it requires to enhance
-pxp module with the new gsc_command() handler.
-
-The handler is implemented via mei_pxp_gsc_command() which is
-just a thin wrapper around mei_cldev_send_gsc_command()
+With on-boards graphics card, both i915 and MEI
+are in the same device hierarchy with the same parent,
+while for discrete gfx card the MEI is its child device.
+Adjust the match function for that scenario
+by matching MEI parent device with i915.
 
 V2:
  1. More detailed commit message
- 2. Fix typo in the comments
-V3: Rebase
-V4:
-1. Use forward declaration for struct scatterlist (Jani)
-2. Drop double 'just' in the commit message
+ 2. Check for dev is not null before it is accessed.
 
-Signed-off-by: Vitaly Lubart <vitaly.lubart@intel.com>
 Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Vitaly Lubart <vitaly.lubart@intel.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- drivers/misc/mei/pxp/mei_pxp.c       | 28 ++++++++++++++++++++++++++++
- include/drm/i915_pxp_tee_interface.h |  5 +++++
- 2 files changed, 33 insertions(+)
+ drivers/misc/mei/pxp/mei_pxp.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/misc/mei/pxp/mei_pxp.c b/drivers/misc/mei/pxp/mei_pxp.c
-index 5c39457e3f53..17c5d201603f 100644
+index 17c5d201603f..afc047627800 100644
 --- a/drivers/misc/mei/pxp/mei_pxp.c
 +++ b/drivers/misc/mei/pxp/mei_pxp.c
-@@ -77,10 +77,38 @@ mei_pxp_receive_message(struct device *dev, void *buffer, size_t size)
- 	return byte;
+@@ -159,17 +159,24 @@ static int mei_pxp_component_match(struct device *dev, int subcomponent,
+ {
+ 	struct device *base = data;
+ 
++	if (!dev)
++		return 0;
++
+ 	if (!dev->driver || strcmp(dev->driver->name, "i915") ||
+ 	    subcomponent != I915_COMPONENT_PXP)
+ 		return 0;
+ 
+ 	base = base->parent;
+-	if (!base)
++	if (!base) /* mei device */
+ 		return 0;
+ 
+-	base = base->parent;
+-	dev = dev->parent;
++	base = base->parent; /* pci device */
++	/* for dgfx */
++	if (base && dev == base)
++		return 1;
+ 
++	/* for pch */
++	dev = dev->parent;
+ 	return (base && dev && dev == base);
  }
  
-+/**
-+ * mei_pxp_gsc_command() - sends a gsc command, by sending
-+ * a sgl mei message to gsc and receiving reply from gsc
-+ *
-+ * @dev: device corresponding to the mei_cl_device
-+ * @client_id: client id to send the command to
-+ * @fence_id: fence id to send the command to
-+ * @sg_in: scatter gather list containing addresses for rx message buffer
-+ * @total_in_len: total length of data in 'in' sg, can be less than the sum of buffers sizes
-+ * @sg_out: scatter gather list containing addresses for tx message buffer
-+ *
-+ * Return: bytes sent on Success, <0 on Failure
-+ */
-+static ssize_t mei_pxp_gsc_command(struct device *dev, u8 client_id, u32 fence_id,
-+				   struct scatterlist *sg_in, size_t total_in_len,
-+				   struct scatterlist *sg_out)
-+{
-+	struct mei_cl_device *cldev;
-+
-+	if (!dev || !sg_in || !sg_out)
-+		return -EINVAL;
-+
-+	cldev = to_mei_cl_device(dev);
-+
-+	return mei_cldev_send_gsc_command(cldev, client_id, fence_id, sg_in, total_in_len, sg_out);
-+}
-+
- static const struct i915_pxp_component_ops mei_pxp_ops = {
- 	.owner = THIS_MODULE,
- 	.send = mei_pxp_send_message,
- 	.recv = mei_pxp_receive_message,
-+	.gsc_command = mei_pxp_gsc_command,
- };
- 
- static int mei_component_master_bind(struct device *dev)
-diff --git a/include/drm/i915_pxp_tee_interface.h b/include/drm/i915_pxp_tee_interface.h
-index af593ec64469..a702b6ec17f7 100644
---- a/include/drm/i915_pxp_tee_interface.h
-+++ b/include/drm/i915_pxp_tee_interface.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/mutex.h>
- #include <linux/device.h>
-+struct scatterlist;
- 
- /**
-  * struct i915_pxp_component_ops - ops for PXP services.
-@@ -23,6 +24,10 @@ struct i915_pxp_component_ops {
- 
- 	int (*send)(struct device *dev, const void *message, size_t size);
- 	int (*recv)(struct device *dev, void *buffer, size_t size);
-+	ssize_t (*gsc_command)(struct device *dev, u8 client_id, u32 fence_id,
-+			       struct scatterlist *sg_in, size_t total_in_len,
-+			       struct scatterlist *sg_out);
-+
- };
- 
- /**
 -- 
 2.37.2
 
