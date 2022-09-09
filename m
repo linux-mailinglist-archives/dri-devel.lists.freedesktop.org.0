@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17B95B2C7C
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 05:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30465B2C6E
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 05:05:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7594A10EA3B;
-	Fri,  9 Sep 2022 03:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE93210E2EE;
+	Fri,  9 Sep 2022 03:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8890910EA2F;
- Fri,  9 Sep 2022 03:05:15 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70B9F10EA2D;
+ Fri,  9 Sep 2022 03:04:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662692715; x=1694228715;
+ t=1662692698; x=1694228698;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QCqnH5yyFKRSM/tDdALx86Zz7Ypn4WP/5pwxdmZHGPQ=;
- b=GKxIxp1QJISRJd6swfohytwhj8r7CUn5j6n/fNNTbT3rR+uKwOE6+6IN
- sQ5RSZx0eZ+RxBiUAmMr9cem12u30Z9bTubhiGVViRfVQtD/jwOCKf5nG
- 2igjI8sD7MDohI+UTl2nQox8IE6QkKTBph0ZwHr8Oe1IJbrHkw6cpjk+V
- ziJFFJ8RuZyotsinEZ6RWOVZjX6KpzYpKskcnVJjOJJYkRySaiw0CySOp
- RgSyiNpWu+jbssAjBxTFadmlaYABjqT7acSUNKML4lSTj70t7+yfU/iW2
- Y9RQKPzJDQ0j2kHjcZECB2n+H2Qn9qzhizkQC1+KGTzj29mPvMXRlDmP+ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="280410084"
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="280410084"
+ bh=eaCLetd3P35bUmOh4svxRrc/KVF//VLSz2q4OGmo054=;
+ b=lNmiazWrD5XssoxOfwQyzkAE3lnevlFZOitVWU8tmi0xgU/r/1X7Cc0V
+ UhWyxkiIB5PX5hFJX3lsbuMR2lRypCE0qusYWn2EfD3LbmRr64ekoNrXo
+ ilZhxW3i2T0TouEX6zhKprKSLxWxN9sLEPRDwRn5mqJYzNSSkOoskStdO
+ Eim0HmpnhhH8svWK7rjGAl5zAsHpj/3roxQMFkEPzzT21l43P2PCkxW3p
+ /KLbAhfhAkbOKqqy2vYdu/qt0taqT9hCGgvONkcuJ7xSvwwVOEm4w7Prr
+ pblcgRq95Btz72FjRlcxh+nYK3awi3/WNq34lfRss4RGNQSoZLt1USPl6 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="297382006"
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="297382006"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2022 20:04:22 -0700
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2022 20:04:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="740908783"
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="740908911"
 Received: from sqa-gate.sh.intel.com (HELO michael.clx.dev.tsp.org)
  ([10.239.48.212])
- by orsmga004.jf.intel.com with ESMTP; 08 Sep 2022 20:04:13 -0700
+ by orsmga004.jf.intel.com with ESMTP; 08 Sep 2022 20:04:22 -0700
 From: Kevin Tian <kevin.tian@intel.com>
 To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -62,9 +62,9 @@ To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-s390@vger.kernel.org, kvm@vger.kernel.org
-Subject: [PATCH v3 05/15] vfio/mdpy: Use the new device life cycle helpers
-Date: Fri,  9 Sep 2022 18:22:37 +0800
-Message-Id: <20220909102247.67324-6-kevin.tian@intel.com>
+Subject: [PATCH v3 06/15] vfio/mtty: Use the new device life cycle helpers
+Date: Fri,  9 Sep 2022 18:22:38 +0800
+Message-Id: <20220909102247.67324-7-kevin.tian@intel.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20220909102247.67324-1-kevin.tian@intel.com>
 References: <20220909102247.67324-1-kevin.tian@intel.com>
@@ -88,148 +88,134 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yi Liu <yi.l.liu@intel.com>
 
-and manage mdpy_count inside @init/@release.
+and manage available ports inside @init/@release.
 
 Signed-off-by: Yi Liu <yi.l.liu@intel.com>
 Signed-off-by: Kevin Tian <kevin.tian@intel.com>
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- samples/vfio-mdev/mdpy.c | 81 +++++++++++++++++++++++-----------------
- 1 file changed, 47 insertions(+), 34 deletions(-)
+ samples/vfio-mdev/mtty.c | 67 +++++++++++++++++++++++-----------------
+ 1 file changed, 39 insertions(+), 28 deletions(-)
 
-diff --git a/samples/vfio-mdev/mdpy.c b/samples/vfio-mdev/mdpy.c
-index e8c46eb2e246..a07dac16d873 100644
---- a/samples/vfio-mdev/mdpy.c
-+++ b/samples/vfio-mdev/mdpy.c
-@@ -216,61 +216,77 @@ static int mdpy_reset(struct mdev_state *mdev_state)
- 	return 0;
+diff --git a/samples/vfio-mdev/mtty.c b/samples/vfio-mdev/mtty.c
+index f42a59ed2e3f..41301d50b247 100644
+--- a/samples/vfio-mdev/mtty.c
++++ b/samples/vfio-mdev/mtty.c
+@@ -703,9 +703,11 @@ static ssize_t mdev_access(struct mdev_state *mdev_state, u8 *buf, size_t count,
+ 	return ret;
  }
  
--static int mdpy_probe(struct mdev_device *mdev)
-+static int mdpy_init_dev(struct vfio_device *vdev)
+-static int mtty_probe(struct mdev_device *mdev)
++static int mtty_init_dev(struct vfio_device *vdev)
  {
+-	struct mdev_state *mdev_state;
 +	struct mdev_state *mdev_state =
 +		container_of(vdev, struct mdev_state, vdev);
 +	struct mdev_device *mdev = to_mdev_device(vdev->dev);
- 	const struct mdpy_type *type =
- 		&mdpy_types[mdev_get_type_group_id(mdev)];
--	struct device *dev = mdev_dev(mdev);
--	struct mdev_state *mdev_state;
- 	u32 fbsize;
--	int ret;
-+	int ret = -ENOMEM;
+ 	int nr_ports = mdev_get_type_group_id(mdev) + 1;
+ 	int avail_ports = atomic_read(&mdev_avail_ports);
+ 	int ret;
+@@ -716,58 +718,65 @@ static int mtty_probe(struct mdev_device *mdev)
+ 	} while (!atomic_try_cmpxchg(&mdev_avail_ports,
+ 				     &avail_ports, avail_ports - nr_ports));
  
- 	if (mdpy_count >= max_devices)
--		return -ENOMEM;
--
 -	mdev_state = kzalloc(sizeof(struct mdev_state), GFP_KERNEL);
--	if (mdev_state == NULL)
--		return -ENOMEM;
--	vfio_init_group_dev(&mdev_state->vdev, &mdev->dev, &mdpy_dev_ops);
-+		return ret;
+-	if (mdev_state == NULL) {
+-		ret = -ENOMEM;
+-		goto err_nr_ports;
+-	}
+-
+-	vfio_init_group_dev(&mdev_state->vdev, &mdev->dev, &mtty_dev_ops);
+-
+ 	mdev_state->nr_ports = nr_ports;
+ 	mdev_state->irq_index = -1;
+ 	mdev_state->s[0].max_fifo_size = MAX_FIFO_SIZE;
+ 	mdev_state->s[1].max_fifo_size = MAX_FIFO_SIZE;
+ 	mutex_init(&mdev_state->rxtx_lock);
+-	mdev_state->vconfig = kzalloc(MTTY_CONFIG_SPACE_SIZE, GFP_KERNEL);
  
- 	mdev_state->vconfig = kzalloc(MDPY_CONFIG_SPACE_SIZE, GFP_KERNEL);
 -	if (mdev_state->vconfig == NULL) {
--		ret = -ENOMEM;
++	mdev_state->vconfig = kzalloc(MTTY_CONFIG_SPACE_SIZE, GFP_KERNEL);
++	if (!mdev_state->vconfig) {
+ 		ret = -ENOMEM;
 -		goto err_state;
--	}
-+	if (!mdev_state->vconfig)
-+		return ret;
- 
- 	fbsize = roundup_pow_of_two(type->width * type->height * type->bytepp);
- 
- 	mdev_state->memblk = vmalloc_user(fbsize);
--	if (!mdev_state->memblk) {
--		ret = -ENOMEM;
--		goto err_vconfig;
--	}
--	dev_info(dev, "%s: %s (%dx%d)\n", __func__, type->name, type->width,
--		 type->height);
-+	if (!mdev_state->memblk)
-+		goto out_vconfig;
++		goto err_nr_ports;
+ 	}
  
  	mutex_init(&mdev_state->ops_lock);
  	mdev_state->mdev = mdev;
--	mdev_state->type    = type;
-+	mdev_state->type = type;
- 	mdev_state->memsize = fbsize;
- 	mdpy_create_config_space(mdev_state);
- 	mdpy_reset(mdev_state);
- 
-+	dev_info(vdev->dev, "%s: %s (%dx%d)\n", __func__, type->name, type->width,
-+		 type->height);
-+
- 	mdpy_count++;
+-
+ 	mtty_create_config_space(mdev_state);
 +	return 0;
 +
-+out_vconfig:
-+	kfree(mdev_state->vconfig);
++err_nr_ports:
++	atomic_add(nr_ports, &mdev_avail_ports);
 +	return ret;
 +}
 +
-+static int mdpy_probe(struct mdev_device *mdev)
++static int mtty_probe(struct mdev_device *mdev)
 +{
 +	struct mdev_state *mdev_state;
 +	int ret;
 +
 +	mdev_state = vfio_alloc_device(mdev_state, vdev, &mdev->dev,
-+				       &mdpy_dev_ops);
++				       &mtty_dev_ops);
 +	if (IS_ERR(mdev_state))
 +		return PTR_ERR(mdev_state);
  
  	ret = vfio_register_emulated_iommu_dev(&mdev_state->vdev);
  	if (ret)
--		goto err_mem;
+-		goto err_vconfig;
 +		goto err_put_vdev;
  	dev_set_drvdata(&mdev->dev, mdev_state);
  	return 0;
--err_mem:
-+
+ 
+-err_vconfig:
+-	kfree(mdev_state->vconfig);
+-err_state:
+-	vfio_uninit_group_dev(&mdev_state->vdev);
+-	kfree(mdev_state);
+-err_nr_ports:
+-	atomic_add(nr_ports, &mdev_avail_ports);
 +err_put_vdev:
 +	vfio_put_device(&mdev_state->vdev);
-+	return ret;
-+}
-+
-+static void mdpy_release_dev(struct vfio_device *vdev)
+ 	return ret;
+ }
+ 
++static void mtty_release_dev(struct vfio_device *vdev)
 +{
 +	struct mdev_state *mdev_state =
 +		container_of(vdev, struct mdev_state, vdev);
 +
- 	vfree(mdev_state->memblk);
--err_vconfig:
- 	kfree(mdev_state->vconfig);
--err_state:
--	vfio_uninit_group_dev(&mdev_state->vdev);
--	kfree(mdev_state);
--	return ret;
++	kfree(mdev_state->vconfig);
 +	vfio_free_device(vdev);
-+	mdpy_count--;
- }
- 
- static void mdpy_remove(struct mdev_device *mdev)
-@@ -280,12 +296,7 @@ static void mdpy_remove(struct mdev_device *mdev)
- 	dev_info(&mdev->dev, "%s\n", __func__);
++	atomic_add(mdev_state->nr_ports, &mdev_avail_ports);
++}
++
+ static void mtty_remove(struct mdev_device *mdev)
+ {
+ 	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
+-	int nr_ports = mdev_state->nr_ports;
  
  	vfio_unregister_group_dev(&mdev_state->vdev);
--	vfree(mdev_state->memblk);
+-
 -	kfree(mdev_state->vconfig);
 -	vfio_uninit_group_dev(&mdev_state->vdev);
 -	kfree(mdev_state);
--
--	mdpy_count--;
+-	atomic_add(nr_ports, &mdev_avail_ports);
 +	vfio_put_device(&mdev_state->vdev);
  }
  
- static ssize_t mdpy_read(struct vfio_device *vdev, char __user *buf,
-@@ -708,6 +719,8 @@ static struct attribute_group *mdev_type_groups[] = {
- };
+ static int mtty_reset(struct mdev_state *mdev_state)
+@@ -1287,6 +1296,8 @@ static struct attribute_group *mdev_type_groups[] = {
  
- static const struct vfio_device_ops mdpy_dev_ops = {
-+	.init = mdpy_init_dev,
-+	.release = mdpy_release_dev,
- 	.read = mdpy_read,
- 	.write = mdpy_write,
- 	.ioctl = mdpy_ioctl,
+ static const struct vfio_device_ops mtty_dev_ops = {
+ 	.name = "vfio-mtty",
++	.init = mtty_init_dev,
++	.release = mtty_release_dev,
+ 	.read = mtty_read,
+ 	.write = mtty_write,
+ 	.ioctl = mtty_ioctl,
 -- 
 2.21.3
 
