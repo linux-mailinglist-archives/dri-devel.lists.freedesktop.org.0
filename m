@@ -1,28 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4115B3625
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:17:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCA35B3628
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:17:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A749310EC74;
-	Fri,  9 Sep 2022 11:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D452710EC79;
+	Fri,  9 Sep 2022 11:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B28E210EC72
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 11:16:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 349FB10EC72
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 11:16:46 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1oWc04-0002dP-2x; Fri, 09 Sep 2022 13:16:44 +0200
+ id 1oWc04-0002dP-Ir; Fri, 09 Sep 2022 13:16:44 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: linux-mm@kvack.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 1/5] mm: add MM_DRIVERPAGES
-Date: Fri,  9 Sep 2022 13:16:36 +0200
-Message-Id: <20220909111640.3789791-2-l.stach@pengutronix.de>
+Subject: [RFC PATCH 2/5] drm/gem: track mm struct of allocating process in gem
+ object
+Date: Fri,  9 Sep 2022 13:16:37 +0200
+Message-Id: <20220909111640.3789791-3-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220909111640.3789791-1-l.stach@pengutronix.de>
 References: <20220909111640.3789791-1-l.stach@pengutronix.de>
@@ -52,90 +53,70 @@ Cc: Michal Hocko <mhocko@suse.com>, kernel@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds a mm counter for pages allocated by a driver on behalf of
-a userspace task.
-
-Especially with DRM drivers there can be large amounts of pages that
-are never mapped into userspace and thus are not tracked by the usual
-ANONPAGES mmap accounting, as those pages are only ever touched by the
-device. They can make up a significant portion of the tasks resident
-memory size, but are currently not visible in any of the memory
-statistics visible to userspace and the OOM handling.
-
-Add the counter to allow tracking such memory, which allows to make
-more sensible decisions in the OOM handling as well as allowing
-userspace some better insight into the real system memory usage.
+This keeps around a weak reference to the struct mm of the process
+allocating the GEM object. This allows us to charge/uncharge the
+process with the allocated backing store memory, even if this is
+happening from another context.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- fs/proc/task_mmu.c            | 6 ++++--
- include/linux/mm.h            | 3 ++-
- include/linux/mm_types_task.h | 1 +
- kernel/fork.c                 | 1 +
- 4 files changed, 8 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_gem.c |  5 +++++
+ include/drm/drm_gem.h     | 12 ++++++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index a3398d0f1927..80b095a233bf 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -33,7 +33,8 @@ void task_mem(struct seq_file *m, struct mm_struct *mm)
- 	unsigned long text, lib, swap, anon, file, shmem;
- 	unsigned long hiwater_vm, total_vm, hiwater_rss, total_rss;
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 86d670c71286..b882f935cd4b 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -36,6 +36,7 @@
+ #include <linux/pagemap.h>
+ #include <linux/pagevec.h>
+ #include <linux/shmem_fs.h>
++#include <linux/sched/mm.h>
+ #include <linux/slab.h>
+ #include <linux/string_helpers.h>
+ #include <linux/types.h>
+@@ -157,6 +158,9 @@ void drm_gem_private_object_init(struct drm_device *dev,
+ 	obj->dev = dev;
+ 	obj->filp = NULL;
  
--	anon = get_mm_counter(mm, MM_ANONPAGES);
-+	anon = get_mm_counter(mm, MM_ANONPAGES) +
-+	       get_mm_counter(mm, MM_DRIVERPAGES);
- 	file = get_mm_counter(mm, MM_FILEPAGES);
- 	shmem = get_mm_counter(mm, MM_SHMEMPAGES);
++	mmgrab(current->mm);
++	obj->mm = current->mm;
++
+ 	kref_init(&obj->refcount);
+ 	obj->handle_count = 0;
+ 	obj->size = size;
+@@ -949,6 +953,7 @@ drm_gem_object_release(struct drm_gem_object *obj)
+ 	if (obj->filp)
+ 		fput(obj->filp);
  
-@@ -94,7 +95,8 @@ unsigned long task_statm(struct mm_struct *mm,
- 	*text = (PAGE_ALIGN(mm->end_code) - (mm->start_code & PAGE_MASK))
- 								>> PAGE_SHIFT;
- 	*data = mm->data_vm + mm->stack_vm;
--	*resident = *shared + get_mm_counter(mm, MM_ANONPAGES);
-+	*resident = *shared + get_mm_counter(mm, MM_ANONPAGES) +
-+		    get_mm_counter(mm, MM_DRIVERPAGES);
- 	return mm->total_vm;
++	mmdrop(obj->mm);
+ 	dma_resv_fini(&obj->_resv);
+ 	drm_gem_free_mmap_offset(obj);
  }
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index 87cffc9efa85..d021a083c282 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -234,6 +234,18 @@ struct drm_gem_object {
+ 	 */
+ 	struct drm_vma_offset_node vma_node;
  
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 3bedc449c14d..2cc014d1ea27 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2003,7 +2003,8 @@ static inline unsigned long get_mm_rss(struct mm_struct *mm)
- {
- 	return get_mm_counter(mm, MM_FILEPAGES) +
- 		get_mm_counter(mm, MM_ANONPAGES) +
--		get_mm_counter(mm, MM_SHMEMPAGES);
-+		get_mm_counter(mm, MM_SHMEMPAGES) +
-+		get_mm_counter(mm, MM_DRIVERPAGES);
- }
- 
- static inline unsigned long get_mm_hiwater_rss(struct mm_struct *mm)
-diff --git a/include/linux/mm_types_task.h b/include/linux/mm_types_task.h
-index c1bc6731125c..420d88e79906 100644
---- a/include/linux/mm_types_task.h
-+++ b/include/linux/mm_types_task.h
-@@ -45,6 +45,7 @@ enum {
- 	MM_ANONPAGES,	/* Resident anonymous pages */
- 	MM_SWAPENTS,	/* Anonymous swap entries */
- 	MM_SHMEMPAGES,	/* Resident shared memory pages */
-+	MM_DRIVERPAGES,	/* pages allocated by a driver on behalf of a task */
- 	NR_MM_COUNTERS
- };
- 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 90c85b17bf69..74a07a2288ba 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -135,6 +135,7 @@ static const char * const resident_page_types[] = {
- 	NAMED_ARRAY_INDEX(MM_ANONPAGES),
- 	NAMED_ARRAY_INDEX(MM_SWAPENTS),
- 	NAMED_ARRAY_INDEX(MM_SHMEMPAGES),
-+	NAMED_ARRAY_INDEX(MM_DRIVERPAGES),
- };
- 
- DEFINE_PER_CPU(unsigned long, process_counts) = 0;
++	/**
++	 * @mm:
++	 *
++	 * mm struct of the process creating the object. Used to account the
++	 * allocated backing store memory.
++	 *
++	 * Note that this is a weak reference created by mmgrab(), so any
++	 * manipulation needs to make sure the address space is still around by
++	 * calling mmget_not_zero().
++	 */
++	struct mm_struct *mm;
++
+ 	/**
+ 	 * @size:
+ 	 *
 -- 
 2.30.2
 
