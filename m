@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F485B3000
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 09:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9665B3008
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 09:36:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 476A310EC0F;
-	Fri,  9 Sep 2022 07:35:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8DE10EBFB;
+	Fri,  9 Sep 2022 07:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDF010EBEC;
- Fri,  9 Sep 2022 07:34:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19E1C10EBEE;
+ Fri,  9 Sep 2022 07:34:56 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 02B9861EDC;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 92C2261EE8;
  Fri,  9 Sep 2022 07:34:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0070C43141;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBCA1C43149;
  Fri,  9 Sep 2022 07:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662708893;
- bh=2PT4bPREhrbF+AiByaJTTdJleitJm880geBkmK8/S7M=;
+ s=k20201202; t=1662708894;
+ bh=jQl58GjfNBu0f/gXOHTX8VoSkcp6l0MUV948MF+ogsA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=r2gljyZ6GsQGljtEgR2NW0M5K7f4uzuO36jv0DkaEjmLUs6KPkXKE6nvocv/yeCP2
- keZeb9G7o1ZAB+Vxzf0ScDL4reOJKyeoxXOJJrMhwEIwY2SEuvroqsbN/SgZbvHdJD
- 0mVvgKpZxtfR+I75fakZ0umXZsKwuuaLKZF72UQMgcAQzgetx45vvmOp5Pcj/Ba7T1
- q5CP1sDTEUcbWcAdbatdhT5gly1gjtAGJ4MLu+7xI9Zlu83iVuw/Dmp69iOIAvvGZ8
- hiy0LXzUT5glFeLG4CP5S1dC4ixtFJ9OCAoeDnqMPOBzR38mfWk6vmKTzctpaHCaa+
- 4u1MovExF851g==
+ b=Ks/CD4x7yrJuVcANT2t3Af82tH0XCLCqaYE9cAIsy/IZTNWgX+Ze6eY72naIBT9BD
+ tv1cxlOhIbMBGkdQ55yTbf+BVRGqRkiNvw+mHvlTZtucJWvoFQfgX1OOyq6X8bQPf4
+ VkYEw2ip1Qf3XYtO1yv5eeROPuU7bsaNjRusm7SAhCcBu4IG3PlXWnDKxIAgFQyRaZ
+ 5IldPDV81jcEaMwyw4+kb+Cy9eEcHGDwZNQ/xn4rgox6NDM64HhHqHzmuDy9GyIfq6
+ PcO/2k0MIh90mLGjr+NyOv+LpfEd8FrZES5tZKD25UQSEP6XtVzfz7zl1ZUpa9bYBF
+ PMezXrEc0hCNQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oWYXF-007FFz-RN;
+ (envelope-from <mchehab@kernel.org>) id 1oWYXF-007FG3-Sn;
  Fri, 09 Sep 2022 09:34:45 +0200
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH v3 06/37] drm/i915: intel_wakeref.h: fix some kernel-doc
- markups
-Date: Fri,  9 Sep 2022 09:34:13 +0200
-Message-Id: <47ab1115766067abbb168d082d875a00261c19e1.1662708705.git.mchehab@kernel.org>
+Subject: [PATCH v3 07/37] drm/i915: i915_gem_ttm: fix a kernel-doc markup
+Date: Fri,  9 Sep 2022 09:34:14 +0200
+Message-Id: <79c409fa6840fefd39dc057dc558c69807c65b3f.1662708705.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <cover.1662708705.git.mchehab@kernel.org>
 References: <cover.1662708705.git.mchehab@kernel.org>
@@ -55,56 +54,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, intel-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Two documented functions don't match the kernel-doc comments,
-as reported by kernel-doc:
+Two new fields were added to __i915_gem_ttm_object_init() without
+their corresponding documentation.
 
-	drivers/gpu/drm/i915/intel_wakeref.h:117: warning: expecting prototype for intel_wakeref_get_if_in_use(). Prototype was for intel_wakeref_get_if_active() instead
-	drivers/gpu/drm/i915/intel_wakeref.h:149: warning: expecting prototype for intel_wakeref_put_flags(). Prototype was for __intel_wakeref_put() instead
+Document them.
 
-Fix them.
-
-Additionally, improve title for intel_wakeref_get_if_active().
-
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Fixes: 9b78b5dade2d ("drm/i915: add i915_gem_object_create_region_at()")
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v3 00/37] at: https://lore.kernel.org/all/cover.1662708705.git.mchehab@kernel.org/
 
- drivers/gpu/drm/i915/intel_wakeref.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
-index 4f4c2e15e736..63e539c9b1f3 100644
---- a/drivers/gpu/drm/i915/intel_wakeref.h
-+++ b/drivers/gpu/drm/i915/intel_wakeref.h
-@@ -104,7 +104,7 @@ __intel_wakeref_get(struct intel_wakeref *wf)
- }
- 
- /**
-- * intel_wakeref_get_if_in_use: Acquire the wakeref
-+ * intel_wakeref_get_if_active: Acquire the wakeref if active
-  * @wf: the wakeref
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index f64a3deb12fc..f5fb06d74f13 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -1148,7 +1148,9 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
+  * __i915_gem_ttm_object_init - Initialize a ttm-backed i915 gem object
+  * @mem: The initial memory region for the object.
+  * @obj: The gem object.
++ * @offset: The range start.
+  * @size: Object size in bytes.
++ * @page_size: The requested page size in bytes for this object.
+  * @flags: gem object flags.
   *
-  * Acquire a hold on the wakeref, but only if the wakeref is already
-@@ -130,7 +130,7 @@ intel_wakeref_might_get(struct intel_wakeref *wf)
- }
- 
- /**
-- * intel_wakeref_put_flags: Release the wakeref
-+ * __intel_wakeref_put: Release the wakeref
-  * @wf: the wakeref
-  * @flags: control flags
-  *
+  * Return: 0 on success, negative error code on failure.
 -- 
 2.37.3
 
