@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9E25B2B05
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 02:17:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE255B2B12
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 02:18:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 816FD10E8BB;
-	Fri,  9 Sep 2022 00:17:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B19910E8C8;
+	Fri,  9 Sep 2022 00:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8230410E877;
- Fri,  9 Sep 2022 00:16:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7006F10E879;
+ Fri,  9 Sep 2022 00:16:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662682610; x=1694218610;
+ t=1662682611; x=1694218611;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Pbry/pNX7CjfzjyPD01dyyAXNFWbL9GkClXqPZQL8nY=;
- b=FZ/tLSmuaKHSZ1VqtkFlPirxL1I5DptDQEKuYPEcyL/ata6afBSR5R+a
- SQShojfkN8WSKMJ1eIaHQDhkaF75uvcGvJ+3xRHbvavt62oNwj/gQgUus
- o+YsT310ekeuxvF9Xl7ZAjI/i1/uaU60CySKoqz23l88fuIVmHYOA/nyj
- YlXd/q8L6muVEBHlSibDePiVLGILEYrCK49mBENaWtp6qY4S8yojmbSZy
- 7Fj6Ea1o7sJ3BssJ+GBfNXITTArGTCnAepk2t5ZuHt+e+5h8gx4v7OQTD
- K4OHMptk3ybCUOciZIEnQVa/oJhmWmKXpQVeL2yvXPPBY6Pz96vH4r2s9 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="294938870"
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="294938870"
+ bh=NQeGmyz7e4snYk0JZGV+m6BDoQeWjJqULacBYmZ/P0Y=;
+ b=AeJwAikWHy9hZ+cX5Ni6BBiWtxJ5D1/fAMoJXPfVQhhwAN8wg7NZ96I7
+ dboc+k6/BGMtrpyygBLuCRThxJG3b7r0ugVSzMO9fIh0goRbqa9UaKm/4
+ Kvo/wtk/oQRJn9wzzWv9/X4gfxs0nJF61QXsD0Ds4D2sc6hD1Whi35UfM
+ 2YQg7OsnkGYkDGTctiGkEi7Aq4H9Fmk2ipyIIdJ7svUAJQlha5vbJE+ZC
+ 8sCi52tp7dMW3cSoB5B+G7i5gOPwy7LzV/M9Iz6Gjw6eHSRj8eCKrxmD6
+ WrfbyZF3d85VdG68SpqYV5iyWHkomgEsoflTKH6uvudCtZAZbQIJDALd3 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="294938873"
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="294938873"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2022 17:16:50 -0700
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="676933247"
+ 08 Sep 2022 17:16:51 -0700
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="676933254"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2022 17:16:50 -0700
+ 08 Sep 2022 17:16:51 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 11/15] drm/i915/huc: track delayed HuC load with a fence
-Date: Thu,  8 Sep 2022 17:16:08 -0700
-Message-Id: <20220909001612.728451-12-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v4 12/15] drm/i915/huc: stall media submission until HuC is
+ loaded
+Date: Thu,  8 Sep 2022 17:16:09 -0700
+Message-Id: <20220909001612.728451-13-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220909001612.728451-1-daniele.ceraolospurio@intel.com>
 References: <20220909001612.728451-1-daniele.ceraolospurio@intel.com>
@@ -55,414 +56,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+Cc: Tony Ye <tony.ye@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
  Alan Previn <alan.previn.teres.alexis@intel.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Given that HuC load is delayed on DG2, this patch adds support for a fence
-that can be used to wait for load completion. No waiters are added in this
-patch (they're coming up in the next one), to keep the focus of the
-patch on the tracking logic.
-
-The full HuC loading flow on boot DG2 is as follows:
-1) i915 exports the GSC as an aux device;
-2) the mei-gsc driver is loaded on the aux device;
-3) the mei-pxp component is loaded;
-4) mei-pxp calls back into i915 and we load the HuC.
-
-Between steps 1 and 2 there can be several seconds of gap, mainly due to
-the kernel doing other work during the boot.
-The resume flow is slightly different, because we don't need to
-re-expose or re-probe the aux device, so we go directly to step 3 once
-i915 and mei-gsc have completed their resume flow.
-
-Here's an example of the boot timing, captured with some logs added to
-i915:
-
-[   17.908307] [drm] adding GSC device
-[   17.915717] [drm] i915 probe done
-[   22.282917] [drm] mei-gsc bound
-[   22.938153] [drm] HuC authenticated
-
-Also to note is that if something goes wrong during GSC HW init the
-mei-gsc driver will still bind, but steps 3 and 4 will not happen.
-
-The status tracking is done by registering a bus_notifier to receive a
-callback when the mei-gsc driver binds, with a large enough timeout to
-account for delays. Once mei-gsc is bound, we switch to a smaller
-timeout to wait for the mei-pxp component to load.
-The fence is signalled on HuC load complete or if anything goes wrong in
-any of the tracking steps. Timeout are enforced via hrtimer callbacks.
-
-v2: fix includes (Jani)
+Wait on the fence to be signalled to avoid the submissions finding HuC
+not yet loaded.
 
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com> #v1
+Cc: Tony Ye <tony.ye@intel.com>
+Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gsc.c    |  22 ++-
- drivers/gpu/drm/i915/gt/uc/intel_huc.c | 199 +++++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_huc.h |  23 +++
- 3 files changed, 241 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h |  6 ++++++
+ drivers/gpu/drm/i915/i915_request.c    | 24 ++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gsc.c b/drivers/gpu/drm/i915/gt/intel_gsc.c
-index 7af6db3194dd..f544f70401f8 100644
---- a/drivers/gpu/drm/i915/gt/intel_gsc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gsc.c
-@@ -142,8 +142,14 @@ static void gsc_destroy_one(struct drm_i915_private *i915,
- 	struct intel_gsc_intf *intf = &gsc->intf[intf_id];
- 
- 	if (intf->adev) {
--		auxiliary_device_delete(&intf->adev->aux_dev);
--		auxiliary_device_uninit(&intf->adev->aux_dev);
-+		struct auxiliary_device *aux_dev = &intf->adev->aux_dev;
-+
-+		if (intf_id == 0)
-+			intel_huc_unregister_gsc_notifier(&gsc_to_gt(gsc)->uc.huc,
-+							  aux_dev->dev.bus);
-+
-+		auxiliary_device_delete(aux_dev);
-+		auxiliary_device_uninit(aux_dev);
- 		intf->adev = NULL;
- 	}
- 
-@@ -242,14 +248,24 @@ static void gsc_init_one(struct drm_i915_private *i915, struct intel_gsc *gsc,
- 		goto fail;
- 	}
- 
-+	intf->adev = adev; /* needed by the notifier */
-+
-+	if (intf_id == 0)
-+		intel_huc_register_gsc_notifier(&gsc_to_gt(gsc)->uc.huc,
-+						aux_dev->dev.bus);
-+
- 	ret = auxiliary_device_add(aux_dev);
- 	if (ret < 0) {
- 		drm_err(&i915->drm, "gsc aux add failed %d\n", ret);
-+		if (intf_id == 0)
-+			intel_huc_unregister_gsc_notifier(&gsc_to_gt(gsc)->uc.huc,
-+							  aux_dev->dev.bus);
-+		intf->adev = NULL;
-+
- 		/* adev will be freed with the put_device() and .release sequence */
- 		auxiliary_device_uninit(aux_dev);
- 		goto fail;
- 	}
--	intf->adev = adev;
- 
- 	return;
- fail:
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index f0188931d8e4..13d93e69766f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -10,6 +10,9 @@
- #include "intel_huc.h"
- #include "i915_drv.h"
- 
-+#include <linux/device/bus.h>
-+#include <linux/mei_aux.h>
-+
- /**
-  * DOC: HuC
-  *
-@@ -42,6 +45,164 @@
-  * HuC-specific commands.
-  */
- 
-+/*
-+ * MEI-GSC load is an async process. The probing of the exposed aux device
-+ * (see intel_gsc.c) usually happens a few seconds after i915 probe, depending
-+ * on when the kernel schedules it. Unless something goes terribly wrong, we're
-+ * guaranteed for this to happen during boot, so the big timeout is a safety net
-+ * that we never expect to need.
-+ * MEI-PXP + HuC load usually takes ~300ms, but if the GSC needs to be resumed
-+ * and/or reset, this can take longer.
-+ */
-+#define GSC_INIT_TIMEOUT_MS 10000
-+#define PXP_INIT_TIMEOUT_MS 2000
-+
-+static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
-+				 enum i915_sw_fence_notify state)
-+{
-+	return NOTIFY_DONE;
-+}
-+
-+static void __delayed_huc_load_complete(struct intel_huc *huc)
-+{
-+	if (!i915_sw_fence_done(&huc->delayed_load.fence))
-+		i915_sw_fence_complete(&huc->delayed_load.fence);
-+}
-+
-+static void delayed_huc_load_complete(struct intel_huc *huc)
-+{
-+	hrtimer_cancel(&huc->delayed_load.timer);
-+	__delayed_huc_load_complete(huc);
-+}
-+
-+static void __gsc_init_error(struct intel_huc *huc)
-+{
-+	huc->delayed_load.status = INTEL_HUC_DELAYED_LOAD_ERROR;
-+	__delayed_huc_load_complete(huc);
-+}
-+
-+static void gsc_init_error(struct intel_huc *huc)
-+{
-+	hrtimer_cancel(&huc->delayed_load.timer);
-+	__gsc_init_error(huc);
-+}
-+
-+static void gsc_init_done(struct intel_huc *huc)
-+{
-+	hrtimer_cancel(&huc->delayed_load.timer);
-+
-+	/* MEI-GSC init is done, now we wait for MEI-PXP to bind */
-+	huc->delayed_load.status = INTEL_HUC_WAITING_ON_PXP;
-+	if (!i915_sw_fence_done(&huc->delayed_load.fence))
-+		hrtimer_start(&huc->delayed_load.timer,
-+			      ms_to_ktime(PXP_INIT_TIMEOUT_MS),
-+			      HRTIMER_MODE_REL);
-+}
-+
-+static enum hrtimer_restart huc_delayed_load_timer_callback(struct hrtimer *hrtimer)
-+{
-+	struct intel_huc *huc = container_of(hrtimer, struct intel_huc, delayed_load.timer);
-+
-+	if (!intel_huc_is_authenticated(huc)) {
-+		drm_err(&huc_to_gt(huc)->i915->drm,
-+			"timed out waiting for GSC init to load HuC\n");
-+
-+		__gsc_init_error(huc);
-+	}
-+
-+	return HRTIMER_NORESTART;
-+}
-+
-+static void huc_delayed_load_start(struct intel_huc *huc)
-+{
-+	ktime_t delay;
-+
-+	GEM_BUG_ON(intel_huc_is_authenticated(huc));
-+
-+	/*
-+	 * On resume we don't have to wait for MEI-GSC to be re-probed, but we
-+	 * do need to wait for MEI-PXP to reset & re-bind
-+	 */
-+	switch (huc->delayed_load.status) {
-+	case INTEL_HUC_WAITING_ON_GSC:
-+		delay = ms_to_ktime(GSC_INIT_TIMEOUT_MS);
-+		break;
-+	case INTEL_HUC_WAITING_ON_PXP:
-+		delay = ms_to_ktime(PXP_INIT_TIMEOUT_MS);
-+		break;
-+	default:
-+		gsc_init_error(huc);
-+		return;
-+	}
-+
-+	/*
-+	 * This fence is always complete unless we're waiting for the
-+	 * GSC device to come up to load the HuC. We arm the fence here
-+	 * and complete it when we confirm that the HuC is loaded from
-+	 * the PXP bind callback.
-+	 */
-+	GEM_BUG_ON(!i915_sw_fence_done(&huc->delayed_load.fence));
-+	i915_sw_fence_fini(&huc->delayed_load.fence);
-+	i915_sw_fence_reinit(&huc->delayed_load.fence);
-+	i915_sw_fence_await(&huc->delayed_load.fence);
-+	i915_sw_fence_commit(&huc->delayed_load.fence);
-+
-+	hrtimer_start(&huc->delayed_load.timer, delay, HRTIMER_MODE_REL);
-+}
-+
-+static int gsc_notifier(struct notifier_block *nb, unsigned long action, void *data)
-+{
-+	struct device *dev = data;
-+	struct intel_huc *huc = container_of(nb, struct intel_huc, delayed_load.nb);
-+	struct intel_gsc_intf *intf = &huc_to_gt(huc)->gsc.intf[0];
-+
-+	if (!intf->adev || (&intf->adev->aux_dev.dev != dev))
-+		return 0;
-+
-+	switch (action) {
-+	case BUS_NOTIFY_BOUND_DRIVER: /* mei driver bound to aux device */
-+		gsc_init_done(huc);
-+		break;
-+
-+	case BUS_NOTIFY_DRIVER_NOT_BOUND: /* mei driver fails to be bound */
-+	case BUS_NOTIFY_UNBIND_DRIVER: /* mei driver about to be unbound */
-+		drm_info(&huc_to_gt(huc)->i915->drm,
-+			 "mei driver not bound, disabling HuC load\n");
-+		gsc_init_error(huc);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus)
-+{
-+	int ret;
-+
-+	if (!intel_huc_is_loaded_by_gsc(huc))
-+		return;
-+
-+	huc->delayed_load.nb.notifier_call = gsc_notifier;
-+	ret = bus_register_notifier(bus, &huc->delayed_load.nb);
-+	if (ret) {
-+		drm_err(&huc_to_gt(huc)->i915->drm,
-+			"failed to register GSC notifier\n");
-+		huc->delayed_load.nb.notifier_call = NULL;
-+		gsc_init_error(huc);
-+	}
-+}
-+
-+void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, struct bus_type *bus)
-+{
-+	if (!huc->delayed_load.nb.notifier_call)
-+		return;
-+
-+	delayed_huc_load_complete(huc);
-+
-+	bus_unregister_notifier(bus, &huc->delayed_load.nb);
-+	huc->delayed_load.nb.notifier_call = NULL;
-+}
-+
- void intel_huc_init_early(struct intel_huc *huc)
- {
- 	struct drm_i915_private *i915 = huc_to_gt(huc)->i915;
-@@ -57,6 +218,17 @@ void intel_huc_init_early(struct intel_huc *huc)
- 		huc->status.mask = HUC_FW_VERIFIED;
- 		huc->status.value = HUC_FW_VERIFIED;
- 	}
-+
-+	/*
-+	 * Initialize fence to be complete as this is expected to be complete
-+	 * unless there is a delayed HuC reload in progress.
-+	 */
-+	i915_sw_fence_init(&huc->delayed_load.fence,
-+			   sw_fence_dummy_notify);
-+	i915_sw_fence_commit(&huc->delayed_load.fence);
-+
-+	hrtimer_init(&huc->delayed_load.timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-+	huc->delayed_load.timer.function = huc_delayed_load_timer_callback;
- }
- 
- #define HUC_LOAD_MODE_STRING(x) (x ? "GSC" : "legacy")
-@@ -122,9 +294,25 @@ void intel_huc_fini(struct intel_huc *huc)
- 	if (!intel_uc_fw_is_loadable(&huc->fw))
- 		return;
- 
-+	delayed_huc_load_complete(huc);
-+
-+	i915_sw_fence_fini(&huc->delayed_load.fence);
- 	intel_uc_fw_fini(&huc->fw);
- }
- 
-+void intel_huc_suspend(struct intel_huc *huc)
-+{
-+	if (!intel_uc_fw_is_loadable(&huc->fw))
-+		return;
-+
-+	/*
-+	 * in the unlikely case that we're suspending before the GSC has
-+	 * completed its loading sequence, just stop waiting. We'll restart
-+	 * on resume.
-+	 */
-+	delayed_huc_load_complete(huc);
-+}
-+
- int intel_huc_wait_for_auth_complete(struct intel_huc *huc)
- {
- 	struct intel_gt *gt = huc_to_gt(huc);
-@@ -136,6 +324,9 @@ int intel_huc_wait_for_auth_complete(struct intel_huc *huc)
- 					huc->status.value,
- 					2, 50, NULL);
- 
-+	/* mark the load process as complete even if the wait failed */
-+	delayed_huc_load_complete(huc);
-+
- 	if (ret) {
- 		drm_err(&gt->i915->drm, "HuC: Firmware not verified %d\n", ret);
- 		intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_LOAD_FAIL);
-@@ -239,6 +430,12 @@ int intel_huc_check_status(struct intel_huc *huc)
- 	return intel_huc_is_authenticated(huc);
- }
- 
-+static bool huc_has_delayed_load(struct intel_huc *huc)
-+{
-+	return intel_huc_is_loaded_by_gsc(huc) &&
-+	       (huc->delayed_load.status != INTEL_HUC_DELAYED_LOAD_ERROR);
-+}
-+
- void intel_huc_update_auth_status(struct intel_huc *huc)
- {
- 	if (!intel_uc_fw_is_loadable(&huc->fw))
-@@ -247,6 +444,8 @@ void intel_huc_update_auth_status(struct intel_huc *huc)
- 	if (intel_huc_is_authenticated(huc))
- 		intel_uc_fw_change_status(&huc->fw,
- 					  INTEL_UC_FIRMWARE_RUNNING);
-+	else if (huc_has_delayed_load(huc))
-+		huc_delayed_load_start(huc);
- }
- 
- /**
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.h b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
-index 51f9d96a3ca3..915d281c1c72 100644
+index 915d281c1c72..52db03620c60 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.h
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
-@@ -7,9 +7,21 @@
- #define _INTEL_HUC_H_
+@@ -81,6 +81,12 @@ static inline bool intel_huc_is_loaded_by_gsc(const struct intel_huc *huc)
+ 	return huc->fw.loaded_via_gsc;
+ }
  
- #include "i915_reg_defs.h"
-+#include "i915_sw_fence.h"
- #include "intel_uc_fw.h"
- #include "intel_huc_fw.h"
++static inline bool intel_huc_wait_required(struct intel_huc *huc)
++{
++	return intel_huc_is_used(huc) && intel_huc_is_loaded_by_gsc(huc) &&
++	       !intel_huc_is_authenticated(huc);
++}
++
+ void intel_huc_load_status(struct intel_huc *huc, struct drm_printer *p);
  
-+#include <linux/notifier.h>
-+#include <linux/hrtimer.h>
-+
-+struct bus_type;
-+
-+enum intel_huc_delayed_load_status {
-+	INTEL_HUC_WAITING_ON_GSC = 0,
-+	INTEL_HUC_WAITING_ON_PXP,
-+	INTEL_HUC_DELAYED_LOAD_ERROR,
-+};
-+
- struct intel_huc {
- 	/* Generic uC firmware management */
- 	struct intel_uc_fw fw;
-@@ -20,17 +32,28 @@ struct intel_huc {
- 		u32 mask;
- 		u32 value;
- 	} status;
-+
-+	struct {
-+		struct i915_sw_fence fence;
-+		struct hrtimer timer;
-+		struct notifier_block nb;
-+		enum intel_huc_delayed_load_status status;
-+	} delayed_load;
- };
+ #endif
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 62fad16a55e8..77f45a3cb01f 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -1621,6 +1621,20 @@ i915_request_await_object(struct i915_request *to,
+ 	return ret;
+ }
  
- void intel_huc_init_early(struct intel_huc *huc);
- int intel_huc_init(struct intel_huc *huc);
- void intel_huc_fini(struct intel_huc *huc);
-+void intel_huc_suspend(struct intel_huc *huc);
- int intel_huc_auth(struct intel_huc *huc);
- int intel_huc_wait_for_auth_complete(struct intel_huc *huc);
- int intel_huc_check_status(struct intel_huc *huc);
- void intel_huc_update_auth_status(struct intel_huc *huc);
- bool intel_huc_is_authenticated(struct intel_huc *huc);
- 
-+void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus);
-+void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, struct bus_type *bus);
++static void i915_request_await_huc(struct i915_request *rq)
++{
++	struct intel_huc *huc = &rq->context->engine->gt->uc.huc;
 +
- static inline int intel_huc_sanitize(struct intel_huc *huc)
- {
- 	intel_uc_fw_sanitize(&huc->fw);
++	/* don't stall kernel submissions! */
++	if (!rcu_access_pointer(rq->context->gem_context))
++		return;
++
++	if (intel_huc_wait_required(huc))
++		i915_sw_fence_await_sw_fence(&rq->submit,
++					     &huc->delayed_load.fence,
++					     &rq->submitq);
++}
++
+ static struct i915_request *
+ __i915_request_ensure_parallel_ordering(struct i915_request *rq,
+ 					struct intel_timeline *timeline)
+@@ -1702,6 +1716,16 @@ __i915_request_add_to_timeline(struct i915_request *rq)
+ 	struct intel_timeline *timeline = i915_request_timeline(rq);
+ 	struct i915_request *prev;
+ 
++	/*
++	 * Media workloads may require HuC, so stall them until HuC loading is
++	 * complete. Note that HuC not being loaded when a user submission
++	 * arrives can only happen when HuC is loaded via GSC and in that case
++	 * we still expect the window between us starting to accept submissions
++	 * and HuC loading completion to be small (a few hundred ms).
++	 */
++	if (rq->engine->class == VIDEO_DECODE_CLASS)
++		i915_request_await_huc(rq);
++
+ 	/*
+ 	 * Dependency tracking and request ordering along the timeline
+ 	 * is special cased so that we can eliminate redundant ordering
 -- 
 2.37.2
 
