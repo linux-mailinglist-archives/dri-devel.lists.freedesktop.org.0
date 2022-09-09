@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB8D5B3FE3
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 21:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4F85B4037
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 21:54:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5E110E12A;
-	Fri,  9 Sep 2022 19:38:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834F610EE20;
+	Fri,  9 Sep 2022 19:54:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBF2910E12A
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 19:38:52 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5C541B8262C;
- Fri,  9 Sep 2022 19:38:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8206C433D6;
- Fri,  9 Sep 2022 19:38:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662752331;
- bh=FfmmzxqN9ZwNiKXNw6xZkYm5SglV5tc8WW01IPrgjjE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=GBl8qdIiDq7a6c2Lbkg2rb7uclYEGiTF7VTz6I1qIVqGwnpo4N4s827gGekGOdia3
- w6cYxtJewhn1XW4bND8xj+uTgYKx5SHf9XW3kYFPWHL6czBduNxZI2SoyCiUEHnYQD
- oPP4vW5prswPdAVBAqQEyJzJIBCdITuSW1sTNJC0qVTHXO16w9ofTZPqXsnKVdr2Pl
- VS/p4JPb2iqcBqQV/4oZvuApMWceC34WCbS+V+FMhdpwmzzhf4GU/sXgzsSlieALzh
- VOcbmZwEk0lx1BiZvlfC8/4c1DTfLg4p5nkrAmw3ZQQ64N+QNXLEXqehiOwJ9cxd5R
- 6z+yPL8ou8W2g==
-Date: Fri, 9 Sep 2022 14:38:49 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Subject: Re: [PATCH v2 2/2] pci_ids: Add the various Microsoft PCI device IDs
-Message-ID: <20220909193849.GA309868@bhelgaas>
+Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 878A810EE1C;
+ Fri,  9 Sep 2022 19:53:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=MD7Ku
+ o/8ZI7rK5baDMxuo/yBRJbppXCYTo0SO7OLZo0=; b=Onm3pJflkFpnGTNMGJRku
+ 18aUFeyWrqhJRW0O6o/rgRoR3sb9MIdAW5yU/YpKy3Dc+A/1/kryYJ9kVDzhgfy9
+ Yk6ncVo+YIYckjsS2tfvM00KTDvrWNLaStn13MMO95oL+bR6h9r+1gPkqeQ22GVq
+ j4c42uPtyJgU++9GK5RQNE=
+Received: from f00160-VMware-Virtual-Platform.localdomain (unknown
+ [1.203.67.201])
+ by smtp7 (Coremail) with SMTP id C8CowAB3C228mRtjZhFoEg--.50987S4;
+ Sat, 10 Sep 2022 03:53:43 +0800 (CST)
+From: Jingyu Wang <jingyuwang_vip@163.com>
+To: arry.wentland@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/amdgpu/display: remove unneeded "default n" options
+Date: Sat, 10 Sep 2022 03:53:30 +0800
+Message-Id: <20220909195330.85888-1-jingyuwang_vip@163.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1662749425-3037-3-git-send-email-eahariha@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: C8CowAB3C228mRtjZhFoEg--.50987S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZw1fKry5XF4kXryDWFWfZrb_yoWDXrX_K3
+ yUAw1rZF15AasFgr12vr4rury0ya1UZrZ7XFy8tryavr17ur4fW3s7u3y3Kr17u3ZrCFZx
+ u3yrCF4aywn3tjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRi5r2tUUUUU==
+X-Originating-IP: [1.203.67.201]
+X-CM-SenderInfo: 5mlqw5xxzd0whbyl1qqrwthudrp/xtbCoAd3F1zmWJAhuAAAss
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,136 +51,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR HYPERV SYNTHETIC VIDEO DEVICE"
- <linux-hyperv@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- Colin Ian King <colin.i.king@googlemail.com>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- "open list:DRM DRIVER FOR HYPERV SYNTHETIC VIDEO DEVICE"
- <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
- Eric Dumazet <edumazet@google.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- Helge Deller <deller@gmx.de>, Dexuan Cui <decui@microsoft.com>,
- Deepak Rawat <drawat.floss@gmail.com>,
- Easwar Hariharan <easwar.hariharan@microsoft.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Bjorn Helgaas <bhelgaas@google.com>,
- "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, vkuznets@redhat.com,
- "David S. Miller" <davem@davemloft.net>
+Cc: Jingyu Wang <jingyuwang_vip@163.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Please follow the PCI subject line conventions.  Discover it with
-"git log --oneline include/linux/pci_ids.h".
+Remove "default n" options. If the "default" line is removed, it
+defaults to 'n'.
 
-On Fri, Sep 09, 2022 at 11:50:25AM -0700, Easwar Hariharan wrote:
-> From: Easwar Hariharan <easwar.hariharan@microsoft.com>
-> 
+Signed-off-by: Jingyu Wang <jingyuwang_vip@163.com>
+---
+ drivers/gpu/drm/amd/display/Kconfig | 2 --
+ 1 file changed, 2 deletions(-)
 
-Needs a commit log, even if it is nothing more than the subject line.
+diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
+index 413d8c6d592f..6925e0280dbe 100644
+--- a/drivers/gpu/drm/amd/display/Kconfig
++++ b/drivers/gpu/drm/amd/display/Kconfig
+@@ -28,7 +28,6 @@ config DRM_AMD_DC_SI
+ 	bool "AMD DC support for Southern Islands ASICs"
+ 	depends on DRM_AMDGPU_SI
+ 	depends on DRM_AMD_DC
+-	default n
+ 	help
+ 	  Choose this option to enable new AMD DC support for SI asics
+ 	  by default. This includes Tahiti, Pitcairn, Cape Verde, Oland.
+@@ -43,7 +42,6 @@ config DEBUG_KERNEL_DC
+ 
+ config DRM_AMD_SECURE_DISPLAY
+         bool "Enable secure display support"
+-        default n
+         depends on DEBUG_FS
+         depends on DRM_AMD_DC_DCN
+         help
 
-Also read the top of include/linux/pci_ids.h, because it looks like
-some of these are only used in one driver and hence do not need to be
-in pci_ids.h.
+base-commit: 5957ac6635a1a12d4aa2661bbf04d3085a73372a
+-- 
+2.34.1
 
-> Signed-off-by: Easwar Hariharan <easwar.hariharan@microsoft.com>
-> ---
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 2 +-
->  drivers/net/ethernet/microsoft/mana/gdma.h      | 3 ---
->  drivers/net/ethernet/microsoft/mana/gdma_main.c | 6 +++---
->  drivers/video/fbdev/hyperv_fb.c                 | 4 ++--
->  include/linux/pci_ids.h                         | 4 +++-
->  5 files changed, 9 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index f84d397..24c2def 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -51,7 +51,7 @@ static void hyperv_pci_remove(struct pci_dev *pdev)
->  static const struct pci_device_id hyperv_pci_tbl[] = {
->  	{
->  		.vendor = PCI_VENDOR_ID_MICROSOFT,
-> -		.device = PCI_DEVICE_ID_HYPERV_VIDEO,
-> +		.device = PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO,
->  	},
->  	{ /* end of list */ }
->  };
-> diff --git a/drivers/net/ethernet/microsoft/mana/gdma.h b/drivers/net/ethernet/microsoft/mana/gdma.h
-> index 4a6efe6..9d3a9f7 100644
-> --- a/drivers/net/ethernet/microsoft/mana/gdma.h
-> +++ b/drivers/net/ethernet/microsoft/mana/gdma.h
-> @@ -476,9 +476,6 @@ struct gdma_eqe {
->  
->  #define GDMA_SRIOV_REG_CFG_BASE_OFF	0x108
->  
-> -#define MANA_PF_DEVICE_ID 0x00B9
-> -#define MANA_VF_DEVICE_ID 0x00BA
-> -
->  struct gdma_posted_wqe_info {
->  	u32 wqe_size_in_bu;
->  };
-> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> index 00d8198..18cf168 100644
-> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> @@ -1333,7 +1333,7 @@ static void mana_gd_cleanup(struct pci_dev *pdev)
->  
->  static bool mana_is_pf(unsigned short dev_id)
->  {
-> -	return dev_id == MANA_PF_DEVICE_ID;
-> +	return dev_id == PCI_DEVICE_ID_MICROSOFT_MANA_PF;
->  }
->  
->  static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-> @@ -1466,8 +1466,8 @@ static void mana_gd_shutdown(struct pci_dev *pdev)
->  }
->  
->  static const struct pci_device_id mana_id_table[] = {
-> -	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_PF_DEVICE_ID) },
-> -	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_VF_DEVICE_ID) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_MICROSOFT_MANA_PF) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_MICROSOFT_MANA_VF) },
->  	{ }
->  };
->  
-> diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-> index b58b445..118e244 100644
-> --- a/drivers/video/fbdev/hyperv_fb.c
-> +++ b/drivers/video/fbdev/hyperv_fb.c
-> @@ -997,7 +997,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
->  
->  	if (!gen2vm) {
->  		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
-> -			PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-> +			PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO, NULL);
->  		if (!pdev) {
->  			pr_err("Unable to find PCI Hyper-V video\n");
->  			return -ENODEV;
-> @@ -1311,7 +1311,7 @@ static int hvfb_resume(struct hv_device *hdev)
->  static const struct pci_device_id pci_stub_id_table[] = {
->  	{
->  		.vendor      = PCI_VENDOR_ID_MICROSOFT,
-> -		.device      = PCI_DEVICE_ID_HYPERV_VIDEO,
-> +		.device      = PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO,
->  	},
->  	{ /* end of list */ }
->  };
-> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-> index 15b49e6..fe3517f 100644
-> --- a/include/linux/pci_ids.h
-> +++ b/include/linux/pci_ids.h
-> @@ -2080,7 +2080,9 @@
->  #define PCI_DEVICE_ID_VT1724		0x1724
->  
->  #define PCI_VENDOR_ID_MICROSOFT		0x1414
-> -#define PCI_DEVICE_ID_HYPERV_VIDEO	0x5353
-> +#define PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO	0x5353
-> +#define PCI_DEVICE_ID_MICROSOFT_MANA_PF  	0x00B9
-> +#define PCI_DEVICE_ID_MICROSOFT_MANA_VF  	0x00BA
->  
->  #define PCI_VENDOR_ID_OXSEMI		0x1415
->  #define PCI_DEVICE_ID_OXSEMI_12PCI840	0x8403
-> -- 
-> 1.8.3.1
-> 
