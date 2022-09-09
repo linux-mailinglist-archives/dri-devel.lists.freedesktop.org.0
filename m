@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C3B5B2AFA
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 02:17:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 594985B2B0D
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 02:18:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB01910E897;
-	Fri,  9 Sep 2022 00:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6BB10E873;
+	Fri,  9 Sep 2022 00:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55F310E87A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2A7A10E87B;
  Fri,  9 Sep 2022 00:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1662682605; x=1694218605;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=iP/kzHdaEUDcabl2PkNH6n4LIlGIbSqO9a8mD59nk7k=;
- b=RVqZjtgLcP801SpEmXLBwLmX3B25YpGxnKF6yiXPzNjviExSV+YvcuSR
- DcJilOWE5C5HTRMNLQef+NIetLEfuZeuc6rpt2vU2vvTXFwa3sUauAGRK
- A0DDljS01JGUfvPvlvesVjz4eYrtFXOIUAtc4CnBuPO62pmJG3LLvT4JL
- OSF9JZJsLdP6y5bPZLUwXWAHxtc5/mPVjh6JsAzYJt4sLRiSicbPh7GzR
- jKpX14hhd0IpFsfeXpF2dSNBcBikpmEVE8Icj8UnmyeeEQxG8OccqnbXf
- r3hFDzHdLufIeG38QpSOHtag8se4KAdVqvpB51VKW8Hn+kxZC6ALC4buS Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="294938833"
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="294938833"
+ bh=lTLWgolTrW4biwxf7YxUSJzLVmdGuEAZmEc0fjJIyc0=;
+ b=KSLbAUX145Nma3JjwTeIGtlZZp4pCQI5A+UwUGcDZnnVvHDuf12M2q9b
+ nL2fZaJ/Cje30dcnvp1hz8ZkWt/Enhhk0E0g/T+3uezjfPTiDadYMl9bT
+ ttNzdv1bWAc4g19apknU3sDdTLRPd4JKwWc029dfiz+R9bbtkFK+fyiB6
+ og5QEKaNnraQFaIMM7R/1C6xDA6cVetGmhBxSFlSogIvtllh91TvGPW9T
+ e97E92NZkZMWJlD/cqUmZ0QtloiRYXjcSYC4WoL2VCUgRoVghG8pbzk9M
+ VZoLcxWgvLrWiiksxhuw4YMVPuXEkgG5954jTf4DT2Qr0vx+Fq6abtMTz w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="294938845"
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="294938845"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2022 17:16:39 -0700
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="676933190"
+ 08 Sep 2022 17:16:42 -0700
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; d="scan'208";a="676933202"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2022 17:16:39 -0700
+ 08 Sep 2022 17:16:41 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 04/15] mei: bus: extend bus API to support command streamer
- API
-Date: Thu,  8 Sep 2022 17:16:01 -0700
-Message-Id: <20220909001612.728451-5-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v4 05/15] mei: pxp: add command streamer API to the PXP driver
+Date: Thu,  8 Sep 2022 17:16:02 -0700
+Message-Id: <20220909001612.728451-6-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220909001612.728451-1-daniele.ceraolospurio@intel.com>
 References: <20220909001612.728451-1-daniele.ceraolospurio@intel.com>
@@ -56,197 +55,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Tomas Winkler <tomas.winkler@intel.com>,
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Vitaly Lubart <vitaly.lubart@intel.com>, dri-devel@lists.freedesktop.org
+ Tomas Winkler <tomas.winkler@intel.com>,
+ Vitaly Lubart <vitaly.lubart@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Vitaly Lubart <vitaly.lubart@intel.com>
 
-Add mei bus API for sending gsc commands: mei_cldev_send_gsc_command()
+The discrete graphics card with GSC firmware
+using command streamer API hence it requires to enhance
+pxp module with the new gsc_command() handler.
 
-The GSC commands are originated in the graphics stack
-and are in form of SGL DMA buffers.
-The GSC commands are synchronous, the response is received
-in the same call on the out sg list buffers.
-The function setups pointers for in and out sg lists in the
-mei sgl extended header and sends it to the firmware.
+The handler is implemented via mei_pxp_gsc_command() which is
+just a thin wrapper around mei_cldev_send_gsc_command()
 
 V2:
  1. More detailed commit message
  2. Fix typo in the comments
+V3: Rebase
+V4:
+1. Use forward declaration for struct scatterlist (Jani)
+2. Drop double 'just' in the commit message
 
 Signed-off-by: Vitaly Lubart <vitaly.lubart@intel.com>
 Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- drivers/misc/mei/bus.c     | 125 +++++++++++++++++++++++++++++++++++++
- include/linux/mei_cl_bus.h |   6 ++
- 2 files changed, 131 insertions(+)
+ drivers/misc/mei/pxp/mei_pxp.c       | 28 ++++++++++++++++++++++++++++
+ include/drm/i915_pxp_tee_interface.h |  5 +++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/drivers/misc/mei/bus.c b/drivers/misc/mei/bus.c
-index 225f0b04c021..fc885ba94b36 100644
---- a/drivers/misc/mei/bus.c
-+++ b/drivers/misc/mei/bus.c
-@@ -838,6 +838,131 @@ int mei_cldev_disable(struct mei_cl_device *cldev)
+diff --git a/drivers/misc/mei/pxp/mei_pxp.c b/drivers/misc/mei/pxp/mei_pxp.c
+index 5c39457e3f53..17c5d201603f 100644
+--- a/drivers/misc/mei/pxp/mei_pxp.c
++++ b/drivers/misc/mei/pxp/mei_pxp.c
+@@ -77,10 +77,38 @@ mei_pxp_receive_message(struct device *dev, void *buffer, size_t size)
+ 	return byte;
  }
- EXPORT_SYMBOL_GPL(mei_cldev_disable);
  
 +/**
-+ * mei_cldev_send_gsc_command - sends a gsc command, by sending
-+ * a gsl mei message to gsc and receiving reply from gsc
++ * mei_pxp_gsc_command() - sends a gsc command, by sending
++ * a sgl mei message to gsc and receiving reply from gsc
 + *
-+ * @cldev: me client device
++ * @dev: device corresponding to the mei_cl_device
 + * @client_id: client id to send the command to
 + * @fence_id: fence id to send the command to
 + * @sg_in: scatter gather list containing addresses for rx message buffer
 + * @total_in_len: total length of data in 'in' sg, can be less than the sum of buffers sizes
 + * @sg_out: scatter gather list containing addresses for tx message buffer
 + *
-+ * Return:
-+ *  * written size in bytes
-+ *  * < 0 on error
++ * Return: bytes sent on Success, <0 on Failure
 + */
-+ssize_t mei_cldev_send_gsc_command(struct mei_cl_device *cldev,
-+				   u8 client_id, u32 fence_id,
-+				   struct scatterlist *sg_in,
-+				   size_t total_in_len,
++static ssize_t mei_pxp_gsc_command(struct device *dev, u8 client_id, u32 fence_id,
++				   struct scatterlist *sg_in, size_t total_in_len,
 +				   struct scatterlist *sg_out)
 +{
-+	struct mei_cl *cl;
-+	struct mei_device *bus;
-+	ssize_t ret = 0;
++	struct mei_cl_device *cldev;
 +
-+	struct mei_ext_hdr_gsc_h2f *ext_hdr;
-+	size_t buf_sz = sizeof(struct mei_ext_hdr_gsc_h2f);
-+	int sg_out_nents, sg_in_nents;
-+	int i;
-+	struct scatterlist *sg;
-+	struct mei_ext_hdr_gsc_f2h rx_msg;
-+	unsigned int sg_len;
-+
-+	if (!cldev || !sg_in || !sg_out)
++	if (!dev || !sg_in || !sg_out)
 +		return -EINVAL;
 +
-+	cl = cldev->cl;
-+	bus = cldev->bus;
++	cldev = to_mei_cl_device(dev);
 +
-+	dev_dbg(bus->dev, "client_id %u, fence_id %u\n", client_id, fence_id);
-+
-+	if (!bus->hbm_f_gsc_supported)
-+		return -EOPNOTSUPP;
-+
-+	sg_out_nents = sg_nents(sg_out);
-+	sg_in_nents = sg_nents(sg_in);
-+	/* at least one entry in tx and rx sgls must be present */
-+	if (sg_out_nents <= 0 || sg_in_nents <= 0)
-+		return -EINVAL;
-+
-+	buf_sz += (sg_out_nents + sg_in_nents) * sizeof(struct mei_gsc_sgl);
-+	ext_hdr = kzalloc(buf_sz, GFP_KERNEL);
-+	if (!ext_hdr)
-+		return -ENOMEM;
-+
-+	/* construct the GSC message */
-+	ext_hdr->hdr.type = MEI_EXT_HDR_GSC;
-+	ext_hdr->hdr.length = buf_sz / sizeof(u32); /* length is in dw */
-+
-+	ext_hdr->client_id = client_id;
-+	ext_hdr->addr_type = GSC_ADDRESS_TYPE_PHYSICAL_SGL;
-+	ext_hdr->fence_id = fence_id;
-+	ext_hdr->input_address_count = sg_in_nents;
-+	ext_hdr->output_address_count = sg_out_nents;
-+	ext_hdr->reserved[0] = 0;
-+	ext_hdr->reserved[1] = 0;
-+
-+	/* copy in-sgl to the message */
-+	for (i = 0, sg = sg_in; i < sg_in_nents; i++, sg++) {
-+		ext_hdr->sgl[i].low = lower_32_bits(sg_dma_address(sg));
-+		ext_hdr->sgl[i].high = upper_32_bits(sg_dma_address(sg));
-+		sg_len = min_t(unsigned int, sg_dma_len(sg), PAGE_SIZE);
-+		ext_hdr->sgl[i].length = (sg_len <= total_in_len) ? sg_len : total_in_len;
-+		total_in_len -= ext_hdr->sgl[i].length;
-+	}
-+
-+	/* copy out-sgl to the message */
-+	for (i = sg_in_nents, sg = sg_out; i < sg_in_nents + sg_out_nents; i++, sg++) {
-+		ext_hdr->sgl[i].low = lower_32_bits(sg_dma_address(sg));
-+		ext_hdr->sgl[i].high = upper_32_bits(sg_dma_address(sg));
-+		sg_len = min_t(unsigned int, sg_dma_len(sg), PAGE_SIZE);
-+		ext_hdr->sgl[i].length = sg_len;
-+	}
-+
-+	/* send the message to GSC */
-+	ret = __mei_cl_send(cl, (u8 *)ext_hdr, buf_sz, 0, MEI_CL_IO_SGL);
-+	if (ret < 0) {
-+		dev_err(bus->dev, "__mei_cl_send failed, returned %zd\n", ret);
-+		goto end;
-+	}
-+	if (ret != buf_sz) {
-+		dev_err(bus->dev, "__mei_cl_send returned %zd instead of expected %zd\n",
-+			ret, buf_sz);
-+		ret = -EIO;
-+		goto end;
-+	}
-+
-+	/* receive the reply from GSC, note that at this point sg_in should contain the reply */
-+	ret = __mei_cl_recv(cl, (u8 *)&rx_msg, sizeof(rx_msg), NULL, MEI_CL_IO_SGL, 0);
-+
-+	if (ret != sizeof(rx_msg)) {
-+		dev_err(bus->dev, "__mei_cl_recv returned %zd instead of expected %zd\n",
-+			ret, sizeof(rx_msg));
-+		if (ret >= 0)
-+			ret = -EIO;
-+		goto end;
-+	}
-+
-+	/* check rx_msg.client_id and rx_msg.fence_id match the ones we send */
-+	if (rx_msg.client_id != client_id || rx_msg.fence_id != fence_id) {
-+		dev_err(bus->dev, "received client_id/fence_id  %u/%u  instead of %u/%u sent\n",
-+			rx_msg.client_id, rx_msg.fence_id, client_id, fence_id);
-+		ret = -EFAULT;
-+		goto end;
-+	}
-+
-+	dev_dbg(bus->dev, "gsc command: successfully written %u bytes\n",  rx_msg.written);
-+	ret = rx_msg.written;
-+
-+end:
-+	kfree(ext_hdr);
-+	return ret;
++	return mei_cldev_send_gsc_command(cldev, client_id, fence_id, sg_in, total_in_len, sg_out);
 +}
-+EXPORT_SYMBOL_GPL(mei_cldev_send_gsc_command);
 +
- /**
-  * mei_cl_device_find - find matching entry in the driver id table
-  *
-diff --git a/include/linux/mei_cl_bus.h b/include/linux/mei_cl_bus.h
-index df1fab44ea5c..308dc9155ad6 100644
---- a/include/linux/mei_cl_bus.h
-+++ b/include/linux/mei_cl_bus.h
+ static const struct i915_pxp_component_ops mei_pxp_ops = {
+ 	.owner = THIS_MODULE,
+ 	.send = mei_pxp_send_message,
+ 	.recv = mei_pxp_receive_message,
++	.gsc_command = mei_pxp_gsc_command,
+ };
+ 
+ static int mei_component_master_bind(struct device *dev)
+diff --git a/include/drm/i915_pxp_tee_interface.h b/include/drm/i915_pxp_tee_interface.h
+index af593ec64469..a702b6ec17f7 100644
+--- a/include/drm/i915_pxp_tee_interface.h
++++ b/include/drm/i915_pxp_tee_interface.h
 @@ -8,6 +8,7 @@
+ 
+ #include <linux/mutex.h>
  #include <linux/device.h>
- #include <linux/uuid.h>
- #include <linux/mod_devicetable.h>
-+#include <linux/scatterlist.h>
++struct scatterlist;
  
- struct mei_cl_device;
- struct mei_device;
-@@ -116,6 +117,11 @@ void mei_cldev_set_drvdata(struct mei_cl_device *cldev, void *data);
- int mei_cldev_enable(struct mei_cl_device *cldev);
- int mei_cldev_disable(struct mei_cl_device *cldev);
- bool mei_cldev_enabled(const struct mei_cl_device *cldev);
-+ssize_t mei_cldev_send_gsc_command(struct mei_cl_device *cldev,
-+				   u8 client_id, u32 fence_id,
-+				   struct scatterlist *sg_in,
-+				   size_t total_in_len,
-+				   struct scatterlist *sg_out);
+ /**
+  * struct i915_pxp_component_ops - ops for PXP services.
+@@ -23,6 +24,10 @@ struct i915_pxp_component_ops {
  
- void *mei_cldev_dma_map(struct mei_cl_device *cldev, u8 buffer_id, size_t size);
- int mei_cldev_dma_unmap(struct mei_cl_device *cldev);
+ 	int (*send)(struct device *dev, const void *message, size_t size);
+ 	int (*recv)(struct device *dev, void *buffer, size_t size);
++	ssize_t (*gsc_command)(struct device *dev, u8 client_id, u32 fence_id,
++			       struct scatterlist *sg_in, size_t total_in_len,
++			       struct scatterlist *sg_out);
++
+ };
+ 
+ /**
 -- 
 2.37.2
 
