@@ -1,77 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F2A5B3AC7
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 16:37:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7FE5B3AD1
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 16:39:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0B210E055;
-	Fri,  9 Sep 2022 14:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F9A10EDD9;
+	Fri,  9 Sep 2022 14:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7CA610E055
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 14:36:49 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 2D5F1320015C;
- Fri,  9 Sep 2022 10:36:47 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 09 Sep 2022 10:36:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1662734206; x=1662820606; bh=ZAILMf57Td
- TF5SyFPS7VoKfWUrJT+3dA7d1TK95eXm0=; b=25BTaWm9zFJKOvJWsZypng+v/L
- 19gRfaujyZIoyF0LxkdmQXA/Jc5Q/UvkaZhU3J5+jCHj0kuejBraWjnwK4kHS5T8
- ZXeE+BsfXYKXYmKIW0vjkn/bewXmwxPfX7InF0+1vhatDBnYBLHE0T3TNbjLZ0OL
- VPpv053xNiiqKgcFq5/IyUsZWDiwzIJE9/Qyh5Ie5bzwfPQSCqSLy1NSg1ZdVMb6
- 4KAAdJUWBDo1ELwhi+Fns9CFBh4GjF16B3Z2Ra2a0vGYniyRqaAncQrEV6gJSNyl
- 6BuyOqfGpqitMhecfceVx79NPTFFm3FsCAIMsifqoH9JvD+Bya505SMZY6YQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1662734206; x=1662820606; bh=ZAILMf57TdTF5SyFPS7VoKfWUrJT
- +3dA7d1TK95eXm0=; b=t+0TzJMMThlnP53IdlPEaCdvQ7BuyOVczpMl5R1D+1AZ
- O6OdeGFN9fVbPN+SWLIdniCFFSdHX9M4Pbau9imPFzJpir0Sw6zEWMIkSqOoHFVC
- eYKZnnYfZ7IN1gWSXJuGwSgW6ibwW1b0mLrGLlcX6HC+ZzkwPMfS9AwfB7ePSYVN
- Yc6kwlWHkplgZC480mtMI6V4m0M4Ha3j4fJE+7zxwRCkpYjFvrW2mgvfYjMHfzti
- dpocmcvj1qBMsiPWBpEVIOOFPQ0Noc4FoXzd8gSY8dbyv+eqwOB61obM34ItN1/T
- ZyJJdRuQerprFJt7soryAmVcdgBS5qA5nl8YXqzwEA==
-X-ME-Sender: <xms:fk8bYxNkhY9uts3tm2QpgulfIhY8Ri-YwBJFOch96bCpjGQuTaRCMQ>
- <xme:fk8bYz_KLvfk04sSEKpKbD06jGZXGXhgnlN64ODzwlrILHFzw9s1y1r3lIhewT1Wt
- Ggp1Z1I9T-2Qsi5zJE>
-X-ME-Received: <xmr:fk8bYwQPFVRWyQnVd27OWNKqs0JR-FFO3vLIXC_Uki55BsjoxPEe3w3jra9w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedthedgjeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
- ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:fk8bY9toCE1Kn_BsgNyA6IoUp4XanOK6bIf5taNzMvMKXD_Jr55ePQ>
- <xmx:fk8bY5cr8Sq5jPFvarQlBVtgiOPQyQnM2QaF1aFifUVzvlsyou_zvA>
- <xmx:fk8bY53V85cKTO0LHQxO766FIk1B2DoX2IQTWrLJevqzmcV0zuwP4A>
- <xmx:fk8bY4zA9QiSlikO-P-nJCvvyEqtBvYg1tjD8US3lpJ8WWZjBYOrWQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Sep 2022 10:36:45 -0400 (EDT)
-Date: Fri, 9 Sep 2022 16:36:44 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v4 4/8] drm/vc4: hdmi: Simplify the hotplug handling
-Message-ID: <20220909143644.izsfwanwn7xq5hvi@houat>
-References: <20220829134731.213478-1-maxime@cerno.tech>
- <20220829134731.213478-5-maxime@cerno.tech>
- <YxY0A8RQsGZkwrtU@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35D8F10EDD9
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 14:39:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662734347;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mfeqREWZa2fIbuJz7HqverwIC0Dsg+GN4EgIU9IhkpI=;
+ b=ULow2RkyTRtMltRy6u8ji/veoKdUtBrZW0hDFJZK6DJf6SaIyV8GWEEIFi4I0VQeYScFa9
+ LUKZT1p21qr2/2gZyiqNPbCJDjZi4wbrQxy9TvW3N9+TNgKSGgs5ZpBvR1ss3FKK6NiMXJ
+ XrtMbPd7oshI6zwyuCIlIniypQfxeLo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-198-E748vzdxOiqQaqKi90TCKQ-1; Fri, 09 Sep 2022 10:39:06 -0400
+X-MC-Unique: E748vzdxOiqQaqKi90TCKQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b16-20020a056402279000b0044f1102e6e2so1442808ede.20
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 07:39:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=mfeqREWZa2fIbuJz7HqverwIC0Dsg+GN4EgIU9IhkpI=;
+ b=Fm4ofvT8evIJ7Vt8TlNSYCvnjfmndoA9vLjsX2VTy1hAakooWKGbihBq0yBMdj/jp0
+ tfWLFVgweQCp3RgkFln5s16lP8jaiOaq5eeOa+hxPEBTR/7nglgMY6HuEQOQNOxjCqXI
+ Rswh+SGl6Z8XdoHdZpwHrYOle2fqYXF5ilR4SQ8Uo8bFt6WsR0t+u7SsSNXYPR1mRRZ1
+ c6wBwBuUSOeO6shcvFg+OdnY+EBDElXp7tna2y49teFDJEYTO/3+Whjbl5bl/Q1Dtk80
+ 0/KuPUUp0bzwZrnVouanl9dSvWXGSKMDZQxncdVlglKKMjvMRiPhx4o4WcKKxjoeRiw0
+ R4zQ==
+X-Gm-Message-State: ACgBeo3Huib326fyh/pgo5zTRfviLj1QKoWjhooC6ztT2DGkZ2/4GHpA
+ bw2OQGzTk1f73E4oGrzYTkRKQeQid09wejd7ygjtS7/ifrDdpH6dYWOkLAS9ktK7yzJODXA/Llb
+ GmsOhdIGtFQzfsB2+IYciwaU8edLx
+X-Received: by 2002:aa7:c61a:0:b0:44e:7d1d:7814 with SMTP id
+ h26-20020aa7c61a000000b0044e7d1d7814mr11620487edq.44.1662734345370; 
+ Fri, 09 Sep 2022 07:39:05 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6xB6x3ayxSbngTByD9x5Rtd05MZz+84q29GXxlw+/2OJo0zzdpP6qnmdnlvyNSEQCIEmaGeQ==
+X-Received: by 2002:aa7:c61a:0:b0:44e:7d1d:7814 with SMTP id
+ h26-20020aa7c61a000000b0044e7d1d7814mr11620464edq.44.1662734345154; 
+ Fri, 09 Sep 2022 07:39:05 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6?
+ (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+ by smtp.gmail.com with ESMTPSA id
+ h18-20020a17090791d200b007308bdef04bsm352871ejz.103.2022.09.09.07.39.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Sep 2022 07:39:04 -0700 (PDT)
+Message-ID: <0d876c8e-234e-7e0f-bb5c-862408f9828f@redhat.com>
+Date: Fri, 9 Sep 2022 16:39:04 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="h2bfpwikhbontasj"
-Content-Disposition: inline
-In-Reply-To: <YxY0A8RQsGZkwrtU@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC v2] drm/kms: control display brightness through
+ drm_connector properties
+To: Simon Ser <contact@emersion.fr>
+References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
+ <KBKl__LKqWb8-i0ErjSYiqJRJOf2AK48SVFIvyOYM-aGG_uZOal8BAm3VbkFJHc6Vquz1mFNugZkoFyz490r6N5UIM1a8JthAgFyDnQBtqk=@emersion.fr>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <KBKl__LKqWb8-i0ErjSYiqJRJOf2AK48SVFIvyOYM-aGG_uZOal8BAm3VbkFJHc6Vquz1mFNugZkoFyz490r6N5UIM1a8JthAgFyDnQBtqk=@emersion.fr>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,102 +89,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---h2bfpwikhbontasj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/9/22 15:39, Simon Ser wrote:
+> On Friday, September 9th, 2022 at 12:12, Hans de Goede <hdegoede@redhat.com> wrote:
+> 
+>> Phase 3: Deprecate /sys/class/backlight uAPI
+>> ============================================
+>>
+>> Once most userspace has moved over to using the new drm_connector
+>> brightness props, a Kconfig option can be added to stop exporting
+>> the backlight-devices under /sys/class/backlight. The plan is to
+>> just disable the sysfs interface and keep the existing backlight-device
+>> internal kernel abstraction as is, since some abstraction for (non GPU
+>> native) backlight devices will be necessary regardless.
+>>
+>> It is unsure if we will ever be able to do this. For example people using
+>> non fully integrated desktop environments like e.g. sway often use custom
+>> scripts binded to hotkeys to get functionality like the brightness
+>> up/down keyboard hotkeys changing the brightness. This typically involves
+>> e.g. the xbacklight utility.
+>>
+>> Even if the xbacklight utility is ported to use kms with the new connector
+>> object brightness properties then this still will not work because
+>> changing the properties will require drm-master rights and e.g. sway will
+>> already hold those.
+> 
+> I replied to this here in another thread [1].
+> 
+> tl;dr I think it would be fine even for Sway-like compositors.
 
-Hi Ville
+Ok, that is good to know.
 
-Thanks for your review
+> (Also note the utilities used right now are not xbacklight, but
+> brightnessctl/light/brillo/etc [2])
 
-On Mon, Sep 05, 2022 at 08:38:11PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Mon, Aug 29, 2022 at 03:47:27PM +0200, Maxime Ripard wrote:
-> > Our detect callback has a bunch of operations to perform depending on
-> > the current and last status of the connector, such a setting the CEC
-> > physical address or enabling the scrambling again.
-> >=20
-> > This is currently dealt with a bunch of if / else statetements that make
-> > it fairly difficult to read and extend.
-> >=20
-> > Let's move all that logic to a function of its own.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 66 ++++++++++++++++++++++------------
-> >  1 file changed, 44 insertions(+), 22 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
-dmi.c
-> > index b786645eaeb7..9fad57ebdd11 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > @@ -273,17 +273,53 @@ static void vc4_hdmi_cec_update_clk_div(struct vc=
-4_hdmi *vc4_hdmi) {}
-> > =20
-> >  static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder);
-> > =20
-> > +static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
-> > +				    enum drm_connector_status status)
-> > +{
-> > +	struct drm_connector *connector =3D &vc4_hdmi->connector;
-> > +	struct edid *edid;
-> > +
-> > +	/*
-> > +	 * NOTE: This function should really be called with
-> > +	 * vc4_hdmi->mutex held, but doing so results in reentrancy
-> > +	 * issues since cec_s_phys_addr_from_edid might call
-> > +	 * .adap_enable, which leads to that funtion being called with
-> > +	 * our mutex held.
-> > +	 *
-> > +	 * Concurrency isn't an issue at the moment since we don't share
-> > +	 * any state with any of the other frameworks so we can ignore
-> > +	 * the lock for now.
-> > +	 */
-> > +
-> > +	if (status =3D=3D connector->status)
-> > +		return;
->=20
-> This looks to have a change in behaviour to not call
-> vc4_hdmi_enable_scrambling() unless a change in the
-> connector status was detected. The previous code called
-> it regarless.
+Ah I thought that xbacklight got patched at one point to support
+the sysfs API, but I see now that instead alternative utilities
+have popped up.
 
-Yeah, good point
+Regards,
 
-> When I was doing the i915 stuff I did have a sink that
-> left hpd asserted while turned off, and when powering
-> back up it instead generated a pulse on the hpd line.
-> Not sure if such a pulse is always slow enough that
-> you can reasonably guarantee a detection of both edges...
->=20
-> Apart from that (and the cec locking mess that I dared
-> not even look at) the rest of the series looks OK to me.
+Hans
 
-Can I add your R-B and remove the check you mentioned above while
-applying, or would you prefer that I send a new version?
 
-Thanks!
-Maxime
+> 
+> [1]: https://lore.kernel.org/dri-devel/bZJU9OkYWFyaLHVa4XUE4d5iBTPFXBRyPe1wMd_ztKh5VBMu-EDNGoUDpvwtFn_u9-JMvN8QmIZVS3pzMZM_hZTkTCA9gOBnCGXc5HFmsnc=@emersion.fr/
+> [2]: https://github.com/swaywm/sway/wiki#xbacklight
+> 
+>> The drm_connector brightness properties
+>> =======================================
+>>
+>> The new uAPI for this consists of 2 properties:
+>>
+>> 1. "display brightness": rw 0-int32_max property controlling the brightness setting
+>> of the connected display. The actual maximum of this will be less then
+>> int32_max and is given in "display brightness max".
+>>
+>> Unlike the /sys/class/backlight/foo/brightness this brightness property
+>> has a clear definition for the value 0. The kernel must ensure that 0
+>> means minimum brightness (so 0 should never turn the backlight off).
+>> If necessary the kernel must enforce a minimum value by adding
+>> an offset to the value seen in the property to ensure this behavior.
+>>
+>> For example if necessary the driver must clamp 0-255 to 10-255, which then
+>> becomes 0-245 on the brightness property, adding 10 internally to writes
+>> done to the brightness property. This adding of an extra offset when
+>> necessary must only be done on the brightness property,
+>> the /sys/class/backlight interface should be left unchanged to not break
+>> userspace which may rely on 0 = off on some systems.
+>>
+>> Note amdgpu already does something like this even for /sys/class/backlight,
+>> see the use of AMDGPU_DM_DEFAULT_MIN_BACKLIGHT in amdgpu.
+>>
+>> Also whenever possible the kernel must ensure that the brightness range
+>> is in perceived brightness, but this cannot always be guaranteed.
+>>
+>>
+>> 2. "display brightness max": ro 0-int32_max property giving the actual maximum
+>> of the display's brightness setting. This will report 0 when brightness
+>> control is not available.
+>>
+>> The value of "display brightness max" may change at runtime, either by
+>> a legacy drivers/platform/x86 backlight driver loading after the drm
+>> driver has loaded; or when plugging in a monitor which allows brightness
+>> control over DDC/CI. In both these cases the max value will change from 0
+>> to the actual max value, indicating backlight control has become available
+>> on this connector.
+> 
+> The kernel will need to ensure that a hotplug uevent is sent to
+> user-space at this point. Otherwise user-space has no way to figure out
+> that the prop has changed.
+> 
+> Overall this all looks very solid to me!
+> 
+> Simon
+> 
 
---h2bfpwikhbontasj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxtPfAAKCRDj7w1vZxhR
-xZj9AP4nplELrSJUSZifSdWuQxOArQVc45QEpPe+4TpVFHcaOwEA07gc6nJ6PZOD
-YyLbOxM+nSwMeMaOwFWbLspgSecmsAY=
-=4q8W
------END PGP SIGNATURE-----
-
---h2bfpwikhbontasj--
