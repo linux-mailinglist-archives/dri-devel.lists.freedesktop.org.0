@@ -1,46 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A745B3637
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:20:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 773295B3650
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:28:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD49A10E009;
-	Fri,  9 Sep 2022 11:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59C7D10EC9A;
+	Fri,  9 Sep 2022 11:28:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D15AE10E009;
- Fri,  9 Sep 2022 11:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662722442; x=1694258442;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=Px1eJiOFYbJEgbFjGUcx5/qxK/82YytbDllANuS3q6A=;
- b=KfMUdpnJNz09/dg9YjzaZ2o8ei1B+5GN8sidycrGd5xQpE2XwFWF9kCD
- 20JElWSmIhI242NcsWOFGZjYUWqxyseo6uQnHoyOQWQutwBsJOAO/b72y
- DM5eo8+z1ce3gNd1itDWTp8RInZfCxQPPR1N79n3NBkhJEplZnkgUU41H
- eyT7qdjP2gdty/4OCUnURhgwxQVviaouj8lgqFaH1/dJ2T5Z8rZ0SVqYY
- cQsTxp2SGTQMNhxPtjJ07LdWKfcH06Y9lyySFPhhXkQOdHhI6Qlh7qj2U
- lyqCB4j9VhpWhucUNcM9jjogyAa6NMiTq7n63sFm7etlUyHyCV5QcXbI+ A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="298256014"
-X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="298256014"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 04:20:36 -0700
-X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="677123999"
-Received: from fjkilken-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.15.201])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 04:20:32 -0700
-Date: Fri, 9 Sep 2022 14:20:30 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <YxshfqUN+vDe92Zn@jlahtine-mobl.ger.corp.intel.com>
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD5310EC9A
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 11:28:21 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id bq9so2232093wrb.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 04:28:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=woBZw+XonV0Wc5qhjXcMw+kc+9HKENdHdC390sUdFNc=;
+ b=CJplOplyAgy/Vnq0Ovubf6ZmFSNmgvIHDH6Gz2pXyPAYV3zCIZpBNn7CjwI8ssgrqw
+ 5pe6G9ZH2SnhW/sKmnhkuCtDFiG7LS094v3vNgNqtpX8ZEyKyCeHRQ7tMTUT/1CoY+0E
+ 2ESenDcG3ddIMi6ZwvDF+QFXUuxBcWVSmTg0iKIwOaF1jIbvW+IXBa1ZCHf9ydTwjMcV
+ kaom5lcMmT9nQFcvDuTZ2vX3NTkT3fM0RyIM5Y7mn4SmXodyaqwD8XAEsDPWcX6JO0YI
+ YfJzELN9gXMw5i8MRZbnkVYXjIk30Sv9hYwXKsYokjyGMARLWGFiPYFC0uP9hDqT7b4c
+ OkYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=woBZw+XonV0Wc5qhjXcMw+kc+9HKENdHdC390sUdFNc=;
+ b=a7PNK9zAAPyOE2eCCiS2rU/JqvANbF7BCecrdwy1M38TsUJ/7u2roWj/IC061ERfLz
+ NkhgHJWs4/zFbfSmswXZsgDlie/pVaFJRiAt+2ilLkqNS+fI4+Uz6Kg4snD04nPzuUeo
+ 5TGDViCrveCgS8M2dj3AdnF/6iBgDwTS/b35OWEvsjwhBmGUbR4dPTHgj8AyATrZor9v
+ +tKyBL/EuZfd5qQQsMmcPDIvHDM8teK1KxvuKuCxj+yBPAJsf5wzzQQPM2J8GQScIYo2
+ RBryCgfSmda6o9VAQS5GXEwAv6eQOPYDZ+JrlFN2/G6D22jucVFJkBhJSWR01xaK4A0v
+ FtYA==
+X-Gm-Message-State: ACgBeo3qY1ZQO1ax3yO/l0UCKs+oUx9USa8gJB0apjyMgkSKD4w8+Kps
+ geytddwRG5VU4yTCEdRFuZGkHYNroz5ceNpc
+X-Google-Smtp-Source: AA6agR55oRIIYdaAGAIVusivzoDiLjqbkaH4/1As5zVRm7+2An/RNlFPdwa+FcvHJz1TcqoKmZQ4qQ==
+X-Received: by 2002:a5d:6c6e:0:b0:225:5a20:1bd1 with SMTP id
+ r14-20020a5d6c6e000000b002255a201bd1mr7652932wrz.717.1662722899518; 
+ Fri, 09 Sep 2022 04:28:19 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:ca05:c15c:ee41:c8ab?
+ ([2a01:e0a:982:cbb0:ca05:c15c:ee41:c8ab])
+ by smtp.gmail.com with ESMTPSA id
+ h189-20020a1c21c6000000b003a845621c5bsm318327wmh.34.2022.09.09.04.28.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Sep 2022 04:28:18 -0700 (PDT)
+Message-ID: <595e620a-1d0d-73e7-cd20-79b145727a70@baylibre.com>
+Date: Fri, 9 Sep 2022 13:28:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/meson: Correct OSD1 global alpha value
+Content-Language: en-US
+To: Stuart Menefy <stuart.menefy@mathembedded.com>,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
+References: <20220908155103.686904-1-stuart.menefy@mathembedded.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <20220908155103.686904-1-stuart.menefy@mathembedded.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,250 +78,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+Hi,
 
-Here goes second drm-intel-gt-next PR towards 6.1.
+Thanks for submitting this patch !
 
-As the top item we're now aligning the GuC/HuC firmware versioning
-to meet the expectations recorded under firmware-usage-guidelines.rst.
-A revert of a previous (incorrect) userspace register removal for DG2
-and addition of new DG2 workaround. Reject suspend on DG2 on low
-system memory condition.
+On 08/09/2022 17:51, Stuart Menefy wrote:
+> VIU_OSD1_CTRL_STAT.GLOBAL_ALPHA is a 9 bit field, so the maximum
+> value is 0x100 not 0xff.
 
-Fix for Gitlab #6639 h264 hardware video decoding regression, GuC SLPC
-improvements, PXP fix, ATS-M thread tuning settings and tiny bit of
-Meteorlake enabling, 
+Indeed it's 9bit, but all bits to 1 would be 0x1ff then, but indeed vendor
+uses :
+#define OSD_GLOBAL_ALPHA_DEF 0x100
 
-Regards, Joonas
+> 
+> This matches the vendor kernel.
+>
+Fixes: bbbe775ec5b5 ("drm: Add support for Amlogic Meson Graphic Controller")
 
-PS. Still not the top of drm-intel-gt-next as need your comments on
-fixing(?) the Acked-by's on the MEI/GSC patches.
+> Signed-off-by: Stuart Menefy <stuart.menefy@mathembedded.com>
+> ---
+>   drivers/gpu/drm/meson/meson_plane.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
+> index d5cbc47..45088f0 100644
+> --- a/drivers/gpu/drm/meson/meson_plane.c
+> +++ b/drivers/gpu/drm/meson/meson_plane.c
+> @@ -163,7 +163,7 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
+>   
+>   	/* Enable OSD and BLK0, set max global alpha */
+>   	priv->viu.osd1_ctrl_stat = OSD_ENABLE |
+> -				   (0xFF << OSD_GLOBAL_ALPHA_SHIFT) |
+> +				   (0x100 << OSD_GLOBAL_ALPHA_SHIFT) |
+>   				   OSD_BLK0_ENABLE;
+>   
+>   	priv->viu.osd1_ctrl_stat2 = readl(priv->io_base +
 
-***
-
-drm-intel-gt-next-2022-09-09:
-
-UAPI Changes:
-
-- Revert "drm/i915/dg2: Add preemption changes for Wa_14015141709"
-
-  The intent of Wa_14015141709 was to inform us that userspace can no
-  longer control object-level preemption as it has on past platforms
-  (i.e., by twiddling register bit CS_CHICKEN1[0]).  The description of
-  the workaround in the spec wasn't terribly well-written, and when we
-  requested clarification from the hardware teams we were told that on the
-  kernel side we should also probably stop setting
-  FF_SLICE_CS_CHICKEN1[14], which is the register bit that directs the
-  hardware to honor the settings in per-context register CS_CHICKEN1.  It
-  turns out that this guidance about FF_SLICE_CS_CHICKEN1[14] was a
-  mistake; even though CS_CHICKEN1[0] is non-operational and useless to
-  userspace, there are other bits in the register that do still work and
-  might need to be adjusted by userspace in the future (e.g., to implement
-  other workarounds that show up).  If we don't set
-  FF_SLICE_CS_CHICKEN1[14] in i915, then those future workarounds would
-  not take effect.
-
-  Even more details at:
-
-  https://lists.freedesktop.org/archives/intel-gfx/2022-September/305478.html
-
-Driver Changes:
-
-- Align GuC/HuC firmware versioning scheme to kernel practices (John)
-- Fix #6639: h264 hardware video decoding broken in 5.19 on Intel(R)
-  Celeron(R) N3060 (Nirmoy)
-- Meteorlake (MTL) enabling (Matt R)
-- GuC SLPC improvements (Vinay, Rodrigo)
-- Add thread execution tuning setting for ATS-M (Matt R)
-- Don't start PXP without mei_pxp bind (Juston)
-- Remove leftover verbose debug logging from GuC error capture (John)
-- Abort suspend on low system memory conditions (Nirmoy, Matt A, Chris)
-- Add DG2 Wa_16014892111 (Matt R)
-
-- Rename ggtt_view as gtt_view (Niranjana)
-- Consider HAS_FLAT_CCS() in needs_ccs_pages (Matt A)
-- Don't try to disable host RPS when this was never enabled. (Rodrigo)
-- Clear stalled GuC CT request after a reset (Daniele)
-- Remove runtime info printing from GuC time stamp logging (Jani)
-- Skip Bit12 fw domain reset for gen12+ (Sushma, Radhakrishna)
-
-- Make GuC log sizes runtime configurable (John)
-- Selftest improvements (Daniele, Matt B, Andrzej)
-
-The following changes since commit 5ece208ab05e4042c80ed1e6fe6d7ce236eee89b:
-
-  drm/i915/guc: Use streaming loads to speed up dumping the guc log (2022-08-17 10:07:03 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2022-09-09
-
-for you to fetch changes up to 04f7eb3d4582a0a4da67c86e55fda7de2df86d91:
-
-  drm/i915: Set correct domains values at _i915_vma_move_to_active (2022-09-08 11:06:35 +0100)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-- Revert "drm/i915/dg2: Add preemption changes for Wa_14015141709"
-
-  The intent of Wa_14015141709 was to inform us that userspace can no
-  longer control object-level preemption as it has on past platforms
-  (i.e., by twiddling register bit CS_CHICKEN1[0]).  The description of
-  the workaround in the spec wasn't terribly well-written, and when we
-  requested clarification from the hardware teams we were told that on the
-  kernel side we should also probably stop setting
-  FF_SLICE_CS_CHICKEN1[14], which is the register bit that directs the
-  hardware to honor the settings in per-context register CS_CHICKEN1.  It
-  turns out that this guidance about FF_SLICE_CS_CHICKEN1[14] was a
-  mistake; even though CS_CHICKEN1[0] is non-operational and useless to
-  userspace, there are other bits in the register that do still work and
-  might need to be adjusted by userspace in the future (e.g., to implement
-  other workarounds that show up).  If we don't set
-  FF_SLICE_CS_CHICKEN1[14] in i915, then those future workarounds would
-  not take effect.
-
-  Even more details at:
-
-  https://lists.freedesktop.org/archives/intel-gfx/2022-September/305478.html
-
-Driver Changes:
-
-- Align GuC/HuC firmware versioning scheme to kernel practices (John)
-- Fix #6639: h264 hardware video decoding broken in 5.19 on Intel(R)
-  Celeron(R) N3060 (Nirmoy)
-- Meteorlake (MTL) enabling (Matt R)
-- GuC SLPC improvements (Vinay, Rodrigo)
-- Add thread execution tuning setting for ATS-M (Matt R)
-- Don't start PXP without mei_pxp bind (Juston)
-- Remove leftover verbose debug logging from GuC error capture (John)
-- Abort suspend on low system memory conditions (Nirmoy, Matt A, Chris)
-- Add DG2 Wa_16014892111 (Matt R)
-
-- Rename ggtt_view as gtt_view (Niranjana)
-- Consider HAS_FLAT_CCS() in needs_ccs_pages (Matt A)
-- Don't try to disable host RPS when this was never enabled. (Rodrigo)
-- Clear stalled GuC CT request after a reset (Daniele)
-- Remove runtime info printing from GuC time stamp logging (Jani)
-- Skip Bit12 fw domain reset for gen12+ (Sushma, Radhakrishna)
-
-- Make GuC log sizes runtime configurable (John)
-- Selftest improvements (Daniele, Matt B, Andrzej)
-
-----------------------------------------------------------------
-Andrzej Hajda (1):
-      drm/i915/selftests: allow misaligned_pin test work with unmappable memory
-
-Daniele Ceraolo Spurio (2):
-      drm/i915/guc: skip scrub_ctbs selftest if reset is disabled
-      drm/i915/guc: clear stalled request after a reset
-
-Jani Nikula (1):
-      drm/i915/guc: remove runtime info printing from time stamp logging
-
-John Harrison (4):
-      drm/i915/guc: Make GuC log sizes runtime configurable
-      drm/i915/guc: Reduce spam from error capture
-      drm/i915/uc: Support for version reduced and multiple firmware files
-      drm/i915/uc: Add patch level version number support
-
-Joonas Lahtinen (1):
-      drm/i915/guc: Remove log size module parameters
-
-Juston Li (1):
-      drm/i915/pxp: don't start pxp without mei_pxp bind
-
-Matt Roper (5):
-      drm/i915/mtl: MMIO range is now 4MB
-      drm/i915/mtl: Don't mask off CCS according to DSS fusing
-      drm/i915/dg2: Incorporate Wa_16014892111 into DRAW_WATERMARK tuning
-      Revert "drm/i915/dg2: Add preemption changes for Wa_14015141709"
-      drm/i915/ats-m: Add thread execution tuning setting
-
-Matthew Auld (2):
-      Revert "drm/i915/guc: Add delay to disable scheduling after pin count goes to zero"
-      drm/i915: consider HAS_FLAT_CCS() in needs_ccs_pages
-
-Matthew Brost (2):
-      drm/i915/selftests: Use correct selfest calls for live tests
-      drm/i915/guc: Add delay to disable scheduling after pin count goes to zero
-
-Niranjana Vishwanathapura (1):
-      drm/i915: Rename ggtt_view as gtt_view
-
-Nirmoy Das (2):
-      drm/i915/ttm: Abort suspend on i915_ttm_backup failure
-      drm/i915: Set correct domains values at _i915_vma_move_to_active
-
-Radhakrishna Sripada (1):
-      drm/i915: Skip Bit12 fw domain reset for gen12+
-
-Rodrigo Vivi (3):
-      drm/i915/slpc: Fix inconsistent locked return
-      drm/i915/slpc: Let's fix the PCODE min freq table setup for SLPC
-      drm/i915: Don't try to disable host RPS when this was never enabled.
-
-Vinay Belgaumkar (1):
-      drm/i915/guc/slpc: Allow SLPC to use efficient frequency
-
- drivers/gpu/drm/i915/display/intel_display.c       |   2 +-
- drivers/gpu/drm/i915/display/intel_display.h       |   2 +-
- drivers/gpu/drm/i915/display/intel_display_types.h |   2 +-
- drivers/gpu/drm/i915/display/intel_fb.c            |  18 +-
- drivers/gpu/drm/i915/display/intel_fb_pin.c        |   4 +-
- drivers/gpu/drm/i915/display/intel_fb_pin.h        |   4 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c         |   4 +-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c         |   4 +-
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  16 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |   3 +
- drivers/gpu/drm/i915/gem/i915_gem_object.h         |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c         |   7 +-
- .../drm/i915/gem/selftests/i915_gem_coherency.c    |   2 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c   |   2 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |   6 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_object.c   |   2 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   2 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h            |   2 +
- drivers/gpu/drm/i915/gt/intel_llc.c                |  19 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c                |  21 +
- drivers/gpu/drm/i915/gt/intel_reset.c              |   2 +-
- drivers/gpu/drm/i915/gt/intel_rps.c                |  60 ++-
- drivers/gpu/drm/i915/gt/intel_rps.h                |   2 +
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |  13 +-
- drivers/gpu/drm/i915/gt/selftest_slpc.c            |   9 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |  55 +--
- drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c     |  81 ++--
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c         | 175 +++++++-
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.h         |  42 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |  86 +---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  17 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c              |   8 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           | 462 ++++++++++++++-------
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |  39 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw_abi.h       |   8 +-
- drivers/gpu/drm/i915/gt/uc/selftest_guc.c          |   3 +
- drivers/gpu/drm/i915/i915_debugfs.c                |  56 +--
- drivers/gpu/drm/i915/i915_drv.h                    |   7 +-
- drivers/gpu/drm/i915/i915_gem.c                    |   6 +-
- drivers/gpu/drm/i915/i915_gpu_error.c              |  16 +-
- drivers/gpu/drm/i915/i915_pci.c                    |   1 +
- drivers/gpu/drm/i915/i915_vma.c                    |  43 +-
- drivers/gpu/drm/i915/i915_vma.h                    |  18 +-
- drivers/gpu/drm/i915/i915_vma_types.h              |  42 +-
- drivers/gpu/drm/i915/intel_device_info.h           |   1 +
- drivers/gpu/drm/i915/intel_mchbar_regs.h           |   3 +
- drivers/gpu/drm/i915/intel_uncore.c                |  18 +-
- drivers/gpu/drm/i915/pxp/intel_pxp.c               |  15 +
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |   4 +-
- drivers/gpu/drm/i915/selftests/i915_perf.c         |   2 +-
- drivers/gpu/drm/i915/selftests/i915_request.c      |   2 +-
- drivers/gpu/drm/i915/selftests/i915_vma.c          |  70 ++--
- 53 files changed, 937 insertions(+), 555 deletions(-)
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
