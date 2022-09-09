@@ -2,47 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E564F5B3036
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 09:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953645B3033
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 09:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDBBE10EC25;
-	Fri,  9 Sep 2022 07:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B902610EC1E;
+	Fri,  9 Sep 2022 07:35:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFFC010EC06;
- Fri,  9 Sep 2022 07:35:02 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 39E1361EDB;
- Fri,  9 Sep 2022 07:35:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73C8FC433D6;
- Fri,  9 Sep 2022 07:35:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662708902;
- bh=nh2Uk3TlUaRu9UVMUU/JV+L/qvYYQzUsH29Ji+aEIaI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Al7mAT5XcsQJ7t0LjstvdNYLWMAQocjHizLxyZzYeHDcbgJr0QPdN2BIyhid5OZWD
- 1La/BdQoIkxyhFUQb2hxO2BSKSQilgGflvlQxYJ4KEf6ZmdcYpU88xJUc/CYSRQdeU
- mtdRyL+u7nbGfAicPxRDI/pxGqG4ney5hY02e1LvWBj6B+YXo3wkbLrfC504cLpV71
- X4ugEsxB+roHJwksnOBeFq3PDobWWKMKWlBqWP/T7WoWHx7OXq+zJ49NMW0fDdFX3i
- +Qd6dEclupKAjdO1MHsEDjqS1SirkMEQJZWMjdGZv31wuZbMFdwdMW+3/9K9oivE9I
- sysIIDVef/3DA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oWYXH-007FI0-PE;
- Fri, 09 Sep 2022 09:34:47 +0200
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: 
-Subject: [PATCH v3 37/37] drm/i915: be consistent with kernel-doc function
- declaration
-Date: Fri,  9 Sep 2022 09:34:44 +0200
-Message-Id: <b0caa1cfce522bef57351ac5bbaf1329eb05509f.1662708705.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <cover.1662708705.git.mchehab@kernel.org>
-References: <cover.1662708705.git.mchehab@kernel.org>
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 513F410EBFF
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 07:34:59 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id d12so1013668plr.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 00:34:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=F8heGgiX2zw+gUOsFvHDUXB/UIkouvU71qsS0n5i0Pc=;
+ b=iI85s80/dPQ8Df+s4L1AsOz2KtLDjSBRJjt2iwUkd73KubU95F38aa8cmUYCwPZuWN
+ JGlHI2zI20QadGQBl7MZfgkUBQ0FelJ3u/VzjVao/92ro0vH7FhHM7FSz0rXlDnVC/Gd
+ nf48+iI4B4+HP2E7JEXzS5KJ3xw6yvWMo6qLeoPKt6BbMa1gsJHfxKBcbpWfrgv8Etbs
+ jw4QEFPI6vFYQwEsr5t9A3+LhvZs10UHXige0CjZplPruKYQLp6CAF8uZmxh2qxMC8e6
+ 7A3HYj8ff1vtIyGNYitMWfWIvz8VLIxSehXy2rUP+8iZ81XeJRldJJqbsmlS8+f2LnlO
+ SpZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=F8heGgiX2zw+gUOsFvHDUXB/UIkouvU71qsS0n5i0Pc=;
+ b=0pzPNeb39e1cv5vrqvsSEOVPiFC3krQa0VHO8URwR6JHm7cd744NkYPL5r7WMStrvU
+ xnhAyM8st2XaoCUaVtoSEHYIh1HZSiJN0MPEFGrm3Rv4dHtX5DAih7bO1PkcHzn1uIaR
+ yaSpsoOAL/SjvGWg9hNH27exsLCzWRbLKfd7/D9A0slYRdFaDSTtWnnH4ndteBz2+C+L
+ ZUKECb/31lAOsfx6aempTmUAucTCdrp19Qo0YNH2UhRUPhLu6jkr5uDcUctNVIpz0lgf
+ NdH/aMrOX0683IDMtd4SBVUi10eL90OKSHapmya4yt44nJZhy1Z7JBNUZNzFiRRBtgeh
+ Lxbw==
+X-Gm-Message-State: ACgBeo14pDFM0aIXcnSXxGvoOz5qZ0QqCFaWe4ShE5kPrRcZoJQyMxYe
+ wl44gTMKT5E/8TkymwhxRdd5aXx7GUwB+x5Ze65vBgKZrHg=
+X-Google-Smtp-Source: AA6agR6nWTt41yPkZk8qPY6PwN1PCncI0K+TIQmdbqS2qVU+d+6pVuxL0aollaKpt7jdCR+Y1jYwApiM/323IKoMDG8=
+X-Received: by 2002:a17:90b:4d8e:b0:200:73b4:4da2 with SMTP id
+ oj14-20020a17090b4d8e00b0020073b44da2mr8464382pjb.197.1662708897458; Fri, 09
+ Sep 2022 00:34:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220906203852.527663-1-hdegoede@redhat.com>
+ <20220906203852.527663-4-hdegoede@redhat.com>
+ <CAMeQTsYwrtAwb2_Lj2RyrWCov88Nq=-_tScD5dXC548Fog3X0w@mail.gmail.com>
+ <69fc33c6-b6b0-ba98-d2c6-0fb35df63933@redhat.com>
+In-Reply-To: <69fc33c6-b6b0-ba98-d2c6-0fb35df63933@redhat.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Fri, 9 Sep 2022 09:34:46 +0200
+Message-ID: <CAMeQTsae12K7WzCBQSVoMk5+CO1H6tO=r0iAfsqNo96ekp4SmA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/gma500: Fix (vblank) IRQs not working after
+ suspend/resume
+To: Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,618 +67,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>,
- David Airlie <airlied@linux.ie>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Fernando Ramos <greenfoo@u92.eu>, Matthew Brost <matthew.brost@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Uma Shankar <uma.shankar@intel.com>, Matthew Auld <matthew.auld@intel.com>,
- Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Animesh Manna <animesh.manna@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
- Sean Paul <seanpaul@chromium.org>,
- Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>,
- Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, 91% of kernel-doc function declarations don't have
-parenthesis on it. Let's be consistent inside the driver by
-removing the parenthesis from the other ones.
+pci_restore_msi_stateOn Thu, Sep 8, 2022 at 3:39 PM Hans de Goede
+<hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 9/8/22 15:26, Patrik Jakobsson wrote:
+> > On Tue, Sep 6, 2022 at 10:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> >>
+> >> Fix gnome-shell (and other page-flip users) hanging after suspend/resume
+> >> because of the gma500's IRQs not working.
+> >>
+> >> This fixes 2 problems with the IRQ handling:
+> >>
+> >> 1. gma_power_off() calls gma_irq_uninstall() which does a free_irq(), but
+> >>    gma_power_on() called gma_irq_preinstall() + gma_irq_postinstall() which
+> >>    do not call request_irq. Replace the pre- + post-install calls with
+> >>    gma_irq_install() which does prep + request + post.
+> >
+> > Hmm, I don't think we're supposed to do free_irq() during suspend in
+> > the first place. request_irq() and free_irq() are normally only called
+> > in the pci device probe/remove hooks. Same is true for msi
+> > enable/disable.
+>
+> Right. I first tried to switch to disable_irq() / enable_irq() which are
+> expected to be used during suspend/resume. That did resolve the issue
+> of there no longer being an IRQ handler registered after suspend/resume,
+> but the IRQ still would no longer fire after a suspend/resume.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
+The irq enable/disable is handled by writing PSB_INT_ENABLE_R in
+gma_irq_install/uninstall(). Also using disable_irq() and enable_irq()
+shouldn't be required. But the docs could be wrong and this might fix
+the interrupts I'm seeing on PSB after resume.
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH v3 00/37] at: https://lore.kernel.org/all/cover.1662708705.git.mchehab@kernel.org/
+>
+> So then I tried the pci_disable_msi() + pci_enable_msi() and that
+> did the trick. And since we should not call pci_disable_msi() with an
+> IRQ handler registered I decided to keep the free_irq + request_irq
+> over suspend/resume.
 
- drivers/gpu/drm/i915/display/intel_atomic.c    |  2 +-
- drivers/gpu/drm/i915/display/intel_audio.c     |  4 ++--
- drivers/gpu/drm/i915/display/intel_crtc.c      |  4 ++--
- drivers/gpu/drm/i915/display/intel_dmc.c       | 10 +++++-----
- drivers/gpu/drm/i915/display/intel_dsb.c       | 10 +++++-----
- drivers/gpu/drm/i915/display/intel_lpe_audio.c |  8 ++++----
- drivers/gpu/drm/i915/gt/intel_engine_cs.c      | 10 +++++-----
- drivers/gpu/drm/i915/gt/uc/intel_guc.c         | 10 +++++-----
- drivers/gpu/drm/i915/gt/uc/intel_guc.h         |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c     |  4 ++--
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c      |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c    |  8 ++++----
- drivers/gpu/drm/i915/gt/uc/intel_huc.c         |  4 ++--
- drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c      |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h       |  2 +-
- drivers/gpu/drm/i915/i915_cmd_parser.c         |  8 ++++----
- drivers/gpu/drm/i915/i915_reg_defs.h           | 12 ++++++------
- drivers/gpu/drm/i915/intel_wopcm.c             |  4 ++--
- 18 files changed, 53 insertions(+), 53 deletions(-)
+Ok, then I understand your motivation for the free/request dance.
+However, I would argue that if this problem is specific to your
+Packard Bell Dot SC it is better handled with a quirk.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
-index 18f0a5ae3bac..9b604a720ff0 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-@@ -373,7 +373,7 @@ static void intel_atomic_setup_scaler(struct intel_crtc_scaler_state *scaler_sta
- }
- 
- /**
-- * intel_atomic_setup_scalers() - setup scalers for crtc per staged requests
-+ * intel_atomic_setup_scalers - setup scalers for crtc per staged requests
-  * @dev_priv: i915 device
-  * @intel_crtc: intel crtc
-  * @crtc_state: incoming crtc_state to validate and setup scalers
-diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drivers/gpu/drm/i915/display/intel_audio.c
-index aacbc6da84ef..667fe9a8ff8e 100644
---- a/drivers/gpu/drm/i915/display/intel_audio.c
-+++ b/drivers/gpu/drm/i915/display/intel_audio.c
-@@ -1385,7 +1385,7 @@ static void i915_audio_component_cleanup(struct drm_i915_private *dev_priv)
- }
- 
- /**
-- * intel_audio_init() - Initialize the audio driver either using
-+ * intel_audio_init - Initialize the audio driver either using
-  * component framework or using lpe audio bridge
-  * @dev_priv: the i915 drm device private data
-  *
-@@ -1397,7 +1397,7 @@ void intel_audio_init(struct drm_i915_private *dev_priv)
- }
- 
- /**
-- * intel_audio_deinit() - deinitialize the audio driver
-+ * intel_audio_deinit - deinitialize the audio driver
-  * @dev_priv: the i915 drm device private data
-  *
-  */
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-index 6792a9056f46..507d7aec7b1c 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc.c
-+++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-@@ -463,7 +463,7 @@ static int intel_mode_vblank_start(const struct drm_display_mode *mode)
- }
- 
- /**
-- * intel_pipe_update_start() - start update of a set of display registers
-+ * intel_pipe_update_start - start update of a set of display registers
-  * @new_crtc_state: the new crtc state
-  *
-  * Mark the start of an update to pipe registers that should be updated
-@@ -617,7 +617,7 @@ static void dbg_vblank_evade(struct intel_crtc *crtc, ktime_t end) {}
- #endif
- 
- /**
-- * intel_pipe_update_end() - end update of a set of display registers
-+ * intel_pipe_update_end - end update of a set of display registers
-  * @new_crtc_state: the new crtc state
-  *
-  * Mark the end of an update started with intel_pipe_update_start(). This
-diff --git a/drivers/gpu/drm/i915/display/intel_dmc.c b/drivers/gpu/drm/i915/display/intel_dmc.c
-index e52ecc0738a6..2024884688f6 100644
---- a/drivers/gpu/drm/i915/display/intel_dmc.c
-+++ b/drivers/gpu/drm/i915/display/intel_dmc.c
-@@ -408,7 +408,7 @@ static void pipedmc_clock_gating_wa(struct drm_i915_private *i915, bool enable)
- }
- 
- /**
-- * intel_dmc_load_program() - write the firmware from memory to register.
-+ * intel_dmc_load_program - write the firmware from memory to register.
-  * @dev_priv: i915 drm device.
-  *
-  * DMC firmware is read from a .bin file and kept in internal memory one time.
-@@ -876,7 +876,7 @@ static void dmc_load_work_fn(struct work_struct *work)
- }
- 
- /**
-- * intel_dmc_ucode_init() - initialize the firmware loading.
-+ * intel_dmc_ucode_init - initialize the firmware loading.
-  * @dev_priv: i915 drm device.
-  *
-  * This function is called at the time of loading the display driver to read
-@@ -973,7 +973,7 @@ void intel_dmc_ucode_init(struct drm_i915_private *dev_priv)
- }
- 
- /**
-- * intel_dmc_ucode_suspend() - prepare DMC firmware before system suspend
-+ * intel_dmc_ucode_suspend - prepare DMC firmware before system suspend
-  * @dev_priv: i915 drm device
-  *
-  * Prepare the DMC firmware before entering system suspend. This includes
-@@ -993,7 +993,7 @@ void intel_dmc_ucode_suspend(struct drm_i915_private *dev_priv)
- }
- 
- /**
-- * intel_dmc_ucode_resume() - init DMC firmware during system resume
-+ * intel_dmc_ucode_resume - init DMC firmware during system resume
-  * @dev_priv: i915 drm device
-  *
-  * Reinitialize the DMC firmware during system resume, reacquiring any
-@@ -1013,7 +1013,7 @@ void intel_dmc_ucode_resume(struct drm_i915_private *dev_priv)
- }
- 
- /**
-- * intel_dmc_ucode_fini() - unload the DMC firmware.
-+ * intel_dmc_ucode_fini - unload the DMC firmware.
-  * @dev_priv: i915 drm device.
-  *
-  * Firmmware unloading includes freeing the internal memory and reset the
-diff --git a/drivers/gpu/drm/i915/display/intel_dsb.c b/drivers/gpu/drm/i915/display/intel_dsb.c
-index c4affcb216fd..2ce406f62d40 100644
---- a/drivers/gpu/drm/i915/display/intel_dsb.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsb.c
-@@ -80,7 +80,7 @@ static bool intel_dsb_disable_engine(struct drm_i915_private *i915,
- }
- 
- /**
-- * intel_dsb_indexed_reg_write() -Write to the DSB context for auto
-+ * intel_dsb_indexed_reg_write -Write to the DSB context for auto
-  * increment register.
-  * @crtc_state: intel_crtc_state structure
-  * @reg: register address.
-@@ -158,7 +158,7 @@ void intel_dsb_indexed_reg_write(const struct intel_crtc_state *crtc_state,
- }
- 
- /**
-- * intel_dsb_reg_write() -Write to the DSB context for normal
-+ * intel_dsb_reg_write -Write to the DSB context for normal
-  * register.
-  * @crtc_state: intel_crtc_state structure
-  * @reg: register address.
-@@ -197,7 +197,7 @@ void intel_dsb_reg_write(const struct intel_crtc_state *crtc_state,
- }
- 
- /**
-- * intel_dsb_commit() - Trigger workload execution of DSB.
-+ * intel_dsb_commit - Trigger workload execution of DSB.
-  * @crtc_state: intel_crtc_state structure
-  *
-  * This function is used to do actual write to hardware using DSB.
-@@ -254,7 +254,7 @@ void intel_dsb_commit(const struct intel_crtc_state *crtc_state)
- }
- 
- /**
-- * intel_dsb_prepare() - Allocate, pin and map the DSB command buffer.
-+ * intel_dsb_prepare - Allocate, pin and map the DSB command buffer.
-  * @crtc_state: intel_crtc_state structure to prepare associated dsb instance.
-  *
-  * This function prepare the command buffer which is used to store dsb
-@@ -316,7 +316,7 @@ void intel_dsb_prepare(struct intel_crtc_state *crtc_state)
- }
- 
- /**
-- * intel_dsb_cleanup() - To cleanup DSB context.
-+ * intel_dsb_cleanup - To cleanup DSB context.
-  * @crtc_state: intel_crtc_state structure to cleanup associated dsb instance.
-  *
-  * This function cleanup the DSB context by unpinning and releasing
-diff --git a/drivers/gpu/drm/i915/display/intel_lpe_audio.c b/drivers/gpu/drm/i915/display/intel_lpe_audio.c
-index dca6003ccac8..078a14e991a0 100644
---- a/drivers/gpu/drm/i915/display/intel_lpe_audio.c
-+++ b/drivers/gpu/drm/i915/display/intel_lpe_audio.c
-@@ -250,7 +250,7 @@ static int lpe_audio_setup(struct drm_i915_private *dev_priv)
- }
- 
- /**
-- * intel_lpe_audio_irq_handler() - forwards the LPE audio irq
-+ * intel_lpe_audio_irq_handler - forwards the LPE audio irq
-  * @dev_priv: the i915 drm device private data
-  *
-  * the LPE Audio irq is forwarded to the irq handler registered by LPE audio
-@@ -270,7 +270,7 @@ void intel_lpe_audio_irq_handler(struct drm_i915_private *dev_priv)
- }
- 
- /**
-- * intel_lpe_audio_init() - detect and setup the bridge between HDMI LPE Audio
-+ * intel_lpe_audio_init - detect and setup the bridge between HDMI LPE Audio
-  * driver and i915
-  * @dev_priv: the i915 drm device private data
-  *
-@@ -291,7 +291,7 @@ int intel_lpe_audio_init(struct drm_i915_private *dev_priv)
- }
- 
- /**
-- * intel_lpe_audio_teardown() - destroy the bridge between HDMI LPE
-+ * intel_lpe_audio_teardown - destroy the bridge between HDMI LPE
-  * audio driver and i915
-  * @dev_priv: the i915 drm device private data
-  *
-@@ -311,7 +311,7 @@ void intel_lpe_audio_teardown(struct drm_i915_private *dev_priv)
- }
- 
- /**
-- * intel_lpe_audio_notify() - notify lpe audio event
-+ * intel_lpe_audio_notify - notify lpe audio event
-  * audio driver and i915
-  * @dev_priv: the i915 drm device private data
-  * @pipe: pipe
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index da9cd41c45f1..0ac813422809 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -247,7 +247,7 @@ static const struct engine_info intel_engines[] = {
- };
- 
- /**
-- * intel_engine_context_size() - return the size of the context for an engine
-+ * intel_engine_context_size - return the size of the context for an engine
-  * @gt: the gt
-  * @class: engine class
-  *
-@@ -576,7 +576,7 @@ static void intel_setup_engine_capabilities(struct intel_gt *gt)
- }
- 
- /**
-- * intel_engines_release() - free the resources allocated for Command Streamers
-+ * intel_engines_release - free the resources allocated for Command Streamers
-  * @gt: pointer to struct intel_gt
-  */
- void intel_engines_release(struct intel_gt *gt)
-@@ -846,7 +846,7 @@ static void setup_logical_ids(struct intel_gt *gt, u8 *logical_ids, u8 class)
- }
- 
- /**
-- * intel_engines_init_mmio() - allocate and prepare the Engine Command Streamers
-+ * intel_engines_init_mmio - allocate and prepare the Engine Command Streamers
-  * @gt: pointer to struct intel_gt
-  *
-  * Return: non-zero if the initialization failed.
-@@ -1631,7 +1631,7 @@ void __intel_engine_flush_submission(struct intel_engine_cs *engine, bool sync)
- }
- 
- /**
-- * intel_engine_is_idle() - Report if the engine has finished process all work
-+ * intel_engine_is_idle - Report if the engine has finished process all work
-  * @engine: the intel_engine_cs
-  *
-  * Return true if there are no requests pending, nothing left to be submitted
-@@ -2203,7 +2203,7 @@ void intel_engine_dump(struct intel_engine_cs *engine,
- }
- 
- /**
-- * intel_engine_get_busy_time() - Return current accumulated engine busyness
-+ * intel_engine_get_busy_time - Return current accumulated engine busyness
-  * @engine: engine to report on
-  * @now: monotonic timestamp of sampling
-  *
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 24451d000a6a..d969005a857c 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -599,7 +599,7 @@ int intel_guc_to_host_process_recv_msg(struct intel_guc *guc,
- }
- 
- /**
-- * intel_guc_auth_huc() - Send action to GuC to authenticate HuC ucode
-+ * intel_guc_auth_huc - Send action to GuC to authenticate HuC ucode
-  * @guc: intel_guc structure
-  * @rsa_offset: rsa offset w.r.t ggtt base of huc vma
-  *
-@@ -620,7 +620,7 @@ int intel_guc_auth_huc(struct intel_guc *guc, u32 rsa_offset)
- }
- 
- /**
-- * intel_guc_suspend() - notify GuC entering suspend state
-+ * intel_guc_suspend - notify GuC entering suspend state
-  * @guc:	the guc
-  */
- int intel_guc_suspend(struct intel_guc *guc)
-@@ -657,7 +657,7 @@ int intel_guc_suspend(struct intel_guc *guc)
- }
- 
- /**
-- * intel_guc_resume() - notify GuC resuming from suspend state
-+ * intel_guc_resume - notify GuC resuming from suspend state
-  * @guc:	the guc
-  */
- int intel_guc_resume(struct intel_guc *guc)
-@@ -706,7 +706,7 @@ int intel_guc_resume(struct intel_guc *guc)
-  */
- 
- /**
-- * intel_guc_allocate_vma() - Allocate a GGTT VMA for GuC usage
-+ * intel_guc_allocate_vma - Allocate a GGTT VMA for GuC usage
-  * @guc:	the guc
-  * @size:	size of area to allocate (both virtual space and memory)
-  *
-@@ -756,7 +756,7 @@ struct i915_vma *intel_guc_allocate_vma(struct intel_guc *guc, u32 size)
- }
- 
- /**
-- * intel_guc_allocate_and_map_vma() - Allocate and map VMA for GuC usage
-+ * intel_guc_allocate_and_map_vma - Allocate and map VMA for GuC usage
-  * @guc:	the guc
-  * @size:	size of area to allocate (both virtual space and memory)
-  * @out_vma:	return variable for the allocated vma pointer
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 804133df1ac9..04b0cecf12bd 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -325,7 +325,7 @@ static inline void intel_guc_to_host_event_handler(struct intel_guc *guc)
- #define GUC_GGTT_TOP	0xFEE00000
- 
- /**
-- * intel_guc_ggtt_offset() - Get and validate the GGTT offset of @vma
-+ * intel_guc_ggtt_offset - Get and validate the GGTT offset of @vma
-  * @guc: intel_guc structure.
-  * @vma: i915 graphics virtual memory area.
-  *
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 74cbe8eaf531..77204382cc44 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -786,7 +786,7 @@ static void __guc_ads_init(struct intel_guc *guc)
- }
- 
- /**
-- * intel_guc_ads_create() - allocates and initializes GuC ADS.
-+ * intel_guc_ads_create - allocates and initializes GuC ADS.
-  * @guc: intel_guc struct
-  *
-  * GuC needs memory block (Additional Data Struct), where it will store
-@@ -871,7 +871,7 @@ static void guc_ads_private_data_reset(struct intel_guc *guc)
- }
- 
- /**
-- * intel_guc_ads_reset() - prepares GuC Additional Data Struct for reuse
-+ * intel_guc_ads_reset - prepares GuC Additional Data Struct for reuse
-  * @guc: intel_guc struct
-  *
-  * GuC stores some data in ADS, which might be stale after a reset.
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-index a0372735cddb..bcdc37e6d9c9 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-@@ -151,7 +151,7 @@ static int guc_wait_ucode(struct intel_uncore *uncore)
- }
- 
- /**
-- * intel_guc_fw_upload() - load GuC uCode to device
-+ * intel_guc_fw_upload - load GuC uCode to device
-  * @guc: intel_guc structure
-  *
-  * Called from intel_uc_init_hw() during driver load, resume from sleep and
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index fdd895f73f9f..288db5ada139 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -381,7 +381,7 @@ static void slpc_shared_data_reset(struct slpc_shared_data *data)
- }
- 
- /**
-- * intel_guc_slpc_set_max_freq() - Set max frequency limit for SLPC.
-+ * intel_guc_slpc_set_max_freq - Set max frequency limit for SLPC.
-  * @slpc: pointer to intel_guc_slpc.
-  * @val: frequency (MHz)
-  *
-@@ -418,7 +418,7 @@ int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val)
- }
- 
- /**
-- * intel_guc_slpc_get_max_freq() - Get max frequency limit for SLPC.
-+ * intel_guc_slpc_get_max_freq - Get max frequency limit for SLPC.
-  * @slpc: pointer to intel_guc_slpc.
-  * @val: pointer to val which will hold max frequency (MHz)
-  *
-@@ -445,7 +445,7 @@ int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val)
- }
- 
- /**
-- * intel_guc_slpc_set_min_freq() - Set min frequency limit for SLPC.
-+ * intel_guc_slpc_set_min_freq - Set min frequency limit for SLPC.
-  * @slpc: pointer to intel_guc_slpc.
-  * @val: frequency (MHz)
-  *
-@@ -498,7 +498,7 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
- }
- 
- /**
-- * intel_guc_slpc_get_min_freq() - Get min frequency limit for SLPC.
-+ * intel_guc_slpc_get_min_freq - Get min frequency limit for SLPC.
-  * @slpc: pointer to intel_guc_slpc.
-  * @val: pointer to val which will hold min frequency (MHz)
-  *
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index 3bb8838e325a..127f7b952646 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -126,7 +126,7 @@ void intel_huc_fini(struct intel_huc *huc)
- }
- 
- /**
-- * intel_huc_auth() - Authenticate HuC uCode
-+ * intel_huc_auth - Authenticate HuC uCode
-  * @huc: intel_huc structure
-  *
-  * Called after HuC and GuC firmware loading during intel_uc_init_hw().
-@@ -194,7 +194,7 @@ static bool huc_is_authenticated(struct intel_huc *huc)
- }
- 
- /**
-- * intel_huc_check_status() - check HuC status
-+ * intel_huc_check_status - check HuC status
-  * @huc: intel_huc structure
-  *
-  * This function reads status register to verify if HuC
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
-index 9d6ab1e01639..1fb05b45a8d2 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
-@@ -8,7 +8,7 @@
- #include "i915_drv.h"
- 
- /**
-- * intel_huc_fw_upload() - load HuC uCode to device via DMA transfer
-+ * intel_huc_fw_upload - load HuC uCode to device via DMA transfer
-  * @huc: intel_huc structure
-  *
-  * Called from intel_uc_init_hw() during driver load, resume from sleep and
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-index cb586f7df270..b14c82e17a6c 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-@@ -250,7 +250,7 @@ static inline u32 __intel_uc_fw_get_upload_size(struct intel_uc_fw *uc_fw)
- }
- 
- /**
-- * intel_uc_fw_get_upload_size() - Get size of firmware needed to be uploaded.
-+ * intel_uc_fw_get_upload_size - Get size of firmware needed to be uploaded.
-  * @uc_fw: uC firmware.
-  *
-  * Get the size of the firmware and header that will be uploaded to WOPCM.
-diff --git a/drivers/gpu/drm/i915/i915_cmd_parser.c b/drivers/gpu/drm/i915/i915_cmd_parser.c
-index f93e6122f247..1929aff97fee 100644
---- a/drivers/gpu/drm/i915/i915_cmd_parser.c
-+++ b/drivers/gpu/drm/i915/i915_cmd_parser.c
-@@ -945,7 +945,7 @@ static void fini_hash_table(struct intel_engine_cs *engine)
- }
- 
- /**
-- * intel_engine_init_cmd_parser() - set cmd parser related fields for an engine
-+ * intel_engine_init_cmd_parser - set cmd parser related fields for an engine
-  * @engine: the engine to initialize
-  *
-  * Optionally initializes fields related to batch buffer command parsing in the
-@@ -1059,7 +1059,7 @@ int intel_engine_init_cmd_parser(struct intel_engine_cs *engine)
- }
- 
- /**
-- * intel_engine_cleanup_cmd_parser() - clean up cmd parser related fields
-+ * intel_engine_cleanup_cmd_parser - clean up cmd parser related fields
-  * @engine: the engine to clean up
-  *
-  * Releases any resources related to command parsing that may have been
-@@ -1422,7 +1422,7 @@ static unsigned long *alloc_whitelist(u32 batch_length)
- #define LENGTH_BIAS 2
- 
- /**
-- * intel_engine_cmd_parser() - parse a batch buffer for privilege violations
-+ * intel_engine_cmd_parser - parse a batch buffer for privilege violations
-  * @engine: the engine on which the batch is to execute
-  * @batch: the batch buffer in question
-  * @batch_offset: byte offset in the batch at which execution starts
-@@ -1578,7 +1578,7 @@ int intel_engine_cmd_parser(struct intel_engine_cs *engine,
- }
- 
- /**
-- * i915_cmd_parser_get_version() - get the cmd parser version number
-+ * i915_cmd_parser_get_version - get the cmd parser version number
-  * @dev_priv: i915 device private
-  *
-  * The cmd parser maintains a simple increasing integer version number suitable
-diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
-index 8f486f77609f..ce859aedfd01 100644
---- a/drivers/gpu/drm/i915/i915_reg_defs.h
-+++ b/drivers/gpu/drm/i915/i915_reg_defs.h
-@@ -10,7 +10,7 @@
- #include <linux/bits.h>
- 
- /**
-- * REG_BIT() - Prepare a u32 bit value
-+ * REG_BIT - Prepare a u32 bit value
-  * @__n: 0-based bit number
-  *
-  * Local wrapper for BIT() to force u32, with compile time checks.
-@@ -23,7 +23,7 @@
- 				 ((__n) < 0 || (__n) > 31))))
- 
- /**
-- * REG_GENMASK() - Prepare a continuous u32 bitmask
-+ * REG_GENMASK - Prepare a continuous u32 bitmask
-  * @__high: 0-based high bit
-  * @__low: 0-based low bit
-  *
-@@ -38,7 +38,7 @@
- 				 ((__low) < 0 || (__high) > 31 || (__low) > (__high)))))
- 
- /**
-- * REG_GENMASK64() - Prepare a continuous u64 bitmask
-+ * REG_GENMASK64 - Prepare a continuous u64 bitmask
-  * @__high: 0-based high bit
-  * @__low: 0-based low bit
-  *
-@@ -58,7 +58,7 @@
- #define IS_POWER_OF_2(__x)		((__x) && (((__x) & ((__x) - 1)) == 0))
- 
- /**
-- * REG_FIELD_PREP() - Prepare a u32 bitfield value
-+ * REG_FIELD_PREP - Prepare a u32 bitfield value
-  * @__mask: shifted mask defining the field's length and position
-  * @__val: value to put in the field
-  *
-@@ -75,7 +75,7 @@
- 	       BUILD_BUG_ON_ZERO(__builtin_choose_expr(__is_constexpr(__val), (~((__mask) >> __bf_shf(__mask)) & (__val)), 0))))
- 
- /**
-- * REG_FIELD_GET() - Extract a u32 bitfield value
-+ * REG_FIELD_GET - Extract a u32 bitfield value
-  * @__mask: shifted mask defining the field's length and position
-  * @__val: value to extract the bitfield value from
-  *
-@@ -87,7 +87,7 @@
- #define REG_FIELD_GET(__mask, __val)	((u32)FIELD_GET(__mask, __val))
- 
- /**
-- * REG_FIELD_GET64() - Extract a u64 bitfield value
-+ * REG_FIELD_GET64 - Extract a u64 bitfield value
-  * @__mask: shifted mask defining the field's length and position
-  * @__val: value to extract the bitfield value from
-  *
-diff --git a/drivers/gpu/drm/i915/intel_wopcm.c b/drivers/gpu/drm/i915/intel_wopcm.c
-index 322fb9eeb880..c66b3c173ed6 100644
---- a/drivers/gpu/drm/i915/intel_wopcm.c
-+++ b/drivers/gpu/drm/i915/intel_wopcm.c
-@@ -70,7 +70,7 @@ static inline struct drm_i915_private *wopcm_to_i915(struct intel_wopcm *wopcm)
- }
- 
- /**
-- * intel_wopcm_init_early() - Early initialization of the WOPCM.
-+ * intel_wopcm_init_early - Early initialization of the WOPCM.
-  * @wopcm: pointer to intel_wopcm.
-  *
-  * Setup the size of WOPCM which will be used by later on WOPCM partitioning.
-@@ -217,7 +217,7 @@ static bool __wopcm_regs_writable(struct intel_uncore *uncore)
- }
- 
- /**
-- * intel_wopcm_init() - Initialize the WOPCM structure.
-+ * intel_wopcm_init - Initialize the WOPCM structure.
-  * @wopcm: pointer to intel_wopcm.
-  *
-  * This function will partition WOPCM space based on GuC and HuC firmware sizes
--- 
-2.37.3
+>
+> Another option is to never call pci_enable_msi() and use APIC style
+> IRQs instead. At least on the Packard Bell Dot SC (cedarview) that
+> works.
 
+Yes, the quirk could be to not use MSI on the Packard Bell Dot SC. But
+let me check this on other Cedarview systems first.
+
+>
+> > I can take this patch as is since it improves on the current situation
+> > but feel free to dig deeper if you like.
+>
+> I'm not sure what else I can do to dig deeper though. TBH I'm happy
+> I managed to come up with something which works at all.
+
+Digging deeper would be to figure out why pci_restore_msi_state() is
+not doing its job. The fact that gma500 is touching those MSI
+registers in PCI config space manually is worrying. Did you test if
+MSI works after resume if you remove the save/restore of
+PSB_PCIx_MSI_ADDR_LOC and PSB_PCIx_MSI_DATA_LOC?
+
+>
+> > On Poulsbo I can see
+> > interrupts not getting handled during suspend/resume even with this
+> > patch applied.
+>
+> "during" ?  I guess you mean _after_ a suspend/resume ?
+
+Yes. I get: irq 16: nobody cared (try booting with the "irqpoll" option).
+But perhaps the system is just too slow to respond.
+
+>
+> I have been refactoring the backlight (detection) code on
+> x86/acpi devices. See:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=for-next
+>
+> As you can see there are also some drm driver changes involved for
+> all the (non virtual) drm/kms drivers used on x86/acpi laptops.
+>
+> I am working on also making matching changes (*) to the gma500 code,
+> which is why I scrounged up the Packard Bell Dot SC I'm testing this on.
+
+I'll have a look.
+
+>
+> So all the fixes in this series are somewhat of a distraction of what
+> I'm actually trying to acomplish.
+
+Fair enough, let's not focus too much on the details here. I can take
+this patch as is so you can continue work on the backlight code.
+Sounds good?
+
+>
+> I have also scrounged up a Sony Vaio VPCX11S1E which has an Atom
+> Z540 with PSB graphics. I have yet to test on that one though...
+
+If you do, bring lots of patience. Those systems are very slow. You
+can literally sip on coffee while waiting for the cursor to move :)
+
+>
+> Regards,
+>
+> Hans
+>
+>
+> *) For wip code see:
+>
+> https://github.com/jwrdegoede/linux-sunxi/commits/main
+>
+> and specifically:
+>
+> https://github.com/jwrdegoede/linux-sunxi/commit/97a1dbbd320b0bdbacf935e52f786e8185005298
+>
+> which unifies the backlight handling between all 3 different
+> SoC types supported by the gma500 code resulting in a nice cleanup.
+>
+>
+>
+>
+>
+> >> 2. After fixing 1. IRQs still do not work on a Packard Bell Dot SC (Intel
+> >>    Atom N2600, cedarview) netbook.
+> >>
+> >>    Cederview uses MSI interrupts and it seems that the BIOS re-configures
+> >>    things back to normal APIC based interrupts during S3 suspend. There is
+> >>    some MSI PCI-config registers save/restore code which tries to deal with
+> >>    this, but on the Packard Bell Dot SC this is not sufficient to restore
+> >>    MSI IRQ functionality after a suspend/resume.
+> >>
+> >>    Replace the PCI-config registers save/restore with pci_disable_msi() on
+> >>    suspend + pci_enable_msi() on resume. Fixing e.g. gnome-shell hanging.
+> >>
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >> ---
+> >>  drivers/gpu/drm/gma500/cdv_device.c      |  4 +---
+> >>  drivers/gpu/drm/gma500/oaktrail_device.c |  5 +----
+> >>  drivers/gpu/drm/gma500/power.c           |  8 +-------
+> >>  drivers/gpu/drm/gma500/psb_drv.c         |  2 +-
+> >>  drivers/gpu/drm/gma500/psb_drv.h         |  5 +----
+> >>  drivers/gpu/drm/gma500/psb_irq.c         | 15 ++++++++++++---
+> >>  drivers/gpu/drm/gma500/psb_irq.h         |  2 +-
+> >>  7 files changed, 18 insertions(+), 23 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
+> >> index dd32b484dd82..ce96234f3df2 100644
+> >> --- a/drivers/gpu/drm/gma500/cdv_device.c
+> >> +++ b/drivers/gpu/drm/gma500/cdv_device.c
+> >> @@ -581,11 +581,9 @@ static const struct psb_offset cdv_regmap[2] = {
+> >>  static int cdv_chip_setup(struct drm_device *dev)
+> >>  {
+> >>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> >> -       struct pci_dev *pdev = to_pci_dev(dev->dev);
+> >>         INIT_WORK(&dev_priv->hotplug_work, cdv_hotplug_work_func);
+> >>
+> >> -       if (pci_enable_msi(pdev))
+> >> -               dev_warn(dev->dev, "Enabling MSI failed!\n");
+> >> +       dev_priv->use_msi = true;
+> >>         dev_priv->regmap = cdv_regmap;
+> >>         gma_get_core_freq(dev);
+> >>         psb_intel_opregion_init(dev);
+> >> diff --git a/drivers/gpu/drm/gma500/oaktrail_device.c b/drivers/gpu/drm/gma500/oaktrail_device.c
+> >> index 5923a9c89312..f90e628cb482 100644
+> >> --- a/drivers/gpu/drm/gma500/oaktrail_device.c
+> >> +++ b/drivers/gpu/drm/gma500/oaktrail_device.c
+> >> @@ -501,12 +501,9 @@ static const struct psb_offset oaktrail_regmap[2] = {
+> >>  static int oaktrail_chip_setup(struct drm_device *dev)
+> >>  {
+> >>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> >> -       struct pci_dev *pdev = to_pci_dev(dev->dev);
+> >>         int ret;
+> >>
+> >> -       if (pci_enable_msi(pdev))
+> >> -               dev_warn(dev->dev, "Enabling MSI failed!\n");
+> >> -
+> >> +       dev_priv->use_msi = true;
+> >>         dev_priv->regmap = oaktrail_regmap;
+> >>
+> >>         ret = mid_chip_setup(dev);
+> >> diff --git a/drivers/gpu/drm/gma500/power.c b/drivers/gpu/drm/gma500/power.c
+> >> index b91de6d36e41..66873085d450 100644
+> >> --- a/drivers/gpu/drm/gma500/power.c
+> >> +++ b/drivers/gpu/drm/gma500/power.c
+> >> @@ -139,8 +139,6 @@ static void gma_suspend_pci(struct pci_dev *pdev)
+> >>         dev_priv->regs.saveBSM = bsm;
+> >>         pci_read_config_dword(pdev, 0xFC, &vbt);
+> >>         dev_priv->regs.saveVBT = vbt;
+> >> -       pci_read_config_dword(pdev, PSB_PCIx_MSI_ADDR_LOC, &dev_priv->msi_addr);
+> >> -       pci_read_config_dword(pdev, PSB_PCIx_MSI_DATA_LOC, &dev_priv->msi_data);
+> >>
+> >>         pci_disable_device(pdev);
+> >>         pci_set_power_state(pdev, PCI_D3hot);
+> >> @@ -168,9 +166,6 @@ static bool gma_resume_pci(struct pci_dev *pdev)
+> >>         pci_restore_state(pdev);
+> >>         pci_write_config_dword(pdev, 0x5c, dev_priv->regs.saveBSM);
+> >>         pci_write_config_dword(pdev, 0xFC, dev_priv->regs.saveVBT);
+> >> -       /* restoring MSI address and data in PCIx space */
+> >> -       pci_write_config_dword(pdev, PSB_PCIx_MSI_ADDR_LOC, dev_priv->msi_addr);
+> >> -       pci_write_config_dword(pdev, PSB_PCIx_MSI_DATA_LOC, dev_priv->msi_data);
+> >>         ret = pci_enable_device(pdev);
+> >>
+> >>         if (ret != 0)
+> >> @@ -223,8 +218,7 @@ int gma_power_resume(struct device *_dev)
+> >>         mutex_lock(&power_mutex);
+> >>         gma_resume_pci(pdev);
+> >>         gma_resume_display(pdev);
+> >> -       gma_irq_preinstall(dev);
+> >> -       gma_irq_postinstall(dev);
+> >> +       gma_irq_install(dev);
+> >>         mutex_unlock(&power_mutex);
+> >>         return 0;
+> >>  }
+> >> diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+> >> index 1d8744f3e702..54e756b48606 100644
+> >> --- a/drivers/gpu/drm/gma500/psb_drv.c
+> >> +++ b/drivers/gpu/drm/gma500/psb_drv.c
+> >> @@ -383,7 +383,7 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
+> >>         PSB_WVDC32(0xFFFFFFFF, PSB_INT_MASK_R);
+> >>         spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
+> >>
+> >> -       gma_irq_install(dev, pdev->irq);
+> >> +       gma_irq_install(dev);
+> >>
+> >>         dev->max_vblank_count = 0xffffff; /* only 24 bits of frame count */
+> >>
+> >> diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+> >> index 0ea3d23575f3..731cc356c07a 100644
+> >> --- a/drivers/gpu/drm/gma500/psb_drv.h
+> >> +++ b/drivers/gpu/drm/gma500/psb_drv.h
+> >> @@ -490,6 +490,7 @@ struct drm_psb_private {
+> >>         int rpm_enabled;
+> >>
+> >>         /* MID specific */
+> >> +       bool use_msi;
+> >>         bool has_gct;
+> >>         struct oaktrail_gct_data gct_data;
+> >>
+> >> @@ -499,10 +500,6 @@ struct drm_psb_private {
+> >>         /* Register state */
+> >>         struct psb_save_area regs;
+> >>
+> >> -       /* MSI reg save */
+> >> -       uint32_t msi_addr;
+> >> -       uint32_t msi_data;
+> >> -
+> >>         /* Hotplug handling */
+> >>         struct work_struct hotplug_work;
+> >>
+> >> diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+> >> index e6e6d61bbeab..038f18ed0a95 100644
+> >> --- a/drivers/gpu/drm/gma500/psb_irq.c
+> >> +++ b/drivers/gpu/drm/gma500/psb_irq.c
+> >> @@ -316,17 +316,24 @@ void gma_irq_postinstall(struct drm_device *dev)
+> >>         spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
+> >>  }
+> >>
+> >> -int gma_irq_install(struct drm_device *dev, unsigned int irq)
+> >> +int gma_irq_install(struct drm_device *dev)
+> >>  {
+> >> +       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> >> +       struct pci_dev *pdev = to_pci_dev(dev->dev);
+> >>         int ret;
+> >>
+> >> -       if (irq == IRQ_NOTCONNECTED)
+> >> +       if (dev_priv->use_msi && pci_enable_msi(pdev)) {
+> >> +               dev_warn(dev->dev, "Enabling MSI failed!\n");
+> >> +               dev_priv->use_msi = false;
+> >> +       }
+> >> +
+> >> +       if (pdev->irq == IRQ_NOTCONNECTED)
+> >>                 return -ENOTCONN;
+> >>
+> >>         gma_irq_preinstall(dev);
+> >>
+> >>         /* PCI devices require shared interrupts. */
+> >> -       ret = request_irq(irq, gma_irq_handler, IRQF_SHARED, dev->driver->name, dev);
+> >> +       ret = request_irq(pdev->irq, gma_irq_handler, IRQF_SHARED, dev->driver->name, dev);
+> >>         if (ret)
+> >>                 return ret;
+> >>
+> >> @@ -369,6 +376,8 @@ void gma_irq_uninstall(struct drm_device *dev)
+> >>         spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
+> >>
+> >>         free_irq(pdev->irq, dev);
+> >> +       if (dev_priv->use_msi)
+> >> +               pci_disable_msi(pdev);
+> >>  }
+> >>
+> >>  int gma_crtc_enable_vblank(struct drm_crtc *crtc)
+> >> diff --git a/drivers/gpu/drm/gma500/psb_irq.h b/drivers/gpu/drm/gma500/psb_irq.h
+> >> index b51e395194ff..7648f69824a5 100644
+> >> --- a/drivers/gpu/drm/gma500/psb_irq.h
+> >> +++ b/drivers/gpu/drm/gma500/psb_irq.h
+> >> @@ -17,7 +17,7 @@ struct drm_device;
+> >>
+> >>  void gma_irq_preinstall(struct drm_device *dev);
+> >>  void gma_irq_postinstall(struct drm_device *dev);
+> >> -int  gma_irq_install(struct drm_device *dev, unsigned int irq);
+> >> +int  gma_irq_install(struct drm_device *dev);
+> >>  void gma_irq_uninstall(struct drm_device *dev);
+> >>
+> >>  int  gma_crtc_enable_vblank(struct drm_crtc *crtc);
+> >> --
+> >> 2.37.2
+> >>
+> >
+>
