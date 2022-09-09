@@ -1,55 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1335B3B17
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 16:50:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBAC5B3B5F
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 17:01:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0710C10EDEF;
-	Fri,  9 Sep 2022 14:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3237A10EDFD;
+	Fri,  9 Sep 2022 15:01:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0375D10EDEF
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 14:49:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662734999; x=1694270999;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=pivWd/RwR9gJTu2sG5/ppSoUV5oC5p9Z0YLn/ZoXKNY=;
- b=XKCmEoDIGzn9BXk+odcj8uEWVZ2/5bPrAmSs+PPgBhesasZQfNfqPnRb
- zkb7zxyAjQe6S6Lk2Ww7ZsdJJyOZaAp/IoWArTKqvCBiOEOXegQY7BVJf
- WNeQEkotaeAmAZ+UIw870VdxgnRqZo7w5hrflRjjUixSuCeAUw5aTBn5h
- snWn9Zu204ajhnwTkaknPcZvKCzjlpGL40w/02+BIoto3cUrcFmp+pcsP
- AitUQqiRUfMZFJCo9VTJy+kbgecw62ANpZ6cWvJ9qsM0psfD/43DiJ7LC
- sUpuCXxXv0VgnXSJqPD7Nf4ohZ052ykjIdVuNfmzbXrDXOFoUmxkNN/qI g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10465"; a="298828456"
-X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="298828456"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 07:49:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="592629723"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga006.jf.intel.com with SMTP; 09 Sep 2022 07:49:54 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 09 Sep 2022 17:49:53 +0300
-Date: Fri, 9 Sep 2022 17:49:53 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v4 4/8] drm/vc4: hdmi: Simplify the hotplug handling
-Message-ID: <YxtSkUJrArFr0V/u@intel.com>
-References: <20220829134731.213478-1-maxime@cerno.tech>
- <20220829134731.213478-5-maxime@cerno.tech>
- <YxY0A8RQsGZkwrtU@intel.com>
- <20220909143644.izsfwanwn7xq5hvi@houat>
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F419F10EDFE
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 15:00:55 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id e5so1919563pfl.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 08:00:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=schmorgal.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=oTCLGWKfYgRdRClyg9AiQFkfj4XayGNssJHCiuRy1Hw=;
+ b=DnIPbWcjISE7EOyEdoUzT4oTs/Z6dMGNft6q2HJrsuP7Y6Jelk6BTUTY3+zCaqcnN+
+ v/2DYpNkBUe83leExNcdKjxXANkV58wTvrh+iJIkMp5045L38rSmvkVN6RMwEnTs2Dcn
+ CFR9OYZ15iqAxlFIEgrGlVWhF6XKPmx/yWsMA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=oTCLGWKfYgRdRClyg9AiQFkfj4XayGNssJHCiuRy1Hw=;
+ b=Ke7BRQm4BHBoGbZ7Cgtk883Icq3QBJqoe/hFZ+sZR3lZmtEegTVBMjJ10w0FIH+gGe
+ gdwyu+fQi2PGxAshboPj5w7VJOjx+pcCTqbySHD2cuRfwBOzGy6vwdr38FosJughZhGJ
+ BjxDDvAOcwbpQ7BmXGSBFAlE6bRu39I22qFvESwy/IT9Qzc8H1Fg2GaTh6z+GZTKZiS4
+ fm5vw3AoXPi0lZTxptaHjy2OOXW7eEThQF3psCGWDs+ZXgiT/LGEkLFKuMAiBhWUmoS7
+ 1p34i8w6hhYoQl33d+KmyQR7PZ7T889MLeCxxVtHw9s7DSljvB3LeKsEd+2GrfQ1AYj/
+ sQQQ==
+X-Gm-Message-State: ACgBeo3KT6Uid8HCfzumddS0N7nmVGahoCduVSMgPGOhaOmo1WfXaJ/o
+ hICKSVNk//LPjpHHRTrAHLrkvQ==
+X-Google-Smtp-Source: AA6agR5p5jIa66GFVjGQIP31saIqOfWV6XEeZPjwkHCF96DFWUSSQeWM8gydmxio503Sf0OOnc0dxw==
+X-Received: by 2002:a62:2fc6:0:b0:53e:285c:9b7f with SMTP id
+ v189-20020a622fc6000000b0053e285c9b7fmr14552085pfv.58.1662735655196; 
+ Fri, 09 Sep 2022 08:00:55 -0700 (PDT)
+Received: from [192.168.1.33] ([50.45.132.243])
+ by smtp.googlemail.com with ESMTPSA id
+ e16-20020a630f10000000b004340d105fd4sm620406pgl.21.2022.09.09.08.00.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Sep 2022 08:00:54 -0700 (PDT)
+Message-ID: <118d55c9-b7cf-6e04-0a0b-b6faed626460@schmorgal.com>
+Date: Fri, 9 Sep 2022 08:00:52 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220909143644.izsfwanwn7xq5hvi@houat>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 2/2] drm/etnaviv: fix power register offset on GC300
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20220907024719.36478-1-doug@schmorgal.com>
+ <20220907024719.36478-3-doug@schmorgal.com>
+ <95370d0f87b698017da49be083f436d9b91a76b5.camel@pengutronix.de>
+From: Doug Brown <doug@schmorgal.com>
+In-Reply-To: <95370d0f87b698017da49be083f436d9b91a76b5.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,87 +77,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 09, 2022 at 04:36:44PM +0200, Maxime Ripard wrote:
-> Hi Ville
-> 
-> Thanks for your review
-> 
-> On Mon, Sep 05, 2022 at 08:38:11PM +0300, Ville Syrjälä wrote:
-> > On Mon, Aug 29, 2022 at 03:47:27PM +0200, Maxime Ripard wrote:
-> > > Our detect callback has a bunch of operations to perform depending on
-> > > the current and last status of the connector, such a setting the CEC
-> > > physical address or enabling the scrambling again.
-> > > 
-> > > This is currently dealt with a bunch of if / else statetements that make
-> > > it fairly difficult to read and extend.
-> > > 
-> > > Let's move all that logic to a function of its own.
-> > > 
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > ---
-> > >  drivers/gpu/drm/vc4/vc4_hdmi.c | 66 ++++++++++++++++++++++------------
-> > >  1 file changed, 44 insertions(+), 22 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > index b786645eaeb7..9fad57ebdd11 100644
-> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > @@ -273,17 +273,53 @@ static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi) {}
-> > >  
-> > >  static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder);
-> > >  
-> > > +static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
-> > > +				    enum drm_connector_status status)
-> > > +{
-> > > +	struct drm_connector *connector = &vc4_hdmi->connector;
-> > > +	struct edid *edid;
-> > > +
-> > > +	/*
-> > > +	 * NOTE: This function should really be called with
-> > > +	 * vc4_hdmi->mutex held, but doing so results in reentrancy
-> > > +	 * issues since cec_s_phys_addr_from_edid might call
-> > > +	 * .adap_enable, which leads to that funtion being called with
-> > > +	 * our mutex held.
-> > > +	 *
-> > > +	 * Concurrency isn't an issue at the moment since we don't share
-> > > +	 * any state with any of the other frameworks so we can ignore
-> > > +	 * the lock for now.
-> > > +	 */
-> > > +
-> > > +	if (status == connector->status)
-> > > +		return;
-> > 
-> > This looks to have a change in behaviour to not call
-> > vc4_hdmi_enable_scrambling() unless a change in the
-> > connector status was detected. The previous code called
-> > it regarless.
-> 
-> Yeah, good point
-> 
-> > When I was doing the i915 stuff I did have a sink that
-> > left hpd asserted while turned off, and when powering
-> > back up it instead generated a pulse on the hpd line.
-> > Not sure if such a pulse is always slow enough that
-> > you can reasonably guarantee a detection of both edges...
-> > 
-> > Apart from that (and the cec locking mess that I dared
-> > not even look at) the rest of the series looks OK to me.
-> 
-> Can I add your R-B and remove the check you mentioned above while
-> applying, or would you prefer that I send a new version?
+Hi Lucas,
 
-Nah. Feel free slap on
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-to the lot if you don't think a resend is needed otherwise.
+On 9/9/2022 1:48 AM, Lucas Stach wrote:
 
--- 
-Ville Syrjälä
-Intel
+>> @@ -83,10 +83,15 @@ static void etnaviv_core_dump_registers(struct core_dump_iterator *iter,
+>>   {
+>>   	struct etnaviv_dump_registers *reg = iter->data;
+>>   	unsigned int i;
+>> +	u32 addr;
+>>   
+>>   	for (i = 0; i < ARRAY_SIZE(etnaviv_dump_registers); i++, reg++) {
+>> -		reg->reg = cpu_to_le32(etnaviv_dump_registers[i]);
+>> -		reg->value = cpu_to_le32(gpu_read(gpu, etnaviv_dump_registers[i]));
+>> +		addr = etnaviv_dump_registers[i];
+>> +		if (addr >= VIVS_PM_POWER_CONTROLS &&
+>> +		    addr <= VIVS_PM_PULSE_EATER)
+>> +			addr = gpu_fix_power_address(gpu, addr);
+>> +		reg->reg = cpu_to_le32(addr);
+> 
+> As the dumpdecoder tool would then need to reverse this address offset,
+> I think it would be preferable to keep writing the canonical (not fixed
+> up) register address into the dump. That way only the kernel needs to
+> know about this special offset on GC300.
+
+Ahh, I had no idea about how it worked on that side of things. Makes
+complete sense. Thanks for reviewing! Will submit V3 with this and
+everything else you mentioned fixed.
+
+Doug
