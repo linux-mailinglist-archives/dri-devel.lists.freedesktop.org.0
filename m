@@ -2,81 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34225B3EF0
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 20:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBCA5B3F11
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 20:51:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49B9B10EDAF;
-	Fri,  9 Sep 2022 18:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80C3210E0FB;
+	Fri,  9 Sep 2022 18:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F8E010EDAF
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 18:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662748765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EdLhczu0CMi+mDnVz/QrauXucQKKVCzqETWjwaQHd38=;
- b=Hy4UNHc3NwzlSWfJckqeURBaLiGx4rsocTfZtNJXMnXkQXOX03c/OhKX/eV+lo4eEfCefI
- 2WW2rJ+UWIRibsRztRodDqh3grUIlbjb0PSKWyBxfBlI7Wn2fUiLcWaFTx3h79xA9h1MWJ
- wvRgTpc/GRSJSUo0fYTnYO4wQLCbaMs=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-308-XP5SgBcoMLmhzPpuIBUEnQ-1; Fri, 09 Sep 2022 14:39:14 -0400
-X-MC-Unique: XP5SgBcoMLmhzPpuIBUEnQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- s17-20020a05620a255100b006c9cefbc68eso2183744qko.3
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 11:39:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:user-agent:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=EdLhczu0CMi+mDnVz/QrauXucQKKVCzqETWjwaQHd38=;
- b=edpLQcK+uSPDivMkiaSIFhvtA7rsQBTiAgaSpSz6ptj2c+YEdDzB1lo4L+NjTTbIc5
- CKxbO3N2VHDZollOKZ3D0RzKYNJY26cLpuWPtj4gIgHPSUDn8iSImTTFeX8c+Gg+oG1i
- 0eWPsvfO3m7oBfnBr0Br6jNM3PJJ/6ZrqTW2Yu1SyXXhQ5PBtSwpJu5BoSjHi0Hl6sHH
- 8d3PxJMrpJqEA60f9kXiWe8Pk5iMlf1UgnvtbK0OLU1LgQwIVl2YyaILRUzb1UEpl3G3
- whElNO8BxT6CSMEZ2+WYyDYx/Y9MBwUWxytmLnbFXCIJVAlzerNATM29q3S/oN+dZcF8
- 5ovA==
-X-Gm-Message-State: ACgBeo2PuCaHfvzX0fcmGbNydYD84Cf/Gtr81B8o41Vb3/mSJS5VIABj
- 59hK+9mohiRAjOpoIRexDqrxW8Vd+Frpj0SATIo7rEVx23uDoEnak84f+klafUM8eH6qdDKVEUr
- oD3bqNykt+0mINB3/1rqkOoYey2n5
-X-Received: by 2002:a05:620a:2409:b0:6bb:d417:c8b6 with SMTP id
- d9-20020a05620a240900b006bbd417c8b6mr11021738qkn.304.1662748754341; 
- Fri, 09 Sep 2022 11:39:14 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6hJkqeVfTbw7cuxek5gomVvLkSerw4ZzxC0N7zAg5c4TbdTJmbRg/kK4DEJejexdZcRhNvDg==
-X-Received: by 2002:a05:620a:2409:b0:6bb:d417:c8b6 with SMTP id
- d9-20020a05620a240900b006bbd417c8b6mr11021713qkn.304.1662748754013; 
- Fri, 09 Sep 2022 11:39:14 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c48:e00::9e6? ([2600:4040:5c48:e00::9e6])
- by smtp.gmail.com with ESMTPSA id
- 64-20020a370543000000b006bb619a6a85sm965016qkf.48.2022.09.09.11.39.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Sep 2022 11:39:11 -0700 (PDT)
-Message-ID: <1fb0323d201ef2d9b00fe9bdb65efa97e5bd1e8f.camel@redhat.com>
-Subject: Re: [PATCH 0/4] drm/plane: Remove drm_plane_init(), plus other
- cleanups
-From: Lyude Paul <lyude@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie, 
- daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com, 
- laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com,
- jyri.sarha@iki.fi, tomba@kernel.org, sam@ravnborg.org
-Date: Fri, 09 Sep 2022 14:39:10 -0400
-In-Reply-To: <20220909105947.6487-1-tzimmermann@suse.de>
-References: <20220909105947.6487-1-tzimmermann@suse.de>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D92F510E0FB
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 18:50:46 +0000 (UTC)
+Received: from
+ linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
+ (linux.microsoft.com [13.77.154.182])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 3003820B929D;
+ Fri,  9 Sep 2022 11:50:46 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3003820B929D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1662749446;
+ bh=EtvSqWtgoW9XjfTZfdIifuNdlSp5udD/dIkF7/nioQk=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=X3IxfAszm2Tvg2c8SQfbLxujX6DJJ7U/jVNltwRSGOsrutaORNKRpBZc/MQpH2qN0
+ XyVl0zGQ7JtbG/7vA5KQeuzmNw1jTw99eRCjUD3S01EK+hkE7yYfA3KvSr9g3ahpI+
+ P1iQAId4gbeLJLl1KQ71x7kaYQ6GAMHFcDEA9v0I=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+To: vkuznets@redhat.com, Deepak Rawat <drawat.floss@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Helge Deller <deller@gmx.de>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Easwar Hariharan <easwar.hariharan@microsoft.com>,
+ Colin Ian King <colin.i.king@googlemail.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hyperv@vger.kernel.org (open list:DRM DRIVER FOR HYPERV SYNTHETIC VIDEO
+ DEVICE), 
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR HYPERV SYNTHETIC
+ VIDEO DEVICE), linux-kernel@vger.kernel.org (open list),
+ netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
+ linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
+ linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM)
+Subject: [PATCH v2 2/2] pci_ids: Add the various Microsoft PCI device IDs
+Date: Fri,  9 Sep 2022 11:50:25 -0700
+Message-Id: <1662749425-3037-3-git-send-email-eahariha@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1662749425-3037-1-git-send-email-eahariha@linux.microsoft.com>
+References: <87leqsr6im.fsf@redhat.com>
+ <1662749425-3037-1-git-send-email-eahariha@linux.microsoft.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,59 +64,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the nouveau bits on 1, 2 and 4:
+From: Easwar Hariharan <easwar.hariharan@microsoft.com>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Easwar Hariharan <easwar.hariharan@microsoft.com>
+---
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 2 +-
+ drivers/net/ethernet/microsoft/mana/gdma.h      | 3 ---
+ drivers/net/ethernet/microsoft/mana/gdma_main.c | 6 +++---
+ drivers/video/fbdev/hyperv_fb.c                 | 4 ++--
+ include/linux/pci_ids.h                         | 4 +++-
+ 5 files changed, 9 insertions(+), 10 deletions(-)
 
-On Fri, 2022-09-09 at 12:59 +0200, Thomas Zimmermann wrote:
-> This patchset does cleanups to the plane code, most noteably it removes
-> drm_plane_init(). The function is a small wrapper, which can easily be
-> inlined into the few callers. Patch #1 fixes this.
-> 
-> The other clean-up patches #2 to #4 affect plane creation. Modesetting
-> helpers and nouveau share some plane-allocation code that can be shared as
-> helper function. While the function is already outdated, it's now at least
-> well documented. As suggested by Daniel, patch #3 adds a warning to
-> non-atomic plane helpers when they are being called from atomic drivers.
-> Patch #4 adds an initializer macro for non-atomic plane functions. It
-> should not be used in new drivers, but at least documents the current
-> practice.
-> 
-> Tested with nouveau on Nvidia G72 hardware.
-> 
-> A possible next step would be the inlining of drm_crtc_init() and the
-> removal of drm_plane.format_default.
-> 
-> Thomas Zimmermann (4):
->   drm/plane: Remove drm_plane_init()
->   drm/plane: Allocate planes with drm_universal_plane_alloc()
->   drm/plane-helper: Warn if atomic drivers call non-atomic helpers
->   drm/plane-helper: Provide DRM_PLANE_NON_ATOMIC_FUNCS initializer macro
-> 
->  drivers/gpu/drm/drm_modeset_helper.c       | 68 +++++++++------------
->  drivers/gpu/drm/drm_plane.c                | 70 ++++++++++++----------
->  drivers/gpu/drm/drm_plane_helper.c         | 10 ++++
->  drivers/gpu/drm/nouveau/dispnv04/crtc.c    | 45 +++++---------
->  drivers/gpu/drm/nouveau/dispnv04/overlay.c | 13 ++--
->  drivers/gpu/drm/shmobile/shmob_drm_plane.c |  7 ++-
->  drivers/gpu/drm/tilcdc/tilcdc_plane.c      |  9 ++-
->  include/drm/drm_plane.h                    | 52 +++++++++++++---
->  include/drm/drm_plane_helper.h             | 12 ++++
->  9 files changed, 162 insertions(+), 124 deletions(-)
-> 
-> 
-> base-commit: f2c3a05d33693ad51996fa7d12d3b2d4b0f372eb
-> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
-> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-> prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
-
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+index f84d397..24c2def 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+@@ -51,7 +51,7 @@ static void hyperv_pci_remove(struct pci_dev *pdev)
+ static const struct pci_device_id hyperv_pci_tbl[] = {
+ 	{
+ 		.vendor = PCI_VENDOR_ID_MICROSOFT,
+-		.device = PCI_DEVICE_ID_HYPERV_VIDEO,
++		.device = PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO,
+ 	},
+ 	{ /* end of list */ }
+ };
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma.h b/drivers/net/ethernet/microsoft/mana/gdma.h
+index 4a6efe6..9d3a9f7 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma.h
++++ b/drivers/net/ethernet/microsoft/mana/gdma.h
+@@ -476,9 +476,6 @@ struct gdma_eqe {
+ 
+ #define GDMA_SRIOV_REG_CFG_BASE_OFF	0x108
+ 
+-#define MANA_PF_DEVICE_ID 0x00B9
+-#define MANA_VF_DEVICE_ID 0x00BA
+-
+ struct gdma_posted_wqe_info {
+ 	u32 wqe_size_in_bu;
+ };
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+index 00d8198..18cf168 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+@@ -1333,7 +1333,7 @@ static void mana_gd_cleanup(struct pci_dev *pdev)
+ 
+ static bool mana_is_pf(unsigned short dev_id)
+ {
+-	return dev_id == MANA_PF_DEVICE_ID;
++	return dev_id == PCI_DEVICE_ID_MICROSOFT_MANA_PF;
+ }
+ 
+ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+@@ -1466,8 +1466,8 @@ static void mana_gd_shutdown(struct pci_dev *pdev)
+ }
+ 
+ static const struct pci_device_id mana_id_table[] = {
+-	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_PF_DEVICE_ID) },
+-	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_VF_DEVICE_ID) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_MICROSOFT_MANA_PF) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_MICROSOFT_MANA_VF) },
+ 	{ }
+ };
+ 
+diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+index b58b445..118e244 100644
+--- a/drivers/video/fbdev/hyperv_fb.c
++++ b/drivers/video/fbdev/hyperv_fb.c
+@@ -997,7 +997,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
+ 
+ 	if (!gen2vm) {
+ 		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
+-			PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
++			PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO, NULL);
+ 		if (!pdev) {
+ 			pr_err("Unable to find PCI Hyper-V video\n");
+ 			return -ENODEV;
+@@ -1311,7 +1311,7 @@ static int hvfb_resume(struct hv_device *hdev)
+ static const struct pci_device_id pci_stub_id_table[] = {
+ 	{
+ 		.vendor      = PCI_VENDOR_ID_MICROSOFT,
+-		.device      = PCI_DEVICE_ID_HYPERV_VIDEO,
++		.device      = PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO,
+ 	},
+ 	{ /* end of list */ }
+ };
+diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+index 15b49e6..fe3517f 100644
+--- a/include/linux/pci_ids.h
++++ b/include/linux/pci_ids.h
+@@ -2080,7 +2080,9 @@
+ #define PCI_DEVICE_ID_VT1724		0x1724
+ 
+ #define PCI_VENDOR_ID_MICROSOFT		0x1414
+-#define PCI_DEVICE_ID_HYPERV_VIDEO	0x5353
++#define PCI_DEVICE_ID_MICROSOFT_HYPERV_VIDEO	0x5353
++#define PCI_DEVICE_ID_MICROSOFT_MANA_PF  	0x00B9
++#define PCI_DEVICE_ID_MICROSOFT_MANA_VF  	0x00BA
+ 
+ #define PCI_VENDOR_ID_OXSEMI		0x1415
+ #define PCI_DEVICE_ID_OXSEMI_12PCI840	0x8403
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+1.8.3.1
 
