@@ -1,70 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C715B3659
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:31:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5CF5B366A
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 13:33:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21BB610ECA4;
-	Fri,  9 Sep 2022 11:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A4310ECA7;
+	Fri,  9 Sep 2022 11:33:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CC9910ECA4
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 11:30:54 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- bg5-20020a05600c3c8500b003a7b6ae4eb2so4222618wmb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 04:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :to:content-language:subject:user-agent:mime-version:date:message-id
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F10610ECA7
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 11:32:59 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id v16so3244277ejr.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 04:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=sIASLX0R2P23+j8OeRBs0Bj5TUjyqw9EM4B0ZPGTtVs=;
- b=ZJBmHCv0f53AQHKe+rGmvzNG0HFlLBm8LmaLcJtQH1fuk/QUEIwjTEZHwO3toPEbqU
- lS/I8A9XbjNw4En/m5MzZf2Z5cp+EAj7vLa2TI4DylJm4JDsrCNZZX1tmtZ5TeLzkoBu
- EPAHO7R3Lzt5yfvX8sjecia1VoeMwl+vGNzPlFoQVmQwgwsV4HHyxD8Oqvtj80aBFow7
- bOlZEQZ/Io5xREDlwoMagLj8OaBKa9jbFRQ7hbkPnxRJxHIJC+LgxZDqYmDcIMiLxWVa
- Qz5FzwUOu29qxh2CNOmUnPQIzTxkswYrHSLvMsJIkhB2MxcspEWNkaVPtjw3VKbQ4sbi
- QFIg==
+ bh=SZHsUiERmS1OiRclpw++WSMWCMLSWrTWxLeIYpyoO6Q=;
+ b=AtOK6o3UiZ8x4mhjnDJ/pBpLJ1neGtLe4RE39J5d0HHYeXSt/LOPJzFHYk2zvuknsZ
+ T3f/PJxyPN1HEmdG7CdvH/8VI4PwA8Uja31v9vOlzqb2Kf++b0LaC5tpi7MM/P3XyXxE
+ NUa6u09UvQf7gvibLmyaa6BoIYwApwyDrvudeJfV7bWJ6948xUawLw7ZUp2Yxh56vVZb
+ ogbwxtRwFTZy+f/G4glFWWrs/vEHHbbiA3qy/QbN7PCeAn5R96Sr82z02bZAkLAAjbov
+ v/KJz6yLif0oDWy4Ghk97sGQraIKKC8GaF8Qxx+BskzQYvNjR4h4LbXWYZOLAvJ9ab8K
+ 9jMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :to:content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=sIASLX0R2P23+j8OeRBs0Bj5TUjyqw9EM4B0ZPGTtVs=;
- b=ZJwSI+ARdWRiApIASYMvBe5q8VxoZrZK3Pj9NpOryuvyvN23bU3lInuIpNoo1uss+G
- IevGwDNv2rkoWr7E//UeysEWgUB42GFaotZS1USgFV0EYR9ZNwIa9t9eDfWKx5tJH3Gp
- C5a16yJr7hdPDca284ZR8BK2Un/xrTPumTlkIVUKlLg00GsnnpJABqyRDFlKKnjz3O3C
- S/HK5K0bOuPcIsBjHeASv/zRM/uetxoE4LemYd1e2ZojfT6TKU8insUVWvIm7V6TkWhY
- WHZi/bOJmUhEqvJ25iIjY29Foi5UvKEKUqCWG/qey5uS6CuVVwrosy/X1KczBb2XLBDw
- A9sQ==
-X-Gm-Message-State: ACgBeo1zKb66ngbaUP8K2i4RkBxGCIMO9/pQfTYlFayp5gawPU/ImxtB
- chtfYj4pGAix5afNJI9/y8igbg==
-X-Google-Smtp-Source: AA6agR6z2m0ul1bIB7gX6941qTm3iNigFl3vuOxonibB7cnEPzY+zddV4FHmw39XAXbj5dHUq1cq9Q==
-X-Received: by 2002:a05:600c:35cc:b0:3a6:f08:9b1 with SMTP id
- r12-20020a05600c35cc00b003a60f0809b1mr5014747wmq.22.1662723052887; 
- Fri, 09 Sep 2022 04:30:52 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:ca05:c15c:ee41:c8ab?
- ([2a01:e0a:982:cbb0:ca05:c15c:ee41:c8ab])
+ bh=SZHsUiERmS1OiRclpw++WSMWCMLSWrTWxLeIYpyoO6Q=;
+ b=zefMYsygYYgYua0zfXULBKodD9KuehsQtIzuucRFpKHwW3plsvRshK6uGDFV9mc+fd
+ /NRgE4sgfsMfDbaXtQaK3HYTjUaCh8XukB1wa/Zr72/ARJHwBRAGQEGCqWv6R8wLBDg6
+ 7UpQfceucXWbPNNXRemltf8R61MSzewawpaK7rFq+7Pwo3vmvpOlm3Q6QrVLjewlQlWy
+ vzcBaylGIIYtMRdbXkCuPpswtlyJjmDjLpLzI0wAyMlRrSEsS3LEGmhv3XP8BCgrVBPW
+ A6F3zkSdsoBZcUCfENy0yQbG+oLgf/6SawTqQnFe3rn2Kf5/hJvEhKe6Y+pz9Agd2ljj
+ 2iIw==
+X-Gm-Message-State: ACgBeo2KIOOyUWt5UKyCRDOKOFCkuyI0wGE6VH2woZcSuxYzVloUoGnF
+ G/iHqYPFXkNcLxCCEhirlgU=
+X-Google-Smtp-Source: AA6agR4cLAreyhuyrrh8jrieDYpfhc8cSDUsUhnRs4sOP40THG/uswRlmdpSVWucNK4IrbedMFbCNA==
+X-Received: by 2002:a17:906:7954:b0:742:7a6:b179 with SMTP id
+ l20-20020a170906795400b0074207a6b179mr9416830ejo.679.1662723177505; 
+ Fri, 09 Sep 2022 04:32:57 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:2ad1:9592:69ea:f12b?
+ ([2a02:908:1256:79a0:2ad1:9592:69ea:f12b])
  by smtp.gmail.com with ESMTPSA id
- r2-20020adfda42000000b002286231f479sm305722wrl.50.2022.09.09.04.30.51
+ 17-20020a170906201100b0073dc5bb7c32sm163295ejo.64.2022.09.09.04.32.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Sep 2022 04:30:52 -0700 (PDT)
-Message-ID: <326dedc2-0e83-55eb-fe74-84d10b7769ce@baylibre.com>
-Date: Fri, 9 Sep 2022 13:30:52 +0200
+ Fri, 09 Sep 2022 04:32:56 -0700 (PDT)
+Message-ID: <068ab330-dbf7-8aa8-8bed-156ca01be48b@gmail.com>
+Date: Fri, 9 Sep 2022 13:32:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/meson: Fix OSD1 RGB to YCbCr coefficient
+Subject: Re: [RFC PATCH 0/5] GEM buffer memory tracking
 Content-Language: en-US
-To: Stuart Menefy <stuart.menefy@mathembedded.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
-References: <20220908155243.687143-1-stuart.menefy@mathembedded.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <20220908155243.687143-1-stuart.menefy@mathembedded.com>
+To: Lucas Stach <l.stach@pengutronix.de>, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org
+References: <20220909111640.3789791-1-l.stach@pengutronix.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20220909111640.3789791-1-l.stach@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,49 +76,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Michal Hocko <mhocko@suse.com>, David Airlie <airlied@linux.ie>,
+ kernel@pengutronix.de, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi !
+Am 09.09.22 um 13:16 schrieb Lucas Stach:
+> Hi MM and DRM people,
+>
+> during the discussions about per-file OOM badness [1] it repeatedly came up
+> that it should be possible to simply track the DRM GEM memory usage by some
+> new MM counters.
+>
+> The basic problem statement is as follows: in the DRM subsystem drivers can
+> allocate buffer aka. GEM objects on behalf of a userspace process. In many
+> cases those buffers behave just like anonymous memory, but they may be used
+> only by the devices driven by the DRM drivers. As the buffers can be quite
+> large (multi-MB is the norm, rather than the exception) userspace will not
+> map/fault them into the process address space when it doesn't need access to
+> the content of the buffers. Thus the memory used by those buffers is not
+> accounted to any process and evades visibility by the usual userspace tools
+> and the OOM handling.
+>
+> This series tries to remedy this situation by making such memory visible
+> by accounting it exclusively to the process that created the GEM object.
+> For now it only hooks up the tracking to the CMA helpers and the etnaviv
+> drivers, which was enough for me to prove the concept and see it actually
+> working, other drivers could follow if the proposal sounds sane.
+>
+> Known shortcomings of this very simplistic implementation:
+>
+> 1. GEM objects can be shared between processes by exporting/importing them
+> as dma-bufs. When they are shared between multiple processes, killing the
+> process that got the memory accounted will not actually free the memory, as
+> the object is kept alive by the sharing process.
+>
+> 2. It currently only accounts the full size of them GEM object, more advanced
+> devices/drivers may only sparsely populate the backing storage of the object
+> as needed. This could be solved by having more granular accounting.
+>
+> I would like to invite everyone to poke holes into this proposal to see if
+> this might get us on the right trajectory to finally track GEM memory usage
+> or if it (again) falls short and doesn't satisfy the requirements we have
+> for graphics memory tracking.
 
-On 08/09/2022 17:52, Stuart Menefy wrote:
-> VPP_WRAP_OSD1_MATRIX_COEF22.Coeff22 is documented as being bits 0-12,
-> not 16-28.
+Good to see other looking into this problem as well since I didn't had 
+time for it recently.
 
-Thanks, Good catch !
+I've tried this approach as well, but was quickly shot down by the 
+forking behavior of the core kernel.
 
-> 
-> Without this the output tends to have a pink hue, changing it results
-> in better color accuracy.
+The problem is that the MM counters get copied over to child processes 
+and because of that become imbalanced when this child process now 
+terminates.
 
-Indeed, it was a regular issue reported.
+What you could do is to change the forking behavior for MM_DRIVERPAGES 
+so that it always stays with the process which has initially allocated 
+the memory and never leaks to children.
 
-> 
-> The vendor kernel doesn't use this register. However the code which
-> sets VIU2_OSD1_MATRIX_COEF22 also uses bits 0-12. There is a slightly
-> different style of registers for configuring some of the other matrices,
-> which do use bits 16-28 for this coefficient, but those have names
-> ending in MATRIX_COEF22_30, and this is not one of those.
-> 
+Apart from that I suggest to rename it since the shmemfd and a few other 
+implementations have pretty much the same problem.
 
-Fixes: 728883948b0d ("drm/meson: Add G12A Support for VIU setup")
-> Signed-off-by: Stuart Menefy <stuart.menefy@mathembedded.com>
-> ---
->   drivers/gpu/drm/meson/meson_viu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/meson/meson_viu.c b/drivers/gpu/drm/meson/meson_viu.c
-> index 51df4de..876ffe0 100644
-> --- a/drivers/gpu/drm/meson/meson_viu.c
-> +++ b/drivers/gpu/drm/meson/meson_viu.c
-> @@ -94,7 +94,7 @@ static void meson_viu_set_g12a_osd1_matrix(struct meson_drm *priv,
->   		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_COEF11_12));
->   	writel(((m[9] & 0x1fff) << 16) | (m[10] & 0x1fff),
->   		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_COEF20_21));
-> -	writel((m[11] & 0x1fff) << 16,
-> +	writel((m[11] & 0x1fff),
->   		priv->io_base +	_REG(VPP_WRAP_OSD1_MATRIX_COEF22));
->   
->   	writel(((m[18] & 0xfff) << 16) | (m[19] & 0xfff),
+Regards,
+Christian.
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+>
+> Regards,
+> Lucas
+>
+> [1] https://lore.kernel.org/linux-mm/20220531100007.174649-1-christian.koenig@amd.com/
+>
+> Lucas Stach (5):
+>    mm: add MM_DRIVERPAGES
+>    drm/gem: track mm struct of allocating process in gem object
+>    drm/gem: add functions to account GEM object memory usage
+>    drm/cma-helper: account memory used by CMA GEM objects
+>    drm/etnaviv: account memory used by GEM buffers
+>
+>   drivers/gpu/drm/drm_gem.c             | 42 +++++++++++++++++++++++++++
+>   drivers/gpu/drm/drm_gem_cma_helper.c  |  4 +++
+>   drivers/gpu/drm/etnaviv/etnaviv_gem.c |  3 ++
+>   fs/proc/task_mmu.c                    |  6 ++--
+>   include/drm/drm_gem.h                 | 15 ++++++++++
+>   include/linux/mm.h                    |  3 +-
+>   include/linux/mm_types_task.h         |  1 +
+>   kernel/fork.c                         |  1 +
+>   8 files changed, 72 insertions(+), 3 deletions(-)
+>
+
