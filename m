@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AFC5B40F2
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 22:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455CE5B40FF
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 22:46:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E640310EE54;
-	Fri,  9 Sep 2022 20:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE75F10EE56;
+	Fri,  9 Sep 2022 20:46:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA76C10EE4F;
- Fri,  9 Sep 2022 20:45:27 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-11eab59db71so6943552fac.11; 
- Fri, 09 Sep 2022 13:45:27 -0700 (PDT)
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0B9210EE55;
+ Fri,  9 Sep 2022 20:46:19 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1278a61bd57so6978547fac.7; 
+ Fri, 09 Sep 2022 13:46:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=tOdRgYvMFlVvpQnahbCAQyXuE1jXNRZy6YTJYdfO8bM=;
- b=evoakfqiZyhcmJuEoRga7NxRItRPui2yzHJFAgO6t0gIs26+wvDsrsmxfHii3ADjhJ
- eu/BBpJRNtexNYvHhsFHMxVJt91BpNrHsRJV3v9BDjPII7ZgEteYwmxhYlI0nZ5uYCy5
- +s53CNK93XBwAGlqzL5oX+K8QrkVXNvvszxXoJQ4lEXY0B6PvRE7YtvlqUPLBi78XNva
- QjdryoLOTSjVV7EVda/9ok2xCqh5gm2JOrs07z050ycG2LL7s+xB6Z5mXuFU0w8aEbXO
- XudeVFtkSXXF2y7n9RuWglet2Vmaa9Sg/vSpDzJXQbgI+zVaGhqfSF0/XlaXefDROPoN
- dDAg==
+ bh=fIWWFRWToSyjND5u32f5EwlAkJEA8KQOjYH9kYp+XHw=;
+ b=ii/jSDrdVYygo+6BfJIU+E/q04lrQEhFJv/UxSLRbbQ76BmfzhBfe938IDSrQS6Y+e
+ 6LJlYHvRDS7tLmEIJdHcl3B2P5L+Asems9NCYW2weKImyBqW+je0Oii+bwvX69oNQLDd
+ nTguM0fs6zP5RqTIFTaiCz8UqDpOBk+jWjJmIKA4ux5Nd6ycTm/fpAmfXdeDfWf+/Qm3
+ hh443dUp58IIfeWJz7ddTeVXvJiYkCn1UJfXbCf4xJdCaEyEigZFMntYh9OBJtVbsnno
+ Dople/SpP1j2Ol+i0CqEJ9qw/i0I0/NINIuuXAUW9WQvbOGtcTCwK3WJ0BWbF0J+Xq+y
+ u69A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=tOdRgYvMFlVvpQnahbCAQyXuE1jXNRZy6YTJYdfO8bM=;
- b=sgE02JILLkzXzIWcPFNjplPB7tE+tj3nGEprm9TxVnHjdFV83L0jGKE59RS9qivFpz
- ec/80f2AphxF6mCotw8g7GZViogMrh8TdI07F845iAioSlR5GLySLHVJqYCgl1luVqKK
- bxb7ox2F+yGn9RoQf+Hrk+vZMKN1BFuFeC2cIvYD2m2GCSayrsmcnVmCtpDIu12oTwqr
- YcwtIkSBsiWRK9KMIcf70s1zpe2Bv+wIwux0kqf75+u0ptwoY6TsCScaIIko4hIsz/r4
- XmcR4EyGb3H0h2/LPLGNplQLNE8tqbTlSunDj+PDlqflSUX3+X6CGl4XHLIVMqV5NIRg
- mPcw==
-X-Gm-Message-State: ACgBeo3v0masNFbvnem8tpGzNqbODn3oCWKA3gWBdbpaqiGHsJU+4TwA
- VX0odm/tEFfw9koi2fDC+zvPtP4qMA4VdkM446I=
-X-Google-Smtp-Source: AA6agR4yYTNYn71J0gE6HKkRJgbKG9w/kkqFkg60ldADXtpcZU9V7FQ9hBdiCXoc9DXJOhTCF47K6xTBcZGB8mX/yPI=
-X-Received: by 2002:a05:6870:738d:b0:125:1b5:420f with SMTP id
- z13-20020a056870738d00b0012501b5420fmr6007604oam.96.1662756327135; Fri, 09
- Sep 2022 13:45:27 -0700 (PDT)
+ bh=fIWWFRWToSyjND5u32f5EwlAkJEA8KQOjYH9kYp+XHw=;
+ b=0qrJI9sbglnOFl0u1JGdjFiXFnROfB3ihr+bpfV+nmveEpnz1hRq2EFD6A6V1M2YNx
+ P6FI3HZes7Bx2+lvxG+w8N+h4P2Ybsi6YGqPQbOKs1BsGodMplkiGV2WYNq1J+eAFzoU
+ eN2VBIil08SoCNY/ca6maz5sbYiVdLgpZ402iSI954+qX8Y8xYOkdpf+DggYY/PfsoJl
+ H7q63Iqp3xSoVOTj3RXpS22sQNBblNwbdLNhiMwQrKL57l5tKtWjjni9QFKOkuUfhpu8
+ /x7EQ0047OEbt+jKK4LVcxFQO0tU0bikh+9mP1HUgB8t5v63CC4xuSFZEiOq2+R82SIB
+ PxrQ==
+X-Gm-Message-State: ACgBeo0iLzIFi9RNmQOWcMRJjmVLNhR590JmTXQj5pEw/HL8igjYFQSI
+ mKgDw930BCY+sETNpSog3o30aGNTSeZQjL2F0xQ=
+X-Google-Smtp-Source: AA6agR5xiiLiZPpsFq6YQrxT7/tHRboxJGNQw12HUSDCAvkjWrEy6Cg42aJ/OF36IUtsRmY4md2+xpswpxG5l7N94ZQ=
+X-Received: by 2002:a05:6808:138e:b0:345:13d1:fd66 with SMTP id
+ c14-20020a056808138e00b0034513d1fd66mr4521225oiw.96.1662756379115; Fri, 09
+ Sep 2022 13:46:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220902073148.319536-1-ye.xingchen@zte.com.cn>
-In-Reply-To: <20220902073148.319536-1-ye.xingchen@zte.com.cn>
+References: <20220902073320.319673-1-ye.xingchen@zte.com.cn>
+In-Reply-To: <20220902073320.319673-1-ye.xingchen@zte.com.cn>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 9 Sep 2022 16:45:15 -0400
-Message-ID: <CADnq5_PocuJB0s+mg8sMgRK7pdzVQR_N0hsajYMgihuZ3fMGFw@mail.gmail.com>
-Subject: Re: [PATCH linux-next] drm/radeon/ci_dpm: Remove the unneeded result
- variable
+Date: Fri, 9 Sep 2022 16:46:07 -0400
+Message-ID: <CADnq5_PSreYBqUg2HDVTBmZ1L-0z40EkfO45Yoru7JAz+d4-Ww@mail.gmail.com>
+Subject: Re: [PATCH linux-next] drm/radeon: Remove the unneeded result variable
 To: cgel.zte@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,42 +74,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Fri, Sep 2, 2022 at 3:32 AM <cgel.zte@gmail.com> wrote:
+Alex
+
+On Fri, Sep 2, 2022 at 3:33 AM <cgel.zte@gmail.com> wrote:
 >
 > From: ye xingchen <ye.xingchen@zte.com.cn>
 >
-> Return the value ci_load_smc_ucode() directly instead of storing it in
+> Return the value radeon_drm_ioctl() directly instead of storing it in
 > another redundant variable.
 >
 > Reported-by: Zeal Robot <zealci@zte.com.cn>
 > Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 > ---
->  drivers/gpu/drm/radeon/ci_dpm.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/radeon/radeon_drv.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_dpm.c
-> index ac006bed4743..8ef25ab305ae 100644
-> --- a/drivers/gpu/drm/radeon/ci_dpm.c
-> +++ b/drivers/gpu/drm/radeon/ci_dpm.c
-> @@ -2056,7 +2056,7 @@ static void ci_clear_vc(struct radeon_device *rdev)
->  static int ci_upload_firmware(struct radeon_device *rdev)
+> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+> index a28d5ceab628..6cbe1ab81aba 100644
+> --- a/drivers/gpu/drm/radeon/radeon_drv.c
+> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
+> @@ -512,14 +512,11 @@ long radeon_drm_ioctl(struct file *filp,
+>  static long radeon_kms_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 >  {
->         struct ci_power_info *pi = ci_get_pi(rdev);
-> -       int i, ret;
-> +       int i;
+>         unsigned int nr = DRM_IOCTL_NR(cmd);
+> -       int ret;
 >
->         for (i = 0; i < rdev->usec_timeout; i++) {
->                 if (RREG32_SMC(RCU_UC_EVENTS) & BOOT_SEQ_DONE)
-> @@ -2067,9 +2067,7 @@ static int ci_upload_firmware(struct radeon_device *rdev)
->         ci_stop_smc_clock(rdev);
->         ci_reset_smc(rdev);
+>         if (nr < DRM_COMMAND_BASE)
+>                 return drm_compat_ioctl(filp, cmd, arg);
 >
-> -       ret = ci_load_smc_ucode(rdev, pi->sram_end);
+> -       ret = radeon_drm_ioctl(filp, cmd, arg);
 > -
 > -       return ret;
-> +       return ci_load_smc_ucode(rdev, pi->sram_end);
->
+> +       return radeon_drm_ioctl(filp, cmd, arg);
 >  }
+>  #endif
 >
 > --
 > 2.25.1
