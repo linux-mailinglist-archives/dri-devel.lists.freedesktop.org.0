@@ -1,41 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092765B3935
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 15:40:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BBF5B39E5
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 15:54:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D572810ED5F;
-	Fri,  9 Sep 2022 13:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF5C310ED6D;
+	Fri,  9 Sep 2022 13:54:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C61210ED5F
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 13:39:49 +0000 (UTC)
-Date: Fri, 09 Sep 2022 13:39:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1662730787; x=1662989987;
- bh=833cI8CjmcibguYXC0Mlik54slcxWtd96EiiQZ2Jc5Q=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=hpsJtAoMSOPFrGSch3xVRzs4XUTrr2CSfKqncYslQXAfspziKLik2PUqu9CM0KrXz
- eLIC9UOdaBq6LdwC6TfWPInOwLal5BXECIlqCaoHlTTMdBCz4Qjd1a8c439YEBBXLb
- nUg1SI42QTHCdiv3VDJNaLi7DIGIpBAQAAQ8rDyXF2OYuhSML29eFDWt5HEXKvIlFK
- AYUHUqT92gvlPZooBFByFDJFS/mMiRle43x91l77V09PcuIlD3c02TsenKs/rm9NBB
- waTxBx98k/Y/C4Nx8rBmABuLE7oVDNVKuExMTyuxVo/ViSs2dvjfcFgx21OL/Ly/Rt
- BeJ18YO4rqVUg==
-To: Hans de Goede <hdegoede@redhat.com>
-From: Simon Ser <contact@emersion.fr>
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6C710ED6D;
+ Fri,  9 Sep 2022 13:54:00 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id bs13so1910343ljb.8;
+ Fri, 09 Sep 2022 06:54:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date;
+ bh=fiPO+CKZGk0WuU4z4Ak7rEYkwLgCpBf6u6KBQdKd4Cw=;
+ b=YnnH39gHzLKvn/zggnhYQbSJyEMH533YVHY/Rv9RILqU27VrYLmhCC+WD3ENhBNWL9
+ RLvNheyyFHKZEBOL0U+/0rrdp5/d03nDkPUTiMqap+ak5XNywg9koaBhLx4IM7f2Jtew
+ xJNqfS9YYWO2cdG540lKS+efSkb1wzHWctEdkPnh9jIgIpyvOdlPP2Uprcd3twDZ8sFP
+ 2NpJGPWdZF7BKjZyga6xqOFCxE8+rtBFwyFwySQnpF15ns17Fi0GwljkHUEl//QAoXrj
+ 4ScbhjysSzBF++DCrieEVBwPbEK0WV1yC25P+QWWSnLzB5lQUeDgQkUXw+ylBo6Lbzw8
+ boyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date;
+ bh=fiPO+CKZGk0WuU4z4Ak7rEYkwLgCpBf6u6KBQdKd4Cw=;
+ b=Ta0jmi2E7s8uL5SdKgbZVVItHqCa7pOCp/G1pIiFEbqvyu9GT24DgdHCwOmjDRlZt/
+ ovqH2W4rFyoWl5AZldsIqVcCYi8loWldQ+oibDHHrMgFN8XnRj1rzeOzE6h0mMk5DWsc
+ /pIC9r0Rlf7aMzxV/b55lb0DrP/N1hf9iNFcs4wGuE6m8VC3e/Tbvj0zTo/c+7rLngsZ
+ ioPjJAAwmrANKuGBJZwlZ9M7jOWM/sOAdIbpXnsabXMfOJYMx9EUrP5otunQNJH21tlO
+ 8u2/uCAI2HGxaMVr0F75hjluP+lTxEJWf9cotHcIdG5v+q8ecxlj1FuRS7Ouni1tNXaE
+ qOdw==
+X-Gm-Message-State: ACgBeo36o/Q8hbULr3tRNpxISD3C8UaFMYXPpAoUj7n5sYmWSYYwLW03
+ qtIoIeKM9WEmsQ+mx9htDuI=
+X-Google-Smtp-Source: AA6agR4cRFp/C3mCKxWNl8ZDMRh7C/sLuHaTFT/1t0+g/pnhMouw1RQ3UfRwr5ZIV3WrynmiWmw+Fw==
+X-Received: by 2002:a05:651c:884:b0:268:dc11:cc1a with SMTP id
+ d4-20020a05651c088400b00268dc11cc1amr3772065ljq.466.1662731637960; 
+ Fri, 09 Sep 2022 06:53:57 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ s28-20020a056512203c00b00498fe38ea1dsm82032lfs.300.2022.09.09.06.53.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Sep 2022 06:53:57 -0700 (PDT)
+Date: Fri, 9 Sep 2022 16:53:46 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>, Hans de Goede <hdegoede@redhat.com>
 Subject: Re: [RFC v2] drm/kms: control display brightness through
  drm_connector properties
-Message-ID: <KBKl__LKqWb8-i0ErjSYiqJRJOf2AK48SVFIvyOYM-aGG_uZOal8BAm3VbkFJHc6Vquz1mFNugZkoFyz490r6N5UIM1a8JthAgFyDnQBtqk=@emersion.fr>
-In-Reply-To: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
+Message-ID: <20220909165346.51e92499@eldfell>
+In-Reply-To: <KBKl__LKqWb8-i0ErjSYiqJRJOf2AK48SVFIvyOYM-aGG_uZOal8BAm3VbkFJHc6Vquz1mFNugZkoFyz490r6N5UIM1a8JthAgFyDnQBtqk=@emersion.fr>
 References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
-Feedback-ID: 1358184:user:proton
+ <KBKl__LKqWb8-i0ErjSYiqJRJOf2AK48SVFIvyOYM-aGG_uZOal8BAm3VbkFJHc6Vquz1mFNugZkoFyz490r6N5UIM1a8JthAgFyDnQBtqk=@emersion.fr>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/75J.7BvgGTcW./iD3HEU4mI";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,104 +71,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Cc: Sebastian Wick <sebastian.wick@redhat.com>,
  Martin Roukala <martin.roukala@mupuf.org>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- wayland <wayland-devel@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
  Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, September 9th, 2022 at 12:12, Hans de Goede <hdegoede@redhat.com=
-> wrote:
+--Sig_/75J.7BvgGTcW./iD3HEU4mI
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> Phase 3: Deprecate /sys/class/backlight uAPI
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> Once most userspace has moved over to using the new drm_connector
-> brightness props, a Kconfig option can be added to stop exporting
-> the backlight-devices under /sys/class/backlight. The plan is to
-> just disable the sysfs interface and keep the existing backlight-device
-> internal kernel abstraction as is, since some abstraction for (non GPU
-> native) backlight devices will be necessary regardless.
->=20
-> It is unsure if we will ever be able to do this. For example people using
-> non fully integrated desktop environments like e.g. sway often use custom
-> scripts binded to hotkeys to get functionality like the brightness
-> up/down keyboard hotkeys changing the brightness. This typically involves
-> e.g. the xbacklight utility.
->=20
-> Even if the xbacklight utility is ported to use kms with the new connecto=
-r
-> object brightness properties then this still will not work because
-> changing the properties will require drm-master rights and e.g. sway will
-> already hold those.
+On Fri, 09 Sep 2022 13:39:37 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-I replied to this here in another thread [1].
+> On Friday, September 9th, 2022 at 12:12, Hans de Goede <hdegoede@redhat.c=
+om> wrote:
+>=20
+> > Phase 3: Deprecate /sys/class/backlight uAPI
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+> > Once most userspace has moved over to using the new drm_connector
+> > brightness props, a Kconfig option can be added to stop exporting
+> > the backlight-devices under /sys/class/backlight. The plan is to
+> > just disable the sysfs interface and keep the existing backlight-device
+> > internal kernel abstraction as is, since some abstraction for (non GPU
+> > native) backlight devices will be necessary regardless.
+> >=20
+> > It is unsure if we will ever be able to do this. For example people usi=
+ng
+> > non fully integrated desktop environments like e.g. sway often use cust=
+om
+> > scripts binded to hotkeys to get functionality like the brightness
+> > up/down keyboard hotkeys changing the brightness. This typically involv=
+es
+> > e.g. the xbacklight utility.
+> >=20
+> > Even if the xbacklight utility is ported to use kms with the new connec=
+tor
+> > object brightness properties then this still will not work because
+> > changing the properties will require drm-master rights and e.g. sway wi=
+ll
+> > already hold those. =20
+>=20
+> I replied to this here in another thread [1].
+>=20
+> tl;dr I think it would be fine even for Sway-like compositors.
 
-tl;dr I think it would be fine even for Sway-like compositors.
+Furthermore, if other compositors are like Weston in their KMS state
+handling, and do not track which property has already been programmed
+to KMS and which hasn't, and instead just smash all KMS properties
+every update anyway (it's also great for debugging, you always have the
+full state in flight), anything changed via sysfs will be immediately
+reverted.
 
-(Also note the utilities used right now are not xbacklight, but
-brightnessctl/light/brillo/etc [2])
+Therefore I think there is a high probability that the external or
+sysfs controls just naturally stop working anyway, even if the kernel
+does not remove them first.
 
-[1]: https://lore.kernel.org/dri-devel/bZJU9OkYWFyaLHVa4XUE4d5iBTPFXBRyPe1w=
-Md_ztKh5VBMu-EDNGoUDpvwtFn_u9-JMvN8QmIZVS3pzMZM_hZTkTCA9gOBnCGXc5HFmsnc=3D@=
-emersion.fr/
-[2]: https://github.com/swaywm/sway/wiki#xbacklight
 
-> The drm_connector brightness properties
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> The new uAPI for this consists of 2 properties:
->=20
-> 1. "display brightness": rw 0-int32_max property controlling the brightne=
-ss setting
-> of the connected display. The actual maximum of this will be less then
-> int32_max and is given in "display brightness max".
->=20
-> Unlike the /sys/class/backlight/foo/brightness this brightness property
-> has a clear definition for the value 0. The kernel must ensure that 0
-> means minimum brightness (so 0 should never turn the backlight off).
-> If necessary the kernel must enforce a minimum value by adding
-> an offset to the value seen in the property to ensure this behavior.
->=20
-> For example if necessary the driver must clamp 0-255 to 10-255, which the=
-n
-> becomes 0-245 on the brightness property, adding 10 internally to writes
-> done to the brightness property. This adding of an extra offset when
-> necessary must only be done on the brightness property,
-> the /sys/class/backlight interface should be left unchanged to not break
-> userspace which may rely on 0 =3D off on some systems.
->=20
-> Note amdgpu already does something like this even for /sys/class/backligh=
-t,
-> see the use of AMDGPU_DM_DEFAULT_MIN_BACKLIGHT in amdgpu.
->=20
-> Also whenever possible the kernel must ensure that the brightness range
-> is in perceived brightness, but this cannot always be guaranteed.
->=20
->=20
-> 2. "display brightness max": ro 0-int32_max property giving the actual ma=
-ximum
-> of the display's brightness setting. This will report 0 when brightness
-> control is not available.
->=20
-> The value of "display brightness max" may change at runtime, either by
-> a legacy drivers/platform/x86 backlight driver loading after the drm
-> driver has loaded; or when plugging in a monitor which allows brightness
-> control over DDC/CI. In both these cases the max value will change from 0
-> to the actual max value, indicating backlight control has become availabl=
-e
-> on this connector.
+Thanks,
+pq
 
-The kernel will need to ensure that a hotplug uevent is sent to
-user-space at this point. Otherwise user-space has no way to figure out
-that the prop has changed.
 
-Overall this all looks very solid to me!
+> (Also note the utilities used right now are not xbacklight, but
+> brightnessctl/light/brillo/etc [2])
+>=20
+> [1]: https://lore.kernel.org/dri-devel/bZJU9OkYWFyaLHVa4XUE4d5iBTPFXBRyPe=
+1wMd_ztKh5VBMu-EDNGoUDpvwtFn_u9-JMvN8QmIZVS3pzMZM_hZTkTCA9gOBnCGXc5HFmsnc=
+=3D@emersion.fr/
+> [2]: https://github.com/swaywm/sway/wiki#xbacklight
+>=20
 
-Simon
+
+--Sig_/75J.7BvgGTcW./iD3HEU4mI
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmMbRWoACgkQI1/ltBGq
+qqfMfhAAjziPK0D4Akgfhx43sP5NYIdbofs1QLmC7f1whzvnv0uFpv88d2DVN1Uf
+vY3zRApBc7uEVYbfsuuBbGuV70ny4BA6F0TxpBXVtZb6Hx3BnZCXZxpWEbVaGnK5
+WKcRWFcv9NcklFiNmZbvB5SXUVULUj28f4cOukw5QB9fX2x1IbSV0Mnh/93vwWb3
+7Jdbe7M1M4Upve+umksCpf+qJlb1+IjRnzioRVg604ZyECZWRFw7NMJ2YeIT6570
+Tfm5hWjESMg7FwyKiEuTsMDYPgvxYp1ezX3uo6hriVPG/eIqxWk6JZWBsRqLtN19
+NXAWg5MM2B63WhgcTqlCuFt1B5kS271E7e3cbNlCDMG+SYK4QjtRTtYCjfywpJPi
+ir3PgrpqF9yPuT5juwNtYpXGndhZOVvSTgEFGHBBGm1YQXJ3fRDiXrydOZjKlOC/
+oRIgznLLWE1EKz5bwZocdaEGc1K8DrRn2QXtV6VnTI5MWrtEwfp+9WWE1YjoVX1e
+Z2EjKxmxvVf6x1MkbBXadhdUeydfxzpYe9jjbTOwHvACfAfzP/urHarDPRaNOEuY
+8WU1giYrOI/uS35zOMxST1rcGDKEieQqooJXo+5xasjIA10qBvhovHykMEqnlTOA
+Owmnq+D2XoBF+n2+Q3ztMOAJ8XJMTtwcGlVtxf915/SnxbgsJ6c=
+=eZp4
+-----END PGP SIGNATURE-----
+
+--Sig_/75J.7BvgGTcW./iD3HEU4mI--
