@@ -1,72 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98D55B3DCE
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 19:17:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FD45B3DD5
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 19:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED2810E0E3;
-	Fri,  9 Sep 2022 17:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1711B10ED03;
+	Fri,  9 Sep 2022 17:18:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05CE710E0E3;
- Fri,  9 Sep 2022 17:16:51 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 289EjNd4002070;
- Fri, 9 Sep 2022 17:16:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=Ic3WaKhlmQlNohswPAMHE7FNT2PwFLCSIqYFvTWFuhU=;
- b=UynpZaOeF3oIIlj2f7SLWJPL+9f4wnwUL20CPJ//EPlfba2TuWGVNJfr/izp5K0/E+K1
- 3y9CeUns7y2lZEcKleY3wb/abPvYPSUy1bklbFpdCRcU4gX4gGIzwzEY78y51rH2rLaK
- SmcV8zyeIu5RIrccIsdNfNlr6kw6iuIIbRQ3r5L5XS5APc70lu/KTTGJVFcZtiIUhJeh
- O0u0e+qvWuBfDl/+0VNy3BO55ey2NBm4W2GnrUHYOTF31uTH8xJ0EgpT8JbqCev+DtXN
- ETn4fV8IM4E6onuwIJZbjFPahLGbDE1yvDlmnTP9FGc7tjZ5FQMFfRF2h9vb1e3zLDJu nw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jg3c21f3b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Sep 2022 17:16:44 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 289HGhUD030628
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 9 Sep 2022 17:16:43 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Fri, 9 Sep 2022 10:16:42 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v2] drm/msm/dp: add atomic_check to bridge ops
-Date: Fri, 9 Sep 2022 10:16:35 -0700
-Message-ID: <1662743795-30438-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 813C710ECF6
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Sep 2022 17:18:29 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id c9so3651596ybf.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Sep 2022 10:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=3CtywG9Y+bCDYTofbwbFJM4oQeqDfxEsccBbHYdtLVI=;
+ b=5jyYpR2nQZ3UQeBi0bdqOwRSTjIbj5AN8sYWv4t3ttvfK3FeQ5Cx2Ctznd+cNdAbEv
+ 80yK64KC/HrIhjwIlDNfoa7kjAjelIrjluQdKRMq69hG+Lepx0zZpJBnQ1cP4ZJ2bWPn
+ XP47hiPVAQO1jFqZXUmDd5A7VmJfsZrhXkk5bMTMt9fQloxG47aVW8UfNSaj//r1tX1v
+ 7jDaIh/gdXiq/m32ULEqw0N16IVgnPweNoxBKlXbeK8TrsBJtTrfS6qfYhCIbrVd4Vl0
+ i6cRSU+/PBRTtAU3ixrJJ4Dz0Dpd82JqCgyo+Sl5b5FUJpWR8nvD5P4svHXNqwjBzHUS
+ BQpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=3CtywG9Y+bCDYTofbwbFJM4oQeqDfxEsccBbHYdtLVI=;
+ b=SHtaQ+4rJuhXTBtbXJHiCb7SWBuPRHqgIUDDR5+14uWfCsX+zFC2HXBcGsDOond84r
+ 8NIaT0xwixI8ICNJ1M57kzAAzXDrVVoDsaXelsW1117xzpXeNqPi2w7BDaceWsvZBEG4
+ tiUT0Dfcr+VGrd2ghdbLhU8uDpxKL+LD8U81Q0fY33FzUlTdIOuLafw71ZTVhwCvuKYI
+ dh7zbVwQx1/KH9Th0oA7dx2EBGAnHpjFtnQk/coJCyULW/dAgObRPJSgbK35f/E8d+b6
+ 3irpV0Snr5owEKxvS/pEu0SoRJBPnO4vjhLgP4nAgL7jbJPPfe3cbuI60M7EPcl9CgUj
+ Atkw==
+X-Gm-Message-State: ACgBeo0Fd+mqldgsfrDA9f9OFRPfUbRjGv5ZMrFKZKCFec/+i0YG3If9
+ 9FYUoSSl5hPOfUhsniGNuTMSn4yYRZDQ5MwOfwHL4g==
+X-Google-Smtp-Source: AA6agR7eOZDJ3yN1nR945UF9xKQN4xYbqcLQ6Bp+KIA6ylRqmYIZgSQ9Zt8nt3KCa046A6eAzpmzoN8hqKQBwMljfLo=
+X-Received: by 2002:a25:cbc3:0:b0:6a8:e7a1:6941 with SMTP id
+ b186-20020a25cbc3000000b006a8e7a16941mr12407567ybg.466.1662743908460; Fri, 09
+ Sep 2022 10:18:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: k6g5wZ_NVYARlW2qsftIcW7-ekDmY5gN
-X-Proofpoint-ORIG-GUID: k6g5wZ_NVYARlW2qsftIcW7-ekDmY5gN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-09_08,2022-09-09_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- priorityscore=1501 phishscore=0 clxscore=1015 malwarescore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209090061
+References: <20220829093141.45583-1-tomeu.vizoso@collabora.com>
+ <20220909141528.5090-1-tomeu.vizoso@collabora.com>
+In-Reply-To: <20220909141528.5090-1-tomeu.vizoso@collabora.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 9 Sep 2022 18:16:44 +0100
+Message-ID: <CAPj87rMYW1xZdacZ1Y0qk+D9xpqsqE+cwbQ1j1nZ7S+RKpzOoQ@mail.gmail.com>
+Subject: Re: [PATCH v8] drm: Add initial ci/ subdirectory
+To: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Content-Type: multipart/alternative; boundary="000000000000044e1505e841bcc4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,177 +65,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, Carlo Caione <carlo@caione.org>,
+ linux-amlogic@lists.infradead.org, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM commit_tails() will disable downstream crtc/encoder/bridge if
-both disable crtc is required and crtc->active is set before pushing
-a new frame downstream.
+--000000000000044e1505e841bcc4
+Content-Type: text/plain; charset="UTF-8"
 
-There is a rare case that user space display manager issue an extra
-screen update immediately followed by close DRM device while down
-stream display interface is disabled. This extra screen update will
-timeout due to the downstream interface is disabled but will cause
-crtc->active be set. Hence the followed commit_tails() called by
-drm_release() will pass the disable downstream crtc/encoder/bridge
-conditions checking even downstream interface is disabled.
-This cause the crash to happen at dp_bridge_disable() due to it trying
-to access the main link register to push the idle pattern out while main
-link clocks is disabled.
+Hi,
 
-This patch adds atomic_check to prevent the extra frame will not
-be pushed down if display interface is down so that crtc->active
-will not be set neither. This will fail the conditions checking
-of disabling down stream crtc/encoder/bridge which prevent
-drm_release() from calling dp_bridge_disable() so that crash
-at dp_bridge_disable() prevented.
+On Fri, 9 Sept 2022 at 15:15, Tomeu Vizoso <tomeu.vizoso@collabora.com>
+wrote:
 
-There is no protection in the DRM framework to check if the display
-pipeline has been already disabled before trying again. The only
-check is the crtc_state->active but this is controlled by usermode
-using UAPI. Hence if the usermode sets this and then crashes, the
-driver needs to protect against double disable"
+> Also include a configuration file that points to the out-of-tree CI
+> scripts.
+>
 
-SError Interrupt on CPU7, code 0x00000000be000411 -- SError
-CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
-Hardware name: Google Lazor (rev3 - 8) (DT)
-pstate: a04000c9 (NzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : __cmpxchg_case_acq_32+0x14/0x2c
-lr : do_raw_spin_lock+0xa4/0xdc
-sp : ffffffc01092b6a0
-x29: ffffffc01092b6a0 x28: 0000000000000028 x27: 0000000000000038
-x26: 0000000000000004 x25: ffffffd2973dce48 x24: 0000000000000000
-x23: 00000000ffffffff x22: 00000000ffffffff x21: ffffffd2978d0008
-x20: ffffffd2978d0008 x19: ffffff80ff759fc0 x18: 0000000000000000
-x17: 004800a501260460 x16: 0441043b04600438 x15: 04380000089807d0
-x14: 07b0089807800780 x13: 0000000000000000 x12: 0000000000000000
-x11: 0000000000000438 x10: 00000000000007d0 x9 : ffffffd2973e09e4
-x8 : ffffff8092d53300 x7 : ffffff808902e8b8 x6 : 0000000000000001
-x5 : ffffff808902e880 x4 : 0000000000000000 x3 : ffffff80ff759fc0
-x2 : 0000000000000001 x1 : 0000000000000000 x0 : ffffff80ff759fc0
-Kernel panic - not syncing: Asynchronous SError Interrupt
-CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
-Hardware name: Google Lazor (rev3 - 8) (DT)
-Call trace:
- dump_backtrace.part.0+0xbc/0xe4
- show_stack+0x24/0x70
- dump_stack_lvl+0x68/0x84
- dump_stack+0x18/0x34
- panic+0x14c/0x32c
- nmi_panic+0x58/0x7c
- arm64_serror_panic+0x78/0x84
- do_serror+0x40/0x64
- el1h_64_error_handler+0x30/0x48
- el1h_64_error+0x68/0x6c
- __cmpxchg_case_acq_32+0x14/0x2c
- _raw_spin_lock_irqsave+0x38/0x4c
- lock_timer_base+0x40/0x78
- __mod_timer+0xf4/0x25c
- schedule_timeout+0xd4/0xfc
- __wait_for_common+0xac/0x140
- wait_for_completion_timeout+0x2c/0x54
- dp_ctrl_push_idle+0x40/0x88
- dp_bridge_disable+0x24/0x30
- drm_atomic_bridge_chain_disable+0x90/0xbc
- drm_atomic_helper_commit_modeset_disables+0x198/0x444
- msm_atomic_commit_tail+0x1d0/0x374
- commit_tail+0x80/0x108
- drm_atomic_helper_commit+0x118/0x11c
- drm_atomic_commit+0xb4/0xe0
- drm_client_modeset_commit_atomic+0x184/0x224
- drm_client_modeset_commit_locked+0x58/0x160
- drm_client_modeset_commit+0x3c/0x64
- __drm_fb_helper_restore_fbdev_mode_unlocked+0x98/0xac
- drm_fb_helper_set_par+0x74/0x80
- drm_fb_helper_hotplug_event+0xdc/0xe0
- __drm_fb_helper_restore_fbdev_mode_unlocked+0x7c/0xac
- drm_fb_helper_restore_fbdev_mode_unlocked+0x20/0x2c
- drm_fb_helper_lastclose+0x20/0x2c
- drm_lastclose+0x44/0x6c
- drm_release+0x88/0xd4
- __fput+0x104/0x220
- ____fput+0x1c/0x28
- task_work_run+0x8c/0x100
- do_exit+0x450/0x8d0
- do_group_exit+0x40/0xac
- __wake_up_parent+0x0/0x38
- invoke_syscall+0x84/0x11c
- el0_svc_common.constprop.0+0xb8/0xe4
- do_el0_svc+0x8c/0xb8
- el0_svc+0x2c/0x54
- el0t_64_sync_handler+0x120/0x1c0
- el0t_64_sync+0x190/0x194
-SMP: stopping secondary CPUs
-Kernel Offset: 0x128e800000 from 0xffffffc008000000
-PHYS_OFFSET: 0x80000000
-CPU features: 0x800,00c2a015,19801c82
-Memory Limit: none
+ I think this para is outdated given ...
 
-Changes in v2:
--- add more commit text
+v8:
+>   - Move all files specific to testing the kernel into the kernel tree
+>     (thus I have dropped the r-bs I had collected so far)
+>   - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
 
-Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
-Reported-by: Leonard Lausen <leonard@lausen.nl>
-Suggested-by: Rob Clark <robdclark@gmail.com>
-Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/17
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_drm.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 6df25f7..c682588 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -31,6 +31,25 @@ static enum drm_connector_status dp_bridge_detect(struct drm_bridge *bridge)
- 					connector_status_disconnected;
- }
- 
-+static int dp_bridge_atomic_check(struct drm_bridge *bridge,
-+			    struct drm_bridge_state *bridge_state,
-+			    struct drm_crtc_state *crtc_state,
-+			    struct drm_connector_state *conn_state)
-+{
-+	struct msm_dp *dp;
-+
-+	dp = to_dp_bridge(bridge)->dp_display;
-+
-+	drm_dbg_dp(dp->drm_dev, "is_connected = %s\n",
-+		(dp->is_connected) ? "true" : "false");
-+
-+	if (bridge->ops & DRM_BRIDGE_OP_HPD)
-+		return (dp->is_connected) ? 0 : -ENOTCONN;
-+
-+	return 0;
-+}
-+
-+
- /**
-  * dp_bridge_get_modes - callback to add drm modes via drm_mode_probed_add()
-  * @bridge: Poiner to drm bridge
-@@ -61,6 +80,9 @@ static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *
- }
- 
- static const struct drm_bridge_funcs dp_bridge_ops = {
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset           = drm_atomic_helper_bridge_reset,
- 	.enable       = dp_bridge_enable,
- 	.disable      = dp_bridge_disable,
- 	.post_disable = dp_bridge_post_disable,
-@@ -68,6 +90,7 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
- 	.mode_valid   = dp_bridge_mode_valid,
- 	.get_modes    = dp_bridge_get_modes,
- 	.detect       = dp_bridge_detect,
-+	.atomic_check = dp_bridge_atomic_check,
- };
- 
- struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+But equally - and sorry for not jumping on the IRC (?) discussion as I was
+in the middle of other stuff when it came up - I'm don't think this is the
+right plan.
 
+Mesa having all its CI in-tree makes sense, because merges happen rapidly
+to a single canonical tree. If the scripts need to be changed for whatever
+reason, we can merge something in under an hour and everyone immediately
+gets it. DRM is quite different though, given the forest of trees we have
+and the long merge paths between them. I worry that merging the CI scripts
+in-tree - especially for our initial attempt at it, when we're likely to
+need to make quite a lot of changes before it settles down to become a
+stable system that works for everyone - is shooting ourselves in the foot
+by limiting our flexibility.
+
+Given that it's currently very dependent on fd.o infrastructure (published
+ci-templates, the registry, the specific-tag runners for Collabora/CrOS
+DUTs, etc), there isn't much of a portability gain in bringing the scripts
+into the tree either. It's a good goal, but not where we are today.
+
+Cheers,
+Daniel
+
+--000000000000044e1505e841bcc4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi,</div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Fri, 9 Sept 2022 at 15:15, Tomeu Vi=
+zoso &lt;<a href=3D"mailto:tomeu.vizoso@collabora.com" target=3D"_blank">to=
+meu.vizoso@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">Also include a configuration file that points to th=
+e out-of-tree CI<br>
+scripts.<br></blockquote><div><br></div><div>=C2=A0I think this para is out=
+dated given ...</div><div><br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+v8:<br>
+=C2=A0 - Move all files specific to testing the kernel into the kernel tree=
+<br>
+=C2=A0 =C2=A0 (thus I have dropped the r-bs I had collected so far)<br>
+=C2=A0 - Uprev Gitlab CI infrastructure scripts to the latest from Mesa</bl=
+ockquote><div><br></div><div>But equally - and sorry for not jumping on the=
+ IRC (?) discussion as I was in the middle of other stuff when it came up -=
+ I&#39;m don&#39;t think this is the right plan.</div><div><br></div><div>M=
+esa having all its CI in-tree makes sense, because merges happen rapidly to=
+ a single canonical tree. If the scripts need to be changed for whatever re=
+ason, we can merge something in under an hour and everyone immediately gets=
+ it. DRM is quite different though, given the forest of trees we have and t=
+he long merge paths between them. I worry that merging the CI scripts in-tr=
+ee - especially for our initial attempt at it, when we&#39;re likely to nee=
+d to make quite a lot of changes before it settles down to become a stable =
+system that works for everyone - is shooting ourselves in the foot by limit=
+ing our flexibility.</div><div><br></div><div>Given that it&#39;s currently=
+ very dependent on fd.o infrastructure (published ci-templates, the registr=
+y, the specific-tag runners for Collabora/CrOS DUTs, etc), there isn&#39;t =
+much of a portability gain in bringing the scripts into the tree either. It=
+&#39;s a good goal, but not where we are today.</div><div><br></div><div>Ch=
+eers,</div><div>Daniel</div></div></div>
+
+--000000000000044e1505e841bcc4--
