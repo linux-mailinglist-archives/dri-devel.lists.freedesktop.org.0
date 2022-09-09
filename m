@@ -1,57 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3345B5B32F4
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 11:11:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3725C5B32F8
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 11:12:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3282010EC34;
-	Fri,  9 Sep 2022 09:10:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D3E10EC3C;
+	Fri,  9 Sep 2022 09:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E7510EC34;
- Fri,  9 Sep 2022 09:10:53 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0F8D10EC33;
+ Fri,  9 Sep 2022 09:12:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662714653; x=1694250653;
+ t=1662714748; x=1694250748;
  h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=CK7lxHgBXbASGx5hV8j//aKK75B+1V6K33Vc0X3FDyg=;
- b=gip1itTbSkONIo6UNp+SwuQ8lEV8uLrGP0B1wfAGgcmKgC8m9mYtDzFY
- iqEFRUCtXc/7qA2cbTXqsAD0nR8vF1OvV7+MZKFTNAF7SHodIvydopGzn
- 9JR5XKO/JTSpn1C8/lYd0v9YTLEiQJUmojWpHa/pIWIE1lLZIJljDck3I
- gP/fP1oq9MNgoSUApvwQXGDNNkrJIXUX3lS53oi0iGJArGILdpeD+rWU/
- 2Rr5UL0AEEfgKkayWA+UVDoxMdCJIncR6TLV6ZhQL+lFQeMGponbrWdMv
- T+4g0v1EE0au1hcAebsFo5xl5oK+J29o2JrR7jWH5JTJA9gMN9kQRF0rl w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="277166617"
-X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="277166617"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 02:10:53 -0700
+ bh=ogXyDOcm5bJOWuBdHt58YtNNfTWYwG/DSrqBktK432k=;
+ b=YVlmJyvlZPHAy/lb9vSZNiau/Tj193/CIkK9hHNV3Qmy9HilWW3/NF8k
+ Fiqn+81/kIFHGGeOncCf6yaCHibCztqBlWBBd1tqxbCs1V93JcUEFQK0h
+ pGCQ17OyYE5yqm5M0Df5optSGO8W9jJrpUpR1mwzsxZ0Z8dLUYY87PNIO
+ zUiRmRFaPcL8vw9q9qVJCV6Wg+EoWQ+KEEoTRwev3QeGl0u0VF6sAh+cw
+ 8Rin7mHQ3aR0jInla42Umy6J42AbC177whITWCO90tSDL284EThkScrtg
+ SShsAKPe+3yw6oOML+UfoLWaA7kJHzhNDi8UtxnksML6VudLTBOz4PKNa w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="298772530"
+X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="298772530"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2022 02:12:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="610999403"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga007.jf.intel.com with ESMTP; 09 Sep 2022 02:10:48 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="566304165"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga003.jf.intel.com with ESMTP; 09 Sep 2022 02:12:27 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 9 Sep 2022 02:10:48 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ 15.1.2375.31; Fri, 9 Sep 2022 02:12:27 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 9 Sep 2022 02:10:48 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2375.31; Fri, 9 Sep 2022 02:12:26 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Fri, 9 Sep 2022 02:12:26 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.48) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 9 Sep 2022 02:10:47 -0700
+ 15.1.2375.31; Fri, 9 Sep 2022 02:12:26 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jLEmjNoazgooz49hIP4emammHS2XBcYrSEljErj/5oQETyTsGQD8FdCBe9aVv9aND6LwhjStvEyTRE6t0pXSdXkjnjOjQd+Wv9MIFQm55ctkY3PeoBU/cS6bA4rjljOAMXYFLeKDW+cNiWJXT2OWSJDA3tXlxcDzC0a6lGmIgZ3I1FiueBlsFNyAUUfNpip43dPosNPKL29ttVwIjigC6D6KUT4LV98oKZ19X+1g7sEPDkd4BK3cZzLwxL3nrWXjV3eXrgorMzA8cBX8F932TlyAlYQ+vcU/CJ76t+mGwgqhOnVtjr/I6l1PqYfEF2FknOZaM84e3o5kxm8GghVQkA==
+ b=nOoYMh5qGBheCSjzHsq9eMGcjsUjy1GWaExKZvuTHbvy5Ndw+2lVpOYCHeuyDe6+cdyXNzogOAJr/U+BJ0a3LpAAKzsAjNDx3TbPoLQnp3ynX3P2WBiFvtKJ3kdfFlfD3VIx3MkQE21+6Ry0KMWkQ93fo1J6If9QS0Bluc2U/AiPkF1SYtEOQCQzBqvKCcY2YEMWa61mX8n2G6UqehsLYS7cmYa1Jv/mACpUlc/p+KT8s9lq0mF0zhxi6xRU9Lm4hlZMUpd7kQLabjcRnECkkz15nI8Bqbvv9K5Ip4Vvs9dvjaYr+AA7IPI9nFIkz2hDVhhpHJdF2Ga1ifqArW0O9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FJ4TFmEwg8YMiV/SR+h6jtyORhLz0Fwo05VTtBpqgaI=;
- b=FGGsqtOnLImrnn5QJciqgJRctbo5jgSIKSsWtmjcBxUNZzXwR4KITOXedHeH1j+LBbJxDlYA3Tp8ajRTdJzzQMHw2VOd5HBpnQduegZdHTcE0p6jpeVd7w1My3fwsfK0QYlg9FsJFG7dXwEKeIZUwm8I6Sjt5L9/Fo7L93uncUS9Zy34YUGrPvEbi9S7I0fUC/udrVQamUnAzre5qTPFZmPmDO2fcPPS4aCQu/ssQXF1GH4gghYUu7mbTZ1t1dOnqfw8JBqKYD74BUkj3AzcxDjsEVKLGA0bafAaEJntNe2RFQ6HutaDrgqU6fh7k0HSXHTXLmSAXOjNoxi92KCKsg==
+ bh=4njoIhDw43m2wIUCul67NVye4uyVjs2lj+3+sacttoo=;
+ b=GvdYXN2zC0N54/Tr+zIPl8BDBfJhASm0CuUHeHGcifXpiBdlSTnhOJznIi7tfJgosFcQPUGKDf0U319fOXW2Dgah7oMBnUyhgZLCUxlUj5dGJ8xUs0VGAKOmQYs7H0jIm0yGYxH0aY2totwWb5jdzQMn1gcJOsroexeHwZYPIjx+ivvFhQH0O6fEeuWduGHlHLlRj/p/s76o3i9ZEk3sZk6hN7H/VAKmppmTuFlSQRAQ6/zlysyJt63w0lJoh/RKINhbgpDBhORrlArSKx9SWTH7PNyBANIUmv+nF9AUEBAVDQdKusXa2p1Kencui1InzNrni+wXhDOGCe7tWMhQdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -61,74 +65,74 @@ Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
  by DM6PR11MB4739.namprd11.prod.outlook.com (2603:10b6:5:2a0::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19; Fri, 9 Sep
- 2022 09:10:45 +0000
+ 2022 09:12:25 +0000
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::7ce8:1e4e:20d4:6bd4]) by MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::7ce8:1e4e:20d4:6bd4%9]) with mapi id 15.20.5588.016; Fri, 9 Sep 2022
- 09:10:45 +0000
-Date: Fri, 9 Sep 2022 05:10:40 -0400
+ 09:12:25 +0000
+Date: Fri, 9 Sep 2022 05:12:19 -0400
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [Intel-gfx] [PATCH v3 32/37] docs: gpu: i915.rst: add the
- remaining kernel-doc markup files
-Message-ID: <YxsDEP30aZmyBvIo@intel.com>
+Subject: Re: [PATCH v3 35/37] drm/i915: add descriptions for some RPM macros
+ at intel_gt_pm.h
+Message-ID: <YxsDc9m/PowGMnOR@intel.com>
 References: <cover.1662708705.git.mchehab@kernel.org>
- <7ed6d74b75061fb2800e5a59f5282b224bd0621a.1662708705.git.mchehab@kernel.org>
+ <997567dcc2b5942afde093d92d0666948e66d83a.1662708705.git.mchehab@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <7ed6d74b75061fb2800e5a59f5282b224bd0621a.1662708705.git.mchehab@kernel.org>
-X-ClientProxiedBy: BY3PR05CA0023.namprd05.prod.outlook.com
- (2603:10b6:a03:254::28) To MN0PR11MB6059.namprd11.prod.outlook.com
+In-Reply-To: <997567dcc2b5942afde093d92d0666948e66d83a.1662708705.git.mchehab@kernel.org>
+X-ClientProxiedBy: BYAPR07CA0093.namprd07.prod.outlook.com
+ (2603:10b6:a03:12b::34) To MN0PR11MB6059.namprd11.prod.outlook.com
  (2603:10b6:208:377::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cfa57bc6-5c35-44cb-4d76-08da92432dc4
+X-MS-Office365-Filtering-Correlation-Id: 81aa988b-b97c-4110-2e95-08da924368e9
 X-MS-TrafficTypeDiagnostic: DM6PR11MB4739:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DaVK+yh9u3F8lugZo2QrLu+VlNiufa5xCeC3y3bU9fM+mJW6fXgthGJyBMn1ZJVDd+7+VtcFw2ldkSJKBYhqgrvbkApLXg6UhxJJLsH671PKTyPZc+n/RG5lwT0xlGZci/AWUik2v1VhbwK8WlWtlLrKF0kTZCReLUYfvzbJM3/S7Yv58+FK5vE4Y0p/XHG49u23fJ0mEKLm9vrC0e7HgXtmzcjxwgVKQ+LFXoMXe9vT5W4EdujDbaA8pk8G1LKl9AYagMPqA67XkEMFxTkIbQn5EjBkQg1J3A0UKAIAwgXOx8rQXRRzX5IO9/h4KZQLw51kkTlN4azyRaCSa9jEKc5t7XFNKnytkNpGRymiNLSRW20GmmKnjQQKHBVfVtCjozoaIT8mXq35XJTDGVfJyCmcilShfpQOxgdlqK7m/s+smkfH2ycS++i99sywZBcGcoPBpbPz3v/2kEE+8/pEbIfUj8V3pl91nNGsSUdfacrK3h2KDsmlSXTr2xMfHT/dSaqKwtgNo2E/TS+CO9khb4t5XJOjpA9OdRPg7lMVnx/suUKEMu041uL4jUws5EI0FNeMzGDY4PP0IyUzrJCJfdiTTY6HUwhqKLU+vPApsIKf7PyscugEcliM+mGEgnFKOpNaq3YkNT6x7Omi0XqRm0p932REyp9kc2wqu5MDRJe0uuiDOK/Te764aJk0DM6YsdHdTarYkE3mXW0+g2i/UOlQFzDx1lD9+EIse0Ja4bQ=
+X-Microsoft-Antispam-Message-Info: ITjYuAViaVDaOEQTZV38ae3DdVyFVWIsdq66koUL8ve8y5357vRWfvT7FFP0DwY+tSx46jt706JPzaURQhSFmxxwVQMvBjcUFN2AbmbOdek/I2ZQsYE1qw4/sFNGvty4t79HI+HDWScD41lNAg+ICw3QUkZvt/FVhKi3SX5bRy38LEtGanFLRIKO9uzrox9aNiizjcfvR6jkYiob6PCl4Bkai+yTCXnweoJwHzHX7sA/KrqHERadxq7f1c7MLst116ziyqfTOBVxHu2xXQeRZhZSZ4pOQJ9qoUDOTRm67Pvh/eZ9KuD6zXQNNUxZqBpewwA/3zB0/SIyW7PL6rA9RbD5W1f8uM0d0NqI54fsj2gw/4GArth9zsWiHVVyXTsVQESpxDuH/oT0U9fU0zCKud6H6KL2sB1RBzbi8Mo5gIdoXOryGCoVoFN9RsF9JoMeGml/QiS8ZfZaJNbLh6499k+Dlk8c+uFpRIHp/PqEHv3gcQHR6tVdsrRBhTESbbVY/rPt6/Yos8uoF4cNzp2qIbgpKAgE4JzlhNrqAfk1ley2eE4hsX5bbokcRZA9wXAMHXzY+tw2TT6MYiJkgr8erNeAyU2BUPYG1pB0xo5rF6ITZxR1Ik+c5YK01k7B/sosfGNlaL+Boo4AK+MwPaCfI6Ply9CVI0Hru4L2BLbJlwe24yJat4c1k7RjY8bO2EzNBrbB2kZQ83nK1xfDV5bBd2p34ZzA42Sa7ob+7m0mOGftrKEedMJ+V4gUH27NoQO5
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230016)(136003)(366004)(39860400002)(396003)(376002)(346002)(44832011)(7416002)(2906002)(8936002)(6506007)(6512007)(5660300002)(83380400001)(26005)(86362001)(2616005)(186003)(38100700002)(82960400001)(8676002)(41300700001)(36756003)(66476007)(478600001)(66946007)(966005)(4326008)(66556008)(54906003)(316002)(6916009)(6666004)(6486002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+1xBlUvVSOVXybxMti3uD42QjagQOisw0fmox6oS4ocwrwwKTn5vkH4XqlqN?=
- =?us-ascii?Q?hZRxj6vjPLf7UzfQ8VdylPVN3zPr5PkdREtSYLmSJsB7dNUtcgXBqMIDTvtY?=
- =?us-ascii?Q?auMacT+XG+DiXxkLR2kXmnB29nybUvbo27S/fnqK8dSv21SzengMMt6zRk0b?=
- =?us-ascii?Q?v7b6AhCdgucVd6uulGSmIAw9fpN7aTIQyClwjVYj6AvH00XqdslqwKCrkBCN?=
- =?us-ascii?Q?qqYp5Yli2DnJwfH0Fa41rUjrsyzp7NuHL6x/X65k85CqK0UWgg32g+B3Uaj3?=
- =?us-ascii?Q?idekwnMeHIThHLxnftJlToUNjuqAQpHEFrvvvM8Tc7b0bjS/1pbA065RZIjj?=
- =?us-ascii?Q?Wiy8wh4j0J8sv0WNOw6CRQVqt/lKAHzBeFlKi7TZEMD9WTWyEgf35Q+y2d1Q?=
- =?us-ascii?Q?pVV7+uhJJYJ34A6mE+5rdByifcNmMM6H/W1RAd+Brpa5xioFMp9NgRztKXd8?=
- =?us-ascii?Q?hJGxw7uCeMP6ypdh65CA7msC1EgzwTsqJIKRBq8LtvL7sHYA1Crao6SBd14l?=
- =?us-ascii?Q?VFaYtK8YmRIxhf8L593v/p8NHyNmqN15LR7aVZaLq9eDDQe/mcrYoiq4L/07?=
- =?us-ascii?Q?eLf5Kb4sCPn7G1WniqUuqNQWC7TIVxssrmId900SVDeEC5h321jk0RwEho9k?=
- =?us-ascii?Q?xCsIIEZBVdBpP7dTGM0aHOooRD+PoRDsqZa/wxaFnIIK7E0Vo2gwlZvWSr4k?=
- =?us-ascii?Q?1lDB3DYQ+UVm50vGcgixq4mCql+xZpfL9tw4ZNAKKAnltdpSZSfB4SeWRocN?=
- =?us-ascii?Q?2ZDlO0NCS8H4ymlLpZq5tHoOF2fxgZnCmaO/cN6dMtGW6TJVv8QNMlMiRfng?=
- =?us-ascii?Q?4NFj8J9b1bGlVbxxgbODSNct5iOVPbIIijYpxbW8lxKmrV19p6bI00talMC0?=
- =?us-ascii?Q?ZAQcVAHMGWRrhhRAixC+QR5WuF5VRJ6IdUbSSUvi34sJkDfQrDTHOqzr6pUF?=
- =?us-ascii?Q?4ndWinOvR5mFg8LpDg0/+cDwZv86tBADLSLxIRxcGHs0xj17L+okTfeyWx0e?=
- =?us-ascii?Q?YZrlWTM1nyNwPq7TUloluLDokZGLE+EALQhAWyfuKvLm5Y1SifUWbejUJ4E+?=
- =?us-ascii?Q?HrCdXXxObWx9otmscmRVEp2pF6AdEpr2vvPYXmBWBs64p+MA7IXbMIkwf14L?=
- =?us-ascii?Q?jnYVTDJpWtzsbAODysakXhzqA59EuJZYiVLGVB9Z5Yi4f94sP0KrDeOCi6ok?=
- =?us-ascii?Q?NAmqvmRLgyN0W6Q56MDQmLCbu0gZxjbCz0Uy0rZImZqpqdCujBHNaZrkQ0+s?=
- =?us-ascii?Q?bQ7qLnVTieTu/fTgjJJGxJ+vT+8rgsBDboLuGTGe2jv0yzO7UUQYuoE0AQ2T?=
- =?us-ascii?Q?3hPxu7W9oHVDf8wQ/EM4MzOP4f3iMFpoDYxPdGi9FZw03wgeOWkJgxybVsKN?=
- =?us-ascii?Q?dVh7Iq0GZ/EGcvdFka34lN7zOvh7i8uOzR+Bc0oJv29uFLbBVsRr+PK+Nkfh?=
- =?us-ascii?Q?2OgUUqReCx49+EgHguxtldiBvky6Xw/vwxD3hHrP8yYrH7Fjxctny/d9VzLs?=
- =?us-ascii?Q?89uQO2aGZznMBY31yjqrlm0oT4IqDCZemssybyLalBQGlz8xYP1aigVNf8oN?=
- =?us-ascii?Q?edNxgBQ36FI2Gw+tDLdBnY0E7yYDTsYKfqqp0WVo708rLMnJFqeZ2OPnAw8G?=
- =?us-ascii?Q?4g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfa57bc6-5c35-44cb-4d76-08da92432dc4
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iuOfEnRVLLw4cgIjFWTRf7weAlQ3qMKF3swmJ8AbRwzDgyA1QC6JNElNEhOl?=
+ =?us-ascii?Q?jqeQkav1h93ElIDnDN91p+tyBFuJa6lZWxBCKxN417t1UY6WWOSLA+jqgsUV?=
+ =?us-ascii?Q?st8U0Z9k3DivXcHixilOE2WLo9RvhFuTB6qJozz9sJiBJG7YSeTUh3csxeKx?=
+ =?us-ascii?Q?0RmPECd/jCq3QzexwLElUlJCrPkTcoLLa9l+2LyDtJCByJMTZ/fqj/E5ZbPn?=
+ =?us-ascii?Q?EaTUmlkbKo+Ac3ctm2EOKtG2clgK88cL0wjvHSXDSU0XQfpqkZGv0mGG2NXR?=
+ =?us-ascii?Q?MTrygf9LIhJIWFHnZgpTvw6aURknO1dMHLy+SY5aJWianjU0VcRg4FzoggOI?=
+ =?us-ascii?Q?cWzaWMxQ1sHyX3EuAmZuO3n6gttizBqmB5+ZFnIpm/SJNRMO/jeZXEIm3x4T?=
+ =?us-ascii?Q?NVy5Z0xzq2QctjwD09e2/UE0BIcje+eoyKn65lz4f5TW6cnQot0fTUaoZyUG?=
+ =?us-ascii?Q?cZ2R7QLtJ8l+46U/6PWFUaHtx/KczwKpXdttg4gVRdiD4acPJ6ACQIj0v4FU?=
+ =?us-ascii?Q?55BDyivzJgKzDkc07EtfwultM2NStGCyppcy7Z+PH3PYi+ph9mjVLJNYZ2lz?=
+ =?us-ascii?Q?3+w7Mg9XFtdSHUKS26kXr9SPHjX4hbEhuVGJEui4zVKzYi3MTy7819wvGZwZ?=
+ =?us-ascii?Q?lD/P5sWXKvVEtIUXtOMrrINIGpJ0GGlUSlpGkQbVzWpfS94u096L/OGbao/+?=
+ =?us-ascii?Q?CLsDHgxhVJOuLDqwEWUfN8I6+/ioWSlPhcl96Q0jcNo/RCCZP/0tvvkYWUx1?=
+ =?us-ascii?Q?q4C90Fv5Z6T7jnsKuugDr2zXprdduyg0dMDjh6LJPcWIJMqKGoZAhfIwk+jW?=
+ =?us-ascii?Q?vXGa0kG8HMHR/Lll/O7iiKIDHm2NQRW89WSwI+ARPmzVLQUE0mPkJbbQ1bNT?=
+ =?us-ascii?Q?RfiyPUVKtoMD9GJ1rzxSTinLRdAvS83AOTUsS3kY677bAHe1IdB9knrfo+za?=
+ =?us-ascii?Q?EzhDQIcycminEOLX4kbgPR0p3g7VmWoTKtjiwN9CmyNg1EqYmMQYWYp4y1JZ?=
+ =?us-ascii?Q?w6el/nzrPbZNn0CB572KTLTAlXGRVcKC3aVZKa+hLAt85/fWRDwZsBjugJZS?=
+ =?us-ascii?Q?JXvspomIBN+DJ9yK3lYUGEJHZLFuMuVcIwOYZalPGyn0GQ6VDJs5Du9DI/d/?=
+ =?us-ascii?Q?OskYYwkfuEtMYs1AWLq3gSMpFDLsVtfQnXkecLB4Rc8gniaQ3W7Ou8CuBBx9?=
+ =?us-ascii?Q?ewsWdJF2e8B0FQHChklB1V+OcJqSN3PzZqaaHh/PJ0hhNwJeOMK2Kcz8eSu6?=
+ =?us-ascii?Q?2gFtL5tc0ZueiT67pGw4i6EH/8QJaDAhOuUnG2XZU453DiK4vFzJZcgFhwHN?=
+ =?us-ascii?Q?Kld9/ndidlrsbZPO9sS5kblHh5fAGzvrg19vVl984FkBU94d1TRIB3XG3cyH?=
+ =?us-ascii?Q?xXLPKNQ+jvUmgQIanL45YLT1baRC8QWG3RqQ2QOMQGI5MyrlOdllHPVGcslG?=
+ =?us-ascii?Q?YjDGH4U9DsW8iWp+su+af0wLKGjWztGD0/0WW+K4bKa4z2ZKvDX2LnX7bCsx?=
+ =?us-ascii?Q?xLGKmckKacktJFCPepX/yv50zIrhLVwXDUEpdC9/yTfsL4FxCurqEJBMWtYk?=
+ =?us-ascii?Q?sUUeCkIhiLfc2TQx1WCgTDfEA//3tCQKbh5sk3T0OlTCE42dZs5YXR2AYlEb?=
+ =?us-ascii?Q?Og=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81aa988b-b97c-4110-2e95-08da924368e9
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2022 09:10:45.7618 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2022 09:12:25.0516 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u3N54i9w/fe1TK563ILU/41bAIxPdvrRPw6c6kTMW14fHd2k7yffy2dEXY24RTr2P1it8ehThDoj5jo09GxZwA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9QybCaNtF+aBeRPeJauywu/p72W2OZ7OwlieX4WXIRzoLpANG2UGviYR2ef8YgKIyo3GpRObUdGv6JMZTHN0MA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4739
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -143,20 +147,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chris
+ Wilson <chris.p.wilson@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ John Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 09, 2022 at 09:34:39AM +0200, Mauro Carvalho Chehab wrote:
-> There are other files with kernel-doc markups:
+On Fri, Sep 09, 2022 at 09:34:42AM +0200, Mauro Carvalho Chehab wrote:
+> The intel_gt_pm.h file contains some convenient macros to be used
+> in GT code in order to get/put runtime PM references and for
+> checking them.
 > 
-> 	$ git grep -l "/\*\*" $(git ls-files|grep drivers/gpu/drm/i915/) >kernel-doc-files
-> 	$ for i in $(cat kernel-doc-files); do if [ "$(git grep $i Documentation/)" == "" ]; then echo "$i"; fi; done >aaa
-> 
-> Add them to i915.rst as well.
+> Add descriptions based on the ones at intel_wakeref.h and
+> intel_runtime_pm.c.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
@@ -167,140 +175,114 @@ Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH v3 00/37] at: https://lore.kernel.org/all/cover.1662708705.git.mchehab@kernel.org/
 > 
->  Documentation/gpu/i915.rst | 85 +++++++++++++++++++++++++++++++++++++-
->  1 file changed, 83 insertions(+), 2 deletions(-)
+>  Documentation/gpu/i915.rst            |  2 ++
+>  drivers/gpu/drm/i915/gt/intel_gt_pm.h | 51 +++++++++++++++++++++++++++
+>  2 files changed, 53 insertions(+)
 > 
 > diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index 545fe630557a..7f5cd01ed398 100644
+> index 7f5cd01ed398..59c532fe0332 100644
 > --- a/Documentation/gpu/i915.rst
 > +++ b/Documentation/gpu/i915.rst
-> @@ -13,6 +13,11 @@ Core Driver Infrastructure
->  This section covers core driver infrastructure used by both the display
->  and the GEM parts of the driver.
+> @@ -446,6 +446,8 @@ Graphics Translation Tables
+>  Other GT functionality
+>  ----------------------
 >  
-> +Core driver
-> +-----------
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gt_pm.h
 > +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_driver.c
-> +
->  Runtime Power Management
->  ------------------------
+>  .. kernel-doc:: drivers/gpu/drm/i915/gt/intel_context.h
 >  
-> @@ -29,6 +34,8 @@ Runtime Power Management
+>  .. kernel-doc:: drivers/gpu/drm/i915/gt/intel_gsc.h
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> index 6c9a46452364..7847e15d102e 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> @@ -11,21 +11,57 @@
+>  #include "intel_gt_types.h"
+>  #include "intel_wakeref.h"
 >  
->  .. kernel-doc:: drivers/gpu/drm/i915/intel_pm.c
+> +/**
+> + * intel_gt_pm_is_awake: Query whether the runtime PM is awake held
+> + *
+> + * @gt: pointer to the graphics engine
+> + *
+> + * Returns: true if a runtime pm reference is currently held and the GT is
+> + * awake.
+> + */
+>  static inline bool intel_gt_pm_is_awake(const struct intel_gt *gt)
+>  {
+>  	return intel_wakeref_is_active(&gt->wakeref);
+>  }
 >  
-> +.. kernel-doc:: drivers/gpu/drm/i915/intel_wakeref.h
-> +
->  Interrupt Handling
->  ------------------
+> +/**
+> + * intel_gt_pm_get: grab a runtime PM reference ensuring that GT is powered up
+> + * @gt: pointer to the graphics engine
+> + *
+> + * Any runtime pm reference obtained by this function must have a symmetric
+> + * call to intel_gt_pm_put() to release the reference again.
+> + *
+> + * Note that this is allowed to fail, in which case the runtime-pm wakeref
+> + * will be released and the acquisition unwound.
+> + */
+>  static inline void intel_gt_pm_get(struct intel_gt *gt)
+>  {
+>  	intel_wakeref_get(&gt->wakeref);
+>  }
 >  
-> @@ -44,8 +51,25 @@ Interrupt Handling
->  .. kernel-doc:: drivers/gpu/drm/i915/i915_irq.c
->     :functions: intel_runtime_pm_enable_interrupts
+> +/**
+> + * __intel_gt_pm_get: Acquire the runtime PM reference again
+> + * @gt: pointer to the graphics engine which contains the wakeref
+> + *
+> + * Increment the PM reference counter, only valid if it is already held by
+> + * the caller.
+> + *
+> + * See intel_gt_pm_get().
+> + */
+>  static inline void __intel_gt_pm_get(struct intel_gt *gt)
+>  {
+>  	__intel_wakeref_get(&gt->wakeref);
+>  }
 >  
-> -Intel GVT-g Guest Support(vGPU)
-> --------------------------------
-> +Memory Handling
-> +---------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_vma_resource.h
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_vma_resource.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_vma.h
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_vma.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_mm.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/intel_memory_region.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_memcpy.c
-> +
-> +Intel GVT-g Guest Support (vGPU)
-> +--------------------------------
+> +/**
+> + * intel_gt_pm_get_if_awake: Acquire the runtime PM reference if active
+> + * @gt: pointer to the graphics engine which contains the PM reference
+> + *
+> + * Acquire a hold on the PM reference, but only if the GT is already
+> + * active.
+> + *
+> + * Returns: true if the wakeref was acquired, false otherwise.
+> + */
+>  static inline bool intel_gt_pm_get_if_awake(struct intel_gt *gt)
+>  {
+>  	return intel_wakeref_get_if_active(&gt->wakeref);
+> @@ -36,6 +72,14 @@ static inline void intel_gt_pm_might_get(struct intel_gt *gt)
+>  	intel_wakeref_might_get(&gt->wakeref);
+>  }
 >  
->  .. kernel-doc:: drivers/gpu/drm/i915/i915_vgpu.c
->     :doc: Intel GVT-g guest support
-> @@ -109,6 +133,55 @@ Workarounds
->  .. kernel-doc:: drivers/gpu/drm/i915/gt/intel_workarounds.c
->     :doc: Hardware workarounds
+> +/**
+> + * intel_gt_pm_put: Release the runtime PM reference
+> + * @gt: pointer to the graphics engine which contains the PM reference
+> + *
+> + * Release our hold on the runtime PM for GT.
+> + *
+> + * It might power down the GT right away if this is the last reference.
+> + */
+>  static inline void intel_gt_pm_put(struct intel_gt *gt)
+>  {
+>  	intel_wakeref_put(&gt->wakeref);
+> @@ -51,6 +95,13 @@ static inline void intel_gt_pm_might_put(struct intel_gt *gt)
+>  	intel_wakeref_might_put(&gt->wakeref);
+>  }
 >  
-> +Scatterlist handling
-> +--------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_scatterlist.h
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_scatterlist.c
-> +
-> +i915 request
-> +------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_request.h
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_request.c
-> +
-> +Others
-> +------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_ioc32.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_gpu_error.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_active.h
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_deps.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_deps.h
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/intel_device_info.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_params.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_sw_fence_work.h
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_syncmap.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/intel_pcode.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_reg_defs.h
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/intel_wopcm.h
-> +
-> +
-> +Protected Xe Path (PXP)
-> +-----------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> +
->  Display Hardware Handling
->  =========================
->  
-> @@ -615,6 +688,12 @@ Protected Objects
->  Table Manager (TTM)
->  -------------------
->  
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/intel_region_ttm.c
-> +
->  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->  
->  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_ttm.h
-> @@ -624,6 +703,8 @@ Table Manager (TTM)
->  Graphics Execution Manager (GEM)
->  --------------------------------
->  
-> +.. kernel-doc:: drivers/gpu/drm/i915/i915_gem.c
-> +
->  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_create.c
->  
->  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> +/**
+> + * with_intel_gt_pm - get a GT reference ensuring that GT is powered up,
+> + *	run some code and then put the reference away.
+> + *
+> + * @gt: pointer to the gt
+> + * @tmp: pointer to a temporary wakeref.
+> + */
+>  #define with_intel_gt_pm(gt, tmp) \
+>  	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
+>  	     intel_gt_pm_put(gt), tmp = 0)
 > -- 
 > 2.37.3
 > 
