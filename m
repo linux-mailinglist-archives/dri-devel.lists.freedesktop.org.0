@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D415B3BB2
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 17:18:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFAD5B3BCD
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 17:26:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF6C10EE06;
-	Fri,  9 Sep 2022 15:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6803010ECB0;
+	Fri,  9 Sep 2022 15:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAB4310EE06;
- Fri,  9 Sep 2022 15:18:13 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB8BB10E02E;
+ Fri,  9 Sep 2022 15:26:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662736693; x=1694272693;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=haUPK2ttPHNt1xW1w7VWVrCTNsYVPPjWj9wJccCH4DQ=;
- b=YLBI2hbhMPiRBo+WxwSvlrToueHBfUaKcXUESedL1Iqyf5Ariw3R5SnW
- hi8fs7e5Gg+rHTZsXoJwd1gK2ysaZvQYG+I3u1u/pf4VFwIsHszHv149+
- 4unOA26bFQ1hBWu9T72pICAur5H5kQKXalikkqWnMjJAdUFBT011q3Swf
- ZkpxCoMhCRsyq1US7HGfesgUgreRdvHwCT4aJEo1/ptACuXAErALYpK05
- USwvQe+0GrtSsushw9Mt6FT2n+cPk1T+LAxZta++l2UKxW4HzbkJmaRvZ
- C6RTwUq4vh0Bkr7dKxgg74cVtrDv5PiwhvVsANKvuuxlNXQs7TGWnnkMf w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10465"; a="296233660"
-X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="296233660"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 08:18:13 -0700
-X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="611087499"
-Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.25.143])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 08:18:06 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: igt-dev@lists.freedesktop.org
-Subject: Re: [igt-dev] [PATCH i-g-t v2 3/4] lib/igt_kmod: add compatibility
- for KUnit
-Date: Fri, 09 Sep 2022 17:18:03 +0200
-Message-ID: <2101392.KlZ2vcFHjT@jkrzyszt-mobl1.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220829000920.38185-4-isabbasso@riseup.net>
-References: <20220829000920.38185-1-isabbasso@riseup.net>
- <20220829000920.38185-4-isabbasso@riseup.net>
+ t=1662737201; x=1694273201;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=gdtSMfteonZGMPcBE4gOUGjRkXMhDssw1knzWUo5j6g=;
+ b=Pw+SgIlkw0ohmtwvf11MVM9c7qmdlPhk77nt0qxmKjrT6NDQnw9Bdqaf
+ +VpdRrJRguD8GqVfmSK+diB1HJ4cpKTrtAw+Ub9/8afFFPVwlLJdxuYVG
+ bXmyKXC0ewvEl/hYDo7p8hDXt9BFrKHNB8Mw3LGrrn1n+8ZjIIVgUGXrL
+ XBTfN7mNDc6trqtsJ3RcW/FiNzXpJF+pEwUFpMjqYpt3yBBPfZrXrG8bx
+ fFIn92z592W+4n9vVQ/MeeB+MWCLKY4hcO4KlWQ7zYKXFaTmPEYMhOemd
+ Glxs0HKouN3UKL+cXcDFI8TX12NI25+0uTSgfigfclvWeLi/8DJFFtryk Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10465"; a="277887177"
+X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="277887177"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2022 08:26:41 -0700
+X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; d="scan'208";a="645569056"
+Received: from abaruah-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.252.45.217])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2022 08:26:38 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, =?utf-8?Q?Aur=C3=A9lien?=
+ <aurelien.intel@ap2c.com>, Hans de Goede <hdegoede@redhat.com>, Lyude
+ <lyude@redhat.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] Developing a new backlight driver for specific OLED
+ screen
+In-Reply-To: <YxsMcH37rRkt0cfj@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <183219aab00.2890.be34037ad6564a4fe81285fd91a8f407@ap2c.com>
+ <YxsMcH37rRkt0cfj@intel.com>
+Date: Fri, 09 Sep 2022 18:26:36 +0300
+Message-ID: <878rms7emr.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,408 +61,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, magalilemes00@gmail.com,
- maira.canal@usp.br, dlatypov@google.com, tales.aparecida@gmail.com,
- brendanhiggins@google.com, linux-kernel@vger.kernel.org,
- leandro.ribeiro@collabora.com, dri-devel@lists.freedesktop.org,
- n@nfraprado.net, davidgow@google.com, skhan@linuxfoundation.org,
- andrealmeid@riseup.net, Isabella Basso <isabbasso@riseup.net>,
- kunit-dev@googlegroups.com
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Isabella,
+On Fri, 09 Sep 2022, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> On Fri, Sep 09, 2022 at 11:35:28AM +0200, Aur=C3=A9lien wrote:
+>>    Hi,
+>>    I hope this mailing-mist is the right place for this question.
+>
+> + dri-devel mailing list that looks more appropriated.
+> + Hans and Lyude who were recently working to standardize some of the
+> backlight stuff.
+>
+>>    I would like to develop a new driver in order to manage backlight for=
+ a
+>>    specific OLED display (Samsung one). For that propose I need to use t=
+he
+>>    dpcd aux read and write functions.
+>>    Since this driver is independent film the i915 driver I would like to
+>>    develop an ind=C3=A9mependant driver.
+>>    So my question is: how can I use the i915 API (dpcd aux communication=
+s)
+>>    outside from the driver and register the backlight sys entries like t=
+he
+>>    i915 does (in order to have all the softwares which plays with the
+>>    backlight working without modifying them) ?
+>
+> I don't believe you want to use the i915 API, but move the common functio=
+ns
+> to the drm subsystem itself and then reuse as a drm device.
 
-On Monday, 29 August 2022 02:09:19 CEST Isabella Basso wrote:
-> This adds functions for both executing the tests as well as parsing (K)TAP
-> kmsg output, as per the KTAP spec [1].
-> 
-> [1] https://www.kernel.org/doc/html/latest/dev-tools/ktap.html
-> 
-> Signed-off-by: Isabella Basso <isabbasso@riseup.net>
-> ---
->  lib/igt_kmod.c | 290 +++++++++++++++++++++++++++++++++++++++++++++++++
->  lib/igt_kmod.h |   2 +
->  2 files changed, 292 insertions(+)
-> 
-> diff --git a/lib/igt_kmod.c b/lib/igt_kmod.c
-> index 97cac7f5..93cdfcc5 100644
-> --- a/lib/igt_kmod.c
-> +++ b/lib/igt_kmod.c
-> @@ -25,6 +25,7 @@
->  #include <signal.h>
->  #include <errno.h>
->  #include <sys/utsname.h>
-> +#include <limits.h>
->  
->  #include "igt_aux.h"
->  #include "igt_core.h"
-> @@ -32,6 +33,8 @@
->  #include "igt_sysfs.h"
->  #include "igt_taints.h"
->  
-> +#define BUF_LEN 4096
-> +
->  /**
->   * SECTION:igt_kmod
->   * @short_description: Wrappers around libkmod for module loading/unloading
-> @@ -713,6 +716,293 @@ void igt_kselftest_get_tests(struct kmod_module *kmod,
->  	kmod_module_info_free_list(pre);
->  }
->  
-> +/**
-> + * lookup_value:
-> + * @haystack: the string to search in
-> + * @needle: the string to search for
-> + *
-> + * Returns: the value of the needle in the haystack, or -1 if not found.
-> + */
-> +static long lookup_value(const char *haystack, const char *needle)
-> +{
-> +	const char *needle_rptr;
-> +	char *needle_end;
-> +	long num;
-> +
-> +	needle_rptr = strcasestr(haystack, needle);
-> +
-> +	if (needle_rptr == NULL)
-> +		return -1;
-> +
-> +	/* skip search string and whitespaces after it */
-> +	needle_rptr += strlen(needle);
-> +
-> +	num = strtol(needle_rptr, &needle_end, 10);
-> +
-> +	if (needle_rptr == needle_end)
-> +		return -1;
-> +
-> +	if (num == LONG_MIN || num == LONG_MAX)
-> +		return 0;
-> +
-> +	return num > 0 ? num : 0;
-> +}
-> +
-> +static int find_next_tap_subtest(char *record, char *test_name,
-> +				 bool is_subtest)
-> +{
-> +	const char *name_lookup_str,
-> +	      *lend, *version_rptr, *name_rptr;
-> +	long test_count;
-> +
-> +	name_lookup_str = "test: ";
-> +
-> +	version_rptr = strcasestr(record, "TAP version ");
-> +	name_rptr = strcasestr(record, name_lookup_str);
-> +
-> +	/*
-> +	 * total test count will almost always appear as 0..N at the beginning
-> +	 * of a run, so we use it as indication of a run
-> +	 */
-> +	test_count = lookup_value(record, "..");
-> +
-> +	/* no count found, so this is probably not starting a (sub)test */
-> +	if (test_count < 0) {
-> +		if (name_rptr != NULL) {
-> +			if (test_name[0] == '\0')
-> +				strncpy(test_name,
-> +					name_rptr + strlen(name_lookup_str),
-> +					BUF_LEN);
-> +			else if (strcmp(test_name, name_rptr + strlen(name_lookup_str)) == 0)
-> +				return 0;
-> +			else
-> +				test_name[0] = '\0';
-> +
-> +		}
-> +		return -1;
-> +	}
-> +
-> +	/*
-> +	 * "(K)TAP version XX" should be the first line on all (sub)tests as per
-> +	 * https://www.kernel.org/doc/html/latest/dev-tools/ktap.html#version-lines
-> +	 * but actually isn't, as it currently depends on whoever writes the
-> +	 * test to print this info
-> +	 */
-> +	if (version_rptr == NULL)
-> +		igt_info("Missing test version string\n");
-> +
-> +	if (name_rptr == NULL) {
-> +		/* we have to keep track of the name string, as it might be
-> +		 * contained in a line read previously */
-> +		if (test_name[0] == '\0') {
-> +			igt_info("Missing test name string\n");
-> +
-> +			if (is_subtest)
-> +				igt_info("Running %ld subtests...\n", test_count);
-> +			else
-> +				igt_info("Running %ld tests...\n", test_count);
-> +		} else {
-> +			lend = strchrnul(test_name, '\n');
-> +
-> +			if (*lend == '\0') {
-> +				if (is_subtest)
-> +					igt_info("Executing %ld subtests in: %s\n",
-> +						 test_count, test_name);
-> +				else
-> +					igt_info("Executing %ld tests in: %s\n",
-> +						 test_count, test_name);
-> +				return test_count;
-> +			}
-> +
-> +			if (is_subtest)
-> +				igt_info("Executing %ld subtests in: %.*s\n",
-> +					 test_count, (int)(lend - test_name),
-> +					 test_name);
-> +			else
-> +				igt_info("Executing %ld tests in: %.*s\n",
-> +					 test_count, (int)(lend - test_name),
-> +					 test_name);
-> +			test_name[0] = '\0';
-> +		}
-> +	} else {
-> +		name_rptr += strlen(name_lookup_str);
-> +		lend = strchrnul(name_rptr, '\n');
-> +		/*
-> +		 * as the test count comes after the test name we need not check
-> +		 * for a long line again
-> +		 */
-> +		if (is_subtest)
-> +			igt_info("Executing %ld subtests in: %.*s\n",
-> +				 test_count, (int)(lend - name_rptr),
-> +				 name_rptr);
-> +		else
-> +			igt_info("Executing %ld tests in: %.*s\n",
-> +				 test_count, (int)(lend - name_rptr),
-> +				 name_rptr);
-> +	}
-> +
-> +	return test_count;
-> +}
-> +
-> +static void parse_kmsg_for_tap(const char *lstart, char *lend,
-> +			       int *sublevel, bool *failed_tests)
-> +{
-> +	const char *nok_rptr, *comment_start, *value_parse_start;
-> +
-> +	nok_rptr = strstr(lstart, "not ok ");
-> +	if (nok_rptr != NULL) {
-> +		igt_warn("kmsg> %.*s\n",
-> +			 (int)(lend - lstart), lstart);
-> +		*failed_tests = true;
-> +		return;
-> +	}
-> +
-> +	comment_start = strchrnul(lstart, '#');
-> +
-> +	/* check if we're still in a subtest */
-> +	if (*comment_start != '\0') {
-> +		comment_start++;
-> +		value_parse_start = comment_start;
-> +
-> +		if (lookup_value(value_parse_start, "fail: ") > 0) {
-> +			igt_warn("kmsg> %.*s\n",
-> +				 (int)(lend - comment_start), comment_start);
-> +			*failed_tests = true;
-> +			(*sublevel)--;
-> +			return;
-> +		}
-> +	}
-> +
-> +	igt_info("kmsg> %.*s\n",
-> +		 (int)(lend - lstart), lstart);
-> +}
-> +
-> +static void igt_kunit_subtests(int fd, char *record,
-> +			       int *sublevel, bool *failed_tests)
+Aur=C3=A9lien, are you aware of drivers/gpu/drm/display/drm_dp_helper.c and
+all the functions around struct dp_aux_backlight and struct
+drm_edp_backlight_info?
 
-This function looks like nothing but a KTAP parser.  It doesn't perform any 
-operations required for execution of kunit tests.  Shouldn't we better name it 
-like igt_ktap_parser or something like that?  Besides, I would move that 
-parser code to a separate source file.
+Also see drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c.
 
-> +{
-> +	char test_name[BUF_LEN + 1], *lend;
-> +
-> +	lend = NULL;
-> +	test_name[0] = '\0';
-> +	test_name[BUF_LEN] = '\0';
-> +
-> +	while (*sublevel >= 0) {
-> +		const char *lstart;
-> +		ssize_t r;
-> +
-> +		if (lend != NULL && *lend != '\0')
-> +			lseek(fd, (int) (lend - record), SEEK_CUR);
-> +
-> +		r = read(fd, record, BUF_LEN);
-> +
-> +		if (r <= 0) {
-> +			switch (errno) {
-> +			case EINTR:
-> +				continue;
-> +			case EPIPE:
-> +				igt_warn("kmsg truncated: too many messages. \
-> +					 You may want to increase log_buf_len \
-> +					 in your boot options\n");
-> +				continue;
-> +			case !EAGAIN:
-> +				igt_warn("kmsg truncated: unknown error (%m)\n");something 
+Does the display use some proprietary, non-VESA DPCD registers? There's
+already some of that in i915 for Intel proprietary interfaces.
 
-If the intention here is to display this warning only in other cases but 
-EAGAIN error then that won't work as intended.
 
-> +				*sublevel = -1;
-
-Shouldn't *sublevel be also set to -1 in all cases but EINTR and EPIPE, 
-whether EAGAIN or anything else?
-
-Other than that, please use /* fallthrough */ marking if you intentionally 
-omit break;
-
-> +			default:
-> +				break;
-> +			}
-> +			break;
-> +		}
-> +
-> +		lend = strchrnul(record, '\n');
-> +
-> +		/* in case line > 4096 */
-> +		if (*lend == '\0')
-> +			continue;
-
-That means we are free to ignore initial fragments of lines exceeding 4096 
-characters, but still will be looking at trailing fragments of those lines.  
-This approach seems sub-optimal to me.  Wouldn't it be more convenient if we 
-used line buffered I/O instead of read()?
-
-> +
-> +		if (find_next_tap_subtest(record, test_name, *sublevel > 0) != -1)
-> +			(*sublevel)++;
-> +
-> +		if (*sublevel > 0) {
-> +			lstart = strchrnul(record, ';');
-> +
-> +			if (*lstart == '\0') {
-> +				igt_warn("kmsg truncated: output malformed (%m)\n");
-> +				igt_fail(IGT_EXIT_FAILURE);
-> +			}
-> +
-> +			lstart++;
-> +			while (isspace(*lstart))
-> +				lstart++;
-> +
-> +			parse_kmsg_for_tap(lstart, lend, sublevel, failed_tests);
-> +		}
-> +	}
-> +
-> +	if (*failed_tests || *sublevel < 0)
-> +		igt_fail(IGT_EXIT_FAILURE);
-> +	else
-> +		igt_success();
-> +}
-> +
-> +/**
-> + * igt_kunit:
-> + * @module_name: the name of the module
-> + * @opts: options to load the module
-> + *
-> + * Loads the kunit module, parses its dmesg output, then unloads it
-> + */
-> +void igt_kunit(const char *module_name, const char *opts)
-> +{
-> +	struct igt_ktest tst;
-> +	char record[BUF_LEN + 1];
-> +	bool failed_tests = false;
-> +	int sublevel = 0;
-> +
-> +	record[BUF_LEN] = '\0';
-> +
-> +	/* get normalized module name */
-> +	if (igt_ktest_init(&tst, module_name) != 0) {
-> +		igt_warn("Unable to initialize ktest for %s\n", module_name);
-> +		return;
-> +	}
-> +
-> +	if (igt_ktest_begin(&tst) != 0) {
-
-Since igt_ktest_begin() as is calls igt_require() then it may be used only 
-from inside an igt_fixture or igt_subtest block.  If the intention is to call
-igt_kunit() from an igt_subtest block, unlike igt_kselftest() which has 
-igt_fixture and igt_subtest blocks placed in its body, please document that.
-
-> +		igt_warn("Unable to begin ktest for %s\n", module_name);
-> +
-> +		igt_ktest_fini(&tst);
-> +		return;
-> +	}
-> +
-> +	if (tst.kmsg < 0) {
-> +		igt_warn("Could not open /dev/kmsg");
-> +		goto unload;
-> +	}
-> +
-> +	if (lseek(tst.kmsg, 0, SEEK_END)) {
-> +		igt_warn("Could not seek the end of /dev/kmsg");
-> +		goto unload;
-> +	}
-> +
-> +	/* The kunit module is required for running any kunit tests */
-> +	if (igt_kmod_load("kunit", NULL) != 0) {
-> +		igt_warn("Unable to load kunit module\n");
-> +		goto unload;
-> +	}
-> +
-> +	if (igt_kmod_load(module_name, opts) != 0) {
-> +		igt_warn("Unable to load %s module\n", module_name);
-> +		goto unload;
-> +	}
-> +
-> +	igt_kunit_subtests(tst.kmsg, record, &sublevel, &failed_tests);
-
-What's the point of passing that many temporary variable pointers to 
-igt_kunit_subtests() if we are not interested here in content of any of those 
-variables after the function returns?  That function could perfectly use its 
-own local variables for storing that data.
-
-Besides, my comment about not using igt_require() outside of igt_fixture or 
-igt_subtest blocks also applies to igt_fail() and igt_success() called from
-igt_kunit_subtests().
-
-Anyway, related to my comment about naming that function a parser, I think the 
-best approach would be for that parser to return a generic set of results from 
-kunit execution, then we could feed that data into an IGT specific handler 
-that would convert them to IGT results (SUCCESS, FAIL, or SKIP) as if returned 
-by a set of IGT dynamic subtests.
-
-Thanks,
-Janusz
- 
-> +unload:
-> +	igt_kmod_unload("kunit", 0);
-> +
-> +	igt_ktest_end(&tst);
-> +
-> +	igt_ktest_fini(&tst);
-> +}
-> +
->  static int open_parameters(const char *module_name)
->  {
->  	char path[256];
-> diff --git a/lib/igt_kmod.h b/lib/igt_kmod.h
-> index ceb10cd0..737143c1 100644
-> --- a/lib/igt_kmod.h
-> +++ b/lib/igt_kmod.h
-> @@ -45,6 +45,8 @@ int __igt_i915_driver_unload(char **whom);
->  int igt_amdgpu_driver_load(const char *opts);
->  int igt_amdgpu_driver_unload(void);
->  
-> +void igt_kunit(const char *module_name, const char *opts);
-> +
->  void igt_kselftests(const char *module_name,
->  		    const char *module_options,
->  		    const char *result_option,
-> 
+BR,
+Jani.
 
 
 
+>
+>>    Many thanks for your answers
+>>    --
+>>    Aur=C3=A9lien
 
+--=20
+Jani Nikula, Intel Open Source Graphics Center
