@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2573E5B410C
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 22:52:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0A95B410E
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Sep 2022 22:53:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F61810EE5F;
-	Fri,  9 Sep 2022 20:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A4E10EE60;
+	Fri,  9 Sep 2022 20:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D121810EE5E;
- Fri,  9 Sep 2022 20:52:40 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-12803ac8113so7029120fac.8; 
- Fri, 09 Sep 2022 13:52:40 -0700 (PDT)
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C18910EE60;
+ Fri,  9 Sep 2022 20:53:31 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ t11-20020a05683014cb00b0063734a2a786so1817766otq.11; 
+ Fri, 09 Sep 2022 13:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=auTdx0ufon/JFw//ZNUMeBnNVMPTikmUwRLNyCwLhpU=;
- b=SJkHXuVd9goGm1zd4i9WhAGT1g0Zy2AKdDf0GPFcAbHCov3BndcvhuUauQZhMFRcMX
- alqvHPrT4MIH2xIL7HGk3BF0zm5aZsm8eajaq9PvCe7rQ9YkGbzBoXPI7PcUf+K1oLva
- 9lv7Gpc4il9uXSRLobO/DChwj/Kt8XXVY9rmqpMsxSFKwEjKAOubguW+aYFjdxDFI0H2
- 9GVRy6xkUavjj2VFF2BH677C69+6qcStEKWKFbljkhn/ss5VXIWL/KHJKzk/eiQAa3Mv
- qMm83dnbWh64C+xOy2TmpFY1rFWJVRIV88bmL7WhNC5vqXjw/jL4nh91gOKdklcFH8Gb
- Y3kQ==
+ bh=Tv3Et/tqY6Zk/pnAAyJuFDBD309Fy7UgcvolVBKAIt0=;
+ b=XDqQfKosBFzUJL2xT8WnuKul95HYglkg8NPZTdD8yer3mkW0yRnXch4X7L024AWOpG
+ lHhrc0bFdyTds58pYk8wgR+4CCChs02NqRg70znBM6Aq/MFeaft1dGIE2EnIDuXc4Pvh
+ WPohlQkvZXJQed98j2WW2vYLuHj5mi1PpppqVit2JpE1KWLFaeVev2MZCX2xYDFePU42
+ 2lO1uClPEbP6gGdVFuoKyHDJ7DccqBAJmkDVinAjyh+pbyEj+NdiwNZl7CxJw0Zv++k9
+ RjOD8wMR/g8OyqZusKMmA0yY6OU3FRaQ6RISA2FEEJveonpA0094igOC5Cm4+vYxIVSp
+ tVrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=auTdx0ufon/JFw//ZNUMeBnNVMPTikmUwRLNyCwLhpU=;
- b=bFJ8MYvWWKoAM7ivWdJf/qjX/vIjBrtBHy8zk9sZjJf48kCZc9YjrR4WyVZAKr8Fgb
- QWbOlXjouCBOxKep5V3KBOuHxalqaUCOskGYf9IFBTRo/tji8L2th3IBmZOGfXsOKeMB
- rI2SJT24f2p6hhLHDOMCsHogOJpdV2u4n2v0f8OnFsf23HXqm3FzBPNeA4CNYNgYQrZn
- c68GexuwQcjvB6xrSCzIIezQD8M+85k9IO4wj+4ss+9XGcOSX9AL7ueAK0opJGW6+xWX
- sEBlbxYJFsH0CzyjRWylCNhQqJjCnU8uRcjRaKI0E4nqlS1ayu1xZrDLxXmGeGHagnN0
- muxA==
-X-Gm-Message-State: ACgBeo2HQghhD1UqiKlbEPHrbLCbiIqLINVlq3gK6g3Es6E+m6TAk+zX
- a9AlkmXpMvqdk7SRgjit2e6Ud+N2hNGFDRXj8l4=
-X-Google-Smtp-Source: AA6agR5I6Ldv3MIUY+iIA3U5//fxJC666jQR7VxjwrS9FgbbXxBYox+wQkCo795/fGd9GkuMcDlk0vPS+veH5/osdS0=
-X-Received: by 2002:a05:6870:1783:b0:12a:f442:504d with SMTP id
- r3-20020a056870178300b0012af442504dmr4719371oae.46.1662756760178; Fri, 09 Sep
- 2022 13:52:40 -0700 (PDT)
+ bh=Tv3Et/tqY6Zk/pnAAyJuFDBD309Fy7UgcvolVBKAIt0=;
+ b=AU/IVFQE4RzzcDvifDXCWyND+leVp8hJZYOVPYgw+BREXmzjuOj5nfNPpbRnLNuvGX
+ JVv315fCzzYfBJRGoS3uyy9u8Xk5WDfF2YHpOUs1MVC3EKZNA3/QBVF6zp1oCJPVqlri
+ ktVpTf14xP2DLMPxYOoVLCg8plEuXBzwLwv6eYb/1AFwyP9/d7dg5+5o9GaBcIYnE5sb
+ S4IWtRJVaAHKIR+sMY4L7a1Avi55ssUkdx0aDNhnSD2wXoT/PGuMTt9GI1OkFRP7Aj8F
+ zKU6bc6qSzyKi/g//Q484qGjU3mCJC29dpJifOcyiih+er0mx9dO6Epqpp9Q81ue7VY4
+ m7iw==
+X-Gm-Message-State: ACgBeo0Bke/hkWqvycjY720oCnjk9R9A0jJdiTE/Mh5ZuqV5TAgp7urF
+ haMIn/z5P5vl6smvtYQDF3GKI7ra49rEdbiTxHs=
+X-Google-Smtp-Source: AA6agR6OyPFZC2Rer+UUiW1qXoiXPjbx2R+7p2UUCURa7R4KDh0CNuFWNY3EZu5Y9xqXHY5l76BxtbO4Zjwk8hSy4PQ=
+X-Received: by 2002:a9d:12ce:0:b0:654:9bf:94ee with SMTP id
+ g72-20020a9d12ce000000b0065409bf94eemr3411691otg.123.1662756810347; Fri, 09
+ Sep 2022 13:53:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220904183307.14550-1-jingyuwang_vip@163.com>
-In-Reply-To: <20220904183307.14550-1-jingyuwang_vip@163.com>
+References: <20220905075624.22979-1-jingyuwang_vip@163.com>
+In-Reply-To: <20220905075624.22979-1-jingyuwang_vip@163.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 9 Sep 2022 16:52:29 -0400
-Message-ID: <CADnq5_OGdH17hhYh4=f70UJyqxgA2Od=_AkiLDo0wMSYSJ_Urg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: cleanup coding style in amdgpu_sync.c file
+Date: Fri, 9 Sep 2022 16:53:19 -0400
+Message-ID: <CADnq5_NbUSWstURQQ8NKXehByBZY-2-gimwvA9kUyoGvaqKtKg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: cleanup coding style in amdgpu_amdkfd.c
 To: Jingyu Wang <jingyuwang_vip@163.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,54 +65,42 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: airlied@linux.ie, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+ lexander.deucher@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ hristian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-Alex
-
-On Mon, Sep 5, 2022 at 2:29 AM Jingyu Wang <jingyuwang_vip@163.com> wrote:
+On Mon, Sep 5, 2022 at 3:57 AM Jingyu Wang <jingyuwang_vip@163.com> wrote:
 >
-> This is a patch to the amdgpu_sync.c file that fixes some warnings found by the checkpatch.pl tool
+> Fix everything checkpatch.pl complained about in amdgpu_amdkfd.c
 >
 > Signed-off-by: Jingyu Wang <jingyuwang_vip@163.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-> index 504af1b93bfa..090e66a1b284 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+> index 091415a4abf0..4f5bd96000ec 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
 > @@ -1,3 +1,4 @@
 > +// SPDX-License-Identifier: MIT
 >  /*
 >   * Copyright 2014 Advanced Micro Devices, Inc.
->   * All Rights Reserved.
-> @@ -315,6 +316,7 @@ struct dma_fence *amdgpu_sync_get_fence(struct amdgpu_sync *sync)
->         struct hlist_node *tmp;
->         struct dma_fence *f;
->         int i;
+>   *
+> @@ -130,6 +131,7 @@ static void amdgpu_amdkfd_reset_work(struct work_struct *work)
+>                                                   kfd.reset_work);
+>
+>         struct amdgpu_reset_context reset_context;
 > +
->         hash_for_each_safe(sync->fences, i, tmp, e, node) {
+>         memset(&reset_context, 0, sizeof(reset_context));
 >
->                 f = e->fence;
-> @@ -392,7 +394,7 @@ void amdgpu_sync_free(struct amdgpu_sync *sync)
->  {
->         struct amdgpu_sync_entry *e;
->         struct hlist_node *tmp;
-> -       unsigned i;
-> +       unsigned int i;
->
->         hash_for_each_safe(sync->fences, i, tmp, e, node) {
->                 hash_del(&e->node);
+>         reset_context.method = AMD_RESET_METHOD_NONE;
 >
 > base-commit: e47eb90a0a9ae20b82635b9b99a8d0979b757ad8
-> prerequisite-patch-id: fefd0009b468430bb223fc92e4abe9710518b1ea
 > --
 > 2.34.1
 >
