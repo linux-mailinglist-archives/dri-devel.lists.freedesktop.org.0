@@ -2,44 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE8F5B4808
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 21:15:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3AF5B4862
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 21:50:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4C8A10E250;
-	Sat, 10 Sep 2022 19:15:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A97C010E294;
+	Sat, 10 Sep 2022 19:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E932110E250
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 19:15:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=mi5tMl5llXPqSnbARt1sp187AcnGOe1n3F5czBOvw7I=; b=WF/AYOHrn51JFM1HMGOSbJxlVb
- HqOkskoSYBL0XmNOEvPadNR80ZLrqBQqUAUje6EGRlsX8QoLLu3PK1tOtj0NMZh8aNacfYu+6UGGy
- S+Cbvmi6Z0sM7MUSiO5//TzzcuRLZA/nEZXXJxdq+yE07RBBOOvYPsoOzEHFqqr3/YtLIQSCjKUVb
- GRFHEX6JYVrAyT+N0zQq1Zbhk7xEr5Sc53DJcQMwnWpNfvqhbC+Jq7Gtez+R4bCWIdjIn5BaHQyyx
- a/1DrgtNNEIf96IUepujhWXKtVIN2Bc3ioQIWJCcfLQhJZ+LwBoiRn8Z/SZ+Xosop6jM0uZTwDss6
- A3vjogJg==;
-Received: from [38.44.74.92] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oX5wZ-00EgwB-0w; Sat, 10 Sep 2022 21:15:06 +0200
-Date: Sat, 10 Sep 2022 18:14:45 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Subject: Re: [PATCH] drm/vkms: fix variable dereferenced before check warning
-Message-ID: <20220910191429.ifyzdp54due3u7it@mail.igalia.com>
-References: <20220908105623.72777-1-harshit.m.mogalapalli@oracle.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E2310E294
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 19:50:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662839431;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q3TVEUmu90c/ThSjVVWzaHbJBH7HKgmorVzGvfwRjE8=;
+ b=UyLCDaa+xbZDCLEHD/QK/MYsgLR1eXKCVUYYDP9vmgPlM4Mc2+bACPsVRm+wKQKoTzKL2l
+ eC+6gGmcQpct8r7YVNQHflTrqX4ajasRXmHNcdR250EelVPSRL0bB6tQUaQ9uWgEaSa4ba
+ f3w5b8nAUqDcgqQvdOO24odn4Zr8M8U=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-564-qAAhV02EO7SziYyKhgFqiA-1; Sat, 10 Sep 2022 15:50:30 -0400
+X-MC-Unique: qAAhV02EO7SziYyKhgFqiA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ xc12-20020a170907074c00b007416699ea14so2132454ejb.19
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 12:50:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=q3TVEUmu90c/ThSjVVWzaHbJBH7HKgmorVzGvfwRjE8=;
+ b=RMXCGP6ZT8DfD5KLlzbDxWpgptq4rM91FQLbHI7exFYFfxHy3QnXkCmp3ozI6At8K6
+ vl1SK89JpjLeCMpwN+KSGZ8jeFA2+mujp5kIj6+5brmuo9I/1MYHbfFJk3z628dV07iB
+ 6DPyuS90AIJyvPF4TJPnlccHRT4Au8gh/sB0HjhuOH/v7/ybONf8aW/aJ8QOikZjCHpS
+ P1eanwP0KkRAh3s1C7myw1lNaPkcZTulCAeD3vef00nVZ86KtOffwJfQVLUcxk8luVfo
+ I8Wj71DiT2Ko7rlpcHreAK7weKcNd57iDUzqLVCMbIgjH3v58SCf5r/oYyKSbyHoQA0D
+ dEnA==
+X-Gm-Message-State: ACgBeo2YrFsgayne0ruK/TLft4UFljmVUI/IYQ/LQO/pyAjLacySPtv1
+ rJljepYrxewlki7bq6jQgc/0OeIVfTyDCQKeLzdfW4eSvm9gz2awNsoXVirc4SbvUdda7lQGErh
+ 8UzmQ8zm0YJt+ljFPL5TkNWQKCsu2
+X-Received: by 2002:a17:907:a424:b0:774:7eb9:9274 with SMTP id
+ sg36-20020a170907a42400b007747eb99274mr9635970ejc.301.1662839428939; 
+ Sat, 10 Sep 2022 12:50:28 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6AzNcpJNtfulcwdXuEU6XQeCz0jx8CGxvU3Tk5sCMEbNtu+KZBvxeAIVNbmRtCMTO653znZA==
+X-Received: by 2002:a17:907:a424:b0:774:7eb9:9274 with SMTP id
+ sg36-20020a170907a42400b007747eb99274mr9635965ejc.301.1662839428732; 
+ Sat, 10 Sep 2022 12:50:28 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ a11-20020a05640213cb00b00447bd64d4f6sm2683802edx.73.2022.09.10.12.50.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 10 Sep 2022 12:50:28 -0700 (PDT)
+Message-ID: <1c320c35-fc93-f95e-5615-5a08412f2c5a@redhat.com>
+Date: Sat, 10 Sep 2022 21:50:27 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6fojimcctpqsegyg"
-Content-Disposition: inline
-In-Reply-To: <20220908105623.72777-1-harshit.m.mogalapalli@oracle.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 3/3] drm/gma500: Fix (vblank) IRQs not working after
+ suspend/resume
+From: Hans de Goede <hdegoede@redhat.com>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+References: <20220906203852.527663-1-hdegoede@redhat.com>
+ <20220906203852.527663-4-hdegoede@redhat.com>
+ <CAMeQTsYwrtAwb2_Lj2RyrWCov88Nq=-_tScD5dXC548Fog3X0w@mail.gmail.com>
+ <69fc33c6-b6b0-ba98-d2c6-0fb35df63933@redhat.com>
+ <CAMeQTsae12K7WzCBQSVoMk5+CO1H6tO=r0iAfsqNo96ekp4SmA@mail.gmail.com>
+ <07347903-f8b2-d2ad-4c86-651243a2090a@redhat.com>
+In-Reply-To: <07347903-f8b2-d2ad-4c86-651243a2090a@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,94 +93,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
- dan.carpenter@oracle.com, Igor Torrente <igormtorrente@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Patrik,
 
---6fojimcctpqsegyg
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hyryti2dsyxhpc6x"
-Content-Disposition: inline
+On 9/9/22 10:45, Hans de Goede wrote:
+> Hi,
+> 
+> On 9/9/22 09:34, Patrik Jakobsson wrote:
+>> On Thu, Sep 8, 2022 at 3:39 PM Hans de Goede
+>> <hdegoede@redhat.com> wrote:
+>>>
+>>> Hi,
+>>>
+>>> On 9/8/22 15:26, Patrik Jakobsson wrote:
 
+<snip>
 
---hyryti2dsyxhpc6x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>>>> On Poulsbo I can see
+>>>> interrupts not getting handled during suspend/resume even with this
+>>>> patch applied.
+>>>
+>>> "during" ?  I guess you mean _after_ a suspend/resume ?
+>>
+>> Yes. I get: irq 16: nobody cared (try booting with the "irqpoll" option).
+>> But perhaps the system is just too slow to respond.
 
-On 09/08, Harshit Mogalapalli wrote:
-> Smatch warns:
->=20
-> drivers/gpu/drm/vkms/vkms_plane.c:110 vkms_plane_atomic_update() warn:
->  variable dereferenced before check 'fb' (see line 108)
->=20
-> Fix the warning by moving the dereference after the NULL check.
->=20
-> Fixes: 8ba1648567e2 ("drm: vkms: Refactor the plane composer to accept ne=
-w formats")
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_plane.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
-s_plane.c
-> index f4319066adcc..c3a845220e10 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -105,11 +105,12 @@ static void vkms_plane_atomic_update(struct drm_pla=
-ne *plane,
->  	struct drm_shadow_plane_state *shadow_plane_state;
->  	struct drm_framebuffer *fb =3D new_state->fb;
->  	struct vkms_frame_info *frame_info;
-> -	u32 fmt =3D fb->format->format;
-> +	u32 fmt;
-> =20
->  	if (!new_state->crtc || !fb)
->  		return;
-> =20
-> +	fmt =3D fb->format->format;
+So I've just tested on a Sony Vaio VPCX11S1E (Atom Z540 with PSB graphics)
+and with my entire patch-set (did not test without) suspend/resume works
+fine there without any "irq xx: nobody cared" messages.
 
-Hi Harshit,
+Note that on the Vaio VPCX11S1E the gma500 is using irq 18 rather then
+16 and that irq is not shared with anything. So I wonder if this is
+related to the irq being shared?
 
-Nice catch.
+Regards,
 
-Thanks,
+Hans
 
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-
->  	vkms_plane_state =3D to_vkms_plane_state(new_state);
->  	shadow_plane_state =3D &vkms_plane_state->base;
-> =20
-> --=20
-> 2.31.1
->=20
-
---hyryti2dsyxhpc6x--
-
---6fojimcctpqsegyg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmMc4iUACgkQwqF3j0dL
-ehyifxAAitrII/y8aIWr7dd+Uvz0yDndOZdorbbng2eGS0qEb/ZM4A5RdUOwYCjC
-XWQmWc47NKSB4f6B1IH2E00L0uTv3BITQQBVPx2IcG7eUA2qEjmRUwVh3nWauu2z
-y6Og021jdhMLZtRd5rxm5eQsTnOGXkOSBdYwU+BhuO7IDNdJYcqC4e6lfe+Cb1Nu
-NNHHpftjCeh3lbW8R78dXHQXjjkqBEQJDwWX8gRHICs9g5F0qaQWfjMcxeaqETOj
-oq9VpKdOOmvuN7j5fvh9n818cQ162BKicKCnxyaV4Jcx0UoUU4SIu9u+QZjZJxYz
-XzV9DIWTQZCr0KhTgkYkSW+x4ZXOGm+Kt5erIvp7xes9hviyIBgaTnFDVk0dmYCX
-MA+7bgTbo9lX6iITdM9fVyFCBrc/+FRcxQ8+gpBaRpD6Wlj74X+GmFc9FrMtEZWz
-oHxjf2/1JyIF/vBb1rvxkdKfOggkLfGl9jkLpq3GUfqH165ac29Tj68rVxvMxK92
-m7cbw7y1Reg5oge8DjQgViDQzflQNngCPDGpXbtjJIzKMwZJzgrFwgg3pZut2SJ4
-tEhrRvgwso0xktk7FIypTBinPmB5HOZy9SG7nRLG2nMe9UldpiVmQ+Ouu2HpppRM
-IrBRhs7AW11OJw2hb9RIZRKby5RxfpaquNRyRA06R5Kk91TbPVg=
-=jIi+
------END PGP SIGNATURE-----
-
---6fojimcctpqsegyg--
