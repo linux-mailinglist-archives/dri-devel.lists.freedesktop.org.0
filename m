@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9025B4733
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 17:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032175B4737
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 17:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B5B610E1E6;
-	Sat, 10 Sep 2022 15:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEB910E1E8;
+	Sat, 10 Sep 2022 15:07:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from na01-obe.outbound.protection.outlook.com
- (mail-cusazlp17010008.outbound.protection.outlook.com [40.93.13.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3382F10E1E6
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 15:06:29 +0000 (UTC)
+ (mail-eastus2azlp170110002.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:c110::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B557410E1E8
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 15:07:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eLVYTfMTkB44hO3SkpvP4Wac17AHdPO/uH5auHKq+I0KmQwxSjwAU7CQo/DOK39m50MXjCiI/wDJxONBPJMGwylQaomvfaoze4tOFc3Uq4CVJKyavCq6PFWcaLKZOoLHMpN8eFhfJtUlxPjrtqsZaQ4M88k/tgfxMT5TEy8TleacTvJ8iZhfLE5WqQD6WW9dUqjPXeHlK78IVQZFEogQxVKw0cnesUVixber88AJDtvIFxIL9G6GHGvwmLqSNhV8SeocnjEPB3edWPQTdkf036wfd26j4ePBJCeyk70BbNQew7vywkj1BXrFx9x7dWvSBDDt70y1v9HmnMBPZ/uLqg==
+ b=evyuA2ND/Vt+2G9p+WdpwBtMVv0ZkC+XBvDJY1D3unnPkZp8ajTjAOVOR/pTo+bPlRtkKgniPjyH/3WIA05CgPCVvrHmd+VtQ8c2o2BvZihUty7Fl4tkj5g5QFKBEGmgxaL9kvw4xmSP5C+qTe9K+5AB5EK0ScOCuIPFeqQg0Znx4m1SGrYZoqR4nlDIJIpL6zZmF3WvFhKyIVqmqF0HtW6KUq9gfFVEihdNNSkfz/nVfm6t9sqIDRC3cjScNwRKnlhTbWeUSvN9gVl8LbFVMhIDxf/YtsL5itnVvPv6yvLIiXMBmveh0iuEtvc04WJXT1ACNzP+BvPjBocFrvZy5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7umyuo1pRGEwBPU8hrx75kjUEt88GIqElLrn+RB0Tvo=;
- b=UJ5L8VIlDu/qo/SvH+apDkTSCsNt052g1nPu1PMtygHz3kA2Hr1b0kHoIe0domjJzZioyzlWusXKmdAbOlHnLbGNfWVWOD/fY0h9HdzXQgpKfP5xjnHZLA6I3xpj4debC8EyT/mGHgbndfuqqsKBlpCXDaHd9XxVoDH1uqJTPF5s+j7dbRyMdRyTwsTefL8YeIdS+RVguIJbOAO0dbLPcgdb970Yjvz0hK6Wd7ViuQaBvu7+51meZkmfDjjoe+PoxptBW98lHQGOanWly71w2iw4m+/1C24NtHVrcdAYB0w3tVeyUGJnAT7bl1rNFuP4hnFzjnZehcqb5fn0bmNLuA==
+ bh=BshESlLrosbdubz1IzTKBHaq5FeSPdpMjrhDEZLrLf0=;
+ b=g2coQSZUcrkaBVgQPjZwXzk5iggEvoGbAwsLYHGuxiy3ylJshIpjKknZg86fXBo8H8dpukSKjvR3ruWOwBuLAkFIndAZVXxsupvDiu/m3aqNvLWg4+pSjMoO2Jsua5chg/HSKWSs16ttX6FRRLwcR02WGDNXHAj6wWSnLrvniUDFiSOovVC1nbAgytWq/pXgmBWhQfO+dxEJnMrPzVWkUSRgpFHQaxXZPcnEt3Ahi5jnoIQxGgat9v5n9QphFtMMICkbQ2mck5R1CYIN3eDYZnmD6uvA29zs+0A1FyuH37xjCjmHd8GTQ2pgIJ5oUmACXa5Ae7Z4BnqZlsuSZO0cNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7umyuo1pRGEwBPU8hrx75kjUEt88GIqElLrn+RB0Tvo=;
- b=WjmXQ5dls512r5mU+ZqzBRdBcA1EB9nGAsOA/PtzzW53JpZaNqkLkDHxmk4XYNumsaToAuFaacJB1D7rUpR7BPNF7YGCgqD/MCuqEoMTSSrl+sBhhWWAdHT13xBM3Okplv6SgEL7FmedgWYTafqr5GRV3zpCK94sA0b27CPBwkA=
+ bh=BshESlLrosbdubz1IzTKBHaq5FeSPdpMjrhDEZLrLf0=;
+ b=FR1LK1ErvQwf26hZNUya+3YlpIM6Ftyzx32l+uKtvw1BZC5eKZeYBwa9QXOxzjrA+AoqtuZWDDUJaEHJALnTDia+0r8L8mvBVcD0nCSfxK0oTFRaB+RHBP4vMafY9ClNCnF4l6oK4KIu3atIuEAcPhr2r4WD2GxOzeLD1giZDF8=
 Received: from BYAPR21MB1688.namprd21.prod.outlook.com (2603:10b6:a02:bf::26)
  by DS7PR21MB3078.namprd21.prod.outlook.com (2603:10b6:8:72::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.4; Sat, 10 Sep
- 2022 15:06:05 +0000
+ 2022 15:07:38 +0000
 Received: from BYAPR21MB1688.namprd21.prod.outlook.com
  ([fe80::17f5:70e:721f:df7e]) by BYAPR21MB1688.namprd21.prod.outlook.com
  ([fe80::17f5:70e:721f:df7e%4]) with mapi id 15.20.5632.011; Sat, 10 Sep 2022
- 15:06:05 +0000
+ 15:07:38 +0000
 From: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
 To: Saurabh Sengar <ssengar@linux.microsoft.com>, Saurabh Singh Sengar
  <ssengar@microsoft.com>, "drawat.floss@gmail.com" <drawat.floss@gmail.com>,
@@ -44,68 +45,66 @@ To: Saurabh Sengar <ssengar@linux.microsoft.com>, Saurabh Singh Sengar
  "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] drm/hyperv: Don't rely on screen_info.lfb_base for Gen1
- VMs
-Thread-Topic: [PATCH] drm/hyperv: Don't rely on screen_info.lfb_base for Gen1
- VMs
-Thread-Index: AQHYxFqeZyyTuGSA2UqSz5UbRFbjFq3YxE8w
-Date: Sat, 10 Sep 2022 15:06:05 +0000
-Message-ID: <BYAPR21MB1688AD18A748A82CD5DBDDFED7429@BYAPR21MB1688.namprd21.prod.outlook.com>
-References: <1662734639-27164-1-git-send-email-ssengar@linux.microsoft.com>
-In-Reply-To: <1662734639-27164-1-git-send-email-ssengar@linux.microsoft.com>
+Subject: RE: [PATCH] drm/hyperv: Add ratelimit on error message
+Thread-Topic: [PATCH] drm/hyperv: Add ratelimit on error message
+Thread-Index: AQHYxF5CVv3MPk3FdEq1sLG/q/h+I63YxQKA
+Date: Sat, 10 Sep 2022 15:07:38 +0000
+Message-ID: <BYAPR21MB1688D5F0EF3322ECE6CB835BD7429@BYAPR21MB1688.namprd21.prod.outlook.com>
+References: <1662736193-31379-1-git-send-email-ssengar@linux.microsoft.com>
+In-Reply-To: <1662736193-31379-1-git-send-email-ssengar@linux.microsoft.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=53f526a5-f8ca-4180-9736-3c5df5cf04fe;
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=99d666d9-22a7-4b32-8d03-80f6c57f16cf;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-09-10T15:03:39Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-09-10T15:06:15Z;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: BYAPR21MB1688:EE_|DS7PR21MB3078:EE_
-x-ms-office365-filtering-correlation-id: 8f746288-50ce-4773-fa55-08da933dfbf2
+x-ms-office365-filtering-correlation-id: 04e8ba0e-3d98-4336-9ed2-08da933e338e
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fosLitUVrz5ScuSdaaiKXdBPhz2AOo+LaZJ+Due9Rau4tV6NFp+O2atzrkfTUiI02IGao9nZtQUj9Un4gLqJJOVrjdFplXyBH2I6HQNXu+VkysKFQs5oGwVVRaYB7NBJA+V4UV8Rxfy2EUsdfKw4VydRalydOcKiTAr/zbhE2x5OKU5zniXlvCZUbaGTTum6nIEo+lbksfO6yMo7BLN8a3FUyD4Qjo5IJn30gGVEoy5wIZYXaLDUlunzNcrBuz06//lIDi6pnYFdLAQfUdoTqEYcOlIYiUn8o6JSuIu9G5YVKLqvBXlV9X8GytkWRovRwCpM0HGBEGi+w0kM57m7buuvO2nb2usDgjxgxqzU+7xFAiifNl3cDj+qSrGFcYk63+GvgM845Yb4aCqYzg6hGKb6u2mw5ftqe5K81UiMP94OuKOZKKi66jEj8eOf2Y7rvtIfOx+LA6HS8TfTiT6XSI9CdAn4AhZGpwD5YmkNfgoeyx0kmQA7v1HUOWcgP/Abv+aE2SaqWBMPUZp/ktTyxN2Tw40SC7/QRxH3bAu1ZaGUspnzj+dDr0YVDLzqzYLmBEyNiMlMga8MaaKV0krzo7LvkEpgBSmJ97ETSTFvfkJNcft4r6ywtIDnqWYb9xrlHK1DQjG6RrK9bbq5SeCcZdhFhTIy4P8uN2jexLds/IfU68/pXFfZmzQg+5aNnplbM7jyTSlo/PZr1pfS+Bh8Mcd/AqUy0R+d2Un5PCbvv+K8ISleeCw8WNbggthWS6gzWFWKwbHBbpGHtXvNwczNJL26laJUmfTQcSQvgkifF3jiDgEY3WpGzfwZ6j8Q1I7k
+x-microsoft-antispam-message-info: Xzv6XVcbrccef01DJqJYW43/8WNP4Kr1dHscJq8mxJzcCuBd3buw+OylUMLeWvSvxQKCEqJZ8zrg9YE2JBeAsgHQk5YAlqoGKClSokxfhsa6Ia6lfSg5vTO+cfY/mZERT/BCM2ZECw1xBHrhjkLJQI8UPICirHbcEiEugoBbzGBDKn2QCes/wu/YlCfDSz3oX7W7YBVHfW+yxgJKmxE4SdvMXdwlMMaGkPN4J1zYxPB8LqW3frNiouNppzbqLcn4vBXWqqKuq/JuO5izOookif8b6VvOp7sCaZaPLS74sbIBy1s5TO58uWcnQcROmt5hVsdJDtCoGUra6v13TBy2z34MFKlWv0DPbAMYUlpxZzlSP4OK99CilkXCewGlJgNYOU9kC9XE6z5dk5wf1LZIsm7au81HiRlgyZU8L+Dqv8+HOt3kL5mdGdNU3x6ArZ3yEYUKWZXhi2TMoMDSQ2O2NzrUKEG0nanhMjqcICxS8WVv8oQmxghvB8JKzbai7ddycq8hJ6mwSn+59drPjUSP8sAKxlsMvVHlxp74ynlHSg8fLwPUICYfLX8YF4itZCWLc5ItQIkmtdcvYLtlfJFdFFcbwB3lMFqXDilMH0Okg/Pc8Db7gvvfloZoym5CiUZ23QCUMu1BF7ltioyyN8qCOUmzHwewLtdSZfnxwp8u9FzegbN5pzZsSUIsEmXpNyzlmauOY+xcc1GQNKghq3UL02OtDmVc9pwCoMIl/+bWw5PrIWqi0NphM/8ac4BUcc7XIdJ1yqc/v48ev4vyFmsK+gBO19wh/DbEL7yOI7CkKbNtSC34EhzI+VW34g++/PeD
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR21MB1688.namprd21.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(39860400002)(376002)(396003)(136003)(346002)(451199009)(64756008)(8990500004)(8936002)(66476007)(5660300002)(110136005)(316002)(66946007)(66556008)(76116006)(8676002)(33656002)(10290500003)(55016003)(9686003)(66446008)(71200400001)(26005)(2906002)(6506007)(7696005)(52536014)(478600001)(41300700001)(82950400001)(186003)(122000001)(83380400001)(38070700005)(82960400001)(86362001)(38100700002);
+ SFS:(13230016)(4636009)(366004)(39860400002)(376002)(396003)(136003)(346002)(451199009)(64756008)(8990500004)(8936002)(66476007)(5660300002)(110136005)(316002)(66946007)(66556008)(76116006)(8676002)(33656002)(10290500003)(55016003)(9686003)(66446008)(71200400001)(26005)(2906002)(6506007)(15650500001)(7696005)(52536014)(478600001)(41300700001)(82950400001)(186003)(122000001)(83380400001)(38070700005)(82960400001)(86362001)(38100700002);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+ywF666e0VBI+VkkZu5tS30UI0O+mshjI0LvOgpIGGx4IJB+nNSyJ6U9BnSi?=
- =?us-ascii?Q?e5w3w3Y/h12J8aifO5DwOW3qn59NOBoiF4+3S42H+/UmKSubY7sKZi4okpNw?=
- =?us-ascii?Q?lXRZQW2FSuzU5FmYtw58RMklrg3lAsPERMWHNgs/LF5JupuuCQJ5HkK8YdJd?=
- =?us-ascii?Q?4lwuW/u+fQ3YetQ8Qd8O2ozjkpO0eY0X7ucGnfOXW9o6OykJV87faNInqxei?=
- =?us-ascii?Q?OrhprTKIQf0LOOcyrRz9BuV/gD4S6oBg/zCOxyMHQdCqRkffq9oiytYmIwE+?=
- =?us-ascii?Q?u/3KhDErUjPkt7QGItU/fsfXGcKD3nifpP3SBmsU8YuVoVbzwDwBBX2VXD0F?=
- =?us-ascii?Q?Bex8sNb0pWr9pHFjhKmt97GqI6JfAIm8bbTEQpx6DLOSOkngVddN3/8B2E0a?=
- =?us-ascii?Q?W8Y+6h0IdFEgDuZifsXJFjgojoGjL+dZmegRgSstSUBHiCzl/xHbWi0AwO6Y?=
- =?us-ascii?Q?SMWHHE7qMlPKHKG+2uCrbiHBO47ga0j7OxJoesbwfGvbIcnlHwyQG9PCeDhZ?=
- =?us-ascii?Q?0vsmuQmNtMsSpo3FqEfRoNApOnpdAc0RUzPKkvK6UPlsPbUtIXIZYpjfhBRl?=
- =?us-ascii?Q?xErffnKd2jJiE85oBfEaD6AUWht9xS5RitRH+kQQXwzmhXa/0VJj4lNhDM+J?=
- =?us-ascii?Q?oJSQ1QK2piN5mLwJi2jSaLGEIKCfTnyNpL1arxzRG0XNY8BAHhlFxywGPuM8?=
- =?us-ascii?Q?jozkHInt6AfwrwdAwfc/O88bGxUBlJ+jCSDBHwghcJIqxVJh7MCacgOm/TFB?=
- =?us-ascii?Q?gwS/LnNT9TcmIbP2hRTdqE20UwANxfTZ6l/GNymMynAxd3qzBFgyBcfeUaF0?=
- =?us-ascii?Q?e2JiV/r8WgQ07P2QCfH69scSVxTDSbECEVeAoYfIP0ABtEIhsXR5ReUb8UiQ?=
- =?us-ascii?Q?JdZ+xIMzWXX5EzWwfln0Zcp1uH9Sj0CuXeotmLIghA68D4Bq+fstf8i1jv8K?=
- =?us-ascii?Q?189ICMWJAq7cNR8Q6ZeAAMoFZT4jOsFvNYvJq2PXsCK+nHjEnUXu2zdbIWha?=
- =?us-ascii?Q?cWzDn5T+2KmESorF+n6Q1yNT+eFQRdh0yrTHo1HU9XGQl6xY/90G5U36kI8P?=
- =?us-ascii?Q?CJDnbncwgFlMd0gipShDe6JsLoBgG1gh+BWZN/oPx1DJob2NMKI8ejexPjjy?=
- =?us-ascii?Q?jT5p8Acxm81s5xj85eVE/yB4KCKUmoOEjXDa8KOPq6Z5PnOFNhTRlYEO4riG?=
- =?us-ascii?Q?pHSw+7WRc5QOtIxK7g2p9n/TypjnXMV2/n3Zifu4QIND4EFdPld+XozdNZTL?=
- =?us-ascii?Q?u6Vh4Fm3KJiHOK76656o2HuX/pjOt8MUkeHZ0JPHxEHegjz6BN5pbILTuic5?=
- =?us-ascii?Q?U/64AdoYnIfpIID7xrHcPZ6BruYKVEMStGYAOCmTvabZTtWMZKHS12wN3aiO?=
- =?us-ascii?Q?WHgF0iYSdcVKOof/Y3Kc/3hwS2twclg53dFvl/dOPLqhUcvSKwmjtHn2NChQ?=
- =?us-ascii?Q?ZSnOGjPwCC6A0np6n5uzTSkkZDTSorlAKJYr8hYinv5ZRjzaQQzu3vy84QxS?=
- =?us-ascii?Q?CwGBMKjVIgdsUuMJMwz73UQq6gVNQHoLdTwEdVq4BrOEEgUT/Hq4YftIc0KO?=
- =?us-ascii?Q?bVV77iBN1kcX1FqnvixE47o2qI5MaQYNzY5MLfi4fuHfX3csJ8j+fNugUEyn?=
- =?us-ascii?Q?uQ=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wpyYqT6XVrCDbNlV3mNCPsCb2MU54GkJYWyzlOaBT2Y/TWVwJloCOXZx2mus?=
+ =?us-ascii?Q?5Wk2XmtS8NK3/Zk/W4WhKK3vAPZ5gAzRDEdlqvMCb+zuq0VrrQlRRM8hxeaJ?=
+ =?us-ascii?Q?T1MYMZ6mk85A1+B6FI9ZBYtUXNPl56UejJIJyZU1tTwT/3pSFOmSihC1tU2A?=
+ =?us-ascii?Q?EyAQzdccxdmq3FPJbRd/QjnELVFyaBckgoghNPN2Y0n8z9fJD5q6NXgXw0BL?=
+ =?us-ascii?Q?wDx471YHC426lLZdzmauStlmWb72qNPTjWbXDiL8aSi2+tJ1SeiMeiRWAHaR?=
+ =?us-ascii?Q?QUmJUENufdA83/J0+y4vd44noRVDisG+swY2L3ppzFWXZJzE/eLSHeCCEdcw?=
+ =?us-ascii?Q?mIrZ/4LH5BiI3M8UbFuunX1g95cfDIccwBfg9VN97bebI6Is9m9vO0nGJlcc?=
+ =?us-ascii?Q?hAsNkLaQbWLXGdKyMobAZ6uG4zvKtrgsf4ZtNHWthLE1OPfnCR951zszBZBz?=
+ =?us-ascii?Q?to+xeDd+nrF6Fat8Cx2ixFxO2ohqkSNdFkNRkd5qUjsgMeyniNgV0+f8L76p?=
+ =?us-ascii?Q?OvRS/dROkYAJHvFC/1clFwefzVY8Mbmh0a5cWTgDGpJD1PYDw5WDV3qpPGfG?=
+ =?us-ascii?Q?m93LckqsUSZ2ZGjWovF4/yPZZcN8LcgCTXy/mi13WRwYdY2+HRGaLSCag09b?=
+ =?us-ascii?Q?emV6zs8BIsHVY3C1xvXA9WVM+Z19zI76HBGgOIpUfcEA/FMSlgHdrq+k02fW?=
+ =?us-ascii?Q?YJJ4X8DRIe1mjSmVGd3kIOAuuwoONFemSdmO9UlVxf3oObXqchH/aUWJfwqw?=
+ =?us-ascii?Q?MPSxJZVvw0vLpozU7VTh1dREX2SdtEctwXGZgyPzdg+MD0kiXRaHtl9ibzes?=
+ =?us-ascii?Q?3wrLBqhEEy279VgLBvWjSoLHf0qFxJK6NeoirbIQev7wd0bYqX1Ewq3WSWF/?=
+ =?us-ascii?Q?K6O1CJyqeVYded+Ek4S+qGGPE8Ty7xduRdCHfWQk5+wwXYPKC6rlc+c/eEam?=
+ =?us-ascii?Q?1dbFHqh2qdX331L9cij3Zcw3eZwTFiFqRu7HXi2gbewIjmNq0QRYds9Em9+a?=
+ =?us-ascii?Q?kkd6doxIZLgraWT/4FlWVznKai6jEy8SAVHPbHfXEg7/9czzN7yX9NgHZB6K?=
+ =?us-ascii?Q?bHKs3mV+ctEkfKq/fbqG+rf63TaAU46lXRYzx5f6xGheu36MKgyJBP5JZgsG?=
+ =?us-ascii?Q?BivS02wn7WaAcoWXTADc41Uee8OPZHEiAPe2cD0lc67oFZ7VUWLU3hb0BjEj?=
+ =?us-ascii?Q?pKzFOh0VQ/5NYUbNw77kwRDlqV0dxv+YM49CXWSJ9AZDr894DYOEkTYu16rD?=
+ =?us-ascii?Q?IjV+3mNron2wxh6TR5atJS+03Km6rgQseyQYj+Cy/bOqrxe/xYJuXgEGUAaX?=
+ =?us-ascii?Q?gDYXtKBhHJ2aTXV+cIlGWuvgtf1pKmDJQddJfnVb22NyiRz8Op7Rn43ryfqG?=
+ =?us-ascii?Q?c9M+NKxX0MN6wLA2qvncEHOIwIdPbZOTm89lUHHy86EF4KWRxo2k5ZgjAqmF?=
+ =?us-ascii?Q?6qUrVEUxJt0x0wImGrK9SC5pqLDHSpXKWqForqc1RvHwuYZTHqPiet+lnb4w?=
+ =?us-ascii?Q?f5wHXSJLO3Ls8SdSdX0Es78X7YQH8I2uCRyswuP0sSYnAIkJXqnsKbO78tDy?=
+ =?us-ascii?Q?7loKxqo+CfxGqhRPJark1KNnPyNCoMi3VcWR6tdimzk/984uPbe4jkyHd7j2?=
+ =?us-ascii?Q?dw=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
@@ -127,65 +126,40 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Saurabh Sengar <ssengar@linux.microsoft.com> Sent: Friday, September =
-9, 2022 7:44 AM
+9, 2022 8:10 AM
 >=20
-> hyperv_setup_vram tries to remove conflicting framebuffer based on
-> 'screen_info'. As observed in past due to some bug or wrong setting
-> in grub, the 'screen_info' fields may not be set for Gen1, and in such
-> cases drm_aperture_remove_conflicting_framebuffers will not do anything
-> useful.
-> For Gen1 VMs, it should always be possible to get framebuffer
-> conflict removed using PCI device instead.
+> Due to a full ring buffer, the driver may be unable to send updates to
+> the Hyper-V host.  But outputing the error message can make the problem
+> worse because console output is also typically written to the frame
+> buffer.
+> Rate limiting the error message, also output the error code for additiona=
+l
+> diagnosability.
 >=20
-> Fixes: a0ab5abced55 ("drm/hyperv : Removing the restruction of VRAM alloc=
-ation with PCI bar size")
 > Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 > ---
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 24 ++++++++++++++++++++----
->  1 file changed, 20 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index 6d11e7938c83..b0cc974efa45 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -73,12 +73,28 @@ static int hyperv_setup_vram(struct hyperv_drm_device=
- *hv,
->  			     struct hv_device *hdev)
->  {
->  	struct drm_device *dev =3D &hv->dev;
-> +	struct pci_dev *pdev;
->  	int ret;
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+> b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+> index 76a182a..013a782 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+> @@ -208,7 +208,7 @@ static inline int hyperv_sendpacket(struct hv_device =
+*hdev,
+> struct synthvid_msg
+>  			       VM_PKT_DATA_INBAND, 0);
 >=20
-> -	drm_aperture_remove_conflicting_framebuffers(screen_info.lfb_base,
-> -						     screen_info.lfb_size,
-> -						     false,
-> -						     &hyperv_driver);
-> +	if (efi_enabled(EFI_BOOT)) {
-> +		drm_aperture_remove_conflicting_framebuffers(screen_info.lfb_base,
-> +							     screen_info.lfb_size,
-> +							     false,
-> +							     &hyperv_driver);
-> +	} else {
-> +		pdev =3D pci_get_device(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_HYPERV_=
-VIDEO, NULL);
-> +		if (!pdev) {
-> +			drm_err(dev, "Unable to find PCI Hyper-V video\n");
-> +			return -ENODEV;
-> +		}
-> +
-> +		ret =3D drm_aperture_remove_conflicting_pci_framebuffers(pdev, &hyperv=
-_driver);
-> +		pci_dev_put(pdev);
-> +		if (ret) {
-> +			drm_err(dev, "Not able to remove boot fb\n");
-> +			return ret;
-> +		}
-> +	}
+>  	if (ret)
+> -		drm_err(&hv->dev, "Unable to send packet via vmbus\n");
+> +		drm_err_ratelimited(&hv->dev, "Unable to send packet via vmbus; error =
+%d\n", ret);
 >=20
->  	hv->fb_size =3D (unsigned long)hv->mmio_megabytes * 1024 * 1024;
->=20
+>  	return ret;
+>  }
 > --
-> 2.34.1
+> 1.8.3.1
 
 Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+
