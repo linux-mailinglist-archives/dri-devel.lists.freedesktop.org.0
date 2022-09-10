@@ -1,46 +1,156 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9167F5B4359
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 02:17:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1CC5B435B
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 02:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C155310E1F9;
-	Sat, 10 Sep 2022 00:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3556710E1F6;
+	Sat, 10 Sep 2022 00:18:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F06210E1F4;
- Sat, 10 Sep 2022 00:17:36 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F1B10E1D7;
+ Sat, 10 Sep 2022 00:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662769056; x=1694305056;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xfEQ1ndlzoGZjWhmR57MDt4C3oWNuvWvtk7z12Lhiik=;
- b=X8sK+cO3UA+JnYehQ4lYRdHnWNQyzwZgMWl9S+w/Qc12pxXIg7yU4Jrf
- H9SbtdC5mMGbbUnjSOIId+UnormdXWvgJ3mV7z+GsxVfXXpmOJEP+x3Jx
- UtdLO4+RF18KIVDMAr2x39nYsBkj8S2NtLYQdZhoSjGisL32/D84NfEsD
- 2dSsxuoIhuoJTPp5NHvQVJI91pqlXgp4tJk1dkt6g5BikYGpuUDPZ5Lmt
- y6d05cirlKde8vNcHL3MLpbZjPUNnf1/xQa6kMZP8lATEigb0FbL6252J
- TiqnSyJ3VtTIAoiJy9PhPFkV56qI1mYWezcIZljiY/vgIumlNOtzrsM/Q w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10465"; a="361549465"
-X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; d="scan'208";a="361549465"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 17:17:33 -0700
-X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; d="scan'208";a="645738884"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2022 17:17:33 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/mtl: Add MTL forcewake support
-Date: Fri,  9 Sep 2022 17:16:31 -0700
-Message-Id: <20220910001631.1986601-1-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.37.3
+ t=1662769128; x=1694305128;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=O/L2EqtP2vI4fr+9C9bd1EmIajtt7t4ZXO6KIH9iUsg=;
+ b=anWSlqG2bKpQqEtuC8CLLaOkup0/eKIUSWoMe1iIAgSpiOwH0r8tAURd
+ 8uiHjoVvr8u0CQlUnmpvMLVDXfG6Sbf2+rbNd78byF7YeB22IfgQgMOjn
+ EQp5yicmfH1FVJ3YdlSMH11SkWLkwdagcgRl6+N5hEgTYgoZlPS2bm+S9
+ /X9Q67AY2k30/DI3pqsueQYQqB2/Zr2V/qmxDaavrDbKKaF17xyHqjGL5
+ Z5oBMYrJcxfmBcnVwr1yhTp/dRJed8KYB8BURXM+dOB5uKFeGfOMrtvuK
+ uhJQFWpM+kfwovMsyVbLUFPLCv9d842Xe7HZJ+hMBWcir4UaAI5yPXJmi A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10465"; a="383891947"
+X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; d="scan'208";a="383891947"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2022 17:18:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; d="scan'208";a="592799703"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga006.jf.intel.com with ESMTP; 09 Sep 2022 17:18:47 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 9 Sep 2022 17:18:47 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 9 Sep 2022 17:18:46 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Fri, 9 Sep 2022 17:18:46 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Fri, 9 Sep 2022 17:18:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S1yDpicaJ0QHnCVWvx1OG9bQUDKwWY/7i639aY2u3HjunEAEkcmm6f7lGZ5wu0fOxN3uxA6+ni5aa8Hn0kLKPMGAv8LHKFsgKf1Oi3vB/wUzVb5n7ooDFN09G+PzOrSa2HTH42gaHdUNjCXxEpgnn5+IYpJ8UW7vA/PSgELVI5vP+e8PCNzyDswFIGAG6M+v+/IJ4c1FpLEpA8t8ZTWQlkMHsJTXwt8U68lBbgLNQTtlLubb/Hokj4ZpHyoYTLOND2oJaWmdezNJbQIdQdqdSNcllpsi1LyITiR0nVvDpJ/aYKbG57/CS/OMVGUnedvQYQYvqVGZtg3SJeg+ZXNfog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O/L2EqtP2vI4fr+9C9bd1EmIajtt7t4ZXO6KIH9iUsg=;
+ b=CfI0Xz39gmvyqBKyXENS3EOANmuVBQxQ5XjTNQVs0Tkfa/88nrnLIAa3JuhlsUb2cf1RUHWaiBUkFBh3SwSZxxcCNJ5Sxolmc4889o5o61jNbmNhKWLw9fFyTqKMJoZfUNloV5Z9tG9nfEx9agqL5bU5PY5mzC5s+qDGVcz2iaE19uZJkle5qv5aX6F0NSBnLePO9buKNP71oMegf6t4xqnkasTGKNT63FF4X8sH29/ltYW2j9CQRyZHCVD+aGWAxMvcN037hoC7XEiXGh6OTfkDSXtiZxFhrIYIabdt4uceaNVbtd0KFa+aEkErNFZSF6r6XtS0JYG6rAmAna2vKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN0PR11MB5758.namprd11.prod.outlook.com (2603:10b6:408:166::18)
+ by SA2PR11MB4938.namprd11.prod.outlook.com (2603:10b6:806:fb::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.16; Sat, 10 Sep
+ 2022 00:18:39 +0000
+Received: from BN0PR11MB5758.namprd11.prod.outlook.com
+ ([fe80::b57b:6a79:eb1a:5c63]) by BN0PR11MB5758.namprd11.prod.outlook.com
+ ([fe80::b57b:6a79:eb1a:5c63%4]) with mapi id 15.20.5612.020; Sat, 10 Sep 2022
+ 00:18:39 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH v4 14/15] drm/i915/huc: define gsc-compatible HuC fw for
+ DG2
+Thread-Topic: [PATCH v4 14/15] drm/i915/huc: define gsc-compatible HuC fw for
+ DG2
+Thread-Index: AQHYw+F+64Vk+S/Vo0WqtHqps4yKwK3XznUA
+Date: Sat, 10 Sep 2022 00:18:39 +0000
+Message-ID: <abcc099f0eab58e008b741fa660ee73661cb93d0.camel@intel.com>
+References: <20220909001612.728451-1-daniele.ceraolospurio@intel.com>
+ <20220909001612.728451-15-daniele.ceraolospurio@intel.com>
+In-Reply-To: <20220909001612.728451-15-daniele.ceraolospurio@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.36.5-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN0PR11MB5758:EE_|SA2PR11MB4938:EE_
+x-ms-office365-filtering-correlation-id: 6953341b-3f34-454f-544b-08da92c202a8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5zW1r4+yMS7j143f2qT6Ezh3hOWXI3ROMvQF3tTD2AhPopb9mFi37/S0+3kAGSN38FOHwvGhpLeZz84YMol9BLpQ9TK7eDm3XtjSugnLG4QJfsYMpUFvD1mA+Frdno8Qso5W9S/dZDsUA3y+rhqnT2xaLwVR7ljGrKSF23P/9+tNOjohtU1NGE3LenXBHDmOxX8LFRvVwAkCoSOHnQPMo4xXiuSJuOQk+7oHs8ybNFgrRs7M0Bsqkz5vygV69Q1agEstStXhp5n1M03xlmV1MvWmXxuy+ArqW9C6RG8gNjNODiEK8yhJyBiWvz8s49DlJY7NlKhIuKdc0aOGGU6UJZJYgaftGMZKbOy56Tz3EHhq2STOr2QH9O/GzuoRE+6rEAyGZJdkrrnCdc2NEuMddJWN4+1QZwCDm+a8Bs9JSA7W2bN4o1fAsryidaaMywbrFW72Fgm7ZvQVP78OLN24ww+n4VGOw+G38Bng+eSMdd4rvYjHlofl79Cv9s1I2G4+scMItIK2yukKBWk3lNw4SbVfz6IDQDhqoybIL8k4RKl6P0PeQpo3J4RZlsT6Vg5f+0BKMdgQLGCTIRAl5DpkgucOfpbAn2RsffgAi44243UdqemiTVBAM6iuomvXWfTkH3FgRpOSM9bqJEH1b6YYF3y0z2ZcvcgYjZfoJyZSis3EsvZSKzilJn7b8BQyKOxYlQNDW4PH97pMWzjHgWSWeN20jexmm+tdLGfNoMaMocAvmpYdtEzQs1YlG8gAS/1W18YFnwoMnNEElBjWC/QRgA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN0PR11MB5758.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(346002)(376002)(39860400002)(396003)(136003)(366004)(38070700005)(36756003)(91956017)(82960400001)(122000001)(38100700002)(66946007)(8676002)(450100002)(4326008)(66476007)(66446008)(64756008)(66556008)(76116006)(6506007)(5660300002)(41300700001)(107886003)(54906003)(71200400001)(6486002)(316002)(478600001)(83380400001)(186003)(110136005)(2906002)(8936002)(26005)(6512007)(86362001)(2616005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OG9jTDlXREIvMmxocFhEcUpSaUE1VWhSYWZnNFNCRldNS3NaRWt0VWpCeGc2?=
+ =?utf-8?B?OGNFcWUyaEF2VW13SEhPSGY1blBHZXZrQUduY0FTRHZaWUl3LzVSa0laWk9I?=
+ =?utf-8?B?dnBPSXhyWUVxWkh6Z3FzTnNPcmYwRGZGdk9iRDU5RTVRais0ck1nbk5GVVNJ?=
+ =?utf-8?B?dFNNdWtEbDZqWW1NNlhsWlBpL2N2RW5Vb0pPTnliUW9nR3lPeU9uSjgrUFNs?=
+ =?utf-8?B?c0laODBySGpWdW5FeG5aREFsVXpIZUEvUHQzNDdsa3I5NEtzOC8waFd3V3Vi?=
+ =?utf-8?B?VHZmZGpMRld6YnMxNldBT3ZaekpEaWJXNjQzK05KS3ZhRjNKQjF4VDRoTk5i?=
+ =?utf-8?B?UGFzdG9SQy9hbk5JUFpkck9BdmRMQmo4YnlnOFVJQndoc0IwVGN2elRXNzgr?=
+ =?utf-8?B?LzhRWXdQTGxoVXhIUldYcUlLdnlRK1h5QkYxNk8xeW1oNU11ekV6aG5oSzY2?=
+ =?utf-8?B?cW1Wbk9kRHRFSlMyYmNIVURMSm5STk5ONE94RHFwendxcm05VFp3N0hUSjJv?=
+ =?utf-8?B?VkJjRENCZFluaVFsN3dnWEQvQnR4bjU2QTZBZXhiMHdQeW1Obno0VjlWNHJK?=
+ =?utf-8?B?Q29NTkNUUkxtdU1iYlJnMDZTSXhaYTBUa3dMc3dzbEsrejFrQ0M5TXB5M0pW?=
+ =?utf-8?B?RUdIcEpFUEx3Z0ZjUCtXY2tpdHpWTjBxUnQ4Q25kMWtBa2gzN25CdWYyeDVG?=
+ =?utf-8?B?VkZ1TVJYRUl1QXI2Ykl2OUNuMDU3Uk13NkMxVmpYWnZWVGV2dFpKRld1QjQ5?=
+ =?utf-8?B?WDJjWDNjemhlWHZNWVV1ZDl3dWU4dkRRbG9LUFQ1cHZ4MFFVOXJmK1FTMzFE?=
+ =?utf-8?B?MFZXMUZmVFZya20waHQxN2FCZHZvMnc4TE1hWVV5TTdzWVVhU3hBTGM3M1p4?=
+ =?utf-8?B?ejBQaEdoSExnK1J3Unk2MnRBQ0FvMkV2V0h1MjExZ21zQTBIUEQyZk9qdGEr?=
+ =?utf-8?B?a0szcEZFUHI2QlJyQzByU25sT00zVG1wVmY5eEIzR1FuN0xvWVFoVzdIV05M?=
+ =?utf-8?B?Rkl6RWZYeVVJUEhrbmdnWUZ5b29LRUZWU0xOOENCQzY1OExJbStrYmw4dmVH?=
+ =?utf-8?B?ekpZVk85aTlSWERHUXgrV3ExY0hFdm5WRVFVRSt2RVZYdWpMV3F5LzJsUzFk?=
+ =?utf-8?B?MU9qSEExS0xuaEY2emYyZ0VRLzNMQkhvTEIyd1JqN3BoR1dQME13SUtSSUQv?=
+ =?utf-8?B?OCtqOXRrQkI3TFRhVFB1a2xDWTNJSlR2YmFrKzhsdHV1T3ZaSHlGM2RmZnoy?=
+ =?utf-8?B?RmVXUGdOVFJHU0U4d1FEVHIwM0Z6RCtSRi9GejQxdTFTTVg0czFMOXpnRWEy?=
+ =?utf-8?B?QWY5eGRNeFBONVFjaVB3VjA2cEpTcDNBOEI1SkdDUVkxc0t5cENiUVczNy9V?=
+ =?utf-8?B?TWthQWtVN2RSQXJxbXE1bHRmcDBWbHJ4ZkF1cTd2K0IwUnVwdEl1c0NPK0VF?=
+ =?utf-8?B?ZWMvY1NUaFJEUXBQSmNGWS9jcTJDWnBKaVdHbC9NUzlNR1FncWdZcmhHZ1BL?=
+ =?utf-8?B?am9tSEVGUUZDSEt0UTZ1aFpmU0VLWjdiSHp3UlZEeGYrRTljektYZDBERHN0?=
+ =?utf-8?B?aWUzMXAxVXZtRlhFOGx1U2thdkxPQk5saUdFR2hVbXRaWUFYNjQrVjl3amxV?=
+ =?utf-8?B?dzdPbGRrNHoyRkhjYWp3WHZtTVBoSGp0R0NBYi9vWUNvYzJmZG1qUFRzbXpk?=
+ =?utf-8?B?WWlKOW4rUk1LcmdmQWszclBmVUpLNVdDckllNitCVG5JdklGTFZRR3JyaVJR?=
+ =?utf-8?B?Zm15TlE1Qnp3SjJVK3FHNnpCYkRPUWNJSGFqS2EzU3ZDa1hjRjh0WGpqcVVh?=
+ =?utf-8?B?UkVSb2Uvb2VrQURQSXFXbW4wUU5XU01lb2VMVFJkZ0FUdTZWY01LeTBpUjhH?=
+ =?utf-8?B?U3U5VzYwdTMxcUhIY2tlYlFzMEVnWG5QTjAwbFEwM0xoNEJnR2JlNFYzUUl6?=
+ =?utf-8?B?eHlFekpyZThBOW50c2xCRVJSeWxLOW1vUElmRkZibDhlRllKa2tKV2R6V1Jo?=
+ =?utf-8?B?YlA2N1hYWElSUm95WHNEdWE5UXhDZG1JeW1EYkZ0S1Y2aVhZUFRwSTZIdStu?=
+ =?utf-8?B?WjZVaWZTMDFocGxJaWNLRHFtTXpZcXY4Z09Xb1huQUdvajdSa1NsKzBERmlx?=
+ =?utf-8?B?R1laRm45WnhRdmE2VkZPeUF2Tm9Rbk5SSUtsTlc1N2FCZmRqMEoyU2R6b1lp?=
+ =?utf-8?Q?Td/Y53YN8wzI/WwLl9O0mMPfy6oHgSd/5C5ECp41Zl6H?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <88A0B53C03C6D4469FA773CA48346295@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR11MB5758.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6953341b-3f34-454f-544b-08da92c202a8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Sep 2022 00:18:39.1618 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZWdKR7JIrlfskSwgR2GrOGIg+BUzXUQE6gAA8YeX77n4yHtBnawWNAAwp8RLBi0Pv/ImXhyRHpHV+OYkJGM7FXSIPwie5CSf6E4QVTtFkClHYzTsOde9G2UFXG/Pu5wO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4938
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,437 +163,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Cc: "Ye, Tony" <tony.ye@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTL has separate forcewake tables for the primary/render GT and the
-media GT; each GT's intel_uncore will use a separate forcewake table and
-should only initialize the domains that are relevant to that GT.  The GT
-ack register also moves to a new location of (GSI base + 0xDFC) on this
-platform.
-
-Note that although our uncore handlers take care of transparently
-redirecting all register accesses in the media GT's GSI range to their
-new offset at 0x380000, the forcewake ranges listed in the table should
-use the final, post-translation offsets.
-
-NOTE:  There are two ranges in the media IP that have multicast
-registers where the two register instances reside in different power
-wells (either VD0 or VD2).  We don't have an easy way to deal with this
-today (and in fact we don't even access these register ranges in the
-driver today), so for now we just mark those ranges as FORCEWAKE_ALL
-which will cause all of the media power wells to be grabbed, ensuring
-proper operation.  If we start reading/writing in those ranges in the
-future, we can re-visit whether it's worth adding extra steering
-complexity into our forcewake support.
-
-Bspec: 67788, 67789, 52077
-Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   5 +
- drivers/gpu/drm/i915/intel_uncore.c           | 258 +++++++++++++++++-
- drivers/gpu/drm/i915/intel_uncore.h           |   2 +
- drivers/gpu/drm/i915/selftests/intel_uncore.c |   4 +
- 4 files changed, 258 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 2275ee47da95..1cbb7226400b 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -39,6 +39,9 @@
- #define FORCEWAKE_ACK_RENDER_GEN9		_MMIO(0xd84)
- #define FORCEWAKE_ACK_MEDIA_GEN9		_MMIO(0xd88)
- 
-+#define FORCEWAKE_ACK_GSC			_MMIO(0xdf8)
-+#define FORCEWAKE_ACK_GT_MTL			_MMIO(0xdfc)
-+
- #define MCFG_MCR_SELECTOR			_MMIO(0xfd0)
- #define SF_MCR_SELECTOR				_MMIO(0xfd8)
- #define GEN8_MCR_SELECTOR			_MMIO(0xfdc)
-@@ -898,6 +901,8 @@
- #define FORCEWAKE_MEDIA_VDBOX_GEN11(n)		_MMIO(0xa540 + (n) * 4)
- #define FORCEWAKE_MEDIA_VEBOX_GEN11(n)		_MMIO(0xa560 + (n) * 4)
- 
-+#define FORCEWAKE_REQ_GSC			_MMIO(0xa618)
-+
- #define CHV_POWER_SS0_SIG1			_MMIO(0xa720)
- #define CHV_POWER_SS0_SIG2			_MMIO(0xa724)
- #define CHV_POWER_SS1_SIG1			_MMIO(0xa728)
-diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-index 5cd423c7b646..c058cdc6d8a0 100644
---- a/drivers/gpu/drm/i915/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/intel_uncore.c
-@@ -104,6 +104,7 @@ static const char * const forcewake_domain_names[] = {
- 	"vebox1",
- 	"vebox2",
- 	"vebox3",
-+	"gsc",
- };
- 
- const char *
-@@ -888,10 +889,13 @@ void assert_forcewakes_active(struct intel_uncore *uncore,
- 	spin_unlock_irq(&uncore->lock);
- }
- 
--/* We give fast paths for the really cool registers */
-+/*
-+ * We give fast paths for the really cool registers.  The second range includes
-+ * media domains (and the GSC starting from Xe_LPM+)
-+ */
- #define NEEDS_FORCE_WAKE(reg) ({ \
- 	u32 __reg = (reg); \
--	__reg < 0x40000 || __reg >= GEN11_BSD_RING_BASE; \
-+	__reg < 0x40000 || __reg >= 0x116000; \
- })
- 
- static int fw_range_cmp(u32 offset, const struct intel_forcewake_range *entry)
-@@ -1131,6 +1135,45 @@ static const struct i915_range pvc_shadowed_regs[] = {
- 	{ .start = 0x1F8510, .end = 0x1F8550 },
- };
- 
-+static const struct i915_range mtl_shadowed_regs[] = {
-+	{ .start =   0x2030, .end =   0x2030 },
-+	{ .start =   0x2510, .end =   0x2550 },
-+	{ .start =   0xA008, .end =   0xA00C },
-+	{ .start =   0xA188, .end =   0xA188 },
-+	{ .start =   0xA278, .end =   0xA278 },
-+	{ .start =   0xA540, .end =   0xA56C },
-+	{ .start =   0xC050, .end =   0xC050 },
-+	{ .start =   0xC340, .end =   0xC340 },
-+	{ .start =   0xC4C8, .end =   0xC4C8 },
-+	{ .start =   0xC4E0, .end =   0xC4E0 },
-+	{ .start =   0xC600, .end =   0xC600 },
-+	{ .start =   0xC658, .end =   0xC658 },
-+	{ .start =   0xCFD4, .end =   0xCFDC },
-+	{ .start =  0x22030, .end =  0x22030 },
-+	{ .start =  0x22510, .end =  0x22550 },
-+};
-+
-+static const struct i915_range xelpmp_shadowed_regs[] = {
-+	{ .start = 0x1C0030, .end = 0x1C0030 },
-+	{ .start = 0x1C0510, .end = 0x1C0550 },
-+	{ .start = 0x1C8030, .end = 0x1C8030 },
-+	{ .start = 0x1C8510, .end = 0x1C8550 },
-+	{ .start = 0x1D0030, .end = 0x1D0030 },
-+	{ .start = 0x1D0510, .end = 0x1D0550 },
-+	{ .start = 0x38A008, .end = 0x38A00C },
-+	{ .start = 0x38A188, .end = 0x38A188 },
-+	{ .start = 0x38A278, .end = 0x38A278 },
-+	{ .start = 0x38A540, .end = 0x38A56C },
-+	{ .start = 0x38A618, .end = 0x38A618 },
-+	{ .start = 0x38C050, .end = 0x38C050 },
-+	{ .start = 0x38C340, .end = 0x38C340 },
-+	{ .start = 0x38C4C8, .end = 0x38C4C8 },
-+	{ .start = 0x38C4E0, .end = 0x38C4E4 },
-+	{ .start = 0x38C600, .end = 0x38C600 },
-+	{ .start = 0x38C658, .end = 0x38C658 },
-+	{ .start = 0x38CFD4, .end = 0x38CFDC },
-+};
-+
- static int mmio_range_cmp(u32 key, const struct i915_range *range)
- {
- 	if (key < range->start)
-@@ -1679,6 +1722,162 @@ static const struct intel_forcewake_range __pvc_fw_ranges[] = {
- 	GEN_FW_RANGE(0x3e0000, 0x3effff, FORCEWAKE_GT),
- };
- 
-+static const struct intel_forcewake_range __mtl_fw_ranges[] = {
-+	GEN_FW_RANGE(0x0, 0xaff, 0),
-+	GEN_FW_RANGE(0xb00, 0xbff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0xc00, 0xfff, 0),
-+	GEN_FW_RANGE(0x1000, 0x1fff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0x2000, 0x26ff, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0x2700, 0x2fff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0x3000, 0x3fff, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0x4000, 0x51ff, FORCEWAKE_GT), /*
-+		0x4000 - 0x48ff: render
-+		0x4900 - 0x51ff: reserved */
-+	GEN_FW_RANGE(0x5200, 0x7fff, FORCEWAKE_RENDER), /*
-+		0x5200 - 0x53ff: render
-+		0x5400 - 0x54ff: reserved
-+		0x5500 - 0x7fff: render */
-+	GEN_FW_RANGE(0x8000, 0x813f, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0x8140, 0x817f, FORCEWAKE_RENDER), /*
-+		0x8140 - 0x815f: render
-+		0x8160 - 0x817f: reserved */
-+	GEN_FW_RANGE(0x8180, 0x81ff, 0),
-+	GEN_FW_RANGE(0x8200, 0x94cf, FORCEWAKE_GT), /*
-+		0x8200 - 0x87ff: gt
-+		0x8800 - 0x8dff: reserved
-+		0x8e00 - 0x8f7f: gt
-+		0x8f80 - 0x8fff: reserved
-+		0x9000 - 0x947f: gt
-+		0x9480 - 0x94cf: reserved */
-+	GEN_FW_RANGE(0x94d0, 0x955f, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0x9560, 0x967f, 0), /*
-+		0x9560 - 0x95ff: always on
-+		0x9600 - 0x967f: reserved */
-+	GEN_FW_RANGE(0x9680, 0x97ff, FORCEWAKE_RENDER), /*
-+		0x9680 - 0x96ff: render
-+		0x9700 - 0x97ff: reserved */
-+	GEN_FW_RANGE(0x9800, 0xcfff, FORCEWAKE_GT), /*
-+		0x9800 - 0xb4ff: gt
-+		0xb500 - 0xbfff: reserved
-+		0xc000 - 0xcfff: gt */
-+	GEN_FW_RANGE(0xd000, 0xd7ff, 0), /*
-+		0xd000 - 0xd3ff: always on
-+		0xd400 - 0xd7ff: reserved */
-+	GEN_FW_RANGE(0xd800, 0xd87f, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0xd880, 0xdbff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0xdc00, 0xdcff, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0xdd00, 0xde7f, FORCEWAKE_GT), /*
-+		0xdd00 - 0xddff: gt
-+		0xde00 - 0xde7f: reserved */
-+	GEN_FW_RANGE(0xde80, 0xe8ff, FORCEWAKE_RENDER), /*
-+		0xde80 - 0xdfff: render
-+		0xe000 - 0xe0ff: reserved
-+		0xe100 - 0xe8ff: render */
-+	GEN_FW_RANGE(0xe900, 0xe9ff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0xea00, 0x147ff, 0), /*
-+		 0xea00 - 0x11fff: reserved
-+		0x12000 - 0x127ff: always on
-+		0x12800 - 0x147ff: reserved */
-+	GEN_FW_RANGE(0x14800, 0x19fff, FORCEWAKE_GT), /*
-+		0x14800 - 0x153ff: gt
-+		0x15400 - 0x19fff: reserved */
-+	GEN_FW_RANGE(0x1a000, 0x21fff, FORCEWAKE_RENDER), /*
-+		0x1a000 - 0x1bfff: render
-+		0x1c000 - 0x21fff: reserved */
-+	GEN_FW_RANGE(0x22000, 0x23fff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0x24000, 0x2ffff, 0), /*
-+		0x24000 - 0x2407f: always on
-+		0x24080 - 0x2ffff: reserved */
-+	GEN_FW_RANGE(0x30000, 0x3ffff, FORCEWAKE_GT)
-+};
-+
-+/*
-+ * Note that the register ranges here are the final offsets after
-+ * translation of the GSI block to the 0x380000 offset.
-+ *
-+ * NOTE:  There are a couple MCR ranges near the bottom of this table
-+ * that need to power up either VD0 or VD2 depending on which replicated
-+ * instance of the register we're trying to access.  Our forcewake logic
-+ * at the moment doesn't have a good way to take steering into consideration,
-+ * and the driver doesn't even access any registers in those ranges today,
-+ * so for now we just mark those ranges as FORCEWAKE_ALL.  That will ensure
-+ * proper operation if we do start using the ranges in the future, and we
-+ * can determine at that time whether it's worth adding extra complexity to
-+ * the forcewake handling to take steering into consideration.
-+ */
-+static const struct intel_forcewake_range __xelpmp_fw_ranges[] = {
-+	GEN_FW_RANGE(0x0, 0x115fff, 0), /* render GT range */
-+	GEN_FW_RANGE(0x116000, 0x11ffff, FORCEWAKE_GSC), /*
-+		0x116000 - 0x117fff: gsc
-+		0x118000 - 0x119fff: reserved
-+		0x11a000 - 0x11efff: gsc
-+		0x11f000 - 0x11ffff: reserved */
-+	GEN_FW_RANGE(0x120000, 0x1bffff, 0), /* non-GT range */
-+	GEN_FW_RANGE(0x1c0000, 0x1c7fff, FORCEWAKE_MEDIA_VDBOX0), /*
-+		0x1c0000 - 0x1c3dff: VD0
-+		0x1c3e00 - 0x1c3eff: reserved
-+		0x1c3f00 - 0x1c3fff: VD0
-+		0x1c4000 - 0x1c7fff: reserved */
-+	GEN_FW_RANGE(0x1c8000, 0x1cbfff, FORCEWAKE_MEDIA_VEBOX0), /*
-+		0x1c8000 - 0x1ca0ff: VE0
-+		0x1ca100 - 0x1cbfff: reserved */
-+	GEN_FW_RANGE(0x1cc000, 0x1cffff, FORCEWAKE_MEDIA_VDBOX0), /*
-+		0x1cc000 - 0x1cdfff: VD0
-+		0x1ce000 - 0x1cffff: reserved */
-+	GEN_FW_RANGE(0x1d0000, 0x1d7fff, FORCEWAKE_MEDIA_VDBOX2), /*
-+		0x1d0000 - 0x1d3dff: VD2
-+		0x1d3e00 - 0x1d3eff: reserved
-+		0x1d4000 - 0x1d7fff: VD2 */
-+	GEN_FW_RANGE(0x1d8000, 0x1da0ff, FORCEWAKE_MEDIA_VEBOX1),
-+	GEN_FW_RANGE(0x1da100, 0x380aff, 0), /*
-+		0x1da100 - 0x23ffff: reserved
-+		0x240000 - 0x37ffff: non-GT range
-+		0x380000 - 0x380aff: reserved */
-+	GEN_FW_RANGE(0x380b00, 0x380bff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0x380c00, 0x380fff, 0),
-+	GEN_FW_RANGE(0x381000, 0x38817f, FORCEWAKE_GT), /*
-+		0x381000 - 0x381fff: gt
-+		0x382000 - 0x383fff: reserved
-+		0x384000 - 0x384aff: gt
-+		0x384b00 - 0x3851ff: reserved
-+		0x385200 - 0x3871ff: gt
-+		0x387200 - 0x387fff: reserved
-+		0x388000 - 0x38813f: gt
-+		0x388140 - 0x38817f: reserved */
-+	GEN_FW_RANGE(0x388180, 0x3882ff, 0), /*
-+		0x388180 - 0x3881ff: always on
-+		0x388200 - 0x3882ff: reserved */
-+	GEN_FW_RANGE(0x388300, 0x38955f, FORCEWAKE_GT), /*
-+		0x388300 - 0x38887f: gt
-+		0x388880 - 0x388fff: reserved
-+		0x389000 - 0x38947f: gt
-+		0x389480 - 0x38955f: reserved */
-+	GEN_FW_RANGE(0x389560, 0x389fff, 0), /*
-+		0x389560 - 0x3895ff: always on
-+		0x389600 - 0x389fff: reserved */
-+	GEN_FW_RANGE(0x38a000, 0x38cfff, FORCEWAKE_GT), /*
-+		0x38a000 - 0x38afff: gt
-+		0x38b000 - 0x38bfff: reserved
-+		0x38c000 - 0x38cfff: gt */
-+	GEN_FW_RANGE(0x38d000, 0x38d11f, 0),
-+	GEN_FW_RANGE(0x38d120, 0x391fff, FORCEWAKE_GT), /*
-+		0x38d120 - 0x38dfff: gt
-+		0x38e000 - 0x38efff: reserved
-+		0x38f000 - 0x38ffff: gt
-+		0x389000 - 0x391fff: reserved */
-+	GEN_FW_RANGE(0x392000, 0x392fff, 0), /*
-+		0x392000 - 0x3927ff: always on
-+		0x392800 - 0x292fff: reserved */
-+	GEN_FW_RANGE(0x393000, 0x3931ff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0x393200, 0x39323f, FORCEWAKE_ALL), /* instance-based, see note above */
-+	GEN_FW_RANGE(0x393240, 0x3933ff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0x393400, 0x3934ff, FORCEWAKE_ALL), /* instance-based, see note above */
-+	GEN_FW_RANGE(0x393500, 0x393c7f, 0), /*
-+		0x393500 - 0x393bff: reserved
-+		0x393c00 - 0x393c7f: always on */
-+	GEN_FW_RANGE(0x393c80, 0x393dff, FORCEWAKE_GT),
-+};
-+
- static void
- ilk_dummy_write(struct intel_uncore *uncore)
- {
-@@ -2021,6 +2220,7 @@ static int __fw_domain_init(struct intel_uncore *uncore,
- 	BUILD_BUG_ON(FORCEWAKE_MEDIA_VEBOX1 != (1 << FW_DOMAIN_ID_MEDIA_VEBOX1));
- 	BUILD_BUG_ON(FORCEWAKE_MEDIA_VEBOX2 != (1 << FW_DOMAIN_ID_MEDIA_VEBOX2));
- 	BUILD_BUG_ON(FORCEWAKE_MEDIA_VEBOX3 != (1 << FW_DOMAIN_ID_MEDIA_VEBOX3));
-+	BUILD_BUG_ON(FORCEWAKE_GSC != (1 << FW_DOMAIN_ID_GSC));
- 
- 	d->mask = BIT(domain_id);
- 
-@@ -2085,17 +2285,26 @@ static int intel_uncore_fw_domains_init(struct intel_uncore *uncore)
- 	(ret ?: (ret = __fw_domain_init((uncore__), (id__), (set__), (ack__))))
- 
- 	if (GRAPHICS_VER(i915) >= 11) {
--		/* we'll prune the domains of missing engines later */
--		intel_engine_mask_t emask = RUNTIME_INFO(i915)->platform_engine_mask;
-+		intel_engine_mask_t emask;
- 		int i;
- 
-+		/* we'll prune the domains of missing engines later */
-+		emask = uncore->gt->info.engine_mask;
-+
- 		uncore->fw_get_funcs = &uncore_get_fallback;
--		fw_domain_init(uncore, FW_DOMAIN_ID_RENDER,
--			       FORCEWAKE_RENDER_GEN9,
--			       FORCEWAKE_ACK_RENDER_GEN9);
--		fw_domain_init(uncore, FW_DOMAIN_ID_GT,
--			       FORCEWAKE_GT_GEN9,
--			       FORCEWAKE_ACK_GT_GEN9);
-+		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-+			fw_domain_init(uncore, FW_DOMAIN_ID_GT,
-+				       FORCEWAKE_GT_GEN9,
-+				       FORCEWAKE_ACK_GT_MTL);
-+		else
-+			fw_domain_init(uncore, FW_DOMAIN_ID_GT,
-+				       FORCEWAKE_GT_GEN9,
-+				       FORCEWAKE_ACK_GT_GEN9);
-+
-+		if (RCS_MASK(uncore->gt) || CCS_MASK(uncore->gt))
-+			fw_domain_init(uncore, FW_DOMAIN_ID_RENDER,
-+				       FORCEWAKE_RENDER_GEN9,
-+				       FORCEWAKE_ACK_RENDER_GEN9);
- 
- 		for (i = 0; i < I915_MAX_VCS; i++) {
- 			if (!__HAS_ENGINE(emask, _VCS(i)))
-@@ -2113,6 +2322,10 @@ static int intel_uncore_fw_domains_init(struct intel_uncore *uncore)
- 				       FORCEWAKE_MEDIA_VEBOX_GEN11(i),
- 				       FORCEWAKE_ACK_MEDIA_VEBOX_GEN11(i));
- 		}
-+
-+		if (uncore->gt->type == GT_MEDIA)
-+			fw_domain_init(uncore, FW_DOMAIN_ID_GSC,
-+				       FORCEWAKE_REQ_GSC, FORCEWAKE_ACK_GSC);
- 	} else if (IS_GRAPHICS_VER(i915, 9, 10)) {
- 		uncore->fw_get_funcs = &uncore_get_fallback;
- 		fw_domain_init(uncore, FW_DOMAIN_ID_RENDER,
-@@ -2300,6 +2513,22 @@ static void uncore_raw_init(struct intel_uncore *uncore)
- 	}
- }
- 
-+static int uncore_media_forcewake_init(struct intel_uncore *uncore)
-+{
-+	struct drm_i915_private *i915 = uncore->i915;
-+
-+	if (MEDIA_VER(i915) >= 13) {
-+		ASSIGN_FW_DOMAINS_TABLE(uncore, __xelpmp_fw_ranges);
-+		ASSIGN_SHADOW_TABLE(uncore, xelpmp_shadowed_regs);
-+		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-+	} else {
-+		MISSING_CASE(MEDIA_VER(i915));
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+}
-+
- static int uncore_forcewake_init(struct intel_uncore *uncore)
- {
- 	struct drm_i915_private *i915 = uncore->i915;
-@@ -2314,7 +2543,14 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
- 
- 	ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
- 
--	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 60)) {
-+	if (uncore->gt->type == GT_MEDIA)
-+		return uncore_media_forcewake_init(uncore);
-+
-+	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70)) {
-+		ASSIGN_FW_DOMAINS_TABLE(uncore, __mtl_fw_ranges);
-+		ASSIGN_SHADOW_TABLE(uncore, mtl_shadowed_regs);
-+		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-+	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 60)) {
- 		ASSIGN_FW_DOMAINS_TABLE(uncore, __pvc_fw_ranges);
- 		ASSIGN_SHADOW_TABLE(uncore, pvc_shadowed_regs);
- 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
-index 5022bac80b67..7e1b3b89f689 100644
---- a/drivers/gpu/drm/i915/intel_uncore.h
-+++ b/drivers/gpu/drm/i915/intel_uncore.h
-@@ -62,6 +62,7 @@ enum forcewake_domain_id {
- 	FW_DOMAIN_ID_MEDIA_VEBOX1,
- 	FW_DOMAIN_ID_MEDIA_VEBOX2,
- 	FW_DOMAIN_ID_MEDIA_VEBOX3,
-+	FW_DOMAIN_ID_GSC,
- 
- 	FW_DOMAIN_ID_COUNT
- };
-@@ -82,6 +83,7 @@ enum forcewake_domains {
- 	FORCEWAKE_MEDIA_VEBOX1	= BIT(FW_DOMAIN_ID_MEDIA_VEBOX1),
- 	FORCEWAKE_MEDIA_VEBOX2	= BIT(FW_DOMAIN_ID_MEDIA_VEBOX2),
- 	FORCEWAKE_MEDIA_VEBOX3	= BIT(FW_DOMAIN_ID_MEDIA_VEBOX3),
-+	FORCEWAKE_GSC		= BIT(FW_DOMAIN_ID_GSC),
- 
- 	FORCEWAKE_ALL = BIT(FW_DOMAIN_ID_COUNT) - 1,
- };
-diff --git a/drivers/gpu/drm/i915/selftests/intel_uncore.c b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-index fda9bb79c049..e4281508d580 100644
---- a/drivers/gpu/drm/i915/selftests/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-@@ -70,6 +70,8 @@ static int intel_shadow_table_check(void)
- 		{ gen12_shadowed_regs, ARRAY_SIZE(gen12_shadowed_regs) },
- 		{ dg2_shadowed_regs, ARRAY_SIZE(dg2_shadowed_regs) },
- 		{ pvc_shadowed_regs, ARRAY_SIZE(pvc_shadowed_regs) },
-+		{ mtl_shadowed_regs, ARRAY_SIZE(mtl_shadowed_regs) },
-+		{ xelpmp_shadowed_regs, ARRAY_SIZE(xelpmp_shadowed_regs) },
- 	};
- 	const struct i915_range *range;
- 	unsigned int i, j;
-@@ -117,6 +119,8 @@ int intel_uncore_mock_selftests(void)
- 		{ __gen12_fw_ranges, ARRAY_SIZE(__gen12_fw_ranges), true },
- 		{ __xehp_fw_ranges, ARRAY_SIZE(__xehp_fw_ranges), true },
- 		{ __pvc_fw_ranges, ARRAY_SIZE(__pvc_fw_ranges), true },
-+		{ __mtl_fw_ranges, ARRAY_SIZE(__mtl_fw_ranges), true },
-+		{ __xelpmp_fw_ranges, ARRAY_SIZE(__xelpmp_fw_ranges), true },
- 	};
- 	int err, i;
- 
--- 
-2.37.3
-
+Tml0OiB3aXNoIHNvbWUgb2YgdGhvc2UgbWFjcm8gcGFyYW0gbmFtZXMgd2VyZSBtb3JlIGRlc2Ny
+aXB0aXZlLCBleGFtcGxlIDogZndfZGVmIC0+IGZ3X25hbWVyIG9yIHByZWZpeCAtPiBnZW4NCkJ1
+dCB0aGF0J3MgaXJyZWxldmFudCBoZXJlLCBzbw0KDQpSZXZpZXdlZC1ieTogQWxhbiBQcmV2aW4g
+PGFsYW4ucHJldmluLnRlcmVzLmFsZXhpc0BpbnRlbC5jb20+DQoNCg0KT24gVGh1LCAyMDIyLTA5
+LTA4IGF0IDE3OjE2IC0wNzAwLCBDZXJhb2xvIFNwdXJpbywgRGFuaWVsZSB3cm90ZToNCj4gVGhl
+IGZ3IG5hbWUgaXMgZGlmZmVyZW50IGFuZCB3ZSBuZWVkIHRvIHJlY29yZCB0aGUgZmFjdCB0aGF0
+IHRoZSBibG9iIGlzDQo+IGdzYy1sb2FkZWQsIHNvIGFkZCBhIG5ldyBtYWNybyB0byBoZWxwLg0K
+PiANCj4gTm90ZTogQS1zdGVwIERHMiBHMTAgZG9lcyBub3Qgc3VwcG9ydCBIdUMgbG9hZGluZyB2
+aWEgR1NDIGFuZCB3b3VsZA0KPiByZXF1aXJlIGEgc2VwYXJhdGUgZmlybXdhcmUgdG8gYmUgbG9h
+ZGVkIHRoZSBsZWdhY3kgd2F5LCBidXQgdGhhdCdzDQo+IG5vdCBhIHByb2R1Y3Rpb24gc3RlcHBp
+bmcgc28gd2UncmUgbm90IGdvaW5nIHRvIGJvdGhlci4NCj4gDQo+IHYyOiByZWJhc2Ugb24gbmV3
+IGZ3IGZldGNoIGxvZ2ljDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWxlIENlcmFvbG8gU3B1
+cmlvIDxkYW5pZWxlLmNlcmFvbG9zcHVyaW9AaW50ZWwuY29tPg0KPiBDYzogVG9ueSBZZSA8dG9u
+eS55ZUBpbnRlbC5jb20+DQo+IFJldmlld2VkLWJ5OiBBbGFuIFByZXZpbiA8YWxhbi5wcmV2aW4u
+dGVyZXMuYWxleGlzQGludGVsLmNvbT4gI3YxDQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZ3QvdWMvaW50ZWxfdWNfZncuYyB8IDIzICsrKysrKysrKysrKysrKystLS0tLS0tDQo+ICAx
+IGZpbGUgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkNCj4gDQo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC91Yy9pbnRlbF91Y19mdy5jIGIvZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZ3QvdWMvaW50ZWxfdWNfZncuYw0KPiBpbmRleCA0NzkyOTYwZDlj
+MDQuLjA5ZTA2YWM4YmNmMSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Qv
+dWMvaW50ZWxfdWNfZncuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC91Yy9pbnRl
+bF91Y19mdy5jDQo+IEBAIC05MSw3ICs5MSw4IEBAIHZvaWQgaW50ZWxfdWNfZndfY2hhbmdlX3N0
+YXR1cyhzdHJ1Y3QgaW50ZWxfdWNfZncgKnVjX2Z3LA0KPiAgCWZ3X2RlZihCUk9YVE9OLCAgICAg
+IDAsIGd1Y19tbXAoYnh0LCAgNzAsIDEsIDEpKSBcDQo+ICAJZndfZGVmKFNLWUxBS0UsICAgICAg
+MCwgZ3VjX21tcChza2wsICA3MCwgMSwgMSkpDQo+ICANCj4gLSNkZWZpbmUgSU5URUxfSFVDX0ZJ
+Uk1XQVJFX0RFRlMoZndfZGVmLCBodWNfcmF3LCBodWNfbW1wKSBcDQo+ICsjZGVmaW5lIElOVEVM
+X0hVQ19GSVJNV0FSRV9ERUZTKGZ3X2RlZiwgaHVjX3JhdywgaHVjX21tcCwgaHVjX2dzYykgXA0K
+PiArCWZ3X2RlZihERzIsICAgICAgICAgIDAsIGh1Y19nc2MoZGcyKSkgXA0KPiAgCWZ3X2RlZihB
+TERFUkxBS0VfUCwgIDAsIGh1Y19tbXAodGdsLCAgNywgOSwgMykpIFwNCj4gIAlmd19kZWYoQUxE
+RVJMQUtFX1MsICAwLCBodWNfbW1wKHRnbCwgIDcsIDksIDMpKSBcDQo+ICAJZndfZGVmKERHMSwg
+ICAgICAgICAgMCwgaHVjX21tcChkZzEsICA3LCA5LCAzKSkgXA0KPiBAQCAtMTM3LDYgKzEzOCw5
+IEBAIHZvaWQgaW50ZWxfdWNfZndfY2hhbmdlX3N0YXR1cyhzdHJ1Y3QgaW50ZWxfdWNfZncgKnVj
+X2Z3LA0KPiAgI2RlZmluZSBNQUtFX0hVQ19GV19QQVRIX0JMQU5LKHByZWZpeF8pIFwNCj4gIAlf
+X01BS0VfVUNfRldfUEFUSF9CTEFOSyhwcmVmaXhfLCAiX2h1YyIpDQo+ICANCj4gKyNkZWZpbmUg
+TUFLRV9IVUNfRldfUEFUSF9HU0MocHJlZml4XykgXA0KPiArCV9fTUFLRV9VQ19GV19QQVRIX0JM
+QU5LKHByZWZpeF8sICJfaHVjX2dzYyIpDQo+ICsNCj4gICNkZWZpbmUgTUFLRV9IVUNfRldfUEFU
+SF9NTVAocHJlZml4XywgbWFqb3JfLCBtaW5vcl8sIHBhdGNoXykgXA0KPiAgCV9fTUFLRV9VQ19G
+V19QQVRIX01NUChwcmVmaXhfLCAiX2h1Y18iLCBtYWpvcl8sIG1pbm9yXywgcGF0Y2hfKQ0KPiAg
+DQo+IEBAIC0xNDksNyArMTUzLDcgQEAgdm9pZCBpbnRlbF91Y19md19jaGFuZ2Vfc3RhdHVzKHN0
+cnVjdCBpbnRlbF91Y19mdyAqdWNfZncsDQo+ICAJTU9EVUxFX0ZJUk1XQVJFKHVjXyk7DQo+ICAN
+Cj4gIElOVEVMX0dVQ19GSVJNV0FSRV9ERUZTKElOVEVMX1VDX01PRFVMRV9GVywgTUFLRV9HVUNf
+RldfUEFUSF9NQUpPUiwgTUFLRV9HVUNfRldfUEFUSF9NTVApDQo+IC1JTlRFTF9IVUNfRklSTVdB
+UkVfREVGUyhJTlRFTF9VQ19NT0RVTEVfRlcsIE1BS0VfSFVDX0ZXX1BBVEhfQkxBTkssIE1BS0Vf
+SFVDX0ZXX1BBVEhfTU1QKQ0KPiArSU5URUxfSFVDX0ZJUk1XQVJFX0RFRlMoSU5URUxfVUNfTU9E
+VUxFX0ZXLCBNQUtFX0hVQ19GV19QQVRIX0JMQU5LLCBNQUtFX0hVQ19GV19QQVRIX01NUCwgTUFL
+RV9IVUNfRldfUEFUSF9HU0MpDQo+ICANCj4gIC8qDQo+ICAgKiBUaGUgbmV4dCBleHBhbnNpb24g
+b2YgdGhlIHRhYmxlIG1hY3JvcyAoaW4gX191Y19md19hdXRvX3NlbGVjdCBiZWxvdykgcHJvdmlk
+ZXMNCj4gQEAgLTE2NCw2ICsxNjgsNyBAQCBzdHJ1Y3QgX19wYWNrZWQgdWNfZndfYmxvYiB7DQo+
+ICAJdTggbWFqb3I7DQo+ICAJdTggbWlub3I7DQo+ICAJdTggcGF0Y2g7DQo+ICsJYm9vbCBsb2Fk
+ZWRfdmlhX2dzYzsNCj4gIH07DQo+ICANCj4gICNkZWZpbmUgVUNfRldfQkxPQl9CQVNFKG1ham9y
+XywgbWlub3JfLCBwYXRjaF8sIHBhdGhfKSBcDQo+IEBAIC0xNzIsMTYgKzE3NywxNiBAQCBzdHJ1
+Y3QgX19wYWNrZWQgdWNfZndfYmxvYiB7DQo+ICAJLnBhdGNoID0gcGF0Y2hfLCBcDQo+ICAJLnBh
+dGggPSBwYXRoXywNCj4gIA0KPiAtI2RlZmluZSBVQ19GV19CTE9CX05FVyhtYWpvcl8sIG1pbm9y
+XywgcGF0Y2hfLCBwYXRoXykgXA0KPiArI2RlZmluZSBVQ19GV19CTE9CX05FVyhtYWpvcl8sIG1p
+bm9yXywgcGF0Y2hfLCBnc2NfLCBwYXRoXykgXA0KPiAgCXsgVUNfRldfQkxPQl9CQVNFKG1ham9y
+XywgbWlub3JfLCBwYXRjaF8sIHBhdGhfKSBcDQo+IC0JICAubGVnYWN5ID0gZmFsc2UgfQ0KPiAr
+CSAgLmxlZ2FjeSA9IGZhbHNlLCAubG9hZGVkX3ZpYV9nc2MgPSBnc2NfIH0NCj4gIA0KPiAgI2Rl
+ZmluZSBVQ19GV19CTE9CX09MRChtYWpvcl8sIG1pbm9yXywgcGF0Y2hfLCBwYXRoXykgXA0KPiAg
+CXsgVUNfRldfQkxPQl9CQVNFKG1ham9yXywgbWlub3JfLCBwYXRjaF8sIHBhdGhfKSBcDQo+ICAJ
+ICAubGVnYWN5ID0gdHJ1ZSB9DQo+ICANCj4gICNkZWZpbmUgR1VDX0ZXX0JMT0IocHJlZml4Xywg
+bWFqb3JfLCBtaW5vcl8pIFwNCj4gLQlVQ19GV19CTE9CX05FVyhtYWpvcl8sIG1pbm9yXywgMCwg
+XA0KPiArCVVDX0ZXX0JMT0JfTkVXKG1ham9yXywgbWlub3JfLCAwLCBmYWxzZSwgXA0KPiAgCQkg
+ICAgICAgTUFLRV9HVUNfRldfUEFUSF9NQUpPUihwcmVmaXhfLCBtYWpvcl8sIG1pbm9yXykpDQo+
+ICANCj4gICNkZWZpbmUgR1VDX0ZXX0JMT0JfTU1QKHByZWZpeF8sIG1ham9yXywgbWlub3JfLCBw
+YXRjaF8pIFwNCj4gQEAgLTE4OSwxMiArMTk0LDE1IEBAIHN0cnVjdCBfX3BhY2tlZCB1Y19md19i
+bG9iIHsNCj4gIAkJICAgICAgIE1BS0VfR1VDX0ZXX1BBVEhfTU1QKHByZWZpeF8sIG1ham9yXywg
+bWlub3JfLCBwYXRjaF8pKQ0KPiAgDQo+ICAjZGVmaW5lIEhVQ19GV19CTE9CKHByZWZpeF8pIFwN
+Cj4gLQlVQ19GV19CTE9CX05FVygwLCAwLCAwLCBNQUtFX0hVQ19GV19QQVRIX0JMQU5LKHByZWZp
+eF8pKQ0KPiArCVVDX0ZXX0JMT0JfTkVXKDAsIDAsIDAsIGZhbHNlLCBNQUtFX0hVQ19GV19QQVRI
+X0JMQU5LKHByZWZpeF8pKQ0KPiAgDQo+ICAjZGVmaW5lIEhVQ19GV19CTE9CX01NUChwcmVmaXhf
+LCBtYWpvcl8sIG1pbm9yXywgcGF0Y2hfKSBcDQo+ICAJVUNfRldfQkxPQl9PTEQobWFqb3JfLCBt
+aW5vcl8sIHBhdGNoXywgXA0KPiAgCQkgICAgICAgTUFLRV9IVUNfRldfUEFUSF9NTVAocHJlZml4
+XywgbWFqb3JfLCBtaW5vcl8sIHBhdGNoXykpDQo+ICANCj4gKyNkZWZpbmUgSFVDX0ZXX0JMT0Jf
+R1NDKHByZWZpeF8pIFwNCj4gKwlVQ19GV19CTE9CX05FVygwLCAwLCAwLCB0cnVlLCBNQUtFX0hV
+Q19GV19QQVRIX0dTQyhwcmVmaXhfKSkNCj4gKw0KPiAgc3RydWN0IF9fcGFja2VkIHVjX2Z3X3Bs
+YXRmb3JtX3JlcXVpcmVtZW50IHsNCj4gIAllbnVtIGludGVsX3BsYXRmb3JtIHA7DQo+ICAJdTgg
+cmV2OyAvKiBmaXJzdCBwbGF0Zm9ybSByZXYgdXNpbmcgdGhpcyBGVyAqLw0KPiBAQCAtMjIwLDcg
+KzIyOCw3IEBAIF9fdWNfZndfYXV0b19zZWxlY3Qoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5
+MTUsIHN0cnVjdCBpbnRlbF91Y19mdyAqdWNfZncpDQo+ICAJCUlOVEVMX0dVQ19GSVJNV0FSRV9E
+RUZTKE1BS0VfRldfTElTVCwgR1VDX0ZXX0JMT0IsIEdVQ19GV19CTE9CX01NUCkNCj4gIAl9Ow0K
+PiAgCXN0YXRpYyBjb25zdCBzdHJ1Y3QgdWNfZndfcGxhdGZvcm1fcmVxdWlyZW1lbnQgYmxvYnNf
+aHVjW10gPSB7DQo+IC0JCUlOVEVMX0hVQ19GSVJNV0FSRV9ERUZTKE1BS0VfRldfTElTVCwgSFVD
+X0ZXX0JMT0IsIEhVQ19GV19CTE9CX01NUCkNCj4gKwkJSU5URUxfSFVDX0ZJUk1XQVJFX0RFRlMo
+TUFLRV9GV19MSVNULCBIVUNfRldfQkxPQiwgSFVDX0ZXX0JMT0JfTU1QLCBIVUNfRldfQkxPQl9H
+U0MpDQo+ICAJfTsNCj4gIAlzdGF0aWMgY29uc3Qgc3RydWN0IGZ3X2Jsb2JzX2J5X3R5cGUgYmxv
+YnNfYWxsW0lOVEVMX1VDX0ZXX05VTV9UWVBFU10gPSB7DQo+ICAJCVtJTlRFTF9VQ19GV19UWVBF
+X0dVQ10gPSB7IGJsb2JzX2d1YywgQVJSQVlfU0laRShibG9ic19ndWMpIH0sDQo+IEBAIC0yNjYs
+NiArMjc0LDcgQEAgX191Y19md19hdXRvX3NlbGVjdChzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAq
+aTkxNSwgc3RydWN0IGludGVsX3VjX2Z3ICp1Y19mdykNCj4gIAkJdWNfZnctPmZpbGVfd2FudGVk
+LnBhdGggPSBibG9iLT5wYXRoOw0KPiAgCQl1Y19mdy0+ZmlsZV93YW50ZWQubWFqb3JfdmVyID0g
+YmxvYi0+bWFqb3I7DQo+ICAJCXVjX2Z3LT5maWxlX3dhbnRlZC5taW5vcl92ZXIgPSBibG9iLT5t
+aW5vcjsNCj4gKwkJdWNfZnctPmxvYWRlZF92aWFfZ3NjID0gYmxvYi0+bG9hZGVkX3ZpYV9nc2M7
+DQo+ICAJCWJyZWFrOw0KPiAgCX0NCj4gIA0KPiAtLSANCj4gMi4zNy4yDQo+IA0KDQo=
