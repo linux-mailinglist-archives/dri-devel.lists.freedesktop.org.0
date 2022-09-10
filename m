@@ -2,43 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717605B4971
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 23:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BB35B4A55
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 23:43:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE3310E2E6;
-	Sat, 10 Sep 2022 21:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 048E710E187;
+	Sat, 10 Sep 2022 21:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4FE10E2DE;
- Sat, 10 Sep 2022 21:19:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 22B1B60EBC;
- Sat, 10 Sep 2022 21:19:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52419C433D6;
- Sat, 10 Sep 2022 21:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662844790;
- bh=jyz0fgXTdZdiAhc3Zipbr3ICrBDxV/WPhd/zQrtwP6I=;
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDFE10E187
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 21:43:08 +0000 (UTC)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4MQ5vH288sz9s7P;
+ Sat, 10 Sep 2022 21:43:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1662846187; bh=YZ1CV53MgNxyA+1WqttmM414irZhulFneEeEfgK0GIQ=;
  h=From:To:Cc:Subject:Date:From;
- b=d9lTTFUbx1tP//LYNQ+iRTQEj1wOZW55uAeSbpL3IHCv2+0tv/tHVo1I6Os6WUx2w
- WhsRBNUE2xPYTfGJ4isuG9wXPNCIWCBHh3CzwbsamIb0rv3/Ifsg/epSMWV+Spje9c
- bNKhvHp89AYugxlOIYX8y6HSQJYAQOC5LLj3eOepUqyGhr/DZhMNXc+XZA7NYObvR1
- 5xYHEDs+WVB1KgSS2EAiBdIq7mPJJjPLfJEdn0l0xRJI6U9mzyY3AhhOuowXL/Ck2t
- ITx/pKqc0SOc3cjDdttkg/S55nrOdtIf9jNCdfmEHH/TD4/GVniUytKpI3UVdKur8E
- zuON355tk10UQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 1/5] drm/msm/rd: Fix FIFO-full deadlock
-Date: Sat, 10 Sep 2022 17:19:43 -0400
-Message-Id: <20220910211947.71066-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
+ b=Zfa6QQtz/nJrucmNJcVpJG4BGH/neZ9ti2BHM8Y4r//J02cbJ/mweZMxpVCN4mTgJ
+ wSdGrzPKcJ/LOlMv+9gFY9vgE5YqQkICVHcsCQc3nwhOluFyVnd8L6ptcqwWrtc86x
+ nCrvHy1abaVFlggKp3si2ZkqeBPROjlaFRkGStzw=
+X-Riseup-User-ID: 27751C35CCB32B8A0AEEC2461F645C9C9113993094DA06D6853DD8D97990F8ED
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4MQ5v63xHpz5vXJ;
+ Sat, 10 Sep 2022 21:42:58 +0000 (UTC)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To: Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
+ tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
+ siqueirajordao@riseup.net, Trevor Woerner <twoerner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ David Gow <davidgow@google.com>, brendanhiggins@google.com,
+ Arthur Grillo <arthur.grillo@usp.br>, michal.winiarski@intel.com,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH v4 1/2] drm/tests: Split drm_framebuffer_create_test into
+ parameterized tests
+Date: Sat, 10 Sep 2022 18:42:38 -0300
+Message-Id: <20220910214239.70432-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,44 +59,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- airlied@linux.ie, linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, dmitry.baryshkov@linaro.org,
- freedreno@lists.freedesktop.org
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+The igt_check_drm_framebuffer_create is based on a loop that executes
+tests for all createbuffer_tests test cases. This could be better
+represented by parameterized tests, provided by KUnit.
 
-[ Upstream commit 174974d8463b77c2b4065e98513adb204e64de7d ]
+So, convert the igt_check_drm_framebuffer_create into parameterized tests.
 
-If the previous thing cat'ing $debugfs/rd left the FIFO full, then
-subsequent open could deadlock in rd_write() (because open is blocked,
-not giving a chance for read() to consume any data in the FIFO).  Also
-it is generally a good idea to clear out old data from the FIFO.
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Patchwork: https://patchwork.freedesktop.org/patch/496706/
-Link: https://lore.kernel.org/r/20220807160901.2353471-2-robdclark@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+Reviewed-by: Michał Winiarski <michal.winiarski@intel.com>
+Reviewed-by: David Gow <davidgow@google.com>
 ---
- drivers/gpu/drm/msm/msm_rd.c | 3 +++
- 1 file changed, 3 insertions(+)
+v1 -> v2: https://lore.kernel.org/dri-devel/20220830211603.191734-1-mairacanal@riseup.net/
+- Use .init for mock_drm_device instead of a global variable. (Michał Winiarski)
+- Add Michał's Reviewed-by tag.
 
-diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
-index 4823019eb422b..a8a04d8c5ca62 100644
---- a/drivers/gpu/drm/msm/msm_rd.c
-+++ b/drivers/gpu/drm/msm/msm_rd.c
-@@ -188,6 +188,9 @@ static int rd_open(struct inode *inode, struct file *file)
- 	file->private_data = rd;
- 	rd->open = true;
+v2 -> v3: https://lore.kernel.org/dri-devel/20220901124210.591994-1-mairacanal@riseup.net/
+- Add David's Reviewed-by tag.
+
+v3 -> v4: https://lore.kernel.org/dri-devel/20220907200247.89679-1-mairacanal@riseup.net/
+- No changes.
+---
+ drivers/gpu/drm/tests/drm_framebuffer_test.c | 45 ++++++++++++--------
+ 1 file changed, 27 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+index ec7a08ba4056..6b6f6ff4f591 100644
+--- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
++++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+@@ -25,7 +25,7 @@ struct drm_framebuffer_test {
+ 	const char *name;
+ };
  
-+	/* Reset fifo to clear any previously unread data: */
-+	rd->fifo.head = rd->fifo.tail = 0;
+-static struct drm_framebuffer_test createbuffer_tests[] = {
++static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
+ { .buffer_created = 1, .name = "ABGR8888 normal sizes",
+ 	.cmd = { .width = 600, .height = 600, .pixel_format = DRM_FORMAT_ABGR8888,
+ 		 .handles = { 1, 0, 0 }, .pitches = { 4 * 600, 0, 0 },
+@@ -330,43 +330,52 @@ static struct drm_mode_config_funcs mock_config_funcs = {
+ 	.fb_create = fb_create_mock,
+ };
+ 
+-static struct drm_device mock_drm_device = {
+-	.mode_config = {
++static int drm_framebuffer_test_init(struct kunit *test)
++{
++	struct drm_device *mock;
 +
- 	/* the parsing tools need to know gpu-id to know which
- 	 * register database to load.
- 	 */
++	mock = kunit_kzalloc(test, sizeof(*mock), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mock);
++
++	mock->mode_config = (struct drm_mode_config) {
+ 		.min_width = MIN_WIDTH,
+ 		.max_width = MAX_WIDTH,
+ 		.min_height = MIN_HEIGHT,
+ 		.max_height = MAX_HEIGHT,
+ 		.funcs = &mock_config_funcs,
+-	},
+-};
++	};
+ 
+-static int execute_drm_mode_fb_cmd2(struct drm_mode_fb_cmd2 *r)
++	test->priv = mock;
++	return 0;
++}
++
++static void drm_test_framebuffer_create(struct kunit *test)
+ {
++	const struct drm_framebuffer_test *params = test->param_value;
++	struct drm_device *mock = test->priv;
+ 	int buffer_created = 0;
+ 
+-	mock_drm_device.dev_private = &buffer_created;
+-	drm_internal_framebuffer_create(&mock_drm_device, r, NULL);
+-	return buffer_created;
++	mock->dev_private = &buffer_created;
++	drm_internal_framebuffer_create(mock, &params->cmd, NULL);
++	KUNIT_EXPECT_EQ(test, params->buffer_created, buffer_created);
+ }
+ 
+-static void igt_check_drm_framebuffer_create(struct kunit *test)
++static void drm_framebuffer_test_to_desc(const struct drm_framebuffer_test *t, char *desc)
+ {
+-	int i = 0;
+-
+-	for (i = 0; i < ARRAY_SIZE(createbuffer_tests); i++) {
+-		KUNIT_EXPECT_EQ_MSG(test, createbuffer_tests[i].buffer_created,
+-				    execute_drm_mode_fb_cmd2(&createbuffer_tests[i].cmd),
+-		     "Test %d: \"%s\" failed\n", i, createbuffer_tests[i].name);
+-	}
++	strcpy(desc, t->name);
+ }
+ 
++KUNIT_ARRAY_PARAM(drm_framebuffer_create, drm_framebuffer_create_cases,
++		  drm_framebuffer_test_to_desc);
++
+ static struct kunit_case drm_framebuffer_tests[] = {
+-	KUNIT_CASE(igt_check_drm_framebuffer_create),
++	KUNIT_CASE_PARAM(drm_test_framebuffer_create, drm_framebuffer_create_gen_params),
+ 	{ }
+ };
+ 
+ static struct kunit_suite drm_framebuffer_test_suite = {
+ 	.name = "drm_framebuffer",
++	.init = drm_framebuffer_test_init,
+ 	.test_cases = drm_framebuffer_tests,
+ };
+ 
 -- 
-2.35.1
+2.37.3
 
