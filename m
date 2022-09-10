@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6F25B495D
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 23:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66D05B496A
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 23:19:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0098B10E2E0;
-	Sat, 10 Sep 2022 21:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2DE410E2E3;
+	Sat, 10 Sep 2022 21:19:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E38A710E2DE;
- Sat, 10 Sep 2022 21:19:06 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC6E10E2DE;
+ Sat, 10 Sep 2022 21:19:27 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5FC91B8085B;
- Sat, 10 Sep 2022 21:19:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE493C43145;
- Sat, 10 Sep 2022 21:19:02 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 354CCB80955;
+ Sat, 10 Sep 2022 21:19:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1728C433D7;
+ Sat, 10 Sep 2022 21:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662844744;
- bh=SX8ctfDoXZyy93CaTDmVcLfuc2fkCYRrEUR7A5GxBqk=;
+ s=k20201202; t=1662844764;
+ bh=ctclM3JBJrkIeibqeVrapq86rbugeEMyPRRRmJnwhBU=;
  h=From:To:Cc:Subject:Date:From;
- b=BVx/xF9yeoZ6aDZ5MkMfPRpLyBLQEjwMnU7Bwh0jQtqFddPG0zlnb9zMY6j2+patJ
- 1Arvuvf6J2Z72FWLLwfWqIxkQngFGNkiaKMxGXX8dqM8hqCCLbm+UJW7SRlq1Bimo2
- NNGOa3c/B29Z/Umt14F0orrmMAl/AwVwbNf9S9q/jpesmAfVZzhv6TAguS8eFmSumV
- 5r7wVT0OXxedu4PigyeBwGmm/uG40YUWg1nwpWIEAafUKUmP3mn6Rqk2uGgrBUJFRC
- SpDZvcCaizWJ8QAX1bZp2XHRz+QOM2v1/UU3sFkDCyp9hBX+EWMopbUcx0bWB6QAoJ
- P00oeUA5+vyLg==
+ b=nxNAlAKioFR1/sFRXmsZ9XigiQuoNa+e12xWF7oae2aJC2CXp5WIQ6bYOV397IU9b
+ FzVa1Te+6c8j80ZytxhvdHN53FoFol98o7Aoyeqj6FZHnxcQ+Mn/zBxbl5evwn1zlJ
+ G/Qbl13SkO44mv2mWbiy58VjvrWsxkhUCV36e+OJJTWEFqUfRKgF3mzh9MvpRr1g/6
+ oGUb12ctypRA3rH23BKv9kef1uficGGqvcv//Y4fqJuXCsV08fa62uq0FPTAd5bVvV
+ koJdBly/70IZb+qrBgJdDL9b+aT7+7OzYLXBH9rSu6HpAafKbi42Mxm1Uj0XUPYHPy
+ wkPlcWxhWRogQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 01/10] drm/msm/rd: Fix FIFO-full deadlock
-Date: Sat, 10 Sep 2022 17:18:52 -0400
-Message-Id: <20220910211901.70760-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 1/8] drm/msm/rd: Fix FIFO-full deadlock
+Date: Sat, 10 Sep 2022 17:19:14 -0400
+Message-Id: <20220910211921.70891-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 X-stable: review
@@ -78,10 +77,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
-index c7832a951039f..a6b024b06b363 100644
+index d4cc5ceb22d01..bb65aab49c214 100644
 --- a/drivers/gpu/drm/msm/msm_rd.c
 +++ b/drivers/gpu/drm/msm/msm_rd.c
-@@ -191,6 +191,9 @@ static int rd_open(struct inode *inode, struct file *file)
+@@ -199,6 +199,9 @@ static int rd_open(struct inode *inode, struct file *file)
  	file->private_data = rd;
  	rd->open = true;
  
