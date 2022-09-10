@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432075B4925
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 23:17:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 531365B4927
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 23:17:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9113810E2CE;
-	Sat, 10 Sep 2022 21:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAC5510E2D2;
+	Sat, 10 Sep 2022 21:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 730A410E2CD;
- Sat, 10 Sep 2022 21:17:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 607CB10E2D0;
+ Sat, 10 Sep 2022 21:17:30 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D2DAB60EC3;
- Sat, 10 Sep 2022 21:17:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F6FDC4347C;
- Sat, 10 Sep 2022 21:17:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CC06F60DD4;
+ Sat, 10 Sep 2022 21:17:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84386C433D7;
+ Sat, 10 Sep 2022 21:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662844642;
- bh=lKWIFsFMln7pe1vmo5/zv2VQOb0rZrQ3m5h6WbdOT+o=;
+ s=k20201202; t=1662844649;
+ bh=O8LyJ2dh77oOAtphyWd2GJpRCqwx+s/ZIAoEibIkxp4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Pu4hU4ANPeTOXsyhoUFVfe075qHTWhXf+GVa94v7pxjDv5OmXTkv5Phn0zqJHL51D
- oL0kDU0jkpSdHzXUp5srfOc074QKYVi7n6jyrVlFPzpuMoNOezmO/VyYnmE//j9y8S
- En3/AQ1d+HPqYJ0cXt7RrxhdoXECjTRfayAJqYT9eL3CoxK1hg0HZoMu6HADdiBnAE
- 0VIWEcZIkiuNPwYUwntsuHvK0r8ac18laDu/YO+rmPzKiU/Pt6oUodHwaJWD+E1Egf
- zAKEZZ1q7aXws/NC+SfDnmfsG+67hE4/iw6RnhniNDCREsSxafbqLm5UHhrAuiFgF7
- /ApLPWZWsLUyw==
+ b=BaxxWCO22RKZL52Q6OLitw866MMydMWtq6yDkIjP0EB1a+6/4KiY9+jCCafYebFLS
+ BuULkneZjdZSvVyEABuCF1hLafldFbUH9aOkyc32/aTrbeGzsQnxPfNwPmqn2efNCM
+ AvnGe5LnWjbzVgQhuAdeU3GPO826lFl6oEPVSgWfDStu0MVXzqBLFDivCxMyn8GWdr
+ 4quZYAqzhGC/G2J3DWj1m04FzdgVa7nwik9opb5fuiJ4U3vJYhSd9TLnuojVPgtmFX
+ aRWIb9rfjdrKzj0Rg7gNlYWmhX6qJBxQWRTg9GGPeR6vuM4Trt0IR0YjwPCsLW5INx
+ 6eNXY696zmJDg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 25/38] drm/amd/pm: use vbios carried pptable for
- all SMU13.0.7 SKUs
-Date: Sat, 10 Sep 2022 17:16:10 -0400
-Message-Id: <20220910211623.69825-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 28/38] drm/amd/amdgpu: skip ucode loading if
+ ucode_size == 0
+Date: Sat, 10 Sep 2022 17:16:13 -0400
+Message-Id: <20220910211623.69825-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220910211623.69825-1-sashal@kernel.org>
 References: <20220910211623.69825-1-sashal@kernel.org>
@@ -55,86 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jack.Gui@amd.com, KevinYang.Wang@amd.com,
- airlied@linux.ie, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+Cc: Sasha Levin <sashal@kernel.org>, tao.zhou1@amd.com,
+ Chengming Gui <Jack.Gui@amd.com>, guchun.chen@amd.com, airlied@linux.ie,
+ Bokun.Zhang@amd.com, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Evan Quan <evan.quan@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
- christian.koenig@amd.com, Hawking.Zhang@amd.com
+ Likun.Gao@amd.com, candice.li@amd.com, john.clements@amd.com,
+ christian.koenig@amd.com, Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Evan Quan <evan.quan@amd.com>
+From: Chengming Gui <Jack.Gui@amd.com>
 
-[ Upstream commit b023053592646b1da9477b0b598f2cdd5d3f89d8 ]
+[ Upstream commit 39c84b8e929dbd4f63be7e04bf1a2bcd92b44177 ]
 
-For those SMU13.0.7 unsecure SKUs, the vbios carried pptable is ready to go.
-Use that one instead of hardcoded softpptable.
+Restrict the ucode loading check to avoid frontdoor loading error.
 
-Signed-off-by: Evan Quan <evan.quan@amd.com>
-Reviewed-by: Kenneth Feng <kenneth.feng@amd.com>
+Signed-off-by: Chengming Gui <Jack.Gui@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  | 35 ++++++++++++-------
- 1 file changed, 22 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-index 4e1861fb2c6a4..ef811ba1c5a7d 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-@@ -382,11 +382,27 @@ static int smu_v13_0_7_append_powerplay_table(struct smu_context *smu)
- 	return 0;
- }
- 
-+static int smu_v13_0_7_get_pptable_from_pmfw(struct smu_context *smu,
-+					     void **table,
-+					     uint32_t *size)
-+{
-+	struct smu_table_context *smu_table = &smu->smu_table;
-+	void *combo_pptable = smu_table->combo_pptable;
-+	int ret = 0;
-+
-+	ret = smu_cmn_get_combo_pptable(smu);
-+	if (ret)
-+		return ret;
-+
-+	*table = combo_pptable;
-+	*size = sizeof(struct smu_13_0_7_powerplay_table);
-+
-+	return 0;
-+}
- 
- static int smu_v13_0_7_setup_pptable(struct smu_context *smu)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index e9411c28d88ba..c50f0d336e158 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -2372,7 +2372,7 @@ static int psp_load_smu_fw(struct psp_context *psp)
+ static bool fw_load_skip_check(struct psp_context *psp,
+ 			       struct amdgpu_firmware_info *ucode)
  {
- 	struct smu_table_context *smu_table = &smu->smu_table;
--	void *combo_pptable = smu_table->combo_pptable;
- 	struct amdgpu_device *adev = smu->adev;
- 	int ret = 0;
+-	if (!ucode->fw)
++	if (!ucode->fw || !ucode->ucode_size)
+ 		return true;
  
-@@ -395,18 +411,11 @@ static int smu_v13_0_7_setup_pptable(struct smu_context *smu)
- 	 * be used directly by driver. To get the raw pptable, we need to
- 	 * rely on the combo pptable(and its revelant SMU message).
- 	 */
--	if (adev->scpm_enabled) {
--		ret = smu_cmn_get_combo_pptable(smu);
--		if (ret)
--			return ret;
--
--		smu->smu_table.power_play_table = combo_pptable;
--		smu->smu_table.power_play_table_size = sizeof(struct smu_13_0_7_powerplay_table);
--	} else {
--		ret = smu_v13_0_setup_pptable(smu);
--		if (ret)
--			return ret;
--	}
-+	ret = smu_v13_0_7_get_pptable_from_pmfw(smu,
-+						&smu_table->power_play_table,
-+						&smu_table->power_play_table_size);
-+	if (ret)
-+		return ret;
- 
- 	ret = smu_v13_0_7_store_powerplay_table(smu);
- 	if (ret)
+ 	if (ucode->ucode_id == AMDGPU_UCODE_ID_SMC &&
 -- 
 2.35.1
 
