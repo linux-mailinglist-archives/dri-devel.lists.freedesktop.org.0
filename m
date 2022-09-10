@@ -2,85 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3AF5B4862
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 21:50:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FB75B48CB
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 22:30:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A97C010E294;
-	Sat, 10 Sep 2022 19:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A13310E2C3;
+	Sat, 10 Sep 2022 20:30:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E2310E294
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 19:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662839431;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q3TVEUmu90c/ThSjVVWzaHbJBH7HKgmorVzGvfwRjE8=;
- b=UyLCDaa+xbZDCLEHD/QK/MYsgLR1eXKCVUYYDP9vmgPlM4Mc2+bACPsVRm+wKQKoTzKL2l
- eC+6gGmcQpct8r7YVNQHflTrqX4ajasRXmHNcdR250EelVPSRL0bB6tQUaQ9uWgEaSa4ba
- f3w5b8nAUqDcgqQvdOO24odn4Zr8M8U=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-564-qAAhV02EO7SziYyKhgFqiA-1; Sat, 10 Sep 2022 15:50:30 -0400
-X-MC-Unique: qAAhV02EO7SziYyKhgFqiA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- xc12-20020a170907074c00b007416699ea14so2132454ejb.19
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 12:50:30 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B55B10E2C1
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 20:30:12 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id x1so4912855plv.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 13:30:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=schmorgal.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=F+PwtkdeSluSTY9EZaCKgnM6E4x9lodGD0vhUiYvWOg=;
+ b=Z6AqW7wqSkqOlBMi6WVHqpaMqrXi19V7ENPXpbjw4m/wlc9SGA32OSpaOFMP1h1e7o
+ J341vsdOgOBnDdpHXxMKAYxL+HwP/rAPkZivTjNcj7zzeP585ESqT4RdONQBeQCKScxB
+ CLDfWOq6oEi/Ekhgf33vBPDmWfPaHCmZpl5tU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=q3TVEUmu90c/ThSjVVWzaHbJBH7HKgmorVzGvfwRjE8=;
- b=RMXCGP6ZT8DfD5KLlzbDxWpgptq4rM91FQLbHI7exFYFfxHy3QnXkCmp3ozI6At8K6
- vl1SK89JpjLeCMpwN+KSGZ8jeFA2+mujp5kIj6+5brmuo9I/1MYHbfFJk3z628dV07iB
- 6DPyuS90AIJyvPF4TJPnlccHRT4Au8gh/sB0HjhuOH/v7/ybONf8aW/aJ8QOikZjCHpS
- P1eanwP0KkRAh3s1C7myw1lNaPkcZTulCAeD3vef00nVZ86KtOffwJfQVLUcxk8luVfo
- I8Wj71DiT2Ko7rlpcHreAK7weKcNd57iDUzqLVCMbIgjH3v58SCf5r/oYyKSbyHoQA0D
- dEnA==
-X-Gm-Message-State: ACgBeo2YrFsgayne0ruK/TLft4UFljmVUI/IYQ/LQO/pyAjLacySPtv1
- rJljepYrxewlki7bq6jQgc/0OeIVfTyDCQKeLzdfW4eSvm9gz2awNsoXVirc4SbvUdda7lQGErh
- 8UzmQ8zm0YJt+ljFPL5TkNWQKCsu2
-X-Received: by 2002:a17:907:a424:b0:774:7eb9:9274 with SMTP id
- sg36-20020a170907a42400b007747eb99274mr9635970ejc.301.1662839428939; 
- Sat, 10 Sep 2022 12:50:28 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6AzNcpJNtfulcwdXuEU6XQeCz0jx8CGxvU3Tk5sCMEbNtu+KZBvxeAIVNbmRtCMTO653znZA==
-X-Received: by 2002:a17:907:a424:b0:774:7eb9:9274 with SMTP id
- sg36-20020a170907a42400b007747eb99274mr9635965ejc.301.1662839428732; 
- Sat, 10 Sep 2022 12:50:28 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=F+PwtkdeSluSTY9EZaCKgnM6E4x9lodGD0vhUiYvWOg=;
+ b=6q11cwNmIlwTguO/5zwFDbW4Ix71ntIxFmxJQAsSB2+iuQAJ35S5CFlBkOUuJQCCIf
+ RRDN49XG4nwJlnXB2RCr/LZoXwdZ/dqk9F0HGeB4eq+z3kLw7v54GVbhbDZhmO5eB169
+ xkl5mUprOIYbOVX81iiBHk7xBdmssGlbwEral8ScyDgUsY2YuvqQrhCIIO9qoadkuhvx
+ 7VLZ1AXOb6V+E+rbHurip96YCcMlz9V3uCvdpXfFpKrzvNt+qbb8U30cfDVZxD0xKjge
+ H7dZsqVDAttQi6pcUmP7YNWVplRJRjVCFTro72xPWN8J0pBt6k9pFVP3W4t5zTDZrC25
+ Y4+g==
+X-Gm-Message-State: ACgBeo0hiHzj8X+VnZyavd7nZ8+/Rex5yLuUSmR+QqC6Gjywy2CN3Tls
+ BJjzewZcoDfVIqbiK0fimO9G7g==
+X-Google-Smtp-Source: AA6agR7zrQYsijlAsLLZyZnetCbm94pLqeQQOGa+awwJdJX8RgYEXxTqY2mflqcea32CUd4hzWPQqA==
+X-Received: by 2002:a17:902:eb82:b0:178:2166:fe75 with SMTP id
+ q2-20020a170902eb8200b001782166fe75mr2747156plg.31.1662841811459; 
+ Sat, 10 Sep 2022 13:30:11 -0700 (PDT)
+Received: from localhost.localdomain ([50.45.132.124])
  by smtp.gmail.com with ESMTPSA id
- a11-20020a05640213cb00b00447bd64d4f6sm2683802edx.73.2022.09.10.12.50.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 10 Sep 2022 12:50:28 -0700 (PDT)
-Message-ID: <1c320c35-fc93-f95e-5615-5a08412f2c5a@redhat.com>
-Date: Sat, 10 Sep 2022 21:50:27 +0200
+ x2-20020a655382000000b00412a708f38asm2641313pgq.35.2022.09.10.13.30.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 10 Sep 2022 13:30:10 -0700 (PDT)
+From: Doug Brown <doug@schmorgal.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3 0/2] drm/etnaviv: GC300 fixes
+Date: Sat, 10 Sep 2022 13:29:37 -0700
+Message-Id: <20220910202939.31010-1-doug@schmorgal.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 3/3] drm/gma500: Fix (vblank) IRQs not working after
- suspend/resume
-From: Hans de Goede <hdegoede@redhat.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-References: <20220906203852.527663-1-hdegoede@redhat.com>
- <20220906203852.527663-4-hdegoede@redhat.com>
- <CAMeQTsYwrtAwb2_Lj2RyrWCov88Nq=-_tScD5dXC548Fog3X0w@mail.gmail.com>
- <69fc33c6-b6b0-ba98-d2c6-0fb35df63933@redhat.com>
- <CAMeQTsae12K7WzCBQSVoMk5+CO1H6tO=r0iAfsqNo96ekp4SmA@mail.gmail.com>
- <07347903-f8b2-d2ad-4c86-651243a2090a@redhat.com>
-In-Reply-To: <07347903-f8b2-d2ad-4c86-651243a2090a@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,43 +68,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Doug Brown <doug@schmorgal.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Patrik,
+This series contains a few special cases for supporting the GC300
+properly. These were found in the drivers in the vivante_kernel_drivers
+repository. These changes were tested on a PXA168 with GC300 revision
+0x2201 (date 0x20080814, time 0x12051100), which already has an existing
+special case in the driver to modify the revision to 0x1051.
 
-On 9/9/22 10:45, Hans de Goede wrote:
-> Hi,
-> 
-> On 9/9/22 09:34, Patrik Jakobsson wrote:
->> On Thu, Sep 8, 2022 at 3:39 PM Hans de Goede
->> <hdegoede@redhat.com> wrote:
->>>
->>> Hi,
->>>
->>> On 9/8/22 15:26, Patrik Jakobsson wrote:
+Changes since v2:
+- Dump canonical address in etnaviv_core_dump_registers
+- Misc fixes from review by Lucas
 
-<snip>
+Changes from v1->v2:
+- Move power register address remapping to new gpu_read_power and
+  gpu_write_power accessors instead of modifying gpu_read and gpu_write.
 
->>>> On Poulsbo I can see
->>>> interrupts not getting handled during suspend/resume even with this
->>>> patch applied.
->>>
->>> "during" ?  I guess you mean _after_ a suspend/resume ?
->>
->> Yes. I get: irq 16: nobody cared (try booting with the "irqpoll" option).
->> But perhaps the system is just too slow to respond.
+Doug Brown (2):
+  drm/etnaviv: add missing quirks for GC300
+  drm/etnaviv: fix power register offset on GC300
 
-So I've just tested on a Sony Vaio VPCX11S1E (Atom Z540 with PSB graphics)
-and with my entire patch-set (did not test without) suspend/resume works
-fine there without any "irq xx: nobody cared" messages.
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c |  7 +++++-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 31 ++++++++++++++++----------
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 21 +++++++++++++++++
+ 3 files changed, 46 insertions(+), 13 deletions(-)
 
-Note that on the Vaio VPCX11S1E the gma500 is using irq 18 rather then
-16 and that irq is not shared with anything. So I wonder if this is
-related to the irq being shared?
-
-Regards,
-
-Hans
+-- 
+2.25.1
 
