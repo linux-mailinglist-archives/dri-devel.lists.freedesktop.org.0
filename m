@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C38A5B477A
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 18:26:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D91CC5B47D7
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Sep 2022 20:06:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36CF6886A4;
-	Sat, 10 Sep 2022 16:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5E810E22C;
+	Sat, 10 Sep 2022 18:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E408510E21E
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 16:25:36 +0000 (UTC)
-X-UUID: ca9cf9f9738c47ec94b8d507d18e2385-20220911
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=zNoBL5APFQBCkGYN+lQ1f1ewIpOD2UL3PvQdNH2ExRM=; 
- b=WD2Pa0v2wCkHf2fdCrIGoa54uxCwZiJ5yC0jzGZEu30bF0A7nTwPObzVYhXfBnJpkBh+7+gipESl853hEkNwC4WyYtJLchFdDBDninTLX2/U/vauXttiZQUN6YQYiEdRGcDlkCqv4FoZzC+/u+dia5J3Eq0J/fUnOsGoInYzZsk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:6690415a-badd-4a7d-8b06-26d160d7b100, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release
- _Ham,ACTION:release,TS:51
-X-CID-INFO: VERSION:1.1.10, REQID:6690415a-badd-4a7d-8b06-26d160d7b100, OB:0,
- LOB
- :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release_H
- am,ACTION:release,TS:51
-X-CID-META: VersionHash:84eae18, CLOUDID:989ff2f5-6e85-48d9-afd8-0504bbfe04cb,
- C
- OID:6a1d2a5de7ac,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: ca9cf9f9738c47ec94b8d507d18e2385-20220911
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 754453199; Sun, 11 Sep 2022 00:25:29 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Sun, 11 Sep 2022 00:25:27 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Sun, 11 Sep 2022 00:25:27 +0800
-Message-ID: <17ceb3122bb6aa5c67a0f952fd506007e8bf1536.camel@mediatek.com>
-Subject: Re: [PATCH v2 2/3] drm/mediatek: Add gamma lut support for mt8195
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, zheng-yan.chen <zheng-yan.chen@mediatek.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
- <matthias.bgg@gmail.com>
-Date: Sun, 11 Sep 2022 00:25:27 +0800
-In-Reply-To: <fc7ebb459d0828fe3f26304b9935fb8910a1b965.camel@mediatek.com>
-References: <20220830063929.13390-1-zheng-yan.chen@mediatek.com>
- <20220830063929.13390-3-zheng-yan.chen@mediatek.com>
- <fc7ebb459d0828fe3f26304b9935fb8910a1b965.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A45F310E22C
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Sep 2022 18:06:08 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E766622839;
+ Sat, 10 Sep 2022 18:06:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662833166; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jtpAflz75tk/7O+KpeoQcj1GmdcjzpJmIWDZSVDk+Ow=;
+ b=koswIchFyH3Wehtp4xn+fsSP6FvOwrhSHoIXOBQLaKpmaQ96KSAmhPqydFMkX6l8DvGP0X
+ dmUy1Rgjp9VI9dWCrlH7FKgVdhvYOOYjC7Z5Ivesyu46BFBgnRJeahlsvJdUa49nYHwpps
+ ll35F2gTdi4omOUDnrZEFffGPRLLthk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662833166;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jtpAflz75tk/7O+KpeoQcj1GmdcjzpJmIWDZSVDk+Ow=;
+ b=36xh3YBWz3RWKuhjCp8Y2tQ2aY0y2B4rLrJ6Iu4KJ2/Jg0sB6LhjiGRYV83/WjE4OQ2KC7
+ 8cRs+Xq0RrfAPsCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE58613441;
+ Sat, 10 Sep 2022 18:06:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id oqm6KQ7SHGMzBQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sat, 10 Sep 2022 18:06:06 +0000
+Message-ID: <88fab56a-f6e5-bae0-5ed7-1e01c070d136@suse.de>
+Date: Sat, 10 Sep 2022 20:06:05 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] drm/hyperv: Add ratelimit on error message
+To: Saurabh Sengar <ssengar@linux.microsoft.com>, ssengar@microsoft.com,
+ drawat.floss@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mikelley@microsoft.com
+References: <1662736193-31379-1-git-send-email-ssengar@linux.microsoft.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <1662736193-31379-1-git-send-email-ssengar@linux.microsoft.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------iOtIe2r2YKIBO2x8OPRRgA6D"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,244 +72,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-08-31 at 10:56 +0800, CK Hu wrote:
-> Hi, Zheng-yan:
-> 
-> On Tue, 2022-08-30 at 14:39 +0800, zheng-yan.chen wrote:
-> > Since the previous gamma_set_common() function is designed for
-> > 9bit-to-10bit conversion, which is not feasible for the
-> > 10bit-to-12bit conversion in mt8195.
-> > 
-> > Update the function to fit the need of mt8195.
-> > 
-> > Fixes: 7266e90a51a3 ("drm/mediatek: Add mediatek-drm of vdosys0
-> > support for mt8195")
-> > Signed-off-by: zheng-yan.chen <zheng-yan.chen@mediatek.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_disp_aal.c     |   2 +-
-> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   3 +-
-> >  drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 102 +++++++++++++++-
-> > --
-> > --
-> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |   5 +-
-> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   1 -
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   1 +
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   2 +
-> >  8 files changed, 85 insertions(+), 32 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > index 0f9d7efb61d7..f563eee3c330 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > @@ -66,7 +66,7 @@ void mtk_aal_gamma_set(struct device *dev, struct
-> > drm_crtc_state *state)
-> >  	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
-> >  
-> >  	if (aal->data && aal->data->has_gamma)
-> > -		mtk_gamma_set_common(aal->regs, state, false);
-> > +		mtk_gamma_set_common(aal->regs, state, dev);
-> >  }
-> >  
-> >  void mtk_aal_start(struct device *dev)
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > index 33e61a136bbc..c1269fce9a66 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > @@ -51,8 +51,9 @@ void mtk_gamma_clk_disable(struct device *dev);
-> >  void mtk_gamma_config(struct device *dev, unsigned int w,
-> >  		      unsigned int h, unsigned int vrefresh,
-> >  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-> > +unsigned int mtk_gamma_size(struct device *dev);
-> >  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
-> > *state);
-> > -void mtk_gamma_set_common(void __iomem *regs, struct
-> > drm_crtc_state
-> > *state, bool lut_diff);
-> > +void mtk_gamma_set_common(void __iomem *regs, struct
-> > drm_crtc_state
-> > *state, struct device *dev);
-> >  void mtk_gamma_start(struct device *dev);
-> >  void mtk_gamma_stop(struct device *dev);
-> >  
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > index bbd558a036ec..0409e15fceb3 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > @@ -18,18 +18,22 @@
-> >  #define DISP_GAMMA_EN				0x0000
-> >  #define GAMMA_EN					BIT(0)
-> >  #define DISP_GAMMA_CFG				0x0020
-> > +#define RELAY_MODE					BIT(0)
-> >  #define GAMMA_LUT_EN					BIT(1)
-> >  #define GAMMA_DITHERING					BIT(2)
-> >  #define DISP_GAMMA_SIZE				0x0030
-> > +#define DISP_GAMMA_BANK				0x0100
-> >  #define DISP_GAMMA_LUT				0x0700
-> > -
-> > -#define LUT_10BIT_MASK				0x03ff
-> > -
-> > +#define DISP_GAMMA_LUT1				0x0b00
-> > +#define TABLE_9BIT_SIZE				512
-> > +#define TABLE_10BIT_SIZE			1024
-> > +#define BANK_SIZE				256
-> >  struct mtk_disp_gamma_data {
-> >  	bool has_dither;
-> >  	bool lut_diff;
-> > +	unsigned int lut_size;
-> > +	unsigned int lut_bits;
-> >  };
-> > -
-> >  /*
-> >   * struct mtk_disp_gamma - DISP_GAMMA driver structure
-> >   */
-> > @@ -54,40 +58,75 @@ void mtk_gamma_clk_disable(struct device *dev)
-> >  	clk_disable_unprepare(gamma->clk);
-> >  }
-> >  
-> > -void mtk_gamma_set_common(void __iomem *regs, struct
-> > drm_crtc_state
-> > *state, bool lut_diff)
-> > +void mtk_gamma_set_common(void __iomem *regs, struct
-> > drm_crtc_state
-> > *state, struct device *dev)
-> >  {
-> > -	unsigned int i, reg;
-> > -	struct drm_color_lut *lut;
-> > +	unsigned int i, reg, idx;
-> >  	void __iomem *lut_base;
-> > -	u32 word;
-> > -	u32 diff[3] = {0};
-> > +	void __iomem *lut1_base;
-> > +	u32 word, word1;
-> > +	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-> >  
-> >  	if (state->gamma_lut) {
-> > +		u32 table_size;
-> > +		u32 mask;
-> > +		u32 lut_bits;
-> > +		u32 shift_bits;
-> > +		bool lut_diff;
-> > +		struct drm_color_lut color, color_rec;
-> > +		struct drm_color_lut *lut = (struct drm_color_lut
-> > *)state->gamma_lut;
-> > +
-> > +		table_size = gamma->data->lut_size;
-> > +		lut_bits = gamma->data->lut_bits;
-> > +		lut_diff = gamma->data->lut_diff;
-> > +		shift_bits = (lut_bits == 12) ? 4 : 6;
-> > +		mask = GENMASK(lut_bits - 1, 0);
-> >  		reg = readl(regs + DISP_GAMMA_CFG);
-> > +		reg = reg & ~RELAY_MODE;
-> >  		reg = reg | GAMMA_LUT_EN;
-> >  		writel(reg, regs + DISP_GAMMA_CFG);
-> >  		lut_base = regs + DISP_GAMMA_LUT;
-> > -		lut = (struct drm_color_lut *)state->gamma_lut->data;
-> > -		for (i = 0; i < MTK_LUT_SIZE; i++) {
-> > -
-> > -			if (!lut_diff || (i % 2 == 0)) {
-> > -				word = (((lut[i].red >> 6) &
-> > LUT_10BIT_MASK) << 20) +
-> > -					(((lut[i].green >> 6) &
-> > LUT_10BIT_MASK) << 10) +
-> > -					((lut[i].blue >> 6) &
-> > LUT_10BIT_MASK);
-> > +		lut1_base = regs + DISP_GAMMA_LUT1;
-> > +		for (i = 0; i < table_size; i++) {
-> > +			color.red = (lut[i].red >> shift_bits) & mask;
-> > +			color.green = (lut[i].green >> shift_bits) &
-> > mask;
-> > +			color.blue = (lut[i].blue >> shift_bits) &
-> > mask;
-> > +			if (lut_diff && (i % 2)) {
-> > +				word = (lut_bits == 12) ?
-> > +						      (((color.green -
-> > color_rec.green) << 12) +
-> > +						      (color.red -
-> > color_rec.red))
-> > +							:
-> > +						      (((color.red -
-> > color_rec.red) << 20) +
-> > +						      ((color.green -
-> > color_rec.green) << 10) +
-> > +						      (color.blue -
-> > color_rec.blue));
-> > +				word1 = (color.blue - color_rec.blue);
-> >  			} else {
-> > -				diff[0] = (lut[i].red >> 6) - (lut[i -
-> > 1].red >> 6);
-> > -				diff[1] = (lut[i].green >> 6) - (lut[i
-> > - 1].green >> 6);
-> > -				diff[2] = (lut[i].blue >> 6) - (lut[i -
-> > 1].blue >> 6);
-> > -
-> > -				word = ((diff[0] & LUT_10BIT_MASK) <<
-> > 20) +
-> > -					((diff[1] & LUT_10BIT_MASK) <<
-> > 10) +
-> > -					(diff[2] & LUT_10BIT_MASK);
-> > +				word = (lut_bits == 12) ?
-> > +						      ((color.green <<
-> > 12) + color.red)
-> > +							:
-> > +						      ((color.red <<
-> > 20) +
-> > +						      (color.green <<
-> > 10) + color.blue);
-> > +				word1 = color.blue;
-> > +				color_rec = color;
-> >  			}
-> > -			writel(word, (lut_base + i * 4));
-> > +			idx = (lut_bits == 12) ? (i % BANK_SIZE) : i;
-> > +			writel(word, (lut_base + idx * 4));
-> > +			if (!(i % BANK_SIZE) && lut_bits == 12)
-> > +				writel((i / BANK_SIZE), regs +
-> > DISP_GAMMA_BANK);
-> 
-> This patch looks a little messy and mt8195 gamma introduce three
-> different things. So I would like to separate this patch to 4
-> patches.
-> 
-> 1. Add multiple bank support. For other SoC, bank size is 0 which
-> means
-> no bank support.
-> 2. Support different lut_size: For other SoC, lut_size = 512
-> 3. Support different lut_bits: For other SoC, lut_bits = 10
-> 4. Add MT8195 gamma support, bank_size = 256, lut_size = 1024,
-> lut_bits
-> = 12
-> 
-> In this view point, I think the last patch is not a bug-fix but a new
-> feature, so just drop the Fixes tag.
-> 
-> Regards,
-> CK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------iOtIe2r2YKIBO2x8OPRRgA6D
+Content-Type: multipart/mixed; boundary="------------bGlCSrH7Zav1mUDFUYFaeVpp";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Saurabh Sengar <ssengar@linux.microsoft.com>, ssengar@microsoft.com,
+ drawat.floss@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mikelley@microsoft.com
+Message-ID: <88fab56a-f6e5-bae0-5ed7-1e01c070d136@suse.de>
+Subject: Re: [PATCH] drm/hyperv: Add ratelimit on error message
+References: <1662736193-31379-1-git-send-email-ssengar@linux.microsoft.com>
+In-Reply-To: <1662736193-31379-1-git-send-email-ssengar@linux.microsoft.com>
 
+--------------bGlCSrH7Zav1mUDFUYFaeVpp
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Hi CK,
+SGkNCg0KQW0gMDkuMDkuMjIgdW0gMTc6MDkgc2NocmllYiBTYXVyYWJoIFNlbmdhcjoNCj4g
+RHVlIHRvIGEgZnVsbCByaW5nIGJ1ZmZlciwgdGhlIGRyaXZlciBtYXkgYmUgdW5hYmxlIHRv
+IHNlbmQgdXBkYXRlcyB0bw0KPiB0aGUgSHlwZXItViBob3N0LiAgQnV0IG91dHB1dGluZyB0
+aGUgZXJyb3IgbWVzc2FnZSBjYW4gbWFrZSB0aGUgcHJvYmxlbQ0KPiB3b3JzZSBiZWNhdXNl
+IGNvbnNvbGUgb3V0cHV0IGlzIGFsc28gdHlwaWNhbGx5IHdyaXR0ZW4gdG8gdGhlIGZyYW1l
+DQo+IGJ1ZmZlci4NCj4gUmF0ZSBsaW1pdGluZyB0aGUgZXJyb3IgbWVzc2FnZSwgYWxzbyBv
+dXRwdXQgdGhlIGVycm9yIGNvZGUgZm9yIGFkZGl0aW9uYWwNCj4gZGlhZ25vc2FiaWxpdHku
+DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBTYXVyYWJoIFNlbmdhciA8c3NlbmdhckBsaW51eC5t
+aWNyb3NvZnQuY29tPg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaHlwZXJ2L2h5cGVy
+dl9kcm1fcHJvdG8uYyB8IDIgKy0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+aHlwZXJ2L2h5cGVydl9kcm1fcHJvdG8uYyBiL2RyaXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlw
+ZXJ2X2RybV9wcm90by5jDQo+IGluZGV4IDc2YTE4MmEuLjAxM2E3ODIgMTAwNjQ0DQo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9wcm90by5jDQo+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9wcm90by5jDQo+IEBAIC0yMDgs
+NyArMjA4LDcgQEAgc3RhdGljIGlubGluZSBpbnQgaHlwZXJ2X3NlbmRwYWNrZXQoc3RydWN0
+IGh2X2RldmljZSAqaGRldiwgc3RydWN0IHN5bnRodmlkX21zZw0KPiAgIAkJCSAgICAgICBW
+TV9QS1RfREFUQV9JTkJBTkQsIDApOw0KPiAgIA0KPiAgIAlpZiAocmV0KQ0KPiAtCQlkcm1f
+ZXJyKCZodi0+ZGV2LCAiVW5hYmxlIHRvIHNlbmQgcGFja2V0IHZpYSB2bWJ1c1xuIik7DQo+
+ICsJCWRybV9lcnJfcmF0ZWxpbWl0ZWQoJmh2LT5kZXYsICJVbmFibGUgdG8gc2VuZCBwYWNr
+ZXQgdmlhIHZtYnVzOyBlcnJvciAlZFxuIiwgcmV0KTsNCg0KSSBiZXR0ZXIgb3B0aW9uIHdv
+dWxkIHByb2JhYmx5IGJlIGRybV9lcnJfb25jZSgpLiBUaGVuIHlvdSdkIGdldCB0aGUgDQpm
+aXJzdCBlcnJvciBtZXNzYWdlIGFuZCBza2lwIGFsbCBvdGhlcnMuDQoNCkJlc3QgcmVnYXJk
+cw0KVGhvbWFzDQoNCj4gICANCj4gICAJcmV0dXJuIHJldDsNCj4gICB9DQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
+ZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8
+aHJlcjogSXZvIFRvdGV2DQo=
 
-Thanks for the reviews.
+--------------bGlCSrH7Zav1mUDFUYFaeVpp--
 
-I'll help Zheng-yan finish this series.
+--------------iOtIe2r2YKIBO2x8OPRRgA6D
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I'll separate this one patch to the patches below:
-drm/mediatek: Adjust mtk_drm_gamma_set_common parameters
-drm/mediatek: Add gamma support different lut_size for other SoC
-drm/mediatek: Add gamma support different lut_bits for other SoC
-drm/mediatek: Add gamma support different bank_size for other SoC
-drm/mediatek: Add gamma lut support for mt8195
-drm/mediatek: Add clear RELAY_MODE bit to set gamma
+-----BEGIN PGP SIGNATURE-----
 
-Regrads,
-Jason-JH.Lin
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMc0g0FAwAAAAAACgkQlh/E3EQov+CE
+ww/+I+eQKR3NQNWcRRvlRQHTqbuedg7X/VJu/JG4zK2QtUxt3t52LnEPw5Xmz4YNsK1GQHV46liI
+U4XrJ85doUxKsTSf3k06C39XQh+trdum4Re7IEi2feGnmtSRyvsCzTrHPBo4zD+3yCTRrmjYrOE6
+GQPhxwDPx5Fje/NO1Rx93m3+sv1C3LPGCOnAzcwF+Uy4O+Ofk4a6XfurWDUFNTsdE8NkRFPZH9WU
+5KwjO411+F8ASiBORSYevjPcJQbF3j44NlpUK9UZi817O5HCJGwH9v8wVoQpq1PWvJ1jWjwNUVGn
+2IIHcpngD0rjF8Lkkg7d1L8q3n/fjEEkz1Ixe5bO9QqFrKdmDkdsaufbNjKoQI1oEkUJcHscVCXy
+gH09MqmUR0/jQKvDqgke/FNiNzfN8pLo0mpA0gkizcxMWi2mqMHvZkxeEoo6t2chXgY/qudxMcez
+EJd6SLdNleV+LuFL98clCS+yeXMhw+gCKhNxPZcVWGt+aAwuC1L6eQwUpOR7lsNn6cCdwiM6UBUV
+77PMME6UTIhQHu4YgHTq/S4mDQtBthRAjPq4AKHtKbThmTJqZFqlHOBpWnX+AgDYV/q7kLDEMl1O
+e+1fWuuOPtubNDqtWmmfhAHTMIWN/iU2POixlZQNdN4Cg52ey3i0aJ2GRK3h4CtydZqA32i8dnre
+Bf8=
+=gsbw
+-----END PGP SIGNATURE-----
 
+--------------iOtIe2r2YKIBO2x8OPRRgA6D--
