@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585875B4E8B
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 13:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA1A5B4EC8
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 14:30:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3378110E3F6;
-	Sun, 11 Sep 2022 11:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAE7610E426;
+	Sun, 11 Sep 2022 12:30:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
- (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2BB310E3F6
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 11:48:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=u9HqiKYeIw1sTw+g63lyAb7DDIyYJ7ur0KmcSsCYPcs=;
- b=CrWmF7prrI1ZMJk5UH83lQ8wpO/ucOZMUmDURjzvSv5+jwNECwA3BOwW/fG+HUypaOw8TyR6Kbvxp
- /ewMVOCW6u103x9KN6hu85EolsUbh/p/NHTMFOSCa+KknZR4AosK7sYNbtIxkJ6pDuGC49HMI0p9yX
- CohbDPEf6rW3i9f+Lm6YXWJv9e534Rh9U+yeqK5di6WsL884YM+5rUpJ0T8l7TLNfkyMxQIGnpQTe7
- Rau1xLDwYq9Z1sRq0WBjMbNTmXfO17GiXJ1BLza5fHqHQw2llihdDKaoYa7hFgibyxGDmXieYT9+p4
- gs05mhgOkgUMa357ZpsBilqgZHlyNTA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=u9HqiKYeIw1sTw+g63lyAb7DDIyYJ7ur0KmcSsCYPcs=;
- b=hJXUE6WHvSXkCixe45V82Sc1zTbEDt70GIK8rXZczK3KAi8Thx8TR4rDVySCthx+oCx4dJ4mHaVnx
- 754T5laCw==
-X-HalOne-Cookie: 1f25bebbbcbb3df136a6458deee7b1018452c1f4
-X-HalOne-ID: 9f13178d-31c7-11ed-a6d4-d0431ea8a283
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 9f13178d-31c7-11ed-a6d4-d0431ea8a283;
- Sun, 11 Sep 2022 11:48:16 +0000 (UTC)
-Date: Sun, 11 Sep 2022 13:48:15 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 1/4] drm/gma500: Refactor backlight support
-Message-ID: <Yx3K/6aF/twnuaHV@ravnborg.org>
-References: <20220910205101.1355950-1-hdegoede@redhat.com>
- <20220910205101.1355950-2-hdegoede@redhat.com>
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA13C10E441
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 12:30:04 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-12b542cb1d3so6694645fac.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 05:30:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=GXvt6+VlPIhHOKITk2PzUWa0nWONYyaMAMJ7e2meRv4=;
+ b=EZEl63xbvmbPjPG63Mciy2nY6cBBuCukvf2nwy7bFE5t6cAKB3BIVny2QgCzUDc3/J
+ GGXLQ8fOQCHZxx3nuiJorYB4DIzC5UHObvp4C26qKEjFIFEkhlZBletYjbcfQFXBb7D+
+ EJFmAngJDZKB2KHGA9AR5DdyOlAVqzAySu9tPXWPvoZgv61F+bqYWKDIQOKpu6C40LT7
+ Ys+HlXc0UWQoVCeBWDwRIU6AJlyWA6O0rp6fx+cllTLzT0HntkqLzqDFGSicpqJ1kIOC
+ GRRPPElz72Mrl88k3Z6fS4MrIMaFoNRjTz/5YXBfPg66qsNRD3aE0NHojk507crMv5Zf
+ lAMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=GXvt6+VlPIhHOKITk2PzUWa0nWONYyaMAMJ7e2meRv4=;
+ b=p6y3DQ6PzE8KhIuy0SX6yUP2QwTs9lKOoFJcn5wXhG5YJPAoRY1dpQzpti4L5WcGg4
+ XSALnAprHix2YvBnwbLbEHRjK6hnCVtdIHtHx8TyJTK8IOSA6Fl2QHsKpFubuYxIL9/B
+ Y76vsa9qBzLkbNfaRoeDYeMmCE7jFkyDEk0Aazph5c68NLcdQ489IkTH5NfwvmcE8qV6
+ 54aulmOlKxMTCG5TOqasABFrmc+iGnqMSFkjXeaZziHb2TbTslHe4UrtgZ3pXY21SoMU
+ wVf66qB/CSSLMeeQQ0UNP3tp5COESd4S/94ovpnGM4WHo4WAgPBq5LKeLfIX9/M48ne2
+ EDoA==
+X-Gm-Message-State: ACgBeo00kdDdSWuyYWizuLepVfm5eHaREVfRku8hpo+LsEzzXyDV6ftZ
+ FiSVxPRAdzuENnhL15wBcrclgN492r9CQTqqsZY=
+X-Google-Smtp-Source: AA6agR4tKbPZAxhfGLE9XIxmEkvIdgiAEldIFmg/Gd0QPI979tp+VbXg7FDSSgmCioQZcs+KGrS2eed/fftgabqlH14=
+X-Received: by 2002:a05:6870:2d1:b0:125:5519:1e4e with SMTP id
+ r17-20020a05687002d100b0012555191e4emr9233932oaf.264.1662899404072; Sun, 11
+ Sep 2022 05:30:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220910205101.1355950-2-hdegoede@redhat.com>
+References: <20220910190303.682897-1-mwen@igalia.com>
+In-Reply-To: <20220910190303.682897-1-mwen@igalia.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sun, 11 Sep 2022 22:29:52 +1000
+Message-ID: <CAPM=9txFJcKivJn=k2_n=PJt646vcvBN=5m3zxXojYew1E4gaQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/vkms: fix 32bit compilation error by replacing
+ macros
+To: Melissa Wen <mwen@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,97 +65,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>, rodrigosiqueiramelo@gmail.com,
+ Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, melissa.srw@gmail.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>, igormtorrente@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
+On Sun, 11 Sept 2022 at 05:03, Melissa Wen <mwen@igalia.com> wrote:
+>
+> Replace vkms_formats macro for fixed-point operations with functions
+> from drm/drm_fixed.h to do the same job and fix 32-bit compilation
+> errors.
+>
+> v2:
+> - don't cast results to s32 (Igor)
+> - add missing drm_fixp2int conversion (Igor)
 
-just a few minor things. See comments.
-I like the diff - removes much more than it adds.
+btw I've applied this in drm-next, as otherwise I can't build my
+32-bit arm build.
 
-	Sam
-
-On Sat, Sep 10, 2022 at 10:50:58PM +0200, Hans de Goede wrote:
-> Refactor backlight support so that the gma_backlight_enable() /
-> gma_backlight_disable() / gma_backlight_set() functions used by
-> the Opregion handle will also work if no backlight_device gets
-> registered.
-> 
-> This is a preparation patch for not registering the gma500's own backlight
-> device when acpi_video should be used, since registering 2 backlight
-> devices for a single display really is undesirable.
-> 
-> Since the acpi-video interface often uses the OpRegion we need to keep
-> the OpRegion functional even when dev_priv->backlight_device is NULL.
-> 
-> As a result of this refactor the actual backlight_device_register()
-> call is moved to the shared backlight.c code and all #ifdefs related to
-> CONFIG_BACKLIGHT_CLASS_DEVICE are now also limited to backlight.c .
-> 
-> No functional changes intended.
-> 
-> This has been tested on a Packard Bell Dot SC (Intel Atom N2600, cedarview)
-> and a Sony Vaio vpc-x11s1e (Intel N540, poulsbo) laptop.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-
-> +static int gma_backlight_update_status(struct backlight_device *bd)
-> +{
-> +	struct drm_device *dev = bl_get_data(bd);
-> +	int level = bd->props.brightness;
-
-Here backlight_get_brightness(bd) should be used.
-
-
->  int gma_backlight_init(struct drm_device *dev)
->  {
-> -#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
->  	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-> +	struct backlight_properties props = {};
-> +	int ret;
-> +
->  	dev_priv->backlight_enabled = true;
-> -	return dev_priv->ops->backlight_init(dev);
-> -#else
-> -	return 0;
-> +	dev_priv->backlight_level = 100;
-> +
-> +	ret = dev_priv->ops->backlight_init(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
-> +	props.brightness = dev_priv->backlight_level;
-> +	props.max_brightness = PSB_MAX_BRIGHTNESS;
-> +	props.type = BACKLIGHT_PLATFORM;
-> +
-> +	dev_priv->backlight_device =
-> +		backlight_device_register(dev_priv->ops->backlight_name,
-> +					  dev->dev, dev,
-> +					  &gma_backlight_ops, &props);
-
-Consider using the devm_backlight_device_register() variant.
-Then you can drop gma_backlight_exit() - I think..
-
-> +	if (IS_ERR(dev_priv->backlight_device))
-> +		return PTR_ERR(dev_priv->backlight_device);
->  #endif
-> +
-> +	return 0;
->  }
->  
->  void gma_backlight_exit(struct drm_device *dev)
->  {
->  #ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
->  	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-> -	if (dev_priv->backlight_device) {
-> -		dev_priv->backlight_device->props.brightness = 0;
-> -		backlight_update_status(dev_priv->backlight_device);
-> +
-> +	if (dev_priv->backlight_device)
->  		backlight_device_unregister(dev_priv->backlight_device);
-> -	}
->  #endif
->  }
+Dave.
