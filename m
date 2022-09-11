@@ -2,57 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8056A5B4C5F
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 08:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2655B4CFA
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 11:24:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5B810E206;
-	Sun, 11 Sep 2022 06:36:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 453E110E3EE;
+	Sun, 11 Sep 2022 09:24:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B251D10EC99;
- Fri,  9 Sep 2022 15:49:34 +0000 (UTC)
-Received: from 82-65-29-218.subs.proxad.net (unknown
- [IPv6:2a01:e0a:5ef:1450:250:fcff:fe42:7bed])
- by smtp5-g21.free.fr (Postfix) with ESMTP id 0279C5FFD8;
- Fri,  9 Sep 2022 17:49:26 +0200 (CEST)
-Received: from berkelium.ap2c.org (localhost [127.0.0.1])
- by 82-65-29-218.subs.proxad.net (Postfix) with ESMTP id 94269A527;
- Fri,  9 Sep 2022 17:49:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ap2c.com; s=ap2cCom;
- t=1662738566; bh=KAUFs8Gddcy6mYnYueQePctsnpjY/cWYwMOTf14lGE0=;
- h=Date:From:Subject:To:Cc:In-Reply-To:References;
- b=K+185GNFdnN324begdB4IiWbweBPfej2xuzvN336Wb5nkV61eUf3qdaqHUyNRsN3o
- ax2eaJNZkM1axPcFuxge0+fTTb/EZndSPSHppeYn6WSoMFQAS7zwytmSyeedRuGrq0
- roOLfIanXnSaU8/7Wx1EM6306Cqo0m4eR2ok6qPo=
-X-Virus-Scanned: amavisd-new at ap2c.org
-Received: from 82-65-29-218.subs.proxad.net ([127.0.0.1])
- by berkelium.ap2c.org (berkelium.ap2c.org [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id 6iVLbpusZ5py; Fri,  9 Sep 2022 17:49:25 +0200 (CEST)
-Received: from drive.ap2c.org (imap.ap2c.org [10.8.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by 82-65-29-218.subs.proxad.net (Postfix) with ESMTPSA;
- Fri,  9 Sep 2022 17:49:25 +0200 (CEST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7191A10E3EE
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 09:24:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662888251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZTr9zcqSNEUm7yB/MR8ANREklkWwfdp1DcwxGTyc8fc=;
+ b=TIMK0cVVbY7XjAhVYHVKhQ0wxMk3/G7ej23jKM8Kx/xMKW0HHWui50P5Kefv/CBJ9Pi6WM
+ 0pDZHWTr8nDgcwK8usLxtpfkW6+Ip+tgQRSrHP+Ixu0IZGW+U5sbJODrZzI039U5MibBp3
+ t+Rj8pZrhmJ0aoSkbkfo1Z9dBtrjvJc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-568-WdnWt4MxOVKBfHhr4mPQUA-1; Sun, 11 Sep 2022 05:24:10 -0400
+X-MC-Unique: WdnWt4MxOVKBfHhr4mPQUA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ y1-20020a056402358100b00451b144e23eso416958edc.18
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 02:24:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ZTr9zcqSNEUm7yB/MR8ANREklkWwfdp1DcwxGTyc8fc=;
+ b=FAXYfXKVyg+SOOpIJvGM8FlhLUvm15dThGKst35rM2yxMtJ740Av32UltyY4LydVyX
+ EphMIh/lHn5kl8cSxuGrstb69b9Edb7ey/5QQm4uK9Ri+eQpAwXQ5B4WVAO2wQpTQY6t
+ 7ZClZP0o5yrANu8QvOM8iSRdfr2JT5eLXeC5OHkjleTiCze964SP7DZSBLl+JizZIpZG
+ tiyTQkslzc/F4d54gsxTSK6Wbc23OwPelY5dIq5SqbJmleVh48Sa8ThFe9sSVFjDOLLa
+ 7qX2GvmekxnflstjDnmzy8tfScbHZqO5gGdYL9+Arp5IWJrnOce+EK5LvH/lbx5Ty4j2
+ YKzQ==
+X-Gm-Message-State: ACgBeo31Y5SDToB4LRO/waszFqRg10Fmac+OsqUaHVtbkGRchwyX4H/P
+ Qshz0PwufxFnhKvNhu0dp/Ver3ynZStvIeVhkXliIUZQYvdhyYljFo/5xeXk0UaK1w+bNptga7j
+ CPWLtSIx7yPWOm0RpMUB1CEJ4cihS2fRCPDIJTRj5cfydJ0+QVI0RXTJUrZQBbs4ahcZcqZc2Bl
+ fBg33m
+X-Received: by 2002:a17:907:a48:b0:77c:51b0:5aeb with SMTP id
+ be8-20020a1709070a4800b0077c51b05aebmr2109366ejc.61.1662888248914; 
+ Sun, 11 Sep 2022 02:24:08 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7LsI4sZ/MMVd3q0Kq4m+xLp6PT8XdIlemS1vCVaYtujLqFAcXA4BVxLStkoItz4/J+szOfXQ==
+X-Received: by 2002:a17:907:a48:b0:77c:51b0:5aeb with SMTP id
+ be8-20020a1709070a4800b0077c51b05aebmr2109349ejc.61.1662888248579; 
+ Sun, 11 Sep 2022 02:24:08 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ 2-20020a170906210200b00715a02874acsm2776619ejt.35.2022.09.11.02.24.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Sep 2022 02:24:07 -0700 (PDT)
+Message-ID: <c3614f20-bfab-caed-d9b4-0bd244f698a8@redhat.com>
+Date: Sun, 11 Sep 2022 11:24:07 +0200
 MIME-Version: 1.0
-Date: Fri, 09 Sep 2022 15:49:24 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: RainLoop/1.16.0
-From: "=?utf-8?B?QXVyw6lsaWVu?=" <aurelien.intel@ap2c.com>
-Message-ID: <115b5a5ebddcd268ee5f7688400448a2@ap2c.com>
-Subject: Re: [Intel-gfx] Developing a new backlight driver for specific
- OLED screen
-To: "Jani Nikula" <jani.nikula@linux.intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, "Hans de Goede" <hdegoede@redhat.com>, "Lyude"
- <lyude@redhat.com>, dri-devel@lists.freedesktop.org
-In-Reply-To: <878rms7emr.fsf@intel.com>
-References: <878rms7emr.fsf@intel.com>
- <183219aab00.2890.be34037ad6564a4fe81285fd91a8f407@ap2c.com>
- <YxsMcH37rRkt0cfj@intel.com>
-X-Mailman-Approved-At: Sun, 11 Sep 2022 06:36:37 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: Meeting (BOF) at Plumbers Dublin to discuss backlight brightness
+ as connector object property RFC?
+From: Hans de Goede <hdegoede@redhat.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>
+References: <c796e05d-6c74-3011-89d3-226e54455f06@redhat.com>
+In-Reply-To: <c796e05d-6c74-3011-89d3-226e54455f06@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,47 +90,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=20
+Hi All,
 
->=20+ dri-devel mailing list that looks more appropriated.
-> + Hans and Lyude who were recently working to standardize some of the
-> backlight stuff.
+On 9/9/22 12:23, Hans de Goede wrote:
+> Hi All,
+> 
+> I will be at Plumbers Dublin next week and I was wondering if
+> anyone interested in this wants to get together for a quick
+> discussion / birds of a feather session about this?
+> 
+> I have just posted version 2 of the RFC:
+> https://lore.kernel.org/dri-devel/b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com/T/#u
+> 
+> If you are interested in meeting up please send me
+> an email off-list (no need to spam the list further with this)
+> also please let me know if there are any times which do not
+> work for you, and/or times which have your preference.
+> 
+> I don't have a specific room/time for this yet, but if people
+> are interested I will try to get a room from the organization
+> and if that does not work out I'm sure we will figure something
+> out.
 
-Thank you for these contacts. I'll try there if I need.
+I have a date, time and location for this now. The BOF session
+is scheduled on Monday September 12th in the "Meeting 9" room:
 
-> I don't believe you want to use the i915 API, but move the common funct=
-ions
-> to the drm subsystem itself and then reuse as a drm device.
+https://lpc.events/event/16/contributions/1390/
 
-If there is enough generic code I'll do everything with the DRM API. Unfo=
-rtunately I can't spend too much time in order to generalize the i915 com=
-mon functions.
+Regards,
 
-> Aur=C3=A9lien, are you aware of drivers/gpu/drm/display/drm_dp_helper.c=
- and
-> all the functions around struct dp_aux_backlight and struct
-> drm_edp_backlight_info?
+Hans
 
-Not yet. Since I'm not familiar with GPU/display drivers I didn't know wh=
-at could be a good starting point.=20
-Indeed=20I already checked the intel_dp_aux_backlight.c code. That's why =
-I told about using the "i915 API code" at first. But since this display i=
-s independent from the GPU i didn't want to link both code.=20
-Then=20that's a really good point if there is already an independant API.=
- I'll have a look this evening.
-
-> Does the display use some proprietary, non-VESA DPCD registers? There's
-> already some of that in i915 for Intel proprietary interfaces.
-
-For sure. It's an OLED display. Thus there is no backlight. It uses speci=
-fic registers to control the brightness of the screen.
-Unfortunately I guess the mechanism is not shared with many OLED displays=
-...
-
-Thank you for your help.
-
-Aur=C3=A9lien
