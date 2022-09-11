@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F4C5B5149
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 23:17:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E445B5144
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 23:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE65A10E539;
-	Sun, 11 Sep 2022 21:17:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3A210E531;
+	Sun, 11 Sep 2022 21:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFB310E532;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36D5110E531;
  Sun, 11 Sep 2022 21:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1662931050; x=1694467050;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=bPLXSt1pm/aLYOUXA2rtyWyj09IwpOs2VhXPRdNLwRU=;
- b=YwM7Oeg8UnKWg5KjNf1OPrAEQqzL4leZoHUINYUwmzQ1b2D8z0OHjhaK
- N20ghdqjQBQpm4ibSLcpm/Fb/3xlCfPrsLC9o9lEhCwGmWgyzmwbA0vgI
- R7HcrLvkDCTQaMg73hAvy1flvICI8b6dNu8wJFxn8P1matRLWABgalPPK
- DGPZMLOinHIXoPyNWSEotROQ2AotGKmpyMeEK+wRAQFemE4k1VyORFplr
- qSY8CssF6Bw69o0z/Kh3bBlyAm7ThiQE276mYnB5O3EGd2DwzJ0K792Zb
- otzRPph9criN35fquQLqHlHFCaIA0IxxMWlhMs+VMTYcEIeRMDlYpsZdG g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="277487732"
-X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; d="scan'208";a="277487732"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ bh=jywupnv9VhdgAsr31Sg4CcaOa3sOFttqYpz4TqJ9Xco=;
+ b=it3kGXNw7dNQGS7I0STprwc/NFJtwcMFz5r6B2HgHU0ZmaO+6zlHZFeN
+ L0ZxJznKGLOURkw+EBf5Pc2imfoTw1revHLMgaxv0H4GGTWhni0rx1A2O
+ Z6d8yb2/0J9EMfChXARBPEgiAE/Q5kNUNGN9rk6T2RqYPZJ+5Ih9HOj3f
+ hRIa0q6mmXmtoj6JptlRmoo2FHzaYrLa8/VLTUOHf6508EkrUlzo8FuzY
+ ABmrYh1jp+QVm+H6gGQHfPbWzxho2/0Xo+TaEQ8hcFaoCGR3VuichuVS+
+ 2P3lW4llyS7zZf+J9ClYdVjwdFjmYMTGt/B0MkdeiWyqmxIQAuUBlDuGR A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="277487731"
+X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; d="scan'208";a="277487731"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2022 14:17:30 -0700
+ 11 Sep 2022 14:17:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; d="scan'208";a="791356686"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga005.jf.intel.com with ESMTP; 11 Sep 2022 14:17:29 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; d="scan'208";a="615853524"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga002.jf.intel.com with ESMTP; 11 Sep 2022 14:17:29 -0700
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2375.31; Sun, 11 Sep 2022 14:17:29 -0700
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sun, 11 Sep 2022 14:17:28 -0700
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Sun, 11 Sep 2022 14:17:28 -0700
+ 15.1.2375.31 via Frontend Transport; Sun, 11 Sep 2022 14:17:29 -0700
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
  by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.1.2375.31; Sun, 11 Sep 2022 14:17:28 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N9meTzF2RFyc2cElWbSRkdvdoS04F9Tz8/hY6u//PVpKTvhVcptcztgSMDZWtrQ2IujLr3hdRg/LNZUZAVt2AurHn1pw1puFiSRC3ejf9UONoT0hned+y9N41HSrrga5cGg2nPDwU2jluLHZL2cE1N4e2vmF8fcwgftgu5mnyq9wYOyEsrfeIx7v8nR76/tlbjCRdqriY0u4zQv2SjCZI4XEeuOaXPxHFks+WXHipbEUoPpQNxkQUm0ti1fDqJzOdGVtBFkqnKeT4H5aRtfdnJ70eHXfbll7HGrHCheeEiP6+X+dWvZ35Pcnn+OfZ8IcvIKicfBqPOJj2tb/C/iiFg==
+ b=P3IJnw05UvyF6b1z7rlNFjV86DGMVGF6bCKzQscip6CFuhlJ3O0bT7uQIa7nsveZuFSg0xqK6ZMaX2tTJaoBj07rwpV6O6BvnvXX54r0dV5pLxnaScCezO5eL7orOo13++8B0KlwMxADg2BRykrhKAHNzEia8HCUyB+wNq+sOLGf0NkD+43iI2rB4Do1rXPQYnFhxw2N1Twe9dyYE7dhDSqcRarfDWZRh+brvHobngs/7rzD1Ejhu+QFOzZh84f4GJEKYiK0I7cw4iA76p6v+j0DYoxbMb1HRi/qinq+UR16dt0L/6+YnT0v5CU/stmfqRIctLJbuat+cQk0wQDUPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fx9UFjBAsMM9Poo6R8mBv0u71VD2XvTy4QafzcE70Nw=;
- b=Q6FwgBAhnByyHSygiEIYjUhdHpc9PhlBleGSkTVng24YAhRcEpe6x86l/7doDCCmPRH8SnV9aFogul+W56c4+Lgq6AgoohVMdmYjtvkAmIyKGN+mF4ncKijoILdtuBBsVTziT3e9F7zaUGQkPf3XssmVWwFIWqBioriBKexj1ehXOwyWEMfxnCkPn9EYRg0m+n233W8em27fEJdySuy0QkydQ5uwzVyCSJtKD/hu2gWQ4RkUNemz4XDdDOjDZAeR91REpprD6VnAYRoeks8Hnxt32CAGiAfcTTXUOKFgMJNA/MiK88NqNh3cweE8J+3wOvy2GTLJOTQQhuf2H9TzyA==
+ bh=nWTLd9MTRbWNzjDin6e2/uKyO3adhW5rfCcTQM9KbY8=;
+ b=dFqlCUVC/jztsAQWiLFKtnCjt9ymLW6tMT4bBY+aW+jOSO5rb7HqSZl1LwiKJFHvPdmTJEjawVSGQNHW+2Zm800/EeOIx15dm3feGafElM8E4b1TeeOlbQo0SX3NDdD8yYL999zKHXfAyeWM93vDFktnJFsUwW5hZ25OSB3ZDSLKDnkCTOAyfv1vuIJeXuwD66+caJ2gTR0YktkAMvtLdpf9Ki86/LM78NPbbAQ2vSLEg9FS8sV8WnT0fZTAhovWMu8KXFI4f2u36z1UxCgID3VU9xFydsa4/N2ejorSoBFDzn8r1AIT0DzpmEGcnwjirwxHottiaUwZj8KhXplKzQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -65,83 +61,83 @@ Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
  DM4PR11MB6065.namprd11.prod.outlook.com (2603:10b6:8:60::16) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5612.20; Sun, 11 Sep 2022 21:17:13 +0000
+ 15.20.5612.20; Sun, 11 Sep 2022 21:17:18 +0000
 Received: from DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::5145:64b6:db32:b424]) by DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::5145:64b6:db32:b424%5]) with mapi id 15.20.5612.022; Sun, 11 Sep 2022
- 21:17:13 +0000
+ 21:17:18 +0000
 From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v5 1/3] drm: Use XArray instead of IDR for minors
-Date: Sun, 11 Sep 2022 23:14:41 +0200
-Message-ID: <20220911211443.581481-2-michal.winiarski@intel.com>
+Subject: [PATCH v5 2/3] drm: Expand max DRM device number to full MINORBITS
+Date: Sun, 11 Sep 2022 23:14:42 +0200
+Message-ID: <20220911211443.581481-3-michal.winiarski@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220911211443.581481-1-michal.winiarski@intel.com>
 References: <20220911211443.581481-1-michal.winiarski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0004.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::23) To DM4PR11MB5373.namprd11.prod.outlook.com
+X-ClientProxiedBy: AM6P191CA0083.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:209:8a::24) To DM4PR11MB5373.namprd11.prod.outlook.com
  (2603:10b6:5:394::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|DM4PR11MB6065:EE_
-X-MS-Office365-Filtering-Correlation-Id: 76301df8-9415-4a71-e135-08da943aff27
+X-MS-Office365-Filtering-Correlation-Id: 9324ec8c-1bae-4626-ea4d-08da943b01e4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uzU4OoR4SYOTaN4e2IqfIyLFufuPnOT3b+WiCvArtt2QAvJnQp2T8nbs7Ac3331CA9ioGtwGMPuH71V5G0CRAfMNWbJHKJEfNnb7qZvERvPjOlvBvWQ897vHEvnJ/mobpiUCxWJHwnRett+TuHpYoF/oN0naumocEww9JU2D+MZO/8h4elsa5SD9kM5q2AfHNI0YbnDzdnsdy0L3nStG1xRyJRtPG/OvrXFU6QgfggTagsgdY39LUdZs9qpUE5QVemTdeNl7ad7XeZcJcPh9a4tNAlEnbPVEhzNSC5DF9tpUJkoCLzka1L1SG/UJ+cWO6ClcCVE9Hv+K8ld/k/dNvxSQFHOdOwSYfVPBNTYtgt3VWXyMMqPH0S1vmGII9xdMuovN+oLw9kvG0ndijvNOV48Y/GwCKKz1Mhkd6Sjb0xGuvq5XdcAnhwffSyF9h4HrF8unhdNlD59HLttpM2uraM60DbiiQ8eq5ujcqltIP36+bvDQWbuwPz77MSgONyudqAugMQcC9Ey9AJXE11VwQ3bXPYZSUAPKfIYm2Vlt9jJweahq8+wSEoPoJCtnDVVwiRqnFERV7nJ1e7daEXTZLnJBQl3ArXGbO0m98vaJ2wlBFX5zYf9rEKrebo8wSwCzRGiSDm7HjY1YRQ/u3bbc1xynW7M73EnPx6tc5aYfj8IzJJOS0dS+nRiPiGS9uXYrdYoKX77GV4Hqli4sKIlFnQ==
+X-Microsoft-Antispam-Message-Info: 5ynywRp5uHUFGYNil3RpV8p5+x20/mOjQ2lEOIZDZMHFIUwKTrF25d88QvP7HvH18d8jMV1mH5784QFTyCdi2KpuctFRXFS0nJaTHr9HHs6ZW4JbKqTkaTqgqdrnmp+lux8wOGL9LJApRpPd7YxeZ0JxeSN/HfiSJjPYiIGBD1PNVPj+ZSdfcP49UoQmi1eBpkhOUh6jezgByviYyk/mzjjrgJXNZjCgI6EF04CzoOuXt6ZSo8nsU2XzFyxUl7QSzD88SO2qfuhB4bkQTiztgqdCvdd6I0LXRciXqUT3Dc6FWYq/gKYpaWc5RJYeSy8c3d0Oi/Kn4Cm5bAoE6cFKUUbYSL1djNb3WFI00Iall+/ON4dImHUgdIFSvlNzvrAlEeUOvu1a7Rau4My0I5GzKeybjLoLLwc6U1UZFgqfnEMVpNhikopyBPWfkskXA0hy0WIx9ePArxduCds4Bhyk00x7WJLNWGiv4Xi7EShn8hbu3ThawnhChqPtsm3tLLWcB/pel47SgW+i8DUDp3fvziebIQ9pm3UwRw/yEil91wAPCn/x3mc7N658rueDWBl7emvlA3WrQdPqiPxGqUC/7S80ZVfTyvwCax8vVwBS4FA4W7dkbVq36IfMxBTqjUuL+xawBbHhXuLMYox8kEx32o6Bs3BAq63mpHl12MlOi7RLGwJLTUYWhz6d6615jLIO21Pck8FhhFYkDxqg7K8nOA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230016)(346002)(366004)(396003)(136003)(376002)(39860400002)(186003)(6512007)(26005)(41300700001)(6506007)(83380400001)(6486002)(1076003)(478600001)(2616005)(6666004)(316002)(4326008)(8936002)(8676002)(7416002)(2906002)(82960400001)(5660300002)(38100700002)(86362001)(66556008)(66476007)(54906003)(66946007)(36756003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q215V2NqS2w4b3BJVGpDYmhSZnp2Vklra0RxeWdjN25YL1VtcVRLVFR1RmxS?=
- =?utf-8?B?TER1Sm5QcmxHQzZXODUvSmc2eXdIei9uTVA2UnVKT0ZVWVlhbEJ2bHNYc1Jo?=
- =?utf-8?B?TXZROUltbElUMFNwbjd1MUpNTG1kRitaSmh1bDBxOWhzcHlQNHp5b2tUZ3Bm?=
- =?utf-8?B?NXhwMU9QVVdQcXlEMTJFOE9YQU0xcWxFOUtoazJBZDE3WE93SCtPTHFPWklB?=
- =?utf-8?B?REREakFuK0lYTFJPdXdlSlBXSDJObktWWGthYTZuQkZheTNwU3c2WkhNMG1m?=
- =?utf-8?B?bnlFWVdwU0hvWXo1RUYvaE1zUTVxVk1RWnlqa1Jja24raldHblEyTmNicnF4?=
- =?utf-8?B?MjFxQjlSK0U4VjFzZ3dISFEzVnVuN25XN2J2MitSdks5akRiU3BKNHg5M1Z3?=
- =?utf-8?B?VmtvSlJmM3lWeXQvaVYwYW11aEMvRjFUY1NxejZYczNJanFpdlBJODBXM05p?=
- =?utf-8?B?dW1ZOGlLckVZTnZlY1hWMFNwOUVOb2J6MzBTVWVvSXJZNnhSS0RpTDMrd1hx?=
- =?utf-8?B?Mkh6NEFGY0FRM0dhVzZvYlQwWFAveVI1U1RsS2hteWs1RWVyZ21FSGtHSWd3?=
- =?utf-8?B?bGRWOWxPcWFRdHhDTUtvLzRIUmYweW1EYjhlckFYOVFVRkFzNjlRVlZUd3Vz?=
- =?utf-8?B?QWZmZlpBL3dvNmJzd28zRjRiZnFGb0I1b2pNTE5YN3hyTWtESXpJL3VUWGJp?=
- =?utf-8?B?ZlRGalhxQTNIYXZET0IrMXVGM0ttMS9sRFoxMFV3Ukl1eS9KbkwrU3JoSmlm?=
- =?utf-8?B?eUtMMXZzaTRaZGF1SmhucTVINVlnUnY5R094WU1mSjdUWVNGZmZYOEJyL3Fy?=
- =?utf-8?B?cENvUUcwaTNKZzR3cHBsSmd5blY5cFcyMWFuc0lTS0E1Nnp4K3ZlVjRaajVh?=
- =?utf-8?B?TC9Wa3ROUnVweUtOK2dVVzZEWWJ3Yzg1ZXRJVWhRYmpNZEJQNVNxb01TYStj?=
- =?utf-8?B?MmY0S1YvOFRRQ1N5c0p2N241N3FBejFrWU1XRS9ad0g5NkdsSDdkQ3k1ODJi?=
- =?utf-8?B?VE8xbFoyU293OEtuUjdCWkx6K1hHaERiSXdYbWtEMThPQTRXMXhMNDNERjI2?=
- =?utf-8?B?WGxwdXJqMndHU0kwU2JLTm9NSDJDVzhRRmVaOXpxSDBiUW5iWnoycVdNSEx0?=
- =?utf-8?B?N2dzQUVFd3dmMEFXTG5Ub0JVRXlERVBPekxOdU1VaEI0U2EzaE15M3JZZXFX?=
- =?utf-8?B?VmtjSnhFaW44YTUrNnNzUTZrZHJqa2oxUTNweEdxZW5NRDlsYnJWdE0yTE5o?=
- =?utf-8?B?RU1nK0F5UG1Qb0NRMGdXQ0h6WjNvbjd4QWpVK0tCbUNER3o1eUY4eGZzcU50?=
- =?utf-8?B?TXo1eUFtMlEvV0dYdlEwRW1lVFNyYlNXRkFINVBTUUJVWWVBelVNdzh3SmFn?=
- =?utf-8?B?THZDaTU1ME9KeExnajdRUUJqMzRpY2RVamx0L3RKOGFIenNHcDFOWTBlS0Zy?=
- =?utf-8?B?OXluamZPMEVjZEdhMG5uTXM2V1kwWmIwbENsYjVnbmNhMWc3MFBYeEJ2c2E4?=
- =?utf-8?B?ZU9kcndWdkFLTzVGN1dkQmRha1pnWFM2WjA5YnZNajV5MWFUQ2dNcVNZeW16?=
- =?utf-8?B?RjluRmo3TEVzTFR5bEVBdGtsTTBZMXpacGxoUDdLbkJqTDhXanBpeFFlRDkv?=
- =?utf-8?B?cWRjZ1ZKMUxNSnpsaEZyaVJYc0RHdG5FeGtEcW85SFpFMFoyRXMxbVAwYnFR?=
- =?utf-8?B?YlFiTUtWTU5LclZlY2YrUzZ0VUMrYURkZEVrN0xxOXVxN2VZYlRYaGVSVFJ1?=
- =?utf-8?B?bWpscitqWForSGVmVzRkc2VUMGFRNVpHZVNmSnlUVi9Yb0JsNGUvNXBORW1B?=
- =?utf-8?B?b3Yrb1BLTWR4RVZ2YTdINFZnQ2dDM3F6Ym9tbXJzUzRFU1ZWdnJLNVdqNlZQ?=
- =?utf-8?B?N1NYeXpsd2N0dS8yd01XMjNsb2lnZUhjcWxPRlNUaTMrNVNreUZDQzdDOG9y?=
- =?utf-8?B?dXJIV2t0T3Myc2RWaEtMcFphRFBzeTlIZ0JRVmlJUkFPay9vYU9GR0tGbVFU?=
- =?utf-8?B?d0pVMmVPSlVubVI0WHZDcnhyRXNsVTNMSDF6WVFtVzcwZnl5VVlkZGhJYy9B?=
- =?utf-8?B?WTBneHZjbmdsZzFhNWdzQmRIYWgvT05nOFNBWDE1elIyazhsQmZFNjZTaFhw?=
- =?utf-8?B?dG82NGViN1ZrWWJLWFFkOG9lRjA3dDNlT1V5c1hPL2o2bkIxenorSk1mTjY5?=
- =?utf-8?B?cHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76301df8-9415-4a71-e135-08da943aff27
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUpNa0lqTDAwNVQzVnFwZmlxclBoZ1ZiZmhQc2ZqdDhMTDFKWjJtNXBTclNY?=
+ =?utf-8?B?K1NtUG1ZQ0tpN1hENWd0WTVVSFE1RXAwSEpLWDhIaE50NEdDUDBseWlkZFJa?=
+ =?utf-8?B?aUY2cUZ6RDIzbldFS0EyK0d6dzhIWTROMzhvRG9MemNPWVlLL2RVQXJqcEV3?=
+ =?utf-8?B?TUkvSWlnK0F1R2JrUTE2VjVpMlBkbkdtNy9CQlJKcU5QaktHVldqcVN4Q3R0?=
+ =?utf-8?B?by9Xb2tyQkx6VDZYZTlUR21BT0wzeUVDR2xad0oxZlRUdmUrWmNjUkhzOFN4?=
+ =?utf-8?B?bitCbko2K0hJVG5FRWF0OE8veUxvT3hwcVF1Yzhsd2h2dEhFTklUQ3YzUFRl?=
+ =?utf-8?B?NGlEdjAyMysrL0FBQndrQVNxZW5SdVF2MXVIcUxkU3Vwb0JNYWtjUGkybnZa?=
+ =?utf-8?B?c0ZjNFczZUpSTWd6YmpQUUdBYU1wakNoUkZjTkplSkh6M2FNaGp3Q1RqUjRt?=
+ =?utf-8?B?N2JSQVE3LzFERG50cXJWTmdTd3RCU1M3WVpjQWkxRDNIZG92UmsyZE1XMEJp?=
+ =?utf-8?B?VU5KVzhPM01La1Z2NWtGMEhaZXNuenN6UTFsVVFnWmdjc0ZVREY3NjE3K2Fr?=
+ =?utf-8?B?MWxqMFZ6UFRZRVVpVVFTczlwZmMyS3M3eGxpYXRjYzM0K2NyZUJHMTlPZ2JH?=
+ =?utf-8?B?THlBVXhlUThwMGZxYUVJSG12Mm9VUi9IcVFYN1NtNlo4RGJuQ3lyalVvWDk5?=
+ =?utf-8?B?MkRZR2lPK0dyeXdJYnVIVzk5YXFuT0dwS1BLREJVbGNXdmNnZ0FJTjN4NUQ0?=
+ =?utf-8?B?bVBuZ2F0V29xVnZqS05BMkxjdGNqdExtVmg5Q0s2Wm90azVWNGFseFNmWU9l?=
+ =?utf-8?B?SlM1R0pOQ1JkdWtYOWo0UnhObHZ4SXk2WlZZRWRLYThROXJNSWNza2I0VkF0?=
+ =?utf-8?B?UEcxamtqZG1ZZFVSZU5vc0VZYnlWK055QWlBUVlwcG5rNDlXS2E5b2hNOE1Q?=
+ =?utf-8?B?N1F6UmROOGpXUGtHTEtRR0liU1FaZG4zZFAxSnRsOWduT2ZpWXpOeUxvb1J0?=
+ =?utf-8?B?aEgrTVRRQmVIaDVJUE1td2FLemNVL3I3M1czK01RNzFVak9NRG82MitrWUgx?=
+ =?utf-8?B?M3B2UHYvTHNOTG9vWlhwV05Bamc5NGZoV3JBRnMwaEJLYlRDTDRqQTIzQ29u?=
+ =?utf-8?B?ZHBwcm5WY0FhREZzTmVZQzRnRmorZDIycG1FcVVzamdRMnpoSGcvdzJWQzYz?=
+ =?utf-8?B?UVR0Mm15ZjYzRWlndC9pbU85ZmR0WVZZQmxDN0RENGtpQ0lEakIzdWFrSy9E?=
+ =?utf-8?B?YUVIdnFmSFlYMmhWcDZLVnNreFQzbklKaDh4UzNrcVZtYnNBS1pVTVlFMmRz?=
+ =?utf-8?B?MDczU2FITGo3RGJaWVp0YWVnRFFqWnBya3RlZi9rbUhNdnJiSWJJTFZSeEtY?=
+ =?utf-8?B?OXZCUGJramo0NTVobHQ1cWcxbUxVMXhsTVA2N1hvR2JsRkl3OXBKMEhCNFhL?=
+ =?utf-8?B?QVFzSmdTR2ZwQ0FrUnBMZWIvc21VNnNveHVSY3ZUUDVoTWQrMnk2blUvbVNY?=
+ =?utf-8?B?TzlNSkxjMDNGalRyTTZ1WVJtditTNVVLSHNnVkcyQUFZWjcrRjhCUnJ2N3Vq?=
+ =?utf-8?B?U28zVGlqZ25qL3JVQnJlaElHREt6WmgzUTlZMkcranMrOEVnc1FseGNOQmQ4?=
+ =?utf-8?B?aUh6TTAzekRSalk4cXlyamtqRUU5UmNmSlU3ZGZpRmFGajQwcFZTNlNvNXBk?=
+ =?utf-8?B?SVp0dE9iVVdyRWlOajhyT1JZV2Qxb04xOU1KMktBdGRrN21xOCtTQ2VxbXVh?=
+ =?utf-8?B?MDRVT1F4YlBvUklXUmNmWWU4OHZybTlWWG9mS2FRb25SNFplZm1iQ0xXRy83?=
+ =?utf-8?B?SloyVjZKNlBNQ2x5cUY0RWVpQ1NGMExVVm1UWkh4OEFMWUtYdXZJWldEWWF2?=
+ =?utf-8?B?UmFUTVRTN0dXbEhCUklIMEFOd0NnaTA4K3Vzbjg5VXBBSlpsb0FSK09reEZ2?=
+ =?utf-8?B?eUhLc0tObnRaSFZ1U3o0THRXNW9idHpXc2NjSTB2bzVPTEVUU3BrcEp4VWpR?=
+ =?utf-8?B?WGNEck13M29qblBjOXFQbWV3bC8zcndEQ21IaXZ1ZVRKWnN5WWpMTmNCQk9v?=
+ =?utf-8?B?R1dhYTRPWFdmWUoxR2NPNndVY0RRRmYxMGpBVHQ4ZGFtZlBnbUc1eVppWjZ2?=
+ =?utf-8?B?UGhvcWx4YmE2YTVWYWFqRlFZVHV0Y05BNzN1TW90Wkh2bi9CSThvb0wxVTZh?=
+ =?utf-8?B?UGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9324ec8c-1bae-4626-ea4d-08da943b01e4
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2022 21:17:13.7101 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2022 21:17:18.3044 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cEtUsDVqkIZHemli3VY03qJdtjUYkl2ANR4l4s7jLZATOWb/ZIY5b/mF2hzNRCmXPqGda8IJfAsuiokC0sLS03lfDp9Juc1jUwyRyQfleWY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: /p+2gu7tO/gOmcWpzcjrAwBNZfIAcozEUB179dWLw3BQOB66jRj54/pF9AGHXKXFBe41OXc3amiAS9Htu4CP1WGnOX4Bd/Bst1y8/5wcn10=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6065
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -162,164 +158,52 @@ Cc: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-IDR is deprecated, and since XArray manages its own state with internal
-locking, it simplifies the locking on DRM side.
-Additionally, don't use the IRQ-safe variant, since operating on drm
-minor is not done in IRQ context.
+Having a limit of 64 DRM devices is not good enough for modern world
+where we have multi-GPU servers, SR-IOV virtual functions and virtual
+devices used for testing.
+Let's utilize full minor range for DRM devices.
+To avoid regressing the existing userspace, we're still maintaining the
+numbering scheme where 0-63 is used for primary, 64-127 is reserved
+(formerly for control) and 128-191 is used for render.
+For minors >= 192, we're allocating minors dynamically on a first-come,
+first-served basis.
 
 Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-Suggested-by: Matthew Wilcox <willy@infradead.org>
 ---
- drivers/gpu/drm/drm_drv.c | 51 ++++++++++++++-------------------------
- 1 file changed, 18 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/drm_drv.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 8214a0b1ab7f..61d24cdcd0f8 100644
+index 61d24cdcd0f8..3718bd6bbef6 100644
 --- a/drivers/gpu/drm/drm_drv.c
 +++ b/drivers/gpu/drm/drm_drv.c
-@@ -34,6 +34,7 @@
- #include <linux/pseudo_fs.h>
- #include <linux/slab.h>
- #include <linux/srcu.h>
-+#include <linux/xarray.h>
- 
- #include <drm/drm_cache.h>
- #include <drm/drm_client.h>
-@@ -53,8 +54,7 @@ MODULE_AUTHOR("Gareth Hughes, Leif Delgass, José Fonseca, Jon Smirl");
- MODULE_DESCRIPTION("DRM shared core routines");
- MODULE_LICENSE("GPL and additional rights");
- 
--static DEFINE_SPINLOCK(drm_minor_lock);
--static struct idr drm_minors_idr;
-+static DEFINE_XARRAY_ALLOC(drm_minors_xa);
- 
- /*
-  * If the drm core fails to init for whatever reason,
-@@ -98,21 +98,19 @@ static struct drm_minor **drm_minor_get_slot(struct drm_device *dev,
- static void drm_minor_alloc_release(struct drm_device *dev, void *data)
- {
- 	struct drm_minor *minor = data;
--	unsigned long flags;
- 
- 	WARN_ON(dev != minor->dev);
- 
- 	put_device(minor->kdev);
- 
--	spin_lock_irqsave(&drm_minor_lock, flags);
--	idr_remove(&drm_minors_idr, minor->index);
--	spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	xa_erase(&drm_minors_xa, minor->index);
+@@ -106,7 +106,8 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
+ 	xa_erase(&drm_minors_xa, minor->index);
  }
  
-+#define DRM_MINOR_LIMIT(t) ({ typeof(t) _t = (t); XA_LIMIT(64 * _t, 64 * _t + 63); })
-+
+-#define DRM_MINOR_LIMIT(t) ({ typeof(t) _t = (t); XA_LIMIT(64 * _t, 64 * _t + 63); })
++#define DRM_LEGACY_MINOR_LIMIT(t) ({ typeof(t) _t = (t); XA_LIMIT(64 * _t, 64 * _t + 63); })
++#define DRM_MINOR_LIMIT XA_LIMIT(192, (1 << MINORBITS) - 1)
+ 
  static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
  {
- 	struct drm_minor *minor;
--	unsigned long flags;
- 	int r;
- 
- 	minor = drmm_kzalloc(dev, sizeof(*minor), GFP_KERNEL);
-@@ -122,21 +120,10 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
+@@ -120,7 +121,15 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
  	minor->type = type;
  	minor->dev = dev;
  
--	idr_preload(GFP_KERNEL);
--	spin_lock_irqsave(&drm_minor_lock, flags);
--	r = idr_alloc(&drm_minors_idr,
--		      NULL,
--		      64 * type,
--		      64 * (type + 1),
--		      GFP_NOWAIT);
--	spin_unlock_irqrestore(&drm_minor_lock, flags);
--	idr_preload_end();
--
-+	r = xa_alloc(&drm_minors_xa, &minor->index, NULL, DRM_MINOR_LIMIT(type), GFP_KERNEL);
+-	r = xa_alloc(&drm_minors_xa, &minor->index, NULL, DRM_MINOR_LIMIT(type), GFP_KERNEL);
++	/*
++	 * DRM used to support 64 devices, for backwards compatibility we need to maintain the
++	 * minor allocation scheme where minors 0-63 are primary nodes, 64-127 are control nodes,
++	 * and 128-191 are render nodes.
++	 * After reaching the limit, we're allocating minors dynamically - first-come, first-serve.
++	 */
++	r = xa_alloc(&drm_minors_xa, &minor->index, NULL, DRM_LEGACY_MINOR_LIMIT(type), GFP_KERNEL);
++	if (r == -EBUSY)
++		r = xa_alloc(&drm_minors_xa, &minor->index, NULL, DRM_MINOR_LIMIT, GFP_KERNEL);
  	if (r < 0)
  		return r;
  
--	minor->index = r;
--
- 	r = drmm_add_action_or_reset(dev, drm_minor_alloc_release, minor);
- 	if (r)
- 		return r;
-@@ -152,7 +139,7 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
- static int drm_minor_register(struct drm_device *dev, unsigned int type)
- {
- 	struct drm_minor *minor;
--	unsigned long flags;
-+	void *entry;
- 	int ret;
- 
- 	DRM_DEBUG("\n");
-@@ -172,9 +159,12 @@ static int drm_minor_register(struct drm_device *dev, unsigned int type)
- 		goto err_debugfs;
- 
- 	/* replace NULL with @minor so lookups will succeed from now on */
--	spin_lock_irqsave(&drm_minor_lock, flags);
--	idr_replace(&drm_minors_idr, minor, minor->index);
--	spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	entry = xa_cmpxchg(&drm_minors_xa, minor->index, NULL, &minor, GFP_KERNEL);
-+	if (xa_is_err(entry)) {
-+		ret = xa_err(entry);
-+		goto err_debugfs;
-+	}
-+	WARN_ON(entry);
- 
- 	DRM_DEBUG("new minor registered %d\n", minor->index);
- 	return 0;
-@@ -187,16 +177,13 @@ static int drm_minor_register(struct drm_device *dev, unsigned int type)
- static void drm_minor_unregister(struct drm_device *dev, unsigned int type)
- {
- 	struct drm_minor *minor;
--	unsigned long flags;
- 
- 	minor = *drm_minor_get_slot(dev, type);
- 	if (!minor || !device_is_registered(minor->kdev))
- 		return;
- 
- 	/* replace @minor with NULL so lookups will fail from now on */
--	spin_lock_irqsave(&drm_minor_lock, flags);
--	idr_replace(&drm_minors_idr, NULL, minor->index);
--	spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	xa_store(&drm_minors_xa, minor->index, NULL, GFP_KERNEL);
- 
- 	device_del(minor->kdev);
- 	dev_set_drvdata(minor->kdev, NULL); /* safety belt */
-@@ -215,13 +202,12 @@ static void drm_minor_unregister(struct drm_device *dev, unsigned int type)
- struct drm_minor *drm_minor_acquire(unsigned int minor_id)
- {
- 	struct drm_minor *minor;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&drm_minor_lock, flags);
--	minor = idr_find(&drm_minors_idr, minor_id);
-+	xa_lock(&drm_minors_xa);
-+	minor = xa_load(&drm_minors_xa, minor_id);
- 	if (minor)
- 		drm_dev_get(minor->dev);
--	spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	xa_unlock(&drm_minors_xa);
- 
- 	if (!minor) {
- 		return ERR_PTR(-ENODEV);
-@@ -1037,7 +1023,7 @@ static void drm_core_exit(void)
- 	unregister_chrdev(DRM_MAJOR, "drm");
- 	debugfs_remove(drm_debugfs_root);
- 	drm_sysfs_destroy();
--	idr_destroy(&drm_minors_idr);
-+	WARN_ON(!xa_empty(&drm_minors_xa));
- 	drm_connector_ida_destroy();
- }
- 
-@@ -1046,7 +1032,6 @@ static int __init drm_core_init(void)
- 	int ret;
- 
- 	drm_connector_ida_init();
--	idr_init(&drm_minors_idr);
- 	drm_memcpy_init_early();
- 
- 	ret = drm_sysfs_init();
 -- 
 2.37.3
 
