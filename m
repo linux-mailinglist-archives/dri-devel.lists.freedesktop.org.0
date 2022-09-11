@@ -2,80 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9565B50D8
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 21:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0208C5B5130
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 22:59:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6418510E522;
-	Sun, 11 Sep 2022 19:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C28010E1A0;
+	Sun, 11 Sep 2022 20:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15EFE10E522
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 19:19:37 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id q21so11620524lfo.0
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 12:19:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=apzG3xku8I3ZdvmAyq4e50tGVV+Ky/wz//4vHO1DJgc=;
- b=uHlWNh9ubEWHL2dHypDQKfqR1vRoY/u3L3VnE52MFf9bJn5LGd5ehhYXJt4m/PlbkA
- CtfIVcb3pu57WkiF8DjEesF+PUeUqeqypzKQv9x/xL0alQnOgPA6+9E6iMqbuzmIP/vR
- hpc0sh2T/OoVBKPl6RqUDE2cYXhJOVZ5Yl37F103A5WJxwE+lAY/EpDBLvt8uaHYVx4c
- ZBp4gmvoNaCkEVgaBlB3H1Om6APfYRccQwZvrjsdULChjMmqfF6ECNwGKTElkN0m3jbF
- XUx1Zth+D30LLZucO386T9b+3KJF6q1A5w7HnBpc39zXCVtUOu4NBN0ZeVCXnqoRWfj0
- UM1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=apzG3xku8I3ZdvmAyq4e50tGVV+Ky/wz//4vHO1DJgc=;
- b=5d/w7zGWpWXV+Ofwl4J7MLA4Ocq/3q9fGTBgmlMRkUd1iiUyEXMOYAogryG7WPAVbQ
- U95ZG/bVBtFDxk/eI0+OqVHowOwjSb0GwxlNi+Be8x1+zyX/hlwBZeb7sl5TEhYOGy42
- XvRagu7ucTCAjPWaXJwyL2I4NEVi67QF9KTM5qyAjZYjgOBi+WvZuLrGc/DhtiDfhO8v
- dLU0YJ435236WQRwvQ0PvAekslrv5ZqpPAfOqCywtSZWM2ETNgxHJ/SWqzNiy1SoOvVT
- 3RU+K4XtfQsZWOh8CrJ0oYF+AWb2zDydEYEW+igbMQ/XybUr+/o1qhfXZBVNbxe4UCuf
- dbnw==
-X-Gm-Message-State: ACgBeo2JA1cdqLkoy+JxU4grNyjO+E807kwH8RNxuSJcVhoMmLVgr0lS
- IIedcPIyDV+pZMChXNiRXNNdJg==
-X-Google-Smtp-Source: AA6agR7HkDM6NL+ZQ3n6KFtN5GzDUUVIGgl3PFqUw1Fy7FX4FxHrVRhX6lvmxFhkZYmEKyoUD/zzow==
-X-Received: by 2002:a05:6512:15a5:b0:49a:84f4:9284 with SMTP id
- bp37-20020a05651215a500b0049a84f49284mr1115466lfb.477.1662923975359; 
- Sun, 11 Sep 2022 12:19:35 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- h6-20020ac25966000000b004949ea5480fsm703756lfp.97.2022.09.11.12.19.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Sep 2022 12:19:34 -0700 (PDT)
-Message-ID: <2b4ab827-28aa-5e3f-951a-0bf43d1eb7b9@linaro.org>
-Date: Sun, 11 Sep 2022 21:19:28 +0200
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7484310E0ED;
+ Sun, 11 Sep 2022 20:59:05 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4MQht0278fzDsCl;
+ Sun, 11 Sep 2022 20:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1662929944; bh=1N35O6XhmkneDsnvy/2oWxg1XykGRWHKDLRp0cSqA50=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DC7D6TGbMzcb3dXoMgZs2YErzM9mFa0S/e7w/ymmXpw6YTwGLJAHi96pHKKSJTNj0
+ H8SvTufd/PY7OLICleSPlsACnBcFaMcH0LhabZ/xsNQy8TCZX8E5VY7rG9ewFSTOB0
+ 0PLzGL1NKjg8JX9QtTL2iqZj5Y7LpArLCFtnX0NY=
+X-Riseup-User-ID: 6F65FF3CA326C820EF73C2DA7271A46B0F2C1755CF664F5B5ED7AFDF43971D89
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4MQhsw153wz1xx1;
+ Sun, 11 Sep 2022 20:58:59 +0000 (UTC)
+Message-ID: <6ef3abfb-27de-7044-dae1-153284504c05@riseup.net>
+Date: Sun, 11 Sep 2022 17:58:56 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v6 01/12] dt-bindings: display/msm: split qcom,mdss
- bindings
+Subject: Re: [PATCH 0/5] drm/amd/display: Reduce stack usage for clang
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
- <20220901102312.2005553-2-dmitry.baryshkov@linaro.org>
- <3e525135-d205-eddc-ff2d-98c8321386e3@linaro.org>
- <20220908193705.GA3002673-robh@kernel.org>
- <1ebe64a3-fab9-1dd7-517a-01001a176d9f@linaro.org>
- <CAL_JsqLkV_fnUnc4cS=cdTvP3rKYAS011_+KZYiBGhXDx-pHnA@mail.gmail.com>
- <2204eab4-b22d-8ee7-4595-49139cb387a8@linaro.org>
- <CAA8EJpqHL-gO=zSG6Ek=-y4njGF5R66z0MwLeKZ9U4Ag1j51Og@mail.gmail.com>
- <e7a132e7-a819-ebe2-e6e5-c01cbfacef15@linaro.org>
- <CAA8EJpoPPRAQPfVQmSfrrDrroMp0bzvJ=-vHMRx72aKTBgPOTA@mail.gmail.com>
- <f013accb-96f7-a025-1d41-e2e97f8b2aa8@linaro.org>
- <CAA8EJprnrKP9Ze__KTTNGDs8sj3QhqpiHnnhf1=ipq+CFCoXsQ@mail.gmail.com>
- <272413e3-73d4-8e0d-7b5d-93007e419f76@linaro.org>
- <6e3bca5a-8b01-af12-ae69-b0044a8790f6@linaro.org>
-In-Reply-To: <6e3bca5a-8b01-af12-ae69-b0044a8790f6@linaro.org>
+To: Nathan Chancellor <nathan@kernel.org>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>
+References: <20220830203409.3491379-1-nathan@kernel.org>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220830203409.3491379-1-nathan@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,30 +57,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, patches@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/09/2022 20:36, Krzysztof Kozlowski wrote:
+Hi Nathan,
 
->> If your child schema fails, the referencing schema fails as well...
+I have built-tested the whole series with clang 14.0.5 (Fedora
+14.0.5-1.fc36), using:
+
+$ make -kj"$(nproc)" ARCH=x86_64 LLVM=1 mrproper allmodconfig
+drivers/gpu/drm/amd/amdgpu/
+
+Great to see this patchset coming for DML!
+
+To the whole series:
+
+Tested-by: Maíra Canal <mairacanal@riseup.net>
+
+Best Regards,
+- Maíra Canal
+
+On 8/30/22 17:34, Nathan Chancellor wrote:
+> Hi all,
+> 
+> This series aims to address the following warnings, which are visible
+> when building x86_64 allmodconfig with clang after commit 3876a8b5e241
+> ("drm/amd/display: Enable building new display engine with KCOV
+> enabled").
+> 
+>     drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/display_mode_vba_30.c:3542:6: error: stack frame size (2200) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Werror,-Wframe-larger-than]
+>     void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_lib)
+>         ^
+>     1 error generated.
+> 
+>     drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c:3908:6: error: stack frame size (2216) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Werror,-Wframe-larger-than]
+>     void dml31_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_lib)
+>         ^
+>     1 error generated.
+> 
+>     drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:1721:6: error: stack frame size (2152) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Werror,-Wframe-larger-than]
+>     void dml32_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_lib)
+>         ^
+>     1 error generated.
+> 
+> This series is based on commit b3235e8635e1 ("drm/amd/display: clean up
+> some inconsistent indentings"). These warnings are fatal for
+> allmodconfig due to CONFIG_WERROR so ideally, I would like to see these
+> patches cherry-picked to a branch targeting mainline to allow our builds
+> to go back to green. However, since this series is not exactly trivial
+> in size, I can understand not wanting to apply these to mainline during
+> the -rc cycle. If they cannot be cherry-picked to mainline, I can add a
+> patch raising the value of -Wframe-larger-than for these files that can
+> be cherry-picked to 6.0/mainline then add a revert of that change as the
+> last patch in the stack so everything goes back to normal for -next/6.1.
+> I am open to other options though!
+> 
+> I have built this series against clang 16.0.0 (ToT) and GCC 12.2.0 for
+> x86_64. It has seen no runtime testing, as my only test system with AMD
+> graphics is a Renoir one, which as far as I understand it uses DCN 2.1.
+> 
+> Nathan Chancellor (5):
+>   drm/amd/display: Reduce number of arguments of
+>     dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport()
+>   drm/amd/display: Reduce number of arguments of
+>     dml32_CalculatePrefetchSchedule()
+>   drm/amd/display: Reduce number of arguments of dml31's
+>     CalculateWatermarksAndDRAMSpeedChangeSupport()
+>   drm/amd/display: Reduce number of arguments of dml31's
+>     CalculateFlipSchedule()
+>   drm/amd/display: Mark dml30's UseMinimumDCFCLK() as noinline for stack
+>     usage
+> 
+>  .../dc/dml/dcn30/display_mode_vba_30.c        |   2 +-
+>  .../dc/dml/dcn31/display_mode_vba_31.c        | 420 +++++-------------
+>  .../dc/dml/dcn32/display_mode_vba_32.c        | 236 +++-------
+>  .../dc/dml/dcn32/display_mode_vba_util_32.c   | 323 ++++++--------
+>  .../dc/dml/dcn32/display_mode_vba_util_32.h   |  51 +--
+>  5 files changed, 318 insertions(+), 714 deletions(-)
 > 
 > 
-> Although now with DSI-PHY I cannot reproduce it and I am pretty sure I
-> reproduced it with DPU controllers after modifying the DTS to lack a
-> property... Hmmm
-
-https://github.com/devicetree-org/dt-schema/pull/82
-
-
-Best regards,
-Krzysztof
+> base-commit: b3235e8635e1dd7ac1a27a73330e9880dfe05154
