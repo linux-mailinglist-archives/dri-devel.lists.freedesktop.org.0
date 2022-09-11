@@ -1,50 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BCD15B4D6E
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 12:31:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 466A35B4DA8
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 13:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEFA610E3FC;
-	Sun, 11 Sep 2022 10:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49C4010E218;
+	Sun, 11 Sep 2022 11:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18EE10E3FB;
- Sun, 11 Sep 2022 10:31:30 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE2110E218;
+ Sun, 11 Sep 2022 11:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662892290; x=1694428290;
+ t=1662894303; x=1694430303;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=55mhbOuv9VSmK0zVkWFv2UkRhlG7d+Yu5JeYFMu/0n0=;
- b=oDoH3Yiboq3HkgFSryEgZISXT6mJPXkvMbNOsbvYy5QCZ9lvlWkm0bUv
- Bn1TXChA5midrg/hGU+rbZZ9edBLgjaZiPkchGgkkj6mfMav7WAQFrSdU
- /mW1Sgi2D9r2WNHYfJejxN4J18RAkY3CHUvkneaP9J8W02Z3MJiSaw4n9
- qt05KxdAMe2g/HPhdA5KFwTLpfcqDeUdxy4L10bB/8OnEYhnphefvNin4
- n5S2kgEwzTHiWLbxbmwoi1ku85k6m/vaLJR+5U0lbWwOpaOChnC8Ta/tZ
- x6bMrIsfDYpJGzcLpwDb9xnl9luhQ2uVXNdbtFj/zYN7vA1Y/5RZwehNe g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10466"; a="359436390"
-X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; d="scan'208";a="359436390"
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=xa/tnWTDfFYpsFHInbux92mNF6sFhOjW3NH7JPOApq0=;
+ b=ci8yRZiuBjjb7dgYVk5VbzV5CHW/FuWiDG3l6qht8XR0uZd3DWVFcfws
+ nKgJWitbWyvPu31wi5D0A8UgFhmysQcjhHAUpC7Lkfv5EQ0n2FaXe06Tu
+ CnshLnhSZN6w2ZW6vxtDs/8WdYUrz9QIehh0/NSm9/Mag1BkiV7774RBN
+ OrTMn3cu98VGXIbPTaZN097pE64ZOVfaEYt8O0oNpn+3S8yi0K3pC9Lvx
+ ArIgBsEe5xv8oB7+5RYE4xe79nei2Zz3alPAKWFNATbIez5IiV+K4jjA6
+ QVr8kgSOXU3zIT0ZhmMM3BYCcjbO29Bu++4zuKhbTIRVZWSW0Qv0luVUh A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10466"; a="295297999"
+X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; d="scan'208";a="295297999"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2022 03:31:29 -0700
-X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; d="scan'208";a="677741240"
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2022 04:05:02 -0700
+X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; d="scan'208";a="677746849"
 Received: from dasegal-mobl.amr.corp.intel.com (HELO intel.com)
  ([10.249.46.19])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2022 03:31:25 -0700
-Date: Sun, 11 Sep 2022 12:31:21 +0200
+ 11 Sep 2022 04:04:57 -0700
+Date: Sun, 11 Sep 2022 13:04:55 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Subject: Re: [PATCH v10 1/9] overflow: Allow mixed type arguments
-Message-ID: <Yx24+WqhMcM8Zyc6@alfio.lan>
+Subject: Re: [PATCH v10 3/9] compiler_types.h: Add assert_type to catch type
+ mis-match while compiling
+Message-ID: <Yx3A16ZElKOeJr0o@alfio.lan>
 References: <20220909105913.752049-1-gwan-gyeong.mun@intel.com>
- <20220909105913.752049-2-gwan-gyeong.mun@intel.com>
+ <20220909105913.752049-4-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <20220909105913.752049-2-gwan-gyeong.mun@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220909105913.752049-4-gwan-gyeong.mun@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,39 +70,106 @@ Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kees,
+Hi Gwan-gyeong,
 
-On Fri, Sep 09, 2022 at 07:59:05PM +0900, Gwan-gyeong Mun wrote:
-> From: Kees Cook <keescook@chromium.org>
+On Fri, Sep 09, 2022 at 07:59:07PM +0900, Gwan-gyeong Mun wrote:
+> It adds assert_type and assert_typable macros to catch type mis-match while
+
+/Add/It adds/, please use the imperative form.
+
+> compiling. The existing typecheck() macro outputs build warnings, but the
+> newly added assert_type() macro uses the _Static_assert() keyword (which is
+> introduced in C11) to generate a build break when the types are different
+> and can be used to detect explicit build errors.
+> Unlike the assert_type() macro, assert_typable() macro allows a constant
+> value as the second argument.
 > 
-> When the check_[op]_overflow() helpers were introduced, all arguments were
-> required to be the same type to make the fallback macros simpler. However,
-> now that the fallback macros have been removed[1], it is fine to allow
-> mixed types, which makes using the helpers much more useful, as they
-> can be used to test for type-based overflows (e.g. adding two large ints
-> but storing into a u8), as would be handy in the drm core[2].
-> 
-> Remove the restriction, and add additional self-tests that exercise some
-> of the mixed-type overflow cases, and double-check for accidental macro
-> side-effects.
-
-I would split in two different patches the check_[op]_overflow()
-helpers with the tests.
-
-Overall they look good though.
-
-> [1] https://git.kernel.org/linus/4eb6bd55cfb22ffc20652732340c4962f3ac9a91
-> [2] https://lore.kernel.org/lkml/20220824084514.2261614-2-gwan-gyeong.mun@intel.com
-> 
-> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Nirmoy Das <nirmoy.das@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: linux-hardening@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> ---
+>  include/linux/compiler_types.h | 39 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+> 
+> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+> index 4f2a819fd60a..19cc125918bb 100644
+> --- a/include/linux/compiler_types.h
+> +++ b/include/linux/compiler_types.h
+> @@ -294,6 +294,45 @@ struct ftrace_likely_data {
+>  /* Are two types/vars the same type (ignoring qualifiers)? */
+>  #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+>  
+> +/**
+> + * assert_type - break compile if the first argument's data type and the second
+> + *               argument's data type are not the same
 
-Gwan-gyeong, can you please add your SoB here? And you don't need
-to 'Cc:' yourself.
+I would use /aborts compilation/break compile/
+
+> + *
+
+nowhere is written that this extra blank line is not needed, but
+just checking the style in compiler_types.h it is not used.
+
+I personally like the blank line, but standing to the general
+taste, it should be removed also for keeping a coherent style.
+
+> + * @t1: data type or variable
+> + * @t2: data type or variable
+> + *
+> + * The first and second arguments can be data types or variables or mixed (the
+> + * first argument is the data type and the second argument is variable or vice
+> + * versa). It determines whether the first argument's data type and the second
+> + * argument's data type are the same while compiling, and it breaks compile if
+> + * the two types are not the same.
+> + * See also assert_typable().
+> + */
+> +#define assert_type(t1, t2) _Static_assert(__same_type(t1, t2))
+
+In C11 _Static_assert is defined as:
+
+  _Static_assert ( constant-expression , string-literal ) ;
+
+While
+
+  _Static_assert ( constant-expression ) ;
+
+is defined in C17 along with the previous. I think you should add
+the error message as a 'string-literal'.
 
 Andi
+
+> +/**
+> + * assert_typable - break compile if the first argument's data type and the
+> + *                  second argument's data type are not the same
+> + *
+> + * @t: data type or variable
+> + * @n: data type or variable or constant value
+> + *
+> + * The first and second arguments can be data types or variables or mixed (the
+> + * first argument is the data type and the second argument is variable or vice
+> + * versa). Unlike the assert_type() macro, this macro allows a constant value
+> + * as the second argument. And if the second argument is a constant value, it
+> + * always passes. And it doesn't mean that the types are explicitly the same.
+> + * When a constant value is used as the second argument, if you need an
+> + * overflow check when assigning a constant value to a variable of the type of
+> + * the first argument, you can use the overflows_type() macro. When a constant
+> + * value is not used as a second argument, it determines whether the first
+> + * argument's data type and the second argument's data type are the same while
+> + * compiling, and it breaks compile if the two types are not the same.
+> + * See also assert_type() and overflows_type().
+> + */
+> +#define assert_typable(t, n) _Static_assert(__builtin_constant_p(n) ||	\
+> +					    __same_type(t, typeof(n)))
+> +
+>  /*
+>   * __unqual_scalar_typeof(x) - Declare an unqualified scalar type, leaving
+>   *			       non-scalar types unchanged.
+> -- 
+> 2.37.1
