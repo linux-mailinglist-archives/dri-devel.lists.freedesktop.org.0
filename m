@@ -1,76 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74145B4F3E
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 15:57:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DCA5B4F75
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 16:45:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A704610E46E;
-	Sun, 11 Sep 2022 13:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF7F10E48F;
+	Sun, 11 Sep 2022 14:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3278910E46E
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 13:57:30 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id a8so10677526lff.13
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 06:57:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D8CC10E48E
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 14:44:36 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-1274ec87ad5so17051907fac.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 07:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=sUy2r7OpYbVTxjP66h3aOfUcbCczz3Xb2QL907aFIfY=;
- b=EeEQNO20u/AcC8mN1VXzTnmX4WBQlRAKnxPq0MFZyt6FjMvOtn61bEaHA3Ql1a87DO
- hQ0L0yl1Z5BZ+RQvJ+gAhBK2YRSZANff6Yc76SMzARAE9ef2IOg8WZUkLrEIjvWfdH0h
- g46zfTFzuwyeeToN/o+JSLgxk0QmCfbm01PYtWXUhvME4sAXg+Mbm70tUpeSCyyyEO4D
- rpr8+1gF7e1XO2SvCYDEpGqbwGPvtqfcQw11+Jcf7py3rJXV0Qm6DyVO3mvLeBWLL+5q
- Y9UqhYLR/CeIhOsOMd1IP05kCq/nfMjPOV/tocyCjb2jxqOoB/lGyjAELH8oJSUCfGj1
- Lyfg==
+ bh=+QbBBQ6vXh/jN8AiRMD0EN8OQm6rohb3gtaPePWgvvs=;
+ b=cY4w5okYPvGlxF8rGm7JyVdKOoARQdMMV6L/qGxKWG8ToKq5UhWWVrtuJMvQJdcPia
+ IVCGnQndFQntsAJ3qRmfH78IHe47YKRuukKe71yNUwiYo+SYbwiwEI5lWskjjNEEremj
+ msHqz3MS1Kp+i6dBJ5O0j7dU04G7cBOmqyJW4qJ8C/sC4vD9MTb1KkbyBzqEKFPWr3p8
+ m2sUsqW/to+JMo7ZK9z2v04jdDPcfNBV5NrJp/gjmTDzAPs7KUKW5ZOJvm0/Z9q4v7+a
+ isFAJf3c9Zn0jAuSHIb7bB+e9DEzcYcErKiX9PhF61RkB2dKyRdWNgfvIXsgPFK6myr8
+ MiLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=sUy2r7OpYbVTxjP66h3aOfUcbCczz3Xb2QL907aFIfY=;
- b=CEoGmYiDXu93OHx1llFYxlqtkG851BiaWJojmNRW1pmrTVXT/ziLqnmWmQjji+lhwA
- uTtHO/OGa/bzcUHbRuad9n8sX+NakYFVqD4pTqmsOVBZ9VU3DJPmLKHJbUx4jrazh3hz
- RNz4LBfAtYalXs8A+KPQ/HXuV5K1CWZOn9S3Wn9PiUotcdkNvfHXw2EixVUXfxeYgaDA
- GR5UwbRexFT0hQ9bbtk9yGnOtEMzZy3pmcIXBwoeo/FnKv7LGhCxpq9BBeBekZ6stdHg
- aGtwnnfL3eVMlfWAEvk3xr7j1bctN+la6LrpA+Z/qN5AnC6iPoJcrFPo87rW9W389Gq/
- v1eQ==
-X-Gm-Message-State: ACgBeo3h+LNnB7VIbEnAiw+zk6+xUk4oMjFM8VNoCetduVvZcxGgNpk5
- Wgab7zIegbWwEDXG0EcwRpzbH3heQeec7A==
-X-Google-Smtp-Source: AA6agR6k3QkKGyQsoo4V+rbvrB3g6fJSbouAlVs4pVeVAPh5/JHC7Aw11e1/EuJMHp+jP5VGi1CLMA==
-X-Received: by 2002:a19:5505:0:b0:497:ad71:39f4 with SMTP id
- n5-20020a195505000000b00497ad7139f4mr6224530lfe.226.1662904648482; 
- Sun, 11 Sep 2022 06:57:28 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- o5-20020ac25e25000000b00492b0d23d24sm615623lfg.247.2022.09.11.06.57.27
+ bh=+QbBBQ6vXh/jN8AiRMD0EN8OQm6rohb3gtaPePWgvvs=;
+ b=x7UuIznpEoNdrC20FwmLeewSMxKkkCb67zM4GEDI77fCPOr+tp8kjCNSEgGa2CyoS0
+ jYye6kbdHdPyD6zyS5qZ/LVEydyawsUtnNGZYou7GxpPMxzfC/MLuKzw1ZfaVDqchoya
+ nQjpUO8lamIJFVWv16W9bF1CHFnDGWuaGBsCqz+W/0OUTD8O/9beaouVugKt0ekp15jw
+ pyS6n73kd3etqFiPhSel2U8pAUV9F3SnnbVMmFDSYL09GZRmOCD4z5KuHTcHUtflBrO1
+ rkGhehcb31vL6joT7cMZXUEdRHLFnRtnLMkznIsCypRB4Ll0be23CKzIEbBVsleITi5v
+ YQ5A==
+X-Gm-Message-State: ACgBeo0oPUen/crh1dN9PEj8/Rh5B99RfBIu7MFjmC5Y0CDXdgvrc7YH
+ EEd9LJyZmF/I5jzbEJyO3LQ=
+X-Google-Smtp-Source: AA6agR4svIUKQnhOltWCZTiQfQNimrwOrAo/aKwZwsk16zI+8nNlCNoxzGxqaXW2zTik2P5B27/2ow==
+X-Received: by 2002:a05:6870:c18a:b0:101:fe5b:bd4e with SMTP id
+ h10-20020a056870c18a00b00101fe5bbd4emr9348351oad.275.1662907475589; 
+ Sun, 11 Sep 2022 07:44:35 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7f5:f684:ee06:25a5:3122:5cd3?
+ ([2804:431:c7f5:f684:ee06:25a5:3122:5cd3])
+ by smtp.gmail.com with ESMTPSA id
+ c8-20020a056870b28800b001275f056133sm3927439oao.51.2022.09.11.07.44.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Sep 2022 06:57:27 -0700 (PDT)
-Message-ID: <f013accb-96f7-a025-1d41-e2e97f8b2aa8@linaro.org>
-Date: Sun, 11 Sep 2022 15:57:26 +0200
+ Sun, 11 Sep 2022 07:44:35 -0700 (PDT)
+Message-ID: <17957593-33fb-a63d-181e-daee2e4689fc@gmail.com>
+Date: Sun, 11 Sep 2022 11:44:32 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v6 01/12] dt-bindings: display/msm: split qcom,mdss
- bindings
+Subject: Re: [PATCH] drm/vkms: fix 32bit compilation error by replacing macros
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
- <20220901102312.2005553-2-dmitry.baryshkov@linaro.org>
- <3e525135-d205-eddc-ff2d-98c8321386e3@linaro.org>
- <20220908193705.GA3002673-robh@kernel.org>
- <1ebe64a3-fab9-1dd7-517a-01001a176d9f@linaro.org>
- <CAL_JsqLkV_fnUnc4cS=cdTvP3rKYAS011_+KZYiBGhXDx-pHnA@mail.gmail.com>
- <2204eab4-b22d-8ee7-4595-49139cb387a8@linaro.org>
- <CAA8EJpqHL-gO=zSG6Ek=-y4njGF5R66z0MwLeKZ9U4Ag1j51Og@mail.gmail.com>
- <e7a132e7-a819-ebe2-e6e5-c01cbfacef15@linaro.org>
- <CAA8EJpoPPRAQPfVQmSfrrDrroMp0bzvJ=-vHMRx72aKTBgPOTA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAA8EJpoPPRAQPfVQmSfrrDrroMp0bzvJ=-vHMRx72aKTBgPOTA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: Melissa Wen <mwen@igalia.com>
+References: <20220909114133.267689-1-mwen@igalia.com>
+ <29f87796-b288-7cdc-86dd-050cf7f0b5dd@gmail.com>
+ <20220910191035.ukxhlhbc3mscbqis@mail.igalia.com>
+From: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+In-Reply-To: <20220910191035.ukxhlhbc3mscbqis@mail.igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,44 +78,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ melissa.srw@gmail.com, Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/09/2022 15:45, Dmitry Baryshkov wrote:
-> On Sun, 11 Sept 2022 at 14:27, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
+On 9/10/22 16:10, Melissa Wen wrote:
+> On 09/09, Igor Matheus Andrade Torrente wrote:
+>> Hi Mellisa,
 >>
->> On 10/09/2022 14:54, Dmitry Baryshkov wrote:
->>>>
->>>> However I think there is no such problem, as Dmitry said, that ref
->>>> changes anything. There will be always failure - either from parent
->>>> schema (using $ref) or from device child schema (the one which actually
->>>> misses the property).
+>> Thanks for the patch fixing my mistakes.
+>>
+>> On 9/9/22 08:41, Melissa Wen wrote:
+>>> Replace vkms_formats macros for fixed-point operations with functions
+>>> from drm/drm_fixed.h to do the same job and fix 32-bit compilation
+>>> errors.
 >>>
->>> Initially I stumbled upon this issue with the dsi and dsi_phy nodes
->>> for msm8996 devices. If I have $ref here, dsi1/dsi1_phy nodes will
->>> emit warnings regarding the missing -supply properties despite nodes
->>> being disabled. If I use `compatible' here, the schema checks pass.
->>> Thus I'd prefer to leave `compatible' here. Not to mention that it
->>> also allows specifying a tighter binding than just using the $ref.
+>>> Fixes: a19c2ac9858 ("drm: vkms: Add support to the RGB565 format")
+>>> Tested-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+>>> Reported-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>> ---
+>>>    drivers/gpu/drm/vkms/vkms_formats.c | 53 +++++++++++------------------
+>>>    1 file changed, 19 insertions(+), 34 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+>>> index 300abb4d1dfe..ddcd3cfeeaac 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+>>> @@ -1,27 +1,12 @@
+>>>    // SPDX-License-Identifier: GPL-2.0+
+>>> -#include <drm/drm_rect.h>
+>>> +#include <linux/kernel.h>
+>>>    #include <linux/minmax.h>
+>>> +#include <drm/drm_rect.h>
+>>> +#include <drm/drm_fixed.h>
+>>>    #include "vkms_formats.h"
+>>> -/* The following macros help doing fixed point arithmetic. */
+>>> -/*
+>>> - * With Fixed-Point scale 15 we have 17 and 15 bits of integer and fractional
+>>> - * parts respectively.
+>>> - *  | 0000 0000 0000 0000 0.000 0000 0000 0000 |
+>>> - * 31                                          0
+>>> - */
+>>> -#define SHIFT 15
+>>> -
+>>> -#define INT_TO_FIXED(a) ((a) << SHIFT)
+>>> -#define FIXED_MUL(a, b) ((s32)(((s64)(a) * (b)) >> SHIFT))
+>>> -#define FIXED_DIV(a, b) ((s32)(((s64)(a) << SHIFT) / (b)))
+>>> -/* This macro converts a fixed point number to int, and round half up it */
+>>> -#define FIXED_TO_INT_ROUND(a) (((a) + (1 << (SHIFT - 1))) >> SHIFT)
+>>> -#define INT_TO_FIXED_DIV(a, b) (FIXED_DIV(INT_TO_FIXED(a), INT_TO_FIXED(b)))
+>>> -#define INT_TO_FIXED_DIV(a, b) (FIXED_DIV(INT_TO_FIXED(a), INT_TO_FIXED(b)))
+>>> -
+>>>    static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
+>>>    {
+>>>    	return frame_info->offset + (y * frame_info->pitch)
+>>> @@ -137,19 +122,19 @@ static void RGB565_to_argb_u16(struct line_buffer *stage_buffer,
+>>>    	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+>>>    			       stage_buffer->n_pixels);
+>>> -	s32 fp_rb_ratio = INT_TO_FIXED_DIV(65535, 31);
+>>> -	s32 fp_g_ratio = INT_TO_FIXED_DIV(65535, 63);
+>>> +	s32 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), 31);
+>>> +	s32 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), 63);
 >>
->> I don't think we understood each other. I claim that error will be there
->> anyway, just from different schema. So your change fixes nothing in
->> total schema check...
+>> I think you need to add `drm_int2fixp` to 31 and 63.
+>>
+>>>    	for (size_t x = 0; x < x_limit; x++, src_pixels++) {
+>>>    		u16 rgb_565 = le16_to_cpu(*src_pixels);
+>>> -		s32 fp_r = INT_TO_FIXED((rgb_565 >> 11) & 0x1f);
+>>> -		s32 fp_g = INT_TO_FIXED((rgb_565 >> 5) & 0x3f);
+>>> -		s32 fp_b = INT_TO_FIXED(rgb_565 & 0x1f);
+>>> +		s32 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
+>>> +		s32 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+>>> +		s32 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+>>
+>> And we are cast implicitly from 64 bits int to 32 bits which is
+>> implementation-defined AFAIK. So, probably we should be using `s64` for all
+>> of these variables.
+>>
+>> I tested the patch. And I'm seeing some differences in the intermediate
+>> results. From my testing, these changes solve those differences.
 > 
-> If the node is disabled, there will be no different schema check.
+> Hi Igor,
+> 
+> Thanks for checking the calc results and all inputs provided.  I just
+> sent a second version, can you take a look? I replicated your
+> suggestions for RGB565_to_argb_u16() in argb_u16_to_RGB565() and
+> double-checked for i386 and arm. Let me know what yexiuou think.
 
-As I wrote before, there was.
+I tested it here and everything seem to be working :).
 
-Best regards,
-Krzysztof
+> 
+>>
+>> Another thing that may have an impact on the final output is the lack of
+>> rounding in drm_fixed.h. This can potentially produce the wrong result.
+> 
+> Yeah, I see... I can include a comment about the rounding issue for
+> further improvements, or do you plan to work on it?
+
+A comment would be good. Maybe add to the VKMS TODO list?
+
+I'm busy with other stuffs, and can't work on this any time soon. But 
+It's pretty simple thing to implement.
+
+> 
+> Thanks,
+> 
+> Melissa
+>>
+>> Thanks,
+>> ---
+>> Igor Torrente
+>>
+>>>    		out_pixels[x].a = (u16)0xffff;
+>>> -		out_pixels[x].r = FIXED_TO_INT_ROUND(FIXED_MUL(fp_r, fp_rb_ratio));
+>>> -		out_pixels[x].g = FIXED_TO_INT_ROUND(FIXED_MUL(fp_g, fp_g_ratio));
+>>> -		out_pixels[x].b = FIXED_TO_INT_ROUND(FIXED_MUL(fp_b, fp_rb_ratio));
+>>> +		out_pixels[x].r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
+>>> +		out_pixels[x].g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
+>>> +		out_pixels[x].b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
+>>>    	}
+>>>    }
+>>> @@ -248,17 +233,17 @@ static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
+>>>    	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+>>>    			    src_buffer->n_pixels);
+>>> -	s32 fp_rb_ratio = INT_TO_FIXED_DIV(65535, 31);
+>>> -	s32 fp_g_ratio = INT_TO_FIXED_DIV(65535, 63);
+>>> +	s32 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), 31);
+>>> +	s32 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), 63);
+>>>    	for (size_t x = 0; x < x_limit; x++, dst_pixels++) {
+>>> -		s32 fp_r = INT_TO_FIXED(in_pixels[x].r);
+>>> -		s32 fp_g = INT_TO_FIXED(in_pixels[x].g);
+>>> -		s32 fp_b = INT_TO_FIXED(in_pixels[x].b);
+>>> +		s32 fp_r = drm_int2fixp(in_pixels[x].r);
+>>> +		s32 fp_g = drm_int2fixp(in_pixels[x].g);
+>>> +		s32 fp_b = drm_int2fixp(in_pixels[x].b);
+>>> -		u16 r = FIXED_TO_INT_ROUND(FIXED_DIV(fp_r, fp_rb_ratio));
+>>> -		u16 g = FIXED_TO_INT_ROUND(FIXED_DIV(fp_g, fp_g_ratio));
+>>> -		u16 b = FIXED_TO_INT_ROUND(FIXED_DIV(fp_b, fp_rb_ratio));
+>>> +		u16 r = drm_fixp2int(drm_fixp_div(fp_r, fp_rb_ratio));
+>>> +		u16 g = drm_fixp2int(drm_fixp_div(fp_g, fp_g_ratio));
+>>> +		u16 b = drm_fixp2int(drm_fixp_div(fp_b, fp_rb_ratio));
+>>>    		*dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
+>>>    	}
+>>
+
