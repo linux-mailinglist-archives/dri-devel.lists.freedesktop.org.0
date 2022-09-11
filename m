@@ -1,82 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81C75B4F12
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 15:34:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A3A5B4F31
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Sep 2022 15:46:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 811DB10E46B;
-	Sun, 11 Sep 2022 13:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A97110E470;
+	Sun, 11 Sep 2022 13:45:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B6410E46B
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 13:34:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662903251;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UKjthsUaDF/tQ2BVZf10QWCE31KVr4BfvrxPp6oS5Vo=;
- b=D+JnK4szI4czy/mPuaqYbN3PmjfqTaO/tLHChsgOLEHVbA02Jqu/dIl0LHY7F5KxrUG7hO
- awNzLTMbsvFHmi0MwxZXeJRqG0U6+BmVdUBMNtcvwNYSvxZG8pHo+NA0fIhXgBS399MMDH
- hqSRgqz4tTFjsOuaL8DZvxZFvQ0yd5c=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-622-HMw8E63TPiqhBRUa1aOI3A-1; Sun, 11 Sep 2022 09:34:10 -0400
-X-MC-Unique: HMw8E63TPiqhBRUa1aOI3A-1
-Received: by mail-ed1-f69.google.com with SMTP id
- t13-20020a056402524d00b0043db1fbefdeso4431162edd.2
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 06:34:10 -0700 (PDT)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE3310E470
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 13:45:47 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id c9so9181021ybf.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Sep 2022 06:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=5HqIOcG8x4likLdUFYhKV2vDY9FYKtBGRhEqTmUcrsY=;
+ b=S0L2CvFshXTcGx2gV46rtMsvefTjoiczN+TXYgfWm41bgtY5+1jOsw23Zi37N3K9xE
+ aA8oemxSJ8X44ndvDESNHxSgYaNeJ7mTyK/aBqONVba0zXB5J2mORlp/g6atZvc8N1Mb
+ pfJPM8bY+vqXL5sIpUA9OZk1TvH7z/LBReR+5OpkdsnvDD5LPw4a0Dz5vWOfcbssPthJ
+ jPy4+g0+7UGuUZ7leUeqENKSWArOTdfzeVt0Ta8cDtnKhGhgDl8O43G8pmbzi1veftNs
+ ihWjWQW2XqbphhnfvFev+xbJsd3vzfxS6HPhACJsORvpF26WEIJie9CdMYt6fEJtk23Y
+ uNbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=UKjthsUaDF/tQ2BVZf10QWCE31KVr4BfvrxPp6oS5Vo=;
- b=rz73N83QtEtK+0IjRBlhixq1BhhkDY4ZZRua1v9FyaRJMvSgcWvRvGlyLC6++bD/L8
- f5M6aIM3RpytmuXoqbP7csqr3e/FZgtSWzOf89lzU3whAgufElSVsANark624CczJRVe
- qSP0Ugqq3mXGE3ZnjX7EDnhHktnM4xVHcF1U6hrLPfDoZXmEZc0t2c1rda0UFuWlH6qQ
- oSlagz8jcbWqUE3xO19IgFx+jsSNWnDLsheA7h+BaOKQMMqoUJb2lnMD6o+PQKpVxA0i
- fvAXqyg2BycWgWuU0dMRkHmtHvA2RUUs8hfTtxLumbdTYptisWQ1ODfXODXMJ7kfaqPB
- oZ9A==
-X-Gm-Message-State: ACgBeo2G0mFHZk9yH+Evl5cczr0c2TuH2YnKFplifKJW+B1ZHUhv79AD
- kiqdtn+0XnVtf/9Z+1lo+KWkIrttsUW54bHUZ5kyP3MqmCmUeKtDBa0nh/rCwID9pL+K4OxS3LT
- FAjqOVLnbG/R9YoGgHow+C5RLd2Bd
-X-Received: by 2002:a05:6402:1e8d:b0:441:58db:b6a2 with SMTP id
- f13-20020a0564021e8d00b0044158dbb6a2mr18231975edf.277.1662903249025; 
- Sun, 11 Sep 2022 06:34:09 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5F6he2sp0EoHpvKWIMDQpxoUa903FRGG4KCTVq3jR3WA/Ne9ByFrlaKvNIcBg3ccB4rrSHHw==
-X-Received: by 2002:a05:6402:1e8d:b0:441:58db:b6a2 with SMTP id
- f13-20020a0564021e8d00b0044158dbb6a2mr18231961edf.277.1662903248812; 
- Sun, 11 Sep 2022 06:34:08 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- q13-20020a056402040d00b004511b4779f0sm4022313edv.30.2022.09.11.06.34.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Sep 2022 06:34:08 -0700 (PDT)
-Message-ID: <7506231b-1ea1-b94d-4341-40e7873f4f06@redhat.com>
-Date: Sun, 11 Sep 2022 15:34:07 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=5HqIOcG8x4likLdUFYhKV2vDY9FYKtBGRhEqTmUcrsY=;
+ b=C8/ZsTqVOdCfKXNYKivSPKfRmT6g/3zP8zZ6kPwPiX9+MnsKjxyRzKNQL5ofXIF4oN
+ YFr32QtaaSi6EC1pWB+lD8OU6cioszn6dNwqKfHvOvJGXSulueViKKu7nGcqCBQ3+pO2
+ +2mcrWd7N+7wLsbuL/kt3CTgHRYkbcNN+PxDMcIIPRRrlNZ9RvVKM201HxEp3YAYqHuH
+ qOSylHJeLuTJ6Ix8BSHjPWX+3DvuN+VPoGUR/eZa3imEhGAzzRSoPCRuMFpNSq5N/aX0
+ omhKqhkUusjWeGWjJe7AZnnEQfiK/xv94GiZ+zgtU4wQt7/6SiP1B6l+5HYpeTX2kPMs
+ ZcQQ==
+X-Gm-Message-State: ACgBeo1u7rAmZM/DHa9vQW2CwBY7sdZBf1l5O7YORQ7WCYuG0gjzovWM
+ YB8tw5i4OJOZlAmFhI48Mo7jtuTT7fFxk1ymm0MU6A==
+X-Google-Smtp-Source: AA6agR5b3srfz+0UXFR6VD9/hRFnzkydunMZcHEgtygrOZCAfrlPx9UUN7wz0ndz1t7d1pWP7P7GK4PEl9YOqEl2K/0=
+X-Received: by 2002:a05:6902:1029:b0:6af:2c99:4630 with SMTP id
+ x9-20020a056902102900b006af2c994630mr696449ybt.516.1662903946156; Sun, 11 Sep
+ 2022 06:45:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 1/4] drm/gma500: Refactor backlight support
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20220910205101.1355950-1-hdegoede@redhat.com>
- <20220910205101.1355950-2-hdegoede@redhat.com>
- <Yx3K/6aF/twnuaHV@ravnborg.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Yx3K/6aF/twnuaHV@ravnborg.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
+ <20220901102312.2005553-2-dmitry.baryshkov@linaro.org>
+ <3e525135-d205-eddc-ff2d-98c8321386e3@linaro.org>
+ <20220908193705.GA3002673-robh@kernel.org>
+ <1ebe64a3-fab9-1dd7-517a-01001a176d9f@linaro.org>
+ <CAL_JsqLkV_fnUnc4cS=cdTvP3rKYAS011_+KZYiBGhXDx-pHnA@mail.gmail.com>
+ <2204eab4-b22d-8ee7-4595-49139cb387a8@linaro.org>
+ <CAA8EJpqHL-gO=zSG6Ek=-y4njGF5R66z0MwLeKZ9U4Ag1j51Og@mail.gmail.com>
+ <e7a132e7-a819-ebe2-e6e5-c01cbfacef15@linaro.org>
+In-Reply-To: <e7a132e7-a819-ebe2-e6e5-c01cbfacef15@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 11 Sep 2022 16:45:35 +0300
+Message-ID: <CAA8EJpoPPRAQPfVQmSfrrDrroMp0bzvJ=-vHMRx72aKTBgPOTA@mail.gmail.com>
+Subject: Re: [PATCH v6 01/12] dt-bindings: display/msm: split qcom,
+ mdss bindings
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,132 +72,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Loic Poulain <loic.poulain@linaro.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+On Sun, 11 Sept 2022 at 14:27, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 10/09/2022 14:54, Dmitry Baryshkov wrote:
+> >>
+> >> However I think there is no such problem, as Dmitry said, that ref
+> >> changes anything. There will be always failure - either from parent
+> >> schema (using $ref) or from device child schema (the one which actually
+> >> misses the property).
+> >
+> > Initially I stumbled upon this issue with the dsi and dsi_phy nodes
+> > for msm8996 devices. If I have $ref here, dsi1/dsi1_phy nodes will
+> > emit warnings regarding the missing -supply properties despite nodes
+> > being disabled. If I use `compatible' here, the schema checks pass.
+> > Thus I'd prefer to leave `compatible' here. Not to mention that it
+> > also allows specifying a tighter binding than just using the $ref.
+>
+> I don't think we understood each other. I claim that error will be there
+> anyway, just from different schema. So your change fixes nothing in
+> total schema check...
 
-On 9/11/22 13:48, Sam Ravnborg wrote:
-> Hi Hans,
-> 
-> just a few minor things. See comments.
-> I like the diff - removes much more than it adds.
+If the node is disabled, there will be no different schema check.
 
-I'm glad you like it and thank you for the review.
-
-> On Sat, Sep 10, 2022 at 10:50:58PM +0200, Hans de Goede wrote:
->> Refactor backlight support so that the gma_backlight_enable() /
->> gma_backlight_disable() / gma_backlight_set() functions used by
->> the Opregion handle will also work if no backlight_device gets
->> registered.
->>
->> This is a preparation patch for not registering the gma500's own backlight
->> device when acpi_video should be used, since registering 2 backlight
->> devices for a single display really is undesirable.
->>
->> Since the acpi-video interface often uses the OpRegion we need to keep
->> the OpRegion functional even when dev_priv->backlight_device is NULL.
->>
->> As a result of this refactor the actual backlight_device_register()
->> call is moved to the shared backlight.c code and all #ifdefs related to
->> CONFIG_BACKLIGHT_CLASS_DEVICE are now also limited to backlight.c .
->>
->> No functional changes intended.
->>
->> This has been tested on a Packard Bell Dot SC (Intel Atom N2600, cedarview)
->> and a Sony Vaio vpc-x11s1e (Intel N540, poulsbo) laptop.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
-> 
->> +static int gma_backlight_update_status(struct backlight_device *bd)
->> +{
->> +	struct drm_device *dev = bl_get_data(bd);
->> +	int level = bd->props.brightness;
-> 
-> Here backlight_get_brightness(bd) should be used.
-
-Ack, but the old set methods all 3 used:
-
-	int level = bd->props.brightness;
-
-So that would be a small functional / behavior change.
-
-As such I would prefer to split using backlight_get_brightness(bd)
-out into a separate patch for version 2 of the series.
-Like how I also made the change from type = BACKLIGHT_PLATFORM ->
-type = BACKLIGHT_RAW a separate change.
-
-Would that be ok with you ?
-
-> 
-> 
->>  int gma_backlight_init(struct drm_device *dev)
->>  {
->> -#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
->>  	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
->> +	struct backlight_properties props = {};
->> +	int ret;
->> +
->>  	dev_priv->backlight_enabled = true;
->> -	return dev_priv->ops->backlight_init(dev);
->> -#else
->> -	return 0;
->> +	dev_priv->backlight_level = 100;
->> +
->> +	ret = dev_priv->ops->backlight_init(dev);
->> +	if (ret)
->> +		return ret;
->> +
->> +#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
->> +	props.brightness = dev_priv->backlight_level;
->> +	props.max_brightness = PSB_MAX_BRIGHTNESS;
->> +	props.type = BACKLIGHT_PLATFORM;
->> +
->> +	dev_priv->backlight_device =
->> +		backlight_device_register(dev_priv->ops->backlight_name,
->> +					  dev->dev, dev,
->> +					  &gma_backlight_ops, &props);
-> 
-> Consider using the devm_backlight_device_register() variant.
-> Then you can drop gma_backlight_exit() - I think..
-
-The problem is the rest of the driver does not use devm_foo functions,
-so then psb_driver_unload() which runs before the devm cleanup functions
-will already release various iommap-s before the backlight is unregistered.
-
-This leaves a race where the backlight device could be poked and then try
-to use no longer valid pointers in the main driver struct to write to the hw.
-
-Regards,
-
-Hans
-
-
-
-
-
-> 
->> +	if (IS_ERR(dev_priv->backlight_device))
->> +		return PTR_ERR(dev_priv->backlight_device);
->>  #endif
->> +
->> +	return 0;
->>  }
->>  
->>  void gma_backlight_exit(struct drm_device *dev)
->>  {
->>  #ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
->>  	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
->> -	if (dev_priv->backlight_device) {
->> -		dev_priv->backlight_device->props.brightness = 0;
->> -		backlight_update_status(dev_priv->backlight_device);
->> +
->> +	if (dev_priv->backlight_device)
->>  		backlight_device_unregister(dev_priv->backlight_device);
->> -	}
->>  #endif
->>  }
-> 
-
+-- 
+With best wishes
+Dmitry
