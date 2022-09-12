@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE815B52D4
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 05:23:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 138B55B52EF
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 05:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4D310E061;
-	Mon, 12 Sep 2022 03:23:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3266A10E063;
+	Mon, 12 Sep 2022 03:41:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2388C10E061;
- Mon, 12 Sep 2022 03:23:02 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id b75so2089164pfb.7;
- Sun, 11 Sep 2022 20:23:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=01auDevlyZEsy9VNCmbrrsxvCF/1+AqShCC158mTMG4=;
- b=EQS6g+jqMTBKxQNNXTAg0/Jv5BUDoOzo/sjlXjUjvOykigv57iMUKGPzB+BW7aRK75
- eJq2ew80JptMG8itesP/xpHAq7cdw5moWnqHq44GjTscK2EaGstllG2V4U7c4dzYWiTP
- vMAgoC+RgWtORXboDw/ZXJZF3dpwjW0a6SJ3x9xVg7IQJaRGfbOhE2Pg11M71F+Jve1t
- X5NOQmTe2YyJjjhVxftW6XG8twaS7SE0+PoswBEPSoU2fu0O5RaisG3S60lbFb0jRBCh
- MgS0clo3Bj/5mJcp1AVKE7J7AZbOwELc1fEH9NkciPeZshTRiQAZRg5NxGO/NhgUJSyN
- u8kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=01auDevlyZEsy9VNCmbrrsxvCF/1+AqShCC158mTMG4=;
- b=bLYa97vRwhCyEChBInDywgahD+SrQaAaLRwO6erytA9I2qs7BZR2CS6P1EVxTEhKu6
- sxcde6DkV6bfKT9Z9TXcSCse4UBxFhz8Q/DCEiFh5XnHH0nc534eJSwQtFzIfhyYmJGy
- iP+37x5hgP1Yym5aPHAGlafCcWgFY2HA04q0blCnBhp6hixKWBKgNmIDyUhliKfX2AZr
- d3sr04R1lxGLC7Z/Yh8S5kYrcrCa7VA+ex4O6Cockr2U2h1Fvk+cc+wU1RRT+jVcRdhI
- lyVy3szC470ZDpcn1STtQWojRYnmiwnzjLz0jul5HdEgNcZ9EGq8ilbpf1enpnZoeT27
- ws4w==
-X-Gm-Message-State: ACgBeo2+wsL3llx01QK2UJx0eneiArIZQbatLKeBYd84TDqAlCA1Xkof
- wUiAe5lvCrPfY40S2RgCi/9hSDsB1B4=
-X-Google-Smtp-Source: AA6agR42AMxdHeUm/hcZICJ4/B6hDejHuEWpIM4gBttsevn8sQyeXqBFzVnr4TVL7Bqrxu5DLJuwig==
-X-Received: by 2002:a05:6a00:1910:b0:52f:13d7:44c4 with SMTP id
- y16-20020a056a00191000b0052f13d744c4mr24769860pfi.32.1662952981579; 
- Sun, 11 Sep 2022 20:23:01 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id
- gc10-20020a17090b310a00b001fd6066284dsm4107754pjb.6.2022.09.11.20.22.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Sep 2022 20:23:00 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: xu.panda@zte.com.cn
-To: sunpeng.li@amd.com
-Subject: [PATCH linux-next] drm/amd/display/amdgpu_dm: remove duplicate
- included header files
-Date: Mon, 12 Sep 2022 03:22:42 +0000
-Message-Id: <20220912032241.16259-1-xu.panda@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B74310E063
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 03:41:01 +0000 (UTC)
+X-UUID: 2762b972276941e1b895186471cae0ca-20220912
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=Yk4sPKhjO8yEQMKZWtt9j4+15fnzQ6c/AWVaOhL/yhA=; 
+ b=UIeVS8NcyQPubt6ZsAo6MUFtCVay5BWgPYotT8KewLuxq3yTApdX6pvv4WyD0eLJdg2hT8yUH8FQ1BkGU6vofaqFfrpDj7ypgKcRazgvocFqUmcw11SP8W32eOHUISzehXE9ektDi/mtnsqT4lxXVcgtULVPr1TeGHs8TUvWAfU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10, REQID:fbdc4d6a-aa0b-44ee-8638-d8082db72f75, OB:0,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
+ Ham,ACTION:release,TS:0
+X-CID-META: VersionHash:84eae18, CLOUDID:b8df12ec-2856-4fce-b125-09d4c7ebe045,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 2762b972276941e1b895186471cae0ca-20220912
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1101769982; Mon, 12 Sep 2022 11:40:56 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 12 Sep 2022 11:40:54 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Mon, 12 Sep 2022 11:40:54 +0800
+Message-ID: <b740f81d62ce73e08a2a43637b4f951298b1c28a.camel@mediatek.com>
+Subject: Re: [PATCH RESEND v3 5/9] drm/mediatek: Add gamma support different
+ lut_bits for other SoC
+From: CK Hu <ck.hu@mediatek.com>
+To: Jason-JH.Lin <jason-jh.lin@mediatek.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+Date: Mon, 12 Sep 2022 11:40:54 +0800
+In-Reply-To: <20220912013006.27541-6-jason-jh.lin@mediatek.com>
+References: <20220912013006.27541-1-jason-jh.lin@mediatek.com>
+ <20220912013006.27541-6-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,38 +69,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xu Panda <xu.panda@zte.com.cn>, airlied@linux.ie,
- linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, roman.li@amd.com,
- amd-gfx@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
- aurabindo.pillai@amd.com, dri-devel@lists.freedesktop.org, Wayne.Lin@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Rex-BC Chen <rex-bc.chen@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xu Panda <xu.panda@zte.com.cn>
+Hi, Jason:
 
-soc15_common.h is included more than once.
+On Mon, 2022-09-12 at 09:30 +0800, Jason-JH.Lin wrote:
+> Add lut_bits in gamma driver data for each SoC and adjust the usage
+> of lut_bits in mtk_drm_gamma_set_common().
+> 
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 36 ++++++++++++++++-----
+> --
+>  1 file changed, 25 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> index 0a1022032b71..be82d15a5204 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> @@ -25,11 +25,14 @@
+>  
+>  #define LUT_10BIT_MASK				0x03ff
+>  #define LUT_SIZE_DEFAULT			512 /* for setting
+> gamma lut from AAL */
+> +#define LUT_BITS_DEFAULT			10
+> +#define LUT_INPUT_BITS				16 /* input lut
+> bit from application */
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Xu Panda <xu.panda@zte.com.cn>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 --
- 1 file changed, 2 deletions(-)
+I think we should use drm_color_lut_extract() to let the input bits
+transparent. So add one patch to use drm_color_lut_extract(), and then
+apply this patch.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 7a93162633ae..0e42bf496a73 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -98,8 +98,6 @@
- #include "soc15_common.h"
- #include "vega10_ip_offset.h"
+Regards,
+CK
 
--#include "soc15_common.h"
--
- #include "gc/gc_11_0_0_offset.h"
- #include "gc/gc_11_0_0_sh_mask.h"
-
--- 
-2.15.2
+>  
+>  struct mtk_disp_gamma_data {
+>  	bool has_dither;
+>  	bool lut_diff;
+>  	u16 lut_size;
+> +	u8 lut_bits;
+>  };
+>  
+>  /*
+> @@ -72,17 +75,23 @@ void mtk_gamma_set_common(struct device *dev,
+> void __iomem *regs, struct drm_crt
+>  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+>  	bool lut_diff = false;
+>  	u16 lut_size = LUT_SIZE_DEFAULT;
+> +	u8 lut_bits = LUT_BITS_DEFAULT;
+> +	u8 shift_bits;
+>  	unsigned int i, reg;
+>  	struct drm_color_lut *lut;
+>  	void __iomem *lut_base;
+> -	u32 word;
+> +	u32 word, mask;
+>  	u32 diff[3] = {0};
+>  
+>  	if (gamma && gamma->data) {
+>  		lut_diff = gamma->data->lut_diff;
+>  		lut_size = gamma->data->lut_size;
+> +		lut_bits = gamma->data->lut_bits;
+>  	}
+>  
+> +	shift_bits = LUT_INPUT_BITS - lut_bits;
+> +	mask = GENMASK(lut_bits - 1, 0);
+> +
+>  	if (state->gamma_lut) {
+>  		reg = readl(regs + DISP_GAMMA_CFG);
+>  		reg = reg | GAMMA_LUT_EN;
+> @@ -92,17 +101,20 @@ void mtk_gamma_set_common(struct device *dev,
+> void __iomem *regs, struct drm_crt
+>  		for (i = 0; i < lut_size; i++) {
+>  
+>  			if (!lut_diff || (i % 2 == 0)) {
+> -				word = (((lut[i].red >> 6) &
+> LUT_10BIT_MASK) << 20) +
+> -					(((lut[i].green >> 6) &
+> LUT_10BIT_MASK) << 10) +
+> -					((lut[i].blue >> 6) &
+> LUT_10BIT_MASK);
+> +				word = (((lut[i].red >> shift_bits) &
+> mask) << 20) +
+> +					(((lut[i].green >> shift_bits)
+> & mask) << 10) +
+> +					((lut[i].blue >> shift_bits) &
+> mask);
+>  			} else {
+> -				diff[0] = (lut[i].red >> 6) - (lut[i -
+> 1].red >> 6);
+> -				diff[1] = (lut[i].green >> 6) - (lut[i
+> - 1].green >> 6);
+> -				diff[2] = (lut[i].blue >> 6) - (lut[i -
+> 1].blue >> 6);
+> -
+> -				word = ((diff[0] & LUT_10BIT_MASK) <<
+> 20) +
+> -					((diff[1] & LUT_10BIT_MASK) <<
+> 10) +
+> -					(diff[2] & LUT_10BIT_MASK);
+> +				diff[0] = (lut[i].red >> shift_bits) -
+> +					  (lut[i - 1].red >>
+> shift_bits);
+> +				diff[1] = (lut[i].green >> shift_bits)
+> -
+> +					  (lut[i - 1].green >>
+> shift_bits);
+> +				diff[2] = (lut[i].blue >> shift_bits) -
+> +					  (lut[i - 1].blue >>
+> shift_bits);
+> +
+> +				word = ((diff[0] & mask) << 20) +
+> +					((diff[1] & mask) << 10) +
+> +					(diff[2] & mask);
+>  			}
+>  			writel(word, (lut_base + i * 4));
+>  		}
+> @@ -209,11 +221,13 @@ static int mtk_disp_gamma_remove(struct
+> platform_device *pdev)
+>  static const struct mtk_disp_gamma_data mt8173_gamma_driver_data = {
+>  	.has_dither = true,
+>  	.lut_size = 512,
+> +	.lut_bits = 10,
+>  };
+>  
+>  static const struct mtk_disp_gamma_data mt8183_gamma_driver_data = {
+>  	.lut_diff = true,
+>  	.lut_size = 512,
+> +	.lut_bits = 10,
+>  };
+>  
+>  static const struct of_device_id mtk_disp_gamma_driver_dt_match[] =
+> {
 
