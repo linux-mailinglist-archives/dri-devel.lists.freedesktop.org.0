@@ -1,82 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A08D5B61A6
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 21:26:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 683915B61E3
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 21:50:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64F3D10E209;
-	Mon, 12 Sep 2022 19:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEB9610E219;
+	Mon, 12 Sep 2022 19:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83D3210E209;
- Mon, 12 Sep 2022 19:26:17 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28CFkXrJ032110;
- Mon, 12 Sep 2022 19:26:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=rkNjMNHOv/NYMM/1RaZBcC4DunJrDyumUuvelfbNDUo=;
- b=gCYr3NZP7mPs0JwUmRZMSyy/bJOtb4CaIUf5/CPZywNWnqMOJpIno75gazkokHjoP50l
- X/RboO2ZHBSnCETxHVOzRzapw7FIxpPYsrTlNw7/R2PQc/eI/WtXOVNRAPHd3Wwgb8af
- iI2trXIls/di9FjMvnAKlacwTN8fmHjZZyFTFIsLF52hcTEJgk8x0Bo2l5XP/meV/sSq
- IkpKE18I8dO/TqacDtPqVFLPkPT825nGiGT60gFQ045u85adylKcvVHC2qnf4IIBPMUE
- FrpeyUFaq+sqMvtNhLE8BCqZjhE1k1RSFsc7bXzWXuyXnvj3su1vcgg4uwBC6wTftMCY Tg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jgk43p574-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Sep 2022 19:26:05 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28CJQ4rC017147
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Sep 2022 19:26:04 GMT
-Received: from [10.110.24.172] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 12 Sep
- 2022 12:26:03 -0700
-Message-ID: <61d591ff-c5d8-a032-9eaa-6ab4c535a679@quicinc.com>
-Date: Mon, 12 Sep 2022 12:26:03 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFCF810E219
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 19:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663012230;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w0YHTFiHmCMOhY8jwxABxa5BgJfL6gkhs2YD6OMTr1g=;
+ b=UvxJtnvAoyeymMb8UqjiICkPlXAWzZb5rkj1nEwlxCld5HMvK6g8haxH9WN4YngGdUMZjx
+ WlO/RGM48c9BmdjsyB8C8AwOgK9YCvSDZgbEjodkx9V8/1V+hH/iYsZRyRBHjzCkeTOYBg
+ 3rXRgz8J424zAIpDv2HMZRv40ezTNkk=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-447-JKLtKqgjM12YM_ilyqLGng-1; Mon, 12 Sep 2022 15:50:29 -0400
+X-MC-Unique: JKLtKqgjM12YM_ilyqLGng-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ e15-20020a056402190f00b0044f41e776a0so6743645edz.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 12:50:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=w0YHTFiHmCMOhY8jwxABxa5BgJfL6gkhs2YD6OMTr1g=;
+ b=jAl81aE4YQNLJpinRwnyF1A05+08eyuzEdzTBX7HA+klxoiD1j7zKbsCHKwqJWfUWM
+ pb64MJH82KnIohe1qvMKP4oD9kO+9Ua4lcIpAG9qKcwmkIjwdGx4IKmYGFGIFDj/RkYI
+ J01duOOlnPCrLPqdQ5jOXEgnP19YDzk16fAcFejEEIOdguyLRCgr3x0NBf9xSBo9m06K
+ RHOs3qrLpn/pxjlXwWaJpzGZBWOvzaLmeYhKORJYqTvbPXqtxEywRYvZkbeFmoadDNTm
+ D4046nI408238ZdaWBjcEoSGF6oha2jNvYl6yiJlKhdG8vBI5s2Q+7DObptjgjzsDNIu
+ lzeQ==
+X-Gm-Message-State: ACgBeo0CB8WmPrkSTB7QSxQXrbYWB/vYUP/7KqP/AyeR17wc7f1LYQUT
+ ssspJoVLpofoVPt2JCmOn8comk8ZeG5emt3psgg7f+WREE1RMZnhV7tRhDFWDBQRgtikjBSfg8b
+ rYLJeuXI+9Gja6POQktDp+uEKAuRt
+X-Received: by 2002:a05:6402:3485:b0:451:f615:321f with SMTP id
+ v5-20020a056402348500b00451f615321fmr3394894edc.65.1663012228295; 
+ Mon, 12 Sep 2022 12:50:28 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4XL9fTgyaRKc9Ofbmv7caRrEgXhMgt6F/fC9gah/5BqD0T4QwTibDWloQvf5gK3w7wJXiFQA==
+X-Received: by 2002:a05:6402:3485:b0:451:f615:321f with SMTP id
+ v5-20020a056402348500b00451f615321fmr3394881edc.65.1663012228134; 
+ Mon, 12 Sep 2022 12:50:28 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b40:2ee8:642:1aff:fe31:a15c?
+ ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ 9-20020a170906210900b007767c82acc6sm4841512ejt.151.2022.09.12.12.50.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Sep 2022 12:50:27 -0700 (PDT)
+Message-ID: <dc472070-34a8-93e1-2ca3-4847c49f12eb@redhat.com>
+Date: Mon, 12 Sep 2022 21:50:26 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v5 3/3] drm/msm/dp: retry 3 times if set sink to D0 poweer
- state failed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH RESEND drm-misc-next 4/7] drm/arm/hdlcd: plane: use drm
+ managed resources
+To: Liviu Dudau <liviu.dudau@arm.com>
+References: <20220905152719.128539-1-dakr@redhat.com>
+ <20220905152719.128539-5-dakr@redhat.com>
+ <Yx9uAe//u/Z9zfmM@e110455-lin.cambridge.arm.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <Yx9uAe//u/Z9zfmM@e110455-lin.cambridge.arm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <bjorn.andersson@linaro.org>
-References: <1662999830-13916-1-git-send-email-quic_khsieh@quicinc.com>
- <1662999830-13916-4-git-send-email-quic_khsieh@quicinc.com>
- <067c7bc0-4746-f714-db56-a3c9e4f25588@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <067c7bc0-4746-f714-db56-a3c9e4f25588@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 9nVmejWZCrRQ_evv2KlVzd7WHkceDug0
-X-Proofpoint-ORIG-GUID: 9nVmejWZCrRQ_evv2KlVzd7WHkceDug0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-12_13,2022-09-12_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1015
- mlxscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
- malwarescore=0 adultscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2209120065
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,64 +90,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Liviu,
 
-On 9/12/2022 11:37 AM, Dmitry Baryshkov wrote:
-> On 12/09/2022 19:23, Kuogee Hsieh wrote:
->> Bring sink out of D3 (power down) mode into D0 (normal operation) mode
->> by setting DP_SET_POWER_D0 bit to DP_SET_POWER dpcd register. This
->> patch will retry 3 times if written to DP_SET_POWER register failed.
->
-> Could you please elaborate this change? Can the sink succeed in 
-> reading the DP_SET_POWER, but fail writing DP_SET_POWER?
+Thanks for having a look!
 
-yes, there is possible since it is not only set local sink device but 
-also all downstream sink devices to D0 state.
+This is not about this patch, it's about patch 3/7 "drm/arm/hdlcd: crtc: 
+use drmm_crtc_init_with_planes()".
 
->
+And there it's the other way around. When using 
+drmm_crtc_init_with_planes() we shouldn't have a destroy hook in place, 
+that's the whole purpose of drmm_crtc_init_with_planes().
+
+We should just drop patch 3/7 "drm/arm/hdlcd: crtc: use 
+drmm_crtc_init_with_planes()", it's wrong.
+
+Do you want me to send a v2 for that?
+
+- Danilo
+
+
+
+On 9/12/22 19:36, Liviu Dudau wrote:
+> Hi Danilo,
+> 
+> I have applied your patch series for HDLCD on top of drm-next (commit 213cb76ddc8b)
+> and on start up I get a warning:
+> 
+> [   12.882554] hdlcd 7ff50000.hdlcd: drm_WARN_ON(funcs && funcs->destroy)
+> [   12.882596] WARNING: CPU: 1 PID: 211 at drivers/gpu/drm/drm_crtc.c:393 __drmm_crtc_init_with_planes+0x70/0xf0 [drm]
+> 
+> It looks like the .destroy hook is still required or I'm missing some other required
+> series where the WARN has been removed?
+> 
+> Best regards,
+> Liviu
+> 
+> On Mon, Sep 05, 2022 at 05:27:16PM +0200, Danilo Krummrich wrote:
+>> Use drm managed resource allocation (drmm_universal_plane_alloc()) in
+>> order to get rid of the explicit destroy hook in struct drm_plane_funcs.
 >>
->> Changes in v5:
->> -- split into two patches
->>
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 >> ---
->>   drivers/gpu/drm/msm/dp/dp_link.c | 13 ++++++++-----
->>   1 file changed, 8 insertions(+), 5 deletions(-)
+>>   drivers/gpu/drm/arm/hdlcd_crtc.c | 20 +++++++-------------
+>>   1 file changed, 7 insertions(+), 13 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c 
->> b/drivers/gpu/drm/msm/dp/dp_link.c
->> index 9d5381d..4360728 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_link.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
->> @@ -50,6 +50,7 @@ static int dp_aux_link_power_up(struct drm_dp_aux 
->> *aux,
->>   {
->>       u8 value;
->>       ssize_t len;
->> +    int i;
->>         if (link->revision < 0x11)
->>           return 0;
->> @@ -61,11 +62,13 @@ static int dp_aux_link_power_up(struct drm_dp_aux 
->> *aux,
->>       value &= ~DP_SET_POWER_MASK;
->>       value |= DP_SET_POWER_D0;
->>   -    len = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
->> -    if (len < 0)
->> -        return len;
+>> diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
+>> index c0a5ca7f578a..17d3ccf12245 100644
+>> --- a/drivers/gpu/drm/arm/hdlcd_crtc.c
+>> +++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
+>> @@ -289,7 +289,6 @@ static const struct drm_plane_helper_funcs hdlcd_plane_helper_funcs = {
+>>   static const struct drm_plane_funcs hdlcd_plane_funcs = {
+>>   	.update_plane		= drm_atomic_helper_update_plane,
+>>   	.disable_plane		= drm_atomic_helper_disable_plane,
+>> -	.destroy		= drm_plane_cleanup,
+>>   	.reset			= drm_atomic_helper_plane_reset,
+>>   	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+>>   	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+>> @@ -297,24 +296,19 @@ static const struct drm_plane_funcs hdlcd_plane_funcs = {
+>>   
+>>   static struct drm_plane *hdlcd_plane_init(struct drm_device *drm)
+>>   {
+>> -	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+>> +	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
+>>   	struct drm_plane *plane = NULL;
+>>   	u32 formats[ARRAY_SIZE(supported_formats)], i;
+>> -	int ret;
 >> -
->> -    usleep_range(1000, 2000);
->> +    /* retry for 1ms to give the sink time to wake up */
->> +    for (i = 0; i < 3; i++) {
->> +        len = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
->> +        usleep_range(1000, 2000);
->> +        if (len == 1)
->> +            break;
->> +    }
->>         return 0;
->>   }
->
+>> -	plane = devm_kzalloc(drm->dev, sizeof(*plane), GFP_KERNEL);
+>> -	if (!plane)
+>> -		return ERR_PTR(-ENOMEM);
+>>   
+>>   	for (i = 0; i < ARRAY_SIZE(supported_formats); i++)
+>>   		formats[i] = supported_formats[i].fourcc;
+>>   
+>> -	ret = drm_universal_plane_init(drm, plane, 0xff, &hdlcd_plane_funcs,
+>> -				       formats, ARRAY_SIZE(formats),
+>> -				       NULL,
+>> -				       DRM_PLANE_TYPE_PRIMARY, NULL);
+>> -	if (ret)
+>> -		return ERR_PTR(ret);
+>> +	plane = drmm_universal_plane_alloc(drm, struct drm_plane, dev, 0xff,
+>> +					   &hdlcd_plane_funcs,
+>> +					   formats, ARRAY_SIZE(formats),
+>> +					   NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
+>> +	if (IS_ERR(plane))
+>> +		return plane;
+>>   
+>>   	drm_plane_helper_add(plane, &hdlcd_plane_helper_funcs);
+>>   	hdlcd->plane = plane;
+>> -- 
+>> 2.37.2
+>>
+> 
+
