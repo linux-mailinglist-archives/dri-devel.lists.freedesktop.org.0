@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5725B5FF1
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 20:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46345B5FF4
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 20:11:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5B7710E08F;
-	Mon, 12 Sep 2022 18:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8F610E08A;
+	Mon, 12 Sep 2022 18:11:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D3310E090
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 18:10:04 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id s6so4976757lfo.7
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 11:10:04 -0700 (PDT)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30B4F10E090
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 18:11:12 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id y29so11543696ljq.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 11:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=pNFaQgI/Wpk+RRqWm6LUGSleWuKJ6k1nYQ3l4ywMTD4=;
- b=bORY4LjZaSaDGxQoTcPmNSrz0G5bhG/Pe216SBbJdiI7Nc/07Ly/IUmtQBt7D7rBkK
- YqzT8lVcPnV15b03E6XKDAL8zJ4yHl5KvDaeswnqbiwK7qxNafhL2gRDzSMfIJEJ4EAp
- 8E2gZpA8z467e5PI7zL8dRltZ2NjO7veaLISkIn569GetV3E4990u+4ftaYmR3mBZBk/
- CdzVeOIYmEtm2J8Go24MOL1BqF8/Z0juvLP8jmfJ8tBzEt5izeORdmqI6c+Eruz3ZNUJ
- eNSOEZ/Jjl4z/ytolF4M1rj7oh62Ey/ToeZhYwTd4E9ipiFYxvTD9V4Ye5Sjzme2EFyr
- 1bDg==
+ bh=svtvmckgsYFdMY08rsKItgup1eFeNNMS18fXK1hp66E=;
+ b=AoFIEtHDHD4hpTZCOqlLzU2TQD+HdICYhbIBWNKx52yIiE9oaKvktDi0T89regh44I
+ kRdc8nPGc6t1zHNic+8Lgsi9MvlWwSSnmMmq+5nbcQH8W7JoUSnVLQ4bllAPqmcZyq4j
+ cqeCqhBWnTjraAzZcd0BlT2zWVxcJliL5mQ+HyUKPpA7J5m59uy7ViYv3E6H1NEaS++4
+ PD1et0+flfvh+XvYkrLv/JGkBnDTXgF+lS4S9WSK+GUFIl/FBK5MDQFG1hWliEg3bgWH
+ Sidrcc8IhjVd6dhyjBtXn8/j3ijCJm5wy80V1D09j/UFSJIR0mopNtT9AgS+yndKKaw6
+ outw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=pNFaQgI/Wpk+RRqWm6LUGSleWuKJ6k1nYQ3l4ywMTD4=;
- b=GQ1uq2H4jpxh/bVfQYY0bn5bs9e+3qU0ulSyFnWJMBb2aO3qXz1dYJwQdx1D0OAhtD
- hKfeQpHYK+aixVIYrjJCGx/ZQIxYLl4AcmgsegtnhBEDND/Hm+fCvCssGKKFvCpD+Hjl
- DF4R4sLeLLFLH/0oGz7mTmmR/dhNUvLu+D6VVnWfRretY3N063532nmY5MEV7t6Upd/q
- bLWJqeqFDVZWgdOa7/KMy1gLZ9Que/oHdTiSAm2OmMyeXaviQZcNqPGKPSiQD3zHYbY7
- nPjrxo3F4mwJCuTFe514NjLclcNKG/S6GAs3tm1RjNnLjtA8QTPDvEG8R/nA9ANRAVU3
- sWOw==
-X-Gm-Message-State: ACgBeo0XzuGfTE01VHvDfTD3vH1oVVSdkYMZU7Xk2MWragluaq0jAdgh
- 2gfKXz1tan0B+KcziBFc6Y8sjA==
-X-Google-Smtp-Source: AA6agR5nn0P4MDu8RVZ2eI1kzc3OQfQYodK0aWq3EVa9jnyZHQgpamGf0QZN86jHooMmqzYjjNgLrw==
-X-Received: by 2002:ac2:5462:0:b0:49b:8aee:3535 with SMTP id
- e2-20020ac25462000000b0049b8aee3535mr542834lfn.410.1663006202087; 
- Mon, 12 Sep 2022 11:10:02 -0700 (PDT)
+ bh=svtvmckgsYFdMY08rsKItgup1eFeNNMS18fXK1hp66E=;
+ b=i9LbH6XLkqNepF8IXatprYLnd+pIWoz1Iq3HjM7XoRHijQzaCxiKrm7XwXvo+gtiEZ
+ 6BLKL5hHUp5Fcja67nikKQsNhpCIKvGaD5TLCZpXO2SRfuVprytMV4BDYURlLaU6MT1E
+ 8NUBZraI1Zv/jgDe0r032VMGIaB+6eBrX0jxZSCuEpASdDxY5JEcXv5CijI/S1eskmEw
+ 3VjD12DVC7gvdQqgwxpvLOw6xUk9h6ELa80wDRy9vqeWuA5oh20//5OFB/GCMVWEBgD9
+ /uDr8FfVmYH6UHW4rDs2FsRfWo3o88FdNJz6oBgGGafgzsCDl08DcdyEsAB/1FjAOIxY
+ +jFw==
+X-Gm-Message-State: ACgBeo2amsi8+iM/W4Rjz2KiDpJ0yLwrDId2tGKOp1/Lb/oq6U0911Yx
+ lOaFkE+QsUGGnJfo0BdFqNTFqw==
+X-Google-Smtp-Source: AA6agR5MdYOsAHV0xTW6UI5WZTq5FY2Oa2CfhbJX4nzqV7j3wNaZCke1O+5Fm1Xam32l3i3sy3WrsQ==
+X-Received: by 2002:a05:651c:1587:b0:261:b558:b6ab with SMTP id
+ h7-20020a05651c158700b00261b558b6abmr7936511ljq.204.1663006270513; 
+ Mon, 12 Sep 2022 11:11:10 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- c4-20020a05651221a400b00496693860dcsm1196546lft.232.2022.09.12.11.10.01
+ a18-20020a2eb172000000b0025ebaef9570sm1225602ljm.40.2022.09.12.11.11.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Sep 2022 11:10:01 -0700 (PDT)
-Message-ID: <e60f0053-3801-bf33-5841-69f16215fa00@linaro.org>
-Date: Mon, 12 Sep 2022 21:10:00 +0300
+ Mon, 12 Sep 2022 11:11:10 -0700 (PDT)
+Message-ID: <75540907-6981-5798-efe3-04fe0466da31@linaro.org>
+Date: Mon, 12 Sep 2022 21:11:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 4/7] drm/msm/dp: fix aux-bus EP lifetime
+Subject: Re: [PATCH 5/7] drm/msm/dp: fix bridge lifetime
 Content-Language: en-GB
 To: Johan Hovold <johan+linaro@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Douglas Anderson <dianders@chromium.org>
+ Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>
 References: <20220912154046.12900-1-johan+linaro@kernel.org>
- <20220912154046.12900-5-johan+linaro@kernel.org>
+ <20220912154046.12900-6-johan+linaro@kernel.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220912154046.12900-5-johan+linaro@kernel.org>
+In-Reply-To: <20220912154046.12900-6-johan+linaro@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,112 +98,82 @@ On 12/09/2022 18:40, Johan Hovold wrote:
 > when binding is later retried and a second attempt to allocate the
 > resources is made.
 > 
-> For the DP aux-bus, an attempt to populate the bus a second time will
-> simply fail ("DP AUX EP device already populated").
+> For the DP bridges, previously allocated bridges will leak on probe
+> deferral.
 > 
-> Fix this by amending the DP aux interface and tying the lifetime of the
-> EP device to the DRM device rather than DP controller platform device.
-
-Doug, could you please take a look?
-
-For me this is another reminder/pressure point that we should populate 
-the AUX BUS from the probe(), before binding the components together.
-
+> Fix this by amending the DP parser interface and tying the lifetime of
+> the bridge device to the DRM device rather than DP platform device.
 > 
 > Fixes: c3bf8e21b38a ("drm/msm/dp: Add eDP support via aux_bus")
 > Cc: stable@vger.kernel.org      # 5.19
 > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+
+Seems logical enough.
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
->   drivers/gpu/drm/bridge/parade-ps8640.c   | 2 +-
->   drivers/gpu/drm/display/drm_dp_aux_bus.c | 5 +++--
->   drivers/gpu/drm/msm/dp/dp_display.c      | 3 ++-
->   include/drm/display/drm_dp_aux_bus.h     | 6 +++---
->   4 files changed, 9 insertions(+), 7 deletions(-)
+>   drivers/gpu/drm/msm/dp/dp_display.c | 2 +-
+>   drivers/gpu/drm/msm/dp/dp_parser.c  | 6 +++---
+>   drivers/gpu/drm/msm/dp/dp_parser.h  | 5 +++--
+>   3 files changed, 7 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> index d7483c13c569..6127979370cb 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -719,7 +719,7 @@ static int ps8640_probe(struct i2c_client *client)
->   	if (ret)
->   		return ret;
->   
-> -	ret = devm_of_dp_aux_populate_bus(&ps_bridge->aux, ps8640_bridge_link_panel);
-> +	ret = devm_of_dp_aux_populate_bus(dev, &ps_bridge->aux, ps8640_bridge_link_panel);
->   
->   	/*
->   	 * If devm_of_dp_aux_populate_bus() returns -ENODEV then it's up to
-> diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/display/drm_dp_aux_bus.c
-> index f5741b45ca07..2706f2cf82f7 100644
-> --- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
-> +++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
-> @@ -322,6 +322,7 @@ static void of_dp_aux_depopulate_bus_void(void *data)
->   
->   /**
->    * devm_of_dp_aux_populate_bus() - devm wrapper for of_dp_aux_populate_bus()
-> + * @dev: Device to tie the lifetime of the EP devices to
->    * @aux: The AUX channel whose device we want to populate
->    * @done_probing: Callback functions to call after EP device finishes probing.
->    *                Will not be called if there are no EP devices and this
-> @@ -333,7 +334,7 @@ static void of_dp_aux_depopulate_bus_void(void *data)
->    *         no children. The done_probing() function won't be called in that
->    *         case.
->    */
-> -int devm_of_dp_aux_populate_bus(struct drm_dp_aux *aux,
-> +int devm_of_dp_aux_populate_bus(struct device *dev, struct drm_dp_aux *aux,
->   				int (*done_probing)(struct drm_dp_aux *aux))
->   {
->   	int ret;
-> @@ -342,7 +343,7 @@ int devm_of_dp_aux_populate_bus(struct drm_dp_aux *aux,
->   	if (ret)
->   		return ret;
->   
-> -	return devm_add_action_or_reset(aux->dev,
-> +	return devm_add_action_or_reset(dev,
->   					of_dp_aux_depopulate_bus_void, aux);
->   }
->   EXPORT_SYMBOL_GPL(devm_of_dp_aux_populate_bus);
 > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index ba557328710a..e1aa6355bbf6 100644
+> index e1aa6355bbf6..393af1ea9ed8 100644
 > --- a/drivers/gpu/drm/msm/dp/dp_display.c
 > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1559,7 +1559,8 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
->   		 * panel driver is probed asynchronously but is the best we
->   		 * can do without a bigger driver reorganization.
->   		 */
-> -		rc = devm_of_dp_aux_populate_ep_devices(dp_priv->aux);
-> +		rc = devm_of_dp_aux_populate_ep_devices(dp->drm_dev->dev,
-> +							dp_priv->aux);
->   		of_node_put(aux_bus);
->   		if (rc)
->   			goto error;
-> diff --git a/include/drm/display/drm_dp_aux_bus.h b/include/drm/display/drm_dp_aux_bus.h
-> index 8a0a486383c5..a4063aa7fc40 100644
-> --- a/include/drm/display/drm_dp_aux_bus.h
-> +++ b/include/drm/display/drm_dp_aux_bus.h
-> @@ -47,7 +47,7 @@ static inline struct dp_aux_ep_driver *to_dp_aux_ep_drv(struct device_driver *dr
->   int of_dp_aux_populate_bus(struct drm_dp_aux *aux,
->   			   int (*done_probing)(struct drm_dp_aux *aux));
->   void of_dp_aux_depopulate_bus(struct drm_dp_aux *aux);
-> -int devm_of_dp_aux_populate_bus(struct drm_dp_aux *aux,
-> +int devm_of_dp_aux_populate_bus(struct device *dev, struct drm_dp_aux *aux,
->   				int (*done_probing)(struct drm_dp_aux *aux));
+> @@ -1576,7 +1576,7 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+>   	 * For DisplayPort interfaces external bridges are optional, so
+>   	 * silently ignore an error if one is not present (-ENODEV).
+>   	 */
+> -	rc = dp_parser_find_next_bridge(dp_priv->parser);
+> +	rc = devm_dp_parser_find_next_bridge(dp->drm_dev->dev, dp_priv->parser);
+>   	if (!dp->is_edp && rc == -ENODEV)
+>   		return 0;
 >   
->   /* Deprecated versions of the above functions. To be removed when no callers. */
-> @@ -61,11 +61,11 @@ static inline int of_dp_aux_populate_ep_devices(struct drm_dp_aux *aux)
->   	return (ret != -ENODEV) ? ret : 0;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
+> index dd732215d55b..dcbe893d66d7 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+> @@ -240,12 +240,12 @@ static int dp_parser_clock(struct dp_parser *parser)
+>   	return 0;
 >   }
 >   
-> -static inline int devm_of_dp_aux_populate_ep_devices(struct drm_dp_aux *aux)
-> +static inline int devm_of_dp_aux_populate_ep_devices(struct device *dev, struct drm_dp_aux *aux)
+> -int dp_parser_find_next_bridge(struct dp_parser *parser)
+> +int devm_dp_parser_find_next_bridge(struct device *dev, struct dp_parser *parser)
 >   {
->   	int ret;
+> -	struct device *dev = &parser->pdev->dev;
+> +	struct platform_device *pdev = parser->pdev;
+>   	struct drm_bridge *bridge;
 >   
-> -	ret = devm_of_dp_aux_populate_bus(aux, NULL);
-> +	ret = devm_of_dp_aux_populate_bus(dev, aux, NULL);
+> -	bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+> +	bridge = devm_drm_of_get_bridge(dev, pdev->dev.of_node, 1, 0);
+>   	if (IS_ERR(bridge))
+>   		return PTR_ERR(bridge);
 >   
->   	/* New API returns -ENODEV for no child case; adapt to old assumption */
->   	return (ret != -ENODEV) ? ret : 0;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
+> index 866c1a82bf1a..d30ab773db46 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+> @@ -138,8 +138,9 @@ struct dp_parser {
+>   struct dp_parser *dp_parser_get(struct platform_device *pdev);
+>   
+>   /**
+> - * dp_parser_find_next_bridge() - find an additional bridge to DP
+> + * devm_dp_parser_find_next_bridge() - find an additional bridge to DP
+>    *
+> + * @dev: device to tie bridge lifetime to
+>    * @parser: dp_parser data from client
+>    *
+>    * This function is used to find any additional bridge attached to
+> @@ -147,6 +148,6 @@ struct dp_parser *dp_parser_get(struct platform_device *pdev);
+>    *
+>    * Return: 0 if able to get the bridge, otherwise negative errno for failure.
+>    */
+> -int dp_parser_find_next_bridge(struct dp_parser *parser);
+> +int devm_dp_parser_find_next_bridge(struct device *dev, struct dp_parser *parser);
+>   
+>   #endif
 
 -- 
 With best wishes
