@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA735B5809
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 12:18:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 350435B581A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 12:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 839EE10E370;
-	Mon, 12 Sep 2022 10:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A9810E36C;
+	Mon, 12 Sep 2022 10:21:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5691310E362;
- Mon, 12 Sep 2022 10:17:46 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9879510E36B;
+ Mon, 12 Sep 2022 10:21:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662977866; x=1694513866;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=/MPCcJ4MpKdwDYHL+WW5d/8BsMLAxp/XjAo0FswLV4I=;
- b=GXaxZYsdpNh9/rl4L2bO3erDsU6Hq/GkXLTrySMF8Ux1mwp3mNYFl0K/
- DVEMN1KIEgQFN12ZcbGny4t51JPpg3hELhPFRBbZuAl0/cjl/NomGzscm
- zKPhnEFQ5Jem0TNkiIc1kdKC/xuYXk0LkfLmTdBtqYvafB36qvOFl31XO
- YFBzuMbm3dMBqAHttrA/mZawcivrE2qFgoeYY/0N9lLHqZ+vFHxEQ2jtp
- t5ofRHLZYOxYTZMIXxJvDtvW5CgqsBVtLKCEOmyFS5Ryb3bvhSPbRPpU0
- eyrXZAs2TCFLWfx6dRGsxAhelI4VJxO7rG2Wb+WgSSP6pnHZD4BwbJAs/ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="359555325"
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="359555325"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 03:17:45 -0700
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="678028256"
-Received: from abijaz-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.58.140])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 03:17:41 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
- gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/9] drm_print: condense enum drm_debug_category
-In-Reply-To: <20220912052852.1123868-2-jim.cromie@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220912052852.1123868-1-jim.cromie@gmail.com>
- <20220912052852.1123868-2-jim.cromie@gmail.com>
-Date: Mon, 12 Sep 2022 13:17:34 +0300
-Message-ID: <87sfkw6gn5.fsf@intel.com>
+ t=1662978115; x=1694514115;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=rbitQRJ6jDxMHRoRFNvyOiXLWpjVICziWAEq1TuoVCI=;
+ b=DcfxBLIOuA7r/xVAyooqodHMY+NEg4Gay5hTL+I4euhA62hjw4U3iZa/
+ mDckqgaQUMYxgzQy1LyjumHBYmUOKqvzmLg++rFRKofe+qcc8TaDhMhuV
+ x4XWsC4yaOolVibTutwO3LaAzBk0Vq13W2YxF8iaRvyLZhjJTIMyicwBz
+ SppWoApEIwUAiltmB7oJC5qg1wLFsbSuWh1E3Aju3Op4gRq8sMX5NCgGS
+ MXAtQozUUM42z5l/myn2wN09JTUR0KoWdylDVhGtdC51p/ShqRG3g+LjX
+ 45PLo8YdO9ey4yKdgjqLs2XUXjBVSQJpnXtuBXA4SbM8KWnPfGZlcXfeW A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="361783524"
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="361783524"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 03:21:54 -0700
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="684376357"
+Received: from mtabaka-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.57.56])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 03:21:50 -0700
+Date: Mon, 12 Sep 2022 12:21:42 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH v10 3/9] compiler_types.h: Add assert_type to catch type
+ mis-match while compiling
+Message-ID: <Yx8INguMNIU4RIGY@alfio.lan>
+References: <20220909105913.752049-1-gwan-gyeong.mun@intel.com>
+ <20220909105913.752049-4-gwan-gyeong.mun@intel.com>
+ <Yx3A16ZElKOeJr0o@alfio.lan>
+ <579b8532-7687-4620-d146-c8ffbbc14097@rasmusvillemoes.dk>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <579b8532-7687-4620-d146-c8ffbbc14097@rasmusvillemoes.dk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,114 +60,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: seanpaul@chromium.org, daniel.vetter@ffwll.ch, joe@perches.com,
- linux@rasmusvillemoes.dk
+Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
+ chris@chris-wilson.co.uk, keescook@chromium.org, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, ndesaulniers@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, andrzej.hajda@intel.com,
+ dlatypov@google.com, matthew.auld@intel.com,
+ Andi Shyti <andi.shyti@linux.intel.com>, airlied@redhat.com,
+ mchehab@kernel.org, vitor@massaru.org, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 11 Sep 2022, Jim Cromie <jim.cromie@gmail.com> wrote:
-> enum drm_debug_category has 10 categories, but is initialized with
-> bitmasks which require 10 bits of underlying storage.  By using
-> natural enumeration, and moving the BIT(cat) into drm_debug_enabled(),
-> the enum fits in 4 bits, allowing the category to be represented
-> directly in pr_debug callsites, via the ddebug.class_id field.
->
-> While this slightly pessimizes the bit-test in drm_debug_enabled(),
-> using dyndbg with JUMP_LABEL will avoid the function entirely.
->
-> NOTE: this change forecloses the possibility of doing:
->
->   drm_dbg(DRM_UT_CORE|DRM_UT_KMS, "weird 2-cat experiment")
->
-> but thats already strongly implied by the use of the enum itself; its
-> not a normal enum if it can be 2 values simultaneously.
+Hi Rasmus,
 
-The drm.debug module parameter values are, arguably, ABI. There are tons
-of people, scripts, test environments, documentation, bug reports, etc,
-etc, referring to specific drm.debug module parameter values to enable
-specific drm debug logging categories.
+Thanks for dropping in,
 
-AFAICT you're not changing any of the values here, but having an enum
-without the hard coded values makes it more likely to accidentally
-change the category to bit mapping. At the very least deserves a
-comment.
+[...]
 
+> >> + * @t1: data type or variable
+> >> + * @t2: data type or variable
+> >> + *
+> >> + * The first and second arguments can be data types or variables or mixed (the
+> >> + * first argument is the data type and the second argument is variable or vice
+> >> + * versa). It determines whether the first argument's data type and the second
+> >> + * argument's data type are the same while compiling, and it breaks compile if
+> >> + * the two types are not the same.
+> >> + * See also assert_typable().
+> >> + */
+> >> +#define assert_type(t1, t2) _Static_assert(__same_type(t1, t2))
+> > 
+> > In C11 _Static_assert is defined as:
+> > 
+> >   _Static_assert ( constant-expression , string-literal ) ;
+> > 
+> > While
+> > 
+> >   _Static_assert ( constant-expression ) ;
+> > 
+> > is defined in C17 along with the previous. I think you should add
+> > the error message as a 'string-literal'.
+> 
+> See how static_assert() is defined in linux/build_bug.h, and let's avoid
+> using _Static_assert directly. So this should IMO just be
 
-BR,
-Jani.
+yes, our definition of static_assert() is against the C11
+specification, which should define it as:
 
+  #define static_assert _Static_assert
 
->
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> ---
->  include/drm/drm_print.h | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index 22fabdeed297..b3b470440e46 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -279,49 +279,49 @@ enum drm_debug_category {
->  	 * @DRM_UT_CORE: Used in the generic drm code: drm_ioctl.c, drm_mm.c,
->  	 * drm_memory.c, ...
->  	 */
-> -	DRM_UT_CORE		= 0x01,
-> +	DRM_UT_CORE,
->  	/**
->  	 * @DRM_UT_DRIVER: Used in the vendor specific part of the driver: i915,
->  	 * radeon, ... macro.
->  	 */
-> -	DRM_UT_DRIVER		= 0x02,
-> +	DRM_UT_DRIVER,
->  	/**
->  	 * @DRM_UT_KMS: Used in the modesetting code.
->  	 */
-> -	DRM_UT_KMS		= 0x04,
-> +	DRM_UT_KMS,
->  	/**
->  	 * @DRM_UT_PRIME: Used in the prime code.
->  	 */
-> -	DRM_UT_PRIME		= 0x08,
-> +	DRM_UT_PRIME,
->  	/**
->  	 * @DRM_UT_ATOMIC: Used in the atomic code.
->  	 */
-> -	DRM_UT_ATOMIC		= 0x10,
-> +	DRM_UT_ATOMIC,
->  	/**
->  	 * @DRM_UT_VBL: Used for verbose debug message in the vblank code.
->  	 */
-> -	DRM_UT_VBL		= 0x20,
-> +	DRM_UT_VBL,
->  	/**
->  	 * @DRM_UT_STATE: Used for verbose atomic state debugging.
->  	 */
-> -	DRM_UT_STATE		= 0x40,
-> +	DRM_UT_STATE,
->  	/**
->  	 * @DRM_UT_LEASE: Used in the lease code.
->  	 */
-> -	DRM_UT_LEASE		= 0x80,
-> +	DRM_UT_LEASE,
->  	/**
->  	 * @DRM_UT_DP: Used in the DP code.
->  	 */
-> -	DRM_UT_DP		= 0x100,
-> +	DRM_UT_DP,
->  	/**
->  	 * @DRM_UT_DRMRES: Used in the drm managed resources code.
->  	 */
-> -	DRM_UT_DRMRES		= 0x200,
-> +	DRM_UT_DRMRES
->  };
->  
->  static inline bool drm_debug_enabled(enum drm_debug_category category)
->  {
-> -	return unlikely(__drm_debug & category);
-> +	return unlikely(__drm_debug & BIT(category));
->  }
->  
->  /*
+this doesn't make me a big fan of it. But, because it's widely
+used, I think it should be used here as well, as you are
+suggesting.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> #define assert_same_type(t1, t2) static_assert(__same_type(t1, t2))
+> 
+> (including the naming of the macro; I don't think "assert_type" is a
+> good name). No need to add an explicit string literal, the name of the
+> macro and the constant expression itself are plenty to explain what is
+> being asserted (with the latter being the reason the string was made
+> optional).
+
+The string literal would be "__same_type(t1, t2)", right? I would
+still use something more explicit... up to Gwan-gyeong.
+
+Thanks,
+Andi
