@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658855B6235
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 22:31:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D2C5B628D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 23:11:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7DE10E2A9;
-	Mon, 12 Sep 2022 20:31:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82FB910E2FB;
+	Mon, 12 Sep 2022 21:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
- [209.85.210.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 009E810E2A9
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 20:31:21 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id
- h9-20020a9d5549000000b0063727299bb4so6675928oti.9
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 13:31:21 -0700 (PDT)
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com
+ [IPv6:2607:f8b0:4864:20::e2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A5DC10E2ED;
+ Mon, 12 Sep 2022 21:11:33 +0000 (UTC)
+Received: by mail-vs1-xe2d.google.com with SMTP id o123so10362591vsc.3;
+ Mon, 12 Sep 2022 14:11:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=0y5HDghcAY9sylQGFFzoaSf/fyhWZ2sBWfqcl39LrAY=;
+ b=mxC/08asEEoQwpJK7YyrNORboVPuR1mQ9pckLYXNFM9ItzfU4KAedKMQxXi+Ppdh4t
+ v0Z7Zxg+FPrE4QWEkn3h2vRE2QSxRJ0KA9uGF3tCoeY4rRltXbSYzIcixWkksNF9t9wO
+ o/Lldc8HyGnQ/TfoPY4NVvRvTjwUSJv6LYnbbdm+CZDBg4SxDRWhnzoAZXExfNnWqjl3
+ VKk+DmQ57LYXuxE3Gn8Z8PZhuSKCPAh7obwz8x90stW22FYdXekkH/8340+EcuAMqBB/
+ E9dZa3mrQQROKHo+3gvj0DQYDL1uQDqK1BDwYySeYl6pZ3WO1qwYVKsgOpXdoDHSQRvt
+ YMOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=6A3CWEMAFPkwUp+B5fXnYASflBbpzoqE0pypp9nRf24=;
- b=xXS+YB3e3TaqFfJYzAYy9TeOK6eB4sZrVTQDgLcEJ0694lD7IQaIHQKOQdm2BUhv2j
- ZCVVLq7KuXoxYT8Yl3JouyVFCyir23lJHdMz35/a6JnKJK6XIiTHrp0ndrLrMk8b4ZPR
- W98zYcSrhl+LTEe6X85tY0NSh+2TGvfq8tj58VfhPlImxJoFZJYva+KXWt6fcUJmbfPV
- VyiwtNsYIc+RUZ1HMbqhIYxSpRRX0n43Vo8Qi8cuhoC7BTLSaFsWobP9j59Svvu+oMrD
- bBVvMVQp+tOYqRdCMN6AVgr87L0nC9Utz5aKATneHwLFclaYWnyRui6p+ke+5WmNq6P5
- 2hrw==
-X-Gm-Message-State: ACgBeo2KuABWUMLOMtmO5bC/SFUnp01yLWjO/UxSpWsjsmhv9X6nWTNa
- fctgNHfRqy0WzSYo//ZjHw==
-X-Google-Smtp-Source: AA6agR41y4ZEWvWRxBL1Wfr2qArgX3oQFk30/7wuiEwQu0d00nU0yB/xzhB66U8l7MAC3QkOYkZ8FA==
-X-Received: by 2002:a9d:7442:0:b0:655:df84:5bd3 with SMTP id
- p2-20020a9d7442000000b00655df845bd3mr3021379otk.155.1663014681070; 
- Mon, 12 Sep 2022 13:31:21 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- k6-20020a056870818600b0010d7242b623sm6113334oae.21.2022.09.12.13.31.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Sep 2022 13:31:20 -0700 (PDT)
-Received: (nullmailer pid 1783124 invoked by uid 1000);
- Mon, 12 Sep 2022 20:31:20 -0000
-Date: Mon, 12 Sep 2022 15:31:20 -0500
-From: Rob Herring <robh@kernel.org>
-To: Mikko Perttunen <cyndis@kapsi.fi>
-Subject: Re: [PATCH 2/3] dt-bindings: Add Host1x context stream IDs on Tegra234
-Message-ID: <20220912203120.GA1783078-robh@kernel.org>
-References: <20220907083844.2486805-1-cyndis@kapsi.fi>
- <20220907083844.2486805-3-cyndis@kapsi.fi>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=0y5HDghcAY9sylQGFFzoaSf/fyhWZ2sBWfqcl39LrAY=;
+ b=5tG8gRpe1xsUUz83YQPLca1A9vGOblFIIXgcH9QQzoky3ftZwfHRtEnkaPkkiZLcpX
+ 8jHgjITVQUv7TQu/oIiOJdXyUYoahfTnk77m23uY6XZw1XkUYo+mtlX6FAq05eubFTzf
+ eyV4ew7D/NwNZuqbNgqIrklFF/AO6MMHrq2Bp6iL2wJUI21FzruBD9uGRH08PNY1/ysR
+ c38pu6ecVM6BN7aaXfi4g6FZO1JFpX5I/HFbTUWNL22hsQTFzkkLCR2JVVmAWidt955X
+ jX3tF+r/a6sNIbGmFOIS7ka3F7SNpUhytY8XC0c6pZYTni/z/A2b6LpNwE2rMOfPnkDt
+ a/ow==
+X-Gm-Message-State: ACgBeo3h0nKRcx5ospDVV8PlXrFbHw7b1OdxlFe0H74P7H5/zmUmJw78
+ lqBZOYn5xRDWhyijaSttHyAcL1l/O4ZWThZOhck=
+X-Google-Smtp-Source: AA6agR5pilGGCrxIlDXL0vtrXfNYU1+8LLhhj8vm590FXQ+SqLj90vzQQRbHzbzkwJG/WG/xxQzVbLbSR7rfddViAoo=
+X-Received: by 2002:a05:6102:3a4c:b0:398:3098:a301 with SMTP id
+ c12-20020a0561023a4c00b003983098a301mr7548545vsu.74.1663017092101; Mon, 12
+ Sep 2022 14:11:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220907083844.2486805-3-cyndis@kapsi.fi>
+References: <20220912052852.1123868-1-jim.cromie@gmail.com>
+ <20220912052852.1123868-3-jim.cromie@gmail.com> <87pmg06g2x.fsf@intel.com>
+In-Reply-To: <87pmg06g2x.fsf@intel.com>
+From: jim.cromie@gmail.com
+Date: Mon, 12 Sep 2022 15:11:05 -0600
+Message-ID: <CAJfuBxy5E0xPFH=bxaaXy2Q8LojBrqgr+su8wGq7rsv3m7_d_g@mail.gmail.com>
+Subject: Re: [PATCH v7 2/9] drm: POC drm on dyndbg - use in core, 2 helpers,
+ 3 drivers.
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,25 +65,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
- Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Jason Baron <jbaron@akamai.com>, Sean Paul <seanpaul@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Joe Perches <joe@perches.com>,
+ intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 07 Sep 2022 11:38:43 +0300, Mikko Perttunen wrote:
-> From: Mikko Perttunen <mperttunen@nvidia.com>
-> 
-> Add defines for stream IDs used for Host1x context isolation
-> on Tegra234. The same stream IDs are used for both NISO0 and
-> NISO1 SMMUs since Host1x's stream ID protection tables don't
-> make a distinction between the two.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
->  include/dt-bindings/memory/tegra234-mc.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
+On Mon, Sep 12, 2022 at 4:29 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+> On Sun, 11 Sep 2022, Jim Cromie <jim.cromie@gmail.com> wrote:
+> > Use DECLARE_DYNDBG_CLASSMAP across DRM:
+> >
+> >  - in .c files, since macro defines/initializes a record
+> >
+> >  - in drivers, $mod_{drv,drm,param}.c
+> >    ie where param setup is done, since a classmap is param related
+> >
+> >  - in drm/drm_print.c
+> >    since existing __drm_debug param is defined there,
+> >    and we ifdef it, and provide an elaborated alternative.
+> >
+> >  - in drm_*_helper modules:
+> >    dp/drm_dp - 1st item in makefile target
+> >    drivers/gpu/drm/drm_crtc_helper.c - random pick iirc.
+> >
+> > Since these modules all use identical CLASSMAP declarations (ie: names
+> > and .class_id's) they will all respond together to "class DRM_UT_*"
+> > query-commands:
 
-Acked-by: Rob Herring <robh@kernel.org>
+
+>
+> The commit message could start off by saying each module needs to define
+> DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, ...). That is, IIUC.
+>
+
+Yes, I see your point.
+All the explanations missing here are in preceding commits,
+now in GregKHs  driver-core/driver-core-next tree,
+so I didnt resend them.
+
+
+> Where's DECLARE_DYNDBG_CLASSMAP defined? linux-next? What's it do? What
+> if multiple modules with that are actually builtin?
+
+The commit that adds the macro is at
+https://lore.kernel.org/lkml/20220904214134.408619-15-jim.cromie@gmail.com/
+
+there are many combos of builtin, Ive done at least several:
+with caveat that >98% of testing is on virtme (thanks for that tool)
+
+- test_dynamic_debug as module, and builtin.
+it has multiple macro uses, showing 1 kind of sharing
+
+- drm as builtin, drivers as modules
+that surely pulled in other drm-helpers as builtins
+
+- all loadable modules mostly.
+
+
+>
+> The duplication and requirement that they're identical seems like an
+> error prone combo.
+
+I freely acknowledge(d) this is sub-optimal.
+There might be a best place for a single declaration that is in-scope
+across multiple modules, but I dont know the drm core/driver lifetime
+well enough to just drop this into that place.
+
+I may have complicated things by starting with a static struct holding
+the classmap, that choice was driven by:
+
+- static declaration into a section solved a problem where the class
+definitions
+were "registered" (term used in patchset, -v2-3?) too late to be available for
+     modprobe i915 dyndbg='class DRM_UT_CORE +p'
+but worked afterwards
+(also true for builtins and boot-time $mod.dyndbg='class notworking +p')
+
+Another subtlety - the "sharing" is due more to: drm_dbg(DRM_UT_*, "")
+Im not sure precisely how this might matter.
+
+I also had an "incompleteness" argument circling in my head - something like;
+you cant simultaneously allow a drm-wanna-be module to declare "DRM_UT_CORE"
+but disallow "DRM_UT_ILL_CONSIDERED".   I kind-of stopped there.
+
+Theres also an issue where multiple declarations in a module must
+avoid range overlap.
+I had no idea how to put that into a BUILD_BUG_ON.
+Its done manually, with commentary, in test-dynamic-debug.
+
+Maybe both issues can be improved somewhat by changing the macro
+to expect real ENUM symbols, (and stringify _VA_ARGS_ to init the classnames),
+not the quoted "DRM_UT_*"s it gets now.  That would also obsolete the _base,
+since its the value of DRM_UT_CORE (the 1st enum val).
+But that still leaves the enum vals enumerated, with possibility of
+omission or mixup,
+which unlike a spelling error wouldnt get caught, and would be wrong.
+
+I fiddled with the 1st part of that for a while, I lack the macro-fu,
+and punted.
+
+Im happy to try an alternative approach, particularly with elaborated
+suggestions.
+
+
+>
+> Finally, the choice of placement in e.g. i915_params.c seems completely
+> arbitrary, and makes you wonder "what here requires this, nothing?".
+
+acknowledged - I put it there because the access to it is via a parameter,
+namely one that already affects it from a distance:
+   /sys/module/drm/parameters/debug - ie drm.dbg
+
+And its not even i915's parameter.
+
+>
+> BR,
+> Jani.
+>
+
+thanks,
+
+>
+> >
+> > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
