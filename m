@@ -2,82 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683915B61E3
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 21:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C235B620A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 22:13:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEB9610E219;
-	Mon, 12 Sep 2022 19:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38E9010E13F;
+	Mon, 12 Sep 2022 20:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFCF810E219
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 19:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663012230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w0YHTFiHmCMOhY8jwxABxa5BgJfL6gkhs2YD6OMTr1g=;
- b=UvxJtnvAoyeymMb8UqjiICkPlXAWzZb5rkj1nEwlxCld5HMvK6g8haxH9WN4YngGdUMZjx
- WlO/RGM48c9BmdjsyB8C8AwOgK9YCvSDZgbEjodkx9V8/1V+hH/iYsZRyRBHjzCkeTOYBg
- 3rXRgz8J424zAIpDv2HMZRv40ezTNkk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-447-JKLtKqgjM12YM_ilyqLGng-1; Mon, 12 Sep 2022 15:50:29 -0400
-X-MC-Unique: JKLtKqgjM12YM_ilyqLGng-1
-Received: by mail-ed1-f71.google.com with SMTP id
- e15-20020a056402190f00b0044f41e776a0so6743645edz.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 12:50:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=w0YHTFiHmCMOhY8jwxABxa5BgJfL6gkhs2YD6OMTr1g=;
- b=jAl81aE4YQNLJpinRwnyF1A05+08eyuzEdzTBX7HA+klxoiD1j7zKbsCHKwqJWfUWM
- pb64MJH82KnIohe1qvMKP4oD9kO+9Ua4lcIpAG9qKcwmkIjwdGx4IKmYGFGIFDj/RkYI
- J01duOOlnPCrLPqdQ5jOXEgnP19YDzk16fAcFejEEIOdguyLRCgr3x0NBf9xSBo9m06K
- RHOs3qrLpn/pxjlXwWaJpzGZBWOvzaLmeYhKORJYqTvbPXqtxEywRYvZkbeFmoadDNTm
- D4046nI408238ZdaWBjcEoSGF6oha2jNvYl6yiJlKhdG8vBI5s2Q+7DObptjgjzsDNIu
- lzeQ==
-X-Gm-Message-State: ACgBeo0CB8WmPrkSTB7QSxQXrbYWB/vYUP/7KqP/AyeR17wc7f1LYQUT
- ssspJoVLpofoVPt2JCmOn8comk8ZeG5emt3psgg7f+WREE1RMZnhV7tRhDFWDBQRgtikjBSfg8b
- rYLJeuXI+9Gja6POQktDp+uEKAuRt
-X-Received: by 2002:a05:6402:3485:b0:451:f615:321f with SMTP id
- v5-20020a056402348500b00451f615321fmr3394894edc.65.1663012228295; 
- Mon, 12 Sep 2022 12:50:28 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4XL9fTgyaRKc9Ofbmv7caRrEgXhMgt6F/fC9gah/5BqD0T4QwTibDWloQvf5gK3w7wJXiFQA==
-X-Received: by 2002:a05:6402:3485:b0:451:f615:321f with SMTP id
- v5-20020a056402348500b00451f615321fmr3394881edc.65.1663012228134; 
- Mon, 12 Sep 2022 12:50:28 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b40:2ee8:642:1aff:fe31:a15c?
- ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- 9-20020a170906210900b007767c82acc6sm4841512ejt.151.2022.09.12.12.50.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Sep 2022 12:50:27 -0700 (PDT)
-Message-ID: <dc472070-34a8-93e1-2ca3-4847c49f12eb@redhat.com>
-Date: Mon, 12 Sep 2022 21:50:26 +0200
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A24710E13D;
+ Mon, 12 Sep 2022 20:13:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663013587; x=1694549587;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=w5H9Us6zbcQVkNKEWwIf8zg85XKigIFhLnv78ZY1Z+A=;
+ b=Lrne74l/6+3kTagQMvlLyC6qi2HbQxLutXhYCtFwbz8LM/olsI2mVMb4
+ iDDJuWV/Rc4R/QI4cHQoALyiE6jM8ahlyyHLXnvqx1uKItUqUHf3dzpWE
+ UnqyngGX4F/7UftFS5MeikaW0Bt5ZuVWoNvAg8CKJTBReBJhaDpYhu5tZ
+ pu7I5nCKSCGx7JEZK6O8a2jIq8pa8m0S64RgUhRqfnf7YcwF30CY2Wfre
+ 1zrcIVi08Zt2jHj4tMP5Xyz9hA/nk95bYl35D2OUq15vgwXn/7UFnWwbc
+ PHW8D1dtrwe0p5B6CdW3l0dvxwTZreWPzAHrkDhLEnqNMBN4G8drVnoiw w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="299299182"
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="299299182"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 13:13:06 -0700
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="678247695"
+Received: from cbittigh-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.251.208.30])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 13:13:04 -0700
+Date: Mon, 12 Sep 2022 22:12:57 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v1 1/1] drm/i915: Skip applying copy engine
+ fuses
+Message-ID: <Yx+KIOliWdMIAe/M@alfio.lan>
+References: <20220912-copy-engine-v1-0-ef92fd81758d@intel.com>
+ <20220912-copy-engine-v1-1-ef92fd81758d@intel.com>
+ <Yx9liQu4JmnVmWVn@alfio.lan>
+ <20220912181247.dfyupvp4qxbavnen@ldmartin-desk2.lan>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH RESEND drm-misc-next 4/7] drm/arm/hdlcd: plane: use drm
- managed resources
-To: Liviu Dudau <liviu.dudau@arm.com>
-References: <20220905152719.128539-1-dakr@redhat.com>
- <20220905152719.128539-5-dakr@redhat.com>
- <Yx9uAe//u/Z9zfmM@e110455-lin.cambridge.arm.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <Yx9uAe//u/Z9zfmM@e110455-lin.cambridge.arm.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220912181247.dfyupvp4qxbavnen@ldmartin-desk2.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,101 +60,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liviu,
+Hi Lucas,
 
-Thanks for having a look!
-
-This is not about this patch, it's about patch 3/7 "drm/arm/hdlcd: crtc: 
-use drmm_crtc_init_with_planes()".
-
-And there it's the other way around. When using 
-drmm_crtc_init_with_planes() we shouldn't have a destroy hook in place, 
-that's the whole purpose of drmm_crtc_init_with_planes().
-
-We should just drop patch 3/7 "drm/arm/hdlcd: crtc: use 
-drmm_crtc_init_with_planes()", it's wrong.
-
-Do you want me to send a v2 for that?
-
-- Danilo
-
-
-
-On 9/12/22 19:36, Liviu Dudau wrote:
-> Hi Danilo,
+On Mon, Sep 12, 2022 at 11:12:47AM -0700, Lucas De Marchi wrote:
+> On Mon, Sep 12, 2022 at 06:59:53PM +0200, Andi Shyti wrote:
+> > Hi Lucas,
+> > 
+> > On Mon, Sep 12, 2022 at 09:19:38AM -0700, Lucas De Marchi wrote:
+> > > Support for reading the fuses to check what are the Link Copy engines
+> > > was added in commit ad5f74f34201 ("drm/i915/pvc: read fuses for link
+> > > copy engines"). However they were added unconditionally because the
+> > > FUSE3 register is present since graphics version 10.
+> > > 
+> > > However the bitfield with meml3 fuses only exists since graphics version
+> > > 12. Moreover, Link Copy engines are currently only available in PVC.
+> > > Tying additional copy engines to the meml3 fuses is not correct for
+> > > other platforms.
+> > > 
+> > > Make sure there is a check for  `12.60 <= ver < 12.70`. Later platforms
+> > > may extend this function later if it's needed to fuse off copy engines.
+> > > 
+> > > Currently it's harmless as the Link Copy engines are still not exported:
+> > > info->engine_mask only has BCS0 set and the register is only read for
+> > > platforms that do have it.
+> > > 
+> > > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > index 814f83b5fe59..1f7188129cd1 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > @@ -764,6 +764,10 @@ static void engine_mask_apply_copy_fuses(struct intel_gt *gt)
+> > >  	unsigned long meml3_mask;
+> > >  	unsigned long quad;
+> > > 
+> > > +	if (!(GRAPHICS_VER_FULL(i915) >= IP_VER(12, 60) &&
+> > > +	      GRAPHICS_VER_FULL(i915) < IP_VER(12, 70)))
+> > > +		return;
+> > > +
+> > 
+> > Isn't it easier if you wrote
+> > 
+> > 	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 60) ||
+> > 	    GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
+> > 		return;
+> > 
+> > ?
+> > 
+> > You save a parenthesis and a negation '!'.
 > 
-> I have applied your patch series for HDLCD on top of drm-next (commit 213cb76ddc8b)
-> and on start up I get a warning:
-> 
-> [   12.882554] hdlcd 7ff50000.hdlcd: drm_WARN_ON(funcs && funcs->destroy)
-> [   12.882596] WARNING: CPU: 1 PID: 211 at drivers/gpu/drm/drm_crtc.c:393 __drmm_crtc_init_with_planes+0x70/0xf0 [drm]
-> 
-> It looks like the .destroy hook is still required or I'm missing some other required
-> series where the WARN has been removed?
-> 
-> Best regards,
-> Liviu
-> 
-> On Mon, Sep 05, 2022 at 05:27:16PM +0200, Danilo Krummrich wrote:
->> Use drm managed resource allocation (drmm_universal_plane_alloc()) in
->> order to get rid of the explicit destroy hook in struct drm_plane_funcs.
->>
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->> ---
->>   drivers/gpu/drm/arm/hdlcd_crtc.c | 20 +++++++-------------
->>   1 file changed, 7 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
->> index c0a5ca7f578a..17d3ccf12245 100644
->> --- a/drivers/gpu/drm/arm/hdlcd_crtc.c
->> +++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
->> @@ -289,7 +289,6 @@ static const struct drm_plane_helper_funcs hdlcd_plane_helper_funcs = {
->>   static const struct drm_plane_funcs hdlcd_plane_funcs = {
->>   	.update_plane		= drm_atomic_helper_update_plane,
->>   	.disable_plane		= drm_atomic_helper_disable_plane,
->> -	.destroy		= drm_plane_cleanup,
->>   	.reset			= drm_atomic_helper_plane_reset,
->>   	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
->>   	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
->> @@ -297,24 +296,19 @@ static const struct drm_plane_funcs hdlcd_plane_funcs = {
->>   
->>   static struct drm_plane *hdlcd_plane_init(struct drm_device *drm)
->>   {
->> -	struct hdlcd_drm_private *hdlcd = drm->dev_private;
->> +	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
->>   	struct drm_plane *plane = NULL;
->>   	u32 formats[ARRAY_SIZE(supported_formats)], i;
->> -	int ret;
->> -
->> -	plane = devm_kzalloc(drm->dev, sizeof(*plane), GFP_KERNEL);
->> -	if (!plane)
->> -		return ERR_PTR(-ENOMEM);
->>   
->>   	for (i = 0; i < ARRAY_SIZE(supported_formats); i++)
->>   		formats[i] = supported_formats[i].fourcc;
->>   
->> -	ret = drm_universal_plane_init(drm, plane, 0xff, &hdlcd_plane_funcs,
->> -				       formats, ARRAY_SIZE(formats),
->> -				       NULL,
->> -				       DRM_PLANE_TYPE_PRIMARY, NULL);
->> -	if (ret)
->> -		return ERR_PTR(ret);
->> +	plane = drmm_universal_plane_alloc(drm, struct drm_plane, dev, 0xff,
->> +					   &hdlcd_plane_funcs,
->> +					   formats, ARRAY_SIZE(formats),
->> +					   NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
->> +	if (IS_ERR(plane))
->> +		return plane;
->>   
->>   	drm_plane_helper_add(plane, &hdlcd_plane_helper_funcs);
->>   	hdlcd->plane = plane;
->> -- 
->> 2.37.2
->>
-> 
+> but that makes it wrong. I'd really want the range
+> 12.60 <= version < 12.70, so it applies to PVC  but is then disabled
+> again for MTL.
 
+But it's negated... so that if it's not in the range, it's
+outside of the range... right?
+
+ NOT(12.60 <= ver < 12.70)   <--- you wrote
+
+is the same as:
+
+ ver < 12.60 or ver >= 12.70 <--- I suggested
+
+and it would mean (just to see if I'm not getting confused by
+something and the negations do always confuse me):
+
+
+                 12.60          12.70
+        return     |              |     return
+  ver: ------------[--------------[---------------
+
+
+But it's the same, taht's why I r-b it anyway.
+
+> Depending on how this evolves for future platforms, we
+> may change it to a feature flag or just check by platform
+> name. For now I think this is the most future-proof option.
+
+yes, I got the point and I think it's fine.
+
+Andi
+
+> Lucas De Marchi
+> 
+> > 
+> > Anyway, looks good:
+> > 
+> > Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > 
+> > Andi
+> > 
+> > >  	meml3_mask = intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3);
+> > >  	meml3_mask = REG_FIELD_GET(GEN12_MEML3_EN_MASK, meml3_mask);
+> > > 
+> > > 
+> > > --
+> > > b4 0.10.0-dev-df873
