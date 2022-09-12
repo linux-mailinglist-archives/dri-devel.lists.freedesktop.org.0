@@ -1,54 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DB25B5E84
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 18:49:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C364C5B5EB0
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 19:00:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2092C10E607;
-	Mon, 12 Sep 2022 16:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB74D10E0C1;
+	Mon, 12 Sep 2022 17:00:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBB810E5FC;
- Mon, 12 Sep 2022 16:49:11 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5444510E0C1;
+ Mon, 12 Sep 2022 16:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663001351; x=1694537351;
+ t=1663001998; x=1694537998;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=+KidtIfsWU/A9r0npGzDVevDPIE5FievI+diWJITcn8=;
- b=eeb8l4ujvubwy77pBdYxn4YPkqEKIS8yHcsM32pLbCGiWOBuF6QDAKkQ
- 6yJgp1XFvZhqK8pmcf59Nxo/1/fMB80/55xWwqJkWJbLwG92e9NNXwTwE
- mMGEiR5VUWsMyNDsIfteih7v3YU0rVsGvkH8Lp5GnnVsFk1S9HFAQxRtK
- 2TvrgD9aDkdf6DD7pequ87LPQsa/Yv6SBOe0l5oM0JR+84Ak4lswwfoSU
- ZkUyRldeze1If8zSos6IXIYsbXgSNZL+h/q4y7tkS5eTQLL17vjMlt+J7
- DmiOAQG+Ad5lpE4m6PMElExi8zuZIiIhX3158l1/sqakIieiFueG4bd/u w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="295501995"
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="295501995"
+ mime-version:in-reply-to;
+ bh=d1kGTyk2cN9Ovca/+x9Nb4cMgT7PK2UcJyHC3d94Rl4=;
+ b=VR0CthdsheagV1uF90GDbJgGfgcBvRUxOVYFUUWuidOdmSVu52LeDUHB
+ yZJU5Xe0QHMDGD3e1zIoxJtp+54+nv3Fzb97J9SwrUIgOAKnPrFYS6jlB
+ fZTVRcqzlCATZSYzt54FSwcC3d71AqrWIwSsMWNHQc1UFb3+ppwc2r7tb
+ UAZji9VO2OwYCI9wf0fT4WLaEQGYAUXBgKaIkoWCUjDtbkj1fTV2krba7
+ CbsWw9CQpKXW0iaxYnZmhpLQ/CoroEkUaZCZFzaL4KW7KacQSvSo+qNjS
+ TnM6B25d4gMVhNR/jNZ5tdcwIuormAfZj5vbpZEj/iMsjS3uVw37mmsif g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="359643568"
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="359643568"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 09:49:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="678172190"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga008.fm.intel.com with SMTP; 12 Sep 2022 09:49:08 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 12 Sep 2022 19:49:07 +0300
-Date: Mon, 12 Sep 2022 19:49:07 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix display problems after resume
-Message-ID: <Yx9jAwdh9rIhdmse@intel.com>
-References: <20220912121957.31310-1-thomas.hellstrom@linux.intel.com>
- <Yx8pa+cZ6BIdCZA5@intel.com>
- <24a864240e0f689b30d66aeb1f978bf3aae6843f.camel@linux.intel.com>
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 09:59:57 -0700
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="678176042"
+Received: from mtabaka-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.57.56])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 09:59:56 -0700
+Date: Mon, 12 Sep 2022 18:59:53 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v1 1/1] drm/i915: Skip applying copy engine
+ fuses
+Message-ID: <Yx9liQu4JmnVmWVn@alfio.lan>
+References: <20220912-copy-engine-v1-0-ef92fd81758d@intel.com>
+ <20220912-copy-engine-v1-1-ef92fd81758d@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <24a864240e0f689b30d66aeb1f978bf3aae6843f.camel@linux.intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <20220912-copy-engine-v1-1-ef92fd81758d@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +58,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 12, 2022 at 02:48:54PM +0200, Thomas Hellström wrote:
-> On Mon, 2022-09-12 at 15:43 +0300, Ville Syrjälä wrote:
-> > On Mon, Sep 12, 2022 at 02:19:57PM +0200, Thomas Hellström wrote:
-> > > Commit 39a2bd34c933 ("drm/i915: Use the vma resource as argument
-> > > for gtt
-> > > binding / unbinding") introduced a regression that due to the vma
-> > > resource
-> > > tracking of the binding state, dpt ptes were not correctly
-> > > repopulated.
-> > 
-> > Doesn't this mean all ggtt ptes weren't repopulated? So I'm
-> > wondering how anything at all has been working?
+Hi Lucas,
+
+On Mon, Sep 12, 2022 at 09:19:38AM -0700, Lucas De Marchi wrote:
+> Support for reading the fuses to check what are the Link Copy engines
+> was added in commit ad5f74f34201 ("drm/i915/pvc: read fuses for link
+> copy engines"). However they were added unconditionally because the
+> FUSE3 register is present since graphics version 10.
 > 
-> ggtt ptes had a different check that was copy-pasted from the pre-vma-
-> resource code and that wasn't that strict. Hence why it worked.
+> However the bitfield with meml3 fuses only exists since graphics version
+> 12. Moreover, Link Copy engines are currently only available in PVC.
+> Tying additional copy engines to the meml3 fuses is not correct for
+> other platforms.
+> 
+> Make sure there is a check for  `12.60 <= ver < 12.70`. Later platforms
+> may extend this function later if it's needed to fuse off copy engines.
+> 
+> Currently it's harmless as the Link Copy engines are still not exported:
+> info->engine_mask only has BCS0 set and the register is only read for
+> platforms that do have it.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 814f83b5fe59..1f7188129cd1 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -764,6 +764,10 @@ static void engine_mask_apply_copy_fuses(struct intel_gt *gt)
+>  	unsigned long meml3_mask;
+>  	unsigned long quad;
+>  
+> +	if (!(GRAPHICS_VER_FULL(i915) >= IP_VER(12, 60) &&
+> +	      GRAPHICS_VER_FULL(i915) < IP_VER(12, 70)))
+> +		return;
+> +
 
-The ggtt one seems to want to skip if the vma is already bound 
-with the other flag than what we're using this time, but doesn't
-skip if it's already bound with the same flag(s). I have no idea
-what it's trying to achieve there.
+Isn't it easier if you wrote
 
-The dpt case skips if it's a bound at all, which seems much more
-obvious but the fact that ggtt code never did that makes me
-suspect it's not that clear cut.
+	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 60) ||
+	    GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
+		return;
 
-So seems to me that the two checks are trying to do achieve
-different goals, but at least I can't tell why that is.
+?
 
--- 
-Ville Syrjälä
-Intel
+You save a parenthesis and a negation '!'.
+
+Anyway, looks good:
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+Andi
+ 
+>  	meml3_mask = intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3);
+>  	meml3_mask = REG_FIELD_GET(GEN12_MEML3_EN_MASK, meml3_mask);
+>  
+> 
+> -- 
+> b4 0.10.0-dev-df873
