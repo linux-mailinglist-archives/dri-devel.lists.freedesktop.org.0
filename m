@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CDA5B5359
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 07:13:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 985E45B5365
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 07:29:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B2510E07E;
-	Mon, 12 Sep 2022 05:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23B1810E0A6;
+	Mon, 12 Sep 2022 05:29:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6755010E07E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 05:12:32 +0000 (UTC)
-X-UUID: 3e62f5a185a94644a2b48ae07844123c-20220912
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=AgKGxLJME97EESTzSl/GJ1X/tv4nYM3L+ZPiXlR/70Y=; 
- b=MGONeH9kkyiyjD7wiXAUWW1IREGnIztGiDwtzShYqh8tbYQhgUdlUm7EABkkvklec6QuVkfwsWDzhz0TyqWrGg6e9OmIrBWjmJIdyVIvNZCJRs5BA96Py9sxH8LvIAl7gPSZ+KeO2X8Yy8WHMtUrnIcPpu1N0vRJCdRyQdxc5ig=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:10876139-cad0-4281-8823-c9021db82db3, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
- Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18, CLOUDID:b6d40df6-6e85-48d9-afd8-0504bbfe04cb,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 3e62f5a185a94644a2b48ae07844123c-20220912
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 583762051; Mon, 12 Sep 2022 13:12:28 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 12 Sep 2022 13:12:27 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Sep 2022 13:12:26 +0800
-Message-ID: <3c67e742bdb06e55ba170a0a6dc79e6f6833c0e7.camel@mediatek.com>
-Subject: Re: [PATCH RESEND v3 6/9] drm/mediatek: Add gamma support different
- bank_size for other SoC
-From: CK Hu <ck.hu@mediatek.com>
-To: Jason-JH.Lin <jason-jh.lin@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Date: Mon, 12 Sep 2022 13:12:26 +0800
-In-Reply-To: <20220912013006.27541-7-jason-jh.lin@mediatek.com>
-References: <20220912013006.27541-1-jason-jh.lin@mediatek.com>
- <20220912013006.27541-7-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
+ [IPv6:2607:f8b0:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E98D310E091;
+ Mon, 12 Sep 2022 05:29:05 +0000 (UTC)
+Received: by mail-il1-x12b.google.com with SMTP id y15so3995821ilq.4;
+ Sun, 11 Sep 2022 22:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=qg9to7hIZo/tNgDGQnKxNsyMgfHTsJfmQeKWAWjBM3Y=;
+ b=fwweiZkkxgOj9IkckstUmzr3+NSlljXdQmamHEHFjSjjln6iHltmY3l7o+HzWFaYEG
+ Lb5aJYHZeN3aVoSi0wv3JIexy4kqaX0r9ZoBwqGwD5QLF3qY0rqLGqYOQyH3nVTiw+jF
+ Be9qUsrDDXn1SiWxtQzMbaXkRHkJz3b/oTcbxzPQl6uSFoqPbb+tuxVlAhaVwUhrf6qK
+ ObYNR0eEdla8tydXUacWQ5EkvI7UvdcDElX3vsKx7xKZJyG7qZ4snHR4GxLhd2RkzRR9
+ K8H7GHVGPDwTyMox6Wzdb9p2n5WnKC6KpDb4FIQ/leaQbmFI7jFryPR65ncRBxpm5S5I
+ eGvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=qg9to7hIZo/tNgDGQnKxNsyMgfHTsJfmQeKWAWjBM3Y=;
+ b=S8Pc1WiV2TKEcIOyOZJfLYBOuQ3sdKiCv1qrt1Qmo3cpLVDTr2nTFnBN0Y41LLJnaC
+ V7X8F95tXClqhAJINtbg7If3ikrR/E79b8Azk1jye+wWLLqWrPqePMcxEVUziT6CmM4Y
+ w6fJp1qyJUUkU+hP7XWdMgI0eluLkxDEw6u8PVwSmaBtXYEoy+C38lehh5+ex0CGC9G2
+ xtbJJ0TGQvTb+0ZlEeKLDnP6rD53dogDaZLIUOqCkr1OoxuyLqkDIZGSpW0wkJhipDrC
+ iuT+aRZwJna8Tl9qBsyfn4qGIbUxVBof1QB9wU8aqd5YeOhqnzTymiu96+hYR15PFa3X
+ AJsQ==
+X-Gm-Message-State: ACgBeo3yxdnRf5fiyR8brTONyIIr80AUaXNdljQNt9QsB0984iDZBte/
+ 5FiyXwgGEQxZrLPhqPOqQvI=
+X-Google-Smtp-Source: AA6agR6PqOG3cAeMUhS/dA7RYLxwnEszf0aSW5+mVVBkyci+q1M/IQ4stFHaBuDia3OjYj44LDJH6A==
+X-Received: by 2002:a05:6e02:168e:b0:2f3:33d5:19bd with SMTP id
+ f14-20020a056e02168e00b002f333d519bdmr8684638ila.112.1662960545031; 
+ Sun, 11 Sep 2022 22:29:05 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+ by smtp.googlemail.com with ESMTPSA id
+ q16-20020a056e02079000b002eb75fb01dbsm3006057ils.28.2022.09.11.22.29.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 11 Sep 2022 22:29:04 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: jbaron@akamai.com, gregkh@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/9] dyndbg: drm.debug adaptation
+Date: Sun, 11 Sep 2022 23:28:43 -0600
+Message-Id: <20220912052852.1123868-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,142 +70,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Rex-BC Chen <rex-bc.chen@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk, seanpaul@chromium.org,
+ joe@perches.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
+hi Greg, Dan, Jason, DRM-folk,
 
-On Mon, 2022-09-12 at 09:30 +0800, Jason-JH.Lin wrote:
-> Add multiple bank support for mt8195.
-> If bank size is 0 which means no bank support.
-> 
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 45 +++++++++++++------
-> ----
->  1 file changed, 26 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> index be82d15a5204..45da2b6206c8 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> @@ -21,6 +21,7 @@
->  #define GAMMA_LUT_EN					BIT(1)
->  #define GAMMA_DITHERING					BIT(2)
->  #define DISP_GAMMA_SIZE				0x0030
-> +#define DISP_GAMMA_BANK				0x0100
->  #define DISP_GAMMA_LUT				0x0700
->  
->  #define LUT_10BIT_MASK				0x03ff
-> @@ -33,6 +34,7 @@ struct mtk_disp_gamma_data {
->  	bool lut_diff;
->  	u16 lut_size;
->  	u8 lut_bits;
-> +	u16 bank_size;
->  };
->  
->  /*
-> @@ -75,9 +77,10 @@ void mtk_gamma_set_common(struct device *dev, void
-> __iomem *regs, struct drm_crt
->  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
->  	bool lut_diff = false;
->  	u16 lut_size = LUT_SIZE_DEFAULT;
-> +	u16 bank_size = lut_size;
->  	u8 lut_bits = LUT_BITS_DEFAULT;
->  	u8 shift_bits;
-> -	unsigned int i, reg;
-> +	unsigned int i, j, reg, bank_num;
->  	struct drm_color_lut *lut;
->  	void __iomem *lut_base;
->  	u32 word, mask;
-> @@ -87,8 +90,10 @@ void mtk_gamma_set_common(struct device *dev, void
-> __iomem *regs, struct drm_crt
->  		lut_diff = gamma->data->lut_diff;
->  		lut_size = gamma->data->lut_size;
->  		lut_bits = gamma->data->lut_bits;
-> +		bank_size = gamma->data->bank_size;
->  	}
->  
-> +	bank_num = lut_size / bank_size;
->  	shift_bits = LUT_INPUT_BITS - lut_bits;
->  	mask = GENMASK(lut_bits - 1, 0);
->  
-> @@ -98,25 +103,27 @@ void mtk_gamma_set_common(struct device *dev,
-> void __iomem *regs, struct drm_crt
->  		writel(reg, regs + DISP_GAMMA_CFG);
->  		lut_base = regs + DISP_GAMMA_LUT;
->  		lut = (struct drm_color_lut *)state->gamma_lut->data;
-> -		for (i = 0; i < lut_size; i++) {
-> -
-> -			if (!lut_diff || (i % 2 == 0)) {
-> -				word = (((lut[i].red >> shift_bits) &
-> mask) << 20) +
-> -					(((lut[i].green >> shift_bits)
-> & mask) << 10) +
-> -					((lut[i].blue >> shift_bits) &
-> mask);
-> -			} else {
-> -				diff[0] = (lut[i].red >> shift_bits) -
-> -					  (lut[i - 1].red >>
-> shift_bits);
-> -				diff[1] = (lut[i].green >> shift_bits)
-> -
-> -					  (lut[i - 1].green >>
-> shift_bits);
-> -				diff[2] = (lut[i].blue >> shift_bits) -
-> -					  (lut[i - 1].blue >>
-> shift_bits);
-> -
-> -				word = ((diff[0] & mask) << 20) +
-> -					((diff[1] & mask) << 10) +
-> -					(diff[2] & mask);
-> +		for (j = 0; j < bank_num; j++) {
-> +			writel(j, regs + DISP_GAMMA_BANK);
+heres follow-up to V6:
+  rebased on driver-core/driver-core-next for -v6 applied bits (thanks)
+  rework drm_debug_enabled{_raw,_instrumented,} per Dan.
 
-Does mt8173 and mt8183 has this register? If not, do not set this
-register in mt8173 and mt8183.
+It excludes:
+  nouveau parts (immature)
+  tracefs parts (I missed --to=Steve on v6)
+  split _ddebug_site and de-duplicate experiment (way unready)
 
-Regards,
-CK
+IOW, its the remaining commits of V6 on which Dan gave his Reviewed-by.
 
-> +			for (i = 0; i < bank_size; i++) {
-> +				if (!lut_diff || (i % 2 == 0)) {
-> +					word = (((lut[i].red >>
-> shift_bits) & mask) << 20) +
-> +						(((lut[i].green >>
-> shift_bits) & mask) << 10) +
-> +						((lut[i].blue >>
-> shift_bits) & mask);
-> +				} else {
-> +					diff[0] = (lut[i].red >>
-> shift_bits) -
-> +						  (lut[i - 1].red >>
-> shift_bits);
-> +					diff[1] = (lut[i].green >>
-> shift_bits) -
-> +						  (lut[i - 1].green >>
-> shift_bits);
-> +					diff[2] = (lut[i].blue >>
-> shift_bits) -
-> +						  (lut[i - 1].blue >>
-> shift_bits);
-> +
-> +					word = ((diff[0] & mask) << 20)
-> +
-> +						((diff[1] & mask) <<
-> 10) +
-> +						(diff[2] & mask);
-> +				}
-> +				writel(word, (lut_base + i * 4));
->  			}
-> -			writel(word, (lut_base + i * 4));
->  		}
->  	}
->  }
+If these are good to apply, I'll rebase and repost the rest separately.
+
+These are also available at:
+https://github.com/jimc/linux/releases/tag/dyndbg%2Fdd-drm-class-911
+
+RFC:
+
+DECLARE_DYNDBG_CLASSMAP's interface can be improved: class-names are
+currently strings, like "DRM_UT_CORE", which must have corresponding
+ENUM symbols defined.  It would be better to just pass DRM_UT_CORE,
+etc, and stringify the va-args inside the macro while initializing
+classnames member.  But how ?
+
+
+Jim Cromie (9):
+  drm_print: condense enum drm_debug_category
+  drm: POC drm on dyndbg - use in core, 2 helpers, 3 drivers.
+  drm_print: interpose drm_*dbg with forwarding macros
+  drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro
+  drm-print.h: include dyndbg header
+  drm-print: add drm_dbg_driver to improve namespace symmetry
+  drm_print: optimize drm_debug_enabled for jump-label
+  drm_print: prefer bare printk KERN_DEBUG on generic fn
+  drm_print: add _ddebug descriptor to drm_*dbg prototypes
+
+ drivers/gpu/drm/Kconfig                 | 12 ++++
+ drivers/gpu/drm/Makefile                |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 14 +++++
+ drivers/gpu/drm/display/drm_dp_helper.c | 13 +++++
+ drivers/gpu/drm/drm_crtc_helper.c       | 13 +++++
+ drivers/gpu/drm/drm_print.c             | 48 +++++++++++----
+ drivers/gpu/drm/i915/i915_params.c      | 12 ++++
+ drivers/gpu/drm/nouveau/nouveau_drm.c   | 13 +++++
+ include/drm/drm_print.h                 | 78 +++++++++++++++++++------
+ 9 files changed, 174 insertions(+), 31 deletions(-)
+
+-- 
+2.37.3
 
