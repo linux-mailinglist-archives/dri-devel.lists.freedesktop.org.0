@@ -2,138 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC645B5F1E
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 19:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593C95B5F68
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 19:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43AC910E1B3;
-	Mon, 12 Sep 2022 17:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9FE610E121;
+	Mon, 12 Sep 2022 17:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97D3610E1B2;
- Mon, 12 Sep 2022 17:19:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663003162; x=1694539162;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=B1eYrGmza941Es8Ptg1eOzS/GZDvSllr4K9x63V2mPA=;
- b=L+CmdNbBkfgNn7ncp4/D2QdRdfnTP2Ce/yHkc3xx0d4DbIuW4ZjEvtjz
- Kvy6My/TbvFXVRx9T39SP6GXFurgIZQZhf20miu1k84zBDI+WLy/8apSa
- OQritLKVr0lG5zofijf82v6SLlWY9248eUkBlEdg2us70zHPX0iGA9oD9
- /XiP7omjpbwviOmQf/mNoIiX98b0kBAOfULCJ+IjrCmLUBlqkdiYMOINl
- u5WGfyPOyto/UUX5mE3S2OiB4fkoCGK695bB7G0kUsRcI+jENiiIDfKtg
- AkP06tyvXjDIWcu0vOIk+r4KJQXPQBIMX+ymflwsq5aGqTgy09+kTYYYQ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="284943905"
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="284943905"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 10:19:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="649336509"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga001.jf.intel.com with ESMTP; 12 Sep 2022 10:19:21 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 12 Sep 2022 10:19:20 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 12 Sep 2022 10:19:20 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D415010E120;
+ Mon, 12 Sep 2022 17:34:33 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28CFjQJT000343;
+ Mon, 12 Sep 2022 17:34:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=MIKtgxgXzFQgh6y2AqiNhA3WpRBIne3nHu2y3fVs7tI=;
+ b=eto+eoN4dtmbk4KnZ0jpxb+19dabIBUuBM+EAbuRotdVHbkcIiBnbnu9JWghLdQoRZH5
+ +sxJcZcrFm8E2EJpULcBJutIlb10haBf1kAAo2YfX8zofvHB+cSgTDLUp16jgDQHFBGC
+ GOqyhDlPtiMoecbLW/BZoWvIqbtDThLebTPsdpstdx39VTsAc2AE7aWkCFGy465t3Yba
+ 0mNkZ+zfNGP15KtC6THHYpOO96MSkVVkJXRnkOJ2F64EA4dFphOc14jcpTR6PSyZT1Ph
+ CxZyU57RrDlO8y40EfLdfclZ1g2kvYHHnqa0NStGJ+GJMHt/D1v1jwu+cYYuEIWm5InO Xg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jgk0ddrvw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Sep 2022 17:34:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28CHYIkP008655
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Sep 2022 17:34:18 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 12 Sep 2022 10:19:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EoanPlzMV1llfbJX+9jhXUrIQooUza5NSyNN2t3ScHWgu4Z1cdYbZC5QaDOiYMK/2X/i5YOBu2SuDx6BR2daZmtq5QZwuxm9Kv9+OE7RsFLA8gjrnC982SLbMMQ7r2gwhSv//J1oMN+jXjHpp2ez/XUt91VY5/B9Ldj6iXURcnEYY6bh1GyF315917LFP5YSnBb/xTR4JvNIMKn6eabFABfgwQxySA8PWDuK107+9NrJQ4q1htUlZOpHINM0JVzY8N8M4Byw31lMMCxRBqed18hlI4LULei+fIJBu5Y/lKfK077qpMYZMJHV5QbTuMZ3dYcWQcOt5bMuLUjExf/3jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZONWdsIFNZoFvZJc38R+FmMra4O/xflVUscOXTrn+48=;
- b=aHJRxSSVer+KAdmJJHzncYeTT34mJ7rkBy4Gy4N4+WD99mkqOx4qe6teM+LDJL2Wk4FY4rxdyiWqHnjrMGLlgxWOmMTwtjcjbfDDiPKFJOymtb+cVUGazENiIFqdxE3qlFYaZClR20uVerA/av5fNHcebmo3YUIIa6mwmHS4QqAqtpnBVnWmB7veSQ9oayetCc+zS3e1qWOhrLuhjSwdM7BlGue5RxkuONtdsCRJgJCSgKggjOMfgKqXi2JsC0xE7EZOtpaIYWCSQPy6x/wSU7h1xxlm63ULQ3uzjrroIkw99+gU47eWWGRieOomgHi5kz0m0uFAIiBVOY2iHpVj+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
- by BL3PR11MB6434.namprd11.prod.outlook.com (2603:10b6:208:3ba::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Mon, 12 Sep
- 2022 17:19:08 +0000
-Received: from MWHPR11MB1632.namprd11.prod.outlook.com
- ([fe80::ecc9:50cb:5951:2514]) by MWHPR11MB1632.namprd11.prod.outlook.com
- ([fe80::ecc9:50cb:5951:2514%12]) with mapi id 15.20.5612.022; Mon, 12 Sep
- 2022 17:19:08 +0000
-Date: Mon, 12 Sep 2022 10:19:04 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v3 19/37] drm/i915: stop using kernel-doc markups for
- something else
-Message-ID: <Yx9qCCmxnSM06CgH@mdroper-desk1.amr.corp.intel.com>
-References: <cover.1662708705.git.mchehab@kernel.org>
- <6405f00c4ba03987abf7635f4c62d86b40a0e521.1662708705.git.mchehab@kernel.org>
- <Yx9LxciaH/y8fnRD@mdroper-desk1.amr.corp.intel.com>
- <20220912184756.61492ad1@coco.lan>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220912184756.61492ad1@coco.lan>
-X-ClientProxiedBy: SJ0PR03CA0152.namprd03.prod.outlook.com
- (2603:10b6:a03:338::7) To MWHPR11MB1632.namprd11.prod.outlook.com
- (2603:10b6:301:11::11)
+ 15.2.986.29; Mon, 12 Sep 2022 10:34:17 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v3] drm/msm/dp: add atomic_check to bridge ops
+Date: Mon, 12 Sep 2022 10:34:09 -0700
+Message-ID: <1663004049-32702-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1632:EE_|BL3PR11MB6434:EE_
-X-MS-Office365-Filtering-Correlation-Id: 77a06d1a-5efb-43ca-390d-08da94e2e673
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xEjwuHMFTA9jqLrnmFM8Zr0bbUi7qM3C5PtFHantwqCCzbjlxf5N0mTdRC7Fg8f9iMTGqAphv7pRZ1Q2+ed2NyA52gB+4lb8lYSU7jMjB2FjpcsbwuAIDiU1txJLoZ9zzBlj7UGGM3cqOg79WTiRzGX0NFFbxjVKiN5v2YHUsPr3PJcFhxT8p6XrF6Syx+Le4rthCMLM27h3N3PT5B21M+c/4ZR7hsemJGQixl744WbbC8lY8+g46opb8XXIMze8k5ew3MINtFhk1HZjcxUlvUr/tZeDm5ju/Wi5dzh9PqPPmcYxY0ZooJis2VJZS4YNeImbbICW78hVSt3376ZuVsHCG/xmiQN6vjnVWTDh2CbAjpC7Lr1nMDyVNdTRfD0Zv+96mXQDa2ZHI8ZpOfzz6jVvmsLdv/+kbVmyniu4ppMw9MLy/acVlQ2Y7lT5I7RHqP4LlWMqHkpsoRuyYDSyGVJnUC3y/SsWPxZkb096zW+oSWLSvmEMN4r9K/5EfZyiJjSETDLCqQ2lYmKz67IL/LyxzBmtobsMBG6KBy0fEdJLXK3gft0BDZa55XSNHCTbinYQ0ug3KzqZrrD7GyXERB7LK45tiR0D34SZhw/u7FvvR5BmLaJsXyNR1RyxAmHmlnyNjM45B+IYyNonq7xHmqVkg0V4BkVMjXVcZAQ7J9s=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230019)(39860400002)(396003)(366004)(346002)(376002)(136003)(451199012)(41300700001)(82960400001)(6486002)(6506007)(966005)(478600001)(26005)(4326008)(66556008)(66946007)(38100700002)(8936002)(5660300002)(7416002)(2906002)(186003)(6512007)(83380400001)(86362001)(6666004)(66476007)(8676002)(54906003)(316002)(6916009);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wCogdo0EZpV7p+kwaxMkMv3VqzTyN1d4xWyBIC9kZFfh4KWLXculjPhUAZXX?=
- =?us-ascii?Q?1So6ZcA2gUkSKQOSkmKY+nGvoYykjYdbTnUtUfQhd/pZ5GQwEM7a+Uqrvrpx?=
- =?us-ascii?Q?Cj6m2JI0s5w7Ag3H0fOI633cK98bdKikuQooWpZpeeHfu+0FwJqBsiVzrXT+?=
- =?us-ascii?Q?H7tpXS4BblqEmh22r4WBDn0MT1xxvC2CWOAIRWU/jFaEpcFNYhuopaTaYKWU?=
- =?us-ascii?Q?9GUp9bfubfy7fSOqRavWpnKiyM0sckgFQjtD+kHCkJAvPtodSZZ2HheSTgRA?=
- =?us-ascii?Q?6qapfDUbpZVLUSxAMcZ4JnqtnWyrTeDgpy+edT1Tc5RKC2xSlNRtOTRS1+4F?=
- =?us-ascii?Q?I2QiGJj5yHbUIBeG5paW+OwODmcPkFY3XkcC8Q1YzRVJT8xbBZYNLYvtV6fs?=
- =?us-ascii?Q?IzoSnUMRYfIGOW5jlbvg51WhrrUzSpcnL3IRDcWI0Cj1Ak6lEomlDMCk4KAN?=
- =?us-ascii?Q?fotN5FPMOT3bfL7vJ20YD0CPDdYgd7d2q2VCnl1BhISltngaFnj+Zmidx4iv?=
- =?us-ascii?Q?0/lnYakeuKy0o/7GzgoY5vEHTvUfxo8ZYAlyv5JnzQqVcLC69V0EihtWr3pE?=
- =?us-ascii?Q?yoOBQ0TJLsZiYvFQpa3StscWoUAQPAAYzBtNIsg22UoYcAaFU4Glikm5FLoZ?=
- =?us-ascii?Q?pnf4v8ufKeaQBP6b5e6mFevhWk1thw1QHfTrwSCY5wUvB+dYrNDIjaG9fiU8?=
- =?us-ascii?Q?vlXe3umMWROdmXSQ3duzpqKrzvnutkhxV5zDKmbOMo7rtfaoHNLOTIUzd3ro?=
- =?us-ascii?Q?Lcev3MZ6auLYMXst5pQjyDK4OMkMyNOm4Gn+J/E1jteDWnY4JXo11ldRrJYT?=
- =?us-ascii?Q?GRL7UWKrv6+HLW59jEBdPrn3sZkKNlmTXqIv0QJbQ2+KeyS2R4Sv7N+WklRE?=
- =?us-ascii?Q?MZJiuJCvOEyb1xY6QD9BnN024QEcNF/5LY1W5y5mruMnrh36kAWp3yYJPJ9O?=
- =?us-ascii?Q?aR+sMCKfIrLNnnlzyzxEJkYkMCeVUxIsBfVq6G1FSu6rM2DtPTbpaXxJOQAC?=
- =?us-ascii?Q?s5QF/xVyD3NU0Cmwjf6WY3iEH5jNro6cwRrU0SdS3ZMlY182HUK3I64S3mSa?=
- =?us-ascii?Q?q5dGFgDzTP5BiuYVAJJwIVsLRLP0EhNZUEzwS175Ua7ajrdmlvJxKkOFakYn?=
- =?us-ascii?Q?I/9GQnqMBCWzRUPpueHuYfqRR3jfUaDSmzrnXsMpt2mDRdZVjzY2b9TjbB2Y?=
- =?us-ascii?Q?+21ROCzv+FIg0qFikmSYO5KzeKjazREDew66Kn+UAqa+BX73q+qtXqpJyZdq?=
- =?us-ascii?Q?3RtyZEJDgpqTdZo93MK+kUjW8aTxa4HoEkTT8YnEtAFXRT92wV01KSnl9YTA?=
- =?us-ascii?Q?9FGGheKSYjL7yLaVVn8sKBywn21s2wFQf9GvSNbp+FZ2Ro9a9TPd6BIWNalz?=
- =?us-ascii?Q?+p8vESbgZ2CG0XiiCtRaQpbkNwz6ngZ7M9NUb6RvHDdf31Ko/YPFb2oq1kbu?=
- =?us-ascii?Q?1nS+aWa8QWjalrlmQR592u1jPu9WhUyeqUrVCC6oWu8JXRxr0h6CQHpWy8EM?=
- =?us-ascii?Q?yn9LpFuD1Oem5gXP8OTYUJe2BskPndMR/HV7TSfP2J7Jd+xsJQpDgpYFLAL2?=
- =?us-ascii?Q?IEGu/LGSxzLd0osl+YMxc54h7Z+/C3pN30jhsQzSE24YhFbE2xlMIZJz8F3S?=
- =?us-ascii?Q?FA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77a06d1a-5efb-43ca-390d-08da94e2e673
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2022 17:19:07.8833 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZTkb5ExnHK2IaUd1k68WJEuB8pHzuSdUf7nOdrZr/uUOx/eQSC0NqUUAnXdvYShyex2k+oUFrhfAhICOyXE08+wk9YvxZUGm4V+uKhd/bW8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6434
-X-OriginatorOrg: intel.com
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: OMtUnucm1DYueYhAoHH41y8VnEeeIQyz
+X-Proofpoint-ORIG-GUID: OMtUnucm1DYueYhAoHH41y8VnEeeIQyz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-12_12,2022-09-12_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0
+ suspectscore=0 bulkscore=0 adultscore=0 spamscore=0 mlxlogscore=999
+ phishscore=0 priorityscore=1501 mlxscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209120060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,88 +79,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>, Matthew
- Brost <matthew.brost@intel.com>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Tomas Winkler <tomas.winkler@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@intel.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 12, 2022 at 06:47:56PM +0200, Mauro Carvalho Chehab wrote:
-> Hi Matt,
-> 
-> Em Mon, 12 Sep 2022 08:09:57 -0700
-> Matt Roper <matthew.d.roper@intel.com> escreveu:
-> 
-> > > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h  
-> > 
-> > Several of the comments in this file do appear to be kerneldoc (in fact
-> > kerneldoc that was specifically requested during code review at
-> > https://patchwork.freedesktop.org/patch/448456/#comment_804252) and this
-> > file is included from Documentation/gpu/i915.rst, so I think some of
-> > these changes might be moving in the wrong direction.  Should we instead
-> > focus on fixing up the comments that aren't quite formatted properly?
-> 
-> Those *appear* to be kernel-doc markups, but they aren't, because
-> the structs themselves are not properly marked. See, for instance
-> struct intel_context.
-> 
-> scripts/kerneldoc will *only* consider what's there as a proper
-> comment if you add:
-> 
-> 	/**
-> 	 * struct intel_context - describes an i915 context
-> 	 * <add a proper description for it>
-> 	 */
-> 	struct intel_context {
-> 		union {
-> 			/** @ref: a kernel object reference */
-> 	                struct kref ref; /* no kref_get_unless_zero()! */
-> 			/** @rcu: a rcu header */
-> 	                struct rcu_head rcu;
-> 	        };
-> 		...
-> 	}
-> 
-> Describing all fields inside the struct. Just placing
-> 	/** something */
-> on some random places in the middle doesn't make it a kernel-doc.
+DRM commit_tails() will disable downstream crtc/encoder/bridge if
+both disable crtc is required and crtc->active is set before pushing
+a new frame downstream.
 
-Right, what we have today is incomplete/incorrect.  But I think we
-should be fixing that by adding the missing documentation on the
-structure, rather than giving up and removing the kerneldoc.  The end
-goal should be to have proper generated documentation, not just silence
-the warnings while leaving the actual output incomplete.
+There is a rare case that user space display manager issue an extra
+screen update immediately followed by close DRM device while down
+stream display interface is disabled. This extra screen update will
+timeout due to the downstream interface is disabled but will cause
+crtc->active be set. Hence the followed commit_tails() called by
+drm_release() will pass the disable downstream crtc/encoder/bridge
+conditions checking even downstream interface is disabled.
+This cause the crash to happen at dp_bridge_disable() due to it trying
+to access the main link register to push the idle pattern out while main
+link clocks is disabled.
 
+This patch adds atomic_check to prevent the extra frame will not
+be pushed down if display interface is down so that crtc->active
+will not be set neither. This will fail the conditions checking
+of disabling down stream crtc/encoder/bridge which prevent
+drm_release() from calling dp_bridge_disable() so that crash
+at dp_bridge_disable() prevented.
 
-Matt
+There is no protection in the DRM framework to check if the display
+pipeline has been already disabled before trying again. The only
+check is the crtc_state->active but this is controlled by usermode
+using UAPI. Hence if the usermode sets this and then crashes, the
+driver needs to protect against double disable"
 
-> 
-> If you actually run kernel-doc in Werror mode:
-> 
-> 	./scripts/kernel-doc -Werror -sphinx-version 2.4.4 drivers/gpu/drm/i915/gt/intel_context_types.h | echo "ERROR!"
-> 	ERROR!
-> 	drivers/gpu/drm/i915/gt/intel_context_types.h:1: warning: no structured comments found
-> 	1 warnings as Errors
-> 
-> you'll see that this is currently broken.
-> 
-> Thanks,
-> Mauro
+SError Interrupt on CPU7, code 0x00000000be000411 -- SError
+CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
+Hardware name: Google Lazor (rev3 - 8) (DT)
+pstate: a04000c9 (NzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : __cmpxchg_case_acq_32+0x14/0x2c
+lr : do_raw_spin_lock+0xa4/0xdc
+sp : ffffffc01092b6a0
+x29: ffffffc01092b6a0 x28: 0000000000000028 x27: 0000000000000038
+x26: 0000000000000004 x25: ffffffd2973dce48 x24: 0000000000000000
+x23: 00000000ffffffff x22: 00000000ffffffff x21: ffffffd2978d0008
+x20: ffffffd2978d0008 x19: ffffff80ff759fc0 x18: 0000000000000000
+x17: 004800a501260460 x16: 0441043b04600438 x15: 04380000089807d0
+x14: 07b0089807800780 x13: 0000000000000000 x12: 0000000000000000
+x11: 0000000000000438 x10: 00000000000007d0 x9 : ffffffd2973e09e4
+x8 : ffffff8092d53300 x7 : ffffff808902e8b8 x6 : 0000000000000001
+x5 : ffffff808902e880 x4 : 0000000000000000 x3 : ffffff80ff759fc0
+x2 : 0000000000000001 x1 : 0000000000000000 x0 : ffffff80ff759fc0
+Kernel panic - not syncing: Asynchronous SError Interrupt
+CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
+Hardware name: Google Lazor (rev3 - 8) (DT)
+Call trace:
+ dump_backtrace.part.0+0xbc/0xe4
+ show_stack+0x24/0x70
+ dump_stack_lvl+0x68/0x84
+ dump_stack+0x18/0x34
+ panic+0x14c/0x32c
+ nmi_panic+0x58/0x7c
+ arm64_serror_panic+0x78/0x84
+ do_serror+0x40/0x64
+ el1h_64_error_handler+0x30/0x48
+ el1h_64_error+0x68/0x6c
+ __cmpxchg_case_acq_32+0x14/0x2c
+ _raw_spin_lock_irqsave+0x38/0x4c
+ lock_timer_base+0x40/0x78
+ __mod_timer+0xf4/0x25c
+ schedule_timeout+0xd4/0xfc
+ __wait_for_common+0xac/0x140
+ wait_for_completion_timeout+0x2c/0x54
+ dp_ctrl_push_idle+0x40/0x88
+ dp_bridge_disable+0x24/0x30
+ drm_atomic_bridge_chain_disable+0x90/0xbc
+ drm_atomic_helper_commit_modeset_disables+0x198/0x444
+ msm_atomic_commit_tail+0x1d0/0x374
+ commit_tail+0x80/0x108
+ drm_atomic_helper_commit+0x118/0x11c
+ drm_atomic_commit+0xb4/0xe0
+ drm_client_modeset_commit_atomic+0x184/0x224
+ drm_client_modeset_commit_locked+0x58/0x160
+ drm_client_modeset_commit+0x3c/0x64
+ __drm_fb_helper_restore_fbdev_mode_unlocked+0x98/0xac
+ drm_fb_helper_set_par+0x74/0x80
+ drm_fb_helper_hotplug_event+0xdc/0xe0
+ __drm_fb_helper_restore_fbdev_mode_unlocked+0x7c/0xac
+ drm_fb_helper_restore_fbdev_mode_unlocked+0x20/0x2c
+ drm_fb_helper_lastclose+0x20/0x2c
+ drm_lastclose+0x44/0x6c
+ drm_release+0x88/0xd4
+ __fput+0x104/0x220
+ ____fput+0x1c/0x28
+ task_work_run+0x8c/0x100
+ do_exit+0x450/0x8d0
+ do_group_exit+0x40/0xac
+ __wake_up_parent+0x0/0x38
+ invoke_syscall+0x84/0x11c
+ el0_svc_common.constprop.0+0xb8/0xe4
+ do_el0_svc+0x8c/0xb8
+ el0_svc+0x2c/0x54
+ el0t_64_sync_handler+0x120/0x1c0
+ el0t_64_sync+0x190/0x194
+SMP: stopping secondary CPUs
+Kernel Offset: 0x128e800000 from 0xffffffc008000000
+PHYS_OFFSET: 0x80000000
+CPU features: 0x800,00c2a015,19801c82
+Memory Limit: none
 
+Changes in v2:
+-- add more commit text
+
+Changes in v3:
+-- add comments into dp_bridge_atomic_check()
+
+Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
+Reported-by: Leonard Lausen <leonard@lausen.nl>
+Suggested-by: Rob Clark <robdclark@gmail.com>
+Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/17
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_drm.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+index 6df25f7..baff1c2 100644
+--- a/drivers/gpu/drm/msm/dp/dp_drm.c
++++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+@@ -31,6 +31,33 @@ static enum drm_connector_status dp_bridge_detect(struct drm_bridge *bridge)
+ 					connector_status_disconnected;
+ }
+ 
++static int dp_bridge_atomic_check(struct drm_bridge *bridge,
++			    struct drm_bridge_state *bridge_state,
++			    struct drm_crtc_state *crtc_state,
++			    struct drm_connector_state *conn_state)
++{
++	struct msm_dp *dp;
++
++	dp = to_dp_bridge(bridge)->dp_display;
++
++	drm_dbg_dp(dp->drm_dev, "is_connected = %s\n",
++		(dp->is_connected) ? "true" : "false");
++
++	if (bridge->ops & DRM_BRIDGE_OP_HPD)
++		return (dp->is_connected) ? 0 : -ENOTCONN;
++
++	/*
++	 * There is no protection in the DRM framework to check if the display
++	 * pipeline has been already disabled before trying again. The only
++	 * check is the crtc_state->active but this is controlled by usermode
++	 * using UAPI. Hence if the usermode sets this and then crashes, the
++	 * driver needs to protect against double disable
++	 */
++
++	return 0;
++}
++
++
+ /**
+  * dp_bridge_get_modes - callback to add drm modes via drm_mode_probed_add()
+  * @bridge: Poiner to drm bridge
+@@ -61,6 +88,9 @@ static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *
+ }
+ 
+ static const struct drm_bridge_funcs dp_bridge_ops = {
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset           = drm_atomic_helper_bridge_reset,
+ 	.enable       = dp_bridge_enable,
+ 	.disable      = dp_bridge_disable,
+ 	.post_disable = dp_bridge_post_disable,
+@@ -68,6 +98,7 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
+ 	.mode_valid   = dp_bridge_mode_valid,
+ 	.get_modes    = dp_bridge_get_modes,
+ 	.detect       = dp_bridge_detect,
++	.atomic_check = dp_bridge_atomic_check,
+ };
+ 
+ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
 -- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
