@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9482E5B5272
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 03:25:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD88D5B5278
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 03:28:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2171110E0E2;
-	Mon, 12 Sep 2022 01:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A0E810E108;
+	Mon, 12 Sep 2022 01:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38AD910E0E2;
- Mon, 12 Sep 2022 01:25:29 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3219010E105;
+ Mon, 12 Sep 2022 01:27:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662945929; x=1694481929;
+ t=1662946070; x=1694482070;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=ecU4kyT9//WudYGodoYB0OtJ/Rmk8S4MnM/86WtnIxo=;
- b=hW+93mKtXceH/dli6FM4eeEq6Wp0pfPPGO4Kf1ouzTP4CFryeTxBn4OH
- HDrcBB2+wZGuabLmfNZXrouRBmJctiA7tK6kuanPtwAKFfMVx9Mf59zdX
- vk31UVlsAE0aYLL+PNgQMQv7A2NktYI7h54Pz9l6TWax6tl7HYwY9hzIE
- WSYjwD2T3ygubfoKx/uDGNjH1oOKAheVHuqlgGLmPkrCWvBVsYJiwhgQe
- Dc0TtNBZd98Pd8NX1G16FiGPMVaGSHQOEZnxTaZ5lSMY9A9b2PrU6iwwu
- C37F/GioXtsUU1ud2DdmSasCY7edVzCCA36acZ3ff1kG1GG+SYwj73U3j A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="361719054"
-X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; d="scan'208";a="361719054"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2022 18:25:28 -0700
-X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; d="scan'208";a="646261125"
+ bh=Xmotxmw3nocnvBW51ZNXHo6s0m1J8j499zaBKXWXBX0=;
+ b=ZqBH5gCrCU39yhoFYjaMRoc5MUx8ylTw8xReA4foLJB/0EiSl1+AhhQ2
+ f6cj0lcQWPV592FLFB9srgplP7lHB3SMfFFNICzLyj7nQM5NEfY0FVWMB
+ +tKQHNMCENQulmQk/ufrxsqOtNYUYn9AEtCt2JCYQlVQn5BMgEC/QSOTH
+ VnPRpPpPzVkC7D/vxZvAhPqFMF6NmBpAWPSiJDffF31hpfMckV1wuemZo
+ rwAHsgf+2jSWj7ycFPAvZt5cm8QnAuRUBbIKXLDGBnGCeokXiCEr/2imC
+ rwPKRp1BU3iFMGtgggI1i1HU6xXb3pM1qjbRrispCriuG85Hd1J+iUys8 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="384063107"
+X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; d="scan'208";a="384063107"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2022 18:27:49 -0700
+X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; d="scan'208";a="677897204"
 Received: from dasegal-mobl.amr.corp.intel.com (HELO intel.com)
  ([10.249.46.19])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2022 18:25:24 -0700
-Date: Mon, 12 Sep 2022 03:25:21 +0200
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2022 18:27:45 -0700
+Date: Mon, 12 Sep 2022 03:27:42 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v3 33/37] drm/i915 i915_gem_object_types.h: document
- struct i915_lut_handle
-Message-ID: <Yx6KgVcgyB2i2dYG@alfio.lan>
+Subject: Re: [PATCH v3 35/37] drm/i915: add descriptions for some RPM macros
+ at intel_gt_pm.h
+Message-ID: <Yx6LDoMBkL6IO0Gu@alfio.lan>
 References: <cover.1662708705.git.mchehab@kernel.org>
- <0da7c28a377a1fac9db524dbc8462731d922b39c.1662708705.git.mchehab@kernel.org>
+ <997567dcc2b5942afde093d92d0666948e66d83a.1662708705.git.mchehab@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0da7c28a377a1fac9db524dbc8462731d922b39c.1662708705.git.mchehab@kernel.org>
+In-Reply-To: <997567dcc2b5942afde093d92d0666948e66d83a.1662708705.git.mchehab@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,65 +58,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Chris Wilson <chris.p.wilson@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-doc@vger.kernel.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris.p.wilson@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org, John Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Mauro,
 
-On Fri, Sep 09, 2022 at 09:34:40AM +0200, Mauro Carvalho Chehab wrote:
-> commit d1b48c1e7184 ("drm/i915: Replace execbuf vma ht with an idr")
-> added a rbtree list to allow searching for obj/ctx.
-> 
-> Document it.
-> 
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
-> 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v3 00/37] at: https://lore.kernel.org/all/cover.1662708705.git.mchehab@kernel.org/
-> 
->  drivers/gpu/drm/i915/gem/i915_gem_object_types.h | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> index 9f6b14ec189a..35746cf268ea 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -21,9 +21,15 @@ struct drm_i915_gem_object;
->  struct intel_fronbuffer;
->  struct intel_memory_region;
->  
-> -/*
-> - * struct i915_lut_handle tracks the fast lookups from handle to vma used
-> - * for execbuf. Although we use a radixtree for that mapping, in order to
+[...]
+
 > +/**
-> + * struct i915_lut_handle - tracks the fast lookups from handle to vma used
-> + * for execbuf.
+> + * intel_gt_pm_is_awake: Query whether the runtime PM is awake held
 > + *
+> + * @gt: pointer to the graphics engine
 
-just to be picky: do we or don't we want this extra space here? I
-think that besides our personal taste it's important to have a
-coherent style.
+...
 
-I would r-b it anyway if I didn't look the next patch.
+> +/**
+> + * intel_gt_pm_get: grab a runtime PM reference ensuring that GT is powered up
+> + * @gt: pointer to the graphics engine
 
+...
+
+> +/**
+> + * __intel_gt_pm_get: Acquire the runtime PM reference again
+> + * @gt: pointer to the graphics engine which contains the wakeref
+
+...
+
+> +/**
+> + * intel_gt_pm_get_if_awake: Acquire the runtime PM reference if active
+> + * @gt: pointer to the graphics engine which contains the PM reference
+
+...
+
+> +/**
+> + * intel_gt_pm_put: Release the runtime PM reference
+> + * @gt: pointer to the graphics engine which contains the PM reference
+
+...
+
+> +/**
+> + * with_intel_gt_pm - get a GT reference ensuring that GT is powered up,
+> + *	run some code and then put the reference away.
+> + *
+> + * @gt: pointer to the gt
+
+as you can see sometimes you put that extra blank line and
+sometimes not... can we please stick to one style?
+
+Thanks,
 Andi
-
-> + * @obj_link: link to the object associated with the @handle.
-> + * @ctx: context associated with the @handle.
-> + * @handle: a rbtree handle to lookup context for specific obj/vma.
-> + *
-> + * Although we use a radixtree for that mapping, in order to
->   * remove them as the object or context is closed, we need a secondary list
->   * and a translation entry (i915_lut_handle).
->   */
-> -- 
-> 2.37.3
