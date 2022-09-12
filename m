@@ -1,72 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADC05B57FF
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 12:15:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA735B5809
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 12:18:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 899B788284;
-	Mon, 12 Sep 2022 10:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 839EE10E370;
+	Mon, 12 Sep 2022 10:17:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9EE310E37D
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 10:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662977735;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kEIZbmjCrkwFqJwW0FrEWe4XG+lhgHO0wcbZ0Aw/+qQ=;
- b=a9aCWDKXZuGuGbl3dla+3cfEinX3ur2EVyyuesnrZ2dm/M/yL2oSx9MHqni5s3FeITGCkg
- qOiG1VqNY456WJoEeYmKld6hUx3bQTi0GL5bxFjJ35kQpl7rqjEQAiMpPHhxhXfVdCHGbQ
- 2xbD4v2WXkxCiRRP2ikEEtiR5fP3cDU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-224-z9KyjTlyNQ-6HQ9vU9Ys4g-1; Mon, 12 Sep 2022 06:15:31 -0400
-X-MC-Unique: z9KyjTlyNQ-6HQ9vU9Ys4g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v15-20020adf8b4f000000b002285ec61b3aso1434494wra.6
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 03:15:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=kEIZbmjCrkwFqJwW0FrEWe4XG+lhgHO0wcbZ0Aw/+qQ=;
- b=z+88fAR5LQ/oo1oXiNZlDNWoIuL2wTyvpTe55JoGfK6O6oVHrQ9Y1X1DZg58VvDgo8
- U8L6gfM/EcXbEt6DHhxsMbeKHiyc4IrFJ/AvJVb5gT8gHPcfsouNWsGtGPQijJPx3Oj/
- RfWsuxojpG72N5eSPhGqO3X4PNtZn1xwfJLABcNjg6vWcLt/R+KVajDT2oOZ4T1+E8Jr
- 84SyxFG4zrqm0JHLBwah24nx/oO5yzWZOsXcOXiZLqyTPzeIUqVXKREvz+FLOjamzQvW
- CjV7uoun7QHE/hwpJxIBFT6fT5a0nKfKFWlCpRiX/0PeuyJdgqwB1Hg27xwelVRefYh3
- s2UQ==
-X-Gm-Message-State: ACgBeo3n1UtaIwFlLEhPFG6ifiAiuVRKzLRB3GqqOVkTyj1rMawIe7Lx
- ByT+q4MxWMNBvqoIlfa7RNA11AKn21me27920GflYWNUDjfHp9x4LIn6KzfCxVAsywaZMAL0eul
- HPlkYN3OgGcSpsHpeMSkQKho9OD/b
-X-Received: by 2002:a5d:4f12:0:b0:22a:47ee:7378 with SMTP id
- c18-20020a5d4f12000000b0022a47ee7378mr5996363wru.672.1662977730549; 
- Mon, 12 Sep 2022 03:15:30 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6pjf8CuDFu3kBC/4imjX+VqZcCp966TUhhANAd4wyUtUKcoe6xfXwj0XMA2TgJwL1ZKXByzg==
-X-Received: by 2002:a5d:4f12:0:b0:22a:47ee:7378 with SMTP id
- c18-20020a5d4f12000000b0022a47ee7378mr5996343wru.672.1662977730293; 
- Mon, 12 Sep 2022 03:15:30 -0700 (PDT)
-Received: from minerva.access.network ([185.122.133.20])
- by smtp.gmail.com with ESMTPSA id
- o22-20020a05600c511600b003a5b6086381sm9554526wms.48.2022.09.12.03.15.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Sep 2022 03:15:29 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/plane-helper: Add a drm_plane_helper_atomic_check() helper
-Date: Mon, 12 Sep 2022 12:15:22 +0200
-Message-Id: <20220912101522.69482-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.37.1
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5691310E362;
+ Mon, 12 Sep 2022 10:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662977866; x=1694513866;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=/MPCcJ4MpKdwDYHL+WW5d/8BsMLAxp/XjAo0FswLV4I=;
+ b=GXaxZYsdpNh9/rl4L2bO3erDsU6Hq/GkXLTrySMF8Ux1mwp3mNYFl0K/
+ DVEMN1KIEgQFN12ZcbGny4t51JPpg3hELhPFRBbZuAl0/cjl/NomGzscm
+ zKPhnEFQ5Jem0TNkiIc1kdKC/xuYXk0LkfLmTdBtqYvafB36qvOFl31XO
+ YFBzuMbm3dMBqAHttrA/mZawcivrE2qFgoeYY/0N9lLHqZ+vFHxEQ2jtp
+ t5ofRHLZYOxYTZMIXxJvDtvW5CgqsBVtLKCEOmyFS5Ryb3bvhSPbRPpU0
+ eyrXZAs2TCFLWfx6dRGsxAhelI4VJxO7rG2Wb+WgSSP6pnHZD4BwbJAs/ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="359555325"
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="359555325"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 03:17:45 -0700
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="678028256"
+Received: from abijaz-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.58.140])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 03:17:41 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
+ gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 1/9] drm_print: condense enum drm_debug_category
+In-Reply-To: <20220912052852.1123868-2-jim.cromie@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220912052852.1123868-1-jim.cromie@gmail.com>
+ <20220912052852.1123868-2-jim.cromie@gmail.com>
+Date: Mon, 12 Sep 2022 13:17:34 +0300
+Message-ID: <87sfkw6gn5.fsf@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,156 +60,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: seanpaul@chromium.org, daniel.vetter@ffwll.ch, joe@perches.com,
+ linux@rasmusvillemoes.dk
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provides a default plane state check handler for primary planes that are a
-fullscreen scanout buffer and whose state scale and position can't change.
+On Sun, 11 Sep 2022, Jim Cromie <jim.cromie@gmail.com> wrote:
+> enum drm_debug_category has 10 categories, but is initialized with
+> bitmasks which require 10 bits of underlying storage.  By using
+> natural enumeration, and moving the BIT(cat) into drm_debug_enabled(),
+> the enum fits in 4 bits, allowing the category to be represented
+> directly in pr_debug callsites, via the ddebug.class_id field.
+>
+> While this slightly pessimizes the bit-test in drm_debug_enabled(),
+> using dyndbg with JUMP_LABEL will avoid the function entirely.
+>
+> NOTE: this change forecloses the possibility of doing:
+>
+>   drm_dbg(DRM_UT_CORE|DRM_UT_KMS, "weird 2-cat experiment")
+>
+> but thats already strongly implied by the use of the enum itself; its
+> not a normal enum if it can be 2 values simultaneously.
 
-There are some drivers that duplicate this logic in their helpers, such as
-simpledrm and ssd130x. Factor out this common code into a plane helper and
-make drivers use it.
+The drm.debug module parameter values are, arguably, ABI. There are tons
+of people, scripts, test environments, documentation, bug reports, etc,
+etc, referring to specific drm.debug module parameter values to enable
+specific drm debug logging categories.
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+AFAICT you're not changing any of the values here, but having an enum
+without the hard coded values makes it more likely to accidentally
+change the category to bit mapping. At the very least deserves a
+comment.
 
- drivers/gpu/drm/drm_plane_helper.c | 29 +++++++++++++++++++++++++++++
- drivers/gpu/drm/solomon/ssd130x.c  | 18 +-----------------
- drivers/gpu/drm/tiny/simpledrm.c   | 25 +------------------------
- include/drm/drm_plane_helper.h     |  2 ++
- 4 files changed, 33 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
-index c7785967f5bf..fb41eee74693 100644
---- a/drivers/gpu/drm/drm_plane_helper.c
-+++ b/drivers/gpu/drm/drm_plane_helper.c
-@@ -278,3 +278,32 @@ void drm_plane_helper_destroy(struct drm_plane *plane)
- 	kfree(plane);
- }
- EXPORT_SYMBOL(drm_plane_helper_destroy);
-+
-+/**
-+ * drm_plane_helper_atomic_check() - Helper to check primary planes states
-+ * @plane: plane to check
-+ * @new_state: plane state to check
-+ *
-+ * Provides a default plane state check handler for primary planes whose atomic
-+ * state scale and position is not expected to change because the primary plane
-+ * is always a fullscreen scanout buffer.
-+ *
-+ * RETURNS:
-+ * Zero on success, or an errno code otherwise.
-+ */
-+int drm_plane_helper_atomic_check(struct drm_plane *plane,
-+				  struct drm_atomic_state *new_state)
-+{
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
-+	struct drm_crtc *new_crtc = new_plane_state->crtc;
-+	struct drm_crtc_state *new_crtc_state = NULL;
-+
-+	if (new_crtc)
-+		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_crtc);
-+
-+	return drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-+						   DRM_PLANE_NO_SCALING,
-+						   DRM_PLANE_NO_SCALING,
-+						   false, false);
-+}
-+EXPORT_SYMBOL(drm_plane_helper_atomic_check);
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 79e8e2017c68..28cf9c87f86d 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -565,22 +565,6 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_m
- 	return ret;
- }
- 
--static int ssd130x_primary_plane_helper_atomic_check(struct drm_plane *plane,
--						     struct drm_atomic_state *new_state)
--{
--	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
--	struct drm_crtc *new_crtc = new_plane_state->crtc;
--	struct drm_crtc_state *new_crtc_state = NULL;
--
--	if (new_crtc)
--		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_crtc);
--
--	return drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
--						   DRM_PLANE_NO_SCALING,
--						   DRM_PLANE_NO_SCALING,
--						   false, false);
--}
--
- static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 						       struct drm_atomic_state *old_state)
- {
-@@ -623,7 +607,7 @@ static void ssd130x_primary_plane_helper_atomic_disable(struct drm_plane *plane,
- 
- static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs = {
- 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = ssd130x_primary_plane_helper_atomic_check,
-+	.atomic_check = drm_plane_helper_atomic_check,
- 	.atomic_update = ssd130x_primary_plane_helper_atomic_update,
- 	.atomic_disable = ssd130x_primary_plane_helper_atomic_disable,
- };
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 777ccd250871..ea5b3239a659 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -469,29 +469,6 @@ static const uint64_t simpledrm_primary_plane_format_modifiers[] = {
- 	DRM_FORMAT_MOD_INVALID
- };
- 
--static int simpledrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
--						       struct drm_atomic_state *new_state)
--{
--	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
--	struct drm_crtc *new_crtc = new_plane_state->crtc;
--	struct drm_crtc_state *new_crtc_state = NULL;
--	int ret;
--
--	if (new_crtc)
--		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_crtc);
--
--	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
--						  DRM_PLANE_NO_SCALING,
--						  DRM_PLANE_NO_SCALING,
--						  false, false);
--	if (ret)
--		return ret;
--	else if (!new_plane_state->visible)
--		return 0;
--
--	return 0;
--}
--
- static void simpledrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 							 struct drm_atomic_state *old_state)
- {
-@@ -543,7 +520,7 @@ static void simpledrm_primary_plane_helper_atomic_disable(struct drm_plane *plan
- 
- static const struct drm_plane_helper_funcs simpledrm_primary_plane_helper_funcs = {
- 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = simpledrm_primary_plane_helper_atomic_check,
-+	.atomic_check = drm_plane_helper_atomic_check,
- 	.atomic_update = simpledrm_primary_plane_helper_atomic_update,
- 	.atomic_disable = simpledrm_primary_plane_helper_atomic_disable,
- };
-diff --git a/include/drm/drm_plane_helper.h b/include/drm/drm_plane_helper.h
-index 1781fab24dd6..7ba414655d69 100644
---- a/include/drm/drm_plane_helper.h
-+++ b/include/drm/drm_plane_helper.h
-@@ -41,5 +41,7 @@ int drm_plane_helper_update_primary(struct drm_plane *plane, struct drm_crtc *cr
- int drm_plane_helper_disable_primary(struct drm_plane *plane,
- 				     struct drm_modeset_acquire_ctx *ctx);
- void drm_plane_helper_destroy(struct drm_plane *plane);
-+int drm_plane_helper_atomic_check(struct drm_plane *plane,
-+				  struct drm_atomic_state *new_state);
- 
- #endif
+BR,
+Jani.
+
+
+>
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> ---
+>  include/drm/drm_print.h | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 22fabdeed297..b3b470440e46 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -279,49 +279,49 @@ enum drm_debug_category {
+>  	 * @DRM_UT_CORE: Used in the generic drm code: drm_ioctl.c, drm_mm.c,
+>  	 * drm_memory.c, ...
+>  	 */
+> -	DRM_UT_CORE		= 0x01,
+> +	DRM_UT_CORE,
+>  	/**
+>  	 * @DRM_UT_DRIVER: Used in the vendor specific part of the driver: i915,
+>  	 * radeon, ... macro.
+>  	 */
+> -	DRM_UT_DRIVER		= 0x02,
+> +	DRM_UT_DRIVER,
+>  	/**
+>  	 * @DRM_UT_KMS: Used in the modesetting code.
+>  	 */
+> -	DRM_UT_KMS		= 0x04,
+> +	DRM_UT_KMS,
+>  	/**
+>  	 * @DRM_UT_PRIME: Used in the prime code.
+>  	 */
+> -	DRM_UT_PRIME		= 0x08,
+> +	DRM_UT_PRIME,
+>  	/**
+>  	 * @DRM_UT_ATOMIC: Used in the atomic code.
+>  	 */
+> -	DRM_UT_ATOMIC		= 0x10,
+> +	DRM_UT_ATOMIC,
+>  	/**
+>  	 * @DRM_UT_VBL: Used for verbose debug message in the vblank code.
+>  	 */
+> -	DRM_UT_VBL		= 0x20,
+> +	DRM_UT_VBL,
+>  	/**
+>  	 * @DRM_UT_STATE: Used for verbose atomic state debugging.
+>  	 */
+> -	DRM_UT_STATE		= 0x40,
+> +	DRM_UT_STATE,
+>  	/**
+>  	 * @DRM_UT_LEASE: Used in the lease code.
+>  	 */
+> -	DRM_UT_LEASE		= 0x80,
+> +	DRM_UT_LEASE,
+>  	/**
+>  	 * @DRM_UT_DP: Used in the DP code.
+>  	 */
+> -	DRM_UT_DP		= 0x100,
+> +	DRM_UT_DP,
+>  	/**
+>  	 * @DRM_UT_DRMRES: Used in the drm managed resources code.
+>  	 */
+> -	DRM_UT_DRMRES		= 0x200,
+> +	DRM_UT_DRMRES
+>  };
+>  
+>  static inline bool drm_debug_enabled(enum drm_debug_category category)
+>  {
+> -	return unlikely(__drm_debug & category);
+> +	return unlikely(__drm_debug & BIT(category));
+>  }
+>  
+>  /*
+
 -- 
-2.37.1
-
+Jani Nikula, Intel Open Source Graphics Center
