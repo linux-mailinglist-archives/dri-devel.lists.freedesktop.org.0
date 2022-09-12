@@ -1,37 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45B65B5F6D
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 19:36:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4675B5F9D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 19:53:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D34B910E10A;
-	Mon, 12 Sep 2022 17:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 217DD10E07F;
+	Mon, 12 Sep 2022 17:52:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A76DE10E10A
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 17:36:12 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92267106F
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 10:36:18 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F26C03F73D
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 10:36:11 -0700 (PDT)
-Date: Mon, 12 Sep 2022 18:36:01 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH RESEND drm-misc-next 4/7] drm/arm/hdlcd: plane: use drm
- managed resources
-Message-ID: <Yx9uAe//u/Z9zfmM@e110455-lin.cambridge.arm.com>
-References: <20220905152719.128539-1-dakr@redhat.com>
- <20220905152719.128539-5-dakr@redhat.com>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FEEA10E096
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 17:52:48 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id bt10so16160771lfb.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 10:52:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=XI0KQ8q7PFkFGP0DABWmIIcFsiDPrqSNCN4sbyFUatc=;
+ b=zfaxxC5hscfj2i6FJ63hXlCZ02ftU84yLDoSWWK3pMIfqcAOk0lfJ8g9V9MQ57cc7S
+ LXhqgILB3CTzBl6YbJaGZBhQeLi5CupsiCKLmsTZXJMNHkIVz+tE65jLGZjhxr3UzhEr
+ LJ12NAzoLkt+3OKVwzPYos7aPoY9tCl31cGYy/V19u0/onROlQwINcPQQMHq1Otg9Jqy
+ iGvuG0p+QNbs0qpXSJ0kFbWVNJ6Me5XFsxTPakWVFntoyXESNNCYBqGwuddC4grJoBgx
+ 6JP9y6CqhmdoubaNUVL70rb9wVzVfpI0gvLECNIR1KYNr1iZNz8HK9QDrFh6Fkbv2WWz
+ 8hMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=XI0KQ8q7PFkFGP0DABWmIIcFsiDPrqSNCN4sbyFUatc=;
+ b=Wzcfnt87jA5Ug/oz0ryMFj6yRnaVCvxkDfeYMmGiJhL49h1znsAsgFcFonn7Mn5vxH
+ NZOQlLY+uIQDFGT6l0vL9PfhPXKLw2cnCVReEyMG+ah+dXFXJtCh7OFEUL0onUZW9UZi
+ I35kkywHE2Wa0/a5+qekqNAbV9Q428SSwDYZyCzfTzMLkty+BnBtjjPggK/X35Y9wBDx
+ ldsP9JEY0bHbP4cCmbEw2Q9EtU3AtMdUFUgXwtWBSX5R42Z7heQqMJs7UIE9alk5JfNX
+ fJ9tiXN3FZYL/UB42SxSAJz2NW9ECJFU8QremVJgksLETf2qcogwI5CCDNTb96cCsH3f
+ wIxA==
+X-Gm-Message-State: ACgBeo0HDZgq7Sl7++JegOTwfPalHNUwXChnSLwVcKuxI/Hj/4KG3XjH
+ nDs5gTxRvURG4dpxh5gUUMyGuuRVhfdm8Q==
+X-Google-Smtp-Source: AA6agR58ddpzRviculgzcBsEBBSueupQl4jo1hgZZERI2CZncjlF8Iz+Ts2+bJzkmZw/T9tGQdi85w==
+X-Received: by 2002:a05:6512:6d5:b0:494:990f:a820 with SMTP id
+ u21-20020a05651206d500b00494990fa820mr9906341lff.536.1663005166350; 
+ Mon, 12 Sep 2022 10:52:46 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ q24-20020a2eb4b8000000b0026acd11cd51sm1216736ljm.59.2022.09.12.10.52.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Sep 2022 10:52:45 -0700 (PDT)
+Message-ID: <518564a8-5206-80cc-8306-50296de43abf@linaro.org>
+Date: Mon, 12 Sep 2022 20:52:44 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220905152719.128539-5-dakr@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 1/7] drm/msm: fix use-after-free on probe deferral
+To: Johan Hovold <johan+linaro@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>
+References: <20220912154046.12900-1-johan+linaro@kernel.org>
+ <20220912154046.12900-2-johan+linaro@kernel.org>
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220912154046.12900-2-johan+linaro@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,88 +76,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Stephen Boyd <swboyd@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ stable@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
-
-I have applied your patch series for HDLCD on top of drm-next (commit 213cb76ddc8b)
-and on start up I get a warning:
-
-[   12.882554] hdlcd 7ff50000.hdlcd: drm_WARN_ON(funcs && funcs->destroy)
-[   12.882596] WARNING: CPU: 1 PID: 211 at drivers/gpu/drm/drm_crtc.c:393 __drmm_crtc_init_with_planes+0x70/0xf0 [drm]
-
-It looks like the .destroy hook is still required or I'm missing some other required
-series where the WARN has been removed?
-
-Best regards,
-Liviu
-
-On Mon, Sep 05, 2022 at 05:27:16PM +0200, Danilo Krummrich wrote:
-> Use drm managed resource allocation (drmm_universal_plane_alloc()) in
-> order to get rid of the explicit destroy hook in struct drm_plane_funcs.
+On 12/09/2022 18:40, Johan Hovold wrote:
+> The bridge counter was never reset when tearing down the DRM device so
+> that stale pointers to deallocated structures would be accessed on the
+> next tear down (e.g. after a second late bind deferral).
 > 
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> Given enough bridges and a few probe deferrals this could currently also
+> lead to data beyond the bridge array being corrupted.
+> 
+> Fixes: d28ea556267c ("drm/msm: properly add and remove internal bridges")
+> Cc: stable@vger.kernel.org      # 5.19
+
+Fixes: a3376e3ec81c ("drm/msm: convert to drm_bridge")
+Cc: stable@vger.kernel.org # 3.12
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 > ---
->  drivers/gpu/drm/arm/hdlcd_crtc.c | 20 +++++++-------------
->  1 file changed, 7 insertions(+), 13 deletions(-)
+>   drivers/gpu/drm/msm/msm_drv.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
-> index c0a5ca7f578a..17d3ccf12245 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_crtc.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
-> @@ -289,7 +289,6 @@ static const struct drm_plane_helper_funcs hdlcd_plane_helper_funcs = {
->  static const struct drm_plane_funcs hdlcd_plane_funcs = {
->  	.update_plane		= drm_atomic_helper_update_plane,
->  	.disable_plane		= drm_atomic_helper_disable_plane,
-> -	.destroy		= drm_plane_cleanup,
->  	.reset			= drm_atomic_helper_plane_reset,
->  	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
->  	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-> @@ -297,24 +296,19 @@ static const struct drm_plane_funcs hdlcd_plane_funcs = {
->  
->  static struct drm_plane *hdlcd_plane_init(struct drm_device *drm)
->  {
-> -	struct hdlcd_drm_private *hdlcd = drm->dev_private;
-> +	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
->  	struct drm_plane *plane = NULL;
->  	u32 formats[ARRAY_SIZE(supported_formats)], i;
-> -	int ret;
-> -
-> -	plane = devm_kzalloc(drm->dev, sizeof(*plane), GFP_KERNEL);
-> -	if (!plane)
-> -		return ERR_PTR(-ENOMEM);
->  
->  	for (i = 0; i < ARRAY_SIZE(supported_formats); i++)
->  		formats[i] = supported_formats[i].fourcc;
->  
-> -	ret = drm_universal_plane_init(drm, plane, 0xff, &hdlcd_plane_funcs,
-> -				       formats, ARRAY_SIZE(formats),
-> -				       NULL,
-> -				       DRM_PLANE_TYPE_PRIMARY, NULL);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> +	plane = drmm_universal_plane_alloc(drm, struct drm_plane, dev, 0xff,
-> +					   &hdlcd_plane_funcs,
-> +					   formats, ARRAY_SIZE(formats),
-> +					   NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
-> +	if (IS_ERR(plane))
-> +		return plane;
->  
->  	drm_plane_helper_add(plane, &hdlcd_plane_helper_funcs);
->  	hdlcd->plane = plane;
-> -- 
-> 2.37.2
-> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 391d86b54ded..d254fe2507ec 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -241,6 +241,7 @@ static int msm_drm_uninit(struct device *dev)
+>   
+>   	for (i = 0; i < priv->num_bridges; i++)
+>   		drm_bridge_remove(priv->bridges[i]);
+> +	priv->num_bridges = 0;
+>   
+>   	pm_runtime_get_sync(dev);
+>   	msm_irq_uninstall(ddev);
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+With best wishes
+Dmitry
+
