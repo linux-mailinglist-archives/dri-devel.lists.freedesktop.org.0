@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF5D5B527D
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 03:30:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 811325B5295
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 03:46:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FDF410E113;
-	Mon, 12 Sep 2022 01:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D64B10E1C9;
+	Mon, 12 Sep 2022 01:46:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE1D210E113
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 01:30:23 +0000 (UTC)
-X-UUID: e026e9bb127f470fa98865c5ee66ee32-20220912
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=8dXiDlITRRdV1fryZ6x6Kqua0WndoPmtkLh2DFTBuNo=; 
- b=RECw58PbpjLjC4648mEDrc9DrqAYf0USUY1Btx/xRUG5G4IaIE18QJoxRSVY9UUtiAPwMzD112TTq/RpkBG2FHhmBqDOl0OIElccAKolBcDPrhGriJqdCh5n0RduX0rO7poFJS5cL/MSqE2EOlXeD1nbkmEGr7LMXojxaawmIrk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10, REQID:ae809641-8582-46fb-ba29-d8b706af526e, OB:0,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
- Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18, CLOUDID:8ee405f6-6e85-48d9-afd8-0504bbfe04cb,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: e026e9bb127f470fa98865c5ee66ee32-20220912
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1820718379; Mon, 12 Sep 2022 09:30:18 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 12 Sep 2022 09:30:07 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Mon, 12 Sep 2022 09:30:07 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH RESEND v3 9/9] arm64: dts: Modify gamma compatible for mt8195
-Date: Mon, 12 Sep 2022 09:30:06 +0800
-Message-ID: <20220912013006.27541-10-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220912013006.27541-1-jason-jh.lin@mediatek.com>
-References: <20220912013006.27541-1-jason-jh.lin@mediatek.com>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70F6C10E1C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 01:46:22 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4MQqFQ13vpz4xQs;
+ Mon, 12 Sep 2022 11:46:17 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1662947179;
+ bh=JUzNdbpckONCPuzlpTFdYGw3om0b8qs7vClxseI5AVo=;
+ h=Date:From:To:Cc:Subject:From;
+ b=ck2q9FiMxiOBXWQFWBSt93y5QHJ6RBgVGLmnzZZxT1/hz+RPN3IA0LOOyA1Jao9Pr
+ mxNYfAFmqWX9xHwE5BwBMaM6Ua18no84r2gzH8HiDJKqaE/mQceNEyCTGS0Pg2S5yw
+ CmsznClDbHXym7wTV8PUEVUTK9HruVAjAdwMrn3rZAzN3h2MYNbtv0tVseguVA7Wbm
+ DgimpTj65kNVXydg/X1dOzdRUic9yv2LgipTKV050X8BFv2olJxLKUtmf6UjVohOHq
+ A/i61nncbvwyps6TwywUx/Plh7eZtaO5zMvk638MyxlpVIQ462QIdiMsXmZwDeUVjv
+ U63vob3T1uB7A==
+Date: Mon, 12 Sep 2022 11:46:16 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dave Airlie <airlied@redhat.com>
+Subject: linux-next: manual merge of the drm-intel tree with the drm tree
+Message-ID: <20220912114616.5f686243@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: multipart/signed; boundary="Sig_/hVOi3.2gqwmVBO2k/pK7a+T";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,45 +51,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, "zheng-yan.chen" <zheng-yan.chen@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "zheng-yan.chen" <zheng-yan.chen@mediatek.com>
+--Sig_/hVOi3.2gqwmVBO2k/pK7a+T
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Modify gamma compatible for mt8195.
+Hi all,
 
-This modification is because of that
-mt8183 gamma driver data is not compatible with mt8195 gamma.
+Today's linux-next merge of the drm-intel tree got a conflict in:
 
-Thus, need to delete mt8183 gamma compatible from mt8195 gamma.
+  drivers/gpu/drm/i915/intel_pm.c
 
-Signed-off-by: zheng-yan.chen <zheng-yan.chen@mediatek.com>
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt8195.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+between commit:
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-index 905d1a90b406..6b01ebc0db8f 100644
---- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-@@ -2032,7 +2032,7 @@
- 		};
- 
- 		gamma0: gamma@1c006000 {
--			compatible = "mediatek,mt8195-disp-gamma", "mediatek,mt8183-disp-gamma";
-+			compatible = "mediatek,mt8195-disp-gamma";
- 			reg = <0 0x1c006000 0 0x1000>;
- 			interrupts = <GIC_SPI 642 IRQ_TYPE_LEVEL_HIGH 0>;
- 			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
--- 
-2.18.0
+  254e5e8829a9 ("drm: Remove unnecessary include statements of drm_plane_he=
+lper.h")
 
+from the drm tree and commit:
+
+  42a0d256496f ("drm/i915: Extract skl_watermark.c")
+
+from the drm-intel tree.
+
+I fixed it up (they both removed the same include) and can carry the fix
+as necessary. This is now fixed as far as linux-next is concerned, but
+any non trivial conflicts should be mentioned to your upstream maintainer
+when your tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/hVOi3.2gqwmVBO2k/pK7a+T
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmMej2gACgkQAVBC80lX
+0GwrQggAmnmujkHXbD/S5DiS5MZe4j48iwDviIOAZtN+L/JmyMRkC2B/TAQ8UHnJ
+bsvsJm+G+b1k2UDssP4ZScBqdvRTfEmKDW6EVIJa3OhulvDi6Usw+mpJVLiJbirq
+O4q3/vfDyY95k8y/99K60ERH4YYEFHz4bBkdUC6XvEp9OuPNoJFANQOyZfcvaM12
+Fo5OwR0sC8492F34rW6qOIDLsBAqIfFIbgq8wB9WErTZUYS4NxC4D5hdSnuYnLfn
+fceRlJpjuyLAz1q7NWuBcbrd+JVBl66T5b4B5sGUjm4GcEgFK6xcYcPl3aqrcqoP
+5HKIrrHwlD73tXhZNnvKP/I4XJbFjw==
+=2h2g
+-----END PGP SIGNATURE-----
+
+--Sig_/hVOi3.2gqwmVBO2k/pK7a+T--
