@@ -2,47 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766A85B5C25
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 16:25:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDB35B5C37
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 16:30:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B7210E4D3;
-	Mon, 12 Sep 2022 14:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44DD110E587;
+	Mon, 12 Sep 2022 14:30:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7184710E4D3;
- Mon, 12 Sep 2022 14:25:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4AEDEB80D29;
- Mon, 12 Sep 2022 14:25:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A93EAC433D6;
- Mon, 12 Sep 2022 14:25:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1662992705;
- bh=kOw5OmZ7q9/B/nqy9XHlE0smcAt1jA/6Zk6OY8bdTm4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S9T4jmSPATYiQDGo+NMMsZRcdvJDjho1zStbnpmV1K6c8p9twy3MUvmsWUZBC/1FK
- GGTuCDIZiiDxnenZOpeBx3dqxOq88c281B5k2QR2S2NwjqQUSLa5bmCALM9Pl0Q+Cy
- 6UGfQm+kneiGK9tT3Y4A/ZFkRUq1vM8f+MnWkIMk=
-Date: Mon, 12 Sep 2022 16:25:29 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Winkler, Tomas" <tomas.winkler@intel.com>
-Subject: Re: [PATCH v4 05/15] mei: pxp: add command streamer API to the PXP
- driver
-Message-ID: <Yx9BWV2FArpBxJ3v@kroah.com>
-References: <20220909001612.728451-1-daniele.ceraolospurio@intel.com>
- <20220909001612.728451-6-daniele.ceraolospurio@intel.com>
- <YxrZqW2l7cNF5OTI@kroah.com>
- <MN2PR11MB409371E657AFC2777F8BEF0BE5439@MN2PR11MB4093.namprd11.prod.outlook.com>
- <YxrgQNbz2wvWz7Yy@kroah.com>
- <MN2PR11MB40932A4EFF78CF62E97EDDBBE5449@MN2PR11MB4093.namprd11.prod.outlook.com>
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5354510E587
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 14:30:08 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id s11so4610638ilt.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 07:30:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=Gma6d5BlyXEKnjQsnnu5KmSUsV/V+0uYpySeCVOzahM=;
+ b=mb1F1tRoLU+2X2uBFEA5tHgs0j28pnRartJzBt0Ow8kcF8BxzHePc/0cnIxzE6PYv1
+ RDNTI7aA4u0OaXC1ns9sywci1oQ3dibmRtBsRyeAGvxUzduBPeKzXsmZtCbH+MnitP4u
+ SA7NHFNHWRU6quzuVh+Fc2m2BmYzPa9EhiVNY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Gma6d5BlyXEKnjQsnnu5KmSUsV/V+0uYpySeCVOzahM=;
+ b=14AhXT8b8Qdncy14PgPDKCm4wIvMtlh5xcxGfBYCrSPh79MpZHuGLHWmwSoY1k1e0x
+ oFMuU1f2ntRwBoadGFWu3FdqsUP4otXDIHuEUXnAQdcEmLhg4EzGqIkIgrhOGuhgP+JF
+ ceoGLU4YhJp/fJeLJHF7IFAQbNvkQzQwgllL7wcCwAcElJB03eXwxSmbUJmwnUnk0Xh1
+ PD6FDUeIOJ/2Y2ZfGCyT5CqIQ18etcfaHOCDlnWhDgCXslK7NZ3t9zvSwFA8kzQYiBpc
+ RVEAIWTjq8nfgN4JHwoeHMAzl56hEUfKtfv4O2FMbeZeuca4v6LCGFUuD94WHuaRUOoi
+ tPIA==
+X-Gm-Message-State: ACgBeo3+hzKPqrECsTkzcKcJ91Iw/+KcrrapC2YMK/oovHEHgFo89xgl
+ no/dMXaPZMwOAK5QO2/axYkjq0c7gLSTtmpu
+X-Google-Smtp-Source: AA6agR42HSYaLMkqMKcZgFJPS0Jq2yrpCaXWkrTaz7uzv7z7FZ+o1gR0IxIg21YDwvLf90gKSi4JOQ==
+X-Received: by 2002:a05:6e02:194a:b0:2eb:7105:dd65 with SMTP id
+ x10-20020a056e02194a00b002eb7105dd65mr10492008ilu.20.1662993006985; 
+ Mon, 12 Sep 2022 07:30:06 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com.
+ [209.85.166.46]) by smtp.gmail.com with ESMTPSA id
+ k5-20020a0566022d8500b006a0d4a46588sm4257289iow.49.2022.09.12.07.30.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Sep 2022 07:30:04 -0700 (PDT)
+Received: by mail-io1-f46.google.com with SMTP id h194so5286914iof.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 07:30:04 -0700 (PDT)
+X-Received: by 2002:a05:6638:1c17:b0:35a:151b:c726 with SMTP id
+ ca23-20020a0566381c1700b0035a151bc726mr6077471jab.66.1662993004103; Mon, 12
+ Sep 2022 07:30:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MN2PR11MB40932A4EFF78CF62E97EDDBBE5449@MN2PR11MB4093.namprd11.prod.outlook.com>
+References: <20220912113856.817188-1-robert.foss@linaro.org>
+ <20220912113856.817188-3-robert.foss@linaro.org>
+In-Reply-To: <20220912113856.817188-3-robert.foss@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 12 Sep 2022 15:29:52 +0100
+X-Gmail-Original-Message-ID: <CAD=FV=WrH2AAFxV72FZqk-=xU8jzCn6KtcbZRYJAaCwhmvSWmg@mail.gmail.com>
+Message-ID: <CAD=FV=WrH2AAFxV72FZqk-=xU8jzCn6KtcbZRYJAaCwhmvSWmg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] Revert "drm/bridge: ti-sn65dsi86: Implement bridge
+ connector operations for DP"
+To: Robert Foss <robert.foss@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,45 +74,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>, "Teres Alexis,
- Alan Previn" <alan.previn.teres.alexis@intel.com>, "Lubart,
- Vitaly" <vitaly.lubart@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Chris Morgan <macromorgan@hotmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 12, 2022 at 09:59:45AM +0000, Winkler, Tomas wrote:
-> > 
-> > On Fri, Sep 09, 2022 at 06:38:33AM +0000, Winkler, Tomas wrote:
-> > > >
-> > > > On Thu, Sep 08, 2022 at 05:16:02PM -0700, Daniele Ceraolo Spurio wrote:
-> > > > > +static ssize_t mei_pxp_gsc_command(struct device *dev, u8
-> > > > > +client_id,
-> > > > u32 fence_id,
-> > > > > +				   struct scatterlist *sg_in, size_t total_in_len,
-> > > > > +				   struct scatterlist *sg_out) {
-> > > > > +	struct mei_cl_device *cldev;
-> > > > > +
-> > > > > +	if (!dev || !sg_in || !sg_out)
-> > > > > +		return -EINVAL;
-> > > >
-> > > > How can these ever be NULL?  Doesn't the core control this, so why
-> > > > would that happen?
-> > > This is any interface function between modules, I think it is not
-> > > healthy to take assumptions here about how caller behaves, this is not an
-> > inner functions. This is important even for catching programmatical mistakes.
-> > 
-> > It is a static function being called from a framework.  Enforce this in the
-> > framework, don't sprinkle this stuff everywhere, the kernel is NOT defensive
-> > about internal users like this otherwise it will overwhelm every function call.
-> 
-> I'm not sure, this is the case here.  The function is passed to  i915 (other driver) driver via struct i915_pxp_component_op.
-> This is outside of the component framework. 
+Robert,
 
-Then pass in the real mei structure please.  Don't force someone else to
-"find" it in the device tree like you are currently trying to do.
+On Mon, Sep 12, 2022 at 12:43 PM Robert Foss <robert.foss@linaro.org> wrote:
+>
+> As reported by Laurent in response to this commit[1], this functionality should
+> not be implemented using the devicetree, because of this let's revert this series
+> for now.
+>
+> This reverts commit c312b0df3b13e4c533743bb2c37fd1bc237368e5.
+>
+> [1] https://lore.kernel.org/all/20220902153906.31000-2-macroalpha82@gmail.com/
+>
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 28 ---------------------------
+>  1 file changed, 28 deletions(-)
 
-thanks,
+Any chance you got confused and reverted the wrong patch? This
+ti-sn65dsi86 patch doesn't seem relevant to the problems talked about
+in the commit or the cover letter. Maybe I'm missing something?
 
-greg k-h
+-Doug
