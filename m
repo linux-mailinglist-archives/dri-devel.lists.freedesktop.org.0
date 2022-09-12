@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6655B6118
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 20:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 219225B612F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 20:40:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21B0E10E137;
-	Mon, 12 Sep 2022 18:37:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD6C10E158;
+	Mon, 12 Sep 2022 18:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85C5A10E13D
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 18:37:23 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id a14so9505150ljj.8
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 11:37:23 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2320810E181
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 18:39:55 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id q21so16398149lfo.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 11:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=mo0xYdjPNpZiahHOR94h5CTJKhNqWSHm+oWy5fg8cNI=;
- b=pHRztTxM4pWOgSvsoaFKzmPB9AvHg29ymH0gJF9MzsJE9BgHtsjDL1q35eLBhAoxPY
- HkNNw4IxRzUyqJCz060VxKoVLJE3d3tfyiULCc8ltdCdepERxn/BrINbFPJ3D3Fc6oXE
- Jwd2M8LB/nP7o7nfL0B6+tJa0IAIMMlAck54iffSl4PfGNQ1pTnqYIu+Rc7ZXoqcZ9CJ
- T7uel7Yb/V+pzHr9504GzFzAm2Y6yMSwwtyYDu7eTILDghqWlEkW66vfAHX9I4evEuWF
- SioVmBla2CsVEEGRWQgBYvHBXe8/d2NEAUK2Al19bTxRacYtFXn6CEllie2BTnGCHqrc
- BX0Q==
+ bh=rBnJnt9s2rBQ5GOGLgcOmWi4AblijZUFNNPxpAcR8p4=;
+ b=J9+bQLzRFi1I3i88LXpTbLRCgdIQBftNKkAd1h6SwYtLkKr2xyJy8y9zZ+N5jtJcT3
+ kWWLrDtZQ8Hre+9JIpCbWoV256aSDJFajhYwBlvv9U4SK2tsPwUTckEidDelcn06Tg0R
+ Ev6kh9Yc3xYhLAFKWPyAImkb8MCJbZOgPLNQpxRu4T5oYw2IN5Sq8xgjeaojnh7uT6Z6
+ TCWxL0ah2r1gIvmh7sIJ9lZw5Gdq/nce1nXDE8kWKBQBGbwsWF09qoKCZy1X99mdkzyo
+ GmUC1uaNXGpYV3IMCCOdgUnoVsPJwI84BCYhGGJnMWpI2fuZsEKgC2JRo4jSGpTWJXe6
+ 6ocg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=mo0xYdjPNpZiahHOR94h5CTJKhNqWSHm+oWy5fg8cNI=;
- b=zZz7Ax4R1pNfQyvOyzs5UqsXTb29tMwju4QjMe+mEma7+YtYtExE0uOxsqqUigEXGV
- hVtfzrykkAq/sHhAqH7YeoE8ThpzQ06bywhDaLnU5YSHx2NVss0MPDcq6Rpx891CA3mm
- v3UwNI5Txx8MNIL1GgaSR39ZOBWsu0z111DmItkbzDHFlreWZNqHm0kMxOry6iE61SJh
- 91LxQoXVJ6e24ZH2rJr/q+UNYkne9vqytD4PNY4I6vXL5Y8QaBXFaLl3S8a+zwxFSEqi
- yQ7VhWUi4YelmdmfCo6seyJSwwXB8LTETdgoS4671uP+CX2ChebSgOgKkAT/cWlMcRat
- AdwA==
-X-Gm-Message-State: ACgBeo1DaUfX3Sf5A0OzjKlZv9/fHkkc7Lp+L0zkC1HVIP7nhN+ydJIY
- puXFmblCsgVCHdHgx0+lseI9Lg==
-X-Google-Smtp-Source: AA6agR7vubIG0+XIw39Zt1ct04GLvMTZSzuisgoMMfI1SDteYWNLf1sIBPKpN0mJUjoqodPB1z4XUw==
-X-Received: by 2002:a2e:a787:0:b0:26b:ded1:7652 with SMTP id
- c7-20020a2ea787000000b0026bded17652mr5702450ljf.263.1663007841645; 
- Mon, 12 Sep 2022 11:37:21 -0700 (PDT)
+ bh=rBnJnt9s2rBQ5GOGLgcOmWi4AblijZUFNNPxpAcR8p4=;
+ b=Vgypr8Fq9XR7+hktu4p90ILgs0pytoHp6tGC1mIwzeomNlFfHGnM8/Pe5+uBwpkHAO
+ okH3B0OqtZievS0NcUjLrsWiAAa/T+RD9IZJv8eUh3VL+306iKY08AUh1N54wXm7+Qg4
+ KHZ+aBjNJF5KtUHfxJhhEA0sQbd9zsl0iQUdJs1xmmOdeB5PxRFvt9wSQpf8ie9pxVIq
+ KnqbjAuBF2pP41OHTqlFkZUxDM/vdABP+mFCmgLCKZi2ljpWsf8W19YwHj5qBcYKq5xk
+ Bqm4nbxG+e2094G98LsD6a+NQXyQUDIs2kwSc0sHTD0rzJitkC+6r8afvAdr6vuep5gP
+ MEiQ==
+X-Gm-Message-State: ACgBeo2ZUdhNrtT1Ob17w9/ACKinBxRDVaNVxpielKdKK8DY9HM/biR/
+ wq6uSLN8q+UxY1n5PzOevCdspg==
+X-Google-Smtp-Source: AA6agR4LiOmbWOuOJGJC8fm/foifEisyJZxwjrlZUaQk4zMBMjnfO6L3aFriO6IIG/ht918aPzdqtg==
+X-Received: by 2002:a05:6512:ac3:b0:498:f076:6281 with SMTP id
+ n3-20020a0565120ac300b00498f0766281mr6829018lfu.68.1663007993481; 
+ Mon, 12 Sep 2022 11:39:53 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- cf11-20020a056512280b00b00499b232875dsm1116793lfb.171.2022.09.12.11.37.21
+ d4-20020ac25444000000b00494a2a0f6cfsm1205964lfn.183.2022.09.12.11.39.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Sep 2022 11:37:21 -0700 (PDT)
-Message-ID: <067c7bc0-4746-f714-db56-a3c9e4f25588@linaro.org>
-Date: Mon, 12 Sep 2022 21:37:20 +0300
+ Mon, 12 Sep 2022 11:39:53 -0700 (PDT)
+Message-ID: <0f381285-860f-aaa2-2ae7-834608d0b4e8@linaro.org>
+Date: Mon, 12 Sep 2022 21:39:52 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH v5 3/3] drm/msm/dp: retry 3 times if set sink to D0 poweer
- state failed
+Subject: Re: [PATCH v5 1/3] drm/msm/dp: cleared DP_DOWNSPREAD_CTRL register
+ before start link training
 Content-Language: en-GB
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
  robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
  dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
  agross@kernel.org, bjorn.andersson@linaro.org
 References: <1662999830-13916-1-git-send-email-quic_khsieh@quicinc.com>
- <1662999830-13916-4-git-send-email-quic_khsieh@quicinc.com>
+ <1662999830-13916-2-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1662999830-13916-4-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1662999830-13916-2-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,53 +86,67 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/09/2022 19:23, Kuogee Hsieh wrote:
-> Bring sink out of D3 (power down) mode into D0 (normal operation) mode
-> by setting DP_SET_POWER_D0 bit to DP_SET_POWER dpcd register. This
-> patch will retry 3 times if written to DP_SET_POWER register failed.
-
-Could you please elaborate this change? Can the sink succeed in reading 
-the DP_SET_POWER, but fail writing DP_SET_POWER?
-
+> DOWNSPREAD_CTRL (0x107) shall be cleared to 0 upon power-on reset or an
+> upstream device disconnect. This patch will enforce this rule by always
+> cleared DOWNSPREAD_CTRL register to 0 before start link training. At rare
+> case that DP MSA timing parameters may be mis-interpreted by the sink
+> which causes audio sampling rate be calculated wrongly and cause audio
+> did not work at sink if DOWNSPREAD_CTRL register is not cleared to 0.
 > 
-> Changes in v5:
-> -- split into two patches
+> Changes in v2:
+> 1) fix spelling at commit text
+> 2) merge ssc variable into encoding[0]
 > 
+> Changes in v3:
+> -- correct spelling of DOWNSPREAD_CTRL
+> -- replace err with len of ssize_t
+> 
+> Changes in v4:
+> -- split into 2 patches
+> 
+> Fixes: 154b5a7da0fd ("drm/msm/dp: add displayPort driver support")
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/dp/dp_link.c | 13 ++++++++-----
->   1 file changed, 8 insertions(+), 5 deletions(-)
+>   drivers/gpu/drm/msm/dp/dp_ctrl.c | 13 +++++--------
+>   1 file changed, 5 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-> index 9d5381d..4360728 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_link.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
-> @@ -50,6 +50,7 @@ static int dp_aux_link_power_up(struct drm_dp_aux *aux,
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index ab6aa13..2c74c59 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1245,8 +1245,7 @@ static int dp_ctrl_link_train(struct dp_ctrl_private *ctrl,
 >   {
->   	u8 value;
->   	ssize_t len;
-> +	int i;
+>   	int ret = 0;
+>   	const u8 *dpcd = ctrl->panel->dpcd;
+> -	u8 encoding = DP_SET_ANSI_8B10B;
+> -	u8 ssc;
+> +	u8 encoding[] = { 0, DP_SET_ANSI_8B10B };
+>   	u8 assr;
+>   	struct dp_link_info link_info = {0};
 >   
->   	if (link->revision < 0x11)
->   		return 0;
-> @@ -61,11 +62,13 @@ static int dp_aux_link_power_up(struct drm_dp_aux *aux,
->   	value &= ~DP_SET_POWER_MASK;
->   	value |= DP_SET_POWER_D0;
+> @@ -1258,13 +1257,11 @@ static int dp_ctrl_link_train(struct dp_ctrl_private *ctrl,
 >   
-> -	len = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
-> -	if (len < 0)
-> -		return len;
-> -
-> -	usleep_range(1000, 2000);
-> +	/* retry for 1ms to give the sink time to wake up */
-> +	for (i = 0; i < 3; i++) {
-> +		len = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
-> +		usleep_range(1000, 2000);
-> +		if (len == 1)
-> +			break;
-> +	}
+>   	dp_aux_link_configure(ctrl->aux, &link_info);
 >   
->   	return 0;
->   }
+> -	if (drm_dp_max_downspread(dpcd)) {
+> -		ssc = DP_SPREAD_AMP_0_5;
+> -		drm_dp_dpcd_write(ctrl->aux, DP_DOWNSPREAD_CTRL, &ssc, 1);
+> -	}
+> +	if (drm_dp_max_downspread(dpcd))
+> +		encoding[0] |= DP_SPREAD_AMP_0_5;
+
+It would be simpler to call drm_dp_dpcd_write(ssc, DP_DOWNSPREAD_CTRL, 
+1) unconditionally here. You won't have to change the 
+encoding/DP_MAIN_LINK_CHANNEL_CODING_SET/etc.
+
+>   
+> -	drm_dp_dpcd_write(ctrl->aux, DP_MAIN_LINK_CHANNEL_CODING_SET,
+> -				&encoding, 1);
+> +	/* config DOWNSPREAD_CTRL and MAIN_LINK_CHANNEL_CODING_SET */
+> +	drm_dp_dpcd_write(ctrl->aux, DP_DOWNSPREAD_CTRL, encoding, 2);
+>   
+>   	if (drm_dp_alternate_scrambler_reset_cap(dpcd)) {
+>   		assr = DP_ALTERNATE_SCRAMBLER_RESET_ENABLE;
 
 -- 
 With best wishes
