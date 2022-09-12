@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683705B56AB
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 10:51:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E478E5B56C3
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 10:53:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7148F10E2FE;
-	Mon, 12 Sep 2022 08:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCF810E307;
+	Mon, 12 Sep 2022 08:52:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDCA810E2FE;
- Mon, 12 Sep 2022 08:51:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CE6010E331;
+ Mon, 12 Sep 2022 08:52:54 +0000 (UTC)
 Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
  [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1AC359D;
- Mon, 12 Sep 2022 10:51:16 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0CB0559D;
+ Mon, 12 Sep 2022 10:52:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1662972678;
- bh=Od/d6LlBW2xnygl0iW1ZsBhY+OTpV2C+JIgmzV9Gc7s=;
+ s=mail; t=1662972773;
+ bh=sNITFgQ0rgV4FAUjAUR+07fQo7pA+DburyZCyggqXC0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Rid4kBnbJuvDOmk0F8kB4FS8PIwA7Cgs/BfZN/e8B58pecCJpnvVGO1cU4E4quMDQ
- Xv+K7YygTYWAnNM8yo+K67jQVcrbEEY5oz/TA6MwO7QQUZzOUxFPpU8Hman4qBMXi9
- 9MuWQYEI9+5ebkg95AGME9CC2ac1+15Dgqo9j5ZU=
-Message-ID: <87f178f6-0abe-7e5c-5a70-05c2bab94991@ideasonboard.com>
-Date: Mon, 12 Sep 2022 11:51:14 +0300
+ b=f7fD2JWrLOQY9+sbuciZ5VlZWskDUxhc2iwFBOARcJpu0wk/niIhJTRBXIRpt64IX
+ WJ6v/rUzxxwtYdGUQtzKXzomYxzSO/8VGGxNtj0bA/T0sU3Imn//fxJfQxr9E1gakJ
+ sViA3rj2Z1qJZenvRg0YE3vg8CDt8oWidV8nCUw4=
+Message-ID: <34103b0a-567c-5315-6dab-c0002e23450a@ideasonboard.com>
+Date: Mon, 12 Sep 2022 11:52:49 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v1 0/7] drm/bridge_connector: perform HPD enablement
- automatically
+Subject: Re: [PATCH v1 7/7] drm/bridge_connector: drop
+ drm_bridge_connector_en/disable_hpd()
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -45,8 +45,9 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
 References: <20220429185157.3673633-1-dmitry.baryshkov@linaro.org>
+ <20220429185157.3673633-8-dmitry.baryshkov@linaro.org>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220429185157.3673633-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220429185157.3673633-8-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,38 +67,39 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
 On 29/04/2022 21:51, Dmitry Baryshkov wrote:
->  From all the drivers using drm_bridge_connector only iMX/dcss and OMAP
-> DRM driver do a proper work of calling
-> drm_bridge_connector_en/disable_hpd() in right places. Rather than
-> teaching each and every driver how to properly handle
-> drm_bridge_connector's HPD, make that automatic.
+> Now as all drivers stopped calling drm_bridge_connector_enable_hpd() and
+> drm_bridge_connector_disable_hpd() it is safe to remove them complelely.
 > 
-> Add two additional drm_connector helper funcs: enable_hpd() and
-> disable_hpd(). Make drm_kms_helper_poll_* functions call them (as this
-> is the time where the drm_bridge_connector's functions are called by the
-> drivers too).
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/drm_bridge_connector.c | 25 -------------------------
+>   include/drm/drm_bridge_connector.h     |  2 --
+>   2 files changed, 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+> index 1592da3b9403..d9c1f61b6fb6 100644
+> --- a/drivers/gpu/drm/drm_bridge_connector.c
+> +++ b/drivers/gpu/drm/drm_bridge_connector.c
+> @@ -128,18 +128,6 @@ static void drm_bridge_connector_hpd_cb(void *cb_data,
+>   	drm_kms_helper_hotplug_event(dev);
+>   }
+>   
+> -/**
+> - * drm_bridge_connector_enable_hpd - Enable hot-plug detection for the connector
+> - * @connector: The DRM bridge connector
+> - *
+> - * This function enables hot-plug detection for the given bridge connector.
+> - * This is typically used by display drivers in their resume handler.
+> - */
+> -void drm_bridge_connector_enable_hpd(struct drm_connector *connector)
+> -{
+> -}
+> -EXPORT_SYMBOL_GPL(drm_bridge_connector_enable_hpd);
+> -
+>   static void _drm_bridge_connector_enable_hpd(struct drm_connector *connector)
 
-09077bc3116581f4d1cb961ec359ad56586e370b ("drm/bridge_connector: enable 
-HPD by default if supported") was merged in March, but I think that one 
-is  bit broken 
-(https://lore.kernel.org/all/a28a4858-c66a-6737-a9fc-502f591ba2d5@ideasonboard.com/). 
-To get omapdrm work without WARNs we could just revert that commit, but 
-I think this series makes things cleaner.
-
-There's one small problem with this series: in drm_bridge_connector.c 
-the drm_bridge_hpd_disable() function is called from 
-_drm_bridge_connector_disable_hpd() and from 
-drm_bridge_connector_destroy(). This causes two hpd_disable calls when 
-removing the driver modules. I think the call from 
-drm_bridge_connector_destroy() could be removed, as 
-_drm_bridge_connector_disable_hpd() should always get called when 
-removing the drivers.
-
-Dmitry, are you still interested in this series? Can you rebase on top 
-of current upstream, and revert 09077bc3116581f4d1cb961ec359ad56586e370b 
-first?
+Here (and for _drm_bridge_connector_disable_hpd) you could remove the 
+prefix underscore.
 
   Tomi
