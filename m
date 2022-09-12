@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C9B5B6146
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 20:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A535B6152
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 20:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5551910E152;
-	Mon, 12 Sep 2022 18:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7D9A10E163;
+	Mon, 12 Sep 2022 18:53:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED2E710E152
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 18:48:25 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id z25so16381250lfr.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 11:48:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=ajtCtNcs3weh6Y8N5o6lcKpUrALT4dcANWcW4NXZ6zE=;
- b=P/NMHCqKPibLKjl1SPZZBdBqH5dotxf3enKihGybHwv8/O9ykWM7srH1b9b8iLpPBN
- IHQYSEVR3ajiMG7+YhlxNjQHzfwRFVAF1kZTQXAEtf5CD268GiBdDD8L1d1RayQcAon3
- WtUH8cY8xntBhhBWcy/KN/D2nZyA9FyjM+/dU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=ajtCtNcs3weh6Y8N5o6lcKpUrALT4dcANWcW4NXZ6zE=;
- b=glQRx7ojmoFU532IEL7am4GVT9qzgTChezRCaNHzQsHtKVqpANcbosUYoQlXmrvdY5
- xbt7R3aPFozrLYMlljOmWf89igy05ZEvPzFWuH0q9j+KlC1/8rosfHVGyHN4VdH+/Vh3
- SLUq/xfnqW9SJ4f/+JpKgFn9W+53AY3BdengUoWtv4SW3pGC5xpp8azmbw14yTfz7hmG
- EPLUy3C9GAqCh6UHqy7tflTlNqIUx7vVlfiZmPQWpNGKBz+N6Ihq89TMKaRXOG1kLXzN
- ArxpkXtlB4sodgsI25KTR7OlfjQiNKRzo25qG+4Xwv1aTMMAvu4onBU77Qib1glV+ir9
- UZaw==
-X-Gm-Message-State: ACgBeo0MXJz5750bkTDe07GsiRxlySpT8WlUii9CoCGlnaV2Xo94DCzZ
- PnblVwwxhCq2sHFamGixP6XF3j8b32Oa6w==
-X-Google-Smtp-Source: AA6agR77sgSNjPBp0THu42KUMiC49LX0a7lfVvwLlnJtoHXLI2Xlxkna9san/bLqV4LK6F+7olHH8w==
-X-Received: by 2002:a05:6512:3113:b0:497:abbf:493d with SMTP id
- n19-20020a056512311300b00497abbf493dmr9509091lfb.310.1663008504108; 
- Mon, 12 Sep 2022 11:48:24 -0700 (PDT)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com.
- [209.85.167.43]) by smtp.gmail.com with ESMTPSA id
- l23-20020a194957000000b004946c3e4470sm1208572lfj.133.2022.09.12.11.48.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Sep 2022 11:48:22 -0700 (PDT)
-Received: by mail-lf1-f43.google.com with SMTP id a3so4351171lfk.9
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 11:48:22 -0700 (PDT)
-X-Received: by 2002:a05:6512:2303:b0:49b:ec39:c4ab with SMTP id
- o3-20020a056512230300b0049bec39c4abmr103166lfu.512.1663008502265; Mon, 12 Sep
- 2022 11:48:22 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48B1B10E163;
+ Mon, 12 Sep 2022 18:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663008831; x=1694544831;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=50QRgPLOf/CrVyFJ0cfHri8jZtBrmT3+XtGh/TYDKI8=;
+ b=LSlLetVlc4NOdsk3R/ZPfOpg4q3Ho23Kx/57crxkHnE0E7Ydh9FHSSST
+ z9Iw5ZUtMOe+APC97iXQSSfh0beKny292Bf6Sl1xwt1pIGK7LoEPS9Fl0
+ jFpGseccrdOWPUSfj8R2e9Tj3Xem7L1DkMxEr7WrLlGyrakVRL8ioF6cf
+ m8LmHT/1OAXtp73L5zprLbsdmzyeTjn+i0/4rDPSXrQ6GxR4uRtkwhpXe
+ bGp3/iU/VWwq2DBn/kiIBBrMYmbbpGXhMuxjOmp7XCTw6LdozSpHF2LSi
+ T5XRkTf9BXZdcaKVottO54P6GBNAkUbzXYol89GfPunMk+3LD6wrfuMLL A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="280960928"
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="280960928"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 11:53:50 -0700
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="678221435"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.24.87])
+ ([10.213.24.87])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 11:53:49 -0700
+Message-ID: <268b4c7e-4713-5975-3430-94cc5ebcb004@intel.com>
+Date: Mon, 12 Sep 2022 20:53:47 +0200
 MIME-Version: 1.0
-References: <20220822180729.1.I8ac5abe3a4c1c6fd5c061686c6e883c22f69022c@changeid>
- <CAD=FV=W5X2XvvKT5tq+1ywJSmVB0TAHquGgn02uNmn4s-sqndg@mail.gmail.com>
- <CA+ASDXMetKHtL8Hm_=S7xPcHX19FDaCoXtHmh=E6i6pLEXQZ0g@mail.gmail.com>
-In-Reply-To: <CA+ASDXMetKHtL8Hm_=S7xPcHX19FDaCoXtHmh=E6i6pLEXQZ0g@mail.gmail.com>
-From: Brian Norris <briannorris@chromium.org>
-Date: Mon, 12 Sep 2022 11:48:09 -0700
-X-Gmail-Original-Message-ID: <CA+ASDXOMYGgaJSrxQUNFhN+9qT-kfedk_UJJnOO58iJpWdxu1w@mail.gmail.com>
-Message-ID: <CA+ASDXOMYGgaJSrxQUNFhN+9qT-kfedk_UJJnOO58iJpWdxu1w@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm: bridge: analogix/dp: add panel
- prepare/unprepare in suspend/resume time"
-To: Doug Anderson <dianders@chromium.org>,
- Zhang Zekun <zhangzekun11@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.2.2
+Subject: Re: [Intel-gfx] [PATCH v1 1/1] drm/i915: Skip applying copy engine
+ fuses
+Content-Language: en-US
+To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220912-copy-engine-v1-0-ef92fd81758d@intel.com>
+ <20220912-copy-engine-v1-1-ef92fd81758d@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20220912-copy-engine-v1-1-ef92fd81758d@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,34 +63,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, xuqiang36@huawei.com,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 25, 2022 at 11:06 AM Brian Norris <briannorris@chromium.org> wrote:
-> On Thu, Aug 25, 2022 at 10:37 AM Doug Anderson <dianders@chromium.org> wrote:
-> > Given that this is _not_ an area that I'm an expert in nor is it an
-> > area where the consequences are super easy to analyze, I'm a little
-> > hesitant to apply this to drm-misc-next myself. Ideally someone more
-> > familiar with the driver would do it. However, if nobody steps up
-> > after a few weeks and nobody has yelled about this patch, I'll apply
-> > it.
+On 12.09.2022 18:19, Lucas De Marchi wrote:
+> Support for reading the fuses to check what are the Link Copy engines
+> was added in commit ad5f74f34201 ("drm/i915/pvc: read fuses for link
+> copy engines"). However they were added unconditionally because the
+> FUSE3 register is present since graphics version 10.
+> 
+> However the bitfield with meml3 fuses only exists since graphics version
+> 12. Moreover, Link Copy engines are currently only available in PVC.
+> Tying additional copy engines to the meml3 fuses is not correct for
+> other platforms.
+> 
+> Make sure there is a check for  `12.60 <= ver < 12.70`. Later platforms
+> may extend this function later if it's needed to fuse off copy engines.
+> 
+> Currently it's harmless as the Link Copy engines are still not exported:
+> info->engine_mask only has BCS0 set and the register is only read for
+> platforms that do have it.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-For this particular patch, I'd be interested in whether Zhang Zekun
-has any feedback (even a Tested-by?), since they were patching this
-function in the first place, which is why I paid attention:
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Subject: [PATCH -next] drm/bridge: Add missing clk_disable_unprepare()
-in analogix_dp_resume()
-https://lore.kernel.org/lkml/20220816064231.60473-1-zhangzekun11@huawei.com/
+Regards
+Andrzej
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 814f83b5fe59..1f7188129cd1 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -764,6 +764,10 @@ static void engine_mask_apply_copy_fuses(struct intel_gt *gt)
+>   	unsigned long meml3_mask;
+>   	unsigned long quad;
+>   
+> +	if (!(GRAPHICS_VER_FULL(i915) >= IP_VER(12, 60) &&
+> +	      GRAPHICS_VER_FULL(i915) < IP_VER(12, 70)))
+> +		return;
+> +
+>   	meml3_mask = intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3);
+>   	meml3_mask = REG_FIELD_GET(GEN12_MEML3_EN_MASK, meml3_mask);
+>   
+> 
 
-But in absence of that...it has now been a few weeks :)
-
-I'll also mark this to come back to again in a week or two, in case
-somebody is still hoping to wait longer.
-
-Regards,
-Brian
