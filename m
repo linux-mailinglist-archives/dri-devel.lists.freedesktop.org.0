@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A535B6152
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 20:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E684A5B6192
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 21:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7D9A10E163;
-	Mon, 12 Sep 2022 18:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0630010E181;
+	Mon, 12 Sep 2022 19:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48B1B10E163;
- Mon, 12 Sep 2022 18:53:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663008831; x=1694544831;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=50QRgPLOf/CrVyFJ0cfHri8jZtBrmT3+XtGh/TYDKI8=;
- b=LSlLetVlc4NOdsk3R/ZPfOpg4q3Ho23Kx/57crxkHnE0E7Ydh9FHSSST
- z9Iw5ZUtMOe+APC97iXQSSfh0beKny292Bf6Sl1xwt1pIGK7LoEPS9Fl0
- jFpGseccrdOWPUSfj8R2e9Tj3Xem7L1DkMxEr7WrLlGyrakVRL8ioF6cf
- m8LmHT/1OAXtp73L5zprLbsdmzyeTjn+i0/4rDPSXrQ6GxR4uRtkwhpXe
- bGp3/iU/VWwq2DBn/kiIBBrMYmbbpGXhMuxjOmp7XCTw6LdozSpHF2LSi
- T5XRkTf9BXZdcaKVottO54P6GBNAkUbzXYol89GfPunMk+3LD6wrfuMLL A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="280960928"
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="280960928"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 11:53:50 -0700
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="678221435"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.24.87])
- ([10.213.24.87])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 11:53:49 -0700
-Message-ID: <268b4c7e-4713-5975-3430-94cc5ebcb004@intel.com>
-Date: Mon, 12 Sep 2022 20:53:47 +0200
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F324D10E181
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 19:21:07 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id y136so9585733pfb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 12:21:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=edgeble-ai.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=SZHaj8okATHVu/Q6unhlirD3gdvtLQE0uzOf/LJ8iDA=;
+ b=3jCsf+VpeWOvXcTHOtj3qCcqITNJAWUXdFB4Af2SSbboVCNSqGCXIa/g1mo8eeB/Rv
+ ECJ0bR2AromSL8szpZbzsbrJN6NbS1XzRyVMqUSxL2lgIPvQ+sA10mrSI9rTizSW7OLZ
+ N1OBXiISmx3TJbLxQ/lArGmmNwgltBOKtdrooRGQtAqlSLxW+f48DNTm/fKpYAyBpYMY
+ G478oyvo6RYUmGTZc7MX1fsccejQa5O+kgUBaYtyIV86wmVbX2Uyc2qIuqv/Fv/vOgoc
+ l7Y5QZQcqHzsN9ZvxxU3TD+A/9cfviUM1UCPjixA3oL1y5AdM7TY7wTVChO6OOk5f06I
+ YJ8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=SZHaj8okATHVu/Q6unhlirD3gdvtLQE0uzOf/LJ8iDA=;
+ b=S5ll58ayvbzYuRcTLbbo+NRvv/u7qSP0Mr5vegonCQfKHNlDbsA/WDSmwK4oReg3+z
+ n2doyJryXkn+jJpUbdT7DjNOvNxdjDqYCVgeJg0GxZPaCsBU5cbYibRYySvZ0UNoPMvr
+ KDDxyIYBCWgw4n7bSkRd7tQPzDPIbMx7Re2B4Ot5jCUvg+uFzcQ5bMsd2Zpg7P+QU8Ps
+ ZWYjG/yH4MmASGIzm42j/jh8lzmcVQ1K3hgui+QP44tNYWQPNkTdgms+LgOv9wtuPOpf
+ PYxcbTst68YEBvkK4bcsEG+JgLzRXw5F0p5i2hpvi2ueTZQHwiDjF5oSE++wN3ya94B6
+ obBQ==
+X-Gm-Message-State: ACgBeo3+mBzb2yHZDmZwMyNEDPAdV5Rt+BZNulytLlK9ZsFhHfgYWxSa
+ GciJEWPxS9v7z12GgfPC99bRy87Mye53SQCb9+W03Q==
+X-Google-Smtp-Source: AA6agR4QSkhDFUb4mywD3J9h/2Xq5LTVyTodEmqOY/s8+f884DXkrrz5OQO3/bz3sSdo7c6fEuYfhoHcnGlD4O+2qrc=
+X-Received: by 2002:a65:6a4a:0:b0:434:a2b8:1a83 with SMTP id
+ o10-20020a656a4a000000b00434a2b81a83mr24179676pgu.125.1663010467524; Mon, 12
+ Sep 2022 12:21:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.2
-Subject: Re: [Intel-gfx] [PATCH v1 1/1] drm/i915: Skip applying copy engine
- fuses
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220912-copy-engine-v1-0-ef92fd81758d@intel.com>
- <20220912-copy-engine-v1-1-ef92fd81758d@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220912-copy-engine-v1-1-ef92fd81758d@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220908135940.299324-1-jagan@edgeble.ai>
+ <20220908135940.299324-4-jagan@edgeble.ai>
+ <CAPY8ntARtgRT_kYbS-zw9kAuc16Qy49UF+y2H1143s_2=cnmYg@mail.gmail.com>
+In-Reply-To: <CAPY8ntARtgRT_kYbS-zw9kAuc16Qy49UF+y2H1143s_2=cnmYg@mail.gmail.com>
+From: Jagan Teki <jagan@edgeble.ai>
+Date: Tue, 13 Sep 2022 00:50:56 +0530
+Message-ID: <CA+VMnFwTFbisCJOB_9XcwT_xxnyxNjeqNX5cyMHmviWtpZ6T3g@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm: panel: Add Jadard JD9365DA-H3 DSI panel
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,49 +66,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.09.2022 18:19, Lucas De Marchi wrote:
-> Support for reading the fuses to check what are the Link Copy engines
-> was added in commit ad5f74f34201 ("drm/i915/pvc: read fuses for link
-> copy engines"). However they were added unconditionally because the
-> FUSE3 register is present since graphics version 10.
-> 
-> However the bitfield with meml3 fuses only exists since graphics version
-> 12. Moreover, Link Copy engines are currently only available in PVC.
-> Tying additional copy engines to the meml3 fuses is not correct for
-> other platforms.
-> 
-> Make sure there is a check for  `12.60 <= ver < 12.70`. Later platforms
-> may extend this function later if it's needed to fuse off copy engines.
-> 
-> Currently it's harmless as the Link Copy engines are still not exported:
-> info->engine_mask only has BCS0 set and the register is only read for
-> platforms that do have it.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Hi Dave,
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+On Thu, 8 Sept 2022 at 20:33, Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi Jagan
+>
+> On Thu, 8 Sept 2022 at 15:00, Jagan Teki <jagan@edgeble.ai> wrote:
+> >
+> > Jadard JD9365DA-H3 is WUXGA MIPI DSI panel and it support TFT
+> > dot matrix LCD with 800RGBx1280 dots at maximum.
 
-Regards
-Andrzej
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 814f83b5fe59..1f7188129cd1 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -764,6 +764,10 @@ static void engine_mask_apply_copy_fuses(struct intel_gt *gt)
->   	unsigned long meml3_mask;
->   	unsigned long quad;
->   
-> +	if (!(GRAPHICS_VER_FULL(i915) >= IP_VER(12, 60) &&
-> +	      GRAPHICS_VER_FULL(i915) < IP_VER(12, 70)))
-> +		return;
-> +
->   	meml3_mask = intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3);
->   	meml3_mask = REG_FIELD_GET(GEN12_MEML3_EN_MASK, meml3_mask);
->   
-> 
+Look like I wrapped the wrong text, maybe this copy came from vendor
+code. Yes, the datasheet mentioned this as WXGA resolution.
 
+Thanks for this. I will correct it.
+
+>
+> Sorry, I'm confused by this commit text.
+>
+> WUXGA is normally defined as 1920x1200.
+> So the panel is 1920x1200, but it supports a max of 800x1280 pixels?
+> What do the other pixels do then?
+>
+> Google implies that Jadard JD9365DA-H3 is a driver IC, not a panel. So
+> is this driver for all JD9365DA-H3 based panels, not just one panel?
+> Having a compatible of "chongzhou,cz101b4001" implies it.
+> (Thinking about it, I have a JD9365Z based DSI panel on my desk, but
+> the JD9365Z is made by Fitipower and it supports a max resolution of
+> 720x1280. Those trailing letters are obviously very significant on
+> this range)
+
+Yes, chongzhou,cz101b4001 panel which used JD9365DA-H3 controller IC.
+Though JD9365DA-H3 itself is not a direct panel, we usually denote
+controller IC as panel driver as these are part of Linux DRM panel and
+as its own compatible "jadard,jd9365da-h3"
+
+Thanks,
+Jagan.
