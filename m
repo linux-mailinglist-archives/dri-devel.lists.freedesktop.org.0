@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BDD5B5D77
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 17:41:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0B35B5D7B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 17:42:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F16A210E5B6;
-	Mon, 12 Sep 2022 15:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D7B10E5BE;
+	Mon, 12 Sep 2022 15:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9CF10E5C8;
- Mon, 12 Sep 2022 15:41:29 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A50E310E5AC;
+ Mon, 12 Sep 2022 15:41:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C6218B80D68;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E47EA61257;
  Mon, 12 Sep 2022 15:41:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD99FC433B5;
- Mon, 12 Sep 2022 15:41:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E629C43144;
+ Mon, 12 Sep 2022 15:41:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1662997286;
- bh=ALSz/B3OueKx+xZxACNFavtF4u1RlQ9F0qOMVhGzjfk=;
+ bh=NvUPn637z6uLalY0boDdcXrcj/rg6GMPWSoihJhuhnU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FUwdM4ufVB2zUMRE9GHgTO1hq77E/4lJ6JjDt/l3vi91cV1Hyl7n8G2eTTBFiJ8dH
- J5XfPSM2XNTzsqA9dOo8Ia2+KClBREr8/KBFJO9eGzfz2wHJj6DV+Dw/NNlKIdDeB0
- 31/jPacD68161L8dw1zp0zrsr1dUW5bpkhFGPURWnGfTK4jVSJfy6IEvnthlIRuwVx
- Fsvf6zDf1Uy57b/IXS4bN9C3vPioIoIGj+kN76xEI2PW28wQZk7MWwfdFTAIDlfqjK
- 44HM19zvCfV9JLqNlelDqO8oJ9Hs0zlqgWbyDOMQF2tdfkv6Zldin+PjptyO+Ix51J
- eRVESEgMqqlFw==
+ b=cuhz9DELmb+VMsNghrKvvabDT47SnHzyP7fPgGTEhXDCzH5DLcOFeJhEH8HL7aCPD
+ MoqfnPuxjhHHpNtIXi4RQSa59WG3G+ffR3BQomxaGU6d4mKJPe4LJU5k8XWFypnvWD
+ GpZppgjBhdNtvaHDLN3+PnIpI9KC6JY5h2OxAvEqtKB9phidytPw46H+/umJ7qHhyH
+ wu+V0Hm4uSLaybeSB5njmUozFZ6ZcFaMG7vS6O6unarZzzHALWBCLQPWHWpN4Iy3rF
+ HfZyfk6SxatSKX3N28/SQP4gQAwD9DEW0McrXXJ5WkBzZaXr16R2glvWG4nJj8iiLH
+ uc2nEPXAGhWyA==
 Received: from johan by xi.lan with local (Exim 4.94.2)
  (envelope-from <johan+linaro@kernel.org>)
- id 1oXlYp-0003My-Kp; Mon, 12 Sep 2022 17:41:23 +0200
+ id 1oXlYp-0003N0-Ni; Mon, 12 Sep 2022 17:41:23 +0200
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Douglas Anderson <dianders@chromium.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>
-Subject: [PATCH 6/7] drm/msm/hdmi: fix IRQ lifetime
-Date: Mon, 12 Sep 2022 17:40:45 +0200
-Message-Id: <20220912154046.12900-7-johan+linaro@kernel.org>
+Subject: [PATCH 7/7] drm/msm: drop modeset sanity checks
+Date: Mon, 12 Sep 2022 17:40:46 +0200
+Message-Id: <20220912154046.12900-8-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220912154046.12900-1-johan+linaro@kernel.org>
 References: <20220912154046.12900-1-johan+linaro@kernel.org>
@@ -63,43 +64,62 @@ Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
  Stephen Boyd <swboyd@chromium.org>, Robert Foss <robert.foss@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- stable@vger.kernel.org, freedreno@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Johan Hovold <johan+linaro@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Device-managed resources allocated post component bind must be tied to
-the lifetime of the aggregate DRM device or they will not necessarily be
-released when binding of the aggregate device is deferred.
+Drop the overly defensive modeset sanity checks of function parameters
+which have already been checked or used by the callers.
 
-This is specifically true for the HDMI IRQ, which will otherwise remain
-requested so that the next bind attempt fails when requesting the IRQ a
-second time.
-
-Fix this by tying the device-managed lifetime of the HDMI IRQ to the DRM
-device so that it is released when bind fails.
-
-Fixes: 067fef372c73 ("drm/msm/hdmi: refactor bind/init")
-Cc: stable@vger.kernel.org      # 3.19
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 7 +------
+ drivers/gpu/drm/msm/dsi/dsi.c       | 7 +------
+ 2 files changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index a0ed6aa8e4e1..f28fb21e3891 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -344,7 +344,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
- 		goto fail;
- 	}
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 393af1ea9ed8..8ad28bf81abe 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1597,15 +1597,10 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+ 			struct drm_encoder *encoder)
+ {
+-	struct msm_drm_private *priv;
++	struct msm_drm_private *priv = dev->dev_private;
+ 	struct dp_display_private *dp_priv;
+ 	int ret;
  
--	ret = devm_request_irq(&pdev->dev, hdmi->irq,
-+	ret = devm_request_irq(dev->dev, hdmi->irq,
- 			msm_hdmi_irq, IRQF_TRIGGER_HIGH,
- 			"hdmi_isr", hdmi);
- 	if (ret < 0) {
+-	if (WARN_ON(!encoder) || WARN_ON(!dp_display) || WARN_ON(!dev))
+-		return -EINVAL;
+-
+-	priv = dev->dev_private;
+-
+ 	if (priv->num_bridges == ARRAY_SIZE(priv->bridges)) {
+ 		DRM_DEV_ERROR(dev->dev, "too many bridges\n");
+ 		return -ENOSPC;
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 8a95c744972a..31fdee2052be 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -211,14 +211,9 @@ void __exit msm_dsi_unregister(void)
+ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
+ 			 struct drm_encoder *encoder)
+ {
+-	struct msm_drm_private *priv;
++	struct msm_drm_private *priv = dev->dev_private;
+ 	int ret;
+ 
+-	if (WARN_ON(!encoder) || WARN_ON(!msm_dsi) || WARN_ON(!dev))
+-		return -EINVAL;
+-
+-	priv = dev->dev_private;
+-
+ 	if (priv->num_bridges == ARRAY_SIZE(priv->bridges)) {
+ 		DRM_DEV_ERROR(dev->dev, "too many bridges\n");
+ 		return -ENOSPC;
 -- 
 2.35.1
 
