@@ -2,57 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63EE85B550F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 09:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7267F5B55B7
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 10:08:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A32A10E260;
-	Mon, 12 Sep 2022 07:12:39 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5507710E237;
- Mon, 12 Sep 2022 07:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E9810E0C7;
+	Mon, 12 Sep 2022 08:08:33 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0681910E0C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 08:08:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662966754; x=1694502754;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:cc:from:to:message-id:date;
- bh=Jn7VM+KS++uyFgVOMolGz5wkTq/Uyt388tG/tdj89io=;
- b=TYakAjofBOIo5rxRoYpZ884M5JdYP7eXMqvZuJy4ungxrvVpQUHj3mK3
- QbOTZygHvCZXELWj8TcvAYNoohpEAc2h7XsH7KdXK6v2ZIuqUSjqDRo6/
- iuOneQcLMRRN2LH3suaSfIy9Ya+7iAX7mXoB0auJachxvfpy0DqnZu1PC
- 8s7H1uZXL8H54OlfMW5fy3wrpsJUPbZinliGmdG66LgCxuGnrFXhrbsdO
- k8KT4G7PlsP9ECKqh8tBdO5NUE5L8SEetI/Q+ak3tS3ttYHgPUakyWYJf
- ShiWQkBLmPOrcTSKCp5fknB9w+vNPzMJ53+qyexzP3UZoa1RE5EK35ich Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="295385395"
-X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; d="scan'208";a="295385395"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 00:12:31 -0700
-X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; d="scan'208";a="567063910"
-Received: from cpboland-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.16.28])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 00:12:27 -0700
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <166149498818.8619.15466495110393449610@jlahtine-mobl.ger.corp.intel.com>
-References: <20220728022028.2190627-1-John.C.Harrison@Intel.com>
- <20220728022028.2190627-7-John.C.Harrison@Intel.com>
- <166133167788.14547.12249088266216764022@jlahtine-mobl.ger.corp.intel.com>
- <4bd7b51a-caf0-d987-c7df-6cfb24f36597@intel.com>
- <166141170600.5625.4355115277022948576@jlahtine-mobl.ger.corp.intel.com>
- <899bfc43-cc8e-1e26-a58d-eeb80ed74d06@intel.com>
- <166149498818.8619.15466495110393449610@jlahtine-mobl.ger.corp.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 6/7] drm/i915/guc: Make GuC log sizes runtime
- configurable
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Intel-GFX@Lists.FreeDesktop.Org, John Harrison <john.c.harrison@intel.com>
+ t=1662970109; x=1694506109;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=s7Jug/OnMCFhyd1q5xTwD79VDV4Ia8xhw4W5pOzqF7Q=;
+ b=MEQ3TLzhtGQqdzXYsWqlKQN6v/HSr6ZXa+EqgMZF6JhqI93PqNdMegbg
+ bHFtC1tvf3MoTovSMSXr9bhAz2nQwRbJL78FZEU+En2FibAlzT7X9pjCp
+ yxFXhZchY68EXuY+Q2r9v/irFkMxvl84mrbBYhU2nOgZ6ukP0GWGzWoVv
+ nZbEAHNnGTqr42ycjWKRJzxiYbf8sAWOCd1h3Xyf99ydgjb12VG8QkxRA
+ eY3o8rGrfftXLgEazNz56LkULMkbweS9VETTqgJk4aT2tu7zYZKJMAy+G
+ pcdybe7kn4KYlHidbTeLsBz9CI4vbIbIqNgeSBj6BlQfmup+SRzV4xn2X Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="277544365"
+X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; d="scan'208";a="277544365"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 01:08:28 -0700
+X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; d="scan'208";a="646358310"
+Received: from abijaz-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.58.140])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 01:08:24 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hamza Mahfooz <someguy@effective-light.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: it6505: use drm_debug_enabled() in
+ it6505_debug_print()
+In-Reply-To: <20220910224816.15058-1-someguy@effective-light.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <166296674451.3878.1653374638638017690@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Mon, 12 Sep 2022 10:12:24 +0300
+References: <20220910224816.15058-1-someguy@effective-light.com>
+Date: Mon, 12 Sep 2022 11:08:19 +0300
+Message-ID: <875yht6mmk.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,56 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Allen Chen <allen.chen@ite.com.tw>,
+ Hamza Mahfooz <someguy@effective-light.com>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, Hermes Wu <hermes.wu@ite.com.tw>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Joonas Lahtinen (2022-08-26 09:23:08)
-> Quoting John Harrison (2022-08-25 19:31:39)
-> > On 8/25/2022 00:15, Joonas Lahtinen wrote:
-> > > Quoting John Harrison (2022-08-24 21:45:09)
-> > >> We also don't want to tie the GuC logging buffer size to the DRM
-> > >> debugging output. Enabling kernel debug output can change timings and
-> > >> prevent the issue that one is trying to capture in the GuC log. And =
-it
-> > >> seems unlikely we could add an entire new top level DRM debug flag j=
-ust
-> > >> for an internal i915 only log buffer size. Plus drm.debug is explici=
-tly
-> > >> stated as being dynamically changeable via sysfs at any time. The GuC
-> > >> log buffer size cannot be changed without reloading the i915 driver.=
- Or
-> > >> at least, not without reloading the GuC, but we definitely don't wan=
-t to
-> > >> create a UAPI for arbitrarily reloading the GuC.
-> > >>
-> > >> We can make these parameters 'unsafe' so that they taint the kernel =
-if
-> > >> used. But this is exactly what module parameters are for - configura=
-tion
-> > >> that we don't want to hardcode as CONFIG options but which must be s=
-et
-> > >> at module load time.
-> > > It's better to have sane defaults. And if somebody wants something
-> > > strange, they can have a Kconfig behind EXPERT option. But even then
-> > > there should really be need for it.
-> > Define sane.
->=20
-> I was hoping you would be the expert on that as you've suggested the
-> patch to begin with.
->=20
-> Try to aim to cover >90% of the debug scenarios (that are only 0.001%) and
-> we're already only needing to recompile kernel in 1 per million cases.
->=20
-> We can live with that.
->=20
-> I will push a fixup to remove the module parameters, please figure the
-> rest out in a timely manner.
+On Sat, 10 Sep 2022, Hamza Mahfooz <someguy@effective-light.com> wrote:
+> As made mention of in commit 9f0ac028410f ("drm/print: rename drm_debug
+> to __drm_debug to discourage use"), we shouldn't explicitly refer to
+> __drm_debug in this context. So, use drm_debug_enabled() instead.
+>
+> Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
+> Signed-off-by: Hamza Mahfooz <someguy@effective-light.com>
 
-John, what is the status of the followup patch here to configure those
-reasonable defaults?
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-We shouldn't be ignoring this and proceed to pile other GuC patches
-on top.
+> ---
+>  drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+> index 4b673c4792d7..875f87c576cb 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -554,7 +554,7 @@ static void it6505_debug_print(struct it6505 *it6505, unsigned int reg,
+>  	struct device *dev = &it6505->client->dev;
+>  	int val;
+>  
+> -	if (likely(!(__drm_debug & DRM_UT_DRIVER)))
+> +	if (!drm_debug_enabled(DRM_UT_DRIVER))
+>  		return;
+>  
+>  	val = it6505_read(it6505, reg);
 
-Regards, Joonas
+-- 
+Jani Nikula, Intel Open Source Graphics Center
