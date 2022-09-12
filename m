@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 350435B581A
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 12:22:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 568875B582F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Sep 2022 12:24:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1A9810E36C;
-	Mon, 12 Sep 2022 10:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCFEF10E36D;
+	Mon, 12 Sep 2022 10:24:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9879510E36B;
- Mon, 12 Sep 2022 10:21:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662978115; x=1694514115;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rbitQRJ6jDxMHRoRFNvyOiXLWpjVICziWAEq1TuoVCI=;
- b=DcfxBLIOuA7r/xVAyooqodHMY+NEg4Gay5hTL+I4euhA62hjw4U3iZa/
- mDckqgaQUMYxgzQy1LyjumHBYmUOKqvzmLg++rFRKofe+qcc8TaDhMhuV
- x4XWsC4yaOolVibTutwO3LaAzBk0Vq13W2YxF8iaRvyLZhjJTIMyicwBz
- SppWoApEIwUAiltmB7oJC5qg1wLFsbSuWh1E3Aju3Op4gRq8sMX5NCgGS
- MXAtQozUUM42z5l/myn2wN09JTUR0KoWdylDVhGtdC51p/ShqRG3g+LjX
- 45PLo8YdO9ey4yKdgjqLs2XUXjBVSQJpnXtuBXA4SbM8KWnPfGZlcXfeW A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="361783524"
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="361783524"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 03:21:54 -0700
-X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; d="scan'208";a="684376357"
-Received: from mtabaka-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.57.56])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 03:21:50 -0700
-Date: Mon, 12 Sep 2022 12:21:42 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v10 3/9] compiler_types.h: Add assert_type to catch type
- mis-match while compiling
-Message-ID: <Yx8INguMNIU4RIGY@alfio.lan>
-References: <20220909105913.752049-1-gwan-gyeong.mun@intel.com>
- <20220909105913.752049-4-gwan-gyeong.mun@intel.com>
- <Yx3A16ZElKOeJr0o@alfio.lan>
- <579b8532-7687-4620-d146-c8ffbbc14097@rasmusvillemoes.dk>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 206B410E36D
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Sep 2022 10:24:17 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2CD6E6601FD9;
+ Mon, 12 Sep 2022 11:24:15 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1662978256;
+ bh=kiqQbnIn7/5ut/Bpv9ksnG72E+m6XZrvIdfMBPIWiDs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nWiUu98eh2uGOzmLk0SWdME8yzF3fTBfsXzrEQ87DFJjiBY1vOH7HPzJvISUPMfS6
+ xVPxZpve8trRoYmAvy599zNpzxcBF4Dx3jYO9peJC9GXm04aIzVbSQv5NEsAt8+k/3
+ 0WdoGIuxzbP1IHImxfostd9DszbMyinHF+R1aH8HdlYdPuFlV8MRzG+Am+kXyhaQyM
+ VgLJt2fTJdictRb6SGPt3VCFU4VnEfy3kbWjafXVKTpmpQUEmES0+OSkWb5ML4KBo1
+ poYaGyMvWyrXJvKRgctf0Bq+o3EdggZL1UV2EY2eUJZq0Fueb68b2p9eXzyAqqZAug
+ On2OPOb0PpQOg==
+Message-ID: <97ac2b35-bb3b-360a-4078-f72146136a7f@collabora.com>
+Date: Mon, 12 Sep 2022 12:24:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <579b8532-7687-4620-d146-c8ffbbc14097@rasmusvillemoes.dk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v3 4/9] drm/mediatek: Add gamma support different lut_size
+ for other SoC
+Content-Language: en-US
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+References: <20220911153734.24243-1-jason-jh.lin@mediatek.com>
+ <20220911153734.24243-5-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220911153734.24243-5-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,68 +60,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
- chris@chris-wilson.co.uk, keescook@chromium.org, jani.nikula@intel.com,
- intel-gfx@lists.freedesktop.org, ndesaulniers@google.com,
+Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, andrzej.hajda@intel.com,
- dlatypov@google.com, matthew.auld@intel.com,
- Andi Shyti <andi.shyti@linux.intel.com>, airlied@redhat.com,
- mchehab@kernel.org, vitor@massaru.org, nirmoy.das@intel.com
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rasmus,
-
-Thanks for dropping in,
-
-[...]
-
-> >> + * @t1: data type or variable
-> >> + * @t2: data type or variable
-> >> + *
-> >> + * The first and second arguments can be data types or variables or mixed (the
-> >> + * first argument is the data type and the second argument is variable or vice
-> >> + * versa). It determines whether the first argument's data type and the second
-> >> + * argument's data type are the same while compiling, and it breaks compile if
-> >> + * the two types are not the same.
-> >> + * See also assert_typable().
-> >> + */
-> >> +#define assert_type(t1, t2) _Static_assert(__same_type(t1, t2))
-> > 
-> > In C11 _Static_assert is defined as:
-> > 
-> >   _Static_assert ( constant-expression , string-literal ) ;
-> > 
-> > While
-> > 
-> >   _Static_assert ( constant-expression ) ;
-> > 
-> > is defined in C17 along with the previous. I think you should add
-> > the error message as a 'string-literal'.
+Il 11/09/22 17:37, Jason-JH.Lin ha scritto:
+> 1. Add mtk_drm_gamma_get_lut_size() and remove MTK_LUT_SIZE macro.
+> 2. Add lut_size to gamma driver data for different SoC.
 > 
-> See how static_assert() is defined in linux/build_bug.h, and let's avoid
-> using _Static_assert directly. So this should IMO just be
-
-yes, our definition of static_assert() is against the C11
-specification, which should define it as:
-
-  #define static_assert _Static_assert
-
-this doesn't make me a big fan of it. But, because it's widely
-used, I think it should be used here as well, as you are
-suggesting.
-
-> #define assert_same_type(t1, t2) static_assert(__same_type(t1, t2))
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  1 +
+>   drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 22 +++++++++++++++++++--
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  4 ++--
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |  1 -
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  9 +++++++++
+>   5 files changed, 32 insertions(+), 5 deletions(-)
 > 
-> (including the naming of the macro; I don't think "assert_type" is a
-> good name). No need to add an explicit string literal, the name of the
-> macro and the constant expression itself are plenty to explain what is
-> being asserted (with the latter being the reason the string was made
-> optional).
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> index a83e5fbc8724..6a05bb56e693 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -51,6 +51,7 @@ void mtk_gamma_clk_disable(struct device *dev);
+>   void mtk_gamma_config(struct device *dev, unsigned int w,
+>   		      unsigned int h, unsigned int vrefresh,
+>   		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+> +unsigned int mtk_gamma_get_lut_size(struct device *dev);
+>   void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state);
+>   void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state);
+>   void mtk_gamma_start(struct device *dev);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> index f54a6a618348..e69d0b205b9a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> @@ -24,10 +24,12 @@
+>   #define DISP_GAMMA_LUT				0x0700
+>   
+>   #define LUT_10BIT_MASK				0x03ff
+> +#define LUT_SIZE_DEFAULT			512 /* for setting gamma lut from AAL */
+>   
+>   struct mtk_disp_gamma_data {
+>   	bool has_dither;
+>   	bool lut_diff;
+> +	u16 lut_size;
+>   };
+>   
+>   /*
+> @@ -54,18 +56,32 @@ void mtk_gamma_clk_disable(struct device *dev)
+>   	clk_disable_unprepare(gamma->clk);
+>   }
+>   
+> +unsigned int mtk_gamma_get_size(struct device *dev)
+> +{
+> +	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+> +	unsigned int lut_size = LUT_SIZE_DEFAULT;
+> +
+> +	if (gamma && gamma->data)
+> +		lut_size = gamma->data->lut_size;
+> +
+> +	return lut_size;
+> +}
+> +
+>   void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
+>   {
+>   	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+>   	bool lut_diff = false;
+> +	u16 lut_size = LUT_SIZE_DEFAULT;
 
-The string literal would be "__same_type(t1, t2)", right? I would
-still use something more explicit... up to Gwan-gyeong.
+This makes us get a double assignment in case gamma->data is populated.
 
-Thanks,
-Andi
+>   	unsigned int i, reg;
+>   	struct drm_color_lut *lut;
+>   	void __iomem *lut_base;
+>   	u32 word;
+>   	u32 diff[3] = {0};
+>   
+> -	if (gamma && gamma->data)
+> +	if (gamma && gamma->data) {
+>   		lut_diff = gamma->data->lut_diff;
+> +		lut_size = gamma->data->lut_size;
+> +	}
+
+...you can avoid it like that:
+
+} else {
+	lut_size = LUT_SIZE_DEFAULT;
+}
+
+
+Regards,
+Angelo
+
+
