@@ -2,72 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4E95B7660
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 18:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCCC5B772B
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 19:05:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0345E10E793;
-	Tue, 13 Sep 2022 16:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC4D10E796;
+	Tue, 13 Sep 2022 17:04:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7990510E78D
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 16:24:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663086239;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/ucusGnYdezKlzEU00G3OKGUQ3PtOtcS9x0L25TIYSE=;
- b=AlToB+3qwkcc/0gyvSUHq8r9CeH90u31CyANGB22njeyobaDFuX5UCFm/OvxhB097esSle
- kXeZE5FTnfIs+/HRi9CV7bPCJBetjGHUgLt3o3snOUHP1D5//n0KCF9+7ZpIsUjaqseeqR
- Ww5j1/BofhaoNRlvcquXGFQNgVK0/oA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-131-U9hhPDBUNb2fTNudcoWUaA-1; Tue, 13 Sep 2022 12:23:33 -0400
-X-MC-Unique: U9hhPDBUNb2fTNudcoWUaA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- q16-20020a1cf310000000b003a626026ed1so4359653wmq.4
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 09:23:33 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C69F410E796
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 17:04:52 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id z25so21200448lfr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 10:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=C1SHrY0bzxKJ2NJT55YgREa1pzMItM4ioi+jr7Uh69I=;
+ b=ZyzHm7wCckAHL4Gs1yvJKUehjmxAlog/Jx3GoSEfC4baYLnjiY7xzQVbg1PkrG4KFC
+ v97vC0Qk1DFJl9ilEx3cLWjd/j9NES0HBuZanV/u/bcCIliA9ktXGZrjhAAxQLsg7oqC
+ 9USwMMYwfKr+JzxZQ3Su1k9TpWSYbZccBk5Go25P9wOiQWcuB/EeDpKNudTt/UDESMDq
+ CCTylyfCgb0/lOANY0qNvTCv2F/hLzFA3m7UOUKmAX+hSZnuxTD+4IRPuhmBEJ5+SwMj
+ ZuFKikE00gDHXMjuVbTrIoI7n0Swziqp6aJViDdPykGVFW9DXifyATtfJz+1ysj3OPLs
+ u4TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=/ucusGnYdezKlzEU00G3OKGUQ3PtOtcS9x0L25TIYSE=;
- b=CD36HccXwWrX+Q1f7NltWs9gHLQeJInC8X4WJLnwmqh92JGcIGUAmDNFcP2gNA8IOK
- hi9o0oWrdTY1u7TrSGj+BZ0ZllE/TSIW/Lg6iq2Nf40fvsRwc+gMN9ecubGzBa+GO/RN
- 6km5u8E1XZ4OsihjWZMovK7B2uuIuK5H63zMVT/fgnENil1Oim3j0cYBWQ6xPsmHCbOV
- pMeagtYn15xeeu7V6TvmMAnq/uTI4I33cVx6mAUxbge76ayfBdMluOlG94qqw1c7hl/D
- RURXhnoRCKbJS6pHaWesw/nuEobt7KR7SotMxM8F77eajm3aGvNtERYvNyqoyr9ztI34
- 0JLA==
-X-Gm-Message-State: ACgBeo3l5a1/qreKcQvfpI3wqeTkHZ9WdHhwMGyAyoJbApGaxAjMvKaL
- bMFMmoARfzgwdYw2/13xoIOI2MZF/HQBxUtZTOM2/V3/l24mtrk4KxQiOaJMbzoGA6IW/QEmO+7
- 1grUN+mOm8QUam6rPKAhBPO8PLfJq
-X-Received: by 2002:adf:d1ce:0:b0:22a:36d6:da05 with SMTP id
- b14-20020adfd1ce000000b0022a36d6da05mr15347219wrd.719.1663086212269; 
- Tue, 13 Sep 2022 09:23:32 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4O1BQyUm2ehPm712XtDMX5Wsz2i51HwUqgqqPqtTaRYU9jbn9uJHp4bBswlTFqsxc2H905hg==
-X-Received: by 2002:adf:d1ce:0:b0:22a:36d6:da05 with SMTP id
- b14-20020adfd1ce000000b0022a36d6da05mr15347206wrd.719.1663086212047; 
- Tue, 13 Sep 2022 09:23:32 -0700 (PDT)
-Received: from minerva.access.network ([185.122.133.20])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=C1SHrY0bzxKJ2NJT55YgREa1pzMItM4ioi+jr7Uh69I=;
+ b=lVadBGaWmLHg9mT7XAolzAsRuwr0lvIOHw4+d1xIUlpCTRSeeeCvSKf5KWRZ86I6Zc
+ BIOmMmnj9CT6IElH2yE3ju7LHyRlpUuB1VRovUk7LqMBaZygt9XGeKHReo24AHzIyTU0
+ I/duiZTlvC+ZKKnyJlY/fI4AOnTSSV/Ee4V2QWE9/ivLfNbwPmVn/mcReq9Tl8Tlg9/G
+ 4V09EzIRgHJCDU2+5L9TX0EBcaaCIBzxbB3oH79eaw6+ghO4NVNMJoSHIoxUit8DYslz
+ fXTi3w9NRnVFURhNRtSKodONC0HoeqkI6AbyLGjGUzwRaIRsnNTHeWCtwBtTdO54YDqe
+ F3DA==
+X-Gm-Message-State: ACgBeo2fTZZbXI+qn3WVy2WX4GDw+v8uqKMqvG4l5VQPW2SAuRmeUibM
+ HOeWMrPxAg9t8X/sf1jZukBbLA==
+X-Google-Smtp-Source: AA6agR4rAimnm7a205Tjxp1N64zK3JZcXpBZwm3oeZBBQMHWEgaM2PIlpoha5yNCcLjv3U9HBWcOyQ==
+X-Received: by 2002:a19:f805:0:b0:498:df1f:858e with SMTP id
+ a5-20020a19f805000000b00498df1f858emr9917460lff.610.1663088690486; 
+ Tue, 13 Sep 2022 10:04:50 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- m13-20020a05600c3b0d00b003a2e92edeccsm1902634wms.46.2022.09.13.09.23.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 09:23:31 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/plane-helper: Add a drm_plane_helper_atomic_check()
- helper
-Date: Tue, 13 Sep 2022 18:23:07 +0200
-Message-Id: <20220913162307.121503-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.37.1
+ i24-20020a0565123e1800b00492e5d31201sm1833989lfv.7.2022.09.13.10.04.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Sep 2022 10:04:50 -0700 (PDT)
+Message-ID: <fc45b986-99ae-b63d-9ed4-0ca622b16a8f@linaro.org>
+Date: Tue, 13 Sep 2022 20:04:49 +0300
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v7 01/15] drm/msm/disp/dpu: clear dpu_assign_crtc and get
+ crtc from connector state instead of dpu_enc
+Content-Language: en-GB
+To: Vinod Polimera <quic_vpolimer@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+References: <1663080676-12936-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1663080676-12936-2-git-send-email-quic_vpolimer@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1663080676-12936-2-git-send-email-quic_vpolimer@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,167 +78,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
+ quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
+ quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provides a default plane state check handler for primary planes that are a
-fullscreen scanout buffer and whose state scale and position can't change.
+On 13/09/2022 17:51, Vinod Polimera wrote:
+> Update crtc retrieval from dpu_enc to dpu_enc connector state,
+> since new links get set as part of the dpu enc virt mode set.
+> The dpu_enc->crtc cache is no more needed, hence cleaning it as
+> part of this change.
+> 
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 ----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 35 ++++++++++++-----------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  8 -------
+>   3 files changed, 14 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 13ce321..8ec9a13 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1029,7 +1029,6 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
+>   		 */
+>   		if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_VIDEO)
+>   			release_bandwidth = true;
+> -		dpu_encoder_assign_crtc(encoder, NULL);
+>   	}
+>   
+>   	/* wait for frame_event_done completion */
+> @@ -1099,9 +1098,6 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
+>   	trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
+>   	dpu_crtc->enabled = true;
+>   
+> -	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
+> -		dpu_encoder_assign_crtc(encoder, crtc);
+> -
+>   	/* Enable/restore vblank irq handling */
+>   	drm_crtc_vblank_on(crtc);
+>   }
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 9c6817b..0c7d8b5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -132,11 +132,6 @@ enum dpu_enc_rc_states {
+>    * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
+>    *			for partial update right-only cases, such as pingpong
+>    *			split where virtual pingpong does not generate IRQs
+> - * @crtc:		Pointer to the currently assigned crtc. Normally you
+> - *			would use crtc->state->encoder_mask to determine the
+> - *			link between encoder/crtc. However in this case we need
+> - *			to track crtc in the disable() hook which is called
+> - *			_after_ encoder_mask is cleared.
+>    * @connector:		If a mode is set, cached pointer to the active connector
+>    * @crtc_kickoff_cb:		Callback into CRTC that will flush & start
+>    *				all CTL paths
+> @@ -181,7 +176,6 @@ struct dpu_encoder_virt {
+>   
+>   	bool intfs_swapped;
+>   
+> -	struct drm_crtc *crtc;
+>   	struct drm_connector *connector;
+>   
+>   	struct dentry *debugfs_root;
+> @@ -1288,6 +1282,7 @@ static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
+>   		struct dpu_encoder_phys *phy_enc)
+>   {
+>   	struct dpu_encoder_virt *dpu_enc = NULL;
+> +	struct drm_crtc *crtc;
+>   	unsigned long lock_flags;
+>   
+>   	if (!drm_enc || !phy_enc)
+> @@ -1298,9 +1293,14 @@ static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
+>   
+>   	atomic_inc(&phy_enc->vsync_cnt);
+>   
+> +	if (!dpu_enc->connector || !dpu_enc->connector->state)
+> +		return;
+> +
+> +	crtc = dpu_enc->connector->state->crtc;
+> +
+>   	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
+> -	if (dpu_enc->crtc)
+> -		dpu_crtc_vblank_callback(dpu_enc->crtc);
+> +	if (crtc)
+> +		dpu_crtc_vblank_callback(crtc);
+>   	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
 
-There are some drivers that duplicate this logic in their helpers, such as
-simpledrm and ssd130x. Factor out this common code into a plane helper and
-make drivers use it.
+Stephen's comment about reading the state from outside of the lock and 
+then using local variable under spinlock is still valid. Moreover I'm 
+not sure that enc_spinlock protects connector's state. I'd say one has 
+to take the modesetting lock here.
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
----
+>   
+>   	DPU_ATRACE_END("encoder_vblank_callback");
+> @@ -1324,29 +1324,22 @@ static void dpu_encoder_underrun_callback(struct drm_encoder *drm_enc,
+>   	DPU_ATRACE_END("encoder_underrun_callback");
+>   }
+>   
+> -void dpu_encoder_assign_crtc(struct drm_encoder *drm_enc, struct drm_crtc *crtc)
+> -{
+> -	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+> -	unsigned long lock_flags;
+> -
+> -	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
+> -	/* crtc should always be cleared before re-assigning */
+> -	WARN_ON(crtc && dpu_enc->crtc);
+> -	dpu_enc->crtc = crtc;
+> -	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
+> -}
+> -
+>   void dpu_encoder_toggle_vblank_for_crtc(struct drm_encoder *drm_enc,
+>   					struct drm_crtc *crtc, bool enable)
+>   {
+>   	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+> +	struct drm_crtc *new_crtc;
+>   	unsigned long lock_flags;
+>   	int i;
+>   
+>   	trace_dpu_enc_vblank_cb(DRMID(drm_enc), enable);
+>   
+> +	if (!dpu_enc->connector || !dpu_enc->connector->state)
+> +		return;
+> +
+> +	new_crtc = dpu_enc->connector->state->crtc;
+>   	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
+> -	if (dpu_enc->crtc != crtc) {
+> +	if (!new_crtc || new_crtc != crtc) {
+>   		spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
+>   		return;
+>   	}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> index 9e7236e..eda5cd8 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> @@ -40,14 +40,6 @@ struct msm_display_info {
+>   };
+>   
+>   /**
+> - * dpu_encoder_assign_crtc - Link the encoder to the crtc it's assigned to
+> - * @encoder:	encoder pointer
+> - * @crtc:	crtc pointer
+> - */
+> -void dpu_encoder_assign_crtc(struct drm_encoder *encoder,
+> -			     struct drm_crtc *crtc);
+> -
+> -/**
+>    * dpu_encoder_toggle_vblank_for_crtc - Toggles vblank interrupts on or off if
+>    *	the encoder is assigned to the given crtc
+>    * @encoder:	encoder pointer
 
-Changes in v3:
-- Use plane-state and atomic-state (Thomas Zimmermann).
-- Drop primary and just refer to plane (Thomas Zimmermann).
-- Make kernel-doc comment more clear (Harry Wentland, Thomas Zimmermann).
-- Add Thomas Zimmermann Reviewed-by tag.
-
-Changes in v2:
-- Fix `new_state` field comment (Ville Syrjälä).
-- Rename `new_state` to just `state` (Ville Syrjälä).
-
- drivers/gpu/drm/drm_plane_helper.c | 30 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/solomon/ssd130x.c  | 18 +-----------------
- drivers/gpu/drm/tiny/simpledrm.c   | 25 +------------------------
- include/drm/drm_plane_helper.h     |  1 +
- 4 files changed, 33 insertions(+), 41 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
-index c7785967f5bf..db04d9a32ce8 100644
---- a/drivers/gpu/drm/drm_plane_helper.c
-+++ b/drivers/gpu/drm/drm_plane_helper.c
-@@ -278,3 +278,33 @@ void drm_plane_helper_destroy(struct drm_plane *plane)
- 	kfree(plane);
- }
- EXPORT_SYMBOL(drm_plane_helper_destroy);
-+
-+/**
-+ * drm_plane_helper_atomic_check() - Helper to check plane atomic-state
-+ * @plane: plane to check
-+ * @state: atomic state object
-+ *
-+ * Provides a default plane-state check handler for planes whose atomic-state
-+ * scale and positioning are not expected to change since the plane is always
-+ * a fullscreen scanout buffer.
-+ *
-+ * This is often the case for the primary plane of simple framebuffers.
-+ *
-+ * RETURNS:
-+ * Zero on success, or an errno code otherwise.
-+ */
-+int drm_plane_helper_atomic_check(struct drm_plane *plane, struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_crtc *new_crtc = new_plane_state->crtc;
-+	struct drm_crtc_state *new_crtc_state = NULL;
-+
-+	if (new_crtc)
-+		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_crtc);
-+
-+	return drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-+						   DRM_PLANE_NO_SCALING,
-+						   DRM_PLANE_NO_SCALING,
-+						   false, false);
-+}
-+EXPORT_SYMBOL(drm_plane_helper_atomic_check);
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 79e8e2017c68..28cf9c87f86d 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -565,22 +565,6 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_m
- 	return ret;
- }
- 
--static int ssd130x_primary_plane_helper_atomic_check(struct drm_plane *plane,
--						     struct drm_atomic_state *new_state)
--{
--	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
--	struct drm_crtc *new_crtc = new_plane_state->crtc;
--	struct drm_crtc_state *new_crtc_state = NULL;
--
--	if (new_crtc)
--		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_crtc);
--
--	return drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
--						   DRM_PLANE_NO_SCALING,
--						   DRM_PLANE_NO_SCALING,
--						   false, false);
--}
--
- static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 						       struct drm_atomic_state *old_state)
- {
-@@ -623,7 +607,7 @@ static void ssd130x_primary_plane_helper_atomic_disable(struct drm_plane *plane,
- 
- static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs = {
- 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = ssd130x_primary_plane_helper_atomic_check,
-+	.atomic_check = drm_plane_helper_atomic_check,
- 	.atomic_update = ssd130x_primary_plane_helper_atomic_update,
- 	.atomic_disable = ssd130x_primary_plane_helper_atomic_disable,
- };
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 777ccd250871..ea5b3239a659 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -469,29 +469,6 @@ static const uint64_t simpledrm_primary_plane_format_modifiers[] = {
- 	DRM_FORMAT_MOD_INVALID
- };
- 
--static int simpledrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
--						       struct drm_atomic_state *new_state)
--{
--	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
--	struct drm_crtc *new_crtc = new_plane_state->crtc;
--	struct drm_crtc_state *new_crtc_state = NULL;
--	int ret;
--
--	if (new_crtc)
--		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_crtc);
--
--	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
--						  DRM_PLANE_NO_SCALING,
--						  DRM_PLANE_NO_SCALING,
--						  false, false);
--	if (ret)
--		return ret;
--	else if (!new_plane_state->visible)
--		return 0;
--
--	return 0;
--}
--
- static void simpledrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 							 struct drm_atomic_state *old_state)
- {
-@@ -543,7 +520,7 @@ static void simpledrm_primary_plane_helper_atomic_disable(struct drm_plane *plan
- 
- static const struct drm_plane_helper_funcs simpledrm_primary_plane_helper_funcs = {
- 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = simpledrm_primary_plane_helper_atomic_check,
-+	.atomic_check = drm_plane_helper_atomic_check,
- 	.atomic_update = simpledrm_primary_plane_helper_atomic_update,
- 	.atomic_disable = simpledrm_primary_plane_helper_atomic_disable,
- };
-diff --git a/include/drm/drm_plane_helper.h b/include/drm/drm_plane_helper.h
-index 1781fab24dd6..7760b27b0323 100644
---- a/include/drm/drm_plane_helper.h
-+++ b/include/drm/drm_plane_helper.h
-@@ -41,5 +41,6 @@ int drm_plane_helper_update_primary(struct drm_plane *plane, struct drm_crtc *cr
- int drm_plane_helper_disable_primary(struct drm_plane *plane,
- 				     struct drm_modeset_acquire_ctx *ctx);
- void drm_plane_helper_destroy(struct drm_plane *plane);
-+int drm_plane_helper_atomic_check(struct drm_plane *plane, struct drm_atomic_state *state);
- 
- #endif
 -- 
-2.37.1
+With best wishes
+Dmitry
 
