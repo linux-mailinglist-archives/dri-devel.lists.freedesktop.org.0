@@ -1,49 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9272E5B690D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 09:53:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2BE5B6964
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 10:21:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5CBC10E637;
-	Tue, 13 Sep 2022 07:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257A710E63E;
+	Tue, 13 Sep 2022 08:20:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 731F510E637;
- Tue, 13 Sep 2022 07:53:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D53A66133B;
- Tue, 13 Sep 2022 07:53:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39DA7C433D7;
- Tue, 13 Sep 2022 07:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663055626;
- bh=rFPbnv2DxX3rBK1a7Jmm1zE+iq04DfP9/i/2IqvALRc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hlGrmphSQgEThIAQsJUpshNn2BE0nacqeqs8Un/E4gMkyv1wHHJevTQNjLxpzPwPO
- 79tm1goievGKLE8mqyJYBRtHSP2cbkez1QlJfEtWCp67OAaS1wkzYC+Hsv+r++ibRf
- +8s88EmcISfP1CLtcVK9YQKe2RNDEMYIHwq0SB+zhJrR30JQm34isT9nd2jzII2ddg
- Gh+XeLDhPYWBdpk2sp1AlTHVOv4V363IpEu8P2J+90YBc5ZBH+w7iKtiVuOS45et7I
- eTtpsdSjQrXqo2fLL3nixe2uzN8mejPBbKLMNWXIFmeQidRgiWQmzL0fBwOiOhT7XR
- fA5hXas4pgW8w==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1oY0jo-00010R-LD; Tue, 13 Sep 2022 09:53:44 +0200
-Date: Tue, 13 Sep 2022 09:53:44 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 7/7] drm/msm: drop modeset sanity checks
-Message-ID: <YyA3CDQit8OR6DgL@hovoldconsulting.com>
-References: <20220912154046.12900-1-johan+linaro@kernel.org>
- <20220912154046.12900-8-johan+linaro@kernel.org>
- <39cbf0cb-9f25-6a0d-6e56-3f9e0aaa0296@linaro.org>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 141EB10E63E
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 08:20:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663057257; x=1694593257;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=YQ4XpgIYxwuDp/T9stIwbL+/CqELDrKtFwPudLSttnk=;
+ b=Ei7iP1hda2nTbfP4jFennY4iRlH8BeZ7bE4i3zBMsjIrrEo5RWPaQ3V+
+ KXH83W+JB6xbVGhMtr5dLNBwwFWgzwEyqXm1UQpgwvB0+x8pjV8KI8OOe
+ 5yRx7WPc86cVvaetb5XGmrX19faJ5RkCzo7FsH1uK6QdZOGsl0smyZAa5
+ J2xNkMLGLYSRh5oJ5tQSyevpr4we1+ifkt6fgX9Cith4FbZV0fOextjSe
+ nXZnH3ialyUQMDKDTdqV+6FQ+bNJXuxndvPXTyr9DofKN+0enQvWPYVwm
+ mumfOupJTZrKArALTqxxtfXDygMncwamIRNYjwXhA9/mIFy6Gmjl8zMU/ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="285099931"
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="285099931"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 01:20:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="649574775"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga001.jf.intel.com with SMTP; 13 Sep 2022 01:20:52 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 13 Sep 2022 11:20:51 +0300
+Date: Tue, 13 Sep 2022 11:20:51 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: butt3rflyh4ck <butterflyhuangxx@gmail.com>
+Subject: Re: A divide error bug in framebuffer_check
+Message-ID: <YyA9Y+Cs8ZCYHXAT@intel.com>
+References: <CAFcO6XOSwwe+4H5cCEdgj6KD+QutNMZA89rWXYvbQCsREqFqtQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <39cbf0cb-9f25-6a0d-6e56-3f9e0aaa0296@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFcO6XOSwwe+4H5cCEdgj6KD+QutNMZA89rWXYvbQCsREqFqtQ@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,37 +59,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Johan Hovold <johan+linaro@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Dave Airlie <airlied@linux.ie>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Davis <ben.davis@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 12, 2022 at 09:06:28PM +0300, Dmitry Baryshkov wrote:
-> On 12/09/2022 18:40, Johan Hovold wrote:
-> > Drop the overly defensive modeset sanity checks of function parameters
-> > which have already been checked or used by the callers.
-> > 
-> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> 
-> Again, please split into dp and dsi patches. After that:
+On Tue, Sep 13, 2022 at 01:49:40AM +0800, butt3rflyh4ck wrote:
+> Hi, there is a divide error bug in framebuffer_check in
+> drivers/gpu/drm/drm_framebuffer.c in the latest kernel.
+> we can trigger it via drm_mode_addfb2 IOCTL.
+> The call trace is drm_mode_addfb2 -> drm_internal_framebuffer_create
+> ->  framebuffer_check.
+> let us see code below:
+> ```
+<snip>
+> { .format = DRM_FORMAT_Q410, .depth = 0,
+>   .num_planes = 3, .char_per_block = { 2, 2, 2 },
+>   .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
+>   .vsub = 0, .is_yuv = true },
+> { .format = DRM_FORMAT_Q401, .depth = 0,
+>   .num_planes = 3, .char_per_block = { 2, 2, 2 },
+>   .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
+>   .vsub = 0, .is_yuv = true },
+> ```
+> we can see format.hsub and format.vsub all are NULL.
 
-Sure, if you prefer. But without the stable-tree argument I think
-there's little point in splitting.
+Yeah, those look borked.
 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> > ---
-> >   drivers/gpu/drm/msm/dp/dp_display.c | 7 +------
-> >   drivers/gpu/drm/msm/dsi/dsi.c       | 7 +------
-> >   2 files changed, 2 insertions(+), 12 deletions(-)
+Added in commit 94b292b27734 ("drm: drm_fourcc: add NV15, Q410, Q401 YUV formats")
 
-Johan
+Adding the relevant people to cc...
+
+-- 
+Ville Syrjälä
+Intel
