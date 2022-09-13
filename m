@@ -1,50 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECC05B646A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 01:55:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8F75B64B7
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 02:58:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C5E010E4A7;
-	Mon, 12 Sep 2022 23:54:53 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C45410E488;
- Mon, 12 Sep 2022 23:54:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD1D10E444;
+	Tue, 13 Sep 2022 00:58:02 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACEB610E146;
+ Tue, 13 Sep 2022 00:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663026886; x=1694562886;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=W0EE0LlD3Jx1GksuZcoFGKc32g8gFV/OnRIDwR3vsTk=;
- b=bl3ziFvi9lmWoKkQfa1hiT5SQOptc7kZEYdRQ0PI0bqdROXLaOI22Wjs
- kYPU3NrAi+JYF1HlDpdEF8bcrqVfaDFBRn1nU05q1Bn0DA3JUJYH03DrR
- g3iffJJzUJFHO/YwTzRmTtQXLYYnRAo/9HbRFYRGwdfVD0y/tzwE+SlqO
- 7w0FtVFVkStA0IYd3u/Lh6at5o0R0u0LB/PQIhsqkin+OzM/ipmpLDodV
- vJhL1asqMOy2QmgM+K0P08bbr+NVvfOPCdgzC+KLFgFof/qAWdNezTD3Z
- VI71LCiarLCz0gIV1mbhl1lkANPmutPh615joFJ3B8fOmIwYK1H4ZjnXW g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="384292950"
-X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; d="scan'208";a="384292950"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 16:54:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; d="scan'208";a="684629551"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.151])
- by fmsmga004.fm.intel.com with ESMTP; 12 Sep 2022 16:54:45 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 1/1] drm/i915/uc: Fix issues with overriding firmware files
-Date: Mon, 12 Sep 2022 16:55:15 -0700
-Message-Id: <20220912235515.2457180-2-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220912235515.2457180-1-John.C.Harrison@Intel.com>
-References: <20220912235515.2457180-1-John.C.Harrison@Intel.com>
+ t=1663030676; x=1694566676;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=oOdZwv7fUCiPBvAE2zg5IMX8GCiGf193UWxelKUnC+w=;
+ b=MaQ2RoEieeAwWVeqIw/hQDABi/5hVox4QqdByCSKVWXgiJJSEmti8EMO
+ zTbz/0XGofb3P6Y2VmjELsoY3LKTMsZTUBeHdVZk4i4UPEJPa5wRrkgsA
+ KH6CshjS4UTQ/rRrF4m3G82lKSPp1MFKaTXNMwbwlvq7nvlJwH53VIXH/
+ aF8PxECqszp/gc7wJQRd3pySwuA4OekbgBt5d1d8CIO1XGYgeyQmUbbpx
+ 1TdMIeQB2796pmYZBSj7QKa04yNDfGQ8KnXzU1+TBpqI8O1hn9CFDGD5S
+ jfiSGwjjTj6RpXcGmKUMaLqk3/u3NYpAQGLgsM5iikJLdmvjQCBUgIEdJ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="281024383"
+X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; d="scan'208";a="281024383"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 17:57:54 -0700
+X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; d="scan'208";a="758593494"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 17:57:54 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5 00/15] drm/i915: HuC loading for DG2
+Date: Mon, 12 Sep 2022 17:57:24 -0700
+Message-Id: <20220913005739.798337-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,120 +53,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+Cc: Tony Ye <tony.ye@intel.com>,
  Alan Previn <alan.previn.teres.alexis@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alexander Usyskin <alexander.usyskin@intel.com>,
+ dri-devel@lists.freedesktop.org,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- DRI-Devel@Lists.FreeDesktop.Org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+ Tomas Winkler <tomas.winkler@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+On DG2, HuC loading is performed by the GSC, via a PXP command. The load
+operation itself is relatively simple (just send a message to the GSC
+with the physical address of the HuC in LMEM), but there are timing
+changes that requires special attention. In particular, to send a PXP
+command we need to first export the GSC as an aux device and then wait
+for the mei-gsc and mei-pxp modules to start, which means that HuC
+load will complete after i915 load is complete. This means that there
+is a small window of time after i915 is registered and before HuC is
+loaded during which userspace could submit and/or check the HuC load
+status, although this is quite unlikely to happen (HuC is usually loaded
+before kernel init/resume completes).
+We've consulted with the media team in regards to how to handle this and
+they've asked us to stall all userspace VCS submission until HuC is
+loaded. Stalls are expected to be very rare (if any), due to the fact
+that HuC is usually loaded before kernel init/resume is completed.
 
-The earlier update to support reduced versioning of firmware files
-introduced an issue with the firmware override module parameter. If an
-invalid file was specified then an infinite loop could occur trying to
-find a backup firmware.
+Timeouts are in place to ensure all submissions are unlocked in case
+something goes wrong. Since we need to monitor the status of the mei
+driver to know what's happening and when to time out, a notifier has
+been added so we get a callback when the status of the mei driver
+changes.
 
-The fix is that if an explicit override has been set, then don't scan
-for backup options because there is no point anyway. The user wanted X
-and if X is not available, that's their problem.
+Note that this series includes several mei patches that add support for
+sending the HuC loading command via mei-gsc. We plan to merge those
+patches through the drm tree because i915 is the sole user.
 
-This patch also fixes up the scanning loop code so that if an invalid
-file is passed in, it will exit rather than loop forever. So if the
-impossible situation did somehow occur in the future, it wouldn't be
-such a big problem.
+v2: address review comments, Reporting HuC loading still in progress
+while we wait for mei-gsc init to complete, rebase on latest mei-gsc
+series.
 
-Fixes: 665ae9c9ca79 ("drm/i915/uc: Support for version reduced and multiple
-firmware files")
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
+v3: fix cc list in mei patches.
+
+v4: update mei patches, fix includes, rebase on new FW fetch logic and
+merged mei-gsc support.
+
+v5: update mei patches
+
 Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-Cc: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+Cc: Tony Ye <tony.ye@intel.com>
+Cc: Alexander Usyskin <alexander.usyskin@intel.com>
+Cc: Tomas Winkler <tomas.winkler@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index af425916cdf64..5ff98239b6c9f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -232,6 +232,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
- 	u32 fw_count;
- 	u8 rev = INTEL_REVID(i915);
- 	int i;
-+	bool found;
- 
- 	/*
- 	 * The only difference between the ADL GuC FWs is the HWConfig support.
-@@ -246,6 +247,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
- 	fw_blobs = blobs_all[uc_fw->type].blobs;
- 	fw_count = blobs_all[uc_fw->type].count;
- 
-+	found = false;
- 	for (i = 0; i < fw_count && p <= fw_blobs[i].p; i++) {
- 		const struct uc_fw_blob *blob = &fw_blobs[i].blob;
- 
-@@ -266,9 +268,15 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
- 		uc_fw->file_wanted.path = blob->path;
- 		uc_fw->file_wanted.major_ver = blob->major;
- 		uc_fw->file_wanted.minor_ver = blob->minor;
-+		found = true;
- 		break;
- 	}
- 
-+	if (!found && uc_fw->file_selected.path) {
-+		/* Failed to find a match for the last attempt?! */
-+		uc_fw->file_selected.path = NULL;
-+	}
-+
- 	/* make sure the list is ordered as expected */
- 	if (IS_ENABLED(CONFIG_DRM_I915_SELFTEST) && !verified) {
- 		verified = true;
-@@ -553,10 +561,14 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 
- 	err = firmware_request_nowarn(&fw, uc_fw->file_selected.path, dev);
- 	memcpy(&file_ideal, &uc_fw->file_wanted, sizeof(file_ideal));
--	if (!err || intel_uc_fw_is_overridden(uc_fw))
--		goto done;
-+
-+	/* Any error is terminal if overriding. Don't bother searching for older versions */
-+	if (err && intel_uc_fw_is_overridden(uc_fw))
-+		goto fail;
- 
- 	while (err == -ENOENT) {
-+		old_ver = true;
-+
- 		__uc_fw_auto_select(i915, uc_fw);
- 		if (!uc_fw->file_selected.path) {
- 			/*
-@@ -576,8 +588,6 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 	if (err)
- 		goto fail;
- 
--	old_ver = true;
--done:
- 	if (uc_fw->loaded_via_gsc)
- 		err = check_gsc_manifest(fw, uc_fw);
- 	else
+Daniele Ceraolo Spurio (7):
+  drm/i915/pxp: load the pxp module when we have a gsc-loaded huc
+  drm/i915/dg2: setup HuC loading via GSC
+  drm/i915/huc: track delayed HuC load with a fence
+  drm/i915/huc: stall media submission until HuC is loaded
+  drm/i915/huc: better define HuC status getparam possible return
+    values.
+  drm/i915/huc: define gsc-compatible HuC fw for DG2
+  HAX: drm/i915: force INTEL_MEI_GSC and INTEL_MEI_PXP on for CI
+
+Tomas Winkler (5):
+  mei: add support to GSC extended header
+  mei: bus: enable sending gsc commands
+  mei: adjust extended header kdocs
+  mei: pxp: support matching with a gfx discrete card
+  drm/i915/pxp: add huc authentication and loading command
+
+Vitaly Lubart (3):
+  mei: bus: extend bus API to support command streamer API
+  mei: pxp: add command streamer API to the PXP driver
+  drm/i915/pxp: implement function for sending tee stream command
+
+ drivers/gpu/drm/i915/Kconfig.debug            |   2 +
+ drivers/gpu/drm/i915/Makefile                 |  11 +-
+ drivers/gpu/drm/i915/gt/intel_gsc.c           |  22 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   1 +
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c        | 254 ++++++++++++++++--
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h        |  31 +++
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c     |  34 +++
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.h     |   1 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  24 +-
+ drivers/gpu/drm/i915/i915_request.c           |  24 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          |  32 ++-
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |  32 ---
+ drivers/gpu/drm/i915/pxp/intel_pxp_huc.c      |  69 +++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_huc.h      |  13 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h      |   8 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |   8 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.h  |  11 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 138 +++++++++-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.h      |   5 +
+ .../drm/i915/pxp/intel_pxp_tee_interface.h    |  23 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |   6 +
+ drivers/misc/mei/bus.c                        | 146 +++++++++-
+ drivers/misc/mei/client.c                     |  55 ++--
+ drivers/misc/mei/hbm.c                        |  13 +
+ drivers/misc/mei/hw-me.c                      |   7 +-
+ drivers/misc/mei/hw.h                         |  89 +++++-
+ drivers/misc/mei/interrupt.c                  |  47 +++-
+ drivers/misc/mei/mei_dev.h                    |   8 +
+ drivers/misc/mei/pxp/mei_pxp.c                |  38 ++-
+ include/drm/i915_pxp_tee_interface.h          |   5 +
+ include/linux/mei_cl_bus.h                    |   6 +
+ include/uapi/drm/i915_drm.h                   |  16 ++
+ 32 files changed, 1057 insertions(+), 122 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_huc.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_huc.h
+
 -- 
-2.37.3
+2.37.2
 
