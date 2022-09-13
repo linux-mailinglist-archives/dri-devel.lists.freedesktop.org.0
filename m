@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBE35B6EA5
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 15:55:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBD65B6EA9
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 15:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69E1210E717;
-	Tue, 13 Sep 2022 13:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99F6610E71B;
+	Tue, 13 Sep 2022 13:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EACD10E717
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 13:55:04 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC34A10E71B
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 13:55:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663077304; x=1694613304;
+ t=1663077330; x=1694613330;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=20mvJURIVaqbD4E2DGWdelUtuxyxiSm4rhlZrroSma0=;
- b=DlpVRIqfipWP+4DceqxT0EQ/qPDHPgAo8AMcEiPFOtJ7PozCGnfL+DgU
- 2q0jycloJ7IzqY87rWw4m2P1pw8porjRRheLCGGCIu3uvVsI6guHxx4o8
- k2GXCbg8tSzCAV0KF2EVxJp5WjqTxeo1JckK5Tio+RVU8ce2uhxz961hj
- TLrksYMjwPzgADbmG7Rgh4X8MhMIm3/vSX6GxhA9prlv5Op3rF6jg3jUN
- 8KmFSixb+0OOiL7W03FpqCF0bgiQhxUSJ0VInm93ATinG+e9m2EcoXnm9
- 07RjjHirmuQizfpbqjD/ZYuAegrqU/HYkOXz3zCifAjlENDKuaIwEHyMP A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="298144618"
-X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="298144618"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 06:55:00 -0700
-X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="678576178"
+ bh=ixz93xpSCs7vuWvPKIhLQyzF+2ouyWk5uHRWq1KOcfE=;
+ b=ezy55t9fhT8rL3SZZqmM5oQipe+F+14Ldhye0sXl+fIq8j2WslV+4o1k
+ 3IjtTDHpqd5BqcP0Lum6btuhHFzWTFYkkkAVFkoEsWhM3oEJYPYA5LUFY
+ Z33nHWstWOeEM9uhf9yOaN3270Ft66yymjntptrKj7zuGm0qOV0uty6l0
+ Y6SkTjr2ZOdNoDJK98+S3XECmLPxxfTAAuJkMNp4MkWDOCLXr6lVTQcds
+ mw792N2yPGgMmtDej/jMBBrYuZ/Ep/G4pLLV8jrGjdcVc7hyq2EqXKXsa
+ htTbBPseKWITgozOcSGNbo/cPr7SB1BR3DPqqbrygU40az1ZXFejrb3PW g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="278532512"
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="278532512"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 06:55:30 -0700
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="646937896"
 Received: from baumeish-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.59.168])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 06:54:58 -0700
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 06:55:28 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 4/4] drm/edid: Avoid multiple log lines for HFVSDB parsing
-In-Reply-To: <20220811054718.2115917-5-ankit.k.nautiyal@intel.com>
+Subject: Re: [PATCH 2/4] drm/edid: Split DSC parsing into separate function
+In-Reply-To: <20220811054718.2115917-3-ankit.k.nautiyal@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20220811054718.2115917-1-ankit.k.nautiyal@intel.com>
- <20220811054718.2115917-5-ankit.k.nautiyal@intel.com>
-Date: Tue, 13 Sep 2022 16:54:53 +0300
-Message-ID: <87k0674bwy.fsf@intel.com>
+ <20220811054718.2115917-3-ankit.k.nautiyal@intel.com>
+Date: Tue, 13 Sep 2022 16:55:23 +0300
+Message-ID: <87h71b4bw4.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,92 +63,168 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 11 Aug 2022, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
-> Replace multiple log lines with a single log line at the end of
-> parsing HF-VSDB. Also use drm_dbg_kms instead of DRM_DBG_KMS, and
-> add log for DSC1.2 support.
+> Move the DSC parsing logic into separate function.
 >
 > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
 > ---
->  drivers/gpu/drm/drm_edid.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/drm_edid.c | 128 ++++++++++++++++++++-----------------
+>  1 file changed, 69 insertions(+), 59 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index c9c3a9c8fa26..7a319d570297 100644
+> index cdf10279e1bd..ffff1d08b3a4 100644
 > --- a/drivers/gpu/drm/drm_edid.c
 > +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -5781,6 +5781,9 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
->  	struct drm_display_info *display = &connector->display_info;
->  	struct drm_hdmi_info *hdmi = &display->hdmi;
->  	struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
-> +	u32 max_tmds_clock = 0;
-
-This should be int because display->max_tmds_clock is int. Yes, it's a
-change from the current local var, but logging u32 would require %u
-instead of %d in the format string anyway, so better just use the right
-type.
-
-> +	u8 max_frl_rate = 0;
-> +	bool dsc_support = false;
+> @@ -5703,6 +5703,73 @@ static void drm_parse_ycbcr420_deep_color_info(struct drm_connector *connector,
+>  	hdmi->y420_dc_modes = dc_mask;
+>  }
 >  
->  	display->has_hdmi_infoframe = true;
->  
-> @@ -5800,14 +5803,13 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
->  	 */
->  
->  	if (hf_scds[5]) {
-> -		/* max clock is 5000 KHz times block value */
-> -		u32 max_tmds_clock = hf_scds[5] * 5000;
->  		struct drm_scdc *scdc = &hdmi->scdc;
->  
-> +		/* max clock is 5000 KHz times block value */
-> +		max_tmds_clock = hf_scds[5] * 5000;
+> +static void drm_parse_dsc_info(struct drm_hdmi_dsc_cap *hdmi_dsc,
+> +			       const u8 *hf_scds)
+> +{
+> +	u8 dsc_max_slices;
+> +	u8 dsc_max_frl_rate;
 > +
->  		if (max_tmds_clock > 340000) {
->  			display->max_tmds_clock = max_tmds_clock;
-> -			DRM_DEBUG_KMS("HF-VSDB: max TMDS clock %d kHz\n",
-> -				display->max_tmds_clock);
-
-Hmm, the logic for what is logged gets changed.
-
->  		}
->  
->  		if (scdc->supported) {
-> @@ -5820,9 +5822,6 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
->  	}
+> +	hdmi_dsc->v_1p2 = hf_scds[11] & DRM_EDID_DSC_1P2;
+> +
+> +	if (!hdmi_dsc->v_1p2)
+> +		return;
+> +
+> +	hdmi_dsc->native_420 = hf_scds[11] & DRM_EDID_DSC_NATIVE_420;
+> +	hdmi_dsc->all_bpp = hf_scds[11] & DRM_EDID_DSC_ALL_BPP;
+> +
+> +	if (hf_scds[11] & DRM_EDID_DSC_16BPC)
+> +		hdmi_dsc->bpc_supported = 16;
+> +	else if (hf_scds[11] & DRM_EDID_DSC_12BPC)
+> +		hdmi_dsc->bpc_supported = 12;
+> +	else if (hf_scds[11] & DRM_EDID_DSC_10BPC)
+> +		hdmi_dsc->bpc_supported = 10;
+> +	else
+> +		/* Supports min 8 BPC if DSC1.2 is supported*/
+> +		hdmi_dsc->bpc_supported = 8;
+> +
+> +	dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
+> +	drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
+> +			     &hdmi_dsc->max_frl_rate_per_lane);
+> +	hdmi_dsc->total_chunk_kbytes = hf_scds[13] & DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
+> +
+> +	dsc_max_slices = hf_scds[12] & DRM_EDID_DSC_MAX_SLICES;
+> +
+> +	switch (dsc_max_slices) {
+> +	case 1:
+> +		hdmi_dsc->max_slices = 1;
+> +		hdmi_dsc->clk_per_slice = 340;
+> +		break;
+> +	case 2:
+> +		hdmi_dsc->max_slices = 2;
+> +		hdmi_dsc->clk_per_slice = 340;
+> +		break;
+> +	case 3:
+> +		hdmi_dsc->max_slices = 4;
+> +		hdmi_dsc->clk_per_slice = 340;
+> +		break;
+> +	case 4:
+> +		hdmi_dsc->max_slices = 8;
+> +		hdmi_dsc->clk_per_slice = 340;
+> +		break;
+> +	case 5:
+> +		hdmi_dsc->max_slices = 8;
+> +		hdmi_dsc->clk_per_slice = 400;
+> +		break;
+> +	case 6:
+> +		hdmi_dsc->max_slices = 12;
+> +		hdmi_dsc->clk_per_slice = 400;
+> +		break;
+> +	case 7:
+> +		hdmi_dsc->max_slices = 16;
+> +		hdmi_dsc->clk_per_slice = 400;
+> +		break;
+> +	case 0:
+> +	default:
+> +		hdmi_dsc->max_slices = 0;
+> +		hdmi_dsc->clk_per_slice = 0;
+> +	}
+> +}
+> +
+>  /* Sink Capability Data Structure */
+>  static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+>  				      const u8 *hf_scds)
+> @@ -5749,71 +5816,14 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
 >  
 >  	if (hf_scds[7]) {
-> -		u8 max_frl_rate;
-> -
-> -		DRM_DEBUG_KMS("hdmi_21 sink detected. parsing edid\n");
+>  		u8 max_frl_rate;
+> -		u8 dsc_max_frl_rate;
+> -		u8 dsc_max_slices;
+>  		struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
+>  
+>  		DRM_DEBUG_KMS("hdmi_21 sink detected. parsing edid\n");
 >  		max_frl_rate = (hf_scds[7] & DRM_EDID_MAX_FRL_RATE_MASK) >> 4;
 >  		drm_get_max_frl_rate(max_frl_rate, &hdmi->max_lanes,
 >  				     &hdmi->max_frl_rate_per_lane);
-> @@ -5830,8 +5829,14 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+> -		hdmi_dsc->v_1p2 = hf_scds[11] & DRM_EDID_DSC_1P2;
+> -
+> -		if (hdmi_dsc->v_1p2) {
+> -			hdmi_dsc->native_420 = hf_scds[11] & DRM_EDID_DSC_NATIVE_420;
+> -			hdmi_dsc->all_bpp = hf_scds[11] & DRM_EDID_DSC_ALL_BPP;
+> -
+> -			if (hf_scds[11] & DRM_EDID_DSC_16BPC)
+> -				hdmi_dsc->bpc_supported = 16;
+> -			else if (hf_scds[11] & DRM_EDID_DSC_12BPC)
+> -				hdmi_dsc->bpc_supported = 12;
+> -			else if (hf_scds[11] & DRM_EDID_DSC_10BPC)
+> -				hdmi_dsc->bpc_supported = 10;
+> -			else
+> -				/* Supports min 8 BPC if DSC1.2 is supported*/
+> -				hdmi_dsc->bpc_supported = 8;
+> -
+> -			dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
+> -			drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
+> -					     &hdmi_dsc->max_frl_rate_per_lane);
+> -			hdmi_dsc->total_chunk_kbytes = hf_scds[13] & DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
+> -
+> -			dsc_max_slices = hf_scds[12] & DRM_EDID_DSC_MAX_SLICES;
+> -			switch (dsc_max_slices) {
+> -			case 1:
+> -				hdmi_dsc->max_slices = 1;
+> -				hdmi_dsc->clk_per_slice = 340;
+> -				break;
+> -			case 2:
+> -				hdmi_dsc->max_slices = 2;
+> -				hdmi_dsc->clk_per_slice = 340;
+> -				break;
+> -			case 3:
+> -				hdmi_dsc->max_slices = 4;
+> -				hdmi_dsc->clk_per_slice = 340;
+> -				break;
+> -			case 4:
+> -				hdmi_dsc->max_slices = 8;
+> -				hdmi_dsc->clk_per_slice = 340;
+> -				break;
+> -			case 5:
+> -				hdmi_dsc->max_slices = 8;
+> -				hdmi_dsc->clk_per_slice = 400;
+> -				break;
+> -			case 6:
+> -				hdmi_dsc->max_slices = 12;
+> -				hdmi_dsc->clk_per_slice = 400;
+> -				break;
+> -			case 7:
+> -				hdmi_dsc->max_slices = 16;
+> -				hdmi_dsc->clk_per_slice = 400;
+> -				break;
+> -			case 0:
+> -			default:
+> -				hdmi_dsc->max_slices = 0;
+> -				hdmi_dsc->clk_per_slice = 0;
+> -			}
+> -		}
+> +
+> +		drm_parse_dsc_info(hdmi_dsc, hf_scds);
+>  	}
 >  
 >  	drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
->  
-> -	if (cea_db_payload_len(hf_scds) >= 11 && hf_scds[11])
-> +	if (cea_db_payload_len(hf_scds) >= 11 && hf_scds[11]) {
->  		drm_parse_dsc_info(hdmi_dsc, hf_scds);
-> +		dsc_support = true;
-> +	}
-> +
-> +	drm_dbg_kms(connector->dev,
-> +		    "HF-VSDB: max TMDS clock:%d Khz, HDMI2.1 support:%s, DSC1.2 support:%s\n",
-
-Nitpicks, %d needs int instead of u32, "kHz" not "Khz", "HDMI 2.1" and
-"DSC 1.2" with spaces, would prefer a space after ":".
-
-> +		    max_tmds_clock, max_frl_rate ? "yes" : "no", dsc_support ? "yes" : "no");
-
-See str_yes_no().
-
-BR,
-Jani.
-
->  }
->  
->  static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
