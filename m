@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61EB45B6CD8
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 14:10:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD715B6CD9
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 14:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFD010E6CC;
-	Tue, 13 Sep 2022 12:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B4C510E6CE;
+	Tue, 13 Sep 2022 12:10:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9A410E6C3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 12:10:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5E310E6BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 12:10:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663071023; x=1694607023;
+ t=1663071025; x=1694607025;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=y7bo3jOclN+4bFdwLA6TCaa+McECEH1cyShvREi1IpI=;
- b=hv3hK9oH6CfOtmhOAWMWQL99ULfdCMuRR7jinT82r7JzN0BOqghzyM4W
- IVkVQLW+cEMrYEaT9poU9LomDgdGskSRG40ozshdXMzIdru4n/Ux5egKC
- gNbZCYfip7iYJeZc7k361YbFKfWJ3M6EgRubVehE83CQ5V8BYx8sLeHRH
- dY6zwnkPFtoUvjwvGVmkQ7VdM4yy3fhlM9AOvaiQXXyaE/BhVamitYKmg
- Rv0WHBmM7IOf53iEwKGLkdFyU7fhASxzCkAHUEJ8GMwSheeoWpCIuZX2i
- lAOsR4nLx5HHuREInsroDlTd5FZjIMGric3fdcsjC6XHaKO0JSUJ6mnWD g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="278511745"
-X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="278511745"
+ bh=koszsllssXsN/8PDxZXqxCm9rbXbfcqMp16wFJJJZIs=;
+ b=Yku3OrxWcwD1Jw4pSpS/9o9Hs1gFktnUbZxhow9M0goUKUG6l2lf4HeU
+ /HeWtattx0MtxpjsNmirCG9YfpW41zln2176gwtbJjUlJoQzIFlAW3QvW
+ HJpNtWUQyBkEFn7Pm2Iy6QYSoRzQALS4xK+LRQIIv/9sUpH1jwLfIy3Jc
+ 6128AX0fKx0g6pOie7YoEKEbiwP71oFrzgSUqSOnLtwTlqgcvB21OfDrp
+ nXyzU5GF87r105MYMq90xJyhFOC0HdHt5jhNb2KSgiFP05fpHeTMPzQNX
+ s14a3oAbI6z9rtBmabYyF1NwfBUwElhiV3/OG/weKP3JNvF/YSlhEq5GK A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="278511753"
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="278511753"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 05:10:23 -0700
-X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="649633648"
+ 13 Sep 2022 05:10:24 -0700
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="649633658"
 Received: from jlawryno-desktop.igk.intel.com ([172.22.229.64])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 05:10:21 -0700
+ 13 Sep 2022 05:10:23 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org,
 	airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH v2 6/7] drm/ivpu: Add command buffer submission logic
-Date: Tue, 13 Sep 2022 14:10:16 +0200
-Message-Id: <20220913121017.993825-7-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2 7/7] drm/ivpu: Add PM support
+Date: Tue, 13 Sep 2022 14:10:17 +0200
+Message-Id: <20220913121017.993825-8-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220913121017.993825-1-jacek.lawrynowicz@linux.intel.com>
 References: <20220913121017.993825-1-jacek.lawrynowicz@linux.intel.com>
@@ -64,1011 +64,815 @@ Cc: andrzej.kacprowski@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Each of the user contexts has two command queues, one for compute engine
-and one for the copy engine. Command queues are allocated and registered
-in the device when the first job (command buffer) is submitted from
-the user space to the VPU device. The userspace provides a list of
-GEM buffer object handles to submit to the VPU, the driver resolves
-buffer handles, pins physical memory if needed, increments ref count
-for each buffer and stores pointers to buffer objects in
-the ivpu_job objects that track jobs submitted to the device.
-The VPU signals job completion with an asynchronous message that
-contains the job id passed to firmware when the job was submitted.
+  - Implement cold and warm firmware boot flows
+  - Add hang recovery support
+  - Add runtime power management support
 
-Currently, the driver supports simple scheduling logic
-where jobs submitted from user space are immediately pushed
-to the VPU device command queues. In the future, it will be
-extended to use hardware base scheduling and/or drm_sched.
-
-Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/gpu/drm/ivpu/Makefile   |   1 +
- drivers/gpu/drm/ivpu/ivpu_drv.c |  26 +-
- drivers/gpu/drm/ivpu/ivpu_drv.h |   6 +-
- drivers/gpu/drm/ivpu/ivpu_gem.c |  13 +
- drivers/gpu/drm/ivpu/ivpu_job.c | 617 ++++++++++++++++++++++++++++++++
- drivers/gpu/drm/ivpu/ivpu_job.h |  73 ++++
- include/uapi/drm/ivpu_drm.h     |  96 +++++
- 7 files changed, 828 insertions(+), 4 deletions(-)
- create mode 100644 drivers/gpu/drm/ivpu/ivpu_job.c
- create mode 100644 drivers/gpu/drm/ivpu/ivpu_job.h
+ drivers/gpu/drm/ivpu/Makefile      |   3 +-
+ drivers/gpu/drm/ivpu/ivpu_drv.c    |  34 ++-
+ drivers/gpu/drm/ivpu/ivpu_drv.h    |   2 +
+ drivers/gpu/drm/ivpu/ivpu_fw.c     |   4 +
+ drivers/gpu/drm/ivpu/ivpu_hw_mtl.c |  16 +-
+ drivers/gpu/drm/ivpu/ivpu_ipc.c    |  11 +-
+ drivers/gpu/drm/ivpu/ivpu_job.c    |  14 +-
+ drivers/gpu/drm/ivpu/ivpu_mmu.c    |   7 +-
+ drivers/gpu/drm/ivpu/ivpu_pm.c     | 352 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_pm.h     |  38 ++++
+ 10 files changed, 475 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_pm.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_pm.h
 
 diff --git a/drivers/gpu/drm/ivpu/Makefile b/drivers/gpu/drm/ivpu/Makefile
-index 8e9b3ae1a4cc..e87d8182c5c7 100644
+index e87d8182c5c7..c17e4a25f751 100644
 --- a/drivers/gpu/drm/ivpu/Makefile
 +++ b/drivers/gpu/drm/ivpu/Makefile
-@@ -7,6 +7,7 @@ intel_vpu-y := \
- 	ivpu_gem.o \
- 	ivpu_hw_mtl.o \
- 	ivpu_ipc.o \
-+	ivpu_job.o \
+@@ -10,6 +10,7 @@ intel_vpu-y := \
+ 	ivpu_job.o \
  	ivpu_jsm_msg.o \
  	ivpu_mmu.o \
- 	ivpu_mmu_context.o
+-	ivpu_mmu_context.o
++	ivpu_mmu_context.o \
++	ivpu_pm.o
+ 
+ obj-$(CONFIG_DRM_IVPU) += intel_vpu.o
 diff --git a/drivers/gpu/drm/ivpu/ivpu_drv.c b/drivers/gpu/drm/ivpu/ivpu_drv.c
-index 67384671092e..51e1f124139a 100644
+index 51e1f124139a..c31ce1bbc5be 100644
 --- a/drivers/gpu/drm/ivpu/ivpu_drv.c
 +++ b/drivers/gpu/drm/ivpu/ivpu_drv.c
-@@ -19,6 +19,7 @@
- #include "ivpu_gem.h"
- #include "ivpu_hw.h"
- #include "ivpu_ipc.h"
-+#include "ivpu_job.h"
+@@ -23,6 +23,7 @@
  #include "ivpu_jsm_msg.h"
  #include "ivpu_mmu.h"
  #include "ivpu_mmu_context.h"
-@@ -78,8 +79,11 @@ static void file_priv_release(struct kref *ref)
++#include "ivpu_pm.h"
  
+ #ifndef DRIVER_VERSION_STR
+ #define DRIVER_VERSION_STR __stringify(DRM_IVPU_DRIVER_MAJOR) "." \
+@@ -80,9 +81,11 @@ static void file_priv_release(struct kref *ref)
  	ivpu_dbg(FILE, "file_priv release: ctx %u\n", file_priv->ctx.id);
  
--	if (file_priv->ctx.id)
-+	if (file_priv->ctx.id) {
-+		ivpu_cmdq_release_all(file_priv);
-+		ivpu_bo_remove_all_bos_from_context(&file_priv->ctx);
+ 	if (file_priv->ctx.id) {
++		ivpu_rpm_get(vdev);
+ 		ivpu_cmdq_release_all(file_priv);
+ 		ivpu_bo_remove_all_bos_from_context(&file_priv->ctx);
  		ivpu_mmu_user_context_fini(file_priv);
-+	}
++		ivpu_rpm_put(vdev);
+ 	}
  
  	kfree(file_priv);
- }
-@@ -222,6 +226,8 @@ static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(IVPU_BO_CREATE, ivpu_bo_create_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(IVPU_BO_INFO, ivpu_bo_info_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(IVPU_BO_USERPTR, ivpu_bo_userptr_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(IVPU_SUBMIT, ivpu_submit_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(IVPU_BO_WAIT, ivpu_bo_wait_ioctl, DRM_RENDER_ALLOW),
- };
+@@ -273,6 +276,7 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
  
- DEFINE_DRM_GEM_FOPS(ivpu_fops);
-@@ -428,6 +434,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
- 	vdev->context_xa_limit.min = IVPU_GLOBAL_CONTEXT_MMU_SSID + 1;
- 	vdev->context_xa_limit.max = IVPU_CONTEXT_LIMIT;
+ int ivpu_boot(struct ivpu_device *vdev)
+ {
++	struct ivpu_pm_info *pm = vdev->pm;
+ 	int ret;
  
-+	xa_init_flags(&vdev->submitted_jobs_xa, XA_FLAGS_ALLOC1);
- 	atomic64_set(&vdev->unique_id_counter, 0);
+ 	/* Update boot params located at first 4KB of FW memory */
+@@ -290,6 +294,7 @@ int ivpu_boot(struct ivpu_device *vdev)
+ 		return ret;
+ 	}
  
- 	ret = ivpu_pci_init(vdev);
-@@ -478,20 +485,30 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
++	atomic_set(&pm->in_recovery, 0);
+ 	ivpu_hw_irq_clear(vdev);
+ 	ivpu_hw_irq_enable(vdev);
+ 	ivpu_ipc_enable(vdev);
+@@ -427,6 +432,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	if (!vdev->ipc)
+ 		return -ENOMEM;
+ 
++	vdev->pm = devm_kzalloc(vdev->drm.dev, sizeof(*vdev->pm), GFP_KERNEL);
++	if (!vdev->pm)
++		return -ENOMEM;
++
+ 	vdev->hw->ops = &ivpu_hw_mtl_ops;
+ 	vdev->platform = IVPU_PLATFORM_INVALID;
+ 
+@@ -485,10 +494,16 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
  		goto err_fw_fini;
  	}
  
-+	ret = ivpu_job_done_thread_init(vdev);
++	ret = ivpu_pm_init(vdev);
 +	if (ret) {
-+		ivpu_err(vdev, "Failed to initialize job done thread: %d\n", ret);
++		ivpu_err(vdev, "Failed to initialize PM: %d\n", ret);
 +		goto err_ipc_fini;
 +	}
 +
+ 	ret = ivpu_job_done_thread_init(vdev);
+ 	if (ret) {
+ 		ivpu_err(vdev, "Failed to initialize job done thread: %d\n", ret);
+-		goto err_ipc_fini;
++		goto err_pm_fini;
+ 	}
+ 
  	ret = ivpu_fw_load(vdev);
- 	if (ret) {
- 		ivpu_err(vdev, "Failed to load firmware: %d\n", ret);
--		goto err_fw_fini;
-+		goto err_job_done_thread_fini;
- 	}
+@@ -507,6 +522,8 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
  
- 	ret = ivpu_boot(vdev);
- 	if (ret) {
- 		ivpu_err(vdev, "Failed to boot: %d\n", ret);
--		goto err_fw_fini;
-+		goto err_job_done_thread_fini;
- 	}
- 
- 	return 0;
- 
-+err_job_done_thread_fini:
-+	ivpu_job_done_thread_fini(vdev);
-+err_ipc_fini:
-+	ivpu_ipc_fini(vdev);
+ err_job_done_thread_fini:
+ 	ivpu_job_done_thread_fini(vdev);
++err_pm_fini:
++	ivpu_pm_fini(vdev);
+ err_ipc_fini:
+ 	ivpu_ipc_fini(vdev);
  err_fw_fini:
- 	ivpu_fw_fini(vdev);
- err_mmu_fini:
-@@ -511,6 +528,7 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
- {
+@@ -529,6 +546,7 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
  	ivpu_shutdown(vdev);
  
-+	ivpu_job_done_thread_fini(vdev);
+ 	ivpu_job_done_thread_fini(vdev);
++	ivpu_pm_fini(vdev);
  	ivpu_ipc_fini(vdev);
  	ivpu_fw_fini(vdev);
  	ivpu_mmu_fini(vdev);
-@@ -520,6 +538,8 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
- 
- 	WARN_ON(!xa_empty(&vdev->context_xa));
- 	xa_destroy(&vdev->context_xa);
-+	WARN_ON(!xa_empty(&vdev->submitted_jobs_xa));
-+	xa_destroy(&vdev->submitted_jobs_xa);
+@@ -583,11 +601,25 @@ static void ivpu_remove(struct pci_dev *pdev)
+ 	ivpu_dev_fini(vdev);
  }
  
- static struct pci_device_id ivpu_pci_ids[] = {
++static const struct dev_pm_ops ivpu_drv_pci_pm = {
++	SET_SYSTEM_SLEEP_PM_OPS(ivpu_pm_suspend_cb, ivpu_pm_resume_cb)
++	SET_RUNTIME_PM_OPS(ivpu_pm_runtime_suspend_cb, ivpu_pm_runtime_resume_cb, NULL)
++};
++
++static const struct pci_error_handlers ivpu_drv_pci_err = {
++	.reset_prepare = ivpu_pm_reset_prepare_cb,
++	.reset_done = ivpu_pm_reset_done_cb,
++};
++
+ static struct pci_driver ivpu_pci_driver = {
+ 	.name = KBUILD_MODNAME,
+ 	.id_table = ivpu_pci_ids,
+ 	.probe = ivpu_probe,
+ 	.remove = ivpu_remove,
++	.driver = {
++		.pm = &ivpu_drv_pci_pm,
++	},
++	.err_handler = &ivpu_drv_pci_err,
+ };
+ 
+ static __init int ivpu_init(void)
 diff --git a/drivers/gpu/drm/ivpu/ivpu_drv.h b/drivers/gpu/drm/ivpu/ivpu_drv.h
-index a8ba32f76739..59544b3efec8 100644
+index 59544b3efec8..57f87e0a62c8 100644
 --- a/drivers/gpu/drm/ivpu/ivpu_drv.h
 +++ b/drivers/gpu/drm/ivpu/ivpu_drv.h
-@@ -93,6 +93,9 @@ struct ivpu_device {
+@@ -75,6 +75,7 @@ struct ivpu_hw_info;
+ struct ivpu_mmu_info;
+ struct ivpu_fw_info;
+ struct ivpu_ipc_info;
++struct ivpu_pm_info;
+ 
+ struct ivpu_device {
+ 	struct drm_device drm; /* Must be first */
+@@ -88,6 +89,7 @@ struct ivpu_device {
+ 	struct ivpu_mmu_info *mmu;
+ 	struct ivpu_fw_info *fw;
+ 	struct ivpu_ipc_info *ipc;
++	struct ivpu_pm_info *pm;
+ 
+ 	struct ivpu_mmu_context gctx;
  	struct xarray context_xa;
- 	struct xa_limit context_xa_limit;
+diff --git a/drivers/gpu/drm/ivpu/ivpu_fw.c b/drivers/gpu/drm/ivpu/ivpu_fw.c
+index d55f13f2daed..0b94c616ad7e 100644
+--- a/drivers/gpu/drm/ivpu/ivpu_fw.c
++++ b/drivers/gpu/drm/ivpu/ivpu_fw.c
+@@ -14,6 +14,7 @@
+ #include "ivpu_gem.h"
+ #include "ivpu_hw.h"
+ #include "ivpu_ipc.h"
++#include "ivpu_pm.h"
  
-+	struct xarray submitted_jobs_xa;
-+	struct task_struct *job_done_thread;
+ #define FW_MAX_NAMES		3
+ #define FW_GLOBAL_MEM_START	(2ull * SZ_1G)
+@@ -367,9 +368,12 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+ 	/* In case of warm boot we only have to reset the entrypoint addr */
+ 	if (!ivpu_fw_is_cold_boot(vdev)) {
+ 		boot_params->save_restore_ret_address = 0;
++		vdev->pm->is_warmboot = true;
+ 		return;
+ 	}
+ 
++	vdev->pm->is_warmboot = false;
 +
- 	atomic64_t unique_id_counter;
+ 	boot_params->magic = VPU_BOOT_PARAMS_MAGIC;
+ 	boot_params->vpu_id = to_pci_dev(vdev->drm.dev)->bus->number;
+ 	boot_params->frequency = ivpu_hw_reg_pll_freq_get(vdev);
+diff --git a/drivers/gpu/drm/ivpu/ivpu_hw_mtl.c b/drivers/gpu/drm/ivpu/ivpu_hw_mtl.c
+index e20bd839290b..c2334e626fb0 100644
+--- a/drivers/gpu/drm/ivpu/ivpu_hw_mtl.c
++++ b/drivers/gpu/drm/ivpu/ivpu_hw_mtl.c
+@@ -10,6 +10,7 @@
+ #include "ivpu_hw.h"
+ #include "ivpu_ipc.h"
+ #include "ivpu_mmu.h"
++#include "ivpu_pm.h"
  
- 	struct {
-@@ -106,7 +109,8 @@ struct ivpu_device {
- struct ivpu_file_priv {
- 	struct kref ref;
- 	struct ivpu_device *vdev;
--	struct mutex lock;
-+	struct mutex lock; /* Protects cmdq and context init */
-+	struct ivpu_cmdq *cmdq[IVPU_NUM_ENGINES];
- 	struct ivpu_mmu_context ctx;
- 	u32 priority;
- };
-diff --git a/drivers/gpu/drm/ivpu/ivpu_gem.c b/drivers/gpu/drm/ivpu/ivpu_gem.c
-index 54319a25c18e..e378d29b9454 100644
---- a/drivers/gpu/drm/ivpu/ivpu_gem.c
-+++ b/drivers/gpu/drm/ivpu/ivpu_gem.c
-@@ -776,6 +776,19 @@ int ivpu_bo_info_ioctl(struct drm_device *dev, void *data, struct drm_file *file
+ #define TILE_FUSE_ENABLE_BOTH	     0x0
+ #define TILE_FUSE_ENABLE_UPPER	     0x1
+@@ -916,6 +917,8 @@ static irqreturn_t ivpu_hw_mtl_irq_wdt_nce_handler(struct ivpu_device *vdev)
+ {
+ 	ivpu_err_ratelimited(vdev, "WDT NCE irq\n");
+ 
++	ivpu_pm_schedule_recovery(vdev);
++
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -924,6 +927,7 @@ static irqreturn_t ivpu_hw_mtl_irq_wdt_mss_handler(struct ivpu_device *vdev)
+ 	ivpu_err_ratelimited(vdev, "WDT MSS irq\n");
+ 
+ 	ivpu_hw_wdt_disable(vdev);
++	ivpu_pm_schedule_recovery(vdev);
+ 
+ 	return IRQ_HANDLED;
+ }
+@@ -932,6 +936,8 @@ static irqreturn_t ivpu_hw_mtl_irq_noc_firewall_handler(struct ivpu_device *vdev
+ {
+ 	ivpu_err_ratelimited(vdev, "NOC Firewall irq\n");
+ 
++	ivpu_pm_schedule_recovery(vdev);
++
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -970,6 +976,7 @@ static irqreturn_t ivpu_hw_mtl_irqv_handler(struct ivpu_device *vdev, int irq)
+ /* Handler for IRQs from Buttress core (irqB) */
+ static irqreturn_t ivpu_hw_mtl_irqb_handler(struct ivpu_device *vdev, int irq)
+ {
++	bool schedule_recovery = false;
+ 	u32 status = REGB_RD32(MTL_BUTTRESS_INTERRUPT_STAT) & BUTTRESS_IRQ_MASK;
+ 
+ 	REGB_WR32(MTL_BUTTRESS_INTERRUPT_STAT, status);
+@@ -980,19 +987,25 @@ static irqreturn_t ivpu_hw_mtl_irqb_handler(struct ivpu_device *vdev, int irq)
+ 	if (REG_TEST_FLD(MTL_BUTTRESS_INTERRUPT_STAT, ATS_ERR, status)) {
+ 		ivpu_dbg(IRQ, "ATS_ERR 0x%016llx", REGB_RD64(MTL_BUTTRESS_ATS_ERR_LOG_0));
+ 		REGB_WR32(MTL_BUTTRESS_ATS_ERR_CLEAR, 0x1);
++		schedule_recovery = true;
+ 	}
+ 
+ 	if (REG_TEST_FLD(MTL_BUTTRESS_INTERRUPT_STAT, UFI_ERR, status)) {
+ 		ivpu_dbg(IRQ, "UFI_ERR 0x%08x", REGB_RD32(MTL_BUTTRESS_UFI_ERR_LOG));
+ 		REGB_WR32(MTL_BUTTRESS_UFI_ERR_CLEAR, 0x1);
++		schedule_recovery = true;
+ 	}
+ 
++	if (schedule_recovery)
++		ivpu_pm_schedule_recovery(vdev);
++
+ 	return IRQ_HANDLED;
+ }
+ 
+ static irqreturn_t ivpu_hw_mtl_irq_handler(int irq, void *ptr)
+ {
+ 	struct ivpu_device *vdev = ptr;
++	struct ivpu_pm_info *pm = vdev->pm;
+ 	irqreturn_t ret_irqv;
+ 	irqreturn_t ret_irqb;
+ 
+@@ -1001,7 +1014,8 @@ static irqreturn_t ivpu_hw_mtl_irq_handler(int irq, void *ptr)
+ 	ret_irqv = ivpu_hw_mtl_irqv_handler(vdev, irq);
+ 	ret_irqb = ivpu_hw_mtl_irqb_handler(vdev, irq);
+ 
+-	ivpu_hw_mtl_irq_enable(vdev);
++	if (!atomic_read(&pm->in_recovery))
++		ivpu_hw_mtl_irq_enable(vdev);
+ 
+ 	return ret_irqv & ret_irqb;
+ }
+diff --git a/drivers/gpu/drm/ivpu/ivpu_ipc.c b/drivers/gpu/drm/ivpu/ivpu_ipc.c
+index 7d50a2e6ff80..4fa42d85ae92 100644
+--- a/drivers/gpu/drm/ivpu/ivpu_ipc.c
++++ b/drivers/gpu/drm/ivpu/ivpu_ipc.c
+@@ -14,6 +14,7 @@
+ #include "ivpu_hw_reg_io.h"
+ #include "ivpu_ipc.h"
+ #include "ivpu_jsm_msg.h"
++#include "ivpu_pm.h"
+ 
+ #define IPC_MAX_RX_MSG	128
+ #define IS_KTHREAD()	(get_current()->flags & PF_KTHREAD)
+@@ -264,6 +265,10 @@ ivpu_ipc_send_receive_internal(struct ivpu_device *vdev, struct vpu_jsm_msg *req
+ 	struct ivpu_ipc_consumer cons;
+ 	int ret;
+ 
++	ret = ivpu_rpm_get(vdev);
++	if (ret < 0)
++		return ret;
++
+ 	ivpu_ipc_consumer_add(vdev, &cons, channel);
+ 
+ 	ret = ivpu_ipc_send(vdev, &cons, req);
+@@ -286,6 +291,8 @@ ivpu_ipc_send_receive_internal(struct ivpu_device *vdev, struct vpu_jsm_msg *req
+ 
+ consumer_del:
+ 	ivpu_ipc_consumer_del(vdev, &cons);
++	ivpu_rpm_put(vdev);
++
  	return ret;
  }
  
-+int ivpu_bo_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct drm_ivpu_bo_wait *args = data;
-+	unsigned long timeout = drm_timeout_abs_to_jiffies(args->timeout_ns);
-+	long ret;
-+
-+	ret = drm_gem_dma_resv_wait(file, args->handle, true, timeout);
-+	if (ret == -ETIME)
-+		ret = -ETIMEDOUT;
-+
-+	return ret;
-+}
-+
- static void ivpu_bo_print_info(struct ivpu_bo *bo, struct drm_printer *p)
- {
- 	unsigned long dma_refcount = 0;
+@@ -305,8 +312,10 @@ int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+ 
+ 	ret = ivpu_ipc_send_receive_internal(vdev, &hb_req, VPU_JSM_MSG_QUERY_ENGINE_HB_DONE,
+ 					     &hb_resp, VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
+-	if (ret)
++	if (ret) {
+ 		ivpu_hw_diagnose_tdr(vdev);
++		ivpu_pm_schedule_recovery(vdev);
++	}
+ 
+ 	return ret;
+ }
 diff --git a/drivers/gpu/drm/ivpu/ivpu_job.c b/drivers/gpu/drm/ivpu/ivpu_job.c
-new file mode 100644
-index 000000000000..07241f4a87bd
---- /dev/null
+index 07241f4a87bd..a8540934cbd2 100644
+--- a/drivers/gpu/drm/ivpu/ivpu_job.c
 +++ b/drivers/gpu/drm/ivpu/ivpu_job.c
-@@ -0,0 +1,617 @@
+@@ -17,6 +17,7 @@
+ #include "ivpu_ipc.h"
+ #include "ivpu_job.h"
+ #include "ivpu_jsm_msg.h"
++#include "ivpu_pm.h"
+ 
+ #define CMD_BUF_IDX	    0
+ #define JOB_ID_JOB_MASK	    GENMASK(7, 0)
+@@ -264,6 +265,9 @@ static void job_release(struct kref *ref)
+ 
+ 	ivpu_dbg(KREF, "Job released: id %u\n", job->job_id);
+ 	kfree(job);
++
++	/* Allow the VPU to get suspended, must be called after ivpu_file_priv_put() */
++	ivpu_rpm_put(vdev);
+ }
+ 
+ static void job_put(struct ivpu_job *job)
+@@ -280,11 +284,16 @@ ivpu_create_job(struct ivpu_file_priv *file_priv, u32 engine_idx, u32 bo_count)
+ 	struct ivpu_device *vdev = file_priv->vdev;
+ 	struct ivpu_job *job;
+ 	size_t buf_size;
++	int ret;
++
++	ret = ivpu_rpm_get(vdev);
++	if (ret < 0)
++		return NULL;
+ 
+ 	buf_size = sizeof(*job) + bo_count * sizeof(struct ivpu_bo *);
+ 	job = kzalloc(buf_size, GFP_KERNEL);
+ 	if (!job)
+-		return NULL;
++		goto err_rpm_put;
+ 
+ 	kref_init(&job->ref);
+ 
+@@ -305,6 +314,8 @@ ivpu_create_job(struct ivpu_file_priv *file_priv, u32 engine_idx, u32 bo_count)
+ 
+ err_free_job:
+ 	kfree(job);
++err_rpm_put:
++	ivpu_rpm_put(vdev);
+ 	return NULL;
+ }
+ 
+@@ -580,6 +591,7 @@ static int ivpu_job_done_thread(void *arg)
+ 			if (jobs_submitted && !xa_empty(&vdev->submitted_jobs_xa)) {
+ 				ivpu_err(vdev, "TDR detected, timeout %d ms", timeout);
+ 				ivpu_hw_diagnose_tdr(vdev);
++				ivpu_pm_schedule_recovery(vdev);
+ 			}
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/ivpu/ivpu_mmu.c b/drivers/gpu/drm/ivpu/ivpu_mmu.c
+index b9f225a83c45..13887fea8bca 100644
+--- a/drivers/gpu/drm/ivpu/ivpu_mmu.c
++++ b/drivers/gpu/drm/ivpu/ivpu_mmu.c
+@@ -11,6 +11,7 @@
+ #include "ivpu_hw_reg_io.h"
+ #include "ivpu_mmu.h"
+ #include "ivpu_mmu_context.h"
++#include "ivpu_pm.h"
+ 
+ #define IVPU_MMU_IDR0_REF		0x080f3e0f
+ #define IVPU_MMU_IDR0_REF_SIMICS	0x080f3e1f
+@@ -827,6 +828,8 @@ irqreturn_t ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
+ 
+ 	} while (evtq->prod != evtq->cons);
+ 
++	ivpu_pm_schedule_recovery(vdev);
++
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -843,8 +846,10 @@ irqreturn_t ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev)
+ 	if (!(active & IVPU_MMU_GERROR_ERR_MASK))
+ 		return IRQ_NONE;
+ 
+-	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, SFM, active))
++	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, SFM, active)) {
+ 		ivpu_err_ratelimited(vdev, "MMU has entered service failure mode\n");
++		ivpu_pm_schedule_recovery(vdev);
++	}
+ 
+ 	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_ABT, active))
+ 		ivpu_warn_ratelimited(vdev, "MMU MSI ABT write aborted\n");
+diff --git a/drivers/gpu/drm/ivpu/ivpu_pm.c b/drivers/gpu/drm/ivpu/ivpu_pm.c
+new file mode 100644
+index 000000000000..2e5e9843b1c5
+--- /dev/null
++++ b/drivers/gpu/drm/ivpu/ivpu_pm.c
+@@ -0,0 +1,352 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright © 2020-2022 Intel Corporation
 + */
 +
-+#include <drm/drm_file.h>
-+
-+#include <linux/bitfield.h>
 +#include <linux/highmem.h>
-+#include <linux/kthread.h>
++#include <linux/moduleparam.h>
 +#include <linux/pci.h>
-+#include <linux/module.h>
-+#include <uapi/drm/ivpu_drm.h>
++#include <linux/pm_runtime.h>
++#include <linux/reboot.h>
 +
++#include "vpu_boot_api.h"
 +#include "ivpu_drv.h"
 +#include "ivpu_hw.h"
++#include "ivpu_fw.h"
 +#include "ivpu_ipc.h"
 +#include "ivpu_job.h"
-+#include "ivpu_jsm_msg.h"
++#include "ivpu_mmu.h"
++#include "ivpu_pm.h"
 +
-+#define CMD_BUF_IDX	    0
-+#define JOB_ID_JOB_MASK	    GENMASK(7, 0)
-+#define JOB_ID_CONTEXT_MASK GENMASK(31, 8)
++static bool ivpu_disable_recovery;
++module_param_named_unsafe(disable_recovery, ivpu_disable_recovery, bool, 0644);
++MODULE_PARM_DESC(disable_recovery, "Disables recovery when VPU hang is detected");
 +
-+static unsigned int ivpu_tdr_timeout_ms;
-+module_param_named(tdr_timeout_ms, ivpu_tdr_timeout_ms, uint, 0644);
-+MODULE_PARM_DESC(tdr_timeout_ms, "Timeout for device hang detection, in milliseconds, 0 - default");
++#define PM_RESCHEDULE_LIMIT     5
 +
-+static void ivpu_cmdq_ring_db(struct ivpu_device *vdev, struct ivpu_cmdq *cmdq)
++static void ivpu_pm_prepare_cold_boot(struct ivpu_device *vdev)
 +{
-+	ivpu_hw_reg_db_set(vdev, cmdq->db_id);
++	struct ivpu_fw_info *fw = vdev->fw;
++
++	ivpu_cmdq_reset_all_contexts(vdev);
++	ivpu_fw_load(vdev);
++	fw->entry_point = fw->cold_boot_entry_point;
 +}
 +
-+static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv, u16 engine)
++static void ivpu_pm_prepare_warm_boot(struct ivpu_device *vdev)
 +{
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct vpu_job_queue_header *jobq_header;
-+	struct ivpu_cmdq *cmdq;
++	struct ivpu_fw_info *fw = vdev->fw;
++	struct vpu_boot_params *bp = fw->mem->kvaddr;
 +
-+	cmdq = kzalloc(sizeof(*cmdq), GFP_KERNEL);
-+	if (!cmdq)
-+		return NULL;
-+
-+	cmdq->mem = ivpu_bo_alloc_internal(vdev, 0, SZ_4K, DRM_IVPU_BO_CACHED);
-+	if (!cmdq->mem)
-+		goto cmdq_free;
-+
-+	cmdq->db_id = file_priv->ctx.id + engine * ivpu_get_context_count(vdev);
-+	cmdq->entry_count = (u32)((cmdq->mem->base.size - sizeof(struct vpu_job_queue_header)) /
-+				  sizeof(struct vpu_job_queue_entry));
-+
-+	cmdq->jobq = (struct vpu_job_queue *)cmdq->mem->kvaddr;
-+	jobq_header = &cmdq->jobq->header;
-+	jobq_header->engine_idx = engine;
-+	jobq_header->head = 0;
-+	jobq_header->tail = 0;
-+
-+	return cmdq;
-+
-+cmdq_free:
-+	kfree(cmdq);
-+	return NULL;
-+}
-+
-+static void ivpu_cmdq_free(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
-+{
-+	if (!cmdq)
++	if (!bp->save_restore_ret_address) {
++		ivpu_pm_prepare_cold_boot(vdev);
 +		return;
++	}
 +
-+	ivpu_bo_free_internal(cmdq->mem);
-+	kfree(cmdq);
++	ivpu_dbg(FW_BOOT, "Save/restore entry point %llx", bp->save_restore_ret_address);
++	fw->entry_point = bp->save_restore_ret_address;
 +}
 +
-+static struct ivpu_cmdq *ivpu_cmdq_acquire(struct ivpu_file_priv *file_priv, u16 engine)
++static int ivpu_suspend(struct ivpu_device *vdev)
 +{
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct ivpu_cmdq *cmdq = file_priv->cmdq[engine];
 +	int ret;
 +
-+	lockdep_assert_held(&file_priv->lock);
++	lockdep_assert_held(&vdev->pm->lock);
 +
-+	if (!cmdq) {
-+		cmdq = ivpu_cmdq_alloc(file_priv, engine);
-+		if (!cmdq)
-+			return NULL;
-+		file_priv->cmdq[engine] = cmdq;
-+	}
-+
-+	if (cmdq->db_registered)
-+		return cmdq;
-+
-+	ret = ivpu_jsm_register_db(vdev, file_priv->ctx.id, cmdq->db_id,
-+				   cmdq->mem->vpu_addr, cmdq->mem->base.size);
-+	if (ret)
-+		return NULL;
-+
-+	cmdq->db_registered = true;
-+
-+	return cmdq;
-+}
-+
-+static void ivpu_cmdq_release_locked(struct ivpu_file_priv *file_priv, u16 engine)
-+{
-+	struct ivpu_cmdq *cmdq = file_priv->cmdq[engine];
-+
-+	lockdep_assert_held(&file_priv->lock);
-+
-+	if (cmdq) {
-+		file_priv->cmdq[engine] = NULL;
-+		if (cmdq->db_registered)
-+			ivpu_jsm_unregister_db(file_priv->vdev, cmdq->db_id);
-+
-+		ivpu_cmdq_free(file_priv, cmdq);
-+	}
-+}
-+
-+void ivpu_cmdq_release_all(struct ivpu_file_priv *file_priv)
-+{
-+	int i;
-+
-+	mutex_lock(&file_priv->lock);
-+
-+	for (i = 0; i < IVPU_NUM_ENGINES; i++)
-+		ivpu_cmdq_release_locked(file_priv, i);
-+
-+	mutex_unlock(&file_priv->lock);
-+}
-+
-+/*
-+ * Mark the doorbell as unregistered and reset job queue pointers.
-+ * This function needs to be called when the VPU hardware is restarted
-+ * and FW looses job queue state. The next time job queue is used it
-+ * will be registered again.
-+ */
-+static void ivpu_cmdq_reset_locked(struct ivpu_file_priv *file_priv, u16 engine)
-+{
-+	struct ivpu_cmdq *cmdq = file_priv->cmdq[engine];
-+
-+	lockdep_assert_held(&file_priv->lock);
-+
-+	if (cmdq) {
-+		cmdq->db_registered = false;
-+		cmdq->jobq->header.head = 0;
-+		cmdq->jobq->header.tail = 0;
-+	}
-+}
-+
-+static void ivpu_cmdq_reset_all(struct ivpu_file_priv *file_priv)
-+{
-+	int i;
-+
-+	mutex_lock(&file_priv->lock);
-+
-+	for (i = 0; i < IVPU_NUM_ENGINES; i++)
-+		ivpu_cmdq_reset_locked(file_priv, i);
-+
-+	mutex_unlock(&file_priv->lock);
-+}
-+
-+void ivpu_cmdq_reset_all_contexts(struct ivpu_device *vdev)
-+{
-+	struct ivpu_file_priv *file_priv;
-+	unsigned long id;
-+
-+	xa_for_each(&vdev->context_xa, id, file_priv) {
-+		if (!file_priv)
-+			continue;
-+
-+		ivpu_cmdq_reset_all(file_priv);
-+	}
-+}
-+
-+static int ivpu_cmdq_push_job(struct ivpu_cmdq *cmdq, struct ivpu_job *job)
-+{
-+	struct ivpu_device *vdev = job->vdev;
-+	struct vpu_job_queue_header *header = &cmdq->jobq->header;
-+	struct vpu_job_queue_entry *entry = &cmdq->jobq->job[header->tail];
-+	u32 next_entry = (header->tail + 1) % cmdq->entry_count;
-+
-+	/* Check if there is space left in job queue */
-+	if (next_entry == header->head) {
-+		ivpu_dbg(JOB, "Job queue full: ctx %d engine %d db %d head %d tail %d\n",
-+			 job->file_priv->ctx.id, job->engine_idx, cmdq->db_id,
-+			 header->head, header->tail);
-+		return -EBUSY;
-+	}
-+
-+	entry->batch_buf_addr = job->cmd_buf_vpu_addr;
-+	entry->job_id = job->job_id;
-+	entry->flags = 0;
-+
-+	mb(); /* Make sure the entry is written before updating the queue head*/
-+	header->tail = next_entry;
-+	mb(); /* Make sure tail is update before ringing db */
-+
-+	return 0;
-+}
-+
-+struct ivpu_fence {
-+	struct dma_fence base;
-+	spinlock_t lock; /* protects base */
-+	struct ivpu_device *vdev;
-+};
-+
-+static inline struct ivpu_fence *to_vpu_fence(struct dma_fence *fence)
-+{
-+	return container_of(fence, struct ivpu_fence, base);
-+}
-+
-+static const char *ivpu_fence_get_driver_name(struct dma_fence *fence)
-+{
-+	return DRIVER_NAME;
-+}
-+
-+static const char *ivpu_fence_get_timeline_name(struct dma_fence *fence)
-+{
-+	struct ivpu_fence *ivpu_fence = to_vpu_fence(fence);
-+
-+	return dev_name(ivpu_fence->vdev->drm.dev);
-+}
-+
-+static const struct dma_fence_ops ivpu_fence_ops = {
-+	.get_driver_name = ivpu_fence_get_driver_name,
-+	.get_timeline_name = ivpu_fence_get_timeline_name,
-+};
-+
-+static struct dma_fence *ivpu_fence_create(struct ivpu_device *vdev)
-+{
-+	struct ivpu_fence *fence;
-+
-+	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-+	if (!fence)
-+		return NULL;
-+
-+	fence->vdev = vdev;
-+	spin_lock_init(&fence->lock);
-+	dma_fence_init(&fence->base, &ivpu_fence_ops, &fence->lock, dma_fence_context_alloc(1), 1);
-+
-+	return &fence->base;
-+}
-+
-+static void job_get(struct ivpu_job *job, struct ivpu_job **link)
-+{
-+	struct ivpu_device *vdev = job->vdev;
-+
-+	ivpu_dbg(KREF, "Job get: id %u refcount %u\n", job->job_id, kref_read(&job->ref));
-+
-+	kref_get(&job->ref);
-+	*link = job;
-+}
-+
-+static void job_release(struct kref *ref)
-+{
-+	struct ivpu_job *job = container_of(ref, struct ivpu_job, ref);
-+	struct ivpu_device *vdev = job->vdev;
-+	u32 i;
-+
-+	for (i = 0; i < job->bo_count; i++)
-+		if (job->bos[i])
-+			drm_gem_object_put(&job->bos[i]->base);
-+
-+	dma_fence_put(job->done_fence);
-+	ivpu_file_priv_put(&job->file_priv);
-+
-+	ivpu_dbg(KREF, "Job released: id %u\n", job->job_id);
-+	kfree(job);
-+}
-+
-+static void job_put(struct ivpu_job *job)
-+{
-+	struct ivpu_device *vdev = job->vdev;
-+
-+	ivpu_dbg(KREF, "Job put: id %u refcount %u\n", job->job_id, kref_read(&job->ref));
-+	kref_put(&job->ref, job_release);
-+}
-+
-+static struct ivpu_job *
-+ivpu_create_job(struct ivpu_file_priv *file_priv, u32 engine_idx, u32 bo_count)
-+{
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct ivpu_job *job;
-+	size_t buf_size;
-+
-+	buf_size = sizeof(*job) + bo_count * sizeof(struct ivpu_bo *);
-+	job = kzalloc(buf_size, GFP_KERNEL);
-+	if (!job)
-+		return NULL;
-+
-+	kref_init(&job->ref);
-+
-+	job->vdev = vdev;
-+	job->engine_idx = engine_idx;
-+	job->bo_count = bo_count;
-+	job->done_fence = ivpu_fence_create(vdev);
-+	if (!job->done_fence) {
-+		ivpu_warn_ratelimited(vdev, "Failed to create a fence\n");
-+		goto err_free_job;
-+	}
-+
-+	ivpu_file_priv_get(file_priv, &job->file_priv);
-+
-+	ivpu_dbg(JOB, "Job created: ctx %2d engine %d", job->file_priv->ctx.id, job->engine_idx);
-+
-+	return job;
-+
-+err_free_job:
-+	kfree(job);
-+	return NULL;
-+}
-+
-+static void ivpu_job_update_status(struct page *p, struct ivpu_job *job, u32 job_status)
-+{
-+	void *dst = kmap_local_page(p);
-+	drm_ivpu_job_status_t *status = dst + (job->submit_status_offset % PAGE_SIZE);
-+
-+	*status = job_status;
-+
-+	flush_dcache_page(p);
-+	kunmap_local(dst);
-+}
-+
-+static int ivpu_job_done(struct ivpu_device *vdev, u32 job_id, u32 job_status)
-+{
-+	struct ivpu_job *job;
-+	struct page *p;
-+
-+	job = xa_erase(&vdev->submitted_jobs_xa, job_id);
-+	if (!job)
-+		return -ENOENT;
-+
-+	p = ivpu_bo_get_page(job->bos[CMD_BUF_IDX], job->submit_status_offset);
-+	if (!p) {
-+		ivpu_warn(vdev, "Failed to get cmd bo status page\n");
-+		goto job_put;
-+	}
-+	ivpu_job_update_status(p, job, job_status);
-+	dma_fence_signal(job->done_fence);
-+
-+job_put:
-+	ivpu_dbg(JOB, "Job complete:  id %3u ctx %2d engine %d status 0x%x\n",
-+		 job->job_id, job->file_priv->ctx.id, job->engine_idx, job_status);
-+
-+	job_put(job);
-+	return 0;
-+}
-+
-+static void ivpu_job_done_message(struct ivpu_device *vdev, void *msg)
-+{
-+	struct vpu_ipc_msg_payload_job_done *payload;
-+	struct vpu_jsm_msg *job_ret_msg = msg;
-+	int ret;
-+
-+	payload = (struct vpu_ipc_msg_payload_job_done *)&job_ret_msg->payload;
-+
-+	ret = ivpu_job_done(vdev, payload->job_id, payload->job_status);
-+	if (ret)
-+		ivpu_err(vdev, "Failed to finish job %d: %d\n", payload->job_id, ret);
-+}
-+
-+void ivpu_jobs_abort_all(struct ivpu_device *vdev)
-+{
-+	struct ivpu_job *job;
-+	unsigned long id;
-+
-+	xa_for_each(&vdev->submitted_jobs_xa, id, job)
-+		ivpu_job_done(vdev, id, VPU_JSM_STATUS_ABORTED);
-+}
-+
-+static int ivpu_direct_job_submission(struct ivpu_job *job)
-+{
-+	struct ivpu_file_priv *file_priv = job->file_priv;
-+	struct ivpu_device *vdev = job->vdev;
-+	struct xa_limit job_id_range;
-+	struct ivpu_cmdq *cmdq;
-+	int ret;
-+
-+	mutex_lock(&file_priv->lock);
-+
-+	cmdq = ivpu_cmdq_acquire(job->file_priv, job->engine_idx);
-+	if (!cmdq) {
-+		ivpu_warn(vdev, "Failed get job queue, ctx %d engine %d\n",
-+			  file_priv->ctx.id, job->engine_idx);
-+		ret = -EINVAL;
-+		goto err_unlock;
-+	}
-+
-+	job_id_range.min = FIELD_PREP(JOB_ID_CONTEXT_MASK, (file_priv->ctx.id - 1));
-+	job_id_range.max = job_id_range.min | JOB_ID_JOB_MASK;
-+
-+	job_get(job, &job);
-+	ret = xa_alloc(&vdev->submitted_jobs_xa, &job->job_id, job, job_id_range, GFP_KERNEL);
++	ret = ivpu_shutdown(vdev);
 +	if (ret) {
-+		ivpu_warn_ratelimited(vdev, "Failed to allocate job id: %d\n", ret);
-+		goto err_job_put;
-+	}
-+
-+	ret = ivpu_cmdq_push_job(cmdq, job);
-+	if (ret)
-+		goto err_xa_erase;
-+
-+	ivpu_dbg(JOB, "Job submitted: id %3u ctx %2d engine %d next %d\n",
-+		 job->job_id, file_priv->ctx.id, job->engine_idx, cmdq->jobq->header.tail);
-+
-+	if (ivpu_test_mode == IVPU_TEST_MODE_NULL_HW) {
-+		ivpu_job_done(vdev, job->job_id, VPU_JSM_STATUS_SUCCESS);
-+		cmdq->jobq->header.head = cmdq->jobq->header.tail;
-+	} else {
-+		ivpu_cmdq_ring_db(vdev, cmdq);
-+	}
-+
-+	mutex_unlock(&file_priv->lock);
-+	return 0;
-+
-+err_xa_erase:
-+	xa_erase(&vdev->submitted_jobs_xa, job->job_id);
-+err_job_put:
-+	job_put(job);
-+err_unlock:
-+	mutex_unlock(&file_priv->lock);
-+	return ret;
-+}
-+
-+static int
-+ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32 *buf_handles,
-+				u32 buf_count, u32 status_offset, u32 commands_offset)
-+{
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct ww_acquire_ctx acquire_ctx;
-+	struct ivpu_bo *bo;
-+	int ret;
-+	u32 i;
-+
-+	for (i = 0; i < buf_count; i++) {
-+		struct drm_gem_object *obj = drm_gem_object_lookup(file, buf_handles[i]);
-+
-+		if (!obj)
-+			return -ENOENT;
-+
-+		job->bos[i] = to_ivpu_bo(obj);
-+
-+		ret = ivpu_bo_pin(job->bos[i]);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	bo = job->bos[CMD_BUF_IDX];
-+	if (!dma_resv_test_signaled(bo->base.resv, DMA_RESV_USAGE_READ)) {
-+		ivpu_warn(vdev, "Buffer is already in use\n");
-+		return -EBUSY;
-+	}
-+
-+	if (commands_offset >= bo->base.size) {
-+		ivpu_warn(vdev, "Invalid command buffer offset %u\n", commands_offset);
-+		return -EINVAL;
-+	}
-+
-+	job->cmd_buf_vpu_addr = bo->vpu_addr + commands_offset;
-+
-+	if (status_offset > (bo->base.size - sizeof(drm_ivpu_job_status_t))) {
-+		ivpu_warn(vdev, "Invalid status offset %u\n", status_offset);
-+		return -EINVAL;
-+	}
-+	job->submit_status_offset = status_offset;
-+
-+	ret = drm_gem_lock_reservations((struct drm_gem_object **)job->bos, buf_count,
-+					&acquire_ctx);
-+	if (ret) {
-+		ivpu_warn(vdev, "Failed to lock reservations: %d\n", ret);
++		ivpu_err(vdev, "Failed to shutdown VPU: %d\n", ret);
 +		return ret;
 +	}
-+	for (i = 0; i < buf_count; i++) {
-+		ret = dma_resv_reserve_fences(job->bos[i]->base.resv, 1);
-+		if (ret) {
-+			ivpu_warn(vdev, "Failed to reserve fences: %d\n", ret);
-+			goto unlock_reservations;
-+		}
-+	}
-+
-+	for (i = 0; i < buf_count; i++)
-+		dma_resv_add_fence(job->bos[i]->base.resv, job->done_fence, DMA_RESV_USAGE_WRITE);
-+
-+unlock_reservations:
-+	drm_gem_unlock_reservations((struct drm_gem_object **)job->bos, buf_count, &acquire_ctx);
-+
-+	wmb(); /* Flush write combining buffers */
 +
 +	return ret;
 +}
 +
-+int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
++static int ivpu_resume(struct ivpu_device *vdev)
 +{
-+	int ret = 0;
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct drm_ivpu_submit *params = data;
-+	struct ivpu_job *job;
-+	u32 *buf_handles;
-+
-+	if (params->engine > DRM_IVPU_ENGINE_COPY)
-+		return -EINVAL;
-+
-+	if (params->buffer_count == 0)
-+		return -EINVAL;
-+
-+	if (params->commands_offset == params->status_offset)
-+		return -EINVAL;
-+
-+	if (!IS_ALIGNED(params->commands_offset, 8))
-+		return -EINVAL;
-+
-+	if (!IS_ALIGNED(params->status_offset, 8))
-+		return -EINVAL;
-+
-+	if (!file_priv->ctx.id)
-+		return -EINVAL;
-+
-+	buf_handles = kcalloc(params->buffer_count, sizeof(u32), GFP_KERNEL);
-+	if (!buf_handles)
-+		return -ENOMEM;
-+
-+	ret = copy_from_user(buf_handles,
-+			     (void __user *)params->buffers_ptr,
-+			     params->buffer_count * sizeof(u32));
-+	if (ret) {
-+		ret = -EFAULT;
-+		goto free_handles;
-+	}
-+
-+	ivpu_dbg(JOB, "Submit ioctl: ctx %u buf_count %u\n",
-+		 file_priv->ctx.id, params->buffer_count);
-+	job = ivpu_create_job(file_priv, params->engine, params->buffer_count);
-+	if (!job) {
-+		ivpu_err(vdev, "Failed to create job\n");
-+		ret = -ENOMEM;
-+		goto free_handles;
-+	}
-+
-+	ret = ivpu_job_prepare_bos_for_submit(file, job, buf_handles, params->buffer_count,
-+					      params->status_offset, params->commands_offset);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to prepare job, ret %d\n", ret);
-+		goto job_put;
-+	}
-+
-+	ret = ivpu_direct_job_submission(job);
-+	if (ret) {
-+		dma_fence_signal(job->done_fence);
-+		ivpu_err(vdev, "Failed to submit job to the HW, ret %d\n", ret);
-+	}
-+
-+job_put:
-+	job_put(job);
-+free_handles:
-+	kfree(buf_handles);
-+
-+	return ret;
-+}
-+
-+static int ivpu_job_done_thread(void *arg)
-+{
-+	struct ivpu_device *vdev = (struct ivpu_device *)arg;
-+	struct ivpu_ipc_consumer cons;
-+	struct vpu_jsm_msg jsm_msg;
-+	bool jobs_submitted;
-+	unsigned int timeout;
 +	int ret;
 +
-+	ivpu_dbg(JOB, "Started %s\n", __func__);
++	lockdep_assert_held(&vdev->pm->lock);
 +
-+	ivpu_ipc_consumer_add(vdev, &cons, VPU_IPC_CHAN_JOB_RET);
++retry:
++	ret = ivpu_hw_power_up(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to power up HW: %d\n", ret);
++		return ret;
++	}
 +
-+	while (!kthread_should_stop()) {
-+		timeout = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
-+		jobs_submitted = !xa_empty(&vdev->submitted_jobs_xa);
-+		ret = ivpu_ipc_receive(vdev, &cons, NULL, &jsm_msg, timeout);
-+		if (!ret) {
-+			ivpu_job_done_message(vdev, &jsm_msg);
-+		} else if (ret == -ETIMEDOUT) {
-+			if (jobs_submitted && !xa_empty(&vdev->submitted_jobs_xa)) {
-+				ivpu_err(vdev, "TDR detected, timeout %d ms", timeout);
-+				ivpu_hw_diagnose_tdr(vdev);
-+			}
++	ret = ivpu_mmu_enable(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to resume MMU: %d\n", ret);
++		ivpu_hw_power_down(vdev);
++		return ret;
++	}
++
++	ret = ivpu_boot(vdev);
++	if (ret) {
++		ivpu_mmu_disable(vdev);
++		ivpu_hw_power_down(vdev);
++		if (!ivpu_fw_is_cold_boot(vdev)) {
++			ivpu_warn(vdev, "Failed to resume the FW: %d. Retrying cold boot..\n", ret);
++			ivpu_pm_prepare_cold_boot(vdev);
++			goto retry;
++		} else {
++			ivpu_err(vdev, "Failed to resume the FW: %d\n", ret);
 +		}
 +	}
 +
-+	ivpu_ipc_consumer_del(vdev, &cons);
-+
-+	ivpu_jobs_abort_all(vdev);
-+
-+	ivpu_dbg(JOB, "Stopped %s\n", __func__);
-+	return 0;
++	return ret;
 +}
 +
-+int ivpu_job_done_thread_init(struct ivpu_device *vdev)
++static void ivpu_pm_recovery_work(struct work_struct *work)
 +{
-+	struct task_struct *thread;
++	struct ivpu_pm_info *pm = container_of(work, struct ivpu_pm_info, recovery_work);
++	struct ivpu_device *vdev =  pm->vdev;
++	char *evt[2] = {"IVPU_PM_EVENT=IVPU_RECOVER", NULL};
++	int ret;
 +
-+	thread = kthread_run(&ivpu_job_done_thread, (void *)vdev, "ivpu_job_done_thread");
-+	if (IS_ERR(thread)) {
-+		ivpu_err(vdev, "Failed to start job completion thread\n");
-+		return -EIO;
++	ret = pci_reset_function(to_pci_dev(vdev->drm.dev));
++	if (ret)
++		ivpu_err(vdev, "Failed to reset VPU: %d\n", ret);
++
++	kobject_uevent_env(&vdev->drm.dev->kobj, KOBJ_CHANGE, evt);
++}
++
++void ivpu_pm_schedule_recovery(struct ivpu_device *vdev)
++{
++	struct ivpu_pm_info *pm = vdev->pm;
++
++	if (ivpu_disable_recovery) {
++		ivpu_err(vdev, "Recovery not available when disable_recovery param is set\n");
++		return;
 +	}
 +
-+	get_task_struct(thread);
-+	wake_up_process(thread);
++	if (ivpu_is_fpga(vdev)) {
++		ivpu_err(vdev, "Recovery not available on FPGA\n");
++		return;
++	}
 +
-+	vdev->job_done_thread = thread;
++	/* Schedule recovery if it's not in progress */
++	if (atomic_cmpxchg(&pm->in_recovery, 0, 1) == 0) {
++		ivpu_hw_irq_disable(vdev);
++		queue_work(system_long_wq, &pm->recovery_work);
++	}
++}
++
++int ivpu_pm_suspend_cb(struct device *dev)
++{
++	struct drm_device *drm = dev_get_drvdata(dev);
++	struct ivpu_device *vdev = to_ivpu_device(drm);
++	int ret;
++
++	ivpu_dbg(PM, "Suspend..\n");
++
++	mutex_lock(&vdev->pm->lock);
++
++	ret = ivpu_suspend(vdev);
++	if (ret && vdev->pm->suspend_reschedule_counter) {
++		ivpu_dbg(PM, "VPU failed to enter idle, rescheduling suspend, retries left %d\n",
++			 vdev->pm->suspend_reschedule_counter);
++		pm_schedule_suspend(dev, vdev->timeout.reschedule_suspend);
++		vdev->pm->suspend_reschedule_counter--;
++		mutex_unlock(&vdev->pm->lock);
++		return -EBUSY;
++	} else if (!vdev->pm->suspend_reschedule_counter) {
++		ivpu_warn(vdev, "VPU failed to enter idle, force suspend\n");
++		ivpu_pm_prepare_cold_boot(vdev);
++	} else {
++		ivpu_pm_prepare_warm_boot(vdev);
++	}
++
++	vdev->pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
++
++	pci_save_state(to_pci_dev(dev));
++	pci_set_power_state(to_pci_dev(dev), PCI_D3hot);
++
++	mutex_unlock(&vdev->pm->lock);
++
++	ivpu_dbg(PM, "Suspend done.\n");
++
++	return ret;
++}
++
++int ivpu_pm_resume_cb(struct device *dev)
++{
++	struct drm_device *drm = dev_get_drvdata(dev);
++	struct ivpu_device *vdev = to_ivpu_device(drm);
++	int ret;
++
++	ivpu_dbg(PM, "Resume..\n");
++
++	mutex_lock(&vdev->pm->lock);
++
++	pci_set_power_state(to_pci_dev(dev), PCI_D0);
++	pci_restore_state(to_pci_dev(dev));
++
++	ret = ivpu_resume(vdev);
++	if (ret)
++		ivpu_err(vdev, "Failed to resume: %d\n", ret);
++
++	mutex_unlock(&vdev->pm->lock);
++
++	ivpu_dbg(PM, "Resume done.\n");
++
++	return ret;
++}
++
++int ivpu_pm_runtime_suspend_cb(struct device *dev)
++{
++	struct drm_device *drm = dev_get_drvdata(dev);
++	struct ivpu_device *vdev = to_ivpu_device(drm);
++	int ret;
++
++	ivpu_dbg(PM, "Runtime suspend..\n");
++
++	if (!ivpu_hw_is_idle(vdev) && vdev->pm->suspend_reschedule_counter) {
++		ivpu_dbg(PM, "VPU failed to enter idle, rescheduling suspend, retries left %d\n",
++			 vdev->pm->suspend_reschedule_counter);
++		pm_schedule_suspend(dev, vdev->timeout.reschedule_suspend);
++		vdev->pm->suspend_reschedule_counter--;
++		return -EAGAIN;
++	}
++
++	mutex_lock(&vdev->pm->lock);
++
++	ret = ivpu_suspend(vdev);
++	if (ret)
++		ivpu_err(vdev, "Failed to set suspend VPU: %d\n", ret);
++
++	if (!vdev->pm->suspend_reschedule_counter) {
++		ivpu_warn(vdev, "VPU failed to enter idle, force suspended.\n");
++		ivpu_pm_prepare_cold_boot(vdev);
++	} else {
++		ivpu_pm_prepare_warm_boot(vdev);
++	}
++
++	vdev->pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
++	mutex_unlock(&vdev->pm->lock);
++
++	ivpu_dbg(PM, "Runtime suspend done.\n");
 +
 +	return 0;
 +}
 +
-+void ivpu_job_done_thread_fini(struct ivpu_device *vdev)
++int ivpu_pm_runtime_resume_cb(struct device *dev)
 +{
-+	kthread_stop(vdev->job_done_thread);
-+	put_task_struct(vdev->job_done_thread);
++	struct drm_device *drm = dev_get_drvdata(dev);
++	struct ivpu_device *vdev = to_ivpu_device(drm);
++	int ret;
++
++	ivpu_dbg(PM, "Runtime resume..\n");
++
++	mutex_lock(&vdev->pm->lock);
++
++	ret = ivpu_resume(vdev);
++	if (ret)
++		ivpu_err(vdev, "Failed to set RESUME state: %d\n", ret);
++
++	mutex_unlock(&vdev->pm->lock);
++
++	ivpu_dbg(PM, "Runtime resume done.\n");
++
++	return ret;
 +}
-diff --git a/drivers/gpu/drm/ivpu/ivpu_job.h b/drivers/gpu/drm/ivpu/ivpu_job.h
++
++int ivpu_rpm_get(struct ivpu_device *vdev)
++{
++	int ret;
++
++	ivpu_dbg(PM, "rpm_get count %d\n", atomic_read(&vdev->drm.dev->power.usage_count));
++
++	ret = pm_runtime_get_sync(vdev->drm.dev);
++	if (ret < 0) {
++		ivpu_err(vdev, "Failed to resume operation: %d\n", ret);
++		pm_runtime_put_noidle(vdev->drm.dev);
++	} else {
++		vdev->pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
++	}
++
++	return ret;
++}
++
++void ivpu_rpm_put(struct ivpu_device *vdev)
++{
++	ivpu_dbg(PM, "rpm_put count %d\n", atomic_read(&vdev->drm.dev->power.usage_count));
++
++	pm_runtime_mark_last_busy(vdev->drm.dev);
++	pm_runtime_put_autosuspend(vdev->drm.dev);
++}
++
++void ivpu_pm_reset_prepare_cb(struct pci_dev *pdev)
++{
++	struct ivpu_device *vdev = pci_get_drvdata(pdev);
++
++	ivpu_dbg(PM, "Pre-reset..\n");
++
++	mutex_lock(&vdev->pm->lock);
++
++	ivpu_shutdown(vdev);
++	ivpu_pm_prepare_cold_boot(vdev);
++	ivpu_jobs_abort_all(vdev);
++
++	mutex_unlock(&vdev->pm->lock);
++
++	ivpu_dbg(PM, "Pre-reset done.\n");
++}
++
++void ivpu_pm_reset_done_cb(struct pci_dev *pdev)
++{
++	struct ivpu_device *vdev = pci_get_drvdata(pdev);
++	int ret;
++
++	ivpu_dbg(PM, "Post-reset..\n");
++
++	mutex_lock(&vdev->pm->lock);
++
++	ret = ivpu_resume(vdev);
++	if (ret)
++		ivpu_err(vdev, "Failed to set RESUME state: %d\n", ret);
++
++	mutex_unlock(&vdev->pm->lock);
++
++	ivpu_dbg(PM, "Post-reset done.\n");
++}
++
++int ivpu_pm_init(struct ivpu_device *vdev)
++{
++	struct device *dev = vdev->drm.dev;
++	struct ivpu_pm_info *pm = vdev->pm;
++
++	pm->vdev = vdev;
++	pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
++
++	atomic_set(&pm->in_recovery, 0);
++	INIT_WORK(&pm->recovery_work, ivpu_pm_recovery_work);
++	mutex_init(&pm->lock);
++
++	pm_runtime_use_autosuspend(dev);
++
++	if (ivpu_disable_recovery)
++		pm_runtime_set_autosuspend_delay(dev, -1);
++	else if (ivpu_is_silicon(vdev))
++		pm_runtime_set_autosuspend_delay(dev, 1000);
++	else
++		pm_runtime_set_autosuspend_delay(dev, 60000);
++
++	pm_runtime_set_active(dev);
++	pm_runtime_allow(dev);
++	pm_runtime_mark_last_busy(dev);
++	pm_runtime_put_autosuspend(dev);
++
++	ivpu_dbg(PM, "Initial RPM count %d\n", atomic_read(&dev->power.usage_count));
++
++	return 0;
++}
++
++void ivpu_pm_fini(struct ivpu_device *vdev)
++{
++	pm_runtime_forbid(vdev->drm.dev);
++	pm_runtime_get_noresume(vdev->drm.dev);
++
++	ivpu_dbg(PM, "Release RPM count %d\n", atomic_read(&vdev->drm.dev->power.usage_count));
++}
+diff --git a/drivers/gpu/drm/ivpu/ivpu_pm.h b/drivers/gpu/drm/ivpu/ivpu_pm.h
 new file mode 100644
-index 000000000000..c6bb542b8503
+index 000000000000..9a1ea659b21d
 --- /dev/null
-+++ b/drivers/gpu/drm/ivpu/ivpu_job.h
-@@ -0,0 +1,73 @@
++++ b/drivers/gpu/drm/ivpu/ivpu_pm.h
+@@ -0,0 +1,38 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright © 2020-2022 Intel Corporation
 + */
 +
-+#ifndef __IVPU_JOB_H__
-+#define __IVPU_JOB_H__
++#ifndef __IVPU_PM_H__
++#define __IVPU_PM_H__
 +
-+#include <linux/kref.h>
-+#include <linux/idr.h>
-+
-+#include "ivpu_gem.h"
++#include <linux/types.h>
 +
 +struct ivpu_device;
-+struct ivpu_file_priv;
 +
-+/**
-+ * struct ivpu_cmdq - Object representing device queue used to send jobs.
-+ * @jobq:	   Pointer to job queue memory shared with the device
-+ * @mem:           Memory allocated for the job queue, shared with device
-+ * @entry_count    Number of job entries in the queue
-+ * @db_id:	   Doorbell assigned to this job queue
-+ * @db_registered: True if doorbell is registered in device
-+ */
-+struct ivpu_cmdq {
-+	struct vpu_job_queue *jobq;
-+	struct ivpu_bo *mem;
-+	u32 entry_count;
-+	u32 db_id;
-+	bool db_registered;
-+};
-+
-+/**
-+ * struct ivpu_job - KMD object that represents batchbuffer / DMA buffer.
-+ * Each batch / DMA buffer is a job to be submitted and executed by the VPU FW.
-+ * This is a unit of execution, and be tracked by the job_id for
-+ * any status reporting from VPU FW through IPC JOB RET/DONE message.
-+ * @file_priv:		  The client that submitted this job
-+ * @job_id:		  Job ID for KMD tracking and job status reporting from VPU FW
-+ * @status:		  Status of the Job from IPC JOB RET/DONE message
-+ * @batch_buffer:	  CPU vaddr points to the batch buffer memory allocated for the job
-+ * @submit_status_offset: Offset within batch buffer where job completion handler
-+			  will update the job status
-+ */
-+struct ivpu_job {
-+	struct kref ref;
-+
++struct ivpu_pm_info {
 +	struct ivpu_device *vdev;
-+
-+	struct ivpu_file_priv *file_priv;
-+
-+	u64 submit_status_offset;
-+
-+	struct dma_fence *done_fence;
-+
-+	u64 cmd_buf_vpu_addr;
-+	u32 job_id;
-+	u32 engine_idx;
-+	size_t bo_count;
-+	struct ivpu_bo *bos[];
++	struct mutex lock; /* Protects state transitions */
++	struct work_struct recovery_work;
++	atomic_t in_recovery;
++	bool is_warmboot;
++	u32 suspend_reschedule_counter;
 +};
 +
-+int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
++int ivpu_pm_init(struct ivpu_device *vdev);
++void ivpu_pm_fini(struct ivpu_device *vdev);
 +
-+void ivpu_cmdq_release_all(struct ivpu_file_priv *file_priv);
-+void ivpu_cmdq_reset_all_contexts(struct ivpu_device *vdev);
++int ivpu_pm_suspend_cb(struct device *dev);
++int ivpu_pm_resume_cb(struct device *dev);
++int ivpu_pm_runtime_suspend_cb(struct device *dev);
++int ivpu_pm_runtime_resume_cb(struct device *dev);
 +
-+int ivpu_job_done_thread_init(struct ivpu_device *vdev);
-+void ivpu_job_done_thread_fini(struct ivpu_device *vdev);
++void ivpu_pm_reset_prepare_cb(struct pci_dev *pdev);
++void ivpu_pm_reset_done_cb(struct pci_dev *pdev);
 +
-+void ivpu_jobs_abort_all(struct ivpu_device *vdev);
++int ivpu_rpm_get(struct ivpu_device *vdev);
++void ivpu_rpm_put(struct ivpu_device *vdev);
 +
-+#endif /* __IVPU_JOB_H__ */
-diff --git a/include/uapi/drm/ivpu_drm.h b/include/uapi/drm/ivpu_drm.h
-index 8d7f5d34c0f5..854686f685db 100644
---- a/include/uapi/drm/ivpu_drm.h
-+++ b/include/uapi/drm/ivpu_drm.h
-@@ -20,6 +20,8 @@ extern "C" {
- #define DRM_IVPU_BO_CREATE		  0x02
- #define DRM_IVPU_BO_INFO		  0x03
- #define DRM_IVPU_BO_USERPTR		  0x04
-+#define DRM_IVPU_SUBMIT			  0x05
-+#define DRM_IVPU_BO_WAIT		  0x06
- 
- #define DRM_IOCTL_IVPU_GET_PARAM                                               \
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_GET_PARAM, struct drm_ivpu_param)
-@@ -36,6 +38,12 @@ extern "C" {
- #define DRM_IOCTL_IVPU_BO_USERPTR                                              \
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_USERPTR, struct drm_ivpu_bo_userptr)
- 
-+#define DRM_IOCTL_IVPU_SUBMIT                                                  \
-+	DRM_IOW(DRM_COMMAND_BASE + DRM_IVPU_SUBMIT, struct drm_ivpu_submit)
++void ivpu_pm_schedule_recovery(struct ivpu_device *vdev);
 +
-+#define DRM_IOCTL_IVPU_BO_WAIT                                                 \
-+	DRM_IOW(DRM_COMMAND_BASE + DRM_IVPU_BO_WAIT, struct drm_ivpu_bo_wait)
-+
- /**
-  * DOC: contexts
-  *
-@@ -240,6 +248,94 @@ struct drm_ivpu_bo_userptr {
- 	__u64 vpu_addr;
- };
- 
-+/* drm_ivpu_submit job status type */
-+typedef __u64 drm_ivpu_job_status_t;
-+
-+/* drm_ivpu_submit job status codes */
-+#define DRM_IVPU_JOB_STATUS_SUCCESS 0
-+
-+/* drm_ivpu_submit engines */
-+#define DRM_IVPU_ENGINE_COMPUTE 0
-+#define DRM_IVPU_ENGINE_COPY    1
-+
-+/**
-+ * struct drm_ivpu_submit - Submit commands to the VPU
-+ *
-+ * Execute a single command buffer on a given VPU engine.
-+ * Handles to all referenced buffer objects have to be provided in @buffers_ptr.
-+ *
-+ * User space may wait on job completion using %DRM_IVPU_BO_WAIT ioctl.
-+ */
-+struct drm_ivpu_submit {
-+	/**
-+	 * @buffers_ptr:
-+	 *
-+	 * A pointer to an u32 array of GEM handles of the BOs required for this job.
-+	 * The number of elements in the array must be equal to the value given by @buffer_count.
-+	 *
-+	 * The first BO is the command buffer. The rest of array has to contain all
-+	 * BOs referenced from the command buffer.
-+	 */
-+	__u64 buffers_ptr;
-+
-+	/** @buffer_count: Number of elements in the @buffers_ptr */
-+	__u32 buffer_count;
-+
-+	/**
-+	 * @engine: Select the engine this job should be executed on
-+	 *
-+	 * %DRM_IVPU_ENGINE_COMPUTE:
-+	 *
-+	 * Performs Deep Learning Neural Compute Inference Operations
-+	 *
-+	 * %DRM_IVPU_ENGINE_COPY:
-+	 *
-+	 * Performs memory copy operations to/from system memory allocated for VPU
-+	 */
-+	__u32 engine;
-+
-+	/** @flags: Reserved for future use - must be zero */
-+	__u32 flags;
-+
-+	/**
-+	 * @commands_offset:
-+	 *
-+	 * Offset inside the first buffer in @buffers_ptr containing commands
-+	 * to be executed. The offset has to be 8-byte aligned.
-+	 */
-+	__u32 commands_offset;
-+
-+	/**
-+	 * @status_offset:
-+	 *
-+	 * Offset inside the first buffer in @buffers_ptr containing an u64 with
-+	 * job status code which is updated after the job is completed.
-+	 * &DRM_IVPU_JOB_STATUS_SUCCESS or device specific error otherwise.
-+	 * The offset has to be 8-byte aligned.
-+	 */
-+	__u32 status_offset;
-+
-+	/** @pad: Padding - must be zero */
-+	__u32 pad;
-+};
-+
-+/**
-+ * struct drm_ivpu_bo_wait - Wait for BO to become inactive
-+ *
-+ * Blocks until a given buffer object becomes inactive.
-+ * With @timeout_ms set to 0 returns immediately.
-+ */
-+struct drm_ivpu_bo_wait {
-+	/** @handle: Handle to the buffer object to be waited on */
-+	__u32 handle;
-+
-+	/** @flags: Reserved for future use - must be zero */
-+	__u32 flags;
-+
-+	/** @timeout_ns: Absolute timeout in nanoseconds (may be zero) */
-+	__s64 timeout_ns;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
++#endif /* __IVPU_PM_H__ */
 -- 
 2.34.1
 
