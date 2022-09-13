@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632415B7AD4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 21:29:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDF65B7ADC
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 21:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA05810E1FC;
-	Tue, 13 Sep 2022 19:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFA2410E1FD;
+	Tue, 13 Sep 2022 19:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93CE310E1FB;
- Tue, 13 Sep 2022 19:28:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A0E10E262;
+ Tue, 13 Sep 2022 19:28:48 +0000 (UTC)
 Received: from dimapc.. (109-252-122-187.nat.spd-mgts.ru [109.252.122.187])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 480A96601FF1;
- Tue, 13 Sep 2022 20:28:37 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id AD63C6601FF3;
+ Tue, 13 Sep 2022 20:28:42 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663097322;
- bh=vtgIgDv24F+bOPzavSTa17EGTZ6cPGJ1uuGf9DgvGeI=;
+ s=mail; t=1663097327;
+ bh=Ov9ZX8VHbwHToZzjcmjiNJ0jjSTvXmYhNQje1p3xR4A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ahg2vvm1YSQpeyHaDzgof8WB5gOc4DtDTw7cpp4EPoZo5BVd2D84WQuQd6HQGo1/X
- jfB/vmf7GbPhadcQ/XeySLeVSOApzaQFkXWYFLeim4PeUvJWDaHmoVDAU/QsTjR6Cw
- KbyGVoVJuPX5WdDbLQ6WykRUdOII7eXC9wd8lwwFMFauh67vS7x/9viop98rndafxD
- w70FchgGH6ETC9W7OyCrQyvI1gdmwl3eLFx3Tsb6gSJKgi+cbJKr+pWktXTk0rxVW9
- x9eXamy2mc8LgYckYqdVXReS0xsejqra36YWpXpuhPujSZFKJviIimYWwqAnKDFZuD
- kt8Bz/F1GkKxw==
+ b=B15XfPU8GnbNZTWw0ofEzetFD2TYK/dvVkvVuf4RuLMJpUHzPq/xgl6TXqcXjgt0Z
+ XTFDGo84L236dwoYZCRiv+vafDk8fgnojykiEOav8siMVIpL3ZUyhmHKVEU3S369PC
+ fV+/WR+9JVBJ7aA3hL994exGkNH5NumoWi9vcQD2f2u0DvXjS6R+giO3AFTqYJbu3V
+ lssn1YpIxPNNjrZYB2Ibbv0e6G8W9EYd0RiV7B/MGqIwRhmPCBWlBsumRO3nucaEnC
+ LJvB2vQrwHK5lgZJlZaSRClarOX8DtCbe1o9VWo93d+i2U94FxF6QraolQnNxupDGZ
+ kRHWjffst9Dww==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -65,10 +65,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  Ruhl Michael J <michael.j.ruhl@intel.com>
-Subject: [PATCH v5 04/21] drm/prime: Prepare to dynamic dma-buf locking
+Subject: [PATCH v5 05/21] drm/armada: Prepare to dynamic dma-buf locking
  specification
-Date: Tue, 13 Sep 2022 22:27:40 +0300
-Message-Id: <20220913192757.37727-5-dmitry.osipenko@collabora.com>
+Date: Tue, 13 Sep 2022 22:27:41 +0300
+Message-Id: <20220913192757.37727-6-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220913192757.37727-1-dmitry.osipenko@collabora.com>
 References: <20220913192757.37727-1-dmitry.osipenko@collabora.com>
@@ -96,46 +96,41 @@ Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare DRM prime core to the common dynamic dma-buf locking convention
+Prepare Armada driver to the common dynamic dma-buf locking convention
 by starting to use the unlocked versions of dma-buf API functions.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_prime.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/armada/armada_gem.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index eb09e86044c6..20e109a802ae 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -940,7 +940,7 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
+index 5430265ad458..26d10065d534 100644
+--- a/drivers/gpu/drm/armada/armada_gem.c
++++ b/drivers/gpu/drm/armada/armada_gem.c
+@@ -66,8 +66,8 @@ void armada_gem_free_object(struct drm_gem_object *obj)
+ 	if (dobj->obj.import_attach) {
+ 		/* We only ever display imported data */
+ 		if (dobj->sgt)
+-			dma_buf_unmap_attachment(dobj->obj.import_attach,
+-						 dobj->sgt, DMA_TO_DEVICE);
++			dma_buf_unmap_attachment_unlocked(dobj->obj.import_attach,
++							  dobj->sgt, DMA_TO_DEVICE);
+ 		drm_prime_gem_destroy(&dobj->obj, NULL);
+ 	}
  
- 	get_dma_buf(dma_buf);
+@@ -539,8 +539,8 @@ int armada_gem_map_import(struct armada_gem_object *dobj)
+ {
+ 	int ret;
  
--	sgt = dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
-+	sgt = dma_buf_map_attachment_unlocked(attach, DMA_BIDIRECTIONAL);
- 	if (IS_ERR(sgt)) {
- 		ret = PTR_ERR(sgt);
- 		goto fail_detach;
-@@ -958,7 +958,7 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
- 	return obj;
- 
- fail_unmap:
--	dma_buf_unmap_attachment(attach, sgt, DMA_BIDIRECTIONAL);
-+	dma_buf_unmap_attachment_unlocked(attach, sgt, DMA_BIDIRECTIONAL);
- fail_detach:
- 	dma_buf_detach(dma_buf, attach);
- 	dma_buf_put(dma_buf);
-@@ -1056,7 +1056,7 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
- 
- 	attach = obj->import_attach;
- 	if (sg)
--		dma_buf_unmap_attachment(attach, sg, DMA_BIDIRECTIONAL);
-+		dma_buf_unmap_attachment_unlocked(attach, sg, DMA_BIDIRECTIONAL);
- 	dma_buf = attach->dmabuf;
- 	dma_buf_detach(attach->dmabuf, attach);
- 	/* remove the reference */
+-	dobj->sgt = dma_buf_map_attachment(dobj->obj.import_attach,
+-					   DMA_TO_DEVICE);
++	dobj->sgt = dma_buf_map_attachment_unlocked(dobj->obj.import_attach,
++						    DMA_TO_DEVICE);
+ 	if (IS_ERR(dobj->sgt)) {
+ 		ret = PTR_ERR(dobj->sgt);
+ 		dobj->sgt = NULL;
 -- 
 2.37.3
 
