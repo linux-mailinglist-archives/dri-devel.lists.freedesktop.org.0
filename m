@@ -1,50 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B2C5B6F67
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 16:14:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 061BA5B7056
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 16:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7D210E72B;
-	Tue, 13 Sep 2022 14:13:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95B7189C86;
+	Tue, 13 Sep 2022 14:25:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC3C10E721;
- Tue, 13 Sep 2022 14:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663078416; x=1694614416;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=wvtkkBC80TXnDjoHLOmJfQk7iA7a+T/5/BbcVPaJjV8=;
- b=YY6Iot6S977747/KOnNMN2ox5bTmwf7mjKNKqTbmiqBopfMUY7qfqDD4
- dgbF6+yzSUa+DZPRV0wQ7nw9bKUl9KSHpOrq1pA+KHF73Espx8g3nhWfG
- E8Ti6wgBy/eA4NcHYZY6VoGbNzOwS77Xe2+/wb9bnGYZ5P9n+8NWLTy/J
- mJoVTOMb4aUKk/mhbPIc2UBiyzET7ihzf/ULxtpFU3UVlGXkFcpQ/qPdr
- CryoEIz5vXPmxZgxqildB11yCleHgysX91AuFnuYrMQ43kH90q52qXnV1
- waTekCpiYxIGPJz5GMKkv+ErYWMpIlUrzGEZBQUvtFrIQQGzDoH9nB0Rl Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="299484645"
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="299484645"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 07:13:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="678584542"
-Received: from unknown (HELO slisovsk-Lenovo-ideapad-720S-13IKB.fi.intel.com)
- ([10.237.72.65])
- by fmsmga008.fm.intel.com with ESMTP; 13 Sep 2022 07:13:33 -0700
-From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/i915: Add DSC support to MST path
-Date: Tue, 13 Sep 2022 17:14:17 +0300
-Message-Id: <20220913141417.8131-5-stanislav.lisovskiy@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220913141417.8131-1-stanislav.lisovskiy@intel.com>
-References: <20220913141417.8131-1-stanislav.lisovskiy@intel.com>
+Received: from out20-49.mail.aliyun.com (out20-49.mail.aliyun.com
+ [115.124.20.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84F3789C86
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 14:25:06 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0443638|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.00978077-0.00188305-0.988336;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047199; MF=wangyugui@e16-tech.com; NM=1;
+ PH=DS; RN=2; RT=2; SR=0; TI=SMTPD_---.PEdtH0b_1663079100; 
+Received: from 192.168.2.112(mailfrom:wangyugui@e16-tech.com
+ fp:SMTPD_---.PEdtH0b_1663079100) by smtp.aliyun-inc.com;
+ Tue, 13 Sep 2022 22:25:01 +0800
+Date: Tue, 13 Sep 2022 22:25:07 +0800
+From: Wang Yugui <wangyugui@e16-tech.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
+In-Reply-To: <5dbb416f-04dd-d2d7-a542-3d83b45a99a0@suse.de>
+References: <20220907121612.FBFC.409509F4@e16-tech.com>
+ <5dbb416f-04dd-d2d7-a542-3d83b45a99a0@suse.de>
+Message-Id: <20220913222506.6C72.409509F4@e16-tech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="GB2312"
 Content-Transfer-Encoding: 8bit
+X-Mailer: Becky! ver. 2.75.04 [en]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,416 +44,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: manasi.d.navare@intel.com, vinod.govindapillai@intel.com,
- jani.nikula@intel.com, dri-devel@lists.freedesktop.org,
- Stanislav.Lisovskiy@intel.com, jani.saarinen@intel.com
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Whenever we are not able to get enough timeslots
-for required PBN, let's try to allocate those
-using DSC, just same way as we do for SST.
+Hi,
 
-v2: Removed intel_dp_mst_dsc_compute_config and refactored
-    intel_dp_dsc_compute_config to support timeslots as a
-    parameter(Ville SyrjÃ¤lÃ¤)
+> Hi
+> 
+> Am 07.09.22 um 06:16 schrieb Wang Yugui:
+> > Hi,
+> >
+> >> Am 02.09.22 um 07:52 schrieb Wang Yugui:
+> >>> Hi,
+> >>>
+> >>> mgag200 broken on kernel-6.0-rc3 on DELL/T620.
+> >>>
+> >>> See the attachementment file for the graph output.
+> >>
+> >> Thanks for reporting the bug. We recently refactored some code of the driver. Can you bisect to the change that introduced the problem?
+> >
+> > 5.19.3 works well on this DELL/T620.
+> >
+> > so this problem should be a regression of 6.0.
+> >
+> > other bisect seem difficult for me.
+> 
+> I looked for changes between 5.19 and 6.0-rc3 that could affect G200ER specifically, but could not find anything. It would help if I'd know the first broken commit. Is there any chance that you get the git bisecting to work?
+> 
+> The commands should be
+> 
+>    git bisect reset
+>    git bisect start v6.0-rc3 v5.19
 
-v3: - Rebased
-    - Added a debug to see that we at least try reserving
-      VCPI slots using DSC, because currently its not visible
-      from the logs, thus making debugging more tricky.
-    - Moved timeslots to numerator, where it should be.
+A dirty patch(below) works well.  but we need a final fix.
 
-v4: - Call drm_dp_mst_atomic_check already during link
-      config computation, because we need to know already
-      by this moment if uncompressed amount of VCPI slots
-      needed can fit, otherwise we need to use DSC.
-      (thanks to Vinod Govindapillai for pointing this out)
+# git diff
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index 225cca2ed60e..cd976baa2f44 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -1070,7 +1070,7 @@ int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_available
 
-v5: - Put pipe_config->bigjoiner_pipes back to original
-      condition in intel_dp_dsc_compute_config
-      (don't remember when I lost it)
+        dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
+        dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
+-       dev->mode_config.preferred_depth = 24;
++       dev->mode_config.preferred_depth = 16;
+        dev->mode_config.fb_base = mdev->vram_res->start;
+        dev->mode_config.funcs = &mgag200_mode_config_funcs;
 
-v6: - Removed unnecessary drm_dp_mst_atomic_check as it is
-      now always called in a newly introduced
-      intel_dp_mst_find_vcpi_slots_for_bpp function
-      (Vinod Govindapillai)
+I firstly tried to build whole kernel base on
+c577b2f43e80 drm/mgag200: Enable atomic gamma lut update
+d45e32c9d98c drm/mgag200: Call mgag200_device_probe_vram() from
+per-model init
 
-Reviewed-by: Vinod Govindapillai <vinod.govindapillai@intel.com>
-Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c     |  73 +++++-------
- drivers/gpu/drm/i915/display/intel_dp.h     |  17 +++
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 125 ++++++++++++++++++++
- 3 files changed, 173 insertions(+), 42 deletions(-)
+both failed to boot, so failed to test mgag200 driver.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index a5eca5396fed..df67f031688e 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -116,7 +116,6 @@ bool intel_dp_is_edp(struct intel_dp *intel_dp)
- }
- 
- static void intel_dp_unset_edid(struct intel_dp *intel_dp);
--static int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 dsc_max_bpc);
- 
- /* Is link rate UHBR and thus 128b/132b? */
- bool intel_dp_is_uhbr(const struct intel_crtc_state *crtc_state)
-@@ -672,11 +671,12 @@ small_joiner_ram_size_bits(struct drm_i915_private *i915)
- 		return 6144 * 8;
- }
- 
--static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
--				       u32 link_clock, u32 lane_count,
--				       u32 mode_clock, u32 mode_hdisplay,
--				       bool bigjoiner,
--				       u32 pipe_bpp)
-+u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
-+				u32 link_clock, u32 lane_count,
-+				u32 mode_clock, u32 mode_hdisplay,
-+				bool bigjoiner,
-+				u32 pipe_bpp,
-+				u32 timeslots)
- {
- 	u32 bits_per_pixel, max_bpp_small_joiner_ram;
- 	int i;
-@@ -687,8 +687,9 @@ static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
- 	 * for SST -> TimeSlotsPerMTP is 1,
- 	 * for MST -> TimeSlotsPerMTP has to be calculated
- 	 */
--	bits_per_pixel = (link_clock * lane_count * 8) /
-+	bits_per_pixel = (link_clock * lane_count * 8) * timeslots /
- 			 intel_dp_mode_to_fec_clock(mode_clock);
-+	drm_dbg_kms(&i915->drm, "Max link bpp: %u\n", bits_per_pixel);
- 
- 	/* Small Joiner Check: output bpp <= joiner RAM (bits) / Horiz. width */
- 	max_bpp_small_joiner_ram = small_joiner_ram_size_bits(i915) /
-@@ -737,9 +738,9 @@ static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
- 	return bits_per_pixel << 4;
- }
- 
--static u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
--				       int mode_clock, int mode_hdisplay,
--				       bool bigjoiner)
-+u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
-+				int mode_clock, int mode_hdisplay,
-+				bool bigjoiner)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	u8 min_slice_count, i;
-@@ -946,8 +947,8 @@ intel_dp_mode_valid_downstream(struct intel_connector *connector,
- 	return MODE_OK;
- }
- 
--static bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
--				    int hdisplay, int clock)
-+bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
-+			     int hdisplay, int clock)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 
-@@ -1034,7 +1035,7 @@ intel_dp_mode_valid(struct drm_connector *_connector,
- 							    target_clock,
- 							    mode->hdisplay,
- 							    bigjoiner,
--							    pipe_bpp) >> 4;
-+							    pipe_bpp, 1) >> 4;
- 			dsc_slice_count =
- 				intel_dp_dsc_get_slice_count(intel_dp,
- 							     target_clock,
-@@ -1363,7 +1364,7 @@ intel_dp_compute_link_config_wide(struct intel_dp *intel_dp,
- 	return -EINVAL;
- }
- 
--static int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
-+int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	int i, num_bpc;
-@@ -1464,10 +1465,11 @@ static int intel_dp_dsc_compute_params(struct intel_encoder *encoder,
- 	return drm_dsc_compute_rc_parameters(vdsc_cfg);
- }
- 
--static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
--				       struct intel_crtc_state *pipe_config,
--				       struct drm_connector_state *conn_state,
--				       struct link_config_limits *limits)
-+int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
-+				struct intel_crtc_state *pipe_config,
-+				struct drm_connector_state *conn_state,
-+				struct link_config_limits *limits,
-+				int timeslots)
- {
- 	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
- 	struct drm_i915_private *dev_priv = to_i915(dig_port->base.base.dev);
-@@ -1518,7 +1520,8 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 						    adjusted_mode->crtc_clock,
- 						    adjusted_mode->crtc_hdisplay,
- 						    pipe_config->bigjoiner_pipes,
--						    pipe_bpp);
-+						    pipe_bpp,
-+						    timeslots);
- 		dsc_dp_slice_count =
- 			intel_dp_dsc_get_slice_count(intel_dp,
- 						     adjusted_mode->crtc_clock,
-@@ -1530,27 +1533,13 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 			return -EINVAL;
- 		}
- 		pipe_config->dsc.compressed_bpp = min_t(u16,
--							       dsc_max_output_bpp >> 4,
--							       pipe_config->pipe_bpp);
-+							dsc_max_output_bpp >> 4,
-+							pipe_config->pipe_bpp);
- 		pipe_config->dsc.slice_count = dsc_dp_slice_count;
-+		drm_dbg_kms(&dev_priv->drm, "DSC: compressed bpp %d slice count %d\n",
-+			    pipe_config->dsc.compressed_bpp,
-+			    pipe_config->dsc.slice_count);
- 	}
--
--	/* As of today we support DSC for only RGB */
--	if (intel_dp->force_dsc_bpp) {
--		if (intel_dp->force_dsc_bpp >= 8 &&
--		    intel_dp->force_dsc_bpp < pipe_bpp) {
--			drm_dbg_kms(&dev_priv->drm,
--				    "DSC BPP forced to %d",
--				    intel_dp->force_dsc_bpp);
--			pipe_config->dsc.compressed_bpp =
--						intel_dp->force_dsc_bpp;
--		} else {
--			drm_dbg_kms(&dev_priv->drm,
--				    "Invalid DSC BPP %d",
--				    intel_dp->force_dsc_bpp);
--		}
--	}
--
- 	/*
- 	 * VDSC engine operates at 1 Pixel per clock, so if peak pixel rate
- 	 * is greater than the maximum Cdclock and if slice count is even
-@@ -1558,13 +1547,13 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 	 */
- 	if (adjusted_mode->crtc_clock > dev_priv->display.cdclk.max_cdclk_freq ||
- 	    pipe_config->bigjoiner_pipes) {
--		if (pipe_config->dsc.slice_count < 2) {
-+		if (pipe_config->dsc.slice_count > 1) {
-+			pipe_config->dsc.dsc_split = true;
-+		} else {
- 			drm_dbg_kms(&dev_priv->drm,
- 				    "Cannot split stream to use 2 VDSC instances\n");
- 			return -EINVAL;
- 		}
--
--		pipe_config->dsc.dsc_split = true;
- 	}
- 
- 	ret = intel_dp_dsc_compute_params(&dig_port->base, pipe_config);
-@@ -1653,7 +1642,7 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
- 			    str_yes_no(ret), str_yes_no(joiner_needs_dsc),
- 			    str_yes_no(intel_dp->force_dsc_en));
- 		ret = intel_dp_dsc_compute_config(intel_dp, pipe_config,
--						  conn_state, &limits);
-+						  conn_state, &limits, 1);
- 		if (ret < 0)
- 			return ret;
- 	}
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index a54902c713a3..c6539a6915e9 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -56,6 +56,11 @@ void intel_dp_encoder_flush_work(struct drm_encoder *encoder);
- int intel_dp_compute_config(struct intel_encoder *encoder,
- 			    struct intel_crtc_state *pipe_config,
- 			    struct drm_connector_state *conn_state);
-+int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
-+				struct intel_crtc_state *pipe_config,
-+				struct drm_connector_state *conn_state,
-+				struct link_config_limits *limits,
-+				int timeslots);
- bool intel_dp_is_edp(struct intel_dp *intel_dp);
- bool intel_dp_is_uhbr(const struct intel_crtc_state *crtc_state);
- bool intel_dp_is_port_edp(struct drm_i915_private *dev_priv, enum port port);
-@@ -96,6 +101,18 @@ void intel_read_dp_sdp(struct intel_encoder *encoder,
- 		       struct intel_crtc_state *crtc_state,
- 		       unsigned int type);
- bool intel_digital_port_connected(struct intel_encoder *encoder);
-+int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 dsc_max_bpc);
-+u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
-+				u32 link_clock, u32 lane_count,
-+				u32 mode_clock, u32 mode_hdisplay,
-+				bool bigjoiner,
-+				u32 pipe_bpp,
-+				u32 timeslots);
-+u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
-+				int mode_clock, int mode_hdisplay,
-+				bool bigjoiner);
-+bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
-+			     int hdisplay, int clock);
- 
- static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
- {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 2f01507bba06..7bf16e72725b 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -91,6 +91,7 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
- 						      crtc_state->pbn);
- 		if (slots == -EDEADLK)
- 			return slots;
-+
- 		if (slots >= 0) {
- 			ret = drm_dp_mst_atomic_check(state);
- 			/*
-@@ -141,6 +142,61 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
- 	return 0;
- }
- 
-+static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
-+						struct intel_crtc_state *crtc_state,
-+						struct drm_connector_state *conn_state,
-+						struct link_config_limits *limits)
-+{
-+	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
-+	struct intel_dp *intel_dp = &intel_mst->primary->dp;
-+	struct intel_connector *connector =
-+		to_intel_connector(conn_state->connector);
-+	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	const struct drm_display_mode *adjusted_mode =
-+		&crtc_state->hw.adjusted_mode;
-+	int slots = -EINVAL;
-+	int i, num_bpc;
-+	u8 dsc_bpc[3] = {0};
-+	int min_bpp, max_bpp;
-+	u8 dsc_max_bpc;
-+
-+	/* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
-+	if (DISPLAY_VER(i915) >= 12)
-+		dsc_max_bpc = min_t(u8, 12, conn_state->max_requested_bpc);
-+	else
-+		dsc_max_bpc = min_t(u8, 10, conn_state->max_requested_bpc);
-+
-+	max_bpp = min_t(u8, dsc_max_bpc * 3, limits->max_bpp);
-+	min_bpp = limits->min_bpp;
-+
-+	num_bpc = drm_dp_dsc_sink_supported_input_bpcs(intel_dp->dsc_dpcd,
-+						       dsc_bpc);
-+	for (i = 0; i < num_bpc; i++) {
-+		if (max_bpp >= dsc_bpc[i] * 3)
-+			if (min_bpp > dsc_bpc[i] * 3)
-+				min_bpp = dsc_bpc[i] * 3;
-+	}
-+
-+	drm_dbg_kms(&i915->drm, "DSC Sink supported min bpp %d max bpp %d\n",
-+		    min_bpp, max_bpp);
-+
-+	slots = intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state, max_bpp,
-+						     min_bpp, limits,
-+						     conn_state, 2 * 3, true);
-+
-+	if (slots < 0)
-+		return slots;
-+
-+	intel_link_compute_m_n(crtc_state->pipe_bpp,
-+			       crtc_state->lane_count,
-+			       adjusted_mode->crtc_clock,
-+			       crtc_state->port_clock,
-+			       &crtc_state->dp_m_n,
-+			       crtc_state->fec_enable);
-+	crtc_state->dp_m_n.tu = slots;
-+
-+	return 0;
-+}
- static int intel_dp_mst_update_slots(struct intel_encoder *encoder,
- 				     struct intel_crtc_state *crtc_state,
- 				     struct drm_connector_state *conn_state)
-@@ -217,6 +273,29 @@ static int intel_dp_mst_compute_config(struct intel_encoder *encoder,
- 
- 	ret = intel_dp_mst_compute_link_config(encoder, pipe_config,
- 					       conn_state, &limits);
-+
-+	if (ret == -EDEADLK)
-+		return ret;
-+
-+	/* enable compression if the mode doesn't fit available BW */
-+	drm_dbg_kms(&dev_priv->drm, "Force DSC en = %d\n", intel_dp->force_dsc_en);
-+	if (ret || intel_dp->force_dsc_en) {
-+		/*
-+		 * Try to get at least some timeslots and then see, if
-+		 * we can fit there with DSC.
-+		 */
-+		drm_dbg_kms(&dev_priv->drm, "Trying to find VCPI slots in DSC mode\n");
-+
-+		ret = intel_dp_dsc_mst_compute_link_config(encoder, pipe_config,
-+							   conn_state, &limits);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = intel_dp_dsc_compute_config(intel_dp, pipe_config,
-+						  conn_state, &limits,
-+						  pipe_config->dp_m_n.tu);
-+	}
-+
- 	if (ret)
- 		return ret;
- 
-@@ -724,6 +803,10 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
- 	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
- 	int max_rate, mode_rate, max_lanes, max_link_clock;
- 	int ret;
-+	bool dsc = false, bigjoiner = false;
-+	u16 dsc_max_output_bpp = 0;
-+	u8 dsc_slice_count = 0;
-+	int target_clock = mode->clock;
- 
- 	if (drm_connector_is_unregistered(connector)) {
- 		*status = MODE_ERROR;
-@@ -761,6 +844,48 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
- 		return 0;
- 	}
- 
-+	if (intel_dp_need_bigjoiner(intel_dp, mode->hdisplay, target_clock)) {
-+		bigjoiner = true;
-+		max_dotclk *= 2;
-+	}
-+
-+	if (DISPLAY_VER(dev_priv) >= 10 &&
-+	    drm_dp_sink_supports_dsc(intel_dp->dsc_dpcd)) {
-+		/*
-+		 * TBD pass the connector BPC,
-+		 * for now U8_MAX so that max BPC on that platform would be picked
-+		 */
-+		int pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, U8_MAX);
-+
-+		if (drm_dp_sink_supports_fec(intel_dp->fec_capable)) {
-+			dsc_max_output_bpp =
-+				intel_dp_dsc_get_output_bpp(dev_priv,
-+							    max_link_clock,
-+							    max_lanes,
-+							    target_clock,
-+							    mode->hdisplay,
-+							    bigjoiner,
-+							    pipe_bpp, 1) >> 4;
-+			dsc_slice_count =
-+				intel_dp_dsc_get_slice_count(intel_dp,
-+							     target_clock,
-+							     mode->hdisplay,
-+							     bigjoiner);
-+		}
-+
-+		dsc = dsc_max_output_bpp && dsc_slice_count;
-+	}
-+
-+	/*
-+	 * Big joiner configuration needs DSC for TGL which is not true for
-+	 * XE_LPD where uncompressed joiner is supported.
-+	 */
-+	if (DISPLAY_VER(dev_priv) < 13 && bigjoiner && !dsc)
-+		return MODE_CLOCK_HIGH;
-+
-+	if (mode_rate > max_rate && !dsc)
-+		return MODE_CLOCK_HIGH;
-+
- 	*status = intel_mode_valid_max_plane_size(dev_priv, mode, false);
- 	return 0;
- }
--- 
-2.37.3
+so I tried to revert patch of mgag200 driver in batch of 2 or 3, the I
+noticed the patch 'Subject: drm/mgag200: Remove special case for G200SE
+with <2 MiB' and then tried this dirty fix.
+
+Best Regards
+Wang Yugui (wangyugui@e16-tech.com)
+2022/09/13
+
+
+> 
+> Best regards
+> Thomas
+> 
+> >
+> > Best Regards
+> > Wang Yugui (wangyugui@e16-tech.com)
+> > 2022/09/07
+> >
+> >
+> >>
+> >> Best regards
+> >> Thomas
+> >>
+> >>>
+> >>> [root@T620 ~]# dmesg  |grep -i 'vga\|mga'
+> >>> [    0.588940] Console: colour VGA+ 80x25
+> >>> [    4.918214] pci 0000:0a:00.0: vgaarb: setting as boot VGA device
+> >>> [    4.919028] pci 0000:0a:00.0: vgaarb: bridge control possible
+> >>> [    4.919028] pci 0000:0a:00.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+> >>> [    4.941058] vgaarb: loaded
+> >>> [    9.385485] mgag200 0000:0a:00.0: vgaarb: deactivate vga console
+> >>> [    9.510688] [drm] Initialized mgag200 1.0.0 20110418 for 0000:0a:00.0 on minor 0
+> >>> [    9.523145] fbcon: mgag200drmfb (fb0) is primary device
+> >>> [    9.641543] mgag200 0000:0a:00.0: [drm] fb0: mgag200drmfb frame buffer device
+> >>>
+> >>>
+> >>> more info:
+> >>> 1, This DELL/T620 works well with kernel 5.15.63,
+> >>>       so this is not a  hardware error.
+> >>>
+> >>> 2, DELL/T640 works well with kernel 6.0-rc and 5.15.63.
+> >>>       both DELL/T620 and DELL/T640 use the driver 'mgag200'.
+> >>>
+> >>> [root@T640 ~]#  dmesg  |grep -i 'vga\|mga'
+> >>> [   10.161500] pci 0000:03:00.0: vgaarb: setting as boot VGA device
+> >>> [   10.162463] pci 0000:03:00.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+> >>> [   10.176527] pci 0000:03:00.0: vgaarb: bridge control possible
+> >>> [   10.182465] vgaarb: loaded
+> >>> [   11.832839] fb0: EFI VGA frame buffer device
+> >>> [   21.303826] mgag200 0000:03:00.0: vgaarb: deactivate vga console
+> >>> [   21.319498] [drm] Initialized mgag200 1.0.0 20110418 for 0000:03:00.0 on minor 0
+> >>> [   21.330223] fbcon: mgag200drmfb (fb0) is primary device
+> >>> [   21.332140] mgag200 0000:03:00.0: [drm] drm_plane_enable_fb_damage_clips() not called
+> >>> [   21.741629] mgag200 0000:03:00.0: [drm] fb0: mgag200drmfb frame buffer device
+> >>>
+> >>> Best Regards
+> >>> Wang Yugui (wangyugui@e16-tech.com)
+> >>> 2022/09/02
+> >>>
+> >> -- Thomas Zimmermann
+> >> Graphics Driver Developer
+> >> SUSE Software Solutions Germany GmbH
+> >> Maxfeldstr. 5, 90409 N¨¹rnberg, Germany
+> >> (HRB 36809, AG N¨¹rnberg)
+> >> Gesch?ftsf¨¹hrer: Ivo Totev
+> >
+> > 
+> -- Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N¨¹rnberg, Germany
+> (HRB 36809, AG N¨¹rnberg)
+> Gesch?ftsf¨¹hrer: Ivo Totev
+
 
