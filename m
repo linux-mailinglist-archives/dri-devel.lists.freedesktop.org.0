@@ -1,58 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508D55B798C
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 20:29:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 884595B79A6
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 20:35:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36ED310E1AD;
-	Tue, 13 Sep 2022 18:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD37B10E1C0;
+	Tue, 13 Sep 2022 18:34:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2D5110E134;
- Tue, 13 Sep 2022 18:28:41 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B86810E0C3;
+ Tue, 13 Sep 2022 18:34:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663093721; x=1694629721;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=BTsfLzI0tVlzUWOBdavAOYQc+Pzx4o+CuINtZ68syYs=;
- b=mxLS4RBppTQpP7E/q12M0kWXfHsyQSn9Y6Fb6RW7FTr4OnK70scSiw8a
- YRfT1+OLonS0w5qt3kkUsRtqEJeYLxiPfcSVP5nmefkybKMM0r5d41F05
- d5EPi5FKFWG9TlkfnbdEmPxYSxU/c3JlZlgjveH2w3gFB0xfUpVR+9lvs
- D2IYQ4gNow5VUvrVKKKPGbmoAp2w4GzzdGwJxWy4ddZmzc9NU10xeU7sa
- myvKu1iJQeSHgVn+W+scap1g+FP9HreiYdStWjiqzrXLW98BevS/OvUOX
- PpYLOKNUKiU3D8RClL1efiXrPoBHTDo14XiCAJuuW1wGMtfeVB/9HhfSc w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="324465097"
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="324465097"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 11:28:41 -0700
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="678687633"
-Received: from baumeish-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.59.168])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 11:28:35 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Gaosheng Cui <cuigaosheng1@huawei.com>, evan.quan@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, patrik.r.jakobsson@gmail.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tvrtko.ursulin@linux.intel.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, lijo.lazar@amd.com,
- matthew.brost@intel.com, John.C.Harrison@Intel.com,
- daniele.ceraolospurio@intel.com, cuigaosheng1@huawei.com
-Subject: Re: [PATCH 6/6] drm/i915: remove unused i915_gem_lmem_obj_ops
- declaration
-In-Reply-To: <20220913024847.552254-7-cuigaosheng1@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220913024847.552254-1-cuigaosheng1@huawei.com>
- <20220913024847.552254-7-cuigaosheng1@huawei.com>
-Date: Tue, 13 Sep 2022 21:28:31 +0300
-Message-ID: <874jxb3z8w.fsf@intel.com>
+ t=1663094058; x=1694630058;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=IvVap7bBDzaqZ+poA3+C+1MyCLbNWwwODXTVsPb8WDM=;
+ b=BjAHj5pH9qu6H6Nzm/8jc31AwkxUcok9qJcviuCVnnn0Au1EDV/b56QR
+ QbIJrILr9KI+tXG8l0uC/mPfT7FMyHYFQ//zslZ0f1ID3mu7GRV8WOXSz
+ 922LTvj62TeSB/JLhBmF6+bl8/zwPtikDInz1iR928wJcR5qEAqSELmsh
+ MudNNS1Ct6V4TJLbkVpvykOfkuCfVO+LxMJO0mFa2V5cJw935Bh5M+gQs
+ dipQbKL6b3NJZtOVRfnQL6+f60Zj+dnBXpZk3snqp2rhH5lBQzc+5C8xx
+ SKK5YzeqM4IzLQxjmF8gFg/1HDHvBBTBOYN7ImCDG8HMH3aNDICg1T/OR w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="281235520"
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="281235520"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 11:34:17 -0700
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="647045100"
+Received: from invictus.jf.intel.com ([10.165.21.134])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 11:34:17 -0700
+From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5 0/5] Initial Meteorlake Support
+Date: Tue, 13 Sep 2022 11:33:36 -0700
+Message-Id: <20220913183341.908028-1-radhakrishna.sripada@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,40 +54,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Sep 2022, Gaosheng Cui <cuigaosheng1@huawei.com> wrote:
-> i915_gem_lmem_obj_ops has been removed since
-> commit 213d50927763 ("drm/i915/ttm: Introduce a TTM i915
-> gem object backend"), so remove it.
+The PCI Id's and platform definition are posted earlier.
+This series adds handful of early enablement patches including
+support for display power wells, VBT and AUX Channel mapping,
+PCH and gmbus support, dbus, mbus, sagv and memory bandwidth support.
 
-Thanks, pushed this one patch to drm-intel-gt-next.
+This series also add the support for a new way to read Graphics,
+Media and Display versions
 
-BR,
-Jani.
+This is based out of the earlier series posted at [1]. Several
+of the patches from the earlier series got merged. This version is
+rebased on top of the earlier patches that got merged.
 
->
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_lmem.h | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
-> index 1b88ea13435c..5a7a14e85c3f 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
-> @@ -12,8 +12,6 @@ struct drm_i915_private;
->  struct drm_i915_gem_object;
->  struct intel_memory_region;
->  
-> -extern const struct drm_i915_gem_object_ops i915_gem_lmem_obj_ops;
-> -
->  void __iomem *
->  i915_gem_object_lmem_io_map(struct drm_i915_gem_object *obj,
->  			    unsigned long n,
+[1] https://patchwork.freedesktop.org/series/106786/
+
+
+José Roberto de Souza (1):
+  drm/i915: Parse and set stepping for platforms with GMD
+
+Madhumitha Tolakanahalli Pradeep (1):
+  drm/i915/mtl: Update CHICKEN_TRANS* register addresses
+
+Matt Roper (2):
+  drm/i915: Read graphics/media/display arch version from hw
+  drm/i915/mtl: Define engine context layouts
+
+Radhakrishna Sripada (1):
+  drm/i915/mtl: Update MBUS_DBOX credits
+
+ drivers/gpu/drm/i915/display/intel_display.c | 14 +++-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c  |  5 +-
+ drivers/gpu/drm/i915/display/skl_watermark.c | 48 ++++++++++--
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h      |  2 +
+ drivers/gpu/drm/i915/gt/intel_lrc.c          | 82 +++++++++++++++++++-
+ drivers/gpu/drm/i915/i915_driver.c           |  3 +-
+ drivers/gpu/drm/i915/i915_drv.h              |  2 +
+ drivers/gpu/drm/i915/i915_pci.c              |  1 +
+ drivers/gpu/drm/i915/i915_reg.h              | 18 +++++
+ drivers/gpu/drm/i915/intel_device_info.c     | 74 +++++++++++++++++-
+ drivers/gpu/drm/i915/intel_device_info.h     | 12 ++-
+ drivers/gpu/drm/i915/intel_step.c            | 60 ++++++++++++++
+ 12 files changed, 306 insertions(+), 15 deletions(-)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.34.1
+
