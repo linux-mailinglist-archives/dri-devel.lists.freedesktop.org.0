@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4EA35B69B0
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 10:38:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 133DB5B69B4
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 10:39:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BEFE10E64F;
-	Tue, 13 Sep 2022 08:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18DAC10E644;
+	Tue, 13 Sep 2022 08:39:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out30-131.freemail.mail.aliyun.com
  (out30-131.freemail.mail.aliyun.com [115.124.30.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20B5210E644;
- Tue, 13 Sep 2022 08:38:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C14510E64B;
+ Tue, 13 Sep 2022 08:38:45 +0000 (UTC)
 X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
  MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VPf.XZx_1663058314; 
+ TI=SMTPD_---0VPem1pz_1663058320; 
 Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VPf.XZx_1663058314) by smtp.aliyun-inc.com;
- Tue, 13 Sep 2022 16:38:36 +0800
+ fp:SMTPD_---0VPem1pz_1663058320) by smtp.aliyun-inc.com;
+ Tue, 13 Sep 2022 16:38:42 +0800
 From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To: alexander.deucher@amd.com
-Subject: [PATCH 4/5] drm/amd/display: make mpc32_program_shaper and
- mpc32_program_3dlut static
-Date: Tue, 13 Sep 2022 16:38:04 +0800
-Message-Id: <20220913083805.22549-4-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH 5/5] drm/amd/display: Remove the unused function
+ copy_stream_update_to_stream()
+Date: Tue, 13 Sep 2022 16:38:05 +0800
+Message-Id: <20220913083805.22549-5-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 In-Reply-To: <20220913083805.22549-1-jiapeng.chong@linux.alibaba.com>
 References: <20220913083805.22549-1-jiapeng.chong@linux.alibaba.com>
@@ -51,41 +51,39 @@ Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These two functions are not used outside the function dcn32_mpc.c, so the
-modification is defined as static.
+The function copy_stream_update_to_stream() is defined in the notif.c
+file, but not called elsewhere, so delete this unused function.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_mpc.c:704:6: warning: no previous prototype for ‘mpc32_program_shaper’.
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_mpc.c:900:6: warning: no previous prototype for ‘mpc32_program_3dlut’.
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:2852:6: warning: no previous prototype for ‘dc_reset_state’.
 
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2115
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2113
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c
-index 357bd2461bc9..f4bc77972c4e 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c
-@@ -701,7 +701,7 @@ static void mpc32_power_on_shaper_3dlut(
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 9860bf38c547..2ee0b5a2ce62 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -2849,16 +2849,6 @@ static void copy_stream_update_to_stream(struct dc *dc,
+ 	}
  }
  
- 
--bool mpc32_program_shaper(
-+static bool mpc32_program_shaper(
- 		struct mpc *mpc,
- 		const struct pwl_params *params,
- 		uint32_t mpcc_id)
-@@ -897,7 +897,7 @@ static void mpc32_set_3dlut_mode(
- }
- 
- 
--bool mpc32_program_3dlut(
-+static bool mpc32_program_3dlut(
- 		struct mpc *mpc,
- 		const struct tetrahedral_params *params,
- 		int mpcc_id)
+-void dc_reset_state(struct dc *dc, struct dc_state *context)
+-{
+-	dc_resource_state_destruct(context);
+-
+-	/* clear the structure, but don't reset the reference count */
+-	memset(context, 0, offsetof(struct dc_state, refcount));
+-
+-	init_state(dc, context);
+-}
+-
+ static bool update_planes_and_stream_state(struct dc *dc,
+ 		struct dc_surface_update *srf_updates, int surface_count,
+ 		struct dc_stream_state *stream,
 -- 
 2.20.1.7.g153144c
 
