@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14BF5B6A1A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 10:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C56D5B6A23
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 10:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C079B10E665;
-	Tue, 13 Sep 2022 08:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93C7010E677;
+	Tue, 13 Sep 2022 08:58:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D4B10E664;
- Tue, 13 Sep 2022 08:58:22 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0941410E66A;
+ Tue, 13 Sep 2022 08:58:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id EB976B80E3C;
- Tue, 13 Sep 2022 08:58:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F9CC433B5;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 5ABDBB80E3D;
+ Tue, 13 Sep 2022 08:58:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B8B0C433D7;
  Tue, 13 Sep 2022 08:58:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1663059499;
- bh=UesYWvFKNzKIUaFJBsc/VB+FJHKodJ1Cgw5lzNNC0l4=;
+ bh=OxlY1wqQsLgLsZL8UM+h11nCPJtAdLLq4mxJl0UHIGw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tjGQbFiswH2c+W5sZ9H+PgiDVNeDXoaLU5oJYnrV5gLohCxcDRwm8GQsH92BJ3nDe
- aioESzTbKLFnOW41jaPY5Ni/5JWPrNqjMWYT9TE4JrCELKRGc2MTKl3cE887iDxidR
- NG33ZaLEwuPN3TSxJqbudGYFvgNZhwKJ0/Uev8/DPpQImYhyRklxKakAUXWd3b0t6n
- YpcoGL+DHLwO/HK1Eeca0waIPx1ZNJVmxGVpQs57N5poO5RneeIeXKSQDEUokgyhit
- +upTObdyoj2DVeYWSC7EOd8Xw5msilZW/PRq0LheuehXxm5iK1Sc+xus0RtsPFw+9X
- tfnnQVvusjYow==
+ b=HdFZsnvDfetEuZ9OOsaqe4P3XkCn6W8iV5G29D9GPmOToOSPYZkbEE1l52kOkQSca
+ j27BIh2w2t0LCq4aOyNPO/ofXfJbQwoZsRDTfL8AnWtjk0XxfZEMKexa0+M9E1IIjT
+ 56AsIttLFTLUK9MrlFL7+JV/ZX4Xyq3DO7m2AUOnHaIJxlvK+W/h/7PiavPh+GQvEH
+ EI06cyBWoIzxSGBjlQKYyjVc039GCTaws3fffOqJOkX6rWwGoK8CvInyjFdMMYAQJU
+ buqsXsvTM3LbM1Ocxu/rNV5mcWksHgoR7JttMYzWHEwUIK55rgJ1HTROfZB/pZJsAO
+ DHNw9ry6NA7mQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
  (envelope-from <johan+linaro@kernel.org>)
- id 1oY1kI-0002H4-Fl; Tue, 13 Sep 2022 10:58:18 +0200
+ id 1oY1kI-0002H6-Il; Tue, 13 Sep 2022 10:58:18 +0200
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Douglas Anderson <dianders@chromium.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 02/10] drm/msm/dp: fix memory corruption with too many
+Subject: [PATCH v2 03/10] drm/msm/dsi: fix memory corruption with too many
  bridges
-Date: Tue, 13 Sep 2022 10:53:12 +0200
-Message-Id: <20220913085320.8577-3-johan+linaro@kernel.org>
+Date: Tue, 13 Sep 2022 10:53:13 +0200
+Message-Id: <20220913085320.8577-4-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220913085320.8577-1-johan+linaro@kernel.org>
 References: <20220913085320.8577-1-johan+linaro@kernel.org>
@@ -75,18 +74,18 @@ Add the missing sanity check on the bridge counter to avoid corrupting
 data beyond the fixed-sized bridge array in case there are ever more
 than eight bridges.
 
-Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
-Cc: stable@vger.kernel.org	# 5.17
+Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
+Cc: stable@vger.kernel.org	# 4.1
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 6 ++++++
+ drivers/gpu/drm/msm/dsi/dsi.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 3e284fed8d30..fbe950edaefe 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1604,6 +1604,12 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 39bbabb5daf6..8a95c744972a 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -218,6 +218,12 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
  		return -EINVAL;
  
  	priv = dev->dev_private;
@@ -96,9 +95,9 @@ index 3e284fed8d30..fbe950edaefe 100644
 +		return -ENOSPC;
 +	}
 +
- 	dp_display->drm_dev = dev;
+ 	msm_dsi->dev = dev;
  
- 	dp_priv = container_of(dp_display, struct dp_display_private, dp_display);
+ 	ret = msm_dsi_host_modeset_init(msm_dsi->host, dev);
 -- 
 2.35.1
 
