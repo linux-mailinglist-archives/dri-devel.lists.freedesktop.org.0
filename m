@@ -2,63 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6775B6CB1
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 14:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1945B6CD0
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 14:10:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A58C110E6A0;
-	Tue, 13 Sep 2022 12:01:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2ED710E6B3;
+	Tue, 13 Sep 2022 12:10:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA3C110E6B3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 12:01:26 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id fv3so11102432pjb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 05:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date;
- bh=1pj33muzPsJpUhNcBT0o05+VQt0cQ00T/48YoaU8PHs=;
- b=d/lOC17WeCAmAwvxW/N1bb7kaPeC/aK5SUy4mCsFXE+sUgxwzHqejSFjPte6c2BscC
- Jsy19VHeRmjWLFSqi9P2NPitXTP7wZRBBRvM0rnquiMAsqhNBa3v5Ow/9ksWRcWqVw76
- lHWGeMEzT0Msv8IbkZ5bqbrdwsBtu7ZZ2+mhg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=1pj33muzPsJpUhNcBT0o05+VQt0cQ00T/48YoaU8PHs=;
- b=ym1i3oAkjbKfWfwJJTJ35xiNfJaqsW+O3FAyo9JGu9Jkj0/LnyIqZpKagb/ZP9Xxl6
- fZcKq6rZqpXWP+3i7IACdlmGLTSYhuzF88jUobgj3ZswPh8d9Br5pDel9eec2nTktDn8
- 6jdytZhe7ywHhRvekSEzMqzelEfVjmWSwekxhhnYQbi90czUqruia/lT2nFQoWqS4XBl
- 9alwapHkx3/Vg1BH75yaBRbVRtf8cbQV91wzq8Yv7FJ2DZoq/Ni649DXKFjOQVXjlSGi
- 09pTf0xHnRwMbsUmZ3RBqd63pv2gqpNAHcu4ArdHe/jhWi66bagfeTVfnwbho08OKdQz
- EEZA==
-X-Gm-Message-State: ACgBeo3moLDXmyA5CzOs3xhd5ve89hgr8T6A9VAW/p9EfPi7OEbawN30
- Y1YGHZMtoVQH7jwD6nUJz9nQVA==
-X-Google-Smtp-Source: AA6agR4lG2Wr58F5IZD2hOfAAdpXddSRPOIQgSQteCRZSJphcxFM58CRtQHLZjzUCr/58UBt/YhjQA==
-X-Received: by 2002:a17:903:22cc:b0:178:18a1:d16c with SMTP id
- y12-20020a17090322cc00b0017818a1d16cmr17420970plg.155.1663070485873; 
- Tue, 13 Sep 2022 05:01:25 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- d21-20020a170902729500b0017441330392sm8058363pll.63.2022.09.13.05.01.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 05:01:24 -0700 (PDT)
-Date: Tue, 13 Sep 2022 05:01:23 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Subject: Re: [PATCH v10 3/9] compiler_types.h: Add assert_type to catch type
- mis-match while compiling
-Message-ID: <202209130455.E7CF976A@keescook>
-References: <20220909105913.752049-1-gwan-gyeong.mun@intel.com>
- <20220909105913.752049-4-gwan-gyeong.mun@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0343010E6B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 12:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663071012; x=1694607012;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pULdLP1758I/E1QWOjEor66RMObqXX1+HZIOqj74zyg=;
+ b=n1cUkGZiF/w3TU7HIbppTDVr2XsL+GApfEyTCFSgSp5t7+1U+E7D6soF
+ HabRfjMrQlNfHnacp64dLh5bB0CwowY7Y5oTNFlv849ji96H27PGe1mX0
+ EsOgYt9yX+Q+C/TP1lO7N7Luli8cQ3cWdgFRvswpd9V+Nw7AUWnxW4yt4
+ 8Sus2tbSKArs+2cLeDbVQyqlEHnNk8/TAi42TFJBxlmN6/xIkXV6g84Lh
+ J3PJA3MDPHgoNQXYJ2vCMhDl4UVWE8gjiW2mp5/qfA9CnzUuFOfz6rFsx
+ GirhbSGex7gcavnXqG+PPVRWv3hDi9roxUrGwcLxLwO7K3cagO3rW3QB2 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="278511706"
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="278511706"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 05:10:11 -0700
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="649633565"
+Received: from jlawryno-desktop.igk.intel.com ([172.22.229.64])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 05:10:09 -0700
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH v2 0/7] New DRM driver for Intel VPU
+Date: Tue, 13 Sep 2022 14:10:10 +0200
+Message-Id: <20220913121017.993825-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220909105913.752049-4-gwan-gyeong.mun@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,100 +56,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
- andi.shyti@linux.intel.com, jani.nikula@intel.com, ndesaulniers@google.com,
- intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, andrzej.hajda@intel.com, dlatypov@google.com,
- matthew.auld@intel.com, airlied@redhat.com, mchehab@kernel.org,
- vitor@massaru.org, nirmoy.das@intel.com
+Cc: andrzej.kacprowski@linux.intel.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 09, 2022 at 07:59:07PM +0900, Gwan-gyeong Mun wrote:
-> It adds assert_type and assert_typable macros to catch type mis-match while
-> compiling. The existing typecheck() macro outputs build warnings, but the
-> newly added assert_type() macro uses the _Static_assert() keyword (which is
-> introduced in C11) to generate a build break when the types are different
-> and can be used to detect explicit build errors.
-> Unlike the assert_type() macro, assert_typable() macro allows a constant
-> value as the second argument.
-> 
-> Suggested-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Nirmoy Das <nirmoy.das@intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> ---
->  include/linux/compiler_types.h | 39 ++++++++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-> index 4f2a819fd60a..19cc125918bb 100644
-> --- a/include/linux/compiler_types.h
-> +++ b/include/linux/compiler_types.h
-> @@ -294,6 +294,45 @@ struct ftrace_likely_data {
->  /* Are two types/vars the same type (ignoring qualifiers)? */
->  #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
->  
-> +/**
-> + * assert_type - break compile if the first argument's data type and the second
-> + *               argument's data type are not the same
-> + *
-> + * @t1: data type or variable
-> + * @t2: data type or variable
-> + *
-> + * The first and second arguments can be data types or variables or mixed (the
-> + * first argument is the data type and the second argument is variable or vice
-> + * versa). It determines whether the first argument's data type and the second
-> + * argument's data type are the same while compiling, and it breaks compile if
-> + * the two types are not the same.
-> + * See also assert_typable().
-> + */
-> +#define assert_type(t1, t2) _Static_assert(__same_type(t1, t2))
-> +
-> +/**
-> + * assert_typable - break compile if the first argument's data type and the
-> + *                  second argument's data type are not the same
-> + *
-> + * @t: data type or variable
-> + * @n: data type or variable or constant value
-> + *
-> + * The first and second arguments can be data types or variables or mixed (the
-> + * first argument is the data type and the second argument is variable or vice
-> + * versa). Unlike the assert_type() macro, this macro allows a constant value
-> + * as the second argument. And if the second argument is a constant value, it
-> + * always passes. And it doesn't mean that the types are explicitly the same.
-> + * When a constant value is used as the second argument, if you need an
-> + * overflow check when assigning a constant value to a variable of the type of
-> + * the first argument, you can use the overflows_type() macro. When a constant
+Hi,
 
-I wonder if the overflows_type() check should happen in this test? It
-seems weird that assert_typable(u8, 1024) would pass...
+This patchset contains a new Linux* Kernel Driver for IntelÂ® VPUs.
 
-> + * value is not used as a second argument, it determines whether the first
-> + * argument's data type and the second argument's data type are the same while
-> + * compiling, and it breaks compile if the two types are not the same.
-> + * See also assert_type() and overflows_type().
-> + */
-> +#define assert_typable(t, n) _Static_assert(__builtin_constant_p(n) ||	\
-> +					    __same_type(t, typeof(n)))
+VPU stands for Versatile Processing Unit and it is an AI inference accelerator
+integrated with Intel non-server CPUs starting from 14th generation.
+VPU enables efficient execution of Deep Learning applications
+like object detection, classification etc.
 
-Totally untested -- I'm not sure if this gets the right semantics for
-constant expressoins, etc...
+Driver is part of gpu/drm subsystem because VPU is similar in operation to
+an integrated GPU. Reusing drm driver init, ioctl handling, gem and prime
+helpers and drm_mm allows to minimize code duplication in the kernel.
 
-static_assert(__builtin_choose_expression(__builtin_constant_p(n), \
-			overflows_type(n, typeof(t)), \
-			__same_type(t, typeof(n))))
+The whole driver is licensed under GPL-2.0-only except for two headers imported
+from the firmware that are MIT licensed.
 
+User mode driver stack consists of Level Zero API driver and OpenVINO plugin.
+Both should be open-sourced by the end of Q4.
+The firmware for the VPU will be distributed as a closed source binary.
 
-Also, can you please add KUnit tests for these new helpers into
-lib/overflow_kunit.c?
+v2:
+- Rename the driver from "drm/vpu" to "drm/ivpu"
+- Add a TODO file
+- Add support for WC buffers
 
--- 
-Kees Cook
+v1: https://lore.kernel.org/all/20220728131709.1087188-1-jacek.lawrynowicz@linux.intel.com/
+
+Regards,
+Jacek
+
+Jacek Lawrynowicz (7):
+  drm/ivpu: Introduce a new DRM driver for Intel VPU
+  drm/ivpu: Add Intel VPU MMU support
+  drm/ivpu: Add GEM buffer object management
+  drm/ivpu: Add IPC driver and JSM messages
+  drm/ivpu: Implement firmware parsing and booting
+  drm/ivpu: Add command buffer submission logic
+  drm/ivpu: Add PM support
+
+ MAINTAINERS                             |    8 +
+ drivers/gpu/drm/Kconfig                 |    2 +
+ drivers/gpu/drm/Makefile                |    1 +
+ drivers/gpu/drm/ivpu/Kconfig            |   12 +
+ drivers/gpu/drm/ivpu/Makefile           |   16 +
+ drivers/gpu/drm/ivpu/TODO               |    7 +
+ drivers/gpu/drm/ivpu/ivpu_drv.c         |  643 ++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_drv.h         |  178 ++++
+ drivers/gpu/drm/ivpu/ivpu_fw.c          |  426 +++++++++
+ drivers/gpu/drm/ivpu/ivpu_fw.h          |   38 +
+ drivers/gpu/drm/ivpu/ivpu_gem.c         |  836 ++++++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_gem.h         |  128 +++
+ drivers/gpu/drm/ivpu/ivpu_hw.h          |  169 ++++
+ drivers/gpu/drm/ivpu/ivpu_hw_mtl.c      | 1060 +++++++++++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_hw_mtl_reg.h  |  468 ++++++++++
+ drivers/gpu/drm/ivpu/ivpu_hw_reg_io.h   |  115 +++
+ drivers/gpu/drm/ivpu/ivpu_ipc.c         |  508 +++++++++++
+ drivers/gpu/drm/ivpu/ivpu_ipc.h         |   90 ++
+ drivers/gpu/drm/ivpu/ivpu_job.c         |  629 ++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_job.h         |   73 ++
+ drivers/gpu/drm/ivpu/ivpu_jsm_msg.c     |  220 +++++
+ drivers/gpu/drm/ivpu/ivpu_jsm_msg.h     |   25 +
+ drivers/gpu/drm/ivpu/ivpu_mmu.c         |  888 +++++++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_mmu.h         |   53 ++
+ drivers/gpu/drm/ivpu/ivpu_mmu_context.c |  419 +++++++++
+ drivers/gpu/drm/ivpu/ivpu_mmu_context.h |   49 ++
+ drivers/gpu/drm/ivpu/ivpu_pm.c          |  352 ++++++++
+ drivers/gpu/drm/ivpu/ivpu_pm.h          |   38 +
+ drivers/gpu/drm/ivpu/vpu_boot_api.h     |  241 ++++++
+ drivers/gpu/drm/ivpu/vpu_jsm_api.h      |  616 +++++++++++++
+ include/uapi/drm/ivpu_drm.h             |  343 ++++++++
+ 31 files changed, 8651 insertions(+)
+ create mode 100644 drivers/gpu/drm/ivpu/Kconfig
+ create mode 100644 drivers/gpu/drm/ivpu/Makefile
+ create mode 100644 drivers/gpu/drm/ivpu/TODO
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_drv.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_drv.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_fw.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_fw.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_gem.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_gem.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw_mtl.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw_mtl_reg.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw_reg_io.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_ipc.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_ipc.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_job.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_job.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_jsm_msg.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_jsm_msg.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu_context.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu_context.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_pm.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_pm.h
+ create mode 100644 drivers/gpu/drm/ivpu/vpu_boot_api.h
+ create mode 100644 drivers/gpu/drm/ivpu/vpu_jsm_api.h
+ create mode 100644 include/uapi/drm/ivpu_drm.h
+
+--
+2.34.1
