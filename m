@@ -1,38 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94C95B69CC
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 10:45:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7125B69D4
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 10:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E10D810E656;
-	Tue, 13 Sep 2022 08:45:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8D110E658;
+	Tue, 13 Sep 2022 08:48:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CCC0F10E656
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 08:45:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C5581063;
- Tue, 13 Sep 2022 01:45:51 -0700 (PDT)
-Received: from [10.57.48.96] (unknown [10.57.48.96])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F41D3F73B;
- Tue, 13 Sep 2022 01:45:44 -0700 (PDT)
-Message-ID: <5898d7a6-14c2-8e20-abc3-5971a4bcfd85@arm.com>
-Date: Tue, 13 Sep 2022 09:45:39 +0100
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F25710E658
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 08:48:50 +0000 (UTC)
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 13 Sep 2022 16:48:48 +0800
+Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
+ [192.168.65.58]) by mse.ite.com.tw with ESMTP id 28D8mkk1017639;
+ Tue, 13 Sep 2022 16:48:46 +0800 (GMT-8)
+ (envelope-from allen.chen@ite.com.tw)
+Received: from VirtualBox.internal.ite.com.tw (192.168.70.46) by
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.14; Tue, 13 Sep 2022 16:48:46 +0800
+From: allen <allen.chen@ite.com.tw>
+To: 
+Subject: [PATCH 0/2] *** IT6505 driver read dt properties ***
+Date: Tue, 13 Sep 2022 16:48:33 +0800
+Message-ID: <20220913084835.78490-1-allen.chen@ite.com.tw>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/panfrost: Give name to anonymous coredump object union
-Content-Language: en-GB
-To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
- robh@kernel.org, alyssa.rosenzweig@collabora.com,
- dri-devel@lists.freedesktop.org
-References: <20220912164413.2181937-1-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20220912164413.2181937-1-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.70.46]
+X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58)
+X-TM-SNTS-SMTP: 3614B426C08A09BF188F2DAF5BD90D342D867CB900288FE8BB4244F8061882502002:8
+X-MAIL: mse.ite.com.tw 28D8mkk1017639
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,73 +49,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "open list:OPEN
+ FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Kenneth Hung <Kenneth.Hung@ite.com.tw>,
+ Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, Allen Chen <allen.chen@ite.com.tw>,
+ Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Pin-yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/09/2022 17:44, Adrián Larumbe wrote:
-> Building Mesa's Perfetto requires including the panfrost drm uAPI header in
-> C++ code, but the C++ compiler requires anonymous unions to have only
-> public non-static data members.
-> 
-> Commit 730c2bf4ad39 ("drm/panfrost: Add support for devcoredump")
-> introduces one such union, breaking the Mesa build.
-> 
-> Give it a name, and also rename pan_reg_hdr structure because it will
-> always be prefixed by the union name.
-> 
-> Bug: https://gitlab.freedesktop.org/mesa/mesa/-/issues/7195
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+From: allen chen <allen.chen@ite.com.tw>
 
-Ouch! It's frustrating how C++ isn't quite a superset of C. However I
-think we can solve this with a simpler patch, I'd appreciate testing
-that this does indeed fix the build issues with Mesa with all supported
-compilers (I'm not so familiar with C++):
+This series let driver can read properties from dt to restrict dp output
+bandwidth.
 
-----8<----
-From 492714a7dff0710ac5b8b457bcfe9ae52b458565 Mon Sep 17 00:00:00 2001
-From: Steven Price <steven.price@arm.com>
-Date: Tue, 13 Sep 2022 09:37:55 +0100
-Subject: [PATCH] drm/panfrost: Remove type name from internal structs
+allen chen (2):
+  dt-bindings: it6505: add properties to restrict output bandwidth
+  drm/bridge: add it6505 driver to read data-lanes and
+    max-pixel-clock-khz from dt
 
-The two structs internal to struct panfrost_dump_object_header were
-named, but sadly that is incompatible with C++, causing an error: "an
-anonymous union may only have public non-static data members".
+ .../bindings/display/bridge/ite,it6505.yaml   | 10 ++++++
+ drivers/gpu/drm/bridge/ite-it6505.c           | 35 +++++++++++++++++--
+ 2 files changed, 42 insertions(+), 3 deletions(-)
 
-However nothing refers to struct pan_reg_hdr and struct pan_bomap_hdr
-and there's no need to export these definitions, so lets drop them. This
-fixes the C++ build error with the minimum change in userspace API.
-
-Bug: https://gitlab.freedesktop.org/mesa/mesa/-/issues/7195
-Fixes: 730c2bf4ad39 ("drm/panfrost: Add support for devcoredump")
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- include/uapi/drm/panfrost_drm.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/include/uapi/drm/panfrost_drm.h
-b/include/uapi/drm/panfrost_drm.h
-index eac87310b348..bd77254be121 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -242,7 +242,7 @@ struct panfrost_dump_object_header {
- 	__le32 file_offset;
-
- 	union {
--		struct pan_reg_hdr {
-+		struct {
- 			__le64 jc;
- 			__le32 gpu_id;
- 			__le32 major;
-@@ -250,7 +250,7 @@ struct panfrost_dump_object_header {
- 			__le64 nbos;
- 		} reghdr;
-
--		struct pan_bomap_hdr {
-+		struct {
- 			__le32 valid;
- 			__le64 iova;
- 			__le32 data[2];
 -- 
-2.34.1
+2.25.1
 
