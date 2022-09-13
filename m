@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6195B77EF
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 19:30:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508D55B798C
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 20:29:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C783710E011;
-	Tue, 13 Sep 2022 17:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36ED310E1AD;
+	Tue, 13 Sep 2022 18:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E367010E011
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 17:29:59 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id f20so14168349edf.6
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 10:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=EMlArogLUibXaoKnYk1CV9sHo7Gq9xb+suw2yBMebFM=;
- b=mygQINdjOb5RMojcTMEEg/ey9xgaxwr7YzNek/bhXpoau2n29c7onCYy756n3DqWTt
- mh4Ls/dS0yaBlYldfJPElcEirBBKuIavahGFjSx7A39a7VR6nvM9SwKxurWUBM7ofxU8
- C+QbkQGBQ6JFzdHdy0XBdEu2hbSWjkAPO+0Ng=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=EMlArogLUibXaoKnYk1CV9sHo7Gq9xb+suw2yBMebFM=;
- b=bVdd6kskw42mP7hqFflM656nHOze7N/CkSVy0EeDy8ikykf10e6ISaay7FPBS7saRK
- g7LKaX6TUTITKxJcFbAOktMmYEogZ0RuRBvezbX2e4XyNreGudlkQWE2t3RS3BpmDhRc
- WFiCZTz/GJvo8vQ/xM09Nkd6t0uCjpwUWRWR0J8Jj5uvc7iEt92RqhsoY7GlLDDfHLtH
- aMemsGKwKb94KxPIk5REwKD8IZoAHlkRIiIcREBE2ZHaoWdFmRn1nQvE8RkQfFocpLzA
- CTyGqRBDrvyE027zFL0cFkaCmu0pSxPtwIPLp+lB9wZK8Yjr6KkhBnE18t8DzpIbZf5u
- PeYA==
-X-Gm-Message-State: ACgBeo04CJ/ARiQrrXYd4vFJXXxKCUMch1IRa2ZMm81OX9AWgQIOALOR
- yyiCUQcNXf299zVffCij7Rvudcss3H+4s/8ORKgTow==
-X-Google-Smtp-Source: AA6agR5FlIp3DDeMeyc4cNSST6U1wRI8xO3EUzBAdfaktabONjxRDdspRTPz7FzXlNxwduPmlYo61+4TeRuP4CvY3GY=
-X-Received: by 2002:a05:6402:428c:b0:440:8259:7a2b with SMTP id
- g12-20020a056402428c00b0044082597a2bmr26695638edc.329.1663090198376; Tue, 13
- Sep 2022 10:29:58 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D5110E134;
+ Tue, 13 Sep 2022 18:28:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663093721; x=1694629721;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=BTsfLzI0tVlzUWOBdavAOYQc+Pzx4o+CuINtZ68syYs=;
+ b=mxLS4RBppTQpP7E/q12M0kWXfHsyQSn9Y6Fb6RW7FTr4OnK70scSiw8a
+ YRfT1+OLonS0w5qt3kkUsRtqEJeYLxiPfcSVP5nmefkybKMM0r5d41F05
+ d5EPi5FKFWG9TlkfnbdEmPxYSxU/c3JlZlgjveH2w3gFB0xfUpVR+9lvs
+ D2IYQ4gNow5VUvrVKKKPGbmoAp2w4GzzdGwJxWy4ddZmzc9NU10xeU7sa
+ myvKu1iJQeSHgVn+W+scap1g+FP9HreiYdStWjiqzrXLW98BevS/OvUOX
+ PpYLOKNUKiU3D8RClL1efiXrPoBHTDo14XiCAJuuW1wGMtfeVB/9HhfSc w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="324465097"
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="324465097"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 11:28:41 -0700
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="678687633"
+Received: from baumeish-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.59.168])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 11:28:35 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Gaosheng Cui <cuigaosheng1@huawei.com>, evan.quan@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, patrik.r.jakobsson@gmail.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tvrtko.ursulin@linux.intel.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, lijo.lazar@amd.com,
+ matthew.brost@intel.com, John.C.Harrison@Intel.com,
+ daniele.ceraolospurio@intel.com, cuigaosheng1@huawei.com
+Subject: Re: [PATCH 6/6] drm/i915: remove unused i915_gem_lmem_obj_ops
+ declaration
+In-Reply-To: <20220913024847.552254-7-cuigaosheng1@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220913024847.552254-1-cuigaosheng1@huawei.com>
+ <20220913024847.552254-7-cuigaosheng1@huawei.com>
+Date: Tue, 13 Sep 2022 21:28:31 +0300
+Message-ID: <874jxb3z8w.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220829184031.1863663-1-jagan@amarulasolutions.com>
- <CGME20220829184118eucas1p2cda47fa166cafcb904800a55a5f66180@eucas1p2.samsung.com>
- <20220829184031.1863663-3-jagan@amarulasolutions.com>
- <7511aa28-a944-d241-5bea-8404008e7dce@samsung.com>
- <d750a140-c87e-16af-7683-22d48f68305a@samsung.com>
- <CAMty3ZBVrRa9VHDpGBM_r9gdU=Ex4iwpSHjzcOdxSBrwRrHF2A@mail.gmail.com>
- <473e88ee-1866-49ca-4a43-17a378e6fe47@samsung.com>
-In-Reply-To: <473e88ee-1866-49ca-4a43-17a378e6fe47@samsung.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 13 Sep 2022 22:59:47 +0530
-Message-ID: <CAMty3ZAVV_dLnkBsgBCYgNbVNE-hMFiORqv7AxkDpwciJawtzw@mail.gmail.com>
-Subject: Re: [PATCH v4 02/12] drm: bridge: Add Samsung DSIM bridge driver
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,98 +65,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, dri-devel@lists.freedesktop.org,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel@lists.infradead.org, Matteo Lisi <matteo.lisi@engicam.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 7, 2022 at 3:34 PM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> Hi Jagan,
->
-> On 06.09.2022 21:07, Jagan Teki wrote:
-> > On Mon, Sep 5, 2022 at 4:54 PM Marek Szyprowski
-> > <m.szyprowski@samsung.com> wrote:
-> >> On 02.09.2022 12:47, Marek Szyprowski wrote:
-> >>> On 29.08.2022 20:40, Jagan Teki wrote:
-> >>>> Samsung MIPI DSIM controller is common DSI IP that can be used in
-> >>>> various
-> >>>> SoCs like Exynos, i.MX8M Mini/Nano.
-> >>>>
-> >>>> In order to access this DSI controller between various platform SoCs,
-> >>>> the ideal way to incorporate this in the drm stack is via the drm bridge
-> >>>> driver.
-> >>>>
-> >>>> This patch is trying to differentiate platform-specific and bridge
-> >>>> driver
-> >>>> code and keep maintaining the exynos_drm_dsi.c code as platform-specific
-> >>>> glue code and samsung-dsim.c as a common bridge driver code.
-> >>>>
-> >>>> - Exynos specific glue code is exynos specific te_irq, host_attach, and
-> >>>>     detach code along with conventional component_ops.
-> >>>>
-> >>>> - Samsung DSIM is a bridge driver which is common across all
-> >>>> platforms and
-> >>>>     the respective platform-specific glue will initialize at the end
-> >>>> of the
-> >>>>     probe. The platform-specific operations and other glue calls will
-> >>>> invoke
-> >>>>     on associate code areas.
-> >>>>
-> >>>> v4:
-> >>>> * include Inki Dae in MAINTAINERS
-> >>>> * remove dsi_driver probe in exynos_drm_drv to support multi-arch build
-> >>> This breaks Exynos DRM completely as the Exynos DRM driver is not able
-> >>> to wait until the DSI driver is probed and registered as component.
-> >>>
-> >>> I will show how to rework this the way it is done in
-> >>> drivers/gpu/drm/exynos/exynos_dp.c and
-> >>> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c soon...
-> >> I've finally had some time to implement such approach, see
-> >> https://protect2.fireeye.com/v1/url?k=c5d024d9-a4ab8e4e-c5d1af96-74fe4860001d-625a8324a9797375&q=1&e=489b94d4-84fb-408e-b679-a8d27acf2930&u=https%3A%2F%2Fgithub.com%2Fmszyprow%2Flinux%2Ftree%2Fv6.0-dsi-v4-reworked
-> >>
-> >> If you want me to send the patches against your v4 patchset, let me
-> >> know, but imho my changes are much more readable after squashing to the
-> >> original patches.
-> >>
-> >> Now the driver is fully multi-arch safe and ready for further
-> >> extensions. I've removed the weak functions, reworked the way the
-> >> plat_data is used (dropped the patch related to it) and restored
-> >> exynos-dsi driver as a part of the Exynos DRM drivers/subsystem. Feel
-> >> free to resend the above as v5 after testing on your hardware. At least
-> >> it properly works now on all Exynos boards I have, both compiled into
-> >> the kernel or as modules.
-> > Thanks. I've seen the repo added on top of Dave patches - does it mean
-> > these depends on Dave changes as well?
->
-> Yes and no. My rework doesn't change anything with this dependency. It
-> comes from my patch "drm: exynos: dsi: Restore proper bridge chain
-> order" already included in your series (patch #1). Without it exynos-dsi
-> driver hacks the list of bridges to ensure the order of pre_enable calls
-> needed for proper operation. This works somehow with DSI panels on my
-> test systems, but it has been reported that it doesn't work with a bit
-> more complex display pipelines. Only that patch depends on the Dave's
-> patches. If you remove it, you would need to adjust the code in the
-> exynos_drm_dsi.c and samsung-dsim.c respectively. imho it would be
-> better to keep it and merge Dave's patches together with dsi changes, as
-> they are the first real client of it.
+On Tue, 13 Sep 2022, Gaosheng Cui <cuigaosheng1@huawei.com> wrote:
+> i915_gem_lmem_obj_ops has been removed since
+> commit 213d50927763 ("drm/i915/ttm: Introduce a TTM i915
+> gem object backend"), so remove it.
 
-I think the Dave patches especially "drm/bridge: Introduce
-pre_enable_upstream_first to alter bridge init order" seems not 100%
-relevant to this series as they affect bridge chain call flow
-globally. Having a separate series for that makes sense to me. I'm
-sending v5 by excluding those parts.
+Thanks, pushed this one patch to drm-intel-gt-next.
 
-Jagan.
+BR,
+Jani.
+
+>
+> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_lmem.h | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
+> index 1b88ea13435c..5a7a14e85c3f 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
+> @@ -12,8 +12,6 @@ struct drm_i915_private;
+>  struct drm_i915_gem_object;
+>  struct intel_memory_region;
+>  
+> -extern const struct drm_i915_gem_object_ops i915_gem_lmem_obj_ops;
+> -
+>  void __iomem *
+>  i915_gem_object_lmem_io_map(struct drm_i915_gem_object *obj,
+>  			    unsigned long n,
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
