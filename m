@@ -1,80 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629375B719B
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 16:46:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 053195B7285
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 16:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2091F10E744;
-	Tue, 13 Sep 2022 14:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77A110E75E;
+	Tue, 13 Sep 2022 14:56:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFC610E744
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 14:46:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663080396;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Uxenzw8tkNyvX0lkO9yxXwXtOB+riZKdHwT6bqSX9nc=;
- b=WOiRP6bnioHW53mgpj0+NYriz5KoVTEOY9vE+QNRrtCvMGIlT1KuJeU1Qgkljt5xsgSLXz
- P7BxoyoDdtYxNSCpDgg0dS21nYUdFP/6Javj70bkDcfC4Mh2cKvaVsDKVRT+iNFm4O7Qqt
- 5fiGB7o8q0x04nc4Y85WRQGxXqVyJ50=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-220-99JREduMPBiEUx6knL8vtA-1; Tue, 13 Sep 2022 10:46:35 -0400
-X-MC-Unique: 99JREduMPBiEUx6knL8vtA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n7-20020a1c2707000000b003a638356355so6574225wmn.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 07:46:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=Uxenzw8tkNyvX0lkO9yxXwXtOB+riZKdHwT6bqSX9nc=;
- b=VQtl/NDvrsVl81xwc30XE8sBI26c4/GYUDOe1AMB5ObsafvRzS4Eoit4DcC59mZC+T
- TVVNdjRQfsX3wSfCyNlElMOI5DTCltfIq6Oj49uhSltH93Gfr24GHURyAiXWTg4cUAld
- L4NUzSNDOBmVY5YPk1FgHDNORf6eZFYQTP1ifVdlxxs6bHGR4sCQSWVQXP5ioTKCMVRE
- 5eNX82ey8qOSYu1ekKlLd+fztgXUrfzY0eMO74X5eb1YJqQOnCfeRUXlOkrEj/9vLgzo
- 4zBq6nQv4FOMBR2U6nFSK8xLAT6qk7G2rUYr6ffd+LkmBEh91KkRu2NzwvANbkxgiYuD
- cxAw==
-X-Gm-Message-State: ACgBeo0mCvpJYKXpSwwGmSK5uh8Sp513Q+dym6bVED0DDXHhKn/2ELUI
- 9fsy2ROYildn3uYHCvILJDa57U4a4uUc1xKzL5PRDqp4rHId7355UvAQXu1Xjn2TVcR7EvjIa72
- kczfZNGpdiWgfE9XitHqm0RsEPLsc
-X-Received: by 2002:a5d:4f81:0:b0:21e:2cd7:25df with SMTP id
- d1-20020a5d4f81000000b0021e2cd725dfmr19467735wru.439.1663080392551; 
- Tue, 13 Sep 2022 07:46:32 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6/D8KkrO108ulemub/f9jxm0PwrmE52RV1n2K5U3IcU9nGT7jDSzfR02kc6jUeYukVTDbBsQ==
-X-Received: by 2002:a5d:4f81:0:b0:21e:2cd7:25df with SMTP id
- d1-20020a5d4f81000000b0021e2cd725dfmr19467717wru.439.1663080392333; 
- Tue, 13 Sep 2022 07:46:32 -0700 (PDT)
-Received: from [172.16.38.252] ([185.122.133.20])
- by smtp.gmail.com with ESMTPSA id
- m22-20020a05600c4f5600b003b47581979bsm11556372wmq.33.2022.09.13.07.46.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 07:46:31 -0700 (PDT)
-Message-ID: <2b67dfcc-9027-6bb5-d42b-7465f2236747@redhat.com>
-Date: Tue, 13 Sep 2022 16:46:31 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v2] drm/plane-helper: Add a
- drm_plane_helper_atomic_check() helper
-To: Harry Wentland <harry.wentland@amd.com>, linux-kernel@vger.kernel.org
-References: <20220913093339.106625-1-javierm@redhat.com>
- <b81591c4-934c-4b70-fbf0-b0f4663a6d1c@amd.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <b81591c4-934c-4b70-fbf0-b0f4663a6d1c@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8298B10E738;
+ Tue, 13 Sep 2022 14:56:34 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28DDvKGP028124;
+ Tue, 13 Sep 2022 14:56:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc : subject : date : message-id; s=qcppdkim1;
+ bh=IhQxSkNHd54avUK03Wzk0FsSOIPsdS0Ujr8xcCfN9L0=;
+ b=VskLZ7ApVZj83GjOvWBSJYviiSow6lRCP/N45RhmRZIWP58fRBdC9JXvc4kmjBeofoVU
+ 2KHBZZUuqI6LdXhK3VY8NShxP4U2ZY1pqj6rc0Jt4gy9AWmbp9b7BlYNueK8gLkJsgWQ
+ jQPd9hthYlWcF66msK2j22Yf3NZRP1dqjsxCKBQprdM6IcIc6mjtlt9hDSe/etNnoEy1
+ 1C6oscbaLodlmS7Tbo0wS4Ndwipq33tiefeIsl6QBA35v3wXj9cG3iFamzJjQ2JmVGPp
+ VQ61mOP68/UL5kx1OQ+WzDUsvVkmGs2L6UoS5XTrq2RDsL+HFr86m8/2aMFysNQhHJxW KA== 
+Received: from apblrppmta01.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jjhu3tf8x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Sep 2022 14:56:28 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 28DEpNQ8017819; 
+ Tue, 13 Sep 2022 14:51:23 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 3jh46m5dqh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 13 Sep 2022 14:51:23 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28DEpMa4017814;
+ Tue, 13 Sep 2022 14:51:22 GMT
+Received: from vpolimer-linux.qualcomm.com (vpolimer-linux.qualcomm.com
+ [10.204.67.235])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 28DEpM6Y017813;
+ Tue, 13 Sep 2022 14:51:22 +0000
+Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
+ id C1555401B; Tue, 13 Sep 2022 20:21:21 +0530 (IST)
+From: Vinod Polimera <quic_vpolimer@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH v7 00/15] Add PSR support for eDP
+Date: Tue, 13 Sep 2022 20:21:01 +0530
+Message-Id: <1663080676-12936-1-git-send-email-quic_vpolimer@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Y5avGkz-Ws6psTmM6eyhXdN_W-uGs5Qf
+X-Proofpoint-GUID: Y5avGkz-Ws6psTmM6eyhXdN_W-uGs5Qf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-13_07,2022-09-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0 clxscore=1011
+ phishscore=0 bulkscore=0 spamscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209130068
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,51 +82,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
+ quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
+ quic_vproddut@quicinc.com, quic_khsieh@quicinc.com, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ quic_aravindh@quicinc.com, swboyd@chromium.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/13/22 15:49, Harry Wentland wrote:
-> 
-> 
-> On 2022-09-13 05:33, Javier Martinez Canillas wrote:
->> Provides a default plane state check handler for primary planes that are a
->> fullscreen scanout buffer and whose state scale and position can't change.
->>
-> 
-> Even though this might be how some drivers are handling the primary
-> plane this assumption is not universal. For example, on ChromeOS when
-> the (default) underlay strategy is selected the compositor will
-> position the video plane as the bottom-most plane and mark it
-> as primary, while the desktop plane is marked as overlay and
-> will contain an alpha cutout to show the underlying video.
->
-> In this case the video plane (primary) won't span the screen
-> and is regularly panned and resized.
->
+Changes in v2:
+  - Use dp bridge to set psr entry/exit instead of dpu_enocder.
+  - Don't modify whitespaces.
+  - Set self refresh aware from atomic_check.
+  - Set self refresh aware only if psr is supported.
+  - Provide a stub for msm_dp_display_set_psr.
+  - Move dp functions to bridge code.
 
-I see. Interesting.
+Changes in v3:
+  - Change callback names to reflect atomic interfaces.
+  - Move bridge callback change to separate patch as suggested by Dmitry.
+  - Remove psr function declaration from msm_drv.h.
+  - Set self_refresh_aware flag only if psr is supported.
+  - Modify the variable names to simpler form.
+  - Define bit fields for PSR settings.
+  - Add comments explaining the steps to enter/exit psr.
+  - Change DRM_INFO to drm_dbg_db. 
 
-> No objections to this change as it helps share code between drivers,
-> but maybe specify that this behavior is a unique requirement of
-> these drivers.
-> 
+Changes in v4:
+  - Move the get crtc functions to drm_atomic.
+  - Add atomic functions for DP bridge too.
+  - Add ternary operator to choose eDP or DP ops.
+  - Return true/false instead of 1/0.
+  - mode_valid missing in the eDP bridge ops.
+  - Move the functions to get crtc into drm_atomic.c.
+  - Fix compilation issues.
+  - Remove dpu_assign_crtc and get crtc from drm_enc instead of dpu_enc.
+  - Check for crtc state enable while reserving resources.
 
-I tried to make it clear in the comment by mentioning that this helper
-is applicable for drivers whose primary plane is always fullscreen and
-can't scale or change position.
+Changes in v5:
+  - Move the mode_valid changes into a different patch.
+  - Complete psr_op_comp only when isr is set.
+  - Move the DP atomic callback changes to a different patch.
+  - Get crtc from drm connector state crtc.
+  - Move to separate patch for check for crtc state enable while
+reserving resources.
 
-Any suggestions of what's missing in the helper kernel-doc comment to be
-more clear ?
+Changes in v6:
+  - Remove crtc from dpu_encoder_virt struct.
+  - fix crtc check during vblank toggle crtc.
+  - Misc changes. 
 
-> Harry
-> 
+Changes in v7:
+  - Add fix for underrun issue on kasan build.
+
+Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+
+Sankeerth Billakanti (1):
+  drm/msm/dp: disable self_refresh_aware after entering psr
+
+Vinod Polimera (14):
+  drm/msm/disp/dpu: clear dpu_assign_crtc and get crtc from connector
+    state instead of dpu_enc
+  drm: add helper functions to retrieve old and new crtc
+  drm/msm/dp: use atomic callbacks for DP bridge ops
+  drm/msm/dp: Add basic PSR support for eDP
+  drm/msm/dp: use the eDP bridge ops to validate eDP modes
+  drm/bridge: use atomic enable/disable callbacks for panel bridge
+  drm/bridge: add psr support for panel bridge callbacks
+  drm/msm/disp/dpu: use atomic enable/disable callbacks for encoder
+    functions
+  drm/msm/disp/dpu: check for crtc enable rather than crtc active to
+    release shared resources
+  drm/msm/disp/dpu: add PSR support for eDP interface in dpu driver
+  drm/msm/disp/dpu: get timing engine status from intf status register
+  drm/msm/disp/dpu: wait for extra vsync till timing engine status is
+    disabled
+  drm/msm/disp/dpu: reset the datapath after timing engine disable
+  drm/msm/disp/dpu: clear active interface in the datapath cleanup
+
+ drivers/gpu/drm/bridge/panel.c                     |  68 ++++++-
+ drivers/gpu/drm/drm_atomic.c                       |  60 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  17 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  64 ++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |   8 -
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  22 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |  80 ++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |   4 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  80 ++++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   3 +
+ drivers/gpu/drm/msm/dp/dp_display.c                |  36 ++--
+ drivers/gpu/drm/msm/dp/dp_display.h                |   2 +
+ drivers/gpu/drm/msm/dp/dp_drm.c                    | 207 ++++++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |   9 +-
+ drivers/gpu/drm/msm/dp/dp_link.c                   |  36 ++++
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  22 +++
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |   6 +
+ drivers/gpu/drm/msm/dp/dp_reg.h                    |  27 +++
+ include/drm/drm_atomic.h                           |   7 +
+ 23 files changed, 706 insertions(+), 77 deletions(-)
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.7.4
 
