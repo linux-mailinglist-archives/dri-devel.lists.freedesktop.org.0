@@ -1,38 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09AF5B73CE
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 17:15:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D78F5B73D1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 17:16:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D897810E760;
-	Tue, 13 Sep 2022 15:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB70D10E763;
+	Tue, 13 Sep 2022 15:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out20-39.mail.aliyun.com (out20-39.mail.aliyun.com
- [115.124.20.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EBA510E760
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 15:15:30 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.04441897|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.0326565-0.0243229-0.943021;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047204; MF=wangyugui@e16-tech.com; NM=1;
- PH=DS; RN=2; RT=2; SR=0; TI=SMTPD_---.PEeWrJ2_1663082116; 
-Received: from 192.168.2.112(mailfrom:wangyugui@e16-tech.com
- fp:SMTPD_---.PEeWrJ2_1663082116) by smtp.aliyun-inc.com;
- Tue, 13 Sep 2022 23:15:16 +0800
-Date: Tue, 13 Sep 2022 23:15:22 +0800
-From: Wang Yugui <wangyugui@e16-tech.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
-In-Reply-To: <613ca1d0-8680-9f45-9317-d6b316f307ce@suse.de>
-References: <20220913222506.6C72.409509F4@e16-tech.com>
- <613ca1d0-8680-9f45-9317-d6b316f307ce@suse.de>
-Message-Id: <20220913231522.7CAA.409509F4@e16-tech.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0CF10E49B
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 15:15:45 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C480134BE9;
+ Tue, 13 Sep 2022 15:15:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663082143; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7J2Jd4H3GPutH4+ShyMvIVzVgAVZE6tCpqlVAu+xqFI=;
+ b=AhRs+oZa41+s7ruJI6lhJAsQvmlxd4I5sgmxjoFGp0ZfeGp6RHldFnjd2v/1B9YTL+s3KL
+ v3I7PmnaizoYtCYUcK1RvgeGXzCQpjz5kXLun+TF+wupfBc6eeOZvUZw+QfwDXDr1g26Ub
+ lc461RZjgi62k0A+x52vK6olvdyhcE8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663082143;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7J2Jd4H3GPutH4+ShyMvIVzVgAVZE6tCpqlVAu+xqFI=;
+ b=5OCofS457baWjev5XN8SEb7zCIFCfe7gb0cIPlKIezFPyb3Pxzq7M3Q1ZItah0ROxnjnzG
+ 5Qlmd6K5QIqySqDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A51C1139B3;
+ Tue, 13 Sep 2022 15:15:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id HPNhJ5+eIGN7UAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 13 Sep 2022 15:15:43 +0000
+Message-ID: <f644c43e-0c84-d7e3-90af-af269e9eb6e2@suse.de>
+Date: Tue, 13 Sep 2022 17:15:42 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Becky! ver. 2.75.04 [en]
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] drm/plane-helper: Add a
+ drm_plane_helper_atomic_check() helper
+To: Harry Wentland <harry.wentland@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220913093339.106625-1-javierm@redhat.com>
+ <b81591c4-934c-4b70-fbf0-b0f4663a6d1c@amd.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <b81591c4-934c-4b70-fbf0-b0f4663a6d1c@amd.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------DiouCn0RWPGokSIcWyoFJqyE"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,94 +72,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------DiouCn0RWPGokSIcWyoFJqyE
+Content-Type: multipart/mixed; boundary="------------nI0vA6GHU8Q0GeFg50qARSlq";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Harry Wentland <harry.wentland@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Message-ID: <f644c43e-0c84-d7e3-90af-af269e9eb6e2@suse.de>
+Subject: Re: [PATCH v2] drm/plane-helper: Add a
+ drm_plane_helper_atomic_check() helper
+References: <20220913093339.106625-1-javierm@redhat.com>
+ <b81591c4-934c-4b70-fbf0-b0f4663a6d1c@amd.com>
+In-Reply-To: <b81591c4-934c-4b70-fbf0-b0f4663a6d1c@amd.com>
 
-> Hi
-> 
-> Am 13.09.22 um 16:25 schrieb Wang Yugui:
-> > Hi,
-> >
-> >> Hi
-> >>
-> >> Am 07.09.22 um 06:16 schrieb Wang Yugui:
-> >>> Hi,
-> >>>
-> >>>> Am 02.09.22 um 07:52 schrieb Wang Yugui:
-> >>>>> Hi,
-> >>>>>
-> >>>>> mgag200 broken on kernel-6.0-rc3 on DELL/T620.
-> >>>>>
-> >>>>> See the attachementment file for the graph output.
-> >>>>
-> >>>> Thanks for reporting the bug. We recently refactored some code of the driver. Can you bisect to the change that introduced the problem?
-> >>>
-> >>> 5.19.3 works well on this DELL/T620.
-> >>>
-> >>> so this problem should be a regression of 6.0.
-> >>>
-> >>> other bisect seem difficult for me.
-> >>
-> >> I looked for changes between 5.19 and 6.0-rc3 that could affect G200ER specifically, but could not find anything. It would help if I'd know the first broken commit. Is there any chance that you get the git bisecting to work?
-> >>
-> >> The commands should be
-> >>
-> >>     git bisect reset
-> >>     git bisect start v6.0-rc3 v5.19
-> >
-> > A dirty patch(below) works well.  but we need a final fix.
-> >
-> > # git diff
-> > diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> > index 225cca2ed60e..cd976baa2f44 100644
-> > --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> > +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> > @@ -1070,7 +1070,7 @@ int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_available
-> >
-> >          dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
-> >          dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
-> > -       dev->mode_config.preferred_depth = 24;
-> > +       dev->mode_config.preferred_depth = 16;
-> >          dev->mode_config.fb_base = mdev->vram_res->start;
-> >          dev->mode_config.funcs = &mgag200_mode_config_funcs;
-> >
-> > I firstly tried to build whole kernel base on
-> > c577b2f43e80 drm/mgag200: Enable atomic gamma lut update
-> > d45e32c9d98c drm/mgag200: Call mgag200_device_probe_vram() from
-> > per-model init
-> >
-> > both failed to boot, so failed to test mgag200 driver.
-> >
-> > so I tried to revert patch of mgag200 driver in batch of 2 or 3, the I
-> > noticed the patch 'Subject: drm/mgag200: Remove special case for G200SE
-> > with <2 MiB' and then tried this dirty fix.
-> 
-> Oh, great work! Thank you. From looking at the screenshot that you provided, it seems as if the 24-bit mode setting is broken. I'm not sure why the G200SE workaround applies to a G200ER, but we'll see.
+--------------nI0vA6GHU8Q0GeFg50qARSlq
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I tested 'preferred_depth = 32' too. it works on T630 too.
+SGkNCg0KQW0gMTMuMDkuMjIgdW0gMTU6NDkgc2NocmllYiBIYXJyeSBXZW50bGFuZDoNCj4g
+DQo+IA0KPiBPbiAyMDIyLTA5LTEzIDA1OjMzLCBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMg
+d3JvdGU6DQo+PiBQcm92aWRlcyBhIGRlZmF1bHQgcGxhbmUgc3RhdGUgY2hlY2sgaGFuZGxl
+ciBmb3IgcHJpbWFyeSBwbGFuZXMgdGhhdCBhcmUgYQ0KPj4gZnVsbHNjcmVlbiBzY2Fub3V0
+IGJ1ZmZlciBhbmQgd2hvc2Ugc3RhdGUgc2NhbGUgYW5kIHBvc2l0aW9uIGNhbid0IGNoYW5n
+ZS4NCj4+DQo+IA0KPiBFdmVuIHRob3VnaCB0aGlzIG1pZ2h0IGJlIGhvdyBzb21lIGRyaXZl
+cnMgYXJlIGhhbmRsaW5nIHRoZSBwcmltYXJ5DQo+IHBsYW5lIHRoaXMgYXNzdW1wdGlvbiBp
+cyBub3QgdW5pdmVyc2FsLiBGb3IgZXhhbXBsZSwgb24gQ2hyb21lT1Mgd2hlbg0KPiB0aGUg
+KGRlZmF1bHQpIHVuZGVybGF5IHN0cmF0ZWd5IGlzIHNlbGVjdGVkIHRoZSBjb21wb3NpdG9y
+IHdpbGwNCj4gcG9zaXRpb24gdGhlIHZpZGVvIHBsYW5lIGFzIHRoZSBib3R0b20tbW9zdCBw
+bGFuZSBhbmQgbWFyayBpdA0KPiBhcyBwcmltYXJ5LCB3aGlsZSB0aGUgZGVza3RvcCBwbGFu
+ZSBpcyBtYXJrZWQgYXMgb3ZlcmxheSBhbmQNCj4gd2lsbCBjb250YWluIGFuIGFscGhhIGN1
+dG91dCB0byBzaG93IHRoZSB1bmRlcmx5aW5nIHZpZGVvLg0KPiANCj4gSW4gdGhpcyBjYXNl
+IHRoZSB2aWRlbyBwbGFuZSAocHJpbWFyeSkgd29uJ3Qgc3BhbiB0aGUgc2NyZWVuDQo+IGFu
+ZCBpcyByZWd1bGFybHkgcGFubmVkIGFuZCByZXNpemVkLg0KPiANCj4gTm8gb2JqZWN0aW9u
+cyB0byB0aGlzIGNoYW5nZSBhcyBpdCBoZWxwcyBzaGFyZSBjb2RlIGJldHdlZW4gZHJpdmVy
+cywNCj4gYnV0IG1heWJlIHNwZWNpZnkgdGhhdCB0aGlzIGJlaGF2aW9yIGlzIGEgdW5pcXVl
+IHJlcXVpcmVtZW50IG9mDQo+IHRoZXNlIGRyaXZlcnMuDQo+IA0KPiBIYXJyeQ0KPiANCj4+
+IFRoZXJlIGFyZSBzb21lIGRyaXZlcnMgdGhhdCBkdXBsaWNhdGUgdGhpcyBsb2dpYyBpbiB0
+aGVpciBoZWxwZXJzLCBzdWNoIGFzDQo+PiBzaW1wbGVkcm0gYW5kIHNzZDEzMHguIEZhY3Rv
+ciBvdXQgdGhpcyBjb21tb24gY29kZSBpbnRvIGEgcGxhbmUgaGVscGVyIGFuZA0KPj4gbWFr
+ZSBkcml2ZXJzIHVzZSBpdC4NCj4+DQo+PiBTdWdnZXN0ZWQtYnk6IFRob21hcyBaaW1tZXJt
+YW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1h
+cnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+PiAtLS0NCj4+DQo+PiBD
+aGFuZ2VzIGluIHYyOg0KPj4gLSBGaXggYG5ld19zdGF0ZWAgZmllbGQgY29tbWVudCAoVmls
+bGUgU3lyasOkbMOkKS4NCj4+IC0gUmVuYW1lIGBuZXdfc3RhdGVgIHRvIGp1c3QgYHN0YXRl
+YCAoVmlsbGUgU3lyasOkbMOkKS4NCj4+DQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGxh
+bmVfaGVscGVyLmMgfCAyOCArKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+PiAgIGRy
+aXZlcnMvZ3B1L2RybS9zb2xvbW9uL3NzZDEzMHguYyAgfCAxOCArLS0tLS0tLS0tLS0tLS0t
+LS0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgICB8IDI1ICstLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+ICAgaW5jbHVkZS9kcm0vZHJtX3BsYW5lX2hlbHBl
+ci5oICAgICB8ICAxICsNCj4+ICAgNCBmaWxlcyBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCsp
+LCA0MSBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2RybV9wbGFuZV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmVfaGVscGVy
+LmMNCj4+IGluZGV4IGM3Nzg1OTY3ZjViZi4uMjE2NTM5MDg2M2Y0IDEwMDY0NA0KPj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9wbGFuZV9oZWxwZXIuYw0KPj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9wbGFuZV9oZWxwZXIuYw0KPj4gQEAgLTI3OCwzICsyNzgsMzEgQEAg
+dm9pZCBkcm1fcGxhbmVfaGVscGVyX2Rlc3Ryb3koc3RydWN0IGRybV9wbGFuZSAqcGxhbmUp
+DQo+PiAgIAlrZnJlZShwbGFuZSk7DQo+PiAgIH0NCj4+ICAgRVhQT1JUX1NZTUJPTChkcm1f
+cGxhbmVfaGVscGVyX2Rlc3Ryb3kpOw0KPj4gKw0KPj4gKy8qKg0KPj4gKyAqIGRybV9wbGFu
+ZV9oZWxwZXJfYXRvbWljX2NoZWNrKCkgLSBIZWxwZXIgdG8gY2hlY2sgcHJpbWFyeSBwbGFu
+ZXMgc3RhdGVzDQo+PiArICogQHBsYW5lOiBwbGFuZSB0byBjaGVjaw0KPj4gKyAqIEBzdGF0
+ZTogYXRvbWljIHN0YXRlIG9iamVjdA0KPj4gKyAqDQo+PiArICogUHJvdmlkZXMgYSBkZWZh
+dWx0IHBsYW5lIHN0YXRlIGNoZWNrIGhhbmRsZXIgZm9yIHByaW1hcnkgcGxhbmVzIHdob3Nl
+IGF0b21pYw0KDQoncGxhbmUtc3RhdGUnDQoNCidhdG9taWMtc3RhdGUgc2NhbGUgYW5kIHBv
+c2l0aW9uaW5nIHByb3BlcnRpZXMgYXJlIG5vdCBleHBlY3RlZCB0byBjaGFuZ2UnDQoNCj4+
+ICsgKiBzdGF0ZSBzY2FsZSBhbmQgcG9zaXRpb24gaXMgbm90IGV4cGVjdGVkIHRvIGNoYW5n
+ZSBiZWNhdXNlIHRoZSBwcmltYXJ5IHBsYW5lDQo+PiArICogaXMgYWx3YXlzIGEgZnVsbHNj
+cmVlbiBzY2Fub3V0IGJ1ZmZlci4NCg0KQUZBSUNUIHRoZSBkb2NzIGNsZWFybHkgc3RhdGUg
+dGhlIHB1cnBvc2Ugb2YgdGhlIGhlbHBlci4gTWF5YmUgc2F5IA0KJ3BsYW5lJyBpbnN0ZWFk
+IG9mICdwcmltYXJ5IHBsYW5lJyBpbiB0aGUgZG9jcyBhbmQgYWRkIGEgc2VudGVuY2UgbGlr
+ZSANCidUaGlzIGlzIG9mdGVuIHRoZSBjYXNlIGZvciB0aGUgcHJpbWFyeSBwbGFuZSBvZiBz
+aW1wbGUgZnJhbWVidWZmZXJzLicNCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5u
+IDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+PiAr
+ICoNCj4+ICsgKiBSRVRVUk5TOg0KPj4gKyAqIFplcm8gb24gc3VjY2Vzcywgb3IgYW4gZXJy
+bm8gY29kZSBvdGhlcndpc2UuDQo+PiArICovDQo+PiAraW50IGRybV9wbGFuZV9oZWxwZXJf
+YXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLCBzdHJ1Y3QgZHJtX2F0b21p
+Y19zdGF0ZSAqc3RhdGUpDQo+PiArew0KPj4gKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpu
+ZXdfcGxhbmVfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUs
+IHBsYW5lKTsNCj4+ICsJc3RydWN0IGRybV9jcnRjICpuZXdfY3J0YyA9IG5ld19wbGFuZV9z
+dGF0ZS0+Y3J0YzsNCj4+ICsJc3RydWN0IGRybV9jcnRjX3N0YXRlICpuZXdfY3J0Y19zdGF0
+ZSA9IE5VTEw7DQo+PiArDQo+PiArCWlmIChuZXdfY3J0YykNCj4+ICsJCW5ld19jcnRjX3N0
+YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X2NydGNfc3RhdGUoc3RhdGUsIG5ld19jcnRjKTsN
+Cj4+ICsNCj4+ICsJcmV0dXJuIGRybV9hdG9taWNfaGVscGVyX2NoZWNrX3BsYW5lX3N0YXRl
+KG5ld19wbGFuZV9zdGF0ZSwgbmV3X2NydGNfc3RhdGUsDQo+PiArCQkJCQkJICAgRFJNX1BM
+QU5FX05PX1NDQUxJTkcsDQo+PiArCQkJCQkJICAgRFJNX1BMQU5FX05PX1NDQUxJTkcsDQo+
+PiArCQkJCQkJICAgZmFsc2UsIGZhbHNlKTsNCj4+ICt9DQo+PiArRVhQT1JUX1NZTUJPTChk
+cm1fcGxhbmVfaGVscGVyX2F0b21pY19jaGVjayk7DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5jIGIvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24v
+c3NkMTMweC5jDQo+PiBpbmRleCA3OWU4ZTIwMTdjNjguLjI4Y2Y5Yzg3Zjg2ZCAxMDA2NDQN
+Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zb2xvbW9uL3NzZDEzMHguYw0KPj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5jDQo+PiBAQCAtNTY1LDIyICs1NjUs
+NiBAQCBzdGF0aWMgaW50IHNzZDEzMHhfZmJfYmxpdF9yZWN0KHN0cnVjdCBkcm1fZnJhbWVi
+dWZmZXIgKmZiLCBjb25zdCBzdHJ1Y3QgaW9zeXNfbQ0KPj4gICAJcmV0dXJuIHJldDsNCj4+
+ICAgfQ0KPj4gICANCj4+IC1zdGF0aWMgaW50IHNzZDEzMHhfcHJpbWFyeV9wbGFuZV9oZWxw
+ZXJfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLA0KPj4gLQkJCQkJCSAg
+ICAgc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKm5ld19zdGF0ZSkNCj4+IC17DQo+PiAtCXN0
+cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19wbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0
+X25ld19wbGFuZV9zdGF0ZShuZXdfc3RhdGUsIHBsYW5lKTsNCj4+IC0Jc3RydWN0IGRybV9j
+cnRjICpuZXdfY3J0YyA9IG5ld19wbGFuZV9zdGF0ZS0+Y3J0YzsNCj4+IC0Jc3RydWN0IGRy
+bV9jcnRjX3N0YXRlICpuZXdfY3J0Y19zdGF0ZSA9IE5VTEw7DQo+PiAtDQo+PiAtCWlmIChu
+ZXdfY3J0YykNCj4+IC0JCW5ld19jcnRjX3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X2Ny
+dGNfc3RhdGUobmV3X3N0YXRlLCBuZXdfY3J0Yyk7DQo+PiAtDQo+PiAtCXJldHVybiBkcm1f
+YXRvbWljX2hlbHBlcl9jaGVja19wbGFuZV9zdGF0ZShuZXdfcGxhbmVfc3RhdGUsIG5ld19j
+cnRjX3N0YXRlLA0KPj4gLQkJCQkJCSAgIERSTV9QTEFORV9OT19TQ0FMSU5HLA0KPj4gLQkJ
+CQkJCSAgIERSTV9QTEFORV9OT19TQ0FMSU5HLA0KPj4gLQkJCQkJCSAgIGZhbHNlLCBmYWxz
+ZSk7DQo+PiAtfQ0KPj4gLQ0KPj4gICBzdGF0aWMgdm9pZCBzc2QxMzB4X3ByaW1hcnlfcGxh
+bmVfaGVscGVyX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+PiAg
+IAkJCQkJCSAgICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqb2xkX3N0YXRlKQ0KPj4g
+ICB7DQo+PiBAQCAtNjIzLDcgKzYwNyw3IEBAIHN0YXRpYyB2b2lkIHNzZDEzMHhfcHJpbWFy
+eV9wbGFuZV9oZWxwZXJfYXRvbWljX2Rpc2FibGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUs
+DQo+PiAgIA0KPj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9oZWxwZXJfZnVu
+Y3Mgc3NkMTMweF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9mdW5jcyA9IHsNCj4+ICAgCURSTV9H
+RU1fU0hBRE9XX1BMQU5FX0hFTFBFUl9GVU5DUywNCj4+IC0JLmF0b21pY19jaGVjayA9IHNz
+ZDEzMHhfcHJpbWFyeV9wbGFuZV9oZWxwZXJfYXRvbWljX2NoZWNrLA0KPj4gKwkuYXRvbWlj
+X2NoZWNrID0gZHJtX3BsYW5lX2hlbHBlcl9hdG9taWNfY2hlY2ssDQo+PiAgIAkuYXRvbWlj
+X3VwZGF0ZSA9IHNzZDEzMHhfcHJpbWFyeV9wbGFuZV9oZWxwZXJfYXRvbWljX3VwZGF0ZSwN
+Cj4+ICAgCS5hdG9taWNfZGlzYWJsZSA9IHNzZDEzMHhfcHJpbWFyeV9wbGFuZV9oZWxwZXJf
+YXRvbWljX2Rpc2FibGUsDQo+PiAgIH07DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL3Rpbnkvc2ltcGxlZHJtLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0u
+Yw0KPj4gaW5kZXggNzc3Y2NkMjUwODcxLi5lYTViMzIzOWE2NTkgMTAwNjQ0DQo+PiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4+IEBAIC00NjksMjkgKzQ2OSw2IEBAIHN0YXRp
+YyBjb25zdCB1aW50NjRfdCBzaW1wbGVkcm1fcHJpbWFyeV9wbGFuZV9mb3JtYXRfbW9kaWZp
+ZXJzW10gPSB7DQo+PiAgIAlEUk1fRk9STUFUX01PRF9JTlZBTElEDQo+PiAgIH07DQo+PiAg
+IA0KPj4gLXN0YXRpYyBpbnQgc2ltcGxlZHJtX3ByaW1hcnlfcGxhbmVfaGVscGVyX2F0b21p
+Y19jaGVjayhzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwNCj4+IC0JCQkJCQkgICAgICAgc3Ry
+dWN0IGRybV9hdG9taWNfc3RhdGUgKm5ld19zdGF0ZSkNCj4+IC17DQo+PiAtCXN0cnVjdCBk
+cm1fcGxhbmVfc3RhdGUgKm5ld19wbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19w
+bGFuZV9zdGF0ZShuZXdfc3RhdGUsIHBsYW5lKTsNCj4+IC0Jc3RydWN0IGRybV9jcnRjICpu
+ZXdfY3J0YyA9IG5ld19wbGFuZV9zdGF0ZS0+Y3J0YzsNCj4+IC0Jc3RydWN0IGRybV9jcnRj
+X3N0YXRlICpuZXdfY3J0Y19zdGF0ZSA9IE5VTEw7DQo+PiAtCWludCByZXQ7DQo+PiAtDQo+
+PiAtCWlmIChuZXdfY3J0YykNCj4+IC0JCW5ld19jcnRjX3N0YXRlID0gZHJtX2F0b21pY19n
+ZXRfbmV3X2NydGNfc3RhdGUobmV3X3N0YXRlLCBuZXdfY3J0Yyk7DQo+PiAtDQo+PiAtCXJl
+dCA9IGRybV9hdG9taWNfaGVscGVyX2NoZWNrX3BsYW5lX3N0YXRlKG5ld19wbGFuZV9zdGF0
+ZSwgbmV3X2NydGNfc3RhdGUsDQo+PiAtCQkJCQkJICBEUk1fUExBTkVfTk9fU0NBTElORywN
+Cj4+IC0JCQkJCQkgIERSTV9QTEFORV9OT19TQ0FMSU5HLA0KPj4gLQkJCQkJCSAgZmFsc2Us
+IGZhbHNlKTsNCj4+IC0JaWYgKHJldCkNCj4+IC0JCXJldHVybiByZXQ7DQo+PiAtCWVsc2Ug
+aWYgKCFuZXdfcGxhbmVfc3RhdGUtPnZpc2libGUpDQo+PiAtCQlyZXR1cm4gMDsNCj4+IC0N
+Cj4+IC0JcmV0dXJuIDA7DQo+PiAtfQ0KPj4gLQ0KPj4gICBzdGF0aWMgdm9pZCBzaW1wbGVk
+cm1fcHJpbWFyeV9wbGFuZV9oZWxwZXJfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5l
+ICpwbGFuZSwNCj4+ICAgCQkJCQkJCSBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqb2xkX3N0
+YXRlKQ0KPj4gICB7DQo+PiBAQCAtNTQzLDcgKzUyMCw3IEBAIHN0YXRpYyB2b2lkIHNpbXBs
+ZWRybV9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfZGlzYWJsZShzdHJ1Y3QgZHJtX3Bs
+YW5lICpwbGFuDQo+PiAgIA0KPj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9o
+ZWxwZXJfZnVuY3Mgc2ltcGxlZHJtX3ByaW1hcnlfcGxhbmVfaGVscGVyX2Z1bmNzID0gew0K
+Pj4gICAJRFJNX0dFTV9TSEFET1dfUExBTkVfSEVMUEVSX0ZVTkNTLA0KPj4gLQkuYXRvbWlj
+X2NoZWNrID0gc2ltcGxlZHJtX3ByaW1hcnlfcGxhbmVfaGVscGVyX2F0b21pY19jaGVjaywN
+Cj4+ICsJLmF0b21pY19jaGVjayA9IGRybV9wbGFuZV9oZWxwZXJfYXRvbWljX2NoZWNrLA0K
+Pj4gICAJLmF0b21pY191cGRhdGUgPSBzaW1wbGVkcm1fcHJpbWFyeV9wbGFuZV9oZWxwZXJf
+YXRvbWljX3VwZGF0ZSwNCj4+ICAgCS5hdG9taWNfZGlzYWJsZSA9IHNpbXBsZWRybV9wcmlt
+YXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfZGlzYWJsZSwNCj4+ICAgfTsNCj4+IGRpZmYgLS1n
+aXQgYS9pbmNsdWRlL2RybS9kcm1fcGxhbmVfaGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1f
+cGxhbmVfaGVscGVyLmgNCj4+IGluZGV4IDE3ODFmYWIyNGRkNi4uNzc2MGIyN2IwMzIzIDEw
+MDY0NA0KPj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3BsYW5lX2hlbHBlci5oDQo+PiArKysg
+Yi9pbmNsdWRlL2RybS9kcm1fcGxhbmVfaGVscGVyLmgNCj4+IEBAIC00MSw1ICs0MSw2IEBA
+IGludCBkcm1fcGxhbmVfaGVscGVyX3VwZGF0ZV9wcmltYXJ5KHN0cnVjdCBkcm1fcGxhbmUg
+KnBsYW5lLCBzdHJ1Y3QgZHJtX2NydGMgKmNyDQo+PiAgIGludCBkcm1fcGxhbmVfaGVscGVy
+X2Rpc2FibGVfcHJpbWFyeShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwNCj4+ICAgCQkJCSAg
+ICAgc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4ICpjdHgpOw0KPj4gICB2b2lkIGRy
+bV9wbGFuZV9oZWxwZXJfZGVzdHJveShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSk7DQo+PiAr
+aW50IGRybV9wbGFuZV9oZWxwZXJfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fcGxhbmUgKnBs
+YW5lLCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpOw0KPj4gICANCj4+ICAgI2Vu
+ZGlmDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
+ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
+dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
+ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-so both 16 and 32 work, but 24 failed on DELL/T630.
+--------------nI0vA6GHU8Q0GeFg50qARSlq--
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c
-b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 225cca2ed60e..563e3ab05fbc 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -1070,7 +1070,7 @@ int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_available
+--------------DiouCn0RWPGokSIcWyoFJqyE
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-        dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
-        dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
--       dev->mode_config.preferred_depth = 24;
-+       dev->mode_config.preferred_depth = 32;
-        dev->mode_config.fb_base = mdev->vram_res->start;
-        dev->mode_config.funcs = &mgag200_mode_config_funcs;
+-----BEGIN PGP SIGNATURE-----
 
-Best Regards
-Wang Yugui (wangyugui@e16-tech.com)
-2022/09/13
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMgnp4FAwAAAAAACgkQlh/E3EQov+Bb
+kA//USRYRQ/96/Cyg8rpZSWXvqw161ZjBzoVe83XxeQ1C0mcMiTh95X+9hJVv4vcLtDtbrNuMSk4
+Kbjq2Txf5Z48pIhg40yvtdn05T6/Bob14J2V642n811g5GmxosYsEdvSQXronx3N0YfqCVAiaCM/
+dkCRBNOpb+AZn5aGDUxMdcoLunsp30JbCJbrkq7RDAiA8bIEUL9BhQl2qgRTctqlVzRu655lhpmN
+1RX6XKwf99CIRgdkveFYOBzHBnr20MFW/D3c9sA4o0iM/vHb/6Dcjlj3X5uLcsAk6GDUtx2zKBCo
+V8/EX5jFmLdZqzcWKO0LrkehUxjvdUBLUGdZ/Y+vrn0u7lNA8TceW38cuRfX/UWUX7wcBsWJ8Inv
+yjgKHLs6MFmwmuQKHfHZ4kpL1q+OG+0cRWR6N3pU37Eb7CLR6fHz5ahqz8XXsUIGlzczzeqJDsea
+sutXVx3lAOva4w8Kr+wY5ZM24AZ+qX4VeWfIyeRkMCWTqwjmNrzpMmug4Uca+xqH76fI2HtPLHcD
+Yb+d64nN6Mh9GgqcacXVkAUODM5+siWHcAflHhe8LdkAemP9HZlGIr19vQvpIrwM89UH1GXz9KEJ
+FT8cU99Y8uLj9720l9dwxG1iJAZJ87bTBb1rjo8y8m7vv8cqrvARFOFxgDgGriBSUFYUL/BWmJzJ
+jXU=
+=BTq8
+-----END PGP SIGNATURE-----
 
-
-
+--------------DiouCn0RWPGokSIcWyoFJqyE--
