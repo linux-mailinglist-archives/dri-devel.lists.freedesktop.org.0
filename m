@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78905B6DDE
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 15:01:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC215B6DEB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 15:05:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22DE110E6F6;
-	Tue, 13 Sep 2022 13:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E1210E6F8;
+	Tue, 13 Sep 2022 13:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B609710E6F5;
- Tue, 13 Sep 2022 13:01:36 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-11eab59db71so31822212fac.11; 
- Tue, 13 Sep 2022 06:01:36 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B032D89EB1;
+ Tue, 13 Sep 2022 13:05:42 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-11e9a7135easo31897155fac.6; 
+ Tue, 13 Sep 2022 06:05:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=Egq3TEXftTCJHVvcDfROaTHHjIMkOHhmY4MYJgUqpWQ=;
- b=IkYoOc4wWT22pJ9fC+4oRYo0mk+0Jkg6ujt7YjIOFF1VBj7HNkFGvXg2n19hopxdH1
- ioQg9GrPo1NMvYUVtbvmYyF9uDwDFCkxzZHiaXDuGszuvGbwCpPu/blKETycs3jTEjY3
- NZu1aPRoNYlrkJ0E48Kglav5q3KbstekWQtfjLv5JL4F1a1Y93yMsy7fXYoH0umdQv+R
- +CP2Biq3F6XRW3mog4/A1qA1bcd96tQuwWJM0laeT+s9BjSeGLVozIAQZbm/ifctH7H0
- fJ31YaMEpT+XuFsJQM4TkVYZy0dzT+5+RKn1Ia/Oa+cIoecUP3MsurqMRNbLAgwKQl+7
- 0q/A==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=Zz3ZuyKP9ensUU2Om8FSpGsYSuFsamP2YrTm9IZuHlw=;
+ b=f+E0o0DPHiAXnmpaNZ73H5C4RsJLg+2Dwn1XMDPCz8+TOoFU/9uG96vepHmsIOEzO5
+ 2UzMeFlZsS3dOpSNb1rVaI5lbki8+8mV9F1qEiyOmiaZEoGU2gkyvHR0jD5snNPo756P
+ nJ/qnKlnSoRt7xj6HUt7/aJsPS7nyga34CuXYK6FR3tt08DWCbd6FThJzrC0RQwb1Qxv
+ Y+UYJ6Z0JY+TJ7L3n/h/8EQdBFDoomrPykXbF4TeP+wuko0qfU/ONJ25TjNN2XyvCdD3
+ R0w57Nu7Vh4fpQ6pOqohi9yrCfN1LXfcoPUlQiwcpQDV1WMdZCqx1WGmAqNNnJ1PssBX
+ TknA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Egq3TEXftTCJHVvcDfROaTHHjIMkOHhmY4MYJgUqpWQ=;
- b=FEAaPv23ucNQR3LzULm2GpryPZFFhUVFxFElAf4xVUy0xbPzzdz0dE89JZ6iilDM31
- KKonHA3uTdMNygtHnBlLzM/cUrtIUC3MSW82gRX7qgouio6dZzSaT9Cz5ps4M5w/alce
- 5UKofKnCd6XPSjsVsBQWJkKspQgmPD75el0VC1ZJounc0qXSxg1zae2c8h2Eq7IlJm/x
- mmDBWOYLqYHttsOQEPhqvEU3VRZxmAmEy7JN7BrMgn5BTpi3Scg3YNJkvFIyAA81M/1p
- rMioDUvs1sBjOCEd86YXi8kJOla1lGRw3mvXzLKdu4LEs9QmF/5a78mKvf0z0zn4ueC0
- nrCQ==
-X-Gm-Message-State: ACgBeo3mWNHrX7VAihRAgQcHlrMcB6EJAXYmDBhnWLL3+uXpBy+pO5EW
- 15beJnRkVFJvh8CTO4hEBCTXocJUf8Pn6r2DPl4=
-X-Google-Smtp-Source: AA6agR4FjusHCwayFdOlxCIojR/3f7ct8RZVroGn3bNBezA+eIWEwxbO0vSF7MMqn8xxiXfkohKS+WVlyhevJEMQg3g=
-X-Received: by 2002:a05:6870:738d:b0:125:1b5:420f with SMTP id
- z13-20020a056870738d00b0012501b5420fmr1711917oam.96.1663074094492; Tue, 13
- Sep 2022 06:01:34 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Zz3ZuyKP9ensUU2Om8FSpGsYSuFsamP2YrTm9IZuHlw=;
+ b=6iRLCtJXKSiz8m4kX893TKf4UKSyPJLa2Ro6UlmvQRsDXOdbOFiDsDdemr9cqP+nV4
+ 554l5ZvU+f3qDEjrZEACs0473mymBc22OjNWHobEclHJt7HaA5rAZPS+siVd4V32GQmT
+ D9Hz1dz+5QcsuWtwW+mBM+OCQtRQkgNJdFc8KCsVRIzAhrpo56yUdd48MfSEI8GfZD8h
+ dRsoYLwLKkVCbDTdwUB740/j0QGLFuyYH1Ky8CvHnakdOOfIfWr+xct7y3cM8TJsNEGy
+ 731Q86nbdS8IxToKdG8ii40DGoJU2LYjCiXzNv8fJWB2iNbOCCTOqV3KwMtEIjIxdHW0
+ fkoA==
+X-Gm-Message-State: ACgBeo2rkNytinZGGBy2Y/ng2RGm37t8yIqW7gIi4tMjvdUJymILqCTq
+ mvphNP1kkB4CKS71muJALcj8njpMvb7uWywt16Q=
+X-Google-Smtp-Source: AA6agR5rduGKYZghi/pRmYkSMBadxQji0WAU2U3yLynsQzPDUoOEvNriM8jT51uEQbQwZ7SE19eM1sf6GDZOLvRepw8=
+X-Received: by 2002:a05:6808:2384:b0:34f:df01:c011 with SMTP id
+ bp4-20020a056808238400b0034fdf01c011mr1447287oib.96.1663074342037; Tue, 13
+ Sep 2022 06:05:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220913083805.22549-1-jiapeng.chong@linux.alibaba.com>
- <20220913083805.22549-5-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20220913083805.22549-5-jiapeng.chong@linux.alibaba.com>
+References: <20220912032241.16259-1-xu.panda@zte.com.cn>
+In-Reply-To: <20220912032241.16259-1-xu.panda@zte.com.cn>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 13 Sep 2022 09:01:23 -0400
-Message-ID: <CADnq5_OGB6jVp34oWRxRHJneK-+UZo-oRm=ydO2Rtv3=ekHgdA@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm/amd/display: Remove the unused function
- copy_stream_update_to_stream()
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Date: Tue, 13 Sep 2022 09:05:30 -0400
+Message-ID: <CADnq5_OsjtPzYic1M9fbY=m7mwA_uxzZ=znVXgVrGjvJ2kRL7Q@mail.gmail.com>
+Subject: Re: [PATCH linux-next] drm/amd/display/amdgpu_dm: remove duplicate
+ included header files
+To: cgel.zte@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +65,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: christian.koenig@amd.com, sunpeng.li@amd.com,
+ Xu Panda <xu.panda@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, roman.li@amd.com, airlied@linux.ie,
+ aurabindo.pillai@amd.com, dri-devel@lists.freedesktop.org, Wayne.Lin@amd.com,
+ alexander.deucher@amd.com, nicholas.kazlauskas@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series.  Thanks!
+Applied.  Thanks!
 
-Alex
-
-On Tue, Sep 13, 2022 at 4:39 AM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
+On Sun, Sep 11, 2022 at 11:23 PM <cgel.zte@gmail.com> wrote:
 >
-> The function copy_stream_update_to_stream() is defined in the notif.c
-> file, but not called elsewhere, so delete this unused function.
+> From: Xu Panda <xu.panda@zte.com.cn>
 >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:2852:6: warning: no pr=
-evious prototype for =E2=80=98dc_reset_state=E2=80=99.
+> soc15_common.h is included more than once.
 >
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D2113
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Xu Panda <xu.panda@zte.com.cn>
 > ---
->  drivers/gpu/drm/amd/display/dc/core/dc.c | 10 ----------
->  1 file changed, 10 deletions(-)
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/a=
-md/display/dc/core/dc.c
-> index 9860bf38c547..2ee0b5a2ce62 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-> @@ -2849,16 +2849,6 @@ static void copy_stream_update_to_stream(struct dc=
- *dc,
->         }
->  }
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 7a93162633ae..0e42bf496a73 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -98,8 +98,6 @@
+>  #include "soc15_common.h"
+>  #include "vega10_ip_offset.h"
 >
-> -void dc_reset_state(struct dc *dc, struct dc_state *context)
-> -{
-> -       dc_resource_state_destruct(context);
+> -#include "soc15_common.h"
 > -
-> -       /* clear the structure, but don't reset the reference count */
-> -       memset(context, 0, offsetof(struct dc_state, refcount));
-> -
-> -       init_state(dc, context);
-> -}
-> -
->  static bool update_planes_and_stream_state(struct dc *dc,
->                 struct dc_surface_update *srf_updates, int surface_count,
->                 struct dc_stream_state *stream,
+>  #include "gc/gc_11_0_0_offset.h"
+>  #include "gc/gc_11_0_0_sh_mask.h"
+>
 > --
-> 2.20.1.7.g153144c
+> 2.15.2
 >
