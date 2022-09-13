@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A715B6892
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 09:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7486D5B68B0
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 09:31:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60EB910E61C;
-	Tue, 13 Sep 2022 07:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0276A10E62A;
+	Tue, 13 Sep 2022 07:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 605E510E61C;
- Tue, 13 Sep 2022 07:20:43 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51EB810E626;
+ Tue, 13 Sep 2022 07:31:17 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 83088612E7;
- Tue, 13 Sep 2022 07:20:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E09D6C433C1;
- Tue, 13 Sep 2022 07:20:41 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E1F8DB80E23;
+ Tue, 13 Sep 2022 07:31:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 931EBC433C1;
+ Tue, 13 Sep 2022 07:31:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663053642;
- bh=8E4O++2S6FWEnxjwuILlmwZ5txcSLR8D7sk53WBMDXQ=;
+ s=k20201202; t=1663054274;
+ bh=vilETUvw2g1sd91EdUM1pQ5GKS9RICQuFAfvW/iSAq8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DbfN+Zsij52xBRMio9UjMnddcvrW6l9KE1bas+PuyClOTdyacgCwG7an4RMBeFzgq
- ZkmufTzGX5eXiWuUaeu60mAi6OuZ/eofEFLww/gnvV28K02ZOqeVzU1jDiJpgZ+kBR
- e4HsovoyZhSSU7WfsnpwNEsRFJ7OS+J9NTRwS1lbBnN8a+QkUCKdK+uqAN5pmLwPbL
- RahtWxI+J/aAuBwYRPhi449p37AjDnVGuSGY2ZtO2qDn8fW4E9HxEOJLwPc6qg9vZJ
- 1n/dpiaPWA9L2Qy6akJJFp424t4k9GnNptI+XZHTxWnqTc7YsFCa71oldb5vsEgiQ5
- 29EgLxVTHYqIA==
+ b=vBogiI3O3oHQ7kMwgYuvOS6HuFwJ8FODKbCq/8DRFwDqy8O4jzb4OpiZSJotm0VR6
+ czck5pd5BSOlTLoD0X3QvVa9lHZfBD/vA/OgBMCupFbYUPsWS5JfcK/hutyTtg4+UK
+ PCbM8RakfylK0fVfmI2z+uOQKRmjVJxlNIP3ekUrS+MP3WISwEfYtlHgbCQyGyNbON
+ T9OPYWUK+ZggSPyiVzEkZDGogVrPPH9f5G36q/C0Qo8TadbNCvT0PG7Bjrd+vmMji9
+ zZEXIwmPVt/TgLVzvK38QzTjHougDI0aOCA1nCFUiheV1RYha+KUWlCxtUFfbPVPmG
+ LTel/kiDN0M7w==
 Received: from johan by xi.lan with local (Exim 4.94.2)
  (envelope-from <johan@kernel.org>)
- id 1oY0Do-0000nJ-Jh; Tue, 13 Sep 2022 09:20:40 +0200
-Date: Tue, 13 Sep 2022 09:20:40 +0200
+ id 1oY0O1-0000s7-3p; Tue, 13 Sep 2022 09:31:13 +0200
+Date: Tue, 13 Sep 2022 09:31:13 +0200
 From: Johan Hovold <johan@kernel.org>
-To: Steev Klimaszewski <steev@kali.org>
-Subject: Re: [PATCH 4/7] drm/msm/dp: fix aux-bus EP lifetime
-Message-ID: <YyAvSKTBGdVIjaHW@hovoldconsulting.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 1/7] drm/msm: fix use-after-free on probe deferral
+Message-ID: <YyAxwQmN9SDrWa7n@hovoldconsulting.com>
 References: <20220912154046.12900-1-johan+linaro@kernel.org>
- <20220912154046.12900-5-johan+linaro@kernel.org>
- <e60f0053-3801-bf33-5841-69f16215fa00@linaro.org>
- <69526798-93df-a4f9-c385-c9bf490cc709@kali.org>
+ <20220912154046.12900-2-johan+linaro@kernel.org>
+ <518564a8-5206-80cc-8306-50296de43abf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <69526798-93df-a4f9-c385-c9bf490cc709@kali.org>
+In-Reply-To: <518564a8-5206-80cc-8306-50296de43abf@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,58 +66,52 @@ Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, stable@vger.kernel.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Johan Hovold <johan+linaro@kernel.org>
+ stable@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 12, 2022 at 04:55:58PM -0500, Steev Klimaszewski wrote:
+On Mon, Sep 12, 2022 at 08:52:44PM +0300, Dmitry Baryshkov wrote:
+> On 12/09/2022 18:40, Johan Hovold wrote:
+> > The bridge counter was never reset when tearing down the DRM device so
+> > that stale pointers to deallocated structures would be accessed on the
+> > next tear down (e.g. after a second late bind deferral).
+> > 
+> > Given enough bridges and a few probe deferrals this could currently also
+> > lead to data beyond the bridge array being corrupted.
+> > 
+> > Fixes: d28ea556267c ("drm/msm: properly add and remove internal bridges")
+> > Cc: stable@vger.kernel.org      # 5.19
 > 
-> On 9/12/22 1:10 PM, Dmitry Baryshkov wrote:
-> > On 12/09/2022 18:40, Johan Hovold wrote:
-> >> Device-managed resources allocated post component bind must be tied to
-> >> the lifetime of the aggregate DRM device or they will not necessarily be
-> >> released when binding of the aggregate device is deferred.
-> >>
-> >> This can lead resource leaks or failure to bind the aggregate device
-> >> when binding is later retried and a second attempt to allocate the
-> >> resources is made.
-> >>
-> >> For the DP aux-bus, an attempt to populate the bus a second time will
-> >> simply fail ("DP AUX EP device already populated").
-> >>
-> >> Fix this by amending the DP aux interface and tying the lifetime of the
-> >> EP device to the DRM device rather than DP controller platform device.
-> >
-> > Doug, could you please take a look?
-> >
-> > For me this is another reminder/pressure point that we should populate 
-> > the AUX BUS from the probe(), before binding the components together.
-> >
-> >>
-> >> Fixes: c3bf8e21b38a ("drm/msm/dp: Add eDP support via aux_bus")
-> >> Cc: stable@vger.kernel.org      # 5.19
-> >> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> >> ---
-> >>   drivers/gpu/drm/bridge/parade-ps8640.c   | 2 +-
-> >>   drivers/gpu/drm/display/drm_dp_aux_bus.c | 5 +++--
-> >>   drivers/gpu/drm/msm/dp/dp_display.c      | 3 ++-
-> >>   include/drm/display/drm_dp_aux_bus.h     | 6 +++---
-> >>   4 files changed, 9 insertions(+), 7 deletions(-)
+> Fixes: a3376e3ec81c ("drm/msm: convert to drm_bridge")
+> Cc: stable@vger.kernel.org # 3.12
 
-> This breaks builds which have ti-sn65dsi86 included:
-> 
-> drivers/gpu/drm/bridge/ti-sn65dsi86.c:628:50: error: passing argument 1 
-> of 'devm_of_dp_aux_populate_ep_devices' from incompatible argument type.
-> 
-> As well,
-> 
-> drivers/gpu/drm/bridge/ti-sn65dsi86.c:628:15: error: too few arguments 
-> to function 'devm_of_dp_aux_populate_ep_devices'
+The use after free was introduced in 5.19, and the next patch takes care
+of the possible overflow of the bridges array that has been around since
+3.12.
 
-Thanks for reporting this. I messed up and apparently only grepped for
-devm_of_dp_aux_populate_bus() and not the
-devm_of_dp_aux_populate_ep_devices() wrapper when searching for users.
+But sure, this oversight has been there since 3.12. I'll reconsider
+adding the other Fixes tag. The stable team struggles with context
+changes apparently so not sure it's worth backporting, though.
+
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> > ---
+> >   drivers/gpu/drm/msm/msm_drv.c | 1 +
+> >   1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> > index 391d86b54ded..d254fe2507ec 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > @@ -241,6 +241,7 @@ static int msm_drm_uninit(struct device *dev)
+> >   
+> >   	for (i = 0; i < priv->num_bridges; i++)
+> >   		drm_bridge_remove(priv->bridges[i]);
+> > +	priv->num_bridges = 0;
+> >   
+> >   	pm_runtime_get_sync(dev);
+> >   	msm_irq_uninstall(ddev);
 
 Johan
