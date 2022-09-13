@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FB25B6E1F
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 15:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D735B6E1B
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 15:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38DBD10E709;
-	Tue, 13 Sep 2022 13:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEEB610E6FB;
+	Tue, 13 Sep 2022 13:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F68210E710
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 13:15:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1373010E703
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 13:15:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=WGDOR4/G4lvi7odQrLsocAov6jzKFOoeOGWdV2SLtpo=; b=SgxfXPr05XtrF2+CjQQfRPFOaU
- VqswLMsz8o0FUhqXIt2oikC7ry/F8i/s1iQojMF8kC+z42dxZCE9oZATOFXv6+aa5eIH8q3DVO4QR
- JHYpsAVq58I//Ei9JWkkepecCMcEXgWkhD1fAATZzWwCMTz9CLlz8X1M0mbvxJkzgnMfT5g/ncyxd
- 7NMHxygO9Dwip6OW4i8gfmuwwQ0/I/SAuaXAdd43J8rvDsltlFLM9JWcbsMgDFX+YjbqWiGLI9XQr
- ahZbNZ/qR+AGvjD8OXYR2/FkmFFbru2wyhyi994cfVrHo2BJcdnFjrNfRp3QMokvS1FzZGVQPXBiG
- 1CZ+avCA==;
+ bh=p6QzHQt11OGlMmkTQfhRjLd3f6wmGLkJhnf488+Wpoc=; b=R5a8gg3mrVQ44eu8OqpBuaHekR
+ eJoSsUZ6HZApkUs7BgpkCtrGP6F5iGwV1ZNsSg/26pNsoUAFzd+tmFdayHfJU8oUeN/NoBVvN3zo7
+ vtHNYmFEErBRcBhPqZFDMwqs73ofkinbGVSCpt7DTTa+q7y9SBUCUMayPRKwUjYUDU8SCZiWuSPLO
+ mCmVN9WfI+Yvz9FLYJhs0D44CzpLwq80nHYF7q7L1TFnvie9m4nl0mSarvnMf3bhQjHbrfF4+OqiJ
+ qtkjqOrFLrsPlNuAEZ2DXU0gMUGQz2TRbAxzTC9ia8B04gIFN1QgmndDbJG06rvz0l9cSUpRpR7O9
+ cQ5X6GTw==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1oY5kg-00EVnM-T3; Tue, 13 Sep 2022 16:14:58 +0300
+ id 1oY5kh-00EVnM-6S; Tue, 13 Sep 2022 16:14:59 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH v2 1/8] memory: tegra: Add API for retrieving carveout bounds
-Date: Tue, 13 Sep 2022 16:14:39 +0300
-Message-Id: <20220913131447.2877280-2-cyndis@kapsi.fi>
+Subject: [PATCH v2 2/8] dt-bindings: Add headers for NVDEC on Tegra234
+Date: Tue, 13 Sep 2022 16:14:40 +0300
+Message-Id: <20220913131447.2877280-3-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220913131447.2877280-1-cyndis@kapsi.fi>
 References: <20220913131447.2877280-1-cyndis@kapsi.fi>
@@ -59,117 +59,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Sameer Pujar <spujar@nvidia.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org,
- Ashish Mhetre <amhetre@nvidia.com>
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-tegra@vger.kernel.org, Ashish Mhetre <amhetre@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-On Tegra234 NVDEC firmware is loaded from a secure carveout, where it
-has been loaded by a bootloader. When booting NVDEC, we need to tell it
-the address of this firmware, which we can determine by checking the
-starting address of the carveout. As such, add an MC API to query the
-bounds of carveouts, and add related information on Tegra234.
+Add clock, memory controller, powergate and reset dt-binding headers
+necessary for NVDEC.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-v2:
-- Add check for 64-bit phys_addr_t. In practice phys_addr_t
-  is always 64 bits where this runs, but it avoids warnings in
-  compile test.
----
- drivers/memory/tegra/mc.c       | 25 +++++++++++++++++++++++++
- drivers/memory/tegra/tegra234.c |  5 +++++
- include/soc/tegra/mc.h          | 11 +++++++++++
- 3 files changed, 41 insertions(+)
+ include/dt-bindings/clock/tegra234-clock.h     | 4 ++++
+ include/dt-bindings/memory/tegra234-mc.h       | 3 +++
+ include/dt-bindings/power/tegra234-powergate.h | 1 +
+ include/dt-bindings/reset/tegra234-reset.h     | 1 +
+ 4 files changed, 9 insertions(+)
 
-diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-index 2f7a58a9df1a..592907546ee6 100644
---- a/drivers/memory/tegra/mc.c
-+++ b/drivers/memory/tegra/mc.c
-@@ -107,6 +107,31 @@ int tegra_mc_probe_device(struct tegra_mc *mc, struct device *dev)
- }
- EXPORT_SYMBOL_GPL(tegra_mc_probe_device);
+diff --git a/include/dt-bindings/clock/tegra234-clock.h b/include/dt-bindings/clock/tegra234-clock.h
+index 173364a93381..25b4a3fb4588 100644
+--- a/include/dt-bindings/clock/tegra234-clock.h
++++ b/include/dt-bindings/clock/tegra234-clock.h
+@@ -82,6 +82,8 @@
+ #define TEGRA234_CLK_I2S6			66U
+ /** @brief clock recovered from I2S6 input */
+ #define TEGRA234_CLK_I2S6_SYNC_INPUT		67U
++/** @brief output of mux controlled by CLK_RST_CONTROLLER_CLK_SOURCE_NVDEC */
++#define TEGRA234_CLK_NVDEC                      83U
+ /** PLL controlled by CLK_RST_CONTROLLER_PLLA_BASE for use by audio clocks */
+ #define TEGRA234_CLK_PLLA			93U
+ /** @brief PLLP clk output */
+@@ -130,6 +132,8 @@
+ #define TEGRA234_CLK_SYNC_I2S5			149U
+ /** @brief output of mux controlled by CLK_RST_CONTROLLER_AUDIO_SYNC_CLK_I2S6 */
+ #define TEGRA234_CLK_SYNC_I2S6			150U
++/** output of mux controlled by CLK_RST_CONTROLLER_CLK_SOURCE_PKA */
++#define TEGRA234_CLK_TSEC_PKA                   154U
+ /** @brief output of mux controlled by CLK_RST_CONTROLLER_CLK_SOURCE_UARTA */
+ #define TEGRA234_CLK_UARTA			155U
+ /** @brief output of gate CLK_ENB_PEX1_CORE_6 */
+diff --git a/include/dt-bindings/memory/tegra234-mc.h b/include/dt-bindings/memory/tegra234-mc.h
+index 62987b47ce81..75f0bd30d365 100644
+--- a/include/dt-bindings/memory/tegra234-mc.h
++++ b/include/dt-bindings/memory/tegra234-mc.h
+@@ -32,6 +32,7 @@
+ #define TEGRA234_SID_PCIE10	0x0b
+ #define TEGRA234_SID_BPMP	0x10
+ #define TEGRA234_SID_HOST1X	0x27
++#define TEGRA234_SID_NVDEC	0x29
+ #define TEGRA234_SID_VIC	0x34
  
-+int tegra_mc_get_carveout_info(struct tegra_mc *mc, unsigned int id,
-+                               phys_addr_t *base, u64 *size)
-+{
-+	u32 offset;
-+
-+	if (id < 1 || id >= mc->soc->num_carveouts)
-+		return -EINVAL;
-+
-+	if (id < 6)
-+		offset = 0xc0c + 0x50 * (id - 1);
-+	else
-+		offset = 0x2004 + 0x50 * (id - 6);
-+
-+	*base = mc_ch_readl(mc, MC_BROADCAST_CHANNEL, offset + 0x0);
-+#ifdef CONFIG_PHYS_ADDR_T_64BIT
-+	*base |= (phys_addr_t)mc_ch_readl(mc, MC_BROADCAST_CHANNEL, offset + 0x4) << 32;
-+#endif
-+
-+	if (size)
-+		*size = mc_ch_readl(mc, MC_BROADCAST_CHANNEL, offset + 0x8) << 17;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(tegra_mc_get_carveout_info);
-+
- static int tegra_mc_block_dma_common(struct tegra_mc *mc,
- 				     const struct tegra_mc_reset *rst)
- {
-diff --git a/drivers/memory/tegra/tegra234.c b/drivers/memory/tegra/tegra234.c
-index a9e8fd99730f..74d291d66366 100644
---- a/drivers/memory/tegra/tegra234.c
-+++ b/drivers/memory/tegra/tegra234.c
-@@ -187,4 +187,9 @@ const struct tegra_mc_soc tegra234_mc_soc = {
- 	.ops = &tegra186_mc_ops,
- 	.ch_intmask = 0x0000ff00,
- 	.global_intstatus_channel_shift = 8,
-+	/*
-+	 * Additionally, there are lite carveouts but those are not currently
-+	 * supported.
-+	 */
-+	.num_carveouts = 32,
- };
-diff --git a/include/soc/tegra/mc.h b/include/soc/tegra/mc.h
-index 47ce6d434427..51a2263e1bc5 100644
---- a/include/soc/tegra/mc.h
-+++ b/include/soc/tegra/mc.h
-@@ -193,6 +193,8 @@ struct tegra_mc_soc {
- 	unsigned int num_address_bits;
- 	unsigned int atom_size;
+ /*
+@@ -91,6 +92,8 @@
+ #define TEGRA234_MEMORY_CLIENT_SDMMCWAB 0x67
+ #define TEGRA234_MEMORY_CLIENT_VICSRD 0x6c
+ #define TEGRA234_MEMORY_CLIENT_VICSWR 0x6d
++#define TEGRA234_MEMORY_CLIENT_NVDECSRD 0x78
++#define TEGRA234_MEMORY_CLIENT_NVDECSWR 0x79
+ /* BPMP read client */
+ #define TEGRA234_MEMORY_CLIENT_BPMPR 0x93
+ /* BPMP write client */
+diff --git a/include/dt-bindings/power/tegra234-powergate.h b/include/dt-bindings/power/tegra234-powergate.h
+index ae9286cef85c..e5dc1e00be95 100644
+--- a/include/dt-bindings/power/tegra234-powergate.h
++++ b/include/dt-bindings/power/tegra234-powergate.h
+@@ -19,6 +19,7 @@
+ #define TEGRA234_POWER_DOMAIN_MGBEB	18U
+ #define TEGRA234_POWER_DOMAIN_MGBEC	19U
+ #define TEGRA234_POWER_DOMAIN_MGBED	20U
++#define TEGRA234_POWER_DOMAIN_NVDEC     23U
+ #define TEGRA234_POWER_DOMAIN_VIC	29U
  
-+	unsigned int num_carveouts;
-+
- 	u16 client_id_mask;
- 	u8 num_channels;
- 
-@@ -244,6 +246,8 @@ unsigned int tegra_mc_get_emem_device_count(struct tegra_mc *mc);
- #ifdef CONFIG_TEGRA_MC
- struct tegra_mc *devm_tegra_memory_controller_get(struct device *dev);
- int tegra_mc_probe_device(struct tegra_mc *mc, struct device *dev);
-+int tegra_mc_get_carveout_info(struct tegra_mc *mc, unsigned int id,
-+                               phys_addr_t *base, u64 *size);
- #else
- static inline struct tegra_mc *
- devm_tegra_memory_controller_get(struct device *dev)
-@@ -256,6 +260,13 @@ tegra_mc_probe_device(struct tegra_mc *mc, struct device *dev)
- {
- 	return -ENODEV;
- }
-+
-+static inline int
-+tegra_mc_get_carveout_info(struct tegra_mc *mc, unsigned int id,
-+                           phys_addr_t *base, u64 *size)
-+{
-+	return -ENODEV;
-+}
  #endif
- 
- #endif /* __SOC_TEGRA_MC_H__ */
+diff --git a/include/dt-bindings/reset/tegra234-reset.h b/include/dt-bindings/reset/tegra234-reset.h
+index d48d22b2bc7f..17163019316c 100644
+--- a/include/dt-bindings/reset/tegra234-reset.h
++++ b/include/dt-bindings/reset/tegra234-reset.h
+@@ -30,6 +30,7 @@
+ #define TEGRA234_RESET_I2C7			33U
+ #define TEGRA234_RESET_I2C8			34U
+ #define TEGRA234_RESET_I2C9			35U
++#define TEGRA234_RESET_NVDEC                    44U
+ #define TEGRA234_RESET_MGBE0_PCS		45U
+ #define TEGRA234_RESET_MGBE0_MAC		46U
+ #define TEGRA234_RESET_MGBE1_PCS		49U
 -- 
 2.37.0
 
