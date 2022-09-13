@@ -2,50 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C73B5B6EAA
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 15:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30185B6F29
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 16:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C818D10E71D;
-	Tue, 13 Sep 2022 13:55:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5868510E720;
+	Tue, 13 Sep 2022 14:10:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4071E10E71D
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 13:55:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663077354; x=1694613354;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=0pLrTyDx2j/9/LwBYAI3L3kInQeaOWfE2j6nAt1bu/c=;
- b=RkhBfbs5w5oLVGMXBJlCXXLm+gcdhVNV0W4tpFUQ3zTO5RYLr19HGvbW
- DSoMNZOeGCqmsOofe5LKaQeqNiuwUNbFbaTyJy864a4O7O4Fh57+wmepf
- 9WAPauaVEj+Xp8yNAITpR1CRMJ8zqVqOoJGa/VRI7mZFfyEsjqhFzwr34
- VYvC+rLvpgUwMcctT+4aJSsi1Kqk6dUDWQxj0BWcZ/m/c+g6pTOhR3AeU
- sWotk64yzSsmY961hYPbseg495ftCyCk56JTIXnx5aemFCINY8FGyIo7p
- 0zXuwnpHWBFGclzmh5bmZCt9FomU98S23UOpw7UaEoNE+scVinZdiCybN g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="299479969"
-X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="299479969"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 06:55:53 -0700
-X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; d="scan'208";a="678576766"
-Received: from baumeish-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.59.168])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 06:55:51 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/4] drm/edid: Refactor HFVSDB parsing for DSC1.2
-In-Reply-To: <20220811054718.2115917-4-ankit.k.nautiyal@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220811054718.2115917-1-ankit.k.nautiyal@intel.com>
- <20220811054718.2115917-4-ankit.k.nautiyal@intel.com>
-Date: Tue, 13 Sep 2022 16:55:46 +0300
-Message-ID: <87edwf4bvh.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 549B710E720;
+ Tue, 13 Sep 2022 14:10:05 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 95728614BC;
+ Tue, 13 Sep 2022 14:10:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 615A8C433D7;
+ Tue, 13 Sep 2022 14:10:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1663078203;
+ bh=pI/efMIRfMPLZEbOkc0FWEqztzpGq+Ww3EmELNCn0n8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=APFRULcUUQhC5Bjf2hZrozIk651s9UUhovWW7RF/UgQKuWUHVLcP7a9zomh0ASfDR
+ FOfu95e72+aCsHrbMLQ9DMjuVdtAl4MglEUtrQ1HDaQ2W7u/TCVYGUVf3VnaftrPGU
+ 17kJf6VuzQTZS+ZBgwSPLbFwArlnTny9zZUIp9hc=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 5.19 052/192] drm/amd/display: fix memory leak when using
+ debugfs_lookup()
+Date: Tue, 13 Sep 2022 16:02:38 +0200
+Message-Id: <20220913140412.529529553@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220913140410.043243217@linuxfoundation.org>
+References: <20220913140410.043243217@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,162 +52,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: uma.shankar@intel.com, maarten.lankhorst@intel.com, swati2.sharma@intel.com
+Cc: David Airlie <airlied@linux.ie>, Wenjing Liu <wenjing.liu@amd.com>,
+ dri-devel@lists.freedesktop.org,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Yongzhi Liu <lyz_cs@pku.edu.cn>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Thelford Williams <tdwilliamsiv@gmail.com>, Leo Li <sunpeng.li@amd.com>,
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
+ Sean Paul <seanpaul@chromium.org>, Mikita Lipski <mikita.lipski@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, stable@vger.kernel.org,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ hersen wu <hersenxs.wu@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 11 Aug 2022, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
-> DSC capabilities are given in bytes 11-13 of VSDB (i.e. bytes 8-10 of
-> SCDS). Since minimum length of Data block is 7, all bytes greater than 7
-> must be read only after checking the length of the data block.
->
-> This patch adds check for data block length before reading relavant DSC
-> bytes.
->
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+commit cbfac7fa491651c57926c99edeb7495c6c1aeac2 upstream.
 
-> ---
->  drivers/gpu/drm/drm_edid.c | 93 ++++++++++++++++++++------------------
->  1 file changed, 49 insertions(+), 44 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index ffff1d08b3a4..c9c3a9c8fa26 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -5706,9 +5706,6 @@ static void drm_parse_ycbcr420_deep_color_info(struct drm_connector *connector,
->  static void drm_parse_dsc_info(struct drm_hdmi_dsc_cap *hdmi_dsc,
->  			       const u8 *hf_scds)
->  {
-> -	u8 dsc_max_slices;
-> -	u8 dsc_max_frl_rate;
-> -
->  	hdmi_dsc->v_1p2 = hf_scds[11] & DRM_EDID_DSC_1P2;
->  
->  	if (!hdmi_dsc->v_1p2)
-> @@ -5727,47 +5724,54 @@ static void drm_parse_dsc_info(struct drm_hdmi_dsc_cap *hdmi_dsc,
->  		/* Supports min 8 BPC if DSC1.2 is supported*/
->  		hdmi_dsc->bpc_supported = 8;
->  
-> -	dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
-> -	drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
-> -			     &hdmi_dsc->max_frl_rate_per_lane);
-> -	hdmi_dsc->total_chunk_kbytes = hf_scds[13] & DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
-> +	if (cea_db_payload_len(hf_scds) >= 12 && hf_scds[12]) {
-> +		u8 dsc_max_slices;
-> +		u8 dsc_max_frl_rate;
->  
-> -	dsc_max_slices = hf_scds[12] & DRM_EDID_DSC_MAX_SLICES;
-> +		dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
-> +		drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
-> +				     &hdmi_dsc->max_frl_rate_per_lane);
->  
-> -	switch (dsc_max_slices) {
-> -	case 1:
-> -		hdmi_dsc->max_slices = 1;
-> -		hdmi_dsc->clk_per_slice = 340;
-> -		break;
-> -	case 2:
-> -		hdmi_dsc->max_slices = 2;
-> -		hdmi_dsc->clk_per_slice = 340;
-> -		break;
-> -	case 3:
-> -		hdmi_dsc->max_slices = 4;
-> -		hdmi_dsc->clk_per_slice = 340;
-> -		break;
-> -	case 4:
-> -		hdmi_dsc->max_slices = 8;
-> -		hdmi_dsc->clk_per_slice = 340;
-> -		break;
-> -	case 5:
-> -		hdmi_dsc->max_slices = 8;
-> -		hdmi_dsc->clk_per_slice = 400;
-> -		break;
-> -	case 6:
-> -		hdmi_dsc->max_slices = 12;
-> -		hdmi_dsc->clk_per_slice = 400;
-> -		break;
-> -	case 7:
-> -		hdmi_dsc->max_slices = 16;
-> -		hdmi_dsc->clk_per_slice = 400;
-> -		break;
-> -	case 0:
-> -	default:
-> -		hdmi_dsc->max_slices = 0;
-> -		hdmi_dsc->clk_per_slice = 0;
-> +		dsc_max_slices = hf_scds[12] & DRM_EDID_DSC_MAX_SLICES;
-> +
-> +		switch (dsc_max_slices) {
-> +		case 1:
-> +			hdmi_dsc->max_slices = 1;
-> +			hdmi_dsc->clk_per_slice = 340;
-> +			break;
-> +		case 2:
-> +			hdmi_dsc->max_slices = 2;
-> +			hdmi_dsc->clk_per_slice = 340;
-> +			break;
-> +		case 3:
-> +			hdmi_dsc->max_slices = 4;
-> +			hdmi_dsc->clk_per_slice = 340;
-> +			break;
-> +		case 4:
-> +			hdmi_dsc->max_slices = 8;
-> +			hdmi_dsc->clk_per_slice = 340;
-> +			break;
-> +		case 5:
-> +			hdmi_dsc->max_slices = 8;
-> +			hdmi_dsc->clk_per_slice = 400;
-> +			break;
-> +		case 6:
-> +			hdmi_dsc->max_slices = 12;
-> +			hdmi_dsc->clk_per_slice = 400;
-> +			break;
-> +		case 7:
-> +			hdmi_dsc->max_slices = 16;
-> +			hdmi_dsc->clk_per_slice = 400;
-> +			break;
-> +		case 0:
-> +		default:
-> +			hdmi_dsc->max_slices = 0;
-> +			hdmi_dsc->clk_per_slice = 0;
-> +		}
->  	}
-> +
-> +	if (cea_db_payload_len(hf_scds) >= 13 && hf_scds[13])
-> +		hdmi_dsc->total_chunk_kbytes = hf_scds[13] & DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
->  }
->  
->  /* Sink Capability Data Structure */
-> @@ -5776,6 +5780,7 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
->  {
->  	struct drm_display_info *display = &connector->display_info;
->  	struct drm_hdmi_info *hdmi = &display->hdmi;
-> +	struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
->  
->  	display->has_hdmi_infoframe = true;
->  
-> @@ -5816,17 +5821,17 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
->  
->  	if (hf_scds[7]) {
->  		u8 max_frl_rate;
-> -		struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
->  
->  		DRM_DEBUG_KMS("hdmi_21 sink detected. parsing edid\n");
->  		max_frl_rate = (hf_scds[7] & DRM_EDID_MAX_FRL_RATE_MASK) >> 4;
->  		drm_get_max_frl_rate(max_frl_rate, &hdmi->max_lanes,
->  				     &hdmi->max_frl_rate_per_lane);
-> -
-> -		drm_parse_dsc_info(hdmi_dsc, hf_scds);
->  	}
->  
->  	drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
-> +
-> +	if (cea_db_payload_len(hf_scds) >= 11 && hf_scds[11])
-> +		drm_parse_dsc_info(hdmi_dsc, hf_scds);
->  }
->  
->  static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  Fix this up by properly
+calling dput().
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Wayne Lin <Wayne.Lin@amd.com>
+Cc: hersen wu <hersenxs.wu@amd.com>
+Cc: Wenjing Liu <wenjing.liu@amd.com>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Thelford Williams <tdwilliamsiv@gmail.com>
+Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>
+Cc: Yongzhi Liu <lyz_cs@pku.edu.cn>
+Cc: Mikita Lipski <mikita.lipski@amd.com>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Cc: Sean Paul <seanpaul@chromium.org>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -3188,7 +3188,7 @@ void crtc_debugfs_init(struct drm_crtc *
+ 				   &crc_win_y_end_fops);
+ 	debugfs_create_file_unsafe("crc_win_update", 0644, dir, crtc,
+ 				   &crc_win_update_fops);
+-
++	dput(dir);
+ }
+ #endif
+ /*
+
+
