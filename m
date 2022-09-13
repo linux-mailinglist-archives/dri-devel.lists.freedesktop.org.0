@@ -1,90 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E8E5B7D91
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 01:37:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 357365B7D60
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 01:19:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 833D810E661;
-	Tue, 13 Sep 2022 23:36:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE59D10E653;
+	Tue, 13 Sep 2022 23:19:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9565310E544;
- Tue, 13 Sep 2022 23:36:53 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28DNMRi9016447;
- Tue, 13 Sep 2022 23:36:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=QDluYs9EIrWXj5kwYq7EJZq+XOtXveaKEk1PTPlIhsk=;
- b=YcoCMWZS41WvZftzE7mBuQO6ToHgy1Rwn5kg2ijWizmAO2ITAC/CidkSztk4pXS28ZVk
- bD3PZsOFLt7xtNXLkMmme4Pr1V5YUO/r/AmMzocl79X/z9tWApjrxGHyrUO6SP/JhOgw
- Af2r7D6nmGY1pnUUawNVuFEnLnF+nSai5mebq+e4dK4bU4Ba9e86XRhH2LQ0v+oLJakL
- duwLajymcbq++xuULVoQ39z5eeTKKNBl2RhghmwMfDto+K0supA1dp/uwOiDSup8GHJH
- xDWCJTs0FzTL6r/uD5GMtwYGC9iLH8xAyqw1ri3cTLpwvTzKCG48DPX21Chbsz2p/B+1 +A== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jjxymgn79-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Sep 2022 23:36:40 +0000
-Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 28DN1Onp000852; 
- Tue, 13 Sep 2022 23:01:24 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 3jjqbt2j7n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Sep 2022 23:01:24 +0000
-Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28DN0TVc032424;
- Tue, 13 Sep 2022 23:01:24 GMT
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 28DN1OxS000846
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Sep 2022 23:01:24 +0000
-Received: from [10.111.167.172] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 13 Sep
- 2022 16:01:21 -0700
-Message-ID: <2ce64f0a-8e31-4019-8d3e-49ca3ddd4766@quicinc.com>
-Date: Tue, 13 Sep 2022 16:01:19 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH] drm/msm: Fix return type of
- mdp4_lvds_connector_mode_valid
-Content-Language: en-US
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626D510E63A
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 23:18:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 00924B810DB;
+ Tue, 13 Sep 2022 23:18:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA4BDC433C1;
+ Tue, 13 Sep 2022 23:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1663111133;
+ bh=/LcuPi8V7Ej7uvoNaew7dsD1eUxauxC0rf5elEG4pcY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=isGmkR8X+bqZCIZQIZToszbRwjKwXAksaJyyViRDQ/ma3/H6VFLPPnBz4H+I+C6Z1
+ 6k969mCZrmzJ/PvuMY9bfIh5gMSpa4U5DU+e9lUOE5415GUoFjRUDZLy9B6o1Sfnhm
+ 3EtgPvgMiLXEI9iAzPZ6EBkKHoMNjadHoRDyPZOk3tWbqMPuFIqDyGl9hIa45hm89L
+ F/BlojPf6ZnPMR+WiolQWurOnGA0nbqbWlbZrE0JZ1mokMU4oSYFD6+IMLVQOPtkRJ
+ CxhG7NRoOAS+mXX9yUN/d+qGKH5PXJyjUYxkpe2rJdJWPuBGrPaadHsfomM2bY93nQ
+ TCPHDb5axgLdA==
+Date: Tue, 13 Sep 2022 16:18:51 -0700
+From: Nathan Chancellor <nathan@kernel.org>
 To: Nathan Huckleberry <nhuck@google.com>
-References: <20220913205551.155128-1-nhuck@google.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220913205551.155128-1-nhuck@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: DpLLdyEnhGfPp-TYtzvZVzRkbO5p3Ffx
-X-Proofpoint-GUID: DpLLdyEnhGfPp-TYtzvZVzRkbO5p3Ffx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-13_10,2022-09-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- priorityscore=1501 malwarescore=0 bulkscore=0 adultscore=0 impostorscore=0
- mlxscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2208220000 definitions=main-2209130109
+Subject: Re: [PATCH] drm/exynos: Fix return type for mixer_mode_valid and
+ hdmi_mode_valid
+Message-ID: <YyEP28J5O2Wlh4lS@dev-arch.thelio-3990X>
+References: <20220913205449.154966-1-nhuck@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220913205449.154966-1-nhuck@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,60 +53,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Dan Carpenter <error27@gmail.com>,
- David Airlie <airlied@linux.ie>, Tom Rix <trix@redhat.com>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, Dan Carpenter <error27@gmail.com>,
+ David Airlie <airlied@linux.ie>, Nick Desaulniers <ndesaulniers@google.com>,
+ llvm@lists.linux.dev, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, Tom Rix <trix@redhat.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nathan
-
-Thanks for the patch.
-
-On 9/13/2022 1:55 PM, Nathan Huckleberry wrote:
-> The mode_valid field in drm_connector_helper_funcs is expected to be of
-> type:
-> enum drm_mode_status (* mode_valid) (struct drm_connector *connector,
->                                       struct drm_display_mode *mode);
+On Tue, Sep 13, 2022 at 01:54:49PM -0700, Nathan Huckleberry wrote:
+> The field mode_valid in exynos_drm_crtc_ops is expected to be of type
+> enum drm_mode_status (*mode_valid)(struct exynos_drm_crtc *crtc,
+>                                    const struct drm_display_mode *mode);
+> 
+> Likewise for mode_valid in drm_connector_helper_funcs.
 > 
 > The mismatched return type breaks forward edge kCFI since the underlying
 > function definition does not match the function hook definition.
 > 
-> The return type of mdp4_lvds_connector_mode_valid should be changed from
-> int to enum drm_mode_status.
+> The return type of mixer_mode_valid and hdmi_mode_valid should be
+> changed from int to enum drm_mode_status.
 > 
 > Reported-by: Dan Carpenter <error27@gmail.com>
 > Link: https://github.com/ClangBuiltLinux/linux/issues/1703
 > Cc: llvm@lists.linux.dev
 > Signed-off-by: Nathan Huckleberry <nhuck@google.com>
 
- From what I can see this one has been this way since lvds support was 
-added. Hence this should have
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Fixes: 3e87599b68e7 ("drm/msm/mdp4: add LVDS panel support")
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/exynos/exynos_hdmi.c  | 4 ++--
+>  drivers/gpu/drm/exynos/exynos_mixer.c | 5 +++--
+>  2 files changed, 5 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
-> index 7288041dd86a..7444b75c4215 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
-> @@ -56,8 +56,9 @@ static int mdp4_lvds_connector_get_modes(struct drm_connector *connector)
->   	return ret;
->   }
->   
-> -static int mdp4_lvds_connector_mode_valid(struct drm_connector *connector,
-> -				 struct drm_display_mode *mode)
+> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> index 10b0036f8a2e..8453359c92e8 100644
+> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> @@ -922,8 +922,8 @@ static int hdmi_find_phy_conf(struct hdmi_context *hdata, u32 pixel_clock)
+>  	return -EINVAL;
+>  }
+>  
+> -static int hdmi_mode_valid(struct drm_connector *connector,
+> -			struct drm_display_mode *mode)
+> +static enum drm_mode_status hdmi_mode_valid(struct drm_connector *connector,
+> +					    struct drm_display_mode *mode)
+>  {
+>  	struct hdmi_context *hdata = connector_to_hdmi(connector);
+>  	int ret;
+> diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c b/drivers/gpu/drm/exynos/exynos_mixer.c
+> index 65260a658684..82f676e6d21b 100644
+> --- a/drivers/gpu/drm/exynos/exynos_mixer.c
+> +++ b/drivers/gpu/drm/exynos/exynos_mixer.c
+> @@ -1045,8 +1045,9 @@ static void mixer_atomic_disable(struct exynos_drm_crtc *crtc)
+>  	clear_bit(MXR_BIT_POWERED, &ctx->flags);
+>  }
+>  
+> -static int mixer_mode_valid(struct exynos_drm_crtc *crtc,
+> -		const struct drm_display_mode *mode)
 > +static enum drm_mode_status
-> +mdp4_lvds_connector_mode_valid(struct drm_connector *connector,
-> +			       struct drm_display_mode *mode)
->   {
->   	struct mdp4_lvds_connector *mdp4_lvds_connector =
->   			to_mdp4_lvds_connector(connector);
+> +mixer_mode_valid(struct exynos_drm_crtc *crtc,
+> +		 const struct drm_display_mode *mode)
+>  {
+>  	struct mixer_context *ctx = crtc->ctx;
+>  	u32 w = mode->hdisplay, h = mode->vdisplay;
+> -- 
+> 2.37.2.789.g6183377224-goog
+> 
