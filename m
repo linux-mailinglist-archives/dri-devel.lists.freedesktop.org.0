@@ -1,139 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B4D5B7BF0
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 22:03:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0D75B7C2C
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 22:23:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1512A10E41A;
-	Tue, 13 Sep 2022 20:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5825410E482;
+	Tue, 13 Sep 2022 20:23:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D18DA10E455;
- Tue, 13 Sep 2022 20:03:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663099410; x=1694635410;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=2TOFI+GyMG2zv36qp+qKRMDYYLfiCfiwDeOcDBJTsls=;
- b=NRF4JcGmpEgxErZbh1QGssZiyUfo0qsYFLKhauzOV5OKcXifbIU8b9kO
- n4XFVymCqZQdyXED8aAh5lWNoK0oW6TFECZ2zUdQHMIP1VbJUPyGIaQTU
- lq47q22PPCU3vWHvFTYlozY2T76pw7DkcXyLWQMLN2rkTNjL3vdpBERDv
- RBTkJJiMUuitYAdi6+y4kcIuhnAaF/Sz9HrtiyAUH6I1j7nBCPZ58kTER
- QW4gClqZTlOutCn/uIuWn8+DxvwVZsXwPqK/Te5dDhc8/aQGUg/Ed1M7F
- e/MYnwONJlrEnzVzZEi5SoXd1Zoj3lGOmW9pNjHMERYU6wPoe9jj5zxBB w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="299579087"
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="299579087"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 13:03:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="647077658"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga008.jf.intel.com with ESMTP; 13 Sep 2022 13:03:26 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 13 Sep 2022 13:03:25 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 13 Sep 2022 13:03:25 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Tue, 13 Sep 2022 13:03:25 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Tue, 13 Sep 2022 13:03:24 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k0fUPcLej5KsiDivEcamkbawyWO92XnopClyDzWRTpOmmjW/DmJVj0tbkMaR3ar06Ojs5XqBz9i8LNMIPG5SY1ZlSTL9IALFkhC1Q1RyTK+ygl6UbPjylnyzCjnfDb983txN4Luyoc8vzcRqmL2Q+f/GRsNukr0B1gRwolV7Xk1/u9k/4Y0y0LxW77fTxjC0MoUCuUB2EYHRxoS5NZS63yhGBbnRZhgQzugy/kzIKizYC+BkUDzka89fXjR19HOp1g5uUTywIosRxirR4kP3shk5n56iu7ki2ge2g9HcoWfsycdsemysa/5cDrtZmp9NYMU50RcZrwY8GloBdNAUtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K1I62B1POx8ZO3EwqU1c6s3oBRmMC18IlJ3vcNCIZXA=;
- b=girXly2Ez9VGVfeE33e3Kx24YGz2M6al5222gn6ouC3oJWhXRgWqHrgvJSeDw07Z/3ENvht09tT6oBk2hcDMbGGY8S2KStdZSbztHdgcn12c3NxgaWULjXmWk3LLLNgCTzjk8teLEIStCjowsOyI2LIcTZWXbz7QIZ/v2slNeNC/3nQbVBiolOK/y09gjFH3bu6sQAIkM8DK5m31STw9MaM5Ahy9E++epxh47aCP1a6cFdduH3fsGW7jC+Yr6KjH56t7+ecWnE6yPPH7e+dEnExyFy5BE2901AtF/Y/Y3F2WBwT8uGmf8D16wQcdw0u4DeFzxLYf/j6SBBIRGZKZ2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
- by DM4PR11MB5533.namprd11.prod.outlook.com (2603:10b6:5:38a::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19; Tue, 13 Sep
- 2022 20:03:22 +0000
-Received: from MWHPR11MB1632.namprd11.prod.outlook.com
- ([fe80::ecc9:50cb:5951:2514]) by MWHPR11MB1632.namprd11.prod.outlook.com
- ([fe80::ecc9:50cb:5951:2514%12]) with mapi id 15.20.5612.022; Tue, 13 Sep
- 2022 20:03:22 +0000
-Date: Tue, 13 Sep 2022 13:03:19 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Subject: Re: [PATCH v5 3/5] drm/i915/mtl: Define engine context layouts
-Message-ID: <YyDiB6gDVIX2awAV@mdroper-desk1.amr.corp.intel.com>
-References: <20220913183341.908028-1-radhakrishna.sripada@intel.com>
- <20220913183341.908028-4-radhakrishna.sripada@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220913183341.908028-4-radhakrishna.sripada@intel.com>
-X-ClientProxiedBy: SJ0PR03CA0274.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::9) To MWHPR11MB1632.namprd11.prod.outlook.com
- (2603:10b6:301:11::11)
+Received: from mail-oa1-x42.google.com (mail-oa1-x42.google.com
+ [IPv6:2001:4860:4864:20::42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6137D10E47F
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 20:23:15 +0000 (UTC)
+Received: by mail-oa1-x42.google.com with SMTP id
+ 586e51a60fabf-1279948d93dso35263692fac.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 13:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=6X33VZ9xVlzasDbOaFozkt+4gqxM1mm4FvPj9a+zgss=;
+ b=hJ/3uTYUr+vuvwzF4Q2GgiFbAuB2lW1NlkbB9S6lLQCf3jZxqHSFGiJHWgeb4M7Ajy
+ And+dqPXJ9KASQDFhQEOLx9eebbFE4QezQE8pcq50oXDtrXRvOvYMpdoyxdHK1BewraC
+ 89mp1O4VBXPfw21kBZONEEPhBa+yHEwlXfI70SuJPocETURRIDMfWuOEYhKPRR0yfFl8
+ um0CV4CfKSfeX5u3+Ry//tpKCS+lr5EJlGcv7Qw47tPgV6YwM2VBELMbrzxAJmI+l1yQ
+ +IJTg97nDYqjYw6448qp21eMXNbtHoEnnCfW8KBLunyehbpkIsGg2vk9glNktcBvz1yQ
+ p/zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=6X33VZ9xVlzasDbOaFozkt+4gqxM1mm4FvPj9a+zgss=;
+ b=yLw9eDvTPjaJx3o83T+I4sKA5pzyxECy4ZC+F639+Ni3NrHot3pOr5I8SL9uV1negA
+ UjBZCRCbgwveEFiEuybHs1wxGcqYJiAd+UA5AlztmxmktaM9CL0wJjJjTLe3t2p+LSFw
+ P9SxOgTHaHV4DHZBvKO/j194MZr+3KvUVktdo1nKA/fgYoyoA1i6NwVcGijbE8zaNnzb
+ CByhpiljTdHbaVP0XLmkoDR7JSDdo45mZdrYqA4cgHtqdDR/cpvPKJhuAfAmHnKID2XW
+ SsprD3l6MHJs6CVEY7JPGygGF1eV5OST3OluHPKfiihug7yHH/FvCFtAPdP6Fk0ZLcU5
+ noHg==
+X-Gm-Message-State: ACgBeo3LYA3qZruEDUtc8lBd4C6i1UdrvK5IH1yK7BHcR4LkO+gYrm4R
+ 4KwO9Lk9ZyvwCoauEiGdmohcnA==
+X-Google-Smtp-Source: AA6agR4sE6iO299k1441Fl9TgoF2WviuxUixje8L0+45xbHkQDDXYigU7ZN+I2PbTcMNCSwZcbhUEA==
+X-Received: by 2002:a05:6870:64a2:b0:12b:7db:b8e1 with SMTP id
+ cz34-20020a05687064a200b0012b07dbb8e1mr546286oab.212.1663100594351; 
+ Tue, 13 Sep 2022 13:23:14 -0700 (PDT)
+Received: from [192.168.11.16] (cpe-173-173-107-246.satx.res.rr.com.
+ [173.173.107.246]) by smtp.gmail.com with ESMTPSA id
+ d3-20020a9d5e03000000b00636d4e8d480sm6377224oti.19.2022.09.13.13.23.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Sep 2022 13:23:13 -0700 (PDT)
+Message-ID: <ca6a97c5-1abe-b215-0ff2-443f4ed9a25f@kali.org>
+Date: Tue, 13 Sep 2022 15:23:10 -0500
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1632:EE_|DM4PR11MB5533:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2997a44-1fbd-453a-60d6-08da95c3029a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vuc4ZPIKBtvZV7UH2dM4NDt+qFshVukuKe9LZnzRgrUPh7aru0XF3cUlPJzbJFYuhlCGoiQitwu6iZ9vA8ZbZO9EoVncCr7p9H19MZG7QZo/KG762HuWEHokj0ppvhyHKdGk5fmO+BJey9i+2GiBD56YKfJki929VYWsCYy/20FIJiOpDtbhWLCXh1ZL9Y405/h4YHkb2Zs8eCkDsiOyI+ZC6PIDVhw74IAiGvuP0fyMacIC0+tHd/5R6DzPOdrNrnLvyB+mSnzYKV9X8+YMGl73hJh9CPgft3QXxrqIhEyyh1RNBeVqEJYdmkTMa0MnQvmY3J27OlWl5AJtJ1BqxIETXE4Nr3L24Wjf2cP/Rsyg8sLI2hzrb22JAi4DMi1Lmh9ke/ati9c9ui9TmRDmXRUv5a09DYC92DQoEu9WUamLnpCXilrTNXLWZ5DkG6Swmr5raRnuvwChvSLUSjIdFBt/OpR+foQxSObJCZ5OMDu2B6ODLHsGVqisloj7YJddH6d/4Euf/g4m5U/xpewYqXwC+G5TjF1xvG5FpVo1Kq3Mwj5g9iTL/uN5dEEYvueRzTQ3d9dYLIobqzYiiU5h8BX3eFgGIcFN1V8ldQOH2zp2E/GoL0xhrEcQ/NWPMF84r/CKwA+30FZuZ78OfQ93EL3+2wPmhJ73YjbeBeaiXGmoIgzb2/AEILc0ehAwAPyuUZN6BVJFFvpR+oTlOr619Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(346002)(136003)(376002)(366004)(39860400002)(451199015)(6486002)(66946007)(450100002)(6512007)(6666004)(2906002)(316002)(478600001)(8936002)(82960400001)(5660300002)(6506007)(4326008)(6636002)(6862004)(41300700001)(66476007)(83380400001)(26005)(8676002)(186003)(86362001)(38100700002)(66556008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JLkkDIsy50EWcB3tAmorjTADBCr7ZkTUVx30p0k17iAHdA+Pn7mzw125CyZW?=
- =?us-ascii?Q?Pv+Tvi/rWZr+sQqFhmpR9iHSl4/ptaMjYHNE+dFZyxJb6qUOKtCjweEivBfv?=
- =?us-ascii?Q?9dkaGWjMlqfaDUzLtxLda0DdNRdPTeBvpLLow6MBAkXO6MQGAC+TAep6MDr7?=
- =?us-ascii?Q?m2WV47YuMewCU6DrKtdPcieNXwkeMm7YkyhViqTipgAu5y2pgCkF0uVEUiBW?=
- =?us-ascii?Q?7bdoS2f+hRdSqIgBthwXPs5Rg5V/XmWkcOnVZ8CLn1jGzl+9VEEeLE3ERXFQ?=
- =?us-ascii?Q?qCKEEIbKtdq1tpVNiqElfAUNzxMplNHkr9xkEbq8sMqgqiUG/h8myVGpLtU1?=
- =?us-ascii?Q?o30KmnvuYM09aMxcX4A267rSTQEolY8KNJvJU5AAzxF4tI3MT59nMb5XLvgT?=
- =?us-ascii?Q?Z+v3p5WakF869u5M+mQ85y3NDZW53rXsDidPF6Tiw4PFcitZChutMeTcSRgN?=
- =?us-ascii?Q?KGivjvKOU0XorSj6r32wxz/Ew9VN2T1ddkKA//uDcYVvP+B/VuYlcS02xhoB?=
- =?us-ascii?Q?CDXPd+mFCBW8kmBfNEPzkVitTYc8OecGc8cIAtOzm1S7n0EjGBvtu6R5YOqn?=
- =?us-ascii?Q?kOui/pWvH7mEF5bgd/X9kdTAEh1Q5xLe8QlRbiPqSqWUUB36cDhqrHOVfk8a?=
- =?us-ascii?Q?DgI7zA2WEUJMX7bf2hSVATVI66smNWtcBTVWUUOfrdITkjEDkeJ+dxhnCWa6?=
- =?us-ascii?Q?hmq4NwzF8Jha5PNUJdbXatr2VMGbmxQeKLZMyXgtx3XpROQ3y5ZHcDKuSqlG?=
- =?us-ascii?Q?1smY6TnQtJWV0SQpFLuWoeXx2mGa9Tf0dhgFOzfiWTNk02qcFWC4wEsdUXP5?=
- =?us-ascii?Q?gxTiS8fSInuysRtS5x+RAmA58wQagLNJYKHFHAGPD9d0oMzkC3HyC6DlBkbd?=
- =?us-ascii?Q?u8qdBWUOlld18cA47vMA0GLZw1zl10PtSFhOxbIvNOIHW4e3LLQI7SRvuZH8?=
- =?us-ascii?Q?R0rPm59EC2h9WBCRX86OJLRAVh5yLFxQo5xQZ3aPPZoZ6+KL1AeLtQrNIXY6?=
- =?us-ascii?Q?h7wM4iHlpPmiGE3pH+6Fb/LC7PNEo13E0aBAiFYyuIsWz08nKZiCURP9Bi7W?=
- =?us-ascii?Q?c3iquvclQJDam71X70VyfakDpVzSPantn1iVosz6ROgB+DjCgrboqhCoxUD9?=
- =?us-ascii?Q?xTpj09Pb6//T4uV/fh3pkRfHsSVgeyl4HiF/pJQIdyqrAmhNKyUurPSuE2KI?=
- =?us-ascii?Q?KysdEjMq9xRpgv1ZRNZbEDwTtQ5gfC5ge9tfB9cIOvVQ22LBxpzo4U0rr8Hr?=
- =?us-ascii?Q?w8wz8VotZmuczwg04bcU9/U3RKsovVlj2QePLB4q9hi0hiRp6Pu4ylKu2Sw3?=
- =?us-ascii?Q?hvPpnZkzAAVu4pJ8tQ68SHcDv80d9GKMLf8QE3R2NSFIJHChlQkQfT9VgfPc?=
- =?us-ascii?Q?+bhmpDwg4D9Hzzc/vg6OoP9ec4fSEPpoqdR08xR6p3XVbRYKm9TzX4EC6HsC?=
- =?us-ascii?Q?nVLPYGNSBqLWS94cmvutCWCBEce3biZuVWu21usK3deQFFTe9D5kjXOei+3k?=
- =?us-ascii?Q?XaHqrhdgIVfwAcPGS+kQJca5TinOvuNyAH70m46ZfooGRWQIk0f5t7iT3Kfp?=
- =?us-ascii?Q?7DI/ZBq+q9CugDUjqFcdg0tsUTIqP42zfW8TKgSOWgORCoWK8ipEJBqdpWue?=
- =?us-ascii?Q?Aw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2997a44-1fbd-453a-60d6-08da95c3029a
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2022 20:03:22.2898 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BEzeL26zJA66S4AOnIFlDGmKsWaMES7iiskcWN1K1E3vlVKiRnAwat8VEzaVN9GyX8Pqo6eZ5iNwz6HG49gzQoEGj0Kyg15qvSCtRnrv5B8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5533
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v2 00/10] drm/msm: probe deferral fixes
+Content-Language: en-US
+To: Johan Hovold <johan+linaro@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20220913085320.8577-1-johan+linaro@kernel.org>
+From: Steev Klimaszewski <steev@kali.org>
+In-Reply-To: <20220913085320.8577-1-johan+linaro@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,165 +78,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Stephen Boyd <swboyd@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 13, 2022 at 11:33:39AM -0700, Radhakrishna Sripada wrote:
-> From: Matt Roper <matthew.d.roper@intel.com>
-> 
-> The part of the media and blitter engine contexts that we care about for
-> setting up an initial state are the same on MTL as they were on DG2
-> (and PVC), so we need to update the driver conditions to re-use the DG2
-> context table.
-> 
-> For render/compute engines, the part of the context images are nearly
-> the same, although the layout had a very slight change --- one POSH
-> register was removed and the placement of some LRI/noops adjusted
-> slightly to compensate.
-> 
-> v2:
->  - Dg2, mtl xcs offsets slightly vary. Use a separate offsets array(Bala)
->  - Drop unused registers in mtl rcs offsets.(Bala)
->  - Add missing nop in xcs offsets(Bala)
-> v3:
->  - Fix the spacing for nop in xcs offset(MattR)
-> 
-> Bspec: 46261, 46260, 45585
-> Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_lrc.c | 82 ++++++++++++++++++++++++++++-
->  1 file changed, 80 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> index 08214683e130..8fe6aa01c7bd 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> @@ -264,6 +264,39 @@ static const u8 dg2_xcs_offsets[] = {
->  	END
->  };
->  
-> +static const u8 mtl_xcs_offsets[] = {
-> +	NOP(1),
-> +	LRI(13, POSTED),
-> +	REG16(0x244),
-> +	REG(0x034),
-> +	REG(0x030),
-> +	REG(0x038),
-> +	REG(0x03c),
-> +	REG(0x168),
-> +	REG(0x140),
-> +	REG(0x110),
-> +	REG(0x1c0),
-> +	REG(0x1c4),
-> +	REG(0x1c8),
-> +	REG(0x180),
-> +	REG16(0x2b4),
-> +	NOP(4),
-> +
-> +	NOP(1),
-> +	LRI(9, POSTED),
-> +	REG16(0x3a8),
-> +	REG16(0x28c),
-> +	REG16(0x288),
-> +	REG16(0x284),
-> +	REG16(0x280),
-> +	REG16(0x27c),
-> +	REG16(0x278),
-> +	REG16(0x274),
-> +	REG16(0x270),
-> +
-> +	END
-> +};
-> +
->  static const u8 gen8_rcs_offsets[] = {
->  	NOP(1),
->  	LRI(14, POSTED),
-> @@ -606,6 +639,47 @@ static const u8 dg2_rcs_offsets[] = {
->  	END
->  };
->  
-> +static const u8 mtl_rcs_offsets[] = {
-> +       NOP(1),
-> +       LRI(13, POSTED),
-> +       REG16(0x244),
-> +       REG(0x034),
-> +       REG(0x030),
-> +       REG(0x038),
-> +       REG(0x03c),
-> +       REG(0x168),
-> +       REG(0x140),
-> +       REG(0x110),
-> +       REG(0x1c0),
-> +       REG(0x1c4),
-> +       REG(0x1c8),
-> +       REG(0x180),
-> +       REG16(0x2b4),
+Hi Johan,
 
-The xcs looks correct now, but it looks like rcs still has a mistake
-here.  We should have 0x120 and 0x124 listed here too.
+On 9/13/22 3:53 AM, Johan Hovold wrote:
+> The MSM DRM driver is currently broken in multiple ways with respect to
+> probe deferral. Not only does the driver currently fail to probe again
+> after a late deferral, but due to a related use-after-free bug this also
+> triggers NULL-pointer dereferences.
+>
+> These bugs are not new but have become critical with the release of
+> 5.19 where probe is deferred in case the aux-bus EP panel driver has not
+> yet been loaded.
+>
+> The underlying problem is lifetime issues due to careless use of
+> device-managed resources.
+>
+> Specifically, device-managed resources allocated post component bind
+> must be tied to the lifetime of the aggregate DRM device or they will
+> not necessarily be released when binding of the aggregate device is
+> deferred.
+>
+> The following call chain and pseudo code serves as an illustration of
+> the problem:
+>
+>   - platform_probe(pdev1)
+>     - dp_display_probe()
+>       - component_add()
+>
+>   - platform_probe(pdev2) 				// last component
+>     - dp_display_probe()					// d0
+>         - component_add()
+>           - try_to_bring_up_aggregate_device()
+> 	   - devres_open_group(adev->parent)		// d1
+>
+> 	   - msm_drm_bind()
+> 	     - msm_drm_init()
+> 	       - component_bind_all()
+> 	         - for_each_component()
+> 		   - component_bind()
+> 		     - devres_open_group(&pdev->dev)	// d2
+> 	             - dp_display_bind()
+> 		       - devm_kzalloc(&pdev->dev)	// a1, OK
+> 		     - devres_close_group(&pdev->dev)	// d3
+>
+> 	       - dpu_kms_hw_init()
+> 	         - for_each_panel()
+> 	           - msm_dp_modeset_init()
+> 		     - dp_display_request_irq()
+> 		       - devm_request_irq(&pdev->dev)	// a2, BUG
+> 		     - if (pdev == pdev2 && condition)
+> 		       - return -EPROBE_DEFER;
+>
+> 	      - if (error)
+>   	        - component_unbind_all()
+> 	          - for_each_component()
+> 		    - component_unbind()
+> 		      - dp_display_unbind()
+> 		      - devres_release_group(&pdev->dev) // d4, only a1 is freed
+>
+>             - if (error)
+> 	     - devres_release_group(adev->parent)	// d5
+>
+> The device-managed allocation a2 is buggy as its lifetime is tied to the
+> component platform device and will not be released when the aggregate
+> device bind fails (e.g. due to a probe deferral).
+>
+> When pdev2 is later probed again, the attempt to allocate the IRQ a
+> second time will fail for pdev1 (which is still bound to its platform
+> driver).
+>
+> This series fixes the lifetime issues by tying the lifetime of a2 (and
+> similar allocations) to the lifetime of the aggregate device so that a2
+> is released at d5.
+>
+> In some cases, such has for the DP IRQ, the above situation can also be
+> avoided by moving the allocation in question to the platform driver
+> probe (d0) or component bind (between d2 and d3). But as doing so is not
+> a general fix, this can be done later as a cleanup/optimisation.
+>
+> Johan
+>
+> Changes in v2
+>   - use a custom devres action instead of amending the AUX bus interface
+>     (Doug)
+>   - split sanity check fixes and cleanups per bridge type (Dmitry)
+>   - add another Fixes tag for the missing bridge counter reset (Dmitry)
+>
+>
+> Johan Hovold (10):
+>    drm/msm: fix use-after-free on probe deferral
+>    drm/msm/dp: fix memory corruption with too many bridges
+>    drm/msm/dsi: fix memory corruption with too many bridges
+>    drm/msm/hdmi: fix memory corruption with too many bridges
+>    drm/msm/dp: fix IRQ lifetime
+>    drm/msm/dp: fix aux-bus EP lifetime
+>    drm/msm/dp: fix bridge lifetime
+>    drm/msm/hdmi: fix IRQ lifetime
+>    drm/msm/dp: drop modeset sanity checks
+>    drm/msm/dsi: drop modeset sanity checks
+>
+>   drivers/gpu/drm/msm/dp/dp_display.c | 26 +++++++++++++++++++-------
+>   drivers/gpu/drm/msm/dp/dp_parser.c  |  6 +++---
+>   drivers/gpu/drm/msm/dp/dp_parser.h  |  5 +++--
+>   drivers/gpu/drm/msm/dsi/dsi.c       |  9 +++++----
+>   drivers/gpu/drm/msm/hdmi/hdmi.c     |  7 ++++++-
+>   drivers/gpu/drm/msm/msm_drv.c       |  1 +
+>   6 files changed, 37 insertions(+), 17 deletions(-)
+>
+I've tested this on both sc8180x (Lenovo Flex 5G) and sdm850 (Lenovo 
+Yoga C630), and both of them show the same issue:
 
+[ 7.449305] platform ae9a000.displayport-controller: Fixing up cyclic 
+dependency with ae01000.mdp [ 7.454344] Unable to handle kernel NULL 
+pointer dereference at virtual address 0000000000000008 [ 7.454406] Mem 
+abort info: [ 7.454423] ESR = 0x0000000096000004 [ 7.454446] EC = 0x25: 
+DABT (current EL), IL = 32 bits [ 7.454475] SET = 0, FnV = 0 [ 7.454494] 
+EA = 0, S1PTW = 0 [ 7.454512] FSC = 0x04: level 0 translation fault [ 
+7.454539] Data abort info: [ 7.454556] ISV = 0, ISS = 0x00000004 [ 
+7.454577] CM = 0, WnR = 0 [ 7.454595] user pgtable: 4k pages, 48-bit 
+VAs, pgdp=0000000101504000 [ 7.454629] [0000000000000008] 
+pgd=0000000000000000, p4d=0000000000000000 [ 7.454669] Internal error: 
+Oops: 96000004 [#1] PREEMPT SMP [ 7.454700] Modules linked in: 
+i2c_hid_of i2c_hid leds_qcom_lpg led_class_multicolor rtc_pm8xxx msm 
+mdt_loader gpu_sched drm_dp_aux_bus drm_display_helper drm_kms_helper 
+drm phy_qcom_edp llcc_qcom i2c_qcom_geni phy_qcom_qmp_combo 
+phy_qcom_snps_femto_v2 phy_qcom_qmp_ufs phy_qcom_qmp_pcie ufs_qcom 
+pwm_bl [ 7.454860] CPU: 2 PID: 76 Comm: kworker/u16:2 Not tainted 
+5.19.0-rc8-next-20220728 #26 [ 7.454902] Hardware name: LENOVO 
+82AK/LNVNB161216, BIOS EACN43WW(V1.15) 09/13/2021 [ 7.454941] Workqueue: 
+events_unbound deferred_probe_work_func [ 7.454982] pstate: 40400005 
+(nZcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--) [ 7.455020] pc : 
+dp_display_request_irq+0x50/0xdc [msm] [ 7.455145] lr : 
+dp_display_request_irq+0x2c/0xdc [msm] [ 7.455265] sp : ffff800008c1bb30 
+[ 7.455285] x29: ffff800008c1bb30 x28: 0000000000000000 x27: 
+0000000000000000 [ 7.455327] x26: ffffc9c918420000 x25: ffffc9c9186ec570 
+x24: 000000000000003a [ 7.455368] x23: ffffc9c918811d30 x22: 
+ffff2a5806baa998 x21: ffff2a5806ba3410 [ 7.455410] x20: ffff2a5806baa880 
+x19: ffff2a5806baa998 x18: ffffffffffffffff [ 7.455451] x17: 
+0000000000000038 x16: ffffc9c9164eeb24 x15: ffffffffffffffff [ 7.455492] 
+x14: ffff2a5806bc3004 x13: ffff2a5806bc3000 x12: 0000000000000000 [ 
+7.455533] x11: 0000000000000040 x10: ffffc9c918493080 x9 : 
+ffffc9c918493078 [ 7.455574] x8 : ffff2a5800681b88 x7 : 0000000000000000 
+x6 : ffff2a5806baa880 [ 7.455616] x5 : ffffc9c8ca2de000 x4 : 
+0000000000080004 x3 : 0000000000000000 [ 7.455656] x2 : ffffc9c8ca296000 
+x1 : 00000000000000a8 x0 : 0000000000000000 [ 7.455698] Call trace: [ 
+7.455714] dp_display_request_irq+0x50/0xdc [msm] [ 7.455834] 
+dp_display_probe+0xf8/0x4a4 [msm] [ 7.455950] platform_probe+0x6c/0xc4 [ 
+7.455976] really_probe+0xbc/0x2d4 [ 7.455999] 
+__driver_probe_device+0x78/0xe0 [ 7.456025] 
+driver_probe_device+0x3c/0x13c [ 7.456051] 
+__device_attach_driver+0xb8/0x120 [ 7.456077] bus_for_each_drv+0x78/0xd0 
+[ 7.456105] __device_attach+0x9c/0x1a0 [ 7.456129] 
+device_initial_probe+0x18/0x2c [ 7.456154] bus_probe_device+0x9c/0xa4 [ 
+7.456178] deferred_probe_work_func+0x88/0xc0 [ 7.456204] 
+process_one_work+0x1d4/0x330 [ 7.456231] worker_thread+0x70/0x42c [ 
+7.456255] kthread+0x10c/0x110 [ 7.456278] ret_from_fork+0x10/0x20 [ 
+7.456306] Code: aa1403e6 f2a00104 f0000225 f0ffffe2 (f9400400) [ 
+7.456341] ---[ end trace 0000000000000000 ]---
 
-Matt
+This is from the sc8180x, sdm850 is the same call stack, just with 
+different addresses.
 
-> +
-> +       NOP(1),
-> +       LRI(9, POSTED),
-> +       REG16(0x3a8),
-> +       REG16(0x28c),
-> +       REG16(0x288),
-> +       REG16(0x284),
-> +       REG16(0x280),
-> +       REG16(0x27c),
-> +       REG16(0x278),
-> +       REG16(0x274),
-> +       REG16(0x270),
-> +
-> +       NOP(2),
-> +       LRI(2, POSTED),
-> +       REG16(0x5a8),
-> +       REG16(0x5ac),
-> +
-> +       NOP(6),
-> +       LRI(1, 0),
-> +       REG(0x0c8),
-> +
-> +       END
-> +};
-> +
->  #undef END
->  #undef REG16
->  #undef REG
-> @@ -624,7 +698,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
->  		   !intel_engine_has_relative_mmio(engine));
->  
->  	if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE) {
-> -		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
-> +		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
-> +			return mtl_rcs_offsets;
-> +		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
->  			return dg2_rcs_offsets;
->  		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
->  			return xehp_rcs_offsets;
-> @@ -637,7 +713,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
->  		else
->  			return gen8_rcs_offsets;
->  	} else {
-> -		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
-> +		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
-> +			return mtl_xcs_offsets;
-> +		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
->  			return dg2_xcs_offsets;
->  		else if (GRAPHICS_VER(engine->i915) >= 12)
->  			return gen12_xcs_offsets;
-> -- 
-> 2.34.1
-> 
+I do have 
+https://lore.kernel.org/all/20220712132258.671263-1-dmitry.baryshkov@linaro.org/ 
+applied here which makes the 10th patch not apply cleanly.
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
+It fails actually, but I applied it manually here.
+
