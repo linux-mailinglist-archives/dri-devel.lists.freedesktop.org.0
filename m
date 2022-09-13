@@ -2,56 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954A25B7590
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 17:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B145B75BC
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Sep 2022 17:54:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74DFD10E401;
-	Tue, 13 Sep 2022 15:49:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E321D10E647;
+	Tue, 13 Sep 2022 15:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
- [209.85.160.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E81CD10E401
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 15:49:50 +0000 (UTC)
-Received: by mail-oa1-f42.google.com with SMTP id
- 586e51a60fabf-12803ac8113so33216229fac.8
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Sep 2022 08:49:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=foJlUv46n5lMMNs0Q7Ku0d9gdElPGgCZVFMlT7KuK+0=;
- b=F6EKa86J84YDsZwGOdP3lBNsHuJXrbTIPhnfiBccWAY7byvbpZjCzEMb8enrpFVyI6
- R0ailMIkNoDvtGKXqFyK/YnBYyOORnMuHJ0XuYrQFT1YmsDtyfKicQcE28GMkZYa70n2
- NIQCVqEjng6GzQeBuE4sEHaLKYGNi5SRz0q63SYNDLp6DXLxQPgK3Uitjj7QkOC393Rz
- qMWgXfWwfEMpkIr6dHO+68JmQMp3Vj9ncPaxoemg+tFLr73qPCmsRmV+Ic/Au7SMEen1
- MUSV2Y1cqxgzPasuorYd2c2V2dHhp/rWxpWMgPRdy4UOeLq8Lw7j9p42E5djOwiq+gs6
- m9LQ==
-X-Gm-Message-State: ACgBeo30M2lE5IMtERuUC6/rFAN3KH+4NcyT2BoNjRyjRbylUHIMu37X
- X2IwABW7aWgYfFdqCzkSRg==
-X-Google-Smtp-Source: AA6agR5LcWq3PN8/sz4CVvMmxOD9DMkwOlFV5vk5dDsbNSIRxxJomOiY9hpH3d6NqB/OpbsyDe6VBw==
-X-Received: by 2002:a05:6870:1601:b0:101:5e61:d8ee with SMTP id
- b1-20020a056870160100b001015e61d8eemr2121147oae.244.1663084190070; 
- Tue, 13 Sep 2022 08:49:50 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- w8-20020a9d5388000000b00616e2d2204csm6069481otg.21.2022.09.13.08.49.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 08:49:49 -0700 (PDT)
-Received: (nullmailer pid 3799539 invoked by uid 1000);
- Tue, 13 Sep 2022 15:49:48 -0000
-Date: Tue, 13 Sep 2022 10:49:48 -0500
-From: Rob Herring <robh@kernel.org>
-To: Robert Foss <robert.foss@linaro.org>
-Subject: Re: [PATCH v1 1/2] Revert "dt-bindings: Add byteswap order to
- chrontel ch7033"
-Message-ID: <20220913154948.GA3793808-robh@kernel.org>
-References: <20220912113856.817188-1-robert.foss@linaro.org>
- <20220912113856.817188-2-robert.foss@linaro.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1A110E4A5;
+ Tue, 13 Sep 2022 15:54:21 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28DDvEt1018625;
+ Tue, 13 Sep 2022 15:54:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=3mz+DIWbAv2lJtq7oCMQc/sw/N2SOx9zzz4TQU/xQ78=;
+ b=lqBW2RWSEOFTktKoaXL0hoUfOi1CwnLF1WBtDSgaNh+5QmK4WiOzRdgedCTZ5ZsMrlgc
+ egUC7LUwL4dcf3iJyeCLIRTKiqAv3DXovscT0AKhzts0q/a0aRqP69fGa1nGplKaykwB
+ xdoLJ+4Tf1Xuu6L2QKwEAc+M+EjLTdmKp/2p7V2Jh4N06wYFbTTPKlavXYRof9fWDQoO
+ laOc96g+5JDPts3y6oDAcuGpiMmfvj/12YF7U26nrUmaJJx/gIQFHKx80LNk21gkW/rY
+ Rv9NJIawOMFEfLKO9gz92DCSGfmy/pweRN0HtIisSScZPZGZnS7u65jwWTipsN7i40jb hA== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jjh9tjwqh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Sep 2022 15:54:18 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28DFsHVt004993
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Sep 2022 15:54:17 GMT
+Received: from [10.71.111.188] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 13 Sep
+ 2022 08:54:17 -0700
+Message-ID: <24b05be6-1aac-a136-3746-a349b2fefa6c@quicinc.com>
+Date: Tue, 13 Sep 2022 08:54:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220912113856.817188-2-robert.foss@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [Freedreno] [PATCH 0/2] Add support for HDR color formats
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20220901203422.217-1-quic_jesszhan@quicinc.com>
+ <f3083bc5-fd56-b017-5cdf-c72e730a987e@linaro.org>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <f3083bc5-fd56-b017-5cdf-c72e730a987e@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: korJaAmV5dj8ILBtiwhV1_qwfxEceDt2
+X-Proofpoint-GUID: korJaAmV5dj8ILBtiwhV1_qwfxEceDt2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-13_09,2022-09-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 mlxscore=0
+ adultscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999 spamscore=0
+ priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2209130072
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +84,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- jonas@kwiboo.se, airlied@linux.ie, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
- Chris Morgan <macromorgan@hotmail.com>, dianders@chromium.org,
- jernej.skrabec@gmail.com, linux-kernel@vger.kernel.org, lkundrak@v3.sk,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, javierm@redhat.com
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 12, 2022 at 01:38:57PM +0200, Robert Foss wrote:
-> As reported by Laurent in response to this commit[1], this functionality should
-> not be implemented using the devicetree, because of this let's revert this series
-> for now.
+Hi Dmitry,
+
+On 9/12/2022 11:33 AM, Dmitry Baryshkov wrote:
+> On 01/09/2022 23:34, Jessica Zhang wrote:
+>> Add support for HDR color formats.
+>>
+>> XR30 linear/compressed format has been validated with null_platform_test
+>> on SC7180, and P010 linear has been validated with plane_test (also on
+>> SC7180).
 > 
-> This reverts commit a4be71430c76eca43679e8485085c230afa84460.
+> Are they supported on sdm845? On msm8998?
+
+Yes for both. AFAIK XR30 and P010 are supported on all DPU boards.
+
+Thanks,
+
+Jessica Zhang
+
 > 
-> [1] https://lore.kernel.org/all/20220902153906.31000-2-macroalpha82@gmail.com/
+>>
+>> Jessica Zhang (2):
+>>    drm/msm/dpu: Add support for XR30 format
+>>    drm/msm/dpu: Add support for P010 format
+>>
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   | 24 ++++++++++++++++++-
+>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  3 +++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  2 ++
+>>   3 files changed, 28 insertions(+), 1 deletion(-)
+>>
+>> -- 
+>> 2.35.1
+>>
 > 
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> ---
->  .../bindings/display/bridge/chrontel,ch7033.yaml    | 13 -------------
->  1 file changed, 13 deletions(-)
-
-In the future, can you wait for a DT maintainer review.
-
-For the revert:
-
-Acked-by: Rob Herring <robh@kernel.org>
-
-Rob
+> -- 
+> With best wishes
+> Dmitry
+> 
