@@ -1,76 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F795B874A
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 13:30:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF7D5B87D3
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 14:08:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F81110E296;
-	Wed, 14 Sep 2022 11:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18B6210E179;
+	Wed, 14 Sep 2022 12:08:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F8C310E179;
- Wed, 14 Sep 2022 11:29:38 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 151235C002F;
- Wed, 14 Sep 2022 07:29:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 14 Sep 2022 07:29:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1663154976; x=1663241376; bh=nQu2SC9skj
- 3zvKgRAY+OE/EsK7UjSaSgeju0QfEt0Cs=; b=sI6+pKkRrFiyWe0Di0vUI4Elub
- WU2WZ16qg5NsAIf4cYxne5RPHmLNkNbOnTap31OE31Ikj6KyXkxyRBvzyARaAhH1
- 4WaF17Vp33VyqXlgHWVeTnX5TE8blIAtgT28busRsPYDhgksEk1HjeCc08Wvga+t
- bskfWscIPId4Ly552s6iPRxZIfV693nUdEISY1m1C6cuM/CBHr2clsj2w6waZpUc
- kcNd7KZM3nEz3ZczPhAysdEw9m6h8AG4IDnT16cTpd7wxRGIT51rselgZprVkbNo
- cV2i7Zr6x+DVMwNNIE9IhKXuFhnjxru5j7vvcHFaD2a37X7XKXbzwbCoWkvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1663154976; x=1663241376; bh=nQu2SC9skj3zvKgRAY+OE/EsK7Uj
- SaSgeju0QfEt0Cs=; b=tB/hgMgRkBvvDe2Larr5g2Xf2i8pcNlw8zMWLcyXqMtz
- RB6o4uF3NQfWxsrTx4foH9n8N0buQUyc78NvdvGkG4UlhuwObb4DLW7+hBTGHLOI
- lz+e2Q5CLfsdCvSDgB0+WnUG5qLcyw1qIvyWSVO2MWJgapsJp1mP+Gu2aPma6Ict
- WXXqlCMcwpPIUC+xd91w/xzze6dFXsOtXBwdztItwSbghsQjRH2NPHQVRhFBnZ6q
- dY908u0Y4DOR5UQPGpXG3/WuBqpOiYl5lrcVVme9qasVWakJqRmTomu16NE1d1XL
- GnsoGxdlzWy+uNseiD8/XdR6ysJ9+BdoSF2XaJiEiw==
-X-ME-Sender: <xms:H7shYy-z-Sy-s0CYkYhiWGEo-Fk_sa4yzpFsShmbVmcw8NKVEim-Ow>
- <xme:H7shYyuhl7apl0uzCWtoXaLVdsY3vIuHlVJPZVfymPsr4NqTL0cxTJskRvonuk2hn
- j43Mbjcps8eNMsiwoQ>
-X-ME-Received: <xmr:H7shY4CZYM4ETUI7hJOe8i-3Bo9XlCMwvu1ooLO0z2Jo5DxvZAi390_OMsGo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeduiedggeduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:H7shY6fH7W_BVuQc_Pv1wOCbe0JZZwDcqIOQjR9ElV0d0XyvT8FDFA>
- <xmx:H7shY3PQ1WXtryglSTdW3rrdTj3tpcFZXxBJFYoc6JJb0xJRVeA8nQ>
- <xmx:H7shY0mvO9oKdlpqejxArcWaOLnY7GbsVZO4bMdJEo1YmlDQ9Owr_w>
- <xmx:ILshY6hp7U4y67xd1z7aW61uMylQ-NOWf_PLrKUGCD3bAJEil6TFPg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 14 Sep 2022 07:29:34 -0400 (EDT)
-Date: Wed, 14 Sep 2022 12:29:33 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [GIT PULL] Immutable backlight-detect-refactor branch between
- acpi, drm-* and pdx86
-Message-ID: <20220914112933.64ovljgsrv2l25rs@penduick>
-References: <261afe3d-7790-e945-adf6-a2c96c9b1eff@redhat.com>
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+ [209.85.210.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2259110E179
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 12:08:43 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id
+ d25-20020a9d72d9000000b00655d70a1aeaso7087141otk.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 05:08:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=hMLOKeXHOSnfU4zqlH09bFkg9yKTy1Fq4MgQhLwV+DM=;
+ b=CRnDzLoYAbF4yNSMGJqL/9Iea0uZX2J69xvWEVZAMuILVG4G0H/ocyLh4JiC3mH4qF
+ Xdsy+K8y3i00LRJKd4JyMAAfuom/aZxwLp7GNiHfSCjo95eFf4FbEm+swx/G7uqnZpB9
+ oYI4ktls7Rz8jVtdKhpZtBdt201tUnI3z6ARqAlx0oF7+9ppPmeROQf9v/+1ntvc35hK
+ pkl43Ktg0AW47F8YlKYow8NU/WAovQCNlwD3w7BQDLyRk3yD1JsbtP5ygKp/etXKPApo
+ Hx1aXHyNKOavkDGazbXWJlBP0KDx0wtCcbQWvqjqNIW2zkS3tI7Ba2fvWlcGkKtOuruk
+ r8Iw==
+X-Gm-Message-State: ACgBeo1NQskdBT7s7n0D6fA7ziUk6kawwFT9kLndTQf92lBngKybt6Uy
+ OzraTH8bLcojH9GkwBs+vQ==
+X-Google-Smtp-Source: AA6agR4qmKdSRMjr6cCYgddorY7oSjwFoX8ZUGglOu9qJOO8G4H+NFYqgp2cN0UGOoshspqJbqDiNQ==
+X-Received: by 2002:a05:6830:6104:b0:654:fb1:faba with SMTP id
+ ca4-20020a056830610400b006540fb1fabamr10605314otb.183.1663157322251; 
+ Wed, 14 Sep 2022 05:08:42 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ m26-20020a0568301e7a00b006339b36127dsm7172351otr.3.2022.09.14.05.08.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Sep 2022 05:08:41 -0700 (PDT)
+Received: (nullmailer pid 1869045 invoked by uid 1000);
+ Wed, 14 Sep 2022 12:08:40 -0000
+Date: Wed, 14 Sep 2022 07:08:40 -0500
+From: Rob Herring <robh@kernel.org>
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH v2 3/8] dt-bindings: Add bindings for Tegra234 NVDEC
+Message-ID: <20220914120840.GA1837218-robh@kernel.org>
+References: <20220913131447.2877280-1-cyndis@kapsi.fi>
+ <20220913131447.2877280-4-cyndis@kapsi.fi>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hy5cszh57lz34buf"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <261afe3d-7790-e945-adf6-a2c96c9b1eff@redhat.com>
+In-Reply-To: <20220913131447.2877280-4-cyndis@kapsi.fi>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,59 +63,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@redhat.com>, Len Brown <lenb@kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, Mark Gross <markgross@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Xinhui <Xinhui.Pan@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Sameer Pujar <spujar@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Ashish Mhetre <amhetre@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 13, 2022 at 04:14:41PM +0300, Mikko Perttunen wrote:
+> From: Mikko Perttunen <mperttunen@nvidia.com>
+> 
+> Update NVDEC bindings for Tegra234. This new engine version only has
+> two memory clients, but now requires three clocks, and as a bigger
+> change the engine loads firmware from a secure carveout configured by
+> the bootloader.
+> 
+> For the latter, we need to add a phandle to the memory controller
+> to query the location of this carveout, and several other properties
+> containing offsets into the firmware inside the carveout. These
+> properties are intended to be populated through a device tree overlay
+> configured at flashing time, so that the values correspond to the
+> flashed NVDEC firmware.
+> 
+> As the binding was getting large with many conditional properties,
+> also split the Tegra234 version out into a separate file.
+> 
+> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> ---
+> v2:
+> - Split out into separate file to avoid complexity with
+>   conditionals etc.
+> ---
+>  .../gpu/host1x/nvidia,tegra234-nvdec.yaml     | 154 ++++++++++++++++++
+>  1 file changed, 154 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml
+> new file mode 100644
+> index 000000000000..eab0475ca983
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml
+> @@ -0,0 +1,154 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra234-nvdec.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Device tree binding for NVIDIA Tegra234 NVDEC
+> +
+> +description: |
+> +  NVDEC is the hardware video decoder present on NVIDIA Tegra210
+> +  and newer chips. It is located on the Host1x bus and typically
+> +  programmed through Host1x channels.
+> +
+> +maintainers:
+> +  - Thierry Reding <treding@gmail.com>
+> +  - Mikko Perttunen <mperttunen@nvidia.com>
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^nvdec@[0-9a-f]*$"
+> +
+> +  compatible:
+> +    enum:
+> +      - nvidia,tegra234-nvdec
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    items:
+> +      - const: nvdec
+> +      - const: fuse
+> +      - const: tsec_pka
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  reset-names:
+> +    items:
+> +      - const: nvdec
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  dma-coherent: true
+> +
+> +  interconnects:
+> +    items:
+> +      - description: DMA read memory client
+> +      - description: DMA write memory client
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: dma-mem
+> +      - const: write
+> +
+> +  nvidia,memory-controller:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to the memory controller for determining carveout information.
+> +
+> +  nvidia,bl-manifest-offset:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Offset to bootloader manifest from beginning of firmware. Typically set as
+> +      part of a device tree overlay corresponding to flashed firmware.
+> +
+> +  nvidia,bl-code-offset:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Offset to bootloader code section from beginning of firmware. Typically set as
+> +      part of a device tree overlay corresponding to flashed firmware.
+> +
+> +  nvidia,bl-data-offset:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Offset to bootloader data section from beginning of firmware. Typically set as
+> +      part of a device tree overlay corresponding to flashed firmware.
+> +
+> +  nvidia,os-manifest-offset:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Offset to operating system manifest from beginning of firmware. Typically set as
+> +      part of a device tree overlay corresponding to flashed firmware.
+> +
+> +  nvidia,os-code-offset:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Offset to operating system code section from beginning of firmware. Typically set as
+> +      part of a device tree overlay corresponding to flashed firmware.
+> +
+> +  nvidia,os-data-offset:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Offset to operating system data section from beginning of firmware. Typically set as
+> +      part of a device tree overlay corresponding to flashed firmware.
 
---hy5cszh57lz34buf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I don't think DT is the place for describing your runtime loaded 
+firmware layout.
 
-Hi Hans,
-
-On Mon, Sep 05, 2022 at 10:35:47AM +0200, Hans de Goede wrote:
-> Hi All,
->=20
-> Now that all patches have been reviewed/acked here is an immutable backli=
-ght-detect-refactor
-> branch with 6.0-rc1 + the v5 patch-set, for merging into the relevant (ac=
-pi, drm-* and pdx86)
-> subsystems.
->=20
-> Please pull this branch into the relevant subsystems.
->=20
-> I will merge this into the review-hans branch of the pdx86 git tree today=
- and
-> from there it will move to for-next once the builders have successfully b=
-uild-tested
-> the merge.
-
-I merged it into drm-misc-next, thanks!
-Maxime
-
---hy5cszh57lz34buf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABMIAB0WIQTXEe0+DlZaRlgM8LOIQ8rmN6G3ywUCYyG7HQAKCRCIQ8rmN6G3
-yxexAQD6R+v7rkQb0GeB4b/P6qIJ8gkrhQhlZLrmcPYoUuwldAD/fLehBZhVa7TE
-ohzG1kghzg7S8i2Op8YPG+18dMDqoTU=
-=37BB
------END PGP SIGNATURE-----
-
---hy5cszh57lz34buf--
+Rob
