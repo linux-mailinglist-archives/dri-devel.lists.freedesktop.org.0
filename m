@@ -1,57 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7E15B82D7
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 10:22:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9645B82E9
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 10:29:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4CFC10E57C;
-	Wed, 14 Sep 2022 08:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D64010E8B4;
+	Wed, 14 Sep 2022 08:29:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B151B10E57C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 08:22:13 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id z13so7095406edb.13
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 01:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=C3szHyN1H7uWCYSHMJkK9hI6f1WnHoGR06A9hdGC5m4=;
- b=dg7GYZg434lKn977vNMDHW6Xq/ubpOjo++bwDYcJPjweH2hQShU/U6gZFxlsC0iKMs
- 8mOGaOkJQ748aVQ+LVzYlg8yxuEtpq9wPKofxczXqHdOe8B0NAvkgEotk4Wf/XQ0QH2F
- 8GZUW846oDXv1IBly8apJw9S/XSBIXJeC7cBY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=C3szHyN1H7uWCYSHMJkK9hI6f1WnHoGR06A9hdGC5m4=;
- b=73Hxsojx1OuOpwZX3UjAxQ2Zq65P2ThjwBvEn8CEYZ0V1pV1RMwdh1RzNjuIdPoiP0
- f8NLQLbiAJdA6YrrroeaE14F8spuYNli4SvTHD0gcD3Ybz62T+cWKsgijG5bai1c0T+G
- SOYqAig5LHDLRbFddS2zanWl9b12sbb+fhQXuXlXx5Eupf4ZfQ4GmfMDFxwxzGSB3ah+
- VD5+Arx3QrF7usnVWpBwyL7K42OTQ/ggqgB6fkeMDkBbtMYJYfEFpIFGDNe8mxoZ0Sw5
- cAxiPkbxKdjSlOoaRAJ7Gu8yC8umGAh8w6VVEiPDIqQgl96PIO95v95jREXB5Skxe7B5
- /bqQ==
-X-Gm-Message-State: ACgBeo3b9zD/y/gTsZ1Eif6PQV2ATHhBQ6u7uZaEKUxWk4DWAauPIAE0
- idjelmP/TN9eL9iI2KqhhVtP5s7nOl3vXnHXkzOzKw==
-X-Google-Smtp-Source: AA6agR5VXO7LGKlo/0ITP5xoJJtYJWB9kOGeOCXFZPjSD3tELNNBCLBAsYH7sCGgrDncAa9Ie4CYWyAxAnqxa9WrMj0=
-X-Received: by 2002:a05:6402:e86:b0:440:d1be:20c7 with SMTP id
- h6-20020a0564020e8600b00440d1be20c7mr29564784eda.349.1663143732102; Wed, 14
- Sep 2022 01:22:12 -0700 (PDT)
+Received: from out20-39.mail.aliyun.com (out20-39.mail.aliyun.com
+ [115.124.20.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AAA210E8B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 08:29:20 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.04508899|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.0032997-0.000899747-0.995801;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047205; MF=wangyugui@e16-tech.com; NM=1;
+ PH=DS; RN=2; RT=2; SR=0; TI=SMTPD_---.PFHBN14_1663144156; 
+Received: from 192.168.2.112(mailfrom:wangyugui@e16-tech.com
+ fp:SMTPD_---.PFHBN14_1663144156) by smtp.aliyun-inc.com;
+ Wed, 14 Sep 2022 16:29:17 +0800
+Date: Wed, 14 Sep 2022 16:29:24 +0800
+From: Wang Yugui <wangyugui@e16-tech.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
+In-Reply-To: <86e3a684-7a50-ed05-a89d-eeef154b2e67@suse.de>
+References: <20220913231522.7CAA.409509F4@e16-tech.com>
+ <86e3a684-7a50-ed05-a89d-eeef154b2e67@suse.de>
+Message-Id: <20220914162920.7233.409509F4@e16-tech.com>
 MIME-Version: 1.0
-References: <20220829184031.1863663-1-jagan@amarulasolutions.com>
- <20220829184031.1863663-8-jagan@amarulasolutions.com>
- <CAHCN7xKxS6oaX8kGYv_bhWfCFUEMBykN87BwXMPkcCg=OwKXrw@mail.gmail.com>
-In-Reply-To: <CAHCN7xKxS6oaX8kGYv_bhWfCFUEMBykN87BwXMPkcCg=OwKXrw@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 14 Sep 2022 13:52:01 +0530
-Message-ID: <CAMty3ZAKjpXpdK1ZNw9dX_ojC4NKCZZ36HaQZGPDfrqiMk0kpQ@mail.gmail.com>
-Subject: Re: [PATCH v4 07/12] drm: bridge: samsung-dsim: Fix PLL_P (PMS_P)
- offset
-To: Adam Ford <aford173@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="GB2312"
+Content-Transfer-Encoding: 8bit
+X-Mailer: Becky! ver. 2.75.04 [en]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,50 +45,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 30, 2022 at 1:12 AM Adam Ford <aford173@gmail.com> wrote:
->
-> On Mon, Aug 29, 2022 at 1:41 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+Hi,
+
+
+> Hi
+> 
+> Am 13.09.22 um 17:15 schrieb Wang Yugui:
+> [...]
+> >>>
+> >>> so I tried to revert patch of mgag200 driver in batch of 2 or 3, the I
+> >>> noticed the patch 'Subject: drm/mgag200: Remove special case for G200SE
+> >>> with <2 MiB' and then tried this dirty fix.
+> >>
+> >> Oh, great work! Thank you. From looking at the screenshot that you provided, it seems as if the 24-bit mode setting is broken. I'm not sure why the G200SE workaround applies to a G200ER, but we'll see.
 > >
-> > The i.MX 8M Mini Applications Processor Reference Manual, Rev. 3, 11/2020
-> > with 13.7.10.1 Master PLL PMS Value setting Register mentioned PMS_P offset
-> > range from BIT[18-13] and the upstream driver is using the same offset.
+> > I tested 'preferred_depth = 32' too. it works on T630 too.
 > >
-> > However, offset 13 is not working on i.MX8M Mini platforms but downstream
-> > NXP driver is using 14 [1] and it is working with i.MX8M Mini SoC.
->
-> From the line you highlighted in the link, the downstream NXP ones
-> shows 13 if I'm reading it correctly.
->
-> #define PLLCTRL_SET_P(x) REG_PUT(x, 18, 13)
+> > so both 16 and 32 work, but 24 failed on DELL/T630.
+> 
+> I tried on my test machine with a 5.19 kernel and found that 32-bit and 24-bit pixels work, but 16-bit looks incorrect.
+> 
+> What are the results if you boot your kernel 5.19.3 with the parameter video=1024x768-24? This should enable 24-bit pixels.
+> 
+> How does video=1024x768-16 look with the 5.19 kernel?
 
-PMS_P value set in sec_mipi_dsim_check_pll_out using PLLCTRL_SET_P()
-with offset 13 and then an additional offset of one bit added in
-sec_mipi_dsim_config_pll via PLLCTRL_SET_PMS().
+test result here
+kernel 5.19.3 & video=1024x768-24
+	dell/T620/centos-8.5	broken
+	dell/T630/centos-7.9	broken
 
-Please check this for additional information
-https://github.com/fschrempf/linux/commit/bbb3549a99e162ef6ad4c83d5fd4d39a6daa6d56
+kernel 5.19.3 & video=1024x768-32
+	dell/T620/centos-8.5	OK
+	dell/T630/centos-7.9	OK
 
-I'll update the additional information in commit messages in v5.
+Both DELL/T620 and DELL/T630 have the lastest BIOS/iDRAC installed.
 
-Thanks,
-Jagan.
+Best Regards
+Wang Yugui (wangyugui@e16-tech.com)
+2022/09/14
+
+
+
+> 
+> Best regards
+> Thomas
+> 
+> >
+> > diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> > b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> > index 225cca2ed60e..563e3ab05fbc 100644
+> > --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> > +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> > @@ -1070,7 +1070,7 @@ int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_available
+> >
+> >          dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
+> >          dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
+> > -       dev->mode_config.preferred_depth = 24;
+> > +       dev->mode_config.preferred_depth = 32;
+> >          dev->mode_config.fb_base = mdev->vram_res->start;
+> >          dev->mode_config.funcs = &mgag200_mode_config_funcs;
+> >
+> > Best Regards
+> > Wang Yugui (wangyugui@e16-tech.com)
+> > 2022/09/13
+> >
+> >
+> > 
+> -- Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N¨¹rnberg, Germany
+> (HRB 36809, AG N¨¹rnberg)
+> Gesch?ftsf¨¹hrer: Ivo Totev
+
+
