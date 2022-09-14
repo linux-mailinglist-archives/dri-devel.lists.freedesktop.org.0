@@ -2,118 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24035B8A64
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 16:24:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7844B5B8A94
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 16:32:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8F7B10E93A;
-	Wed, 14 Sep 2022 14:24:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93C9A10E928;
+	Wed, 14 Sep 2022 14:32:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3755110E93A
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 14:24:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DReekOeYfnPHn9osLEqemZnRtbiyWTCgJu91uFJrDeWIfM6qz3Qohkg2xSORy1KdxyoNO1G8E+Q93xQvjHrzqingJFE34O7dUQcWDQ59u25RowBYMie+cePcS2OV/rIcmESN/Zk9zE1g9xcxGAJuMtlWFiOYtiPHpx5iwfWnXD+0CzJL8Ul+IggsJP2v9Ih9D3SmywuwcY6VMn2EquhpfPhTxe/B4Jzfkull2yj0uZ5vlirsvHrs8oVnkBIGcXEsqUGVZP8871BNzhtxwakxIusak1D4gRY8RS8W4OaAGBKWAP2JQQcX5GE1zwhuniTa0L965bt+daiILt6Mi8MgFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0LEiJ6Q1vMm+T1oQeEnzfIVPugxFSgeNgr4I0Y63Adk=;
- b=eezgV4cN5zHEI5Wq94/TP3NJM08Bg+54rTV9bLh/Hyz4SDkMQAFyZySjmojqP81fYNH0CausKjWgSC+W4o+WPqiBcVpE4hW3c2T2ajtxbk7T8X+XL7xtc2SsIHrAAlibPfVtZzX7mXTv6DOhV+u3MHHRWcog7MwHiEGF2oMPNLpUJ2aa5UCkLFXe+LGZofAzHvYTWfsDBI9BywG+4aeO0Fd0DuaIC4pUeky7siT2ZjcCRt0UxC/wjGLCTUGflYJ/zmmX4PovGAAX09li3Htbn9/0BujO97X/YDQcrSHOTkX09slDx+zcwhQ3u2QLM8iLoO5qMWW+p0UNuFUa6e2xdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0LEiJ6Q1vMm+T1oQeEnzfIVPugxFSgeNgr4I0Y63Adk=;
- b=qtv+oVFGjoOJHi/GMRAa/QReXX0KqwDMqvkhHF1/l2wLdE2rRQHT4AdTcykQz4qdxJAUizOo17UpwHlmXnUbfZZOWOJ5nOQIIqCPIYzgyuNbLL2YebRn2jPlYoWYzhcPmAXvYjAfwGSV6rY31G41NKcoyV/rvtBqZAJpt5mYbY8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY4PR12MB1943.namprd12.prod.outlook.com (2603:10b6:903:11b::7)
- by SA1PR12MB6919.namprd12.prod.outlook.com (2603:10b6:806:24e::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Wed, 14 Sep
- 2022 14:24:40 +0000
-Received: from CY4PR12MB1943.namprd12.prod.outlook.com
- ([fe80::a527:1309:e629:789e]) by CY4PR12MB1943.namprd12.prod.outlook.com
- ([fe80::a527:1309:e629:789e%6]) with mapi id 15.20.5612.022; Wed, 14 Sep 2022
- 14:24:39 +0000
-Message-ID: <5372b154-dc25-a917-9908-c59555afc865@amd.com>
-Date: Wed, 14 Sep 2022 10:24:36 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] A simple doc fix
-Content-Language: en-US
-To: Anup K Parikh <parikhanupk.foss@gmail.com>, skhan@linuxfoundation.org,
- airlied@linux.ie, daniel@ffwll.ch
-References: <YyGuwqpuwq+PT3K1@autolfshost>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-In-Reply-To: <YyGuwqpuwq+PT3K1@autolfshost>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0108.namprd13.prod.outlook.com
- (2603:10b6:208:2b9::23) To CY4PR12MB1943.namprd12.prod.outlook.com
- (2603:10b6:903:11b::7)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A260B10E93D
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 14:32:31 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id v16so35138361ejr.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 07:32:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=obpBL4tXH1sXCwB3znFS3ftnJpOfWHD1vlSgHE1sTO0=;
+ b=RnY/da2khSpx9SztG92dT3sDg2Um5lICTU07D7G7jQ4qr3kqCxc5BsHiB/nniNzNlO
+ clKhEQgk8YkPi+sovxHlLkgaoJZ2PTGxE5yT6ntcQJRDWUVoUoRnkacGodvsa66P+vUd
+ JUMUKcxgwtIaNdKoRiKRBYsLUu9f18SA5CwuLvwI+k4j+N7bfvuQWP/65JYoqPmyv1lb
+ UdMA1vNjPN31erst3B0svx2HA2OIJDAkH4+1c/aObjCq+y5N6q1UuBR2iG9UjUP74MVO
+ 8DQ2Z+Bn+Gqm3QEbhvJ5ga20IL8URZ6do9eEuCaUgGpLUdqPPGSVKNPf/3/GAzpCTNoS
+ ZNtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=obpBL4tXH1sXCwB3znFS3ftnJpOfWHD1vlSgHE1sTO0=;
+ b=IrppVkXBhhhVKpbTQgmDc2zqfqyUp8+pmazM66pmDufsw2qkgpUTvhbqLZs+qVpJ/M
+ MAEeI666YUKIXVFdpILApbLbbjZss1EJGqvYHx2E3gpaLlwPasSuJa+8bCeIuHBCKI10
+ fmsVFHygW/RcQXGyOLRaCeFSuJVEhCBM3Z+fTs31dmFrsJ+QwWaM/sd6Xbp0VIGnSOTw
+ HDpSD/DR1NLM4VcwFer6Ilwnbszj8GWyShWmZlhG6k5dWeeKT0BYZZyIF/p9rJvtaBH7
+ cE6nXEdobeCAS4C1sIzj/cHQJrUYz7Dsw3fE14OZW7flsuDIBGEhGy6JzbzpYKWkXDXY
+ mKvQ==
+X-Gm-Message-State: ACgBeo1aAj3YPv5JRQvHOvB8LC+RM7ke03V4zYarBeGQt5htpVnDDLXl
+ vpZ0sqg3u5SaDkzF5VqfXDU=
+X-Google-Smtp-Source: AMsMyM7Aq5Newj4kYD2Qa2UorKNFzxZO+0quOY6nNHKjVPm3cy8fDTs82LcImRO0vhWj5Sg/KcHqXA==
+X-Received: by 2002:a17:907:160d:b0:780:3d10:97a1 with SMTP id
+ hb13-20020a170907160d00b007803d1097a1mr1558714ejc.346.1663165950003; 
+ Wed, 14 Sep 2022 07:32:30 -0700 (PDT)
+Received: from orome (p200300e41f12c800f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f12:c800:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ cx24-20020a05640222b800b0044ec3285b23sm9974358edb.58.2022.09.14.07.32.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Sep 2022 07:32:29 -0700 (PDT)
+Date: Wed, 14 Sep 2022 16:32:27 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH v2 3/8] dt-bindings: Add bindings for Tegra234 NVDEC
+Message-ID: <YyHl+4O56brs1Pik@orome>
+References: <20220913131447.2877280-1-cyndis@kapsi.fi>
+ <20220913131447.2877280-4-cyndis@kapsi.fi>
+ <20220914120840.GA1837218-robh@kernel.org>
+ <6d739e27-c41c-e18f-8d13-0c38b912aa86@kapsi.fi>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1943:EE_|SA1PR12MB6919:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8246b6cf-06c1-4cde-919e-08da965cdb4e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Tuy0Ze3Ir6Jvia7hmHivsqrjb5cywmZhkJTdQLMx250Nr6H4Tqm9ROZp4FECp6AsKnM80tsB7zjNih10MT+AUmYGp1keW0EAI1CEfG0sQVn6lmGSjiyj1QiTmFrKYPJufejGXkUqWHpxH338/hKoJmrw12PNF6MmD00DwKls6sAV0Vna/gSJs/XdciFeQIqazlnNtS0U+8VjJ33uAu2SV5TuK32OGaOJ5EUdibPv8AyXwQS6PicpSIvs6BhKTDqkP8Qh4f35RQ9YbCzVTNIKf0X11Pte3F7ANopq+jm9MAFzZ1K9vzmgrKRUbD2vEf79fYv23uTyA2UZAEhSbFPOdPCmj2Tgjceitdzc34b4tq0qLucMtGRSMGCVA324JP39KnmJ/YhhWnjIsUhxPNpkcUeg9lK7b3mvpa2ipq2cP3yk3ScTUqlbetWXLaWzTU9Zpxx/g9JOCoZxgsBAc5ogR9zXZpKybCrP3vDQj2ohQn0Pyy9jK1Vvszg1dREk3BNaiRE8FVkYHca7KUh8H3zdrGlIX7nehc9QKtUxrEJPk8575c8jxiRwDAozb5yZZnyMiNeQ7d3bW5MBAelG9ByFwKNJu4EZxDrftBGPqIum18EbKMQHYIsQgx8MZXVgIgRjKPwG1AQmjGC3QDJ4dcS29NaZJPqiDeKyZfHkn5ojhMiFsbapo6bAr3AOsTlAfwYytjRyydMRnyo/Ao0DoBOpIzjUpmsPL877PPsv+lyWhMrVuubpcOqEb6+nhR5maUEK8qrfQZChK68xQplkhijTA3RVo3HzjKWOlKUhb9lP72I=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR12MB1943.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(136003)(396003)(346002)(376002)(39860400002)(451199015)(66946007)(83380400001)(4326008)(44832011)(38100700002)(2906002)(8936002)(186003)(6512007)(31696002)(6666004)(478600001)(41300700001)(53546011)(5660300002)(31686004)(8676002)(66476007)(6506007)(2616005)(66556008)(6486002)(36756003)(86362001)(316002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0pDOTVlS2MxVHpiWHVKMjhyMmlSb2dNVThTQldyU3pOdnJvbUp1UzVESm5j?=
- =?utf-8?B?Y09tbjVla0gvbXBnbGM5aVFUQ21DaGJVeXp5NjU1L0xuK1BzQTZ5WVM4aEdP?=
- =?utf-8?B?UjN3YjlIK3IwbE0yK1crYTBDVzhZWlRFYlFwc0JVV2NZNFJOOWU3TFpWUWcz?=
- =?utf-8?B?Q0ZleVUvemlHYTBqZUl5YTdOTjBzQkZTQ3J2Z2Jsb0JlaWVJZmxza2RYamFh?=
- =?utf-8?B?Q1JpN2RCMVcyaUFtb2F4NDBwUmY3U21UTkdCc2lWa1kzdVM2U1VrY1lYZFFN?=
- =?utf-8?B?ZHRVajZZa0hLS05VRkFFc0VMRHZxNGNzZTBmbmNNRmdERGdEb3Q1cHB0TnAz?=
- =?utf-8?B?bjFHZThpUVJuTlFSNGdUU3lUZkx5TzErSmk5eHlrdTF3aitlSGpkU2JjUng5?=
- =?utf-8?B?djNwcjgxa3lvcWJZN29NL1hDVzgrMVIySWpxSVdTT3FNVysvcnF0M3Y1QVo5?=
- =?utf-8?B?RFpaQnVWdVZoSjR2VUF1dkd5RTEveDgxZVZoUitlK3JQckxrWWhDeFQ4WnYw?=
- =?utf-8?B?KzNIMEhsdE4wTHNXeFlMNDVYN1JJM0MxUng4RzcweGRUNGd6bVBUd2J4Y3Ir?=
- =?utf-8?B?d0FhYmVXZ3RXa2ExNjh6T3NPU0FNR0xUOEl6SVgzSjVMZDZqb0Z1N09JUFZ1?=
- =?utf-8?B?V3MyQ0ZCYlh5M2NxdzJNQSt5Nk1mMnZHWldBY0hIWHVvZmdDY0xlckZWK2hs?=
- =?utf-8?B?U2JIU3pNYmRGWkV5N2tXaFQraGZkV0ovUGxvajlRUmJrTkc4QVBKdnVIUHMx?=
- =?utf-8?B?UFk1Tzk1ZUhSUjdkQjdJM3dGUFo1SVQrWjl2N0VBTGdXRzF2alU5eGJtdDJM?=
- =?utf-8?B?OVNvL2EwQSswYjNmeHR3dTdsTVdZTlFPVlFSdmlOb2FCOTRSOXp4QWdPS0VO?=
- =?utf-8?B?UXhONzZNdWRNU2RWc3o2ak1tT1V4dXY2dGIyb0l3VGRPSDVQNUs5dTd6YVpr?=
- =?utf-8?B?citTbjFXckpnQ211QUp3SFZyYVU3a0Z1SUZmdzBUa28zdE1rQklpdGxZSnVU?=
- =?utf-8?B?UHl0Q1Z1bnZESTRFSmV5ZnZhWmpzN2p4RkdVb0wxWVhxVGNvUmJ0Sk5XY2tW?=
- =?utf-8?B?Tm5abVdmZ2NDR2U0cUlxRk5uOGlIVkRLK2Q5MUJTL0F4VGtCUXJrZUhOUFhW?=
- =?utf-8?B?b2VQMTcwcVFzd2ZzWFcwbmRxNXp4eUtjRU92b0xJK0VSUFQ3QkZzOUZvNkhZ?=
- =?utf-8?B?Y3crTFlSWHQxTmtNS1FuUHlDWVlKWHVWaUtSQVM2cE1jTHBLOWdIWmF3QUF2?=
- =?utf-8?B?eCtxTkhuQ2tRNzQ2UElEYlE3RzFhMjFpckFXWWNmS2c5RGEySCtQeS9uZGJU?=
- =?utf-8?B?aGJQQ0x6N28zQ2NSRG5RV3JBS1ZLM3FzZ0dmRm84WUU4TGdZUWhPYlRrWEZR?=
- =?utf-8?B?WXhBZmNuZC9mcUhKbW1tcURNbmh4bjhBTWVxMVgxVHMzQUVOMEtuWGdnZ0pE?=
- =?utf-8?B?TGJCQyt5WGNMaTRqSlFCK2NsSWV3OW5WMmpoNWN1QnNQK0RIUlZJaGErMGFG?=
- =?utf-8?B?THhUY0tadEU5MXgyelZqZGZDTFB1RVBhVEphVVFZZks0a1pENDF4ZkRrcmZ1?=
- =?utf-8?B?U0tkWUo5VFpYVDdqT2ZDeVdJQ0drSEJ2YjFqU0UyWEwzRzBKaU5jMDdqSDJN?=
- =?utf-8?B?MmJyUVd5RVBYdGFSS2toTEgrM0ZFQ2tyb01LVW1aMi9NRmtjU1NVdEsrWk1t?=
- =?utf-8?B?Qnk0N1lmMVJ3Z3lUcW51T3lvOGVTUFJqb3hoeTdKTHBwbUlZenpKN3ltNm5P?=
- =?utf-8?B?b29yN0ZjbjRmNFZxemhacGFQWEhFei9yMDJnd3R3VWxxbEVCNEVNbDhWQnlO?=
- =?utf-8?B?U29TS29EeG5IOHBNNGFmbndzSmtoVnp6ZHRyUmV5d2U4NFk3RUpleWV6TjND?=
- =?utf-8?B?ZW02VFU2NGU0bVFWaXR5M016L1N0ZFVlanpqQmw2ODdUY2hmT1AxZXJaM1h2?=
- =?utf-8?B?MjJBd3BkNVpaN2FhZWx5Q0RlN29WZEVDUlpJNWhCaCtWZW5Dc1h0ZjdVRWxi?=
- =?utf-8?B?akVqTGVJSVAzcGFTOEFBZExIZVROdDUwVm1ReHpmRlY3cjh5cEtWY0xGVUhP?=
- =?utf-8?B?c2NpNzd0NjBTL0FoZ2Zpb0RseWtXL2NEVjM4NlpTVVZJZFRlNVB6QUM4NDEy?=
- =?utf-8?B?WFUvRU1rYlpkZjhtbmJpNWVhR1lYZE85SEUvMUFxUWtLaklLcCtZNVBqVTJl?=
- =?utf-8?Q?yYRRadX9+QsySnRWjJhHQMJF/+Cc7yAL5YkCSpGcHNlw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8246b6cf-06c1-4cde-919e-08da965cdb4e
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR12MB1943.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 14:24:39.5768 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S5R8MfDIvqeDy5zo00GD1YvNYvojQInzmNPJSGRJaZAEC6A654CM1ClYmKaE89AFcC39hJaXJ3tGbXpC5kdMLQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6919
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="aiVZA/HUjMlRw8xz"
+Content-Disposition: inline
+In-Reply-To: <6d739e27-c41c-e18f-8d13-0c38b912aa86@kapsi.fi>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,55 +76,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Sameer Pujar <spujar@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Ashish Mhetre <amhetre@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2022-09-14 06:36, Anup K Parikh wrote:
-> Fix two warnings during doc build which also results in corresponding
-> additions in generated docs
->
-> Warnings Fixed:
-> 1. include/drm/gpu_scheduler.h:462: warning: Function parameter or member
->     'dev' not described in 'drm_gpu_scheduler'
-> 2. drivers/gpu/drm/scheduler/sched_main.c:1005: warning: Function
->     parameter or member 'dev' not described in 'drm_sched_init'
->
-> Signed-off-by: Anup K Parikh <parikhanupk.foss@gmail.com>
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 1 +
->   include/drm/gpu_scheduler.h            | 1 +
->   2 files changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 68317d3a7a27..875d00213849 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -994,6 +994,7 @@ static int drm_sched_main(void *param)
->    *		used
->    * @score: optional score atomic shared with other schedulers
->    * @name: name used for debugging
-> + * @dev: A device pointer for use in error reporting in a multiple GPU scenario.
+--aiVZA/HUjMlRw8xz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Sep 14, 2022 at 03:19:01PM +0300, Mikko Perttunen wrote:
+> On 9/14/22 15:08, Rob Herring wrote:
+> > On Tue, Sep 13, 2022 at 04:14:41PM +0300, Mikko Perttunen wrote:
+> > > From: Mikko Perttunen <mperttunen@nvidia.com>
+> > >=20
+> > > Update NVDEC bindings for Tegra234. This new engine version only has
+> > > two memory clients, but now requires three clocks, and as a bigger
+> > > change the engine loads firmware from a secure carveout configured by
+> > > the bootloader.
+> > >=20
+> > > For the latter, we need to add a phandle to the memory controller
+> > > to query the location of this carveout, and several other properties
+> > > containing offsets into the firmware inside the carveout. These
+> > > properties are intended to be populated through a device tree overlay
+> > > configured at flashing time, so that the values correspond to the
+> > > flashed NVDEC firmware.
+> > >=20
+> > > As the binding was getting large with many conditional properties,
+> > > also split the Tegra234 version out into a separate file.
+> > >=20
+> > > Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> > > ---
+> > > v2:
+> > > - Split out into separate file to avoid complexity with
+> > >    conditionals etc.
+> > > ---
+> > >   .../gpu/host1x/nvidia,tegra234-nvdec.yaml     | 154 +++++++++++++++=
++++
+> > >   1 file changed, 154 insertions(+)
+> > >   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvi=
+dia,tegra234-nvdec.yaml
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegr=
+a234-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra=
+234-nvdec.yaml
+> > > new file mode 100644
+> > > index 000000000000..eab0475ca983
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nv=
+dec.yaml
+> > > @@ -0,0 +1,154 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra234-nvdec=
+=2Eyaml#"
+> > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > > +
+> > > +title: Device tree binding for NVIDIA Tegra234 NVDEC
+> > > +
+> > > +description: |
+> > > +  NVDEC is the hardware video decoder present on NVIDIA Tegra210
+> > > +  and newer chips. It is located on the Host1x bus and typically
+> > > +  programmed through Host1x channels.
+> > > +
+> > > +maintainers:
+> > > +  - Thierry Reding <treding@gmail.com>
+> > > +  - Mikko Perttunen <mperttunen@nvidia.com>
+> > > +
+> > > +properties:
+> > > +  $nodename:
+> > > +    pattern: "^nvdec@[0-9a-f]*$"
+> > > +
+> > > +  compatible:
+> > > +    enum:
+> > > +      - nvidia,tegra234-nvdec
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 3
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: nvdec
+> > > +      - const: fuse
+> > > +      - const: tsec_pka
+> > > +
+> > > +  resets:
+> > > +    maxItems: 1
+> > > +
+> > > +  reset-names:
+> > > +    items:
+> > > +      - const: nvdec
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +  iommus:
+> > > +    maxItems: 1
+> > > +
+> > > +  dma-coherent: true
+> > > +
+> > > +  interconnects:
+> > > +    items:
+> > > +      - description: DMA read memory client
+> > > +      - description: DMA write memory client
+> > > +
+> > > +  interconnect-names:
+> > > +    items:
+> > > +      - const: dma-mem
+> > > +      - const: write
+> > > +
+> > > +  nvidia,memory-controller:
+> > > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > > +    description:
+> > > +      phandle to the memory controller for determining carveout info=
+rmation.
+> > > +
+> > > +  nvidia,bl-manifest-offset:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description:
+> > > +      Offset to bootloader manifest from beginning of firmware. Typi=
+cally set as
+> > > +      part of a device tree overlay corresponding to flashed firmwar=
+e.
+> > > +
+> > > +  nvidia,bl-code-offset:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description:
+> > > +      Offset to bootloader code section from beginning of firmware. =
+Typically set as
+> > > +      part of a device tree overlay corresponding to flashed firmwar=
+e.
+> > > +
+> > > +  nvidia,bl-data-offset:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description:
+> > > +      Offset to bootloader data section from beginning of firmware. =
+Typically set as
+> > > +      part of a device tree overlay corresponding to flashed firmwar=
+e.
+> > > +
+> > > +  nvidia,os-manifest-offset:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description:
+> > > +      Offset to operating system manifest from beginning of firmware=
+=2E Typically set as
+> > > +      part of a device tree overlay corresponding to flashed firmwar=
+e.
+> > > +
+> > > +  nvidia,os-code-offset:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description:
+> > > +      Offset to operating system code section from beginning of firm=
+ware. Typically set as
+> > > +      part of a device tree overlay corresponding to flashed firmwar=
+e.
+> > > +
+> > > +  nvidia,os-data-offset:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description:
+> > > +      Offset to operating system data section from beginning of firm=
+ware. Typically set as
+> > > +      part of a device tree overlay corresponding to flashed firmwar=
+e.
+> >=20
+> > I don't think DT is the place for describing your runtime loaded
+> > firmware layout.
+> >=20
+> > Rob
+>=20
+> The way I see it, from the kernel's point of view it's not runtime loaded
+> but a contract with the bootloader. Bootloader sets up hardware in a cert=
+ain
+> way the kernel doesn't otherwise know so the bootloader needs to tell the
+> kernel how the hardware is set up.
+>=20
+> The fact that the information is supplied through an overlay is accidental
+> -- equivalently the bootloader that sets up the firmware could adjust the
+> device tree like we do in other situations, but in this case an overlay is
+> an easier implementation method.
 
-Why multiple GPUs scenario ? It's also used in single GPU scenario.
+I think the key bit of information to know here is that the kernel is
+not permitted to load this firmware. It's a bootloader early in the boot
+process that sets this up in a secure context and then needs to convey
+that information to the kernel.
 
-Andrey
+Perhaps a slightly more idiomatic way to pass this information would be
+using a reserved memory node? That could span the entirety of the secure
+carveout (therefore removing the need to query the memory controller for
+that information) and be identified with a compatible string that would
+allow custom properties for these various offsets. Yet another way would
+be to have each of the bootloader and OS regions (manifest, code and
+data) be their own reserved memory regions. But given that this is one
+chunk with different regions inside makes that seem excessive.
 
+Rob, do you have any other ideas how this information could be passed to
+the kernel if not via DT?
 
->    *
->    * Return 0 on success, otherwise error code.
->    */
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index addb135eeea6..920b91fd1719 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -435,6 +435,7 @@ struct drm_sched_backend_ops {
->    * @_score: score used when the driver doesn't provide one
->    * @ready: marks if the underlying HW is ready to work
->    * @free_guilty: A hit to time out handler to free the guilty job.
-> + * @dev: A device pointer for use in error reporting in a multiple GPU scenario.
->    *
->    * One scheduler is implemented for each hardware ring.
->    */
+Thierry
+
+--aiVZA/HUjMlRw8xz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmMh5fsACgkQ3SOs138+
+s6GUdA/9FYMasTSyIsmqzEkVvTBY4hSR6IFHJUAM8BCGeKD4iPjMG4b8AyzK/p8W
+6mI/8czyDPSXbd532BztgwUld3bOYgpORPz7EJzuNZ4GreHMLPj0Kg91LuwZKVw/
+p2P4/KkqhaAzfoR4QqpX8YjZCzvAD/0vP3VXDyLEY0zf68wJ0AovRBrwmxyzRqEA
+7KH+M2PMB2I6gJViLXLWFYGK3oqtwnFx0Knv5/6Wtcv2R9AnkBJdLYQ2hjvpWb5u
+BHXqy8xONScYFNlqgqR7a8aqQswLy4/WiRYFd6bQRHDcnlQtQIdkMXLFYVFlis6V
+Vi36rs+Blkud1K0SUp6ulq5+HxDf3pjk3eyprztwUYjsLGDZ5KxZ/6A87euToj4m
+NBtwq0lo3QRxSd6blac+5Qe1hcRdTU+pD1jW62JQT0N/mVqsGF0Poqf46900VO6n
+WMgAfYjisWl9736bV4l12ADxbo4gT/ImElJvTXhoH8vdw4iVz5Ztk9nPG4S+3oo+
+bvEv/hWyrLbdxY1yBkMZHN7Jbvxxwl+5Y3VlnaT0pqhdtTVRrT28Uf4Nz/qRGeHv
+5zz1l9pCZvi0kh2yCAHGVloRrqurF/krxt7xZRrUua+k3leRHwYs4YCwk1fnJwgp
+NU1uKKnAOPlE0eQvXn/DIpY3+FaEhOA2SnMlRW+v3IlmrjS0/Ok=
+=OaCY
+-----END PGP SIGNATURE-----
+
+--aiVZA/HUjMlRw8xz--
