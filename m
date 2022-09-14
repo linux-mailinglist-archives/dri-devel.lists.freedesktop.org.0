@@ -1,64 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E0E5B8EDC
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:27:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B77D5B8EFB
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:41:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFDD10E9D6;
-	Wed, 14 Sep 2022 18:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2179E10E9DA;
+	Wed, 14 Sep 2022 18:41:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 771C710E9D7
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 18:27:03 +0000 (UTC)
-Received: from [192.168.1.138] ([37.4.248.23]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MRBWU-1ovg7f3USi-00NEK9; Wed, 14 Sep 2022 20:26:55 +0200
-Message-ID: <ecfe17be-5d81-3456-9a86-77acc848f95f@i2se.com>
-Date: Wed, 14 Sep 2022 20:26:55 +0200
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2065.outbound.protection.outlook.com [40.107.96.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 282C010E9D7;
+ Wed, 14 Sep 2022 18:40:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BfTs+DcXGe7UOZIglulCZ+HOsNqqe3MUyVmj7wd13U2F0frnWkoW4B84f+yXoL35xPlNHcXAwP6Wc//qyCjjTsodKlxoNJXNxTBCqL0AzRITufxAZ1FB2u987TyCol1Z9G5a1wiEqWTEOptf5wgdpfncp+3K9vuWqPHM8CyLIpLROEBz5YRWVwaNer4ZeTWaX5JXGYQgUmjCFIAKxnajrZRatu3Pv4ZVU2ISSeoQ3RBNmyEiYb9GHIEdJjojOPgTO2i5AU5pfrHj7lv6WJF2eWiMhYCcHsQBAVo7KM0srIz8BATEOTSezz5CDT6bsznB1m5otSgMPwR3VRccs5++Ig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rsf+VtE6Z1cUUeVS3H/EevAYcF4JJtZ9SmTJ2l2wh8s=;
+ b=eFlT4aQiJWhV12y7qZcDusFXjFQ3sw6L64wLFHkJMxqZZK2ErEbXPxt+BXVL5eTl7uoMHwGaGwrRgu2IY/m4S6JENT9ObZ34F3nS7Lp3pjE0AEMGcaFOjXtxBRqpg89IrTiDo5iiZRsy5iufVrrxhcz7DhSKW7lzWV4L27wOG3j5rkIvd0x+6PyV/Jtl4aI7g9SkCElqGBQ8EvRZY5pSfje+9dbzMGGiOzdkwvs4Dn52ni1E3nSe8cAr15zylA5N59QqPQvOtqWJTYA+ef55qWY4Fyjf14bsnJV5TzFQrzDRGBCulOYkiSutAiErVKsj6eDIVL1lIMOJdrmIBm5yww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rsf+VtE6Z1cUUeVS3H/EevAYcF4JJtZ9SmTJ2l2wh8s=;
+ b=O0nO5ql3mcCy/GeGgnSEPP+sq3WmmVpe77+DN8t/SIZaX6clLsbR7OLPiMfvYAK6z4M5njQkO93LUD/3DFswSkGSRsALwZWKUxY/4sjyQsT8eT8VsLfxOw4VAh96I/KgkJRtAYR+nqWaBmFeFIoc3kR+Z2Ds3umU6582C3cdn84=
+Received: from BN9PR03CA0687.namprd03.prod.outlook.com (2603:10b6:408:10e::32)
+ by CH0PR12MB5122.namprd12.prod.outlook.com (2603:10b6:610:bd::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.16; Wed, 14 Sep
+ 2022 18:40:52 +0000
+Received: from BN8NAM11FT080.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:10e:cafe::66) by BN9PR03CA0687.outlook.office365.com
+ (2603:10b6:408:10e::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.15 via Frontend
+ Transport; Wed, 14 Sep 2022 18:40:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT080.mail.protection.outlook.com (10.13.176.82) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5632.12 via Frontend Transport; Wed, 14 Sep 2022 18:40:51 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 14 Sep
+ 2022 13:40:50 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.0
+Date: Wed, 14 Sep 2022 14:40:30 -0400
+Message-ID: <20220914184030.6145-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 2/7] clk: bcm: rpi: Add a function to retrieve the
- maximum
-Content-Language: en-US
-To: Stephen Boyd <sboyd@kernel.org>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
- Florian Fainelli <f.fainelli@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>
-References: <20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech>
- <20220815-rpi-fix-4k-60-v1-2-c52bd642f7c6@cerno.tech>
- <20220914155035.88E45C433C1@smtp.kernel.org>
- <50e8f1e8-806a-3599-7cbe-0c7d4bec1c51@i2se.com>
- <20220914180508.0EDD9C433D6@smtp.kernel.org>
- <c221873f-f230-0cce-e120-7e3cc732cf00@i2se.com>
- <20220914181458.C6FCCC433C1@smtp.kernel.org>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20220914181458.C6FCCC433C1@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:Jdbn9l5qqOJBkSd1SY2bvvuP2Ym2CUnbxrLNTbE0hMBbezREtUX
- PONUJGkCg6O2kO1NrusmJNEgGKQnKBvjmf9dmooJloHaYQRvGe3sroXSsy8g2WAGT3Jk0t5
- JL70HuVKcivVe5Kyyw6V3hH/9qr6repOuUTitCbbdDhyfKhit25nNIds9qT9+EnJpZXpeJw
- GI54zvLErdpZbGKcI8/2g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hskLTalVQtQ=:nbx/JndvyB55KImHVHVm1y
- 3jIW3SqWIZDBMxHR7yGSoWA3Vrj2HkYEviCppmAh6Vopf25/5hH+oSgjRtTvOdI/eKuPkPknq
- B8XMDTpeSFMDxD6MCHU/xW1i6cTAs+CDUSSobtN5GxF9T+wlWZnXUyr5iolk7emO6GC2tKIGc
- KMpaUKr89GNV/5zkX13m12YcMIZJO6vFuwscl3daU79Zf+VBSG6iy84qR5Zm4h0tUUQINGlRp
- TZihTWfi4fulrvq3igEzOb375083nhYEJK8y73oGuHUcK/Yghej7k5EbVt/PWd8rgu/5rxqjA
- 4wLeeWKX38IFWHtjokF3o2Kz5Ems6Ecb5xR+ZqNelwx5f4IBJJnQBSs7CrQVYgr4VV1e913Wp
- qs1UIcIo92I8yK1eFs67kEiLz9BHsMG20CXKhcCKl/GQOZGPY6Uj3gEDKm3E2CMrxD18A7mVB
- pBqnZUQABm2EiVO0A6AYJ90DqL/gcDrD/anV/Hq91EqK4GbEe/7b8DNABw/P5qWzD6wydYJ3U
- +vIGSA7jsBM77cBUwNgJKc7y4ZAVtEgbjiLcvTmZsgMk6sQD4klttZ4zpChpYrVrJPezztGPl
- mxJDmphEWhidMankvZsusM13kQUCELYwbsRSQt89LdAZZo3L40DoFZjlKDqiS854F4R9M+9Yn
- 1PMHpeQWSPjys14PaQh2UyXSRpKoyfs/P0jbbYG4JAGoXo8b/+uLXima31WlqbO225jxS3Xkt
- aGRv7B8QqCQjFwsUdORJodiDmNbs9o7W3fSLq/wqG87rxl5F32j4GzYrlHV9XhynAucf40vgY
- soQtGWTNo13VCePbw2xFLYl1WYOkw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT080:EE_|CH0PR12MB5122:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c1c9ee4-272c-4dd9-6c05-08da9680a67f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PR6CTJXus+WOzVOafnRZT/OAX3yhr2PQk2CiV9OxvBKoRl0bEEoaF2KMJhu9nFnEY2lT6ZHAclw/Adl1hnECyD1Yn0132ZZtmUJvuGAbCJMcwymA9t5jlD2BfZkBrU+d4wBOd8+IzyZEZyB3AHBfiGda+B2qBq1dP7CdFjIdld757h9W8ovKohumsVJVhDT4cso8n9pjIlFuUbWMLi80orzWNfBLF3I+5aZYs1LQstvhyv0jPkFPTkkJHjmNhTWq41PoENsUNsQDNlhTr2vreXUmqyeFZ+yAoFpSEkXzaq8HLIGhl1dN7wUiOrfYuYiwgI9hsFIsIx4/fj6FEfv3JFgu38OP2teTOssCi86lZI6JAo+WIFQrIaFg4e37Zh7WxP9PtsjxtzZ8ZwTF8g0ud/wbJFJkJ8KJpbYCpKWMWDaAEqvzIILTjLoWH5bjuIwBOtAp/a95ZcqHd0WvtINDtqBcr1uAic5iDBowBmGXGRwq2qBfNK77O8KYOkiz7KkBm2x5Jod/dYSoqts0TdgkIuEgIrBQpHBJLPKdju1w9+c08xDcuIkxwWFEd+Wdh8cBcBiWfoW5xjPfRLr8YkL4QU7vo8cLxqOatS+YFx/V9WrpO0q0T5jEb4ADT3Tgw8tGJG77ftxUEsAZpCI5pOyxlUVsWaC6Newc5UfXN9A2KBaItNqhg2OcYp1ZS5tJ40j1ouCH85SH/U8YWHbLQ6jPcyaVExAhjhomp26WrMPk+u5z38fGju9SMg2VIhinJwP+
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(396003)(376002)(136003)(346002)(451199015)(40470700004)(36840700001)(46966006)(2616005)(40460700003)(82740400003)(8676002)(40480700001)(2906002)(356005)(36756003)(47076005)(82310400005)(186003)(86362001)(1076003)(110136005)(336012)(83380400001)(8936002)(7696005)(5660300002)(426003)(6666004)(36860700001)(16526019)(81166007)(70586007)(316002)(70206006)(26005)(41300700001)(478600001)(966005)(4326008)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 18:40:51.8914 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c1c9ee4-272c-4dd9-6c05-08da9680a67f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT080.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,33 +99,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.09.22 um 20:14 schrieb Stephen Boyd:
-> Quoting Stefan Wahren (2022-09-14 11:09:04)
->> Am 14.09.22 um 20:05 schrieb Stephen Boyd:
->>> Quoting Stefan Wahren (2022-09-14 10:45:48)
->>>> Am 14.09.22 um 17:50 schrieb Stephen Boyd:
->>>>> Furthermore, I wonder if even that part needs to be implemented.  Why
->>>>> not make a direct call to rpi_firmware_property() and get the max rate?
->>>>> All of that can live in the drm driver. Making it a generic API that
->>>>> takes a 'struct clk' means that it looks like any clk can be passed,
->>>>> when that isn't true. It would be better to restrict it to the one use
->>>>> case so that the scope of the problem doesn't grow. I understand that it
->>>>> duplicates a few lines of code, but that looks like a fair tradeoff vs.
->>>>> exposing an API that can be used for other clks in the future.
->>>> it would be nice to keep all the Rpi specific stuff out of the DRM
->>>> driver, since there more users of it.
->>> Instead of 'all' did you mean 'any'?
->> yes
-> Why?
-This firmware is written specific for the Raspberry Pi and not stable 
-from interface point of view. So i'm afraid that the DRM driver is only 
-usable for the Raspberry Pi at the end with all these board specific 
-dependencies. Emma invested a lot of time to make this open source and 
-now it looks that like that more and more functionality moves back to 
-firmware.
+Hi Dave, Daniel,
+
+Fixes for 6.0.  A bit bigger than usual, but this is mainly caused by some
+regression fixes which took a while to sort out and validate.  The rest is
+fixes for new IPs added in the 6.0 cycle.
+
+The following changes since commit 2edb79a5fb303dff577d6a0c7d571c3bab1d1455:
+
+  Merge tag 'drm-intel-fixes-2022-09-08' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2022-09-10 01:42:47 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.0-2022-09-14
+
+for you to fetch changes up to a8671493d2074950553da3cf07d1be43185ef6c6:
+
+  drm/amdgpu: make sure to init common IP before gmc (2022-09-14 14:21:49 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.0-2022-09-14:
+
+amdgpu:
+- BACO fixes for some RDNA2 boards
+- PCI AER fixes uncovered by a core PCI change
+- Properly hook up dirtyfb helper
+- RAS fixes for GC 11.x
+- TMR fix
+- DCN 3.2.x fixes
+- DCN 3.1.4 fixes
+- LLVM DML stack size fixes
+
+----------------------------------------------------------------
+Alex Deucher (4):
+      drm/amdgpu: add HDP remap functionality to nbio 7.7
+      drm/amdgpu: move nbio ih_doorbell_range() into ih code for vega
+      drm/amdgpu: move nbio sdma_doorbell_range() into sdma code for vega
+      drm/amdgpu: make sure to init common IP before gmc
+
+Alvin Lee (3):
+      drm/amd/display: Update MBLK calculation for SubVP
+      drm/amd/display: SW cursor fallback for SubVP
+      drm/amd/display: Refactor SubVP calculation to remove FPU
+
+Aric Cyr (1):
+      drm/amd/display: Fix divide by zero in DML
+
+Aurabindo Pillai (2):
+      drm/amd/display: Revert "Fallback to SW cursor if SubVP + cursor too big"
+      drm/amd/display: add workaround for subvp cursor corruption for DCN32/321
+
+Candice Li (2):
+      drm/amdgpu: Enable full reset when RAS is supported on gc v11_0_0
+      drm/amdgpu: Skip reset error status for psp v13_0_0
+
+Duncan Ma (1):
+      drm/amd/display: Correct dram channel width for dcn314
+
+Guchun Chen (1):
+      drm/amd/pm: disable BACO entry/exit completely on several sienna cichlid cards
+
+Hamza Mahfooz (1):
+      drm/amdgpu: use dirty framebuffer helper
+
+Leo Chen (1):
+      drm/amd/display: Fixing DIG FIFO Error
+
+Lijo Lazar (1):
+      drm/amdgpu: Don't enable LTR if not supported
+
+Nathan Chancellor (5):
+      drm/amd/display: Reduce number of arguments of dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport()
+      drm/amd/display: Reduce number of arguments of dml32_CalculatePrefetchSchedule()
+      drm/amd/display: Reduce number of arguments of dml31's CalculateWatermarksAndDRAMSpeedChangeSupport()
+      drm/amd/display: Reduce number of arguments of dml31's CalculateFlipSchedule()
+      drm/amd/display: Mark dml30's UseMinimumDCFCLK() as noinline for stack usage
+
+Nicholas Kazlauskas (2):
+      drm/amd/display: Hook up DCN314 specific dml implementation
+      drm/amd/display: Relax swizzle checks for video non-RGB formats on DCN314
+
+Rodrigo Siqueira (2):
+      drm/amd/display: Fix compilation errors on DCN314
+      drm/amd/display: Enable dlg and vba compilation for dcn314
+
+Taimur Hassan (1):
+      drm/amd/display: Round cursor width up for MALL allocation
+
+Yang Wang (1):
+      drm/amdgpu: change the alignment size of TMR BO to 1M
+
+Yao Wang1 (1):
+      drm/amd/display: Limit user regamma to a valid value
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  14 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   3 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c             |   9 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v6_1.c             |   9 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c             |   9 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_7.c             |   9 +
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |   5 +
+ drivers/gpu/drm/amd/amdgpu/soc15.c                 |  25 --
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |   1 +
+ drivers/gpu/drm/amd/amdgpu/vega10_ih.c             |   4 +
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c             |   4 +
+ .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c |   2 +
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |   2 +-
+ drivers/gpu/drm/amd/display/dc/dc.h                |   1 +
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |  89 +++--
+ .../display/dc/dcn314/dcn314_dio_stream_encoder.c  |   3 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubp.c  |  24 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c |  24 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.c  |   4 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.h  |   3 +
+ .../amd/display/dc/dcn32/dcn32_resource_helpers.c  |  59 ++-
+ .../drm/amd/display/dc/dcn321/dcn321_resource.c    |   4 +-
+ drivers/gpu/drm/amd/display/dc/dml/Makefile        |   3 +
+ .../amd/display/dc/dml/dcn30/display_mode_vba_30.c |   3 +-
+ .../amd/display/dc/dml/dcn31/display_mode_vba_31.c | 420 +++++----------------
+ .../gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c |   5 +-
+ .../display/dc/dml/dcn314/display_mode_vba_314.c   |  13 +-
+ .../amd/display/dc/dml/dcn32/display_mode_vba_32.c | 260 +++++--------
+ .../dc/dml/dcn32/display_mode_vba_util_32.c        | 323 +++++++---------
+ .../dc/dml/dcn32/display_mode_vba_util_32.h        |  51 +--
+ .../gpu/drm/amd/display/dc/dml/display_mode_lib.c  |  12 +
+ .../gpu/drm/amd/display/dc/dml/display_mode_lib.h  |   1 +
+ .../gpu/drm/amd/display/dc/dml/display_mode_vba.h  |  10 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr.h    |   1 +
+ .../drm/amd/display/modules/color/color_gamma.c    |   4 +
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  11 +
+ 39 files changed, 595 insertions(+), 834 deletions(-)
