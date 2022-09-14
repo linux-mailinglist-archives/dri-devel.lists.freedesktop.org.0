@@ -2,55 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF7D5B87D3
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 14:08:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E106A5B87FB
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 14:16:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18B6210E179;
-	Wed, 14 Sep 2022 12:08:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F35210E041;
+	Wed, 14 Sep 2022 12:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2259110E179
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 12:08:43 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- d25-20020a9d72d9000000b00655d70a1aeaso7087141otk.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 05:08:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=hMLOKeXHOSnfU4zqlH09bFkg9yKTy1Fq4MgQhLwV+DM=;
- b=CRnDzLoYAbF4yNSMGJqL/9Iea0uZX2J69xvWEVZAMuILVG4G0H/ocyLh4JiC3mH4qF
- Xdsy+K8y3i00LRJKd4JyMAAfuom/aZxwLp7GNiHfSCjo95eFf4FbEm+swx/G7uqnZpB9
- oYI4ktls7Rz8jVtdKhpZtBdt201tUnI3z6ARqAlx0oF7+9ppPmeROQf9v/+1ntvc35hK
- pkl43Ktg0AW47F8YlKYow8NU/WAovQCNlwD3w7BQDLyRk3yD1JsbtP5ygKp/etXKPApo
- Hx1aXHyNKOavkDGazbXWJlBP0KDx0wtCcbQWvqjqNIW2zkS3tI7Ba2fvWlcGkKtOuruk
- r8Iw==
-X-Gm-Message-State: ACgBeo1NQskdBT7s7n0D6fA7ziUk6kawwFT9kLndTQf92lBngKybt6Uy
- OzraTH8bLcojH9GkwBs+vQ==
-X-Google-Smtp-Source: AA6agR4qmKdSRMjr6cCYgddorY7oSjwFoX8ZUGglOu9qJOO8G4H+NFYqgp2cN0UGOoshspqJbqDiNQ==
-X-Received: by 2002:a05:6830:6104:b0:654:fb1:faba with SMTP id
- ca4-20020a056830610400b006540fb1fabamr10605314otb.183.1663157322251; 
- Wed, 14 Sep 2022 05:08:42 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- m26-20020a0568301e7a00b006339b36127dsm7172351otr.3.2022.09.14.05.08.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 05:08:41 -0700 (PDT)
-Received: (nullmailer pid 1869045 invoked by uid 1000);
- Wed, 14 Sep 2022 12:08:40 -0000
-Date: Wed, 14 Sep 2022 07:08:40 -0500
-From: Rob Herring <robh@kernel.org>
-To: Mikko Perttunen <cyndis@kapsi.fi>
-Subject: Re: [PATCH v2 3/8] dt-bindings: Add bindings for Tegra234 NVDEC
-Message-ID: <20220914120840.GA1837218-robh@kernel.org>
-References: <20220913131447.2877280-1-cyndis@kapsi.fi>
- <20220913131447.2877280-4-cyndis@kapsi.fi>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913131447.2877280-4-cyndis@kapsi.fi>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9888110E040;
+ Wed, 14 Sep 2022 12:16:36 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28EBT8GW024755;
+ Wed, 14 Sep 2022 12:16:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=348a4SeSTiBlaI0Tr4RT0Zy9UnsqYhgxx3NmCt7Jdpg=;
+ b=R+8V07xDufI5714CJA1iDxTIiK5SJ7SG8IlCVRMcRbg/CIz/JTl/P3HR+t6tBmxdAMeP
+ hX6JTQtE81dd/MgEtixXblcZRb+w0wgtsWBpFFxMEKiZs2jML6rW+OzecUcN7Dl9VUKE
+ 13/iXt5C6CWXCIFUVx5XNt6UWHvdvtvRrbGcL6UPaD/2VeH7VXtWqmH0OvdwoZWWxHdY
+ U3U9WYCgm6lwXTluiOoNFhfcYL2JlDqyMTembY6ujCZv2G4pWCDKqdsJEAU/r7NHGYjV
+ 2K5PfgrZaTmFO+HbZjSbxgJk7fT+JMpGGXmIJrvlJusMyKjW66Q0lvEyF4i/CSbODh7b dg== 
+Received: from apblrppmta01.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jjxys2gkq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Sep 2022 12:16:32 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 28ECGRbD019468; 
+ Wed, 14 Sep 2022 12:16:27 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 3jh46m7dh2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 14 Sep 2022 12:16:27 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28ECGRPt019436;
+ Wed, 14 Sep 2022 12:16:27 GMT
+Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
+ [10.204.66.210])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 28ECGQ6X019434;
+ Wed, 14 Sep 2022 12:16:27 +0000
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id 3809A4383; Wed, 14 Sep 2022 05:16:26 -0700 (PDT)
+From: Kalyan Thota <quic_kalyant@quicinc.com>
+To: y@qualcomm.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [v5] drm/msm/disp/dpu1: add support for dspp sub block flush in sc7280
+Date: Wed, 14 Sep 2022 05:16:24 -0700
+Message-Id: <1663157784-22232-1-git-send-email-quic_kalyant@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <y>
+References: <y>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: IzHd0-Xg9vb59KkxDBPrYASCRoAMZHt8
+X-Proofpoint-GUID: IzHd0-Xg9vb59KkxDBPrYASCRoAMZHt8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-14_05,2022-09-14_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0
+ adultscore=0 mlxlogscore=999 spamscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2208220000 definitions=main-2209140060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,154 +86,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Sameer Pujar <spujar@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Ashish Mhetre <amhetre@nvidia.com>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, dianders@chromium.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_vpolimer@quicinc.com, dmitry.baryshkov@linaro.org, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 13, 2022 at 04:14:41PM +0300, Mikko Perttunen wrote:
-> From: Mikko Perttunen <mperttunen@nvidia.com>
-> 
-> Update NVDEC bindings for Tegra234. This new engine version only has
-> two memory clients, but now requires three clocks, and as a bigger
-> change the engine loads firmware from a secure carveout configured by
-> the bootloader.
-> 
-> For the latter, we need to add a phandle to the memory controller
-> to query the location of this carveout, and several other properties
-> containing offsets into the firmware inside the carveout. These
-> properties are intended to be populated through a device tree overlay
-> configured at flashing time, so that the values correspond to the
-> flashed NVDEC firmware.
-> 
-> As the binding was getting large with many conditional properties,
-> also split the Tegra234 version out into a separate file.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
-> v2:
-> - Split out into separate file to avoid complexity with
->   conditionals etc.
-> ---
->  .../gpu/host1x/nvidia,tegra234-nvdec.yaml     | 154 ++++++++++++++++++
->  1 file changed, 154 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml
-> new file mode 100644
-> index 000000000000..eab0475ca983
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml
-> @@ -0,0 +1,154 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra234-nvdec.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Device tree binding for NVIDIA Tegra234 NVDEC
-> +
-> +description: |
-> +  NVDEC is the hardware video decoder present on NVIDIA Tegra210
-> +  and newer chips. It is located on the Host1x bus and typically
-> +  programmed through Host1x channels.
-> +
-> +maintainers:
-> +  - Thierry Reding <treding@gmail.com>
-> +  - Mikko Perttunen <mperttunen@nvidia.com>
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^nvdec@[0-9a-f]*$"
-> +
-> +  compatible:
-> +    enum:
-> +      - nvidia,tegra234-nvdec
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    items:
-> +      - const: nvdec
-> +      - const: fuse
-> +      - const: tsec_pka
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    items:
-> +      - const: nvdec
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  dma-coherent: true
-> +
-> +  interconnects:
-> +    items:
-> +      - description: DMA read memory client
-> +      - description: DMA write memory client
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: dma-mem
-> +      - const: write
-> +
-> +  nvidia,memory-controller:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to the memory controller for determining carveout information.
-> +
-> +  nvidia,bl-manifest-offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Offset to bootloader manifest from beginning of firmware. Typically set as
-> +      part of a device tree overlay corresponding to flashed firmware.
-> +
-> +  nvidia,bl-code-offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Offset to bootloader code section from beginning of firmware. Typically set as
-> +      part of a device tree overlay corresponding to flashed firmware.
-> +
-> +  nvidia,bl-data-offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Offset to bootloader data section from beginning of firmware. Typically set as
-> +      part of a device tree overlay corresponding to flashed firmware.
-> +
-> +  nvidia,os-manifest-offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Offset to operating system manifest from beginning of firmware. Typically set as
-> +      part of a device tree overlay corresponding to flashed firmware.
-> +
-> +  nvidia,os-code-offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Offset to operating system code section from beginning of firmware. Typically set as
-> +      part of a device tree overlay corresponding to flashed firmware.
-> +
-> +  nvidia,os-data-offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Offset to operating system data section from beginning of firmware. Typically set as
-> +      part of a device tree overlay corresponding to flashed firmware.
+Flush mechanism for DSPP blocks has changed in sc7280 family, it
+allows individual sub blocks to be flushed in coordination with
+master flush control.
 
-I don't think DT is the place for describing your runtime loaded 
-firmware layout.
+Representation: master_flush && (PCC_flush | IGC_flush .. etc )
 
-Rob
+This change adds necessary support for the above design.
+
+Changes in v1:
+- Few nits (Doug, Dmitry)
+- Restrict sub-block flush programming to dpu_hw_ctl file (Dmitry)
+
+Changes in v2:
+- Move the address offset to flush macro (Dmitry)
+- Seperate ops for the sub block flush (Dmitry)
+
+Changes in v3:
+- Reuse the DPU_DSPP_xx enum instead of a new one (Dmitry)
+
+Changes in v4:
+- Use shorter version for unsigned int (Stephen)
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  5 +++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 35 ++++++++++++++++++++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     | 10 ++++++--
+ 5 files changed, 50 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 601d687..4170fbe 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -766,7 +766,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+ 
+ 		/* stage config flush mask */
+ 		ctl->ops.update_pending_flush_dspp(ctl,
+-			mixer[i].hw_dspp->idx);
++			mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 27f029f..0eecb2f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -65,7 +65,10 @@
+ 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
+ 
+ #define CTL_SC7280_MASK \
+-	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
++	(BIT(DPU_CTL_ACTIVE_CFG) | \
++	 BIT(DPU_CTL_FETCH_ACTIVE) | \
++	 BIT(DPU_CTL_VM_CFG) | \
++	 BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
+ 
+ #define MERGE_3D_SM8150_MASK (0)
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 38aa38a..8148e91 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -161,10 +161,12 @@ enum {
+  * DSPP sub-blocks
+  * @DPU_DSPP_PCC             Panel color correction block
+  * @DPU_DSPP_GC              Gamma correction block
++ * @DPU_DSPP_IGC             Inverse Gamma correction block
+  */
+ enum {
+ 	DPU_DSPP_PCC = 0x1,
+ 	DPU_DSPP_GC,
++	DPU_DSPP_IGC,
+ 	DPU_DSPP_MAX
+ };
+ 
+@@ -191,6 +193,7 @@ enum {
+  * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
+  * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
+  * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
++ * @DPU_CTL_DSPP_BLOCK_FLUSH: CTL config to support dspp sub-block flush
+  * @DPU_CTL_MAX
+  */
+ enum {
+@@ -198,6 +201,7 @@ enum {
+ 	DPU_CTL_ACTIVE_CFG,
+ 	DPU_CTL_FETCH_ACTIVE,
+ 	DPU_CTL_VM_CFG,
++	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
+ 	DPU_CTL_MAX
+ };
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index a35ecb6..f26f484 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -33,6 +33,7 @@
+ #define   CTL_INTF_FLUSH                0x110
+ #define   CTL_INTF_MASTER               0x134
+ #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
++#define   CTL_DSPP_n_FLUSH(n)		((0x13C) + ((n - 1) * 4))
+ 
+ #define CTL_MIXER_BORDER_OUT            BIT(24)
+ #define CTL_FLUSH_MASK_CTL              BIT(17)
+@@ -287,8 +288,9 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
+ }
+ 
+ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+-	enum dpu_dspp dspp)
++	enum dpu_dspp dspp, u32 dspp_sub_blk)
+ {
++
+ 	switch (dspp) {
+ 	case DSPP_0:
+ 		ctx->pending_flush_mask |= BIT(13);
+@@ -307,6 +309,31 @@ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+ 	}
+ }
+ 
++static void dpu_hw_ctl_update_pending_flush_dspp_subblocks(
++	struct dpu_hw_ctl *ctx,	enum dpu_dspp dspp, u32 dspp_sub_blk)
++{
++	u32 flushbits = 0, active;
++
++	switch (dspp_sub_blk) {
++	case DPU_DSPP_IGC:
++		flushbits = BIT(2);
++		break;
++	case DPU_DSPP_PCC:
++		flushbits = BIT(4);
++		break;
++	case DPU_DSPP_GC:
++		flushbits = BIT(5);
++		break;
++	default:
++		return;
++	}
++
++	active = DPU_REG_READ(&ctx->hw, CTL_DSPP_n_FLUSH(dspp));
++	DPU_REG_WRITE(&ctx->hw, CTL_DSPP_n_FLUSH(dspp), active | flushbits);
++
++	ctx->pending_flush_mask |= BIT(29);
++}
++
+ static u32 dpu_hw_ctl_poll_reset_status(struct dpu_hw_ctl *ctx, u32 timeout_us)
+ {
+ 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+@@ -675,7 +702,11 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+ 	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
+ 	ops->update_pending_flush_sspp = dpu_hw_ctl_update_pending_flush_sspp;
+ 	ops->update_pending_flush_mixer = dpu_hw_ctl_update_pending_flush_mixer;
+-	ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
++	if (cap & BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
++		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp_subblocks;
++	else
++		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
++
+ 	if (cap & BIT(DPU_CTL_FETCH_ACTIVE))
+ 		ops->set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
+ };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index 96c012e..1743572 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -149,12 +149,18 @@ struct dpu_hw_ctl_ops {
+ 
+ 	/**
+ 	 * OR in the given flushbits to the cached pending_flush_mask
+-	 * No effect on hardware
++	 *
++	 * If the hardware supports dspp sub block flush, then sub-block
++	 * flushes are written to the hardware and main dspp flush will
++	 * be cached in the pending_flush_mask.
++	 *
+ 	 * @ctx       : ctl path ctx pointer
+ 	 * @blk       : DSPP block index
++	 * @dspp_sub_blk : DSPP sub-block index
+ 	 */
+ 	void (*update_pending_flush_dspp)(struct dpu_hw_ctl *ctx,
+-		enum dpu_dspp blk);
++		enum dpu_dspp blk,  u32 dspp_sub_blk);
++
+ 	/**
+ 	 * Write the value of the pending_flush_mask to hardware
+ 	 * @ctx       : ctl path ctx pointer
+-- 
+2.7.4
+
