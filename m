@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1B75B89A9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 16:00:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 647DD5B89A8
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 16:00:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78EE610E91F;
-	Wed, 14 Sep 2022 14:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4007C10E921;
+	Wed, 14 Sep 2022 14:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6FCA10E91F;
- Wed, 14 Sep 2022 14:00:16 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-1278a61bd57so41162478fac.7; 
- Wed, 14 Sep 2022 07:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=Nhf4NUE5pNrO2iPn+duWxF+/BKciVlA3AuEHtMu2CkM=;
- b=aLjXaqxm731w8pTsLIJqD/I2r3nY06kTldoBkhB+GTNaSahVvmr04XDUCNS2awKrsP
- 0sOo3DaKjjQXVYof4nLSJeFVwkH+VfffbTEjdfVu/wXmzrV9ILvlkVVe1s0QZC1QYHoT
- rPA4VzvgvpygZ9DEZiyMu7kayNhTLP9MI4j1Wv95mqAxL7OxrgJa0zaBrM+dbHIG0UCc
- dvsNAqvrRL8z++KlsXFsStXKaon9pqNvXrerCldvBwpOUKRXKKiore6NH93N6bRQHYiX
- dpqqPZwiI7zZs0dJ6/NGm7q5XJrHuqyiYsbNc/CHDsIP0XhnBA6xbEWLVF57nwToWoHV
- Nvgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Nhf4NUE5pNrO2iPn+duWxF+/BKciVlA3AuEHtMu2CkM=;
- b=RTgDKvccxUkr6WvB7iF1G9M5a0jziIxA/nk1CpGdFXGEJuCEwhZU4ddExYg5ufn4o4
- 8YvkTBm5Qzgi8hewe+dJmONb5UfzLFvwzIyGIOiGcVEoZDznabAEOh3e5rQknTdUW9UA
- GfoERLs5cdEtDMctdCJazXNsw3mdnxYAfGFQyXVYTWGBWYgx0a9F+v4P6BMkI5FzXwpx
- yufQTd802LMDGfCKzcAkW/Ga9AJ1YWffhK1g1rCdA3IjagRiqprc9kMMKNNUgFJegQSZ
- dBd0OnRzdpE+3hXUHyRC3kJ1nDvu0fHLp44E5x4dScwJ6+rMPLzlhSYLeBL0VthSeyur
- s2PQ==
-X-Gm-Message-State: ACgBeo0XF+BjTcXLFZlclLyear8vQtz5fmdeUjrlpd9dRcBZBDkk+ark
- vjSXjA58tgfQAghNAwapwhGcX667RY4lS1zisfK1SpDo
-X-Google-Smtp-Source: AA6agR4+0HrSlOBJVxUZRMY+wQKkAqM7Lq8kfvW+Hf/8efKDYKhqKL0TNMJEugeMxOFKaXEotpqoHFiDtk0gYbgOf+U=
-X-Received: by 2002:a05:6870:1783:b0:12a:f442:504d with SMTP id
- r3-20020a056870178300b0012af442504dmr2643357oae.46.1663164016167; Wed, 14 Sep
- 2022 07:00:16 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5414110E921
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 14:00:39 +0000 (UTC)
+X-UUID: 4a42c3792f96464299de123730c8ac07-20220914
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=Wy5CZ7whd4Um5NV5JQOHZfdTnoxxIEcuBpfmElqhC5s=; 
+ b=E+A3eU8DGU1Q/RIEZp2Yev0oa5jAvLZ0L6rArb8Pk9Gq4/sgyxQAXWMJje0Ctw28mCjAQZDWKItcJbpqcks2ygtu/UfgrjiPaJO9IhLu8AsLao2tj4qNCGzD3rTu8NM4Mx8hJt3nzVg6/n1fwQf4baxgxnQ4YD6ABvqBHV2/TEU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:8ae5156e-af4b-4551-a9c1-679e1eae0475, IP:0,
+ U
+ RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:25
+X-CID-META: VersionHash:39a5ff1, CLOUDID:59e16cec-2856-4fce-b125-09d4c7ebe045,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 4a42c3792f96464299de123730c8ac07-20220914
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw02.mediatek.com (envelope-from <allen-kh.cheng@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1613845095; Wed, 14 Sep 2022 22:00:35 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Wed, 14 Sep 2022 22:00:34 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Wed, 14 Sep 2022 22:00:34 +0800
+From: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2] drm: mediatek: Fix display vblank timeout when disable dsi
+Date: Wed, 14 Sep 2022 22:00:31 +0800
+Message-ID: <20220914140031.18578-1-allen-kh.cheng@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20220914052742.116297-1-jiapeng.chong@linux.alibaba.com>
- <20220914052742.116297-8-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20220914052742.116297-8-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 14 Sep 2022 10:00:04 -0400
-Message-ID: <CADnq5_NmWKF+7UQov2oQ2JH5UW0Pzjw0bCUzhZWZQ=xH2mu17g@mail.gmail.com>
-Subject: Re: [PATCH 8/8] drm/amd/display: make optc32_phantom_crtc_post_enable, 
- optc32_setup_manual_trigger and optc32_set_drr static
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,73 +63,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Xinlei Lee <xinlei.lee@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Allen-KH Cheng <allen-kh.cheng@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series.  Thanks!
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-Alex
+Dsi is turned off at bridge.disable, causing crtc to wait for vblank
+timeout. It is necessary to add count protection to turn off dsi and
+turn off at post_disable.
 
-On Wed, Sep 14, 2022 at 1:29 AM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> These three functions are not used outside the function
-> dcn32_optc.c, so the modification is defined as static.
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_optc.c:159:6: warnin=
-g: no previous prototype for function 'optc32_phantom_crtc_post_enable'.
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_optc.c:218:6: warnin=
-g: no previous prototype for =E2=80=98optc32_set_drr=E2=80=99.
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_optc.c:193:6: warnin=
-g: no previous prototype for =E2=80=98optc32_setup_manual_trigger=E2=80=99.
->
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D2140
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_optc.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_optc.c b/drivers/=
-gpu/drm/amd/display/dc/dcn32/dcn32_optc.c
-> index 1fad7b48bd5b..ec3989d37086 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_optc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_optc.c
-> @@ -156,7 +156,7 @@ static bool optc32_disable_crtc(struct timing_generat=
-or *optc)
->         return true;
->  }
->
-> -void optc32_phantom_crtc_post_enable(struct timing_generator *optc)
-> +static void optc32_phantom_crtc_post_enable(struct timing_generator *opt=
-c)
->  {
->         struct optc *optc1 =3D DCN10TG_FROM_TG(optc);
->
-> @@ -190,7 +190,7 @@ static void optc32_set_odm_bypass(struct timing_gener=
-ator *optc,
->         optc1->opp_count =3D 1;
->  }
->
-> -void optc32_setup_manual_trigger(struct timing_generator *optc)
-> +static void optc32_setup_manual_trigger(struct timing_generator *optc)
->  {
->         struct optc *optc1 =3D DCN10TG_FROM_TG(optc);
->         struct dc *dc =3D optc->ctx->dc;
-> @@ -215,7 +215,7 @@ void optc32_setup_manual_trigger(struct timing_genera=
-tor *optc)
->         }
->  }
->
-> -void optc32_set_drr(
-> +static void optc32_set_drr(
->         struct timing_generator *optc,
->         const struct drr_params *params)
->  {
-> --
-> 2.20.1.7.g153144c
->
+Fixes: cde7e2e35c28 ("drm/mediatek: Separate poweron/poweroff from enable/disable and define new funcs")
+Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+Co-developed-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+---
+Change in v1:
+  * Rebase to kernel/git/chunkuang.hu/linux.git, mediatek-drm-fixes
+    [Allen-KH Cheng <allen-kh.cheng@mediatek.com>]
+---
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 5b624e0f5b0a..e30f4244c001 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -768,14 +768,6 @@ static void mtk_dsi_bridge_mode_set(struct drm_bridge *bridge,
+ 	drm_display_mode_to_videomode(adjusted, &dsi->vm);
+ }
+ 
+-static void mtk_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
+-					  struct drm_bridge_state *old_bridge_state)
+-{
+-	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+-
+-	mtk_output_dsi_disable(dsi);
+-}
+-
+ static void mtk_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 					 struct drm_bridge_state *old_bridge_state)
+ {
+@@ -803,13 +795,15 @@ static void mtk_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+ {
+ 	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+ 
++	if (dsi->refcount == 1)
++		mtk_output_dsi_disable(dsi);
++
+ 	mtk_dsi_poweroff(dsi);
+ }
+ 
+ static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+ 	.attach = mtk_dsi_bridge_attach,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+-	.atomic_disable = mtk_dsi_bridge_atomic_disable,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_enable = mtk_dsi_bridge_atomic_enable,
+ 	.atomic_pre_enable = mtk_dsi_bridge_atomic_pre_enable,
+@@ -829,6 +823,9 @@ void mtk_dsi_ddp_stop(struct device *dev)
+ {
+ 	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+ 
++	if (dsi->refcount == 1)
++		mtk_output_dsi_disable(dsi);
++
+ 	mtk_dsi_poweroff(dsi);
+ }
+ 
+-- 
+2.18.0
+
