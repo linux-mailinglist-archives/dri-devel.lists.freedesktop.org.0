@@ -2,63 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EAEC5B8E97
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 809B35B8EA1
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:10:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C212B10E9B1;
-	Wed, 14 Sep 2022 18:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5707510E9B8;
+	Wed, 14 Sep 2022 18:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1059 seconds by postgrey-1.36 at gabe;
- Wed, 14 Sep 2022 18:09:15 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF48010E9B1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 18:09:15 +0000 (UTC)
-Received: from [192.168.1.138] ([37.4.248.23]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MuUSa-1pOyz02OMU-00rbw0; Wed, 14 Sep 2022 20:09:08 +0200
-Message-ID: <c221873f-f230-0cce-e120-7e3cc732cf00@i2se.com>
-Date: Wed, 14 Sep 2022 20:09:04 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D52D410E9B4;
+ Wed, 14 Sep 2022 18:10:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 05C8461E68;
+ Wed, 14 Sep 2022 18:10:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13443C433C1;
+ Wed, 14 Sep 2022 18:10:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1663179046;
+ bh=mVGUDoPGJ3+fyw9UwUrdODWJg12rzQGWMTswdFgtKjE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kh1DjcyskucyUtPTKYR86ZbXkBJNmlPf90jfhzqb1gEwPTNm4jzQn8me8fQoPEpq1
+ Tnj/qEeiYymWWgX416zh6AidfY88NP0Z5nJUnsWhBaFj9RjfNtIEIIe/Hbs5vot23D
+ vG1Yr8hFEHaBl+3isRmd8USdJ2i4YNOWgxKLrnUA=
+Date: Wed, 14 Sep 2022 20:11:11 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Winkler, Tomas" <tomas.winkler@intel.com>
+Subject: Re: [PATCH v5 00/15] drm/i915: HuC loading for DG2
+Message-ID: <YyIZP2DjqyztwxxF@kroah.com>
+References: <20220913005739.798337-1-daniele.ceraolospurio@intel.com>
+ <MN2PR11MB4093E87A6EAE878EFCE805ABE5469@MN2PR11MB4093.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 2/7] clk: bcm: rpi: Add a function to retrieve the
- maximum
-Content-Language: en-US
-To: Stephen Boyd <sboyd@kernel.org>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
- Florian Fainelli <f.fainelli@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>
-References: <20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech>
- <20220815-rpi-fix-4k-60-v1-2-c52bd642f7c6@cerno.tech>
- <20220914155035.88E45C433C1@smtp.kernel.org>
- <50e8f1e8-806a-3599-7cbe-0c7d4bec1c51@i2se.com>
- <20220914180508.0EDD9C433D6@smtp.kernel.org>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20220914180508.0EDD9C433D6@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:358rqWuFgwGCsMPeKhZuVvvPDRSWHvGTGkBAq+AeXJq3xhwRwjZ
- JTLcbIuj7tEVqsIPuyXnb/VR12dq7+ql1OHO0WJ72y64Ckv3OdoEfQyx0tJihzzXiUn7CQB
- 9jyqy8n3KXbmSuu/2aU01Lx+L2qRdFYFcjEwKupjYgqY0kn85BZXedZG683cdDcILh3aYMz
- Q33IvjFJAkU+msDBWQxMQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:m+Qg1abObpU=:c2bZcMCteY4fa3E0+QRzpM
- rX25HIg4naNX47Jz4X2HUu+85hrM6Q7Sd3n85F8MnGMFaiKenEnU2TVpiPeiPE5hcyyX4wGxQ
- OwDzyCl6ATirYQ73zeFFWoqmZGfattmU/ZCWofaOV6YbpgffsIPdLh0pvLw4DUCK2yhajjHYo
- f3wXFedgo2QWnME1QXVirPfCCoIJhkuTxgbnM5MZ8eR8vNbPKTr6XXjzrH9S8CalwrcWbZPdE
- v9R7gpzW8kzrRfNC3vEW0mFPdXpRrqPkyqph5PffRgyESnrGbsdpML+/1EV/WYezYmMVdast5
- cCLBHVmTOAviWeHagLPmR/48NspOlr+yJp2RiO3tm4clMHRZNYDH7j1FINxjtsVoyExpKJ/Oy
- 0f5hmxYCkCOp//rbI5nC6eqrFthYXIe+Vnx/H50eR9+BguS9e3KTAAI9EU4fcex1rc0EqfKB2
- Nd2uZKZHGroIDf/a1NVCyPhmWEQcQEZghciF66PNzEur+5GWE73biBCaqg296JM20XW5nkuc3
- daSOwN6SGcTQCCMgDEmqsbBz9NrEem9DaqnAFi76UfpPKZ7eKs71u6uo3z6gUv14MRQOirj15
- I8wtW7Vp1UlvImJgeJtd6D1HbcS20SNAeUffnSomtJAwrw1Nr6aRp4aH7gzr67D6evckpcva8
- JSVJu/NvEQlE0y98R1yOk0Jb3hVlnC+X1J6+0bvMSXVI9UP3arMt81wcLoMTOGiekjzYmhSLd
- kdQgW+VnUXvUSllg0/mcdmq6423ANMzaqV0zyCpfGYNRSRAGRm7/LSFnKQIy0MZQveFucYUa0
- FvAO2lx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MN2PR11MB4093E87A6EAE878EFCE805ABE5469@MN2PR11MB4093.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,24 +49,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: "Ye, Tony" <tony.ye@intel.com>, "Teres Alexis,
+ Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Usyskin,
+ Alexander" <alexander.usyskin@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.09.22 um 20:05 schrieb Stephen Boyd:
-> Quoting Stefan Wahren (2022-09-14 10:45:48)
->> Am 14.09.22 um 17:50 schrieb Stephen Boyd:
->>> Furthermore, I wonder if even that part needs to be implemented.  Why
->>> not make a direct call to rpi_firmware_property() and get the max rate?
->>> All of that can live in the drm driver. Making it a generic API that
->>> takes a 'struct clk' means that it looks like any clk can be passed,
->>> when that isn't true. It would be better to restrict it to the one use
->>> case so that the scope of the problem doesn't grow. I understand that it
->>> duplicates a few lines of code, but that looks like a fair tradeoff vs.
->>> exposing an API that can be used for other clks in the future.
->> it would be nice to keep all the Rpi specific stuff out of the DRM
->> driver, since there more users of it.
-> Instead of 'all' did you mean 'any'?
-yes
+On Wed, Sep 14, 2022 at 04:51:03PM +0000, Winkler, Tomas wrote:
+> > 
+> > On DG2, HuC loading is performed by the GSC, via a PXP command. The load
+> > operation itself is relatively simple (just send a message to the GSC with the
+> > physical address of the HuC in LMEM), but there are timing changes that
+> > requires special attention. In particular, to send a PXP command we need to
+> > first export the GSC as an aux device and then wait for the mei-gsc and mei-
+> > pxp modules to start, which means that HuC load will complete after i915
+> > load is complete. This means that there is a small window of time after i915 is
+> > registered and before HuC is loaded during which userspace could submit
+> > and/or check the HuC load status, although this is quite unlikely to happen
+> > (HuC is usually loaded before kernel init/resume completes).
+> > We've consulted with the media team in regards to how to handle this and
+> > they've asked us to stall all userspace VCS submission until HuC is loaded.
+> > Stalls are expected to be very rare (if any), due to the fact that HuC is usually
+> > loaded before kernel init/resume is completed.
+> > 
+> > Timeouts are in place to ensure all submissions are unlocked in case
+> > something goes wrong. Since we need to monitor the status of the mei
+> > driver to know what's happening and when to time out, a notifier has been
+> > added so we get a callback when the status of the mei driver changes.
+> > 
+> > Note that this series includes several mei patches that add support for
+> > sending the HuC loading command via mei-gsc. We plan to merge those
+> > patches through the drm tree because i915 is the sole user.
+> > 
+> > v2: address review comments, Reporting HuC loading still in progress while
+> > we wait for mei-gsc init to complete, rebase on latest mei-gsc series.
+> > 
+> > v3: fix cc list in mei patches.
+> > 
+> > v4: update mei patches, fix includes, rebase on new FW fetch logic and
+> > merged mei-gsc support.
+> > 
+> > v5: update mei patches
+> 
+> Greg,  I hope I've addressed most of your comments.
+> Can you please check if the mei patches are in acceptable state or anything else can be improved with this series.  Appreciated. 
+
+These were sent 2 days ago, in the middle of a conference travel.
+Please relax, there's no special rush needed here, you know better.
+
+In the mean time, if you are just waiting for my review, please take the
+time to review other pending patches from other developers to help
+lighten the load on me, and other maintainers.
+
+thanks,
+
+greg k-h
