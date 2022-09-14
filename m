@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20AC5B8ED3
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:24:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0F65B8ED8
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:24:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6507610E9C9;
-	Wed, 14 Sep 2022 18:24:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0979810E9CF;
+	Wed, 14 Sep 2022 18:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0E2410E9C9
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 18:24:00 +0000 (UTC)
-X-UUID: 616e1f717236497b9910233c86f64c7f-20220915
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25B0810E9CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 18:24:03 +0000 (UTC)
+X-UUID: d7b08f5737d94d299932c7ac9dd4cf8e-20220915
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=JrNvGVQ5Igw0To7wS8WYbhsMfdOBx4yv/Lem1dTWqbU=; 
- b=h9lLOQZLrh6e3CgNaVuoZmboKvsDljRz6XUBObg6wrEVeNZ5l1nJNcLJU9Ar2SUBpKT8Nyd1r9iD6GDgNG0o9f0/RKj5blp9grR2VrWuQo0EAp/I26MQzaf0NjVs8zX4qpzdmdkjA4KzkaC6eECAEJ7RPkjkgK9QSs/Ji47oo5g=;
+ h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=r5rrW5n620dChuQt09hkGKq7KGzvHCt/7DDM3S4fMd0=; 
+ b=Tco8bbnDFq/YvnU7i3JawffgZMFBjxdl+GUih+MRcNvjDOFHsLvv8I74aYh2lflrN4IfQlZnCOxApjAP9CNg5z2TRCTtK8wpNX5LBvz6Q3AeOlUMcouJfGMDmO72Els5UQ9VIQlLj2/LOBbFwWqKPk3BkQrFhHAN0sZL2FMlrEU=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:d38229c2-5a82-4a6d-bdc1-bbe954a020d3, IP:0,
+X-CID-O-INFO: VERSION:1.1.11, REQID:52c3aac3-0e64-49c3-b969-e5e700d83ba5, IP:0,
  U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:90
-X-CID-INFO: VERSION:1.1.11, REQID:d38229c2-5a82-4a6d-bdc1-bbe954a020d3, IP:0,
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.11, REQID:52c3aac3-0e64-49c3-b969-e5e700d83ba5, IP:0,
  URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
- N:quarantine,TS:90
-X-CID-META: VersionHash:39a5ff1, CLOUDID:ebe770ec-2856-4fce-b125-09d4c7ebe045,
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:39a5ff1, CLOUDID:92d8a85d-5ed4-4e28-8b00-66ed9f042fbd,
  B
- ulkID:220915022357ID80B5EC,BulkQuantity:0,Recheck:0,SF:28|17|19|48,TC:nil,
+ ulkID:220915022358BKEAA0TW,BulkQuantity:0,Recheck:0,SF:28|17|19|48,TC:nil,
  Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 616e1f717236497b9910233c86f64c7f-20220915
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 627366185; Thu, 15 Sep 2022 02:23:56 +0800
+X-UUID: d7b08f5737d94d299932c7ac9dd4cf8e-20220915
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 675329979; Thu, 15 Sep 2022 02:23:56 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 15 Sep 2022 02:23:54 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 15 Sep 2022 02:23:54 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
  15.2.792.15 via Frontend Transport; Thu, 15 Sep 2022 02:23:54 +0800
 From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
+ <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 0/5] Change mmsys compatible for mt8195 mediatek-drm
-Date: Thu, 15 Sep 2022 02:23:26 +0800
-Message-ID: <20220914182331.20515-1-jason-jh.lin@mediatek.com>
+Subject: [PATCH 1/5] dt-bindings: arm: mediatek: mmsys: change compatible for
+ MT8195
+Date: Thu, 15 Sep 2022 02:23:27 +0800
+Message-ID: <20220914182331.20515-2-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220914182331.20515-1-jason-jh.lin@mediatek.com>
+References: <20220914182331.20515-1-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -100,22 +103,27 @@ Only VDOSYS1 can support HDR adjustment.
 Therefore, we need to separate these two different mmsys hardwares to
 2 different compatibles for MT8195.
 
-Jason-JH.Lin (5):
-  dt-bindings: arm: mediatek: mmsys: change compatible for MT8195
-  soc: mediatek: change compatible name for mt8195
-  drm/mediatek: change compatible name for mt8195
-  arm64: dts: change compatible of vdosys0 and vdosys1 for mt8195
-  dt-bindings: arm: mediatek: mmsys: remove the unused compatible for
-    mt8195
+Fixes: 81c5a41d10b9 ("dt-bindings: arm: mediatek: mmsys: add mt8195 SoC binding")
+Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml        | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../bindings/arm/mediatek/mediatek,mmsys.yaml |   3 +-
- arch/arm64/boot/dts/mediatek/mt8195.dtsi      |   4 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 124 ++-------------
- drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   6 -
- drivers/soc/mediatek/mtk-mmsys.c              | 141 +++---------------
- drivers/soc/mediatek/mtk-mmsys.h              |   6 -
- 6 files changed, 36 insertions(+), 248 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+index 6ad023eec193..a53b32c0a608 100644
+--- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
++++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+@@ -32,6 +32,8 @@ properties:
+               - mediatek,mt8186-mmsys
+               - mediatek,mt8192-mmsys
+               - mediatek,mt8195-mmsys
++              - mediatek,mt8195-vdosys0
++              - mediatek,mt8195-vdosys1
+               - mediatek,mt8365-mmsys
+           - const: syscon
+       - items:
 -- 
 2.18.0
 
