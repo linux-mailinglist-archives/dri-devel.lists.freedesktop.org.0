@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A21B5B7E29
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 03:15:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B00145B7E33
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 03:18:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D1EC10E79E;
-	Wed, 14 Sep 2022 01:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2B110E7A9;
+	Wed, 14 Sep 2022 01:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2A6710E79E
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 01:14:48 +0000 (UTC)
-X-UUID: a1d05655b2c9437faf9c91ee3ae31ced-20220914
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5DAC10E7A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 01:18:00 +0000 (UTC)
+X-UUID: 654a1181d56847b4b4878318a0d9af56-20220914
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=MTgosqH3cM6tRY7+7QUh5eeeP+fTxZK2M7/kAsRs8f0=; 
- b=XJawyV19zGwUbbtryySQK2VxKzwFcQ7yQy9METokfPKhmKqUOM0kUMXXG6jUKBMy8iw3Jgpbnt0M51GwLxr3hcv6BTtTMSPnm6ynJIPJDoM85h5RN0na2jKg1HJkW0ZNmmutijoge0EtvQ3jE/9oNHF5T4be8bCNgWASNpZneb4=;
+ bh=WAvI+BMy2RLJDJVTwe1yHE9y6+QIYr861RrSmwR4QJc=; 
+ b=LMnrbuzgDdMrobPrkagOKY10DAqiM5ZS/tFKP6J//ynoH1R4JreCcxgJ+Vv3MqkNmu8HmWb2yACIMv/gIQLDpBvZv3CGKNPbluMa8nkoEcL8oK1+QFU+CLo7cGGaC6OZg6CIOYrnk6rhqmYa1N2rw9n6WaVEOhBXDlinXVgWHl0=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:2d24f105-f9d2-480b-9468-5eb690d214e2, IP:0,
+X-CID-O-INFO: VERSION:1.1.11, REQID:dc0654cd-5803-4995-93ef-48110f9f24df, IP:0,
  U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:51
-X-CID-INFO: VERSION:1.1.11, REQID:2d24f105-f9d2-480b-9468-5eb690d214e2, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:51
-X-CID-META: VersionHash:39a5ff1, CLOUDID:575d53ec-2856-4fce-b125-09d4c7ebe045,
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:39a5ff1, CLOUDID:56774bf6-6e85-48d9-afd8-0504bbfe04cb,
  B
- ulkID:220914091444LPUU8HT7,BulkQuantity:0,Recheck:0,SF:28|17|19|48,TC:nil,
- Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: a1d05655b2c9437faf9c91ee3ae31ced-20220914
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 84696426; Wed, 14 Sep 2022 09:14:41 +0800
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 654a1181d56847b4b4878318a0d9af56-20220914
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 512111685; Wed, 14 Sep 2022 09:17:53 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 14 Sep 2022 09:14:39 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Wed, 14 Sep 2022 09:17:52 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Wed, 14 Sep 2022 09:14:39 +0800
-Message-ID: <01a973c24276ff2e2919919d67f89fbc58cd071b.camel@mediatek.com>
-Subject: Re: [PATCH RESEND v3 4/9] drm/mediatek: Add gamma support different
- lut_size for other SoC
+ Transport; Wed, 14 Sep 2022 09:17:52 +0800
+Message-ID: <b813ae7cf79a2889647ec4cb9dd77b59ac65030b.camel@mediatek.com>
+Subject: Re: [PATCH RESEND v3 5/9] drm/mediatek: Add gamma support different
+ lut_bits for other SoC
 From: Jason-JH Lin <jason-jh.lin@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Rob
  Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>
-Date: Wed, 14 Sep 2022 09:14:39 +0800
-In-Reply-To: <e1945785da7c56bbb7fe94926c39fc6c3593cdb0.camel@mediatek.com>
+Date: Wed, 14 Sep 2022 09:17:51 +0800
+In-Reply-To: <b740f81d62ce73e08a2a43637b4f951298b1c28a.camel@mediatek.com>
 References: <20220912013006.27541-1-jason-jh.lin@mediatek.com>
- <20220912013006.27541-5-jason-jh.lin@mediatek.com>
- <e1945785da7c56bbb7fe94926c39fc6c3593cdb0.camel@mediatek.com>
+ <20220912013006.27541-6-jason-jh.lin@mediatek.com>
+ <b740f81d62ce73e08a2a43637b4f951298b1c28a.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -86,22 +82,46 @@ Hi CK,
 
 Thanks for the reviews.
 
-On Mon, 2022-09-12 at 11:14 +0800, CK Hu wrote:
+On Mon, 2022-09-12 at 11:40 +0800, CK Hu wrote:
 > Hi, Jason:
 > 
 > On Mon, 2022-09-12 at 09:30 +0800, Jason-JH.Lin wrote:
-> > 1. Add mtk_drm_gamma_get_lut_size() and remove MTK_LUT_SIZE macro.
-> > 2. Add lut_size to gamma driver data for different SoC.
+> > Add lut_bits in gamma driver data for each SoC and adjust the usage
+> > of lut_bits in mtk_drm_gamma_set_common().
+> > 
+> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 36 ++++++++++++++++---
+> > --
+> > --
+> >  1 file changed, 25 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > index 0a1022032b71..be82d15a5204 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > @@ -25,11 +25,14 @@
+> >  
+> >  #define LUT_10BIT_MASK				0x03ff
+> >  #define LUT_SIZE_DEFAULT			512 /* for setting
+> > gamma lut from AAL */
+> > +#define LUT_BITS_DEFAULT			10
+> > +#define LUT_INPUT_BITS				16 /* input lut
+> > bit from application */
 > 
-> Separate these two modification to two patches. In the patch of
-> mtk_drm_gamma_get_lut_size(), consider the aal driver.
+> I think we should use drm_color_lut_extract() to let the input bits
+> transparent. So add one patch to use drm_color_lut_extract(), and
+> then
+> apply this patch.
 > 
 > Regards,
 > CK
 
-OK, I'll separate them.
+OK, I'll separate it to 2 patches, 1 is using drm_color_lut_extract()
+to handle with input lut data and the other is adding gamma support
+lut_bits and shift_bits.
 
 Regards,
 Jason-JH.Lin
-
 
