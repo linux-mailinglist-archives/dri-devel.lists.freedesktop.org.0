@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E14A5B8EB3
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:15:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68E05B8ECD
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6C9210E9B9;
-	Wed, 14 Sep 2022 18:15:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E45510E9BD;
+	Wed, 14 Sep 2022 18:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFD5E10E9B9
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 18:14:59 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D18D910E9BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 18:21:02 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 75BDF61E53;
- Wed, 14 Sep 2022 18:14:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6FCCC433C1;
- Wed, 14 Sep 2022 18:14:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3E3FF61D2B;
+ Wed, 14 Sep 2022 18:21:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92286C433D6;
+ Wed, 14 Sep 2022 18:21:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663179298;
- bh=YSZCfCgBas7sM38vNqjuLIpxrhdHOeh3iNoKuSZSNgQ=;
+ s=k20201202; t=1663179661;
+ bh=0k1o6bRr+NEvKLRyyWRelzjtd4DFbk4nFQCS2HGUee4=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=urqn2kULlBPEfMnbgZ253cO6nn/5Qh9LuC6Lcr4XqSnVkxp5LlrLMjWdMBtzclWE2
- lVxyH9SClgzxpd73uTmD1BDxZVd9Yx8bgP6wNuKevZMEabNN/6hTl9/a+ffQoaysbg
- wLX/uJDhnoCu/XniMB0advt5wYr3AAFxWz6f6G/6tQ6/NzUmepf2ComI5equDKSwy+
- qPescjzuN3MXPeivEFaHZopIhwR4++Tvs5xSwTcYAumlj+xH10EhT/DSwFCdHOUAS5
- rXRxSTm5FE9nW1AYg3qtKJ2nqxtQCm26QlzSTraQt6QaXAjBct3ZXTzi1nP9ZWRYF3
- kadx1bR66QF3Q==
+ b=lMDyla8CGKj9lVQmz4y65wn+Av/UPaMz0rAPrKy4RNHqc+uRdnZW6zqNnYXqts19e
+ rWykZtJthMqEb0j1UwnAnKPgUcyV0evqJ8WXnkDC5EWfcSYIXiWqc1Px7sq/8iQXN/
+ d/LJwkdiqVqQPI8Fr22/tXHHpxsXI+ye60PEgTWgtlEEcY7p0bTBxLH2LSsGGPvjJF
+ ogplaJ0Ck88abKk/YDQpt2Y5W9jwft13EMM3ENV7GzrGiEOkc4QlpGhmLfDoCT0acw
+ fXD2dVAQ54yzHBZAC65OwJ5cIXbJ0eupRlSzydszyFAizETOihaiizunruM1WZT117
+ oHK5jIztyc/4w==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -50,9 +49,9 @@ To: Broadcom internal kernel review list
  Maxime Ripard <mripard@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>,
  Scott Branden <sbranden@broadcom.com>, Stefan Wahren <stefan.wahren@i2se.com>
-Date: Wed, 14 Sep 2022 11:14:56 -0700
+Date: Wed, 14 Sep 2022 11:20:59 -0700
 User-Agent: alot/0.10
-Message-Id: <20220914181458.C6FCCC433C1@smtp.kernel.org>
+Message-Id: <20220914182101.92286C433D6@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,4 +90,7 @@ s.
 > > Instead of 'all' did you mean 'any'?
 > yes
 
-Why?
+Another idea is to populate an OPP table in the rpi firmware driver for
+this platform device with the adjusted max frequency. That would be an
+SoC/firmware agnostic interface that expresses the constraints. I'm
+almost certain we talked about this before.
