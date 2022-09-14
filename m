@@ -1,70 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B10D5B8FB9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 22:46:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3EF5B9011
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 23:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8328E10EA0B;
-	Wed, 14 Sep 2022 20:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2AA10EA05;
+	Wed, 14 Sep 2022 21:24:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 748F910E9F1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 20:46:00 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id az6so12487722wmb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 13:46:00 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0A1110E049
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 21:24:05 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n40-20020a05600c3ba800b003b49aefc35fso3180499wms.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 14:24:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=m9bGoBe8wCBmkc6gud9Cy1Iqu9DMXje49H2FW2XThhI=;
- b=k/LW+8FU6dXTiCSildtV6+lus8xNFn/xqGPYUXzcghwZeYb6llePcT4d7wf0rZbEXX
- hyppBJay9AZGyBAsr8kHRkKFM0j9D6+yLwXVYrftrkWLHjzvaZbEH2dj2kRk5YGz+C4A
- jj6ktBTgFgGl0j5aqSOdDtqj3HMK43KfFdOk1FIneIRFyeNLS7YalGI5t3khH5lIgrId
- b5uD/UFf44ISwEcj9Q1OXjluUCNAYiu+0vT3jEZhqfyi4/i3zbLiurGcVdppBt3gDfvV
- GMUhEDVbNCshYWBKs85YZ4BsVeqk/duyZnAPsCHEwlQfcvOJxbEWW6kJDuxpHaqZ880s
- CWXg==
+ bh=cgZkkoB1Bz/RFAHmuKSBre2q5MgmdKHQaadiUhQuwwI=;
+ b=FdPcRIe2gfQoQCjx1QOFkmGSVgwgHEsr++MZRUCMzJE3Gcaf5+etZRi3EQbCidd10v
+ twQrXPlzLivRZUJ1R+dE/qZTWuiVHDGNr1ffeusOuRSHuCA831r6P5sya+sS7wXO6DLy
+ SgrqggAbmAZY6ydB3BLwpozplPD3Ts6GR2JPVAt6I80V7plsYzFai0lLopZcp60+Dji2
+ 9eHgVLAXCCoRLe7zo6ZiFvzrmP89NLmmxtqP779jY8gMZcd+pPwc0NzBVDJuZ4g2ppRw
+ FULL20YpZmoqhpUD0AK7WVHOIYg4hBzRGEX0XcxR+alvdpo56XTcGW62njpb3ejILjOc
+ SG6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=m9bGoBe8wCBmkc6gud9Cy1Iqu9DMXje49H2FW2XThhI=;
- b=4y6aRDyOjDLbFwScn4gPR8iBnGHvM2wmkCCzcWH55GJ39RWXzdDNHaof3JhC5nK3+6
- evyGIsj99IGD+ImknTjCHu3ulBS7q/pnRby+yJGW9dPexGi3mh97MrOi2zVKISJ6aPEN
- HFx+UtMtXcIcniMeiT2Vg3+kF/OxkgAzKQ8WOiH5sVmZOORg7VTLNHlGYBdIsg8P8RUU
- ScsWFF5L9QMZFSL3N39SviPPkEyAxAaVWROwCrnN6JrAyYDl0EEYAAcuKD8wawDlB5Gs
- pou/mN/U99m7DmvCJbkicjwf0IkFNaPyiAizLmP5wx2/k0CUnY52p11ynMgdF1jeU2bD
- jtig==
-X-Gm-Message-State: ACgBeo3SKSv6Z6hesxhl4PF8x3ZDvaCVeYOWf6PHPN8EH/yM07JsrKAv
- 7GsbpFEzFqZ9pWtoZ8leeec=
-X-Google-Smtp-Source: AA6agR5j+dsaEcuIMXF56rsR2ctpU5gvF4j1nF5xUwvAX9FmtpqOU5JxXYVEgUIZukydfLNl1VMa5Q==
-X-Received: by 2002:a05:600c:4a9a:b0:3b4:78ab:bae5 with SMTP id
- b26-20020a05600c4a9a00b003b478abbae5mr4551567wmp.114.1663188358968; 
- Wed, 14 Sep 2022 13:45:58 -0700 (PDT)
+ bh=cgZkkoB1Bz/RFAHmuKSBre2q5MgmdKHQaadiUhQuwwI=;
+ b=nYK9fVowgsWdWXPZP71FHFGeBN4atpJRiKsgZ2Ann8AsBE6Vw1cAsOEIc7WCe+gyCo
+ VO3Px6lHu/bsQeLFBiunkzreglfMQWhDlKQLTLtdhANTIljVEp65yryYfCYd3ytGkGzo
+ sYPoch4hG8tbQtAJWyOPXP2a3AOjjFDj+u+nrTJySQco8wQKhaVFRXJNDtVqIf5aUB9S
+ LuVKui84De6VOhwplifnUfglVabdAUwHsgodrEgc6inTszICOlFibCRMlCw1BWFo/maH
+ n++XWPUcCO4Hq9QRllQnHJPPp+ZHu2z0bscNH47jzyBBLB/+GbbJbDayfrTh8rUsbVJ4
+ WF3A==
+X-Gm-Message-State: ACgBeo3N5PN2G3i/AowtQCZ8y2pPfs/s1PoPALqToEbyme1cp9RoCSsM
+ nqrEO3guAudrvudACRZ6EmM=
+X-Google-Smtp-Source: AA6agR6BDx5TGK4RjiRpwjFmyhCS3CrrcO0KEfqjytiVgYBb1lg3M4YSvUYYT25pLio+NHumVC6uEQ==
+X-Received: by 2002:a05:600c:6d2:b0:3b4:8361:6154 with SMTP id
+ b18-20020a05600c06d200b003b483616154mr4648444wmn.89.1663190644349; 
+ Wed, 14 Sep 2022 14:24:04 -0700 (PDT)
 Received: from [192.168.2.177] ([207.188.167.132])
  by smtp.gmail.com with ESMTPSA id
- d13-20020adff2cd000000b00228dcf471e8sm215086wrp.56.2022.09.14.13.45.57
+ c18-20020adffb52000000b002252ec781f7sm317708wrs.8.2022.09.14.14.24.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Sep 2022 13:45:57 -0700 (PDT)
-Message-ID: <1b3a880f-06a2-1865-3791-03021aa34175@gmail.com>
-Date: Wed, 14 Sep 2022 22:45:56 +0200
+ Wed, 14 Sep 2022 14:24:02 -0700 (PDT)
+Message-ID: <1b739216-8bb1-162b-1af5-24acba7324bf@gmail.com>
+Date: Wed, 14 Sep 2022 23:24:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 5/5] dt-bindings: arm: mediatek: mmsys: remove the unused
- compatible for mt8195
+Subject: Re: [PATCH 1/5] dt-bindings: arm: mediatek: mmsys: change compatible
+ for MT8195
 Content-Language: en-US
 To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 References: <20220914182331.20515-1-jason-jh.lin@mediatek.com>
- <20220914182331.20515-6-jason-jh.lin@mediatek.com>
+ <20220914182331.20515-2-jason-jh.lin@mediatek.com>
 From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220914182331.20515-6-jason-jh.lin@mediatek.com>
+In-Reply-To: <20220914182331.20515-2-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,32 +91,59 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 14/09/2022 20:23, Jason-JH.Lin wrote:
-> The compatible properties of mt8195 have changed to mediatek,mt8195-vdosys0
-> and mediatek,mt8195-vdosys1 from mediatek,mt895-mmsys, so remove the unused
-> compatible.
+> For previous MediaTek SoCs, such as MT8173, there are 2 display HW
+> pipelines binding to 1 mmsys with the same power domain, the same
+> clock driver and the same mediatek-drm driver.
+> 
+> For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding to
+> 2 different power domains, different clock drivers and different
+> mediatek-drm drivers.
+> 
+> Moreover, Hardware pipeline of VDOSYS0 has these components: COLOR,
+> CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture Quality)
+> and they makes VDOSYS0 supports PQ function while they are not
+> including in VDOSYS1.
+> 
+> Hardware pipeline of VDOSYS1 has the component ETHDR (HDR related
+> component). It makes VDOSYS1 supports the HDR function while it's not
+> including in VDOSYS0.
+> 
+> To summarize0:
+> Only VDOSYS0 can support PQ adjustment.
+> Only VDOSYS1 can support HDR adjustment.
+> 
+> Therefore, we need to separate these two different mmsys hardwares to
+> 2 different compatibles for MT8195.
 > 
 > Fixes: 81c5a41d10b9 ("dt-bindings: arm: mediatek: mmsys: add mt8195 SoC binding")
 > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+I'm not sure Krzysztof gave his Acked-by tag.
+
 > ---
->   .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml         | 1 -
->   1 file changed, 1 deletion(-)
+>   .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml        | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
 > diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> index a53b32c0a608..bfbdd30d2092 100644
+> index 6ad023eec193..a53b32c0a608 100644
 > --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
 > +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> @@ -31,7 +31,6 @@ properties:
->                 - mediatek,mt8183-mmsys
+> @@ -32,6 +32,8 @@ properties:
 >                 - mediatek,mt8186-mmsys
 >                 - mediatek,mt8192-mmsys
-> -              - mediatek,mt8195-mmsys
+>                 - mediatek,mt8195-mmsys
+> +              - mediatek,mt8195-vdosys0
 
-Should be part of the first patch. As described in the review.
+As I said in the last submission, we should make mediatek,mt8195-mmsys as a 
+fallback of vdosys0. Actually mediatek,mt8195-mmsys is only used for the 
+fallback of vdosys0.
 
 Regards,
 Matthias
 
->                 - mediatek,mt8195-vdosys0
->                 - mediatek,mt8195-vdosys1
+> +              - mediatek,mt8195-vdosys1
 >                 - mediatek,mt8365-mmsys
+>             - const: syscon
+>         - items:
