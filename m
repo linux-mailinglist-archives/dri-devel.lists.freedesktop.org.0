@@ -1,54 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19025B865F
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 12:28:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F795B874A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 13:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8044A10E00A;
-	Wed, 14 Sep 2022 10:28:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F81110E296;
+	Wed, 14 Sep 2022 11:29:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C636D10E004;
- Wed, 14 Sep 2022 10:28:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663151319; x=1694687319;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ZSlzwJQZ+dQAcH3lqxXiFp/4ZF299mZ6B7sOpuv93AU=;
- b=GdO1TIbSqJU6DTpuLjJD0vESgRNngqBHCXAPn/aeHz3Vk0xgiIqx1HZa
- 7nGPJH3IgN4HCbpQEURqSqIiaPr13sblvMbrGVlLgVUGeR1NmHZY4hbem
- GExbfDXXiKUNV1dnBjMPwXfFaE/MRuuddLQtnU28B6+ol7OivSdWslDwD
- Sm8h6h4TXTH3CKieG1SY1oVaNUkYfmTc01tLiOBlvtM/nCa0WYLOlcPC9
- SAZ7cCQwa+5O2MDeBlYoUVz3anPA/jlpKb+7+F7QNEVbdSfqG0Zelo5/Y
- MvzdRJ5b7MOCM8LKhMjwZ3kId0lc10VUKnep1xqN1Hm9KVPN217Uw6r0Y A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="299752104"
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; d="scan'208";a="299752104"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2022 03:28:39 -0700
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; d="scan'208";a="678988686"
-Received: from dbrayfor-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.32.164])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2022 03:28:36 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- intel-gfx@lists.freedesktop.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/4] drm: Add missing DP DSC extended capability
- definitions.
-In-Reply-To: <20220913141417.8131-2-stanislav.lisovskiy@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220913141417.8131-1-stanislav.lisovskiy@intel.com>
- <20220913141417.8131-2-stanislav.lisovskiy@intel.com>
-Date: Wed, 14 Sep 2022 13:28:30 +0300
-Message-ID: <87czby2qsx.fsf@intel.com>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F8C310E179;
+ Wed, 14 Sep 2022 11:29:38 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 151235C002F;
+ Wed, 14 Sep 2022 07:29:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 14 Sep 2022 07:29:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1663154976; x=1663241376; bh=nQu2SC9skj
+ 3zvKgRAY+OE/EsK7UjSaSgeju0QfEt0Cs=; b=sI6+pKkRrFiyWe0Di0vUI4Elub
+ WU2WZ16qg5NsAIf4cYxne5RPHmLNkNbOnTap31OE31Ikj6KyXkxyRBvzyARaAhH1
+ 4WaF17Vp33VyqXlgHWVeTnX5TE8blIAtgT28busRsPYDhgksEk1HjeCc08Wvga+t
+ bskfWscIPId4Ly552s6iPRxZIfV693nUdEISY1m1C6cuM/CBHr2clsj2w6waZpUc
+ kcNd7KZM3nEz3ZczPhAysdEw9m6h8AG4IDnT16cTpd7wxRGIT51rselgZprVkbNo
+ cV2i7Zr6x+DVMwNNIE9IhKXuFhnjxru5j7vvcHFaD2a37X7XKXbzwbCoWkvw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1663154976; x=1663241376; bh=nQu2SC9skj3zvKgRAY+OE/EsK7Uj
+ SaSgeju0QfEt0Cs=; b=tB/hgMgRkBvvDe2Larr5g2Xf2i8pcNlw8zMWLcyXqMtz
+ RB6o4uF3NQfWxsrTx4foH9n8N0buQUyc78NvdvGkG4UlhuwObb4DLW7+hBTGHLOI
+ lz+e2Q5CLfsdCvSDgB0+WnUG5qLcyw1qIvyWSVO2MWJgapsJp1mP+Gu2aPma6Ict
+ WXXqlCMcwpPIUC+xd91w/xzze6dFXsOtXBwdztItwSbghsQjRH2NPHQVRhFBnZ6q
+ dY908u0Y4DOR5UQPGpXG3/WuBqpOiYl5lrcVVme9qasVWakJqRmTomu16NE1d1XL
+ GnsoGxdlzWy+uNseiD8/XdR6ysJ9+BdoSF2XaJiEiw==
+X-ME-Sender: <xms:H7shYy-z-Sy-s0CYkYhiWGEo-Fk_sa4yzpFsShmbVmcw8NKVEim-Ow>
+ <xme:H7shYyuhl7apl0uzCWtoXaLVdsY3vIuHlVJPZVfymPsr4NqTL0cxTJskRvonuk2hn
+ j43Mbjcps8eNMsiwoQ>
+X-ME-Received: <xmr:H7shY4CZYM4ETUI7hJOe8i-3Bo9XlCMwvu1ooLO0z2Jo5DxvZAi390_OMsGo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeduiedggeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:H7shY6fH7W_BVuQc_Pv1wOCbe0JZZwDcqIOQjR9ElV0d0XyvT8FDFA>
+ <xmx:H7shY3PQ1WXtryglSTdW3rrdTj3tpcFZXxBJFYoc6JJb0xJRVeA8nQ>
+ <xmx:H7shY0mvO9oKdlpqejxArcWaOLnY7GbsVZO4bMdJEo1YmlDQ9Owr_w>
+ <xmx:ILshY6hp7U4y67xd1z7aW61uMylQ-NOWf_PLrKUGCD3bAJEil6TFPg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 14 Sep 2022 07:29:34 -0400 (EDT)
+Date: Wed, 14 Sep 2022 12:29:33 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [GIT PULL] Immutable backlight-detect-refactor branch between
+ acpi, drm-* and pdx86
+Message-ID: <20220914112933.64ovljgsrv2l25rs@penduick>
+References: <261afe3d-7790-e945-adf6-a2c96c9b1eff@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hy5cszh57lz34buf"
+Content-Disposition: inline
+In-Reply-To: <261afe3d-7790-e945-adf6-a2c96c9b1eff@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,79 +83,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislav.Lisovskiy@intel.com, manasi.d.navare@intel.com,
- jani.saarinen@intel.com, dri-devel@lists.freedesktop.org,
- vinod.govindapillai@intel.com
+Cc: Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@redhat.com>, Len Brown <lenb@kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, Mark Gross <markgross@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Xinhui <Xinhui.Pan@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Sep 2022, Stanislav Lisovskiy <stanislav.lisovskiy@intel.com> wrote:
-> Adding DP DSC register definitions, we might need for further
-> DSC implementation, supporting MST and DP branch pass-through mode.
->
-> v2: - Fixed checkpatch comment warning
-> v3: - Removed function which is not yet used(Jani Nikula)
->
-> Reviewed-by: Vinod Govindapillai <vinod.govindapillai@intel.com>
->
-> Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
 
-Maarten, Maxime, Thomas -
+--hy5cszh57lz34buf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Retry, can we get an ack for merging this one via drm-intel-next?
+Hi Hans,
 
-Thanks,
-Jani.
+On Mon, Sep 05, 2022 at 10:35:47AM +0200, Hans de Goede wrote:
+> Hi All,
+>=20
+> Now that all patches have been reviewed/acked here is an immutable backli=
+ght-detect-refactor
+> branch with 6.0-rc1 + the v5 patch-set, for merging into the relevant (ac=
+pi, drm-* and pdx86)
+> subsystems.
+>=20
+> Please pull this branch into the relevant subsystems.
+>=20
+> I will merge this into the review-hans branch of the pdx86 git tree today=
+ and
+> from there it will move to for-next once the builders have successfully b=
+uild-tested
+> the merge.
 
+I merged it into drm-misc-next, thanks!
+Maxime
 
-> ---
->  include/drm/display/drm_dp.h | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-> index e934aab357be..9bc22a02874d 100644
-> --- a/include/drm/display/drm_dp.h
-> +++ b/include/drm/display/drm_dp.h
-> @@ -240,6 +240,8 @@
->  #define DP_DSC_SUPPORT                      0x060   /* DP 1.4 */
->  # define DP_DSC_DECOMPRESSION_IS_SUPPORTED  (1 << 0)
->  # define DP_DSC_PASSTHROUGH_IS_SUPPORTED    (1 << 1)
-> +# define DP_DSC_DYNAMIC_PPS_UPDATE_SUPPORT_COMP_TO_COMP    (1 << 2)
-> +# define DP_DSC_DYNAMIC_PPS_UPDATE_SUPPORT_UNCOMP_TO_COMP  (1 << 3)
->  
->  #define DP_DSC_REV                          0x061
->  # define DP_DSC_MAJOR_MASK                  (0xf << 0)
-> @@ -278,12 +280,15 @@
->  
->  #define DP_DSC_BLK_PREDICTION_SUPPORT       0x066
->  # define DP_DSC_BLK_PREDICTION_IS_SUPPORTED (1 << 0)
-> +# define DP_DSC_RGB_COLOR_CONV_BYPASS_SUPPORT (1 << 1)
->  
->  #define DP_DSC_MAX_BITS_PER_PIXEL_LOW       0x067   /* eDP 1.4 */
->  
->  #define DP_DSC_MAX_BITS_PER_PIXEL_HI        0x068   /* eDP 1.4 */
->  # define DP_DSC_MAX_BITS_PER_PIXEL_HI_MASK  (0x3 << 0)
->  # define DP_DSC_MAX_BITS_PER_PIXEL_HI_SHIFT 8
-> +# define DP_DSC_MAX_BPP_DELTA_VERSION_MASK  0x06
-> +# define DP_DSC_MAX_BPP_DELTA_AVAILABILITY  0x08
->  
->  #define DP_DSC_DEC_COLOR_FORMAT_CAP         0x069
->  # define DP_DSC_RGB                         (1 << 0)
-> @@ -345,11 +350,13 @@
->  # define DP_DSC_24_PER_DP_DSC_SINK          (1 << 2)
->  
->  #define DP_DSC_BITS_PER_PIXEL_INC           0x06F
-> +# define DP_DSC_RGB_YCbCr444_MAX_BPP_DELTA_MASK 0x1f
-> +# define DP_DSC_RGB_YCbCr420_MAX_BPP_DELTA_MASK 0xe0
->  # define DP_DSC_BITS_PER_PIXEL_1_16         0x0
->  # define DP_DSC_BITS_PER_PIXEL_1_8          0x1
->  # define DP_DSC_BITS_PER_PIXEL_1_4          0x2
->  # define DP_DSC_BITS_PER_PIXEL_1_2          0x3
-> -# define DP_DSC_BITS_PER_PIXEL_1            0x4
-> +# define DP_DSC_BITS_PER_PIXEL_1_1          0x4
->  
->  #define DP_PSR_SUPPORT                      0x070   /* XXX 1.2? */
->  # define DP_PSR_IS_SUPPORTED                1
+--hy5cszh57lz34buf
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABMIAB0WIQTXEe0+DlZaRlgM8LOIQ8rmN6G3ywUCYyG7HQAKCRCIQ8rmN6G3
+yxexAQD6R+v7rkQb0GeB4b/P6qIJ8gkrhQhlZLrmcPYoUuwldAD/fLehBZhVa7TE
+ohzG1kghzg7S8i2Op8YPG+18dMDqoTU=
+=37BB
+-----END PGP SIGNATURE-----
+
+--hy5cszh57lz34buf--
