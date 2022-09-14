@@ -1,51 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E3C5B7E0E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 02:58:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 614535B7E20
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 03:11:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC5810E79D;
-	Wed, 14 Sep 2022 00:58:06 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29CFD10E79B;
- Wed, 14 Sep 2022 00:57:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663117071; x=1694653071;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=LLQxBEoakgKgCJqit2FMaUPgiezPhRWwDBmft0s2Q58=;
- b=A4kwevMMaBd6eMyL55VT3AVuq8Ey/OOrzqAdu3JL+OndR9eVJw4QlcY3
- eEyLjmxJxXSxN69osSuUWqVX9BK5Yg0wuzUFewUGgMt01yS5qklvvA8iA
- kJ0050KS0cOOnxxefKVvxCUGAnnFd28aKRdb6drfZ3vmArhAnfIjtODcx
- S6ucBTDF6DB+fkjB1a92iCiOEa7+ABdhp5GUI9Nvvnr8LscoaMuExkscg
- fHGmV3QhAtHlzrzQhd9dc319GbUCrAIgulw9AxgDm2oflwKCcpMbtkG/k
- F+58pkTWftyd4f10+w99mZUYVhm86oKxHmeBcdmk7t9oLuEGcZD9yWrtc g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="384592448"
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="384592448"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2022 17:57:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; d="scan'208";a="792137901"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.154])
- by orsmga005.jf.intel.com with ESMTP; 13 Sep 2022 17:57:50 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v2 1/1] drm/i915/uc: Fix issues with overriding firmware files
-Date: Tue, 13 Sep 2022 17:58:21 -0700
-Message-Id: <20220914005821.3702446-2-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220914005821.3702446-1-John.C.Harrison@Intel.com>
-References: <20220914005821.3702446-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3324B10E795;
+	Wed, 14 Sep 2022 01:11:10 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7C9E10E795
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 01:11:05 +0000 (UTC)
+X-UUID: 14fa1acf332e4e8ebd25eb2c58bd22ef-20220914
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=OSvNiugJ11pReBtWe7UQLxlrPiTmtjqprSkbNNjArYk=; 
+ b=PcP85df+GjVboT7h7RBgI0a9m8NbJ8uv7FD5twTEtjvRkYt8syxlIMo1KlPmwdB5qJxpvXBmFvuCMEYp4V1Auv2QPBgH6NFFmT2dWxPUYR161OrCC7SzIOo9mX4YC5dgcDANqouarw75JVgRRQjrCbY8B15oaIOSMFZxZ6f9VK0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:6ff19e9f-006d-4f4e-8bbe-8f2428cfb411, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:39a5ff1, CLOUDID:3f268b5d-5ed4-4e28-8b00-66ed9f042fbd,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 14fa1acf332e4e8ebd25eb2c58bd22ef-20220914
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 2002186123; Wed, 14 Sep 2022 09:10:58 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Wed, 14 Sep 2022 09:10:57 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Wed, 14 Sep 2022 09:10:57 +0800
+Message-ID: <b83434dacff497fa738f84ced33fe1dc2ef32ff9.camel@mediatek.com>
+Subject: Re: [PATCH RESEND v3 3/9] drm/mediatek: Adjust
+ mtk_drm_gamma_set_common parameters
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Rob
+ Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+Date: Wed, 14 Sep 2022 09:10:56 +0800
+In-Reply-To: <44d19c4ea29bdbf3a07890ed25fd637f8805b6c6.camel@mediatek.com>
+References: <20220912013006.27541-1-jason-jh.lin@mediatek.com>
+ <20220912013006.27541-4-jason-jh.lin@mediatek.com>
+ <44d19c4ea29bdbf3a07890ed25fd637f8805b6c6.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,132 +70,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- DRI-Devel@Lists.FreeDesktop.Org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Rex-BC Chen <rex-bc.chen@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Hi CK, 
 
-The earlier update to support reduced versioning of firmware files
-introduced an issue with the firmware override module parameter. If an
-invalid file was specified then an infinite loop could occur trying to
-find a backup firmware.
+Thanks for the reviews.
 
-The fix is that if an explicit override has been set, then don't scan
-for backup options because there is no point anyway. The user wanted X
-and if X is not available, that's their problem.
+On Mon, 2022-09-12 at 10:48 +0800, CK Hu wrote:
+> Hi, Jason:
+> 
+> On Mon, 2022-09-12 at 09:30 +0800, Jason-JH.Lin wrote:
+> > Adjust the parameters in mtk_drm_gamma_set_common()
+> >   - add (struct device *dev) to get lut_diff from gamma's driver
+> > data
+> >   - remove (bool lut_diff) and use false as default value in the
+> > function
+> > 
+> > Fixes: 051524cbe62d ("FROMGIT: drm/mediatek: Add lut diff flag for
+> > new gamma hardware support")
+> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_disp_aal.c   |  2 +-
+> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  2 +-
+> >  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 13 +++++++------
+> >  3 files changed, 9 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> > b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> > index 0f9d7efb61d7..6517e0a5a7d8 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> > @@ -66,7 +66,7 @@ void mtk_aal_gamma_set(struct device *dev, struct
+> > drm_crtc_state *state)
+> >  	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+> >  
+> >  	if (aal->data && aal->data->has_gamma)
+> > -		mtk_gamma_set_common(aal->regs, state, false);
+> > +		mtk_gamma_set_common(NULL, aal->regs, state);
+> >  }
+> >  
+> >  void mtk_aal_start(struct device *dev)
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > index 33e61a136bbc..a83e5fbc8724 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > @@ -52,7 +52,7 @@ void mtk_gamma_config(struct device *dev,
+> > unsigned
+> > int w,
+> >  		      unsigned int h, unsigned int vrefresh,
+> >  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+> >  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
+> > *state);
+> > -void mtk_gamma_set_common(void __iomem *regs, struct
+> > drm_crtc_state
+> > *state, bool lut_diff);
+> > +void mtk_gamma_set_common(struct device *dev, void __iomem *regs,
+> > struct drm_crtc_state *state);
+> 
+> This function is called by both aal and gamma driver, so I would like
+> to pass struct device dev because priv data of aal and gamma are
+> different. Make this function command for both aal and gamma driver.
+> 
+> Regards,
+> CK
+> 
+I think handle the priv data of AAL in the gamma_set_common function
+will make this function coupling with AAL.
+So I'll drop this patch and move the gamma priv data to gamma_set and
+just pass the necessary parameters for gamma_set_common.
 
-This patch also fixes up the scanning loop code so that if an invalid
-file is passed in, it will exit rather than loop forever. So if the
-impossible situation did somehow occur in the future, it wouldn't be
-such a big problem.
 
-v2: Also remove ANSI colour codes that accidentally got left in an
-error message in the original patch.
-
-Fixes: 665ae9c9ca79 ("drm/i915/uc: Support for version reduced and multiple
-firmware files")
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-Cc: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index af425916cdf64..1169e2a09da24 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -232,6 +232,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
- 	u32 fw_count;
- 	u8 rev = INTEL_REVID(i915);
- 	int i;
-+	bool found;
- 
- 	/*
- 	 * The only difference between the ADL GuC FWs is the HWConfig support.
-@@ -246,6 +247,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
- 	fw_blobs = blobs_all[uc_fw->type].blobs;
- 	fw_count = blobs_all[uc_fw->type].count;
- 
-+	found = false;
- 	for (i = 0; i < fw_count && p <= fw_blobs[i].p; i++) {
- 		const struct uc_fw_blob *blob = &fw_blobs[i].blob;
- 
-@@ -266,9 +268,15 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
- 		uc_fw->file_wanted.path = blob->path;
- 		uc_fw->file_wanted.major_ver = blob->major;
- 		uc_fw->file_wanted.minor_ver = blob->minor;
-+		found = true;
- 		break;
- 	}
- 
-+	if (!found && uc_fw->file_selected.path) {
-+		/* Failed to find a match for the last attempt?! */
-+		uc_fw->file_selected.path = NULL;
-+	}
-+
- 	/* make sure the list is ordered as expected */
- 	if (IS_ENABLED(CONFIG_DRM_I915_SELFTEST) && !verified) {
- 		verified = true;
-@@ -322,7 +330,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
- 				continue;
- 
- bad:
--			drm_err(&i915->drm, "\x1B[35;1mInvalid FW blob order: %s r%u %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
-+			drm_err(&i915->drm, "Invalid FW blob order: %s r%u %s%d.%d.%d comes before %s r%u %s%d.%d.%d\n",
- 				intel_platform_name(fw_blobs[i - 1].p), fw_blobs[i - 1].rev,
- 				fw_blobs[i - 1].blob.legacy ? "L" : "v",
- 				fw_blobs[i - 1].blob.major,
-@@ -553,10 +561,14 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 
- 	err = firmware_request_nowarn(&fw, uc_fw->file_selected.path, dev);
- 	memcpy(&file_ideal, &uc_fw->file_wanted, sizeof(file_ideal));
--	if (!err || intel_uc_fw_is_overridden(uc_fw))
--		goto done;
-+
-+	/* Any error is terminal if overriding. Don't bother searching for older versions */
-+	if (err && intel_uc_fw_is_overridden(uc_fw))
-+		goto fail;
- 
- 	while (err == -ENOENT) {
-+		old_ver = true;
-+
- 		__uc_fw_auto_select(i915, uc_fw);
- 		if (!uc_fw->file_selected.path) {
- 			/*
-@@ -576,8 +588,6 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 	if (err)
- 		goto fail;
- 
--	old_ver = true;
--done:
- 	if (uc_fw->loaded_via_gsc)
- 		err = check_gsc_manifest(fw, uc_fw);
- 	else
+Regards,
+Jason-JH.Lin
+> >  void mtk_gamma_start(struct device *dev);
+> >  void mtk_gamma_stop(struct device *dev);
+> >  
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > index bbd558a036ec..f54a6a618348 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > @@ -54,14 +54,19 @@ void mtk_gamma_clk_disable(struct device *dev)
+> >  	clk_disable_unprepare(gamma->clk);
+> >  }
+> >  
+> > -void mtk_gamma_set_common(void __iomem *regs, struct
+> > drm_crtc_state
+> > *state, bool lut_diff)
+> > +void mtk_gamma_set_common(struct device *dev, void __iomem *regs,
+> > struct drm_crtc_state *state)
+> >  {
+> > +	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+> > +	bool lut_diff = false;
+> >  	unsigned int i, reg;
+> >  	struct drm_color_lut *lut;
+> >  	void __iomem *lut_base;
+> >  	u32 word;
+> >  	u32 diff[3] = {0};
+> >  
+> > +	if (gamma && gamma->data)
+> > +		lut_diff = gamma->data->lut_diff;
+> > +
+> >  	if (state->gamma_lut) {
+> >  		reg = readl(regs + DISP_GAMMA_CFG);
+> >  		reg = reg | GAMMA_LUT_EN;
+> > @@ -91,12 +96,8 @@ void mtk_gamma_set_common(void __iomem *regs,
+> > struct drm_crtc_state *state, bool
+> >  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
+> > *state)
+> >  {
+> >  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+> > -	bool lut_diff = false;
+> > -
+> > -	if (gamma->data)
+> > -		lut_diff = gamma->data->lut_diff;
+> >  
+> > -	mtk_gamma_set_common(gamma->regs, state, lut_diff);
+> > +	mtk_gamma_set_common(dev, gamma->regs, state);
+> >  }
+> >  
+> >  void mtk_gamma_config(struct device *dev, unsigned int w,
+> 
+> 
 -- 
-2.37.3
+Jason-JH Lin <jason-jh.lin@mediatek.com>
 
