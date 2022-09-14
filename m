@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902335B83AE
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 11:02:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3A35B83AD
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 11:02:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78A5910E8BE;
-	Wed, 14 Sep 2022 09:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5E9E10E8BF;
+	Wed, 14 Sep 2022 09:02:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F162710E8BD;
- Wed, 14 Sep 2022 09:02:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 201B510E8BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 09:02:22 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6B59D61999;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9C29C61999;
+ Wed, 14 Sep 2022 09:02:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 760E7C433C1;
  Wed, 14 Sep 2022 09:02:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF070C433D7;
- Wed, 14 Sep 2022 09:02:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663146137;
- bh=D6yNkS8/rv3f4Kgw0Cl2PR7CDS5sCEdTlxNUZbRpUZg=;
+ s=k20201202; t=1663146141;
+ bh=2yO7puHfzJOIxQNrFfNlpnhlBPhO5+2j4Hz7mKYhH7w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FUxrWmKVswx5iLQJlNy9mkMpP7c/VG/VATG9p33vmnIAXosH1yEyaReTi0qDV2aa/
- snFxzPn+gdpxcUpVh/QymoZccAoSLXnNW+JyYuDwp9vXFjYM+7dKJxUm2a6qTZzZ/I
- jhY7mEb2reB6cIjU5siELL2mgBYGWZg/osnQidhpRkI81/D/11HWdhoHWLcOmXqNK2
- qAkd0bDiMMSZWovT387H4W+LCfQMbQrF/ZqrQmo12dnSP8dYObIysGQWKRUbfHZgAa
- N3o/vZ1liELjy7VimuMaDBV9C16xbnOtblhiWFm78X/8EkOVzHvcCSwn8wcvezPs1x
- shQTI1EUAME+A==
+ b=aunZfG+Uf41oOrWPp/3Q+2GbMOkjseKOZKm788FRHrBB3DGQ9YQcCVNcXkncunwbf
+ Br3O6k689QSbixNRET+5wlfhFnbYFIAQiJm3vx4Ml3D+X/b3JtbAGsuGlH68gUnsrI
+ q+wX7Zxv/AZLUDUt9hvM3cY4+6+trkb9tf72+JB0GWehWKTAlbyFxAn37T8eZqlwQ5
+ cEGNQVCYdrg6oTR6yhpUrV37w7+Yr9HwezfhibJsJyjk1FdfulzfHFVpCttE9swn8t
+ KJodYWzU6XggPXWCWaLPgzO2of0ZEv2DzF3WNgWisVCve5HTztBiSIpN173IWkZhZp
+ Q8bQAdBFVMHJw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 20/22] drm/amdgpu: prevent toc firmware memory
- leak
-Date: Wed, 14 Sep 2022 05:01:01 -0400
-Message-Id: <20220914090103.470630-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 21/22] drm/panfrost: devfreq: set opp to the
+ recommended one to configure regulator
+Date: Wed, 14 Sep 2022 05:01:02 -0400
+Message-Id: <20220914090103.470630-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220914090103.470630-1-sashal@kernel.org>
 References: <20220914090103.470630-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,50 +56,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, tao.zhou1@amd.com,
- Guchun Chen <guchun.chen@amd.com>, airlied@linux.ie, Bokun.Zhang@amd.com,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Likun.Gao@amd.com, candice.li@amd.com, john.clements@amd.com,
- christian.koenig@amd.com, Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, tomeu.vizoso@collabora.com,
+ airlied@linux.ie, Viresh Kumar <viresh.kumar@linaro.org>,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guchun Chen <guchun.chen@amd.com>
+From: Clément Péron <peron.clem@gmail.com>
 
-[ Upstream commit aac4cec1ec45d72bd03eaf3fd772c5a609f5ed26 ]
+[ Upstream commit d76034a427a2660b080bc155e4fd8f6393eefb48 ]
 
-It's missed in psp fini.
+Enabling panfrost GPU OPP with dynamic regulator will make OPP
+responsible to enable and configure it.
 
-Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Unfortunately OPP configure and enable the regulator when an OPP
+is asked to be set, which is not the case during
+panfrost_devfreq_init().
+
+This leave the regulator unconfigured and if no GPU load is
+triggered, no OPP is asked to be set which make the regulator framework
+switching it off during regulator_late_cleanup() without
+noticing and therefore make the board hang as any access to GPU
+memory space make bus locks up.
+
+Call dev_pm_opp_set_opp() with the recommend OPP in
+panfrost_devfreq_init() to enable the regulator, this will properly
+configure and enable the regulator and will avoid any switch off
+by regulator_late_cleanup().
+
+Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
+Signed-off-by: Clément Péron <peron.clem@gmail.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Steven Price <steven.price@arm.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220906153034.153321-5-peron.clem@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index e9411c28d88ba..9cb7d208a09ad 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -481,11 +481,14 @@ static int psp_sw_fini(void *handle)
- 		release_firmware(psp->ta_fw);
- 		psp->ta_fw = NULL;
- 	}
--	if (adev->psp.cap_fw) {
-+	if (psp->cap_fw) {
- 		release_firmware(psp->cap_fw);
- 		psp->cap_fw = NULL;
- 	}
--
-+	if (psp->toc_fw) {
-+		release_firmware(psp->toc_fw);
-+		psp->toc_fw = NULL;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+index 194af7f607a6e..be36dd060a2b4 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
++++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+@@ -132,6 +132,17 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+ 		return PTR_ERR(opp);
+ 
+ 	panfrost_devfreq_profile.initial_freq = cur_freq;
++
++	/*
++	 * Set the recommend OPP this will enable and configure the regulator
++	 * if any and will avoid a switch off by regulator_late_cleanup()
++	 */
++	ret = dev_pm_opp_set_opp(dev, opp);
++	if (ret) {
++		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
++		return ret;
 +	}
- 	if (adev->ip_versions[MP0_HWIP][0] == IP_VERSION(11, 0, 0) ||
- 	    adev->ip_versions[MP0_HWIP][0] == IP_VERSION(11, 0, 7))
- 		psp_sysfs_fini(adev);
++
+ 	dev_pm_opp_put(opp);
+ 
+ 	/*
 -- 
 2.35.1
 
