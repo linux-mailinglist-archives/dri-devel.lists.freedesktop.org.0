@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3A35B83AD
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 11:02:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5FD5B83C3
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 11:03:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E9E10E8BF;
-	Wed, 14 Sep 2022 09:02:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EDC310E8C1;
+	Wed, 14 Sep 2022 09:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 201B510E8BD
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 09:02:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 105D010E8C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 09:03:14 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9C29C61999;
- Wed, 14 Sep 2022 09:02:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 760E7C433C1;
- Wed, 14 Sep 2022 09:02:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8D034619C5;
+ Wed, 14 Sep 2022 09:03:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1B68C433D6;
+ Wed, 14 Sep 2022 09:03:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663146141;
+ s=k20201202; t=1663146193;
  bh=2yO7puHfzJOIxQNrFfNlpnhlBPhO5+2j4Hz7mKYhH7w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aunZfG+Uf41oOrWPp/3Q+2GbMOkjseKOZKm788FRHrBB3DGQ9YQcCVNcXkncunwbf
- Br3O6k689QSbixNRET+5wlfhFnbYFIAQiJm3vx4Ml3D+X/b3JtbAGsuGlH68gUnsrI
- q+wX7Zxv/AZLUDUt9hvM3cY4+6+trkb9tf72+JB0GWehWKTAlbyFxAn37T8eZqlwQ5
- cEGNQVCYdrg6oTR6yhpUrV37w7+Yr9HwezfhibJsJyjk1FdfulzfHFVpCttE9swn8t
- KJodYWzU6XggPXWCWaLPgzO2of0ZEv2DzF3WNgWisVCve5HTztBiSIpN173IWkZhZp
- Q8bQAdBFVMHJw==
+ b=u9SueBMzOXejq4Uuf2xnLbHALH/dXvc4/V0udCPkqPkU6clxZ/9u/BXIYQ5daKxf0
+ xVNuneaETJqyf1yY5tLGnBLTpeIni0pSZqLk2yrVW1FKZ+tVs9RWmCGWAAdrzFBT5k
+ oKZHy4OS6gJmfJCvd8XYfMbz5Kp46obsp8JO+xSdwWs6zZHfE/MN9Dq105gDdZjz5j
+ XVjuwEeKKoBbQRr7WH9dL4FHOnhFUu6/Ufr8wZi+6ga55RaZ7HnXqY0/xIOt2MvRH8
+ X2SfTYHYRvAd7Ig4H3ufwNemxoWH0NsbKuqYwIkKOrVZAGThwG5HfB/7x5kmuqXTih
+ 6sziyLdaTBlRQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 21/22] drm/panfrost: devfreq: set opp to the
+Subject: [PATCH AUTOSEL 5.15 15/16] drm/panfrost: devfreq: set opp to the
  recommended one to configure regulator
-Date: Wed, 14 Sep 2022 05:01:02 -0400
-Message-Id: <20220914090103.470630-21-sashal@kernel.org>
+Date: Wed, 14 Sep 2022 05:02:23 -0400
+Message-Id: <20220914090224.470913-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220914090103.470630-1-sashal@kernel.org>
-References: <20220914090103.470630-1-sashal@kernel.org>
+In-Reply-To: <20220914090224.470913-1-sashal@kernel.org>
+References: <20220914090224.470913-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
