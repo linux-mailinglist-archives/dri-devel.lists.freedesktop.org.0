@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B2A5B863D
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 12:23:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DD35B863E
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 12:23:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAA4610E8EE;
-	Wed, 14 Sep 2022 10:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E7E610E8E9;
+	Wed, 14 Sep 2022 10:23:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-54.freemail.mail.aliyun.com
- (out30-54.freemail.mail.aliyun.com [115.124.30.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55AFD10E8E9
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 10:23:25 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
+Received: from out30-133.freemail.mail.aliyun.com
+ (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6E010E8E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 10:23:28 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045170;
  MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=6; SR=0;
- TI=SMTPD_---0VPn4krt_1663150996; 
+ TI=SMTPD_---0VPn2vp8_1663151001; 
 Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VPn4krt_1663150996) by smtp.aliyun-inc.com;
- Wed, 14 Sep 2022 18:23:21 +0800
+ fp:SMTPD_---0VPn2vp8_1663151001) by smtp.aliyun-inc.com;
+ Wed, 14 Sep 2022 18:23:24 +0800
 From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To: deller@gmx.de
-Subject: [PATCH] video: fbdev: tridentfb: Remove the unused function
- shadowmode_off()
-Date: Wed, 14 Sep 2022 18:23:00 +0800
-Message-Id: <20220914102301.87981-2-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] video: fbdev: arkfb: Remove the unused function dac_read_reg()
+Date: Wed, 14 Sep 2022 18:23:01 +0800
+Message-Id: <20220914102301.87981-3-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 In-Reply-To: <20220914102301.87981-1-jiapeng.chong@linux.alibaba.com>
 References: <20220914102301.87981-1-jiapeng.chong@linux.alibaba.com>
@@ -49,34 +48,37 @@ Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function shadowmode_off() is defined in the tridentfb.c file, but not
+The function dac_read_reg() is defined in the arkfb.c file, but not
 called elsewhere, so delete this unused function.
 
-drivers/video/fbdev/tridentfb.c:1131:20: warning: unused function 'shadowmode_off'.
+drivers/video/fbdev/arkfb.c:322:18: warning: unused function 'dac_read_reg'.
 
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2154
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2155
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/video/fbdev/tridentfb.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/video/fbdev/arkfb.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/video/fbdev/tridentfb.c b/drivers/video/fbdev/tridentfb.c
-index f9c3b1d38fc2..2154dd5e37bd 100644
---- a/drivers/video/fbdev/tridentfb.c
-+++ b/drivers/video/fbdev/tridentfb.c
-@@ -1128,11 +1128,6 @@ static inline void shadowmode_on(struct tridentfb_par *par)
- 	write3CE(par, CyberControl, read3CE(par, CyberControl) | 0x81);
- }
+diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
+index a317d9fe1d67..5f8fec9e5fd4 100644
+--- a/drivers/video/fbdev/arkfb.c
++++ b/drivers/video/fbdev/arkfb.c
+@@ -318,14 +318,6 @@ struct dac_info
+ 	void *data;
+ };
  
--static inline void shadowmode_off(struct tridentfb_par *par)
+-
+-static inline u8 dac_read_reg(struct dac_info *info, u8 reg)
 -{
--	write3CE(par, CyberControl, read3CE(par, CyberControl) & 0x7E);
+-	u8 code[2] = {reg, 0};
+-	info->dac_read_regs(info->data, code, 1);
+-	return code[1];
 -}
 -
- /* Set the hardware to the requested video mode */
- static int tridentfb_set_par(struct fb_info *info)
+ static inline void dac_read_regs(struct dac_info *info, u8 *code, int count)
  {
+ 	info->dac_read_regs(info->data, code, count);
 -- 
 2.20.1.7.g153144c
 
