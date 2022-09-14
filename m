@@ -1,49 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8965B8E90
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:07:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAEC5B8E97
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 20:09:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A468D10E9B2;
-	Wed, 14 Sep 2022 18:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C212B10E9B1;
+	Wed, 14 Sep 2022 18:09:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C607E10E9B1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 18:07:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 69D3CB80CB1;
- Wed, 14 Sep 2022 18:07:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F586C433D6;
- Wed, 14 Sep 2022 18:07:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663178834;
- bh=u2oRx56dEvhrWV3ZEhglBUWqj/570fEv26z8NhtxT1U=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=PBCzcVdkrrG14uxuvrHuAyh60xrk2mucc1WcgcwasSAW2ytLukURmYkNe+ODMp25K
- tzuc5rpcmuOzuw4stTRGwUd4qFdjl6LwC9iwJkPFEFiR83Jhia3HBD1UjExPrYSXKk
- gkEo/9fdzsFNeqhCwccsmp/rc/FUFDni4HkcUSe7NkjAAA+BlFANgSTtn7ncuzdrRf
- FYHlP6a2QmAiHtRC9Ax5zosdwgyxqrLgIibIyz9qKotD5Ae3poREPQ4ICZ8rlJmFT7
- 6hbEyHp/s+6+62uZojx1KwlRKK5Ai4hiUwgCfNf9109KHn81+ljibt0JOdU7j3pfWS
- BYh8mLRMmI/ig==
-Content-Type: text/plain; charset="utf-8"
+X-Greylist: delayed 1059 seconds by postgrey-1.36 at gabe;
+ Wed, 14 Sep 2022 18:09:15 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF48010E9B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 18:09:15 +0000 (UTC)
+Received: from [192.168.1.138] ([37.4.248.23]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MuUSa-1pOyz02OMU-00rbw0; Wed, 14 Sep 2022 20:09:08 +0200
+Message-ID: <c221873f-f230-0cce-e120-7e3cc732cf00@i2se.com>
+Date: Wed, 14 Sep 2022 20:09:04 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220914161502.faiaccuxydyrdr6e@penduick>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 2/7] clk: bcm: rpi: Add a function to retrieve the
+ maximum
+Content-Language: en-US
+To: Stephen Boyd <sboyd@kernel.org>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
+ Florian Fainelli <f.fainelli@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>
 References: <20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech>
  <20220815-rpi-fix-4k-60-v1-2-c52bd642f7c6@cerno.tech>
  <20220914155035.88E45C433C1@smtp.kernel.org>
- <20220914161502.faiaccuxydyrdr6e@penduick>
-Subject: Re: [PATCH v1 2/7] clk: bcm: rpi: Add a function to retrieve the
- maximum
-From: Stephen Boyd <sboyd@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 14 Sep 2022 11:07:12 -0700
-User-Agent: alot/0.10
-Message-Id: <20220914180714.0F586C433D6@smtp.kernel.org>
+ <50e8f1e8-806a-3599-7cbe-0c7d4bec1c51@i2se.com>
+ <20220914180508.0EDD9C433D6@smtp.kernel.org>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20220914180508.0EDD9C433D6@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:358rqWuFgwGCsMPeKhZuVvvPDRSWHvGTGkBAq+AeXJq3xhwRwjZ
+ JTLcbIuj7tEVqsIPuyXnb/VR12dq7+ql1OHO0WJ72y64Ckv3OdoEfQyx0tJihzzXiUn7CQB
+ 9jyqy8n3KXbmSuu/2aU01Lx+L2qRdFYFcjEwKupjYgqY0kn85BZXedZG683cdDcILh3aYMz
+ Q33IvjFJAkU+msDBWQxMQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:m+Qg1abObpU=:c2bZcMCteY4fa3E0+QRzpM
+ rX25HIg4naNX47Jz4X2HUu+85hrM6Q7Sd3n85F8MnGMFaiKenEnU2TVpiPeiPE5hcyyX4wGxQ
+ OwDzyCl6ATirYQ73zeFFWoqmZGfattmU/ZCWofaOV6YbpgffsIPdLh0pvLw4DUCK2yhajjHYo
+ f3wXFedgo2QWnME1QXVirPfCCoIJhkuTxgbnM5MZ8eR8vNbPKTr6XXjzrH9S8CalwrcWbZPdE
+ v9R7gpzW8kzrRfNC3vEW0mFPdXpRrqPkyqph5PffRgyESnrGbsdpML+/1EV/WYezYmMVdast5
+ cCLBHVmTOAviWeHagLPmR/48NspOlr+yJp2RiO3tm4clMHRZNYDH7j1FINxjtsVoyExpKJ/Oy
+ 0f5hmxYCkCOp//rbI5nC6eqrFthYXIe+Vnx/H50eR9+BguS9e3KTAAI9EU4fcex1rc0EqfKB2
+ Nd2uZKZHGroIDf/a1NVCyPhmWEQcQEZghciF66PNzEur+5GWE73biBCaqg296JM20XW5nkuc3
+ daSOwN6SGcTQCCMgDEmqsbBz9NrEem9DaqnAFi76UfpPKZ7eKs71u6uo3z6gUv14MRQOirj15
+ I8wtW7Vp1UlvImJgeJtd6D1HbcS20SNAeUffnSomtJAwrw1Nr6aRp4aH7gzr67D6evckpcva8
+ JSVJu/NvEQlE0y98R1yOk0Jb3hVlnC+X1J6+0bvMSXVI9UP3arMt81wcLoMTOGiekjzYmhSLd
+ kdQgW+VnUXvUSllg0/mcdmq6423ANMzaqV0zyCpfGYNRSRAGRm7/LSFnKQIy0MZQveFucYUa0
+ FvAO2lx
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,77 +71,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Florian Fainelli <f.fainelli@gmail.com>,
- Scott Branden <sbranden@broadcom.com>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, Ray Jui <rjui@broadcom.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
  linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Maxime Ripard (2022-09-14 09:15:02)
-> Hi Stephen,
->=20
-> Thanks for reviewing that series
->=20
-> On Wed, Sep 14, 2022 at 08:50:33AM -0700, Stephen Boyd wrote:
-> > Quoting Maxime Ripard (2022-08-15 08:31:24)
-> > > @@ -254,6 +255,33 @@ static int raspberrypi_fw_dumb_determine_rate(st=
-ruct clk_hw *hw,
-> > >         return 0;
-> > >  }
-> > > =20
-> > > +unsigned long rpi_firmware_clk_get_max_rate(struct clk *clk)
-> > > +{
-> > > +       const struct raspberrypi_clk_data *data;
-> > > +       struct raspberrypi_clk *rpi;
-> > > +       struct clk_hw *hw;
-> > > +       u32 max_rate;
-> > > +       int ret;
-> > > +
-> > > +       if (!clk)
-> > > +               return 0;
-> > > +
-> > > +       hw =3D  __clk_get_hw(clk);
-> >=20
-> > Ideally we don't add more users of this API. I should document that :/
->=20
-> What should be the proper way to implement this?
->=20
-> > It begs the question though, why do we need this API to take a 'struct
-> > clk'?  Can it simply hardcode the data->id value for the clk you care
-> > about and call rpi_firmware_property() directly (or some wrapper of it)?
->=20
-> You mean push it down to the consumer?
->=20
-> We will have two users of that function eventually. The KMS driver, and
-> the codec driver that isn't upstream yet. AFAIK, both are using a
-> different clock, so we can' really hardcode it, and duplicating it at
-> the consumer level would be weird.
-
-Can you make an API that returns 'max freq for KMS' and 'max freq for
-codec'? For example, it could take the enum value that the clk driver
-uses for data->id?
-
->=20
-> > Furthermore, I wonder if even that part needs to be implemented.  Why
-> > not make a direct call to rpi_firmware_property() and get the max rate?
-> > All of that can live in the drm driver. Making it a generic API that
-> > takes a 'struct clk' means that it looks like any clk can be passed,
-> > when that isn't true. It would be better to restrict it to the one use
-> > case so that the scope of the problem doesn't grow. I understand that it
-> > duplicates a few lines of code, but that looks like a fair tradeoff vs.
-> > exposing an API that can be used for other clks in the future.
->=20
-> So we'll want to have that function shared between the KMS and codec
-> drivers eventually. The clock id used by both drivers is stored in the
-> DT so we would create a function (outside of the clock drivers) that
-> would parse the clocks property, get the ID, and then queries the
-> firmware for it. Would that make sense?
->=20
-
-Sure. Is the ID ever changing? If not then a simpler design would be to
-ask for the particular ID and hardcode that in the driver.
+Am 14.09.22 um 20:05 schrieb Stephen Boyd:
+> Quoting Stefan Wahren (2022-09-14 10:45:48)
+>> Am 14.09.22 um 17:50 schrieb Stephen Boyd:
+>>> Furthermore, I wonder if even that part needs to be implemented.  Why
+>>> not make a direct call to rpi_firmware_property() and get the max rate?
+>>> All of that can live in the drm driver. Making it a generic API that
+>>> takes a 'struct clk' means that it looks like any clk can be passed,
+>>> when that isn't true. It would be better to restrict it to the one use
+>>> case so that the scope of the problem doesn't grow. I understand that it
+>>> duplicates a few lines of code, but that looks like a fair tradeoff vs.
+>>> exposing an API that can be used for other clks in the future.
+>> it would be nice to keep all the Rpi specific stuff out of the DRM
+>> driver, since there more users of it.
+> Instead of 'all' did you mean 'any'?
+yes
