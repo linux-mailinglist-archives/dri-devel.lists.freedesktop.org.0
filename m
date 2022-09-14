@@ -1,80 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751AA5B8DAB
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 18:59:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B11C15B8DEF
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Sep 2022 19:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8C9210E998;
-	Wed, 14 Sep 2022 16:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3803410E00E;
+	Wed, 14 Sep 2022 17:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4749510E998
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 16:59:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663174746;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8eAE9HpKpIVvmOEFXUeeAc8cv8ndkWqJta1h5pXlw4I=;
- b=htB1+QxvhQyn20/KrKl8hoVunrDNiZQrO6ypkapEBdKIxQdLO+d6eCq/9w2WWdnlhpoAf7
- wlpdCAIb56cNsT2XbFxVGFG9OD5zqbR2griwA7HsFLFUB6sZbOsdByj97DpOQHut9cKa1e
- 4kuMetPS8w+bDpbzJOD0mp2sqxEBmh8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-31-JFTsbuWUPCqDraanSwjLvg-1; Wed, 14 Sep 2022 12:59:02 -0400
-X-MC-Unique: JFTsbuWUPCqDraanSwjLvg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c5-20020a7bc005000000b003a63a3570f2so5623551wmb.8
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 09:59:01 -0700 (PDT)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF5710E00E;
+ Wed, 14 Sep 2022 17:15:09 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ r66-20020a1c4445000000b003b494ffc00bso3468544wma.0; 
+ Wed, 14 Sep 2022 10:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=MUUM7KwzU+2KZkzhKF9P1/j81tXXvszfc0LUASC7ZGA=;
+ b=bRGqzBulJ+h3aIK0GSYu1WGuD5E1GKrDaNVoqbN9x6qq2eM6+4zcGuC3IqvXqCsmPp
+ AtaoY84k3Ba73psWci1jKHZi4UD4ctih2nShAjtbpBzh37b3J3S2F/KWUwlM2374Au4g
+ lWValPIYyouOXq0gAzbd4QfdJ5DgZjShNZKtccpQzNXKrvk00h5OmDW0+S0gVgTwKvxB
+ 6UBpM+Rnm4BjYMl28L2qBzq3PB4XZ7SxSMPyMo5nzU/ZgTk/EHqJ3WO/Yj75gbm7sNaz
+ 4+b1lL7DBdAQTon+NMFP5Tu82E+FXIoq0oR8oW3s0mo6dYKluDTtxTsduHZTd9NuwN6K
+ w3BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=8eAE9HpKpIVvmOEFXUeeAc8cv8ndkWqJta1h5pXlw4I=;
- b=ESC4drNwj+FRNnAWOTSc2S4N1EYcXWpF+8nebcbogsHhNNHgtMx7cQ6sR5iLqa38NB
- 6+nxF1PKNRmVplu8m189fnNeOuK7uOSp4F7HN6tySQbWk5vwfn02bjGSceaYGLrKRFO2
- IS+iXu0u+Y/vrNmXci4FqYckRkyGBo+ideqhdRAm56wUQyKBQh0TCcdqSgvt0B2ji42S
- 8DJ0lNWnyG7t+ri8I1DUTLtUdcm2dtVVzBhd9ayHc2z//VcoNMFUt1eOIDnO9QpCd6lP
- NDwHXFpv5KuKzgwKWtLExsThrgaA3hyIO6C5mAJd+X+LnUO2law93/9uTcZW2Drv2NpC
- fSoQ==
-X-Gm-Message-State: ACgBeo2yxHBMPnKOjV7t4+OR6VJZnaGYAUYdq8v95DCg6MIjSbRHeM0H
- RZzOjH3ZqeSloWui2Qs5LDE6sDT0bp9A/USmrsBbEOQvEq+5wwtdjVPlfR0edlSem5VPzcBeqP+
- p7mRhqIdOrPr92b74QeIDmb7Fd8xG
-X-Received: by 2002:adf:f211:0:b0:228:d6a4:3510 with SMTP id
- p17-20020adff211000000b00228d6a43510mr21648612wro.448.1663174741051; 
- Wed, 14 Sep 2022 09:59:01 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4/hMrbSSVrICYCjqMv7OHktLT/ShhknRc4TABv3IGMoKgXGV5RhWzuT4s56YrRzLlwdjxauA==
-X-Received: by 2002:adf:f211:0:b0:228:d6a4:3510 with SMTP id
- p17-20020adff211000000b00228d6a43510mr21648581wro.448.1663174740767; 
- Wed, 14 Sep 2022 09:59:00 -0700 (PDT)
-Received: from [172.16.38.152] ([185.122.133.20])
- by smtp.gmail.com with ESMTPSA id
- m23-20020a05600c3b1700b003b477532e66sm6954615wms.2.2022.09.14.09.58.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Sep 2022 09:58:59 -0700 (PDT)
-Message-ID: <2b7693c4-b04e-425a-2f87-c4b12fa2f63b@redhat.com>
-Date: Wed, 14 Sep 2022 17:58:58 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=MUUM7KwzU+2KZkzhKF9P1/j81tXXvszfc0LUASC7ZGA=;
+ b=xBZ+j/qeEX+YSsyVd47NO9Fpa6wcZuB1Mt78A5v9l0qEXsKUfhAcdZVaez/g+q0paf
+ c34ecauw0RyDlj6Xc1p7qC0XGIfTBtiZn2U1DdjwR5tqgmhxlRhq5Vof+ncj3kTNCot9
+ B82SKoBZSC25d11T53Dg6kfxeRICWfGv95ABeD36zv7rWQKDRCiqpAQ4YJ+elkd4Ydba
+ O+7XQ/rZuZYfCA7KRYwd3pOY78djlpouOOUq9eZ+4PszFVRrTn31D5Bk95wGAIumVkfv
+ 8eYDGi0WAZ+OUraacJmc26HB9e+8eNJEslS4WaUantXwVH012IaxEut7KMo4cyfxqj4g
+ Y8gQ==
+X-Gm-Message-State: ACgBeo1GC7C1Jbwlff8yBO5E5e+YpjcljnvNUGue4+/3ESyHPOd80YTc
+ RKhZHdWGKU5AXClrxqqCmHM=
+X-Google-Smtp-Source: AA6agR6Rc0CCCWkOiOfheIsc8ANCtg+0ygZPaJ3PLf9IFqpYv7zMPhIFVAi0bPlzLhkr2GM/6vsOOw==
+X-Received: by 2002:a05:600c:1546:b0:3a6:a99:aa7 with SMTP id
+ f6-20020a05600c154600b003a60a990aa7mr3738358wmg.109.1663175707237; 
+ Wed, 14 Sep 2022 10:15:07 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ bv7-20020a0560001f0700b0022a53fe201fsm11769459wrb.68.2022.09.14.10.15.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Sep 2022 10:15:06 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amdkfd: Fix spelling mistake "detroyed" ->
+ "destroyed"
+Date: Wed, 14 Sep 2022 18:15:05 +0100
+Message-Id: <20220914171505.54154-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [GIT PULL] Immutable backlight-detect-refactor branch between
- acpi, drm-* and pdx86
-To: Maxime Ripard <maxime@cerno.tech>
-References: <261afe3d-7790-e945-adf6-a2c96c9b1eff@redhat.com>
- <20220914112933.64ovljgsrv2l25rs@penduick>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220914112933.64ovljgsrv2l25rs@penduick>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,45 +75,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@redhat.com>, Len Brown <lenb@kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, Mark Gross <markgross@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Xinhui <Xinhui.Pan@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+There is a spelling mistake in a pr_debug message. Fix it.
 
-On 9/14/22 12:29, Maxime Ripard wrote:
-> Hi Hans,
-> 
-> On Mon, Sep 05, 2022 at 10:35:47AM +0200, Hans de Goede wrote:
->> Hi All,
->>
->> Now that all patches have been reviewed/acked here is an immutable backlight-detect-refactor
->> branch with 6.0-rc1 + the v5 patch-set, for merging into the relevant (acpi, drm-* and pdx86)
->> subsystems.
->>
->> Please pull this branch into the relevant subsystems.
->>
->> I will merge this into the review-hans branch of the pdx86 git tree today and
->> from there it will move to for-next once the builders have successfully build-tested
->> the merge.
-> 
-> I merged it into drm-misc-next, thanks!
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Great, thank you!
-
-Regards,
-
-Hans
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+index 7522bf2d2f57..c70c026c9a93 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+@@ -898,7 +898,7 @@ static vm_fault_t svm_migrate_to_ram(struct vm_fault *vmf)
+ 		return VM_FAULT_SIGBUS;
+ 	}
+ 	if (!mmget_not_zero(svm_bo->eviction_fence->mm)) {
+-		pr_debug("addr 0x%lx of process mm is detroyed\n", addr);
++		pr_debug("addr 0x%lx of process mm is destroyed\n", addr);
+ 		return VM_FAULT_SIGBUS;
+ 	}
+ 
+-- 
+2.37.1
 
