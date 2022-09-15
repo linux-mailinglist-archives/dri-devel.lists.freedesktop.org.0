@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59CD5BA001
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 18:52:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB8A5BA005
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 18:53:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBC8910EB7D;
-	Thu, 15 Sep 2022 16:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E732610EB84;
+	Thu, 15 Sep 2022 16:53:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E495210EB7D;
- Thu, 15 Sep 2022 16:52:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663260753; x=1694796753;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ZTs2N0QcsMiO5KMpKxsZysgv3UjJ6RRD1K+iBU+FiIY=;
- b=KKjrYT1tyljyUlErDRgLcii6ZkbAxeEvAR5Y0q4Vl2hSJ/nfA/zPovWe
- yE9iBSAwE26ODkDLF39SiPt/tAvciqMNMM2fR2GOdv6Ma9TKItvQON9vm
- QqF0N2erkU+u64UxtsjQagu11XkWAiQDOPw+BDfEo3m43NFvgbFShrwCy
- AlFMYaMV2jPjakMOUo3O5GdVsMMqT/HNX85ZsH8jr9JwMDqWqsjxxJ0aW
- E+S/CaibYep67RKUn4lCnlbORW/qcLZ7zK+4xPhtiD0c8FooH+DvEyJO8
- jWNccuBod+y/zvXHC67ZOSglNDaqVy/pTi5aOC4emYYbYURJJ7xcdoyQ+ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="297497974"
-X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; d="scan'208";a="297497974"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 09:52:33 -0700
-X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; d="scan'208";a="568501611"
-Received: from jkrzyszt-mobl1.ger.corp.intel.com (HELO jkrzyszt-mobl1.lan)
- ([10.213.25.71])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 09:52:31 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/i915/gem: Really move i915_gem_context.link under
- ref protection
-Date: Thu, 15 Sep 2022 18:52:10 +0200
-Message-Id: <20220915165210.193197-3-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220915165210.193197-1-janusz.krzysztofik@linux.intel.com>
-References: <20220915165210.193197-1-janusz.krzysztofik@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F9A410EB84
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 16:53:12 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id d16so9989880ils.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 09:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date;
+ bh=Ctva506wfgkNUCjN4L6nhIaTESGYUbw4ZySDGQZBtV8=;
+ b=oc7ESAuTdyerQ1dAIB3KzibBp3CNpWKq62EdBV7wU0Z2uItCGQMPyWdPnvV3H9TT25
+ 0QuVHaVipjp3A0ZN7t62m/G7r7yefFahy0w+4uVZdMw2DBIaMC3qj9V7Seq+C5YKozVj
+ yneXcOL0pL1HSE5vO0jjrl90X19SyevnynQLQMNMAJr+cVklx2EPcmfaL5bcNA3snsc8
+ PmvzTNepfrObWYrBhaIb1xN8yFTkDzI/1C47FZv0WcmKWWZWL6voby+YTa+utTZbdki3
+ Vbd9GpmPCbvMIWOs8a4noOHpdhcx3v9jubIp2TNLkSOmwj5x1MMLSOxsdVLVMoAUwFlT
+ hnYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Ctva506wfgkNUCjN4L6nhIaTESGYUbw4ZySDGQZBtV8=;
+ b=mvOAlB68JGf/vv0bAlwBoQJbDI4xsm37ZiHFnPhkXsmnOyEFEvxdvNCg2WPW5EkAaL
+ ByAr1LT5rOg9nXRt6QV3P6YCRHvxEPUE8AjwQ5P4RJ4QpYSgfMRuDt+ShbReoWNzKXdH
+ i55+ragiKhgZEYW7TFNz6K8hTRrDox6JIy8xdAoMZFvnuiUROxP8q7oj1YAS2v3bMRju
+ 1yJlVgI6n2YTw1Ia9aYOdISVIU8z6bJSKtPQxCA9qbM7qCcODCd1UQdgrMcsQVuNHacB
+ Tt/95CERw/s1B+doctstFdov9f8wTMJyMwGrcTNsXOLjMaKnAKvPpGR4pGk+ggE1RVSy
+ jGxw==
+X-Gm-Message-State: ACrzQf0ljxjeFwEZShU6RIrZXbO1MxjJTIW5UoxMNl9pEsryxbnjGpq9
+ q+c7Ph/UCtRcaIbK48ykvIM=
+X-Google-Smtp-Source: AMsMyM4XSl+CKPYQP2VV2gOIV41ixVw4PiE9yGwFMqjXF1MGteHZTFrpA9iF45BxUtlB84ik5K6u2g==
+X-Received: by 2002:a05:6e02:178c:b0:2ee:3296:4c5 with SMTP id
+ y12-20020a056e02178c00b002ee329604c5mr401656ilu.265.1663260791394; 
+ Thu, 15 Sep 2022 09:53:11 -0700 (PDT)
+Received: from smtpclient.apple (ebrouter.sigmaris.info. [82.69.107.165])
+ by smtp.gmail.com with ESMTPSA id
+ x12-20020a92d64c000000b002e97becb248sm8083874ilp.29.2022.09.15.09.53.09
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 15 Sep 2022 09:53:10 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+Subject: Re: [PATCH v2 3/3] arm64: dts: rockchip: enable gamma control on
+ RK3399
+From: Hugh Cole-Baker <sigmaris@gmail.com>
+In-Reply-To: <9196035b-273a-adca-2b87-c70bbab7f5c9@arm.com>
+Date: Thu, 15 Sep 2022 17:53:07 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <7B966E6B-1D3F-4975-AC44-1840951257F1@gmail.com>
+References: <20211019215843.42718-1-sigmaris@gmail.com>
+ <20211019215843.42718-4-sigmaris@gmail.com>
+ <9196035b-273a-adca-2b87-c70bbab7f5c9@arm.com>
+To: Robin Murphy <robin.murphy@arm.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.1)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,111 +75,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
 
-i915_perf assumes that it can use the i915_gem_context reference to
-protect its i915->gem.contexts.list iteration. However, this requires
-that we do not remove the context from the list until after we drop the
-final reference and release the struct. If, as currently, we remove the
-context from the list during context_close(), the link.next pointer may
-be poisoned while we are holding the context reference and cause a GPF:
+> On 15 Sep 2022, at 15:40, Robin Murphy <robin.murphy@arm.com> wrote:
+>=20
+> On 2021-10-19 22:58, Hugh Cole-Baker wrote:
+>> Define the memory region on RK3399 VOPs containing the gamma LUT at
+>> base+0x2000.
+>> Signed-off-by: Hugh Cole-Baker <sigmaris@gmail.com>
+>> ---
+>> Changes from v1: no changes in this patch
+>>  arch/arm64/boot/dts/rockchip/rk3399.dtsi | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi =
+b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+>> index 3871c7fd83b0..9cbf6ccdd256 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+>> +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+>> @@ -1619,7 +1619,7 @@ i2s2: i2s@ff8a0000 {
+>>    	vopl: vop@ff8f0000 {
+>>  		compatible =3D "rockchip,rk3399-vop-lit";
+>> -		reg =3D <0x0 0xff8f0000 0x0 0x3efc>;
+>> +		reg =3D <0x0 0xff8f0000 0x0 0x2000>, <0x0 0xff8f2000 0x0 =
+0x400>;
+>>  		interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
+>>  		assigned-clocks =3D <&cru ACLK_VOP1>, <&cru HCLK_VOP1>;
+>>  		assigned-clock-rates =3D <400000000>, <100000000>;
+>> @@ -1676,7 +1676,7 @@ vopl_mmu: iommu@ff8f3f00 {
+>>    	vopb: vop@ff900000 {
+>>  		compatible =3D "rockchip,rk3399-vop-big";
+>> -		reg =3D <0x0 0xff900000 0x0 0x3efc>;
+>> +		reg =3D <0x0 0xff900000 0x0 0x2000>, <0x0 0xff902000 0x0 =
+0x1000>;
+>=20
+> Doesn't the second range still need to be shorter than 0xf00 to avoid =
+overlapping the IOMMU?
+>=20
+> Robin.
 
-[ 4070.573157] i915 0000:00:02.0: [drm:i915_perf_open_ioctl [i915]] filtering on ctx_id=0x1fffff ctx_id_mask=0x1fffff
-[ 4070.574881] general protection fault, probably for non-canonical address 0xdead000000000100: 0000 [#1] PREEMPT SMP
-[ 4070.574897] CPU: 1 PID: 284392 Comm: amd_performance Tainted: G            E     5.17.9 #180
-[ 4070.574903] Hardware name: Intel Corporation NUC7i5BNK/NUC7i5BNB, BIOS BNKBL357.86A.0052.2017.0918.1346 09/18/2017
-[ 4070.574907] RIP: 0010:oa_configure_all_contexts.isra.0+0x222/0x350 [i915]
-[ 4070.574982] Code: 08 e8 32 6e 10 e1 4d 8b 6d 50 b8 ff ff ff ff 49 83 ed 50 f0 41 0f c1 04 24 83 f8 01 0f 84 e3 00 00 00 85 c0 0f 8e fa 00 00 00 <49> 8b 45 50 48 8d 70 b0 49 8d 45 50 48 39 44 24 10 0f 85 34 fe ff
-[ 4070.574990] RSP: 0018:ffffc90002077b78 EFLAGS: 00010202
-[ 4070.574995] RAX: 0000000000000002 RBX: 0000000000000002 RCX: 0000000000000000
-[ 4070.575000] RDX: 0000000000000001 RSI: ffffc90002077b20 RDI: ffff88810ddc7c68
-[ 4070.575004] RBP: 0000000000000001 R08: ffff888103242648 R09: fffffffffffffffc
-[ 4070.575008] R10: ffffffff82c50bc0 R11: 0000000000025c80 R12: ffff888101bf1860
-[ 4070.575012] R13: dead0000000000b0 R14: ffffc90002077c04 R15: ffff88810be5cabc
-[ 4070.575016] FS:  00007f1ed50c0780(0000) GS:ffff88885ec80000(0000) knlGS:0000000000000000
-[ 4070.575021] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 4070.575025] CR2: 00007f1ed5590280 CR3: 000000010ef6f005 CR4: 00000000003706e0
-[ 4070.575029] Call Trace:
-[ 4070.575033]  <TASK>
-[ 4070.575037]  lrc_configure_all_contexts+0x13e/0x150 [i915]
-[ 4070.575103]  gen8_enable_metric_set+0x4d/0x90 [i915]
-[ 4070.575164]  i915_perf_open_ioctl+0xbc0/0x1500 [i915]
-[ 4070.575224]  ? asm_common_interrupt+0x1e/0x40
-[ 4070.575232]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
-[ 4070.575290]  drm_ioctl_kernel+0x85/0x110
-[ 4070.575296]  ? update_load_avg+0x5f/0x5e0
-[ 4070.575302]  drm_ioctl+0x1d3/0x370
-[ 4070.575307]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
-[ 4070.575382]  ? gen8_gt_irq_handler+0x46/0x130 [i915]
-[ 4070.575445]  __x64_sys_ioctl+0x3c4/0x8d0
-[ 4070.575451]  ? __do_softirq+0xaa/0x1d2
-[ 4070.575456]  do_syscall_64+0x35/0x80
-[ 4070.575461]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[ 4070.575467] RIP: 0033:0x7f1ed5c10397
-[ 4070.575471] Code: 3c 1c e8 1c ff ff ff 85 c0 79 87 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a9 da 0d 00 f7 d8 64 89 01 48
-[ 4070.575478] RSP: 002b:00007ffd65c8d7a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[ 4070.575484] RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f1ed5c10397
-[ 4070.575488] RDX: 00007ffd65c8d7c0 RSI: 0000000040106476 RDI: 0000000000000006
-[ 4070.575492] RBP: 00005620972f9c60 R08: 000000000000000a R09: 0000000000000005
-[ 4070.575496] R10: 000000000000000d R11: 0000000000000246 R12: 000000000000000a
-[ 4070.575500] R13: 000000000000000d R14: 0000000000000000 R15: 00007ffd65c8d7c0
-[ 4070.575505]  </TASK>
-[ 4070.575507] Modules linked in: nls_ascii(E) nls_cp437(E) vfat(E) fat(E) i915(E) x86_pkg_temp_thermal(E) intel_powerclamp(E) crct10dif_pclmul(E) crc32_pclmul(E) crc32c_intel(E) aesni_intel(E) crypto_simd(E) intel_gtt(E) cryptd(E) ttm(E) rapl(E) intel_cstate(E) drm_kms_helper(E) cfbfillrect(E) syscopyarea(E) cfbimgblt(E) intel_uncore(E) sysfillrect(E) mei_me(E) sysimgblt(E) i2c_i801(E) fb_sys_fops(E) mei(E) intel_pch_thermal(E) i2c_smbus(E) cfbcopyarea(E) video(E) button(E) efivarfs(E) autofs4(E)
-[ 4070.575549] ---[ end trace 0000000000000000 ]---
+This should be OK, the other registers are in the range =
+ff900000-ff902000, the
+gamma LUT occupies the range ff902000-ff903000, and then the IOMMU =
+registers
+begin at ff903f00. I don't see any overlaps with the IOMMU unless I'm
+misreading the dts.
 
-v2: irqsave not required in a worker, neither conversion to irq safe
-    elsewhere (Tvrtko),
-  - perf: it's safe to call gen8_configure_context() even if context has
-    been closed, no need to check,
-  - drop unrelated cleanup (Andi, Tvrtko)
+>>  		interrupts =3D <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
+>>  		assigned-clocks =3D <&cru ACLK_VOP0>, <&cru HCLK_VOP0>;
+>>  		assigned-clock-rates =3D <400000000>, <100000000>;
 
-Reported-by: Mark Janes <mark.janes@intel.com>
-Closes: https://gitlab.freedesktop.org/drm/intel/issues/6222
-References: a4e7ccdac38e ("drm/i915: Move context management under GEM")
-Fixes: f8246cf4d9a9 ("drm/i915/gem: Drop free_work for GEM contexts")
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: <stable@vger.kernel.org> # v5.12+
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index dabdfe09f5e51..211b36ea8c75f 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1269,6 +1269,10 @@ static void i915_gem_context_release_work(struct work_struct *work)
- 	trace_i915_context_free(ctx);
- 	GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
- 
-+	spin_lock(&ctx->i915->gem.contexts.lock, flags);
-+	list_del(&ctx->link);
-+	spin_unlock(&ctx->i915->gem.contexts.lock, flags);
-+
- 	if (ctx->syncobj)
- 		drm_syncobj_put(ctx->syncobj);
- 
-@@ -1521,10 +1525,6 @@ static void context_close(struct i915_gem_context *ctx)
- 
- 	ctx->file_priv = ERR_PTR(-EBADF);
- 
--	spin_lock(&ctx->i915->gem.contexts.lock);
--	list_del(&ctx->link);
--	spin_unlock(&ctx->i915->gem.contexts.lock);
--
- 	client = ctx->client;
- 	if (client) {
- 		spin_lock(&client->ctx_lock);
--- 
-2.25.1
+br, Hugh.
 
