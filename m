@@ -1,38 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E9A5B9D84
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 16:41:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B1A5B9DF4
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 17:04:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3520810EB53;
-	Thu, 15 Sep 2022 14:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90DD810E1E4;
+	Thu, 15 Sep 2022 15:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out20-14.mail.aliyun.com (out20-14.mail.aliyun.com
- [115.124.20.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F91910EB53
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 14:40:57 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.04749017|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.0185733-0.00351497-0.977912;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047199; MF=wangyugui@e16-tech.com; NM=1;
- PH=DS; RN=3; RT=3; SR=0; TI=SMTPD_---.PGPXYyg_1663252853; 
-Received: from 192.168.2.112(mailfrom:wangyugui@e16-tech.com
- fp:SMTPD_---.PGPXYyg_1663252853) by smtp.aliyun-inc.com;
- Thu, 15 Sep 2022 22:40:54 +0800
-Date: Thu, 15 Sep 2022 22:41:00 +0800
-From: Wang Yugui <wangyugui@e16-tech.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
-In-Reply-To: <0bb98321-dc3d-8bb3-f7b1-eb09c617a1de@suse.de>
-References: <20220914225809.763F.409509F4@e16-tech.com>
- <0bb98321-dc3d-8bb3-f7b1-eb09c617a1de@suse.de>
-Message-Id: <20220915224058.B32A.409509F4@e16-tech.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C835810E1E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 15:03:51 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 75A2F1F8FC;
+ Thu, 15 Sep 2022 15:03:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663254230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=e3mGLuFa2qAO7sDPNfT5Ihf9SE2wyHzFWoDDucUXk7M=;
+ b=Pj6WpeSjf6WVLjHpXhjHesN/Zrre6pV083szdVu3YQU3O1TibMkrWT0r/O5kJrkO59wyp4
+ Z/e/qxyRkgQrZGUn5CzEb6cuRCmttI0xbr/9SqM9mEgHenzjZBvAQlP7qYlzuxFz6Hlx+J
+ Mnyv7TsCdgNSFIArK3XvbkKE2rteO1Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663254230;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=e3mGLuFa2qAO7sDPNfT5Ihf9SE2wyHzFWoDDucUXk7M=;
+ b=UVwZpYOsfwbKYDdXl51qaKN80eD2A56nk9icIWmkizH77jnp+p8j8/7DS6YkAv6HNpNdmX
+ SZKM0qVCpSEjX0Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 503EE133B6;
+ Thu, 15 Sep 2022 15:03:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id EU+bEtY+I2MsCQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Sep 2022 15:03:50 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel@ffwll.ch, jfalempe@redhat.com,
+ wangyugui@e16-tech.com
+Subject: [PATCH] drm/mgag200: Force 32 bpp on the console
+Date: Thu, 15 Sep 2022 17:03:48 +0200
+Message-Id: <20220915150348.31504-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="GB2312"
 Content-Transfer-Encoding: 8bit
-X-Mailer: Becky! ver. 2.75.04 [en]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,65 +62,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+G200ER does not seem to support 24 bpp, so force the console to
+use 32 bpp. The problem was introduced, when commit 73f54d5d9682
+("drm/mgag200: Remove special case for G200SE with <2 MiB") changed
+the preferred color depth from 32 bit to 24 bit.
 
-> Hi
-> 
-> Am 14.09.22 um 16:58 schrieb Wang Yugui:
-> [...]
-> >> 24-bit works on my G200HE and G200 test machines. Maybe the G200ER has a bug.
-> >>
-> >> When I try 16-bit depth, the display works, but is way too dark. No fiddling with the LUT tables fixes this. It's 90s hardware, so it should support 16-bit framebuffers well, but there's no obvious bug to be seen.
-> >>
-> >> I guess, we could remove 16 and 24 bit support for now if nothing else helps.
-> >
-> >
-> > maybe better if we revert 73f54d5d9682 (drm/mgag200: Remove special case
-> > for G200SE with <2 MiB)
-> 
-> Could you please test the attached patch on the 6.0-rc3 kernel? It should force the driver to a correct color format if no kernel parameters are given.
-> 
+A setting of 24 is the correct color depth, but G200ER doesn't seem
+to be able to use the respective RGB888 color format. Using 24-bit
+color with forced 32 bpp works around the problem.
 
-This patch works well.
+Reported-by: Wang Yugui <wangyugui@e16-tech.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Tested-by: Wang Yugui <wangyugui@e16-tech.com>
+Fixes: 73f54d5d9682 ("drm/mgag200: Remove special case for G200SE with <2 MiB")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/mgag200/mgag200_drv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-test case detail:
-  kernel parm video is not given
-  server DELL/T620
-  kernel is 6.0-rc5
-
-Best Regards
-Wang Yugui (wangyugui@e16-tech.com)
-2022/09/15
-
-
-> Best regards
-> Thomas
-> 
-> >
-> > because there is no test result on device G200_SE
-> >
-> > static unsigned int mgag200_preferred_depth(struct mga_device *mdev)
-> > {
-> >         if (IS_G200_SE(mdev) && mdev->vram_fb_available < (2048*1024))
-> >                 return 16;
-> >         else
-> >                 return 32;
-> > }
-> >
-> > Best Regards
-> > Wang Yugui (wangyugui@e16-tech.com)
-> > 2022/09/14
-> > 
-> -- Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N¨¹rnberg, Germany
-> (HRB 36809, AG N¨¹rnberg)
-> Gesch?ftsf¨¹hrer: Ivo Totev
-
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+index 251a1bb648cc..a222bf76804f 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.c
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+@@ -262,7 +262,11 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (ret)
+ 		return ret;
+ 
+-	drm_fbdev_generic_setup(dev, 0);
++	/*
++	 * FIXME: A 24-bit color depth does not work with 24 bpp on
++	 * G200ER. Force 32 bpp.
++	 */
++	drm_fbdev_generic_setup(dev, 32);
+ 
+ 	return 0;
+ }
+-- 
+2.37.3
 
