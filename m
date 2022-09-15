@@ -1,66 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BDE5B9A7C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 14:10:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BEA65B9AAC
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 14:25:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7862210E150;
-	Thu, 15 Sep 2022 12:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5707F10E160;
+	Thu, 15 Sep 2022 12:25:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA0AA10EB05
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 12:10:02 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id lc7so41725710ejb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 05:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date;
- bh=Mm+2DF8Mo7Se/7xi0leL6LbCETFmkcHoyeYmjEsX7WE=;
- b=iNoJjQVdspv7m0yKLXVJrb4efOtJSSHERmTzFyT9xZLDSyp/4LN2GLTzOR6ypDx4uW
- +LhYeJ1I8QptOMuvtaasDCWX+VMjA32+ODdAUfeidPDRBwFVQ0lmmXxa/N9S7I+wTJGG
- S6bV5syj0z6s5VeZYErVjdRq/PYqW2EEcEf0r9RfC4Gc8XcTkew3oSRKNUQw/sYEl76+
- 7F/MFBYcGtRQOwgUW1iDTvl9PhY+yDdGYGG7wvk+OlD9QdE0tmUmEiQEDtvn9WN4UQyT
- xbj5Wsc1oqKpjS9Dp7NQSzWAYebPpbGwb+XA7RhqI/fKDeSwTzgnZS10uUHIYg/Y495F
- WzQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Mm+2DF8Mo7Se/7xi0leL6LbCETFmkcHoyeYmjEsX7WE=;
- b=ZQghS/2Lwqm1YvTNH3iY3BmT4TLEu9kZhucnOgmauokd7WiiNDKmbydsT9lC2fBGR1
- DEkMu5wguyqGqN3swEgIRKSK7myvL45z/ACMY6Qr4/gQj6hGuGooUOOALQ8cjoLwXOb7
- mr++FFFHbsK8hyJP9GZnuc/rTcV1vRGe/0z7d71URjAEXsNruEelXQqrTTAZd2WHbPup
- 98gOBD2cUiPEOHdWl70rHlObN1MEaRBKVKg9G9FLWCb4k4RgeQhthN7xOiL5X8RChZUA
- wLAjo/l2rqeXNc8NAbGkWEZPNzZkTxdfrOgY77RNLvo9mGSzWhZoAolRH/tbNKw/F3oH
- 2ndg==
-X-Gm-Message-State: ACgBeo0qToXd6xfXb+VnyBXJH6RZ8QppXWxRL4OU7EQm42w2+4QP66QZ
- ktmVJ4cXQpAv1sFlcZpM9bo=
-X-Google-Smtp-Source: AA6agR7akluhHbNA/L17G/el95vY0mQC3fDf8p1ne3XD+jaMEkWDy68uAbjZAN6V7dObPS9wUm/IEA==
-X-Received: by 2002:a17:907:7255:b0:77e:f3df:747a with SMTP id
- ds21-20020a170907725500b0077ef3df747amr12036041ejc.519.1663243801255; 
- Thu, 15 Sep 2022 05:10:01 -0700 (PDT)
-Received: from orome (p200300e41f12c800f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f12:c800:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- gu2-20020a170906f28200b00718e4e64b7bsm8912344ejb.79.2022.09.15.05.09.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Sep 2022 05:10:00 -0700 (PDT)
-Date: Thu, 15 Sep 2022 14:09:58 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <cyndis@kapsi.fi>
-Subject: Re: [PATCH 0/3] Host1x context isolation on Tegra234
-Message-ID: <YyMWFtZ5JTwVw3RT@orome>
-References: <20220907083844.2486805-1-cyndis@kapsi.fi>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7BD910E1B1;
+ Thu, 15 Sep 2022 12:25:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663244724; x=1694780724;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=L82vbEkgB+Fh/tCmRQ1IHa+UNcLaoXrntwFbM0PRRx0=;
+ b=Uj6eg9tGbiD6xnvVfoUvd1iBkEuA5CJbShYCJ+/Q5TxzcDG2fcuh1eDb
+ VptYeVWZGKXqv5SkNmsblqzucA61TWmrLlChuUgnMeD7huigtCtzpDP24
+ z/EZ3a8qDh923FHeH4FxgK6nrweZbXo2N7ODWC+vXsuP03V7OUMBVsC+K
+ 6d28+YwcKfzAKRcfiKq38dZD5TJx+aep8qmNhYGR+kmotodRJ+mg/rVO9
+ ZzZnomBs7rfKf7MEg822lX0c+hcsepUGKrUO+/T6/eGF9cdII7FPrU+5J
+ KxuWTh8rZhhRhBeULHLCD8tWbg1Weh1vGy5dhjDvIqXQkfhT7MKYtz3Iy g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="299508674"
+X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; d="scan'208";a="299508674"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 05:25:24 -0700
+X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; d="scan'208";a="792684497"
+Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.146])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 05:25:22 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 0/4] Further multi-gt handling
+In-Reply-To: <20220914220427.3091448-1-matthew.d.roper@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220914220427.3091448-1-matthew.d.roper@intel.com>
+Date: Thu, 15 Sep 2022 15:25:15 +0300
+Message-ID: <87czbwsu38.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qlPgB3ZnVYKZSLq1"
-Content-Disposition: inline
-In-Reply-To: <20220907083844.2486805-1-cyndis@kapsi.fi>
-User-Agent: Mutt/2.2.7 (2022-08-07)
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,72 +55,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- Mikko Perttunen <mperttunen@nvidia.com>, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 14 Sep 2022, Matt Roper <matthew.d.roper@intel.com> wrote:
+> Now that MTL is going to start providing two GTs, there are a few more
+> places in the driver that need to iterate over each GT instead of
+> operating directly on gt0.  Also some more deliberate cleanup is needed,
+> in cases where we fail GT/engine initialization after the first GT has
+> been fully setup.
 
---qlPgB3ZnVYKZSLq1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hijacking the thread a bit, not to be considered a blocker for this
+series:
 
-On Wed, Sep 07, 2022 at 11:38:41AM +0300, Mikko Perttunen wrote:
-> From: Mikko Perttunen <mperttunen@nvidia.com>
->=20
-> Hi all,
->=20
-> this series adds support for Host1x context isolation
-> on Tegra234 (Orin). The difference from previous generations
-> is that there are two IOMMUs to which engines can be attached
-> to, resulting in having to have a set of contexts for each one.
->=20
-> Patches should be applied in order. The first patch is needed
-> so that the kernel doesn't attempt to use a context device
-> attached to the wrong IOMMU when context stream IDs are present
-> in the device tree. The other two patches have a compile time
-> dependency.
->=20
-> Thanks,
-> Mikko
->=20
-> Mikko Perttunen (3):
->   gpu: host1x: Select context device based on attached IOMMU
->   dt-bindings: Add Host1x context stream IDs on Tegra234
->   arm64: tegra: Add context isolation domains on Tegra234
->=20
->  arch/arm64/boot/dts/nvidia/tegra234.dtsi | 19 +++++++++++++++++++
->  drivers/gpu/drm/tegra/uapi.c             |  2 +-
->  drivers/gpu/host1x/context.c             |  5 +++++
->  include/dt-bindings/memory/tegra234-mc.h | 10 ++++++++++
->  include/linux/host1x.h                   |  1 +
->  5 files changed, 36 insertions(+), 1 deletion(-)
+Is there a plan to kzalloc i915->gt[0] too in intel_gt_probe_all() so we
+wouldn't need to have intel_gt gt0 in struct drm_i915_private? And the
+to_gt() inline would return i915->gt[0] instead of &i915->gt0? (And
+maybe i915_drv.h wouldn't need the definition of intel_gt anymore! :o)
 
-All three patches applied.
+BR,
+Jani.
 
-Thanks,
-Thierry
 
---qlPgB3ZnVYKZSLq1
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>
+> Chris Wilson (1):
+>   drm/i915/gt: Cleanup partial engine discovery failures
+>
+> Tvrtko Ursulin (3):
+>   drm/i915: Make GEM resume all engines
+>   drm/i915: Make GEM suspend all GTs
+>   drm/i915: Handle all GTs on driver (un)load paths
+>
+>  drivers/gpu/drm/i915/gem/i915_gem_pm.c    | 33 ++++++++++++++--
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c | 16 ++++++--
+>  drivers/gpu/drm/i915/i915_driver.c        |  3 +-
+>  drivers/gpu/drm/i915/i915_gem.c           | 46 +++++++++++++++++------
+>  4 files changed, 78 insertions(+), 20 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmMjFhYACgkQ3SOs138+
-s6HuFg//Zw+zHuUSSm2nTYZM6Nq/HlNb6b2B3jroN+sSGvNVUhChrpiN/Jl4dJDV
-T9bO7qYmz5iQ3wKbfGoVwqGtOvuvAy40v2qAljSTd8iFLPDmwWWM8cVL4x83V2Hh
-Rg44v6yBJ+lKg8AEoKcLbd00VuwwLyrXl4cKBHyTmR3Mk9Rr4xj5dvAyeb6uwZun
-xC2w3jBzBZeaSZRJSqx57TN8mlULvr8MUaM2agQN2jUQ4EObNdZyW3NfLsjh88HT
-unYtWlJlWbYmsADPx63JCG16KiQ6no9rqNrq4R5TWdZpTo5rDrc1wENKJKdRe5Ua
-ciOmOcI9RRYOCi+13XxDHb4jVttrIfdw7dafCDFv1RjtQ0EzGnBshpe60E6p4Tqx
-/bgzfgkEkM4W730Bf0eDbGGc1xmvS1oWae010GxTMQVyx4U74yAMCjP+VubatlLy
-CItmx+zyANZxUc/4NXfO0m7ItR64L9IBGMRsuvrQbGqx65Yk9MOPYDTNggGCNm9R
-nGi4ipdqv1MsJPavzjTW+DxoFuvb0uq0ldS2HaO9nAM67xSspRf+tKGFuyZcPZZd
-C0BPqB9U8Z5WhQk0xiMXUhOjIlxP96UX3vgca5DGi2thQWaAcvBduKaQG5WryQvg
-2ZTZNGNPTSmU0ciTeXQ007/bMWfRtgD2HxyLDC8bEDmwFnG4j8s=
-=ZApN
------END PGP SIGNATURE-----
-
---qlPgB3ZnVYKZSLq1--
+-- 
+Jani Nikula, Intel Open Source Graphics Center
