@@ -1,74 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136A65B9F8A
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 18:20:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C654C5B9FA7
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 18:32:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D96510EB6A;
-	Thu, 15 Sep 2022 16:20:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E329310EB6F;
+	Thu, 15 Sep 2022 16:32:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A84A910EB66
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 16:20:35 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id e18so27737352edj.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 09:20:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=Kd+JAIxoatS6fqpZjKg+PafGJDvgpv06EAtknvwbZaQ=;
- b=F72x7QYZIhbmFjR0ChiYcfO63EjAeyERPyBY55RLEnhiiokBPHqF50G9KkbcsNROkA
- lYQEegvB+fu3ppSt53cWMXH+tkODzC8u62kgMKqmu0OhOAxg+BrNr6XVxIE2nNV8P4bI
- P71fNfJnKryq4wYh4Geo7Ow9ztj5pRH/lDi5sTHfQPwPziIuSOTSD3LJojcshvV7couK
- 0odQpei6AzHdQZLYwpxEZ0GVfoRsgLFDyI2/l/trh/4lUZu9GYR+H06Xi4BhjZFdWNrE
- 0T1xy5zADQ3cvJbuBqlZ+znEVnuXjTQVQ8GF7rwRIg3WCgCwMoQSAGM/NfpkgmOdxb4d
- EE0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=Kd+JAIxoatS6fqpZjKg+PafGJDvgpv06EAtknvwbZaQ=;
- b=TLM4kIbuL5dEOR5OaRnZVdX80vv5OKHpT6W3PAePzLZUoWuwUbfsp/mNYzGZBqyBUG
- zKcAOhn+aqFqHupC5m0cuMWgWxPJy54xgWP2TGcUN8LI2+Vs5VTMfttu1XJD4gpEePNl
- s95Muhfgxf6+dU/62e2m7+r/M/wFzElBNfb1wrEppr3juz2FCGXpE3pVrhpVRNAUT6bZ
- SRTxlYZx6H3R4Jqdyn8USt98TY9DBTvfVfgndXvCh2uJA9GtaWqGSqRwii6VAVScCy0c
- 254VgNUcnvnH+SOtEyP5PcfFEan9eG7x2NIYqmsoUxGW4SBmbpHYbaSguz036ftu9ERy
- XcCw==
-X-Gm-Message-State: ACrzQf0wDj2gE9iTgY8YI60wg3PpCZuMDssHdmD7JE8/ltUolvlTHkgp
- DB8N41Ah2C0RrFAqOmq2ATY04fgK4WM=
-X-Google-Smtp-Source: AMsMyM63oHtUjcmEQaYXKXqjqIFTLT8HB0HjfWwV868jYlpt/GWlhdq2iBhj+mSI9knUF4WLNHgqkw==
-X-Received: by 2002:aa7:cd8e:0:b0:452:2682:a955 with SMTP id
- x14-20020aa7cd8e000000b004522682a955mr516912edv.379.1663258834101; 
- Thu, 15 Sep 2022 09:20:34 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- e21-20020a170906315500b00772061034dbsm1534324eje.182.2022.09.15.09.20.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 09:20:32 -0700 (PDT)
-Message-ID: <a8e18b62-f49f-7c99-e046-3ee609e11627@gmail.com>
-Date: Thu, 15 Sep 2022 18:20:28 +0200
+Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7051E10EB6F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 16:32:18 +0000 (UTC)
+Received: from mail02.huawei.com (unknown [172.30.67.153])
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MT2L13NPgzlCDV
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 00:12:57 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.102.38])
+ by APP1 (Coremail) with SMTP id cCh0CgDXXDBoTyNjr1llAw--.64579S4;
+ Fri, 16 Sep 2022 00:14:34 +0800 (CST)
+From: Wei Yongjun <weiyongjun@huaweicloud.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/panel: db7430: Silent no spi_device_id warning
+Date: Thu, 15 Sep 2022 16:31:56 +0000
+Message-Id: <20220915163156.2519577-1-weiyongjun@huaweicloud.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 1/5] dt-bindings: arm: mediatek: mmsys: change compatible
- for MT8195
-Content-Language: en-US
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20220914182331.20515-1-jason-jh.lin@mediatek.com>
- <20220914182331.20515-2-jason-jh.lin@mediatek.com>
- <1b739216-8bb1-162b-1af5-24acba7324bf@gmail.com>
- <296155e2a12a474439ba092e73b4bcffbf3d3edc.camel@mediatek.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <296155e2a12a474439ba092e73b4bcffbf3d3edc.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: cCh0CgDXXDBoTyNjr1llAw--.64579S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gw4kCryrtrWrAF17tr4UXFb_yoWDKrg_Cr
+ yYgF17Zr1DGrykWa9Fva1UZrnrtana9rs5Z3W8tasxu3W3uws8taykGrnrXw15WF4UAFn8
+ u3Z7XFy8ur12vjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbrxYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20E
+ Y4v20xvaj40_JFC_Wr1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+ A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x02
+ 67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x
+ 0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02
+ F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4I
+ kC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC
+ 6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+ C2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+ JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr
+ 1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUv
+ cSsGvfC2KfnxnUUI43ZEXa7IU1zuWJUUUUU==
+X-CM-SenderInfo: 5zhl50pqjm3046kxt4xhlfz01xgou0bp/
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,122 +58,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Wei Yongjun <weiyongjun1@huawei.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+From: Wei Yongjun <weiyongjun1@huawei.com>
 
-On 15/09/2022 03:24, Jason-JH Lin wrote:
-> Hi Matthias,
-> 
-> Thanks for the reviews.
-> 
-> On Wed, 2022-09-14 at 23:24 +0200, Matthias Brugger wrote:
->>
->> On 14/09/2022 20:23, Jason-JH.Lin wrote:
->>> For previous MediaTek SoCs, such as MT8173, there are 2 display HW
->>> pipelines binding to 1 mmsys with the same power domain, the same
->>> clock driver and the same mediatek-drm driver.
->>>
->>> For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding
->>> to
->>> 2 different power domains, different clock drivers and different
->>> mediatek-drm drivers.
->>>
->>> Moreover, Hardware pipeline of VDOSYS0 has these components: COLOR,
->>> CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture
->>> Quality)
->>> and they makes VDOSYS0 supports PQ function while they are not
->>> including in VDOSYS1.
->>>
->>> Hardware pipeline of VDOSYS1 has the component ETHDR (HDR related
->>> component). It makes VDOSYS1 supports the HDR function while it's
->>> not
->>> including in VDOSYS0.
->>>
->>> To summarize0:
->>> Only VDOSYS0 can support PQ adjustment.
->>> Only VDOSYS1 can support HDR adjustment.
->>>
->>> Therefore, we need to separate these two different mmsys hardwares
->>> to
->>> 2 different compatibles for MT8195.
->>>
->>> Fixes: 81c5a41d10b9 ("dt-bindings: arm: mediatek: mmsys: add mt8195
->>> SoC binding")
->>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
->>> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
->>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> I'm not sure Krzysztof gave his Acked-by tag.
-> 
-> I'll remove this tag.
->>
->>> ---
->>>    .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml        |
->>> 2 ++
->>>    1 file changed, 2 insertions(+)
->>>
->>> diff --git
->>> a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
->>> l
->>> b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
->>> l
->>> index 6ad023eec193..a53b32c0a608 100644
->>> ---
->>> a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
->>> l
->>> +++
->>> b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
->>> l
->>> @@ -32,6 +32,8 @@ properties:
->>>                  - mediatek,mt8186-mmsys
->>>                  - mediatek,mt8192-mmsys
->>>                  - mediatek,mt8195-mmsys
->>> +              - mediatek,mt8195-vdosys0
->>
->> As I said in the last submission, we should make mediatek,mt8195-
->> mmsys as a
->> fallback of vdosys0. Actually mediatek,mt8195-mmsys is only used for
->> the
->> fallback of vdosys0.
-> 
-> I think adding both vdosys0 and vdosys1 can make the description of
-> this patch clearer.
-> 
-> It's find to me to only add "mediatek,mt8195-vdosys0" in this patch.
-> So I'll remove the "mediatek,mt8195-vdosys1" at the next version.
-> 
+Add spi_device_id entries to silent following SPI warning:
 
-That's not what I wanted to suggest. Up to now in upstream kernel compatible 
-mediatek,mt8195-mmsys enables support fro vdosys0. The vdosys1 is not yet 
-upstream, so no support.
-If we change the compatible, we should keep mediatek,mt8195-mmsys as fallback of 
-"mediatek,mt8195-vdosys0" so that older device tree blobs won't break with a 
-newer kernel.
-For "mediatek,mt8195-vdosys1" we do not need a fallback compatible as the code 
-never reached upstream, so no breakage expected.
+SPI driver db7430-panel has no spi_device_id for samsung,lms397kf04
 
-Hope I explain myself now.
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ drivers/gpu/drm/panel/panel-samsung-db7430.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Regards,
-Matthias
+diff --git a/drivers/gpu/drm/panel/panel-samsung-db7430.c b/drivers/gpu/drm/panel/panel-samsung-db7430.c
+index 04640c5256a8..e8b985e84c63 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-db7430.c
++++ b/drivers/gpu/drm/panel/panel-samsung-db7430.c
+@@ -331,9 +331,16 @@ static const struct of_device_id db7430_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, db7430_match);
+ 
++static const struct spi_device_id db7430_ids[] = {
++	{ "lms397kf04" },
++	{ },
++};
++MODULE_DEVICE_TABLE(spi, db7430_ids);
++
+ static struct spi_driver db7430_driver = {
+ 	.probe		= db7430_probe,
+ 	.remove		= db7430_remove,
++	.id_table	= db7430_ids,
+ 	.driver		= {
+ 		.name	= "db7430-panel",
+ 		.of_match_table = db7430_match,
+-- 
+2.34.1
 
-
-> Regards,
-> Jason-JH.Lin
->>
->> Regards,
->> Matthias
->>
->>> +              - mediatek,mt8195-vdosys1
->>>                  - mediatek,mt8365-mmsys
->>>              - const: syscon
->>>          - items:
->>
->>
