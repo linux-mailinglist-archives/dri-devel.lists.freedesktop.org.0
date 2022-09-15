@@ -2,76 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8867F5BA10C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 20:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2955BA198
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 21:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E0E10E126;
-	Thu, 15 Sep 2022 18:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFEF10E0C5;
+	Thu, 15 Sep 2022 19:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 337 seconds by postgrey-1.36 at gabe;
- Thu, 15 Sep 2022 18:55:50 UTC
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0913010E231
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 18:55:50 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 53F6C582BAC;
- Thu, 15 Sep 2022 14:50:10 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute3.internal (MEProxy); Thu, 15 Sep 2022 14:50:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1663267810; x=1663271410; bh=BBYoQBiYc3
- blvf9HLzeei4DjTG96i2voaCfxbBryfek=; b=MD/SPjkYriKkZPO0IKBMTzNyHD
- 2NkJwDPiDt6d08iDVWgkkKyagHowZE82kgFUjeayHGChz0V4ll79h9IKxWaapbVq
- T53pIacMaGFJrFp/LYMq+DY2t0pva0D9E9E1LfjJRMq0vfCID87Viw1+s9l0TcM0
- HWsR5US9mN3FI7A8Fi8ICIfDDuFdGnr/ig4XFSxQUSDtS9qLlTNi7KLRd+c5YHdL
- 1g3Q9oqE2MU31wFFu4YfVjZr4RuNwBhbTh1L+JuIl/7W/XahSVqECH7cDZRjcoN9
- QnWK4iarBG0VMhsUADqf2ZX/xWOsmCtsj3dhq52mgohPOLqMO9Kb6ts2tFUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1663267810; x=1663271410; bh=BBYoQBiYc3blvf9HLzeei4DjTG96
- i2voaCfxbBryfek=; b=0nV/D6/Qe5dubZEHkhDqr6L+R0jme1Skhm+b8pH0RACL
- vKoVavUPZrmy0Sfkn0XWLe0MGh5oJn/1M6kyINIIW1jG9Lese3SeGsVE1WW7ZzqK
- d0htkhh5tz6a2qU3Qh/6WnrHCpYENa2rv2cPYprP+LKweWkfEkS4+A1II2o3ppdT
- dFI4zaZQahgKfxwXvgbbkjYJIdH1D8EmtY/MCqBucVkF0poGYXzTj41ve96J+hb5
- b5O5TiRRe3Q1/FJddDbjj8lSxsC5DVIxj79YBkUnR+OlKAOvs+bcQUZHwv2C6idT
- tksqyVP97RLSNCOJHRplKpRJOE+hf35gpr9vDhoeqQ==
-X-ME-Sender: <xms:4HMjY3rzgUaF40C3d0WcWQ2u_DVFF2jyhQVAbSQB3dRTWgTihB1KTw>
- <xme:4HMjYxpjgk5fCBjkdi1nKv7Pbwia8ByC7KkJ8zUp5tLQraoh2EVxWyE6uhgtK3gwb
- ax0S8VGtpvNuEqfiWU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedukedgudefvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
- rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
- htthgvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeu
- feehudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:4HMjY0Pm5XHk-g7wSGdxxqd6qiecnTUc-p5rQV5L-Er4Ex1xnR93sA>
- <xmx:4HMjY66oarAjzbfOhtFV36Gwai_hazX6LeLGsaN9sEzTO8u1TGPRpQ>
- <xmx:4HMjY27qoZG8dAaFWwdosyRGFW59SFfGMxMCp088_BgmdJGtCsv96A>
- <xmx:4nMjYx3ywXZCQbn60d0ACPvXtZmQDy2NDHE3yAYv4hWksHtt6JxTLw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 9F9F5B60089; Thu, 15 Sep 2022 14:50:08 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
-Mime-Version: 1.0
-Message-Id: <9b4152e9-34cb-4ed6-b5e3-ef045b40dff2@www.fastmail.com>
-In-Reply-To: <202209160259.7f3Z5krO-lkp@intel.com>
-References: <202209160259.7f3Z5krO-lkp@intel.com>
-Date: Thu, 15 Sep 2022 20:49:48 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>
-Subject: Re: drivers/gpu/drm/omapdrm/dss/dsi.c:1126:1: warning: the frame size
- of 1060 bytes is larger than 1024 bytes
-Content-Type: text/plain
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 476D310E04B;
+ Thu, 15 Sep 2022 19:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663271325; x=1694807325;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=QL/cQvNufKoZPWMFB6LNKH9pSjpf98OHnLRzFNxOrCg=;
+ b=SuHPZoN11RKSmk7hrglDWrFc8jodtsF/kD74jVJVVRyl/B8B3+EU09DN
+ Djz4AcY7jeX/AKLj6lXv8jqSBAYHTsDwslXLJu60IIIuVo6FxBpyNhcnt
+ UAN/MLDp2RKIKXkWxK57ZhDgkan3+5FJY5drFiVTGz/Pf5EdOgwfL28tz
+ 9TurcdlmX4uhBvIHV7oi1k0R/IZA0xYcFPMKVomnbRaoYfVaVTF1WVo8X
+ tEiWEb1DhZ4TpqpHB46nIp4v/DDe6VEbsb52YpWm4ov+qmV6hSOPgf/2V
+ WHqhC1X6oPnt9AVeemS5kcgvTBdRyq+Yw4zBFwt+A9tg2zhgjPAdWA8mM g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="297546042"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="297546042"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 12:48:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="946104148"
+Received: from lkp-server02.sh.intel.com (HELO 41300c7200ea) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 15 Sep 2022 12:48:42 -0700
+Received: from kbuild by 41300c7200ea with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oYuqo-0000vz-0g;
+ Thu, 15 Sep 2022 19:48:42 +0000
+Date: Fri, 16 Sep 2022 03:48:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
+Subject: Re: [PATCH] drm/etnaviv: don't truncate physical page address
+Message-ID: <202209160334.FfC9eCgv-lkp@intel.com>
+References: <20220915141941.3408991-1-l.stach@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220915141941.3408991-1-l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,38 +58,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- linux-omap@vger.kernel.org
+Cc: kbuild-all@lists.01.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 15, 2022, at 8:17 PM, kernel test robot wrote:
-> Hi Arnd,
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
-> master
-> head:   3245cb65fd91cd514801bf91f5a3066d562f0ac4
-> commit: 3d427228f7370894680580fcd0381c0349624fa1 ARM: ixp4xx: enable 
-> multiplatform support
+Hi Lucas,
 
-This did not cause the problem, the bisection just landed on a
-commit that enabled additional configuraitons.
+I love your patch! Perhaps something to improve:
 
->    drivers/gpu/drm/omapdrm/dss/dsi.c: In function 'dsi_dump_dsi_irqs':
->>> drivers/gpu/drm/omapdrm/dss/dsi.c:1126:1: warning: the frame size of 1060 bytes is larger than 1024 bytes [-Wframe-larger-than=]
->     1126 | }
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.0-rc5 next-20220915]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I think hte problem is that struct dsi_irq_stats is just too
-large, at 776 bytes. The interrupts are disabled during a copy
-from 'dsi->irq_stats' into 'stats'. A trivial workaround would
-avoid the local copy and keep interrupts disabled through
-the entire function so it can operate directly on the source
-data, but that would introduce a longer time with irqs disabled,
-which might be bad as well.
+url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Stach/drm-etnaviv-don-t-truncate-physical-page-address/20220915-222156
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+config: arm64-randconfig-r001-20220915 (https://download.01.org/0day-ci/archive/20220916/202209160334.FfC9eCgv-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 791a7ae1ba3efd6bca96338e10ffde557ba83920)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/941356fb766e7f49216d44f0df7614c2e4610a11
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lucas-Stach/drm-etnaviv-don-t-truncate-physical-page-address/20220915-222156
+        git checkout 941356fb766e7f49216d44f0df7614c2e4610a11
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/etnaviv/
 
-Since this is only called from a debugfs file, and reading that
-file is probably not performance critical itself, maybe
-using kmalloc on the large structure would be best.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-       Arnd
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:44: warning: format specifies type 'unsigned int' but the argument has type 'phys_addr_t' (aka 'unsigned long long') [-Wformat]
+                   VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+                                       ~~~~                 ^~
+                                       %08llx
+   drivers/gpu/drm/etnaviv/etnaviv_drv.h:85:52: note: expanded from macro 'VERB'
+   #define VERB(fmt, ...) if (0) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
+                                           ~~~        ^~~~~~~~~~~
+   include/drm/drm_print.h:526:32: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+                                  ~~~    ^~~~~~~~~~~
+   1 warning generated.
+
+
+vim +86 drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+
+50073cf98d1635 Lucas Stach         2017-09-07   71  
+27b67278e007b5 Lucas Stach         2019-07-05   72  static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+a8c21a5451d831 The etnaviv authors 2015-12-03   73  			     struct sg_table *sgt, unsigned len, int prot)
+27b67278e007b5 Lucas Stach         2019-07-05   74  {	struct scatterlist *sg;
+a8c21a5451d831 The etnaviv authors 2015-12-03   75  	unsigned int da = iova;
+182354a526a054 Marek Szyprowski    2020-04-28   76  	unsigned int i;
+a8c21a5451d831 The etnaviv authors 2015-12-03   77  	int ret;
+a8c21a5451d831 The etnaviv authors 2015-12-03   78  
+27b67278e007b5 Lucas Stach         2019-07-05   79  	if (!context || !sgt)
+a8c21a5451d831 The etnaviv authors 2015-12-03   80  		return -EINVAL;
+a8c21a5451d831 The etnaviv authors 2015-12-03   81  
+182354a526a054 Marek Szyprowski    2020-04-28   82  	for_each_sgtable_dma_sg(sgt, sg, i) {
+941356fb766e7f Lucas Stach         2022-09-15   83  		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
+a8c21a5451d831 The etnaviv authors 2015-12-03   84  		size_t bytes = sg_dma_len(sg) + sg->offset;
+a8c21a5451d831 The etnaviv authors 2015-12-03   85  
+a8c21a5451d831 The etnaviv authors 2015-12-03  @86  		VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+a8c21a5451d831 The etnaviv authors 2015-12-03   87  
+27b67278e007b5 Lucas Stach         2019-07-05   88  		ret = etnaviv_context_map(context, da, pa, bytes, prot);
+a8c21a5451d831 The etnaviv authors 2015-12-03   89  		if (ret)
+a8c21a5451d831 The etnaviv authors 2015-12-03   90  			goto fail;
+a8c21a5451d831 The etnaviv authors 2015-12-03   91  
+a8c21a5451d831 The etnaviv authors 2015-12-03   92  		da += bytes;
+a8c21a5451d831 The etnaviv authors 2015-12-03   93  	}
+a8c21a5451d831 The etnaviv authors 2015-12-03   94  
+9247fcca3982a2 Lucas Stach         2022-03-23   95  	context->flush_seq++;
+9247fcca3982a2 Lucas Stach         2022-03-23   96  
+a8c21a5451d831 The etnaviv authors 2015-12-03   97  	return 0;
+a8c21a5451d831 The etnaviv authors 2015-12-03   98  
+a8c21a5451d831 The etnaviv authors 2015-12-03   99  fail:
+182354a526a054 Marek Szyprowski    2020-04-28  100  	etnaviv_context_unmap(context, iova, da - iova);
+a8c21a5451d831 The etnaviv authors 2015-12-03  101  	return ret;
+a8c21a5451d831 The etnaviv authors 2015-12-03  102  }
+a8c21a5451d831 The etnaviv authors 2015-12-03  103  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
