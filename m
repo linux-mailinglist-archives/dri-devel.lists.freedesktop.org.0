@@ -2,50 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C085B9113
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 01:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984AA5B91A8
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 02:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D7510E132;
-	Wed, 14 Sep 2022 23:45:40 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8772310E132;
- Wed, 14 Sep 2022 23:45:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663199133; x=1694735133;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ipAsCdjCCDE/j0yO1hCFTzWn2JAHgrDPHnlIvQDlkMA=;
- b=jr9PY6bL7hEcGMy+ZPjLzfJtbhpgJ5D24qktzxNjtMH7J5oqVd25QSiX
- NTG1r8uuF1mmOsZlfDe5plqjKWBQ5vG2wyVrY9UVPe56zjbQZVj5VIx6A
- f1yhJb79ewp86Yxr6ajx4fZpcG8Y29h/2nU1kf8Rx4J6YMN3ExGyG5xqK
- qRTQAjgjpRPWWDW6ijy2Eo5vh39J/lvO2nRan/OBnqjNJcRk5XM7tEzyS
- IZ3YELgEUiBvkTehotMspFAyQhgWTtYVqysuz+QJ6G5BKYF+r55rcg0J5
- KM0LQ4RJcnlr3fbP4P5qPLmhW5PbjqCAvoqaMY2861NH6d9tADLDpaH6F g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="384859082"
-X-IronPort-AV: E=Sophos;i="5.93,316,1654585200"; d="scan'208";a="384859082"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2022 16:45:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,316,1654585200"; d="scan'208";a="568202658"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.154])
- by orsmga003.jf.intel.com with ESMTP; 14 Sep 2022 16:45:32 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 1/1] drm/i915/uc: Update to latest GuC and use new-format
- GuC/HuC names
-Date: Wed, 14 Sep 2022 16:46:05 -0700
-Message-Id: <20220914234605.622342-2-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8520410E201;
+	Thu, 15 Sep 2022 00:32:46 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CAAF10E201
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 00:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663201961;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hw7ZED2okp8mQvltefC6fsCVEpzJEwtDfN39KXAnS80=;
+ b=d9UCDD/Nz+znBn2PSaOFYDbMlZUkoZOsOf1EO3jd/jJjLIisKyaXirnSd/qOerbmAZOqAw
+ y7xlvFgcRGLqqUaWsXW7S7KAbY4yzy2oe6O87D1qNw9lJChwR8vIRfvNQB2Gci+nqrCIQ7
+ mV1BQFCeXu6sg1+RHHdvob+kzS30kTA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-152-8lCM8FDZP0CVQ2W80gZFVA-1; Wed, 14 Sep 2022 20:32:40 -0400
+X-MC-Unique: 8lCM8FDZP0CVQ2W80gZFVA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ f10-20020a0564021e8a00b00451be6582d5so7936174edf.15
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 17:32:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=hw7ZED2okp8mQvltefC6fsCVEpzJEwtDfN39KXAnS80=;
+ b=r+BEQ6BRiHmiBe57XPot/u9cagYQLxAUYdTv9xIVrH64oferc0UHJ2IgDon/GG+Dti
+ fhgszDV/eh2WqkkMArvy50zzrUllAcuhh6ypmSy1podf9Vf8JFYL7kkNZuiK1iSVMoT5
+ TAVIIu15DYA+nO+krt8/Jngv6DOJSqayNRP1MlF3VjULEuPgjIt+a92jDJt/7LJ4EHge
+ z6y7GDYx5fYOYGPUrBXX1ig2EuREY10XkOuh9UzlGRPHNNDWYVO6MGOmgCcD9oC67qVF
+ TErwmRIMAUXfLK0x2qNPkYSQv5EBfxrN5mrhyzBtdfnHbg9ItrYM/FJ43vnS6JS1oem3
+ 6H2A==
+X-Gm-Message-State: ACgBeo0xyD3mev254BQiuZApUHK22Vrnx/AD4kshBPQUEN3/Qv+T3oTJ
+ nWkmko2WSkgWRB1/uHd0eOrbNr7F6YhCFej2v3XcU7YxYbVOhbDtOQbUktivbLGRGK4u7PQIQsK
+ 5KOJgz6w53Y5KEG1EhMMSByZV+MFa
+X-Received: by 2002:a05:6402:450c:b0:443:6279:774f with SMTP id
+ ez12-20020a056402450c00b004436279774fmr33329982edb.11.1663201956682; 
+ Wed, 14 Sep 2022 17:32:36 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7nHZI5XsD9F+qgRoUEGMlldRyh+VMTm0OqtySWAdIM5cFZPuKz7TCcA7Zl5iHzsZT5OuxwcA==
+X-Received: by 2002:a05:6402:450c:b0:443:6279:774f with SMTP id
+ ez12-20020a056402450c00b004436279774fmr33329970edb.11.1663201956387; 
+ Wed, 14 Sep 2022 17:32:36 -0700 (PDT)
+Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ p6-20020a17090653c600b007724b8e6576sm8304419ejo.32.2022.09.14.17.32.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Sep 2022 17:32:35 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
+ stefan@agner.ch, alison.wang@nxp.com
+Subject: [PATCH drm-misc-next 0/8] drm/fsl-dcu: use drm managed resources
+Date: Thu, 15 Sep 2022 02:32:23 +0200
+Message-Id: <20220915003231.363447-1-dakr@redhat.com>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220914234605.622342-1-John.C.Harrison@Intel.com>
-References: <20220914234605.622342-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,59 +80,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Hi,
 
-Going forwards, the intention is for GuC firmware files to be named
-for their major version only and HuC firmware files to have no version
-number in the name at all. This patch adds those entries for all
-platforms that are officially GuC/HuC enabled.
+This patch series converts the driver to use drm managed resources to prevent
+potential use-after-free issues on driver unbind/rebind and to get rid of the
+usage of deprecated APIs.
 
-Also, update the expected GuC version numbers to the latest firmware
-release for those platforms.
+Danilo Krummrich (8):
+  drm/fsl-dcu: use drmm_* to allocate driver structures
+  drm/fsl-dcu: replace drm->dev_private with drm_to_fsl_dcu_drm_dev()
+  drm/fsl-dcu: crtc: use drmm_crtc_init_with_planes()
+  drm/fsl-dcu: plane: use drm managed resources
+  drm/fsl-dcu: use drm_dev_unplug()
+  drm/fsl-dcu: plane: protect device resources after removal
+  drm/fsl-dcu: crtc: protect device resources after removal
+  drm/fsl-dcu: remove trailing return statements
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.c  | 64 ++++++++++++++++-----
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c   | 43 ++++++--------
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h   |  4 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c   | 19 +++---
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c | 48 ++++++++--------
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c   |  8 +--
+ 6 files changed, 108 insertions(+), 78 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 1169e2a09da24..b91ad4aede1f7 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -72,12 +72,14 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
-  * security fixes, etc. to be enabled.
-  */
- #define INTEL_GUC_FIRMWARE_DEFS(fw_def, guc_maj, guc_mmp) \
--	fw_def(DG2,          0, guc_mmp(dg2,  70, 4, 1)) \
-+	fw_def(DG2,          0, guc_maj(dg2,  70, 5)) \
-+	fw_def(ALDERLAKE_P,  0, guc_maj(adlp, 70, 5)) \
- 	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 70, 1, 1)) \
- 	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 69, 0, 3)) \
-+	fw_def(ALDERLAKE_S,  0, guc_maj(tgl,  70, 5)) \
- 	fw_def(ALDERLAKE_S,  0, guc_mmp(tgl,  70, 1, 1)) \
- 	fw_def(ALDERLAKE_S,  0, guc_mmp(tgl,  69, 0, 3)) \
--	fw_def(DG1,          0, guc_mmp(dg1,  70, 1, 1)) \
-+	fw_def(DG1,          0, guc_maj(dg1,  70, 5)) \
- 	fw_def(ROCKETLAKE,   0, guc_mmp(tgl,  70, 1, 1)) \
- 	fw_def(TIGERLAKE,    0, guc_mmp(tgl,  70, 1, 1)) \
- 	fw_def(JASPERLAKE,   0, guc_mmp(ehl,  70, 1, 1)) \
-@@ -92,9 +94,11 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
- 	fw_def(SKYLAKE,      0, guc_mmp(skl,  70, 1, 1))
- 
- #define INTEL_HUC_FIRMWARE_DEFS(fw_def, huc_raw, huc_mmp) \
-+	fw_def(ALDERLAKE_P,  0, huc_raw(tgl)) \
- 	fw_def(ALDERLAKE_P,  0, huc_mmp(tgl,  7, 9, 3)) \
-+	fw_def(ALDERLAKE_S,  0, huc_raw(tgl)) \
- 	fw_def(ALDERLAKE_S,  0, huc_mmp(tgl,  7, 9, 3)) \
--	fw_def(DG1,          0, huc_mmp(dg1,  7, 9, 3)) \
-+	fw_def(DG1,          0, huc_raw(dg1)) \
- 	fw_def(ROCKETLAKE,   0, huc_mmp(tgl,  7, 9, 3)) \
- 	fw_def(TIGERLAKE,    0, huc_mmp(tgl,  7, 9, 3)) \
- 	fw_def(JASPERLAKE,   0, huc_mmp(ehl,  9, 0, 0)) \
+
+base-commit: 961bcdf956a4645745407a5d919be8757549b062
 -- 
 2.37.3
 
