@@ -1,67 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B265B93E5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 07:19:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 049975B9430
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 08:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 218B410EA68;
-	Thu, 15 Sep 2022 05:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C39A10E290;
+	Thu, 15 Sep 2022 06:16:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1206810EA68
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 05:19:12 +0000 (UTC)
-X-UUID: eaee028f665b40e8ad518f2ce0622054-20220915
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:CC:To:Subject:From:MIME-Version:Date:Message-ID;
- bh=I/eK0cfbxCIDrkJpxpNUKq8DfD7I1QFLOHC7/nfS/3o=; 
- b=dmn+CBxXltA8CLcFtZ+rGyEmzcSV/fz6VPlKGKEU4uGf0I95H5KjWcHIsiK64cmMthWvfM6s6q9T5yKGzV84EVyZMOgTaQfxIBeMSMebcmHdeGXR7iakLsVY0YLnfS/aMGTXOmwnVTcg4v2iMDim1wcYC/8UFKyT/3bLt6Fo0+o=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:60b2e5e1-0c7d-47f8-9011-4f681b75e465, IP:0,
- U
- RL:25,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Release_Ham,ACT
- ION:release,TS:93
-X-CID-INFO: VERSION:1.1.11, REQID:60b2e5e1-0c7d-47f8-9011-4f681b75e465, IP:0,
- URL
- :25,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Spam_GS981B3D,ACT
- ION:quarantine,TS:93
-X-CID-META: VersionHash:39a5ff1, CLOUDID:fc4fb37b-ea28-4199-b57e-003c7d60873a,
- B
- ulkID:220914161747OE9HJACH,BulkQuantity:69,Recheck:0,SF:28|17|19|48,TC:nil
- ,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:40|20,QS:nil,BEC:nil,COL:0
-X-UUID: eaee028f665b40e8ad518f2ce0622054-20220915
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <allen-kh.cheng@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 76293047; Thu, 15 Sep 2022 13:19:05 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 15 Sep 2022 13:19:03 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Thu, 15 Sep 2022 13:19:03 +0800
-Message-ID: <03cb748c-4531-9669-faac-7e975855149d@mediatek.com>
-Date: Thu, 15 Sep 2022 13:19:01 +0800
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E494910E290
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 06:15:58 +0000 (UTC)
+Received: from [192.168.1.138] ([37.4.248.23]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MKc0o-1otYR01EL6-00Kxco; Thu, 15 Sep 2022 08:15:50 +0200
+Message-ID: <5b64f4ef-a62e-80df-80a6-3ab52589588b@i2se.com>
+Date: Thu, 15 Sep 2022 08:15:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-From: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-Subject: Re: [PATCH] drm: mediatek: Fix display vblank timeout when disable dsi
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <1663136309-29491-1-git-send-email-xinlei.lee@mediatek.com>
- <0723c329-475c-42a1-f6d5-f478d649aef1@collabora.com>
- <64bf6d7b-5a28-9b7d-fc3e-4c3c8eaa7d25@mediatek.com>
- <3dd03eea-84cf-73bc-0bd4-3450c44ac8ba@collabora.com>
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 2/7] clk: bcm: rpi: Add a function to retrieve the
+ maximum
 Content-Language: en-US
-In-Reply-To: <3dd03eea-84cf-73bc-0bd4-3450c44ac8ba@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Stephen Boyd <sboyd@kernel.org>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
+ Florian Fainelli <f.fainelli@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>
+References: <20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech>
+ <20220815-rpi-fix-4k-60-v1-2-c52bd642f7c6@cerno.tech>
+ <20220914155035.88E45C433C1@smtp.kernel.org>
+ <50e8f1e8-806a-3599-7cbe-0c7d4bec1c51@i2se.com>
+ <20220914180508.0EDD9C433D6@smtp.kernel.org>
+ <c221873f-f230-0cce-e120-7e3cc732cf00@i2se.com>
+ <20220914182101.92286C433D6@smtp.kernel.org>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20220914182101.92286C433D6@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:73zk18NJSgeRmQb2Le65uElTFxV3rTYUitHoBJvve+UbuXV4Lq/
+ 85iX824f09JsP5yFcmk4/RIlNWFowhB/BncseVNTc6qrcF8txSpdtPq8u5IZ7sCxMfBxpN6
+ z0dLdnnRVvhA/8kB41r59RcxfVXw6/fGOAbNnGJw/IZ/o+uELNlnhR6DZZgaOu/RLBvfDUW
+ 8AOLcw+RuwLR7iUjhmH9g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WMDYiwxPIpk=:xpy+5yMq1PfEjq9b17sO70
+ q7hFz/LlwEwfONudWfiLk/MW8KhokFIf+78te2ULq+n3phlE6U5SHyACBF2ABwWNd8ZAQ2Yx+
+ cK8QxpBeYM65D0bSJvAtibGdbWB1vQMEsbDcOo/YRRMOLibpdUaWJOv4FoZ3DuEag1C2TnJtQ
+ d8bVQRCor/lCyISpxl/+GKDdVUeGdSOig6YKkZ5QDq+5pbqP1c5uWXKM3vjhjU9Fbec0WKXib
+ gK4kJi/avNqHK/Mvd+vTZ+Lm/lLykciLtydrkKoUeF+/Ap37BSB1e7Be9+unCpbXtVNJTAVx+
+ JBdcpCJ8yB3d401FJpYKRBva4gKlTAr+KNSq59+rgvigiUHKWvpmdGyxPqfkSGQmJhIFhgsam
+ SNV9gYv2kySJkBk89jeN41NB6Zw8VYuUc3WrRLJHuXyTARFK5RyhA6ZjzlvoeALAEIas7AQiu
+ tKVJEjyVbdHjhu4RJ14tkyhuOLDJ/oKngCV0U2QnDSnOi4hnJmKnePBF2MBifGlXfJcR2HPXG
+ Q7tY41DwYj0OLlrLp5CvnokoM0yP1Tvyp9vL6rfGb8Iwul/K7efzKMEg0auMAXWrJxeXoIVeq
+ ngJBi5FG5ZZ3Lrp0CtQ5h5yUc9QH0StRMiPYA35jiBhqZap/wjfd/drzl+VuDoD5IUsx6d6Li
+ zOBzj5zbya2mJdjpxHg4RV+S9rdoadp7w3WZFuocPeVfWUXDg5Cyb1zSJblhH1V+nk3KVTAo2
+ 8/e1GxDdwZLxHT7BMuV4FrF6AuJKFU2JoH6DWP4GVWGRxVRYQR8RdY2zNeFA/a34Scn58gY8M
+ +vS0GCVJETNnb4HXnOK3fpeQF8ANg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,46 +71,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?WGlubGVpIExlZSAo5p2O5piV56OKKQ==?= <Xinlei.Lee@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- =?UTF-8?B?QWxsZW4tS0ggQ2hlbmcgKOeoi+WGoOWLsyk=?= <Allen-KH.Cheng@mediatek.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi maintainer,
+Hi Stephen,
 
-Patch v2 has been sent to [1].
+Am 14.09.22 um 20:20 schrieb Stephen Boyd:
+> Quoting Stefan Wahren (2022-09-14 11:09:04)
+>> Am 14.09.22 um 20:05 schrieb Stephen Boyd:
+>>> Quoting Stefan Wahren (2022-09-14 10:45:48)
+>>>> Am 14.09.22 um 17:50 schrieb Stephen Boyd:
+>>>>> Furthermore, I wonder if even that part needs to be implemented.  Why
+>>>>> not make a direct call to rpi_firmware_property() and get the max rate?
+>>>>> All of that can live in the drm driver. Making it a generic API that
+>>>>> takes a 'struct clk' means that it looks like any clk can be passed,
+>>>>> when that isn't true. It would be better to restrict it to the one use
+>>>>> case so that the scope of the problem doesn't grow. I understand that it
+>>>>> duplicates a few lines of code, but that looks like a fair tradeoff vs.
+>>>>> exposing an API that can be used for other clks in the future.
+>>>> it would be nice to keep all the Rpi specific stuff out of the DRM
+>>>> driver, since there more users of it.
+>>> Instead of 'all' did you mean 'any'?
+>> yes
+> Another idea is to populate an OPP table in the rpi firmware driver for
+> this platform device with the adjusted max frequency. That would be an
+> SoC/firmware agnostic interface that expresses the constraints.
+Do you mean in the source code of this driver or in the DT?
+> I'm
+> almost certain we talked about this before.
+I'm not sure about the context. Do you mean the CPU frequency handling? 
+I remember it was a hard decision. In the end it was little benefit but 
+a lot of disadvantages (hard to maintain all theses OPP tables for all 
+Raspberry Pi boards, doesn't work with already deployed DT). So yes, i'm 
+part of the problem i mentioned before ;-)
 
-[1]
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220914140031.18578-1-allen-kh.cheng@mediatek.com/
-
-I'm sorry I didn't reply to all the email lists in the initial reply.
-
-Below is the most recent information.
-
-Thanks,
-Allen
-
-On 9/14/22 21:34, AngeloGioacchino Del Regno wrote:
-> Il 14/09/22 15:30, Allen-KH Cheng ha scritto:
->> Hi Angelo,
->>
->> It's mt8186 corsola board. When this problem arises in system
->> susepend/resume, we have your fix[1] in our dsi driver.
->>
->> Because there is a conflict in mediatek-drm-fixes,
->> kernel/git/chunkuang.hu/linux.git.
->>
->> I'll assist Xinlei with another resend.
->>
->
-> Ok, thanks for confirming!
->
-> Cheers,
-> Angelo
->
