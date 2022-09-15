@@ -1,86 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADE75B99BD
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 13:38:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF3A5B9A14
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 13:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0127410E1AC;
-	Thu, 15 Sep 2022 11:38:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD30710EAF3;
+	Thu, 15 Sep 2022 11:51:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8040E10E1AC
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 11:38:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id C53BC320093A;
- Thu, 15 Sep 2022 07:38:03 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 15 Sep 2022 07:38:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1663241883; x=1663328283; bh=8vGl18zUEz
- /iIgj+M69ANQDlvR4SWi2QgpZ/g//S4YU=; b=ITqNmb5WtI6yg1dqxM3kcqS0YA
- /T7Vs+LjCviej2KhTws2y6EFNvCWBsM/UAZRboUh63Jj9xq/vBy26zu/dwWhHz63
- k99DG7HGYjSFY2UBVphgOAYTsLrt1fZLcJYgzkekKJ3nom4I2frCVsr32wzobtRQ
- 441QXRkyaCx2kogarxH7vW9foqDEm20Dir33qujn2DnOyygicNqQsLjhna/yJiwV
- U54s/lyKEuUysIpXC0m5CLBq3GSX1I+D/VlV39EzelZWJS2jYSIn3MpJtOs+F6rr
- AthqPrXrbW48pcIqy9wsUNybuNjTio4MQOe5nTbZV/Mj3HO/wKn7y/Zodh8A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1663241883; x=1663328283; bh=8vGl18zUEz/iIgj+M69ANQDlvR4S
- Wi2QgpZ/g//S4YU=; b=OxZDnry1n6jlK5gZmTYmCYmLKCOIuiBn3PxuQyx22ZJr
- HqTLRCK6V6qnR2Y8qF7rx8bcM/pQE/4YNIPKwcdkP+ZogxCtvDVs8Aj5PjX5id1g
- r84IFh3AQi4NP7DogMobQzZKExhs6Q2QRUVyVsgOf6y8ldf3c7b7XcfHQo9PmaL/
- KVL6NEHlEWmksAHrThcAEd2PKjGnX4w9auQPnimJ+6JjfrNYGT7ML3D1nm8NjGBj
- V9lc5x6aiWiZpXq/EzInIiOUauReHVt5AYa9FYKg7nwlgti3RiMM9+OX3CoTbntG
- 9HW7eHY3EX+MaD/REkl0dA1AW0dGrKJu6RV/Jg06Iw==
-X-ME-Sender: <xms:mg4jY8GLIKkPXBbt717vBai-y2TJ64hDKv1zx4_jjhhzoUUUzNxnLg>
- <xme:mg4jY1UDTbxoGT4SruTcMl17rkftnNJPCymibiPRCm9b_QlFLz8ku7JOyYiW93pLv
- 9RIUVeCMaUjUjWUa4w>
-X-ME-Received: <xmr:mg4jY2IhhR1Tayl8xZz32ZeTzIEKp8gyY9AR8QsEIWjWaM1jxt6MAHgaEnQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedukedggeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
- geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:mg4jY-Gu6DTkXzqpDDElETSN02LYKKV-PqbPaxgdJa70qmjAAVeGUQ>
- <xmx:mg4jYyVg4CU92QNzyKzS3h0MrRUIHiu1oqogOYCbmncukvQHZKxotw>
- <xmx:mg4jYxPK7O9ryE5_AvLvT-9AbFP9PkWDPFj2ri1sylvxFid8AhK_CQ>
- <xmx:mw4jYzux676vScOaTbyNTEtqYHyZ-hNcg6cjInQXmgUGY8YnbdSNow>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Sep 2022 07:38:02 -0400 (EDT)
-Date: Thu, 15 Sep 2022 12:38:01 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: [PATCH v1 2/7] clk: bcm: rpi: Add a function to retrieve the
- maximum
-Message-ID: <20220915113801.hexlaer3sp725co5@penduick>
-References: <20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech>
- <20220815-rpi-fix-4k-60-v1-2-c52bd642f7c6@cerno.tech>
- <20220914155035.88E45C433C1@smtp.kernel.org>
- <50e8f1e8-806a-3599-7cbe-0c7d4bec1c51@i2se.com>
- <20220914180508.0EDD9C433D6@smtp.kernel.org>
- <c221873f-f230-0cce-e120-7e3cc732cf00@i2se.com>
- <20220914181458.C6FCCC433C1@smtp.kernel.org>
- <ecfe17be-5d81-3456-9a86-77acc848f95f@i2se.com>
- <20220915075459.d2snlbwkingwnbh3@penduick>
- <ebb86dfa-2f89-dddc-0864-42fc4d2e9386@i2se.com>
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96D910EAF6
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 11:50:59 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id a2so5935783lfb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 04:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=GYjBx+TTNXbw/WLp0Jvwj4Wv4yudD0lYMrMqLkpgpnU=;
+ b=ebuQ4Xn1kBkl71fNdOvZVtbmfRD6z7c/EZwdTE5og57SWW4/19PtfEA5x58qmlgg3g
+ m2HHetX2w6A0M1DXHxWyw8X/RNQpBuoppDDi34RCMccCKsMhJWPEgZ99kK0M4Y3lmx67
+ v4ADObrCVBCzYC0fYEbzxH/OeQSfFSHO+jrM94PhsaGc7LM0ZJmfRyIo1QnnNPP7uCYO
+ rMk0viXY6wb1+Ift33OggbOB0jZRTv5WYA/Hykbv+ZTEP+of8w3tPhwdqJVpu68eWBxH
+ HE4DwLkbQjBzU/Czx7QUJyddvgyHQVN3/gLJxbzFj5WbZy3ufVvi/EjAiZ37L0vnCEkM
+ 7IXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=GYjBx+TTNXbw/WLp0Jvwj4Wv4yudD0lYMrMqLkpgpnU=;
+ b=WdH7tcD8jzr5neVtq668Uvj/SMndhkW6PsIZ0LOGQdM6ibIXLJzQOsHUQ2yDYKutjL
+ XmoN0YgmczPYZyfW1BDXiNRlM/G5xPtMxMTCubz4xwPVJ/Az6pLkI3NkcBlIDfTMjQvk
+ t82InZoJCrAXMQaps+6E8hjDsei3T4q1eEmi7Wlc1tvpy5Hiuj0jbp3fr+3wtPzzQEsZ
+ MzkB87g4poj4bEv78mOklTYxLgKyNBdoxELmmrX9eResFFUIWLwrunEN8w34UQd0rllm
+ uYyCC4CFKFB6u6KWjixsl1LGwWKlCYuh0hlRSBDN4+XYxYCpU6Ug0vts8o9pgaYVoSzV
+ amOQ==
+X-Gm-Message-State: ACgBeo1z/Q05huHtB1qfEAQ7RwSsSMWeiAw0pAuKOxRl8649tWPvwfec
+ DjYNiO7qO7mCLg+YTUGmVE1kwQ==
+X-Google-Smtp-Source: AA6agR6Iecb7F3OilQtwzLiSgm2kPoDjO5aeY1iSCleldjSxJuz5CzAhEa2YTlvqJOchX48KbZcQHg==
+X-Received: by 2002:a05:6512:2521:b0:497:a6e4:4e1 with SMTP id
+ be33-20020a056512252100b00497a6e404e1mr13672895lfb.320.1663242658090; 
+ Thu, 15 Sep 2022 04:50:58 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a197512000000b00494a11c5f52sm2935386lfe.256.2022.09.15.04.50.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Sep 2022 04:50:57 -0700 (PDT)
+Message-ID: <dafc0231-c578-07f1-1f4b-1cf819fa349a@linaro.org>
+Date: Thu, 15 Sep 2022 14:50:56 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xs5treb6qglpqv3x"
-Content-Disposition: inline
-In-Reply-To: <ebb86dfa-2f89-dddc-0864-42fc4d2e9386@i2se.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v6 01/12] dt-bindings: display/msm: split qcom,mdss
+ bindings
+Content-Language: en-GB
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
+ <20220901102312.2005553-2-dmitry.baryshkov@linaro.org>
+ <3e525135-d205-eddc-ff2d-98c8321386e3@linaro.org>
+ <20220908193705.GA3002673-robh@kernel.org>
+ <1ebe64a3-fab9-1dd7-517a-01001a176d9f@linaro.org>
+ <CAL_JsqLkV_fnUnc4cS=cdTvP3rKYAS011_+KZYiBGhXDx-pHnA@mail.gmail.com>
+ <2204eab4-b22d-8ee7-4595-49139cb387a8@linaro.org>
+ <CAA8EJpqHL-gO=zSG6Ek=-y4njGF5R66z0MwLeKZ9U4Ag1j51Og@mail.gmail.com>
+ <e7a132e7-a819-ebe2-e6e5-c01cbfacef15@linaro.org>
+ <CAA8EJpoPPRAQPfVQmSfrrDrroMp0bzvJ=-vHMRx72aKTBgPOTA@mail.gmail.com>
+ <f013accb-96f7-a025-1d41-e2e97f8b2aa8@linaro.org>
+ <CAA8EJprnrKP9Ze__KTTNGDs8sj3QhqpiHnnhf1=ipq+CFCoXsQ@mail.gmail.com>
+ <272413e3-73d4-8e0d-7b5d-93007e419f76@linaro.org>
+ <6e3bca5a-8b01-af12-ae69-b0044a8790f6@linaro.org>
+ <2b4ab827-28aa-5e3f-951a-0bf43d1eb7b9@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <2b4ab827-28aa-5e3f-951a-0bf43d1eb7b9@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,115 +89,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Florian Fainelli <f.fainelli@gmail.com>,
- Scott Branden <sbranden@broadcom.com>, Emma Anholt <emma@anholt.net>,
- Stephen Boyd <sboyd@kernel.org>, Ray Jui <rjui@broadcom.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Loic Poulain <loic.poulain@linaro.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/09/2022 22:19, Krzysztof Kozlowski wrote:
+> On 11/09/2022 20:36, Krzysztof Kozlowski wrote:
+> 
+>>> If your child schema fails, the referencing schema fails as well...
+>>
+>>
+>> Although now with DSI-PHY I cannot reproduce it and I am pretty sure I
+>> reproduced it with DPU controllers after modifying the DTS to lack a
+>> property... Hmmm
+> 
+> https://github.com/devicetree-org/dt-schema/pull/82
 
---xs5treb6qglpqv3x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the quick fix!
 
-Hi Stefan,
+However I think I'd still stick to the compatible binding for two reasons:
+  - It doesn't evaluate schema twice for these nodes
+  - It allows us to tightly link child nodes with the parent compatible, 
+which I think, was one of the points raised several revisions ago.
 
-On Thu, Sep 15, 2022 at 01:30:02PM +0200, Stefan Wahren wrote:
-> Am 15.09.22 um 09:54 schrieb Maxime Ripard:
-> > On Wed, Sep 14, 2022 at 08:26:55PM +0200, Stefan Wahren wrote:
-> > > Am 14.09.22 um 20:14 schrieb Stephen Boyd:
-> > > > Quoting Stefan Wahren (2022-09-14 11:09:04)
-> > > > > Am 14.09.22 um 20:05 schrieb Stephen Boyd:
-> > > > > > Quoting Stefan Wahren (2022-09-14 10:45:48)
-> > > > > > > Am 14.09.22 um 17:50 schrieb Stephen Boyd:
-> > > > > > > > Furthermore, I wonder if even that part needs to be impleme=
-nted.  Why
-> > > > > > > > not make a direct call to rpi_firmware_property() and get t=
-he max rate?
-> > > > > > > > All of that can live in the drm driver. Making it a generic=
- API that
-> > > > > > > > takes a 'struct clk' means that it looks like any clk can b=
-e passed,
-> > > > > > > > when that isn't true. It would be better to restrict it to =
-the one use
-> > > > > > > > case so that the scope of the problem doesn't grow. I under=
-stand that it
-> > > > > > > > duplicates a few lines of code, but that looks like a fair =
-tradeoff vs.
-> > > > > > > > exposing an API that can be used for other clks in the futu=
-re.
-> > > > > > > it would be nice to keep all the Rpi specific stuff out of th=
-e DRM
-> > > > > > > driver, since there more users of it.
-> > > > > > Instead of 'all' did you mean 'any'?
-> > > > > yes
-> > > > Why?
-> > > This firmware is written specific for the Raspberry Pi and not stable=
- from
-> > > interface point of view. So i'm afraid that the DRM driver is only us=
-able
-> > > for the Raspberry Pi at the end with all these board specific depende=
-ncies.
-> > I'm open for suggestions there, but is there any other bcm2711 device
-> > that we support upstream?
->
-> I meant the driver as a whole. According to the vc4 binding there are thr=
-ee
-> compatibles bcm2835-vc4, cygnus-vc4 and bcm2711-vc5. Unfortunately i don't
-> have access to any of these Cygnus boards, so i cannot do any regression
-> tests or provide more information to your question.
+-- 
+With best wishes
+Dmitry
 
-I don't have access to these boards either, and none of them are
-upstream, so I'm not sure what we can do to improve their support by then.
-
-> > If not, I'm not sure what the big deal is at this point. Chances are the
-> > DRM driver won't work as is on a different board.
-> >=20
-> > Plus, such a board wouldn't be using config.txt at all, so this whole
-> > dance to find what was enabled or not wouldn't be used at all.
->
-> My concern is that we reach some point that we need to say this kernel
-> version requires this firmware version. In the Raspberry Pi OS world this=
- is
-> not a problem, but not all distributions has this specific knowledge.
-
-The recent mess with the Intel GPU firmware
-(https://lore.kernel.org/dri-devel/CAPM=3D9txdca1VnRpp-oNLXpBc2UWq3=3Dceeim=
-5+Gw4N9tAriRY6A@mail.gmail.com/)
-makes it fairly clear that such a situation should be considered a
-regression and fixed. So it might be a situation that the downstream
-tree will end up in, but it's not something we will allow to happen
-upstream.
-
-> > > Emma invested a lot of time to make this open source and now it looks=
- that
-> > > like that more and more functionality moves back to firmware.
-> > What functionality has been moved back to firmware?
->
-> This wasn't a offense against your great work. Just a slight warning that
-> some functions of clock or power management moved back into firmware. We
-> should watch out, but maybe i emote here.
-
-Yeah, I guess we'll want to consider it on a case per case basis but
-it's not like we merged fkms either :)
-
-Maxime
-
---xs5treb6qglpqv3x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABMIAB0WIQTXEe0+DlZaRlgM8LOIQ8rmN6G3ywUCYyMOmQAKCRCIQ8rmN6G3
-yzvJAPwKk8+UrDedXR/g/u2ZIO5AIjut1nI9dgfrrrWkK0RQlgEArw3quF8AQM7i
-9sixZ2c+3u47BA4XoYYV+m3tgqLRKPk=
-=3a4F
------END PGP SIGNATURE-----
-
---xs5treb6qglpqv3x--
