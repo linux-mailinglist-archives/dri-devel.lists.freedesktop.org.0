@@ -1,58 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC3D5BA228
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 23:03:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 862AB5BA23B
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 23:13:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D85510E2B6;
-	Thu, 15 Sep 2022 21:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D67F010E2CB;
+	Thu, 15 Sep 2022 21:12:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DC5810EBE8;
- Thu, 15 Sep 2022 21:03:25 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id y3so44968589ejc.1;
- Thu, 15 Sep 2022 14:03:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=77A34pTomv3N+R3ainVC963jCf2d+yap4Tk/aBJ4xTk=;
- b=cwdJgZoq8ml4m7F9ATyjSvJ132/b9ZkkE7+2m95CXwZv6GYudF0G9gHK1mBXhti6/I
- lgBt4aJZ0jqxXxwqIrBLcrBde5pz+naB71JvDswPxRTA/p3uYX22jN6QOXUc3unI8Kro
- ueYgPVSpd1bW2HdEkH3FGzr3Cw7IHrCW7YgveizrF9jkP6741tiUEs5DRB0ZNxbg3TXt
- KFuuJusrAFFmOo20GUGIj3ZfGURdZsqICnj3TVi/Mq5iT0LXNLkyhzQH+1l6deayBDMV
- gjzgiez8XxoAZKgLGO5hQFwmKGTd8IlUd4+HYU8VQb9U7Y7b7lpaPSUfBV7ZSIdkRRGu
- 31hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=77A34pTomv3N+R3ainVC963jCf2d+yap4Tk/aBJ4xTk=;
- b=LUZ2UryasJTU5vRqSYonNqWVzEK3gtnu6dE1ma7TDasG8fVPuzASjW6dxk25xjTC+4
- SrDoRjB9ZCsXa3ro+97o22kZiR8KsK42LxyPPN1xpiaVg1JXMoWlz1TBppYxd2GyYt+v
- EycgPF3PpoV4/vFn/2kMGQVBZPBxeKb+Dg3A6Y8Lpcpvb9qewa5CSn2sg9AlmD62Lq/k
- 5NlYdR7WHw7AE1EAO0jqOMrjfsTHzMF76IRUPiRMDnFiBRaPYEOKKPEzzm3YWbEUpcnq
- nhBIutITGzMynZXcSDMSEqCz7yTDQZj4E60vli42OYdYTkdcBlqD8foR5459NHUY1R0J
- I94g==
-X-Gm-Message-State: ACrzQf1XsCxiixIt5H9XoW7SwhAPugDaIcTDTSFRwqwDX0gWAoVtmRVE
- 5yMfyxM+HuJ4ndTUn8DlW63S4GXQ4COZKhTs9alFzsLYfbs=
-X-Google-Smtp-Source: AMsMyM4iXHwAM8Fq7UErqr9WXoXyBH6IkYmbfrgGd5tKYM9Wp4o1B9Ws5QoDYbOr0ZJJpJ1flwUg3l/FIemyBywjqto=
-X-Received: by 2002:a17:906:65c6:b0:73c:8897:65b0 with SMTP id
- z6-20020a17090665c600b0073c889765b0mr1272662ejn.322.1663275803384; Thu, 15
- Sep 2022 14:03:23 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D608710E2CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 21:12:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663276369; x=1694812369;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Kvh2AgwaqrMB4C+nQ1e/wLqAn9QuX+E5zGP034cyICY=;
+ b=i9hHR3KQjCB0/GU0zgH44DCcg6XvUA4zTnJv2d94wnagVWdKyKSDzm0K
+ 5hXKH6A+2ee8oLMQEaJ1lIeRxrtEFd77NrV2YbtWwCtJUK3LSZWWYrEGs
+ o2Uk21OFrqEXURs2AP41BIaBJZKC81wkcZ42rHrLo6VuiXN16ZN4cLLsy
+ xJSUcwjvC+V8hEmChj2omOgt85LPf3qJTE7srLOk9sO/iYxp2kcJi4fmx
+ /xzt97NBuToKeIVc0ZlhgfutuEwtfIgCQMUjAgHhG2fRVYq8kse44oTTH
+ NGPqenblBkc4QXBYXuAqyxEikG64xISyKpR+a8auePhsyoQdkQQZRasC6 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="300200439"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="300200439"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 14:12:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="706515815"
+Received: from lkp-server02.sh.intel.com (HELO 41300c7200ea) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 15 Sep 2022 14:12:46 -0700
+Received: from kbuild by 41300c7200ea with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oYwA9-000115-1c;
+ Thu, 15 Sep 2022 21:12:45 +0000
+Date: Fri, 16 Sep 2022 05:11:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 6ce5d01e7011b32600656bf90a626b1e51fb192a
+Message-ID: <63239512.gzJmoh0vIZ1pxX6C%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20220915-stolen-v1-0-117c5f295bb2@intel.com>
- <20220915-stolen-v1-2-117c5f295bb2@intel.com>
-In-Reply-To: <20220915-stolen-v1-2-117c5f295bb2@intel.com>
-From: Caz Yokoyama <cazyokoyama@gmail.com>
-Date: Thu, 15 Sep 2022 14:03:21 -0700
-Message-ID: <CABhNg0jsonUT=o2v5suVw-voR6AcKUH=DafyXKdxaqo9G3eXpg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v1 2/4] drm/i915: Add missing mask when
- reading GEN12_DSMBASE
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Content-Type: multipart/alternative; boundary="0000000000006c9f0f05e8bd9323"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,148 +58,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, tejas.upadhyay@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: linux-hwmon@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000006c9f0f05e8bd9323
-Content-Type: text/plain; charset="UTF-8"
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 6ce5d01e7011b32600656bf90a626b1e51fb192a  Add linux-next specific files for 20220915
 
-Reviewed-by:  Caz Yokoyama <caz@caztech.com>
-Better to be safe.
+Error/Warning reports:
 
+https://lore.kernel.org/linux-mm/202209150141.WgbAKqmX-lkp@intel.com
+https://lore.kernel.org/linux-mm/202209150959.hEWCNjXH-lkp@intel.com
+https://lore.kernel.org/llvm/202209141913.Nxzv3hwM-lkp@intel.com
 
-On Thu, Sep 15, 2022 at 1:40 PM Lucas De Marchi <lucas.demarchi@intel.com>
-wrote:
+Error/Warning: (recently discovered and may have been fixed)
 
-> DSMBASE register is defined so BDSM bitfield contains the bits 63 to 20
-> of the base address of stolen. For the supported platforms bits 0-19 are
-> zero but that may not be true in future. Add the missing mask.
->
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index 42f4769bb4ac..c34065fe2ecc 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -814,7 +814,7 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private
-> *i915, u16 type,
->                 return ERR_PTR(-ENXIO);
->
->         /* Use DSM base address instead for stolen memory */
-> -       dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE);
-> +       dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE) &
-> GEN12_BDSM_MASK;
->         if (IS_DG1(uncore->i915)) {
->                 lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
->                 if (WARN_ON(lmem_size < dsm_base))
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h
-> b/drivers/gpu/drm/i915/i915_reg.h
-> index 1a9bd829fc7e..0301874c76ba 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -7953,6 +7953,7 @@ enum skl_power_gate {
->
->  #define GEN12_GSMBASE                  _MMIO(0x108100)
->  #define GEN12_DSMBASE                  _MMIO(0x1080C0)
-> +#define   GEN12_BDSM_MASK              GENMASK(63, 20)
->
->  #define XEHP_CLOCK_GATE_DIS            _MMIO(0x101014)
->  #define   SGSI_SIDECLK_DIS             REG_BIT(17)
->
-> --
-> b4 0.10.0-dev-bbe61
->
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
+ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/clk/xilinx/clk-xlnx-clock-wizard.ko] undefined!
+ERROR: modpost: "ioremap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+arch/parisc/lib/iomap.c:363:5: warning: no previous prototype for 'ioread64_lo_hi' [-Wmissing-prototypes]
+arch/parisc/lib/iomap.c:373:5: warning: no previous prototype for 'ioread64_hi_lo' [-Wmissing-prototypes]
+arch/parisc/lib/iomap.c:448:6: warning: no previous prototype for 'iowrite64_lo_hi' [-Wmissing-prototypes]
+arch/parisc/lib/iomap.c:454:6: warning: no previous prototype for 'iowrite64_hi_lo' [-Wmissing-prototypes]
+drivers/gpu/drm/drm_atomic_helper.c:802: warning: expecting prototype for drm_atomic_helper_check_wb_connector_state(). Prototype was for drm_atomic_helper_check_wb_encoder_state() instead
+drivers/hwmon/emc2305.c:194 emc2305_set_cur_state() warn: impossible condition '(val > 255) => (0-255 > 255)'
+drivers/scsi/qla2xxx/qla_os.c:2854:23: warning: assignment to 'struct trace_array *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+drivers/scsi/qla2xxx/qla_os.c:2854:25: error: implicit declaration of function 'trace_array_get_by_name'; did you mean 'trace_array_set_clr_event'? [-Werror=implicit-function-declaration]
+drivers/scsi/qla2xxx/qla_os.c:2869:9: error: implicit declaration of function 'trace_array_put' [-Werror=implicit-function-declaration]
+make[4]: *** No rule to make target 'drivers/crypto/aspeed/aspeed_crypto.o', needed by 'drivers/crypto/aspeed/built-in.a'.
 
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+ERROR: modpost: "__tsan_memcpy" [arch/arm64/crypto/sha512-arm64.ko] undefined!
+ERROR: modpost: "__tsan_memcpy" [arch/arm64/crypto/sha512-ce.ko] undefined!
+ERROR: modpost: "__tsan_memcpy" [fs/binfmt_misc.ko] undefined!
+ERROR: modpost: "__tsan_memcpy" [kernel/kcsan/kcsan_test.ko] undefined!
+ERROR: modpost: "__tsan_memcpy" [mm/zsmalloc.ko] undefined!
+ERROR: modpost: "__tsan_memset" [arch/arm64/crypto/sha512-arm64.ko] undefined!
+ERROR: modpost: "__tsan_memset" [arch/arm64/crypto/sha512-ce.ko] undefined!
+ERROR: modpost: "__tsan_memset" [fs/binfmt_misc.ko] undefined!
+ERROR: modpost: "__tsan_memset" [kernel/scftorture.ko] undefined!
+ERROR: modpost: "__tsan_memset" [mm/zsmalloc.ko] undefined!
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_get_by_name
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_put
+|   `-- drivers-scsi-qla2xxx-qla_os.c:warning:assignment-to-struct-trace_array-from-int-makes-pointer-from-integer-without-a-cast
+|-- alpha-randconfig-r013-20220914
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- arc-allyesconfig
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- arc-randconfig-r043-20220914
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- arm-allyesconfig
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- arm-defconfig
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- arm-randconfig-r016-20220914
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- arm64-allyesconfig
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- i386-allyesconfig
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- i386-defconfig
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- i386-randconfig-a003
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- i386-randconfig-a012
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- i386-randconfig-a014
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- i386-randconfig-a016
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- ia64-allmodconfig
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_get_by_name
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_put
+|   `-- drivers-scsi-qla2xxx-qla_os.c:warning:assignment-to-struct-trace_array-from-int-makes-pointer-from-integer-without-a-cast
+|-- loongarch-buildonly-randconfig-r005-20220914
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- m68k-allmodconfig
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- m68k-allyesconfig
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- m68k-randconfig-c042-20220915
+|   `-- make:No-rule-to-make-target-drivers-crypto-aspeed-aspeed_crypto.o-needed-by-drivers-crypto-aspeed-built-in.a-.
+|-- m68k-randconfig-r026-20220914
+|   `-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|-- microblaze-randconfig-m031-20220915
+|   |-- drivers-gpu-drm-display-drm_dp_helper.c-drm_dp_phy_name()-warn:unsigned-dp_phy-is-never-less-than-zero.
+|   |-- drivers-gpu-drm-drm_atomic_helper.c:warning:expecting-prototype-for-drm_atomic_helper_check_wb_connector_state().-Prototype-was-for-drm_atomic_helper_check_wb_encoder_state()-instead
+|   `-- drivers-hwmon-emc2305.c-emc2305_set_cur_state()-warn:impossible-condition-(val-)-(-)
+|-- microblaze-randconfig-r006-20220914
+clang_recent_errors
+|-- arm64-randconfig-r006-20220915
+|   |-- ERROR:__tsan_memcpy-arch-arm64-crypto-sha512-arm64.ko-undefined
+|   |-- ERROR:__tsan_memcpy-arch-arm64-crypto-sha512-ce.ko-undefined
+|   |-- ERROR:__tsan_memcpy-fs-binfmt_misc.ko-undefined
+|   |-- ERROR:__tsan_memcpy-kernel-kcsan-kcsan_test.ko-undefined
+|   |-- ERROR:__tsan_memcpy-mm-zsmalloc.ko-undefined
+|   |-- ERROR:__tsan_memset-arch-arm64-crypto-sha512-arm64.ko-undefined
+|   |-- ERROR:__tsan_memset-arch-arm64-crypto-sha512-ce.ko-undefined
+|   |-- ERROR:__tsan_memset-fs-binfmt_misc.ko-undefined
+|   |-- ERROR:__tsan_memset-kernel-scftorture.ko-undefined
+|   `-- ERROR:__tsan_memset-mm-zsmalloc.ko-undefined
+|-- arm64-randconfig-r023-20220914
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-function-apply_alternatives_vdso
+|-- i386-randconfig-a002
+|   |-- ERROR:___ratelimit-arch-x86-kvm-kvm-intel.ko-undefined
+|   |-- ERROR:__per_cpu_offset-arch-x86-kvm-kvm-intel.ko-undefined
+|   |-- ERROR:__phys_addr-arch-x86-kvm-kvm-intel.ko-undefined
+|   |-- ERROR:__ubsan_handle_out_of_bounds-arch-x86-kvm-kvm-intel.ko-undefined
+|   |-- ERROR:__warn_printk-arch-x86-kvm-kvm-intel.ko-undefined
+|   |-- ERROR:_printk-arch-x86-kvm-kvm-intel.ko-undefined
+|   |-- ERROR:cpu_number-arch-x86-kvm-kvm-intel.ko-undefined
+|   |-- ERROR:kvm_find_user_return_msr-arch-x86-kvm-kvm-intel.ko-undefined
+|   |-- ERROR:kvm_spurious_fault-arch-x86-kvm-kvm-intel.ko-undefined
+|   |-- ERROR:smp_call_function_single-arch-x86-kvm-kvm-intel.ko-undefined
+|   `-- drivers-extcon-extcon-usbc-tusb320.c:warning:expecting-prototype-for-drivers-extcon-extcon-tusb320c().-Prototype-was-for-TUSB320_REG8()-instead
+|-- i386-randconfig-a015
+|   `-- drivers-extcon-extcon-usbc-tusb320.c:warning:expecting-prototype-for-drivers-extcon-extcon-tusb320c().-Prototype-was-for-TUSB320_REG8()-instead
+|-- powerpc-mpc832x_mds_defconfig
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-A_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-B_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiw.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiwz.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   `-- arch-powerpc-math-emu-fsel.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|-- powerpc-tqm8560_defconfig
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-A_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-B_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiw.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiwz.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   `-- arch-powerpc-math-emu-fsel.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|-- riscv-randconfig-r042-20220914
+|   |-- arch-riscv-errata-thead-errata.c:error:use-of-undeclared-identifier-riscv_cbom_block_size
+|   `-- drivers-extcon-extcon-usbc-tusb320.c:warning:expecting-prototype-for-drivers-extcon-extcon-tusb320c().-Prototype-was-for-TUSB320_REG8()-instead
+|-- s390-buildonly-randconfig-r002-20220914
+|   |-- arch-s390-mm-maccess.c:warning:no-previous-prototype-for-function-memcpy_real
+|   |-- arch-s390-mm-maccess.c:warning:no-previous-prototype-for-function-memcpy_real_init
+|   `-- arch-s390-mm-maccess.c:warning:no-previous-prototype-for-function-memcpy_real_iter
+|-- s390-randconfig-r012-20220914
+|   |-- arch-s390-mm-maccess.c:warning:no-previous-prototype-for-function-memcpy_real
+
+elapsed time: 728m
+
+configs tested: 56
+configs skipped: 3
+
+gcc tested configs:
+arc                                 defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+alpha                               defconfig
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+m68k                             allmodconfig
+s390                                defconfig
+arc                  randconfig-r043-20220914
+arc                              allyesconfig
+powerpc                           allnoconfig
+s390                             allmodconfig
+alpha                            allyesconfig
+i386                                defconfig
+x86_64                    rhel-8.3-kselftests
+i386                          randconfig-a001
+i386                          randconfig-a014
+m68k                             allyesconfig
+x86_64                          rhel-8.3-func
+i386                          randconfig-a003
+i386                          randconfig-a012
+x86_64                              defconfig
+arm                                 defconfig
+i386                          randconfig-a016
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+s390                             allyesconfig
+x86_64                           rhel-8.3-syz
+i386                          randconfig-a005
+arm                              allyesconfig
+arc                               allnoconfig
+alpha                             allnoconfig
+riscv                             allnoconfig
+csky                              allnoconfig
+x86_64                               rhel-8.3
+sh                               allmodconfig
+x86_64                           allyesconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+arm64                            allyesconfig
+i386                             allyesconfig
+ia64                             allmodconfig
+
+clang tested configs:
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+riscv                randconfig-r042-20220914
+hexagon              randconfig-r045-20220914
+i386                          randconfig-a013
+i386                          randconfig-a015
+i386                          randconfig-a011
+i386                          randconfig-a002
+hexagon              randconfig-r041-20220914
+i386                          randconfig-a004
+i386                          randconfig-a006
+s390                 randconfig-r044-20220914
 
 -- 
--caz, caz at caztech dot com, 503-six one zero - five six nine nine(m)
-
---0000000000006c9f0f05e8bd9323
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><span class=3D"gmail-il">Reviewed</span>-<span class=3D"gm=
-ail-il">by</span>:=C2=A0=C2=A0<span name=3D"Caz Yokoyama" class=3D"gmail-gD=
-" style=3D"font-family:&quot;Google Sans&quot;,Roboto,RobotoDraft,Helvetica=
-,Arial,sans-serif;white-space:nowrap;color:rgb(31,31,31);font-size:0.875rem=
-;font-weight:bold;display:inline;vertical-align:top;line-height:20px"><span=
- style=3D"vertical-align:top">Caz Yokoyama</span></span><span style=3D"colo=
-r:rgb(95,99,104);font-family:&quot;Google Sans&quot;,Roboto,RobotoDraft,Hel=
-vetica,Arial,sans-serif;font-size:0.75rem;font-weight:inherit;white-space:n=
-owrap">=C2=A0</span><span class=3D"gmail-go" style=3D"font-family:&quot;Goo=
-gle Sans&quot;,Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-size:0.75=
-rem;font-weight:inherit;white-space:nowrap;vertical-align:top;color:rgb(94,=
-94,94)"><span aria-hidden=3D"true">&lt;</span><a href=3D"mailto:caz@caztech=
-.com">caz@caztech.com</a><span aria-hidden=3D"true">&gt;</span></span><div>=
-<span class=3D"gmail-go" style=3D"font-family:&quot;Google Sans&quot;,Robot=
-o,RobotoDraft,Helvetica,Arial,sans-serif;font-size:0.75rem;font-weight:inhe=
-rit;white-space:nowrap;vertical-align:top;color:rgb(94,94,94)"><span aria-h=
-idden=3D"true">Better to be safe.</span></span></div><div><span class=3D"gm=
-ail-go" style=3D"font-family:&quot;Google Sans&quot;,Roboto,RobotoDraft,Hel=
-vetica,Arial,sans-serif;font-size:0.75rem;font-weight:inherit;white-space:n=
-owrap;vertical-align:top;color:rgb(94,94,94)"><span aria-hidden=3D"true"><b=
-r></span></span></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Thu, Sep 15, 2022 at 1:40 PM Lucas De Marchi &lt;<=
-a href=3D"mailto:lucas.demarchi@intel.com">lucas.demarchi@intel.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">DSMBASE =
-register is defined so BDSM bitfield contains the bits 63 to 20<br>
-of the base address of stolen. For the supported platforms bits 0-19 are<br=
->
-zero but that may not be true in future. Add the missing mask.<br>
-<br>
-Signed-off-by: Lucas De Marchi &lt;<a href=3D"mailto:lucas.demarchi@intel.c=
-om" target=3D"_blank">lucas.demarchi@intel.com</a>&gt;<br>
-<br>
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i=
-915/gem/i915_gem_stolen.c<br>
-index 42f4769bb4ac..c34065fe2ecc 100644<br>
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c<br>
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c<br>
-@@ -814,7 +814,7 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i91=
-5, u16 type,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ERR_PTR(-ENX=
-IO);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Use DSM base address instead for stolen memo=
-ry */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0dsm_base =3D intel_uncore_read64(uncore, GEN12_=
-DSMBASE);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dsm_base =3D intel_uncore_read64(uncore, GEN12_=
-DSMBASE) &amp; GEN12_BDSM_MASK;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (IS_DG1(uncore-&gt;i915)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lmem_size =3D pci_r=
-esource_len(pdev, GEN12_LMEM_BAR);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (WARN_ON(lmem_si=
-ze &lt; dsm_base))<br>
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_re=
-g.h<br>
-index 1a9bd829fc7e..0301874c76ba 100644<br>
---- a/drivers/gpu/drm/i915/i915_reg.h<br>
-+++ b/drivers/gpu/drm/i915/i915_reg.h<br>
-@@ -7953,6 +7953,7 @@ enum skl_power_gate {<br>
-<br>
-=C2=A0#define GEN12_GSMBASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 _MMIO(0x108100)<br>
-=C2=A0#define GEN12_DSMBASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 _MMIO(0x1080C0)<br>
-+#define=C2=A0 =C2=A0GEN12_BDSM_MASK=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 GENMASK(63, 20)<br>
-<br>
-=C2=A0#define XEHP_CLOCK_GATE_DIS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-_MMIO(0x101014)<br>
-=C2=A0#define=C2=A0 =C2=A0SGSI_SIDECLK_DIS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0REG_BIT(17)<br>
-<br>
--- <br>
-b4 0.10.0-dev-bbe61<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div=
- dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>-caz, caz at =
-caztech dot com, 503-six one zero - five six nine nine(m)<br></div></div></=
-div></div></div></div></div></div></div></div></div>
-
---0000000000006c9f0f05e8bd9323--
+0-DAY CI Kernel Test Service
+https://01.org/lkp
