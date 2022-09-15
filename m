@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2456D5B9FB7
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 18:37:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824335B9FFF
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 18:52:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02ECF10EB9D;
-	Thu, 15 Sep 2022 16:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3CA410E21E;
+	Thu, 15 Sep 2022 16:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A26510EB88
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 16:37:17 +0000 (UTC)
-Received: from mail02.huawei.com (unknown [172.30.67.143])
- by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MT2PC4dYMzl82X
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 00:15:43 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.102.38])
- by APP2 (Coremail) with SMTP id Syh0CgBH53AQUCNjUuCRAw--.52092S4;
- Fri, 16 Sep 2022 00:17:20 +0800 (CST)
-From: Wei Yongjun <weiyongjun@huaweicloud.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/panel: y030xx067a: Silent no spi_device_id warning
-Date: Thu, 15 Sep 2022 16:34:43 +0000
-Message-Id: <20220915163443.2519776-1-weiyongjun@huaweicloud.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC1FB10EB7A;
+ Thu, 15 Sep 2022 16:52:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663260748; x=1694796748;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pnw/TWt9EuTrzwHAnGTFiTqRLLQoYn1rh+M5pSCoGzg=;
+ b=fqn/wrarbQ/BcIsJm7iAAi69rI5em+xH74+6BO7xwd2RCbHerLsZ/PK9
+ VpaFiyzy+XE9Oj5utQWVZ7MO1yrOMrUQ5+TblCxU6+Fb6M064eZZnTnyf
+ QxblfBWGoCmZT0ev+Vjhe31CukLPQTRpsNGZl1y05Lw7dR/hC4L7kBpS8
+ urblho3C9PoenizSJCjKXCJbKTsEPlQBtko0Vd+RjJ0eY25g+VrZCc6OV
+ impO0nP1YLCIhRMr7cBYnnfdifGR7Ae9wc1w1MyFtrcsw1LRc7xD+qxnO
+ txE6XuX2TD6LMigGGnfZrdcKD/55+o8NMQLmizVDYTbOl1O+2B1NYw+M0 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="297497950"
+X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; d="scan'208";a="297497950"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 09:52:28 -0700
+X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; d="scan'208";a="568501597"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com (HELO jkrzyszt-mobl1.lan)
+ ([10.213.25.71])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 09:52:25 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/2] drm/i915/gem: Really move i915_gem_context.link under
+ ref protection
+Date: Thu, 15 Sep 2022 18:52:08 +0200
+Message-Id: <20220915165210.193197-1-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: Syh0CgBH53AQUCNjUuCRAw--.52092S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Gw4kCryrtr4kur4DAF4Dtwb_yoW8JrW5pF
- 4UW340yr95Jr45CFs7Aa17WFy3A39YgFWxKFWDG39xu3WUAr1qqwsaqF17Xr1rJry7A3Wa
- qF1vyrW7JFWUJwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyYb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
- 6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
- vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
- xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
- kF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
- 5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeV
- CFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
- s4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
- 1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
- CVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rV
- WUCVW8JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4U
- JbIYCTnIWIevJa73UjIFyTuYvjxU7jXdUUUUU
-X-CM-SenderInfo: 5zhl50pqjm3046kxt4xhlfz01xgou0bp/
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,46 +55,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wei Yongjun <weiyongjun1@huawei.com>, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wei Yongjun <weiyongjun1@huawei.com>
+i915_perf assumes that it can use the i915_gem_context reference to
+protect its i915->gem.contexts.list iteration. However, this requires
+that we do not remove the context from the list until after we drop the
+final reference and release the struct. If, as currently, we remove the
+context from the list during context_close(), the link.next pointer may
+be poisoned while we are holding the context reference and cause a GPF:
 
-Add spi_device_id entries to silent following SPI warning:
+[ 4070.573157] i915 0000:00:02.0: [drm:i915_perf_open_ioctl [i915]] filtering on ctx_id=0x
+1fffff ctx_id_mask=0x1fffff
+[ 4070.574881] general protection fault, probably for non-canonical address 0xdead00000000
+0100: 0000 [#1] PREEMPT SMP
+[ 4070.574897] CPU: 1 PID: 284392 Comm: amd_performance Tainted: G            E     5.17.9
+ #180
+[ 4070.574903] Hardware name: Intel Corporation NUC7i5BNK/NUC7i5BNB, BIOS BNKBL357.86A.0052.2017.0918.1346 09/18/2017
+[ 4070.574907] RIP: 0010:oa_configure_all_contexts.isra.0+0x222/0x350 [i915]
+[ 4070.574982] Code: 08 e8 32 6e 10 e1 4d 8b 6d 50 b8 ff ff ff ff 49 83 ed 50 f0 41 0f c1 04 24 83 f8 01 0f 84 e3 00 00 00 85 c0 0f 8e fa 00 00 00 <49> 8b 45 50 48 8d 70 b0 49 8d 45 50 48 39 44 24 10 0f 85 34 fe ff
+[ 4070.574990] RSP: 0018:ffffc90002077b78 EFLAGS: 00010202
+[ 4070.574995] RAX: 0000000000000002 RBX: 0000000000000002 RCX: 0000000000000000
+[ 4070.575000] RDX: 0000000000000001 RSI: ffffc90002077b20 RDI: ffff88810ddc7c68
+[ 4070.575004] RBP: 0000000000000001 R08: ffff888103242648 R09: fffffffffffffffc
+[ 4070.575008] R10: ffffffff82c50bc0 R11: 0000000000025c80 R12: ffff888101bf1860
+[ 4070.575012] R13: dead0000000000b0 R14: ffffc90002077c04 R15: ffff88810be5cabc
+[ 4070.575016] FS:  00007f1ed50c0780(0000) GS:ffff88885ec80000(0000) knlGS:0000000000000000
+[ 4070.575021] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 4070.575025] CR2: 00007f1ed5590280 CR3: 000000010ef6f005 CR4: 00000000003706e0
+[ 4070.575029] Call Trace:
+[ 4070.575033]  <TASK>
+[ 4070.575037]  lrc_configure_all_contexts+0x13e/0x150 [i915]
+[ 4070.575103]  gen8_enable_metric_set+0x4d/0x90 [i915]
+[ 4070.575164]  i915_perf_open_ioctl+0xbc0/0x1500 [i915]
+[ 4070.575224]  ? asm_common_interrupt+0x1e/0x40
+[ 4070.575232]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
+[ 4070.575290]  drm_ioctl_kernel+0x85/0x110
+[ 4070.575296]  ? update_load_avg+0x5f/0x5e0
+[ 4070.575302]  drm_ioctl+0x1d3/0x370
+[ 4070.575307]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
+[ 4070.575382]  ? gen8_gt_irq_handler+0x46/0x130 [i915]
+[ 4070.575445]  __x64_sys_ioctl+0x3c4/0x8d0
+[ 4070.575451]  ? __do_softirq+0xaa/0x1d2
+[ 4070.575456]  do_syscall_64+0x35/0x80
+[ 4070.575461]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[ 4070.575467] RIP: 0033:0x7f1ed5c10397
+[ 4070.575471] Code: 3c 1c e8 1c ff ff ff 85 c0 79 87 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a9 da 0d 00 f7 d8 64 89 01 48
+[ 4070.575478] RSP: 002b:00007ffd65c8d7a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[ 4070.575484] RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f1ed5c10397
+[ 4070.575488] RDX: 00007ffd65c8d7c0 RSI: 0000000040106476 RDI: 0000000000000006
+[ 4070.575492] RBP: 00005620972f9c60 R08: 000000000000000a R09: 0000000000000005
+[ 4070.575496] R10: 000000000000000d R11: 0000000000000246 R12: 000000000000000a
+[ 4070.575500] R13: 000000000000000d R14: 0000000000000000 R15: 00007ffd65c8d7c0
+[ 4070.575505]  </TASK>
+[ 4070.575507] Modules linked in: nls_ascii(E) nls_cp437(E) vfat(E) fat(E) i915(E) x86_pkg_temp_thermal(E) intel_powerclamp(E) crct10dif_pclmul(E) crc32_pclmul(E) crc32c_intel(E) aesni_intel(E) crypto_simd(E) intel_gtt(E) cryptd(E) ttm(E) rapl(E) intel_cstate(E) drm_kms_helper(E) cfbfillrect(E) syscopyarea(E) cfbimgblt(E) intel_uncore(E) sysfillrect(E) mei_me(E) sysimgblt(E) i2c_i801(E) fb_sys_fops(E) mei(E) intel_pch_thermal(E) i2c_smbus(E) cfbcopyarea(E) video(E) button(E) efivarfs(E) autofs4(E)
+[ 4070.575549] ---[ end trace 0000000000000000 ]---
 
-SPI driver abt-y030xx067a has no spi_device_id for abt,y030xx067a
+However, there is a risk of triggering kernel warning on contexts list not
+empty at driver release time if we deleagate that task to a worker for
+i915_gem_context_release_work(), unless that work is flushed first.
+Unfortunately, it is not flushed on driver release.  Fix it.
 
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
----
- drivers/gpu/drm/panel/panel-abt-y030xx067a.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Chris Wilson (1):
+  drm/i915/gem: Really move i915_gem_context.link under ref protection
 
-diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-index 1cc0f1d09684..0e13999a0230 100644
---- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-+++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-@@ -368,6 +368,12 @@ static const struct of_device_id y030xx067a_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, y030xx067a_of_match);
- 
-+static const struct spi_device_id y030xx067a_ids[] = {
-+	{ "y030xx067a", (kernel_ulong_t)&y030xx067a_info },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, y030xx067a_ids);
-+
- static struct spi_driver y030xx067a_driver = {
- 	.driver = {
- 		.name = "abt-y030xx067a",
-@@ -375,6 +381,7 @@ static struct spi_driver y030xx067a_driver = {
- 	},
- 	.probe = y030xx067a_probe,
- 	.remove = y030xx067a_remove,
-+	.id_table = y030xx067a_ids,
- };
- module_spi_driver(y030xx067a_driver);
- 
+Janusz Krzysztofik (1):
+  drm/i915/gem: Flush contexts on driver release
+
+ drivers/gpu/drm/i915/gem/i915_gem_context.c | 8 ++++----
+ drivers/gpu/drm/i915/i915_gem.c             | 3 ++-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
