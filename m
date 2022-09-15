@@ -2,129 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C585BA1F1
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 22:44:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8CF5BA20C
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 22:55:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4584010EBDA;
-	Thu, 15 Sep 2022 20:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2403910EBDE;
+	Thu, 15 Sep 2022 20:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 656E910E294;
- Thu, 15 Sep 2022 20:44:27 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0811910EBDD;
+ Thu, 15 Sep 2022 20:54:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663275286; x=1694811286;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=70X2GvUL6Xnj0v0o4ZoGATteSoxbTEPAFu82Nu45UOk=;
+ b=bA0FNVSqMi6EWnqcaNUbbBL6VJSS4UZsjsH5yvA7JAa2aqeqsJnkZwVs
+ cycOAcvF1kthLs/mAZU04pztVXfsR2PeMtzyxyjXkK5VkFfNp1sBlydvH
+ /3/sJVZgwEfVNnKDag0q0KuTgk8YsfaV9rWWu713I5RI17ox9NxgYwTfY
+ tUPoni7L3cGXz3/04nP8+4ViJ8vSDOQBhnyqoIqSC1YU7j0DrNV8NPam3
+ BITJVH1YrnGD+DdiuClFAMM8EIEQZyDbLH9kiP2VJXzq9Unpdo3IMAQqo
+ 0ab0cvdWScFSP0Q//5pQmai/vo0ynkcGoqK+fsmodpWS9MDwSXBXSIx65 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="325100047"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="325100047"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 13:54:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="862489302"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga006.fm.intel.com with ESMTP; 15 Sep 2022 13:54:45 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 15 Sep 2022 13:54:44 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 15 Sep 2022 13:54:44 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.46) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 15 Sep 2022 13:54:44 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oZy4ajFjpdeIxs8O0eN4awJjM6fIKa4R0mXCET1dUs1B1xhENEn9+iXJmK6mfLHfd3qf3li7L6Z9eUSRA+Lqa1+34EBr1cMI3LBvnq+Nu7Tac2AbI2rOEI8PkAFeMdSv/nxShFUV+EGiMQ6EcK/6jdR7xySX4QkBurGXf02M6IP05oyFQNLZZFVBBrrIOGTWd8EsW1X89360WGzX6Dvx0uzhMBqPvhohmBC+mxrBpCv3r6iSnSNcptrQhABwiSsiu2nhXpfVSaO+NlS1OrDYac0Vq0fzgYwzvzuJACvHB3tcBq/I1vLRZ2DlP9oXmEfImogePiSR8pbHxa9XzJVbIg==
+ b=f8FBiBxqGE8Za/Fr3/ke3d5SKxy62rkzExJIs57DQjD3EeMQPPrrz+J76YOi/YFDohdpDML7bdk73scB4672maGBAcH5uGp76JRmiOHbf4K0NNK431zCU1yRnv2PSSoyOsEl4lFN/8zHx3mkc2Rgn1nkCE8k/koiAmpfZ0AmApAo+J3TfIzark6/Raf6v90Ny+iX2j0ML6HzXOaQbdWDTZNrtdOURuC4cNOMl3roIDSZ6/+UHskKVRb3y1XqW7MnH6KmR6YXYHjHlUvFaPZwMvuAMDc0/WCFpiYmkHqYcXhZXlI20uLBiozMT61Mtek2a3LSWMaQr/ZCIHkv+y6/Aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qORv0C4vVqwNKoSUTbz7Qg5H8z1/8iaOMQYmplGMYWI=;
- b=ch++PIxvAl9esFyP5r94XsPTDiKsnAfTkzaNaVovNLSdNOdOH4zOxC6gMPvnnXb9Ru8jzDKFoT7EU49hq8Qoy+4LEDPFutGtUuK+LA2XkxvtkZrz51T+Zskt3sylB1Gievl7wth0R3PhRuICc6/aY0/KFpIEA5Wex4HQDZmO02kEEbYdc8Obxn6Rbyw+g8ZvJSDbydF9oYQM/7xWpLtenBZVxpdRN9M+PnMwiX5OPw/fM18h8nPHJYkegIcm+WeYInPOpHaHs8XTVCZSUnn4oUzy/PR9yUuMjWFFiCoAUMNSAgs/aNXj/i0pE8BcFIrPL9QtDA4GXw7vRZsNUVIPhQ==
+ bh=NDeNNXLViO2Oe04sXiwZC7Ckig2Kw+7zCw8rrBP2RDw=;
+ b=FHRFICa4qbx3QEg5jxqUo1K4wzUHslmStiSwyW9jbB0hVv5QH859b05C0AeYN5im2q2zRmCD1QZ4/xfiTq6vOYtf7HXBdw6PL/1Zcb+juZl01fpQ3J15A21eU88askJJt0d0pn/Tu6KtY24L3CumNPpSXREmT3BD2opjDaZOYrgQQgfhIrng3x1dHGf5CfBP/G8nhr0MfgcyAYRU753zHuaGQgGEA274QNPly6dkTPYlLx4KCAtkM+DuJ+Iegjr5YgACaNKeNkr0+2JOgNl1/BpVLVMCOqrQOy4rQU9VVEJtCI6EGdgqJU4MscLWR523LVoomDt53DV/MK7gaNrK1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qORv0C4vVqwNKoSUTbz7Qg5H8z1/8iaOMQYmplGMYWI=;
- b=Tn08td9bzAhaJMIIHno21xTis2mzwQsAL97/AFOzC8fFHYB3SAhiA8IRSd2tfrrWdt+AP62RJobaM70KT8Vl2t4TxxYXi8qAfPTjDwJgcO/crA3SEBf6GRXNHj+05EcLyv+qB03H6DaW1MZoN2J9Vg2a3zTdJ+r/1TcetC1d6lM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB2941.namprd12.prod.outlook.com (2603:10b6:208:a9::12)
- by SA0PR12MB4399.namprd12.prod.outlook.com (2603:10b6:806:98::17)
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN2PR11MB4093.namprd11.prod.outlook.com (2603:10b6:208:13f::21)
+ by CY8PR11MB6914.namprd11.prod.outlook.com (2603:10b6:930:5a::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.15; Thu, 15 Sep
- 2022 20:44:22 +0000
-Received: from MN2PR12MB2941.namprd12.prod.outlook.com
- ([fe80::588c:ac12:d318:bfee]) by MN2PR12MB2941.namprd12.prod.outlook.com
- ([fe80::588c:ac12:d318:bfee%7]) with mapi id 15.20.5632.015; Thu, 15 Sep 2022
- 20:44:22 +0000
-Message-ID: <e3f2696a-5c21-3d77-ac61-5b5441d11760@amd.com>
-Date: Thu, 15 Sep 2022 16:44:20 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH V3 46/47] drm/amd/display: Fix failures of disabling
- primary plans
+ 2022 20:54:42 +0000
+Received: from MN2PR11MB4093.namprd11.prod.outlook.com
+ ([fe80::a2a0:a5a6:cf4a:e454]) by MN2PR11MB4093.namprd11.prod.outlook.com
+ ([fe80::a2a0:a5a6:cf4a:e454%6]) with mapi id 15.20.5632.015; Thu, 15 Sep 2022
+ 20:54:42 +0000
+From: "Winkler, Tomas" <tomas.winkler@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: RE: [PATCH v5 00/15] drm/i915: HuC loading for DG2
+Thread-Topic: [PATCH v5 00/15] drm/i915: HuC loading for DG2
+Thread-Index: AQHYxwvhDwkOr83sg0Wmwsp7KLTA2q3fJSpQgAAXe4CAAAqTEA==
+Date: Thu, 15 Sep 2022 20:54:42 +0000
+Message-ID: <MN2PR11MB40933B8D528D32B9F92AAC4FE5499@MN2PR11MB4093.namprd11.prod.outlook.com>
+References: <20220913005739.798337-1-daniele.ceraolospurio@intel.com>
+ <MN2PR11MB4093E87A6EAE878EFCE805ABE5469@MN2PR11MB4093.namprd11.prod.outlook.com>
+ <YyIZP2DjqyztwxxF@kroah.com>
+In-Reply-To: <YyIZP2DjqyztwxxF@kroah.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- Alex Hung <alex.hung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Harry.Wentland@amd.com, Mark Yacoub <markyacoub@chromium.org>,
- Sunpeng.Li@amd.com, ddavenport@google.com, Simon Ser <contact@emersion.fr>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-References: <20220914051046.1131186-1-Wayne.Lin@amd.com>
- <20220914051046.1131186-47-Wayne.Lin@amd.com>
- <604a1d7e-1cd9-ad27-6d37-2e8535ce253b@mailbox.org>
- <40e970ca-c0ac-98b3-0549-2d7b1a812f81@mailbox.org>
- <c429010f-30ea-7abf-a67a-e730c7a6728d@amd.com>
- <65bbb8fb-92ae-774c-72ab-d22195851828@mailbox.org>
- <d94e5504-41b2-3546-24cb-6db2877d277c@amd.com>
- <5f12b404-e351-3ae2-65b6-f83f27e1c7be@mailbox.org>
-From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
-In-Reply-To: <5f12b404-e351-3ae2-65b6-f83f27e1c7be@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAPR03CA0053.namprd03.prod.outlook.com
- (2603:10b6:208:32d::28) To MN2PR12MB2941.namprd12.prod.outlook.com
- (2603:10b6:208:a9::12)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR11MB4093:EE_|CY8PR11MB6914:EE_
+x-ms-office365-filtering-correlation-id: 1033394c-953e-451a-821c-08da975c833a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /c6zAa3ZC8ZoyQochiB0HhWLDBUpAx6BYXWMoWtVt6SEHyeTODhytcckPP0HXyKLL8gRDkl9ethpwManAR7F4uN+0BKW6gJs8Vj/3Dm1/lAwSYihO/seF6tYDkMSykoZ/SoZy+ZurW9SOZo0E9EJzWFOb0LAfN6/yAsS1xVUUZM206CvbpeETSDbrQecvvK3ECVrxqgashvUwNQSOUozOjiiuymRug2Cej4ZsDSUeeVluRIpfAVZWBXxSvXpvBwRZm2FiWVqRmM49WT0IFc0Ed0z9QoGAXo1qNDdeiaflrYDfBFpzBaE9ofokVcUxLYJ9NzXopKD4WVYWOTAXSVGlUgI7zY0eRCbXTlYHRbZCDrDnfyJDmox7+RsOnQ1vlwSq7E20/mUsCeWdKd2yqKkSxSNpQ/AGHtE5DhdtHPZ8Xjqa9YYzG5nGggb8kPqOruyyYLW7zGduvXVS3EZZeWtUGrAOfHtnhz5XwvKbREzRFxfotOrPv63NAAdxZJvpdMSW8TQMKklTEop44PgLiExRiY44vBegF3Q6PbhmelF4acRDwSPgpPwP4KTwNg0KzFuPZP+hIDNLQswWBtj0GB6bQjEeo8zFvBfXOqlaCcjT6FpsvbVJORD24reIB1/PpVyIcVRv3B8nVZeEeb/Xk20QXxoIW1AyRXnCORSBVzIqYd+uqgK+oF0XwVXzCI/4fo0zxcV0CbWYWv95faUmKbJC5gW2ldTNfwwyGCVOAn6DLZxpDGu2Wzok5qv1rEHhGAcI8zPjHtH7pf+JQ31/2pZPg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR11MB4093.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(136003)(346002)(396003)(376002)(39860400002)(366004)(451199015)(86362001)(6916009)(54906003)(76116006)(33656002)(82960400001)(71200400001)(122000001)(38070700005)(83380400001)(186003)(38100700002)(9686003)(478600001)(66946007)(316002)(64756008)(8676002)(66446008)(66476007)(66556008)(7696005)(6506007)(26005)(107886003)(41300700001)(8936002)(4326008)(5660300002)(2906002)(52536014)(55016003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?h7g3WmznoRyjLprfR3LhD7N6qbKciZbBDooRqT0xr/ToeFs2bwdA7XMt4mIQ?=
+ =?us-ascii?Q?/t2NoTHKHE1wMjfTSvW1PdGPr8P713mr+TuNsoZGrCdtULfIzuLyAGoNUwYb?=
+ =?us-ascii?Q?5VwzjXGsLv9dQNPKeeGolvAR6SIXUqF9dcKPGF7F3FU2REGoj2ZHcOo2veoh?=
+ =?us-ascii?Q?Rh8jarMUD1thM+/sB+USrNdTCMAdp+nr4KnuQ7M73ZZZX4kxbnp9OqMLIhbB?=
+ =?us-ascii?Q?BJS6o5Jf/n/HwqeNrnyyeVsFK+YbXi+AhR2uu5gJO0XyQ6kgKv/a3m28flL6?=
+ =?us-ascii?Q?478G91Odn1CLIIGWiqcl1a74lsqTGpW70HpJM32+D3DydtSvcHfbR2NjhGXe?=
+ =?us-ascii?Q?UdM57XD4NVR8FplrBvv/lLI0WrzuIawn1gDu/f3Zakqfi1pdTghI1dKB4Mg4?=
+ =?us-ascii?Q?bOiCBvlOBhR3PuF1p30f0JtuoNgMf10pJCky7vAx+IEWegE20FbRzG4HIcyj?=
+ =?us-ascii?Q?h48DHiNf3TiPbVewIXJlgXdz0gSet9RIwoFklGw+brm1c+hp8b1Cw1gWiYl7?=
+ =?us-ascii?Q?o0+GTtoEzMWrBcAbhU+cOHquSBjBkQDv+N/lYcy4vAMtPhWe94rpjRR+AMyh?=
+ =?us-ascii?Q?MLppGVSgU0GcieMoInGJfOV8o/IBXsXcpzxgYaWnqezvmH8WD20MZEHLa+Gx?=
+ =?us-ascii?Q?QsV4JjCqBqiyBy+jB8rsG/YX4HpYch0/i4M5n4NiVTipLhmtaD7haOwspYDC?=
+ =?us-ascii?Q?VR3zq3evSckJuNkycCkVCCWPIhuCYhCEK8W0+syBXnu877hkc3V1CbuGX+LW?=
+ =?us-ascii?Q?rOlphtsA6wweDfdw5aMY4kVcZaAa9EoSEzmCztDgN4fDH9A7nFfDeTMyNhen?=
+ =?us-ascii?Q?gB4SSUtvBvvxfCfqhvAORbZlkVKJxl3IKFdTyCA0BTTv4yAz8PNbaaZnsKJc?=
+ =?us-ascii?Q?I4fVmsKGUrUAjC970wltFvt0OKk/oELKIyYOz8IOg95iOF445oaBC71nbs/e?=
+ =?us-ascii?Q?7poiMM3vPHqSHdTNZa85+HzZ7HLg4LZ/JN4JKrO/GXyasDLIFafSF1S7ezON?=
+ =?us-ascii?Q?UzBUTUzhZEylESXWtahC2Qf134aQQUSDazklX0HBKaLcZzYvElkQMyWn0eN6?=
+ =?us-ascii?Q?XFyLkf7mLzl6DfwSMSv2cnDYTl/qBQEFI9s6/JeR5CYeNLxV+O1wOvuBfrwR?=
+ =?us-ascii?Q?sXjdn+hAE/06v7FzXZkob98+na05fBrXBG14jPABNv2ir1PTOksnTec1Xtt1?=
+ =?us-ascii?Q?u11Eo+2jtXxLK4VpjVO/2neN/te83lV73Frr/oNzoAy10YrXijCda/LHfeEJ?=
+ =?us-ascii?Q?6+pYtw/6ecXRrpBfrb2UZ6nubmWqwnlMlfSp6e/QIUTR/hIBcapffSPkDB3A?=
+ =?us-ascii?Q?Om8ivIfJO+cUgGHu7wFvYfHPoSYdtMiQt8jvCDbJFcGIpNcGVOxp7YMp79S/?=
+ =?us-ascii?Q?znJ7wzWlLAo8T2lY2HV3Fte0BElB8Il6UV92hNqyLEorO2qOqSvE/mzD7e34?=
+ =?us-ascii?Q?NoVRrNxqVcodkiHsYv9QQb4WOgHqQs6B58SD4CSxWqxz3eCC+xUNwRPC6Ria?=
+ =?us-ascii?Q?fptMmeZfwmKlPcspGByLDLlgIzx3I4SaAhQ6rfoPzxrVBGhyyo4HDOYv3UL0?=
+ =?us-ascii?Q?b9Yx7lJK/nleKf1n4+/rCTNXbf9E9lwSe8KMBxrF?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB2941:EE_|SA0PR12MB4399:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3222d3d-a73d-465c-d7f1-08da975b11ba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YO/IQL3BraVgDHW30M3nd78m9I6XULxB0yrz5tRsdnLGkOfxcm4e8KReWHlr1xvCmSQsigZS+uZLVA2Ho1kM4TcrYqKwiHYlUYhBUAvgXsrkXb7uN3jjgSNUt35cOtOPoO8N4cWDtymch2FJbiqeeP3g49TBD1NMKxVUP2umL8Cn5gihV9bST+uFv3VzAopPkrJbQXNAn1JcpaVxCtMkEfiYX518HizGajM/hcyNHdPmjzkuS81AsWHOc4cVIcvz2QyJVXHcsuNY4uqW9lLkNtIGZGdQnYIy0OIuARb8WVzA5InNaDVkAAkTJ8cor7l0f2/nEoscjN7TBTjBJpW5N/pSqaimYkay8cdHHMWBRbujPT2kIVlSrXo6WhF426VsLGOm7ir27paYff6AiI1UCkiRvgXmUFdDElNUNgE4ueu50YhOymp7GK0CdL6m5u8UlDs6am1lxXsnB6WDcuRDbEFmV2b8BG1ODO4HQvZdQvc69SyteYMRj/oBh3GXyl6zKcY40FE9FeuQH99tkyGedSMVRe93Arro5MWhxR2o4YiF85cBZ+GcSXVBtUfz3aiz03o0uZVawx9WsJMiMXoi/udJjL325waMHG5TTp6m+wDhgG/gYQPs2vsDM0CqM+B+tL0DRUb7ZKfmvxnAPy2hD/s0pfDj5KtkqrRW/zbYCTcCI9e4ShZ98S5HaQIDuaZbyeltkrlVcmY5vEzBW9uiL5k2Q8IAGdiVM4JDb3IEJJtt3UM0SfE0zwNweiVYlKnwzjOSd8wTNdgr1vhyMQjjdw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB2941.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(396003)(136003)(366004)(39860400002)(376002)(451199015)(921005)(86362001)(31696002)(110136005)(38100700002)(8676002)(6636002)(66556008)(66946007)(4326008)(66476007)(316002)(8936002)(478600001)(2906002)(5660300002)(186003)(2616005)(83380400001)(966005)(66574015)(6486002)(53546011)(6506007)(26005)(41300700001)(6512007)(31686004)(66899012)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWZtU0FNaVg0c1NXdFZwSitZSFkzRUQrY0IyNEM2KzFOZ2U1V3h3UDRTNGVw?=
- =?utf-8?B?WDFyQVNEREM4eVdKd0Z0bGNGK21raGQxVnJKSzlTMWZMc2NsR0YzY3RmL3px?=
- =?utf-8?B?UUUzTVFCMXpuVDZpVjk3MVRmQ1hlZlp4N2JMU0V3Vy9oUlFKZlB2QjREd1gw?=
- =?utf-8?B?M0hxRG1pdmtZQ0ZCV3hhMFpkS09pM0tOR004YXV6UjlWQWdySk5ZWEpBSitE?=
- =?utf-8?B?TmlzQmZxK1RpRUdsSUZYUVg4NkVmMm1tbjYrSy9XcnhwMS81MmxBMXRuRjRO?=
- =?utf-8?B?OWFUUHNwQk1lQzA4bFJSRGFScllYcWRCajhGS2FIQzZ6U0RoeDZaTmVJZ3Yz?=
- =?utf-8?B?QVl5RlJsbGFsOXErd1hBczJua21hK1RZTUZqTjF0L1pqV0JHQ1FTeHYzZFNQ?=
- =?utf-8?B?UUQxOGVPb0szUU14SVVaVitieDg1SDN2UC9IenFwV3hTM3ExeDA4eTQ4MGln?=
- =?utf-8?B?enNTSHdsSDYyRnBWOHp4dnBLZlN0TDNXbzlTeXFuRTYveHJiRjd5ajZvTDM4?=
- =?utf-8?B?aE52TnhRWk9pNW9jL1F1ZE43YVYyWnNmSmQxakNsdGhPaEVIbXlyNnBFOGFn?=
- =?utf-8?B?T1JaaUJLZ1IrZjVaL1drcTFoUlQ0NTRJOUZrcnVOMTgwVEtwVFkzN3RRTkZk?=
- =?utf-8?B?ZyszMVB5RTE3WGlmN0VjczZkalF0STdEVTVMR0oyR2VGTHRpa1AyWjlieDhX?=
- =?utf-8?B?aXdDVXhvb1RIR3JrcTI2S0pzSHQ4SVZUZTcwYnJSeFpybXNSTjRZczJvcDdT?=
- =?utf-8?B?QjNha1dpQTg5cUhVWVVxSERGMlBOcXBnMURuUEFwbFlJQ3VtMXZKeE40dE9v?=
- =?utf-8?B?N0EvUTUwRGJZelF5WG1PTm5kWGZPUW53YkxUcCsvQ1NtdDYvTW1NcmhQbHNq?=
- =?utf-8?B?aG9HYzVJb2x5V2lsa3dxMGtOcHFFc085dU1ZTzd0aGUrbzlHSFpXTHFDQytm?=
- =?utf-8?B?dlBtWDNsRmpZdmlIejF3aE02eVc2MmhSN1U4eFhXWUZSdnJhcStsbjBqVktp?=
- =?utf-8?B?WHhKclpyRVJUNWlIZnZyY0FNeUhlOFcrNlI3TVpsek1qeE90RVhGUC9lV2Nn?=
- =?utf-8?B?UFNGWGlDNkFIWlRLbjcvc3didHljK0p5OWhZQzdCWktTTmhzK3dvS25WeTJw?=
- =?utf-8?B?bGtDRHRYb1R6MndMREJqRzAvNjVsc0FRZVlxMi9oUHdJQml5RHhkc1dvNlYw?=
- =?utf-8?B?enFDTXNMdmtHa3B2TjJ3YWw1RDN3RUtxSVU4MnhZdHRTN3FzU0JQd3VQZE04?=
- =?utf-8?B?aWVEZis2M25KdlZSTFBwQjJqNFBIWkExUVpvL040U0E2aTRKblF4d1Q4Y1l1?=
- =?utf-8?B?ZmRPMXFOV204UmgrQ3Y3VGcrWEtTU1RCRW5qLzR2aStNMC9DekZmOXljWHNT?=
- =?utf-8?B?S2pUM0pwY3piSThxUUtuL2gxL3gwbkNwbGNiekFwYTU0OWdpN29iamxlRU8z?=
- =?utf-8?B?ZFFHbW1BLzQzbzlac2l1dE12blM4UGhwVUV1d3dQYVhiS0pHVTFnMG5Dbmcy?=
- =?utf-8?B?SGo0V1RGSG9CcmlydDBDSmRaMG92TkV6S0RMR3dBSGpvcHcrZUUvYndWREJI?=
- =?utf-8?B?OE1hY0NrSTM5bjRscTNqbnBZRkFicjc1WkJ2bmRFUEVLdnpobzlqdUgwVmlF?=
- =?utf-8?B?UWxJNG1HeTZIWWRLSTgvQlc2YlRnNGtoQnpTSlFpanU0ZG1JUEEvcWtGb3Z4?=
- =?utf-8?B?d1c5NjJ6bkQ1VVVzMVJTcm40RkZWa1RsRUlNbVNNeGliUXdOd2dwSG9Oc1h6?=
- =?utf-8?B?aXB3RHFtTTBJYWhCcTZvNjJCRjNzZUVCQVJwNjI3SGlQM1E5OXpQMEo0TW5p?=
- =?utf-8?B?Umg5bXZWaUVyQSttcnRMSTZCb0xRSEJ0V3hZUG1nTVczVHBra0N1TzJPSFV6?=
- =?utf-8?B?SWh4Nm5RQXpHdW95S0pJbStmd1VldkFaVUNzUmdsNFlPcjc0MkYrbXRhRDFE?=
- =?utf-8?B?TEFNaVhKd29uWDdnZGR4cG9oQ0tHU3RydEhIRVF5N3JVaS9mYitYTVpzTlRN?=
- =?utf-8?B?M1VmT3BqSGY0dEJSVlI4eS8vSnRnNTVLcWViRkloWnFaeUZoYmxkYVAzek5o?=
- =?utf-8?B?dUg0NUZ0TzJMMHM1eDVGOGp4eWFXcGh1bmRNVlBUbTZhemNVSDZ3bGNobU9N?=
- =?utf-8?Q?Yw/7ISS4JxXYrc85TCOW4ysF9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3222d3d-a73d-465c-d7f1-08da975b11ba
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2941.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2022 20:44:22.3497 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VxrttksX6pL9zpQiRalO6ydts8w4PQtUlEY9mV27vrEdx+a0cRJ/CC3GbLCIJmIw/2rNGh46aucF//5nib0TbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4399
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4093.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1033394c-953e-451a-821c-08da975c833a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Sep 2022 20:54:42.0312 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ilvaq7SrkbQ64Dp1hb+0fcaUgm3LhWp3l42EmOvvGwL3AKrVtRkQWnHHkXsmDkvAR7ZmHavATMKtyGj7z+Er7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6914
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,125 +145,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stylon.wang@amd.com, qingqing.zhuo@amd.com, roman.li@amd.com,
- solomon.chiu@amd.com, Aurabindo.Pillai@amd.com, Bhawanpreet.Lakha@amd.com,
- agustin.gutierrez@amd.com, pavle.kotarac@amd.com
+Cc: "Ye, Tony" <tony.ye@intel.com>, "Teres
+ Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Usyskin,
+ Alexander" <alexander.usyskin@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michel,
 
-First of all, thanks a lot for your review. I want to take this 
-opportunity to discuss this topic in more depth and learn more from you 
-and others.
 
-+(Nick, Leo, Daniel, Mark, Dave, Sean, Simon)
+> On Wed, Sep 14, 2022 at 04:51:03PM +0000, Winkler, Tomas wrote:
+> > >
+> > > On DG2, HuC loading is performed by the GSC, via a PXP command. The
+> > > load operation itself is relatively simple (just send a message to
+> > > the GSC with the physical address of the HuC in LMEM), but there are
+> > > timing changes that requires special attention. In particular, to
+> > > send a PXP command we need to first export the GSC as an aux device
+> > > and then wait for the mei-gsc and mei- pxp modules to start, which
+> > > means that HuC load will complete after i915 load is complete. This
+> > > means that there is a small window of time after i915 is registered
+> > > and before HuC is loaded during which userspace could submit and/or
+> > > check the HuC load status, although this is quite unlikely to happen =
+(HuC
+> is usually loaded before kernel init/resume completes).
+> > > We've consulted with the media team in regards to how to handle this
+> > > and they've asked us to stall all userspace VCS submission until HuC =
+is
+> loaded.
+> > > Stalls are expected to be very rare (if any), due to the fact that
+> > > HuC is usually loaded before kernel init/resume is completed.
+> > >
+> > > Timeouts are in place to ensure all submissions are unlocked in case
+> > > something goes wrong. Since we need to monitor the status of the mei
+> > > driver to know what's happening and when to time out, a notifier has
+> > > been added so we get a callback when the status of the mei driver
+> changes.
+> > >
+> > > Note that this series includes several mei patches that add support
+> > > for sending the HuC loading command via mei-gsc. We plan to merge
+> > > those patches through the drm tree because i915 is the sole user.
+> > >
+> > > v2: address review comments, Reporting HuC loading still in progress
+> > > while we wait for mei-gsc init to complete, rebase on latest mei-gsc
+> series.
+> > >
+> > > v3: fix cc list in mei patches.
+> > >
+> > > v4: update mei patches, fix includes, rebase on new FW fetch logic
+> > > and merged mei-gsc support.
+> > >
+> > > v5: update mei patches
+> >
+> > Greg,  I hope I've addressed most of your comments.
+> > Can you please check if the mei patches are in acceptable state or anyt=
+hing
+> else can be improved with this series.  Appreciated.
+>=20
+> These were sent 2 days ago, in the middle of a conference travel.
+> Please relax, there's no special rush needed here, you know better.
+Sure
 
-On 2022-09-15 04:55, Michel Dänzer wrote:
-> On 2022-09-14 22:08, Alex Hung wrote:
->> On 2022-09-14 10:55, Michel Dänzer wrote:
->>> On 2022-09-14 18:30, Alex Hung wrote:
->>>> On 2022-09-14 07:40, Michel Dänzer wrote:
->>>>> On 2022-09-14 15:31, Michel Dänzer wrote:
->>>>>> On 2022-09-14 07:10, Wayne Lin wrote:
->>>>>>> From: Alex Hung <alex.hung@amd.com>
->>>>>>>
->>>>>>> [Why & How]
->>>>>>> This fixes kernel errors when IGT disables primary planes during the
->>>>>>> tests kms_universal_plane::functional_test_pipe/pageflip_test_pipe.
->>>>>>
->>>>>> NAK.
->>>>>>
->>>>>> This essentially reverts commit b836a274b797 ("drm/amdgpu/dc: Require primary plane to be enabled whenever the CRTC is") (except that it goes even further and completely removes the requirement for any HW plane to be enabled when the HW cursor is), so it would reintroduce the issues described in that commit log.
->>>>>
->>>>> Actually not exactly the same issues, due to going even further than reverting my fix.
->>>>>
->>>>> Instead, the driver will claim that an atomic commit which enables the CRTC and the cursor plane, while leaving all other KMS planes disabled, succeeds. But the HW cursor will not actually be visible.
->>>>
->>>> I did not observe problems with cursors (GNOME 42.4 - desktop and youtube/mpv video playback: windowed/fullscreen). Are there steps to reproduce cursor problems?
->>>
->>> As described in my last follow-up e-mail: An atomic KMS commit which enables the CRTC and the cursor plane, but disables all other KMS planes for the CRTC. The commit will succeed, but will not result in the HW cursor being actually visible. (I don't know of any specific application or test which exercises this)
->>
->> Did you mean cursor plane depends on primary plane (i.e. no primary plane = no visible HW cursor)?
-> 
-> Sort of. I understand the HW cursor isn't an actual separate plane in AMD HW. Instead, the HW cursor can be displayed as part of any other HW plane. This means that the HW cursor can only be visible if any other plane is enabled.
-
-The commit that you mentioned (b836a274b797) was created to address some 
-issues reported by the user. Please, correct me if I'm wrong, but the 
-original issue could be reproduced by following these steps on Gnome 
-with Ellesmere:
-
-1. Lock the screen and wait for suspending;
-2. Wake up the system a few minutes later;
-3. See two cursors, one that can be used and another one that is not 
-working.
-
-I tried to reproduce this issue using an Ellesmere board (+this 
-patchset), and Daniel has tested it in multiple ASICs; we never repro 
-that issue (Gnome and ChromeOS). It is not evident to me why we cannot 
-reproduce this problem. Do you have some suggestions? If we find a case 
-showing this bug, we can add it as part of our tests.
-
-I feel that the commit b836a274b797 is not directly related to that 
-specific bug. I mean, it might make sense to have it, but for other reasons.
-
-> 
->> If there is no primary plane, what scenario would it be required to draw a cursor?
->>
->> If this is a rare case, would it still be a concern?
-> 
-> Yes. In the KMS API, the cursor plane is like any other plane. A Wayland compositor or other user space may legitimately try to display something (not necessarily a "cursor") using only the cursor plane. The driver must accurately signal that this cannot work. The established way to do so (if a bit indirectly) is to require the primary plane to be enabled whenever the CRTC is.
-
-Is there any real case for this scenario? Is this scenario strong enough 
-to say that a driver does not support CRTC enabled without planes?
-
-> 
-> 
->>> Also see the commit log of bc92c06525e5 ("drm/amd/display: Allow commits with no planes active").
->>
->> Does it mean dm_crtc_helper_atomic_check does not need to return -EINVAL if there is no active cursor because there are no cursors to be shown anyways, [...]
-> 
-> This was considered in the review discussion for b836a274b797 ("drm/amdgpu/dc: Require primary plane to be enabled whenever the CRTC is"), see https://patchwork.freedesktop.org/patch/387230/ .
-> 
-> TL;DR: There were already other KMS drivers requiring the primary plane to be enabled whenever the CRTC is, and there's a special case for that in atomic_remove_fb. 
-
-iirc, this requiring is only available in drm_simple_kms_helper, and 
-drivers under the tiny folder are the only ones using it.
-
-> Adding another special case for the cursor plane would make things much more complicated for common DRM code and user space (and possibly even introduce issues which cannot be solved at all).
-> 
-> 
->>>>>> If IGT tests disable the primary plane while leaving the CRTC enabled, those tests are broken and need to be fixed instead.
->>>>
->>>> There are IGT cursor tests fixed by this:
->>>>
->>>>     igt@kms_cursor_legacy@flip-vs-cursor@atomic-transitions
->>>>     igt@kms_cursor_legacy@flip-vs-cursor@atomic-transitions-varying-size
->>>>
->>>> It also reduces amdgpu workaround in IGT's kms_concurrent:
->>>>     https://patchwork.freedesktop.org/patch/499382/?series=107734&rev=1>>>>>
->>>> The change affect multiple IGT tests. Adding amdgpu-specific workarounds to each of the IGT tests is not an ideal solution.
->>>
->>> It's not amdgpu specific, other atomic KMS drivers have the same restriction. IGT tests need to be able to handle this. See e.g. 88e379cef970 ("kms_cursor_legacy: Keep primary plane enabled for XRGB overlay fallback").
->>
->>
->> Commit 88e379cef970 adds the following change to keep primary plane enabled:
->>
->> +               igt_plane_set_fb(primary, prim_fb)
->>
->> but kms_universal_plane fails at testing disabling primary plane, ex.
->>
->> [...]
-> 
-> User space just cannot rely on being able to disable the primary plane while the CRTC is enabled. Any IGT tests which do so are broken and need to be fixed.
-> 
-> See also https://patchwork.freedesktop.org/series/80904/ .
-
-Could you resend it?
-
-Again, thanks a lot for your review and comments.
-Siqueira
-
-> 
-> 
+> In the mean time, if you are just waiting for my review, please take the =
+time
+> to review other pending patches from other developers to help lighten the
+> load on me, and other maintainers.
+Fair enough, that's all I do every day anyway.=20
+Thanks
+Tomas
 
