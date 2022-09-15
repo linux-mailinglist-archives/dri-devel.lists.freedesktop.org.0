@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD205B9F44
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 17:59:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E01A95B9F46
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 18:00:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 623C710E1F3;
-	Thu, 15 Sep 2022 15:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5889B10E1E5;
+	Thu, 15 Sep 2022 16:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6533910E1E5
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 15:59:25 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id bq9so31587571wrb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 08:59:25 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1832A10E1FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 16:00:17 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id bq9so31591457wrb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 09:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=t0i/TBZDs7elMmSaK59d+TIsx+y7LWOVQuu86421qJg=;
- b=XyXui7x1eEUDQwQQYrglR5eB3aj/RM0yZ3vcjpOHBJXQ80mfYNO1sTXtlv++vne7JK
- /Mb/Gftu6+B1z//gjd9lA9w+3EskiTjR6GrT7VbfPgr8ANZ0NQS/jebJwk/HfeNa1Zda
- cZUrqR8WgC5m8Ji2tNo7qCIu2tqH3xb97rIUsEvPCDgLx71HziJjgH73WlUiIJahQ3jQ
- Q8EieUvvkme3gKk3atiXyHnvglkX8hlJtqMig2juqtb2tvbp0M+Tsmq1VTpsrErPWgaY
- irarFeT8Mcy0NfVUqciaE7pIi1+1tr4hg/t8/EBNNYe53xpssacCXSIjZsl9GO2pMdtn
- kSfg==
+ bh=NtZaXYBrw/AG5wK2lscAo5IyphXo0G6cr0DhN47TYmY=;
+ b=C8YIcEmdhu28gVUvnH9/7QZ1fFt9ne2TkutofZr7UtX09EouEEFHqGLZpin0xm5b30
+ UwDiR7c+2NvxU4w5mt/fmWN6V8pklnwQx6b/skixsAAz5e1HZm+2TsQIwmsoObcbec+d
+ iEhOwBTEhyRUnnpFnmwZ2Dj9gJf19d7wzVFfVgCcysmS2/qRAiQTTtbUis2VqjD7KzTU
+ N40F/6pAb+tsxoDDrm6pGhAc5/gH8poH2LVE4mlkZZCItAdLO2WB5yuR2bTXdWb/+Aj7
+ Gh2N6wDQ3LZnexSGKqt6yI5LYVBZVWgEXOk+/hBYeGPqrLkVq1+BYq+/HyVNEcLM2eFQ
+ 2NhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=t0i/TBZDs7elMmSaK59d+TIsx+y7LWOVQuu86421qJg=;
- b=os0gTAb7JsJWTCd3xOjbDsnBQ3bMLXK8kE7EA6cHp+yIiaTKY34LgX9OwCIlf/o6O4
- tfXdSzs83vUksWkqV3Qt1WMykfLa5+suieKjK/rZ8+wNQ9Z+cWpNZUql5NgZcl5Ub6XM
- 8FV4ajjnCAdT7NFZ0Y6ygZlQw0EaWXIHVhIrOwIgCsuJNfZKTxa+uwn0+Ll5qZA59Ctg
- FZy71b7e7cLvb9EfPMdr9Fx71/xcke0A9L3k2IMNa8J2iutlL9aYTrZJ3cJ9P0glA+hK
- dA+fCVD57wttjLLRtorz/nrm1VNAzkhS0afed+nr/5MbmLjUtrnwsoY2OVwM8rKVxoDt
- poaQ==
-X-Gm-Message-State: ACrzQf22J5M+Ya+d2KLlrS3ioWOKEIxWnuhY9ZGggBIZlpOZwcesu/nP
- KCo7o0zuT3aSwfteuabmuOE=
-X-Google-Smtp-Source: AMsMyM5/jiNeWYU9WoRMSlLzfCdBR8Xnr6/lfRMXtFiqq8S+1eZjAzfpnQw1yT+m4rqEm6haKmPb+A==
-X-Received: by 2002:adf:cc92:0:b0:22a:361c:20b1 with SMTP id
- p18-20020adfcc92000000b0022a361c20b1mr205701wrj.691.1663257563771; 
- Thu, 15 Sep 2022 08:59:23 -0700 (PDT)
+ bh=NtZaXYBrw/AG5wK2lscAo5IyphXo0G6cr0DhN47TYmY=;
+ b=FTCYnzSYG0aZlX8OwrxwypsyoNDB0ZPtreuzgkWBxpFFMjy077N4/GXL8JKfVNQL42
+ yod6doXzwk3LhK3pP7c35Wgs00dDrZRqb7ajM033lfYbJaU8RMwL5OS9WbYN3VwBT1CB
+ fCH8qVtWa8b4EiVYQuMbGZvXpQK/qg088OOI/GJOApn89TdhRWsfA5PshD//sOnssVLw
+ S4OVbTP/FrjAHY3xLVeEIc/CU8sE0yiYceIi+7JKFbdAVxOAZn8Q9TCc7Jj9RZDk0ant
+ nExZhqy1+XkpLFZQ51evEwibZ2fAe9KNBT+6xOy/ePTu9VSs43j403JViG730FpcUrm7
+ T2iw==
+X-Gm-Message-State: ACrzQf1EWmS6jMg4bgNkhulCoz3VkxAMDlrtcMbA+yz+n7nm6+cTXQEt
+ DhMHbXqc6WIbKLRxrxNUHxU=
+X-Google-Smtp-Source: AMsMyM6OQEeLXkxWzioaolT5lZWFXDRwM7L61hQ16+IEMxL+6+zAMajEyf1Uk2/9wt56xCnf8m1PNA==
+X-Received: by 2002:adf:d1e8:0:b0:22a:c131:4c49 with SMTP id
+ g8-20020adfd1e8000000b0022ac1314c49mr211925wrd.647.1663257615219; 
+ Thu, 15 Sep 2022 09:00:15 -0700 (PDT)
 Received: from [192.168.2.177] ([207.188.167.132])
  by smtp.gmail.com with ESMTPSA id
- r17-20020a05600c425100b003a62400724bsm3475950wmm.0.2022.09.15.08.59.22
+ s2-20020adfdb02000000b002253fd19a6asm3647717wri.18.2022.09.15.09.00.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 08:59:22 -0700 (PDT)
-Message-ID: <7c2242ff-f526-a305-9d4b-650427a58a9d@gmail.com>
-Date: Thu, 15 Sep 2022 17:59:21 +0200
+ Thu, 15 Sep 2022 09:00:14 -0700 (PDT)
+Message-ID: <fbf403c5-55c3-d73f-f46c-5d4bf9283984@gmail.com>
+Date: Thu, 15 Sep 2022 18:00:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 2/3] drm/mediatek: dp: Remove unused register definitions
+Subject: Re: [PATCH 3/3] drm/mediatek: dp: Fix warning in mtk_dp_video_mute()
 Content-Language: en-US
 To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
  p.zabel@pengutronix.de, airlied@linux.ie
 References: <20220915075028.644-1-rex-bc.chen@mediatek.com>
- <20220915075028.644-3-rex-bc.chen@mediatek.com>
+ <20220915075028.644-4-rex-bc.chen@mediatek.com>
 From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220915075028.644-3-rex-bc.chen@mediatek.com>
+In-Reply-To: <20220915075028.644-4-rex-bc.chen@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,45 +87,53 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 15/09/2022 09:50, Bo-Chen Chen wrote:
-> Some definitions in mtk_dp_reg.h are not used, so remove these
-> redundant codes.
+> Warning:
+> ../drivers/gpu/drm/mediatek/mtk_dp.c: In function ‘mtk_dp_video_mute’:
+> ../drivers/gpu/drm/mediatek/mtk_dp.c:947:23: warning: format ‘%x’
+> expects argument of type ‘unsigned int’, but argument 4 has type ‘long
+> unsigned int’ [-Wformat=]
+>    947 |  dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
+>        |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> ../include/linux/dev_printk.h:129:27: note: in definition of macro ‘dev_printk’
+>    129 |   _dev_printk(level, dev, fmt, ##__VA_ARGS__);  \
+>        |                           ^~~
+> ../include/linux/dev_printk.h:163:31: note: in expansion of macro ‘dev_fmt’
+>    163 |   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+>        |                               ^~~~~~~
+> ../drivers/gpu/drm/mediatek/mtk_dp.c:947:2: note: in expansion of
+> macro ‘dev_dbg’
+>    947 |  dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
+>        |  ^~~~~~~
+> ../drivers/gpu/drm/mediatek/mtk_dp.c:947:36: note: format string is defined here
+>    947 |  dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
+>        |                                   ~^
+>        |                                    |
+>        |                                    unsigned int
+>        |                                   %lx
 > 
+> To fix this issue, we use %s to replace 0x%x.
+> 
+> Reported-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 
 Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
 > ---
->   drivers/gpu/drm/mediatek/mtk_dp_reg.h | 6 ------
->   1 file changed, 6 deletions(-)
+>   drivers/gpu/drm/mediatek/mtk_dp.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-> index 096ad6572a5e..84e38cef03c2 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-> @@ -153,8 +153,6 @@
->   #define CH_STATUS_1_DP_ENC0_P0_MASK			GENMASK(15, 0)
->   #define MTK_DP_ENC0_P0_3094			0x3094
->   #define CH_STATUS_2_DP_ENC0_P0_MASK			GENMASK(7, 0)
-> -#define MTK_DP_ENC0_P0_30A0			0x30a0
-> -#define DP_ENC0_30A0_MASK				(BIT(7) | BIT(8) | BIT(12))
->   #define MTK_DP_ENC0_P0_30A4			0x30a4
->   #define AU_TS_CFG_DP_ENC0_P0_MASK			GENMASK(7, 0)
->   #define MTK_DP_ENC0_P0_30A8			0x30a8
-> @@ -171,8 +169,6 @@
->   #define MTK_DP_ENC0_P0_312C			0x312c
->   #define ASP_HB2_DP_ENC0_P0_MASK				GENMASK(7, 0)
->   #define ASP_HB3_DP_ENC0_P0_MASK				GENMASK(15, 8)
-> -#define MTK_DP_ENC0_P0_3130			0x3130
-> -#define MTK_DP_ENC0_P0_3138			0x3138
->   #define MTK_DP_ENC0_P0_3154			0x3154
->   #define PGEN_HTOTAL_DP_ENC0_P0_MASK			GENMASK(13, 0)
->   #define MTK_DP_ENC0_P0_3158			0x3158
-> @@ -206,8 +202,6 @@
->   #define SDP_PACKET_TYPE_DP_ENC1_P0_MASK			GENMASK(4, 0)
->   #define SDP_PACKET_W_DP_ENC1_P0				BIT(5)
->   #define SDP_PACKET_W_DP_ENC1_P0_MASK			BIT(5)
-> -#define MTK_DP_ENC1_P0_328C			0x328c
-> -#define VSC_DATA_RDY_VESA_DP_ENC1_P0_MASK		BIT(7)
->   #define MTK_DP_ENC1_P0_3300			0x3300
->   #define VIDEO_AFIFO_RDY_SEL_DP_ENC1_P0_VAL		2
->   #define VIDEO_AFIFO_RDY_SEL_DP_ENC1_P0_MASK		GENMASK(9, 8)
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+> index c72c646e25e9..d58e98b2f83a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -1222,8 +1222,8 @@ static void mtk_dp_video_mute(struct mtk_dp *mtk_dp, bool enable)
+>   		      mtk_dp->data->smc_cmd, enable,
+>   		      0, 0, 0, 0, 0, &res);
+>   
+> -	dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
+> -		mtk_dp->data->smc_cmd, enable, res.a0, res.a1);
+> +	dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: %s, ret: 0x%lx-0x%lx\n",
+> +		mtk_dp->data->smc_cmd, enable ? "enable" : "disable", res.a0, res.a1);
+>   }
+>   
+>   static void mtk_dp_audio_mute(struct mtk_dp *mtk_dp, bool mute)
