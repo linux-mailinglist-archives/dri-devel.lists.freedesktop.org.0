@@ -1,45 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6985B9C96
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 16:08:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D405B9CD2
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 16:19:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E226A10E1D0;
-	Thu, 15 Sep 2022 14:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3C8A10EB3F;
+	Thu, 15 Sep 2022 14:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0EEE10E1D0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 14:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663250907; x=1694786907;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=Z7Lu2DWPRFF2nf/dGi8qHHlBq8bmy7c7kcLKhkB15FE=;
- b=lKJC/wXTS6xq5mhhZ7r5FRggjgwpIvv81br1PlB6UhFmTlklSUw4A96i
- Kxndclvx2Q6ILnLumw/jyTQFVjxVuRc171XSwbWg24jTfO9zk95sz1m0g
- MUhh+XEviqSofy2y1nfD7Xac20B4Zoq9F8ZGkSkOYZlEunidFQsN/PVEy
- p/RaeER0muyGKrsErh4hjtlCTPuE94CIBKyku8YmRVZCNY2Iq9kDqY8PI
- cLcJKW50gyEyBx6BY0m2k8lN70pTogRNXv70WoDSZWxr97MUkGQZKHeXK
- iIuNE/1pLZZNExe2EXZJrAJTh9oXBSVDaL3vLr0Cfwm6hzLBYX91leo84 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="360459825"
-X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; d="scan'208";a="360459825"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 07:07:01 -0700
-X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; d="scan'208";a="742943216"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.146])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 07:06:58 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: tools@linux.kernel.org, dri-devel@lists.freedesktop.org
-Subject: pr-tracker-bot for drm subsystem?
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 15 Sep 2022 17:06:51 +0300
-Message-ID: <87a670spdw.fsf@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5EA10EB3F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 14:19:46 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1oYpiQ-0002aj-65; Thu, 15 Sep 2022 16:19:42 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: don't truncate physical page address
+Date: Thu, 15 Sep 2022 16:19:41 +0200
+Message-Id: <20220915141941.3408991-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,33 +42,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+While the interface for the MMU mapping takes phys_addr_t to hold a
+full 64bit address when necessary and MMUv2 is able to map physical
+addresses with up to 40bit, etnaviv_iommu_map() truncates the address
+to 32bits. Fix this by using the correct type.
 
-Hey all, I'd be interested in having the pr-tracker-bot [1] set up for
-the drm subsystem, following the dri-devel mailing list [2] and
-notifying when the pull requests have been merged to either the drm-next
-or drm-fixes branches of the main drm repository [3].
+Fixes: 931e97f3afd8 ("drm/etnaviv: mmuv2: support 40 bit phys address")
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-What would this require in terms of the tracker bot code?
-
-Is the idea that the service could be expanded to cover subsystems
-instead of just LKML and mainline, or would all subsystems have to set
-it up for themselves with their own cron jobs on their own servers?
-
-Other considerations?
-
-
-BR,
-Jani.
-
-
-[1] https://korg.docs.kernel.org/prtracker.html
-[2] https://lists.freedesktop.org/mailman/listinfo/dri-devel
-[3] https://cgit.freedesktop.org/drm/drm/
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+index dc1aa738c4f1..2ff80d5ccf07 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+@@ -80,7 +80,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+ 		return -EINVAL;
+ 
+ 	for_each_sgtable_dma_sg(sgt, sg, i) {
+-		u32 pa = sg_dma_address(sg) - sg->offset;
++		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
+ 		size_t bytes = sg_dma_len(sg) + sg->offset;
+ 
+ 		VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.30.2
+
