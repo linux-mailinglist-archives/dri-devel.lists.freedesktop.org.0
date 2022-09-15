@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39985B91E4
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 02:46:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC765B91F1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 02:56:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B634A10E1D7;
-	Thu, 15 Sep 2022 00:46:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA8510E23D;
+	Thu, 15 Sep 2022 00:56:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com
- [IPv6:2607:f8b0:4864:20::64a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8412610E1D7
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 00:46:06 +0000 (UTC)
-Received: by mail-pl1-x64a.google.com with SMTP id
- x13-20020a170902ec8d00b00177f0fa642cso11483497plg.10
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Sep 2022 17:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date; bh=o0TKZg1V+iwVMAhcvK219IOXYb7az/U83DvEghII4Dw=;
- b=ixIlbiWjYVB7lleKcOS25U/195trOCFFYYTNY2ArRn6K/NXN4jKkbx8xqVv40XOYwc
- gzOAoHFIZ5nYNTfyaobW0eR/pRWG25686m9JNJWBrr+6XN1RIF81EpUMZ2WjcMFCwhSm
- 8Gb5q+USrZHuvbc4jRv89+/+mSkgNgiHosn5pQFsAnbd1C2Dv7ogkJvH1mC5lGrL+dPr
- bnDcostykRNUl2cropFFiaYmIcz4a5CirfMwmfwgNqHM/EqMlJz/pmNv4Ugl2f1MNawE
- jIGBZhIlX4HrU621pf9P/4CGXhHLBZxK7w0Dp2p+dDVn1hB+Jl5575zzcLF/aRyRy4zu
- UhiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date;
- bh=o0TKZg1V+iwVMAhcvK219IOXYb7az/U83DvEghII4Dw=;
- b=kaW6Q08iyeLSbumaaAtDCzQaj5wkztc6LHUGlDlfnBEfrqDH20E0ho6sHzdLxJKUMt
- 0IQfPQsRZ4Hrk3ad8rhHg6Dshx6hph2MvuX5v16ov+BVgLeotcLR9TW/ssfO9a1zLw2n
- Kc99pxERx3W375BfDESrut6a/X8Ab2Q4l+RKYlnOTY1JLIaCoF6YHeXmi7o/IFOoCO3y
- lvFIHVangg4tC0uYTXFMiWFunaom4SKzJ0fgmLFqv0FehbH/ks8r5NU1BSRpJhcAjXXz
- NIHDZDHuppHCbQr/sYTs8iFB8QWclwp0lQtLnyTl3zA/ZcRTWK3z3vMITYXDlQ27XJfh
- c0kg==
-X-Gm-Message-State: ACrzQf0iCm3yMY/pdj3+9D88g6Sgo8/UVe0qKp6rsIwr5bIJ/gdQk0Ou
- ZSai0q/g/eJ1XVUchWzIeZ6KZ9Nq0moTUvU=
-X-Google-Smtp-Source: AMsMyM7cpjC0UvYeAkGaQWcCbIFCVaxS58PZrp3VQQ5nzbzNbiesGmVdHmcPLBDxn84TmNTXrfnoS9iOMdHYeok=
-X-Received: from pceballos.c.googlers.com
- ([fda3:e722:ac3:cc00:24:72f4:c0a8:128c])
- (user=pceballos job=sendgmr) by 2002:a17:90a:5aa2:b0:200:30aa:c773 with SMTP
- id n31-20020a17090a5aa200b0020030aac773mr7466200pji.182.1663202766080; Wed,
- 14 Sep 2022 17:46:06 -0700 (PDT)
-Date: Thu, 15 Sep 2022 00:46:01 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220915004601.320198-1-pceballos@google.com>
-Subject: [PATCH] drm/i915/display/lspcon: Increase LSPCON mode settle timeout
-From: Pablo Ceballos <pceballos@google.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15E7210E23B;
+ Thu, 15 Sep 2022 00:56:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663203370; x=1694739370;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=72PhN9JgoB4YcbNMnu1JZnOr4vQsl+lBbU038pQ0ITY=;
+ b=Ff20bt4vgk4tpi3o0On9CvlYikJDkj038+Ua7HpSTGP25AtG1hytcFg+
+ fhuRGRZNUDIq6qQR2JHFt1ksetESphFCOegOnfy5z1h6Wc7EIYh7vCjpW
+ 2s68rt6u+Or8ccrseS8R7gqv3JtI7UH2U036qwPt+kKfA8tajWgkWK5CL
+ Ea4e0Kdk0LuCW06Q+bLV4scMR3+kg4Klfu2Z48+3ZaXJGIrWZ2hofaCjJ
+ sxZzR3ELu6pu7qkwjWgdbVAY9whyGHCYD7+VH6NJoFcDzdK1UESgccHm/
+ 0iYFRortM2dnKLV1Bm2i+5LWSBXS0L49obZ/kpI2x2XmFugTsP+wKcCvU g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="297307612"
+X-IronPort-AV: E=Sophos;i="5.93,316,1654585200"; d="scan'208";a="297307612"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2022 17:56:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,316,1654585200"; d="scan'208";a="759426349"
+Received: from lkp-server01.sh.intel.com (HELO d6e6b7c4e5a2) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 14 Sep 2022 17:56:04 -0700
+Received: from kbuild by d6e6b7c4e5a2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oYdAh-0000k8-16;
+ Thu, 15 Sep 2022 00:56:03 +0000
+Date: Thu, 15 Sep 2022 08:55:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Nicholas Choi <nicholas.choi@amd.com>,
+ Daniel Latypov <dlatypov@google.com>, David Gow <davidgow@google.com>
+Subject: Re: [PATCH v3 7/8] drm/amd/display: Introduce KUnit tests to
+ dc_dmub_srv library
+Message-ID: <202209150834.M0BeSpLy-lkp@intel.com>
+References: <20220912155919.39877-8-mairacanal@riseup.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220912155919.39877-8-mairacanal@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,36 +70,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Pablo Ceballos <pceballos@google.com>
+Cc: kbuild-all@lists.01.org, magalilemes00@gmail.com, tales.aparecida@gmail.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ dri-devel@lists.freedesktop.org, Isabella Basso <isabbasso@riseup.net>,
+ andrealmeid@riseup.net, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some devices the Parade PS175 takes more than 400ms to settle in PCON
-mode.
+Hi Maíra,
 
-Signed-off-by: Pablo Ceballos <pceballos@google.com>
----
- drivers/gpu/drm/i915/display/intel_lspcon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for the patch! Yet something to improve:
 
-diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
-index 15d59de8810e..b4cbade13ee5 100644
---- a/drivers/gpu/drm/i915/display/intel_lspcon.c
-+++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
-@@ -166,7 +166,7 @@ static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
- 	drm_dbg_kms(&i915->drm, "Waiting for LSPCON mode %s to settle\n",
- 		    lspcon_mode_name(mode));
- 
--	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode, 400);
-+	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode, 800);
- 	if (current_mode != mode)
- 		drm_err(&i915->drm, "LSPCON mode hasn't settled\n");
- 
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip linus/master v6.0-rc5 next-20220914]
+[cannot apply to drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-amd-display-Introduce-KUnit-to-Display-Mode-Library/20220913-000256
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: loongarch-randconfig-r026-20220914 (https://download.01.org/0day-ci/archive/20220915/202209150834.M0BeSpLy-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/50e2391775a6552a521c783a6fcd36942b906e3f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ma-ra-Canal/drm-amd-display-Introduce-KUnit-to-Display-Mode-Library/20220913-000256
+        git checkout 50e2391775a6552a521c783a6fcd36942b906e3f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:863:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/../tests/dc/dc_dmub_srv_test.c: In function 'populate_subvp_cmd_drr_info_test':
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/../tests/dc/dc_dmub_srv_test.c:260:9: error: implicit declaration of function 'populate_subvp_cmd_drr_info'; did you mean 'populate_subvp_cmd_drr_info_test'? [-Werror=implicit-function-declaration]
+     260 |         populate_subvp_cmd_drr_info(test_param->dc, test_param->subvp_pipe,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         populate_subvp_cmd_drr_info_test
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:31:
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h: At top level:
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:137:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
+     137 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
+         |                      ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:134:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
+     134 | static const u8 DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:132:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
+     132 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5, 0};
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:131:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
+     131 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3, 0};
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +260 drivers/gpu/drm/amd/amdgpu/../display/dc/../tests/dc/dc_dmub_srv_test.c
+
+   246	
+   247	KUNIT_ARRAY_PARAM(populate_subvp_cmd_drr_info, populate_subvp_cmd_drr_info_cases,
+   248			  populate_subvp_cmd_drr_info_test_to_desc);
+   249	
+   250	static void populate_subvp_cmd_drr_info_test(struct kunit *test)
+   251	{
+   252		const struct populate_subvp_cmd_drr_info_test_case *test_param =
+   253			test->param_value;
+   254		struct dmub_cmd_fw_assisted_mclk_switch_pipe_data_v2 *pipe_data;
+   255	
+   256		pipe_data = kunit_kzalloc(test,
+   257					  sizeof(struct dmub_cmd_fw_assisted_mclk_switch_pipe_data_v2),
+   258					  GFP_KERNEL);
+   259	
+ > 260		populate_subvp_cmd_drr_info(test_param->dc, test_param->subvp_pipe,
+   261					    test_param->vblank_pipe, pipe_data);
+   262	
+   263		KUNIT_EXPECT_EQ(test, test_param->drr_in_use,
+   264				pipe_data->pipe_config.vblank_data.drr_info.drr_in_use);
+   265		KUNIT_EXPECT_EQ(test, test_param->drr_window_size_ms,
+   266				pipe_data->pipe_config.vblank_data.drr_info.drr_window_size_ms);
+   267		KUNIT_EXPECT_EQ(test, test_param->use_ramping,
+   268				pipe_data->pipe_config.vblank_data.drr_info.use_ramping);
+   269		KUNIT_EXPECT_EQ(test, test_param->min_vtotal_supported,
+   270				pipe_data->pipe_config.vblank_data.drr_info.min_vtotal_supported);
+   271		KUNIT_EXPECT_EQ(test, test_param->max_vtotal_supported,
+   272				pipe_data->pipe_config.vblank_data.drr_info.max_vtotal_supported);
+   273	}
+   274	
+
 -- 
-2.37.2.789.g6183377224-goog
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
