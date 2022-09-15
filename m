@@ -1,54 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB3D5B96CB
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 10:59:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 401085B96F1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 11:04:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A890D10E15D;
-	Thu, 15 Sep 2022 08:59:38 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D59410E15B;
- Thu, 15 Sep 2022 08:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663232373; x=1694768373;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=u29BZBVx9CyR3AnvmwBg//07kpiOiEGDo4JovFcekcs=;
- b=jJRByTXyfGAJUMfX/6Gd2syxvJ/OwLHIJ3CzBuqB7DwlycGkTjTLjy9/
- wkITotHcHx3P3UzpYqzi3v0O0Qo0QY0YqhYIAGePJfKXsTklgKdTJ2dVU
- xqgETGn9F9p+jTr43NmJpLTEOQeH7rX0ww8hfPfqBzaGEwjplZSZ273RI
- 2UG8puIhzcborQXWNABpwrjMdzqijzzsxKtpvcZoRXoVUzKUlIsEHLn4J
- 08dGsL9yWn3msxuJwFZxjoWrldj95ysqzxABc4QIqvNQB78rvlSG3MAZT
- 5CKnKOvmND8NSlHKgjc2D+5sbqtr5yxBTdxdBmwJXUnvGQrDbfnIOiNxt Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="285699121"
-X-IronPort-AV: E=Sophos;i="5.93,317,1654585200"; d="scan'208";a="285699121"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 01:59:32 -0700
-X-IronPort-AV: E=Sophos;i="5.93,317,1654585200"; d="scan'208";a="650404865"
-Received: from alishana-mobl1.ger.corp.intel.com (HELO [10.213.218.26])
- ([10.213.218.26])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 01:59:31 -0700
-Message-ID: <2bf26f8f-7f5f-4cfb-5117-a9119bf708fe@linux.intel.com>
-Date: Thu, 15 Sep 2022 09:59:29 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA8E010E151;
+	Thu, 15 Sep 2022 09:04:06 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE21910E151
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 09:04:01 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-122-187.nat.spd-mgts.ru
+ [109.252.122.187])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A095A6601DA4;
+ Thu, 15 Sep 2022 10:03:59 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1663232640;
+ bh=S1YLvSizmUIQcrD2uYb2yCCIIfInNdi/mmbDQPuBE7w=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Ug7NuurWv5VYl66s3rVq9CSL/vNzMEOfhHT2ruSW68q9xGzLhp6Qkfn8ZfScefyLt
+ PRLwH8VtPDW2cDmQqSUMkaAc1TfscCL/9Wh7h0Pyju5MdmhWswtgWgg+yyBa6nQzAg
+ usXsLgIXDU2UsR6TthrLvKzeUbwwJbUHWV57B6PoUXzTS8sUlkRcrtefimM00NfsTc
+ Qngewm65dKVK5Ll1gY84IDo1VvWmlH+haIH8XCXbfuvo/le+esG+93p5IW+YVzR0G/
+ 4acjmReIpANfUOfkSEuweeD8PR7g8aaRPVrgl1iXi9jY4BeiVU+rQZDjqS0jTVcdAi
+ qKN2B3rUDGZJQ==
+Message-ID: <6051fab8-e198-fd58-2dfe-b2b344b67c15@collabora.com>
+Date: Thu, 15 Sep 2022 12:03:56 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915/uc: Update to latest GuC and use
- new-format GuC/HuC names
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH -next] drm/mediatek: dp: change mtk_dp_driver to static
+To: Yang Yingliang <yangyingliang@huawei.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20220913134929.1970187-1-yangyingliang@huawei.com>
 Content-Language: en-US
-To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220914234605.622342-1-John.C.Harrison@Intel.com>
- <20220914234605.622342-2-John.C.Harrison@Intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220914234605.622342-2-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220913134929.1970187-1-yangyingliang@huawei.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,73 +56,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- DRI-Devel@Lists.FreeDesktop.Org
+Cc: chunkuang.hu@kernel.org, msp@baylibre.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hi,
-
-On 15/09/2022 00:46, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
+On 9/13/22 16:49, Yang Yingliang wrote:
+> mtk_dp_driver is only used in mtk_dp.c now, change it
+> to static.
 > 
-> Going forwards, the intention is for GuC firmware files to be named
-> for their major version only and HuC firmware files to have no version
-> number in the name at all. This patch adds those entries for all
-> platforms that are officially GuC/HuC enabled.
-> 
-> Also, update the expected GuC version numbers to the latest firmware
-> release for those platforms.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 > ---
->   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_dp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> index 1169e2a09da24..b91ad4aede1f7 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> @@ -72,12 +72,14 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
->    * security fixes, etc. to be enabled.
->    */
->   #define INTEL_GUC_FIRMWARE_DEFS(fw_def, guc_maj, guc_mmp) \
-> -	fw_def(DG2,          0, guc_mmp(dg2,  70, 4, 1)) \
-> +	fw_def(DG2,          0, guc_maj(dg2,  70, 5)) \
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+> index dfa942ca62da..6a8c0f4c5c09 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -2642,7 +2642,7 @@ static const struct of_device_id mtk_dp_of_match[] = {
+>  };
+>  MODULE_DEVICE_TABLE(of, mtk_dp_of_match);
+>  
+> -struct platform_driver mtk_dp_driver = {
+> +static struct platform_driver mtk_dp_driver = {
+>  	.probe = mtk_dp_probe,
+>  	.remove = mtk_dp_remove,
+>  	.driver = {
 
-Just glancing over out of curiosity. Part which confused me is that if 
-only major is supposed to be used then what is the '5' in guc_maj(dg2, 
-70, 5) ?
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-I also couldn't find guc_maj with grep so I guess it's some sort of a 
-magic concatenation macro or what?
+-- 
+Best regards,
+Dmitry
 
-Regards,
-
-Tvrtko
-
-> +	fw_def(ALDERLAKE_P,  0, guc_maj(adlp, 70, 5)) \
->   	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 70, 1, 1)) \
->   	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 69, 0, 3)) \
-> +	fw_def(ALDERLAKE_S,  0, guc_maj(tgl,  70, 5)) \
->   	fw_def(ALDERLAKE_S,  0, guc_mmp(tgl,  70, 1, 1)) \
->   	fw_def(ALDERLAKE_S,  0, guc_mmp(tgl,  69, 0, 3)) \
-> -	fw_def(DG1,          0, guc_mmp(dg1,  70, 1, 1)) \
-> +	fw_def(DG1,          0, guc_maj(dg1,  70, 5)) \
->   	fw_def(ROCKETLAKE,   0, guc_mmp(tgl,  70, 1, 1)) \
->   	fw_def(TIGERLAKE,    0, guc_mmp(tgl,  70, 1, 1)) \
->   	fw_def(JASPERLAKE,   0, guc_mmp(ehl,  70, 1, 1)) \
-> @@ -92,9 +94,11 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
->   	fw_def(SKYLAKE,      0, guc_mmp(skl,  70, 1, 1))
->   
->   #define INTEL_HUC_FIRMWARE_DEFS(fw_def, huc_raw, huc_mmp) \
-> +	fw_def(ALDERLAKE_P,  0, huc_raw(tgl)) \
->   	fw_def(ALDERLAKE_P,  0, huc_mmp(tgl,  7, 9, 3)) \
-> +	fw_def(ALDERLAKE_S,  0, huc_raw(tgl)) \
->   	fw_def(ALDERLAKE_S,  0, huc_mmp(tgl,  7, 9, 3)) \
-> -	fw_def(DG1,          0, huc_mmp(dg1,  7, 9, 3)) \
-> +	fw_def(DG1,          0, huc_raw(dg1)) \
->   	fw_def(ROCKETLAKE,   0, huc_mmp(tgl,  7, 9, 3)) \
->   	fw_def(TIGERLAKE,    0, huc_mmp(tgl,  7, 9, 3)) \
->   	fw_def(JASPERLAKE,   0, huc_mmp(ehl,  9, 0, 0)) \
