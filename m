@@ -2,71 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F7F5BA294
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 00:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB335BA299
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 00:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9ED010E1A8;
-	Thu, 15 Sep 2022 22:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2493D10E2C0;
+	Thu, 15 Sep 2022 22:08:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57B2710E1A8
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 22:05:38 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id k9so33069229wri.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 15:05:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=zpqoR6zYZaDbnVePsdH4FdM+xRD3zWKF1Haict6bhus=;
- b=XsVZUp1G1GndrcNDmonhqsYyg8HENAjE19GNzlYPa/9kJbmBwf5y8+EJXbj0+cAhPJ
- K/d+4UWOFoDSxeoGXdWIdcZR/FU8eOo0ROvShTuaP1k0e9WN9d9NxzdivNQz1SyuC1s0
- HFknvEWVqwQWonj6Hjtb2csapqZ8tthlClB/YlLzrIPHCGItCQSFE+PoO6evABmQEIL6
- 0cXE5lJQ/WGwcjbX8iAqVaG+8Ae5a3o16RGAV+/bFA27j1PzMp2FoCDIx8yMhVjblA2Y
- fao53K60h9ADNAbZt+b5wHD7mhvKx+8h3JPGzSkufm6Rixa6jeUaX0bsQyWwPVD1Cx7Y
- DhOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=zpqoR6zYZaDbnVePsdH4FdM+xRD3zWKF1Haict6bhus=;
- b=K2XaUCJrctBa9o7laa3w5bvDQ4l3PoxH1S/5sO6CGbdqlgHiCwQLGms8JKsbmNgiAg
- +GL/J2BvdC/VVO/Hc5UbldKSK6mavYAgAskNzTq8+tr7VAkYD00PYyzTelhdWVv2Exum
- 65jLxmGJ4UHQTiuxx7FcXMw7eaMEQXlemBy8jvioY4oBfX1ijIh5agRFemqLe6G+M2n7
- PCc2ILTy/iMDRc4zO7cDFWf1V2SAaY0aflAWDsKU0Zmk4w1bKDVCv165smULJkGsJSqR
- 8gOD8tcjOMyPeiwW4MUH/RapEEzMEujk85HcRZLyZdyyc9992XOVW/2/Bc7n/UeFSzQy
- 9vaw==
-X-Gm-Message-State: ACrzQf3+SiwJUFSkdmFdtVHlQpRmB72DNH77dVQXzYXiSGClHWheh5Po
- XeLbfPuEzVgA7uuF9JlJyco=
-X-Google-Smtp-Source: AMsMyM5AwDHR+8oZ+u3KaLAwxnWLC8Cjl6pFCJwRn0zoZVRLZeruSgKYx2FpwJShdi51jWomIYHDfQ==
-X-Received: by 2002:a5d:5963:0:b0:22a:47ed:f98f with SMTP id
- e35-20020a5d5963000000b0022a47edf98fmr1022216wri.155.1663279536730; 
- Thu, 15 Sep 2022 15:05:36 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- u15-20020a05600c19cf00b003b33943ce5esm217457wmq.32.2022.09.15.15.05.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 15:05:35 -0700 (PDT)
-Message-ID: <e6921ed7-a14c-aadb-abd4-1e7ee0a63be9@gmail.com>
-Date: Fri, 16 Sep 2022 00:05:34 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE5510E2C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 22:08:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663279709; x=1694815709;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=sr3bi5Ho2nJ9xxOamW7sASuDnJhDYQxpiFWbAFVoyyM=;
+ b=nyle1ywa/vrcuIGlICk3ABiTaJgEsQZw2RxYDXctCKWXsAvMkeX7X1YO
+ AAPZu7LNDr3eXAVahpnp4l1zeAd7MFO1aAt3SU2r6vk8ADX7kdZRZdi3Q
+ +aWjGKj1exj8yHKbdjk5S8P+RkNX7QHR7nfSIABlrb2SmqLyYzFOzftCl
+ HilfXJV/3V0MSb9+HMB/pC1+w3MO73GLt+4yOBi4hkS8y01pVaMh8bxBK
+ O7G/9sLUaFWERrVpycymUy7mW04jz+BtkUf5sdZYOgaj+dKjMYPsT3XC4
+ zucFMqCEN9pLxeXe42vc4WiBcHj2sxZt0WESqeCJejFx01cbrbHUqRmQL Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="281880472"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="281880472"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 15:08:28 -0700
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="650650698"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.143])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 15:08:28 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: gfx-internal-devel@eclists.intel.com
+Subject: [PATCH v1.1] drm/i915: Split i915_gem_init_stolen()
+Date: Thu, 15 Sep 2022 15:07:45 -0700
+Message-Id: <20220915220745.411958-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220915-stolen-v1-3-117c5f295bb2@intel.com>
+References: <20220915-stolen-v1-3-117c5f295bb2@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2 1/6] dt-bindings: arm: mediatek: mmsys: change
- compatible for MT8195
-Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20220915161817.10307-1-jason-jh.lin@mediatek.com>
- <20220915161817.10307-2-jason-jh.lin@mediatek.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220915161817.10307-2-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,64 +55,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add some helpers: adjust_stolen(), request_smem_stolen_() and
+init_reserved_stolen() that are now called by i915_gem_init_stolen() to
+initialize each part of the Data Stolen Memory region. Main goal is to
+split the reserved part, also known as WOPCM, as its calculation changes
+often per platform.
 
+No change in behavior.
 
-On 15/09/2022 18:18, Jason-JH.Lin wrote:
-> For previous MediaTek SoCs, such as MT8173, there are 2 display HW
-> pipelines binding to 1 mmsys with the same power domain, the same
-> clock driver and the same mediatek-drm driver.
-> 
-> For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding to
-> 2 different power domains, different clock drivers and different
-> mediatek-drm drivers.
-> 
-> Moreover, Hardware pipeline of VDOSYS0 has these components: COLOR,
-> CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture Quality)
-> and they makes VDOSYS0 supports PQ function while they are not
-> including in VDOSYS1.
-> 
-> Hardware pipeline of VDOSYS1 has the component ETHDR (HDR related
-> component). It makes VDOSYS1 supports the HDR function while it's not
-> including in VDOSYS0.
-> 
-> To summarize0:
-> Only VDOSYS0 can support PQ adjustment.
-> Only VDOSYS1 can support HDR adjustment.
-> 
-> Therefore, we need to separate these two different mmsys hardwares to
-> 2 different compatibles for MT8195.
-> 
-> Fixes: 81c5a41d10b9 ("dt-bindings: arm: mediatek: mmsys: add mt8195 SoC binding")
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
->   .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml        | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> index 6ad023eec193..0e267428eaa6 100644
-> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> @@ -31,7 +31,7 @@ properties:
->                 - mediatek,mt8183-mmsys
->                 - mediatek,mt8186-mmsys
->                 - mediatek,mt8192-mmsys
-> -              - mediatek,mt8195-mmsys
-> +              - mediatek,mt8195-vdosys0
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 143 ++++++++++++---------
+ 1 file changed, 85 insertions(+), 58 deletions(-)
 
-Nack, we miss the fallback compatible, as I already said twice.
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index c34065fe2ecc..6279eed3cdf3 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -77,22 +77,26 @@ void i915_gem_stolen_remove_node(struct drm_i915_private *i915,
+ 	mutex_unlock(&i915->mm.stolen_lock);
+ }
+ 
+-static int i915_adjust_stolen(struct drm_i915_private *i915,
+-			      struct resource *dsm)
++static bool valid_stolen_size(struct resource *dsm)
++{
++	return dsm->start != 0 && dsm->end > dsm->start;
++}
++
++static int adjust_stolen(struct drm_i915_private *i915,
++			 struct resource *dsm)
+ {
+ 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 	struct intel_uncore *uncore = ggtt->vm.gt->uncore;
+-	struct resource *r;
+ 
+-	if (dsm->start == 0 || dsm->end <= dsm->start)
++	if (!valid_stolen_size(dsm))
+ 		return -EINVAL;
+ 
+ 	/*
++	 * Make sure we don't clobber the GTT if it's within stolen memory
++	 *
+ 	 * TODO: We have yet too encounter the case where the GTT wasn't at the
+ 	 * end of stolen. With that assumption we could simplify this.
+ 	 */
+-
+-	/* Make sure we don't clobber the GTT if it's within stolen memory */
+ 	if (GRAPHICS_VER(i915) <= 4 &&
+ 	    !IS_G33(i915) && !IS_PINEVIEW(i915) && !IS_G4X(i915)) {
+ 		struct resource stolen[2] = {*dsm, *dsm};
+@@ -131,10 +135,20 @@ static int i915_adjust_stolen(struct drm_i915_private *i915,
+ 		}
+ 	}
+ 
++	if (!valid_stolen_size(dsm))
++		return -EINVAL;
++
++	return 0;
++}
++
++static int request_smem_stolen(struct drm_i915_private *i915,
++			       struct resource *dsm)
++{
++	struct resource *r;
++
+ 	/*
+-	 * With stolen lmem, we don't need to check if the address range
+-	 * overlaps with the non-stolen system memory range, since lmem is local
+-	 * to the gpu.
++	 * With stolen lmem, we don't need to request if the address range
++	 * since lmem is local to the gpu.
+ 	 */
+ 	if (HAS_LMEM(i915))
+ 		return 0;
+@@ -392,39 +406,22 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
+ 	}
+ }
+ 
+-static int i915_gem_init_stolen(struct intel_memory_region *mem)
++/*
++ * Initialize i915->dsm_reserved to contain the reserved space within the Data
++ * Stolen Memory. This is a range on the top of DSM that is reserved, not to
++ * be used by driver, so must be excluded from the region passed to the
++ * allocator later. In the spec this is also called as WOPCM.
++ *
++ * Our expectation is that the reserved space is at the top of the stolen
++ * region, as it has been the case for every platform, and *never* at the
++ * bottom, so the calculation here can be simplified.
++ */
++static int init_reserved_stolen(struct drm_i915_private *i915)
+ {
+-	struct drm_i915_private *i915 = mem->i915;
+ 	struct intel_uncore *uncore = &i915->uncore;
+ 	resource_size_t reserved_base, stolen_top;
+-	resource_size_t reserved_total, reserved_size;
+-
+-	mutex_init(&i915->mm.stolen_lock);
+-
+-	if (intel_vgpu_active(i915)) {
+-		drm_notice(&i915->drm,
+-			   "%s, disabling use of stolen memory\n",
+-			   "iGVT-g active");
+-		return 0;
+-	}
+-
+-	if (i915_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
+-		drm_notice(&i915->drm,
+-			   "%s, disabling use of stolen memory\n",
+-			   "DMAR active");
+-		return 0;
+-	}
+-
+-	if (resource_size(&mem->region) == 0)
+-		return 0;
+-
+-	if (i915_adjust_stolen(i915, &mem->region))
+-		return 0;
+-
+-	GEM_BUG_ON(i915->dsm.start == 0);
+-	GEM_BUG_ON(i915->dsm.end <= i915->dsm.start);
+-
+-	i915->dsm = mem->region;
++	resource_size_t reserved_size;
++	int ret = 0;
+ 
+ 	stolen_top = i915->dsm.end + 1;
+ 	reserved_base = stolen_top;
+@@ -455,17 +452,16 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
+ 					&reserved_base, &reserved_size);
+ 	}
+ 
+-	/*
+-	 * Our expectation is that the reserved space is at the top of the
+-	 * stolen region and *never* at the bottom. If we see !reserved_base,
+-	 * it likely means we failed to read the registers correctly.
+-	 */
++	/* No reserved stolen */
++	if (reserved_base == stolen_top)
++		goto bail_out;
++
+ 	if (!reserved_base) {
+ 		drm_err(&i915->drm,
+ 			"inconsistent reservation %pa + %pa; ignoring\n",
+ 			&reserved_base, &reserved_size);
+-		reserved_base = stolen_top;
+-		reserved_size = 0;
++		ret = -EINVAL;
++		goto bail_out;
+ 	}
+ 
+ 	i915->dsm_reserved =
+@@ -475,19 +471,55 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
+ 		drm_err(&i915->drm,
+ 			"Stolen reserved area %pR outside stolen memory %pR\n",
+ 			&i915->dsm_reserved, &i915->dsm);
++		ret = -EINVAL;
++		goto bail_out;
++	}
++
++	return 0;
++
++bail_out:
++	i915->dsm_reserved =
++		(struct resource)DEFINE_RES_MEM(reserved_base, 0);
++
++	return ret;
++}
++
++static int i915_gem_init_stolen(struct intel_memory_region *mem)
++{
++	struct drm_i915_private *i915 = mem->i915;
++
++	mutex_init(&i915->mm.stolen_lock);
++
++	if (intel_vgpu_active(i915)) {
++		drm_notice(&i915->drm,
++			   "%s, disabling use of stolen memory\n",
++			   "iGVT-g active");
++		return 0;
++	}
++
++	if (i915_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
++		drm_notice(&i915->drm,
++			   "%s, disabling use of stolen memory\n",
++			   "DMAR active");
+ 		return 0;
+ 	}
+ 
++	if (adjust_stolen(i915, &mem->region))
++		return 0;
++
++	if (request_smem_stolen(i915, &mem->region))
++		return 0;
++
++	i915->dsm = mem->region;
++
++	if (init_reserved_stolen(i915))
++		return 0;
++
+ 	/* Exclude the reserved region from driver use */
+-	mem->region.end = reserved_base - 1;
++	mem->region.end = i915->dsm_reserved.start - 1;
+ 	mem->io_size = min(mem->io_size, resource_size(&mem->region));
+ 
+-	/* It is possible for the reserved area to end before the end of stolen
+-	 * memory, so just consider the start. */
+-	reserved_total = stolen_top - reserved_base;
+-
+-	i915->stolen_usable_size =
+-		resource_size(&i915->dsm) - reserved_total;
++	i915->stolen_usable_size = resource_size(&mem->region);
+ 
+ 	drm_dbg(&i915->drm,
+ 		"Memory reserved for graphics device: %lluK, usable: %lluK\n",
+@@ -759,11 +791,6 @@ static int init_stolen_lmem(struct intel_memory_region *mem)
+ 	if (GEM_WARN_ON(resource_size(&mem->region) == 0))
+ 		return -ENODEV;
+ 
+-	/*
+-	 * TODO: For stolen lmem we mostly just care about populating the dsm
+-	 * related bits and setting up the drm_mm allocator for the range.
+-	 * Perhaps split up i915_gem_init_stolen() for this.
+-	 */
+ 	err = i915_gem_init_stolen(mem);
+ 	if (err)
+ 		return err;
+-- 
+2.37.3
 
-Regards,
-Matthias
-
->                 - mediatek,mt8365-mmsys
->             - const: syscon
->         - items:
