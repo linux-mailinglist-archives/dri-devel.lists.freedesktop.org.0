@@ -2,68 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01A95B9F46
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 18:00:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7246A5BA04A
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 19:18:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5889B10E1E5;
-	Thu, 15 Sep 2022 16:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC98310EB94;
+	Thu, 15 Sep 2022 17:18:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1832A10E1FE
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 16:00:17 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id bq9so31591457wrb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 09:00:17 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFE2610EAD2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 09:26:53 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id bo13so13363275wrb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 02:26:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=NtZaXYBrw/AG5wK2lscAo5IyphXo0G6cr0DhN47TYmY=;
- b=C8YIcEmdhu28gVUvnH9/7QZ1fFt9ne2TkutofZr7UtX09EouEEFHqGLZpin0xm5b30
- UwDiR7c+2NvxU4w5mt/fmWN6V8pklnwQx6b/skixsAAz5e1HZm+2TsQIwmsoObcbec+d
- iEhOwBTEhyRUnnpFnmwZ2Dj9gJf19d7wzVFfVgCcysmS2/qRAiQTTtbUis2VqjD7KzTU
- N40F/6pAb+tsxoDDrm6pGhAc5/gH8poH2LVE4mlkZZCItAdLO2WB5yuR2bTXdWb/+Aj7
- Gh2N6wDQ3LZnexSGKqt6yI5LYVBZVWgEXOk+/hBYeGPqrLkVq1+BYq+/HyVNEcLM2eFQ
- 2NhA==
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:date:from:from:to:cc:subject:date;
+ bh=oZcHLP4HdtR1v6BTWYj2XPRoK5siEVv1DYPhLj/hidc=;
+ b=cONemxuhxWJMQH4WpbMvaGKwDDh4gIAk76NP0g4nDCA3tstm3EL4xD44d2qcxdAlkX
+ B39HdGRxDNuZX3ktCsG3whTIwHCK+HlUz3A7uROi/5sg01STJcRS7NwWiW9HqP/zM6P6
+ olYkV6nf9ZvDtGDsc2i4ZmpYywGrSic+1yeluNOHvtnzc6Qy7M9jpkK9YLfvSje1d2eQ
+ ev29p2u8jfnyuguwbqzagr3E49jWKe2Zz6ymtMueMWiDv5JaI42zbJHDFaRL6X5dFrP/
+ +tJFxSJO2DFVaIDhZc+Jn5yyZlHjNkD9uz62A0wNU+tLbwxNPphFaKWZb/KkWkt6BBQS
+ B3RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=NtZaXYBrw/AG5wK2lscAo5IyphXo0G6cr0DhN47TYmY=;
- b=FTCYnzSYG0aZlX8OwrxwypsyoNDB0ZPtreuzgkWBxpFFMjy077N4/GXL8JKfVNQL42
- yod6doXzwk3LhK3pP7c35Wgs00dDrZRqb7ajM033lfYbJaU8RMwL5OS9WbYN3VwBT1CB
- fCH8qVtWa8b4EiVYQuMbGZvXpQK/qg088OOI/GJOApn89TdhRWsfA5PshD//sOnssVLw
- S4OVbTP/FrjAHY3xLVeEIc/CU8sE0yiYceIi+7JKFbdAVxOAZn8Q9TCc7Jj9RZDk0ant
- nExZhqy1+XkpLFZQ51evEwibZ2fAe9KNBT+6xOy/ePTu9VSs43j403JViG730FpcUrm7
- T2iw==
-X-Gm-Message-State: ACrzQf1EWmS6jMg4bgNkhulCoz3VkxAMDlrtcMbA+yz+n7nm6+cTXQEt
- DhMHbXqc6WIbKLRxrxNUHxU=
-X-Google-Smtp-Source: AMsMyM6OQEeLXkxWzioaolT5lZWFXDRwM7L61hQ16+IEMxL+6+zAMajEyf1Uk2/9wt56xCnf8m1PNA==
-X-Received: by 2002:adf:d1e8:0:b0:22a:c131:4c49 with SMTP id
- g8-20020adfd1e8000000b0022ac1314c49mr211925wrd.647.1663257615219; 
- Thu, 15 Sep 2022 09:00:15 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- s2-20020adfdb02000000b002253fd19a6asm3647717wri.18.2022.09.15.09.00.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 09:00:14 -0700 (PDT)
-Message-ID: <fbf403c5-55c3-d73f-f46c-5d4bf9283984@gmail.com>
-Date: Thu, 15 Sep 2022 18:00:12 +0200
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=oZcHLP4HdtR1v6BTWYj2XPRoK5siEVv1DYPhLj/hidc=;
+ b=2xmuyVT1U/Kyjr8GZa3xUiRIVZ9cfuteltuyO6dVuDCT+jsGso0UnshMJyi37YpQIM
+ skP2Imuz0dZvGcTUXAovuU6IUiiXVgHJcDHIZ5qm7CiShsy+xeCoF+XDYZ2TVoXvNMbW
+ X57O21mvm8QqmE8bLBfzIunieg837uE1MrEFuqhOlt6D/+CaFW9Q3UOxgoFbmKW5s8PY
+ /rNsPRgYnp2uQhJZMwIBM18QfPLR10wMjHd3XBneAIZ3GkQLmdIcrtHnEYf1QyGl2A54
+ xXo5PhN1qXAmtRWDBhpIC4YgKXdPxC9+vYyK0ZyxHWKjYcgAI8gP1g6nAnGfpC08YDgd
+ +iFQ==
+X-Gm-Message-State: ACrzQf3+Otm5wRVae+dHMArvbzLfQE0ValZEo295sW5/4jm7myEwo1Yi
+ i02UgRccLPfPTiHOpwm9mus=
+X-Google-Smtp-Source: AMsMyM4Gj6tjcURPzhPJ93mzX9WbNhqvc9BcYOHLmidI51KP9CoUdS3FIJWsT7lf7SvYfg8axnvrtw==
+X-Received: by 2002:adf:b1d2:0:b0:22a:d6cd:63cc with SMTP id
+ r18-20020adfb1d2000000b0022ad6cd63ccmr782474wra.483.1663234012261; 
+ Thu, 15 Sep 2022 02:26:52 -0700 (PDT)
+Received: from krzk-bin ([89.101.193.73])
+ by smtp.googlemail.com with ESMTPSA id
+ bg39-20020a05600c3ca700b003b47b913901sm1875153wmb.1.2022.09.15.02.26.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Sep 2022 02:26:51 -0700 (PDT)
+From: Krzysztof Kozlowski <k.kozlowski.k@gmail.com>
+X-Google-Original-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Date: Thu, 15 Sep 2022 10:26:49 +0100
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v2 3/3] dt-bindings: display: bridge: nxp,tda998x:
+ Convert to json-schema
+Message-ID: <20220915092649.moyd6j6jm7dk6vmh@krzk-bin>
+References: <cover.1663165552.git.geert+renesas@glider.be>
+ <1224e757ec958f8b29ec66e783a7ee805c339d84.1663165552.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 3/3] drm/mediatek: dp: Fix warning in mtk_dp_video_mute()
-Content-Language: en-US
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@linux.ie
-References: <20220915075028.644-1-rex-bc.chen@mediatek.com>
- <20220915075028.644-4-rex-bc.chen@mediatek.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220915075028.644-4-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1224e757ec958f8b29ec66e783a7ee805c339d84.1663165552.git.geert+renesas@glider.be>
+X-Mailman-Approved-At: Thu, 15 Sep 2022 17:18:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,64 +73,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Robert Foss <robert.foss@linaro.org>,
+ linux-renesas-soc@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ linux-omap@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 15/09/2022 09:50, Bo-Chen Chen wrote:
-> Warning:
-> ../drivers/gpu/drm/mediatek/mtk_dp.c: In function ‘mtk_dp_video_mute’:
-> ../drivers/gpu/drm/mediatek/mtk_dp.c:947:23: warning: format ‘%x’
-> expects argument of type ‘unsigned int’, but argument 4 has type ‘long
-> unsigned int’ [-Wformat=]
->    947 |  dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
->        |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../include/linux/dev_printk.h:129:27: note: in definition of macro ‘dev_printk’
->    129 |   _dev_printk(level, dev, fmt, ##__VA_ARGS__);  \
->        |                           ^~~
-> ../include/linux/dev_printk.h:163:31: note: in expansion of macro ‘dev_fmt’
->    163 |   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
->        |                               ^~~~~~~
-> ../drivers/gpu/drm/mediatek/mtk_dp.c:947:2: note: in expansion of
-> macro ‘dev_dbg’
->    947 |  dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
->        |  ^~~~~~~
-> ../drivers/gpu/drm/mediatek/mtk_dp.c:947:36: note: format string is defined here
->    947 |  dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
->        |                                   ~^
->        |                                    |
->        |                                    unsigned int
->        |                                   %lx
+On Wed, 14 Sep 2022 16:33:22 +0200, Geert Uytterhoeven wrote:
+> Convert the NXP TDA998x HDMI transmitter Device Tree binding
+> documentation to json-schema.
 > 
-> To fix this issue, we use %s to replace 0x%x.
+> Add missing "#sound-dai-cells" property.
+> Add ports hierarchy, as an alternative to port.
+> Drop pinctrl properties, as they do not belong here.
 > 
-> Reported-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->   drivers/gpu/drm/mediatek/mtk_dp.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> v2:
+>   - Add maximum to video-ports,
+>   - Drop unneeded maxItems for audio-ports,
+>   - Complete port descriptions.
+> ---
+>  .../bindings/display/bridge/nxp,tda998x.yaml  | 109 ++++++++++++++++++
+>  .../bindings/display/bridge/tda998x.txt       |  54 ---------
+>  2 files changed, 109 insertions(+), 54 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/tda998x.txt
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-> index c72c646e25e9..d58e98b2f83a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -1222,8 +1222,8 @@ static void mtk_dp_video_mute(struct mtk_dp *mtk_dp, bool enable)
->   		      mtk_dp->data->smc_cmd, enable,
->   		      0, 0, 0, 0, 0, &res);
->   
-> -	dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
-> -		mtk_dp->data->smc_cmd, enable, res.a0, res.a1);
-> +	dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: %s, ret: 0x%lx-0x%lx\n",
-> +		mtk_dp->data->smc_cmd, enable ? "enable" : "disable", res.a0, res.a1);
->   }
->   
->   static void mtk_dp_audio_mute(struct mtk_dp *mtk_dp, bool mute)
+
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
+
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
+
+Full log is available here: https://patchwork.ozlabs.org/patch/
+
+
+tda19988@70: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb
+	arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb
+	arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb
+	arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb
+
+tda19988@70: ports: 'oneOf' conditional failed, one must be fixed:
+	arch/arm/boot/dts/am335x-boneblack.dtb
+	arch/arm/boot/dts/am335x-boneblack-wireless.dtb
+	arch/arm/boot/dts/am335x-sancloud-bbe.dtb
+
+tda19988@70: ports:port@0: 'reg' is a required property
+	arch/arm/boot/dts/am335x-boneblack.dtb
+	arch/arm/boot/dts/am335x-boneblack-wireless.dtb
+	arch/arm/boot/dts/am335x-sancloud-bbe.dtb
+
+tda9988@70: ports: 'oneOf' conditional failed, one must be fixed:
+	arch/arm/boot/dts/am335x-myirtech-myd.dtb
+
+tda9988@70: ports:port@0: 'reg' is a required property
+	arch/arm/boot/dts/am335x-myirtech-myd.dtb
