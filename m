@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D408A5BA332
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 01:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0723E5BA32F
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 01:27:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 125B210EC17;
-	Thu, 15 Sep 2022 23:27:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D31B10EC14;
+	Thu, 15 Sep 2022 23:27:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8C410EC10;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9060C10EC12;
  Thu, 15 Sep 2022 23:27:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1663284420; x=1694820420;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=azKNFrdb4/EHtrrnoscy4apA69ozS+tLfVexlPXPy0g=;
- b=LLVPtKvMcPthp54HCiiSMh6KqQ3BzBPadE35j4GD96e+hZ0+A4M817Nt
- Ay4o+hlVjls+OKy8UfsYBUhZvRFzwElw0ip9+1XnXmgD8fpXgei5NKmzm
- 16uiayqbdxO5MOO4UvBwVZ5Bg4dfmzSAxIZmY0MKs/qPN78oXmprkXMRn
- J7pqecvjB55Z3ubJV1YIzBbYTO7Fg1aIJw9YcuNoLsl5185bfn6leZg1r
- jY9uTd3fZ2vo58pmcSbWWG/wHO4Nt4ZG8PiIaOU5sH/2XFIVBsH+Vf6hY
- bOph3yFnIWosIcGhmxZp7uCokyQgEK35J/U6RWjwj4CTRf06/rUT8PWXR A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="299689107"
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="299689107"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=32adMwr+xoi5uUOPdlifc4/erY9Xxj+lmU5EL0uD9Rg=;
+ b=KsOuuellYuDWGJgoH8lMNJMeTPQP64Q574u+GeSC3/Djf1e93h8hhRnv
+ P3XpKq28LZVxZCLFxXb1MKlKJK3Oa5MCsT80EhnaOgHjDMrB8OWT29MqG
+ 5w6zH7gSk9H4jfr+0xk38EHlMHHYSnE/XPebrNNjvbbrCneGlGq+NxiqS
+ OOtC1We8vLmkrxNojyNnq+pOMj7+i1J8W+gP5zACkuUtR95krpcHPm9mL
+ E0MiVvjzRLpHknRKVaeTJzSQsg2Bo1hCRS/kAW6KFSs+YuSb6PMp+/7RX
+ 3r29IAX/QNhJUDHAgi+2btZcCsnURacJuP5sp15CYBaI6zU44Qm5+fqPF w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="299689108"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="299689108"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Sep 2022 16:26:59 -0700
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="685923296"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="685923299"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Sep 2022 16:26:59 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 0/4] Further multi-gt handling
-Date: Thu, 15 Sep 2022 16:26:50 -0700
-Message-Id: <20220915232654.3283095-1-matthew.d.roper@intel.com>
+Subject: [PATCH v2 1/4] drm/i915/gt: Cleanup partial engine discovery failures
+Date: Thu, 15 Sep 2022 16:26:51 -0700
+Message-Id: <20220915232654.3283095-2-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220915232654.3283095-1-matthew.d.roper@intel.com>
+References: <20220915232654.3283095-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,38 +56,48 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org
+ Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that MTL is going to start providing two GTs, there are a few more
-places in the driver that need to iterate over each GT instead of
-operating directly on gt0.  Also some more deliberate cleanup is needed,
-in cases where we fail GT/engine initialization after the first GT has
-been fully setup.
+From: Chris Wilson <chris.p.wilson@intel.com>
+
+If we abort driver initialisation in the middle of gt/engine discovery,
+some engines will be fully setup and some not. Those incompletely setup
+engines only have 'engine->release == NULL' and so will leak any of the
+common objects allocated.
 
 v2:
- - Drop unnecessary helper function.  (Janusz)
- - Consolidate some adjacent GT loops (Daniele)
+ - Drop the destroy_pinned_context() helper for now.  It's not really
+   worth it with just a single callsite at the moment.  (Janusz)
 
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Chris Wilson (1):
-  drm/i915/gt: Cleanup partial engine discovery failures
-
-Tvrtko Ursulin (3):
-  drm/i915: Make GEM resume all engines
-  drm/i915: Make GEM suspend all GTs
-  drm/i915: Handle all GTs on driver (un)load paths
-
- drivers/gpu/drm/i915/gem/i915_gem_pm.c    | 33 ++++++++++++++---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c |  7 +++-
- drivers/gpu/drm/i915/i915_driver.c        |  3 +-
- drivers/gpu/drm/i915/i915_gem.c           | 43 ++++++++++++++++-------
- 4 files changed, 68 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 1f7188129cd1..2ddcad497fa3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -1274,8 +1274,13 @@ int intel_engines_init(struct intel_gt *gt)
+ 			return err;
+ 
+ 		err = setup(engine);
+-		if (err)
++		if (err) {
++			intel_engine_cleanup_common(engine);
+ 			return err;
++		}
++
++		/* The backend should now be responsible for cleanup */
++		GEM_BUG_ON(engine->release == NULL);
+ 
+ 		err = engine_init_common(engine);
+ 		if (err)
 -- 
 2.37.3
 
