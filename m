@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA71C5B9C22
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 15:40:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 129305B9C4C
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 15:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F01310EB27;
-	Thu, 15 Sep 2022 13:40:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1137D10EB2D;
+	Thu, 15 Sep 2022 13:49:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3C7210EB24
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 13:40:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E38F10EB4C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 13:49:14 +0000 (UTC)
 Received: from [89.101.193.72] (helo=phil.sntech)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1oYp6E-0004w0-5I; Thu, 15 Sep 2022 15:40:14 +0200
+ id 1oYpEt-00053R-QK; Thu, 15 Sep 2022 15:49:11 +0200
 From: Heiko Stuebner <heiko@sntech.de>
-To: Tom Rix <trix@redhat.com>, airlied@linux.ie, hjc@rock-chips.com,
- daniel@ffwll.ch
-Subject: Re: [PATCH] drm/rockchip: remove vop_writel
-Date: Thu, 15 Sep 2022 15:40:12 +0200
-Message-Id: <166324919922.172360.17550156520771628477.b4-ty@sntech.de>
+To: hjc@rock-chips.com,
+	Hugh Cole-Baker <sigmaris@gmail.com>
+Subject: Re: (subset) [PATCH v2 0/3] drm/rockchip: support gamma control on
+ RK3399
+Date: Thu, 15 Sep 2022 15:49:09 +0200
+Message-Id: <166324955276.172936.12777081012658137817.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220521190716.1936193-1-trix@redhat.com>
-References: <20220521190716.1936193-1-trix@redhat.com>
+In-Reply-To: <20211019215843.42718-1-sigmaris@gmail.com>
+References: <20211019215843.42718-1-sigmaris@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -41,21 +42,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ ezequiel@collabora.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 21 May 2022 15:07:16 -0400, Tom Rix wrote:
-> cppcheck reports
-> [drivers/gpu/drm/rockchip/rockchip_drm_vop.c:186]: (style) The function 'vop_writel' is never used.
+On Tue, 19 Oct 2021 22:58:40 +0100, Hugh Cole-Baker wrote:
+> This extends the Rockchip VOP driver to support setting the gamma LUT on the
+> RK3399 SoC. Previously, the driver supported gamma control for the RK3288
+> only. On the RK3399 the method for updating the LUT is slightly different.
+> This implementation was based on the code and description from the vendor
+> kernel [1].
 > 
-> vop_writel is static function that is not used, so remove it.
+> The RK3399 also has the address resources for the VOP general registers and
+> the gamma LUT located adjacent to each other, not on either side of the IOMMU
+> address as on the RK3288, but for simplicity this series follows the existing
+> DT binding which requires the gamma LUT as a second address resource.
+> 
+> [...]
 
 Applied, thanks!
 
-[1/1] drm/rockchip: remove vop_writel
-      commit: 98a65e6d498c46b0beec7a40aac4b3e404642993
+[3/3] arm64: dts: rockchip: enable gamma control on RK3399
+      commit: 3a5247120668041c8e9eb190497296656b66bf9a
 
 Best regards,
 -- 
