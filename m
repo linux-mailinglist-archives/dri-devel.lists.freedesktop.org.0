@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D935B9B3B
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 14:44:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7DB5B9B5D
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 14:55:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C194D10E1C6;
-	Thu, 15 Sep 2022 12:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2A810E1D8;
+	Thu, 15 Sep 2022 12:55:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8D4910E1BB
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 12:44:30 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id q21so30264198lfo.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 05:44:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=GbMPySDSU6WmgItxp994TYVOui10YiB6AOxxeQ38DWA=;
- b=OqodDEGO+HX5IYC9wkHWaQK5n7oCF9NayMeRaEdr5CfLpP6ZdmbbjKl0tYIp+k83/4
- bl180r0LxM8gmM+gUm4C2glC2htKXT5ok97uABU/WEVMlya+FWL2czplb1WcjMcCYlL0
- Cc/AcAwuPyOaFrCI4928xwDNL6hnRfgxgDOHxiANtwI4QcXwGTvm2xfcZB5vw9eR4i46
- DPPKaWjwnl7WqZUSjsR70Zysx599E3JZHvOcKTSUt5LX3Jmh7sFyMiBegFW1J6GmHifq
- mugNViCCsDLuqqkpTpQWAaZheQ5Xub+jqgdN7DdIfo3cEoGhEwnWww9aiR4gWPDEgQJ1
- mBrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=GbMPySDSU6WmgItxp994TYVOui10YiB6AOxxeQ38DWA=;
- b=1pG4/1xrbRZUtHyXk9A3LfcwNUdH7YUNneGe2sPlIGA/OsiEYxMeyHF/9mA7ESCoPQ
- l7pDZsndbr7kEcrBj/RKND0GyPOE0fHjR/80nylvfjb10TCfCbePAo6gByBRaFcsKVmu
- WaPJbx/Fm0Ud/YQLSfXvYp17bdxw6DTB0vW5XP1hPR3DoBARshCRALS7BnaUT17CPz3k
- POr2d3Z/F0vq5f4K9jyGVPYh34eHGI2NFME3hunsx/rHS8IddkbE6adfiy3/pj3TnF94
- +4CwysHSVm/AbpipjFN69UL9lGqCKmWeljCDP2qJa2p7TZ4Gb7BPaFAWgBCkdWSImUsB
- JK+w==
-X-Gm-Message-State: ACgBeo28dh3zMe4tKwW5N2MlWk33jWPFNCntqe29GbucU2xUUB3vIaIi
- sSBuTEF9hySEyJLWJffdkg2oeg==
-X-Google-Smtp-Source: AA6agR5e3aLhLl+SPavx1J3SMAHglV+z0HW2twco7cekVm4i6twl/pbFFjIx5uZ3q6jZeGHephVbIA==
-X-Received: by 2002:a05:6512:3185:b0:49c:3310:6910 with SMTP id
- i5-20020a056512318500b0049c33106910mr4619068lfe.352.1663245869189; 
- Thu, 15 Sep 2022 05:44:29 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- p8-20020a2eb7c8000000b0026c16e9e45bsm1954318ljo.17.2022.09.15.05.44.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 05:44:28 -0700 (PDT)
-Message-ID: <49cb7d54-6546-5228-0c30-6b37faa87ec9@linaro.org>
-Date: Thu, 15 Sep 2022 15:44:28 +0300
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA34810E1BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 12:55:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 88C7A1F461;
+ Thu, 15 Sep 2022 12:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663246499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lJ3npMOlF6WNoIsfiC4M3O7VnzhraIGnztddpOCa1hg=;
+ b=IEOWJWcS88qRn+IVK4/mqG1A3/tYmGacpMpA5yNDraxlXeGvDwR5eNpbrAzhzG2YDWSbeO
+ 6VW9TDTA+jqbviT8BjLEqrIV2L3hAWAa94JU9PwU5CaJQzlq+kK+C2iThW/Ms5TOnGBwJ/
+ DuOnGVDmdVPk5zGCh8kskNXrcT0gP08=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663246499;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lJ3npMOlF6WNoIsfiC4M3O7VnzhraIGnztddpOCa1hg=;
+ b=Aa9cSt576uLrH5DVRLMU9xQtSR1lU2ht1Hm4FxrvUQ0akNfchy2deuroq/FE3pEHf8LRcT
+ NlwkvPWzF9eMTvCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 73A25133B6;
+ Thu, 15 Sep 2022 12:54:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id QpRoG6MgI2MJUAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Sep 2022 12:54:59 +0000
+Message-ID: <0bb98321-dc3d-8bb3-f7b1-eb09c617a1de@suse.de>
+Date: Thu, 15 Sep 2022 14:54:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v6 04/12] dt-bindings: display/msm: move common DPU
- properties to dpu-common.yaml
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Herring <robh@kernel.org>
-References: <20220901102312.2005553-1-dmitry.baryshkov@linaro.org>
- <20220901102312.2005553-5-dmitry.baryshkov@linaro.org>
- <20220907195904.GA98468-robh@kernel.org>
- <CAA8EJpoJk-_LC25uyqkQ0Q8CYziNuU8nSnExm40542xZcvcbxQ@mail.gmail.com>
-In-Reply-To: <CAA8EJpoJk-_LC25uyqkQ0Q8CYziNuU8nSnExm40542xZcvcbxQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Thunderbird/102.2.2
+Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
+To: Wang Yugui <wangyugui@e16-tech.com>
+References: <20220914162920.7233.409509F4@e16-tech.com>
+ <03f80477-78c1-2ef3-40bf-58f8c9daa1c8@suse.de>
+ <20220914225809.763F.409509F4@e16-tech.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220914225809.763F.409509F4@e16-tech.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------JCFhjnlRgoroNAFuLQaWSXd4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,96 +71,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/09/2022 00:13, Dmitry Baryshkov wrote:
-> On Wed, 7 Sept 2022 at 22:59, Rob Herring <robh@kernel.org> wrote:
->>
->> On Thu, Sep 01, 2022 at 01:23:04PM +0300, Dmitry Baryshkov wrote:
->>> Move properties common to all DPU DT nodes to the dpu-common.yaml.
->>>
->>> Note, this removes description of individual DPU port@ nodes. However
->>> such definitions add no additional value. The reg values do not
->>> correspond to hardware INTF indices. The driver discovers and binds
->>> these ports not paying any care for the order of these items. Thus just
->>> leave the reference to graph.yaml#/properties/ports and the description.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>   .../bindings/display/msm/dpu-common.yaml      | 44 ++++++++++++++++++
->>>   .../bindings/display/msm/dpu-msm8998.yaml     | 46 ++-----------------
->>>   .../bindings/display/msm/dpu-qcm2290.yaml     | 41 ++---------------
->>>   .../bindings/display/msm/dpu-sc7180.yaml      | 45 ++----------------
->>>   .../bindings/display/msm/dpu-sc7280.yaml      | 45 ++----------------
->>>   .../bindings/display/msm/dpu-sdm845.yaml      | 46 ++-----------------
->>>   6 files changed, 64 insertions(+), 203 deletions(-)
->>>   create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-common.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-common.yaml b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
->>> new file mode 100644
->>> index 000000000000..bf5764e9932b
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
->>> @@ -0,0 +1,44 @@
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/display/msm/dpu-common.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Qualcomm Display DPU dt properties (common properties)
->>> +
->>> +maintainers:
->>> +  - Krishna Manikandan <quic_mkrishn@quicinc.com>
->>> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> +  - Rob Clark <robdclark@gmail.com>
->>> +
->>> +description: |
->>> +  Common properties for QCom DPU display controller.
->>> +
->>> +properties:
->>> +  interrupts:
->>> +    maxItems: 1
->>> +
->>> +  power-domains:
->>> +    maxItems: 1
->>> +
->>> +  operating-points-v2: true
->>> +  opp-table:
->>> +    type: object
->>> +
->>> +  ports:
->>> +    $ref: /schemas/graph.yaml#/properties/ports
->>> +    description: |
->>> +      Contains the list of output ports from DPU device. These ports
->>> +      connect to interfaces that are external to the DPU hardware,
->>> +      such as DSI, DP etc.
->>
->> Haven't we been over this already?
->>
->> You have to define 'port' nodes or else anything is allowed in them
->> (and endpoint nodes). If you want to define them as pattern, then fine.
->> But you must have a ref to graph.yaml#/properties/port.
-> 
-> Last time you asked to do this, I did a check. Adding any additional
-> property results in a schema error. And this is logical.
-> graph.yaml#/properties/ports already limits the node properties. I
-> thus do not see a need to define port@[0-9a-f]+$. Did I miss anything?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------JCFhjnlRgoroNAFuLQaWSXd4
+Content-Type: multipart/mixed; boundary="------------g5miX0vAKxJnMclZyA2YRhTX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Wang Yugui <wangyugui@e16-tech.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <0bb98321-dc3d-8bb3-f7b1-eb09c617a1de@suse.de>
+Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
+References: <20220914162920.7233.409509F4@e16-tech.com>
+ <03f80477-78c1-2ef3-40bf-58f8c9daa1c8@suse.de>
+ <20220914225809.763F.409509F4@e16-tech.com>
+In-Reply-To: <20220914225809.763F.409509F4@e16-tech.com>
 
-I see, what I did miss now. I missed adding properties to individual 
-/port nodes. Please excuse me. BTW: is there any reason for not 
-enforcing this in the graph.yaml?
+--------------g5miX0vAKxJnMclZyA2YRhTX
+Content-Type: multipart/mixed; boundary="------------UXxYc1Eoqdo0QR17XX9GrU05"
 
--- 
-With best wishes
-Dmitry
+--------------UXxYc1Eoqdo0QR17XX9GrU05
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkNCg0KQW0gMTQuMDkuMjIgdW0gMTY6NTggc2NocmllYiBXYW5nIFl1Z3VpOg0KWy4uLl0N
+Cj4+IDI0LWJpdCB3b3JrcyBvbiBteSBHMjAwSEUgYW5kIEcyMDAgdGVzdCBtYWNoaW5lcy4g
+TWF5YmUgdGhlIEcyMDBFUiBoYXMgYSBidWcuDQo+Pg0KPj4gV2hlbiBJIHRyeSAxNi1iaXQg
+ZGVwdGgsIHRoZSBkaXNwbGF5IHdvcmtzLCBidXQgaXMgd2F5IHRvbyBkYXJrLiBObyBmaWRk
+bGluZyB3aXRoIHRoZSBMVVQgdGFibGVzIGZpeGVzIHRoaXMuIEl0J3MgOTBzIGhhcmR3YXJl
+LCBzbyBpdCBzaG91bGQgc3VwcG9ydCAxNi1iaXQgZnJhbWVidWZmZXJzIHdlbGwsIGJ1dCB0
+aGVyZSdzIG5vIG9idmlvdXMgYnVnIHRvIGJlIHNlZW4uDQo+Pg0KPj4gSSBndWVzcywgd2Ug
+Y291bGQgcmVtb3ZlIDE2IGFuZCAyNCBiaXQgc3VwcG9ydCBmb3Igbm93IGlmIG5vdGhpbmcg
+ZWxzZSBoZWxwcy4NCj4gDQo+IA0KPiBtYXliZSBiZXR0ZXIgaWYgd2UgcmV2ZXJ0IDczZjU0
+ZDVkOTY4MiAoZHJtL21nYWcyMDA6IFJlbW92ZSBzcGVjaWFsIGNhc2UNCj4gZm9yIEcyMDBT
+RSB3aXRoIDwyIE1pQikNCg0KQ291bGQgeW91IHBsZWFzZSB0ZXN0IHRoZSBhdHRhY2hlZCBw
+YXRjaCBvbiB0aGUgNi4wLXJjMyBrZXJuZWw/IEl0IA0Kc2hvdWxkIGZvcmNlIHRoZSBkcml2
+ZXIgdG8gYSBjb3JyZWN0IGNvbG9yIGZvcm1hdCBpZiBubyBrZXJuZWwgDQpwYXJhbWV0ZXJz
+IGFyZSBnaXZlbi4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gYmVjYXVzZSB0
+aGVyZSBpcyBubyB0ZXN0IHJlc3VsdCBvbiBkZXZpY2UgRzIwMF9TRQ0KPiANCj4gc3RhdGlj
+IHVuc2lnbmVkIGludCBtZ2FnMjAwX3ByZWZlcnJlZF9kZXB0aChzdHJ1Y3QgbWdhX2Rldmlj
+ZSAqbWRldikNCj4gew0KPiAgICAgICAgIGlmIChJU19HMjAwX1NFKG1kZXYpICYmIG1kZXYt
+PnZyYW1fZmJfYXZhaWxhYmxlIDwgKDIwNDgqMTAyNCkpDQo+ICAgICAgICAgICAgICAgICBy
+ZXR1cm4gMTY7DQo+ICAgICAgICAgZWxzZQ0KPiAgICAgICAgICAgICAgICAgcmV0dXJuIDMy
+Ow0KPiB9DQo+IA0KPiBCZXN0IFJlZ2FyZHMNCj4gV2FuZyBZdWd1aSAod2FuZ3l1Z3VpQGUx
+Ni10ZWNoLmNvbSkNCj4gMjAyMi8wOS8xNA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
+bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
+R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
+CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90
+ZXYNCg==
+--------------UXxYc1Eoqdo0QR17XX9GrU05
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-drm-mgag200-Force-32-bpp-on-the-console.patch"
+Content-Disposition: attachment;
+ filename="0001-drm-mgag200-Force-32-bpp-on-the-console.patch"
+Content-Transfer-Encoding: base64
+
+RnJvbSBjMjcxNzMyNGMwNzRjODNmNTUzY2Y3YWYxNGFhMWRiOWY1YTRjNmY1IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4KRGF0ZTogVGh1LCAxNSBTZXAgMjAyMiAxNDowOTowMyArMDIwMApTdWJqZWN0
+OiBbUEFUQ0hdIGRybS9tZ2FnMjAwOiBGb3JjZSAzMiBicHAgb24gdGhlIGNvbnNvbGUKCkcy
+MDBFUiBkb2VzIG5vdCBzZWVtIHRvIHN1cHBvcnQgMjQgYnBwLCBzbyBmb3JjZSB0aGUgY29u
+c29sZSB0byB1c2UKMzIgYnBwLgoKUmVwb3J0ZWQtYnk6IFdhbmcgWXVndWkgPHdhbmd5dWd1
+aUBlMTYtdGVjaC5jb20+ClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emlt
+bWVybWFubkBzdXNlLmRlPgpGaXhlczogNzNmNTRkNWQ5NjgyICgiZHJtL21nYWcyMDA6IFJl
+bW92ZSBzcGVjaWFsIGNhc2UgZm9yIEcyMDBTRSB3aXRoIDwyIE1pQiIpCkNjOiBUaG9tYXMg
+WmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KQ2M6IEpvY2VseW4gRmFsZW1wZSA8
+amZhbGVtcGVAcmVkaGF0LmNvbT4KQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5j
+b20+CkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCi0tLQogZHJpdmVycy9n
+cHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYyB8IDYgKysrKystCiAxIGZpbGUgY2hhbmdl
+ZCwgNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2Fn
+MjAwL21nYWcyMDBfZHJ2LmMKaW5kZXggMjUxYTFiYjY0OGNjLi5hMjIyYmY3NjgwNGYgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYwpAQCAtMjYyLDcgKzI2Miwx
+MSBAQCBtZ2FnMjAwX3BjaV9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwgY29uc3Qgc3Ry
+dWN0IHBjaV9kZXZpY2VfaWQgKmVudCkKIAlpZiAocmV0KQogCQlyZXR1cm4gcmV0OwogCi0J
+ZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAoZGV2LCAwKTsKKwkvKgorCSAqIEZJWE1FOiBBIDI0
+LWJpdCBjb2xvciBkZXB0aCBkb2VzIG5vdCB3b3JrIHdpdGggMjQgYnBwIG9uCisJICogRzIw
+MEVSLiBGb3JjZSAzMiBicHAuCisJICovCisJZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAoZGV2
+LCAzMik7CiAKIAlyZXR1cm4gMDsKIH0KLS0gCjIuMzcuMwoK
+
+--------------UXxYc1Eoqdo0QR17XX9GrU05--
+
+--------------g5miX0vAKxJnMclZyA2YRhTX--
+
+--------------JCFhjnlRgoroNAFuLQaWSXd4
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMjIKIFAwAAAAAACgkQlh/E3EQov+B6
+lxAAmIzNd1bUrOKRrxmlxhUEriBPfCWcq4IYHx8PsBonqj2/PU/h6d7ZBPBSxI4CHu5PKzuyeyx3
+375+3cweKU6Eu17V/EKdCFLzYD08prDYWfYbEn1ak13b+a44IQPOL9oMR3dSAq52iD7EOW+MgsoA
+imDRIKLi/6Us6hOu/+SEI1D1qqG0z6cJdeHy6BsACJJ6PV8HZMbqTH1G5Reogoqk5qMhPIofVaJ0
+0TIaxzXTpii9e7h/GpQHsSfDj+sJ7NrMWzvQYDTsJF9BZu7zxu5DA6nohGJhLqyxaf9agkR8bdiL
+9eg4ahxZW9w2mwkTQ/EdnunIZgOGhSNTYmbAIBBujPETZo1aExPWyS1f5DzACAYnEjOsiBXHhsPV
+sN/UJRdjNab5IGtEnk2eSISXORY1ZxMPySBEr4Eqh6RoD33anIPl8YxzfU9rPIxIKQolSCEvtm/N
+Bqj8nZhR2xPiSiihxgB+PR3rDtJPNhhC/6uKasuzQFlZZ06QCS3DrV+DREA65AcG7aeTZBY0UNGX
+HK6SCCqumzqDApTUPvh9wdvyrNbz6H/PLRP8LIzslj6ENYuhCGG9LjEPFEF8JqLZixbAV2n0DCT6
+aJ8zLVj0TTeZv8j8IXTIJxSwEKTNbla7fs8d23gftX+mgppVnKirzblUklfMtIbi0ewxWM0OX7oK
+Ec0=
+=zPyH
+-----END PGP SIGNATURE-----
+
+--------------JCFhjnlRgoroNAFuLQaWSXd4--
