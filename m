@@ -1,43 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AA55B95B6
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 09:51:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 836685B95B8
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Sep 2022 09:51:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2CFB10EAAC;
-	Thu, 15 Sep 2022 07:50:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D85110EAAD;
+	Thu, 15 Sep 2022 07:51:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B506910EAAA
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 07:50:40 +0000 (UTC)
-X-UUID: 451372cc53cf4ead86758b52e482cb43-20220915
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB1FF10EAAC
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Sep 2022 07:50:39 +0000 (UTC)
+X-UUID: bffe20e4c75142978f2b2a6b9c9aec06-20220915
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=bM3ELfkkQs92nWxvyZEy8dwSBvjWY73mkXxPaavMFvo=; 
- b=nC8Wc71Oyav3QC6PGxp5JB0AY/WyivOZHnlRjRNHbRtqMsYQlDPL7eL3M6KpT6IRe2M4GnQOLG3Tyn9hQYTyQD9bm1yme44iLEMrHL8sKENot8B1+IOAPfnIGVCOXcdPtD4VjAYS7/Z0l8J4Rk5MNmTb6sd2Gk6uhn+JgLiSxzo=;
+ bh=2EG2etWdzHVJ/Z46DWpBkxuYmBqpu6l6/fcaWloTD+4=; 
+ b=FbP4E3YyTxWWZCgD1+K0/jt72/LQTDxwjedBXkqzqATGwk8y477EYZytavI0+IU2SxuAjrA8/+pikc0mI9c2KWocD5dBjPxfuo7jsjgjjzGciIt3poKroTUkDkEfuzXdiL4cvSYMVCk2bvzmGch7juDLX8SG8WmQBAjCgCgpDiE=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:ada507bc-1bce-4480-ad95-7249ef998389, IP:0,
+X-CID-O-INFO: VERSION:1.1.11, REQID:be0d88bc-9b3f-4dd3-ad86-bf087d86c47c, IP:0,
  U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:90
-X-CID-INFO: VERSION:1.1.11, REQID:ada507bc-1bce-4480-ad95-7249ef998389, IP:0,
- URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
- N:quarantine,TS:90
-X-CID-META: VersionHash:39a5ff1, CLOUDID:be387ef6-6e85-48d9-afd8-0504bbfe04cb,
+ RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-25
+X-CID-META: VersionHash:39a5ff1, CLOUDID:f826be5d-5ed4-4e28-8b00-66ed9f042fbd,
  B
- ulkID:2209151550352I4MDQY9,BulkQuantity:0,Recheck:0,SF:28|17|19|48,TC:nil,
- Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 451372cc53cf4ead86758b52e482cb43-20220915
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: bffe20e4c75142978f2b2a6b9c9aec06-20220915
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1885834175; Thu, 15 Sep 2022 15:50:33 +0800
+ with ESMTP id 1416626257; Thu, 15 Sep 2022 15:50:33 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.792.15; Thu, 15 Sep 2022 15:50:32 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -45,9 +41,9 @@ Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  15.2.792.15 via Frontend Transport; Thu, 15 Sep 2022 15:50:32 +0800
 From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>
-Subject: [PATCH 1/3] drm/mediatek: dp: Refactor drivers in mtk_dp_bdg_detect()
-Date: Thu, 15 Sep 2022 15:50:26 +0800
-Message-ID: <20220915075028.644-2-rex-bc.chen@mediatek.com>
+Subject: [PATCH 2/3] drm/mediatek: dp: Remove unused register definitions
+Date: Thu, 15 Sep 2022 15:50:27 +0800
+Message-ID: <20220915075028.644-3-rex-bc.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220915075028.644-1-rex-bc.chen@mediatek.com>
 References: <20220915075028.644-1-rex-bc.chen@mediatek.com>
@@ -75,91 +71,45 @@ Cc: granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is more clear to modify this in mtk_dp_bdg_detect().
+Some definitions in mtk_dp_reg.h are not used, so remove these
+redundant codes.
 
 Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 66 ++++++++++++++++---------------
- 1 file changed, 34 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dp_reg.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index dfa942ca62da..c72c646e25e9 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -1933,39 +1933,41 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
- 	bool enabled = mtk_dp->enabled;
- 	u8 sink_count = 0;
- 
--	if (mtk_dp->train_info.cable_plugged_in) {
--		if (!enabled) {
--			/* power on aux */
--			mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
--					   DP_PWR_STATE_BANDGAP_TPLL_LANE,
--					   DP_PWR_STATE_MASK);
--
--			/* power on panel */
--			drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D0);
--			usleep_range(2000, 5000);
--		}
--		/*
--		 * Some dongles still source HPD when they do not connect to any
--		 * sink device. To avoid this, we need to read the sink count
--		 * to make sure we do connect to sink devices. After this detect
--		 * function, we just need to check the HPD connection to check
--		 * whether we connect to a sink device.
--		 */
--		drm_dp_dpcd_readb(&mtk_dp->aux, DP_SINK_COUNT, &sink_count);
--		if (DP_GET_SINK_COUNT(sink_count))
--			ret = connector_status_connected;
--
--		if (!enabled) {
--			/* power off panel */
--			drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
--			usleep_range(2000, 3000);
--
--			/* power off aux */
--			mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
--					   DP_PWR_STATE_BANDGAP_TPLL,
--					   DP_PWR_STATE_MASK);
--		}
-+	if (!mtk_dp->train_info.cable_plugged_in)
-+		return ret;
-+
-+	if (!enabled) {
-+		/* power on aux */
-+		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-+				   DP_PWR_STATE_BANDGAP_TPLL_LANE,
-+				   DP_PWR_STATE_MASK);
-+
-+		/* power on panel */
-+		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D0);
-+		usleep_range(2000, 5000);
- 	}
-+	/*
-+	 * Some dongles still source HPD when they do not connect to any
-+	 * sink device. To avoid this, we need to read the sink count
-+	 * to make sure we do connect to sink devices. After this detect
-+	 * function, we just need to check the HPD connection to check
-+	 * whether we connect to a sink device.
-+	 */
-+	drm_dp_dpcd_readb(&mtk_dp->aux, DP_SINK_COUNT, &sink_count);
-+	if (DP_GET_SINK_COUNT(sink_count))
-+		ret = connector_status_connected;
-+
-+	if (!enabled) {
-+		/* power off panel */
-+		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
-+		usleep_range(2000, 3000);
-+
-+		/* power off aux */
-+		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-+				   DP_PWR_STATE_BANDGAP_TPLL,
-+				   DP_PWR_STATE_MASK);
-+	}
-+
- 	return ret;
- }
- 
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+index 096ad6572a5e..84e38cef03c2 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
++++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+@@ -153,8 +153,6 @@
+ #define CH_STATUS_1_DP_ENC0_P0_MASK			GENMASK(15, 0)
+ #define MTK_DP_ENC0_P0_3094			0x3094
+ #define CH_STATUS_2_DP_ENC0_P0_MASK			GENMASK(7, 0)
+-#define MTK_DP_ENC0_P0_30A0			0x30a0
+-#define DP_ENC0_30A0_MASK				(BIT(7) | BIT(8) | BIT(12))
+ #define MTK_DP_ENC0_P0_30A4			0x30a4
+ #define AU_TS_CFG_DP_ENC0_P0_MASK			GENMASK(7, 0)
+ #define MTK_DP_ENC0_P0_30A8			0x30a8
+@@ -171,8 +169,6 @@
+ #define MTK_DP_ENC0_P0_312C			0x312c
+ #define ASP_HB2_DP_ENC0_P0_MASK				GENMASK(7, 0)
+ #define ASP_HB3_DP_ENC0_P0_MASK				GENMASK(15, 8)
+-#define MTK_DP_ENC0_P0_3130			0x3130
+-#define MTK_DP_ENC0_P0_3138			0x3138
+ #define MTK_DP_ENC0_P0_3154			0x3154
+ #define PGEN_HTOTAL_DP_ENC0_P0_MASK			GENMASK(13, 0)
+ #define MTK_DP_ENC0_P0_3158			0x3158
+@@ -206,8 +202,6 @@
+ #define SDP_PACKET_TYPE_DP_ENC1_P0_MASK			GENMASK(4, 0)
+ #define SDP_PACKET_W_DP_ENC1_P0				BIT(5)
+ #define SDP_PACKET_W_DP_ENC1_P0_MASK			BIT(5)
+-#define MTK_DP_ENC1_P0_328C			0x328c
+-#define VSC_DATA_RDY_VESA_DP_ENC1_P0_MASK		BIT(7)
+ #define MTK_DP_ENC1_P0_3300			0x3300
+ #define VIDEO_AFIFO_RDY_SEL_DP_ENC1_P0_VAL		2
+ #define VIDEO_AFIFO_RDY_SEL_DP_ENC1_P0_MASK		GENMASK(9, 8)
 -- 
 2.18.0
 
