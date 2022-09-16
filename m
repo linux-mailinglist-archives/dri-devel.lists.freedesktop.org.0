@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB4C5BB1E8
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 20:18:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAA25BB1EA
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 20:18:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DEE810EC52;
-	Fri, 16 Sep 2022 18:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D653110ED77;
+	Fri, 16 Sep 2022 18:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA69C10ED77
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 18:18:18 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- q9-20020a17090a178900b0020265d92ae3so468001pja.5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 11:18:18 -0700 (PDT)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A37610ED77
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 18:18:27 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id fv3so21870385pjb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 11:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=k78FpsGBN/9CeIU1dKf9WRueN2gjoM3jLsVKiTwXYEc=;
- b=LnfjjIyIPh+3f8ddwKxO+TR2Frx5uZqBCqP6sTW0OjI48HHSR3xSGc9FIKc57pg/6A
- XFksWfMYOCDVC37enuOm19iSbNL24GV3hQocdtl79w6jnWBK+UKsIhNsZup6Omr4mLu2
- oSmfTeGnC9mdBQ8f9CiGiGI6LX7vFRx1AG8Hg=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=evpdRiLLPj8Lu/GCT1crgCmnHzo/7eQnkgWkH42QQ/k=;
+ b=W1QEp6HF06COuxtcDMZcOJJyNxZHua+I7KuRB2xlQCsegc3plvtw/N5BobrQviA9U9
+ NHfyTT6LvM/CEOOkFDNGDUr5rh7HX17h511Y6brIhx4dLSc9QEAgw+vd/BJq623harcg
+ ucRXUwwyh/EgduyrqYlShxfPodb30TiQ4GWcM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=k78FpsGBN/9CeIU1dKf9WRueN2gjoM3jLsVKiTwXYEc=;
- b=xuZHBntdGyH8I1txwRRuEIlsIkOojJsKnQiRiHnG4tLl4FutvE6zg77JWEH2SJX5lO
- lQXgH+5xK8KN9lv2eegz4HlbajoNoTHufVq3k9rZS3OQTZcfrkWkQ/dYC+JWQscVn2Xe
- 6sfjawAgQRcYYyBwMcuUdxdXDqJCZJIB081tjjmZnoVnjZ/0yZu4cFtgL1sv0KGYFInz
- pRNtIZ+HcJl/M+rETcES6KcM+lanXwSo85xkfcvbgO5lCl8YSk9WiCou6rHzx9cAtrU2
- zmW82A2eQx7nZh9gIooIBjyiJRQArtnrrs/HZqWevxCIwpGryRZFddyE3m9bEMVCi5zW
- poLQ==
-X-Gm-Message-State: ACrzQf0tiYU0l+xKICdwHQnePiWYGK+Osaay2J/iR5rJ6ler4j8NPYHI
- fRO3Ce9QuE/71i6aZG3b82qe4w==
-X-Google-Smtp-Source: AMsMyM6dVp0Kw2qBJOCCRGDf8xnWNPEduQGlVM8rdcg6mvP5PTRHLSW6yohoYvcNatfqAUUJbjf2ug==
-X-Received: by 2002:a17:90b:4a0b:b0:202:8568:4163 with SMTP id
- kk11-20020a17090b4a0b00b0020285684163mr17830711pjb.217.1663352298404; 
- Fri, 16 Sep 2022 11:18:18 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=evpdRiLLPj8Lu/GCT1crgCmnHzo/7eQnkgWkH42QQ/k=;
+ b=qgRUul4v9zaDZOl37Ox6vB7ZBbY1cDpTReh4oaCnKf9v4gbegU5IwW5ee1RdGxEUh2
+ qbD+1Vv4Y1dQoPavdfGi/FW6+j/vJEgBBrIFXpj9wzcHAU/5oPY7sbtx7gAQ9UUkGZ6O
+ 4eyKoQlz9whotEcngVmexod8Dn7TAWNNJdiUTx1AEm0u1UfC4TohDDAkTMTvo7+9MIST
+ ST2dnY/WGxACUrOhUsmMVEa0XjQW5WKwboRQHT7lrug6SHvQGX/m8ILEZwBSOCDwQA1e
+ BHPtYGFVr0P3uNwz9VmCrdvGrvSKM+66iWfVRPNllPS2eX2TqesPsoB1sZp1D7wkENd8
+ Gfow==
+X-Gm-Message-State: ACrzQf1LMT4uDo8o1+uHC86k+BMxemkuRvXvuUM4JXiDQAjL2JQnCWLe
+ P+UDmJf/x1yH3Tk7lRaWaTyaXQ==
+X-Google-Smtp-Source: AMsMyM5tFBRMMV05KMLG/vmyPgQXqqS/Zii1t+5qNtGrc9v8RI7ilVaypvhioFuAGkauxAM+3y9SZg==
+X-Received: by 2002:a17:902:db0a:b0:178:2636:b6de with SMTP id
+ m10-20020a170902db0a00b001782636b6demr1104299plx.58.1663352306312; 
+ Fri, 16 Sep 2022 11:18:26 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a073:ae5d:6ee4:5c2f:6733])
  by smtp.gmail.com with ESMTPSA id
- d14-20020a17090a6a4e00b002007b60e288sm1770000pjm.23.2022.09.16.11.18.10
+ d14-20020a17090a6a4e00b002007b60e288sm1770000pjm.23.2022.09.16.11.18.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Sep 2022 11:18:17 -0700 (PDT)
+ Fri, 16 Sep 2022 11:18:25 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -60,10 +60,12 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v5 00/11] drm: bridge: Add Samsung MIPI DSIM bridge
-Date: Fri, 16 Sep 2022 23:47:20 +0530
-Message-Id: <20220916181731.89764-1-jagan@amarulasolutions.com>
+Subject: [PATCH v5 01/11] drm: exynos: dsi: Restore proper bridge chain order
+Date: Fri, 16 Sep 2022 23:47:21 +0530
+Message-Id: <20220916181731.89764-2-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220916181731.89764-1-jagan@amarulasolutions.com>
+References: <20220916181731.89764-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,92 +87,43 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series supports common bridge support for Samsung MIPI DSIM
-which is used in Exynos and i.MX8MM SoC's.
+From: Marek Szyprowski <m.szyprowski@samsung.com>
 
-Previous v4 can be available here [1], repo on linux-next [2] and
-Engicam i.Core MX8M Mini SoM boot log [3].
+Restore the proper bridge chain by finding the previous bridge
+in the chain instead of passing NULL.
 
-The final bridge supports both the Exynos and i.MX8MM DSI devices.
+This establishes a proper bridge chain while attaching downstream
+bridges.
 
-Changes for v3:
-* bridge changes to support multi-arch
-* updated and clear commit messages
-* add hw_type via plat data
-* removed unneeded quirk
-* rebased on linux-next
+v5:
+* exclude the NULL replacement in exynos_dsi_host_attach
 
-Changes for v4:
-* include Inki Dae in MAINTAINERS
-* remove dsi_driver probe in exynos_drm_drv to support multi-arch build
-* update init handling to ensure host init done on first cmd transfer
+v4:
+* none
 
-Changes for v3:
-* fix the mult-arch build
-* fix dsi host init
-* updated commit messages
+v3:
+* new patch
 
-Changes for v2:
-* fix bridge handling
-* fix dsi host init
-* correct the commit messages
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Patch 0001:	Restore proper bridge chain in exynos_dsi
-
-Patch 0002: 	Samsung DSIM bridge
-
-Patch 0003:	PHY optional
-
-Patch 0004:	OF-graph or Child node lookup
-
-Patch 0005: 	DSI host initialization 
-
-Patch 0006:	atomic check
-
-Patch 0007:	PMS_P offset via plat data
-
-Patch 0008:	atomic_get_input_bus_fmts
-
-Patch 0009:	input_bus_flags
-
-Patch 0010:	document fsl,imx8mm-mipi-dsim
-
-Patch 0011:	add i.MX8MM DSIM support
-
-[3] https://gist.github.com/openedev/22b2d63b30ade0ba55ab414a2f47aaf0
-[2] https://github.com/openedev/kernel/tree/imx8mm-dsi-v5
-[1] https://patchwork.kernel.org/project/dri-devel/cover/20220829184031.1863663-1-jagan@amarulasolutions.com/
-
-Any inputs?
-Jagan.
-
-Jagan Teki (10):
-  drm: bridge: Add Samsung DSIM bridge driver
-  drm: bridge: samsung-dsim: Lookup OF-graph or Child node devices
-  drm: bridge: samsung-dsim: Mark PHY as optional
-  drm: bridge: samsung-dsim: Handle proper DSI host initialization
-  drm: bridge: samsung-dsim: Add atomic_check
-  drm: bridge: samsung-dsim: Add platform PLL_P (PMS_P) offset
-  drm: bridge: samsung-dsim: Add atomic_get_input_bus_fmts
-  drm: bridge: samsung-dsim: Add input_bus_flags
-  dt-bindings: display: exynos: dsim: Add NXP i.MX8MM support
-  drm: bridge: samsung-dsim: Add i.MX8MM support
-
-Marek Szyprowski (1):
-  drm: exynos: dsi: Restore proper bridge chain order
-
- .../bindings/display/exynos/exynos_dsim.txt   |    1 +
- MAINTAINERS                                   |    9 +
- drivers/gpu/drm/bridge/Kconfig                |   12 +
- drivers/gpu/drm/bridge/Makefile               |    1 +
- drivers/gpu/drm/bridge/samsung-dsim.c         | 1840 +++++++++++++++++
- drivers/gpu/drm/exynos/Kconfig                |    1 +
- drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 1766 +---------------
- include/drm/bridge/samsung-dsim.h             |  115 ++
- 8 files changed, 2092 insertions(+), 1653 deletions(-)
- create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
- create mode 100644 include/drm/bridge/samsung-dsim.h
-
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index ec673223d6b7..f4e3d2518ad0 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1428,7 +1428,8 @@ static int exynos_dsi_attach(struct drm_bridge *bridge,
+ {
+ 	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
+ 
+-	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, NULL, flags);
++	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
++				 flags);
+ }
+ 
+ static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
 -- 
 2.25.1
 
