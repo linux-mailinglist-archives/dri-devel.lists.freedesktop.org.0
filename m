@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE075BA83D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 10:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2DA5BA876
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 10:48:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC61E10ECE7;
-	Fri, 16 Sep 2022 08:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2954710E3DA;
+	Fri, 16 Sep 2022 08:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17DD810ECE7
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 08:29:11 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-12b542cb1d3so41357091fac.13
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 01:29:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date;
- bh=1RNulGWubi8dMQ7lPg3rkRZj8P2hPUB2/Vc/FMnavGg=;
- b=pCd4vz+hSVG4Enb3uOKwnCq739U7iV+qKlcw1dGx+YM9rP2WEgKmosGadoknCgE+dz
- KUwGhBC9fsygi8Npk3+VqGk74raA1MgoPHT2jJ09NVHZWNcFl5ON8X7kWttT1rmeNCi7
- Pb+UG3wtLSWUATBKgYgny/lzFkIqo5blyv6BU2RDC8gjiFycuYhfFdJtKXysyBs4ptLr
- hsa9IcTTIhU6KQDTWyYmp3Y+9SJTsD1hIr5SHylQxFW1gNiln6nMuQyMe62x16q6LVVT
- ZJ8nCsOk7HM5EvbVKrZJEazwoBZq1WsbCgGqUlgjo/IJPQxs9Vizl2A2gMzQMQGKQIjC
- bZgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=1RNulGWubi8dMQ7lPg3rkRZj8P2hPUB2/Vc/FMnavGg=;
- b=Urhn7H6EIOn/JdExERFaRIeVYjQOuWznyF61sZvWvcEKfDS7JoaT7vq/ovOOEskp34
- mzGS3uW7440jyi5rSXzBcNU6Uwx9YJ8dvSKyzqoiE6mwgkMzPflLnEZ2MKLWG28Fb88b
- TPHKb/wuFnMMbgCyZXc4QoyM8cPrS3rNfvUbgdTXZoDgWeWMfOF59giY/WS1pbuK2OYV
- fzGWa2gEtZvl6guU8z9hxWDefNsjmO/s3Xwxtq+zKyTn0N3HSzcfdgUaaFgYhrevTPuS
- /kPypoUMod33E+jX3g34GJp/BQw/VifyRMKKC42RQE2WxJVDcimDvKxYdoMEwCidMmZj
- pUaw==
-X-Gm-Message-State: ACgBeo1t9j9d3hEGLUEsGI5swHNNvmaqYreFiLZ/zo7fQKY5zOwL3GuP
- 7/tE0Knj468tsMHEE4u3OG+PB1KCMPnBy7qC6y8=
-X-Google-Smtp-Source: AA6agR7dm0dtGPurkDerSJQC9K4DBTffEZKU3zy2BCs3hI+zQLe6W4iYEcWskuMwbV3UNoyw3vFaWyGVnCkcOKw8308=
-X-Received: by 2002:a05:6870:2d1:b0:125:5519:1e4e with SMTP id
- r17-20020a05687002d100b0012555191e4emr7421653oaf.264.1663316950176; Fri, 16
- Sep 2022 01:29:10 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2124510E3CE;
+ Fri, 16 Sep 2022 08:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663318061; x=1694854061;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=4tT4Lk6hswugSMoil1fvETzpd2Zp850w38LFwZhhuaI=;
+ b=f6B4ly2QLMoGKHlIDMT4lwitakyWTMqKwVqJxFLMEiQZelv74kVtL837
+ o/DTEYGEPtK25IzzUbeVELsh5iIOJu5HJVlHn90hBmNb+1d9Daw7tdWOI
+ gVWfpMP/0i5wxfCOx/6NtiFuwPNoENAbZ6h1GBFESzLSA4nh7MxIwOgAA
+ M+2MmNukxohRlHhJ4KnjIw4MVIcur5qknJo7x7wXJLGJyFVbHEfvkIFhP
+ OoAcpV63VMj7VxnRil43b56kd9CEiAwjQ/0c/tnq1X648UoTrrxExVr/c
+ 3Cu+r4UtgnfLtIdN/mHIRY0bGdgKAiuOTEvxUqLhFNfzOQjk24rX340q3 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="385236545"
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="385236545"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 01:47:40 -0700
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="686061003"
+Received: from horanmic-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.1.49])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 01:47:37 -0700
+Date: Fri, 16 Sep 2022 11:47:34 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <YyQ4Jgl3cpGL1/As@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 16 Sep 2022 18:28:58 +1000
-Message-ID: <CAPM=9tzoEUdzdhUsjh8jsuSta3Nv7zkH1-H7g4Oyi4_07zkO2w@mail.gmail.com>
-Subject: [git pull] drm fixes for v6.0-rc6
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,273 +53,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Dave & Daniel,
 
-This is the regular drm fixes pull, the i915 and misc fixes are fairly
-regular, but the amdgpu contains fixes for new hw blocks, the dcn314
-specific path hookups and also has a bunch of fixes for clang stack
-size warnings which are a bit churny but fairly straightforward. This
-means it looks a little larger than usual.
+Here goes the final drm-intel-gt-next towards 6.1.
 
-Dave.
+For stable platforms we have fixes for throttle reasons decoding to sysfs, GuC
+version update to 7.5, XeHP SDV GSC support and the usual pile of smaller fixes.
 
-drm-fixes-2022-09-16:
-drm fixes for v6.0-rc6
+DG2 and DG1 runtime PM is now mostly fixed for LMEM access via mmap, but kernel
+internal usages still need to be reviewed. There's also at least one LMEM code
+NULL deref bug to resolve [1]. Finally a bunch of Meteorlake (MTL) enabling
+patches.
 
-amdgpu:
-- BACO fixes for some RDNA2 boards
-- PCI AER fixes uncovered by a core PCI change
-- Properly hook up dirtyfb helper
-- RAS fixes for GC 11.x
-- TMR fix
-- DCN 3.2.x fixes
-- DCN 3.1.4 fixes
-- LLVM DML stack size fixes
+Note that this PR includes patches going to mei subsystem, due to the tight
+coupling of the MEI/GSC code. Those are Acked-by Greg.
 
-i915:
-- Revert a display patch around max DP source rate now
-  that the proper WaEdpLinkRateDataReload is in place
-- Fix perf limit reasons bit position
-- Fix unclaimmed mmio registers on suspend flow with GuC
-- A vma_move_to_active fix for a regression with video decoding
-- DP DSP fix
+Regards, Joonas
 
-gma500:
-- Locking and IRQ fixes
+[1] https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12135/bat-dg2-11/igt@gem_lmem_swapping@basic@lmem0.html
 
-meson:
-- OSD1 display fixes
+***
 
-panel-edp:
-- Fix Innolux timings
+drm-intel-gt-next-2022-09-16:
 
-rockchip:
-- DP/HDMI fixes
-The following changes since commit 80e78fcce86de0288793a0ef0f6acf37656ee4cf=
-:
+Cross-subsystem Changes:
 
-  Linux 6.0-rc5 (2022-09-11 16:22:01 -0400)
+- MEI subsystem pieces for XeHP SDV GSC support
+  These are Acked-by Greg.
+
+Driver Changes:
+
+- Release mmaps on RPM suspend on discrete GPUs (Anshuman)
+- Update GuC version to 7.5 on DG1, DG2 and ADL
+- Revert "drm/i915/dg2: extend Wa_1409120013 to DG2" (Lucas)
+- MTL enabling incl. standalone media (Matt R, Lucas)
+- Explicitly clear BB_OFFSET for new contexts on Gen8+ (Chris)
+- Fix throttling / perf limit reason decoding (Ashutosh)
+- XeHP SDV GSC support (Vitaly, Alexander, Tomas)
+
+- Fix issues with overrding firmware file paths (John)
+- Invert if-else ladders to check latest version first (Lucas)
+- Cancel GuC engine busyness worker synchronously (Umesh)
+
+- Skip applying copy engine fuses outside PVC (Lucas)
+- Eliminate Gen10 frequency read function (Lucas)
+- Static code checker fixes (Gaosheng)
+- Selftest improvements (Chris)
+
+The following changes since commit 04f7eb3d4582a0a4da67c86e55fda7de2df86d91:
+
+  drm/i915: Set correct domains values at _i915_vma_move_to_active (2022-09-08 11:06:35 +0100)
 
 are available in the Git repository at:
 
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-09-16
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2022-09-16
 
-for you to fetch changes up to 25100377a21ad40dae8be5a3ed361b87acec1479:
+for you to fetch changes up to 8adc718881e0a70127f8843dd70e69a80de39352:
 
-  Merge tag 'drm-intel-fixes-2022-09-15' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2022-09-16
-17:49:54 +1000)
+  drm/i915/uc: Update to latest GuC and use new-format GuC/HuC names (2022-09-15 18:43:33 -0700)
 
 ----------------------------------------------------------------
-drm fixes for v6.0-rc6
+Cross-subsystem Changes:
 
-amdgpu:
-- BACO fixes for some RDNA2 boards
-- PCI AER fixes uncovered by a core PCI change
-- Properly hook up dirtyfb helper
-- RAS fixes for GC 11.x
-- TMR fix
-- DCN 3.2.x fixes
-- DCN 3.1.4 fixes
-- LLVM DML stack size fixes
+- MEI subsystem pieces for XeHP SDV GSC support
+  These are Acked-by Greg.
 
-i915:
-- Revert a display patch around max DP source rate now
-  that the proper WaEdpLinkRateDataReload is in place
-- Fix perf limit reasons bit position
-- Fix unclaimmed mmio registers on suspend flow with GuC
-- A vma_move_to_active fix for a regression with video decoding
-- DP DSP fix
+Driver Changes:
 
-gma500:
-- Locking and IRQ fixes
+- Release mmaps on RPM suspend on discrete GPUs (Anshuman)
+- Update GuC version to 7.5 on DG1, DG2 and ADL
+- Revert "drm/i915/dg2: extend Wa_1409120013 to DG2" (Lucas)
+- MTL enabling incl. standalone media (Matt R, Lucas)
+- Explicitly clear BB_OFFSET for new contexts on Gen8+ (Chris)
+- Fix throttling / perf limit reason decoding (Ashutosh)
+- XeHP SDV GSC support (Vitaly, Alexander, Tomas)
 
-meson:
-- OSD1 display fixes
+- Fix issues with overrding firmware file paths (John)
+- Invert if-else ladders to check latest version first (Lucas)
+- Cancel GuC engine busyness worker synchronously (Umesh)
 
-panel-edp:
-- Fix Innolux timings
-
-rockchip:
-- DP/HDMI fixes
+- Skip applying copy engine fuses outside PVC (Lucas)
+- Eliminate Gen10 frequency read function (Lucas)
+- Static code checker fixes (Gaosheng)
+- Selftest improvements (Chris)
 
 ----------------------------------------------------------------
-Alex Deucher (4):
-      drm/amdgpu: add HDP remap functionality to nbio 7.7
-      drm/amdgpu: move nbio ih_doorbell_range() into ih code for vega
-      drm/amdgpu: move nbio sdma_doorbell_range() into sdma code for vega
-      drm/amdgpu: make sure to init common IP before gmc
+Alexander Usyskin (5):
+      drm/i915/gsc: add slow_firmware flag to the gsc device definition
+      drm/i915/gsc: add GSC XeHP SDV platform definition
+      mei: gsc: wait for reset thread on stop
+      mei: extend timeouts on slow devices
+      mei: drop ready bits check after start
 
-Alvin Lee (3):
-      drm/amd/display: Update MBLK calculation for SubVP
-      drm/amd/display: SW cursor fallback for SubVP
-      drm/amd/display: Refactor SubVP calculation to remove FPU
-
-Ankit Nautiyal (1):
-      drm/i915/vdsc: Set VDSC PIC_HEIGHT before using for DP DSC
-
-Aric Cyr (1):
-      drm/amd/display: Fix divide by zero in DML
+Anshuman Gupta (2):
+      drm/i915: Refactor userfault_wakeref to re-use
+      drm/i915/dgfx: Release mmap on rpm suspend
 
 Ashutosh Dixit (1):
       drm/i915/gt: Fix perf limit reasons bit positions
 
-Aurabindo Pillai (2):
-      drm/amd/display: Revert "Fallback to SW cursor if SubVP + cursor too =
-big"
-      drm/amd/display: add workaround for subvp cursor corruption for DCN32=
-/321
+Chris Wilson (4):
+      drm/i915/gt: Explicitly clear BB_OFFSET for new contexts
+      drm/i915/selftests: Check for incomplete LRI from the context image
+      drm/i915/selftest: Always cancel semaphore on error
+      drm/i915/selftest: Clear the output buffers before GPU writes
 
-Candice Li (2):
-      drm/amdgpu: Enable full reset when RAS is supported on gc v11_0_0
-      drm/amdgpu: Skip reset error status for psp v13_0_0
+Gaosheng Cui (1):
+      drm/i915: remove unused i915_gem_lmem_obj_ops declaration
 
-Chen-Yu Tsai (1):
-      drm/panel-edp: Fix delays for Innolux N116BCA-EA1
+John Harrison (2):
+      drm/i915/uc: Fix issues with overriding firmware files
+      drm/i915/uc: Update to latest GuC and use new-format GuC/HuC names
 
-Dave Airlie (3):
-      Merge tag 'amd-drm-fixes-6.0-2022-09-14' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2022-09-15' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2022-09-15' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+Lucas De Marchi (7):
+      Revert "drm/i915/dg2: extend Wa_1409120013 to DG2"
+      drm/i915/gt: Use MEDIA_VER() when handling media fuses
+      drm/i915/gt: Extract function to apply media fuses
+      drm/i915: Skip applying copy engine fuses
+      drm/i915: Invert if/else ladder for frequency read
+      drm/i915/gt: Extract per-platform function for frequency read
+      drm/i915: Invert if/else ladder for stolen init
 
-Duncan Ma (1):
-      drm/amd/display: Correct dram channel width for dcn314
+Matt Roper (14):
+      drm/i915: Move locking and unclaimed check into mmio_debug_{suspend, resume}
+      drm/i915: Only hook up uncore->debug for primary uncore
+      drm/i915: Use managed allocations for extra uncore objects
+      drm/i915: Drop intel_gt_tile_cleanup()
+      drm/i915: Prepare more multi-GT initialization
+      drm/i915: Rename and expose common GT early init routine
+      drm/i915: Use a DRM-managed action to release the PCI bridge device
+      drm/i915: Initialize MMIO access for each GT
+      drm/i915: Handle each GT on init/release and suspend/resume
+      drm/i915/uncore: Add GSI offset to uncore
+      drm/i915/mtl: Add gsi_offset when emitting aux table invalidation
+      drm/i915/xelpmp: Expose media as another GT
+      drm/i915/mtl: Use primary GT's irq lock for media GT
+      drm/i915/mtl: Hook up interrupts for standalone media
 
-Guchun Chen (1):
-      drm/amd/pm: disable BACO entry/exit completely on several sienna
-cichlid cards
-
-Hamza Mahfooz (1):
-      drm/amdgpu: use dirty framebuffer helper
-
-Hans de Goede (3):
-      drm/gma500: Fix BUG: sleeping function called from invalid context er=
-rors
-      drm/gma500: Fix WARN_ON(lock->magic !=3D lock) error
-      drm/gma500: Fix (vblank) IRQs not working after suspend/resume
-
-Leo Chen (1):
-      drm/amd/display: Fixing DIG FIFO Error
-
-Lijo Lazar (1):
-      drm/amdgpu: Don't enable LTR if not supported
-
-Nathan Chancellor (5):
-      drm/amd/display: Reduce number of arguments of
-dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport()
-      drm/amd/display: Reduce number of arguments of
-dml32_CalculatePrefetchSchedule()
-      drm/amd/display: Reduce number of arguments of dml31's
-CalculateWatermarksAndDRAMSpeedChangeSupport()
-      drm/amd/display: Reduce number of arguments of dml31's
-CalculateFlipSchedule()
-      drm/amd/display: Mark dml30's UseMinimumDCFCLK() as noinline for
-stack usage
-
-Nathan Huckleberry (1):
-      drm/rockchip: Fix return type of cdn_dp_connector_mode_valid
-
-Nicholas Kazlauskas (2):
-      drm/amd/display: Hook up DCN314 specific dml implementation
-      drm/amd/display: Relax swizzle checks for video non-RGB formats on DC=
-N314
-
-Nirmoy Das (1):
-      drm/i915: Set correct domains values at _i915_vma_move_to_active
-
-Rodrigo Siqueira (2):
-      drm/amd/display: Fix compilation errors on DCN314
-      drm/amd/display: Enable dlg and vba compilation for dcn314
-
-Sascha Hauer (1):
-      drm/rockchip: vop2: Fix eDP/HDMI sync polarities
-
-Stuart Menefy (2):
-      drm/meson: Correct OSD1 global alpha value
-      drm/meson: Fix OSD1 RGB to YCbCr coefficient
-
-Taimur Hassan (1):
-      drm/amd/display: Round cursor width up for MALL allocation
+Tomas Winkler (7):
+      mei: add kdoc for struct mei_aux_device
+      mei: add slow_firmware flag to the mei auxiliary device
+      mei: gsc: use polling instead of interrupts
+      mei: mkhi: add memory ready command
+      mei: gsc: setup gsc extended operational memory
+      mei: debugfs: add pxp mode to devstate in debugfs
+      drm/i915/gsc: allocate extended operational memory in LMEM
 
 Umesh Nerlige Ramappa (1):
       drm/i915/guc: Cancel GuC engine busyness worker synchronously
 
-Ville Syrj=C3=A4l=C3=A4 (1):
-      Revert "drm/i915/display: Re-add check for low voltage sku for
-max dp source rate"
+Vitaly Lubart (3):
+      drm/i915/gsc: skip irq initialization if using polling
+      mei: bus: export common mkhi definitions into a separate header
+      mei: gsc: add transition to PXP mode in resume flow
 
-Yang Wang (1):
-      drm/amdgpu: change the alignment size of TMR BO to 1M
-
-Yao Wang1 (1):
-      drm/amd/display: Limit user regamma to a valid value
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  14 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   3 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c             |   9 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v6_1.c             |   9 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c             |   9 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v7_7.c             |   9 +
- drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |   5 +
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |  25 --
- drivers/gpu/drm/amd/amdgpu/soc21.c                 |   1 +
- drivers/gpu/drm/amd/amdgpu/vega10_ih.c             |   4 +
- drivers/gpu/drm/amd/amdgpu/vega20_ih.c             |   4 +
- .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c |   2 +
- drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |   2 +-
- drivers/gpu/drm/amd/display/dc/dc.h                |   1 +
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |  89 +++--
- .../display/dc/dcn314/dcn314_dio_stream_encoder.c  |   3 +-
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubp.c  |  24 +-
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c |  24 +-
- .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.c  |   4 +-
- .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.h  |   3 +
- .../amd/display/dc/dcn32/dcn32_resource_helpers.c  |  59 ++-
- .../drm/amd/display/dc/dcn321/dcn321_resource.c    |   4 +-
- drivers/gpu/drm/amd/display/dc/dml/Makefile        |   3 +
- .../amd/display/dc/dml/dcn30/display_mode_vba_30.c |   3 +-
- .../amd/display/dc/dml/dcn31/display_mode_vba_31.c | 420 +++++------------=
-----
- .../gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c |   5 +-
- .../display/dc/dml/dcn314/display_mode_vba_314.c   |  13 +-
- .../amd/display/dc/dml/dcn32/display_mode_vba_32.c | 260 +++++--------
- .../dc/dml/dcn32/display_mode_vba_util_32.c        | 323 +++++++---------
- .../dc/dml/dcn32/display_mode_vba_util_32.h        |  51 +--
- .../gpu/drm/amd/display/dc/dml/display_mode_lib.c  |  12 +
- .../gpu/drm/amd/display/dc/dml/display_mode_lib.h  |   1 +
- .../gpu/drm/amd/display/dc/dml/display_mode_vba.h  |  10 +-
- drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr.h    |   1 +
- .../drm/amd/display/modules/color/color_gamma.c    |   4 +
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  11 +
- drivers/gpu/drm/gma500/cdv_device.c                |   4 +-
- drivers/gpu/drm/gma500/gem.c                       |   4 +-
- drivers/gpu/drm/gma500/gma_display.c               |  11 +-
- drivers/gpu/drm/gma500/oaktrail_device.c           |   5 +-
- drivers/gpu/drm/gma500/power.c                     |   8 +-
- drivers/gpu/drm/gma500/psb_drv.c                   |   2 +-
- drivers/gpu/drm/gma500/psb_drv.h                   |   5 +-
- drivers/gpu/drm/gma500/psb_irq.c                   |  15 +-
- drivers/gpu/drm/gma500/psb_irq.h                   |   2 +-
- drivers/gpu/drm/i915/display/icl_dsi.c             |   2 +
- drivers/gpu/drm/i915/display/intel_dp.c            |  33 +-
- drivers/gpu/drm/i915/display/intel_vdsc.c          |   1 -
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |   7 +-
- drivers/gpu/drm/i915/i915_reg.h                    |  16 +-
- drivers/gpu/drm/i915/i915_vma.c                    |   3 +-
- drivers/gpu/drm/meson/meson_plane.c                |   2 +-
- drivers/gpu/drm/meson/meson_viu.c                  |   2 +-
- drivers/gpu/drm/panel/panel-edp.c                  |   3 +-
- drivers/gpu/drm/rockchip/cdn-dp-core.c             |   5 +-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |   4 +
- 59 files changed, 655 insertions(+), 908 deletions(-)
+ drivers/gpu/drm/i915/Makefile                     |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h          |   2 -
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c          |  23 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.h          |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c        |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c            |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c        |  51 ++-----
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c           |  36 ++++-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c          |  15 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.h          |   3 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c         | 156 ++++++++++---------
+ drivers/gpu/drm/i915/gt/intel_engine_regs.h       |   1 +
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c      |   1 -
+ drivers/gpu/drm/i915/gt/intel_gsc.c               | 106 +++++++++++--
+ drivers/gpu/drm/i915/gt/intel_gsc.h               |   3 +
+ drivers/gpu/drm/i915/gt/intel_gt.c                | 111 ++++++++++----
+ drivers/gpu/drm/i915/gt/intel_gt.h                |   4 +-
+ drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c    | 174 ++++++++++------------
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c            |  35 ++++-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c         |   8 +-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h           |  10 ++
+ drivers/gpu/drm/i915/gt/intel_gt_types.h          |  36 ++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.h               |   3 -
+ drivers/gpu/drm/i915/gt/intel_lrc.c               |  29 +++-
+ drivers/gpu/drm/i915/gt/intel_rps.c               |  26 ++--
+ drivers/gpu/drm/i915/gt/intel_sa_media.c          |  47 ++++++
+ drivers/gpu/drm/i915/gt/intel_sa_media.h          |  15 ++
+ drivers/gpu/drm/i915/gt/selftest_lrc.c            | 115 +++++++++++---
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c            |  24 +--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  11 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c             |   4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c          |  30 +++-
+ drivers/gpu/drm/i915/i915_driver.c                | 105 +++++++++----
+ drivers/gpu/drm/i915/i915_drv.h                   |   5 +
+ drivers/gpu/drm/i915/i915_gem.c                   |   6 +-
+ drivers/gpu/drm/i915/i915_irq.c                   |   4 +-
+ drivers/gpu/drm/i915/i915_pci.c                   |  14 ++
+ drivers/gpu/drm/i915/i915_reg.h                   |  16 +-
+ drivers/gpu/drm/i915/intel_device_info.h          |   3 +
+ drivers/gpu/drm/i915/intel_pm.c                   |   5 +-
+ drivers/gpu/drm/i915/intel_uncore.c               |  92 +++++++-----
+ drivers/gpu/drm/i915/intel_uncore.h               |  40 ++++-
+ drivers/gpu/drm/i915/pxp/intel_pxp.c              |   4 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c      |   4 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c          |  14 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c      |   4 +-
+ drivers/gpu/drm/i915/selftests/mock_gem_device.c  |   1 +
+ drivers/misc/mei/bus-fixup.c                      | 106 ++++++++-----
+ drivers/misc/mei/client.c                         |  16 +-
+ drivers/misc/mei/debugfs.c                        |  19 ++-
+ drivers/misc/mei/gsc-me.c                         |  77 ++++++++--
+ drivers/misc/mei/hbm.c                            |  14 +-
+ drivers/misc/mei/hw-me-regs.h                     |   9 +-
+ drivers/misc/mei/hw-me.c                          | 138 ++++++++++++++---
+ drivers/misc/mei/hw-me.h                          |  17 ++-
+ drivers/misc/mei/hw-txe.c                         |   4 +-
+ drivers/misc/mei/hw.h                             |   7 +-
+ drivers/misc/mei/init.c                           |  35 +++--
+ drivers/misc/mei/main.c                           |   4 +-
+ drivers/misc/mei/mei_dev.h                        |  35 ++++-
+ drivers/misc/mei/mkhi.h                           |  55 +++++++
+ drivers/misc/mei/pci-me.c                         |   4 +-
+ include/linux/mei_aux.h                           |  12 ++
+ 64 files changed, 1423 insertions(+), 534 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.h
+ create mode 100644 drivers/misc/mei/mkhi.h
