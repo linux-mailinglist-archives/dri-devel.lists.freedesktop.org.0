@@ -2,77 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F595BA8AD
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 10:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572DC5BA8E7
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 11:02:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C3710E3E2;
-	Fri, 16 Sep 2022 08:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18ABD10ECF4;
+	Fri, 16 Sep 2022 09:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1A310E3E2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 08:53:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id DC374580E35;
- Fri, 16 Sep 2022 04:53:07 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute3.internal (MEProxy); Fri, 16 Sep 2022 04:53:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1663318387; x=1663321987; bh=ZFtMGAa129
- Cr8RDhpd8v9Ui9QHwxY8QKFU+/h7fj6XQ=; b=gWg3mZo9s5TlBI9yv/BxqQZOZw
- 1ZfOCrayhnJUa/V3wtJz10UO0UQK6jZEugRvKOuadIbjJVIjE14dJfLzqufIyl7T
- JKWXguoxPYQqk7GGGLVhSy7CWoJudeWl7/iPpMnlyxUY/o/q/ex35KoNJH+8fZR9
- ZdrXrnRXkSJ5LTpt2rEEX/0+fMAQBFNU8HvzUSyokM3iSUYYe8FUPWEMhGOx5t6o
- fQ1wsSaf0vDuNvhS3sUSnMZNqx5jqU1mpUhBTr3ScsQJSZ3+Bdqs9e4Tz7YC7X44
- HT+6q5l2Q3HlsBeh86zSd3vmpBlLYBJPwe3ZQ8V9Dp3rpqgQyjW0rlDxAscg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1663318387; x=1663321987; bh=ZFtMGAa129Cr8RDhpd8v9Ui9QHwx
- Y8QKFU+/h7fj6XQ=; b=GMfE+QHqHY8DvFPc5wS/gYUVndeUmb4XlY9Ge1HmYh76
- /55jOjdVCT0SWUNI3C3P7yKinX6eFYD7MKqX9pdbftMKRkKoRGlutyophwC+0DkM
- CgtzbwfCI6gUc9wOVCRSPO8HGjpTo0mvVDlnHfxBT7CjGySv1Vf3DkTGgoObp9FQ
- 26eMpo+C6swJEXjWeEaL2jA+ONEPeE3BFQlmElfCBLOlPFk6pBNcrtTJ5sH+tXs7
- 3DNxfIB3yNWo1Nt8TEZeMtFzFN5+wgXzyw/5Bg1LjTL0VUxoFZqffsH0idAyQfYL
- oVXKJstZj1GsWqkra9GbpGB4xY+THRN/1suOODNryQ==
-X-ME-Sender: <xms:cjkkYxByAD8WY1jjqGvKcu6gaN_-LLv2lpPQnPdpZ1w-USi0zNjbYQ>
- <xme:cjkkY_gMYYhvDZAqPcC2VzRCSKeS5OIpOcofZzCTJbTIHvgo07HZ2jusfF8uL7KRL
- YoZaIuNPmNb92aTf6U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvtddguddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepgeetiefhjedvhfeffffhvddvvdffgfetvdetiefghefhheduffeljeeuuddv
- lefgnecuffhomhgrihhnpehprghsthgvsghinhdrtghomhenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:cjkkY8mt-T6hs-vzmr2eDer5cUMI6T9SKNR5CnF5rblc4_T2aHh0Cw>
- <xmx:cjkkY7wAoerWWOo6_Rf1Er1y_JnDclRfJ2nRtmSQPMfTPjPc7iPD7A>
- <xmx:cjkkY2T8yX6G_uqsNQdRU31LHhBv96s3Kq3LaVgtB15dcvFtp6CSSg>
- <xmx:czkkYzJVIfwPMEUT1-cOqx74WLNWWcAIEzuUZb3vyBqda3a7DTAtSA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id B8C3AB60086; Fri, 16 Sep 2022 04:53:06 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
-Mime-Version: 1.0
-Message-Id: <e020ff7a-d58e-481d-bb1c-980fe5e13c3e@www.fastmail.com>
-In-Reply-To: <6c0d4973-7f7e-1893-58b2-9bbe19160045@ideasonboard.com>
-References: <202209160259.7f3Z5krO-lkp@intel.com>
- <9b4152e9-34cb-4ed6-b5e3-ef045b40dff2@www.fastmail.com>
- <6c0d4973-7f7e-1893-58b2-9bbe19160045@ideasonboard.com>
-Date: Fri, 16 Sep 2022 10:52:46 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
- "kernel test robot" <lkp@intel.com>
-Subject: Re: drivers/gpu/drm/omapdrm/dss/dsi.c:1126:1: warning: the frame size
- of 1060 bytes is larger than 1024 bytes
-Content-Type: text/plain
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47BBB10E3EC;
+ Fri, 16 Sep 2022 09:02:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663318956; x=1694854956;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=UI78dWtik+awUPgqod85zQx+ya6kzz+leZfdHAMZJfo=;
+ b=QESsksE30UMQcE9QyPnalGqFiwLytGj5QnopIbW2Uz+Z81ToJifjh/rV
+ wbUHIDJxwtaSxcJhj2Y3c3arAVYDfNeqp+gIHmyei1CiT11wQLW0h935C
+ 1jPLHHbjNS7I68BNncVdzTRY5crU/+6Ap1VSkkcjohA1fCLDbUqsZx0A3
+ H4nh3gKClvd1TFpqgdtxfh5Zgj7EjQdWysZ8lTTRqBDBJAtkTYy/fPpLJ
+ UwqO6m4HiEhUQXc3n62wwtO99wuI3kjGP1G1+nDI7j4o7dGogQpfxigkY
+ i609UWew37NmgBoAa9gLt/pti2BiBpSJ4f3gTj5VEFQ2MrGqSv51lBaOb Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="360689267"
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="360689267"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 02:02:35 -0700
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="620023911"
+Received: from agiridha-mobl1.ger.corp.intel.com (HELO [10.213.204.25])
+ ([10.213.204.25])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 02:02:34 -0700
+Message-ID: <e5e70c4f-93af-a903-9bf0-df283b6e7eb9@linux.intel.com>
+Date: Fri, 16 Sep 2022 10:02:32 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Split GAM and MSLICE steering
+Content-Language: en-US
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220916014345.3317739-1-matthew.d.roper@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220916014345.3317739-1-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,41 +60,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 16, 2022, at 10:24 AM, Tomi Valkeinen wrote:
-> On 15/09/2022 21:49, Arnd Bergmann wrote:
->> On Thu, Sep 15, 2022, at 8:17 PM, kernel test robot wrote:
->> I think hte problem is that struct dsi_irq_stats is just too
->> large, at 776 bytes. The interrupts are disabled during a copy
->> from 'dsi->irq_stats' into 'stats'. A trivial workaround would
->> avoid the local copy and keep interrupts disabled through
->> the entire function so it can operate directly on the source
->> data, but that would introduce a longer time with irqs disabled,
->> which might be bad as well.
->> 
->> Since this is only called from a debugfs file, and reading that
->> file is probably not performance critical itself, maybe
->> using kmalloc on the large structure would be best.
->
-> I think that makes sense. I have sent a patch using kmalloc.
->
-> Oddly enough, I was not able to reproduce the warning with my normal 
-> toolchain, gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf. I even 
-> reduced the frame size limit to 700, and saw warnings from other places, 
-> but not from omapdrm.
 
-I had another look and found that this only happens with
-CONFIG_INIT_STACK_ALL_PATTERN=y or CONFIG_INIT_STACK_ALL_ZERO=y,
-which are only available with gcc-12.x or clang.
+On 16/09/2022 02:43, Matt Roper wrote:
+> Although the bspec lists several MMIO ranges as "MSLICE," it turns out
+> that a subset of these are of a "GAM" subclass that has unique rules and
+> doesn't followed regular mslice steering behavior.
+> 
+>   * Xe_HP SDV:  GAM ranges must always be steered to 0,0.  These
+>     registers share the regular steering control register (0xFDC) with
+>     other steering types
+> 
+>   * DG2:  GAM ranges must always be steered to 1,0.  GAM registers have a
+>     dedicated steering control register (0xFE0) so we can set the value
+>     once at startup and rely on implicit steering.  Technically the
+>     hardware default should already be set to 1,0 properly, but it never
+>     hurts to ensure that in the driver.
 
-It looks like without that, gcc can reduce the size of the
-on-stack variable by only copying the members that it actually
-needs, see https://pastebin.com/8dDRE1bX for the gcc-11
-output.
+Do you have any data on whether the "technically should" holds in 
+practice? What would be the consequences of some platform/machine 
+surprising us here?
 
-      Arnd
+Regards,
+
+Tvrtko
+
+> 
+> Bspec: 66534
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt_mcr.c      | 24 +++++++++++++++++++--
+>   drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  1 +
+>   drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
+>   drivers/gpu/drm/i915/gt/intel_workarounds.c | 10 +++++++++
+>   4 files changed, 34 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> index e79405a45312..a2047a68ea7a 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> @@ -40,6 +40,7 @@ static const char * const intel_steering_types[] = {
+>   	"L3BANK",
+>   	"MSLICE",
+>   	"LNCF",
+> +	"GAM",
+>   	"INSTANCE 0",
+>   };
+>   
+> @@ -48,14 +49,23 @@ static const struct intel_mmio_range icl_l3bank_steering_table[] = {
+>   	{},
+>   };
+>   
+> +/*
+> + * Although the bspec lists more "MSLICE" ranges than shown here, some of those
+> + * are of a "GAM" subclass that has special rules.  Thus we use a separate
+> + * GAM table farther down for those.
+> + */
+>   static const struct intel_mmio_range xehpsdv_mslice_steering_table[] = {
+> -	{ 0x004000, 0x004AFF },
+> -	{ 0x00C800, 0x00CFFF },
+>   	{ 0x00DD00, 0x00DDFF },
+>   	{ 0x00E900, 0x00FFFF }, /* 0xEA00 - OxEFFF is unused */
+>   	{},
+>   };
+>   
+> +static const struct intel_mmio_range xehpsdv_gam_steering_table[] = {
+> +	{ 0x004000, 0x004AFF },
+> +	{ 0x00C800, 0x00CFFF },
+> +	{},
+> +};
+> +
+>   static const struct intel_mmio_range xehpsdv_lncf_steering_table[] = {
+>   	{ 0x00B000, 0x00B0FF },
+>   	{ 0x00D800, 0x00D8FF },
+> @@ -114,9 +124,15 @@ void intel_gt_mcr_init(struct intel_gt *gt)
+>   	} else if (IS_DG2(i915)) {
+>   		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
+>   		gt->steering_table[LNCF] = dg2_lncf_steering_table;
+> +		/*
+> +		 * No need to hook up the GAM table since it has a dedicated
+> +		 * steering control register on DG2 and can use implicit
+> +		 * steering.
+> +		 */
+>   	} else if (IS_XEHPSDV(i915)) {
+>   		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
+>   		gt->steering_table[LNCF] = xehpsdv_lncf_steering_table;
+> +		gt->steering_table[GAM] = xehpsdv_gam_steering_table;
+>   	} else if (GRAPHICS_VER(i915) >= 11 &&
+>   		   GRAPHICS_VER_FULL(i915) < IP_VER(12, 50)) {
+>   		gt->steering_table[L3BANK] = icl_l3bank_steering_table;
+> @@ -351,6 +367,10 @@ static void get_nonterminated_steering(struct intel_gt *gt,
+>   		*group = __ffs(gt->info.mslice_mask) << 1;
+>   		*instance = 0;	/* unused */
+>   		break;
+> +	case GAM:
+> +		*group = IS_DG2(gt->i915) ? 1 : 0;
+> +		*instance = 0;
+> +		break;
+>   	case INSTANCE0:
+>   		/*
+>   		 * There are a lot of MCR types for which instance (0, 0)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> index 2275ee47da95..2343b26e0e21 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> @@ -42,6 +42,7 @@
+>   #define MCFG_MCR_SELECTOR			_MMIO(0xfd0)
+>   #define SF_MCR_SELECTOR				_MMIO(0xfd8)
+>   #define GEN8_MCR_SELECTOR			_MMIO(0xfdc)
+> +#define GAM_MCR_SELECTOR			_MMIO(0xfe0)
+>   #define   GEN8_MCR_SLICE(slice)			(((slice) & 3) << 26)
+>   #define   GEN8_MCR_SLICE_MASK			GEN8_MCR_SLICE(3)
+>   #define   GEN8_MCR_SUBSLICE(subslice)		(((subslice) & 3) << 24)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> index f19c2de77ff6..30003d68fd51 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> @@ -59,6 +59,7 @@ enum intel_steering_type {
+>   	L3BANK,
+>   	MSLICE,
+>   	LNCF,
+> +	GAM,
+>   
+>   	/*
+>   	 * On some platforms there are multiple types of MCR registers that
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index 6d2003d598e6..d04652a3b4e5 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -1181,6 +1181,9 @@ xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
+>   		gt->steering_table[MSLICE] = NULL;
+>   	}
+>   
+> +	if (IS_XEHPSDV(gt->i915) && slice_mask & BIT(0))
+> +		gt->steering_table[GAM] = NULL;
+> +
+>   	slice = __ffs(slice_mask);
+>   	subslice = intel_sseu_find_first_xehp_dss(sseu, GEN_DSS_PER_GSLICE, slice) %
+>   		GEN_DSS_PER_GSLICE;
+> @@ -1198,6 +1201,13 @@ xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
+>   	 */
+>   	__set_mcr_steering(wal, MCFG_MCR_SELECTOR, 0, 2);
+>   	__set_mcr_steering(wal, SF_MCR_SELECTOR, 0, 2);
+> +
+> +	/*
+> +	 * On DG2, GAM registers have a dedicated steering control register
+> +	 * and must always be programmed to a hardcoded groupid of "1."
+> +	 */
+> +	if (IS_DG2(gt->i915))
+> +		__set_mcr_steering(wal, GAM_MCR_SELECTOR, 1, 0);
+>   }
+>   
+>   static void
