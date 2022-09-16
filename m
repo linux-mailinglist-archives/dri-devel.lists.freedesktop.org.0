@@ -1,58 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B465BB1B0
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 19:38:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB4C5BB1E8
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 20:18:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA53F10E95B;
-	Fri, 16 Sep 2022 17:38:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DEE810EC52;
+	Fri, 16 Sep 2022 18:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC8A10E08D;
- Fri, 16 Sep 2022 17:38:07 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-1279948d93dso53016763fac.10; 
- Fri, 16 Sep 2022 10:38:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=+tOYOkayPE4pw1wpaTs3OyuvsxQN/lMZTTuwRcuB/UM=;
- b=dUNEW4All3BK3BtFtJJXok1xM0KU4WHsTRTiUFxe1BmKBGzW5E82wFpfsIBqSg9kBY
- WDQtTmoy9BXGPxNUzhY9z3DevrMrSBNl95fNjxNPziFl+2/GS+6jdo2Rceh53ppbETOK
- c0sWewfiir5HIA4t4ZoaiNC3p4GVj5uo42P/34BTLJwv5HlvzezbQQKLwf0OFkoTBlvY
- bH/7l0m+VoWqBUaaKZoVG7gg2/fR55T3N+qim3QrhZB+qt/aoGaBNgIp7ZWAGTkwuyK4
- DFRdUkA9iuTKlRCH/2KVBA4OwsyT6koD8dx6FudsY6ztBy4rpqvyZ8fkaUBXZ+zYH4Zc
- 9APQ==
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA69C10ED77
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 18:18:18 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ q9-20020a17090a178900b0020265d92ae3so468001pja.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 11:18:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=k78FpsGBN/9CeIU1dKf9WRueN2gjoM3jLsVKiTwXYEc=;
+ b=LnfjjIyIPh+3f8ddwKxO+TR2Frx5uZqBCqP6sTW0OjI48HHSR3xSGc9FIKc57pg/6A
+ XFksWfMYOCDVC37enuOm19iSbNL24GV3hQocdtl79w6jnWBK+UKsIhNsZup6Omr4mLu2
+ oSmfTeGnC9mdBQ8f9CiGiGI6LX7vFRx1AG8Hg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=+tOYOkayPE4pw1wpaTs3OyuvsxQN/lMZTTuwRcuB/UM=;
- b=Lq9y2/otG8+mxT0821SY7w5MsRjSx1A7Z+tbhYZXMORqip7eNFt62L/GLqf2hL/uZi
- cwNqxF64TnRL/BHTVu7Nei4IIt3R4b2wIgzThcb/PQclGJrWi8WBCcZb0pC30uJT5zQd
- od7EbJ0lJDudl1ezZUN32PpVrtMZs6x+0VjXzvRLK7NZ9cWp1p9LqLHTP/XZRJrEqv/T
- 5HhDamB8jzQYoK9zLubRd9alZsEJ0i0l92jdM3U/6oKvRSeiwAu7LRL3ajv/P30OdjfW
- LrlhN9Ai8LfrZZ+ykn5z3n8JHjpniL1cafvpJ0N0WbjSVBkKvyaRfCsKh6ttD7OGOYLq
- TS5w==
-X-Gm-Message-State: ACgBeo0dOTSFuitQySkzhkes4qry3pRR6t34mSNIV4vwaapt1i2y7f4d
- rJHFKTNAU0SnvM3F+rB1xyvW0GF1o2NsF5smOuY=
-X-Google-Smtp-Source: AA6agR4XZ+diowcGzmlPTzRkgMo5c6tMGbE9Ldj4j+lFCVh+86EkjMWDMfDFz6T/5HIOj2IeSnAMF1+HIosI4ZRwgNA=
-X-Received: by 2002:a05:6870:1783:b0:12a:f442:504d with SMTP id
- r3-20020a056870178300b0012af442504dmr9725833oae.46.1663349886474; Fri, 16 Sep
- 2022 10:38:06 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=k78FpsGBN/9CeIU1dKf9WRueN2gjoM3jLsVKiTwXYEc=;
+ b=xuZHBntdGyH8I1txwRRuEIlsIkOojJsKnQiRiHnG4tLl4FutvE6zg77JWEH2SJX5lO
+ lQXgH+5xK8KN9lv2eegz4HlbajoNoTHufVq3k9rZS3OQTZcfrkWkQ/dYC+JWQscVn2Xe
+ 6sfjawAgQRcYYyBwMcuUdxdXDqJCZJIB081tjjmZnoVnjZ/0yZu4cFtgL1sv0KGYFInz
+ pRNtIZ+HcJl/M+rETcES6KcM+lanXwSo85xkfcvbgO5lCl8YSk9WiCou6rHzx9cAtrU2
+ zmW82A2eQx7nZh9gIooIBjyiJRQArtnrrs/HZqWevxCIwpGryRZFddyE3m9bEMVCi5zW
+ poLQ==
+X-Gm-Message-State: ACrzQf0tiYU0l+xKICdwHQnePiWYGK+Osaay2J/iR5rJ6ler4j8NPYHI
+ fRO3Ce9QuE/71i6aZG3b82qe4w==
+X-Google-Smtp-Source: AMsMyM6dVp0Kw2qBJOCCRGDf8xnWNPEduQGlVM8rdcg6mvP5PTRHLSW6yohoYvcNatfqAUUJbjf2ug==
+X-Received: by 2002:a17:90b:4a0b:b0:202:8568:4163 with SMTP id
+ kk11-20020a17090b4a0b00b0020285684163mr17830711pjb.217.1663352298404; 
+ Fri, 16 Sep 2022 11:18:18 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:c00a:a073:ae5d:6ee4:5c2f:6733])
+ by smtp.gmail.com with ESMTPSA id
+ d14-20020a17090a6a4e00b002007b60e288sm1770000pjm.23.2022.09.16.11.18.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Sep 2022 11:18:17 -0700 (PDT)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Marek Vasut <marex@denx.de>
+Subject: [PATCH v5 00/11] drm: bridge: Add Samsung MIPI DSIM bridge
+Date: Fri, 16 Sep 2022 23:47:20 +0530
+Message-Id: <20220916181731.89764-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220915015802.59967-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20220915015802.59967-1-yang.lee@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 16 Sep 2022 13:37:55 -0400
-Message-ID: <CADnq5_MrYpHO406KstV1CPq1HfQOLaV9bEZ=AtOq=i+0RNx0Tg@mail.gmail.com>
-Subject: Re: [PATCH -next 1/6] drm/amd/display: clean up some inconsistent
- indentings
-To: Yang Li <yang.lee@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,48 +78,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series.
+This series supports common bridge support for Samsung MIPI DSIM
+which is used in Exynos and i.MX8MM SoC's.
 
-Thanks,
+Previous v4 can be available here [1], repo on linux-next [2] and
+Engicam i.Core MX8M Mini SoM boot log [3].
 
-Alex
+The final bridge supports both the Exynos and i.MX8MM DSI devices.
 
-On Wed, Sep 14, 2022 at 9:58 PM Yang Li <yang.lee@linux.alibaba.com> wrote:
->
-> clean up some inconsistent indentings
->
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2177
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->  .../gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c    | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-> index 4e3356d12147..8dfe639b6508 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-> @@ -1051,10 +1051,10 @@ static bool CalculatePrefetchSchedule(
->                 bytes_pp = myPipe->BytePerPixelY + myPipe->BytePerPixelC;
->         /*rev 99*/
->         prefetch_bw_pr = dml_min(1, bytes_pp * myPipe->PixelClock / (double) myPipe->DPPPerPlane);
-> -    max_Tsw = dml_max(PrefetchSourceLinesY, PrefetchSourceLinesC) * LineTime;
-> +       max_Tsw = dml_max(PrefetchSourceLinesY, PrefetchSourceLinesC) * LineTime;
->         prefetch_sw_bytes = PrefetchSourceLinesY * swath_width_luma_ub * myPipe->BytePerPixelY + PrefetchSourceLinesC * swath_width_chroma_ub * myPipe->BytePerPixelC;
->         prefetch_bw_oto = dml_max(bytes_pp * myPipe->PixelClock / myPipe->DPPPerPlane, prefetch_sw_bytes / (dml_max(PrefetchSourceLinesY, PrefetchSourceLinesC) * LineTime));
-> -    prefetch_bw_oto = dml_max(prefetch_bw_pr, prefetch_sw_bytes / max_Tsw);
-> +       prefetch_bw_oto = dml_max(prefetch_bw_pr, prefetch_sw_bytes / max_Tsw);
->
->         min_Lsw = dml_max(1, dml_max(PrefetchSourceLinesY, PrefetchSourceLinesC) / max_vratio_pre);
->         Lsw_oto = dml_ceil(4 * dml_max(prefetch_sw_bytes / prefetch_bw_oto / LineTime, min_Lsw), 1) / 4;
-> --
-> 2.20.1.7.g153144c
->
+Changes for v3:
+* bridge changes to support multi-arch
+* updated and clear commit messages
+* add hw_type via plat data
+* removed unneeded quirk
+* rebased on linux-next
+
+Changes for v4:
+* include Inki Dae in MAINTAINERS
+* remove dsi_driver probe in exynos_drm_drv to support multi-arch build
+* update init handling to ensure host init done on first cmd transfer
+
+Changes for v3:
+* fix the mult-arch build
+* fix dsi host init
+* updated commit messages
+
+Changes for v2:
+* fix bridge handling
+* fix dsi host init
+* correct the commit messages
+
+Patch 0001:	Restore proper bridge chain in exynos_dsi
+
+Patch 0002: 	Samsung DSIM bridge
+
+Patch 0003:	PHY optional
+
+Patch 0004:	OF-graph or Child node lookup
+
+Patch 0005: 	DSI host initialization 
+
+Patch 0006:	atomic check
+
+Patch 0007:	PMS_P offset via plat data
+
+Patch 0008:	atomic_get_input_bus_fmts
+
+Patch 0009:	input_bus_flags
+
+Patch 0010:	document fsl,imx8mm-mipi-dsim
+
+Patch 0011:	add i.MX8MM DSIM support
+
+[3] https://gist.github.com/openedev/22b2d63b30ade0ba55ab414a2f47aaf0
+[2] https://github.com/openedev/kernel/tree/imx8mm-dsi-v5
+[1] https://patchwork.kernel.org/project/dri-devel/cover/20220829184031.1863663-1-jagan@amarulasolutions.com/
+
+Any inputs?
+Jagan.
+
+Jagan Teki (10):
+  drm: bridge: Add Samsung DSIM bridge driver
+  drm: bridge: samsung-dsim: Lookup OF-graph or Child node devices
+  drm: bridge: samsung-dsim: Mark PHY as optional
+  drm: bridge: samsung-dsim: Handle proper DSI host initialization
+  drm: bridge: samsung-dsim: Add atomic_check
+  drm: bridge: samsung-dsim: Add platform PLL_P (PMS_P) offset
+  drm: bridge: samsung-dsim: Add atomic_get_input_bus_fmts
+  drm: bridge: samsung-dsim: Add input_bus_flags
+  dt-bindings: display: exynos: dsim: Add NXP i.MX8MM support
+  drm: bridge: samsung-dsim: Add i.MX8MM support
+
+Marek Szyprowski (1):
+  drm: exynos: dsi: Restore proper bridge chain order
+
+ .../bindings/display/exynos/exynos_dsim.txt   |    1 +
+ MAINTAINERS                                   |    9 +
+ drivers/gpu/drm/bridge/Kconfig                |   12 +
+ drivers/gpu/drm/bridge/Makefile               |    1 +
+ drivers/gpu/drm/bridge/samsung-dsim.c         | 1840 +++++++++++++++++
+ drivers/gpu/drm/exynos/Kconfig                |    1 +
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 1766 +---------------
+ include/drm/bridge/samsung-dsim.h             |  115 ++
+ 8 files changed, 2092 insertions(+), 1653 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
+ create mode 100644 include/drm/bridge/samsung-dsim.h
+
+-- 
+2.25.1
+
