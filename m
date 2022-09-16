@@ -1,62 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6CC5BB20A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 20:22:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 228265BB2CD
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 21:30:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 380DE10E4F9;
-	Fri, 16 Sep 2022 18:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A48D10E0DC;
+	Fri, 16 Sep 2022 19:30:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
- [IPv6:2607:f8b0:4864:20::82b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F363D10ED83
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 18:22:27 +0000 (UTC)
-Received: by mail-qt1-x82b.google.com with SMTP id y2so16584601qtv.5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 11:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=21s3mIokPi1HbguXYtTformDqpF6+8/wpnpcqA84+18=;
- b=aYW28XOAShH4DgqCVHJ0J3MfJ4tVEwpgNUx0A624qDKd8D69tbmH6Uy4jdDSNq6vLI
- L02xpnuOVkjFgISK4nqDcYEy7mSJo2icvX2uGJu1ONncR+9RuYrdHZt5l/apVxHSO9Gt
- V6SdGs8grxqotmdQJ7FM/cwhdI51jTH/SQ9fY=
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F56910E0DC
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 19:29:54 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ w10-20020a056830410a00b00655d70a1aeaso3143748ott.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 12:29:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=21s3mIokPi1HbguXYtTformDqpF6+8/wpnpcqA84+18=;
- b=B7UD/1KMPHsEAL2lcgEKGeVOott3NmW5UXli/sRylftiltVUko/f/0/x9wqk7AU5SY
- 2qB9woBCuQVAsjtuuGRkecCHaFN1mggYsscdFDZH1hSamlZBShwT0erpXNxiZXmdJRgM
- El2G84o2Tg+DUSEYLnEeoQAJQ7fSCxtLg6X6+CifADtAFPp6jUIghqwOJJPJJ3GxXUvD
- f6Fm1lkz7D0BXDhEEMiIEC350RvJurvvLLMTBnWCvkl0/GxjOrgXlT5LKdSzCESdphuS
- guYiHgkU01p3ig/ELt/eCzWDT9HMrLXlO4vhc1CIONuOar8BK3bw4lNo9dWwYNg4uS5e
- N8DQ==
-X-Gm-Message-State: ACrzQf0Y/WNwibt1NAaNTdyfb5BYFmHiLBr8bcLZdKYkVxWUWtFp09SN
- /+w6j7HxF6Xa2H9RCmDxMU6pCq3/RFAJUgbE8MQiPQ==
-X-Google-Smtp-Source: AMsMyM7Yy+7V8SmcBWCwTKZgsSDsOmHXEw3oK4FftBX0NEWQUH3mg2HUHfuk6KX9JnRiq7Oa2G+UAiJjKARFawqsFhw=
-X-Received: by 2002:a05:622a:4ce:b0:35b:417d:ab68 with SMTP id
- q14-20020a05622a04ce00b0035b417dab68mr5418502qtx.282.1663352546954; Fri, 16
- Sep 2022 11:22:26 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=OB5NCz64cDZ4/Yf4QpF2872Y4Qqzscs/5jTTATIjmnM=;
+ b=FAkEx8OqwGG5uh1qR21CVq+ejHg9VvzRN6lBdcVnUQMbzGVYhY2CBR0kz5t0OvgHY6
+ 7ff9SbFQjPBKtBunqg3bajjDFSM08OgYTvpoDBIfy28o04LCBYcYF9C5UDmrxQ4v8L+i
+ g32dxb3CXnGm1mhKurwZMbrMC3dBM9PIW3ecRypO32nIBgyNxZO1FgVk+iDynDconCvw
+ urBhW5QDHdHqVZUsYr4S+FuPUie55WSG6qtlRNGYymwpxc906miNbgv+QjwUSv+4Jzsc
+ UBJlrPWT+LJgqXz7xS8VtjHLrardNGYZtYvpDdfpBQJGp3X8trPTgzlfRnJE1HhKk9h1
+ o06g==
+X-Gm-Message-State: ACrzQf1K5xbNK+9Hc0bZmk0fNPvj1hDvTWk0pPhR8nkxEqcsORr5s9bJ
+ zkjsS3qTxUm2Rsb7JtL3RA==
+X-Google-Smtp-Source: AMsMyM4H95t5Igw8deTnTowfnD2pJt70FJKnkiKmQGDXKRQ1kNqYPD86UfFnWiUF0xTtj0cjOFe76g==
+X-Received: by 2002:a05:6830:6605:b0:656:c1b3:5d0a with SMTP id
+ cp5-20020a056830660500b00656c1b35d0amr2978466otb.180.1663356593394; 
+ Fri, 16 Sep 2022 12:29:53 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ a65-20020a9d2647000000b006391bdbb361sm10168430otb.31.2022.09.16.12.29.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Sep 2022 12:29:53 -0700 (PDT)
+Received: (nullmailer pid 1130396 invoked by uid 1000);
+ Fri, 16 Sep 2022 19:29:52 -0000
+Date: Fri, 16 Sep 2022 14:29:52 -0500
+From: Rob Herring <robh@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 3/3] dt-bindings: display: bridge: nxp,tda998x:
+ Convert to json-schema
+Message-ID: <20220916192952.GA1130333-robh@kernel.org>
+References: <cover.1663165552.git.geert+renesas@glider.be>
+ <1224e757ec958f8b29ec66e783a7ee805c339d84.1663165552.git.geert+renesas@glider.be>
+ <20220915092649.moyd6j6jm7dk6vmh@krzk-bin>
+ <CAMuHMdWqQXm66kbbKdK0O2qQFM_3oGEWEGmh4LxBZwR-PDc_Hg@mail.gmail.com>
 MIME-Version: 1.0
-References: <CACeCKackdbDZrk5fk7qyMwSdTdzyTS=m1vHPFnQOj672W=2nOA@mail.gmail.com>
- <20220628182336.GA711518-robh@kernel.org>
- <CAEXTbpex9nxP-nyPWvSBchAW4j3C4MZfVHTb=5X0iSLY1bSAKg@mail.gmail.com>
- <CAEXTbpf_jxK-R5aA81FCbpAH4bChA2B9+8qExZUbA7Y+Ort=Gg@mail.gmail.com>
- <CAL_Jsq+C04RXLtm6Ac85Ru3EGwJbqV_UD3_dDWVrKvFSvdm7Ng@mail.gmail.com>
- <CAE-0n53ers881LOTCEmKDDxJQt+5vvXJSURs=o6TcOiR5m_EAw@mail.gmail.com>
- <CACeCKacJnnk4_dXEX7XiboOWrYpfAcE=ukP63agVAYUxWR9Vbg@mail.gmail.com>
- <CAE-0n50jm1ovUcBC0GCQJszk-4u+0vDQtAxHxsu9SLyn_CkQuQ@mail.gmail.com>
- <CACeCKadtmGZ5iuTHdMms6ZHGn-Uv=MbcdtqmUzqCb=5WHuPj2Q@mail.gmail.com>
- <20220712174551.GG1823936-robh@kernel.org> <YxGzk6DNAt0aCvIY@chromium.org>
-In-Reply-To: <YxGzk6DNAt0aCvIY@chromium.org>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Fri, 16 Sep 2022 11:21:56 -0700
-Message-ID: <CACeCKad9WtvTu_8_RfiCnkcFnagZvm+Rpx_Vrj8OORQ_=u2snQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/9] dt-bindings: usb: Add Type-C switch binding
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWqQXm66kbbKdK0O2qQFM_3oGEWEGmh4LxBZwR-PDc_Hg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,387 +66,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ devicetree@vger.kernel.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux USB List <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Krzysztof Kozlowski <k.kozlowski.k@gmail.com>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ Tony Lindgren <tony@atomide.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+ linux-omap@vger.kernel.org, Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi folks,
-
-On Fri, Sep 2, 2022 at 12:41 AM Prashant Malani <pmalani@chromium.org> wrote:
->
-> Hi Rob,
->
-> On Jul 12 11:45, Rob Herring wrote:
+On Thu, 15 Sep 2022 12:15:28 +0100, Geert Uytterhoeven wrote:
+> Hi Krzysztof,
+> 
+> On Thu, Sep 15, 2022 at 10:26 AM Krzysztof Kozlowski
+> <k.kozlowski.k@gmail.com> wrote:
+> > On Wed, 14 Sep 2022 16:33:22 +0200, Geert Uytterhoeven wrote:
+> > > Convert the NXP TDA998x HDMI transmitter Device Tree binding
+> > > documentation to json-schema.
+> > >
+> > > Add missing "#sound-dai-cells" property.
+> > > Add ports hierarchy, as an alternative to port.
+> > > Drop pinctrl properties, as they do not belong here.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > v2:
+> > >   - Add maximum to video-ports,
+> > >   - Drop unneeded maxItems for audio-ports,
+> > >   - Complete port descriptions.
+> > > ---
+> > >  .../bindings/display/bridge/nxp,tda998x.yaml  | 109 ++++++++++++++++++
+> > >  .../bindings/display/bridge/tda998x.txt       |  54 ---------
+> > >  2 files changed, 109 insertions(+), 54 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
+> > >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/tda998x.txt
+> > >
 > >
-> > That's not the right interpretation. There should not be some Type-C
-> > specific child mux/switch node because the device has no such h/w within
-> > it. Assuming all the possibilities Stephen outlined are valid, it's
-> > clear this lane selection has nothing to do with Type-C. It does have an
-> > output port for its DP output already and using that to describe the
-> > connection to DP connector(s) and/or Type-C connector(s) should be
-> > handled.
-> > Rob
->
-> Below I've listed the proposal binding (for the Type-C connector) along
-> with 2 sample hardware diagrams and corresponding DT.
+> > Running 'make dtbs_check' with the schema in this patch gives the
+> > following warnings. Consider if they are expected or the schema is
+> > incorrect. These may not be new warnings.
+> >
+> > Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+> > This will change in the future.
+> >
+> > Full log is available here: https://patchwork.ozlabs.org/patch/
+> >
+> >
+> > tda19988@70: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >         arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb
+> >         arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb
+> >         arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb
+> >         arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb
+> >
+> > tda19988@70: ports: 'oneOf' conditional failed, one must be fixed:
+> >         arch/arm/boot/dts/am335x-boneblack.dtb
+> >         arch/arm/boot/dts/am335x-boneblack-wireless.dtb
+> >         arch/arm/boot/dts/am335x-sancloud-bbe.dtb
+> >
+> > tda19988@70: ports:port@0: 'reg' is a required property
+> >         arch/arm/boot/dts/am335x-boneblack.dtb
+> >         arch/arm/boot/dts/am335x-boneblack-wireless.dtb
+> >         arch/arm/boot/dts/am335x-sancloud-bbe.dtb
+> >
+> > tda9988@70: ports: 'oneOf' conditional failed, one must be fixed:
+> >         arch/arm/boot/dts/am335x-myirtech-myd.dtb
+> >
+> > tda9988@70: ports:port@0: 'reg' is a required property
+> >         arch/arm/boot/dts/am335x-myirtech-myd.dtb
+> 
+> Please test this with the earlier patches in the same series applied ;-)
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+> 
+> 
+> From git@z Thu Jan  1 00:00:00 1970
+> Return-Path: <devicetree-owner@kernel.org>
+> X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+> 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
+> Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+> 	by smtp.lore.kernel.org (Postfix) with ESMTP id 56EEEC6FA8B
+> 	for <linux-devicetree@archiver.kernel.org>;
+>  Wed, 14 Sep 2022 14:34:04 +0000 (UTC)
+> Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+>         id S230118AbiINOeC (ORCPT
+>         <rfc822;linux-devicetree@archiver.kernel.org>);
+>         Wed, 14 Sep 2022 10:34:02 -0400
+> Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
+>         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+>         with ESMTP id S230133AbiINOeA (ORCPT
+>         <rfc822;devicetree@vger.kernel.org>); Wed, 14 Sep 2022 10:34:00 -0400
+> Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+>  [IPv6:2a02:1800:120:4::f00:13])
+>         by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC42B7C301
+>         for <devicetree@vger.kernel.org>;
+>  Wed, 14 Sep 2022 07:33:57 -0700 (PDT)
+> Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:e925:8cbe:2e99:b03b])
+>         by baptiste.telenet-ops.be with bizsmtp
+>         id KqZi2800s3vs4GX01qZiPV; Wed, 14 Sep 2022 16:33:55 +0200
+> Received: from rox.of.borg ([192.168.97.57])
+>         by ramsan.of.borg with esmtps  (TLS1.3) tls
+>  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+>         (Exim 4.93)
+>         (envelope-from <geert@linux-m68k.org>)
+>         id 1oYTSP-005B5L-Rc; Wed, 14 Sep 2022 16:33:41 +0200
+> Received: from geert by rox.of.borg with local (Exim 4.93)
+>         (envelope-from <geert@linux-m68k.org>)
+>         id 1oYTS7-000zXm-2p; Wed, 14 Sep 2022 16:33:23 +0200
+> From: Geert Uytterhoeven <geert+renesas@glider.be>
+> To: Russell King <linux@armlinux.org.uk>,
+>         Rob Herring <robh+dt@kernel.org>,
+>         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+>         Tony Lindgren <tony@atomide.com>,
+>         Andrzej Hajda <andrzej.hajda@intel.com>,
+>         Neil Armstrong <narmstrong@baylibre.com>,
+>         Robert Foss <robert.foss@linaro.org>,
+>         Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+>         Jonas Karlman <jonas@kwiboo.se>,
+>         Jernej Skrabec <jernej.skrabec@gmail.com>,
+>         David Airlie <airlied@linux.ie>,
+>         Daniel Vetter <daniel@ffwll.ch>,
+>         =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+>         Magnus Damm <magnus.damm@gmail.com>,
+>         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+>         linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+>         Geert Uytterhoeven <geert+renesas@glider.be>
+> Subject: [PATCH v2 3/3] dt-bindings: display: bridge: nxp,tda998x: Convert to
+>  json-schema
+> Date: Wed, 14 Sep 2022 16:33:22 +0200
+> Message-Id:
+>  <1224e757ec958f8b29ec66e783a7ee805c339d84.1663165552.git.geert+renesas@glider.be>
+> X-Mailer: git-send-email 2.25.1
+> In-Reply-To: <cover.1663165552.git.geert+renesas@glider.be>
+> References: <cover.1663165552.git.geert+renesas@glider.be>
+> MIME-Version: 1.0
+> Content-Transfer-Encoding: 8bit
+> Precedence: bulk
+> List-ID: <devicetree.vger.kernel.org>
+> X-Mailing-List: devicetree@vger.kernel.org
+> 
+> Convert the NXP TDA998x HDMI transmitter Device Tree binding
+> documentation to json-schema.
+> 
+> Add missing "#sound-dai-cells" property.
+> Add ports hierarchy, as an alternative to port.
+> Drop pinctrl properties, as they do not belong here.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>   - Add maximum to video-ports,
+>   - Drop unneeded maxItems for audio-ports,
+>   - Complete port descriptions.
+> ---
+>  .../bindings/display/bridge/nxp,tda998x.yaml  | 109 ++++++++++++++++++
+>  .../bindings/display/bridge/tda998x.txt       |  54 ---------
+>  2 files changed, 109 insertions(+), 54 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/tda998x.txt
+> 
 
-Any thoughts about this proposal?
-
->
-> The updated binding in usb-c-connector would be as follows:
->
-> diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> index ae515651fc6b..a043b09cb8ec 100644
-> --- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> +++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> @@ -183,6 +183,30 @@ properties:
->        port@1:
->          $ref: /schemas/graph.yaml#/properties/port
->          description: Super Speed (SS), present in SS capable connectors.
-> +        properties:
-> +          '#address-cells':
-> +            const: 1
-> +
-> +          '#size-cells':
-> +            const: 0
-> +
-> +        patternProperties:
-> +          "^endpoint@[0-1]$":
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            description:
-> +              Endpoints for the two SS lanes. endpoint@0 refers to SSTRX1 (A2,A3,B10,B11)
-> +              and endpoint@1 refers to SSTRX2 (B2,B3,A10,A11).
-> +            additionalProperties: false
-> +
-> +              properties:
-> +                reg:
-> +                  maxItems: 1
-> +
-> +                remote-endpoint: true
-> +
-> +              required:
-> +                - reg
-> +                - remote-endpoint
->
->        port@2:
->          $ref: /schemas/graph.yaml#/properties/port
->
-> Here are 2 examples of how that would look on some existing hardware:
->
-> Example 1. 2 usb-c-connectors connecting to 1 drm bridge / DP switch:
->
-> Here is the diagram we are using on the MTK platform:
->
->                  SOC
->         +---------------------+                                              C0
->         |                     |            +----------+       2 lane      +--------+
->         |                     |            |          +---------/---------+ SSTRX1 |
->         |                     |            |          |                   |        |
->         |    MIPI DPI         |            |          |  2 lane           |        |
->         |                     +------------+ ANX 7625 +---/-----+    +----+ SSTRX2 |
->         |                     |            |          |         |    |    +--------+
->         |                     |            +----------+         |    |
->         +---------------------+                                 |    |
->         |                     |            +----------+ 2 lane  |    |       C1
->         |                     |            |          +----/----C----+    +--------+
->         |    USB3 HC          |   2 lane   |          |         |         | SSTRX1 |
->         |                     +-----/------+ USB3 HUB |         +---------+        |
->         |  (host controller)  |            |          |       2 lane      |        |
->         |                     |            |          +---------/---------+ SSTRX2 |
->         +---------------------+            |          |                   |        |
->                                            +----------+                   +--------+
->
-> Some platforms use it6505, so that can be swapped in for anx7625
-> without any change to the rest of the hardware diagram.
->
-> From the above, we can see that it is helpful to describe the
-> Type-C SS lines as 2 endpoints:
-> - 1 for SSTX1+SSRX1 (A2,A3 + B10,B11)
-> - 1 for SSTX2+SSRX2 (B2,B3 + A10, A11)
->
-> A device tree for this would look as follows:
->
-> // Type-C port driver
-> ec {
->     ...
->     cros_ec_typec {
->         ...
->         usb-c0 {
->             compatible = "usb-c-connector";
->             ports {
->                 hs : port@0 {
->                     ...
->                 };
->                 ss: port@1 {
->                     reg = <1>;
->                     c0_sstrx1: endpoint@0 {
->                         reg = <0>;
->                         remote-endpoint = <&anx7625_out0>;
->                     };
->                     c0_sstrx2: endpoint@0 {
->                         reg = <0>;
->                         remote-endpoint = <&usb3hub_out0>;
->                     };
->                 };
->                 sbu : port@2 {
->                     ...
->                 };
->             };
->         };
->         usb-c1 {
->             compatible = "usb-c-connector";
->             ports {
->                 hs : port@0 {
->                     ...
->                 };
->                 ss: port@1 {
->                     reg = <1>;
->                     c1_sstrx1: endpoint@0 {
->                         reg = <0>;
->                         remote-endpoint = <&anx7625_out1>;
->                     };
->                     c1_sstrx2: endpoint@0 {
->                         reg = <0>;
->                         remote-endpoint = <&usb3hub_out1>;
->                     };
->                 };
->                 sbu : port@2 {
->                     ...
->                 };
->             };
->         };
->     };
-> };
->
-> // DRM bridge / Type-C mode switch
-> anx_bridge: anx7625@58 {
->     compatible = "analogix,anx7625";
->     reg = <0x58>;
->     ...
->     // Input from DP controller
->     port@0 {
->         reg = <0>;
->         ...
->     };
->
->     // Output to Type-C connector / DP panel
->     port@1 {
->         reg = <1>;
->
->         anx7625_out0: endpoint@0 {
->             reg = <0>;
->             mode-switch;
->             remote-endpoint = <&c0_sstrx1>;
->         };
->         anx7625_out1: endpoint@1 {
->             reg = <1>;
->             mode-switch;
->             remote-endpoint = <&c1_sstrx1>;
->         };
->     };
-> };
->
-> // USB3 hub
-> usb3hub: foo_hub {
->     ...
->     ports@0 {
->          // End point connected to USB3 host controller on SOC.
->     };
->     port@1 {
->         reg = <1>;
->
->         foo_hub_out0: endpoint@0 {
->             reg = <0>;
->             mode-switch; ---> See c.) later
->             remote-endpoint = <&c0_sstrx2>;
->         };
->         foo_hub_out1: endpoint@1 {
->             reg = <1>;
->             mode-switch;
->             remote-endpoint = <&c1_sstrx2>;
->         };
->     };
-> };
->
-> Notes:
-> - On the Chrome OS platform, the USB3 Hub is controlled by
-> the EC, so we don't really need to describe that connection,
-> but I've added a minimal one here just to show how the graph
-> connection would work if the HUB was controlled by the SoC.
-> - The above assumes that other hardware is controlling orientation.
-> We can add "orientation-switch" drivers along the graph path
-> if there is other hardware which controls orientation.
->
-> Example 2: 1 USB-C connector connected to 1 drm-bridge/ mode-switch
->
-> I've tried to use Bjorn's example [1], but I might have made
-> some mistakes since I don't have access to the schematic.
->
->
->                   SoC
->   +------------------------------------------+
->   |                                          |
->   |  +---------------+                       |
->   |  |               |                       |
->   |  |  DP ctrllr    |       +---------+     |                 C0
->   |  |               +-------+         |     |   2 lane     +----------+
->   |  +---------------+       |  QMP    +-----+-----/--------+ SSTRX1   |
->   |                          |  PHY    |     |              |          |
->   |  +-------------+  2 lane |         |     |   2 lane     |          |
->   |  |             +----/----+         +-----+-----/--------+ SSTRX2   |
->   |  |    dwc3     |         +---------+     |              |          |
->   |  |             |                         |              |          |
->   |  |             |         +---------+     |              |          |
->   |  |             +---------+ HS PHY  |     |   HS lanes   |          |
->   |  +-------------+         |         +-----+----/---------+ D +/-    |
->   |                          |         |     |              +----------+
->   |                          +---------+     |
->   |                                          |
->   +------------------------------------------+
->
-> The DT would look something like this (borrowing from Stephen's example [2]):
->
-> qmp {
->     mode-switch; ----> See b.) later.
->     orientation-switch;
->     ports {
->         qmp_usb_in: port@0 {
->             reg = <0>;
->             remote-endpoint = <&usb3_phy_out>;
->         };
->         qmp_dp_in: port@1 {
->             reg = <1>;
->             remote-endpoint = <&dp_phy_out>;
->         };
->         port@2 {
->             reg = <2>;
->             qmp_usb_dp_out0: endpoint@0 {
->                 reg = <0>;
->                 remote-endpoint = <&c0_sstrx1>;
->             };
->             qmp_usb_dp_out1: endpoint@1 {
->                 reg = <1>;
->                 remote-endpoint = <&c0_sstrx2>;
->             };
->         };
-> };
->
-> dp-phy {
->     ports {
->         dp_phy_out: port {
->             remote-endpoint = <&qmp_dp_in>;
->         };
->     };
-> };
->
-> dwc3: usb-phy {
->     ports {
->         usb3_phy_out: port@0 {
->             reg = <0>;
->             remote-endpoint = <&qmp_usb_in>;
->         };
->     };
-> };
->
-> glink {
->     c0: usb-c-connector {
->         compatible = "usb-c-connector";
->         ports {
->             hs: port@0 {
->                 reg = <0>;
->                 endpoint@0 {
->                     reg = <0>;
->                     remote-endpoint = <&hs_phy_out>;
->                 };
->             };
->
->             ss: port@1 {
->                 reg = <1>;
->                 c0_sstrx1: endpoint@0 {
->                     reg = <0>;
->                     remote-endpoint = <&qmp_usb_dp_out0>;
->                 };
->                 c0_sstrx2: endpoint@1 {
->                     reg = <1>;
->                     remote-endpoint = <&qmp_usb_dp_out1>;
->                 };
->             };
->         };
->     };
-> };
->
-> Notes:
-> a. This proposal doesn't deal with the DRM bridge HPD forwarding; I
-> believe that is covered by Stephen's example/proposal in [2], and
-> can be addressed separately. That said, this binding is compatible
-> with the proposal in [2], that is, make the "mode-switch" driver a
-> drm-bridge and forward the HPD info to the upstream DRM-bridge (DP controller).
-> The driver implementing "mode-switch" will be able to do that, since
-> it gets DP status/attention VDOS with HPD info from the Type-C port driver.
-> b. If both SSTRX pairs from a connector are routed to the same
-> hardware block (example 2) then the device would keep "mode-switch"
-> as a top level property (and the fwnode associated with "mode-switch"
-> is the drm-bridge device).
-> c. If SSTRX pairs from 2 connectors are routed to the same
-> hardware block (example 1), then each end-point which is connected to
-> the USB-C connector will have a "mode-switch" property in its end-point.
-> There will be 2 mode switches registered here, and the fwnode for each
-> "mode-switch" is the end-point node.
->
-> b.) and c.) can be handled by Type C mux registration and matching
-> code. We already have 3 mux devs for each mux [3].
->
-> For the single mode-switch case, mux_dev[1] will just refer to the top-level
-> mode-switch registered by the DRM bridge / switch driver (example 1).
-> For the 2 mode-switch case, typec_mux_dev[1] will have 2 child
-> typec_mux_dev's, each of which represents the mode-switches
-> registered by the DRM bridge / switch driver. Introducing this
-> indirection means the port driver / alternate mode driver don't
-> need to care about how the connectors are routed; the framework
-> will just call the mux_set() function on the mux_dev() or its
-> children if it has any.
->
-> The benefit of this approach is existing bindings (which just
-> assume 1 endpoint from usb-c-connector/port@1) should continue to
-> work without any changes.
->
-> Why don't we use data lanes for the usb-c-connector
-> endpoints? I guess we could, but I am not a fan of adding the
-> extra data-lane parsing logic to the Type-C framework (I
-> don't think drivers need that level of detail from the connector
-> binding). And even then, we will still need an extra end-point
-> if the lanes of the USB-C connector are routed to different hardware blocks.
->
-> The Type-C connector spec doesn't specify any alternate modes
-> with < 1 SSTRX pair, so the most we can ever have (short of a
-> major change to the spec) is 2 SSTRX end points for a
-> connector each being routed to different hardware blocks.
-> Codifying these as endpoint@0 and endpoint@1 in the usb-c-connector
-> binding seems to line up nicely with this detail of the spec.
->
-> Thanks,
->
-> -Prashant
->
-> [1] https://lore.kernel.org/linux-usb/Yv1y9Wjp16CstJvK@baldur/
-> [2] https://lore.kernel.org/linux-usb/CAE-0n52-QVeUVCB1qZzPbYyrb1drrbJf6H2DEEW9bOE6mh7egw@mail.gmail.com/
-> [3] https://elixir.bootlin.com/linux/v6.0-rc3/source/drivers/usb/typec/mux.c#L259
+Applied, thanks!
