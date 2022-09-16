@@ -2,45 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2DA5BA876
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 10:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E72B5BA878
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 10:48:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2954710E3DA;
-	Fri, 16 Sep 2022 08:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3978F10ECEE;
+	Fri, 16 Sep 2022 08:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2124510E3CE;
- Fri, 16 Sep 2022 08:47:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663318061; x=1694854061;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=4tT4Lk6hswugSMoil1fvETzpd2Zp850w38LFwZhhuaI=;
- b=f6B4ly2QLMoGKHlIDMT4lwitakyWTMqKwVqJxFLMEiQZelv74kVtL837
- o/DTEYGEPtK25IzzUbeVELsh5iIOJu5HJVlHn90hBmNb+1d9Daw7tdWOI
- gVWfpMP/0i5wxfCOx/6NtiFuwPNoENAbZ6h1GBFESzLSA4nh7MxIwOgAA
- M+2MmNukxohRlHhJ4KnjIw4MVIcur5qknJo7x7wXJLGJyFVbHEfvkIFhP
- OoAcpV63VMj7VxnRil43b56kd9CEiAwjQ/0c/tnq1X648UoTrrxExVr/c
- 3Cu+r4UtgnfLtIdN/mHIRY0bGdgKAiuOTEvxUqLhFNfzOQjk24rX340q3 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="385236545"
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="385236545"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2022 01:47:40 -0700
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="686061003"
-Received: from horanmic-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.1.49])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2022 01:47:37 -0700
-Date: Fri, 16 Sep 2022 11:47:34 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <YyQ4Jgl3cpGL1/As@jlahtine-mobl.ger.corp.intel.com>
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 136A110ECED
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 08:48:15 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.93,320,1654527600"; d="scan'208";a="133059332"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+ by relmlie5.idc.renesas.com with ESMTP; 16 Sep 2022 17:48:14 +0900
+Received: from localhost.localdomain (unknown [10.226.93.23])
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7DC2E41A78B3;
+ Fri, 16 Sep 2022 17:48:10 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v7 0/2] Add RZ/G2L DSI driver
+Date: Fri, 16 Sep 2022 09:48:05 +0100
+Message-Id: <20220916084807.640225-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,232 +41,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+This patch series aims to support the MIPI DSI encoder found in the RZ/G2L
+SoC. It currently supports DSI video mode only.
 
-Here goes the final drm-intel-gt-next towards 6.1.
+This unit supports MIPI Alliance Specification for Display Serial Interface (DSI)
+Specification. This unit provides a solution for transmitting MIPI DSI compliant
+digital video and packets. Normative References are below.
+* MIPI Alliance Specification for Display Serial Interface Version 1.3.1
+* MIPI Alliance Specification for D-PHY Version 2.1
 
-For stable platforms we have fixes for throttle reasons decoding to sysfs, GuC
-version update to 7.5, XeHP SDV GSC support and the usual pile of smaller fixes.
+The following are key features of this unit.
 
-DG2 and DG1 runtime PM is now mostly fixed for LMEM access via mmap, but kernel
-internal usages still need to be reviewed. There's also at least one LMEM code
-NULL deref bug to resolve [1]. Finally a bunch of Meteorlake (MTL) enabling
-patches.
+* 1 channel
+* The number of Lane: 4-lane
+* Support up to Full HD (1920 × 1080), 60 fps (RGB888)
+* Maximum Bandwidth: 1.5 Gbps per lane
+* Support Output Data Format: RGB666 / RGB888
 
-Note that this PR includes patches going to mei subsystem, due to the tight
-coupling of the MEI/GSC code. Those are Acked-by Greg.
+v6->v7:
+ * Added rzg2l_mipi_dsi_stop_video() counterpart of rzg2l_mipi_dsi_start_video().
+ * Error labels are named according to the cleanup operation they perform.
+ * Restored Max lane capability read after dphy timing initialization
+   as per the guide lines from SoC design team.
+ * Added recommended lut values for the Global Operation Timing
+   parameters for MIPI DPHY.
+v5->v6:
+ * Updated commit description
+ * Moved handling of arst and prst from rzg2l_mipi_dsi_startup->runtime
+   PM suspend/resume handlers.
+ * Max lane capability read at probe(), and enforced in
+   rzg2l_mipi_dsi_host_attach()
+ * Simplified vich1ppsetr setting.
+ * Renamed hsclk_running_mode,hsclk_mode->is_clk_cont.
+ * Fixed typo in probe error message(arst->rst).
+ * Reordered DRM bridge initaization in probe()
+ * Updated typo in e-mail address.
+v4->v5:
+ * Added Ack from Sam.
+ * Added a trivial change, replaced rzg2l_mipi_dsi_parse_dt()
+   with drm_of_get_data_lanes_count_ep() in probe.
+v3->v4:
+ * Updated error handling in rzg2l_mipi_dsi_startup() and rzg2l_mipi_dsi_atomic_enable().
+v2->v3:
+ * Added Rb tag from Geert and Laurent
+ * Fixed the typo "Receive" -> "transmit"
+ * Added accepible values for data-lanes
+ * Sorted Header file in the example
+ * Added SoC specific compaible along with generic one.
+ * pass rzg2l_mipi_dsi pointer to {Link,Phy} register rd/wr function instead
+   of the memory pointer
+ * Fixed the comment in rzg2l_mipi_dsi_startup()
+ * Removed unnecessary dbg message from rzg2l_mipi_dsi_start_video()
+ * DRM bridge parameter initialization moved to probe
+ * Replaced dev_dbg->dev_err in rzg2l_mipi_dsi_parse_dt()
+ * Inserted the missing blank lane after return in probe()
+ * Added missing MODULE_DEVICE_TABLE
+ * Added include linux/bits.h in header file
+ * Fixed various macros in header file.
+ * Reorder the make file for DSI, so that it is no more dependent
+   on RZ/G2L DU patch series.
+v1->v2:
+ * Added full path for dsi-controller.yaml
+ * Modeled DSI + D-PHY as single block and updated reg property
+ * Fixed typo D_PHY->D-PHY
+ * Updated description
+ * Added interrupts and interrupt-names and updated the example 
+ * Driver rework based on dt-binding changes (DSI + D-PHY) as single block
+ * Replaced link_mmio and phy_mmio with mmio in struct rzg2l_mipi_dsi
+ * Replaced rzg2l_mipi_phy_write with rzg2l_mipi_dsi_phy_write
+   and rzg2l_mipi_dsi_link_write
+ * Replaced rzg2l_mipi_phy_read->rzg2l_mipi_dsi_link_read
+RFC->v1:
+ * Added a ref to dsi-controller.yaml.
+ * Added "depends on ARCH_RENESAS || COMPILE_TEST" on KCONFIG
+   and dropped DRM as it is implied by DRM_BRIDGE
+ * Used devm_reset_control_get_exclusive() for reset handle
+ * Removed bool hsclkmode from struct rzg2l_mipi_dsi
+ * Added error check for pm, using pm_runtime_resume_and_get() instead of
+   pm_runtime_get_sync()
+ * Added check for unsupported formats in rzg2l_mipi_dsi_host_attach()
+ * Avoided read-modify-write stopping hsclock
+ * Used devm_platform_ioremap_resource for resource allocation
+ * Removed unnecessary assert call from probe and remove.
+ * wrap the line after the PTR_ERR() in probe()
+ * Updated reset failure messages in probe
+ * Fixed the typo arstc->prstc
+ * Made hex constants to lower case.
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-23-biju.das.jz@bp.renesas.com/
 
-Regards, Joonas
+Biju Das (2):
+  dt-bindings: display: bridge: Document RZ/G2L MIPI DSI TX bindings
+  drm: rcar-du: Add RZ/G2L DSI driver
 
-[1] https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12135/bat-dg2-11/igt@gem_lmem_swapping@basic@lmem0.html
+ .../bindings/display/bridge/renesas,dsi.yaml  | 182 ++++
+ drivers/gpu/drm/rcar-du/Kconfig               |   8 +
+ drivers/gpu/drm/rcar-du/Makefile              |   2 +
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 782 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
+ 5 files changed, 1125 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
 
-***
+-- 
+2.25.1
 
-drm-intel-gt-next-2022-09-16:
-
-Cross-subsystem Changes:
-
-- MEI subsystem pieces for XeHP SDV GSC support
-  These are Acked-by Greg.
-
-Driver Changes:
-
-- Release mmaps on RPM suspend on discrete GPUs (Anshuman)
-- Update GuC version to 7.5 on DG1, DG2 and ADL
-- Revert "drm/i915/dg2: extend Wa_1409120013 to DG2" (Lucas)
-- MTL enabling incl. standalone media (Matt R, Lucas)
-- Explicitly clear BB_OFFSET for new contexts on Gen8+ (Chris)
-- Fix throttling / perf limit reason decoding (Ashutosh)
-- XeHP SDV GSC support (Vitaly, Alexander, Tomas)
-
-- Fix issues with overrding firmware file paths (John)
-- Invert if-else ladders to check latest version first (Lucas)
-- Cancel GuC engine busyness worker synchronously (Umesh)
-
-- Skip applying copy engine fuses outside PVC (Lucas)
-- Eliminate Gen10 frequency read function (Lucas)
-- Static code checker fixes (Gaosheng)
-- Selftest improvements (Chris)
-
-The following changes since commit 04f7eb3d4582a0a4da67c86e55fda7de2df86d91:
-
-  drm/i915: Set correct domains values at _i915_vma_move_to_active (2022-09-08 11:06:35 +0100)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2022-09-16
-
-for you to fetch changes up to 8adc718881e0a70127f8843dd70e69a80de39352:
-
-  drm/i915/uc: Update to latest GuC and use new-format GuC/HuC names (2022-09-15 18:43:33 -0700)
-
-----------------------------------------------------------------
-Cross-subsystem Changes:
-
-- MEI subsystem pieces for XeHP SDV GSC support
-  These are Acked-by Greg.
-
-Driver Changes:
-
-- Release mmaps on RPM suspend on discrete GPUs (Anshuman)
-- Update GuC version to 7.5 on DG1, DG2 and ADL
-- Revert "drm/i915/dg2: extend Wa_1409120013 to DG2" (Lucas)
-- MTL enabling incl. standalone media (Matt R, Lucas)
-- Explicitly clear BB_OFFSET for new contexts on Gen8+ (Chris)
-- Fix throttling / perf limit reason decoding (Ashutosh)
-- XeHP SDV GSC support (Vitaly, Alexander, Tomas)
-
-- Fix issues with overrding firmware file paths (John)
-- Invert if-else ladders to check latest version first (Lucas)
-- Cancel GuC engine busyness worker synchronously (Umesh)
-
-- Skip applying copy engine fuses outside PVC (Lucas)
-- Eliminate Gen10 frequency read function (Lucas)
-- Static code checker fixes (Gaosheng)
-- Selftest improvements (Chris)
-
-----------------------------------------------------------------
-Alexander Usyskin (5):
-      drm/i915/gsc: add slow_firmware flag to the gsc device definition
-      drm/i915/gsc: add GSC XeHP SDV platform definition
-      mei: gsc: wait for reset thread on stop
-      mei: extend timeouts on slow devices
-      mei: drop ready bits check after start
-
-Anshuman Gupta (2):
-      drm/i915: Refactor userfault_wakeref to re-use
-      drm/i915/dgfx: Release mmap on rpm suspend
-
-Ashutosh Dixit (1):
-      drm/i915/gt: Fix perf limit reasons bit positions
-
-Chris Wilson (4):
-      drm/i915/gt: Explicitly clear BB_OFFSET for new contexts
-      drm/i915/selftests: Check for incomplete LRI from the context image
-      drm/i915/selftest: Always cancel semaphore on error
-      drm/i915/selftest: Clear the output buffers before GPU writes
-
-Gaosheng Cui (1):
-      drm/i915: remove unused i915_gem_lmem_obj_ops declaration
-
-John Harrison (2):
-      drm/i915/uc: Fix issues with overriding firmware files
-      drm/i915/uc: Update to latest GuC and use new-format GuC/HuC names
-
-Lucas De Marchi (7):
-      Revert "drm/i915/dg2: extend Wa_1409120013 to DG2"
-      drm/i915/gt: Use MEDIA_VER() when handling media fuses
-      drm/i915/gt: Extract function to apply media fuses
-      drm/i915: Skip applying copy engine fuses
-      drm/i915: Invert if/else ladder for frequency read
-      drm/i915/gt: Extract per-platform function for frequency read
-      drm/i915: Invert if/else ladder for stolen init
-
-Matt Roper (14):
-      drm/i915: Move locking and unclaimed check into mmio_debug_{suspend, resume}
-      drm/i915: Only hook up uncore->debug for primary uncore
-      drm/i915: Use managed allocations for extra uncore objects
-      drm/i915: Drop intel_gt_tile_cleanup()
-      drm/i915: Prepare more multi-GT initialization
-      drm/i915: Rename and expose common GT early init routine
-      drm/i915: Use a DRM-managed action to release the PCI bridge device
-      drm/i915: Initialize MMIO access for each GT
-      drm/i915: Handle each GT on init/release and suspend/resume
-      drm/i915/uncore: Add GSI offset to uncore
-      drm/i915/mtl: Add gsi_offset when emitting aux table invalidation
-      drm/i915/xelpmp: Expose media as another GT
-      drm/i915/mtl: Use primary GT's irq lock for media GT
-      drm/i915/mtl: Hook up interrupts for standalone media
-
-Tomas Winkler (7):
-      mei: add kdoc for struct mei_aux_device
-      mei: add slow_firmware flag to the mei auxiliary device
-      mei: gsc: use polling instead of interrupts
-      mei: mkhi: add memory ready command
-      mei: gsc: setup gsc extended operational memory
-      mei: debugfs: add pxp mode to devstate in debugfs
-      drm/i915/gsc: allocate extended operational memory in LMEM
-
-Umesh Nerlige Ramappa (1):
-      drm/i915/guc: Cancel GuC engine busyness worker synchronously
-
-Vitaly Lubart (3):
-      drm/i915/gsc: skip irq initialization if using polling
-      mei: bus: export common mkhi definitions into a separate header
-      mei: gsc: add transition to PXP mode in resume flow
-
- drivers/gpu/drm/i915/Makefile                     |   1 +
- drivers/gpu/drm/i915/gem/i915_gem_lmem.h          |   2 -
- drivers/gpu/drm/i915/gem/i915_gem_mman.c          |  23 ++-
- drivers/gpu/drm/i915/gem/i915_gem_mman.h          |   1 +
- drivers/gpu/drm/i915/gem/i915_gem_object.c        |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_pm.c            |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c        |  51 ++-----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c           |  36 ++++-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c          |  15 +-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.h          |   3 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c         | 156 ++++++++++---------
- drivers/gpu/drm/i915/gt/intel_engine_regs.h       |   1 +
- drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c      |   1 -
- drivers/gpu/drm/i915/gt/intel_gsc.c               | 106 +++++++++++--
- drivers/gpu/drm/i915/gt/intel_gsc.h               |   3 +
- drivers/gpu/drm/i915/gt/intel_gt.c                | 111 ++++++++++----
- drivers/gpu/drm/i915/gt/intel_gt.h                |   4 +-
- drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c    | 174 ++++++++++------------
- drivers/gpu/drm/i915/gt/intel_gt_irq.c            |  35 ++++-
- drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c         |   8 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h           |  10 ++
- drivers/gpu/drm/i915/gt/intel_gt_types.h          |  36 ++++-
- drivers/gpu/drm/i915/gt/intel_gtt.h               |   3 -
- drivers/gpu/drm/i915/gt/intel_lrc.c               |  29 +++-
- drivers/gpu/drm/i915/gt/intel_rps.c               |  26 ++--
- drivers/gpu/drm/i915/gt/intel_sa_media.c          |  47 ++++++
- drivers/gpu/drm/i915/gt/intel_sa_media.h          |  15 ++
- drivers/gpu/drm/i915/gt/selftest_lrc.c            | 115 +++++++++++---
- drivers/gpu/drm/i915/gt/uc/intel_guc.c            |  24 +--
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  11 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c             |   4 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c          |  30 +++-
- drivers/gpu/drm/i915/i915_driver.c                | 105 +++++++++----
- drivers/gpu/drm/i915/i915_drv.h                   |   5 +
- drivers/gpu/drm/i915/i915_gem.c                   |   6 +-
- drivers/gpu/drm/i915/i915_irq.c                   |   4 +-
- drivers/gpu/drm/i915/i915_pci.c                   |  14 ++
- drivers/gpu/drm/i915/i915_reg.h                   |  16 +-
- drivers/gpu/drm/i915/intel_device_info.h          |   3 +
- drivers/gpu/drm/i915/intel_pm.c                   |   5 +-
- drivers/gpu/drm/i915/intel_uncore.c               |  92 +++++++-----
- drivers/gpu/drm/i915/intel_uncore.h               |  40 ++++-
- drivers/gpu/drm/i915/pxp/intel_pxp.c              |   4 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c      |   4 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_irq.c          |  14 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c      |   4 +-
- drivers/gpu/drm/i915/selftests/mock_gem_device.c  |   1 +
- drivers/misc/mei/bus-fixup.c                      | 106 ++++++++-----
- drivers/misc/mei/client.c                         |  16 +-
- drivers/misc/mei/debugfs.c                        |  19 ++-
- drivers/misc/mei/gsc-me.c                         |  77 ++++++++--
- drivers/misc/mei/hbm.c                            |  14 +-
- drivers/misc/mei/hw-me-regs.h                     |   9 +-
- drivers/misc/mei/hw-me.c                          | 138 ++++++++++++++---
- drivers/misc/mei/hw-me.h                          |  17 ++-
- drivers/misc/mei/hw-txe.c                         |   4 +-
- drivers/misc/mei/hw.h                             |   7 +-
- drivers/misc/mei/init.c                           |  35 +++--
- drivers/misc/mei/main.c                           |   4 +-
- drivers/misc/mei/mei_dev.h                        |  35 ++++-
- drivers/misc/mei/mkhi.h                           |  55 +++++++
- drivers/misc/mei/pci-me.c                         |   4 +-
- include/linux/mei_aux.h                           |  12 ++
- 64 files changed, 1423 insertions(+), 534 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.h
- create mode 100644 drivers/misc/mei/mkhi.h
