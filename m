@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7145BB685
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 07:33:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 443E75BB687
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 07:34:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB98A10E09D;
-	Sat, 17 Sep 2022 05:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97A9910E2B3;
+	Sat, 17 Sep 2022 05:33:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B625710E11B;
- Fri, 16 Sep 2022 20:06:05 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28GG41EI024057;
- Fri, 16 Sep 2022 20:05:38 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E59AD10E51D;
+ Fri, 16 Sep 2022 20:11:19 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28GG3dTd002186;
+ Fri, 16 Sep 2022 20:11:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=XXD8n3D9fgxgqc8QaXvD8PSgSjLxdQPUp3aflF7BnGM=;
- b=IqyXoX6hHpPETIu564JtiSRBtzX2+xeYOZdJdpivd8zn7F87b04/O274AYyDBDYlymgm
- 2XGi8BzsA2Al+w0EClw6ENcokTl1u4Mw0Zk1wz5Ly0oPWglgdumEWGAIhh99tPAzcDCe
- VAuqpc+f/TJ6Ban5dyLJQghxYLscq5KEW6y2hMu3OqBDgj8k7vNxi9YFDzUM2ab+4NCk
- 3WldOy/n6QrTlS/0bdBVqW7ZwXTvRl1Gm8Ra54FVhl6LZmEdEFXQqXJytR2IBKTcw7yi
- smp5Mnj1RIeGCdywqEU8Q4UfQYG7IKx5lrBKSMwNuVSqDQjP4H4B//morfAwGilA74y2 sg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=Sn9BnKHGg3BDZ9Mr+NMcSywdQxJIRp9frbHS+w0FENA=;
+ b=JU+qxLImG4g/TTVDnGHpjDCoU/MNthoin1GdZp47YvvNolH/um6sYTD4sD19FUiQz81P
+ S+bwkd7Tn1BrvAdeX8SUdJ5A66CHc9Bq0HudjPxkfIUTzuY5b31pzEhmNg7TMx85jnc2
+ ZyqIW7ngPhDTAZBTY2UICH9ltZbdostCTq/+Gp85fMu1JoTYoyptwIZv0stommcAU11O
+ /0A80tvSSt2U1uOswGI05RvNt8Gtp4m4sn3mSdqSkkQEaicFC7OztDP1e5lwBamaDWT4
+ 7NfzGDh5gJynxUHwgsjCApJRkicsNHFlcUwCxB086SinFo1uFIVYT1D5+SpCT7dzNa4v 9g== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jm9qcvp5m-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jm93acv6y-3
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Sep 2022 20:05:37 +0000
+ Fri, 16 Sep 2022 20:11:15 +0000
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
  [10.47.97.35])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28GK0aRa018955
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28GK0bSw013962
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Sep 2022 20:00:36 GMT
+ Fri, 16 Sep 2022 20:00:37 GMT
 Received: from core-thresher1.qualcomm.com (10.80.80.8) by
  nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -43,9 +43,9 @@ Received: from core-thresher1.qualcomm.com (10.80.80.8) by
 From: Bjorn Andersson <quic_bjorande@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2 4/7] drm/msm/dp: Add SDM845 DisplayPort instance
-Date: Fri, 16 Sep 2022 13:00:25 -0700
-Message-ID: <20220916200028.25009-5-quic_bjorande@quicinc.com>
+Subject: [PATCH v2 5/7] drm/msm/dp: Implement hpd_notify()
+Date: Fri, 16 Sep 2022 13:00:26 -0700
+Message-ID: <20220916200028.25009-6-quic_bjorande@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220916200028.25009-1-quic_bjorande@quicinc.com>
 References: <20220916200028.25009-1-quic_bjorande@quicinc.com>
@@ -57,15 +57,15 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: lBNw-P4ZwNAN_KITbET50G5P1R-3Jrur
-X-Proofpoint-ORIG-GUID: lBNw-P4ZwNAN_KITbET50G5P1R-3Jrur
+X-Proofpoint-GUID: nmC6opvOtpM0b8Cr0LhW4zVydhRKyqYV
+X-Proofpoint-ORIG-GUID: nmC6opvOtpM0b8Cr0LhW4zVydhRKyqYV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-16_12,2022-09-16_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- priorityscore=1501 adultscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999
- spamscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0
+ malwarescore=0 clxscore=1015
+ spamscore=0 priorityscore=1501 impostorscore=0 mlxscore=0 phishscore=0
+ mlxlogscore=924 bulkscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
  definitions=main-2209160144
 X-Mailman-Approved-At: Sat, 17 Sep 2022 05:33:33 +0000
@@ -93,29 +93,84 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-The Qualcomm SDM845 platform has a single DisplayPort controller, with
-the same design as SC7180, so add support for this by reusing the SC7180
-definition.
+The DisplayPort controller's hot-plug mechanism is based on pinmuxing a
+physical signal no a GPIO pin into the controller. This is not always
+possible, either because there aren't dedicated GPIOs available or
+because the hot-plug signal is a virtual notification, in cases such as
+USB Type-C.
+
+For these cases, by implementing the hpd_notify() callback for the
+DisplayPort controller's drm_bridge, a downstream drm_bridge
+(next_bridge) can be used to track and signal the connection status
+changes.
+
+This makes it possible to use downstream drm_bridges such as
+display-connector or any virtual mechanism, as long as they are
+implemented as a drm_bridge.
 
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+[bjorn: Drop connector->fwnode assignment and dev from struct msm_dp]
 Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/dp/dp_display.c | 22 ++++++++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_drm.c     |  1 +
+ drivers/gpu/drm/msm/dp/dp_drm.h     |  2 ++
+ 3 files changed, 25 insertions(+)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index e4a83c2cd972..699f28f2251e 100644
+index 699f28f2251e..a4563a0753b0 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -178,6 +178,7 @@ static const struct of_device_id dp_dt_match[] = {
- 	{ .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_descs },
- 	{ .compatible = "qcom,sc8280xp-dp", .data = &sc8280xp_dp_descs },
- 	{ .compatible = "qcom,sc8280xp-edp", .data = &sc8280xp_edp_descs },
-+	{ .compatible = "qcom,sdm845-dp", .data = &sc7180_dp_descs },
- 	{ .compatible = "qcom,sm8350-dp", .data = &sm8350_dp_descs },
- 	{}
+@@ -1765,3 +1765,25 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
+ 	dp_display->dp_mode.h_active_low =
+ 		!!(dp_display->dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
+ }
++
++void dp_bridge_hpd_notify(struct drm_bridge *bridge,
++			  enum drm_connector_status status)
++{
++	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
++	struct msm_dp *dp_display = dp_bridge->dp_display;
++	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
++
++	/* Without next_bridge interrupts are handled by the DP core directly */
++	if (!dp_display->next_bridge)
++		return;
++
++	if (!dp->core_initialized) {
++		drm_dbg_dp(dp->drm_dev, "not initialized\n");
++		return;
++	}
++
++	if (!dp_display->is_connected && status == connector_status_connected)
++		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
++	else if (dp_display->is_connected && status == connector_status_disconnected)
++		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
++}
+diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+index 6df25f7662e7..1a02ec029fdd 100644
+--- a/drivers/gpu/drm/msm/dp/dp_drm.c
++++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+@@ -68,6 +68,7 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
+ 	.mode_valid   = dp_bridge_mode_valid,
+ 	.get_modes    = dp_bridge_get_modes,
+ 	.detect       = dp_bridge_detect,
++	.hpd_notify   = dp_bridge_hpd_notify,
  };
+ 
+ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
+diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
+index 82035dbb0578..79e6b2cf2d25 100644
+--- a/drivers/gpu/drm/msm/dp/dp_drm.h
++++ b/drivers/gpu/drm/msm/dp/dp_drm.h
+@@ -32,5 +32,7 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
+ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
+ 			const struct drm_display_mode *mode,
+ 			const struct drm_display_mode *adjusted_mode);
++void dp_bridge_hpd_notify(struct drm_bridge *bridge,
++			  enum drm_connector_status status);
+ 
+ #endif /* _DP_DRM_H_ */
 -- 
 2.17.1
 
