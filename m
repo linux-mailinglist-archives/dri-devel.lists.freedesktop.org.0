@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A165BA9EF
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 12:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410F85BA9F6
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 12:06:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E722510E31D;
-	Fri, 16 Sep 2022 10:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B73E10E3EF;
+	Fri, 16 Sep 2022 10:06:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3035E10E187;
- Fri, 16 Sep 2022 10:05:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFD410E24E;
+ Fri, 16 Sep 2022 10:05:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663322757; x=1694858757;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=SWbYudRp1Xo1uVit3l11vjN7wCusY45iB/PX0BiylIQ=;
- b=aAxYXVmawvg+1/VuL/uAKLtvy7eRrVhNw9PUElXVf8OeMewM/UtUB0JE
- LlczSNxMtlkX6VQin8YPH3QJxlEP4vFbQkF2bmcCYeJRvb4E7SFnE4kwP
- RWIYN34f5bGVgQbfb4GhJP5//Ouydvc1XN8GIVzBegisk9IVPDy9J7+Hf
- edeUErcAlpIT3BmIN/p4y4K1rG3gcCyl4gBs74WN33tqPfrZxHC7r+bdn
- u+XD2nTiQr/IhHYy/wdotXWj0BbjJGMaMmeNv1YgMyBQ7kCSv1zyfLP5Q
- v82QYlvzfhtQl7H3vkZ6fF7X2MaFdzHZdAizgqEx7nheKkpcg6SF6lMYP Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="360698674"
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="360698674"
+ t=1663322758; x=1694858758;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=6DHGceXRsrEIhrBXnrzVVtRwGuSN/qiddBCEPNwRHmY=;
+ b=htQsOA58qCBWjqR5NQgL5op/UZgbWKebHvdxTqDtTp71AGvGC+KXbQfm
+ xBVw4pKYoQIxI1zmV88kmp1dYjcjGSFuvxPUShuI8Zd8qsY1XCU7pJNzI
+ Ik4nEYu7xsJdWWVcDOi/ZE/k92IvhPSYTxO1Oy0/n1hcpe2qpx/MrO4WN
+ BcTvbtR908E+cZRNWr+57mgwfTJEGN4QQpGc8Tv4hsNJ1cbU6juOQlSSf
+ g0L2XDFdQIvpKq0JNNgFTA3dWI3PBEyJIGBhz9TESesRjsUB1yZVExeYW
+ QKwPzSyz7HvgV0zt4Hcn7cXxDopZW252PvZfFqc1c2dSLi2kOpD5mzFeW A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="360698682"
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="360698682"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2022 03:05:56 -0700
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="793051682"
+ 16 Sep 2022 03:05:58 -0700
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="793051693"
 Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2022 03:05:54 -0700
+ 16 Sep 2022 03:05:56 -0700
 From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/4] Fix HFVSDB parsing
-Date: Fri, 16 Sep 2022 15:35:47 +0530
-Message-Id: <20220916100551.2531750-1-ankit.k.nautiyal@intel.com>
+Subject: [PATCH v2 1/4] drm/edid: Fix minimum bpc supported with DSC1.2 for
+ HDMI sink
+Date: Fri, 16 Sep 2022 15:35:48 +0530
+Message-Id: <20220916100551.2531750-2-ankit.k.nautiyal@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220916100551.2531750-1-ankit.k.nautiyal@intel.com>
+References: <20220916100551.2531750-1-ankit.k.nautiyal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,23 +61,38 @@ Cc: swati2.sharma@intel.com, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix issues in HFVSDB parsing for DSC support.
-Also minor refactoring in Logging.
+HF-VSDB/SCDB has bits to advertise support for 16, 12 and 10 bpc.
+If none of the bits are set, the minimum bpc supported with DSC is 8.
 
-Split from original patch into a new series.
-https://patchwork.freedesktop.org/patch/495193/
+This patch corrects the min bpc supported to be 8, instead of 0.
 
-v2: Minor styling fixes.
+Fixes: 76ee7b905678 ("drm/edid: Parse DSC1.2 cap fields from HFVSDB block")
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Cc: Uma Shankar <uma.shankar@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-Ankit Nautiyal (4):
-  drm/edid: Fix minimum bpc supported with DSC1.2 for HDMI sink
-  drm/edid: Split DSC parsing into separate function
-  drm/edid: Refactor HFVSDB parsing for DSC1.2
-  drm/edid: Avoid multiple log lines for HFVSDB parsing
+v2: s/DSC1.2/DSC 1.2
 
- drivers/gpu/drm/drm_edid.c | 153 +++++++++++++++++++++----------------
- 1 file changed, 87 insertions(+), 66 deletions(-)
+Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+---
+ drivers/gpu/drm/drm_edid.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 4005dab6147d..ebe02cf7cd95 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5819,7 +5819,8 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+ 			else if (hf_scds[11] & DRM_EDID_DSC_10BPC)
+ 				hdmi_dsc->bpc_supported = 10;
+ 			else
+-				hdmi_dsc->bpc_supported = 0;
++				/* Supports min 8 BPC if DSC 1.2 is supported*/
++				hdmi_dsc->bpc_supported = 8;
+ 
+ 			dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
+ 			drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
 -- 
 2.25.1
 
