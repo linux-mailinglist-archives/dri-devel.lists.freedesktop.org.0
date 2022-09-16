@@ -2,65 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADECC5BA39C
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 02:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E525BA3AD
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 03:05:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B4010E33D;
-	Fri, 16 Sep 2022 00:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 756F010E34B;
+	Fri, 16 Sep 2022 01:05:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EEA910E33D
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 00:54:38 +0000 (UTC)
-X-UUID: fef0eb492a384a77b5197c090c416907-20220916
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=SyP+UC+nz0mfWD//PcLXFkLh7sU/Z2M1jPcJubN4g1g=; 
- b=qsTQyn8fjrX0MNCVO8dcJ0oQQA6TvRY/0oPIkkZ51IzNFBNs37y/+TceN0DgoRoevkrHFSRS5QRlyF77Tcc+CzwQe3tgYAVwNE0KctqBLH6wCHAZGBcT1srD7uKiHRcpac5gYslkoXj364LuVVniHP2sYfQaOO/JK09WpQnWwtM=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:b7285645-0e43-47fb-ae1c-53b19381c961, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:45
-X-CID-INFO: VERSION:1.1.11, REQID:b7285645-0e43-47fb-ae1c-53b19381c961, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:45
-X-CID-META: VersionHash:39a5ff1, CLOUDID:4edc91f6-6e85-48d9-afd8-0504bbfe04cb,
- B
- ulkID:220916085434J14R123L,BulkQuantity:0,Recheck:0,SF:28|17|19|48,TC:nil,
- Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: fef0eb492a384a77b5197c090c416907-20220916
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 876420423; Fri, 16 Sep 2022 08:54:33 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 16 Sep 2022 08:54:32 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 16 Sep 2022 08:54:31 +0800
-Message-ID: <90201cd6f3385350a980f5fb98cb5f26c8aa5757.camel@mediatek.com>
-Subject: Re: [PATCH 4/5] arm64: dts: change compatible of vdosys0 and
- vdosys1 for mt8195
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Date: Fri, 16 Sep 2022 08:54:31 +0800
-In-Reply-To: <1fd48fa0-66eb-5af9-6168-d1df602216a5@gmail.com>
-References: <20220914182331.20515-1-jason-jh.lin@mediatek.com>
- <20220914182331.20515-5-jason-jh.lin@mediatek.com>
- <1fd48fa0-66eb-5af9-6168-d1df602216a5@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5768110E2F1;
+ Fri, 16 Sep 2022 01:05:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663290302; x=1694826302;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=r7VXKS4fwfCQfaLFydmq0GRUyL33h9ZGM1jdnNQEW38=;
+ b=eaT3XuNMt4PrIGNgAFQxEK1/H9MCXohXLz6d/DZ2p1mtpi3IgEV89VjD
+ gufgS+/36twpWMd3pwXo10TMKLTXhfUxf7CpCU9t7bu1iY4GMK7AlkyxA
+ Oh6jbIqWNSdhhQDEXr1Z3bwO8wvEy+uUZRpIMg40hH7PYLBbzGHhEJKNf
+ 9Kv2VA1eGCxUyKlna6kwl0WJHgEO+wPpmRQEgFAlyUg4L+MSMInHnfmzC
+ znwwJU29KbuMTDxcPAeEcyE/MyCZn3oRTOTT6ENaOyHL6noq9t0Q6nltW
+ VRKz/BcJLcVDm2hc10cPrhl5Xe5m0m/b/9PNPToJndaaGM3u/3Kad7QZE A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="278609746"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="278609746"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 18:05:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="946193501"
+Received: from lkp-server02.sh.intel.com (HELO 41300c7200ea) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 15 Sep 2022 18:05:00 -0700
+Received: from kbuild by 41300c7200ea with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oYzmt-0001GN-1d;
+ Fri, 16 Sep 2022 01:04:59 +0000
+Date: Fri, 16 Sep 2022 09:04:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v1 2/4] drm/i915: Add missing mask when
+ reading GEN12_DSMBASE
+Message-ID: <202209160835.MMBeObmU-lkp@intel.com>
+References: <20220915-stolen-v1-2-117c5f295bb2@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220915-stolen-v1-2-117c5f295bb2@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,99 +59,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo
- Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: tejas.upadhyay@intel.com, llvm@lists.linux.dev, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthias,
+Hi Lucas,
 
-Thanks for the review.
+Thank you for the patch! Perhaps something to improve:
 
-On Thu, 2022-09-15 at 18:15 +0200, Matthias Brugger wrote:
-> 
-> On 14/09/2022 20:23, Jason-JH.Lin wrote:
-> > For previous MediaTek SoCs, such as MT8173, there are 2 display HW
-> > pipelines binding to 1 mmsys with the same power domain, the same
-> > clock driver and the same mediatek-drm driver.
-> > 
-> > For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding
-> > to
-> > 2 different power domains, different clock drivers and different
-> > mediatek-drm drivers.
-> > 
-> > Moreover, Hardware pipeline of VDOSYS0 has these components: COLOR,
-> > CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture
-> > Quality)
-> > and they makes VDOSYS0 supports PQ function while they are not
-> > including in VDOSYS1.
-> > 
-> > Hardware pipeline of VDOSYS1 has the component ETHDR (HDR related
-> > component). It makes VDOSYS1 supports the HDR function while it's
-> > not
-> > including in VDOSYS0.
-> > 
-> > To summarize0:
-> > Only VDOSYS0 can support PQ adjustment.
-> > Only VDOSYS1 can support HDR adjustment.
-> > 
-> > Therefore, we need to separate these two different mmsys hardwares
-> > to
-> > 2 different compatibles for MT8195.
-> > 
-> > Fixes: b852ee68fd72 ("arm64: dts: mt8195: Add display node for
-> > vdosys0")
-> 
-> No fixes tag needed, there is no runtime bug.
-> 
-> Regards,
-> Matthias
-> 
-OK, I'll remove this.
+[auto build test WARNING on bb4f6b2281b11b009210f62eecd291f7b75c1e85]
 
-But I think this dts change should be sent after the vdosys1 series are
-accepted.
-So I'll drop this dts patch at the next version.
+url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-De-Marchi/drm-i915-Improvements-to-stolen-memory-setup/20220916-044155
+base:   bb4f6b2281b11b009210f62eecd291f7b75c1e85
+config: i386-randconfig-a011 (https://download.01.org/0day-ci/archive/20220916/202209160835.MMBeObmU-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/b0c14c92efecabadc483675b606c1ce109cfa415
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lucas-De-Marchi/drm-i915-Improvements-to-stolen-memory-setup/20220916-044155
+        git checkout b0c14c92efecabadc483675b606c1ce109cfa415
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-Regards,
-Jason-JH.Lin
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> > ---
-> >   arch/arm64/boot/dts/mediatek/mt8195.dtsi | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> > b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> > index 905d1a90b406..6ec6d59a16ec 100644
-> > --- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> > +++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> > @@ -1966,7 +1966,7 @@
-> >   		};
-> >   
-> >   		vdosys0: syscon@1c01a000 {
-> > -			compatible = "mediatek,mt8195-mmsys", "syscon";
-> > +			compatible = "mediatek,mt8195-vdosys0",
-> > "syscon";
-> >   			reg = <0 0x1c01a000 0 0x1000>;
-> >   			mboxes = <&gce0 0 CMDQ_THR_PRIO_4>;
-> >   			#clock-cells = <1>;
-> > @@ -2101,7 +2101,7 @@
-> >   		};
-> >   
-> >   		vdosys1: syscon@1c100000 {
-> > -			compatible = "mediatek,mt8195-mmsys", "syscon";
-> > +			compatible = "mediatek,mt8195-vdosys1",
-> > "syscon";
-> >   			reg = <0 0x1c100000 0 0x1000>;
-> >   			#clock-cells = <1>;
-> >   		};
-> 
-> 
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:817:58: warning: shift count is negative [-Wshift-count-negative]
+           dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE) & GEN12_BDSM_MASK;
+                                                                   ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_reg.h:7956:28: note: expanded from macro 'GEN12_BDSM_MASK'
+   #define   GEN12_BDSM_MASK               GENMASK(63, 20)
+                                           ^~~~~~~~~~~~~~~
+   include/linux/bits.h:38:31: note: expanded from macro 'GENMASK'
+           (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+                                        ^~~~~~~~~~~~~~~
+   include/linux/bits.h:36:11: note: expanded from macro '__GENMASK'
+            (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+                    ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +817 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+
+   798	
+   799	struct intel_memory_region *
+   800	i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+   801				   u16 instance)
+   802	{
+   803		struct intel_uncore *uncore = &i915->uncore;
+   804		struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+   805		resource_size_t dsm_size, dsm_base, lmem_size;
+   806		struct intel_memory_region *mem;
+   807		resource_size_t io_start, io_size;
+   808		resource_size_t min_page_size;
+   809	
+   810		if (WARN_ON_ONCE(instance))
+   811			return ERR_PTR(-ENODEV);
+   812	
+   813		if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
+   814			return ERR_PTR(-ENXIO);
+   815	
+   816		/* Use DSM base address instead for stolen memory */
+ > 817		dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE) & GEN12_BDSM_MASK;
+   818		if (IS_DG1(uncore->i915)) {
+   819			lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
+   820			if (WARN_ON(lmem_size < dsm_base))
+   821				return ERR_PTR(-ENODEV);
+   822		} else {
+   823			resource_size_t lmem_range;
+   824	
+   825			lmem_range = intel_gt_mcr_read_any(&i915->gt0, XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
+   826			lmem_size = lmem_range >> XEHP_TILE_LMEM_RANGE_SHIFT;
+   827			lmem_size *= SZ_1G;
+   828		}
+   829	
+   830		dsm_size = lmem_size - dsm_base;
+   831		if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
+   832			io_start = 0;
+   833			io_size = 0;
+   834		} else {
+   835			io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
+   836			io_size = dsm_size;
+   837		}
+   838	
+   839		min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
+   840							I915_GTT_PAGE_SIZE_4K;
+   841	
+   842		mem = intel_memory_region_create(i915, dsm_base, dsm_size,
+   843						 min_page_size,
+   844						 io_start, io_size,
+   845						 type, instance,
+   846						 &i915_region_stolen_lmem_ops);
+   847		if (IS_ERR(mem))
+   848			return mem;
+   849	
+   850		/*
+   851		 * TODO: consider creating common helper to just print all the
+   852		 * interesting stuff from intel_memory_region, which we can use for all
+   853		 * our probed regions.
+   854		 */
+   855	
+   856		drm_dbg(&i915->drm, "Stolen Local memory IO start: %pa\n",
+   857			&mem->io_start);
+   858		drm_dbg(&i915->drm, "Stolen Local DSM base: %pa\n", &dsm_base);
+   859	
+   860		intel_memory_region_set_name(mem, "stolen-local");
+   861	
+   862		mem->private = true;
+   863	
+   864		return mem;
+   865	}
+   866	
+
 -- 
-Jason-JH Lin <jason-jh.lin@mediatek.com>
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
