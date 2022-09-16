@@ -2,57 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5323F5BB00A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 17:15:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61E15BB01C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 17:22:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B903610E491;
-	Fri, 16 Sep 2022 15:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E6710ED62;
+	Fri, 16 Sep 2022 15:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B87D610E491
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 15:15:35 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1oZD3p-0003yS-JO; Fri, 16 Sep 2022 17:15:21 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1oZD3l-0016t7-EM; Fri, 16 Sep 2022 17:15:15 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1oZD3i-001KHo-TK; Fri, 16 Sep 2022 17:15:14 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 3/3] pwm: Handle .get_state() failures
-Date: Fri, 16 Sep 2022 17:15:06 +0200
-Message-Id: <20220916151506.298488-3-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220916151506.298488-1-u.kleine-koenig@pengutronix.de>
-References: <20220916151506.298488-1-u.kleine-koenig@pengutronix.de>
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E64610ED62;
+ Fri, 16 Sep 2022 15:21:48 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id u9so50247928ejy.5;
+ Fri, 16 Sep 2022 08:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=FAZ1nZoda0LvxFO03fEct6+OY7sOs5EIJLDowUOvXx4=;
+ b=i3EM54wqEUd4S0hEjrVzr83R6YfecGIo0DsXnpvu9Xi5oB1vfFa8ZVBK2Is2icTZWm
+ X5hso/7NBeg9mGUsZNtQzLp7jv/OTgknKbmhMgB4znO6wmSipfbNDVNKwdd/spAXbwL4
+ yVQWrtWpdhgdoaYh5zmlRXLyokBMUZXmQlOnKfqultK8EcRuQ5lTU9qONFYronuMziCP
+ La1Rml9QYllS1G3sqFsNVEpqcaF3HSK2nY1c5Wpgt8fVVo6YBLBTBCUkP+xZHDWYy2Ds
+ SzQjOdH8HgLucw29Hg2ugKqSYNh6Ewx+S0j0u+0N/4IHqbsTwuk8ffu8qg4/Z0N2pqzS
+ gv8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=FAZ1nZoda0LvxFO03fEct6+OY7sOs5EIJLDowUOvXx4=;
+ b=G3etyNsrrcAt0Yh+d8zpBeQo/UPQ7uCTTju4B/8wCrR/utmJJcUOIp1vhJGxRM2vat
+ +N0nzSeqoo9fLsDwMaem5HebJ9mgd8Ib4yeRUgzejhfQ/EbfZJAVLz68TiuKWX9BrljT
+ +g/mF1cwgrcbuhsA7ioBzEGtm9gkMU0r+6c3RQsCFFdp7NrQkZmc0RNfstkhinM/1Eyc
+ v6qDfyMHXfsv9wX/ZkeJEtsOwaYKm8eWYwXnnft4ejOvYyMUBVMjcTlx7ieyCLKb+qu3
+ 8SyG05Jh9j0cpG6QCEaavTsZicWes2QH2pxVy/PtahOEW0SUoM5JfXYR/KXzca6KfXab
+ uYWg==
+X-Gm-Message-State: ACrzQf0YZM/RAzbKYi0hINBz6CnMJ/fmfy5UQgVbQA38Ul+YLYckTxMX
+ 8aJI3YPRvdgr/oAOWE27iSQVkRrBvI/KOIeXVkI=
+X-Google-Smtp-Source: AMsMyM7VdObrUWQ3oMSH0uIBXnSpYn73/MNnHRJRFIMKRcnMR0VWDex5xXR94UsnsJLt5amN0/PYib0/nXhnk1LrGNk=
+X-Received: by 2002:a17:906:8a77:b0:780:a02d:ca4a with SMTP id
+ hy23-20020a1709068a7700b00780a02dca4amr2762440ejc.488.1663341707544; Fri, 16
+ Sep 2022 08:21:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1545;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=yRNfMNUl3EWYauPtdr8Q5dOzGtnTvg1riQcLCuuQwro=;
- b=owGbwMvMwMV48I9IxdpTbzgZT6slMSSrTPrubcN224Djq8gEu7yr52o0UwQV7R/Utndef8XX9eqM
- vVpYJ6MxCwMjF4OsmCJLXZGW2ASJNf/tSpZwwwxiZQKZwsDFKQAT2VnM/ldO1MlmZQ/n5hm5UtwfTH
- 8fCnMs39J9X7n78UVRDgvGxNL8i+28bXlJ89Lrje8ziYtWJX786VL0v0L10faISEar+B1fBTdJ2nse
- V4378K1D00X0w7SdZu/5yt7mrz+lbTjb7LtA4t25N4MOcj7imWo6sTeL61d6JeP07zMro5vZpRoX/w
- o0+388Nedof5/BrWcesx8u/mml27D0wSaOrSpOv+3+HKgRMtSUkGdMv6s4VU8gZ8om49sVpd0LnWRu
- 9+ke2XBHvU5Jku1O9q/SX4eeGjdXM822MOnmdI2z23gtZLHgXDnO/ZZsV0RzhL3i7h0OcO2+LxnG9Z
- lJsfD54uKICL5LOuLqttPttVwB
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <CAJedcCxVW++iH49UFZp9ruUuTcNubWCH6Wsqe11K4COB3E8msg@mail.gmail.com>
+ <CAJedcCw1eJqjSK+yR7eQMDheNtH3Mjm+viwt00xAhnmrfpq2pw@mail.gmail.com>
+ <CAJedcCweHjD78F7iydiq6Xc2iH=t_3m=H9JKnaCooToUk32FvQ@mail.gmail.com>
+ <YxWtfjfpNsoPUrgh@kroah.com>
+ <CAJedcCzMo51aiy=Dv7zn7VmL3gwkw7JgzwAPAB2Z27C9CnhoYA@mail.gmail.com>
+ <20220907030754.GU1089@zhen-hp.sh.intel.com>
+ <CAJedcCxO_Rq0qMeLiHtY5+FuN1A1pDGsZd3gMtvUpm1xbAK3aA@mail.gmail.com>
+ <Yxmzj2nCoTKurCY8@kroah.com>
+ <CAJedcCwVC6Rg+wF7h6GhFvL6BGkKV=DS9Mo9fOf-gfDAk9VqPg@mail.gmail.com>
+ <CAJedcCxRQ4h-ChNsD4OWpDMUJd3JNaQrvD=uVKxMpYONGFUgzA@mail.gmail.com>
+ <YyQzDlM5n7mOLh5Q@kroah.com>
+In-Reply-To: <YyQzDlM5n7mOLh5Q@kroah.com>
+From: Zheng Hacker <hackerzheng666@gmail.com>
+Date: Fri, 16 Sep 2022 23:21:35 +0800
+Message-ID: <CAJedcCy-beMX=ytszAWMu28FH0qGKCsLC=0bJPL_Tmh35wigKw@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry.
+To: Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,65 +75,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, kernel@pengutronix.de,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Douglas Anderson <dianders@chromium.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-gpio@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Ingo Molnar <mingo@redhat.com>, Robert Foss <robert.foss@linaro.org>,
- Pavel Machek <pavel@ucw.cz>, Bartosz Golaszewski <brgl@bgdev.pl>,
- linux-leds@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: "alex000young@gmail.com" <alex000young@gmail.com>,
+ "security@kernel.org" <security@kernel.org>,
+ "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ xmzyshypnc <1002992920@qq.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "zhi.a.wang@intel.com" <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This suppresses diagnosis for PWM_DEBUG routines and makes sure that
-pwm->state isn't modified in pwm_device_request() if .get_state() fails.
+Hi greg,
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/pwm/core.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Thanks for pointing that out. Working on it now :)
 
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 381db04cfa00..421573590613 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -108,9 +108,14 @@ static int pwm_device_request(struct pwm_device *pwm, const char *label)
- 	}
- 
- 	if (pwm->chip->ops->get_state) {
--		err = pwm->chip->ops->get_state(pwm->chip, pwm, &pwm->state);
-+		struct pwm_state state;
-+
-+		err = pwm->chip->ops->get_state(pwm->chip, pwm, &state);
- 		trace_pwm_get(pwm, &pwm->state, err);
- 
-+		if (!err)
-+			pwm->state = state;
-+
- 		if (IS_ENABLED(CONFIG_PWM_DEBUG))
- 			pwm->last = pwm->state;
- 	}
-@@ -459,6 +464,9 @@ static void pwm_apply_state_debug(struct pwm_device *pwm,
- 
- 	err = chip->ops->get_state(chip, pwm, &s1);
- 	trace_pwm_get(pwm, &s1, err);
-+	if (err)
-+		/* If that failed there isn't much to debug */
-+		return;
- 
- 	/*
- 	 * The lowlevel driver either ignored .polarity (which is a bug) or as
-@@ -523,6 +531,8 @@ static void pwm_apply_state_debug(struct pwm_device *pwm,
- 
- 	err = chip->ops->get_state(chip, pwm, last);
- 	trace_pwm_get(pwm, last, err);
-+	if (err)
-+		return;
- 
- 	/* reapplication of the current state should give an exact match */
- 	if (s1.enabled != last->enabled ||
--- 
-2.37.2
+Best wishes,
+Zheng Wang
 
+Greg KH <gregkh@linuxfoundation.org> =E4=BA=8E2022=E5=B9=B49=E6=9C=8816=E6=
+=97=A5=E5=91=A8=E4=BA=94 16:25=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Fri, Sep 16, 2022 at 02:39:21PM +0800, Zheng Hacker wrote:
+> > >From 8d95c1399e3ff345500a575e21254a73b0c89144 Mon Sep 17 00:00:00 2001
+> > From: xmzyshypnc <1002992920@qq.com>
+> > Date: Fri, 16 Sep 2022 14:37:48 +0800
+> > Subject: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_ent=
+ry
+> >
+> > There is a double-free security bug in split_2MB_gtt_entry.
+> >
+> > Here is a calling chain :
+> > ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entry.
+> > If intel_gvt_dma_map_guest_page failed, it will call
+> > ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
+> > kfree(spt). But the caller does not notice that, and it will call
+> > ppgtt_free_spt again in error path.
+> >
+> > Fix this by only freeing spt in ppgtt_invalidate_spt in good case.
+> >
+> > Signed-off-by: xmzyshypnc <1002992920@qq.com>
+> > ---
+> >  drivers/gpu/drm/i915/gvt/gtt.c | 16 +++++++++-------
+> >  1 file changed, 9 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/=
+gtt.c
+> > index 9f14fded8c0c..31d2a8d56384 100644
+> > --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> > @@ -959,7 +959,7 @@ static inline int ppgtt_put_spt(struct
+> > intel_vgpu_ppgtt_spt *spt)
+> >   return atomic_dec_return(&spt->refcount);
+> >  }
+> >
+> > -static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt);
+> > +static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *sptm,
+> > int is_error);
+>
+> Your patch is whitespace damaged and linewrapped and can not be applied,
+> and can only barely read :(
+>
+> Please fix up your email client to not do this so that the change can be
+> properly reviewed and accepted if correct.
+>
+> thanks,
+>
+> greg k-h
