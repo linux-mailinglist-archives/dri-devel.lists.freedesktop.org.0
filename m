@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A535BB1ED
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 20:19:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9F45BB1F9
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 20:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 538C910ED79;
-	Fri, 16 Sep 2022 18:18:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92C5410ED82;
+	Fri, 16 Sep 2022 18:19:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0AF10ED77
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 18:18:42 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id v4so21054626pgi.10
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 11:18:42 -0700 (PDT)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F32C110ED79
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 18:18:49 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ x1-20020a17090ab00100b001fda21bbc90so480929pjq.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 11:18:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=O4ORDYv1Lr4Erp5ISyKI1IY+eX0JNrP0U9+cbOWHuzE=;
- b=jp4epsHmkzL2s6fcu/NomruOZE4V3y+QjGop183xKe/qqhK8SidV5iGsR1JXBqpU9r
- atkYNjGp695mYOqJCthVvdz0Xm48/8HGQfGKTUCZFsYK2Rl7UWA6T0mJR4epLLpridXF
- krT4HWvXkD9cxVWmjkJdQs7lra5nFpXwgygQY=
+ bh=aoALU8tXwdf0pdOg1lEf+wK1oaye8Av68gUGwS5JTQY=;
+ b=gfewwGUiXZevRHwv6K1hSgSIfqy/8Gc2p/ga6LvThuxW21U6vR8FEn98k+OWQuBMNz
+ vN/IXa0/V3T+dAR/DxmX66FBSbQClVpe7ZyrLm9MF859Ggl+ewkqNrK1oHfJuHr5VMFc
+ pfzrCWdR1rTH57CDDuJtCOTthZzvjF/G3ZI0g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=O4ORDYv1Lr4Erp5ISyKI1IY+eX0JNrP0U9+cbOWHuzE=;
- b=5ylJcOJKVkA985wfvZY+rz/s/z7rEu6LeGYbCqYnpdiS0hHFSF4p1xt7LnhZqQVSOI
- weKWjXxuW3EFEXQGP73oNLGissVc4XZkreTwYtTDzWzQQkd7jG4XhRQUJvk/nSdxi7jG
- 4oxDCxZtRGjTzfGYSFWeQGYL9IwzmjioRKj8STLG06DhPMN9lFYFB9fXT7mbJP25z9V8
- GBJgxcCTSl8aLp5E8l02Z2+QanIMKIUzat5CqknpTvC5FSz2MQO3AsvbgQ9x5iWC8RF6
- 1o0ImYAdbAdYQ3gSjWMi8mn81OZnqRQJBhCxYaivjsjPRRM23QNd+1504DAghNZriiXQ
- 6IKg==
-X-Gm-Message-State: ACrzQf2nKxyefzgLxmTZSIsoZYkimTOViBbOqpFi+1lhHKjmufDbJi4V
- hFvFzYo2b3dspOeVjxMPOprPig==
-X-Google-Smtp-Source: AMsMyM4iiUXwS9yxTaRCsFNp3QHSpwBGsmZV0SQiwiwBHlS3hXAoS9KPeOPpoweCiXB5Gl2Yuhrvag==
-X-Received: by 2002:a63:154b:0:b0:42c:60ce:8bd3 with SMTP id
- 11-20020a63154b000000b0042c60ce8bd3mr5671772pgv.372.1663352321699; 
- Fri, 16 Sep 2022 11:18:41 -0700 (PDT)
+ bh=aoALU8tXwdf0pdOg1lEf+wK1oaye8Av68gUGwS5JTQY=;
+ b=r8R7j/L8BkFFdM4JVPt2+2KGrS6aDd216bZGFN5te09XzXeFwk77k4NEP2k2XHMBIA
+ K5QaoTLQlXwC0o0G2RY+Hqs7n7PGfAWd+TPkWZQdC9yU0fXeh+Vqs0BtwGsg2W4rmjQA
+ REwAci3LsuJXBHyoRhon1spaKicg6rPmRZUvGKJ3tuFlES7NPsiMW9A60Nz7gXH5AAch
+ v74McodFJPruRtAEDbqSX7I2rThZdGK+go60pOMGqHlgQ6QMssgtxSyfie3L5DAC25cY
+ 20HGRT+HO1ZIGVNq3eTfO2WOhT+K5Cba4MiSVn0erfUkMyOgDJ9+2SK7DrAd4TofU5r7
+ oWZQ==
+X-Gm-Message-State: ACrzQf0QpJ1cwr8XTO02anmJrUrfw1bHlSVvjpSVLxdnxQDsHKXiBr0q
+ V5+PrTeAVPRjPtQbDRv8t6mFsw==
+X-Google-Smtp-Source: AMsMyM6L5QwK0HbTFT7V2woguX3+SQNsN1tTXOU9mmgVXpHSj0RnjRqZrD9Oo0XFOpUOQVKqcth/Zw==
+X-Received: by 2002:a17:90a:fc96:b0:203:86f:5a86 with SMTP id
+ ci22-20020a17090afc9600b00203086f5a86mr6911471pjb.108.1663352329511; 
+ Fri, 16 Sep 2022 11:18:49 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a073:ae5d:6ee4:5c2f:6733])
  by smtp.gmail.com with ESMTPSA id
- d14-20020a17090a6a4e00b002007b60e288sm1770000pjm.23.2022.09.16.11.18.34
+ d14-20020a17090a6a4e00b002007b60e288sm1770000pjm.23.2022.09.16.11.18.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Sep 2022 11:18:41 -0700 (PDT)
+ Fri, 16 Sep 2022 11:18:48 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -60,14 +61,14 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v5 03/11] drm: bridge: samsung-dsim: Lookup OF-graph or Child
- node devices
-Date: Fri, 16 Sep 2022 23:47:23 +0530
-Message-Id: <20220916181731.89764-4-jagan@amarulasolutions.com>
+Subject: [PATCH v5 04/11] drm: bridge: samsung-dsim: Mark PHY as optional
+Date: Fri, 16 Sep 2022 23:47:24 +0530
+Message-Id: <20220916181731.89764-5-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220916181731.89764-1-jagan@amarulasolutions.com>
 References: <20220916181731.89764-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,130 +89,36 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The child devices in MIPI DSI can be binding with OF-graph
-and also via child nodes.
+In i.MX8M Mini/Nano SoC the DSI Phy requires a MIPI DPHY bit
+to reset in order to activate the PHY and that can be done via
+upstream i.MX8M blk-ctrl driver.
 
-The OF-graph interface represents the child devices via
-remote and associated endpoint numbers like
+So, mark the phy get as optional.
 
-dsi {
-   compatible = "fsl,imx8mm-mipi-dsim";
-
-   ports {
-	port@0 {
-	     reg = <0>;
-
-	     dsi_in_lcdif: endpoint@0 {
-		  reg = <0>;
-		  remote-endpoint = <&lcdif_out_dsi>;
-	     };
-	};
-
-	port@1 {
-	     reg = <1>;
-
-	     dsi_out_bridge: endpoint {
-		  remote-endpoint = <&bridge_in_dsi>;
-	     };
-	};
-};
-
-The child node interface represents the child devices via
-conventional child nodes on given DSI parent like
-
-dsi {
-   compatible = "samsung,exynos5433-mipi-dsi";
-
-   ports {
-        port@0 {
-             reg = <0>;
-
-             dsi_to_mic: endpoint {
-                  remote-endpoint = <&mic_to_dsi>;
-             };
-        };
-   };
-
-   panel@0 {
-        reg = <0>;
-   };
-};
-
-As Samsung DSIM bridge is common DSI IP across all Exynos DSI
-and NXP i.MX8M host controllers, this patch adds support to
-lookup the child devices whether its bindings on the associated
-host represent OF-graph or child node interfaces.
-
-v5, v4, v3:
+v5, v4, v3, v2:
 * none
 
-v2:
+v1:
 * new patch
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 38 +++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index ccaf87e19e81..2e79fbfe2a7d 100644
+index 2e79fbfe2a7d..eac2dc2f24ba 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1340,18 +1340,52 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 	struct samsung_dsim *dsi = host_to_dsi(host);
- 	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
- 	struct device *dev = dsi->dev;
-+	struct device_node *np = dev->of_node;
-+	struct device_node *remote;
- 	struct drm_panel *panel;
- 	int ret;
+@@ -1568,7 +1568,7 @@ int samsung_dsim_probe(struct platform_device *pdev)
+ 	if (IS_ERR(dsi->reg_base))
+ 		return PTR_ERR(dsi->reg_base);
  
--	panel = of_drm_find_panel(device->dev.of_node);
-+	/**
-+	 * Devices can also be child nodes when we also control that device
-+	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
-+	 *
-+	 * Lookup for a child node of the given parent that isn't either port
-+	 * or ports.
-+	 */
-+	for_each_available_child_of_node(np, remote) {
-+		if (of_node_name_eq(remote, "port") ||
-+		    of_node_name_eq(remote, "ports"))
-+			continue;
-+
-+		goto of_find_panel_or_bridge;
-+	}
-+
-+	/*
-+	 * of_graph_get_remote_node() produces a noisy error message if port
-+	 * node isn't found and the absence of the port is a legit case here,
-+	 * so at first we silently check whether graph presents in the
-+	 * device-tree node.
-+	 */
-+	if (!of_graph_is_present(np))
-+		return -ENODEV;
-+
-+	remote = of_graph_get_remote_node(np, 1, 0);
-+
-+of_find_panel_or_bridge:
-+	if (!remote)
-+		return -ENODEV;
-+
-+	panel = of_drm_find_panel(remote);
- 	if (!IS_ERR(panel)) {
- 		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
- 	} else {
--		dsi->out_bridge = of_drm_find_bridge(device->dev.of_node);
-+		dsi->out_bridge = of_drm_find_bridge(remote);
- 		if (!dsi->out_bridge)
- 			dsi->out_bridge = ERR_PTR(-EINVAL);
- 	}
- 
-+	of_node_put(remote);
-+
- 	if (IS_ERR(dsi->out_bridge)) {
- 		ret = PTR_ERR(dsi->out_bridge);
- 		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
+-	dsi->phy = devm_phy_get(dev, "dsim");
++	dsi->phy = devm_phy_optional_get(dev, "dsim");
+ 	if (IS_ERR(dsi->phy)) {
+ 		dev_info(dev, "failed to get dsim phy\n");
+ 		return PTR_ERR(dsi->phy);
 -- 
 2.25.1
 
