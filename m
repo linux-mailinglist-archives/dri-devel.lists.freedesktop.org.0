@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99AEC5BB11E
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 18:34:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2905BB11C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 18:34:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF5E510E4CE;
-	Fri, 16 Sep 2022 16:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2083B10E4E0;
+	Fri, 16 Sep 2022 16:34:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7838010E05A;
- Fri, 16 Sep 2022 16:33:40 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9766810E21D;
+ Fri, 16 Sep 2022 16:33:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663346020; x=1694882020;
+ t=1663346024; x=1694882024;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+XPV8HcaE/9L71hkSOiFNYaVu+xuhMgleVwsoSICrYg=;
- b=ZvZxcVdEmN8yQqPPY4GgbBQ7WA6BuchmR6bGp603/7IAPezrJ4a+KQtN
- NJ0nTcsfcjBA1B1ROsjX21JPowfMHIVKSoBT1jnMl2IY13JiCAM0hYCqc
- mRWrehgYzhVDo7AXQRwpygKglg1zqvFSYNTBWSGMiEl2/zYT6zyTRDW9V
- zge1b+BPlTeOxEAp8O3CGOw2NqcPVNcaN9Dns1zkFd4Qb2af1THbC8IC/
- bf19wpJsm0RQCU8fu2R94tB5kNq0u66puDMANW2P6SjFBcH6mwHQ3a8ny
- cSsJ0F6m5BQYGe/OC1v24CvxwLMF1+vnwXPN0kIDQPycTzldbvf+hfaf9 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10472"; a="278756930"
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="278756930"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2022 09:33:39 -0700
+ bh=mHI24FmnqlV4Cs36rLp+0uhjn0jhUt841zuGdrfWm4Q=;
+ b=Lgnhu97MEntLMLwSTvdtOMsBP8+dY6DmwJ8nnSBiY71rv9N556pu0Rv9
+ fVJbzDYbRdMkr5QzBfoK++CKCF1M5MvIVRDrhNJVBbmH/WEmi5OXOXFDP
+ axFJpDdk/OfprZLcA20Jubs80YZ87giqETUF46WDtoLleLwzpG7U7zLcP
+ 9xbFRWa/ONkheWew4cNeKB8l5/pV6v2D9v7p5HkCx10ligw8NZP1NvWot
+ yokjvRPYVL3c4gX+2+7VgJforCjW/9JnsBYb9Vm23AOPE6cgLbbTvwBHa
+ j8XK5wVzoufAjqRRB5iQT0LUKiWNaGsCJAQn6DxDxj6Ku5gjCMg/9mtwi A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10472"; a="362990794"
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="362990794"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 09:33:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="620140528"
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="613308406"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga007.fm.intel.com with SMTP; 16 Sep 2022 09:33:36 -0700
+ by orsmga007.jf.intel.com with SMTP; 16 Sep 2022 09:33:40 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 16 Sep 2022 19:33:35 +0300
+ Fri, 16 Sep 2022 19:33:39 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/4] drm/atomic: Treat a nonblocking commit following a
- blocking commit as blocking commit
-Date: Fri, 16 Sep 2022 19:33:28 +0300
-Message-Id: <20220916163331.6849-2-ville.syrjala@linux.intel.com>
+Subject: [PATCH 2/4] drm/i915: Don't reuse commit_work for the cleanup
+Date: Fri, 16 Sep 2022 19:33:29 +0300
+Message-Id: <20220916163331.6849-3-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220916163331.6849-1-ville.syrjala@linux.intel.com>
 References: <20220916163331.6849-1-ville.syrjala@linux.intel.com>
@@ -66,19 +65,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Currently a nonblocking commit will actually block if it is
-preceded by a blocking commit. It just happens block on the
-mutex rather than on the completion. I shall call these as
-not-actually-nonblocking commits.
-
-I would like to make blocking commits execute locklessly,
-just as nonblocking commits already do. The main benefit
-would that parallel TEST_ONLY commits would not get blocked
-on the mutexes until the parallel blocking commit is done.
-To achieve that without a significant change in behaviour
-for the not-actually-nonblocking commits let's treat them
-exactly the same as blocking commit, ie. instead of
-returning -EBUSY they will just block.
+Currently we reuse the commit_work for a later cleanup step.
+Let's not do that so that atomic ioctl handler won't accidentally
+wait for the cleanup work when it really wants to just wait on the
+commit_tail() part. We'll just add another work struct for the
+cleanup.
 
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
@@ -88,117 +79,46 @@ Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
 Cc: Jonas Ådahl <jadahl@gmail.com>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 19 ++++++++++++-------
- include/drm/drm_atomic.h            |  7 +++++++
- 2 files changed, 19 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c       | 6 +++---
+ drivers/gpu/drm/i915/display/intel_display_types.h | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index ee5fea48b5cb..bff087674cb5 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -2109,7 +2109,7 @@ static int stall_checks(struct drm_crtc *crtc, bool nonblock)
- 			 * Userspace is not allowed to get ahead of the previous
- 			 * commit with nonblocking ones.
- 			 */
--			if (!completed && nonblock) {
-+			if (!completed && nonblock && commit->nonblock) {
- 				spin_unlock(&crtc->commit_lock);
- 				drm_dbg_atomic(crtc->dev,
- 					       "[CRTC:%d:%s] busy with a previous commit\n",
-@@ -2152,7 +2152,7 @@ static void release_crtc_commit(struct completion *completion)
- 	drm_crtc_commit_put(commit);
- }
- 
--static void init_commit(struct drm_crtc_commit *commit, struct drm_crtc *crtc)
-+static void init_commit(struct drm_crtc_commit *commit, struct drm_crtc *crtc, bool nonblock)
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index dd008ba8afe3..cd617046e0ee 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -7422,7 +7422,7 @@ static void intel_cleanup_dsbs(struct intel_atomic_state *state)
+ static void intel_atomic_cleanup_work(struct work_struct *work)
  {
- 	init_completion(&commit->flip_done);
- 	init_completion(&commit->hw_done);
-@@ -2160,10 +2160,11 @@ static void init_commit(struct drm_crtc_commit *commit, struct drm_crtc *crtc)
- 	INIT_LIST_HEAD(&commit->commit_entry);
- 	kref_init(&commit->ref);
- 	commit->crtc = crtc;
-+	commit->nonblock = nonblock;
- }
+ 	struct intel_atomic_state *state =
+-		container_of(work, struct intel_atomic_state, base.commit_work);
++		container_of(work, struct intel_atomic_state, cleanup_work);
+ 	struct drm_i915_private *i915 = to_i915(state->base.dev);
  
- static struct drm_crtc_commit *
--crtc_or_fake_commit(struct drm_atomic_state *state, struct drm_crtc *crtc)
-+crtc_or_fake_commit(struct drm_atomic_state *state, struct drm_crtc *crtc, bool nonblock)
- {
- 	if (crtc) {
- 		struct drm_crtc_state *new_crtc_state;
-@@ -2178,7 +2179,7 @@ crtc_or_fake_commit(struct drm_atomic_state *state, struct drm_crtc *crtc)
- 		if (!state->fake_commit)
- 			return NULL;
- 
--		init_commit(state->fake_commit, NULL);
-+		init_commit(state->fake_commit, NULL, nonblock);
- 	}
- 
- 	return state->fake_commit;
-@@ -2250,7 +2251,7 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- 		if (!commit)
- 			return -ENOMEM;
- 
--		init_commit(commit, crtc);
-+		init_commit(commit, crtc, nonblock);
- 
- 		new_crtc_state->commit = commit;
- 
-@@ -2299,6 +2300,7 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- 		 * commit with nonblocking ones.
- 		 */
- 		if (nonblock && old_conn_state->commit &&
-+		    old_conn_state->commit->nonblock &&
- 		    !try_wait_for_completion(&old_conn_state->commit->flip_done)) {
- 			drm_dbg_atomic(conn->dev,
- 				       "[CONNECTOR:%d:%s] busy with a previous commit\n",
-@@ -2308,7 +2310,8 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- 		}
- 
- 		/* Always track connectors explicitly for e.g. link retraining. */
--		commit = crtc_or_fake_commit(state, new_conn_state->crtc ?: old_conn_state->crtc);
-+		commit = crtc_or_fake_commit(state, new_conn_state->crtc ?: old_conn_state->crtc,
-+					     nonblock);
- 		if (!commit)
- 			return -ENOMEM;
- 
-@@ -2321,6 +2324,7 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- 		 * commit with nonblocking ones.
- 		 */
- 		if (nonblock && old_plane_state->commit &&
-+		    old_plane_state->commit->nonblock &&
- 		    !try_wait_for_completion(&old_plane_state->commit->flip_done)) {
- 			drm_dbg_atomic(plane->dev,
- 				       "[PLANE:%d:%s] busy with a previous commit\n",
-@@ -2330,7 +2334,8 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- 		}
- 
- 		/* Always track planes explicitly for async pageflip support. */
--		commit = crtc_or_fake_commit(state, new_plane_state->crtc ?: old_plane_state->crtc);
-+		commit = crtc_or_fake_commit(state, new_plane_state->crtc ?: old_plane_state->crtc,
-+					     nonblock);
- 		if (!commit)
- 			return -ENOMEM;
- 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 10b1990bc1f6..0924c322ddfb 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -155,6 +155,13 @@ struct drm_crtc_commit {
- 	 * used by the free code to remove the second reference if commit fails.
+ 	intel_cleanup_dsbs(state);
+@@ -7643,8 +7643,8 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
+ 	 * schedule point (cond_resched()) here anyway to keep latencies
+ 	 * down.
  	 */
- 	bool abort_completion;
-+
-+	/**
-+	 * @nonblock:
-+	 *
-+	 * Nonblocking commit?
-+	 */
-+	bool nonblock;
+-	INIT_WORK(&state->base.commit_work, intel_atomic_cleanup_work);
+-	queue_work(system_highpri_wq, &state->base.commit_work);
++	INIT_WORK(&state->cleanup_work, intel_atomic_cleanup_work);
++	queue_work(system_highpri_wq, &state->cleanup_work);
+ }
+ 
+ static void intel_atomic_commit_work(struct work_struct *work)
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 298d00a11f47..971e2b1e1b26 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -655,6 +655,7 @@ struct intel_atomic_state {
+ 
+ 	struct i915_sw_fence commit_ready;
+ 
++	struct work_struct cleanup_work;
+ 	struct llist_node freed;
  };
  
- struct __drm_planes_state {
 -- 
 2.35.1
 
