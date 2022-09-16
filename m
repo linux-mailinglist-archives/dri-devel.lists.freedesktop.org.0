@@ -2,53 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A31E5BAF25
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 16:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E02F5BAF9A
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 16:49:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D45510ED57;
-	Fri, 16 Sep 2022 14:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00D0310E470;
+	Fri, 16 Sep 2022 14:49:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A2110ED58
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 14:21:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5698262C30;
- Fri, 16 Sep 2022 14:21:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BB32DC433C1;
- Fri, 16 Sep 2022 14:21:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663338098;
- bh=OkZsYIFm8r+CVjhNh4iD+n+C1mV11Nw2PVDKGEgN1A0=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=FDdn32YCwybr7G099m7GqVYhv2TvMIekYNh37w+D66N0U8quO49IZ/KAONSJ6e2WD
- yjhBD4LgxfC+IV1XqPKacz8l63mMh7bIKnJGQQbDoEyEUMcODVqVx0vGi+h40ql719
- qlPcPlqpT2lQBCTU1mHgMwfoNpARLm8ejVUQQTn+oecGj74dg5+x3Lidv3hhcUev42
- nF0VZjGvotCq45949/z/FObjLZ1G3DmRtlDq+kwYOlPymKIBFPl+TCMdxX/3OPLNYO
- K8GZa6MDrE5Knuq+tIyw7O9uuZG0YTushy7dUcZJ9AtcdDHOUkUTFm6uTvjhGNidqw
- bqzjOsZxOBefQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- A6D96C59A58; Fri, 16 Sep 2022 14:21:38 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for v6.0-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tzoEUdzdhUsjh8jsuSta3Nv7zkH1-H7g4Oyi4_07zkO2w@mail.gmail.com>
-References: <CAPM=9tzoEUdzdhUsjh8jsuSta3Nv7zkH1-H7g4Oyi4_07zkO2w@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tzoEUdzdhUsjh8jsuSta3Nv7zkH1-H7g4Oyi4_07zkO2w@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-09-16
-X-PR-Tracked-Commit-Id: 25100377a21ad40dae8be5a3ed361b87acec1479
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 5763d7f29652f94bdfc9dab87888f79ba6bb6c34
-Message-Id: <166333809867.10979.14401799560428594488.pr-tracker-bot@kernel.org>
-Date: Fri, 16 Sep 2022 14:21:38 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B012E10E470
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 14:49:31 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id m3so11991562eda.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 07:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=Udhk4Q2S/+kZ/4kuQfb/Q3gnhZBJAS7E9brlINKWaBA=;
+ b=mM2JRZPp+c5UJqx940V5iM59hJC0QcbIOAt3KcNOuW+DqYVp6zTlXPFaiwEMcWIrlE
+ cK6B7yUmmJsaL0yNjfRkGHWWoaCEcNaBdcFp8zMmEnBpAHV7s621GO00GvS0waLllgyH
+ nJXdVde/QH0u5+bLwgxWCRo/fp2jyn8l91o0zwVmlShXeoeToeEEjFKJvjXaQUs0sa/f
+ ET9Du3muo4NojEp2iOBQU0GBR0aKqAm8y3Y7X6TA6HMpPC0BYG/i8/HeAUUIOY2K+klG
+ 1MivcFhQigyzuZ4B3fHD7NSiF5cfY4aMDFStsb4VjnArVCLEe3aTsYcMNHCKJ4trpoHn
+ d6XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Udhk4Q2S/+kZ/4kuQfb/Q3gnhZBJAS7E9brlINKWaBA=;
+ b=t0DAdIpVBzrAZ83oS3rlJ0L6B8s9sN0qGAgT1+kn7HYXaIRHduDhZVXAqLqMmD1EVi
+ qd6R8lCIiGDjvvPYP/2r0UGIs8QUjEZBl/2tjxM58b854wmgVEC7QWVZ7DrvXt5QFUf5
+ yUz+VrL8lVqVms7nTs5I2kEbdstlSXIYZrWGi6nUk3KEx/0rk/H2v4z8ddYj7fHQRgU5
+ AGoTpvzkugUto/iPyOvzEg6BiEzTm5GZuUQudiGpUXio9Nu9iZKW4UkJgAx6ZFxg5UbZ
+ l6QERQbUc+K2iSVM4THbhw0IAMFEJTr5WDL35RZURjX3xpOfVcZvZnE8yVJSt9DmmZaS
+ YSNQ==
+X-Gm-Message-State: ACrzQf3XRNwPN/NlTwVKEF3WVD6omW5blbul49oFytSetBqeEKqi20cY
+ 9JTab+6ERIk1Uf35FB6M/Xs=
+X-Google-Smtp-Source: AMsMyM4wosS/9EUN4XPzsd9E3cF+/d3pcXKnlIvOr72RSZ9iMIfHqeHq0GM7ZSII6npMLsrAq3roHA==
+X-Received: by 2002:a05:6402:161a:b0:451:ea13:572e with SMTP id
+ f26-20020a056402161a00b00451ea13572emr4293402edv.41.1663339769879; 
+ Fri, 16 Sep 2022 07:49:29 -0700 (PDT)
+Received: from felia.fritz.box
+ (200116b82618570059b736ec202ba767.dip.versatel-1u1.de.
+ [2001:16b8:2618:5700:59b7:36ec:202b:a767])
+ by smtp.gmail.com with ESMTPSA id
+ s25-20020aa7cb19000000b004531b137e4bsm2735103edt.67.2022.09.16.07.49.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Sep 2022 07:49:28 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: make DRM_DEBUG_MODESET_LOCK depend on DRM
+Date: Fri, 16 Sep 2022 16:49:05 +0200
+Message-Id: <20220916144905.18253-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,22 +69,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 16 Sep 2022 18:28:58 +1000:
+If DEBUG_KERNEL is selected with a kernel build without DRM, Kconfig still
+asks if DRM_DEBUG_MODESET_LOCK is to be selected or not, although this has
+no influence on the kernel without DRM.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-09-16
+Make DRM_DEBUG_MODESET_LOCK depend on DRM to avoid needless questions
+during kernel build configuration.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/5763d7f29652f94bdfc9dab87888f79ba6bb6c34
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ drivers/gpu/drm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thank you!
-
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 198ba846d34b..393d6da0d0f7 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -96,6 +96,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+ 
+ config DRM_DEBUG_MODESET_LOCK
+ 	bool "Enable backtrace history for lock contention"
++	depends on DRM
+ 	depends on STACKTRACE_SUPPORT
+ 	depends on DEBUG_KERNEL
+ 	depends on EXPERT
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.17.1
+
