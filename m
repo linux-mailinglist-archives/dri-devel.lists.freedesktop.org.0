@@ -2,60 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD90D5BB68C
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 07:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118C15BB688
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 07:34:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC7710E3AF;
-	Sat, 17 Sep 2022 05:34:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1E510E2D5;
+	Sat, 17 Sep 2022 05:33:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
- [IPv6:2607:f8b0:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00F5B10ED41
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 13:50:17 +0000 (UTC)
-Received: by mail-il1-x130.google.com with SMTP id a14so204798ild.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 06:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=AKed33L7/gXTrNguuIgtZfEgy2m6ebn7NIyiYlN3tNg=;
- b=fMC6MCN8yaUgRG6eEbFrh+Zx9PoNaDmY8Q7MQgeExwWGPITQYUig86e2s+ssPLlJNE
- lNQouaOpKfKvNeMKkeCHAdPrFq6csgzvHfWUmHnopOTOouRQGwDpH4WbJ8V5QpiGAO7H
- V8U3MYz1sSnxqnvaSORhpGKVgHf8u0NAM+2XA9duD/8IS1jCSEL9PX2T0v3aWF6Gc3kk
- ZviUMYq0sRFLFCJokvaKyEMAytZFSFsUxFq4kcwiJ+0zdqPyuc6sYpMy6BVAdcrXKUnz
- /cp6ino3VovOO5E5KQWERD06QXNUpZzTGOOIRcHW9MDLICvJokDiJxyMVaUBm4y72WBS
- lLHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=AKed33L7/gXTrNguuIgtZfEgy2m6ebn7NIyiYlN3tNg=;
- b=OY20stmjlkISx9dNXztA6FthzNk7VTxYXd/jTdl/GFmyLpc/xRvnlkkfmXBEh9rhME
- MQqZMPXd7HTn1vYrv7TNxxhiFvThqTVkb7ho1/985ly4lkgqPKUzB3XkcWWVE14Uy9Z0
- R2uHkSyrc/kMtfzX/vOzzE6v8KQ6Z42Kvt/OfiLEn1nFiZwDghRC5IaRkD0OLj4D/KFv
- 7QN31CD8dqzgeluE+i+5HdvHNh7XMJYgkyld07PoF9F7HpfPhKt6cbPenaHfS0ZnqoNb
- lia9MLecNAhaww+hw3SzxeN1kTEPBetenn/pO6QeDwSF2ZxbTL8K9Gr5BPHocfKz2ZsQ
- aEKw==
-X-Gm-Message-State: ACrzQf3B4pwPJ6YN6bMtVPTBEZFQAOQrG15JgsAS4jCapRb8zdkRL/mt
- CX5n8OFQkg8Xrzd+hJr7RhE=
-X-Google-Smtp-Source: AMsMyM5ENhHIjQTMpHESgGfVi4JrbNsBL2JXlAsCjRr/7HcLP8f/u0Ufh618QDhyrOQ/5kvUBHYEpg==
-X-Received: by 2002:a05:6e02:1c8d:b0:2eb:77fc:5618 with SMTP id
- w13-20020a056e021c8d00b002eb77fc5618mr2284907ill.268.1663336217063; 
- Fri, 16 Sep 2022 06:50:17 -0700 (PDT)
-Received: from localhost.localdomain ([173.23.87.62])
- by smtp.gmail.com with ESMTPSA id
- b23-20020a056638389700b00358f3cc92acsm2283153jav.36.2022.09.16.06.50.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Sep 2022 06:50:16 -0700 (PDT)
-From: Matthew <ruinairas1992@gmail.com>
-To: maarten.lankhorst@linux.intel.com
-Subject: [PATCH] Updated the orientation quirks to support the many variations
- of ONEXPLAYER and AokZoe devices.
-Date: Fri, 16 Sep 2022 07:50:14 -0600
-Message-Id: <20220916135014.2873-1-ruinairas1992@gmail.com>
-X-Mailer: git-send-email 2.37.3
+X-Greylist: delayed 440 seconds by postgrey-1.36 at gabe;
+ Fri, 16 Sep 2022 18:28:19 UTC
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FC3D10E4FD;
+ Fri, 16 Sep 2022 18:28:19 +0000 (UTC)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+ by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28GHdif4003235;
+ Fri, 16 Sep 2022 11:19:38 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PPS06212021;
+ bh=4Bl1oOzxnloiv5lBZu0sTycNMhJ6BoRjgmbXTEm4F3U=;
+ b=BqwncfYrEqbB4J0TOeA/YUU3Y4GvKH0Q3i2TJiI+lPvaXUQPNgSUJ79UKmDSaqbvJN0c
+ KN3nER0W1aJD5P1ZNHr1h+5QBQUN3cKC2I8xq/YLvDD+SNS3E8MbARiiAigh0vUjmJAj
+ U/MKsokCMTfBnNf6miDpHVw7vJCoutI11swZ5pqr9tydiUm19R9dlfTkdBRxCFHEjbDz
+ rvQuAjEn2McYOQ1zXT58qKzuXrfKZj5k/J4cL3XtJ3OvfUUwYzDqcTmnLeGhJd57OaRf
+ 7pGx3Ep0aYDNaRj1fFwyYJeFGNji/8OZ68mjNzryuAefSGYUA4LUK4VjA08FyM/ORcXv kg== 
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
+ [147.11.82.252])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jm8ye8x8b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Fri, 16 Sep 2022 11:19:38 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 16 Sep 2022 11:19:37 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Fri, 16 Sep 2022 11:19:37 -0700
+Received: by yow-lpggp3.wrs.com (Postfix, from userid 8023)
+ id 494092003A; Fri, 16 Sep 2022 14:19:37 -0400 (EDT)
+Date: Fri, 16 Sep 2022 14:19:37 -0400
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v5 0/2] Fix TLB invalidate issues with Broadwell
+ [preempt-rt regression]
+Message-ID: <20220916181934.GA16961@windriver.com>
+References: <cover.1657639152.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <cover.1657639152.git.mchehab@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: 35mH7Uo2DatrHXmJyPSAceB3PLOJ6EMQ
+X-Proofpoint-ORIG-GUID: 35mH7Uo2DatrHXmJyPSAceB3PLOJ6EMQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-16_12,2022-09-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1011
+ bulkscore=0 phishscore=0 impostorscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 adultscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209160133
 X-Mailman-Approved-At: Sat, 17 Sep 2022 05:33:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,133 +78,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- Matthew <ruinairas1992@gmail.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ linux-rt-users@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Clark Williams <clrkwllms@kernel.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Bruce Chang <yu.bruce.chang@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dave Airlie <airlied@redhat.com>,
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Matthew Anderson <ruinairas1992@gmail.com>
----
- .../gpu/drm/drm_panel_orientation_quirks.c    | 86 ++++++++++++++++++-
- 1 file changed, 85 insertions(+), 1 deletion(-)
+[[PATCH v5 0/2] Fix TLB invalidate issues with Broadwell] On 12/07/2022 (Tue 16:21) Mauro Carvalho Chehab wrote:
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index fc1728d46ac2..15203c134717 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -115,6 +115,18 @@ static const struct drm_dmi_panel_orientation_data lcd1280x1920_rightside_up = {
- 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
- };
- 
-+static const struct drm_dmi_panel_orientation_data lcd800x1280_leftside_up = {
-+	.width = 800,
-+	.height = 1280,
-+	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
-+};
-+
-+static const struct drm_dmi_panel_orientation_data lcd1200x1920_leftside_up = {
-+	.width = 1200,
-+	.height = 1920,
-+	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
-+};
-+
- static const struct drm_dmi_panel_orientation_data lcd1600x2560_leftside_up = {
- 	.width = 1600,
- 	.height = 2560,
-@@ -128,6 +140,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
- 		},
- 		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* AOKZOE A1 AR07 */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AOKZOE"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AOKZOE A1 AR07"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_leftside_up,
- 	}, {	/* Asus T100HA */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-@@ -308,12 +326,78 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Default string"),
- 		},
- 		.driver_data = (void *)&onegx1_pro,
--	}, {	/* OneXPlayer */
-+	}, {	/* OneXPlayer 800P Original DMI Values */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
-+		},
-+		.driver_data = (void *)&lcd800x1280_leftside_up,
-+	}, {	/* OneXPlayer 1200P Original DMI Values */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_leftside_up,
-+	}, {	/* OneXPlayer 1600P Original DMI Values */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
- 		},
- 		.driver_data = (void *)&lcd1600x2560_leftside_up,
-+	}, {	/* OneXPlayer Gundam Edition Bios Updated */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER GUNDAM GA72"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_leftside_up,
-+	}, {	/* ONEXPLAYER mini A07 800P Bios Updated */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER mini A07"),
-+		},
-+		.driver_data = (void *)&lcd800x1280_leftside_up,
-+	}, {	/* ONEXPLAYER mini A07 1200P Bios Updated*/
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER mini A07"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_leftside_up,
-+	}, {	/* ONEXPLAYER mini GA72 800P Bios Updated*/
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER mini GA72"),
-+		},
-+		.driver_data = (void *)&lcd800x1280_leftside_up,
-+	}, {	/* ONEXPLAYER mini GA72 1200P Bios Updated*/
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER mini GA72"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_leftside_up,
-+	}, {	/* ONEXPLAYER mini GT72 800P Bios Updated*/
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER mini GT72"),
-+		},
-+		.driver_data = (void *)&lcd800x1280_leftside_up,
-+	}, {	/* ONEXPLAYER mini GT72 1200P Bios Updated*/
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER mini GT72"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_leftside_up,
-+	}, {	/* OneXPlayer 1 8.4" Intel Bios Updated */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER 1 T08"),
-+		},
-+		.driver_data = (void *)&lcd1600x2560_leftside_up,
-+	}, {	/* OneXPlayer 1S 8.4" Intel Bios Updated */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER 1S T08"),
-+		},
-+		.driver_data = (void *)&lcd1600x2560_leftside_up,
- 	}, {	/* Samsung GalaxyBook 10.6 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
--- 
-2.37.3
+> i915 selftest hangcheck is causing the i915 driver timeouts, as reported
+> by Intel CI bot:
+> 
+> http://gfx-ci.fi.intel.com/cibuglog-ng/issuefilterassoc/24297?query_key=42a999f48fa6ecce068bc8126c069be7c31153b4
 
+[...]
+
+> After that, the machine just silently hangs.
+> 
+> Bisecting the issue, the patch that introduced the regression is:
+> 
+>     7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
+> 
+> Reverting it fix the issues, but introduce other problems, as TLB
+> won't be invalidated anymore. So, instead, let's fix the root cause.
+> 
+> It turns that the TLB flush logic ends conflicting with i915 reset,
+> which is called during selftest hangcheck. So, the TLB cache should
+> be serialized together with i915 reset.
+> 
+> Tested on an Intel NUC5i7RYB with an i7-5557U Broadwell CPU.
+
+It turns out that this breaks PM-suspend operations on preempt-rt, on
+multiple versions, due to all the linux-stable backports.  This happens
+because the uncore->lock is now used in atomic contexts.
+
+As the uncore->lock is widely used, conversion to a raw lock seems
+inappropriate at 1st glance, and hence some alternate solution will
+likely be required.
+
+Below is an example of the regression on v5.15-rt, with backport:
+
+commit 0ee5874dad61d2b154a9e3db196fc33e8208ce1b
+  Author: Chris Wilson <chris@chris-wilson.co.uk>
+  Date:   Tue Jul 12 16:21:32 2022 +0100
+
+    drm/i915/gt: Serialize GRDOM access between multiple engine resets
+        
+    [ Upstream commit b24dcf1dc507f69ed3b5c66c2b6a0209ae80d4d4 ]
+	        
+Reverting the engine reset serialization change avoids the PM-suspend
+regression and is a temporary workaround for -rt users, but of course
+leaves this original TLB issue exposed.
+
+  BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:46
+  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 45092, name: kworker/u8:4
+  preempt_count: 1, expected: 0
+  RCU nest depth: 0, expected: 0
+  INFO: lockdep is turned off.
+  Preemption disabled at:
+  [<ffffffffc0636522>] __intel_gt_reset+0x92/0x100 [i915]
+  CPU: 3 PID: 45092 Comm: kworker/u8:4 Tainted: G        W  O      5.15.59-rt48-preempt-rt #1
+  Hardware name: Intel(R) Client Systems NUC7i5DNKE/NUC7i5DNB, BIOS DNKBLi5v.86A.0064.2019.0523.1933 05/23/2019
+  Workqueue: events_unbound async_run_entry_fn
+  Call Trace:
+   <TASK>
+   show_stack+0x52/0x5c
+   dump_stack_lvl+0x5b/0x86
+   dump_stack+0x10/0x16
+   __might_resched.cold+0xf7/0x12f
+   ? __gen6_reset_engines.constprop.0+0x80/0x80 [i915]
+   rt_spin_lock+0x4e/0xf0
+   ? gen8_reset_engines+0x2e/0x1e0 [i915]
+   gen8_reset_engines+0x2e/0x1e0 [i915]
+   ? __gen6_reset_engines.constprop.0+0x80/0x80 [i915]
+   __intel_gt_reset+0x9d/0x100 [i915]
+   gt_sanitize+0x16c/0x190 [i915]
+   intel_gt_suspend_late+0x3d/0xc0 [i915]
+   i915_gem_suspend_late+0x57/0x130 [i915]
+   i915_drm_suspend_late+0x38/0x110 [i915]
+   i915_pm_suspend_late+0x1d/0x30 [i915]
+   pm_generic_suspend_late+0x28/0x40
+   pci_pm_suspend_late+0x37/0x50
+   ? pci_pm_poweroff_late+0x50/0x50
+   dpm_run_callback.cold+0x3c/0xa8
+   __device_suspend_late+0xa4/0x1e0
+   async_suspend_late+0x20/0xa0
+   async_run_entry_fn+0x28/0xc0
+   process_one_work+0x239/0x6c0
+   worker_thread+0x58/0x3e0
+   kthread+0x1a9/0x1d0
+   ? process_one_work+0x6c0/0x6c0
+   ? set_kthread_struct+0x50/0x50
+   ret_from_fork+0x1f/0x30
+   </TASK>
+  PM: late suspend of devices complete after 26.497 msecs
+
+Paul.
+--
+
+> 
+> v5:
+> - Added a missing SoB on patch 2.
+> - No other changes.
+> 
+> v4:
+> - No functional changes. All changes are at the patch descriptions:
+>   - collected acked-by/reviewed-by;
+>   - use the same e-mail on Author and SoB on patch 1.
+> 
+> v3:
+> - Removed the logic that would check if the engine is awake before doing
+>   TLB flush invalidation as backporting PM logic up to Kernel 4.x could be
+>   too painful. After getting this one merged, I'll submit a separate patch
+>   with the PM awake logic.
+> 
+> v2:
+> 
+> - Reduced to bare minimum fixes, as this shoud be backported deeply
+>   into stable.
+> 
+> Chris Wilson (2):
+>   drm/i915/gt: Serialize GRDOM access between multiple engine resets
+>   drm/i915/gt: Serialize TLB invalidates with GT resets
+> 
+>  drivers/gpu/drm/i915/gt/intel_gt.c    | 15 ++++++++++-
+>  drivers/gpu/drm/i915/gt/intel_reset.c | 37 ++++++++++++++++++++-------
+>  2 files changed, 42 insertions(+), 10 deletions(-)
+> 
+> -- 
+> 2.36.1
+> 
+> 
