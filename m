@@ -2,60 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971395BB3A8
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 22:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46245BB3AA
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 22:48:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B7310E122;
-	Fri, 16 Sep 2022 20:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 592F310E526;
+	Fri, 16 Sep 2022 20:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1DE310E122
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 20:48:02 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-1280590722dso53861501fac.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 13:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=8tndNWWo7lA8zxMWjXo79wFYy7T8DZ1WmSv9NU+Qn00=;
- b=ZWmfg1lRRT5cNVKTt0jTiHBgVMqzXKAg+mWeUHDA+3U1KWQQ49oYipINIxDFBWou6A
- OB4YQ8Z+slpnBCt0Ecv5s5cwk0g6/rfOl2/r4ds6cmgk3w8l+x2lTMSOp8Co0lyYwzdG
- f6XKy/puez2KLA3pbV37FoAKgr2RaXgNNyqPq+FJOxxxhBtbiihCspumLXPWuZm+FHjo
- awwyHCuyTSbbb+8IW5dBx/kMJgoOvf1kiJcQGwigm8xFAq3Jg6I/OC5CMbQinQTxI9x7
- ZQ8arAuZiUjrqVYmYHW3St2FHRGm+ASRqoTvvQ25s9EC7luoiUm9EMn/z8bwG6wP7OU2
- azrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=8tndNWWo7lA8zxMWjXo79wFYy7T8DZ1WmSv9NU+Qn00=;
- b=anx/SoGyygozmR7rkIW2+Q0Slswiu3+2lw44VM26Pz0wKiUkm1lhIQbymPx1yAOvxE
- XdStQQX0A73KrSs83VVUIJHTBuOYmnSx+P3Lhu0e/UPDiJfKhd7b6dOkV6zxpXOj5Efi
- +Uu7bBQ3bsScHP4TZj5QladSJ+2UvALT5EmTAKUeP4UhuYIvrlS3tV7ZtUevBasNQoC9
- xahiGDGh/PeJ2IIGf5f32tlY884ktYfniGbuFvwiMp1Q5UPSdcyZ5vfozrsxxjKVVPED
- wLhCKwrN6mAeja4MP5x6WmMFI/rIBdKAMuMnwx0YtwflQIe83zPcoRC0uOb9GqzPNRJo
- WzGg==
-X-Gm-Message-State: ACgBeo2Z7JdQQ3bTDllc1lJvNSspPaIvqfVwExq2JNk9CxzgtgceRmSl
- KzcpCCFh7/eLkSyj6WcsWzQ=
-X-Google-Smtp-Source: AA6agR5G+ecb3He752RviFLpk7+0KdXJV/JKh/ZKfmg8l+9nkf1YYT8QIY9isMCp9DXbMAlDo2T6rw==
-X-Received: by 2002:a05:6870:b290:b0:127:4089:227a with SMTP id
- c16-20020a056870b29000b001274089227amr9788780oao.8.1663361282172; 
- Fri, 16 Sep 2022 13:48:02 -0700 (PDT)
-Received: from macondo.. ([2804:431:e7cd:8cb3:43e6:f4f3:1b9f:38fe])
- by smtp.gmail.com with ESMTPSA id
- r20-20020a4aea94000000b0044b47bb023fsm1803963ooh.37.2022.09.16.13.47.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Sep 2022 13:48:01 -0700 (PDT)
-From: Rafael Mendonca <rafaelmendsr@gmail.com>
-To: Zack Rusin <zackr@vmware.com>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Martin Krastev <krastevm@vmware.com>
-Subject: [PATCH] drm/vmwgfx: Fix memory leak in vmw_mksstat_add_ioctl()
-Date: Fri, 16 Sep 2022 17:47:51 -0300
-Message-Id: <20220916204751.720716-1-rafaelmendsr@gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3DA10E524;
+ Fri, 16 Sep 2022 20:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663361307; x=1694897307;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pizl9TKledAsmwTzxuP7IXpNfXNWJuTm848QrOyKlcw=;
+ b=ksF9Dk7WEF/BwvGEOGfOCMBDIcEOXWKVqHDnuvPweC6XcR/jJ0b+fbh3
+ DQO2uHisOraUWbZ2msLiwjF1LszfgRLUuyQIpdet7mn9xVknmK4t+pZf1
+ OAim3DqrJs/tKLZvlh4RQ41yzA10nPVNqaJM6k+ggrU/V2++UUizHLoh6
+ nIGGt9WzOUGNNd5FDevX37GR9a2wccnjRxVKLY7mhU6F9oGKcfmkEyxx6
+ OSZ1d5T7nFS11O00ZS87zYE3AtQI9a+v1gmWEROXkHE25Je/HNSyHAGON
+ U1OgFq1TedpFDIcHCSp9O2rxc8FRcGylgE2wes9X6iQcJ+GTgGFJqC3r/ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10472"; a="286117259"
+X-IronPort-AV: E=Sophos;i="5.93,321,1654585200"; d="scan'208";a="286117259"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 13:48:26 -0700
+X-IronPort-AV: E=Sophos;i="5.93,321,1654585200"; d="scan'208";a="793221296"
+Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.jf.intel.com)
+ ([10.165.21.138])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 13:48:26 -0700
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/gt: Bump the reset-failure timeout to 60s
+Date: Fri, 16 Sep 2022 13:48:23 -0700
+Message-Id: <20220916204823.1897089-1-ashutosh.dixit@intel.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -71,33 +54,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rafael Mendonca <rafaelmendsr@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the copy of the description string from userspace fails, then the page
-for the instance descriptor doesn't get freed before returning -EFAULT,
-which leads to a memleak.
+From: Chris Wilson <chris@chris-wilson.co.uk>
 
-Fixes: 7a7a933edd6c ("drm/vmwgfx: Introduce VMware mks-guest-stats")
-Signed-off-by: Rafael Mendonca <rafaelmendsr@gmail.com>
+If attempting to perform a GT reset takes long than 5 seconds (including
+resetting the display for gen3/4), then we declare all hope lost and
+discard all user work and wedge the device to prevent further
+misbehaviour. 5 seconds is too short a time for such drastic action, as
+we may be stuck on other timeouts and watchdogs. If we allow a little
+bit longer before hitting the big red button, we should at the very
+least capture other hung task indicators pointing towards the reason why
+the reset was hanging; and allow more marginal cases the extra headroom
+to complete the reset without further collateral damage.
+
+Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/6448
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/i915/gt/intel_reset.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-index 2aceac7856e2..089046fa21be 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-@@ -1076,6 +1076,7 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+index b36674356986..3159df6cdd49 100644
+--- a/drivers/gpu/drm/i915/gt/intel_reset.c
++++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+@@ -1278,7 +1278,7 @@ static void intel_gt_reset_global(struct intel_gt *gt,
+ 	kobject_uevent_env(kobj, KOBJ_CHANGE, reset_event);
  
- 	if (desc_len < 0) {
- 		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
-+		__free_page(page);
- 		return -EFAULT;
- 	}
+ 	/* Use a watchdog to ensure that our reset completes */
+-	intel_wedge_on_timeout(&w, gt, 5 * HZ) {
++	intel_wedge_on_timeout(&w, gt, 60 * HZ) {
+ 		intel_display_prepare_reset(gt->i915);
  
+ 		intel_gt_reset(gt, engine_mask, reason);
 -- 
 2.34.1
 
