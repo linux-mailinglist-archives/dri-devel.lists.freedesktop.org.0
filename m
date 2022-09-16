@@ -2,45 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C715BAC44
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 13:23:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E405BAC4E
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 13:23:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFF3810EC1E;
-	Fri, 16 Sep 2022 11:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4524210EC42;
+	Fri, 16 Sep 2022 11:23:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA0110EC1E
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 11:23:23 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1oZ9RJ-0008T7-AP; Fri, 16 Sep 2022 13:23:21 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1oZ9RK-0014YH-0D; Fri, 16 Sep 2022 13:23:20 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1oZ9RH-00071L-Se; Fri, 16 Sep 2022 13:23:19 +0200
-Message-ID: <bfce1f2d78b38675ba8055b5b87203c8e7737a03.camel@pengutronix.de>
-Subject: Re: [PATCH v2] drm/etnaviv: don't truncate physical page address
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-Date: Fri, 16 Sep 2022 13:23:19 +0200
-In-Reply-To: <20220916104031.1843306-1-l.stach@pengutronix.de>
-References: <20220916104031.1843306-1-l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9990210EC1D
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 11:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663327417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0ZQH9PFYSxgOPoALsHsE/rErasChde24zrfOYiDyTX0=;
+ b=W6aAKTXYwfCg5/z1GhXL3v8VtR3piai/WpMjaYmnRq9XV3aVG7g00pNMxPxizCDfbHNj/d
+ Wys3JS8Xuj4PTwihV1NVQ2iSvAjYHONLpVEHd9LDZl0Jrw89PV3ZwijpDcfzk7Tbz53HUC
+ Ix7yNnd9Ah9fFz0tr4wGMbqA1hm7CZA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-193-QKAt1VEtMu2ojhTnzHfUaw-1; Fri, 16 Sep 2022 07:23:36 -0400
+X-MC-Unique: QKAt1VEtMu2ojhTnzHfUaw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ m2-20020adfc582000000b0021e28acded7so5424521wrg.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 04:23:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=0ZQH9PFYSxgOPoALsHsE/rErasChde24zrfOYiDyTX0=;
+ b=RRD8cM1Q5BBRct/Q76wIqYkCRgidTXAd2Uc7VTFsQcwhsyL1O/7F3oW4tXApFBBITE
+ OB1cfZx577iBISq8JuD8mJqnszA027quV/JwhTOManJICssbq1xiEgfyHcYcAdVQnqWe
+ gh1xNleWFoJJmAvd/JROqJUF2hwEPRd9IN/yXjKBKIsW+mmdd9RqXsbKd16KyZwntfq+
+ Z/LTZ7mqTlakD0xBnp4B5/nh/haRwfYPyFQo0McDCSAeGrYnoTDAko3vwgN0qc4r5oGQ
+ VbyINSYjb/vuDtHWAJeXLNn5PWxHD2eZm4zbEy0XR9sTUPYQoOCEey8fYLWppwz9qrfo
+ 7H3g==
+X-Gm-Message-State: ACrzQf2lISI40B9+oexiKB9jeM/BwrdlooMX9iAHP2aT/Q5pLSBLPrAH
+ EVABHAyW/a5ohrQCmQxTKaad4bTpzKdpSdpk0HRFU6JvwCD7ncMZneEqUxyNpAIeSNFdRuTAOTm
+ fm73zGl/N2BrEcSPSCOfGjnkwoKTH
+X-Received: by 2002:a5d:6245:0:b0:225:3e24:e5b1 with SMTP id
+ m5-20020a5d6245000000b002253e24e5b1mr2594323wrv.698.1663327415720; 
+ Fri, 16 Sep 2022 04:23:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6rSqpUyp7t2tSW+U9ofrvqVJDHxMOvNBeGFF95LaCwlhrl5+FPdJsu1AfyyGVP8rZkzhUPzg==
+X-Received: by 2002:a5d:6245:0:b0:225:3e24:e5b1 with SMTP id
+ m5-20020a5d6245000000b002253e24e5b1mr2594316wrv.698.1663327415543; 
+ Fri, 16 Sep 2022 04:23:35 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q16-20020adff950000000b0022a9246c853sm4779510wrr.41.2022.09.16.04.23.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Sep 2022 04:23:35 -0700 (PDT)
+Message-ID: <cf3b577b-c284-867c-8450-b791eb746176@redhat.com>
+Date: Fri, 16 Sep 2022 13:23:34 +0200
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 3/4] drm/plane-helper: Warn if atomic drivers call
+ non-atomic helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com,
+ laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com,
+ jyri.sarha@iki.fi, tomba@kernel.org, sam@ravnborg.org
+References: <20220909105947.6487-1-tzimmermann@suse.de>
+ <20220909105947.6487-4-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220909105947.6487-4-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,22 +91,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
+Cc: linux-renesas-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fr, 2022-09-16 at 12:40 +0200, Lucas Stach wrote:
-> While the interface for the MMU mapping takes phys_addr_t to hold a
-> full 64bit address when necessary and MMUv2 is able to map physical
-> addresses with up to 40bit, etnaviv_iommu_map() truncates the address
-> to 32bits. Fix this by using the correct type.
->=20
-> Fixes: 931e97f3afd8 ("drm/etnaviv: mmuv2: support 40 bit phys address")
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+On 9/9/22 12:59, Thomas Zimmermann wrote:
+> The plane update and disable helpers are only useful for non-atomic
+> drivers. Print a warning if an atomic driver calls them.
+> 
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-regards
-Philipp
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
