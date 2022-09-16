@@ -1,68 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB025BA6F1
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 08:40:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF8F5BA796
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 09:45:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEE1F10ECCC;
-	Fri, 16 Sep 2022 06:40:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0154110E2F9;
+	Fri, 16 Sep 2022 07:44:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B813110ECC6;
- Fri, 16 Sep 2022 06:40:49 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id l14so47228392eja.7;
- Thu, 15 Sep 2022 23:40:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=7qw7zTJBliZzCUFRh7uRC/j1d4UKOuRGnko9pDRJCJg=;
- b=GQC1aj9JcqAr/n1JEaVzllQ+WJR4Y6kF3WvjxAzdbFAnpeTTyY8VaBTy2Ww15/PipO
- oB+ieOjKBoaaq21zkzgkX+hdS6ZYi/zxNPj1h3rCCYWNNtuORc2MviXxDJsbOwaYcZf/
- fBWWwQLZ6cgjypPruO4qjyolXKvYNPR1c3T3CbiqcFt66KpSm+3Vu5O9iOta1/wIqKxb
- zB5yW9qpfmG8ouAvKCygVtRUDxBfdDaGxDpzjOjY+W5U0STc9TJA002J/H6Rax3okGzq
- X3mSOmYIAfGufm0Vc6YaUqHj4XF+7YRNE2HtA+n0LSrU7iew8BoF0lqpU0n0m0LwhU4T
- mNWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=7qw7zTJBliZzCUFRh7uRC/j1d4UKOuRGnko9pDRJCJg=;
- b=rx5r/AsVA2sPNZKr0t+8NiGssKGGwNAxgZuM1q8W4mOPgIBQqI02TrAMiGrRtaetDP
- Rt/EHyQqA5xrkqgTHwk0Ekp6111QvoEA4EYke8abSLcSs+NHSNSLVjFYO3xChi2xFvyI
- UCfmgqIsmQ60d089BxHZUPguPzgW6BX50eSb6A7UGbedO9V3R1lrFHM3GrAnxkK+xK1W
- cbM2RKnMke8UkO3PSFsVj5yzq/JxCMIW2yVMvjyt1yLRm8sbOkCn1asI4p0kdYuyu++0
- lsKFWXtdD4Td6fuwNzOA+J3dZXZaoU6ouYsKVBsiEgdYkNhhhybbHZkGpAtljJsAFEnR
- bvLw==
-X-Gm-Message-State: ACrzQf0B4nezQLBaWy1oRj+vzGjxNAyoMcjcysSHN3GLztp2UbRKhhCE
- a38Ugbtt5dhO3vzPgRdHe316I8clCDhdnA5tOmQ=
-X-Google-Smtp-Source: AMsMyM6JajyBfscpsfrP8P1If2mpqnSWaqdzR5KjBSjX+DS0oFjEdifZTTOj406HyyX2HmVTTuBjFrAG3K6JuaTKc44=
-X-Received: by 2002:a17:907:1de0:b0:770:8670:6a6a with SMTP id
- og32-20020a1709071de000b0077086706a6amr2613381ejc.588.1663310448243; Thu, 15
- Sep 2022 23:40:48 -0700 (PDT)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6A1C10E2F9;
+ Fri, 16 Sep 2022 07:44:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663314276; x=1694850276;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=zZwlurNeLJH3RFCIBFKRFhfk/EKoddMalIBX88J2AMc=;
+ b=XiwNlBLAap3J1P/xQFloPh8rXdRktLCfz+5v4J0Ru0n/B7N9cGg1+uPQ
+ VGIl+ya9QWdps7RWrjX8n96OBmYq3vF02xlUIKg5vnTIgecmXZ/gDP24P
+ HKaQFRe7anyPckCvPwmutYMVMyu0KiRJW2FUrSvQ3X20y5x/qh+q9VZk6
+ foxEn/6GeF6b/+kwV37q+1iUl1qz/4vwJuAk/QpgOKjC2Y/n8O9OpYDiT
+ 16Km3KUcEkiBJwiJgqfzUPFGMdokO8LzF6rXfj2LrLBh15lRhAOna5s7P
+ 0QXf8wCU2xP5I7oh+hpWGaL1Zvl/uWlt5svjXR1lewrbcsjh6ZGWaW11I A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="360676615"
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="360676615"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 00:44:36 -0700
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="793019263"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.11.6])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 00:44:34 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/2] drm/i915/gem: Really move i915_gem_context.link
+ under ref protection
+Date: Fri, 16 Sep 2022 09:44:30 +0200
+Message-ID: <5176608.6fTUFtlzNn@jkrzyszt-mobl1.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20220915165210.193197-1-janusz.krzysztofik@linux.intel.com>
+References: <20220915165210.193197-1-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-References: <tencent_E1BBF05904DFB73C478DCD592740AAE0780A@qq.com>
- <CAJedcCxVW++iH49UFZp9ruUuTcNubWCH6Wsqe11K4COB3E8msg@mail.gmail.com>
- <CAJedcCw1eJqjSK+yR7eQMDheNtH3Mjm+viwt00xAhnmrfpq2pw@mail.gmail.com>
- <CAJedcCweHjD78F7iydiq6Xc2iH=t_3m=H9JKnaCooToUk32FvQ@mail.gmail.com>
- <YxWtfjfpNsoPUrgh@kroah.com>
- <CAJedcCzMo51aiy=Dv7zn7VmL3gwkw7JgzwAPAB2Z27C9CnhoYA@mail.gmail.com>
- <20220907030754.GU1089@zhen-hp.sh.intel.com>
- <CAJedcCxO_Rq0qMeLiHtY5+FuN1A1pDGsZd3gMtvUpm1xbAK3aA@mail.gmail.com>
- <Yxmzj2nCoTKurCY8@kroah.com>
- <CAJedcCwVC6Rg+wF7h6GhFvL6BGkKV=DS9Mo9fOf-gfDAk9VqPg@mail.gmail.com>
- <CAJedcCxRQ4h-ChNsD4OWpDMUJd3JNaQrvD=uVKxMpYONGFUgzA@mail.gmail.com>
-In-Reply-To: <CAJedcCxRQ4h-ChNsD4OWpDMUJd3JNaQrvD=uVKxMpYONGFUgzA@mail.gmail.com>
-From: Zheng Hacker <hackerzheng666@gmail.com>
-Date: Fri, 16 Sep 2022 14:40:36 +0800
-Message-ID: <CAJedcCya8SyN+k-JmPH1ep_i_rbtYyL47vvPG_3Rew6EvyADLg@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry.
-To: Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,151 +58,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "alex000young@gmail.com" <alex000young@gmail.com>,
- "security@kernel.org" <security@kernel.org>,
- "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- xmzyshypnc <1002992920@qq.com>,
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "zhi.a.wang@intel.com" <zhi.a.wang@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Here I introduced is_error to judge if the ppgtt_invalidate_spt is
-called from good case or not. Only free spt in good case, leave it to
-handle for the error path of caller.
+Please ignore this series, it has issues.  I'll update it and resubmit.
 
-Zheng Hacker <hackerzheng666@gmail.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=8816=
-=E6=97=A5=E5=91=A8=E4=BA=94 14:39=E5=86=99=E9=81=93=EF=BC=9A
->
-> From 8d95c1399e3ff345500a575e21254a73b0c89144 Mon Sep 17 00:00:00 2001
-> From: xmzyshypnc <1002992920@qq.com>
-> Date: Fri, 16 Sep 2022 14:37:48 +0800
-> Subject: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry
->
-> There is a double-free security bug in split_2MB_gtt_entry.
->
-> Here is a calling chain :
-> ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entry.
-> If intel_gvt_dma_map_guest_page failed, it will call
-> ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
-> kfree(spt). But the caller does not notice that, and it will call
-> ppgtt_free_spt again in error path.
->
-> Fix this by only freeing spt in ppgtt_invalidate_spt in good case.
->
-> Signed-off-by: xmzyshypnc <1002992920@qq.com>
-> ---
->  drivers/gpu/drm/i915/gvt/gtt.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gt=
-t.c
-> index 9f14fded8c0c..31d2a8d56384 100644
-> --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> @@ -959,7 +959,7 @@ static inline int ppgtt_put_spt(struct
-> intel_vgpu_ppgtt_spt *spt)
->   return atomic_dec_return(&spt->refcount);
->  }
->
-> -static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt);
-> +static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *sptm,
-> int is_error);
->
->  static int ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
->   struct intel_gvt_gtt_entry *e)
-> @@ -995,7 +995,7 @@ static int
-> ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
->   ops->get_pfn(e));
->   return -ENXIO;
->   }
-> - return ppgtt_invalidate_spt(s);
-> + return ppgtt_invalidate_spt(s, 0);
->  }
->
->  static inline void ppgtt_invalidate_pte(struct intel_vgpu_ppgtt_spt *spt=
-,
-> @@ -1016,7 +1016,7 @@ static inline void ppgtt_invalidate_pte(struct
-> intel_vgpu_ppgtt_spt *spt,
->   intel_gvt_dma_unmap_guest_page(vgpu, pfn << PAGE_SHIFT);
->  }
->
-> -static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt)
-> +static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt, int is=
-_error)
->  {
->   struct intel_vgpu *vgpu =3D spt->vgpu;
->   struct intel_gvt_gtt_entry e;
-> @@ -1059,9 +1059,11 @@ static int ppgtt_invalidate_spt(struct
-> intel_vgpu_ppgtt_spt *spt)
->   }
->   }
->
-> - trace_spt_change(spt->vgpu->id, "release", spt,
-> + if (!is_error) {
-> + trace_spt_change(spt->vgpu->id, "release", spt,
->   spt->guest_page.gfn, spt->shadow_page.type);
-> - ppgtt_free_spt(spt);
-> + ppgtt_free_spt(spt);
-> + }
->   return 0;
->  fail:
->   gvt_vgpu_err("fail: shadow page %p shadow entry 0x%llx type %d\n",
-> @@ -1215,7 +1217,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu *v=
-gpu,
->   ret =3D intel_gvt_dma_map_guest_page(vgpu, start_gfn + sub_index,
->      PAGE_SIZE, &dma_addr);
->   if (ret) {
-> - ret =3D ppgtt_invalidate_spt(spt);
-> + ret =3D ppgtt_invalidate_spt(spt, 1);
->   return ret;
->   }
->   sub_se.val64 =3D se->val64;
-> @@ -1393,7 +1395,7 @@ static int
-> ppgtt_handle_guest_entry_removal(struct intel_vgpu_ppgtt_spt *spt,
->   ret =3D -ENXIO;
->   goto fail;
->   }
-> - ret =3D ppgtt_invalidate_spt(s);
-> + ret =3D ppgtt_invalidate_spt(s, 0);
->   if (ret)
->   goto fail;
->   } else {
-> --
-> 2.25.1
->
-> Zheng Hacker <hackerzheng666@gmail.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=888=
-=E6=97=A5=E5=91=A8=E5=9B=9B 19:59=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > Hi Greg,
-> >
-> > I got it, Greg.
-> >
-> > Mid-Autumn Festival is coming and I will have a couple of days off.
-> > I'll see what I can do after holiday :)
-> >
-> > Regards,
-> >
-> > Zheng Wang
-> >
-> > =E5=9C=A8 2022=E5=B9=B49=E6=9C=888=E6=97=A5=E6=98=9F=E6=9C=9F=E5=9B=9B=
-=EF=BC=8CGreg KH <gregkh@linuxfoundation.org> =E5=86=99=E9=81=93=EF=BC=9A
-> >>
-> >> On Thu, Sep 08, 2022 at 05:09:40PM +0800, Zheng Hacker wrote:
-> >> > Hi Zhenyu,
-> >> >
-> >> > This issue has been open for a few days. Could you plz write a patch
-> >> > for that :) I'm not familiar with the logical code here.
-> >>
-> >> As this is only able to be hit in a theoretical system, it isn't that
-> >> high of a priority, if any priority at all.  Why not try to write a
-> >> patch for it yourself to help resolve the issue faster?
-> >>
-> >> thanks,
-> >>
-> >> greg k-h
+Thanks,
+Janusz
+ 
+On Thursday, 15 September 2022 18:52:08 CEST Janusz Krzysztofik wrote:
+> i915_perf assumes that it can use the i915_gem_context reference to
+> protect its i915->gem.contexts.list iteration. However, this requires
+> that we do not remove the context from the list until after we drop the
+> final reference and release the struct. If, as currently, we remove the
+> context from the list during context_close(), the link.next pointer may
+> be poisoned while we are holding the context reference and cause a GPF:
+> 
+> [ 4070.573157] i915 0000:00:02.0: [drm:i915_perf_open_ioctl [i915]] filtering on ctx_id=0x
+> 1fffff ctx_id_mask=0x1fffff
+> [ 4070.574881] general protection fault, probably for non-canonical address 0xdead00000000
+> 0100: 0000 [#1] PREEMPT SMP
+> [ 4070.574897] CPU: 1 PID: 284392 Comm: amd_performance Tainted: G            E     5.17.9
+>  #180
+> [ 4070.574903] Hardware name: Intel Corporation NUC7i5BNK/NUC7i5BNB, BIOS BNKBL357.86A.0052.2017.0918.1346 09/18/2017
+> [ 4070.574907] RIP: 0010:oa_configure_all_contexts.isra.0+0x222/0x350 [i915]
+> [ 4070.574982] Code: 08 e8 32 6e 10 e1 4d 8b 6d 50 b8 ff ff ff ff 49 83 ed 50 f0 41 0f c1 04 24 83 f8 01 0f 84 e3 00 00 00 85 c0 0f 8e fa 00 00 00 <49> 8b 45 50 48 8d 70 b0 49 8d 45 50 48 39 44 24 10 0f 85 34 fe ff
+> [ 4070.574990] RSP: 0018:ffffc90002077b78 EFLAGS: 00010202
+> [ 4070.574995] RAX: 0000000000000002 RBX: 0000000000000002 RCX: 0000000000000000
+> [ 4070.575000] RDX: 0000000000000001 RSI: ffffc90002077b20 RDI: ffff88810ddc7c68
+> [ 4070.575004] RBP: 0000000000000001 R08: ffff888103242648 R09: fffffffffffffffc
+> [ 4070.575008] R10: ffffffff82c50bc0 R11: 0000000000025c80 R12: ffff888101bf1860
+> [ 4070.575012] R13: dead0000000000b0 R14: ffffc90002077c04 R15: ffff88810be5cabc
+> [ 4070.575016] FS:  00007f1ed50c0780(0000) GS:ffff88885ec80000(0000) knlGS:0000000000000000
+> [ 4070.575021] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [ 4070.575025] CR2: 00007f1ed5590280 CR3: 000000010ef6f005 CR4: 00000000003706e0
+> [ 4070.575029] Call Trace:
+> [ 4070.575033]  <TASK>
+> [ 4070.575037]  lrc_configure_all_contexts+0x13e/0x150 [i915]
+> [ 4070.575103]  gen8_enable_metric_set+0x4d/0x90 [i915]
+> [ 4070.575164]  i915_perf_open_ioctl+0xbc0/0x1500 [i915]
+> [ 4070.575224]  ? asm_common_interrupt+0x1e/0x40
+> [ 4070.575232]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
+> [ 4070.575290]  drm_ioctl_kernel+0x85/0x110
+> [ 4070.575296]  ? update_load_avg+0x5f/0x5e0
+> [ 4070.575302]  drm_ioctl+0x1d3/0x370
+> [ 4070.575307]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
+> [ 4070.575382]  ? gen8_gt_irq_handler+0x46/0x130 [i915]
+> [ 4070.575445]  __x64_sys_ioctl+0x3c4/0x8d0
+> [ 4070.575451]  ? __do_softirq+0xaa/0x1d2
+> [ 4070.575456]  do_syscall_64+0x35/0x80
+> [ 4070.575461]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> [ 4070.575467] RIP: 0033:0x7f1ed5c10397
+> [ 4070.575471] Code: 3c 1c e8 1c ff ff ff 85 c0 79 87 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a9 da 0d 00 f7 d8 64 89 01 48
+> [ 4070.575478] RSP: 002b:00007ffd65c8d7a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> [ 4070.575484] RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f1ed5c10397
+> [ 4070.575488] RDX: 00007ffd65c8d7c0 RSI: 0000000040106476 RDI: 0000000000000006
+> [ 4070.575492] RBP: 00005620972f9c60 R08: 000000000000000a R09: 0000000000000005
+> [ 4070.575496] R10: 000000000000000d R11: 0000000000000246 R12: 000000000000000a
+> [ 4070.575500] R13: 000000000000000d R14: 0000000000000000 R15: 00007ffd65c8d7c0
+> [ 4070.575505]  </TASK>
+> [ 4070.575507] Modules linked in: nls_ascii(E) nls_cp437(E) vfat(E) fat(E) i915(E) x86_pkg_temp_thermal(E) intel_powerclamp(E) crct10dif_pclmul(E) crc32_pclmul(E) crc32c_intel(E) aesni_intel(E) crypto_simd(E) intel_gtt(E) cryptd(E) ttm(E) rapl(E) intel_cstate(E) drm_kms_helper(E) cfbfillrect(E) syscopyarea(E) cfbimgblt(E) intel_uncore(E) sysfillrect(E) mei_me(E) sysimgblt(E) i2c_i801(E) fb_sys_fops(E) mei(E) intel_pch_thermal(E) i2c_smbus(E) cfbcopyarea(E) video(E) button(E) efivarfs(E) autofs4(E)
+> [ 4070.575549] ---[ end trace 0000000000000000 ]---
+> 
+> However, there is a risk of triggering kernel warning on contexts list not
+> empty at driver release time if we deleagate that task to a worker for
+> i915_gem_context_release_work(), unless that work is flushed first.
+> Unfortunately, it is not flushed on driver release.  Fix it.
+> 
+> Chris Wilson (1):
+>   drm/i915/gem: Really move i915_gem_context.link under ref protection
+> 
+> Janusz Krzysztofik (1):
+>   drm/i915/gem: Flush contexts on driver release
+> 
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c | 8 ++++----
+>  drivers/gpu/drm/i915/i915_gem.c             | 3 ++-
+>  2 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> 
+
+
+
+
