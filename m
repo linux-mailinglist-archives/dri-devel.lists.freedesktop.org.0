@@ -2,28 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7875A5BAFF9
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 17:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2ED15BAFFB
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 17:12:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1610610E48A;
-	Fri, 16 Sep 2022 15:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFCE410ED7A;
+	Fri, 16 Sep 2022 15:12:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD1D10ED60
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 15:12:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 152A910ED61
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 15:12:08 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1oZD0f-0003aI-Qm; Fri, 16 Sep 2022 17:12:05 +0200
+ id 1oZD0g-0003aI-6I; Fri, 16 Sep 2022 17:12:06 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/3] drm/scheduler: track GPU active time per entity
-Date: Fri, 16 Sep 2022 17:12:03 +0200
-Message-Id: <20220916151205.165687-1-l.stach@pengutronix.de>
+Subject: [PATCH v2 2/3] drm/etnaviv: allocate unique ID per drm_file
+Date: Fri, 16 Sep 2022 17:12:04 +0200
+Message-Id: <20220916151205.165687-2-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220916151205.165687-1-l.stach@pengutronix.de>
+References: <20220916151205.165687-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
@@ -48,53 +50,48 @@ Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Track the accumulated time that jobs from this entity were active
-on the GPU. This allows drivers using the scheduler to trivially
-implement the DRM fdinfo when the hardware doesn't provide more
-specific information than signalling job completion anyways.
+Allows to easily track if several fd are pointing to the same
+execution context due to being dup'ed.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 6 ++++++
- include/drm/gpu_scheduler.h            | 7 +++++++
- 2 files changed, 13 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 3 +++
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 68317d3a7a27..5dbe826d498d 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -852,6 +852,12 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 1d2b4fb4bcf8..b69edb40ae2a 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -49,6 +49,7 @@ static void load_gpu(struct drm_device *dev)
+ static int etnaviv_open(struct drm_device *dev, struct drm_file *file)
+ {
+ 	struct etnaviv_drm_private *priv = dev->dev_private;
++	static atomic_t ident = ATOMIC_INIT(0);
+ 	struct etnaviv_file_private *ctx;
+ 	int ret, i;
  
- 	spin_unlock(&sched->job_list_lock);
+@@ -56,6 +57,8 @@ static int etnaviv_open(struct drm_device *dev, struct drm_file *file)
+ 	if (!ctx)
+ 		return -ENOMEM;
  
-+	if (job) {
-+		job->entity->elapsed_ns += ktime_to_ns(
-+			ktime_sub(job->s_fence->finished.timestamp,
-+				  job->s_fence->scheduled.timestamp));
-+	}
++	ctx->id = atomic_inc_return(&ident);
 +
- 	return job;
- }
+ 	ctx->mmu = etnaviv_iommu_context_init(priv->mmu_global,
+ 					      priv->cmdbuf_suballoc);
+ 	if (!ctx->mmu) {
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+index f32f4771dada..851b4b4ef146 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+@@ -27,6 +27,7 @@ struct etnaviv_iommu_global;
+ #define ETNAVIV_SOFTPIN_START_ADDRESS	SZ_4M /* must be >= SUBALLOC_SIZE */
  
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index addb135eeea6..573bef640664 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -196,6 +196,13 @@ struct drm_sched_entity {
- 	 * drm_sched_entity_fini().
- 	 */
- 	struct completion		entity_idle;
-+	/**
-+	 * @elapsed_ns
-+	 *
-+	 * Records the amount of time where jobs from this entity were active
-+	 * on the GPU.
-+	 */
-+	uint64_t elapsed_ns;
+ struct etnaviv_file_private {
++	int id;
+ 	struct etnaviv_iommu_context	*mmu;
+ 	struct drm_sched_entity		sched_entity[ETNA_MAX_PIPES];
  };
- 
- /**
 -- 
 2.30.2
 
