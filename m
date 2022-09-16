@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77335BA420
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 03:47:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A005BA528
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 05:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 148B089304;
-	Fri, 16 Sep 2022 01:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A29CD10EC70;
+	Fri, 16 Sep 2022 03:34:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B41510E376;
- Fri, 16 Sep 2022 01:47:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663292839; x=1694828839;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=SPkHZFS+bA8tE2YFeyOlNyawYVSQYJklAEn29jlGwM4=;
- b=gh2OjqdoxqBklS4anz9C2yNW2Np1XsvgoAOygl99wejWse/mTeTLbxTt
- x60yEyYMpsT8Nnqr68le5iKkWutzPtFhPkueGvT9IrooOBF7zczS/ljat
- uAwnOCmux9QXeKap7Qz5W9VweM3eIQZGdTAC1qosxWgdNyYptO2sr0TP4
- 77J+/nrIFOZfaIWOyZL3xD2F5nBuMzWhp8sN/fZ5ru54qbNTxNBbeEnQ7
- k8gb7CpTRzKWEYc43448NUMvk+HMedtMjjQ2ufJup/SW9loTL0/MZ6NyD
- YOOm+Nw56vU08om9cY1yzxBIyzrOyCGxkmMNoc8OqenyNUVpNpzykTrE6 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="297609203"
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="297609203"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 18:47:18 -0700
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="613101381"
-Received: from invictus.jf.intel.com ([10.165.21.134])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 18:47:18 -0700
-From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v6 3/3] drm/i915/mtl: Define engine context layouts
-Date: Thu, 15 Sep 2022 18:46:48 -0700
-Message-Id: <20220916014648.1310346-4-radhakrishna.sripada@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220916014648.1310346-1-radhakrishna.sripada@intel.com>
-References: <20220916014648.1310346-1-radhakrishna.sripada@intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21A5010EC6D
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 03:34:35 +0000 (UTC)
+X-UUID: fcc5d1b61805480d80e9c56a554ad9b5-20220916
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=uHfb45m1XChImQ98BYTCdPpUchcD7kA9WpfndA6oA2M=; 
+ b=gx+8k0NqxKwYgCXSmWyQZzk5BClxrb3McighRkMJuYb0+8E6HdFT9eHAAn3MR0+hbOjBHiG8HV/leBi34xtzWWx2Ob4/aivMBmaYXrGOtFrufjmQUzPQ7f+zaSUtY18gykXtdx86KSVDVicUpJkZRIqaiwwgYuWxDSoxyOZqRWc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:d78917b1-aa95-4643-880a-779e6e1e0ee2, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:39a5ff1, CLOUDID:fe0b98f6-6e85-48d9-afd8-0504bbfe04cb,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: fcc5d1b61805480d80e9c56a554ad9b5-20220916
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1506722192; Fri, 16 Sep 2022 11:34:29 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 16 Sep 2022 11:34:27 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Fri, 16 Sep 2022 11:34:27 +0800
+Message-ID: <f30bd382eb8923256d6f39342ec7832774c0f547.camel@mediatek.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: arm: mediatek: mmsys: change
+ compatible for MT8195
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+Date: Fri, 16 Sep 2022 11:34:27 +0800
+In-Reply-To: <e6921ed7-a14c-aadb-abd4-1e7ee0a63be9@gmail.com>
+References: <20220915161817.10307-1-jason-jh.lin@mediatek.com>
+ <20220915161817.10307-2-jason-jh.lin@mediatek.com>
+ <e6921ed7-a14c-aadb-abd4-1e7ee0a63be9@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,154 +69,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Singo
+ Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Roper <matthew.d.roper@intel.com>
+Hi Matthias,
 
-The part of the media and blitter engine contexts that we care about for
-setting up an initial state are the same on MTL as they were on DG2
-(and PVC), so we need to update the driver conditions to re-use the DG2
-context table.
+Thanks for the review.
 
-For render/compute engines, the part of the context images are nearly
-the same, although the layout had a very slight change --- one POSH
-register was removed and the placement of some LRI/noops adjusted
-slightly to compensate.
+On Fri, 2022-09-16 at 00:05 +0200, Matthias Brugger wrote:
+> 
+> On 15/09/2022 18:18, Jason-JH.Lin wrote:
+> > For previous MediaTek SoCs, such as MT8173, there are 2 display HW
+> > pipelines binding to 1 mmsys with the same power domain, the same
+> > clock driver and the same mediatek-drm driver.
+> > 
+> > For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding
+> > to
+> > 2 different power domains, different clock drivers and different
+> > mediatek-drm drivers.
+> > 
+> > Moreover, Hardware pipeline of VDOSYS0 has these components: COLOR,
+> > CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture
+> > Quality)
+> > and they makes VDOSYS0 supports PQ function while they are not
+> > including in VDOSYS1.
+> > 
+> > Hardware pipeline of VDOSYS1 has the component ETHDR (HDR related
+> > component). It makes VDOSYS1 supports the HDR function while it's
+> > not
+> > including in VDOSYS0.
+> > 
+> > To summarize0:
+> > Only VDOSYS0 can support PQ adjustment.
+> > Only VDOSYS1 can support HDR adjustment.
+> > 
+> > Therefore, we need to separate these two different mmsys hardwares
+> > to
+> > 2 different compatibles for MT8195.
+> > 
+> > Fixes: 81c5a41d10b9 ("dt-bindings: arm: mediatek: mmsys: add mt8195
+> > SoC binding")
+> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > ---
+> >   .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml        |
+> > 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git
+> > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > l
+> > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > l
+> > index 6ad023eec193..0e267428eaa6 100644
+> > ---
+> > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > l
+> > +++
+> > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > l
+> > @@ -31,7 +31,7 @@ properties:
+> >                 - mediatek,mt8183-mmsys
+> >                 - mediatek,mt8186-mmsys
+> >                 - mediatek,mt8192-mmsys
+> > -              - mediatek,mt8195-mmsys
+> > +              - mediatek,mt8195-vdosys0
+> 
+> Nack, we miss the fallback compatible, as I already said twice.
+> 
+> Regards,
+> Matthias
 
-v2:
- - Dg2, mtl xcs offsets slightly vary. Use a separate offsets array(Bala)
- - Add missing nop in xcs offsets(Bala)
-v3:
- - Fix the spacing for nop in xcs offset(MattR)
-v4:
- - Fix rcs register offset(MattR)
+I'm sorry this happened again.
+I'll keep the compatible "mediatek,mt8195-mmsys" at next version.
 
-Bspec: 46261, 46260, 45585
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_lrc.c | 84 ++++++++++++++++++++++++++++-
- 1 file changed, 82 insertions(+), 2 deletions(-)
+The patch "dt-bindings: arm: mediatek: mmsys: remove the unused
+compatible for mt8195" should be sent after accepting the vdosys1
+series, right?
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 3955292483a6..c7937d8d120a 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -264,6 +264,39 @@ static const u8 dg2_xcs_offsets[] = {
- 	END
- };
- 
-+static const u8 mtl_xcs_offsets[] = {
-+	NOP(1),
-+	LRI(13, POSTED),
-+	REG16(0x244),
-+	REG(0x034),
-+	REG(0x030),
-+	REG(0x038),
-+	REG(0x03c),
-+	REG(0x168),
-+	REG(0x140),
-+	REG(0x110),
-+	REG(0x1c0),
-+	REG(0x1c4),
-+	REG(0x1c8),
-+	REG(0x180),
-+	REG16(0x2b4),
-+	NOP(4),
-+
-+	NOP(1),
-+	LRI(9, POSTED),
-+	REG16(0x3a8),
-+	REG16(0x28c),
-+	REG16(0x288),
-+	REG16(0x284),
-+	REG16(0x280),
-+	REG16(0x27c),
-+	REG16(0x278),
-+	REG16(0x274),
-+	REG16(0x270),
-+
-+	END
-+};
-+
- static const u8 gen8_rcs_offsets[] = {
- 	NOP(1),
- 	LRI(14, POSTED),
-@@ -606,6 +639,49 @@ static const u8 dg2_rcs_offsets[] = {
- 	END
- };
- 
-+static const u8 mtl_rcs_offsets[] = {
-+	NOP(1),
-+	LRI(15, POSTED),
-+	REG16(0x244),
-+	REG(0x034),
-+	REG(0x030),
-+	REG(0x038),
-+	REG(0x03c),
-+	REG(0x168),
-+	REG(0x140),
-+	REG(0x110),
-+	REG(0x1c0),
-+	REG(0x1c4),
-+	REG(0x1c8),
-+	REG(0x180),
-+	REG16(0x2b4),
-+	REG(0x120),
-+	REG(0x124),
-+
-+	NOP(1),
-+	LRI(9, POSTED),
-+	REG16(0x3a8),
-+	REG16(0x28c),
-+	REG16(0x288),
-+	REG16(0x284),
-+	REG16(0x280),
-+	REG16(0x27c),
-+	REG16(0x278),
-+	REG16(0x274),
-+	REG16(0x270),
-+
-+	NOP(2),
-+	LRI(2, POSTED),
-+	REG16(0x5a8),
-+	REG16(0x5ac),
-+
-+	NOP(6),
-+	LRI(1, 0),
-+	REG(0x0c8),
-+
-+	END
-+};
-+
- #undef END
- #undef REG16
- #undef REG
-@@ -624,7 +700,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
- 		   !intel_engine_has_relative_mmio(engine));
- 
- 	if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE) {
--		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
-+		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
-+			return mtl_rcs_offsets;
-+		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
- 			return dg2_rcs_offsets;
- 		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
- 			return xehp_rcs_offsets;
-@@ -637,7 +715,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
- 		else
- 			return gen8_rcs_offsets;
- 	} else {
--		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
-+		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
-+			return mtl_xcs_offsets;
-+		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
- 			return dg2_xcs_offsets;
- 		else if (GRAPHICS_VER(engine->i915) >= 12)
- 			return gen12_xcs_offsets;
+Regards,
+Jason-JH.Lin
+> 
+> >                 - mediatek,mt8365-mmsys
+> >             - const: syscon
+> >         - items:
 -- 
-2.34.1
+Jason-JH Lin <jason-jh.lin@mediatek.com>
 
