@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8775BAC27
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 13:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90085BAC37
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 13:21:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1223610EC12;
-	Fri, 16 Sep 2022 11:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF45410EBD1;
+	Fri, 16 Sep 2022 11:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9D010EC12
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 11:16:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 178B610EBD1;
+ Fri, 16 Sep 2022 11:20:52 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (unknown [89.101.193.71])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EF5347C;
- Fri, 16 Sep 2022 13:16:34 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4ED347C;
+ Fri, 16 Sep 2022 13:20:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1663326998;
- bh=qf43DBOHuD2K091EFmnV/XQkVCYOUGhK5HT3RchMd9w=;
+ s=mail; t=1663327250;
+ bh=2bBPYXQKqkqV3YMm/hqktXNm0FFG8cQdhQqtXYH72r4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rogM9BKorpJ0Lry8lWaHv85s+JkQfCuPsDvwNBdJiE+6igqrgVc240rM7xie1TubV
- BFtQwaqrfyTjf32QHbpJgqQuPD0baGMQN7qdJR5oifvyUmDNf9xmMqXoiTbiQlXGrV
- XZDfUIGX3tEotvl9cXJ2B0K+gKvwhG/YolregTas=
-Date: Fri, 16 Sep 2022 14:16:19 +0300
+ b=GGsyf2/i7va9mwWXnFAcJKyEbiQNaaod1LYrAN7+GR2kz8pmoppZu5AhD5ikYnfsv
+ eriM8n1GedVgKPamlPLSkvsYHxuGC27VCxx4BpdxF0DgRAoKZHO0a3rP8Kmm3NZRPV
+ C+IyWx1U37B277KfMyErvS3L2XhLqLlvJ8ZNLhXs=
+Date: Fri, 16 Sep 2022 14:20:35 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Subject: Re: [GIT PULL FOR v6.1] R-Car DU changes
-Message-ID: <YyRbA5pZFMbhWczy@pendragon.ideasonboard.com>
-References: <YxkL+tRI8uXDCvj9@pendragon.ideasonboard.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 3/4] drm/plane-helper: Warn if atomic drivers call
+ non-atomic helpers
+Message-ID: <YyRcA/aqx44NvfwT@pendragon.ideasonboard.com>
+References: <20220909105947.6487-1-tzimmermann@suse.de>
+ <20220909105947.6487-4-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YxkL+tRI8uXDCvj9@pendragon.ideasonboard.com>
+In-Reply-To: <20220909105947.6487-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,81 +47,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: tomba@kernel.org, kherbst@redhat.com, airlied@linux.ie, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com, bskeggs@redhat.com,
+ nouveau@lists.freedesktop.org, jyri.sarha@iki.fi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gentle ping. I know it's conference time, but I'd appreciate if this
-could be merged in time for v6.1.
+Hi Thomas,
 
-I also forgot to mention explicitly in the pull request that patch
-"media: vsp1: Add premultiplied alpha support" has Mauro's approval for
-merge through the DRM tree (the patch has his ack, but being explicit is
-better). It's a small change that we didn't consider worth a shared
-stable branch as there's no conflict with V4L2.
+Thank you for the patch.
 
-On Thu, Sep 08, 2022 at 12:24:10AM +0300, Laurent Pinchart wrote:
-> Hi Dave, Daniel,
+On Fri, Sep 09, 2022 at 12:59:46PM +0200, Thomas Zimmermann wrote:
+> The plane update and disable helpers are only useful for non-atomic
+> drivers. Print a warning if an atomic driver calls them.
 > 
-> The following changes since commit 8284bae723f025cb6a8431566757a3854a3c53eb:
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/drm_plane_helper.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
->   Merge tag 'drm-misc-next-2022-08-20-1' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2022-09-06 10:56:04 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/pinchartl/media.git tags/du-next-20220907
-> 
-> for you to fetch changes up to cee3e5839cedcc71be755580dc9c0b87fd129116:
-> 
->   dt-bindings: display: bridge: renesas,dw-hdmi: Add resets property (2022-09-07 23:50:03 +0300)
-> 
-> ----------------------------------------------------------------
-> - Misc fixes and improvements to the R-Car DU driver
-> - Synopsys DW HDMI bridge DT bindings update
-> 
-> ----------------------------------------------------------------
-> Biju Das (2):
->       drm: rcar-du: Drop unused encoder header files
->       drm: rcar-du: Use %p4cc to print 4CC format
-> 
-> Lad Prabhakar (1):
->       dt-bindings: display: bridge: renesas,dw-hdmi: Add resets property
-> 
-> Laurent Pinchart (1):
->       drm: rcar-du: Drop leftovers variables from Makefile
-> 
-> Takanari Hayama (3):
->       media: vsp1: Add premultiplied alpha support
->       drm: rcar-du: Add DRM_MODE_BLEND_PREMULTI support
->       drm: rcar-du: Add DRM_MODE_BLEND_PIXEL_NONE support
-> 
-> Tomi Valkeinen (7):
->       drm: rcar-du: Remove unnecessary include
->       drm: rcar-du: Fix r8a779a0 color issue
->       drm: rcar-du: lvds: Rename pclk enable/disable functions
->       drm: rcar-du: dsi: Properly stop video mode TX
->       drm: rcar-du: dsi: Improve DSI shutdown
->       drm: rcar-du: Fix DSI enable & disable sequence
->       drm: rcar-du: dsi: Fix VCLKSET write
-> 
->  .../bindings/display/bridge/renesas,dw-hdmi.yaml   |  5 ++
->  drivers/gpu/drm/rcar-du/Makefile                   |  7 ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c             | 30 +++++++++-
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c              |  4 +-
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h              |  3 +
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.c          |  9 ++-
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c              |  4 +-
->  drivers/gpu/drm/rcar-du/rcar_du_plane.c            | 16 +++--
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c              | 26 +++++++-
->  drivers/gpu/drm/rcar-du/rcar_du_writeback.c        |  4 +-
->  drivers/gpu/drm/rcar-du/rcar_lvds.c                |  8 +--
->  drivers/gpu/drm/rcar-du/rcar_lvds.h                | 10 ++--
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c            | 69 +++++++++++++++++++---
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h            | 31 ++++++++++
->  drivers/media/platform/renesas/vsp1/vsp1_drm.c     |  2 +
->  include/media/vsp1.h                               |  2 +
->  16 files changed, 188 insertions(+), 42 deletions(-)
->  create mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
+> diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
+> index c7785967f5bf..1c904fc26a58 100644
+> --- a/drivers/gpu/drm/drm_plane_helper.c
+> +++ b/drivers/gpu/drm/drm_plane_helper.c
+> @@ -30,8 +30,10 @@
+>  #include <drm/drm_atomic_uapi.h>
+>  #include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_device.h>
+> +#include <drm/drm_drv.h>
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_plane_helper.h>
+> +#include <drm/drm_print.h>
+>  #include <drm/drm_rect.h>
+>  
+>  #define SUBPIXEL_MASK 0xffff
+> @@ -195,10 +197,14 @@ int drm_plane_helper_update_primary(struct drm_plane *plane, struct drm_crtc *cr
+>  		.x2 = crtc_x + crtc_w,
+>  		.y2 = crtc_y + crtc_h,
+>  	};
+> +	struct drm_device *dev = plane->dev;
+>  	struct drm_connector **connector_list;
+>  	int num_connectors, ret;
+>  	bool visible;
+>  
+> +	if (drm_WARN_ON_ONCE(dev, drm_drv_uses_atomic_modeset(dev)))
+> +		return -EINVAL;
+> +
+>  	ret = drm_plane_helper_check_update(plane, crtc, fb,
+>  					    &src, &dest,
+>  					    DRM_MODE_ROTATE_0,
+> @@ -260,6 +266,10 @@ EXPORT_SYMBOL(drm_plane_helper_update_primary);
+>  int drm_plane_helper_disable_primary(struct drm_plane *plane,
+>  				     struct drm_modeset_acquire_ctx *ctx)
+>  {
+> +	struct drm_device *dev = plane->dev;
+> +
+> +	drm_WARN_ON_ONCE(dev, drm_drv_uses_atomic_modeset(dev));
+> +
+>  	return -EINVAL;
+>  }
+>  EXPORT_SYMBOL(drm_plane_helper_disable_primary);
 
 -- 
 Regards,
