@@ -1,139 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA265BA33B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 01:30:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 802D45BA377
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Sep 2022 02:23:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE54810EC1F;
-	Thu, 15 Sep 2022 23:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 164D410EC37;
+	Fri, 16 Sep 2022 00:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85BCD10EC1E;
- Thu, 15 Sep 2022 23:30:07 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05D6410EC37;
+ Fri, 16 Sep 2022 00:23:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663284607; x=1694820607;
+ t=1663287781; x=1694823781;
  h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=njNH2QlY0cYm5UM44WEvMwsUbE8BUuKHzlF8RnrQmTc=;
- b=YrUmhRSRhAcGVKo6vnnxD16TgX5tkC/3fzHPx9OcVQRX0fkFEfTHJjUy
- xeHs8v44pTINAcZkKd6ALxRZ/47R/laVtMRREbtp3rpnU3XYUr9aUyXVc
- cwoLW4HGujw711tICw/YH3bAgeJ+Cw6paUGp9Mvxk0/KIv0gTpaPMf3uc
- aImcPsksJHUTe33hSIA0R3GqhxTwJoFPfk5HgVcrJhV7plE12PzKgVYgi
- oK62OW9YJT9l11L44+x3INDMa+mpTevdq8B3QTC5sL0i2KE/O7Nov/skI
- 1dGSsj2oVSZtuWSZhFf7kfVseIDclrCB+OvIDiol/iEsC2yPpxIv3fKtp A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="299689537"
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="299689537"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 16:30:06 -0700
+ mime-version:in-reply-to;
+ bh=DsplFUFECkFFHGJgLVl4kYJYra7mGZGyjzGrKuIfWyU=;
+ b=CCFCI/ttglbAA8Nqeii6Z5PHz4PM5cfoX2cnTHUkCEHtv2VbMgtHqrZY
+ PtpQzG3/t++rHeA6slBoW8AvbgPRDB9j9fu15loeZfJPPr0bbSFA3xh51
+ EpEo2Qi1UWPGsMBNQoUJaOVWJNbqwH1NdpJ1ryHQSlWDv4oznA5Xd8Esl
+ Mu9g1/mQKi9gXT6QDRMqloPV20kW4Ukk8KQFkNGgQAghyDGa2tSYBSW+F
+ ai+LPhEgKCePltIoSjEKT/jynnPl8wspwmY2jMVWp37IU+CPB1IZe6glB
+ 67rH368emkD+eeqoWjxv0LUwPxm1WICb/jURMh+ZAVQKdjf7t78H4/HWV A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="298868505"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="298868505"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 17:23:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="759840736"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga001.fm.intel.com with ESMTP; 15 Sep 2022 16:30:06 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 15 Sep 2022 16:30:05 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 15 Sep 2022 16:30:05 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 15 Sep 2022 16:30:05 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 15 Sep 2022 16:30:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JctWdMEZtd9sBuClgQ4+EHAALvoYdtYbuUVWnDam8RtHJLB75C9+LDbAXbTAo/InodY2w99FOqNRCLuUPaeP4qdJyHDJr5xHGcCLcHSR2yQqlHgAOorqlV1khNOpofkDPYlkfgB2tLjlGxfYyOw7RBoACB8hqn/42fVYQYBHlN8USyBUVaFtPNauh0xC6wsBkx7dmp5st19cat256qq3XgDRtYij+I4WZIZQalKxA/psMV+ISdWtTAzv5ZOuMwZcoKBgjkxrq+pDPtUvXVIrtj5JcD/NAIXCuqx+MPJPZDC+oAvVb2pTvWA/EMSSO6fBTYZv02cIIOP/d7Jr1dddiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/PAFUfajzmI8DUEvbD07f+dt9FQFxYFUHPVErRh+9cc=;
- b=kWXf/pbtprt11YhXyxkT9D5XMFXHzgFOXnVW7yBV6wpnpviAgpvUgF0hZrdeVmHHYfi5+wSW+0IXNoncpl4GA06BkeA/coAMluWCSUSXfsNy094Y2/bBqaiDLL0xkvOZS3VNU9Uwu5hmU9GkZTfzrUWhYLKsWSgFGggEgei+ddHgA0LpfVSMgpZOgtdgnLL2v0rQmPsV81xVPXyfpMcPXN+DKYgvBTA690TA8Rxy2M4IpX9mcvkLJlWwjSX4u3r82rXtSZtSw345e/o5a76fEFivtTY0Y80LwREMIy3tLPEk/m68T0CHYjSw3jdFfXpgvdFzcErJPJRt52M/L/b6uA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
- by PH7PR11MB6475.namprd11.prod.outlook.com (2603:10b6:510:1f1::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Thu, 15 Sep
- 2022 23:30:02 +0000
-Received: from MWHPR11MB1632.namprd11.prod.outlook.com
- ([fe80::ecc9:50cb:5951:2514]) by MWHPR11MB1632.namprd11.prod.outlook.com
- ([fe80::ecc9:50cb:5951:2514%12]) with mapi id 15.20.5632.015; Thu, 15 Sep
- 2022 23:30:01 +0000
-Date: Thu, 15 Sep 2022 16:29:59 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 0/4] Further multi-gt handling
-Message-ID: <YyO1d75XvmXRPYgf@mdroper-desk1.amr.corp.intel.com>
-References: <20220914220427.3091448-1-matthew.d.roper@intel.com>
- <87czbwsu38.fsf@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87czbwsu38.fsf@intel.com>
-X-ClientProxiedBy: SJ0PR05CA0170.namprd05.prod.outlook.com
- (2603:10b6:a03:339::25) To MWHPR11MB1632.namprd11.prod.outlook.com
- (2603:10b6:301:11::11)
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="685937009"
+Received: from lkp-server02.sh.intel.com (HELO 41300c7200ea) ([10.239.97.151])
+ by fmsmga004.fm.intel.com with ESMTP; 15 Sep 2022 17:22:58 -0700
+Received: from kbuild by 41300c7200ea with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oYz8E-0001DH-01;
+ Fri, 16 Sep 2022 00:22:58 +0000
+Date: Fri, 16 Sep 2022 08:22:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
+Subject: Re: [PATCH] drm/etnaviv: don't truncate physical page address
+Message-ID: <202209160813.srwkRhUH-lkp@intel.com>
+References: <20220915141941.3408991-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1632:EE_|PH7PR11MB6475:EE_
-X-MS-Office365-Filtering-Correlation-Id: 05412322-01ee-4244-3b17-08da97723607
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: njNuKIlkYnBRVbez5pZediBAsDjOZ32QqhO8plhbvky6XMODt3OlX2tAkrA4+yL6B8UxPLxFB3dpWU4SF7NOXNbNwhke7jClSipRGonspNry46neJsbEofKLbSX42N403YzGf8l5I3NcIly1E2LgE3xcb3E1hi5wbxNM7NpqDtYqlp+ihVqRt8IfgDy1MZxgKqI/GID1llu/dL8IUSQABUaSW35horQPJdBf3LxxABVWocMYFi9V+0XspQ4LHGqyvoXPi7xO21Nx7AOVMabq+Gh1QmUIfxyUq97q8lkTPV8GaL5CtMLI4SYwD/Rc3EtGG4n86zJndxy96fUJB/qTYX1/7SPGmV9199GEx0BG4XipEl5DonxuxTzW/2HnLesPdGFDjXMroY8d3QiejLuXoIFxpm10wDrzZYSXIDDqIZbewQJWRIB9ypzPjGThbKdfHHIBTHS2wnU2nmq+6nZGxeBJtpVhvUPngBVObRT8/zUP30DKoR5zA+X2yRtql+rEZHDkpio7PcQhJJ8IXFsxRjvQrbWL7PsGQloZmycF3w0YjJRpYysshzlvUW9R72/AtDtCIxekLekIarM0u2K0DnEclMs9j8T1sGMqyqwN6Fj5OdJ5vnkm217prY++zVCChvVSCBJOgwEIX6sr0suzDgTPFTShysJJ07OJQ9ZlyZfNykbgal2/o4XOhVJ8QOQ60Ud+N/qhvGAxpy1KV+NCjg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39860400002)(366004)(396003)(346002)(376002)(136003)(451199015)(186003)(83380400001)(38100700002)(8676002)(5660300002)(82960400001)(4326008)(26005)(6506007)(478600001)(2906002)(6512007)(41300700001)(316002)(6916009)(6486002)(8936002)(66556008)(66476007)(66946007)(86362001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qy6giskcJlmLzKPUPjmZM6orKCZCaznyqEF/FTkD+b3fyK+Gac0c0LwIWehm?=
- =?us-ascii?Q?i+CewU6jGiIRH9knE6mcjyoWi+I37E6JSnQmIp7iSmVhl6rr96XZl/dH80eN?=
- =?us-ascii?Q?e53+ylh550a9uJ9TqpepG4AgqdaAkGbJVbl3eIBewMzERHmfZ/flBJpcrkYF?=
- =?us-ascii?Q?d/9Og1Z3ww6iuoKpODNXCYczfZMJmS1Lr/l976nuEKDgF7bNAauylyqdtWK3?=
- =?us-ascii?Q?oY3ly+q57MWk5aimlKTCVP74SsKw7oSZuBmJ21oNo+nDoaSR8q93cePx2mAI?=
- =?us-ascii?Q?gplbhNYPneq+/SsAA8drGYDmWnB3x9tgVaYEPOJfm1Jgj2oOKu69ztbfemIR?=
- =?us-ascii?Q?bA08oU8Quf7CYQ7H+VxQ44adXwBiPeJL6D7mQ7GWcBqtn6H3LbPfMO6rn0AU?=
- =?us-ascii?Q?7tXSkklps+qoFskYq4IgT+aZtaF/8g4T2n8/kn1Tz4cZfGoA0/iVHrusCtZP?=
- =?us-ascii?Q?x5Gp2ufZVHZIw7klsN8/m6r1S7ZQAJtlR1EV5zZsRjjj7LYKKzutPX++0Rp3?=
- =?us-ascii?Q?b0Og989onqD1xiHuqwDu3MxVjoSALsmPT+ZlPkS6kO3efHLP1qiZcFygSlmr?=
- =?us-ascii?Q?UeNrtp43DUSkFgvA8q7arRulzpK/AhGGbDnJ2f/PSXCoLOwRZc1Bvm/xmAu4?=
- =?us-ascii?Q?vap+Aahyc7NbRmfatzNsyoGIWR95cZzewcRhLWOyqcTSWNvZUnI+Em8WW+H3?=
- =?us-ascii?Q?RyC2qmbgKfpyusAyN+FCRNzouA1Kq1NIi7JfHlcFeAf88bf3KBaOkGoUnwr0?=
- =?us-ascii?Q?rz+aN5CixE/IzyeNfeJG/xI1zeOpLBywRHoB8oWR4Xw4nSfYFUZuCTs3aKBf?=
- =?us-ascii?Q?MFFkpExliJhRGCud9bfLcfMd+U+LLOq+sTIfv5JjMZhD8F+Z5ekB7dWI2fUZ?=
- =?us-ascii?Q?RWijFqmiJREMmgRt4/2lNAhAcmRYb6LqslCAB2o/4tjS7HQctNZ2CPHkP9So?=
- =?us-ascii?Q?J/2ulAt9mclBL+QqEj8HwuOmLg04JtlPsW4CGSqTVynFCJs6hffN6VfrUyM3?=
- =?us-ascii?Q?fn3jkwhwpCqQhoX2wlmJ4F+F91JsNWmhwAHLqLw7WlpWyum7Ae5M8Qdou5mA?=
- =?us-ascii?Q?vWSzRoyUTuG3Aq22PV7tZTAvnudOflv4CXeCH/9IE5g5fy/EWN9EgjLj2OEh?=
- =?us-ascii?Q?1w7paCff5TvT2jLDcRQPAgCJU+Rmx6Wxgcu5FVXIDAz86EEiwXnepv3OhG6o?=
- =?us-ascii?Q?D0VSori7orvsdMl+FxkaJ52AJX1dtvDz1GVvpX7ABC4RAxWMq2DuiSmoQPH0?=
- =?us-ascii?Q?2+ysZFpKBnU3hTCSbf8+Q7/nCVRYOQjfuSnzw6OaBFrs6aSN6QI90c6RlHzK?=
- =?us-ascii?Q?H+L3WjyIZURL5x5HQv4dkzh5+4CsNrB07B9fKlf8wGPSMLms/Hpx0YV5ROV9?=
- =?us-ascii?Q?ElF3ETQEHPjdI+RwjSblNrFTdj1FWZ3xi+UidM85GYMyE6j3u8bTBrqj6yEH?=
- =?us-ascii?Q?iRPe0ccCmvoFEpgCwHj3yEPgL9yKnrWnECYqd7eXYohJY7MkBOQ6bdh1uZip?=
- =?us-ascii?Q?46YFSddlcO3ZbrRixHuPnYA1LeWEbynyXaJXH0QvCkURFas0NVyuVX5WRWDn?=
- =?us-ascii?Q?Ln8gpd2dsXhkLwlrDNOC06uZgKaH1UUBTsI8edq+V4Le5DFBbM38xh4SmJru?=
- =?us-ascii?Q?SQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05412322-01ee-4244-3b17-08da97723607
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2022 23:30:01.6574 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QnJXnfkGhfSt4UPwtJY6PQFcvbgOxax70S7YdGbhY2Sz7Rw7mck1VBTQPfxbjZoqicV5z+r8+4Sb2o00uKrzd0vS9lVOt1a8uR5hJPP88CA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6475
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220915141941.3408991-1-l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,62 +58,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 15, 2022 at 03:25:15PM +0300, Jani Nikula wrote:
-> On Wed, 14 Sep 2022, Matt Roper <matthew.d.roper@intel.com> wrote:
-> > Now that MTL is going to start providing two GTs, there are a few more
-> > places in the driver that need to iterate over each GT instead of
-> > operating directly on gt0.  Also some more deliberate cleanup is needed,
-> > in cases where we fail GT/engine initialization after the first GT has
-> > been fully setup.
-> 
-> Hijacking the thread a bit, not to be considered a blocker for this
-> series:
-> 
-> Is there a plan to kzalloc i915->gt[0] too in intel_gt_probe_all() so we
-> wouldn't need to have intel_gt gt0 in struct drm_i915_private? And the
-> to_gt() inline would return i915->gt[0] instead of &i915->gt0? (And
-> maybe i915_drv.h wouldn't need the definition of intel_gt anymore! :o)
+Hi Lucas,
 
-Yeah, in the more medium-term I would like to dynamically allocate gt0
-(and probably the primary uncore structure too) so that they don't need
-to be embedded into dev_priv.  I'll probably wait until most of the
-other MTL stuff has landed and we have some CI machines setup to make
-sure it doesn't accidentally break anything before doing that though.
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.0-rc5 next-20220915]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Stach/drm-etnaviv-don-t-truncate-physical-page-address/20220915-222156
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20220916/202209160813.srwkRhUH-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/941356fb766e7f49216d44f0df7614c2e4610a11
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lucas-Stach/drm-etnaviv-don-t-truncate-physical-page-address/20220915-222156
+        git checkout 941356fb766e7f49216d44f0df7614c2e4610a11
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/drm/drm_mm.h:51,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/drm/drm_gem.h:40,
+                    from drivers/gpu/drm/etnaviv/etnaviv_drv.h:16,
+                    from drivers/gpu/drm/etnaviv/etnaviv_mmu.c:11:
+   drivers/gpu/drm/etnaviv/etnaviv_mmu.c: In function 'etnaviv_iommu_map':
+>> drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:22: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+      86 |                 VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~           ~~
+         |                                                          |
+         |                                                          phys_addr_t {aka long long unsigned int}
+   include/drm/drm_print.h:526:32: note: in definition of macro 'DRM_DEBUG'
+     526 |         __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+         |                                ^~~
+   drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:17: note: in expansion of macro 'VERB'
+      86 |                 VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+         |                 ^~~~
+   drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:40: note: format string is defined here
+      86 |                 VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+         |                                     ~~~^
+         |                                        |
+         |                                        unsigned int
+         |                                     %08llx
+   {standard input}: Assembler messages:
+   {standard input}:2347: Error: Register number out of range 0..3
+   {standard input}:2347: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
+   {standard input}:2347: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2342: Warning: This is the location of the conflicting usage
+   {standard input}:2348: Error: Register number out of range 0..3
+   {standard input}:2348: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
+   {standard input}:2348: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2342: Warning: This is the location of the conflicting usage
+   {standard input}:2348: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
+   {standard input}:2348: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2347: Warning: This is the location of the conflicting usage
+   {standard input}:2351: Error: Register number out of range 0..3
+   {standard input}:2352: Error: Register number out of range 0..3
+   {standard input}:2352: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
+   {standard input}:2352: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2351: Warning: This is the location of the conflicting usage
+   {standard input}:2532: Error: Register number out of range 0..2
+   {standard input}:2532: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2532: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2528: Warning: This is the location of the conflicting usage
+   {standard input}:2533: Error: Register number out of range 0..2
+   {standard input}:2533: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2533: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2528: Warning: This is the location of the conflicting usage
+   {standard input}:2533: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2533: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2532: Warning: This is the location of the conflicting usage
+   {standard input}:2534: Error: Register number out of range 0..2
+   {standard input}:2534: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2534: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2528: Warning: This is the location of the conflicting usage
+   {standard input}:2534: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2534: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2532: Warning: This is the location of the conflicting usage
+   {standard input}:2534: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2534: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2533: Warning: This is the location of the conflicting usage
+   {standard input}:2537: Error: Register number out of range 0..2
+   {standard input}:2538: Error: Register number out of range 0..2
+   {standard input}:2538: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2538: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2537: Warning: This is the location of the conflicting usage
+   {standard input}:3788: Error: Register number out of range 0..4
+   {standard input}:3788: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 38
+   {standard input}:3788: Warning: Only the first path encountering the conflict is reported
+   {standard input}:3782: Warning: This is the location of the conflicting usage
+   {standard input}:3791: Error: Register number out of range 0..4
+   {standard input}:3792: Error: Register number out of range 0..4
+   {standard input}:3792: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 38
+   {standard input}:3792: Warning: Only the first path encountering the conflict is reported
+   {standard input}:3791: Warning: This is the location of the conflicting usage
 
 
-Matt
+vim +86 drivers/gpu/drm/etnaviv/etnaviv_mmu.c
 
-> 
-> BR,
-> Jani.
-> 
-> 
-> >
-> > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> >
-> > Chris Wilson (1):
-> >   drm/i915/gt: Cleanup partial engine discovery failures
-> >
-> > Tvrtko Ursulin (3):
-> >   drm/i915: Make GEM resume all engines
-> >   drm/i915: Make GEM suspend all GTs
-> >   drm/i915: Handle all GTs on driver (un)load paths
-> >
-> >  drivers/gpu/drm/i915/gem/i915_gem_pm.c    | 33 ++++++++++++++--
-> >  drivers/gpu/drm/i915/gt/intel_engine_cs.c | 16 ++++++--
-> >  drivers/gpu/drm/i915/i915_driver.c        |  3 +-
-> >  drivers/gpu/drm/i915/i915_gem.c           | 46 +++++++++++++++++------
-> >  4 files changed, 78 insertions(+), 20 deletions(-)
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+50073cf98d1635 Lucas Stach         2017-09-07   71  
+27b67278e007b5 Lucas Stach         2019-07-05   72  static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+a8c21a5451d831 The etnaviv authors 2015-12-03   73  			     struct sg_table *sgt, unsigned len, int prot)
+27b67278e007b5 Lucas Stach         2019-07-05   74  {	struct scatterlist *sg;
+a8c21a5451d831 The etnaviv authors 2015-12-03   75  	unsigned int da = iova;
+182354a526a054 Marek Szyprowski    2020-04-28   76  	unsigned int i;
+a8c21a5451d831 The etnaviv authors 2015-12-03   77  	int ret;
+a8c21a5451d831 The etnaviv authors 2015-12-03   78  
+27b67278e007b5 Lucas Stach         2019-07-05   79  	if (!context || !sgt)
+a8c21a5451d831 The etnaviv authors 2015-12-03   80  		return -EINVAL;
+a8c21a5451d831 The etnaviv authors 2015-12-03   81  
+182354a526a054 Marek Szyprowski    2020-04-28   82  	for_each_sgtable_dma_sg(sgt, sg, i) {
+941356fb766e7f Lucas Stach         2022-09-15   83  		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
+a8c21a5451d831 The etnaviv authors 2015-12-03   84  		size_t bytes = sg_dma_len(sg) + sg->offset;
+a8c21a5451d831 The etnaviv authors 2015-12-03   85  
+a8c21a5451d831 The etnaviv authors 2015-12-03  @86  		VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+a8c21a5451d831 The etnaviv authors 2015-12-03   87  
+27b67278e007b5 Lucas Stach         2019-07-05   88  		ret = etnaviv_context_map(context, da, pa, bytes, prot);
+a8c21a5451d831 The etnaviv authors 2015-12-03   89  		if (ret)
+a8c21a5451d831 The etnaviv authors 2015-12-03   90  			goto fail;
+a8c21a5451d831 The etnaviv authors 2015-12-03   91  
+a8c21a5451d831 The etnaviv authors 2015-12-03   92  		da += bytes;
+a8c21a5451d831 The etnaviv authors 2015-12-03   93  	}
+a8c21a5451d831 The etnaviv authors 2015-12-03   94  
+9247fcca3982a2 Lucas Stach         2022-03-23   95  	context->flush_seq++;
+9247fcca3982a2 Lucas Stach         2022-03-23   96  
+a8c21a5451d831 The etnaviv authors 2015-12-03   97  	return 0;
+a8c21a5451d831 The etnaviv authors 2015-12-03   98  
+a8c21a5451d831 The etnaviv authors 2015-12-03   99  fail:
+182354a526a054 Marek Szyprowski    2020-04-28  100  	etnaviv_context_unmap(context, iova, da - iova);
+a8c21a5451d831 The etnaviv authors 2015-12-03  101  	return ret;
+a8c21a5451d831 The etnaviv authors 2015-12-03  102  }
+a8c21a5451d831 The etnaviv authors 2015-12-03  103  
 
 -- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
+0-DAY CI Kernel Test Service
+https://01.org/lkp
