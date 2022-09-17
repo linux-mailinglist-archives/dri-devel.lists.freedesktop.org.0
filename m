@@ -1,75 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325385BB857
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 15:04:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C36F75BB85B
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 15:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7FE10E35A;
-	Sat, 17 Sep 2022 13:03:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2EB310E39B;
+	Sat, 17 Sep 2022 13:04:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5986C10E35A
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 13:03:30 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37C6410E36B
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 13:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663419809;
+ s=mimecast20190719; t=1663419860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WFKTAY2KdmvVhG4mVk5ksHM9On8VSZSUeVOe+Zo5PYw=;
- b=HwLSgwFgnoc3Wqsq4uBAvG8yH83cdh8/iYiphyn+x+XMHMzaR5Pd/X3MnlV0KmVlknqrXc
- HWVxzXoLrvU6z5ULygKZY8swps6cyKSApM0GgWsQageZmGzUD8J+OJhIj7+jIKy2pQcik+
- EkBCYI4/wXY78iD4SnSlLcTFKiPsOyU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IB1HQdme8YEeD8Kj1n47Nas4fnkU0luDWqOLkZyPEI8=;
+ b=UDhaA6vtQ241d/LQWj8VbVK/i9+dQ2HG3xygCnOYAVMFkrVCa8MTxp7XzOwfADKMWMDutn
+ mvPWvgkjQbX6uXrScRvL71FZ/2qGjyKvBBNdPCJtUGLC0UC+Ljwy2Gqic058Qy3yrHDcrV
+ /ce/ydkoqZapjQxhFz67WsbnNai/M1I=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-228-NPUoWWg-P--lFMH8S7sJuA-1; Sat, 17 Sep 2022 09:03:28 -0400
-X-MC-Unique: NPUoWWg-P--lFMH8S7sJuA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- f10-20020a0564021e8a00b00451be6582d5so13038282edf.15
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 06:03:27 -0700 (PDT)
+ us-mta-63-Ga5fAYIkOCKtg13H7JsP5A-1; Sat, 17 Sep 2022 09:04:18 -0400
+X-MC-Unique: Ga5fAYIkOCKtg13H7JsP5A-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ e15-20020a056402190f00b0044f41e776a0so16803813edz.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 06:04:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=WFKTAY2KdmvVhG4mVk5ksHM9On8VSZSUeVOe+Zo5PYw=;
- b=jGfDRhiHcSaD9Tw6eH7BPw2i1yC0C3oZEhEHwsTQiRUslEpdbC1aaZwKqSqzTIlOcx
- j+RUysM9zp3zCdBmXnCmxMfKdqD0K7MHNJqCig4aG+CI/1iTCxXgTqIGyTgue5lZaPYD
- Ocvigs4DiTKSAa+/2EFH90BF/tvaIWE9u6f91mpT3zFiwNshYeq/p1xR/dMc9bhNMneT
- J5J5mS37om8QrIGldPysIw/D+/j0cwtDPca+2Y7cYkfkPVgcmtBPfAnsC5OB5O62t6G6
- WUBxL2RTKWQqXYoIRZ86QXAxDyfkLkzSrJaOBn6kNRT74hHWU3jLhmJCC8jpGgLBhGS8
- 3XXw==
-X-Gm-Message-State: ACrzQf1+1rrIgKmWoYJfAghXTP7mwP52nc3vqRTwXAk8SQPFx/JmhPEs
- LXTri2fkmEGWMNzUDKqYIprdCYYY1+8PP/W0CoR9mAsqwF+b4pFQJRryH73X+EErGLfLfZCy6y9
- crhg5OXTnq6DvxX7xg9afy7n/6V47
-X-Received: by 2002:a05:6402:1a4f:b0:44e:f731:f7d5 with SMTP id
- bf15-20020a0564021a4f00b0044ef731f7d5mr7674567edb.357.1663419806894; 
- Sat, 17 Sep 2022 06:03:26 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6TW9DUcujFVXamr90lXX/vora3cXH38exH0amphyAyGDcARckDksaj8d4kVVegyUocYnJKGg==
-X-Received: by 2002:a05:6402:1a4f:b0:44e:f731:f7d5 with SMTP id
- bf15-20020a0564021a4f00b0044ef731f7d5mr7674555edb.357.1663419806755; 
- Sat, 17 Sep 2022 06:03:26 -0700 (PDT)
+ bh=IB1HQdme8YEeD8Kj1n47Nas4fnkU0luDWqOLkZyPEI8=;
+ b=b/b+JrhaT0pR5moimeyIBf/iiHyQkxlnLGhQtc1aibcW6FRUWPiavgXvjeTVoJkZ6L
+ 5iy0/OEKNhSGug2yIdsjV94t/NG2zPDj0fKgaIAc8Gkr0elomxDqo09qxUyTx6BB+mIm
+ /Ttz6fXcFMhwEy9bhwgdusnLZkYDwe+LXc8mYO+udNfOy0t8tR/yFiVIs9ghJV2vCAdP
+ dP6pi/rl5Iz5hRALJQ995IS0jr9pl6ziVrexCz20+lC5X+rK/+XRGkGNcN/eCnEsV0rU
+ tswUBCQojJasVqhGBKFGvdUKp3/DXyCeDndh9n93Ulwf5lIOdgzuJb6V/lBUNi5ERv6h
+ hZkg==
+X-Gm-Message-State: ACrzQf3GWDgzFlW+PwiNoPNOn9GU4ygXWkd6YVrtgef5WgQ9hRI3lJjx
+ BfxFazrZIdWK4Ey1pVxnDJFu3P2onSErMtHPcqUSLHeF/bRVfiNpHDCt+xZodtMeZsXYzuOuD1v
+ 8cMKYS/QWH0yEn7e1YE9on3KvYS9B
+X-Received: by 2002:a17:907:2bdd:b0:77d:e0f3:81e5 with SMTP id
+ gv29-20020a1709072bdd00b0077de0f381e5mr6715848ejc.328.1663419857336; 
+ Sat, 17 Sep 2022 06:04:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5DA5wCcsH5iDV6cyNETXig/uwsG/BWf9W8xSsm4akO2vs30QZ2677QvL2RXV5XAdhbL/QNsA==
+X-Received: by 2002:a17:907:2bdd:b0:77d:e0f3:81e5 with SMTP id
+ gv29-20020a1709072bdd00b0077de0f381e5mr6715837ejc.328.1663419857180; 
+ Sat, 17 Sep 2022 06:04:17 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
  (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
  [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
  by smtp.gmail.com with ESMTPSA id
- r11-20020a170906364b00b007803cffd31fsm5100377ejb.215.2022.09.17.06.03.26
+ r2-20020a17090609c200b0071cbc7487e1sm12079684eje.69.2022.09.17.06.04.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 06:03:26 -0700 (PDT)
-Message-ID: <83c3c020-40e3-3114-ca77-997e0c1d2579@redhat.com>
-Date: Sat, 17 Sep 2022 15:03:25 +0200
+ Sat, 17 Sep 2022 06:04:16 -0700 (PDT)
+Message-ID: <4e145e1d-db9a-0edb-cdd4-1da3e02131fd@redhat.com>
+Date: Sat, 17 Sep 2022 15:04:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: drm/vboxvideo: fix repeated words in comments
-To: Jilin Yuan <yuanjilin@cdjrlc.com>, airlied@linux.ie, daniel@ffwll.ch
-References: <20220824130226.33980-1-yuanjilin@cdjrlc.com>
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Anbernic
+ Win600
+To: Maccraft123 <maccraft123mc@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220803182402.1217293-1-maccraft123mc@gmail.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220824130226.33980-1-yuanjilin@cdjrlc.com>
+In-Reply-To: <20220803182402.1217293-1-maccraft123mc@gmail.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -93,15 +97,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 8/24/22 15:02, Jilin Yuan wrote:
-> Delete the redundant word 'the'.
+On 8/3/22 20:24, Maccraft123 wrote:
+> From: Maya Matuszczyk <maccraft123mc@gmail.com>
 > 
-> Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
+> This device is another x86 gaming handheld, and as (hopefully) there is
+> only one set of DMI IDs it's using DMI_EXACT_MATCH
+> 
+> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
 
 Thanks I have added this patch to my local drm-misc-next branch.
 
 I will push this out to the official drm-misc-next branch after
 running some local tests.
+
+(unfortunately it is too late now to push this to drm-misc-fixes
+for this cycle, sorry).
 
 Regards,
 
@@ -110,20 +120,24 @@ Hans
 
 
 > ---
->  drivers/gpu/drm/vboxvideo/vboxvideo.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/vboxvideo/vboxvideo.h b/drivers/gpu/drm/vboxvideo/vboxvideo.h
-> index a5de40fe1a76..f60d82504da0 100644
-> --- a/drivers/gpu/drm/vboxvideo/vboxvideo.h
-> +++ b/drivers/gpu/drm/vboxvideo/vboxvideo.h
-> @@ -43,7 +43,7 @@
->   * VBE_DISPI_INDEX_VBOX_VIDEO is used to read the configuration information
->   * from the host and issue commands to the host.
->   *
-> - * The guest writes the VBE_DISPI_INDEX_VBOX_VIDEO index register, the the
-> + * The guest writes the VBE_DISPI_INDEX_VBOX_VIDEO index register, the
->   * following operations with the VBE data register can be performed:
->   *
->   * Operation            Result
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index d4e0f2e85548..a8681610ede7 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -128,6 +128,12 @@ static const struct dmi_system_id orientation_data[] = {
+>  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
+>  		},
+>  		.driver_data = (void *)&lcd800x1280_rightside_up,
+> +	}, {	/* Anbernic Win600 */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Win600"),
+> +		},
+> +		.driver_data = (void *)&lcd720x1280_rightside_up,
+>  	}, {	/* Asus T100HA */
+>  		.matches = {
+>  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
 
