@@ -2,55 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB665BBA7D
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 23:00:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0468F5BBA81
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 23:01:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5356A10E152;
-	Sat, 17 Sep 2022 20:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA1210E163;
+	Sat, 17 Sep 2022 21:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2339210E140
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 20:59:33 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF3E10E163
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 21:00:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663448372;
+ s=mimecast20190719; t=1663448458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fQ2b8FPNlwEbynCjr0nyirbvc/fOO7v7p2XCeafmNuI=;
- b=gK1mLyOKcJAwvsqKWjKoSy7uMfJXid3c+pTew7OgMJzBYyJD23rnH8GeZ+AnQjSUvu1ZIn
- jmFKHb9SLfn5za9MROvcsB2Uk3mycAXYcft7vPwq/J6Qs1yNIWTCD6B9iUzaqAjJQG16Xj
- xXLhY5Jf9oR8/JCDAq6Kpof+ow53WT4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-Y9F596S-MfiM7zdtWeXxcg-1; Sat, 17 Sep 2022 16:59:29 -0400
-X-MC-Unique: Y9F596S-MfiM7zdtWeXxcg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1AD59811726;
- Sat, 17 Sep 2022 20:59:29 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B3021121314;
- Sat, 17 Sep 2022 20:59:27 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v3 5/5] drm/gma500: Call acpi_video_register_backlight()
-Date: Sat, 17 Sep 2022 22:59:20 +0200
-Message-Id: <20220917205920.647212-6-hdegoede@redhat.com>
-In-Reply-To: <20220917205920.647212-1-hdegoede@redhat.com>
-References: <20220917205920.647212-1-hdegoede@redhat.com>
+ bh=sCqWHe2UpDFU59Hd60cDt54wnAp8GsIta/vC5NtbJ5g=;
+ b=ObqUfrv6l4GZggyns+4C2rrp9FDZtgHadwRv+SB/14dSnxETE0vullm6OvhB1j4GuA6ivy
+ BDVYw3SVnhXurzJQGHGGiX9Ba/Jo6E9rb5lhjdqP1HaZyLGENwxFivOOckTI1SjXtkO39f
+ kOpD8nKc6fGop5ycNi/m9fs/0fQZgwE=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-352-LjjrK00DNxCqdFI_9uzNEA-1; Sat, 17 Sep 2022 17:00:57 -0400
+X-MC-Unique: LjjrK00DNxCqdFI_9uzNEA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ sa22-20020a1709076d1600b0077bab1f70a3so7777154ejc.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 14:00:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=sCqWHe2UpDFU59Hd60cDt54wnAp8GsIta/vC5NtbJ5g=;
+ b=zIeIRuUQek+m+OYsnSdSfmJ9fmgWNFiT9ac8kQFF+RcWHF7Os5rY8lJT4/qJ4oN9s8
+ xk8xa45+TqWG9RpScqnZt6AzAFNNF1aa7lqxyvyBruELzIHymKJ+31+BX2X5dDET7cjp
+ ER9fM1u67TKynMbiBwVcxhZ5AvxnKszaspASQpD8mLyVCeLh5TiYEsGJoCwLvRP1KE2l
+ 4Ng6NfvSIWpHggoJEQMYFF+xr21N4x8MngCaF3KZ3T/LabZfpNz78/Ej1ggV3H/TInkh
+ lR/0tBJlnoCJsaoKAws/8+wibk+ouYDWbqbQzuxtHhF/zzTk0drtmBvkGj9EQnnHFHEE
+ MwTg==
+X-Gm-Message-State: ACrzQf3Ca24NJHi/FMGGN2YzfxQszyDvfqtjp7KcLndFIsNXvijLQjiV
+ L8kZRrlPAY7EJtD4bUHVop9ANw9ANSPIB9j0DVdYDxRip3XKqVdABgksqfgBlQ9HB8x3RE8NLmO
+ QnQ/b9j0KrezsXX06fm1oH1AO+Je/
+X-Received: by 2002:a17:907:746:b0:741:4a1b:cb1f with SMTP id
+ xc6-20020a170907074600b007414a1bcb1fmr7525382ejb.370.1663448456483; 
+ Sat, 17 Sep 2022 14:00:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5Ujq+gRezwFh4CnNhRVuz2TwAkMK2z+s4MShfToeWryB9KfrEiujoSUDkRKn+At/ivoKJ3ig==
+X-Received: by 2002:a17:907:746:b0:741:4a1b:cb1f with SMTP id
+ xc6-20020a170907074600b007414a1bcb1fmr7525369ejb.370.1663448456296; 
+ Sat, 17 Sep 2022 14:00:56 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ k22-20020aa7d8d6000000b00445f9faf13csm16517302eds.72.2022.09.17.14.00.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Sep 2022 14:00:55 -0700 (PDT)
+Message-ID: <a3ab15e8-b4a1-171d-a5cd-0ae1ed06998e@redhat.com>
+Date: Sat, 17 Sep 2022 23:00:55 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v2 3/5] drm/gma500: Use backlight_get_brightness() to get
+ the brightness
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20220917140352.526507-1-hdegoede@redhat.com>
+ <20220917140352.526507-4-hdegoede@redhat.com> <YyYyGivJbsnp+T4D@ravnborg.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <YyYyGivJbsnp+T4D@ravnborg.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,52 +89,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On machines without an Intel video opregion the acpi_video driver
-immediately probes the ACPI video bus and used to also immediately
-register acpi_video# backlight devices when supported.
+Hi,
 
-Once the drm/kms driver then loaded later and possibly registered
-a native backlight device then the drivers/acpi/video_detect.c code
-unregistered the acpi_video0 device to avoid there being 2 backlight
-devices (when acpi_video_get_backlight_type()==native).
+On 9/17/22 22:46, Sam Ravnborg wrote:
+> On Sat, Sep 17, 2022 at 04:03:50PM +0200, Hans de Goede wrote:
+>> Use backlight_get_brightness() instead of directly referencing
+>> bd->props.brightness. This will take backlight_is_blank() into account,
+>> properly setting brightness to 0 when screen-blanking has been requested
+>> through the backlight sysfs interface.
+>>
+>> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-This means that userspace used to briefly see 2 devices and the
-disappearing of acpi_video0 after a brief time confuses the systemd
-backlight level save/restore code, see e.g.:
-https://bbs.archlinux.org/viewtopic.php?id=269920
+Thank you.
 
-To fix this the ACPI video code has been modified to make backlight class
-device registration a separate step, relying on the drm/kms driver to
-ask for the acpi_video backlight registration after it is done setting up
-its native backlight device.
+I have just send out a v3 with your ack added and fixing the
+2 unused variables when CONFIG_BACKLIGHT is not set spotted
+by the lkp test robot.
 
-Add a call to the new acpi_video_register_backlight() function after
-setting up the gma500's native backlight, so that the acpi_video backlight
-device gets registered on systems where the gma500's native backlight
-device is not registered.
+I was sort of hoping that you could review / ack the entire
+series ?
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/gma500/psb_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
+Regards,
 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index d3dc16193a29..cd9c73f5a64a 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -398,6 +398,8 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 		if (gma_encoder->type == INTEL_OUTPUT_LVDS ||
- 		    gma_encoder->type == INTEL_OUTPUT_MIPI) {
- 			ret = gma_backlight_init(dev);
-+			if (ret == 0)
-+				acpi_video_register_backlight();
- 			break;
- 		}
- 	}
--- 
-2.37.3
+Hans
+
+
+>> ---
+>> Changes in v2 of the patch-set:
+>> - New patch in v2 of the patch-set
+>> ---
+>>  drivers/gpu/drm/gma500/backlight.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/gma500/backlight.c b/drivers/gpu/drm/gma500/backlight.c
+>> index d113c5810ca5..9be28dc0bdd1 100644
+>> --- a/drivers/gpu/drm/gma500/backlight.c
+>> +++ b/drivers/gpu/drm/gma500/backlight.c
+>> @@ -52,7 +52,7 @@ static int gma_backlight_get_brightness(struct backlight_device *bd)
+>>  static int gma_backlight_update_status(struct backlight_device *bd)
+>>  {
+>>  	struct drm_device *dev = bl_get_data(bd);
+>> -	int level = bd->props.brightness;
+>> +	int level = backlight_get_brightness(bd);
+>>  
+>>  	/* Percentage 1-100% being valid */
+>>  	if (level < 1)
+>> -- 
+>> 2.37.3
+> 
 
