@@ -2,69 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007945BB6AE
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 08:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208E65BB769
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 11:08:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E11710E0D4;
-	Sat, 17 Sep 2022 06:35:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB47A10E0EC;
+	Sat, 17 Sep 2022 09:08:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AAF010E0D4
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 06:35:27 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id e18so34404178edj.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Sep 2022 23:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=I7fH7xM2QntBl/3ZfFF6X3xIpZY2sK9i3vAPrDeAMYc=;
- b=FF+dt4BGFbsH14kVvDc+MGjC//oE/MAlXMWtj0S6K/fzF6AkSzzFsgQ7W9w6fPI48q
- Shfo34XJXMS2buiEZPUISCMdIFJj+N40oNvT27xQnP0m7wssqzr7q3bgCKQ0Vlf6osCE
- j+UuteUG2p+QEDDD5S/DWjg08dt5rRUEHXVTaab2u2V32iw4KZml5x/GhcQZhxudSxIS
- 8Vusequ2tAsUBhPfWuiNWR5wghTphaHbMIzWo8jrFWXW29KIjtHnpdy8yWOUPlLX/kxn
- j+l/SLpmFVSYK9b15+jGJtQPu4V+pDo6wDO6ozVRny2X3VA6EfcaoiPMtLAt69IoYQep
- DzNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=I7fH7xM2QntBl/3ZfFF6X3xIpZY2sK9i3vAPrDeAMYc=;
- b=0xIMnV2zGUaw+tH6aEM6syhFBz+deDrh189oEufyM1bfSRXC7sovhmbsXzg00ZMiMM
- pN53Jjuknf7UzlAyJTBemKXDim2vNIm4au4NqIKHsAnG7p/PPOAX5wVSr5uPjCUrs8+a
- 25jFYaIpRXaW4sErKVB0uSKmEUSgy1l8CajKe78R8WtwATBq3DpqxWE4XuqFqGOcYnip
- a50rwq0ltHDH+QxckOSEvcj8NwNds8G9kdQP8qDlCM6g+1xHYLjl/7hXq0Vw6pW0DDG3
- wwo9UZJW3YR5MCdm179plrqOYmG4ZKHZpp3dL/jtAeXaA2YpWhWSr0OPEbFjxlyOBJy8
- x9vw==
-X-Gm-Message-State: ACrzQf2UsSsPeCsjEzG2ggaj9RTGT+CPBCpKxa5Bxx1UmtxoNLiA7i3q
- EvlApeuG5hYAkdEgQOiMaL8=
-X-Google-Smtp-Source: AMsMyM4KC0vfNFMs1aijxmybiqmZRZcNzFkgFje05cuMXXQLT9p3K/oE40zhonkkleVxcqbP4cXTlQ==
-X-Received: by 2002:aa7:d51a:0:b0:453:9086:fc37 with SMTP id
- y26-20020aa7d51a000000b004539086fc37mr2372020edq.174.1663396525771; 
- Fri, 16 Sep 2022 23:35:25 -0700 (PDT)
-Received: from [192.168.2.181] (46-10-149-62.ip.btc-net.bg. [46.10.149.62])
- by smtp.gmail.com with ESMTPSA id
- o22-20020aa7c7d6000000b0044e9601e53fsm14929755eds.19.2022.09.16.23.35.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Sep 2022 23:35:25 -0700 (PDT)
-Message-ID: <d9c9e901-a96d-e6ed-497c-a69eede2e36e@gmail.com>
-Date: Sat, 17 Sep 2022 09:35:23 +0300
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 043D710E091;
+ Sat, 17 Sep 2022 09:08:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 98971B80D11;
+ Sat, 17 Sep 2022 09:07:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C47FCC433C1;
+ Sat, 17 Sep 2022 09:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1663405677;
+ bh=mN6OrmlEWafTBrem5aKUHKgVApH1DNBbr9anI0Yk1Yg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PB0ZPMBZnAWZ1zw5KUQZnMcwSr7Qzh7VHP9dAIWTGoQHEXzPSYjwj4Z4NlRscuEtF
+ kFK+UTSiXstlLknXuNsRshkFqgjPVimy68V821BjwNr58X6rnNx0r6Mez0DljrOV6i
+ fv57VR41Ob3D3SpskrdHa5/Ivo4+y4N7/ZEG51M0=
+Date: Sat, 17 Sep 2022 11:08:23 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Zheng Hacker <hackerzheng666@gmail.com>
+Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry.
+Message-ID: <YyWOh+jGvmSdrHqz@kroah.com>
+References: <CAJedcCweHjD78F7iydiq6Xc2iH=t_3m=H9JKnaCooToUk32FvQ@mail.gmail.com>
+ <YxWtfjfpNsoPUrgh@kroah.com>
+ <CAJedcCzMo51aiy=Dv7zn7VmL3gwkw7JgzwAPAB2Z27C9CnhoYA@mail.gmail.com>
+ <20220907030754.GU1089@zhen-hp.sh.intel.com>
+ <CAJedcCxO_Rq0qMeLiHtY5+FuN1A1pDGsZd3gMtvUpm1xbAK3aA@mail.gmail.com>
+ <Yxmzj2nCoTKurCY8@kroah.com>
+ <CAJedcCwVC6Rg+wF7h6GhFvL6BGkKV=DS9Mo9fOf-gfDAk9VqPg@mail.gmail.com>
+ <CAJedcCxRQ4h-ChNsD4OWpDMUJd3JNaQrvD=uVKxMpYONGFUgzA@mail.gmail.com>
+ <YyQzDlM5n7mOLh5Q@kroah.com>
+ <CAJedcCzt_1ZRV5egMLdoFVZ4hBDE+nDu9fLkBuGY0A=uYicvQA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/vmwgfx: Fix memory leak in vmw_mksstat_add_ioctl()
-Content-Language: en-US
-To: Rafael Mendonca <rafaelmendsr@gmail.com>, Zack Rusin <zackr@vmware.com>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Martin Krastev <krastevm@vmware.com>
-References: <20220916204751.720716-1-rafaelmendsr@gmail.com>
-From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
-In-Reply-To: <20220916204751.720716-1-rafaelmendsr@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJedcCzt_1ZRV5egMLdoFVZ4hBDE+nDu9fLkBuGY0A=uYicvQA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,41 +57,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "alex000young@gmail.com" <alex000young@gmail.com>,
+ "security@kernel.org" <security@kernel.org>,
+ "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ xmzyshypnc <1002992920@qq.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "zhi.a.wang@intel.com" <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thank you for the catch!
-
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-
-
-Regards,
-
-Martin
-
-
-
-On 16.09.22 г. 23:47 ч., Rafael Mendonca wrote:
-> If the copy of the description string from userspace fails, then the page
-> for the instance descriptor doesn't get freed before returning -EFAULT,
-> which leads to a memleak.
->
-> Fixes: 7a7a933edd6c ("drm/vmwgfx: Introduce VMware mks-guest-stats")
-> Signed-off-by: Rafael Mendonca <rafaelmendsr@gmail.com>
+On Fri, Sep 16, 2022 at 11:54:42PM +0800, Zheng Hacker wrote:
+> >From afe79848cb74cc8e45ab426d13fa2394c87e0422 Mon Sep 17 00:00:00 2001
+> From: xmzyshypnc <1002992920@qq.com>
+> Date: Fri, 16 Sep 2022 23:48:23 +0800
+> Subject: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry
+> 
+> There is a double-free security bug in split_2MB_gtt_entry.
+> 
+> Here is a calling chain :
+> ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entry.
+> 
+> If intel_gvt_dma_map_guest_page failed, it will call
+> ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
+> kfree(spt). But the caller does not notice that, and it will call
+> ppgtt_free_spt again in error path.
+> 
+> Fix this by only freeing spt in ppgtt_invalidate_spt in good case.
+> 
+> Signed-off-by: Zheng Wang <hackerzheng666@gmail.com>
 > ---
->   drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-> index 2aceac7856e2..089046fa21be 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-> @@ -1076,6 +1076,7 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
->   
->   	if (desc_len < 0) {
->   		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
-> +		__free_page(page);
->   		return -EFAULT;
->   	}
->   
+>  drivers/gpu/drm/i915/gvt/gtt.c | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+> index ce0eb03709c3..550519f0acca 100644
+> --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> @@ -959,7 +959,7 @@ static inline int ppgtt_put_spt(struct
+> intel_vgpu_ppgtt_spt *spt)
+>     return atomic_dec_return(&spt->refcount);
+>  }
+> 
+> -static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt);
+> +static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt, int
+> is_error);
+> 
+>  static int ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
+>         struct intel_gvt_gtt_entry *e)
+> @@ -995,7 +995,7 @@ static int
+> ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
+
+Still line-wrapped and whitespace broken :(
+
