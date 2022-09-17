@@ -2,60 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0855BB7EC
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 12:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07DE5BB836
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 14:31:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B49B810E2DA;
-	Sat, 17 Sep 2022 10:55:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6633510E32A;
+	Sat, 17 Sep 2022 12:31:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B77CD10E20D;
- Sat, 17 Sep 2022 10:55:09 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id h8so32867195wrf.3;
- Sat, 17 Sep 2022 03:55:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date;
- bh=qgeFEKmlCeElYtmQhO2NHIF7009WxIJXwGvauIaMgRY=;
- b=jTwbtV+yyd/9MW4yeNhB8fqWF5IfLZXmGqFokfSHdqBzJOpR3tqFM/OzSvmTo85V0s
- oCBbiWbFULuvLd3Hij1urxgaUx5L/BzoUcvud2cNV1gg0IeW62AdIanOsm/pSOaGr3m1
- ZiQoj6MVGNibMNxlPoj3EZViF4QqbCgVXjG/v2oxzwBQ9R23+JcOBaLSaaGFSEbO6Ke5
- KFD1B2PQ92gql3dyP/p43UVBHPDGATa2SaxRt5E+Aw7VVGX26DntFEJhvSL27j/eSAqq
- rjGs4QnRboK5UugvL1SVRVoxcrijYvlgq335VmTBp5CUWOIOh8iZ9r4/+5QjtyM6CNFg
- K70A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 011CF10E32A
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 12:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663417894;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Invho+h7rKsQXr/DOVKgZ8sKQ7S965JK4qf9ZOpEUj4=;
+ b=Csq552n5BnO/oUqGqF/ddELp24UyOpyXm2I8JbpLm2HdF8t6ibLJ4qqR41XifOxpCCNtiX
+ u5DbqN5pjy8Wjqu9f62HbY221U1dF0PokSetbEdajGOPKSpUdTolomkPVpYI0WlFeTAlNK
+ 5dN+aPpQWgrZhPy24agbgZCczh1uu/s=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-376-e90lN_s_M8iurY6s2POvKw-1; Sat, 17 Sep 2022 08:31:33 -0400
+X-MC-Unique: e90lN_s_M8iurY6s2POvKw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ e15-20020a056402190f00b0044f41e776a0so16767138edz.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 05:31:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=qgeFEKmlCeElYtmQhO2NHIF7009WxIJXwGvauIaMgRY=;
- b=o/SaKXEGUhbKdFknQgan/lo3V4HpvcDydP94moj91W68qf7CatzhfrzglPxCv8wCeM
- /N6UbinWG1M90JvZ9zxJf4CRYvGzt0LP8+Qk/vkvz8ybM2FDbKPgRMfbhhn2y6JXPjL3
- 4lk0vdpHc5gQBCZikMixe28MerhralTS1jvUsc3aVGVOJhdXRosgo3l4NfKrJGlAPvPs
- YlEOeU+bH1AdRWHZHtKZtzdmKfISCyHHBLXfKaVV41VdW3HM8jbjtxqkn/LcT4/OGQJr
- I9WfIpsdKimDczcy451uZA7+fBYfiDVx+YhFKNPT7bY6JlIVS7hOQZzD58WM3EfVZRON
- vnJA==
-X-Gm-Message-State: ACrzQf1LtuWjeHi1aS0xrcPkpz6habP465BAoZSzcSJ/5xi37UY7Rt06
- Eurwun67tevyCR99JIoOH3U=
-X-Google-Smtp-Source: AMsMyM7hhfKCI4x+UY64D+f0D7/k+FZrG5LGnSK6gzywitR/qTjOUZeB+KzC9ZGxKfbbACcwikNkXA==
-X-Received: by 2002:adf:d4c9:0:b0:228:de3a:220f with SMTP id
- w9-20020adfd4c9000000b00228de3a220fmr5599938wrk.597.1663412107392; 
- Sat, 17 Sep 2022 03:55:07 -0700 (PDT)
-Received: from debian (host-78-150-37-98.as13285.net. [78.150.37.98])
+ bh=Invho+h7rKsQXr/DOVKgZ8sKQ7S965JK4qf9ZOpEUj4=;
+ b=sHVgBba6L2o9YNVKg/5O2QRWA1rZsztSYP4wkO2++GGzH+mwBXHBPO/4oIZLSsf/Xa
+ iEIIQUlVEMPjnJVEs9W3hLsJSm7M1Ij4y2Qz+Xlbwz1812GTXyb9GdnaWIjlNRFkTbQt
+ 7J3Gk1GDbu4k0rcq6ieblTCLl0GMS7lY0E6eMovWdv+Prl5Qxm6irkSXAizd1A2pwfB2
+ 4ib9Kx/eDb1W6N7E0Ebj20adVJPMDhxUo7VRD6vK0Q5nzqn/MndvaNLKxVowxYPTy8la
+ Cq2YICYGnnUjUeAm/Syo9T7DAX1J+07jpC9379CyHS8qfFcvSv9uRbpgSinkT7N52ek0
+ 5Ogw==
+X-Gm-Message-State: ACrzQf1p2BWt5SWl8hQleVBQVRPopJCt6tZ42to82CcMal3d14qDCq48
+ /n/BLe/O0rZ5TYlGlXqi1CU1+4HHtYzDKnK6WePVHiC3TuBbv8T6dEW9dbRiR1rVRAGIMVEU8Gs
+ 0JlmhsRLfiA5ct3C9/o9WIKJmpaoy
+X-Received: by 2002:a05:6402:3547:b0:451:3be6:d55b with SMTP id
+ f7-20020a056402354700b004513be6d55bmr7572626edd.57.1663417891661; 
+ Sat, 17 Sep 2022 05:31:31 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5scwhBOwLiHep1YRr0zm4jpz/T7JGYapSqIukv0j1sC3OlGU1kx9vsl9XN6Opk/FEQTIaqfg==
+X-Received: by 2002:a05:6402:3547:b0:451:3be6:d55b with SMTP id
+ f7-20020a056402354700b004513be6d55bmr7572614edd.57.1663417891471; 
+ Sat, 17 Sep 2022 05:31:31 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
  by smtp.gmail.com with ESMTPSA id
- f17-20020a05600c4e9100b003a5bd5ea215sm6026813wmq.37.2022.09.17.03.55.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Sep 2022 03:55:07 -0700 (PDT)
-Date: Sat, 17 Sep 2022 11:55:05 +0100
-From: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-To: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: mainline build failure (new) for x86_64 allmodconfig with clang
-Message-ID: <YyWniVAqJclcbSqN@debian>
+ w15-20020a17090633cf00b007417041fb2bsm11911079eja.116.2022.09.17.05.31.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Sep 2022 05:31:30 -0700 (PDT)
+Message-ID: <edbea55f-8ad0-e733-619f-aba81846cfb8@redhat.com>
+Date: Sat, 17 Sep 2022 14:31:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 0/6] drm/gma500: 1 fix + further cleanups
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+References: <20220909115646.99920-1-hdegoede@redhat.com>
+ <CAMeQTsaAoz2XHrOy9-s1nUh4Pa27E8=Ted+8vQ+HRzA=1O2ojg@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAMeQTsaAoz2XHrOy9-s1nUh4Pa27E8=Ted+8vQ+HRzA=1O2ojg@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,35 +88,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, torvalds@linux-foundation.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+Hi Patrik,
 
-The latest mainline kernel branch fails to build for x86_64 allmodconfig
-with clang. The errors are:
+On 9/14/22 09:50, Patrik Jakobsson wrote:
+> On Fri, Sep 9, 2022 at 1:56 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Hi Patrik,
+>>
+>> Here is another gma500 patch-series with one more bugfix and a bunch
+>> of other cleanups of stuff which I noticed while doing the previous
+>> set of bugfixes.
+>>
+> 
+> Hi Hans, nice cleanups!
+> 
+> I'm rather busy at the moment so you can commit these yourself to
+> drm-misc-next if you like.
+> 
+> "drm/gma500: Wait longer for the GPU to power-down" can go through
+> drm-misc-fixes if you prefer. It fixed the timeout message on two of
+> my CDV machines but I never saw an actual problem from the timeouts.
+> 
+> For the entire series:
+> Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_mode_vba_314.c:4020:6: error: stack frame size (2184) exceeds limit (2048) in 'dml314_ModeSupportAndSystemConfigurationFull' [-Werror,-Wframe-larger-than]
-void dml314_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_lib)
-     ^
-1 error generated.
+Thanks.
+
+I'm pushing these out to drm-misc-next now, but with some small
+changes:
+
+1. I have dropped the "drm/gma500: Wait longer for the GPU to power-down"
+patch I'm still seeing timeouts even if I increase the wait time to
+a full seconds. I believe that the actual issue is this line:
+
+	dev_priv->apm_base = CDV_MSG_READ32(domain, PSB_PUNIT_PORT, PSB_APMBA);
+
+sometimes failing. When the timeout happens I see apm_base is set to 0 and
+reading apm_base + cmd / sts offset returns bogus values.
+
+I have yet to have a successful boot where the timeout does not happen
+since I have been poking at this (it seems success/fail wrt the timeout
+is random). But I suspect that with a successful boot apm_base will not
+be 0 and that the problem is there. To be continued...
 
 
-Note: This is a new error seen on top on a335366bad13 ("Merge tag 'gpio-fixes-for-v6.0-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux").
-Previous reported clang build error is now fixed, thanks to Nathan.
+2. For the "drm/gma500: Rewrite power management code" I noticed the
+following error during further testing (for the actual backlight changes):
 
-And, it appears Nathan has already sent a fix for this:
-https://github.com/intel-lab-lkp/linux/commit/4ecc45d7585ae2e05d622879ad97e13a7d8c595b
-https://github.com/intel-lab-lkp/linux/commit/819976a950b497d7f10cd9a198a94c26a9005b30
+[   12.292509] gma500 0000:00:02.0: Unbalanced pm_runtime_enable!
+
+The problem is that pci_pm_init() which the PCI core runs for each
+device already does:
+
+        pm_runtime_forbid(&dev->dev);
+        pm_runtime_set_active(&dev->dev);
+        pm_runtime_enable(&dev->dev);
+
+So the pm_runtime_enable() call in "drm/gma500: Rewrite power management code"
+was a second enable call and as such was not necessary. So I'm going to
+squash in the following small fix while pushing this out:
+
+diff --git a/drivers/gpu/drm/gma500/power.c b/drivers/gpu/drm/gma500/power.c
+index 62d2cc1923f1..0080b692dc3e 100644
+--- a/drivers/gpu/drm/gma500/power.c
++++ b/drivers/gpu/drm/gma500/power.c
+@@ -61,10 +61,11 @@ void gma_power_init(struct drm_device *dev)
+ 	 * To fix this we need to call pm_runtime_get() once for each active
+ 	 * pipe at boot and then put() / get() for each pipe disable / enable
+ 	 * so that the device gets runtime suspended when no pipes are active.
++	 * Once this is in place the pm_runtime_get() below should be replaced
++	 * by a pm_runtime_allow() call to undo the pm_runtime_forbid() from
++	 * pci_pm_init().
+ 	 */
+ 	pm_runtime_get(dev->dev);
+-	pm_runtime_set_active(dev->dev); /* Must be done before pm_runtime_enable()! */
+-	pm_runtime_enable(dev->dev);
+ 
+ 	dev_priv->pm_initialized = true;
+ }
+@@ -83,7 +83,6 @@ void gma_power_uninit(struct drm_device *dev)
+ 	if (!dev_priv->pm_initialized)
+ 		return;
+ 
+-	pm_runtime_disable(dev->dev);
+ 	pm_runtime_put_noidle(dev->dev);
+ }
+ 
+
+As you can see all the removed lines are already taken care of by the
+PCI core, so this squashed in change really is a no-op (other then
+that it silences the "Unbalanced pm_runtime_enable!" message).
+
+Regards,
+
+Hans
 
 
---
-Regards
-Sudip
+
+
+> 
+> 
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>> Hans de Goede (6):
+>>   drm/gma500: Wait longer for the GPU to power-down
+>>   drm/gma500: Remove runtime_allowed dead code in psb_unlocked_ioctl()
+>>   drm/gma500: Remove never set dev_priv->rpm_enabled flag
+>>   drm/gma500: Remove a couple of not useful function wrappers
+>>   drm/gma500: Rewrite power management code
+>>   drm/gma500: Remove unnecessary suspend/resume wrappers
+>>
+>>  drivers/gpu/drm/gma500/cdv_device.c    |   2 +-
+>>  drivers/gpu/drm/gma500/gma_display.c   |  19 +--
+>>  drivers/gpu/drm/gma500/gma_display.h   |   2 -
+>>  drivers/gpu/drm/gma500/oaktrail_lvds.c |   1 -
+>>  drivers/gpu/drm/gma500/power.c         | 156 +++++--------------------
+>>  drivers/gpu/drm/gma500/power.h         |  18 ---
+>>  drivers/gpu/drm/gma500/psb_drv.c       |  35 +-----
+>>  drivers/gpu/drm/gma500/psb_drv.h       |   7 +-
+>>  drivers/gpu/drm/gma500/psb_irq.c       |  15 ++-
+>>  9 files changed, 41 insertions(+), 214 deletions(-)
+>>
+>> --
+>> 2.37.2
+>>
+> 
 
