@@ -1,59 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDA35BBA1D
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 21:23:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 611DC5BBA71
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 22:46:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 757ED10E10A;
-	Sat, 17 Sep 2022 19:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1032910E138;
+	Sat, 17 Sep 2022 20:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C87110E10A
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 19:22:47 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id w8so40663295lft.12
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 12:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=4Ovbgm6nZe3/QpGYRlWJovhE/R7kO1q7d0zHL2Mifrc=;
- b=qUYPBRBfPN8ba4coLRPbhK7ncTZyn7P5fR5x/Jw7xmQQplV7fbm9cTUF9rPQUbKRko
- Pu1vZVNel79NuIeyr8DrhH8FAyh9MwRFveYIlMbUe0WWsGv4naKQFlDtKlbUY1ZIaqKI
- I0j4EFJYoxholQe/ayH4v8sRStq9vK2uNwSTjU5XPsTmpsGz6woE7hJoJR4lnIepvySV
- ALOd0cY13Y+4OPZ09NWPTs6sb4F7kFqDePpCTrsrYqpbqo9R3qrN7EBJkCzYS7fdiWMq
- j7MP49emET+1ydNUqD7fKYhJKO6oturtCL+KJrtbsnulwssCJDjFCkklfZeAKmnECTba
- rlRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=4Ovbgm6nZe3/QpGYRlWJovhE/R7kO1q7d0zHL2Mifrc=;
- b=XHlKodbimzyUBjkqOJt9obEsfq11sO7EMpGEQAne+TD+hcCDY+aNpzjH9O1llD0DWh
- NheiGMM/vHoWURLqwJ/RsVPnGIenbI3jNmuksqbMyqYDLvynipGIqvnA/Gh/dPfYev/m
- dEpx38QDkKirbi89OsD9arLvKGT3bLq5uuRG3iuZDaMCNCJZ9VIMbdpwyuX6k9fF6XbJ
- gQhRtJ9nlyDQB/lRm7cIFkrBfCjKf/fmX9TnSY9bXF38DEFj6itKdDEQ4Ne0p0bK9GS0
- /AXiol3kgHBAJXgmACqziSpLTseYb2GS564bGWaKKOqSeqkCfM+ZYeDG6mXz49HGCEG1
- +AbA==
-X-Gm-Message-State: ACrzQf07rOmvzlO2fXkKyEM7mcjpQcPixzwFHOUyDgggrf69P5zrT64+
- QguQb9FQPr6/8dNTVQZWCvcQc5LApNiPQqujn4M=
-X-Google-Smtp-Source: AMsMyM5yAf1p4dlhFzQKaQzWuD3rAawk4dyVy0LkQ3j+q4z6N3tGG6YeSA2+S70HwBnq5kMhtGIW0eLELR8KkKRwagU=
-X-Received: by 2002:ac2:5191:0:b0:497:ac0c:cf65 with SMTP id
- u17-20020ac25191000000b00497ac0ccf65mr3811944lfi.436.1663442565407; Sat, 17
- Sep 2022 12:22:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220825191946.1678798-1-maccraft123mc@gmail.com>
- <b245787a-38fa-4202-cc7a-8fe18bc2308d@redhat.com>
-In-Reply-To: <b245787a-38fa-4202-cc7a-8fe18bc2308d@redhat.com>
-From: Maya Matuszczyk <maccraft123mc@gmail.com>
-Date: Sat, 17 Sep 2022 21:22:08 +0200
-Message-ID: <CAO_MupKvwvG8Sg98psArQMHoqpBVxmgwpOzMpw340DoeDkPSng@mail.gmail.com>
-Subject: Re: drm: panel-orientation-quirks: Add quirk for Aya Neo Air
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6DF10E138
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 20:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=YUp7eOYRj7NNW41VZhjSbkhr2mfQPbNKb5+BVn74pSo=;
+ b=FbgIDpYxwfyc/oNilwfZYfFvj/C6qYpVuF+d/9B2t6NvJx2oPvewMp9O4msL/LiI2hEMXqc2/1RU4
+ 8D2OUaPX6do7yPCbVzL9iwB8qoE2YoC2SaO8Au+4L9qHZh7umM/ySXLPOu48+Nasq6xjtX1cD2Vl3S
+ jyX4bh6T3Pe1qE5zomPykNDf7K+UpqYrkpTfiY7bGfcOKXLIFJgKxKLf6z6Enlx4PzjCJw7LXFlpuK
+ xcApqwH1CT27OMV6kSK0DhRGdwgI8MWL784sEgKI2GkjfQ4MLfs9dT4rynHmjcE31Jl23KIblx1Nmx
+ 8JPl3dkAo89B5+aWvuchy+ckKWYNhmQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=YUp7eOYRj7NNW41VZhjSbkhr2mfQPbNKb5+BVn74pSo=;
+ b=/gwclmJg16KfLOxu4X35XsZEcygNNRZeMAeQL8kfBkMMMkFYPde5NHwwXj2vb4pj/zE4vK8iuzihl
+ HiibttFAA==
+X-HalOne-Cookie: 8d9fcdec142a8f04df2db102c52d7c9564c171a2
+X-HalOne-ID: c7798d2e-36c9-11ed-be8b-d0431ea8bb03
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id c7798d2e-36c9-11ed-be8b-d0431ea8bb03;
+ Sat, 17 Sep 2022 20:46:19 +0000 (UTC)
+Date: Sat, 17 Sep 2022 22:46:18 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
 To: Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 3/5] drm/gma500: Use backlight_get_brightness() to get
+ the brightness
+Message-ID: <YyYyGivJbsnp+T4D@ravnborg.org>
+References: <20220917140352.526507-1-hdegoede@redhat.com>
+ <20220917140352.526507-4-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220917140352.526507-4-hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,82 +59,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
-
-sob., 17 wrz 2022 o 20:00 Hans de Goede <hdegoede@redhat.com> napisa=C5=82(=
-a):
->
-> Hi,
->
-> On 8/25/22 21:19, Maccraft123 wrote:
-> > From: Maya Matuszczyk <maccraft123mc@gmail.com>
-> >
-> > Yet another x86 gaming handheld.
-> >
-> > This one has many SKUs with quite a few of DMI strings,
-> > so let's just use a catchall, just as with Aya Neo Next.
-> >
-> > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
->
-> Thanks, I have pushed this out to drm-misc-next now.
->
-> Note for future drm_panel_orientation_quirks.c patches please Cc me,
-> I am not subscribed to dri-devel.
-Yeah i forgot to Cc you on this patch, and had no idea how to bring it up.
-I'll do my best to remember in future.
-Thanks for picking this up!
-
-Best Regards,
-Maya Matuszczyk
-
->
-> Regards,
->
-> Hans
->
->
-> > ---
-> >  drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/g=
-pu/drm/drm_panel_orientation_quirks.c
-> > index fc1728d46ac2..0b011b615495 100644
-> > --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> > +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> > @@ -103,6 +103,12 @@ static const struct drm_dmi_panel_orientation_data=
- lcd800x1280_rightside_up =3D {
-> >       .orientation =3D DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-> >  };
-> >
-> > +static const struct drm_dmi_panel_orientation_data lcd1080x1920_leftsi=
-de_up =3D {
-> > +     .width =3D 1080,
-> > +     .height =3D 1920,
-> > +     .orientation =3D DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
-> > +};
-> > +
-> >  static const struct drm_dmi_panel_orientation_data lcd1200x1920_rights=
-ide_up =3D {
-> >       .width =3D 1200,
-> >       .height =3D 1920,
-> > @@ -152,6 +158,12 @@ static const struct dmi_system_id orientation_data=
-[] =3D {
-> >                 DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYA NEO 2021"),
-> >               },
-> >               .driver_data =3D (void *)&lcd800x1280_rightside_up,
-> > +     }, {    /* AYA NEO AIR */
-> > +             .matches =3D {
-> > +               DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
-> > +               DMI_MATCH(DMI_BOARD_NAME, "AIR"),
-> > +             },
-> > +             .driver_data =3D (void *)&lcd1080x1920_leftside_up,
-> >       }, {    /* AYA NEO NEXT */
-> >               .matches =3D {
-> >                 DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
->
+On Sat, Sep 17, 2022 at 04:03:50PM +0200, Hans de Goede wrote:
+> Use backlight_get_brightness() instead of directly referencing
+> bd->props.brightness. This will take backlight_is_blank() into account,
+> properly setting brightness to 0 when screen-blanking has been requested
+> through the backlight sysfs interface.
+> 
+> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+> Changes in v2 of the patch-set:
+> - New patch in v2 of the patch-set
+> ---
+>  drivers/gpu/drm/gma500/backlight.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/gma500/backlight.c b/drivers/gpu/drm/gma500/backlight.c
+> index d113c5810ca5..9be28dc0bdd1 100644
+> --- a/drivers/gpu/drm/gma500/backlight.c
+> +++ b/drivers/gpu/drm/gma500/backlight.c
+> @@ -52,7 +52,7 @@ static int gma_backlight_get_brightness(struct backlight_device *bd)
+>  static int gma_backlight_update_status(struct backlight_device *bd)
+>  {
+>  	struct drm_device *dev = bl_get_data(bd);
+> -	int level = bd->props.brightness;
+> +	int level = backlight_get_brightness(bd);
+>  
+>  	/* Percentage 1-100% being valid */
+>  	if (level < 1)
+> -- 
+> 2.37.3
