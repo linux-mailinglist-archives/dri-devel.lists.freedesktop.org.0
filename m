@@ -1,79 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6965D5BB68E
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 07:34:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93AB45BB6A0
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Sep 2022 08:17:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3967210E427;
-	Sat, 17 Sep 2022 05:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D15C10E07E;
+	Sat, 17 Sep 2022 06:17:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA9B710E529;
- Fri, 16 Sep 2022 21:22:44 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28GL7HsQ000349;
- Fri, 16 Sep 2022 21:22:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=wUGXXztn75LJ9JzABXVfmagNY50hkoudX/9OXz0xTtI=;
- b=ma2nOq4uWKBObq8t367RVebHN78hq6gtvfOguoeeWdIPjvuHXOKb1bYGUCOhVhQaxWHr
- 8coY/1B+o2dudKsitcWnPMgYamefTWEFS5vJ04ijy1ZBmjQdyOsnSVLHbOTHudPT2X/a
- o8+nrCaX86o/HhzUYfEByFEjv/N/vZDJol3TSRP37rqJpVp8xbNVZB0UNz8nl512dFzF
- K3rcsq0xqGlliwl/aeIPk44qDolGg5sOKtPM4MeD6YaxQPj5Mhfbo812w6jXzcA+guMC
- 3vXzG+bhKo0x5IOUxifnrvfN3NusmlXbMimEMNLq5w/BHejCsVIcfPR3zfxSuIAHnppt 9w== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jm94mc6ch-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Sep 2022 21:22:34 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28GLHWNL028408
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Sep 2022 21:17:32 GMT
-Received: from [10.110.7.80] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 16 Sep
- 2022 14:17:31 -0700
-Message-ID: <07b39c97-30be-4e82-044e-51b0d98a5197@quicinc.com>
-Date: Fri, 16 Sep 2022 14:17:30 -0700
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B3CF10E07E
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 06:17:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663395433; x=1694931433;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=upEne6jANUUW2HNKG46U6wKVg+lb5Ctnz/1MJFQVakw=;
+ b=UebjorplePbEZdRJV1aS6L7tLEp8JPWSMHpfEmRaOaJ2SK2Ma6YFvhEH
+ zPTW5FGPrR5YhCg1tTAkn0ADoQEWLwI+JDfhdaVNGCtw5bCaiJag//qy0
+ fEmIoRTeTO/GKWwT6gRjilLEYaJrqZaHaxGVz2Mu2VddPMMaSCIsli/DO
+ 4MnAiwfQayPZ2oIxKGtiwxFPaSPO9CIqd/fqXI/aJqEt8bsnQZ4lNTdhF
+ uEXbt8CmoOF+xFXjpybryP/esXrrXEGbnUkNx4XPIknvbsma8+bfFi1FJ
+ 7+boDeTcXPfnLyTE0hWH07QsJiIWTZiA2iDdWY8QtWzl3z0nuexrG02zq g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10472"; a="282156574"
+X-IronPort-AV: E=Sophos;i="5.93,322,1654585200"; d="scan'208";a="282156574"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 23:17:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,322,1654585200"; d="scan'208";a="617926963"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga002.jf.intel.com with SMTP; 16 Sep 2022 23:17:06 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Sat, 17 Sep 2022 09:17:05 +0300
+Date: Sat, 17 Sep 2022 09:17:05 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v4 0/6] dma-buf: Check status of enable-signaling bit on
+ debug
+Message-ID: <YyVmYXGCfTuYUsNb@intel.com>
+References: <20220914164321.2156-1-Arvind.Yadav@amd.com>
+ <d2d81ffd-2269-bdc6-0daa-8f3a99306e46@amd.com>
+ <33a16b15-3d3c-7485-d021-ee2a727e5391@amd.com>
+ <691c421f-1297-cd08-ea70-6750099275b1@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 5/7] drm/msm/dp: Implement hpd_notify()
-Content-Language: en-US
-To: Bjorn Andersson <quic_bjorande@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>
-References: <20220916200028.25009-1-quic_bjorande@quicinc.com>
- <20220916200028.25009-6-quic_bjorande@quicinc.com>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <20220916200028.25009-6-quic_bjorande@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: z8LfGOf-g9-UyVPMTPOXs_MrIm4FTRHI
-X-Proofpoint-ORIG-GUID: z8LfGOf-g9-UyVPMTPOXs_MrIm4FTRHI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-16_14,2022-09-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=539
- impostorscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 mlxscore=0 clxscore=1011 spamscore=0
- bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209160152
-X-Mailman-Approved-At: Sat, 17 Sep 2022 05:33:33 +0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <691c421f-1297-cd08-ea70-6750099275b1@amd.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,25 +63,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Arunpravin.PaneerSelvam@amd.com, airlied@linux.ie, gustavo@padovan.org,
+ amaranath.somalapuram@amd.com, linux-kernel@vger.kernel.org,
+ Arvind Yadav <Arvind.Yadav@amd.com>, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, "Yadav, Arvind" <arvyadav@amd.com>,
+ shashank.sharma@amd.com, sumit.semwal@linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/16/2022 1:00 PM, Bjorn Andersson wrote:
-> From: Bjorn Andersson <bjorn.andersson@linaro.org>
+On Thu, Sep 15, 2022 at 06:05:30PM +0200, Christian König wrote:
+> Am 15.09.22 um 15:02 schrieb Yadav, Arvind:
+> >
+> > On 9/15/2022 5:37 PM, Christian König wrote:
+> >> Is that sufficient to allow running a desktop on amdgpu with the 
+> >> extra check enabled? If yes that would be quite a milestone.
+> >>
+> > Yes, It is running on amdgpu with extra config enabled.
 > 
-> The DisplayPort controller's hot-plug mechanism is based on pinmuxing a
-> physical signal no a GPIO pin into the controller. This is not always
+> In this case I will start pushing the patches to drm-misc-next. I'm just 
+> going to leave out the last one until the IGT tests are working as well.
 
-nit: s/ no / on /?
+ffs Christian. intel CI blew up yet again:
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12146/shard-glk7/igt@kms_plane_lowres@tiling-y@pipe-c-hdmi-a-2.html
 
-> possible, either because there aren't dedicated GPIOs available or
-> because the hot-plug signal is a virtual notification, in cases such as
-> USB Type-C.
+The last time (some ttm thing) was just a week or two ago,
+so it's really getting tiresome watching you push entirely
+untested stuff all the time. Would be really helpful if you
+finally started to do/require premerge testing.
 
+-- 
+Ville Syrjälä
+Intel
