@@ -1,55 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B265BBB44
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Sep 2022 05:18:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D59AA5BBB5C
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Sep 2022 05:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B116210E321;
-	Sun, 18 Sep 2022 03:17:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64C6C10E15E;
+	Sun, 18 Sep 2022 03:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 040EB10E399
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Sep 2022 03:17:53 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 38BB0B80E4C
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Sep 2022 03:17:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54131C43144
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Sep 2022 03:17:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663471070;
- bh=qb00ImaXysZJpvsHrO2c88a7Ds3dOjpngNqFrczjjDQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=hr03nYXFeceAHqZ7u2VGyT81QKhjeSwZRNCObxkGdX9jD3isSngUsiQl5UcFBS8gN
- y8RF4zWKYuZYJnmjgoTSzSyW3xw8p8M9VqadfqWChJcOY2TzS9u8vXsYJo+yM4wrAd
- CjawLOZ/BPCd5PV5zRmR6iRSQrN+lWn21I43pM1IEymhBZw5EVBFX0hdCxlCkg3aUw
- CON7xaXVf89B/jgtrahFQyCxY1zAfiGvx2S62fjVGwb6VY43rM6aOgqFCoynME0qI+
- MK7SOCETpDcBVQ/qxoqGEvrCOzbWR/osrWOQMWT+2Y/zYMwZEYnMYJW4EIMnGDvSly
- c2jim1coxXuaQ==
-Received: by mail-ot1-f51.google.com with SMTP id
- cm7-20020a056830650700b006587fe87d1aso7120727otb.10
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Sep 2022 20:17:50 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1mrezXQj6dI/i+QQPwMSafZZYyaPLTGyPbH+bGk/J/lGvojaQl
- LtoHk1Telw4Q6KZnHRStiZofI1FQSJgJqrUphg==
-X-Google-Smtp-Source: AMsMyM58ezG8msguUMeAH2Le2boc4pMXZ12Yr7cvpd704aw17iSXBXWn9Gr0znIRuo886rusNYTI49u//14DleuHyj8=
-X-Received: by 2002:a05:6830:6999:b0:61d:26f8:94c1 with SMTP id
- cy25-20020a056830699900b0061d26f894c1mr5435523otb.278.1663471069381; Sat, 17
- Sep 2022 20:17:49 -0700 (PDT)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11B0E10E15E
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Sep 2022 03:44:27 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id D5193320099A;
+ Sat, 17 Sep 2022 23:44:23 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Sat, 17 Sep 2022 23:44:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxfierke.com;
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1663472663; x=1663559063; bh=qyQljdV9br
+ pQJ7X55JsdBpi3YH2RlBhC12hsk3NzNdM=; b=tliP6Vx6i4qWtfuv1MT5mY58wF
+ VprFpjMbV2maKU4X7ev5oWu1FPwRARQvELBwizF9bWGy1XTuhZi4BMld27/og7M4
+ M8b1nfr0wpUfHhP/w23HiyZGI7QeaUKkrp5GNe8DzlaTTZcxl//rSMVST/wusLwS
+ n5okqhk6qqdIhGDQhx/ZstMfypHzSwS10JcSjko5bmLJbmRduuc34YoxDAqM6AQS
+ MmDe0iUjCs3R1izHsv7iL0/jGxoV62ekczfjq3qJ9VR3eIVKRXRUSzSLBUEOqv/U
+ +bnl+ci5zNFr0lCHl+o202eG4OohVvy8JHwPajB4Or7lXXTEIgg3z39PL2Vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1663472663; x=1663559063; bh=qyQljdV9brpQJ7X55JsdBpi3YH2RlBhC12h
+ sk3NzNdM=; b=JnPzx/8N42/1t3r7Guau990PpqWPol35q2YGHlKhEzdM+u7PysY
+ EsHXiz4p999PZCFm1s9sc4yVCRgtJYhAmkiOmZEZ4Qq8vH+yKhiEodq+K9fzzYHW
+ q/6wxgIlG60CoNiZprlNQbHTp78WjCoYbAKJQcGUelOhHT6i2z7tVwx8skBTJeBe
+ v48L7jpHFycevc6lhd7XVE5zUqCOLE5ccHtsTvSpBAFBDAOGgL3tGpftDBL5vKuN
+ 2YmdrNOa43xDVFGkOT1U/Vp8iVNmlXtyiHBKY6LAoU+QG+XbpxoZ/6IpVlZmgSv6
+ a/AZlfgx0QXOuShWkITRS57dv1S8jYdzWQQ==
+X-ME-Sender: <xms:FpQmY0MMBkdOqIYk2IL01KuYGVZckUEU_FsMxR-apwWocZKqUhg_JQ>
+ <xme:FpQmY6-GUVxyyhE8SQSaIa3OhzJKjL-kYBip0WTuNYYlbGHIP9EfUliMnrfoPG_Dc
+ srP-kgk-KA7XXIuXRw>
+X-ME-Received: <xmr:FpQmY7Tqa3AlediiJBdsXrBT3AObmSG7AWyCHRpiJRh6mlCCRuI67m2lKW4jXi3MZWkktLVY9Fnu4Ew9MfzGRcqB6uzO2yxW3gU7LvpGfBOmmt05Sg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvfedgjeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+ ertddtnecuhfhrohhmpeforgigucfhihgvrhhkvgcuoehmrgigsehmrgigfhhivghrkhgv
+ rdgtohhmqeenucggtffrrghtthgvrhhnpedvtdffffegvdejheehudegkeefgffggffgge
+ dutdeiheduheehhfefgeekgfektdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecu
+ vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgiesmh
+ grgihfihgvrhhkvgdrtghomh
+X-ME-Proxy: <xmx:FpQmY8sSpI24hC4OFJGyBEEa0D6-3mrgTrh67NmuTl9Wv52-YBqqHg>
+ <xmx:FpQmY8cmJlEc3iqIKNGTnTCqH82nWnhvk99bov-DAS1IseUZYN6HIw>
+ <xmx:FpQmYw3pb6ZDZ-iKGeHBy_2WrdaSv1AYCb_8M_FyIc6SDCfn6wZf2Q>
+ <xmx:F5QmYy0cbDpwLTiGekHw04CJnEfU-MybNImgVBLoa32b0FZC2zncOA>
+Feedback-ID: idee9475d:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 17 Sep 2022 23:44:22 -0400 (EDT)
+From: Max Fierke <max@maxfierke.com>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Subject: [PATCH v3 0/4] Introduce ClockworkPi CWD686 DRM panel driver
+Date: Sat, 17 Sep 2022 22:44:11 -0500
+Message-Id: <20220918034415.74641-1-max@maxfierke.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220916133821.27980-1-rex-bc.chen@mediatek.com>
-In-Reply-To: <20220916133821.27980-1-rex-bc.chen@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 18 Sep 2022 11:17:36 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__g=s_ACd+zTJZT1HBbrLo-JpHbrwLsy1zKjxbM5c21uA@mail.gmail.com>
-Message-ID: <CAAOTY__g=s_ACd+zTJZT1HBbrLo-JpHbrwLsy1zKjxbM5c21uA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] Refactor MediaTek DP drivers
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,50 +80,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Guillaume Ranquet <granquet@baylibre.com>, Jitao Shi <jitao.shi@mediatek.com>,
- David Airlie <airlied@linux.ie>, liangxu.xu@mediatek.com,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: devicetree@vger.kernel.org, Max Fierke <max@maxfierke.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dmitry:
+The ClockworkPi DevTerm (all models) uses a 6.86" IPS display
+of unknown provenance, which uses the Chipone ICNL9707 IC driver[1].
 
-My tree has no mtk-dp driver yet. Would you like to pick this series?
+The display panel I have has two model numbers: TXW686001 and WTL068601G,
+but cannot find any manufacturer associated with either, so opting for the
+ClockworkPi model number.
 
-Regards,
-Chun-Kuang.
+This driver is based on the GPL-licensed driver released by ClockworkPi[1],
+authored by Pinfan Zhu, with some additional cleanup, rotation support,
+and display sleep re-enabling done by me.
 
-Bo-Chen Chen <rex-bc.chen@mediatek.com> =E6=96=BC 2022=E5=B9=B49=E6=9C=8816=
-=E6=97=A5 =E9=80=B1=E4=BA=94 =E6=99=9A=E4=B8=8A9:38=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> For this series, we do some clean-up and fix a build warning.
-> This series is based on linux-next-20220915.
->
-> Changes for v2:
-> 1. Update commit message in "drm/mediatek: dp: Reduce indentation in mtk_=
-dp_bdg_detect()".
-> 2. Add fix tag for "drm/mediatek: dp: Fix warning in mtk_dp_video_mute()"=
-.
->
-> Bo-Chen Chen (3):
->   drm/mediatek: dp: Reduce indentation in mtk_dp_bdg_detect()
->   drm/mediatek: dp: Remove unused register definitions
->   drm/mediatek: dp: Fix warning in mtk_dp_video_mute()
->
->  drivers/gpu/drm/mediatek/mtk_dp.c     | 70 ++++++++++++++-------------
->  drivers/gpu/drm/mediatek/mtk_dp_reg.h |  6 ---
->  2 files changed, 36 insertions(+), 40 deletions(-)
->
-> --
-> 2.18.0
->
+[1] https://github.com/clockworkpi/DevTerm/blob/main/Schematics/ICNL9707_Datasheet.pdf
+[2] https://github.com/clockworkpi/DevTerm/blob/main/Code/patch/armbian_build_a06/patch/kernel-004-panel.patch
+
+Thanks to Krzysztof Kozlowski, Rob Herring, and Sam Ravnborg for their
+prior reviews and apologies for the long delay between patch set versions.
+
+Changes in v3:
+ - dt-bindings: add missing lines for spacing
+
+Changes in v2:
+ - dt-bindings: remove redundant backlight example
+ - add missing regulators
+ - remove some unused properties from definition (e.g. enable_gpio, supply)
+ - reorder includes
+ - remove redundant ctx->backlight in favor of backlight through drm_panel_of_backlight
+ - remove now-unneeded ctx->enabled and enable/disable hooks
+ - replace ICNL9707_DCS macro with mipi_dsi_dcs_write_seq
+ - use dev_err_probe instead of checking EPROBE_DEFER
+ - fixed return type of cwd686_remove to be void following changes to mipi_dsi_driver
+ - add .get_orientation callback
+
+Max Fierke (4):
+  dt-bindings: vendor-prefixes: Add prefix for ClockworkPi
+  dt-bindings: display: Add ClockworkPi CWD686 panel
+  drm: panel: Add driver for ClockworkPi cwd686 panel
+  drm/panel: clockworkpi-cwd686: Implement .get_orientation callback
+
+ .../display/panel/clockworkpi,cwd686.yaml     |  65 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/gpu/drm/panel/Kconfig                 |  12 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-clockworkpi-cwd686.c  | 456 ++++++++++++++++++
+ 5 files changed, 536 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/clockworkpi,cwd686.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-clockworkpi-cwd686.c
+
+-- 
+2.37.2
