@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBC75BCC88
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 15:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C895BCC7C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 15:04:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1ADF10E62C;
-	Mon, 19 Sep 2022 13:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD6AF10E29F;
+	Mon, 19 Sep 2022 13:04:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4471610E298
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 13:04:15 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17FEE10E623
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 13:04:16 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7E60E1F90D;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id ACBC022341;
  Mon, 19 Sep 2022 13:04:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1663592653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BpZwDHj3G1JpTd0ml/36q2XRRcPycUJlmTAsrJYpEgM=;
- b=1/aIvgWw2dcaFzcy7XgsjtQdZqjvrdALrwg1Js3i8joCwkKHvw4j41ksCioArqB0hRYy0a
- 1XbxuUxfdZr86OrydYUlkVbeDptM8DhWJGc9y+lkOdO9Ljwo3UpcDZeFf3Ydi3sT7Kv3uY
- AL+IntmY8xeb5/AZkPHLkh1VsvdZE8g=
+ bh=M2WB89OWqucI4qNe7ulm39t7Lqq73+RqIodkw4cRx9U=;
+ b=YPus++14pfo34h9WaAIIl2PUbWzVzQBfqRlkmdkMs+Kw9gRQ2jKaL6zX8vZFb8AeR135Sw
+ i9maXfx2tVtCJeSJXIB12EohKTheBd8a+S3CUt5R9+jbN3jBFvhk/OrtvLyBnakf9njzVP
+ W9Acp/NUJC5aBSqmyEie5N7albf5oJg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1663592653;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BpZwDHj3G1JpTd0ml/36q2XRRcPycUJlmTAsrJYpEgM=;
- b=0lhphWBJp0bA5LLfOPeNLp2LGgADfTCsY/1Jvr2fCif+p9dMyuxUsxweKED5nQjXA3Vsul
- pjLfyYhcYwdfcTBA==
+ bh=M2WB89OWqucI4qNe7ulm39t7Lqq73+RqIodkw4cRx9U=;
+ b=8xksJRgY/6XEDijK7Lrj4GiJVKP0y8Rj23aPUPVRN3tVgjLzuytDAChd3Z8pilLojj1rLf
+ VSirl3ToQs78CzBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5278713A96;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8385B13ACE;
  Mon, 19 Sep 2022 13:04:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YDIAE81oKGMzOwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6CXnHs1oKGMzOwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 19 Sep 2022 13:04:13 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com,
 	sean@poorly.run,
 	daniel@ffwll.ch
-Subject: [PATCH 09/16] drm/udl: Support DRM hot-unplugging
-Date: Mon, 19 Sep 2022 15:04:01 +0200
-Message-Id: <20220919130408.21486-10-tzimmermann@suse.de>
+Subject: [PATCH 10/16] drm/udl: Use damage iterator
+Date: Mon, 19 Sep 2022 15:04:02 +0200
+Message-Id: <20220919130408.21486-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220919130408.21486-1-tzimmermann@suse.de>
 References: <20220919130408.21486-1-tzimmermann@suse.de>
@@ -73,133 +73,92 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_dev_enter() and drm_dev_exit() to the various modesetting
-functions that interact with the device. After hot-unplugging the
-device, these functions will return early. So far, the udl driver
-relied on USB interfaces to handle unplugging of the device.
+Use a damage iterator to process damage areas individually. Merging
+damage areas can resul tin large updates of unchanged framebuffer
+regions. As USB is rather slow, it's better to process damage areas
+individually and hence minimize USB-transfered data.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/udl/udl_modeset.c | 43 ++++++++++++++++++++++++++-----
- 1 file changed, 37 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/udl/udl_modeset.c | 38 +++++++++++++++----------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 97d68cf88bd8..aaa828034a04 100644
+index aaa828034a04..6fa4c8b5c2c6 100644
 --- a/drivers/gpu/drm/udl/udl_modeset.c
 +++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -12,6 +12,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_damage_helper.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
-@@ -295,14 +296,21 @@ static const uint64_t udl_primary_plane_fmtmods[] = {
- static void udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 						   struct drm_atomic_state *state)
- {
-+	struct drm_device *dev = plane->dev;
- 	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
+@@ -238,15 +238,9 @@ static int udl_handle_damage(struct drm_framebuffer *fb,
+ 		return ret;
+ 	log_bpp = ret;
+ 
+-	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+-	if (ret)
+-		return ret;
+-
+ 	urb = udl_get_urb(dev);
+-	if (!urb) {
+-		ret = -ENOMEM;
+-		goto out_drm_gem_fb_end_cpu_access;
+-	}
++	if (!urb)
++		return -ENOMEM;
+ 	cmd = urb->transfer_buffer;
+ 
+ 	for (i = clip->y1; i < clip->y2; i++) {
+@@ -258,7 +252,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb,
+ 				       &cmd, byte_offset, dev_byte_offset,
+ 				       byte_width);
+ 		if (ret)
+-			goto out_drm_gem_fb_end_cpu_access;
++			return ret;
+ 	}
+ 
+ 	if (cmd > (char *)urb->transfer_buffer) {
+@@ -272,11 +266,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb,
+ 		udl_urb_completion(urb);
+ 	}
+ 
+-	ret = 0;
+-
+-out_drm_gem_fb_end_cpu_access:
+-	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+-	return ret;
++	return 0;
+ }
+ 
+ /*
+@@ -301,16 +291,26 @@ static void udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
  	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
  	struct drm_framebuffer *fb = plane_state->fb;
  	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
- 	struct drm_rect rect;
-+	int idx;
-+
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
+-	struct drm_rect rect;
+-	int idx;
++	struct drm_atomic_helper_damage_iter iter;
++	struct drm_rect damage;
++	int ret, idx;
  
- 	if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &rect))
- 		udl_handle_damage(fb, &shadow_plane_state->data[0], &rect);
+-	if (!drm_dev_enter(dev, &idx))
++	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
++	if (ret)
+ 		return;
+ 
+-	if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &rect))
+-		udl_handle_damage(fb, &shadow_plane_state->data[0], &rect);
++	if (!drm_dev_enter(dev, &idx))
++		goto out_drm_gem_fb_end_cpu_access;
 +
-+	drm_dev_exit(idx);
++	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
++	drm_atomic_for_each_plane_damage(&iter, &damage) {
++		udl_handle_damage(fb, &shadow_plane_state->data[0], &damage);
++	}
+ 
+ 	drm_dev_exit(idx);
++
++out_drm_gem_fb_end_cpu_access:
++	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
  }
  
  static void udl_primary_plane_helper_atomic_disable(struct drm_plane *plane,
-@@ -348,10 +356,14 @@ static void udl_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atom
- 	struct drm_display_mode *mode = &crtc_state->mode;
- 	struct urb *urb;
- 	char *buf;
-+	int idx;
-+
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
- 
- 	urb = udl_get_urb(dev);
- 	if (!urb)
--		return;
-+		goto out;
- 
- 	buf = (char *)urb->transfer_buffer;
- 	buf = udl_vidreg_lock(buf);
-@@ -366,6 +378,9 @@ static void udl_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atom
- 	buf = udl_dummy_render(buf);
- 
- 	udl_submit_urb(dev, urb, buf - (char *)urb->transfer_buffer);
-+
-+out:
-+	drm_dev_exit(idx);
- }
- 
- static void udl_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
-@@ -373,10 +388,14 @@ static void udl_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_ato
- 	struct drm_device *dev = crtc->dev;
- 	struct urb *urb;
- 	char *buf;
-+	int idx;
-+
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
- 
- 	urb = udl_get_urb(dev);
- 	if (!urb)
--		return;
-+		goto out;
- 
- 	buf = (char *)urb->transfer_buffer;
- 	buf = udl_vidreg_lock(buf);
-@@ -385,6 +404,9 @@ static void udl_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_ato
- 	buf = udl_dummy_render(buf);
- 
- 	udl_submit_urb(dev, urb, buf - (char *)urb->transfer_buffer);
-+
-+out:
-+	drm_dev_exit(idx);
- }
- 
- static const struct drm_crtc_helper_funcs udl_crtc_helper_funcs = {
-@@ -471,17 +493,26 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block, size_t le
- 
- static enum drm_connector_status udl_connector_detect(struct drm_connector *connector, bool force)
- {
--	struct udl_device *udl = to_udl(connector->dev);
-+	struct drm_device *dev = connector->dev;
-+	struct udl_device *udl = to_udl(dev);
- 	struct udl_connector *udl_connector = to_udl_connector(connector);
-+	enum drm_connector_status status = connector_status_disconnected;
-+	int idx;
- 
- 	/* cleanup previous EDID */
- 	kfree(udl_connector->edid);
-+	udl_connector->edid = NULL;
- 
--	udl_connector->edid = drm_do_get_edid(connector, udl_get_edid_block, udl);
--	if (!udl_connector->edid)
-+	if (!drm_dev_enter(dev, &idx))
- 		return connector_status_disconnected;
- 
--	return connector_status_connected;
-+	udl_connector->edid = drm_do_get_edid(connector, udl_get_edid_block, udl);
-+	if (udl_connector->edid)
-+		status = connector_status_connected;
-+
-+	drm_dev_exit(idx);
-+
-+	return status;
- }
- 
- static void udl_connector_destroy(struct drm_connector *connector)
 -- 
 2.37.3
 
