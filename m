@@ -1,50 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85C65BD1DF
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 18:08:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D365BD21D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 18:24:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95DFB10E692;
-	Mon, 19 Sep 2022 16:08:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E04B910E031;
+	Mon, 19 Sep 2022 16:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A381F10E691;
- Mon, 19 Sep 2022 16:08:42 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0541510E031;
+ Mon, 19 Sep 2022 16:24:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663603722; x=1695139722;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=NPs0wAMiICa5jSbcC4YEuaTH4A5GViFkO+tb3iPLa2M=;
- b=UBfRZcrFMjiLEBVO8VurqZbgkNm8wCQJVGzeb3dGXSzSrXRxHq2eKvwG
- gTKIfLTnExtWMn7kmvHSgWQTsC/HhRJW/dUTXv3KYbaaGQtuRtnrk52pR
- BkBM8s3/yiBo2QGyUwl9CnKmAQliyzdmETFCINqTBHeHgWM4ydQxAI/9S
- Vbgz05NH/RjVEn/y996yAxsycnQKY9tZCEKA3TEEbc975dzHAxfHakwbN
- JOJ6pWOdAcuCx4CO6+J0WxPAv6YuboZs1uQWmRe5q/spCQo6rNkCmJBN3
- bWgCh3V+9GtorZF66mmQ7KAgB/4SBotKVoSYOHwn2Qo4KIGtqzDtnqn6/ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="325734535"
-X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="325734535"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2022 09:08:39 -0700
-X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="569707417"
-Received: from biancabe-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.32.244])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2022 09:08:33 -0700
-Date: Mon, 19 Sep 2022 18:08:26 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: Re: [PATCH v3 0/2] drm/i915/gem: Really move i915_gem_context.link
- under ref protection
-Message-ID: <YyiT+qc2pUWVIZHF@alfio.lan>
-References: <20220916092403.201355-1-janusz.krzysztofik@linux.intel.com>
+ t=1663604647; x=1695140647;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=spmkaAwl04vaB/FEWDTRXAIqt26TTcL5SSa7rFPnrZw=;
+ b=Xcu+DAmvpXFJ64QW1cygZm2Lg9ZA2vt3wUEbdO4MmyyuHKiAZv5B1QyE
+ vDtQhXWgX6Z/Jbj5fyczhgMlPoLhFziViP3JTTWkq7czLEDKn9dRtMZsd
+ TtgBh2cDGD1RkV1Paygdhe434cpmSCnufTXCbwDjYTocpFPXcZ4/AxAxX
+ op6XcwYYVXNZhF7jOrE29I4OBkkQdkIFajA4QnJE8fDAS/kZXs18oT48J
+ y6DbOlnZE/gfmaDYRHr+p+1V0D3Vwd1+Lyw9W63GeEoMc0H11UAsPhlXo
+ 4wETmoca3CjCv3OkUF7sx2PP78pzoWk5PfaYxvPOGtOi58ko+8DzwbRAM A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="282472923"
+X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="282472923"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 09:24:06 -0700
+X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="687038059"
+Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.jf.intel.com)
+ ([10.165.21.138])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 09:24:05 -0700
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Perf_limit_reasons are only available for Gen11+
+Date: Mon, 19 Sep 2022 09:24:01 -0700
+Message-Id: <20220919162401.2077713-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220916092403.201355-1-janusz.krzysztofik@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,85 +54,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Tilak Tangudu <tilak.tangudu@intel.com>,
+ Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pushed, Thanks!
+Register GT0_PERF_LIMIT_REASONS (0x1381a8) is available only for
+Gen11+. Therefore ensure perf_limit_reasons sysfs/debugfs files are created
+only for Gen11+. Otherwise on Gen < 5 accessing these files results in the
+following oops:
 
-Andi
+<1> [88.829420] BUG: unable to handle page fault for address: ffffc90000bb81a8
+<1> [88.829438] #PF: supervisor read access in kernel mode
+<1> [88.829447] #PF: error_code(0x0000) - not-present page
 
-On Fri, Sep 16, 2022 at 11:24:01AM +0200, Janusz Krzysztofik wrote:
-> i915_perf assumes that it can use the i915_gem_context reference to
-> protect its i915->gem.contexts.list iteration. However, this requires
-> that we do not remove the context from the list until after we drop the
-> final reference and release the struct. If, as currently, we remove the
-> context from the list during context_close(), the link.next pointer may
-> be poisoned while we are holding the context reference and cause a GPF:
-> 
-> [ 4070.573157] i915 0000:00:02.0: [drm:i915_perf_open_ioctl [i915]] filtering on ctx_id=0x
-> 1fffff ctx_id_mask=0x1fffff
-> [ 4070.574881] general protection fault, probably for non-canonical address 0xdead00000000
-> 0100: 0000 [#1] PREEMPT SMP
-> [ 4070.574897] CPU: 1 PID: 284392 Comm: amd_performance Tainted: G            E     5.17.9
->  #180
-> [ 4070.574903] Hardware name: Intel Corporation NUC7i5BNK/NUC7i5BNB, BIOS BNKBL357.86A.0052.2017.0918.1346 09/18/2017
-> [ 4070.574907] RIP: 0010:oa_configure_all_contexts.isra.0+0x222/0x350 [i915]
-> [ 4070.574982] Code: 08 e8 32 6e 10 e1 4d 8b 6d 50 b8 ff ff ff ff 49 83 ed 50 f0 41 0f c1 04 24 83 f8 01 0f 84 e3 00 00 00 85 c0 0f 8e fa 00 00 00 <49> 8b 45 50 48 8d 70 b0 49 8d 45 50 48 39 44 24 10 0f 85 34 fe ff
-> [ 4070.574990] RSP: 0018:ffffc90002077b78 EFLAGS: 00010202
-> [ 4070.574995] RAX: 0000000000000002 RBX: 0000000000000002 RCX: 0000000000000000
-> [ 4070.575000] RDX: 0000000000000001 RSI: ffffc90002077b20 RDI: ffff88810ddc7c68
-> [ 4070.575004] RBP: 0000000000000001 R08: ffff888103242648 R09: fffffffffffffffc
-> [ 4070.575008] R10: ffffffff82c50bc0 R11: 0000000000025c80 R12: ffff888101bf1860
-> [ 4070.575012] R13: dead0000000000b0 R14: ffffc90002077c04 R15: ffff88810be5cabc
-> [ 4070.575016] FS:  00007f1ed50c0780(0000) GS:ffff88885ec80000(0000) knlGS:0000000000000000
-> [ 4070.575021] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [ 4070.575025] CR2: 00007f1ed5590280 CR3: 000000010ef6f005 CR4: 00000000003706e0
-> [ 4070.575029] Call Trace:
-> [ 4070.575033]  <TASK>
-> [ 4070.575037]  lrc_configure_all_contexts+0x13e/0x150 [i915]
-> [ 4070.575103]  gen8_enable_metric_set+0x4d/0x90 [i915]
-> [ 4070.575164]  i915_perf_open_ioctl+0xbc0/0x1500 [i915]
-> [ 4070.575224]  ? asm_common_interrupt+0x1e/0x40
-> [ 4070.575232]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
-> [ 4070.575290]  drm_ioctl_kernel+0x85/0x110
-> [ 4070.575296]  ? update_load_avg+0x5f/0x5e0
-> [ 4070.575302]  drm_ioctl+0x1d3/0x370
-> [ 4070.575307]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
-> [ 4070.575382]  ? gen8_gt_irq_handler+0x46/0x130 [i915]
-> [ 4070.575445]  __x64_sys_ioctl+0x3c4/0x8d0
-> [ 4070.575451]  ? __do_softirq+0xaa/0x1d2
-> [ 4070.575456]  do_syscall_64+0x35/0x80
-> [ 4070.575461]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> [ 4070.575467] RIP: 0033:0x7f1ed5c10397
-> [ 4070.575471] Code: 3c 1c e8 1c ff ff ff 85 c0 79 87 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a9 da 0d 00 f7 d8 64 89 01 48
-> [ 4070.575478] RSP: 002b:00007ffd65c8d7a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> [ 4070.575484] RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f1ed5c10397
-> [ 4070.575488] RDX: 00007ffd65c8d7c0 RSI: 0000000040106476 RDI: 0000000000000006
-> [ 4070.575492] RBP: 00005620972f9c60 R08: 000000000000000a R09: 0000000000000005
-> [ 4070.575496] R10: 000000000000000d R11: 0000000000000246 R12: 000000000000000a
-> [ 4070.575500] R13: 000000000000000d R14: 0000000000000000 R15: 00007ffd65c8d7c0
-> [ 4070.575505]  </TASK>
-> [ 4070.575507] Modules linked in: nls_ascii(E) nls_cp437(E) vfat(E) fat(E) i915(E) x86_pkg_temp_thermal(E) intel_powerclamp(E) crct10dif_pclmul(E) crc32_pclmul(E) crc32c_intel(E) aesni_intel(E) crypto_simd(E) intel_gtt(E) cryptd(E) ttm(E) rapl(E) intel_cstate(E) drm_kms_helper(E) cfbfillrect(E) syscopyarea(E) cfbimgblt(E) intel_uncore(E) sysfillrect(E) mei_me(E) sysimgblt(E) i2c_i801(E) fb_sys_fops(E) mei(E) intel_pch_thermal(E) i2c_smbus(E) cfbcopyarea(E) video(E) button(E) efivarfs(E) autofs4(E)
-> [ 4070.575549] ---[ end trace 0000000000000000 ]---
-> 
-> However, there is a risk of triggering kernel warning on contexts list not
-> empty at driver release time if we deleagate that task to a worker for
-> i915_gem_context_release_work(), unless that work is flushed first.
-> Unfortunately, it is not flushed on driver release.  Fix it.
-> 
-> Chris Wilson (1):
->   drm/i915/gem: Really move i915_gem_context.link under ref protection
-> 
-> Janusz Krzysztofik (1):
->   drm/i915/gem: Flush contexts on driver release
-> 
->  drivers/gpu/drm/i915/gem/i915_gem_context.c | 8 ++++----
->  drivers/gpu/drm/i915/i915_gem.c             | 3 ++-
->  2 files changed, 6 insertions(+), 5 deletions(-)
-> 
-> -- 
-> 2.25.1
+Bspec: 20008
+Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/6863
+Fixes: fe5979665f64 ("drm/i915/debugfs: Add perf_limit_reasons in debugfs")
+Fixes: fa68bff7cf27 ("drm/i915/gt: Add sysfs throttle frequency interfaces")
+Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++++
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 10 +++++++++-
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   | 15 +++++++++++----
+ 3 files changed, 24 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 5ddae95d4886..b367cfff48d5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -233,6 +233,10 @@ static void gen6_clear_engine_error_register(struct intel_engine_cs *engine)
+ 
+ i915_reg_t intel_gt_perf_limit_reasons_reg(struct intel_gt *gt)
+ {
++	/* GT0_PERF_LIMIT_REASONS is available only for Gen11+ */
++	if (GRAPHICS_VER(gt->i915) < 11)
++		return INVALID_MMIO_REG;
++
+ 	return gt->type == GT_MEDIA ?
+ 		MTL_MEDIA_PERF_LIMIT_REASONS : GT0_PERF_LIMIT_REASONS;
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+index 68310881a793..10f680dbd7b6 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+@@ -682,6 +682,14 @@ static int perf_limit_reasons_clear(void *data, u64 val)
+ 
+ 	return 0;
+ }
++
++static bool perf_limit_reasons_eval(void *data)
++{
++	struct intel_gt *gt = data;
++
++	return i915_mmio_reg_valid(intel_gt_perf_limit_reasons_reg(gt));
++}
++
+ DEFINE_SIMPLE_ATTRIBUTE(perf_limit_reasons_fops, perf_limit_reasons_get,
+ 			perf_limit_reasons_clear, "%llu\n");
+ 
+@@ -694,7 +702,7 @@ void intel_gt_pm_debugfs_register(struct intel_gt *gt, struct dentry *root)
+ 		{ "forcewake_user", &forcewake_user_fops, NULL},
+ 		{ "llc", &llc_fops, llc_eval },
+ 		{ "rps_boost", &rps_boost_fops, rps_eval },
+-		{ "perf_limit_reasons", &perf_limit_reasons_fops, NULL },
++		{ "perf_limit_reasons", &perf_limit_reasons_fops, perf_limit_reasons_eval },
+ 	};
+ 
+ 	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), gt);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+index 54deae45d81f..904160952369 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+@@ -545,8 +545,7 @@ static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_ratl, RATL_MASK);
+ static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_vr_thermalert, VR_THERMALERT_MASK);
+ static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_vr_tdc, VR_TDC_MASK);
+ 
+-static const struct attribute *freq_attrs[] = {
+-	&dev_attr_punit_req_freq_mhz.attr,
++static const struct attribute *throttle_reason_attrs[] = {
+ 	&attr_throttle_reason_status.attr,
+ 	&attr_throttle_reason_pl1.attr,
+ 	&attr_throttle_reason_pl2.attr,
+@@ -791,12 +790,20 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
+ 	if (!is_object_gt(kobj))
+ 		return;
+ 
+-	ret = sysfs_create_files(kobj, freq_attrs);
++	ret = sysfs_create_file(kobj, &dev_attr_punit_req_freq_mhz.attr);
+ 	if (ret)
+ 		drm_warn(&gt->i915->drm,
+-			 "failed to create gt%u throttle sysfs files (%pe)",
++			 "failed to create gt%u punit_req_freq_mhz sysfs (%pe)",
+ 			 gt->info.id, ERR_PTR(ret));
+ 
++	if (i915_mmio_reg_valid(intel_gt_perf_limit_reasons_reg(gt))) {
++		ret = sysfs_create_files(kobj, throttle_reason_attrs);
++		if (ret)
++			drm_warn(&gt->i915->drm,
++				 "failed to create gt%u throttle sysfs files (%pe)",
++				 gt->info.id, ERR_PTR(ret));
++	}
++
+ 	if (HAS_MEDIA_RATIO_MODE(gt->i915) && intel_uc_uses_guc_slpc(&gt->uc)) {
+ 		ret = sysfs_create_files(kobj, media_perf_power_attrs);
+ 		if (ret)
+-- 
+2.34.1
+
