@@ -2,79 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7863F5BD0D5
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 17:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454EC5BD0E0
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 17:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0246810E0FA;
-	Mon, 19 Sep 2022 15:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1217110E676;
+	Mon, 19 Sep 2022 15:27:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34D8A10E0FA
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 15:25:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663601113;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=53BgddQvFVk4yhWCvkUyrw6ywQxNKHUZ3Zz5lHSUhEs=;
- b=JrNTb8spUKK/ItVxzAquTpq3j+kGIq3VIEL4Km9vlEi7o0ajNK6FrIUwFsOML1w1QVRpYx
- bLwnaqFADuhrXTJUZzR/g2Gzizn465KFFul4i6v5tBQYqSBEmhQ3L/ucX2ZHY1LV7huT+T
- YGjMGUgKGRMwfTZjhRPJZWVSmVkS2pM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-10-yBJAA3QpNc6eJ8Ai6Oe47A-1; Mon, 19 Sep 2022 11:25:10 -0400
-X-MC-Unique: yBJAA3QpNc6eJ8Ai6Oe47A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d9-20020adfa349000000b0022ad6fb2845so1677046wrb.17
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 08:25:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=53BgddQvFVk4yhWCvkUyrw6ywQxNKHUZ3Zz5lHSUhEs=;
- b=KAoAiofB3NoodHt7d7cAOAM9y5S9oVECq7no1OG4cBew2KaZNa9uT9e77hDvZZbdaY
- wrkjAWYbiNlBSvnYySK8oSdC/CDnb1fifm6+bh3kcD0FADHaAqPSCl9inzKR+GDv8UO7
- PDowP2lQICLZ4OAaBL1cSQsxaZtOHBF0nRWKIhfFBdwp3txoQg39pTgRX80FLUBNYPAO
- MHCGaBY9n5cmNodZxdkqh+yJhB0gisLe4vdc8rtrcky85Kq4NeslmFUeCB91chHgOO4l
- AX5xmrJdvZGrt7gbbVDReQzgC+QbhKqYeMxNCW8pCcw98ZFrWn2fjZNTlPSrrjEehQyA
- iOOw==
-X-Gm-Message-State: ACrzQf3Rc9+yCO4Xh+6W9arnog+KWA768BwXz81bstTgRSl6UtyEshpG
- /2PZS2Ux9CAMNM2JfNSUilfZJPtJZw0SGynMI5kMxIjR5fmAqaqiFZWMKHDcieaPG+5wfjepGD3
- sRMbWtlLCky+DuBPXFWgwsOErU8w8
-X-Received: by 2002:a05:600c:3511:b0:3b4:bb85:f1e3 with SMTP id
- h17-20020a05600c351100b003b4bb85f1e3mr11821855wmq.0.1663601108501; 
- Mon, 19 Sep 2022 08:25:08 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5peyCdBSaBGNhioyYQH/zfn1wc1/nsujd98i0o3UTCbOfxUReVxlZawNpVG/zEgrcU9D+S2A==
-X-Received: by 2002:a05:600c:3511:b0:3b4:bb85:f1e3 with SMTP id
- h17-20020a05600c351100b003b4bb85f1e3mr11821845wmq.0.1663601108288; 
- Mon, 19 Sep 2022 08:25:08 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:3d91:d508:5a89:9cf?
- ([2a01:e0a:c:37e0:3d91:d508:5a89:9cf])
- by smtp.gmail.com with ESMTPSA id
- a19-20020a05600c225300b003b49ab8ff53sm14194939wmm.8.2022.09.19.08.25.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 08:25:07 -0700 (PDT)
-Message-ID: <9447ffca-4383-eccd-3f9e-f87696b188d4@redhat.com>
-Date: Mon, 19 Sep 2022 17:25:06 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D0210E675
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 15:27:24 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 859C6415;
+ Mon, 19 Sep 2022 17:27:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1663601242;
+ bh=NykL4ORXb7mlG5Er0sYqetabdT1DHT9QrJrGrvlu+D4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Rmp8G9vxTP6yVvqGm3ljCjRuTcwj7n60drXxXkYinvqAvkZa7J50YiM8yFfZI4BWI
+ 7h4emeppP9If2KDiie7hnRYs3ZsSTyWPdh+Oy9zwqsdBtKve/7/HGeVDHY2ibdFlfR
+ ujFqQVyvZuE8AVgBBeKeECRUDJebj/gqlMRyVL84=
+Date: Mon, 19 Sep 2022 18:27:09 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 05/12] drm/bridge: sii8620: Use
+ drm_bridge_funcs.atomic_check
+Message-ID: <YyiKTe4qVUuQ/Zj1@pendragon.ideasonboard.com>
+References: <20220717174454.46616-1-sam@ravnborg.org>
+ <20220717174454.46616-6-sam@ravnborg.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] drm/mgag200: Force 32 bpp on the console
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- daniel@ffwll.ch, wangyugui@e16-tech.com
-References: <20220915150348.31504-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20220915150348.31504-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220717174454.46616-6-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,59 +48,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Philip Chen <philipchen@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Robert Foss <robert.foss@linaro.org>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Cai Huoqing <cai.huoqing@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/09/2022 17:03, Thomas Zimmermann wrote:
-> G200ER does not seem to support 24 bpp, so force the console to
-> use 32 bpp. The problem was introduced, when commit 73f54d5d9682
-> ("drm/mgag200: Remove special case for G200SE with <2 MiB") changed
-> the preferred color depth from 32 bit to 24 bit.
+Hi Sam,
+
+Thank you for the patch.
+
+On Sun, Jul 17, 2022 at 07:44:47PM +0200, Sam Ravnborg wrote:
+> Replace the deprecated drm_bridge_funcs.mode_fixup() with
+> drm_bridge_funcs.atomic_check().
 > 
-> A setting of 24 is the correct color depth, but G200ER doesn't seem
-> to be able to use the respective RGB888 color format. Using 24-bit
-> color with forced 32 bpp works around the problem.
+> drm_bridge_funcs.atomic_check() requires the atomic state operations,
+> update these to the default implementations.
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/sil-sii8620.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+> index ab0bce4a988c..b6e5c285c8ea 100644
+> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
+> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+> @@ -8,6 +8,7 @@
+>  
+>  #include <asm/unaligned.h>
+>  
+> +#include <drm/drm_atomic_state_helper.h>
 
-Thanks for the patch.
-At least on my G200EW, 24 bpp is working well. So maybe only the G200ER 
-is affected.
-I think it may have a performance penalty, I will try to measure it.
+I'd move this one line down, in alphabetical order.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+>  #include <drm/bridge/mhl.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+> @@ -2262,26 +2263,30 @@ static enum drm_mode_status sii8620_mode_valid(struct drm_bridge *bridge,
+>  	}
+>  }
+>  
+> -static bool sii8620_mode_fixup(struct drm_bridge *bridge,
+> -			       const struct drm_display_mode *mode,
+> -			       struct drm_display_mode *adjusted_mode)
+> +static int sii8620_atomic_check(struct drm_bridge *bridge,
+> +				struct drm_bridge_state *bridge_state,
+> +				struct drm_crtc_state *crtc_state,
+> +				struct drm_connector_state *conn_state)
+>  {
+>  	struct sii8620 *ctx = bridge_to_sii8620(bridge);
+>  
+>  	mutex_lock(&ctx->lock);
+>  
+> -	ctx->use_packed_pixel = sii8620_is_packing_required(ctx, adjusted_mode);
+> +	ctx->use_packed_pixel = sii8620_is_packing_required(ctx, &crtc_state->adjusted_mode);
+
+Shouldn't this be moved to atomic_enable ? A test commit should change
+the device state.
+
+As this code was initially in mode_fixup I suppose this patch could be
+merged as-is, with the problem fixed on top, so
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  
+>  	mutex_unlock(&ctx->lock);
+>  
+> -	return true;
+> +	return 0;
+>  }
+>  
+>  static const struct drm_bridge_funcs sii8620_bridge_funcs = {
+>  	.attach = sii8620_attach,
+>  	.detach = sii8620_detach,
+> -	.mode_fixup = sii8620_mode_fixup,
+> +	.atomic_check = sii8620_atomic_check,
+>  	.mode_valid = sii8620_mode_valid,
+> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+>  };
+>  
+>  static int sii8620_probe(struct i2c_client *client,
 
 -- 
+Regards,
 
-Jocelyn
-
-> 
-> Reported-by: Wang Yugui <wangyugui@e16-tech.com>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Tested-by: Wang Yugui <wangyugui@e16-tech.com>
-> Fixes: 73f54d5d9682 ("drm/mgag200: Remove special case for G200SE with <2 MiB")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/mgag200/mgag200_drv.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> index 251a1bb648cc..a222bf76804f 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -262,7 +262,11 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->   	if (ret)
->   		return ret;
->   
-> -	drm_fbdev_generic_setup(dev, 0);
-> +	/*
-> +	 * FIXME: A 24-bit color depth does not work with 24 bpp on
-> +	 * G200ER. Force 32 bpp.
-> +	 */
-> +	drm_fbdev_generic_setup(dev, 32);
->   
->   	return 0;
->   }
-
+Laurent Pinchart
