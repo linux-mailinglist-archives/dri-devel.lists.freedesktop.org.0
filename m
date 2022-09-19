@@ -2,57 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543F25BD697
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 23:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A7B5BD768
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 00:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5E310E0B5;
-	Mon, 19 Sep 2022 21:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E841010E1A9;
+	Mon, 19 Sep 2022 22:33:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E03EF10E0B5
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 21:43:33 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- u6-20020a056830118600b006595e8f9f3fso493765otq.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 14:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gateworks-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=sKtyENe86Q/OqlXN1O0gbexI0XpfGGGtAepGMCor+34=;
- b=IkGsimzJxr4hqy+Vfmjx30QA9nvDXkOEA8YDczvvQiAdYxDKkqy76p3hG+o+5R12tM
- IAlcyop9rO+MCRGVV4pgZNTqIu8EnCGdpHFW9aUHUYnSgIHdPmK2SXJL9WKgoS4mop7a
- PfCQ8xTqOviFdZz/LMEgdPN+H5SoaRFljnxPXv1eKl3S9cLdBlOqxZ5WX6gIVLtUETHi
- vC6y6UfRF/wycH6zu9n1hQEpm/J4qzRCg7afWGrzkMeOYXlqGg349LyHPu60rPnW2kP6
- kn4OnlidGxK+YdbMXs1H+/mAaCPpt9QzyXBObqrEka/JBGU2zM9Nm08dnPWA0YB2eP5L
- 8mCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=sKtyENe86Q/OqlXN1O0gbexI0XpfGGGtAepGMCor+34=;
- b=j1etFgJW1sDyydy3LphnDdR2AAKnKWEQioCGrcztoPR+6+ZUqUhadSwt3UrzNwF52z
- MI76MHDCqyaEpK0c8B+Orw6yu8cUw2ydAVQlsjMvtNBac8DJsw2yIEAFo5jKCyK7Kfon
- pe+RFQGxeC6nwclewplfaT4PnxLUquaLl1aSTnIPBZFkmWrK72fzmoYucLyHFX/Sg2Cs
- GoQjvSF12K0RAM0ycRbXO43Y0WF+hmTWD+03n8D8wsD1443xL/MtnuwQamSKpn6RExG8
- nuNH+dMLEW2CRgCJTSH8qXwOM0prdx4hb0vprcDMVpGAgehvOtPUaXyTWFvuCJvfnNjl
- Z1nw==
-X-Gm-Message-State: ACrzQf1S9Qf6JrUkZyoWi9r44R8zXpAa3wt3vitBYyJ1NuC+YqN/1M8R
- L/YuKloBCkaX0DjD2gzs/aLiHjFXKfEm7t23npoMBQ==
-X-Google-Smtp-Source: AMsMyM43Dxu8MAFsKgpb6em8MHC2r9PEgty88ZEsoPBRfo9rrredHoNCUpBQ6LZibyYt9OJAAPG2bCDGDPDg8xqgDOQ=
-X-Received: by 2002:a9d:684e:0:b0:659:6461:a8d9 with SMTP id
- c14-20020a9d684e000000b006596461a8d9mr8971091oto.42.1663623813024; Mon, 19
- Sep 2022 14:43:33 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0DCE10E078;
+ Mon, 19 Sep 2022 22:33:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663626787; x=1695162787;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=aE0rYqfKJH3Gy0heeP5yzwEhlkuSuuFnRvkALL2mDNA=;
+ b=I9ScCrfjG+N2ubjzvxuf5ozPMtBmL/pRHLtBnHIa7+oiWja1yauev8pC
+ dZPfY6TpMJkxdrUY1TGyEeVSxPuUV/zVv7mnd2gieUTkgfIlcDn3XnT0n
+ wbz2K2DV0VEI+zyNI99iQIxsfmZnco+C3xxXusab1zEHn4w7lYDWPShIP
+ XzJNrJhs6krAIvTJFOQ57fEM2hOPIYzo+4zbRLxgNig0+1IO7SqmdCPXl
+ t+vjqZjjCM/eXMYWM+Bg9o/xdWjeKsjpQEsUyTfmX/ABhIJFlhPabZLGi
+ IgJKEJ545rnutTZapCHUk/GtZaZrUQ3TGsDfqshVTTztlvm5rMOBKoyYr g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="286585474"
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="286585474"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 15:33:07 -0700
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="794030753"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 15:33:07 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/12] Explicit MCR handling and MTL steering
+Date: Mon, 19 Sep 2022 15:32:47 -0700
+Message-Id: <20220919223259.263525-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20220916181731.89764-1-jagan@amarulasolutions.com>
-In-Reply-To: <20220916181731.89764-1-jagan@amarulasolutions.com>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Mon, 19 Sep 2022 14:43:21 -0700
-Message-ID: <CAJ+vNU2gLKm_Si7xUsRJuzbJyEFHpC_TqsiorBAT5ADTZjsPZg@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] drm: bridge: Add Samsung MIPI DSIM bridge
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,88 +53,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- NXP Linux Team <linux-imx@nxp.com>, Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 16, 2022 at 11:18 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> This series supports common bridge support for Samsung MIPI DSIM
-> which is used in Exynos and i.MX8MM SoC's.
->
-> Previous v4 can be available here [1], repo on linux-next [2] and
-> Engicam i.Core MX8M Mini SoM boot log [3].
->
-> The final bridge supports both the Exynos and i.MX8MM DSI devices.
->
-> Changes for v3:
-> * bridge changes to support multi-arch
-> * updated and clear commit messages
-> * add hw_type via plat data
-> * removed unneeded quirk
-> * rebased on linux-next
->
-> Changes for v4:
-> * include Inki Dae in MAINTAINERS
-> * remove dsi_driver probe in exynos_drm_drv to support multi-arch build
-> * update init handling to ensure host init done on first cmd transfer
->
-> Changes for v3:
-> * fix the mult-arch build
-> * fix dsi host init
-> * updated commit messages
->
-> Changes for v2:
-> * fix bridge handling
-> * fix dsi host init
-> * correct the commit messages
->
-> Patch 0001:     Restore proper bridge chain in exynos_dsi
->
-> Patch 0002:     Samsung DSIM bridge
->
-> Patch 0003:     PHY optional
->
-> Patch 0004:     OF-graph or Child node lookup
->
-> Patch 0005:     DSI host initialization
->
-> Patch 0006:     atomic check
->
-> Patch 0007:     PMS_P offset via plat data
->
-> Patch 0008:     atomic_get_input_bus_fmts
->
-> Patch 0009:     input_bus_flags
->
-> Patch 0010:     document fsl,imx8mm-mipi-dsim
->
-> Patch 0011:     add i.MX8MM DSIM support
->
-> [3] https://gist.github.com/openedev/22b2d63b30ade0ba55ab414a2f47aaf0
-> [2] https://github.com/openedev/kernel/tree/imx8mm-dsi-v5
+Steering of multicast/replicated registers becomes a bit more
+complicated on Meteor Lake.  Whereas previously the control register we
+used to manage the steering was only used by our driver[*], software's
+control of steering has now been consolidated with the controls for
+various other hardware/firmware agents into a single register.  We can
+no longer utilize pre-programmed implicit steering since other firmware
+agents may change the steering target and not restore it afterward;
+we'll need to explicitly steer all types of MCR registers (including the
+GSLICE/COMPUTE/DSS ranges that have been handled implicitly in the
+past).  Furthermore, since multiple agents will now be sharing a single
+steering control register, races are possible.  To address this, the
+hardware adds a new MCR semaphore register which is supposed to be used
+to temporarily lock the steering while performing MCR operations.
 
-Jagan,
+It's going to become important for us to handle accesses of multicast
+registers very explicitly going forward.  This series provides some prep
+work for that by updating our register definitions to clearly define
+registers as either MCR or non-MCR and ensure that we're using the
+intel_gt_mcr_*() functions rather than intel_uncore_*() when operating
+on MCR registers.  By declaring MCR registers as a new C type (i.e., not
+an i915_reg_t) we can have the compiler help us find any mistakes where
+non-MCR functions are used on MCR registers and vice-versa.
 
-I would like to try out this latest series a board I have here. It
-looks like perhaps you did not push this imx8mm-dsi-v5 branch?
+This series also includes the general MCR steering tables and logic, but
+does not yet introduce the support for the semaphore register that will
+be used to coordinate steering updates with other agents; we'll provide
+that support in a separate series once this preparation work has landed.
 
-Best Regards,
 
-Tim
+[*] This is a bit of an oversimplification; there are some hardware and
+software debug tools that use the same MCR_SELECTOR register that i915
+does and which could potentially re-steer MCR accesses behind our back.
+E.g., simply using IGT's "intel_reg" tool to write the MCR_SELECTOR
+register at the wrong time could interfere with driver operation.  But
+given that these debug facilities require root privileges to run and are
+only used by people intentionally debugging the driver or hardware, we
+can ignore such races for real-world usage.
 
-> [1] https://patchwork.kernel.org/project/dri-devel/cover/20220829184031.1863663-1-jagan@amarulasolutions.com/
->
+Matt Roper (12):
+  drm/i915/gen8: Create separate reg definitions for new MCR registers
+  drm/i915/xehp: Create separate reg definitions for new MCR registers
+  drm/i915/gt: Drop a few unused register definitions
+  drm/i915/gt: Correct prefix on a few registers
+  drm/i915/xehp: Check for faults on primary GAM
+  drm/i915: Define MCR registers explicitly
+  drm/i915/gt: Always use MCR functions on multicast registers
+  drm/i915/guc: Handle save/restore of MCR registers explicitly
+  drm/i915/gt: Add MCR-specific workaround initializers
+  drm/i915: Define multicast registers as a new type
+  drm/i915/mtl: Add multicast steering for render GT
+  drm/i915/mtl: Add multicast steering for media GT
+
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   4 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |   4 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  40 +-
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c        | 149 ++++--
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.h        |  14 +-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 157 +++---
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   9 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  44 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   2 +-
+ drivers/gpu/drm/i915/gt/intel_mocs.c          |  12 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 470 +++++++++++-------
+ .../gpu/drm/i915/gt/intel_workarounds_types.h |   9 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |   2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  60 ++-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |   8 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  12 +-
+ drivers/gpu/drm/i915/gvt/handlers.c           |  19 +-
+ drivers/gpu/drm/i915/gvt/mmio_context.c       |  16 +-
+ drivers/gpu/drm/i915/i915_pci.c               |   1 +
+ drivers/gpu/drm/i915/i915_reg_defs.h          |  22 +-
+ drivers/gpu/drm/i915/intel_gvt_mmio_table.c   |  12 +-
+ drivers/gpu/drm/i915/intel_pm.c               |  20 +-
+ 22 files changed, 700 insertions(+), 386 deletions(-)
+
+-- 
+2.37.3
+
