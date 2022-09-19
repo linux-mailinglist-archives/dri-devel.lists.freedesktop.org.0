@@ -1,50 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201BB5BD4B0
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 20:19:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC56F5BD5CC
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 22:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 465AE10E0A6;
-	Mon, 19 Sep 2022 18:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBC7810E101;
+	Mon, 19 Sep 2022 20:43:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5188D10E0A6
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 18:19:20 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 4118584C3A;
- Mon, 19 Sep 2022 20:19:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1663611557;
- bh=qaXJSHGzVra3uScTyl+1JMh853Am+d2RYo5LZJhEFMA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=eN87FgasO8A3jTZ4KwlxlzA/vC5JiASuYgDxqONyhbit8d+vRexmrf//LsGfyn68s
- xeTQHyGAoZ6Cvz+JOepkzbdp8DE2DBy4mxQsLXoluLpPIe1LbjkBCsUj/Mf2HUL8pz
- 0Sz4SWjsLYGzTcoMQKrnKOkCdIfE/Zi6IdeVZ0bNmrT5+3sFaakaZfsYFDu9SZ2BHB
- 9PL1iuxajBV8wktdvJ8el3mh8eIpUEbk5HriMS7DPrWsO0tfBhlarGnjcl0Tfv3RTl
- bQLDcM84CNAC9mFpjztEjTkw16Bxz6U6onUPp/EtF8dnVvw9dRPSTdN/hf/k0QfnV7
- q73VPVImnqdhw==
-Message-ID: <b585326b-190f-67f0-2631-412310b6d285@denx.de>
-Date: Mon, 19 Sep 2022 20:17:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Add and use hs_rate and lp_rate
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220801131113.182487-1-marex@denx.de>
- <41f661e5-adcd-3e42-df2f-5732b1e19125@denx.de>
- <20220919134329.nb75womf35jdae3h@houat>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20220919134329.nb75womf35jdae3h@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC72910E101;
+ Mon, 19 Sep 2022 20:43:31 +0000 (UTC)
+Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4MWc8M23wWzDqQV;
+ Mon, 19 Sep 2022 20:43:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1663620211; bh=moP01r7W2CTQ+bvdQLlQMHQhiuiCi4RIylpN/PDDHXM=;
+ h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
+ b=OavO9UljfoqQMuph/JKLxgSCLMFRb4JfEwu1tHdXWGvZyEgx+t2j7cUuGXbYEG2Yb
+ x1OOVfBQpXlmwP6j73sfkcdK3qiKBPzmRcbr3CBjzkgtDKxb6lP9LOTsfzJ8qamXSR
+ eH/fXg1/tWmhxIYndT5d9+0glHjQLdQjdvru3Jj0=
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4MWc8K61z5z9s8h;
+ Mon, 19 Sep 2022 20:43:29 +0000 (UTC)
+X-Riseup-User-ID: 9B18A1EBE9B10BAB879071F7D5E57B7DABD350312A8BBE900DA00F59CBB39DFE
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4MWc8B3bqnz5vRK;
+ Mon, 19 Sep 2022 20:43:22 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+Subject: Re: [PATCH i-g-t v2 3/4] lib/igt_kmod: add compatibility for KUnit
+From: Isabella Basso <isabbasso@riseup.net>
+In-Reply-To: <CABVgOS=HO9XAf8C5X7ZD6aTW37r06ify==7AW9a8cpKsgLVfFw@mail.gmail.com>
+Date: Mon, 19 Sep 2022 17:43:19 -0300
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D53B4EB1-1A95-48F1-BF49-8EC0CC7B5418@riseup.net>
+References: <20220829000920.38185-1-isabbasso@riseup.net>
+ <20220829000920.38185-4-isabbasso@riseup.net>
+ <CABVgOS=HO9XAf8C5X7ZD6aTW37r06ify==7AW9a8cpKsgLVfFw@mail.gmail.com>
+To: David Gow <davidgow@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,157 +61,493 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
+Cc: Melissa Wen <mwen@igalia.com>, linux-kselftest@vger.kernel.org,
+ KUnit Development <kunit-dev@googlegroups.com>,
+ Magali Lemes <magalilemes00@gmail.com>,
+ =?utf-8?Q?Ma=C3=ADra_Canal?= <maira.canal@usp.br>,
+ Daniel Latypov <dlatypov@google.com>, n@nfraprado.net,
+ Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ kernel list <linux-kernel@vger.kernel.org>, leandro.ribeiro@collabora.com,
+ igt-dev@lists.freedesktop.org, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Tales Aparecida <tales.aparecida@gmail.com>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@riseup.net>,
+ Brendan Higgins <brendanhiggins@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/19/22 15:43, Maxime Ripard wrote:
-> Hi,
+Hi, David
 
-Hello Maxime,
+> Am 01/09/2022 um 3:37 AM schrieb 'David Gow' via KUnit Development =
+<kunit-dev@googlegroups.com>:
+>=20
+> On Mon, Aug 29, 2022 at 8:10 AM Isabella Basso <isabbasso@riseup.net> =
+wrote:
+>>=20
+>> This adds functions for both executing the tests as well as parsing =
+(K)TAP
+>> kmsg output, as per the KTAP spec [1].
+>>=20
+>> [1] https://www.kernel.org/doc/html/latest/dev-tools/ktap.html
+>>=20
+>> Signed-off-by: Isabella Basso <isabbasso@riseup.net>
+>> ---
+>=20
+> Thanks very much for sending these patches out again.
+>=20
+> Alas, I don't have a particularly useful igt setup to test this
+> properly, but I've left a couple of notes from trying it on my laptop
+> here.
 
-> On Sun, Sep 18, 2022 at 02:56:00PM +0200, Marek Vasut wrote:
->> On 8/1/22 15:11, Marek Vasut wrote:
->>> Fill in hs_rate and lp_rate to struct mipi_dsi_device for this bridge and
->>> adjust DSI input frequency calculations such that they expect the DSI host
->>> to configure HS clock according to hs_rate.
->>>
->>> This is an optimization for the DSI burst mode case. In case the DSI device
->>> supports DSI burst mode, it is recommended to operate the DSI interface at
->>> the highest possible HS clock frequency which the DSI device supports. This
->>> permits the DSI host to send as short as possible bursts of data on the DSI
->>> link and keep the DSI data lanes in LP mode otherwise, which reduces power
->>> consumption.
->>
->>> Signed-off-by: Marek Vasut <marex@denx.de>
->>> Cc: Jagan Teki <jagan@amarulasolutions.com>
->>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> Cc: Linus Walleij <linus.walleij@linaro.org>
->>> Cc: Robert Foss <robert.foss@linaro.org>
->>> Cc: Sam Ravnborg <sam@ravnborg.org>
->>> Cc: dri-devel@lists.freedesktop.org
->>> ---
->>>    drivers/gpu/drm/bridge/ti-sn65dsi83.c | 25 +++++++++++++------------
->>>    1 file changed, 13 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->>> index 14e7aa77e7584..b161f25c3a2f5 100644
->>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->>> @@ -286,8 +286,7 @@ static u8 sn65dsi83_get_lvds_range(struct sn65dsi83 *ctx,
->>>    	return (mode_clock - 12500) / 25000;
->>>    }
->>> -static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx,
->>> -				  const struct drm_display_mode *mode)
->>> +static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx)
->>>    {
->>>    	/*
->>>    	 * The encoding of the CHA_DSI_CLK_RANGE is as follows:
->>> @@ -303,20 +302,20 @@ static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx,
->>>    	 *  DSI_CLK = mode clock * bpp / dsi_data_lanes / 2
->>>    	 * the 2 is there because the bus is DDR.
->>>    	 */
->>> -	return DIV_ROUND_UP(clamp((unsigned int)mode->clock *
->>> -			    mipi_dsi_pixel_format_to_bpp(ctx->dsi->format) /
->>> -			    ctx->dsi->lanes / 2, 40000U, 500000U), 5000U);
->>> +	return DIV_ROUND_UP(ctx->dsi->hs_rate, 5000000U);
->>>    }
->>> -static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
->>> +static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx,
->>> +				const struct drm_display_mode *mode)
->>>    {
->>>    	/* The divider is (DSI_CLK / LVDS_CLK) - 1, which really is: */
->>> -	unsigned int dsi_div = mipi_dsi_pixel_format_to_bpp(ctx->dsi->format);
->>> +	unsigned int dsi_div;
->>> +	int mode_clock = mode->clock;
->>> -	dsi_div /= ctx->dsi->lanes;
->>> +	if (ctx->lvds_dual_link)
->>> +		mode_clock /= 2;
->>> -	if (!ctx->lvds_dual_link)
->>> -		dsi_div /= 2;
->>> +	dsi_div = (ctx->dsi->hs_rate / mode_clock) / 1000;
->>>    	return dsi_div - 1;
->>>    }
->>> @@ -397,9 +396,9 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
->>>    		     REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(ctx, mode)) |
->>>    		     REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
->>>    	regmap_write(ctx->regmap, REG_DSI_CLK,
->>> -		     REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx, mode)));
->>> +		     REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx)));
->>>    	regmap_write(ctx->regmap, REG_RC_DSI_CLK,
->>> -		     REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)));
->>> +		     REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx, mode)));
->>>    	/* Set number of DSI lanes and LVDS link config. */
->>>    	regmap_write(ctx->regmap, REG_DSI_LANE,
->>> @@ -643,6 +642,8 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
->>>    	dsi->lanes = dsi_lanes;
->>>    	dsi->format = MIPI_DSI_FMT_RGB888;
->>>    	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
->>> +	dsi->hs_rate = 500000000;
->>> +	dsi->lp_rate = 16000000;
-> 
-> Let's leave aside the comment from Dave that the host might choose a
-> lower HS rate, we can indeed assume it's true for now.
-> 
-> However.. Is there any guarantee that the host can even reach that
-> frequency in the first place? IIRC, the maximum rate a DSI host can
-> reach is implementation specific. So I'm not sure this solution flies.
-> 
-> It's not clear to me from that patch what problem / issue it's supposed
-> to solve in the first place, but it really looks similar to the
-> discussion we had some time ago about that bridge that could only
-> operate at a set of fixed frequencies.
+Thanks for the review, it=E2=80=99s much appreciated! If you have the =
+time I=E2=80=99ve left a
+note at the bottom with a very simple way to run the tests, but I can =
+also
+provide you with a pastebin of the results if you prefer.
 
-The use of exact frequency on DSI HS clock for bridges which derive 
-their PLL clock frequency from DSI HS clock discussion is separate a 
-topic from this patch.
+>=20
+>> lib/igt_kmod.c | 290 =
++++++++++++++++++++++++++++++++++++++++++++++++++
+>> lib/igt_kmod.h |   2 +
+>> 2 files changed, 292 insertions(+)
+>>=20
+>> diff --git a/lib/igt_kmod.c b/lib/igt_kmod.c
+>> index 97cac7f5..93cdfcc5 100644
+>> --- a/lib/igt_kmod.c
+>> +++ b/lib/igt_kmod.c
+>> @@ -25,6 +25,7 @@
+>> #include <signal.h>
+>> #include <errno.h>
+>> #include <sys/utsname.h>
+>> +#include <limits.h>
+>>=20
+>> #include "igt_aux.h"
+>> #include "igt_core.h"
+>> @@ -32,6 +33,8 @@
+>> #include "igt_sysfs.h"
+>> #include "igt_taints.h"
+>>=20
+>> +#define BUF_LEN 4096
+>> +
+>> /**
+>>  * SECTION:igt_kmod
+>>  * @short_description: Wrappers around libkmod for module =
+loading/unloading
+>> @@ -713,6 +716,293 @@ void igt_kselftest_get_tests(struct kmod_module =
+*kmod,
+>>        kmod_module_info_free_list(pre);
+>> }
+>>=20
+>> +/**
+>> + * lookup_value:
+>> + * @haystack: the string to search in
+>> + * @needle: the string to search for
+>> + *
+>> + * Returns: the value of the needle in the haystack, or -1 if not =
+found.
+>> + */
+>> +static long lookup_value(const char *haystack, const char *needle)
+>> +{
+>> +       const char *needle_rptr;
+>> +       char *needle_end;
+>> +       long num;
+>> +
+>> +       needle_rptr =3D strcasestr(haystack, needle);
+>> +
+>> +       if (needle_rptr =3D=3D NULL)
+>> +               return -1;
+>> +
+>> +       /* skip search string and whitespaces after it */
+>> +       needle_rptr +=3D strlen(needle);
+>> +
+>> +       num =3D strtol(needle_rptr, &needle_end, 10);
+>> +
+>> +       if (needle_rptr =3D=3D needle_end)
+>> +               return -1;
+>> +
+>> +       if (num =3D=3D LONG_MIN || num =3D=3D LONG_MAX)
+>> +               return 0;
+>> +
+>> +       return num > 0 ? num : 0;
+>> +}
+>> +
+>> +static int find_next_tap_subtest(char *record, char *test_name,
+>> +                                bool is_subtest)
+>> +{
+>> +       const char *name_lookup_str,
+>> +             *lend, *version_rptr, *name_rptr;
+>> +       long test_count;
+>> +
+>> +       name_lookup_str =3D "test: ";
+>> +
+>> +       version_rptr =3D strcasestr(record, "TAP version ");
+>> +       name_rptr =3D strcasestr(record, name_lookup_str);
+>> +
+>> +       /*
+>> +        * total test count will almost always appear as 0..N at the =
+beginning
+>> +        * of a run, so we use it as indication of a run
+>> +        */
+>> +       test_count =3D lookup_value(record, "..");
+>> +
+>> +       /* no count found, so this is probably not starting a =
+(sub)test */
+>> +       if (test_count < 0) {
+>> +               if (name_rptr !=3D NULL) {
+>> +                       if (test_name[0] =3D=3D '\0')
+>> +                               strncpy(test_name,
+>> +                                       name_rptr + =
+strlen(name_lookup_str),
+>> +                                       BUF_LEN);
+>> +                       else if (strcmp(test_name, name_rptr + =
+strlen(name_lookup_str)) =3D=3D 0)
+>> +                               return 0;
+>> +                       else
+>> +                               test_name[0] =3D '\0';
+>> +
+>> +               }
+>> +               return -1;
+>> +       }
+>> +
+>> +       /*
+>> +        * "(K)TAP version XX" should be the first line on all =
+(sub)tests as per
+>> +        * =
+https://www.kernel.org/doc/html/latest/dev-tools/ktap.html#version-lines
+>> +        * but actually isn't, as it currently depends on whoever =
+writes the
+>> +        * test to print this info
+>=20
+> FYI: we're really trying to fix cases of "missing version lines",
+> largely by making the kunit_test_suites() macro work in more
+> circumstances.
+>=20
+> So while it may be worth still handling the case where this is
+> missing, I don't think there are any tests in the latest versions of
+> the kernel which should have this missing.
 
-This patch is defining the maximum DSI HS clock frequency this bridge 
-supports per datasheet (500 MHz) AND then assumes the DSI host would use 
-that frequency on the DSI link (in burst mode, the highest frequency on 
-the link permits the link to be in LP mode for longest time and thus be 
-as power efficient as possible).
+I=E2=80=99m not sure if I totally get how these work. Every time I run a =
+KUnit test I
+get something like this: https://pastebin.com/7Ff31PMC
 
-About the assumption -- currently the DSI HS clock frequency expected by 
-the DSI bridge driver is calculated by its own driver-private formula ; 
-the DSI HS clock frequency generated by the DSI host is calculated by 
-the DSI host driver-private formula. Those two might not even match and 
-thus each driver might come to different DSI HS clock they expect or 
-generate. This cannot work reliably.
+As you can see it has been loaded as a module, just like we intend to do =
+it
+from IGT, and I see no version lines whatsoever. Am I doing something =
+wrong?
 
-With this patch, it is at least possible for the DSI bridge driver to 
-indicate what DSI HS clock it expects from the DSI host driver and what 
-are its maximum DSI HS clock. The DSI host driver can check the nearest 
-bridge flags (to verify the bridge uses burst mode) and hs_rate and 
-configure itself accordingly. If the DSI host cannot generate suitable 
-DSI HS clock which the bridge expects, it should likely refuse to bind 
-with the bridge (also read on below how to deal with this). I consider 
-this an improvement over current situation which is a total guesswork.
+>=20
+>> +        */
+>> +       if (version_rptr =3D=3D NULL)
+>> +               igt_info("Missing test version string\n");
+>> +
+>> +       if (name_rptr =3D=3D NULL) {
+>> +               /* we have to keep track of the name string, as it =
+might be
+>> +                * contained in a line read previously */
+>> +               if (test_name[0] =3D=3D '\0') {
+>> +                       igt_info("Missing test name string\n");
+>> +
+>> +                       if (is_subtest)
+>> +                               igt_info("Running %ld subtests...\n", =
+test_count);
+>> +                       else
+>> +                               igt_info("Running %ld tests...\n", =
+test_count);
+>> +               } else {
+>> +                       lend =3D strchrnul(test_name, '\n');
+>> +
+>> +                       if (*lend =3D=3D '\0') {
+>> +                               if (is_subtest)
+>> +                                       igt_info("Executing %ld =
+subtests in: %s\n",
+>> +                                                test_count, =
+test_name);
+>> +                               else
+>> +                                       igt_info("Executing %ld tests =
+in: %s\n",
+>> +                                                test_count, =
+test_name);
+>> +                               return test_count;
+>> +                       }
+>> +
+>> +                       if (is_subtest)
+>> +                               igt_info("Executing %ld subtests in: =
+%.*s\n",
+>> +                                        test_count, (int)(lend - =
+test_name),
+>> +                                        test_name);
+>> +                       else
+>> +                               igt_info("Executing %ld tests in: =
+%.*s\n",
+>> +                                        test_count, (int)(lend - =
+test_name),
+>> +                                        test_name);
+>> +                       test_name[0] =3D '\0';
+>> +               }
+>> +       } else {
+>> +               name_rptr +=3D strlen(name_lookup_str);
+>> +               lend =3D strchrnul(name_rptr, '\n');
+>> +               /*
+>> +                * as the test count comes after the test name we =
+need not check
+>> +                * for a long line again
+>> +                */
+>> +               if (is_subtest)
+>> +                       igt_info("Executing %ld subtests in: %.*s\n",
+>> +                                test_count, (int)(lend - name_rptr),
+>> +                                name_rptr);
+>> +               else
+>> +                       igt_info("Executing %ld tests in: %.*s\n",
+>> +                                test_count, (int)(lend - name_rptr),
+>> +                                name_rptr);
+>> +       }
+>> +
+>> +       return test_count;
+>> +}
+>> +
+>> +static void parse_kmsg_for_tap(const char *lstart, char *lend,
+>> +                              int *sublevel, bool *failed_tests)
+>> +{
+>> +       const char *nok_rptr, *comment_start, *value_parse_start;
+>> +
+>> +       nok_rptr =3D strstr(lstart, "not ok ");
+>> +       if (nok_rptr !=3D NULL) {
+>> +               igt_warn("kmsg> %.*s\n",
+>> +                        (int)(lend - lstart), lstart);
+>> +               *failed_tests =3D true;
+>> +               return;
+>> +       }
+>> +
+>> +       comment_start =3D strchrnul(lstart, '#');
+>> +
+>> +       /* check if we're still in a subtest */
+>> +       if (*comment_start !=3D '\0') {
+>> +               comment_start++;
+>> +               value_parse_start =3D comment_start;
+>> +
+>> +               if (lookup_value(value_parse_start, "fail: ") > 0) {
+>> +                       igt_warn("kmsg> %.*s\n",
+>> +                                (int)(lend - comment_start), =
+comment_start);
+>> +                       *failed_tests =3D true;
+>> +                       (*sublevel)--;
+>> +                       return;
+>> +               }
+>> +       }
+>> +
+>> +       igt_info("kmsg> %.*s\n",
+>> +                (int)(lend - lstart), lstart);
+>> +}
+>> +
+>> +static void igt_kunit_subtests(int fd, char *record,
+>> +                              int *sublevel, bool *failed_tests)
+>> +{
+>> +       char test_name[BUF_LEN + 1], *lend;
+>> +
+>> +       lend =3D NULL;
+>> +       test_name[0] =3D '\0';
+>> +       test_name[BUF_LEN] =3D '\0';
+>> +
+>> +       while (*sublevel >=3D 0) {
+>> +               const char *lstart;
+>> +               ssize_t r;
+>> +
+>> +               if (lend !=3D NULL && *lend !=3D '\0')
+>> +                       lseek(fd, (int) (lend - record), SEEK_CUR);
+>> +
+>> +               r =3D read(fd, record, BUF_LEN);
+>> +
+>> +               if (r <=3D 0) {
+>> +                       switch (errno) {
+>> +                       case EINTR:
+>> +                               continue;
+>> +                       case EPIPE:
+>> +                               igt_warn("kmsg truncated: too many =
+messages. \
+>> +                                        You may want to increase =
+log_buf_len \
+>> +                                        in your boot options\n");
+>> +                               continue;
+>> +                       case !EAGAIN:
+>> +                               igt_warn("kmsg truncated: unknown =
+error (%m)\n");
+>> +                               *sublevel =3D -1;
+>> +                       default:
+>> +                               break;
+>> +                       }
+>> +                       break;
+>> +               }
+>> +
+>> +               lend =3D strchrnul(record, '\n');
+>> +
+>> +               /* in case line > 4096 */
+>> +               if (*lend =3D=3D '\0')
+>> +                       continue;
+>> +
+>> +               if (find_next_tap_subtest(record, test_name, =
+*sublevel > 0) !=3D -1)
+>> +                       (*sublevel)++;
+>> +
+>> +               if (*sublevel > 0) {
+>> +                       lstart =3D strchrnul(record, ';');
+>> +
+>> +                       if (*lstart =3D=3D '\0') {
+>> +                               igt_warn("kmsg truncated: output =
+malformed (%m)\n");
+>> +                               igt_fail(IGT_EXIT_FAILURE);
+>> +                       }
+>> +
+>> +                       lstart++;
+>> +                       while (isspace(*lstart))
+>> +                               lstart++;
+>> +
+>> +                       parse_kmsg_for_tap(lstart, lend, sublevel, =
+failed_tests);
+>> +               }
+>> +       }
+>> +
+>> +       if (*failed_tests || *sublevel < 0)
+>> +               igt_fail(IGT_EXIT_FAILURE);
+>> +       else
+>> +               igt_success();
+>> +}
+>> +
+>> +/**
+>> + * igt_kunit:
+>> + * @module_name: the name of the module
+>> + * @opts: options to load the module
+>> + *
+>> + * Loads the kunit module, parses its dmesg output, then unloads it
+>> + */
+>> +void igt_kunit(const char *module_name, const char *opts)
+>> +{
+>> +       struct igt_ktest tst;
+>> +       char record[BUF_LEN + 1];
+>> +       bool failed_tests =3D false;
+>> +       int sublevel =3D 0;
+>> +
+>> +       record[BUF_LEN] =3D '\0';
+>> +
+>> +       /* get normalized module name */
+>> +       if (igt_ktest_init(&tst, module_name) !=3D 0) {
+>> +               igt_warn("Unable to initialize ktest for %s\n", =
+module_name);
+>> +               return;
+>> +       }
+>> +
+>> +       if (igt_ktest_begin(&tst) !=3D 0) {
+>> +               igt_warn("Unable to begin ktest for %s\n", =
+module_name);
+>> +
+>> +               igt_ktest_fini(&tst);
+>> +               return;
+>> +       }
+>> +
+>> +       if (tst.kmsg < 0) {
+>> +               igt_warn("Could not open /dev/kmsg");
+>> +               goto unload;
+>> +       }
+>> +
+>> +       if (lseek(tst.kmsg, 0, SEEK_END)) {
+>> +               igt_warn("Could not seek the end of /dev/kmsg");
+>> +               goto unload;
+>> +       }
+>> +
+>> +       /* The kunit module is required for running any kunit tests =
+*/
+>> +       if (igt_kmod_load("kunit", NULL) !=3D 0) {
+>> +               igt_warn("Unable to load kunit module\n");
+>> +               goto unload;
+>> +       }
+>=20
+> Do you want to _require_ KUnit be built as a module, rather than =
+built-in here?
 
-Regarding DSI hosts which cannot generate the specified hs_rate , they 
-should likely just reject binding with the DSI bridge. However, there 
-has been a valid point raised that the highest DSI HS clock supported by 
-the DSI bridge might not always be the desired clock, e.g. in case EMI 
-reduction is required by lowering the clock. I would propose to add a DT 
-property which would allow limiting the maximum DSI HS clock frequency 
-per DSI OF graph link in the DT, and a helper which would check the DT 
-property, compare it with bridge limits, and set hs_rate accordingly.
+This line is a little misleading because, for our purposes, only the =
+thing to
+be tested has to be built as a module, but we can use this function for =
+both
+validating a built-in module as well as modprobe-ing it if it's =
+=E2=80=9Estandalone" (I
+tested both cases as well). I=E2=80=99ll change the comment and the =
+warning in v3
+to clarify this.
 
-This should work well for DSI burst mode links in general.
+The actual problem would be to unload something that=E2=80=99s built-in, =
+so that=E2=80=99s why
+I added a check in the unload function in the previous patch.
 
-> You basically want to propagate the clock constraints along the bridge
-> chain, and make sure every body is fine with that. The most reasonable
-> would be to make it part of the bridge state, and possibly add a bunch
-> of extra functions to query the upstream bridge clock output for a given
-> state.
+> Equally, does this need to mark a failure (or at least "SKIPPED")
+> rather than success, in the case it fails.
 
-The bridge hardware constraints are static, just like the bridge 
-hardware itself, so they shouldn't be part of the bridge state, should 
-they ?
+That=E2=80=99s a good point, will change in v3.
 
-I agree we do need a way to implement frequency negotiation between DSI 
-bridge and DSI host, but that's something which can be added on top of 
-the actual bridge HW constraints, and yes, possibly by passing those 
-dynamic constraints via bridge state.
+>> +
+>> +       if (igt_kmod_load(module_name, opts) !=3D 0) {
+>> +               igt_warn("Unable to load %s module\n", module_name);
+>> +               goto unload;
+>> +       }
+>=20
+> As above, should this record a failure, or skip?
+
+Ack.
+
+>> +
+>> +       igt_kunit_subtests(tst.kmsg, record, &sublevel, =
+&failed_tests);
+>> +unload:
+>> +       igt_kmod_unload("kunit", 0);
+>=20
+> Do you want to unconditionally unload the KUnit module here? It's safe
+> (maybe even safer) to leave it loaded between runs of KUnit tests.
+
+That=E2=80=99s a great point. The user should be safe using KUnit as =
+built-in in that
+case, but I=E2=80=99ll remove this line as it is unnecessary.
+
+> Equally, how would you handle the case where KUnit is already loaded?
+
+That=E2=80=99s not a problem as pointed out above, kmod handles that =
+without trouble.
+
+>> +
+>> +       igt_ktest_end(&tst);
+>> +
+>> +       igt_ktest_fini(&tst);
+>> +}
+>> +
+>> static int open_parameters(const char *module_name)
+>> {
+>>        char path[256];
+>> diff --git a/lib/igt_kmod.h b/lib/igt_kmod.h
+>> index ceb10cd0..737143c1 100644
+>> --- a/lib/igt_kmod.h
+>> +++ b/lib/igt_kmod.h
+>> @@ -45,6 +45,8 @@ int __igt_i915_driver_unload(char **whom);
+>> int igt_amdgpu_driver_load(const char *opts);
+>> int igt_amdgpu_driver_unload(void);
+>>=20
+>> +void igt_kunit(const char *module_name, const char *opts);
+>> +
+>> void igt_kselftests(const char *module_name,
+>>                    const char *module_options,
+>>                    const char *result_option,
+>> --
+>> 2.37.2
+>>=20
+>=20
+> Regardless, thanks very much. Hopefully I'll get a chance to play with
+> igt a bit more and actually get the tests running. :-)
+
+That shouldn=E2=80=99t be too difficult, when you compile IGT as per the =
+docs you can
+just run e.g. `sudo ./build/tests/drm_buddy` and that should do it :).
+
+Cheers,
+--
+Isabella Basso
+
+>=20
+> Cheers,
+> -- David
+
