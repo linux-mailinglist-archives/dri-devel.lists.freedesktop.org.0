@@ -1,47 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C905BC0F0
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 03:10:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 520725BC0FD
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 03:27:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA58D10E40F;
-	Mon, 19 Sep 2022 01:10:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61AE910E424;
+	Mon, 19 Sep 2022 01:26:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E58410E412
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 01:09:50 +0000 (UTC)
-Received: from sobremesa.fritz.box (unknown
- [IPv6:2a02:8010:65b5:0:bbb0:f8ec:7bc9:dbe4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C798D6601650;
- Mon, 19 Sep 2022 02:09:48 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663549788;
- bh=DqcVHSfCFx4Ca/ieAwI/ziBPt0lJecXVnfazkc7Feng=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ak0nD86YqTihvmNX3xFa0aQNPGGLRruCBUqlR+9OWLBaoaOJHQRm4Sc7BBJ7WR5Ql
- 2iZyqW6/13FaZWhDGZlHrDC8zH6wENBn6b49L91PuNsHevVcaZtFUGa49hzBEIc20k
- rNHcmdunM9SGxuaoB3gKvk56gnHQUid4urZliiCrzp7vckpEc3KI+N1duMATbf1Q2X
- bDR1QDGCOkBwC3C6HeOQYKBzFl99//RIXJR9dLmz9llkp3xhSwa31DFtJ+nTEDjM3N
- E/bDHuTY3YO/Ox2Upiyx3p0BxYeSvbAZuEZD28Ggl95q6oS3lplmu7pu1U9BmXGsKA
- ScCN7S//WtG6Q==
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: narmstrong@baylibre.com, khilman@baylibre.com,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/meson: remove drm bridges at aggregate driver unbind
- time
-Date: Mon, 19 Sep 2022 02:09:40 +0100
-Message-Id: <20220919010940.419893-4-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220919010940.419893-1-adrian.larumbe@collabora.com>
-References: <20220919010940.419893-1-adrian.larumbe@collabora.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 006BB10E424
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 01:26:47 +0000 (UTC)
+X-UUID: 35544346aa4344c4aaffec1f52702330-20220919
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=s3/mQJDAI8RaGvwS50/sSfM3dEzv5HFd1WDBKbk/QrE=; 
+ b=RbZFb2KOPK+WwjuvFG4JxLna+rt5kZNqAuQcbOeDV+6sE0EWr9wdNH8mZjoOpT1Q/6iSSK56onFlz0QMx0SsWTLr4w3iDjpIUWApLmDOBgO7VjsEnNFjQxhjcEAWAC17vJrvSnsNv+iSo/tJsz3PLLcJ5k9uNCRNVK24C0zjoC0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:cbf665b8-85a3-48b8-807a-56898a6583b8, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Release_Ham,ACTIO
+ N:release,TS:73
+X-CID-INFO: VERSION:1.1.11, REQID:cbf665b8-85a3-48b8-807a-56898a6583b8, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Spam_GS981B3D,ACTIO
+ N:quarantine,TS:73
+X-CID-META: VersionHash:39a5ff1, CLOUDID:d610d0f6-6e85-48d9-afd8-0504bbfe04cb,
+ B
+ ulkID:2209160605436LY6U0LQ,BulkQuantity:208,Recheck:0,SF:28|17|19|48|823|8
+ 24,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:40|20,QS:nil,BEC:nil
+ ,COL:0
+X-UUID: 35544346aa4344c4aaffec1f52702330-20220919
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1177479252; Mon, 19 Sep 2022 09:26:37 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 19 Sep 2022 09:26:35 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Mon, 19 Sep 2022 09:26:35 +0800
+Message-ID: <871b6996647bdc71723569a56e7f238f325fa9c7.camel@mediatek.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: arm: mediatek: mmsys: change
+ compatible for MT8195
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Rob
+ Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+Date: Mon, 19 Sep 2022 09:26:35 +0800
+In-Reply-To: <17cacc6f-173f-ad6c-9056-1b17635c984d@linaro.org>
+References: <20220915161817.10307-1-jason-jh.lin@mediatek.com>
+ <20220915161817.10307-2-jason-jh.lin@mediatek.com>
+ <e6921ed7-a14c-aadb-abd4-1e7ee0a63be9@gmail.com>
+ <f30bd382eb8923256d6f39342ec7832774c0f547.camel@mediatek.com>
+ <17cacc6f-173f-ad6c-9056-1b17635c984d@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,289 +77,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: adrian.larumbe@collabora.com
+Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm bridges added by meson_encoder_hdmi_init and meson_encoder_cvbs_init
-were not manually removed at module unload time, which caused dangling
-references to freed memory to remain linked in the global bridge_list.
+Hi Krzysztof,
 
-When loading the driver modules back in, the same functions would again
-call drm_bridge_add, and when traversing the global bridge_list, would
-end up peeking into freed memory.
+Thanks for the reviews.
 
-Once again KASAN revealed the problem:
+On Sun, 2022-09-18 at 10:31 +0100, Krzysztof Kozlowski wrote:
+> On 16/09/2022 04:34, Jason-JH Lin wrote:
+> > Hi Matthias,
+> > 
+> > Thanks for the review.
+> > 
+> > On Fri, 2022-09-16 at 00:05 +0200, Matthias Brugger wrote:
+> > > 
+> > > On 15/09/2022 18:18, Jason-JH.Lin wrote:
+> > > > For previous MediaTek SoCs, such as MT8173, there are 2 display
+> > > > HW
+> > > > pipelines binding to 1 mmsys with the same power domain, the
+> > > > same
+> > > > clock driver and the same mediatek-drm driver.
+> > > > 
+> > > > For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines
+> > > > binding
+> > > > to
+> > > > 2 different power domains, different clock drivers and
+> > > > different
+> > > > mediatek-drm drivers.
+> > > > 
+> > > > Moreover, Hardware pipeline of VDOSYS0 has these components:
+> > > > COLOR,
+> > > > CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture
+> > > > Quality)
+> > > > and they makes VDOSYS0 supports PQ function while they are not
+> > > > including in VDOSYS1.
+> > > > 
+> > > > Hardware pipeline of VDOSYS1 has the component ETHDR (HDR
+> > > > related
+> > > > component). It makes VDOSYS1 supports the HDR function while
+> > > > it's
+> > > > not
+> > > > including in VDOSYS0.
+> > > > 
+> > > > To summarize0:
+> > > > Only VDOSYS0 can support PQ adjustment.
+> > > > Only VDOSYS1 can support HDR adjustment.
+> > > > 
+> > > > Therefore, we need to separate these two different mmsys
+> > > > hardwares
+> > > > to
+> > > > 2 different compatibles for MT8195.
+> > > > 
+> > > > Fixes: 81c5a41d10b9 ("dt-bindings: arm: mediatek: mmsys: add
+> > > > mt8195
+> > > > SoC binding")
+> > > > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> > > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > > > ---
+> > > >  
+> > > > .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml       
+> > > >  |
+> > > > 2 +-
+> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git
+> > > > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys
+> > > > .yam
+> > > > l
+> > > > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys
+> > > > .yam
+> > > > l
+> > > > index 6ad023eec193..0e267428eaa6 100644
+> > > > ---
+> > > > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys
+> > > > .yam
+> > > > l
+> > > > +++
+> > > > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys
+> > > > .yam
+> > > > l
+> > > > @@ -31,7 +31,7 @@ properties:
+> > > >                 - mediatek,mt8183-mmsys
+> > > >                 - mediatek,mt8186-mmsys
+> > > >                 - mediatek,mt8192-mmsys
+> > > > -              - mediatek,mt8195-mmsys
+> > > > +              - mediatek,mt8195-vdosys0
+> > > 
+> > > Nack, we miss the fallback compatible, as I already said twice.
+> > > 
+> > > Regards,
+> > > Matthias
+> > 
+> > I'm sorry this happened again.
+> > I'll keep the compatible "mediatek,mt8195-mmsys" at next version.
+> > 
+> > The patch "dt-bindings: arm: mediatek: mmsys: remove the unused
+> > compatible for mt8195" should be sent after accepting the vdosys1
+> > series, right?
+> 
+> I don't think there will be no such patch...
+> 
+> You need to add a bindings change which will accept device nodes
+> like:
+> foo {
+>   compatible = "mediatek,mt8195-vdosys0", "mediatek,mt8195-mmsys";
+> 
+> }
+> 
+> Example-schema shows how to do it.
 
-[  +0.000095] =============================================================
-[  +0.000008] BUG: KASAN: use-after-free in __list_add_valid+0x9c/0x120
-[  +0.000018] Read of size 8 at addr ffff00003da291f0 by task modprobe/2483
+OK, I got the point!
+I'll fix it at the next version.
+Thank you very much!
 
-[  +0.000018] CPU: 3 PID: 2483 Comm: modprobe Tainted: G         C O      5.19.0-rc6-lrmbkasan+ #1
-[  +0.000011] Hardware name: Hardkernel ODROID-N2Plus (DT)
-[  +0.000008] Call trace:
-[  +0.000006]  dump_backtrace+0x1ec/0x280
-[  +0.000012]  show_stack+0x24/0x80
-[  +0.000008]  dump_stack_lvl+0x98/0xd4
-[  +0.000011]  print_address_description.constprop.0+0x80/0x520
-[  +0.000011]  print_report+0x128/0x260
-[  +0.000008]  kasan_report+0xb8/0xfc
-[  +0.000008]  __asan_report_load8_noabort+0x3c/0x50
-[  +0.000009]  __list_add_valid+0x9c/0x120
-[  +0.000009]  drm_bridge_add+0x6c/0x104 [drm]
-[  +0.000165]  dw_hdmi_probe+0x1900/0x2360 [dw_hdmi]
-[  +0.000022]  meson_dw_hdmi_bind+0x520/0x814 [meson_dw_hdmi]
-[  +0.000014]  component_bind+0x174/0x520
-[  +0.000012]  component_bind_all+0x1a8/0x38c
-[  +0.000010]  meson_drv_bind_master+0x5e8/0xb74 [meson_drm]
-[  +0.000032]  meson_drv_bind+0x20/0x2c [meson_drm]
-[  +0.000027]  try_to_bring_up_aggregate_device+0x19c/0x390
-[  +0.000010]  component_master_add_with_match+0x1c8/0x284
-[  +0.000009]  meson_drv_probe+0x274/0x280 [meson_drm]
-[  +0.000026]  platform_probe+0xd0/0x220
-[  +0.000009]  really_probe+0x3ac/0xa80
-[  +0.000009]  __driver_probe_device+0x1f8/0x400
-[  +0.000009]  driver_probe_device+0x68/0x1b0
-[  +0.000009]  __driver_attach+0x20c/0x480
-[  +0.000008]  bus_for_each_dev+0x114/0x1b0
-[  +0.000009]  driver_attach+0x48/0x64
-[  +0.000008]  bus_add_driver+0x390/0x564
-[  +0.000009]  driver_register+0x1a8/0x3e4
-[  +0.000009]  __platform_driver_register+0x6c/0x94
-[  +0.000008]  meson_drm_platform_driver_init+0x3c/0x1000 [meson_drm]
-[  +0.000027]  do_one_initcall+0xc4/0x2b0
-[  +0.000011]  do_init_module+0x154/0x570
-[  +0.000011]  load_module+0x1a78/0x1ea4
-[  +0.000008]  __do_sys_init_module+0x184/0x1cc
-[  +0.000009]  __arm64_sys_init_module+0x78/0xb0
-[  +0.000009]  invoke_syscall+0x74/0x260
-[  +0.000009]  el0_svc_common.constprop.0+0xcc/0x260
-[  +0.000008]  do_el0_svc+0x50/0x70
-[  +0.000007]  el0_svc+0x68/0x1a0
-[  +0.000012]  el0t_64_sync_handler+0x11c/0x150
-[  +0.000008]  el0t_64_sync+0x18c/0x190
+Regards,
+Jason-JH.Lin
 
-[  +0.000016] Allocated by task 879:
-[  +0.000008]  kasan_save_stack+0x2c/0x5c
-[  +0.000011]  __kasan_kmalloc+0x90/0xd0
-[  +0.000007]  __kmalloc+0x278/0x4a0
-[  +0.000011]  mpi_resize+0x13c/0x1d0
-[  +0.000011]  mpi_powm+0xd24/0x1570
-[  +0.000009]  rsa_enc+0x1a4/0x30c
-[  +0.000009]  pkcs1pad_verify+0x3f0/0x580
-[  +0.000009]  public_key_verify_signature+0x7a8/0xba4
-[  +0.000010]  public_key_verify_signature_2+0x40/0x60
-[  +0.000008]  verify_signature+0xb4/0x114
-[  +0.000008]  pkcs7_validate_trust_one.constprop.0+0x3b8/0x574
-[  +0.000009]  pkcs7_validate_trust+0xb8/0x15c
-[  +0.000008]  verify_pkcs7_message_sig+0xec/0x1b0
-[  +0.000012]  verify_pkcs7_signature+0x78/0xac
-[  +0.000007]  mod_verify_sig+0x110/0x190
-[  +0.000009]  module_sig_check+0x114/0x1e0
-[  +0.000009]  load_module+0xa0/0x1ea4
-[  +0.000008]  __do_sys_init_module+0x184/0x1cc
-[  +0.000008]  __arm64_sys_init_module+0x78/0xb0
-[  +0.000008]  invoke_syscall+0x74/0x260
-[  +0.000009]  el0_svc_common.constprop.0+0x1a8/0x260
-[  +0.000008]  do_el0_svc+0x50/0x70
-[  +0.000007]  el0_svc+0x68/0x1a0
-[  +0.000009]  el0t_64_sync_handler+0x11c/0x150
-[  +0.000009]  el0t_64_sync+0x18c/0x190
-
-[  +0.000013] Freed by task 2422:
-[  +0.000008]  kasan_save_stack+0x2c/0x5c
-[  +0.000009]  kasan_set_track+0x2c/0x40
-[  +0.000007]  kasan_set_free_info+0x28/0x50
-[  +0.000009]  ____kasan_slab_free+0x128/0x1d4
-[  +0.000008]  __kasan_slab_free+0x18/0x24
-[  +0.000007]  slab_free_freelist_hook+0x108/0x230
-[  +0.000010]  kfree+0x110/0x35c
-[  +0.000008]  release_nodes+0xf0/0x16c
-[  +0.000009]  devres_release_group+0x180/0x270
-[  +0.000008]  take_down_aggregate_device+0xcc/0x160
-[  +0.000010]  component_del+0x18c/0x360
-[  +0.000009]  meson_dw_hdmi_remove+0x28/0x40 [meson_dw_hdmi]
-[  +0.000013]  platform_remove+0x64/0xb0
-[  +0.000008]  device_remove+0xb8/0x154
-[  +0.000009]  device_release_driver_internal+0x398/0x5b0
-[  +0.000009]  driver_detach+0xac/0x1b0
-[  +0.000009]  bus_remove_driver+0x158/0x29c
-[  +0.000008]  driver_unregister+0x70/0xb0
-[  +0.000009]  platform_driver_unregister+0x20/0x2c
-[  +0.000007]  meson_dw_hdmi_platform_driver_exit+0x1c/0x30 [meson_dw_hdmi]
-[  +0.000012]  __do_sys_delete_module+0x288/0x400
-[  +0.000009]  __arm64_sys_delete_module+0x5c/0x80
-[  +0.000009]  invoke_syscall+0x74/0x260
-[  +0.000008]  el0_svc_common.constprop.0+0xcc/0x260
-[  +0.000008]  do_el0_svc+0x50/0x70
-[  +0.000007]  el0_svc+0x68/0x1a0
-[  +0.000008]  el0t_64_sync_handler+0x11c/0x150
-[  +0.000009]  el0t_64_sync+0x18c/0x190
-
-[  +0.000013] The buggy address belongs to the object at ffff00003da29000
-               which belongs to the cache kmalloc-1k of size 1024
-[  +0.000008] The buggy address is located 496 bytes inside of
-               1024-byte region [ffff00003da29000, ffff00003da29400)
-
-[  +0.000015] The buggy address belongs to the physical page:
-[  +0.000009] page:fffffc0000f68a00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x3da28
-[  +0.000012] head:fffffc0000f68a00 order:3 compound_mapcount:0 compound_pincount:0
-[  +0.000009] flags: 0xffff00000010200(slab|head|node=0|zone=0|lastcpupid=0xffff)
-[  +0.000019] raw: 0ffff00000010200 fffffc0000eb5c08 fffffc0000d96608 ffff000000002a80
-[  +0.000008] raw: 0000000000000000 00000000000a000a 00000001ffffffff 0000000000000000
-[  +0.000008] page dumped because: kasan: bad access detected
-
-[  +0.000011] Memory state around the buggy address:
-[  +0.000009]  ffff00003da29080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  +0.000007]  ffff00003da29100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  +0.000007] >ffff00003da29180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  +0.000007]                                                              ^
-[  +0.000008]  ffff00003da29200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  +0.000006]  ffff00003da29280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  +0.000007] ==================================================================
-
-Fix by keeping track of which encoders were initialised in the meson_drm
-structure and manually removing their bridges at aggregate driver's unbind
-time.
-
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/meson/meson_drv.c          |  4 ++++
- drivers/gpu/drm/meson/meson_drv.h          |  7 +++++++
- drivers/gpu/drm/meson/meson_encoder_cvbs.c |  7 +++++++
- drivers/gpu/drm/meson/meson_encoder_cvbs.h |  1 +
- drivers/gpu/drm/meson/meson_encoder_hdmi.c |  7 +++++++
- drivers/gpu/drm/meson/meson_encoder_hdmi.h |  1 +
- drivers/gpu/drm/meson/meson_venc.h         | 15 +++++++++++++++
- 7 files changed, 42 insertions(+)
-
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index f3da1c214a7c..2b47154b73c2 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -387,6 +387,10 @@ static void meson_drv_unbind(struct device *dev)
- 	drm_atomic_helper_shutdown(drm);
- 	free_irq(priv->vsync_irq, drm);
- 	drm_dev_put(drm);
-+
-+	meson_encoder_hdmi_remove(priv);
-+	meson_encoder_cvbs_remove(priv);
-+
- 	component_unbind_all(dev, drm);
- 
- 	if (priv->afbcd.ops)
-diff --git a/drivers/gpu/drm/meson/meson_drv.h b/drivers/gpu/drm/meson/meson_drv.h
-index 177dac3ca3be..2cf279fb4f82 100644
---- a/drivers/gpu/drm/meson/meson_drv.h
-+++ b/drivers/gpu/drm/meson/meson_drv.h
-@@ -25,6 +25,12 @@ enum vpu_compatible {
- 	VPU_COMPATIBLE_G12A = 3,
- };
- 
-+enum {
-+	MESON_ENC_CVBS = 0,
-+	MESON_ENC_HDMI,
-+	MESON_ENC_LAST,
-+};
-+
- struct meson_drm_match_data {
- 	enum vpu_compatible compat;
- 	struct meson_afbcd_ops *afbcd_ops;
-@@ -51,6 +57,7 @@ struct meson_drm {
- 	struct drm_crtc *crtc;
- 	struct drm_plane *primary_plane;
- 	struct drm_plane *overlay_plane;
-+	struct drm_encoder *encoders[MESON_ENC_LAST];
- 
- 	const struct meson_drm_soc_limits *limits;
- 
-diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-index 8110a6e39320..00c958b08065 100644
---- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-@@ -281,5 +281,12 @@ int meson_encoder_cvbs_init(struct meson_drm *priv)
- 	}
- 	drm_connector_attach_encoder(connector, &meson_encoder_cvbs->encoder);
- 
-+	priv->encoders[MESON_ENC_CVBS] = &meson_encoder_cvbs->encoder;
-+
- 	return 0;
- }
-+
-+void meson_encoder_cvbs_remove(struct meson_drm *priv)
-+{
-+	REMOVE_ENCODER_BRIDGES(cvbs, MESON_ENC_CVBS);
-+}
-diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.h b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
-index 61d9d183ce7f..09710fec3c66 100644
---- a/drivers/gpu/drm/meson/meson_encoder_cvbs.h
-+++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
-@@ -25,5 +25,6 @@ struct meson_cvbs_mode {
- extern struct meson_cvbs_mode meson_cvbs_modes[MESON_CVBS_MODES_COUNT];
- 
- int meson_encoder_cvbs_init(struct meson_drm *priv);
-+void meson_encoder_cvbs_remove(struct meson_drm *priv);
- 
- #endif /* __MESON_VENC_CVBS_H */
-diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-index 2f616c55c271..da6f2882cd97 100644
---- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-@@ -452,6 +452,8 @@ int meson_encoder_hdmi_init(struct meson_drm *priv)
- 		meson_encoder_hdmi->cec_notifier = notifier;
- 	}
- 
-+	priv->encoders[MESON_ENC_HDMI] = &meson_encoder_hdmi->encoder;
-+
- 	dev_dbg(priv->dev, "HDMI encoder initialized\n");
- 
- 	return 0;
-@@ -460,3 +462,8 @@ int meson_encoder_hdmi_init(struct meson_drm *priv)
- 	of_node_put(remote);
- 	return ret;
- }
-+
-+void meson_encoder_hdmi_remove(struct meson_drm *priv)
-+{
-+	REMOVE_ENCODER_BRIDGES(hdmi, MESON_ENC_HDMI);
-+}
-diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.h b/drivers/gpu/drm/meson/meson_encoder_hdmi.h
-index ed19494f0956..a6cd38eb5f71 100644
---- a/drivers/gpu/drm/meson/meson_encoder_hdmi.h
-+++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.h
-@@ -8,5 +8,6 @@
- #define __MESON_ENCODER_HDMI_H
- 
- int meson_encoder_hdmi_init(struct meson_drm *priv);
-+void meson_encoder_hdmi_remove(struct meson_drm *priv);
- 
- #endif /* __MESON_ENCODER_HDMI_H */
-diff --git a/drivers/gpu/drm/meson/meson_venc.h b/drivers/gpu/drm/meson/meson_venc.h
-index 9138255ffc9e..9fc572860f8c 100644
---- a/drivers/gpu/drm/meson/meson_venc.h
-+++ b/drivers/gpu/drm/meson/meson_venc.h
-@@ -47,6 +47,21 @@ struct meson_cvbs_enci_mode {
- 	unsigned int analog_sync_adj;
- };
- 
-+#define REMOVE_ENCODER_BRIDGES(type, order)				\
-+{									\
-+	struct meson_encoder_##type *meson_encoder_##type;		\
-+	struct drm_encoder *encoder;					\
-+	if (priv->encoders[order]) {					\
-+		encoder = priv->encoders[order];			\
-+		meson_encoder_##type =					\
-+			container_of(encoder,				\
-+				     struct meson_encoder_##type,	\
-+				     encoder);				\
-+		drm_bridge_remove(&(meson_encoder_##type)->bridge);	\
-+		drm_bridge_remove((meson_encoder_##type)->next_bridge); \
-+	}								\
-+}									\
-+
- /* HDMI Clock parameters */
- enum drm_mode_status
- meson_venc_hdmi_supported_mode(const struct drm_display_mode *mode);
+> 
+> Best regards,
+> Krzysztof
 -- 
-2.37.0
+Jason-JH Lin <jason-jh.lin@mediatek.com>
 
