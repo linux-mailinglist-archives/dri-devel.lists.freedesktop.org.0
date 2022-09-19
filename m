@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A4C5BCB49
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 13:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9E25BCB4A
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 13:57:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B729710E607;
-	Mon, 19 Sep 2022 11:56:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D66B410E609;
+	Mon, 19 Sep 2022 11:56:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 996C910E60C;
- Mon, 19 Sep 2022 11:56:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD2C10E602;
+ Mon, 19 Sep 2022 11:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663588597; x=1695124597;
+ t=1663588600; x=1695124600;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=kPbes8+eGettTP2pig6OYSB7rzTLOcnrapqI4x0rido=;
- b=F/k5XE0lDaQk69Uyeg61bV9QW11TQJuozG8rxApfIDB2LM2vCBH33UEA
- r8D9HznPb3tnxTb9CO/ca/RKhMMcOEkEiVJ3Yhjtg2ywalnpj3XaBqBy+
- 30zn39bYWU+1T7+eTjeXIEgju0XnbJFjTtjnrpAUqm9oQqEPfZJ/MIwYC
- nxIkELjvRKhqykIfdoO3accX+Aq4u7ugkLrIaO2jdfrpbV4Lj0Qhx7BIK
- MWCvPUKijsQvUGXGfOnfdmPBz2TmImJFp14jyiQyK7tA087lGev4EayZj
- qTZyQgnKkQHpiSgc9qBJVVDpVbE+BnZ2MUHoR8FuBtCB88+KOkdzXB5oS w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="299371193"
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; d="scan'208";a="299371193"
+ bh=TFjxKWjYt6FuMgGEySU7S3Uhn+LOy2fTgufjZPuqLmo=;
+ b=eqkvA+XjNSHxKDgvqMyAuMZLoHipEt2n8EaxgW699/ywlErUOFxWECdE
+ TRSsZiGmlDcw+ql2I2vEFG1bUkAgffmuxsbcp6bnL4ZA4kM1VFqnzQV0K
+ AdKwvhO89m9D26cNiY+5D2ThRJCDLSBDCfqdEsylXLoYgZVdrjIeCA3vs
+ IC3H6eKtnWORvtpxpscZtoNnZZfM7ttuZHeEJ/sIhCiTj5BqAWjjrkWp1
+ +wIB8yOTLQ1zKFycAYKHlhtnQPqaRzYPCCKIO5rU2O/sSybI6BJxlGSyP
+ UgizHlOS0m2VEvbCqMEWBi7s17L8zaHO+WX2ZlsKDU4v3iB8QbzAaPimi Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="299371197"
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; d="scan'208";a="299371197"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2022 04:56:37 -0700
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; d="scan'208";a="947189985"
+ 19 Sep 2022 04:56:40 -0700
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; d="scan'208";a="947190023"
 Received: from bnilawar-desk1.iind.intel.com ([10.145.169.158])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2022 04:56:34 -0700
+ 19 Sep 2022 04:56:37 -0700
 From: Badal Nilawar <badal.nilawar@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/i915/mtl: Modify CAGF functions for MTL
-Date: Mon, 19 Sep 2022 17:29:05 +0530
-Message-Id: <20220919115906.1264041-2-badal.nilawar@intel.com>
+Subject: [PATCH 2/2] drm/i915/mtl: Add C6 residency support for MTL SAMedia
+Date: Mon, 19 Sep 2022 17:29:06 +0530
+Message-Id: <20220919115906.1264041-3-badal.nilawar@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220919115906.1264041-1-badal.nilawar@intel.com>
 References: <20220919115906.1264041-1-badal.nilawar@intel.com>
@@ -61,62 +61,212 @@ Cc: andi.shyti@intel.com, anshuman.gupta@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Updated the CAGF functions to get actual resolved frequency of
-3D and SAMedia
+For MTL SAMedia updated relevant functions and places in the code to get
+Media C6 residency.
 
-Bspec: 66300
+v2: Fixed review comments (Ashutosh)
 
 Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Cc: Chris Wilson <chris.p.wilson@intel.com>
 Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_regs.h | 8 ++++++++
- drivers/gpu/drm/i915/gt/intel_rps.c     | 6 +++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 60 +++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 10 ++++
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   |  9 ++-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |  5 +-
+ drivers/gpu/drm/i915/gt/selftest_rc6.c        |  9 ++-
+ drivers/gpu/drm/i915/i915_pmu.c               |  8 ++-
+ 6 files changed, 97 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+index 68310881a793..053167b506a9 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+@@ -269,6 +269,64 @@ static int ilk_drpc(struct seq_file *m)
+ 	return 0;
+ }
+ 
++static int mtl_drpc(struct seq_file *m)
++{
++	struct intel_gt *gt = m->private;
++	struct intel_uncore *uncore = gt->uncore;
++	u32 gt_core_status, rcctl1, global_forcewake;
++	u32 mtl_powergate_enable = 0, mtl_powergate_status = 0;
++	i915_reg_t reg;
++
++	gt_core_status = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
++
++	global_forcewake = intel_uncore_read(uncore, FORCEWAKE_GT_GEN9);
++
++	rcctl1 = intel_uncore_read(uncore, GEN6_RC_CONTROL);
++	mtl_powergate_enable = intel_uncore_read(uncore, GEN9_PG_ENABLE);
++	mtl_powergate_status = intel_uncore_read(uncore,
++						 GEN9_PWRGT_DOMAIN_STATUS);
++
++	seq_printf(m, "RC6 Enabled: %s\n",
++		   str_yes_no(rcctl1 & GEN6_RC_CTL_RC6_ENABLE));
++	if (gt->type == GT_MEDIA) {
++		seq_printf(m, "Media Well Gating Enabled: %s\n",
++			   str_yes_no(mtl_powergate_enable & GEN9_MEDIA_PG_ENABLE));
++	} else {
++		seq_printf(m, "Render Well Gating Enabled: %s\n",
++			   str_yes_no(mtl_powergate_enable & GEN9_RENDER_PG_ENABLE));
++	}
++
++	seq_puts(m, "Current RC state: ");
++
++	switch ((gt_core_status & MTL_CC_MASK) >> MTL_CC_SHIFT) {
++	case MTL_CC0:
++		seq_puts(m, "on\n");
++		break;
++	case MTL_CC6:
++		seq_puts(m, "RC6\n");
++		break;
++	default:
++		seq_puts(m, "Unknown\n");
++		break;
++	}
++
++	if (gt->type == GT_MEDIA)
++		seq_printf(m, "Media Power Well: %s\n",
++			   (mtl_powergate_status &
++			    GEN9_PWRGT_MEDIA_STATUS_MASK) ? "Up" : "Down");
++	else
++		seq_printf(m, "Render Power Well: %s\n",
++			   (mtl_powergate_status &
++			    GEN9_PWRGT_RENDER_STATUS_MASK) ? "Up" : "Down");
++
++	reg = (gt->type == GT_MEDIA) ? MTL_MEDIA_MC6 : GEN6_GT_GFX_RC6;
++	print_rc6_res(m, "RC6 residency since boot:", reg);
++
++	seq_printf(m, "Global Forcewake Requests: 0x%x\n", global_forcewake);
++
++	return fw_domains_show(m, NULL);
++}
++
+ static int drpc_show(struct seq_file *m, void *unused)
+ {
+ 	struct intel_gt *gt = m->private;
+@@ -279,6 +337,8 @@ static int drpc_show(struct seq_file *m, void *unused)
+ 	with_intel_runtime_pm(gt->uncore->rpm, wakeref) {
+ 		if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
+ 			err = vlv_drpc(m);
++		else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
++			err = mtl_drpc(m);
+ 		else if (GRAPHICS_VER(i915) >= 6)
+ 			err = gen6_drpc(m);
+ 		else
 diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 2275ee47da95..7819d32db956 100644
+index 7819d32db956..8a56fd873228 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
 +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -1510,6 +1510,14 @@
- #define VLV_RENDER_C0_COUNT			_MMIO(0x138118)
- #define VLV_MEDIA_C0_COUNT			_MMIO(0x13811c)
- 
-+/*
-+ * MTL: Workpoint reg to get Core C state and act freq of 3D, SAMedia/
-+ * 3D - 0x0C60 , SAMedia - 0x380C60
-+ * Intel uncore handler redirects transactions for SAMedia to MTL_MEDIA_GSI_BASE
-+ */
-+#define MTL_MIRROR_TARGET_WP1          _MMIO(0x0C60)
-+#define   MTL_CAGF_MASK                REG_GENMASK(8, 0)
+@@ -1517,6 +1517,16 @@
+  */
+ #define MTL_MIRROR_TARGET_WP1          _MMIO(0x0C60)
+ #define   MTL_CAGF_MASK                REG_GENMASK(8, 0)
++#define   MTL_CC0                      0x0
++#define   MTL_CC6                      0x3
++#define   MTL_CC_SHIFT                 9
++#define   MTL_CC_MASK                  (0xf << MTL_CC_SHIFT)
 +
++/*
++ * MTL: This register contains the total MC6 residency time that SAMedia was
++ * since boot
++ */
++#define MTL_MEDIA_MC6                          _MMIO(0x138048)
+ 
  #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
  #define   GEN11_CSME				(31)
- #define   GEN11_GUNIT				(28)
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index 17b40b625e31..c2349949ebae 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -2075,6 +2075,8 @@ u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+index 54deae45d81f..7ab1d776673a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+@@ -123,7 +123,14 @@ static ssize_t rc6_enable_show(struct device *dev,
  
- 	if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
- 		cagf = (rpstat >> 8) & 0xff;
-+	else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-+		cagf = rpstat & MTL_CAGF_MASK;
- 	else if (GRAPHICS_VER(i915) >= 9)
- 		cagf = (rpstat & GEN9_CAGF_MASK) >> GEN9_CAGF_SHIFT;
- 	else if (IS_HASWELL(i915) || IS_BROADWELL(i915))
-@@ -2098,7 +2100,9 @@ static u32 read_cagf(struct intel_rps *rps)
- 		vlv_punit_get(i915);
- 		freq = vlv_punit_read(i915, PUNIT_REG_GPU_FREQ_STS);
- 		vlv_punit_put(i915);
--	} else if (GRAPHICS_VER(i915) >= 6) {
-+	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-+		freq = intel_uncore_read(rps_to_gt(rps)->uncore, MTL_MIRROR_TARGET_WP1);
-+	else if (GRAPHICS_VER(i915) >= 6) {
- 		freq = intel_uncore_read(uncore, GEN6_RPSTAT1);
- 	} else {
- 		freq = intel_uncore_read(uncore, MEMSTAT_ILK);
+ static u32 __rc6_residency_ms_show(struct intel_gt *gt)
+ {
+-	return get_residency(gt, GEN6_GT_GFX_RC6);
++	i915_reg_t reg;
++
++	if (gt->type == GT_MEDIA)
++		reg = MTL_MEDIA_MC6;
++	else
++		reg = GEN6_GT_GFX_RC6;
++
++	return get_residency(gt, reg);
+ }
+ 
+ static ssize_t rc6_residency_ms_show(struct device *dev,
+diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+index f8d0523f4c18..26f71f7f07c6 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rc6.c
++++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+@@ -745,6 +745,7 @@ u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, const i915_reg_t reg)
+ 	unsigned long flags;
+ 	unsigned int i;
+ 	u32 mul, div;
++	i915_reg_t base;
+ 
+ 	if (!rc6->supported)
+ 		return 0;
+@@ -756,8 +757,10 @@ u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, const i915_reg_t reg)
+ 	 * other so we can use the relative address, compared to the smallest
+ 	 * one as the index into driver storage.
+ 	 */
++	base = (rc6_to_gt(rc6)->type == GT_MEDIA) ?
++	       MTL_MEDIA_MC6 : GEN6_GT_GFX_RC6_LOCKED;
+ 	i = (i915_mmio_reg_offset(reg) -
+-	     i915_mmio_reg_offset(GEN6_GT_GFX_RC6_LOCKED)) / sizeof(u32);
++	     i915_mmio_reg_offset(base)) / sizeof(u32);
+ 	if (drm_WARN_ON_ONCE(&i915->drm, i >= ARRAY_SIZE(rc6->cur_residency)))
+ 		return 0;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/selftest_rc6.c b/drivers/gpu/drm/i915/gt/selftest_rc6.c
+index 8c70b7e12074..28c6a4b6b8d1 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_rc6.c
++++ b/drivers/gpu/drm/i915/gt/selftest_rc6.c
+@@ -15,11 +15,18 @@
+ 
+ static u64 rc6_residency(struct intel_rc6 *rc6)
+ {
++	struct intel_gt *gt = rc6_to_gt(rc6);
++	i915_reg_t reg;
+ 	u64 result;
+ 
+ 	/* XXX VLV_GT_MEDIA_RC6? */
+ 
+-	result = intel_rc6_residency_ns(rc6, GEN6_GT_GFX_RC6);
++	if (gt->type == GT_MEDIA)
++		reg = MTL_MEDIA_MC6;
++	else
++		reg = GEN6_GT_GFX_RC6;
++
++	result = intel_rc6_residency_ns(rc6, reg);
+ 	if (HAS_RC6p(rc6_to_i915(rc6)))
+ 		result += intel_rc6_residency_ns(rc6, GEN6_GT_GFX_RC6p);
+ 	if (HAS_RC6pp(rc6_to_i915(rc6)))
+diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+index 958b37123bf1..6ec139668641 100644
+--- a/drivers/gpu/drm/i915/i915_pmu.c
++++ b/drivers/gpu/drm/i915/i915_pmu.c
+@@ -146,9 +146,15 @@ static bool pmu_needs_timer(struct i915_pmu *pmu, bool gpu_active)
+ static u64 __get_rc6(struct intel_gt *gt)
+ {
+ 	struct drm_i915_private *i915 = gt->i915;
++	i915_reg_t reg;
+ 	u64 val;
+ 
+-	val = intel_rc6_residency_ns(&gt->rc6, GEN6_GT_GFX_RC6);
++	if (gt->type == GT_MEDIA)
++		reg = MTL_MEDIA_MC6;
++	else
++		reg = GEN6_GT_GFX_RC6;
++
++	val = intel_rc6_residency_ns(&gt->rc6, reg);
+ 
+ 	if (HAS_RC6p(i915))
+ 		val += intel_rc6_residency_ns(&gt->rc6, GEN6_GT_GFX_RC6p);
 -- 
 2.25.1
 
