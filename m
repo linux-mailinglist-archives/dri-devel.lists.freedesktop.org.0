@@ -2,60 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6E65BD1D6
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 18:07:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85C65BD1DF
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 18:08:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36A0610E68F;
-	Mon, 19 Sep 2022 16:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95DFB10E692;
+	Mon, 19 Sep 2022 16:08:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE6110E68D;
- Mon, 19 Sep 2022 16:06:55 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-12c8312131fso81078fac.4; 
- Mon, 19 Sep 2022 09:06:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=jVrDrYFmT8W5kZ7jEm9bBXR34qhnehExEbUS076MVZU=;
- b=c1jtyUwrdI1Qo5qEo9OEaE8ixOsICKG0PLFwlmDdoL1VX6i4r7/nN9icGEGu2Kn7B/
- dcV3qpxNH6g3aixlXP8vrxJfvhSaG/91awvnIT4KT83vgDWiup65tJEoM2/R9BloUBj/
- i/b+y6naK/hNLlaKWoF5+pRuWVO39UfOZXil4pECt4AutoqTSaU/InwBUnww/BW0Eklj
- kxJobQQW7TJelmkbRD5DiLMEkFnothNfK0Isi23MOIOay2viFvRFgO4fg4j5acWn32h8
- T4Hpd4oeMVVtY0HcoCD/+00Etc4GLZDvMtKUo/8rBNtRYAOWsHg9/dhtDK+G/hyaikFO
- n+xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=jVrDrYFmT8W5kZ7jEm9bBXR34qhnehExEbUS076MVZU=;
- b=IOc1X9s+V5z0nW4n+v5o2ZGyPk7mhJWrzZOTM7C36QTj9NV27ntbpiJNinhR8QdAfG
- SSYDF4X/jkcL87phMkeSuI0PXHCEG/H2erOY8KcHjVGBiroLIP63FOwnD/bRVytxVZbh
- wcSOeYnzRWW1jeCvGURM1p4zdR7iZcqeYLkBKwYJx63OWconmG6EqwgUOXA4Z7c0U3Rh
- 7qDEAkowHK0oFWJ0I8/KEx0adr1zbu8WUCu6HXofqBYQTh8Q1B9NdCxc/dKjy1b9DIul
- jzJoZpAEoghzREydXy84Rn4EaXjlW0leyYXi+DAhwO536dN2YRfQWNW1spIy3AK3b/A+
- E4Ag==
-X-Gm-Message-State: ACgBeo0uVDm8Sm6J6Pi9VSkquglpaMvOhSZqsAgIFwT0POva4FRv3Fqx
- UmwsNdd9MSZgYVVX+Sxt1xKqCKD2hmnR435+wWI=
-X-Google-Smtp-Source: AA6agR7t3u8MLwqkcjbu8HaTl5mJueTDHbkQBIHI7n/ZnINRh49uFbwBsLuFuoRPrgzm5P5SfX6sUgkP68RBgRboZAM=
-X-Received: by 2002:a05:6870:1783:b0:12a:f442:504d with SMTP id
- r3-20020a056870178300b0012af442504dmr16846294oae.46.1663603614736; Mon, 19
- Sep 2022 09:06:54 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A381F10E691;
+ Mon, 19 Sep 2022 16:08:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663603722; x=1695139722;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=NPs0wAMiICa5jSbcC4YEuaTH4A5GViFkO+tb3iPLa2M=;
+ b=UBfRZcrFMjiLEBVO8VurqZbgkNm8wCQJVGzeb3dGXSzSrXRxHq2eKvwG
+ gTKIfLTnExtWMn7kmvHSgWQTsC/HhRJW/dUTXv3KYbaaGQtuRtnrk52pR
+ BkBM8s3/yiBo2QGyUwl9CnKmAQliyzdmETFCINqTBHeHgWM4ydQxAI/9S
+ Vbgz05NH/RjVEn/y996yAxsycnQKY9tZCEKA3TEEbc975dzHAxfHakwbN
+ JOJ6pWOdAcuCx4CO6+J0WxPAv6YuboZs1uQWmRe5q/spCQo6rNkCmJBN3
+ bWgCh3V+9GtorZF66mmQ7KAgB/4SBotKVoSYOHwn2Qo4KIGtqzDtnqn6/ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="325734535"
+X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="325734535"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 09:08:39 -0700
+X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="569707417"
+Received: from biancabe-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.32.244])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 09:08:33 -0700
+Date: Mon, 19 Sep 2022 18:08:26 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: Re: [PATCH v3 0/2] drm/i915/gem: Really move i915_gem_context.link
+ under ref protection
+Message-ID: <YyiT+qc2pUWVIZHF@alfio.lan>
+References: <20220916092403.201355-1-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-References: <20220919014457.3297857-1-zengheng4@huawei.com>
- <CADnq5_OE0yZvEYGu82QJHL9wvVcTFZrmeTgX7URgh7FVA=jqYg@mail.gmail.com>
-In-Reply-To: <CADnq5_OE0yZvEYGu82QJHL9wvVcTFZrmeTgX7URgh7FVA=jqYg@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 19 Sep 2022 12:06:43 -0400
-Message-ID: <CADnq5_PmZsMCPk3hwZvk+ZrtDMpfxWrhHKfMAostd9pOgXwFHw@mail.gmail.com>
-Subject: Re: [PATCH] gpu: color: eliminate implicit conversion about enum type
-To: Zeng Heng <zengheng4@huawei.com>, jaehyun.chung@amd.com, 
- Krunoslav Kovac <Krunoslav.Kovac@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220916092403.201355-1-janusz.krzysztofik@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,117 +57,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: HaoPing.Liu@amd.com, sunpeng.li@amd.com, liwei391@huawei.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, Yao.Wang1@amd.com, weiyongjun1@huawei.com,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, Pavle.Kotarac@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the relevant AMD developers to comment.
+Pushed, Thanks!
 
-On Mon, Sep 19, 2022 at 12:05 PM Alex Deucher <alexdeucher@gmail.com> wrote=
-:
->
-> On Mon, Sep 19, 2022 at 3:19 AM Zeng Heng <zengheng4@huawei.com> wrote:
-> >
-> > Fix below compile warning when open enum-conversion
-> > option check:
-> >
-> > drivers/gpu/drm/amd/amdgpu/../display/modules/color/color_gamma.c:
-> > In function =E2=80=98apply_degamma_for_user_regamma=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/../display/modules/color/color_gamma.c:1695:=
-29:
-> > error: implicit conversion from =E2=80=98enum <anonymous>=E2=80=99 to =
-=E2=80=98enum dc_transfer_func_predefined=E2=80=99 [-Werror=3Denum-conversi=
-on]
-> >  1695 |  build_coefficients(&coeff, true);
-> >       |                             ^~~~
-> >
-> > As 'build_coefficients' definition, it needs enum
-> > 'dc_transfer_func_predefined' type acts as the
-> > second argument, instead of bool-type one.
-> >
-> > The numerical values of TRANSFER_FUNCTION_BT709 & true
-> > happen to be the same, so there is no change in
-> > behavior.
->
-> This looks like a regression from:
->
-> commit 9b3d76527f6ea50270f7f7ac749493b41783e8bd
-> Author: Jaehyun Chung <jaehyun.chung@amd.com>
-> Date:   Mon Aug 30 16:46:42 2021 -0400
->
->     drm/amd/display: Revert adding degamma coefficients
->
->     [Why]
->     Degamma coefficients are calculated in our degamma formula using
->     the regamma coefficients. We do not need to add separate degamma
->     coefficients.
->
->     [How]
->     Remove the change to add separate degamma coefficients.
->
->     Reviewed-by: Krunoslav Kovac <Krunoslav.Kovac@amd.com>
->     Acked-by: Mikita Lipski <mikita.lipski@amd.com>
->     Signed-off-by: Jaehyun Chung <jaehyun.chung@amd.com>
->     Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
->     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->
-> Which seems to improperly revert:
-> commit d020970959169627d59a711769f8c4b87bf5f90c
-> Author: Jaehyun Chung <jaehyun.chung@amd.com>
-> Date:   Tue Aug 24 14:05:48 2021 -0400
->
->     drm/amd/display: Add regamma/degamma coefficients and set sRGB
-> when TF is BT709
->
->     [Why]
->     In YUV case, need to set the input TF to sRGB instead of BT709,
->     even though the input TF type is distributed. SRGB was not
->     being used because pixel format was not being set in the
->     surface update sequence.
->     Also, we were using the same coefficients for degamma and
->     regamma formula, causing the cutoff point of the linear
->     section of the curve to be incorrect.
->
->     [How]
->     Set pixel format in the surface update sequence. Add separate
->     coefficient arrays for regamma and degamma.
->
->     Reviewed-by: Krunoslav Kovac <Krunoslav.Kovac@amd.com>
->     Acked-by: Mikita Lipski <mikita.lipski@amd.com>
->     Signed-off-by: Jaehyun Chung <jaehyun.chung@amd.com>
->     Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
->     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->
-> I think the proper fix is to set it to:
-> build_coefficients(&coeff, TRANSFER_FUNCTION_SRGB);
->
-> Alex
->
-> >
-> > Signed-off-by: Zeng Heng <zengheng4@huawei.com>
-> > ---
-> >  drivers/gpu/drm/amd/display/modules/color/color_gamma.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/modules/color/color_gamma.c b/=
-drivers/gpu/drm/amd/display/modules/color/color_gamma.c
-> > index 04f7656906ca..2f807d787c77 100644
-> > --- a/drivers/gpu/drm/amd/display/modules/color/color_gamma.c
-> > +++ b/drivers/gpu/drm/amd/display/modules/color/color_gamma.c
-> > @@ -1692,7 +1692,7 @@ static void apply_degamma_for_user_regamma(struct=
- pwl_float_data_ex *rgb_regamma
-> >         struct pwl_float_data_ex *rgb =3D rgb_regamma;
-> >         const struct hw_x_point *coord_x =3D coordinates_x;
-> >
-> > -       build_coefficients(&coeff, true);
-> > +       build_coefficients(&coeff, TRANSFER_FUNCTION_BT709);
-> >
-> >         i =3D 0;
-> >         while (i !=3D hw_points_num + 1) {
-> > --
-> > 2.25.1
-> >
+Andi
+
+On Fri, Sep 16, 2022 at 11:24:01AM +0200, Janusz Krzysztofik wrote:
+> i915_perf assumes that it can use the i915_gem_context reference to
+> protect its i915->gem.contexts.list iteration. However, this requires
+> that we do not remove the context from the list until after we drop the
+> final reference and release the struct. If, as currently, we remove the
+> context from the list during context_close(), the link.next pointer may
+> be poisoned while we are holding the context reference and cause a GPF:
+> 
+> [ 4070.573157] i915 0000:00:02.0: [drm:i915_perf_open_ioctl [i915]] filtering on ctx_id=0x
+> 1fffff ctx_id_mask=0x1fffff
+> [ 4070.574881] general protection fault, probably for non-canonical address 0xdead00000000
+> 0100: 0000 [#1] PREEMPT SMP
+> [ 4070.574897] CPU: 1 PID: 284392 Comm: amd_performance Tainted: G            E     5.17.9
+>  #180
+> [ 4070.574903] Hardware name: Intel Corporation NUC7i5BNK/NUC7i5BNB, BIOS BNKBL357.86A.0052.2017.0918.1346 09/18/2017
+> [ 4070.574907] RIP: 0010:oa_configure_all_contexts.isra.0+0x222/0x350 [i915]
+> [ 4070.574982] Code: 08 e8 32 6e 10 e1 4d 8b 6d 50 b8 ff ff ff ff 49 83 ed 50 f0 41 0f c1 04 24 83 f8 01 0f 84 e3 00 00 00 85 c0 0f 8e fa 00 00 00 <49> 8b 45 50 48 8d 70 b0 49 8d 45 50 48 39 44 24 10 0f 85 34 fe ff
+> [ 4070.574990] RSP: 0018:ffffc90002077b78 EFLAGS: 00010202
+> [ 4070.574995] RAX: 0000000000000002 RBX: 0000000000000002 RCX: 0000000000000000
+> [ 4070.575000] RDX: 0000000000000001 RSI: ffffc90002077b20 RDI: ffff88810ddc7c68
+> [ 4070.575004] RBP: 0000000000000001 R08: ffff888103242648 R09: fffffffffffffffc
+> [ 4070.575008] R10: ffffffff82c50bc0 R11: 0000000000025c80 R12: ffff888101bf1860
+> [ 4070.575012] R13: dead0000000000b0 R14: ffffc90002077c04 R15: ffff88810be5cabc
+> [ 4070.575016] FS:  00007f1ed50c0780(0000) GS:ffff88885ec80000(0000) knlGS:0000000000000000
+> [ 4070.575021] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [ 4070.575025] CR2: 00007f1ed5590280 CR3: 000000010ef6f005 CR4: 00000000003706e0
+> [ 4070.575029] Call Trace:
+> [ 4070.575033]  <TASK>
+> [ 4070.575037]  lrc_configure_all_contexts+0x13e/0x150 [i915]
+> [ 4070.575103]  gen8_enable_metric_set+0x4d/0x90 [i915]
+> [ 4070.575164]  i915_perf_open_ioctl+0xbc0/0x1500 [i915]
+> [ 4070.575224]  ? asm_common_interrupt+0x1e/0x40
+> [ 4070.575232]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
+> [ 4070.575290]  drm_ioctl_kernel+0x85/0x110
+> [ 4070.575296]  ? update_load_avg+0x5f/0x5e0
+> [ 4070.575302]  drm_ioctl+0x1d3/0x370
+> [ 4070.575307]  ? i915_oa_init_reg_state+0x110/0x110 [i915]
+> [ 4070.575382]  ? gen8_gt_irq_handler+0x46/0x130 [i915]
+> [ 4070.575445]  __x64_sys_ioctl+0x3c4/0x8d0
+> [ 4070.575451]  ? __do_softirq+0xaa/0x1d2
+> [ 4070.575456]  do_syscall_64+0x35/0x80
+> [ 4070.575461]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> [ 4070.575467] RIP: 0033:0x7f1ed5c10397
+> [ 4070.575471] Code: 3c 1c e8 1c ff ff ff 85 c0 79 87 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a9 da 0d 00 f7 d8 64 89 01 48
+> [ 4070.575478] RSP: 002b:00007ffd65c8d7a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> [ 4070.575484] RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f1ed5c10397
+> [ 4070.575488] RDX: 00007ffd65c8d7c0 RSI: 0000000040106476 RDI: 0000000000000006
+> [ 4070.575492] RBP: 00005620972f9c60 R08: 000000000000000a R09: 0000000000000005
+> [ 4070.575496] R10: 000000000000000d R11: 0000000000000246 R12: 000000000000000a
+> [ 4070.575500] R13: 000000000000000d R14: 0000000000000000 R15: 00007ffd65c8d7c0
+> [ 4070.575505]  </TASK>
+> [ 4070.575507] Modules linked in: nls_ascii(E) nls_cp437(E) vfat(E) fat(E) i915(E) x86_pkg_temp_thermal(E) intel_powerclamp(E) crct10dif_pclmul(E) crc32_pclmul(E) crc32c_intel(E) aesni_intel(E) crypto_simd(E) intel_gtt(E) cryptd(E) ttm(E) rapl(E) intel_cstate(E) drm_kms_helper(E) cfbfillrect(E) syscopyarea(E) cfbimgblt(E) intel_uncore(E) sysfillrect(E) mei_me(E) sysimgblt(E) i2c_i801(E) fb_sys_fops(E) mei(E) intel_pch_thermal(E) i2c_smbus(E) cfbcopyarea(E) video(E) button(E) efivarfs(E) autofs4(E)
+> [ 4070.575549] ---[ end trace 0000000000000000 ]---
+> 
+> However, there is a risk of triggering kernel warning on contexts list not
+> empty at driver release time if we deleagate that task to a worker for
+> i915_gem_context_release_work(), unless that work is flushed first.
+> Unfortunately, it is not flushed on driver release.  Fix it.
+> 
+> Chris Wilson (1):
+>   drm/i915/gem: Really move i915_gem_context.link under ref protection
+> 
+> Janusz Krzysztofik (1):
+>   drm/i915/gem: Flush contexts on driver release
+> 
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c | 8 ++++----
+>  drivers/gpu/drm/i915/i915_gem.c             | 3 ++-
+>  2 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> -- 
+> 2.25.1
