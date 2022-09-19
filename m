@@ -1,69 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37335BC5CF
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 11:54:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C72F85BC5DD
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 11:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2B0610E5E3;
-	Mon, 19 Sep 2022 09:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5C410E5E8;
+	Mon, 19 Sep 2022 09:55:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4933710E5E3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 09:54:35 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id l9so6640444lji.4
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 02:54:35 -0700 (PDT)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6074610E5E8;
+ Mon, 19 Sep 2022 09:55:48 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id a41so28622958edf.4;
+ Mon, 19 Sep 2022 02:55:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=acfZNlSk6UDSUFER86iU5/oC+tWnJPYzNY85ToWvplI=;
- b=qfjkJOzXVYyBbWBcP7ScnhEr3K4rRvVk5rRFs1OF/IhXIcCx6uLOkHA2R32bWSNb52
- 5caWhhw2LYFoBao51d6Yo0KY2AIBTSHg+QnKa7HxvTNoOshJ/tHBsHX38mjzLh0+H6Ee
- 4fsyaEhlpXl1wpJC3pjQYWXzowXLs+gWWaVzVzDBYTxZ+nP41WOqMcEipwrL1zpuGxND
- p1m8qpVVRXkoNMN8xLi/+m7PY3PqdbA1YgMysj/KPnvPX5xxBZ9c2bxmGfWfnuNGf08t
- 1n73JgcdGa+B9fnnGY1IKwJN1dgH675rZsofUMF2WwtMQ1f8K5lM9wlUgkjt0f1tKhrV
- 6rwQ==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=vnJl0L26F6/cF4LoX36tFsaUdJl5yJVNsgmOYHfsRBo=;
+ b=Vb58P5FPswub/ju264ON0G6rNOIDPCQ3GPgtbDnL9G5e9OBp6YY93sVXlx6LwidIDc
+ Fo0wgvT7f3ra1kG8Qxo0C/PW+CW/jHl8oUXedW/ZeTrOMcu59U4vz6luprsm8n4rKs0o
+ LL8/pP7VsWejZczbgFWn7bDQVLHvRSUsimYgLZaiusojf3ZnzqrJPYOddQNashyMTT3D
+ 6nbCCvedQcphnp7D/OpFqSZUvY9MMrkYFVDiovOKRP/e8NgwVnfH+d5GpLRl3vRmyevv
+ YgjtVqSmTVsn4Pz7me5Mk+4fIBQRDlkSzXyxcoti6H2JR9XCFcnRo3xQKyVT50kpQm5+
+ kpzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=acfZNlSk6UDSUFER86iU5/oC+tWnJPYzNY85ToWvplI=;
- b=FarSQMtkhuCwf+3DVhCFTwF5Z9MILIQptcQVUfhYUrSVxgz7g1bsj/LM3sJkn6yXM6
- O4U3rpePpQkZfyfYE8rv24rJPOrhNTHkYoYo4P78wUWFbucnkz4PsEqitan521EE9Whm
- pWbpz0XqgVW/XX9EtOSTiIJNcDz0vO0MHv0RoeIHYVCvf1d1LM2VNXezooVbUP/mI530
- owg2mbYHCqMroti/+2bmZA3MCzmnyfAW4RojdG0Fvi4svUSis5cRFrSboYgS5roiJFeW
- 1z+5mr7C2h1tpcQvTi4pIHJgX1hUPKJyo6g7NztMLBGkOT+QgjgrhKMlxnFOnj7hX5pb
- bLDQ==
-X-Gm-Message-State: ACrzQf2avF2hoJtcBRkwyt/BzynSrFJ2agZ+sPnupnxirjPAfIV7xv3o
- kFKw56fzdW1mHSqClo24ERo=
-X-Google-Smtp-Source: AMsMyM5s1lURiFkaTiES2Do+Gp85hVbFMOUBWEtYF1ETax19T1vejZL/sH5OF3FW8EhMfG9KBBZ7oQ==
-X-Received: by 2002:a2e:b893:0:b0:26c:22e0:716d with SMTP id
- r19-20020a2eb893000000b0026c22e0716dmr5260362ljp.48.1663581273645; 
- Mon, 19 Sep 2022 02:54:33 -0700 (PDT)
-Received: from [192.168.2.145] ([109.252.122.187])
- by smtp.googlemail.com with ESMTPSA id
- y11-20020a05651c106b00b0026c3e350682sm1347948ljm.14.2022.09.19.02.54.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 02:54:33 -0700 (PDT)
-Message-ID: <7fe977b9-8e54-96cf-91da-49f0861ff945@gmail.com>
-Date: Mon, 19 Sep 2022 12:54:32 +0300
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=vnJl0L26F6/cF4LoX36tFsaUdJl5yJVNsgmOYHfsRBo=;
+ b=xeNsfyQSNOSsqhTRO15E7uOyJwn73MU0IC4RO+ir55MHcenYij4w5w7PfhsHHTGXIq
+ oKdKRG8nWHX2yMt6Qsw2cd2/wxOQsA/lFzGRLj++L+YjQwcX1eQ2TcWO87GrOLjVgbo4
+ BqyNvJZtvKIshjcessEiIpFRUXjHvtZ+Nk7g5FgVjQyl6Ju770Q2U6LYk9hHB1vVxQBl
+ fEirfU/iyUZYHUI1tmzcy40Ms/+hbk5N3Bdl8RMK9pKtIRcSFj0bp7pXqBBt2I8C+s2e
+ w76KTkSsF5TmxtJfk3utFCEqX0T38sCydUHa6WUzaWR4RKO7a+vH38IVAaV7J/pz3/Fp
+ uqxg==
+X-Gm-Message-State: ACrzQf2uwvVghFLTNUqQo5faF1tDItyYIi4/8DULMPnuj+AOMVUorKyK
+ JKCBKmEd7EPqQuNUZ1Lfgb/ULtWantC8Nk7g1ZI=
+X-Google-Smtp-Source: AMsMyM42HTbF/UFDvgdJ38PdEt0hijqa/khgCG00F9Fw/uY27h2or8B5g7sF95ObpJXZFD0OXeAG8T7xvZxPYQltuX0=
+X-Received: by 2002:a05:6402:2b8f:b0:453:2e59:364d with SMTP id
+ fj15-20020a0564022b8f00b004532e59364dmr14954390edb.254.1663581346809; Mon, 19
+ Sep 2022 02:55:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 0/3] Refactor MediaTek DP drivers
-Content-Language: en-US
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>
-References: <20220916133821.27980-1-rex-bc.chen@mediatek.com>
- <CAAOTY__g=s_ACd+zTJZT1HBbrLo-JpHbrwLsy1zKjxbM5c21uA@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <CAAOTY__g=s_ACd+zTJZT1HBbrLo-JpHbrwLsy1zKjxbM5c21uA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <tencent_ED24158E83CB9885E8BDD173EB5896B51906@qq.com>
+ <87pmfrpv7q.fsf@intel.com>
+In-Reply-To: <87pmfrpv7q.fsf@intel.com>
+From: Zheng Hacker <hackerzheng666@gmail.com>
+Date: Mon, 19 Sep 2022 17:55:35 +0800
+Message-ID: <CAJedcCxWAjsB-zcGn_epE=1d=LTeX-ndNunLqQJ842+ptjy=Bw@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,38 +66,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guillaume Ranquet <granquet@baylibre.com>,
- Jitao Shi <jitao.shi@mediatek.com>, David Airlie <airlied@linux.ie>,
- liangxu.xu@mediatek.com, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: tvrtko.ursulin@linux.intel.com, security@kernel.org, alex000young@gmail.com,
+ airlied@linux.ie, gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Zheng Wang <1002992920@qq.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Chun-Kuang,
+Got it. I'll try again later.
 
-18.09.2022 06:17, Chun-Kuang Hu пишет:
-> Hi, Dmitry:
-> 
-> My tree has no mtk-dp driver yet. Would you like to pick this series?
-> 
-> Regards,
-> Chun-Kuang.
-> 
-> Bo-Chen Chen <rex-bc.chen@mediatek.com> 於 2022年9月16日 週五 晚上9:38寫道：
->>
->> For this series, we do some clean-up and fix a build warning.
->> This series is based on linux-next-20220915.
->>
->> Changes for v2:
->> 1. Update commit message in "drm/mediatek: dp: Reduce indentation in mtk_dp_bdg_detect()".
->> 2. Add fix tag for "drm/mediatek: dp: Fix warning in mtk_dp_video_mute()".
+Best Regards,
+Zheng Wang
 
-I changed commit message of the "Fix warning in mtk_dp_video_mute()"
-patch to make it less noisy and applied all the patches to drm-misc-next.
+Jani Nikula <jani.nikula@linux.intel.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=881=
+9=E6=97=A5=E5=91=A8=E4=B8=80 17:30=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, 19 Sep 2022, Zheng Wang <1002992920@qq.com> wrote:
+> >  From afe79848cb74cc8e45ab426d13fa2394c87e0422 Mon Sep 17 00:00:00 2001
+> > From: xmzyshypnc <1002992920@qq.com>
+> > Date: Fri, 16 Sep 2022 23:48:23 +0800
+> > Subject: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_ent=
+ry
+> >
+> > There is a double-free security bug in split_2MB_gtt_entry.
+> >
+> > Here is a calling chain :
+> > ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entry.
+> >
+> > If intel_gvt_dma_map_guest_page failed, it will call
+> > ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
+> > kfree(spt). But the caller does not notice that, and it will call
+> > ppgtt_free_spt again in error path.
+> >
+> > Fix this by only freeing spt in ppgtt_invalidate_spt in good case.
+> >
+> > Signed-off-by: xmzyshypnc <1002992920@qq.com>
+>
+> Please use git send-email. The patch is whitespace broken and line
+> wrapped, making it unusable.
+>
+> BR,
+> Jani.
+>
+>
+> > ---
+> >   drivers/gpu/drm/i915/gvt/gtt.c | 16 +++++++++-------
+> >   1 file changed, 9 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/=
+gtt.c
+> > index ce0eb03709c3..550519f0acca 100644
+> > --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> > @@ -959,7 +959,7 @@ static inline int ppgtt_put_spt(struct
+> > intel_vgpu_ppgtt_spt *spt)
+> >       return atomic_dec_return(&spt->refcount);
+> >   }
+> >
+> > -static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt);
+> > +static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt, int
+> > is_error);
+> >
+> >   static int ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vg=
+pu,
+> >           struct intel_gvt_gtt_entry *e)
+> > @@ -995,7 +995,7 @@ static int
+> > ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
+> >                   ops->get_pfn(e));
+> >           return -ENXIO;
+> >       }
+> > -    return ppgtt_invalidate_spt(s);
+> > +    return ppgtt_invalidate_spt(s, 0);
+> >   }
+> >
+> >   static inline void ppgtt_invalidate_pte(struct intel_vgpu_ppgtt_spt *=
+spt,
+> > @@ -1016,7 +1016,7 @@ static inline void ppgtt_invalidate_pte(struct
+> > intel_vgpu_ppgtt_spt *spt,
+> >       intel_gvt_dma_unmap_guest_page(vgpu, pfn << PAGE_SHIFT);
+> >   }
+> >
+> > -static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt)
+> > +static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt, int
+> > is_error)
+> >   {
+> >       struct intel_vgpu *vgpu =3D spt->vgpu;
+> >       struct intel_gvt_gtt_entry e;
+> > @@ -1059,9 +1059,11 @@ static int ppgtt_invalidate_spt(struct
+> > intel_vgpu_ppgtt_spt *spt)
+> >           }
+> >       }
+> >
+> > -    trace_spt_change(spt->vgpu->id, "release", spt,
+> > +    if (!is_error) {
+> > +        trace_spt_change(spt->vgpu->id, "release", spt,
+> >                spt->guest_page.gfn, spt->shadow_page.type);
+> > -    ppgtt_free_spt(spt);
+> > +        ppgtt_free_spt(spt);
+> > +    }
+> >       return 0;
+> >   fail:
+> >       gvt_vgpu_err("fail: shadow page %p shadow entry 0x%llx type %d\n"=
+,
+> > @@ -1215,7 +1217,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu
+> > *vgpu,
+> >           ret =3D intel_gvt_dma_map_guest_page(vgpu, start_gfn + sub_in=
+dex,
+> >                              PAGE_SIZE, &dma_addr);
+> >           if (ret) {
+> > -            ppgtt_invalidate_spt(spt);
+> > +            ppgtt_invalidate_spt(spt, 1);
+> >               return ret;
+> >           }
+> >           sub_se.val64 =3D se->val64;
+> > @@ -1393,7 +1395,7 @@ static int ppgtt_handle_guest_entry_removal(struc=
+t
+> > intel_vgpu_ppgtt_spt *spt,
+> >               ret =3D -ENXIO;
+> >               goto fail;
+> >           }
+> > -        ret =3D ppgtt_invalidate_spt(s);
+> > +        ret =3D ppgtt_invalidate_spt(s, 0);
+> >           if (ret)
+> >               goto fail;
+> >       } else {
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
