@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E1A5BC9AB
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 12:43:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AAC5BC9C8
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 12:48:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3364410E5F9;
-	Mon, 19 Sep 2022 10:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96D7F10E5FF;
+	Mon, 19 Sep 2022 10:48:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082C310E5F9
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 10:43:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F01D10E5FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 10:48:02 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC227D02;
- Mon, 19 Sep 2022 12:43:42 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 901AF9BA;
+ Mon, 19 Sep 2022 12:48:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1663584223;
- bh=2VN+lPUU0HWbPH3ReA2VR1zfuu9H6VNxiwqm2QgC0mM=;
+ s=mail; t=1663584480;
+ bh=xH0dFiynDBJvh38igkGQg8mcP/tEn+0QLkv2GwKrsOQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GdOIsFJcS9bsIBQ/sE4of5jJpLh8y+E3c9Ul83JUFLZEqJXT7J41HBu0724QreAZ1
- wy/nIeiy4T73bkWipU6xcAHJzY49ewB0kRIFsUof/xdNoPLrndEPNOOcf0K+v9rf44
- 9FHeL/kI1woSGQ2PJa1hhjaoUV4C/MPOquhB6mBk=
-Date: Mon, 19 Sep 2022 13:43:29 +0300
+ b=GupHLLKhCmbowLKu/2rLAgH7lrPdvGzpo35NxtGV9CdLZPskAShPnBT+xorPQQlyt
+ Szd0tRsLRRn6/P1/QlzxwhOCBeS5bVAHkIDvpnM4zDdiO/OdyKXsNPkjNiI3kg40pG
+ e04YRB1vTZt4eRVIeZza44+kUH+Q4xd4SRDc+rqE=
+Date: Mon, 19 Sep 2022 13:47:47 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Robert Foss <robert.foss@linaro.org>
-Subject: Re: [PATCH v2 1/2] Revert "Revert "drm/bridge: ti-sn65dsi86:
- Implement bridge connector operations for DP""
-Message-ID: <YyhH0cENOBZfeu64@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 2/2] Revert "drm/bridge: chrontel-ch7033: Add byteswap
+ order setting"
+Message-ID: <YyhI0/aG97cCB8DB@pendragon.ideasonboard.com>
 References: <20220919102009.150503-1-robert.foss@linaro.org>
- <20220919102009.150503-2-robert.foss@linaro.org>
+ <20220919102009.150503-3-robert.foss@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220919102009.150503-2-robert.foss@linaro.org>
+In-Reply-To: <20220919102009.150503-3-robert.foss@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,85 +60,65 @@ Hi Rob,
 
 Thank you for the patch.
 
-On Mon, Sep 19, 2022 at 12:20:08PM +0200, Robert Foss wrote:
-> This commit was accidentally reverted instead of another commit, and
-> therefore needs to be reinstated.
+On Mon, Sep 19, 2022 at 12:20:09PM +0200, Robert Foss wrote:
+> Revert this patch since it depends on devicetree functionality that
+> previously has been reverted in the below commit.
 > 
-> This reverts commit 8c9c40ec83445b188fb6b59e119bf5c2de81b02d.
+> commit e798ba3374a1 ("Revert "dt-bindings: Add byteswap order to chrontel ch7033"")
+> 
+> This reverts commit ce9564cfc9aea65e68eb343c599317633bc2321a.
 > 
 > Fixes: 8c9c40ec8344 ("Revert "drm/bridge: ti-sn65dsi86: Implement bridge connector operations for DP"")
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+
+I'm not sure this Fixes tag is meaningful here. Apart from that,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 28 +++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
+>  drivers/gpu/drm/bridge/chrontel-ch7033.c | 15 ++-------------
+>  1 file changed, 2 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 6e053e2af229..3c3561942eb6 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -29,6 +29,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_bridge_connector.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_panel.h>
-> @@ -68,6 +69,7 @@
->  #define  BPP_18_RGB				BIT(0)
->  #define SN_HPD_DISABLE_REG			0x5C
->  #define  HPD_DISABLE				BIT(0)
-> +#define  HPD_DEBOUNCED_STATE			BIT(4)
->  #define SN_GPIO_IO_REG				0x5E
->  #define  SN_GPIO_INPUT_SHIFT			4
->  #define  SN_GPIO_OUTPUT_SHIFT			0
-> @@ -1158,10 +1160,33 @@ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
->  	pm_runtime_put_sync(pdata->dev);
->  }
+> diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+> index c5719908ce2d..ba060277c3fd 100644
+> --- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
+> +++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+> @@ -68,7 +68,6 @@ enum {
+>  	BYTE_SWAP_GBR	= 3,
+>  	BYTE_SWAP_BRG	= 4,
+>  	BYTE_SWAP_BGR	= 5,
+> -	BYTE_SWAP_MAX	= 6,
+>  };
 >  
-> +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +	int val = 0;
-> +
-> +	pm_runtime_get_sync(pdata->dev);
-> +	regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
-> +	pm_runtime_put_autosuspend(pdata->dev);
-> +
-> +	return val & HPD_DEBOUNCED_STATE ? connector_status_connected
-> +					 : connector_status_disconnected;
-> +}
-> +
-> +static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
-> +					  struct drm_connector *connector)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +
-> +	return drm_get_edid(connector, &pdata->aux.ddc);
-> +}
-> +
->  static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->  	.attach = ti_sn_bridge_attach,
->  	.detach = ti_sn_bridge_detach,
->  	.mode_valid = ti_sn_bridge_mode_valid,
-> +	.get_edid = ti_sn_bridge_get_edid,
-> +	.detect = ti_sn_bridge_detect,
->  	.atomic_pre_enable = ti_sn_bridge_atomic_pre_enable,
->  	.atomic_enable = ti_sn_bridge_atomic_enable,
->  	.atomic_disable = ti_sn_bridge_atomic_disable,
-> @@ -1257,6 +1282,9 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
->  	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
->  			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
+>  /* Page 0, Register 0x19 */
+> @@ -356,8 +355,6 @@ static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
+>  	int hsynclen = mode->hsync_end - mode->hsync_start;
+>  	int vbporch = mode->vsync_start - mode->vdisplay;
+>  	int vsynclen = mode->vsync_end - mode->vsync_start;
+> -	u8 byte_swap;
+> -	int ret;
 >  
-> +	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> +		pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
-> +
->  	drm_bridge_add(&pdata->bridge);
+>  	/*
+>  	 * Page 4
+> @@ -401,16 +398,8 @@ static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
+>  	regmap_write(priv->regmap, 0x15, vbporch);
+>  	regmap_write(priv->regmap, 0x16, vsynclen);
 >  
->  	ret = ti_sn_attach_host(pdata);
+> -	/* Input color swap. Byte order is optional and will default to
+> -	 * BYTE_SWAP_BGR to preserve backwards compatibility with existing
+> -	 * driver.
+> -	 */
+> -	ret = of_property_read_u8(priv->bridge.of_node, "chrontel,byteswap",
+> -				  &byte_swap);
+> -	if (!ret && byte_swap < BYTE_SWAP_MAX)
+> -		regmap_update_bits(priv->regmap, 0x18, SWAP, byte_swap);
+> -	else
+> -		regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
+> +	/* Input color swap. */
+> +	regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
+>  
+>  	/* Input clock and sync polarity. */
+>  	regmap_update_bits(priv->regmap, 0x19, 0x1, mode->clock >> 16);
 
 -- 
 Regards,
