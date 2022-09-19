@@ -1,79 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8595BC38D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 09:37:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D395BC397
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 09:44:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1884710E422;
-	Mon, 19 Sep 2022 07:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D95110E553;
+	Mon, 19 Sep 2022 07:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D49AC10E422
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 07:36:51 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 283A25C027B;
- Mon, 19 Sep 2022 03:36:49 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 19 Sep 2022 03:36:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1663573009; x=
- 1663659409; bh=ivBFTb4mJwy/p2/PscYsL8xWxc9ankAdkoVS7A7AZgY=; b=o
- 1v8uTT0BWdWJxC8KNrRmrVTHnlI4MCsc7HsvF03en7CLSGRlVUPhI8aml1gZ2lie
- v8bhDBxBIdCFVHXbGaugmC4KQz4tD9PJNarMO8iuqX2VYqd/Q/jMHTBYIwrocYD5
- 0bNeyn/28mrMwQYXKiohxRuEitT6iZVoH4NKEw+e8LVNfIUGe9lH7KIBy6fb4UGu
- AFBgPiNmRpss1bJgPUENoSy/z/chM+G8LQ3vA6EiK3KTCNF6X3+w5VA7Xz57KLqH
- VTePxMFKVwjjUDK1JNdr0UVvRRLYhmyJNCV4XyrQFpQQXDbIWdiHg54Rw14HpcKm
- 6IPy3DEy4aEdCThcojefQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1663573009; x=
- 1663659409; bh=ivBFTb4mJwy/p2/PscYsL8xWxc9ankAdkoVS7A7AZgY=; b=V
- qgOQDNLyx6G+k4jCMjLG+kkzWbPc8hKREJi8VuQLvNG0HuqWGCgV89Vi2QG+f23x
- RGAxowstSWCvsMZBJjbci39Vb8CLfXygESig1chzMLJDpTXOXFzkJ+Ech+73tAJa
- ZQgyOUMrTKjd2Lhx3puIeDU7odrms/cSwJNx6sYppttBWt4jgVO1lTk7NTkPeas8
- nfeRrit8GMvlNN1xs9gltal33m6vVprXF/WY9Ecp2uEj8bXvLyQ2MbkGMCB5nsXx
- NC0JF2h/UYz37/zTrpeMI5qEmV8XJr8TsemtCtlInXI6N8mU5owsAPf1iPPAaDwr
- c4yjvzamHIUUrtHJwCSdg==
-X-ME-Sender: <xms:EBwoYwsuRJHt5Kfoa26PsBRp6aAk04NDWMad1OwACrzGSwBkc4COSA>
- <xme:EBwoY9eYf19JNMb4cGduDJO9DH2m9ai5tba9Bu7xZF9-svhtHWwXEfmptPHmK3lW6
- AViX3DSQY8qksHt12c>
-X-ME-Received: <xmr:EBwoY7yVOZzc3x4rZ4e1tFHLkoLWXTtwmAdBSVZ7zq101BAkOlcfzeHVfGY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedviedguddvvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgr
- gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
- frrghtthgvrhhnpeelleefieelleetteefvdeikeeffeffvefhtdevgfehveduveehjedv
- vdeiledtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:EBwoYzMVP5cYKyJM6TAit-lQWUZE_wCn_mehkSynFERVF42e45KLDw>
- <xmx:EBwoYw-dLxRoMMxHVApzh45TE-I0P5W4hGTB-Z3_01pIG0i9e86M8A>
- <xmx:EBwoY7X1G6xqOBE4JEL45ttgaG5_noh0jyIul7qRdskz71gJhbsnuA>
- <xmx:ERwoYwO0NfoxI5xJYVoKh3ZdC1VydW_KsB_4CGZ_nVrc_o9qJeRPtw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Sep 2022 03:36:47 -0400 (EDT)
-Date: Mon, 19 Sep 2022 09:36:45 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH v4 3/3] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_gray8()
-Message-ID: <20220919073645.uf64enluhiwd2b2i@houat>
-References: <20220919071531.105124-1-jose.exposito89@gmail.com>
- <20220919071531.105124-4-jose.exposito89@gmail.com>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2083.outbound.protection.outlook.com [40.107.92.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D48710E553;
+ Mon, 19 Sep 2022 07:44:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RnWDeOb2Rjymknmxz89KhKRk5NVW/6yy1j5TVWK1FmEjVvLhSHIJkUP9sTm+MSw2Vczdthb6YeiHP0i5iOuffzdgMw2Awe9fSOpiwxPCrAQIB4AWRZVIcF2Q6nxd4bXQXOsBVdVnwtCeRJugCYw8gSY9v+QVCe/MyWqnE69ttViBZb7E9ClUgp4DTuMuoAvFZbE0Tg7Ap/Irx9JG8qKlt7PbFDp/fia1MpJgjJMhWrffLusD0pep1sK9bl1SIrpCixMH0mVsOyIbmJd4gON88LzHhzSIxlvw0OKbZ6iJnuAqAkNjwD/kyJRiHf6vpAyP429POhJEpQ9Vvv8v1o7bAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rtlskHon3z82LyKFtavsij98O+Glv5Jhp+/tGqvsVsc=;
+ b=JYEhX9Dp/2La9FnXdbtDaz4pR0kpHwkVApO7iErwF766maT4k3fB0bOh623VrV8kI6D5YNXujY4dZVF8HsYxf+MU+qnOXjdbvhYXPAGkhSQONQwCRFM2rw8fkn4GIPE16zjR9lMUO5oP8z1ydhJglQw5iE5XRL87PKdfvUwF4Plw6fK6lal8QODg4h/OAqVWGy35J+h+FS6MYqmxcjwEqlDQEbQQQ68L65YMK/yjFLvGWRS7yMyfFg9qBRN80TKXhzlZLved3/i0S8k7TepKs2ZQwDOLX0V9ccDzMloiK3u9jmRkmOosGtIeuXXp3mo28thnnPM04bdvQzsQoNXBtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rtlskHon3z82LyKFtavsij98O+Glv5Jhp+/tGqvsVsc=;
+ b=y/Xl9oqjBVxGBsvwKhi67Ju2ErwxRaDL3kWqN84rGsVV/YIgiEPivyS0sXYYdG86A/iFfQcJE204xlceTRkOVMGz+SMwwjiiLo0D3SSuniMiyUSZKsVUc0I7feQjlcXTpWI3NWqe3bNdujnedayuDAl0KA2c9OAghbxWisxWQm4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH0PR12MB7096.namprd12.prod.outlook.com (2603:10b6:510:21d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Mon, 19 Sep
+ 2022 07:44:21 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5632.021; Mon, 19 Sep 2022
+ 07:44:21 +0000
+Message-ID: <9b7f030f-eedf-9a14-b442-6afa0c67c5f7@amd.com>
+Date: Mon, 19 Sep 2022 09:44:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] gpu: dc: fix enum conversion in display_mode_vba
+Content-Language: en-US
+To: Zeng Heng <zengheng4@huawei.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ Nevenko.Stupar@amd.com, Pavle.Kotarac@amd.com, aric.cyr@amd.com
+References: <20220919014125.3295213-1-zengheng4@huawei.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220919014125.3295213-1-zengheng4@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0029.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::22) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220919071531.105124-4-jose.exposito89@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH0PR12MB7096:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6dad8c0-fec5-408e-22ec-08da9a12c3a3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: o/4yynGOJReHTC5WrTAWroCrvyWmAHyzy7A7n7cdb3oCZ3beZ1GUTLdrN/Bg8s7y8O1k+yjBaJgPvkSXPsATkWw+2lp/1dySe458zrZMRbR/6uNXKZ5Vx6B+e2okPe4qXwWVWxamL36RF0NXE1NQq/BEFCfzAp+kDD0cviM1VwhIy7siYCRCzCJx8wZ92A+Z14OnI3AxRgyudzOTtwHtXDuYXd4coF4AJJsjtXpZHpeVbnYMwX7rKytlXY0o6sHIjhmeDHFaI0XEi5oQwSR4P0gRKe1mQql825W43fLdz7orPSf8drKL854+i5ngQUHCrGNYr5eBbXB8Tf6CRUiGfeG/ARBWvr5tuobqsXTRW90b+d7ecyCuU0tJjSnIYWaNGDP+8vsCY6KZ8uPHBMKWJeIPLva0OvORWTMTTl/4T5rTp2+zYkUNTzhAd7/0NEIDO1uou8f8fkNJ/5PJ7Bt8aJvRzlgMLi5advClSnpK85+eguSRxWYD3qu1nc9vL/8rf8Tx6ebZ4O0Nwu5wJ219BGo8GD+rIbn7rFZd13XzbOxc3fsFO7gDZsBOC9AE9HjV6Y2Q4tOlcf51i06b/GMt7onjWad7Q0yfmxGLegUZpiZ8bMdIlbFZCbaDwAGsKij7Mm0UZz9uRaLl1B5jIkuNi83lXqZz+z9hklCRgEU4nv+bRxHBvzQo7NfB5Xry/O3KbfsFCIUlA4mW+aqC/wEkRaZ6ixEO2GaP5JiieGaq9dtRfgUJfpPZiSO3WQdEs94t5oHTBHz9cCL83fVYkCXZsSDz6444Bp2K/eAaPqI/UWP9AhmTGk8HND4y8I+puAzs3gOoSydzX+DInemh2yt7Hw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(366004)(396003)(136003)(376002)(39860400002)(451199015)(31686004)(38100700002)(6512007)(26005)(6506007)(6666004)(8676002)(4326008)(2906002)(2616005)(41300700001)(921005)(86362001)(31696002)(186003)(36756003)(5660300002)(478600001)(8936002)(6636002)(316002)(66946007)(66556008)(66476007)(83380400001)(6486002)(45980500001)(43740500002)(44824005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWdWaFFpK25XaUxKaDZXeVJyODNVQ2FYakxiS0ljTlJrK28vZVprMzg1OXgx?=
+ =?utf-8?B?ajNpVktuYjFsMHphWG91VzR1ai84cno2cGR6RTBSMlFMNDlKTXVBYnQ1bWtS?=
+ =?utf-8?B?MnpXN1FXcVpvNzNFWllaZ29IRENPczlqWExweEwzekFVUnl4NkxpZThSM01o?=
+ =?utf-8?B?ZFNHRzBWMmgvUTVCVHlvUGFhUXNjUmljOUNDdkNlaUtObG1xMzdScWJUSTIy?=
+ =?utf-8?B?MXl6RUNNblM0MXBhTFA5ckt6c1VaalNwenRxZXZSTTg2U0FyUmhrdDEvL1JJ?=
+ =?utf-8?B?S2ppNjh5bDdnY3JSMEVzdVovUXhQdlNLOUU1RUdIQW1nRHNoUDNGUGhjZEJD?=
+ =?utf-8?B?emxtdlNQRHowQUdiTUphODNNRnpKWXFjRVF4dGJwZUxFRVZheTl6VkxSTEtM?=
+ =?utf-8?B?TFVtTWY1YXVONWJzR2hHWFkxaVRWVmp2ZFppV2VGSkVxVnM0aVd4bkFFMjZU?=
+ =?utf-8?B?YWpYdGgyeG91Y0lWeGROWFF0elBHbVl2RzUzbldFV0FPbkZFb1VpOUhEQUtJ?=
+ =?utf-8?B?dzhkVDhSWkovdVpUQTErRlNRYzgyc0tnY3kybElmaUJpOVhoNTJ4aCt4NHlL?=
+ =?utf-8?B?a3I3Z0FtS1ZaWWVwcGpuU0pVL0lWa3R1MURoUGxtczFhRERmckN4dGFRYTNU?=
+ =?utf-8?B?Uy9QTTduUVQ1bjhlcUxSUit2Wms2VFJ1NDlSY0V2anRQYTdSdXRoSGZjMVV5?=
+ =?utf-8?B?RmJSY05jSXhiTjlhUVZuYnlBZWgva2JXLzJRR1FZcWQwc3VwQXhySkZReXFy?=
+ =?utf-8?B?UHBrTkpqVTY4ZUg4QUc4YytlS3VnNVdFTUlYR0JXOFlYSlN1azE2TlFpWTRu?=
+ =?utf-8?B?VEQ1VmR0dXNtYkVaVFkwekQrWHZ2YUZHYzl2ZGNUR2NyMHBNblIyYnd0eFJn?=
+ =?utf-8?B?b0xwOGh3VHhuWmNobVJOOGhOdmhqUjFPdmpVc2N1OWpVZkE0dTlMNnE1eklH?=
+ =?utf-8?B?TmJBZXhERTk3RkMvQ0t4WVZtcHdmeExUdTBtckZ2R29UbUFaOXRlaXlNRCtD?=
+ =?utf-8?B?NDdNbHRjaTNFazJ5VVpSa1Z3SHZSdDRKTHVyR1BKbFRpWUVMamNBSUkza2I3?=
+ =?utf-8?B?bGxPc21ybXNuVGt2UVFKVis0S0VIZHI4U2NPbVFGc2p4OXcyc3p4dmJZSE14?=
+ =?utf-8?B?UmVWMFFhczNXS0daTHRmbjRtK0lNemhnbWZSTW1EdWgwRjhlYWt6SnU5M3Nr?=
+ =?utf-8?B?UWMxY0NJRWhRcThFNEM4YlZ3WGpRQ0dpK0g5M1NoUzQwTU9UWGtxNnFSK0Y0?=
+ =?utf-8?B?R0NqK1E3ZCtTM3hVSnhFOHBQcGVWSnZCWkVJRFZadjhqeEcyd3dwY3pnTmVR?=
+ =?utf-8?B?Nks1dUtFMGk2Wm1NV212TzZHRVpuSnFHWUdweDJ3NDZBQVpidEcwem9CODhI?=
+ =?utf-8?B?SlpzS1FaRzZxZlo0Q2NpUUZwODkyb3A3RUxReDNZWmpEZVVSYm1EcklKQ1pM?=
+ =?utf-8?B?SG1LSU5QM0ZIVHRZU2xhSGlaV1dENmtkK2ZmUUlXREhuMHBid3dWNkkySENZ?=
+ =?utf-8?B?RWxaUWpMNERoSHR3cS8yRWpMM3BQaHZWUGdaRWNnRzdXZ0E0WVNOY3EyQ0g2?=
+ =?utf-8?B?OVZUMlJ5TmJBenpsZXRFNE9lSTBQWkdPY1pvYmhJcEhxVjN5V2NWN0JtdE5N?=
+ =?utf-8?B?VitVeXJsWVI4cDhsQ2xiZjB6V1BhRUI2K1g2ZHB2cEcxUGlIU2tlU2FycHEx?=
+ =?utf-8?B?SE1DTUNmZ3RCa0pSQ1RXTXJNejhBUTVpZ3RremJ6WHM4K2NXdUU3RHduUklx?=
+ =?utf-8?B?WkFvL09Fd25rYmJoclUvNERxZ2tCUy9Yc2VzUTErRzBiQU1sT3dGQXBoVTRt?=
+ =?utf-8?B?eWFqMFREWWFFR2NNV29sSVM0Tmx4NnNuQWZuUmpNeWl4UWhkR05DN3g1MytN?=
+ =?utf-8?B?eHEyYW95dU45QWIyVTdKK0w0OHExKzF2Sk5GRUdvK3c4Qzl5cG44YW1tWFJX?=
+ =?utf-8?B?eGlPMERxS0FvMWdqWlZWMXhXRHZWWjdWK2pjblo1S3U1MGJ6dCt5WmRMcWw2?=
+ =?utf-8?B?ejkyckR0SFVUNXVDaWNhZDlSUEozclEyM0RabHFGb0p4UHJ3TjNWOFdtT3lR?=
+ =?utf-8?B?ZmZhYWRZbFVnT1p0NHh2TWx2Y0NBWjhDNXBFcnJ3eXBoYmVyR0lLcmhmQ3B0?=
+ =?utf-8?Q?dASFq+JCHDDMwa9vSIM3YOl0+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6dad8c0-fec5-408e-22ec-08da9a12c3a3
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 07:44:21.0402 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OvlTM1l2rsz8ItG/xmZNiT5+1QalPec5ty3UgQXaVbuE9a0Vq/gOew2plrbGOqUx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,164 +127,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, magalilemes00@gmail.com, airlied@linux.ie,
- maira.canal@usp.br, dlatypov@google.com, javierm@redhat.com,
- linux-kernel@vger.kernel.org,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, geert@linux-m68k.org,
- dri-devel@lists.freedesktop.org, tales.aparecida@gmail.com,
- davidgow@google.com, isabbasso@riseup.net, kunit-dev@googlegroups.com
+Cc: weiyongjun1@huawei.com, liwei391@huawei.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Am 19.09.22 um 03:41 schrieb Zeng Heng:
+> Fix below compile warning when open enum-conversion
+> option check (compiled with -Wenum-conversion):
+>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:
+> In function ‘dml20_ModeSupportAndSystemConfigurationFull’:
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3900:44:
+> error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
+>   3900 |     locals->ODMCombineEnablePerState[i][k] = false;
+>        |                                            ^
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3904:46:
+> error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
+>   3904 |       locals->ODMCombineEnablePerState[i][k] = true;
+>        |                                              ^
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3907:46:
+> error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
+>   3907 |       locals->ODMCombineEnablePerState[i][k] = true;
+>        |                                              ^
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3960:45:
+> error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
+>   3960 |      locals->ODMCombineEnablePerState[i][k] = false;
+>
+> Use the proper value from the right enumerated type,
+> dm_odm_combine_mode_disabled & dm_odm_combine_mode_2to1,
+> so there is no more implicit conversion.
+>
+> The numerical values of dm_odm_combine_mode_disabled
+> & false and dm_odm_combine_mode_2to1 & true
+> happen to be the same, so there is no change in
+> behavior.
 
-On Mon, Sep 19, 2022 at 09:15:31AM +0200, Jos=E9 Exp=F3sito wrote:
-> Extend the existing test cases to test the conversion from XRGB8888 to
-> grayscale.
->=20
-> Tested-by: Ma=EDra Canal <mairacanal@riseup.net>
-> Reviewed-by: David Gow <davidgow@google.com>
-> Signed-off-by: Jos=E9 Exp=F3sito <jose.exposito89@gmail.com>
+In the subject line the correct prefix is "drm/amdgpu: ....", but apart 
+from that looks good to me as well.
+
+But our DC team has to take a closer look.
+
+Thanks,
+Christian.
+
+>
+> Signed-off-by: Zeng Heng <zengheng4@huawei.com>
 > ---
->  .../gpu/drm/tests/drm_format_helper_test.c    | 62 +++++++++++++++++++
->  1 file changed, 62 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu=
-/drm/tests/drm_format_helper_test.c
-> index 09d358b54da0..71722e828abe 100644
-> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -37,6 +37,11 @@ struct convert_to_xrgb2101010_result {
->  	const u32 expected[TEST_BUF_SIZE];
->  };
-> =20
-> +struct convert_to_gray8_result {
-> +	unsigned int dst_pitch;
-> +	const u8 expected[TEST_BUF_SIZE];
-> +};
-> +
->  struct convert_xrgb8888_case {
->  	const char *name;
->  	unsigned int pitch;
-> @@ -46,6 +51,7 @@ struct convert_xrgb8888_case {
->  	struct convert_to_rgb565_result rgb565_result;
->  	struct convert_to_rgb888_result rgb888_result;
->  	struct convert_to_xrgb2101010_result xrgb2101010_result;
-> +	struct convert_to_gray8_result gray8_result;
->  };
-> =20
->  static struct convert_xrgb8888_case convert_xrgb8888_cases[] =3D {
-> @@ -71,6 +77,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
-ases[] =3D {
->  			.dst_pitch =3D 0,
->  			.expected =3D { 0x3FF00000 },
->  		},
-> +		.gray8_result =3D {
-> +			.dst_pitch =3D 0,
-> +			.expected =3D { 0x4C },
-> +		},
->  	},
->  	{
->  		.name =3D "single_pixel_clip_rectangle",
-> @@ -97,6 +107,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_=
-cases[] =3D {
->  			.dst_pitch =3D 0,
->  			.expected =3D { 0x3FF00000 },
->  		},
-> +		.gray8_result =3D {
-> +			.dst_pitch =3D 0,
-> +			.expected =3D { 0x4C },
-> +		},
->  	},
->  	{
->  		/* Well known colors: White, black, red, green, blue, magenta,
-> @@ -155,6 +169,15 @@ static struct convert_xrgb8888_case convert_xrgb8888=
-_cases[] =3D {
->  				0x3FFFFC00, 0x000FFFFF,
->  			},
->  		},
-> +		.gray8_result =3D {
-> +			.dst_pitch =3D 0,
-> +			.expected =3D {
-> +				0xFF, 0x00,
-> +				0x4C, 0x99,
-> +				0x19, 0x66,
-> +				0xE5, 0xB2,
-> +			},
-> +		},
->  	},
->  	{
->  		/* Randomly picked colors. Full buffer within the clip area. */
-> @@ -206,6 +229,14 @@ static struct convert_xrgb8888_case convert_xrgb8888=
-_cases[] =3D {
->  				0x2A20300C, 0x1B1705CD, 0x03844672, 0x00000000, 0x00000000,
->  			},
->  		},
-> +		.gray8_result =3D {
-> +			.dst_pitch =3D 5,
-> +			.expected =3D {
-> +				0x3C, 0x33, 0x34, 0x00, 0x00,
-> +				0x6F, 0x3C, 0x33, 0x00, 0x00,
-> +				0x34, 0x6F, 0x3C, 0x00, 0x00,
-> +			},
-> +		},
->  	},
->  };
-> =20
-> @@ -381,11 +412,42 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010_tes=
-t(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
->  }
-> =20
-> +static void drm_test_fb_xrgb8888_to_gray8_test(struct kunit *test)
-> +{
-> +	const struct convert_xrgb8888_case *params =3D test->param_value;
-> +	const struct convert_to_gray8_result *result =3D &params->gray8_result;
-> +	size_t dst_size;
-> +	__u8 *buf =3D NULL;
-> +	__u32 *xrgb8888 =3D NULL;
-> +	struct iosys_map dst, src;
-> +
-> +	struct drm_framebuffer fb =3D {
-> +		.format =3D drm_format_info(DRM_FORMAT_XRGB8888),
-> +		.pitches =3D { params->pitch, 0, 0 },
-> +	};
-> +
-> +	dst_size =3D conversion_buf_size(DRM_FORMAT_R8, result->dst_pitch,
-> +				       &params->clip);
-> +	KUNIT_ASSERT_GT(test, dst_size, 0);
-> +
-> +	buf =3D kunit_kzalloc(test, dst_size, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
-> +	iosys_map_set_vaddr(&dst, buf);
-> +
-> +	xrgb8888 =3D le32buf_to_cpu(test, params->xrgb8888, TEST_BUF_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
-> +	iosys_map_set_vaddr(&src, xrgb8888);
-> +
-> +	drm_fb_xrgb8888_to_gray8(&dst, &result->dst_pitch, &src, &fb, &params->=
-clip);
-> +	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
-> +}
-> +
->  static struct kunit_case drm_format_helper_test_cases[] =3D {
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_p=
-arams),
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb565, convert_xrgb8888_gen_p=
-arams),
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888_test, convert_xrgb8888_=
-gen_params),
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010_test, convert_xrgb=
-8888_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8_test, convert_xrgb8888_g=
-en_params),
+>   .../amd/display/dc/dml/dcn20/display_mode_vba_20.c   |  8 ++++----
+>   .../amd/display/dc/dml/dcn20/display_mode_vba_20v2.c | 10 +++++-----
+>   .../amd/display/dc/dml/dcn21/display_mode_vba_21.c   | 12 ++++++------
+>   3 files changed, 15 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
+> index d3b5b6fedf04..6266b0788387 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
+> @@ -3897,14 +3897,14 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+>   					mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine = mode_lib->vba.PixelClock[k] / 2
+>   							* (1 + mode_lib->vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+>   
+> -				locals->ODMCombineEnablePerState[i][k] = false;
+> +				locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
+>   				mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithoutODMCombine;
+>   				if (mode_lib->vba.ODMCapability) {
+>   					if (locals->PlaneRequiredDISPCLKWithoutODMCombine > mode_lib->vba.MaxDispclkRoundedDownToDFSGranularity) {
+> -						locals->ODMCombineEnablePerState[i][k] = true;
+> +						locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+>   						mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
+>   					} else if (locals->HActive[k] > DCN20_MAX_420_IMAGE_WIDTH && locals->OutputFormat[k] == dm_420) {
+> -						locals->ODMCombineEnablePerState[i][k] = true;
+> +						locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+>   						mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
+>   					}
+>   				}
+> @@ -3957,7 +3957,7 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+>   				locals->RequiredDISPCLK[i][j] = 0.0;
+>   				locals->DISPCLK_DPPCLK_Support[i][j] = true;
+>   				for (k = 0; k <= mode_lib->vba.NumberOfActivePlanes - 1; k++) {
+> -					locals->ODMCombineEnablePerState[i][k] = false;
+> +					locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
+>   					if (locals->SwathWidthYSingleDPP[k] <= locals->MaximumSwathWidth[k]) {
+>   						locals->NoOfDPP[i][j][k] = 1;
+>   						locals->RequiredDPPCLK[i][j][k] = locals->MinDPPCLKUsingSingleDPP[k]
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
+> index edd098c7eb92..989d83ee3842 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
+> @@ -4008,17 +4008,17 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
+>   					mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine = mode_lib->vba.PixelClock[k] / 2
+>   							* (1 + mode_lib->vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+>   
+> -				locals->ODMCombineEnablePerState[i][k] = false;
+> +				locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
+>   				mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithoutODMCombine;
+>   				if (mode_lib->vba.ODMCapability) {
+>   					if (locals->PlaneRequiredDISPCLKWithoutODMCombine > MaxMaxDispclkRoundedDown) {
+> -						locals->ODMCombineEnablePerState[i][k] = true;
+> +						locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+>   						mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
+>   					} else if (locals->DSCEnabled[k] && (locals->HActive[k] > DCN20_MAX_DSC_IMAGE_WIDTH)) {
+> -						locals->ODMCombineEnablePerState[i][k] = true;
+> +						locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+>   						mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
+>   					} else if (locals->HActive[k] > DCN20_MAX_420_IMAGE_WIDTH && locals->OutputFormat[k] == dm_420) {
+> -						locals->ODMCombineEnablePerState[i][k] = true;
+> +						locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+>   						mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
+>   					}
+>   				}
+> @@ -4071,7 +4071,7 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
+>   				locals->RequiredDISPCLK[i][j] = 0.0;
+>   				locals->DISPCLK_DPPCLK_Support[i][j] = true;
+>   				for (k = 0; k <= mode_lib->vba.NumberOfActivePlanes - 1; k++) {
+> -					locals->ODMCombineEnablePerState[i][k] = false;
+> +					locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
+>   					if (locals->SwathWidthYSingleDPP[k] <= locals->MaximumSwathWidth[k]) {
+>   						locals->NoOfDPP[i][j][k] = 1;
+>   						locals->RequiredDPPCLK[i][j][k] = locals->MinDPPCLKUsingSingleDPP[k]
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
+> index d40d32e380f4..f15e82492381 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
+> @@ -4102,17 +4102,17 @@ void dml21_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+>   					mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine = mode_lib->vba.PixelClock[k] / 2
+>   							* (1 + mode_lib->vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+>   
+> -				locals->ODMCombineEnablePerState[i][k] = false;
+> +				locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
+>   				mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithoutODMCombine;
+>   				if (mode_lib->vba.ODMCapability) {
+>   					if (locals->PlaneRequiredDISPCLKWithoutODMCombine > MaxMaxDispclkRoundedDown) {
+> -						locals->ODMCombineEnablePerState[i][k] = true;
+> +						locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+>   						mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
+>   					} else if (locals->DSCEnabled[k] && (locals->HActive[k] > DCN21_MAX_DSC_IMAGE_WIDTH)) {
+> -						locals->ODMCombineEnablePerState[i][k] = true;
+> +						locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+>   						mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
+>   					} else if (locals->HActive[k] > DCN21_MAX_420_IMAGE_WIDTH && locals->OutputFormat[k] == dm_420) {
+> -						locals->ODMCombineEnablePerState[i][k] = true;
+> +						locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+>   						mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
+>   					}
+>   				}
+> @@ -4165,7 +4165,7 @@ void dml21_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+>   				locals->RequiredDISPCLK[i][j] = 0.0;
+>   				locals->DISPCLK_DPPCLK_Support[i][j] = true;
+>   				for (k = 0; k <= mode_lib->vba.NumberOfActivePlanes - 1; k++) {
+> -					locals->ODMCombineEnablePerState[i][k] = false;
+> +					locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
+>   					if (locals->SwathWidthYSingleDPP[k] <= locals->MaximumSwathWidth[k]) {
+>   						locals->NoOfDPP[i][j][k] = 1;
+>   						locals->RequiredDPPCLK[i][j][k] = locals->MinDPPCLKUsingSingleDPP[k]
+> @@ -5230,7 +5230,7 @@ void dml21_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+>   			mode_lib->vba.ODMCombineEnabled[k] =
+>   					locals->ODMCombineEnablePerState[mode_lib->vba.VoltageLevel][k];
+>   		} else {
+> -			mode_lib->vba.ODMCombineEnabled[k] = false;
+> +			mode_lib->vba.ODMCombineEnabled[k] = dm_odm_combine_mode_disabled;
+>   		}
+>   		mode_lib->vba.DSCEnabled[k] =
+>   				locals->RequiresDSC[mode_lib->vba.VoltageLevel][k];
 
-The trailing test feels redundant, and we should order them
-alphabetically to avoid conflicts as much as possible.
-
-Feel free to add my
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-
-And fix this while applying
-
-Maxime
