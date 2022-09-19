@@ -1,50 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D055BCD4F
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 15:33:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78A75BCD51
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 15:33:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB7A10E65E;
-	Mon, 19 Sep 2022 13:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FBFB10E645;
+	Mon, 19 Sep 2022 13:33:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0471F10E645
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 13:32:57 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B8264660159F;
- Mon, 19 Sep 2022 14:32:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663594375;
- bh=TBhtk3gr4d0sylPaOG83cBfrnCWZRMcFZEocaCMqSfs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OaJ8GPRjLhVosM1A/PUElwHNEgeWvltDbM6oZu8+WuZmcnch01XPp21pn/ewA7V70
- P45LJ1m110d2xmCzDAh517/7Pta90saLbYE0c+urvKeMONCZvH8BgM3pJbJARQ7SVM
- FZBFIfgtevaC0qCGU4ahm5D7/R+0SAMv28D8MJ6NCD8U1s/pB0dZZpLOPhDw7WqDNX
- QoN8TyOsZsIxjD662CnOZcP5ezoNbJJFsgyVApfT7v8TfJ66vITMJg8/p7RHdLLRZ6
- rtI/adJF5CH4FxV/TH9+q6CZHYb9R8AZ6E6Jb5o7qNNklC5cyXo58Xp1tPX+RJVhgl
- 9E4Ee//hum6kA==
-Message-ID: <227bce07-37cc-da1d-fc99-065a12cdf3f5@collabora.com>
-Date: Mon, 19 Sep 2022 15:32:52 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A52BA10E645
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 13:33:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663594384;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LjRmohyPsTol4eTFg30MNCfml9vqzKz/IZecnpX2SsU=;
+ b=i6iJeiuRiOa4R6QqvYAho9K21sj89Q9pPm1q8nPdH8P8I2MW8IMKfrnj1qxnGb4F2OrZ0y
+ mOMrIS92vzJfOY2CXhXV7U3oIBq4NtnBVH5Bc0q+HvD7E83UoGscq68OlmwjEATcC1M0Jr
+ TVwFQ7rrxWityDbsOkYBS39bZjL9AIo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-627-IvCkspdSOtumKu2eVZIZKA-1; Mon, 19 Sep 2022 09:33:01 -0400
+X-MC-Unique: IvCkspdSOtumKu2eVZIZKA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 185F23826A43;
+ Mon, 19 Sep 2022 13:33:01 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.193.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E76DE1121315;
+ Mon, 19 Sep 2022 13:32:59 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm: panel-orientation-quirks: Add quirk for Nanote UMPC-01
+Date: Mon, 19 Sep 2022 15:32:58 +0200
+Message-Id: <20220919133258.711639-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] drm/mediatek: dsi: Move mtk_dsi_stop() call back to
- mtk_dsi_poweroff()
-Content-Language: en-US
-To: Hsin-Yi Wang <hsinyi@chromium.org>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-References: <20220804194325.1596554-1-nfraprado@collabora.com>
- <CAJMQK-hOxxvkjgOxA6KLLUJxxBehHDQvRo-Y_FLMPLEfkoVMzA@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAJMQK-hOxxvkjgOxA6KLLUJxxBehHDQvRo-Y_FLMPLEfkoVMzA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,42 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rex-BC Chen <rex-bc.chen@mediatek.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- Xinlei Lee <xinlei.lee@mediatek.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 19/09/22 10:40, Hsin-Yi Wang ha scritto:
-> On Mon, Sep 19, 2022 at 4:39 PM Nícolas F. R. A. Prado
-> <nfraprado@collabora.com> wrote:
->>
->> As the comment right before the mtk_dsi_stop() call advises,
->> mtk_dsi_stop() should only be called after
->> mtk_drm_crtc_atomic_disable(). That's because that function calls
->> drm_crtc_wait_one_vblank(), which requires the vblank irq to be enabled.
->>
->> Previously mtk_dsi_stop(), being in mtk_dsi_poweroff() and guarded by a
->> refcount, would only be called at the end of
->> mtk_drm_crtc_atomic_disable(), through the call to mtk_crtc_ddp_hw_fini().
->> Commit cde7e2e35c28 ("drm/mediatek: Separate poweron/poweroff from
->> enable/disable and define new funcs") moved the mtk_dsi_stop() call to
->> mtk_output_dsi_disable(), causing it to be called before
->> mtk_drm_crtc_atomic_disable(), and consequently generating vblank
->> timeout warnings during suspend.
->>
->> Move the mtk_dsi_stop() call back to mtk_dsi_poweroff() so that we have
->> a working vblank irq during mtk_drm_crtc_atomic_disable() and stop
->> getting vblank timeout warnings.
->>
->> Fixes: cde7e2e35c28 ("drm/mediatek: Separate poweron/poweroff from enable/disable and define new funcs")
->> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->>
-> Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> 
+The Nanote UMPC-01 is a mini laptop with a 1200x1920 portrait screen
+mounted in a landscape oriented clamshell case. Add a quirk for this.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 8a0c0e0bb5bd..f0f6fa306521 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -319,6 +319,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		 DMI_MATCH(DMI_BIOS_VERSION, "BLADE_21"),
+ 		},
+ 		.driver_data = (void *)&lcd1200x1920_rightside_up,
++	}, {	/* Nanote UMPC-01 */
++		.matches = {
++		 DMI_MATCH(DMI_SYS_VENDOR, "RWC CO.,LTD"),
++		 DMI_MATCH(DMI_PRODUCT_NAME, "UMPC-01"),
++		},
++		.driver_data = (void *)&lcd1200x1920_rightside_up,
+ 	}, {	/* OneGX1 Pro */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SYSTEM_MANUFACTURER"),
+-- 
+2.37.3
 
