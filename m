@@ -1,67 +1,135 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270395BD83E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 01:28:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 776B25BD87B
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 01:54:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5323910E1FC;
-	Mon, 19 Sep 2022 23:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94EC110E214;
+	Mon, 19 Sep 2022 23:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2329310E1FC;
- Mon, 19 Sep 2022 23:27:58 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id jm11so651155plb.13;
- Mon, 19 Sep 2022 16:27:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=xMvfvNVQtD64q8tGiwGnOVfsRnwh7XTr2/3zVgHXpHc=;
- b=ng9M6AZxxJGzK2DAPzv8G7JXiiarrTi2EMXAAzkq7M3NSGLurxQGcSaW77aXCx6J4E
- QPVxrAEGAzOCDZfT/cmnUZNFawji6hYzBjlgVu3TkqtmkLv5Aj9w8c3Q+ILb1cl3z5iz
- OqNlPhBne/YqnrsipEwB4Lb8Z2jRB+5Twv2AvZ+jGxsSm9l96Y4EKSIBQiLXBaMVck5k
- /IyfGXoAHGe+8Ml6mEx87gJVKkUfV+tryOIUNk/dG1GPofPD2233LRO+K2VdqDHsrAY+
- w2tlZNeVZkntM3l2/ULU7Qu4PgUAYz5MaSCb28QXY+2Q4HbslxwNAGxtnhreAsMDHuYl
- wADw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=xMvfvNVQtD64q8tGiwGnOVfsRnwh7XTr2/3zVgHXpHc=;
- b=lsOcpxuKc1fN/LtBUo5F53F7M+aue56ubMMud/zNI9a61zAuINgJ71gG9kduydVEHv
- Erj/lHpf16eYFnXaqefFo1a3hmDApxl3+4zJnyR+lDFYuiiBXDSOpgp4TcUtHOFIrJ0C
- 4BYhzfJh9WYh3k9cECzpIQs2S1iAGXZyadk1RwnFCI/m3Zh4qPPkD5vi5dlWelZsvkyO
- OkWNQoPxu3BAbcvN7YSGjpxQvSn285EVPF5AqaOLHy/AVsy73ew09unvXW92pzIT+2K9
- ZQWKH09mMl71M3iD75LjT0QwDK3I/oKkChVjzMXRJ1lhUsn72qJWZKFsdI9oMK12Rsqt
- bYiA==
-X-Gm-Message-State: ACrzQf30iLGusd1b3ucOlONPHf2bJNIT8lh6OpZIy2+yuvAjh8UpHP7R
- E92jOqjsWO4eSknuth93tpHcoeV7ScgVl3IboZM=
-X-Google-Smtp-Source: AMsMyM7GnTGHon8J8F1T8/dNI1bf94Yvt5qoyN9JWoUnWvn6jgbH2UTtMgBP/cAsJEGf9x8UlwJyGq5TMFcU9mjz1oo=
-X-Received: by 2002:a17:902:ccc2:b0:178:29e1:899e with SMTP id
- z2-20020a170902ccc200b0017829e1899emr2090041ple.114.1663630077367; Mon, 19
- Sep 2022 16:27:57 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD2A10E0A1;
+ Mon, 19 Sep 2022 23:54:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663631659; x=1695167659;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=Smlm2SZB8DEgdyeeN+iXR/GIiFE391flKsN5Vuh52K8=;
+ b=ENvXoWBkgqfD7332z/xjomnkMXdYkpOLxt22EHifyxJ3XI1wGrNZ8rn5
+ tnqsOi7vz+gXOOQzdMYNjPnzLDe5bNmJ6SIYgKg6VSCwrfsRcdYCfdE4h
+ f3EnBW0YA6HxLBQT3+DmwkDa9TbG5IpG7iqU70J31AZWZf8KPDpLn0bVS
+ Khdly/pZv3DHJ2cNCIdI4kPAWOvcKkhFTUBrennKqLiHKa5JoppdbKmp+
+ /QgW+AShEeorsKTTINkHpjgsRafkMX44ON0j0qM17uCyhi/0ZxjSXfKKd
+ trYd6L4b1LRMEZ+lircR22jd5vglRPuY+dPMuQyweU8U4cesmwXjyGV0i Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="279933338"
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="279933338"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 16:54:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="687181778"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga004.fm.intel.com with ESMTP; 19 Sep 2022 16:54:18 -0700
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 19 Sep 2022 16:54:18 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Mon, 19 Sep 2022 16:54:18 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.46) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Mon, 19 Sep 2022 16:53:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ny/Ucpinw1WCR93TB78ZBYT+Rlpf0p4JnKOm8i1ZHfiYVSZMSXV063Pf3bQGI6nizu/+Juiv+ZAegOwdnqrsViCRG5U88A5OJS7zGkFFy6u7q15098GU/TXK21oidy+c4wZr1wcPvyn7dgqHd7ll03pYf7iOL2O2o3WMaTzKVRHI/mwAnurOOowyj4RCgqF2aFYE5BmIXyzc2lcjQzQ6BiyBi2iRrLBfN9RNIZYJfmFKEK2BnM4fG6R179cFXMNP6iv+SKxHVDBPv1D28Sbx6zLOtN1m9OdWVIcBaHoLupVT67m/ebKP6Gw7t4r4qrkTy3NHU7fvY47tLZ2SaR8vOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AE9iKxpNn5C4r96Gwz9TPA6JSuFqA6LcGmSn9PZ2JWU=;
+ b=E7doMzVbHwGVfxAcb85gigFLjr6dGGjxG5FDgT6DXkFm+XhIiOv3kzkcMD7m3LnCCZ3owcG6Xzn7DMp+0ZPVGEcGYsI+iaUZzMHeLcpUT6DmwDhv9U4hR6vUb2oUKze7JD/2QBoiYkjgGvopiA1VsyGC3smzIMP6oz2LG/M8sYYki7NJmP9Ndrj41uiaj0Ig8yzPfNDU93ou1JzsNYmEfLQvDEivSqwk3ljipQyvcqPK7rV1Y7FGqdvgcYuhoEr2kQti4FntCCS0RG8Xp5PVDokCHHdtAWOY/9p7crMR9JJTT6EzRVG46TGqBWYwV7a3GP2TASq9BlCzTkblpfVTTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
+ by SJ0PR11MB5071.namprd11.prod.outlook.com (2603:10b6:a03:2d7::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Mon, 19 Sep
+ 2022 23:53:39 +0000
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::ecc9:50cb:5951:2514]) by MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::ecc9:50cb:5951:2514%12]) with mapi id 15.20.5632.021; Mon, 19 Sep
+ 2022 23:53:38 +0000
+Date: Mon, 19 Sep 2022 16:53:36 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Bump the reset-failure timeout
+ to 60s
+Message-ID: <YykBAI4OWn6fuxD3@mdroper-desk1.amr.corp.intel.com>
+References: <20220916204823.1897089-1-ashutosh.dixit@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220916204823.1897089-1-ashutosh.dixit@intel.com>
+X-ClientProxiedBy: SJ0PR13CA0076.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::21) To MWHPR11MB1632.namprd11.prod.outlook.com
+ (2603:10b6:301:11::11)
 MIME-Version: 1.0
-References: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
- <be6f1ce4-46b1-7a80-230c-b99f203ce8ad@riseup.net>
- <CABXGCsMFYnE+Wn2EAWuC8DSVj=TVprj6ABZwRK-hXcw-1hnMyw@mail.gmail.com>
- <CABXGCsMpGabZ32j_ObEHa_har2W8M8RWuqnx3d=yJT2NX_ztNg@mail.gmail.com>
- <20220817160751.moqhebkiuiydraka@mail.igalia.com>
- <CABXGCsOM9An-+EeaGWm0OA1FN2p94=BF210Lhy0tiO6ye9onWQ@mail.gmail.com>
- <dd2ee57a-2ab2-db94-36d9-8faced18fe61@riseup.net>
- <CABXGCsMc_D_iJ-r-_s8q13Vq6dgfQg1tnp-0aojfv5Q8izTrfw@mail.gmail.com>
- <a588de9f-958a-fce9-b4d3-2ea45d092b44@riseup.net>
- <CABXGCsMwTWbgZ-98gcQFbCN3rqzAt01ROpqUpL1d+3gjbwUcpA@mail.gmail.com>
-In-Reply-To: <CABXGCsMwTWbgZ-98gcQFbCN3rqzAt01ROpqUpL1d+3gjbwUcpA@mail.gmail.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Tue, 20 Sep 2022 04:27:45 +0500
-Message-ID: <CABXGCsMr5AZDoxhQSoHCibDOakimp5ukt=eMsUpPsYVnpL04ng@mail.gmail.com>
-Subject: Re: [BUG][5.20] refcount_t: underflow; use-after-free
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1632:EE_|SJ0PR11MB5071:EE_
+X-MS-Office365-Filtering-Correlation-Id: e01651c4-2f5e-4583-ead5-08da9a9a2c56
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YgExHT/pAGdO679dVA87dHD/8e5S9DZ6ylrVpYov9NUcIML9ddUW91tc/d514G/i+TbLLKR8PojYkMmvvTNkHXY3y3vz6SJNgs6SBBwGS5Fjl826SbH5wlLDRBPEpWCNgZw6YSwq/8c7xR2bxhJfqp71Xa6hwJsIbt/FFUAFJSdLKFYxAlItuc5wAyBNtuMyBS17z/OkyMCQcZqLqLnsECnqYWHDU5De2TIXSRz9PeeraAfE1HytPTCQVH3RelmBHB6OTppTLiC94gAdAkvuIv5rRGAfx1WprXB+xxd4zxmpGtK+CDTuYq8gp9WIBgGHP++6RsqW+VfHmnghTZgf5BfxlSSNIWinHUQAhoC6U2aHTYouUZtd98SAEoA09QnyR1sHijlOvSVxqRKJn50s/z+ccpAJhErqw/gEtLrgztPW6b14BlzwBYUGU9YMxQ0QuxPTSPmVU+1T4BXfvVRcvv4Zcw2srdPSwxtWRjxdsiN7p5kCzyVPpYo5fsSQGiVdPDcoCv6Z4HYUVjQ2AD7YTbq7cjt5XmmjZ2AXC1iXOUbJkOngp6Su2dIvc56Miu4PbycWTAouXOMvAWVOwhm0q19KIraeBczdx8n43fASeJW3dU+HwWx4BQmWtz10aFueGCNO8pvOYRjwIFGOX91CGg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(376002)(396003)(366004)(346002)(39860400002)(136003)(451199015)(38100700002)(2906002)(6636002)(82960400001)(107886003)(316002)(86362001)(26005)(6512007)(6506007)(4326008)(66476007)(66556008)(8676002)(66946007)(478600001)(41300700001)(186003)(83380400001)(450100002)(966005)(8936002)(6862004)(6486002)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gtJ5fhrH3rmQePK4VG8qqOw1CncIyaEGztwnhMx6fp0Sc2/JhKjO9fsuPMQr?=
+ =?us-ascii?Q?MzTu4kcDvXY7LtanPba/52ZRTV7XlOwP8qAKFNxB0lzzU+mPtMULTLkk1OTI?=
+ =?us-ascii?Q?3TybRD2SPEYsyGZrFWJJt7C7EwN0G/L/jUFuC97qijQN0r5VsPGQvxTuo1Ak?=
+ =?us-ascii?Q?s3BMVSmJ8j/C9PHRFl+jwpZ3IkAZ0LfkQSwlCX7EmkHeOyPsDZRrDY7p3C5M?=
+ =?us-ascii?Q?NXCg9W50SkWtd124FGtQuOJCeGRjX0CDWb37VA6Lu+wQfHeFfgVcQCtyBHDY?=
+ =?us-ascii?Q?ZzfBqA9IPXVtLRjiuX7YEAQ4zqeJECJD3c4jhGFrMLYR43nEF7rqaCdUN4YK?=
+ =?us-ascii?Q?AMYWS0BtYsmbiVcGKBOJa/m8MQEYlItZHWK7K0iZisqDXRcCpf8YP17titfa?=
+ =?us-ascii?Q?obQwxkFzGxncyrCWCnBCEHiSWSqIHY8VXumqfuvCbutO3KipawfZxBZe+V4p?=
+ =?us-ascii?Q?m4pcmYQ+Mv4qFkao5hNexcDX54x+q0ZtjYQPWvYWOAOrH6sIl1SGc73VXZ1Y?=
+ =?us-ascii?Q?C8Rd2EX7o7nTnkVb9eZz/6dAJddEx8qEwIwtwZEsny9/p5/VO7PLNkAKx4z9?=
+ =?us-ascii?Q?TlDmmpJc4OQqRPk8zmycBgC2IaR7MAfrV913q9nnylH7/34Uyi7xGXs6KM4e?=
+ =?us-ascii?Q?eOoZBZSd0CWthuBFk3oKK7zcug5jWhbfHVOCT4qVjWWf9CqgqHq16ujhBIws?=
+ =?us-ascii?Q?AJDiWrjdbDPr3+tmE9GIA8ZEi93nDDwanv77KFz8PV0MUBh57/1QyPytNTdQ?=
+ =?us-ascii?Q?f6QOmDqDqh917iWI2fqym4Vgqz1XCKZ7Yvci+L6Q0rHrfuQL5DOYM7+NBwHn?=
+ =?us-ascii?Q?+qL3YMm4oqacwz3VQRMiYNQ66wOf0B8vFISDXQmLULHHzwPFuSYx2/0ygfev?=
+ =?us-ascii?Q?ghXQmJzVtBuz4UqMVyZgAv0ntpB2HiEy1Jogx8L5BmHT2NQP2GP8PRR/J3b4?=
+ =?us-ascii?Q?wEa8XAub30KG13Broe9Fs7a10kf3rLKd2a2lSTP/r+TF3tbb3GxnBoSi+cjQ?=
+ =?us-ascii?Q?iMGNkpgsYpbKlT5pvC7SP0obgEQ64KAPFkOE2J8VmtPk6sPHFAriPiYUBfRL?=
+ =?us-ascii?Q?gUmAb8zj3Jid+/Ko4BrR5aKRyPLgrpgZoHdna/YOB4LZnTqBrqyhrjoLbk17?=
+ =?us-ascii?Q?rxgrt1gyHSqX1p+rX3AZF8Ew3fVBKGLuJ4J0vm6TUMOyw5FUi+tnLSPLSksl?=
+ =?us-ascii?Q?sxjPVobnLE48TepKJsq48ugqgS/3gZIuK30c8JuUozBwsavbll0Y3eTNaxLX?=
+ =?us-ascii?Q?5wupr75Y5BaOmhNCEGoIx4TK15Q/Yhx0bQwqVWBWoe+nUT4yTxIajb3NhZdp?=
+ =?us-ascii?Q?RpvDWh0zv4uizXZQ/3EZ+kwBfahznOgOeooXz91whHOPYHNvaQQw6v716bup?=
+ =?us-ascii?Q?xij18qu5x0VHEJCpjxcKe6oNGbBVKFnxNOjfN5BqjQRPim9/MP40UNRSpErx?=
+ =?us-ascii?Q?QFBHeVvkR8YlUPzqD2S7zGhVEtSRJr3VVBkHahSTq0NF2ZvYbBHfAAmoD8lU?=
+ =?us-ascii?Q?x4U47ceZyH6kBxroDM1ILA18xpRIvM2dTfTm6rTqx6H0i8YqZQbwelegIGZU?=
+ =?us-ascii?Q?6HgF/Q8/i2WOFF3IFhu7hvqtq35oDF46c3IejzG7nzpOoFnE22mazv/OHvpe?=
+ =?us-ascii?Q?dw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e01651c4-2f5e-4583-ead5-08da9a9a2c56
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 23:53:38.7599 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DdGEZJYog221qX0FVWJ8crXXGcwycGUfnrRvtVuv/D+H4pnPUbMuNz8ABbFM2/IpjJgXzLWdMLa+d7JxGScNKdJfHe6QnhfYjluzwDtU+qE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5071
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,162 +142,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Cc: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
-Unfortunately the use-after-free issue still happens on the 6.0-rc5 kernel.
-The issue became hard to repeat. I spent the whole day at the computer
-when use-after-free again happened, I was playing the game Tiny Tina's
-Wonderlands.
-Therefore, forget about repeatability. It remains only to hope for
-logs and tracing.
-I didn't see anything new in the logs. It seems that we need to
-somehow expand the logging so that the next time this happens we have
-more information.
+On Fri, Sep 16, 2022 at 01:48:23PM -0700, Ashutosh Dixit wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> If attempting to perform a GT reset takes long than 5 seconds (including
+> resetting the display for gen3/4), then we declare all hope lost and
+> discard all user work and wedge the device to prevent further
+> misbehaviour. 5 seconds is too short a time for such drastic action, as
+> we may be stuck on other timeouts and watchdogs. If we allow a little
+> bit longer before hitting the big red button, we should at the very
+> least capture other hung task indicators pointing towards the reason why
+> the reset was hanging; and allow more marginal cases the extra headroom
+> to complete the reset without further collateral damage.
+> 
+> Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/6448
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 
-Sep 18 20:52:16 primary-ws gnome-shell[2388]:
-meta_window_set_stack_position_no_sync: assertion
-'window->stack_position >=3D 0' failed
-Sep 18 20:52:27 primary-ws gnome-shell[2388]:
-meta_window_set_stack_position_no_sync: assertion
-'window->stack_position >=3D 0' failed
-Sep 18 20:53:44 primary-ws gnome-shell[2388]: Window manager warning:
-Window 0x4e00003 sets an MWM hint indicating it isn't resizable, but
-sets min size 1 x 1 and max size 2147483647 x 2147483647; this doesn't
-make much sense.
-Sep 18 20:53:45 primary-ws kernel: umip_printk: 11 callbacks suppressed
-Sep 18 20:53:45 primary-ws kernel: umip: Wonderlands.exe[213853]
-ip:14ebb0d03 sp:4ee528: SGDT instruction cannot be used by
-applications.
-Sep 18 20:53:45 primary-ws kernel: umip: Wonderlands.exe[213853]
-ip:14ebb0d03 sp:4ee528: For now, expensive software emulation returns
-the result.
-Sep 18 20:53:53 primary-ws gnome-shell[2388]:
-meta_window_set_stack_position_no_sync: assertion
-'window->stack_position >=3D 0' failed
-Sep 18 20:53:53 primary-ws kernel: umip: Wonderlands.exe[213853]
-ip:14ebb0d03 sp:4ee528: SGDT instruction cannot be used by
-applications.
-Sep 18 20:53:53 primary-ws kernel: umip: Wonderlands.exe[213853]
-ip:14ebb0d03 sp:4ee528: For now, expensive software emulation returns
-the result.
-Sep 18 20:54:15 primary-ws kernel: umip: Wonderlands.exe[214194]
-ip:15a270815 sp:6eaef490: SGDT instruction cannot be used by
-applications.
-Sep 18 20:56:01 primary-ws kernel: umip_printk: 15 callbacks suppressed
-Sep 18 20:56:01 primary-ws kernel: umip: Wonderlands.exe[213853]
-ip:15e3a82b0 sp:4ed178: SGDT instruction cannot be used by
-applications.
-Sep 18 20:56:01 primary-ws kernel: umip: Wonderlands.exe[213853]
-ip:15e3a82b0 sp:4ed178: For now, expensive software emulation returns
-the result.
-Sep 18 20:56:03 primary-ws kernel: umip: Wonderlands.exe[213853]
-ip:15e3a82b0 sp:4edbe8: SGDT instruction cannot be used by
-applications.
-Sep 18 20:56:03 primary-ws kernel: umip: Wonderlands.exe[213853]
-ip:15e3a82b0 sp:4edbe8: For now, expensive software emulation returns
-the result.
-Sep 18 20:56:03 primary-ws kernel: umip: Wonderlands.exe[213853]
-ip:15e3a82b0 sp:4ebf18: SGDT instruction cannot be used by
-applications.
-Sep 18 20:57:55 primary-ws kernel: ------------[ cut here ]------------
-Sep 18 20:57:55 primary-ws kernel: refcount_t: underflow; use-after-free.
-Sep 18 20:57:55 primary-ws kernel: WARNING: CPU: 22 PID: 235114 at
-lib/refcount.c:28 refcount_warn_saturate+0xba/0x110
-Sep 18 20:57:55 primary-ws kernel: Modules linked in: tls uinput
-rfcomm snd_seq_dummy snd_hrtimer nft_objref nf_conntrack_netbios_ns
-nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib
-nft_reject_inet nf_reject_ipv4 nf_>
-Sep 18 20:57:55 primary-ws kernel:  asus_wmi ledtrig_audio
-sparse_keymap platform_profile irqbypass rfkill mc rapl snd_timer
-video wmi_bmof pcspkr snd k10temp i2c_piix4 soundcore acpi_cpufreq
-zram amdgpu drm_ttm_helper ttm iommu_v2 crct1>
-Sep 18 20:57:55 primary-ws kernel: Unloaded tainted modules:
-amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
-amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
-amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_eda>
-Sep 18 20:57:55 primary-ws kernel:  pcc_cpufreq():1 pcc_cpufreq():1
-fjes():1 fjes():1 pcc_cpufreq():1 fjes():1 fjes():1 fjes():1 fjes():1
-fjes():1
-Sep 18 20:57:55 primary-ws kernel: CPU: 22 PID: 235114 Comm:
-kworker/22:0 Tainted: G        W    L    -------  ---
-6.0.0-0.rc5.20220914git3245cb65fd91.39.fc38.x86_64 #1
-Sep 18 20:57:55 primary-ws kernel: Hardware name: System manufacturer
-System Product Name/ROG STRIX X570-I GAMING, BIOS 4403 04/27/2022
-Sep 18 20:57:55 primary-ws kernel: Workqueue: events
-drm_sched_entity_kill_jobs_work [gpu_sched]
-Sep 18 20:57:55 primary-ws kernel: RIP: 0010:refcount_warn_saturate+0xba/0x=
-110
-Sep 18 20:57:55 primary-ws kernel: Code: 01 01 e8 69 6b 6f 00 0f 0b e9
-32 38 a5 00 80 3d 4d 7d be 01 00 75 85 48 c7 c7 80 b7 8e 95 c6 05 3d
-7d be 01 01 e8 46 6b 6f 00 <0f> 0b e9 0f 38 a5 00 80 3d 28 7d be 01 00
-0f 85 5e ff ff ff 48 c7
-Sep 18 20:57:55 primary-ws kernel: RSP: 0018:ffffa1a853ccbe60 EFLAGS: 00010=
-286
-Sep 18 20:57:55 primary-ws kernel: RAX: 0000000000000026 RBX:
-ffff8e0e60a96c28 RCX: 0000000000000000
-Sep 18 20:57:55 primary-ws kernel: RDX: 0000000000000001 RSI:
-ffffffff958d255c RDI: 00000000ffffffff
-Sep 18 20:57:55 primary-ws kernel: RBP: ffff8e19a83f5600 R08:
-0000000000000000 R09: ffffa1a853ccbd10
-Sep 18 20:57:55 primary-ws kernel: R10: 0000000000000003 R11:
-ffff8e19ee2fffe8 R12: ffff8e19a83fc800
-Sep 18 20:57:55 primary-ws kernel: R13: ffff8e0d44a4b440 R14:
-ffff8e19a83fc805 R15: ffff8e0e60a96c30
-Sep 18 20:57:55 primary-ws kernel: FS:  0000000000000000(0000)
-GS:ffff8e19a8200000(0000) knlGS:0000000000000000
-Sep 18 20:57:55 primary-ws kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
-0000000080050033
-Sep 18 20:57:55 primary-ws kernel: CR2: 00001adc05fb2000 CR3:
-00000002cf050000 CR4: 0000000000350ee0
-Sep 18 20:57:55 primary-ws kernel: Call Trace:
-Sep 18 20:57:55 primary-ws kernel:  <TASK>
-Sep 18 20:57:55 primary-ws kernel:  process_one_work+0x2a0/0x600
-Sep 18 20:57:55 primary-ws kernel:  worker_thread+0x4f/0x3a0
-Sep 18 20:57:55 primary-ws kernel:  ? process_one_work+0x600/0x600
-Sep 18 20:57:55 primary-ws kernel:  kthread+0xf5/0x120
-Sep 18 20:57:55 primary-ws kernel:  ? kthread_complete_and_exit+0x20/0x20
-Sep 18 20:57:55 primary-ws kernel:  ret_from_fork+0x22/0x30
-Sep 18 20:57:55 primary-ws kernel:  </TASK>
-Sep 18 20:57:55 primary-ws kernel: irq event stamp: 63606683
-Sep 18 20:57:55 primary-ws kernel: hardirqs last  enabled at
-(63606691): [<ffffffff9418ce0e>] __up_console_sem+0x5e/0x70
-Sep 18 20:57:55 primary-ws kernel: hardirqs last disabled at
-(63606698): [<ffffffff9418cdf3>] __up_console_sem+0x43/0x70
-Sep 18 20:57:55 primary-ws kernel: softirqs last  enabled at
-(63490566): [<ffffffff940ff749>] __irq_exit_rcu+0xf9/0x170
-Sep 18 20:57:55 primary-ws kernel: softirqs last disabled at
-(63490561): [<ffffffff940ff749>] __irq_exit_rcu+0xf9/0x170
-Sep 18 20:57:55 primary-ws kernel: ---[ end trace 0000000000000000 ]---
-Sep 18 20:57:56 primary-ws abrt-dump-journal-oops[1409]:
-abrt-dump-journal-oops: Found oopses: 1
-Sep 18 20:57:56 primary-ws abrt-dump-journal-oops[1409]:
-abrt-dump-journal-oops: Creating problem directories
-Sep 18 20:57:57 primary-ws abrt-notification[261766]: [=F0=9F=A1=95] System
-encountered a non-fatal error in kthread_complete_and_exit()
-Sep 18 20:57:57 primary-ws abrt-dump-journal-oops[1409]: Reported 1
-kernel oopses to Abrt
-Sep 18 20:58:23 primary-ws gsd-power[2776]: Failed to acquire idle
-monitor proxy: Timeout was reached
-Sep 18 20:58:23 primary-ws gsd-power[2776]: Error setting property
-'PowerSaveMode' on interface org.gnome.Mutter.DisplayConfig: Timeout
-was reached (g-io-error-quark, 24)
-Sep 18 20:58:53 primary-ws gsd-power[2776]: Failed to acquire idle
-monitor proxy: Timeout was reached
-Sep 18 20:58:53 primary-ws gsd-power[2776]: Error setting property
-'PowerSaveMode' on interface org.gnome.Mutter.DisplayConfig: Timeout
-was reached (g-io-error-quark, 24)
-Sep 18 20:58:54 primary-ws gsd-power[2776]: Failed to acquire idle
-monitor proxy: Timeout was reached
+Seems reasonable.
 
-Full kernel log: https://pastebin.com/nj2syLPM
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
---=20
-Best Regards,
-Mike Gavrilov.
+> ---
+>  drivers/gpu/drm/i915/gt/intel_reset.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+> index b36674356986..3159df6cdd49 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+> @@ -1278,7 +1278,7 @@ static void intel_gt_reset_global(struct intel_gt *gt,
+>  	kobject_uevent_env(kobj, KOBJ_CHANGE, reset_event);
+>  
+>  	/* Use a watchdog to ensure that our reset completes */
+> -	intel_wedge_on_timeout(&w, gt, 5 * HZ) {
+> +	intel_wedge_on_timeout(&w, gt, 60 * HZ) {
+>  		intel_display_prepare_reset(gt->i915);
+>  
+>  		intel_gt_reset(gt, engine_mask, reason);
+> -- 
+> 2.34.1
+> 
+
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
