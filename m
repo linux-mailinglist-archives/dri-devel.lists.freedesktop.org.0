@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0FE5BD63B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 23:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73335BD64D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 23:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1727610E13B;
-	Mon, 19 Sep 2022 21:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3457D10E146;
+	Mon, 19 Sep 2022 21:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A1710E12F;
- Mon, 19 Sep 2022 21:18:38 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D11310E146;
+ Mon, 19 Sep 2022 21:22:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3EF68B81CBF;
- Mon, 19 Sep 2022 21:18:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C91A6C433C1;
- Mon, 19 Sep 2022 21:18:34 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0F765B820F4;
+ Mon, 19 Sep 2022 21:22:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4394C433D6;
+ Mon, 19 Sep 2022 21:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663622315;
- bh=zyKwpB+TZU0POEehx6BHCVgBibbVZtVjpx2DjzNk6fw=;
+ s=k20201202; t=1663622541;
+ bh=IvWPxgYC8Y7/jKbvrMgvoSlVhNU4G8aj4azB6VTN5qk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NeKrC1aMNRDeZ8TX0sQIYnI3jRBY2AmbpSrAEqqpTnrm0POsTUBO95bXhxkr0k4sQ
- 9FnvmU+FbXIPtS92p05VBEF/2KkGn3Wy2pGfaNXzqElVoTbnKwn+EzA1c+cEZ7gxZ3
- K83CLaoZcnbMn7DGbuzYC7DgT3bPgUDe/BZe6utD8+xB7mvgjpMdwXCI3j/giNRpFb
- ox59Fu5TFuUgyvP4HJ8CF8mmAG77RTzyhdkVJ3BnradIr2GfTK5Ipk9K26le2/ARBp
- UtZ4c3Gt+V5Y8piAFwQ1Lx30k96Vc1cFIf+ey9cqkuIs6b1afA5SU65az10f9dfEvs
- AzvHhpOB6NVUA==
-Date: Mon, 19 Sep 2022 16:18:32 -0500
+ b=LDukC2laWLeAS1hTstk3+uI80cx9+0pZ+wPFhhsMNlRE1bu16hMatnmZ1crpFbqt1
+ k3tuAb9cL3igaJ1hDw7pjHvCDdVDLLmsBbe8qF07lur0B2xwaCdMINQtpmSO8vGW4c
+ Wm8sgUtgNwKfKIY2ok3U8REzvC4BSqFPOn0IFdSj7Nw4tvVH2ISkeHNNXtB698XHbA
+ uzxcqMJLg0T1xmOP/eHgGvkLgQDLvJAfLjdQ/w6afxgTGGwuF5TtgJcCpyRafNtP2a
+ qbELnhcSynvFccTFurRKvvc8gGi6OMcf1cAYn2a79rBiiIey0Kb9Xl0WsTfpXmYe+Z
+ /sx7/IpnsHzsw==
+Date: Mon, 19 Sep 2022 16:22:18 -0500
 From: Bjorn Andersson <andersson@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 1/7] dt-bindings: msm/dp: Add SDM845 and SC8280XP
- compatibles
-Message-ID: <20220919211832.6b3buqxrnfp6yjjg@builder.lan>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Subject: Re: [PATCH v2 5/7] drm/msm/dp: Implement hpd_notify()
+Message-ID: <20220919212218.chyeo7uga2sitwk7@builder.lan>
 References: <20220916200028.25009-1-quic_bjorande@quicinc.com>
- <20220916200028.25009-2-quic_bjorande@quicinc.com>
- <1641e41c-08c7-859b-644a-28d966fb00f3@linaro.org>
+ <20220916200028.25009-6-quic_bjorande@quicinc.com>
+ <07b39c97-30be-4e82-044e-51b0d98a5197@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1641e41c-08c7-859b-644a-28d966fb00f3@linaro.org>
+In-Reply-To: <07b39c97-30be-4e82-044e-51b0d98a5197@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,32 +66,19 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 17, 2022 at 06:03:27PM +0100, Krzysztof Kozlowski wrote:
-> On 16/09/2022 21:00, Bjorn Andersson wrote:
+On Fri, Sep 16, 2022 at 02:17:30PM -0700, Jeff Johnson wrote:
+> On 9/16/2022 1:00 PM, Bjorn Andersson wrote:
 > > From: Bjorn Andersson <bjorn.andersson@linaro.org>
 > > 
-> > Add compatibles for the DisplayPort and Embedded DisplayPort blocks in
-> > Qualcomm SDM845 and SC8280XP platforms.
-> > 
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> > The DisplayPort controller's hot-plug mechanism is based on pinmuxing a
+> > physical signal no a GPIO pin into the controller. This is not always
 > 
-> No need for quicinc SoB (unless you also take ownership).
+> nit: s/ no / on /?
 > 
 
-It's my understanding that both needs to be there. Bjorn @ Linaro
-authored the patch and the author must certify its origin, but as the
-submitter I must certify its origin.
+Correct, thank you Jeff.
 
-I'm not entirely sure what you mean about taking ownership, I am going
-to pursue getting these patches landed. But it wouldn't be correct for
-new me to claim I authored them.
-
-Regards,
-Bjorn
-
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>\
+> > possible, either because there aren't dedicated GPIOs available or
+> > because the hot-plug signal is a virtual notification, in cases such as
+> > USB Type-C.
 > 
-> 
-> Best regards,
-> Krzysztof
