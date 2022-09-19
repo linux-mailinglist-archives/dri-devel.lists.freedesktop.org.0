@@ -1,120 +1,151 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211B05BD08B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 17:20:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9936A5BD0AD
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 17:21:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C30210E66B;
-	Mon, 19 Sep 2022 15:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC9410E671;
+	Mon, 19 Sep 2022 15:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2077.outbound.protection.outlook.com [40.107.220.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4ADA10E66D
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 15:19:52 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE94D10E66F;
+ Mon, 19 Sep 2022 15:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663600882; x=1695136882;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=XEL7MmPJvHV6nUsnI3Q8mw8j9m2GmsnGNdNkU1paqGc=;
+ b=m+kCZbLXkPXknSbjh9bPbsmAMI/wDBkNjPg/zmfz406OY94h+3kGiGPb
+ QV6KKAS3iHWqVuh9QHjTTZLKTN3clNW5y4lvVrKBDDSdrN5PIGsq3pCor
+ m0PTkn+NRjEeKG5gs4jiepcMJTEGvP1qckRc61rOu4M778i/7Rav4/74D
+ XkdqqNr4cy0PCyAJjLxBjRjSPDPlEkWI87yUmrrVhiXx/Kr9qxjeIeIfI
+ wnDg9MLftKwgDnUkEN8ylN7QJdVpw/AW3mpGwZ7/uQxpW/yuEyqzCGgVh
+ nGf1LPJ7kxsps8/pKdY55MBwLwgSaG3SjKb/FH9chMwGU+zz6TLaJcKNw Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="298156375"
+X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="298156375"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 08:21:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="863598708"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga006.fm.intel.com with ESMTP; 19 Sep 2022 08:21:22 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 19 Sep 2022 08:21:22 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 19 Sep 2022 08:21:21 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Mon, 19 Sep 2022 08:21:21 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.170)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Mon, 19 Sep 2022 08:21:21 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cIw2LKGv8jCBZH7bbamOA8IGt2UXr3sNi/WpdEbANW/9vGN8oADut+KiKdqN64my8+xlL1DQNGFnZcQHz+ZEgilD3HgeMj4kRRJpUWdExF+c+AU2rfC19jrrDNqiO3PwO7Ujl7N/NF17JctAlu2STwoHvMui1jhEzlH4yx+LFuYluoui16db1D4y711Sj3cLjfIRmdBkyEmpwTUoIp2nFjxJNuUiHqZ939AKe/hLR1HQ1HZtzaW8CUOpvzj7VLEIGjwQtg2KgrvZUXGEaVihydrjoEDO2TUOke31i9248qzxCv5UvdXl3L/RbBoRdrwmysRFWc9ARdt0NlljUZkssw==
+ b=dHlFKUe2TtE5B1D4cYpvA5eHbnjHXfgtvuzZV8tW0PSOgnCwZDZDF/0wZMm4BVEn1ndySLpqkuMVdnuYV0dykg/9fz/KBl1jsKo006IWGweLYZItzMvbqn/4F5a3OZX1WX99ENMi7BQ1t6Cg4Ajy9SCQxNhGSV+OMDILHBRDwKrHzn0DlQbXTZK2NwEbJWc3s9v3rvvNniJ7JPW7XVHJnfPwDp441P2wU1zRWX596GtMdNRycJjUNCoGnUpgVQkmu/e1sMk8U0Bca5CVe6CLy4hX0iYAgcl2wwdbaTDdHieLy6xgcWcxlF6O5jq/MYBkUJUC554nfur/YqSEGLAaWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KmAmsbGODLoW0XOBcyxtf//HsCDluq/wkCfsX0RXqMk=;
- b=JWZPWWOpEQaDrm6MRViwECXXAV0HRyP37txSyKKKAhBKrSi00MBrW+f7xBT9/jSmcKwXxjy+UgMnAJvrrIUuw17s/56LIEt/9KhAOmTbUFOXVDZl6GlQ+ZhluccBp+3MTJ4ggMh753ZF3P9rEY17gk/OIYkJqQPSTbIihTNLK7Yh8eCRnWFLO2cGE+y4RdcnEGJF7NXJ5ahxFQnzS3wrbDinlA7f4knWz50izn/MbnMvWen0TabvEm12MXaLtL5WeFkDxE29xJqlEEiBGcqp/UcrCNzCWavKHMN7Zq+ZkMGGg3J0VpEtc3y8oCAqaj40Q6Tb1cMcadlCwhM2B4KQJg==
+ bh=ObXEx0EmoBkJssT1L6KntbkyBe+z7B7s3+iOKmPqFJw=;
+ b=Yzo4NwbWJVJsx1IvkYoodE79WxA6kOjziYOuijY+me3Acf1tHkOglcVud6h/fCqyOVOWQROLAvlxsMImygPT5P/GOWNgrsV9129IOOGm5o2NKId6l4XGzgCi83YGUyX70qeb22nxHU+Y2u10NaI5TQ6EYcKWugbNUKw7eeCkP1atTsNcRzsGhGrldZpbkfdnHf7Vm39qlEAU9TKkMlNXF88k5y8gxjnrfiWCAByv1h5FfkKzofqhhd9JDtbXjZp+ao8Pn9TYsyBvrT51BvmTx9tRVLiW0jphzFHlKDQtoWSppXQp3+rek05hAu81eSPngM4USc/5YPsT7mBUKgPUNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KmAmsbGODLoW0XOBcyxtf//HsCDluq/wkCfsX0RXqMk=;
- b=QEuVJktp2zXSXxyWa3GEHYw+q2K4hVNUSpKiAgt5HUenlJ+UIsF52XR/54sJogLhW0fRfURbBOtfvh9SH+ZIS7M8fvRnk9mHFn/3sQyyDVujcVxfjnWeTfOB3n80OWiaivA0kMRdNtuU+wjRZdJ9s7nBU0hdrMOfjvFHZK5V34Q=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
- by IA1PR12MB6529.namprd12.prod.outlook.com (2603:10b6:208:3a6::16) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB5108.namprd11.prod.outlook.com (2603:10b6:303:92::9)
+ by DM4PR11MB6167.namprd11.prod.outlook.com (2603:10b6:8:ac::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.19; Mon, 19 Sep
- 2022 15:19:50 +0000
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::80ca:c97:d395:1acf]) by DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::80ca:c97:d395:1acf%6]) with mapi id 15.20.5632.021; Mon, 19 Sep 2022
- 15:19:50 +0000
-Message-ID: <f528a8e4-5162-66d5-09da-5252076882b8@amd.com>
-Date: Mon, 19 Sep 2022 11:19:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] A simple doc fix
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.16; Mon, 19 Sep
+ 2022 15:21:19 +0000
+Received: from CO1PR11MB5108.namprd11.prod.outlook.com
+ ([fe80::60be:993e:a3fc:1cf9]) by CO1PR11MB5108.namprd11.prod.outlook.com
+ ([fe80::60be:993e:a3fc:1cf9%9]) with mapi id 15.20.5632.021; Mon, 19 Sep 2022
+ 15:21:19 +0000
+Message-ID: <d197b905-9851-973a-cf0a-ca2c02c1ec9a@intel.com>
+Date: Mon, 19 Sep 2022 08:21:18 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.2.2
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Document and future-proof
+ preemption control policy
+To: Matt Roper <matthew.d.roper@intel.com>, <intel-gfx@lists.freedesktop.org>
+References: <20220907212410.22623-1-matthew.d.roper@intel.com>
 Content-Language: en-US
-To: Anup K Parikh <parikhanupk.foss@gmail.com>, skhan@linuxfoundation.org,
- airlied@linux.ie, daniel@ffwll.ch
-References: <YyGuwqpuwq+PT3K1@autolfshost>
- <5372b154-dc25-a917-9908-c59555afc865@amd.com> <YyIq8mXKXP1kCoLS@autolfshost>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-In-Reply-To: <YyIq8mXKXP1kCoLS@autolfshost>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Wayne Boyer <wayne.boyer@intel.com>
+In-Reply-To: <20220907212410.22623-1-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0122.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::31) To DM5PR12MB1947.namprd12.prod.outlook.com
- (2603:10b6:3:111::23)
+X-ClientProxiedBy: SJ0PR13CA0099.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::14) To CO1PR11MB5108.namprd11.prod.outlook.com
+ (2603:10b6:303:92::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1947:EE_|IA1PR12MB6529:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb9b495f-04ea-46e9-db23-08da9a526521
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5108:EE_|DM4PR11MB6167:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44afa698-f7ec-4246-ec0d-08da9a529a48
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P8KX9RRiiq/EU1F7RFwhSl4D6ked4AIqV6/xfGGmjeyx4qMdE3sJunoD0gQLS9pR1M3uHWlFBKkyxvYS2J1TWzOEsxWUFihs7Ufm8FK38ov0bA3moMQajwTp486/10aHPIRwArHZGRybEN11AD6/Ny7/AUyzkKVh7tQyxLTnoqpWTWu2kqKE41jXZdnDMgyFN5DZxWppZuY3k4HmhpwJ8853PiI4EQfYHEVs6DeimtOo0OlP8cTgKQdYySSHKq7gYYRNwyAX5L0QFFhoyE9FTrsZM65pPdCZNwC2sIHnoQe6ilhA47i1zFmr+eHzAjSG8Y4eorfUUqedZgKsch26Zd20vZGmwvjZF0hrvMvxh3IUtXxvCkk74j18rvouI3Lij24PHeF1uKW/vDzpav2cZ3rYrP6HY+Fx4a6LMd2vAfRxlCHcSLP+7+90/bSqDaNSVFvLozmtdTho4k6+JpudZe0E5Dofsg1N31GpXA0QLxcE0BcaMfcl2mD1m3obWNoRtVuslq5BRujFqAGV+oi2hjEmNFAYOs+cTYT+i3ez9cf+4XZ6AB8yLI6tW+WalIhgv1/f/772ea0tHBEIFAy/rea+TUEhXEwoYuGm03G0FzrDmBbkj2xBlNsfiwag1NSQ1POeXy0QsqCHg+EKa5dfEbYVRszB8+e/L5yhGJZc0n2SWutltA88VRRIp7BNpf55mGek1tvslA6AOleplvm81DJlhXhwmmPPo7oJqNwjOibWJUG7uzTkFQTPW/SB1jWRFo4xB6Ep0BhZZMmiwCo+jGXZT1kg2ytIXL/r+reJIZ0=
+X-Microsoft-Antispam-Message-Info: 0JSqG0FyYG6cES/xA+bV8VQyHdJPR9KTz65Jy42suz3I6o+IOPJKd7O8DFfzYjHv+JCbPo5GSRSxYr8KrjqvUmzRH817gtWsCq62FP1j65WzN3Qaid2Z0zAi1tYs8QZ58tvk/zFiR2gSke+UGu8aZdHgEQ3zqwcGspADw2aJycIS3dTyGRrWzMgTtCnjA4Mx8ac+hTR96TxQw+NN/huXodiq8Gp0aiQzfAZa+kjGey+T2MserS34mIgANdcpEeOR0+UhjgOmbLaELCssfv2wtZm0WicLwxs+mbmOe/kce+1sb30tsd6jpmsefV2eQG2DTJLyfJj2C6uzYnlU2WQCH9/1hosx0Yp5lO0edQamVDc5EYTo/qvtxNUMgdcqSDvvEqXwgJ98Z6EORo7b+Y42NHCW5Rq1f4gdDnBt4/+557Ir1qFkY8HBJUThVWng9/Y+Z2mz8/lXHvfj2ucmYkhXVTdihIHHhq0tEuiWs30VHaM8v+naO5YOs1pooXBFJCouHQqzieVTLClMUJB6+6lEtWZNpDN3Kc3IjtgcBcURb7c9fqETLa6EsQdllz9O32KGsZ3idEYs+qW5/M3khX8m3UclTqrYj4j1ARefdH2vsgO0MEpgrpxIqEPze8jTv0AnP2d/Y2Xe1G6UPdDg9LxYQKHdgjpCLnp2dd3hgFXwtYd3PJS9yoquRkQQWLnjG4AYnVTTNzJjRd3De4OWTBaj29J4ZYfuo04ZK5bIAG3ddgLKUe7uFEEKwPzz7QWN+14QxQgXSO1G6qMnmb84Wx7Z9FLXzZvRbJ32Nkffvn1MOVI=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(136003)(366004)(396003)(376002)(346002)(451199015)(186003)(2616005)(86362001)(83380400001)(38100700002)(8936002)(66946007)(41300700001)(44832011)(66556008)(66476007)(4326008)(8676002)(31696002)(2906002)(5660300002)(6666004)(6512007)(6506007)(53546011)(316002)(6486002)(478600001)(31686004)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CO1PR11MB5108.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(396003)(376002)(136003)(39860400002)(366004)(346002)(451199015)(41300700001)(8936002)(2906002)(86362001)(66556008)(450100002)(8676002)(36756003)(4326008)(66476007)(66946007)(19627235002)(31686004)(31696002)(83380400001)(6506007)(26005)(6512007)(53546011)(186003)(44832011)(5660300002)(316002)(478600001)(2616005)(38100700002)(82960400001)(6486002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UEFrZ3FQTFJiZkZELzdWNUt3T2VIT28xSmlySVEzU0tZYjR5K3JYT09GS0wr?=
- =?utf-8?B?N2Z1VWJDN29BQ29qUTRVSjZLVnJXd0R0K2Q3UzhHUkhEdDVDMGV5bE9tMm1J?=
- =?utf-8?B?a1k3dk1hR21DN2FYNlRtWUJzcnJWeWtKOTZTdWYzTTQ5Y3IxamMvRkI1TDZQ?=
- =?utf-8?B?WnJPOE5idE5FUXdXUDgrZm5jQkx1bHVBcEp2QVdCYkNJK3RwUVJ0U2xPemJ6?=
- =?utf-8?B?aDFzaWpoVUVSQ0xiVm9uREpZNjVQZmwrQi9KakpRby9ML1RDNjRvbTM2Qng0?=
- =?utf-8?B?V1dpNWhZWDZ5Tlg2b3hqVUp2M1ljeXo1UmlGdjFkdzFaT0FSQTA5ekRmK2lO?=
- =?utf-8?B?VDdLWlpFMTZiM2lNU05JZldSblRuSm5zdk5FaEJPdXE3YklNRTJmREMwQkxS?=
- =?utf-8?B?Qml4YmgwMFIvYlBQUHNEd2lyNEFSUEtEcTlmTk9Yek9CSDhheTd0T1ZmTGZO?=
- =?utf-8?B?NnNhZWdyK3IzZlhUU1JQUVpXRERkcDVRcmdXYWw2c29GMW1peE0xL0U1dFE0?=
- =?utf-8?B?cm1LeGd1aUszdEhHeW5LNEM0bFdoMnIxai9SeHBnVlVNc0tNblJISDFFZ1U4?=
- =?utf-8?B?d3VpNjlwcGpGSW5qZk85ZnBiUEg4SmxrRms5MFMzSFF2alcwUE5rLy9mRy9L?=
- =?utf-8?B?bHh0Zi9QdU91OTNRb2RpUURhK1ZyeUZtTUNCY1hCOGpNNThOLzFKQUNWNHVk?=
- =?utf-8?B?SFJidFRFU3BGcC9vTzRlcEZ6L05UeldiYklXdEZES056bitjWlZLK2w3R2ZJ?=
- =?utf-8?B?bTVBS2tCQjJmZkFpUE5vTmc3TmJEYW1qWjduMnZWTCtTOFZOdlo4ajAzU0U2?=
- =?utf-8?B?NUVQeFdhV0tLRGUvTHAzZzNsOFJtM2FDUjh0UTJzZm1kSENiY083NlJvYjhV?=
- =?utf-8?B?N09PSHEvbWJyZkdMaFlUamNHYjM1eHVTZEVubDNTZ08wSFJaenZWREN4MXdj?=
- =?utf-8?B?VFQ5NDhxUFo4KzdybWx5Y011Vi9JQ0tsb0g2MkJkK3NtMkhVKzhJUkVBV3Rn?=
- =?utf-8?B?QmJ2WjRlVDFKSkRJVHpHUHJPMTBvTUFPa3R5TkI5cHd2Z0JaNHlQWHBsNmY3?=
- =?utf-8?B?NmpoMVNxNkRWQmtCWmNLdzJuMTV3ditzOU1DbG85bTMrN1loclBJUzZRWVRG?=
- =?utf-8?B?SndEWGE0Z1BlNEg3WmwzOHF0SnBzZFp4NlBWV2ZCbm9vbEZwdFRldXdhQ1RI?=
- =?utf-8?B?NzU2cjg1VFdtV2RvQWFlR0xuc3E5VnBtcUxIVDFRQ1VidzRsUDE5Q3JQSGNS?=
- =?utf-8?B?UFc5eGlqWlRDeTg0OVhFdUxBV3AwWUZwQzhZaXVXNEhxSmpxWTBFRUp4L2dV?=
- =?utf-8?B?QXFzeEt6bmZuTTQyVUdOMGhkTlhiTVp3UXNuNU1GNmhteWlpWHRVK1dYQzhQ?=
- =?utf-8?B?VjhGY1k0SWJ2SXV3dVl6YzNpTlFQdUNkM2RSVW5IdGFzYzF2cGNGendJUzBw?=
- =?utf-8?B?enVOMmlIWkRxV2EzeHJQY0U5K0svY2NJZnJmdjYyalIrVThUSDYwSHhvMnBj?=
- =?utf-8?B?Y0lnK3dZWVJrZVpMeW9HcG8vaWQxbkhBSHBNL0cvTjJZcDBaaGNvT3pNK2gy?=
- =?utf-8?B?Y1dOYXBwUXc5dHREaTJPZVdjTmNJd0tYQi9yUThPVkhVZk1FaFFIK2RSdUhT?=
- =?utf-8?B?am9iUGZpWmdrbnRBWWprYitiMWdKSko5aGRqSDYwRU5Wa2hEOHd1MkExUlJ5?=
- =?utf-8?B?NDBsTGNlazRxZk5hclZ0RnVVYkt3RUZ3U0NydHlTRDBxQWg5Qy9NbCttNjZo?=
- =?utf-8?B?aGNzMVlFUDJYOWMrMHBLR1FDWER0MExZczR6L042VjNKYXNWdEJCRmY1UENG?=
- =?utf-8?B?TXA3N1hXWEIwUEpIL2k0eXl6cUM2QUMxM3I0SGZzUGtpelJOZnFOVkZXSzNr?=
- =?utf-8?B?RERtMDFSejlVV3hCWVkzL01CWjJTQ2t3UGZOeTB4SVU3N0pzY2ZBUlVGY0Y3?=
- =?utf-8?B?Y0pLOHZHa3NlRDNGcjFWdVMvcWRWV0xFSE0xOTRjN3hsaTVkQVhBaTAwUXBO?=
- =?utf-8?B?WTBvcU8yL05ZTlJMcHp5enBmU1V0Um02SFRnK3JGZThyS3krR2pmTDBOemFD?=
- =?utf-8?B?emNSNmV1WHJibElzNkR0Uy96QitldWIwYkw2ZWY1Wko3b1FqOWRobG9hamJo?=
- =?utf-8?B?N3ByTGlKUU52c29aSmZnNXdkaWRJMGJwVlpPYXR0TmplY3lzU1ZZeTh5VXNm?=
- =?utf-8?Q?A8w/jS13RzZY8T8tGEdT24IS5HqDI1RvyX9yOicWBjI8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb9b495f-04ea-46e9-db23-08da9a526521
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUF2QThoVWRtWVB6dUc3aEpjejJzUXBMNlJXNEJxdkFWWVFYbkdIUk5MVUto?=
+ =?utf-8?B?K0Mwbm14c1JteUo2RjZGNUEwVS95K1R6cTdlK2pieFJ5c2RJSmxlQ0d0N2lS?=
+ =?utf-8?B?Snh5OHRmNEc4czVWOTQwRUJBY1JGbVhZV2R0Wm1PRis3ekF0aU56Vi9QWTl3?=
+ =?utf-8?B?U0lCOUlkMnVhWG9vMm8xQ24yb0NSZUwzVEFTZHhSSTIxSlJhRUw5aFQvMGdE?=
+ =?utf-8?B?NDZ0RGRxUlJuYzUzbWFPMGJYVC9wMmloYTVpcEJucVN3WUM3dlZOcDdNOG5l?=
+ =?utf-8?B?c0ZSUGt6NHlNWUk2V3BTOTJzK2RFNURwanExWTdZUGZFVUxMaTFYaHB6MmdW?=
+ =?utf-8?B?aVlsRFFCRkJ1OXFJV3U0YkFZRVZjNHNJVXE0RTE0WjdlK0RldE0xei9IQWNN?=
+ =?utf-8?B?bGYyMkU5RkpNeEd3akp1aVlDQkt2MlFGQlMxQTVHRzVMWFRwS3ppR2N2ck1m?=
+ =?utf-8?B?bHFlOWwzb3VuVkljSnRZV0JFcXozS3llOVlKekh6SnlyQ043VjcwVU4yVmFK?=
+ =?utf-8?B?TmNpNWFzQ1VyQjFCK0ZSeE53S2lQYVRkWFpudm1oQWFrZXhqV2I1dkxzNEty?=
+ =?utf-8?B?L0pkTUdXRnhYbm9WQ2xnT0tWcVRsa1R4T2kwb3N6dGoxd09IZm1aWlhxRGVr?=
+ =?utf-8?B?NUZoYXQrdEp5bStPZmpTTG5oekFzVFJBeU51dVpRMVZtSmZDTkJOMUZnUHJQ?=
+ =?utf-8?B?cWdrMEswQVhlUlJ6MVJBSVl3clJIcmE0czFCbURqVWFZN29zdS8veVpGZTd4?=
+ =?utf-8?B?U2xHWHhxam5Za2IxalhvMS96YlNoYmxWSjAxV2Znb1F2c213ZFhLVTJtcWRT?=
+ =?utf-8?B?TE1vRllrNDEwRXZGYXZ3QXdva2ZvbUhHcTcvVFlBV3NnZkNvVlV1NUtvRFl5?=
+ =?utf-8?B?c0VkbWdIL0l6S09MTENKaFcwVHFLYy9sQ0V3Mk5MMitWVVlEZktJV1B6dEdE?=
+ =?utf-8?B?bnJ1NkRtVVY4YUZhR1QzV1ZMSXFpM0VROGRsV0RPN3Z3OVJHNk1hei96T2pI?=
+ =?utf-8?B?N3BiNGpOYjdONTk2UE10MEdvditqNHVEUTE1WnhwM1FYWTNjbTd5OUdyMXdL?=
+ =?utf-8?B?WmNQSmo4dW04VDY1Kys2N0c0Q1J0NkFIMHdSdk51YlFkeVpueVRaWmtGYmda?=
+ =?utf-8?B?d0R5aW9BV0ZNNjNVelc3bEliMldveVJhU1VxeFg4bnRvQ1ZidkE2VGxSSlBz?=
+ =?utf-8?B?emU4eFM3VzVDN0pZSnY1Y3pRV1pMSDVaeERGK0g1YXY5VWIvYUR2K0dUcWtH?=
+ =?utf-8?B?eVJQajdBUjdsVVNBL0E5M05ybVFQSVFFWVFiWWhvZWlaWjBHM1dRdXl4eWlO?=
+ =?utf-8?B?bUl6WFI3UDBLZ1ZPZTA1cm5pdTlVdCszaUVScExrRHFCVzZKWkhDeWxEeTU2?=
+ =?utf-8?B?elNSSE1GVEI2K2g3eTluYmdRWWhpZkZHM3loZXZrQ041V0ZzMERjSVVwb0E1?=
+ =?utf-8?B?Z0FxcXN3WUkzU2xFUERXRW5sVUYySTdLUis4QWVUOG96ZERQb0VJWGlFbHVi?=
+ =?utf-8?B?ZEphVzVxVnVXcndnckh2SzM3NXVuREttTjMrSGlmeHI4Tjc4MXJNZEY3dVB4?=
+ =?utf-8?B?UkUwUndkaXBFbVRCTlB5VmNRVzR1TzJJZi9EY2dqTEd0cFlDTnhCNG1DSzZj?=
+ =?utf-8?B?RlJvZ09aZlFyTXphS3lnbVpwOEZDQkhzUDkzVzNHb3pWc20zbFRnWlRndTF5?=
+ =?utf-8?B?cnIvblp3TVpTTzU3R054eFNhMWdBZFR5K3pWMFlGTmpuQmdBYUVCaXhzSEYz?=
+ =?utf-8?B?SzFyNlp4VTl3OEp5ZFVibjlMalVKMU0wUnJxb0pGbWpwZ2dReVRpZzFMNjhu?=
+ =?utf-8?B?VVpGbDlNS2pOOVBjYklvU1JjNVNXMFpwd28vaXlURFJuakNlcmw2U2RFd3ZE?=
+ =?utf-8?B?bUdmQUx4ak5xYUlKYVNpNkF1UktvZmhIbHc4SUlRMmxkS2lqQVozbm5QZHI0?=
+ =?utf-8?B?endtZ0dEK3hYOGlxQzhYcG1ld3k1MXRKZWlGZHVnekVVUmR4SEFja0lIWVE2?=
+ =?utf-8?B?VytMb2x2Y0VWdzBhWEFtR0Vna2REWk9uT0p6cmd5TzYvOFhsMUo3R0wyYVVU?=
+ =?utf-8?B?SlJpSDVUYlc5TXVObHBYUm9lNTZ2Z2pUWUVnVGZBeTJqVVR4NjQ1VFo2djVS?=
+ =?utf-8?B?Q3MrMG9pRDdqQmxwOU10TUVzWTZDRVhXWVhGbEltUWUyMWxISy9xYk92cTBt?=
+ =?utf-8?B?WEE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44afa698-f7ec-4246-ec0d-08da9a529a48
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5108.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 15:19:50.2934 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 15:21:19.4687 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7cQOSblUlQV17DunrWcRtHnmjp6qtbbiC40oetWRrtG3F4NlElzSiiJ0FfdtEBwGosfA0PR15PGyVuBZs3vlww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6529
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hl8ynu9hDhNHITIPUpSUXtN3dSUlalfm16NKyA280suI3l7zpJKIqP/uXrW4KPcgP6egM20tBuXSLyIVySa0EQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6167
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,90 +158,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2022-09-14 15:26, Anup K Parikh wrote:
-> On Wed, Sep 14, 2022 at 10:24:36AM -0400, Andrey Grodzovsky wrote:
->> On 2022-09-14 06:36, Anup K Parikh wrote:
->>> Fix two warnings during doc build which also results in corresponding
->>> additions in generated docs
->>>
->>> Warnings Fixed:
->>> 1. include/drm/gpu_scheduler.h:462: warning: Function parameter or member
->>>      'dev' not described in 'drm_gpu_scheduler'
->>> 2. drivers/gpu/drm/scheduler/sched_main.c:1005: warning: Function
->>>      parameter or member 'dev' not described in 'drm_sched_init'
->>>
->>> Signed-off-by: Anup K Parikh <parikhanupk.foss@gmail.com>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_main.c | 1 +
->>>    include/drm/gpu_scheduler.h            | 1 +
->>>    2 files changed, 2 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>> index 68317d3a7a27..875d00213849 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -994,6 +994,7 @@ static int drm_sched_main(void *param)
->>>     *		used
->>>     * @score: optional score atomic shared with other schedulers
->>>     * @name: name used for debugging
->>> + * @dev: A device pointer for use in error reporting in a multiple GPU scenario.
->>
->> Why multiple GPUs scenario ? It's also used in single GPU scenario.
->>
->> Andrey
->>
->>
-> Hello Mr. Andrey Grodzovsky,
->
-> Thanks for the quick review and response.
->
-> My documentation string (same for both files) is based on commit id
-> 8ab62eda177bc350f34fea4fcea23603b8184bfd. It seemed that both warnings
-> might've been introduced by the addition of that device pointer.
->
-> Also, the commit message specifically mentions this addition for use with
-> DRM_DEV_ERROR() to make life easier under a multiple GPU scenario. So, I
-> used cscope to look for DRM_DEV_ERROR() and then for drm_dev_printk(). I
-> also checked previous versions of both files and noticed DRM_ERROR() in
-> drivers/gpu/drm/scheduler/sched_main.c changed to DRM_DEV_ERROR().
->
-> Perhaps, I wrongly correlated my cscope/history findings with the commit
-> message and used absolute wording. I guess that this might be (I usually
-> avoid absolute wording) useful not only in a single GPU scenario (to print
-> better standardized messages with dev when available) but also in non-error
-> printing such as with KERN_NOTICE, KERN_INFO, etc. I'm still not sure if
-> the added device pointer could be used for something else besides printing.
->
-> Please let me know if my understanding is correct and whether I should
-> change the wording to:
->
-> A device pointer - primarily useful for printing standardized messages with
-> DRM_DEV_ERROR().
 
-It could be used for many other things but in this case in deed used 
-only for the print.
-So yep - looks good.
+On 9/7/22 2:24 PM, Matt Roper wrote:
+> Intel hardware allows some preemption settings to be controlled either
+> by the kernel-mode driver exclusively, or placed under control of the
+> user-mode drivers; on Linux we always select the userspace control
+> option.  The various registers involved in this are not documented very
+> clearly; let's add some clarifying comments to help explain how this all
+> works and provide some history on why our Linux drivers take the
+> approach they do (which I believe differs from the path taken by certain
+> other operating systems' drivers).
+> 
+> While we're at it, let's also remove the graphics version 12 upper bound
+> on this programming.  As described, we don't have any plans to move away
+> from UMD control of preemption settings on future platforms, and there's
+> currently no reason to believe that the hardware will fundamentally
+> change how these registers and settings work after version 12.
+> 
+> Bspec: 45921, 45858, 45863
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
-Andrey
+Reviewed-by: Wayne Boyer <wayne.boyer@intel.com>
 
+> ---
+>   drivers/gpu/drm/i915/gt/intel_workarounds.c | 58 +++++++++++++++++++--
+>   1 file changed, 55 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index 6d2003d598e6..3e5a41378e81 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -2389,12 +2389,64 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+>   			     FF_DOP_CLOCK_GATE_DISABLE);
+>   	}
+>   
+> -	if (IS_GRAPHICS_VER(i915, 9, 12)) {
+> -		/* FtrPerCtxtPreemptionGranularityControl:skl,bxt,kbl,cfl,cnl,icl,tgl */
+> +	/*
+> +	 * Intel platforms that support fine-grained preemption (i.e., gen9 and
+> +	 * beyond) allow the kernel-mode driver to choose between two different
+> +	 * options for controlling preemption granularity and behavior.
+> +	 *
+> +	 * Option 1 (hardware default):
+> +	 *   Preemption settings are controlled in a global manner via
+> +	 *   kernel-only register CS_DEBUG_MODE1 (0x20EC).  Any granularity
+> +	 *   and settings chosen by the kernel-mode driver will apply to all
+> +	 *   userspace clients.
+> +	 *
+> +	 * Option 2:
+> +	 *   Preemption settings are controlled on a per-context basis via
+> +	 *   register CS_CHICKEN1 (0x2580).  CS_CHICKEN1 is saved/restored on
+> +	 *   context switch and is writable by userspace (e.g., via
+> +	 *   MI_LOAD_REGISTER_IMMEDIATE instructions placed in a batch buffer)
+> +	 *   which allows different userspace drivers/clients to select
+> +	 *   different settings, or to change those settings on the fly in
+> +	 *   response to runtime needs.  This option was known by name
+> +	 *   "FtrPerCtxtPreemptionGranularityControl" at one time, although
+> +	 *   that name is somewhat misleading as other non-granularity
+> +	 *   preemption settings are also impacted by this decision.
+> +	 *
+> +	 * On Linux, our policy has always been to let userspace drivers
+> +	 * control preemption granularity/settings (Option 2).  This was
+> +	 * originally mandatory on gen9 to prevent ABI breakage (old gen9
+> +	 * userspace developed before object-level preemption was enabled would
+> +	 * not behave well if i915 were to go with Option 1 and enable that
+> +	 * preemption in a global manner).  On gen9 each context would have
+> +	 * object-level preemption disabled by default (see
+> +	 * WaDisable3DMidCmdPreemption in gen9_ctx_workarounds_init), but
+> +	 * userspace drivers could opt-in to object-level preemption as they
+> +	 * saw fit.  For post-gen9 platforms, we continue to utilize Option 2;
+> +	 * even though it is no longer necessary for ABI compatibility when
+> +	 * enabling a new platform, it does ensure that userspace will be able
+> +	 * to implement any workarounds that show up requiring temporary
+> +	 * adjustments to preemption behavior at runtime.
+> +	 *
+> +	 * Notes/Workarounds:
+> +	 *  - Wa_14015141709:  On DG2 and early steppings of MTL,
+> +	 *      CS_CHICKEN1[0] does not disable object-level preemption as
+> +	 *      it is supposed to (nor does CS_DEBUG_MODE1[0] if we had been
+> +	 *      using Option 1).  Effectively this means userspace is unable
+> +	 *      to disable object-level preemption on these platforms/steppings
+> +	 *      despite the setting here.
+> +	 *
+> +	 *  - Wa_16013994831:  May require that userspace program
+> +	 *      CS_CHICKEN1[10] when certain runtime conditions are true.
+> +	 *      Userspace requires Option 2 to be in effect for their update of
+> +	 *      CS_CHICKEN1[10] to be effective.
+> +	 *
+> +	 * Other workarounds may appear in the future that will also require
+> +	 * Option 2 behavior to allow proper userspace implementation.
+> +	 */
+> +	if (GRAPHICS_VER(i915) >= 9)
+>   		wa_masked_en(wal,
+>   			     GEN7_FF_SLICE_CS_CHICKEN1,
+>   			     GEN9_FFSC_PERCTX_PREEMPT_CTRL);
+> -	}
+>   
+>   	if (IS_SKYLAKE(i915) ||
+>   	    IS_KABYLAKE(i915) ||
 
->>>     *
->>>     * Return 0 on success, otherwise error code.
->>>     */
->>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>> index addb135eeea6..920b91fd1719 100644
->>> --- a/include/drm/gpu_scheduler.h
->>> +++ b/include/drm/gpu_scheduler.h
->>> @@ -435,6 +435,7 @@ struct drm_sched_backend_ops {
->>>     * @_score: score used when the driver doesn't provide one
->>>     * @ready: marks if the underlying HW is ready to work
->>>     * @free_guilty: A hit to time out handler to free the guilty job.
->>> + * @dev: A device pointer for use in error reporting in a multiple GPU scenario.
->>>     *
->>>     * One scheduler is implemented for each hardware ring.
->>>     */
+-- 
+--
+Wayne Boyer
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
