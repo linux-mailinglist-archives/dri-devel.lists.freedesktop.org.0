@@ -2,46 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D365BD21D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 18:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2925BD229
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 18:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E04B910E031;
-	Mon, 19 Sep 2022 16:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E7710E042;
+	Mon, 19 Sep 2022 16:26:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0541510E031;
- Mon, 19 Sep 2022 16:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663604647; x=1695140647;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=spmkaAwl04vaB/FEWDTRXAIqt26TTcL5SSa7rFPnrZw=;
- b=Xcu+DAmvpXFJ64QW1cygZm2Lg9ZA2vt3wUEbdO4MmyyuHKiAZv5B1QyE
- vDtQhXWgX6Z/Jbj5fyczhgMlPoLhFziViP3JTTWkq7czLEDKn9dRtMZsd
- TtgBh2cDGD1RkV1Paygdhe434cpmSCnufTXCbwDjYTocpFPXcZ4/AxAxX
- op6XcwYYVXNZhF7jOrE29I4OBkkQdkIFajA4QnJE8fDAS/kZXs18oT48J
- y6DbOlnZE/gfmaDYRHr+p+1V0D3Vwd1+Lyw9W63GeEoMc0H11UAsPhlXo
- 4wETmoca3CjCv3OkUF7sx2PP78pzoWk5PfaYxvPOGtOi58ko+8DzwbRAM A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="282472923"
-X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="282472923"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2022 09:24:06 -0700
-X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; d="scan'208";a="687038059"
-Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.jf.intel.com)
- ([10.165.21.138])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2022 09:24:05 -0700
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Perf_limit_reasons are only available for Gen11+
-Date: Mon, 19 Sep 2022 09:24:01 -0700
-Message-Id: <20220919162401.2077713-1-ashutosh.dixit@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20B3A10E042;
+ Mon, 19 Sep 2022 16:26:14 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-11e9a7135easo144647fac.6; 
+ Mon, 19 Sep 2022 09:26:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=B79VNmtksFZCxxDMaKm5/f3GDhn1sPWt9TTqsHjBc44=;
+ b=p4KBBtjPK5F6KjhfBxOotM/kEf99VqLGvag9iPunX57HEavFuYwQ0Gtr4amfWbjcWh
+ jt1cAKnoH/x09ARebwlsO6Tot4ODwrwH35uTlEqt1p5PSaTMUsaoOe9NgqMAikbvX2+z
+ qhca/cOrPTbArKoxRZmGe9Zk1eykZbYcrfPnXc6xnMU7d8ajY5o/vag9Jug+zD12uAWS
+ flj2v9wTuVQ46qrR7ITj+hG6acIg70QwC9PoDNu1c3GaM1a0oDpRx6lhZUDD1uw7XZkV
+ 1ArvlG5ixJKONjKXgPTpCh7KZM0blxlfw4ucY9uqP5SxcyxiwRmQaSevilZmz9GSwLfA
+ O7MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=B79VNmtksFZCxxDMaKm5/f3GDhn1sPWt9TTqsHjBc44=;
+ b=kO5WJE+ej3aLFEVKMJSmUfENlKPtRc9oyQb0MEpvlcK/rpCKrq94px0xnMsCKh+i/9
+ vLRB5KAKx7EZPgPsB9RDAW5UOzTk18Fh8rHhKVmRombz9J3OEWEvP6A5NHp7+KqCmTUP
+ aAJ2sp3Hw3RfEgcDH0uGi5gA/wLLk0oGo2Q6NTNRmtVqn1THjYm2aneo8XgqzJ1Ap727
+ tr9cCoDMtnD0RmdG2TvoZm/qDA+sQNR99Eo3qcrRtrXYpcDjs2QwNW3eot8UYdtEakOk
+ C4iBItwtpTrDn1kPEKHupTM6SnH+6IcJ4GMYmYYWrXNfkPtymfIvRPDdWJH4sbLYJWEm
+ Fy/Q==
+X-Gm-Message-State: ACgBeo2zd5pbshLDvrclivDwUXPW76ZKUWj+wlvdqudOz/LhedyY0+xq
+ /lhLXXaptVJvsFKZIS1aoVbR6vpMyQBnf9SicBs=
+X-Google-Smtp-Source: AA6agR5UC2hT2uHICYAa0FQGITGaDgBaOc17kIMj80rW+6ebrWUDYWUju/qs8MgQ/D1Q5xmjL6PdkqT7LmmDeG5Z+/I=
+X-Received: by 2002:a05:6870:1783:b0:12a:f442:504d with SMTP id
+ r3-20020a056870178300b0012af442504dmr16904152oae.46.1663604773291; Mon, 19
+ Sep 2022 09:26:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220906195721.143022-1-hamza.mahfooz@amd.com>
+ <99314fcf-b886-a7bd-3866-241af6ac9831@suse.de>
+In-Reply-To: <99314fcf-b886-a7bd-3866-241af6ac9831@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 19 Sep 2022 12:26:01 -0400
+Message-ID: <CADnq5_MBF2j1Zwe2gFxN-bwe62Yo-RbOepUBwzYDR0APc=T0Zw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: use dirty framebuffer helper
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,112 +67,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tilak Tangudu <tilak.tangudu@intel.com>,
- Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Guchun Chen <guchun.chen@amd.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Fernando Ramos <greenfoo@u92.eu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register GT0_PERF_LIMIT_REASONS (0x1381a8) is available only for
-Gen11+. Therefore ensure perf_limit_reasons sysfs/debugfs files are created
-only for Gen11+. Otherwise on Gen < 5 accessing these files results in the
-following oops:
+On Mon, Sep 19, 2022 at 2:44 AM Thomas Zimmermann <tzimmermann@suse.de> wro=
+te:
+>
+> Hi
+>
+> Am 06.09.22 um 21:57 schrieb Hamza Mahfooz:
+> > Currently, we aren't handling DRM_IOCTL_MODE_DIRTYFB. So, use
+> > drm_atomic_helper_dirtyfb() as the dirty callback in the amdgpu_fb_func=
+s
+> > struct.
+>
+> drm_atomic_helper_dirtyfb() creates a new atomic commit for the
+> frambuffer's planes. Drivers can then updates these planes' output
+> (e.g., writeback to video memory). I thought that amdgpu simply scans
+> out from the framebuffer's memory regions in VRAM. So I'm curious why
+> this patch is necessary.
 
-<1> [88.829420] BUG: unable to handle page fault for address: ffffc90000bb81a8
-<1> [88.829438] #PF: supervisor read access in kernel mode
-<1> [88.829447] #PF: error_code(0x0000) - not-present page
+I think in this particular case, the problem is that there are still
+some asic which default to non-atomic code which is what is causing
+the problem here.  Something like this would fix that:
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 5b09c8f4fe95..f5e9dd454c54 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -497,6 +497,11 @@ bool amdgpu_display_ddc_probe(struct
+amdgpu_connector *amdgpu_connector,
+ static const struct drm_framebuffer_funcs amdgpu_fb_funcs =3D {
+        .destroy =3D drm_gem_fb_destroy,
+        .create_handle =3D drm_gem_fb_create_handle,
++};
++
++static const struct drm_framebuffer_funcs amdgpu_fb_funcs_atomic =3D {
++       .destroy =3D drm_gem_fb_destroy,
++       .create_handle =3D drm_gem_fb_create_handle,
+        .dirty =3D drm_atomic_helper_dirtyfb,
+ };
 
-Bspec: 20008
-Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/6863
-Fixes: fe5979665f64 ("drm/i915/debugfs: Add perf_limit_reasons in debugfs")
-Fixes: fa68bff7cf27 ("drm/i915/gt: Add sysfs throttle frequency interfaces")
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++++
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 10 +++++++++-
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   | 15 +++++++++++----
- 3 files changed, 24 insertions(+), 5 deletions(-)
+@@ -1102,7 +1107,10 @@ static int
+amdgpu_display_gem_fb_verify_and_init(struct drm_device *dev,
+        if (ret)
+                goto err;
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 5ddae95d4886..b367cfff48d5 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -233,6 +233,10 @@ static void gen6_clear_engine_error_register(struct intel_engine_cs *engine)
- 
- i915_reg_t intel_gt_perf_limit_reasons_reg(struct intel_gt *gt)
- {
-+	/* GT0_PERF_LIMIT_REASONS is available only for Gen11+ */
-+	if (GRAPHICS_VER(gt->i915) < 11)
-+		return INVALID_MMIO_REG;
-+
- 	return gt->type == GT_MEDIA ?
- 		MTL_MEDIA_PERF_LIMIT_REASONS : GT0_PERF_LIMIT_REASONS;
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-index 68310881a793..10f680dbd7b6 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-@@ -682,6 +682,14 @@ static int perf_limit_reasons_clear(void *data, u64 val)
- 
- 	return 0;
- }
-+
-+static bool perf_limit_reasons_eval(void *data)
-+{
-+	struct intel_gt *gt = data;
-+
-+	return i915_mmio_reg_valid(intel_gt_perf_limit_reasons_reg(gt));
-+}
-+
- DEFINE_SIMPLE_ATTRIBUTE(perf_limit_reasons_fops, perf_limit_reasons_get,
- 			perf_limit_reasons_clear, "%llu\n");
- 
-@@ -694,7 +702,7 @@ void intel_gt_pm_debugfs_register(struct intel_gt *gt, struct dentry *root)
- 		{ "forcewake_user", &forcewake_user_fops, NULL},
- 		{ "llc", &llc_fops, llc_eval },
- 		{ "rps_boost", &rps_boost_fops, rps_eval },
--		{ "perf_limit_reasons", &perf_limit_reasons_fops, NULL },
-+		{ "perf_limit_reasons", &perf_limit_reasons_fops, perf_limit_reasons_eval },
- 	};
- 
- 	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), gt);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-index 54deae45d81f..904160952369 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-@@ -545,8 +545,7 @@ static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_ratl, RATL_MASK);
- static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_vr_thermalert, VR_THERMALERT_MASK);
- static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_vr_tdc, VR_TDC_MASK);
- 
--static const struct attribute *freq_attrs[] = {
--	&dev_attr_punit_req_freq_mhz.attr,
-+static const struct attribute *throttle_reason_attrs[] = {
- 	&attr_throttle_reason_status.attr,
- 	&attr_throttle_reason_pl1.attr,
- 	&attr_throttle_reason_pl2.attr,
-@@ -791,12 +790,20 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
- 	if (!is_object_gt(kobj))
- 		return;
- 
--	ret = sysfs_create_files(kobj, freq_attrs);
-+	ret = sysfs_create_file(kobj, &dev_attr_punit_req_freq_mhz.attr);
- 	if (ret)
- 		drm_warn(&gt->i915->drm,
--			 "failed to create gt%u throttle sysfs files (%pe)",
-+			 "failed to create gt%u punit_req_freq_mhz sysfs (%pe)",
- 			 gt->info.id, ERR_PTR(ret));
- 
-+	if (i915_mmio_reg_valid(intel_gt_perf_limit_reasons_reg(gt))) {
-+		ret = sysfs_create_files(kobj, throttle_reason_attrs);
-+		if (ret)
-+			drm_warn(&gt->i915->drm,
-+				 "failed to create gt%u throttle sysfs files (%pe)",
-+				 gt->info.id, ERR_PTR(ret));
-+	}
-+
- 	if (HAS_MEDIA_RATIO_MODE(gt->i915) && intel_uc_uses_guc_slpc(&gt->uc)) {
- 		ret = sysfs_create_files(kobj, media_perf_power_attrs);
- 		if (ret)
--- 
-2.34.1
+-       ret =3D drm_framebuffer_init(dev, &rfb->base, &amdgpu_fb_funcs);
++       if (drm_drv_uses_atomic_modeset(adev_to_drm(adev)))
++               ret =3D drm_framebuffer_init(dev, &rfb->base,
+&amdgpu_fb_funcs_atomic);
++       else
++               ret =3D drm_framebuffer_init(dev, &rfb->base, &amdgpu_fb_fu=
+ncs);
+        if (ret)
+                goto err;
 
+As for why we need the dirty callback, I think it's used for PSR.
+
+Alex
+
+>
+> Best regards
+> Thomas
+>
+> >
+> > Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_display.c
+> > index c20922a5af9f..5b09c8f4fe95 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> > @@ -38,6 +38,7 @@
+> >   #include <linux/pci.h>
+> >   #include <linux/pm_runtime.h>
+> >   #include <drm/drm_crtc_helper.h>
+> > +#include <drm/drm_damage_helper.h>
+> >   #include <drm/drm_edid.h>
+> >   #include <drm/drm_gem_framebuffer_helper.h>
+> >   #include <drm/drm_fb_helper.h>
+> > @@ -496,6 +497,7 @@ bool amdgpu_display_ddc_probe(struct amdgpu_connect=
+or *amdgpu_connector,
+> >   static const struct drm_framebuffer_funcs amdgpu_fb_funcs =3D {
+> >       .destroy =3D drm_gem_fb_destroy,
+> >       .create_handle =3D drm_gem_fb_create_handle,
+> > +     .dirty =3D drm_atomic_helper_dirtyfb,
+> >   };
+> >
+> >   uint32_t amdgpu_display_supported_domains(struct amdgpu_device *adev,
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
