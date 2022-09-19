@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6F05BCC4F
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 14:58:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C345BCC6E
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 15:03:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C02010E179;
-	Mon, 19 Sep 2022 12:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8767110E03A;
+	Mon, 19 Sep 2022 13:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF33B10E03A
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 12:57:50 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id bq9so47417659wrb.4
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 05:57:50 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF8CB10E03A
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 13:03:17 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id b5so47373926wrr.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 06:03:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=kxDGR9VLwk/QQ3J/99QJg3Ri+yvOl0iwXB4J1eFzoqY=;
- b=jPDdL0BD6tEG50bFrpct7m93CbamxfkVJWU8rMEzH07hIbRhBJHp5RTDDM9CKk/T4k
- dHCGRWask36+/tPBb+tNqNjyM09xMPGA7/F0lLaMLs9OTHfMc3OqkDgAxfuZRG1lytvb
- Bijomb/PiVcGYXAbICjy9YfB14kbQ4aOtJuytl0mZOTbAhW3Y5mW44yIB++OkDpu9JHx
- IiNcHC9Su5f8zoxEmCkRWyTwJ/Z/IXFgPumHwFqcWlfHYIwZSkopSNZnTn03I45pPx+E
- N9F9ccgAkUEz3qSE+oHVJjaCGHdv5D0v5awjFo8F9b7f8vBb4MQ45Ivfvgt2noltbTx6
- lOCw==
+ bh=2TqZiXHIRG5wKmX8Lz3OojC6YabD5tycoEKUA4ROup0=;
+ b=Ja+mf/SC/p0ElH3qQeYIhlVhfH0wSzZawjWZe5rD+eRpvAzXM5LxCS2mSmWpulqk9I
+ qAYz4LRSrharF0OVPZurgQI9m39yl7ADxxH66JvlsQNBb2hfDUBKnQX3X6Hf6aDIOXJ2
+ W+4aQC4dJgXgwHAjm20UwlK5GO7rmLu+CoZnrTrZ3UxbxqOv8y1LY8fH3MdSxME0ZzoY
+ 1zqKlJ2OZ/J5POe0MdHMGOXYOqpuUT8Ke1TaOfBacsnioxdRjlh6yi3Irkh7CTIWc8L+
+ zNvJReAImgU7wk/++DARsaVZMHhK5KL+ASeO58dw2DNmqRLf003aNf9N5fB6a6WxnNub
+ 7FfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=kxDGR9VLwk/QQ3J/99QJg3Ri+yvOl0iwXB4J1eFzoqY=;
- b=UDiw4+ZjvZr/WUvgVdKZkIAxR/eWMLyPCYEAhl4tHfg+EUg4CZSx76B/946AzIWQGd
- YZdwdheD+D5QkP/Mmh94v7UNK2z6JdkIs1Se5qdcpj1cWD9Ah8V8yxwkBgo9XoUQFHXW
- 5dolLudoKHz/aT8Na65gYR+loqiF6FzzYQLQ8sh3rBdQOF4spqdnXsLJMuqPuH8phuL2
- GMXmk3ABEKpT/ZmtAsZBXWMvupPAR/mZ3Xqe6BrEA6Kzr047DyW5Vp0vb+6bYhjtDPcD
- z6gCnq+6iv4YkqriowbIZGo/KvipLy3zyWuYYLxGqRPA624sKFN8Wknw9s58EitwkFCJ
- Qxfg==
-X-Gm-Message-State: ACrzQf0veBO7/g8GLfVuj0D8elaZEgKjLCR/Wp+K7Cky2suQBif06kHZ
- +60pmpopwMOfHSklTzCa2Y22/g==
-X-Google-Smtp-Source: AMsMyM7aE5UjY/zTtLh5MGt9SANNjh1OtMwZqXCLlbow32d0iAyYj0ueXzTbCYgkewATuUecaasUyA==
-X-Received: by 2002:a5d:64a8:0:b0:226:f3f3:9914 with SMTP id
- m8-20020a5d64a8000000b00226f3f39914mr10223746wrp.343.1663592269127; 
- Mon, 19 Sep 2022 05:57:49 -0700 (PDT)
+ bh=2TqZiXHIRG5wKmX8Lz3OojC6YabD5tycoEKUA4ROup0=;
+ b=iY4qyiaZXLK3RzEiRR1xJCFNdVK5S4hxTrDqqPEMcmR5//C2d+WGNWcGMw6Aw4TTAJ
+ dRekJi9+qUe3N2Pq/VDxJdFqyiPP8zSiF4sDVe9ydpPxMA7ZFoxksTrWDbLB7yDNN4l4
+ U0bHfUz0d3lyv2FJ2p27z/phL9njHiHXFelrRGF/BmKCSwLpCphp9KDtYEnNW8IyVskN
+ qi/qH5FbuTdoucCJVPisEbfFfsPF4A0cIRPa0GgxsWcjxHV6K5tS7cNJPrkzcwzyyQJQ
+ s8gduEqbFd/Aq1oCWa3m/qYo76lckaVa78SPcLUVjHe2C5l/oiU45CMKyFKjOS3ht4ya
+ iUSA==
+X-Gm-Message-State: ACrzQf0+Zjd5tH+qeRBVmzM1fzghDLLh0IDPiKXZJmgMlQRAh04bnSeI
+ lbMmDfm64JkMc+KsxrPGNMbG/v9gRSJCOdz+ZYI=
+X-Google-Smtp-Source: AMsMyM5oEa+XLoD7t2G1ukMfY1pqMziKJu677QInJpbmMtT2P6kZpFzJ9FbGOGoLtFVRlcOJzE7EDg==
+X-Received: by 2002:a05:6000:886:b0:225:24f5:deac with SMTP id
+ ca6-20020a056000088600b0022524f5deacmr10727755wrb.104.1663592596112; 
+ Mon, 19 Sep 2022 06:03:16 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:caa5:56f7:a8d:69b8?
  ([2a01:e0a:982:cbb0:caa5:56f7:a8d:69b8])
  by smtp.gmail.com with ESMTPSA id
- u8-20020a5d4348000000b00228d8420f57sm13994506wrr.95.2022.09.19.05.57.48
+ n1-20020a1c2701000000b003b3307fb98fsm14154790wmn.24.2022.09.19.06.03.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 05:57:48 -0700 (PDT)
-Message-ID: <22da325f-96c9-259b-dfbc-6124d06ebe61@linaro.org>
-Date: Mon, 19 Sep 2022 14:57:48 +0200
+ Mon, 19 Sep 2022 06:03:15 -0700 (PDT)
+Message-ID: <7d545acf-eeba-b81a-0935-f0b71e98a82a@linaro.org>
+Date: Mon, 19 Sep 2022 15:03:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 2/3] drm/meson: explicitly remove aggregate driver at
- module unload time
+Subject: Re: [PATCH 3/3] drm/meson: remove drm bridges at aggregate driver
+ unbind time
 Content-Language: en-US
 To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
  narmstrong@baylibre.com, khilman@baylibre.com,
  linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org
 References: <20220919010940.419893-1-adrian.larumbe@collabora.com>
- <20220919010940.419893-3-adrian.larumbe@collabora.com>
+ <20220919010940.419893-4-adrian.larumbe@collabora.com>
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Organization: Linaro
-In-Reply-To: <20220919010940.419893-3-adrian.larumbe@collabora.com>
+In-Reply-To: <20220919010940.419893-4-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,184 +84,292 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 19/09/2022 03:09, Adrián Larumbe wrote:
-> Because component_master_del wasn't being called when unloading the
-> meson_drm module, the aggregate device would linger forever in the global
-> aggregate_devices list. That means when unloading and reloading the
-> meson_dw_hdmi module, component_add would call into
-> try_to_bring_up_aggregate_device and find the unbound meson_drm aggregate
-> device.
->
-> This would in turn dereference some of the aggregate_device's struct
-> entries which point to memory automatically freed by the devres API when
-> unbinding the aggregate device from meson_drv_unbind, and trigger an
-> use-after-free bug:
->
-> [  +0.000014] =============================================================
-> [  +0.000007] BUG: KASAN: use-after-free in find_components+0x468/0x500
-> [  +0.000017] Read of size 8 at addr ffff000006731688 by task modprobe/2536
-> [  +0.000018] CPU: 4 PID: 2536 Comm: modprobe Tainted: G         C O      5.19.0-rc6-lrmbkasan+ #1
-> [  +0.000010] Hardware name: Hardkernel ODROID-N2Plus (DT)
+> drm bridges added by meson_encoder_hdmi_init and meson_encoder_cvbs_init
+> were not manually removed at module unload time, which caused dangling
+> references to freed memory to remain linked in the global bridge_list.
+> 
+> When loading the driver modules back in, the same functions would again
+> call drm_bridge_add, and when traversing the global bridge_list, would
+> end up peeking into freed memory.
+> 
+> Once again KASAN revealed the problem:
+> 
+> [  +0.000095] =============================================================
+> [  +0.000008] BUG: KASAN: use-after-free in __list_add_valid+0x9c/0x120
+> [  +0.000018] Read of size 8 at addr ffff00003da291f0 by task modprobe/2483
+> 
+> [  +0.000018] CPU: 3 PID: 2483 Comm: modprobe Tainted: G         C O      5.19.0-rc6-lrmbkasan+ #1
+> [  +0.000011] Hardware name: Hardkernel ODROID-N2Plus (DT)
 > [  +0.000008] Call trace:
-> [  +0.000005]  dump_backtrace+0x1ec/0x280
-> [  +0.000011]  show_stack+0x24/0x80
-> [  +0.000007]  dump_stack_lvl+0x98/0xd4
-> [  +0.000010]  print_address_description.constprop.0+0x80/0x520
+> [  +0.000006]  dump_backtrace+0x1ec/0x280
+> [  +0.000012]  show_stack+0x24/0x80
+> [  +0.000008]  dump_stack_lvl+0x98/0xd4
+> [  +0.000011]  print_address_description.constprop.0+0x80/0x520
 > [  +0.000011]  print_report+0x128/0x260
-> [  +0.000007]  kasan_report+0xb8/0xfc
-> [  +0.000007]  __asan_report_load8_noabort+0x3c/0x50
-> [  +0.000009]  find_components+0x468/0x500
-> [  +0.000008]  try_to_bring_up_aggregate_device+0x64/0x390
-> [  +0.000009]  __component_add+0x1dc/0x49c
-> [  +0.000009]  component_add+0x20/0x30
-> [  +0.000008]  meson_dw_hdmi_probe+0x28/0x34 [meson_dw_hdmi]
-> [  +0.000013]  platform_probe+0xd0/0x220
-> [  +0.000008]  really_probe+0x3ac/0xa80
-> [  +0.000008]  __driver_probe_device+0x1f8/0x400
-> [  +0.000008]  driver_probe_device+0x68/0x1b0
-> [  +0.000008]  __driver_attach+0x20c/0x480
-> [  +0.000009]  bus_for_each_dev+0x114/0x1b0
-> [  +0.000007]  driver_attach+0x48/0x64
-> [  +0.000009]  bus_add_driver+0x390/0x564
-> [  +0.000007]  driver_register+0x1a8/0x3e4
+> [  +0.000008]  kasan_report+0xb8/0xfc
+> [  +0.000008]  __asan_report_load8_noabort+0x3c/0x50
+> [  +0.000009]  __list_add_valid+0x9c/0x120
+> [  +0.000009]  drm_bridge_add+0x6c/0x104 [drm]
+> [  +0.000165]  dw_hdmi_probe+0x1900/0x2360 [dw_hdmi]
+> [  +0.000022]  meson_dw_hdmi_bind+0x520/0x814 [meson_dw_hdmi]
+> [  +0.000014]  component_bind+0x174/0x520
+> [  +0.000012]  component_bind_all+0x1a8/0x38c
+> [  +0.000010]  meson_drv_bind_master+0x5e8/0xb74 [meson_drm]
+> [  +0.000032]  meson_drv_bind+0x20/0x2c [meson_drm]
+> [  +0.000027]  try_to_bring_up_aggregate_device+0x19c/0x390
+> [  +0.000010]  component_master_add_with_match+0x1c8/0x284
+> [  +0.000009]  meson_drv_probe+0x274/0x280 [meson_drm]
+> [  +0.000026]  platform_probe+0xd0/0x220
+> [  +0.000009]  really_probe+0x3ac/0xa80
+> [  +0.000009]  __driver_probe_device+0x1f8/0x400
+> [  +0.000009]  driver_probe_device+0x68/0x1b0
+> [  +0.000009]  __driver_attach+0x20c/0x480
+> [  +0.000008]  bus_for_each_dev+0x114/0x1b0
+> [  +0.000009]  driver_attach+0x48/0x64
+> [  +0.000008]  bus_add_driver+0x390/0x564
+> [  +0.000009]  driver_register+0x1a8/0x3e4
 > [  +0.000009]  __platform_driver_register+0x6c/0x94
-> [  +0.000007]  meson_dw_hdmi_platform_driver_init+0x30/0x1000 [meson_dw_hdmi]
-> [  +0.000014]  do_one_initcall+0xc4/0x2b0
-> [  +0.000008]  do_init_module+0x154/0x570
-> [  +0.000010]  load_module+0x1a78/0x1ea4
+> [  +0.000008]  meson_drm_platform_driver_init+0x3c/0x1000 [meson_drm]
+> [  +0.000027]  do_one_initcall+0xc4/0x2b0
+> [  +0.000011]  do_init_module+0x154/0x570
+> [  +0.000011]  load_module+0x1a78/0x1ea4
+> [  +0.000008]  __do_sys_init_module+0x184/0x1cc
+> [  +0.000009]  __arm64_sys_init_module+0x78/0xb0
+> [  +0.000009]  invoke_syscall+0x74/0x260
+> [  +0.000009]  el0_svc_common.constprop.0+0xcc/0x260
+> [  +0.000008]  do_el0_svc+0x50/0x70
+> [  +0.000007]  el0_svc+0x68/0x1a0
+> [  +0.000012]  el0t_64_sync_handler+0x11c/0x150
+> [  +0.000008]  el0t_64_sync+0x18c/0x190
+> 
+> [  +0.000016] Allocated by task 879:
+> [  +0.000008]  kasan_save_stack+0x2c/0x5c
+> [  +0.000011]  __kasan_kmalloc+0x90/0xd0
+> [  +0.000007]  __kmalloc+0x278/0x4a0
+> [  +0.000011]  mpi_resize+0x13c/0x1d0
+> [  +0.000011]  mpi_powm+0xd24/0x1570
+> [  +0.000009]  rsa_enc+0x1a4/0x30c
+> [  +0.000009]  pkcs1pad_verify+0x3f0/0x580
+> [  +0.000009]  public_key_verify_signature+0x7a8/0xba4
+> [  +0.000010]  public_key_verify_signature_2+0x40/0x60
+> [  +0.000008]  verify_signature+0xb4/0x114
+> [  +0.000008]  pkcs7_validate_trust_one.constprop.0+0x3b8/0x574
+> [  +0.000009]  pkcs7_validate_trust+0xb8/0x15c
+> [  +0.000008]  verify_pkcs7_message_sig+0xec/0x1b0
+> [  +0.000012]  verify_pkcs7_signature+0x78/0xac
+> [  +0.000007]  mod_verify_sig+0x110/0x190
+> [  +0.000009]  module_sig_check+0x114/0x1e0
+> [  +0.000009]  load_module+0xa0/0x1ea4
 > [  +0.000008]  __do_sys_init_module+0x184/0x1cc
 > [  +0.000008]  __arm64_sys_init_module+0x78/0xb0
 > [  +0.000008]  invoke_syscall+0x74/0x260
-> [  +0.000008]  el0_svc_common.constprop.0+0xcc/0x260
-> [  +0.000009]  do_el0_svc+0x50/0x70
-> [  +0.000008]  el0_svc+0x68/0x1a0
+> [  +0.000009]  el0_svc_common.constprop.0+0x1a8/0x260
+> [  +0.000008]  do_el0_svc+0x50/0x70
+> [  +0.000007]  el0_svc+0x68/0x1a0
 > [  +0.000009]  el0t_64_sync_handler+0x11c/0x150
 > [  +0.000009]  el0t_64_sync+0x18c/0x190
->
-> [  +0.000014] Allocated by task 902:
-> [  +0.000007]  kasan_save_stack+0x2c/0x5c
-> [  +0.000009]  __kasan_kmalloc+0x90/0xd0
-> [  +0.000007]  __kmalloc_node+0x240/0x580
-> [  +0.000010]  memcg_alloc_slab_cgroups+0xa4/0x1ac
-> [  +0.000010]  memcg_slab_post_alloc_hook+0xbc/0x4c0
-> [  +0.000008]  kmem_cache_alloc_node+0x1d0/0x490
-> [  +0.000009]  __alloc_skb+0x1d4/0x310
-> [  +0.000010]  alloc_skb_with_frags+0x8c/0x620
-> [  +0.000008]  sock_alloc_send_pskb+0x5ac/0x6d0
-> [  +0.000010]  unix_dgram_sendmsg+0x2e0/0x12f0
-> [  +0.000010]  sock_sendmsg+0xcc/0x110
-> [  +0.000007]  sock_write_iter+0x1d0/0x304
-> [  +0.000008]  new_sync_write+0x364/0x460
-> [  +0.000007]  vfs_write+0x420/0x5ac
-> [  +0.000008]  ksys_write+0x19c/0x1f0
-> [  +0.000008]  __arm64_sys_write+0x78/0xb0
-> [  +0.000007]  invoke_syscall+0x74/0x260
-> [  +0.000008]  el0_svc_common.constprop.0+0x1a8/0x260
-> [  +0.000009]  do_el0_svc+0x50/0x70
-> [  +0.000007]  el0_svc+0x68/0x1a0
-> [  +0.000008]  el0t_64_sync_handler+0x11c/0x150
-> [  +0.000008]  el0t_64_sync+0x18c/0x190
->
-> [  +0.000013] Freed by task 2509:
+> 
+> [  +0.000013] Freed by task 2422:
 > [  +0.000008]  kasan_save_stack+0x2c/0x5c
-> [  +0.000007]  kasan_set_track+0x2c/0x40
-> [  +0.000008]  kasan_set_free_info+0x28/0x50
-> [  +0.000008]  ____kasan_slab_free+0x128/0x1d4
+> [  +0.000009]  kasan_set_track+0x2c/0x40
+> [  +0.000007]  kasan_set_free_info+0x28/0x50
+> [  +0.000009]  ____kasan_slab_free+0x128/0x1d4
 > [  +0.000008]  __kasan_slab_free+0x18/0x24
 > [  +0.000007]  slab_free_freelist_hook+0x108/0x230
 > [  +0.000010]  kfree+0x110/0x35c
 > [  +0.000008]  release_nodes+0xf0/0x16c
-> [  +0.000008]  devres_release_all+0xfc/0x180
-> [  +0.000008]  device_unbind_cleanup+0x24/0x164
-> [  +0.000008]  device_release_driver_internal+0x3e8/0x5b0
-> [  +0.000010]  driver_detach+0xac/0x1b0
-> [  +0.000008]  bus_remove_driver+0x158/0x29c
+> [  +0.000009]  devres_release_group+0x180/0x270
+> [  +0.000008]  take_down_aggregate_device+0xcc/0x160
+> [  +0.000010]  component_del+0x18c/0x360
+> [  +0.000009]  meson_dw_hdmi_remove+0x28/0x40 [meson_dw_hdmi]
+> [  +0.000013]  platform_remove+0x64/0xb0
+> [  +0.000008]  device_remove+0xb8/0x154
+> [  +0.000009]  device_release_driver_internal+0x398/0x5b0
+> [  +0.000009]  driver_detach+0xac/0x1b0
+> [  +0.000009]  bus_remove_driver+0x158/0x29c
 > [  +0.000008]  driver_unregister+0x70/0xb0
 > [  +0.000009]  platform_driver_unregister+0x20/0x2c
-> [  +0.000007]  0xffff800003722d98
+> [  +0.000007]  meson_dw_hdmi_platform_driver_exit+0x1c/0x30 [meson_dw_hdmi]
 > [  +0.000012]  __do_sys_delete_module+0x288/0x400
 > [  +0.000009]  __arm64_sys_delete_module+0x5c/0x80
-> [  +0.000008]  invoke_syscall+0x74/0x260
+> [  +0.000009]  invoke_syscall+0x74/0x260
 > [  +0.000008]  el0_svc_common.constprop.0+0xcc/0x260
 > [  +0.000008]  do_el0_svc+0x50/0x70
 > [  +0.000007]  el0_svc+0x68/0x1a0
 > [  +0.000008]  el0t_64_sync_handler+0x11c/0x150
 > [  +0.000009]  el0t_64_sync+0x18c/0x190
->
-> [  +0.000013] Last potentially related work creation:
-> [  +0.000007]  kasan_save_stack+0x2c/0x5c
-> [  +0.000007]  __kasan_record_aux_stack+0xb8/0xf0
-> [  +0.000009]  kasan_record_aux_stack_noalloc+0x14/0x20
-> [  +0.000008]  insert_work+0x54/0x290
-> [  +0.000009]  __queue_work+0x48c/0xd24
-> [  +0.000008]  queue_work_on+0x90/0x11c
-> [  +0.000008]  call_usermodehelper_exec+0x188/0x404
-> [  +0.000010]  kobject_uevent_env+0x5a8/0x794
-> [  +0.000010]  kobject_uevent+0x14/0x20
-> [  +0.000008]  driver_register+0x230/0x3e4
-> [  +0.000009]  __platform_driver_register+0x6c/0x94
-> [  +0.000007]  gxbb_driver_init+0x28/0x34
-> [  +0.000010]  do_one_initcall+0xc4/0x2b0
-> [  +0.000008]  do_initcalls+0x20c/0x24c
-> [  +0.000010]  kernel_init_freeable+0x22c/0x278
-> [  +0.000009]  kernel_init+0x3c/0x170
-> [  +0.000008]  ret_from_fork+0x10/0x20
->
-> [  +0.000013] The buggy address belongs to the object at ffff000006731600
->                 which belongs to the cache kmalloc-256 of size 256
-> [  +0.000009] The buggy address is located 136 bytes inside of
->                 256-byte region [ffff000006731600, ffff000006731700)
->
+> 
+> [  +0.000013] The buggy address belongs to the object at ffff00003da29000
+>                 which belongs to the cache kmalloc-1k of size 1024
+> [  +0.000008] The buggy address is located 496 bytes inside of
+>                 1024-byte region [ffff00003da29000, ffff00003da29400)
+> 
 > [  +0.000015] The buggy address belongs to the physical page:
-> [  +0.000008] page:fffffc000019cc00 refcount:1 mapcount:0 mapping:0000000000000000 index:0xffff000006730a00 pfn:0x6730
-> [  +0.000011] head:fffffc000019cc00 order:2 compound_mapcount:0 compound_pincount:0
-> [  +0.000008] flags: 0xffff00000010200(slab|head|node=0|zone=0|lastcpupid=0xffff)
-> [  +0.000016] raw: 0ffff00000010200 fffffc00000c3d08 fffffc0000ef2b08 ffff000000002680
-> [  +0.000009] raw: ffff000006730a00 0000000000150014 00000001ffffffff 0000000000000000
-> [  +0.000006] page dumped because: kasan: bad access detected
->
+> [  +0.000009] page:fffffc0000f68a00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x3da28
+> [  +0.000012] head:fffffc0000f68a00 order:3 compound_mapcount:0 compound_pincount:0
+> [  +0.000009] flags: 0xffff00000010200(slab|head|node=0|zone=0|lastcpupid=0xffff)
+> [  +0.000019] raw: 0ffff00000010200 fffffc0000eb5c08 fffffc0000d96608 ffff000000002a80
+> [  +0.000008] raw: 0000000000000000 00000000000a000a 00000001ffffffff 0000000000000000
+> [  +0.000008] page dumped because: kasan: bad access detected
+> 
 > [  +0.000011] Memory state around the buggy address:
-> [  +0.000007]  ffff000006731580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> [  +0.000007]  ffff000006731600: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [  +0.000007] >ffff000006731680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [  +0.000007]                       ^
-> [  +0.000006]  ffff000006731700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> [  +0.000007]  ffff000006731780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> [  +0.000006] ==================================================================
->
-> Fix by adding 'remove' driver callback for meson-drm, and explicitly deleting the
-> aggregate device.
->
+> [  +0.000009]  ffff00003da29080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [  +0.000007]  ffff00003da29100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [  +0.000007] >ffff00003da29180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [  +0.000007]                                                              ^
+> [  +0.000008]  ffff00003da29200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [  +0.000006]  ffff00003da29280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [  +0.000007] ==================================================================
+> 
+> Fix by keeping track of which encoders were initialised in the meson_drm
+> structure and manually removing their bridges at aggregate driver's unbind
+> time.
+> 
 > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 > ---
->   drivers/gpu/drm/meson/meson_drv.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
->
+>   drivers/gpu/drm/meson/meson_drv.c          |  4 ++++
+>   drivers/gpu/drm/meson/meson_drv.h          |  7 +++++++
+>   drivers/gpu/drm/meson/meson_encoder_cvbs.c |  7 +++++++
+>   drivers/gpu/drm/meson/meson_encoder_cvbs.h |  1 +
+>   drivers/gpu/drm/meson/meson_encoder_hdmi.c |  7 +++++++
+>   drivers/gpu/drm/meson/meson_encoder_hdmi.h |  1 +
+>   drivers/gpu/drm/meson/meson_venc.h         | 15 +++++++++++++++
+>   7 files changed, 42 insertions(+)
+> 
 > diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-> index 8da454a17b77..f3da1c214a7c 100644
+> index f3da1c214a7c..2b47154b73c2 100644
 > --- a/drivers/gpu/drm/meson/meson_drv.c
 > +++ b/drivers/gpu/drm/meson/meson_drv.c
-> @@ -490,6 +490,13 @@ static int meson_drv_probe(struct platform_device *pdev)
+> @@ -387,6 +387,10 @@ static void meson_drv_unbind(struct device *dev)
+>   	drm_atomic_helper_shutdown(drm);
+>   	free_irq(priv->vsync_irq, drm);
+>   	drm_dev_put(drm);
+> +
+> +	meson_encoder_hdmi_remove(priv);
+> +	meson_encoder_cvbs_remove(priv);
+> +
+>   	component_unbind_all(dev, drm);
+>   
+>   	if (priv->afbcd.ops)
+> diff --git a/drivers/gpu/drm/meson/meson_drv.h b/drivers/gpu/drm/meson/meson_drv.h
+> index 177dac3ca3be..2cf279fb4f82 100644
+> --- a/drivers/gpu/drm/meson/meson_drv.h
+> +++ b/drivers/gpu/drm/meson/meson_drv.h
+> @@ -25,6 +25,12 @@ enum vpu_compatible {
+>   	VPU_COMPATIBLE_G12A = 3,
+>   };
+>   
+> +enum {
+> +	MESON_ENC_CVBS = 0,
+> +	MESON_ENC_HDMI,
+> +	MESON_ENC_LAST,
+> +};
+> +
+>   struct meson_drm_match_data {
+>   	enum vpu_compatible compat;
+>   	struct meson_afbcd_ops *afbcd_ops;
+> @@ -51,6 +57,7 @@ struct meson_drm {
+>   	struct drm_crtc *crtc;
+>   	struct drm_plane *primary_plane;
+>   	struct drm_plane *overlay_plane;
+> +	struct drm_encoder *encoders[MESON_ENC_LAST];
+>   
+>   	const struct meson_drm_soc_limits *limits;
+>   
+> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+> index 8110a6e39320..00c958b08065 100644
+> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+> @@ -281,5 +281,12 @@ int meson_encoder_cvbs_init(struct meson_drm *priv)
+>   	}
+>   	drm_connector_attach_encoder(connector, &meson_encoder_cvbs->encoder);
+>   
+> +	priv->encoders[MESON_ENC_CVBS] = &meson_encoder_cvbs->encoder;
+> +
 >   	return 0;
->   };
->   
-> +static int meson_drv_remove(struct platform_device *pdev)
+>   }
+> +
+> +void meson_encoder_cvbs_remove(struct meson_drm *priv)
 > +{
-> +	component_master_del(&pdev->dev, &meson_drv_master_ops);
-> +
-> +	return 0;
+> +	REMOVE_ENCODER_BRIDGES(cvbs, MESON_ENC_CVBS);
 > +}
-> +
->   static struct meson_drm_match_data meson_drm_gxbb_data = {
->   	.compat = VPU_COMPATIBLE_GXBB,
->   };
-> @@ -527,6 +534,7 @@ static const struct dev_pm_ops meson_drv_pm_ops = {
+> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.h b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
+> index 61d9d183ce7f..09710fec3c66 100644
+> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.h
+> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
+> @@ -25,5 +25,6 @@ struct meson_cvbs_mode {
+>   extern struct meson_cvbs_mode meson_cvbs_modes[MESON_CVBS_MODES_COUNT];
 >   
->   static struct platform_driver meson_drm_platform_driver = {
->   	.probe      = meson_drv_probe,
-> +	.remove     = meson_drv_remove,
->   	.shutdown   = meson_drv_shutdown,
->   	.driver     = {
->   		.name	= "meson-drm",
+>   int meson_encoder_cvbs_init(struct meson_drm *priv);
+> +void meson_encoder_cvbs_remove(struct meson_drm *priv);
+>   
+>   #endif /* __MESON_VENC_CVBS_H */
+> diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+> index 2f616c55c271..da6f2882cd97 100644
+> --- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+> @@ -452,6 +452,8 @@ int meson_encoder_hdmi_init(struct meson_drm *priv)
+>   		meson_encoder_hdmi->cec_notifier = notifier;
+>   	}
+>   
+> +	priv->encoders[MESON_ENC_HDMI] = &meson_encoder_hdmi->encoder;
+> +
+>   	dev_dbg(priv->dev, "HDMI encoder initialized\n");
+>   
+>   	return 0;
+> @@ -460,3 +462,8 @@ int meson_encoder_hdmi_init(struct meson_drm *priv)
+>   	of_node_put(remote);
+>   	return ret;
+>   }
+> +
+> +void meson_encoder_hdmi_remove(struct meson_drm *priv)
+> +{
+> +	REMOVE_ENCODER_BRIDGES(hdmi, MESON_ENC_HDMI);
+> +}
+> diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.h b/drivers/gpu/drm/meson/meson_encoder_hdmi.h
+> index ed19494f0956..a6cd38eb5f71 100644
+> --- a/drivers/gpu/drm/meson/meson_encoder_hdmi.h
+> +++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.h
+> @@ -8,5 +8,6 @@
+>   #define __MESON_ENCODER_HDMI_H
+>   
+>   int meson_encoder_hdmi_init(struct meson_drm *priv);
+> +void meson_encoder_hdmi_remove(struct meson_drm *priv);
+>   
+>   #endif /* __MESON_ENCODER_HDMI_H */
+> diff --git a/drivers/gpu/drm/meson/meson_venc.h b/drivers/gpu/drm/meson/meson_venc.h
+> index 9138255ffc9e..9fc572860f8c 100644
+> --- a/drivers/gpu/drm/meson/meson_venc.h
+> +++ b/drivers/gpu/drm/meson/meson_venc.h
+> @@ -47,6 +47,21 @@ struct meson_cvbs_enci_mode {
+>   	unsigned int analog_sync_adj;
+>   };
+>   
+> +#define REMOVE_ENCODER_BRIDGES(type, order)				\
+> +{									\
+> +	struct meson_encoder_##type *meson_encoder_##type;		\
+> +	struct drm_encoder *encoder;					\
+> +	if (priv->encoders[order]) {					\
+> +		encoder = priv->encoders[order];			\
+> +		meson_encoder_##type =					\
+> +			container_of(encoder,				\
+> +				     struct meson_encoder_##type,	\
+> +				     encoder);				\
+> +		drm_bridge_remove(&(meson_encoder_##type)->bridge);	\
+> +		drm_bridge_remove((meson_encoder_##type)->next_bridge); \
+> +	}								\
+> +}
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
+This looks over-complicated, why not store the "struct meson_encoder_cvbs/_hdmi" raw pointer in the struct meson_drm encoders table instead ?
+
+With this no need to use container_of and directly call drm_bridge_remove() on bridge & next_bridge.
+
+									\
+> +
+>   /* HDMI Clock parameters */
+>   enum drm_mode_status
+>   meson_venc_hdmi_supported_mode(const struct drm_display_mode *mode);
+
+Thanks,
+Neil
