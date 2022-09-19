@@ -2,55 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537EC5BC479
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 10:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A96645BC4D3
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 10:58:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6DF10E5AF;
-	Mon, 19 Sep 2022 08:41:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06C3510E57C;
+	Mon, 19 Sep 2022 08:58:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB6B10E5D6
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 08:41:01 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id g5so41451511ybg.11
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 01:41:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=EMEe3EnrmTz4VXJwt3zNe2mWyBL9jqG4mEETorWmETg=;
- b=SoyqYVokxMm1uUEputqTB5NtFHq2AOYVphA3SiugU5Db88W1jAKad2wuq+xMWhwTie
- 61GIwvjPhTrBhQacCpgFH7SI7SMmwzrSZ3qrkGOMSYTfu1XdCjF/o14QjtFup/T3p+OZ
- rValRdjjh5dz7Oh8DNgTLxaSEzUa2tfJncXvk=
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E11210E57C
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 08:58:19 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id cc5so36580907wrb.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 01:58:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=v7YvGusii2VWZOurmgvHPkAuYpvgY/iuHE+RqeSdYqI=;
+ b=GJoLxPx811a04N6H2o44fP5LKcu2VG0CzmzazXzZSGTadhR9XsLH4GG6p4I7ICwzbR
+ uY28MGejpO8x9ub1f9YpHFTl1vxaIm0LHikJECh5HQVbRnjFZjuFpJz6Qiz7MpUKLtE2
+ xh+rPO5AN6ZLz43A41JBhwtpqUISY4MYpafWGRQxctK70+P/x6A0lJTW6qTTTrfsAhBv
+ jllrkeoZJ559SJ5R5flPL3AvlQwURKjPgkxxUw6Zs7g91bDdjBBZWZJIU8dUQd0Hw7PI
+ 01ZRlV45+Khappbww9ibR7pTcj0OmktzAM8LwKJp40FXz5P/rKvMcLyqJVuuYI947xY7
+ 0pPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=EMEe3EnrmTz4VXJwt3zNe2mWyBL9jqG4mEETorWmETg=;
- b=dJge6psn8mWRsuzSy1lCfqEzLO+8J4ZbiIROWyQEeEJ65eFrL/PXkerkTsIT9xHkwN
- 25yYyp/vjKnnMu1ENAdUnv2e7r4E2zezHufutI2pVx2cXQjgklpZC2pK1Z4HUjTDmTzj
- 7HdpP93Trf32sOzdgeiOuf1nu4zUGeSZpiKhC0GKjYxBWLUo92hxTUb+mZjVNmjDsPmK
- 4a3BmFyDfGey8okUbV3l4In+R6X+0MPh+AAJ2MMKGoAXLxYiLY9xVQgPWuZYZtU+Nd/f
- KBvylzhnoSevJ43NMgo9OYqm3UBo9qibKEjsMQWIpzCIR1wXdWi3dIDwYB2QCgt2ZPdE
- 2XgA==
-X-Gm-Message-State: ACrzQf1OGlsG09QSBr//Hi4KY+y5q7mxA/nDjyxwJzuFt0XLv6AyPG8b
- 7X5wh2TzDEm5FLcjIdh+Gmgdz7509MI1jzFQgGymTA==
-X-Google-Smtp-Source: AMsMyM67MXm/lQa1tGGwV3xRvrukDuk9G5nv3c5F7slxubnSc3M0kXcOawAQvsxcSxx7dCi+CFAeJs1NlPue8RXoIMI=
-X-Received: by 2002:a05:6902:1202:b0:6ae:4d4e:f7ea with SMTP id
- s2-20020a056902120200b006ae4d4ef7eamr14310764ybu.393.1663576860104; Mon, 19
- Sep 2022 01:41:00 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=v7YvGusii2VWZOurmgvHPkAuYpvgY/iuHE+RqeSdYqI=;
+ b=6pQMfGa5tkNux79fqNbQX+pgVxYmKt8HbCCfoBlFau2qTdh7B4hqPsVmpJK4tKYjAP
+ iutyxQOdlXqhCTkiAIWeZz7gvaOmpIM7g6CnkS+Z0Ggp8Yq6C4xgrcUk/HWsDbkMqdCS
+ bhSZBVM+LMLjQVkP58hs68zBQ/3/GRmmlK4PLW0ukYKWkSc8Qj1cPRTyAkHDwq3p9p0x
+ HfWSHVCbPoWmqLYinlvuGqRAv1ezVZCEkiOPTBwjQ8DgYzIRk2CX8cxLeN8guQSmGult
+ 0Qaqf+0YwKs9jLDdXVcWETx2CR5/bS71grwj+0Agr76cG7mcRl4TRx6lQrvLf+90axwV
+ fr3g==
+X-Gm-Message-State: ACrzQf2H3C946Ba7v+GHCqVnDaHd4NTcwIZ39fdM2fT36T6MCRwPlKHe
+ QBDaAX9UHOSe+24CTJlW+LrQtQ==
+X-Google-Smtp-Source: AMsMyM4cww1aT+UyEi2mGQSWgBrXtd8K3pDPv0LQhtIrLRHZBUYk6cWyL8YyQ4KeV8LQa4h1u318XA==
+X-Received: by 2002:a5d:6b09:0:b0:225:37cf:fb8b with SMTP id
+ v9-20020a5d6b09000000b0022537cffb8bmr9996948wrw.179.1663577898020; 
+ Mon, 19 Sep 2022 01:58:18 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:f618:2ad3:3fb0:7965?
+ ([2a01:e0a:982:cbb0:f618:2ad3:3fb0:7965])
+ by smtp.gmail.com with ESMTPSA id
+ r17-20020adfbb11000000b0022762b0e2a2sm13504272wrg.6.2022.09.19.01.58.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Sep 2022 01:58:17 -0700 (PDT)
+Message-ID: <5aed4431-e99c-a3a1-1cc3-0f8a57e99827@linaro.org>
+Date: Mon, 19 Sep 2022 10:58:16 +0200
 MIME-Version: 1.0
-References: <20220804194325.1596554-1-nfraprado@collabora.com>
-In-Reply-To: <20220804194325.1596554-1-nfraprado@collabora.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Mon, 19 Sep 2022 16:40:34 +0800
-Message-ID: <CAJMQK-hOxxvkjgOxA6KLLUJxxBehHDQvRo-Y_FLMPLEfkoVMzA@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: dsi: Move mtk_dsi_stop() call back to
- mtk_dsi_poweroff()
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm: bridge/dw-hdmi-ahb-audio: use strscpy() is more
+ robust and safer
+Content-Language: en-US
+To: cgel.zte@gmail.com
+References: <20220919030401.211331-1-chi.minghao@zte.com.cn>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20220919030401.211331-1-chi.minghao@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,97 +76,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Xinlei Lee <xinlei.lee@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
+ andrzej.hajda@intel.com, Minghao Chi <chi.minghao@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 19, 2022 at 4:39 PM N=C3=ADcolas F. R. A. Prado
-<nfraprado@collabora.com> wrote:
->
-> As the comment right before the mtk_dsi_stop() call advises,
-> mtk_dsi_stop() should only be called after
-> mtk_drm_crtc_atomic_disable(). That's because that function calls
-> drm_crtc_wait_one_vblank(), which requires the vblank irq to be enabled.
->
-> Previously mtk_dsi_stop(), being in mtk_dsi_poweroff() and guarded by a
-> refcount, would only be called at the end of
-> mtk_drm_crtc_atomic_disable(), through the call to mtk_crtc_ddp_hw_fini()=
-.
-> Commit cde7e2e35c28 ("drm/mediatek: Separate poweron/poweroff from
-> enable/disable and define new funcs") moved the mtk_dsi_stop() call to
-> mtk_output_dsi_disable(), causing it to be called before
-> mtk_drm_crtc_atomic_disable(), and consequently generating vblank
-> timeout warnings during suspend.
->
-> Move the mtk_dsi_stop() call back to mtk_dsi_poweroff() so that we have
-> a working vblank irq during mtk_drm_crtc_atomic_disable() and stop
-> getting vblank timeout warnings.
->
-> Fixes: cde7e2e35c28 ("drm/mediatek: Separate poweron/poweroff from enable=
-/disable and define new funcs")
-> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
->
-Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Hi,
 
-Tested on mt8183 jacuzzi and mt8186 that this patch fixes the vblank warnin=
-g.
 
+On 19/09/2022 05:04, cgel.zte@gmail.com wrote:
+> From: Minghao Chi <chi.minghao@zte.com.cn>
+> 
+> The implementation of strscpy() is more robust and safer.
+> 
+> That's now the recommended way to copy NUL terminated strings.
+> 
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 > ---
->
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 21 ++++++++++-----------
->  1 file changed, 10 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
-k/mtk_dsi.c
-> index 9cc406e1eee1..f8ad59771551 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -685,6 +685,16 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
->         if (--dsi->refcount !=3D 0)
->                 return;
->
-> +       /*
-> +        * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
-> +        * mtk_dsi_stop() should be called after mtk_drm_crtc_atomic_disa=
-ble(),
-> +        * which needs irq for vblank, and mtk_dsi_stop() will disable ir=
-q.
-> +        * mtk_dsi_start() needs to be called in mtk_output_dsi_enable(),
-> +        * after dsi is fully set.
-> +        */
-> +       mtk_dsi_stop(dsi);
-> +
-> +       mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
->         mtk_dsi_reset_engine(dsi);
->         mtk_dsi_lane0_ulp_mode_enter(dsi);
->         mtk_dsi_clk_ulp_mode_enter(dsi);
-> @@ -735,17 +745,6 @@ static void mtk_output_dsi_disable(struct mtk_dsi *d=
-si)
->         if (!dsi->enabled)
->                 return;
->
-> -       /*
-> -        * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
-> -        * mtk_dsi_stop() should be called after mtk_drm_crtc_atomic_disa=
-ble(),
-> -        * which needs irq for vblank, and mtk_dsi_stop() will disable ir=
-q.
-> -        * mtk_dsi_start() needs to be called in mtk_output_dsi_enable(),
-> -        * after dsi is fully set.
-> -        */
-> -       mtk_dsi_stop(dsi);
-> -
-> -       mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
-> -
->         dsi->enabled =3D false;
->  }
->
-> --
-> 2.37.1
->
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> index 7d2ed0ed2fe2..4efb62bcdb63 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> @@ -542,8 +542,8 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
+>   	if (ret < 0)
+>   		return ret;
+>   
+> -	strlcpy(card->driver, DRIVER_NAME, sizeof(card->driver));
+> -	strlcpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
+> +	strscpy(card->driver, DRIVER_NAME, sizeof(card->driver));
+> +	strscpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
+
+Please keep using DRIVER_NAME in both lines.
+
+>   	snprintf(card->longname, sizeof(card->longname),
+>   		 "%s rev 0x%02x, irq %d", card->shortname, revision,
+>   		 data->irq);
+> @@ -561,7 +561,7 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
+>   
+>   	dw->pcm = pcm;
+>   	pcm->private_data = dw;
+> -	strlcpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
+> +	strscpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
+>   	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_dw_hdmi_ops);
+>   
+>   	/*
+
+Thanks,
+Neil
