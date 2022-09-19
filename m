@@ -1,68 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6AA5BC5C7
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 11:52:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E37335BC5CF
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 11:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E608F10E53C;
-	Mon, 19 Sep 2022 09:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2B0610E5E3;
+	Mon, 19 Sep 2022 09:54:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B50C10E53C
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 09:51:58 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id w8so46025651lft.12
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 02:51:58 -0700 (PDT)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4933710E5E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 09:54:35 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id l9so6640444lji.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 02:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=CHVoh6AydMdVyNdsw6VEdTT8sVcwJuX4/7OtqF81TLE=;
- b=AsUtDZLutjYAmPuubd5VJT7esoukKBV4drhaipeCSPKxFSprD/Z0M3c5QRBWu0cyyD
- ouVrfCl8OORFdekwNoBwNhFR9U7ndxDKDos9VWw62Qymi2+VZGLP7XylvDA0t1ZHKYfb
- hmRpaUrRj4i0aVFafXU/drjl3I0IYfiOOD1wKGEr5aFW5JTTtIGYYUHRtjH/yy6W6pmx
- ZCFyoktY8JvMBm38nYe99kSyfOFZmFNJzY6SuC/Y07tLW8tbt3LThpNorC19V28CCBTK
- Ep+wJYpIabNauK9No+9itwZR26x9BIGA+29BKOeMdtOwtKRIhCxgkKe28PFBjA68Xlw1
- ONIQ==
+ bh=acfZNlSk6UDSUFER86iU5/oC+tWnJPYzNY85ToWvplI=;
+ b=qfjkJOzXVYyBbWBcP7ScnhEr3K4rRvVk5rRFs1OF/IhXIcCx6uLOkHA2R32bWSNb52
+ 5caWhhw2LYFoBao51d6Yo0KY2AIBTSHg+QnKa7HxvTNoOshJ/tHBsHX38mjzLh0+H6Ee
+ 4fsyaEhlpXl1wpJC3pjQYWXzowXLs+gWWaVzVzDBYTxZ+nP41WOqMcEipwrL1zpuGxND
+ p1m8qpVVRXkoNMN8xLi/+m7PY3PqdbA1YgMysj/KPnvPX5xxBZ9c2bxmGfWfnuNGf08t
+ 1n73JgcdGa+B9fnnGY1IKwJN1dgH675rZsofUMF2WwtMQ1f8K5lM9wlUgkjt0f1tKhrV
+ 6rwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=CHVoh6AydMdVyNdsw6VEdTT8sVcwJuX4/7OtqF81TLE=;
- b=7sKslr9i1IpLiobU3DwQrz8lC81WAw1r9sgLYqxPfmEXJhx9GXnYy1ukxKJmIUqWXh
- 6usaHYyd0ZELzMCfR6rIpggGY2cFLHZ/sM+rdLC9aq8eUPe08JWTp4OIeOwt4YxeamyC
- CoSoK6zlD9fHCn4C8qdFf/u4Y1nptDXDsKyi3y5EQYSh0AuqA6YWcCWIb3BKJDaWhQwQ
- CEhRC03ii+kM5UuIYB7JR0pwFsO67e9jtQGukCFfz3dc35e6bO3WTBE8xu+Hcu+GZjRD
- JWsfBqc5sEO01uUKi1xmruDKyMzmh6+WrEcQgx+NXtfwc1x+LmgmgMCk3iP32zSZUlkL
- BlMw==
-X-Gm-Message-State: ACrzQf0N10ZFJeIsJWHZVgcTrkHqJbQsk+gpd6k/3STLm7UuWFRP278e
- RR3PRUtP3nBvY/oGwpvyRO0=
-X-Google-Smtp-Source: AMsMyM7ueLFa3mwyZJZLiCmpSdCXCJLMG0inR83nTec9J8BjIHZJdlOX2VH8AUZJV6OitbHR4WhCiA==
-X-Received: by 2002:a05:6512:909:b0:48b:954c:8e23 with SMTP id
- e9-20020a056512090900b0048b954c8e23mr6486606lft.670.1663581116524; 
- Mon, 19 Sep 2022 02:51:56 -0700 (PDT)
+ bh=acfZNlSk6UDSUFER86iU5/oC+tWnJPYzNY85ToWvplI=;
+ b=FarSQMtkhuCwf+3DVhCFTwF5Z9MILIQptcQVUfhYUrSVxgz7g1bsj/LM3sJkn6yXM6
+ O4U3rpePpQkZfyfYE8rv24rJPOrhNTHkYoYo4P78wUWFbucnkz4PsEqitan521EE9Whm
+ pWbpz0XqgVW/XX9EtOSTiIJNcDz0vO0MHv0RoeIHYVCvf1d1LM2VNXezooVbUP/mI530
+ owg2mbYHCqMroti/+2bmZA3MCzmnyfAW4RojdG0Fvi4svUSis5cRFrSboYgS5roiJFeW
+ 1z+5mr7C2h1tpcQvTi4pIHJgX1hUPKJyo6g7NztMLBGkOT+QgjgrhKMlxnFOnj7hX5pb
+ bLDQ==
+X-Gm-Message-State: ACrzQf2avF2hoJtcBRkwyt/BzynSrFJ2agZ+sPnupnxirjPAfIV7xv3o
+ kFKw56fzdW1mHSqClo24ERo=
+X-Google-Smtp-Source: AMsMyM5s1lURiFkaTiES2Do+Gp85hVbFMOUBWEtYF1ETax19T1vejZL/sH5OF3FW8EhMfG9KBBZ7oQ==
+X-Received: by 2002:a2e:b893:0:b0:26c:22e0:716d with SMTP id
+ r19-20020a2eb893000000b0026c22e0716dmr5260362ljp.48.1663581273645; 
+ Mon, 19 Sep 2022 02:54:33 -0700 (PDT)
 Received: from [192.168.2.145] ([109.252.122.187])
  by smtp.googlemail.com with ESMTPSA id
- b2-20020a05651c032200b002618e5c2664sm4683016ljp.103.2022.09.19.02.51.55
+ y11-20020a05651c106b00b0026c3e350682sm1347948ljm.14.2022.09.19.02.54.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 02:51:55 -0700 (PDT)
-Message-ID: <0fc52b8c-a8a1-0e73-6f1c-da554681c9a9@gmail.com>
-Date: Mon, 19 Sep 2022 12:51:54 +0300
+ Mon, 19 Sep 2022 02:54:33 -0700 (PDT)
+Message-ID: <7fe977b9-8e54-96cf-91da-49f0861ff945@gmail.com>
+Date: Mon, 19 Sep 2022 12:54:32 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH -next] drm/mediatek: dp: change mtk_dp_driver to static
+Subject: Re: [PATCH v2 0/3] Refactor MediaTek DP drivers
 Content-Language: en-US
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-References: <20220913134929.1970187-1-yangyingliang@huawei.com>
- <6051fab8-e198-fd58-2dfe-b2b344b67c15@collabora.com>
- <CAAOTY_8yTkkBNEv=MgRj2+JQM0=bD+z2wFsTT7n6uEC0ay1L9g@mail.gmail.com>
+ Bo-Chen Chen <rex-bc.chen@mediatek.com>
+References: <20220916133821.27980-1-rex-bc.chen@mediatek.com>
+ <CAAOTY__g=s_ACd+zTJZT1HBbrLo-JpHbrwLsy1zKjxbM5c21uA@mail.gmail.com>
 From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <CAAOTY_8yTkkBNEv=MgRj2+JQM0=bD+z2wFsTT7n6uEC0ay1L9g@mail.gmail.com>
+In-Reply-To: <CAAOTY__g=s_ACd+zTJZT1HBbrLo-JpHbrwLsy1zKjxbM5c21uA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,23 +76,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yang Yingliang <yangyingliang@huawei.com>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-mediatek@lists.infradead.org>,
+Cc: Guillaume Ranquet <granquet@baylibre.com>,
+ Jitao Shi <jitao.shi@mediatek.com>, David Airlie <airlied@linux.ie>,
+ liangxu.xu@mediatek.com, linux-kernel <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Markus Schneider-Pargmann <msp@baylibre.com>
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello Chun-Kuang,
 
-18.09.2022 06:56, Chun-Kuang Hu пишет:
+18.09.2022 06:17, Chun-Kuang Hu пишет:
 > Hi, Dmitry:
 > 
-> My tree has no mtk dp driver yet. Would you like to pick this patch?
+> My tree has no mtk-dp driver yet. Would you like to pick this series?
 > 
-> Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Regards,
+> Chun-Kuang.
 > 
-> Dmitry Osipenko <dmitry.osipenko@collabora.com> 於 2022年9月15日 週四 下午5:04寫道：
+> Bo-Chen Chen <rex-bc.chen@mediatek.com> 於 2022年9月16日 週五 晚上9:38寫道：
+>>
+>> For this series, we do some clean-up and fix a build warning.
+>> This series is based on linux-next-20220915.
+>>
+>> Changes for v2:
+>> 1. Update commit message in "drm/mediatek: dp: Reduce indentation in mtk_dp_bdg_detect()".
+>> 2. Add fix tag for "drm/mediatek: dp: Fix warning in mtk_dp_video_mute()".
 
-Applied to drm-misc-next
+I changed commit message of the "Fix warning in mtk_dp_video_mute()"
+patch to make it less noisy and applied all the patches to drm-misc-next.
