@@ -2,50 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9FC5BC3E8
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 10:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CAE5BC421
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 10:18:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 365B210E568;
-	Mon, 19 Sep 2022 08:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FFB310E5AE;
+	Mon, 19 Sep 2022 08:18:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B14E10E568
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 08:05:28 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 792E96601A05;
- Mon, 19 Sep 2022 09:05:26 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663574727;
- bh=zXPTcvw/TefhoaPSogtRftO+DMhN8kcfYVae45CwGHw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CalT+fawla8opHrjOOc6bXxxBDHsNqDG7NXNc82xjT+R/AEjNMGxy3Hdqkxqj3ldK
- 5W1ZxbUKOLqrhRWfQcb9Y7A74ArrN+3zoq3bPkpxa6t/o8b8V2jd5cXM8ZGqrCS/B3
- 4tS7hVImGsEZyn28ytCXbEqLgKua+LbxeMxZDB1xTxTg2KFEKHfgjgOb1skXeKBB3u
- OUwit8fhknIZqcvNC0b6hw1D+Esx7b0gdR/55U7snrLfEV74c5DhpSTcEDxtzX/qH6
- gEKhqx1oriiXT4tgCFEv84oFKhzZYwvXB4PwVmnwB7kPvc9XbVzfMzwGgk5GVwQnqd
- N/2J+CDuqPFsQ==
-Message-ID: <673d61a1-1c92-04b3-523b-1852c7980358@collabora.com>
-Date: Mon, 19 Sep 2022 10:05:24 +0200
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C14910E5AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 08:18:12 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id n8so12819101wmr.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 01:18:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date;
+ bh=ZHoX1E0pKQsE6388AWWZYn9R8dI2szExvawhZ0L+wnU=;
+ b=km5dCJC4r54rG/sqDz+HpYtwhcza885+XiPyOOLZlmh73YtKl7wk2/DtvxHii3twB9
+ //O7B3T9bC4CDZumBJVWQnT04N3dRuxGd8nPm/cAWGX4lnzoaiRuPNOTrazrKF9O5+TF
+ mJODf3vMg4x1A93Mm4QXO3kAlWp81ytvw+anZLK7a0+C/a53Xt89SkBr6ji6qONSu8lt
+ iHL5IcaP6YJPRC86QqYw5j+qTsiSEieEXyjP3Es3b/2i/+2WF8sFmGnSg8SrqVzPeYJj
+ 2I2M7vfmjs8NL44M9IaLGuNwYQ/rNMu4m+O8KZC5aVPho/FN4NBrbOzHW187j2nD7+Ol
+ L2yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ZHoX1E0pKQsE6388AWWZYn9R8dI2szExvawhZ0L+wnU=;
+ b=MM2lL/vw+4P1yikUPE9/c8CUXlTG4HRpeRhea2bWQgWOsIX74ZSiUPfYJWdexHeL5q
+ oOXJcMYlO1crSZxRcMaRDE9BGPLJFU6rLm195sppIo3CDjxcqRVUjrJodOpU7mOU5dup
+ 58GPOSbc8QhrBjK7drZAiRVr51RjxRDSW/Rhv5W0aA8fTUPyaM5us4pTa76K63h3HV9y
+ /csHQjVBvYK86VP87mVRGiQ+UMJVccPhiZuz30RtObUqzAObQwzW6XS17YeOCTDpNYcQ
+ ShwihyTHJ9IFAwOYnISP9LKoD6adl44iewNIwlDIaPrxRv6Vo+fUFw9r9jlfOdZ0Zjed
+ MaDw==
+X-Gm-Message-State: ACrzQf3Wk9gnJgD6x3ulXP9DhkbEFjhZA92YHqyXEAucjY+xz+aWiNiU
+ 0T3WguTk68OQtJr22dDX0F8=
+X-Google-Smtp-Source: AMsMyM5wJs0YA4BjfQrX6Et+Flxuo6Ydr8qqfocaSk56SSD0ldp9+zwH2mFoYMFYWT4aTGTmV7XXdw==
+X-Received: by 2002:a05:600c:1e18:b0:3b3:b9f8:2186 with SMTP id
+ ay24-20020a05600c1e1800b003b3b9f82186mr11862430wmb.151.1663575490638; 
+ Mon, 19 Sep 2022 01:18:10 -0700 (PDT)
+Received: from elementary ([94.73.32.249]) by smtp.gmail.com with ESMTPSA id
+ l3-20020a5d4bc3000000b002238ea5750csm15623562wrt.72.2022.09.19.01.18.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Sep 2022 01:18:10 -0700 (PDT)
+Date: Mon, 19 Sep 2022 10:18:01 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v4 3/3] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_gray8()
+Message-ID: <20220919081801.GA144802@elementary>
+References: <20220919071531.105124-1-jose.exposito89@gmail.com>
+ <20220919071531.105124-4-jose.exposito89@gmail.com>
+ <20220919073645.uf64enluhiwd2b2i@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v2 3/3] drm/mediatek: dp: Fix warning in
- mtk_dp_video_mute()
-Content-Language: en-US
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@linux.ie
-References: <20220916133821.27980-1-rex-bc.chen@mediatek.com>
- <20220916133821.27980-4-rex-bc.chen@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220916133821.27980-4-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220919073645.uf64enluhiwd2b2i@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,46 +74,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: tzimmermann@suse.de, magalilemes00@gmail.com, airlied@linux.ie,
+ maira.canal@usp.br, dlatypov@google.com, javierm@redhat.com,
+ linux-kernel@vger.kernel.org,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>, geert@linux-m68k.org,
+ dri-devel@lists.freedesktop.org, tales.aparecida@gmail.com,
+ davidgow@google.com, isabbasso@riseup.net, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 16/09/22 15:38, Bo-Chen Chen ha scritto:
-> Warning:
-> ../drivers/gpu/drm/mediatek/mtk_dp.c: In function ‘mtk_dp_video_mute’:
-> ../drivers/gpu/drm/mediatek/mtk_dp.c:947:23: warning: format ‘%x’
-> expects argument of type ‘unsigned int’, but argument 4 has type ‘long
-> unsigned int’ [-Wformat=]
->    947 |  dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
->        |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../include/linux/dev_printk.h:129:27: note: in definition of macro ‘dev_printk’
->    129 |   _dev_printk(level, dev, fmt, ##__VA_ARGS__);  \
->        |                           ^~~
-> ../include/linux/dev_printk.h:163:31: note: in expansion of macro ‘dev_fmt’
->    163 |   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
->        |                               ^~~~~~~
-> ../drivers/gpu/drm/mediatek/mtk_dp.c:947:2: note: in expansion of
-> macro ‘dev_dbg’
->    947 |  dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
->        |  ^~~~~~~
-> ../drivers/gpu/drm/mediatek/mtk_dp.c:947:36: note: format string is defined here
->    947 |  dev_dbg(mtk_dp->dev, "smc cmd: 0x%x, p1: 0x%x, ret: 0x%lx-0x%lx\n",
->        |                                   ~^
->        |                                    |
->        |                                    unsigned int
->        |                                   %lx
+Hi Maxime,
+
+Thanks for looking into the patches.
+
+On Mon, Sep 19, 2022 at 09:36:45AM +0200, Maxime Ripard wrote:
+> Hi,
 > 
-> To fix this issue, we use %s to replace 0x%x.
+> On Mon, Sep 19, 2022 at 09:15:31AM +0200, Jos� Exp�sito wrote:
+> > Extend the existing test cases to test the conversion from XRGB8888 to
+> > grayscale.
+> > 
+> > Tested-by: Ma�ra Canal <mairacanal@riseup.net>
+> > Reviewed-by: David Gow <davidgow@google.com>
+> > Signed-off-by: Jos� Exp�sito <jose.exposito89@gmail.com>
+> > ---
+> >  .../gpu/drm/tests/drm_format_helper_test.c    | 62 +++++++++++++++++++
+> >  1 file changed, 62 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> > index 09d358b54da0..71722e828abe 100644
+> > --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+> > +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> > @@ -37,6 +37,11 @@ struct convert_to_xrgb2101010_result {
+> >  	const u32 expected[TEST_BUF_SIZE];
+> >  };
+> >  
+> > +struct convert_to_gray8_result {
+> > +	unsigned int dst_pitch;
+> > +	const u8 expected[TEST_BUF_SIZE];
+> > +};
+> > +
+> >
+> > [...]
+> >
+> >  static struct kunit_case drm_format_helper_test_cases[] = {
+> >  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
+> >  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb565, convert_xrgb8888_gen_params),
+> >  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888_test, convert_xrgb8888_gen_params),
+> >  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010_test, convert_xrgb8888_gen_params),
+> > +	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8_test, convert_xrgb8888_gen_params),
 > 
-> Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
-> Reported-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+> The trailing test feels redundant,
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Why do you feel like it is redundant? Under the hood, most conversion
+functions reuse the same code, but the *_line() function is unique and
+I think that it is worth testing it.
 
+> and we should order them
+> alphabetically to avoid conflicts as much as possible.
 
+Good point, I'll sort them alphabetically.
+
+> Feel free to add my
+> Acked-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> And fix this while applying
+> 
+> Maxime
+
+Thanks!
+Jose
