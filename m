@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B875C5BCC77
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 15:04:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 452AE5BCC79
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 15:04:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2388810E270;
-	Mon, 19 Sep 2022 13:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B50610E298;
+	Mon, 19 Sep 2022 13:04:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E19710E298
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 13:04:13 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6824D10E298
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 13:04:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1FD7C1F8F1;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4A1F52214C;
  Mon, 19 Sep 2022 13:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1663592652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U9VxpEvvBa8kQo1bA/4qn3kRvOosfYPYqqL8uT05qW0=;
- b=nP9SfctxcVpKk2d2SkuNGjxHeO9bb4wBYEqVSOzxVozepjwUDGjrMrdf5dcFot+2ZPwKPZ
- ebKNulkmwoBt4aJ4ECNprOgCjjNmW9D/Wgl2amMC5okDOK/c3X/55GvYG+N7vhdv9IWdzE
- y7V2n0z5K1GKCHRc/NDIeHxkCJ4iDUE=
+ bh=/Z2K9/RzQtGok/oGJt1z8+SWckYdZyBgJC+89r8EKs0=;
+ b=ZsEyvi2kSzV+AlOn4fZJ8B9pDxeT/UKlvT3aYoy1EkkYJsJT4Lmeit8cb1ZgkXZNQSRmQM
+ oPDrTxz2xoQ7ESJ4lXxazkwdef5JTx2m/RzXgopLG4abAeRxlr0f4D/YoD/7jdYGkSxq+f
+ AqV4mATnO/cfJdendF/nHQan5XyOQYw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1663592652;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U9VxpEvvBa8kQo1bA/4qn3kRvOosfYPYqqL8uT05qW0=;
- b=urWaIfOKyNzudAe+d26TqggX+swbkwkBRM+tIjuj3Sg0aIaoeLCJMOW8P9jwFvHnxK9zsO
- I30RWxtzY0BMRuBQ==
+ bh=/Z2K9/RzQtGok/oGJt1z8+SWckYdZyBgJC+89r8EKs0=;
+ b=kRCkl2Agq3JE/kyEKiB54HQ9N8Ci7O1qk1Ix8zjvZ6GvpRMdXK7pD+GBifhimMkXyR/Mjy
+ eBCVYodwhFAWgTBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF55613ACE;
- Mon, 19 Sep 2022 13:04:11 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2420F13A96;
+ Mon, 19 Sep 2022 13:04:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eM+NOctoKGMzOwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 19 Sep 2022 13:04:11 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id ONq4B8xoKGMzOwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Sep 2022 13:04:12 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com,
 	sean@poorly.run,
 	daniel@ffwll.ch
-Subject: [PATCH 01/16] drm/udl: Rename struct udl_drm_connector to struct
- udl_connector
-Date: Mon, 19 Sep 2022 15:03:53 +0200
-Message-Id: <20220919130408.21486-2-tzimmermann@suse.de>
+Subject: [PATCH 02/16] drm/udl: Test pixel limit in mode-config's mode-valid
+ function
+Date: Mon, 19 Sep 2022 15:03:54 +0200
+Message-Id: <20220919130408.21486-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220919130408.21486-1-tzimmermann@suse.de>
 References: <20220919130408.21486-1-tzimmermann@suse.de>
@@ -74,96 +74,75 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the _drm_ infix from struct udl_drm_connector and introduce a
-macro for upcasting from struct drm_connector. No functional changes.
+The sku_pixel_limit is a per-device property, similar to the amount
+of available video memory. Move the respective mode-valid test from
+the connector to the mode-config structure.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/udl/udl_connector.c | 19 +++++--------------
- drivers/gpu/drm/udl/udl_connector.h | 10 ++++++++--
- 2 files changed, 13 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/udl/udl_connector.c | 14 --------------
+ drivers/gpu/drm/udl/udl_modeset.c   | 14 ++++++++++++++
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
-index fade4c7adbf7..3c8068626384 100644
+index 3c8068626384..e9539829032c 100644
 --- a/drivers/gpu/drm/udl/udl_connector.c
 +++ b/drivers/gpu/drm/udl/udl_connector.c
-@@ -46,10 +46,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
+@@ -54,19 +54,6 @@ static int udl_get_modes(struct drm_connector *connector)
+ 	return 0;
+ }
  
- static int udl_get_modes(struct drm_connector *connector)
- {
--	struct udl_drm_connector *udl_connector =
--					container_of(connector,
--					struct udl_drm_connector,
--					connector);
-+	struct udl_connector *udl_connector = to_udl_connector(connector);
- 
- 	drm_connector_update_edid_property(connector, udl_connector->edid);
- 	if (udl_connector->edid)
-@@ -74,10 +71,7 @@ static enum drm_connector_status
+-static enum drm_mode_status udl_mode_valid(struct drm_connector *connector,
+-			  struct drm_display_mode *mode)
+-{
+-	struct udl_device *udl = to_udl(connector->dev);
+-	if (!udl->sku_pixel_limit)
+-		return 0;
+-
+-	if (mode->vdisplay * mode->hdisplay > udl->sku_pixel_limit)
+-		return MODE_VIRTUAL_Y;
+-
+-	return 0;
+-}
+-
+ static enum drm_connector_status
  udl_detect(struct drm_connector *connector, bool force)
  {
- 	struct udl_device *udl = to_udl(connector->dev);
--	struct udl_drm_connector *udl_connector =
--					container_of(connector,
--					struct udl_drm_connector,
--					connector);
-+	struct udl_connector *udl_connector = to_udl_connector(connector);
+@@ -97,7 +84,6 @@ static void udl_connector_destroy(struct drm_connector *connector)
  
- 	/* cleanup previous edid */
- 	if (udl_connector->edid != NULL) {
-@@ -94,10 +88,7 @@ udl_detect(struct drm_connector *connector, bool force)
- 
- static void udl_connector_destroy(struct drm_connector *connector)
- {
--	struct udl_drm_connector *udl_connector =
--					container_of(connector,
--					struct udl_drm_connector,
--					connector);
-+	struct udl_connector *udl_connector = to_udl_connector(connector);
- 
- 	drm_connector_cleanup(connector);
- 	kfree(udl_connector->edid);
-@@ -120,10 +111,10 @@ static const struct drm_connector_funcs udl_connector_funcs = {
- 
- struct drm_connector *udl_connector_init(struct drm_device *dev)
- {
--	struct udl_drm_connector *udl_connector;
-+	struct udl_connector *udl_connector;
- 	struct drm_connector *connector;
- 
--	udl_connector = kzalloc(sizeof(struct udl_drm_connector), GFP_KERNEL);
-+	udl_connector = kzalloc(sizeof(*udl_connector), GFP_KERNEL);
- 	if (!udl_connector)
- 		return ERR_PTR(-ENOMEM);
- 
-diff --git a/drivers/gpu/drm/udl/udl_connector.h b/drivers/gpu/drm/udl/udl_connector.h
-index 7f2d392df173..74ad68fd3cc9 100644
---- a/drivers/gpu/drm/udl/udl_connector.h
-+++ b/drivers/gpu/drm/udl/udl_connector.h
-@@ -1,15 +1,21 @@
- #ifndef __UDL_CONNECTOR_H__
- #define __UDL_CONNECTOR_H__
- 
--#include <drm/drm_crtc.h>
-+#include <linux/container_of.h>
-+
-+#include <drm/drm_connector.h>
- 
- struct edid;
- 
--struct udl_drm_connector {
-+struct udl_connector {
- 	struct drm_connector connector;
- 	/* last udl_detect edid */
- 	struct edid *edid;
+ static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
+ 	.get_modes = udl_get_modes,
+-	.mode_valid = udl_mode_valid,
  };
  
-+static inline struct udl_connector *to_udl_connector(struct drm_connector *connector)
-+{
-+	return container_of(connector, struct udl_connector, connector);
-+}
+ static const struct drm_connector_funcs udl_connector_funcs = {
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index ec6876f449f3..c7adc29a53a1 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -407,8 +407,22 @@ static const struct drm_simple_display_pipe_funcs udl_simple_display_pipe_funcs
+  * Modesetting
+  */
  
- #endif //__UDL_CONNECTOR_H__
++static enum drm_mode_status udl_mode_config_mode_valid(struct drm_device *dev,
++						       const struct drm_display_mode *mode)
++{
++	struct udl_device *udl = to_udl(dev);
++
++	if (udl->sku_pixel_limit) {
++		if (mode->vdisplay * mode->hdisplay > udl->sku_pixel_limit)
++			return MODE_MEM;
++	}
++
++	return MODE_OK;
++}
++
+ static const struct drm_mode_config_funcs udl_mode_funcs = {
+ 	.fb_create = drm_gem_fb_create_with_dirty,
++	.mode_valid = udl_mode_config_mode_valid,
+ 	.atomic_check  = drm_atomic_helper_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
 -- 
 2.37.3
 
