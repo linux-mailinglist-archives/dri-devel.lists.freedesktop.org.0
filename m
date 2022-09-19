@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7896F5BC18A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 04:49:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 972175BC163
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 04:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0145A10E4E8;
-	Mon, 19 Sep 2022 02:49:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B22D110E4E3;
+	Mon, 19 Sep 2022 02:31:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1201 seconds by postgrey-1.36 at gabe;
- Mon, 19 Sep 2022 02:49:38 UTC
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A698210E4E8;
- Mon, 19 Sep 2022 02:49:38 +0000 (UTC)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MW7qf2xGzzHnrw;
- Mon, 19 Sep 2022 10:27:26 +0800 (CST)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E466D10E4E3;
+ Mon, 19 Sep 2022 02:31:14 +0000 (UTC)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MW7qJ303mzlVwP;
+ Mon, 19 Sep 2022 10:27:08 +0800 (CST)
 Received: from [10.174.178.165] (10.174.178.165) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 19 Sep 2022 10:29:32 +0800
-Subject: Re: [PATCH] gpu: dc: fix enum conversion in display_mode_vba
+ 15.1.2375.31; Mon, 19 Sep 2022 10:31:11 +0800
+Subject: Re: [PATCH] gpu: color: eliminate implicit conversion about enum type
 To: Zeng Heng <zengheng4@huawei.com>, <harry.wentland@amd.com>,
  <sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>,
  <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <Xinhui.Pan@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <Nevenko.Stupar@amd.com>, <Pavle.Kotarac@amd.com>, <aric.cyr@amd.com>
-References: <20220919014125.3295213-1-zengheng4@huawei.com>
+ <Pavle.Kotarac@amd.com>, <HaoPing.Liu@amd.com>, <Krunoslav.Kovac@amd.com>,
+ <Yao.Wang1@amd.com>
+References: <20220919014457.3297857-1-zengheng4@huawei.com>
 From: Wei Yongjun <weiyongjun1@huawei.com>
-Message-ID: <43f17686-538d-030b-1121-2770f12cf04d@huawei.com>
-Date: Mon, 19 Sep 2022 10:29:32 +0800
+Message-ID: <7d80c71d-855e-ceff-a1bb-104fa210b7dc@huawei.com>
+Date: Mon, 19 Sep 2022 10:31:10 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.1.1
 MIME-Version: 1.0
-In-Reply-To: <20220919014125.3295213-1-zengheng4@huawei.com>
+In-Reply-To: <20220919014457.3297857-1-zengheng4@huawei.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.174.178.165]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  canpemm500009.china.huawei.com (7.192.105.203)
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,39 +57,46 @@ Cc: liwei391@huawei.com, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+gpu: color: fix enum-conversion compile warning
+
+标题我记得不跟你所过让你改的
 
 
-On 2022/9/19 9:41, Zeng Heng wrote:
+On 2022/9/19 9:44, Zeng Heng wrote:
 > Fix below compile warning when open enum-conversion
-> option check (compiled with -Wenum-conversion):
+> option check:
 > 
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:
-> In function ‘dml20_ModeSupportAndSystemConfigurationFull’:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3900:44:
-> error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
->  3900 |     locals->ODMCombineEnablePerState[i][k] = false;
->       |                                            ^
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3904:46:
-> error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
->  3904 |       locals->ODMCombineEnablePerState[i][k] = true;
->       |                                              ^
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3907:46:
-> error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
->  3907 |       locals->ODMCombineEnablePerState[i][k] = true;
->       |                                              ^
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3960:45:
-> error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
->  3960 |      locals->ODMCombineEnablePerState[i][k] = false;
+> drivers/gpu/drm/amd/amdgpu/../display/modules/color/color_gamma.c:
+> In function ‘apply_degamma_for_user_regamma’:
+> drivers/gpu/drm/amd/amdgpu/../display/modules/color/color_gamma.c:1695:29:
+> error: implicit conversion from ‘enum <anonymous>’ to ‘enum dc_transfer_func_predefined’ [-Werror=enum-conversion]
+>  1695 |  build_coefficients(&coeff, true);
+>       |                             ^~~~
 > 
-> Use the proper value from the right enumerated type,
-> dm_odm_combine_mode_disabled & dm_odm_combine_mode_2to1,
-> so there is no more implicit conversion.
+> As 'build_coefficients' definition, it needs enum
+> 'dc_transfer_func_predefined' type acts as the
+> second argument, instead of bool-type one.
 > 
-> The numerical values of dm_odm_combine_mode_disabled
-> & false and dm_odm_combine_mode_2to1 & true
+> The numerical values of TRANSFER_FUNCTION_BT709 & true
 > happen to be the same, so there is no change in
 > behavior.
 > 
-
-LGTM
-
+> Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+> ---
+>  drivers/gpu/drm/amd/display/modules/color/color_gamma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/modules/color/color_gamma.c b/drivers/gpu/drm/amd/display/modules/color/color_gamma.c
+> index 04f7656906ca..2f807d787c77 100644
+> --- a/drivers/gpu/drm/amd/display/modules/color/color_gamma.c
+> +++ b/drivers/gpu/drm/amd/display/modules/color/color_gamma.c
+> @@ -1692,7 +1692,7 @@ static void apply_degamma_for_user_regamma(struct pwl_float_data_ex *rgb_regamma
+>  	struct pwl_float_data_ex *rgb = rgb_regamma;
+>  	const struct hw_x_point *coord_x = coordinates_x;
+>  
+> -	build_coefficients(&coeff, true);
+> +	build_coefficients(&coeff, TRANSFER_FUNCTION_BT709);
+>  
+>  	i = 0;
+>  	while (i != hw_points_num + 1) {
+> 
