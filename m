@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452AE5BCC79
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 15:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AB55BCC80
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 15:05:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B50610E298;
-	Mon, 19 Sep 2022 13:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1C0810E60D;
+	Mon, 19 Sep 2022 13:04:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6824D10E298
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3EE10E2B7
  for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 13:04:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4A1F52214C;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 71599222BD;
  Mon, 19 Sep 2022 13:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1663592652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/Z2K9/RzQtGok/oGJt1z8+SWckYdZyBgJC+89r8EKs0=;
- b=ZsEyvi2kSzV+AlOn4fZJ8B9pDxeT/UKlvT3aYoy1EkkYJsJT4Lmeit8cb1ZgkXZNQSRmQM
- oPDrTxz2xoQ7ESJ4lXxazkwdef5JTx2m/RzXgopLG4abAeRxlr0f4D/YoD/7jdYGkSxq+f
- AqV4mATnO/cfJdendF/nHQan5XyOQYw=
+ bh=2Pr7GeeKsUyQ/uFDIbJvl/YMdKvv7PS4NxGQ3jD4kRw=;
+ b=LMWul/X69gQGtprjn18ayCLCyuhohW8eZOhK5sAkTn56dYvGGWdsCi9zpbrvuEUlMSkQef
+ AMHGkAttHkW+I3iAcnnyGTUbKUoW4LSwFMM0MbGx9Pbl4Q0ICokGJMJI3vcS1y6UnLaS/y
+ sX2ZiYDQ/966zBbvELqVvowneU0w1Eo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1663592652;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/Z2K9/RzQtGok/oGJt1z8+SWckYdZyBgJC+89r8EKs0=;
- b=kRCkl2Agq3JE/kyEKiB54HQ9N8Ci7O1qk1Ix8zjvZ6GvpRMdXK7pD+GBifhimMkXyR/Mjy
- eBCVYodwhFAWgTBw==
+ bh=2Pr7GeeKsUyQ/uFDIbJvl/YMdKvv7PS4NxGQ3jD4kRw=;
+ b=nRM4uVpT806xv0cBGkfLJL81+C5ohtfft3+yqXKkLHFtHLHnJR/MAD2KEf2S/0HRgYFXpp
+ X/FsHIfjWKpW/8CQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2420F13A96;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4CF4313ACE;
  Mon, 19 Sep 2022 13:04:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ONq4B8xoKGMzOwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id GM7uEcxoKGMzOwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 19 Sep 2022 13:04:12 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com,
 	sean@poorly.run,
 	daniel@ffwll.ch
-Subject: [PATCH 02/16] drm/udl: Test pixel limit in mode-config's mode-valid
- function
-Date: Mon, 19 Sep 2022 15:03:54 +0200
-Message-Id: <20220919130408.21486-3-tzimmermann@suse.de>
+Subject: [PATCH 03/16] drm/udl: Use USB timeout constant when reading EDID
+Date: Mon, 19 Sep 2022 15:03:55 +0200
+Message-Id: <20220919130408.21486-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220919130408.21486-1-tzimmermann@suse.de>
 References: <20220919130408.21486-1-tzimmermann@suse.de>
@@ -74,75 +73,28 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sku_pixel_limit is a per-device property, similar to the amount
-of available video memory. Move the respective mode-valid test from
-the connector to the mode-config structure.
+Set the USB control-message timeout to the USB default of 5 seconds.
+Done for consistency with other uses of usb_control_msg() in udl and
+other drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/udl/udl_connector.c | 14 --------------
- drivers/gpu/drm/udl/udl_modeset.c   | 14 ++++++++++++++
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/udl/udl_connector.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
-index 3c8068626384..e9539829032c 100644
+index e9539829032c..cb3d6820eaf9 100644
 --- a/drivers/gpu/drm/udl/udl_connector.c
 +++ b/drivers/gpu/drm/udl/udl_connector.c
-@@ -54,19 +54,6 @@ static int udl_get_modes(struct drm_connector *connector)
- 	return 0;
- }
- 
--static enum drm_mode_status udl_mode_valid(struct drm_connector *connector,
--			  struct drm_display_mode *mode)
--{
--	struct udl_device *udl = to_udl(connector->dev);
--	if (!udl->sku_pixel_limit)
--		return 0;
--
--	if (mode->vdisplay * mode->hdisplay > udl->sku_pixel_limit)
--		return MODE_VIRTUAL_Y;
--
--	return 0;
--}
--
- static enum drm_connector_status
- udl_detect(struct drm_connector *connector, bool force)
- {
-@@ -97,7 +84,6 @@ static void udl_connector_destroy(struct drm_connector *connector)
- 
- static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
- 	.get_modes = udl_get_modes,
--	.mode_valid = udl_mode_valid,
- };
- 
- static const struct drm_connector_funcs udl_connector_funcs = {
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index ec6876f449f3..c7adc29a53a1 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -407,8 +407,22 @@ static const struct drm_simple_display_pipe_funcs udl_simple_display_pipe_funcs
-  * Modesetting
-  */
- 
-+static enum drm_mode_status udl_mode_config_mode_valid(struct drm_device *dev,
-+						       const struct drm_display_mode *mode)
-+{
-+	struct udl_device *udl = to_udl(dev);
-+
-+	if (udl->sku_pixel_limit) {
-+		if (mode->vdisplay * mode->hdisplay > udl->sku_pixel_limit)
-+			return MODE_MEM;
-+	}
-+
-+	return MODE_OK;
-+}
-+
- static const struct drm_mode_config_funcs udl_mode_funcs = {
- 	.fb_create = drm_gem_fb_create_with_dirty,
-+	.mode_valid = udl_mode_config_mode_valid,
- 	.atomic_check  = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
+@@ -31,7 +31,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
+ 		int bval = (i + block * EDID_LENGTH) << 8;
+ 		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+ 				      0x02, (0x80 | (0x02 << 5)), bval,
+-				      0xA1, read_buff, 2, 1000);
++				      0xA1, read_buff, 2, USB_CTRL_GET_TIMEOUT);
+ 		if (ret < 1) {
+ 			DRM_ERROR("Read EDID byte %d failed err %x\n", i, ret);
+ 			kfree(read_buff);
 -- 
 2.37.3
 
