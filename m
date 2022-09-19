@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C468B5BD76F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 00:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D095BD767
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 00:34:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ED8910E1C2;
-	Mon, 19 Sep 2022 22:33:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E35110E1AF;
+	Mon, 19 Sep 2022 22:33:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2B1310E18E;
- Mon, 19 Sep 2022 22:33:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 183D310E192;
+ Mon, 19 Sep 2022 22:33:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1663626790; x=1695162790;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nR29ocO/Kq2FFlvK0fSBCib/wIEPrCvdWeGOUUR4TJ4=;
- b=Cs515yF7XET0QjQ92n7N5OAWG+cdGfV16r+gndA3PH4Mn6qjrSb7tfrh
- 18DBtNG+m0Na25qwXeiNT+iI5IAwPRNGJrr/KEl6YTgjAe2eBgPIbV6nQ
- MCw2KABuQoVbnkZGS1L4MnuQ/kXE/ytjr1YWpfG79IROs0VeZFrHN8FQ8
- 5JyftLGITDy4iYRrTECxVC+S1vjlMbk3fm/HKZjaAdp9HZq0yJ+Hjn+dW
- qgN4QQ4MfktsRWJqMApAZoCPQy1LVHfFda5/svMPwGr8YEeoc+4XNt6cu
- zYIVpS/gaQdIkCx+BwiFjOgj/KeBZ2wS0C6+xSZ+iIKHcqajleutZCOXD Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="286585484"
-X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="286585484"
+ bh=rCMAqUkuAO19Sk8BmtF5tyXXkpSyfF5dr2Fiy0UGz2o=;
+ b=GT21VTooaaZVXkFZnXtIzIR7b71Gatda2qs+XSPmPBCjVlhFlgCih/8C
+ cnaEyE0YMhg07SnFFHqPP4rN1dyf5/03iIUAEfmw0MwoaEJNIIMlkhkRq
+ OhF0IPE6Qj/XACj7MicREtxuFZjza73IwX/fbaRvJ3yLgKnSpcDZzHIa2
+ MnVYkdO/LAbsSVwCetmuCNqn1RIc27VFepwN48H7p54WgzlXjPQgYqwq7
+ edjNnPj3J/mSsdjrslTgUK+fTXqbJJ0nyWjwTDXr+5szYxlp/P6WSZ+Ov
+ UHlxEHFXdL5aaAyWOzeNWWwprvgtYdZ27lVYZps8Qfr2pjO/1x6fTqWre Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="286585485"
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="286585485"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2022 15:33:08 -0700
-X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="794030776"
+ 19 Sep 2022 15:33:09 -0700
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="794030779"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Sep 2022 15:33:08 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 07/12] drm/i915/gt: Always use MCR functions on multicast
- registers
-Date: Mon, 19 Sep 2022 15:32:54 -0700
-Message-Id: <20220919223259.263525-8-matthew.d.roper@intel.com>
+Subject: [PATCH 08/12] drm/i915/guc: Handle save/restore of MCR registers
+ explicitly
+Date: Mon, 19 Sep 2022 15:32:55 -0700
+Message-Id: <20220919223259.263525-9-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220919223259.263525-1-matthew.d.roper@intel.com>
 References: <20220919223259.263525-1-matthew.d.roper@intel.com>
@@ -60,289 +60,116 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rather than relying on the implicit behavior of intel_uncore_*()
-functions, let's always use the intel_gt_mcr_*() functions to operate on
-multicast/replicated registers.
+MCR registers can be placed on the GuC's save/restore list, but at the
+moment they are always handled in a multicast manner (i.e., the GuC
+reads one instance to save the value and then does a multicast write to
+restore that single value to all instances).  In the future the GuC will
+probably give us an alternate interface to do unicast per-instance
+save/restore operations, so we should be very clear about which
+registers on the list are MCR registers (and in the future which
+save/restore behavior we want for them).
 
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_ggtt.c      |  4 +-
- drivers/gpu/drm/i915/gt/intel_gtt.c       | 49 ++++++++++++-----------
- drivers/gpu/drm/i915/gt/intel_gtt.h       |  2 +-
- drivers/gpu/drm/i915/gt/intel_mocs.c      | 13 +++---
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 12 ++++--
- drivers/gpu/drm/i915/intel_pm.c           | 20 +++++----
- 6 files changed, 55 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 55 +++++++++++++---------
+ 1 file changed, 34 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 30cf5c3369d9..e2620f41d8b2 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -986,7 +986,7 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
- 
- 	ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
- 
--	setup_private_pat(ggtt->vm.gt->uncore);
-+	setup_private_pat(ggtt->vm.gt);
- 
- 	return ggtt_probe_common(ggtt, size);
- }
-@@ -1302,7 +1302,7 @@ void i915_ggtt_resume(struct i915_ggtt *ggtt)
- 		wbinvd_on_all_cpus();
- 
- 	if (GRAPHICS_VER(ggtt->vm.i915) >= 8)
--		setup_private_pat(ggtt->vm.gt->uncore);
-+		setup_private_pat(ggtt->vm.gt);
- 
- 	intel_ggtt_restore_fences(ggtt);
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 601d89b4feb1..6f61c8da0b61 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -15,6 +15,7 @@
- #include "i915_trace.h"
- #include "i915_utils.h"
- #include "intel_gt.h"
-+#include "intel_gt_mcr.h"
- #include "intel_gt_regs.h"
- #include "intel_gtt.h"
- 
-@@ -477,27 +478,27 @@ void gtt_write_workarounds(struct intel_gt *gt)
- 	}
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index 7d9f4f57ca95..b5d3e3ef1787 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -277,24 +277,16 @@ __mmio_reg_add(struct temp_regset *regset, struct guc_mmio_reg *reg)
+ 	return slot;
  }
  
--static void tgl_setup_private_ppat(struct intel_uncore *uncore)
-+static void tgl_setup_private_ppat(struct intel_gt *gt)
+-#define GUC_REGSET_STEERING(group, instance) ( \
+-	FIELD_PREP(GUC_REGSET_STEERING_GROUP, (group)) | \
+-	FIELD_PREP(GUC_REGSET_STEERING_INSTANCE, (instance)) | \
+-	GUC_REGSET_NEEDS_STEERING \
+-)
+-
+ static long __must_check guc_mmio_reg_add(struct intel_gt *gt,
+ 					  struct temp_regset *regset,
+-					  i915_reg_t reg, u32 flags)
++					  u32 offset, u32 flags)
  {
--	if (GRAPHICS_VER_FULL(uncore->i915) >= IP_VER(12, 50)) {
--		intel_uncore_write(uncore, XEHP_PAT_INDEX(0), GEN8_PPAT_WB);
--		intel_uncore_write(uncore, XEHP_PAT_INDEX(1), GEN8_PPAT_WC);
--		intel_uncore_write(uncore, XEHP_PAT_INDEX(2), GEN8_PPAT_WT);
--		intel_uncore_write(uncore, XEHP_PAT_INDEX(3), GEN8_PPAT_UC);
--		intel_uncore_write(uncore, XEHP_PAT_INDEX(4), GEN8_PPAT_WB);
--		intel_uncore_write(uncore, XEHP_PAT_INDEX(5), GEN8_PPAT_WB);
--		intel_uncore_write(uncore, XEHP_PAT_INDEX(6), GEN8_PPAT_WB);
--		intel_uncore_write(uncore, XEHP_PAT_INDEX(7), GEN8_PPAT_WB);
-+	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 50)) {
-+		intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(0), GEN8_PPAT_WB);
-+		intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(1), GEN8_PPAT_WC);
-+		intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(2), GEN8_PPAT_WT);
-+		intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(3), GEN8_PPAT_UC);
-+		intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(4), GEN8_PPAT_WB);
-+		intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(5), GEN8_PPAT_WB);
-+		intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(6), GEN8_PPAT_WB);
-+		intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(7), GEN8_PPAT_WB);
- 	} else {
- 		/* TGL doesn't support LLC or AGE settings */
--		intel_uncore_write(uncore, GEN12_PAT_INDEX(0), GEN8_PPAT_WB);
--		intel_uncore_write(uncore, GEN12_PAT_INDEX(1), GEN8_PPAT_WC);
--		intel_uncore_write(uncore, GEN12_PAT_INDEX(2), GEN8_PPAT_WT);
--		intel_uncore_write(uncore, GEN12_PAT_INDEX(3), GEN8_PPAT_UC);
--		intel_uncore_write(uncore, GEN12_PAT_INDEX(4), GEN8_PPAT_WB);
--		intel_uncore_write(uncore, GEN12_PAT_INDEX(5), GEN8_PPAT_WB);
--		intel_uncore_write(uncore, GEN12_PAT_INDEX(6), GEN8_PPAT_WB);
--		intel_uncore_write(uncore, GEN12_PAT_INDEX(7), GEN8_PPAT_WB);
-+		intel_uncore_write(gt->uncore, GEN12_PAT_INDEX(0), GEN8_PPAT_WB);
-+		intel_uncore_write(gt->uncore, GEN12_PAT_INDEX(1), GEN8_PPAT_WC);
-+		intel_uncore_write(gt->uncore, GEN12_PAT_INDEX(2), GEN8_PPAT_WT);
-+		intel_uncore_write(gt->uncore, GEN12_PAT_INDEX(3), GEN8_PPAT_UC);
-+		intel_uncore_write(gt->uncore, GEN12_PAT_INDEX(4), GEN8_PPAT_WB);
-+		intel_uncore_write(gt->uncore, GEN12_PAT_INDEX(5), GEN8_PPAT_WB);
-+		intel_uncore_write(gt->uncore, GEN12_PAT_INDEX(6), GEN8_PPAT_WB);
-+		intel_uncore_write(gt->uncore, GEN12_PAT_INDEX(7), GEN8_PPAT_WB);
- 	}
- }
+ 	u32 count = regset->storage_used - (regset->registers - regset->storage);
+-	u32 offset = i915_mmio_reg_offset(reg);
+ 	struct guc_mmio_reg entry = {
+ 		.offset = offset,
+ 		.flags = flags,
+ 	};
+ 	struct guc_mmio_reg *slot;
+-	u8 group, inst;
  
-@@ -593,20 +594,20 @@ static void chv_setup_private_ppat(struct intel_uncore *uncore)
- 	intel_uncore_write(uncore, GEN8_PRIVATE_PAT_HI, upper_32_bits(pat));
- }
+ 	/*
+ 	 * The mmio list is built using separate lists within the driver.
+@@ -306,17 +298,6 @@ static long __must_check guc_mmio_reg_add(struct intel_gt *gt,
+ 		    sizeof(entry), guc_mmio_reg_cmp))
+ 		return 0;
  
--void setup_private_pat(struct intel_uncore *uncore)
-+void setup_private_pat(struct intel_gt *gt)
- {
--	struct drm_i915_private *i915 = uncore->i915;
-+	struct drm_i915_private *i915 = gt->i915;
+-	/*
+-	 * The GuC doesn't have a default steering, so we need to explicitly
+-	 * steer all registers that need steering. However, we do not keep track
+-	 * of all the steering ranges, only of those that have a chance of using
+-	 * a non-default steering from the i915 pov. Instead of adding such
+-	 * tracking, it is easier to just program the default steering for all
+-	 * regs that don't need a non-default one.
+-	 */
+-	intel_gt_mcr_get_nonterminated_steering(gt, reg, &group, &inst);
+-	entry.flags |= GUC_REGSET_STEERING(group, inst);
+-
+ 	slot = __mmio_reg_add(regset, &entry);
+ 	if (IS_ERR(slot))
+ 		return PTR_ERR(slot);
+@@ -334,6 +315,38 @@ static long __must_check guc_mmio_reg_add(struct intel_gt *gt,
  
- 	GEM_BUG_ON(GRAPHICS_VER(i915) < 8);
- 
- 	if (GRAPHICS_VER(i915) >= 12)
--		tgl_setup_private_ppat(uncore);
-+		tgl_setup_private_ppat(gt);
- 	else if (GRAPHICS_VER(i915) >= 11)
--		icl_setup_private_ppat(uncore);
-+		icl_setup_private_ppat(gt->uncore);
- 	else if (IS_CHERRYVIEW(i915) || IS_GEN9_LP(i915))
--		chv_setup_private_ppat(uncore);
-+		chv_setup_private_ppat(gt->uncore);
- 	else
--		bdw_setup_private_ppat(uncore);
-+		bdw_setup_private_ppat(gt->uncore);
- }
- 
- struct i915_vma *
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index c0ca53cba9f0..5236c60f2a68 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -667,7 +667,7 @@ void ppgtt_unbind_vma(struct i915_address_space *vm,
- 
- void gtt_write_workarounds(struct intel_gt *gt);
- 
--void setup_private_pat(struct intel_uncore *uncore);
-+void setup_private_pat(struct intel_gt *gt);
- 
- int i915_vm_alloc_pt_stash(struct i915_address_space *vm,
- 			   struct i915_vm_pt_stash *stash,
-diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
-index 06643701bf24..89ef1e06bf1d 100644
---- a/drivers/gpu/drm/i915/gt/intel_mocs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
-@@ -7,6 +7,7 @@
- 
- #include "intel_engine.h"
- #include "intel_gt.h"
-+#include "intel_gt_mcr.h"
- #include "intel_gt_regs.h"
- #include "intel_mocs.h"
- #include "intel_ring.h"
-@@ -601,17 +602,17 @@ static u32 l3cc_combine(u16 low, u16 high)
- 	     0; \
- 	     i++)
- 
--static void init_l3cc_table(struct intel_uncore *uncore,
-+static void init_l3cc_table(struct intel_gt *gt,
- 			    const struct drm_i915_mocs_table *table)
- {
- 	unsigned int i;
- 	u32 l3cc;
- 
- 	for_each_l3cc(l3cc, table, i)
--		if (GRAPHICS_VER_FULL(uncore->i915) >= IP_VER(12, 50))
--			intel_uncore_write_fw(uncore, XEHP_LNCFCMOCS(i), l3cc);
-+		if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 50))
-+			intel_gt_mcr_multicast_write_fw(gt, XEHP_LNCFCMOCS(i), l3cc);
- 		else
--			intel_uncore_write_fw(uncore, GEN9_LNCFCMOCS(i), l3cc);
-+			intel_uncore_write_fw(gt->uncore, GEN9_LNCFCMOCS(i), l3cc);
- }
- 
- void intel_mocs_init_engine(struct intel_engine_cs *engine)
-@@ -631,7 +632,7 @@ void intel_mocs_init_engine(struct intel_engine_cs *engine)
- 		init_mocs_table(engine, &table);
- 
- 	if (flags & HAS_RENDER_L3CC && engine->class == RENDER_CLASS)
--		init_l3cc_table(engine->uncore, &table);
-+		init_l3cc_table(engine->gt, &table);
- }
- 
- static u32 global_mocs_offset(void)
-@@ -667,7 +668,7 @@ void intel_mocs_init(struct intel_gt *gt)
- 	 * memory transactions including guc transactions
- 	 */
- 	if (flags & HAS_RENDER_L3CC)
--		init_l3cc_table(gt->uncore, &table);
-+		init_l3cc_table(gt, &table);
- }
- 
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-index 9229243992c2..5b86b2e286e0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-@@ -10,12 +10,15 @@
-  */
- 
- #include "gt/intel_gt.h"
-+#include "gt/intel_gt_mcr.h"
- #include "gt/intel_gt_regs.h"
- #include "intel_guc_fw.h"
- #include "i915_drv.h"
- 
--static void guc_prepare_xfer(struct intel_uncore *uncore)
-+static void guc_prepare_xfer(struct intel_gt *gt)
- {
-+	struct intel_uncore *uncore = gt->uncore;
+ #define GUC_MMIO_REG_ADD(gt, regset, reg, masked) \
+ 	guc_mmio_reg_add(gt, \
++			 regset, \
++			 i915_mmio_reg_offset(reg), \
++			 (masked) ? GUC_REGSET_MASKED : 0)
 +
- 	u32 shim_flags = GUC_ENABLE_READ_CACHE_LOGIC |
- 			 GUC_ENABLE_READ_CACHE_FOR_SRAM_DATA |
- 			 GUC_ENABLE_READ_CACHE_FOR_WOPCM_DATA |
-@@ -35,8 +38,9 @@ static void guc_prepare_xfer(struct intel_uncore *uncore)
++#define GUC_REGSET_STEERING(group, instance) ( \
++	FIELD_PREP(GUC_REGSET_STEERING_GROUP, (group)) | \
++	FIELD_PREP(GUC_REGSET_STEERING_INSTANCE, (instance)) | \
++	GUC_REGSET_NEEDS_STEERING \
++)
++
++static long __must_check guc_mcr_reg_add(struct intel_gt *gt,
++					 struct temp_regset *regset,
++					 i915_reg_t reg, u32 flags)
++{
++	u8 group, inst;
++
++	/*
++	 * The GuC doesn't have a default steering, so we need to explicitly
++	 * steer all registers that need steering. However, we do not keep track
++	 * of all the steering ranges, only of those that have a chance of using
++	 * a non-default steering from the i915 pov. Instead of adding such
++	 * tracking, it is easier to just program the default steering for all
++	 * regs that don't need a non-default one.
++	 */
++	intel_gt_mcr_get_nonterminated_steering(gt, reg, &group, &inst);
++	flags |= GUC_REGSET_STEERING(group, inst);
++
++	return guc_mmio_reg_add(gt, regset, i915_mmio_reg_offset(reg), flags);
++}
++
++#define GUC_MCR_REG_ADD(gt, regset, reg, masked) \
++	guc_mcr_reg_add(gt, \
+ 			 regset, \
+ 			 (reg), \
+ 			 (masked) ? GUC_REGSET_MASKED : 0)
+@@ -374,7 +387,7 @@ static int guc_mmio_regset_init(struct temp_regset *regset,
+ 	/* add in local MOCS registers */
+ 	for (i = 0; i < LNCFCMOCS_REG_COUNT; i++)
+ 		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
+-			ret |= GUC_MMIO_REG_ADD(gt, regset, XEHP_LNCFCMOCS(i), false);
++			ret |= GUC_MCR_REG_ADD(gt, regset, XEHP_LNCFCMOCS(i), false);
+ 		else
+ 			ret |= GUC_MMIO_REG_ADD(gt, regset, GEN9_LNCFCMOCS(i), false);
  
- 	if (GRAPHICS_VER(uncore->i915) == 9) {
- 		/* DOP Clock Gating Enable for GuC clocks */
--		intel_uncore_rmw(uncore, GEN8_MISCCPCTL,
--				 0, GEN8_DOP_CLOCK_GATE_GUC_ENABLE);
-+		intel_gt_mcr_multicast_write(gt, GEN8_MISCCPCTL,
-+					     GEN8_DOP_CLOCK_GATE_GUC_ENABLE |
-+					     intel_gt_mcr_read_any(gt, GEN8_MISCCPCTL));
- 
- 		/* allows for 5us (in 10ns units) before GT can go to RC6 */
- 		intel_uncore_write(uncore, GUC_ARAT_C6DIS, 0x1FF);
-@@ -168,7 +172,7 @@ int intel_guc_fw_upload(struct intel_guc *guc)
- 	struct intel_uncore *uncore = gt->uncore;
- 	int ret;
- 
--	guc_prepare_xfer(uncore);
-+	guc_prepare_xfer(gt);
- 
- 	/*
- 	 * Note that GuC needs the CSS header plus uKernel code to be copied
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index 1aa77b18fd3c..fd1286d1908c 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -30,6 +30,8 @@
- #include "display/skl_watermark.h"
- 
- #include "gt/intel_engine_regs.h"
-+#include "gt/intel_gt.h"
-+#include "gt/intel_gt_mcr.h"
- #include "gt/intel_gt_regs.h"
- 
- #include "i915_drv.h"
-@@ -4325,22 +4327,23 @@ static void gen8_set_l3sqc_credits(struct drm_i915_private *dev_priv,
- 	u32 val;
- 
- 	/* WaTempDisableDOPClkGating:bdw */
--	misccpctl = intel_uncore_read(&dev_priv->uncore, GEN8_MISCCPCTL);
--	intel_uncore_write(&dev_priv->uncore, GEN8_MISCCPCTL, misccpctl & ~GEN8_DOP_CLOCK_GATE_ENABLE);
-+	misccpctl = intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_MISCCPCTL);
-+	intel_gt_mcr_multicast_write(to_gt(dev_priv), GEN8_MISCCPCTL,
-+				     misccpctl & ~GEN8_DOP_CLOCK_GATE_ENABLE);
- 
--	val = intel_uncore_read(&dev_priv->uncore, GEN8_L3SQCREG1);
-+	val = intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_L3SQCREG1);
- 	val &= ~L3_PRIO_CREDITS_MASK;
- 	val |= L3_GENERAL_PRIO_CREDITS(general_prio_credits);
- 	val |= L3_HIGH_PRIO_CREDITS(high_prio_credits);
--	intel_uncore_write(&dev_priv->uncore, GEN8_L3SQCREG1, val);
-+	intel_gt_mcr_multicast_write(to_gt(dev_priv), GEN8_L3SQCREG1, val);
- 
- 	/*
- 	 * Wait at least 100 clocks before re-enabling clock gating.
- 	 * See the definition of L3SQCREG1 in BSpec.
- 	 */
--	intel_uncore_posting_read(&dev_priv->uncore, GEN8_L3SQCREG1);
-+	intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_L3SQCREG1);
- 	udelay(1);
--	intel_uncore_write(&dev_priv->uncore, GEN8_MISCCPCTL, misccpctl);
-+	intel_gt_mcr_multicast_write(to_gt(dev_priv), GEN8_MISCCPCTL, misccpctl);
- }
- 
- static void icl_init_clock_gating(struct drm_i915_private *dev_priv)
-@@ -4500,8 +4503,9 @@ static void skl_init_clock_gating(struct drm_i915_private *dev_priv)
- 	gen9_init_clock_gating(dev_priv);
- 
- 	/* WaDisableDopClockGating:skl */
--	intel_uncore_write(&dev_priv->uncore, GEN8_MISCCPCTL, intel_uncore_read(&dev_priv->uncore, GEN8_MISCCPCTL) &
--		   ~GEN8_DOP_CLOCK_GATE_ENABLE);
-+	intel_gt_mcr_multicast_write(to_gt(dev_priv), GEN8_MISCCPCTL,
-+				     intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_MISCCPCTL) &
-+				     ~GEN8_DOP_CLOCK_GATE_ENABLE);
- 
- 	/* WAC6entrylatency:skl */
- 	intel_uncore_write(&dev_priv->uncore, FBC_LLC_READ_CTRL, intel_uncore_read(&dev_priv->uncore, FBC_LLC_READ_CTRL) |
 -- 
 2.37.3
 
