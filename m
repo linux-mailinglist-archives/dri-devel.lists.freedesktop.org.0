@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8C25BC0DE
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 02:59:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4682A5BC0ED
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Sep 2022 03:10:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE06910E3C8;
-	Mon, 19 Sep 2022 00:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C51210E3CC;
+	Mon, 19 Sep 2022 01:09:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65F7B10E3C8
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 00:58:51 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC6E210E3CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 01:09:49 +0000 (UTC)
+Received: from sobremesa.fritz.box (unknown
+ [IPv6:2a02:8010:65b5:0:bbb0:f8ec:7bc9:dbe4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4MW5sK3W1tz4xG5;
- Mon, 19 Sep 2022 10:58:45 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1663549126;
- bh=hDw2dsdejkPD/gt5RyWiV32nKiS/nDdYlt7NISnavHI=;
- h=Date:From:To:Cc:Subject:From;
- b=LcRLz/a8cMtLy7HeeYp42dEiGKqOFbqFT1A+p67fYLrWeOdwDqogH5fWl8eg+L8wV
- f5l9WR4ocMCmHlN53LozpASgLcsieIHkyJndhEZZOEglk9Qc+Dbbi+l9gLeMzUi4a7
- EPXZy06J/H6IIIzUF7NYzGETCVH/Zt0ChUhSwpfTlBCT6xw8qlJCOtWDxW+feMUmum
- OkWz7RbtCUV2PoEjoUmoN4k5ESnEmJQ9Kumhh3EJxmUhDd7WxV8x4UD2D1FzuVGGrt
- 1e/ZWefLZKZg6XWvPiPDT9Xs0MCDMrnjz3WDk0Rtd/eZWfk5LZHLGRHSz5fYhRQsU2
- pWAGcIPps9fKQ==
-Date: Mon, 19 Sep 2022 10:58:39 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20220919105839.496f1b72@canb.auug.org.au>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 05210660159F;
+ Mon, 19 Sep 2022 02:09:48 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1663549788;
+ bh=97eKtb5ACsHB0i90sg0ChglscPOhXzYdnuqR0MvnluQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ckPZlLuHsf3GQnS+lfMovbLdecQLYjcV2IYAJlt4nIsoKh/z+h9I8LlR5MoZWKV2L
+ 5RuPGllrIQTcY6jEyBmbvTINENxPaDHLDOP+khst1+D7TxqA3H0TIylrxywfN1WIn6
+ s3sfvxiFRgxeaenrKyi9/7A3aJGQbvTJNELH17yMalTaDO1yBbJJfzq9qof9BYzDu1
+ QL6eJi2KAt6idPzuiMa/M8QBpr22yeARtQ/yRoK27nuvVIQmA65PSK1qlQ2cHnoIKG
+ G2Ch7Ob4DO0zGvOYgz3C35v7jqIjDBYdDPo+Qazt6956MDe5R7KVRp5z3DeISyuX+w
+ 0VUwnlk9y5Z7w==
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: narmstrong@baylibre.com, khilman@baylibre.com,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/meson: fix use-after-free driver unload issues
+Date: Mon, 19 Sep 2022 02:09:37 +0100
+Message-Id: <20220919010940.419893-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/NeLjGeSAXU8n/+K4A/ZwoSk";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,140 +51,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: adrian.larumbe@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/NeLjGeSAXU8n/+K4A/ZwoSk
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This patch series tries to fix some use-after-free bugs I've observed with
+the help of KASAN in Amlogic's KMS DRM driver.
 
-Hi all,
+The first patch in the series reorders the driver deinitialisation sequence
+so that devres won't deallocate things that are still expected to be around
+by a later call to drm_dev_put.
 
-Today's linux-next merge of the drm tree got a conflict in:
+The second patch adds a missing call to component_master_del inside a new
+driver's remove callback.
 
-  drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+The third patch makes sure some drm bridges added during driver
+initialisation are removed at module unload time, to make sure the global
+bridge list doesn't keep nodes to freed memory.
 
-between commit:
+All three patches have been tested on an Odroid N2+ plus SBC.
 
-  41012d715d5d ("drm/amd/display: Mark dml30's UseMinimumDCFCLK() as noinli=
-ne for stack usage")
+Adrián Larumbe (3):
+  drm/meson: reorder driver deinit sequence to fix use-after-free bug
+  drm/meson: explicitly remove aggregate driver at module unload time
+  drm/meson: remove drm bridges at aggregate driver unbind time
 
-from Linus' tree and commit:
+ drivers/gpu/drm/meson/meson_drv.c          | 14 +++++++++++++-
+ drivers/gpu/drm/meson/meson_drv.h          |  7 +++++++
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c |  7 +++++++
+ drivers/gpu/drm/meson/meson_encoder_cvbs.h |  1 +
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c |  7 +++++++
+ drivers/gpu/drm/meson/meson_encoder_hdmi.h |  1 +
+ drivers/gpu/drm/meson/meson_venc.h         | 15 +++++++++++++++
+ 7 files changed, 51 insertions(+), 1 deletion(-)
 
-  a0f7e7f759cf ("drm/amd/display: fix i386 frame size warning")
+-- 
+2.37.0
 
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-index 1cb858dd6ea0,b7fa003ffe06..000000000000
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-@@@ -6610,66 -6497,11 +6497,11 @@@ static double CalculateUrgentLatency
-  	return ret;
-  }
- =20
- -static void UseMinimumDCFCLK(
- +static noinline_for_stack void UseMinimumDCFCLK(
-  		struct display_mode_lib *mode_lib,
-- 		int MaxInterDCNTileRepeaters,
-+ 		struct vba_vars_st *v,
-  		int MaxPrefetchMode,
-- 		double FinalDRAMClockChangeLatency,
-- 		double SREnterPlusExitTime,
-- 		int ReturnBusWidth,
-- 		int RoundTripPingLatencyCycles,
-- 		int ReorderingBytes,
-- 		int PixelChunkSizeInKByte,
-- 		int MetaChunkSize,
-- 		bool GPUVMEnable,
-- 		int GPUVMMaxPageTableLevels,
-- 		bool HostVMEnable,
-- 		int NumberOfActivePlanes,
-- 		double HostVMMinPageSize,
-- 		int HostVMMaxNonCachedPageTableLevels,
-- 		bool DynamicMetadataVMEnabled,
-- 		enum immediate_flip_requirement ImmediateFlipRequirement,
-- 		bool ProgressiveToInterlaceUnitInOPP,
-- 		double MaxAveragePercentOfIdealSDPPortBWDisplayCanUseInNormalSystemOper=
-ation,
-- 		double PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixel=
-MixedWithVMData,
-- 		double PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyVMDat=
-aOnly,
-- 		double PercentOfIdealDRAMFabricAndSDPPortBWReceivedAfterUrgLatencyPixel=
-DataOnly,
-- 		int VTotal[],
-- 		int VActive[],
-- 		int DynamicMetadataTransmittedBytes[],
-- 		int DynamicMetadataLinesBeforeActiveRequired[],
-- 		bool Interlace[],
-- 		double RequiredDPPCLK[][2][DC__NUM_DPP__MAX],
-- 		double RequiredDISPCLK[][2],
-- 		double UrgLatency[],
-- 		unsigned int NoOfDPP[][2][DC__NUM_DPP__MAX],
-- 		double ProjectedDCFCLKDeepSleep[][2],
-- 		double MaximumVStartup[][2][DC__NUM_DPP__MAX],
-- 		double TotalVActivePixelBandwidth[][2],
-- 		double TotalVActiveCursorBandwidth[][2],
-- 		double TotalMetaRowBandwidth[][2],
-- 		double TotalDPTERowBandwidth[][2],
-- 		unsigned int TotalNumberOfActiveDPP[][2],
-- 		unsigned int TotalNumberOfDCCActiveDPP[][2],
-- 		int dpte_group_bytes[],
-- 		double PrefetchLinesY[][2][DC__NUM_DPP__MAX],
-- 		double PrefetchLinesC[][2][DC__NUM_DPP__MAX],
-- 		unsigned int swath_width_luma_ub_all_states[][2][DC__NUM_DPP__MAX],
-- 		unsigned int swath_width_chroma_ub_all_states[][2][DC__NUM_DPP__MAX],
-- 		int BytePerPixelY[],
-- 		int BytePerPixelC[],
-- 		int HTotal[],
-- 		double PixelClock[],
-- 		double PDEAndMetaPTEBytesPerFrame[][2][DC__NUM_DPP__MAX],
-- 		double DPTEBytesPerRow[][2][DC__NUM_DPP__MAX],
-- 		double MetaRowBytes[][2][DC__NUM_DPP__MAX],
-- 		bool DynamicMetadataEnable[],
-- 		double VActivePixelBandwidth[][2][DC__NUM_DPP__MAX],
-- 		double VActiveCursorBandwidth[][2][DC__NUM_DPP__MAX],
-- 		double ReadBandwidthLuma[],
-- 		double ReadBandwidthChroma[],
-- 		double DCFCLKPerState[],
-- 		double DCFCLKState[][2])
-+ 		int ReorderingBytes)
-  {
-  	double   NormalEfficiency =3D 0;
-  	double   PTEEfficiency =3D 0;
-
---Sig_/NeLjGeSAXU8n/+K4A/ZwoSk
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmMnvr8ACgkQAVBC80lX
-0Gwz3Qf/Xrtejbco5JcSqX5BGkL9jtI8TFHKS857oTxMVgwC3kgU8qVILiWrhwf1
-sdrZuYZ+t1llwRu8E8J5GNDkkB4UYdxAkbD6wVbj5chtseyO6k72MP2v5Nc5ZhfP
-x7WdMyhavtYsxrYi02PkKXZoNxT2oVNeCJ/lvhjmg+o2pkNxbk9lB9g0K/9Iwa42
-fdO1TH5KmWWo7JHSFGt0JXd6WjVduWIW5Fg0d2EN5nQaup5cALI3JR+oWkNnfJTl
-MR6aRnXdqfrAhc5ihYTqHOmcLPFS+qAFHXXM39d55aZZs04vVsy4kDA5543tN4uY
-XLEuvCY3kRRkl7B6ztZn6zSYoheYLQ==
-=2sFe
------END PGP SIGNATURE-----
-
---Sig_/NeLjGeSAXU8n/+K4A/ZwoSk--
