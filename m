@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4953E5BDF6C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:13:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1875BDF6D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B2810E395;
-	Tue, 20 Sep 2022 08:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1B9B10E398;
+	Tue, 20 Sep 2022 08:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4BDD10E145
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 08:12:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DAC410E46C
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 08:12:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=1mp9KTiW7Fzm6dAODf6CTuUENPLklhUU20Em/a8MWa8=; b=AvO2L/zPgU6iS/Jvdu6/w1f/L/
- EYnLaEYsUxhR3zUiTcanrsHhRNONsQI4e3RCQFkyJNG8zZWkeeKA6PvR1qqr0a3wg8ztlsM+J2Z5/
- be28mOA8NPasP1owY5pZ//NtgvG52IAUi0tVmAyb77Oz7UG1o6w5w7zjyHD2lmzbrDQYGXZoM0bKm
- 6WZdZlmiNfp2rpLm1zKY1SmfaYlU/Cdkf/+UkFkPXm6m/mJ4wZMrW13buzuVg19+6vrRoWGX2Sb+I
- dV4+aHZbMoLOKMH/jSz095nUnlHEZLKAqkvkITMMJenosm3lEyPSsGqFInSQDvDiTerr5y/yUKnbL
- LX6FyB3w==;
+ bh=WPTT/lWY1pF8BiH6WPVmkViAQEe1BgeLFBLcqSEATp4=; b=H++TXQmtE2t0ptLaSOFUm95VbJ
+ VTk3Ig1ZJWWLEMBTADmw1DhetRehVoS05VnPWR/uqTcNEvKubr9pP07FWJe0L4r2/O9MNv34gfX7T
+ yJzZrM+6goCbyeb7RuKX7d3V7N/SpkN9Rv+dlmfk+H2OGVTCkiBmIfVYohtpZxbFI6y4bcf3TCFy/
+ S/rzpYGWo3LBslX4u/6xeormxeJGYxihtgJXMFstuU9HPqMxSxOK1kvaep+DK74+oqhNfJX9Z5hqK
+ GE+ombawb4jc43cdzIkl9Bo+vMJ1w4Pw6pHYQ/fl1h+Q9ueXF0zmO5g61lb0Wmub+ujFyU/W0YxSi
+ x5QZwI/w==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1oaYMo-0017q3-U6; Tue, 20 Sep 2022 11:12:30 +0300
+ id 1oaYMp-0017q3-5w; Tue, 20 Sep 2022 11:12:31 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH v3 4/8] arm64: tegra: Add NVDEC on Tegra234
-Date: Tue, 20 Sep 2022 11:11:59 +0300
-Message-Id: <20220920081203.3237744-5-cyndis@kapsi.fi>
+Subject: [PATCH v3 5/8] gpu: host1x: Add stream ID register data for NVDEC on
+ Tegra234
+Date: Tue, 20 Sep 2022 11:12:00 +0300
+Message-Id: <20220920081203.3237744-6-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220920081203.3237744-1-cyndis@kapsi.fi>
 References: <20220920081203.3237744-1-cyndis@kapsi.fi>
@@ -66,59 +67,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Add a device tree node for NVDEC on Tegra234.
-
-Booting the firmware requires some information regarding offsets
-within the firmware binary. These are passed through the device
-tree, but since the values vary depending on the firmware version,
-and the firmware itself is not available to the OS, the flasher is
-expected to provide a device tree overlay with values corresponding
-to the firmware it is flashing. The overlay then replaces the
-placeholder values here.
+Add entries for NVDEC to the Tegra234 SID table.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra234.dtsi | 27 ++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/gpu/host1x/dev.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-index 81a0f599685f..65d49b27bc5f 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-@@ -586,6 +586,33 @@ vic@15340000 {
- 				iommus = <&smmu_niso1 TEGRA234_SID_VIC>;
- 				dma-coherent;
- 			};
-+
-+			nvdec@15480000 {
-+				compatible = "nvidia,tegra234-nvdec";
-+				reg = <0x15480000 0x00040000>;
-+				clocks = <&bpmp TEGRA234_CLK_NVDEC>,
-+				         <&bpmp TEGRA234_CLK_FUSE>,
-+				         <&bpmp TEGRA234_CLK_TSEC_PKA>;
-+				clock-names = "nvdec", "fuse", "tsec_pka";
-+				resets = <&bpmp TEGRA234_RESET_NVDEC>;
-+				reset-names = "nvdec";
-+				power-domains = <&bpmp TEGRA234_POWER_DOMAIN_NVDEC>;
-+				interconnects = <&mc TEGRA234_MEMORY_CLIENT_NVDECSRD &emc>,
-+				                <&mc TEGRA234_MEMORY_CLIENT_NVDECSWR &emc>;
-+				interconnect-names = "dma-mem", "write";
-+				iommus = <&smmu_niso1 TEGRA234_SID_NVDEC>;
-+				dma-coherent;
-+
-+				nvidia,memory-controller = <&mc>;
-+
-+				/* Placeholder values, to be replaced with values from overlay */
-+				nvidia,bl-manifest-offset = <0>;
-+				nvidia,bl-data-offset = <0>;
-+				nvidia,bl-code-offset = <0>;
-+				nvidia,os-manifest-offset = <0>;
-+				nvidia,os-data-offset = <0>;
-+				nvidia,os-code-offset = <0>;
-+			};
- 		};
+diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+index 0cd3f97e7e49..d6b4614f968f 100644
+--- a/drivers/gpu/host1x/dev.c
++++ b/drivers/gpu/host1x/dev.c
+@@ -225,6 +225,18 @@ static const struct host1x_sid_entry tegra234_sid_table[] = {
+ 		.offset = 0x34,
+ 		.limit = 0x34
+ 	},
++	{
++		/* NVDEC channel */
++		.base = 0x17c8,
++		.offset = 0x30,
++		.limit = 0x30,
++	},
++	{
++		/* NVDEC MMIO */
++		.base = 0x1698,
++		.offset = 0x34,
++		.limit = 0x34,
++	},
+ };
  
- 		gpio: gpio@2200000 {
+ static const struct host1x_info host1x08_info = {
 -- 
 2.37.0
 
