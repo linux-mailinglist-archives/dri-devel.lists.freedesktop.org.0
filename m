@@ -2,63 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B105BDEED
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 09:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6905BDF4E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:07:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D98F10E250;
-	Tue, 20 Sep 2022 07:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62C0010E391;
+	Tue, 20 Sep 2022 08:07:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C05910E250
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 07:57:37 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D1E6421DAC;
- Tue, 20 Sep 2022 07:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663660655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YzYmtefxGVuhLa8lSj3bJewhlKMpbQTikiyWdPvZpuw=;
- b=jO3dUHr1WkHnYK27gcfHOhxEAOPjXD1DUHhcHA8zD4dhuPYogRUwUxpPXyvsH+ByDHk33G
- bGsSpeGZF09I6bMzbbustmJzsXcu2VWujDfXJO9lHZFoWA9JlgyE5MV69H2nJUvyfuQmNf
- aNgXplTwDmW9kKMpH/kAt34wtO2nmPs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663660655;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YzYmtefxGVuhLa8lSj3bJewhlKMpbQTikiyWdPvZpuw=;
- b=bwKfG1gnccr3YsmeeMHBFzvclM8i9PDbbtvvmZn1LuVaLg2Ardfhpxnwa+KaWKqRkFBUHP
- bKjIKhd1KApG4oAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BA1B113ABB;
- Tue, 20 Sep 2022 07:57:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uN2jLG9yKWP6WgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Sep 2022 07:57:35 +0000
-Message-ID: <16995c0f-c698-b1b0-0311-73882aef5f75@suse.de>
-Date: Tue, 20 Sep 2022 09:57:35 +0200
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EAB410E144;
+ Tue, 20 Sep 2022 08:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663661232; x=1695197232;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=+yPAcBd/2OobTsHJIIFeQ6GPTmDxWg29ySyc6F0iDI8=;
+ b=nHHAZXx4ZPUQ+rRm77VRT2XEI7Lg/nGmtZXd6JRZaAGJRHAZVCy6h/FO
+ 8sgDpj8pb04zjVT0Q7I1EOoSW1dT9d1XLQ2NiowOCn32GSMZu6NK72DyG
+ mkNyxOAywdC6W/fYHPr5a/rNewfnQm8YFNFYCudDroprzxy+3ayPfDSKi
+ 5/hH8F47Je0sZKoGkShRyoC6teQc1dSxLd9Tx29EvBG6+nhsNzFQlywgo
+ MgK+u7Up0VLtdviy5uC4vEVQ8hCYYDY9ACF5onUnuaA6bXo7IKmX8Rnmj
+ /Q+MIziuQShGzRSeY6k0eysHKPQsDqeuqDeIS1DtE0vLTu6kCjBOCb5Go g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="286678520"
+X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; d="scan'208";a="286678520"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2022 01:07:11 -0700
+X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; d="scan'208";a="649487026"
+Received: from icostanz-mobl1.amr.corp.intel.com (HELO localhost)
+ ([10.252.34.2])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2022 01:07:08 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/mtl: Add C6 residency support for MTL SAMedia
+In-Reply-To: <87v8pid8k2.wl-ashutosh.dixit@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220919115906.1264041-1-badal.nilawar@intel.com>
+ <20220919115906.1264041-3-badal.nilawar@intel.com>
+ <87edw7pnoh.fsf@intel.com> <87v8pid8k2.wl-ashutosh.dixit@intel.com>
+Date: Tue, 20 Sep 2022 11:06:52 +0300
+Message-ID: <87h712o4f7.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
-Content-Language: en-US
-To: Wang Yugui <wangyugui@e16-tech.com>
-References: <20220914225809.763F.409509F4@e16-tech.com>
- <0bb98321-dc3d-8bb3-f7b1-eb09c617a1de@suse.de>
- <20220915224058.B32A.409509F4@e16-tech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220915224058.B32A.409509F4@e16-tech.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------zMnLnj0tZM3WSA9kqfx0nYxA"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,92 +58,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: andi.shyti@intel.com, tvrtko.ursulin@intel.com, anshuman.gupta@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jon.ewins@intel.com, Badal Nilawar <badal.nilawar@intel.com>,
+ rodrigo.vivi@intel.com, vinay.belgaumkar@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------zMnLnj0tZM3WSA9kqfx0nYxA
-Content-Type: multipart/mixed; boundary="------------VkBrIsKFJCcjg3J0qXlKIAAD";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Wang Yugui <wangyugui@e16-tech.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <16995c0f-c698-b1b0-0311-73882aef5f75@suse.de>
-Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
-References: <20220914225809.763F.409509F4@e16-tech.com>
- <0bb98321-dc3d-8bb3-f7b1-eb09c617a1de@suse.de>
- <20220915224058.B32A.409509F4@e16-tech.com>
-In-Reply-To: <20220915224058.B32A.409509F4@e16-tech.com>
+On Mon, 19 Sep 2022, "Dixit, Ashutosh" <ashutosh.dixit@intel.com> wrote:
+> On Mon, 19 Sep 2022 05:13:18 -0700, Jani Nikula wrote:
+>>
+>> On Mon, 19 Sep 2022, Badal Nilawar <badal.nilawar@intel.com> wrote:
+>> > For MTL SAMedia updated relevant functions and places in the code to get
+>> > Media C6 residency.
+>> >
+>> > v2: Fixed review comments (Ashutosh)
+>> >
+>> > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>> > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+>> > Cc: Chris Wilson <chris.p.wilson@intel.com>
+>> > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+>> > ---
+>> >  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 60 +++++++++++++++++++
+>> >  drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 10 ++++
+>> >  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   |  9 ++-
+>> >  drivers/gpu/drm/i915/gt/intel_rc6.c           |  5 +-
+>> >  drivers/gpu/drm/i915/gt/selftest_rc6.c        |  9 ++-
+>> >  drivers/gpu/drm/i915/i915_pmu.c               |  8 ++-
+>> >  6 files changed, 97 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+>> > index 68310881a793..053167b506a9 100644
+>> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+>> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+>> > @@ -269,6 +269,64 @@ static int ilk_drpc(struct seq_file *m)
+>> >	return 0;
+>> >  }
+>> >
+>> > +static int mtl_drpc(struct seq_file *m)
+>> > +{
+>> > +	struct intel_gt *gt = m->private;
+>> > +	struct intel_uncore *uncore = gt->uncore;
+>> > +	u32 gt_core_status, rcctl1, global_forcewake;
+>> > +	u32 mtl_powergate_enable = 0, mtl_powergate_status = 0;
+>> > +	i915_reg_t reg;
+>> > +
+>> > +	gt_core_status = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
+>> > +
+>> > +	global_forcewake = intel_uncore_read(uncore, FORCEWAKE_GT_GEN9);
+>> > +
+>> > +	rcctl1 = intel_uncore_read(uncore, GEN6_RC_CONTROL);
+>> > +	mtl_powergate_enable = intel_uncore_read(uncore, GEN9_PG_ENABLE);
+>> > +	mtl_powergate_status = intel_uncore_read(uncore,
+>> > +						 GEN9_PWRGT_DOMAIN_STATUS);
+>> > +
+>> > +	seq_printf(m, "RC6 Enabled: %s\n",
+>> > +		   str_yes_no(rcctl1 & GEN6_RC_CTL_RC6_ENABLE));
+>> > +	if (gt->type == GT_MEDIA) {
+>> > +		seq_printf(m, "Media Well Gating Enabled: %s\n",
+>> > +			   str_yes_no(mtl_powergate_enable & GEN9_MEDIA_PG_ENABLE));
+>> > +	} else {
+>> > +		seq_printf(m, "Render Well Gating Enabled: %s\n",
+>> > +			   str_yes_no(mtl_powergate_enable & GEN9_RENDER_PG_ENABLE));
+>> > +	}
+>> > +
+>> > +	seq_puts(m, "Current RC state: ");
+>> > +
+>> > +	switch ((gt_core_status & MTL_CC_MASK) >> MTL_CC_SHIFT) {
+>> > +	case MTL_CC0:
+>> > +		seq_puts(m, "on\n");
+>> > +		break;
+>> > +	case MTL_CC6:
+>> > +		seq_puts(m, "RC6\n");
+>> > +		break;
+>> > +	default:
+>> > +		seq_puts(m, "Unknown\n");
+>> > +		break;
+>> > +	}
+>> > +
+>> > +	if (gt->type == GT_MEDIA)
+>> > +		seq_printf(m, "Media Power Well: %s\n",
+>> > +			   (mtl_powergate_status &
+>> > +			    GEN9_PWRGT_MEDIA_STATUS_MASK) ? "Up" : "Down");
+>> > +	else
+>> > +		seq_printf(m, "Render Power Well: %s\n",
+>> > +			   (mtl_powergate_status &
+>> > +			    GEN9_PWRGT_RENDER_STATUS_MASK) ? "Up" : "Down");
+>> > +
+>> > +	reg = (gt->type == GT_MEDIA) ? MTL_MEDIA_MC6 : GEN6_GT_GFX_RC6;
+>> > +	print_rc6_res(m, "RC6 residency since boot:", reg);
+>>
+>> Cc: Tvrtko, Joonas, Rodrigo
+>>
+>
+> Hi Jani,
+>
+>> IMO the register is not a good abstraction to build interfaces on. I see
+>> that this is not where the idea is introduced, but it'll probably get
+>> you in trouble later on.
+>
+> By "this is not where the idea is introduced" are you referring to what we
+> did here:
+>
+> https://patchwork.freedesktop.org/patch/502372/?series=108091&rev=5
+>
+> in intel_gt_perf_limit_reasons_reg()?
+>
+> Or, should we follow the schema of centralizing the register selection
+> depending on gt type in a single function here too (since this register
+> selection is repeated throughout this patch)?
 
---------------VkBrIsKFJCcjg3J0qXlKIAAD
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I'm looking at print_rc6_res(), for example.
 
-SGkNCg0KQW0gMTUuMDkuMjIgdW0gMTY6NDEgc2NocmllYiBXYW5nIFl1Z3VpOg0KPiBIaSwN
-Cj4gDQo+PiBIaQ0KPj4NCj4+IEFtIDE0LjA5LjIyIHVtIDE2OjU4IHNjaHJpZWIgV2FuZyBZ
-dWd1aToNCj4+IFsuLi5dDQo+Pj4+IDI0LWJpdCB3b3JrcyBvbiBteSBHMjAwSEUgYW5kIEcy
-MDAgdGVzdCBtYWNoaW5lcy4gTWF5YmUgdGhlIEcyMDBFUiBoYXMgYSBidWcuDQo+Pj4+DQo+
-Pj4+IFdoZW4gSSB0cnkgMTYtYml0IGRlcHRoLCB0aGUgZGlzcGxheSB3b3JrcywgYnV0IGlz
-IHdheSB0b28gZGFyay4gTm8gZmlkZGxpbmcgd2l0aCB0aGUgTFVUIHRhYmxlcyBmaXhlcyB0
-aGlzLiBJdCdzIDkwcyBoYXJkd2FyZSwgc28gaXQgc2hvdWxkIHN1cHBvcnQgMTYtYml0IGZy
-YW1lYnVmZmVycyB3ZWxsLCBidXQgdGhlcmUncyBubyBvYnZpb3VzIGJ1ZyB0byBiZSBzZWVu
-Lg0KPj4+Pg0KPj4+PiBJIGd1ZXNzLCB3ZSBjb3VsZCByZW1vdmUgMTYgYW5kIDI0IGJpdCBz
-dXBwb3J0IGZvciBub3cgaWYgbm90aGluZyBlbHNlIGhlbHBzLg0KPj4+DQo+Pj4NCj4+PiBt
-YXliZSBiZXR0ZXIgaWYgd2UgcmV2ZXJ0IDczZjU0ZDVkOTY4MiAoZHJtL21nYWcyMDA6IFJl
-bW92ZSBzcGVjaWFsIGNhc2UNCj4+PiBmb3IgRzIwMFNFIHdpdGggPDIgTWlCKQ0KPj4NCj4+
-IENvdWxkIHlvdSBwbGVhc2UgdGVzdCB0aGUgYXR0YWNoZWQgcGF0Y2ggb24gdGhlIDYuMC1y
-YzMga2VybmVsPyBJdCBzaG91bGQgZm9yY2UgdGhlIGRyaXZlciB0byBhIGNvcnJlY3QgY29s
-b3IgZm9ybWF0IGlmIG5vIGtlcm5lbCBwYXJhbWV0ZXJzIGFyZSBnaXZlbi4NCj4+DQo+IA0K
-PiBUaGlzIHBhdGNoIHdvcmtzIHdlbGwuDQoNCkkgaGF2ZSBtZWFud2hpbGUgYWRkZWQgdGhl
-IHBhdGNoIHRvIGRybS1taXNjLWZpeGVzLiBXZSB3YW50IHRvIGFkZCBhIA0Kd29ya2Fyb3Vu
-ZCBmb3IgeW91ciBtYWNoaW5lIHRvIHRoZSBkcml2ZXIuIENhbiB5b3UgcGxlYXNlIHNlbmQg
-bWUgdGhlIA0Kb3V0cHV0IG9mDQoNCiAgIHN1ZG8gZG1pZGVjb2RlIC1zIHN5c3RlbS1tYW51
-ZmFjdHVyZXINCg0KYW5kDQoNCiAgIHN1ZG8gZG1pZGVjb2RlIC1zIHN5c3RlbS1wcm9kdWN0
-LW5hbWUNCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gdGVzdCBjYXNlIGRldGFp
-bDoNCj4gICAga2VybmVsIHBhcm0gdmlkZW8gaXMgbm90IGdpdmVuDQo+ICAgIHNlcnZlciBE
-RUxML1Q2MjANCj4gICAga2VybmVsIGlzIDYuMC1yYzUNCj4gDQo+IEJlc3QgUmVnYXJkcw0K
-PiBXYW5nIFl1Z3VpICh3YW5neXVndWlAZTE2LXRlY2guY29tKQ0KPiAyMDIyLzA5LzE1DQo+
-IA0KPiANCj4+IEJlc3QgcmVnYXJkcw0KPj4gVGhvbWFzDQo+Pg0KPj4+DQo+Pj4gYmVjYXVz
-ZSB0aGVyZSBpcyBubyB0ZXN0IHJlc3VsdCBvbiBkZXZpY2UgRzIwMF9TRQ0KPj4+DQo+Pj4g
-c3RhdGljIHVuc2lnbmVkIGludCBtZ2FnMjAwX3ByZWZlcnJlZF9kZXB0aChzdHJ1Y3QgbWdh
-X2RldmljZSAqbWRldikNCj4+PiB7DQo+Pj4gICAgICAgICAgaWYgKElTX0cyMDBfU0UobWRl
-dikgJiYgbWRldi0+dnJhbV9mYl9hdmFpbGFibGUgPCAoMjA0OCoxMDI0KSkNCj4+PiAgICAg
-ICAgICAgICAgICAgIHJldHVybiAxNjsNCj4+PiAgICAgICAgICBlbHNlDQo+Pj4gICAgICAg
-ICAgICAgICAgICByZXR1cm4gMzI7DQo+Pj4gfQ0KPj4+DQo+Pj4gQmVzdCBSZWdhcmRzDQo+
-Pj4gV2FuZyBZdWd1aSAod2FuZ3l1Z3VpQGUxNi10ZWNoLmNvbSkNCj4+PiAyMDIyLzA5LzE0
-DQo+Pj4NCj4+IC0tIFRob21hcyBaaW1tZXJtYW5uDQo+PiBHcmFwaGljcyBEcml2ZXIgRGV2
-ZWxvcGVyDQo+PiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCj4+IE1h
-eGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KPj4gKEhSQiAzNjgwOSwg
-QUcgTsO8cm5iZXJnKQ0KPj4gR2VzY2g/ZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo+IA0KPiAN
-Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
-U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5
-MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdl
-c2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+It takes the register, reads it, and also passes the register around,
+eventually to intel_rc6_residency_ns(). That does magic on the register
+offset, so it assumes a certain multi-register layout, and relative from
+GEN6_GT_GFX_RC6_LOCKED. Then it assumes the register contents are
+different on different platforms.
 
---------------VkBrIsKFJCcjg3J0qXlKIAAD--
+So why did we pass around the register to begin with? The knowledge
+about the register offsets and contents are spread around. What if
+another platform gets added with a different register contents or layout
+or offsets?
 
---------------zMnLnj0tZM3WSA9kqfx0nYxA
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Registers are a really low level of abstraction, and IMO usually should
+not be passed around like this.
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMpcm8FAwAAAAAACgkQlh/E3EQov+BE
-6BAApQN56qjThSiyM7BdXdZK3bjDlCHzGhPik9tWJvAp4IPmUSUxO3hTR5jgzr9PRG7bBFyz1cKY
-J+mCSarEGc+D0M1EzH7N+wKOcVZtIcz2qQeYb/NAE1dmeWZnWNsmC9XRuQLeJEBYcTSZ7SFCP+mA
-pnEBOD4Bp5YzNKi9C+mWOILhz4YoBSIDoYe5sjcum1LGl0RRTiB7hS72+EzjGy6ph4EHxudgwJ8w
-r9kZZ0rxbG4uruo8mtfhoYnttfMIGYOf6fQ5FDDVLbB/rBKoONvmG57FCy8Uc0nAcXtIGAes8eB5
-RqrRqZbE5B8exiu1IVCLqnfkBRDovRKd/S0anFMuGqPVeY1SrxwuIipwAZFicL20p60A+Q/Mpq7R
-t+Cx3BUj8cmwjydPPQDRlTZzeuFdo9KwEmtU3Udygzm7DwxXC44FCKq6JCjL3n2j/kL3HbwgC8by
-Wvuab/Env/uogu3YDVSHo92nRWymTiJ1YdmRyGUxOU942VS80pt3WeBn4Yidh2WhtbyE9ShXzZVT
-RMK6TfGThzBN1Snenw18vcYYcyMQ1yCIrUtKzkpnTHJQbtb0WsAKnaeQQtZCk5NbsriuQoN4yV6B
-6U9VbWDrIdjjrU10K+cAZbxAHoy9mCocYifK5Ai66hSizfUz1Gb1nYnCKGOu1OYUeCmjJO0EEH1A
-CBE=
-=mAmc
------END PGP SIGNATURE-----
+BR,
+Jani.
 
---------------zMnLnj0tZM3WSA9kqfx0nYxA--
+
+>
+> Thanks.
+> --
+> Ashutosh
+>
+>
+>
+>>
+>> BR,
+>> Jani.
+>>
+>> > +
+>> > +	seq_printf(m, "Global Forcewake Requests: 0x%x\n", global_forcewake);
+>> > +
+>> > +	return fw_domains_show(m, NULL);
+>> > +}
+>> > +
+>> >  static int drpc_show(struct seq_file *m, void *unused)
+>> >  {
+>> >	struct intel_gt *gt = m->private;
+>> > @@ -279,6 +337,8 @@ static int drpc_show(struct seq_file *m, void *unused)
+>> >	with_intel_runtime_pm(gt->uncore->rpm, wakeref) {
+>> >		if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
+>> >			err = vlv_drpc(m);
+>> > +		else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
+>> > +			err = mtl_drpc(m);
+>> >		else if (GRAPHICS_VER(i915) >= 6)
+>> >			err = gen6_drpc(m);
+>> >		else
+>> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>> > index 7819d32db956..8a56fd873228 100644
+>> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>> > @@ -1517,6 +1517,16 @@
+>> >   */
+>> >  #define MTL_MIRROR_TARGET_WP1          _MMIO(0x0C60)
+>> >  #define   MTL_CAGF_MASK                REG_GENMASK(8, 0)
+>> > +#define   MTL_CC0                      0x0
+>> > +#define   MTL_CC6                      0x3
+>> > +#define   MTL_CC_SHIFT                 9
+>> > +#define   MTL_CC_MASK                  (0xf << MTL_CC_SHIFT)
+>> > +
+>> > +/*
+>> > + * MTL: This register contains the total MC6 residency time that SAMedia was
+>> > + * since boot
+>> > + */
+>> > +#define MTL_MEDIA_MC6                          _MMIO(0x138048)
+>> >
+>> >  #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
+>> >  #define   GEN11_CSME				(31)
+>> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+>> > index 54deae45d81f..7ab1d776673a 100644
+>> > --- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+>> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+>> > @@ -123,7 +123,14 @@ static ssize_t rc6_enable_show(struct device *dev,
+>> >
+>> >  static u32 __rc6_residency_ms_show(struct intel_gt *gt)
+>> >  {
+>> > -	return get_residency(gt, GEN6_GT_GFX_RC6);
+>> > +	i915_reg_t reg;
+>> > +
+>> > +	if (gt->type == GT_MEDIA)
+>> > +		reg = MTL_MEDIA_MC6;
+>> > +	else
+>> > +		reg = GEN6_GT_GFX_RC6;
+>> > +
+>> > +	return get_residency(gt, reg);
+>> >  }
+>> >
+>> >  static ssize_t rc6_residency_ms_show(struct device *dev,
+>> > diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+>> > index f8d0523f4c18..26f71f7f07c6 100644
+>> > --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
+>> > +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+>> > @@ -745,6 +745,7 @@ u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, const i915_reg_t reg)
+>> >	unsigned long flags;
+>> >	unsigned int i;
+>> >	u32 mul, div;
+>> > +	i915_reg_t base;
+>> >
+>> >	if (!rc6->supported)
+>> >		return 0;
+>> > @@ -756,8 +757,10 @@ u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, const i915_reg_t reg)
+>> >	 * other so we can use the relative address, compared to the smallest
+>> >	 * one as the index into driver storage.
+>> >	 */
+>> > +	base = (rc6_to_gt(rc6)->type == GT_MEDIA) ?
+>> > +	       MTL_MEDIA_MC6 : GEN6_GT_GFX_RC6_LOCKED;
+>> >	i = (i915_mmio_reg_offset(reg) -
+>> > -	     i915_mmio_reg_offset(GEN6_GT_GFX_RC6_LOCKED)) / sizeof(u32);
+>> > +	     i915_mmio_reg_offset(base)) / sizeof(u32);
+>> >	if (drm_WARN_ON_ONCE(&i915->drm, i >= ARRAY_SIZE(rc6->cur_residency)))
+>> >		return 0;
+>> >
+>> > diff --git a/drivers/gpu/drm/i915/gt/selftest_rc6.c b/drivers/gpu/drm/i915/gt/selftest_rc6.c
+>> > index 8c70b7e12074..28c6a4b6b8d1 100644
+>> > --- a/drivers/gpu/drm/i915/gt/selftest_rc6.c
+>> > +++ b/drivers/gpu/drm/i915/gt/selftest_rc6.c
+>> > @@ -15,11 +15,18 @@
+>> >
+>> >  static u64 rc6_residency(struct intel_rc6 *rc6)
+>> >  {
+>> > +	struct intel_gt *gt = rc6_to_gt(rc6);
+>> > +	i915_reg_t reg;
+>> >	u64 result;
+>> >
+>> >	/* XXX VLV_GT_MEDIA_RC6? */
+>> >
+>> > -	result = intel_rc6_residency_ns(rc6, GEN6_GT_GFX_RC6);
+>> > +	if (gt->type == GT_MEDIA)
+>> > +		reg = MTL_MEDIA_MC6;
+>> > +	else
+>> > +		reg = GEN6_GT_GFX_RC6;
+>> > +
+>> > +	result = intel_rc6_residency_ns(rc6, reg);
+>> >	if (HAS_RC6p(rc6_to_i915(rc6)))
+>> >		result += intel_rc6_residency_ns(rc6, GEN6_GT_GFX_RC6p);
+>> >	if (HAS_RC6pp(rc6_to_i915(rc6)))
+>> > diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+>> > index 958b37123bf1..6ec139668641 100644
+>> > --- a/drivers/gpu/drm/i915/i915_pmu.c
+>> > +++ b/drivers/gpu/drm/i915/i915_pmu.c
+>> > @@ -146,9 +146,15 @@ static bool pmu_needs_timer(struct i915_pmu *pmu, bool gpu_active)
+>> >  static u64 __get_rc6(struct intel_gt *gt)
+>> >  {
+>> >	struct drm_i915_private *i915 = gt->i915;
+>> > +	i915_reg_t reg;
+>> >	u64 val;
+>> >
+>> > -	val = intel_rc6_residency_ns(&gt->rc6, GEN6_GT_GFX_RC6);
+>> > +	if (gt->type == GT_MEDIA)
+>> > +		reg = MTL_MEDIA_MC6;
+>> > +	else
+>> > +		reg = GEN6_GT_GFX_RC6;
+>> > +
+>> > +	val = intel_rc6_residency_ns(&gt->rc6, reg);
+>> >
+>> >	if (HAS_RC6p(i915))
+>> >		val += intel_rc6_residency_ns(&gt->rc6, GEN6_GT_GFX_RC6p);
+>>
+>> --
+>> Jani Nikula, Intel Open Source Graphics Center
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
