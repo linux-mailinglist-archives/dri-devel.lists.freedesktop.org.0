@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8655BEAAF
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 18:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB185BEBB5
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 19:17:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D84D10E701;
-	Tue, 20 Sep 2022 16:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 524D510E733;
+	Tue, 20 Sep 2022 17:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95DC510E700
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 16:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663689700; x=1695225700;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=F/WR4PhPPyZpXTtrT1P71fobUva9p2uIPWpSZJchOIw=;
- b=Uhstz184ylfqodwcj/TwUkHzWQyIMCQ3EhqLLl3zg8mEuYw40euAasOs
- Yg5AS58TR7YT4XoK7KRspXqYohDEAgkXMOkAgbYndnnm1HdT9i6FzBCyI
- fKzbIBU3eUBywYFl6exfR4zKLljRmHDcOlxy1GR3T65zbUoC5CLQRpjgR
- 3hFbnGyoHzoCIulIyQy7PyS9q3CPXhRe6DJr6OG/cvUQL3+kw8lLsrq2w
- cqDE1FL8EYSVJ/OkhXm394d/kEVwZaKJzFBJixxCOnhijk20+4muXgR3i
- bOIrD5WRrxFaJqzD7ZhwqXX6xeRBeYp2sQ7/snHXdHhh06n1kcFL4Ft6X Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="301116124"
-X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; d="scan'208";a="301116124"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2022 09:01:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; d="scan'208";a="618963160"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga002.jf.intel.com with SMTP; 20 Sep 2022 09:01:18 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 20 Sep 2022 19:01:18 +0300
-Date: Tue, 20 Sep 2022 19:01:18 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Stone <daniel@fooishbar.org>
-Subject: Re: [PATCH 4/5] drm/damage-helper: Do partial updates if framebuffer
- has not been changed
-Message-ID: <YynjzjMI+IlJbgpe@intel.com>
-References: <20220920135619.9209-1-tzimmermann@suse.de>
- <20220920135619.9209-5-tzimmermann@suse.de>
- <YynOvpMGbVKWiO8p@intel.com>
- <CAPj87rNi0iFuG10qFMc5g=XB94G99aCyOP+D_rJpOMOWrK_QKQ@mail.gmail.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 121CD10E733
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 17:17:01 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 28KFJTeP013633;
+ Tue, 20 Sep 2022 10:19:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1663687169;
+ bh=qihBFm0vTKV+N7+bgR6ajlS4MWgfkOQQSPh5xqboSVY=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=oAPII/l5Jd0QfdTG4Plu1TLvIxAuW4/CyF4f5GkH6TwZbsNm9QU+IB1Bx1mor3Kes
+ 9g/4nwW+xcIGr8YEuovy2B3zcwCTUGbhLpyM5T0behb74AIpX2EnD9/dEJ4dwK4kgu
+ puKZF/7TXHLsOTxIhDnznbbh8O/dyOgF8jr2R614=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 28KFJSIb010725
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 20 Sep 2022 10:19:28 -0500
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Tue, 20
+ Sep 2022 10:19:28 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
+ Frontend Transport; Tue, 20 Sep 2022 10:19:28 -0500
+Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 28KFJRla073369;
+ Tue, 20 Sep 2022 10:19:28 -0500
+From: Rahul T R <r-ravikumar@ti.com>
+To: <dri-devel@lists.freedesktop.org>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v7 3/5] drm/bridge: cdns-dsi: Move to drm/bridge/cadence
+Date: Tue, 20 Sep 2022 20:49:17 +0530
+Message-ID: <20220920151919.25658-4-r-ravikumar@ti.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220920151919.25658-1-r-ravikumar@ti.com>
+References: <20220920151919.25658-1-r-ravikumar@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPj87rNi0iFuG10qFMc5g=XB94G99aCyOP+D_rJpOMOWrK_QKQ@mail.gmail.com>
-X-Patchwork-Hint: comment
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,120 +62,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, drawat.floss@gmail.com, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
+ tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, vigneshr@ti.com,
+ devicetree@vger.kernel.org, robert.foss@linaro.org, andrzej.hajda@intel.com,
+ jpawar@cadence.com, lee.jones@linaro.org, Rahul T R <r-ravikumar@ti.com>,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 20, 2022 at 03:47:39PM +0100, Daniel Stone wrote:
-> Hi,
-> 
-> On Tue, 20 Sept 2022 at 15:31, Ville Syrjälä <ville.syrjala@linux.intel.com>
-> wrote:
-> 
-> > On Tue, Sep 20, 2022 at 03:56:18PM +0200, Thomas Zimmermann wrote:
-> > > Set partial updates on a plane if the framebuffer has not been changed
-> > > on an atomic commit. If such a plane has damage clips, the driver will
-> > > use them; otherwise the update is effectively empty. Planes that change
-> > > their framebuffer still perform a full update.
-> >
-> > I have a feeling you're sort of papering over some inefficient
-> > userspace that's asking updates on planes that don't actually
-> > need them. I'm not sure adding more code for that is a particularly
-> > great idea. Wouldn't it be better to just fix the userspace code?
-> >
-> 
-> I'm not sure why it would need to be 'fixed', when it's never been a
-> property of the atomic API that you must minimise updates. Weston does this
-> (dumps the full state in every time), and I know we're not the only ones.
+Move the cadence dsi bridge under drm/bridge/cadence
+directory, to prepare for adding j721e wrapper
+support
 
-Well, we've never tried to minimize in the kernel either, except
-for a few special cases that have one of these ad-hoc "foo_changed"
-flags. And I think those are more due to "I felt like adding one"
-rather than any real overall design goal. We even have one that
-is not used at all, except after this patch series (or at least
-I think I saw it in there).
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+---
+ drivers/gpu/drm/bridge/Kconfig                        | 11 -----------
+ drivers/gpu/drm/bridge/Makefile                       |  1 -
+ drivers/gpu/drm/bridge/cadence/Kconfig                | 11 +++++++++++
+ drivers/gpu/drm/bridge/cadence/Makefile               |  2 ++
+ .../bridge/{cdns-dsi.c => cadence/cdns-dsi-core.c}    |  0
+ 5 files changed, 13 insertions(+), 12 deletions(-)
+ rename drivers/gpu/drm/bridge/{cdns-dsi.c => cadence/cdns-dsi-core.c} (100%)
 
-We could of course scan a lot more in the kernel to minimize stuff,
-but at least I always end up wondering how many joules are being
-wasted rescanning things when userspace might have already done
-the same thing. Also at some point it just might be cheaper to
-blast the hw with the stuff than to meticulously scan through
-it all. At least as long as we can't to the 100% short circuit.
-
-Side rant: I'm also not a huge fan of those current foo_changed
-flags because their granularity is a bit weird, and dictated by
-the core code rather than by the driver specific cost of updating
-each property. Eg. color_mgmt_changed cover all of crtc level
-color management, but at least for i915 there are both cheap and
-expensive things in there. So not sure the current flag really
-helps with anything. We do currently use it in i915, but maybe
-we should not and just try to look at each property separately
-instead.
-
-> 
-> 'Fixing' it would require doing a bunch of diffing in userspace, because
-> maintaining a delta and trying to unwind that delta across multiple
-> TEST_ONLY runs, isn't much fun. It's certainly a far bigger diff than this
-> patch.
-
-OK. If userspace doesn't want to do it at all, then maybe
-the kernel should do at least a bit of it.
-
-I wonder how far we should take that. In the olden pre-atomic
-days i915 even automagically turned off the primary plane when
-fully covered by an opaque sprite plane. I presume modern userspace
-should at least try to use the available planes efficiently
-and that kind of optimizations would be a waste of time?
-
-> 
-> > Any property change on the plane could need a full plane
-> > update as well (eg. some color mangement stuff etc.). So you'd
-> > have to keep adding exceptions to that list whenever new
-> > properties are added.
-> >
-> 
-> Eh, it's just a blob ID comparison.
-
-Or some other integer, yes, but someone must remember to add it.
-This patch series certainly seems to have forgotten most of it,
-so perhaps a slightly shaky start :) OK, sorry bad pun, moving
-along...
-
-If we do this in some common code near the uapi level, then
-the driver might still have to repeat a bunch of it due to
-interactions with other stuff. But I already ranted about
-color_mgmt_changed earlier in the mail, I guess this is
-more of the same really.
-
-What would make this sort of discussion really 
-interesting would be actual power and/or performance
-figures given some typical fixed workloads. But that
-sounds like a lot of work...
-
-> 
-> 
-> > And I think the semantics of the ioctl(s) has so far been that
-> > basically any page flip (whether or not it actually changes
-> > the fb) still ends up doing whatever flushing is needed to
-> > guarantee the fb contents are up to date on the screen (if
-> > someone sneaked in some front buffer rendering in between).
-> > Ie. you could even use basically a nop page flip in place
-> > of dirtyfb.
-> >
-> > Another thing the ioctls have always done is actually perform
-> > the commit whether anything changed or nor. That is, they
-> > still do all the same the same vblanky stuff and the commit
-> > takes the same amount of time. Not sure if your idea is
-> > to potentially short circuit the entire thing and make it
-> > take no time at all?
-> >
-> 
-> I would expect it to always perform a commit, though.
-> 
-> Cheers,
-> Daniel
-
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 57946d80b02d..8b2226f72b24 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -15,17 +15,6 @@ config DRM_PANEL_BRIDGE
+ menu "Display Interface Bridges"
+ 	depends on DRM && DRM_BRIDGE
+ 
+-config DRM_CDNS_DSI
+-	tristate "Cadence DPI/DSI bridge"
+-	select DRM_KMS_HELPER
+-	select DRM_MIPI_DSI
+-	select DRM_PANEL_BRIDGE
+-	select GENERIC_PHY_MIPI_DPHY
+-	depends on OF
+-	help
+-	  Support Cadence DPI to DSI bridge. This is an internal
+-	  bridge and is meant to be directly embedded in a SoC.
+-
+ config DRM_CHIPONE_ICN6211
+ 	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+index 1884803c6860..52f6e8b4a821 100644
+--- a/drivers/gpu/drm/bridge/Makefile
++++ b/drivers/gpu/drm/bridge/Makefile
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
+ obj-$(CONFIG_DRM_CHIPONE_ICN6211) += chipone-icn6211.o
+ obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
+ obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
+diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
+index 1d06182bea71..8fbb46c66094 100644
+--- a/drivers/gpu/drm/bridge/cadence/Kconfig
++++ b/drivers/gpu/drm/bridge/cadence/Kconfig
+@@ -25,3 +25,14 @@ config DRM_CDNS_MHDP8546_J721E
+ 	  initializes the J721E Display Port and sets up the
+ 	  clock and data muxes.
+ endif
++
++config DRM_CDNS_DSI
++	tristate "Cadence DPI/DSI bridge"
++	select DRM_KMS_HELPER
++	select DRM_MIPI_DSI
++	select DRM_PANEL_BRIDGE
++	select GENERIC_PHY_MIPI_DPHY
++	depends on OF
++	help
++	  Support Cadence DPI to DSI bridge. This is an internal
++	  bridge and is meant to be directly embedded in a SoC.
+diff --git a/drivers/gpu/drm/bridge/cadence/Makefile b/drivers/gpu/drm/bridge/cadence/Makefile
+index 4d2db8df1bc6..e3d8e9a40784 100644
+--- a/drivers/gpu/drm/bridge/cadence/Makefile
++++ b/drivers/gpu/drm/bridge/cadence/Makefile
+@@ -2,3 +2,5 @@
+ obj-$(CONFIG_DRM_CDNS_MHDP8546) += cdns-mhdp8546.o
+ cdns-mhdp8546-y := cdns-mhdp8546-core.o cdns-mhdp8546-hdcp.o
+ cdns-mhdp8546-$(CONFIG_DRM_CDNS_MHDP8546_J721E) += cdns-mhdp8546-j721e.o
++obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
++cdns-dsi-y := cdns-dsi-core.o
+diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+similarity index 100%
+rename from drivers/gpu/drm/bridge/cdns-dsi.c
+rename to drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 -- 
-Ville Syrjälä
-Intel
+2.37.3
+
