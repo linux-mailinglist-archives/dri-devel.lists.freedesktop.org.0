@@ -2,52 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4BF5BDF81
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75D15BDFA5
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:17:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45A1E10E399;
-	Tue, 20 Sep 2022 08:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A297510E144;
+	Tue, 20 Sep 2022 08:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A045010E3A4;
- Tue, 20 Sep 2022 08:13:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663661605; x=1695197605;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=iiRr7V7CatTyRz3EY0Ux4FQ4dzfq07n3KeHmFJT0aOA=;
- b=DofHrRLUqcRopP2sTLUM9DMukADCk8j5ynq4OJ6sx5eDz1bq49BVUi24
- 9NgLC2yAfIPPAUAuKdrLhmaR6JIGhBKkQYYH6JNyJamNHo642dEWpsGcr
- 0sJ6a08XoV9KM7OlFKlKMmSp+zKwT6Sdxn1GyNzAqtDYwPEQCJ0aJ3oqI
- nHJt+3HYjoFrVZfkqZgRyesBn3FQrvhTm3++VIHcCj+jHGKiZI0WPfXgQ
- vHNUApJWBhiRsI2AZboYLSPpCjosgqXg/xLPtym4B2TmNAG4cn5a/gxBM
- RIwiFWbyuxApCmDOfk4XBg6sh5BEOQJrzf4gEItbCVIIKmHOVeUpfFoA4 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="282660233"
-X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; d="scan'208";a="282660233"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2022 01:13:23 -0700
-X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; d="scan'208";a="596423026"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.47.95])
- ([10.249.47.95])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2022 01:13:21 -0700
-Message-ID: <b169cc9f-a272-7d2a-da61-82470b5eaeb2@linux.intel.com>
-Date: Tue, 20 Sep 2022 10:13:19 +0200
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8536210E144
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 08:17:02 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id bq9so2983928wrb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 01:17:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date;
+ bh=i/SVyHf5uhkNd+oOQ1j8B0CS4C1F0nyqp8RGFx50BGM=;
+ b=t8GO30+RYsyD6KakHvs5H0TSzI2o3v/yM+4P17hqqio0MKQKDyvfWWn5NJbyDjQvLt
+ ThxwQj06nNEbPKi7OMzVBXsCNz2azELPZaClB9H3xMEBcqTGF6YAd1bzU2SrVPUiWjUK
+ VbQJkGuDP+oW5/xhIITGZ7Yb81M2fWMZKQxNr4WJlilsG8/qj4GvpVw5tb3j/wOYsASS
+ y4ofQFgBtQBi+kAHqw8EbasuKCvrEqEK3gCtUPbh7DhwGhTALk2O2CZzh1QEeucTGmai
+ sxFGKP+mN1JRU7JARIhdJc8WmOSyB5t4GXa1ivSMSsGD0rmsKMJIPI1mZBTmszJ+3oVV
+ X8/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=i/SVyHf5uhkNd+oOQ1j8B0CS4C1F0nyqp8RGFx50BGM=;
+ b=g5uwkpHt70BaSntHtnU6N26oSknh+nFJbCj+1q6cr6P3JLMJGMI+1HdmEmyR5y/miy
+ xnBrMWF7dpQrMbKZJhWZ0VUzmMex/NHBHZMMckcS3nDc3mBRepZvXOBaDhJ2739zcG9j
+ cOKdWDqZH2BKXp8R2LGKn/cXECPVVdzoJJy4qpG8uVkVmdTcqSifvWOn9ICPzkcJ9iur
+ j8XgopMlshu02IVBikJgz73aXp2Rkktl4peqiFnA62SX48Mr9dAjCaQDZBg9jzcPUxSy
+ 6wGLDdsdFvmKqtbe8JII9mOqYE/zKD75Bf/cf5sbp5WyrA/M6Wihi7icsTTU8GIPfn7Z
+ lWiw==
+X-Gm-Message-State: ACrzQf2fmcDuiwskHlRxIqG2iSP4xZgQV33Xidu5AKZpFtJD5LHKG9li
+ JsV/3ViqeMx/PMyzLl4Mj46ctQ==
+X-Google-Smtp-Source: AMsMyM7znY5JAx7G32cOuz/YUFx2JQP41fqHoTJhgsTnB8VUTTEJMYd4k9qwTDBv4u5aWBSPXAszlg==
+X-Received: by 2002:a5d:5a15:0:b0:228:cd90:ccd with SMTP id
+ bq21-20020a5d5a15000000b00228cd900ccdmr14022732wrb.658.1663661821036; 
+ Tue, 20 Sep 2022 01:17:01 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:7e10:f0f:43b2:9b5e?
+ ([2a01:e0a:982:cbb0:7e10:f0f:43b2:9b5e])
+ by smtp.gmail.com with ESMTPSA id
+ q9-20020adff509000000b0022aeba020casm859875wro.83.2022.09.20.01.17.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Sep 2022 01:17:00 -0700 (PDT)
+Message-ID: <bdb8efa9-9b72-9db5-4e3b-17c518cacaf2@linaro.org>
+Date: Tue, 20 Sep 2022 10:16:59 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] drm/i915: Do not dereference NULL bo->resource
-To: "Gupta, Anshuman" <anshuman.gupta@intel.com>,
- "Das, Nirmoy" <nirmoy.das@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20220919150233.5457-1-nirmoy.das@intel.com>
- <CY5PR11MB62113BCB450D45C1DC8201DD954D9@CY5PR11MB6211.namprd11.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V2] drm: bridge/dw-hdmi-ahb-audio: use strscpy() is more
+ robust and safer
 Content-Language: en-US
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <CY5PR11MB62113BCB450D45C1DC8201DD954D9@CY5PR11MB6211.namprd11.prod.outlook.com>
+To: cgel.zte@gmail.com, andrzej.hajda@intel.com
+References: <20220920061655.214785-1-chi.minghao@zte.com.cn>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Organization: Linaro
+In-Reply-To: <20220920061655.214785-1-chi.minghao@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,57 +77,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Auld, Matthew" <matthew.auld@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
+ linux-kernel@vger.kernel.org, robert.foss@linaro.org,
+ Minghao Chi <chi.minghao@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 9/19/2022 5:29 PM, Gupta, Anshuman wrote:
->
->> -----Original Message-----
->> From: Das, Nirmoy <nirmoy.das@intel.com>
->> Sent: Monday, September 19, 2022 8:33 PM
->> To: intel-gfx@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org; Auld, Matthew
->> <matthew.auld@intel.com>; Gupta, Anshuman <anshuman.gupta@intel.com>
->> Subject: [PATCH] drm/i915: Do not dereference NULL bo->resource
->>
->> bo->resource could be NULL hence add a NULL check for resource before
->> bo->dereferencing it.
-> Will bo->resource will be NULL only in case of object is smem or it can be NULL even in lmem case as well ?
+On 20/09/2022 08:16, cgel.zte@gmail.com wrote:
+> From: Minghao Chi <chi.minghao@zte.com.cn>
+> 
+> The implementation of strscpy() is more robust and safer.
+> 
+> That's now the recommended way to copy NUL terminated strings.
+> 
+> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+> ---
+> v1->v2
+> using DRIVER_NAME instead of "DW-HDMI".
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> index 7d2ed0ed2fe2..8cb6177f976d 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> @@ -542,8 +542,8 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
+>   	if (ret < 0)
+>   		return ret;
+>   
+> -	strlcpy(card->driver, DRIVER_NAME, sizeof(card->driver));
+> -	strlcpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
+> +	strscpy(card->driver, DRIVER_NAME, sizeof(card->driver));
+> +	strscpy(card->shortname, DRIVER_NAME, sizeof(card->shortname));
 
+OH, I did misread the first patch, and it was in fact ok... I'll apply v1 instead !
 
-It can happen with lmem too. I think we should just use 
-i915_gem_object_is_lmem() instead of i915_ttm_cpu_maps_iomem here.
+Thanks for fixing, but sorry for my wrong review...
 
+>   	snprintf(card->longname, sizeof(card->longname),
+>   		 "%s rev 0x%02x, irq %d", card->shortname, revision,
+>   		 data->irq);
+> @@ -561,7 +561,7 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
+>   
+>   	dw->pcm = pcm;
+>   	pcm->private_data = dw;
+> -	strlcpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
+> +	strscpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
+>   	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_dw_hdmi_ops);
+>   
+>   	/*
 
-Nirmoy
-
-> Thanks,
-> Anshuman Gupta.
->> References: https://gitlab.freedesktop.org/drm/intel/-/issues/6850
->> Fixes: ad74457a6b5a96 ("drm/i915/dgfx: Release mmap on rpm suspend")
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> index 0544b0a4a43a..8608801cd9ab 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> @@ -513,7 +513,7 @@ static void i915_ttm_delete_mem_notify(struct
->> ttm_buffer_object *bo)
->>
->>   	if (likely(obj)) {
->>   		/* ttm_bo_release() already has dma_resv_lock */
->> -		if (i915_ttm_cpu_maps_iomem(bo->resource))
->> +		if (bo->resource && i915_ttm_cpu_maps_iomem(bo-
->>> resource))
->>   			wakeref = intel_runtime_pm_get(&to_i915(obj-
->>> base.dev)->runtime_pm);
->>   		__i915_gem_object_pages_fini(obj);
->> --
->> 2.37.3
+Neil
