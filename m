@@ -1,118 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1181D5BE5AC
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 14:24:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8365BE655
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 14:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7DCC10E5BE;
-	Tue, 20 Sep 2022 12:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0AC10E670;
+	Tue, 20 Sep 2022 12:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2045.outbound.protection.outlook.com [40.107.102.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B934C10E1AC;
- Tue, 20 Sep 2022 12:24:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MpxwPcHsudAaWBK6JClfDH6QP8DxEQieBac8+jolfHVCWRQnfbd9uYKyoigO7xnbkUJ2/40nSRCaugsXwIyIPFzg+UoiClcqlLJaHgzUxtQeJSF/C3jx2hLRfif8L0kXhZ9NUTkriEM/1ESOsNh+HdG+jJQ4AFnrp5YVeGD22+M4MWJZMEJLkvFjazKONaeZQYAGNiZ4+X9yTs374tETCl9Kp+/GKyRQOpH49TeWXCTfgVB9XtfVCEjqhOYmSakUWsndrqGUCowDszwl/eGQd8trUczQDAGd15r/Pfbhc6RBIOeARU9MNujkcocBbexhTnTyutnxyvG3ai3Ms3upYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A0VaBZnryXLhlz6qbb0dNj0wpmpf8cTaC0FwtIralbg=;
- b=KEPlgq7uriUYR6iS+wjeO+Gsr59zmhSlvnhBOCGs4ZJNYKB3Vb7Vpva3Vhn9dl8ev6F8BCwNB+mHhYSEmADyjC328ec9JCGF+H7rm4fyM+7hLA26AuVadg5LXAIqjiP/HUR5Z25iEh7FqM5mMYozJKyrInQxKHpbs64CGcXcT6sB5NZw2W0feHEwV9WzwBf68WyhQFwEmLZdL6E3F3VEJdPbs2D/GeaKOZIMG84JgzoIlqvyxt9TAGX7KtDCARHXu0KsxB4uGxOtwtnmY6SpQUZ5f5x76AuVm6rVH2ojpBPgUbN5ViWv+I42xfNqb1F61hyI/yLE5JwZ5/GXhg8vIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A0VaBZnryXLhlz6qbb0dNj0wpmpf8cTaC0FwtIralbg=;
- b=MNuY/nylgzOBJ+fds+aFaoFYq6ZrCGBJJBKhQ+rCF4oHbixama3zRYd/m5m+3/b4Q0luuFwSETWt3XcHkqXTfyxZQR3baaaIDSw61whLCpaNIxqwzIpYmJrfcQRCZ8bNAsThhofrnX97Lgr8OsfYcxtXf6sH5aF4jl8mIdz9Yj4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SJ0PR12MB5405.namprd12.prod.outlook.com (2603:10b6:a03:3af::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.19; Tue, 20 Sep
- 2022 12:24:06 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5632.021; Tue, 20 Sep 2022
- 12:24:06 +0000
-Message-ID: <3430255f-3675-eef2-92bd-4eb8be582c83@amd.com>
-Date: Tue, 20 Sep 2022 14:23:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/amdgpu: initialize r variable into amdgpu_cs_submit
- function
-Content-Language: en-US
-To: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-References: <20220920122216.346321-1-tommaso.merciai@amarulasolutions.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220920122216.346321-1-tommaso.merciai@amarulasolutions.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0094.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a1::9) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F213F10E1B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 12:52:59 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id D0D723200A08;
+ Tue, 20 Sep 2022 08:52:54 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 20 Sep 2022 08:52:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1663678374; x=1663764774; bh=yTlflAyOUF
+ EqTJEaTdC+96VGs2mVc7ugO0+0lZWQg2U=; b=H6M/gJpSlbKCZd/GdDoOoo1Qjc
+ XyEKmSV3x9jatUq1YyLH0TQTkc17SPVxw2NQ6G4b3Z1gZ+4AsmpaAJ+Bn3L1aXFn
+ 2pLPC/Ff+hr8esFrYWvOXC9MbkoAYhjGQmNjXKkVPtI+NPJ1HGQxwLs5fytRlUF5
+ vkIlUth54gv7IWn4X9a0GEjX5V2607FoEkFrvAXAXpLcmJzmVSPzb5GHZwCsoNYG
+ YKfsO6ZoQU7JSKb0EGu06eq23TTQrNYQg+zjbQ3MSGOIBNROvimJo5lhF69PQ506
+ oF66VGiur5Y9QhnLZdoVyomIr7BdhAW9zXE7ANg2XCohuUVJI67Wht+rmBVw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1663678374; x=1663764774; bh=yTlflAyOUFEqT
+ JEaTdC+96VGs2mVc7ugO0+0lZWQg2U=; b=toIdzmZ0aH158pNAkNigqiSNmS4tN
+ x1kN7uA9KnLhEaEiI20Nmw30730yC+5Kq3SfgsGhcF8PbvXdQ1yuMaoj8SbRf43t
+ HnT0621dgVsK8ZhcIr1bZkwTKLTd5LALjdfgRYxvroem9xwZw/3y3aSikXK6cH17
+ P9NDm9E6rESOO+y4iJ8mFqZb0QeZ80wvGixFw5SX7UCIBLdm0HL5xFcoXRnYnMAM
+ QJQZ8J2g8m376WWvuWfpphKQ9ts/WvMMLmeu9JkPfdkIN5JUFYlycj2BJnyRFApq
+ XGqse/9JXNDZbHviz/baVvOBUOeTv7+fP9tGvR/ojkF+gcldpgIF7q4DQ==
+X-ME-Sender: <xms:pbcpY3juFeVJ3fb8xAsHzK544zSjhTLN2_nJVvNZ4GLbsPts3MUofg>
+ <xme:pbcpY0B1LG01L_7tUNZBVKNQrore1uDRx02J0wSgRtmc4MnK2mjPzlJiJdQrjqe4t
+ EkshVFcsq_lfhk5sT4>
+X-ME-Received: <xmr:pbcpY3HEpfsZSNLjpfVl2LDAsFNjTUWeS1fa0K1GumvYQbsduKjAf7yvSB6h>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvledgheekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepufggtgfghfffkffvvefosehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleeuveetteffvdevlefgffelgeduueefleevfedvudegheekfeekheejieek
+ gedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:pbcpY0SWIW8i9uIykmatpvIvuk1Q-47KILBQqj6d2Je91uhUBF9hWg>
+ <xmx:pbcpY0zXQTk8fug1yO-6lsRe3qtoqpT6c4aKf9jNItOqd47Uv6iCaw>
+ <xmx:pbcpY66PbWsVKF40k46l2NSc5AL0EWqxQcTxROlXpBsyRbjfqPgqMA>
+ <xmx:prcpYwDP_8T5BkHA7O4q-PEK5yxcdUHxqkOz8oUvloNe3YWRBUMLlQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 20 Sep 2022 08:52:53 -0400 (EDT)
+Subject: [PATCH v2 0/7] drm/vc4: Fix the core clock behaviour
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ0PR12MB5405:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce6a4f33-2a92-4ba2-e51e-08da9b030293
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ksCdRUd5eRq6Ix19m42QFXlP/dnyuztm5bMinoLT1OYQHQ/hF+phxHJ/qxJpYvLlzhQahiNECO47I7d6GrO7T9DDDtU8bU5meEUW9Fa7wXgXWNCbRQWJQxSEYDVv3VgP6NMERp+xj3DDlmg6l5gh0fc+kwBwc9D8T0pdZxiW4Jz+fmdxGbe3WZXJR/y062UHFvKh4OVCecmkJlUNRBQE/tSI7nDkg+GmycK6TdVelyPxgs0qV6SA6VmVLpV6ZiMnIwV+KnmvQUjI0WRh6r6T4s77u6ZAEmnimmaRusZMPi8But5fKkuaTCs07iMSMVkldN62bZvk0CvFid9gjJcs14WLr1rUigEKt75M9LdANcgMdjeIalJBV+iHrLUWURcLzhCvR+0Us5t6us6VWghHlwOHJsN16JyfqT8FrEcszFPu6oJNTTPWVCUIB7xaqx3grtBadt+kLpWatOk8U9hyFJxVmQcPEyXq9fSvAhxqC2jXf26utll/L0lfhmtX45OQLP4ZaVYMc51A9higxJBq/nxDCRdesw7W1Cj3oQsTIXyj0yMxKX24KlhISLCwhSoylWxpvSfChbfCCi3fdhIGrsug6Sz1HU52uwoOGj6WxR9d3NZu4lvCS/OTs25WkxlFCUiwr8Mb5h3TDYEQsqpnF89p0Yin5/Gkvl9DshzW8EYgIfjjj7wWPIyChANQR/s+c/wrvp+Rqu9Yz03/91CsimIOMkHc7CiHGa8Fps8NW5tmArIAQ9v+KZRnJID74GJh+dh2RJxhGzXRr6hIAEWORNqIhdr9RUAGoAU0bd1wDRU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(39860400002)(346002)(366004)(136003)(376002)(451199015)(2906002)(8676002)(83380400001)(36756003)(4326008)(41300700001)(6666004)(6506007)(478600001)(316002)(7416002)(31696002)(5660300002)(38100700002)(86362001)(54906003)(6916009)(6486002)(8936002)(31686004)(186003)(2616005)(66946007)(26005)(66556008)(6512007)(66476007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UFhVMWptL2hreXBEZW9pSGszL1VSODJDT1lKR0Y5bTdicEJxbDY5dTZsN0tq?=
- =?utf-8?B?YkFrVVBtZjgwc1h4eVhyYlo2cEt1RWVpQnhNMHc2cDdzaGlWY2FQczh4NFVW?=
- =?utf-8?B?WWhIaEhwTjZMZ3UrMDNtS2NGcXlHMzBZQW9ZVTZIbzdpU1JmSEdqZTBYNEZS?=
- =?utf-8?B?c3JmViswL2dOaFcrMndsQzdTV1BUTk1iQ3EyeWRsVTJBV1BjbEJScStobEI4?=
- =?utf-8?B?MVUyNG80V25ZYjRvZm40OTNra1lvbDVSQ3dXTXRnbHZHS0tJbk5XTWtHMXBL?=
- =?utf-8?B?N1VCM3JHekJrVHV1ZE1hN1hwaXB0dEVPaitIT3F4TjhiR1E1Wkc5UmxYTjY2?=
- =?utf-8?B?Y3BleUJuQ3N1ZE0zclpBdGlBRUlsSWUyZnNRMHZLSzNQRW5DdWxOQnVzdDBm?=
- =?utf-8?B?clFWV2FhMTBDajBvL3cvU2owWW0rd1JtL3NxNEhDdEI5Unh5a2UrSjRzN1pl?=
- =?utf-8?B?VGVPQnN5QmpVVktibDZ4NzhtdSt2QUlpMWN1WFJObDdldmFKU1gzYXoyaVVG?=
- =?utf-8?B?N25KT01zZjcwQzhKVXAzcXZ4a0lQK1d0MmNzbEUrSEQ5dk56dW5OUXdUQWF1?=
- =?utf-8?B?ZEdOalV0RnY5Nk5Pa1lNWlE2YjN5dnBhTUpxY1R1dXR5MDNqT3FJbGIzNlZW?=
- =?utf-8?B?NHN3ZlkrTktTSG9XMkNqZnBtQWo3YVVJRFc4RTlHQXhIRzhvMlZMd2c3cmM3?=
- =?utf-8?B?OWFraFVQMGFVUnhOUDc3QWdjY3NvYWZNaTIrd3NTRzBCbUxpM21zUHUzUmlt?=
- =?utf-8?B?UGtVb0wvN1VOejgzK0I0OGt1U29GakpzSGJTM0xDQkxJZEplMTlCa0prTmc3?=
- =?utf-8?B?VWxueXdVTXZMTnF0dEVTR04xOG10U0xPSFh5VEJ3cURyc3U2ODdNVEJJdElD?=
- =?utf-8?B?MjlvSGJIcFRxbHJrZzZhUUo5UnNnZlRPamRQMUY2dmszbS84ZUl2MDhmWkc2?=
- =?utf-8?B?VzFZcFZTV3dBV0ptZG1BZFRrS1l3bzJ5bWpidktKa3FIaWI5R3dZV2ZERUNN?=
- =?utf-8?B?czZJRXgxRDNCUW5mOUFlS3lDRUZ5SVptbFp4WjZBTnN0eEFJMklsNlgwU2hG?=
- =?utf-8?B?U1R2VlpWdnBPeUlCU3Byc1IrWFdLcFhoQWRLaWpITGFOMXFERzNOdy9mZDVW?=
- =?utf-8?B?RndtQWZIN0FJT1VnK3pqaERhSmdxYnlhdkQweVdEbG9PV1pidUxzM3FhdEEw?=
- =?utf-8?B?NnB0YVNZT3phdSs5QmE2eG5HWHBGd0toYng4RmY1eXphVHZuZGtPanoyU0Rv?=
- =?utf-8?B?dTYxSnZmWE9iRDB1cjhOSTVzSVUyckw3alVlUWJZTmJIdjE5RjBseVRmUlJv?=
- =?utf-8?B?eTZBNzNGdjhieEdKQzc3RjBkQVdhMmM2dTNYbG5jVHNxdDUrd3JaWWZENlZq?=
- =?utf-8?B?aUFlTk1zRFpSQ25KN2ZNZW5ndGJZRzFSNEk2ZU50SUt1TTc1d21HMGFLWm5o?=
- =?utf-8?B?bERXVXdjN2o3VzVGV1dUYkkzYnVUZ2oxUGpHcGZjVmt5bktjdlQzNnZyd0Vu?=
- =?utf-8?B?ZXVoWm1pSU53ekJwbUIwRWFCNGRjUjM3YS9QZXNmYnd2MDhYSUpHVmlTemJ3?=
- =?utf-8?B?K0xzNytXWU9vUDFLRFg4UlB6VUZyalBwdXczbnZsMUo0QTUvcEtOSXlPaGJP?=
- =?utf-8?B?bFRCQTV3dzdHbkZPMTlrS21oaVpabnlPalRxVTE3ZEpMWWFNV2x6WHgzYS8r?=
- =?utf-8?B?ZmVXWmcxbWZjOXpxN1lkQTE1SWo5dGNpUmVKa1JQVDNBYTAzUkZSeW0zV0Fk?=
- =?utf-8?B?cENBZ1grZWtqQ3lqRFo5MmhnUlZWZ0J4ZGJUckFERjczYnVkOHFLVTBKNnZv?=
- =?utf-8?B?M2hJMmtGRmZDL3hlbkRETUcwb2o5c3BDM0xVZXBXeTR4VG8veHBFaDQ0a2pK?=
- =?utf-8?B?N3JnNjUzby9iSXhBUGZZQkNrS0MvTHpTUWtvQklJeE91S05DU1ZTek9iKzF1?=
- =?utf-8?B?ak1KVmVibWlsSklubWgyL1lMNDhNYk1FcEFVNGwwQlpCMFoxNnRWcDlZQ2Uy?=
- =?utf-8?B?eTdqMERVMUE0RThBeCsrK25BUDlaQVNvbGlPQWIvRDFWbmFzNTNiK20vaGhV?=
- =?utf-8?B?N1doUEd0UU9CZmdZUUFzMmtnOTN0aG1PNGdmNzF6c3dSU2hwS2RDbXMwUUZk?=
- =?utf-8?Q?rVeCWlWwTOsFzqTaX1QuVvSRS?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce6a4f33-2a92-4ba2-e51e-08da9b030293
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2022 12:24:05.9300 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GfcAtn4uxtFsiL2eg0i1CWBsqt8jdU8Nb0lyvQNLqYfb42RcYj8MwlA8jIgvgn0l
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5405
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAAu3KWMC/xXLQQ5FQAwA0KtI1ypVDP5txigayZBOIj8RdzeWb/FuSGIqCX7FDSaXJj1iBpcFhM
+ 3HVVDnbGBipqHu0E7FRf/Y7ugI6577xnXU8jhDPpNPgpP5GLZvXa4itODgeV6uj6ouagAAAA==
+From: Maxime Ripard <maxime@cerno.tech>
+Date: Tue, 20 Sep 2022 14:50:19 +0200
+Message-Id: <20220815-rpi-fix-4k-60-v2-0-983276b83f62@cerno.tech>
+To: Daniel Vetter <daniel@ffwll.ch>, Florian Fainelli <f.fainelli@gmail.com>,
+ David Airlie <airlied@linux.ie>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Michael Turquette <mturquette@baylibre.com>,
+ Scott Branden <sbranden@broadcom.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Emma Anholt <emma@anholt.net>, Ray Jui <rjui@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.10.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2654; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=Usxpco6HT+dQTlqIqrK9EZazz1b2NzHvAwZ5ALguFI8=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMma2/lKci8obSraqdT4JPT8aaZrb0WW/Tjan3kw3uaXbN3+
+ /gMhHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjIN2WG/+HiPR+jXzcu0ZlmGbpzcU
+ Xc3JSSX91d3Q9eV2a5Bi71k2RkONl/605SfMe/TyIzA+R3X/A913Eigi9ySsEzxxsLLjAd5wMA
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,50 +95,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, Philip Yang <Philip.Yang@amd.com>,
- David Airlie <airlied@linux.ie>, linuxfancy@googlegroups.com, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, Luben Tuikov <luben.tuikov@amd.com>,
- dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>, linux-amarula@amarulasolutions.com,
- sudipm.mukherjee@gmail.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>, Dom Cobley <popcornmix@gmail.com>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.09.22 um 14:22 schrieb Tommaso Merciai:
-> The builds of arm64 allmodconfig with clang failed to build
-> next-20220920 with the following result:
->
-> 1190:3: error: variable 'r' is uninitialized when used here [-Werror,-Wuninitialized]
-> note: initialize the variable 'r' to silence this warning
->
-> This fix compilation error
+Hi,
 
-I've already send a patch to fix this to the mailing list 7 Minutes ago :)
+Those patches used to be part of a larger clock fixes series:
+https://lore.kernel.org/linux-clk/20220715160014.2623107-1-maxime@cerno.tech/
 
-Please review or ack that one.
+However, that series doesn't seem to be getting anywhere, so I've split out
+these patches that fix a regression that has been there since 5.18 and that
+prevents the 4k output from working on the RaspberryPi4.
 
-Thanks,
-Christian.
+Hopefully, we will be able to merge those patches through the DRM tree to avoid
+any further disruption.
 
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index 58088c663125..efa3dc9b69fd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -1168,7 +1168,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
->   	struct amdgpu_bo_list_entry *e;
->   	struct amdgpu_job *job;
->   	uint64_t seq;
-> -	int r;
-> +	int r = 0;
->   
->   	job = p->job;
->   	p->job = NULL;
+Let me know what you think,
+Maxime
 
+To: Florian Fainelli <f.fainelli@gmail.com>
+To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+To: Ray Jui <rjui@broadcom.com>
+To: Scott Branden <sbranden@broadcom.com>
+To: Michael Turquette <mturquette@baylibre.com>
+To: Stephen Boyd <sboyd@kernel.org>
+To: Emma Anholt <emma@anholt.net>
+To: Maxime Ripard <mripard@kernel.org>
+To: David Airlie <airlied@linux.ie>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-rpi-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-clk@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Dom Cobley <popcornmix@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+---
+
+Changes in v2:
+- Dropped the clock patches, made an ad-hoc function in the firmware driver
+- Link to v1: https://lore.kernel.org/r/20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech
+
+---
+Dom Cobley (1):
+      drm/vc4: hdmi: Add more checks for 4k resolutions
+
+Maxime Ripard (6):
+      firmware: raspberrypi: Introduce rpi_firmware_find_node()
+      firmware: raspberrypi: Move the clock IDs to the firmware header
+      firmware: raspberrypi: Provide a helper to query a clock max rate
+      drm/vc4: hdmi: Fix hdmi_enable_4kp60 detection
+      drm/vc4: hdmi: Rework hdmi_enable_4kp60 detection code
+      drm/vc4: Make sure we don't end up with a core clock too high
+
+ drivers/clk/bcm/clk-raspberrypi.c          | 18 -----------
+ drivers/firmware/raspberrypi.c             | 22 +++++++++++++
+ drivers/gpu/drm/vc4/vc4_drv.h              | 16 ++++++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.c             | 25 ++++++++-------
+ drivers/gpu/drm/vc4/vc4_hdmi.h             |  8 -----
+ drivers/gpu/drm/vc4/vc4_hvs.c              | 26 +++++++++++++++
+ drivers/gpu/drm/vc4/vc4_kms.c              | 13 +++++---
+ include/soc/bcm2835/raspberrypi-firmware.h | 51 ++++++++++++++++++++++++++++++
+ 8 files changed, 136 insertions(+), 43 deletions(-)
+---
+base-commit: 521a547ced6477c54b4b0cc206000406c221b4d6
+change-id: 20220815-rpi-fix-4k-60-17273650429d
+
+Best regards,
+-- 
+Maxime Ripard <maxime@cerno.tech>
