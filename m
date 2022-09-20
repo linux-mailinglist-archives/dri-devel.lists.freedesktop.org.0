@@ -2,48 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9A25BE160
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 11:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A695BE1C5
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 11:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49DC110E4AF;
-	Tue, 20 Sep 2022 09:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA1A510E15D;
+	Tue, 20 Sep 2022 09:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 544C810E4AF;
- Tue, 20 Sep 2022 09:06:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B24C36274A;
- Tue, 20 Sep 2022 09:06:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18E58C433D6;
- Tue, 20 Sep 2022 09:06:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663664788;
- bh=6pYIi9glaYZlye/aQHBoMpVkZ1qcD8dJmGfOqYp0ROA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fUD8S2gvOniifTyASmpBcDPIJdMlH8cRZA4WNglMYAr0pYRbk+Zw4hK34lc+dq20g
- I51hhRJ9LhYOzCL/W3aridwhiHSOGHKpEibeUa6BYHz7PrE3D072LoJ8eWqt2ywMHy
- oiPv4Dl5cuEuMknH2wHA7UGt/l2rw75KZrz0oF9k69yFtgkUbhkMsxbCFxn4POyG7W
- J2fN42NBPcPXPdQsiOE2Sa2mR+zPMVr9qxbsT5hU9SLMcnxECbTwlp2uICH5vFAtPV
- GeNPbY959ihZSBZmuOFuL3Tl3tS1nXoFHezTwXXvvN9ZlS1hsgtBARVHQMUm1mb85f
- k8PuqZSa7AOxg==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1oaZD4-0002LH-9A; Tue, 20 Sep 2022 11:06:30 +0200
-Date: Tue, 20 Sep 2022 11:06:30 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v2 00/10] drm/msm: probe deferral fixes
-Message-ID: <YymCll02tRIMb+9Z@hovoldconsulting.com>
-References: <20220913085320.8577-1-johan+linaro@kernel.org>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50AD210E15D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 09:21:00 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id c11so3178442wrp.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 02:21:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=vNQe2GtbiEbNlyf2XnFRT7jFM6dqwBbNb6DV8g2UnnE=;
+ b=D7/EMxpeYN6SPsHGRc8F2hFpJxBQAg/IykN2uBhVB9perr+IAjGrXbGSmKU7FZGEcO
+ axEyuJbqExONBLYsx6gqpk8nor4dbJ5Ti755Ggse1oe+G53iFq99Y0guwdkNjN/zmOFN
+ 81N1UdkZ6lnTvQBhluQOHrVifo1i4K5CUZgfsKeh3Jg5bN+f47dBkYGvOANDUcXYMysM
+ 4xVlvnY+VXxFqG9UNzDTPalIUP3YyfsJFuqivvGP1scON1OmkCulgfhk57l3FzotXePv
+ 4mRsRBEyB1LOGPSqNOEDDpf4IS7qRQNTViuJrFvLqxxXzIh/KPvaQWNBrI5Mr6pKteim
+ Fo8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=vNQe2GtbiEbNlyf2XnFRT7jFM6dqwBbNb6DV8g2UnnE=;
+ b=vS9n05MSQ6Om/+MGOAxjxDrmKor9SlkS7TeSEUVuIvQDuyNiJCIGF12Q4y4b7jcWtb
+ Dz4ygR5OWhFwe4/VffOa2VfqqTbHPV6zE2J0m6n9kGHykppcK1cuwfUl0lo0Z82IzoIc
+ +rzLyYmYWXclIUpw89V021fD19ei0GbwAb3Dg1GYo54eVIbHYwqZECH5tXhoaYKC8X7a
+ +T6SjcjAv/pbQd0+IzLQ7sFkY0XkraM9er79a4js/I0zKzwhsTvcbIR9y/WbF4PpVEzI
+ wfwl+Zh9cpVx/E6nEaLJDi1T1jf0N+OQQOhDM9IVNib/zvI+VvvS0Y+m9hTq0tR7etlA
+ R8Tw==
+X-Gm-Message-State: ACrzQf3/bNF/z4gVDKpRdNv3/mtuWxlWB6dn9GnPstIg3CwE8SeWu3NA
+ VYpDBVlLOS2CQ87v1PeSydzvpw==
+X-Google-Smtp-Source: AMsMyM4gXAKw4BsWYZM4GahwvUJElzZY87R7sO9Q/AEA/+PDUm7seHM2obUaC4y0w0grBuuBguRA7g==
+X-Received: by 2002:adf:d1ec:0:b0:228:d9ea:cbd2 with SMTP id
+ g12-20020adfd1ec000000b00228d9eacbd2mr13347043wrd.609.1663665658829; 
+ Tue, 20 Sep 2022 02:20:58 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ c17-20020a5d4cd1000000b0022a297950cesm1063507wrt.23.2022.09.20.02.20.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Sep 2022 02:20:58 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: cgel.zte@gmail.com,
+	andrzej.hajda@intel.com
+Subject: Re: [PATCH] drm: bridge/dw-hdmi-ahb-audio: use strscpy() is more
+ robust and safer
+Date: Tue, 20 Sep 2022 09:20:56 +0000
+Message-Id: <166366564178.3256514.17123212725949451194.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220919030401.211331-1-chi.minghao@zte.com.cn>
+References: <20220919030401.211331-1-chi.minghao@zte.com.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913085320.8577-1-johan+linaro@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,59 +73,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Stephen Boyd <swboyd@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
- Steev Klimaszewski <steev@kali.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Zeal Robot <zealci@zte.com.cn>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robert.foss@linaro.org, Minghao Chi <chi.minghao@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 13, 2022 at 10:53:10AM +0200, Johan Hovold wrote:
-> The MSM DRM driver is currently broken in multiple ways with respect to
-> probe deferral. Not only does the driver currently fail to probe again
-> after a late deferral, but due to a related use-after-free bug this also
-> triggers NULL-pointer dereferences.
-> 
-> These bugs are not new but have become critical with the release of
-> 5.19 where probe is deferred in case the aux-bus EP panel driver has not
-> yet been loaded.
-> 
-> The underlying problem is lifetime issues due to careless use of
-> device-managed resources.
+Hi,
 
-Any chance of getting this merged for 6.1?
+On Mon, 19 Sep 2022 03:04:01 +0000, cgel.zte@gmail.com wrote:
+> From: Minghao Chi <chi.minghao@zte.com.cn>
+> 
+> The implementation of strscpy() is more robust and safer.
+> 
+> That's now the recommended way to copy NUL terminated strings.
+> 
+> 
+> [...]
 
-Johan
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-> Changes in v2
->  - use a custom devres action instead of amending the AUX bus interface
->    (Doug)
->  - split sanity check fixes and cleanups per bridge type (Dmitry)
->  - add another Fixes tag for the missing bridge counter reset (Dmitry)
-> 
-> 
-> Johan Hovold (10):
->   drm/msm: fix use-after-free on probe deferral
->   drm/msm/dp: fix memory corruption with too many bridges
->   drm/msm/dsi: fix memory corruption with too many bridges
->   drm/msm/hdmi: fix memory corruption with too many bridges
->   drm/msm/dp: fix IRQ lifetime
->   drm/msm/dp: fix aux-bus EP lifetime
->   drm/msm/dp: fix bridge lifetime
->   drm/msm/hdmi: fix IRQ lifetime
->   drm/msm/dp: drop modeset sanity checks
->   drm/msm/dsi: drop modeset sanity checks
-> 
->  drivers/gpu/drm/msm/dp/dp_display.c | 26 +++++++++++++++++++-------
->  drivers/gpu/drm/msm/dp/dp_parser.c  |  6 +++---
->  drivers/gpu/drm/msm/dp/dp_parser.h  |  5 +++--
->  drivers/gpu/drm/msm/dsi/dsi.c       |  9 +++++----
->  drivers/gpu/drm/msm/hdmi/hdmi.c     |  7 ++++++-
->  drivers/gpu/drm/msm/msm_drv.c       |  1 +
->  6 files changed, 37 insertions(+), 17 deletions(-)
+[1/1] drm: bridge/dw-hdmi-ahb-audio: use strscpy() is more robust and safer
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=110ae8a21bbe779a133c1672a1463105c9d50590
+
+-- 
+Neil
