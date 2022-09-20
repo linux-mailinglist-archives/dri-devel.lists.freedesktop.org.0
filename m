@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D4C5BE7C3
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 15:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FA65BE7DD
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 16:02:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F98E10E1BB;
-	Tue, 20 Sep 2022 13:56:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC1010E54C;
+	Tue, 20 Sep 2022 14:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C928810E53E
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 13:56:23 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4ABBD1F8A4;
- Tue, 20 Sep 2022 13:56:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663682182; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jWpbxJdjZj3I6P/3PzojlhsAmqlcZnFowe531GaPw3o=;
- b=nhveMQoxrg7nhBwX2gViv+Zx68Fj1opzUH5xV3kieffGUGcQsH33lw2uIXQSwU9eAfIfOp
- YlF19dAFHUntfxc5YUa2CznjRgFPEwo1q8MPRC1EsKxJ5CHCGytDUvIAX6M4CwWnOtaGi4
- g3T+VcD8qsprJhLo4+mEfkFb7g9ArPI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663682182;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jWpbxJdjZj3I6P/3PzojlhsAmqlcZnFowe531GaPw3o=;
- b=i2LlIQw4N6YepfctQ3MJeOwWvLELe3SXfFSxwzgU6VyNdXJfRTFIgMH22YZWquFnNHzDvH
- 5G4dcOrerklmsKAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 20B4413B11;
- Tue, 20 Sep 2022 13:56:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8JkeB4bGKWO9BgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Sep 2022 13:56:22 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, robdclark@gmail.com, drawat.floss@gmail.com
-Subject: [PATCH 5/5] drm/damage-helper: Avoid partial updates for DIRTYFB
- without damage
-Date: Tue, 20 Sep 2022 15:56:19 +0200
-Message-Id: <20220920135619.9209-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220920135619.9209-1-tzimmermann@suse.de>
-References: <20220920135619.9209-1-tzimmermann@suse.de>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B9810E5C2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 14:01:53 +0000 (UTC)
+X-UUID: e5c7fa963791479096b9527f56645235-20220920
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=q/haoBXwmCcSGqCrXJVhbdriz46SeDPCtnhCp0ocTVg=; 
+ b=pP8GJlssTltsh/znF6PaQ7Mi/4SkTBmpFrRWrIeZuuBAns9c6MW0z6pXy4pWA2XcbYKd2VH8wc5lWp09sV1eFnL8NiO8IOG3hQknqvYfwASLQJY3ub6L20b44Bee4inlsukd5S7SpzO6hgmuM8nv2Y2f8uyavssJF8fQkU8mpvA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:ff0dd9d6-4a5d-4446-a362-b49bcf78a83c, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:39a5ff1, CLOUDID:e5766e70-dafa-4a42-b716-cf2cd4845592,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: e5c7fa963791479096b9527f56645235-20220920
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1933795110; Tue, 20 Sep 2022 22:01:48 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Tue, 20 Sep 2022 22:01:46 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Tue, 20 Sep 2022 22:01:46 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v3 0/6] Change mmsys compatible for mt8195 mediatek-drm
+Date: Tue, 20 Sep 2022 22:01:39 +0800
+Message-ID: <20220920140145.19973-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,81 +63,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Always do a full plane update when userspace sends a DIRTYFB ioctl
-without damage information. Userspace not changing the framebuffer
-or marking changed regions can easily be interpreted as if there was
-no change at all. Therefore set the new fb_dirty flag on all plane's
-with a dirty framebuffer and fallback to a full plane update if
-necessary.
+For previous MediaTek SoCs, such as MT8173, there are 2 display HW
+pipelines binding to 1 mmsys with the same power domain, the same
+clock driver and the same mediatek-drm driver.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding to
+2 different power domains, different clock drivers and different
+mediatek-drm drivers.
+
+Moreover, Hardware pipeline of VDOSYS0 has these components: COLOR,
+CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture Quality)
+and they makes VDOSYS0 supports PQ function while they are not
+including in VDOSYS1.
+
+Hardware pipeline of VDOSYS1 has the component ETHDR (HDR related
+component). It makes VDOSYS1 supports the HDR function while it's not
+including in VDOSYS0.
+
+To summarize0:
+Only VDOSYS0 can support PQ adjustment.
+Only VDOSYS1 can support HDR adjustment.
+
+Therefore, we need to separate these two different mmsys hardwares to
+2 different compatibles for MT8195.
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c | 1 +
- drivers/gpu/drm/drm_damage_helper.c       | 7 ++++---
- include/drm/drm_plane.h                   | 8 ++++++++
- 3 files changed, 13 insertions(+), 3 deletions(-)
+Change in v3:
+1. Keep the original compatible "mediatek,mt8195-mmsys" and add
+   "mediatek,mt8195-vdosys0" into the same item to make the tree
+   fallback compatible.
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 94818fd4dd8f..b7523d56b06f 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -340,6 +340,7 @@ void __drm_atomic_helper_plane_duplicate_state(struct drm_plane *plane,
- 	state->fb_damage_clips = NULL;
- 	state->fb_damage_partial_update = false;
- 	state->fb_changed = false;
-+	state->fb_dirty = false;
- }
- EXPORT_SYMBOL(__drm_atomic_helper_plane_duplicate_state);
- 
-diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-index f43abf02df5b..e884987a944c 100644
---- a/drivers/gpu/drm/drm_damage_helper.c
-+++ b/drivers/gpu/drm/drm_damage_helper.c
-@@ -102,10 +102,10 @@ void drm_atomic_helper_check_plane_damage(struct drm_atomic_state *state,
- 		 * Damage clips are a good indicator for partial updates.
- 		 */
- 		partial_update = true;
--	} else if (!new_plane_state->fb_changed) {
-+	} else if (!new_plane_state->fb_changed && !new_plane_state->fb_dirty) {
- 		/*
--		 * Also set a partial update if the framebuffer did not
--		 * change. Without damage clips set, this will effectively
-+		 * Also set a partial update if the framebuffer or its content
-+		 * did not change. Without damage clips set, this will effectively
- 		 * not update the plane. The exception is with full modeset
- 		 * operations, where we do full plane update even if the
- 		 * framebuffer did not change. We already handled this case
-@@ -214,6 +214,7 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
- 			goto out;
- 		}
- 
-+		plane_state->fb_dirty = true;
- 		drm_property_replace_blob(&plane_state->fb_damage_clips,
- 					  damage);
- 	}
-diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index 8c2d0a2eb760..2b22707eb116 100644
---- a/include/drm/drm_plane.h
-+++ b/include/drm/drm_plane.h
-@@ -235,6 +235,14 @@ struct drm_plane_state {
- 	 */
- 	bool fb_changed : 1;
- 
-+	/**
-+	 * @fb_dirty: @fb's content has been marked as dirty. Used by the
-+	 * atomic helpers and drivers to steer the atomic commit control flow.
-+	 * The flag signals that the frambuffer's content has been changed even
-+	 * if no damage clips have been installed.
-+	 */
-+	bool fb_dirty : 1;
-+
- 	/**
- 	 * @scaling_filter:
- 	 *
+Change in v2:
+1. Remove Ack tag in the first patch
+2. Change the compatible name changing patch to one revert patch and
+   one add vdosys0 support patch.
+---
+Jason-JH.Lin (6):
+  dt-bindings: arm: mediatek: mmsys: change compatible for MT8195
+  Revert "soc: mediatek: add mtk-mmsys support for mt8195 vdosys0"
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys0
+  Revert "drm/mediatek: Add mediatek-drm of vdosys0 support for mt8195"
+  drm/mediatek: add mediatek-drm of vdosys0 support for mt8195
+  soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
+
+ .../bindings/arm/mediatek/mediatek,mmsys.yaml |   4 +
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   6 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 128 ++--------------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   6 -
+ drivers/soc/mediatek/mtk-mmsys.c              | 145 ++----------------
+ drivers/soc/mediatek/mtk-mmsys.h              |   6 -
+ include/linux/soc/mediatek/mtk-mmsys.h        |   3 +-
+ 7 files changed, 37 insertions(+), 261 deletions(-)
+
 -- 
-2.37.3
+2.18.0
 
