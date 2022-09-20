@@ -1,125 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055F75BDDBB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 09:03:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C245BDCFE
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 08:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6055D10E2ED;
-	Tue, 20 Sep 2022 07:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E475010E2A1;
+	Tue, 20 Sep 2022 06:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-eopbgr150072.outbound.protection.outlook.com [40.107.15.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFDCC10E1A3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 22:45:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jjHSH9RAuulXGl90ZmiEgInmDsFjIpaWeaWWX4dKS4dnhXOlQU6QrNWq1amGBdVLdxjtPj9os1KGiBbaL2APg/LEVcwBFcvMhshmckxPLYrmR36w2E3imRHV6omISqMOW5c7ngi6C3f8LZHF2g6laK4VXXnQiCTnz9vU2327GmudIG8BDLMPIa3gwI5Iv3XHGX2SSrIPB1P/eHmAWQuFAFoqv6ix9It8YsrQt15Kof+EsJq3i6drdjVqosSm9aAD79WN3Vi7kY53R9JNZ/bodwUuQYaPnC6COpD5lYIab6pijpYAI1I3I+w5sJCmv3U3Vn+A0Rt0T6AWSGNdPN69Fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8IkBvMfMgiVT6zXCE9Hq9Xw/HGe+KELbF/kV8PIKnR8=;
- b=IpD6L4oUMkDJAN4XDy/1ruJe1cJnuLFktLaoWM94BWRlMxDj8z+dCSOnX2KF1TK5ddnWhIZY0VPp6LlwNhE9cOnp1sMKsKpOlWpS+fG4pmnipH/Fy0o95kJD/Jkn90mHQ4vNFauaVyRcnXV1jzsCXpt6+as4xSmHd3VB9e/XJo4pFop4rJ/uzZXfuRyTR2kU1Uw82d3G+IaUFl32P4HiPz8lneCkgE68dUI10uBgFi9YFKCY0f9Tdi5KGpCx1mmyBX1R5gduIAlnArvcNmw99qewil1mx30p8Ewo1KDgfyQXDEawrTuOTTQKtqsYKnXMSYVQ9QqiG/rW/2FtMTHBuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8IkBvMfMgiVT6zXCE9Hq9Xw/HGe+KELbF/kV8PIKnR8=;
- b=l9EOH/Js2+qD5hzX881EswGRxjI4KzAtMjYCIatLqoW9vmbWAI8C0NnxJgjSo8PuNUlae0iCW0yvuWTd9/tI7T9ovIQmZq7xs0rdLvS1pgzZRFsM0ziPWC0Gy/WVO3R8qqkKLacEP8VWxLyJDAN08OTfR4aSZZRn5MOvQTlS746QT5rWqVehGVIOGMEsV+P5Geg2LOEuvGEsaARzlavcVaXvOmh3PyHbRO3OO3CRplknWc0TFnAF/TOUOTUmy8uYd3h6wghWQi9Y+iPxbOUdvdd/Xw6Oo6xcJaA4beBl9R6Jb4nQBQlW3CUVkGb9ilKEh0hMM/vj5/rcF9SQQFuPMQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
- by DBBPR03MB7082.eurprd03.prod.outlook.com (2603:10a6:10:1f5::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Mon, 19 Sep
- 2022 22:45:18 +0000
-Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
- ([fe80::ecaa:a5a9:f0d5:27a2]) by DB7PR03MB4972.eurprd03.prod.outlook.com
- ([fe80::ecaa:a5a9:f0d5:27a2%4]) with mapi id 15.20.5632.021; Mon, 19 Sep 2022
- 22:45:18 +0000
-From: Sean Anderson <sean.anderson@seco.com>
-Subject: Re: [BUG] ls1046a: eDMA does not transfer data from I2C
-To: Leo Li <leoyang.li@nxp.com>, Oleksij Rempel <linux@rempel-privat.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Vinod Koul <vkoul@kernel.org>,
- "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>
-References: <38974aab-06d0-f5ff-d359-5eedd2f3bb3e@seco.com>
- <AM0PR04MB62895815596165791DD59DD38F4D9@AM0PR04MB6289.eurprd04.prod.outlook.com>
-Message-ID: <9fc5afd3-7595-fc56-9b7e-209b0b08036a@seco.com>
-Date: Mon, 19 Sep 2022 18:45:13 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <AM0PR04MB62895815596165791DD59DD38F4D9@AM0PR04MB6289.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR22CA0026.namprd22.prod.outlook.com
- (2603:10b6:208:238::31) To DB7PR03MB4972.eurprd03.prod.outlook.com
- (2603:10a6:10:7d::22)
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13DE110E2B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 06:17:02 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id d82so1771685pfd.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 23:17:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=B6hSOiP8g8zcB6u4AKVglZyJoOdoT3fhziHHZ2QNmtU=;
+ b=es8BM0wHkkzQAHxB0FX0GkmJEUxTn7K2VBAKKB3V5Bk5RYldxiY1m/fyt7ORwTs7Sw
+ csjSUYauRJ+zWLh+31MhKh1QzaG4X2QflkslS3Y/R6eq0RtQsDNF482Pvyx95yEB2h2v
+ u++rZmqHdt9U4myFqAn+aqKWT6ORWPMZkRK4xisBADSw4nOutil1IZOlVAZ8JJ2hPGGD
+ CBe2me9EEDC1VuuzhhUkCsuI6roiSSWN8m4N6roaRxJ+rRA3pFvXig9IFw5i5lpSPTIU
+ HxTQn916nob2CMwjr6VmXfGxkOtfohiNsN3Aj2l0FtreW0PLFlZGuGLpoPpQC45mI56z
+ H7QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=B6hSOiP8g8zcB6u4AKVglZyJoOdoT3fhziHHZ2QNmtU=;
+ b=r51pxywPHcbj2qFo2GoF2ke/7lTcFYU9OZl30+Lp/HsbeN98RKPb/I843V9I4QzvUk
+ U09Nd55EADAh2Q+OTSBFUdWtec+5Dalik5R+Mp7wokCMOL+ck01b4r3c0utkovnUEiKR
+ uX/lx84wJfCGMqyPGN6WOig7EDauREx6E7BBeqZepWiiyUanxA2wY/BXSImVO+qmHg7n
+ Hg0i5flD7/JXef3aSz6c383O4HcHXr5oVi7NFWFYMyXn2SFDmS9UljGLYcQst9BEWzgq
+ JPEcw4HRnH5HemUz94iWsuAg3UR6krz9NkLVfFgwmjZtqnNFRi73b1j7yb4MbWyGB2pI
+ 8lNw==
+X-Gm-Message-State: ACrzQf39rc2sChboHTXcXsOl6cMPFbpc840ZVo09N7Y2VrGl4OX9fSHB
+ xYPPw6V5Af30qAZ9BBKhhAk=
+X-Google-Smtp-Source: AMsMyM7otqRaKgalLurxjXjKVQ0peXA1t+7Kmgwpb0wvpEVxfKpohw0FQbPrQWluYT96xGyZzbbHcg==
+X-Received: by 2002:a63:4918:0:b0:439:1802:dda3 with SMTP id
+ w24-20020a634918000000b004391802dda3mr18537836pga.467.1663654621642; 
+ Mon, 19 Sep 2022 23:17:01 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id
+ t17-20020a170902e1d100b001708c4ebbaesm461317pla.309.2022.09.19.23.16.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Sep 2022 23:17:00 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To: andrzej.hajda@intel.com
+Subject: [PATCH V2] drm: bridge/dw-hdmi-ahb-audio: use strscpy() is more
+ robust and safer
+Date: Tue, 20 Sep 2022 06:16:55 +0000
+Message-Id: <20220920061655.214785-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB7PR03MB4972:EE_|DBBPR03MB7082:EE_
-X-MS-Office365-Filtering-Correlation-Id: c059e07c-2571-45e8-e5ff-08da9a90a047
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mnOsw7nMc8EjP9tIuOQTsUzyUqht/fnvfxGzSataKPdbvhMitLc8rUjT1bPb7G9+9gJbCXhm7kVQnCdze/9rg4bOTdFG4U8n2m6EewkrPBJWMO93fY5YlA1rhfHBuhPzD1OaDsUlglNGI0NQB9FQ2NThvVhJ3wsUKRU8yOBsQC9rU4yxc6z2N7u0GxSL9qvSIOipLrK7BISJZE6u9HCYRDjJsHpDKTH81LyhNMsJaZcFknjF4An206cP2cDQ4aHZ6qTHy2PAxxYDuTz0v/C97NlNsZZk+aWCJmzYnlZ+PuSfrOF42BbfQuZbW2O7dAC7rwrBVXCvDuHySTlIKSsFxUG1JaqhZB9YU24xXEzHvpxO4QbTi5yHVihWIFgx2JzM3NUCdHbFxCDUW+Y86ZFV65PgjFlRy+g0MTkOIErpxUdBUErI8bY5wtOpUR7EIurnqI8CP/1J2JucBsb+xPq0Twu3FrSldw1aFT75zqzpKojYGE/KUvSnwnBKFKGL5rwg5b8xdo1I+Uo7TpMHSmEHINytBNJHz5kBChVqfZ2sHch3HIZBp4FMxHDlb28G1IB4C6oUcg0rthq2JV5O39i5zm72vCHt5gN5uFcBbWG/dDVP4yXn5YxtjS4WtV3py4rqc4+AjXfw1asdBG65CHjQj7dl59RZ8U0eS4vWN5ffLpiRvaFfpZCuFYbaIVyUWw95omOtXWF7iiIZgABO1BY/750WzbJiAVOk6hkzvcsxDbijJHFj5g65SbjB4uBBFRS2r5Tq1zVHetpBYPKQYb4dxFVDZ2X95LOfH/ijDRLlIfdjQkyh6khYymS32dTj1R4SRCwONRi3c3EAcOqWgYl5uw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB7PR03MB4972.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(136003)(396003)(376002)(346002)(39850400004)(451199015)(66476007)(5660300002)(66946007)(66556008)(8676002)(4326008)(7416002)(54906003)(31696002)(110136005)(86362001)(316002)(8936002)(66574015)(38100700002)(38350700002)(83380400001)(53546011)(6666004)(52116002)(41300700001)(6486002)(6506007)(478600001)(2616005)(186003)(26005)(6512007)(31686004)(44832011)(2906002)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M2E0c2pyR3hYb25JbXJIbVlVSXZJT2pjcnJJbWl2bVQ2UkRsMDlGeXdFdTlI?=
- =?utf-8?B?dktDQ1FEWmR2L0xRYjJBc2grc2d3R2hCNkZDTTZUNndUT0hyaitpUWFaL25n?=
- =?utf-8?B?TmRuczZCb1l3TDZncWRaMHJQWTdXOU9KUk5sVnFIaGd2WUhIeEdvdnM0T09U?=
- =?utf-8?B?djBmdUFJWFFtMkQ4T0hmRloxQVVMQnpUajlIa1Q5Ykx1MVBPalZ4VWp0dDNY?=
- =?utf-8?B?ODMxYysyVUQ4dkpXbHNOcGNsVFhiMWN6b1hqVnNUeGc1K0N3QVdVRStTSnVM?=
- =?utf-8?B?bGJLVVRYWXJSa25SajZPTndDYk5PSTFFMzhmRTNKeFk5cCtDYlYyWXQwQWla?=
- =?utf-8?B?RUNpeW9PbHJRbEZua0R2ZERuWWJwVGxwV1BlOFVleGRmeDJQa3dFVit6K3JG?=
- =?utf-8?B?czd5UkJhb1I0QVVXQWxlT01tVzNZcjhIZGNpb1kyY3VmcEhYdWhSeVBObWJL?=
- =?utf-8?B?MW1jVEJjaWdZVlNPUnhDUStHR2NvM3BnRmhUdjdDWEpyR2paeHA1ZTI4MkFz?=
- =?utf-8?B?c0pndDcrYnhKRm4xS3VPZ3dON3BFQ3RDcnJWSXZ6R1RISXhzem03K2RWUlky?=
- =?utf-8?B?Y2xVM1ZJR0hFQXg4RGVQQXFYTWJuSnE5NHgxYUFJVlhRZXZnOWZmQ1lnUmZx?=
- =?utf-8?B?eFhCNS9Zd3RMVENnM3k5dVM4dERvVXg5Qkcrek9GT1AxQVNhdXdobnpmK1pk?=
- =?utf-8?B?Q0xnWi9zbEpYRk8yb1BISEkwK250WExyZmx4ZmFVbEVyS1QvMGFVTnVvc1ZD?=
- =?utf-8?B?Tm81c0c3VFV0bkVUMTVoVjA5YjY5WEZXSjBTZVZ4N3dHd2FpM28zUUJNbHNF?=
- =?utf-8?B?enR3ZmdjWERDNTVINnJDUm1qd2t4di9CWitaSHNsbDhDdmt2TjBCVzJ4MzNB?=
- =?utf-8?B?WlRnL3dCWkpYc0pXdTVRL0doWFlteEdYalhreHpEVVhsL0g1NXg3QkFRZ21y?=
- =?utf-8?B?a1gxSU40UzYvcUR0UG5NTUQ4OXcvU0JFOWUwa3p1QzQ2M0p6YUxwdHdqcTJ4?=
- =?utf-8?B?ejM0eE1mM010RG5Hc0RSZGtUeFdVc2toL01WUldHTVNtSm5neGIwNmFTSUVk?=
- =?utf-8?B?RUdpTHBxeGFCYkNyVDkwUVZSL1BDRytrRzRHdU02dUQ5c2ZGUXF2NFFsR0g4?=
- =?utf-8?B?bDk0bmhrQjdvVC9sUHJPUE8vRDhlUUs2YnJwU2VFdnR5UVRka3BqL0VlWVZr?=
- =?utf-8?B?dTdiUUlYQkZvSHhCc0xyQ0RIR1g0eGRCdmRtd3VWNEtHOTRzRGNXdzZwVnlo?=
- =?utf-8?B?S1IzZ0ExOVpjVDBuZWMxS0lmbkZHZmhhdTFhbkxKM0dQa1ZXRlV5VFhVa3Mz?=
- =?utf-8?B?a2NENFhyQmhNOHR0UFlwa2R4MTZ0cnNhN3VBQmg3TDVqN3ZENzkwaDgxTmJK?=
- =?utf-8?B?Wi9iUml4cE1qcEkxVnZNamJFMlJPUTN0ckwrRG8vcG5DWVVDMFN2dGlPVmhl?=
- =?utf-8?B?SlE0Tnl6NTYzYVpmelp6RHN3S1hZeHkyVHRQVmJNc3hLc1NGMjVQRGg0Zm9y?=
- =?utf-8?B?em4rVlF1ZWRiU01EaDBrTTduMDhWblFHWkpRQXRydWYreWtlckI2RGdHcXpp?=
- =?utf-8?B?ZXBqVWowRHhwV05mT05DZ2krU1U5cG02cUhGM0V0RWYxdDBvSllkQzg5TDBG?=
- =?utf-8?B?MThMTHcyL3VYOXp6TEU4TURRK1F6MVVNZ0RZbUFWMzlkL1FldWowUjZ0SnVv?=
- =?utf-8?B?T3RnaHNDL2g0UlY4SjMvS2FML3hVSkRhMjNTZ0dUdG1rS3l1VXdMK2U5OXNI?=
- =?utf-8?B?QmdLWG1EY0xDWEMzWndrcWlSWmlHcEVXQXlGOU45c0Z3VHFlWlYrV1RrelJj?=
- =?utf-8?B?ZE9KMkFKMjFabnU4YWhaRnZibU5tZVBvR0ZieDZlY1BFUnkxWDRBa0hvdzdP?=
- =?utf-8?B?ZDU2N2NIL1R2M1Zyb1p6RTBHOUpsTHpxc010RlVPeTVlUW05Q2NCNjQ0Vlh2?=
- =?utf-8?B?MjNjU3B4cTRRbWtDdG9BTVROWEsvNzVqWnNxTGpSdW05N2hxYWFKa1EzemVV?=
- =?utf-8?B?OS9lS1pwcVM1ZTJmUzlQczkxQ1VDSTBQcENyc3hVV0VsbURJS013K3dXTGFF?=
- =?utf-8?B?ZEVuZTVjZG9FQ1g1bTVHbDNLcmQ1SXl6VHlmWnJZdFliajBFQXRBYnYxaDBX?=
- =?utf-8?B?QVNGdjdFZVljNExiM3RaMGZIeDRXWVZ3QUV6NzIrWC92alVQa1BhVWRKQVNZ?=
- =?utf-8?B?cmc9PQ==?=
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c059e07c-2571-45e8-e5ff-08da9a90a047
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 22:45:18.2474 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0VOcz0pm7KTvQOtaBf+b+pdAsAYZZV+WoCi2PZR5w38xvFSW3lDOqudRgWzv/WWn8PumE4fyWPlr82Vct6ADBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR03MB7082
-X-Mailman-Approved-At: Tue, 20 Sep 2022 07:03:14 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,51 +69,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Joy Zou <joy.zou@nxp.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: neil.armstrong@linaro.org, robert.foss@linaro.org,
+ linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>,
+ dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
+The implementation of strscpy() is more robust and safer.
 
-On 9/19/22 6:40 PM, Leo Li wrote:
-> 
-> 
->> -----Original Message-----
->> From: Sean Anderson <sean.anderson@seco.com>
->> Sent: Monday, September 19, 2022 5:24 PM
->> To: Oleksij Rempel <linux@rempel-privat.de>; Pengutronix Kernel Team
->> <kernel@pengutronix.de>; linux-i2c@vger.kernel.org; linux-arm-kernel
->> <linux-arm-kernel@lists.infradead.org>; Vinod Koul <vkoul@kernel.org>;
->> dmaengine@vger.kernel.org
->> Cc: Sumit Semwal <sumit.semwal@linaro.org>; Christian König
->> <christian.koenig@amd.com>; Linux Kernel Mailing List <linux-
->> kernel@vger.kernel.org>; linux-media@vger.kernel.org; dri-
->> devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; Joy Zou
->> <joy.zou@nxp.com>; Peng Ma <peng.ma@nxp.com>; Robin Gong
->> <yibin.gong@nxp.com>; Shawn Guo <shawnguo@kernel.org>; Leo Li
->> <leoyang.li@nxp.com>
->> Subject: [BUG] ls1046a: eDMA does not transfer data from I2C
->> 
->> Hi all,
->> 
->> I discovered a bug in either imx_i2c or fsl-edma on the LS1046A where no
->> data is read in i2c_imx_dma_read except for the last two bytes (which are
->> not read using DMA). This is perhaps best illustrated with the following
->> example:
-> 
-> What is the kernel tree/tag that you are testing with?
+That's now the recommended way to copy NUL terminated strings.
 
-5.15.40
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+---
+v1->v2
+using DRIVER_NAME instead of "DW-HDMI".
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Sorry, I forgot to put that in the first email. I can test with
-linux/master, but I reviewed the different commits and I did not think
-there would be any difference. I also cherry-picked the eDMA memcpy
-commit, but the dma test passed.
-
---Sean
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+index 7d2ed0ed2fe2..8cb6177f976d 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+@@ -542,8 +542,8 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	strlcpy(card->driver, DRIVER_NAME, sizeof(card->driver));
+-	strlcpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
++	strscpy(card->driver, DRIVER_NAME, sizeof(card->driver));
++	strscpy(card->shortname, DRIVER_NAME, sizeof(card->shortname));
+ 	snprintf(card->longname, sizeof(card->longname),
+ 		 "%s rev 0x%02x, irq %d", card->shortname, revision,
+ 		 data->irq);
+@@ -561,7 +561,7 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
+ 
+ 	dw->pcm = pcm;
+ 	pcm->private_data = dw;
+-	strlcpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
++	strscpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_dw_hdmi_ops);
+ 
+ 	/*
+-- 
+2.25.1
