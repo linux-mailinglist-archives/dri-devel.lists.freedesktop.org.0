@@ -1,153 +1,135 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F525BED78
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 21:18:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CD65BEE2D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 22:03:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95C9A10E764;
-	Tue, 20 Sep 2022 19:18:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7296810E777;
+	Tue, 20 Sep 2022 20:03:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E4A10E766;
- Tue, 20 Sep 2022 19:18:24 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 491D110E776;
+ Tue, 20 Sep 2022 20:02:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663701504; x=1695237504;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=DA9bEc8LdoZHqCzfNPsHRgnTb9f2ZFXxb5dISovXi8c=;
- b=CcLuzhxlin/mnMcwtRz74lGcWwmgMtrypbB2Za1KUsJTzXZhmxZz0sf/
- jvyZ918B9oQZF3dLAlzRyzpFCbqjGo+TBJr5vbR58qgylMcb253//TYDp
- gB9WR1JKAiP0opSvhxKT4y5i24H+DtcfUsXiWH3wiFJ0ECNGpuGxAzUh5
- UpBSfZ5N58Qx63qTBmFsq3E8+NIaC5CNBnzLrp84Z2SBbZXSc8BuUCqE0
- wCSdwldCXkF4Xi3wX1Pg/YjkfUmNtMcZ8Ea82d1iL97NdeN1xqHg3ZWsn
- oN3sK9lRszYyyVctzbGJrNG1WC4pNC9T1NqNOVvoR89qNZ3K06qr57caL A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="300634575"
-X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; d="scan'208";a="300634575"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2022 12:18:23 -0700
+ t=1663704176; x=1695240176;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=XBjQV4Za+1SXnA2WP4RM+wktntWZbphOdeKl/9RD+hs=;
+ b=NyfGfzAxeMItIOQtawTsU3U69gV8hqFaobv3PsvlRumS5CO8JBcR44sf
+ ytzDGzbkp+THcC8ZcwfdRq8myOC6BVcAdjc+VO2Rzaz9bJvKxqDkL2wUM
+ 5iTofCv21DfXO7jyLRvNLQsLPl5XzIXr3JpNs0rS+s8cvIpUMxq6F6G9i
+ rEru1HQiIKwVIIjvEG856w5cGPFCY4jkzlR0+WfLqL1iZpcY7qjz9j+bb
+ LIYOC58iuzyTgiAgzW7L6tOGkUPKr8LnrCSFprgFitAWmrjX7+aekdvht
+ a49gGUd8GwYPuv29sC3km8kfYS49K6t6pz2rpcRwRRNRKxHrPR42Ohk9H Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="298528141"
+X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; d="scan'208";a="298528141"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2022 13:02:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; d="scan'208";a="794384960"
+X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; d="scan'208";a="570229832"
 Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga005.jf.intel.com with ESMTP; 20 Sep 2022 12:18:23 -0700
+ by orsmga003.jf.intel.com with ESMTP; 20 Sep 2022 13:02:55 -0700
 Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
  fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 20 Sep 2022 12:18:22 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 20 Sep 2022 12:18:22 -0700
+ 15.1.2375.31; Tue, 20 Sep 2022 13:02:54 -0700
 Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
  fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Tue, 20 Sep 2022 12:18:22 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Tue, 20 Sep 2022 13:02:54 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Tue, 20 Sep 2022 12:18:22 -0700
+ 15.1.2375.31; Tue, 20 Sep 2022 13:02:03 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ctVM/aTdAXnau24ex3jkOvYIv6Fzjejs7yNvferCLvAOCZIBhtxl5mdGzpdKIqd8bTiUqdeIkTIkCu5pOW+7td3spoAXNG5vC2At/x2FOsXj3bSeYanw03D+5aL1/MNXTDuywsoISng1LDx9epv61BeWlwR7pwzDoOtKFF9Ay+QYR0431u0+eJUtf73wV9NhyAqiAgUo3wWNT7tCMMIGdWFc+L/K6xekblnokKWFSuWyeNCph18H56Ny7Qhp281e21x1DDGeJI9cJLVi9QA03sQgl9Hf72Jw7m8dbH/ScEMogU/+RaoEDGFFUOA/vmq7eDcvJ3f+7irZzbaQymq/pw==
+ b=kt8u0VndtD65gIPOggDdPVAIAvpuK+lTsaM9te2rnHpwhCRzZC/rNWL/319Mx8h/pDO6Ohlw5jGN7b/z0fHO4ZiCd5Z9nt/SoMPjS7ibatb1x5Mx45m4A3qfh7kiG56Uinxu0ZrgJO5TkjuqFeCrESlDug7FF4qZCRT3LHyK2jFaDHkCXrkhWphJwZuso7Y+J+arDMel+LSbSkb2GXoAc9AuZF2tA1z6EdkcAKi8IUYpxaBqSR+AEcc+Wvkt+yq5DFHC66/rXpk+f0hAYeDBxj/tXqZ9OFTRKRsHNpEzfgH4zv+SB+7SiwL5TG5CblvDxxu/kWjZgqEuxttTyCAD/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jNDWuIlAr0b0qgyVUeZAvHTuN7C/Sm66szNtyF5+DqU=;
- b=f5CBxk7tVqYqK2C7VTB2/dtOYbfr/btUlHhUKyk0QShL6uJr8DWh9079CS6qYV91WwzZObFdMqaGpPIKpTap7QVY1Ol/MUK0UXC2iaNim8QaQc0/vtF6Db6XaMMiroq3POFwQuWGTmxAA8y/2cuiYOopr5y6ZyODiOKS/Y9B4o6PLKiWt5zoCOQsOa/eCTfAZowRg+QXjk8ThSfy8lAO0Qz0eRc4XSxYIUEq/g9EZku80/E9mrqFBVcELn3oZ4brcYBXCtYcyZBPHYjuos49QKhxCRYy+KMoTB5zWe8XbaNB4jgbJQl9zbw34L46hJ1uEE5ErX/PLdtBXoOiV2tJYQ==
+ bh=PIkWh6o2af/Mk2uMJ1xEqdq9Ltnb0sTpsWtI+4PHUHE=;
+ b=BcHgAbY00td9Gt8Q4XJ5l7bS7ySzyxerGfya6T5SqpBCB6OSWIjbYPUdJ/MiBwy6/QFSDXwziojt+Xw60t3E4TFTtVX3IWbJAR4HYRsoLPSgp2eDLjw4QHXJi9GnlL3xxNIssEp+H5Af0bn+Kc0hcjvHXR5UdKB5ZpufjzF1R1oi3kWtzCHzCNskydyzqUlpm3BQqaSPJ5Qow28+7RzzoAT0C6buz1p9kFGNb7dxmlosfUg30sMqF6roru2lhj5RkyKpmkMBiFUQ4HfS+qt5BefaKDIZBsivFtan9CxgOjUHpmkJ6dcENLcQL+IAKaeUnp2iAA7VQsWgL6wgcsEBjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CO1PR11MB5108.namprd11.prod.outlook.com (2603:10b6:303:92::9)
- by SJ1PR11MB6130.namprd11.prod.outlook.com (2603:10b6:a03:45f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.18; Tue, 20 Sep
- 2022 19:18:20 +0000
-Received: from CO1PR11MB5108.namprd11.prod.outlook.com
- ([fe80::60be:993e:a3fc:1cf9]) by CO1PR11MB5108.namprd11.prod.outlook.com
- ([fe80::60be:993e:a3fc:1cf9%9]) with mapi id 15.20.5632.021; Tue, 20 Sep 2022
- 19:18:20 +0000
-Message-ID: <6905e79e-700e-66cc-d369-508d885e804a@intel.com>
-Date: Tue, 20 Sep 2022 12:18:19 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.2.2
-Subject: Re: [Intel-gfx] [PATCH v2 3/3] drm/i915/dgfx: Make failure to setup
- stolen non-fatal
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- <intel-gfx@lists.freedesktop.org>, Caz Yokoyama <caz@caztech.com>, "Aravind
- Iddamsetty" <aravind.iddamsetty@intel.com>
-References: <20220915-stolen-v2-0-20ff797de047@intel.com>
- <20220915-stolen-v2-3-20ff797de047@intel.com>
-From: Wayne Boyer <wayne.boyer@intel.com>
-In-Reply-To: <20220915-stolen-v2-3-20ff797de047@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BY5PR20CA0028.namprd20.prod.outlook.com
- (2603:10b6:a03:1f4::41) To CO1PR11MB5108.namprd11.prod.outlook.com
- (2603:10b6:303:92::9)
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SJ0PR11MB5615.namprd11.prod.outlook.com (2603:10b6:a03:305::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.24; Tue, 20 Sep
+ 2022 20:02:01 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7b64:871c:564d:91fa]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7b64:871c:564d:91fa%6]) with mapi id 15.20.5632.019; Tue, 20 Sep 2022
+ 20:02:01 +0000
+Date: Tue, 20 Sep 2022 13:01:59 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915/mtl: enable local stolen memory
+Message-ID: <20220920200159.jjy7fdrslajxtl6s@ldmartin-desk2.lan>
+X-Patchwork-Hint: comment
+References: <20220920071940.3775059-1-aravind.iddamsetty@intel.com>
+ <YynxCp0OGTJ/hu3J@ashyti-mobl2.lan>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <YynxCp0OGTJ/hu3J@ashyti-mobl2.lan>
+X-ClientProxiedBy: SJ0PR03CA0147.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::32) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5108:EE_|SJ1PR11MB6130:EE_
-X-MS-Office365-Filtering-Correlation-Id: a2a259a2-be24-4999-8590-08da9b3ce130
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ0PR11MB5615:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98ebb3d5-68e7-4fad-1122-08da9b42fb82
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mvQ75Z0aYcL1r710/N3eLYApQ69NAer5lAWanEElQRStsX7U0ehkDOxPSkrncTZxUsI3qtdgoM63lz7njLucCpub/dCN787ohpn9we4pCX53YRRGqgLkev1YKD6MVAGj2Sx4C+fnKv4FNpddU6NNUti7806UYCacD86WS06DzZXFfDdIE+TPcXReY+whX4mp8YzHv0SY8j4/9Xi7gFgTV3bivB+JzIQXd8KZZg9eJIuTifJATtNCsfAgvJYW0LWn+YmlgCj9JHMgkx3qQEgHn6mb+1ezAty0MVUnVY1WzsAjJ5X9Qo4Nqj9blr4NhqbbfhpAg2B1AxwjvOeDly3DTyLte9bVVs6iLjq9IKC1Wi0IhQk+cVCQ5cvwQlVH8fplpWEtWZMc+gSY6RBaOpIlQhPbZi42pOCvN4QVk81/eFZS/ZIiuOxbyBO7gweU6RXr37PKr9XGytiz1ZJ2eTuMc2f/7jQ+q4DzXQ6tR8cL75+gDdTWl1ofDYX/YoZBnBG9u3SRxSgc+Jk1TGGjTzpczfsRZzKuoqRiUpTxmhVpCEMeNIG/hU7oWd49W+GDD7H4Nh7MjpXl1BVgPSeS8TykyT1XJYGFjVdfXrrE8xSM6L0ahRDHpGUZ9U+IHjWlq+Yz1OvUhJQZ/vugYdVgZstqu1YIK6K96Jwp77A4uKmJBfD6KUQIh0lQGKigL3V0+Pw0GNPdIFI6U9MAqRkFVsM6W7wXAo73okSJsWUGkeB+du4KghMTWthn1zZ566OIujQFucdslW32eO3Qbh9HUGUVRo5ErdEb8E/qeaqbF6lwxPg=
+X-Microsoft-Antispam-Message-Info: 4+1QxcE7v18V5JZdn5zJQhhnRfZhj6y/to9I4K9fDLIEnIhMUBrKe9ncH6OCjtHzGT96qBPZqFl5ld7sVXPNEkCVjWinCZKGf03/8F0XDF9dk2oS2Cd4OAYXmX0OqtT9b6QpOslvqBmuhfISRamm9+GcyP24AX/YBjo2E2tAFo1gojN3HOWn2D8zfi59QElktpoiAs85odSF3pIVyWHCQa87uXbchB/0ALrXILSJDVccfQO4WvZklhVRk8O0FSM7Kco7hYbleRhDTuxjCcpqrU1q6szQjCfL9E9rR66yxwe8Tk+HB3tNjYuvU2men8zF2YqeHAMPUyxahvIFm/OGdLftrs9fTnSBiv3HCRVyVo/Lyzuxp/NCWa00+pBfXgpG1Hwd3cyZDUz8KP4dPiXzuOkK1sBhX9Q7DblOnsGTBoIOXhJsYAOpbQcogmQFZ5iojGzU2AS96ZRH5yR/qjuASMEe4aifddu/ke/j2H28gaMK3ydxBHKrs0obDIszlQntk1iBmP5DWljzNadP4NW4yfUkueyGQZI1VKEYKyJoOY81O5cGm3kQqOABoG+7SNY0Zu4bqoi/Ux0hPiZa1T5GMLXFG7T8Arcl6sFnUaE64M3SQlEZkTS1pVXEm6ZxW9oV/KMpIksR25xDcabjzctyy574+5M44Zf5wH+Ndm1H1TkjoeJxNYwSGwBOiM4MFPrRKDP9m9Mm64CLon85TA48rA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO1PR11MB5108.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(396003)(376002)(366004)(39860400002)(346002)(451199015)(66476007)(66946007)(66556008)(53546011)(6506007)(26005)(4326008)(86362001)(5660300002)(41300700001)(6512007)(83380400001)(8936002)(8676002)(2906002)(82960400001)(2616005)(44832011)(36756003)(38100700002)(31686004)(31696002)(186003)(478600001)(110136005)(6486002)(316002)(6636002)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(136003)(346002)(396003)(366004)(376002)(39860400002)(451199015)(41300700001)(478600001)(86362001)(5660300002)(36756003)(4326008)(8676002)(4744005)(66556008)(66476007)(66946007)(8936002)(82960400001)(6916009)(2906002)(38100700002)(6486002)(316002)(1076003)(186003)(26005)(6512007)(9686003)(6506007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGVJYjNzQmF6L0xKQmFnQTVWZ3RkVlVXaFJsVTZLTWdNSXRsTTZqY1J6TVAx?=
- =?utf-8?B?SWJZclFsTkNnTzRHNEhsZVFWTDRSTTVUcTB4UnZmT2J0NTVJOGtqODFFSXN4?=
- =?utf-8?B?VnZ0TGt0UlhtRlVobSsrWGs0YmVFZjFvTnd3NjV5ait5RU5BR3VBc2ZJMjVj?=
- =?utf-8?B?UU41U1RKa3dkcHJKeW5DUGVtNVJlb3h0R095ZzdSVjhtM05XK0JvdnUwaUtG?=
- =?utf-8?B?cnBXZWl0MXNzbndYZTdZQ1pEY0JCdWg2ejRWclQzckpLS3pzUjVGQWJnTmpR?=
- =?utf-8?B?anNsRUp6QTlqV0xYeUR5cFgwQW9yUmpON0RXNHREMEp2R1VUOWJhVUUybnBo?=
- =?utf-8?B?bDF2Ui9id0JmcHhKT0hQYXZyOEV4TllqMGpPNGRWdjZWM0ZiU2xMNXRFeWZh?=
- =?utf-8?B?V2h6c2RqbVhFaFFScjBnUVFqNWtiZ3MwUk1kMUQ4azd3TU4wVFVJbjZOU0lR?=
- =?utf-8?B?SHBMVWdQM3JHYzlWSC83OUNlLzJSN3dkRlg1c2l0ZGFoL3BUVm1KUER5Y0FK?=
- =?utf-8?B?Y2x2eGl1V1o4Tzh2WEdwOHBweXZhRzlxWFFPZllkSXVmc0drMWlBWjF6YlQ3?=
- =?utf-8?B?azc5RllkcFVHa1BVYTg1OHZ2V1U1TkVZemZMODdMY1FrOEJUc0FQTGV2b0pZ?=
- =?utf-8?B?M04rYzR2dGx1SlZYYi9ud1FSR21pelFwaC8zOEczNjdpNThLbFFwV1RISnE0?=
- =?utf-8?B?WkZTQTlESldOcEdiUWRXR3JSakdwWmpud1VMRkw5SEFmcWN3Vm1nKzBlemFP?=
- =?utf-8?B?djdoQTRXcCs0YTdVVGFITDIvSDZpR1pkM0xoNUcwV0RaVWk1Q3pMeDQxMk9F?=
- =?utf-8?B?cnZsbkduVnVWYXRremRwdU82UnRwM2x0SFJxTlAraWFGV2k4ZjJ3S0NhbXpY?=
- =?utf-8?B?TlZjYkFMWHNlQkVIZ1pmUFd6eHpHTUxua1hiNDBieEN4cE9ESUlKV3JVQkx4?=
- =?utf-8?B?blk0czhsVmMyU2xRdVM0bnN2c29aaE5GeU54N3lhSVVFQUxWOVhKZ2VBbWtj?=
- =?utf-8?B?azNzMndOQUlKeGZSNXppL0FCZzhVN0xWYjM3NGxrbU1WNCs1bDVtQktXNFRj?=
- =?utf-8?B?dUF2T1pxLzk3eVhQVkVydVJEV0V4dFBPSHM3REg0eC9mWFk2TThGeVBNNXEx?=
- =?utf-8?B?NXJXeUxVRTlEZktRR0pjY3lHVUluc2ZHazBCaDJqenVnZTN6ai9pNU02S0w1?=
- =?utf-8?B?WUs2MmZxSko3amk1bmgvUUdNVE5uTU1xbU9hS2JIaENzVXRnM3FKcW83MkQ0?=
- =?utf-8?B?L242SllUdlVvWFhqRG9zREdPeXNpZEVWL2ZiM1UxVkdBMWk5T2R2WVIwc0NO?=
- =?utf-8?B?ajExVmV4RkNjdFMwN2VjUytlb0g4aEtrTm1SNWZWOVhIZUdTU1dISjRYbmU5?=
- =?utf-8?B?dm9iRDVFZVJDVUVJU3RsbzBwN28rUU9iTjBMQWt5eVBkamlMQjU5Q2lueUVW?=
- =?utf-8?B?SGJUV1lTUjlEWUZjNXBvbGtoTysvZ2VOZEtERGZKcVNwRkhMN0h4ZytMbTFi?=
- =?utf-8?B?Ky80YjB4NmxSNHc2eGJhenZTWUpJZTNyL1A4MWtxYXdMVEJvQ3pyeGlmQ1dl?=
- =?utf-8?B?T2FpV0J1TThSYkV2Uk1rS1o3ekNkTk12YzlUM2FqTFN0OTJPejhxUnBhQjBJ?=
- =?utf-8?B?YUpObGV5N3Y1RFJLZlEzKy9OOFc3aUwzUm8wMCtzcjFEa3EzN003U2dHcFox?=
- =?utf-8?B?YU5vZTd5cUMycXpla2puWnZnTmsyRnEvU3d4V0JNdmhXMms1eUJWL25wS2Ni?=
- =?utf-8?B?NlhWYTN2VVQzNjBuSngybDZ1ZVNaT0xBTG5KSDltUUxKeFZYK091ZSs0cFRq?=
- =?utf-8?B?bThULzhTeVhBZC9ock9JMlUzZEx1TzBldkVWS1VJNFdROVpRTzhGS0pKK3Mr?=
- =?utf-8?B?MGxCMUNOY3RIVzMvUkVSYi9yWFkzYklYbWRDeEJzWmtMdmhvSDFIUlVKQlBU?=
- =?utf-8?B?SVdTREpnSFcxSmNnc05leDIrVFYrTTR5TG8zZ2UzZzdmWDlyYWpKMHpkR0ZC?=
- =?utf-8?B?R1JSOHRReWNEbmhkaGdWdVpNWHlPdlc2eFRZWlpkV3QwZ09CMFNvUTJjL1Zm?=
- =?utf-8?B?VmRQZnQvUGsvM0lFRERZRDk5RFFVc3FQUFNHRmxqL3A1T2tJUzc1QndWZDJh?=
- =?utf-8?B?SUU5UFlaa21WdktrMWp6L2pKa3hlRjFadnBJcmp3ZDFwSXVhUzc3ZjNodFEz?=
- =?utf-8?B?T2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2a259a2-be24-4999-8590-08da9b3ce130
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5108.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ua01nBo2t4ZHTaDJhqqxOsNv/fqt3Rlq8xsz8kw+bP+Qz0HDfCF4A61ojVuy?=
+ =?us-ascii?Q?e/xM05mXXZWOcKm6PvCJNw3Xt0aauc59jpRVjW5K+vRCRaQwBtBSaH/TMuLd?=
+ =?us-ascii?Q?4BBQ4JJer1nNXZNVWx9o59Y9iqt/jmSZ29+fWRG2ot2Q9WrJrUoOszaeqBuy?=
+ =?us-ascii?Q?pI6sVHjfzvd0l+4Knl1ff2h49X1gxuSHF5awO+5yXC3ycWWUBWeLAEup5Dtr?=
+ =?us-ascii?Q?kEre6T3grVI7tMDBkzVqhtLDGpkapjLBksBKHe5nLukiIeM8rWk4erNNchCK?=
+ =?us-ascii?Q?8vrToVBOb6xOqplR8YI7CWd8q3xxPyIpcVDnehuAcxEI2cjya5CXq/7jtSEe?=
+ =?us-ascii?Q?A7dXa+yWPPKhfOwN097VvzJyxN7DGDdNYfTAGFl/h373YXgGx+aOy1edb2JW?=
+ =?us-ascii?Q?bGA1lb+A5+1eWAWtSI5jY8kbJXndp84/vXBlFzaGdgUgR0zpUguJ37TK0oKs?=
+ =?us-ascii?Q?Ex3cWrfvghv5GwOqoUZl13Qkh3j0PXROTRf8JPfP66FdXPRN/zW6kWkkSrJO?=
+ =?us-ascii?Q?COKn9cCXZhqfAIBBG4aLbu89PqEOy9hFtQTgyus1LszCmf8400Q4GbnVTQPW?=
+ =?us-ascii?Q?Zn1sXlyd0gG8DQ71GHCNcRjnAjOQUnz+YT+xI7cCE7VNYGj2fE3x8NsjH+Mv?=
+ =?us-ascii?Q?DnqwmjKpHSsD27q5AMAD5mUilbtGYIToxL2txduEAM2DiUS3o0WknDqJhuRn?=
+ =?us-ascii?Q?mNC7WFf3SQaP3mzW20hKBpU3Ao0ziHucbRc8c2yu0dKACg1Pw8AhaWIYbyMa?=
+ =?us-ascii?Q?OOcAZGlErAJj5qR1hoSZlX2eA5Jovf3f0cAjnsSptTL9jJBPcz01ZyXE4Ca8?=
+ =?us-ascii?Q?pAJ5y3GlcX/NgN5/dQLmQutoa5f4RsDE702lfc9SCzkUVWU7VS4/hb9nzTK6?=
+ =?us-ascii?Q?S+XCkf9y6Y205WGaDpTzq0LHVzSPbc0QesWfVu6hR3fA0/Q8BXE1UXCxghUf?=
+ =?us-ascii?Q?BO1o0pe1yOHfz8FrFUHE+J3Okch14RF4PkpzptOTwv389TV4/72Da5ZRFqKY?=
+ =?us-ascii?Q?YIEzsHqOhXKfW2O3BTYdbPOp0sKreCRTq+2qSBSlnh5Cn5cOHv+VtYgMi0Yh?=
+ =?us-ascii?Q?4r5xuy3u4Rcqtf3bw+JripgGv4QrM+I0reYv9buVOl1vijMq7wBC7K+OT7zF?=
+ =?us-ascii?Q?3cHuqdVHKu/3KeWFToGk0kQSdzkB+7iTCF6k6HB6kbtPSLZFDianv5MBogLy?=
+ =?us-ascii?Q?CVKpYkSPlgy7/wH+Nfu4tz/WrvjqGG9vec4mBgAVzwxzoHKKP5WVFAlbm+/h?=
+ =?us-ascii?Q?G6MRr/XXnng6nLewOee5rUH8SiMIBZl0bSkUKkK4Z3KV8/nziI11fBgL+z+2?=
+ =?us-ascii?Q?TbxQ7pO31hX4p9rsaLdFvfG261qd9Q6E8U8jm05P8UUyMW5MctIyDPRvRYKF?=
+ =?us-ascii?Q?xHvvTPjB6sOilzxNteeUFQdWXIl31p41pZLm1pdGpQLL552wIbGCkob8V53b?=
+ =?us-ascii?Q?lrDJoFZ/vEPhJ+u5NySnpgyznGQGokJhpa4+4w8pzpbIJt8xIaEMIQvkVfUi?=
+ =?us-ascii?Q?whGMlKsF0lpMu3Wyl9yCG4cwzJBlwVDuddq1dc5grRSmiFw7OHP6GDAtVPd+?=
+ =?us-ascii?Q?AF6NIk4rphaGeLEgLc5EH3IXYJ2CO2j2oMDovKla7rv5Klb0zM3AWd4NkdLZ?=
+ =?us-ascii?Q?Kg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98ebb3d5-68e7-4fad-1122-08da9b42fb82
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2022 19:18:20.5680 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2022 20:02:01.9066 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R7mhtDYrpm7sdueEMDOpFlChwMCqgRYJDVHMciNHwlng4NN4w4IWp1cbOcIP+QelNbO7/yaYnwzHY2T+63jJ1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6130
+X-MS-Exchange-CrossTenant-UserPrincipalName: FOwLuqTtxUZYarRkGVxRFHhojOXPtCOTKNX2LTt5l9KtHyMR3acHW1nG1gnEiZMFHqtgOOife/Pd+nTjbE3vAgfeZIzvo2usLsoZgnRPolE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5615
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -161,168 +143,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tejas.upadhyay@intel.com, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 20, 2022 at 06:57:46PM +0200, Andi Shyti wrote:
+>Hi Aravind,
+>
+>> +static int get_mtl_gms_size(struct intel_uncore *uncore)
+>> +{
+>> +	u16 ggc, gms;
+>> +
+>> +	ggc = intel_uncore_read16(uncore, _MMIO(0x108040));
+>> +
+>> +	/* check GGMS, should be fixed 0x3 (8MB) */
+>> +	if ((ggc & 0xc0) != 0xc0)
+>> +		return -EIO;
+>> +
+>> +	/* return valid GMS value, -EIO if invalid */
+>> +	gms = ggc >> 8;
+>> +	switch (gms) {
+>> +	case 0x0 ... 0x10:
+>> +		return gms * 32;
+>> +	case 0x20:
+>> +		return 1024;
+>> +	case 0x30:
+>> +		return 1536;
+>> +	case 0x40:
+>> +		return 2048;
+>> +	case 0xf0 ... 0xfe:
+>
+>just a bit puzzled by the fact that case ranges are not standard
+>and are supported only by GCC, unless, of course, I miss
 
+clang also supports it and can build the kernel (or a great portion of
+it).
 
-On 9/16/22 10:36 AM, Lucas De Marchi wrote:
-> There is no reason to consider the setup of Data Stolen Memory fatal on
-> dgfx and non-fatal on integrated. Move the debug and error propagation
-> around so both have the same behavior: non-fatal. Before this change,
-> loading i915 on a system with TGL + DG2 would result in just TGL
-> succeeding the initialization (without stolen).
-> 
-> Now loading i915 on the same system with an injected failure in
-> i915_gem_init_stolen():
-> 
-> 	$ dmesg | grep stolen
-> 	i915 0000:00:02.0: [drm] Injected failure, disabling use of stolen memory
-> 	i915 0000:00:02.0: [drm:init_stolen_smem [i915]] Skip stolen region: failed to setup
-> 	i915 0000:03:00.0: [drm] Injected failure, disabling use of stolen memory
-> 	i915 0000:03:00.0: [drm:init_stolen_lmem [i915]] Skip stolen region: failed to setup
-> 
-> Both GPUs are still available:
-> 
-> 	$ sudo build/tools/lsgpu
-> 	card1                    Intel Dg2 (Gen12)                 drm:/dev/dri/card1
-> 	└─renderD129                                               drm:/dev/dri/renderD129
-> 	card0                    Intel Tigerlake (Gen12)           drm:/dev/dri/card0
-> 	└─renderD128                                               drm:/dev/dri/renderD128
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> 
-
-Reviewed-by: Wayne Boyer <wayne.boyer@intel.com>
-
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index 6edf4e374f54..c5a4035c99cd 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -494,26 +494,26 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
->   		drm_notice(&i915->drm,
->   			   "%s, disabling use of stolen memory\n",
->   			   "iGVT-g active");
-> -		return 0;
-> +		return -ENOSPC;
->   	}
->   
->   	if (i915_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
->   		drm_notice(&i915->drm,
->   			   "%s, disabling use of stolen memory\n",
->   			   "DMAR active");
-> -		return 0;
-> +		return -ENOSPC;
->   	}
->   
->   	if (adjust_stolen(i915, &mem->region))
-> -		return 0;
-> +		return -ENOSPC;
->   
->   	if (request_smem_stolen(i915, &mem->region))
-> -		return 0;
-> +		return -ENOSPC;
->   
->   	i915->dsm = mem->region;
->   
->   	if (init_reserved_stolen(i915))
-> -		return 0;
-> +		return -ENOSPC;
->   
->   	/* Exclude the reserved region from driver use */
->   	mem->region.end = i915->dsm_reserved.start - 1;
-> @@ -527,7 +527,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
->   		(u64)i915->stolen_usable_size >> 10);
->   
->   	if (i915->stolen_usable_size == 0)
-> -		return 0;
-> +		return -ENOSPC;
->   
->   	/* Basic memrange allocator for stolen space. */
->   	drm_mm_init(&i915->mm.stolen, 0, i915->stolen_usable_size);
-> @@ -765,11 +765,17 @@ i915_gem_object_create_stolen(struct drm_i915_private *i915,
->   
->   static int init_stolen_smem(struct intel_memory_region *mem)
->   {
-> +	int err;
-> +
->   	/*
->   	 * Initialise stolen early so that we may reserve preallocated
->   	 * objects for the BIOS to KMS transition.
->   	 */
-> -	return i915_gem_init_stolen(mem);
-> +	err = i915_gem_init_stolen(mem);
-> +	if (err)
-> +		drm_dbg(&mem->i915->drm, "Skip stolen region: failed to setup\n");
-> +
-> +	return 0;
->   }
->   
->   static int release_stolen_smem(struct intel_memory_region *mem)
-> @@ -786,21 +792,25 @@ static const struct intel_memory_region_ops i915_region_stolen_smem_ops = {
->   
->   static int init_stolen_lmem(struct intel_memory_region *mem)
->   {
-> +	struct drm_i915_private *i915 = mem->i915;
->   	int err;
->   
->   	if (GEM_WARN_ON(resource_size(&mem->region) == 0))
-> -		return -ENODEV;
-> +		return 0;
->   
->   	err = i915_gem_init_stolen(mem);
-> -	if (err)
-> -		return err;
-> +	if (err) {
-> +		drm_dbg(&mem->i915->drm, "Skip stolen region: failed to setup\n");
-> +		return 0;
-> +	}
->   
-> -	if (mem->io_size && !io_mapping_init_wc(&mem->iomap,
-> -						mem->io_start,
-> -						mem->io_size)) {
-> -		err = -EIO;
-> +	if (mem->io_size &&
-> +	    !io_mapping_init_wc(&mem->iomap, mem->io_start, mem->io_size))
->   		goto err_cleanup;
-> -	}
-> +
-> +	drm_dbg(&i915->drm, "Stolen Local memory IO start: %pa\n",
-> +		&mem->io_start);
-> +	drm_dbg(&i915->drm, "Stolen Local DSM base: %pa\n", &mem->region.start);
->   
->   	return 0;
->   
-> @@ -874,16 +884,6 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->   	if (IS_ERR(mem))
->   		return mem;
->   
-> -	/*
-> -	 * TODO: consider creating common helper to just print all the
-> -	 * interesting stuff from intel_memory_region, which we can use for all
-> -	 * our probed regions.
-> -	 */
-> -
-> -	drm_dbg(&i915->drm, "Stolen Local memory IO start: %pa\n",
-> -		&mem->io_start);
-> -	drm_dbg(&i915->drm, "Stolen Local DSM base: %pa\n", &dsm_base);
-> -
->   	intel_memory_region_set_name(mem, "stolen-local");
->   
->   	mem->private = true;
-> @@ -908,6 +908,7 @@ i915_gem_stolen_smem_setup(struct drm_i915_private *i915, u16 type,
->   	intel_memory_region_set_name(mem, "stolen-system");
->   
->   	mem->private = true;
-> +
->   	return mem;
->   }
->   
-> 
-
--- 
---
-Wayne Boyer
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
+Lucas De Marchi
