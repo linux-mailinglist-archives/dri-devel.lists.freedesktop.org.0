@@ -1,51 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6905BDF4E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:07:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8E55BDF6B
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62C0010E391;
-	Tue, 20 Sep 2022 08:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB95F10E145;
+	Tue, 20 Sep 2022 08:12:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EAB410E144;
- Tue, 20 Sep 2022 08:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663661232; x=1695197232;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=+yPAcBd/2OobTsHJIIFeQ6GPTmDxWg29ySyc6F0iDI8=;
- b=nHHAZXx4ZPUQ+rRm77VRT2XEI7Lg/nGmtZXd6JRZaAGJRHAZVCy6h/FO
- 8sgDpj8pb04zjVT0Q7I1EOoSW1dT9d1XLQ2NiowOCn32GSMZu6NK72DyG
- mkNyxOAywdC6W/fYHPr5a/rNewfnQm8YFNFYCudDroprzxy+3ayPfDSKi
- 5/hH8F47Je0sZKoGkShRyoC6teQc1dSxLd9Tx29EvBG6+nhsNzFQlywgo
- MgK+u7Up0VLtdviy5uC4vEVQ8hCYYDY9ACF5onUnuaA6bXo7IKmX8Rnmj
- /Q+MIziuQShGzRSeY6k0eysHKPQsDqeuqDeIS1DtE0vLTu6kCjBOCb5Go g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="286678520"
-X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; d="scan'208";a="286678520"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2022 01:07:11 -0700
-X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; d="scan'208";a="649487026"
-Received: from icostanz-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.252.34.2])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2022 01:07:08 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/mtl: Add C6 residency support for MTL SAMedia
-In-Reply-To: <87v8pid8k2.wl-ashutosh.dixit@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220919115906.1264041-1-badal.nilawar@intel.com>
- <20220919115906.1264041-3-badal.nilawar@intel.com>
- <87edw7pnoh.fsf@intel.com> <87v8pid8k2.wl-ashutosh.dixit@intel.com>
-Date: Tue, 20 Sep 2022 11:06:52 +0300
-Message-ID: <87h712o4f7.fsf@intel.com>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD35610E45A
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 08:12:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=i07klbgsIEyz4TZEZjEogdkUwm59S629X4PHLfl+5sc=; b=Dz+Pk7iTuXiQMawj44MfoF6E20
+ wZlasygQGJgaqaI1Hj9Z/KWpYmPL6O9K1TZohEX1Ne5S46sTXdPS8zKLgnx4GklgiDyeONj9R5qnT
+ GkMrIUsTf4/pS2D6+pLVHEeRpZ2r2J1NWCIh5ywkozW1eN2oJAgOXrsuLr+EzaNc2mUgqnh1WY/1j
+ bhawVPCIqt0s2N75Dkx9wD6KXobMp5LhXwUiOR6UESjFG4wADALxPrT4PxJdM2F7YNbn84DzpcICi
+ 3cZbx7Bk/gW5pmJ9H1LC72EiQN3GpYgcPooIM8J3FWYresy8HArx3p5cdzOtQVL9oXc1UsIOdhaoa
+ ohDBUjWw==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <cyndis@kapsi.fi>)
+ id 1oaYMn-0017q3-Sg; Tue, 20 Sep 2022 11:12:29 +0300
+From: Mikko Perttunen <cyndis@kapsi.fi>
+To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>
+Subject: [PATCH v3 0/8] Support for NVDEC on Tegra234
+Date: Tue, 20 Sep 2022 11:11:55 +0300
+Message-Id: <20220920081203.3237744-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,279 +55,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andi.shyti@intel.com, tvrtko.ursulin@intel.com, anshuman.gupta@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jon.ewins@intel.com, Badal Nilawar <badal.nilawar@intel.com>,
- rodrigo.vivi@intel.com, vinay.belgaumkar@intel.com
+Cc: devicetree@vger.kernel.org, Sameer Pujar <spujar@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org,
+ Ashish Mhetre <amhetre@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Sep 2022, "Dixit, Ashutosh" <ashutosh.dixit@intel.com> wrote:
-> On Mon, 19 Sep 2022 05:13:18 -0700, Jani Nikula wrote:
->>
->> On Mon, 19 Sep 2022, Badal Nilawar <badal.nilawar@intel.com> wrote:
->> > For MTL SAMedia updated relevant functions and places in the code to get
->> > Media C6 residency.
->> >
->> > v2: Fixed review comments (Ashutosh)
->> >
->> > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->> > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
->> > Cc: Chris Wilson <chris.p.wilson@intel.com>
->> > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
->> > ---
->> >  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 60 +++++++++++++++++++
->> >  drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 10 ++++
->> >  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   |  9 ++-
->> >  drivers/gpu/drm/i915/gt/intel_rc6.c           |  5 +-
->> >  drivers/gpu/drm/i915/gt/selftest_rc6.c        |  9 ++-
->> >  drivers/gpu/drm/i915/i915_pmu.c               |  8 ++-
->> >  6 files changed, 97 insertions(+), 4 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
->> > index 68310881a793..053167b506a9 100644
->> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
->> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
->> > @@ -269,6 +269,64 @@ static int ilk_drpc(struct seq_file *m)
->> >	return 0;
->> >  }
->> >
->> > +static int mtl_drpc(struct seq_file *m)
->> > +{
->> > +	struct intel_gt *gt = m->private;
->> > +	struct intel_uncore *uncore = gt->uncore;
->> > +	u32 gt_core_status, rcctl1, global_forcewake;
->> > +	u32 mtl_powergate_enable = 0, mtl_powergate_status = 0;
->> > +	i915_reg_t reg;
->> > +
->> > +	gt_core_status = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
->> > +
->> > +	global_forcewake = intel_uncore_read(uncore, FORCEWAKE_GT_GEN9);
->> > +
->> > +	rcctl1 = intel_uncore_read(uncore, GEN6_RC_CONTROL);
->> > +	mtl_powergate_enable = intel_uncore_read(uncore, GEN9_PG_ENABLE);
->> > +	mtl_powergate_status = intel_uncore_read(uncore,
->> > +						 GEN9_PWRGT_DOMAIN_STATUS);
->> > +
->> > +	seq_printf(m, "RC6 Enabled: %s\n",
->> > +		   str_yes_no(rcctl1 & GEN6_RC_CTL_RC6_ENABLE));
->> > +	if (gt->type == GT_MEDIA) {
->> > +		seq_printf(m, "Media Well Gating Enabled: %s\n",
->> > +			   str_yes_no(mtl_powergate_enable & GEN9_MEDIA_PG_ENABLE));
->> > +	} else {
->> > +		seq_printf(m, "Render Well Gating Enabled: %s\n",
->> > +			   str_yes_no(mtl_powergate_enable & GEN9_RENDER_PG_ENABLE));
->> > +	}
->> > +
->> > +	seq_puts(m, "Current RC state: ");
->> > +
->> > +	switch ((gt_core_status & MTL_CC_MASK) >> MTL_CC_SHIFT) {
->> > +	case MTL_CC0:
->> > +		seq_puts(m, "on\n");
->> > +		break;
->> > +	case MTL_CC6:
->> > +		seq_puts(m, "RC6\n");
->> > +		break;
->> > +	default:
->> > +		seq_puts(m, "Unknown\n");
->> > +		break;
->> > +	}
->> > +
->> > +	if (gt->type == GT_MEDIA)
->> > +		seq_printf(m, "Media Power Well: %s\n",
->> > +			   (mtl_powergate_status &
->> > +			    GEN9_PWRGT_MEDIA_STATUS_MASK) ? "Up" : "Down");
->> > +	else
->> > +		seq_printf(m, "Render Power Well: %s\n",
->> > +			   (mtl_powergate_status &
->> > +			    GEN9_PWRGT_RENDER_STATUS_MASK) ? "Up" : "Down");
->> > +
->> > +	reg = (gt->type == GT_MEDIA) ? MTL_MEDIA_MC6 : GEN6_GT_GFX_RC6;
->> > +	print_rc6_res(m, "RC6 residency since boot:", reg);
->>
->> Cc: Tvrtko, Joonas, Rodrigo
->>
->
-> Hi Jani,
->
->> IMO the register is not a good abstraction to build interfaces on. I see
->> that this is not where the idea is introduced, but it'll probably get
->> you in trouble later on.
->
-> By "this is not where the idea is introduced" are you referring to what we
-> did here:
->
-> https://patchwork.freedesktop.org/patch/502372/?series=108091&rev=5
->
-> in intel_gt_perf_limit_reasons_reg()?
->
-> Or, should we follow the schema of centralizing the register selection
-> depending on gt type in a single function here too (since this register
-> selection is repeated throughout this patch)?
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-I'm looking at print_rc6_res(), for example.
+v3:
+* Updated patch 3 based on comments
 
-It takes the register, reads it, and also passes the register around,
-eventually to intel_rc6_residency_ns(). That does magic on the register
-offset, so it assumes a certain multi-register layout, and relative from
-GEN6_GT_GFX_RC6_LOCKED. Then it assumes the register contents are
-different on different platforms.
+v2:
+* Updated patches 1,3 based on comments
+* Added Acked-by to patch 2
 
-So why did we pass around the register to begin with? The knowledge
-about the register offsets and contents are spread around. What if
-another platform gets added with a different register contents or layout
-or offsets?
+Original message:
 
-Registers are a really low level of abstraction, and IMO usually should
-not be passed around like this.
+Hi all,
 
+this series adds support for the HW video decoder, NVDEC,
+on Tegra234 (Orin). The main change is a switch from Falcon
+to RISC-V for the internal microcontroller, which brings along
+a change in how the engine is booted. Otherwise it is backwards
+compatible with earlier versions.
 
-BR,
-Jani.
+In previous iterations, firmware was simply loaded from disk and
+written into engine internal memory. Now, the engine has a
+bootrom that loads the firmware from a carveout where it has been
+loaded by the system bootloader; however, we still need to tell it
+where that carveout is loaded and some offsets into it. For that,
+the first patch adds a new memory controller API to query the
+carveout address. The offsets are read from device tree -- the
+expectation is that at flashing time (when the firmware is also
+flashed), the flasher also delivers a device tree overlay with
+values corresponding to the flashed firmware.
 
+The currently available Linux for Tegra release doesn't yet
+include this device tree overlay flashing, and the firmware version
+it contains is incompatible with this series. The plan is to fix
+that for the next Linux for Tegra release, but if necessary, we
+can postpone merging of this series to once those changes are
+available.
 
->
-> Thanks.
-> --
-> Ashutosh
->
->
->
->>
->> BR,
->> Jani.
->>
->> > +
->> > +	seq_printf(m, "Global Forcewake Requests: 0x%x\n", global_forcewake);
->> > +
->> > +	return fw_domains_show(m, NULL);
->> > +}
->> > +
->> >  static int drpc_show(struct seq_file *m, void *unused)
->> >  {
->> >	struct intel_gt *gt = m->private;
->> > @@ -279,6 +337,8 @@ static int drpc_show(struct seq_file *m, void *unused)
->> >	with_intel_runtime_pm(gt->uncore->rpm, wakeref) {
->> >		if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
->> >			err = vlv_drpc(m);
->> > +		else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
->> > +			err = mtl_drpc(m);
->> >		else if (GRAPHICS_VER(i915) >= 6)
->> >			err = gen6_drpc(m);
->> >		else
->> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
->> > index 7819d32db956..8a56fd873228 100644
->> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
->> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
->> > @@ -1517,6 +1517,16 @@
->> >   */
->> >  #define MTL_MIRROR_TARGET_WP1          _MMIO(0x0C60)
->> >  #define   MTL_CAGF_MASK                REG_GENMASK(8, 0)
->> > +#define   MTL_CC0                      0x0
->> > +#define   MTL_CC6                      0x3
->> > +#define   MTL_CC_SHIFT                 9
->> > +#define   MTL_CC_MASK                  (0xf << MTL_CC_SHIFT)
->> > +
->> > +/*
->> > + * MTL: This register contains the total MC6 residency time that SAMedia was
->> > + * since boot
->> > + */
->> > +#define MTL_MEDIA_MC6                          _MMIO(0x138048)
->> >
->> >  #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
->> >  #define   GEN11_CSME				(31)
->> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
->> > index 54deae45d81f..7ab1d776673a 100644
->> > --- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
->> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
->> > @@ -123,7 +123,14 @@ static ssize_t rc6_enable_show(struct device *dev,
->> >
->> >  static u32 __rc6_residency_ms_show(struct intel_gt *gt)
->> >  {
->> > -	return get_residency(gt, GEN6_GT_GFX_RC6);
->> > +	i915_reg_t reg;
->> > +
->> > +	if (gt->type == GT_MEDIA)
->> > +		reg = MTL_MEDIA_MC6;
->> > +	else
->> > +		reg = GEN6_GT_GFX_RC6;
->> > +
->> > +	return get_residency(gt, reg);
->> >  }
->> >
->> >  static ssize_t rc6_residency_ms_show(struct device *dev,
->> > diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
->> > index f8d0523f4c18..26f71f7f07c6 100644
->> > --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
->> > +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
->> > @@ -745,6 +745,7 @@ u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, const i915_reg_t reg)
->> >	unsigned long flags;
->> >	unsigned int i;
->> >	u32 mul, div;
->> > +	i915_reg_t base;
->> >
->> >	if (!rc6->supported)
->> >		return 0;
->> > @@ -756,8 +757,10 @@ u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, const i915_reg_t reg)
->> >	 * other so we can use the relative address, compared to the smallest
->> >	 * one as the index into driver storage.
->> >	 */
->> > +	base = (rc6_to_gt(rc6)->type == GT_MEDIA) ?
->> > +	       MTL_MEDIA_MC6 : GEN6_GT_GFX_RC6_LOCKED;
->> >	i = (i915_mmio_reg_offset(reg) -
->> > -	     i915_mmio_reg_offset(GEN6_GT_GFX_RC6_LOCKED)) / sizeof(u32);
->> > +	     i915_mmio_reg_offset(base)) / sizeof(u32);
->> >	if (drm_WARN_ON_ONCE(&i915->drm, i >= ARRAY_SIZE(rc6->cur_residency)))
->> >		return 0;
->> >
->> > diff --git a/drivers/gpu/drm/i915/gt/selftest_rc6.c b/drivers/gpu/drm/i915/gt/selftest_rc6.c
->> > index 8c70b7e12074..28c6a4b6b8d1 100644
->> > --- a/drivers/gpu/drm/i915/gt/selftest_rc6.c
->> > +++ b/drivers/gpu/drm/i915/gt/selftest_rc6.c
->> > @@ -15,11 +15,18 @@
->> >
->> >  static u64 rc6_residency(struct intel_rc6 *rc6)
->> >  {
->> > +	struct intel_gt *gt = rc6_to_gt(rc6);
->> > +	i915_reg_t reg;
->> >	u64 result;
->> >
->> >	/* XXX VLV_GT_MEDIA_RC6? */
->> >
->> > -	result = intel_rc6_residency_ns(rc6, GEN6_GT_GFX_RC6);
->> > +	if (gt->type == GT_MEDIA)
->> > +		reg = MTL_MEDIA_MC6;
->> > +	else
->> > +		reg = GEN6_GT_GFX_RC6;
->> > +
->> > +	result = intel_rc6_residency_ns(rc6, reg);
->> >	if (HAS_RC6p(rc6_to_i915(rc6)))
->> >		result += intel_rc6_residency_ns(rc6, GEN6_GT_GFX_RC6p);
->> >	if (HAS_RC6pp(rc6_to_i915(rc6)))
->> > diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
->> > index 958b37123bf1..6ec139668641 100644
->> > --- a/drivers/gpu/drm/i915/i915_pmu.c
->> > +++ b/drivers/gpu/drm/i915/i915_pmu.c
->> > @@ -146,9 +146,15 @@ static bool pmu_needs_timer(struct i915_pmu *pmu, bool gpu_active)
->> >  static u64 __get_rc6(struct intel_gt *gt)
->> >  {
->> >	struct drm_i915_private *i915 = gt->i915;
->> > +	i915_reg_t reg;
->> >	u64 val;
->> >
->> > -	val = intel_rc6_residency_ns(&gt->rc6, GEN6_GT_GFX_RC6);
->> > +	if (gt->type == GT_MEDIA)
->> > +		reg = MTL_MEDIA_MC6;
->> > +	else
->> > +		reg = GEN6_GT_GFX_RC6;
->> > +
->> > +	val = intel_rc6_residency_ns(&gt->rc6, reg);
->> >
->> >	if (HAS_RC6p(i915))
->> >		val += intel_rc6_residency_ns(&gt->rc6, GEN6_GT_GFX_RC6p);
->>
->> --
->> Jani Nikula, Intel Open Source Graphics Center
+Thanks!
+Mikko
+
+Mikko Perttunen (8):
+  memory: tegra: Add API for retrieving carveout bounds
+  dt-bindings: Add headers for NVDEC on Tegra234
+  dt-bindings: Add bindings for Tegra234 NVDEC
+  arm64: tegra: Add NVDEC on Tegra234
+  gpu: host1x: Add stream ID register data for NVDEC on Tegra234
+  drm/tegra: nvdec: Support multiple clocks
+  drm/tegra: Add code for booting RISC-V based engines
+  drm/tegra: Add Tegra234 support to NVDEC driver
+
+ .../gpu/host1x/nvidia,tegra234-nvdec.yaml     | 156 ++++++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      |  27 +++
+ drivers/gpu/drm/tegra/Makefile                |   3 +-
+ drivers/gpu/drm/tegra/drm.c                   |   1 +
+ drivers/gpu/drm/tegra/nvdec.c                 | 171 +++++++++++++++---
+ drivers/gpu/drm/tegra/riscv.c                 | 106 +++++++++++
+ drivers/gpu/drm/tegra/riscv.h                 |  30 +++
+ drivers/gpu/host1x/dev.c                      |  12 ++
+ drivers/memory/tegra/mc.c                     |  25 +++
+ drivers/memory/tegra/tegra234.c               |   5 +
+ include/dt-bindings/clock/tegra234-clock.h    |   4 +
+ include/dt-bindings/memory/tegra234-mc.h      |   3 +
+ .../dt-bindings/power/tegra234-powergate.h    |   1 +
+ include/dt-bindings/reset/tegra234-reset.h    |   1 +
+ include/soc/tegra/mc.h                        |  11 ++
+ 15 files changed, 530 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml
+ create mode 100644 drivers/gpu/drm/tegra/riscv.c
+ create mode 100644 drivers/gpu/drm/tegra/riscv.h
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.37.0
+
