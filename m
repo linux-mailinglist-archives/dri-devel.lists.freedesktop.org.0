@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BE75BDDA1
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 08:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8525BDDA2
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 08:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5F310E034;
-	Tue, 20 Sep 2022 06:49:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754EB10E2E0;
+	Tue, 20 Sep 2022 06:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B952010E034
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 06:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663656585; x=1695192585;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=Ga6nRE/jkc5pIHVfSAAxkWn0zPeHKbCmh+vx3RF8DLI=;
- b=V7ikroEiIF9LyAP4ctE6OAk6gW9or3ai39fIvKCdTNS2Gbk1g8/Pb6me
- E0KL37Ry2WuPqDZiDq7wlGfD0rumRQGz9TRVQGXv0M1ULUCF+bYfOsSJe
- fkLDPolmVzo2tnWX/M/9z5Tj1410l4s5d8ajkvxIt9+dgc8M0Nrfbrj9M
- vBatx0OEZYvlax0Y4aL/XLIWR8YVkg9sbhgr29+J6CBUYZLFR+MlgN4F9
- qGDQEvThrHZkXjg3rt/duGd+tmBUxTCVi7KGgB1Rk814MI1DGJoIKieAq
- Ltr4NDBzOr4AACLR5SGTKQf9zgQ/VziTQooGWWvoC5Dr53GVL8rKC8T64 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="298340034"
-X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="298340034"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2022 23:49:45 -0700
-X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="761186153"
-Received: from icostanz-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.252.34.2])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2022 23:49:43 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: William Tseng <william.tseng@intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4] drm/edid: ignore the CEA modes not defined in CEA-861-D
-In-Reply-To: <20220920062316.43162-1-william.tseng@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220613122655.12432-1-william.tseng@intel.com>
- <20220920062316.43162-1-william.tseng@intel.com>
-Date: Tue, 20 Sep 2022 09:49:27 +0300
-Message-ID: <878rmepmko.fsf@intel.com>
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD32310E2DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 06:50:08 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id w10so567832pll.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 23:50:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=z/Tchuzx5XrbBDdO9w4M3sFc5h9bSSk8PEfVnx2P8/U=;
+ b=WQjOnEYC+y93ri5C3gfgi4eAcw2Ee2jsooGZ+bMtbH4Jeg3J9rL2kNmUVvrKWziPjz
+ QE8zfRsA1PEMCS0N/DjeTqM/8RQJeF2mX5C2MrCIOo9+zrbl1nN2i/tAvCXDiw0pvd+z
+ Q5nZ4Ksj/ue6goG2WlZY5PjYr5xiJ/+YX4UMr22iz+qkYutsos38zQnu/claxXNQW5JJ
+ pMnJky3zOBIuvwwPid80hu9ONDWsLccjytf7OZBrytCAvv3XUkz3X9vdWiqIcmkb0dIB
+ Ln6v/bsni/nHM1ruhRzpU/P1KdCAzsRVph/P/oqMI1Y3b6uFbxroCCykgK1lg1sv7bPN
+ CF+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=z/Tchuzx5XrbBDdO9w4M3sFc5h9bSSk8PEfVnx2P8/U=;
+ b=C48oFT06sZjKT+wbFhOc10/gftk8oB6dmXGEzbuOrdsB05B52xRE2Fg2l2YNl8QKnD
+ g4ugsd+TFbAIUUBokDnTgxn9K81MPIhKHKOavQavlQyXbiIpo8dmJjVfjiJ62fUu677n
+ 92lEy17nu9HubBs2kNK2ZOfB64l7LRZNnHPRpburl22Ufzz+BLhn0BrVwgU46VsJlFQl
+ MaUNkjSJOxOQdB808zLIyg+vBABpgfvoLet7VrNtXP8/p0fG26LABWLu0QBTxh3APwVy
+ moDzh37vpZJQipzW9J4clVfDhYkR2q+yASAYGtD27o3AtEMkU0FtY94cAdlNbpALqt4+
+ oR+g==
+X-Gm-Message-State: ACrzQf2B+aOCfkaEJbTgpEOzRGlLHP6uwQYM9mZzPTomeKlkWpyWM4/L
+ DPlT8Gg3W2EfQn0KZLZhgDk=
+X-Google-Smtp-Source: AMsMyM5wtBWnT3s8RXcMiyF1rJz966LX0wfq0IzfHPhH5x9N9TRfa245fDBVHXRMkzoZilb48kNycA==
+X-Received: by 2002:a17:90b:4c50:b0:202:c7b1:b1f9 with SMTP id
+ np16-20020a17090b4c5000b00202c7b1b1f9mr2305401pjb.77.1663656608279; 
+ Mon, 19 Sep 2022 23:50:08 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id
+ w71-20020a627b4a000000b00537d7cc774bsm659252pfc.139.2022.09.19.23.50.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Sep 2022 23:50:07 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: ye.xingchen@zte.com.cn
+To: zackr@vmware.com
+Subject: [PATCH linux-next] drm/vmwgfx: Remove the unneeded result variable
+Date: Tue, 20 Sep 2022 06:50:04 +0000
+Message-Id: <20220920065004.215601-1-ye.xingchen@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,99 +68,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Shawn C <shawn.c.lee@intel.com>, Wayne Lin <waynelin@amd.com>,
- William Tseng <william.tseng@intel.com>
+Cc: airlied@linux.ie, ye xingchen <ye.xingchen@zte.com.cn>,
+ Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-graphics-maintainer@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Sep 2022, William Tseng <william.tseng@intel.com> wrote:
-> This is a workaround for HDMI 1.4 sink which has a CEA mode with higher v=
-ic
-> than what is defined in CEA-861-D.
->
-> As an example, a HDMI 1.4 sink has the video format 2560x1080p to be
-> displayed and the video format is indicated by both SVD (with vic 90 and
-> picture aspect ratio 64:27) and DTD.  When connecting to such sink,
-> source can't output the video format in SVD because an error is returned =
-by
-> drm_hdmi_avi_infoframe_from_display_mode(), which can't fill the infoframe
-> with picture aspect ratio 64:27 and the vic, which is originally 90 and is
-> changed to 0 by drm_mode_cea_vic().
->
-> To work around it, do not set the vic 0 so the corresponding mode may be
-> accepted in drm_hdmi_avi_infoframe_from_display_mode() and be dispalyed.
->
-> v1: initial version.
-> v2: change the logic in drm_hdmi_avi_infoframe_from_display_mode().
-> v3: fix typo.
-> v4: add revision history.
->
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Wayne Lin <waynelin@amd.com>
-> Cc: Lee Shawn C <shawn.c.lee@intel.com>
-> Signed-off-by: William Tseng <william.tseng@intel.com>
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-Please attach the offending EDID to the bug [1]. I won't ack this before
-we see the EDID in question.
+Return the value ttm_pool_alloc() directly instead of storing it in
+another redundant variable.
 
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-BR,
-Jani.
-
-
-[1] https://gitlab.freedesktop.org/drm/intel/-/issues/6153
-
-> ---
->  drivers/gpu/drm/drm_edid.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index eaa819381281..3c6a4e09b2d6 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -6640,7 +6640,8 @@ static u8 drm_mode_hdmi_vic(const struct drm_connec=
-tor *connector,
->  }
->=20=20
->  static u8 drm_mode_cea_vic(const struct drm_connector *connector,
-> -			   const struct drm_display_mode *mode)
-> +			   const struct drm_display_mode *mode,
-> +			   bool is_hdmi2_sink)
->  {
->  	u8 vic;
->=20=20
-> @@ -6660,7 +6661,7 @@ static u8 drm_mode_cea_vic(const struct drm_connect=
-or *connector,
->  	 * HDMI 2.0 VIC range: 1 <=3D VIC <=3D 107 (CEA-861-F). So we
->  	 * have to make sure we dont break HDMI 1.4 sinks.
->  	 */
-> -	if (!is_hdmi2_sink(connector) && vic > 64)
-> +	if (!is_hdmi2_sink && vic > 64)
->  		return 0;
->=20=20
->  	return vic;
-> @@ -6691,7 +6692,7 @@ drm_hdmi_avi_infoframe_from_display_mode(struct hdm=
-i_avi_infoframe *frame,
->  	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
->  		frame->pixel_repeat =3D 1;
->=20=20
-> -	vic =3D drm_mode_cea_vic(connector, mode);
-> +	vic =3D drm_mode_cea_vic(connector, mode, true);
->  	hdmi_vic =3D drm_mode_hdmi_vic(connector, mode);
->=20=20
->  	frame->picture_aspect =3D HDMI_PICTURE_ASPECT_NONE;
-> @@ -6735,7 +6736,8 @@ drm_hdmi_avi_infoframe_from_display_mode(struct hdm=
-i_avi_infoframe *frame,
->  		picture_aspect =3D HDMI_PICTURE_ASPECT_NONE;
->  	}
->=20=20
-> -	frame->video_code =3D vic;
-> +	frame->video_code =3D drm_mode_cea_vic(connector, mode,
-> +						is_hdmi2_sink(connector));
->  	frame->picture_aspect =3D picture_aspect;
->  	frame->active_aspect =3D HDMI_ACTIVE_ASPECT_PICTURE;
->  	frame->scan_mode =3D HDMI_SCAN_MODE_UNDERSCAN;
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index 4e3938e62c08..f17e0da7475d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -470,15 +470,11 @@ static void vmw_ttm_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
+ static int vmw_ttm_populate(struct ttm_device *bdev,
+ 			    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+ {
+-	int ret;
+-
+ 	/* TODO: maybe completely drop this ? */
+ 	if (ttm_tt_is_populated(ttm))
+ 		return 0;
+ 
+-	ret = ttm_pool_alloc(&bdev->pool, ttm, ctx);
+-
+-	return ret;
++	return ttm_pool_alloc(&bdev->pool, ttm, ctx);
+ }
+ 
+ static void vmw_ttm_unpopulate(struct ttm_device *bdev,
+-- 
+2.25.1
