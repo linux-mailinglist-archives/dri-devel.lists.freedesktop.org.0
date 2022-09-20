@@ -1,119 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7E55BE55A
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 14:12:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E89985BE585
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 14:17:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DCD010E4F1;
-	Tue, 20 Sep 2022 12:12:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A82D10E53A;
+	Tue, 20 Sep 2022 12:17:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2072.outbound.protection.outlook.com [40.107.93.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FED10E4F1;
- Tue, 20 Sep 2022 12:12:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aUfHRGoGx0+jtHwPwbLWq0xG7aJR1z+2sCZdXUQUHuj7BbdNTlQDWb4NiIsiXOQmCbXQgoU0C42U/Gc7mdxF7BT3f8xzZBqHiDvWfxDfTmusAq03s5IPRUzlIB/649ADVsqUlLKkLgHdv6o5VkmpMXNRCLn0gO7G6OZjevbRqatOCrjiuiG9ZnVzBqBARCJPTOwNmJh5nS9kHHuGKaqw3XLmhVxG6+Gh9kuck8DlSn+Az9FBPtXMU+yzTrCdzNPS/oWwU/2PLwbQxpotWUsEIH3jdeuNnrErKr93bEIxDpEuxvlxYcJDUUrkj+SOmBx6yhtb327nH3gGNR9ldJpkAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k9+3OeAZej9Qg9483IsmEVA3K8pH4uo+IKIWExXkupI=;
- b=H6wYPeZUvIxlyBAIBEuKi7N1LG8HJknVahqs1jEkzQkmBgRRGWJTDes6FroNql15ZwJmCTw8bjKNRfy4/2wRjdo62HvW6TX4X0NdwtuEr6ftWVnOZaA6VNjCRj1PCxICkZnBspgEHFRXPwChS5mJ2bW0Xzj4nDdHYZ2tP2IWd6qBLdtlqls5XVqM95aZybn1O5wsoArmGH3hOnQf9sZazqjEuZxe7h624upT1FbySYI/mAqf8Zn0rOSt25ntlqmOnRWbaKcRKiXk/+ivVmMvcsDfPRYfGn4zkWOUuSESJJHB02F9o2GU+uymBGXwcT07B/oseuGnLkjrpP9zM552KA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k9+3OeAZej9Qg9483IsmEVA3K8pH4uo+IKIWExXkupI=;
- b=xEqKjneYs2oUzecRvhE+/4OL0BeJV7ShbsIMTxjxH24iIVs+44DYjoVrbnhKU87DgV6QQjjTr5ROHHpBUm8KHNN9gC0tx5owB1uY1K8RYDvs8eL7v0ZrsN5oZAv0Pb6gej9I5InR45Z00gNskZqRkwVZdI5ofNiW8Njjl79OR+A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BL1PR12MB5287.namprd12.prod.outlook.com (2603:10b6:208:317::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Tue, 20 Sep
- 2022 12:12:14 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5632.021; Tue, 20 Sep 2022
- 12:12:14 +0000
-Message-ID: <dafdf6a1-9390-3589-0177-ff7b361f3cb4@amd.com>
-Date: Tue, 20 Sep 2022 14:12:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: build failure of next-20220920 due to c2b08e7a6d27 ("drm/amdgpu:
- move entity selection and job init earlier during CS")
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBA4710E52B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 12:17:29 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id DEE5B6601F6E;
+ Tue, 20 Sep 2022 13:17:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1663676248;
+ bh=QQ2HxkvMf4aXu9a+2GDgTEXKznUPIbGdnE0YrrTQM44=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BI3zn3DtTbVkfWHLAXehJ/VSznfXvZRtUL1Evu68+1uJA69oHASEsyMlBT9clCLPq
+ ZyYY/UhYUjnf9/+qaNMOtHh0y3ncv8HEPeLfWjnufRfnwLcF1ewUVl+8lcO10Nta0A
+ 7rsFhlFSmCPno6ewukFVXaL/kkdhE+RBcdSDrUVPEmZOyQZGsoQZ4hNBDwcEploT9D
+ 7nDIbrcfQVzTEznbkXNWcW+9DP+HOIQMHjn8yI9UbOwYVAJFXfCmF6B9He6ojQV8XS
+ dqBzIo2xEPpBTSKdvyr1zY8MbRGYzv0E5ZO68EFanZdulrVNJ4gy00vQvyzGIrq5xC
+ ZPlvUrjHJoPyw==
+Message-ID: <00293eda-ca41-b472-1ae4-def4a6dcd4fe@collabora.com>
+Date: Tue, 20 Sep 2022 14:17:23 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v1 14/17] phy: mediatek: add support for
+ phy-mtk-hdmi-mt8195
 Content-Language: en-US
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>
-References: <YymoZR0jHR7seGyU@debian>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <YymoZR0jHR7seGyU@debian>
+To: Guillaume Ranquet <granquet@baylibre.com>, Vinod Koul <vkoul@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+References: <20220919-v1-0-4844816c9808@baylibre.com>
+ <20220919-v1-14-4844816c9808@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220919-v1-14-4844816c9808@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0069.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BL1PR12MB5287:EE_
-X-MS-Office365-Filtering-Correlation-Id: a70a1b98-1a86-406a-dd00-08da9b015a90
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AeTwsYeTo4xaIBL1CXw+07Wop+rlz6dZYpGbTXgUxHvt9GWJRahqRwqiZFitR09imZeHM92Kb3V07gH4XhTvJR+mXbCJQ2vyYGALtKochpFhHeFQ1nvgBX6ZiCazXTQlROejSYT6nM+Uow/dAB4+lG44jxGiQ4vYD3S81CQvHsuwfEVlc2AV/eogXTfoy4q4wPRlIQav5bv7rw6bU7v0CM8V5/svfhqCnqb8ef4fWIrjf2XDQyf9grthGSnyz6B81R0v1d05C/6j5IfDnYJtRE36MNXaE+8NnsRnjKnURPJEk7TD5bNqPna2zFyv5C+5P4UBKcYjiWDRg+nXN344UAhKDS5rBOPnc/e4lx8Ui5K4egkHtqnkaK20iY1pheLcWYUXd3yTDeoSktjHaZwLnnYvgq7cXf8E46Z9wmrH9ettqeAZRCKcDP2ExGncaSzETCVIMs8W8A+qCbiVHI4w7THIIMVMA8T0vIrc0gp5fvKhmBQol2cfcqtfg217HGV9h4gXiZGPhS7+XLUXzZCW3gdIANjp8Mg3qyTxapWg++UvPwZ68j0TDf8nXWuUA4H9CMlEAuB0BQRsQxzM/v3Aq5TusdpODYZVQ7ZcAdkRw2AQvUKvLLDPzH3Pf234BZ+kfx4MlrVodRLb1MxVpqNZpXYO4Q3J3CuycO2CZUwvwp0w/OLInfCtErW3DdSe0lWpH3PaBowGpT7wPmSMBeAO4M1DQRP+tc9eNkPP577yhTCwT/COpf2UFJk/yHmwtfkhSO4ZMNwhFvKveK7IdZjubd/JoXpxPTUQnt75TEoaxCI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(366004)(39860400002)(346002)(396003)(376002)(451199015)(5660300002)(8936002)(4744005)(83380400001)(38100700002)(31696002)(86362001)(54906003)(6636002)(6486002)(316002)(110136005)(186003)(6506007)(2616005)(2906002)(6512007)(26005)(7416002)(31686004)(66476007)(66556008)(66946007)(6666004)(478600001)(4326008)(8676002)(41300700001)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TkN4d0F4V3FxRFdwRWRRRCtLM3RrN3FaUmhmcGYzWExzVmZnQjBud0c5VU1Z?=
- =?utf-8?B?d2VhY2M5N09Kd2tMR1JGb2xpd2lDRzdRUWoreWhjVStobXREa1RXS1o5TG1z?=
- =?utf-8?B?d01XV1ltTkhRSHdWcWVJa2lydCtsVGUrWVpnVDNFN2dRK09sLytOajJ5Wm9G?=
- =?utf-8?B?MDhqdEJFbGhXTlVRT3Z2cFRPc0VKTkpSZlVvOTRkdytZVDNkOE0vcjZEMmZP?=
- =?utf-8?B?Q3UxUmhkSWVSWlRaWWdxdGdYaENqM0Rtc0ZzQ1REUkVMUXg3TE5MTnBPcEc1?=
- =?utf-8?B?OWZCS2FvWUZKV0t6TjdZTTJZN1hzNGZqcldxNlc0YUM5Ukt3RE1UdGhWdi9K?=
- =?utf-8?B?MVNvSk5sanlLWFVIeURzQ2p0M3Z3eitvS1JKT3lIM0d4ZUowSE1NMGhmM0Nq?=
- =?utf-8?B?cmZ5QUNHQWU5RG15WGlCTm9iUnQrVFByZEg0SGdaVklrNkF6TmpjSEZwRnJK?=
- =?utf-8?B?WWc5SmhaOTY2T2NwY25rZVhBNmZqUGtJdW5qU25kREtSSHpSU2w1ZjFCN3pq?=
- =?utf-8?B?TnFYYkp0SVZxTTgzeUFSZ2tjUnlEU2xQRjI3WXZkMU1OQXB4dTNNakcyUUhz?=
- =?utf-8?B?NURQNUZqdkEvOUd0YjlKZy9yUXZXeEpJYmNUWjA4dVJpSmUrTjRDeStlWWd5?=
- =?utf-8?B?Y0JLMEdBZGdaclY5Zk4zL1FNVjI5bm4vbmluc0IzT0V5T2Z5dllYOXI2ZUYy?=
- =?utf-8?B?aEtmRGpsYi8xc3F3eENDcVdHT1krYWZRbnJQcEVtWEQ4OXgwQ01GMFBVMlJp?=
- =?utf-8?B?V1ZwOS9SSFYxdXlaZUhoOUVnaEJZY0IvRmtoRjEvZWdkTEFTVlU4dFQrejVx?=
- =?utf-8?B?K3FUTzJzeDJPMHJ6RVJFTTRrSzRZWmpRclJZZTRLRytQdElGeXBFZlZSZUxs?=
- =?utf-8?B?Nk1FbHQzTUdBM2tIQTB0VWdzSFpkVG1jUFp0SHEySDg0NXI4MmJJYjY1Y1BV?=
- =?utf-8?B?OVo3SVg1V0xFbGpCWVJYcG9VV0tXMVlGKzIrcXNBeVYycUVLR3RhdjZUUm5U?=
- =?utf-8?B?dmVCaXR3NmxQLzZKZlhiMXp5SVpRK0Vma3dBY1RtY3NZdGRaMVdvWDVDbEJG?=
- =?utf-8?B?OEZ3TjQyV2Y0MlZMWERwVy9KY2ZOaHFFLzVHMnJqNGpzYUhJektIWmpqTmNq?=
- =?utf-8?B?aDVzdUZsL08xTDUvU1cxQ3JiNTJwZkFWdlkweWgzenFwSndrbFNtZVVUMlFl?=
- =?utf-8?B?ejQyd3lHTWFpVGNZR0Q0YlBnVzdtYTV6YlY1bk5KLys4VWhNcEM4aWgvVFRD?=
- =?utf-8?B?TUtVQkk1MGNmc1pFSy85emI0WE1GWXB6NTFKeTVuWk41OXFUejZ1Q0R2WUxL?=
- =?utf-8?B?WmJGSlZDcUdLQnJZb01PaSt3ZE54aXZGTG1UU01DbDd3di9TandwRENNWFFk?=
- =?utf-8?B?bWZiV2drNlZyOUVaOU1teGRZRi9TVlZIRHpoM2FLVjJRU3ptSytSSUk3N2Q5?=
- =?utf-8?B?c01JK3B5NjVXcE9UOXdWRzVQbFl3NUdpNmcvQTk4aGZwK2ZYdG5Wc2VTbnVD?=
- =?utf-8?B?UVhwVGxJTy9WQnNSQkQ2WHl4L3VWclEyelpFeE8yZU0wd3dkUUtiUVFyRXJD?=
- =?utf-8?B?WHozL0tDMlk5ZjlyeTU0RDl4STR2S3FHRVZtL2ZxVlE4MWRZWlc5SGQ5QnhX?=
- =?utf-8?B?STJJeC9nTHcyK0pEZVVHTG9odmgwcytIdGtUUmt2bjlEcTQ1SlJoZHB4RGpD?=
- =?utf-8?B?aW8rNVY5SlNMNVFEM2E2OCs4bEtWejNtRFJiUlRGZTE2TEU4ZVVXdXR2eXM3?=
- =?utf-8?B?am1Relp5UGFHQXhhYzlMUDNQMWdQSHA0TDIwTEl6MEUyQVBiR2JIZStJSFlN?=
- =?utf-8?B?djVTMytMSFlURHR0eHpXYU56akxIQ2JTRDdkNkRxdXlnTzhRY3B0QVNzbHNB?=
- =?utf-8?B?ZDhOVVNoVFQvZGZSY25aQ3F0eFc1NzNXUmsxTGZlWmdFM0NWSE1waklXU0F3?=
- =?utf-8?B?UEhabTNXM2hUdFdwUHBNTDI4WmNDd1lQZjFZMmhNK1MrTGZ4WFh4aHlJMlVk?=
- =?utf-8?B?RWFaUGxJZVdscktmQzFydFZWT2JCWXJHT2NDRWcxeUNOM0RRa29KdGxBMWpT?=
- =?utf-8?B?c0ROWnNQakl3SmZRWGpYTGtTVXFJZnNDUkJZbmtWTHJzZmFPS1ZyZXNqZ293?=
- =?utf-8?Q?eE+3tbsZhSJi9Txs1gpK3ghxq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a70a1b98-1a86-406a-dd00-08da9b015a90
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2022 12:12:14.5718 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x3RQDnEFdb3N4w0IPM6ax+vGAWcY9fCDXzRhx7UhJlSrwyHQDaDa4VAr2uJnCQbx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5287
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,41 +65,413 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, llvm@lists.linux.dev,
- David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-next@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for pointing this out! It's indeed quite a bug.
+Il 19/09/22 18:56, Guillaume Ranquet ha scritto:
+> Add basic support for the mediatek hdmi phy on MT8195 SoC
+> 
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c b/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
+> index bb7593ea4c86..0157acdce56c 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
+> @@ -1344,6 +1344,8 @@ static void mtk_hdmi_bridge_disable(struct drm_bridge *bridge,
+>   	mtk_hdmi_disable_hdcp_encrypt(hdmi);
+>   	usleep_range(50000, 50050);
+>   
+> +	phy_power_off(hdmi->phy);
 
-Going to send a patch ASAP.
+This one belongs to patch [11/17]
+
+> +
+>   	hdmi->enabled = false;
+>   }
+>   
+> diff --git a/drivers/phy/mediatek/Makefile b/drivers/phy/mediatek/Makefile
+> index fb1f8edaffa7..c9a50395533e 100644
+> --- a/drivers/phy/mediatek/Makefile
+> +++ b/drivers/phy/mediatek/Makefile
+> @@ -12,6 +12,7 @@ obj-$(CONFIG_PHY_MTK_XSPHY)		+= phy-mtk-xsphy.o
+>   phy-mtk-hdmi-drv-y			:= phy-mtk-hdmi.o
+>   phy-mtk-hdmi-drv-y			+= phy-mtk-hdmi-mt2701.o
+>   phy-mtk-hdmi-drv-y			+= phy-mtk-hdmi-mt8173.o
+> +phy-mtk-hdmi-drv-y			+= phy-mtk-hdmi-mt8195.o
+>   obj-$(CONFIG_PHY_MTK_HDMI)		+= phy-mtk-hdmi-drv.o
+>   
+>   phy-mtk-mipi-dsi-drv-y			:= phy-mtk-mipi-dsi.o
+> diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+> new file mode 100644
+> index 000000000000..149015b64c02
+> --- /dev/null
+> +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+> @@ -0,0 +1,673 @@
+
+..snip..
+
+> +
+> +static int mtk_hdmi_pll_set_hw(struct clk_hw *hw, unsigned char prediv,
+> +			       unsigned char fbkdiv_high,
+> +			       unsigned long fbkdiv_low,
+> +			       unsigned char fbkdiv_hs3, unsigned char posdiv1,
+> +			       unsigned char posdiv2, unsigned char txprediv,
+> +			       unsigned char txposdiv,
+> +			       unsigned char digital_div)
+> +{
+> +	unsigned char txposdiv_value = 0;
+> +	unsigned char div3_ctrl_value = 0;
+> +	unsigned char posdiv_vallue = 0;
+> +	unsigned char div_ctrl_value = 0;
+> +	unsigned char reserve_3_2_value = 0;
+> +	unsigned char prediv_value = 0;
+> +	unsigned char reserve13_value = 0;
+> +	struct mtk_hdmi_phy *hdmi_phy = to_mtk_hdmi_phy(hw);
+> +
+> +	mtk_hdmi_pll_select_source(hw);
+> +
+> +	mtk_hdmi_pll_performance_setting(hw);
+> +
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_10,
+> +			  0x2 << RG_HDMITX21_BIAS_PE_BG_VREF_SEL_SHIFT,
+> +			  RG_HDMITX21_BIAS_PE_BG_VREF_SEL);
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_10,
+> +			  0x0 << RG_HDMITX21_VREF_SEL_SHIFT,
+> +			  RG_HDMITX21_VREF_SEL);
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_9,
+> +			  0x2 << RG_HDMITX21_SLDO_VREF_SEL_SHIFT,
+> +			  RG_HDMITX21_SLDO_VREF_SEL);
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_10,
+> +			  0x0 << RG_HDMITX21_BIAS_PE_VREF_SELB_SHIFT,
+> +			  RG_HDMITX21_BIAS_PE_VREF_SELB);
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_3,
+> +			  0x1 << RG_HDMITX21_SLDOLPF_EN_SHIFT,
+> +			  RG_HDMITX21_SLDOLPF_EN);
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_6,
+> +			  0x11 << RG_HDMITX21_INTR_CAL_SHIFT,
+> +			  RG_HDMITX21_INTR_CAL);
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_PLL_CFG_2,
+> +			  0x1 << RG_HDMITXPLL_PWD_SHIFT, RG_HDMITXPLL_PWD);
+> +
+> +	/* TXPOSDIV */
+
+Either ilog2() or use a switch...
+
+> +	if (txposdiv == 1)
+> +		txposdiv_value = 0x0;
+> +	else if (txposdiv == 2)
+> +		txposdiv_value = 0x1;
+> +	else if (txposdiv == 4)
+> +		txposdiv_value = 0x2;
+> +	else if (txposdiv == 8)
+> +		txposdiv_value = 0x3;
+> +	else
+> +		return -EINVAL;
+> +
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_6,
+> +			  txposdiv_value << RG_HDMITX21_TX_POSDIV_SHIFT,
+> +			  RG_HDMITX21_TX_POSDIV);
+> +
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_6,
+> +			  0x1 << RG_HDMITX21_TX_POSDIV_EN_SHIFT,
+> +			  RG_HDMITX21_TX_POSDIV_EN);
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_6,
+> +			  0x0 << RG_HDMITX21_FRL_EN_SHIFT, RG_HDMITX21_FRL_EN);
+> +
+> +	/* TXPREDIV */
+
+Use a switch.
+
+> +	if (txprediv == 2) {
+> +		div3_ctrl_value = 0x0;
+> +		posdiv_vallue = 0x0;
+> +	} else if (txprediv == 4) {
+> +		div3_ctrl_value = 0x0;
+> +		posdiv_vallue = 0x1;
+> +	} else if (txprediv == 6) {
+> +		div3_ctrl_value = 0x1;
+> +		posdiv_vallue = 0x0;
+> +	} else if (txprediv == 12) {
+> +		div3_ctrl_value = 0x1;
+> +		posdiv_vallue = 0x1;
+> +	} else {
+> +		return -EINVAL;
+> +	}
+> +
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_PLL_CFG_4,
+> +			  div3_ctrl_value
+> +				  << RG_HDMITXPLL_POSDIV_DIV3_CTRL_SHIFT,
+> +			  RG_HDMITXPLL_POSDIV_DIV3_CTRL);
+> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_PLL_CFG_4,
+> +			  posdiv_vallue << RG_HDMITXPLL_POSDIV_SHIFT,
+> +			  RG_HDMITXPLL_POSDIV);
+> +
+> +	/* POSDIV1 */
+
+same here.
+
+> +	if (posdiv1 == 5)
+> +		div_ctrl_value = 0x0;
+> +	else if (posdiv1 == 10)
+> +		div_ctrl_value = 0x1;
+> +	else if (posdiv1 == (125 / 10))
+
+/* This is 12.5 in reality, but we get only the integer part */
+case 12:
+
+...or you'll have to use a "deci-divider", which would complicate human readability
+by ... quite a bit, in some cases.
+
+> +		div_ctrl_value = 0x2;
+> +	else if (posdiv1 == 15)
+> +		div_ctrl_value = 0x3;
+> +	else
+> +		return -EINVAL;
+> +
+
+..snip..
+
+> +
+> +#define PCW_DECIMAL_WIDTH 24
+> +
+> +static int mtk_hdmi_pll_calculate_params(struct clk_hw *hw, unsigned long rate,
+> +					 unsigned long parent_rate)
+> +{
+> +	int ret;
+> +	unsigned long long tmds_clk = 0;
+> +	unsigned long long pixel_clk = 0;
+> +	//pll input source frequency
+
+Fix comments style.
+
+> +	unsigned long long da_hdmitx21_ref_ck = 0;
+> +	unsigned long long ns_hdmipll_ck = 0; //ICO output clk
+> +	//source clk for Display digital
+> +	unsigned long long ad_hdmipll_pixel_ck = 0;
+> +	unsigned char digital_div = 0;
+> +	unsigned long long pcw = 0; //FBDIV
+
+u64 pcw;
+
+> +	unsigned char txprediv = 0;
+> +	unsigned char txposdiv = 0;
+> +	unsigned char fbkdiv_high = 0;
+> +	unsigned long fbkdiv_low = 0;
+> +	unsigned char posdiv1 = 0;
+> +	unsigned char posdiv2 = 0;
+> +	unsigned char prediv = 1; //prediv is always 1
+> +	unsigned char fbkdiv_hs3 = 1; //fbkdiv_hs3 is always 1
+> +	int i = 0;
+> +	unsigned char txpredivs[4] = { 2, 4, 6, 12 };
+> +
+> +	pixel_clk = rate;
+> +	tmds_clk = pixel_clk;
+> +
+> +	if (tmds_clk < 25000000 || tmds_clk > 594000000)
+> +		return -EINVAL;
+> +
+> +	da_hdmitx21_ref_ck = 26000000UL; //in HZ
+> +
+> +	/*  TXPOSDIV stage treatment:
+> +	 *	0M  <  TMDS clk  < 54M		  /8
+> +	 *	54M <= TMDS clk  < 148.35M    /4
+> +	 *	148.35M <=TMDS clk < 296.7M   /2
+> +	 *	296.7 <=TMDS clk <= 594M	  /1
+> +	 */
+> +	if (tmds_clk < 54000000UL)
+> +		txposdiv = 8;
+> +	else if (tmds_clk >= 54000000UL && tmds_clk < 148350000UL)
+
+	else if (tmds_clk < 148350000UL)
+
+> +		txposdiv = 4;
+> +	else if (tmds_clk >= 148350000UL && tmds_clk < 296700000UL)
+
+	else if (tmds_clk < 296700000UL)
+
+> +		txposdiv = 2;
+> +	else if (tmds_clk >= 296700000UL && tmds_clk <= 594000000UL)
+
+	else if (tmds_clk <= 594000000UL)
+
+> +		txposdiv = 1;
+> +	else
+> +		return -EINVAL;
+> +
+
+..snip..
+
+> +
+> +	txprediv = txpredivs[i];
+> +
+> +	/* PCW calculation: FBKDIV
+> +	 * formula: pcw=(frequency_out*2^pcw_bit) / frequency_in / FBKDIV_HS3;
+> +	 * RG_HDMITXPLL_FBKDIV[32:0]:
+> +	 * [32,24] 9bit integer, [23,0]:24bit fraction
+> +	 */
+> +	pcw = ns_hdmipll_ck;
+
+	pcw = ns_hdmipll_ck << PCW_DECIMAL_WIDTH;
+	pcw /= da_hdmitx21_ref_ck;
+	pcw /= fbkdiv_hs3;
+
+> +	pcw = pcw << PCW_DECIMAL_WIDTH;
+> +	pcw = pcw / da_hdmitx21_ref_ck;
+> +	pcw = pcw / fbkdiv_hs3;
+> +
+> +	if ((pcw / BIT(32)) > 1) {
+
+	pcw_nbits = fls64(pcw);
+
+	if (pcw_nbits > 33)
+		return -EINVAL;
+
+	if (pcw_nbits == 33) {
+		fbkdiv_high = 1;
+		fkbdiv_low = pcw % BIT(32);
+	} else {
+		fbkdiv_high = 0;
+		fbkdiv_low = pcw;
+	}
+
+> +		return -EINVAL;
+> +	} else if ((pcw / BIT(32)) == 1) {
+> +		fbkdiv_high = 1;
+> +		fbkdiv_low = pcw % BIT(32);
+> +	} else {
+> +		fbkdiv_high = 0;
+> +		fbkdiv_low = pcw;
+> +	}
+> +
+> +	/* posdiv1:
+> +	 * posdiv1 stage treatment according to color_depth:
+> +	 * 24bit -> posdiv1 /10, 30bit -> posdiv1 /12.5,
+> +	 * 36bit -> posdiv1 /15, 48bit -> posdiv1 /10
+> +	 */
+> +	posdiv1 = 10; // div 10
+> +	posdiv2 = 1;
+> +	ad_hdmipll_pixel_ck = (ns_hdmipll_ck / 10) / 1;
+
+I understand this as
+	ad_hdmipll_pixel_ck = (ns_hdmipll_ck / posdiv1) / posdiv2;
+
+..if that's true, please fix.
+
+> +
+> +	/* Digital clk divider, max /32 */
+> +	digital_div = ad_hdmipll_pixel_ck / pixel_clk;
+> +	if (!(digital_div <= 32 && digital_div >= 1))
+> +		return -EINVAL;
+> +
+> +	ret = mtk_hdmi_pll_set_hw(hw, prediv, fbkdiv_high, fbkdiv_low,
+> +				  fbkdiv_hs3, posdiv1, posdiv2, txprediv,
+> +				  txposdiv, digital_div);
+> +	if (ret)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static int mtk_hdmi_pll_drv_setting(struct clk_hw *hw)
+> +{
+> +	unsigned char data_channel_bias, clk_channel_bias;
+> +	unsigned char impedance, impedance_en;
+> +	struct mtk_hdmi_phy *hdmi_phy = to_mtk_hdmi_phy(hw);
+> +	unsigned long tmds_clk;
+> +	unsigned long pixel_clk = hdmi_phy->pll_rate;
+> +
+> +	tmds_clk = pixel_clk;
+
+	tmds_rate = pixel_rate;
+
+...better describes that we're talking about clock rates, not clock per-se.
+
+> +
+> +	/* bias & impedance setting:
+> +	 * 3G < data rate <= 6G: enable impedance 100ohm,
+> +	 *      data channel bias 24mA, clock channel bias 20mA
+> +	 * pixel clk >= HD,  74.175MHZ <= pixel clk <= 300MHZ:
+> +	 *      enalbe impedance 100ohm
+> +	 *      data channel 20mA, clock channel 16mA
+> +	 * 27M =< pixel clk < 74.175: disable impedance
+> +	 *      data channel & clock channel bias 10mA
+> +	 */
+> +
+> +	/* 3G < data rate <= 6G, 300M < tmds rate <= 594M */
+> +	if (tmds_clk > 300000000UL && tmds_clk <= 594000000UL) {
+> +		data_channel_bias = 0x3c; //24mA
+
+There must be an equation to calculate the bias value from milliamps to HW values,
+in which case we would see here...
+
+		data_channel_bias = MTK_HDMI_BIAS_MA(24);
+		clk_channel_bias = MTK_HDMI_BIAS_MA(20);
+		impedance = MTK_HDMI_IMPEDANCE_OHMS(100);
+		impedance_en = SOMETHING();
+
+> +		clk_channel_bias = 0x34; //20mA
+> +		impedance_en = 0xf;
+> +		impedance = 0x36; //100ohm
+> +	} else if (pixel_clk >= 74175000UL && pixel_clk <= 300000000UL) {
+> +		data_channel_bias = 0x34; //20mA
+> +		clk_channel_bias = 0x2c; //16mA
+> +		impedance_en = 0xf;
+> +		impedance = 0x36; //100ohm
+> +	} else if (pixel_clk >= 27000000UL && pixel_clk < 74175000UL) {
+
+By the way, if you invert all the checks here (check from highest pixclk to lowest)
+you can simplify it.
+
+> +		data_channel_bias = 0x14; //10mA
+> +		clk_channel_bias = 0x14; //10mA
+> +		impedance_en = 0x0;
+> +		impedance = 0x0;
+> +	} else {
+> +		return -EINVAL;
+> +	}
+> +
+
+..snip..
+
+> +
+> +static int mtk_hdmi_phy_configure(struct phy *phy, union phy_configure_opts *opts)
+> +{
+> +	struct phy_configure_opts_dp *dp_opts = &opts->dp;
+> +	struct mtk_hdmi_phy *hdmi_phy = phy_get_drvdata(phy);
+> +	int ret = 0;
+> +	bool enable = 0;
+> +
+> +	ret = clk_set_rate(hdmi_phy->pll, dp_opts->link_rate);
+> +
+
+Please remove this blank line...
+
+> +	if (ret)
+> +		goto out;
+> +
+> +	mtk_mt8195_phy_tmds_high_bit_clk_ratio(hdmi_phy, enable);
+> +
+> +out:
+> +	return ret;
+> +}
+> +
+> +struct mtk_hdmi_phy_conf mtk_hdmi_phy_8195_conf = {
+> +	.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_GATE,
+> +	.hdmi_phy_clk_ops = &mtk_hdmi_pll_ops,
+> +	.hdmi_phy_enable_tmds = mtk_hdmi_phy_enable_tmds,
+> +	.hdmi_phy_disable_tmds = mtk_hdmi_phy_disable_tmds,
+> +	.hdmi_phy_configure = mtk_hdmi_phy_configure,
+> +};
+> +
+> +MODULE_AUTHOR("Can Zeng <can.zeng@mediatek.com>");
+> +MODULE_DESCRIPTION("MediaTek MT8195 HDMI PHY Driver");
+> +MODULE_LICENSE("GPL v2");
 
 Regards,
-Christian.
-
-Am 20.09.22 um 13:47 schrieb Sudip Mukherjee:
-> Hi All,
->
-> The builds of arm64 allmodconfig with clang failed to build next-20220920
-> with the error:
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1190:3: error: variable 'r' is uninitialized when used here [-Werror,-Wuninitialized]
->                  r |= !amdgpu_ttm_tt_get_user_pages_done(bo->tbo.ttm);
->                  ^
-> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1171:7: note: initialize the variable 'r' to silence this warning
->          int r;
->               ^
->                = 0
-> 1 error generated.
->
->
-> git bisect pointed to c2b08e7a6d27 ("drm/amdgpu: move entity selection and job init earlier during CS")
->
-> I will be happy to test any patch or provide any extra log if needed.
->
->
+Angelo
 
