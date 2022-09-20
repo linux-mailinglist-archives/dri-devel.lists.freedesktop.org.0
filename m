@@ -1,57 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844815BE371
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 12:38:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7DD5BE380
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 12:42:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8C1910E4BD;
-	Tue, 20 Sep 2022 10:38:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3B4110E539;
+	Tue, 20 Sep 2022 10:42:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F099910E15C
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 10:38:34 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6FF5F6601F3B;
- Tue, 20 Sep 2022 11:38:32 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663670313;
- bh=CPxTsxwwUNVTZuVWPCLD0D4xQtfZBz/Zni7nORIgDcQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=eTw9OQKFdxPnrguxbqFoyF1fV4CKVwuPAMQyMRgJuj+DgcKN1WIFBGD1ZHYBk6yIE
- jZTpkwMJakGsN+IqRkGfy3++gp9bSfK3mVqkP8RIm1uIXVcwyLuQnP+85hn81XTlow
- 9mRz1PqsPAlZ6SBEAqK5twFvYSTwJvXzBmY+wTqKDwBuoRCnnjUIzGAAKwVMS5sP06
- z7jE6JkaFMLkNGe2tVfuITbdu7JWfhrgFPJpiAKDFTlPyzhmhGD8T8b6JeZ/YXcRY7
- csx15Vlm7Vl2z/uhn9HRswHDyT5pXPho4M6/FLRUuDTg4yo1zsvtvqntZ7/UycAnwL
- dcf85iGHGCMGQ==
-Message-ID: <5920ba96-886c-1195-656a-a98d7b1f6623@collabora.com>
-Date: Tue, 20 Sep 2022 12:38:29 +0200
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7968D10E15C;
+ Tue, 20 Sep 2022 10:42:06 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id u9so5113888ejy.5;
+ Tue, 20 Sep 2022 03:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date;
+ bh=uuydgXOSSksfr9Wyq7NKGaPAiF6c3Reu1UAxFxmEiTQ=;
+ b=X4DfW+U+f0cZYYYqTcRT72yreLfwGmRHWSB++4/8buUAuPgoP6yq/yT+uUKlHoIzsM
+ en3a/qzodvYR4u+LZX3AThvtnHGZAEpRaQrdZyi5FzVCetBjBSQ/hlxABmLmdqZlMhut
+ SQxYbg6dsrUiObFIOZnurBBxD0eksZBXWy2r+HnH3/fiVmK2zbwA0Xd1wztBrhuqJ+1R
+ yvk+jKdz9BnCEha10h7Gac34Z+I2bc+NhWhe15WTDM7YpDmaeQeDYuPI4SLl2dcFHA2q
+ PUCyyg1ZZPmgwP//6LTBjJsOSVVzp9cXBDeedh3KCFipRMpjIdlANC9YElnuskkHyvHV
+ XM4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=uuydgXOSSksfr9Wyq7NKGaPAiF6c3Reu1UAxFxmEiTQ=;
+ b=2ML78lGqX0B7kwVQC8YhM4F3HrHOd2hvDVSmUfbDY8yKf6Pi3jffJ6cUMsLMcvCjVU
+ nnek+hH3BPC2F6JC7SHqldeGRZSFbKmtIENN4VY8WCdzBqrkwwJVuVuyrbSYl24m5W+M
+ TEf2OrFVrlc7wZiq3co7WrhZvQuPwBSY9bjE/+yUV4ARcD+kPLuKlyzTv+RtK0mOUmNO
+ SbMjTwMub1CXjN/ymqhgRqzz3ySwiUZXXFDepKsoCmK9clVHdrJiOfzOdQ2+NrsJzOKA
+ 8a6qFj1NZmkwhHukI4NIm+RGTwJq4OsmIgKc6LX2Kw0PpWaZVZLdDwLgpWrFXSEaHcFs
+ /sIQ==
+X-Gm-Message-State: ACrzQf0FMMafIKulFzpCEjRsfp77NYX6GP+Hp4RmfKCebIZAp9lPw7R5
+ H3yVm0Nt+ZaVRmNCdFMYp1s=
+X-Google-Smtp-Source: AMsMyM5M+QXEiRZTgdDrT2fyRm961CHm+K4bmMwaUe7vgkqriTlvJfhJvJG0blTD66q8ok8QlE3KKA==
+X-Received: by 2002:a17:907:2d2a:b0:77e:def7:65e9 with SMTP id
+ gs42-20020a1709072d2a00b0077edef765e9mr16196840ejc.85.1663670524165; 
+ Tue, 20 Sep 2022 03:42:04 -0700 (PDT)
+Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch.
+ [82.192.242.114]) by smtp.gmail.com with ESMTPSA id
+ q16-20020a1709060f9000b0077f15e98256sm606055ejj.203.2022.09.20.03.42.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Sep 2022 03:42:03 -0700 (PDT)
+Received: by eldamar.lan (Postfix, from userid 1000)
+ id 0B006BE356D; Tue, 20 Sep 2022 12:42:03 +0200 (CEST)
+Date: Tue, 20 Sep 2022 12:42:03 +0200
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: [PATCH] nouveau: explicitly wait on the fence in
+ nouveau_bo_move_m2mf
+Message-ID: <YymY+3+C2aI7T3GU@eldamar.lan>
+References: <20220819200928.401416-1-kherbst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v1 09/17] drm/mediatek: hdmi: add connector flag
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>, Vinod Koul <vkoul@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-9-4844816c9808@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220919-v1-9-4844816c9808@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819200928.401416-1-kherbst@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,46 +73,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Computer Enthusiastic <computer.enthusiastic@gmail.com>,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 19/09/22 18:56, Guillaume Ranquet ha scritto:
-> Add a flag to indicate support for an external connector
-> 
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-> index 86653ebaacfd..30407603d693 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-> @@ -199,20 +199,22 @@ int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi, struct platform_device *pdev,
->   		goto put_device;
->   	}
->   
-> -	remote = of_graph_get_remote_node(np, 1, 0);
-> -	if (!remote) {
-> -		ret = -EINVAL;
-> -		goto put_device;
-> -	}
-> -
-> -	if (!of_device_is_compatible(remote, "hdmi-connector")) {
-> -		hdmi->next_bridge = of_drm_find_bridge(remote);
-> -		if (!hdmi->next_bridge) {
-> -			dev_err(dev, "Waiting for external bridge\n");
-> -			of_node_put(remote);
-> -			ret = -EPROBE_DEFER;
-> +	if (hdmi->conf->has_connector) {
+Hi,
 
-If MT8195's DPI uses the internal HDMI->DP converter, I say that the external
-DP has HDMI input and DP output.
-Logically, you can't have a HDMI port that's connected to nothing.
+On Fri, Aug 19, 2022 at 10:09:28PM +0200, Karol Herbst wrote:
+> It is a bit unlcear to us why that's helping, but it does and unbreaks
+> suspend/resume on a lot of GPUs without any known drawbacks.
+> 
+> Cc: stable@vger.kernel.org # v5.15+
+> Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/156
+> Signed-off-by: Karol Herbst <kherbst@redhat.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_bo.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> index 35bb0bb3fe61..126b3c6e12f9 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> @@ -822,6 +822,15 @@ nouveau_bo_move_m2mf(struct ttm_buffer_object *bo, int evict,
+>  		if (ret == 0) {
+>  			ret = nouveau_fence_new(chan, false, &fence);
+>  			if (ret == 0) {
+> +				/* TODO: figure out a better solution here
+> +				 *
+> +				 * wait on the fence here explicitly as going through
+> +				 * ttm_bo_move_accel_cleanup somehow doesn't seem to do it.
+> +				 *
+> +				 * Without this the operation can timeout and we'll fallback to a
+> +				 * software copy, which might take several minutes to finish.
+> +				 */
+> +				nouveau_fence_wait(fence, false, false);
+>  				ret = ttm_bo_move_accel_cleanup(bo,
+>  								&fence->base,
+>  								evict, false,
+> -- 
+> 2.37.1
+> 
+> 
 
-Please, rethink this change.
+While this is marked for 5.15+ only, a user in Debian was seeing the
+suspend issue as well on 5.10.y and did confirm the commit fixes the
+issue as well in the 5.10.y series:
+
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=989705#69
+
+Karol, Lyude, should that as well be picked for 5.10.y?
 
 Regards,
-Angelo
+Salvatore
