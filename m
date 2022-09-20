@@ -1,72 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0A65BF00E
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 00:25:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F91D5BF015
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 00:29:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE53910E2C4;
-	Tue, 20 Sep 2022 22:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8224F10E2C6;
+	Tue, 20 Sep 2022 22:28:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88E8A10E2C4;
- Tue, 20 Sep 2022 22:25:20 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28KM6erY014336;
- Tue, 20 Sep 2022 22:25:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=3IAtyzIHe+N1AvjAtKyGL5HVJGuDDpO3SlZsEZv2z8k=;
- b=k/Zd4hujI7md6fCs0jJ8j/ur1IwAK2Ao1pphYzQLwSFS0A1j+myc6RT4CebMTwYrx8V2
- Uyz75xGibkT61z1vcgxQbRyQ5ElBOlIm4OZbIQyKo2YK7AtfPMuUWGAPtOedQhze1Bze
- rHJhqCeTyhHHpwbgZBDz4q/7bKixmTGYdnPqwOL+yCCfpTGJ6fYLXko/0sgOBgfOTEZB
- WmqhsAYW6bCZpmCJkTnUP3nvlKigzpq+RU5+ftqUgT6bjNKWd+BKr8DujvW7q+uHeiRE
- BSL5nk4ovb6I14YljKYUwhM46uBZTaYe/ZEClpn9ZUZE2MzzkUDt0AaCbt+NkI7L64V5 IQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jqm3188m1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Sep 2022 22:25:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28KMPA16030516
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Sep 2022 22:25:10 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Tue, 20 Sep 2022 15:25:09 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v4] drm/msm/dp: add atomic_check to bridge ops
-Date: Tue, 20 Sep 2022 15:25:01 -0700
-Message-ID: <1663712701-31530-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F76010E2C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 22:28:53 +0000 (UTC)
+Received: from sobremesa.fritz.box (unknown
+ [IPv6:2a02:8010:65b5:0:bbb0:f8ec:7bc9:dbe4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7DCBE6600375;
+ Tue, 20 Sep 2022 23:28:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1663712931;
+ bh=p344PzOknU+kKgkMp75zlbMYG7oGw0jWKQiZnVOaSjI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=eJrHHw2Gbt473beEZI1U6kFVDs6wuCZXpmyNzZyMhmzWZWcUhI7uKBsRePK2jc4zP
+ 6+BpGRBIMScwYuHdo2mElZI7Q1kF6460xwKNHTXCXr9o3b8kcJYtMPut2Q5a6sxwVK
+ KByLtxguclh/vp01x37GqL+Brq/YDSs1NYkebbWBm3f57ISOK4UT032WTDH9LIzCyu
+ V5EoDYQh7gm0qJHDkhHmjPYmKvvSVIL6M0ib11xnwWCTbEhgCqjqWEwRJg0zShlPje
+ SdU/3nhw40dIaPEAiOSNrA8lHIOyuvWhfecX3He7NWEjP6rgUl5/xv88/1Dbho02Hm
+ mK+9lifkgxRVQ==
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: neil.armstrong@linaro.org
+Subject: [PATCH v2 3/3] drm/meson: remove drm bridges at aggregate driver
+ unbind time
+Date: Tue, 20 Sep 2022 23:28:42 +0100
+Message-Id: <20220920222842.1053234-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.37.0
+In-Reply-To: <30648a57-a605-6adf-d608-59ac6842d724@linaro.org>
+References: <30648a57-a605-6adf-d608-59ac6842d724@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: UZ4MRuimzqZKZorzP-ZEFV4BjxqL_eP3
-X-Proofpoint-ORIG-GUID: UZ4MRuimzqZKZorzP-ZEFV4BjxqL_eP3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-20_10,2022-09-20_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 phishscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 mlxscore=0 spamscore=0
- bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209200136
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,194 +53,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: khilman@baylibre.com, adrian.larumbe@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM commit_tails() will disable downstream crtc/encoder/bridge if
-both disable crtc is required and crtc->active is set before pushing
-a new frame downstream.
+drm bridges added by meson_encoder_hdmi_init and meson_encoder_cvbs_init
+were not manually removed at module unload time, which caused dangling
+references to freed memory to remain linked in the global bridge_list.
 
-There is a rare case that user space display manager issue an extra
-screen update immediately followed by close DRM device while down
-stream display interface is disabled. This extra screen update will
-timeout due to the downstream interface is disabled but will cause
-crtc->active be set. Hence the followed commit_tails() called by
-drm_release() will pass the disable downstream crtc/encoder/bridge
-conditions checking even downstream interface is disabled.
-This cause the crash to happen at dp_bridge_disable() due to it trying
-to access the main link register to push the idle pattern out while main
-link clocks is disabled.
+When loading the driver modules back in, the same functions would again
+call drm_bridge_add, and when traversing the global bridge_list, would
+end up peeking into freed memory.
 
-This patch adds atomic_check to prevent the extra frame will not
-be pushed down if display interface is down so that crtc->active
-will not be set neither. This will fail the conditions checking
-of disabling down stream crtc/encoder/bridge which prevent
-drm_release() from calling dp_bridge_disable() so that crash
-at dp_bridge_disable() prevented.
+Once again KASAN revealed the problem:
 
-There is no protection in the DRM framework to check if the display
-pipeline has been already disabled before trying again. The only
-check is the crtc_state->active but this is controlled by usermode
-using UAPI. Hence if the usermode sets this and then crashes, the
-driver needs to protect against double disable"
+[  +0.000095] =============================================================
+[  +0.000008] BUG: KASAN: use-after-free in __list_add_valid+0x9c/0x120
+[  +0.000018] Read of size 8 at addr ffff00003da291f0 by task modprobe/2483
 
-SError Interrupt on CPU7, code 0x00000000be000411 -- SError
-CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
-Hardware name: Google Lazor (rev3 - 8) (DT)
-pstate: a04000c9 (NzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : __cmpxchg_case_acq_32+0x14/0x2c
-lr : do_raw_spin_lock+0xa4/0xdc
-sp : ffffffc01092b6a0
-x29: ffffffc01092b6a0 x28: 0000000000000028 x27: 0000000000000038
-x26: 0000000000000004 x25: ffffffd2973dce48 x24: 0000000000000000
-x23: 00000000ffffffff x22: 00000000ffffffff x21: ffffffd2978d0008
-x20: ffffffd2978d0008 x19: ffffff80ff759fc0 x18: 0000000000000000
-x17: 004800a501260460 x16: 0441043b04600438 x15: 04380000089807d0
-x14: 07b0089807800780 x13: 0000000000000000 x12: 0000000000000000
-x11: 0000000000000438 x10: 00000000000007d0 x9 : ffffffd2973e09e4
-x8 : ffffff8092d53300 x7 : ffffff808902e8b8 x6 : 0000000000000001
-x5 : ffffff808902e880 x4 : 0000000000000000 x3 : ffffff80ff759fc0
-x2 : 0000000000000001 x1 : 0000000000000000 x0 : ffffff80ff759fc0
-Kernel panic - not syncing: Asynchronous SError Interrupt
-CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
-Hardware name: Google Lazor (rev3 - 8) (DT)
-Call trace:
- dump_backtrace.part.0+0xbc/0xe4
- show_stack+0x24/0x70
- dump_stack_lvl+0x68/0x84
- dump_stack+0x18/0x34
- panic+0x14c/0x32c
- nmi_panic+0x58/0x7c
- arm64_serror_panic+0x78/0x84
- do_serror+0x40/0x64
- el1h_64_error_handler+0x30/0x48
- el1h_64_error+0x68/0x6c
- __cmpxchg_case_acq_32+0x14/0x2c
- _raw_spin_lock_irqsave+0x38/0x4c
- lock_timer_base+0x40/0x78
- __mod_timer+0xf4/0x25c
- schedule_timeout+0xd4/0xfc
- __wait_for_common+0xac/0x140
- wait_for_completion_timeout+0x2c/0x54
- dp_ctrl_push_idle+0x40/0x88
- dp_bridge_disable+0x24/0x30
- drm_atomic_bridge_chain_disable+0x90/0xbc
- drm_atomic_helper_commit_modeset_disables+0x198/0x444
- msm_atomic_commit_tail+0x1d0/0x374
- commit_tail+0x80/0x108
- drm_atomic_helper_commit+0x118/0x11c
- drm_atomic_commit+0xb4/0xe0
- drm_client_modeset_commit_atomic+0x184/0x224
- drm_client_modeset_commit_locked+0x58/0x160
- drm_client_modeset_commit+0x3c/0x64
- __drm_fb_helper_restore_fbdev_mode_unlocked+0x98/0xac
- drm_fb_helper_set_par+0x74/0x80
- drm_fb_helper_hotplug_event+0xdc/0xe0
- __drm_fb_helper_restore_fbdev_mode_unlocked+0x7c/0xac
- drm_fb_helper_restore_fbdev_mode_unlocked+0x20/0x2c
- drm_fb_helper_lastclose+0x20/0x2c
- drm_lastclose+0x44/0x6c
- drm_release+0x88/0xd4
- __fput+0x104/0x220
- ____fput+0x1c/0x28
- task_work_run+0x8c/0x100
- do_exit+0x450/0x8d0
- do_group_exit+0x40/0xac
- __wake_up_parent+0x0/0x38
- invoke_syscall+0x84/0x11c
- el0_svc_common.constprop.0+0xb8/0xe4
- do_el0_svc+0x8c/0xb8
- el0_svc+0x2c/0x54
- el0t_64_sync_handler+0x120/0x1c0
- el0t_64_sync+0x190/0x194
-SMP: stopping secondary CPUs
-Kernel Offset: 0x128e800000 from 0xffffffc008000000
-PHYS_OFFSET: 0x80000000
-CPU features: 0x800,00c2a015,19801c82
-Memory Limit: none
+[  +0.000018] CPU: 3 PID: 2483 Comm: modprobe Tainted: G         C O      5.19.0-rc6-lrmbkasan+ #1
+[  +0.000011] Hardware name: Hardkernel ODROID-N2Plus (DT)
+[  +0.000008] Call trace:
+[  +0.000006]  dump_backtrace+0x1ec/0x280
+[  +0.000012]  show_stack+0x24/0x80
+[  +0.000008]  dump_stack_lvl+0x98/0xd4
+[  +0.000011]  print_address_description.constprop.0+0x80/0x520
+[  +0.000011]  print_report+0x128/0x260
+[  +0.000008]  kasan_report+0xb8/0xfc
+[  +0.000008]  __asan_report_load8_noabort+0x3c/0x50
+[  +0.000009]  __list_add_valid+0x9c/0x120
+[  +0.000009]  drm_bridge_add+0x6c/0x104 [drm]
+[  +0.000165]  dw_hdmi_probe+0x1900/0x2360 [dw_hdmi]
+[  +0.000022]  meson_dw_hdmi_bind+0x520/0x814 [meson_dw_hdmi]
+[  +0.000014]  component_bind+0x174/0x520
+[  +0.000012]  component_bind_all+0x1a8/0x38c
+[  +0.000010]  meson_drv_bind_master+0x5e8/0xb74 [meson_drm]
+[  +0.000032]  meson_drv_bind+0x20/0x2c [meson_drm]
+[  +0.000027]  try_to_bring_up_aggregate_device+0x19c/0x390
+[  +0.000010]  component_master_add_with_match+0x1c8/0x284
+[  +0.000009]  meson_drv_probe+0x274/0x280 [meson_drm]
+[  +0.000026]  platform_probe+0xd0/0x220
+[  +0.000009]  really_probe+0x3ac/0xa80
+[  +0.000009]  __driver_probe_device+0x1f8/0x400
+[  +0.000009]  driver_probe_device+0x68/0x1b0
+[  +0.000009]  __driver_attach+0x20c/0x480
+[  +0.000008]  bus_for_each_dev+0x114/0x1b0
+[  +0.000009]  driver_attach+0x48/0x64
+[  +0.000008]  bus_add_driver+0x390/0x564
+[  +0.000009]  driver_register+0x1a8/0x3e4
+[  +0.000009]  __platform_driver_register+0x6c/0x94
+[  +0.000008]  meson_drm_platform_driver_init+0x3c/0x1000 [meson_drm]
+[  +0.000027]  do_one_initcall+0xc4/0x2b0
+[  +0.000011]  do_init_module+0x154/0x570
+[  +0.000011]  load_module+0x1a78/0x1ea4
+[  +0.000008]  __do_sys_init_module+0x184/0x1cc
+[  +0.000009]  __arm64_sys_init_module+0x78/0xb0
+[  +0.000009]  invoke_syscall+0x74/0x260
+[  +0.000009]  el0_svc_common.constprop.0+0xcc/0x260
+[  +0.000008]  do_el0_svc+0x50/0x70
+[  +0.000007]  el0_svc+0x68/0x1a0
+[  +0.000012]  el0t_64_sync_handler+0x11c/0x150
+[  +0.000008]  el0t_64_sync+0x18c/0x190
 
-Changes in v2:
--- add more commit text
+[  +0.000016] Allocated by task 879:
+[  +0.000008]  kasan_save_stack+0x2c/0x5c
+[  +0.000011]  __kasan_kmalloc+0x90/0xd0
+[  +0.000007]  __kmalloc+0x278/0x4a0
+[  +0.000011]  mpi_resize+0x13c/0x1d0
+[  +0.000011]  mpi_powm+0xd24/0x1570
+[  +0.000009]  rsa_enc+0x1a4/0x30c
+[  +0.000009]  pkcs1pad_verify+0x3f0/0x580
+[  +0.000009]  public_key_verify_signature+0x7a8/0xba4
+[  +0.000010]  public_key_verify_signature_2+0x40/0x60
+[  +0.000008]  verify_signature+0xb4/0x114
+[  +0.000008]  pkcs7_validate_trust_one.constprop.0+0x3b8/0x574
+[  +0.000009]  pkcs7_validate_trust+0xb8/0x15c
+[  +0.000008]  verify_pkcs7_message_sig+0xec/0x1b0
+[  +0.000012]  verify_pkcs7_signature+0x78/0xac
+[  +0.000007]  mod_verify_sig+0x110/0x190
+[  +0.000009]  module_sig_check+0x114/0x1e0
+[  +0.000009]  load_module+0xa0/0x1ea4
+[  +0.000008]  __do_sys_init_module+0x184/0x1cc
+[  +0.000008]  __arm64_sys_init_module+0x78/0xb0
+[  +0.000008]  invoke_syscall+0x74/0x260
+[  +0.000009]  el0_svc_common.constprop.0+0x1a8/0x260
+[  +0.000008]  do_el0_svc+0x50/0x70
+[  +0.000007]  el0_svc+0x68/0x1a0
+[  +0.000009]  el0t_64_sync_handler+0x11c/0x150
+[  +0.000009]  el0t_64_sync+0x18c/0x190
 
-Changes in v3:
--- add comments into dp_bridge_atomic_check()
+[  +0.000013] Freed by task 2422:
+[  +0.000008]  kasan_save_stack+0x2c/0x5c
+[  +0.000009]  kasan_set_track+0x2c/0x40
+[  +0.000007]  kasan_set_free_info+0x28/0x50
+[  +0.000009]  ____kasan_slab_free+0x128/0x1d4
+[  +0.000008]  __kasan_slab_free+0x18/0x24
+[  +0.000007]  slab_free_freelist_hook+0x108/0x230
+[  +0.000010]  kfree+0x110/0x35c
+[  +0.000008]  release_nodes+0xf0/0x16c
+[  +0.000009]  devres_release_group+0x180/0x270
+[  +0.000008]  take_down_aggregate_device+0xcc/0x160
+[  +0.000010]  component_del+0x18c/0x360
+[  +0.000009]  meson_dw_hdmi_remove+0x28/0x40 [meson_dw_hdmi]
+[  +0.000013]  platform_remove+0x64/0xb0
+[  +0.000008]  device_remove+0xb8/0x154
+[  +0.000009]  device_release_driver_internal+0x398/0x5b0
+[  +0.000009]  driver_detach+0xac/0x1b0
+[  +0.000009]  bus_remove_driver+0x158/0x29c
+[  +0.000008]  driver_unregister+0x70/0xb0
+[  +0.000009]  platform_driver_unregister+0x20/0x2c
+[  +0.000007]  meson_dw_hdmi_platform_driver_exit+0x1c/0x30 [meson_dw_hdmi]
+[  +0.000012]  __do_sys_delete_module+0x288/0x400
+[  +0.000009]  __arm64_sys_delete_module+0x5c/0x80
+[  +0.000009]  invoke_syscall+0x74/0x260
+[  +0.000008]  el0_svc_common.constprop.0+0xcc/0x260
+[  +0.000008]  do_el0_svc+0x50/0x70
+[  +0.000007]  el0_svc+0x68/0x1a0
+[  +0.000008]  el0t_64_sync_handler+0x11c/0x150
+[  +0.000009]  el0t_64_sync+0x18c/0x190
 
-Changes in v4:
--- rewording the comment into dp_bridge_atomic_check()
+[  +0.000013] The buggy address belongs to the object at ffff00003da29000
+               which belongs to the cache kmalloc-1k of size 1024
+[  +0.000008] The buggy address is located 496 bytes inside of
+               1024-byte region [ffff00003da29000, ffff00003da29400)
 
-Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
-Reported-by: Leonard Lausen <leonard@lausen.nl>
-Suggested-by: Rob Clark <robdclark@gmail.com>
-Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/17
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+[  +0.000015] The buggy address belongs to the physical page:
+[  +0.000009] page:fffffc0000f68a00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x3da28
+[  +0.000012] head:fffffc0000f68a00 order:3 compound_mapcount:0 compound_pincount:0
+[  +0.000009] flags: 0xffff00000010200(slab|head|node=0|zone=0|lastcpupid=0xffff)
+[  +0.000019] raw: 0ffff00000010200 fffffc0000eb5c08 fffffc0000d96608 ffff000000002a80
+[  +0.000008] raw: 0000000000000000 00000000000a000a 00000001ffffffff 0000000000000000
+[  +0.000008] page dumped because: kasan: bad access detected
+
+[  +0.000011] Memory state around the buggy address:
+[  +0.000009]  ffff00003da29080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  +0.000007]  ffff00003da29100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  +0.000007] >ffff00003da29180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  +0.000007]                                                              ^
+[  +0.000008]  ffff00003da29200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  +0.000006]  ffff00003da29280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  +0.000007] ==================================================================
+
+Fix by keeping track of which encoders were initialised in the meson_drm
+structure and manually removing their bridges at aggregate driver's unbind
+time.
+
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/msm/dp/dp_drm.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ drivers/gpu/drm/meson/meson_drv.c          |  4 ++++
+ drivers/gpu/drm/meson/meson_drv.h          |  7 +++++++
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c | 13 +++++++++++++
+ drivers/gpu/drm/meson/meson_encoder_cvbs.h |  1 +
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c | 13 +++++++++++++
+ drivers/gpu/drm/meson/meson_encoder_hdmi.h |  1 +
+ 6 files changed, 39 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 6df25f7..2e8e8ce 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -31,6 +31,36 @@ static enum drm_connector_status dp_bridge_detect(struct drm_bridge *bridge)
- 					connector_status_disconnected;
- }
+diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+index 7649df362a85..3b24a924b7b9 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -390,6 +390,10 @@ static void meson_drv_unbind(struct device *dev)
+ 	drm_atomic_helper_shutdown(drm);
+ 	free_irq(priv->vsync_irq, drm);
+ 	drm_dev_put(drm);
++
++	meson_encoder_hdmi_remove(priv);
++	meson_encoder_cvbs_remove(priv);
++
+ 	component_unbind_all(dev, drm);
  
-+static int dp_bridge_atomic_check(struct drm_bridge *bridge,
-+			    struct drm_bridge_state *bridge_state,
-+			    struct drm_crtc_state *crtc_state,
-+			    struct drm_connector_state *conn_state)
-+{
-+	struct msm_dp *dp;
-+
-+	dp = to_dp_bridge(bridge)->dp_display;
-+
-+	drm_dbg_dp(dp->drm_dev, "is_connected = %s\n",
-+		(dp->is_connected) ? "true" : "false");
-+
-+	/*
-+	 * There is no protection in the DRM framework to check if the display
-+	 * pipeline has been already disabled before trying to disable it again.
-+	 * Hence if the sink is unplugged, the pipeline gets disabled, but the
-+	 * crtc->active is still true. Any attempt to set the mode or manually
-+	 * disable this encoder will result in the crash.
-+	 *
-+	 * TODO: add support for telling the DRM subsystem that the pipeline is
-+	 * disabled by the hardware and thus all access to it should be forbidden.
-+	 * After that this piece of code can be removed." 
-+	 */
-+	if (bridge->ops & DRM_BRIDGE_OP_HPD)
-+		return (dp->is_connected) ? 0 : -ENOTCONN;
-+
-+	return 0;
-+}
-+
-+
- /**
-  * dp_bridge_get_modes - callback to add drm modes via drm_mode_probed_add()
-  * @bridge: Poiner to drm bridge
-@@ -61,6 +91,9 @@ static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *
- }
- 
- static const struct drm_bridge_funcs dp_bridge_ops = {
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset           = drm_atomic_helper_bridge_reset,
- 	.enable       = dp_bridge_enable,
- 	.disable      = dp_bridge_disable,
- 	.post_disable = dp_bridge_post_disable,
-@@ -68,6 +101,7 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
- 	.mode_valid   = dp_bridge_mode_valid,
- 	.get_modes    = dp_bridge_get_modes,
- 	.detect       = dp_bridge_detect,
-+	.atomic_check = dp_bridge_atomic_check,
+ 	if (priv->afbcd.ops)
+diff --git a/drivers/gpu/drm/meson/meson_drv.h b/drivers/gpu/drm/meson/meson_drv.h
+index 177dac3ca3be..c62ee358456f 100644
+--- a/drivers/gpu/drm/meson/meson_drv.h
++++ b/drivers/gpu/drm/meson/meson_drv.h
+@@ -25,6 +25,12 @@ enum vpu_compatible {
+ 	VPU_COMPATIBLE_G12A = 3,
  };
  
- struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
++enum {
++	MESON_ENC_CVBS = 0,
++	MESON_ENC_HDMI,
++	MESON_ENC_LAST,
++};
++
+ struct meson_drm_match_data {
+ 	enum vpu_compatible compat;
+ 	struct meson_afbcd_ops *afbcd_ops;
+@@ -51,6 +57,7 @@ struct meson_drm {
+ 	struct drm_crtc *crtc;
+ 	struct drm_plane *primary_plane;
+ 	struct drm_plane *overlay_plane;
++	void *encoders[MESON_ENC_LAST];
+ 
+ 	const struct meson_drm_soc_limits *limits;
+ 
+diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+index 8110a6e39320..5675bc2a92cf 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
++++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+@@ -281,5 +281,18 @@ int meson_encoder_cvbs_init(struct meson_drm *priv)
+ 	}
+ 	drm_connector_attach_encoder(connector, &meson_encoder_cvbs->encoder);
+ 
++	priv->encoders[MESON_ENC_CVBS] = meson_encoder_cvbs;
++
+ 	return 0;
+ }
++
++void meson_encoder_cvbs_remove(struct meson_drm *priv)
++{
++	struct meson_encoder_cvbs *meson_encoder_cvbs;
++
++	if (priv->encoders[MESON_ENC_CVBS]) {
++		meson_encoder_cvbs = priv->encoders[MESON_ENC_CVBS];
++		drm_bridge_remove(&meson_encoder_cvbs->bridge);
++		drm_bridge_remove(meson_encoder_cvbs->next_bridge);
++	}
++}
+diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.h b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
+index 61d9d183ce7f..09710fec3c66 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_cvbs.h
++++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
+@@ -25,5 +25,6 @@ struct meson_cvbs_mode {
+ extern struct meson_cvbs_mode meson_cvbs_modes[MESON_CVBS_MODES_COUNT];
+ 
+ int meson_encoder_cvbs_init(struct meson_drm *priv);
++void meson_encoder_cvbs_remove(struct meson_drm *priv);
+ 
+ #endif /* __MESON_VENC_CVBS_H */
+diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+index 2f616c55c271..53231bfdf7e2 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
++++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+@@ -452,6 +452,8 @@ int meson_encoder_hdmi_init(struct meson_drm *priv)
+ 		meson_encoder_hdmi->cec_notifier = notifier;
+ 	}
+ 
++	priv->encoders[MESON_ENC_HDMI] = meson_encoder_hdmi;
++
+ 	dev_dbg(priv->dev, "HDMI encoder initialized\n");
+ 
+ 	return 0;
+@@ -460,3 +462,14 @@ int meson_encoder_hdmi_init(struct meson_drm *priv)
+ 	of_node_put(remote);
+ 	return ret;
+ }
++
++void meson_encoder_hdmi_remove(struct meson_drm *priv)
++{
++	struct meson_encoder_hdmi *meson_encoder_hdmi;
++
++	if (priv->encoders[MESON_ENC_HDMI]) {
++		meson_encoder_hdmi = priv->encoders[MESON_ENC_HDMI];
++		drm_bridge_remove(&meson_encoder_hdmi->bridge);
++		drm_bridge_remove(meson_encoder_hdmi->next_bridge);
++	}
++}
+diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.h b/drivers/gpu/drm/meson/meson_encoder_hdmi.h
+index ed19494f0956..a6cd38eb5f71 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_hdmi.h
++++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.h
+@@ -8,5 +8,6 @@
+ #define __MESON_ENCODER_HDMI_H
+ 
+ int meson_encoder_hdmi_init(struct meson_drm *priv);
++void meson_encoder_hdmi_remove(struct meson_drm *priv);
+ 
+ #endif /* __MESON_ENCODER_HDMI_H */
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.37.0
 
