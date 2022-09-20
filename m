@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301C75BDABB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 05:15:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026755BDADB
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 05:33:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A02E10E254;
-	Tue, 20 Sep 2022 03:14:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E72FB10E159;
+	Tue, 20 Sep 2022 03:33:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ipmail03.adl2.internode.on.net (ipmail03.adl2.internode.on.net
- [150.101.137.141])
- by gabe.freedesktop.org (Postfix) with ESMTP id 833FD10E254;
- Tue, 20 Sep 2022 03:14:46 +0000 (UTC)
-X-SMTP-MATCH: 1
-IronPort-Data: =?us-ascii?q?A9a23=3AfFSx46iTVFuokU3YwQikc0bKX161nBEKZh0uj?=
- =?us-ascii?q?C45NGQN5FlHY01jehtvDGyOaKvbYmT3fNAiaI+wpx5UvcLRx4NiQQZqqno8R?=
- =?us-ascii?q?CkU8cSfX4iVJE6uNnmfIJyZQhxu5p4VYYXMcZhpFiTVqz6gY+PrxZVe/fjYH?=
- =?us-ascii?q?uCmVIYoGczQqTeJ+07NsDo78wIEqtcAbeaRU1vlVeza+6UzCHf9s9JFGjp8B?=
- =?us-ascii?q?5Cr8XuDj9yq0N8shWHSUNgQ1LPoe9j5O7pETU25ByOQroC5hYdWTc6bpF2y1?=
- =?us-ascii?q?juxExvAlrqYfrjHnk0iGtY+PCC90yAJHfDk2l4bk0Te0I5icqNANgEG0nPQw?=
- =?us-ascii?q?IoZJNZl7PRcTS8gJLHMhf5bVhBCCCFWPKta9aXBJnSy98uViUvLbxMAxt00X?=
- =?us-ascii?q?BhubNJCqr8f7WZmr6dGcFjhdCurjua70L62V+Jsi94LI8ziPYdZsXZlpRnpD?=
- =?us-ascii?q?PAmXJGFe6zMzdZd0HE7gcUmNf/ffc4YZDZHaBXGfg0JO1p/IJs6kfehgHXya?=
- =?us-ascii?q?XtUpU+epacty2HWwEp6172FGNPQdpmFS9V9mkeDunmA8X70Dx0XL9+DziLD9?=
- =?us-ascii?q?Wij7sfGgDnyUoMUGLr+7v9uhFSS7mUWBFsdUl7TifK5kE+lR9NWLQoX/Scor?=
- =?us-ascii?q?Kca/UmnCNL6WnWQrGSF+xIRRddUO+k78x2WjKTO7guVC3MHUjlZLts8u6ceS?=
- =?us-ascii?q?iYn21mHmNTBGG019rCIIVqS67yUsDX0MigYK0cLYCNCRgwAi/HjqYQhh1TKR?=
- =?us-ascii?q?9ZtF6mnptTwFXf7xDXihCw/gagDyM0GzaO2+XjZjD+24JvEVAg44kPQRG3Nx?=
- =?us-ascii?q?hh0bYi9bpGswVPb9/FFLZucCF6bsxA5d2K2+LhbSMjV0nSZGbBVWum9vaPdd?=
- =?us-ascii?q?myD2gV7RMx5sWm5pCubd4REuWkrfAMxJq7oYhewJhaP5kUAvdkKYyHCUEO+W?=
- =?us-ascii?q?KrpY+xC8EQqPY2NuijoU+dz?=
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A50ELeaAJr/gAkfjlHemg55DYdb4zR+YMi2?=
- =?us-ascii?q?TC1yhKJSC9Ffbo8/xG/c5rsCMc5wx7ZJhNo7q90ey7IE80lqQFg7X5X43SPz?=
- =?us-ascii?q?UO0VHARL2Kr7GD/9SKIULDH4BmuJuIP5IRNOHN?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2CaAQCULyljAKxbkwENTYEJCYFGhH2?=
- =?us-ascii?q?EToJijjWLKpF6gWgLAVMEAQGFBQKEayY3Bg4BAgQVAQEGAQEBAQEHBBABOVK?=
- =?us-ascii?q?MOAEBAQMjVhALDQcEAgImAgIhNgYOBYJ9gm4Dq2l6gTEaZ4cpDWeBZYERLYF?=
- =?us-ascii?q?lhRmEaYQ8N4FVRIEVJw8Ngmc+giCCAgEBBxmDVjiCLgSEBZR3OAMaKx1BAwt?=
- =?us-ascii?q?CNBgDFAMFJAcDGQ8jDQ0EFgcMAwMFJQMCAhsHAgIDAgYTBQICTTgIBAgEKyQ?=
- =?us-ascii?q?PBQIHLwUELwIeBAUGEQgCFgIGBAQEBBUCEAgCCCYXBxMYGxkBBVkQCSEcDho?=
- =?us-ascii?q?NBQYTAwoWbwUKOw8oMmsrHRsKgQwqKBUDBAQDAgYTAwMiAhAqMRQEKRMSLQc?=
- =?us-ascii?q?rcwkCAyIEYwUDAwQoLAMJQAcoJjwHWDoBBAMDECI9BgMJAwIkWnk3ExUFAw0?=
- =?us-ascii?q?ZJggFIxYdBAg8AgUGmiSBFYE+BJQjCpBhnW86NAeDWYFBBgyYW4YJIwuDdox?=
- =?us-ascii?q?QhksDjAGFb5Q0glaEA40cmD2BfzMaLm8BgjxRnShlAjkCBgsBAQMJin0BAQ?=
-Received: from unknown (HELO [127.0.0.1]) ([1.147.91.172])
- by ipmail03.adl2.internode.on.net with ESMTP; 20 Sep 2022 12:44:42 +0930
-Date: Tue, 20 Sep 2022 12:44:25 +0930
-From: Arthur Marsh <arthur.marsh@internode.on.net>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: use dirty framebuffer helper
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CADnq5_Py+dgAxa5Y1tzbWx6xRt1g2LQ1JsiJD6ewYYTzjjaPcw@mail.gmail.com>
-References: <CADnq5_O0W-ipCCy3hsub5GwirjDTM76Xn3kAxgyZT5V+vDguSA@mail.gmail.com>
- <20220918120926.10322-1-user@am64>
- <CADnq5_Py+dgAxa5Y1tzbWx6xRt1g2LQ1JsiJD6ewYYTzjjaPcw@mail.gmail.com>
-Message-ID: <EB4E527C-84AA-464D-9B14-CA8D9E116750@internode.on.net>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 860D510E159;
+ Tue, 20 Sep 2022 03:33:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663644783; x=1695180783;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=uVqot+xe8SB7HikTudmSiHHgXWFNcZT7+JEbOxrd3QI=;
+ b=nmPPn+ubpSCvEF6+dCZU3x/J+OGebLMMdN+eCWYpgL2+IKSoQx6sdjbA
+ xUbV0zm7zZLkC4/6HXUTA+6OlKCFiYMG7yXbW3Q3GRt5WrcvljsC8GNKO
+ aV/bvPwCJuUMP3qpOqFhaBjSZpi7X7hxzP0FTS3r7qFAQ2ppyWRKzscB2
+ WZLdhIK1q3vq+BonfaaXq0vKkglaMfN+77hpmtK8klPBdq5S5C3/HLIi1
+ qDffMxQYeMe3j4IX1qkXrxoOy0pANCcr0Kb6MZaUiA/AcIyd6U6sXCmQs
+ NO/JJa9bW030LNl81n0Ngvo6b1ppZKdGzk7Q5qxShnEmUZlUOaZ1MRzAQ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="298311399"
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="298311399"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 20:33:02 -0700
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="707814514"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.251.10.194])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 20:33:01 -0700
+Date: Mon, 19 Sep 2022 20:33:01 -0700
+Message-ID: <87v8pid8k2.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/mtl: Add C6 residency support for MTL SAMedia
+In-Reply-To: <87edw7pnoh.fsf@intel.com>
+References: <20220919115906.1264041-1-badal.nilawar@intel.com>
+ <20220919115906.1264041-3-badal.nilawar@intel.com>
+ <87edw7pnoh.fsf@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,97 +60,253 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: guchun.chen@amd.com, airlied@linux.ie, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- aurabindo.pillai@amd.com, seanpaul@chromium.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, greenfoo@u92.eu, hamza.mahfooz@amd.com
+Cc: andi.shyti@intel.com, tvrtko.ursulin@intel.com, anshuman.gupta@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jon.ewins@intel.com, Badal Nilawar <badal.nilawar@intel.com>,
+ rodrigo.vivi@intel.com, vinay.belgaumkar@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks, the patch applied against 6=2E0-rc6 kernel worked and the amdgpu mo=
-dule loaded and works on my Radeon R7 250 (Cape Verde) GPU=2E
+On Mon, 19 Sep 2022 05:13:18 -0700, Jani Nikula wrote:
+>
+> On Mon, 19 Sep 2022, Badal Nilawar <badal.nilawar@intel.com> wrote:
+> > For MTL SAMedia updated relevant functions and places in the code to get
+> > Media C6 residency.
+> >
+> > v2: Fixed review comments (Ashutosh)
+> >
+> > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > Cc: Chris Wilson <chris.p.wilson@intel.com>
+> > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 60 +++++++++++++++++++
+> >  drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 10 ++++
+> >  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   |  9 ++-
+> >  drivers/gpu/drm/i915/gt/intel_rc6.c           |  5 +-
+> >  drivers/gpu/drm/i915/gt/selftest_rc6.c        |  9 ++-
+> >  drivers/gpu/drm/i915/i915_pmu.c               |  8 ++-
+> >  6 files changed, 97 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> > index 68310881a793..053167b506a9 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> > @@ -269,6 +269,64 @@ static int ilk_drpc(struct seq_file *m)
+> >	return 0;
+> >  }
+> >
+> > +static int mtl_drpc(struct seq_file *m)
+> > +{
+> > +	struct intel_gt *gt = m->private;
+> > +	struct intel_uncore *uncore = gt->uncore;
+> > +	u32 gt_core_status, rcctl1, global_forcewake;
+> > +	u32 mtl_powergate_enable = 0, mtl_powergate_status = 0;
+> > +	i915_reg_t reg;
+> > +
+> > +	gt_core_status = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
+> > +
+> > +	global_forcewake = intel_uncore_read(uncore, FORCEWAKE_GT_GEN9);
+> > +
+> > +	rcctl1 = intel_uncore_read(uncore, GEN6_RC_CONTROL);
+> > +	mtl_powergate_enable = intel_uncore_read(uncore, GEN9_PG_ENABLE);
+> > +	mtl_powergate_status = intel_uncore_read(uncore,
+> > +						 GEN9_PWRGT_DOMAIN_STATUS);
+> > +
+> > +	seq_printf(m, "RC6 Enabled: %s\n",
+> > +		   str_yes_no(rcctl1 & GEN6_RC_CTL_RC6_ENABLE));
+> > +	if (gt->type == GT_MEDIA) {
+> > +		seq_printf(m, "Media Well Gating Enabled: %s\n",
+> > +			   str_yes_no(mtl_powergate_enable & GEN9_MEDIA_PG_ENABLE));
+> > +	} else {
+> > +		seq_printf(m, "Render Well Gating Enabled: %s\n",
+> > +			   str_yes_no(mtl_powergate_enable & GEN9_RENDER_PG_ENABLE));
+> > +	}
+> > +
+> > +	seq_puts(m, "Current RC state: ");
+> > +
+> > +	switch ((gt_core_status & MTL_CC_MASK) >> MTL_CC_SHIFT) {
+> > +	case MTL_CC0:
+> > +		seq_puts(m, "on\n");
+> > +		break;
+> > +	case MTL_CC6:
+> > +		seq_puts(m, "RC6\n");
+> > +		break;
+> > +	default:
+> > +		seq_puts(m, "Unknown\n");
+> > +		break;
+> > +	}
+> > +
+> > +	if (gt->type == GT_MEDIA)
+> > +		seq_printf(m, "Media Power Well: %s\n",
+> > +			   (mtl_powergate_status &
+> > +			    GEN9_PWRGT_MEDIA_STATUS_MASK) ? "Up" : "Down");
+> > +	else
+> > +		seq_printf(m, "Render Power Well: %s\n",
+> > +			   (mtl_powergate_status &
+> > +			    GEN9_PWRGT_RENDER_STATUS_MASK) ? "Up" : "Down");
+> > +
+> > +	reg = (gt->type == GT_MEDIA) ? MTL_MEDIA_MC6 : GEN6_GT_GFX_RC6;
+> > +	print_rc6_res(m, "RC6 residency since boot:", reg);
+>
+> Cc: Tvrtko, Joonas, Rodrigo
+>
 
-Arthur Marsh=2E=20
+Hi Jani,
 
-On 20 September 2022 2:03:54 am ACST, Alex Deucher <alexdeucher@gmail=2Eco=
-m> wrote:
->On Sun, Sep 18, 2022 at 8:09 AM root <arthur=2Emarsh@internode=2Eon=2Enet=
-> wrote:
->>
->> Hi, I recently experienced lock-ups that only responded to magic sysreq
->> reboots when the amdgpu module was loading on my pc (Athlon II X4 640 C=
-PU,
->> with Radeon R7 250 - Cape Verde)=2E
->>
->> =2Econfig has:
->>
->> CONFIG_DRM_AMDGPU=3Dm
->> CONFIG_DRM_AMDGPU_SI=3Dy
->> # CONFIG_DRM_AMDGPU_CIK is not set
->> # CONFIG_DRM_AMDGPU_USERPTR is not set
->>
->> kernel command line has:
->>
->> amdgpu=2Eaudio=3D1 amdgpu=2Esi_support=3D1 radeon=2Esi_support=3D0 page=
-_owner=3Don \
->> amdgpu=2Egpu_recovery=3D1
->>
->> Bisecting lead to:
->>
->> commit 66f99628eb24409cb8feb5061f78283c8b65f820
->> Author: Hamza Mahfooz <hamza=2Emahfooz@amd=2Ecom>
->> Date:   Tue Sep 6 15:01:49 2022 -0400
->>
->>     drm/amdgpu: use dirty framebuffer helper
->>
->>     Currently, we aren't handling DRM_IOCTL_MODE_DIRTYFB=2E So, use
->>     drm_atomic_helper_dirtyfb() as the dirty callback in the amdgpu_fb_=
-funcs
->>     struct=2E
->>
->>     Signed-off-by: Hamza Mahfooz <hamza=2Emahfooz@amd=2Ecom>
->>     Acked-by: Alex Deucher <alexander=2Edeucher@amd=2Ecom>
->>     Signed-off-by: Alex Deucher <alexander=2Edeucher@amd=2Ecom>
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display=2Ec b/drivers/gp=
-u/drm/amd/amdgpu/amdgpu_display=2Ec
->> index c20922a5af9f=2E=2E5b09c8f4fe95 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display=2Ec
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display=2Ec
->> @@ -38,6 +38,7 @@
->>  #include <linux/pci=2Eh>
->>  #include <linux/pm_runtime=2Eh>
->>  #include <drm/drm_crtc_helper=2Eh>
->> +#include <drm/drm_damage_helper=2Eh>
->>  #include <drm/drm_edid=2Eh>
->>  #include <drm/drm_gem_framebuffer_helper=2Eh>
->>  #include <drm/drm_fb_helper=2Eh>
->> @@ -496,6 +497,7 @@ bool amdgpu_display_ddc_probe(struct amdgpu_connect=
-or *amdgpu_connector,
->>  static const struct drm_framebuffer_funcs amdgpu_fb_funcs =3D {
->>         =2Edestroy =3D drm_gem_fb_destroy,
->>         =2Ecreate_handle =3D drm_gem_fb_create_handle,
->> +       =2Edirty =3D drm_atomic_helper_dirtyfb,
->>  };
->>
->>  uint32_t amdgpu_display_supported_domains(struct amdgpu_device *adev,
->>
->> After doing a git bisect reset, git pull and reverting the patch above,=
- I
->> rebuilt the kernel and am successfully running with the amdgpu module l=
-oaded
->> and using the Radeon R7 250 GPU=2E
->>
->> I am happy to supply any further configuration details=2E
->
->Does the attached patch help?
->
->Alex
->
->
->>
->> Arthur Marsh=2E
+> IMO the register is not a good abstraction to build interfaces on. I see
+> that this is not where the idea is introduced, but it'll probably get
+> you in trouble later on.
 
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+By "this is not where the idea is introduced" are you referring to what we
+did here:
+
+https://patchwork.freedesktop.org/patch/502372/?series=108091&rev=5
+
+in intel_gt_perf_limit_reasons_reg()?
+
+Or, should we follow the schema of centralizing the register selection
+depending on gt type in a single function here too (since this register
+selection is repeated throughout this patch)?
+
+Thanks.
+--
+Ashutosh
+
+
+
+>
+> BR,
+> Jani.
+>
+> > +
+> > +	seq_printf(m, "Global Forcewake Requests: 0x%x\n", global_forcewake);
+> > +
+> > +	return fw_domains_show(m, NULL);
+> > +}
+> > +
+> >  static int drpc_show(struct seq_file *m, void *unused)
+> >  {
+> >	struct intel_gt *gt = m->private;
+> > @@ -279,6 +337,8 @@ static int drpc_show(struct seq_file *m, void *unused)
+> >	with_intel_runtime_pm(gt->uncore->rpm, wakeref) {
+> >		if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
+> >			err = vlv_drpc(m);
+> > +		else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
+> > +			err = mtl_drpc(m);
+> >		else if (GRAPHICS_VER(i915) >= 6)
+> >			err = gen6_drpc(m);
+> >		else
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > index 7819d32db956..8a56fd873228 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > @@ -1517,6 +1517,16 @@
+> >   */
+> >  #define MTL_MIRROR_TARGET_WP1          _MMIO(0x0C60)
+> >  #define   MTL_CAGF_MASK                REG_GENMASK(8, 0)
+> > +#define   MTL_CC0                      0x0
+> > +#define   MTL_CC6                      0x3
+> > +#define   MTL_CC_SHIFT                 9
+> > +#define   MTL_CC_MASK                  (0xf << MTL_CC_SHIFT)
+> > +
+> > +/*
+> > + * MTL: This register contains the total MC6 residency time that SAMedia was
+> > + * since boot
+> > + */
+> > +#define MTL_MEDIA_MC6                          _MMIO(0x138048)
+> >
+> >  #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
+> >  #define   GEN11_CSME				(31)
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+> > index 54deae45d81f..7ab1d776673a 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+> > @@ -123,7 +123,14 @@ static ssize_t rc6_enable_show(struct device *dev,
+> >
+> >  static u32 __rc6_residency_ms_show(struct intel_gt *gt)
+> >  {
+> > -	return get_residency(gt, GEN6_GT_GFX_RC6);
+> > +	i915_reg_t reg;
+> > +
+> > +	if (gt->type == GT_MEDIA)
+> > +		reg = MTL_MEDIA_MC6;
+> > +	else
+> > +		reg = GEN6_GT_GFX_RC6;
+> > +
+> > +	return get_residency(gt, reg);
+> >  }
+> >
+> >  static ssize_t rc6_residency_ms_show(struct device *dev,
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+> > index f8d0523f4c18..26f71f7f07c6 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+> > @@ -745,6 +745,7 @@ u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, const i915_reg_t reg)
+> >	unsigned long flags;
+> >	unsigned int i;
+> >	u32 mul, div;
+> > +	i915_reg_t base;
+> >
+> >	if (!rc6->supported)
+> >		return 0;
+> > @@ -756,8 +757,10 @@ u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, const i915_reg_t reg)
+> >	 * other so we can use the relative address, compared to the smallest
+> >	 * one as the index into driver storage.
+> >	 */
+> > +	base = (rc6_to_gt(rc6)->type == GT_MEDIA) ?
+> > +	       MTL_MEDIA_MC6 : GEN6_GT_GFX_RC6_LOCKED;
+> >	i = (i915_mmio_reg_offset(reg) -
+> > -	     i915_mmio_reg_offset(GEN6_GT_GFX_RC6_LOCKED)) / sizeof(u32);
+> > +	     i915_mmio_reg_offset(base)) / sizeof(u32);
+> >	if (drm_WARN_ON_ONCE(&i915->drm, i >= ARRAY_SIZE(rc6->cur_residency)))
+> >		return 0;
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/selftest_rc6.c b/drivers/gpu/drm/i915/gt/selftest_rc6.c
+> > index 8c70b7e12074..28c6a4b6b8d1 100644
+> > --- a/drivers/gpu/drm/i915/gt/selftest_rc6.c
+> > +++ b/drivers/gpu/drm/i915/gt/selftest_rc6.c
+> > @@ -15,11 +15,18 @@
+> >
+> >  static u64 rc6_residency(struct intel_rc6 *rc6)
+> >  {
+> > +	struct intel_gt *gt = rc6_to_gt(rc6);
+> > +	i915_reg_t reg;
+> >	u64 result;
+> >
+> >	/* XXX VLV_GT_MEDIA_RC6? */
+> >
+> > -	result = intel_rc6_residency_ns(rc6, GEN6_GT_GFX_RC6);
+> > +	if (gt->type == GT_MEDIA)
+> > +		reg = MTL_MEDIA_MC6;
+> > +	else
+> > +		reg = GEN6_GT_GFX_RC6;
+> > +
+> > +	result = intel_rc6_residency_ns(rc6, reg);
+> >	if (HAS_RC6p(rc6_to_i915(rc6)))
+> >		result += intel_rc6_residency_ns(rc6, GEN6_GT_GFX_RC6p);
+> >	if (HAS_RC6pp(rc6_to_i915(rc6)))
+> > diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+> > index 958b37123bf1..6ec139668641 100644
+> > --- a/drivers/gpu/drm/i915/i915_pmu.c
+> > +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> > @@ -146,9 +146,15 @@ static bool pmu_needs_timer(struct i915_pmu *pmu, bool gpu_active)
+> >  static u64 __get_rc6(struct intel_gt *gt)
+> >  {
+> >	struct drm_i915_private *i915 = gt->i915;
+> > +	i915_reg_t reg;
+> >	u64 val;
+> >
+> > -	val = intel_rc6_residency_ns(&gt->rc6, GEN6_GT_GFX_RC6);
+> > +	if (gt->type == GT_MEDIA)
+> > +		reg = MTL_MEDIA_MC6;
+> > +	else
+> > +		reg = GEN6_GT_GFX_RC6;
+> > +
+> > +	val = intel_rc6_residency_ns(&gt->rc6, reg);
+> >
+> >	if (HAS_RC6p(i915))
+> >		val += intel_rc6_residency_ns(&gt->rc6, GEN6_GT_GFX_RC6p);
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
