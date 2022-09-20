@@ -2,37 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCBE5BE13F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 11:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9A25BE160
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 11:06:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAB010E14D;
-	Tue, 20 Sep 2022 09:03:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49DC110E4AF;
+	Tue, 20 Sep 2022 09:06:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out20-97.mail.aliyun.com (out20-97.mail.aliyun.com
- [115.124.20.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 792E010E49A
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 09:02:21 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.04440174|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.0127042-0.00172802-0.985568;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047199; MF=wangyugui@e16-tech.com; NM=1;
- PH=DS; RN=3; RT=3; SR=0; TI=SMTPD_---.PJzWLnl_1663664538; 
-Received: from 192.168.2.112(mailfrom:wangyugui@e16-tech.com
- fp:SMTPD_---.PJzWLnl_1663664538) by smtp.aliyun-inc.com;
- Tue, 20 Sep 2022 17:02:18 +0800
-Date: Tue, 20 Sep 2022 17:02:20 +0800
-From: Wang Yugui <wangyugui@e16-tech.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: mgag200 broken on kernel-6.0-rc3 on DELL/T620
-In-Reply-To: <16995c0f-c698-b1b0-0311-73882aef5f75@suse.de>
-References: <20220915224058.B32A.409509F4@e16-tech.com>
- <16995c0f-c698-b1b0-0311-73882aef5f75@suse.de>
-Message-Id: <20220920170219.788D.409509F4@e16-tech.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 544C810E4AF;
+ Tue, 20 Sep 2022 09:06:29 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B24C36274A;
+ Tue, 20 Sep 2022 09:06:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18E58C433D6;
+ Tue, 20 Sep 2022 09:06:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1663664788;
+ bh=6pYIi9glaYZlye/aQHBoMpVkZ1qcD8dJmGfOqYp0ROA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fUD8S2gvOniifTyASmpBcDPIJdMlH8cRZA4WNglMYAr0pYRbk+Zw4hK34lc+dq20g
+ I51hhRJ9LhYOzCL/W3aridwhiHSOGHKpEibeUa6BYHz7PrE3D072LoJ8eWqt2ywMHy
+ oiPv4Dl5cuEuMknH2wHA7UGt/l2rw75KZrz0oF9k69yFtgkUbhkMsxbCFxn4POyG7W
+ J2fN42NBPcPXPdQsiOE2Sa2mR+zPMVr9qxbsT5hU9SLMcnxECbTwlp2uICH5vFAtPV
+ GeNPbY959ihZSBZmuOFuL3Tl3tS1nXoFHezTwXXvvN9ZlS1hsgtBARVHQMUm1mb85f
+ k8PuqZSa7AOxg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1oaZD4-0002LH-9A; Tue, 20 Sep 2022 11:06:30 +0200
+Date: Tue, 20 Sep 2022 11:06:30 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Douglas Anderson <dianders@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v2 00/10] drm/msm: probe deferral fixes
+Message-ID: <YymCll02tRIMb+9Z@hovoldconsulting.com>
+References: <20220913085320.8577-1-johan+linaro@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="GB2312"
-Content-Transfer-Encoding: 8bit
-X-Mailer: Becky! ver. 2.75.04 [en]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220913085320.8577-1-johan+linaro@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,109 +56,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Stephen Boyd <swboyd@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Steev Klimaszewski <steev@kali.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-> Hi
+On Tue, Sep 13, 2022 at 10:53:10AM +0200, Johan Hovold wrote:
+> The MSM DRM driver is currently broken in multiple ways with respect to
+> probe deferral. Not only does the driver currently fail to probe again
+> after a late deferral, but due to a related use-after-free bug this also
+> triggers NULL-pointer dereferences.
 > 
-> Am 15.09.22 um 16:41 schrieb Wang Yugui:
-> > Hi,
-> >
-> >> Hi
-> >>
-> >> Am 14.09.22 um 16:58 schrieb Wang Yugui:
-> >> [...]
-> >>>> 24-bit works on my G200HE and G200 test machines. Maybe the G200ER has a bug.
-> >>>>
-> >>>> When I try 16-bit depth, the display works, but is way too dark. No fiddling with the LUT tables fixes this. It's 90s hardware, so it should support 16-bit framebuffers well, but there's no obvious bug to be seen.
-> >>>>
-> >>>> I guess, we could remove 16 and 24 bit support for now if nothing else helps.
-> >>>
-> >>>
-> >>> maybe better if we revert 73f54d5d9682 (drm/mgag200: Remove special case
-> >>> for G200SE with <2 MiB)
-> >>
-> >> Could you please test the attached patch on the 6.0-rc3 kernel? It should force the driver to a correct color format if no kernel parameters are given.
-> >>
-> >
-> > This patch works well.
+> These bugs are not new but have become critical with the release of
+> 5.19 where probe is deferred in case the aux-bus EP panel driver has not
+> yet been loaded.
 > 
-> I have meanwhile added the patch to drm-misc-fixes. We want to add a workaround for your machine to the driver. Can you please send me the output of
+> The underlying problem is lifetime issues due to careless use of
+> device-managed resources.
+
+Any chance of getting this merged for 6.1?
+
+Johan
+
+> Changes in v2
+>  - use a custom devres action instead of amending the AUX bus interface
+>    (Doug)
+>  - split sanity check fixes and cleanups per bridge type (Dmitry)
+>  - add another Fixes tag for the missing bridge counter reset (Dmitry)
 > 
->    sudo dmidecode -s system-manufacturer
 > 
-> and
+> Johan Hovold (10):
+>   drm/msm: fix use-after-free on probe deferral
+>   drm/msm/dp: fix memory corruption with too many bridges
+>   drm/msm/dsi: fix memory corruption with too many bridges
+>   drm/msm/hdmi: fix memory corruption with too many bridges
+>   drm/msm/dp: fix IRQ lifetime
+>   drm/msm/dp: fix aux-bus EP lifetime
+>   drm/msm/dp: fix bridge lifetime
+>   drm/msm/hdmi: fix IRQ lifetime
+>   drm/msm/dp: drop modeset sanity checks
+>   drm/msm/dsi: drop modeset sanity checks
 > 
->    sudo dmidecode -s system-product-name
-> 
-
-
-DELL/T630
-[root@T630 ~]# dmidecode -s system-manufacturer
-Dell Inc.
-[root@T630 ~]# dmidecode -s system-product-name
-PowerEdge T630
-
-
-DELL/T620
-[root@T620 ~]# dmidecode -s system-manufacturer
-Dell Inc.
-[root@T620 ~]# dmidecode -s system-product-name
-PowerEdge T620
-
-Best Regards
-Wang Yugui (wangyugui@e16-tech.com)
-2022/09/20
-
-> Best regards
-> Thomas
-> 
-> >
-> > test case detail:
-> >    kernel parm video is not given
-> >    server DELL/T620
-> >    kernel is 6.0-rc5
-> >
-> > Best Regards
-> > Wang Yugui (wangyugui@e16-tech.com)
-> > 2022/09/15
-> >
-> >
-> >> Best regards
-> >> Thomas
-> >>
-> >>>
-> >>> because there is no test result on device G200_SE
-> >>>
-> >>> static unsigned int mgag200_preferred_depth(struct mga_device *mdev)
-> >>> {
-> >>>          if (IS_G200_SE(mdev) && mdev->vram_fb_available < (2048*1024))
-> >>>                  return 16;
-> >>>          else
-> >>>                  return 32;
-> >>> }
-> >>>
-> >>> Best Regards
-> >>> Wang Yugui (wangyugui@e16-tech.com)
-> >>> 2022/09/14
-> >>>
-> >> -- Thomas Zimmermann
-> >> Graphics Driver Developer
-> >> SUSE Software Solutions Germany GmbH
-> >> Maxfeldstr. 5, 90409 N¨¹rnberg, Germany
-> >> (HRB 36809, AG N¨¹rnberg)
-> >> Gesch?ftsf¨¹hrer: Ivo Totev
-> >
-> > 
-> -- Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N¨¹rnberg, Germany
-> (HRB 36809, AG N¨¹rnberg)
-> Gesch?ftsf¨¹hrer: Ivo Totev
-
-
+>  drivers/gpu/drm/msm/dp/dp_display.c | 26 +++++++++++++++++++-------
+>  drivers/gpu/drm/msm/dp/dp_parser.c  |  6 +++---
+>  drivers/gpu/drm/msm/dp/dp_parser.h  |  5 +++--
+>  drivers/gpu/drm/msm/dsi/dsi.c       |  9 +++++----
+>  drivers/gpu/drm/msm/hdmi/hdmi.c     |  7 ++++++-
+>  drivers/gpu/drm/msm/msm_drv.c       |  1 +
+>  6 files changed, 37 insertions(+), 17 deletions(-)
