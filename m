@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A075BDD61
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 08:36:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B405BDDBC
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 09:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDA6010E2A5;
-	Tue, 20 Sep 2022 06:36:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C6C10E2F0;
+	Tue, 20 Sep 2022 07:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADDEF10E2A5;
- Tue, 20 Sep 2022 06:36:05 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id w13so1443888plp.1;
- Mon, 19 Sep 2022 23:36:05 -0700 (PDT)
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05E1E10E2D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 06:47:12 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id e5so1869270pfl.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 23:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=DcE48FGDHv0yOSzbYjt1rNc9RDHXJDR1T2QYo0htzd4=;
- b=WfeSzzwjMlC1h/a8WfNvTmDa7ZVJvLPJO0rI2MnM0B5LsKfBrO7f7AfHe3L6gj0REV
- SagG+yVOhfjjKM8Y8I/9UnLYJNTWBIbNjo3LhfNA/69g7+k0PyRa2JWiSz9Howjc8BqQ
- cXTF60pxTFPfH1ivPQUBfdvqTJzuBQY7tBRwNOgGcabhmNrDBKzXQk+f5bxlwQoJx/gg
- H19nu/PHjwtk3VR6nDqM5fQ73dYzbhJyxWr9yRgdHoZAomNqcsTxNNqJ08KJshfC5AAt
- D3Fh9GTelOxInr1eevycB2gmafxEEZTMx/gdYo/6tUqBycmQamYBKTR+cJ78oPImHXnf
- W5Qw==
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date;
+ bh=c5KSSWVkQxJDHC069bgwLU2fYk2mKQxGKTjcX09JPwY=;
+ b=HGj8MOzY5CZ5wxY9nmVqBylRA4qoVO1HOk9+EhvXCILBr9M4OZJo0YdHC6FurSSr/Z
+ 7CJtTPLAHtRDD1EkTvAEtJAep51AV8xpS2UDs7KXapD+l/86KL+PiNrJZo9ulcWhnGqD
+ UdhKPlUfLsyqSBENOGCLXdg1RMflt4EvN9baVT4GNEnSpYsXzW3HUK/uC6sW95Rb2SvH
+ FHBmMvLDHttahh9qmLz3+f9//48KTDqNjvhgX842FvRn0Lf/WIVFGmuWBSyMCcmkYLwj
+ XjqpuhxKWs4SxYBUqQhSX08HMFlRg+Pus5Z0tYWilQWqgwDyKi381Cdvf79bOu3Yhf8i
+ q6Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=DcE48FGDHv0yOSzbYjt1rNc9RDHXJDR1T2QYo0htzd4=;
- b=O6zyYdBpTWblVEAq6xPcwrg4xrYMCQM24YVlPNYOMfKkvmy5LI78AFQMaeAIE5exWV
- mpHnkHrCOjms5PpooYjPs2AEqFVLM6SyM09imnKGSI60eAMRQN1dYluJG/MKoUuyRwU1
- MAxrHA1A2020lxI3steOdIElD9+t2oNgTv1IjzUAIsrzM2AUBCIDXBnmdD60ICdiD1QC
- WajsyGhcDTiTBTkfteQ/g21eknGABIl3i5sQxKGHvlZEqg4CXQIC+8uViRU5JHVOQbjo
- i1bXgOI0/xibWXz8e6iThWwDnqMy02BKXmrB/2UY1vI9hZUT8STJvd7o5xaF6CsUPfLQ
- Q5GA==
-X-Gm-Message-State: ACrzQf1lmARZrZCHGQLGzuBrVrjwVeDUFxJmncjuRLMDqcdSj/IUWz7z
- Xg/xNPW0TSQqVvYM4VPI3W0=
-X-Google-Smtp-Source: AMsMyM4qpv+0B2J9/SDVZwkIT7eEtZIA5rLG3v1vSQ1E5LYdzYonEiVCQe3nrzq/M+cjqfWD0br5Nw==
-X-Received: by 2002:a17:90b:2bd3:b0:203:1a03:6b1b with SMTP id
- ru19-20020a17090b2bd300b002031a036b1bmr2203013pjb.58.1663655765249; 
- Mon, 19 Sep 2022 23:36:05 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id
- i13-20020a63220d000000b0042c0ffa0e62sm611172pgi.47.2022.09.19.23.36.02
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=c5KSSWVkQxJDHC069bgwLU2fYk2mKQxGKTjcX09JPwY=;
+ b=Ip/P6EtUcydwlYdmtgIa3yO2OxJ1obTj5wj5tI6QRWrF066H0sIEDFup+4dh7IsMiF
+ KA4rO/E62vfmVS+2iluHcsduAox5fHQzfwe4iPHpEzPUalbC3TFIpBbfEkHn8qIfHApV
+ lER0Pw4TWupHK1QMUh7zkNjtIJ1DRoghPzlkUDNI8QA9Fa5LVFpadd5orZAugOZEelvL
+ 82ZD4s613R6iEZVSaRwUudllvHDEYodaUFh1A6YlE03jrPzvW8zz8WuQBoXZqJDirWsv
+ f0sOq77+Z/ncc7uaZjjXg3yGFWn42ln1vG3VbbfI9NU5rUx9YW7AhPf9z4IukYmhTZeE
+ wXGA==
+X-Gm-Message-State: ACrzQf0EgD18T78ZzOdOSU3k5gN7pk+itH2+goJp8zqVxilVwRAFEsJb
+ UgN68ZIVSJxJ5lgE3/qIvmM=
+X-Google-Smtp-Source: AMsMyM5XcLxF8MhhH/PMsaRm36L2TkcyH9kq6drtdeDhum5yfRYVmKGhA1mMkFg3ixyXD2tyXWzvxg==
+X-Received: by 2002:a62:8403:0:b0:540:c1e4:fb31 with SMTP id
+ k3-20020a628403000000b00540c1e4fb31mr22297478pfd.85.1663656431635; 
+ Mon, 19 Sep 2022 23:47:11 -0700 (PDT)
+Received: from autolfshost ([117.228.7.95]) by smtp.gmail.com with ESMTPSA id
+ i6-20020a056a00224600b0054aa69bc192sm651383pfu.72.2022.09.19.23.47.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Sep 2022 23:36:04 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: ye.xingchen@zte.com.cn
-To: alexander.deucher@amd.com
-Subject: [PATCH linux-next] drm/amd/pm: Remove unneeded result variable
-Date: Tue, 20 Sep 2022 06:36:00 +0000
-Message-Id: <20220920063600.215257-1-ye.xingchen@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ Mon, 19 Sep 2022 23:47:11 -0700 (PDT)
+Date: Tue, 20 Sep 2022 12:16:44 +0530
+From: Anup K Parikh <parikhanupk.foss@gmail.com>
+To: skhan@linuxfoundation.org, andrey.grodzovsky@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH v2] A simple doc fix
+Message-ID: <Yylh1Nst25I6u6Uh@autolfshost>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailman-Approved-At: Tue, 20 Sep 2022 07:03:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,44 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, ye xingchen <ye.xingchen@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, evan.quan@amd.com, christian.koenig@amd.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+Fix two warnings during doc build which also results in corresponding
+additions in generated docs
 
-Return the value atomctrl_initialize_mc_reg_table_v2_2() directly instead
-of storing it in another redundant variable.
+Warnings Fixed:
+1. include/drm/gpu_scheduler.h:462: warning: Function parameter or member
+   'dev' not described in 'drm_gpu_scheduler'
+2. drivers/gpu/drm/scheduler/sched_main.c:1005: warning: Function
+   parameter or member 'dev' not described in 'drm_sched_init'
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+Signed-off-by: Anup K Parikh <parikhanupk.foss@gmail.com>
 ---
- drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Changes in v2:
+    Correct the doc strings according to
+    Link: https://lore.kernel.org/all/f528a8e4-5162-66d5-09da-5252076882b8@amd.com/
+ drivers/gpu/drm/scheduler/sched_main.c | 2 ++
+ include/drm/gpu_scheduler.h            | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c b/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c
-index 45214a364baa..e7ed2a7adf8f 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c
-@@ -2567,15 +2567,13 @@ static uint8_t polaris10_get_memory_modile_index(struct pp_hwmgr *hwmgr)
- 
- static int polaris10_initialize_mc_reg_table(struct pp_hwmgr *hwmgr)
- {
--	int result;
- 	struct polaris10_smumgr *smu_data = (struct polaris10_smumgr *)(hwmgr->smu_backend);
- 	pp_atomctrl_mc_reg_table *mc_reg_table = &smu_data->mc_reg_table;
- 	uint8_t module_index = polaris10_get_memory_modile_index(hwmgr);
- 
- 	memset(mc_reg_table, 0, sizeof(pp_atomctrl_mc_reg_table));
--	result = atomctrl_initialize_mc_reg_table_v2_2(hwmgr, module_index, mc_reg_table);
- 
--	return result;
-+	return atomctrl_initialize_mc_reg_table_v2_2(hwmgr, module_index, mc_reg_table);
- }
- 
- static bool polaris10_is_dpm_running(struct pp_hwmgr *hwmgr)
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 68317d3a7a27..979685830671 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -994,6 +994,8 @@ static int drm_sched_main(void *param)
+  *		used
+  * @score: optional score atomic shared with other schedulers
+  * @name: name used for debugging
++ * @dev: A device pointer - primarily useful for printing standardized
++ *       messages with DRM_DEV_ERROR().
+  *
+  * Return 0 on success, otherwise error code.
+  */
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index addb135eeea6..80a525dd19bd 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -435,6 +435,8 @@ struct drm_sched_backend_ops {
+  * @_score: score used when the driver doesn't provide one
+  * @ready: marks if the underlying HW is ready to work
+  * @free_guilty: A hit to time out handler to free the guilty job.
++ * @dev: A device pointer - primarily useful for printing standardized
++ *       messages with DRM_DEV_ERROR().
+  *
+  * One scheduler is implemented for each hardware ring.
+  */
 -- 
-2.25.1
+2.35.1
+
