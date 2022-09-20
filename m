@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8E55BDF6B
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:12:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 727365BDF7B
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:13:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB95F10E145;
-	Tue, 20 Sep 2022 08:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EBC710E403;
+	Tue, 20 Sep 2022 08:12:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD35610E45A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD8F910E425
  for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 08:12:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=i07klbgsIEyz4TZEZjEogdkUwm59S629X4PHLfl+5sc=; b=Dz+Pk7iTuXiQMawj44MfoF6E20
- wZlasygQGJgaqaI1Hj9Z/KWpYmPL6O9K1TZohEX1Ne5S46sTXdPS8zKLgnx4GklgiDyeONj9R5qnT
- GkMrIUsTf4/pS2D6+pLVHEeRpZ2r2J1NWCIh5ywkozW1eN2oJAgOXrsuLr+EzaNc2mUgqnh1WY/1j
- bhawVPCIqt0s2N75Dkx9wD6KXobMp5LhXwUiOR6UESjFG4wADALxPrT4PxJdM2F7YNbn84DzpcICi
- 3cZbx7Bk/gW5pmJ9H1LC72EiQN3GpYgcPooIM8J3FWYresy8HArx3p5cdzOtQVL9oXc1UsIOdhaoa
- ohDBUjWw==;
+ bh=WGDOR4/G4lvi7odQrLsocAov6jzKFOoeOGWdV2SLtpo=; b=x4m9f3/Jwh/Ot1Cqt4onSuhmqM
+ pp3XTDymKjjyEXwc66DV+ucftntOosGh8dY7pK9p6IUevUxXdO+wgIl9XeABBP03Ucr5XXuSCUViZ
+ cEz/SFwxctVi/E6fgdcZHj+43r7sspLL5aiIyCSAHOX8W6vwLPdlPPoWbSf+yAph1/P0yfjnaAU/i
+ 0kVeghdKvKe5LP9HiVOjMXMQq6pwAl3MWAPO7PcSVxmgVXtfUvy4uKNIGGz332O+WUj+1MRqnbfFz
+ 03ixvJZRRsdf7eY0sPHE3GC5OA4Qg9u1c1dl1CNv8yepEb+Yh0Jz8A4F8pex8WsfykFOTHmCpiEmT
+ RUnZ6MEQ==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1oaYMn-0017q3-Sg; Tue, 20 Sep 2022 11:12:29 +0300
+ id 1oaYMo-0017q3-4p; Tue, 20 Sep 2022 11:12:30 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH v3 0/8] Support for NVDEC on Tegra234
-Date: Tue, 20 Sep 2022 11:11:55 +0300
-Message-Id: <20220920081203.3237744-1-cyndis@kapsi.fi>
+Subject: [PATCH v3 1/8] memory: tegra: Add API for retrieving carveout bounds
+Date: Tue, 20 Sep 2022 11:11:56 +0300
+Message-Id: <20220920081203.3237744-2-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220920081203.3237744-1-cyndis@kapsi.fi>
+References: <20220920081203.3237744-1-cyndis@kapsi.fi>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 91.158.25.70
@@ -64,74 +66,110 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-v3:
-* Updated patch 3 based on comments
+On Tegra234 NVDEC firmware is loaded from a secure carveout, where it
+has been loaded by a bootloader. When booting NVDEC, we need to tell it
+the address of this firmware, which we can determine by checking the
+starting address of the carveout. As such, add an MC API to query the
+bounds of carveouts, and add related information on Tegra234.
 
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+---
 v2:
-* Updated patches 1,3 based on comments
-* Added Acked-by to patch 2
+- Add check for 64-bit phys_addr_t. In practice phys_addr_t
+  is always 64 bits where this runs, but it avoids warnings in
+  compile test.
+---
+ drivers/memory/tegra/mc.c       | 25 +++++++++++++++++++++++++
+ drivers/memory/tegra/tegra234.c |  5 +++++
+ include/soc/tegra/mc.h          | 11 +++++++++++
+ 3 files changed, 41 insertions(+)
 
-Original message:
-
-Hi all,
-
-this series adds support for the HW video decoder, NVDEC,
-on Tegra234 (Orin). The main change is a switch from Falcon
-to RISC-V for the internal microcontroller, which brings along
-a change in how the engine is booted. Otherwise it is backwards
-compatible with earlier versions.
-
-In previous iterations, firmware was simply loaded from disk and
-written into engine internal memory. Now, the engine has a
-bootrom that loads the firmware from a carveout where it has been
-loaded by the system bootloader; however, we still need to tell it
-where that carveout is loaded and some offsets into it. For that,
-the first patch adds a new memory controller API to query the
-carveout address. The offsets are read from device tree -- the
-expectation is that at flashing time (when the firmware is also
-flashed), the flasher also delivers a device tree overlay with
-values corresponding to the flashed firmware.
-
-The currently available Linux for Tegra release doesn't yet
-include this device tree overlay flashing, and the firmware version
-it contains is incompatible with this series. The plan is to fix
-that for the next Linux for Tegra release, but if necessary, we
-can postpone merging of this series to once those changes are
-available.
-
-Thanks!
-Mikko
-
-Mikko Perttunen (8):
-  memory: tegra: Add API for retrieving carveout bounds
-  dt-bindings: Add headers for NVDEC on Tegra234
-  dt-bindings: Add bindings for Tegra234 NVDEC
-  arm64: tegra: Add NVDEC on Tegra234
-  gpu: host1x: Add stream ID register data for NVDEC on Tegra234
-  drm/tegra: nvdec: Support multiple clocks
-  drm/tegra: Add code for booting RISC-V based engines
-  drm/tegra: Add Tegra234 support to NVDEC driver
-
- .../gpu/host1x/nvidia,tegra234-nvdec.yaml     | 156 ++++++++++++++++
- arch/arm64/boot/dts/nvidia/tegra234.dtsi      |  27 +++
- drivers/gpu/drm/tegra/Makefile                |   3 +-
- drivers/gpu/drm/tegra/drm.c                   |   1 +
- drivers/gpu/drm/tegra/nvdec.c                 | 171 +++++++++++++++---
- drivers/gpu/drm/tegra/riscv.c                 | 106 +++++++++++
- drivers/gpu/drm/tegra/riscv.h                 |  30 +++
- drivers/gpu/host1x/dev.c                      |  12 ++
- drivers/memory/tegra/mc.c                     |  25 +++
- drivers/memory/tegra/tegra234.c               |   5 +
- include/dt-bindings/clock/tegra234-clock.h    |   4 +
- include/dt-bindings/memory/tegra234-mc.h      |   3 +
- .../dt-bindings/power/tegra234-powergate.h    |   1 +
- include/dt-bindings/reset/tegra234-reset.h    |   1 +
- include/soc/tegra/mc.h                        |  11 ++
- 15 files changed, 530 insertions(+), 26 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml
- create mode 100644 drivers/gpu/drm/tegra/riscv.c
- create mode 100644 drivers/gpu/drm/tegra/riscv.h
-
+diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
+index 2f7a58a9df1a..592907546ee6 100644
+--- a/drivers/memory/tegra/mc.c
++++ b/drivers/memory/tegra/mc.c
+@@ -107,6 +107,31 @@ int tegra_mc_probe_device(struct tegra_mc *mc, struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(tegra_mc_probe_device);
+ 
++int tegra_mc_get_carveout_info(struct tegra_mc *mc, unsigned int id,
++                               phys_addr_t *base, u64 *size)
++{
++	u32 offset;
++
++	if (id < 1 || id >= mc->soc->num_carveouts)
++		return -EINVAL;
++
++	if (id < 6)
++		offset = 0xc0c + 0x50 * (id - 1);
++	else
++		offset = 0x2004 + 0x50 * (id - 6);
++
++	*base = mc_ch_readl(mc, MC_BROADCAST_CHANNEL, offset + 0x0);
++#ifdef CONFIG_PHYS_ADDR_T_64BIT
++	*base |= (phys_addr_t)mc_ch_readl(mc, MC_BROADCAST_CHANNEL, offset + 0x4) << 32;
++#endif
++
++	if (size)
++		*size = mc_ch_readl(mc, MC_BROADCAST_CHANNEL, offset + 0x8) << 17;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(tegra_mc_get_carveout_info);
++
+ static int tegra_mc_block_dma_common(struct tegra_mc *mc,
+ 				     const struct tegra_mc_reset *rst)
+ {
+diff --git a/drivers/memory/tegra/tegra234.c b/drivers/memory/tegra/tegra234.c
+index a9e8fd99730f..74d291d66366 100644
+--- a/drivers/memory/tegra/tegra234.c
++++ b/drivers/memory/tegra/tegra234.c
+@@ -187,4 +187,9 @@ const struct tegra_mc_soc tegra234_mc_soc = {
+ 	.ops = &tegra186_mc_ops,
+ 	.ch_intmask = 0x0000ff00,
+ 	.global_intstatus_channel_shift = 8,
++	/*
++	 * Additionally, there are lite carveouts but those are not currently
++	 * supported.
++	 */
++	.num_carveouts = 32,
+ };
+diff --git a/include/soc/tegra/mc.h b/include/soc/tegra/mc.h
+index 47ce6d434427..51a2263e1bc5 100644
+--- a/include/soc/tegra/mc.h
++++ b/include/soc/tegra/mc.h
+@@ -193,6 +193,8 @@ struct tegra_mc_soc {
+ 	unsigned int num_address_bits;
+ 	unsigned int atom_size;
+ 
++	unsigned int num_carveouts;
++
+ 	u16 client_id_mask;
+ 	u8 num_channels;
+ 
+@@ -244,6 +246,8 @@ unsigned int tegra_mc_get_emem_device_count(struct tegra_mc *mc);
+ #ifdef CONFIG_TEGRA_MC
+ struct tegra_mc *devm_tegra_memory_controller_get(struct device *dev);
+ int tegra_mc_probe_device(struct tegra_mc *mc, struct device *dev);
++int tegra_mc_get_carveout_info(struct tegra_mc *mc, unsigned int id,
++                               phys_addr_t *base, u64 *size);
+ #else
+ static inline struct tegra_mc *
+ devm_tegra_memory_controller_get(struct device *dev)
+@@ -256,6 +260,13 @@ tegra_mc_probe_device(struct tegra_mc *mc, struct device *dev)
+ {
+ 	return -ENODEV;
+ }
++
++static inline int
++tegra_mc_get_carveout_info(struct tegra_mc *mc, unsigned int id,
++                           phys_addr_t *base, u64 *size)
++{
++	return -ENODEV;
++}
+ #endif
+ 
+ #endif /* __SOC_TEGRA_MC_H__ */
 -- 
 2.37.0
 
