@@ -2,69 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1427F5BDFAA
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7565BDFB0
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 10:19:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFCE310E3A3;
-	Tue, 20 Sep 2022 08:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A11A10E392;
+	Tue, 20 Sep 2022 08:19:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE4C10E392
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 08:17:41 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id c11so2917901wrp.11
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 01:17:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date;
- bh=l9gtbM2uto1x5bgL0a0otnawkJGJbySIPkwXwU+/1Sg=;
- b=g0l7m7UeOdhQ1PnCBXbxUamAfihljV9V2FnQje6nfTZog1OMNhC8oL2nO8DhxAHrdz
- R5tjgOGSyumGkF1pwo5z9ZhIt6dtb8075rVEd0oApEB71LEbSqSUTlsR+EYRxDVa3Lu8
- O+M8MmsB1I9X2KmauJ8B5tR6kOAf5niG8lHh5Je0byFx2N6cYQQqgVnAETPrQm822657
- YCcAnFbL9A6L59hlZ4tsyqYSyzTIcsC5bqU+4Hl6WMx9QJcCoacg34iA3YmNAviHMt2M
- G3tn/H27cfKd2XR8nEMg2hGrsCRaySYxd8kgkvHDc8Y2YLYU+EuDxVMvRszMbjSiW2gX
- nLbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=l9gtbM2uto1x5bgL0a0otnawkJGJbySIPkwXwU+/1Sg=;
- b=wbIZaAISfNqA0kH7sxtLZzuR1UgcWxc5ipZP0SgmqfbXaRbUhM/s0LGLUxqcrx+BjE
- sai+kDhGNILbz21P4yV0K4fubcVBmbeXJ+1W2qUa0Z3RtHLQXg8x0ZR8srYD5+MrU9SN
- agmgnhh8gxT9ZGrtLnbi6vtqnvM7WLWA0j4N/gMO5149uUxuHYvHCQLnnKoKx1dCtKmw
- O6v5b3mzCR1MEflYiYCiWG2vxYFRXxKQ4z0SvlusSm7GCP4bo2dObAVnbDKNF2rt0JCZ
- ZJ8DmnBqs8RnXqAn3SSEMh5Dl09I1+/7M2QnWK3oSUutqK5JtITEBvtF7BLDnBA31h07
- v+AA==
-X-Gm-Message-State: ACrzQf2FUfGzbUEu1XpA4yVWWIm5POwO/dDtV+Gdtc+vNmBQ2yzzA0Nb
- venh0nizgMsG0J3KZmz2z2otOQ==
-X-Google-Smtp-Source: AMsMyM7tatwTKzU25uwqfUSidVRXEueFyIejARipSVNwx7OXnQPpPmj88gcBjqsYA2tRb+GzRzL8Iw==
-X-Received: by 2002:adf:9b97:0:b0:22a:e61a:4b0c with SMTP id
- d23-20020adf9b97000000b0022ae61a4b0cmr10134280wrc.290.1663661859773; 
- Tue, 20 Sep 2022 01:17:39 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:7e10:f0f:43b2:9b5e?
- ([2a01:e0a:982:cbb0:7e10:f0f:43b2:9b5e])
- by smtp.gmail.com with ESMTPSA id
- bx9-20020a5d5b09000000b00228d183f9c2sm973130wrb.89.2022.09.20.01.17.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Sep 2022 01:17:39 -0700 (PDT)
-Message-ID: <4aa7744a-f002-9029-d50d-bae43c051559@linaro.org>
-Date: Tue, 20 Sep 2022 10:17:38 +0200
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 523BB10E392;
+ Tue, 20 Sep 2022 08:19:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663661947; x=1695197947;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XsLK0rUD3KK3Xm/Wda0NghIGHbyZGZps+l+d5v4b5Bk=;
+ b=GJj+Mp5ajNqloYUPQ+HYtQKpyUAqYKt21NxweR+49kQowc2+bWLDrcmN
+ TEF6Wj4PGMsPFeIqSlLCc5Hs0uHf5C+YMzqnCqU+lTn+I/uyxmJQQIsF/
+ GjkAwzfnqzj99Dyc5VMqOPhWpGavClPizV6k/ilLIiWMMRtoXHSjJf/FS
+ q5SPC4le6OrCY/3mT0TSZ+Sv4FODU2mcnAFOrzZnp16DTn0XL+hFTioGA
+ wRreenbaPp2jFh6oROSp4b0bMFo+napNuuxikKuuAroKkkLFN9Dg21QHq
+ zv+UOL8HdOmpgJNf3ybTFsrRjFvpd5W5cnfkV/0TgGawfa8aP+sBtGOxB g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="299622550"
+X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; d="scan'208";a="299622550"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2022 01:19:06 -0700
+X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; d="scan'208";a="744433857"
+Received: from thrakatuluk.fi.intel.com (HELO
+ platvala-desk.ger.corp.intel.com) ([10.237.72.90])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2022 01:19:02 -0700
+Date: Tue, 20 Sep 2022 11:18:25 +0300
+From: Petri Latvala <petri.latvala@intel.com>
+To: Isabella Basso <isabbasso@riseup.net>
+Subject: Re: [igt-dev] [PATCH i-g-t v2 4/4] tests: DRM selftests: switch to
+ KUnit
+Message-ID: <Yyl3UXvLd3Jyr9uP@platvala-desk.ger.corp.intel.com>
+References: <20220829000920.38185-1-isabbasso@riseup.net>
+ <20220829000920.38185-5-isabbasso@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm: bridge/dw-hdmi-ahb-audio: use strscpy() is more
- robust and safer
-Content-Language: en-US
-To: cgel.zte@gmail.com, andrzej.hajda@intel.com
-References: <20220919030401.211331-1-chi.minghao@zte.com.cn>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro
-In-Reply-To: <20220919030401.211331-1-chi.minghao@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220829000920.38185-5-isabbasso@riseup.net>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,48 +59,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Zeal Robot <zealci@zte.com.cn>,
- linux-kernel@vger.kernel.org, robert.foss@linaro.org,
- Minghao Chi <chi.minghao@zte.com.cn>
+Cc: linux-kselftest@vger.kernel.org, magalilemes00@gmail.com,
+ maira.canal@usp.br, dlatypov@google.com, tales.aparecida@gmail.com,
+ brendanhiggins@google.com, linux-kernel@vger.kernel.org,
+ leandro.ribeiro@collabora.com, igt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, n@nfraprado.net, davidgow@google.com,
+ skhan@linuxfoundation.org, andrealmeid@riseup.net, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/09/2022 05:04, cgel.zte@gmail.com wrote:
-> From: Minghao Chi <chi.minghao@zte.com.cn>
+On Sun, Aug 28, 2022 at 09:09:20PM -0300, Isabella Basso wrote:
+> As the DRM selftests are now using KUnit [1], update IGT tests as well.
 > 
-> The implementation of strscpy() is more robust and safer.
+> [1] - https://lore.kernel.org/all/20220708203052.236290-1-maira.canal@usp.br/
 > 
-> That's now the recommended way to copy NUL terminated strings.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+> Signed-off-by: Isabella Basso <isabbasso@riseup.net>
 > ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>  tests/drm_buddy.c    |  7 ++++---
+>  tests/drm_mm.c       |  7 ++++---
+>  tests/kms_selftest.c | 12 +++++++++---
+>  3 files changed, 17 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> index 7d2ed0ed2fe2..4efb62bcdb63 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> @@ -542,8 +542,8 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
->   	if (ret < 0)
->   		return ret;
->   
-> -	strlcpy(card->driver, DRIVER_NAME, sizeof(card->driver));
-> -	strlcpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
-> +	strscpy(card->driver, DRIVER_NAME, sizeof(card->driver));
-> +	strscpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
->   	snprintf(card->longname, sizeof(card->longname),
->   		 "%s rev 0x%02x, irq %d", card->shortname, revision,
->   		 data->irq);
-> @@ -561,7 +561,7 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
->   
->   	dw->pcm = pcm;
->   	pcm->private_data = dw;
-> -	strlcpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
-> +	strscpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
->   	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_dw_hdmi_ops);
->   
->   	/*
+> diff --git a/tests/drm_buddy.c b/tests/drm_buddy.c
+> index 06876e0c..74c06dce 100644
+> --- a/tests/drm_buddy.c
+> +++ b/tests/drm_buddy.c
+> @@ -6,9 +6,10 @@
+>  #include "igt.h"
+>  #include "igt_kmod.h"
+>  
+> -IGT_TEST_DESCRIPTION("Basic sanity check of DRM's buddy allocator (struct drm_buddy)");
+> +IGT_TEST_DESCRIPTION("Basic sanity check of DRM's buddy allocator (struct \
+> +		      drm_buddy) using KUnit");
+>  
+> -igt_main
+> +igt_simple_main
+>  {
+> -	igt_kselftests("test-drm_buddy", NULL, NULL, NULL);
+> +	igt_kunit("drm_buddy_test", NULL);
+>  }
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+With kselftests we had the ability to only run a specified set of
+tests, and with or without selection, we had sub-results for each
+through dynamic subtests. Does kunit have that possibility? I mean I
+know kunit itself does but what about igt_kunit()?
+
+Orthogonal to that question, drm_mm and test-drm_modeset are _now_
+using kunit but in LTS kernels they're not, and we'd like to be able
+to keep testing those. That means having both launchers here and just
+letting the "incorrect" one produce a 'skip'.
+
+
+-- 
+Petri Latvala
+
+
+> diff --git a/tests/drm_mm.c b/tests/drm_mm.c
+> index 2052b115..75fc6682 100644
+> --- a/tests/drm_mm.c
+> +++ b/tests/drm_mm.c
+> @@ -24,9 +24,10 @@
+>  #include "igt.h"
+>  #include "igt_kmod.h"
+>  
+> -IGT_TEST_DESCRIPTION("Basic sanity check of DRM's range manager (struct drm_mm)");
+> +IGT_TEST_DESCRIPTION("Basic sanity check of DRM's range manager (struct drm_mm)\
+> +		     using KUnit");
+>  
+> -igt_main
+> +igt_simple_main
+>  {
+> -	igt_kselftests("test-drm_mm", NULL, NULL, NULL);
+> +	igt_kunit("drm_mm_test", NULL);
+>  }
+> diff --git a/tests/kms_selftest.c b/tests/kms_selftest.c
+> index abc4bfe9..bbf24c2b 100644
+> --- a/tests/kms_selftest.c
+> +++ b/tests/kms_selftest.c
+> @@ -24,9 +24,15 @@
+>  #include "igt.h"
+>  #include "igt_kmod.h"
+>  
+> -IGT_TEST_DESCRIPTION("Basic sanity check of KMS selftests.");
+> +IGT_TEST_DESCRIPTION("Basic sanity check of KMS selftests using KUnit");
+>  
+> -igt_main
+> +igt_simple_main
+>  {
+> -	igt_kselftests("test-drm_modeset", NULL, NULL, NULL);
+> +	igt_kunit("drm_cmdline_parser_test", NULL);
+> +	igt_kunit("drm_damage_helper_test", NULL);
+> +	igt_kunit("drm_dp_mst_helper_test", NULL);
+> +	igt_kunit("drm_format_helper_test", NULL);
+> +	igt_kunit("drm_format_test", NULL);
+> +	igt_kunit("drm_framebuffer_test", NULL);
+> +	igt_kunit("drm_plane_helper_test", NULL);
+>  }
+> -- 
+> 2.37.2
+> 
