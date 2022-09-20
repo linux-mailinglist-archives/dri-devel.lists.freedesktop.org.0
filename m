@@ -2,47 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C2B5BE970
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 16:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5C65BE976
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 16:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5249F10E1E1;
-	Tue, 20 Sep 2022 14:58:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7AD10E6E6;
+	Tue, 20 Sep 2022 14:59:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3DA210E1E1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 14:58:14 +0000 (UTC)
-Received: from maud (138-51-86-159-lsn-2.nat.utoronto.ca [138.51.86.159])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: alyssa)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 84D98660038D;
- Tue, 20 Sep 2022 15:58:12 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663685893;
- bh=J8jFpEZKkwJ+A1zZdsROpdR81+2E7PlSdt6U6SMu0DU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MPrB+9lixlFP1AioKtL6aG1GAI1U8Hul1NErM4i1aDPqKDYFAMBzS2OAdXLTal3R2
- kcbXgc6SVDPcwos8nFwNCQUDzsRNeD/gORD1zb/PClINcyGTsYbe9wMqAMLduQt0Pg
- MU+47c7maTFv/CjS0uaNzz93UK4qG93aKr+7n32j4OwCt12sjGOmPK+jgwhoNRuSQS
- LwsnxGSTz0v/EoOPLxQLWWLlCzV4u+vfSop9+Zx4BeblC1CNaMK3DO7L6kzRjmTVHq
- hp2yEXMySzyep5QVMBtMxD3mUQrYgFkLJaY4oM1d59m6debWc3eN1JF0hlEL4gFl2+
- fQURJKV2u/lKw==
-Date: Tue, 20 Sep 2022 10:58:08 -0400
-From: Alyssa Rosenzweig <alyssa@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] drm/panfrost: Give name to anonymous coredump object union
-Message-ID: <YynVAAaQPIPhuN55@maud>
-References: <20220912164413.2181937-1-adrian.larumbe@collabora.com>
- <5898d7a6-14c2-8e20-abc3-5971a4bcfd85@arm.com>
- <20220919064411.lmco2cyb4lpb5etu@sobremesa>
- <4dad1be9-fd0c-a745-a3a5-91f12c1d97d2@arm.com>
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D482710E6E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 14:59:08 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-127dca21a7dso4532925fac.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 07:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=NKDb4mEV1NgzYDPJkcOe5fAJAJzSY/M1cS3RRnmZuws=;
+ b=J4HQFAkbzDAS5TFjIiERcadXFk1t425zk5b4YKZYOnRIwyL4RbyrQUG7LeqVPRPJQc
+ rEBGs5syvspnTMVDRMRnVu9iaKk35XDubmbHHCnFHqOtN5+mhmy/jEonIerOSwvEEQcy
+ 2ELa962TF1EHTh6expD8tevfEtf9HsTcDqX9NeNa6wWrI0IVVtoZYAOIUIATPTKf/EqO
+ y61IU3UuxcozwouGnc9CRT9Q99gmxVgqBW3JRhv8k8PJqbscMwUKWn4wc0AXOsnOGtIH
+ V+2363dBw0oraYIgfqem4i61qw29fpw4LmVdI8R2R7MGPy4MEnA1qyxHQ5lu7n7t0L2Z
+ wnow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=NKDb4mEV1NgzYDPJkcOe5fAJAJzSY/M1cS3RRnmZuws=;
+ b=6pOd1seo2GKZ0rNV0WltTnMyAXdqjxakHpH347KgQ64I31tRFJjkil9YGAjrbzYNoZ
+ rWVZY0vUeOdL5LnfAUCYblMpj+LazXoWgYVye6f1BGMp25+2qCDkgV9Ql3ChZV6of7O4
+ iDHyxSomTUWHBhrtOpD/3VN8MVWZRo2EG4HSdNLIJQCx7pCGI34ESPdJGy+N/HZf1UOr
+ z3KgVwx93ZYLWMz6Qfo8Qkt/oMo2l7fqT7p2phOx2JsdaSQVJ7+CLh0FCpf12ebAUrLm
+ e64JhdMGRJuTIBgqyOHDPvfeiklpZXKf4WWc7oycNXvp5mNPboRZT3jAR6U8l9viqTyA
+ ZRCg==
+X-Gm-Message-State: ACrzQf2rMbia0h4h9viKoDW/KD11V5e7hMYNR4mQXZGQ9nmL8wQPYANC
+ vQ60UieCrs5eDw7n8idaUfQRModUuIY=
+X-Google-Smtp-Source: AMsMyM7wt45OWBip05OWWwFw1tVKo/M8Xt+I1KaMFSDO6pwgcbCzyKfq5PQrPuCX+xrWqNEzKyI9SQ==
+X-Received: by 2002:a05:6870:ac21:b0:127:f5b2:6864 with SMTP id
+ kw33-20020a056870ac2100b00127f5b26864mr2236464oab.298.1663685947787; 
+ Tue, 20 Sep 2022 07:59:07 -0700 (PDT)
+Received: from wintermute.localdomain
+ (76-244-6-13.lightspeed.rcsntx.sbcglobal.net. [76.244.6.13])
+ by smtp.gmail.com with ESMTPSA id
+ o4-20020a05680803c400b0033e8629b323sm203156oie.35.2022.09.20.07.59.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Sep 2022 07:59:07 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V2 0/3] drm/panel: Add NewVision NV3051D Panels
+Date: Tue, 20 Sep 2022 09:59:02 -0500
+Message-Id: <20220920145905.20595-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4dad1be9-fd0c-a745-a3a5-91f12c1d97d2@arm.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,60 +69,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Adri??n Larumbe <adrian.larumbe@collabora.com>,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ airlied@linux.ie, Chris Morgan <macromorgan@hotmail.com>, robh+dt@kernel.org,
+ thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 20, 2022 at 02:26:52PM +0100, Steven Price wrote:
-> On 19/09/2022 07:44, Adri??n Larumbe wrote:
-> > Hi Steven,
-> > 
-> > On 13.09.2022 09:45, Steven Price wrote:
-> >> On 12/09/2022 17:44, Adri??n Larumbe wrote:
-> >>> Building Mesa's Perfetto requires including the panfrost drm uAPI header in
-> >>> C++ code, but the C++ compiler requires anonymous unions to have only
-> >>> public non-static data members.
-> >>>
-> >>> Commit 730c2bf4ad39 ("drm/panfrost: Add support for devcoredump")
-> >>> introduces one such union, breaking the Mesa build.
-> >>>
-> >>> Give it a name, and also rename pan_reg_hdr structure because it will
-> >>> always be prefixed by the union name.
-> >>>
-> >>> Bug: https://gitlab.freedesktop.org/mesa/mesa/-/issues/7195
-> >>>
-> >>> Signed-off-by: Adri??n Larumbe <adrian.larumbe@collabora.com>
-> > 
-> >> Ouch! It's frustrating how C++ isn't quite a superset of C. However I
-> >> think we can solve this with a simpler patch, I'd appreciate testing
-> >> that this does indeed fix the build issues with Mesa with all supported
-> >> compilers (I'm not so familiar with C++):
-> > 
-> > I just tested your changes on Mesa and they do fix the build.
-> 
-> Thanks Adri??n!
-> 
-> Alyssa: Could you give your R-b if you're happy with this change? It
-> would be good to get this fixed before it hits -rc1.
+From: Chris Morgan <macromorgan@hotmail.com>
 
-R-b, however the issue isn't totally gone: in a separate but related
-issue, apparently the __le types aren't portable and the devcoredump
-support has now broken the panfrost (mesa) build for FreeBSD, which has
-a UAPI-compatible reimplementation of panfrost.ko ...
+Add the NewVision NV3051D panel as found on the Anbernic RG353P and
+RG353V. The underlying LCD panel itself is unknown (the NV3051D is
+the controller), so the device name is used for the panel with a
+fallback to the driver IC.
 
-Do we maybe want to change all the __le to u at the same time? If we
-have to break UAPI, better do it before the UAPI is actually merged.
-Panfrost is probably broken in far worse ways on big endian anyway. Or
-maybe we want to keep doing little-endian but in u32 containers and have
-conversions in the kernel for big-endian CPUs. Or maybe we want to just
-"we don't care about big endian, because you'll have worse problems", at
-a GPU level Mali hasn't supported big endian since Midgard so I doubt
-the recent DDKs would work on BE either.
+Changes from V1:
+ - Changed compatible string to the driver IC.
+ - Updated documentation to use new compatible string with board
+   name.
+ - Refactored somewhat to make it easier to support other LCD panels
+   with this kernel module.
+ - Added support for 60hz mode. Adjusted pixel clock to ensure proper
+   60hz and 120hz (previously was running at 124hz).
+ - Added vendor prefix for NewVision. Anbernic vendor prefix added in
+   https://lore.kernel.org/linux-devicetree/20220906210324.28986-2-macroalpha82@gmail.com
 
-Anyway, ideally we'd solve both at once, and soon, so we don't have to
-revert the devcoredump stuff from mesa.
+Chris Morgan (3):
+  dt-bindings: vendor-prefixes: add NewVision vendor prefix
+  dt-bindings: display: panel: Add NewVision NV3051D bindings
+  drm/panel: Add NewVision NV3051D MIPI-DSI LCD panel
 
-Thanks,
+ .../display/panel/newvision,nv3051d.yaml      |  55 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-newvision-nv3051d.c   | 513 ++++++++++++++++++
+ 5 files changed, 580 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3051d.c
 
-Alyssa
+-- 
+2.25.1
+
