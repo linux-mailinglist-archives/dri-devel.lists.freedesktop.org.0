@@ -1,73 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21355BDE10
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 09:24:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF3D5BDE19
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 09:26:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7B9110E320;
-	Tue, 20 Sep 2022 07:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 052D510E322;
+	Tue, 20 Sep 2022 07:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6772310E320
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 07:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663658669;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=g0uOi5qTyf/a7VXxNooee54i3U9fkVbBJzRMmloiIlw=;
- b=PtbGLyVCCPSSylLVcvvbhPAkvA1F3APC3DM+hvROFdJXiaHDXAKyfWuR5AGZP05VFoIAJx
- PlPauxGtfNWwV6auveglyxI87blm3Xp/X/z98mvxT8UpksCgnnvODSgYWLjp+lDGdo9YZB
- C05DVlwdAXdMZTHv/f0mKirUDlawgN4=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-657-viyqUb-4MLeBLXweGj2wgw-1; Tue, 20 Sep 2022 03:24:28 -0400
-X-MC-Unique: viyqUb-4MLeBLXweGj2wgw-1
-Received: by mail-pf1-f197.google.com with SMTP id
- y17-20020a056a00181100b0053e8868496bso1211458pfa.21
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 00:24:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=g0uOi5qTyf/a7VXxNooee54i3U9fkVbBJzRMmloiIlw=;
- b=Df1PemvdWt6upbN+6/ToeQE8ULiSUP+umUY/xSMHVTCaQZIUwhkBAq8/Txcc+JMGt6
- vDDSNZVy9MoeY/R7YuhABaAM0Gh+R+RRhBUnKhaftMBWoJ8lr7KDrTrOkgtuP9ofjjKv
- Cu8fDMFLjglIlw2oRSvuOk5RPyuB12S1UkiGuKysek0+HC1iwZ63p/P6dVyrN/V6IRw5
- t7nn6m8cmkuNjbwlX+luX0pFqqQpSmK2floXdPd318gP16/AZX92347IUarUk08XnwoO
- XNuIJdpZ0085bxt/FZx578gEJZbRY/Pek+kchGNCpvHCFklG6fhmhMIh2NxLE1iDohoJ
- LutQ==
-X-Gm-Message-State: ACrzQf1P/neoGTV5m3vnVuP2uEkTgckgkRRI0QreRYziKup28ZyFR/mv
- 6zOt6M5mdSmWlRyZ641gNxgLUxVxB0gMFh0yfF3fmPsgcR/K35I2Xwiiy4IfadQCJRxH5fX+oEH
- 7EMUwUxqnU4klw6AOdALFi4ZaBobS
-X-Received: by 2002:a17:90b:4a85:b0:202:4f3f:1f65 with SMTP id
- lp5-20020a17090b4a8500b002024f3f1f65mr2381703pjb.241.1663658667121; 
- Tue, 20 Sep 2022 00:24:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM46f2cbuC7SwgzAF5mMZqdhxD22k2h84NaHeFKZh01JjTmriF5vDFbjDxwbzPGz432bmKmCFw==
-X-Received: by 2002:a17:90b:4a85:b0:202:4f3f:1f65 with SMTP id
- lp5-20020a17090b4a8500b002024f3f1f65mr2381682pjb.241.1663658666811; 
- Tue, 20 Sep 2022 00:24:26 -0700 (PDT)
-Received: from xps13.. ([240d:1a:c0d:9f00:94be:c13b:981e:47e6])
- by smtp.gmail.com with ESMTPSA id
- n16-20020a170903111000b001788ccecbf5sm687762plh.31.2022.09.20.00.24.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 00:24:26 -0700 (PDT)
-From: Shigeru Yoshida <syoshida@redhat.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/gem: Avoid use-after-free on drm_gem_mmap_obj() failure
-Date: Tue, 20 Sep 2022 16:24:08 +0900
-Message-Id: <20220920072408.387105-1-syoshida@redhat.com>
-X-Mailer: git-send-email 2.37.3
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F15EB10E330
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 07:26:18 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5E49A21B36;
+ Tue, 20 Sep 2022 07:26:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663658777; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3PeCS/yBFSZVyNXhKYUrSHHlEDqJEiucYvQEA/FX+MM=;
+ b=1XP0JjaIiHPqIlDGU+CDILW0SOWYmXhDuJJYJi9hbjMjWeThLG2b6XCDVQwrTXvhKSEQJM
+ UVJF6aq1p80EePK/yY4GTKxmlT+J3VR8y5d/PwBGpPwsmN13q4WmHlA7G4oEq2ibfAuxZN
+ FNBHW3wILWstgR0dmGALYl3e7OjSTn0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663658777;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3PeCS/yBFSZVyNXhKYUrSHHlEDqJEiucYvQEA/FX+MM=;
+ b=ejXPnUyV+XHReXT0o5UsVq6lvZFhm6p05ramBKj/cjdQ98jXxvO6T5qXWVOiwuJLvfo+4i
+ q5MLeXKc80ZsZbBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 35AC91346B;
+ Tue, 20 Sep 2022 07:26:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /xD9CxlrKWPRSgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 20 Sep 2022 07:26:17 +0000
+Message-ID: <0a5b956a-44fe-0f52-3aa7-8c56478f151c@suse.de>
+Date: Tue, 20 Sep 2022 09:26:16 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] drm/atomic-helper: Fix kernel-doc
+Content-Language: en-US
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ maarten.lankhorst@linux.intel.com
+References: <20220919103058.25561-1-jiapeng.chong@linux.alibaba.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220919103058.25561-1-jiapeng.chong@linux.alibaba.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------j02J4B0XSmBUzA8rrkUSw8XB"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,69 +70,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shigeru Yoshida <syoshida@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- syzbot+c512687fff9d22327436@syzkaller.appspotmail.com
+Cc: airlied@linux.ie, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot reported use-after-free for drm_gem_object [1].  This causes
-the call trace like below:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------j02J4B0XSmBUzA8rrkUSw8XB
+Content-Type: multipart/mixed; boundary="------------OcB80JGl96eFA8X4jK2Ftjcg";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ maarten.lankhorst@linux.intel.com
+Cc: mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Abaci Robot <abaci@linux.alibaba.com>
+Message-ID: <0a5b956a-44fe-0f52-3aa7-8c56478f151c@suse.de>
+Subject: Re: [PATCH] drm/atomic-helper: Fix kernel-doc
+References: <20220919103058.25561-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20220919103058.25561-1-jiapeng.chong@linux.alibaba.com>
 
-[   75.327400][ T5723] Call Trace:
-[   75.327611][ T5723]  <TASK>
-[   75.327803][ T5723]  drm_gem_object_handle_put_unlocked+0x11e/0x1a0
-[   75.328209][ T5723]  drm_gem_object_release_handle+0x5d/0x70
-[   75.328568][ T5723]  ? drm_gem_object_handle_put_unlocked+0x1a0/0x1a0
-[   75.328965][ T5723]  idr_for_each+0x99/0x160
-[   75.329253][ T5723]  drm_gem_release+0x20/0x30
-[   75.329544][ T5723]  drm_file_free.part.0+0x269/0x310
-[   75.329867][ T5723]  drm_close_helper.isra.0+0x88/0xa0
-[   75.330305][ T5723]  drm_release+0x8e/0x1a0
-[   75.330674][ T5723]  ? drm_release_noglobal+0xc0/0xc0
-[   75.331138][ T5723]  __fput+0x10e/0x440
-[   75.331503][ T5723]  task_work_run+0x73/0xd0
-[   75.331895][ T5723]  do_exit+0x535/0x1200
-[   75.332280][ T5723]  ? ktime_get_coarse_real_ts64+0x13b/0x170
-[   75.332810][ T5723]  do_group_exit+0x51/0x100
-[   75.333215][ T5723]  __x64_sys_exit_group+0x18/0x20
-[   75.333654][ T5723]  do_syscall_64+0x37/0x90
-[   75.334058][ T5723]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+--------------OcB80JGl96eFA8X4jK2Ftjcg
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-If drm_gem_mmap_obj() failed, it drops the reference count by calling
-drm_gem_object_put().  However, drm_gem_mmap() drops the reference
-count after calling drm_gem_mmap_obj() even if it failed, so it breaks
-the balance of the reference count.
+DQoNCkFtIDE5LjA5LjIyIHVtIDEyOjMwIHNjaHJpZWIgSmlhcGVuZyBDaG9uZzoNCj4gZHJp
+dmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVscGVyLmM6ODAyOiB3YXJuaW5nOiBleHBlY3Rp
+bmcgcHJvdG90eXBlIGZvciBkcm1fYXRvbWljX2hlbHBlcl9jaGVja193Yl9jb25uZWN0b3Jf
+c3RhdGUoKS4gUHJvdG90eXBlIHdhcyBmb3IgZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfd2Jf
+ZW5jb2Rlcl9zdGF0ZSgpIGluc3RlYWQuDQo+IA0KPiBMaW5rOiBodHRwczovL2J1Z3ppbGxh
+Lm9wZW5hbm9saXMuY24vc2hvd19idWcuY2dpP2lkPTIyMTYNCj4gUmVwb3J0ZWQtYnk6IEFi
+YWNpIFJvYm90IDxhYmFjaUBsaW51eC5hbGliYWJhLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTog
+SmlhcGVuZyBDaG9uZyA8amlhcGVuZy5jaG9uZ0BsaW51eC5hbGliYWJhLmNvbT4NCg0KQXBw
+bGllZCwgdGhhbmtzIGEgbG90Lg0KDQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1f
+YXRvbWljX2hlbHBlci5jIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fYXRvbWljX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVs
+cGVyLmMNCj4gaW5kZXggZWU1ZmVhNDhiNWNiLi45OGNjMzEzN2MwNjIgMTAwNjQ0DQo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jDQo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jDQo+IEBAIC03ODYsNyArNzg2LDcgQEAg
+ZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfbW9kZXNldChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+LA0KPiAgIEVYUE9SVF9TWU1CT0woZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfbW9kZXNldCk7
+DQo+ICAgDQo+ICAgLyoqDQo+IC0gKiBkcm1fYXRvbWljX2hlbHBlcl9jaGVja193Yl9jb25u
+ZWN0b3Jfc3RhdGUoKSAtIENoZWNrIHdyaXRlYmFjayBlbmNvZGVyIHN0YXRlDQo+ICsgKiBk
+cm1fYXRvbWljX2hlbHBlcl9jaGVja193Yl9lbmNvZGVyX3N0YXRlKCkgLSBDaGVjayB3cml0
+ZWJhY2sgZW5jb2RlciBzdGF0ZQ0KPiAgICAqIEBlbmNvZGVyOiBlbmNvZGVyIHN0YXRlIHRv
+IGNoZWNrDQo+ICAgICogQGNvbm5fc3RhdGU6IGNvbm5lY3RvciBzdGF0ZSB0byBjaGVjaw0K
+PiAgICAqDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZl
+bG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0
+ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJl
+cmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-This patch fixes this issue by calling drm_gem_object_put() only if
-drm_gem_mmap_obj() succeeds, and returns immediately if
-drm_gem_mmap_obj() failed without calling drm_gem_object_put().
+--------------OcB80JGl96eFA8X4jK2Ftjcg--
 
-Link: https://syzkaller.appspot.com/bug?id=c42a72b0b3bcedd95e5f132a4ccd7cd550334160 [1]
-Reported-by: syzbot+c512687fff9d22327436@syzkaller.appspotmail.com
-Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
----
- drivers/gpu/drm/drm_gem.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+--------------j02J4B0XSmBUzA8rrkUSw8XB
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index ad068865ba20..f345d38df50a 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1115,10 +1115,12 @@ int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 
- 	ret = drm_gem_mmap_obj(obj, drm_vma_node_size(node) << PAGE_SHIFT,
- 			       vma);
-+	if (ret)
-+		return ret;
- 
- 	drm_gem_object_put(obj);
- 
--	return ret;
-+	return 0;
- }
- EXPORT_SYMBOL(drm_gem_mmap);
- 
--- 
-2.37.3
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMpaxgFAwAAAAAACgkQlh/E3EQov+Dq
+JQ//dHk4evyfD1V/iW6nZZV9FPPGW7hcP/86IBtemPTfygoV+aZTYJ9RxQ5IbZAGojo7YyRTrYPE
+DqFTO9aX6yZXYyxpBOOrfHXwIhxBqsjyLzn6V6EDWXFN4IJRJmHCgW7/LeeJd51Yjy6opQr7eezo
+8fAkSoIw9hXQyDgRDl1M7TphuEHGc6cyKvtc5rIM4A9/xzDp/JlTeeMFiieJ8Fsfbt7Tzy+OQRdu
+t5BIjzK4EZ3Bztfcbr/s72jMZ7UvgQMKo9AKeFimZAYx9Dt/zkOQgR6SDxkISMkoLIhxyGD0upx1
+QGD8FVIgXY2ZPNDvcly2XwuucmnDGiuRLVTBEezGrgBXyQJ5Z57YouCEvj7ZHyqbY7CoaON3N8JP
+I00F84GCUah74G5adRFE/zRCwUiWF191kL3W+6B8Py5OB0c3PGUNpblRWQkucAYxe2IEduQ/0jLc
+deFjcbQKlCu23yrrkF8t3/HjdWFvujFGwuyLq8BDvPV4Gm0lCpYihtRrQwSq2uIIC3u0/P87WxX2
+5LD8lv/k44OK2QsDgaeCiYu/juGVheNK793gJezHyTqmK858kE0yS1R0OluexgTBVPj2U2dsuFfV
+fkKYLyqii8E+HMXgTDZibvAp6QzrpNwAugOsYK8Y5/HqQ6XMp/JRznX5+absdBy3j0+NIZbV823u
+7Lc=
+=OvmC
+-----END PGP SIGNATURE-----
+
+--------------j02J4B0XSmBUzA8rrkUSw8XB--
