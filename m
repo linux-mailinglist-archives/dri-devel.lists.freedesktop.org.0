@@ -2,57 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8525BDDA2
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 08:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 745C45BDDA7
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 08:50:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 754EB10E2E0;
-	Tue, 20 Sep 2022 06:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B919710E2E3;
+	Tue, 20 Sep 2022 06:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD32310E2DF
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 06:50:08 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id w10so567832pll.11
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Sep 2022 23:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=z/Tchuzx5XrbBDdO9w4M3sFc5h9bSSk8PEfVnx2P8/U=;
- b=WQjOnEYC+y93ri5C3gfgi4eAcw2Ee2jsooGZ+bMtbH4Jeg3J9rL2kNmUVvrKWziPjz
- QE8zfRsA1PEMCS0N/DjeTqM/8RQJeF2mX5C2MrCIOo9+zrbl1nN2i/tAvCXDiw0pvd+z
- Q5nZ4Ksj/ue6goG2WlZY5PjYr5xiJ/+YX4UMr22iz+qkYutsos38zQnu/claxXNQW5JJ
- pMnJky3zOBIuvwwPid80hu9ONDWsLccjytf7OZBrytCAvv3XUkz3X9vdWiqIcmkb0dIB
- Ln6v/bsni/nHM1ruhRzpU/P1KdCAzsRVph/P/oqMI1Y3b6uFbxroCCykgK1lg1sv7bPN
- CF+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=z/Tchuzx5XrbBDdO9w4M3sFc5h9bSSk8PEfVnx2P8/U=;
- b=C48oFT06sZjKT+wbFhOc10/gftk8oB6dmXGEzbuOrdsB05B52xRE2Fg2l2YNl8QKnD
- g4ugsd+TFbAIUUBokDnTgxn9K81MPIhKHKOavQavlQyXbiIpo8dmJjVfjiJ62fUu677n
- 92lEy17nu9HubBs2kNK2ZOfB64l7LRZNnHPRpburl22Ufzz+BLhn0BrVwgU46VsJlFQl
- MaUNkjSJOxOQdB808zLIyg+vBABpgfvoLet7VrNtXP8/p0fG26LABWLu0QBTxh3APwVy
- moDzh37vpZJQipzW9J4clVfDhYkR2q+yASAYGtD27o3AtEMkU0FtY94cAdlNbpALqt4+
- oR+g==
-X-Gm-Message-State: ACrzQf2B+aOCfkaEJbTgpEOzRGlLHP6uwQYM9mZzPTomeKlkWpyWM4/L
- DPlT8Gg3W2EfQn0KZLZhgDk=
-X-Google-Smtp-Source: AMsMyM5wtBWnT3s8RXcMiyF1rJz966LX0wfq0IzfHPhH5x9N9TRfa245fDBVHXRMkzoZilb48kNycA==
-X-Received: by 2002:a17:90b:4c50:b0:202:c7b1:b1f9 with SMTP id
- np16-20020a17090b4c5000b00202c7b1b1f9mr2305401pjb.77.1663656608279; 
- Mon, 19 Sep 2022 23:50:08 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id
- w71-20020a627b4a000000b00537d7cc774bsm659252pfc.139.2022.09.19.23.50.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Sep 2022 23:50:07 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: ye.xingchen@zte.com.cn
-To: zackr@vmware.com
-Subject: [PATCH linux-next] drm/vmwgfx: Remove the unneeded result variable
-Date: Tue, 20 Sep 2022 06:50:04 +0000
-Message-Id: <20220920065004.215601-1-ye.xingchen@zte.com.cn>
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78A1810E2DF;
+ Tue, 20 Sep 2022 06:50:35 +0000 (UTC)
+X-UUID: 03b0ff0e0c094adf8616251c93b7712d-20220920
+X-UUID: 03b0ff0e0c094adf8616251c93b7712d-20220920
+X-User: zhouzongmin@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+ (envelope-from <zhouzongmin@kylinos.cn>) (Generic MTA)
+ with ESMTP id 985915299; Tue, 20 Sep 2022 14:51:11 +0800
+From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+To: airlied@redhat.com, kraxel@redhat.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [RESEND PATCH] drm/qxl: drop set_prod_notify parameter from
+ qxl_ring_create
+Date: Tue, 20 Sep 2022 14:50:23 +0800
+Message-Id: <20220920065023.1633303-1-zhouzongmin@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,43 +39,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, ye xingchen <ye.xingchen@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-graphics-maintainer@vmware.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ Zongmin Zhou <zhouzongmin@kylinos.cn>, Ming Xie <xieming@kylinos.cn>,
+ spice-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+Since qxl_io_reset(qdev) will be called immediately
+after qxl_ring_create() been called,
+and parameter like notify_on_prod will be set to default value.
+So the call to qxl_ring_init_hdr() before becomes meaningless.
 
-Return the value ttm_pool_alloc() directly instead of storing it in
-another redundant variable.
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
+Suggested-by: Ming Xie<xieming@kylinos.cn>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/qxl/qxl_cmd.c | 8 --------
+ drivers/gpu/drm/qxl/qxl_drv.h | 2 --
+ drivers/gpu/drm/qxl/qxl_kms.c | 4 +---
+ 3 files changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index 4e3938e62c08..f17e0da7475d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -470,15 +470,11 @@ static void vmw_ttm_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
- static int vmw_ttm_populate(struct ttm_device *bdev,
- 			    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
- {
--	int ret;
--
- 	/* TODO: maybe completely drop this ? */
- 	if (ttm_tt_is_populated(ttm))
- 		return 0;
- 
--	ret = ttm_pool_alloc(&bdev->pool, ttm, ctx);
--
--	return ret;
-+	return ttm_pool_alloc(&bdev->pool, ttm, ctx);
+diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cmd.c
+index 7b00c955cd82..63aa96a69752 100644
+--- a/drivers/gpu/drm/qxl/qxl_cmd.c
++++ b/drivers/gpu/drm/qxl/qxl_cmd.c
+@@ -53,17 +53,11 @@ void qxl_ring_free(struct qxl_ring *ring)
+ 	kfree(ring);
  }
  
- static void vmw_ttm_unpopulate(struct ttm_device *bdev,
+-void qxl_ring_init_hdr(struct qxl_ring *ring)
+-{
+-	ring->ring->header.notify_on_prod = ring->n_elements;
+-}
+-
+ struct qxl_ring *
+ qxl_ring_create(struct qxl_ring_header *header,
+ 		int element_size,
+ 		int n_elements,
+ 		int prod_notify,
+-		bool set_prod_notify,
+ 		wait_queue_head_t *push_event)
+ {
+ 	struct qxl_ring *ring;
+@@ -77,8 +71,6 @@ qxl_ring_create(struct qxl_ring_header *header,
+ 	ring->n_elements = n_elements;
+ 	ring->prod_notify = prod_notify;
+ 	ring->push_event = push_event;
+-	if (set_prod_notify)
+-		qxl_ring_init_hdr(ring);
+ 	spin_lock_init(&ring->lock);
+ 	return ring;
+ }
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+index 47c169673088..432758ad39a3 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.h
++++ b/drivers/gpu/drm/qxl/qxl_drv.h
+@@ -277,10 +277,8 @@ struct qxl_ring *qxl_ring_create(struct qxl_ring_header *header,
+ 				 int element_size,
+ 				 int n_elements,
+ 				 int prod_notify,
+-				 bool set_prod_notify,
+ 				 wait_queue_head_t *push_event);
+ void qxl_ring_free(struct qxl_ring *ring);
+-void qxl_ring_init_hdr(struct qxl_ring *ring);
+ int qxl_check_idle(struct qxl_ring *ring);
+ 
+ static inline uint64_t
+diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
+index 9bf6d4cc98d4..dc3828db1991 100644
+--- a/drivers/gpu/drm/qxl/qxl_kms.c
++++ b/drivers/gpu/drm/qxl/qxl_kms.c
+@@ -194,7 +194,6 @@ int qxl_device_init(struct qxl_device *qdev,
+ 					     sizeof(struct qxl_command),
+ 					     QXL_COMMAND_RING_SIZE,
+ 					     qdev->io_base + QXL_IO_NOTIFY_CMD,
+-					     false,
+ 					     &qdev->display_event);
+ 	if (!qdev->command_ring) {
+ 		DRM_ERROR("Unable to create command ring\n");
+@@ -207,7 +206,6 @@ int qxl_device_init(struct qxl_device *qdev,
+ 				sizeof(struct qxl_command),
+ 				QXL_CURSOR_RING_SIZE,
+ 				qdev->io_base + QXL_IO_NOTIFY_CURSOR,
+-				false,
+ 				&qdev->cursor_event);
+ 
+ 	if (!qdev->cursor_ring) {
+@@ -219,7 +217,7 @@ int qxl_device_init(struct qxl_device *qdev,
+ 	qdev->release_ring = qxl_ring_create(
+ 				&(qdev->ram_header->release_ring_hdr),
+ 				sizeof(uint64_t),
+-				QXL_RELEASE_RING_SIZE, 0, true,
++				QXL_RELEASE_RING_SIZE, 0,
+ 				NULL);
+ 
+ 	if (!qdev->release_ring) {
 -- 
 2.25.1
+
+
+No virus found
+		Checked by Hillstone Network AntiVirus
