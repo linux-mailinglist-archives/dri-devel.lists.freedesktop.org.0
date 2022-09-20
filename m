@@ -2,65 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7DD5BE380
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 12:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E6C5BE3E0
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 12:55:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B4110E539;
-	Tue, 20 Sep 2022 10:42:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A16110E15C;
+	Tue, 20 Sep 2022 10:55:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7968D10E15C;
- Tue, 20 Sep 2022 10:42:06 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id u9so5113888ejy.5;
- Tue, 20 Sep 2022 03:42:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date;
- bh=uuydgXOSSksfr9Wyq7NKGaPAiF6c3Reu1UAxFxmEiTQ=;
- b=X4DfW+U+f0cZYYYqTcRT72yreLfwGmRHWSB++4/8buUAuPgoP6yq/yT+uUKlHoIzsM
- en3a/qzodvYR4u+LZX3AThvtnHGZAEpRaQrdZyi5FzVCetBjBSQ/hlxABmLmdqZlMhut
- SQxYbg6dsrUiObFIOZnurBBxD0eksZBXWy2r+HnH3/fiVmK2zbwA0Xd1wztBrhuqJ+1R
- yvk+jKdz9BnCEha10h7Gac34Z+I2bc+NhWhe15WTDM7YpDmaeQeDYuPI4SLl2dcFHA2q
- PUCyyg1ZZPmgwP//6LTBjJsOSVVzp9cXBDeedh3KCFipRMpjIdlANC9YElnuskkHyvHV
- XM4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date;
- bh=uuydgXOSSksfr9Wyq7NKGaPAiF6c3Reu1UAxFxmEiTQ=;
- b=2ML78lGqX0B7kwVQC8YhM4F3HrHOd2hvDVSmUfbDY8yKf6Pi3jffJ6cUMsLMcvCjVU
- nnek+hH3BPC2F6JC7SHqldeGRZSFbKmtIENN4VY8WCdzBqrkwwJVuVuyrbSYl24m5W+M
- TEf2OrFVrlc7wZiq3co7WrhZvQuPwBSY9bjE/+yUV4ARcD+kPLuKlyzTv+RtK0mOUmNO
- SbMjTwMub1CXjN/ymqhgRqzz3ySwiUZXXFDepKsoCmK9clVHdrJiOfzOdQ2+NrsJzOKA
- 8a6qFj1NZmkwhHukI4NIm+RGTwJq4OsmIgKc6LX2Kw0PpWaZVZLdDwLgpWrFXSEaHcFs
- /sIQ==
-X-Gm-Message-State: ACrzQf0FMMafIKulFzpCEjRsfp77NYX6GP+Hp4RmfKCebIZAp9lPw7R5
- H3yVm0Nt+ZaVRmNCdFMYp1s=
-X-Google-Smtp-Source: AMsMyM5M+QXEiRZTgdDrT2fyRm961CHm+K4bmMwaUe7vgkqriTlvJfhJvJG0blTD66q8ok8QlE3KKA==
-X-Received: by 2002:a17:907:2d2a:b0:77e:def7:65e9 with SMTP id
- gs42-20020a1709072d2a00b0077edef765e9mr16196840ejc.85.1663670524165; 
- Tue, 20 Sep 2022 03:42:04 -0700 (PDT)
-Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch.
- [82.192.242.114]) by smtp.gmail.com with ESMTPSA id
- q16-20020a1709060f9000b0077f15e98256sm606055ejj.203.2022.09.20.03.42.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 03:42:03 -0700 (PDT)
-Received: by eldamar.lan (Postfix, from userid 1000)
- id 0B006BE356D; Tue, 20 Sep 2022 12:42:03 +0200 (CEST)
-Date: Tue, 20 Sep 2022 12:42:03 +0200
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: [PATCH] nouveau: explicitly wait on the fence in
- nouveau_bo_move_m2mf
-Message-ID: <YymY+3+C2aI7T3GU@eldamar.lan>
-References: <20220819200928.401416-1-kherbst@redhat.com>
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E523410E166
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 10:55:10 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.93,330,1654527600"; d="scan'208";a="133399489"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie5.idc.renesas.com with ESMTP; 20 Sep 2022 19:55:08 +0900
+Received: from localhost.localdomain (unknown [10.226.92.28])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3E7B940061A2;
+ Tue, 20 Sep 2022 19:55:04 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v8 0/3] Add RZ/G2L DSI driver
+Date: Tue, 20 Sep 2022 11:54:58 +0100
+Message-Id: <20220920105501.396999-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220819200928.401416-1-kherbst@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,58 +41,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Computer Enthusiastic <computer.enthusiastic@gmail.com>,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This patch series aims to support the MIPI DSI encoder found in the RZ/G2L
+SoC. It currently supports DSI video mode only.
 
-On Fri, Aug 19, 2022 at 10:09:28PM +0200, Karol Herbst wrote:
-> It is a bit unlcear to us why that's helping, but it does and unbreaks
-> suspend/resume on a lot of GPUs without any known drawbacks.
-> 
-> Cc: stable@vger.kernel.org # v5.15+
-> Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/156
-> Signed-off-by: Karol Herbst <kherbst@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_bo.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index 35bb0bb3fe61..126b3c6e12f9 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -822,6 +822,15 @@ nouveau_bo_move_m2mf(struct ttm_buffer_object *bo, int evict,
->  		if (ret == 0) {
->  			ret = nouveau_fence_new(chan, false, &fence);
->  			if (ret == 0) {
-> +				/* TODO: figure out a better solution here
-> +				 *
-> +				 * wait on the fence here explicitly as going through
-> +				 * ttm_bo_move_accel_cleanup somehow doesn't seem to do it.
-> +				 *
-> +				 * Without this the operation can timeout and we'll fallback to a
-> +				 * software copy, which might take several minutes to finish.
-> +				 */
-> +				nouveau_fence_wait(fence, false, false);
->  				ret = ttm_bo_move_accel_cleanup(bo,
->  								&fence->base,
->  								evict, false,
-> -- 
-> 2.37.1
-> 
-> 
+This unit supports MIPI Alliance Specification for Display Serial Interface (DSI)
+Specification. This unit provides a solution for transmitting MIPI DSI compliant
+digital video and packets. Normative References are below.
+* MIPI Alliance Specification for Display Serial Interface Version 1.3.1
+* MIPI Alliance Specification for D-PHY Version 2.1
 
-While this is marked for 5.15+ only, a user in Debian was seeing the
-suspend issue as well on 5.10.y and did confirm the commit fixes the
-issue as well in the 5.10.y series:
+The following are key features of this unit.
 
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=989705#69
+* 1 channel
+* The number of Lane: 4-lane
+* Support up to Full HD (1920 × 1080), 60 fps (RGB888)
+* Maximum Bandwidth: 1.5 Gbps per lane
+* Support Output Data Format: RGB666 / RGB888
 
-Karol, Lyude, should that as well be picked for 5.10.y?
+This patch series is based on drm_misc and patches from drm/du/next [1]
 
-Regards,
-Salvatore
+[1] https://git.linuxtv.org/pinchartl/media.git/log/?h=drm/du/next
+
+v7->v8:
+ * Added Rb tag from Laurent.
+ * Added hsfreq_max to struct rzg2l_mipi_dsi_timings.
+ * Removed enums rzg2l_mipi_dsi_dphy_timings.
+ * Replaced if else with for loop for finding dphy_timings
+   based on hsfreq.
+ * Removed checking "number of lanes capability" from rzg2l_mipi_dsi_
+   startup() and added patch#3 for handling it in probe() and enforcing
+   it in rzg2l_mipi_dsi_host_attach().
+ * Added Labels with an "err_" prefix.
+	out_pm_put->err_pm_put
+	out_assert_rst_and_stop_clocks->err_stop
+	out_stop_hs_clock->err_stop_clock
+	out_pm_disable->err_pm_disable
+ * Added error message for lane check in rzg2l_mipi_dsi_host_attach()
+ * Replaced dev_warn->dev_err for the format error in rzg2l_mipi_dsi_host
+   _attach(). Added missing "\n" and print the format for debugging.
+v6->v7:
+ * Added rzg2l_mipi_dsi_stop() counterpart of rzg2l_mipi_dsi_startup().
+ * Error labels are named according to the cleanup operation they perform.
+ * Restored Max lane capability read after dphy timing initialization
+   as per the guide lines from SoC design team.
+ * Added recommended lut values for the Global Operation Timing
+   parameters for MIPI DPHY.
+v5->v6:
+ * Updated commit description
+ * Moved handling of arst and prst from rzg2l_mipi_dsi_startup->runtime
+   PM suspend/resume handlers.
+ * Max lane capability read at probe(), and enforced in
+   rzg2l_mipi_dsi_host_attach()
+ * Simplified vich1ppsetr setting.
+ * Renamed hsclk_running_mode,hsclk_mode->is_clk_cont.
+ * Fixed typo in probe error message(arst->rst).
+ * Reordered DRM bridge initaization in probe()
+ * Updated typo in e-mail address.
+v4->v5:
+ * Added Ack from Sam.
+ * Added a trivial change, replaced rzg2l_mipi_dsi_parse_dt()
+   with drm_of_get_data_lanes_count_ep() in probe.
+v3->v4:
+ * Updated error handling in rzg2l_mipi_dsi_startup() and rzg2l_mipi_dsi_atomic_enable().
+v2->v3:
+ * Added Rb tag from Geert and Laurent
+ * Fixed the typo "Receive" -> "transmit"
+ * Added accepible values for data-lanes
+ * Sorted Header file in the example
+ * Added SoC specific compaible along with generic one.
+ * pass rzg2l_mipi_dsi pointer to {Link,Phy} register rd/wr function instead
+   of the memory pointer
+ * Fixed the comment in rzg2l_mipi_dsi_startup()
+ * Removed unnecessary dbg message from rzg2l_mipi_dsi_start_video()
+ * DRM bridge parameter initialization moved to probe
+ * Replaced dev_dbg->dev_err in rzg2l_mipi_dsi_parse_dt()
+ * Inserted the missing blank lane after return in probe()
+ * Added missing MODULE_DEVICE_TABLE
+ * Added include linux/bits.h in header file
+ * Fixed various macros in header file.
+ * Reorder the make file for DSI, so that it is no more dependent
+   on RZ/G2L DU patch series.
+v1->v2:
+ * Added full path for dsi-controller.yaml
+ * Modeled DSI + D-PHY as single block and updated reg property
+ * Fixed typo D_PHY->D-PHY
+ * Updated description
+ * Added interrupts and interrupt-names and updated the example 
+ * Driver rework based on dt-binding changes (DSI + D-PHY) as single block
+ * Replaced link_mmio and phy_mmio with mmio in struct rzg2l_mipi_dsi
+ * Replaced rzg2l_mipi_phy_write with rzg2l_mipi_dsi_phy_write
+   and rzg2l_mipi_dsi_link_write
+ * Replaced rzg2l_mipi_phy_read->rzg2l_mipi_dsi_link_read
+RFC->v1:
+ * Added a ref to dsi-controller.yaml.
+ * Added "depends on ARCH_RENESAS || COMPILE_TEST" on KCONFIG
+   and dropped DRM as it is implied by DRM_BRIDGE
+ * Used devm_reset_control_get_exclusive() for reset handle
+ * Removed bool hsclkmode from struct rzg2l_mipi_dsi
+ * Added error check for pm, using pm_runtime_resume_and_get() instead of
+   pm_runtime_get_sync()
+ * Added check for unsupported formats in rzg2l_mipi_dsi_host_attach()
+ * Avoided read-modify-write stopping hsclock
+ * Used devm_platform_ioremap_resource for resource allocation
+ * Removed unnecessary assert call from probe and remove.
+ * wrap the line after the PTR_ERR() in probe()
+ * Updated reset failure messages in probe
+ * Fixed the typo arstc->prstc
+ * Made hex constants to lower case.
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-23-biju.das.jz@bp.renesas.com/
+
+
+Biju Das (3):
+  dt-bindings: display: bridge: Document RZ/G2L MIPI DSI TX bindings
+  drm: rcar-du: Add RZ/G2L DSI driver
+  drm: rcar-du: rzg2l_mipi_dsi: Enhance device lanes check
+
+ .../bindings/display/bridge/renesas,dsi.yaml  | 182 ++++
+ drivers/gpu/drm/rcar-du/Kconfig               |   8 +
+ drivers/gpu/drm/rcar-du/Makefile              |   2 +
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 816 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
+ 5 files changed, 1159 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
+
+-- 
+2.25.1
+
