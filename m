@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87EF55BEB72
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 18:56:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 940FA5BEAC8
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Sep 2022 18:07:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71D2F10E719;
-	Tue, 20 Sep 2022 16:56:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A646710E705;
+	Tue, 20 Sep 2022 16:07:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF7A10E719
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 16:56:09 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 28KFJULR022707;
- Tue, 20 Sep 2022 10:19:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1663687170;
- bh=uteBUeaQnMXmb5BHJJutGParIyrHB83SOLIgYtng9/s=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=tCyEUJ5Bb5VMFP7ZBH7uLyZpt/pUR4zNeSwPpKX9+LIiARlScjU/c9+eGm/YoURtW
- G8V3h68dy9Ty+hHsaJZaKLqlETWJBUCC3IgMMc4UMrScQjZO/aiWaOeHtk/qIiW7pP
- Qu1sVtHk5Ai0VcR5XSyykQSdwx3ZqQaY2+qFjRNM=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 28KFJUgE010736
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 20 Sep 2022 10:19:30 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Tue, 20
- Sep 2022 10:19:30 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Tue, 20 Sep 2022 10:19:30 -0500
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 28KFJT4g004222;
- Tue, 20 Sep 2022 10:19:30 -0500
-From: Rahul T R <r-ravikumar@ti.com>
-To: <dri-devel@lists.freedesktop.org>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v7 4/5] drm/bridge: cdns-dsi: Create a header file
-Date: Tue, 20 Sep 2022 20:49:18 +0530
-Message-ID: <20220920151919.25658-5-r-ravikumar@ti.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220920151919.25658-1-r-ravikumar@ti.com>
-References: <20220920151919.25658-1-r-ravikumar@ti.com>
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED45110E704;
+ Tue, 20 Sep 2022 16:06:58 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ f20-20020a9d7b54000000b006574e21f1b6so2048549oto.5; 
+ Tue, 20 Sep 2022 09:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=fPO3niesXLPuIBvl16MuqansIpb5OJYa66EGif/RAEY=;
+ b=XyKUHVw6BseG+DMb/7f31+sxqL8zVw4TCrFbiW5GsuVjhCYhKeZM4vbOzFSiiLWlbf
+ MA0QKS3ar2TEuCXEM8QMbFo5Rkd1k6HIeJVTP65Y3s5VR836st1/cpECfLVjYBc6OPXk
+ 6b8k3Gwyok2UYAixrt767gDsQPj8/zQ70xHRDFa7IvSO8toZDSFxBJclu0ujQb91Sna7
+ 2c0egx+D6Ejc6eF2qwB4i99o/5bIf2xFHmNZxzdCeSUSZvU8YKnCpb0JEvob6YXgOR4B
+ 7oTvuCv7t5pMbJJKfW205bTwDHf4MaIvRyxaW+EkndvqeOQGSWhYVnllWtUdDfv8HMNL
+ cEsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=fPO3niesXLPuIBvl16MuqansIpb5OJYa66EGif/RAEY=;
+ b=y7xW5cg+V+XPhCOFBuhyCTzBxlEEVQT0brRVUngDt2hxxOtgEWNxUOxyxVW+QkQhUY
+ k5FkPeuBQfq6JIR+sbjJp4KwIxXvN9y9JZdsQrprZC49UGCmhB9TXhJKecDcvpaCIMBB
+ HMpBqkBw//PVXBsiSQehpLBWN/C/qb3knapl8CAOV91ijFSfTgFem1s6wVuOAqnxLbld
+ 8fRqF50wE8WJjVyMrQzwXMkFaOjexdQVBVPnXeYLDVBa/V3rDFvzqPBeKdX5uL5JqGjP
+ QVjdeaBE9cpadRobDvRrVpYLCjdFumM0WDPxYWLIUNGgqtTX4l6j2R3VsIW3bsNUNNtP
+ lr5w==
+X-Gm-Message-State: ACrzQf3anov56Nneue0C8QHWNbGphaGl2HEPN+Oi+lm0PzpBwFL4Y4ZK
+ reyrkXlNAn3U3xOpy1caOrtD4etuBDFjJeb0cp4=
+X-Google-Smtp-Source: AMsMyM7DtCVNxcR1OM6/Z1J2KmxjZ2uIkWWKYOipntM5aa6+Ussk9x9mTPkTjU+4Q3vmhtyDuIkCHaT33oylRVo4oWA=
+X-Received: by 2002:a9d:376:0:b0:655:b4bc:fd6e with SMTP id
+ 109-20020a9d0376000000b00655b4bcfd6emr10659708otv.233.1663690017993; Tue, 20
+ Sep 2022 09:06:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20220916210658.3412450-1-nathan@kernel.org>
+ <5e0b4692-b3ac-20ce-bd0b-65f52804601b@riseup.net>
+In-Reply-To: <5e0b4692-b3ac-20ce-bd0b-65f52804601b@riseup.net>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 20 Sep 2022 12:06:46 -0400
+Message-ID: <CADnq5_O67aFW95nNbgPJipypnpzAC-HO=FYkdxOMpOJQXF+CKw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/amd/display: Reduce number of arguments of
+ dml314's CalculateWatermarksAndDRAMSpeedChangeSupport()
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,955 +68,665 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
- tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com, narmstrong@baylibre.com,
- linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, vigneshr@ti.com,
- devicetree@vger.kernel.org, robert.foss@linaro.org, andrzej.hajda@intel.com,
- jpawar@cadence.com, lee.jones@linaro.org, Rahul T R <r-ravikumar@ti.com>,
- laurent.pinchart@ideasonboard.com
+Cc: Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev,
+ "kernelci.org bot" <bot@kernelci.org>, Leo Li <sunpeng.li@amd.com>,
+ Tom Rix <trix@redhat.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a header file for cdns dsi and move
-register offsets and structure to header,
-to prepare for adding j721e wrapper support
+Applied the series.  Thanks!
 
-Signed-off-by: Rahul T R <r-ravikumar@ti.com>
----
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 446 +----------------
- .../gpu/drm/bridge/cadence/cdns-dsi-core.h    | 458 ++++++++++++++++++
- 2 files changed, 459 insertions(+), 445 deletions(-)
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+Alex
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 20bece84ff8c..cba91247ab26 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -6,10 +6,7 @@
-  */
- 
- #include <drm/drm_atomic_helper.h>
--#include <drm/drm_bridge.h>
- #include <drm/drm_drv.h>
--#include <drm/drm_mipi_dsi.h>
--#include <drm/drm_panel.h>
- #include <drm/drm_probe_helper.h>
- #include <video/mipi_display.h>
- 
-@@ -23,448 +20,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
- 
--#include <linux/phy/phy.h>
--#include <linux/phy/phy-mipi-dphy.h>
--
--#define IP_CONF				0x0
--#define SP_HS_FIFO_DEPTH(x)		(((x) & GENMASK(30, 26)) >> 26)
--#define SP_LP_FIFO_DEPTH(x)		(((x) & GENMASK(25, 21)) >> 21)
--#define VRS_FIFO_DEPTH(x)		(((x) & GENMASK(20, 16)) >> 16)
--#define DIRCMD_FIFO_DEPTH(x)		(((x) & GENMASK(15, 13)) >> 13)
--#define SDI_IFACE_32			BIT(12)
--#define INTERNAL_DATAPATH_32		(0 << 10)
--#define INTERNAL_DATAPATH_16		(1 << 10)
--#define INTERNAL_DATAPATH_8		(3 << 10)
--#define INTERNAL_DATAPATH_SIZE		((x) & GENMASK(11, 10))
--#define NUM_IFACE(x)			((((x) & GENMASK(9, 8)) >> 8) + 1)
--#define MAX_LANE_NB(x)			(((x) & GENMASK(7, 6)) >> 6)
--#define RX_FIFO_DEPTH(x)		((x) & GENMASK(5, 0))
--
--#define MCTL_MAIN_DATA_CTL		0x4
--#define TE_MIPI_POLLING_EN		BIT(25)
--#define TE_HW_POLLING_EN		BIT(24)
--#define DISP_EOT_GEN			BIT(18)
--#define HOST_EOT_GEN			BIT(17)
--#define DISP_GEN_CHECKSUM		BIT(16)
--#define DISP_GEN_ECC			BIT(15)
--#define BTA_EN				BIT(14)
--#define READ_EN				BIT(13)
--#define REG_TE_EN			BIT(12)
--#define IF_TE_EN(x)			BIT(8 + (x))
--#define TVG_SEL				BIT(6)
--#define VID_EN				BIT(5)
--#define IF_VID_SELECT(x)		((x) << 2)
--#define IF_VID_SELECT_MASK		GENMASK(3, 2)
--#define IF_VID_MODE			BIT(1)
--#define LINK_EN				BIT(0)
--
--#define MCTL_MAIN_PHY_CTL		0x8
--#define HS_INVERT_DAT(x)		BIT(19 + ((x) * 2))
--#define SWAP_PINS_DAT(x)		BIT(18 + ((x) * 2))
--#define HS_INVERT_CLK			BIT(17)
--#define SWAP_PINS_CLK			BIT(16)
--#define HS_SKEWCAL_EN			BIT(15)
--#define WAIT_BURST_TIME(x)		((x) << 10)
--#define DATA_ULPM_EN(x)			BIT(6 + (x))
--#define CLK_ULPM_EN			BIT(5)
--#define CLK_CONTINUOUS			BIT(4)
--#define DATA_LANE_EN(x)			BIT((x) - 1)
--
--#define MCTL_MAIN_EN			0xc
--#define DATA_FORCE_STOP			BIT(17)
--#define CLK_FORCE_STOP			BIT(16)
--#define IF_EN(x)			BIT(13 + (x))
--#define DATA_LANE_ULPM_REQ(l)		BIT(9 + (l))
--#define CLK_LANE_ULPM_REQ		BIT(8)
--#define DATA_LANE_START(x)		BIT(4 + (x))
--#define CLK_LANE_EN			BIT(3)
--#define PLL_START			BIT(0)
--
--#define MCTL_DPHY_CFG0			0x10
--#define DPHY_C_RSTB			BIT(20)
--#define DPHY_D_RSTB(x)			GENMASK(15 + (x), 16)
--#define DPHY_PLL_PDN			BIT(10)
--#define DPHY_CMN_PDN			BIT(9)
--#define DPHY_C_PDN			BIT(8)
--#define DPHY_D_PDN(x)			GENMASK(3 + (x), 4)
--#define DPHY_ALL_D_PDN			GENMASK(7, 4)
--#define DPHY_PLL_PSO			BIT(1)
--#define DPHY_CMN_PSO			BIT(0)
--
--#define MCTL_DPHY_TIMEOUT1		0x14
--#define HSTX_TIMEOUT(x)			((x) << 4)
--#define HSTX_TIMEOUT_MAX		GENMASK(17, 0)
--#define CLK_DIV(x)			(x)
--#define CLK_DIV_MAX			GENMASK(3, 0)
--
--#define MCTL_DPHY_TIMEOUT2		0x18
--#define LPRX_TIMEOUT(x)			(x)
--
--#define MCTL_ULPOUT_TIME		0x1c
--#define DATA_LANE_ULPOUT_TIME(x)	((x) << 9)
--#define CLK_LANE_ULPOUT_TIME(x)		(x)
--
--#define MCTL_3DVIDEO_CTL		0x20
--#define VID_VSYNC_3D_EN			BIT(7)
--#define VID_VSYNC_3D_LR			BIT(5)
--#define VID_VSYNC_3D_SECOND_EN		BIT(4)
--#define VID_VSYNC_3DFORMAT_LINE		(0 << 2)
--#define VID_VSYNC_3DFORMAT_FRAME	(1 << 2)
--#define VID_VSYNC_3DFORMAT_PIXEL	(2 << 2)
--#define VID_VSYNC_3DMODE_OFF		0
--#define VID_VSYNC_3DMODE_PORTRAIT	1
--#define VID_VSYNC_3DMODE_LANDSCAPE	2
--
--#define MCTL_MAIN_STS			0x24
--#define MCTL_MAIN_STS_CTL		0x130
--#define MCTL_MAIN_STS_CLR		0x150
--#define MCTL_MAIN_STS_FLAG		0x170
--#define HS_SKEWCAL_DONE			BIT(11)
--#define IF_UNTERM_PKT_ERR(x)		BIT(8 + (x))
--#define LPRX_TIMEOUT_ERR		BIT(7)
--#define HSTX_TIMEOUT_ERR		BIT(6)
--#define DATA_LANE_RDY(l)		BIT(2 + (l))
--#define CLK_LANE_RDY			BIT(1)
--#define PLL_LOCKED			BIT(0)
--
--#define MCTL_DPHY_ERR			0x28
--#define MCTL_DPHY_ERR_CTL1		0x148
--#define MCTL_DPHY_ERR_CLR		0x168
--#define MCTL_DPHY_ERR_FLAG		0x188
--#define ERR_CONT_LP(x, l)		BIT(18 + ((x) * 4) + (l))
--#define ERR_CONTROL(l)			BIT(14 + (l))
--#define ERR_SYNESC(l)			BIT(10 + (l))
--#define ERR_ESC(l)			BIT(6 + (l))
--
--#define MCTL_DPHY_ERR_CTL2		0x14c
--#define ERR_CONT_LP_EDGE(x, l)		BIT(12 + ((x) * 4) + (l))
--#define ERR_CONTROL_EDGE(l)		BIT(8 + (l))
--#define ERR_SYN_ESC_EDGE(l)		BIT(4 + (l))
--#define ERR_ESC_EDGE(l)			BIT(0 + (l))
--
--#define MCTL_LANE_STS			0x2c
--#define PPI_C_TX_READY_HS		BIT(18)
--#define DPHY_PLL_LOCK			BIT(17)
--#define PPI_D_RX_ULPS_ESC(x)		(((x) & GENMASK(15, 12)) >> 12)
--#define LANE_STATE_START		0
--#define LANE_STATE_IDLE			1
--#define LANE_STATE_WRITE		2
--#define LANE_STATE_ULPM			3
--#define LANE_STATE_READ			4
--#define DATA_LANE_STATE(l, val)		\
--	(((val) >> (2 + 2 * (l) + ((l) ? 1 : 0))) & GENMASK((l) ? 1 : 2, 0))
--#define CLK_LANE_STATE_HS		2
--#define CLK_LANE_STATE(val)		((val) & GENMASK(1, 0))
--
--#define DSC_MODE_CTL			0x30
--#define DSC_MODE_EN			BIT(0)
--
--#define DSC_CMD_SEND			0x34
--#define DSC_SEND_PPS			BIT(0)
--#define DSC_EXECUTE_QUEUE		BIT(1)
--
--#define DSC_PPS_WRDAT			0x38
--
--#define DSC_MODE_STS			0x3c
--#define DSC_PPS_DONE			BIT(1)
--#define DSC_EXEC_DONE			BIT(2)
--
--#define CMD_MODE_CTL			0x70
--#define IF_LP_EN(x)			BIT(9 + (x))
--#define IF_VCHAN_ID(x, c)		((c) << ((x) * 2))
--
--#define CMD_MODE_CTL2			0x74
--#define TE_TIMEOUT(x)			((x) << 11)
--#define FILL_VALUE(x)			((x) << 3)
--#define ARB_IF_WITH_HIGHEST_PRIORITY(x)	((x) << 1)
--#define ARB_ROUND_ROBIN_MODE		BIT(0)
--
--#define CMD_MODE_STS			0x78
--#define CMD_MODE_STS_CTL		0x134
--#define CMD_MODE_STS_CLR		0x154
--#define CMD_MODE_STS_FLAG		0x174
--#define ERR_IF_UNDERRUN(x)		BIT(4 + (x))
--#define ERR_UNWANTED_READ		BIT(3)
--#define ERR_TE_MISS			BIT(2)
--#define ERR_NO_TE			BIT(1)
--#define CSM_RUNNING			BIT(0)
--
--#define DIRECT_CMD_SEND			0x80
--
--#define DIRECT_CMD_MAIN_SETTINGS	0x84
--#define TRIGGER_VAL(x)			((x) << 25)
--#define CMD_LP_EN			BIT(24)
--#define CMD_SIZE(x)			((x) << 16)
--#define CMD_VCHAN_ID(x)			((x) << 14)
--#define CMD_DATATYPE(x)			((x) << 8)
--#define CMD_LONG			BIT(3)
--#define WRITE_CMD			0
--#define READ_CMD			1
--#define TE_REQ				4
--#define TRIGGER_REQ			5
--#define BTA_REQ				6
--
--#define DIRECT_CMD_STS			0x88
--#define DIRECT_CMD_STS_CTL		0x138
--#define DIRECT_CMD_STS_CLR		0x158
--#define DIRECT_CMD_STS_FLAG		0x178
--#define RCVD_ACK_VAL(val)		((val) >> 16)
--#define RCVD_TRIGGER_VAL(val)		(((val) & GENMASK(14, 11)) >> 11)
--#define READ_COMPLETED_WITH_ERR		BIT(10)
--#define BTA_FINISHED			BIT(9)
--#define BTA_COMPLETED			BIT(8)
--#define TE_RCVD				BIT(7)
--#define TRIGGER_RCVD			BIT(6)
--#define ACK_WITH_ERR_RCVD		BIT(5)
--#define ACK_RCVD			BIT(4)
--#define READ_COMPLETED			BIT(3)
--#define TRIGGER_COMPLETED		BIT(2)
--#define WRITE_COMPLETED			BIT(1)
--#define SENDING_CMD			BIT(0)
--
--#define DIRECT_CMD_STOP_READ		0x8c
--
--#define DIRECT_CMD_WRDATA		0x90
--
--#define DIRECT_CMD_FIFO_RST		0x94
--
--#define DIRECT_CMD_RDDATA		0xa0
--
--#define DIRECT_CMD_RD_PROPS		0xa4
--#define RD_DCS				BIT(18)
--#define RD_VCHAN_ID(val)		(((val) >> 16) & GENMASK(1, 0))
--#define RD_SIZE(val)			((val) & GENMASK(15, 0))
--
--#define DIRECT_CMD_RD_STS		0xa8
--#define DIRECT_CMD_RD_STS_CTL		0x13c
--#define DIRECT_CMD_RD_STS_CLR		0x15c
--#define DIRECT_CMD_RD_STS_FLAG		0x17c
--#define ERR_EOT_WITH_ERR		BIT(8)
--#define ERR_MISSING_EOT			BIT(7)
--#define ERR_WRONG_LENGTH		BIT(6)
--#define ERR_OVERSIZE			BIT(5)
--#define ERR_RECEIVE			BIT(4)
--#define ERR_UNDECODABLE			BIT(3)
--#define ERR_CHECKSUM			BIT(2)
--#define ERR_UNCORRECTABLE		BIT(1)
--#define ERR_FIXED			BIT(0)
--
--#define VID_MAIN_CTL			0xb0
--#define VID_IGNORE_MISS_VSYNC		BIT(31)
--#define VID_FIELD_SW			BIT(28)
--#define VID_INTERLACED_EN		BIT(27)
--#define RECOVERY_MODE(x)		((x) << 25)
--#define RECOVERY_MODE_NEXT_HSYNC	0
--#define RECOVERY_MODE_NEXT_STOP_POINT	2
--#define RECOVERY_MODE_NEXT_VSYNC	3
--#define REG_BLKEOL_MODE(x)		((x) << 23)
--#define REG_BLKLINE_MODE(x)		((x) << 21)
--#define REG_BLK_MODE_NULL_PKT		0
--#define REG_BLK_MODE_BLANKING_PKT	1
--#define REG_BLK_MODE_LP			2
--#define SYNC_PULSE_HORIZONTAL		BIT(20)
--#define SYNC_PULSE_ACTIVE		BIT(19)
--#define BURST_MODE			BIT(18)
--#define VID_PIXEL_MODE_MASK		GENMASK(17, 14)
--#define VID_PIXEL_MODE_RGB565		(0 << 14)
--#define VID_PIXEL_MODE_RGB666_PACKED	(1 << 14)
--#define VID_PIXEL_MODE_RGB666		(2 << 14)
--#define VID_PIXEL_MODE_RGB888		(3 << 14)
--#define VID_PIXEL_MODE_RGB101010	(4 << 14)
--#define VID_PIXEL_MODE_RGB121212	(5 << 14)
--#define VID_PIXEL_MODE_YUV420		(8 << 14)
--#define VID_PIXEL_MODE_YUV422_PACKED	(9 << 14)
--#define VID_PIXEL_MODE_YUV422		(10 << 14)
--#define VID_PIXEL_MODE_YUV422_24B	(11 << 14)
--#define VID_PIXEL_MODE_DSC_COMP		(12 << 14)
--#define VID_DATATYPE(x)			((x) << 8)
--#define VID_VIRTCHAN_ID(iface, x)	((x) << (4 + (iface) * 2))
--#define STOP_MODE(x)			((x) << 2)
--#define START_MODE(x)			(x)
--
--#define VID_VSIZE1			0xb4
--#define VFP_LEN(x)			((x) << 12)
--#define VBP_LEN(x)			((x) << 6)
--#define VSA_LEN(x)			(x)
--
--#define VID_VSIZE2			0xb8
--#define VACT_LEN(x)			(x)
--
--#define VID_HSIZE1			0xc0
--#define HBP_LEN(x)			((x) << 16)
--#define HSA_LEN(x)			(x)
--
--#define VID_HSIZE2			0xc4
--#define HFP_LEN(x)			((x) << 16)
--#define HACT_LEN(x)			(x)
--
--#define VID_BLKSIZE1			0xcc
--#define BLK_EOL_PKT_LEN(x)		((x) << 15)
--#define BLK_LINE_EVENT_PKT_LEN(x)	(x)
--
--#define VID_BLKSIZE2			0xd0
--#define BLK_LINE_PULSE_PKT_LEN(x)	(x)
--
--#define VID_PKT_TIME			0xd8
--#define BLK_EOL_DURATION(x)		(x)
--
--#define VID_DPHY_TIME			0xdc
--#define REG_WAKEUP_TIME(x)		((x) << 17)
--#define REG_LINE_DURATION(x)		(x)
--
--#define VID_ERR_COLOR1			0xe0
--#define COL_GREEN(x)			((x) << 12)
--#define COL_RED(x)			(x)
--
--#define VID_ERR_COLOR2			0xe4
--#define PAD_VAL(x)			((x) << 12)
--#define COL_BLUE(x)			(x)
--
--#define VID_VPOS			0xe8
--#define LINE_VAL(val)			(((val) & GENMASK(14, 2)) >> 2)
--#define LINE_POS(val)			((val) & GENMASK(1, 0))
--
--#define VID_HPOS			0xec
--#define HORIZ_VAL(val)			(((val) & GENMASK(17, 3)) >> 3)
--#define HORIZ_POS(val)			((val) & GENMASK(2, 0))
--
--#define VID_MODE_STS			0xf0
--#define VID_MODE_STS_CTL		0x140
--#define VID_MODE_STS_CLR		0x160
--#define VID_MODE_STS_FLAG		0x180
--#define VSG_RECOVERY			BIT(10)
--#define ERR_VRS_WRONG_LEN		BIT(9)
--#define ERR_LONG_READ			BIT(8)
--#define ERR_LINE_WRITE			BIT(7)
--#define ERR_BURST_WRITE			BIT(6)
--#define ERR_SMALL_HEIGHT		BIT(5)
--#define ERR_SMALL_LEN			BIT(4)
--#define ERR_MISSING_VSYNC		BIT(3)
--#define ERR_MISSING_HSYNC		BIT(2)
--#define ERR_MISSING_DATA		BIT(1)
--#define VSG_RUNNING			BIT(0)
--
--#define VID_VCA_SETTING1		0xf4
--#define BURST_LP			BIT(16)
--#define MAX_BURST_LIMIT(x)		(x)
--
--#define VID_VCA_SETTING2		0xf8
--#define MAX_LINE_LIMIT(x)		((x) << 16)
--#define EXACT_BURST_LIMIT(x)		(x)
--
--#define TVG_CTL				0xfc
--#define TVG_STRIPE_SIZE(x)		((x) << 5)
--#define TVG_MODE_MASK			GENMASK(4, 3)
--#define TVG_MODE_SINGLE_COLOR		(0 << 3)
--#define TVG_MODE_VSTRIPES		(2 << 3)
--#define TVG_MODE_HSTRIPES		(3 << 3)
--#define TVG_STOPMODE_MASK		GENMASK(2, 1)
--#define TVG_STOPMODE_EOF		(0 << 1)
--#define TVG_STOPMODE_EOL		(1 << 1)
--#define TVG_STOPMODE_NOW		(2 << 1)
--#define TVG_RUN				BIT(0)
--
--#define TVG_IMG_SIZE			0x100
--#define TVG_NBLINES(x)			((x) << 16)
--#define TVG_LINE_SIZE(x)		(x)
--
--#define TVG_COLOR1			0x104
--#define TVG_COL1_GREEN(x)		((x) << 12)
--#define TVG_COL1_RED(x)			(x)
--
--#define TVG_COLOR1_BIS			0x108
--#define TVG_COL1_BLUE(x)		(x)
--
--#define TVG_COLOR2			0x10c
--#define TVG_COL2_GREEN(x)		((x) << 12)
--#define TVG_COL2_RED(x)			(x)
--
--#define TVG_COLOR2_BIS			0x110
--#define TVG_COL2_BLUE(x)		(x)
--
--#define TVG_STS				0x114
--#define TVG_STS_CTL			0x144
--#define TVG_STS_CLR			0x164
--#define TVG_STS_FLAG			0x184
--#define TVG_STS_RUNNING			BIT(0)
--
--#define STS_CTL_EDGE(e)			((e) << 16)
--
--#define DPHY_LANES_MAP			0x198
--#define DAT_REMAP_CFG(b, l)		((l) << ((b) * 8))
--
--#define DPI_IRQ_EN			0x1a0
--#define DPI_IRQ_CLR			0x1a4
--#define DPI_IRQ_STS			0x1a8
--#define PIXEL_BUF_OVERFLOW		BIT(0)
--
--#define DPI_CFG				0x1ac
--#define DPI_CFG_FIFO_DEPTH(x)		((x) >> 16)
--#define DPI_CFG_FIFO_LEVEL(x)		((x) & GENMASK(15, 0))
--
--#define TEST_GENERIC			0x1f0
--#define TEST_STATUS(x)			((x) >> 16)
--#define TEST_CTRL(x)			(x)
--
--#define ID_REG				0x1fc
--#define REV_VENDOR_ID(x)		(((x) & GENMASK(31, 20)) >> 20)
--#define REV_PRODUCT_ID(x)		(((x) & GENMASK(19, 12)) >> 12)
--#define REV_HW(x)			(((x) & GENMASK(11, 8)) >> 8)
--#define REV_MAJOR(x)			(((x) & GENMASK(7, 4)) >> 4)
--#define REV_MINOR(x)			((x) & GENMASK(3, 0))
--
--#define DSI_OUTPUT_PORT			0
--#define DSI_INPUT_PORT(inputid)		(1 + (inputid))
--
--#define DSI_HBP_FRAME_OVERHEAD		12
--#define DSI_HSA_FRAME_OVERHEAD		14
--#define DSI_HFP_FRAME_OVERHEAD		6
--#define DSI_HSS_VSS_VSE_FRAME_OVERHEAD	4
--#define DSI_BLANKING_FRAME_OVERHEAD	6
--#define DSI_NULL_FRAME_OVERHEAD		6
--#define DSI_EOT_PKT_SIZE		4
--
--struct cdns_dsi_output {
--	struct mipi_dsi_device *dev;
--	struct drm_panel *panel;
--	struct drm_bridge *bridge;
--	union phy_configure_opts phy_opts;
--};
--
--enum cdns_dsi_input_id {
--	CDNS_SDI_INPUT,
--	CDNS_DPI_INPUT,
--	CDNS_DSC_INPUT,
--};
--
--struct cdns_dsi_cfg {
--	unsigned int hfp;
--	unsigned int hsa;
--	unsigned int hbp;
--	unsigned int hact;
--	unsigned int htotal;
--};
--
--struct cdns_dsi_input {
--	enum cdns_dsi_input_id id;
--	struct drm_bridge bridge;
--};
--
--struct cdns_dsi {
--	struct mipi_dsi_host base;
--	void __iomem *regs;
--	struct cdns_dsi_input input;
--	struct cdns_dsi_output output;
--	unsigned int direct_cmd_fifo_depth;
--	unsigned int rx_fifo_depth;
--	struct completion direct_cmd_comp;
--	struct clk *dsi_p_clk;
--	struct reset_control *dsi_p_rst;
--	struct clk *dsi_sys_clk;
--	bool link_initialized;
--	bool phy_initialized;
--	struct phy *dphy;
--};
-+#include "cdns-dsi-core.h"
- 
- static inline struct cdns_dsi *input_to_dsi(struct cdns_dsi_input *input)
- {
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-new file mode 100644
-index 000000000000..65cc77f19b39
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-@@ -0,0 +1,458 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright: 2017 Cadence Design Systems, Inc.
-+ *
-+ * Author: Boris Brezillon <boris.brezillon@bootlin.com>
-+ */
-+
-+#ifndef CDNS_DSI_H
-+#define CDNS_DSI_H
-+
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_panel.h>
-+
-+#include <linux/phy/phy.h>
-+#include <linux/phy/phy-mipi-dphy.h>
-+
-+#define IP_CONF				0x0
-+#define SP_HS_FIFO_DEPTH(x)		(((x) & GENMASK(30, 26)) >> 26)
-+#define SP_LP_FIFO_DEPTH(x)		(((x) & GENMASK(25, 21)) >> 21)
-+#define VRS_FIFO_DEPTH(x)		(((x) & GENMASK(20, 16)) >> 16)
-+#define DIRCMD_FIFO_DEPTH(x)		(((x) & GENMASK(15, 13)) >> 13)
-+#define SDI_IFACE_32			BIT(12)
-+#define INTERNAL_DATAPATH_32		(0 << 10)
-+#define INTERNAL_DATAPATH_16		(1 << 10)
-+#define INTERNAL_DATAPATH_8		(3 << 10)
-+#define INTERNAL_DATAPATH_SIZE		((x) & GENMASK(11, 10))
-+#define NUM_IFACE(x)			((((x) & GENMASK(9, 8)) >> 8) + 1)
-+#define MAX_LANE_NB(x)			(((x) & GENMASK(7, 6)) >> 6)
-+#define RX_FIFO_DEPTH(x)		((x) & GENMASK(5, 0))
-+
-+#define MCTL_MAIN_DATA_CTL		0x4
-+#define TE_MIPI_POLLING_EN		BIT(25)
-+#define TE_HW_POLLING_EN		BIT(24)
-+#define DISP_EOT_GEN			BIT(18)
-+#define HOST_EOT_GEN			BIT(17)
-+#define DISP_GEN_CHECKSUM		BIT(16)
-+#define DISP_GEN_ECC			BIT(15)
-+#define BTA_EN				BIT(14)
-+#define READ_EN				BIT(13)
-+#define REG_TE_EN			BIT(12)
-+#define IF_TE_EN(x)			BIT(8 + (x))
-+#define TVG_SEL				BIT(6)
-+#define VID_EN				BIT(5)
-+#define IF_VID_SELECT(x)		((x) << 2)
-+#define IF_VID_SELECT_MASK		GENMASK(3, 2)
-+#define IF_VID_MODE			BIT(1)
-+#define LINK_EN				BIT(0)
-+
-+#define MCTL_MAIN_PHY_CTL		0x8
-+#define HS_INVERT_DAT(x)		BIT(19 + ((x) * 2))
-+#define SWAP_PINS_DAT(x)		BIT(18 + ((x) * 2))
-+#define HS_INVERT_CLK			BIT(17)
-+#define SWAP_PINS_CLK			BIT(16)
-+#define HS_SKEWCAL_EN			BIT(15)
-+#define WAIT_BURST_TIME(x)		((x) << 10)
-+#define DATA_ULPM_EN(x)			BIT(6 + (x))
-+#define CLK_ULPM_EN			BIT(5)
-+#define CLK_CONTINUOUS			BIT(4)
-+#define DATA_LANE_EN(x)			BIT((x) - 1)
-+
-+#define MCTL_MAIN_EN			0xc
-+#define DATA_FORCE_STOP			BIT(17)
-+#define CLK_FORCE_STOP			BIT(16)
-+#define IF_EN(x)			BIT(13 + (x))
-+#define DATA_LANE_ULPM_REQ(l)		BIT(9 + (l))
-+#define CLK_LANE_ULPM_REQ		BIT(8)
-+#define DATA_LANE_START(x)		BIT(4 + (x))
-+#define CLK_LANE_EN			BIT(3)
-+#define PLL_START			BIT(0)
-+
-+#define MCTL_DPHY_CFG0			0x10
-+#define DPHY_C_RSTB			BIT(20)
-+#define DPHY_D_RSTB(x)			GENMASK(15 + (x), 16)
-+#define DPHY_PLL_PDN			BIT(10)
-+#define DPHY_CMN_PDN			BIT(9)
-+#define DPHY_C_PDN			BIT(8)
-+#define DPHY_D_PDN(x)			GENMASK(3 + (x), 4)
-+#define DPHY_ALL_D_PDN			GENMASK(7, 4)
-+#define DPHY_PLL_PSO			BIT(1)
-+#define DPHY_CMN_PSO			BIT(0)
-+
-+#define MCTL_DPHY_TIMEOUT1		0x14
-+#define HSTX_TIMEOUT(x)			((x) << 4)
-+#define HSTX_TIMEOUT_MAX		GENMASK(17, 0)
-+#define CLK_DIV(x)			(x)
-+#define CLK_DIV_MAX			GENMASK(3, 0)
-+
-+#define MCTL_DPHY_TIMEOUT2		0x18
-+#define LPRX_TIMEOUT(x)			(x)
-+
-+#define MCTL_ULPOUT_TIME		0x1c
-+#define DATA_LANE_ULPOUT_TIME(x)	((x) << 9)
-+#define CLK_LANE_ULPOUT_TIME(x)		(x)
-+
-+#define MCTL_3DVIDEO_CTL		0x20
-+#define VID_VSYNC_3D_EN			BIT(7)
-+#define VID_VSYNC_3D_LR			BIT(5)
-+#define VID_VSYNC_3D_SECOND_EN		BIT(4)
-+#define VID_VSYNC_3DFORMAT_LINE		(0 << 2)
-+#define VID_VSYNC_3DFORMAT_FRAME	(1 << 2)
-+#define VID_VSYNC_3DFORMAT_PIXEL	(2 << 2)
-+#define VID_VSYNC_3DMODE_OFF		0
-+#define VID_VSYNC_3DMODE_PORTRAIT	1
-+#define VID_VSYNC_3DMODE_LANDSCAPE	2
-+
-+#define MCTL_MAIN_STS			0x24
-+#define MCTL_MAIN_STS_CTL		0x130
-+#define MCTL_MAIN_STS_CLR		0x150
-+#define MCTL_MAIN_STS_FLAG		0x170
-+#define HS_SKEWCAL_DONE			BIT(11)
-+#define IF_UNTERM_PKT_ERR(x)		BIT(8 + (x))
-+#define LPRX_TIMEOUT_ERR		BIT(7)
-+#define HSTX_TIMEOUT_ERR		BIT(6)
-+#define DATA_LANE_RDY(l)		BIT(2 + (l))
-+#define CLK_LANE_RDY			BIT(1)
-+#define PLL_LOCKED			BIT(0)
-+
-+#define MCTL_DPHY_ERR			0x28
-+#define MCTL_DPHY_ERR_CTL1		0x148
-+#define MCTL_DPHY_ERR_CLR		0x168
-+#define MCTL_DPHY_ERR_FLAG		0x188
-+#define ERR_CONT_LP(x, l)		BIT(18 + ((x) * 4) + (l))
-+#define ERR_CONTROL(l)			BIT(14 + (l))
-+#define ERR_SYNESC(l)			BIT(10 + (l))
-+#define ERR_ESC(l)			BIT(6 + (l))
-+
-+#define MCTL_DPHY_ERR_CTL2		0x14c
-+#define ERR_CONT_LP_EDGE(x, l)		BIT(12 + ((x) * 4) + (l))
-+#define ERR_CONTROL_EDGE(l)		BIT(8 + (l))
-+#define ERR_SYN_ESC_EDGE(l)		BIT(4 + (l))
-+#define ERR_ESC_EDGE(l)			BIT(0 + (l))
-+
-+#define MCTL_LANE_STS			0x2c
-+#define PPI_C_TX_READY_HS		BIT(18)
-+#define DPHY_PLL_LOCK			BIT(17)
-+#define PPI_D_RX_ULPS_ESC(x)		(((x) & GENMASK(15, 12)) >> 12)
-+#define LANE_STATE_START		0
-+#define LANE_STATE_IDLE			1
-+#define LANE_STATE_WRITE		2
-+#define LANE_STATE_ULPM			3
-+#define LANE_STATE_READ			4
-+#define DATA_LANE_STATE(l, val)		\
-+	(((val) >> (2 + 2 * (l) + ((l) ? 1 : 0))) & GENMASK((l) ? 1 : 2, 0))
-+#define CLK_LANE_STATE_HS		2
-+#define CLK_LANE_STATE(val)		((val) & GENMASK(1, 0))
-+
-+#define DSC_MODE_CTL			0x30
-+#define DSC_MODE_EN			BIT(0)
-+
-+#define DSC_CMD_SEND			0x34
-+#define DSC_SEND_PPS			BIT(0)
-+#define DSC_EXECUTE_QUEUE		BIT(1)
-+
-+#define DSC_PPS_WRDAT			0x38
-+
-+#define DSC_MODE_STS			0x3c
-+#define DSC_PPS_DONE			BIT(1)
-+#define DSC_EXEC_DONE			BIT(2)
-+
-+#define CMD_MODE_CTL			0x70
-+#define IF_LP_EN(x)			BIT(9 + (x))
-+#define IF_VCHAN_ID(x, c)		((c) << ((x) * 2))
-+
-+#define CMD_MODE_CTL2			0x74
-+#define TE_TIMEOUT(x)			((x) << 11)
-+#define FILL_VALUE(x)			((x) << 3)
-+#define ARB_IF_WITH_HIGHEST_PRIORITY(x)	((x) << 1)
-+#define ARB_ROUND_ROBIN_MODE		BIT(0)
-+
-+#define CMD_MODE_STS			0x78
-+#define CMD_MODE_STS_CTL		0x134
-+#define CMD_MODE_STS_CLR		0x154
-+#define CMD_MODE_STS_FLAG		0x174
-+#define ERR_IF_UNDERRUN(x)		BIT(4 + (x))
-+#define ERR_UNWANTED_READ		BIT(3)
-+#define ERR_TE_MISS			BIT(2)
-+#define ERR_NO_TE			BIT(1)
-+#define CSM_RUNNING			BIT(0)
-+
-+#define DIRECT_CMD_SEND			0x80
-+
-+#define DIRECT_CMD_MAIN_SETTINGS	0x84
-+#define TRIGGER_VAL(x)			((x) << 25)
-+#define CMD_LP_EN			BIT(24)
-+#define CMD_SIZE(x)			((x) << 16)
-+#define CMD_VCHAN_ID(x)			((x) << 14)
-+#define CMD_DATATYPE(x)			((x) << 8)
-+#define CMD_LONG			BIT(3)
-+#define WRITE_CMD			0
-+#define READ_CMD			1
-+#define TE_REQ				4
-+#define TRIGGER_REQ			5
-+#define BTA_REQ				6
-+
-+#define DIRECT_CMD_STS			0x88
-+#define DIRECT_CMD_STS_CTL		0x138
-+#define DIRECT_CMD_STS_CLR		0x158
-+#define DIRECT_CMD_STS_FLAG		0x178
-+#define RCVD_ACK_VAL(val)		((val) >> 16)
-+#define RCVD_TRIGGER_VAL(val)		(((val) & GENMASK(14, 11)) >> 11)
-+#define READ_COMPLETED_WITH_ERR		BIT(10)
-+#define BTA_FINISHED			BIT(9)
-+#define BTA_COMPLETED			BIT(8)
-+#define TE_RCVD				BIT(7)
-+#define TRIGGER_RCVD			BIT(6)
-+#define ACK_WITH_ERR_RCVD		BIT(5)
-+#define ACK_RCVD			BIT(4)
-+#define READ_COMPLETED			BIT(3)
-+#define TRIGGER_COMPLETED		BIT(2)
-+#define WRITE_COMPLETED			BIT(1)
-+#define SENDING_CMD			BIT(0)
-+
-+#define DIRECT_CMD_STOP_READ		0x8c
-+
-+#define DIRECT_CMD_WRDATA		0x90
-+
-+#define DIRECT_CMD_FIFO_RST		0x94
-+
-+#define DIRECT_CMD_RDDATA		0xa0
-+
-+#define DIRECT_CMD_RD_PROPS		0xa4
-+#define RD_DCS				BIT(18)
-+#define RD_VCHAN_ID(val)		(((val) >> 16) & GENMASK(1, 0))
-+#define RD_SIZE(val)			((val) & GENMASK(15, 0))
-+
-+#define DIRECT_CMD_RD_STS		0xa8
-+#define DIRECT_CMD_RD_STS_CTL		0x13c
-+#define DIRECT_CMD_RD_STS_CLR		0x15c
-+#define DIRECT_CMD_RD_STS_FLAG		0x17c
-+#define ERR_EOT_WITH_ERR		BIT(8)
-+#define ERR_MISSING_EOT			BIT(7)
-+#define ERR_WRONG_LENGTH		BIT(6)
-+#define ERR_OVERSIZE			BIT(5)
-+#define ERR_RECEIVE			BIT(4)
-+#define ERR_UNDECODABLE			BIT(3)
-+#define ERR_CHECKSUM			BIT(2)
-+#define ERR_UNCORRECTABLE		BIT(1)
-+#define ERR_FIXED			BIT(0)
-+
-+#define VID_MAIN_CTL			0xb0
-+#define VID_IGNORE_MISS_VSYNC		BIT(31)
-+#define VID_FIELD_SW			BIT(28)
-+#define VID_INTERLACED_EN		BIT(27)
-+#define RECOVERY_MODE(x)		((x) << 25)
-+#define RECOVERY_MODE_NEXT_HSYNC	0
-+#define RECOVERY_MODE_NEXT_STOP_POINT	2
-+#define RECOVERY_MODE_NEXT_VSYNC	3
-+#define REG_BLKEOL_MODE(x)		((x) << 23)
-+#define REG_BLKLINE_MODE(x)		((x) << 21)
-+#define REG_BLK_MODE_NULL_PKT		0
-+#define REG_BLK_MODE_BLANKING_PKT	1
-+#define REG_BLK_MODE_LP			2
-+#define SYNC_PULSE_HORIZONTAL		BIT(20)
-+#define SYNC_PULSE_ACTIVE		BIT(19)
-+#define BURST_MODE			BIT(18)
-+#define VID_PIXEL_MODE_MASK		GENMASK(17, 14)
-+#define VID_PIXEL_MODE_RGB565		(0 << 14)
-+#define VID_PIXEL_MODE_RGB666_PACKED	(1 << 14)
-+#define VID_PIXEL_MODE_RGB666		(2 << 14)
-+#define VID_PIXEL_MODE_RGB888		(3 << 14)
-+#define VID_PIXEL_MODE_RGB101010	(4 << 14)
-+#define VID_PIXEL_MODE_RGB121212	(5 << 14)
-+#define VID_PIXEL_MODE_YUV420		(8 << 14)
-+#define VID_PIXEL_MODE_YUV422_PACKED	(9 << 14)
-+#define VID_PIXEL_MODE_YUV422		(10 << 14)
-+#define VID_PIXEL_MODE_YUV422_24B	(11 << 14)
-+#define VID_PIXEL_MODE_DSC_COMP		(12 << 14)
-+#define VID_DATATYPE(x)			((x) << 8)
-+#define VID_VIRTCHAN_ID(iface, x)	((x) << (4 + (iface) * 2))
-+#define STOP_MODE(x)			((x) << 2)
-+#define START_MODE(x)			(x)
-+
-+#define VID_VSIZE1			0xb4
-+#define VFP_LEN(x)			((x) << 12)
-+#define VBP_LEN(x)			((x) << 6)
-+#define VSA_LEN(x)			(x)
-+
-+#define VID_VSIZE2			0xb8
-+#define VACT_LEN(x)			(x)
-+
-+#define VID_HSIZE1			0xc0
-+#define HBP_LEN(x)			((x) << 16)
-+#define HSA_LEN(x)			(x)
-+
-+#define VID_HSIZE2			0xc4
-+#define HFP_LEN(x)			((x) << 16)
-+#define HACT_LEN(x)			(x)
-+
-+#define VID_BLKSIZE1			0xcc
-+#define BLK_EOL_PKT_LEN(x)		((x) << 15)
-+#define BLK_LINE_EVENT_PKT_LEN(x)	(x)
-+
-+#define VID_BLKSIZE2			0xd0
-+#define BLK_LINE_PULSE_PKT_LEN(x)	(x)
-+
-+#define VID_PKT_TIME			0xd8
-+#define BLK_EOL_DURATION(x)		(x)
-+
-+#define VID_DPHY_TIME			0xdc
-+#define REG_WAKEUP_TIME(x)		((x) << 17)
-+#define REG_LINE_DURATION(x)		(x)
-+
-+#define VID_ERR_COLOR1			0xe0
-+#define COL_GREEN(x)			((x) << 12)
-+#define COL_RED(x)			(x)
-+
-+#define VID_ERR_COLOR2			0xe4
-+#define PAD_VAL(x)			((x) << 12)
-+#define COL_BLUE(x)			(x)
-+
-+#define VID_VPOS			0xe8
-+#define LINE_VAL(val)			(((val) & GENMASK(14, 2)) >> 2)
-+#define LINE_POS(val)			((val) & GENMASK(1, 0))
-+
-+#define VID_HPOS			0xec
-+#define HORIZ_VAL(val)			(((val) & GENMASK(17, 3)) >> 3)
-+#define HORIZ_POS(val)			((val) & GENMASK(2, 0))
-+
-+#define VID_MODE_STS			0xf0
-+#define VID_MODE_STS_CTL		0x140
-+#define VID_MODE_STS_CLR		0x160
-+#define VID_MODE_STS_FLAG		0x180
-+#define VSG_RECOVERY			BIT(10)
-+#define ERR_VRS_WRONG_LEN		BIT(9)
-+#define ERR_LONG_READ			BIT(8)
-+#define ERR_LINE_WRITE			BIT(7)
-+#define ERR_BURST_WRITE			BIT(6)
-+#define ERR_SMALL_HEIGHT		BIT(5)
-+#define ERR_SMALL_LEN			BIT(4)
-+#define ERR_MISSING_VSYNC		BIT(3)
-+#define ERR_MISSING_HSYNC		BIT(2)
-+#define ERR_MISSING_DATA		BIT(1)
-+#define VSG_RUNNING			BIT(0)
-+
-+#define VID_VCA_SETTING1		0xf4
-+#define BURST_LP			BIT(16)
-+#define MAX_BURST_LIMIT(x)		(x)
-+
-+#define VID_VCA_SETTING2		0xf8
-+#define MAX_LINE_LIMIT(x)		((x) << 16)
-+#define EXACT_BURST_LIMIT(x)		(x)
-+
-+#define TVG_CTL				0xfc
-+#define TVG_STRIPE_SIZE(x)		((x) << 5)
-+#define TVG_MODE_MASK			GENMASK(4, 3)
-+#define TVG_MODE_SINGLE_COLOR		(0 << 3)
-+#define TVG_MODE_VSTRIPES		(2 << 3)
-+#define TVG_MODE_HSTRIPES		(3 << 3)
-+#define TVG_STOPMODE_MASK		GENMASK(2, 1)
-+#define TVG_STOPMODE_EOF		(0 << 1)
-+#define TVG_STOPMODE_EOL		(1 << 1)
-+#define TVG_STOPMODE_NOW		(2 << 1)
-+#define TVG_RUN				BIT(0)
-+
-+#define TVG_IMG_SIZE			0x100
-+#define TVG_NBLINES(x)			((x) << 16)
-+#define TVG_LINE_SIZE(x)		(x)
-+
-+#define TVG_COLOR1			0x104
-+#define TVG_COL1_GREEN(x)		((x) << 12)
-+#define TVG_COL1_RED(x)			(x)
-+
-+#define TVG_COLOR1_BIS			0x108
-+#define TVG_COL1_BLUE(x)		(x)
-+
-+#define TVG_COLOR2			0x10c
-+#define TVG_COL2_GREEN(x)		((x) << 12)
-+#define TVG_COL2_RED(x)			(x)
-+
-+#define TVG_COLOR2_BIS			0x110
-+#define TVG_COL2_BLUE(x)		(x)
-+
-+#define TVG_STS				0x114
-+#define TVG_STS_CTL			0x144
-+#define TVG_STS_CLR			0x164
-+#define TVG_STS_FLAG			0x184
-+#define TVG_STS_RUNNING			BIT(0)
-+
-+#define STS_CTL_EDGE(e)			((e) << 16)
-+
-+#define DPHY_LANES_MAP			0x198
-+#define DAT_REMAP_CFG(b, l)		((l) << ((b) * 8))
-+
-+#define DPI_IRQ_EN			0x1a0
-+#define DPI_IRQ_CLR			0x1a4
-+#define DPI_IRQ_STS			0x1a8
-+#define PIXEL_BUF_OVERFLOW		BIT(0)
-+
-+#define DPI_CFG				0x1ac
-+#define DPI_CFG_FIFO_DEPTH(x)		((x) >> 16)
-+#define DPI_CFG_FIFO_LEVEL(x)		((x) & GENMASK(15, 0))
-+
-+#define TEST_GENERIC			0x1f0
-+#define TEST_STATUS(x)			((x) >> 16)
-+#define TEST_CTRL(x)			(x)
-+
-+#define ID_REG				0x1fc
-+#define REV_VENDOR_ID(x)		(((x) & GENMASK(31, 20)) >> 20)
-+#define REV_PRODUCT_ID(x)		(((x) & GENMASK(19, 12)) >> 12)
-+#define REV_HW(x)			(((x) & GENMASK(11, 8)) >> 8)
-+#define REV_MAJOR(x)			(((x) & GENMASK(7, 4)) >> 4)
-+#define REV_MINOR(x)			((x) & GENMASK(3, 0))
-+
-+#define DSI_OUTPUT_PORT			0
-+#define DSI_INPUT_PORT(inputid)		(1 + (inputid))
-+
-+#define DSI_HBP_FRAME_OVERHEAD		12
-+#define DSI_HSA_FRAME_OVERHEAD		14
-+#define DSI_HFP_FRAME_OVERHEAD		6
-+#define DSI_HSS_VSS_VSE_FRAME_OVERHEAD	4
-+#define DSI_BLANKING_FRAME_OVERHEAD	6
-+#define DSI_NULL_FRAME_OVERHEAD		6
-+#define DSI_EOT_PKT_SIZE		4
-+
-+struct cdns_dsi_output {
-+	struct mipi_dsi_device *dev;
-+	struct drm_panel *panel;
-+	struct drm_bridge *bridge;
-+	union phy_configure_opts phy_opts;
-+};
-+
-+enum cdns_dsi_input_id {
-+	CDNS_SDI_INPUT,
-+	CDNS_DPI_INPUT,
-+	CDNS_DSC_INPUT,
-+};
-+
-+struct cdns_dsi_cfg {
-+	unsigned int hfp;
-+	unsigned int hsa;
-+	unsigned int hbp;
-+	unsigned int hact;
-+	unsigned int htotal;
-+};
-+
-+struct cdns_dsi_input {
-+	enum cdns_dsi_input_id id;
-+	struct drm_bridge bridge;
-+};
-+
-+struct cdns_dsi {
-+	struct mipi_dsi_host base;
-+	void __iomem *regs;
-+	struct cdns_dsi_input input;
-+	struct cdns_dsi_output output;
-+	unsigned int direct_cmd_fifo_depth;
-+	unsigned int rx_fifo_depth;
-+	struct completion direct_cmd_comp;
-+	struct clk *dsi_p_clk;
-+	struct reset_control *dsi_p_rst;
-+	struct clk *dsi_sys_clk;
-+	bool link_initialized;
-+	bool phy_initialized;
-+	struct phy *dphy;
-+};
-+
-+#endif /* !CDNS_DSI_H */
--- 
-2.37.3
-
+On Sat, Sep 17, 2022 at 8:38 AM Ma=C3=ADra Canal <mairacanal@riseup.net> wr=
+ote:
+>
+> Hi Nathan,
+>
+> On 9/16/22 18:06, Nathan Chancellor wrote:
+> > Most of the arguments are identical between the two call sites and they
+> > can be accessed through the 'struct vba_vars_st' pointer. This reduces
+> > the total amount of stack space that
+> > dml314_ModeSupportAndSystemConfigurationFull() uses by 240 bytes with
+> > LLVM 16 (2216 -> 1976), helping clear up the following clang warning:
+> >
+> >   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_mode_vba_=
+314.c:4020:6: error: stack frame size (2216) exceeds limit (2048) in 'dml31=
+4_ModeSupportAndSystemConfigurationFull' [-Werror,-Wframe-larger-than]
+> >   void dml314_ModeSupportAndSystemConfigurationFull(struct display_mode=
+_lib *mode_lib)
+> >        ^
+> >   1 error generated.
+> >
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/1710
+> > Reported-by: "kernelci.org bot" <bot@kernelci.org>
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+>
+> I have built-tested the whole series with clang 14.0.5 (Fedora
+> 14.0.5-1.fc36), using:
+>
+> $ make -kj"$(nproc)" ARCH=3Dx86_64 LLVM=3D1 mrproper allmodconfig
+> drivers/gpu/drm/amd/amdgpu/
+>
+> Another great patch to the DML! As Tom, I also would like to see this
+> expand to all display_mode_vba files, but so far this is great to
+> unbreak the build.
+>
+> To the whole series:
+>
+> Tested-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
+>
+> Best Regards,
+> - Ma=C3=ADra Canal
+>
+> > ---
+> >
+> > This is just commit ab2ac59c32db ("drm/amd/display: Reduce number of
+> > arguments of dml31's CalculateWatermarksAndDRAMSpeedChangeSupport()")
+> > applied to dml314.
+> >
+> >  .../dc/dml/dcn314/display_mode_vba_314.c      | 248 ++++--------------
+> >  1 file changed, 52 insertions(+), 196 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba=
+_314.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
+> > index 2829f179f982..32ceb72f7a14 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
+> > @@ -325,64 +325,28 @@ static void CalculateVupdateAndDynamicMetadataPar=
+ameters(
+> >  static void CalculateWatermarksAndDRAMSpeedChangeSupport(
+> >               struct display_mode_lib *mode_lib,
+> >               unsigned int PrefetchMode,
+> > -             unsigned int NumberOfActivePlanes,
+> > -             unsigned int MaxLineBufferLines,
+> > -             unsigned int LineBufferSize,
+> > -             unsigned int WritebackInterfaceBufferSize,
+> >               double DCFCLK,
+> >               double ReturnBW,
+> > -             bool SynchronizedVBlank,
+> > -             unsigned int dpte_group_bytes[],
+> > -             unsigned int MetaChunkSize,
+> >               double UrgentLatency,
+> >               double ExtraLatency,
+> > -             double WritebackLatency,
+> > -             double WritebackChunkSize,
+> >               double SOCCLK,
+> > -             double DRAMClockChangeLatency,
+> > -             double SRExitTime,
+> > -             double SREnterPlusExitTime,
+> > -             double SRExitZ8Time,
+> > -             double SREnterPlusExitZ8Time,
+> >               double DCFCLKDeepSleep,
+> >               unsigned int DETBufferSizeY[],
+> >               unsigned int DETBufferSizeC[],
+> >               unsigned int SwathHeightY[],
+> >               unsigned int SwathHeightC[],
+> > -             unsigned int LBBitPerPixel[],
+> >               double SwathWidthY[],
+> >               double SwathWidthC[],
+> > -             double HRatio[],
+> > -             double HRatioChroma[],
+> > -             unsigned int vtaps[],
+> > -             unsigned int VTAPsChroma[],
+> > -             double VRatio[],
+> > -             double VRatioChroma[],
+> > -             unsigned int HTotal[],
+> > -             double PixelClock[],
+> > -             unsigned int BlendingAndTiming[],
+> >               unsigned int DPPPerPlane[],
+> >               double BytePerPixelDETY[],
+> >               double BytePerPixelDETC[],
+> > -             double DSTXAfterScaler[],
+> > -             double DSTYAfterScaler[],
+> > -             bool WritebackEnable[],
+> > -             enum source_format_class WritebackPixelFormat[],
+> > -             double WritebackDestinationWidth[],
+> > -             double WritebackDestinationHeight[],
+> > -             double WritebackSourceHeight[],
+> >               bool UnboundedRequestEnabled,
+> >               unsigned int CompressedBufferSizeInkByte,
+> >               enum clock_change_support *DRAMClockChangeSupport,
+> > -             double *UrgentWatermark,
+> > -             double *WritebackUrgentWatermark,
+> > -             double *DRAMClockChangeWatermark,
+> > -             double *WritebackDRAMClockChangeWatermark,
+> >               double *StutterExitWatermark,
+> >               double *StutterEnterPlusExitWatermark,
+> >               double *Z8StutterExitWatermark,
+> > -             double *Z8StutterEnterPlusExitWatermark,
+> > -             double *MinActiveDRAMClockChangeLatencySupported);
+> > +             double *Z8StutterEnterPlusExitWatermark);
+> >
+> >  static void CalculateDCFCLKDeepSleep(
+> >               struct display_mode_lib *mode_lib,
+> > @@ -3041,64 +3005,28 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetc=
+hParametersWatermarksAndPerforman
+> >               CalculateWatermarksAndDRAMSpeedChangeSupport(
+> >                               mode_lib,
+> >                               PrefetchMode,
+> > -                             v->NumberOfActivePlanes,
+> > -                             v->MaxLineBufferLines,
+> > -                             v->LineBufferSize,
+> > -                             v->WritebackInterfaceBufferSize,
+> >                               v->DCFCLK,
+> >                               v->ReturnBW,
+> > -                             v->SynchronizedVBlank,
+> > -                             v->dpte_group_bytes,
+> > -                             v->MetaChunkSize,
+> >                               v->UrgentLatency,
+> >                               v->UrgentExtraLatency,
+> > -                             v->WritebackLatency,
+> > -                             v->WritebackChunkSize,
+> >                               v->SOCCLK,
+> > -                             v->DRAMClockChangeLatency,
+> > -                             v->SRExitTime,
+> > -                             v->SREnterPlusExitTime,
+> > -                             v->SRExitZ8Time,
+> > -                             v->SREnterPlusExitZ8Time,
+> >                               v->DCFCLKDeepSleep,
+> >                               v->DETBufferSizeY,
+> >                               v->DETBufferSizeC,
+> >                               v->SwathHeightY,
+> >                               v->SwathHeightC,
+> > -                             v->LBBitPerPixel,
+> >                               v->SwathWidthY,
+> >                               v->SwathWidthC,
+> > -                             v->HRatio,
+> > -                             v->HRatioChroma,
+> > -                             v->vtaps,
+> > -                             v->VTAPsChroma,
+> > -                             v->VRatio,
+> > -                             v->VRatioChroma,
+> > -                             v->HTotal,
+> > -                             v->PixelClock,
+> > -                             v->BlendingAndTiming,
+> >                               v->DPPPerPlane,
+> >                               v->BytePerPixelDETY,
+> >                               v->BytePerPixelDETC,
+> > -                             v->DSTXAfterScaler,
+> > -                             v->DSTYAfterScaler,
+> > -                             v->WritebackEnable,
+> > -                             v->WritebackPixelFormat,
+> > -                             v->WritebackDestinationWidth,
+> > -                             v->WritebackDestinationHeight,
+> > -                             v->WritebackSourceHeight,
+> >                               v->UnboundedRequestEnabled,
+> >                               v->CompressedBufferSizeInkByte,
+> >                               &DRAMClockChangeSupport,
+> > -                             &v->UrgentWatermark,
+> > -                             &v->WritebackUrgentWatermark,
+> > -                             &v->DRAMClockChangeWatermark,
+> > -                             &v->WritebackDRAMClockChangeWatermark,
+> >                               &v->StutterExitWatermark,
+> >                               &v->StutterEnterPlusExitWatermark,
+> >                               &v->Z8StutterExitWatermark,
+> > -                             &v->Z8StutterEnterPlusExitWatermark,
+> > -                             &v->MinActiveDRAMClockChangeLatencySuppor=
+ted);
+> > +                             &v->Z8StutterEnterPlusExitWatermark);
+> >
+> >               for (k =3D 0; k < v->NumberOfActivePlanes; ++k) {
+> >                       if (v->WritebackEnable[k] =3D=3D true) {
+> > @@ -5496,64 +5424,28 @@ void dml314_ModeSupportAndSystemConfigurationFu=
+ll(struct display_mode_lib *mode_
+> >                       CalculateWatermarksAndDRAMSpeedChangeSupport(
+> >                                       mode_lib,
+> >                                       v->PrefetchModePerState[i][j],
+> > -                                     v->NumberOfActivePlanes,
+> > -                                     v->MaxLineBufferLines,
+> > -                                     v->LineBufferSize,
+> > -                                     v->WritebackInterfaceBufferSize,
+> >                                       v->DCFCLKState[i][j],
+> >                                       v->ReturnBWPerState[i][j],
+> > -                                     v->SynchronizedVBlank,
+> > -                                     v->dpte_group_bytes,
+> > -                                     v->MetaChunkSize,
+> >                                       v->UrgLatency[i],
+> >                                       v->ExtraLatency,
+> > -                                     v->WritebackLatency,
+> > -                                     v->WritebackChunkSize,
+> >                                       v->SOCCLKPerState[i],
+> > -                                     v->DRAMClockChangeLatency,
+> > -                                     v->SRExitTime,
+> > -                                     v->SREnterPlusExitTime,
+> > -                                     v->SRExitZ8Time,
+> > -                                     v->SREnterPlusExitZ8Time,
+> >                                       v->ProjectedDCFCLKDeepSleep[i][j]=
+,
+> >                                       v->DETBufferSizeYThisState,
+> >                                       v->DETBufferSizeCThisState,
+> >                                       v->SwathHeightYThisState,
+> >                                       v->SwathHeightCThisState,
+> > -                                     v->LBBitPerPixel,
+> >                                       v->SwathWidthYThisState,
+> >                                       v->SwathWidthCThisState,
+> > -                                     v->HRatio,
+> > -                                     v->HRatioChroma,
+> > -                                     v->vtaps,
+> > -                                     v->VTAPsChroma,
+> > -                                     v->VRatio,
+> > -                                     v->VRatioChroma,
+> > -                                     v->HTotal,
+> > -                                     v->PixelClock,
+> > -                                     v->BlendingAndTiming,
+> >                                       v->NoOfDPPThisState,
+> >                                       v->BytePerPixelInDETY,
+> >                                       v->BytePerPixelInDETC,
+> > -                                     v->DSTXAfterScaler,
+> > -                                     v->DSTYAfterScaler,
+> > -                                     v->WritebackEnable,
+> > -                                     v->WritebackPixelFormat,
+> > -                                     v->WritebackDestinationWidth,
+> > -                                     v->WritebackDestinationHeight,
+> > -                                     v->WritebackSourceHeight,
+> >                                       UnboundedRequestEnabledThisState,
+> >                                       CompressedBufferSizeInkByteThisSt=
+ate,
+> >                                       &v->DRAMClockChangeSupport[i][j],
+> > -                                     &v->UrgentWatermark,
+> > -                                     &v->WritebackUrgentWatermark,
+> > -                                     &v->DRAMClockChangeWatermark,
+> > -                                     &v->WritebackDRAMClockChangeWater=
+mark,
+> > -                                     &dummy,
+> >                                       &dummy,
+> >                                       &dummy,
+> >                                       &dummy,
+> > -                                     &v->MinActiveDRAMClockChangeLaten=
+cySupported);
+> > +                                     &dummy);
+> >               }
+> >       }
+> >
+> > @@ -5679,64 +5571,28 @@ void dml314_ModeSupportAndSystemConfigurationFu=
+ll(struct display_mode_lib *mode_
+> >  static void CalculateWatermarksAndDRAMSpeedChangeSupport(
+> >               struct display_mode_lib *mode_lib,
+> >               unsigned int PrefetchMode,
+> > -             unsigned int NumberOfActivePlanes,
+> > -             unsigned int MaxLineBufferLines,
+> > -             unsigned int LineBufferSize,
+> > -             unsigned int WritebackInterfaceBufferSize,
+> >               double DCFCLK,
+> >               double ReturnBW,
+> > -             bool SynchronizedVBlank,
+> > -             unsigned int dpte_group_bytes[],
+> > -             unsigned int MetaChunkSize,
+> >               double UrgentLatency,
+> >               double ExtraLatency,
+> > -             double WritebackLatency,
+> > -             double WritebackChunkSize,
+> >               double SOCCLK,
+> > -             double DRAMClockChangeLatency,
+> > -             double SRExitTime,
+> > -             double SREnterPlusExitTime,
+> > -             double SRExitZ8Time,
+> > -             double SREnterPlusExitZ8Time,
+> >               double DCFCLKDeepSleep,
+> >               unsigned int DETBufferSizeY[],
+> >               unsigned int DETBufferSizeC[],
+> >               unsigned int SwathHeightY[],
+> >               unsigned int SwathHeightC[],
+> > -             unsigned int LBBitPerPixel[],
+> >               double SwathWidthY[],
+> >               double SwathWidthC[],
+> > -             double HRatio[],
+> > -             double HRatioChroma[],
+> > -             unsigned int vtaps[],
+> > -             unsigned int VTAPsChroma[],
+> > -             double VRatio[],
+> > -             double VRatioChroma[],
+> > -             unsigned int HTotal[],
+> > -             double PixelClock[],
+> > -             unsigned int BlendingAndTiming[],
+> >               unsigned int DPPPerPlane[],
+> >               double BytePerPixelDETY[],
+> >               double BytePerPixelDETC[],
+> > -             double DSTXAfterScaler[],
+> > -             double DSTYAfterScaler[],
+> > -             bool WritebackEnable[],
+> > -             enum source_format_class WritebackPixelFormat[],
+> > -             double WritebackDestinationWidth[],
+> > -             double WritebackDestinationHeight[],
+> > -             double WritebackSourceHeight[],
+> >               bool UnboundedRequestEnabled,
+> >               unsigned int CompressedBufferSizeInkByte,
+> >               enum clock_change_support *DRAMClockChangeSupport,
+> > -             double *UrgentWatermark,
+> > -             double *WritebackUrgentWatermark,
+> > -             double *DRAMClockChangeWatermark,
+> > -             double *WritebackDRAMClockChangeWatermark,
+> >               double *StutterExitWatermark,
+> >               double *StutterEnterPlusExitWatermark,
+> >               double *Z8StutterExitWatermark,
+> > -             double *Z8StutterEnterPlusExitWatermark,
+> > -             double *MinActiveDRAMClockChangeLatencySupported)
+> > +             double *Z8StutterEnterPlusExitWatermark)
+> >  {
+> >       struct vba_vars_st *v =3D &mode_lib->vba;
+> >       double EffectiveLBLatencyHidingY;
+> > @@ -5756,103 +5612,103 @@ static void CalculateWatermarksAndDRAMSpeedCh=
+angeSupport(
+> >       double TotalPixelBW =3D 0.0;
+> >       int k, j;
+> >
+> > -     *UrgentWatermark =3D UrgentLatency + ExtraLatency;
+> > +     v->UrgentWatermark =3D UrgentLatency + ExtraLatency;
+> >
+> >  #ifdef __DML_VBA_DEBUG__
+> >       dml_print("DML::%s: UrgentLatency =3D %f\n", __func__, UrgentLate=
+ncy);
+> >       dml_print("DML::%s: ExtraLatency =3D %f\n", __func__, ExtraLatenc=
+y);
+> > -     dml_print("DML::%s: UrgentWatermark =3D %f\n", __func__, *UrgentW=
+atermark);
+> > +     dml_print("DML::%s: UrgentWatermark =3D %f\n", __func__, v->Urgen=
+tWatermark);
+> >  #endif
+> >
+> > -     *DRAMClockChangeWatermark =3D DRAMClockChangeLatency + *UrgentWat=
+ermark;
+> > +     v->DRAMClockChangeWatermark =3D v->DRAMClockChangeLatency + v->Ur=
+gentWatermark;
+> >
+> >  #ifdef __DML_VBA_DEBUG__
+> > -     dml_print("DML::%s: DRAMClockChangeLatency =3D %f\n", __func__, D=
+RAMClockChangeLatency);
+> > -     dml_print("DML::%s: DRAMClockChangeWatermark =3D %f\n", __func__,=
+ *DRAMClockChangeWatermark);
+> > +     dml_print("DML::%s: v->DRAMClockChangeLatency =3D %f\n", __func__=
+, v->DRAMClockChangeLatency);
+> > +     dml_print("DML::%s: DRAMClockChangeWatermark =3D %f\n", __func__,=
+ v->DRAMClockChangeWatermark);
+> >  #endif
+> >
+> >       v->TotalActiveWriteback =3D 0;
+> > -     for (k =3D 0; k < NumberOfActivePlanes; ++k) {
+> > -             if (WritebackEnable[k] =3D=3D true) {
+> > +     for (k =3D 0; k < v->NumberOfActivePlanes; ++k) {
+> > +             if (v->WritebackEnable[k] =3D=3D true) {
+> >                       v->TotalActiveWriteback =3D v->TotalActiveWriteba=
+ck + 1;
+> >               }
+> >       }
+> >
+> >       if (v->TotalActiveWriteback <=3D 1) {
+> > -             *WritebackUrgentWatermark =3D WritebackLatency;
+> > +             v->WritebackUrgentWatermark =3D v->WritebackLatency;
+> >       } else {
+> > -             *WritebackUrgentWatermark =3D WritebackLatency + Writebac=
+kChunkSize * 1024.0 / 32.0 / SOCCLK;
+> > +             v->WritebackUrgentWatermark =3D v->WritebackLatency + v->=
+WritebackChunkSize * 1024.0 / 32.0 / SOCCLK;
+> >       }
+> >
+> >       if (v->TotalActiveWriteback <=3D 1) {
+> > -             *WritebackDRAMClockChangeWatermark =3D DRAMClockChangeLat=
+ency + WritebackLatency;
+> > +             v->WritebackDRAMClockChangeWatermark =3D v->DRAMClockChan=
+geLatency + v->WritebackLatency;
+> >       } else {
+> > -             *WritebackDRAMClockChangeWatermark =3D DRAMClockChangeLat=
+ency + WritebackLatency + WritebackChunkSize * 1024.0 / 32.0 / SOCCLK;
+> > +             v->WritebackDRAMClockChangeWatermark =3D v->DRAMClockChan=
+geLatency + v->WritebackLatency + v->WritebackChunkSize * 1024.0 / 32.0 / S=
+OCCLK;
+> >       }
+> >
+> > -     for (k =3D 0; k < NumberOfActivePlanes; ++k) {
+> > +     for (k =3D 0; k < v->NumberOfActivePlanes; ++k) {
+> >               TotalPixelBW =3D TotalPixelBW
+> > -                             + DPPPerPlane[k] * (SwathWidthY[k] * Byte=
+PerPixelDETY[k] * VRatio[k] + SwathWidthC[k] * BytePerPixelDETC[k] * VRatio=
+Chroma[k])
+> > -                                             / (HTotal[k] / PixelClock=
+[k]);
+> > +                             + DPPPerPlane[k] * (SwathWidthY[k] * Byte=
+PerPixelDETY[k] * v->VRatio[k] + SwathWidthC[k] * BytePerPixelDETC[k] * v->=
+VRatioChroma[k])
+> > +                                             / (v->HTotal[k] / v->Pixe=
+lClock[k]);
+> >       }
+> >
+> > -     for (k =3D 0; k < NumberOfActivePlanes; ++k) {
+> > +     for (k =3D 0; k < v->NumberOfActivePlanes; ++k) {
+> >               double EffectiveDETBufferSizeY =3D DETBufferSizeY[k];
+> >
+> >               v->LBLatencyHidingSourceLinesY =3D dml_min(
+> > -                             (double) MaxLineBufferLines,
+> > -                             dml_floor(LineBufferSize / LBBitPerPixel[=
+k] / (SwathWidthY[k] / dml_max(HRatio[k], 1.0)), 1)) - (vtaps[k] - 1);
+> > +                             (double) v->MaxLineBufferLines,
+> > +                             dml_floor(v->LineBufferSize / v->LBBitPer=
+Pixel[k] / (SwathWidthY[k] / dml_max(v->HRatio[k], 1.0)), 1)) - (v->vtaps[k=
+] - 1);
+> >
+> >               v->LBLatencyHidingSourceLinesC =3D dml_min(
+> > -                             (double) MaxLineBufferLines,
+> > -                             dml_floor(LineBufferSize / LBBitPerPixel[=
+k] / (SwathWidthC[k] / dml_max(HRatioChroma[k], 1.0)), 1)) - (VTAPsChroma[k=
+] - 1);
+> > +                             (double) v->MaxLineBufferLines,
+> > +                             dml_floor(v->LineBufferSize / v->LBBitPer=
+Pixel[k] / (SwathWidthC[k] / dml_max(v->HRatioChroma[k], 1.0)), 1)) - (v->V=
+TAPsChroma[k] - 1);
+> >
+> > -             EffectiveLBLatencyHidingY =3D v->LBLatencyHidingSourceLin=
+esY / VRatio[k] * (HTotal[k] / PixelClock[k]);
+> > +             EffectiveLBLatencyHidingY =3D v->LBLatencyHidingSourceLin=
+esY / v->VRatio[k] * (v->HTotal[k] / v->PixelClock[k]);
+> >
+> > -             EffectiveLBLatencyHidingC =3D v->LBLatencyHidingSourceLin=
+esC / VRatioChroma[k] * (HTotal[k] / PixelClock[k]);
+> > +             EffectiveLBLatencyHidingC =3D v->LBLatencyHidingSourceLin=
+esC / v->VRatioChroma[k] * (v->HTotal[k] / v->PixelClock[k]);
+> >
+> >               if (UnboundedRequestEnabled) {
+> >                       EffectiveDETBufferSizeY =3D EffectiveDETBufferSiz=
+eY
+> > -                                     + CompressedBufferSizeInkByte * 1=
+024 * SwathWidthY[k] * BytePerPixelDETY[k] * VRatio[k] / (HTotal[k] / Pixel=
+Clock[k]) / TotalPixelBW;
+> > +                                     + CompressedBufferSizeInkByte * 1=
+024 * SwathWidthY[k] * BytePerPixelDETY[k] * v->VRatio[k] / (v->HTotal[k] /=
+ v->PixelClock[k]) / TotalPixelBW;
+> >               }
+> >
+> >               LinesInDETY[k] =3D (double) EffectiveDETBufferSizeY / Byt=
+ePerPixelDETY[k] / SwathWidthY[k];
+> >               LinesInDETYRoundedDownToSwath[k] =3D dml_floor(LinesInDET=
+Y[k], SwathHeightY[k]);
+> > -             FullDETBufferingTimeY =3D LinesInDETYRoundedDownToSwath[k=
+] * (HTotal[k] / PixelClock[k]) / VRatio[k];
+> > +             FullDETBufferingTimeY =3D LinesInDETYRoundedDownToSwath[k=
+] * (v->HTotal[k] / v->PixelClock[k]) / v->VRatio[k];
+> >               if (BytePerPixelDETC[k] > 0) {
+> >                       LinesInDETC =3D v->DETBufferSizeC[k] / BytePerPix=
+elDETC[k] / SwathWidthC[k];
+> >                       LinesInDETCRoundedDownToSwath =3D dml_floor(Lines=
+InDETC, SwathHeightC[k]);
+> > -                     FullDETBufferingTimeC =3D LinesInDETCRoundedDownT=
+oSwath * (HTotal[k] / PixelClock[k]) / VRatioChroma[k];
+> > +                     FullDETBufferingTimeC =3D LinesInDETCRoundedDownT=
+oSwath * (v->HTotal[k] / v->PixelClock[k]) / v->VRatioChroma[k];
+> >               } else {
+> >                       LinesInDETC =3D 0;
+> >                       FullDETBufferingTimeC =3D 999999;
+> >               }
+> >
+> >               ActiveDRAMClockChangeLatencyMarginY =3D EffectiveLBLatenc=
+yHidingY + FullDETBufferingTimeY
+> > -                             - ((double) DSTXAfterScaler[k] / HTotal[k=
+] + DSTYAfterScaler[k]) * HTotal[k] / PixelClock[k] - *UrgentWatermark - *D=
+RAMClockChangeWatermark;
+> > +                             - ((double) v->DSTXAfterScaler[k] / v->HT=
+otal[k] + v->DSTYAfterScaler[k]) * v->HTotal[k] / v->PixelClock[k] - v->Urg=
+entWatermark - v->DRAMClockChangeWatermark;
+> >
+> > -             if (NumberOfActivePlanes > 1) {
+> > +             if (v->NumberOfActivePlanes > 1) {
+> >                       ActiveDRAMClockChangeLatencyMarginY =3D ActiveDRA=
+MClockChangeLatencyMarginY
+> > -                                     - (1 - 1.0 / NumberOfActivePlanes=
+) * SwathHeightY[k] * HTotal[k] / PixelClock[k] / VRatio[k];
+> > +                                     - (1 - 1.0 / v->NumberOfActivePla=
+nes) * SwathHeightY[k] * v->HTotal[k] / v->PixelClock[k] / v->VRatio[k];
+> >               }
+> >
+> >               if (BytePerPixelDETC[k] > 0) {
+> >                       ActiveDRAMClockChangeLatencyMarginC =3D Effective=
+LBLatencyHidingC + FullDETBufferingTimeC
+> > -                                     - ((double) DSTXAfterScaler[k] / =
+HTotal[k] + DSTYAfterScaler[k]) * HTotal[k] / PixelClock[k] - *UrgentWaterm=
+ark - *DRAMClockChangeWatermark;
+> > +                                     - ((double) v->DSTXAfterScaler[k]=
+ / v->HTotal[k] + v->DSTYAfterScaler[k]) * v->HTotal[k] / v->PixelClock[k] =
+- v->UrgentWatermark - v->DRAMClockChangeWatermark;
+> >
+> > -                     if (NumberOfActivePlanes > 1) {
+> > +                     if (v->NumberOfActivePlanes > 1) {
+> >                               ActiveDRAMClockChangeLatencyMarginC =3D A=
+ctiveDRAMClockChangeLatencyMarginC
+> > -                                             - (1 - 1.0 / NumberOfActi=
+vePlanes) * SwathHeightC[k] * HTotal[k] / PixelClock[k] / VRatioChroma[k];
+> > +                                             - (1 - 1.0 / v->NumberOfA=
+ctivePlanes) * SwathHeightC[k] * v->HTotal[k] / v->PixelClock[k] / v->VRati=
+oChroma[k];
+> >                       }
+> >                       v->ActiveDRAMClockChangeLatencyMargin[k] =3D dml_=
+min(ActiveDRAMClockChangeLatencyMarginY, ActiveDRAMClockChangeLatencyMargin=
+C);
+> >               } else {
+> >                       v->ActiveDRAMClockChangeLatencyMargin[k] =3D Acti=
+veDRAMClockChangeLatencyMarginY;
+> >               }
+> >
+> > -             if (WritebackEnable[k] =3D=3D true) {
+> > -                     WritebackDRAMClockChangeLatencyHiding =3D Writeba=
+ckInterfaceBufferSize * 1024
+> > -                                     / (WritebackDestinationWidth[k] *=
+ WritebackDestinationHeight[k] / (WritebackSourceHeight[k] * HTotal[k] / Pi=
+xelClock[k]) * 4);
+> > -                     if (WritebackPixelFormat[k] =3D=3D dm_444_64) {
+> > +             if (v->WritebackEnable[k] =3D=3D true) {
+> > +                     WritebackDRAMClockChangeLatencyHiding =3D v->Writ=
+ebackInterfaceBufferSize * 1024
+> > +                                     / (v->WritebackDestinationWidth[k=
+] * v->WritebackDestinationHeight[k] / (v->WritebackSourceHeight[k] * v->HT=
+otal[k] / v->PixelClock[k]) * 4);
+> > +                     if (v->WritebackPixelFormat[k] =3D=3D dm_444_64) =
+{
+> >                               WritebackDRAMClockChangeLatencyHiding =3D=
+ WritebackDRAMClockChangeLatencyHiding / 2;
+> >                       }
+> >                       WritebackDRAMClockChangeLatencyMargin =3D Writeba=
+ckDRAMClockChangeLatencyHiding - v->WritebackDRAMClockChangeWatermark;
+> > @@ -5862,14 +5718,14 @@ static void CalculateWatermarksAndDRAMSpeedChan=
+geSupport(
+> >
+> >       v->MinActiveDRAMClockChangeMargin =3D 999999;
+> >       PlaneWithMinActiveDRAMClockChangeMargin =3D 0;
+> > -     for (k =3D 0; k < NumberOfActivePlanes; ++k) {
+> > +     for (k =3D 0; k < v->NumberOfActivePlanes; ++k) {
+> >               if (v->ActiveDRAMClockChangeLatencyMargin[k] < v->MinActi=
+veDRAMClockChangeMargin) {
+> >                       v->MinActiveDRAMClockChangeMargin =3D v->ActiveDR=
+AMClockChangeLatencyMargin[k];
+> > -                     if (BlendingAndTiming[k] =3D=3D k) {
+> > +                     if (v->BlendingAndTiming[k] =3D=3D k) {
+> >                               PlaneWithMinActiveDRAMClockChangeMargin =
+=3D k;
+> >                       } else {
+> > -                             for (j =3D 0; j < NumberOfActivePlanes; +=
++j) {
+> > -                                     if (BlendingAndTiming[k] =3D=3D j=
+) {
+> > +                             for (j =3D 0; j < v->NumberOfActivePlanes=
+; ++j) {
+> > +                                     if (v->BlendingAndTiming[k] =3D=
+=3D j) {
+> >                                               PlaneWithMinActiveDRAMClo=
+ckChangeMargin =3D j;
+> >                                       }
+> >                               }
+> > @@ -5877,11 +5733,11 @@ static void CalculateWatermarksAndDRAMSpeedChan=
+geSupport(
+> >               }
+> >       }
+> >
+> > -     *MinActiveDRAMClockChangeLatencySupported =3D v->MinActiveDRAMClo=
+ckChangeMargin + DRAMClockChangeLatency;
+> > +     v->MinActiveDRAMClockChangeLatencySupported =3D v->MinActiveDRAMC=
+lockChangeMargin + v->DRAMClockChangeLatency ;
+> >
+> >       SecondMinActiveDRAMClockChangeMarginOneDisplayInVBLank =3D 999999=
+;
+> > -     for (k =3D 0; k < NumberOfActivePlanes; ++k) {
+> > -             if (!((k =3D=3D PlaneWithMinActiveDRAMClockChangeMargin) =
+&& (BlendingAndTiming[k] =3D=3D k)) && !(BlendingAndTiming[k] =3D=3D PlaneW=
+ithMinActiveDRAMClockChangeMargin)
+> > +     for (k =3D 0; k < v->NumberOfActivePlanes; ++k) {
+> > +             if (!((k =3D=3D PlaneWithMinActiveDRAMClockChangeMargin) =
+&& (v->BlendingAndTiming[k] =3D=3D k)) && !(v->BlendingAndTiming[k] =3D=3D =
+PlaneWithMinActiveDRAMClockChangeMargin)
+> >                               && v->ActiveDRAMClockChangeLatencyMargin[=
+k] < SecondMinActiveDRAMClockChangeMarginOneDisplayInVBLank) {
+> >                       SecondMinActiveDRAMClockChangeMarginOneDisplayInV=
+BLank =3D v->ActiveDRAMClockChangeLatencyMargin[k];
+> >               }
+> > @@ -5889,25 +5745,25 @@ static void CalculateWatermarksAndDRAMSpeedChan=
+geSupport(
+> >
+> >       v->TotalNumberOfActiveOTG =3D 0;
+> >
+> > -     for (k =3D 0; k < NumberOfActivePlanes; ++k) {
+> > -             if (BlendingAndTiming[k] =3D=3D k) {
+> > +     for (k =3D 0; k < v->NumberOfActivePlanes; ++k) {
+> > +             if (v->BlendingAndTiming[k] =3D=3D k) {
+> >                       v->TotalNumberOfActiveOTG =3D v->TotalNumberOfAct=
+iveOTG + 1;
+> >               }
+> >       }
+> >
+> >       if (v->MinActiveDRAMClockChangeMargin > 0 && PrefetchMode =3D=3D =
+0) {
+> >               *DRAMClockChangeSupport =3D dm_dram_clock_change_vactive;
+> > -     } else if ((SynchronizedVBlank =3D=3D true || v->TotalNumberOfAct=
+iveOTG =3D=3D 1
+> > +     } else if ((v->SynchronizedVBlank =3D=3D true || v->TotalNumberOf=
+ActiveOTG =3D=3D 1
+> >                       || SecondMinActiveDRAMClockChangeMarginOneDisplay=
+InVBLank > 0) && PrefetchMode =3D=3D 0) {
+> >               *DRAMClockChangeSupport =3D dm_dram_clock_change_vblank;
+> >       } else {
+> >               *DRAMClockChangeSupport =3D dm_dram_clock_change_unsuppor=
+ted;
+> >       }
+> >
+> > -     *StutterExitWatermark =3D SRExitTime + ExtraLatency + 10 / DCFCLK=
+DeepSleep;
+> > -     *StutterEnterPlusExitWatermark =3D (SREnterPlusExitTime + ExtraLa=
+tency + 10 / DCFCLKDeepSleep);
+> > -     *Z8StutterExitWatermark =3D SRExitZ8Time + ExtraLatency + 10 / DC=
+FCLKDeepSleep;
+> > -     *Z8StutterEnterPlusExitWatermark =3D SREnterPlusExitZ8Time + Extr=
+aLatency + 10 / DCFCLKDeepSleep;
+> > +     *StutterExitWatermark =3D v->SRExitTime + ExtraLatency + 10 / DCF=
+CLKDeepSleep;
+> > +     *StutterEnterPlusExitWatermark =3D (v->SREnterPlusExitTime + Extr=
+aLatency + 10 / DCFCLKDeepSleep);
+> > +     *Z8StutterExitWatermark =3D v->SRExitZ8Time + ExtraLatency + 10 /=
+ DCFCLKDeepSleep;
+> > +     *Z8StutterEnterPlusExitWatermark =3D v->SREnterPlusExitZ8Time + E=
+xtraLatency + 10 / DCFCLKDeepSleep;
+> >
+> >  #ifdef __DML_VBA_DEBUG__
+> >       dml_print("DML::%s: StutterExitWatermark =3D %f\n", __func__, *St=
+utterExitWatermark);
+> >
+> > base-commit: dacd2d2d9d800b7ab2ee2734578112532cba8105
