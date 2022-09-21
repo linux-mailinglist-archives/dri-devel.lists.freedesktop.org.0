@@ -1,50 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A575BF73B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 09:11:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D326F5BF778
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 09:19:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE4510E87C;
-	Wed, 21 Sep 2022 07:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 103F210E891;
+	Wed, 21 Sep 2022 07:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD02D10E860;
- Wed, 21 Sep 2022 07:10:13 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8876010E8A3;
+ Wed, 21 Sep 2022 07:19:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663744213; x=1695280213;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=wJUteYOE3R2zSZJlz5xBSogHSI1xKPu8U5cd0J79xXE=;
- b=dCfM4mu6G/DlI3FNkwXolV5M9XLsTLLESys1vm/IoFWjiF5wyhlGzKl9
- vhMymW8WE5uR2TyVPvkKFiQ/p0rJ8N9XTtSIIXHcy1+e2LOgenpHa/3ig
- 2TiKQlTPTJ8eSAqT0QiVJBqxtiUI6vGD6+kig6hJi7z6wtaqo4hig/pMN
- 1yZNWTVfC4BkKJf9smOIlihUiZ3EeHjeoAnXZp9rwbCM/6kb87ueG2LZE
- sBhMRj1RCrXhk08aYRg7glXYB2NGdPH6ig3B85yhe57zLiPIWKhr2lNI6
- jv438I0HGYYA5A0bYrHlViwYjod1qZWv8H1QEoob23I2gPBr852ZlX4Du A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="386208198"
-X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="386208198"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2022 00:10:13 -0700
-X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="948022856"
-Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 21 Sep 2022 00:10:12 -0700
+ t=1663744740; x=1695280740;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=HSZTMK+OzgjkkJc46wpoJ6LXz/VcyVp9nJzrHrfVOlE=;
+ b=Pgc3hXG3k5dOAxjz6lzAVh+oal3g9B5cZEuqEiefsrQDLO91qpooC8E+
+ P1f8WfC/C8VW7AIgxcQMji8KjQwQVOezBDUS6G/OyHmiNP+U7nK18DVg3
+ erxcqoMHIwZb5BxVOCzS7dQu/tsxp4Ymi8WfaiReJW2HHRc29IxTNFRU7
+ N4XruSgSTWkT4LAt165vaUrTApHkU+tXZVXE2cDm7Eb7b10iVVRwr631x
+ Bq2NTIAirxI/sEmj9QgGkmlMBczqfazijzz3o1xp2FMXxSSlyCjrd8uoq
+ eptDLdEQsuNBr3VsGnHy8Ph1kkX68v0rMsUNTM/BCHTsh1XHFYIe45Mz8 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="280299082"
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="280299082"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 00:18:40 -0700
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="723085499"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 00:18:40 -0700
+Date: Wed, 21 Sep 2022 00:18:16 -0700
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [RFC v4 14/14] drm/i915/vm_bind: Add uapi for user to enable
- vm_bind_mode
-Date: Wed, 21 Sep 2022 00:09:45 -0700
-Message-Id: <20220921070945.27764-15-niranjana.vishwanathapura@intel.com>
-X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
-In-Reply-To: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
-References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH v3 10/17] drm/i915/vm_bind: Implement
+ I915_GEM_EXECBUFFER3 ioctl
+Message-ID: <20220921071816.GY10283@nvishwa1-DESK>
+References: <20220827194403.6495-1-andi.shyti@linux.intel.com>
+ <20220827194403.6495-11-andi.shyti@linux.intel.com>
+ <8ecb0b8f-f253-1318-444a-8370960c6140@linux.intel.com>
+ <20220901050910.GG10283@nvishwa1-DESK>
+ <f0ee82ec-03bd-1e02-affe-98f127b2d72a@linux.intel.com>
+ <20220902054158.GJ10283@nvishwa1-DESK>
+ <c8055bb0-1aee-c6fb-1b59-f1cd36c39a50@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <c8055bb0-1aee-c6fb-1b59-f1cd36c39a50@linux.intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,103 +64,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- lionel.g.landwerlin@intel.com, thomas.hellstrom@intel.com,
- matthew.auld@intel.com, jason@jlekstrand.net, daniel.vetter@intel.com,
- christian.koenig@amd.com
+Cc: Ramalingam C <ramalingampc2008@gmail.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add getparam support for VM_BIND capability version.
-Add VM creation time flag to enable vm_bind_mode for the VM.
+On Mon, Sep 05, 2022 at 04:08:57PM +0100, Tvrtko Ursulin wrote:
+>
+>On 02/09/2022 06:41, Niranjana Vishwanathapura wrote:
+>>On Thu, Sep 01, 2022 at 08:58:57AM +0100, Tvrtko Ursulin wrote:
+>>>
+>>>
+>>>On 01/09/2022 06:09, Niranjana Vishwanathapura wrote:
+>>>>On Wed, Aug 31, 2022 at 08:38:48AM +0100, Tvrtko Ursulin wrote:
+>>>>>
+>>>>>On 27/08/2022 20:43, Andi Shyti wrote:
+>>>>>>From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>>>>>
+>>>>>>Implement new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only
+>>>>>>works in vm_bind mode. The vm_bind mode only works with
+>>>>>>this new execbuf3 ioctl.
+>>>>>>
+>>>>>>The new execbuf3 ioctl will not have any list of objects to validate
+>>>>>>bind as all required objects binding would have been requested by the
+>>>>>>userspace before submitting the execbuf3.
+>>>>>>
+>>>>>>And the legacy support like relocations etc are removed.
+>>>>>>
+>>>>>>Signed-off-by: Niranjana Vishwanathapura 
+>>>>>><niranjana.vishwanathapura@intel.com>
+>>>>>>Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+>>>>>>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>>>>>---
+>>>
+>>>[snip]
+>>>
+>>>>>>+static void signal_fence_array(const struct i915_execbuffer *eb,
+>>>>>>+                   struct dma_fence * const fence)
+>>>>>>+{
+>>>>>>+    unsigned int n;
+>>>>>>+
+>>>>>>+    for (n = 0; n < eb->num_fences; n++) {
+>>>>>>+        struct drm_syncobj *syncobj;
+>>>>>>+        unsigned int flags;
+>>>>>>+
+>>>>>>+        syncobj = ptr_unpack_bits(eb->fences[n].syncobj, &flags, 2);
+>>>>>>+        if (!(flags & I915_TIMELINE_FENCE_SIGNAL))
+>>>>>>+            continue;
+>>>>>>+
+>>>>>>+        if (eb->fences[n].chain_fence) {
+>>>>>>+            drm_syncobj_add_point(syncobj,
+>>>>>>+                          eb->fences[n].chain_fence,
+>>>>>>+                          fence,
+>>>>>>+                          eb->fences[n].value);
+>>>>>>+            /*
+>>>>>>+             * The chain's ownership is transferred to the
+>>>>>>+             * timeline.
+>>>>>>+             */
+>>>>>>+            eb->fences[n].chain_fence = NULL;
+>>>>>>+        } else {
+>>>>>>+            drm_syncobj_replace_fence(syncobj, fence);
+>>>>>>+        }
+>>>>>>+    }
+>>>>>>+}
+>>>>>Semi-random place to ask - how many of the code here is direct 
+>>>>>copy of existing functions from i915_gem_execbuffer.c? There 
+>>>>>seems to be some 100% copies at least. And then some more with 
+>>>>>small tweaks. Spend some time and try to figure out some code 
+>>>>>sharing?
+>>>>>
+>>>>
+>>>>During VM_BIND design review, maintainers expressed thought on keeping
+>>>>execbuf3 completely separate and not touch the legacy execbuf path.
+>>>
+>>>Got a link so this maintainer can see what exactly was said? Just 
+>>>to make sure there isn't any misunderstanding on what "completely 
+>>>separate" means to different people.
+>>
+>>Here is one (search for copypaste/copy-paste)
+>>https://patchwork.freedesktop.org/patch/486608/?series=93447&rev=3
+>>It is hard to search for old discussion threads. May be maintainers
+>>can provide feedback here directly. Dave, Daniel? :)
+>
+>Thanks. I had a read and don't see a fundamental conflict with what I 
+>said. Conclusion seemed to be to go with a new ioctl and implement 
+>code sharing where it makes sense. Which is what TODO in the cover 
+>letter acknowledges so there should be no disagreement really.
+>
+>>>>I also think, execbuf3 should be fully separate. We can do some code
+>>>>sharing where is a close 100% copy (there is a TODO in cover letter).
+>>>>There are some changes like the timeline fence array handling here
+>>>>which looks similar, but the uapi is not exactly the same. Probably,
+>>>>we should keep them separate and not try to force code sharing at
+>>>>least at this point.
+>>>
+>>>Okay did not spot that TODO in the cover. But fair since it is RFC 
+>>>to be unfinished.
+>>>
+>>>I do however think it should be improved before considering the 
+>>>merge. Because looking at the patch, 100% copies are:
+>>>
+>>>for_each_batch_create_order
+>>>for_each_batch_add_order
+>>>eb_throttle
+>>>eb_pin_timeline
+>>>eb_pin_engine
+>>>eb_put_engine
+>>>__free_fence_array
+>>>put_fence_array
+>>>await_fence_array
+>>>signal_fence_array
+>>>retire_requests
+>>>eb_request_add
+>>>eb_requests_get
+>>>eb_requests_put
+>>>eb_find_context
+>>>
+>>>Quite a lot.
+>>>
+>>>Then there is a bunch of almost same functions which could be 
+>>>shared if there weren't two incompatible local struct 
+>>>i915_execbuffer's. Especially given when the out fence TODO item 
+>>>gets handled a chunk more will also become a 100% copy.
+>>>
+>>
+>>There are difinitely a few which is 100% copies hence should have a
+>>shared code.
+>>But some are not. Like, fence_array stuff though looks very similar,
+>>the uapi structures are different between execbuf3 and legacy execbuf.
+>>The internal flags are also different (eg., __EXEC3_ENGINE_PINNED vs
+>>__EXEC_ENGINE_PINNED) which causes minor differences hence not a
+>>100% copy.
+>>
+>>So, I am not convinced if it is worth carrying legacy stuff into
+>>execbuf3 code. I think we need to look at these on a case by case
+>>basis and see if abstracting common functionality to a separate
+>>shared code makes sense or it is better to keep the code separate.
+>
+>No one is suggesting to carry any legacy stuff into eb3. What I'd 
+>suggest is to start something like i915_gem_eb_common.h|c and stuff 
+>the 100% copies from the above list in there.
+>
+>Common struct eb with struct eb2 and eb3 inheriting from it should do 
+>the trick. Similarly eb->flags shouldn't be a hard problem to solve.
+>
+>Then you see what remains and whether it makes sense to consolidate further.
+>
 
-Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c |  5 ++++-
- drivers/gpu/drm/i915/i915_getparam.c        |  3 +++
- include/uapi/drm/i915_drm.h                 | 24 ++++++++++++++++++++-
- 3 files changed, 30 insertions(+), 2 deletions(-)
+Tvrtko,
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index f4e648ec01ed..e0ebf47d4d57 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1808,7 +1808,7 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
- 	if (!HAS_FULL_PPGTT(i915))
- 		return -ENODEV;
- 
--	if (args->flags)
-+	if (args->flags & I915_VM_CREATE_FLAGS_UNKNOWN)
- 		return -EINVAL;
- 
- 	ppgtt = i915_ppgtt_create(to_gt(i915), 0);
-@@ -1828,6 +1828,9 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
- 	if (err)
- 		goto err_put;
- 
-+	if (args->flags & I915_VM_CREATE_FLAGS_USE_VM_BIND)
-+		ppgtt->vm.vm_bind_mode = true;
-+
- 	GEM_BUG_ON(id == 0); /* reserved for invalid/unassigned ppgtt */
- 	args->vm_id = id;
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-index 342c8ca6414e..56ff5118d017 100644
---- a/drivers/gpu/drm/i915/i915_getparam.c
-+++ b/drivers/gpu/drm/i915/i915_getparam.c
-@@ -175,6 +175,9 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
- 	case I915_PARAM_PERF_REVISION:
- 		value = i915_perf_ioctl_version();
- 		break;
-+	case I915_PARAM_VM_BIND_VERSION:
-+		value = GRAPHICS_VER(i915) >= 12 ? 1 : 0;
-+		break;
- 	default:
- 		DRM_DEBUG("Unknown parameter %d\n", param->param);
- 		return -EINVAL;
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index eaeb80a3ede1..df0fb875276c 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -755,6 +755,27 @@ typedef struct drm_i915_irq_wait {
- /* Query if the kernel supports the I915_USERPTR_PROBE flag. */
- #define I915_PARAM_HAS_USERPTR_PROBE 56
- 
-+/*
-+ * VM_BIND feature version supported.
-+ *
-+ * The following versions of VM_BIND have been defined:
-+ *
-+ * 0: No VM_BIND support.
-+ *
-+ * 1: In VM_UNBIND calls, the UMD must specify the exact mappings created
-+ *    previously with VM_BIND, the ioctl will not support unbinding multiple
-+ *    mappings or splitting them. Similarly, VM_BIND calls will not replace
-+ *    any existing mappings.
-+ *
-+ * 2: The restrictions on unbinding partial or multiple mappings is
-+ *    lifted, Similarly, binding will replace any mappings in the given range.
-+ *
-+ * See struct drm_i915_gem_vm_bind and struct drm_i915_gem_vm_unbind.
-+ *
-+ * vm_bind versions are backward compatible.
-+ */
-+#define I915_PARAM_VM_BIND_VERSION	57
-+
- /* Must be kept compact -- no holes and well documented */
- 
- /**
-@@ -2625,7 +2646,8 @@ struct drm_i915_gem_vm_control {
- 	/** @extensions: Zero-terminated chain of extensions. */
- 	__u64 extensions;
- 
--	/** @flags: reserved for future usage, currently MBZ */
-+#define I915_VM_CREATE_FLAGS_USE_VM_BIND	(1u << 0)
-+#define I915_VM_CREATE_FLAGS_UNKNOWN	(-(I915_VM_CREATE_FLAGS_USE_VM_BIND << 1))
- 	__u32 flags;
- 
- 	/** @vm_id: Id of the VM created or to be destroyed */
--- 
-2.21.0.rc0.32.g243a4c7e27
+I have posted vm_bind v4 rfc series with some code sharing between two
+execbuf paths. My approach was not having to touch legacy execbuff path
+all over the place.
 
+Regards,
+Niranjana
+
+>Regards,
+>
+>Tvrtko
+>
+>>>This could be done by having a common struct i915_execbuffer and 
+>>>then eb2 and eb3 specific parts which inherit from it. After that 
+>>>is done it should be easier to see if it makes sense to do 
+>>>something more and how.
+>>
+>>I am not a big fan of it. I think we should not try to load the execbuf3
+>>code with the legacy stuff.
+>>
+>>Niranjana
+>>
+>>>
+>>>Regards,
+>>>
+>>>Tvrtko
