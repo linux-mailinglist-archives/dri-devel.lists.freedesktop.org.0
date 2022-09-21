@@ -1,78 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5F35BFA9A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 11:18:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 288285BFB26
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 11:40:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2C2D10E8F9;
-	Wed, 21 Sep 2022 09:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D52B10E3CE;
+	Wed, 21 Sep 2022 09:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40AE010E8F9
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 09:17:56 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id E8F0E5817D8;
- Wed, 21 Sep 2022 05:17:52 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 21 Sep 2022 05:17:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1663751872; x=1663759072; bh=mDRCW58754
- cJxsMgzdDDTe0R8uGcv3CYi1zG8IpvdW8=; b=J6Y9pJauLu6Ni+2JRRbpeLEBUG
- KCrjiOg7u5/nvy1tfBlBXdLThLcQbw010xly84RHJAb8MsrKt6tsecxAmo5to0x0
- LbNwbcDe9+VBoU8ShH4QCV9mbjvGzxpUL4fxW23ftAON3xmHQRwh/7E1hiwqU+TZ
- LEMwHQzZhrfEOx+5NAlROYE7STj7HwTvu206sxNPd/4q0gIoHsfhbCyCWCQBKhbm
- YcEY+OPRIt4bZH57edAs6Ve3AivmSw/oqWmSwe4HRo35urF4KD0CqT2xnuCcAV/E
- aWybGKcvUi1uMvApEht/6nlow+STqVbQxfwLDFryEqlJ+gnb+ELjHUkDZV2g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1663751872; x=1663759072; bh=mDRCW58754cJxsMgzdDDTe0R8uGc
- v3CYi1zG8IpvdW8=; b=eEIceKVPN0B77cF3oztkJIgtT3vMZEE4z/ja3I1oTJcz
- hlzSZ7fY7QqXvFXfIJGuenjd3/HV1nQ1wpc/BpWFfz1QGQsCJ82q3zBsqUoO/wM8
- doOPVQPFilJjiRElC7bO0wlFRu0s/EyPL0mdxaYdbbPMAqaZDFwbyGEXSZQkYgk7
- oDw3hbrOMrAJzcUgbwsdSBLiNt2B5vn5a/FU8JoTaxzsazKGhrfnhOyKUXo1S2b3
- ipqAu9ube0T8iCDLQUocA+LkbndEh3NUc1kk3UmXTzMxqGScqND8Xp170pqp0xt1
- PTTx13K7c2QODzbAG9OmOybBOZnD3tv/7TdApBY2Bw==
-X-ME-Sender: <xms:wNYqY_70IrP5apPEhgA7V9JHdHPm2un5C-Uj4mXXSPEaUIriQ9AcvQ>
- <xme:wNYqY06gHBRAqK-OzQ6Q-N7RrYSMw03rY6uCPsQR1dAZdB698WseY3lLAc5EvzHdU
- SFQ64aOdgvHvKL-xlg>
-X-ME-Received: <xmr:wNYqY2etfqvbVfs81sOyrartK9-_pBavX-PSwt5mRVn6oxXNK1KLzUP_9TU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefuddgudehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:wNYqYwLLkUZZAvsEGxZUHhTtYgnXUyQqkFmWEZEtBoWFe59jvAZCqQ>
- <xmx:wNYqYzIAkyYhq_zyF8vAz6Mcg4-iA0ilNH0IuiLa280eiB59aQvyww>
- <xmx:wNYqY5ydwoknO7YcBbmG1IZomjhSOxalL9g0d8jAljqq0iP-9MQMFQ>
- <xmx:wNYqYyWr8cA7k58iemG67EwkPA88zbY21YNJGBYIUbYvDpUkItoDaQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Sep 2022 05:17:51 -0400 (EDT)
-Date: Wed, 21 Sep 2022 11:17:48 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: [PATCH v2 2/7] firmware: raspberrypi: Move the clock IDs to the
- firmware header
-Message-ID: <20220921091748.u6qcba6nwclvezzg@houat>
-References: <20220815-rpi-fix-4k-60-v2-0-983276b83f62@cerno.tech>
- <20220815-rpi-fix-4k-60-v2-2-983276b83f62@cerno.tech>
- <688777fc-e6af-8cbe-b19d-c531a7a66b32@i2se.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2810B10E3CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 09:39:53 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C033A21AFE;
+ Wed, 21 Sep 2022 09:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663753191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5R6JMudVx9epx6cdEumFxydJmHgzsCvUaj1YbVbkTE4=;
+ b=LYRj66KioF987zoovhdoqLCwliNGFJtlky3fV8K1BC1D5hQ+SVIorovC2OkbAb1KaxbkPp
+ K+3Hta+CVEZKuy/+MwDLqQ6LrDVSnUQrtc9oruRNotE5ggxtrYR9L3zhD2DPAFHQvTeU8/
+ auqycElafnfZRbCOxX7bcW02NWTyDfM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663753191;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5R6JMudVx9epx6cdEumFxydJmHgzsCvUaj1YbVbkTE4=;
+ b=nWUuYYgHgE3zbp7iMidZcKRl6+aMMETADw2FsdYIXtHljfXeonh7bbLhe4CPyiHzFO94rE
+ KVa9vWHTUv8mSTCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8E03213A00;
+ Wed, 21 Sep 2022 09:39:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id DCL3IOfbKmOITAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 21 Sep 2022 09:39:51 +0000
+Message-ID: <17203390-af02-0934-9d9f-df68be78c3a4@suse.de>
+Date: Wed, 21 Sep 2022 11:39:51 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="itnh57rcj5wjjcou"
-Content-Disposition: inline
-In-Reply-To: <688777fc-e6af-8cbe-b19d-c531a7a66b32@i2se.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 4/5] drm/damage-helper: Do partial updates if framebuffer
+ has not been changed
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20220920135619.9209-1-tzimmermann@suse.de>
+ <20220920135619.9209-5-tzimmermann@suse.de> <YynOvpMGbVKWiO8p@intel.com>
+ <92ae6ffe-9fdd-35bb-48d0-a7cfe221282a@suse.de> <YyrNXSoZJdidfF0T@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <YyrNXSoZJdidfF0T@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0x68GnsSjHnC5lI00lc8s0yB"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,61 +72,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Florian Fainelli <f.fainelli@gmail.com>, Emma Anholt <emma@anholt.net>,
- Scott Branden <sbranden@broadcom.com>, David Airlie <airlied@linux.ie>,
- Ray Jui <rjui@broadcom.com>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <sboyd@kernel.org>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: airlied@linux.ie, drawat.floss@gmail.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0x68GnsSjHnC5lI00lc8s0yB
+Content-Type: multipart/mixed; boundary="------------oeYZQ5DunaBbXXzecJ3RroQ0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, robdclark@gmail.com, drawat.floss@gmail.com,
+ dri-devel@lists.freedesktop.org
+Message-ID: <17203390-af02-0934-9d9f-df68be78c3a4@suse.de>
+Subject: Re: [PATCH 4/5] drm/damage-helper: Do partial updates if framebuffer
+ has not been changed
+References: <20220920135619.9209-1-tzimmermann@suse.de>
+ <20220920135619.9209-5-tzimmermann@suse.de> <YynOvpMGbVKWiO8p@intel.com>
+ <92ae6ffe-9fdd-35bb-48d0-a7cfe221282a@suse.de> <YyrNXSoZJdidfF0T@intel.com>
+In-Reply-To: <YyrNXSoZJdidfF0T@intel.com>
 
---itnh57rcj5wjjcou
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--------------oeYZQ5DunaBbXXzecJ3RroQ0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Hi,
+SGkNCg0KQW0gMjEuMDkuMjIgdW0gMTA6Mzcgc2NocmllYiBWaWxsZSBTeXJqw6Rsw6Q6DQo+
+IE9uIFdlZCwgU2VwIDIxLCAyMDIyIGF0IDA5OjU5OjEwQU0gKzAyMDAsIFRob21hcyBaaW1t
+ZXJtYW5uIHdyb3RlOg0KPj4gSGkgVmlsbGUNCj4+DQo+PiBBbSAyMC4wOS4yMiB1bSAxNjoz
+MSBzY2hyaWViIFZpbGxlIFN5cmrDpGzDpDoNCj4+PiBPbiBUdWUsIFNlcCAyMCwgMjAyMiBh
+dCAwMzo1NjoxOFBNICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+Pj4gU2V0
+IHBhcnRpYWwgdXBkYXRlcyBvbiBhIHBsYW5lIGlmIHRoZSBmcmFtZWJ1ZmZlciBoYXMgbm90
+IGJlZW4gY2hhbmdlZA0KPj4+PiBvbiBhbiBhdG9taWMgY29tbWl0LiBJZiBzdWNoIGEgcGxh
+bmUgaGFzIGRhbWFnZSBjbGlwcywgdGhlIGRyaXZlciB3aWxsDQo+Pj4+IHVzZSB0aGVtOyBv
+dGhlcndpc2UgdGhlIHVwZGF0ZSBpcyBlZmZlY3RpdmVseSBlbXB0eS4gUGxhbmVzIHRoYXQg
+Y2hhbmdlDQo+Pj4+IHRoZWlyIGZyYW1lYnVmZmVyIHN0aWxsIHBlcmZvcm0gYSBmdWxsIHVw
+ZGF0ZS4NCj4+Pg0KPj4+IEkgaGF2ZSBhIGZlZWxpbmcgeW91J3JlIHNvcnQgb2YgcGFwZXJp
+bmcgb3ZlciBzb21lIGluZWZmaWNpZW50DQo+Pj4gdXNlcnNwYWNlIHRoYXQncyBhc2tpbmcg
+dXBkYXRlcyBvbiBwbGFuZXMgdGhhdCBkb24ndCBhY3R1YWxseQ0KPj4+IG5lZWQgdGhlbS4g
+SSdtIG5vdCBzdXJlIGFkZGluZyBtb3JlIGNvZGUgZm9yIHRoYXQgaXMgYSBwYXJ0aWN1bGFy
+bHkNCj4+PiBncmVhdCBpZGVhLiBXb3VsZG4ndCBpdCBiZSBiZXR0ZXIgdG8ganVzdCBmaXgg
+dGhlIHVzZXJzcGFjZSBjb2RlPw0KPj4NCj4+IFNvbWUgbW9yZSBjb250ZXh0IG1pZ2h0IGJl
+IGluIG9yZGVyOg0KPj4NCj4+IFRoZSBhc3QgZHJpdmVyIGN1cnJlbnRseSB1c2VzIFZSQU0g
+aGVscGVycywgd2hpY2ggbGVhZHMgdG8gbWFueQ0KPj4gcHJvYmxlbXM7IGluY2x1ZGluZyBi
+bGFuayBzY3JlZW5zIGZyb20gdGhlIGxvdyBhbW91bnQgb2YgdmlkZW8gbWVtb3J5Lg0KPj4g
+VGhlIGJlc3Qgc29sdXRpb24gaXMgdG8gc3dpdGNoIFNITUVNIHdpdGggQk9zIG9uIHN5c3Rl
+bSBtZW9yeS4gVGhlIHZpZGVvDQo+PiBtZW1vcnkgaXMgb25seSB0aGUgaW50ZXJuYWwgYnVm
+ZmVyIGZvciBzY2Fub3V0LiBUaGlzIHVwZGF0ZSBpbnZvbHZlcyBhDQo+PiBtZW1wY3kgZnJv
+bSB0aGUgQk8gdG8gdmlkZW8gbWVtb3J5Lg0KPj4NCj4+IEFzdCdzIGhhcmR3YXJlIGlzIHJl
+YWxseSBzbG93LCBzbyBpdCBtYWtlcyBzZW5zZSB0byByZWR1Y2UgdGhlIHVwZGF0ZXMNCj4+
+IHRvIHZpZGVvIG1lbW9yeSB0byBhIG1pbmltdW0uIFRoZXJlJ3Mgc3VwcG9ydCBmb3IgY3Vy
+c29yIHBsYW5lcywgd2hpY2gNCj4+IHJlYWxseSBtYWtlcyBhIGRpZmZlcmVuY2UgaGVyZS4N
+Cj4+DQo+PiBCdXQgZG9pbmcgYW55IGN1cnNvci1wbGFuZSB1cGRhdGUgKGUuZy4sIG1vdmlu
+ZywgYW5pbWF0aW9uKSB3aXRoIFNITUVNDQo+PiBhbmQgdGhlIGN1cnJlbnQgZGFtYWdlIGhl
+bHBlcnMgYWx3YXlzIHJlc3VsdHMgaW4gYSBmdWxsLXNjcmVlbiBtZW1jcHkNCj4+IGZyb20g
+dGhlIEJPIHRvIHRoZSB2aWRlbyBtZW1vcnkgZm9yIHRoZSBwcmltYXJ5IHBsYW5lLiBBcyB0
+aGUgYXN0DQo+PiBoYXJkd2FyZSBpcyBzbG93LCBwZXJmb3JtYW5jZSBnb2VzIGRvd24gdG8g
+YSBhbiBlc3RpbWF0ZWQgNSBmcmFtZSBwZXINCj4+IHNlY29uZHMuIEFmdGVyIG1vdmluZyB0
+aGUgbW91c2UsIG9uZSBjYW4gd2F0Y2ggdGhlIG1vdXNlIGN1cnNvciBmb2xsb3cNCj4+IGFs
+b25nIHRoZSBzY3JlZW4gZm9yIHRoZSBuZXh0IHNlY29uZHMuIFVzZXJzcGFjZSBzZW5kcyB0
+aGUgbW92ZW1lbnQNCj4+IGluZm9ybWF0aW9uIGFuZCBEUk0gc2xvd2x5IHByb2Nlc3NlcyB0
+aGVtLiBUaGUgc2FtZSBjYW4gYmUgb2JzZXJ2ZWQgZm9yDQo+PiBjdXJzb3IgYW5pbWF0aW9u
+Lg0KPj4NCj4+IFRoZSBwcm9ibGVtIGlzIHRoYXQgZWFjaCBjaGFuZ2UgdG8gdGhlIGN1cnNv
+ciBwbGFuZSByZXN1bHRzIGluIGFuDQo+PiBhdG9taWNfdXBkYXRlIGNhbGwgZm9yIHRoZSBw
+cmltYXJ5IHBsYW5lLiBOb3QgaGF2aW5nIGRhbWFnZSBpbmZvcm1hdGlvbg0KPj4gZm9yIHRo
+ZSBwbGFuZSBqdXN0IG1lYW5zICd1cGRhdGUgZXZlcnl0aGluZycuIE5vdCBhIHByb2JsZW0g
+aWYgcmVkcmF3aW5nDQo+PiBjb25zaXN0cyBvZiByZXByb2dyYW1taW5nIHRoZSBzY2Fub3V0
+IGFkZHJlc3MuIEZvciBhIG1lbWNweSBpdCdzIG5vdA0KPj4gZmVhc2libGUuDQo+Pg0KPj4g
+U28gY2FuIHRoaXMgYmUgZml4ZWQgaW4gdXNlcnNwYWNlPyBObyByZWFsaXN0aWNhbGx5IElN
+SE8uIEkndmUgc2VlbiB0aGlzDQo+PiBwcm9ibGVtIG9uIFdlc3RvbiwgV2F5bGFuZC1Hbm9t
+ZSBhbmQgWDExLUdub21lLiBBbmQgdGhleSBhcmUgYWxsDQo+PiBwcm9ibGVtYXRpYyBpbiB0
+aGVpciBvd24gd2F5LiAoVGhhdCdzIHdoeSB0aGVyZSBhcmUgbXVsdGlwbGUgcGF0Y2hlcw0K
+Pj4gbmVlZGVkLikgRm9yIGV4YW1wbGUsIFgxMSB1c2VzIHRoZSBsZWdhY3kgbW91c2UgaW9j
+dGwsIHdoaWNoIG9uZSBvZiB0aGUNCj4+IHBhdGNoZXMgZml4ZXMuIFRoZSBvdGhlciB1c2Vy
+c3BhY2UgbmVlZHMgdGhlIG90aGVyIGhldXJpc3RpY3MuIEENCj4+IHBvdGVudGlhbCB1c2Vy
+c3BhY2UgZml4IHdvdWxkIG1lYW4gdG8gYWx3YXlzIHNldCBlbXB0eS1kYW1hZ2UNCj4+IGlu
+Zm9ybWF0aW9uIG9uIGFsbCBwbGFuZXMgdGhhdCBkb24ndCBnZXQgYW4gdXBkYXRlLiBBbmQg
+SSBkb24ndCBjb25zaWRlcg0KPj4gWDExIGZpeGFibGUgVEJILg0KPj4NCj4+Pg0KPj4+IEFu
+eSBwcm9wZXJ0eSBjaGFuZ2Ugb24gdGhlIHBsYW5lIGNvdWxkIG5lZWQgYSBmdWxsIHBsYW5l
+DQo+Pj4gdXBkYXRlIGFzIHdlbGwgKGVnLiBzb21lIGNvbG9yIG1hbmdlbWVudCBzdHVmZiBl
+dGMuKS4gU28geW91J2QNCj4+PiBoYXZlIHRvIGtlZXAgYWRkaW5nIGV4Y2VwdGlvbnMgdG8g
+dGhhdCBsaXN0IHdoZW5ldmVyIG5ldw0KPj4+IHByb3BlcnRpZXMgYXJlIGFkZGVkLg0KPj4N
+Cj4+IEl0J3Mgbm90IGFib3V0IHRoZSBvY2Nhc2lvbmFsIGNoYW5nZSBvZiBhIHByb3BlcnR5
+LiBJdCdzIHRoZSBjb25zdGFudA0KPj4gc2x1Z2dpc2ggcmVkcmF3IHdoZW4gdGhlIGludGVy
+ZmFjZSBpcyBzdXBwb3NlZCB0byBiZSBzbmFwcHksIHN1Y2ggYXMNCj4+IG1vdXNlIGludGVy
+YWN0aW9uLg0KPj4NCj4+Pg0KPj4+IEFuZCBJIHRoaW5rIHRoZSBzZW1hbnRpY3Mgb2YgdGhl
+IGlvY3RsKHMpIGhhcyBzbyBmYXIgYmVlbiB0aGF0DQo+Pj4gYmFzaWNhbGx5IGFueSBwYWdl
+IGZsaXAgKHdoZXRoZXIgb3Igbm90IGl0IGFjdHVhbGx5IGNoYW5nZXMNCj4+PiB0aGUgZmIp
+IHN0aWxsIGVuZHMgdXAgZG9pbmcgd2hhdGV2ZXIgZmx1c2hpbmcgaXMgbmVlZGVkIHRvDQo+
+Pj4gZ3VhcmFudGVlIHRoZSBmYiBjb250ZW50cyBhcmUgdXAgdG8gZGF0ZSBvbiB0aGUgc2Ny
+ZWVuIChpZg0KPj4+IHNvbWVvbmUgc25lYWtlZCBpbiBzb21lIGZyb250IGJ1ZmZlciByZW5k
+ZXJpbmcgaW4gYmV0d2VlbikuDQo+Pj4gSWUuIHlvdSBjb3VsZCBldmVuIHVzZSBiYXNpY2Fs
+bHkgYSBub3AgcGFnZSBmbGlwIGluIHBsYWNlDQo+Pj4gb2YgZGlydHlmYi4NCj4+DQo+PiBU
+aGF0J3Mgd2h5IGZ1bGwgdXBkYXRlcyBhcmUgc3RpbGwgdGhlIGRlZmF1bHQuIE9ubHkgaW4g
+Y2FzZXMgd2hlcmUgaXQncw0KPj4gc2F2ZSB0byBhdm9pZCBhbiB1cGRhdGUgb2YgdW5hZmZl
+Y3RlZCBwbGFuZXMsIHdlIGRvIHNvLg0KPiANCj4gVW1tLiBNYXliZSBJIG1pc3JlYWQgdGhl
+IHBhdGNoIGluIG15IGhhc3RlIGJ1dCBpdCBzZWVtZWQNCj4gdGhhdCB5b3UgY29uc2lkZXIg
+dGhlIHRoaW5nIHVuZGFtYWdlZCBpZiB0aGUgZmIgcG9pbnRlcg0KPiB3YXMgdW5jaGFuZ2Vk
+LiBUaGF0IGdvZXMgYWdhaW5zdCB3aGF0IEkgd3JvdGUgYWJvdmUuDQoNCkkgdHJ5IHRvIHJl
+c29sdmUgdGhhdCBpbiBwYXRjaCA1LiBUaGUgZmJfZGlydHkgZmxhZyBzaWduYWxzIHRoYXQg
+dGhlIA0KZnJhbWVidWZmZXIncyBjb250ZW50IGNoYW5nZWQgaW4gc29tZSB3YXkuIFBhdGNo
+ZXMgNCBhbmQgNSBjb3VsZCBiZSBzZWVuIA0KYXMgb25lIGNoYW5nZSwgYnV0IHRoYXQgbWln
+aHQgb3ZlcmxvYWQgdGhlIHJlc3VsdGluZyBwYXRjaC4gKE1heWJlIGl0J3MgDQpub3Qgd2Vs
+bCBkZXNpZ25lZCBvdmVyYWxsLiA6LykNCg0KPiANCj4gVGhvdWdoIEkgZG9uJ3QgcmVhbGx5
+IGtub3cgaWYgYSB0aGVyZSBpcyBzb2Z0d2FyZSByZWx5aW5nIG9uDQo+IHRoYXQgYmVoYXZp
+dW9yLiBJIHN1cHBvc2Ugb25lIGlkZWEgY291bGQgYmUgdG8ga2VlcCB0aGF0DQo+IGJlaGF2
+aW91ciBmb3IgdGhlIGxlZ2FjeSBpb2N0bHMgYnV0IG5vdCBmb3IgYXRvbWljLiBFZS4gYW55
+DQo+IGZiIGRpcmVjdGx5IHNwZWNpZmllZCBpbiBhIGxlZ2FjeSBzZXRjcnRjL3NldHBsYW5l
+L3BhZ2VmbGlwDQo+IGlzIGFsd2F5cyBjb25zaWRlcmVkIGZ1bGx5IGRhbWFnZWQuIEJ1dCBp
+bmNsdWRpbmcgYW4gdGhlIHNhbWUNCg0KQXNzdW1pbmcgdGhlIHNwZWNpZmllZCBmYiB0byBi
+ZSBkYW1hZ2VkIHNlZW1zIGxpa2UgYSBub24taXNzdWUgdG8gbWUuDQoNClRoZSBwcm9ibGVt
+IGlzIHdpdGggdGhlIG90aGVyIGZyYW1lYnVmZmVyczogaWYgdXNlcnNwYWNlIHNlbmRzIHVz
+IGEgDQpDVVJTT1JfTU9WRSBpb2N0bCwgd2UgY2FuIHNhZmVseSBhc3N1bWUgdGhlIGN1cnNv
+ciBmYiB0byBiZSBkYW1hZ2VkLiBCdXQgDQp3ZSBkb24ndCB3YW50IHRoZSBwcmltYXJ5IHBs
+YW5lJ3MgZmIgdG8gYmUgZGFtYWdlZC4gT3IgZWxzZSB3ZSdkIHJlZHJhdyANCnRoZSBmdWxs
+IHByaW1hcnkgcGxhbmUuDQoNCg0KPiBmYiBpbiB0aGUgYXRvbWljIGlvY3RsIGRvZXMgbm90
+IGltcGx5IGRhbWFnZS4gVGhhdCB3b3VsZA0KPiBtZWFuIGF0b21pYyBoYXMgdG8gcmVseSBv
+biBzcGVjaWZ5aW5nIGRhbWFnZSBleHBsaWNpdGx5LCBhbmQNCj4gYW55IHVzZXJzcGFjZSB0
+aGF0IGRvZXNuJ3QgZG8gdGhhdCB3aWxsIGJlIGJyb2tlbi4NCg0KVGhlIHByb2JsZW0gYWdh
+aW4gaXMgbm90IGluIHRoZSBkYW1hZ2UgaW5mb3JtYXRpb24gb24gcGxhbmVzIHRoYXQgDQps
+ZWdpdGltYXRlbHkgbmVlZCBhIHJlZHJhdy4gSXQncyBhbGwgdGhlIG90aGVyIHBsYW5lcyB0
+aGF0IGFyZSBiZWluZyANCnJlZHJhd24gYXMgd2VsbC4gT3IgaXMgdGhlcmUgc29tZSBzY2Vu
+YXJpbyB0aGF0IEkgZG9uJ3Qgc2VlPw0KDQo+IA0KPiBPciB3ZSBjb3VsZCBpbnRyb2R1Y2Ug
+YSBjbGllbnQgY2FwIGZvciBpdCBJIGd1ZXNzLCBidXQgdGhhdA0KPiB3b3VsZCByZXF1aXJl
+IChtaW5pbWFsKSB1c2Vyc3BhY2UgY2hhbmdlcy4NCj4gDQo+Pg0KPj4gSSBrbm93IHRoYXQg
+d2UgZG9uJ3QgZ2l2ZSBwZXJmb3JtYW5jZSBndWFyYW50ZWVzIHRvIHVzZXJzcGFjZS4gQnV0
+IHVzaW5nDQo+PiBjdXJzb3Ivb3ZlcmxheSBwbGFuZXMgc2hvdWxkIGJlIGZhc3RlciB0aGVu
+IG5vdCB1c2luZyB0aGVtLiBJIHRoaW5rDQo+PiB0aGF0J3MgYSByZWFzb25hYmxlIGFzc3Vt
+cHRpb24gZm9yIHVzZXJzcGFjZSB0byBtYWtlLg0KPj4NCj4+Pg0KPj4+IEFub3RoZXIgdGhp
+bmcgdGhlIGlvY3RscyBoYXZlIGFsd2F5cyBkb25lIGlzIGFjdHVhbGx5IHBlcmZvcm0NCj4+
+PiB0aGUgY29tbWl0IHdoZXRoZXIgYW55dGhpbmcgY2hhbmdlZCBvciBub3IuIFRoYXQgaXMs
+IHRoZXkNCj4+PiBzdGlsbCBkbyBhbGwgdGhlIHNhbWUgdGhlIHNhbWUgdmJsYW5reSBzdHVm
+ZiBhbmQgdGhlIGNvbW1pdA0KPj4+IHRha2VzIHRoZSBzYW1lIGFtb3VudCBvZiB0aW1lLiBO
+b3Qgc3VyZSBpZiB5b3VyIGlkZWEgaXMNCj4+PiB0byBwb3RlbnRpYWxseSBzaG9ydCBjaXJj
+dWl0IHRoZSBlbnRpcmUgdGhpbmcgYW5kIG1ha2UgaXQNCj4+PiB0YWtlIG5vIHRpbWUgYXQg
+YWxsPw0KPj4NCj4+IFRoZSBwYXRjaGVzIGRvbid0IGNoYW5nZSB0aGUgb3ZlcmFsbCBjb21t
+aXQgbG9naWNzLiBBbGwgdGhleSBkbyBpcyB0bw0KPj4gc2V0IGRhbWFnZSB1cGRhdGVzIHRv
+IGEgc2l6ZSBvZiAwIGlmIGEgcGxhbmUgcmVsaWFibHkgZG9lcyBub3QgbmVlZCBhbg0KPj4g
+dXBkYXRlLg0KPiANCj4gV2hhdCBJIGdhdGhlcmVkIGlzIHRoYXQgeW91IHNlZW1lZCB0byBv
+bmx5IGNvbnNpZGVyIHRoZSBmYg0KPiBjb250ZW50cyBhcyBzb21ldGhpbmcgdGhhdCBuZWVk
+cyBkYW1hZ2UgaGFuZGxpbmcuIFRoYXQgaXMgbm90DQo+IHRoZSBjYXNlIGZvciBzdHVmZiBs
+aWtlIGVEUCBQU1IgYW5kIERTSSBjb21tYW5kIG1vZGUgZGlzcGxheXMNCj4gd2hlcmUgd2Ug
+bmVlZCB0byB1cGxvYWQgYSBuZXcgZnVsbCBmcmFtZSB3aGVuZXZlciBhbHNvIHRoZQ0KPiBu
+b24tZGFtYWdlZCBmYiBjb250ZW50cyB3b3VsZCBnZXQgdHJhbnNmb3JtZWQgYnkgdGhlIGhh
+cmR3YXJlDQo+IG9uIHRoZSB3YXkgdG8gdGhlIHJlbW90ZSBmcmFtYnVmZmVyLiBUaGF0IHdv
+dWxkIG1lYW4gYW55IGNoYW5nZQ0KPiBpbiBlZy4gc2Nhbm91dCBjb29yZGluYXRlcywgY29s
+b3IgbWFuYWdlbWVudCwgZXRjLg0KDQpUaGVyZSBpcyBzdXBwb3J0IGZvciBjaGFuZ2luZyBz
+Y2Fub3V0IGNvb3JkaW5hdGVzIGluIA0KZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJf
+aW5pdCgpIGluIHBhdGNoIDIuIEluIGdlbmVyYWwsIG1heWJlIHRoZSANCmhldXJpc3RpYyBu
+ZWVkcyB0byBiZSBzdHJpY3RlciB0byBvbmx5IGhhbmRsZSB1cGRhdGVzIHRoYXQgb25seSBj
+aGFuZ2UgDQpkYW1hZ2UuDQoNCkZvciBub3csIHRoZSBwcm9ibGVtIG9ubHkgaGFwcGVucyBh
+ZnRlciBjb252ZXJ0aW5nIGFzdCB0byBTSE1FTS4gQWxsIHRoZSANCm90aGVyIFNITUVNLWJh
+c2VkIGRyaXZlcnMgdXNlIGEgc2luZ2xlIHBsYW5lIHdoZXJlIHRoZSBwcm9ibGVtIGRvZXNu
+J3QgDQpoYXBwZW47IG9yIG9ubHkgcmVwcm9ncmFtIHRoZSBzY2Fub3V0IGFkZHJlc3MsIHdo
+aWNoIGlzIGZhc3QuIElmIHRoZSANCmRhbWFnZS1oYW5kbGluZyBsb2dpYyBpbXBvc2VzIHBy
+b2JsZW1zIG9uIG90aGVyIGRyaXZlcnMsIHNvbWUgb2YgaXQgDQpjb3VsZCBwb3NzaWJseSBi
+ZSBtb3ZlZCBpbnRvIGFzdCBpdHNlbGYuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
+DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIN
+ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwg
+OTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpH
+ZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-On Tue, Sep 20, 2022 at 06:01:08PM +0200, Stefan Wahren wrote:
-> Am 20.09.22 um 14:50 schrieb Maxime Ripard:
-> > We'll need the clock IDs in more drivers than just the clock driver from
-> > now on, so let's move them in the firmware header.
->=20
-> recently as i reviewed the clk-raspberrypi i noticed this, too. But from =
-my
-> point of view the clock ids should go to include/dt-bindings/clock (like
-> bcm2835.h) because these clock ids are actually referenced in the DTS fil=
-es
-> and we need to make sure they are in sync. AFAIR this would also result in
-> change from enum to defines.
->=20
-> Sorry, i didn't had the time to send a patch for this.
+--------------oeYZQ5DunaBbXXzecJ3RroQ0--
 
-IMO, we need both, and this enum still belongs in the firmware header.
-We have two separate things, the firmware interface and the DT
-interface. The kernel is a consumer for both, but the fact that they
-match is an implementation detail. It might even change in the future
-for all we know.
-
-So having a header to use defines for the clock indices in the DT looks
-like a good idea to me, but I think we should keep that enum in the
-firmware header as well.
-
-Maxime
-
---itnh57rcj5wjjcou
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------0x68GnsSjHnC5lI00lc8s0yB
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYyrWvAAKCRDj7w1vZxhR
-xQb6AP9gsTEDLx4N2ddX7AdtvgY6eQfDUqVGB8S6WhNsSuhe/gD7B0sPmldeC8DV
-XTcG9b2xt1s+i4ha7GqV2l+eQU2chAQ=
-=Um8H
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMq2+cFAwAAAAAACgkQlh/E3EQov+Bo
+IhAAw7SddLKZ17ZdbOe1ZpfRBfPNHD5XEdt64BK76MhAEdjeewLChO8fT3kK8uOGeoae3iGqX/2v
+kW7QIW5aGPfIyDeqHcfWP3P0Z4wbc9tCmhlVR9aSv1S9Sa187+nZ98TcBrF4umM98DcukGgZTO7t
+iCLESz20CVpg5vENOuygJbvH7SIzd65JHP5Uf+bJYxCW8H3J8sgdy8mC0kw0y1K5x3Q7QcM3SuPb
+LpKbYacOK1ozKGKyo4ywhAV6yQoKDWl05DEWJxlcN7xh7Epec3PsOxL/+qjD1hv3jwLHXIXJ8GE2
+52l8DuGJw4AO8GsSWrx8zM5Ou5jRbUOqzpO0lkHc38ql5sAn6pIRhYXf9kGdjqrm702aU8c1vclv
+sT+b+IqrX/J8PSgsKADBYXPls04rbDxDLV0qvvH/JJcKlUkgefhu0UvoYZNWOf6w525Ei0XeAwpx
++YjwrcQ36IB6Jiobfwx9jUIdjUZymXZNCAICR/DIc0noxZRD8wzm/eZkKJI7ZZwvVPW1G5qOJ5dV
+q6o99yRdwPWe0d05zy3R+h90OG6VTbJPjETDG67SEXyDjQRkBQXUP1tI4UI/TD5z4l0poCkw2y6U
+j3BfP/4aM1vOaLo63SKTGF/3hHx78RI80vh3Q9ZmxzWm9M41JTnTTUxiBnBB5CFxXfAA/Nx5C0Z0
+O8E=
+=yEHc
 -----END PGP SIGNATURE-----
 
---itnh57rcj5wjjcou--
+--------------0x68GnsSjHnC5lI00lc8s0yB--
