@@ -2,64 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288285BFB26
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 11:40:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 061075BFB27
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 11:40:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D52B10E3CE;
-	Wed, 21 Sep 2022 09:39:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B96B10E900;
+	Wed, 21 Sep 2022 09:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2810B10E3CE
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 09:39:53 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C033A21AFE;
- Wed, 21 Sep 2022 09:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663753191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5R6JMudVx9epx6cdEumFxydJmHgzsCvUaj1YbVbkTE4=;
- b=LYRj66KioF987zoovhdoqLCwliNGFJtlky3fV8K1BC1D5hQ+SVIorovC2OkbAb1KaxbkPp
- K+3Hta+CVEZKuy/+MwDLqQ6LrDVSnUQrtc9oruRNotE5ggxtrYR9L3zhD2DPAFHQvTeU8/
- auqycElafnfZRbCOxX7bcW02NWTyDfM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663753191;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5R6JMudVx9epx6cdEumFxydJmHgzsCvUaj1YbVbkTE4=;
- b=nWUuYYgHgE3zbp7iMidZcKRl6+aMMETADw2FsdYIXtHljfXeonh7bbLhe4CPyiHzFO94rE
- KVa9vWHTUv8mSTCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8E03213A00;
- Wed, 21 Sep 2022 09:39:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id DCL3IOfbKmOITAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 21 Sep 2022 09:39:51 +0000
-Message-ID: <17203390-af02-0934-9d9f-df68be78c3a4@suse.de>
-Date: Wed, 21 Sep 2022 11:39:51 +0200
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5785610E8FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 09:40:16 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 758385C0109;
+ Wed, 21 Sep 2022 05:40:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 21 Sep 2022 05:40:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1663753215; x=1663839615; bh=bHNxd+Ro7X
+ T+ixR5PLGBqNdPLzu/gP2nLcKYU85wYTA=; b=oi5ZzsTXfwOYalffdtk1mo6Fgj
+ 44cjYowYWqKgaW/JeZyZ7h23GiQuM2SoZ+4G4YujB+pbSBRX+UDYBPutQnNsvFX5
+ +GQjz7A7Sgi0lwF6apgYY7cPcfoN/1Q1MjMGInmD9CtFvb/VkDrMAl1WyN3k0mA2
+ +/A3lFu/KlhQF6so3zfJlT4R4sAYLxjBp6AXqflTmbCFMYVnjPJbhujWIk3lTdOn
+ ffQV9UPp4obhrSNMFcpLxVaz4pDgcJz90dyb78+CF3X8xJB61igGWdHrsXFEFvsP
+ OAGHDaUbDNsI8bNZF7Bxu8Hn0xdP7/nTck+wNzz1YmfVWwhE7DcNoYWk1xAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1663753215; x=1663839615; bh=bHNxd+Ro7XT+ixR5PLGBqNdPLzu/
+ gP2nLcKYU85wYTA=; b=tO4g35cdIfHkgzCLzreRUO0z6W2zl5VFEtPGSeODG+c0
+ tHsCGJgmPvBUkqNwV3Aug3FiDxerTLbsBofYaoTMNfS5ljwSvBv8DZvZUF5rsLfP
+ eExgW4m0IBWDJ/xFBu1wS+cFL/qPlhNS4XXBgZD87fRhME1VC/yPNT5k0f+mao5j
+ M6C58Idex1tZ3sm900ON5Ml3teGUTuislUsp0hUR27IMQbdg74hSBMbm71BTt8s0
+ juFeZC5W0x1qlnQeJSeRyDVLBvnJRPGpeqioKe3DTvJ7+fZtGAFCA54LxNg4GDiy
+ 6JvSJsSonqXCCskGsSui/tH2x7xuepRohxxj5BSF8g==
+X-ME-Sender: <xms:_tsqYzYQlvafCdluuzQkbAXkcInUx9wjEPeD_oynb4PeRvtW5AV2Ag>
+ <xme:_tsqYyaHM95mZLUPy4LrHyNtthfIOG7opkvuYVjDcpRFgdjKD10cTKlbDFxf8qKnc
+ -kpkJudX-G-yHUZPko>
+X-ME-Received: <xmr:_tsqY18HxWnD66Fw-AssA9B6BDjxrP_lgj61UTM54M0XnBYa0N5RCQDXrdk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefuddgudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:_9sqY5rp-n-vmmAzFjqhyIQNvyQkJrghI20Iv3p8lVdRd9q2blVrlg>
+ <xmx:_9sqY-qW8Q2nJGz0X3EzM2uf93MZoaTSrYzzy7gL1uKRLMCTgi952A>
+ <xmx:_9sqY_QZEoq94KxICe3ZGOqr4Nsf7MYa01usJbfVxVMiMCX4r4XK2Q>
+ <xmx:_9sqY0hF6t8fUGETNdCmWUZ8mzoyO9p3xxpoATChfwW_1ctEk1MESg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Sep 2022 05:40:14 -0400 (EDT)
+Date: Wed, 21 Sep 2022 11:40:12 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Add and use hs_rate and lp_rate
+Message-ID: <20220921094012.7q5gwuhcwlqpozhi@houat>
+References: <20220801131113.182487-1-marex@denx.de>
+ <41f661e5-adcd-3e42-df2f-5732b1e19125@denx.de>
+ <20220919134329.nb75womf35jdae3h@houat>
+ <b585326b-190f-67f0-2631-412310b6d285@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 4/5] drm/damage-helper: Do partial updates if framebuffer
- has not been changed
-Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20220920135619.9209-1-tzimmermann@suse.de>
- <20220920135619.9209-5-tzimmermann@suse.de> <YynOvpMGbVKWiO8p@intel.com>
- <92ae6ffe-9fdd-35bb-48d0-a7cfe221282a@suse.de> <YyrNXSoZJdidfF0T@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <YyrNXSoZJdidfF0T@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0x68GnsSjHnC5lI00lc8s0yB"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ymqpgufno32csc36"
+Content-Disposition: inline
+In-Reply-To: <b585326b-190f-67f0-2631-412310b6d285@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,188 +85,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, drawat.floss@gmail.com, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0x68GnsSjHnC5lI00lc8s0yB
-Content-Type: multipart/mixed; boundary="------------oeYZQ5DunaBbXXzecJ3RroQ0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, robdclark@gmail.com, drawat.floss@gmail.com,
- dri-devel@lists.freedesktop.org
-Message-ID: <17203390-af02-0934-9d9f-df68be78c3a4@suse.de>
-Subject: Re: [PATCH 4/5] drm/damage-helper: Do partial updates if framebuffer
- has not been changed
-References: <20220920135619.9209-1-tzimmermann@suse.de>
- <20220920135619.9209-5-tzimmermann@suse.de> <YynOvpMGbVKWiO8p@intel.com>
- <92ae6ffe-9fdd-35bb-48d0-a7cfe221282a@suse.de> <YyrNXSoZJdidfF0T@intel.com>
-In-Reply-To: <YyrNXSoZJdidfF0T@intel.com>
 
---------------oeYZQ5DunaBbXXzecJ3RroQ0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--ymqpgufno32csc36
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-SGkNCg0KQW0gMjEuMDkuMjIgdW0gMTA6Mzcgc2NocmllYiBWaWxsZSBTeXJqw6Rsw6Q6DQo+
-IE9uIFdlZCwgU2VwIDIxLCAyMDIyIGF0IDA5OjU5OjEwQU0gKzAyMDAsIFRob21hcyBaaW1t
-ZXJtYW5uIHdyb3RlOg0KPj4gSGkgVmlsbGUNCj4+DQo+PiBBbSAyMC4wOS4yMiB1bSAxNjoz
-MSBzY2hyaWViIFZpbGxlIFN5cmrDpGzDpDoNCj4+PiBPbiBUdWUsIFNlcCAyMCwgMjAyMiBh
-dCAwMzo1NjoxOFBNICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+Pj4gU2V0
-IHBhcnRpYWwgdXBkYXRlcyBvbiBhIHBsYW5lIGlmIHRoZSBmcmFtZWJ1ZmZlciBoYXMgbm90
-IGJlZW4gY2hhbmdlZA0KPj4+PiBvbiBhbiBhdG9taWMgY29tbWl0LiBJZiBzdWNoIGEgcGxh
-bmUgaGFzIGRhbWFnZSBjbGlwcywgdGhlIGRyaXZlciB3aWxsDQo+Pj4+IHVzZSB0aGVtOyBv
-dGhlcndpc2UgdGhlIHVwZGF0ZSBpcyBlZmZlY3RpdmVseSBlbXB0eS4gUGxhbmVzIHRoYXQg
-Y2hhbmdlDQo+Pj4+IHRoZWlyIGZyYW1lYnVmZmVyIHN0aWxsIHBlcmZvcm0gYSBmdWxsIHVw
-ZGF0ZS4NCj4+Pg0KPj4+IEkgaGF2ZSBhIGZlZWxpbmcgeW91J3JlIHNvcnQgb2YgcGFwZXJp
-bmcgb3ZlciBzb21lIGluZWZmaWNpZW50DQo+Pj4gdXNlcnNwYWNlIHRoYXQncyBhc2tpbmcg
-dXBkYXRlcyBvbiBwbGFuZXMgdGhhdCBkb24ndCBhY3R1YWxseQ0KPj4+IG5lZWQgdGhlbS4g
-SSdtIG5vdCBzdXJlIGFkZGluZyBtb3JlIGNvZGUgZm9yIHRoYXQgaXMgYSBwYXJ0aWN1bGFy
-bHkNCj4+PiBncmVhdCBpZGVhLiBXb3VsZG4ndCBpdCBiZSBiZXR0ZXIgdG8ganVzdCBmaXgg
-dGhlIHVzZXJzcGFjZSBjb2RlPw0KPj4NCj4+IFNvbWUgbW9yZSBjb250ZXh0IG1pZ2h0IGJl
-IGluIG9yZGVyOg0KPj4NCj4+IFRoZSBhc3QgZHJpdmVyIGN1cnJlbnRseSB1c2VzIFZSQU0g
-aGVscGVycywgd2hpY2ggbGVhZHMgdG8gbWFueQ0KPj4gcHJvYmxlbXM7IGluY2x1ZGluZyBi
-bGFuayBzY3JlZW5zIGZyb20gdGhlIGxvdyBhbW91bnQgb2YgdmlkZW8gbWVtb3J5Lg0KPj4g
-VGhlIGJlc3Qgc29sdXRpb24gaXMgdG8gc3dpdGNoIFNITUVNIHdpdGggQk9zIG9uIHN5c3Rl
-bSBtZW9yeS4gVGhlIHZpZGVvDQo+PiBtZW1vcnkgaXMgb25seSB0aGUgaW50ZXJuYWwgYnVm
-ZmVyIGZvciBzY2Fub3V0LiBUaGlzIHVwZGF0ZSBpbnZvbHZlcyBhDQo+PiBtZW1wY3kgZnJv
-bSB0aGUgQk8gdG8gdmlkZW8gbWVtb3J5Lg0KPj4NCj4+IEFzdCdzIGhhcmR3YXJlIGlzIHJl
-YWxseSBzbG93LCBzbyBpdCBtYWtlcyBzZW5zZSB0byByZWR1Y2UgdGhlIHVwZGF0ZXMNCj4+
-IHRvIHZpZGVvIG1lbW9yeSB0byBhIG1pbmltdW0uIFRoZXJlJ3Mgc3VwcG9ydCBmb3IgY3Vy
-c29yIHBsYW5lcywgd2hpY2gNCj4+IHJlYWxseSBtYWtlcyBhIGRpZmZlcmVuY2UgaGVyZS4N
-Cj4+DQo+PiBCdXQgZG9pbmcgYW55IGN1cnNvci1wbGFuZSB1cGRhdGUgKGUuZy4sIG1vdmlu
-ZywgYW5pbWF0aW9uKSB3aXRoIFNITUVNDQo+PiBhbmQgdGhlIGN1cnJlbnQgZGFtYWdlIGhl
-bHBlcnMgYWx3YXlzIHJlc3VsdHMgaW4gYSBmdWxsLXNjcmVlbiBtZW1jcHkNCj4+IGZyb20g
-dGhlIEJPIHRvIHRoZSB2aWRlbyBtZW1vcnkgZm9yIHRoZSBwcmltYXJ5IHBsYW5lLiBBcyB0
-aGUgYXN0DQo+PiBoYXJkd2FyZSBpcyBzbG93LCBwZXJmb3JtYW5jZSBnb2VzIGRvd24gdG8g
-YSBhbiBlc3RpbWF0ZWQgNSBmcmFtZSBwZXINCj4+IHNlY29uZHMuIEFmdGVyIG1vdmluZyB0
-aGUgbW91c2UsIG9uZSBjYW4gd2F0Y2ggdGhlIG1vdXNlIGN1cnNvciBmb2xsb3cNCj4+IGFs
-b25nIHRoZSBzY3JlZW4gZm9yIHRoZSBuZXh0IHNlY29uZHMuIFVzZXJzcGFjZSBzZW5kcyB0
-aGUgbW92ZW1lbnQNCj4+IGluZm9ybWF0aW9uIGFuZCBEUk0gc2xvd2x5IHByb2Nlc3NlcyB0
-aGVtLiBUaGUgc2FtZSBjYW4gYmUgb2JzZXJ2ZWQgZm9yDQo+PiBjdXJzb3IgYW5pbWF0aW9u
-Lg0KPj4NCj4+IFRoZSBwcm9ibGVtIGlzIHRoYXQgZWFjaCBjaGFuZ2UgdG8gdGhlIGN1cnNv
-ciBwbGFuZSByZXN1bHRzIGluIGFuDQo+PiBhdG9taWNfdXBkYXRlIGNhbGwgZm9yIHRoZSBw
-cmltYXJ5IHBsYW5lLiBOb3QgaGF2aW5nIGRhbWFnZSBpbmZvcm1hdGlvbg0KPj4gZm9yIHRo
-ZSBwbGFuZSBqdXN0IG1lYW5zICd1cGRhdGUgZXZlcnl0aGluZycuIE5vdCBhIHByb2JsZW0g
-aWYgcmVkcmF3aW5nDQo+PiBjb25zaXN0cyBvZiByZXByb2dyYW1taW5nIHRoZSBzY2Fub3V0
-IGFkZHJlc3MuIEZvciBhIG1lbWNweSBpdCdzIG5vdA0KPj4gZmVhc2libGUuDQo+Pg0KPj4g
-U28gY2FuIHRoaXMgYmUgZml4ZWQgaW4gdXNlcnNwYWNlPyBObyByZWFsaXN0aWNhbGx5IElN
-SE8uIEkndmUgc2VlbiB0aGlzDQo+PiBwcm9ibGVtIG9uIFdlc3RvbiwgV2F5bGFuZC1Hbm9t
-ZSBhbmQgWDExLUdub21lLiBBbmQgdGhleSBhcmUgYWxsDQo+PiBwcm9ibGVtYXRpYyBpbiB0
-aGVpciBvd24gd2F5LiAoVGhhdCdzIHdoeSB0aGVyZSBhcmUgbXVsdGlwbGUgcGF0Y2hlcw0K
-Pj4gbmVlZGVkLikgRm9yIGV4YW1wbGUsIFgxMSB1c2VzIHRoZSBsZWdhY3kgbW91c2UgaW9j
-dGwsIHdoaWNoIG9uZSBvZiB0aGUNCj4+IHBhdGNoZXMgZml4ZXMuIFRoZSBvdGhlciB1c2Vy
-c3BhY2UgbmVlZHMgdGhlIG90aGVyIGhldXJpc3RpY3MuIEENCj4+IHBvdGVudGlhbCB1c2Vy
-c3BhY2UgZml4IHdvdWxkIG1lYW4gdG8gYWx3YXlzIHNldCBlbXB0eS1kYW1hZ2UNCj4+IGlu
-Zm9ybWF0aW9uIG9uIGFsbCBwbGFuZXMgdGhhdCBkb24ndCBnZXQgYW4gdXBkYXRlLiBBbmQg
-SSBkb24ndCBjb25zaWRlcg0KPj4gWDExIGZpeGFibGUgVEJILg0KPj4NCj4+Pg0KPj4+IEFu
-eSBwcm9wZXJ0eSBjaGFuZ2Ugb24gdGhlIHBsYW5lIGNvdWxkIG5lZWQgYSBmdWxsIHBsYW5l
-DQo+Pj4gdXBkYXRlIGFzIHdlbGwgKGVnLiBzb21lIGNvbG9yIG1hbmdlbWVudCBzdHVmZiBl
-dGMuKS4gU28geW91J2QNCj4+PiBoYXZlIHRvIGtlZXAgYWRkaW5nIGV4Y2VwdGlvbnMgdG8g
-dGhhdCBsaXN0IHdoZW5ldmVyIG5ldw0KPj4+IHByb3BlcnRpZXMgYXJlIGFkZGVkLg0KPj4N
-Cj4+IEl0J3Mgbm90IGFib3V0IHRoZSBvY2Nhc2lvbmFsIGNoYW5nZSBvZiBhIHByb3BlcnR5
-LiBJdCdzIHRoZSBjb25zdGFudA0KPj4gc2x1Z2dpc2ggcmVkcmF3IHdoZW4gdGhlIGludGVy
-ZmFjZSBpcyBzdXBwb3NlZCB0byBiZSBzbmFwcHksIHN1Y2ggYXMNCj4+IG1vdXNlIGludGVy
-YWN0aW9uLg0KPj4NCj4+Pg0KPj4+IEFuZCBJIHRoaW5rIHRoZSBzZW1hbnRpY3Mgb2YgdGhl
-IGlvY3RsKHMpIGhhcyBzbyBmYXIgYmVlbiB0aGF0DQo+Pj4gYmFzaWNhbGx5IGFueSBwYWdl
-IGZsaXAgKHdoZXRoZXIgb3Igbm90IGl0IGFjdHVhbGx5IGNoYW5nZXMNCj4+PiB0aGUgZmIp
-IHN0aWxsIGVuZHMgdXAgZG9pbmcgd2hhdGV2ZXIgZmx1c2hpbmcgaXMgbmVlZGVkIHRvDQo+
-Pj4gZ3VhcmFudGVlIHRoZSBmYiBjb250ZW50cyBhcmUgdXAgdG8gZGF0ZSBvbiB0aGUgc2Ny
-ZWVuIChpZg0KPj4+IHNvbWVvbmUgc25lYWtlZCBpbiBzb21lIGZyb250IGJ1ZmZlciByZW5k
-ZXJpbmcgaW4gYmV0d2VlbikuDQo+Pj4gSWUuIHlvdSBjb3VsZCBldmVuIHVzZSBiYXNpY2Fs
-bHkgYSBub3AgcGFnZSBmbGlwIGluIHBsYWNlDQo+Pj4gb2YgZGlydHlmYi4NCj4+DQo+PiBU
-aGF0J3Mgd2h5IGZ1bGwgdXBkYXRlcyBhcmUgc3RpbGwgdGhlIGRlZmF1bHQuIE9ubHkgaW4g
-Y2FzZXMgd2hlcmUgaXQncw0KPj4gc2F2ZSB0byBhdm9pZCBhbiB1cGRhdGUgb2YgdW5hZmZl
-Y3RlZCBwbGFuZXMsIHdlIGRvIHNvLg0KPiANCj4gVW1tLiBNYXliZSBJIG1pc3JlYWQgdGhl
-IHBhdGNoIGluIG15IGhhc3RlIGJ1dCBpdCBzZWVtZWQNCj4gdGhhdCB5b3UgY29uc2lkZXIg
-dGhlIHRoaW5nIHVuZGFtYWdlZCBpZiB0aGUgZmIgcG9pbnRlcg0KPiB3YXMgdW5jaGFuZ2Vk
-LiBUaGF0IGdvZXMgYWdhaW5zdCB3aGF0IEkgd3JvdGUgYWJvdmUuDQoNCkkgdHJ5IHRvIHJl
-c29sdmUgdGhhdCBpbiBwYXRjaCA1LiBUaGUgZmJfZGlydHkgZmxhZyBzaWduYWxzIHRoYXQg
-dGhlIA0KZnJhbWVidWZmZXIncyBjb250ZW50IGNoYW5nZWQgaW4gc29tZSB3YXkuIFBhdGNo
-ZXMgNCBhbmQgNSBjb3VsZCBiZSBzZWVuIA0KYXMgb25lIGNoYW5nZSwgYnV0IHRoYXQgbWln
-aHQgb3ZlcmxvYWQgdGhlIHJlc3VsdGluZyBwYXRjaC4gKE1heWJlIGl0J3MgDQpub3Qgd2Vs
-bCBkZXNpZ25lZCBvdmVyYWxsLiA6LykNCg0KPiANCj4gVGhvdWdoIEkgZG9uJ3QgcmVhbGx5
-IGtub3cgaWYgYSB0aGVyZSBpcyBzb2Z0d2FyZSByZWx5aW5nIG9uDQo+IHRoYXQgYmVoYXZp
-dW9yLiBJIHN1cHBvc2Ugb25lIGlkZWEgY291bGQgYmUgdG8ga2VlcCB0aGF0DQo+IGJlaGF2
-aW91ciBmb3IgdGhlIGxlZ2FjeSBpb2N0bHMgYnV0IG5vdCBmb3IgYXRvbWljLiBFZS4gYW55
-DQo+IGZiIGRpcmVjdGx5IHNwZWNpZmllZCBpbiBhIGxlZ2FjeSBzZXRjcnRjL3NldHBsYW5l
-L3BhZ2VmbGlwDQo+IGlzIGFsd2F5cyBjb25zaWRlcmVkIGZ1bGx5IGRhbWFnZWQuIEJ1dCBp
-bmNsdWRpbmcgYW4gdGhlIHNhbWUNCg0KQXNzdW1pbmcgdGhlIHNwZWNpZmllZCBmYiB0byBi
-ZSBkYW1hZ2VkIHNlZW1zIGxpa2UgYSBub24taXNzdWUgdG8gbWUuDQoNClRoZSBwcm9ibGVt
-IGlzIHdpdGggdGhlIG90aGVyIGZyYW1lYnVmZmVyczogaWYgdXNlcnNwYWNlIHNlbmRzIHVz
-IGEgDQpDVVJTT1JfTU9WRSBpb2N0bCwgd2UgY2FuIHNhZmVseSBhc3N1bWUgdGhlIGN1cnNv
-ciBmYiB0byBiZSBkYW1hZ2VkLiBCdXQgDQp3ZSBkb24ndCB3YW50IHRoZSBwcmltYXJ5IHBs
-YW5lJ3MgZmIgdG8gYmUgZGFtYWdlZC4gT3IgZWxzZSB3ZSdkIHJlZHJhdyANCnRoZSBmdWxs
-IHByaW1hcnkgcGxhbmUuDQoNCg0KPiBmYiBpbiB0aGUgYXRvbWljIGlvY3RsIGRvZXMgbm90
-IGltcGx5IGRhbWFnZS4gVGhhdCB3b3VsZA0KPiBtZWFuIGF0b21pYyBoYXMgdG8gcmVseSBv
-biBzcGVjaWZ5aW5nIGRhbWFnZSBleHBsaWNpdGx5LCBhbmQNCj4gYW55IHVzZXJzcGFjZSB0
-aGF0IGRvZXNuJ3QgZG8gdGhhdCB3aWxsIGJlIGJyb2tlbi4NCg0KVGhlIHByb2JsZW0gYWdh
-aW4gaXMgbm90IGluIHRoZSBkYW1hZ2UgaW5mb3JtYXRpb24gb24gcGxhbmVzIHRoYXQgDQps
-ZWdpdGltYXRlbHkgbmVlZCBhIHJlZHJhdy4gSXQncyBhbGwgdGhlIG90aGVyIHBsYW5lcyB0
-aGF0IGFyZSBiZWluZyANCnJlZHJhd24gYXMgd2VsbC4gT3IgaXMgdGhlcmUgc29tZSBzY2Vu
-YXJpbyB0aGF0IEkgZG9uJ3Qgc2VlPw0KDQo+IA0KPiBPciB3ZSBjb3VsZCBpbnRyb2R1Y2Ug
-YSBjbGllbnQgY2FwIGZvciBpdCBJIGd1ZXNzLCBidXQgdGhhdA0KPiB3b3VsZCByZXF1aXJl
-IChtaW5pbWFsKSB1c2Vyc3BhY2UgY2hhbmdlcy4NCj4gDQo+Pg0KPj4gSSBrbm93IHRoYXQg
-d2UgZG9uJ3QgZ2l2ZSBwZXJmb3JtYW5jZSBndWFyYW50ZWVzIHRvIHVzZXJzcGFjZS4gQnV0
-IHVzaW5nDQo+PiBjdXJzb3Ivb3ZlcmxheSBwbGFuZXMgc2hvdWxkIGJlIGZhc3RlciB0aGVu
-IG5vdCB1c2luZyB0aGVtLiBJIHRoaW5rDQo+PiB0aGF0J3MgYSByZWFzb25hYmxlIGFzc3Vt
-cHRpb24gZm9yIHVzZXJzcGFjZSB0byBtYWtlLg0KPj4NCj4+Pg0KPj4+IEFub3RoZXIgdGhp
-bmcgdGhlIGlvY3RscyBoYXZlIGFsd2F5cyBkb25lIGlzIGFjdHVhbGx5IHBlcmZvcm0NCj4+
-PiB0aGUgY29tbWl0IHdoZXRoZXIgYW55dGhpbmcgY2hhbmdlZCBvciBub3IuIFRoYXQgaXMs
-IHRoZXkNCj4+PiBzdGlsbCBkbyBhbGwgdGhlIHNhbWUgdGhlIHNhbWUgdmJsYW5reSBzdHVm
-ZiBhbmQgdGhlIGNvbW1pdA0KPj4+IHRha2VzIHRoZSBzYW1lIGFtb3VudCBvZiB0aW1lLiBO
-b3Qgc3VyZSBpZiB5b3VyIGlkZWEgaXMNCj4+PiB0byBwb3RlbnRpYWxseSBzaG9ydCBjaXJj
-dWl0IHRoZSBlbnRpcmUgdGhpbmcgYW5kIG1ha2UgaXQNCj4+PiB0YWtlIG5vIHRpbWUgYXQg
-YWxsPw0KPj4NCj4+IFRoZSBwYXRjaGVzIGRvbid0IGNoYW5nZSB0aGUgb3ZlcmFsbCBjb21t
-aXQgbG9naWNzLiBBbGwgdGhleSBkbyBpcyB0bw0KPj4gc2V0IGRhbWFnZSB1cGRhdGVzIHRv
-IGEgc2l6ZSBvZiAwIGlmIGEgcGxhbmUgcmVsaWFibHkgZG9lcyBub3QgbmVlZCBhbg0KPj4g
-dXBkYXRlLg0KPiANCj4gV2hhdCBJIGdhdGhlcmVkIGlzIHRoYXQgeW91IHNlZW1lZCB0byBv
-bmx5IGNvbnNpZGVyIHRoZSBmYg0KPiBjb250ZW50cyBhcyBzb21ldGhpbmcgdGhhdCBuZWVk
-cyBkYW1hZ2UgaGFuZGxpbmcuIFRoYXQgaXMgbm90DQo+IHRoZSBjYXNlIGZvciBzdHVmZiBs
-aWtlIGVEUCBQU1IgYW5kIERTSSBjb21tYW5kIG1vZGUgZGlzcGxheXMNCj4gd2hlcmUgd2Ug
-bmVlZCB0byB1cGxvYWQgYSBuZXcgZnVsbCBmcmFtZSB3aGVuZXZlciBhbHNvIHRoZQ0KPiBu
-b24tZGFtYWdlZCBmYiBjb250ZW50cyB3b3VsZCBnZXQgdHJhbnNmb3JtZWQgYnkgdGhlIGhh
-cmR3YXJlDQo+IG9uIHRoZSB3YXkgdG8gdGhlIHJlbW90ZSBmcmFtYnVmZmVyLiBUaGF0IHdv
-dWxkIG1lYW4gYW55IGNoYW5nZQ0KPiBpbiBlZy4gc2Nhbm91dCBjb29yZGluYXRlcywgY29s
-b3IgbWFuYWdlbWVudCwgZXRjLg0KDQpUaGVyZSBpcyBzdXBwb3J0IGZvciBjaGFuZ2luZyBz
-Y2Fub3V0IGNvb3JkaW5hdGVzIGluIA0KZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJf
-aW5pdCgpIGluIHBhdGNoIDIuIEluIGdlbmVyYWwsIG1heWJlIHRoZSANCmhldXJpc3RpYyBu
-ZWVkcyB0byBiZSBzdHJpY3RlciB0byBvbmx5IGhhbmRsZSB1cGRhdGVzIHRoYXQgb25seSBj
-aGFuZ2UgDQpkYW1hZ2UuDQoNCkZvciBub3csIHRoZSBwcm9ibGVtIG9ubHkgaGFwcGVucyBh
-ZnRlciBjb252ZXJ0aW5nIGFzdCB0byBTSE1FTS4gQWxsIHRoZSANCm90aGVyIFNITUVNLWJh
-c2VkIGRyaXZlcnMgdXNlIGEgc2luZ2xlIHBsYW5lIHdoZXJlIHRoZSBwcm9ibGVtIGRvZXNu
-J3QgDQpoYXBwZW47IG9yIG9ubHkgcmVwcm9ncmFtIHRoZSBzY2Fub3V0IGFkZHJlc3MsIHdo
-aWNoIGlzIGZhc3QuIElmIHRoZSANCmRhbWFnZS1oYW5kbGluZyBsb2dpYyBpbXBvc2VzIHBy
-b2JsZW1zIG9uIG90aGVyIGRyaXZlcnMsIHNvbWUgb2YgaXQgDQpjb3VsZCBwb3NzaWJseSBi
-ZSBtb3ZlZCBpbnRvIGFzdCBpdHNlbGYuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
-DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIN
-ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwg
-OTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpH
-ZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+On Mon, Sep 19, 2022 at 08:17:11PM +0200, Marek Vasut wrote:
+> On 9/19/22 15:43, Maxime Ripard wrote:
+> > Hi,
+>=20
+> Hello Maxime,
+>=20
+> > On Sun, Sep 18, 2022 at 02:56:00PM +0200, Marek Vasut wrote:
+> > > On 8/1/22 15:11, Marek Vasut wrote:
+> > > > Fill in hs_rate and lp_rate to struct mipi_dsi_device for this brid=
+ge and
+> > > > adjust DSI input frequency calculations such that they expect the D=
+SI host
+> > > > to configure HS clock according to hs_rate.
+> > > >=20
+> > > > This is an optimization for the DSI burst mode case. In case the DS=
+I device
+> > > > supports DSI burst mode, it is recommended to operate the DSI inter=
+face at
+> > > > the highest possible HS clock frequency which the DSI device suppor=
+ts. This
+> > > > permits the DSI host to send as short as possible bursts of data on=
+ the DSI
+> > > > link and keep the DSI data lanes in LP mode otherwise, which reduce=
+s power
+> > > > consumption.
+> > >=20
+> > > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > > Cc: Jagan Teki <jagan@amarulasolutions.com>
+> > > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > > Cc: Robert Foss <robert.foss@linaro.org>
+> > > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > ---
+> > > >    drivers/gpu/drm/bridge/ti-sn65dsi83.c | 25 +++++++++++++--------=
+----
+> > > >    1 file changed, 13 insertions(+), 12 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/dr=
+m/bridge/ti-sn65dsi83.c
+> > > > index 14e7aa77e7584..b161f25c3a2f5 100644
+> > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > @@ -286,8 +286,7 @@ static u8 sn65dsi83_get_lvds_range(struct sn65d=
+si83 *ctx,
+> > > >    	return (mode_clock - 12500) / 25000;
+> > > >    }
+> > > > -static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx,
+> > > > -				  const struct drm_display_mode *mode)
+> > > > +static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx)
+> > > >    {
+> > > >    	/*
+> > > >    	 * The encoding of the CHA_DSI_CLK_RANGE is as follows:
+> > > > @@ -303,20 +302,20 @@ static u8 sn65dsi83_get_dsi_range(struct sn65=
+dsi83 *ctx,
+> > > >    	 *  DSI_CLK =3D mode clock * bpp / dsi_data_lanes / 2
+> > > >    	 * the 2 is there because the bus is DDR.
+> > > >    	 */
+> > > > -	return DIV_ROUND_UP(clamp((unsigned int)mode->clock *
+> > > > -			    mipi_dsi_pixel_format_to_bpp(ctx->dsi->format) /
+> > > > -			    ctx->dsi->lanes / 2, 40000U, 500000U), 5000U);
+> > > > +	return DIV_ROUND_UP(ctx->dsi->hs_rate, 5000000U);
+> > > >    }
+> > > > -static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
+> > > > +static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx,
+> > > > +				const struct drm_display_mode *mode)
+> > > >    {
+> > > >    	/* The divider is (DSI_CLK / LVDS_CLK) - 1, which really is: */
+> > > > -	unsigned int dsi_div =3D mipi_dsi_pixel_format_to_bpp(ctx->dsi->f=
+ormat);
+> > > > +	unsigned int dsi_div;
+> > > > +	int mode_clock =3D mode->clock;
+> > > > -	dsi_div /=3D ctx->dsi->lanes;
+> > > > +	if (ctx->lvds_dual_link)
+> > > > +		mode_clock /=3D 2;
+> > > > -	if (!ctx->lvds_dual_link)
+> > > > -		dsi_div /=3D 2;
+> > > > +	dsi_div =3D (ctx->dsi->hs_rate / mode_clock) / 1000;
+> > > >    	return dsi_div - 1;
+> > > >    }
+> > > > @@ -397,9 +396,9 @@ static void sn65dsi83_atomic_enable(struct drm_=
+bridge *bridge,
+> > > >    		     REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(c=
+tx, mode)) |
+> > > >    		     REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
+> > > >    	regmap_write(ctx->regmap, REG_DSI_CLK,
+> > > > -		     REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx, =
+mode)));
+> > > > +		     REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx))=
+);
+> > > >    	regmap_write(ctx->regmap, REG_RC_DSI_CLK,
+> > > > -		     REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)));
+> > > > +		     REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx, m=
+ode)));
+> > > >    	/* Set number of DSI lanes and LVDS link config. */
+> > > >    	regmap_write(ctx->regmap, REG_DSI_LANE,
+> > > > @@ -643,6 +642,8 @@ static int sn65dsi83_host_attach(struct sn65dsi=
+83 *ctx)
+> > > >    	dsi->lanes =3D dsi_lanes;
+> > > >    	dsi->format =3D MIPI_DSI_FMT_RGB888;
+> > > >    	dsi->mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_B=
+URST;
+> > > > +	dsi->hs_rate =3D 500000000;
+> > > > +	dsi->lp_rate =3D 16000000;
+> >=20
+> > Let's leave aside the comment from Dave that the host might choose a
+> > lower HS rate, we can indeed assume it's true for now.
+> >=20
+> > However.. Is there any guarantee that the host can even reach that
+> > frequency in the first place? IIRC, the maximum rate a DSI host can
+> > reach is implementation specific. So I'm not sure this solution flies.
+> >=20
+> > It's not clear to me from that patch what problem / issue it's supposed
+> > to solve in the first place, but it really looks similar to the
+> > discussion we had some time ago about that bridge that could only
+> > operate at a set of fixed frequencies.
+>=20
+> The use of exact frequency on DSI HS clock for bridges which derive their
+> PLL clock frequency from DSI HS clock discussion is separate a topic from
+> this patch.
 
---------------oeYZQ5DunaBbXXzecJ3RroQ0--
+Sure, it just happens that the solution to that other patch would also be
+a solution for this one.
 
---------------0x68GnsSjHnC5lI00lc8s0yB
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> This patch is defining the maximum DSI HS clock frequency this bridge
+> supports per datasheet (500 MHz) AND then assumes the DSI host would use
+> that frequency on the DSI link (in burst mode, the highest frequency on t=
+he
+> link permits the link to be in LP mode for longest time and thus be as po=
+wer
+> efficient as possible).
+>=20
+> About the assumption -- currently the DSI HS clock frequency expected by =
+the
+> DSI bridge driver is calculated by its own driver-private formula ; the D=
+SI
+> HS clock frequency generated by the DSI host is calculated by the DSI host
+> driver-private formula. Those two might not even match and thus each driv=
+er
+> might come to different DSI HS clock they expect or generate. This cannot
+> work reliably.
+
+I agree so far
+
+> With this patch, it is at least possible for the DSI bridge driver to
+> indicate what DSI HS clock it expects from the DSI host driver and what a=
+re
+> its maximum DSI HS clock. The DSI host driver can check the nearest bridge
+> flags (to verify the bridge uses burst mode) and hs_rate and configure
+> itself accordingly. If the DSI host cannot generate suitable DSI HS clock
+> which the bridge expects, it should likely refuse to bind with the bridge
+> (also read on below how to deal with this). I consider this an improvement
+> over current situation which is a total guesswork.
+
+But I disagree here. In the above paragraphs you mentioned that you are
+making an assumption, which is then unreliable. Again, I agree with that
+statement, but you then cannot advocate that it's a good solution. It's
+a workaround at best, which kind of changes the semantics around hs_rate.
+
+> Regarding DSI hosts which cannot generate the specified hs_rate , they
+> should likely just reject binding with the DSI bridge.
+
+That won't work in all situations. The constraints on the clock feeding
+the DSI controller might have changed for example, and doesn't allow to
+reach that frequency anymore.
+
+And if the bandwidth is still enough to cover the data bandwidth, why
+should we completely break the video pipeline, without any way to
+recover?
+
+> However, there has been a valid point raised that the highest DSI HS
+> clock supported by the DSI bridge might not always be the desired
+> clock, e.g. in case EMI reduction is required by lowering the clock. I
+> would propose to add a DT property which would allow limiting the
+> maximum DSI HS clock frequency per DSI OF graph link in the DT, and a
+> helper which would check the DT property, compare it with bridge
+> limits, and set hs_rate accordingly.
+>=20
+> This should work well for DSI burst mode links in general.
+
+hs_rate is documented as "maximum lane frequency for high speed mode in
+hertz". It's a maximum. You can't ask to every driver from now on to
+treat it as the frequency that they have to apply. Or rather, you can do
+that but it will require much more work than a single patch on a bridge.
+
+And EMI reduction is fine, but that still doesn't address the fact that
+the host might still not be able to provide that *maximum* frequency,
+even after the EMI reduction. And, again, if there's still enough
+bandwidth to send that video, there's no problem with that, we shouldn't
+make it one.
+
+> > You basically want to propagate the clock constraints along the bridge
+> > chain, and make sure every body is fine with that. The most reasonable
+> > would be to make it part of the bridge state, and possibly add a bunch
+> > of extra functions to query the upstream bridge clock output for a given
+> > state.
+>=20
+> The bridge hardware constraints are static, just like the bridge hardware
+> itself, so they shouldn't be part of the bridge state, should they ?
+
+Constraints are, sure. But the effective clock rate isn't a constraint,
+it's a dynamic thing that will be affected by the mode, format, lanes,
+etc. Most of them being part of the state.
+
+> I agree we do need a way to implement frequency negotiation between DSI
+> bridge and DSI host, but that's something which can be added on top of the
+> actual bridge HW constraints, and yes, possibly by passing those dynamic
+> constraints via bridge state.
+
+I guess this is where we disagree. This is the first step to me.
+
+Maxime
+
+--ymqpgufno32csc36
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMq2+cFAwAAAAAACgkQlh/E3EQov+Bo
-IhAAw7SddLKZ17ZdbOe1ZpfRBfPNHD5XEdt64BK76MhAEdjeewLChO8fT3kK8uOGeoae3iGqX/2v
-kW7QIW5aGPfIyDeqHcfWP3P0Z4wbc9tCmhlVR9aSv1S9Sa187+nZ98TcBrF4umM98DcukGgZTO7t
-iCLESz20CVpg5vENOuygJbvH7SIzd65JHP5Uf+bJYxCW8H3J8sgdy8mC0kw0y1K5x3Q7QcM3SuPb
-LpKbYacOK1ozKGKyo4ywhAV6yQoKDWl05DEWJxlcN7xh7Epec3PsOxL/+qjD1hv3jwLHXIXJ8GE2
-52l8DuGJw4AO8GsSWrx8zM5Ou5jRbUOqzpO0lkHc38ql5sAn6pIRhYXf9kGdjqrm702aU8c1vclv
-sT+b+IqrX/J8PSgsKADBYXPls04rbDxDLV0qvvH/JJcKlUkgefhu0UvoYZNWOf6w525Ei0XeAwpx
-+YjwrcQ36IB6Jiobfwx9jUIdjUZymXZNCAICR/DIc0noxZRD8wzm/eZkKJI7ZZwvVPW1G5qOJ5dV
-q6o99yRdwPWe0d05zy3R+h90OG6VTbJPjETDG67SEXyDjQRkBQXUP1tI4UI/TD5z4l0poCkw2y6U
-j3BfP/4aM1vOaLo63SKTGF/3hHx78RI80vh3Q9ZmxzWm9M41JTnTTUxiBnBB5CFxXfAA/Nx5C0Z0
-O8E=
-=yEHc
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYyrb/AAKCRDj7w1vZxhR
+xZT4AQCzLA6lgw+xOza5vo8sADLhptYds6x9gTr4gIK+k+gS5QEAwfCrOI1esJD0
+Q2rvxAHBKTV6wqfFpCwEvnnBgR7bPA4=
+=Eqqg
 -----END PGP SIGNATURE-----
 
---------------0x68GnsSjHnC5lI00lc8s0yB--
+--ymqpgufno32csc36--
