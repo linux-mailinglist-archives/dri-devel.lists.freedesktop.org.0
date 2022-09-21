@@ -1,144 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A905BFDCA
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 14:24:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 206EB5BFDCE
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 14:26:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 738DB10E955;
-	Wed, 21 Sep 2022 12:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C50B10E963;
+	Wed, 21 Sep 2022 12:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41C8210E952
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 12:23:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663763037; x=1695299037;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=gneLaYGSJmneo1U/sTQKSwvec9XlQFnmJhVFTeJiK6w=;
- b=NK84pISVWV2gMKg/rukWiRHIHAsBr17MaUZFWKQXMyaKz2BR2gvORwu0
- ZmTpWZQn+wa6TKwxVvprOYiWo8PLpFXO/RMLeJ3xwTD1ZO8j9S6Eofq3z
- pBs3l+V11gZTE2EW8T6n/D7P+4yvEQYp52u4n6hjs+z5QRgijf8TD+APE
- ZmD+k+7XTJ4XE07Tgc23j3jzlP2IvgZzgGhxQO/s77Udy8B33eTHaV2Kn
- +6cMhRBatTo4dBwgnI6Mz1qUveF5Ee1E2fqVj8DCtuRu5xgPZzKoV/K1y
- XgVrjGCI4M0Fj3liSanrw2iXhDoCxBcMTjE5HCzboGLvX/Nwj0UZuRjm2 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="287059134"
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; d="scan'208";a="287059134"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2022 05:23:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; d="scan'208";a="708426883"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by FMSMGA003.fm.intel.com with ESMTP; 21 Sep 2022 05:23:55 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 21 Sep 2022 05:23:55 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 21 Sep 2022 05:23:54 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 21 Sep 2022 05:23:54 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 21 Sep 2022 05:23:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TrKnxiQvf58BMLBdIczm9UgB2Y4VfnVSg5sPd2AtEbSFT0eLaTOyk8Ai066/w8DJvk8vZs4iExGuiurlsN10ql0+1MsoU6KlRORAWFNlZfOHIXyJVrJfIakTsjZ8g+ZfcQHRQuJVqPCEJGoJKzfwVkLi8FaZxQhmTwtFWcLzfDLr7UVbTzRUxoXdW8dednPEfrshUYxMm8XSTwxU6iHsiDeP94Uom0u4QdR787A8m+ybSUribA0EAEMjvcOiI9e1ojCJfXg1u3CHD9fZ8a7ykbnynpTM99/zo0IHb0OIbl7NB0sfIT5hMcq5/uhpF53TF+iatuZfUVhN0GilGrFUBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JQQWmVmr1KkuxGN3REhRZsmFTBuglNGJmM9yKrrZ/Vc=;
- b=SwlEzuAIE0uGgx8UanbLk5jzo5Ezf/C4KTWqatMub25G3fgafgGFB3tueKkpm0J1DcoJ79dCJWFlV7Sf3iIm2ozCY8izNP2J5zzhM84b25Xoqa6aGWJYl38bUKmtgXpRz0xndkZ1gW64wf7lL0TUkp4eudOIIkKNPEs6/K1vSgaq9PXwctInfxlQTWQdJw6IiDZKqfXgjabZpwHYxz8YVcWkF9XaeQfdtVRJIT/8+sy82/lQrfDOmIGA8VA3MeM6tKEG1IEUAPoFw1L63nMbaHkXVwuuT9sNdEEgFJnIUVSjMe5YgxImBMdYMA/vLyF1L1O6hlSOvQpJPz8uiOMRew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BYAPR11MB3544.namprd11.prod.outlook.com (2603:10b6:a03:b5::29)
- by PH7PR11MB7074.namprd11.prod.outlook.com (2603:10b6:510:20d::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Wed, 21 Sep
- 2022 12:23:47 +0000
-Received: from BYAPR11MB3544.namprd11.prod.outlook.com
- ([fe80::5f7f:2fa:74b1:11d8]) by BYAPR11MB3544.namprd11.prod.outlook.com
- ([fe80::5f7f:2fa:74b1:11d8%7]) with mapi id 15.20.5632.021; Wed, 21 Sep 2022
- 12:23:47 +0000
-From: "Huang, Yonghua" <yonghua.huang@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [PATCH] virt: acrn: obtain pa from VMA with PFNMAP flag
-Thread-Topic: [PATCH] virt: acrn: obtain pa from VMA with PFNMAP flag
-Thread-Index: AQHYLEfg4LGJm4nTXkWIyXm40QwGzK2pDmuAgEICZEA=
-Date: Wed, 21 Sep 2022 12:23:47 +0000
-Message-ID: <BYAPR11MB354411F3B1C3AE2423627147F74F9@BYAPR11MB3544.namprd11.prod.outlook.com>
-References: <20220228022212.419406-1-yonghua.huang@intel.com>
- <YvOiZ2jp2Fv0Ex0J@phenom.ffwll.local>
-In-Reply-To: <YvOiZ2jp2Fv0Ex0J@phenom.ffwll.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.6.500.17
-dlp-product: dlpe-windows
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR11MB3544:EE_|PH7PR11MB7074:EE_
-x-ms-office365-filtering-correlation-id: e0c0aab0-a540-4d90-25b9-08da9bcc2202
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4XPUQ1F/27RC+datfBT5Gb/sjNMSps1PqsA+B6SFitH8klZw5UsdAGyd3eojTawg736WMPVYtETtLj/CzeEqY6s4P3Z5OfH5qFC6jVdWZsHEsNsRvXeaGWXLtyoVKkI/tr4rbUWmW5wV14INKfXuxpO4p0XFKNI4ydwopHlxP3mBVVUJHJheLYkVxUXGxJV7Hk4oDCe8mEI/SR2u/c7p2X/e8txFH5WQezrRXlJ0oEdT+A7U65RcbRSvw1uK4kqrME9e7S4thAJH3hS4FbbwCN0mKka3hoTkmyaycBBGuMKedsK/Cysp0E9WfwsbyPWzb9Zpq2XJ+1jtT99vQPIR5ekoh6UgvCl9k85HeP71dWz3u4QngNExAT5PrHlKvicpYTwxP6BF0moeFOtD7g5qqrRQUSlgFdr7hft72kSzmMTYbqCHF7PBZTE4zqYd+55dh7ffjbNd6ZBvp1B+jb7wwIlr/NNrDda+CrZGxGvlYNnWKeygT+kHpMgELhOUfDHlDiShcwnYaAwIj8NEbx1mOgtXzafGJ+rk7QZRy8Kf5xcm3YEjNx9P9PlpUuWesgZNzxdSRFSzfKh3o/SMRI4/3nhVoQ8Drebx5nxY+P2cbqaprA4d4k6oCSr6IDAsGGMUUmYYRM7mVXVCg9pGHV9u6grm3/HXLMISsVbp+RXcw7lFXIxuoiw0uQpjE5OBBVIbYKBp6eqfmJPMIDTj12I9tgKYEzcSI5Iw39ie8uq3ZkZm+58qbZKffLJ0xK+Bhx7lx9RQgAZtyQFxhYiMqRutHDRZmTZqM66KsZO4IFe7kwo=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB3544.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(39860400002)(376002)(136003)(396003)(346002)(451199015)(7696005)(41300700001)(55016003)(478600001)(26005)(53546011)(966005)(6506007)(9686003)(122000001)(71200400001)(33656002)(38100700002)(2906002)(86362001)(186003)(64756008)(82960400001)(66446008)(66946007)(66556008)(8676002)(66476007)(4326008)(76116006)(38070700005)(5660300002)(316002)(52536014)(8936002)(6916009)(83380400001)(54906003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Wx9MPx6v0Op6f7Zt3TnCKn5UFRobkIaIM07WGGFSjzFkDMjb2oSHG+or3cC6?=
- =?us-ascii?Q?ctLhYOs/fl9KjsqK45DhuPdgiE8kFGvanFxjGeylsiE4hmzpGJPFijdyjp9U?=
- =?us-ascii?Q?ZK6GhWZQQJ/7TCyt6N7tPRJIdvFTOIq4a6afOL6eaU8Xmg1uRdHSlDYY9b8s?=
- =?us-ascii?Q?rr03Cyv7zaZOOguvn15g5pUOF8krqfPvL2tjGZ+wXEkG37nbqr8hdPKSW+lT?=
- =?us-ascii?Q?VSmpqCn72gEsRkqapQ/yx9Q+kqLIopw/X5PpJmflCLieF56ZtnKxt9QTPk2b?=
- =?us-ascii?Q?RvQnapwxdI58ybOy4q3ZW5xwQCsYLHzvrgY3ICFn1I63q71SgWNMn4v5+yoL?=
- =?us-ascii?Q?rxJBeVVAxL2SBPRqbVHaVOpgK20ur+q34cjCDapgveqHB8ahKis4uxpuTbic?=
- =?us-ascii?Q?1ic0RqoZv+lLr28t1LD7dZ3N/zV9yvN6XU9WeI9oRdImejhvYIbMpefMohMy?=
- =?us-ascii?Q?BBtZFELPM4aZwOcDnIelH5uDmockOEQE10EKW8vSrvofXGUNgDdhy3qJrz13?=
- =?us-ascii?Q?HlEdmqi1iqOGm7pk4QTj0nrYGj1+h5+uov42kwrL+sCOAIbngOFYWHOFeWuT?=
- =?us-ascii?Q?TvEhFX7DQ15ngxdP6bHdH50UPkfFjKCYWf6Gsbfej+F/F0eDt3cqsK3H8E7t?=
- =?us-ascii?Q?k1q7qX3QLaZhlLqQovzfBl4AJS4j3+2Nff4JVISxCZr+1unng2jSO9WCP7tK?=
- =?us-ascii?Q?wFYt6d7xKDTzweUf3to+AjAak3TN3zMwJeBnmWwZmWuLu3Nw9mO9J6E/GWnv?=
- =?us-ascii?Q?8RlIiv+93Cs1JnaLTTwsUX8p3yQkgGlhgKAedR08K0g6helCUg6/RpYFBI3G?=
- =?us-ascii?Q?/wuEL5Sr37O+/3hE5Ui0Q8Tfu/I6zvM0RESx6QbJpZAwMx/c8DWRj41BKLi8?=
- =?us-ascii?Q?q34vXqYcYOejHwuzIuI3O8R+U8EX/2v1FGQfmkzo6CfuAApPeW8ANb17XNBP?=
- =?us-ascii?Q?E8SDwSbkNcYY34lLl+uX+Y/ZgPrGZxymX629pdq9uAOr6+JbvaUzRKHf6coQ?=
- =?us-ascii?Q?xBZdGQ2eOrf1dnfqLjdWZhNlStDH/Opu9vh6fSaqkDXbO/Ixf54E11XPxJnz?=
- =?us-ascii?Q?G3wZuK/GDkdK78Wuf5m9UQKkeKtC/kVajjpo3LR+jvl0w2GW0DUXnIis8rWW?=
- =?us-ascii?Q?GQ0LALjr5zqwoW09bCmOs7JyTooOtWwwmNFuWCSgd3sU6ZCu3yzysyvFV64o?=
- =?us-ascii?Q?wYRtpcnQPIWTrytXf9dNfUhyvj4LlcIm8QkAJRsdeioHRC0/euTU+uUpjjjX?=
- =?us-ascii?Q?WcrFX/QhoOYJm781p9DqjKt03Kk3Evu46BtvZGtWmRj7DM6y8XVBLsyc0BPx?=
- =?us-ascii?Q?Hek9n8q/jnIBo9RnIcPHlzOQSdQXTTyQlxqUpAwMkFV93+Pba7cedz4hw30y?=
- =?us-ascii?Q?KaoAqEis0V3DSitV5v31SuSMqbXpJk6fgMZflIJuKcf3fPYhqj09267Eas6h?=
- =?us-ascii?Q?iLzKvIpuAKF2SfRoJcuerGTW1CSp34guLF0ZrBA/u2MqKHEoflAJqAetZrSs?=
- =?us-ascii?Q?zqFxqafPBvLdYO/QItmAdUp7N/e0AmPeRhHrO+Ebvo4LGlo7gv8fJv5+pZFR?=
- =?us-ascii?Q?YArK4R09baQSwcrz5Eb7k1gC7gPMrIxVqGQNE5Z5?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 244E510E963
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 12:26:13 +0000 (UTC)
+Received: from maud (138-51-81-86-lsn-2.nat.utoronto.ca [138.51.81.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alyssa)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E3218660035B;
+ Wed, 21 Sep 2022 13:26:10 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1663763171;
+ bh=LlHD5lcHyZfHfTEXQT+IbuM3eYyGjiUeyiaLrGNOPPg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QvYpEeK56DoQSASB/Dh1LiOLwMFU4ZpTWoAXaCym+TzdsWmu8eOCfnCkAH6S3K+P7
+ LvnDV7rkr+wX+OjRwZPTaIGE+MshSxNpouLRc273ES0c3cRbxz/tPOTXswuWbAo7tP
+ 4BWAeYf83B8s4P+lXxM0H2w08LbznpFeDOMSDz0IiPLz+ihHmDM2BQa4kj2+CHxek/
+ QQpFu4k1M7FK4fp9Y09dXiaRcB7SA4hXTcKKCwLgkGgRCv0wok+6HybawAKq2lkrav
+ HsWtOLn/Vea0fvspnkjPu4akabrKS3ZFrWg7Gq2q9GRzMPYx1zcZkSbtsOO3cuEX+3
+ r7IvGnlxx1tQA==
+Date: Wed, 21 Sep 2022 08:26:07 -0400
+From: Alyssa Rosenzweig <alyssa@collabora.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 2/2] drm/panfrost: replace endian-specific types with
+ generic ones
+Message-ID: <YysC34LemH+Qzd7l@maud>
+References: <YynVAAaQPIPhuN55@maud>
+ <20220920211545.1017355-1-adrian.larumbe@collabora.com>
+ <20220920211545.1017355-2-adrian.larumbe@collabora.com>
+ <Yyo7A1eolIBssv/i@maud>
+ <4e907f5a-0691-214f-d6a2-1bc3a8bd462e@arm.com>
+ <6ce0a88e-6114-65b2-9670-6a76cfad068d@arm.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3544.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0c0aab0-a540-4d90-25b9-08da9bcc2202
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Sep 2022 12:23:47.2390 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XR68joh7DU6kn85Q5PFGt0KaRiAL7M4l8wseXwTiYM8Q0BtSxSSwFWPG47bTvehjoMkcxEEnkbh4wCoA+EL/dQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7074
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6ce0a88e-6114-65b2-9670-6a76cfad068d@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,119 +58,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Wang, Yu1" <yu1.wang@intel.com>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Linux MM <linux-mm@kvack.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, "Chatre,
- Reinette" <reinette.chatre@intel.com>, "Li, Fei1" <fei1.li@intel.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>
+Cc: Adri??n Larumbe <adrian.larumbe@collabora.com>,
+ alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+> > Or of course we could just actually use native endian and detect from
+> > the magic which endian is in use. That would require ripping out the
+> > cpu_to_lexx() calls in Linux and making the user space tool more
+> > intelligent. I'm happy with that, but it's pushing the complexity onto Mesa.
+> 
+> If there's a clearly identifiable header, then I'd say making the whole dump
+> native-endian is probably the way to go. Unless and until anyone actually
+> demands to be able to do cross-endian post-mortem GPU debugging, the
+> realistic extent of the complexity in Mesa is that it doesn't recognise the
+> foreign dump format and gives up, which I assume is already implemented :)
 
- Thank you for this info, we will fix this issue.
-
-Almost miss this mail, sorry!
-
--Yonghua
-
-> -----Original Message-----
-> From: Daniel Vetter <daniel@ffwll.ch>
-> Sent: Wednesday, August 10, 2022 20:20
-> To: Huang, Yonghua <yonghua.huang@intel.com>
-> Cc: gregkh@linuxfoundation.org; linux-kernel@vger.kernel.org;
-> stable@vger.kernel.org; Chatre, Reinette <reinette.chatre@intel.com>; Wan=
-g,
-> Zhi A <zhi.a.wang@intel.com>; Wang, Yu1 <yu1.wang@intel.com>; Li, Fei1
-> <fei1.li@intel.com>; Linux MM <linux-mm@kvack.org>; DRI Development <dri-
-> devel@lists.freedesktop.org>
-> Subject: Re: [PATCH] virt: acrn: obtain pa from VMA with PFNMAP flag
->=20
-> On Mon, Feb 28, 2022 at 05:22:12AM +0300, Yonghua Huang wrote:
-> >  acrn_vm_ram_map can't pin the user pages with VM_PFNMAP flag  by
-> > calling get_user_pages_fast(), the PA(physical pages)  may be mapped
-> > by kernel driver and set PFNMAP flag.
-> >
-> >  This patch fixes logic to setup EPT mapping for PFN mapped RAM region
-> > by checking the memory attribute before adding EPT mapping for them.
-> >
-> > Fixes: 88f537d5e8dd ("virt: acrn: Introduce EPT mapping management")
-> > Signed-off-by: Yonghua Huang <yonghua.huang@intel.com>
-> > Signed-off-by: Fei Li <fei1.li@intel.com>
-> > ---
-> >  drivers/virt/acrn/mm.c | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/drivers/virt/acrn/mm.c b/drivers/virt/acrn/mm.c index
-> > c4f2e15c8a2b..3b1b1e7a844b 100644
-> > --- a/drivers/virt/acrn/mm.c
-> > +++ b/drivers/virt/acrn/mm.c
-> > @@ -162,10 +162,34 @@ int acrn_vm_ram_map(struct acrn_vm *vm, struct
-> acrn_vm_memmap *memmap)
-> >  	void *remap_vaddr;
-> >  	int ret, pinned;
-> >  	u64 user_vm_pa;
-> > +	unsigned long pfn;
-> > +	struct vm_area_struct *vma;
-> >
-> >  	if (!vm || !memmap)
-> >  		return -EINVAL;
-> >
-> > +	mmap_read_lock(current->mm);
-> > +	vma =3D vma_lookup(current->mm, memmap->vma_base);
-> > +	if (vma && ((vma->vm_flags & VM_PFNMAP) !=3D 0)) {
-> > +		if ((memmap->vma_base + memmap->len) > vma->vm_end) {
-> > +			mmap_read_unlock(current->mm);
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		ret =3D follow_pfn(vma, memmap->vma_base, &pfn);
->=20
-> This races, don't use follow_pfn() and most definitely don't add new user=
-s. In
-> some cases follow_pte, but the pte/pfn is still only valid for as long as=
- you hold
-> the pte spinlock.
->=20
-> > +		mmap_read_unlock(current->mm);
->=20
-> Definitely after here there's zero guarantees about this pfn and it could=
- point at
-> anything.
->=20
-> Please fix, I tried pretty hard to get rid of follow_pfn(), but some of t=
-hem are
-> just too hard to fix (e.g. kvm needs a pretty hug rewrite to get it all s=
-orted).
->=20
-> Cheers, Daniel
->=20
-> > +		if (ret < 0) {
-> > +			dev_dbg(acrn_dev.this_device,
-> > +				"Failed to lookup PFN at VMA:%pK.\n", (void
-> *)memmap->vma_base);
-> > +			return ret;
-> > +		}
-> > +
-> > +		return acrn_mm_region_add(vm, memmap->user_vm_pa,
-> > +			 PFN_PHYS(pfn), memmap->len,
-> > +			 ACRN_MEM_TYPE_WB, memmap->attr);
-> > +	}
-> > +	mmap_read_unlock(current->mm);
-> > +
-> >  	/* Get the page number of the map region */
-> >  	nr_pages =3D memmap->len >> PAGE_SHIFT;
-> >  	pages =3D vzalloc(nr_pages * sizeof(struct page *));
-> >
-> > base-commit: 73878e5eb1bd3c9656685ca60bc3a49d17311e0c
-> > --
-> > 2.25.1
-> >
->=20
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
++1 to this solution. Gets the complexity out of both kernel and Mesa,
+and in the vanishingly unlikely scenario that we need this
+functionality, we can add it to Mesa without kernel changes. As mesa
+panfrost maintainer I'll take those odds :+1:
