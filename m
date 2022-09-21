@@ -2,66 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F1D5BF79B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 09:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB195BF64A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 08:28:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 277DD10E8AE;
-	Wed, 21 Sep 2022 07:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4513110E842;
+	Wed, 21 Sep 2022 06:28:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC0F810E5C8
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 12:32:08 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id r7so4080787wrm.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 05:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date;
- bh=1MF4EqMmKiknkCxbkWjC3WSdMgGUyAMwUXpH/v5PLhs=;
- b=hqQ+kEhXrINc6InWXqyon5OwHwauo0C0OEZqG9NYnnK3ZJEsnGX1dAgFB3BKCrj+G2
- dPc7q5c1k8lHWMoQBkHE/1IaSTUy3ygewYM52gTFSgKVYi2WbLib61VKuUPe+W0DDkYR
- JKD8dDfQC2/sTJdVL6sudb0h/OJjZIYbZ88OU=
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A53910E841
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 06:28:38 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id o2so7521992lfc.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 23:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=NjkZdkL1JldrqDVNu0N/8E6w/nwH+oo08ZTDDHx3Epc=;
+ b=xBlD5VT0+GduvjYgiHX+YZzlJUZA8q9L4yxkve+xXIEyB9mmDTfzAor1+U+jobGoNj
+ raXJkajU9gsQNIzU89o4Ptl9jtFEECS3k/NqFXOrKKc50pNnIcEnYIpTq9QITj9CA1qV
+ iJYA7nzbkN7XPLVWkcD2OakJVTbED9sa8mvlg3AFrasK//ROrpyE/J7TPenyCvNaoaFk
+ 0UrzYZz2yOl4aEpfz3ThydDQJ3NPYDoahAalwOdGZQk1ho6akDe3xa2NReSuBsRWtAUD
+ rYCC73F7qCY3g7LR99Vndm3I1eY3rMSX0OaSN0Oei2c2iaVV5d1RbwfivMlD1iKHIHST
+ vTcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=1MF4EqMmKiknkCxbkWjC3WSdMgGUyAMwUXpH/v5PLhs=;
- b=7REWa1wjM7Z3ztpuNAQxz/PwMCxJpDWorGYVsa3cQcVJyzbkXE1hKqeEB9vqv3iAMk
- ZiKstcSqrfcbOPVfylHf1UFtv8Hla/yiMn1fyTtu+UWRcaYS+go30f62rLa0qJNl55Pg
- u8Lsos8grUUP/eKSCeMBxBvwcHWn7XgPySm4VqchjZfbR3dIjHTCapdiYEBr5BW76It2
- pibxe9Nrvb2IEGsgg5G8EeZh4pbA8HrockH05GAKDCo4UmS0W5MZ5iMFussYoACnzS5/
- cxyxD5iSIG+4sS9VFGL/UXmA8sriP1Ko+Uk56oNXBihq3JHEYaJ894Gf7Sfm8MG1LOjz
- PELw==
-X-Gm-Message-State: ACrzQf3s6Ig5O0cUsx82f+cgOIBL/WklzV9NciTRFWAHNRBFMbVKkAHw
- M2+DTe5iNy5QPQG0TO+Iu6S6cg==
-X-Google-Smtp-Source: AMsMyM6r6Ml0b1UTbXqs9UY3GRGCQbw72xzvUd6ll61viiKh6J0PpVhoGzWJOg+mkXMFmIU7FSUtJw==
-X-Received: by 2002:a5d:504c:0:b0:228:db0e:a4c9 with SMTP id
- h12-20020a5d504c000000b00228db0ea4c9mr14181924wrt.272.1663677127257; 
- Tue, 20 Sep 2022 05:32:07 -0700 (PDT)
-Received: from tom-ThinkPad-T14s-Gen-2i
- (net-188-217-56-12.cust.vodafonedsl.it. [188.217.56.12])
- by smtp.gmail.com with ESMTPSA id
- f7-20020a05600c4e8700b003b340f00f10sm17629084wmq.31.2022.09.20.05.32.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 05:32:06 -0700 (PDT)
-Date: Tue, 20 Sep 2022 14:32:03 +0200
-From: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] drm/amdgpu: initialize r variable into amdgpu_cs_submit
- function
-Message-ID: <20220920123203.GA346517@tom-ThinkPad-T14s-Gen-2i>
-References: <20220920122216.346321-1-tommaso.merciai@amarulasolutions.com>
- <3430255f-3675-eef2-92bd-4eb8be582c83@amd.com>
+ bh=NjkZdkL1JldrqDVNu0N/8E6w/nwH+oo08ZTDDHx3Epc=;
+ b=UmDmHKfytiMLGoIsKVGk1lYjExTseguFiWURjnxCXZwcAs+K/vTdYS4mp5Oo8OVPYl
+ CFxg4HXjhVMBk0bSDNAwaId8SGnsRbb6s59MCwuyvUZSL5c55gXgVHCHXqZMLlLN9NAN
+ VbEsOQ4v14TjOWC6MgrakZpCHmN8UIfpKy8NyRCgu/EzNfxZqnAY856l8C9QHk0ElMbr
+ rsN/dUxHz22xxycTXBq4Y3GQE/QHmMvsPUWlmg9QwX1qv9bj4wQCXXmhqQnjR02ixCnS
+ dqlPlN3af4pe25gDXaSU4O85wtdbfKhs4DIABH4ghp7YhnnhcdOOtXUfh8beeuG5ktt3
+ 8mdQ==
+X-Gm-Message-State: ACrzQf015RMtI7EJa7XEF9IZ8yG/QkluNd57P462SN3outPuycviccnR
+ 4mlzKpiGL+hJdUScUcJ9zdsm5g==
+X-Google-Smtp-Source: AMsMyM5EWxKhU/JvV1HGm5Jvoeu4U9WCBLswwA2sX1HdMqQ3ux4ZgMTlmqk875wqoOxHMnFPciKMGA==
+X-Received: by 2002:a05:6512:12c1:b0:49f:d13f:56f3 with SMTP id
+ p1-20020a05651212c100b0049fd13f56f3mr2977436lfg.657.1663741716577; 
+ Tue, 20 Sep 2022 23:28:36 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ x20-20020ac25dd4000000b00492a0f02758sm305109lfq.28.2022.09.20.23.28.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Sep 2022 23:28:35 -0700 (PDT)
+Message-ID: <29a06da0-ddf5-15eb-ac3d-0bc2e0006ae9@linaro.org>
+Date: Wed, 21 Sep 2022 08:28:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3430255f-3675-eef2-92bd-4eb8be582c83@amd.com>
-X-Mailman-Approved-At: Wed, 21 Sep 2022 07:25:20 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 1/6] dt-bindings: arm: mediatek: mmsys: change
+ compatible for MT8195
+Content-Language: en-US
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20220920140145.19973-1-jason-jh.lin@mediatek.com>
+ <20220920140145.19973-2-jason-jh.lin@mediatek.com>
+ <65c93c5d-941a-267b-408d-95be83dc2454@linaro.org>
+ <8fba20bf37326504b871fb55ce171cd37720a9a0.camel@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <8fba20bf37326504b871fb55ce171cd37720a9a0.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,70 +82,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, Philip Yang <Philip.Yang@amd.com>,
- David Airlie <airlied@linux.ie>, linuxfancy@googlegroups.com, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, Luben Tuikov <luben.tuikov@amd.com>,
- dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>, linux-amarula@amarulasolutions.com,
- sudipm.mukherjee@gmail.com
+Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
-On Tue, Sep 20, 2022 at 02:23:58PM +0200, Christian König wrote:
-> Am 20.09.22 um 14:22 schrieb Tommaso Merciai:
-> > The builds of arm64 allmodconfig with clang failed to build
-> > next-20220920 with the following result:
-> > 
-> > 1190:3: error: variable 'r' is uninitialized when used here [-Werror,-Wuninitialized]
-> > note: initialize the variable 'r' to silence this warning
-> > 
-> > This fix compilation error
+On 21/09/2022 06:16, Jason-JH Lin wrote:
+> Hi Krzysztof,
 > 
-> I've already send a patch to fix this to the mailing list 7 Minutes ago :)
+> Thanks for the reviews.
 > 
-> Please review or ack that one.
+> On Tue, 2022-09-20 at 17:25 +0200, Krzysztof Kozlowski wrote:
+>> On 20/09/2022 16:01, Jason-JH.Lin wrote:
+>>> For previous MediaTek SoCs, such as MT8173, there are 2 display HW
+>>> pipelines binding to 1 mmsys with the same power domain, the same
+>>> clock driver and the same mediatek-drm driver.
+>>>
+>>> For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding
+>>> to
+>>> 2 different power domains, different clock drivers and different
+>>> mediatek-drm drivers.
+>>>
+>>> Moreover, Hardware pipeline of VDOSYS0 has these components: COLOR,
+>>> CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture
+>>> Quality)
+>>> and they makes VDOSYS0 supports PQ function while they are not
+>>> including in VDOSYS1.
+>>>
+>>> Hardware pipeline of VDOSYS1 has the component ETHDR (HDR related
+>>> component). It makes VDOSYS1 supports the HDR function while it's
+>>> not
+>>> including in VDOSYS0.
+>>>
+>>> To summarize0:
+>>> Only VDOSYS0 can support PQ adjustment.
+>>> Only VDOSYS1 can support HDR adjustment.
+>>>
+>>> Therefore, we need to separate these two different mmsys hardwares
+>>> to
+>>> 2 different compatibles for MT8195.
+>>>
+>>> Fixes: 81c5a41d10b9 ("dt-bindings: arm: mediatek: mmsys: add mt8195
+>>> SoC binding")
+>>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>>> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+>>> ---
+>>>  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml      | 4
+>>> ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+>>> l
+>>> b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+>>> l
+>>> index 6ad023eec193..df9184b6772c 100644
+>>> ---
+>>> a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+>>> l
+>>> +++
+>>> b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+>>> l
+>>> @@ -38,6 +38,10 @@ properties:
+>>>            - const: mediatek,mt7623-mmsys
+>>>            - const: mediatek,mt2701-mmsys
+>>>            - const: syscon
+>>> +      - items:
+>>> +          - const: mediatek,mt8195-vdosys0
+>>> +          - const: mediatek,mt8195-mmsys
+>>> +          - const: syscon
+>>
+>> and why mediatek,mt8195-mmsys is kept as non-deprecated?
+> 
+> Shouldn't we keep this for fallback compatible?
 
-Sorry, my bad. Don't see your patch :)
-
-Cheers,
-Tommaso
+I am not talking about it.
 
 > 
-> Thanks,
-> Christian.
-> 
-> > 
-> > Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > index 58088c663125..efa3dc9b69fd 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > @@ -1168,7 +1168,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
-> >   	struct amdgpu_bo_list_entry *e;
-> >   	struct amdgpu_job *job;
-> >   	uint64_t seq;
-> > -	int r;
-> > +	int r = 0;
-> >   	job = p->job;
-> >   	p->job = NULL;
+> I think this items could support the device node like:
+> foo {
+>   compatible = "mediatek,mt8195-vdosys0", "mediatek,mt8195-mmsys", 
+> 	       "syscon";
+> }
 > 
 
--- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
+Yes, this one ok.
 
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+> 
+> Or should I change the items like this?
+> - items:
+>     - const: mediatek,mt8195-vdosys0
+>     - enum:
+>         - mediatek,mt8195-mmsys
+>     - const: syscon
+> 
+
+No, this does not look correct.
+
+I asked why do you keep old mediatek,mt8195-mmsys compatible in the same
+place (the alone one), without making it deprecated?
+
+Best regards,
+Krzysztof
