@@ -1,70 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A3C5BF845
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 09:52:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AE35BF84E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 09:53:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49E1D10E8BE;
-	Wed, 21 Sep 2022 07:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22A9E10E86C;
+	Wed, 21 Sep 2022 07:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E76510E8B9;
- Wed, 21 Sep 2022 07:52:10 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id q21so7366582edc.9;
- Wed, 21 Sep 2022 00:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1FFB10E8BF
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 07:53:07 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id z20so5984915ljq.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 00:53:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=7GXQJg1MtZ8u0ssW58yg/QC6ri/4B3Kry1/oczC1OUU=;
- b=W4swEwLo8lHMmMpipK74s7WK3AkF3zu/sEIJZps98+WkLdEnM3NrXAHLpYEPS8eNby
- uDawVOFg2osQCL6XlIUT3jsqacFNCSywY/gAowXffSDa+hloNvLjYXW+Sa7WxyqMUpwY
- WXr/7TCxz4qaERwbQJeuz9pQN640b2QFDLdcuHmbUdm2PBx90FmkMxN8FjEwf3RZzL+e
- XLurp04GO3tVJJHqC+YhJ+6iAtYxzVQ7xfXwxlc3Yodml1QH0dBb5AWvujISjofwx4WJ
- qmzFEwHb59kHIAXll3B7ectIAgi/jN+aJ8nrm3Vn4s5fCELhti/xHdwB/SLcurvqfXZh
- Nwbg==
+ bh=OS0CSjnlW5ADVTuZSK4e/8bQa+nM61/76HZjRJHlhE8=;
+ b=UHWL6t56LIFGZHwdc/+WL+z0SYzWxEENolMyzH7nOCm8KzikH68NrxBkjqGr70SXNW
+ 3mZWGxLEC+XHRUKKNrwh7WhDCiNlhPUnKoFfo+UiqbYQaGdpKclRAwHbhTKWmkkXRaWM
+ v1RFmVq194hS8C/YXDzo4R+l/FI8t+G1jsKqwxLovg/6D/Rklc35jn1pkBqU/GD9rwzn
+ hlECjQKZIu9ER1b2twWm9OxlWSc1gODdrFORxJi5HewVDvJM/prvlNHMJ3us67Ee1+gN
+ 1Zr6BKxKw3U0V5bncc9hYanXdxZh8Db9LGrHAw1ZkP4uqaaAt2RH4kWWmzjQP3IhfgB4
+ +x2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=7GXQJg1MtZ8u0ssW58yg/QC6ri/4B3Kry1/oczC1OUU=;
- b=j88mvvDYRNP6RGlQTLyK4oo3iBIczKrZd/iej/yW2zYRfxgQwjvSwHKXJrooudPvCo
- nzDiRiCU7Ki12t1yJ/AGGcVwFad/AkxuDkoXqH+N/ctwaFepZnyPWO1hToYtDF7LFRxS
- LFv35jnky0V9ZepIaPC7GMlBbukatykzfph6M0UbN2X1VNB+V0JTs9Vvfeg0qS+ZS5LE
- T/fm6ocNmEKVbyW3rCpKBOkqzTMDwYUoctojG0VobXX3lMrmXe6wOnqWQGdUYQJQMw4y
- Lmj7pTaPnmUFOGXLdEFJgs9fLzPaR51IREFBVHSAi7uMMu/RazZSLylsOuabFfyi7DV+
- 2zNw==
-X-Gm-Message-State: ACrzQf1JryO1uZlnd1p3FdwTHn4KzQA42agd/lHWY/dR7oGhDO+4ZUk7
- ACkW8XfZkVUjs/Ql4sDVaZUl8fRBHQg=
-X-Google-Smtp-Source: AMsMyM4pmBzeeeZGzJ+3RNaMv0bo0KOQDaU5wlneY9YAzXjbG90o6Ztcb1JmqifVhcmesIZbci6SfQ==
-X-Received: by 2002:a05:6402:3784:b0:453:9d2a:771b with SMTP id
- et4-20020a056402378400b004539d2a771bmr17918922edb.353.1663746728625; 
- Wed, 21 Sep 2022 00:52:08 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:77d1:43b9:2a25:bbed?
- ([2a02:908:1256:79a0:77d1:43b9:2a25:bbed])
- by smtp.gmail.com with ESMTPSA id
- i9-20020a0564020f0900b0044e937ddcabsm1303203eda.77.2022.09.21.00.52.07
+ bh=OS0CSjnlW5ADVTuZSK4e/8bQa+nM61/76HZjRJHlhE8=;
+ b=rPl3+1kYtUvYRZ//MZPndI49dJMNKuL1sJfnnNS47CKYfLPrmjw19RCjBmaMT75XEN
+ 6OHRhHIaAffu3uBSkKcL+7tA6Y6pOEKvV/y1R/q6xx7QcEzUqlKFM2lRVdK7dFb1bInd
+ m37k9juDQyqX1aZpIYWfT+AfTjmc7lSA8a5NBbRc9RGyzCtArLO/n3JhbswLkVOEKGXh
+ zZKwaWoyS7lgNkhPdXi45x8mZo8JvXMntLLR++ysH+BI7pnElMYBkHsgCO0xM16rjkEm
+ q+L8PTuqprW45H+hXipmYg90QsEfkyreWabD5NrKOu4nbp06zrRI3BmoxzEWzYNI0OPm
+ 4V8A==
+X-Gm-Message-State: ACrzQf0+xsWPmbUGvvdFsjQi9WOUWiivmFaSLcM68UE5Nz7lBjsJLl/t
+ uGypmTp+PU6A7toxCZfLj+EoYCwBu2iipw==
+X-Google-Smtp-Source: AMsMyM4KNz309yv4EvSMp9zHGKrkbtkYd/2U0LDBcwFkpEnNdcd3KlhL/+LDBSpIdSdcUpYQn3T7Ag==
+X-Received: by 2002:a2e:9005:0:b0:26c:14d9:cea0 with SMTP id
+ h5-20020a2e9005000000b0026c14d9cea0mr7733489ljg.300.1663746786270; 
+ Wed, 21 Sep 2022 00:53:06 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ b26-20020a0565120b9a00b00497a99e7b73sm317674lfv.246.2022.09.21.00.53.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Sep 2022 00:52:08 -0700 (PDT)
-Message-ID: <0bd4f404-4340-9b3d-7a3b-baf6dc6e84ec@gmail.com>
-Date: Wed, 21 Sep 2022 09:52:06 +0200
+ Wed, 21 Sep 2022 00:53:05 -0700 (PDT)
+Message-ID: <9ada8d37-83b8-8bd2-2b02-d821b1b1c8e7@linaro.org>
+Date: Wed, 21 Sep 2022 09:53:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/i915: Do not cleanup obj with NULL bo->resource
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 0/8] Support for NVDEC on Tegra234
 Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, Nirmoy Das <nirmoy.das@intel.com>, 
- intel-gfx@lists.freedesktop.org
-References: <20220920170628.3391-1-nirmoy.das@intel.com>
- <180ffaa1-1739-5a84-b0e7-76685c577518@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <180ffaa1-1739-5a84-b0e7-76685c577518@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Mikko Perttunen <cyndis@kapsi.fi>,
+ Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>
+References: <20220920081203.3237744-1-cyndis@kapsi.fi>
+ <89d925ea-f550-6903-1c24-b320ae5a82c0@linaro.org>
+ <de7f5e65-c939-558a-277d-01320f93eedc@kapsi.fi>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <de7f5e65-c939-558a-277d-01320f93eedc@kapsi.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,56 +80,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: anshuman.gupta@intel.com,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Sameer Pujar <spujar@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org,
+ Ashish Mhetre <amhetre@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.09.22 um 19:13 schrieb Matthew Auld:
-> On 20/09/2022 18:06, Nirmoy Das wrote:
->> For delayed BO release i915_ttm_delete_mem_notify()
->> gets called twice, once with proper bo->resource and
->> another time with NULL. We shouldn't do anything for
->> the 2nd time as we already cleanedup the obj once.
+On 21/09/2022 09:50, Mikko Perttunen wrote:
+> On 9/21/22 10:26, Krzysztof Kozlowski wrote:
+>> On 20/09/2022 10:11, Mikko Perttunen wrote:
+>>> From: Mikko Perttunen <mperttunen@nvidia.com>
+>>>
+>>> v3:
+>>> * Updated patch 3 based on comments
+>>>
+>>> v2:
+>>> * Updated patches 1,3 based on comments
+>>> * Added Acked-by to patch 2
+>>>
+>>> Original message:
+>>>
+>>> Hi all,
+>>>
+>>> this series adds support for the HW video decoder, NVDEC,
+>>> on Tegra234 (Orin). The main change is a switch from Falcon
+>>> to RISC-V for the internal microcontroller, which brings along
+>>> a change in how the engine is booted. Otherwise it is backwards
+>>> compatible with earlier versions.
 >>
->> References: https://gitlab.freedesktop.org/drm/intel/-/issues/6850
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->
-> Christian, as per above it looks like ttm calls into the 
-> delete_mem_notify() hook twice if the object ends up on the delayed 
-> destroy list, is that expected/normal?
-
-Yeah, that's expected. IIRC some driver depended on this for some reason.
-
-I already wanted to change this behavior, but forgot to do so after the 
-patch set which made bo->resource a pointer landed.
-
-Going to look into it once more.
-
-Thanks,
-Christian.
-
->
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> I asked you to describe the dependencies and patch merging strategy.
+>> It's still not here, so I assume there are no and I am taking patches
+>> relevant to me.
 >>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c 
->> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> index 0544b0a4a43a..e3fc38dd5db0 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> @@ -511,7 +511,7 @@ static void i915_ttm_delete_mem_notify(struct 
->> ttm_buffer_object *bo)
->>       struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
->>       intel_wakeref_t wakeref = 0;
->>   -    if (likely(obj)) {
->> +    if (bo->resource && likely(obj)) {
->>           /* ttm_bo_release() already has dma_resv_lock */
->>           if (i915_ttm_cpu_maps_iomem(bo->resource))
->>               wakeref = 
->> intel_runtime_pm_get(&to_i915(obj->base.dev)->runtime_pm);
+>> Best regards,
+>> Krzysztof
+> 
+> Sorry, I described it in the earlier email and forgot to add it to the 
+> cover letter..
 
+Please keep it in cover letter. We all get too many emails and too many
+patchsets to remember. Plus, things can change and such dependency can
+disappear after some versions.
+
+Best regards,
+Krzysztof
