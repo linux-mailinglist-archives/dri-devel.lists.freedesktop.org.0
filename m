@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 143985BFE28
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 14:44:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130C95BFE7B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 14:55:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CF5010E3B4;
-	Wed, 21 Sep 2022 12:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A45210E91F;
+	Wed, 21 Sep 2022 12:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D9C10E24E;
- Wed, 21 Sep 2022 12:44:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663764280; x=1695300280;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=KDQfceECUxtTPfl3QcG6NVqjgCRsknHtfgrpkFpRc7Q=;
- b=MY1MTuLt8Du5ZywFo7SrApJaJipMpGaqLKhLOULi6Ol9wFulGqNwDM5A
- ZecV4ElApoxAjWBd8CZfzkyvVU/NBYB9hFgiIwfBU5YVoGz0wSQeBbMbF
- EGZ0ZGUWQOfVvwLw8x5NB2/gQCiwIF9AFYanMAf0EPWV7bkK1dqNe1v53
- k5nZuZ3HWoe3kG+7eeZr98hf7j1DQEMqUSovmHpI3b+IxZYI5gOASp130
- oG5Q0G2Rubs4CAAhBnh2+qh/Iq4fL3efDZT1x2AbktUo6s36q+lfl3092
- RbGSlhy0w01nz5Rfg5c/Cm8FK4h1shKtYVjl/xQKnOYFuBobuG4MFolnb A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="326303617"
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; d="scan'208";a="326303617"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2022 05:44:39 -0700
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; d="scan'208";a="864405711"
-Received: from ashyti-mobl2.igk.intel.com (HELO intel.com) ([172.28.180.68])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2022 05:44:38 -0700
-Date: Wed, 21 Sep 2022 14:44:35 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/7] drm/i915/hwmon: Add HWMON infrastructure
-Message-ID: <YysHM8Ot1escBzEy@ashyti-mobl2.lan>
-References: <20220916150054.807590-1-badal.nilawar@intel.com>
- <20220916150054.807590-2-badal.nilawar@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E537C10E91F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 12:55:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 01AF91F88D;
+ Wed, 21 Sep 2022 12:55:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663764924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KoZGBoaFxZPTmEkKRwEqifkfWr8iC0r3ozJsZIDMqOM=;
+ b=Ka07vDM8K1km2hMng59LbUvZwrw8/msv6neHJTsQnazag5oU/ZFa5DO0x7zodAvoPLbEza
+ hnw7lGVsUcDLMrv5ymFu/DvOMRO/mkKHeK1WDiSmEKJwMr6MEv8VRENpXPkHCcbUTLH7Dv
+ kpekC/Unl34vuGbSCVVdp1bnyv89YUY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663764924;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KoZGBoaFxZPTmEkKRwEqifkfWr8iC0r3ozJsZIDMqOM=;
+ b=9ndm+mIdGZF7Q045YkYqcwIoESP9MgkrBJuJBK4PD+greHpjg8MtRvSyKpwAsyyBa9D4gN
+ gGxa7EmP6Z6DuxDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A462913A89;
+ Wed, 21 Sep 2022 12:55:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id EOMWJrsJK2O+LAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 21 Sep 2022 12:55:23 +0000
+Message-ID: <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
+Date: Wed, 21 Sep 2022 14:55:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220916150054.807590-2-badal.nilawar@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
+Content-Language: en-US
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, javierm@redhat.com,
+ airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech,
+ sam@ravnborg.org, msuchanek@suse.de, mpe@ellerman.id.au, paulus@samba.org,
+ geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-11-tzimmermann@suse.de>
+ <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------AG7Z9AOHsuDY2uOy5F4SArY8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,177 +74,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Badal,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------AG7Z9AOHsuDY2uOy5F4SArY8
+Content-Type: multipart/mixed; boundary="------------Xmfdjl4UiEJQ0soLPwFr76ao";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, javierm@redhat.com,
+ airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech,
+ sam@ravnborg.org, msuchanek@suse.de, mpe@ellerman.id.au, paulus@samba.org,
+ geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
+Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-11-tzimmermann@suse.de>
+ <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
+In-Reply-To: <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
 
-> +struct hwm_reg {
-> +};
-> +
-> +struct hwm_drvdata {
-> +	struct i915_hwmon *hwmon;
-> +	struct intel_uncore *uncore;
-> +	struct device *hwmon_dev;
-> +	char name[12];
-> +};
-> +
-> +struct i915_hwmon {
-> +	struct hwm_drvdata ddat;
-> +	struct mutex hwmon_lock;		/* counter overflow logic and rmw */
-> +	struct hwm_reg rg;
-> +};
-> +
-> +static const struct hwmon_channel_info *hwm_info[] = {
-> +	NULL
-> +};
-> +
-> +static umode_t
-> +hwm_is_visible(const void *drvdata, enum hwmon_sensor_types type,
-> +	       u32 attr, int channel)
-> +{
-> +	switch (type) {
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static int
-> +hwm_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-> +	 int channel, long *val)
-> +{
-> +	switch (type) {
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static int
-> +hwm_write(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-> +	  int channel, long val)
-> +{
-> +	switch (type) {
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static const struct hwmon_ops hwm_ops = {
-> +	.is_visible = hwm_is_visible,
-> +	.read = hwm_read,
-> +	.write = hwm_write,
-> +};
-> +
-> +static const struct hwmon_chip_info hwm_chip_info = {
-> +	.ops = &hwm_ops,
-> +	.info = hwm_info,
-> +};
+--------------Xmfdjl4UiEJQ0soLPwFr76ao
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-what's the point for splitting so much? Can't you just send the
-hwmon driver all at once? With this patch you are not actually
-doing anything useful. In my opinion this should be squashed with
-the next ones.
+SGkNCg0KQW0gMDUuMDguMjIgdW0gMDI6MTkgc2NocmllYiBCZW5qYW1pbiBIZXJyZW5zY2ht
+aWR0Og0KPiBPbiBXZWQsIDIwMjItMDctMjAgYXQgMTY6MjcgKzAyMDAsIFRob21hcyBaaW1t
+ZXJtYW5uIHdyb3RlOg0KPj4gKyNpZiAhZGVmaW5lZChDT05GSUdfUFBDKQ0KPj4gK3N0YXRp
+YyBpbmxpbmUgdm9pZCBvdXRfOCh2b2lkIF9faW9tZW0gKmFkZHIsIGludCB2YWwpDQo+PiAr
+eyB9DQo+PiArc3RhdGljIGlubGluZSB2b2lkIG91dF9sZTMyKHZvaWQgX19pb21lbSAqYWRk
+ciwgaW50IHZhbCkNCj4+ICt7IH0NCj4+ICtzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGludCBp
+bl9sZTMyKGNvbnN0IHZvaWQgX19pb21lbSAqYWRkcikNCj4+ICt7DQo+PiArICAgICAgIHJl
+dHVybiAwOw0KPj4gK30NCj4+ICsjZW5kaWYNCj4gDQo+IFRoZXNlIGd1eXMgY291bGQganVz
+dCBiZSByZXBsYWNlZCB3aXRoIHJlYWRiL3dyaXRlbC9yZWFkbCByZXNwZWN0aXZlbHkNCj4g
+KGJld2FyZSBvZiB0aGUgYXJndW1lbnQgc3dhcCkuDQoNCkkgb25seSBhZGRlZCB0aGVtIGZv
+ciBDT01QSUxFX1RFU1QuIFRoZXJlIGFwcGVhcnMgdG8gYmUgbm8gcG9ydGFibGUgDQppbnRl
+cmZhY2UgdGhhdCBpbXBsZW1lbnRzIG91dF9sZTMyKCkgYW5kIGluX2xlMzIoKT8NCg0KQmVz
+dCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gQ2hlZXJzLA0KPiBCZW4uDQo+IA0KDQotLSAN
+ClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNv
+ZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
+vHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0
+c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-> +static void
-> +hwm_get_preregistration_info(struct drm_i915_private *i915)
-> +{
-> +}
-> +
-> +void i915_hwmon_register(struct drm_i915_private *i915)
-> +{
-> +	struct device *dev = i915->drm.dev;
-> +	struct i915_hwmon *hwmon;
-> +	struct device *hwmon_dev;
-> +	struct hwm_drvdata *ddat;
-> +
-> +	/* hwmon is available only for dGfx */
-> +	if (!IS_DGFX(i915))
-> +		return;
-> +
-> +	hwmon = kzalloc(sizeof(*hwmon), GFP_KERNEL);
+--------------Xmfdjl4UiEJQ0soLPwFr76ao--
 
-why don't we use devm_kzalloc?
+--------------AG7Z9AOHsuDY2uOy5F4SArY8
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> +	if (!hwmon)
-> +		return;
-> +
-> +	i915->hwmon = hwmon;
-> +	mutex_init(&hwmon->hwmon_lock);
-> +	ddat = &hwmon->ddat;
-> +
-> +	ddat->hwmon = hwmon;
-> +	ddat->uncore = &i915->uncore;
-> +	snprintf(ddat->name, sizeof(ddat->name), "i915");
-> +
-> +	hwm_get_preregistration_info(i915);
-> +
-> +	/*  hwmon_dev points to device hwmon<i> */
-> +	hwmon_dev = hwmon_device_register_with_info(dev, ddat->name,
-> +						    ddat,
-> +						    &hwm_chip_info,
-> +						    NULL);
-> +	if (IS_ERR(hwmon_dev)) {
-> +		mutex_destroy(&hwmon->hwmon_lock);
+-----BEGIN PGP SIGNATURE-----
 
-there is not such a big need to destroy the mutex. Destroying
-mutexes is more useful when you actually are creating/destroying
-and there is some debug need. I don't think that's the case.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMrCbsFAwAAAAAACgkQlh/E3EQov+DE
+9Q//ckxi55KFvAJ4UA6WPGS3cdi+g8bzAosXAU3ixBEO19e0UGZfB/W0dRjZ3sN9c9g5IH6wuboY
+57s8qJe84uVFNPMNsRO51fywFN6hQOUsGK86lrAauRNn2iUMEUhAo0INU6LAANJ4bmgk2iDAHoj+
+QkbFfymf844Rjqrtp7meFDhrtCtZAeBOIDCDl5WTUsuzg2kLEpy+3N397SOtvxVZNOZYYL80NBi3
+dnnplHgjuFK7vB0t2d99+8Ggd44B0FCHk+wKdZEhb5uSXTYYNkmSFNtkjzLJSPVR7ThWsTFTiyf3
+/1m+czrzL0iVQy+buexGvIfO8W863bYhs/HkkfXJaVYhHFq6R1xAT1TdaYiADGsq5OjUs8ytJ/+N
+s1LZoGaxKqsfKM1ho14rvCCMTa7wMX72sRDKJewga5usfDyJbVpAEC5DfZLwHd2xL+sOgscoICRS
+6czwZJ5zrwDzXNwmYM7CkiK5hV+ghOAxESjZnb1OMXFb6/IVAgDJ+5d7yFhD4FU+y1QIZFmTDBLb
+ZIDKxJP7mlVHfQo5mePpe0BqfmucsWU0MIIoyika5waxlhkYnTweiWgA6Jkgs5Ah1pDt7HSXtjPG
+cmcY4tSKCbzJDw7tsdn5fKxpFZbYXpZBZG1L/Pmplf66LSh1HXUNE8Yxh7rNbHXoEt0Folk6xiFq
+Nvs=
+=mw0X
+-----END PGP SIGNATURE-----
 
-With the devm_kzalloc this would be just a return.
-
-Andi
-
-> +		i915->hwmon = NULL;
-> +		kfree(hwmon);
-> +		return;
-> +	}
-> +
-> +	ddat->hwmon_dev = hwmon_dev;
-> +}
-> +
-> +void i915_hwmon_unregister(struct drm_i915_private *i915)
-> +{
-> +	struct i915_hwmon *hwmon;
-> +	struct hwm_drvdata *ddat;
-> +
-> +	hwmon = fetch_and_zero(&i915->hwmon);
-> +	if (!hwmon)
-> +		return;
-> +
-> +	ddat = &hwmon->ddat;
-> +	if (ddat->hwmon_dev)
-> +		hwmon_device_unregister(ddat->hwmon_dev);
-> +
-> +	mutex_destroy(&hwmon->hwmon_lock);
-> +	kfree(hwmon);
-> +}
-> diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i915/i915_hwmon.h
-> new file mode 100644
-> index 000000000000..7ca9cf2c34c9
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/i915_hwmon.h
-> @@ -0,0 +1,20 @@
-> +/* SPDX-License-Identifier: MIT */
-> +
-> +/*
-> + * Copyright © 2022 Intel Corporation
-> + */
-> +
-> +#ifndef __I915_HWMON_H__
-> +#define __I915_HWMON_H__
-> +
-> +struct drm_i915_private;
-> +
-> +#if IS_REACHABLE(CONFIG_HWMON)
-> +void i915_hwmon_register(struct drm_i915_private *i915);
-> +void i915_hwmon_unregister(struct drm_i915_private *i915);
-> +#else
-> +static inline void i915_hwmon_register(struct drm_i915_private *i915) { };
-> +static inline void i915_hwmon_unregister(struct drm_i915_private *i915) { };
-> +#endif
-> +
-> +#endif /* __I915_HWMON_H__ */
-> -- 
-> 2.25.1
+--------------AG7Z9AOHsuDY2uOy5F4SArY8--
