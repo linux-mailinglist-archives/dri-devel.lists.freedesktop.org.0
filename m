@@ -2,58 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08785BF315
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 03:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C9C5BF3C2
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 04:49:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71CA910E7FB;
-	Wed, 21 Sep 2022 01:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23AA210E1ED;
+	Wed, 21 Sep 2022 02:48:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0940C10E7FB
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 01:48:57 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id j10so3166620qtv.4
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Sep 2022 18:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=30wLobZRnFv5zggcZVF2u6wy/96nEdpY/Ifl53dhDFM=;
- b=KPvreMS9cTD4YrMaMm0W35RXTuEm5G6cH9FqS5KKO/LdRVMrIzDCLbnnVsrr0aTF+M
- N637xD82AWRAKw0fe2ZZFejrBD5iZfaLPj7akR8TDl8QqRK0Yc5StwWzkJAPUv82OBe5
- /c2X2yf41KWii3ok0Kn/9kOU36HeBguY2Dz/Nekfnnij3EQIY9nBLl/PaKGQDi4oi4Pv
- sFFueSJMtV98szCHTj+aEUPa7E9SkqEuBaE5mBsjXhajCK1zmtmoHLWetEldHrvED/r1
- niPKxhRbwuOMZGoYphFO68twpl4C32uW7DWmlFLSVhE+W8Kl2AE0vv97jtpm6LZp1X+0
- OkuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=30wLobZRnFv5zggcZVF2u6wy/96nEdpY/Ifl53dhDFM=;
- b=nYnpYtQktkn7gFVGFG+W2e1zuy/uWWhgdwcFkVYkFxJxai7KqK+US4MpTYi+a+W4Yt
- 8duNV6g6SmQlo7Icyxh0PMStvM/DYiH0uW+3ualoQtRxYMluYDZ1AYMCm2R4BsBFgbSg
- jOuBWgjsmtuT46FWyJQ6/4ob1dtYA1/0CzvDHrzHVCBAHGBQOf6Q6+LzwB1hTeSvXI0u
- RXCXQ+Oew8NaDWMK0YOKlbkeWXVWXpmEVFDdj8AO740OYbHUjuRuGOEQYmAglCv5HzXQ
- It++e8Qv5Pgl+wKF8l77EFdOM8VipcMIgsOQ/Ic0MibP5oCm2Dz2oYs+do4wSjT9oHtZ
- U6Ew==
-X-Gm-Message-State: ACrzQf3ykt3Ejknh8vd9/TF2FVmkxFk7OJAncBq3EvJfFyDFVCoWDTjI
- RnhdOIXj+2ZN1zsX1KENKMJ/kWDo5dp5KzASnns=
-X-Google-Smtp-Source: AMsMyM7bBhxaQAfT+rCoAiTyYG/eF3l1J9PoSVv3K9nIjI5BkzQczZAqbJin74KiibXz/4K0z0LmAcynXI+rqdfngVA=
-X-Received: by 2002:a05:622a:48c:b0:35c:d99a:3002 with SMTP id
- p12-20020a05622a048c00b0035cd99a3002mr17703201qtx.564.1663724937128; Tue, 20
- Sep 2022 18:48:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220830034042.9354-2-peterwu.pub@gmail.com>
- <20220830034042.9354-10-peterwu.pub@gmail.com>
- <CAPOBaE7rz2F-sij-LbYau6TRxFoOfmoUc=R__Z7iUrFWmZPgrg@mail.gmail.com>
-In-Reply-To: <CAPOBaE7rz2F-sij-LbYau6TRxFoOfmoUc=R__Z7iUrFWmZPgrg@mail.gmail.com>
-From: ChiaEn Wu <peterwu.pub@gmail.com>
-Date: Wed, 21 Sep 2022 09:48:21 +0800
-Message-ID: <CABtFH5+PuK4vptVNmpn4h2FCxNFp3wWvhUrOxgqArx4YxCY99w@mail.gmail.com>
-Subject: Re: [PATCH v9 09/10] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-To: Han Jingoo <jingoohan1@gmail.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E54310E1F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 02:48:51 +0000 (UTC)
+X-UUID: bb899c095730417f8550dbb20c369c24-20220921
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=LZ8TKW4921hpmzu6cbHG4qSi1zO+4c+6IQ2eX6a4QM4=; 
+ b=CmDrPdM/jhHPPWeKlLGjCQBSTtFlSwi1cyd2vsnDYHoT99pZ0pCs0t2CRnwIvj63ELpMM/L11PrE8rQHXtKy+IvHgcT7/XWcKYCmDAQJsJB3PqDDDD4YguAardt4J0h8vwR+l/rtBP8JiHyB5a1Gga5kdN2dc/dqEzKrde5gO/4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:cc08c40f-088e-4c65-82e5-910d3d0df1aa, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:39a5ff1, CLOUDID:d3ed595e-5ed4-4e28-8b00-66ed9f042fbd,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: bb899c095730417f8550dbb20c369c24-20220921
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1279531616; Wed, 21 Sep 2022 10:48:46 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Wed, 21 Sep 2022 10:48:44 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Wed, 21 Sep 2022 10:48:44 +0800
+Message-ID: <ca635a06d36a7815ae16013fd916cda682c3ab7c.camel@mediatek.com>
+Subject: Re: [PATCH v1 01/17] dt-bindings: clk: mediatek: Add MT8195 DPI clocks
+From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+To: Guillaume Ranquet <granquet@baylibre.com>, Vinod Koul <vkoul@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
+ Rob Herring
+ <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Daniel Vetter
+ <daniel@ffwll.ch>, Chunfeng Yun <chunfeng.yun@mediatek.com>, CK Hu
+ <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>
+Date: Wed, 21 Sep 2022 10:48:44 +0800
+In-Reply-To: <20220919-v1-1-4844816c9808@baylibre.com>
+References: <20220919-v1-0-4844816c9808@baylibre.com>
+ <20220919-v1-1-4844816c9808@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,65 +73,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ChiYuan Huang <cy_huang@richtek.com>, Pavel Machek <pavel@ucw.cz>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- lee@kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- devicetree <devicetree@vger.kernel.org>, mazziesaccount@gmail.com,
- szuni chen <szunichen@gmail.com>, ChiaEn Wu <chiaen_wu@richtek.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, andriy.shevchenko@linux.intel.com,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Linux PM <linux-pm@vger.kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>
+Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 18, 2022 at 3:22 AM Han Jingoo <jingoohan1@gmail.com> wrote:
->
-> On Mon, Aug 29, 2022 ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+On Mon, 2022-09-19 at 18:55 +0200, Guillaume Ranquet wrote:
+> From: Pablo Sun <pablo.sun@mediatek.com>
+> 
+> Expand dt-bindings slot for VDOSYS1 of MT8195.
+> This clock is required by the DPI1 hardware
+> and is a downstream of the HDMI pixel clock.
+> 
+> Signed-off-by: Pablo Sun <pablo.sun@mediatek.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> 
+> diff --git a/include/dt-bindings/clock/mt8195-clk.h b/include/dt-
+> bindings/clock/mt8195-clk.h
+> index 95cf812a0b37..d70d017ad69c 100644
+> --- a/include/dt-bindings/clock/mt8195-clk.h
+> +++ b/include/dt-bindings/clock/mt8195-clk.h
+> @@ -859,6 +859,8 @@
+>  #define CLK_VDO1_DPINTF				47
+>  #define CLK_VDO1_DISP_MONITOR_DPINTF		48
+>  #define CLK_VDO1_26M_SLOW			49
+> -#define CLK_VDO1_NR_CLK				50
+> +#define CLK_VDO1_DPI1_HDMI			50
+> +#define CLK_VDO1_NR_CLK				51
+> +
+>  
+>  #endif /* _DT_BINDINGS_CLK_MT8195_H */
 
-...
+Hello Guillaume,
 
-> > +#define MT6370_ITORCH_MIN_uA           25000
-> > +#define MT6370_ITORCH_STEP_uA          12500
-> > +#define MT6370_ITORCH_MAX_uA           400000
-> > +#define MT6370_ITORCH_DOUBLE_MAX_uA    800000
-> > +#define MT6370_ISTRB_MIN_uA            50000
-> > +#define MT6370_ISTRB_STEP_uA           12500
-> > +#define MT6370_ISTRB_MAX_uA            1500000
-> > +#define MT6370_ISTRB_DOUBLE_MAX_uA     3000000
->
-> Use upper letters as below:
->
-> #define MT6370_ITORCH_MIN_UA           25000
-> #define MT6370_ITORCH_STEP_UA          12500
-> #define MT6370_ITORCH_MAX_UA           400000
-> #define MT6370_ITORCH_DOUBLE_MAX_UA    800000
-> #define MT6370_ISTRB_MIN_UA            50000
-> #define MT6370_ISTRB_STEP_UA           12500
-> #define MT6370_ISTRB_MAX_UA            1500000
-> #define MT6370_ISTRB_DOUBLE_MAX_UA     3000000
->
->
-> > +#define MT6370_STRBTO_MIN_US           64000
-> > +#define MT6370_STRBTO_STEP_US          32000
-> > +#define MT6370_STRBTO_MAX_US           2432000
-> > +
+I am not sure the reason, but it seems patches in this series lack of
+something like this for whole series:
 
-Hi Jingoo,
+---
+ Documentation/devicetree/bindings/watchdog/mtk-wdt.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-This coding style is in accordance with Andy's opinion in this mail:
-https://lore.kernel.org/linux-arm-kernel/CAHp75Vciq4M4kVrabNV9vTLLcd1vR=bMe8JLEdAF9MkRTpcB5g@mail.gmail.com/
+BRs,
+Bo-Chen
 
-And I will revise other parts in v12.
-Thanks for your review!
-
---
-Best Regards,
-ChiaEn Wu
