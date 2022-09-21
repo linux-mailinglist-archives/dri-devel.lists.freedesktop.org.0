@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0585BFA5B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 11:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702515BFA67
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 11:13:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082E210E827;
-	Wed, 21 Sep 2022 09:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 246B810E8F7;
+	Wed, 21 Sep 2022 09:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D45C910E827;
- Wed, 21 Sep 2022 09:13:13 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id f20so7664128edf.6;
- Wed, 21 Sep 2022 02:13:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=l1vyb533afax2OC0XKhODZY3BbHylHPbSqXDEOL933M=;
- b=lexMAsGpZ4uEBXdBTpjGyZOQZbhz7PxOKpVGZx8r1n6iEClWEb2QgJhRCqVNybC4Zb
- umXIRTZtp4aBvlzpZOZ2hzAxKU31SiyYYjtfU+gZPLt6b9qHhGA003E8M5qtNmH2fnFK
- nchHZWUfq5ISXapeTIsdxmnTtZBV/QEoave+BO/SB2lPbt07zYW7r4PJRZdFzPZyhG+X
- VgCsD3BKY5P8SsGT6h+idC632uotCVMDnO4bMEL8tfUssm3i662dpQJ2uawr5G4TWFBL
- UDBGMWnbgSJ2CzHoKasq1mzIfpXFz/m4ecRfLS/c5GepOMiYEU6cmSY1VVs1zXW/jrVX
- 7caQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=l1vyb533afax2OC0XKhODZY3BbHylHPbSqXDEOL933M=;
- b=xYfFfL1ZZf4KPTIMWxcY4hBDIDwPPDN7dpo9pWyyPBRNG/pQoaozOckNl9P7ztwq+S
- aPaEh8UdPH3GXjfImOiMMaE7YJ91w8WEEb3UBLlUO5dy4H/YJRGKOcVduhEBM1owU3Ip
- MRJaFV+EePiiS9C4WuNiyZXbRHiEyOXP4PBROCbs1lCCBu6hPO+NBYB45milS3QuUFSh
- t9xMDijl7vVY17rL1XDml06qmqHTR1+2Gwx7R4ZIkA/XSMaHNI2bdgvhWUX9y3am0WuA
- EwrGA9fIwuNjdlSOkXliBPiHjhMDEfHDdFno+V6UCU8q9yQp69rDzsOep87YSngr5hQg
- r2KA==
-X-Gm-Message-State: ACrzQf1U0eDsfg07x3M1Usn88kR8e5HcadwwDwAyQKOT2hKXAmLn2o/V
- 52A4aq6yHeN1hSpbl6nXcSo00WIXnqvzYRRoHKc=
-X-Google-Smtp-Source: AMsMyM6qZWoSutaGxavU1l+b7Gm2hjgycXdK2iBnT1E6FzoR1kMbyw7qnFJJdbmwW2B+f+vp5HuJ/trMQxljKzrjOS4=
-X-Received: by 2002:aa7:df87:0:b0:44e:2851:7e8d with SMTP id
- b7-20020aa7df87000000b0044e28517e8dmr24459923edy.106.1663751592281; Wed, 21
- Sep 2022 02:13:12 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A34E310E827;
+ Wed, 21 Sep 2022 09:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663751597; x=1695287597;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DM80QHp6RwAbqP3sUL9OGTNrV/BpD7+nK2QN2tSI32s=;
+ b=Oq4cVmBhWO99YRj+KPFOvpUX5bDv6o7UE+uALWxGwa+3RrQgkKAAonGY
+ QUJfEJsh5qtCO5y8fGarjCUswmgUc/4HYxzx6LmtrGKADGOSln7YxW1qy
+ 1c3LnnHMhWmcysWE6pD0f3K36vMoM7xzRpyONUQ3qlMG4PV9edksdqOxM
+ s1xOjGLFzOcIck3h/CXJGRUqiWX/Gf3vzwqyz50NAT1Ga2IDv34bxxfnB
+ a/lCWTpbZjycMGiI4N0wRJ7yTUm3b4yNJpHDKpeVpupYuBK5UUKjAohuW
+ rlLtWlQONxgg+HDti7E109pM15zth9/0MX8VeV4TuDu70jZayaLQRbQ5a Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="287020988"
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="287020988"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 02:13:17 -0700
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="614734630"
+Received: from jrcarrol-mobl.ger.corp.intel.com (HELO [10.213.205.22])
+ ([10.213.205.22])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 02:13:15 -0700
+Message-ID: <578445bc-d804-3f1d-a32d-51cac9460351@linux.intel.com>
+Date: Wed, 21 Sep 2022 10:13:12 +0100
 MIME-Version: 1.0
-References: <tencent_ED24158E83CB9885E8BDD173EB5896B51906@qq.com>
- <87pmfrpv7q.fsf@intel.com>
-In-Reply-To: <87pmfrpv7q.fsf@intel.com>
-From: Zheng Hacker <hackerzheng666@gmail.com>
-Date: Wed, 21 Sep 2022 17:13:00 +0800
-Message-ID: <CAJedcCzjWw6v5Nt42jsCStdpwHuz13D+q-CD=6ycVWBczY+4mg@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_entry
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [Intel-gfx] [RFC v4 03/14] drm/i915/vm_bind: Expose
+ i915_gem_object_max_page_size()
+Content-Language: en-US
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+ <20220921070945.27764-4-niranjana.vishwanathapura@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220921070945.27764-4-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,131 +63,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, security@kernel.org, alex000young@gmail.com,
- airlied@linux.ie, gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Zheng Wang <1002992920@qq.com>
+Cc: daniel.vetter@intel.com, christian.koenig@amd.com,
+ thomas.hellstrom@intel.com, paulo.r.zanoni@intel.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I've sent it using git send-email with another email account (zyytlz.wz@163=
-.com)
+
+On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
+> Expose i915_gem_object_max_page_size() function non-static
+> which will be used by the vm_bind feature.
+> 
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_create.c | 20 +++++++++++++++-----
+>   drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
+>   2 files changed, 17 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> index 33673fe7ee0a..3b3ab4abb0a3 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> @@ -11,14 +11,24 @@
+>   #include "pxp/intel_pxp.h"
+>   
+>   #include "i915_drv.h"
+> +#include "i915_gem_context.h"
+
+I can't spot that you are adding any code which would need this? 
+I915_GTT_PAGE_SIZE_4K? It is in intel_gtt.h.
+
+>   #include "i915_gem_create.h"
+>   #include "i915_trace.h"
+>   #include "i915_user_extensions.h"
+>   
+> -static u32 object_max_page_size(struct intel_memory_region **placements,
+> -				unsigned int n_placements)
+> +/**
+> + * i915_gem_object_max_page_size() - max of min_page_size of the regions
+> + * @placements:  list of regions
+> + * @n_placements: number of the placements
+> + *
+> + * Calculates the max of the min_page_size of a list of placements passed in.
+> + *
+> + * Return: max of the min_page_size
+> + */
+> +u32 i915_gem_object_max_page_size(struct intel_memory_region **placements,
+> +				  unsigned int n_placements)
+>   {
+> -	u32 max_page_size = 0;
+> +	u32 max_page_size = I915_GTT_PAGE_SIZE_4K;
+>   	int i;
+>   
+>   	for (i = 0; i < n_placements; i++) {
+> @@ -28,7 +38,6 @@ static u32 object_max_page_size(struct intel_memory_region **placements,
+>   		max_page_size = max_t(u32, max_page_size, mr->min_page_size);
+>   	}
+>   
+> -	GEM_BUG_ON(!max_page_size);
+>   	return max_page_size;
+>   }
+>   
+> @@ -99,7 +108,8 @@ __i915_gem_object_create_user_ext(struct drm_i915_private *i915, u64 size,
+>   
+>   	i915_gem_flush_free_objects(i915);
+>   
+> -	size = round_up(size, object_max_page_size(placements, n_placements));
+> +	size = round_up(size, i915_gem_object_max_page_size(placements,
+> +							    n_placements));
+>   	if (size == 0)
+>   		return ERR_PTR(-EINVAL);
+
+Because of the changes above this path is now unreachable. I suppose it 
+was meant to tell the user "you have supplied no placements"? But then 
+GEM_BUG_ON (which you remove) used to be wrong.
 
 Regards,
-Zheng Wang
 
-Jani Nikula <jani.nikula@linux.intel.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=881=
-9=E6=97=A5=E5=91=A8=E4=B8=80 17:30=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, 19 Sep 2022, Zheng Wang <1002992920@qq.com> wrote:
-> >  From afe79848cb74cc8e45ab426d13fa2394c87e0422 Mon Sep 17 00:00:00 2001
-> > From: xmzyshypnc <1002992920@qq.com>
-> > Date: Fri, 16 Sep 2022 23:48:23 +0800
-> > Subject: [PATCH] drm/i915/gvt: fix double-free bug in split_2MB_gtt_ent=
-ry
-> >
-> > There is a double-free security bug in split_2MB_gtt_entry.
-> >
-> > Here is a calling chain :
-> > ppgtt_populate_spt->ppgtt_populate_shadow_entry->split_2MB_gtt_entry.
-> >
-> > If intel_gvt_dma_map_guest_page failed, it will call
-> > ppgtt_invalidate_spt, which will finally call ppgtt_free_spt and
-> > kfree(spt). But the caller does not notice that, and it will call
-> > ppgtt_free_spt again in error path.
-> >
-> > Fix this by only freeing spt in ppgtt_invalidate_spt in good case.
-> >
-> > Signed-off-by: xmzyshypnc <1002992920@qq.com>
->
-> Please use git send-email. The patch is whitespace broken and line
-> wrapped, making it unusable.
->
-> BR,
-> Jani.
->
->
-> > ---
-> >   drivers/gpu/drm/i915/gvt/gtt.c | 16 +++++++++-------
-> >   1 file changed, 9 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/=
-gtt.c
-> > index ce0eb03709c3..550519f0acca 100644
-> > --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> > @@ -959,7 +959,7 @@ static inline int ppgtt_put_spt(struct
-> > intel_vgpu_ppgtt_spt *spt)
-> >       return atomic_dec_return(&spt->refcount);
-> >   }
-> >
-> > -static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt);
-> > +static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt, int
-> > is_error);
-> >
-> >   static int ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vg=
-pu,
-> >           struct intel_gvt_gtt_entry *e)
-> > @@ -995,7 +995,7 @@ static int
-> > ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
-> >                   ops->get_pfn(e));
-> >           return -ENXIO;
-> >       }
-> > -    return ppgtt_invalidate_spt(s);
-> > +    return ppgtt_invalidate_spt(s, 0);
-> >   }
-> >
-> >   static inline void ppgtt_invalidate_pte(struct intel_vgpu_ppgtt_spt *=
-spt,
-> > @@ -1016,7 +1016,7 @@ static inline void ppgtt_invalidate_pte(struct
-> > intel_vgpu_ppgtt_spt *spt,
-> >       intel_gvt_dma_unmap_guest_page(vgpu, pfn << PAGE_SHIFT);
-> >   }
-> >
-> > -static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt)
-> > +static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt, int
-> > is_error)
-> >   {
-> >       struct intel_vgpu *vgpu =3D spt->vgpu;
-> >       struct intel_gvt_gtt_entry e;
-> > @@ -1059,9 +1059,11 @@ static int ppgtt_invalidate_spt(struct
-> > intel_vgpu_ppgtt_spt *spt)
-> >           }
-> >       }
-> >
-> > -    trace_spt_change(spt->vgpu->id, "release", spt,
-> > +    if (!is_error) {
-> > +        trace_spt_change(spt->vgpu->id, "release", spt,
-> >                spt->guest_page.gfn, spt->shadow_page.type);
-> > -    ppgtt_free_spt(spt);
-> > +        ppgtt_free_spt(spt);
-> > +    }
-> >       return 0;
-> >   fail:
-> >       gvt_vgpu_err("fail: shadow page %p shadow entry 0x%llx type %d\n"=
-,
-> > @@ -1215,7 +1217,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu
-> > *vgpu,
-> >           ret =3D intel_gvt_dma_map_guest_page(vgpu, start_gfn + sub_in=
-dex,
-> >                              PAGE_SIZE, &dma_addr);
-> >           if (ret) {
-> > -            ppgtt_invalidate_spt(spt);
-> > +            ppgtt_invalidate_spt(spt, 1);
-> >               return ret;
-> >           }
-> >           sub_se.val64 =3D se->val64;
-> > @@ -1393,7 +1395,7 @@ static int ppgtt_handle_guest_entry_removal(struc=
-t
-> > intel_vgpu_ppgtt_spt *spt,
-> >               ret =3D -ENXIO;
-> >               goto fail;
-> >           }
-> > -        ret =3D ppgtt_invalidate_spt(s);
-> > +        ret =3D ppgtt_invalidate_spt(s, 0);
-> >           if (ret)
-> >               goto fail;
-> >       } else {
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+Tvrtko
+
+>   
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> index 7317d4102955..8c97bddad921 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> @@ -47,6 +47,8 @@ static inline bool i915_gem_object_size_2big(u64 size)
+>   }
+>   
+>   void i915_gem_init__objects(struct drm_i915_private *i915);
+> +u32 i915_gem_object_max_page_size(struct intel_memory_region **placements,
+> +				  unsigned int n_placements);
+>   
+>   void i915_objects_module_exit(void);
+>   int i915_objects_module_init(void);
