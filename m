@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876695C02B7
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF085C02CC
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA6310E9BB;
-	Wed, 21 Sep 2022 15:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5A5510E9EB;
+	Wed, 21 Sep 2022 15:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D75110E9C7
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 15:54:27 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C341E10E9BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 15:54:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id CFAA2B830E0;
- Wed, 21 Sep 2022 15:54:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2129AC433D7;
- Wed, 21 Sep 2022 15:54:25 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4EE2163183;
+ Wed, 21 Sep 2022 15:54:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09AA2C433B5;
+ Wed, 21 Sep 2022 15:54:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663775665;
- bh=ayO3WIFiJihs2MM+opQbImdBIj0AnX09GvLi7XT6pkk=;
+ s=k20201202; t=1663775668;
+ bh=8U7n+Red/wpu8WLZ1/kwp1ZzGtokSIwdUCrDDd5qVOk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jfoXfDdwrZH9S0JRc7riHvmolhtGkS14Rbd4OV2nQGp9gtJkCYN9ofjQ+2bJez0Ag
- pvYeqyDN5rmbthwlZeMLPNf5RaXhATQ40mKx6G4KKOxJWruWmALgFMayEjirUDWu9r
- O3e6xCRwQzKFM3Yg1Nvx/8hplt3s+gPoZLvsxldOipuPVrIesn3eYds43YwRZEAyHo
- 58v3QyyIE4WfKmlDmsiF0EMMAZYgMLLOauy2wBBkjL8Mu5CM5/44l3owtYfVhhEa0N
- RxaX/dSY7pL3+IzCUpXfTDOmRj1Fx41ljAmTNAMCkcOb7KnETywKHhsk3GylRBe4q9
- G23pOWifo04Kg==
+ b=vC5DrZlHLQvP6OQ2iibQtD7vNrlWD7dUvSqeUavrpJM88HP9ZJXOmOYlLcSJu81if
+ /IlYG1gKmP223q5fUaXdkpXGdEIpWOmu/pb6tbzkzGFJNmX71MAd5ugXyGKtBf0hn1
+ 8hIwBSVVmunLeH05mL+SuIEQUH67SqUhecy8bgj2rrB3v8a5qxFyL1zYMPHTtSnqX0
+ k1b1lmloukUFeR7z2p4lDWI5dy0aBV+SX5+4Fc/6iRP8KHbRYs5rxzhYVVzMJOwmGN
+ pGAEQ26w3RJS/zeyZa4hKEIUxUWxVtCrn5lcBERIpLsnYiYA/IB2FtE2gRut1KGEQW
+ jvnF3dIF7HBnQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 10/10] drm/rockchip: Fix return type of
- cdn_dp_connector_mode_valid
-Date: Wed, 21 Sep 2022 11:54:07 -0400
-Message-Id: <20220921155407.235132-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 2/7] drm/gma500: Fix BUG: sleeping function
+ called from invalid context errors
+Date: Wed, 21 Sep 2022 11:54:20 -0400
+Message-Id: <20220921155425.235273-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220921155407.235132-1-sashal@kernel.org>
-References: <20220921155407.235132-1-sashal@kernel.org>
+In-Reply-To: <20220921155425.235273-1-sashal@kernel.org>
+References: <20220921155425.235273-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,57 +56,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, llvm@lists.linux.dev,
- ndesaulniers@google.com, hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- Nathan Huckleberry <nhuck@google.com>, Nathan Chancellor <nathan@kernel.org>,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Dan Carpenter <error27@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Huckleberry <nhuck@google.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit b0b9408f132623dc88e78adb5282f74e4b64bb57 ]
+[ Upstream commit 63e37a79f7bd939314997e29c2f5a9f0ef184281 ]
 
-The mode_valid field in drm_connector_helper_funcs is expected to be of
-type:
-enum drm_mode_status (* mode_valid) (struct drm_connector *connector,
-				     struct drm_display_mode *mode);
+gma_crtc_page_flip() was holding the event_lock spinlock while calling
+crtc_funcs->mode_set_base() which takes ww_mutex.
 
-The mismatched return type breaks forward edge kCFI since the underlying
-function definition does not match the function hook definition.
+The only reason to hold event_lock is to clear gma_crtc->page_flip_event
+on mode_set_base() errors.
 
-The return type of cdn_dp_connector_mode_valid should be changed from
-int to enum drm_mode_status.
+Instead unlock it after setting gma_crtc->page_flip_event and on
+errors re-take the lock and clear gma_crtc->page_flip_event it
+it is still set.
 
-Reported-by: Dan Carpenter <error27@gmail.com>
-Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-Cc: llvm@lists.linux.dev
-Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220913205555.155149-1-nhuck@google.com
+This fixes the following WARN/stacktrace:
+
+[  512.122953] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:870
+[  512.123004] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 1253, name: gnome-shell
+[  512.123031] preempt_count: 1, expected: 0
+[  512.123048] RCU nest depth: 0, expected: 0
+[  512.123066] INFO: lockdep is turned off.
+[  512.123080] irq event stamp: 0
+[  512.123094] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[  512.123134] hardirqs last disabled at (0): [<ffffffff8d0ec28c>] copy_process+0x9fc/0x1de0
+[  512.123176] softirqs last  enabled at (0): [<ffffffff8d0ec28c>] copy_process+0x9fc/0x1de0
+[  512.123207] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[  512.123233] Preemption disabled at:
+[  512.123241] [<0000000000000000>] 0x0
+[  512.123275] CPU: 3 PID: 1253 Comm: gnome-shell Tainted: G        W         5.19.0+ #1
+[  512.123304] Hardware name: Packard Bell dot s/SJE01_CT, BIOS V1.10 07/23/2013
+[  512.123323] Call Trace:
+[  512.123346]  <TASK>
+[  512.123370]  dump_stack_lvl+0x5b/0x77
+[  512.123412]  __might_resched.cold+0xff/0x13a
+[  512.123458]  ww_mutex_lock+0x1e/0xa0
+[  512.123495]  psb_gem_pin+0x2c/0x150 [gma500_gfx]
+[  512.123601]  gma_pipe_set_base+0x76/0x240 [gma500_gfx]
+[  512.123708]  gma_crtc_page_flip+0x95/0x130 [gma500_gfx]
+[  512.123808]  drm_mode_page_flip_ioctl+0x57d/0x5d0
+[  512.123897]  ? drm_mode_cursor2_ioctl+0x10/0x10
+[  512.123936]  drm_ioctl_kernel+0xa1/0x150
+[  512.123984]  drm_ioctl+0x21f/0x420
+[  512.124025]  ? drm_mode_cursor2_ioctl+0x10/0x10
+[  512.124070]  ? rcu_read_lock_bh_held+0xb/0x60
+[  512.124104]  ? lock_release+0x1ef/0x2d0
+[  512.124161]  __x64_sys_ioctl+0x8d/0xd0
+[  512.124203]  do_syscall_64+0x58/0x80
+[  512.124239]  ? do_syscall_64+0x67/0x80
+[  512.124267]  ? trace_hardirqs_on_prepare+0x55/0xe0
+[  512.124300]  ? do_syscall_64+0x67/0x80
+[  512.124340]  ? rcu_read_lock_sched_held+0x10/0x80
+[  512.124377]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+[  512.124411] RIP: 0033:0x7fcc4a70740f
+[  512.124442] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+[  512.124470] RSP: 002b:00007ffda73f5390 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[  512.124503] RAX: ffffffffffffffda RBX: 000055cc9e474500 RCX: 00007fcc4a70740f
+[  512.124524] RDX: 00007ffda73f5420 RSI: 00000000c01864b0 RDI: 0000000000000009
+[  512.124544] RBP: 00007ffda73f5420 R08: 000055cc9c0b0cb0 R09: 0000000000000034
+[  512.124564] R10: 0000000000000000 R11: 0000000000000246 R12: 00000000c01864b0
+[  512.124584] R13: 0000000000000009 R14: 000055cc9df484d0 R15: 000055cc9af5d0c0
+[  512.124647]  </TASK>
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220906203852.527663-2-hdegoede@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rockchip/cdn-dp-core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/gma500/gma_display.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-index 13c6b857158f..6b5d0722afa6 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -277,8 +277,9 @@ static int cdn_dp_connector_get_modes(struct drm_connector *connector)
- 	return ret;
- }
+diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
+index 3df6d6e850f5..70148ae16f14 100644
+--- a/drivers/gpu/drm/gma500/gma_display.c
++++ b/drivers/gpu/drm/gma500/gma_display.c
+@@ -529,15 +529,18 @@ int gma_crtc_page_flip(struct drm_crtc *crtc,
+ 		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
  
--static int cdn_dp_connector_mode_valid(struct drm_connector *connector,
--				       struct drm_display_mode *mode)
-+static enum drm_mode_status
-+cdn_dp_connector_mode_valid(struct drm_connector *connector,
-+			    struct drm_display_mode *mode)
- {
- 	struct cdn_dp_device *dp = connector_to_dp(connector);
- 	struct drm_display_info *display_info = &dp->connector.display_info;
+ 		gma_crtc->page_flip_event = event;
++		spin_unlock_irqrestore(&dev->event_lock, flags);
+ 
+ 		/* Call this locked if we want an event at vblank interrupt. */
+ 		ret = crtc_funcs->mode_set_base(crtc, crtc->x, crtc->y, old_fb);
+ 		if (ret) {
+-			gma_crtc->page_flip_event = NULL;
+-			drm_crtc_vblank_put(crtc);
++			spin_lock_irqsave(&dev->event_lock, flags);
++			if (gma_crtc->page_flip_event) {
++				gma_crtc->page_flip_event = NULL;
++				drm_crtc_vblank_put(crtc);
++			}
++			spin_unlock_irqrestore(&dev->event_lock, flags);
+ 		}
+-
+-		spin_unlock_irqrestore(&dev->event_lock, flags);
+ 	} else {
+ 		ret = crtc_funcs->mode_set_base(crtc, crtc->x, crtc->y, old_fb);
+ 	}
 -- 
 2.35.1
 
