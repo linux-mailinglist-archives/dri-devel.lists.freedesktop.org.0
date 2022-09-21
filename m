@@ -1,64 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF5F5BF6E6
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 09:01:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E6E5BF71B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 09:10:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21ADA10E207;
-	Wed, 21 Sep 2022 07:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBC8510E833;
+	Wed, 21 Sep 2022 07:10:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 287FD10E207
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 07:01:50 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id k10so7667825lfm.4
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 00:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=1QL0CFphpa83RgCH/2JlHwO3au2oWpkZ2fPFgCGnjOc=;
- b=KAZEjvpg4g3daMXmcu3qg47mnxKlqaSfXVmskQZgCXz2x9t9/6yVCt4XgtUR7ju3k7
- pHCNGz5rnqc+9JiK6yxn/P3z/ROBByrXfjt//78y/ZL5gdrkkPnrAKyHcPzNczZSCMvP
- mIK4qaI/gYATNjWM8YVGttLVpPj14MjV8Ri5oNDfoFxaBoA9zP9uDfjKiX52bjo7l8s6
- VhyT0//BHYWAvnPH8kkM00cFx61FifuU2buCNBsiRlv5+IN6OJetflIfygApUXkKKRGU
- +SUEaAESyhzXO71rFH8J2vkqiY/qfzyfxCqU7MTQghE0EwKeLsmB6yTq9ysItki1T73L
- MvqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=1QL0CFphpa83RgCH/2JlHwO3au2oWpkZ2fPFgCGnjOc=;
- b=ZjqMWMPgTx1eqvkLWipAwV/XuUtEeREUuymiChqZt/C9OKYHnXSWg5Tu5JK0hC2e5V
- Q0aAmEZ9t0kRkie6uDHGT5hgDEo8abrGQ8O0mA2d8FnX884mPOT0MnQ3B1utMKyVWR0t
- KJA/6ODKqPItsBFko1TpmdAS2rMRMkMYUK43vabJzGgplbkPQhamc1sWz6rbnb06eCcq
- /HBPsH37F37lz8v7TZoMl/P6sNyk81GSY4u7niCqDhF4c/X+sawnTPULdiXZkfluOQLH
- ounR6XmCTbHX5VonRKJqNxGEe5YMECsqsKRgeECiuRWQm8c7Y7qd64fj+48Adf7eXqS8
- H2AA==
-X-Gm-Message-State: ACrzQf1lNH5DUyA200S0w1R6xRAYpg6WHAL5qQ6a+i2En6LIFxsbgVkk
- cvJZ9722tJ/114Hhn8XOzWIj4JG8hSYo+A==
-X-Google-Smtp-Source: AMsMyM4dVp6sdbuzr3mFJn+IpomFBs7OZPX8e+/6Km/Cj0w8XZZ8qr5FPUeXcg/zxiTMuLRHZ6ZhPQ==
-X-Received: by 2002:a05:6512:31c8:b0:49c:db9d:bb97 with SMTP id
- j8-20020a05651231c800b0049cdb9dbb97mr9281084lfe.12.1663743708470; 
- Wed, 21 Sep 2022 00:01:48 -0700 (PDT)
-Received: from krzk-bin (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
- by smtp.gmail.com with ESMTPSA id
- k1-20020ac257c1000000b004947555dbc2sm311198lfo.100.2022.09.21.00.01.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 00:01:47 -0700 (PDT)
-Date: Wed, 21 Sep 2022 09:01:46 +0200
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH V2 2/3] dt-bindings: display: panel: Add NewVision
- NV3051D bindings
-Message-ID: <20220921070146.bqtb7p2xyry3jwaw@krzk-bin>
-References: <20220920145905.20595-1-macroalpha82@gmail.com>
- <20220920145905.20595-3-macroalpha82@gmail.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D164510E833;
+ Wed, 21 Sep 2022 07:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663744211; x=1695280211;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=c2xHz/YYkGoNPEUZ7lnI4BkY46a8f4f45eMs6cBtDZ0=;
+ b=eg3eM7y383+t+APrUEYhVLKUunrItIHACIJqZoWeGDkrMv/UyxiO1Vbk
+ HyW9kd4wyuMEkJ/GWMEkclqp+eVyenpK7XPoLzcbQIvi7GZWmKqvq1gRb
+ UzLPp6poceghutnljs/bmFUcAeWkIIUXu/UnYAXKD/GxFCAWZ4U7j167t
+ kSQM9ymwKCGTQ3IrTh5DDTFIxNMC36zs9cFi0yaawl27wGj97VbgmQNX7
+ EBuuZEsaRmSZqSUBu3a0k/gnevg3adz6XHlgxBHDht7wmaSrYrNBwDQLD
+ vJqEEkZXeiQ9DPp0nBnc6FR+IOgCHgkZ/P0GWmahj+Z6uI+M+GZLxUwne Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="386208162"
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="386208162"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 00:10:11 -0700
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="948022794"
+Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 21 Sep 2022 00:10:10 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC v4 00/14] drm/i915/vm_bind: Add VM_BIND functionality
+Date: Wed, 21 Sep 2022 00:09:31 -0700
+Message-Id: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220920145905.20595-3-macroalpha82@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,47 +54,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- krzysztof.kozlowski+dt@linaro.org, airlied@linux.ie, robh+dt@kernel.org,
- thierry.reding@gmail.com, dri-devel@lists.freedesktop.org, sam@ravnborg.org
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ lionel.g.landwerlin@intel.com, thomas.hellstrom@intel.com,
+ matthew.auld@intel.com, jason@jlekstrand.net, daniel.vetter@intel.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Sep 2022 09:59:04 -0500, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add documentation for the NewVision NV3051D panel bindings.
-> Note that for the two expected consumers of this panel binding
-> the underlying LCD model is unknown. Name "anbernic,rg353p-panel"
-> is used because the hardware itself is known as "anbernic,rg353p".
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  .../display/panel/newvision,nv3051d.yaml      | 55 +++++++++++++++++++
->  1 file changed, 55 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-> 
+DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM
+buffer objects (BOs) or sections of a BOs at specified GPU virtual
+addresses on a specified address space (VM). Multiple mappings can map
+to the same physical pages of an object (aliasing). These mappings (also
+referred to as persistent mappings) will be persistent across multiple
+GPU submissions (execbuf calls) issued by the UMD, without user having
+to provide a list of all required mappings during each submission (as
+required by older execbuf mode).
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+This patch series support VM_BIND version 1, as described by the param
+I915_PARAM_VM_BIND_VERSION.
 
-yamllint warnings/errors:
+Add new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only works in
+vm_bind mode. The vm_bind mode only works with this new execbuf3 ioctl.
+The new execbuf3 ioctl will not have any execlist support and all the
+legacy support like relocations etc., are removed.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.example.dtb: panel@0: compatible: ['anbernic,rg353p-panel'] is too short
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
+TODOs:
+* Support out fence for VM_UNBIND ioctl.
+* Async VM_UNBIND support.
+* Cleanups and optimizations.
 
-doc reference errors (make refcheckdocs):
+NOTEs:
+* It is based on below VM_BIND design+uapi rfc.
+  Documentation/gpu/rfc/i915_vm_bind.rst
 
-See https://patchwork.ozlabs.org/patch/
+* The IGT RFC series is posted as,
+  [RFC v2 0/8] vm_bind: Add VM_BIND validation support
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+v4: Share code between legacy execbuf and execbuf3.
+    Address review feedback from Thomas and Tvrtko.
+    Reformat patches and some cleanups.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 
-pip3 install dtschema --upgrade
+Niranjana Vishwanathapura (14):
+  drm/i915/vm_bind: Expose vm lookup function
+  drm/i915/vm_bind: Add __i915_sw_fence_await_reservation()
+  drm/i915/vm_bind: Expose i915_gem_object_max_page_size()
+  drm/i915/vm_bind: Implement bind and unbind of object
+  drm/i915/vm_bind: Support for VM private BOs
+  drm/i915/vm_bind: Handle persistent vmas
+  drm/i915/vm_bind: Add out fence support
+  drm/i915/vm_bind: Abstract out common execbuf functions
+  drm/i915/vm_bind: Implement I915_GEM_EXECBUFFER3 ioctl
+  drm/i915/vm_bind: Update i915_vma_verify_bind_complete()
+  drm/i915/vm_bind: Handle persistent vmas in execbuf3
+  drm/i915/vm_bind: userptr dma-resv changes
+  drm/i915/vm_bind: Skip vma_lookup for persistent vmas
+  drm/i915/vm_bind: Add uapi for user to enable vm_bind_mode
 
-Please check and re-submit.
+ drivers/gpu/drm/i915/Makefile                 |   3 +
+ drivers/gpu/drm/i915/display/intel_fb_pin.c   |   2 +-
+ .../drm/i915/display/intel_plane_initial.c    |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  16 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  60 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   6 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 520 +----------
+ .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 861 ++++++++++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.c | 530 +++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.h |  47 +
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   2 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  17 +
+ drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  31 +
+ .../drm/i915/gem/i915_gem_vm_bind_object.c    | 421 +++++++++
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  16 +-
+ .../i915/gem/selftests/i915_gem_client_blt.c  |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c |  12 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |   6 +-
+ .../drm/i915/gem/selftests/igt_gem_utils.c    |   2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |   2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  20 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  27 +
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |   4 +-
+ drivers/gpu/drm/i915/gt/intel_renderstate.c   |   2 +-
+ drivers/gpu/drm/i915/gt/intel_ring.c          |   2 +-
+ .../gpu/drm/i915/gt/intel_ring_submission.c   |   4 +-
+ drivers/gpu/drm/i915/gt/intel_timeline.c      |   2 +-
+ drivers/gpu/drm/i915/gt/mock_engine.c         |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_engine_cs.c  |   4 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  16 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |   6 +-
+ drivers/gpu/drm/i915/gt/selftest_lrc.c        |   2 +-
+ .../drm/i915/gt/selftest_ring_submission.c    |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_rps.c        |   2 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |   4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   2 +-
+ drivers/gpu/drm/i915/i915_driver.c            |   4 +
+ drivers/gpu/drm/i915/i915_gem.c               |   2 +-
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |  39 +
+ drivers/gpu/drm/i915/i915_gem_gtt.h           |   3 +
+ drivers/gpu/drm/i915/i915_getparam.c          |   3 +
+ drivers/gpu/drm/i915/i915_perf.c              |   2 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c          |  25 +-
+ drivers/gpu/drm/i915/i915_sw_fence.h          |   7 +-
+ drivers/gpu/drm/i915/i915_vma.c               |  98 +-
+ drivers/gpu/drm/i915/i915_vma.h               |  51 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  42 +
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  44 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |   4 +-
+ drivers/gpu/drm/i915/selftests/i915_vma.c     |   2 +-
+ drivers/gpu/drm/i915/selftests/igt_spinner.c  |   2 +-
+ .../drm/i915/selftests/intel_memory_region.c  |   2 +-
+ include/uapi/drm/i915_drm.h                   | 285 +++++-
+ 61 files changed, 2690 insertions(+), 604 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+
+-- 
+2.21.0.rc0.32.g243a4c7e27
+
