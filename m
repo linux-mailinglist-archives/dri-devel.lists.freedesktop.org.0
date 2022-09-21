@@ -1,51 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F9C5E5616
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 00:10:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80DCD5E561C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 00:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 653A710E529;
-	Wed, 21 Sep 2022 22:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E89610E886;
+	Wed, 21 Sep 2022 22:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0619D10E522;
- Wed, 21 Sep 2022 22:09:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663798189; x=1695334189;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=R3CpDz+xL1Orecl3r244JO/sBWMMsfvYdEmeOk70BlE=;
- b=nAZZvh5yGgY6AtzcP082cYIILWvGtfoeZxrxgmZjokCgTEfx30X0pwNT
- Txvzar+juTIHnxcpiNdJfAc2TQ2I2Gviqz04D2jrB0U1EAJuXwXoCn4JR
- Pz30SkLfyFNAn8Y27vlhOsAC+o4EwAu7ptq5KgZjNhxz7J19qSkY/67vr
- gjhLlGoUNqfTBM2T66m4kMqHAlxbf1TR6gOFyADhrajr1QH2vJY/Phim/
- eytSBSbVuy/fttJWjS9VnjZqLw6pPtVsN2GKTUyugf/GipJQvJMFSjzQD
- tiNaOlqKAb/GSdckYVQJE47P1sCTIuamQwUbeWkQbwUr99TZvUOIwPdvS Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="298853679"
-X-IronPort-AV: E=Sophos;i="5.93,334,1654585200"; d="scan'208";a="298853679"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2022 15:09:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,334,1654585200"; d="scan'208";a="652717033"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
- by orsmga001.jf.intel.com with ESMTP; 21 Sep 2022 15:09:44 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ob7ua-00041Y-0D;
- Wed, 21 Sep 2022 22:09:44 +0000
-Date: Thu, 22 Sep 2022 06:09:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 483fed3b5dc8ce3644c83d24240cf5756fb0993e
-Message-ID: <632b8b99.vfbuiC8J3oDCVZh4%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6859F10E886
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 22:10:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 24F0ECE1F9B;
+ Wed, 21 Sep 2022 22:10:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC275C433D7;
+ Wed, 21 Sep 2022 22:10:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1663798252;
+ bh=+2dcsh6U86YXPRcXsm713bvwRn2unPZV3ef6JCbwu0g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HbtASwkEVz8s3MYG70czCb4Q3OKyfSy87gAZmcq2dlNyAK84ieWrqX6NJqVn+Dzh1
+ DPuoaQSgZEsr0WOBgW408vXNK/wc+xIzKj9j+Pdu2vWHns8YJIsQssP84QSahCOf1d
+ KgKTvVhKjX++Nn1N+IpAU47RAyrkkdpT+hHMP5UT6Y0paRILAbEZPZ168gf9NpUkj3
+ LPWdTfFIn1wiUpSjkWvsRE4aDr6eif/nssqs0dKwkva7X2Xg54sQ++iOb3NnN7Py9P
+ 16jFywBDSrfcO3aZ30yNcUYB8U6qDGAOInAQy3s7w2DtXliX8TMmRlgF5ikrXGkaCT
+ rT1QBjs0QGtfg==
+Date: Wed, 21 Sep 2022 17:10:49 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 2/2] power: supply: Add Lenovo Yoga C630 EC driver
+Message-ID: <20220921221049.7gsnalyyh33a2fji@builder.lan>
+References: <20220810030500.2793882-1-bjorn.andersson@linaro.org>
+ <20220810030500.2793882-3-bjorn.andersson@linaro.org>
+ <20220913104545.2u6mcyy3bg4dp6ly@mercury.elektranox.org>
+ <20220915212545.q6vxcnrffwr3buq2@builder.lan>
+ <CAA8EJpoNyc1_eM7mi3D3s4voqLZFHvJtiBd_TOB4dmxcSpwdWg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpoNyc1_eM7mi3D3s4voqLZFHvJtiBd_TOB4dmxcSpwdWg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,214 +55,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- amd-gfx@lists.freedesktop.org, bpf@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 483fed3b5dc8ce3644c83d24240cf5756fb0993e  Add linux-next specific files for 20220921
+On Fri, Sep 16, 2022 at 12:53:42AM +0300, Dmitry Baryshkov wrote:
+> On Fri, 16 Sept 2022 at 00:25, Bjorn Andersson <andersson@kernel.org> wrote:
+> >
+> > On Tue, Sep 13, 2022 at 12:45:45PM +0200, Sebastian Reichel wrote:
+> > > Hi,
+> > >
+> > > [+Cc Lee Jones, DRI devel]
+> > >
+> > > On Tue, Aug 09, 2022 at 10:05:00PM -0500, Bjorn Andersson wrote:
+> > > > The Qualcomm Snapdragon-based Lenovo Yoga C630 has some sort of EC
+> > > > providing AC-adapter and battery status, as well as USB Type-C altmode
+> > > > notifications for Displayport operation.
+> > > >
+> > > > The Yoga C630 ships with Windows, where these operations primarily are
+> > > > implemented in ACPI, but due to various issues with the hardware
+> > > > representation therein it's not possible to run Linux on this
+> > > > information. As such this is a best-effort re-implementation of these
+> > > > operations, based on the register map expressed in ACPI and a fair
+> > > > amount of trial and error.
+> > > >
+> > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > > > ---
+> > > > [...]
+> > > > +   val = yoga_c630_ec_read8(ec, LENOVO_EC_BAT_ATTRIBUTES);
+> > > > +   if (val < 0)
+> > > > +           goto out_unlock;
+> > > > +   ec->unit_ma = val & LENOVO_EC_BAT_ATTR_UNIT_IS_MA;
+> > > > +   if (!ec->unit_ma)
+> > > > +           ec->scale = 1000;
+> > > > +   else
+> > > > +           ec->scale = 1;
+> > >
+> > > Since I'm not sure how much of information was gained by reverse
+> > > engineering: Is this really milliamps vs microamps and not milliamps
+> > > vs milliwatt? SBS batteries usually report either mA or mW.
+> > >
+> >
+> > Unfortunately I don't know the answer to this.
+> >
+> > > > [...]
+> > > > +   case POWER_SUPPLY_PROP_SERIAL_NUMBER:
+> > > > +           val->strval = "05072018";
+> > > > +           break;
+> > >
+> > > why is this hardcoded? :)
+> > >
+> >
+> > I don't know, but as Daniel suggests, it would make sense to just drop
+> > it.
+> >
+> > > > [...]
+> > > > +   device_for_each_child_node(dev, fwnode) {
+> > > > +           ret = fwnode_property_read_u32(fwnode, "reg", &port);
+> > > > +           if (ret < 0)
+> > > > +                   continue;
+> > > > +
+> > > > +           /* Got multiple ports, but altmode is only possible on port 1 */
+> > > > +           if (port != 1)
+> > > > +                   continue;
+> > > > +
+> > > > +           ec->bridge.funcs = &yoga_c630_ec_bridge_funcs;
+> > > > +           ec->bridge.of_node = to_of_node(fwnode);
+> > > > +           ec->bridge.ops = DRM_BRIDGE_OP_HPD;
+> > > > +           ec->bridge.type = DRM_MODE_CONNECTOR_USB;
+> > > > +
+> > > > +           ret = devm_drm_bridge_add(dev, &ec->bridge);
+> > > > +           if (ret) {
+> > > > +                   dev_err(dev, "failed to register drm bridge\n");
+> > > > +                   fwnode_handle_put(fwnode);
+> > > > +                   return ret;
+> > > > +           }
+> > >
+> > > I wonder if DRM people want to see this in drivers/gpu/drm/bridge.
+> > > Maybe it's better to make this a MFD driver?
+> > >
+> >
+> > I did consider it, but it adds a whole bunch of boiler plate code
+> > without a lot of benefit.
+> >
+> > There are a few other cases where I think it would make sense to have
+> > drm bridges outside of drivers/gpu/drm, such as
+> > drivers/usb/typec/altmodes/ and drivers/platform/chrome/...
+> 
+> What about a solution which might sound simpler than MFD: from your
+> driver's probe() register a platform device which represents a drm
+> bridge. Add drm_bridge driver for it into drivers/gpu/drm/bridges/.
+> 
 
-Error/Warning reports:
+That is indeed simpler
 
-https://lore.kernel.org/linux-mm/202209042337.FQi69rLV-lkp@intel.com
-https://lore.kernel.org/linux-mm/202209060229.dVuyxjBv-lkp@intel.com
-https://lore.kernel.org/linux-mm/202209150141.WgbAKqmX-lkp@intel.com
-https://lore.kernel.org/linux-mm/202209160607.sE3qvgTy-lkp@intel.com
-https://lore.kernel.org/linux-mm/202209200603.Hpvoa8Ii-lkp@intel.com
-https://lore.kernel.org/linux-mm/202209200949.Vl3xrUYD-lkp@intel.com
-https://lore.kernel.org/llvm/202209220009.8nYpIPST-lkp@intel.com
-https://lore.kernel.org/llvm/202209220019.Yr2VuXhg-lkp@intel.com
+But then rather than just calling drm_bridge_hpd_notify(status) we need
+a new custom interface for this driver to call the other drive when
+status changes and we waste 840 bytes just to track another struct
+platform_device.
 
-Error/Warning: (recently discovered and may have been fixed)
+Perhaps that could be made generic, so we'd have "proxy_drm_bridge"
+driver for drivers who implements a HPD drm_bridge but don't want to
+implement that outside drivers/gpu/drm.
 
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/clk/xilinx/clk-xlnx-clock-wizard.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
-arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
-arch/ia64/kernel/sys_ia64.c:188:17: sparse: sparse: typename in expression
-arch/ia64/kernel/sys_ia64.c:188:31: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-arch/ia64/kernel/sys_ia64.c:188:31: sparse: sparse: Trying to use reserved word 'void' as identifier
-arch/ia64/kernel/sys_ia64.c:189:60: sparse: sparse: invalid initializer
-arch/ia64/kernel/sys_ia64.c:190:17: sparse: sparse: Trying to use reserved word 'return' as identifier
-arch/parisc/lib/iomap.c:363:5: warning: no previous prototype for 'ioread64_lo_hi' [-Wmissing-prototypes]
-arch/parisc/lib/iomap.c:373:5: warning: no previous prototype for 'ioread64_hi_lo' [-Wmissing-prototypes]
-arch/parisc/lib/iomap.c:448:6: warning: no previous prototype for 'iowrite64_lo_hi' [-Wmissing-prototypes]
-arch/parisc/lib/iomap.c:454:6: warning: no previous prototype for 'iowrite64_hi_lo' [-Wmissing-prototypes]
-drivers/scsi/qla2xxx/qla_os.c:2854:23: warning: assignment to 'struct trace_array *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-drivers/scsi/qla2xxx/qla_os.c:2854:25: error: implicit declaration of function 'trace_array_get_by_name'; did you mean 'trace_array_set_clr_event'? [-Werror=implicit-function-declaration]
-drivers/scsi/qla2xxx/qla_os.c:2869:9: error: implicit declaration of function 'trace_array_put' [-Werror=implicit-function-declaration]
-mm/hugetlb.c:5539:14: warning: variable 'reserve_alloc' set but not used [-Wunused-but-set-variable]
+But this is just based on the assumption that the "DRM people" require
+drm_bridges to only live in drivers/gpu/drm/. It's all one kernel and
+the API is well defined, so I don't think there's a concrete problem to
+solve.
 
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_get_by_name
-|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_put
-|   `-- drivers-scsi-qla2xxx-qla_os.c:warning:assignment-to-struct-trace_array-from-int-makes-pointer-from-integer-without-a-cast
-|-- alpha-randconfig-s033-20220921
-|   `-- kernel-exit.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-struct-sighand_struct-sighand-got-struct-sighand_struct-noderef-__rcu-sighand
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
-|-- arm64-randconfig-r013-20220921
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- i386-allyesconfig
-|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
-|-- i386-defconfig
-|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
-|-- i386-randconfig-c021
-|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
-|-- i386-randconfig-m021
-|   `-- drivers-gpu-drm-display-drm_dp_helper.c-drm_dp_phy_name()-warn:unsigned-dp_phy-is-never-less-than-zero.
-|-- i386-randconfig-s001
-|   |-- arch-x86-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-noderef-__user-to-got-unsigned-long-long-usertype
-|   |-- drivers-gpu-drm-tiny-simpledrm.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-void-vaddr-got-void-noderef-__iomem-screen_base
-|   |-- drivers-gpu-drm-vkms-vkms_formats.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-gpu-drm-vkms-vkms_formats.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-got-restricted-__le16-usertype
-|   `-- kernel-exit.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-struct-sighand_struct-sighand-got-struct-sighand_struct-noderef-__rcu-sighand
-|-- i386-randconfig-s002
-|   |-- arch-x86-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-noderef-__user-to-got-unsigned-long-long-usertype
-|   |-- drivers-gpu-drm-tiny-simpledrm.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-void-vaddr-got-void-noderef-__iomem-screen_base
-|   |-- kernel-exit.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-struct-sighand_struct-sighand-got-struct-sighand_struct-noderef-__rcu-sighand
-|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
-|-- i386-randconfig-s003
-|   |-- arch-x86-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-noderef-__user-to-got-unsigned-long-long-usertype
-|   |-- drivers-gpu-drm-tiny-simpledrm.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-void-vaddr-got-void-noderef-__iomem-screen_base
-|   |-- kernel-exit.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-struct-sighand_struct-sighand-got-struct-sighand_struct-noderef-__rcu-sighand
-|   |-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
-|   `-- sound-soc-generic-simple-card-utils.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-unsigned-int-usertype-val-got-restricted-snd_pcm_format_t-usertype
-|-- ia64-allmodconfig
-|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_get_by_name
-|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_put
-|   |-- drivers-scsi-qla2xxx-qla_os.c:warning:assignment-to-struct-trace_array-from-int-makes-pointer-from-integer-without-a-cast
-|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
-|-- ia64-randconfig-s052-20220921
-|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:Trying-to-use-reserved-word-return-as-identifier
-|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:Trying-to-use-reserved-word-typeof-as-identifier
-|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:Trying-to-use-reserved-word-void-as-identifier
-|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:invalid-initializer
-|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:typename-in-expression
-|   |-- kernel-bpf-hashtab.c:sparse:sparse:cast-removes-address-space-__percpu-of-expression
-clang_recent_errors
-|-- arm-randconfig-r014-20220921
-|   `-- make:No-rule-to-make-target-drivers-crypto-aspeed-aspeed_crypto.o-needed-by-drivers-crypto-aspeed-built-in.a-.
-|-- arm-randconfig-r026-20220921
-|   |-- drivers-scsi-qla2xxx-qla_os.c:error:call-to-undeclared-function-trace_array_get_by_name-ISO-C99-and-later-do-not-support-implicit-function-declarations
-|   |-- drivers-scsi-qla2xxx-qla_os.c:error:call-to-undeclared-function-trace_array_put-ISO-C99-and-later-do-not-support-implicit-function-declarations
-|   `-- drivers-scsi-qla2xxx-qla_os.c:error:incompatible-integer-to-pointer-conversion-assigning-to-struct-trace_array-from-int
-|-- i386-randconfig-a015
-|   |-- ERROR:__cpuhp_remove_state-arch-x86-events-intel-intel-cstate.ko-undefined
-|   |-- ERROR:__cpuhp_setup_state-arch-x86-events-intel-intel-cstate.ko-undefined
-|   |-- ERROR:_printk-arch-x86-events-intel-intel-cstate.ko-undefined
-|   |-- ERROR:boot_cpu_data-arch-x86-events-intel-intel-cstate.ko-undefined
-|   |-- ERROR:cpu_bit_bitmap-arch-x86-events-intel-intel-cstate.ko-undefined
-|   |-- ERROR:perf_msr_probe-arch-x86-events-intel-intel-cstate.ko-undefined
-|   |-- ERROR:perf_pmu_register-arch-x86-events-intel-intel-cstate.ko-undefined
-|   |-- ERROR:perf_pmu_unregister-arch-x86-events-intel-intel-cstate.ko-undefined
-|   |-- ERROR:x86_match_cpu-arch-x86-events-intel-intel-cstate.ko-undefined
-|   `-- drivers-extcon-extcon-usbc-tusb320.c:warning:expecting-prototype-for-drivers-extcon-extcon-tusb320c().-Prototype-was-for-TUSB320_REG8()-instead
-|-- powerpc-randconfig-r006-20220921
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-function-virtual_disable_link_output
-|   `-- ld.lld:error:undefined-symbol:__udivdi3
-|-- x86_64-allyesconfig
-|   |-- drivers-extcon-extcon-usbc-tusb320.c:warning:expecting-prototype-for-drivers-extcon-extcon-tusb320c().-Prototype-was-for-TUSB320_REG8()-instead
-|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
-`-- x86_64-randconfig-a016
-    `-- drivers-extcon-extcon-usbc-tusb320.c:warning:expecting-prototype-for-drivers-extcon-extcon-tusb320c().-Prototype-was-for-TUSB320_REG8()-instead
-
-elapsed time: 728m
-
-configs tested: 67
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-i386                                defconfig
-arm                                 defconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-arc                      axs103_smp_defconfig
-arc                  randconfig-r043-20220921
-arc                                 defconfig
-x86_64                              defconfig
-m68k                             allmodconfig
-powerpc                          allmodconfig
-loongarch                         allnoconfig
-riscv                randconfig-r042-20220921
-sh                               allmodconfig
-x86_64                           rhel-8.3-kvm
-x86_64                    rhel-8.3-kselftests
-s390                 randconfig-r044-20220921
-x86_64                           rhel-8.3-syz
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-arc                               allnoconfig
-arm                           viper_defconfig
-alpha                             allnoconfig
-arm                          lpd270_defconfig
-riscv                             allnoconfig
-csky                              allnoconfig
-m68k                          sun3x_defconfig
-sh                          sdk7780_defconfig
-sh                             sh03_defconfig
-sh                              ul2_defconfig
-i386                          randconfig-a016
-powerpc                      ppc6xx_defconfig
-powerpc                    klondike_defconfig
-powerpc                 mpc837x_mds_defconfig
-arm                        trizeps4_defconfig
-sh                        dreamcast_defconfig
-riscv             nommu_k210_sdcard_defconfig
-powerpc                    sam440ep_defconfig
-powerpc                      pcm030_defconfig
-sh                           se7780_defconfig
-i386                          randconfig-c001
-powerpc                         wii_defconfig
-powerpc                           allnoconfig
-alpha                               defconfig
-x86_64                               rhel-8.3
-m68k                             allyesconfig
-s390                                defconfig
-x86_64                           allyesconfig
-s390                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-s390                             allyesconfig
-mips                             allyesconfig
-i386                             allyesconfig
-ia64                             allmodconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-
-clang tested configs:
-hexagon              randconfig-r041-20220921
-hexagon              randconfig-r045-20220921
-arm                         hackkit_defconfig
-s390                             alldefconfig
-x86_64                        randconfig-a016
-i386                          randconfig-a015
-powerpc                      katmai_defconfig
-arm                        mvebu_v5_defconfig
-x86_64                        randconfig-k001
-x86_64                           allyesconfig
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Regards,
+Bjorn
