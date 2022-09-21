@@ -1,92 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCD15E5608
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 00:06:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F9C5E5616
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 00:10:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC1810E51F;
-	Wed, 21 Sep 2022 22:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 653A710E529;
+	Wed, 21 Sep 2022 22:09:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2042.outbound.protection.outlook.com [40.107.93.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B898110E11B;
- Wed, 21 Sep 2022 22:06:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b2OBXFRo6o1r6FejyXfMFd8RFtegdmMBhcHXGsW5FGgzKC8G3fsg7+YO/FPQ1chAJsnIgKW2fyXv0PqnMauYxwSQHLeQ1YGcWcR9qPQKUB4rAgWH1INgYSo3s5RPEmZJbW3gukqVQ61QHx6OBs8UxFuoT7TXTrv1BliivpJhmrq7Q7eZveCZz+CCWv2AZQc8t2xzSiP9Zn0NAkuHisPhtSBVZXkL2uXevIf72rzx16wZa4OMRznsqwU4+WNh9zSFcjPaY78hMv99s8OXWjJTwXCTNxKmH6Q1Ro6sGLzErBCAPY35zvVi7Jn/G4p/X6b86H4HTpVuTC3tbkVqkbWTeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QrTgTzOGTWebqxSaqkY1js9zMenYvbxvXWvn5xKKG+Y=;
- b=Y7I+YbjlpPkiYXDTqcwP0eN1L7hN5J2TKXqYgbNPthphcEIN+y8aoDGxodWmPWPxKsnzatnEX8M4A5aDFAS+KLGzIRazYStxN/EtGVWTOy/VJdquSahwFO1If3myQyITWOv9PWs+5rYxj/ck6skZyhLjawWlgisBV3VTjMlYb0pC+qIx32IT9xoc9mGiQwL8OFooORQfIWlMMJ8xT8E3q0DKgxDMC4qYA/rdTkXpqT3Kdzimh+Ua8Bgx3cwgYlUkZ7NDvjLl3UPNxOTONSM/CeTlBTjp2g/N6rPCJEiGA6DWKcNI3VYJon+uBE/pqMXh0YY4CtD32bkDKM7X5UMDLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QrTgTzOGTWebqxSaqkY1js9zMenYvbxvXWvn5xKKG+Y=;
- b=otHQYdlYjj/mo3lFpkMuyG/KWLzdIG7kcRQ9MscYDY+w79KqFchjnmHw+CcQQPj3E8OQYP7HMlWOCA9USsCXdUTOQfwYjVPqNIhC2AmeccsFfq1z0laY9u0bv78HVwDJ2Hze5chqjdzH60h4xpPGpnu128wpznJgkr0IR61+AeA=
-Received: from BL1P222CA0009.NAMP222.PROD.OUTLOOK.COM (2603:10b6:208:2c7::14)
- by SA1PR12MB6895.namprd12.prod.outlook.com (2603:10b6:806:24e::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Wed, 21 Sep
- 2022 22:06:19 +0000
-Received: from BL02EPF0000C405.namprd05.prod.outlook.com
- (2603:10b6:208:2c7:cafe::59) by BL1P222CA0009.outlook.office365.com
- (2603:10b6:208:2c7::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.14 via Frontend
- Transport; Wed, 21 Sep 2022 22:06:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF0000C405.mail.protection.outlook.com (10.167.241.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5654.11 via Frontend Transport; Wed, 21 Sep 2022 22:06:19 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 21 Sep
- 2022 17:06:18 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu drm-fixes-6.0
-Date: Wed, 21 Sep 2022 18:06:05 -0400
-Message-ID: <20220921220605.6136-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.37.3
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0619D10E522;
+ Wed, 21 Sep 2022 22:09:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663798189; x=1695334189;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=R3CpDz+xL1Orecl3r244JO/sBWMMsfvYdEmeOk70BlE=;
+ b=nAZZvh5yGgY6AtzcP082cYIILWvGtfoeZxrxgmZjokCgTEfx30X0pwNT
+ Txvzar+juTIHnxcpiNdJfAc2TQ2I2Gviqz04D2jrB0U1EAJuXwXoCn4JR
+ Pz30SkLfyFNAn8Y27vlhOsAC+o4EwAu7ptq5KgZjNhxz7J19qSkY/67vr
+ gjhLlGoUNqfTBM2T66m4kMqHAlxbf1TR6gOFyADhrajr1QH2vJY/Phim/
+ eytSBSbVuy/fttJWjS9VnjZqLw6pPtVsN2GKTUyugf/GipJQvJMFSjzQD
+ tiNaOlqKAb/GSdckYVQJE47P1sCTIuamQwUbeWkQbwUr99TZvUOIwPdvS Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="298853679"
+X-IronPort-AV: E=Sophos;i="5.93,334,1654585200"; d="scan'208";a="298853679"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 15:09:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,334,1654585200"; d="scan'208";a="652717033"
+Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
+ by orsmga001.jf.intel.com with ESMTP; 21 Sep 2022 15:09:44 -0700
+Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ob7ua-00041Y-0D;
+ Wed, 21 Sep 2022 22:09:44 +0000
+Date: Thu, 22 Sep 2022 06:09:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 483fed3b5dc8ce3644c83d24240cf5756fb0993e
+Message-ID: <632b8b99.vfbuiC8J3oDCVZh4%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0000C405:EE_|SA1PR12MB6895:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9287db4f-56f7-42d0-518f-08da9c1d8311
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /0Zadc6kcdvFS8uxjlLc46344QnTnYtcuj9Hl6nAnkDLz/2bf+jCfCnR3Jn1VnVTqW1qldPDLT3jl954CMEEPMEspQSdPX4fXJztXTCdsCNgtHshce0hnLVX1IC4EYv7fBOQ3UWUC22FN+9+k7hhiMu/t5cDzAajgBp5+V3HlEO/DsHZY9kR14ZvL9KN3tB574sYzlTyoNf7gEEsmTGsZpY6xyAl1bjEcSNEORkA07ze2qzw47KZ56RPveni9onPF3XxBxEJCfzi8TobpjqYnEoN15psTTG8SgphKNS+rh7XD2jAZeDA2KxlkVDh4AIZF6AydxAYRGuAiT6wT9afttGaQ31/Yh7xUzIkcHEaS0eamcvb8RTcJgOaGwH/IPXkYn0gPYlZrv32XLafbqCRjbfevIR6wb1vvu7Xo46soPBirTKL3SjhcCq63TBonkliCFnnk6jupAXEoIJhmip+rJsGiLZQAjewDnFRsQMoCZmZrFiWHbqnywVq2j+wFNY8UeQ2Y91rG9HbdCzr+NWW3jZe3IA/CRoDL2ahvTHvdzx0T9s8uwoP8ARwKnPG7bhkfYX1K3H03uZyEMehrTfnveNi54FbBXOgrVc7EryR1cjn4aD7cfV3pN7Efpu/WnnTxKHjAX9sBk2lXD4JJosKLCJbKBblmxxKUWjwS3pMAHI3UflK7Fk3723MrH+DjMyFqQX5J+m5s2y6ZnAHfcFSQbyMfQb9cQe3d2oriFcKTeIk7pl6Bo9c8vdxLOKZBgWo
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(376002)(346002)(136003)(396003)(451199015)(46966006)(36840700001)(40470700004)(7696005)(2616005)(26005)(81166007)(5660300002)(966005)(478600001)(2906002)(82310400005)(356005)(36860700001)(86362001)(40460700003)(336012)(186003)(16526019)(40480700001)(83380400001)(8936002)(82740400003)(6666004)(426003)(47076005)(41300700001)(1076003)(36756003)(316002)(4326008)(70586007)(110136005)(8676002)(70206006)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2022 22:06:19.2500 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9287db4f-56f7-42d0-518f-08da9c1d8311
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000C405.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6895
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,125 +58,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ amd-gfx@lists.freedesktop.org, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 483fed3b5dc8ce3644c83d24240cf5756fb0993e  Add linux-next specific files for 20220921
 
-Fixes for 6.0.  Mainly fixes for new IPs.  The big change here is the DML
-clean up from Nathan to fix the Clang stack usage warnings on the DCN 3.1.4
-code which was recently enabled.
+Error/Warning reports:
 
-The following changes since commit a8671493d2074950553da3cf07d1be43185ef6c6:
+https://lore.kernel.org/linux-mm/202209042337.FQi69rLV-lkp@intel.com
+https://lore.kernel.org/linux-mm/202209060229.dVuyxjBv-lkp@intel.com
+https://lore.kernel.org/linux-mm/202209150141.WgbAKqmX-lkp@intel.com
+https://lore.kernel.org/linux-mm/202209160607.sE3qvgTy-lkp@intel.com
+https://lore.kernel.org/linux-mm/202209200603.Hpvoa8Ii-lkp@intel.com
+https://lore.kernel.org/linux-mm/202209200949.Vl3xrUYD-lkp@intel.com
+https://lore.kernel.org/llvm/202209220009.8nYpIPST-lkp@intel.com
+https://lore.kernel.org/llvm/202209220019.Yr2VuXhg-lkp@intel.com
 
-  drm/amdgpu: make sure to init common IP before gmc (2022-09-14 14:21:49 -0400)
+Error/Warning: (recently discovered and may have been fixed)
 
-are available in the Git repository at:
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
+ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/clk/xilinx/clk-xlnx-clock-wizard.ko] undefined!
+ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
+arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
+arch/ia64/kernel/sys_ia64.c:188:17: sparse: sparse: typename in expression
+arch/ia64/kernel/sys_ia64.c:188:31: sparse: sparse: Trying to use reserved word 'typeof' as identifier
+arch/ia64/kernel/sys_ia64.c:188:31: sparse: sparse: Trying to use reserved word 'void' as identifier
+arch/ia64/kernel/sys_ia64.c:189:60: sparse: sparse: invalid initializer
+arch/ia64/kernel/sys_ia64.c:190:17: sparse: sparse: Trying to use reserved word 'return' as identifier
+arch/parisc/lib/iomap.c:363:5: warning: no previous prototype for 'ioread64_lo_hi' [-Wmissing-prototypes]
+arch/parisc/lib/iomap.c:373:5: warning: no previous prototype for 'ioread64_hi_lo' [-Wmissing-prototypes]
+arch/parisc/lib/iomap.c:448:6: warning: no previous prototype for 'iowrite64_lo_hi' [-Wmissing-prototypes]
+arch/parisc/lib/iomap.c:454:6: warning: no previous prototype for 'iowrite64_hi_lo' [-Wmissing-prototypes]
+drivers/scsi/qla2xxx/qla_os.c:2854:23: warning: assignment to 'struct trace_array *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+drivers/scsi/qla2xxx/qla_os.c:2854:25: error: implicit declaration of function 'trace_array_get_by_name'; did you mean 'trace_array_set_clr_event'? [-Werror=implicit-function-declaration]
+drivers/scsi/qla2xxx/qla_os.c:2869:9: error: implicit declaration of function 'trace_array_put' [-Werror=implicit-function-declaration]
+mm/hugetlb.c:5539:14: warning: variable 'reserve_alloc' set but not used [-Wunused-but-set-variable]
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.0-2022-09-21
+Error/Warning ids grouped by kconfigs:
 
-for you to fetch changes up to f525ed19437d376736bed64ee7bc4afee82f2ba9:
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_get_by_name
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_put
+|   `-- drivers-scsi-qla2xxx-qla_os.c:warning:assignment-to-struct-trace_array-from-int-makes-pointer-from-integer-without-a-cast
+|-- alpha-randconfig-s033-20220921
+|   `-- kernel-exit.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-struct-sighand_struct-sighand-got-struct-sighand_struct-noderef-__rcu-sighand
+|-- arm64-allyesconfig
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
+|-- arm64-randconfig-r013-20220921
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|-- i386-allyesconfig
+|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
+|-- i386-defconfig
+|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
+|-- i386-randconfig-c021
+|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
+|-- i386-randconfig-m021
+|   `-- drivers-gpu-drm-display-drm_dp_helper.c-drm_dp_phy_name()-warn:unsigned-dp_phy-is-never-less-than-zero.
+|-- i386-randconfig-s001
+|   |-- arch-x86-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-noderef-__user-to-got-unsigned-long-long-usertype
+|   |-- drivers-gpu-drm-tiny-simpledrm.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-void-vaddr-got-void-noderef-__iomem-screen_base
+|   |-- drivers-gpu-drm-vkms-vkms_formats.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-gpu-drm-vkms-vkms_formats.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-got-restricted-__le16-usertype
+|   `-- kernel-exit.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-struct-sighand_struct-sighand-got-struct-sighand_struct-noderef-__rcu-sighand
+|-- i386-randconfig-s002
+|   |-- arch-x86-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-noderef-__user-to-got-unsigned-long-long-usertype
+|   |-- drivers-gpu-drm-tiny-simpledrm.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-void-vaddr-got-void-noderef-__iomem-screen_base
+|   |-- kernel-exit.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-struct-sighand_struct-sighand-got-struct-sighand_struct-noderef-__rcu-sighand
+|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
+|-- i386-randconfig-s003
+|   |-- arch-x86-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-noderef-__user-to-got-unsigned-long-long-usertype
+|   |-- drivers-gpu-drm-tiny-simpledrm.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-void-vaddr-got-void-noderef-__iomem-screen_base
+|   |-- kernel-exit.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-struct-sighand_struct-sighand-got-struct-sighand_struct-noderef-__rcu-sighand
+|   |-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
+|   `-- sound-soc-generic-simple-card-utils.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-unsigned-int-usertype-val-got-restricted-snd_pcm_format_t-usertype
+|-- ia64-allmodconfig
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_get_by_name
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:implicit-declaration-of-function-trace_array_put
+|   |-- drivers-scsi-qla2xxx-qla_os.c:warning:assignment-to-struct-trace_array-from-int-makes-pointer-from-integer-without-a-cast
+|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
+|-- ia64-randconfig-s052-20220921
+|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:Trying-to-use-reserved-word-return-as-identifier
+|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:Trying-to-use-reserved-word-typeof-as-identifier
+|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:Trying-to-use-reserved-word-void-as-identifier
+|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:invalid-initializer
+|   |-- arch-ia64-kernel-sys_ia64.c:sparse:sparse:typename-in-expression
+|   |-- kernel-bpf-hashtab.c:sparse:sparse:cast-removes-address-space-__percpu-of-expression
+clang_recent_errors
+|-- arm-randconfig-r014-20220921
+|   `-- make:No-rule-to-make-target-drivers-crypto-aspeed-aspeed_crypto.o-needed-by-drivers-crypto-aspeed-built-in.a-.
+|-- arm-randconfig-r026-20220921
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:call-to-undeclared-function-trace_array_get_by_name-ISO-C99-and-later-do-not-support-implicit-function-declarations
+|   |-- drivers-scsi-qla2xxx-qla_os.c:error:call-to-undeclared-function-trace_array_put-ISO-C99-and-later-do-not-support-implicit-function-declarations
+|   `-- drivers-scsi-qla2xxx-qla_os.c:error:incompatible-integer-to-pointer-conversion-assigning-to-struct-trace_array-from-int
+|-- i386-randconfig-a015
+|   |-- ERROR:__cpuhp_remove_state-arch-x86-events-intel-intel-cstate.ko-undefined
+|   |-- ERROR:__cpuhp_setup_state-arch-x86-events-intel-intel-cstate.ko-undefined
+|   |-- ERROR:_printk-arch-x86-events-intel-intel-cstate.ko-undefined
+|   |-- ERROR:boot_cpu_data-arch-x86-events-intel-intel-cstate.ko-undefined
+|   |-- ERROR:cpu_bit_bitmap-arch-x86-events-intel-intel-cstate.ko-undefined
+|   |-- ERROR:perf_msr_probe-arch-x86-events-intel-intel-cstate.ko-undefined
+|   |-- ERROR:perf_pmu_register-arch-x86-events-intel-intel-cstate.ko-undefined
+|   |-- ERROR:perf_pmu_unregister-arch-x86-events-intel-intel-cstate.ko-undefined
+|   |-- ERROR:x86_match_cpu-arch-x86-events-intel-intel-cstate.ko-undefined
+|   `-- drivers-extcon-extcon-usbc-tusb320.c:warning:expecting-prototype-for-drivers-extcon-extcon-tusb320c().-Prototype-was-for-TUSB320_REG8()-instead
+|-- powerpc-randconfig-r006-20220921
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-function-virtual_disable_link_output
+|   `-- ld.lld:error:undefined-symbol:__udivdi3
+|-- x86_64-allyesconfig
+|   |-- drivers-extcon-extcon-usbc-tusb320.c:warning:expecting-prototype-for-drivers-extcon-extcon-tusb320c().-Prototype-was-for-TUSB320_REG8()-instead
+|   `-- mm-hugetlb.c:warning:variable-reserve_alloc-set-but-not-used
+`-- x86_64-randconfig-a016
+    `-- drivers-extcon-extcon-usbc-tusb320.c:warning:expecting-prototype-for-drivers-extcon-extcon-tusb320c().-Prototype-was-for-TUSB320_REG8()-instead
 
-  drm/amd/display: Reduce number of arguments of dml314's CalculateFlipSchedule() (2022-09-21 17:36:57 -0400)
+elapsed time: 728m
 
-----------------------------------------------------------------
-amd-drm-fixes-6.0-2022-09-21:
+configs tested: 67
+configs skipped: 2
 
-amdgpu:
-- SDMA 6.x fix
-- GPUVM TF fix
-- DCN 3.2.x fixes
-- DCN 3.1.x fixes
-- SMU 13.x fixes
-- Clang stack size fixes for recently enabled DML code
-- Fix drm dirty callback change on non-atomic cases
-- USB4 display fix
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+i386                                defconfig
+arm                                 defconfig
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+arc                      axs103_smp_defconfig
+arc                  randconfig-r043-20220921
+arc                                 defconfig
+x86_64                              defconfig
+m68k                             allmodconfig
+powerpc                          allmodconfig
+loongarch                         allnoconfig
+riscv                randconfig-r042-20220921
+sh                               allmodconfig
+x86_64                           rhel-8.3-kvm
+x86_64                    rhel-8.3-kselftests
+s390                 randconfig-r044-20220921
+x86_64                           rhel-8.3-syz
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+arc                               allnoconfig
+arm                           viper_defconfig
+alpha                             allnoconfig
+arm                          lpd270_defconfig
+riscv                             allnoconfig
+csky                              allnoconfig
+m68k                          sun3x_defconfig
+sh                          sdk7780_defconfig
+sh                             sh03_defconfig
+sh                              ul2_defconfig
+i386                          randconfig-a016
+powerpc                      ppc6xx_defconfig
+powerpc                    klondike_defconfig
+powerpc                 mpc837x_mds_defconfig
+arm                        trizeps4_defconfig
+sh                        dreamcast_defconfig
+riscv             nommu_k210_sdcard_defconfig
+powerpc                    sam440ep_defconfig
+powerpc                      pcm030_defconfig
+sh                           se7780_defconfig
+i386                          randconfig-c001
+powerpc                         wii_defconfig
+powerpc                           allnoconfig
+alpha                               defconfig
+x86_64                               rhel-8.3
+m68k                             allyesconfig
+s390                                defconfig
+x86_64                           allyesconfig
+s390                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+s390                             allyesconfig
+mips                             allyesconfig
+i386                             allyesconfig
+ia64                             allmodconfig
+arm64                            allyesconfig
+arm                              allyesconfig
 
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu: don't register a dirty callback for non-atomic
+clang tested configs:
+hexagon              randconfig-r041-20220921
+hexagon              randconfig-r045-20220921
+arm                         hackkit_defconfig
+s390                             alldefconfig
+x86_64                        randconfig-a016
+i386                          randconfig-a015
+powerpc                      katmai_defconfig
+arm                        mvebu_v5_defconfig
+x86_64                        randconfig-k001
+x86_64                           allyesconfig
 
-Alvin Lee (1):
-      drm/amd/display: Only consider pixle rate div policy for DCN32+
-
-Charlene Liu (1):
-      drm/amd/display: correct num_dsc based on HW cap
-
-Chris Park (1):
-      drm/amd/display: Port DCN30 420 logic to DCN32
-
-Cruise Hung (1):
-      drm/amd/display: Fix DP MST timeslot issue when fallback happened
-
-Daniel Miess (1):
-      drm/amd/display: Add shift and mask for ICH_RESET_AT_END_OF_LINE
-
-Dmytro Laktyushkin (2):
-      drm/amd/display: fix dcn315 memory channel count and width read
-      drm/amd/display: increase dcn315 pstate change latency
-
-Evan Quan (2):
-      drm/amd/pm: add support for 3794 pptable for SMU13.0.0
-      drm/amd/pm: drop the pptable related workarounds for SMU 13.0.0
-
-George Shen (1):
-      drm/amd/display: Update dummy P-state search to use DCN32 DML
-
-Hugo Hu (1):
-      drm/amd/display: update gamut remap if plane has changed
-
-Leo Li (1):
-      drm/amd/display: Fix double cursor on non-video RGB MPO
-
-Meenakshikumar Somasundaram (1):
-      drm/amd/display: Display distortion after hotplug 5K tiled display
-
-Michael Strauss (1):
-      drm/amd/display: Assume an LTTPR is always present on fixed_vs links
-
-Mukul Joshi (1):
-      drm/amdgpu: Update PTE flags with TF enabled
-
-Nathan Chancellor (2):
-      drm/amd/display: Reduce number of arguments of dml314's CalculateWatermarksAndDRAMSpeedChangeSupport()
-      drm/amd/display: Reduce number of arguments of dml314's CalculateFlipSchedule()
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Disable OTG WA for the plane_state NULL case on DCN314
-
-Yifan Zhang (1):
-      drm/amdgpu/mes: zero the sdma_hqd_mask of 2nd SDMA engine for SDMA 6.0.1
-
-zhikzhai (1):
-      drm/amd/display: skip audio setup when audio stream is enabled
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |  11 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c            |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   3 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |   7 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  12 +-
- .../amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c   |  11 +-
- .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c |  14 +-
- .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c |  36 +-
- .../amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c |  11 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  16 +-
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  17 +
- .../amd/display/dc/dce110/dce110_hw_sequencer.c    |   6 +-
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.h   | 220 -----------
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |   1 +
- .../gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c   |  16 +-
- .../gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h   |   2 -
- .../gpu/drm/amd/display/dc/dcn314/dcn314_init.c    |   1 -
- .../drm/amd/display/dc/dcn314/dcn314_resource.c    |  11 +-
- .../gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c   |   7 +-
- .../display/dc/dml/dcn314/display_mode_vba_314.c   | 420 +++++----------------
- .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |  46 ++-
- .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.h   |   6 +
- .../amd/display/dc/dml/dcn32/display_mode_vba_32.c |   2 +
- .../dc/dml/dcn32/display_mode_vba_util_32.c        |  26 ++
- .../dc/dml/dcn32/display_mode_vba_util_32.h        |   1 +
- drivers/gpu/drm/amd/display/dc/inc/resource.h      |   4 +
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |  44 +--
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  53 +--
- 28 files changed, 309 insertions(+), 698 deletions(-)
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
