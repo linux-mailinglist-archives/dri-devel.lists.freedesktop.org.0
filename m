@@ -1,42 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315565C02B8
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:55:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3DC5C029E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C789A10E9BC;
-	Wed, 21 Sep 2022 15:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E05D810E9AF;
+	Wed, 21 Sep 2022 15:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBA0810E9AB;
- Wed, 21 Sep 2022 15:54:12 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30E8610E9AC;
+ Wed, 21 Sep 2022 15:54:17 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6C7D96315F;
- Wed, 21 Sep 2022 15:54:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F15FC433C1;
- Wed, 21 Sep 2022 15:54:11 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id BC46FB830D5;
+ Wed, 21 Sep 2022 15:54:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BB25C43140;
+ Wed, 21 Sep 2022 15:54:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663775651;
- bh=Gl9io5BLtE9CCwEPd3iswAcZ+PjuZKqsZXFtnvw+MfE=;
+ s=k20201202; t=1663775654;
+ bh=A3CykcyFmb5dPc3EiCtbcYody8l3T4oCjQVp3ikh9dg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ntjpyL4/iDL2Zndu2V1kyZ4g18XN3AkYLOqIZkInx80P8qHcv0rOajUaxNyHGULm2
- 09wLyj/l2ULGoRHbIbviOIQEvAYvOMGx7rTjHQCa0pnUgtPm5ZRW3wGxiSyiHx69ob
- ydMMy2g7LvzYgvBcpPOJ4/nldZiXle9MNNeE/f7jnOJX6BicDyFjpCpoG6fZaPhKMy
- DamdVxNeP3E6eyB6j9SU500bQTqdJhgYSh1s0rqNUNqPVJsBn1ybHIwVam/e1piJYa
- EDHD4+BV0lkP2XMwywoo+7g06znXnWKlxAU+oB+twsv3DHUKE+FcQoqabvSBgmJLwz
- W2Jjhc3HZWWBw==
+ b=a9/QuP1nnP9xNxG4c9+IwxjfSN4CC5YscxjJpR+BVkusI5eEAP1CLTnC7glRvmuXK
+ nrWU0CfHfaE5PnGD1RmVZnAESg65WAdpLh7llmBnXL8TCvlqdYek19e6mCW9dc5pVy
+ 1mL4FbV/jvYwx69dWTZOjfjPMmKWTpaLBLWYkZCXxOCg02dAIFFAMFsmUxzoJj636v
+ Oq2rIPhshqs4iNbzHIEtdZdaQIodE+wNRyT2u4qBpABwIgcuD6GbDnTxGl11xfDp9u
+ UzZRNub26oqcULTKAf1TdHiCbKUBJuhY4d8AC9Tdy+GMPjQLjdSp2LCdt+fv/oZKhn
+ y2aub8JhpqQxg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 04/10] drm/amd/pm: disable BACO entry/exit
- completely on several sienna cichlid cards
-Date: Wed, 21 Sep 2022 11:54:01 -0400
-Message-Id: <20220921155407.235132-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 05/10] drm/amdgpu: use dirty framebuffer helper
+Date: Wed, 21 Sep 2022 11:54:02 -0400
+Message-Id: <20220921155407.235132-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220921155407.235132-1-sashal@kernel.org>
 References: <20220921155407.235132-1-sashal@kernel.org>
@@ -56,52 +54,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, sathishkumar.sundararaju@amd.com,
- Xinhui.Pan@amd.com, Guchun Chen <guchun.chen@amd.com>, airlied@linux.ie,
- danijel.slivka@amd.com, Lijo Lazar <lijo.lazar@amd.com>,
- amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
- Mohammadzafar.ziya@amd.com, dri-devel@lists.freedesktop.org,
+Cc: Sasha Levin <sashal@kernel.org>, guchun.chen@amd.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com, seanpaul@chromium.org,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
- christian.koenig@amd.com
+ christian.koenig@amd.com, greenfoo@u92.eu
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guchun Chen <guchun.chen@amd.com>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
-[ Upstream commit 7c6fb61a400bf3218c6504cb2d48858f98822c9d ]
+[ Upstream commit 66f99628eb24409cb8feb5061f78283c8b65f820 ]
 
-To avoid hardware intermittent failures.
+Currently, we aren't handling DRM_IOCTL_MODE_DIRTYFB. So, use
+drm_atomic_helper_dirtyfb() as the dirty callback in the amdgpu_fb_funcs
+struct.
 
-Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-index 79976921dc46..c71d50e82168 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-@@ -358,6 +358,17 @@ static void sienna_cichlid_check_bxco_support(struct smu_context *smu)
- 		smu_baco->platform_support =
- 			(val & RCC_BIF_STRAP0__STRAP_PX_CAPABLE_MASK) ? true :
- 									false;
-+
-+		/*
-+		 * Disable BACO entry/exit completely on below SKUs to
-+		 * avoid hardware intermittent failures.
-+		 */
-+		if (((adev->pdev->device == 0x73A1) &&
-+		    (adev->pdev->revision == 0x00)) ||
-+		    ((adev->pdev->device == 0x73BF) &&
-+		    (adev->pdev->revision == 0xCF)))
-+			smu_baco->platform_support = false;
-+
- 	}
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 5c08047adb59..47fb722ab374 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -35,6 +35,7 @@
+ #include <linux/pci.h>
+ #include <linux/pm_runtime.h>
+ #include <drm/drm_crtc_helper.h>
++#include <drm/drm_damage_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_fb_helper.h>
+@@ -490,6 +491,7 @@ bool amdgpu_display_ddc_probe(struct amdgpu_connector *amdgpu_connector,
+ static const struct drm_framebuffer_funcs amdgpu_fb_funcs = {
+ 	.destroy = drm_gem_fb_destroy,
+ 	.create_handle = drm_gem_fb_create_handle,
++	.dirty = drm_atomic_helper_dirtyfb,
+ };
  
+ uint32_t amdgpu_display_supported_domains(struct amdgpu_device *adev,
 -- 
 2.35.1
 
