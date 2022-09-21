@@ -2,50 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206EB5BFDCE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 14:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20FE05BFE0A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 14:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C50B10E963;
-	Wed, 21 Sep 2022 12:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D12110E380;
+	Wed, 21 Sep 2022 12:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 244E510E963
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 12:26:13 +0000 (UTC)
-Received: from maud (138-51-81-86-lsn-2.nat.utoronto.ca [138.51.81.86])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C708110E380
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 12:37:35 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: alyssa)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E3218660035B;
- Wed, 21 Sep 2022 13:26:10 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663763171;
- bh=LlHD5lcHyZfHfTEXQT+IbuM3eYyGjiUeyiaLrGNOPPg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QvYpEeK56DoQSASB/Dh1LiOLwMFU4ZpTWoAXaCym+TzdsWmu8eOCfnCkAH6S3K+P7
- LvnDV7rkr+wX+OjRwZPTaIGE+MshSxNpouLRc273ES0c3cRbxz/tPOTXswuWbAo7tP
- 4BWAeYf83B8s4P+lXxM0H2w08LbznpFeDOMSDz0IiPLz+ihHmDM2BQa4kj2+CHxek/
- QQpFu4k1M7FK4fp9Y09dXiaRcB7SA4hXTcKKCwLgkGgRCv0wok+6HybawAKq2lkrav
- HsWtOLn/Vea0fvspnkjPu4akabrKS3ZFrWg7Gq2q9GRzMPYx1zcZkSbtsOO3cuEX+3
- r7IvGnlxx1tQA==
-Date: Wed, 21 Sep 2022 08:26:07 -0400
-From: Alyssa Rosenzweig <alyssa@collabora.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 2/2] drm/panfrost: replace endian-specific types with
- generic ones
-Message-ID: <YysC34LemH+Qzd7l@maud>
-References: <YynVAAaQPIPhuN55@maud>
- <20220920211545.1017355-1-adrian.larumbe@collabora.com>
- <20220920211545.1017355-2-adrian.larumbe@collabora.com>
- <Yyo7A1eolIBssv/i@maud>
- <4e907f5a-0691-214f-d6a2-1bc3a8bd462e@arm.com>
- <6ce0a88e-6114-65b2-9670-6a76cfad068d@arm.com>
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 815F821AE9;
+ Wed, 21 Sep 2022 12:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663763854; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1DQcj5L4TAl4uuX44y/RQFf53uG70ciwYuYneMltK0k=;
+ b=u3uBtj1mQy5m2OjMSwkR/SMELSQs0A/uVMMItcHdK4zoguCGv+JSURzBLY86b/Z/ziUhOj
+ 40y7uDPumhzVZBqbd+872GIqscWQ+sG3WhaY4Z2TzeGomRm0NcBC0VJ4fe9+/oD/Oukz2j
+ piYoYYg+ROn6gRcnLfFcDjJlRKZs4RU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663763854;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1DQcj5L4TAl4uuX44y/RQFf53uG70ciwYuYneMltK0k=;
+ b=/m0exgHk/ZsyD2YhoI1SXe1YcyFLrt+wOBv5Zl9DLugUkvwqtzdrhJNYBYwlifyNH+DYm5
+ pcMECEzG63BCqjBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 39EA213A89;
+ Wed, 21 Sep 2022 12:37:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id nQBLDY4FK2NIJAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 21 Sep 2022 12:37:34 +0000
+Message-ID: <39e692cd-717a-a1f2-d330-7ff14cb9d1eb@suse.de>
+Date: Wed, 21 Sep 2022 14:37:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6ce0a88e-6114-65b2-9670-6a76cfad068d@arm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 09/10] drm/ofdrm: Add per-model device function
+Content-Language: en-US
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-10-tzimmermann@suse.de>
+ <7b1a2807-59c7-d524-af8e-1ec634c740a7@redhat.com>
+ <20220726144024.GP17705@kitsune.suse.cz>
+ <a9822ef5fba5599ddcee5daa4dbd17d8aaca8390.camel@kernel.crashing.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <a9822ef5fba5599ddcee5daa4dbd17d8aaca8390.camel@kernel.crashing.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------J7ZJQ22hMiBNS7g8WBOOaqnQ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,24 +75,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Adri??n Larumbe <adrian.larumbe@collabora.com>,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>
+Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, mpe@ellerman.id.au,
+ deller@gmx.de, mark.cave-ayland@ilande.co.uk, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, paulus@samba.org, maxime@cerno.tech,
+ geert@linux-m68k.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > Or of course we could just actually use native endian and detect from
-> > the magic which endian is in use. That would require ripping out the
-> > cpu_to_lexx() calls in Linux and making the user space tool more
-> > intelligent. I'm happy with that, but it's pushing the complexity onto Mesa.
-> 
-> If there's a clearly identifiable header, then I'd say making the whole dump
-> native-endian is probably the way to go. Unless and until anyone actually
-> demands to be able to do cross-endian post-mortem GPU debugging, the
-> realistic extent of the complexity in Mesa is that it doesn't recognise the
-> foreign dump format and gives up, which I assume is already implemented :)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------J7ZJQ22hMiBNS7g8WBOOaqnQ
+Content-Type: multipart/mixed; boundary="------------tFMA1N913dYeGh59nKAste9g";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Cc: airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech,
+ sam@ravnborg.org, mpe@ellerman.id.au, paulus@samba.org,
+ geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk,
+ linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <39e692cd-717a-a1f2-d330-7ff14cb9d1eb@suse.de>
+Subject: Re: [PATCH v2 09/10] drm/ofdrm: Add per-model device function
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-10-tzimmermann@suse.de>
+ <7b1a2807-59c7-d524-af8e-1ec634c740a7@redhat.com>
+ <20220726144024.GP17705@kitsune.suse.cz>
+ <a9822ef5fba5599ddcee5daa4dbd17d8aaca8390.camel@kernel.crashing.org>
+In-Reply-To: <a9822ef5fba5599ddcee5daa4dbd17d8aaca8390.camel@kernel.crashing.org>
 
-+1 to this solution. Gets the complexity out of both kernel and Mesa,
-and in the vanishingly unlikely scenario that we need this
-functionality, we can add it to Mesa without kernel changes. As mesa
-panfrost maintainer I'll take those odds :+1:
+--------------tFMA1N913dYeGh59nKAste9g
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkNCg0KQW0gMDUuMDguMjIgdW0gMDI6MjIgc2NocmllYiBCZW5qYW1pbiBIZXJyZW5zY2ht
+aWR0Og0KPiBPbiBUdWUsIDIwMjItMDctMjYgYXQgMTY6NDAgKzAyMDAsIE1pY2hhbCBTdWNo
+w6FuZWsgd3JvdGU6DQo+PiBIZWxsbywNCj4+DQo+PiBPbiBUdWUsIEp1bCAyNiwgMjAyMiBh
+dCAwMzozODozN1BNICswMjAwLCBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgd3JvdGU6DQo+
+Pj4gT24gNy8yMC8yMiAxNjoyNywgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4+IEFk
+ZCBhIHBlci1tb2RlbCBkZXZpY2UtZnVuY3Rpb24gc3RydWN0dXJlIGluIHByZXBhcmF0aW9u
+IG9mIGFkZGluZw0KPj4+PiBjb2xvci1tYW5hZ2VtZW50IHN1cHBvcnQuIERldGVjdGlvbiBv
+ZiB0aGUgaW5kaXZpZHVhbCBtb2RlbHMgaGFzIGJlZW4NCj4+Pj4gdGFrZW4gZnJvbSBmYmRl
+didzIG9mZmIuDQo+Pj4+DQo+Pj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5u
+IDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4+PiAtLS0NCj4+Pg0KPj4+IFJldmlld2VkLWJ5
+OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4+Pg0K
+Pj4+IFsuLi5dDQo+Pj4NCj4+Pj4gK3N0YXRpYyBib29sIGlzX2F2aXZvKF9fYmUzMiB2ZW5k
+b3IsIF9fYmUzMiBkZXZpY2UpDQo+Pj4+ICt7DQo+Pj4+ICsJLyogVGhpcyB3aWxsIG1hdGNo
+IG1vc3QgUjV4eCAqLw0KPj4+PiArCXJldHVybiAodmVuZG9yID09IDB4MTAwMikgJiYNCj4+
+Pj4gKwkgICAgICAgKChkZXZpY2UgPj0gMHg3MTAwICYmIGRldmljZSA8IDB4NzgwMCkgfHwg
+KGRldmljZSA+PSAweDk0MDApKTsNCj4+Pj4gK30NCj4+Pg0KPj4+IE1heWJlIGFkZCBzb21l
+IGNvbnN0YW50IG1hY3JvcyB0byBub3QgaGF2ZSB0aGVzZSBtYWdpYyBudW1iZXJzID8NCj4+
+DQo+PiBUaGlzIGlzIGJhc2VkIG9uIHRoZSBleGlzdGluZyBmYmRldiBpbXBsZW1lbnRhdGlv
+bidzIG1hZ2ljIG51bWJlcnM6DQo+Pg0KPj4gZHJpdmVycy92aWRlby9mYmRldi9vZmZiLmM6
+ICAgICAgICAgICAgICAgICAoKCpkaWQgPj0gMHg3MTAwICYmICpkaWQgPCAweDc4MDApIHx8
+DQo+Pg0KPj4gT2YgY291cnNlLCBpdCB3b3VsZCBiZSBncmVhdCBpZiBzb21lYm9keSBrbm93
+bGVkZ2VhYmxlIGNvdWxkIGNsYXJpZnkNCj4+IHRob3NlLg0KPiANCj4gSSBkb24ndCB0aGlu
+ayBhbnlib2R5IHJlbWVtYmVycyA6LSkgVmVuZG9yIDB4MTAwMiBpcyBQQ0lfVkVORE9SX0lE
+X0FUSSwNCg0KSSBkbyA6KQ0KDQo+IGJ1dCB0aGUgcmVzdCBpcyBiYXNpY2FsbHkgcmFuZ2Vz
+IG9mIFBDSSBJRHMgZm9yIHdoaWNoIHdlIGRvbid0IGhhdmUNCj4gc3ltYm9saWMgY29uc3Rh
+bnRzLg0KDQpTaG91bGQgd2UgYWRkIHRoZW0gdG8gdGhlIG9mZmljaWFsIGxpc3QgaW4gcGNp
+X2lkcy5oPyAgSSBjYW5ub3QgZmluZCANCjB4NzgwMC4gVGhlIG90aGVycyBhcmUgUjUyMCBh
+bmQgUjYwMC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gQ2hlZXJzLA0KPiBC
+ZW4uDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
+ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
+dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
+ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+
+--------------tFMA1N913dYeGh59nKAste9g--
+
+--------------J7ZJQ22hMiBNS7g8WBOOaqnQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMrBY0FAwAAAAAACgkQlh/E3EQov+BL
+FRAAla16EWn6KwL9Ar+FVldXx4f2y1XdVqUBNapsPFs48Ft7QgcB4X0LorN7n2RAJ4ag/so4kvWU
+kc7lrt+vJx+MYEH2NqsN0MnXLtbmbVLCR4nzWOEduKY2VngZU/DJIS2vBbDbXlJgI/jebEMGX3Ao
+SqZUBmgqTXWEJOeyzZkf+tI5DaZtIHQVwMj8Zlsv9sMc02ya7YHsblZRR97uxP/0fUJGVTUhTeJk
+D04uZ5iTk/iJuj+j+sURQDWPZFMuRlLrK4kqqs1drK0RE79BRUdw1snIQLkbXOohna9gF8Fj8g4M
+t7UFmsvUdRqIbrWZrKCaAGZMP1t/nXGcTMvfj8LXlafSzZbvnnhGJeuyI/AB4XDTTNMoP7j++18o
+EwUqWhN0VP/luO+SV4WC+4BYgIOqtu+QiTsQUzp1XO0ML650eCj25XpW55UHDQuaZ8pK9YezZXbT
+D2orSQf8nVH5P27dxXjJ9OMoSaIH+wMccI53QgWU2vS/+UxMh+WpyImRGg4t9KgCVBt3uj4gGUzq
+DlGOZbpwYD2tJy5PBqQ7i+sPU70KO8CHTwkrU8e7dzxjAyZ6fTN407zmNyPjJoOdmpqXKMnuIITJ
+AFTpobMsnjcaUWqw9Q3xtdji+1iu6/dooTLeTEn7HvB9SbFBPbI6Xu8xCFGKdOCKB1Y55JO1EBe6
++b0=
+=4BcL
+-----END PGP SIGNATURE-----
+
+--------------J7ZJQ22hMiBNS7g8WBOOaqnQ--
