@@ -1,73 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523D65C0302
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:58:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4615C03C8
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 18:10:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9008C10E2F2;
-	Wed, 21 Sep 2022 15:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE2BD10E066;
+	Wed, 21 Sep 2022 16:10:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86C1910E2F2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 15:58:03 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id s6so9969099lfo.7
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 08:58:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=KUDU0doBWvkSMsSeaP+OU5Myg0FSSIaMLAg/J6BRRrQ=;
- b=slv4NKCqb/zqgJH7M3nKlgQg7LgbWHoZe5T/pPNeRXbgMm/Qwm1EpZb2Eg1Jj44imN
- aOa5Z2jYm2HUsJlTUGffkoZY2uH5iN46QV2M9/WHIspQnZkFSzrq/J/A95E0j5u69Un9
- WgekrImX8IUeP0badlm8CQdb6xr4nqTwSoFYDixJMtgXxxpiPsADqp2Zo87pO1ajmG7j
- mwYzk0CdwztEBK7XiP8IJ25ILOtCQvPtQ2OuMn/A6UJBfH10AebW3WfFwz6AM+PpVLOf
- EGug1gt+zgiIptzhs/ifeW479thnyoU/Ql+nl9lU5Jfs9jv0p/qf/UE8pmK1VP37MI7K
- uq+Q==
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
+ [IPv6:2607:f8b0:4864:20::830])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26ABC10E0C5
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 16:10:33 +0000 (UTC)
+Received: by mail-qt1-x830.google.com with SMTP id g12so4459470qts.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 09:10:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=AMTftBiMWZk2QAmHkrehOI1g5/daemu3hoROzAqo87c=;
+ b=f/UulgVbJR9/vOmsWbt5U91/tnOJo2PNL7TKCK8SY11JbGK+VrMoYbcJhcnMEmf5jQ
+ EovlYjMoktLgNatoK+CVy/Rs7kyV2UA6+8pOZJO7l4anbiUth706rX7MVcJm2FurqfvZ
+ qefHdqd0c/ho17jos0I/MwJ0GFfLtiSQFIshBUoETfF+JIBKx/dTEV8P4MJcgAKTCfgw
+ iOPIc2rXvMSMMVwnmZz1ld8coHSm6IkjdCY6psHq+gvZXV66Pty8+C6P9UseXBXGvQ70
+ r4tkHYuAgGQJeczB7XpAp+Yau+TWBCZJuVUu2BM/CB1qYJNCkA9RyP2l842CVcM2rxWG
+ DOzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=KUDU0doBWvkSMsSeaP+OU5Myg0FSSIaMLAg/J6BRRrQ=;
- b=vXCwHJTfsYSMfy26/fEhZrZPOEZY74epqbVzqTYDeF2UFshbU4iAW3m8GSRoWTStj0
- NHnnciZJW9DkZPpB13Qh2ymRCg8fZ+4EEfH23+STZm9OWXqQgsc0sOh3ZBSWp0KQArh/
- EpCQSBz+HkJzMWiTSKup8KYo6xB5WrinEoXetZETaqDhGX+J3Qe0QBJUVz4JmVp0BxwN
- tBb92WOftACk0Lkr1oprmg15lPD/8CwIsK0sisQyR+h5D0hlNj6z+ObHcanm/xPFE+mv
- 9cSnMMLuaT6hAaGpfGiJOCdnbkRu2hUpGwaJIc2IQ4UcZqYdH4PoTcjxPOJJTrLlQNLe
- BGGA==
-X-Gm-Message-State: ACrzQf1CaM9f7vq2dilblJUcH+5jLb0E18zkzZC5IY63JUy9mJ1UiWoP
- ldY1XHrtdB2dJ/ue77iezIUbig==
-X-Google-Smtp-Source: AMsMyM75m4N7MPBKvWthG+pu/YTa8pTbMdbwS4u/waTgyPE6eW8LRVa+KHqN6TUHDKl7neUPzVouXg==
-X-Received: by 2002:a05:6512:1153:b0:49e:805:b473 with SMTP id
- m19-20020a056512115300b0049e0805b473mr10515858lfg.450.1663775881892; 
- Wed, 21 Sep 2022 08:58:01 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- h6-20020a19ca46000000b0048b26d4bb64sm494752lfj.40.2022.09.21.08.58.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Sep 2022 08:58:01 -0700 (PDT)
-Message-ID: <24190160-53f2-810d-bd23-c02958517c80@linaro.org>
-Date: Wed, 21 Sep 2022 17:57:55 +0200
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=AMTftBiMWZk2QAmHkrehOI1g5/daemu3hoROzAqo87c=;
+ b=xndpAugXWpBaenB6EhFjYIODMnR9Mm1RJ1frXRU8vl93v0mO2ygdfpysmSMfHlqeto
+ 3KyQIkRrWovO/eTRUaIgVMptfJFapv2bP61p7pBHmdKQ2g491+Pyh6BiLhbWVcFjnWB9
+ veVwGpmFQ/D5KYLlOmYWUlE0V7SIEZd7eh/7oRUmJPlpc4FcV811QGCw6hluYlOeBcHA
+ 7N1kwjfYVvSDdwyHnBYK1JBYae0gHt7mLcLRM6luWu+Rq8oyk+0vBaRA3q5VXpjRt4ev
+ egvF9xhw7ZKA606uHrux4Xl0evFdnXg8imGwCcLXoMYjhbMGzCNwNHgu6yUpwLM3dVt5
+ d2QQ==
+X-Gm-Message-State: ACrzQf2tngnNJx8/nb+aWLUeizLNIMtBkfFfZ8lDdDExVAbgPxNc6gIb
+ ccJSLrsLnKfD64P2M57tBuLNGQ==
+X-Google-Smtp-Source: AMsMyM6D2XVUjaEeXTE0RkRp6giqAEccP/ds63pJ2ySWLbtpckoAq+4dbYsu8/rqDg2Hj9+Vy46RKw==
+X-Received: by 2002:ac8:7d10:0:b0:35c:d519:545 with SMTP id
+ g16-20020ac87d10000000b0035cd5190545mr20896336qtb.537.1663776631727; 
+ Wed, 21 Sep 2022 09:10:31 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129]) by smtp.gmail.com with ESMTPSA id
+ l3-20020a05620a28c300b006b872b606b1sm2199206qkp.128.2022.09.21.09.10.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Sep 2022 09:10:30 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1ob2Iv-000qCI-Hh;
+ Wed, 21 Sep 2022 13:10:29 -0300
+Date: Wed, 21 Sep 2022 13:10:29 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [PATCH v3 15/15] vfio: Add struct device to vfio_device
+Message-ID: <Yys3dZS5ZUByiXin@ziepe.ca>
+References: <20220909102247.67324-1-kevin.tian@intel.com>
+ <20220909102247.67324-16-kevin.tian@intel.com>
+ <20220920142639.29b1bdc2.alex.williamson@redhat.com>
+ <BN9PR11MB5276484952784F5E336814BD8C4C9@BN9PR11MB5276.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH V2 2/3] dt-bindings: display: panel: Add NewVision NV3051D
- bindings
-Content-Language: en-US
-To: Chris Morgan <macromorgan@hotmail.com>
-References: <20220920145905.20595-1-macroalpha82@gmail.com>
- <20220920145905.20595-3-macroalpha82@gmail.com>
- <e5de0c74-3ece-56c6-6c31-042e1117c10a@linaro.org>
- <SN6PR06MB534220AB227AA3BC5DB58741A54F9@SN6PR06MB5342.namprd06.prod.outlook.com>
- <ff2ee392-0f78-37d4-56b5-443e6e998443@linaro.org>
- <SN6PR06MB53420E8B1245EDFCB7547C69A54F9@SN6PR06MB5342.namprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SN6PR06MB53420E8B1245EDFCB7547C69A54F9@SN6PR06MB5342.namprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN9PR11MB5276484952784F5E336814BD8C4C9@BN9PR11MB5276.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,45 +76,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Chris Morgan <macroalpha82@gmail.com>, robh+dt@kernel.org,
- thierry.reding@gmail.com, sam@ravnborg.org
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, David Airlie <airlied@linux.ie>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>, Christoph Hellwig <hch@infradead.org>,
+ "Liu, Yi L" <yi.l.liu@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Leon Romanovsky <leon@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/09/2022 17:50, Chris Morgan wrote:
-> On Wed, Sep 21, 2022 at 05:21:19PM +0200, Krzysztof Kozlowski wrote:
->> On 21/09/2022 16:38, Chris Morgan wrote:
->>>>> +  compatible:
->>>>> +    items:
->>>>> +      - enum:
->>>>> +          - anbernic,rg353p-panel
->>>>
->>>> Are these vendor prefixs documented?
->>>
->>> Yes, they are in another patch series referenced in the cover letter.
->>> They were added for the Anbernic devicetrees and should (I believe)
->>> land in 6.1.
->>
->> OK... you still need to test your bindings. Your patch was clearly not
->> tested before sending. :(
+On Tue, Sep 20, 2022 at 10:55:40PM +0000, Tian, Kevin wrote:
+> > From: Alex Williamson <alex.williamson@redhat.com>
+> > Sent: Wednesday, September 21, 2022 4:27 AM
+> > 
+> > On Fri,  9 Sep 2022 18:22:47 +0800
+> > Kevin Tian <kevin.tian@intel.com> wrote:
+> > 
+> > > From: Yi Liu <yi.l.liu@intel.com>
+> > >
+> > > and replace kref. With it a 'vfio-dev/vfioX' node is created under the
+> > > sysfs path of the parent, indicating the device is bound to a vfio
+> > > driver, e.g.:
+> > >
+> > > /sys/devices/pci0000\:6f/0000\:6f\:01.0/vfio-dev/vfio0
+> > >
+> > > It is also a preparatory step toward adding cdev for supporting future
+> > > device-oriented uAPI.
+> > >
+> > > Add Documentation/ABI/testing/sysfs-devices-vfio-dev.
+> > >
+> > > Also take this chance to rename chardev 'vfio' to 'vfio-group' in
+> > > /proc/devices.
+> > 
+> > What's the risk/reward here, is this just more aesthetically pleasing
+> > symmetry vs 'vfio-dev'?  The char major number to name association in
+> > /proc/devices seems pretty obscure, but what due diligence have we done
+> > to make sure this doesn't break anyone?  Thanks,
 > 
-> I did: yamllint, make dt_binding_check (with DT_SCHEMA_FILES specified), and
-> make dtbs_check (with DT_SCHEMA_FILES specified again). 
+> I'm not sure whether the content of /proc/devices is considered as ABI.
+> 
+> @Jason?
 
-I have doubts. So if you say you did it, then you probably did not look
-at the results... or whatever other reason the test was not effective,
-because your binding cannot pass the dt_binding_check.
+Ah, I've forgotten why we got here - didn't we have a naming conflict
+with the new stuff that is being introduced?
 
-> That's the proper
-> testing flow correct? In this case it's the pre-requisite that's causing
-> the issue as I see on a pristine master tree I'm warned about the missing
-> vendor prefix for anbernic. Should I wait for that to go upstream before
-> I submit this again?
+ABI wise it is not a problem unless there is a real user, I'm not
+aware of anything scanning /proc, that has been obsoleted by sysfs a
+long time ago.
 
-Not really. The testing fails on wrong compatible in example.
-
-Best regards,
-Krzysztof
-
+Jason
