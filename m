@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 611BC5BF4B6
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 05:28:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E6D5BF4B8
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 05:28:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FAAC10E80F;
-	Wed, 21 Sep 2022 03:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC24810E810;
+	Wed, 21 Sep 2022 03:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 810B010E80F;
- Wed, 21 Sep 2022 03:28:18 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CEED10E80F;
+ Wed, 21 Sep 2022 03:28:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663730898; x=1695266898;
+ t=1663730906; x=1695266906;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=1TU6pkjLhXf9eo4SRFXInhQzJYSVRapyCdmy5El9uzI=;
- b=aCNq8dOnpM05AT77kwFV+31m/DOHH2wvekDWUHT5KZQPLTgMqG6/GUKy
- 38uK4ED9OlCyyMO6WECYBVgZJcSwxocE1kmiJvjtWe2XxgKj20bzAbYLt
- kGOBu+20l29xvizqfmzh7yiIl3A5sTzGg7/AboosBKOCuwUq8XQZASWrD
- aVcFSeYN3T/dxTRd1bOcD7E8jZH7xcK7gu5vPYkZ5nYCelx9QeUJtKg7i
- bhdVhOO0IVYABL+REzzCW3IDYI1WS7ANIH964LOYm5QA6hPHSPCa97fJH
- Kr5xRxceE8ncyOL1148HPkAJQjWUu7NLzdmaSZGR/Mc/6c2K3kjNnZE6u g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="301284898"
-X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="301284898"
+ bh=0fr9LfbIqvZXB+kS0307bIWeCiO88Lr7j7wbtzjzVEI=;
+ b=NzSRGwrVSZjRPC3A7FobEvEXrCQZy3itK+e/xqi+31F3WE9PMi+nsQsH
+ nPH6NwI7JbdBbrQiu2e+NHDV/cpC55XGnWaMYuabAO579vc+3Kp40XvHH
+ wfc3woFH1czrJhrAL+CiKzVaDl6IRDycECehZc2ezcUqQvXzWROd1cwZ+
+ Ca5en2s+bvgqAjG7qUJFusigcaFS9W580LMxK5cbT/c8Z/NogueTkdgC9
+ on+zclkN7Wlrm6t1wcIQu+K0s8BI/RsDBRApSRx+LJ+ADtgy7NAVtC6vh
+ 7amohrmlI7/0x/VUjIYat9qI6MymGoTA1REDfSKgt+4MCnsqmC7+HbwCV Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="297483698"
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="297483698"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2022 20:28:17 -0700
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2022 20:28:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="761574524"
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="761574531"
 Received: from sqa-gate.sh.intel.com (HELO michael.clx.dev.tsp.org)
  ([10.239.48.212])
- by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2022 20:28:09 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2022 20:28:17 -0700
 From: Kevin Tian <kevin.tian@intel.com>
 To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -62,10 +62,9 @@ To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-s390@vger.kernel.org, kvm@vger.kernel.org
-Subject: [PATCH v4 14/15] vfio: Rename vfio_device_put() and
- vfio_device_try_get()
-Date: Wed, 21 Sep 2022 18:44:00 +0800
-Message-Id: <20220921104401.38898-15-kevin.tian@intel.com>
+Subject: [PATCH v4 15/15] vfio: Add struct device to vfio_device
+Date: Wed, 21 Sep 2022 18:44:01 +0800
+Message-Id: <20220921104401.38898-16-kevin.tian@intel.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20220921104401.38898-1-kevin.tian@intel.com>
 References: <20220921104401.38898-1-kevin.tian@intel.com>
@@ -87,100 +86,263 @@ Cc: Yi Liu <yi.l.liu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With the addition of vfio_put_device() now the names become confusing.
+From: Yi Liu <yi.l.liu@intel.com>
 
-vfio_put_device() is clear from object life cycle p.o.v given kref.
+and replace kref. With it a 'vfio-dev/vfioX' node is created under the
+sysfs path of the parent, indicating the device is bound to a vfio
+driver, e.g.:
 
-vfio_device_put()/vfio_device_try_get() are helpers for tracking
-users on a registered device.
+/sys/devices/pci0000\:6f/0000\:6f\:01.0/vfio-dev/vfio0
 
-Now rename them:
+It is also a preparatory step toward adding cdev for supporting future
+device-oriented uAPI.
 
- - vfio_device_put() -> vfio_device_put_registration()
- - vfio_device_try_get() -> vfio_device_try_get_registration()
+Add Documentation/ABI/testing/sysfs-devices-vfio-dev.
 
+Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Yi Liu <yi.l.liu@intel.com>
 Signed-off-by: Kevin Tian <kevin.tian@intel.com>
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 ---
- drivers/vfio/vfio_main.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ .../ABI/testing/sysfs-devices-vfio-dev        |  8 +++
+ MAINTAINERS                                   |  1 +
+ drivers/vfio/vfio_main.c                      | 64 +++++++++++++++----
+ include/linux/vfio.h                          |  6 +-
+ 4 files changed, 65 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-devices-vfio-dev
 
+diff --git a/Documentation/ABI/testing/sysfs-devices-vfio-dev b/Documentation/ABI/testing/sysfs-devices-vfio-dev
+new file mode 100644
+index 000000000000..e21424fd9666
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-devices-vfio-dev
+@@ -0,0 +1,8 @@
++What:		 /sys/.../<device>/vfio-dev/vfioX/
++Date:		 September 2022
++Contact:	 Yi Liu <yi.l.liu@intel.com>
++Description:
++		 This directory is created when the device is bound to a
++		 vfio driver. The layout under this directory matches what
++		 exists for a standard 'struct device'. 'X' is a unique
++		 index marking this device in vfio.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d30f26e07cd3..02c8f11b1c17 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21312,6 +21312,7 @@ R:	Cornelia Huck <cohuck@redhat.com>
+ L:	kvm@vger.kernel.org
+ S:	Maintained
+ T:	git git://github.com/awilliam/linux-vfio.git
++F:	Documentation/ABI/testing/sysfs-devices-vfio-dev
+ F:	Documentation/driver-api/vfio.rst
+ F:	drivers/vfio/
+ F:	include/linux/vfio.h
 diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-index 12952858d903..c27449613a1d 100644
+index c27449613a1d..f9d10dbcf3e6 100644
 --- a/drivers/vfio/vfio_main.c
 +++ b/drivers/vfio/vfio_main.c
-@@ -453,13 +453,13 @@ static void vfio_group_get(struct vfio_group *group)
-  * Device objects - create, release, get, put, search
+@@ -49,6 +49,8 @@ static struct vfio {
+ 	struct mutex			group_lock; /* locks group_list */
+ 	struct ida			group_ida;
+ 	dev_t				group_devt;
++	struct class			*device_class;
++	struct ida			device_ida;
+ } vfio;
+ 
+ struct vfio_iommu_driver {
+@@ -485,12 +487,13 @@ static struct vfio_device *vfio_group_get_device(struct vfio_group *group,
+  * VFIO driver API
   */
- /* Device reference always implies a group reference */
--static void vfio_device_put(struct vfio_device *device)
-+static void vfio_device_put_registration(struct vfio_device *device)
+ /* Release helper called by vfio_put_device() */
+-void vfio_device_release(struct kref *kref)
++static void vfio_device_release(struct device *dev)
  {
- 	if (refcount_dec_and_test(&device->refcount))
- 		complete(&device->comp);
- }
+ 	struct vfio_device *device =
+-			container_of(kref, struct vfio_device, kref);
++			container_of(dev, struct vfio_device, device);
  
--static bool vfio_device_try_get(struct vfio_device *device)
-+static bool vfio_device_try_get_registration(struct vfio_device *device)
+ 	vfio_release_device_set(device);
++	ida_free(&vfio.device_ida, device->index);
+ 
+ 	/*
+ 	 * kvfree() cannot be done here due to a life cycle mess in
+@@ -500,7 +503,6 @@ void vfio_device_release(struct kref *kref)
+ 	 */
+ 	device->ops->release(device);
+ }
+-EXPORT_SYMBOL_GPL(vfio_device_release);
+ 
+ /*
+  * Allocate and initialize vfio_device so it can be registered to vfio
+@@ -548,6 +550,13 @@ int vfio_init_device(struct vfio_device *device, struct device *dev,
  {
- 	return refcount_inc_not_zero(&device->refcount);
- }
-@@ -471,7 +471,8 @@ static struct vfio_device *vfio_group_get_device(struct vfio_group *group,
+ 	int ret;
  
- 	mutex_lock(&group->device_lock);
- 	list_for_each_entry(device, &group->device_list, group_next) {
--		if (device->dev == dev && vfio_device_try_get(device)) {
-+		if (device->dev == dev &&
-+		    vfio_device_try_get_registration(device)) {
- 			mutex_unlock(&group->device_lock);
- 			return device;
- 		}
-@@ -673,7 +674,7 @@ static int __vfio_register_dev(struct vfio_device *device,
- 	if (existing_device) {
- 		dev_WARN(device->dev, "Device already exists on group %d\n",
- 			 iommu_group_id(group->iommu_group));
--		vfio_device_put(existing_device);
-+		vfio_device_put_registration(existing_device);
- 		if (group->type == VFIO_NO_IOMMU ||
- 		    group->type == VFIO_EMULATED_IOMMU)
- 			iommu_group_remove_device(device->dev);
-@@ -731,7 +732,7 @@ static struct vfio_device *vfio_device_get_from_name(struct vfio_group *group,
- 			ret = !strcmp(dev_name(it->dev), buf);
- 		}
++	ret = ida_alloc_max(&vfio.device_ida, MINORMASK, GFP_KERNEL);
++	if (ret < 0) {
++		dev_dbg(dev, "Error to alloc index\n");
++		return ret;
++	}
++
++	device->index = ret;
+ 	init_completion(&device->comp);
+ 	device->dev = dev;
+ 	device->ops = ops;
+@@ -558,11 +567,15 @@ int vfio_init_device(struct vfio_device *device, struct device *dev,
+ 			goto out_uninit;
+ 	}
  
--		if (ret && vfio_device_try_get(it)) {
-+		if (ret && vfio_device_try_get_registration(it)) {
- 			device = it;
- 			break;
- 		}
-@@ -751,7 +752,7 @@ void vfio_unregister_group_dev(struct vfio_device *device)
- 	bool interrupted = false;
- 	long rc;
+-	kref_init(&device->kref);
++	device_initialize(&device->device);
++	device->device.release = vfio_device_release;
++	device->device.class = vfio.device_class;
++	device->device.parent = device->dev;
+ 	return 0;
  
--	vfio_device_put(device);
-+	vfio_device_put_registration(device);
- 	rc = try_wait_for_completion(&device->comp);
- 	while (rc <= 0) {
- 		if (device->ops->request)
-@@ -1311,7 +1312,7 @@ static int vfio_group_ioctl_get_device_fd(struct vfio_group *group,
- err_put_fdno:
- 	put_unused_fd(fdno);
- err_put_device:
--	vfio_device_put(device);
-+	vfio_device_put_registration(device);
+ out_uninit:
+ 	vfio_release_device_set(device);
++	ida_free(&vfio.device_ida, device->index);
  	return ret;
  }
+ EXPORT_SYMBOL_GPL(vfio_init_device);
+@@ -659,6 +672,7 @@ static int __vfio_register_dev(struct vfio_device *device,
+ 		struct vfio_group *group)
+ {
+ 	struct vfio_device *existing_device;
++	int ret;
  
-@@ -1493,7 +1494,7 @@ static int vfio_device_fops_release(struct inode *inode, struct file *filep)
+ 	if (IS_ERR(group))
+ 		return PTR_ERR(group);
+@@ -675,16 +689,21 @@ static int __vfio_register_dev(struct vfio_device *device,
+ 		dev_WARN(device->dev, "Device already exists on group %d\n",
+ 			 iommu_group_id(group->iommu_group));
+ 		vfio_device_put_registration(existing_device);
+-		if (group->type == VFIO_NO_IOMMU ||
+-		    group->type == VFIO_EMULATED_IOMMU)
+-			iommu_group_remove_device(device->dev);
+-		vfio_group_put(group);
+-		return -EBUSY;
++		ret = -EBUSY;
++		goto err_out;
+ 	}
  
- 	vfio_device_unassign_container(device);
+ 	/* Our reference on group is moved to the device */
+ 	device->group = group;
  
--	vfio_device_put(device);
-+	vfio_device_put_registration(device);
++	ret = dev_set_name(&device->device, "vfio%d", device->index);
++	if (ret)
++		goto err_out;
++
++	ret = device_add(&device->device);
++	if (ret)
++		goto err_out;
++
+ 	/* Refcounting can't start until the driver calls register */
+ 	refcount_set(&device->refcount, 1);
+ 
+@@ -693,6 +712,12 @@ static int __vfio_register_dev(struct vfio_device *device,
+ 	mutex_unlock(&group->device_lock);
  
  	return 0;
++err_out:
++	if (group->type == VFIO_NO_IOMMU ||
++	    group->type == VFIO_EMULATED_IOMMU)
++		iommu_group_remove_device(device->dev);
++	vfio_group_put(group);
++	return ret;
  }
+ 
+ int vfio_register_group_dev(struct vfio_device *device)
+@@ -779,6 +804,9 @@ void vfio_unregister_group_dev(struct vfio_device *device)
+ 	list_del(&device->group_next);
+ 	mutex_unlock(&group->device_lock);
+ 
++	/* Balances device_add in register path */
++	device_del(&device->device);
++
+ 	if (group->type == VFIO_NO_IOMMU || group->type == VFIO_EMULATED_IOMMU)
+ 		iommu_group_remove_device(device->dev);
+ 
+@@ -2362,6 +2390,7 @@ static int __init vfio_init(void)
+ 	int ret;
+ 
+ 	ida_init(&vfio.group_ida);
++	ida_init(&vfio.device_ida);
+ 	mutex_init(&vfio.group_lock);
+ 	mutex_init(&vfio.iommu_drivers_lock);
+ 	INIT_LIST_HEAD(&vfio.group_list);
+@@ -2377,11 +2406,18 @@ static int __init vfio_init(void)
+ 	vfio.class = class_create(THIS_MODULE, "vfio");
+ 	if (IS_ERR(vfio.class)) {
+ 		ret = PTR_ERR(vfio.class);
+-		goto err_class;
++		goto err_group_class;
+ 	}
+ 
+ 	vfio.class->devnode = vfio_devnode;
+ 
++	/* /sys/class/vfio-dev/vfioX */
++	vfio.device_class = class_create(THIS_MODULE, "vfio-dev");
++	if (IS_ERR(vfio.device_class)) {
++		ret = PTR_ERR(vfio.device_class);
++		goto err_dev_class;
++	}
++
+ 	ret = alloc_chrdev_region(&vfio.group_devt, 0, MINORMASK + 1, "vfio");
+ 	if (ret)
+ 		goto err_alloc_chrdev;
+@@ -2398,9 +2434,12 @@ static int __init vfio_init(void)
+ err_driver_register:
+ 	unregister_chrdev_region(vfio.group_devt, MINORMASK + 1);
+ err_alloc_chrdev:
++	class_destroy(vfio.device_class);
++	vfio.device_class = NULL;
++err_dev_class:
+ 	class_destroy(vfio.class);
+ 	vfio.class = NULL;
+-err_class:
++err_group_class:
+ 	misc_deregister(&vfio_dev);
+ 	return ret;
+ }
+@@ -2412,8 +2451,11 @@ static void __exit vfio_cleanup(void)
+ #ifdef CONFIG_VFIO_NOIOMMU
+ 	vfio_unregister_iommu_driver(&vfio_noiommu_ops);
+ #endif
++	ida_destroy(&vfio.device_ida);
+ 	ida_destroy(&vfio.group_ida);
+ 	unregister_chrdev_region(vfio.group_devt, MINORMASK + 1);
++	class_destroy(vfio.device_class);
++	vfio.device_class = NULL;
+ 	class_destroy(vfio.class);
+ 	vfio.class = NULL;
+ 	misc_deregister(&vfio_dev);
+diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+index 3cf857b1eec7..ee399a768070 100644
+--- a/include/linux/vfio.h
++++ b/include/linux/vfio.h
+@@ -47,7 +47,8 @@ struct vfio_device {
+ 	struct kvm *kvm;
+ 
+ 	/* Members below here are private, not for driver use */
+-	struct kref kref;	/* object life cycle */
++	unsigned int index;
++	struct device device;	/* device.kref covers object life circle */
+ 	refcount_t refcount;	/* user count on registered device*/
+ 	unsigned int open_count;
+ 	struct completion comp;
+@@ -178,10 +179,9 @@ struct vfio_device *_vfio_alloc_device(size_t size, struct device *dev,
+ int vfio_init_device(struct vfio_device *device, struct device *dev,
+ 		     const struct vfio_device_ops *ops);
+ void vfio_free_device(struct vfio_device *device);
+-void vfio_device_release(struct kref *kref);
+ static inline void vfio_put_device(struct vfio_device *device)
+ {
+-	kref_put(&device->kref, vfio_device_release);
++	put_device(&device->device);
+ }
+ 
+ int vfio_register_group_dev(struct vfio_device *device);
 -- 
 2.21.3
 
