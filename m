@@ -1,150 +1,146 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D595B5BFCB1
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 12:59:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 925D25BFCC5
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 13:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F6110E918;
-	Wed, 21 Sep 2022 10:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E94AD10E389;
+	Wed, 21 Sep 2022 11:09:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8303210E8F2;
- Wed, 21 Sep 2022 10:59:36 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 702A510E340;
+ Wed, 21 Sep 2022 11:09:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663757976; x=1695293976;
+ t=1663758580; x=1695294580;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=bNxsLwO94NpqLJgQ0xZCbml3e2MkxBJZXDBlQ6w+gqw=;
- b=F1SZUQtt5ud3ndxjL9k4ouZDLsKuDv6Rs5nb1osAPQYPmEooz5wpYVLr
- OpMeoig1LISZ4grGXDNEZ86/ZxiSs4JCSyocYFnBRViLivyFgwiNpaCL9
- k84yfcu2J4tjhdERGQCHBkAE+kUg2VjSc5Sb+aFUWMavXM50w3Te+Bz+x
- HqSbjU8ML7UZ2+cbhXYUwEC/ijacAtDrN0q2rycGylQg0pJW6PXvT+j30
- woC5Tcxovr5PZefZ7YV3xkTTFBEmFon5o0YGOyOUdfAqspYcs6qp2DvRB
- a+ex7vbFZ6/OabZI27CHvn9a3/xKF4I1XnLxa4/PFWqfC+dhXI1I4xeaP Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="300806081"
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; d="scan'208";a="300806081"
+ bh=29ZU72Ha068h794ev70aZok4iDL23Pnas+VI8Pni/sM=;
+ b=nepNpnIZefWB8gexszD9yOkk6q1dkjn3WrwPL53dochoZ0RRu0JthCjA
+ xgDApCWrcqom4JD5T4k+aZmoGC8RzVmsKtFRsgSpf/uMvBo8GHpHVq899
+ EruwVlCCiX+/JGiN7Thxu4s/kLWI04Iic2KswiPAjMbFqFUtdAD3+e+YM
+ kpWzXc7MhXi/Gh7ljlHWx6a1kJ5htKQ7qCwXv+F+srLdQao05QtbvE5at
+ wsep2OJZNqzn9Mo/NhRlumUGqnPxkBRnOHeWT4o5n40BxIRSRiPRqJxyt
+ oLOIZ43tUPpnNCwS606O1T/A0fTzUm2qyZlEJMw5mvgFxsJGgNKb4mMhl A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="298689028"
+X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; d="scan'208";a="298689028"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2022 03:59:36 -0700
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 04:09:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; d="scan'208";a="570487620"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga003.jf.intel.com with ESMTP; 21 Sep 2022 03:59:35 -0700
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; d="scan'208";a="570490539"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga003.jf.intel.com with ESMTP; 21 Sep 2022 04:09:39 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 21 Sep 2022 03:59:35 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 21 Sep 2022 03:59:34 -0700
+ 15.1.2375.31; Wed, 21 Sep 2022 04:09:38 -0700
 Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 21 Sep 2022 03:59:34 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.45) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Wed, 21 Sep 2022 04:09:38 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 21 Sep 2022 03:59:34 -0700
+ 15.1.2375.31; Wed, 21 Sep 2022 04:09:38 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q2zZ2a/f/pWlDrung1sVRp4ysKRrx+gtllIvA3tyEZyQN7M+BM0gcQqO+3SCAnzf3qp3F1vr3Ik6Zna6EGpmK1hV/gpopQx35XlmIX9LYuwmqcFnMwbJhFZMsaZ+5vkUS/QZRHUqnON4cUsvZWgwEbUya2037p7sIXfNikhyNjaC3aRow8lVZno037r9U13RiM7Hk1+OrTElzvdhxkICwvmk30w5b5kr7F63MmDCAHxwe5NRWh8UrQLFmmrTZVDB6ybPoR7wCG3tZMSBbJzQJaQa/b7+T55MWfqBKT5OqI0uQQqACMc7lOBXRAuEsxr9y0qu5fhAcjeDAmX7gGipxg==
+ b=dQTWxBl5T5qoFr33nsRvZk/RzgRMGn4TEVjA63un+SOcVO3jBxi5u2+CBR8x4jkY+aLa6I4asFx+1YidSqmcB834wPyWZjErRQ1n0JvIOosatBO6DqCDBX+L3D3qySsRsuxAgT1o9YU4SwnKi4cALXpEQxOgsAuyPeppl/LG6T15/pdtBvblava6kWGDEibnxQTCFsbXgtqcooo74iqflygXBUExV+KE1GFyeljejAjQsRFuX4/kMXknijTGuYElE6sJAkP6uSuneL9rGWUTznXhve2TQtj1KylY0QzVIyd/XX3pFnkLcoJIggD4hEjdJTwMxfcnadtIXWjVmqnKKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5e73C0P9xlVX4rTUIBqMqKIaN+ioJxjiZ9xPqYJNYVE=;
- b=QedSlkTqtovcccs7ZPwXYZajZMGY8g7opbSIXXmg3M5jAxxB7f4rRdr3TNyhLt2XQ4PzZFbBQiA8Ko5elvuWHSsV58O3ok81VvDMOoTELYQ9QNLgxZYBmgovMQHZIVBmDdY1V6AsB7etDHr4gW62TXZ8Wq254s744l0OMuqIvNB2TkBfErE/Qmt69nB1HpIBVoFXfigrZnlzT3f2w+6vv1AI0kCEzeI5Am/70CMr69Tx1Aar4O5l/dOi0cTLZoLhGj8DdlTpa/5fVn+M8i37Z1X3lCeeKCvwsSXDf4Ya1QMY/tKx0ViAUPFMl+xG7SRuItug2a2kZyBrj5zy/ExB/w==
+ bh=96w6/37IAgruYZh9tAbyCHcosYYpU8wKh6QrTcmPAMc=;
+ b=eZSUiBReUvSkEnmSRfFQnHz5JH9pa49lNYbjrIF4ex7/mPMmL1+irdSAimp0DGRd9XG9UtVs8LBf9patcsbWD+WZHEE105yurwCpqdjQOdgK+QV4izwn6gZLCjjPdtAc6oMViGhWq7IGKkJiEdeySygT5E7eeIeQ3w0w2QOIhBZtcdlsSBdVYwyYzKSDBBbnz734ZZ0tl4/WlVRPYGygNpPUJBnqwQAmnKSsZSbtnsAXgwJ7y72c19cUoxmmYU8LWYtzsZxLjMCOLII+Aa2s7pBf+LRrOkWn9P/5ddSwzUMZ2U0ZaCGTk0T2U43DDvmzezS4kZw9N+JR8yffq08U8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY5PR11MB6211.namprd11.prod.outlook.com (2603:10b6:930:25::6)
- by SA1PR11MB6734.namprd11.prod.outlook.com (2603:10b6:806:25d::22) with
+ by BL3PR11MB6459.namprd11.prod.outlook.com (2603:10b6:208:3be::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.19; Wed, 21 Sep
- 2022 10:59:28 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.15; Wed, 21 Sep
+ 2022 11:09:31 +0000
 Received: from CY5PR11MB6211.namprd11.prod.outlook.com
  ([fe80::c144:218:70eb:9cbe]) by CY5PR11MB6211.namprd11.prod.outlook.com
  ([fe80::c144:218:70eb:9cbe%4]) with mapi id 15.20.5654.016; Wed, 21 Sep 2022
- 10:59:27 +0000
-Message-ID: <134d2dee-9fcc-6f02-2725-6eb054cd6349@intel.com>
-Date: Wed, 21 Sep 2022 16:29:16 +0530
+ 11:09:31 +0000
+Message-ID: <97c3b793-26a3-2560-1701-96d883937e18@intel.com>
+Date: Wed, 21 Sep 2022 16:38:30 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.3.0
-Subject: Re: [PATCH 1/7] drm/i915/hwmon: Add HWMON infrastructure
+Subject: Re: [PATCH 2/7] drm/i915/hwmon: Add HWMON current voltage support
 Content-Language: en-US
 To: Badal Nilawar <badal.nilawar@intel.com>, <intel-gfx@lists.freedesktop.org>
 References: <20220916150054.807590-1-badal.nilawar@intel.com>
- <20220916150054.807590-2-badal.nilawar@intel.com>
+ <20220916150054.807590-3-badal.nilawar@intel.com>
 From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
-In-Reply-To: <20220916150054.807590-2-badal.nilawar@intel.com>
+In-Reply-To: <20220916150054.807590-3-badal.nilawar@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0002.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:95::22) To CY5PR11MB6211.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN0PR01CA0009.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:4f::14) To CY5PR11MB6211.namprd11.prod.outlook.com
  (2603:10b6:930:25::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6211:EE_|SA1PR11MB6734:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f776cb4-24fe-428e-ab7c-08da9bc05a18
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6211:EE_|BL3PR11MB6459:EE_
+X-MS-Office365-Filtering-Correlation-Id: 154a4ee5-9e75-4e27-5bb2-08da9bc1c208
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +CwUXAnjvbId0Pz0lV/1kFDB9GvLKBiCZ4aPWUs9AA/BK9+vKhw9KxJH3WqrCpa5yW1FjvKzsjl9AoEMA88xmKazX0VjOqpsOvmU2iJYWsJqSG96ty3i82tBF3ExPx5Yk0CUS3Hwq5hCvLLIPpiUW5BCbUz7tQ9j0V1a/XFFeA7DUXwn8yhpK0PRRV1Kh2MHsAENgegbm1DS5N/On3awUo6rfOw+1YQmPejIkBKgPqLQ589XKYI53Au9Cfu1Y5KK95Oe1qWqmiLrKfGztvW6Ds/3q3jw+744NKFI2F7nokM7TxwRERXfHLBkX1XedPDcryz+QcXPwAQ3uX1dCjB6sttqtP0kIZqp462wQc1D96UyWEsn8xU9a4aJAzqe4jUEcJKkyKJdg2To50QB40nKTS7V6lqk1U9hTokYupJ4vuiqn5XSWUNoeyzGNmW4YLSE5qfFtFM2oJ58l3rjRXRbe3tc6DxN+qdS6arz+c0Bcy/9gKzPehZjgup8QkyClgWabwSY9o+7z1GRGaigZr1uziXFqLGzuoJLjxBovrkwhl6YtGtkRefCm9VqivkLz40CEzyVk5rgdsBpMUzYR72RAZZO1JYopNutN08Tpe7W9DfhhCaVWAw7d+xskSDZljFiwG6CizLSWD1ssAwClKt/1ZH2xFbsohg8QYq91ZGvRZut7YVWDs7TZs4+VbjaVHp4RWnlbmgFOHC4YlSN3S2meiZr966Wv4F1nOLRB3VJqfiZEqUZ6qHdVN/l2432uv59aqYAFkXySwNp2QeK/cQAeaXs/AsB1Ea+GoUMJ60HR6k=
+X-Microsoft-Antispam-Message-Info: NQ9Uzje712IBGAt+Zz380Dr/ehJv0N3ziqIEz+u0noI+HJtxEaTRdkYRF3QEal2OmqIqTvEnC3cZXzvThh2fRaLABuJfst4nr9k1qZXxMiR3blIiROQe02oqPeaC5HedukjfvTY3+SngqVg/27rDgOCMEprACFfg8iKli+iih3hGJWV1aMml+36iLmR16wEZynQqJ4dpOSKv5/vkdrft5+tdfeIbRLFutHkSnFNrSRz2NLEDNohzCyU1rboozfY0eEQ2ARfQyvIanhSVckF+a4ddNwSw12gBH/zaI3o/Pl5t5PlGJN7sDAdDg047E6b1uAjK0cKC4WqsiuAZLVLp2WBIrA8qqfvPg/r66t6qjpwVEn69r2nnaAslDpk26kC55hiaRAjg+G2RW/eAZLbwaychE6xgldYq0rb+EaPAUkwp4s97l6Sifo36RSkNmRUk2aVHsjXW2R5aa+ppDIWJdVMNLBqY/WdjvontzO6l8UWTqGwh7F5wU/jTY7dpTRiS8pFff2XfNJYR7MOkyR3cF44uiXo20hnDmZ1iNu1f0Sr7CFOg8pc2Aeb2G1uJcjzyrY5qBa38En6MKF+KRD2zp4Voi8rAG8Qcfqz0Phgxp5s8dRsHoJsPfaQGILxr4kiKPBgv+z2iRmzPs/Min8tM5+7GVugLs7ThrHmmIDqzEnKzcg0tTFhzhi2ma41YgFegOjf0kbTvtwMsc1Zn7deXOrhtlCg9LCqCsBkoBL1vptBHV7CcMPurvQpv8lnuak/2SMdYTKM7nUfUWHPnlaSILOCHEkZdpYGlf7GNmfmiaqQ=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CY5PR11MB6211.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(136003)(346002)(376002)(39860400002)(396003)(451199015)(66476007)(6506007)(86362001)(31696002)(36756003)(38100700002)(82960400001)(478600001)(5660300002)(2906002)(6486002)(66556008)(186003)(4326008)(8676002)(8936002)(316002)(83380400001)(66946007)(41300700001)(6666004)(2616005)(55236004)(26005)(6512007)(53546011)(31686004)(43740500002)(45980500001);
+ SFS:(13230022)(376002)(396003)(39860400002)(366004)(136003)(346002)(451199015)(86362001)(5660300002)(31686004)(2906002)(8676002)(53546011)(6512007)(26005)(316002)(4326008)(41300700001)(8936002)(38100700002)(66476007)(66556008)(66946007)(31696002)(6506007)(82960400001)(478600001)(186003)(55236004)(83380400001)(6486002)(36756003)(2616005)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDA2WkRobGpHSFluSmpjN0dydHlWTmd6Qk5SdHV6K0xMWXZkYzRrYkM0dkYx?=
- =?utf-8?B?RllLSnJDUlZlMGFYRWp2NENEeVR0NDhQZzBFNzNyLzlPRHQ0YS80NzRQUUtj?=
- =?utf-8?B?YXMyWlpFbVAxNUhTazZpcjJLcmdBcENwZzBWenpwdDVhSmg1V2hUVEFiZ1Qy?=
- =?utf-8?B?WFpCamhkSUhzcFl0dGQ4K1AwaUYxVTI2ejFrM0Q5cmR6eEZORVV3MysyNzZZ?=
- =?utf-8?B?ZGEyRTFYdkp2R0dmK05mMm8xZ29qcGY4ZG5zUm5ZUUZSZk9vaDhTODBieHdN?=
- =?utf-8?B?Mm1UNHZjdk02NmVqZDhYVExJTzRyQ1BtTU5Rb0lRaG5KNHRkS3BPMlhjanFY?=
- =?utf-8?B?amxvdFBBSUh2UnVlWjRHaUFPR3J5N1JoNzZaT1YxYm5wMlZ4RDFtQ0NXSDFn?=
- =?utf-8?B?YUtTQU4vckxuOWpsbGE5TEZ0eGUyMTZZcXkySDg5NE9sdDRVYk9FUjcvaGRZ?=
- =?utf-8?B?R2VKaG5xcUhMYWc2MUdsNCt0N214S0luNUt5d0ErNG9MNGEwYWR6VDJ0YUxl?=
- =?utf-8?B?b3BXOEc5OFRmNGs4SHlVRmFQRko4aXc3TEtHeUg2QldEcld2dkN3dDJjQmxD?=
- =?utf-8?B?WklsTy85VXBKSGNWUHYrV2N0K1VaSit1QmR6N2JqVmZabEpSVHFWbk1BVzNW?=
- =?utf-8?B?NklhaEp1eGRzanBDUndwMDQvcDVHTTBkNlRUWFBneUFBQjF5OWlkSnFMQ052?=
- =?utf-8?B?UUJtN0JaeUdvTzV4NWpFZjhsbS9iSzhKbEkxcnpROHQwcXV4RWJ1QzIycElM?=
- =?utf-8?B?ajJDeEQzOEVIelRJS0xiOUhWa0wybmFKZHY4Qkd5ZGdXL21PcEh4SC9ybE9s?=
- =?utf-8?B?NEZkeTcrdFNWWUZMeDRNRVJRM2h0M0x6bU54Z1huRkM1NTNLV1hmd0xTa3hW?=
- =?utf-8?B?MHJlMjV6dHNaVUhjMGcxTzBBcmdxekJSRXliWmNYeUhHclRmVzBsVXlKTjlV?=
- =?utf-8?B?K3JPcDlTZitvOHVJVWNqR2hHbVU0SkxRRFNmenpBR3o1eGlFQThabHlncWdi?=
- =?utf-8?B?N2VyTzRpQWU3TTdOdXB3ODdPbFRtVm9oVTRUNW5TZDRBeDlxTWZWUitWQlho?=
- =?utf-8?B?UHUybnoxNmprQXlIZjhGd2lWdjRSWkkvTFpaZGh1MFBtU1JKS0pOM1I0NXBz?=
- =?utf-8?B?bThaS2dYM0VreUdGVHFVUW5nS2hzcGM0RWdSUm1jWWdnOElWWWVWY2hsSUMz?=
- =?utf-8?B?VU1MalM0K3R4eTNQbmc5d2hPOVBZWVg0a2ZJRU05MDJhbEd5VmsvUFd0U1dL?=
- =?utf-8?B?VHQ4MGpVZlIvcnF4bHVLRHhUSU00aU8vZUNXT2FwQ2tyMnJpaXAxOVlhNFgz?=
- =?utf-8?B?OWxIam9BeXVsMlVWd2FkZEs1cTQ1SVlLUVUrUWpiTkZRcFlmaWhqcW0rUGZl?=
- =?utf-8?B?QkxQSVV0RUJKaGtPN214c3lsWFdTcTJQZ0Q5dStaaVp2clNwaVRiMkpXT1hw?=
- =?utf-8?B?bVRKcXRnMVNEMm4zQUxrbDRlQTFsbmtreU1zN3RlcFdVR0FabUl6eFBTWDk4?=
- =?utf-8?B?dzdWUmNUR2d4N0RCakdZZGloZFp1SDZwd3k4MmZ1Y2c3Qkg3OVRZeW9zOEI4?=
- =?utf-8?B?bk1BY29SY2xZZm1VQWtucEZKNytyVFNreEZRbWJCWFRMbm1IenNZMHhFRy9W?=
- =?utf-8?B?MFVzeUIzdlV4dkl4QmZYM0xGZmRIQm5QVFJuVUowSmlFQ09aU2RwQ04vSU9S?=
- =?utf-8?B?V1p6WXJIUm5sa2RIdTBHVGlBcFNkbitrTFZpRVB2b21FNU9zNFdrZGVQMk9B?=
- =?utf-8?B?NzI5ZU1IeHMvYzJXSUVmTnhQeHFZOVJHb05HWnJnRzJoTW1MQmVMSDNXQW5o?=
- =?utf-8?B?clpOcjM0TENQa2tvTEVGanpndVZYTzRkMFVRTnhKVFZqMjZZV0d4eEZmNXIz?=
- =?utf-8?B?djRMUGFoVEZvelhTTlBXN3NoVU5aTWRvbExUS09QQmQ1RzE0dld4Y1dKS0tB?=
- =?utf-8?B?TTBxKzc0ZkNPcXRkZjZ1MkpKWElPSEJVSC92R0hlRUdYSlRwQ09OMEUxYVlo?=
- =?utf-8?B?YmVrSHZCZFBPd0YrTkJsemV5M1Q1R1BvRlVPdk9NTmczUEloS0gyM1AyRVo5?=
- =?utf-8?B?eXpqRmhZdFFLRGt1RmQrT1Y0d3NVbVNhZlhlWGtpMXFTbDh0ZWJuMjdYZTU3?=
- =?utf-8?B?RGFYRzNVVFF2ZkFyRERHZTRUZXhyTnBuOWtFQnNHZitTK1d6bE83dDhwSytm?=
- =?utf-8?B?cEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f776cb4-24fe-428e-ab7c-08da9bc05a18
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bEExMWJaU3RMbi8yaU1BdGx5a3lHVlpWMDBlc2dUbUpYZXM4QnIraCtyUGhv?=
+ =?utf-8?B?czhVY1N1VWUvbnFjUDhOSkw0VFNFUHJocC9TMCtGTVJxNWlMaFpMVG5BMEYz?=
+ =?utf-8?B?QWRFTkk3SkdNcDlpUm1na29IbHVwcWRtbS9Jdzd3cWQzTFNUOXRoTW9lUEhQ?=
+ =?utf-8?B?Ykh1cERaMlNmU3pZU3c4TU1UN1dwUC9kTklDYjl3dEV6OElzNENHYVd2YWIx?=
+ =?utf-8?B?cTZ2WGFWMUUxY1Q4YmY3RjV0WWFHazRHV2hMYzBJcGo2cVBzMEVhVEVzVkx0?=
+ =?utf-8?B?VkY1SFhkMU1ScEhvWmVQbmZkcnhoaWpHU0IyRVkvQ2JCbXI5eHlEMVU1WFBx?=
+ =?utf-8?B?TjZ4T1pjRi91WmNrZjlEaUZSbmxSdWZWZFRYc25adWI4VjBSSjFnOTM2U09K?=
+ =?utf-8?B?cW1GcHpMSE9KNkY5SHhZR1RqeENOR3ZaZHRJQjdzU3loYXVreHh3dmFWOThX?=
+ =?utf-8?B?WUVSMFFsN1N1c2hJSXhOMS9MRERiWWYxQlZXTlgrOUdMMHJsa28rT0NjZHU4?=
+ =?utf-8?B?eUh0aHdUSEdUNEowYTh1eFRCUWI4YkhHWjNpd1c1UUFDWDVkZlJERk01QS96?=
+ =?utf-8?B?ZzE4bUxXcmZ4bWFKd3BqNlFHWHpyblkrZFdMc0JtZFFqV1VXUkFoRlEwcXRN?=
+ =?utf-8?B?cjRKamVaVHovTGtMQzBJbkdFL0pxd0lVdmpKZTB1T1NNMVYzelhRUVJZRzlF?=
+ =?utf-8?B?cWkwMDB6MzViS0VSSU90STQwR3hOVE4xUXRNSlIzcXcyQXJuODFYbHU4bE9v?=
+ =?utf-8?B?TjZhSHlzL29TZUZucW80Z1pHUk9OQWhad0pmT0JpbmJnckY5dHNnUkVOaGU5?=
+ =?utf-8?B?Tm94d1oxWUFjQ2pJNHJiSmJTRkNjOUxsR1lGQXpZSm8yZFd1WE80ZkU4VTJJ?=
+ =?utf-8?B?Tml3MEQ4M0ZJdEQ4TjU4akJMYkRjWllGdUJwRGFpemcxYzNiK2VnbFpwNVNB?=
+ =?utf-8?B?cWt0VmJIL0p0VTlNclZrdFdlQVp5bGN5VGNtR0E4NC8xbEx1NFU1M0s3bmtD?=
+ =?utf-8?B?Z0duN2NBL0dDVnZIRUlra3NqNDRQa0ttN25hNFc2TDd6UVpMYTd4UzQxY3M4?=
+ =?utf-8?B?Z3phSUZBT1dzWlROZFduS0lVajVpSmhCWUZoblJWTnFiVnNkcGZPVmVuWk1X?=
+ =?utf-8?B?ZXBnbityWnNvQ3FGeVVYaWRwWFpad3AyaVRubFppb1laN1pKYzZCYkI0N0ti?=
+ =?utf-8?B?bUtmSDY3U2x6cHVlUEZmU0dzTzltVk45WGxUQjZwd2RwRG44K2gzelloTWVE?=
+ =?utf-8?B?aXhqYTlXUjB4M0hLdXcxdlY4NmlmS2tlWVg0Z29NajljSHY5WFlDS3dlYmla?=
+ =?utf-8?B?VS9iaXpvT2JSUkN0SEpvcXlEazBva2MzZ05mYktEejA2aHFIb3IwaHBLS1l4?=
+ =?utf-8?B?bkQ3QXR1Ny9QenliOXlCNys4dk5URDhFK1lQQVdqS3QxOEVTYytwZXhiTG1n?=
+ =?utf-8?B?RjN5MzBSQ2N4OFpsTUM0cW9KUllnUWY1Tk5VOU1JdjdCZUROaDlZTFNmbHpj?=
+ =?utf-8?B?a0ViTzJ1cUsrZ2Rwb1phWlpubk8rRDVQRnVMbmx1eFVQZ1A2UFVGZElOVjZi?=
+ =?utf-8?B?WkhRSFBkRk9wTElVS2lOTnlqWlBWRTFWY1JscVJsQ1FBMExGQjltdVZ1bGR3?=
+ =?utf-8?B?T2h2N3ZuVGVoL09jSjRZMnc4bkd0WW9Uay9MVXVZNllDcnNRYi9rNDVmWElw?=
+ =?utf-8?B?dTR1aXRyczMxWE82aFJOYVBqYUlsZ0pweWduNS9zZ0FGWlFkeUxsNVJ3QWdE?=
+ =?utf-8?B?eXBMMHI1RjlNQjRpc3VFbm1yUE9aSlNoN1ZZRGI4anlsdDN3TURkblk3UkUy?=
+ =?utf-8?B?STE0ai9JVVY3ckxhVVNjMGE3dVllMlFPdVlMYlF5WVJZODQ5KzYyYVNLWkEy?=
+ =?utf-8?B?QW8zRU1tb0NmMnFvWHJQcUY3ekVMeWl5ak9kYkM1NjRTS3h0RWlOU2lpNWZP?=
+ =?utf-8?B?RVpHNHEybDRRNEVpWFFxZjJmdUpsVklEOS9Wbi9jWmV0MHJPVUhWcGR2MGNn?=
+ =?utf-8?B?bEhDdDNISUtjNWRiK3B4cDFJUGQzMEZtNnF2T2t5ZEhUd1BBWlVEd1RoaEZL?=
+ =?utf-8?B?SVJIYVE5MkxBMFVoS1NtUlN4ZExhRWwxVHpVdXVYMUdsejEyWHVYQ1ZKdVNu?=
+ =?utf-8?B?NGZZLzJ3cmJhVWZ1amx3b1lwSTEzb0NqM3d0OGhzbXJVL0tmVUNoSVg4blIz?=
+ =?utf-8?B?bVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 154a4ee5-9e75-4e27-5bb2-08da9bc1c208
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6211.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2022 10:59:27.7531 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2022 11:09:31.4073 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jI/XBPx+yqz7cuU8gxpu+hw1K4As9LrWsxOXxl6lj8aLb1F/J+Viwn74Rsw2fOtNaI6fWoEmjZ7yh8DdRUdn8mdEwPUVIgO9ItYViIk2jo8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6734
+X-MS-Exchange-CrossTenant-UserPrincipalName: G/KxU4XwGBOPQ4xvSAEi0MLNOEMRRMf6Mxl8vn1IiocbOF8f8t3POTHykARkugJvTZrYcLMZkLG8JnUvTc9tyqWLIthhXVEchiXGb6KtPmM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6459
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -166,262 +162,156 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 9/16/2022 8:30 PM, Badal Nilawar wrote:
-> From: Dale B Stimson <dale.b.stimson@intel.com>
+> From: Riana Tauro <riana.tauro@intel.com>
 > 
-> The i915 HWMON module will be used to expose voltage, power and energy
-> values for dGfx. Here we set up i915 hwmon infrastructure including i915
-> hwmon registration, basic data structures and functions.
+> Use i915 HWMON subsystem to display current input voltage.
 > 
 > v2:
->    - Create HWMON infra patch (Ashutosh)
->    - Fixed review comments (Jani)
->    - Remove "select HWMON" from i915/Kconfig (Jani)
-> v3: Use hwm_ prefix for static functions (Ashutosh)
-> v4: s/#ifdef CONFIG_HWMON/#if IS_REACHABLE(CONFIG_HWMON)/ since the former
->      doesn't work if hwmon is compiled as a module (Guenter)
-> v5: Fixed review comments (Jani)
+>    - Updated date and kernel version in feature description
+>    - Fixed review comments (Ashutosh)
+> v3: Use macro HWMON_CHANNEL_INFO to define hwmon channel (Guenter)
+> v4:
+>    - Fixed review comments (Ashutosh)
+>    - Use hwm_ prefix for static functions (Ashutosh)
+> v5:
+>    - Added unit of voltage as millivolts (Ashutosh)
+>    - Updated date, kernel version in documentation
 > 
 > Cc: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Dale B Stimson <dale.b.stimson@intel.com>
-> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> Cc: Anshuman Gupta <anshuman.gupta@intel.com>
 > Signed-off-by: Riana Tauro <riana.tauro@intel.com>
 > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 > Acked-by: Guenter Roeck <linux@roeck-us.net>
 > Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Looks good to me.
 Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
-
 > ---
->   drivers/gpu/drm/i915/Makefile      |   3 +
->   drivers/gpu/drm/i915/i915_driver.c |   5 ++
->   drivers/gpu/drm/i915/i915_drv.h    |   2 +
->   drivers/gpu/drm/i915/i915_hwmon.c  | 136 +++++++++++++++++++++++++++++
->   drivers/gpu/drm/i915/i915_hwmon.h  |  20 +++++
->   5 files changed, 166 insertions(+)
->   create mode 100644 drivers/gpu/drm/i915/i915_hwmon.c
->   create mode 100644 drivers/gpu/drm/i915/i915_hwmon.h
+>   .../ABI/testing/sysfs-driver-intel-i915-hwmon |  7 +++
+>   drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  3 ++
+>   drivers/gpu/drm/i915/i915_hwmon.c             | 53 +++++++++++++++++++
+>   3 files changed, 63 insertions(+)
+>   create mode 100644 Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
 > 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index a26edcdadc21..66a6023e61a6 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -209,6 +209,9 @@ i915-y += gt/uc/intel_uc.o \
->   # graphics system controller (GSC) support
->   i915-y += gt/intel_gsc.o
->   
-> +# graphics hardware monitoring (HWMON) support
-> +i915-$(CONFIG_HWMON) += i915_hwmon.o
-> +
->   # modesetting core code
->   i915-y += \
->   	display/hsw_ips.o \
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index c459eb362c47..75655adb7bd3 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -81,6 +81,7 @@
->   #include "i915_drm_client.h"
->   #include "i915_drv.h"
->   #include "i915_getparam.h"
-> +#include "i915_hwmon.h"
->   #include "i915_ioc32.h"
->   #include "i915_ioctl.h"
->   #include "i915_irq.h"
-> @@ -763,6 +764,8 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
->   	for_each_gt(gt, dev_priv, i)
->   		intel_gt_driver_register(gt);
->   
-> +	i915_hwmon_register(dev_priv);
-> +
->   	intel_display_driver_register(dev_priv);
->   
->   	intel_power_domains_enable(dev_priv);
-> @@ -795,6 +798,8 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
->   	for_each_gt(gt, dev_priv, i)
->   		intel_gt_driver_unregister(gt);
->   
-> +	i915_hwmon_unregister(dev_priv);
-> +
->   	i915_perf_unregister(dev_priv);
->   	i915_pmu_unregister(dev_priv);
->   
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 9f9372931fd2..01a2caf42635 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -353,6 +353,8 @@ struct drm_i915_private {
->   
->   	struct i915_perf perf;
->   
-> +	struct i915_hwmon *hwmon;
-> +
->   	/* Abstract the submission mechanism (legacy ringbuffer or execlists) away */
->   	struct intel_gt gt0;
->   
-> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+> diff --git a/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon b/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
 > new file mode 100644
-> index 000000000000..103dd543a214
+> index 000000000000..e2974f928e58
 > --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
+> @@ -0,0 +1,7 @@
+> +What:		/sys/devices/.../hwmon/hwmon<i>/in0_input
+> +Date:		September 2022
+> +KernelVersion:	6
+> +Contact:	dri-devel@lists.freedesktop.org
+> +Description:	RO. Current Voltage in millivolt.
+> +
+> +		Only supported for particular Intel i915 graphics platforms.
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> index 2275ee47da95..65336514554d 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> @@ -1510,6 +1510,9 @@
+>   #define VLV_RENDER_C0_COUNT			_MMIO(0x138118)
+>   #define VLV_MEDIA_C0_COUNT			_MMIO(0x13811c)
+>   
+> +#define GEN12_RPSTAT1				_MMIO(0x1381b4)
+> +#define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
+> +
+>   #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
+>   #define   GEN11_CSME				(31)
+>   #define   GEN11_GUNIT				(28)
+> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+> index 103dd543a214..45745afa5c5b 100644
+> --- a/drivers/gpu/drm/i915/i915_hwmon.c
 > +++ b/drivers/gpu/drm/i915/i915_hwmon.c
-> @@ -0,0 +1,136 @@
-> +// SPDX-License-Identifier: MIT
+> @@ -11,8 +11,16 @@
+>   #include "i915_hwmon.h"
+>   #include "i915_reg.h"
+>   #include "intel_mchbar_regs.h"
+> +#include "gt/intel_gt_regs.h"
+> +
 > +/*
-> + * Copyright © 2022 Intel Corporation
+> + * SF_* - scale factors for particular quantities according to hwmon spec.
+> + * - voltage  - millivolts
 > + */
-> +
-> +#include <linux/hwmon.h>
-> +#include <linux/hwmon-sysfs.h>
-> +#include <linux/types.h>
-> +
-> +#include "i915_drv.h"
-> +#include "i915_hwmon.h"
-> +#include "i915_reg.h"
-> +#include "intel_mchbar_regs.h"
-> +
-> +struct hwm_reg {
-> +};
-> +
-> +struct hwm_drvdata {
-> +	struct i915_hwmon *hwmon;
-> +	struct intel_uncore *uncore;
-> +	struct device *hwmon_dev;
-> +	char name[12];
-> +};
-> +
-> +struct i915_hwmon {
-> +	struct hwm_drvdata ddat;
-> +	struct mutex hwmon_lock;		/* counter overflow logic and rmw */
-> +	struct hwm_reg rg;
-> +};
-> +
-> +static const struct hwmon_channel_info *hwm_info[] = {
-> +	NULL
-> +};
-> +
+> +#define SF_VOLTAGE	1000
+>   
+>   struct hwm_reg {
+> +	i915_reg_t gt_perf_status;
+>   };
+>   
+>   struct hwm_drvdata {
+> @@ -29,14 +37,49 @@ struct i915_hwmon {
+>   };
+>   
+>   static const struct hwmon_channel_info *hwm_info[] = {
+> +	HWMON_CHANNEL_INFO(in, HWMON_I_INPUT),
+>   	NULL
+>   };
+>   
 > +static umode_t
-> +hwm_is_visible(const void *drvdata, enum hwmon_sensor_types type,
-> +	       u32 attr, int channel)
+> +hwm_in_is_visible(const struct hwm_drvdata *ddat, u32 attr)
 > +{
-> +	switch (type) {
+> +	switch (attr) {
+> +	case hwmon_in_input:
+> +		return i915_mmio_reg_valid(ddat->hwmon->rg.gt_perf_status) ? 0444 : 0;
 > +	default:
 > +		return 0;
 > +	}
 > +}
 > +
 > +static int
-> +hwm_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-> +	 int channel, long *val)
+> +hwm_in_read(struct hwm_drvdata *ddat, u32 attr, long *val)
 > +{
-> +	switch (type) {
+> +	struct i915_hwmon *hwmon = ddat->hwmon;
+> +	intel_wakeref_t wakeref;
+> +	u32 reg_value;
+> +
+> +	switch (attr) {
+> +	case hwmon_in_input:
+> +		with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
+> +			reg_value = intel_uncore_read(ddat->uncore, hwmon->rg.gt_perf_status);
+> +		/* HW register value in units of 2.5 millivolt */
+> +		*val = DIV_ROUND_CLOSEST(REG_FIELD_GET(GEN12_VOLTAGE_MASK, reg_value) * 25, 10);
+> +		return 0;
 > +	default:
 > +		return -EOPNOTSUPP;
 > +	}
 > +}
 > +
-> +static int
-> +hwm_write(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-> +	  int channel, long val)
-> +{
-> +	switch (type) {
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
+>   static umode_t
+>   hwm_is_visible(const void *drvdata, enum hwmon_sensor_types type,
+>   	       u32 attr, int channel)
+>   {
+> +	struct hwm_drvdata *ddat = (struct hwm_drvdata *)drvdata;
 > +
-> +static const struct hwmon_ops hwm_ops = {
-> +	.is_visible = hwm_is_visible,
-> +	.read = hwm_read,
-> +	.write = hwm_write,
-> +};
+>   	switch (type) {
+> +	case hwmon_in:
+> +		return hwm_in_is_visible(ddat, attr);
+>   	default:
+>   		return 0;
+>   	}
+> @@ -46,7 +89,11 @@ static int
+>   hwm_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+>   	 int channel, long *val)
+>   {
+> +	struct hwm_drvdata *ddat = dev_get_drvdata(dev);
 > +
-> +static const struct hwmon_chip_info hwm_chip_info = {
-> +	.ops = &hwm_ops,
-> +	.info = hwm_info,
-> +};
+>   	switch (type) {
+> +	case hwmon_in:
+> +		return hwm_in_read(ddat, attr, val);
+>   	default:
+>   		return -EOPNOTSUPP;
+>   	}
+> @@ -76,6 +123,12 @@ static const struct hwmon_chip_info hwm_chip_info = {
+>   static void
+>   hwm_get_preregistration_info(struct drm_i915_private *i915)
+>   {
+> +	struct i915_hwmon *hwmon = i915->hwmon;
 > +
-> +static void
-> +hwm_get_preregistration_info(struct drm_i915_private *i915)
-> +{
-> +}
-> +
-> +void i915_hwmon_register(struct drm_i915_private *i915)
-> +{
-> +	struct device *dev = i915->drm.dev;
-> +	struct i915_hwmon *hwmon;
-> +	struct device *hwmon_dev;
-> +	struct hwm_drvdata *ddat;
-> +
-> +	/* hwmon is available only for dGfx */
-> +	if (!IS_DGFX(i915))
-> +		return;
-> +
-> +	hwmon = kzalloc(sizeof(*hwmon), GFP_KERNEL);
-> +	if (!hwmon)
-> +		return;
-> +
-> +	i915->hwmon = hwmon;
-> +	mutex_init(&hwmon->hwmon_lock);
-> +	ddat = &hwmon->ddat;
-> +
-> +	ddat->hwmon = hwmon;
-> +	ddat->uncore = &i915->uncore;
-> +	snprintf(ddat->name, sizeof(ddat->name), "i915");
-> +
-> +	hwm_get_preregistration_info(i915);
-> +
-> +	/*  hwmon_dev points to device hwmon<i> */
-> +	hwmon_dev = hwmon_device_register_with_info(dev, ddat->name,
-> +						    ddat,
-> +						    &hwm_chip_info,
-> +						    NULL);
-> +	if (IS_ERR(hwmon_dev)) {
-> +		mutex_destroy(&hwmon->hwmon_lock);
-> +		i915->hwmon = NULL;
-> +		kfree(hwmon);
-> +		return;
-> +	}
-> +
-> +	ddat->hwmon_dev = hwmon_dev;
-> +}
-> +
-> +void i915_hwmon_unregister(struct drm_i915_private *i915)
-> +{
-> +	struct i915_hwmon *hwmon;
-> +	struct hwm_drvdata *ddat;
-> +
-> +	hwmon = fetch_and_zero(&i915->hwmon);
-> +	if (!hwmon)
-> +		return;
-> +
-> +	ddat = &hwmon->ddat;
-> +	if (ddat->hwmon_dev)
-> +		hwmon_device_unregister(ddat->hwmon_dev);
-> +
-> +	mutex_destroy(&hwmon->hwmon_lock);
-> +	kfree(hwmon);
-> +}
-> diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i915/i915_hwmon.h
-> new file mode 100644
-> index 000000000000..7ca9cf2c34c9
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/i915_hwmon.h
-> @@ -0,0 +1,20 @@
-> +/* SPDX-License-Identifier: MIT */
-> +
-> +/*
-> + * Copyright © 2022 Intel Corporation
-> + */
-> +
-> +#ifndef __I915_HWMON_H__
-> +#define __I915_HWMON_H__
-> +
-> +struct drm_i915_private;
-> +
-> +#if IS_REACHABLE(CONFIG_HWMON)
-> +void i915_hwmon_register(struct drm_i915_private *i915);
-> +void i915_hwmon_unregister(struct drm_i915_private *i915);
-> +#else
-> +static inline void i915_hwmon_register(struct drm_i915_private *i915) { };
-> +static inline void i915_hwmon_unregister(struct drm_i915_private *i915) { };
-> +#endif
-> +
-> +#endif /* __I915_HWMON_H__ */
+> +	if (IS_DG1(i915) || IS_DG2(i915))
+> +		hwmon->rg.gt_perf_status = GEN12_RPSTAT1;
+> +	else
+> +		hwmon->rg.gt_perf_status = INVALID_MMIO_REG;
+>   }
+>   
+>   void i915_hwmon_register(struct drm_i915_private *i915)
