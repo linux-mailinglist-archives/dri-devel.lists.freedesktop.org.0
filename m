@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130C95BFE7B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 14:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 510625BFF0A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 15:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A45210E91F;
-	Wed, 21 Sep 2022 12:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C58010E40A;
+	Wed, 21 Sep 2022 13:39:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E537C10E91F
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 12:55:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 01AF91F88D;
- Wed, 21 Sep 2022 12:55:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663764924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KoZGBoaFxZPTmEkKRwEqifkfWr8iC0r3ozJsZIDMqOM=;
- b=Ka07vDM8K1km2hMng59LbUvZwrw8/msv6neHJTsQnazag5oU/ZFa5DO0x7zodAvoPLbEza
- hnw7lGVsUcDLMrv5ymFu/DvOMRO/mkKHeK1WDiSmEKJwMr6MEv8VRENpXPkHCcbUTLH7Dv
- kpekC/Unl34vuGbSCVVdp1bnyv89YUY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663764924;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KoZGBoaFxZPTmEkKRwEqifkfWr8iC0r3ozJsZIDMqOM=;
- b=9ndm+mIdGZF7Q045YkYqcwIoESP9MgkrBJuJBK4PD+greHpjg8MtRvSyKpwAsyyBa9D4gN
- gGxa7EmP6Z6DuxDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A462913A89;
- Wed, 21 Sep 2022 12:55:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EOMWJrsJK2O+LAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 21 Sep 2022 12:55:23 +0000
-Message-ID: <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
-Date: Wed, 21 Sep 2022 14:55:23 +0200
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D39F810E405
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 13:39:18 +0000 (UTC)
+X-UUID: d41d884b4bb343fd82806aaa7238de03-20220921
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=F+RYld1az5rAHD+UhhQ+OjODHmdk7/9nZ0vdYJZ7ifY=; 
+ b=O1RktJJ6eGL4VSj4cxXllXi0y8yAv13QuvCG85uuwYfDVE7ca9UGVzn3/N5FY+bZSk63KXlc4WBLaZME9PtlnVOywfkBRy0IlCe0rU2RtgBxuc09ouepC2XqM2ipoqR5hvzvATMUHvjtX9PDGDHlBSSbppph/za9rvKOSsRz3/Q=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:3ff2154a-b8d8-4184-9b8c-55809f288f0f, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:39a5ff1, CLOUDID:eea06d5e-5ed4-4e28-8b00-66ed9f042fbd,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: d41d884b4bb343fd82806aaa7238de03-20220921
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1014021754; Wed, 21 Sep 2022 21:39:02 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 21 Sep 2022 21:39:00 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 21 Sep 2022 21:39:00 +0800
+Message-ID: <ed30c8505f49d8186d5b8a3c52d9cf0ca5f86537.camel@mediatek.com>
+Subject: Re: [PATCH v6,2/3] drm: mediatek: Adjust the dpi output format to
+ MT8186
+From: xinlei.lee <xinlei.lee@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, <matthias.bgg@gmail.com>,
+ <jason-jh.lin@mediatek.com>, <rex-bc.chen@mediatek.com>,
+ <angelogioacchino.delregno@collabora.com>, <p.zabel@pengutronix.de>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>
+Date: Wed, 21 Sep 2022 21:39:00 +0800
+In-Reply-To: <6c3de76f1ecf5fb0f4e96469738d383e89cb0eca.camel@mediatek.com>
+References: <1663161662-1598-1-git-send-email-xinlei.lee@mediatek.com>
+ <1663161662-1598-3-git-send-email-xinlei.lee@mediatek.com>
+ <6c3de76f1ecf5fb0f4e96469738d383e89cb0eca.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
-Content-Language: en-US
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, javierm@redhat.com,
- airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech,
- sam@ravnborg.org, msuchanek@suse.de, mpe@ellerman.id.au, paulus@samba.org,
- geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-11-tzimmermann@suse.de>
- <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------AG7Z9AOHsuDY2uOy5F4SArY8"
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,72 +69,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------AG7Z9AOHsuDY2uOy5F4SArY8
-Content-Type: multipart/mixed; boundary="------------Xmfdjl4UiEJQ0soLPwFr76ao";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, javierm@redhat.com,
- airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech,
- sam@ravnborg.org, msuchanek@suse.de, mpe@ellerman.id.au, paulus@samba.org,
- geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
-Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-11-tzimmermann@suse.de>
- <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
-In-Reply-To: <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
+On Wed, 2022-09-21 at 09:35 +0800, CK Hu wrote:
+> Hi, Xinlei:
+> 
+> On Wed, 2022-09-14 at 21:21 +0800, xinlei.lee@mediatek.com wrote:
+> > From: Xinlei Lee <xinlei.lee@mediatek.com>
+> > 
+> > Dpi output needs to adjust the output format to dual edge for
+> > MT8186.
+> > The bridge ic on MT8186 uses the output format of
+> > RGB888_dual_edge. 
+> 
+> I think different sink ic may support different output format, so
+> query
+> the sink information to decide which outout format.
+> 
+> > Due
+> > to hardware changes, we need to modify the output format
+> > corresponding
+> > to the mmsys register.
+> > 
+> > Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
+> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Reviewed-by: Nís F. R. A. Prado <nfraprado@collabora.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > index fb0b79704636..6e02f02f163c 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > @@ -14,6 +14,7 @@
+> >  #include <linux/of_graph.h>
+> >  #include <linux/pinctrl/consumer.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/soc/mediatek/mtk-mmsys.h>
+> >  #include <linux/types.h>
+> >  
+> >  #include <video/videomode.h>
+> > @@ -28,6 +29,7 @@
+> >  #include "mtk_disp_drv.h"
+> >  #include "mtk_dpi_regs.h"
+> >  #include "mtk_drm_ddp_comp.h"
+> > +#include "mtk_drm_drv.h"
+> >  
+> >  enum mtk_dpi_out_bit_num {
+> >  	MTK_DPI_OUT_BIT_NUM_8BITS,
+> > @@ -58,6 +60,11 @@ enum mtk_dpi_out_color_format {
+> >  	MTK_DPI_COLOR_FORMAT_YCBCR_422
+> >  };
+> >  
+> > +enum mtk_dpi_out_format_con {
+> > +	MTK_DPI_RGB888_DDR_CON,
+> > +	MTK_DPI_RGB565_SDR_CON
+> > +};
+> > +
+> >  struct mtk_dpi {
+> >  	struct drm_encoder encoder;
+> >  	struct drm_bridge bridge;
+> > @@ -80,6 +87,7 @@ struct mtk_dpi {
+> >  	struct pinctrl_state *pins_dpi;
+> >  	u32 output_fmt;
+> >  	int refcount;
+> > +	struct device *mmsys_dev;
+> >  };
+> >  
+> >  static inline struct mtk_dpi *bridge_to_dpi(struct drm_bridge *b)
+> > @@ -133,6 +141,7 @@ struct mtk_dpi_yc_limit {
+> >   * @yuv422_en_bit: Enable bit of yuv422.
+> >   * @csc_enable_bit: Enable bit of CSC.
+> >   * @pixels_per_iter: Quantity of transferred pixels per iteration.
+> > + * @edge_cfg_in_mmsys: If the edge configuration for DPI's output
+> > needs to be set in MMSYS.
+> >   */
+> >  struct mtk_dpi_conf {
+> >  	unsigned int (*cal_factor)(int clock);
+> > @@ -151,6 +160,7 @@ struct mtk_dpi_conf {
+> >  	u32 yuv422_en_bit;
+> >  	u32 csc_enable_bit;
+> >  	u32 pixels_per_iter;
+> > +	bool edge_cfg_in_mmsys;
+> >  };
+> >  
+> >  static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val,
+> > u32 mask)
+> > @@ -447,6 +457,8 @@ static void mtk_dpi_dual_edge(struct mtk_dpi
+> > *dpi)
+> >  		mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING,
+> >  			     dpi->output_fmt ==
+> > MEDIA_BUS_FMT_RGB888_2X12_LE ?
+> >  			     EDGE_SEL : 0, EDGE_SEL);
+> > +		if (dpi->conf->edge_cfg_in_mmsys)
+> > +			mtk_mmsys_ddp_dpi_fmt_config(dpi->mmsys_dev,
+> > MTK_DPI_RGB888_DDR_CON);
+> 
+> Why do you set a DPI driver defined value MTK_DPI_RGB888_DDR_CON into
+> mmsys driver? I think you should set a value which mmsys driver
+> understand.
+> 
+> Regards,
+> CK
+> 
+> >  	} else {
+> >  		mtk_dpi_mask(dpi, DPI_DDR_SETTING, DDR_EN | DDR_4PHASE,
+> > 0);
+> >  	}
+> > @@ -776,8 +788,10 @@ static int mtk_dpi_bind(struct device *dev,
+> > struct device *master, void *data)
+> >  {
+> >  	struct mtk_dpi *dpi = dev_get_drvdata(dev);
+> >  	struct drm_device *drm_dev = data;
+> > +	struct mtk_drm_private *priv = drm_dev->dev_private;
+> >  	int ret;
+> >  
+> > +	dpi->mmsys_dev = priv->mmsys_dev;
+> >  	ret = drm_simple_encoder_init(drm_dev, &dpi->encoder,
+> >  				      DRM_MODE_ENCODER_TMDS);
+> >  	if (ret) {
+> 
+> 
+Hi CK:
 
---------------Xmfdjl4UiEJQ0soLPwFr76ao
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks for your review.
 
-SGkNCg0KQW0gMDUuMDguMjIgdW0gMDI6MTkgc2NocmllYiBCZW5qYW1pbiBIZXJyZW5zY2ht
-aWR0Og0KPiBPbiBXZWQsIDIwMjItMDctMjAgYXQgMTY6MjcgKzAyMDAsIFRob21hcyBaaW1t
-ZXJtYW5uIHdyb3RlOg0KPj4gKyNpZiAhZGVmaW5lZChDT05GSUdfUFBDKQ0KPj4gK3N0YXRp
-YyBpbmxpbmUgdm9pZCBvdXRfOCh2b2lkIF9faW9tZW0gKmFkZHIsIGludCB2YWwpDQo+PiAr
-eyB9DQo+PiArc3RhdGljIGlubGluZSB2b2lkIG91dF9sZTMyKHZvaWQgX19pb21lbSAqYWRk
-ciwgaW50IHZhbCkNCj4+ICt7IH0NCj4+ICtzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGludCBp
-bl9sZTMyKGNvbnN0IHZvaWQgX19pb21lbSAqYWRkcikNCj4+ICt7DQo+PiArICAgICAgIHJl
-dHVybiAwOw0KPj4gK30NCj4+ICsjZW5kaWYNCj4gDQo+IFRoZXNlIGd1eXMgY291bGQganVz
-dCBiZSByZXBsYWNlZCB3aXRoIHJlYWRiL3dyaXRlbC9yZWFkbCByZXNwZWN0aXZlbHkNCj4g
-KGJld2FyZSBvZiB0aGUgYXJndW1lbnQgc3dhcCkuDQoNCkkgb25seSBhZGRlZCB0aGVtIGZv
-ciBDT01QSUxFX1RFU1QuIFRoZXJlIGFwcGVhcnMgdG8gYmUgbm8gcG9ydGFibGUgDQppbnRl
-cmZhY2UgdGhhdCBpbXBsZW1lbnRzIG91dF9sZTMyKCkgYW5kIGluX2xlMzIoKT8NCg0KQmVz
-dCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gQ2hlZXJzLA0KPiBCZW4uDQo+IA0KDQotLSAN
-ClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNv
-ZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
-vHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0
-c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Yes, different sink ICs may support other output formats. 
+The current DRM architecture supports retrieving the output formats of
+all bridges (implemented through .atomic_check &
+.atomic_get_output_bus_fmts & .atomic_get_input_bus_fmts in dpi).
+If no unified output format is found It will use the default format
+output of soc (MEDIA_BUS_FMT_RGB888_2X12_LE is used in mt8186).
 
---------------Xmfdjl4UiEJQ0soLPwFr76ao--
+The difference between MT8186 and other ICs is that when modifying the
+output format, we need to modify the mmsys_base + 0x400 register to
+take effect. 
+Therefore, if there are other format sink ICs (RGB888_DDR/RGB888_SDR)
+in the future, the sink IC needs to add the func implementation
+mentioned above needs to be added. 
+And the drm architecture will select the appropriate format to change
+the dpi output.
 
---------------AG7Z9AOHsuDY2uOy5F4SArY8
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I will put the registers that control mmsys in mtk-mmsys.h in the next
+release.
 
------BEGIN PGP SIGNATURE-----
+Best Regards!
+Xinlei
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMrCbsFAwAAAAAACgkQlh/E3EQov+DE
-9Q//ckxi55KFvAJ4UA6WPGS3cdi+g8bzAosXAU3ixBEO19e0UGZfB/W0dRjZ3sN9c9g5IH6wuboY
-57s8qJe84uVFNPMNsRO51fywFN6hQOUsGK86lrAauRNn2iUMEUhAo0INU6LAANJ4bmgk2iDAHoj+
-QkbFfymf844Rjqrtp7meFDhrtCtZAeBOIDCDl5WTUsuzg2kLEpy+3N397SOtvxVZNOZYYL80NBi3
-dnnplHgjuFK7vB0t2d99+8Ggd44B0FCHk+wKdZEhb5uSXTYYNkmSFNtkjzLJSPVR7ThWsTFTiyf3
-/1m+czrzL0iVQy+buexGvIfO8W863bYhs/HkkfXJaVYhHFq6R1xAT1TdaYiADGsq5OjUs8ytJ/+N
-s1LZoGaxKqsfKM1ho14rvCCMTa7wMX72sRDKJewga5usfDyJbVpAEC5DfZLwHd2xL+sOgscoICRS
-6czwZJ5zrwDzXNwmYM7CkiK5hV+ghOAxESjZnb1OMXFb6/IVAgDJ+5d7yFhD4FU+y1QIZFmTDBLb
-ZIDKxJP7mlVHfQo5mePpe0BqfmucsWU0MIIoyika5waxlhkYnTweiWgA6Jkgs5Ah1pDt7HSXtjPG
-cmcY4tSKCbzJDw7tsdn5fKxpFZbYXpZBZG1L/Pmplf66LSh1HXUNE8Yxh7rNbHXoEt0Folk6xiFq
-Nvs=
-=mw0X
------END PGP SIGNATURE-----
-
---------------AG7Z9AOHsuDY2uOy5F4SArY8--
