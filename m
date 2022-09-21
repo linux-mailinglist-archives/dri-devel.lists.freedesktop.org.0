@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD9F5C02D3
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E97D25C02D4
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:55:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA17810E9E0;
-	Wed, 21 Sep 2022 15:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 804A510E9C9;
+	Wed, 21 Sep 2022 15:54:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8959A10E9C9;
- Wed, 21 Sep 2022 15:54:49 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE35E10E9CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 15:54:49 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0E335B830E1;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 770EBB830EB;
  Wed, 21 Sep 2022 15:54:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67C07C433C1;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA4FFC43140;
  Wed, 21 Sep 2022 15:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663775687;
- bh=7lT88kymb+yHRk7aKUfmIghEeBPzIMSI+gUmp/ehBBM=;
+ s=k20201202; t=1663775688;
+ bh=VwNcnLR2/LA/fz5sKeoJt9Vzelm+E+Rs4audF7yv7p4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N6fT0S4psDxGGHTGvSbrio5jO5h+rHJMSTKSP++DCOnJ8uUiQYcKe5Dd9Hyg/TFyR
- bz527MMphcRp/xlSOU1PgmsOKRnkp24EmAZsyQzS9l4PJ5mdMLkPE3o5JYHk3blHaL
- 8ZSeLSfkdtFm+kr36MgzXarAif7WXfD2epMia3QqVb0BJEMsNKleb0qmoIk1gjZeYi
- 2nhf7rzvkmYh6JGubOQzISoXsbmPtcTybfOUeL1v/e69E+798zX8ft/d2x59Esek4L
- hOL3MZ8Dxu20E5GjOoMO6PG4xcxUEjFixzo61o6siGZYK6lfKkPbiMTpNNVnKWQqVg
- EzVLcww0boZ3w==
+ b=Z1+yq/aofyxj8frjclUkVBNyjhJcUqhnKroNAlsY8Sf7VEGFkC4m6kPyeB83hOiQl
+ zhywn4TAzCJCS7KyMH3QvsC+YAloyXL46gtAb5uGDVE3Knq3gQLyr3Ve5oM8DVAdbM
+ 3Rh74WhjpQHyyPY2H69VIb8Ex+7ONTD0zdikhqv3qvHCqmCyzl0kDOhFm9ZJh/52MO
+ OxzAob9OYqSwJw1ge8th/JBlviEiGh87GBVZ+56Zw0UdzAji3oPgr//C+aO14sstCn
+ cKvr7TxKqnWzA8V6FfQjcj5fkX37DDtysL1EGKZTsTk9/yVm1rv8MNF50rVioPXgmA
+ aPxMxn3wEWsYQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 2/3] drm/amd/display: Limit user regamma to a
- valid value
-Date: Wed, 21 Sep 2022 11:54:42 -0400
-Message-Id: <20220921155444.235446-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 3/3] drm/rockchip: Fix return type of
+ cdn_dp_connector_mode_valid
+Date: Wed, 21 Sep 2022 11:54:43 -0400
+Message-Id: <20220921155444.235446-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220921155444.235446-1-sashal@kernel.org>
 References: <20220921155444.235446-1-sashal@kernel.org>
@@ -55,62 +56,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Krunoslav Kovac <Krunoslav.Kovac@amd.com>,
- sunpeng.li@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- amd-gfx@lists.freedesktop.org, airlied@linux.ie,
- Daniel Wheeler <daniel.wheeler@amd.com>, Yao Wang1 <Yao.Wang1@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com, Pavle Kotarac <Pavle.Kotarac@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, llvm@lists.linux.dev,
+ ndesaulniers@google.com, hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
+ Nathan Huckleberry <nhuck@google.com>, Nathan Chancellor <nathan@kernel.org>,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Dan Carpenter <error27@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yao Wang1 <Yao.Wang1@amd.com>
+From: Nathan Huckleberry <nhuck@google.com>
 
-[ Upstream commit 3601d620f22e37740cf73f8278eabf9f2aa19eb7 ]
+[ Upstream commit b0b9408f132623dc88e78adb5282f74e4b64bb57 ]
 
-[Why]
-For HDR mode, we get total 512 tf_point and after switching to SDR mode
-we actually get 400 tf_point and the rest of points(401~512) still use
-dirty value from HDR mode. We should limit the rest of the points to max
-value.
+The mode_valid field in drm_connector_helper_funcs is expected to be of
+type:
+enum drm_mode_status (* mode_valid) (struct drm_connector *connector,
+				     struct drm_display_mode *mode);
 
-[How]
-Limit the value when coordinates_x.x > 1, just like what we do in
-translate_from_linear_space for other re-gamma build paths.
+The mismatched return type breaks forward edge kCFI since the underlying
+function definition does not match the function hook definition.
 
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Reviewed-by: Krunoslav Kovac <Krunoslav.Kovac@amd.com>
-Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
-Acked-by: Pavle Kotarac <Pavle.Kotarac@amd.com>
-Signed-off-by: Yao Wang1 <Yao.Wang1@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+The return type of cdn_dp_connector_mode_valid should be changed from
+int to enum drm_mode_status.
+
+Reported-by: Dan Carpenter <error27@gmail.com>
+Link: https://github.com/ClangBuiltLinux/linux/issues/1703
+Cc: llvm@lists.linux.dev
+Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220913205555.155149-1-nhuck@google.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/modules/color/color_gamma.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/color/color_gamma.c b/drivers/gpu/drm/amd/display/modules/color/color_gamma.c
-index 11ea1a0e629b..4e866317ec25 100644
---- a/drivers/gpu/drm/amd/display/modules/color/color_gamma.c
-+++ b/drivers/gpu/drm/amd/display/modules/color/color_gamma.c
-@@ -1206,6 +1206,7 @@ static void interpolate_user_regamma(uint32_t hw_points_num,
- 	struct fixed31_32 lut2;
- 	struct fixed31_32 delta_lut;
- 	struct fixed31_32 delta_index;
-+	const struct fixed31_32 one = dc_fixpt_from_int(1);
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index 3feab563e50a..3f992e5a75c9 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -284,8 +284,9 @@ static int cdn_dp_connector_get_modes(struct drm_connector *connector)
+ 	return ret;
+ }
  
- 	i = 0;
- 	/* fixed_pt library has problems handling too small values */
-@@ -1234,6 +1235,9 @@ static void interpolate_user_regamma(uint32_t hw_points_num,
- 			} else
- 				hw_x = coordinates_x[i].x;
- 
-+			if (dc_fixpt_le(one, hw_x))
-+				hw_x = one;
-+
- 			norm_x = dc_fixpt_mul(norm_factor, hw_x);
- 			index = dc_fixpt_floor(norm_x);
- 			if (index < 0 || index > 255)
+-static int cdn_dp_connector_mode_valid(struct drm_connector *connector,
+-				       struct drm_display_mode *mode)
++static enum drm_mode_status
++cdn_dp_connector_mode_valid(struct drm_connector *connector,
++			    struct drm_display_mode *mode)
+ {
+ 	struct cdn_dp_device *dp = connector_to_dp(connector);
+ 	struct drm_display_info *display_info = &dp->connector.display_info;
 -- 
 2.35.1
 
