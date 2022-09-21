@@ -1,49 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97D25C02D4
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:55:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 523D65C0302
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:58:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 804A510E9C9;
-	Wed, 21 Sep 2022 15:54:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9008C10E2F2;
+	Wed, 21 Sep 2022 15:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE35E10E9CC
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 15:54:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 770EBB830EB;
- Wed, 21 Sep 2022 15:54:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA4FFC43140;
- Wed, 21 Sep 2022 15:54:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663775688;
- bh=VwNcnLR2/LA/fz5sKeoJt9Vzelm+E+Rs4audF7yv7p4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z1+yq/aofyxj8frjclUkVBNyjhJcUqhnKroNAlsY8Sf7VEGFkC4m6kPyeB83hOiQl
- zhywn4TAzCJCS7KyMH3QvsC+YAloyXL46gtAb5uGDVE3Knq3gQLyr3Ve5oM8DVAdbM
- 3Rh74WhjpQHyyPY2H69VIb8Ex+7ONTD0zdikhqv3qvHCqmCyzl0kDOhFm9ZJh/52MO
- OxzAob9OYqSwJw1ge8th/JBlviEiGh87GBVZ+56Zw0UdzAji3oPgr//C+aO14sstCn
- cKvr7TxKqnWzA8V6FfQjcj5fkX37DDtysL1EGKZTsTk9/yVm1rv8MNF50rVioPXgmA
- aPxMxn3wEWsYQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 3/3] drm/rockchip: Fix return type of
- cdn_dp_connector_mode_valid
-Date: Wed, 21 Sep 2022 11:54:43 -0400
-Message-Id: <20220921155444.235446-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220921155444.235446-1-sashal@kernel.org>
-References: <20220921155444.235446-1-sashal@kernel.org>
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86C1910E2F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 15:58:03 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id s6so9969099lfo.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 08:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=KUDU0doBWvkSMsSeaP+OU5Myg0FSSIaMLAg/J6BRRrQ=;
+ b=slv4NKCqb/zqgJH7M3nKlgQg7LgbWHoZe5T/pPNeRXbgMm/Qwm1EpZb2Eg1Jj44imN
+ aOa5Z2jYm2HUsJlTUGffkoZY2uH5iN46QV2M9/WHIspQnZkFSzrq/J/A95E0j5u69Un9
+ WgekrImX8IUeP0badlm8CQdb6xr4nqTwSoFYDixJMtgXxxpiPsADqp2Zo87pO1ajmG7j
+ mwYzk0CdwztEBK7XiP8IJ25ILOtCQvPtQ2OuMn/A6UJBfH10AebW3WfFwz6AM+PpVLOf
+ EGug1gt+zgiIptzhs/ifeW479thnyoU/Ql+nl9lU5Jfs9jv0p/qf/UE8pmK1VP37MI7K
+ uq+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=KUDU0doBWvkSMsSeaP+OU5Myg0FSSIaMLAg/J6BRRrQ=;
+ b=vXCwHJTfsYSMfy26/fEhZrZPOEZY74epqbVzqTYDeF2UFshbU4iAW3m8GSRoWTStj0
+ NHnnciZJW9DkZPpB13Qh2ymRCg8fZ+4EEfH23+STZm9OWXqQgsc0sOh3ZBSWp0KQArh/
+ EpCQSBz+HkJzMWiTSKup8KYo6xB5WrinEoXetZETaqDhGX+J3Qe0QBJUVz4JmVp0BxwN
+ tBb92WOftACk0Lkr1oprmg15lPD/8CwIsK0sisQyR+h5D0hlNj6z+ObHcanm/xPFE+mv
+ 9cSnMMLuaT6hAaGpfGiJOCdnbkRu2hUpGwaJIc2IQ4UcZqYdH4PoTcjxPOJJTrLlQNLe
+ BGGA==
+X-Gm-Message-State: ACrzQf1CaM9f7vq2dilblJUcH+5jLb0E18zkzZC5IY63JUy9mJ1UiWoP
+ ldY1XHrtdB2dJ/ue77iezIUbig==
+X-Google-Smtp-Source: AMsMyM75m4N7MPBKvWthG+pu/YTa8pTbMdbwS4u/waTgyPE6eW8LRVa+KHqN6TUHDKl7neUPzVouXg==
+X-Received: by 2002:a05:6512:1153:b0:49e:805:b473 with SMTP id
+ m19-20020a056512115300b0049e0805b473mr10515858lfg.450.1663775881892; 
+ Wed, 21 Sep 2022 08:58:01 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ h6-20020a19ca46000000b0048b26d4bb64sm494752lfj.40.2022.09.21.08.58.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Sep 2022 08:58:01 -0700 (PDT)
+Message-ID: <24190160-53f2-810d-bd23-c02958517c80@linaro.org>
+Date: Wed, 21 Sep 2022 17:57:55 +0200
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH V2 2/3] dt-bindings: display: panel: Add NewVision NV3051D
+ bindings
+Content-Language: en-US
+To: Chris Morgan <macromorgan@hotmail.com>
+References: <20220920145905.20595-1-macroalpha82@gmail.com>
+ <20220920145905.20595-3-macroalpha82@gmail.com>
+ <e5de0c74-3ece-56c6-6c31-042e1117c10a@linaro.org>
+ <SN6PR06MB534220AB227AA3BC5DB58741A54F9@SN6PR06MB5342.namprd06.prod.outlook.com>
+ <ff2ee392-0f78-37d4-56b5-443e6e998443@linaro.org>
+ <SN6PR06MB53420E8B1245EDFCB7547C69A54F9@SN6PR06MB5342.namprd06.prod.outlook.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <SN6PR06MB53420E8B1245EDFCB7547C69A54F9@SN6PR06MB5342.namprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,57 +80,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, llvm@lists.linux.dev,
- ndesaulniers@google.com, hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- Nathan Huckleberry <nhuck@google.com>, Nathan Chancellor <nathan@kernel.org>,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Dan Carpenter <error27@gmail.com>
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macroalpha82@gmail.com>, robh+dt@kernel.org,
+ thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Huckleberry <nhuck@google.com>
+On 21/09/2022 17:50, Chris Morgan wrote:
+> On Wed, Sep 21, 2022 at 05:21:19PM +0200, Krzysztof Kozlowski wrote:
+>> On 21/09/2022 16:38, Chris Morgan wrote:
+>>>>> +  compatible:
+>>>>> +    items:
+>>>>> +      - enum:
+>>>>> +          - anbernic,rg353p-panel
+>>>>
+>>>> Are these vendor prefixs documented?
+>>>
+>>> Yes, they are in another patch series referenced in the cover letter.
+>>> They were added for the Anbernic devicetrees and should (I believe)
+>>> land in 6.1.
+>>
+>> OK... you still need to test your bindings. Your patch was clearly not
+>> tested before sending. :(
+> 
+> I did: yamllint, make dt_binding_check (with DT_SCHEMA_FILES specified), and
+> make dtbs_check (with DT_SCHEMA_FILES specified again). 
 
-[ Upstream commit b0b9408f132623dc88e78adb5282f74e4b64bb57 ]
+I have doubts. So if you say you did it, then you probably did not look
+at the results... or whatever other reason the test was not effective,
+because your binding cannot pass the dt_binding_check.
 
-The mode_valid field in drm_connector_helper_funcs is expected to be of
-type:
-enum drm_mode_status (* mode_valid) (struct drm_connector *connector,
-				     struct drm_display_mode *mode);
+> That's the proper
+> testing flow correct? In this case it's the pre-requisite that's causing
+> the issue as I see on a pristine master tree I'm warned about the missing
+> vendor prefix for anbernic. Should I wait for that to go upstream before
+> I submit this again?
 
-The mismatched return type breaks forward edge kCFI since the underlying
-function definition does not match the function hook definition.
+Not really. The testing fails on wrong compatible in example.
 
-The return type of cdn_dp_connector_mode_valid should be changed from
-int to enum drm_mode_status.
-
-Reported-by: Dan Carpenter <error27@gmail.com>
-Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-Cc: llvm@lists.linux.dev
-Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220913205555.155149-1-nhuck@google.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/rockchip/cdn-dp-core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-index 3feab563e50a..3f992e5a75c9 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -284,8 +284,9 @@ static int cdn_dp_connector_get_modes(struct drm_connector *connector)
- 	return ret;
- }
- 
--static int cdn_dp_connector_mode_valid(struct drm_connector *connector,
--				       struct drm_display_mode *mode)
-+static enum drm_mode_status
-+cdn_dp_connector_mode_valid(struct drm_connector *connector,
-+			    struct drm_display_mode *mode)
- {
- 	struct cdn_dp_device *dp = connector_to_dp(connector);
- 	struct drm_display_info *display_info = &dp->connector.display_info;
--- 
-2.35.1
+Best regards,
+Krzysztof
 
