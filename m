@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B435BF9CC
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 10:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352C45BFA31
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 11:07:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 540EE10E2F9;
-	Wed, 21 Sep 2022 08:49:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED1F10E8ED;
+	Wed, 21 Sep 2022 09:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0F210E2F9
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 08:49:34 +0000 (UTC)
-X-UUID: 20cf9df1efb941bb978f518168bb9188-20220921
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID;
- bh=Sd+Fxwzp7bxeXD28OoMGK9mSgc3f6o0UFW/iNLtc8BI=; 
- b=CSJ0NDh69Lvh5yBCzzowyzfIFyXDnRZHZRNlIM+MBi9VBvaGWgcYKzQBH+RFCya/JoFfCqcqM7i9sK3h48j/OUKz34g0rK4RBuQleK/FOJJcFPGDHRazq8DUVjZqDnG1iXUsT7mVzadY2A0aQ8i0tHiXwpA6gaGA1iEnJ7H4hds=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:41914426-8510-42a7-a32e-10054c44b235, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:39a5ff1, CLOUDID:a0a226f7-6e85-48d9-afd8-0504bbfe04cb,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 20cf9df1efb941bb978f518168bb9188-20220921
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw02.mediatek.com (envelope-from <allen-kh.cheng@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2011992881; Wed, 21 Sep 2022 16:49:27 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 21 Sep 2022 16:49:26 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 21 Sep 2022 16:49:26 +0800
-Message-ID: <0bf7b7d5-087b-912e-412e-2b3b742448bd@mediatek.com>
-Date: Wed, 21 Sep 2022 16:49:24 +0800
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3D610E8ED;
+ Wed, 21 Sep 2022 09:06:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663751215; x=1695287215;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=SN/MGj5xb+CypOENK00dMMxkPVB7aukHv887XoAZ79U=;
+ b=GKRJZkh5LOCwS956anMExlK2B9vFq5wR1MagcCi9ZKYIvZoMKQUFlQ7e
+ 0eTg4OcxXVLGAO2wqUATJLivnTgpeHztJcR5ECRxdKuYwhKRtSLzd1eJB
+ wECStQpW/6dlinrvl/PwNscEpzP5D0d60zwDsyMgTwA7QfgKbjCFEHnTH
+ 0wsRk/SJGSi+LaYFz/+F8XvKG+9lAXjVx7XzaJaGHxpCzYRKLGHs970sO
+ PcSVspIhRyvreH+kcmdE2+g7lu5BlxiWYJOIE/nNttnvTbbVeFcnSdvgQ
+ Wqz9Fq9z+bjPIZiviOHhYkZFrnsinQk/tRCoAIR2tK32TkQQ5HvXXoq7B Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="297546371"
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="297546371"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 02:06:52 -0700
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="570454135"
+Received: from jrcarrol-mobl.ger.corp.intel.com (HELO [10.213.205.22])
+ ([10.213.205.22])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 02:06:50 -0700
+Message-ID: <e3e2ebd8-7886-c040-fc56-2be3478fb1dc@linux.intel.com>
+Date: Wed, 21 Sep 2022 10:06:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] drm/mediatek: dsi: Move mtk_dsi_stop() call back to
- mtk_dsi_poweroff()
+ Thunderbird/91.13.0
+Subject: Re: [Intel-gfx] [RFC v4 02/14] drm/i915/vm_bind: Add
+ __i915_sw_fence_await_reservation()
 Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-References: <20220804194325.1596554-1-nfraprado@collabora.com>
- <CAJMQK-hOxxvkjgOxA6KLLUJxxBehHDQvRo-Y_FLMPLEfkoVMzA@mail.gmail.com>
- <227bce07-37cc-da1d-fc99-065a12cdf3f5@collabora.com>
-From: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-In-Reply-To: <227bce07-37cc-da1d-fc99-065a12cdf3f5@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+ <20220921070945.27764-3-niranjana.vishwanathapura@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220921070945.27764-3-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,53 +63,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rex-BC Chen <rex-bc.chen@mediatek.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- Xinlei Lee <xinlei.lee@mediatek.com>
+Cc: daniel.vetter@intel.com, christian.koenig@amd.com,
+ thomas.hellstrom@intel.com, paulo.r.zanoni@intel.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 9/19/22 21:32, AngeloGioacchino Del Regno wrote:
-> Il 19/09/22 10:40, Hsin-Yi Wang ha scritto:
->> On Mon, Sep 19, 2022 at 4:39 PM Nícolas F. R. A. Prado
->> <nfraprado@collabora.com> wrote:
->>>
->>> As the comment right before the mtk_dsi_stop() call advises,
->>> mtk_dsi_stop() should only be called after
->>> mtk_drm_crtc_atomic_disable(). That's because that function calls
->>> drm_crtc_wait_one_vblank(), which requires the vblank irq to be enabled.
->>>
->>> Previously mtk_dsi_stop(), being in mtk_dsi_poweroff() and guarded by a
->>> refcount, would only be called at the end of
->>> mtk_drm_crtc_atomic_disable(), through the call to
->>> mtk_crtc_ddp_hw_fini().
->>> Commit cde7e2e35c28 ("drm/mediatek: Separate poweron/poweroff from
->>> enable/disable and define new funcs") moved the mtk_dsi_stop() call to
->>> mtk_output_dsi_disable(), causing it to be called before
->>> mtk_drm_crtc_atomic_disable(), and consequently generating vblank
->>> timeout warnings during suspend.
->>>
->>> Move the mtk_dsi_stop() call back to mtk_dsi_poweroff() so that we have
->>> a working vblank irq during mtk_drm_crtc_atomic_disable() and stop
->>> getting vblank timeout warnings.
->>>
->>> Fixes: cde7e2e35c28 ("drm/mediatek: Separate poweron/poweroff from
->>> enable/disable and define new funcs")
->>> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->>>
->> Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
->>
+On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
+> Add function __i915_sw_fence_await_reservation() for
+> asynchronous wait on a dma-resv object with specified
+> dma_resv_usage. This is required for async vma unbind
+> with vm_bind.
 > 
-> Reviewed-by: AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> ---
+>   drivers/gpu/drm/i915/i915_sw_fence.c | 25 ++++++++++++++++++-------
+>   drivers/gpu/drm/i915/i915_sw_fence.h |  7 ++++++-
+>   2 files changed, 24 insertions(+), 8 deletions(-)
 > 
-> 
+> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+> index 6fc0d1b89690..0ce8f4efc1ed 100644
+> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
+> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+> @@ -569,12 +569,11 @@ int __i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
+>   	return ret;
+>   }
+>   
+> -int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> -				    struct dma_resv *resv,
+> -				    const struct dma_fence_ops *exclude,
+> -				    bool write,
+> -				    unsigned long timeout,
+> -				    gfp_t gfp)
+> +int __i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> +				      struct dma_resv *resv,
+> +				      enum dma_resv_usage usage,
+> +				      unsigned long timeout,
+> +				      gfp_t gfp)
+>   {
+>   	struct dma_resv_iter cursor;
+>   	struct dma_fence *f;
+> @@ -583,7 +582,7 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>   	debug_fence_assert(fence);
+>   	might_sleep_if(gfpflags_allow_blocking(gfp));
+>   
+> -	dma_resv_iter_begin(&cursor, resv, dma_resv_usage_rw(write));
+> +	dma_resv_iter_begin(&cursor, resv, usage);
+>   	dma_resv_for_each_fence_unlocked(&cursor, f) {
+>   		pending = i915_sw_fence_await_dma_fence(fence, f, timeout,
+>   							gfp);
+> @@ -598,6 +597,18 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>   	return ret;
+>   }
+>   
+> +int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> +				    struct dma_resv *resv,
+> +				    const struct dma_fence_ops *exclude,
+> +				    bool write,
+> +				    unsigned long timeout,
+> +				    gfp_t gfp)
+> +{
+> +	return __i915_sw_fence_await_reservation(fence, resv,
+> +						 dma_resv_usage_rw(write),
+> +						 timeout, gfp);
+> +}
 
-Tested suspend/resume work properly on mt8188 and mt8186  .
+Drive by observation - it looked dodgy that you create a wrapper here 
+which ignores one function parameter.
 
-Tested-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+On a more detailed look it seems no callers actually use exclude and 
+it's even unused inside this function since 1b5bdf071e62 ("drm/i915: use 
+the new iterator in i915_sw_fence_await_reservation v3").
+
+So a cleanup patch before this one?
+
+Regards,
+
+Tvrtko
+
+
+> +
+>   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+>   #include "selftests/lib_sw_fence.c"
+>   #include "selftests/i915_sw_fence.c"
+> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.h b/drivers/gpu/drm/i915/i915_sw_fence.h
+> index 619fc5a22f0c..3cf4b6e16f35 100644
+> --- a/drivers/gpu/drm/i915/i915_sw_fence.h
+> +++ b/drivers/gpu/drm/i915/i915_sw_fence.h
+> @@ -10,13 +10,13 @@
+>   #define _I915_SW_FENCE_H_
+>   
+>   #include <linux/dma-fence.h>
+> +#include <linux/dma-resv.h>
+>   #include <linux/gfp.h>
+>   #include <linux/kref.h>
+>   #include <linux/notifier.h> /* for NOTIFY_DONE */
+>   #include <linux/wait.h>
+>   
+>   struct completion;
+> -struct dma_resv;
+>   struct i915_sw_fence;
+>   
+>   enum i915_sw_fence_notify {
+> @@ -89,6 +89,11 @@ int i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
+>   				  unsigned long timeout,
+>   				  gfp_t gfp);
+>   
+> +int __i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> +				      struct dma_resv *resv,
+> +				      enum dma_resv_usage usage,
+> +				      unsigned long timeout,
+> +				      gfp_t gfp);
+>   int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>   				    struct dma_resv *resv,
+>   				    const struct dma_fence_ops *exclude,
