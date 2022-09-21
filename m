@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C4B5C048E
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 18:47:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB3F5C0494
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 18:49:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF7A210E10E;
-	Wed, 21 Sep 2022 16:47:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC2F10E00F;
+	Wed, 21 Sep 2022 16:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C45E010E10E
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 16:47:25 +0000 (UTC)
-X-UUID: bf5d6c1f19ab4f1a859ed31f237b4d29-20220922
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=F2F19Vqk4oTeChl6tfimZoIWmEP62hPQK3JzSGtep98=; 
- b=E23Y54WTmCJxlqA2sbjDdjVOBjkFNYOsyc6SGBohpKvB6kBQQTvZNZamFOj/mu10XuYvacBRTO21XWRe3TABiZKHpoW672hyp2CDecSJvwr6QFg8QdgclKjlAtbXcR6v9zXQu5h3mTfG59VAAxjZSqeK9Ijq7B0mKtYVShnO8yc=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:decbf236-6c9c-49ab-bf0b-b12fdd3828e0, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:39a5ff1, CLOUDID:a961705e-5ed4-4e28-8b00-66ed9f042fbd,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: bf5d6c1f19ab4f1a859ed31f237b4d29-20220922
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1851693329; Thu, 22 Sep 2022 00:47:19 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 22 Sep 2022 00:47:17 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Thu, 22 Sep 2022 00:47:17 +0800
-Message-ID: <4c9c9ad5b5ab8ce88c28c01832195d196b1ef964.camel@mediatek.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: arm: mediatek: mmsys: change
- compatible for MT8195
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Rob
- Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Date: Thu, 22 Sep 2022 00:47:17 +0800
-In-Reply-To: <29a06da0-ddf5-15eb-ac3d-0bc2e0006ae9@linaro.org>
-References: <20220920140145.19973-1-jason-jh.lin@mediatek.com>
- <20220920140145.19973-2-jason-jh.lin@mediatek.com>
- <65c93c5d-941a-267b-408d-95be83dc2454@linaro.org>
- <8fba20bf37326504b871fb55ce171cd37720a9a0.camel@mediatek.com>
- <29a06da0-ddf5-15eb-ac3d-0bc2e0006ae9@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4983510E00F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 16:49:01 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id z9so4877755qvn.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 09:49:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=3qFaGkY9CCS42x3fMr78U/0joSy0gdPgTA8V50h7rRU=;
+ b=1u+XBVYcMuhXCOltnZH2t3NEcBEY4h4tPHg5wUmKElqO+H3V8Khm0CfoDSumK3/KWr
+ mSx9QOxqdtEfzAZCnP8mPNpef8E7SjOgllOdWcAMQod8u/fMuQF4O6cgjfhC25cjlruT
+ AvH/LnoqRS0/029K+9bmigjZoscgtIPapaw/JbJcs4WM08I3sB9kgvwMxtRVHYCmD709
+ GXPlYKe5Y229K6bff214tnzK1aDWRPOZWJy5DH0z7GzCpmn74gRI/clD/GITZcC3Kw3j
+ NtjVjDR3aYQYjLWitRZke0momwJqy9UwKmUfGBTV+KKflicZz6W+mwW+tp3QMEOTfYRD
+ AJkw==
+X-Gm-Message-State: ACrzQf0fmfi6cJ5A7mb53jAr1vluigDx/4RNUZMzjTWqt7XoyDcn7CEr
+ JokZYQhONQ4qFYdcx81KrAgAvP6Xm29ej3j0
+X-Google-Smtp-Source: AMsMyM4iYm0eOJy1F2nt9zXR1kiCm15sy7OODp+1rPzSLe5B2LBRo9RxVq0POpUXWFRBYnWK3txo6w==
+X-Received: by 2002:a0c:db05:0:b0:4ac:d6ad:379e with SMTP id
+ d5-20020a0cdb05000000b004acd6ad379emr24610773qvk.121.1663778940039; 
+ Wed, 21 Sep 2022 09:49:00 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com.
+ [209.85.219.178]) by smtp.gmail.com with ESMTPSA id
+ s12-20020a05620a0bcc00b006bbe7ded98csm2074339qki.112.2022.09.21.09.48.58
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Sep 2022 09:48:59 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 198so8973600ybc.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 09:48:58 -0700 (PDT)
+X-Received: by 2002:a5b:506:0:b0:6af:ffac:4459 with SMTP id
+ o6-20020a5b0506000000b006afffac4459mr23009053ybp.365.1663778938618; Wed, 21
+ Sep 2022 09:48:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-11-tzimmermann@suse.de>
+ <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
+ <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
+In-Reply-To: <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 21 Sep 2022 18:48:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
+Message-ID: <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
+Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,160 +68,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, deller@gmx.de,
+ linuxppc-dev@lists.ozlabs.org, mark.cave-ayland@ilande.co.uk,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, paulus@samba.org,
+ maxime@cerno.tech, mpe@ellerman.id.au, msuchanek@suse.de, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-09-21 at 08:28 +0200, Krzysztof Kozlowski wrote:
-> On 21/09/2022 06:16, Jason-JH Lin wrote:
-> > Hi Krzysztof,
-> > 
-> > Thanks for the reviews.
-> > 
-> > On Tue, 2022-09-20 at 17:25 +0200, Krzysztof Kozlowski wrote:
-> > > On 20/09/2022 16:01, Jason-JH.Lin wrote:
-> > > > For previous MediaTek SoCs, such as MT8173, there are 2 display
-> > > > HW
-> > > > pipelines binding to 1 mmsys with the same power domain, the
-> > > > same
-> > > > clock driver and the same mediatek-drm driver.
-> > > > 
-> > > > For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines
-> > > > binding
-> > > > to
-> > > > 2 different power domains, different clock drivers and
-> > > > different
-> > > > mediatek-drm drivers.
-> > > > 
-> > > > Moreover, Hardware pipeline of VDOSYS0 has these components:
-> > > > COLOR,
-> > > > CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture
-> > > > Quality)
-> > > > and they makes VDOSYS0 supports PQ function while they are not
-> > > > including in VDOSYS1.
-> > > > 
-> > > > Hardware pipeline of VDOSYS1 has the component ETHDR (HDR
-> > > > related
-> > > > component). It makes VDOSYS1 supports the HDR function while
-> > > > it's
-> > > > not
-> > > > including in VDOSYS0.
-> > > > 
-> > > > To summarize0:
-> > > > Only VDOSYS0 can support PQ adjustment.
-> > > > Only VDOSYS1 can support HDR adjustment.
-> > > > 
-> > > > Therefore, we need to separate these two different mmsys
-> > > > hardwares
-> > > > to
-> > > > 2 different compatibles for MT8195.
-> > > > 
-> > > > Fixes: 81c5a41d10b9 ("dt-bindings: arm: mediatek: mmsys: add
-> > > > mt8195
-> > > > SoC binding")
-> > > > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> > > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > > > ---
-> > > >  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml      
-> > > > | 4
-> > > > ++++
-> > > >  1 file changed, 4 insertions(+)
-> > > > 
-> > > > diff --git
-> > > > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys
-> > > > .yam
-> > > > l
-> > > > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys
-> > > > .yam
-> > > > l
-> > > > index 6ad023eec193..df9184b6772c 100644
-> > > > ---
-> > > > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys
-> > > > .yam
-> > > > l
-> > > > +++
-> > > > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys
-> > > > .yam
-> > > > l
-> > > > @@ -38,6 +38,10 @@ properties:
-> > > >            - const: mediatek,mt7623-mmsys
-> > > >            - const: mediatek,mt2701-mmsys
-> > > >            - const: syscon
-> > > > +      - items:
-> > > > +          - const: mediatek,mt8195-vdosys0
-> > > > +          - const: mediatek,mt8195-mmsys
-> > > > +          - const: syscon
-> > > 
-> > > and why mediatek,mt8195-mmsys is kept as non-deprecated?
-> > 
-> > Shouldn't we keep this for fallback compatible?
-> 
-> I am not talking about it.
-> 
-> > 
-> > I think this items could support the device node like:
-> > foo {
-> >   compatible = "mediatek,mt8195-vdosys0", "mediatek,mt8195-mmsys", 
-> > 	       "syscon";
-> > }
-> > 
-> 
-> Yes, this one ok.
-> 
-> > 
-> > Or should I change the items like this?
-> > - items:
-> >     - const: mediatek,mt8195-vdosys0
-> >     - enum:
-> >         - mediatek,mt8195-mmsys
-> >     - const: syscon
-> > 
-> 
-> No, this does not look correct.
+Hi Thomas,
 
-OK, I'll keep this one:
-- items:
-    - const: mediatek,mt8195-vdosys0
-    - const: mediatek,mt8195-mmsys
-    - const: syscon
+On Wed, Sep 21, 2022 at 2:55 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Am 05.08.22 um 02:19 schrieb Benjamin Herrenschmidt:
+> > On Wed, 2022-07-20 at 16:27 +0200, Thomas Zimmermann wrote:
+> >> +#if !defined(CONFIG_PPC)
+> >> +static inline void out_8(void __iomem *addr, int val)
+> >> +{ }
+> >> +static inline void out_le32(void __iomem *addr, int val)
+> >> +{ }
+> >> +static inline unsigned int in_le32(const void __iomem *addr)
+> >> +{
+> >> +       return 0;
+> >> +}
+> >> +#endif
+> >
+> > These guys could just be replaced with readb/writel/readl respectively
+> > (beware of the argument swap).
+>
+> I only added them for COMPILE_TEST. There appears to be no portable
+> interface that implements out_le32() and in_le32()?
 
-Thanks for the reviews.
+iowrite32() and ioread32()?
 
-> 
-> I asked why do you keep old mediatek,mt8195-mmsys compatible in the
-> same
-> place (the alone one), without making it deprecated?
+Gr{oetje,eeting}s,
 
- - items:
-          - enum:
-              - mediatek,mt2701-mmsys
-              - mediatek,mt2712-mmsys
-              - mediatek,mt6765-mmsys
-              - mediatek,mt6779-mmsys
-              - mediatek,mt6797-mmsys
-              - mediatek,mt8167-mmsys
-              - mediatek,mt8173-mmsys
-              - mediatek,mt8183-mmsys
-              - mediatek,mt8186-mmsys
-              - mediatek,mt8192-mmsys
-              - mediatek,mt8195-mmsys
-Do you mean this one can be deprecated?
-I'm not sure if I should keep this after adding the new item.
-If so, I can remove this at the next version.
+                        Geert
 
-              - mediatek,mt8365-mmsys
-          - const: syscon
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Regards,
-Jason-JH.Lin
-
-> 
-> Best regards,
-> Krzysztof
--- 
-Jason-JH Lin <jason-jh.lin@mediatek.com>
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
