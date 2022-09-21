@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834D65C027E
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:53:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 704975C0286
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 17:54:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B659310E3E2;
-	Wed, 21 Sep 2022 15:53:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B9310E4A1;
+	Wed, 21 Sep 2022 15:53:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A08710E78D
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 15:53:36 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB3310E377;
+ Wed, 21 Sep 2022 15:53:42 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 984A76312C;
- Wed, 21 Sep 2022 15:53:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FAA6C433B5;
- Wed, 21 Sep 2022 15:53:35 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B4835B830CA;
+ Wed, 21 Sep 2022 15:53:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44A66C433D7;
+ Wed, 21 Sep 2022 15:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663775615;
- bh=Jh04ZgCVJUOdoccO5CyvPwcmwvALBeyaIwi9Zen4+4k=;
+ s=k20201202; t=1663775619;
+ bh=HQt0Dir2v/OKPiuSGmulQLZyU2gBxDWR9oKGbTv2oXI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CrxF8zRX5lEK2kpmm//YiWcIHiLwQgQvyaR6CHUU+8AzgtYYIL0OI1hnk8DTNzuwg
- 0Qoo+/PqT6YCT4iHtYWOaMB5WF8PeeVrD+czfSavVWhBdc5hBEFW/R77i7uz6qsAC1
- wrHGaxkn44OtGaceLJkXarNWaAlbBLx35YLVyVrXab7xYuHZiJU0God5JAVDNJElev
- 07uiGTms8oaqYjKMSn/pxQNTyVDYpbknV45nzUbhj/G0FXCuhbW1BG1mIVRXZOCtc0
- 026Rv/zFYsZ7OpYvmQ0lE30Wrkp8fGW+RNzy6DCVTINF2kbhon+JmdriIx1J7NrLxW
- LCCtVJPgZ9Trg==
+ b=o7W0LYQrq9i9Eepr3my4AuGabEw4HpLT3Ps9ZWDylKt94pEMqEpKVm79V4zrMt/xF
+ YA10fRBOEF3CmE24nwNwiAtNvHBDaWFS7BrPKa/1JAJPb1MQo64tGW8hTOdilGB86R
+ 6VlyYoOyraf0Rll5ejhdxOBETi9I7gUZa1iqKclVcn+5T4Y43Zfj2T2Rik+3TdmpYC
+ NteF3TzHPXkAO33nYwaWYRi9IRsnzcSG/wbGSrf/5CFEenZsxu3VKnWw6phVP5jXUI
+ lvVlvmhLUuOCPXbbdi11Eo7Kn0gWdojN8svp9ZIEDa5LWmRt2wW8Qh4SmZbGQkm4tN
+ WSQB9TeTx4j/w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 04/16] drm/gma500: Fix (vblank) IRQs not working
- after suspend/resume
-Date: Wed, 21 Sep 2022 11:53:20 -0400
-Message-Id: <20220921155332.234913-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 06/16] drm/amd/pm: disable BACO entry/exit
+ completely on several sienna cichlid cards
+Date: Wed, 21 Sep 2022 11:53:22 -0400
+Message-Id: <20220921155332.234913-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220921155332.234913-1-sashal@kernel.org>
 References: <20220921155332.234913-1-sashal@kernel.org>
@@ -55,209 +55,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>
+Cc: Sasha Levin <sashal@kernel.org>, sathishkumar.sundararaju@amd.com,
+ Xinhui.Pan@amd.com, Guchun Chen <guchun.chen@amd.com>, airlied@linux.ie,
+ danijel.slivka@amd.com, Lijo Lazar <lijo.lazar@amd.com>,
+ amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
+ Mohammadzafar.ziya@amd.com, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Guchun Chen <guchun.chen@amd.com>
 
-[ Upstream commit 235fdbc32d559db21e580f85035c59372704f09e ]
+[ Upstream commit 7c6fb61a400bf3218c6504cb2d48858f98822c9d ]
 
-Fix gnome-shell (and other page-flip users) hanging after suspend/resume
-because of the gma500's IRQs not working.
+To avoid hardware intermittent failures.
 
-This fixes 2 problems with the IRQ handling:
-
-1. gma_power_off() calls gma_irq_uninstall() which does a free_irq(), but
-   gma_power_on() called gma_irq_preinstall() + gma_irq_postinstall() which
-   do not call request_irq. Replace the pre- + post-install calls with
-   gma_irq_install() which does prep + request + post.
-
-2. After fixing 1. IRQs still do not work on a Packard Bell Dot SC (Intel
-   Atom N2600, cedarview) netbook.
-
-   Cederview uses MSI interrupts and it seems that the BIOS re-configures
-   things back to normal APIC based interrupts during S3 suspend. There is
-   some MSI PCI-config registers save/restore code which tries to deal with
-   this, but on the Packard Bell Dot SC this is not sufficient to restore
-   MSI IRQ functionality after a suspend/resume.
-
-   Replace the PCI-config registers save/restore with pci_disable_msi() on
-   suspend + pci_enable_msi() on resume. Fixing e.g. gnome-shell hanging.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220906203852.527663-4-hdegoede@redhat.com
+Signed-off-by: Guchun Chen <guchun.chen@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/gma500/cdv_device.c      |  4 +---
- drivers/gpu/drm/gma500/oaktrail_device.c |  5 +----
- drivers/gpu/drm/gma500/power.c           |  8 +-------
- drivers/gpu/drm/gma500/psb_drv.c         |  2 +-
- drivers/gpu/drm/gma500/psb_drv.h         |  5 +----
- drivers/gpu/drm/gma500/psb_irq.c         | 15 ++++++++++++---
- drivers/gpu/drm/gma500/psb_irq.h         |  2 +-
- 7 files changed, 18 insertions(+), 23 deletions(-)
+ .../gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
-index dd32b484dd82..ce96234f3df2 100644
---- a/drivers/gpu/drm/gma500/cdv_device.c
-+++ b/drivers/gpu/drm/gma500/cdv_device.c
-@@ -581,11 +581,9 @@ static const struct psb_offset cdv_regmap[2] = {
- static int cdv_chip_setup(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	INIT_WORK(&dev_priv->hotplug_work, cdv_hotplug_work_func);
- 
--	if (pci_enable_msi(pdev))
--		dev_warn(dev->dev, "Enabling MSI failed!\n");
-+	dev_priv->use_msi = true;
- 	dev_priv->regmap = cdv_regmap;
- 	gma_get_core_freq(dev);
- 	psb_intel_opregion_init(dev);
-diff --git a/drivers/gpu/drm/gma500/oaktrail_device.c b/drivers/gpu/drm/gma500/oaktrail_device.c
-index 5923a9c89312..f90e628cb482 100644
---- a/drivers/gpu/drm/gma500/oaktrail_device.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_device.c
-@@ -501,12 +501,9 @@ static const struct psb_offset oaktrail_regmap[2] = {
- static int oaktrail_chip_setup(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int ret;
- 
--	if (pci_enable_msi(pdev))
--		dev_warn(dev->dev, "Enabling MSI failed!\n");
--
-+	dev_priv->use_msi = true;
- 	dev_priv->regmap = oaktrail_regmap;
- 
- 	ret = mid_chip_setup(dev);
-diff --git a/drivers/gpu/drm/gma500/power.c b/drivers/gpu/drm/gma500/power.c
-index b91de6d36e41..66873085d450 100644
---- a/drivers/gpu/drm/gma500/power.c
-+++ b/drivers/gpu/drm/gma500/power.c
-@@ -139,8 +139,6 @@ static void gma_suspend_pci(struct pci_dev *pdev)
- 	dev_priv->regs.saveBSM = bsm;
- 	pci_read_config_dword(pdev, 0xFC, &vbt);
- 	dev_priv->regs.saveVBT = vbt;
--	pci_read_config_dword(pdev, PSB_PCIx_MSI_ADDR_LOC, &dev_priv->msi_addr);
--	pci_read_config_dword(pdev, PSB_PCIx_MSI_DATA_LOC, &dev_priv->msi_data);
- 
- 	pci_disable_device(pdev);
- 	pci_set_power_state(pdev, PCI_D3hot);
-@@ -168,9 +166,6 @@ static bool gma_resume_pci(struct pci_dev *pdev)
- 	pci_restore_state(pdev);
- 	pci_write_config_dword(pdev, 0x5c, dev_priv->regs.saveBSM);
- 	pci_write_config_dword(pdev, 0xFC, dev_priv->regs.saveVBT);
--	/* restoring MSI address and data in PCIx space */
--	pci_write_config_dword(pdev, PSB_PCIx_MSI_ADDR_LOC, dev_priv->msi_addr);
--	pci_write_config_dword(pdev, PSB_PCIx_MSI_DATA_LOC, dev_priv->msi_data);
- 	ret = pci_enable_device(pdev);
- 
- 	if (ret != 0)
-@@ -223,8 +218,7 @@ int gma_power_resume(struct device *_dev)
- 	mutex_lock(&power_mutex);
- 	gma_resume_pci(pdev);
- 	gma_resume_display(pdev);
--	gma_irq_preinstall(dev);
--	gma_irq_postinstall(dev);
-+	gma_irq_install(dev);
- 	mutex_unlock(&power_mutex);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index 1d8744f3e702..54e756b48606 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -383,7 +383,7 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 	PSB_WVDC32(0xFFFFFFFF, PSB_INT_MASK_R);
- 	spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
- 
--	gma_irq_install(dev, pdev->irq);
-+	gma_irq_install(dev);
- 
- 	dev->max_vblank_count = 0xffffff; /* only 24 bits of frame count */
- 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
-index 0ddfec1a0851..4c3fc5eaf6ad 100644
---- a/drivers/gpu/drm/gma500/psb_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_drv.h
-@@ -490,6 +490,7 @@ struct drm_psb_private {
- 	int rpm_enabled;
- 
- 	/* MID specific */
-+	bool use_msi;
- 	bool has_gct;
- 	struct oaktrail_gct_data gct_data;
- 
-@@ -499,10 +500,6 @@ struct drm_psb_private {
- 	/* Register state */
- 	struct psb_save_area regs;
- 
--	/* MSI reg save */
--	uint32_t msi_addr;
--	uint32_t msi_data;
--
- 	/* Hotplug handling */
- 	struct work_struct hotplug_work;
- 
-diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
-index e6e6d61bbeab..038f18ed0a95 100644
---- a/drivers/gpu/drm/gma500/psb_irq.c
-+++ b/drivers/gpu/drm/gma500/psb_irq.c
-@@ -316,17 +316,24 @@ void gma_irq_postinstall(struct drm_device *dev)
- 	spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
- }
- 
--int gma_irq_install(struct drm_device *dev, unsigned int irq)
-+int gma_irq_install(struct drm_device *dev)
- {
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int ret;
- 
--	if (irq == IRQ_NOTCONNECTED)
-+	if (dev_priv->use_msi && pci_enable_msi(pdev)) {
-+		dev_warn(dev->dev, "Enabling MSI failed!\n");
-+		dev_priv->use_msi = false;
-+	}
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+index 32bb6b1d9526..d13e455c8827 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+@@ -368,6 +368,17 @@ static void sienna_cichlid_check_bxco_support(struct smu_context *smu)
+ 		smu_baco->platform_support =
+ 			(val & RCC_BIF_STRAP0__STRAP_PX_CAPABLE_MASK) ? true :
+ 									false;
 +
-+	if (pdev->irq == IRQ_NOTCONNECTED)
- 		return -ENOTCONN;
- 
- 	gma_irq_preinstall(dev);
- 
- 	/* PCI devices require shared interrupts. */
--	ret = request_irq(irq, gma_irq_handler, IRQF_SHARED, dev->driver->name, dev);
-+	ret = request_irq(pdev->irq, gma_irq_handler, IRQF_SHARED, dev->driver->name, dev);
- 	if (ret)
- 		return ret;
- 
-@@ -369,6 +376,8 @@ void gma_irq_uninstall(struct drm_device *dev)
- 	spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
- 
- 	free_irq(pdev->irq, dev);
-+	if (dev_priv->use_msi)
-+		pci_disable_msi(pdev);
++		/*
++		 * Disable BACO entry/exit completely on below SKUs to
++		 * avoid hardware intermittent failures.
++		 */
++		if (((adev->pdev->device == 0x73A1) &&
++		    (adev->pdev->revision == 0x00)) ||
++		    ((adev->pdev->device == 0x73BF) &&
++		    (adev->pdev->revision == 0xCF)))
++			smu_baco->platform_support = false;
++
+ 	}
  }
  
- int gma_crtc_enable_vblank(struct drm_crtc *crtc)
-diff --git a/drivers/gpu/drm/gma500/psb_irq.h b/drivers/gpu/drm/gma500/psb_irq.h
-index b51e395194ff..7648f69824a5 100644
---- a/drivers/gpu/drm/gma500/psb_irq.h
-+++ b/drivers/gpu/drm/gma500/psb_irq.h
-@@ -17,7 +17,7 @@ struct drm_device;
- 
- void gma_irq_preinstall(struct drm_device *dev);
- void gma_irq_postinstall(struct drm_device *dev);
--int  gma_irq_install(struct drm_device *dev, unsigned int irq);
-+int  gma_irq_install(struct drm_device *dev);
- void gma_irq_uninstall(struct drm_device *dev);
- 
- int  gma_crtc_enable_vblank(struct drm_crtc *crtc);
 -- 
 2.35.1
 
