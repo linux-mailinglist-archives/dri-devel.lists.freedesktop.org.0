@@ -2,55 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D326F5BF778
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 09:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D720E5BF780
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Sep 2022 09:20:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 103F210E891;
-	Wed, 21 Sep 2022 07:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7BC510E898;
+	Wed, 21 Sep 2022 07:20:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8876010E8A3;
- Wed, 21 Sep 2022 07:19:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9117810E895;
+ Wed, 21 Sep 2022 07:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663744740; x=1695280740;
+ t=1663744815; x=1695280815;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=HSZTMK+OzgjkkJc46wpoJ6LXz/VcyVp9nJzrHrfVOlE=;
- b=Pgc3hXG3k5dOAxjz6lzAVh+oal3g9B5cZEuqEiefsrQDLO91qpooC8E+
- P1f8WfC/C8VW7AIgxcQMji8KjQwQVOezBDUS6G/OyHmiNP+U7nK18DVg3
- erxcqoMHIwZb5BxVOCzS7dQu/tsxp4Ymi8WfaiReJW2HHRc29IxTNFRU7
- N4XruSgSTWkT4LAt165vaUrTApHkU+tXZVXE2cDm7Eb7b10iVVRwr631x
- Bq2NTIAirxI/sEmj9QgGkmlMBczqfazijzz3o1xp2FMXxSSlyCjrd8uoq
- eptDLdEQsuNBr3VsGnHy8Ph1kkX68v0rMsUNTM/BCHTsh1XHFYIe45Mz8 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="280299082"
-X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="280299082"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ bh=fmK1h7XAM+u25zPQCHqS0RCVXaYDCn9xwyAOuoYh84o=;
+ b=HVjkDaYON9QJNHvOkweoTuXcpJ5YS7re0XpF7sTr8YFLrp1s1NliAHtf
+ qFwUaUhT+PINe6vs9tt/w4mHM7N3nU0QI0q7ro8dtAwfOcRBGJaffuENN
+ aa7tVs356SEYHCZXJv5ZFCDiOyCP5UXFfALjNsYIXLfPVjEcpB2KzB8sR
+ iFMuap6nE4gwQdjcuikcfAR12aTDRO2pmxsuK+NQCWzup7cjm5FYYqvxF
+ Eg73b5q+c47RAFYjZUHDwjVx9bqwhn2jALPuqN48I2iRXGaKrMFmgGCHC
+ 0KM5QnXQbl7KKgNZ0WgtaiRDYu/oCNUCrS7pR63Oi7rYIwuyVvuSimNOY Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="280299357"
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="280299357"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2022 00:18:40 -0700
-X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="723085499"
+ 21 Sep 2022 00:20:15 -0700
+X-IronPort-AV: E=Sophos;i="5.93,332,1654585200"; d="scan'208";a="649937237"
 Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2022 00:18:40 -0700
-Date: Wed, 21 Sep 2022 00:18:16 -0700
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 00:20:14 -0700
+Date: Wed, 21 Sep 2022 00:19:53 -0700
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH v3 10/17] drm/i915/vm_bind: Implement
- I915_GEM_EXECBUFFER3 ioctl
-Message-ID: <20220921071816.GY10283@nvishwa1-DESK>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [RFC PATCH v3 04/17] drm/i915: Implement bind and unbind of object
+Message-ID: <20220921071953.GZ10283@nvishwa1-DESK>
 References: <20220827194403.6495-1-andi.shyti@linux.intel.com>
- <20220827194403.6495-11-andi.shyti@linux.intel.com>
- <8ecb0b8f-f253-1318-444a-8370960c6140@linux.intel.com>
- <20220901050910.GG10283@nvishwa1-DESK>
- <f0ee82ec-03bd-1e02-affe-98f127b2d72a@linux.intel.com>
- <20220902054158.GJ10283@nvishwa1-DESK>
- <c8055bb0-1aee-c6fb-1b59-f1cd36c39a50@linux.intel.com>
+ <20220827194403.6495-5-andi.shyti@linux.intel.com>
+ <874jxc68kl.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c8055bb0-1aee-c6fb-1b59-f1cd36c39a50@linux.intel.com>
+In-Reply-To: <874jxc68kl.fsf@intel.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,178 +59,747 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ramalingam C <ramalingampc2008@gmail.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Hellstrom <thomas.hellstrom@intel.com>,
+Cc: Andi Shyti <andi@etezian.org>, Ramalingam C <ramalingampc2008@gmail.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
  Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 05, 2022 at 04:08:57PM +0100, Tvrtko Ursulin wrote:
->
->On 02/09/2022 06:41, Niranjana Vishwanathapura wrote:
->>On Thu, Sep 01, 2022 at 08:58:57AM +0100, Tvrtko Ursulin wrote:
->>>
->>>
->>>On 01/09/2022 06:09, Niranjana Vishwanathapura wrote:
->>>>On Wed, Aug 31, 2022 at 08:38:48AM +0100, Tvrtko Ursulin wrote:
->>>>>
->>>>>On 27/08/2022 20:43, Andi Shyti wrote:
->>>>>>From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->>>>>>
->>>>>>Implement new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only
->>>>>>works in vm_bind mode. The vm_bind mode only works with
->>>>>>this new execbuf3 ioctl.
->>>>>>
->>>>>>The new execbuf3 ioctl will not have any list of objects to validate
->>>>>>bind as all required objects binding would have been requested by the
->>>>>>userspace before submitting the execbuf3.
->>>>>>
->>>>>>And the legacy support like relocations etc are removed.
->>>>>>
->>>>>>Signed-off-by: Niranjana Vishwanathapura 
->>>>>><niranjana.vishwanathapura@intel.com>
->>>>>>Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
->>>>>>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>>>>>---
->>>
->>>[snip]
->>>
->>>>>>+static void signal_fence_array(const struct i915_execbuffer *eb,
->>>>>>+                   struct dma_fence * const fence)
->>>>>>+{
->>>>>>+    unsigned int n;
->>>>>>+
->>>>>>+    for (n = 0; n < eb->num_fences; n++) {
->>>>>>+        struct drm_syncobj *syncobj;
->>>>>>+        unsigned int flags;
->>>>>>+
->>>>>>+        syncobj = ptr_unpack_bits(eb->fences[n].syncobj, &flags, 2);
->>>>>>+        if (!(flags & I915_TIMELINE_FENCE_SIGNAL))
->>>>>>+            continue;
->>>>>>+
->>>>>>+        if (eb->fences[n].chain_fence) {
->>>>>>+            drm_syncobj_add_point(syncobj,
->>>>>>+                          eb->fences[n].chain_fence,
->>>>>>+                          fence,
->>>>>>+                          eb->fences[n].value);
->>>>>>+            /*
->>>>>>+             * The chain's ownership is transferred to the
->>>>>>+             * timeline.
->>>>>>+             */
->>>>>>+            eb->fences[n].chain_fence = NULL;
->>>>>>+        } else {
->>>>>>+            drm_syncobj_replace_fence(syncobj, fence);
->>>>>>+        }
->>>>>>+    }
->>>>>>+}
->>>>>Semi-random place to ask - how many of the code here is direct 
->>>>>copy of existing functions from i915_gem_execbuffer.c? There 
->>>>>seems to be some 100% copies at least. And then some more with 
->>>>>small tweaks. Spend some time and try to figure out some code 
->>>>>sharing?
->>>>>
->>>>
->>>>During VM_BIND design review, maintainers expressed thought on keeping
->>>>execbuf3 completely separate and not touch the legacy execbuf path.
->>>
->>>Got a link so this maintainer can see what exactly was said? Just 
->>>to make sure there isn't any misunderstanding on what "completely 
->>>separate" means to different people.
+On Mon, Sep 12, 2022 at 04:11:54PM +0300, Jani Nikula wrote:
+>On Sat, 27 Aug 2022, Andi Shyti <andi.shyti@linux.intel.com> wrote:
+>> From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 >>
->>Here is one (search for copypaste/copy-paste)
->>https://patchwork.freedesktop.org/patch/486608/?series=93447&rev=3
->>It is hard to search for old discussion threads. May be maintainers
->>can provide feedback here directly. Dave, Daniel? :)
->
->Thanks. I had a read and don't see a fundamental conflict with what I 
->said. Conclusion seemed to be to go with a new ioctl and implement 
->code sharing where it makes sense. Which is what TODO in the cover 
->letter acknowledges so there should be no disagreement really.
->
->>>>I also think, execbuf3 should be fully separate. We can do some code
->>>>sharing where is a close 100% copy (there is a TODO in cover letter).
->>>>There are some changes like the timeline fence array handling here
->>>>which looks similar, but the uapi is not exactly the same. Probably,
->>>>we should keep them separate and not try to force code sharing at
->>>>least at this point.
->>>
->>>Okay did not spot that TODO in the cover. But fair since it is RFC 
->>>to be unfinished.
->>>
->>>I do however think it should be improved before considering the 
->>>merge. Because looking at the patch, 100% copies are:
->>>
->>>for_each_batch_create_order
->>>for_each_batch_add_order
->>>eb_throttle
->>>eb_pin_timeline
->>>eb_pin_engine
->>>eb_put_engine
->>>__free_fence_array
->>>put_fence_array
->>>await_fence_array
->>>signal_fence_array
->>>retire_requests
->>>eb_request_add
->>>eb_requests_get
->>>eb_requests_put
->>>eb_find_context
->>>
->>>Quite a lot.
->>>
->>>Then there is a bunch of almost same functions which could be 
->>>shared if there weren't two incompatible local struct 
->>>i915_execbuffer's. Especially given when the out fence TODO item 
->>>gets handled a chunk more will also become a 100% copy.
->>>
+>> Implement the bind and unbind of an object at the specified GPU virtual
+>> addresses.
 >>
->>There are difinitely a few which is 100% copies hence should have a
->>shared code.
->>But some are not. Like, fence_array stuff though looks very similar,
->>the uapi structures are different between execbuf3 and legacy execbuf.
->>The internal flags are also different (eg., __EXEC3_ENGINE_PINNED vs
->>__EXEC_ENGINE_PINNED) which causes minor differences hence not a
->>100% copy.
+>> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>> Signed-off-by: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+>> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>> ---
+>>  drivers/gpu/drm/i915/Makefile                 |   1 +
+>>  drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  21 ++
+>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    | 322 ++++++++++++++++++
+>>  drivers/gpu/drm/i915/gt/intel_gtt.c           |  10 +
+>>  drivers/gpu/drm/i915/gt/intel_gtt.h           |   9 +
+>>  drivers/gpu/drm/i915/i915_driver.c            |   1 +
+>>  drivers/gpu/drm/i915/i915_vma.c               |   3 +-
+>>  drivers/gpu/drm/i915/i915_vma.h               |   2 -
+>>  drivers/gpu/drm/i915/i915_vma_types.h         |  14 +
+>>  include/uapi/drm/i915_drm.h                   | 163 +++++++++
+>>  10 files changed, 543 insertions(+), 3 deletions(-)
+>>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+>>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
 >>
->>So, I am not convinced if it is worth carrying legacy stuff into
->>execbuf3 code. I think we need to look at these on a case by case
->>basis and see if abstracting common functionality to a separate
->>shared code makes sense or it is better to keep the code separate.
+>> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+>> index 522ef9b4aff32..4e1627e96c6e0 100644
+>> --- a/drivers/gpu/drm/i915/Makefile
+>> +++ b/drivers/gpu/drm/i915/Makefile
+>> @@ -165,6 +165,7 @@ gem-y += \
+>>  	gem/i915_gem_ttm_move.o \
+>>  	gem/i915_gem_ttm_pm.o \
+>>  	gem/i915_gem_userptr.o \
+>> +	gem/i915_gem_vm_bind_object.o \
+>>  	gem/i915_gem_wait.o \
+>>  	gem/i915_gemfs.o
+>>  i915-y += \
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+>> new file mode 100644
+>> index 0000000000000..ebc493b7dafc1
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+>> @@ -0,0 +1,21 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright © 2022 Intel Corporation
+>> + */
+>> +
+>> +#ifndef __I915_GEM_VM_BIND_H
+>> +#define __I915_GEM_VM_BIND_H
+>> +
+>> +#include "i915_drv.h"
 >
->No one is suggesting to carry any legacy stuff into eb3. What I'd 
->suggest is to start something like i915_gem_eb_common.h|c and stuff 
->the 100% copies from the above list in there.
->
->Common struct eb with struct eb2 and eb3 inheriting from it should do 
->the trick. Similarly eb->flags shouldn't be a hard problem to solve.
->
->Then you see what remains and whether it makes sense to consolidate further.
->
+>Please only include what you need. Here, you'll only need to include
+><linux/types.h> for u64 and bool. For everything else, add forward
+>declarations.
 
-Tvrtko,
+Jani,
 
-I have posted vm_bind v4 rfc series with some code sharing between two
-execbuf paths. My approach was not having to touch legacy execbuff path
-all over the place.
+Thanks. I have posted vm_bind v4 rfc series with your comments
+addressed.
 
 Regards,
 Niranjana
 
->Regards,
 >
->Tvrtko
+>> +
+>> +struct i915_vma *
+>> +i915_gem_vm_bind_lookup_vma(struct i915_address_space *vm, u64 va);
+>> +void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj);
+>> +
+>> +int i915_gem_vm_bind_ioctl(struct drm_device *dev, void *data,
+>> +			   struct drm_file *file);
+>> +int i915_gem_vm_unbind_ioctl(struct drm_device *dev, void *data,
+>> +			     struct drm_file *file);
+>> +
+>> +void i915_gem_vm_unbind_vma_all(struct i915_address_space *vm);
 >
->>>This could be done by having a common struct i915_execbuffer and 
->>>then eb2 and eb3 specific parts which inherit from it. After that 
->>>is done it should be easier to see if it makes sense to do 
->>>something more and how.
+>Blank line here please.
+>
+>> +#endif /* __I915_GEM_VM_BIND_H */
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>> new file mode 100644
+>> index 0000000000000..dadd1d4b1761b
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>> @@ -0,0 +1,322 @@
+>> +// SPDX-License-Identifier: MIT
+>> +/*
+>> + * Copyright © 2022 Intel Corporation
+>> + */
+>> +
+>> +#include <linux/interval_tree_generic.h>
+>> +
+>> +#include "gem/i915_gem_vm_bind.h"
+>> +#include "gem/i915_gem_context.h"
+>> +#include "gt/gen8_engine_cs.h"
+>> +
+>> +#include "i915_drv.h"
+>> +#include "i915_gem_gtt.h"
+>> +
+>> +#define START(node) ((node)->start)
+>> +#define LAST(node) ((node)->last)
+>> +
+>> +INTERVAL_TREE_DEFINE(struct i915_vma, rb, u64, __subtree_last,
+>> +		     START, LAST, static inline, i915_vm_bind_it)
+>> +
+>> +#undef START
+>> +#undef LAST
+>> +
+>> +/**
+>> + * DOC: VM_BIND/UNBIND ioctls
+>> + *
+>> + * DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM buffer
+>> + * objects (BOs) or sections of a BOs at specified GPU virtual addresses on a
+>> + * specified address space (VM). Multiple mappings can map to the same physical
+>> + * pages of an object (aliasing). These mappings (also referred to as persistent
+>> + * mappings) will be persistent across multiple GPU submissions (execbuf calls)
+>> + * issued by the UMD, without user having to provide a list of all required
+>> + * mappings during each submission (as required by older execbuf mode).
+>> + *
+>> + * The VM_BIND/UNBIND calls allow UMDs to request a timeline out fence for
+>> + * signaling the completion of bind/unbind operation.
+>> + *
+>> + * VM_BIND feature is advertised to user via I915_PARAM_VM_BIND_VERSION.
+>> + * User has to opt-in for VM_BIND mode of binding for an address space (VM)
+>> + * during VM creation time via I915_VM_CREATE_FLAGS_USE_VM_BIND extension.
+>> + *
+>> + * VM_BIND/UNBIND ioctl calls executed on different CPU threads concurrently
+>> + * are not ordered. Furthermore, parts of the VM_BIND/UNBIND operations can be
+>> + * done asynchronously, when valid out fence is specified.
+>> + *
+>> + * VM_BIND locking order is as below.
+>> + *
+>> + * 1) vm_bind_lock mutex will protect vm_bind lists. This lock is taken in
+>> + *    vm_bind/vm_unbind ioctl calls, in the execbuf path and while releasing the
+>> + *    mapping.
+>> + *
+>> + *    In future, when GPU page faults are supported, we can potentially use a
+>> + *    rwsem instead, so that multiple page fault handlers can take the read
+>> + *    side lock to lookup the mapping and hence can run in parallel.
+>> + *    The older execbuf mode of binding do not need this lock.
+>> + *
+>> + * 2) The object's dma-resv lock will protect i915_vma state and needs
+>> + *    to be held while binding/unbinding a vma in the async worker and while
+>> + *    updating dma-resv fence list of an object. Note that private BOs of a VM
+>> + *    will all share a dma-resv object.
+>> + *
+>> + * 3) Spinlock/s to protect some of the VM's lists like the list of
+>> + *    invalidated vmas (due to eviction and userptr invalidation) etc.
+>> + */
+>> +
+>> +/**
+>> + * i915_gem_vm_bind_lookup_vma() - lookup for the vma with a starting addr
+>> + * @vm: virtual address space in which vma needs to be looked for
+>> + * @va: starting addr of the vma
+>> + *
+>> + * retrieves the vma with a starting address from the vm's vma tree.
+>> + *
+>> + * Returns: returns vma on success, NULL on failure.
+>> + */
+>> +struct i915_vma *
+>> +i915_gem_vm_bind_lookup_vma(struct i915_address_space *vm, u64 va)
+>> +{
+>> +	lockdep_assert_held(&vm->vm_bind_lock);
+>> +
+>> +	return i915_vm_bind_it_iter_first(&vm->va, va, va);
+>> +}
+>> +
+>> +/**
+>> + * i915_gem_vm_bind_remove() - Remove vma from the vm bind list
+>> + * @vma: vma that needs to be removed
+>> + * @release_obj: object to be release or not
+>> + *
+>> + * Removes the vma from the vm's lists custom interval tree
+>> + */
+>> +void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
+>> +{
+>> +	lockdep_assert_held(&vma->vm->vm_bind_lock);
+>> +
+>> +	if (!list_empty(&vma->vm_bind_link)) {
+>> +		list_del_init(&vma->vm_bind_link);
+>> +		i915_vm_bind_it_remove(vma, &vma->vm->va);
+>> +
+>> +		/* Release object */
+>> +		if (release_obj)
+>> +			i915_gem_object_put(vma->obj);
+>> +	}
+>> +}
+>> +
+>> +static int i915_gem_vm_unbind_vma(struct i915_address_space *vm,
+>> +				  struct i915_vma *vma,
+>> +				  struct drm_i915_gem_vm_unbind *va)
+>> +{
+>> +	struct drm_i915_gem_object *obj;
+>> +	int ret;
+>> +
+>> +	if (vma) {
+>> +		obj = vma->obj;
+>> +		i915_vma_destroy(vma);
+>> +
+>> +		goto exit;
+>> +	}
+>> +
+>> +	if (!va)
+>> +		return -EINVAL;
+>> +
+>> +	ret = mutex_lock_interruptible(&vm->vm_bind_lock);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	va->start = gen8_noncanonical_addr(va->start);
+>> +	vma = i915_gem_vm_bind_lookup_vma(vm, va->start);
+>> +
+>> +	if (!vma)
+>> +		ret = -ENOENT;
+>> +	else if (vma->size != va->length)
+>> +		ret = -EINVAL;
+>> +
+>> +	if (ret) {
+>> +		mutex_unlock(&vm->vm_bind_lock);
+>> +		return ret;
+>> +	}
+>> +
+>> +	i915_gem_vm_bind_remove(vma, false);
+>> +
+>> +	mutex_unlock(&vm->vm_bind_lock);
+>> +
+>> +	/* Destroy vma and then release object */
+>> +	obj = vma->obj;
+>> +	ret = i915_gem_object_lock(obj, NULL);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	i915_vma_destroy(vma);
+>> +	i915_gem_object_unlock(obj);
+>> +
+>> +exit:
+>> +	i915_gem_object_put(obj);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +/**
+>> + * i915_gem_vm_unbind_vma_all() - Unbind all vmas from an address space
+>> + * @vm: Address spece from which vma binding needs to be removed
+>> + *
+>> + * Unbind all userspace requested object binding
+>> + */
+>> +void i915_gem_vm_unbind_vma_all(struct i915_address_space *vm)
+>> +{
+>> +	struct i915_vma *vma, *t;
+>> +
+>> +	list_for_each_entry_safe(vma, t, &vm->vm_bound_list, vm_bind_link)
+>> +		WARN_ON(i915_gem_vm_unbind_vma(vm, vma, NULL));
+>> +}
+>> +
+>> +static struct i915_vma *vm_bind_get_vma(struct i915_address_space *vm,
+>> +					struct drm_i915_gem_object *obj,
+>> +					struct drm_i915_gem_vm_bind *va)
+>> +{
+>> +	struct i915_ggtt_view view;
+>> +	struct i915_vma *vma;
+>> +
+>> +	va->start = gen8_noncanonical_addr(va->start);
+>> +	vma = i915_gem_vm_bind_lookup_vma(vm, va->start);
+>> +	if (vma)
+>> +		return ERR_PTR(-EEXIST);
+>> +
+>> +	view.type = I915_GGTT_VIEW_PARTIAL;
+>> +	view.partial.offset = va->offset >> PAGE_SHIFT;
+>> +	view.partial.size = va->length >> PAGE_SHIFT;
+>> +	vma = i915_vma_instance(obj, vm, &view);
+>> +	if (IS_ERR(vma))
+>> +		return vma;
+>> +
+>> +	vma->start = va->start;
+>> +	vma->last = va->start + va->length - 1;
+>> +
+>> +	return vma;
+>> +}
+>> +
+>> +static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+>> +				struct drm_i915_gem_vm_bind *va,
+>> +				struct drm_file *file)
+>> +{
+>> +	struct drm_i915_gem_object *obj;
+>> +	struct i915_vma *vma = NULL;
+>> +	struct i915_gem_ww_ctx ww;
+>> +	u64 pin_flags;
+>> +	int ret = 0;
+>> +
+>> +	if (!vm->vm_bind_mode)
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	obj = i915_gem_object_lookup(file, va->handle);
+>> +	if (!obj)
+>> +		return -ENOENT;
+>> +
+>> +	if (!va->length ||
+>> +	    !IS_ALIGNED(va->offset | va->length,
+>> +			i915_gem_object_max_page_size(obj->mm.placements,
+>> +						      obj->mm.n_placements)) ||
+>> +	    range_overflows_t(u64, va->offset, va->length, obj->base.size)) {
+>> +		ret = -EINVAL;
+>> +		goto put_obj;
+>> +	}
+>> +
+>> +	ret = mutex_lock_interruptible(&vm->vm_bind_lock);
+>> +	if (ret)
+>> +		goto put_obj;
+>> +
+>> +	vma = vm_bind_get_vma(vm, obj, va);
+>> +	if (IS_ERR(vma)) {
+>> +		ret = PTR_ERR(vma);
+>> +		goto unlock_vm;
+>> +	}
+>> +
+>> +	for_i915_gem_ww(&ww, ret, true) {
+>> +retry:
+>> +		ret = i915_gem_object_lock(vma->obj, &ww);
+>> +		if (ret)
+>> +			goto out_ww;
+>> +
+>> +		ret = i915_vma_pin_ww(vma, &ww, 0, 0, pin_flags);
+>> +		if (ret)
+>> +			goto out_ww;
+>> +
+>> +		/* Make it evictable */
+>> +		__i915_vma_unpin(vma);
+>> +
+>> +		list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
+>> +		i915_vm_bind_it_insert(vma, &vm->va);
+>> +
+>> +out_ww:
+>> +		if (ret == -EDEADLK) {
+>> +			ret = i915_gem_ww_ctx_backoff(&ww);
+>> +			if (!ret)
+>> +				goto retry;
+>> +		} else {
+>> +			/* Hold object reference until vm_unbind */
+>> +			i915_gem_object_get(vma->obj);
+>> +		}
+>> +	}
+>> +
+>> +unlock_vm:
+>> +	mutex_unlock(&vm->vm_bind_lock);
+>> +
+>> +put_obj:
+>> +	i915_gem_object_put(obj);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +/**
+>> + * i915_gem_vm_bind_ioctl() - ioctl function for binding an obj into
+>> + * virtual address
+>> + * @dev: drm device associated to the virtual address
+>> + * @data: data related to the vm bind required
+>> + * @file: drm_file related to he ioctl
+>> + *
+>> + * Implements a function to bind the object into the virtual address
+>> + *
+>> + * Returns 0 on success, error code on failure.
+>> + */
+>> +int i915_gem_vm_bind_ioctl(struct drm_device *dev, void *data,
+>> +			   struct drm_file *file)
+>> +{
+>> +	struct drm_i915_gem_vm_bind *args = data;
+>> +	struct i915_address_space *vm;
+>> +	int ret;
+>> +
+>> +	vm = i915_gem_vm_lookup(file->driver_priv, args->vm_id);
+>> +	if (unlikely(!vm))
+>> +		return -ENOENT;
+>> +
+>> +	ret = i915_gem_vm_bind_obj(vm, args, file);
+>> +
+>> +	i915_vm_put(vm);
+>> +	return ret;
+>> +}
+>> +
+>> +/**
+>> + * i915_gem_vm_unbind_ioctl() - ioctl function for unbinding an obj from
+>> + * virtual address
+>> + * @dev: drm device associated to the virtual address
+>> + * @data: data related to the binding that needs to be unbinded
+>> + * @file: drm_file related to the ioctl
+>> + *
+>> + * Implements a function to unbind the object from the virtual address
+>> + *
+>> + * Returns 0 on success, error code on failure.
+>> + */
+>> +int i915_gem_vm_unbind_ioctl(struct drm_device *dev, void *data,
+>> +			     struct drm_file *file)
+>> +{
+>> +	struct drm_i915_gem_vm_unbind *args = data;
+>> +	struct i915_address_space *vm;
+>> +	int ret;
+>> +
+>> +	vm = i915_gem_vm_lookup(file->driver_priv, args->vm_id);
+>> +	if (unlikely(!vm))
+>> +		return -ENOENT;
+>> +
+>> +	ret = i915_gem_vm_unbind_vma(vm, NULL, args);
+>> +
+>> +	i915_vm_put(vm);
+>> +	return ret;
+>> +}
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> index b67831833c9a3..cb188377b7bd9 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> @@ -12,6 +12,7 @@
 >>
->>I am not a big fan of it. I think we should not try to load the execbuf3
->>code with the legacy stuff.
+>>  #include "gem/i915_gem_internal.h"
+>>  #include "gem/i915_gem_lmem.h"
+>> +#include "gem/i915_gem_vm_bind.h"
+>>  #include "i915_trace.h"
+>>  #include "i915_utils.h"
+>>  #include "intel_gt.h"
+>> @@ -176,6 +177,8 @@ int i915_vm_lock_objects(struct i915_address_space *vm,
+>>  void i915_address_space_fini(struct i915_address_space *vm)
+>>  {
+>>  	drm_mm_takedown(&vm->mm);
+>> +	GEM_BUG_ON(!RB_EMPTY_ROOT(&vm->va.rb_root));
+>> +	mutex_destroy(&vm->vm_bind_lock);
+>>  }
 >>
->>Niranjana
+>>  /**
+>> @@ -204,6 +207,8 @@ static void __i915_vm_release(struct work_struct *work)
 >>
->>>
->>>Regards,
->>>
->>>Tvrtko
+>>  	__i915_vm_close(vm);
+>>
+>> +	i915_gem_vm_unbind_vma_all(vm);
+>> +
+>>  	/* Synchronize async unbinds. */
+>>  	i915_vma_resource_bind_dep_sync_all(vm);
+>>
+>> @@ -282,6 +287,11 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
+>>
+>>  	INIT_LIST_HEAD(&vm->bound_list);
+>>  	INIT_LIST_HEAD(&vm->unbound_list);
+>> +
+>> +	vm->va = RB_ROOT_CACHED;
+>> +	INIT_LIST_HEAD(&vm->vm_bind_list);
+>> +	INIT_LIST_HEAD(&vm->vm_bound_list);
+>> +	mutex_init(&vm->vm_bind_lock);
+>>  }
+>>
+>>  void *__px_vaddr(struct drm_i915_gem_object *p)
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>> index da21088890b3b..06a259475816b 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>> @@ -259,6 +259,15 @@ struct i915_address_space {
+>>  	 */
+>>  	struct list_head unbound_list;
+>>
+>> +	/** @vm_bind_lock: Mutex to protect @vm_bind_list and @vm_bound_list */
+>> +	struct mutex vm_bind_lock;
+>> +	/** @vm_bind_list: List of vm_binding in process */
+>> +	struct list_head vm_bind_list;
+>> +	/** @vm_bound_list: List of vm_binding completed */
+>> +	struct list_head vm_bound_list;
+>> +	/* @va: tree of persistent vmas */
+>> +	struct rb_root_cached va;
+>> +
+>>  	/* Global GTT */
+>>  	bool is_ggtt:1;
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+>> index 1332c70370a68..9a9010fd9ecfa 100644
+>> --- a/drivers/gpu/drm/i915/i915_driver.c
+>> +++ b/drivers/gpu/drm/i915/i915_driver.c
+>> @@ -68,6 +68,7 @@
+>>  #include "gem/i915_gem_ioctls.h"
+>>  #include "gem/i915_gem_mman.h"
+>>  #include "gem/i915_gem_pm.h"
+>> +#include "gem/i915_gem_vm_bind.h"
+>
+>Why do you add this here if you don't use it for anything?
+>
+>>  #include "gt/intel_gt.h"
+>>  #include "gt/intel_gt_pm.h"
+>>  #include "gt/intel_rc6.h"
+>> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+>> index 2603717164900..092ae4309d8a1 100644
+>> --- a/drivers/gpu/drm/i915/i915_vma.c
+>> +++ b/drivers/gpu/drm/i915/i915_vma.c
+>> @@ -29,6 +29,7 @@
+>>  #include "display/intel_frontbuffer.h"
+>>  #include "gem/i915_gem_lmem.h"
+>>  #include "gem/i915_gem_tiling.h"
+>> +#include "gem/i915_gem_vm_bind.h"
+>>  #include "gt/intel_engine.h"
+>>  #include "gt/intel_engine_heartbeat.h"
+>>  #include "gt/intel_gt.h"
+>> @@ -234,6 +235,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>>  	spin_unlock(&obj->vma.lock);
+>>  	mutex_unlock(&vm->mutex);
+>>
+>> +	INIT_LIST_HEAD(&vma->vm_bind_link);
+>>  	return vma;
+>>
+>>  err_unlock:
+>> @@ -290,7 +292,6 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
+>>  {
+>>  	struct i915_vma *vma;
+>>
+>> -	GEM_BUG_ON(view && !i915_is_ggtt_or_dpt(vm));
+>>  	GEM_BUG_ON(!kref_read(&vm->ref));
+>>
+>>  	spin_lock(&obj->vma.lock);
+>> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+>> index 33a58f605d75c..15eac55a3e274 100644
+>> --- a/drivers/gpu/drm/i915/i915_vma.h
+>> +++ b/drivers/gpu/drm/i915/i915_vma.h
+>> @@ -164,8 +164,6 @@ i915_vma_compare(struct i915_vma *vma,
+>>  {
+>>  	ptrdiff_t cmp;
+>>
+>> -	GEM_BUG_ON(view && !i915_is_ggtt_or_dpt(vm));
+>> -
+>>  	cmp = ptrdiff(vma->vm, vm);
+>>  	if (cmp)
+>>  		return cmp;
+>> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+>> index be6e028c3b57d..f746fecae85ed 100644
+>> --- a/drivers/gpu/drm/i915/i915_vma_types.h
+>> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
+>> @@ -289,6 +289,20 @@ struct i915_vma {
+>>  	/** This object's place on the active/inactive lists */
+>>  	struct list_head vm_link;
+>>
+>> +	/** @vm_bind_link: node for the vm_bind related lists of vm */
+>> +	struct list_head vm_bind_link;
+>> +
+>> +	/** Interval tree structures for persistent vma */
+>> +
+>> +	/** @rb: node for the interval tree of vm for persistent vmas */
+>> +	struct rb_node rb;
+>> +	/** @start: start endpoint of the rb node */
+>> +	u64 start;
+>> +	/** @last: Last endpoint of the rb node */
+>> +	u64 last;
+>> +	/** @__subtree_last: last in subtree */
+>> +	u64 __subtree_last;
+>> +
+>>  	struct list_head obj_link; /* Link in the object's VMA list */
+>>  	struct rb_node obj_node;
+>>  	struct hlist_node obj_hash;
+>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>> index 12435db751eb8..3da0e07f84bbd 100644
+>> --- a/include/uapi/drm/i915_drm.h
+>> +++ b/include/uapi/drm/i915_drm.h
+>> @@ -1507,6 +1507,41 @@ struct drm_i915_gem_execbuffer2 {
+>>  #define i915_execbuffer2_get_context_id(eb2) \
+>>  	((eb2).rsvd1 & I915_EXEC_CONTEXT_ID_MASK)
+>>
+>> +/**
+>> + * struct drm_i915_gem_timeline_fence - An input or output timeline fence.
+>> + *
+>> + * The operation will wait for input fence to signal.
+>> + *
+>> + * The returned output fence will be signaled after the completion of the
+>> + * operation.
+>> + */
+>> +struct drm_i915_gem_timeline_fence {
+>> +	/** @handle: User's handle for a drm_syncobj to wait on or signal. */
+>> +	__u32 handle;
+>> +
+>> +	/**
+>> +	 * @flags: Supported flags are:
+>> +	 *
+>> +	 * I915_TIMELINE_FENCE_WAIT:
+>> +	 * Wait for the input fence before the operation.
+>> +	 *
+>> +	 * I915_TIMELINE_FENCE_SIGNAL:
+>> +	 * Return operation completion fence as output.
+>> +	 */
+>> +	__u32 flags;
+>> +#define I915_TIMELINE_FENCE_WAIT            (1 << 0)
+>> +#define I915_TIMELINE_FENCE_SIGNAL          (1 << 1)
+>> +#define __I915_TIMELINE_FENCE_UNKNOWN_FLAGS (-(I915_TIMELINE_FENCE_SIGNAL << 1))
+>> +
+>> +	/**
+>> +	 * @value: A point in the timeline.
+>> +	 * Value must be 0 for a binary drm_syncobj. A Value of 0 for a
+>> +	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
+>> +	 * binary one.
+>> +	 */
+>> +	__u64 value;
+>> +};
+>> +
+>>  struct drm_i915_gem_pin {
+>>  	/** Handle of the buffer to be pinned. */
+>>  	__u32 handle;
+>> @@ -3718,6 +3753,134 @@ struct drm_i915_gem_create_ext_protected_content {
+>>  /* ID of the protected content session managed by i915 when PXP is active */
+>>  #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
+>>
+>> +/**
+>> + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
+>> + *
+>> + * This structure is passed to VM_BIND ioctl and specifies the mapping of GPU
+>> + * virtual address (VA) range to the section of an object that should be bound
+>> + * in the device page table of the specified address space (VM).
+>> + * The VA range specified must be unique (ie., not currently bound) and can
+>> + * be mapped to whole object or a section of the object (partial binding).
+>> + * Multiple VA mappings can be created to the same section of the object
+>> + * (aliasing).
+>> + *
+>> + * The @start, @offset and @length must be 4K page aligned. However the DG2
+>> + * and XEHPSDV has 64K page size for device local memory and has compact page
+>> + * table. On those platforms, for binding device local-memory objects, the
+>> + * @start, @offset and @length must be 64K aligned. Also, UMDs should not mix
+>> + * the local memory 64K page and the system memory 4K page bindings in the same
+>> + * 2M range.
+>> + *
+>> + * Error code -EINVAL will be returned if @start, @offset and @length are not
+>> + * properly aligned. In version 1 (See I915_PARAM_VM_BIND_VERSION), error code
+>> + * -ENOSPC will be returned if the VA range specified can't be reserved.
+>> + *
+>> + * VM_BIND/UNBIND ioctl calls executed on different CPU threads concurrently
+>> + * are not ordered. Furthermore, parts of the VM_BIND operation can be done
+>> + * asynchronously, if valid @fence is specified.
+>> + */
+>> +struct drm_i915_gem_vm_bind {
+>> +	/** @vm_id: VM (address space) id to bind */
+>> +	__u32 vm_id;
+>> +
+>> +	/** @handle: Object handle */
+>> +	__u32 handle;
+>> +
+>> +	/** @start: Virtual Address start to bind */
+>> +	__u64 start;
+>> +
+>> +	/** @offset: Offset in object to bind */
+>> +	__u64 offset;
+>> +
+>> +	/** @length: Length of mapping to bind */
+>> +	__u64 length;
+>> +
+>> +	/**
+>> +	 * @flags: Currently reserved, MBZ.
+>> +	 *
+>> +	 * Note that @fence carries its own flags.
+>> +	 */
+>> +	__u64 flags;
+>> +
+>> +	/**
+>> +	 * @fence: Timeline fence for bind completion signaling.
+>> +	 *
+>> +	 * Timeline fence is of format struct drm_i915_gem_timeline_fence.
+>> +	 *
+>> +	 * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
+>> +	 * is invalid, and an error will be returned.
+>> +	 *
+>> +	 * If I915_TIMELINE_FENCE_SIGNAL flag is not set, then out fence
+>> +	 * is not requested and binding is completed synchronously.
+>> +	 */
+>> +	struct drm_i915_gem_timeline_fence fence;
+>> +
+>> +	/**
+>> +	 * @extensions: Zero-terminated chain of extensions.
+>> +	 *
+>> +	 * For future extensions. See struct i915_user_extension.
+>> +	 */
+>> +	__u64 extensions;
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
+>> + *
+>> + * This structure is passed to VM_UNBIND ioctl and specifies the GPU virtual
+>> + * address (VA) range that should be unbound from the device page table of the
+>> + * specified address space (VM). VM_UNBIND will force unbind the specified
+>> + * range from device page table without waiting for any GPU job to complete.
+>> + * It is UMDs responsibility to ensure the mapping is no longer in use before
+>> + * calling VM_UNBIND.
+>> + *
+>> + * If the specified mapping is not found, the ioctl will simply return without
+>> + * any error.
+>> + *
+>> + * VM_BIND/UNBIND ioctl calls executed on different CPU threads concurrently
+>> + * are not ordered. Furthermore, parts of the VM_UNBIND operation can be done
+>> + * asynchronously, if valid @fence is specified.
+>> + */
+>> +struct drm_i915_gem_vm_unbind {
+>> +	/** @vm_id: VM (address space) id to bind */
+>> +	__u32 vm_id;
+>> +
+>> +	/** @rsvd: Reserved, MBZ */
+>> +	__u32 rsvd;
+>> +
+>> +	/** @start: Virtual Address start to unbind */
+>> +	__u64 start;
+>> +
+>> +	/** @length: Length of mapping to unbind */
+>> +	__u64 length;
+>> +
+>> +	/**
+>> +	 * @flags: Currently reserved, MBZ.
+>> +	 *
+>> +	 * Note that @fence carries its own flags.
+>> +	 */
+>> +	__u64 flags;
+>> +
+>> +	/**
+>> +	 * @fence: Timeline fence for unbind completion signaling.
+>> +	 *
+>> +	 * Timeline fence is of format struct drm_i915_gem_timeline_fence.
+>> +	 *
+>> +	 * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
+>> +	 * is invalid, and an error will be returned.
+>> +	 *
+>> +	 * If I915_TIMELINE_FENCE_SIGNAL flag is not set, then out fence
+>> +	 * is not requested and unbinding is completed synchronously.
+>> +	 */
+>> +	struct drm_i915_gem_timeline_fence fence;
+>> +
+>> +	/**
+>> +	 * @extensions: Zero-terminated chain of extensions.
+>> +	 *
+>> +	 * For future extensions. See struct i915_user_extension.
+>> +	 */
+>> +	__u64 extensions;
+>> +};
+>> +
+>>  #if defined(__cplusplus)
+>>  }
+>>  #endif
+>
+>-- 
+>Jani Nikula, Intel Open Source Graphics Center
