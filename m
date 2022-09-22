@@ -1,72 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8185E5935
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 05:11:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0435E5926
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 05:11:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F115D10EA4B;
-	Thu, 22 Sep 2022 03:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1634A10EA46;
+	Thu, 22 Sep 2022 03:10:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACA1810E025
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 03:10:24 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id d82so7924329pfd.10
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 20:10:24 -0700 (PDT)
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E07810EA40
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 03:10:27 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id w13so7558354plp.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 20:10:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=kaPCbEUam/i/QzM3EsiD/q7EbxvCz2hqpx3qsHkAHe4=;
- b=n3JitkeKKUUxbz6yn64Uwj1L8NZF8ivw+xHJGwLWPTznbBHC9NKX5oIDtTPO2BaSLc
- 93ZTFQf3icolOuiYEksXgK7g/tzg0rkadZNBpMtyblAayJyXz59n3d2igSogXrXOJeEu
- gpFsv/wtpmyI2nisZWM6BTAhUm+uMJ0L5a/t4=
+ bh=rwUBwzi7xfMGM3gnlz2nJv+3JsC676oosCJWmNEJmq8=;
+ b=HOmSehjQy+kC6oCpZ6SUxpIPlijDlparMa9cZ7awXPTJLs7/4j0owgFxRWDzn2zsIB
+ IAG9YOoiEmpC79+56phr0pTunmEY9rE4X71d6vAGzfT6Uf9X4Z+qt1yXQHhb3bWLA/Uv
+ Cx/HPbXhrdOJJX9w53uN9mKOp6WP5Gv2LT5oo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=kaPCbEUam/i/QzM3EsiD/q7EbxvCz2hqpx3qsHkAHe4=;
- b=L6u95xQQ09WervNU1aoLCDz3Sut9RSrq/iOucot0JYkBfF3QvGI/sSm0YQVEDWnuXz
- MlSN5rFiqkwkHCFtcZA5cU7RGRK0Sab7wMwHTPM7a8+lw/35qqKvjwgO7711ur45edin
- PPxHol5BuOZPvaaaOpAsKLZxJPRN+7jnP3z86lGWaAX5gYvimLoaPCFbhKJaLVjRTpGP
- isoryrwqJ0SjQDZk1hpi9GUiaIjZD32M1jfTXvQPI8iH/gnIkfBSvI2DHhwmgOBu2Xdw
- h2ND7DT+/MqEkIn+p17ovCh4BKILaCW/a6xf9NdQ7sqfTR310GYaLsvnMN8tF75dVTcM
- EsLw==
-X-Gm-Message-State: ACrzQf0ZcTqLErYNEbNpzPOQ86pvrloru+OikPv/65PDA8ZmIA0HFWqa
- j2TWzQx0awv3VWIc3iIm9Cd9fQ==
-X-Google-Smtp-Source: AMsMyM6cFS7tDGVCwJ0vHG2t9zSWZS1Eoi8Welusn2TdzO1FITGlKW23X2CzrnylSu9gzNhY4M5M0Q==
-X-Received: by 2002:a05:6a00:c91:b0:540:f165:b049 with SMTP id
- a17-20020a056a000c9100b00540f165b049mr1383264pfv.76.1663816224094; 
- Wed, 21 Sep 2022 20:10:24 -0700 (PDT)
+ bh=rwUBwzi7xfMGM3gnlz2nJv+3JsC676oosCJWmNEJmq8=;
+ b=SSdyEhA4KpkZ+24eOYNbK8WQ3xMfonXzB47t6MU2LlCDJu+RqDdt4GK1IBO0JT8eS/
+ aoMsvojbJYUoSExsYOQiNiMxv+56afkioPJsbfdUSTJubmPwJK3sb6MeK0LCAYkYShtZ
+ BRjfjHZHgoc7ABQRLyHazO+ew655RVESxgQsBdWvXK5bYy1AgJxMjgDaIIIQ5vxA7waX
+ xFGIXr0YoOzzjMjDy0yWVJEy4Hxk/MaWeE/fzgK0eUpm3NWaMZrxYP75wqDbfgaqRajA
+ ZadMm2ZROMlHglbEwzOpN1Wq9HGo2cItnrEe9Wcz0AYK3agNbA/pw+88qBKrLHlpGFmL
+ e4ig==
+X-Gm-Message-State: ACrzQf3XfLEmdVjGlhJUnkl9sT5pMZoLQhg8ywYFu63DS9oAu6rJzNXQ
+ b8qpAMcP6p2fMfiFfn90ASL5aw==
+X-Google-Smtp-Source: AMsMyM6ZljnCrU0qh0+e7vc+HuV1x+ArU+n+M48jxv5R3lt8UQZqPTf6/v1OyEJJWiwBGfdDSixUTw==
+X-Received: by 2002:a17:902:c245:b0:178:3912:f1f7 with SMTP id
+ 5-20020a170902c24500b001783912f1f7mr1161429plg.75.1663816227182; 
+ Wed, 21 Sep 2022 20:10:27 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
  by smtp.gmail.com with ESMTPSA id
- 69-20020a621748000000b0053725e331a1sm2959597pfx.82.2022.09.21.20.10.22
+ i8-20020a170902c94800b00178143a728esm2758861pla.275.2022.09.21.20.10.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 20:10:22 -0700 (PDT)
+ Wed, 21 Sep 2022 20:10:26 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH 04/12] btrfs: send: Proactively round up to kmalloc bucket size
-Date: Wed, 21 Sep 2022 20:10:05 -0700
-Message-Id: <20220922031013.2150682-5-keescook@chromium.org>
+Subject: [PATCH 05/12] dma-buf: Proactively round up to kmalloc bucket size
+Date: Wed, 21 Sep 2022 20:10:06 -0700
+Message-Id: <20220922031013.2150682-6-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220922031013.2150682-1-keescook@chromium.org>
 References: <20220922031013.2150682-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1342; h=from:subject;
- bh=PATxOgKCtfzCXQKH17glgfixgYzE1x2L+YHf7rSxpvE=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjK9ITJpSDjmxsaSk36KMYUjIvxLLAk9hi4Gv/fvEs
- tw4mn0yJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYyvSEwAKCRCJcvTf3G3AJh3FD/
- 9lgh/1XHl0SkyqPlMmPB17u7DDgE4q/VJ/Qa3GzTJ+egqjXOgy56TZhDHA57JAbNFH368V7dUHPLKC
- QXVOMAIaBG86hiTbSG2GFtspKIl5m4mQliPhYXo+9i2ctGvX67kQtgkloJBBOBTzM1Va+l8n8oDiM7
- 1keZZzJh1/Ke/X48PR3xg7Nx1uYbX9+ergUrLAPxTg/zdXdpoqFOJHqJQ3KTDdZ/Ei4EYr7MM+zZd1
- B+a+f4KPaYbr0rUNv/eRElOKPdR3IRmKr00cn3bz0YQJFHMIHIfiUC7c02Q5mRGArZMpC6TDBu3Tkb
- nuAA6r64037k3F4P3KgpNrjYdXUKHgrLD5MS0HV/wt0Jl9wh6vCNnbY9hyrP1HoFV59EkKwXqy05Vl
- 7L7CE/IjCudzIhmSQJ5qMWxuufWw0aOCT98jEVLKn5HNir4xbt3Nk5GB3h8odtKKt5aij2g+sglk0N
- VozOjrkQEETzGVX7M0zWbpzsD61ZTOIY4ZAn6Zzztl/0Napt96blNs9J1EbovYn8uMQ2+XR6pZAwD1
- TALlt7LDxwlItLIQQBK7XhEI2TYqOric6v3Z1icQjPqGGv16cy/WXfeY/MEtdwAcxELgoSF7ClvUlL
- BHriLuCX3SJCTRPP98sRsMm0ReDlyAlIib9iPFvDtr+pDztAlOw51wwNqgZQ==
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1448; h=from:subject;
+ bh=58mLiyNPt53YHcQiP0NJ/gcO5KVNHG9xKF/nxWP5lU4=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjK9IT0VAPWCWir3uMps9kCdjSMILjRU6yciDG9uFs
+ fWbeIjWJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYyvSEwAKCRCJcvTf3G3AJuZ5EA
+ CTJrl1LYI7CQAG4pCtipLkuzhhHVBFayO1cJ9nr4E0Jm4P1ZR+BSgD/HPdeicWCgV2fEGCG3A3qzTO
+ bp/9wj/VPvNh93gqjrf2HSe113aZFNagRxlssfUYxwkKTY+LPLzDzin95QfiHah48Jg0HBw8zKWEmX
+ dZTJH7KlwTcHEy9Bz5p3PA4qx+B3pkBrNQ0zdb4io0a7ErunaXVRCSpt2tZNukDe/wt1CXiR/32N+T
+ 1euSAVbSYv0W0fFslnfEqztbrNKxL91NWnvy3XzftablM4/PXqSNUqv6xYBt7IY33WxxP+/g2Fn7HD
+ 6QmdkXUhTr9armjFjNYZMQo0prwqkn0FJaXEIed35vePpH2uibYbE4OwOA2Dyo4lUtHPs/KAKQYEB3
+ 6oCNer7mpHEc9oOoqN35lm+ZhZ9UmAPZl/X1Np9gol6eRnt/yo2BbllRVW8PfKLVzPclAS1ny/vZEN
+ uVJmqmDUdiq2OpecYEKuqhvI07vawcYvhSB6Au1f9Ys6viXBeeurbiQKrvf0oP7kADVYUzN9YCua/x
+ a6zit1PoOjCMh44PKnVGgBRCRhU0CfvSYrhoxA8P45Ye7BiKkBm0StH0S/n/9duZxNKqbCFgYNdviR
+ h0OHIRRNJYqc0Tw95yUM7tJKCf1eAwytfKrF8F6YwYcUQ/V1S+/AOfGfUWHQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -109,41 +110,38 @@ up proactively so the allocation is explicitly made for the full size,
 allowing the compiler to correctly reason about the resulting size of
 the buffer through the existing __alloc_size() hint.
 
-Cc: linux-btrfs@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/btrfs/send.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/dma-buf/dma-resv.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/fs/btrfs/send.c b/fs/btrfs/send.c
-index e7671afcee4f..d40d65598e8f 100644
---- a/fs/btrfs/send.c
-+++ b/fs/btrfs/send.c
-@@ -435,6 +435,11 @@ static int fs_path_ensure_buf(struct fs_path *p, int len)
- 	path_len = p->end - p->start;
- 	old_buf_len = p->buf_len;
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index 205acb2c744d..a20f6db99b8f 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -98,12 +98,17 @@ static void dma_resv_list_set(struct dma_resv_list *list,
+ static struct dma_resv_list *dma_resv_list_alloc(unsigned int max_fences)
+ {
+ 	struct dma_resv_list *list;
++	size_t size = struct_size(list, table, max_fences);
  
-+	/*
-+	 * Allocate to the next largest kmalloc bucket size, to let
-+	 * the fast path happen most of the time.
-+	 */
-+	len = kmalloc_size_roundup(len);
- 	/*
- 	 * First time the inline_buf does not suffice
- 	 */
-@@ -448,11 +453,7 @@ static int fs_path_ensure_buf(struct fs_path *p, int len)
- 	if (!tmp_buf)
- 		return -ENOMEM;
- 	p->buf = tmp_buf;
--	/*
--	 * The real size of the buffer is bigger, this will let the fast path
--	 * happen most of the time
--	 */
--	p->buf_len = ksize(p->buf);
-+	p->buf_len = len;
+-	list = kmalloc(struct_size(list, table, max_fences), GFP_KERNEL);
++	/* Round up to the next kmalloc bucket size. */
++	size = kmalloc_size_roundup(size);
++
++	list = kmalloc(size, GFP_KERNEL);
+ 	if (!list)
+ 		return NULL;
  
- 	if (p->reversed) {
- 		tmp_buf = p->buf + old_buf_len - path_len - 1;
+-	list->max_fences = (ksize(list) - offsetof(typeof(*list), table)) /
++	/* Given the resulting bucket size, recalculated max_fences. */
++	list->max_fences = (size - offsetof(typeof(*list), table)) /
+ 		sizeof(*list->table);
+ 
+ 	return list;
 -- 
 2.34.1
 
