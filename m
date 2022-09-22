@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28395E62C8
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 14:51:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B15665E62CB
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 14:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6EC810EB01;
-	Thu, 22 Sep 2022 12:51:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF15410EB02;
+	Thu, 22 Sep 2022 12:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55F1010E35E
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 12:51:04 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id a14so10855754ljj.8
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 05:51:04 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2367410EB02
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 12:51:16 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id l12so10849721ljg.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 05:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=Sea27jK2pOb0ADt+U+OOXz14ad+JYjdidyw5ceH+6tY=;
- b=bEQc5o4c96kL003lNdFFNF/PheTKYPzGOx1XlLuWx4uUt3ZZ8u82nZSviwPUHfH2xv
- bUDvPw5aOQbeDKQmaq1CoRgZsOnIg2YGfJh8cvDV5F9+JLKSUyn50zDSIBxJOcnrj4PR
- A/jflBtwfF7dKCfnIUVH8sg+arNoqIgkz9k9j9ZFaFWktQEtF1ZrBOG6ExeV2+xa5sCd
- gIaN+jPceaw/AtbWvWGSXMYZ/VYa/BVnHTn4+MNDa2/tr3mx3BIFfKkZZCFjQpef8XiE
- zuMwWdRrzBII8cLpO+PWCCMW0r7uAoqveKC5p2LZphYcvpAG3bcSeCk7PVaftA5tgi0M
- 8RZA==
+ bh=AcReqp2gEJDplwIiqlXdRZl1+dQuLiAN6jLoyy64CrI=;
+ b=vniiXCPYi2uHVswmxrHaLfifuGnTgh31cEiXXDrVozUBpdvgG1p2hAl0Iuww/tOgJC
+ 51g7fQ3iDc/taoVV7V4GHA31OjtWbcgJMDX+hUwoS5rCcH8Dl+8Stfx1M/7mE1+2Bd5A
+ FS/3RYRQ2KRYMI6qPadyS/zKUJ0TBby48SUTUC1KBsX5KZbvKo+hEWmsvOh2eFQKBdcC
+ lOXsuuZFZ01TsN9IObctd00VrMglSMuCMpC2mBh7+57odvkGvsZJc7Hl12+6BMPhz4h0
+ VlXKpbLhfEODyJm8qT4XpB00JjoItgQhb2I/QFcMCOxYSwJH/kgC8yWpEJ4swhQZGhR5
+ 5V7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=Sea27jK2pOb0ADt+U+OOXz14ad+JYjdidyw5ceH+6tY=;
- b=4MB6ZnatMbZ48CL6E8r0VkiUVwbcktFavXL3lBAih2O7LOeMM5u1aGyI4P0G05KNqK
- MB6OxcfKwMlAS1qV6gUS46En6vJCstIsqOlCwex1CRmai2Yn+Blg3uI+EA5dxAmRrjH/
- vVBAndSDaXNlAlScL1yc6B0yeHJebE0eYI7h4VbXIO0NPmVFFeXvavFx7jQJJ0tcCedX
- 2t33azibguMUZHcoklensTmwn03gYDGiO0nn46ImWhhw+F81YUH0EZcxip3DDbQIn23j
- GCc789WsDSvFd9yZufMdz55cDY4FtIcq3U12WEkj7HTE1ZZXLwQJGIV5SkfgEltT+vkd
- 9ESg==
-X-Gm-Message-State: ACrzQf3Zh0WJtgy4efDmatkI2pAKeYi129Y+jMwWS33Qw4UviXTNmuZO
- 7Vm0Ftrgs5JYP1cXbp4sqDUovYKw8dWoig==
-X-Google-Smtp-Source: AMsMyM7SDptjdpkW7tuuttAy0kYzK4MBmIe60uRZtol4i0HW5ltX1B+Cjzu/BNFNwE3TBkr+rbuBQA==
-X-Received: by 2002:a2e:1458:0:b0:26c:3b83:e039 with SMTP id
- 24-20020a2e1458000000b0026c3b83e039mr1098450lju.484.1663851062438; 
- Thu, 22 Sep 2022 05:51:02 -0700 (PDT)
+ bh=AcReqp2gEJDplwIiqlXdRZl1+dQuLiAN6jLoyy64CrI=;
+ b=t4tevz6YSsUe2UI/I6P6kJUE/AVuV6VUWY/yOkjhIEqIZ2BbRW3fX+lTwSr2ThUqhh
+ Fl9qO56V2IjtXfi7sdMI9cOZifamoaye9rkFHAlU6D/9kd0qdPagDnIsLviGSHVNPzd5
+ x1kBabsxzVQcr9wMWgd4T0saCqZgLX5xtNK8uS1KSCIJBKGwrA4GFJeHz997xR8pnPAn
+ NDOOmnXJPmGUKej+44lu60cNNamipjXCf7j1DUW9am59pMr7MiHU6y3wrAau5aZkrlnr
+ fKrHazJMZGtOJfk9OgDgvvQQO1YOUxZZadVXsrDg4cbjiSNrloiKORlJPNsCtYt48PZ1
+ PQCA==
+X-Gm-Message-State: ACrzQf03CtuecnUXm4/rOC4Fk1DxUfHrmiMRVOvATEGbkyX78nOrz17Y
+ 5EfDSGBCwicQoNHiXg52a9xVZw==
+X-Google-Smtp-Source: AMsMyM6zFmrBuzTnD7uKlfv9Cfe4AuqBZFpoTZEtb1B6RSpxjj2qH9pnzETt4sbwd+x+Txnu7oQFsg==
+X-Received: by 2002:a2e:bf0c:0:b0:260:3df:1bce with SMTP id
+ c12-20020a2ebf0c000000b0026003df1bcemr1096075ljr.117.1663851074490; 
+ Thu, 22 Sep 2022 05:51:14 -0700 (PDT)
 Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
  [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- v12-20020ac258ec000000b0049496608d58sm925362lfo.155.2022.09.22.05.51.00
+ k20-20020a2eb754000000b0026c64fd8f0csm845872ljo.71.2022.09.22.05.51.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 05:51:01 -0700 (PDT)
-Message-ID: <6b24be8f-94d7-6973-6f35-18cb15fc8cd4@linaro.org>
-Date: Thu, 22 Sep 2022 14:51:00 +0200
+ Thu, 22 Sep 2022 05:51:14 -0700 (PDT)
+Message-ID: <98e33290-b571-221a-75cd-386ab39a4819@linaro.org>
+Date: Thu, 22 Sep 2022 14:51:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
 Subject: Re: [PATCH v1 01/17] dt-bindings: clk: mediatek: Add MT8195 DPI clocks
 Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+To: Guillaume Ranquet <granquet@baylibre.com>, Vinod Koul <vkoul@kernel.org>, 
  Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
  Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -66,13 +65,11 @@ To: Guillaume Ranquet <granquet@baylibre.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>,
  Kishon Vijay Abraham I <kishon@ti.com>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>
+ Matthias Brugger <matthias.bgg@gmail.com>
 References: <20220919-v1-0-4844816c9808@baylibre.com>
  <20220919-v1-1-4844816c9808@baylibre.com>
- <d01e4a03-1d6d-9616-45ca-1c927f2d8237@linaro.org>
- <CABnWg9uZ=FrumgUzyUoUiS6T51nZTEf5JZ-1KF0-Ra9Ood5ufA@mail.gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CABnWg9uZ=FrumgUzyUoUiS6T51nZTEf5JZ-1KF0-Ra9Ood5ufA@mail.gmail.com>
+In-Reply-To: <20220919-v1-1-4844816c9808@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,43 +92,19 @@ Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/09/2022 14:45, Guillaume Ranquet wrote:
-> On Thu, 22 Sep 2022 09:11, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 19/09/2022 18:55, Guillaume Ranquet wrote:
->>> From: Pablo Sun <pablo.sun@mediatek.com>
->>>
->>> Expand dt-bindings slot for VDOSYS1 of MT8195.
->>> This clock is required by the DPI1 hardware
->>> and is a downstream of the HDMI pixel clock.
->>>
->>> Signed-off-by: Pablo Sun <pablo.sun@mediatek.com>
->>> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->>> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->>>
->>
->> Looks like broken patch.
->>
->> Best regards,
->> Krzysztof
->>
+On 19/09/2022 18:55, Guillaume Ranquet wrote:
+> From: Pablo Sun <pablo.sun@mediatek.com>
 > 
-> Hi Bo-Chen and Krzysztof,
-> I've sent the patches using the rather new b4 prep/send commands.
+> Expand dt-bindings slot for VDOSYS1 of MT8195.
+> This clock is required by the DPI1 hardware
+> and is a downstream of the HDMI pixel clock.
 > 
-> Though it produces valid patches, it's using `git show --format=email`
-> to produce the patches, which lacks a diffstat.
-> 
-> My understanding is that the diffstat is considered to be comments and thus
-> are not necessary to produce a valid patch.
-> 
-> I've reported the issue on the tools mailing list [1], I'm looking at providing
-> a fix.
-> 
-> I'll be extra careful at the patch format for V2.
+> Signed-off-by: Pablo Sun <pablo.sun@mediatek.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
-Thanks for explanation! Probably your patches are perfectly fine and
-should apply, although I must admit diffstat is often useful.
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
