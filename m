@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CE55E6461
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 15:56:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BDF5E645C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 15:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 098FB10EB27;
-	Thu, 22 Sep 2022 13:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42CB710E37D;
+	Thu, 22 Sep 2022 13:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
  [45.249.212.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6D410E36B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF15710E36C
  for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 13:54:57 +0000 (UTC)
 Received: from mail02.huawei.com (unknown [172.30.67.143])
- by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MYGvB5wkdzKPPS
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 21:52:54 +0800 (CST)
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MYGvX6tXKzlDKR
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 21:53:12 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.102.38])
- by APP2 (Coremail) with SMTP id Syh0CgC3VW8qaSxjR3npBA--.17148S12;
- Thu, 22 Sep 2022 21:54:54 +0800 (CST)
+ by APP2 (Coremail) with SMTP id Syh0CgC3VW8qaSxjR3npBA--.17148S13;
+ Thu, 22 Sep 2022 21:54:55 +0800 (CST)
 From: Wei Yongjun <weiyongjun@huaweicloud.com>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 08/10] drm/panel: tpg110: Silence no spi_device_id warning
-Date: Thu, 22 Sep 2022 14:12:01 +0000
-Message-Id: <20220922141204.1823931-9-weiyongjun@huaweicloud.com>
+Subject: [PATCH v2 09/10] drm/panel: ws2401: Silence no spi_device_id warning
+Date: Thu, 22 Sep 2022 14:12:02 +0000
+Message-Id: <20220922141204.1823931-10-weiyongjun@huaweicloud.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220922141204.1823931-1-weiyongjun@huaweicloud.com>
 References: <20220922141204.1823931-1-weiyongjun@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: Syh0CgC3VW8qaSxjR3npBA--.17148S12
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF48CF4kKFykWFy8Jw4UCFg_yoW8Gr1rpF
- s8GF98CFW8CF43KwsxA3WxXFyj9an2qayrtFZrGwsI9FZrAryUXw4SkF45Xa1DJrWUJa42
- qF9xCry7Xay8ArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: Syh0CgC3VW8qaSxjR3npBA--.17148S13
+X-Coremail-Antispam: 1UD129KBjvJXoW7CF48CF1kZFW5ZF1fCrW7Jwb_yoW8GrWfpF
+ 4rZFy7AFykWF45CrW3Z3Z7uF9rCayvvayFgF9rWwnI9FZ7AryUXF9IkF4UJrn8JrnrA3W2
+ qFnrKryxXFW8CrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUU90b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
  6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
  Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
@@ -73,37 +73,37 @@ systems using device tree, after commit 5fa6863ba692 ("spi: Check
 we have a spi_device_id for each DT compatible"), kernel warns as
 follows since the spi_device_id is missing:
 
-SPI driver tpo-tpg110-panel has no spi_device_id for tpo,tpg110
+SPI driver ws2401-panel has no spi_device_id for samsung,lms380kf01
 
 Add spi_device_id entries to silence the warning, and ensure driver
 module autoloading works.
 
 Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 ---
- drivers/gpu/drm/panel/panel-tpo-tpg110.c | 7 +++++++
+ drivers/gpu/drm/panel/panel-widechips-ws2401.c | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-index 0b1f5a11a055..f6cac569420c 100644
---- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-+++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-@@ -463,9 +463,16 @@ static const struct of_device_id tpg110_match[] = {
+diff --git a/drivers/gpu/drm/panel/panel-widechips-ws2401.c b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
+index 236f3cb2b594..436ba96befb7 100644
+--- a/drivers/gpu/drm/panel/panel-widechips-ws2401.c
++++ b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
+@@ -425,9 +425,16 @@ static const struct of_device_id ws2401_match[] = {
  };
- MODULE_DEVICE_TABLE(of, tpg110_match);
+ MODULE_DEVICE_TABLE(of, ws2401_match);
  
-+static const struct spi_device_id tpg110_ids[] = {
-+	{ "tpg110" },
++static const struct spi_device_id ws2401_ids[] = {
++	{ "lms380kf01" },
 +	{},
 +};
-+MODULE_DEVICE_TABLE(spi, tpg110_ids);
++MODULE_DEVICE_TABLE(spi, ws2401_ids);
 +
- static struct spi_driver tpg110_driver = {
- 	.probe		= tpg110_probe,
- 	.remove		= tpg110_remove,
-+	.id_table	= tpg110_ids,
+ static struct spi_driver ws2401_driver = {
+ 	.probe		= ws2401_probe,
+ 	.remove		= ws2401_remove,
++	.id_table	= ws2401_ids,
  	.driver		= {
- 		.name	= "tpo-tpg110-panel",
- 		.of_match_table = tpg110_match,
+ 		.name	= "ws2401-panel",
+ 		.of_match_table = ws2401_match,
 -- 
 2.34.1
 
