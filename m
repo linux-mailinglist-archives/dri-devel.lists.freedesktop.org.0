@@ -1,51 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915555E6512
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:24:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF985E651B
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC9B10EB44;
-	Thu, 22 Sep 2022 14:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62D8D10EB4D;
+	Thu, 22 Sep 2022 14:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8FE710E3CB;
- Thu, 22 Sep 2022 14:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663856669; x=1695392669;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=wfcKv++yXhKcg88brFauXUvfR4TFkyzp+WqEIC6Kx1M=;
- b=O2m/ir1X/dKGKmTWHEuRcAFlh2RRK8pShQGmmUb0IQTSv/q/KW2TH5b+
- E7d77+qOYIOUACGb9N3qKaF4hXqxN2aCj1GmUJNA6UsnhF20mUhru1qUR
- RSXEpouj7J2rSHBbMldx1MqAea28lfMMqu1OdSZ3NTYFz2wZfffa3XF53
- jCAhu05i81xhEDYzt1lomXa6YkBXsrZA/1GSih4pDksk6Ae71gBoUQ9YT
- X+HpjydwIMuxP2BB3YCAZtY/FZ1O8F8mH7REls9O8aQ/RuN2QxTlpq0qT
- K8Ic5pC4yzWuE6Q6XCEKxfwSEw2yjR3JJEgS1gfHI0coXnUuMq3BYxGKG A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="300292648"
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="300292648"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 07:24:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="708889591"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 22 Sep 2022 07:24:27 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1obN7q-0004jU-1l;
- Thu, 22 Sep 2022 14:24:26 +0000
-Date: Thu, 22 Sep 2022 22:24:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Improve debug print in vm_fault_ttm
-Message-ID: <202209222231.mIrsqiu7-lkp@intel.com>
-References: <20220922120908.10352-1-nirmoy.das@intel.com>
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EB8910EB45;
+ Thu, 22 Sep 2022 14:25:34 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id AF3002B05B17;
+ Thu, 22 Sep 2022 10:25:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Thu, 22 Sep 2022 10:25:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1663856728; x=1663863928; bh=aVuroWCGyk
+ /Hd3ZXmpSkljpJ3y11N00AjWDftDkvdw8=; b=mx3otSVNKwA2MsVmPhVhdZpQYI
+ rjYVSiSs9+yNgNlT3+kvmHauXaBBru5ntroreD0iJfsPlOa5EKeyzGQnpZMup8PU
+ OT/Z5SqA3VJrEisb4MAVYSi3J3eFh/ExEh/jGH8/Qr0xJZizlNCFloGQzgWc01yb
+ noHpKlmS0KmP+mmoBsmQI3pnOuNwHYt+9nL4ft+8OHiKekC5NLg5SpxBUYrJIU40
+ +vuWOr6ptpkQZz0EZ80K6x0mED/zQiLC3zl1OgtMk1TxYzsvqavarKtlPliR2w6v
+ hidNDKvLXEU/HSnpqjCNmPNPChKiAi9t9IjEbuH95KkplnUcQni4xFWutWvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1663856728; x=1663863928; bh=aVuroWCGyk/Hd
+ 3ZXmpSkljpJ3y11N00AjWDftDkvdw8=; b=QDKMW55hx+Au1fYAYgjkPrPDfUeFZ
+ ffr5xulc7Tm7CwqGZB5H6C4falg2N3kRVlpGG+1Qmf8VTWQ55L0eB+TXQtpXoZyW
+ oKnVYrfnusJQLuecw/zSk4Y0fju/XEOJj6K0Rmk2M65T+c0H3frceei4qjvY7JN1
+ xC4F+0DPUneAsTVTXEuLvY1XpSTBAjsj6iV+jY6iSadNcTgNIf5N/kOw04DqkvOg
+ Vk9RYnCcBw2ju3FJUHHBWpB25+riCiH1QJjbjq9eyMS8/1ul60C14ZgwaNp8XIys
+ uPn9UDOg3Wr7KgZ3ms1X5KeFSqydvs8siGycavYLrDp3wFPjYY4+xMnow==
+X-ME-Sender: <xms:V3AsYxcqOoKC1qQQb3tTYlnHTbg--UJ6MMXeZPI9rDFdRd_7fzDX6Q>
+ <xme:V3AsY_OxvruAgWY_CvVLwbfsqhTh2VAXGNwazs_E8Kmfg_ovSYU8VYjQU7-Q7MfbN
+ h_dUpOyR8QKMKev2mg>
+X-ME-Received: <xmr:V3AsY6hudgHLUXD53038HeUorTi76aezkBV8F4YZ-0FaxYgiG1Wx-14_sZI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefgedgudeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepufggtgfghfffkffvvefosehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleeuveetteffvdevlefgffelgeduueefleevfedvudegheekfeekheejieek
+ gedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:V3AsY695m_6u5gTyhYPPHpvZQy0DbOVNIb86CN5Zrc-Wv_1SFMm12w>
+ <xmx:V3AsY9vNHUOoqzU05fX5uC6XB_VN624U8QZ6sKZf0kADK8IaJEhgsg>
+ <xmx:V3AsY5EEbotmfhxi7KFYrRwagJPxHb0XB-sRV5NjoEXGs0DLNDv4BA>
+ <xmx:WHAsY-4P7jMghBoi8L5Iech3FeVWtO2Bphut3z8-Vwz7azduXg907i5tzag>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Sep 2022 10:25:25 -0400 (EDT)
+Subject: [PATCH v2 00/33] drm: Analog TV Improvements
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220922120908.10352-1-nirmoy.das@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAE1wLGMC/xWMywqEMAwAf0Vy3kA3yL7+JrZZDaxtSYsI4r9vhLnMYeaAJqbS4DMcYLJp05Jd6D
+ ZAXDjPgprcgQJReNILrSpy5l+ZsW9YrVSx7gcM7/uYvlFkfATwfOImOBnnuFyDZCuu2iJm2TteOy8c
+ OM8/AlMwAYUAAAA=
+From: Maxime Ripard <maxime@cerno.tech>
+Date: Thu, 22 Sep 2022 16:25:17 +0200
+Message-Id: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>, 
+ David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, 
+ Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
+X-Mailer: b4 0.10.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8426; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=KnGlY+ZtkTTxV5rb93A1k0oD8H0SOvjsMvv8Q+AGk4A=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk6Bf6Ffr/flv5+1nVhX27upvDts0NVpdV1Vu+8GL/YkfPU
+ I16ujlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzk50ZGhod+52be4DuplLX/04WFpW
+ mFvsrbO+ynOXyLe39+m8X8CwoM/wOebe/bzSojmLhNuin96nfmw5xMPWl7Oa66S6xon3fUhxkA
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,150 +100,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, matthew.auld@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>, Noralf Trønnes <noralf@tronnes.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>, Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+Hi,
 
-Thank you for the patch! Perhaps something to improve:
+Here's a series aiming at improving the command line named modes support,
+and more importantly how we deal with all the analog TV variants.
 
-[auto build test WARNING on drm-tip/drm-tip]
+The named modes support were initially introduced to allow to specify the
+analog TV mode to be used.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nirmoy-Das/drm-i915-Improve-debug-print-in-vm_fault_ttm/20220922-201041
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20220922/202209222231.mIrsqiu7-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/e1a426a9e14837ada7e883d20af7c9abdf59823c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nirmoy-Das/drm-i915-Improve-debug-print-in-vm_fault_ttm/20220922-201041
-        git checkout e1a426a9e14837ada7e883d20af7c9abdf59823c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+However, this was causing multiple issues:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+  * The mode name parsed on the command line was passed directly to the
+    driver, which had to figure out which mode it was suppose to match;
 
-All warnings (new ones prefixed by >>):
+  * Figuring that out wasn't really easy, since the video= argument or what
+    the userspace might not even have a name in the first place, but
+    instead could have passed a mode with the same timings;
 
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/ttm/ttm_bo_driver.h:33,
-                    from drivers/gpu/drm/i915/gem/i915_gem_ttm.c:8:
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'vm_fault_ttm':
->> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1037:38: warning: format '%p' expects argument of type 'void *', but argument 4 has type 'int' [-Wformat=]
-    1037 |                         drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n", err);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~
-         |                                                                                             |
-         |                                                                                             int
-   include/drm/drm_print.h:461:63: note: in definition of macro 'drm_dbg'
-     461 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |                                                               ^~~
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1037:85: note: format string is defined here
-    1037 |                         drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n", err);
-         |                                                                                    ~^
-         |                                                                                     |
-         |                                                                                     void *
-         |                                                                                    %d
+  * The fallback to matching on the timings was mostly working as long as
+    we were supporting one 525 lines (most likely NSTC) and one 625 lines
+    (PAL), but couldn't differentiate between two modes with the same
+    timings (NTSC vs PAL-M vs NSTC-J for example);
 
+  * There was also some overlap with the tv mode property registered by
+    drm_mode_create_tv_properties(), but named modes weren't interacting
+    with that property at all.
 
-vim +1037 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+  * Even though that property was generic, its possible values were
+    specific to each drivers, which made some generic support difficult.
 
-   986	
-   987	static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
-   988	{
-   989		struct vm_area_struct *area = vmf->vma;
-   990		struct ttm_buffer_object *bo = area->vm_private_data;
-   991		struct drm_device *dev = bo->base.dev;
-   992		struct drm_i915_gem_object *obj;
-   993		intel_wakeref_t wakeref = 0;
-   994		vm_fault_t ret;
-   995		int idx;
-   996	
-   997		obj = i915_ttm_to_gem(bo);
-   998		if (!obj)
-   999			return VM_FAULT_SIGBUS;
-  1000	
-  1001		/* Sanity check that we allow writing into this object */
-  1002		if (unlikely(i915_gem_object_is_readonly(obj) &&
-  1003			     area->vm_flags & VM_WRITE))
-  1004			return VM_FAULT_SIGBUS;
-  1005	
-  1006		ret = ttm_bo_vm_reserve(bo, vmf);
-  1007		if (ret)
-  1008			return ret;
-  1009	
-  1010		if (obj->mm.madv != I915_MADV_WILLNEED) {
-  1011			dma_resv_unlock(bo->base.resv);
-  1012			return VM_FAULT_SIGBUS;
-  1013		}
-  1014	
-  1015		if (i915_ttm_cpu_maps_iomem(bo->resource))
-  1016			wakeref = intel_runtime_pm_get(&to_i915(obj->base.dev)->runtime_pm);
-  1017	
-  1018		if (!i915_ttm_resource_mappable(bo->resource)) {
-  1019			int err = -ENODEV;
-  1020			int i;
-  1021	
-  1022			for (i = 0; i < obj->mm.n_placements; i++) {
-  1023				struct intel_memory_region *mr = obj->mm.placements[i];
-  1024				unsigned int flags;
-  1025	
-  1026				if (!mr->io_size && mr->type != INTEL_MEMORY_SYSTEM)
-  1027					continue;
-  1028	
-  1029				flags = obj->flags;
-  1030				flags &= ~I915_BO_ALLOC_GPU_ONLY;
-  1031				err = __i915_ttm_migrate(obj, mr, flags);
-  1032				if (!err)
-  1033					break;
-  1034			}
-  1035	
-  1036			if (err) {
-> 1037				drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n", err);
-  1038				dma_resv_unlock(bo->base.resv);
-  1039				ret = VM_FAULT_SIGBUS;
-  1040				goto out_rpm;
-  1041			}
-  1042		}
-  1043	
-  1044		if (drm_dev_enter(dev, &idx)) {
-  1045			ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
-  1046						       TTM_BO_VM_NUM_PREFAULT);
-  1047			drm_dev_exit(idx);
-  1048		} else {
-  1049			ret = ttm_bo_vm_dummy_page(vmf, vmf->vma->vm_page_prot);
-  1050		}
-  1051	
-  1052		if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
-  1053			goto out_rpm;
-  1054	
-  1055		/* ttm_bo_vm_reserve() already has dma_resv_lock */
-  1056		if (ret == VM_FAULT_NOPAGE && wakeref && !obj->userfault_count) {
-  1057			obj->userfault_count = 1;
-  1058			mutex_lock(&to_gt(to_i915(obj->base.dev))->lmem_userfault_lock);
-  1059			list_add(&obj->userfault_link, &to_gt(to_i915(obj->base.dev))->lmem_userfault_list);
-  1060			mutex_unlock(&to_gt(to_i915(obj->base.dev))->lmem_userfault_lock);
-  1061		}
-  1062	
-  1063		if (wakeref & CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND)
-  1064			intel_wakeref_auto(&to_gt(to_i915(obj->base.dev))->userfault_wakeref,
-  1065					   msecs_to_jiffies_timeout(CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND));
-  1066	
-  1067		i915_ttm_adjust_lru(obj);
-  1068	
-  1069		dma_resv_unlock(bo->base.resv);
-  1070	
-  1071	out_rpm:
-  1072		if (wakeref)
-  1073			intel_runtime_pm_put(&to_i915(obj->base.dev)->runtime_pm, wakeref);
-  1074	
-  1075		return ret;
-  1076	}
-  1077	
+Thus, I chose to tackle in multiple steps:
 
+  * A new TV mode property was introduced, with generic values, each driver
+    reporting through a bitmask what standard it supports to the userspace;
+
+  * This option was added to the command line parsing code to be able to
+    specify it on the kernel command line, and new atomic_check and reset
+    helpers were created to integrate properly into atomic KMS;
+
+  * The named mode parsing code is now creating a proper display mode for
+    the given named mode, and the TV standard will thus be part of the
+    connector state;
+
+  * Two drivers were converted and tested for now (vc4 and sun4i), with
+    some backward compatibility code to translate the old TV mode to the
+    new TV mode;
+
+Unit tests were created along the way.
+
+One can switch from NTSC to PAL now using (on vc4)
+
+modetest -M vc4  -s 53:720x480i -w 53:'TV mode':1 # NTSC
+modetest -M vc4  -s 53:720x576i -w 53:'TV mode':4 # PAL
+
+Let me know what you think,
+Maxime
+
+To: David Airlie <airlied@linux.ie>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Emma Anholt <emma@anholt.net>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+To: Karol Herbst <kherbst@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+To: Chen-Yu Tsai <wens@csie.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Cc: "Noralf Trønnes" <noralf@tronnes.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Dom Cobley <dom@raspberrypi.com>
+Cc: Phil Elwell <phil@raspberrypi.com>
+Cc: <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+---
+Changes in v3:
+- Applied some of the fixes to vc4 and sun4i
+- Renamed the old TV mode property to legacy_mode
+- Fixed a bunch of bisection errors
+- Removed most of the redundant TV modes
+- Added a new None TV mode to not fall back on NTSC by mistake
+- Fixed the mode generation function to match better what is expected
+- Added some logging to the mode generation function
+- Split the improvements to the named mode parsing logic into separate patches
+- Added more checks to the TV atomic_check helper
+- Link to v2: https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech/
+
+Changes in v2:
+- Kept the older TV mode property as legacy so we can keep the old drivers functional
+- Renamed the tv_norm property to tv_mode
+- Added a function to create PAL and NTSC compatible display modes
+- Added some helpers to instantiate a mock DRM device in Kunit
+- More Kunit tests
+- Removed the HD analog TV modes
+- Renamed some of the tests
+- Renamed some of the named modes
+- Fixed typos in commit logs
+- Added the various tags
+- Link to v1: https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech/
+
+---
+Geert Uytterhoeven (1):
+      drm/modes: parse_cmdline: Add support for named modes containing dashes
+
+Mateusz Kwiatkowski (3):
+      drm/vc4: vec: Fix definition of PAL-M mode
+      drm/vc4: vec: Check for VEC output constraints
+      drm/vc4: vec: Add support for more analog TV standards
+
+Maxime Ripard (29):
+      drm/tests: Order Kunit tests in Makefile
+      drm/tests: Add Kunit Helpers
+      drm/atomic-helper: Rename drm_atomic_helper_connector_tv_reset to avoid ambiguity
+      drm/connector: Rename subconnector state variable
+      drm/atomic: Add TV subconnector property to get/set_property
+      drm/connector: Rename legacy TV property
+      drm/connector: Only register TV mode property if present
+      drm/connector: Rename drm_mode_create_tv_properties
+      drm/connector: Add TV standard property
+      drm/modes: Add a function to generate analog display modes
+      drm/modes: Only consider bpp and refresh before options
+      drm/client: Add some tests for drm_connector_pick_cmdline_mode()
+      drm/modes: Move named modes parsing to a separate function
+      drm/modes: Bail out of named mode parsing if empty
+      drm/modes: Bail out of named mode parsing early if it's a number
+      drm/modes: Bail out of named mode parsing early if it's an option
+      drm/modes: Bail out of named mode parsing early if it's a status
+      drm/modes: Switch to named mode descriptors
+      drm/modes: Fill drm_cmdline mode from named modes
+      drm/connector: Add pixel clock to cmdline mode
+      drm/connector: Add a function to lookup a TV mode by its name
+      drm/modes: Introduce the tv_mode property as a command-line option
+      drm/modes: Properly generate a drm_display_mode from a named mode
+      drm/modes: Introduce more named modes
+      drm/atomic-helper: Add a TV properties reset helper
+      drm/atomic-helper: Add an analog TV atomic_check implementation
+      drm/vc4: vec: Use TV Reset implementation
+      drm/vc4: vec: Convert to the new TV mode property
+      drm/sun4i: tv: Convert to the new TV mode property
+
+ drivers/gpu/drm/drm_atomic_state_helper.c       | 128 ++++-
+ drivers/gpu/drm/drm_atomic_uapi.c               |   8 +
+ drivers/gpu/drm/drm_client_modeset.c            |   4 +
+ drivers/gpu/drm/drm_connector.c                 | 111 +++-
+ drivers/gpu/drm/drm_modes.c                     | 658 +++++++++++++++++++++++-
+ drivers/gpu/drm/gud/gud_connector.c             |  12 +-
+ drivers/gpu/drm/i2c/ch7006_drv.c                |   6 +-
+ drivers/gpu/drm/i915/display/intel_tv.c         |   5 +-
+ drivers/gpu/drm/nouveau/dispnv04/tvnv17.c       |   6 +-
+ drivers/gpu/drm/sun4i/sun4i_tv.c                | 148 ++----
+ drivers/gpu/drm/tests/Makefile                  |  16 +-
+ drivers/gpu/drm/tests/drm_client_modeset_test.c | 239 +++++++++
+ drivers/gpu/drm/tests/drm_cmdline_parser_test.c |  67 +++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c       |  54 ++
+ drivers/gpu/drm/tests/drm_kunit_helpers.h       |   9 +
+ drivers/gpu/drm/tests/drm_modes_test.c          | 136 +++++
+ drivers/gpu/drm/vc4/vc4_hdmi.c                  |   2 +-
+ drivers/gpu/drm/vc4/vc4_vec.c                   | 339 ++++++++++--
+ include/drm/drm_atomic_state_helper.h           |   4 +
+ include/drm/drm_connector.h                     |  92 +++-
+ include/drm/drm_mode_config.h                   |  12 +-
+ include/drm/drm_modes.h                         |  17 +
+ 22 files changed, 1866 insertions(+), 207 deletions(-)
+---
+base-commit: 9f5ef9111a4c973a69f9ba22ac73f1f9c634baf6
+change-id: 20220728-rpi-analog-tv-properties-0914dfcee460
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Maxime Ripard <maxime@cerno.tech>
