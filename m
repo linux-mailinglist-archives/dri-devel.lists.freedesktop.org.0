@@ -2,79 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480D95E5C5E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808E15E5C69
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:29:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73CAD10EA5C;
-	Thu, 22 Sep 2022 07:28:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81FD10E0C6;
+	Thu, 22 Sep 2022 07:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0643C10EA5D
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:28:14 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 24F312B059F9;
- Thu, 22 Sep 2022 03:28:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 22 Sep 2022 03:28:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1663831688; x=1663838888; bh=9+zOvyfksA
- 251WIvkjW/QnZqpctASy/cR3TjFBEJGn4=; b=myRn0aulDM5L8tUe4fqe/7J45i
- cY8+5osPo0QVR1EZ5vaKIa8eIQEXqx9xuKq0tcPPxSbDBw3YRF2yKYnw9O6+rmmP
- 4FSXKJpcR3qYtO7EWbFTTRGMHKAe9GoDA5+FipV5o/S3mO6S+D2Qon5yQTz4WSVc
- wkcXDb9X0ZZiJCzKxV0he4afcH8W42gcIIeclRFnw92WqitEzttwe2NcBIthViqj
- PpefGZdUiNJDHxE325/XpnqToQZAt7vmsqPOQFa8pdaoZHNfBDYWdtZtJJ6c4EpL
- rwdc3GDFbnvaEdbhoyF5gOzRSZi1VGGo/YLPRUzy+JFzjbTqmBX9L9cXwpjg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1663831688; x=1663838888; bh=9+zOvyfksA251WIvkjW/QnZqpctA
- Sy/cR3TjFBEJGn4=; b=FnZ2BBMO+1CCzdG1QUm+LdR4chFNDH+nhivWP82ell21
- IU7Lb0gS795PvwovSwnXMJdvn9yXs5e9/VseeJ8FQDB0y46qHnq9cDV8VHTVM4bq
- cnbb45kxvGQZvfoS7zPgtwKZnP+ESOKeRG62jeyyEvzvQR0YQjSCH1XO2dcFrkFp
- mUQhmniZr3b48fotFRqqidDxipWW4eHk/zKIwPPpmPoTA686kZ68xZU/cN26Joic
- KVtoUDlw60de6NOf1e8lTg3wkPVwMLrHnZ8cxUZVgo2M8jKR+qT9dcPNwZ2lXo2f
- 7ZBzw09GimHZx3wfrhfdsfqWbuFa1QF2UdZuB5nCjw==
-X-ME-Sender: <xms:hg4sY1AkevPWD9JVRhSJriAUugw6vlHVel773lEsld0tABsxGN1RKw>
- <xme:hg4sYzhyV4nDTt_vlTfrlj8bQlSj9wj3dskde5TjZYdA_DTXceY11y4Civbbobx4p
- HHvQUKF5PsXKgBOUc4>
-X-ME-Received: <xmr:hg4sYwlK2t3qQEHHaOnlf-9fNsc37C-A_uGDLfkRYWi5GNi-XoBE6prZiH9M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefvddguddvtdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
- fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:hg4sY_wHpefOELoyJiOWz2e17nsG3beLnWJ2ycO0usxrsJL8kddQbg>
- <xmx:hg4sY6SSBAez_cvFkCNIQWDF1lTt_wjT197-iOq3t2JEvAlwhy-nkQ>
- <xmx:hg4sYyZkyADq8xcZezHVUL_fNXt68MGNYB3B62YcNnHyhv-UApoaaQ>
- <xmx:iA4sY9-s0jEl4Am3LvHFgY4Isxu0FyS01rbp4j-p-BnFYgG2U46RoPypG_k>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Sep 2022 03:28:05 -0400 (EDT)
-Date: Thu, 22 Sep 2022 09:28:03 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
-Message-ID: <20220922072803.giqo6dhqktnyjncv@houat>
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-11-tzimmermann@suse.de>
- <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
- <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
- <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
- <e6326381-0f5e-1fe3-e72e-fdfa804e6574@suse.de>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EE9710E0C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:29:36 +0000 (UTC)
+X-UUID: 17fa7c5976a74fefaaf17d8f306b348e-20220922
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=t9i+wVl5X4uEc74qZNXqDhZZNxCJi8MHlEGSvqYNcqA=; 
+ b=rBIRMJqtnAou4Dam3Pvw7htyXeYuBUyf3SOVVp2KktYeLWFQgJZCwHGdrbGXXe5PXa03k21lXz3JVfgdOiMn4G2VK1ucJFyrqW0EGCuZRIWkREYzUUL1m0np+bqod0DIRLZHhr3ugZyaqOr5XyHAJkmZxc/eSt3p8gOxpNY7ZHE=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:6a4fc610-a780-43c8-8be9-45eabe187a2f, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:39a5ff1, CLOUDID:1d41b5a2-dc04-435c-b19b-71e131a5fc35,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 17fa7c5976a74fefaaf17d8f306b348e-20220922
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1770898571; Thu, 22 Sep 2022 15:29:29 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 22 Sep 2022 15:29:27 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 22 Sep 2022 15:29:26 +0800
+From: <xinlei.lee@mediatek.com>
+To: <matthias.bgg@gmail.com>, <jason-jh.lin@mediatek.com>,
+ <angelogioacchino.delregno@collabora.com>, <rex-bc.chen@mediatek.com>,
+ <ck.hu@mediatek.com>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+Subject: [PATCH v7,0/3] Add dpi output format control for MT8186
+Date: Thu, 22 Sep 2022 15:29:21 +0800
+Message-ID: <1663831764-18169-1-git-send-email-xinlei.lee@mediatek.com>
+X-Mailer: git-send-email 2.6.4
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2sg26q6ygbmxgpjm"
-Content-Disposition: inline
-In-Reply-To: <e6326381-0f5e-1fe3-e72e-fdfa804e6574@suse.de>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,68 +63,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, deller@gmx.de,
- linuxppc-dev@lists.ozlabs.org, mark.cave-ayland@ilande.co.uk,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- Geert Uytterhoeven <geert@linux-m68k.org>, mpe@ellerman.id.au,
- paulus@samba.org, msuchanek@suse.de, sam@ravnborg.org
+Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
---2sg26q6ygbmxgpjm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Base on the branch of ck-linux-next/mediatek-drm-fixes.
 
-On Thu, Sep 22, 2022 at 08:42:23AM +0200, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 21.09.22 um 18:48 schrieb Geert Uytterhoeven:
-> > Hi Thomas,
-> >=20
-> > On Wed, Sep 21, 2022 at 2:55 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
-> > > Am 05.08.22 um 02:19 schrieb Benjamin Herrenschmidt:
-> > > > On Wed, 2022-07-20 at 16:27 +0200, Thomas Zimmermann wrote:
-> > > > > +#if !defined(CONFIG_PPC)
-> > > > > +static inline void out_8(void __iomem *addr, int val)
-> > > > > +{ }
-> > > > > +static inline void out_le32(void __iomem *addr, int val)
-> > > > > +{ }
-> > > > > +static inline unsigned int in_le32(const void __iomem *addr)
-> > > > > +{
-> > > > > +       return 0;
-> > > > > +}
-> > > > > +#endif
-> > > >=20
-> > > > These guys could just be replaced with readb/writel/readl respectiv=
-ely
-> > > > (beware of the argument swap).
-> > >=20
-> > > I only added them for COMPILE_TEST. There appears to be no portable
-> > > interface that implements out_le32() and in_le32()?
-> >=20
-> > iowrite32() and ioread32()?
->=20
-> Do they always use little endian, as these *_le32 helpers do? I though th=
-ey
-> use host byte order.
+Changes since v6:
+1. Different from other ICs, when mt8186 DPI changes the output format,
+the mmsys_base+400 register needs to be set to be valid at the same
+time.
+   In this series, all the situations that mmsys need to be set up are
+perfected (not necessarily used in practice).
+2. Put the value that controls the mmsys function in mtk-mmsys.h.
+3. Encountered the sink ic switched between dual edge and single edge,
+perfected setting and clearing mmsys bit operations in mtk_dpi.c.
 
-They use either outl or writel under the hood, which are always little-endi=
-an
+Changes since v5:
+1. Separate the patch that adds edge_cfg_in_mmsys from the patch that
+adds mt8186 dpi support.
+2. Move the mmsys register definition to mmsys driver.
+ 
+Changes since v4:
+1. This series of cancellations is based on the following patches:
+   [1] Add MediaTek SoC(vdosys1) support for mt8195
+   https://patchwork.kernel.org/project/linux-mediatek/cover/20220711075245.10492-1-nancy.lin@mediatek.com/
+   [2] Add MediaTek SoC DRM (vdosys1) support for mt8195
+   https://patchwork.kernel.org/project/linux-mediatek/cover/20220804072827.22383-1-nancy.lin@mediatek.com/
+2. Added mtk_mmsys_update_bits function in mtk-mmsys.c;
+3. MMSYS 0x400 register is modified to MT8186_MMSYS_DPI_OUTPUT_FORMAT;
+4. Fix formatting issues.
 
-Maxime
+Changes since v3:
+1. Fix formatting issues;
+2. Modify the edge output control name & description;
+3. Fix the threading problem.
 
---2sg26q6ygbmxgpjm
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes since v2:
+1. Modify key nouns in the description;
+2. Add the label of jitao to Co-developed-by;
+3. Macro definition address lowercase problem and function naming;
+4. Add missing a description of this property in the mtk_dpi_conf.
 
------BEGIN PGP SIGNATURE-----
+Change since v1:
+1. Modify mt8186 compatiable location.
+2. Modify MT8186_DPI_OUTPUT_FORMAT name.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYywOgwAKCRDj7w1vZxhR
-xc9KAQCMr0zR6IAKUmzuCZlUwOV3XuBDcqbYhVsa28Oti2b1hgEA9jZk4RV7+p/W
-TCyVh2a1nFK4iRcTGNsKIk6mmF08Owo=
-=wGmI
------END PGP SIGNATURE-----
+When MT8186 outputs dpi signal, it is necessary to add dual edge output
+format control in mmsys.
 
---2sg26q6ygbmxgpjm--
+Xinlei Lee (3):
+  soc: mediatek: Add mmsys func to adapt to dpi output for
+    MT8186
+  drm: mediatek: Adjust the dpi output format to MT8186
+  drm: mediatek: Add mt8186 dpi compatible to mtk_dpi.c
+
+ drivers/gpu/drm/mediatek/mtk_dpi.c     | 32 ++++++++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 ++
+ drivers/soc/mediatek/mt8186-mmsys.h    |  8 +++++++
+ drivers/soc/mediatek/mtk-mmsys.c       | 32 ++++++++++++++++++++++++++
+ include/linux/soc/mediatek/mtk-mmsys.h |  9 ++++++++
+ 5 files changed, 83 insertions(+)
+
+-- 
+2.18.0
+
