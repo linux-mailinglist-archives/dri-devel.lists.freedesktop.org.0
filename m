@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15665E62CB
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 14:51:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5C75E62D3
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 14:52:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF15410EB02;
-	Thu, 22 Sep 2022 12:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CDBA10EB03;
+	Thu, 22 Sep 2022 12:52:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2367410EB02
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 12:51:16 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id l12so10849721ljg.9
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 05:51:16 -0700 (PDT)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2400310EB03
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 12:52:06 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id s10so10866398ljp.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 05:52:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=AcReqp2gEJDplwIiqlXdRZl1+dQuLiAN6jLoyy64CrI=;
- b=vniiXCPYi2uHVswmxrHaLfifuGnTgh31cEiXXDrVozUBpdvgG1p2hAl0Iuww/tOgJC
- 51g7fQ3iDc/taoVV7V4GHA31OjtWbcgJMDX+hUwoS5rCcH8Dl+8Stfx1M/7mE1+2Bd5A
- FS/3RYRQ2KRYMI6qPadyS/zKUJ0TBby48SUTUC1KBsX5KZbvKo+hEWmsvOh2eFQKBdcC
- lOXsuuZFZ01TsN9IObctd00VrMglSMuCMpC2mBh7+57odvkGvsZJc7Hl12+6BMPhz4h0
- VlXKpbLhfEODyJm8qT4XpB00JjoItgQhb2I/QFcMCOxYSwJH/kgC8yWpEJ4swhQZGhR5
- 5V7g==
+ bh=PNn1OQ2Plf4WVBh8wbrS607nOaHGst3TaPaRJYK7Aak=;
+ b=CVGA+9eYGLDgWkSPKlFtUYW7Io1/rFSCvwEMKB7Gs/8EG6JZbR6Klv1N/Ssdfs+JO6
+ 3Kr1a01uH9k/kaacPBCO4DpAJ4HrfKFcCD7ZgKpoPkG6YHm7RaUDrQB1ciLK6fvi23F+
+ LAe8eD4drDrtN1FtQURTmtvpR2coeGjD+xWZt61UNnAOy4+gomuZPUYs+X0rgsqOlE89
+ 1mk4T0wlxkGlScUZZk+4wtbPpL+LnUTrsbMSOGutcLpxe9NwTsPY9IopfBRrBg1XEaBZ
+ ML0D2CDd32mohuD8Xstavzd0cUwk3sfurhLWThgIctivIdhfRmfWDtlydGQS3DGOysSh
+ V8tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=AcReqp2gEJDplwIiqlXdRZl1+dQuLiAN6jLoyy64CrI=;
- b=t4tevz6YSsUe2UI/I6P6kJUE/AVuV6VUWY/yOkjhIEqIZ2BbRW3fX+lTwSr2ThUqhh
- Fl9qO56V2IjtXfi7sdMI9cOZifamoaye9rkFHAlU6D/9kd0qdPagDnIsLviGSHVNPzd5
- x1kBabsxzVQcr9wMWgd4T0saCqZgLX5xtNK8uS1KSCIJBKGwrA4GFJeHz997xR8pnPAn
- NDOOmnXJPmGUKej+44lu60cNNamipjXCf7j1DUW9am59pMr7MiHU6y3wrAau5aZkrlnr
- fKrHazJMZGtOJfk9OgDgvvQQO1YOUxZZadVXsrDg4cbjiSNrloiKORlJPNsCtYt48PZ1
- PQCA==
-X-Gm-Message-State: ACrzQf03CtuecnUXm4/rOC4Fk1DxUfHrmiMRVOvATEGbkyX78nOrz17Y
- 5EfDSGBCwicQoNHiXg52a9xVZw==
-X-Google-Smtp-Source: AMsMyM6zFmrBuzTnD7uKlfv9Cfe4AuqBZFpoTZEtb1B6RSpxjj2qH9pnzETt4sbwd+x+Txnu7oQFsg==
-X-Received: by 2002:a2e:bf0c:0:b0:260:3df:1bce with SMTP id
- c12-20020a2ebf0c000000b0026003df1bcemr1096075ljr.117.1663851074490; 
- Thu, 22 Sep 2022 05:51:14 -0700 (PDT)
+ bh=PNn1OQ2Plf4WVBh8wbrS607nOaHGst3TaPaRJYK7Aak=;
+ b=0uWryq4Th+0uh+gvYS9pyWmPq88tTvoMhqHTbplBNCX7OTsEafSsnh/OjiWW+bbphq
+ 7UaybKm4UMsiUiTNSMb4PExvC/aan7Qs0hkMCZlZBti1EUB85yEqmFARBPHYm+QFJx37
+ Mm+uZhakXQYH81GQhVcFESS4uUL42GzEb6/DxoEFDAy8ofNHCZuFvagjE95sBJeOCwU1
+ MqBPdgHEeKTC/IZSEGRiaAy9lUZspSyIioUlopEWkacgzfm10PpBlImEd8zgA7bLey9E
+ EZKpgTgdbdlNPCUVMKoSd/WWZe80Xa0I71l8jYZ5qz3rX6K5nl2pPQ4avXOD67Qy2YqT
+ ugRw==
+X-Gm-Message-State: ACrzQf3i3C8Ri+94dcgvPuwPEJ9F6Pb1f98OnmAff0NuospBNaKId8hH
+ qfZocAKjShzSFQZ/iqgpjYBtvQ==
+X-Google-Smtp-Source: AMsMyM5673D4f9tuM/pxeZPs6CGF5k+tgPEYNZ/c3GXJJnsbfS77mWqxFlfpPqoIXPaNAY62naOkMg==
+X-Received: by 2002:a2e:b712:0:b0:26a:d1d9:f8d1 with SMTP id
+ j18-20020a2eb712000000b0026ad1d9f8d1mr1100753ljo.271.1663851124500; 
+ Thu, 22 Sep 2022 05:52:04 -0700 (PDT)
 Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
  [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- k20-20020a2eb754000000b0026c64fd8f0csm845872ljo.71.2022.09.22.05.51.13
+ t7-20020a05651c204700b0026acd11cd51sm904641ljo.59.2022.09.22.05.52.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 05:51:14 -0700 (PDT)
-Message-ID: <98e33290-b571-221a-75cd-386ab39a4819@linaro.org>
-Date: Thu, 22 Sep 2022 14:51:12 +0200
+ Thu, 22 Sep 2022 05:52:04 -0700 (PDT)
+Message-ID: <179bc9a0-8d11-cc3e-80f6-25bb15325e35@linaro.org>
+Date: Thu, 22 Sep 2022 14:52:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v1 01/17] dt-bindings: clk: mediatek: Add MT8195 DPI clocks
+Subject: Re: [PATCH v1 03/17] dt-bindings: phy: mediatek: hdmi-phy: Add mt8195
+ compatible
 Content-Language: en-US
 To: Guillaume Ranquet <granquet@baylibre.com>, Vinod Koul <vkoul@kernel.org>, 
  Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
@@ -67,9 +68,9 @@ To: Guillaume Ranquet <granquet@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
  Kishon Vijay Abraham I <kishon@ti.com>,
  Matthias Brugger <matthias.bgg@gmail.com>
 References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-1-4844816c9808@baylibre.com>
+ <20220919-v1-3-4844816c9808@baylibre.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220919-v1-1-4844816c9808@baylibre.com>
+In-Reply-To: <20220919-v1-3-4844816c9808@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,16 +93,11 @@ Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/09/2022 18:55, Guillaume Ranquet wrote:
-> From: Pablo Sun <pablo.sun@mediatek.com>
+On 19/09/2022 18:56, Guillaume Ranquet wrote:
+> Add a compatible for the HDMI PHY on MT8195
 > 
-> Expand dt-bindings slot for VDOSYS1 of MT8195.
-> This clock is required by the DPI1 hardware
-> and is a downstream of the HDMI pixel clock.
-> 
-> Signed-off-by: Pablo Sun <pablo.sun@mediatek.com>
 > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> 
 
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
