@@ -2,47 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CFC5E6F6E
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 00:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04AF75E6FEA
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 00:46:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD4C10E4BB;
-	Thu, 22 Sep 2022 22:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 038B510E1D5;
+	Thu, 22 Sep 2022 22:46:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECC2210E476;
- Thu, 22 Sep 2022 22:10:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663884632; x=1695420632;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ATRCCKT+K2h9OzfUZcSHsOOJ2ehYpfopqXO5XNSmXK4=;
- b=EzDsY1XoAr7CICcAMFd+MGbznnAO29y8DPV5qhYzkyB7Hca/NHYpX1jn
- DUVVytrGWkZ6b+Sh+WMCLwOZh4JhJixUet9fr3cqDakBfcfimvUUsm1Qt
- gcvnTHBhFmh+3JCCFTToSodE90b4ym7N0NBwrwX8q3+H4nu36tPqQuS1X
- 0swTrCJXAJi2ZD8p+OdghixR5HFtJ7dgKp4///wgxcmV+/LNvSCWiUu5+
- EMjIE4+K0J0nhcXRVZo54EAENJBmnX+4DytVgFfiI5pElvOdVMO9R3Il1
- jc//yvKcGn1SktP0UiRegS3qUYI8XPEdhFjZ0We3j6ZFDdO9jTky4SfFP g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="280815519"
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="280815519"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 15:10:32 -0700
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="682416264"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 15:10:32 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/i915/guc: handle interrupts from media GuC
-Date: Thu, 22 Sep 2022 15:11:17 -0700
-Message-Id: <20220922221117.458087-8-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220922221117.458087-1-daniele.ceraolospurio@intel.com>
-References: <20220922221117.458087-1-daniele.ceraolospurio@intel.com>
+Received: from na01-obe.outbound.protection.outlook.com
+ (mail-eastus2azlp170110002.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:c110::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D9810E1D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 22:46:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FwpYlHF/JR4HUXxoESKfJLWP/KO5fUTkdyPRRmu8K+ajo9tWVQ6FCbcfPZlu4JIxPBHDJfkSGjIPlTbcdcFBeKz8Nfq8lQkujJkDzMa4NJRdzp79MXOpGe3XCvRonmQh34hcQBSkBeuo28+FK65y9KNk+8R1Vk9Q2M+G+iA9sy1a0uCTijtsXQZ2hfG+yYHJE6+Q0JxHAoKXXfqz4Sa5O9VpSKEGftiEK+v7SASz/6bd9zHhTLrec8C6JGxefH6JZT5/bADwVUPAbLLTOha+uflxIGc9RzoNjpA3DgFFs/cwGKpYpGMWEmAvPIE3ECukEFOVGbZXFWJ4QbxADeydTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ciErrPeXvmubG0f6HC5COvoekUzJIRr8wIAPrRnpd4Q=;
+ b=hqaQUWYZCYm6K4VUlt5PusEQzNvREGxBfe/ieel/2P3c1PxGWK5MYCV5Ly44lXUpZwFs+ZgBop9ddhqVWhUn2acKy/8SxUUtU07UcJRgqIDFnTS+oB+jV2pfcre6bEuIFw6qcqBo4YggaoqKC6z1kjDS9f0aFJkfTWjQkCZIYU0oE3bJ/rFcfQGbMcSgYT/6iuV2q894A1jU2BXMJipSM9gSLAFu+OsFWjh+m/Ge4scBvy+U2pMzaj0fm3e5PighgdMpJD4rSreOL/2s6y8i/JCL6BdYwaVHhXI3bSOROODnSnMq3DKg3ixnxGtqD5TgI+abKBjtO8f9notoXa6vtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ciErrPeXvmubG0f6HC5COvoekUzJIRr8wIAPrRnpd4Q=;
+ b=f/3DQm88U7phVc0afKIsX4M2qGeBOKenI7YzlOo3wKppvvvogoqbbXMIpV+xUcs1QhBUoXN870OPht4psEf0Mn2c4kFk5qVXAA2g/fyP3JmEZ9HRR80LQU1bPm+QRgypvKjbp8d9q8vtqUWrhFARj+I+yU/RmMMtagokJe/BzbU=
+Received: from BYAPR21MB1688.namprd21.prod.outlook.com (2603:10b6:a02:bf::26)
+ by PH0PR21MB2062.namprd21.prod.outlook.com (2603:10b6:510:ab::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.9; Thu, 22 Sep
+ 2022 22:46:14 +0000
+Received: from BYAPR21MB1688.namprd21.prod.outlook.com
+ ([fe80::17f5:70e:721f:df7e]) by BYAPR21MB1688.namprd21.prod.outlook.com
+ ([fe80::17f5:70e:721f:df7e%4]) with mapi id 15.20.5676.007; Thu, 22 Sep 2022
+ 22:46:14 +0000
+From: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+To: Saurabh Sengar <ssengar@linux.microsoft.com>, Saurabh Singh Sengar
+ <ssengar@microsoft.com>, "drawat.floss@gmail.com" <drawat.floss@gmail.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] drm/hyperv: Don't overwrite dirt_needed value set by host
+Thread-Topic: [PATCH] drm/hyperv: Don't overwrite dirt_needed value set by host
+Thread-Index: AQHYxrzuab2WaEtpTkGefKGEEbz+BK3sHEIg
+Date: Thu, 22 Sep 2022 22:46:13 +0000
+Message-ID: <BYAPR21MB1688F42554CEB542E760F3B5D74E9@BYAPR21MB1688.namprd21.prod.outlook.com>
+References: <1662996766-19304-1-git-send-email-ssengar@linux.microsoft.com>
+In-Reply-To: <1662996766-19304-1-git-send-email-ssengar@linux.microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=2cf5fe52-d0b9-4cef-ba0f-c6b727250160;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-09-22T22:44:26Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR21MB1688:EE_|PH0PR21MB2062:EE_
+x-ms-office365-filtering-correlation-id: efcfbc1f-ffe1-46ab-cff4-08da9cec40d7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: u9+8G1NkrfI9IQQNUbretSnnt3/QjB17xyINgp3nfQdRUCv5RpZmOPW+LvnarPBRn6Y1y3L1/OO8epG/29XJutXT+4TcYy1yCXfjsYTzq1Wc4CrrJUzAvBHSB7vcDLG04icJhE+glfQAoIzWXBjXbQhWe4pra/8UhzSJja5BZCHsyzOLj/Pk5YWDc7ZCaW0TNvaLH7KskhtGvJpnDRb5+q8F/kLkWm5/4As9R5fkeleZWQPWNC5n5bbyxA95CFMNcHeqPSn3Ue1rEkHxTx3xnly7cWAU8kA4+z9Ip16wODlhjvXZhvV6jEu/qFlGLeoCnkrx8I8kOrW9TIMtcExc5QlaKU0Q5WxsTLnoQ9Ufddq+dyhuIKqPIlTHam/s8Bu/EH8nydYzNQWbo11pmuq/VsndDY9L0dmKb8riOSHKApZKpg4UHCA5CC3GO7qFjE01343iBRDwy7J2RnEs8IxsUCCaxSaVMsw7x3deVT4nr5drXZmEbhQ8wiUhms3eUG1+tFC8kNl8WOgUlEOR/hoaqVDXG4YcLOxkwdIpwUwbjhH9eRg7QotgKvTgsPtxyoivzEHcJ3ixt6ISk7GQD+AcaSR4OD0oSIp+3OUP68G25zWIy12zsGH6Ebw1So2uYpTTrk3p2CUJFibfRj32buYo0iwsa56iqUW7qwDVmpwptSqM8FTzrimKooxOJRKrdn8jHaMesBJhuEUGgKlHsBjJ023jiLSOHN4lXUi13p8os/XXY2bAAGh1nUio6nvr8cF42mc3CcU3rj5krHEzL5xHNDX2T/rKa9tCp1JwKLEkwff8vHvfAZGI3dtks9ccuNcU
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR21MB1688.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(346002)(396003)(39860400002)(136003)(376002)(451199015)(8990500004)(5660300002)(8676002)(2906002)(41300700001)(71200400001)(33656002)(6506007)(26005)(7696005)(38100700002)(66476007)(9686003)(64756008)(66556008)(66446008)(66946007)(76116006)(8936002)(52536014)(86362001)(316002)(10290500003)(38070700005)(110136005)(478600001)(82960400001)(82950400001)(55016003)(122000001)(186003)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ODg912/8dsCA2XdB23dg6BpwH9a58vzCAwNKSlAUsLhXy005evTgfM+rYrFy?=
+ =?us-ascii?Q?H7+zSdTH+ocblJLnsNha5RULIyvgKyhu4Jtkc6vj50KDlBpEc6CsqGUkWy6v?=
+ =?us-ascii?Q?5dwt0u2C8/MmteGtu6Ie+SJ0vR/ZZpOHrg1sNhpQ37IkSlg2Tjh3R+wKrTa1?=
+ =?us-ascii?Q?MX5q7GQff86JRMvObRrUQhBtQQdhDJxZq08QJYzwrw6gpKS+esU393JMza78?=
+ =?us-ascii?Q?GQG8xNAApxLZXHu1TNadhvfGjskT229J8qWHBUWzq8WxXa1RBRTKwzLQisnV?=
+ =?us-ascii?Q?TCTj9pN7yylXh6rmWZUF/cIeG+IdXwm8ifJhsKNCgMOcFaZQ+QKqzY+64KfK?=
+ =?us-ascii?Q?g9FqLz6Bmj8lA2hVkP+qMpYGydIE1KOsjZZTxacPZKD449n+n4rA/5dpbGJV?=
+ =?us-ascii?Q?G8KF4IoLrOvWe2M7nvKJxgBVLW69CcQD7fHUDjVdnAeVPcx+7aycd3dfbzJH?=
+ =?us-ascii?Q?Ae5Neh/0U8LKrpaLAPR6hMtCJN/QPUmcIpa1gCg9eIne3AIZa3H9GbdlkdR/?=
+ =?us-ascii?Q?IcamSi90XmYg7S5Me30FihRAdIKt5XChVO9Hvnx8LuIbQx+asoTUpeItF+ha?=
+ =?us-ascii?Q?VZsrhSXR9pSEH18N1WcTGXZIHoog/Cs64E3Qdzb0MvSVFTaMFPKh8AmKqKJn?=
+ =?us-ascii?Q?pbuz+VliTNiD5xcXNDyxOWBMZuZs+GBHi7zpLLea5FC1Pz1T07WfcVmbkzHF?=
+ =?us-ascii?Q?tUMnnGnPU7qyAV++pmr0254U7FC0DhuZV7DlfHK7MLbvFI9OMLefFV+e7Dtl?=
+ =?us-ascii?Q?yrRq2SfJVofRHLJVTGnfblEPqWIiYrZ29AVjcuN4CgJde90uu98xusQTuhg3?=
+ =?us-ascii?Q?fE3LHujrKpPsWpAadve86CjEK6YM75cHoCGsJ4YRkDpPQpanxezy1KYdYJlM?=
+ =?us-ascii?Q?zCJdyjnpjN8RrPsV4z0mgqseUTDKrBZCY2sR0X+AnnAemtCgijHmJ88vxFr4?=
+ =?us-ascii?Q?smi950I2kWXlUtxFOgB2gIIon9yBtrAyVoMGR3F3I4egbDEnyCJUH3VBK1jq?=
+ =?us-ascii?Q?18lNWMNPtPYMMzBFgqU0OsuJQybZZUyM9aA5dyH9Ox4QsbKQOYgwG8vHl+Ss?=
+ =?us-ascii?Q?QF2ZwGsDC5P1ZhTPQNzRWmvjZT2MtGnlC3PxR/BE2HrcS//cPiD/U3SG0r84?=
+ =?us-ascii?Q?OTMYLLNpGTA3N/A0vaCW6ajl+YOlviGLxOck1LWon15g6N/Z4rDAqAvgM2YH?=
+ =?us-ascii?Q?Gktp/XKb4bExqpR+yJIschIDqD5CTtjXV7/P7Lyo739mJWU1l2ReMoXJqaVX?=
+ =?us-ascii?Q?P0srnIppyDoudgFeiwRvh+GpOOKtMfG2VZO25Th8lFtoUwClg2C2XcVcYI7b?=
+ =?us-ascii?Q?RxKZRN9iDIDcbAeaq1KA37qSWOaKjEZ25y/gpMofQ+caBjAYEuuj9nonz0rv?=
+ =?us-ascii?Q?jVkqYkJVD1q7WHv3BwklTGrCwyjnIUGgAUL/P6SGJRqbMiYSJvfAL5ODfA6E?=
+ =?us-ascii?Q?MCWGvG6UApfJs2xCMvZMaKzQEWYfPuO3/p+vwmgmhLYpAsNoX7zPtH+7AW62?=
+ =?us-ascii?Q?ADKjMQnKfzkzu/cH/OhuEXe2SwPZXM4MoEvRSo9Ri+tPDTleBCM3lC4stUHG?=
+ =?us-ascii?Q?P331l+kdcR7+boG1N9RQKBAiKmbiokSDx8hvIOa3SX3Nz4By+hnWJCnFRLHA?=
+ =?us-ascii?Q?ww=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1688.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: efcfbc1f-ffe1-46ab-cff4-08da9cec40d7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2022 22:46:14.0134 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wjtZWWwBag1WieLsgr7AWmAnw0AjOVqLj7xKVh0HFk+mAz4mhEdYNPnv1Ysip+jJpz2Y1VLkmgLJyrYZmGY4s0+lpkwl/fBMYQAQyEMHs2E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR21MB2062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,230 +130,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The render and media GuCs share the same interrupt enable register, so
-we can no longer disable interrupts when we disable communication for
-one of the GuCs as this would impact the other GuC. Instead, we keep the
-interrupts always enabled in HW and use a variable in the GuC structure
-to determine if we want to service the received interrupts or not.
+From: Saurabh Sengar <ssengar@linux.microsoft.com> Sent: Monday, September =
+12, 2022 8:33 AM
+>=20
+> Existing code is causing a race condition where dirt_needed value is
+> already set by the host and gets overwritten with default value. Remove
+> this default setting of dirt_needed, to avoid overwriting the value
+> received in the channel callback set by vmbus_open. Removing this
+> setting also means the default value for dirt_needed is changed to false
+> as it's allocated by kzalloc which is similar to legacy hyperv_fb driver.
+>=20
+> Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+> ---
+>  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> index 4a8941fa0815..57d49a08b37f 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> @@ -198,8 +198,6 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
+>  	if (ret)
+>  		drm_warn(dev, "Failed to update vram location.\n");
+>=20
+> -	hv->dirt_needed =3D true;
+> -
+>  	ret =3D hyperv_mode_config_init(hv);
+>  	if (ret)
+>  		goto err_vmbus_close;
+> --
+> 2.31.1
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_irq.c  | 21 ++++++++++++++----
- drivers/gpu/drm/i915/gt/intel_gt_regs.h |  2 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c  | 29 ++++++++++++++-----------
- drivers/gpu/drm/i915/gt/uc/intel_guc.h  |  5 ++++-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c   |  8 +++++--
- 5 files changed, 45 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-index f26882fdc24c..e33ed9ae1439 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-@@ -17,6 +17,9 @@
- 
- static void guc_irq_handler(struct intel_guc *guc, u16 iir)
- {
-+	if (unlikely(!guc->interrupts.enabled))
-+		return;
-+
- 	if (iir & GUC_INTR_GUC2HOST)
- 		intel_guc_to_host_event_handler(guc);
- }
-@@ -249,6 +252,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
- {
- 	struct intel_uncore *uncore = gt->uncore;
- 	u32 irqs = GT_RENDER_USER_INTERRUPT;
-+	u32 guc_mask = intel_uc_wants_guc(&gt->uc) ? GUC_INTR_GUC2HOST : 0;
- 	const u32 gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
- 	u32 dmask;
- 	u32 smask;
-@@ -299,6 +303,19 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
- 	if (HAS_HECI_GSC(gt->i915))
- 		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~gsc_mask);
- 
-+	if (guc_mask) {
-+		/* the enable bit is common for both GTs but the masks are separate */
-+		u32 mask = gt->type == GT_MEDIA ?
-+			REG_FIELD_PREP(ENGINE0_MASK, guc_mask) :
-+			REG_FIELD_PREP(ENGINE1_MASK, guc_mask);
-+
-+		intel_uncore_write(uncore, GEN11_GUC_SG_INTR_ENABLE,
-+				   REG_FIELD_PREP(ENGINE1_MASK, guc_mask));
-+
-+		/* we might not be the first GT to write this reg */
-+		intel_uncore_rmw(uncore, GEN12_GUC_MGUC_INTR_MASK, mask, 0);
-+	}
-+
- 	/*
- 	 * RPS interrupts will get enabled/disabled on demand when RPS itself
- 	 * is enabled/disabled.
-@@ -307,10 +324,6 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
- 	gt->pm_imr = ~gt->pm_ier;
- 	intel_uncore_write(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE, 0);
- 	intel_uncore_write(uncore, GEN11_GPM_WGBOXPERF_INTR_MASK,  ~0);
--
--	/* Same thing for GuC interrupts */
--	intel_uncore_write(uncore, GEN11_GUC_SG_INTR_ENABLE, 0);
--	intel_uncore_write(uncore, GEN11_GUC_SG_INTR_MASK,  ~0);
- }
- 
- void gen5_gt_irq_handler(struct intel_gt *gt, u32 gt_iir)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 1cbb7226400b..792809e49680 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -1519,6 +1519,7 @@
- #define   GEN11_CSME				(31)
- #define   GEN11_GUNIT				(28)
- #define   GEN11_GUC				(25)
-+#define   GEN12_GUCM				(24)
- #define   GEN11_WDPERF				(20)
- #define   GEN11_KCR				(19)
- #define   GEN11_GTPM				(16)
-@@ -1573,6 +1574,7 @@
- #define GEN11_VECS0_VECS1_INTR_MASK		_MMIO(0x1900d0)
- #define GEN12_VECS2_VECS3_INTR_MASK		_MMIO(0x1900d4)
- #define GEN11_GUC_SG_INTR_MASK			_MMIO(0x1900e8)
-+#define GEN12_GUC_MGUC_INTR_MASK		_MMIO(0x1900e8) /* MTL+ */
- #define GEN11_GPM_WGBOXPERF_INTR_MASK		_MMIO(0x1900ec)
- #define GEN11_CRYPTO_RSVD_INTR_MASK		_MMIO(0x1900f0)
- #define GEN11_GUNIT_CSME_INTR_MASK		_MMIO(0x1900f4)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index b0beab44b34c..ab0263d8e1cf 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -98,6 +98,8 @@ static void gen9_enable_guc_interrupts(struct intel_guc *guc)
- 		     gt->pm_guc_events);
- 	gen6_gt_pm_enable_irq(gt, gt->pm_guc_events);
- 	spin_unlock_irq(gt->irq_lock);
-+
-+	guc->interrupts.enabled = true;
- }
- 
- static void gen9_disable_guc_interrupts(struct intel_guc *guc)
-@@ -105,6 +107,7 @@ static void gen9_disable_guc_interrupts(struct intel_guc *guc)
- 	struct intel_gt *gt = guc_to_gt(guc);
- 
- 	assert_rpm_wakelock_held(&gt->i915->runtime_pm);
-+	guc->interrupts.enabled = false;
- 
- 	spin_lock_irq(gt->irq_lock);
- 
-@@ -116,39 +119,39 @@ static void gen9_disable_guc_interrupts(struct intel_guc *guc)
- 	gen9_reset_guc_interrupts(guc);
- }
- 
-+static bool __gen11_reset_guc_interrupts(struct intel_gt *gt)
-+{
-+	u32 irq = gt->type == GT_MEDIA ? GEN12_GUCM : GEN11_GUC;
-+
-+	lockdep_assert_held(gt->irq_lock);
-+	return gen11_gt_reset_one_iir(gt, 0, irq);
-+}
-+
- static void gen11_reset_guc_interrupts(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
- 
- 	spin_lock_irq(gt->irq_lock);
--	gen11_gt_reset_one_iir(gt, 0, GEN11_GUC);
-+	__gen11_reset_guc_interrupts(gt);
- 	spin_unlock_irq(gt->irq_lock);
- }
- 
- static void gen11_enable_guc_interrupts(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
--	u32 events = REG_FIELD_PREP(ENGINE1_MASK, GUC_INTR_GUC2HOST);
- 
- 	spin_lock_irq(gt->irq_lock);
--	WARN_ON_ONCE(gen11_gt_reset_one_iir(gt, 0, GEN11_GUC));
--	intel_uncore_write(gt->uncore,
--			   GEN11_GUC_SG_INTR_ENABLE, events);
--	intel_uncore_write(gt->uncore,
--			   GEN11_GUC_SG_INTR_MASK, ~events);
-+	__gen11_reset_guc_interrupts(gt);
- 	spin_unlock_irq(gt->irq_lock);
-+
-+	guc->interrupts.enabled = true;
- }
- 
- static void gen11_disable_guc_interrupts(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
- 
--	spin_lock_irq(gt->irq_lock);
--
--	intel_uncore_write(gt->uncore, GEN11_GUC_SG_INTR_MASK, ~0);
--	intel_uncore_write(gt->uncore, GEN11_GUC_SG_INTR_ENABLE, 0);
--
--	spin_unlock_irq(gt->irq_lock);
-+	guc->interrupts.enabled = false;
- 	intel_synchronize_irq(gt->i915);
- 
- 	gen11_reset_guc_interrupts(guc);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 804133df1ac9..061d55de3a94 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -78,6 +78,7 @@ struct intel_guc {
- 
- 	/** @interrupts: pointers to GuC interrupt-managing functions. */
- 	struct {
-+		bool enabled;
- 		void (*reset)(struct intel_guc *guc);
- 		void (*enable)(struct intel_guc *guc);
- 		void (*disable)(struct intel_guc *guc);
-@@ -316,9 +317,11 @@ static inline int intel_guc_send_busy_loop(struct intel_guc *guc,
- 	return err;
- }
- 
-+/* Only call this from the interrupt handler code */
- static inline void intel_guc_to_host_event_handler(struct intel_guc *guc)
- {
--	intel_guc_ct_event_handler(&guc->ct);
-+	if (guc->interrupts.enabled)
-+		intel_guc_ct_event_handler(&guc->ct);
- }
- 
- /* GuC addresses above GUC_GGTT_TOP also don't map through the GTT */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 4cd8a787f9e5..1d28286e6f06 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -636,8 +636,10 @@ void intel_uc_runtime_suspend(struct intel_uc *uc)
- {
- 	struct intel_guc *guc = &uc->guc;
- 
--	if (!intel_guc_is_ready(guc))
-+	if (!intel_guc_is_ready(guc)) {
-+		guc->interrupts.enabled = false;
- 		return;
-+	}
- 
- 	/*
- 	 * Wait for any outstanding CTB before tearing down communication /w the
-@@ -657,8 +659,10 @@ void intel_uc_suspend(struct intel_uc *uc)
- 	intel_wakeref_t wakeref;
- 	int err;
- 
--	if (!intel_guc_is_ready(guc))
-+	if (!intel_guc_is_ready(guc)) {
-+		guc->interrupts.enabled = false;
- 		return;
-+	}
- 
- 	with_intel_runtime_pm(&uc_to_gt(uc)->i915->runtime_pm, wakeref) {
- 		err = intel_guc_suspend(guc);
--- 
-2.37.3
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 
