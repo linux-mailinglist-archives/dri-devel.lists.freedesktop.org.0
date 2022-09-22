@@ -2,116 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F175E5B8F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 08:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2755E5B91
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 08:42:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA8D110E04B;
-	Thu, 22 Sep 2022 06:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F7D10E083;
+	Thu, 22 Sep 2022 06:42:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2065.outbound.protection.outlook.com [40.107.92.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE4910E04B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 06:42:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EKHvu4gfutLzy1W/j2VCBTQABStMSgZvP4Twx79rVkm8GcVVKdBZA87WQ8S9bGRDeY7i96wqL635VoYKpmBdvjGVc3Rk2vHwdtFAx7U36WXzvhdfys/GMLyeVIlrbLdKTBdnVVuPSGTAnk7bMWXv/SQgb79mphKORuJRvJ0ijoabzhuYhGgzoGEbHVKubQmfIxYXnay0YYimUuhqaerm1c4a9P/kSvhgY3y8EP4OEL1mR812/TusuWmvkGN9lyvkUNClLtA4NV6c06EPZWZOweQslm5zXZc5x9d9W0dm9kIAA8OmRBYfLf80rc1sp5PXv+GMAwkTJDEwEUTG6mIapg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xj/5Zi3zlcBYiqQ01wrfjGr6X3RT1DN1CIcKooCSHyk=;
- b=JToZsQG7l0PiuQngiRVmY4EFeBlzP/U4HosDCeqAyWBSHFNnWpM3fVP7EnML/apQztHkN1h+P+j2W3iIfe0LZNgqbF4JXsBHWZY8OkZ7PI5SbqshNXuCOfshpzD1NGIbsN3pR2GDz6p+XaixsDJA18vwSNyIksI7ytN0LDUrqplDnEX4MQv41fxdpMe5+4E46jjrnjtp4763I5mizdUkXCcdtRMY85QNaUWoEEBok6bHX2zdSDt+2fJftpsnGiqYHSeFnzCrAj/OA/lfqWOj7Of/qmJOLnPXLOobG1Vx9DSKYEyw22+z5f+btung7kLGfEsRWcoBKCpirzzm1dLjRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xj/5Zi3zlcBYiqQ01wrfjGr6X3RT1DN1CIcKooCSHyk=;
- b=YlzyP3vaXL6wUGcxBWZamU4PvhzQrMWRWji8guIwaWLRhfhLiHust1frPflHTSaKTvPZjq2I6lWJpLmnmzApQtLEZ4JXKlGCsvfc/0q1R/qLuZ1phTvISscBaeAQ3s3Jahjk/ys7YkgxuSpUfaNpcAZbtRzVX4QdE5q3cmnW9qc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN0PR12MB6294.namprd12.prod.outlook.com (2603:10b6:208:3c1::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.16; Thu, 22 Sep
- 2022 06:42:00 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5654.016; Thu, 22 Sep 2022
- 06:42:00 +0000
-Message-ID: <a29916d7-363a-3524-689c-c9803e940161@amd.com>
-Date: Thu, 22 Sep 2022 08:41:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/ttm: clean the redundant assignment
-Content-Language: en-US
-To: Chuansheng Liu <chuansheng.liu@intel.com>, dri-devel@lists.freedesktop.org
-References: <20220922004901.61424-1-chuansheng.liu@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220922004901.61424-1-chuansheng.liu@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0419.eurprd06.prod.outlook.com
- (2603:10a6:20b:461::15) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDDAC10E083
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 06:42:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 274441F8B0;
+ Thu, 22 Sep 2022 06:42:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663828944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8OnRmSH/W/6HCqxIlF+wHjSgoSEZ0tvBMLxk64QHsds=;
+ b=Y1M0EIQNK+TKYpLKhxMa7Nryt54pY0QWBCxF/fd78c7LxFfygE3E9/XjBmUc89/y+qSPO6
+ qtqQkqSPoRm2gUVoBD4rKQ+dKRQ6sbMKv1K6sZ1IITiHzJPkZrj1ylwDKrY/8Q890NYMxR
+ wDLc93NOLH837pGCDZsC1gxNAW/6f6w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663828944;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8OnRmSH/W/6HCqxIlF+wHjSgoSEZ0tvBMLxk64QHsds=;
+ b=vr2QgvStRc+WEUHEXfEO2Zg4t50RkWWxjlp8NYhI0HVA6cmJxwySXDFuzQlpRZy/E/wfZ+
+ Qu3fdBUQxMM1WxAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D305D1346B;
+ Thu, 22 Sep 2022 06:42:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8GaGMs8DLGNBNwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Sep 2022 06:42:23 +0000
+Message-ID: <e6326381-0f5e-1fe3-e72e-fdfa804e6574@suse.de>
+Date: Thu, 22 Sep 2022 08:42:23 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN0PR12MB6294:EE_
-X-MS-Office365-Filtering-Correlation-Id: de509426-87ae-4c4e-6b7e-08da9c658d4c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bpQ8r8JTAz/qD3NW1CO9o3loeIf9A0wOYdrmR7MY6QPb/8BMySfa2QA+DDdPHjRE48j/BwUy3cd26usJw7TEGYQjNHnraFsmifuFJXnnLgrjk5tS6nmrw+La2oA/HWmeex9jtlTy/MegtvZ7DNp9zMj/2uspt1qDSU8oV/6JgFJJSY5gtagauu7n8OcR4+zd0e7xthY0eOHKrAdgUFiSWRb6w/rpMYvJ3tzh/ViOGlk09KPlH4qOBRnGbpWHw1frxnMKbfsQCcvu3SCIGgjloAgmm/qPHL65hEaTu2W2MzQnQx4ELLVcuBl6gVZWPcnWXdRuEM9MPQ7q6WZOkMOc1ZVGckVZbAUe88cL8oILu/xfYf3UItlbbSub/iKXGFIrfsmkd1eNNt4H3af5QanlXa71gAjQPeltFZwkaissSJrRdp68Ph6xGpfOi0kLZeX3e5+e9FJ8UyW2/KYknfrY4KOt3W222GW9fteHpm4F+wCfPhHKvOv0I2YFYTtQbtGb2xtJVM5qJ9NPEPdf4J6zvtygkWeceYSa3CNy7lqcP1cv6z7hghPAnjcyzy9l4TJ+wP3ZHxFGvblU26a6MoMX9ZQdROon0rp4+mi8QD3ni6gfQCKzccu2Z8j8SRuUQ16pMlcgOV+nJu3qXLQEjx6f9/0eM+2BazvH0Y0t7lmf5N9ZVYJ2mauHLHAwkyDcDrN/dejqNEl4jxvv6ypgOqIqeHi2yscjmg1kD7ET5rrvx1OwmR12SzRYZVr73WkGNrBwUoaiIbewEMbrMIfgepmWVj0WLtHWM05zaR75Op9B6h0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(346002)(136003)(39860400002)(396003)(366004)(451199015)(2906002)(6666004)(66574015)(36756003)(6506007)(86362001)(5660300002)(6486002)(478600001)(8936002)(4744005)(41300700001)(31696002)(26005)(6512007)(2616005)(38100700002)(186003)(31686004)(8676002)(66476007)(316002)(66556008)(66946007)(83380400001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3k4eTRqK0p2M2ZhZlNqKzNWeTh3eFFTeXNDWFQranBvKy83dXRycnJBY2lL?=
- =?utf-8?B?Vkk0Y21wYWlPOTRCTGNLdjlMU2JQL0NEaWxZUW9PVDdpNHlGYlJHdHFEbWd6?=
- =?utf-8?B?U2RVZ2NrclVVZlZwU0VicFZyU0pFamh4SHFlVzM4WHZia29BNktGdGxOZFR2?=
- =?utf-8?B?K1pVZXFMZ3JCNjU1TlMvQmdONnNRMVFkTnVkbGRYY253VDNwbDdRUWdTZ3Q0?=
- =?utf-8?B?L2xuSThVMTN6QVg5YnB0OCsvOUhZY3lhaVdIbEZHKzN6ZFJLKzNXOTYzeEU3?=
- =?utf-8?B?eVBycUttc2JnV0pKY09qNmRpUW1wUGwrSXRXNnNJSllHNVRrNm00TW9BZ3do?=
- =?utf-8?B?MHNSckIxbExzRGRxazRrbmNIcTBpNUxvcFh0bTFONHU1Mk1SZmVDQnF2Z1hT?=
- =?utf-8?B?Rnc5NGxkZm5mT3pDQ05Ec0E5V2ZCTXRkUDhFcHpUQnZEZDlrYVY2eWNtZDhG?=
- =?utf-8?B?TUJpUytQNUo0emdOOTQxdU5SMnA3aXR3RWJ6L21TcjFxZFVBSExuVjZsUnJh?=
- =?utf-8?B?Zjh2NGpTQUNrYjBLWEh1di9zYmFySnNteFJ1ZTI3OFFLTVl2bXkyd0ltSkxQ?=
- =?utf-8?B?WlhHd3VxOXFBNFN5MlplVUVON2V5TGwwQjRaSitObXhkT21VSDFXWUdFZUI0?=
- =?utf-8?B?dVVYY1F3RitRUytzSEpCR3F0Smo2c3RCSitoSnNxeVYyMmNuS2RwUnBLZjRm?=
- =?utf-8?B?eUoxOXJORFBoRDV4NkVZbVcwTmszNjYzb0tOb21MSFBISDllWks0UEVmR2cr?=
- =?utf-8?B?M3dBeVBnYm9JbzU3RzJFTmhYUW5vNFBKMzB3bWJaRHUxZXhQOWp6VXpDNmQ1?=
- =?utf-8?B?aysyMW1LUFp5VFg4Z1p0V3pUS3BlcGtRc3FWQXBzSGNieEhQeG1GV3ZiUE9r?=
- =?utf-8?B?eUFmeWF0ZWxIUEtCKzVxdFdCKzRlUTMyR1BXWHU5enRLbTFvQkdRZlExMmtz?=
- =?utf-8?B?S0FEU3JoaEhKT3gyZmRCK3lYRUV0TGlSVUlGaWgvZmlWMEpHYnRBS2xhK0R4?=
- =?utf-8?B?NWs2NUZidnVDM1I5QzUrTFlqVGg1L2txN3EvMXJLK0hidnBSWVVNZHZVdkEy?=
- =?utf-8?B?YTZqaU9NRzArWDFYRUJ5NVZXK3JGVDUzaXFsZmlDOGphQWpjeVJES1RaRHZ2?=
- =?utf-8?B?aWhZamNzZzhISDhIbmNJc1FJaExXc0ZKM3hFUHI4Q0t0RmYyTlZnaXlaeUp2?=
- =?utf-8?B?R2Q2QmRESm1ycnZZNFE2dTd6QjFGZFZEREgxTjBlYVFqWlFzazZSMFN0VXFq?=
- =?utf-8?B?ZStTTktGSXVOUEM3dWZZWkJXRkcvQURLTGJzaVlBS1JGb2pWbVVmS0RCRE1n?=
- =?utf-8?B?REN4WEc2WmVxZXA1L3BHNnN3bk1xY2hmK05vT1ExYVNQMmcvRXZ3SFZqODFL?=
- =?utf-8?B?NEY1bFA3dXpFZVZwckhkeEFXYnF3OWhDTVNRZU4zMm5ESENTQzdKUitZYVFu?=
- =?utf-8?B?QjhFc2dNYU5VL2J2ZEp6WG4wbVNhSEZnbysva3dwZWdFbG9pOURuZ0ZjN1Rk?=
- =?utf-8?B?dkNtZm5WQXlPQ0RreGllOVlma0QyN2FsdE9OQldDc2F5RHI0RzRERzgvdW5u?=
- =?utf-8?B?aE1qUEJhSEpFKzBPcVRtL01lcUczNmFzb0ZjNnJCUjV5YVpLSEZMalUyUXd6?=
- =?utf-8?B?RW9ZTXpRMVQrNEpEUmdORXRVcXpvMzBrWlF4N3NBbVJHdjhjdUxSQ2dlL0ZL?=
- =?utf-8?B?Rkh3K2ZNclpwQXBMWkxxTXVqNU5LUWZTRFp0Q0dhbklHK3BHUWY0bVkyMlly?=
- =?utf-8?B?M2w3YThhMEZycjkzc2JLajBKYUMreEhjSjFlYklwanZNemo3OU1qK0t4VHF4?=
- =?utf-8?B?M2diVGFRbFNPTVU4Kzd5RG5rVTUyU1RNZnh4Q3E0MGZUdmpCa2JYUHY4Q0pL?=
- =?utf-8?B?cEZsQ3pIV281cDMxNmNHaGJ4bUdmWUUwS0t1UXB6ck4xSlFIc0NjV3NjaDNl?=
- =?utf-8?B?cVFWTzRYVnlwWVQ3NFVhaE5JZmlMeWdaRmJXOXk1bGZzUnErdkNISWZwY3lW?=
- =?utf-8?B?andpNWJoSXdpblJXcEtldUFvRVZtN0x0cTBjaStaa1Rya01pODEwYWpGMEFT?=
- =?utf-8?B?ajAyaVd1d3lxV1VEU2FPQ0VsaGcvTDAwMUEyRnplaFRMVmpFRGZFUVFRM3hP?=
- =?utf-8?Q?knBMKehWnjMetUoAmpGKQqtv8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de509426-87ae-4c4e-6b7e-08da9c658d4c
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 06:42:00.4759 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8XnN77JlAZo4ehicln4cc34f9UE8l+QdA2SjRJ39XvnKKFF5LhTqxIsiF4PO+sVK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6294
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-11-tzimmermann@suse.de>
+ <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
+ <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
+ <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------S0VI6j0NpGxhSwu05hBHJU4d"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,31 +73,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, deller@gmx.de,
+ linuxppc-dev@lists.ozlabs.org, mark.cave-ayland@ilande.co.uk,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, paulus@samba.org,
+ maxime@cerno.tech, mpe@ellerman.id.au, msuchanek@suse.de, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.09.22 um 02:49 schrieb Chuansheng Liu:
-> Clean the redundant assignment of ttm->caching in ttm_tt_init_fields().
->
-> Signed-off-by: Chuansheng Liu <chuansheng.liu@intel.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------S0VI6j0NpGxhSwu05hBHJU4d
+Content-Type: multipart/mixed; boundary="------------yWStpXhby2nB0Rs0GOZNtiXR";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>, javierm@redhat.com,
+ airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech,
+ sam@ravnborg.org, msuchanek@suse.de, mpe@ellerman.id.au, paulus@samba.org,
+ mark.cave-ayland@ilande.co.uk, linux-fbdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org
+Message-ID: <e6326381-0f5e-1fe3-e72e-fdfa804e6574@suse.de>
+Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-11-tzimmermann@suse.de>
+ <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
+ <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
+ <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
 
-I'm really wondering how this came to be. Anyway Reviewed-by: Christian 
-König <christian.koenig@amd.com>
+--------------yWStpXhby2nB0Rs0GOZNtiXR
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> ---
->   drivers/gpu/drm/ttm/ttm_tt.c | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> index d505603930a7..e110db86c870 100644
-> --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -136,7 +136,6 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
->   			       unsigned long extra_pages)
->   {
->   	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + extra_pages;
-> -	ttm->caching = ttm_cached;
->   	ttm->page_flags = page_flags;
->   	ttm->dma_address = NULL;
->   	ttm->swap_storage = NULL;
+SGkNCg0KQW0gMjEuMDkuMjIgdW0gMTg6NDggc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIFdlZCwgU2VwIDIxLCAyMDIyIGF0IDI6NTUgUE0g
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4gQW0g
+MDUuMDguMjIgdW0gMDI6MTkgc2NocmllYiBCZW5qYW1pbiBIZXJyZW5zY2htaWR0Og0KPj4+
+IE9uIFdlZCwgMjAyMi0wNy0yMCBhdCAxNjoyNyArMDIwMCwgVGhvbWFzIFppbW1lcm1hbm4g
+d3JvdGU6DQo+Pj4+ICsjaWYgIWRlZmluZWQoQ09ORklHX1BQQykNCj4+Pj4gK3N0YXRpYyBp
+bmxpbmUgdm9pZCBvdXRfOCh2b2lkIF9faW9tZW0gKmFkZHIsIGludCB2YWwpDQo+Pj4+ICt7
+IH0NCj4+Pj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBvdXRfbGUzMih2b2lkIF9faW9tZW0gKmFk
+ZHIsIGludCB2YWwpDQo+Pj4+ICt7IH0NCj4+Pj4gK3N0YXRpYyBpbmxpbmUgdW5zaWduZWQg
+aW50IGluX2xlMzIoY29uc3Qgdm9pZCBfX2lvbWVtICphZGRyKQ0KPj4+PiArew0KPj4+PiAr
+ICAgICAgIHJldHVybiAwOw0KPj4+PiArfQ0KPj4+PiArI2VuZGlmDQo+Pj4NCj4+PiBUaGVz
+ZSBndXlzIGNvdWxkIGp1c3QgYmUgcmVwbGFjZWQgd2l0aCByZWFkYi93cml0ZWwvcmVhZGwg
+cmVzcGVjdGl2ZWx5DQo+Pj4gKGJld2FyZSBvZiB0aGUgYXJndW1lbnQgc3dhcCkuDQo+Pg0K
+Pj4gSSBvbmx5IGFkZGVkIHRoZW0gZm9yIENPTVBJTEVfVEVTVC4gVGhlcmUgYXBwZWFycyB0
+byBiZSBubyBwb3J0YWJsZQ0KPj4gaW50ZXJmYWNlIHRoYXQgaW1wbGVtZW50cyBvdXRfbGUz
+MigpIGFuZCBpbl9sZTMyKCk/DQo+IA0KPiBpb3dyaXRlMzIoKSBhbmQgaW9yZWFkMzIoKT8N
+Cg0KRG8gdGhleSBhbHdheXMgdXNlIGxpdHRsZSBlbmRpYW4sIGFzIHRoZXNlICpfbGUzMiBo
+ZWxwZXJzIGRvPyBJIHRob3VnaCANCnRoZXkgdXNlIGhvc3QgYnl0ZSBvcmRlci4NCg0KQmVz
+dCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRl
+cmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRA
+bGludXgtbTY4ay5vcmcNCj4gDQo+IEluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0
+ZWNobmljYWwgcGVvcGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQNCj4gd2hlbiBJ
+J20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBz
+b21ldGhpbmcgbGlrZSB0aGF0Lg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAtLSBMaW51cyBUb3J2YWxkcw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
+cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
+YkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgw
+OSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
+--------------yWStpXhby2nB0Rs0GOZNtiXR--
+
+--------------S0VI6j0NpGxhSwu05hBHJU4d
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMsA88FAwAAAAAACgkQlh/E3EQov+C0
+JhAAhn2vG5W7iFSIRzBsN7l86MBbE+lOjzUfGiY9xK3wPg9flwnf4zS5uAtlAkSBQOeA/JGEiHzZ
+Oa0QyWwX6BpkXAZnEQdxG0PMYf44Wyuzb2nh1u+UTMbIeuLmiFYlNQM3MFtd83cucCs/3r421/ZT
+XcPiQei/KyOGTdkog50jTzLnhK9cnMEQ5II1Hdy/OX8fdfzN5zopnmGmtwXvNdNYdDdo88sFsscX
+kn/WGru/3gzOnlhOeo96UBWJfHfSxISw5XXybBA8fjKxOfp3Oo39HiFeRTKxoTYBAEZ54txYXKGO
+BH0uaXLkC64vseq2w2DrkG5sGXhhp6NuO0KCPvmJDYm2QNNvlECuHYT9ryjdJssa9q2jZidmDA7q
+uh+qZlZ3tSp1npxzqRYvHF0EAAMSN8dSXRjLCyxheiSFgUEatx5vZ1S8eRFDsKEL5IO/FdqPe4Cd
+DhgwJZUrPZPRtu0U+C5C7cPxNElrxr8Dh5tw1Ir3/dWX7qrv4uvsG65OLfk0NoG9/iyLGpTEli8h
+bxed1ytAacLFmNKDBvQ5eeAnpW2ePGgPMJ+FIqn1QzCHIILpkUSRaJeEwX9b0yV9rVSl9mbpGG0K
+J7Nf8CX4m+5tv4octpzpzDWxN58kbyeJedv08dy0ExGtBxqY2HLM3HZEe7EUAqOH5etSHHvHhOKd
+KI0=
+=5qHN
+-----END PGP SIGNATURE-----
+
+--------------S0VI6j0NpGxhSwu05hBHJU4d--
