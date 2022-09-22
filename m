@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6925E5924
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 05:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8185E5935
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 05:11:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01DF410EA42;
-	Thu, 22 Sep 2022 03:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F115D10EA4B;
+	Thu, 22 Sep 2022 03:11:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1331510E025
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 03:10:26 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id w2so8007736pfb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 20:10:26 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA1810E025
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 03:10:24 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id d82so7924329pfd.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 20:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=9y2lxcjKWi6kM02eOSoQVeQPXSl5vobQ22c95G6mEc4=;
- b=agBKCvV0iC7GQIcf8sz7UOH3dVItREZG7jPdBvtdPy2YLOE0+XAy2KLGvZyzWCldr+
- eBmNfNQZyJ71RW93/RqEBJpErudlrwRKiB3G8SDyrXVW40aMl2oo1k6YG1lfeIUUjh9P
- GUamhTzL1Eje9pLqolXG4/wF2iRxonrtVdIpw=
+ bh=kaPCbEUam/i/QzM3EsiD/q7EbxvCz2hqpx3qsHkAHe4=;
+ b=n3JitkeKKUUxbz6yn64Uwj1L8NZF8ivw+xHJGwLWPTznbBHC9NKX5oIDtTPO2BaSLc
+ 93ZTFQf3icolOuiYEksXgK7g/tzg0rkadZNBpMtyblAayJyXz59n3d2igSogXrXOJeEu
+ gpFsv/wtpmyI2nisZWM6BTAhUm+uMJ0L5a/t4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=9y2lxcjKWi6kM02eOSoQVeQPXSl5vobQ22c95G6mEc4=;
- b=5hAvSE48xcb86KpIMgLK20PZYpR34gfKfVNb5Zp260xnwiBBNgSXk+zB3Q4vV3/YHQ
- uUbPFuwVXQ0omR/q5Y5kyiOWIuRKqPNzpYyoWyJ7XJIl94crBrJ81L+pyqTZEAyk5sEt
- qMW2LID8K45gVE8/ej0vLzE3bgea+1KDywtEV/C0R2D+bgjOkSHEqmt6dcbA5elmGvN/
- knrr/MU4TUBvr6OmUQFrxJo189U0vRPNbcKy/0buUAyC/6DkXGZCGvUH6I0jq0HL006w
- p1R6UDo9PtYfAqin4rw2U2yalYG+GZVJp4cumhb2KB0hYiy72jOXBQmz1dibThkwSliv
- lMgA==
-X-Gm-Message-State: ACrzQf34aQDzQgsgGkjQ1WbkYrXE5qzkMYzORuXw+qF7uaZDFyLyFzeu
- UpisDv2ao3bzmbeVXreBmsgEng==
-X-Google-Smtp-Source: AMsMyM7fmjxAfGTycH9CaoCA2DJAnd13bu5HArBXnwB99jjW/VrHSPoTFEUdZfu+ReZxNaNi1nSSsA==
-X-Received: by 2002:a05:6a00:14d3:b0:546:e93c:4768 with SMTP id
- w19-20020a056a0014d300b00546e93c4768mr1278425pfu.36.1663816226130; 
- Wed, 21 Sep 2022 20:10:26 -0700 (PDT)
+ bh=kaPCbEUam/i/QzM3EsiD/q7EbxvCz2hqpx3qsHkAHe4=;
+ b=L6u95xQQ09WervNU1aoLCDz3Sut9RSrq/iOucot0JYkBfF3QvGI/sSm0YQVEDWnuXz
+ MlSN5rFiqkwkHCFtcZA5cU7RGRK0Sab7wMwHTPM7a8+lw/35qqKvjwgO7711ur45edin
+ PPxHol5BuOZPvaaaOpAsKLZxJPRN+7jnP3z86lGWaAX5gYvimLoaPCFbhKJaLVjRTpGP
+ isoryrwqJ0SjQDZk1hpi9GUiaIjZD32M1jfTXvQPI8iH/gnIkfBSvI2DHhwmgOBu2Xdw
+ h2ND7DT+/MqEkIn+p17ovCh4BKILaCW/a6xf9NdQ7sqfTR310GYaLsvnMN8tF75dVTcM
+ EsLw==
+X-Gm-Message-State: ACrzQf0ZcTqLErYNEbNpzPOQ86pvrloru+OikPv/65PDA8ZmIA0HFWqa
+ j2TWzQx0awv3VWIc3iIm9Cd9fQ==
+X-Google-Smtp-Source: AMsMyM6cFS7tDGVCwJ0vHG2t9zSWZS1Eoi8Welusn2TdzO1FITGlKW23X2CzrnylSu9gzNhY4M5M0Q==
+X-Received: by 2002:a05:6a00:c91:b0:540:f165:b049 with SMTP id
+ a17-20020a056a000c9100b00540f165b049mr1383264pfv.76.1663816224094; 
+ Wed, 21 Sep 2022 20:10:24 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
  by smtp.gmail.com with ESMTPSA id
- b15-20020a63d30f000000b004393cb720afsm2684116pgg.38.2022.09.21.20.10.22
+ 69-20020a621748000000b0053725e331a1sm2959597pfx.82.2022.09.21.20.10.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 21 Sep 2022 20:10:22 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH 03/12] net: ipa: Proactively round up to kmalloc bucket size
-Date: Wed, 21 Sep 2022 20:10:04 -0700
-Message-Id: <20220922031013.2150682-4-keescook@chromium.org>
+Subject: [PATCH 04/12] btrfs: send: Proactively round up to kmalloc bucket size
+Date: Wed, 21 Sep 2022 20:10:05 -0700
+Message-Id: <20220922031013.2150682-5-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220922031013.2150682-1-keescook@chromium.org>
 References: <20220922031013.2150682-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1741; h=from:subject;
- bh=N6cTYse7nKSOYOPwHuuyZ39Ee5FBmcRJBaahsbeuoYs=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjK9ISVSHfuaLwQgHhIfT+G4+ZNlvTp+tw3ysmjP49
- mcPajiqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYyvSEgAKCRCJcvTf3G3AJoHDD/
- 9MEz1x/p8W1mV4RgWnzrofQu8Rnt8S3z6RAn+Qe1cSDrxAzlEofmKXpYWiJ+/LrW8d+DMyEPH/qhiv
- Z0a3iYatcr1nh3CMNcUGNtMmB0uLZf4MMZQ184oh/sUT8PfviA8YvnEqJsU39RxjaNFpvevCU+UIhE
- ampATmMNn3x9mz3MinyvwRAeCqjlprv9qGhZP19uivXAzi7A5LdGcnY9/yU4NERLhAyGSQzZMoevL5
- foxanGNGMhF7lJpEQx7SiHJ5/UGNfHDmQUAWnnIkH/iu4aw6z8wFCMrDe26riTARf1OhVgycx3C53y
- RsfcyayukdwLx9qBoxlSnrXwcUJmn8ly2s9mOX2jMHadZIKMM3erpLkcz5K5LzoAcHlMME0ZTa6H4I
- r+U57Oid2/dp01vdDgMvdb84JzOixL5JoQHu938RHKYP30IYQwkmhzBuFTkeMJzZsGS4WER47knxxd
- 45A6nI1zHNqipyFcbwqyCP0c9FHuUWJex4p1UkuPhpfl9BEy2OV28T7pqLJh6gYsDDqnVtz/7bvacg
- zQ8eV1paLCDfmSbshlpEBTxLnGWlSfPt0cPNLOqHf+Rw64Ee8lJY4M1B9xEIc9508QU/bABpMn7ngE
- vWtwJ0BkH0HMufph7v+73fhgqm8PD3cLFKaT53fQXDIr4zxoPqlAoJbGBvtQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1342; h=from:subject;
+ bh=PATxOgKCtfzCXQKH17glgfixgYzE1x2L+YHf7rSxpvE=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjK9ITJpSDjmxsaSk36KMYUjIvxLLAk9hi4Gv/fvEs
+ tw4mn0yJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYyvSEwAKCRCJcvTf3G3AJh3FD/
+ 9lgh/1XHl0SkyqPlMmPB17u7DDgE4q/VJ/Qa3GzTJ+egqjXOgy56TZhDHA57JAbNFH368V7dUHPLKC
+ QXVOMAIaBG86hiTbSG2GFtspKIl5m4mQliPhYXo+9i2ctGvX67kQtgkloJBBOBTzM1Va+l8n8oDiM7
+ 1keZZzJh1/Ke/X48PR3xg7Nx1uYbX9+ergUrLAPxTg/zdXdpoqFOJHqJQ3KTDdZ/Ei4EYr7MM+zZd1
+ B+a+f4KPaYbr0rUNv/eRElOKPdR3IRmKr00cn3bz0YQJFHMIHIfiUC7c02Q5mRGArZMpC6TDBu3Tkb
+ nuAA6r64037k3F4P3KgpNrjYdXUKHgrLD5MS0HV/wt0Jl9wh6vCNnbY9hyrP1HoFV59EkKwXqy05Vl
+ 7L7CE/IjCudzIhmSQJ5qMWxuufWw0aOCT98jEVLKn5HNir4xbt3Nk5GB3h8odtKKt5aij2g+sglk0N
+ VozOjrkQEETzGVX7M0zWbpzsD61ZTOIY4ZAn6Zzztl/0Napt96blNs9J1EbovYn8uMQ2+XR6pZAwD1
+ TALlt7LDxwlItLIQQBK7XhEI2TYqOric6v3Z1icQjPqGGv16cy/WXfeY/MEtdwAcxELgoSF7ClvUlL
+ BHriLuCX3SJCTRPP98sRsMm0ReDlyAlIib9iPFvDtr+pDztAlOw51wwNqgZQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -93,12 +93,12 @@ Cc: linux-wireless@vger.kernel.org, Jacob Shin <jacob.shin@amd.com>,
  Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
  Josef Bacik <josef@toxicpanda.com>, linaro-mm-sig@lists.linaro.org,
  Jakub Kicinski <kuba@kernel.org>, David Sterba <dsterba@suse.com>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, Alex Elder <elder@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Alex Elder <elder@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>, Pekka Enberg <penberg@kernel.org>,
  Daniel Micay <danielmicay@gmail.com>, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-fsdevel@vger.kernel.org, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -109,47 +109,41 @@ up proactively so the allocation is explicitly made for the full size,
 allowing the compiler to correctly reason about the resulting size of
 the buffer through the existing __alloc_size() hint.
 
-Cc: Alex Elder <elder@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org
+Cc: linux-btrfs@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/ipa/gsi_trans.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ fs/btrfs/send.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/net/ipa/gsi_trans.c b/drivers/net/ipa/gsi_trans.c
-index 18e7e8c405be..cec968854dcf 100644
---- a/drivers/net/ipa/gsi_trans.c
-+++ b/drivers/net/ipa/gsi_trans.c
-@@ -89,6 +89,7 @@ int gsi_trans_pool_init(struct gsi_trans_pool *pool, size_t size, u32 count,
- 			u32 max_alloc)
- {
- 	void *virt;
-+	size_t allocate;
+diff --git a/fs/btrfs/send.c b/fs/btrfs/send.c
+index e7671afcee4f..d40d65598e8f 100644
+--- a/fs/btrfs/send.c
++++ b/fs/btrfs/send.c
+@@ -435,6 +435,11 @@ static int fs_path_ensure_buf(struct fs_path *p, int len)
+ 	path_len = p->end - p->start;
+ 	old_buf_len = p->buf_len;
  
- 	if (!size)
- 		return -EINVAL;
-@@ -104,13 +105,15 @@ int gsi_trans_pool_init(struct gsi_trans_pool *pool, size_t size, u32 count,
- 	 * If there aren't enough entries starting at the free index,
- 	 * we just allocate free entries from the beginning of the pool.
++	/*
++	 * Allocate to the next largest kmalloc bucket size, to let
++	 * the fast path happen most of the time.
++	 */
++	len = kmalloc_size_roundup(len);
+ 	/*
+ 	 * First time the inline_buf does not suffice
  	 */
--	virt = kcalloc(count + max_alloc - 1, size, GFP_KERNEL);
-+	allocate = size_mul(count + max_alloc - 1, size);
-+	allocate = kmalloc_size_roundup(allocate);
-+	virt = kzalloc(allocate, GFP_KERNEL);
- 	if (!virt)
+@@ -448,11 +453,7 @@ static int fs_path_ensure_buf(struct fs_path *p, int len)
+ 	if (!tmp_buf)
  		return -ENOMEM;
+ 	p->buf = tmp_buf;
+-	/*
+-	 * The real size of the buffer is bigger, this will let the fast path
+-	 * happen most of the time
+-	 */
+-	p->buf_len = ksize(p->buf);
++	p->buf_len = len;
  
- 	pool->base = virt;
- 	/* If the allocator gave us any extra memory, use it */
--	pool->count = ksize(pool->base) / size;
-+	pool->count = allocate / size;
- 	pool->free = 0;
- 	pool->max_alloc = max_alloc;
- 	pool->size = size;
+ 	if (p->reversed) {
+ 		tmp_buf = p->buf + old_buf_len - path_len - 1;
 -- 
 2.34.1
 
