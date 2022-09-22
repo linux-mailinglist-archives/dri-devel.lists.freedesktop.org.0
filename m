@@ -1,38 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A4A5E67E7
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:00:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F295E67F6
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:00:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88EAD10EC3C;
-	Thu, 22 Sep 2022 16:00:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 038EC10EC52;
+	Thu, 22 Sep 2022 16:00:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB14F10EAD5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 11:33:20 +0000 (UTC)
-Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MYChg332szMnbq;
- Thu, 22 Sep 2022 19:28:35 +0800 (CST)
-Received: from ubuntu1804.huawei.com (10.67.174.58) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 22 Sep 2022 19:33:17 +0800
-From: Xiu Jianfeng <xiujianfeng@huawei.com>
-To: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
- <lmark@codeaurora.org>, <labbott@redhat.com>, <Brian.Starkey@arm.com>,
- <jstultz@google.com>, <christian.koenig@amd.com>
-Subject: [PATCH] dma-buf: Add __init annotation to module init func
-Date: Thu, 22 Sep 2022 19:29:38 +0800
-Message-ID: <20220922112938.147609-1-xiujianfeng@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from smtp-bc0c.mail.infomaniak.ch (smtp-bc0c.mail.infomaniak.ch
+ [IPv6:2001:1600:4:17::bc0c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1A2810EB05
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 12:52:46 +0000 (UTC)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+ by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MYFLr1PmfzMpvN6;
+ Thu, 22 Sep 2022 14:43:16 +0200 (CEST)
+Received: from philippe-pc.toradex.int (unknown [31.10.206.125])
+ by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MYFLq2MC1z3j;
+ Thu, 22 Sep 2022 14:43:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=pschenker.ch;
+ s=20220412; t=1663850596;
+ bh=z7Nwkz4f2nnqgpQRo0kF4EVkY9iPrvs7qh3XJsxIRM0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=xTlau66oGWLT+Sq2Lsc4CdpYpW+0Mt8ScE0kWcKruIbALEKsW1wFHw2UhslmvNt7/
+ nAnArJugwSNn4FAlM97WB/PZ4QEES9YAV5mU98DvmfCBTvb4ODfs3c81iHjzaKeae4
+ jK06Kjlvrw1lyLXBXw654NY0/LE+CeEH+GVinj08=
+From: Philippe Schenker <dev@pschenker.ch>
+To: dri-devel@lists.freedesktop.org,
+ Adrien Grassein <adrien.grassein@gmail.com>
+Subject: [PATCH 0/4] drm/bridge: lt8912b: Fix corrupt display output due to
+ wrong bridge config
+Date: Thu, 22 Sep 2022 14:43:02 +0200
+Message-Id: <20220922124306.34729-1-dev@pschenker.ch>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.174.58]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500023.china.huawei.com (7.185.36.114)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 22 Sep 2022 16:00:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,45 +49,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing __init annotation to module init func.
+From: Philippe Schenker <philippe.schenker@toradex.com>
 
-Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
----
- drivers/dma-buf/heaps/cma_heap.c    | 2 +-
- drivers/dma-buf/heaps/system_heap.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+This patch-set fixes the lt8912b driver that currently does not take
+care whether or not the attached display has postiive or negative syncs
+and or reports on EDID if it needs HDMI mode or DVI.
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 28fb04eccdd0..62d0d0e8b10d 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -392,7 +392,7 @@ static int __add_cma_heap(struct cma *cma, void *data)
- 	return 0;
- }
- 
--static int add_default_cma_heap(void)
-+static int __init add_default_cma_heap(void)
- {
- 	struct cma *default_cma = dev_get_cma_area(NULL);
- 	int ret = 0;
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index fcf836ba9c1f..cbe445bc5bab 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -422,7 +422,7 @@ static const struct dma_heap_ops system_heap_ops = {
- 	.allocate = system_heap_allocate,
- };
- 
--static int system_heap_create(void)
-+static int __init system_heap_create(void)
- {
- 	struct dma_heap_export_info exp_info;
- 
+This series addresses also an issue where the LVDS startup sequence was
+written to the wrong I2C address (the lt8912 has three). This caused
+writing into reserved registers and causing an unstable HDMI picture
+that manifests itself only sometimes and depending on the monitor with a
+flickering and a repeating of going black and coming up again. While at
+it move also some sensible comments to the sequence.
+
+
+Francesco Dolcini (2):
+  drm/bridge: lt8912b: fix corrupted image output
+  drm/bridge: lt8912b: clarify lvds output status
+
+Philippe Schenker (2):
+  drm/bridge: lt8912b: add vsync hsync
+  drm/bridge: lt8912b: set hdmi or dvi mode
+
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 39 +++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 11 deletions(-)
+
 -- 
-2.17.1
+2.37.3
 
