@@ -1,33 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE2A5E64B6
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:09:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84FFB5E64DB
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:13:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECFB810EB30;
-	Thu, 22 Sep 2022 14:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC6C10EB39;
+	Thu, 22 Sep 2022 14:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 593 seconds by postgrey-1.36 at gabe;
- Thu, 22 Sep 2022 14:09:04 UTC
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60AF210EB2B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 14:09:04 +0000 (UTC)
-Received: from localhost.localdomain (95.49.29.188.neoplus.adsl.tpnet.pl
- [95.49.29.188])
- by m-r1.th.seeweb.it (Postfix) with ESMTPA id 41BB4200F4;
- Thu, 22 Sep 2022 15:59:09 +0200 (CEST)
-From: Konrad Dybcio <konrad.dybcio@somainline.org>
-To: ~postmarketos/upstreaming@lists.sr.ht
-Subject: [PATCH v2 2/2] gpu/drm/panel: Add Sony TD4353 JDI panel driver
-Date: Thu, 22 Sep 2022 15:59:00 +0200
-Message-Id: <20220922135902.129760-2-konrad.dybcio@somainline.org>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220922135902.129760-1-konrad.dybcio@somainline.org>
-References: <20220922135902.129760-1-konrad.dybcio@somainline.org>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40CA410EB3B;
+ Thu, 22 Sep 2022 14:13:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663856008; x=1695392008;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=akMJERrXOCidgzqbk9mKVvY5qrTvNVsK91PeKs5W8/s=;
+ b=B531uLNKsenlc204qF6wArg38+CpsEzM46NHt8W8aRILYJ7wPJ66xHKn
+ aGUfMV4g0N/7ya5gnESJMiN30rUD4mfsREKmz//BGTw5XeYDQYmlrWz1Z
+ duKT/6PCD2YX4/p2XC2uukJU8PGw8zBHQDXWdFbaCW8QdZgiNG0B1duLi
+ 9x9qrs53Hi4915M9hIDdqqPZoFKzATECVcj6bRlMYEgSqpzMQTUBZw4fO
+ 1ho1DletcdrCrATyLx4+iLkv1h9xCRdcvtoJcwuTUd576vx0DOrK/cQP1
+ tMFE4B4YqoLjXHvUxpt01rXWQFfR3cV0APJ8Iuoc7/FKvEWDJQrY7zWdU g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="300289266"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="300289266"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 07:12:33 -0700
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="619805663"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 07:12:33 -0700
+Date: Thu, 22 Sep 2022 07:12:11 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC v4 08/14] drm/i915/vm_bind: Abstract out common
+ execbuf functions
+Message-ID: <20220922141210.GG28263@nvishwa1-DESK>
+References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+ <20220921070945.27764-9-niranjana.vishwanathapura@intel.com>
+ <f14f142b-c382-9592-ff3d-af9e69028f75@linux.intel.com>
+ <20220921181734.GE28263@nvishwa1-DESK>
+ <06ba58f8-c86d-1a75-4e25-2108224a32f7@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <06ba58f8-c86d-1a75-4e25-2108224a32f7@linux.intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,409 +62,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
- jamipkettunen@somainline.org, Thierry Reding <thierry.reding@gmail.com>,
- martin.botka@somainline.org, dri-devel@lists.freedesktop.org,
- angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ matthew.auld@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Sony TD4353 JDI 2160x1080 display panel used in
-some Sony Xperia XZ2 and XZ2 Compact smartphones. Due to the specifics
-of smartphone manufacturing, it is impossible to retrieve a better name
-for this panel.
+On Thu, Sep 22, 2022 at 10:05:34AM +0100, Tvrtko Ursulin wrote:
+>
+>On 21/09/2022 19:17, Niranjana Vishwanathapura wrote:
+>>On Wed, Sep 21, 2022 at 11:18:53AM +0100, Tvrtko Ursulin wrote:
+>>>
+>>>On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
 
-This revision adds support for the default 60 Hz configuration, however
-there could possibly be some room for expansion, as the display panels
-used on Sony devices have historically been capable of >2x refresh rate
-overclocking.
----
-Changes since v1:
-- introduce a helper for flipping the reset pins
-- make the order of flipping the pins and regulators consistent
-(this may cause issues in general, as the panels nowadays are
-super duper high tech but it does not seem to have an effect on
-these ones)
-- remove akari/apollo specific compatibles and default to the
-bigger size (adjusted in DT)
-- use common mipi_dsi_dcs_write_seq
+<snip>
+
+>>>
+>>>Two things:
+>>>
+>>>1)
+>>>
+>>>Is there enough commonality to maybe avoid multiple arguments and 
+>>>have like
+>>>
+>>>struct i915_execbuffer {
+>>>
+>>>};
+>>>
+>>>struct i915_execbuffer2 {
+>>>    struct i915_execbuffer eb;
+>>>    .. eb2 specific fields ..
+>>>};
+>>>
+>>>struct i915_execbuffer3 {
+>>>    struct i915_execbuffer eb;
+>>>    .. eb3 specific fields ..
+>>>};
+>>>
+>>>And then have the common helpers take the pointer to the common struct?
+>>>
+>>
+>>...
+>>This requires updating legacy execbuf path everywhere which doesn't look
+>>like a good idea to me. As discussed during vm_bind rfc, I think it is
+>>better to keep execbuf3 to itself and keep it leaner.
+>
+>To be clear the amount of almost the same duplicated code worries me 
+>from the maintenance burden angle. I don't think we have any such 
+>precedent in the driver. And AFAIR during RFC conclusion was keep the 
+>ioctls separate and share code where it makes sense.
+>
+
+But if we make a common functions that tries to cater to all with lot
+of 'if/else' statements, that also doesn't look good.
+What I took from RFC discussion was that code should be duplicated
+and only share code where is a 100% match.
+
+>For instance eb_fences_add - could you have a common helper which 
+>takes in_fence and out_fence as parameters. Passing in -1/-1 from eb3 
+>and end up with even more sharing? Same approach like you did in this 
+>patch by making helpers take arguments they need instead of struct eb.
+>
+>Eb_requests_create? Again same code if you make eb->batch_pool a 
+>standalone argument passed in.
+>
+
+I am trying to avoid those things. The legacy execbuf and execbuf3 are
+very different here. ie., execbuf3 doesn't support in/out fences,
+the handling of batches are different and there is no batch_pool etc.
+So, it would be good to have those two paths handle it separately.
+Why should execbuf3 send dummy '-1 or NULL' etc when the point of
+execbuf3 is to move away from legacy things?
+
+Niranjana
+
+>Haven't looked at more than those in this round..
+>
 
 
- drivers/gpu/drm/panel/Kconfig                 |  10 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-sony-td4353-jdi.c | 328 ++++++++++++++++++
- 3 files changed, 339 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index a582ddd583c2..6ef1b48169b5 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -637,6 +637,16 @@ config DRM_PANEL_SONY_ACX565AKM
- 	  Say Y here if you want to enable support for the Sony ACX565AKM
- 	  800x600 3.5" panel (found on the Nokia N900).
- 
-+config DRM_PANEL_SONY_TD4353_JDI
-+	tristate "Sony TD4353 JDI panel"
-+	depends on GPIOLIB && OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for the Sony Tama
-+	  TD4353 JDI command mode panel as found on some Sony Xperia
-+	  XZ2 and XZ2 Compact smartphones.
-+
- config DRM_PANEL_SONY_TULIP_TRULY_NT35521
- 	tristate "Sony Tulip Truly NT35521 panel"
- 	depends on GPIOLIB && OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 8e71aa7581b8..8ef27bc86f94 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -64,6 +64,7 @@ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
- obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
-+obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) += panel-sony-td4353-jdi.o
- obj-$(CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521) += panel-sony-tulip-truly-nt35521.o
- obj-$(CONFIG_DRM_PANEL_TDO_TL070WSH30) += panel-tdo-tl070wsh30.o
- obj-$(CONFIG_DRM_PANEL_TPO_TD028TTEC1) += panel-tpo-td028ttec1.o
-diff --git a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-new file mode 100644
-index 000000000000..9e4f48a5126b
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-@@ -0,0 +1,328 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022 Konrad Dybcio <konrad.dybcio@somainline.org>
-+ *
-+ * Generated with linux-mdss-dsi-panel-driver-generator with a
-+ * substantial amount of manual adjustments.
-+ *
-+ * SONY Downstream kernel calls this one:
-+ * - "JDI ID3" for Akari  (XZ2)
-+ * - "JDI ID4" for Apollo (XZ2 Compact)
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+enum {
-+	TYPE_TAMA_60HZ,
-+	/*
-+	 * Leaving room for expansion - SONY very often uses
-+	 * *truly reliably* overclockable panels on their flagships!
-+	 */
-+};
-+
-+struct sony_td4353_jdi {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct regulator_bulk_data supplies[3];
-+	struct gpio_desc *preset_gpio;
-+	struct gpio_desc *treset_gpio;
-+	bool prepared;
-+	int type;
-+};
-+
-+static inline struct sony_td4353_jdi *to_sony_td4353_jdi(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct sony_td4353_jdi, panel);
-+}
-+
-+static int sony_td4353_jdi_on(struct sony_td4353_jdi *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 0x0437);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set column address: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 0x086f);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set page address: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_set_tear_scanline(dsi, 0x0000);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set tear scanline: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set tear on: %d\n", ret);
-+		return ret;
-+	}
-+
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
-+
-+	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set pixel format: %d\n", ret);
-+		return ret;
-+	}
-+
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS,
-+			  0x00, 0x00, 0x08, 0x6f);
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(70);
-+
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to turn display on: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int sony_td4353_jdi_off(struct sony_td4353_jdi *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display off: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(22);
-+
-+	ret = mipi_dsi_dcs_set_tear_off(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set tear off: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(80);
-+
-+	return 0;
-+}
-+
-+static void sony_td4353_assert_reset_gpios(struct sony_td4353_jdi *ctx, int mode) {
-+	gpiod_set_value_cansleep(ctx->treset_gpio, mode);
-+	gpiod_set_value_cansleep(ctx->preset_gpio, mode);
-+	usleep_range(5000, 5100);
-+}
-+
-+static int sony_td4353_jdi_prepare(struct drm_panel *panel)
-+{
-+	struct sony_td4353_jdi *ctx = to_sony_td4353_jdi(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	if (ctx->prepared)
-+		return 0;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	msleep(100);
-+
-+	sony_td4353_assert_reset_gpios(ctx, 1);
-+
-+	ret = sony_td4353_jdi_on(ctx);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to power on panel: %d\n", ret);
-+		sony_td4353_assert_reset_gpios(ctx, 0);
-+		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+		return ret;
-+	}
-+
-+	ctx->prepared = true;
-+	return 0;
-+}
-+
-+static int sony_td4353_jdi_unprepare(struct drm_panel *panel)
-+{
-+	struct sony_td4353_jdi *ctx = to_sony_td4353_jdi(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	if (!ctx->prepared)
-+		return 0;
-+
-+	ret = sony_td4353_jdi_off(ctx);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to power off panel: %d\n", ret);
-+
-+	sony_td4353_assert_reset_gpios(ctx, 0);
-+	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+
-+	ctx->prepared = false;
-+	return 0;
-+}
-+
-+static const struct drm_display_mode sony_td4353_jdi_mode_tama_60hz = {
-+	.clock = (1080 + 4 + 8 + 8) * (2160 + 259 + 8 + 8) * 60 / 1000,
-+	.hdisplay = 1080,
-+	.hsync_start = 1080 + 4,
-+	.hsync_end = 1080 + 4 + 8,
-+	.htotal = 1080 + 4 + 8 + 8,
-+	.vdisplay = 2160,
-+	.vsync_start = 2160 + 259,
-+	.vsync_end = 2160 + 259 + 8,
-+	.vtotal = 2160 + 259 + 8 + 8,
-+	.width_mm = 64,
-+	.height_mm = 128,
-+};
-+
-+static int sony_td4353_jdi_get_modes(struct drm_panel *panel,
-+				   struct drm_connector *connector)
-+{
-+	struct sony_td4353_jdi *ctx = to_sony_td4353_jdi(panel);
-+	struct drm_display_mode *mode = NULL;
-+
-+	if (ctx->type == TYPE_TAMA_60HZ)
-+		mode = drm_mode_duplicate(connector->dev, &sony_td4353_jdi_mode_tama_60hz);
-+	else
-+		return -EINVAL;
-+
-+	if (!mode)
-+		return -ENOMEM;
-+
-+	drm_mode_set_name(mode);
-+
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs sony_td4353_jdi_panel_funcs = {
-+	.prepare = sony_td4353_jdi_prepare,
-+	.unprepare = sony_td4353_jdi_unprepare,
-+	.get_modes = sony_td4353_jdi_get_modes,
-+};
-+
-+static int sony_td4353_jdi_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct sony_td4353_jdi *ctx;
-+	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->type = (uintptr_t)of_device_get_match_data(dev);
-+
-+	ctx->supplies[0].supply = "vddio";
-+	ctx->supplies[1].supply = "vsp";
-+	ctx->supplies[2].supply = "vsn";
-+	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
-+				      ctx->supplies);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to get regulators\n");
-+
-+	ctx->preset_gpio = devm_gpiod_get(dev, "preset", GPIOD_ASIS);
-+	if (IS_ERR(ctx->preset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->preset_gpio),
-+				     "Failed to get preset-gpios\n");
-+
-+	ctx->treset_gpio = devm_gpiod_get(dev, "treset", GPIOD_ASIS);
-+	if (IS_ERR(ctx->treset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->treset_gpio),
-+				     "Failed to get treset-gpios\n");
-+
-+	ctx->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+
-+	drm_panel_init(&ctx->panel, dev, &sony_td4353_jdi_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	ret = drm_panel_of_backlight(&ctx->panel);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get backlight\n");
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void sony_td4353_jdi_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct sony_td4353_jdi *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-+
-+	drm_panel_remove(&ctx->panel);
-+}
-+
-+static const struct of_device_id sony_td4353_jdi_of_match[] = {
-+	{ .compatible = "sony,td4353-jdi-tama", .data = (void *)TYPE_TAMA_60HZ },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, sony_td4353_jdi_of_match);
-+
-+static struct mipi_dsi_driver sony_td4353_jdi_driver = {
-+	.probe = sony_td4353_jdi_probe,
-+	.remove = sony_td4353_jdi_remove,
-+	.driver = {
-+		.name = "panel-sony-td4353-jdi",
-+		.of_match_table = sony_td4353_jdi_of_match,
-+	},
-+};
-+module_mipi_dsi_driver(sony_td4353_jdi_driver);
-+
-+MODULE_AUTHOR("Konrad Dybcio <konrad.dybcio@somainline.org>");
-+MODULE_DESCRIPTION("DRM panel driver for SONY Xperia XZ2/XZ2c JDI panel");
-+MODULE_LICENSE("GPL v2");
--- 
-2.37.3
 
+>Regards,
+>
+>Tvrtko
+>
+>>>2)
+>>>
+>>>Should we prefix with i915_ everything that is now no longer static?
+>>>
+>>
+>>Yah, makes sense, will update.
+>>
+>>Niranjana
+>>
+>>>Regards,
+>>>
+>>>Tvrtko
+>>>
+>>>>+
+>>>>+struct intel_context *
+>>>>+eb_find_context(struct intel_context *context, unsigned int 
+>>>>context_number);
+>>>>+
+>>>>+int add_timeline_fence(struct drm_file *file, u32 handle, u64 point,
+>>>>+               struct eb_fence *f, bool wait, bool signal);
+>>>>+void put_fence_array(struct eb_fence *fences, u64 num_fences);
+>>>>+int await_fence_array(struct eb_fence *fences, u64 num_fences,
+>>>>+              struct i915_request *rq);
+>>>>+void signal_fence_array(struct eb_fence *fences, u64 num_fences,
+>>>>+            struct dma_fence * const fence);
+>>>>+
+>>>>+int eb_requests_add(struct i915_request **requests, unsigned 
+>>>>int num_batches,
+>>>>+            struct intel_context *context, struct 
+>>>>i915_sched_attr sched,
+>>>>+            int err);
+>>>>+void eb_requests_get(struct i915_request **requests, unsigned 
+>>>>int num_batches);
+>>>>+void eb_requests_put(struct i915_request **requests, unsigned 
+>>>>int num_batches);
+>>>>+
+>>>>+struct dma_fence *__eb_composite_fence_create(struct 
+>>>>i915_request **requests,
+>>>>+                          unsigned int num_batches,
+>>>>+                          struct intel_context *context);
+>>>>+
+>>>>+#endif /* __I915_GEM_EXECBUFFER_COMMON_H */
