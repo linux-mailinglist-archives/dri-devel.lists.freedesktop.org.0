@@ -2,50 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BEA5E6854
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D1605E6890
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83AF410E36D;
-	Thu, 22 Sep 2022 16:26:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D248210EA76;
+	Thu, 22 Sep 2022 16:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A807C10E36D;
- Thu, 22 Sep 2022 16:26:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663864005; x=1695400005;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=aFZVdvC2vAMHXMyo9Dq9HIaxk3ZrOiZBZU5QvyOabH8=;
- b=XS5rt9daJicJvoNVvlo9tc7KXQuwG3Q+qqpjRfK51hlmBLVGo+tvvwek
- Zqlo6pzVNgcvj3AR7oBTsLtir7iEPltpaGStoAq7chN//xPzErEZPszCC
- YoVfczJ0IViOvUryiys5hfHKQvDgcX/wduDvQ35gLArGaXDm6sLUAjIYV
- S3k+GQl7Sjq9uqxAeWMDeJ+t55Xus0lLhZkql51m31RHAks1VWrnMIKfb
- RD/NqEI/f8TA4OyFFSnIOkF74Y7Z4qVSG074I6001jg6YWM82yp1JxzFs
- +k5MjBPsSEOCnHesVx52UPenk4FyQUS+q8OnXA1wPrZkz0/o/kkpDX8M+ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="297948986"
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="297948986"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 09:26:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="597501468"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 22 Sep 2022 09:26:29 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1obP1w-0004nA-2Q;
- Thu, 22 Sep 2022 16:26:28 +0000
-Date: Fri, 23 Sep 2022 00:25:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Improve debug print in vm_fault_ttm
-Message-ID: <202209230001.og3h9EMY-lkp@intel.com>
-References: <20220922120908.10352-1-nirmoy.das@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0C2A10EA76
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 16:36:58 +0000 (UTC)
+Received: from [IPV6:2804:431:c7c2:b4b6:f87:da96:9bc3:d98b] (unknown
+ [IPv6:2804:431:c7c2:b4b6:f87:da96:9bc3:d98b])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: dwlsalmeida)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 228D66601E58;
+ Thu, 22 Sep 2022 17:36:50 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1663864617;
+ bh=9qk4Re4yFBcAUV8l7PYU2Z7VB5bihult7d9If/n3XpE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DfzqEV4qZ/ihOi/bd9W6MOgz4zvoLmC7kGSNwCX1KvPfmSkkovxu67SQpOJYBv3PS
+ n+r5b5G4OjVl2VQ9BhyCXgbEaR35UrFP7STucYhqy1oDzuviVRK9HAaJPipiX41bH/
+ z+OfcHq4Uf+tWALIixErvkUe9LbAMst6LYM8eNUi4Fk8C2WrT0O8+BmXB2yc6BY3YQ
+ Sk7myOK1VudgA2a4XluK09TyqYJILdYPx4N1GZzpcTbFiiYRO66g5z3Fb7VTgO3INz
+ DYQ+QDjA0VjR7aXAHHbGGFsVk2EuclSm7+60exYREi1IGp9BW4nkQ/vpT+2rI3J96I
+ etPD1OTqk0yZQ==
+Message-ID: <927f95dd-283a-a3c0-6c2f-41a36bcc42ef@collabora.com>
+Date: Thu, 22 Sep 2022 13:36:46 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220922120908.10352-1-nirmoy.das@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [RFC PATCH v3] media: mediatek: vcodec: support stateless AV1
+ decoder
+To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+References: <20220901110416.21191-1-xiaoyong.lu@mediatek.com>
+Content-Language: en-US
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20220901110416.21191-1-xiaoyong.lu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,151 +67,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, matthew.auld@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Fritz Koenig <frkoenig@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+Hi Xiaoyong.
 
-Thank you for the patch! Yet something to improve:
+Comments below (other code removed for brevity)
 
-[auto build test ERROR on drm-tip/drm-tip]
++/**
++ * struct vdec_av1_slice_slot - slot info need save in global instance
++ * @frame_info: frame info for each slot
++ * @timestamp:  time stamp info
++ */
++struct vdec_av1_slice_slot {
++	struct vdec_av1_slice_frame_info frame_info[AV1_MAX_FRAME_BUF_COUNT];
++	u64 timestamp[AV1_MAX_FRAME_BUF_COUNT];
++};
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nirmoy-Das/drm-i915-Improve-debug-print-in-vm_fault_ttm/20220922-201041
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20220923/202209230001.og3h9EMY-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/e1a426a9e14837ada7e883d20af7c9abdf59823c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nirmoy-Das/drm-i915-Improve-debug-print-in-vm_fault_ttm/20220922-201041
-        git checkout e1a426a9e14837ada7e883d20af7c9abdf59823c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+nit: slot info that needs to be saved in the global instance
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/ttm/ttm_bo_driver.h:33,
-                    from drivers/gpu/drm/i915/gem/i915_gem_ttm.c:8:
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'vm_fault_ttm':
->> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1037:38: error: format '%p' expects argument of type 'void *', but argument 4 has type 'int' [-Werror=format=]
-    1037 |                         drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n", err);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~
-         |                                                                                             |
-         |                                                                                             int
-   include/drm/drm_print.h:461:63: note: in definition of macro 'drm_dbg'
-     461 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |                                                               ^~~
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1037:85: note: format string is defined here
-    1037 |                         drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n", err);
-         |                                                                                    ~^
-         |                                                                                     |
-         |                                                                                     void *
-         |                                                                                    %d
-   cc1: all warnings being treated as errors
++static int vdec_av1_slice_get_qindex(struct 
+vdec_av1_slice_uncompressed_header *uh,
++				     int segmentation_id)
++{
++	struct vdec_av1_slice_seg *seg = &uh->seg;
++	struct vdec_av1_slice_quantization *quant = &uh->quant;
++	int data = 0, qindex = 0;
++
++	if (seg->segmentation_enabled &&
++	    (seg->feature_enabled_mask[segmentation_id] & BIT(0))) {
++		data = seg->feature_data[segmentation_id][0];
 
 
-vim +1037 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+Maybe you should replace the 0 above by SEG_LVL_ALT_Q to be more 
+explicit. Same goes for BIT(0).
 
-   986	
-   987	static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
-   988	{
-   989		struct vm_area_struct *area = vmf->vma;
-   990		struct ttm_buffer_object *bo = area->vm_private_data;
-   991		struct drm_device *dev = bo->base.dev;
-   992		struct drm_i915_gem_object *obj;
-   993		intel_wakeref_t wakeref = 0;
-   994		vm_fault_t ret;
-   995		int idx;
-   996	
-   997		obj = i915_ttm_to_gem(bo);
-   998		if (!obj)
-   999			return VM_FAULT_SIGBUS;
-  1000	
-  1001		/* Sanity check that we allow writing into this object */
-  1002		if (unlikely(i915_gem_object_is_readonly(obj) &&
-  1003			     area->vm_flags & VM_WRITE))
-  1004			return VM_FAULT_SIGBUS;
-  1005	
-  1006		ret = ttm_bo_vm_reserve(bo, vmf);
-  1007		if (ret)
-  1008			return ret;
-  1009	
-  1010		if (obj->mm.madv != I915_MADV_WILLNEED) {
-  1011			dma_resv_unlock(bo->base.resv);
-  1012			return VM_FAULT_SIGBUS;
-  1013		}
-  1014	
-  1015		if (i915_ttm_cpu_maps_iomem(bo->resource))
-  1016			wakeref = intel_runtime_pm_get(&to_i915(obj->base.dev)->runtime_pm);
-  1017	
-  1018		if (!i915_ttm_resource_mappable(bo->resource)) {
-  1019			int err = -ENODEV;
-  1020			int i;
-  1021	
-  1022			for (i = 0; i < obj->mm.n_placements; i++) {
-  1023				struct intel_memory_region *mr = obj->mm.placements[i];
-  1024				unsigned int flags;
-  1025	
-  1026				if (!mr->io_size && mr->type != INTEL_MEMORY_SYSTEM)
-  1027					continue;
-  1028	
-  1029				flags = obj->flags;
-  1030				flags &= ~I915_BO_ALLOC_GPU_ONLY;
-  1031				err = __i915_ttm_migrate(obj, mr, flags);
-  1032				if (!err)
-  1033					break;
-  1034			}
-  1035	
-  1036			if (err) {
-> 1037				drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n", err);
-  1038				dma_resv_unlock(bo->base.resv);
-  1039				ret = VM_FAULT_SIGBUS;
-  1040				goto out_rpm;
-  1041			}
-  1042		}
-  1043	
-  1044		if (drm_dev_enter(dev, &idx)) {
-  1045			ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
-  1046						       TTM_BO_VM_NUM_PREFAULT);
-  1047			drm_dev_exit(idx);
-  1048		} else {
-  1049			ret = ttm_bo_vm_dummy_page(vmf, vmf->vma->vm_page_prot);
-  1050		}
-  1051	
-  1052		if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
-  1053			goto out_rpm;
-  1054	
-  1055		/* ttm_bo_vm_reserve() already has dma_resv_lock */
-  1056		if (ret == VM_FAULT_NOPAGE && wakeref && !obj->userfault_count) {
-  1057			obj->userfault_count = 1;
-  1058			mutex_lock(&to_gt(to_i915(obj->base.dev))->lmem_userfault_lock);
-  1059			list_add(&obj->userfault_link, &to_gt(to_i915(obj->base.dev))->lmem_userfault_list);
-  1060			mutex_unlock(&to_gt(to_i915(obj->base.dev))->lmem_userfault_lock);
-  1061		}
-  1062	
-  1063		if (wakeref & CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND)
-  1064			intel_wakeref_auto(&to_gt(to_i915(obj->base.dev))->userfault_wakeref,
-  1065					   msecs_to_jiffies_timeout(CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND));
-  1066	
-  1067		i915_ttm_adjust_lru(obj);
-  1068	
-  1069		dma_resv_unlock(bo->base.resv);
-  1070	
-  1071	out_rpm:
-  1072		if (wakeref)
-  1073			intel_runtime_pm_put(&to_i915(obj->base.dev)->runtime_pm, wakeref);
-  1074	
-  1075		return ret;
-  1076	}
-  1077	
++static void vdec_av1_slice_setup_lr(struct vdec_av1_slice_lr *lr,
++				    struct v4l2_av1_loop_restoration  *ctrl_lr)
++{
++	int i;
++
++	for (i = 0; i < V4L2_AV1_NUM_PLANES_MAX; i++) {
++		lr->frame_restoration_type[i] = ctrl_lr->frame_restoration_type[i];
++		lr->loop_restoration_size[i] = ctrl_lr->loop_restoration_size[i];
++	}
++	lr->use_lr = !!lr->frame_restoration_type[0];
++	lr->use_chroma_lr = !!lr->frame_restoration_type[1];
++}
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+ From a first glance, this looks a bit divergent from the spec?
+
+for ( i = 0; i < NumPlanes; i++ ) {
+     lr_type
+     FrameRestorationType[i] = Remap_Lr_Type[lr_type]
+     if ( FrameRestorationType[i] != RESTORE_NONE ) {
+         UsesLr = 1
+         if ( i > 0 ) {
+             usesChromaLr = 1
+         }
+     }
+}
+
+I will include these two variables in the next iteration of the uapi if 
+computing them in the driver is problematic.
+
++static void vdec_av1_slice_setup_lf(struct vdec_av1_slice_loop_filter *lf,
++				    struct v4l2_av1_loop_filter *ctrl_lf)
++{
++	int i;
++
++	for (i = 0; i < 4; i++)
++		lf->loop_filter_level[i] = ctrl_lf->level[i];
++
++	for (i = 0; i < V4L2_AV1_TOTAL_REFS_PER_FRAME; i++)
++		lf->loop_filter_ref_deltas[i] = ctrl_lf->ref_deltas[i];
++
++	for (i = 0; i < 2; i++)
++		lf->loop_filter_mode_deltas[i] = ctrl_lf->mode_deltas[i];
++
++	lf->loop_filter_sharpness = ctrl_lf->sharpness;
++	lf->loop_filter_delta_enabled =
++		   BIT_FLAG(ctrl_lf, V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED);
++}
+
+Maybe ARRAY_SIZE can be of use in the loop indices here?
+
++static void vdec_av1_slice_setup_cdef(struct vdec_av1_slice_cdef *cdef,
++				      struct v4l2_av1_cdef *ctrl_cdef)
++{
++	int i;
++
++	cdef->cdef_damping = ctrl_cdef->damping_minus_3 + 3;
++	cdef->cdef_bits = ctrl_cdef->bits;
++
++	for (i = 0; i < V4L2_AV1_CDEF_MAX; i++) {
++		if (ctrl_cdef->y_sec_strength[i] == 4)
++			ctrl_cdef->y_sec_strength[i] -= 1;
++
++		if (ctrl_cdef->uv_sec_strength[i] == 4)
++			ctrl_cdef->uv_sec_strength[i] -= 1;
++
++		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] << 2 |
++					   ctrl_cdef->y_sec_strength[i];
++		cdef->cdef_uv_strength[i] = ctrl_cdef->uv_pri_strength[i] << 2 |
++					    ctrl_cdef->uv_sec_strength[i];
++	}
++}
+
+Maybe:
+
+#define SECONDARY_FILTER_STRENGTH_NUM_BITS 2
+
++		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] << 
+SECONDARY_FILTER_STRENGTH_NUM_BITS |
++					   ctrl_cdef->y_sec_strength[i];
++		cdef->cdef_uv_strength[i] = ctrl_cdef->uv_pri_strength[i] << 
+SECONDARY_FILTER_STRENGTH_NUM_BITS |
++					    ctrl_cdef->uv_sec_strength[i];
+
+This should make it clearer.
+
++		sb_boundary_x_m1 =
++			(tile->mi_col_starts[tile_col + 1] - tile->mi_col_starts[tile_col] - 
+1) &
++			0x3F;
++		sb_boundary_y_m1 =
++			(tile->mi_row_starts[tile_row + 1] - tile->mi_row_starts[tile_row] - 
+1) &
++			0x1FF;
++
+
+IIRC there's a preference for lower case hex values in the media subsystem.
+
++static void vdec_av1_slice_get_dpb_size(struct vdec_av1_slice_instance 
+*instance, u32 *dpb_sz)
++{
++	/* refer av1 specification */
++	*dpb_sz = 9;
++}
+
+That's actually defined as 8 in the spec, i.e.:
+
+NUM_REF_FRAMES 8 Number of frames that can be stored for future
+reference.
+
+It's helpful to indicate the section if you reference the specification, 
+as it makes it easier for the reviewer to cross check.
+
++	/* get buffer address from vb2buf */
++	for (i = 0; i < V4L2_AV1_REFS_PER_FRAME; i++) {
++		struct vdec_av1_slice_fb *vref = &vsi->ref[i];
++		int idx = vb2_find_timestamp(vq, pfc->ref_idx[i], 0);
+
+Needs to be converted to vb2_find_buffer in light of 
+https://lore.kernel.org/lkml/20220706182657.210650-3-ezequiel@vanguardiasur.com.ar/T/
+
+-- Daniel
+
