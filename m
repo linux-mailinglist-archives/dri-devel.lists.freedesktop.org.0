@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FFB5E64DB
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:13:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C1D5E64D6
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:13:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC6C10EB39;
-	Thu, 22 Sep 2022 14:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B13810EB35;
+	Thu, 22 Sep 2022 14:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40CA410EB3B;
- Thu, 22 Sep 2022 14:13:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663856008; x=1695392008;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=akMJERrXOCidgzqbk9mKVvY5qrTvNVsK91PeKs5W8/s=;
- b=B531uLNKsenlc204qF6wArg38+CpsEzM46NHt8W8aRILYJ7wPJ66xHKn
- aGUfMV4g0N/7ya5gnESJMiN30rUD4mfsREKmz//BGTw5XeYDQYmlrWz1Z
- duKT/6PCD2YX4/p2XC2uukJU8PGw8zBHQDXWdFbaCW8QdZgiNG0B1duLi
- 9x9qrs53Hi4915M9hIDdqqPZoFKzATECVcj6bRlMYEgSqpzMQTUBZw4fO
- 1ho1DletcdrCrATyLx4+iLkv1h9xCRdcvtoJcwuTUd576vx0DOrK/cQP1
- tMFE4B4YqoLjXHvUxpt01rXWQFfR3cV0APJ8Iuoc7/FKvEWDJQrY7zWdU g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="300289266"
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="300289266"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 07:12:33 -0700
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="619805663"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 07:12:33 -0700
-Date: Thu, 22 Sep 2022 07:12:11 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [RFC v4 08/14] drm/i915/vm_bind: Abstract out common
- execbuf functions
-Message-ID: <20220922141210.GG28263@nvishwa1-DESK>
-References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
- <20220921070945.27764-9-niranjana.vishwanathapura@intel.com>
- <f14f142b-c382-9592-ff3d-af9e69028f75@linux.intel.com>
- <20220921181734.GE28263@nvishwa1-DESK>
- <06ba58f8-c86d-1a75-4e25-2108224a32f7@linux.intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9727E10EB36;
+ Thu, 22 Sep 2022 14:12:48 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 50E4F2198F;
+ Thu, 22 Sep 2022 14:12:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663855967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hC3PxwpdItuDJV6bFzcsUnwfPmcVOYxkckrivD1XFQs=;
+ b=hg05v3+1FKmdbhiu7RwToQwd70me4A3vJ8krf9fmzdy7fMy58Pfzn2tpjmXfNUYDdB8hz3
+ 8tMcAlWcd0JO2cWOhL2y4UUCnMqbzyarHcDzj+5CkwC0j5Pv1Ag5LyTbGnFnr76e9ujYxw
+ aiX0DVLkQ7vYn+kDH7mUn9aCQ+89feM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663855967;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hC3PxwpdItuDJV6bFzcsUnwfPmcVOYxkckrivD1XFQs=;
+ b=KnC/+s97qQR9dMOqzGeqvLguWHc8qRKLQcU1YcI9HnwunJEVguzQ9vcWzZPTHB5kpFn9b1
+ qa2NRz9eJV1gV8DA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0A63113AA5;
+ Thu, 22 Sep 2022 14:12:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id TNOfAV9tLGN0DQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Sep 2022 14:12:47 +0000
+Date: Thu, 22 Sep 2022 16:12:45 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <YyxtXS588at6S4wg@linux-uq9g>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <06ba58f8-c86d-1a75-4e25-2108224a32f7@linux.intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,129 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- matthew.auld@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 22, 2022 at 10:05:34AM +0100, Tvrtko Ursulin wrote:
->
->On 21/09/2022 19:17, Niranjana Vishwanathapura wrote:
->>On Wed, Sep 21, 2022 at 11:18:53AM +0100, Tvrtko Ursulin wrote:
->>>
->>>On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
+Hi Dave and Daniel,
 
-<snip>
+this is the drm-misc-fixes PR for this week.
 
->>>
->>>Two things:
->>>
->>>1)
->>>
->>>Is there enough commonality to maybe avoid multiple arguments and 
->>>have like
->>>
->>>struct i915_execbuffer {
->>>
->>>};
->>>
->>>struct i915_execbuffer2 {
->>>    struct i915_execbuffer eb;
->>>    .. eb2 specific fields ..
->>>};
->>>
->>>struct i915_execbuffer3 {
->>>    struct i915_execbuffer eb;
->>>    .. eb3 specific fields ..
->>>};
->>>
->>>And then have the common helpers take the pointer to the common struct?
->>>
->>
->>...
->>This requires updating legacy execbuf path everywhere which doesn't look
->>like a good idea to me. As discussed during vm_bind rfc, I think it is
->>better to keep execbuf3 to itself and keep it leaner.
->
->To be clear the amount of almost the same duplicated code worries me 
->from the maintenance burden angle. I don't think we have any such 
->precedent in the driver. And AFAIR during RFC conclusion was keep the 
->ioctls separate and share code where it makes sense.
->
+Best regards
+Thomas
 
-But if we make a common functions that tries to cater to all with lot
-of 'if/else' statements, that also doesn't look good.
-What I took from RFC discussion was that code should be duplicated
-and only share code where is a 100% match.
+drm-misc-fixes-2022-09-22:
+Short summary of fixes pull
 
->For instance eb_fences_add - could you have a common helper which 
->takes in_fence and out_fence as parameters. Passing in -1/-1 from eb3 
->and end up with even more sharing? Same approach like you did in this 
->patch by making helpers take arguments they need instead of struct eb.
->
->Eb_requests_create? Again same code if you make eb->batch_pool a 
->standalone argument passed in.
->
+ * drm/hisilicon: Depend on MMU
+ * drm/mgag200: Fix console on G200ER
+ * drm/panel: Fix innolux_g121i1_l01 bus format
+The following changes since commit b0b9408f132623dc88e78adb5282f74e4b64bb57:
 
-I am trying to avoid those things. The legacy execbuf and execbuf3 are
-very different here. ie., execbuf3 doesn't support in/out fences,
-the handling of batches are different and there is no batch_pool etc.
-So, it would be good to have those two paths handle it separately.
-Why should execbuf3 send dummy '-1 or NULL' etc when the point of
-execbuf3 is to move away from legacy things?
+  drm/rockchip: Fix return type of cdn_dp_connector_mode_valid (2022-09-14 10:42:41 +0200)
 
-Niranjana
+are available in the Git repository at:
 
->Haven't looked at more than those in this round..
->
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-09-22
 
+for you to fetch changes up to d8a79c03054911c375a2252627a429c9bc4615b6:
 
+  drm/hisilicon: Add depends on MMU (2022-09-20 11:15:09 +0200)
 
+----------------------------------------------------------------
+Short summary of fixes pull
 
->Regards,
->
->Tvrtko
->
->>>2)
->>>
->>>Should we prefix with i915_ everything that is now no longer static?
->>>
->>
->>Yah, makes sense, will update.
->>
->>Niranjana
->>
->>>Regards,
->>>
->>>Tvrtko
->>>
->>>>+
->>>>+struct intel_context *
->>>>+eb_find_context(struct intel_context *context, unsigned int 
->>>>context_number);
->>>>+
->>>>+int add_timeline_fence(struct drm_file *file, u32 handle, u64 point,
->>>>+               struct eb_fence *f, bool wait, bool signal);
->>>>+void put_fence_array(struct eb_fence *fences, u64 num_fences);
->>>>+int await_fence_array(struct eb_fence *fences, u64 num_fences,
->>>>+              struct i915_request *rq);
->>>>+void signal_fence_array(struct eb_fence *fences, u64 num_fences,
->>>>+            struct dma_fence * const fence);
->>>>+
->>>>+int eb_requests_add(struct i915_request **requests, unsigned 
->>>>int num_batches,
->>>>+            struct intel_context *context, struct 
->>>>i915_sched_attr sched,
->>>>+            int err);
->>>>+void eb_requests_get(struct i915_request **requests, unsigned 
->>>>int num_batches);
->>>>+void eb_requests_put(struct i915_request **requests, unsigned 
->>>>int num_batches);
->>>>+
->>>>+struct dma_fence *__eb_composite_fence_create(struct 
->>>>i915_request **requests,
->>>>+                          unsigned int num_batches,
->>>>+                          struct intel_context *context);
->>>>+
->>>>+#endif /* __I915_GEM_EXECBUFFER_COMMON_H */
+ * drm/hisilicon: Depend on MMU
+ * drm/mgag200: Fix console on G200ER
+ * drm/panel: Fix innolux_g121i1_l01 bus format
+
+----------------------------------------------------------------
+Heiko Schocher (1):
+      drm/panel: simple: Fix innolux_g121i1_l01 bus_format
+
+Randy Dunlap (1):
+      drm/hisilicon: Add depends on MMU
+
+Thomas Zimmermann (1):
+      drm/mgag200: Force 32 bpp on the console
+
+ drivers/gpu/drm/hisilicon/hibmc/Kconfig | 1 +
+ drivers/gpu/drm/mgag200/mgag200_drv.c   | 6 +++++-
+ drivers/gpu/drm/panel/panel-simple.c    | 2 +-
+ 3 files changed, 7 insertions(+), 2 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
