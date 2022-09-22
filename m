@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D265C5E6BB7
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 21:31:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6DA5E6BDF
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 21:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B12F910E03B;
-	Thu, 22 Sep 2022 19:31:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDF610E08A;
+	Thu, 22 Sep 2022 19:40:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B5910E03B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 19:31:08 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id h21so7056594qta.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 12:31:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=NWcgMuOu/DRb30hVDSf+gjGKztVe28VznYCH2jRwr2w=;
- b=Uv1U0RJbEpqFZrbA9uyr91kswnGSB3cjK6Aj9EXiOeZ7e0XWQub4bxwG+sbRw5QAA4
- 44JMp1BuOrUDUJ0uP0C6KSA8VHC/IuXF6Kqv6lVLWrpR8Nw200fkrYzWK0LLM3GfbgbA
- NCqH1+i21BykwSS/x2OqgxCdNhFdsFfsXRuCs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=NWcgMuOu/DRb30hVDSf+gjGKztVe28VznYCH2jRwr2w=;
- b=LPZL+NjaZ0OhP6IIIHwcyUtPEBuHWFL4l3H1UlmoE2bKMojsf4fWP/q18AoaEgAPLG
- sQjn/XRFkNa+MJEkjLO1zDVWuguWVrAgJlR/qQNA7Uj13FzjBCr9z7c+DQiasd4GmiVb
- SIG2BwNLsqCopeAJgyz4dYB/276EfRElaJhy+s7Y0p8/NxEPhP5AIRrEy0V4oN1w5JAD
- aSO3ZTe4kMpgONRyg0lNVAqTZ/+SuE91sst72mzSwNzkApThnR4yqRYFkbJ8oYOTr2Nl
- hQ8DRMA82+jnpqGZPKKEf8R/ZgC60E0ydkX1DU3EWdXKvcD/P5lJ4wlfcyx70LEeqt9x
- NRcQ==
-X-Gm-Message-State: ACrzQf2A819zr6rS9B4UsdJo51zfRFAssBFJNgczq/56TDjHjLQinKn9
- kMmDjnKlgUb98CQfYfSYR5DqPg==
-X-Google-Smtp-Source: AMsMyM5X3spJySOGhlhXn9TKeJ1vUC4PQaWa4xgYswhH4zjD3fT+v5idDUvkA6X33EHtGeHu/7U0ag==
-X-Received: by 2002:ac8:5c0b:0:b0:35c:e066:998d with SMTP id
- i11-20020ac85c0b000000b0035ce066998dmr4195776qti.336.1663875067117; 
- Thu, 22 Sep 2022 12:31:07 -0700 (PDT)
-Received: from meerkat.local
- (bras-base-mtrlpq5031w-grc-33-142-113-79-147.dsl.bell.ca. [142.113.79.147])
- by smtp.gmail.com with ESMTPSA id
- i12-20020a05620a404c00b006b8d1914504sm5393430qko.22.2022.09.22.12.31.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 12:31:06 -0700 (PDT)
-Date: Thu, 22 Sep 2022 15:31:04 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v1 01/17] dt-bindings: clk: mediatek: Add MT8195 DPI clocks
-Message-ID: <20220922193104.4qminv6adrajkhw2@meerkat.local>
-References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-1-4844816c9808@baylibre.com>
- <d01e4a03-1d6d-9616-45ca-1c927f2d8237@linaro.org>
- <CABnWg9uZ=FrumgUzyUoUiS6T51nZTEf5JZ-1KF0-Ra9Ood5ufA@mail.gmail.com>
- <6b24be8f-94d7-6973-6f35-18cb15fc8cd4@linaro.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC7E10E062
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 19:40:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 585666115C;
+ Thu, 22 Sep 2022 19:40:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45829C433C1;
+ Thu, 22 Sep 2022 19:40:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1663875641;
+ bh=Iu+ioVZAl++oTxE1oI47t/6oQuwifWn8lmpY1yCr8J4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=YC8ixN8EP0aZI0e+nDZs91siEij37VrKEmFWG3Ty2t8usgwjVxksauo5Og7qifkq5
+ ESf2BqmXtU9USNgh+H2YKJEXRWpyu7EDcgicu3AJOn2B/4WayyL94dp8xbokjZvmw2
+ M56qmrIx+uvo2sUUrQmzfQ5/ucT/pOiWMPHGNcLJ6IIzRCYzVRcutddcWgSvzdbhZM
+ fcZkJSFboZpZl7fu6RLNBgaLlv3gbFkR4ETLqK750bOZ4J5pst6/eAIZH31PhhVZLn
+ QMHkEcQOXS8pXwYt/LtILex4KMGS/VXDhD7XC9erQbOO/ciNySxRd4PP7XyTR4i5Zs
+ 1sdrT7lGqR5Mw==
+Date: Thu, 22 Sep 2022 12:40:39 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 02/12] skbuff: Proactively round up to kmalloc bucket size
+Message-ID: <20220922124039.688be0b8@kernel.org>
+In-Reply-To: <20220922031013.2150682-3-keescook@chromium.org>
+References: <20220922031013.2150682-1-keescook@chromium.org>
+ <20220922031013.2150682-3-keescook@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6b24be8f-94d7-6973-6f35-18cb15fc8cd4@linaro.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,30 +52,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao shi <jitao.shi@mediatek.com>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Guillaume Ranquet <granquet@baylibre.com>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, Stephen Boyd <sboyd@kernel.org>,
- Mattijs Korpershoek <mkorpershoek@baylibre.com>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Pablo Sun <pablo.sun@mediatek.com>
+Cc: linux-wireless@vger.kernel.org, Jacob Shin <jacob.shin@amd.com>,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
+ linaro-mm-sig@lists.linaro.org, David Sterba <dsterba@suse.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>, Vlastimil Babka <vbabka@suse.cz>,
+ Alex Elder <elder@kernel.org>, netdev@vger.kernel.org,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Pekka Enberg <penberg@kernel.org>,
+ Daniel Micay <danielmicay@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 22, 2022 at 02:51:00PM +0200, Krzysztof Kozlowski wrote:
-> Thanks for explanation! Probably your patches are perfectly fine and
-> should apply, although I must admit diffstat is often useful.
+On Wed, 21 Sep 2022 20:10:03 -0700 Kees Cook wrote:
+> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> index 974bbbbe7138..4fe4c7544c1d 100644
+> --- a/net/core/skbuff.c
+> +++ b/net/core/skbuff.c
+> @@ -427,14 +427,15 @@ struct sk_buff *__alloc_skb(unsigned int size, gfp_t gfp_mask,
+>  	 */
+>  	size = SKB_DATA_ALIGN(size);
+>  	size += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+> -	data = kmalloc_reserve(size, gfp_mask, node, &pfmemalloc);
+> -	if (unlikely(!data))
+> -		goto nodata;
+> -	/* kmalloc(size) might give us more room than requested.
+> +	/* kmalloc(size) might give us more room than requested, so
+> +	 * allocate the true bucket size up front.
+>  	 * Put skb_shared_info exactly at the end of allocated zone,
+>  	 * to allow max possible filling before reallocation.
+>  	 */
+> -	osize = ksize(data);
+> +	osize = kmalloc_size_roundup(size);
+> +	data = kmalloc_reserve(osize, gfp_mask, node, &pfmemalloc);
+> +	if (unlikely(!data))
+> +		goto nodata;
+>  	size = SKB_WITH_OVERHEAD(osize);
+>  	prefetchw(data + size);
 
-Krzysztof:
+I'd rename osize here to alloc_size for consistency but one could 
+argue either way :)
 
-The patches should indeed apply without problems and there's a fix for the
-missing diffstat already in place.
-
-Best regards,
-Konstantin
+Acked-by: Jakub Kicinski <kuba@kernel.org>
