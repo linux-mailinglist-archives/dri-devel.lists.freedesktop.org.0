@@ -1,75 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535EB5E6A1A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 19:58:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAC45E6A65
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 20:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B50910E10B;
-	Thu, 22 Sep 2022 17:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFB9C10E12F;
+	Thu, 22 Sep 2022 18:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB78210E0F9
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 17:58:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663869506;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g4NUGUXkPyLpfZsihmjyO9VtgQj5aWbqHvYtbi+s6OQ=;
- b=WUh4jYdPBa5Pubs3zKUyxcbwvYDSiL9UCGIsrhAvkogoXbWEPwm+m/tPErDI0rvYM/NR75
- PlCS8VGN2/oDjNN7nO7lm/fKptQAFmWneDE3U9woLbnNbyaexYJvSfRdCMOtISYyf+WYEp
- PiFZQrQ6/SHNWXZaFfk0G5lqZtW1xas=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-118-Gk2CodDcNd2mpvVavNzWFQ-1; Thu, 22 Sep 2022 13:58:25 -0400
-X-MC-Unique: Gk2CodDcNd2mpvVavNzWFQ-1
-Received: by mail-il1-f198.google.com with SMTP id
- d6-20020a056e020be600b002dcc7977592so6064463ilu.17
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 10:58:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=g4NUGUXkPyLpfZsihmjyO9VtgQj5aWbqHvYtbi+s6OQ=;
- b=ZYsXxbKSMxTPpwR4n6tV2XEzqYMET2NBXHlDQYGlQD5Ktj0Ugan+7J4Q9VQTjNZBC3
- sBImcnrTKhtGvyaJuuFfuZvcFlgFUu1cxNhx07d+iCgkw+g5txtHExoTN9zZhkiyl9Ql
- ODewx8M+H6r2hYUJG78246Q3hOrUwlJsL+vfR7NSrvC54fAGEmmoi98mUtQrUfM5YK77
- NOEq7G2z0fv/DSuirEjdSEtemllZd+zIS693Y/Bx0HUABm1cz1W9Qbrbxslt7PYKmX5k
- vSoz8U+F+H3JTEYQYjqwgb8LbKgu/n0JQqDH6YEl4ePznnkNjKDWS7qv66pI4v1qhVCe
- yW7g==
-X-Gm-Message-State: ACrzQf3w6JW0BSouktlRpDVd/yvQS7V6uB1Mi+Jpf7HUbHj6o0SnDgvv
- mpUbJqAnytnCyqsg/CksEKdLnH7lqjQFeb1oh8W+KM6C/oMZ4Dpj7R8TnFdTEn/0fQ7291kkVwd
- g+8pkM5Fzf77buKhhamisTxS6DCkG
-X-Received: by 2002:a05:6638:1305:b0:35a:6a4e:9e57 with SMTP id
- r5-20020a056638130500b0035a6a4e9e57mr2680882jad.126.1663869503058; 
- Thu, 22 Sep 2022 10:58:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM530vCbzgK3QTaLWq3W4wuBNaUAkWaoYeBZZnU7wvG9GWi4I/K5zklV/6TeHh+w/3LQU5zx2g==
-X-Received: by 2002:a05:6638:1305:b0:35a:6a4e:9e57 with SMTP id
- r5-20020a056638130500b0035a6a4e9e57mr2680865jad.126.1663869502854; 
- Thu, 22 Sep 2022 10:58:22 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- p5-20020a056638216500b0035a498d222asm2456730jak.35.2022.09.22.10.58.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 10:58:22 -0700 (PDT)
-Date: Thu, 22 Sep 2022 11:58:20 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kevin Tian <kevin.tian@intel.com>
-Subject: Re: [PATCH v4 00/15] Tidy up vfio_device life cycle
-Message-ID: <20220922115820.5ac023ab.alex.williamson@redhat.com>
-In-Reply-To: <20220921104401.38898-1-kevin.tian@intel.com>
-References: <20220921104401.38898-1-kevin.tian@intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BEFD10E045;
+ Thu, 22 Sep 2022 18:08:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663870119; x=1695406119;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XWTPtcPwd9kNlzOtTTr/5rIXRMrAohKWyfVZj2wcdLc=;
+ b=kn5ZpbXBjelyLfgjut4bOIFECL4EtPM61py/EA48irKg9MAeQacpA5CJ
+ 5q0xcMmAvLN996aZctC8O2Lb7N9peP01U78teMrKgl/uv3wSSpCPtxqGp
+ jICgIn0+qTpUTSNx/YCr0a/YKG1MUO5TPM2MyY8vUNgfy+DRQ2Pf7D39t
+ EKyx6OYbQLio8GsvP3TQ/4Jp7PNwXesfJs1vByZAftgefHjyqL+GMBlNG
+ l0KOtfBg2lMzk/icklMkYK+KQq9NDuaihidYVIW/cWNL+9SSb3y1LyPH4
+ WKLA09T5a3j4pjTsrviav+sk4aD5MPWoXavyw134ALUHtvqifkcOeLNSY w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="300368068"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="300368068"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 11:08:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="571069511"
+Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 22 Sep 2022 11:08:35 -0700
+Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1obQck-0004r1-2W;
+ Thu, 22 Sep 2022 18:08:34 +0000
+Date: Fri, 23 Sep 2022 02:08:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH 4/5] drm/msm/dpu: add support for SM8450
+Message-ID: <202209230114.2apdPcjg-lkp@intel.com>
+References: <20220922113016.355188-5-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922113016.355188-5-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,81 +60,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Kirti Wankhede <kwankhede@nvidia.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Longfang Liu <liulongfang@huawei.com>, Christoph Hellwig <hch@infradead.org>,
- Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org,
- Leon Romanovsky <leon@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
- Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
+Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Sep 2022 18:43:46 +0800
-Kevin Tian <kevin.tian@intel.com> wrote:
+Hi Dmitry,
 
-> The idea is to let vfio core manage the vfio_device life cycle instead
-> of duplicating the logic cross drivers. Besides cleaner code in driver
-> side this also allows adding struct device to vfio_device as the first
-> step toward adding cdev uAPI in the future. Another benefit is that
-> user can now look at sysfs to decide whether a device is bound to
-> vfio [1], e.g.:
-> 
-> 	/sys/devices/pci0000\:6f/0000\:6f\:01.0/vfio-dev/vfio0
-> 
-> Though most drivers can fit the new model naturally:
-> 
->  - vfio_alloc_device() to allocate and initialize vfio_device
->  - vfio_put_device() to release vfio_device
->  - dev_ops->init() for driver private initialization
->  - dev_ops->release() for driver private cleanup
-> 
-> vfio-ccw is the only exception due to a life cycle mess that its private
-> structure mixes both parent and mdev info hence must be alloc/freed
-> outside of the life cycle of vfio device.
-> 
-> Per prior discussions this won't be fixed in short term by IBM folks [2].
-> 
-> Instead of waiting this series introduces a few tricks to move forward:
-> 
->  - vfio_init_device() to initialize a pre-allocated device structure;
-> 
->  - require *EVERY* driver to implement @release and free vfio_device
->    inside. Then vfio-ccw can use a completion mechanism to delay the
->    free to css driver;
-> 
-> The second trick is not a real burden to other drivers because they
-> all require a @release for private cleanup anyway. Later once the ccw
-> mess is fixed a simple cleanup can be done by moving free from @release
-> to vfio core.
-> 
-> Thanks
-> Kevin
-> 
-> [1] https://listman.redhat.com/archives/libvir-list/2022-August/233482.html
-> [2] https://lore.kernel.org/all/0ee29bd6583f17f0ee4ec0769fa50e8ea6703623.camel@linux.ibm.com/
-> 
-> v4:
->  - fix use-after-free issue in @release of mtty/mbochs and also change
->    mdpy/ap to free vfio-device as the last thing in @release (Alex)
->  - revert the rename from 'vfio' to 'vfio_group' in procfs (Alex) 
+I love your patch! Perhaps something to improve:
 
-Applied to vfio next branch for v6.1.  Thanks,
+[auto build test WARNING on next-20220921]
+[also build test WARNING on linus/master v6.0-rc6]
+[cannot apply to drm-misc/drm-misc-next v6.0-rc6 v6.0-rc5 v6.0-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Alex
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-add-support-for-SM8450/20220922-193223
+base:    483fed3b5dc8ce3644c83d24240cf5756fb0993e
+config: s390-randconfig-r044-20220922 (https://download.01.org/0day-ci/archive/20220923/202209230114.2apdPcjg-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 791a7ae1ba3efd6bca96338e10ffde557ba83920)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/b25f303f8c65c2776a67e8c6ac66c379d74170ce
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Baryshkov/drm-msm-add-support-for-SM8450/20220922-193223
+        git checkout b25f303f8c65c2776a67e8c6ac66c379d74170ce
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/msm/
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:8:
+   In file included from include/linux/of_address.h:7:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:8:
+   In file included from include/linux/of_address.h:7:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:8:
+   In file included from include/linux/of_address.h:7:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:1559:37: warning: unused variable 'sm8450_regdma' [-Wunused-const-variable]
+   static const struct dpu_reg_dma_cfg sm8450_regdma = {
+                                       ^
+   13 warnings generated.
+
+
+vim +/sm8450_regdma +1559 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+
+  1558	
+> 1559	static const struct dpu_reg_dma_cfg sm8450_regdma = {
+  1560		.base = 0x0,
+  1561		.version = 0x00020000,
+  1562		.trigger_sel_off = 0x119c,
+  1563		.xin_id = 7,
+  1564		.clk_ctrl = DPU_CLK_CTRL_REG_DMA,
+  1565	};
+  1566	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
