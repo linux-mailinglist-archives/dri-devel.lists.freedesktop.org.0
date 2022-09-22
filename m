@@ -1,73 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F57E5E6567
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:28:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 851345E6569
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:28:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6815310EB97;
-	Thu, 22 Sep 2022 14:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA6D610EB9B;
+	Thu, 22 Sep 2022 14:28:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F12DF10EBA4;
- Thu, 22 Sep 2022 14:28:06 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id AD6282B05B32;
- Thu, 22 Sep 2022 10:28:03 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 22 Sep 2022 10:28:06 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC5C10EB93;
+ Thu, 22 Sep 2022 14:28:14 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id F3B272B05B36;
+ Thu, 22 Sep 2022 10:28:10 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Thu, 22 Sep 2022 10:28:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1663856883; x=
- 1663864083; bh=0h+j4Ml235vzzhk4vbz+WoFhzY0sO9zK12Ov1UnPsu4=; b=S
- FZ2SNztZYY3YCcMvY9vU8Fgp9KqOhqXb15Yv+rP4F20N2IB+r2FOGUnaVfvxeCA5
- Qs5T0iq8Qxt2gaJWx3dfD4AromirYmJfeztL91DVw0sJWUvsSkS6PoZAy3d7RdLB
- WET8r3vliStt9LpAeIU6whif9xRrEcO25hMQ30gKvXzfGYL9NV3US+3sHyggkzyw
- uNDkyOvOPE4e0nsw31ZUMw1vTahmLowaMOjBSS+BZ02wZc/h3X9hOei9vP3iCkuD
- j9kPeUqWYihzmL6GS2MRi3Uiw+22Yb6eQmTWweqObpWviMxHa1qTBCykhKuU7AWF
- tMr5v0zeBVpgxZGZ0lOaQ==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1663856890; x=
+ 1663864090; bh=dfVq7BXQ9B4uAsI1a5x7OI32Ta0Cs2gU9rZUbwMpsfU=; b=r
+ fTs6skAYSFL/b/LcYdjoOgK3dfLrbBkNKkH9FpEXI8spPzKeRD+0c9fzeEyuI1i3
+ QPxUxKc0ZVHmmZTpr3Oqgw/gd2s5uJD08KJy0VLsQSorgU5TSFa5pTwK0PzKd/IY
+ oX1VDM44hyYcDZTCUrtkuXS6vUTOUpAfZ66D40ZgMMVtgWlcdewUaJdXvvb1SfP5
+ EA7uA36N0nSEUECo8mDDZiVXSGCegv1dkhGF4U1WYuJBQXr9SCVb6/EXIL9DUQYa
+ ZW6leNtsEBfG0hwbSsEq/FlPa2/OswWBWpg0WP4zdcDK7uOAoP/idepmyopU2IeU
+ ffA7/E1tyTX++GsPOxBvg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1663856883; x=
- 1663864083; bh=0h+j4Ml235vzzhk4vbz+WoFhzY0sO9zK12Ov1UnPsu4=; b=C
- xObU6mMlJxh0xcyUVe0lAfXA03pbupq3cG9zYOXnX8OmH7td8dTes8keWJdOrvKv
- m79YxYTwu3fVFyRbYX6Anz9qIn3yLBOs5z0+OFExR7/oTYK+lnAjYGN/DuHquIpA
- gbYZpy33igVSGf8kLtcDpRSJ8bDFxNh/WmtD9j5kPNOgXZKk0zm7Eo9phve1T/7S
- fnvVfPEI7sFDGYKE/5RkNnM+9gNnEPxQTO08iIlIR9P7yczHq1wnDb9uN098qMQy
- Al0x05A/rxQHzEHWVjASfPZEdm33gxu/auFNblF4f1HJABD1dzDq73TstZxlY6Cb
- +XGRVoX2PwW0YVpkaKwjA==
-X-ME-Sender: <xms:83AsY7QtVBmfa2YMz9jIeaJDX_TDUe8Yxh7pPU99An9ccDijzKTWHw>
- <xme:83AsY8xJzesFCHdCyK-BV8jcCGkOmBxVuKqVMA3W1IT1wy5qxAHtTo_f80M403fJS
- WUKW5BmQMUOxd9iGUI>
-X-ME-Received: <xmr:83AsYw0MJr4dqahX9Tn0bZMy2D9QAx_QsawgY9WUOf3Bd6Kb2l24UDXs_nA>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1663856890; x=
+ 1663864090; bh=dfVq7BXQ9B4uAsI1a5x7OI32Ta0Cs2gU9rZUbwMpsfU=; b=C
+ Pv1sHgjrwaYJmsnrq4QCbS04NI1Gzd3smzXf2fEOzvh6Kt5XuvCwhVxO1winuc2c
+ QDoOi7ZeujMAqWNtrcVzZqU9qyiPA3T6scnZKKG6xwv57RjlktTROoMTJz9RqfBB
+ OKnll4la2I+nDGt3XqOuy2yqpP31Bo2F9YgL5kzqN3LQ8U3SSiq7GsFtukjUgage
+ 3GuO0BO5AZyXr/UqA+nUhlrXLVi7bfW04lZXY5hLcg9+7knidGYvHQ/glDtJOtTo
+ lQdFHxcGDSDW29z9f2m5P8i8cA4fJYbePfHlmLRRaOUxPc0CDrWjEAbuN7nrIKYx
+ wr6521mas84lR2fmkXMWA==
+X-ME-Sender: <xms:-nAsY3l2hJPXwwqDieN-FPXLHnRZT_vIWGrSHBg1eNH_S1Gl7Vx5pQ>
+ <xme:-nAsY61DWT_2ITtaR5ffVrbo246eDoPSg-tCkAsOFdsEuYLD7fDXti8afSBeh_WAL
+ -9H7AeewANkMoMX898>
+X-ME-Received: <xmr:-nAsY9qWq4ysMOXd22t8kkv54jYjqGI-r0WU3TzpSTrOl74DQ_WG6Epkawc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefgedgudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
- jeeltdevnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomh
+ jeeltdevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:83AsY7A75stAgaTWehOvwCE-c87eY1xo3zcy-9wNABwM9mdag4uSdw>
- <xmx:83AsY0hOK40UgdKb4kOd8AtJYj7QKH118Y_CUxtvpP4Obco2DwBfOA>
- <xmx:83AsY_qgCx9bxgN7z4oaH49YrLQGvkD0H4_YYgeDtfJl1f5Rb2YI5Q>
- <xmx:83AsYyN9igQ5Fs-DR5dfJ4wjpE-JwAqNkgfLWuaBhLgkaLzqvmKVT-ek7Ec>
+X-ME-Proxy: <xmx:-nAsY_mCcnAI4-0jPGtF0rL8JgLGYImZ1CfFvaUASjoP8OB0iX_p4A>
+ <xmx:-nAsY10-Park3Eim158pjp3C7VNabXyd4pEmjOpdi4-cc2OLcK3DOw>
+ <xmx:-nAsY-u3vSbNd7cJZawtaa2J2HwecVAgmt4FoJ4nWaCy-k_jYqKxuA>
+ <xmx:-nAsY0BaeWlcC5Q6_EkmmeL5QQayen1F5nhswUrM18MdO9SX4qHXoAgZJX0>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Sep 2022 10:28:01 -0400 (EDT)
+ 22 Sep 2022 10:28:09 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 22 Sep 2022 16:25:38 +0200
-Subject: [PATCH v2 21/33] drm/connector: Add pixel clock to cmdline mode
+Date: Thu, 22 Sep 2022 16:25:39 +0200
+Subject: [PATCH v2 22/33] drm/connector: Add a function to lookup a TV mode by
+ its name
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20220728-rpi-analog-tv-properties-v2-21-f733a0ed9f90@cerno.tech>
+Message-Id: <20220728-rpi-analog-tv-properties-v2-22-f733a0ed9f90@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
 In-Reply-To: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -82,11 +83,11 @@ To: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
 X-Mailer: b4 0.10.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2051; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=rxoD3Af1weJFe2uj/nLNvKWNvmy0Jf/ctDPA3MS5OG0=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk6BYFzp3Yzxmc6Vy27uMBAa8rKkPJUx0sl609r/w9vkb/y
- +uf5jlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzknBTDHz57x5nmH9UKKsN+5azbaq
- 7L+bzp3VUV7drL85fUhPy+c5mRYfKaG15zJp5WUFz0eeMD/o3Ns/JXBj1xsfm4QEVfQuiLMxMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2242; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=SAjtmTJcJObMxS7pu9nZu7kJ4+czqVT9o2Td3HmdMSc=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk6BYEzdTm7Y2tLlmx+b8Z69rSx55wmVlVZ0xOzdrocmd+r
+ HbK/o5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABOZdI/hv+9Ea5fLFj9SG2L2Slm/zY
+ izfe7i9/z1mvS/t/1Ohh6ZepmR4ZzynG0bwnWzZz06JfA8n+dJyPFrPG2br5xwPZNgzN+mywAA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,70 +106,63 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll need to get the pixel clock to generate proper display modes for
-all the current named modes. Let's add it to struct drm_cmdline_mode and
-fill it when parsing the named mode.
+As part of the command line parsing rework coming in the next patches,
+we'll need to lookup drm_connector_tv_mode values by their name, already
+defined in drm_tv_mode_enum_list.
+
+In order to avoid any code duplication, let's do a function that will
+perform a lookup of a TV mode name and return its value.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 5d8b6a0d96f3..eb3c4e596c67 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -2226,22 +2226,24 @@ static int drm_mode_parse_cmdline_options(const char *str,
- 
- struct drm_named_mode {
- 	const char *name;
-+	unsigned int pixel_clock_khz;
- 	unsigned int xres;
- 	unsigned int yres;
- 	unsigned int flags;
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index e7aa8de08f5b..7acf294aba5f 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -992,6 +992,30 @@ static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
  };
+ DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
  
--#define NAMED_MODE(_name, _x, _y, _flags)		\
-+#define NAMED_MODE(_name, _pclk, _x, _y, _flags)	\
- 	{						\
- 		.name = _name,				\
-+		.pixel_clock_khz = _pclk,		\
- 		.xres = _x,				\
- 		.yres = _y,				\
- 		.flags = _flags,			\
- 	}
- 
- static const struct drm_named_mode drm_named_modes[] = {
--	NAMED_MODE("NTSC", 720, 480, DRM_MODE_FLAG_INTERLACE),
--	NAMED_MODE("PAL", 720, 576, DRM_MODE_FLAG_INTERLACE),
-+	NAMED_MODE("NTSC", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE),
-+	NAMED_MODE("PAL", 13500, 720, 576, DRM_MODE_FLAG_INTERLACE),
- };
- 
- static int drm_mode_parse_cmdline_named_mode(const char *name,
-@@ -2286,6 +2288,7 @@ static int drm_mode_parse_cmdline_named_mode(const char *name,
- 			continue;
- 
- 		strcpy(cmdline_mode->name, mode->name);
-+		cmdline_mode->pixel_clock = mode->pixel_clock_khz;
- 		cmdline_mode->xres = mode->xres;
- 		cmdline_mode->yres = mode->yres;
- 		cmdline_mode->interlace = !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
++/**
++ * drm_get_tv_mode_from_name - Translates a TV mode name into its enum value
++ * @name: TV Mode name we want to convert
++ * @len: Length of @name
++ *
++ * Translates @name into an enum drm_connector_tv_mode.
++ *
++ * Returns: the enum value on success, a negative errno otherwise.
++ */
++int drm_get_tv_mode_from_name(const char *name, size_t len)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(drm_tv_mode_enum_list); i++) {
++		const struct drm_prop_enum_list *item = &drm_tv_mode_enum_list[i];
++
++		if (strlen(item->name) == len && !strncmp(item->name, name, len))
++			return item->type;
++	}
++
++	return -EINVAL;
++}
++EXPORT_SYMBOL(drm_get_tv_mode_from_name);
++
+ static const struct drm_prop_enum_list drm_tv_select_enum_list[] = {
+ 	{ DRM_MODE_SUBCONNECTOR_Automatic, "Automatic" }, /* DVI-I and TV-out */
+ 	{ DRM_MODE_SUBCONNECTOR_Composite, "Composite" }, /* TV-out */
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index fffacbfd0a45..80e19efb3f42 100644
+index 80e19efb3f42..0dcd08e036b6 100644
 --- a/include/drm/drm_connector.h
 +++ b/include/drm/drm_connector.h
-@@ -1279,6 +1279,13 @@ struct drm_cmdline_mode {
- 	 */
- 	bool bpp_specified;
+@@ -1870,6 +1870,8 @@ const char *drm_get_dp_subconnector_name(int val);
+ const char *drm_get_content_protection_name(int val);
+ const char *drm_get_hdcp_content_type_name(int val);
  
-+	/**
-+	 * @pixel_clock:
-+	 *
-+	 * Pixel Clock in kHz. Optional.
-+	 */
-+	unsigned int pixel_clock;
++int drm_get_tv_mode_from_name(const char *name, size_t len);
 +
- 	/**
- 	 * @xres:
- 	 *
+ int drm_mode_create_dvi_i_properties(struct drm_device *dev);
+ void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector);
+ 
 
 -- 
 b4 0.10.0
