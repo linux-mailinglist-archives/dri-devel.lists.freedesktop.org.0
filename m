@@ -1,58 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583D65E5E70
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 11:24:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AEF5E5E87
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 11:26:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B207810E3E4;
-	Thu, 22 Sep 2022 09:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B05210E3E8;
+	Thu, 22 Sep 2022 09:26:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
- [IPv6:2607:f8b0:4864:20::d32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39EFC10E3E4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 09:23:58 +0000 (UTC)
-Received: by mail-io1-xd32.google.com with SMTP id c4so7207326iof.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 02:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=eq1ulTtXYhBmIV3Hec+MzaFRLDXw1vSRF6+bOMmPhJ4=;
- b=bE2W6qfxPeZ5hG8th9HBte8uWTQjYuCcr36yI1hhiheOM64/zofTi1amyoUC/YRb+J
- NgesQGAjTL00GMSehk4Np33KVgoKvpm/Mh3RSzMdF+EkL5Y4k9K6GB3q17DXyKsUm/6E
- tSUleWEaIUryrEiqLEE56d9SYCS/YFMrs6gU37f7Pqu7tr26K2zmBNy6tAGoGVxQ5f+n
- DlMD1/oSQBrQp/QHyG7CgFktY+50H+Wm33tTFaH8FxMf0iDQdWTe9OU6Ok7FDH/xYrVm
- +Y17qm2jbLBl43Ckz4h9g/NlAB7oNcZMDPJUHArvKPR8Jrr0Y7Jjk4kBCdA2lo60DN3B
- Aphg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=eq1ulTtXYhBmIV3Hec+MzaFRLDXw1vSRF6+bOMmPhJ4=;
- b=0lqtryE0uRcMYayyBKzcWFqKRIKYAtvHuxOYX3zTEQT01PwwH207Shdy0ZOHBK8RNQ
- YUbhu7wBRLUsUYufAcAB9mYzsAJfJmot2/irgsQTuFk/DlXpEtgMUpZNL+tPPhw0CHoZ
- +OHarZeDznSeBtubeiZ7fFSGxTGydWseo2i90Ce4lPbHLW+fs5nmESTWaIP/R1umkdEz
- m+gjSc/otzNzhW/5XuLnoXQJZljKhMhKx7xqXVKhADsluq3jlEw4lKb8UuaEUm6imh6Q
- up513xisVFx8mglp5P51//TE1OSemIGNEdpWyeIayqbkfKw5BY7m61sZMdTU4sUS+9gB
- nwuQ==
-X-Gm-Message-State: ACrzQf3adqR8PL5F6JjxtlWlv73M5ZjfSw9qodgqhQ8vmjlNqv0u8P4i
- HeOzAJ6wqbmD/GItLSxl4eZ7wr+DJgD8vljvjBM=
-X-Google-Smtp-Source: AMsMyM4VmAwcaT5Lc+Ww++2Y7GpjHXOf8JO1cC9hLR1vHps4lN+vAXggqFNSedolxw1DncuzKFlDGIHvcmXTBzRY/kM=
-X-Received: by 2002:a05:6638:dcc:b0:35a:7ba6:ad51 with SMTP id
- m12-20020a0566380dcc00b0035a7ba6ad51mr1404409jaj.256.1663838637536; Thu, 22
- Sep 2022 02:23:57 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5910010E3E8;
+ Thu, 22 Sep 2022 09:26:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663838784; x=1695374784;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=A1vMP+zUC0HIP09xd0WR1cvs4lKMAnqbZSRXvqwbTdk=;
+ b=TYjDEHZozfy9WLK8KJtHAVbfxYKkwngYmKS2cqMEQPMqI9gjgKZGSrXf
+ 3eXrSZxHkdCe4w5GBSs5o9UubZyGS8yjwMttA17vllo7lCt3JjYnlLaQH
+ FwBoN2LS+35pA2GbacBTBIEg4nriyILLWwDx8bDCAKx79/KpNwytjkPQr
+ WMaJRj2iP7XxrgqLS1bK2OPOFNpohIuVrWEeaa218b5U14IAKIRtURsVb
+ MQGgLuY8yoMBGx+UpYfjUmt38xb6i6OoLh34aJJ/ClZhFt78qbN+/W6uw
+ M1EmcPqQ2HZvZ49zqBzUfYwv/UeLa61ABV5C6zGZOn816+OixujE4VSqC A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="301658323"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="301658323"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 02:26:23 -0700
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="723586383"
+Received: from akoska-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.36.156])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 02:26:20 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC v4 02/14] drm/i915/vm_bind: Add
+ __i915_sw_fence_await_reservation()
+In-Reply-To: <20220921070945.27764-3-niranjana.vishwanathapura@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+ <20220921070945.27764-3-niranjana.vishwanathapura@intel.com>
+Date: Thu, 22 Sep 2022 12:26:02 +0300
+Message-ID: <87fsgj7ob9.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220922031013.2150682-1-keescook@chromium.org>
- <20220922031013.2150682-12-keescook@chromium.org>
-In-Reply-To: <20220922031013.2150682-12-keescook@chromium.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 22 Sep 2022 11:23:46 +0200
-Message-ID: <CANiq72=m9VngFH9jE3s0RV7MpjX0a=ekJN4pZwcDksBkSRR_1w@mail.gmail.com>
-Subject: Re: [PATCH 11/12] slab: Remove __malloc attribute from realloc
- functions
-To: Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,40 +59,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, Jacob Shin <jacob.shin@amd.com>,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
- linaro-mm-sig@lists.linaro.org, Jakub Kicinski <kuba@kernel.org>,
- David Sterba <dsterba@suse.com>, Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@suse.cz>, Hao Luo <haoluo@google.com>,
- Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Pekka Enberg <penberg@kernel.org>,
- Daniel Micay <danielmicay@gmail.com>, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-btrfs@vger.kernel.org
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ lionel.g.landwerlin@intel.com, thomas.hellstrom@intel.com,
+ matthew.auld@intel.com, jason@jlekstrand.net, daniel.vetter@intel.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 22, 2022 at 5:10 AM Kees Cook <keescook@chromium.org> wrote:
+On Wed, 21 Sep 2022, Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com> wrote:
+> Add function __i915_sw_fence_await_reservation() for
+> asynchronous wait on a dma-resv object with specified
+> dma_resv_usage. This is required for async vma unbind
+> with vm_bind.
 >
-> -#ifdef __alloc_size__
-> -# define __alloc_size(x, ...)  __alloc_size__(x, ## __VA_ARGS__) __malloc
-> -#else
-> -# define __alloc_size(x, ...)  __malloc
-> -#endif
-> +#define __alloc_size(x, ...)   __alloc_size__(x, ## __VA_ARGS__) __malloc
-> +#define __realloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__)
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_sw_fence.c | 25 ++++++++++++++++++-------
+>  drivers/gpu/drm/i915/i915_sw_fence.h |  7 ++++++-
+>  2 files changed, 24 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+> index 6fc0d1b89690..0ce8f4efc1ed 100644
+> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
+> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+> @@ -569,12 +569,11 @@ int __i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
+>  	return ret;
+>  }
+>  
+> -int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> -				    struct dma_resv *resv,
+> -				    const struct dma_fence_ops *exclude,
+> -				    bool write,
+> -				    unsigned long timeout,
+> -				    gfp_t gfp)
+> +int __i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> +				      struct dma_resv *resv,
+> +				      enum dma_resv_usage usage,
+> +				      unsigned long timeout,
+> +				      gfp_t gfp)
+>  {
+>  	struct dma_resv_iter cursor;
+>  	struct dma_fence *f;
+> @@ -583,7 +582,7 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>  	debug_fence_assert(fence);
+>  	might_sleep_if(gfpflags_allow_blocking(gfp));
+>  
+> -	dma_resv_iter_begin(&cursor, resv, dma_resv_usage_rw(write));
+> +	dma_resv_iter_begin(&cursor, resv, usage);
+>  	dma_resv_for_each_fence_unlocked(&cursor, f) {
+>  		pending = i915_sw_fence_await_dma_fence(fence, f, timeout,
+>  							gfp);
+> @@ -598,6 +597,18 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>  	return ret;
+>  }
+>  
+> +int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> +				    struct dma_resv *resv,
+> +				    const struct dma_fence_ops *exclude,
+> +				    bool write,
+> +				    unsigned long timeout,
+> +				    gfp_t gfp)
+> +{
+> +	return __i915_sw_fence_await_reservation(fence, resv,
+> +						 dma_resv_usage_rw(write),
+> +						 timeout, gfp);
+> +}
+> +
+>  #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+>  #include "selftests/lib_sw_fence.c"
+>  #include "selftests/i915_sw_fence.c"
+> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.h b/drivers/gpu/drm/i915/i915_sw_fence.h
+> index 619fc5a22f0c..3cf4b6e16f35 100644
+> --- a/drivers/gpu/drm/i915/i915_sw_fence.h
+> +++ b/drivers/gpu/drm/i915/i915_sw_fence.h
+> @@ -10,13 +10,13 @@
+>  #define _I915_SW_FENCE_H_
+>  
+>  #include <linux/dma-fence.h>
+> +#include <linux/dma-resv.h>
 
-These look unconditional now, so we could move it to
-`compiler_attributes.h` in a later patch (or an independent series).
+As a GCC extension you can drop this and forward declare enum
+dma_resv_usage. We use it extensively.
 
-Cheers,
-Miguel
+>  #include <linux/gfp.h>
+>  #include <linux/kref.h>
+>  #include <linux/notifier.h> /* for NOTIFY_DONE */
+>  #include <linux/wait.h>
+>  
+>  struct completion;
+> -struct dma_resv;
+>  struct i915_sw_fence;
+>  
+>  enum i915_sw_fence_notify {
+> @@ -89,6 +89,11 @@ int i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
+>  				  unsigned long timeout,
+>  				  gfp_t gfp);
+>  
+> +int __i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> +				      struct dma_resv *resv,
+> +				      enum dma_resv_usage usage,
+> +				      unsigned long timeout,
+> +				      gfp_t gfp);
+>  int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>  				    struct dma_resv *resv,
+>  				    const struct dma_fence_ops *exclude,
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
