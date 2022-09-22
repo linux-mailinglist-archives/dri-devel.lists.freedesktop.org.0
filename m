@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00075E652C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:26:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162705E6531
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:26:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4029B10EB58;
-	Thu, 22 Sep 2022 14:26:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3A3110EB61;
+	Thu, 22 Sep 2022 14:26:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 861A110EB53;
- Thu, 22 Sep 2022 14:26:02 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 4018A2B05B1D;
- Thu, 22 Sep 2022 10:25:59 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 22 Sep 2022 10:26:01 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9E9810EB58;
+ Thu, 22 Sep 2022 14:26:10 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 7C2FB2B05B17;
+ Thu, 22 Sep 2022 10:26:06 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 22 Sep 2022 10:26:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1663856758; x=
- 1663863958; bh=nul9kf+nsMkA73YYqXmZqsBmb7KKOwrv3IixGzHTnrI=; b=z
- cJ41D1wcu9jDkb3YA6v5AMNmOUSg+beGL/22S7FuoA2FCrBDF3vR/v1HLpvD7hCs
- rkFDKR1OtDHCZ2iYWvTET+aSPnex7ycvCJ3Xowa73koy+MsCLIvwqYDjxFh7kKx3
- Mu/VO5BnZadiiXMrHevCzJUCCEeFWM+vXyeQejwvPhItxtiqXfcdCpVVGfyNBwG0
- /EaRMt569uJcpm3mFTfVDGlIZEWmezkdkVSZwtN4fclYR7NoKrZXJBBtUX9vIJTn
- 5uWcAwWbs2tFxRAPX7LvKLhlv1LqZiEGZsvxw+Y2WuO3/UV6gZA4He4ErtWJeMl0
- YRMb2pwPkm2Tj5BqIpKuA==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1663856766; x=
+ 1663863966; bh=rvMfktgHy5FhCaD+KHa3yzMfq+yFQMkfoAap0/0FluY=; b=O
+ FaiSKEhRINEVsGsTUwjEfoFmSO7lPr3iFSHKlUPUf9u/kOQkY/0cJ8U0vxK+W2HU
+ E7kSoygrS2qCOCMuUzbC6OB2zHukP+rqQv1VOPOXDGptTFtelDiAXy8PI+tCKbZr
+ Q1s8rG+lHqhFTq2QE5BDAAlMPfk81rau9ybmqTKEEezNvY44TiymESXwjB+32H7U
+ EUB9h7ietgBVsbtyEDgIoCroZmp9EnusNo18DFvvWDNitLN1Pi9oMZp6jgTBxqY2
+ xraHnqiEwOqPZVlBCOfojiBJL+Qn0AbQzXm+FTTxgA1Hsb9w3cVl++GU2CV7lUlP
+ fbEF8jVKMMtThD8Zbp/Kg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1663856758; x=
- 1663863958; bh=nul9kf+nsMkA73YYqXmZqsBmb7KKOwrv3IixGzHTnrI=; b=V
- WXCNtqFjj9afjyMLVqdgehrflK5nsUCBCMAsEx8sdgoRxXmJdHg+KV2D+tUJsdI2
- jDDUaansTrxFhHEnO1x0Ad7OcwWAuMd4tA7nTdnKhpy1X0MbuBgWTa8DlaYZqBnb
- Aa+8NyYGRcaBEkguE5/62jde5nxJwdRVVKZamwZ7XAyP+OpGp6nyxLK8anKE2GXJ
- /BKwl6Mi9BYd+l+rKM8tcHVuQq1E6GohcZbn7DwP7ONQQk09oKn+AzPYgLsQ9DAz
- R2UQ4G32eU9HRGEtIn+fVvjVtej/M+v+PaR5/4m99FdchxourRqYqPjgTSbGKwY+
- ryy3EDMJkVhGEVNcriC2g==
-X-ME-Sender: <xms:dnAsY2zVx82AMqBA8GgQdQH2zm1viyBj4O_2soVj8esXki9ZXFRdcA>
- <xme:dnAsYyQDW9dKdffj4wzRKXC4M70mS7HB7WY0phnCFIsIY5hLJ-ATNK-zV0_Tbyx5p
- tX4XLIB3MAqyTV2MOI>
-X-ME-Received: <xmr:dnAsY4UGI4sEaN4Qo3mvKIMJrgWP399JqHZDYJtaYHvi8b0FkjUQQFx_tXU>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1663856766; x=
+ 1663863966; bh=rvMfktgHy5FhCaD+KHa3yzMfq+yFQMkfoAap0/0FluY=; b=v
+ R3hAs7aZ7pw1v0EfIpiMXRV9SDLJ56RA69Ge19CtZVq5vf3/8MCMVvU+7kNtO2X1
+ xhQo0BBjFJtshZ2FcTOlhZl6sj+v6CcD4sHYX1YN9Uq0rhTo6ITSKHBjvLZlfSCe
+ DZKnYYeMCT5ZSbsPYngkAov9Q/DmDnCnKViLKCRYmjL2bo+of1zLQJZaZzfwth+G
+ hceZgWh8R8dsX8LIETElUDKEDYNrJMuGjwJfYG9DJvM5GCXArABtr3/KAxTXeIRp
+ ymgHsIudnaM00BR2D1d/uWL4CST/yr4fyJQSb2r6GSrmiKoAAUwcwVymueTDj10W
+ m64Q4RfRQUyOToyiztauw==
+X-ME-Sender: <xms:fXAsYzvh4JAwPUF9RduuphmLOHftzKUeGGtjGs2uuRqfjCYunRpaiw>
+ <xme:fXAsY0cEdc7wOuwWCK1lIs_YY4qdYqVNmSFtJJiJsseiTBzFAeIJLRYXnFpLZPszG
+ tgsiC5Zpqs2FZI_pYU>
+X-ME-Received: <xmr:fXAsY2z0foRYC2P2W01Den4d_EDFvdcKDPW0Sbt_d9fNQw2dTI9bPcPCx9s>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefgedgudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,20 +54,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefgedgudejucetufdoteggod
  grthhtvghrnhepvdfgveejhfdtteevvefhleeiueeutefgvdegveekgedujeffgeffgfet
  tdellefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:dnAsY8iwRFN5Q9oPzAK5DLWc6Irv1c-8po1UfPoGnP2b_SWCIUSlTQ>
- <xmx:dnAsY4C5ts9gYIe3IVQWCFgle-nGInB6txKMATKWBnCYWplBtiSrWg>
- <xmx:dnAsY9KXXB6c-3KlQEvyDaPP8BvIF6qVsEp8UJifA538v4FMODCBcA>
- <xmx:dnAsYxsDXoCnqHfoWBP7uLSHsDKdY5OGAgvWTbCg9pU5K7hQH7NirOZSZxo>
+X-ME-Proxy: <xmx:fXAsYyOGGrq8K7qm1MxhukGZ83aOMcdfK6_EFzOrn__3f4JOGKRiHg>
+ <xmx:fXAsYz9TVlBdoDH25INtOR3l0hLH2JNYwu4tcztRdK-f7B4b5MBEfg>
+ <xmx:fXAsYyWohqTI8exIF1_4KHtde8GDZbekmT05plT1eBbWjmPNcjVlZA>
+ <xmx:fnAsY_L_Leswt7AFDjJx8Gu1NotOMIgjtJHSAjBCOxb02ixSw55-LUXyO9k>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Sep 2022 10:25:57 -0400 (EDT)
+ 22 Sep 2022 10:26:04 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 22 Sep 2022 16:25:21 +0200
-Subject: [PATCH v2 04/33] drm/connector: Rename subconnector state variable
+Date: Thu, 22 Sep 2022 16:25:22 +0200
+Subject: [PATCH v2 05/33] drm/atomic: Add TV subconnector property to
+ get/set_property
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20220728-rpi-analog-tv-properties-v2-4-f733a0ed9f90@cerno.tech>
+Message-Id: <20220728-rpi-analog-tv-properties-v2-5-f733a0ed9f90@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
 In-Reply-To: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -82,11 +83,11 @@ To: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
 X-Mailer: b4 0.10.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2234; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=k9cAlnoIw4NgF/43YMLUlzcaGpJunDmXDutQHu2BS6w=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk6BQEmm/K2JumnxEjeN/v2r2jXRMlg00nNIk+uhr6R+Mq1
- 9cnajlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzkbyHDH97DzzJ2pByX/9b40afX68
- r843d3rVGI/77iRHbVjaJpiysZGR61yqyKi9Pq77bh/7exdLaCEeO9pbz/qzmFM9007tqd4AIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2310; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=qDYM7aQiVENXoG6IHQvxJCBCpTNzU5wd8MrHn657838=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk6BQEJzp2ye1L/+Ekt4lj9prDhf0QHr+D2fdv3dkiG8C1g
+ 0lDsKGVhEONikBVTZIkRNl8Sd2rW6042vnkwc1iZQIYwcHEKwERS8hgZ5j7fV1RYlsfcWP/huorE1c
+ Tv+WrnjUS0jGPDfZqjQy4XMvzTvpWzU5SZ97wBX1HPUuXrP850n/uUoKiW97XLaEr6PkEGAA==
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,55 +106,55 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is two TV subconnector related properties registered by
-drm_mode_create_tv_properties(): subconnector and select subconnector.
+The subconnector property was created by drm_mode_create_tv_properties(),
+but wasn't exposed to the userspace through the generic
+atomic_get/set_property implementation, and wasn't stored in any generic
+state structure.
 
-While the select subconnector property is stored in the kernel by the
-drm_tv_connector_state structure, the subconnector property isn't stored
-anywhere.
-
-Worse, the select subconnector property is stored in a field called
-subconnector, creating some ambiguity about which property content we're
-accessing.
-
-Let's rename that field to one called select_subconnector to make it move
-obvious what it's about.
+Let's solve this.
 
 Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 79730fa1dd8e..c74c78a28171 100644
+index c74c78a28171..c06d0639d552 100644
 --- a/drivers/gpu/drm/drm_atomic_uapi.c
 +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -687,7 +687,7 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
- 		 */
+@@ -688,6 +688,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
  		return -EINVAL;
  	} else if (property == config->tv_select_subconnector_property) {
--		state->tv.subconnector = val;
-+		state->tv.select_subconnector = val;
+ 		state->tv.select_subconnector = val;
++	} else if (property == config->tv_subconnector_property) {
++		state->tv.subconnector = val;
  	} else if (property == config->tv_left_margin_property) {
  		state->tv.margins.left = val;
  	} else if (property == config->tv_right_margin_property) {
-@@ -795,7 +795,7 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
- 		else
+@@ -796,6 +798,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
  			*val = connector->dpms;
  	} else if (property == config->tv_select_subconnector_property) {
--		*val = state->tv.subconnector;
-+		*val = state->tv.select_subconnector;
+ 		*val = state->tv.select_subconnector;
++	} else if (property == config->tv_subconnector_property) {
++		*val = state->tv.subconnector;
  	} else if (property == config->tv_left_margin_property) {
  		*val = state->tv.margins.left;
  	} else if (property == config->tv_right_margin_property) {
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 23112f0c11cf..60b5662dec7c 100644
+index 60b5662dec7c..1d5e3cccb9e3 100644
 --- a/include/drm/drm_connector.h
 +++ b/include/drm/drm_connector.h
-@@ -703,7 +703,7 @@ struct drm_connector_tv_margins {
-  * @hue: hue in percent
+@@ -693,6 +693,7 @@ struct drm_connector_tv_margins {
+ /**
+  * struct drm_tv_connector_state - TV connector related states
+  * @select_subconnector: selected subconnector
++ * @subconnector: detected subconnector
+  * @margins: TV margins
+  * @mode: TV mode
+  * @brightness: brightness in percent
+@@ -704,6 +705,7 @@ struct drm_connector_tv_margins {
   */
  struct drm_tv_connector_state {
--	enum drm_mode_subconnector subconnector;
-+	enum drm_mode_subconnector select_subconnector;
+ 	enum drm_mode_subconnector select_subconnector;
++	enum drm_mode_subconnector subconnector;
  	struct drm_connector_tv_margins margins;
  	unsigned int mode;
  	unsigned int brightness;
