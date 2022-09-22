@@ -1,74 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D3A5E5BE5
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:10:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB71B5E5BF7
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:11:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B36E310E571;
-	Thu, 22 Sep 2022 07:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C73C10E572;
+	Thu, 22 Sep 2022 07:11:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E578210E570
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:10:29 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id x27so13261825lfu.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 00:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=+UzXS09SHc8/NrA6s9IEtWZ9LL+BrDTcoGV33B1WFWs=;
- b=rldSwPkc246dYUhm7aJnPBpqe6gTN8yppc0aS2NIIHlJTDMx9BtTfru5RVrxqJutrJ
- FPMVJHO5jqCggzEDee2aVYetpt9V8CPXHPbu/wJ5sxTilSXcsA0N9FgY1Mf3aJZevnpE
- TO/SVJN/jgEf0rxNil7Yc5zCc1Wbd5NpwtC1XYPTsQqrB1j+Y/ePE+KVa9t54cNlGOEI
- yKv42dH3/EIWZVsJfI1oXEGEofo0cl6gzlMwiww/n8pIXRPZ7wpE3uNOH2jEYxDm3G6W
- IbjspM99I/oe0fcCRcS9JAxrdtqM/62/QXoHTIU5ej3gx6OGjWDbXPJWVahq0D5HyWKY
- 4iYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=+UzXS09SHc8/NrA6s9IEtWZ9LL+BrDTcoGV33B1WFWs=;
- b=8ISJTeE/3RUr5m0LBEklH2OYWOsz/vEqtaat3RO9Kq5PEEMqsI3Ieae8QWWO5snpsE
- N7puPC0Ss1dGjeEk0UO1JXoYnllrhexC6Ft+MLmoSrvCevvhu0/d3z2bXqYIX9CrVzRq
- 4GXhRS+A1ckfZdqWV8EuTYClTBdquHA2SKgEnilLTVPeRe3I2m9xL71D7C9wrWNgFcqB
- RlUaoQ0tz5dvXPBpNgJiEaBJ0kuDqhbRX9K+o3nwR9Yn4q2joRvRa9lo3DQuUA0Wz+YZ
- n5YfVMkaMhO7b7mncjsVcOeersI8ICfTRZ8gNB56vbXRzdXBMZfSauyRzkZ4Ic0ebOpv
- SFKA==
-X-Gm-Message-State: ACrzQf0BNk+9JjoG4kjMiYxG4X2lMlG/lTIZpwxlPqkKeH/ldz3VeAYh
- SBynSiaJAW+lj0VqQgfdF2GDPA==
-X-Google-Smtp-Source: AMsMyM5F7VkHhJgjVqBB1a1ONBQ5olwuUXN2RSxZX/ri2ZPBesm/WyDGH/ppzmGo8yVAuFQDj4KZmQ==
-X-Received: by 2002:a05:6512:3e10:b0:498:f317:e57e with SMTP id
- i16-20020a0565123e1000b00498f317e57emr745349lfv.328.1663830627881; 
- Thu, 22 Sep 2022 00:10:27 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- c3-20020a05651221a300b0048b08e25979sm788559lft.199.2022.09.22.00.10.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 00:10:27 -0700 (PDT)
-Message-ID: <278583ee-0607-9b4f-56ff-143d47573a47@linaro.org>
-Date: Thu, 22 Sep 2022 09:10:26 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v7 12/12] dt-bindings: display/msm: add support for the
- display on SM8250
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2046.outbound.protection.outlook.com [40.107.101.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 570DB10E570
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:11:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AOgxSHfdPwJTCVUd3Y2x0b0aUPTVLgrQFkNYB1OLJNtjmmWXrsAfPcEx3pIeZXsLA8GMU0QDkU2wcCsje091BnYWSrrFx2a8QgK8lKoHG11h1WivQ03LuGUZKIcBFGqRlDhC4mogJXfNTZCqaAweiCYfvjed2DbqqendPdWiolLTVVH79akkAKpl1ZlFxFscRM3pcPYqAKCtZWVEEY1+obI5FDrBg0C/sRBWJtSNGhVFTStrh1yTgSCHyX4pr47Zp4vWMe8lMJDCGlubqkozv5ZqZK8udCSuIrunHORfDiPcpHe0QSjIiooiQxvP8Pwn8LPzwdsUFOkEdpKMlI+VUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cRT7WjmYurREJU7Dp5P+Ksp1qpA9oYbR9BO3SH8gD58=;
+ b=Yt+AXil1xZaXtv/ATuAJcH2sE6o4GFLgt5zEQMF42QIrPOAnVTaIwHPwRryOpjuJgSYOfn153XzoG9/TNKlKxk/tLTkDZ7oRJcGfP0/QyMbAXgS1ZGYVqEEM/xd1B5IjBsSR/GicAU7nWQWrQHISCDSQcSJ45tLosBNKbGg6aiz3maJI8GwVH/KtlxP90o/red6rbh0gwMWVT09V5M/A2lJXrzH8JMXRqi7tsvP+FS1GGZhWi/Pylwg4qjAXSoEU1c0L1XruKANPlu6OpKaoD1Up0BFvCqKCd6VPmPpRdeIJoV5BfICOe3x4I/Slhgulw28bWrYEIRTcLbbW54ru8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cRT7WjmYurREJU7Dp5P+Ksp1qpA9oYbR9BO3SH8gD58=;
+ b=MZcgXrc59CSdt4pL5rr9nppCP345m0sxsjfu8U/x8fyEPl2xWjwE2DbkDywy0s/nLAWcCnhHCAYW1Mqbvf2Xw1oqJK73qavNVs0qIb2JamSpV2B4Eq5BUZo1kAMGhC/wmzwqrep8iJu5zgizz21tEu23Bc0D1mlwaX9NcheLmCQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by IA1PR12MB6353.namprd12.prod.outlook.com (2603:10b6:208:3e3::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.14; Thu, 22 Sep
+ 2022 07:11:15 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5654.016; Thu, 22 Sep 2022
+ 07:11:15 +0000
+Message-ID: <673e425d-1692-ef47-052b-0ff2de0d9c1d@amd.com>
+Date: Thu, 22 Sep 2022 09:10:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 00/12] slab: Introduce kmalloc_size_roundup()
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220915133742.115218-1-dmitry.baryshkov@linaro.org>
- <20220915133742.115218-13-dmitry.baryshkov@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220915133742.115218-13-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+To: Kees Cook <keescook@chromium.org>, Vlastimil Babka <vbabka@suse.cz>
+References: <20220922031013.2150682-1-keescook@chromium.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220922031013.2150682-1-keescook@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0122.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:97::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA1PR12MB6353:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed9216c7-500f-49bd-c604-08da9c69a36d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hSPWu19WqtbGOL+TAFpX9azBYsWMTzLFXVzaM4r/AL98cZ7Yn2JRIYQ0a+TSX4Cl8jqW181nagWy9e+s0mg7YeN/BjukFfnh/h0mZHzSCJULOzCn8XSPrLcRGq/EZ9zB7R0SSxNwjq4iz4RQrUSbl7R8E3FsY8HZtTgzPg8dOHjlyo8+hWsJKb0cHuNB+DwlFP6XxzV9asE40kzkmPzq5sN+tJurpB7xSAh9evwjXcUgPnUM8XHnXWTTB3wsXWoIFdUtyWDQv8ZhL6CGY0c5Z5vJ5KHIs1lQjPmqukQT9Uv+VvWe9hMdDsIBRwNvf0wiMBUoyORP1aPChs9ObBeRhmnQVHvxMdiqF5oD+6Q2JOZFURWe5vXJcvVa2n9A/WnZ0c+/mcxuVSJutfvcAZWU0lh8R6Nx6aoJeFIEFjSOfC3BqdjW51rJiOhWNYE5sV0rvDXsKPFdCRWElMfiI9HKYRz4Kyr324MgDpW70Vdp3gCQE/4adtgoef7rnJtb7/wdl8Vdb5gUWcBWXorwe2ZIXluRajO0DrhybGoOA32tnkWWEOxfN9rJnhDMyhjNJ1BtJupETxafkNzIts57Vyh6RXiKnERIn17lLyhkfyWtulAjCmnk3pDbn8jGbKrD8UYzjfMp9wPWd1Qw/JZtUZvP/OWD0C/TwT0Z1Hjl7gYs9FZgGRM8Hprr7t8SQxe9+jPSomULVztn0EeqyMtC/3vnyOwGwNw1JQ0zWWMPRQfRqs0lmYZozfEgCm+3D9pGnU/vePhJv1sLqgUTc9rVzeljfBc9ofYR8yeisuktOUtlmMYCA+fxGOaixOD45l1sdiGiD1RVxC4JQsaJ9eejrxGA3Hn+wQcc5V93R3XmswQAN+JXWYNs4Hrm2Tuwj+YISwpv
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(366004)(136003)(346002)(376002)(396003)(451199015)(8676002)(31686004)(6666004)(36756003)(966005)(7416002)(7406005)(478600001)(41300700001)(66946007)(66476007)(66556008)(8936002)(5660300002)(4326008)(110136005)(316002)(45080400002)(2906002)(54906003)(31696002)(38100700002)(86362001)(2616005)(186003)(6486002)(26005)(83380400001)(6512007)(6506007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WThBU0ZDRSs2OEw2NGdCSTlQZVdYVDJOYTNqSFZrLzc5YXBVTGIrQXRLM1l1?=
+ =?utf-8?B?RVd4NWRUZjZqN2ljKzAzem9vQWU3TDhTVi9QNEdSUzNqemNIcWRDZDAzOURL?=
+ =?utf-8?B?N2lnQzdZVWJZN2R5ckV3eEZ0Sk9BYUxnVFRFUnh3NFJEZEFJc3VJa0V0Ukxn?=
+ =?utf-8?B?RUtrdCtVemxIekN0UzBSeWh3b29vYVE5L3BaSzlzRUNXRi9mMy9VeFBDbkwv?=
+ =?utf-8?B?Y0lKdU1MY1ZmUE1IUmpCeWZPZDdhU1d4bCtMYlNOamdFSVRLSW9MdlN4Z0Ev?=
+ =?utf-8?B?aVd4UHpUOXM4UXhDQi9IZHRPOHdJTEhxUk1vSWNGS0NGdzJrcWxqTUxTZkJw?=
+ =?utf-8?B?RWc4MzF2Rzh3NWpGUW0xSk9paExVK1BnRVJIQmJRS3pNblhoSHRmWXZvd1RW?=
+ =?utf-8?B?ZDhlQUFDTUJkNmI4ZUIrS1crQ2NNYStCWnVBbWpqa1VvYVhFNkVnYU5qeGZE?=
+ =?utf-8?B?WmJSMk5oMm5rMWNPZzlyam9nVWtKZUpCamZLR1o5d21abjQveVBLMUVpRFE5?=
+ =?utf-8?B?RmdQQmxmaFpocE42MG0rTjRmWnZDK0F6SW13dGVvM2pGaVd1SXo4RUNRK2JH?=
+ =?utf-8?B?YTRYVGpiU0ZQYzhJOExaTVNUYTNmZkpwYURZQTJGdmNYaHg1c1JSZW5mRjIw?=
+ =?utf-8?B?WTNGZVNPbkhVcXhMcklYeXZJR3FhTFJkQW95L21pek40WHNBR2cwaDlNWUd1?=
+ =?utf-8?B?STFqc09LYWNRNTd4OXNhNWw0bElNYjdpejgzQmQrTHpzeGZualBjNHNEWkRE?=
+ =?utf-8?B?QW1ha2RKNVVGcHVMZGQ3aERXcXFGN1VnWWR4K0JrdEFTcVFoanpvSGNjMExh?=
+ =?utf-8?B?aFVEWlNkazV6Tmt3U0NlU3lHN2wyU3p6L2FueGoyVUphblk1a3BmS2lMRXIy?=
+ =?utf-8?B?YkdUMGtXK25ubFh6dEtqbm1vUEN3NUxoS0JQcjN4dVg2WlpXRjF1aHJ5UFA1?=
+ =?utf-8?B?Z21sRUtrMDFKRS9neXBEaytNMnFKRjVDdUphR1Baa1daaGJNd3pVYUJVSEtO?=
+ =?utf-8?B?RytDSzd2T3E4NVpSUnUrWWpOVG41elFWSDEybk9OMkJqSGhkREZ4OXhqREU0?=
+ =?utf-8?B?NnNQbnNPRzIzbUFVRnVjVmlCTDIyRU0zczNnemJFc1VTZlhkeVd1WVl5YUk1?=
+ =?utf-8?B?R2w5emU0MHE5V0RnWlhmVS9IZ1BTbXQ4VmlwNU5kUHdhOUU4UzBFOEVRdGY4?=
+ =?utf-8?B?WS9mRE5XTGdCak1mVUY4V0FsSjNMWjUxRWFmVE1yUzllSXdBNWwwcno3cUxI?=
+ =?utf-8?B?VGluUEZvMkxlRTRkZzNRMkdBRkh4dXNCbjh0ZzJXRHRITHUvSHExaEU1L2hh?=
+ =?utf-8?B?TUNFSVVHeFlCV2NGWXNjLzhnMDZudEFwUTVVdXRWSEo2bWQrZDlNYVo0WVhW?=
+ =?utf-8?B?cCtFeFBDUGhvK0dDYnNXeEMzdllyVTR6U1lxYjFocjRRMDhxUXh1Y001dXBp?=
+ =?utf-8?B?NTR3bjN3b1N2MXhnVjhNSjNSclRmZnBFU09KY3FKQVg4MDRLUjZZdzRWVVFo?=
+ =?utf-8?B?QmJ1U2Z1K25ZMDRud1hYdFNXSjVmbTZNVk9JdXhKVEZZTjVSU3NDVlZkKzhY?=
+ =?utf-8?B?RTdHZWpzbVcrTURRckdFMk5uTkFURW45Y0tPNWJRcm5Tc05jQWpjbkVaVUUx?=
+ =?utf-8?B?NGUrbHJYMHRYcFYrbGY0dzhNSkJwMlpXSVQ1Zy95a1NRS0hDdHYwOXRFeE1y?=
+ =?utf-8?B?eEJBN3YvVld4OFZvVEdtYmgzcE5pTWxkL0V6ZWFERlNnbHc2Vk9YMGNPOFFq?=
+ =?utf-8?B?SytqamVaS2ZxMlpEb3hVL0lueEJ0bittZW01cXVKNVN6V1hMN25wMC84SDFW?=
+ =?utf-8?B?cVJvaE5PTExoLzJsR2JETW9ibExWeVhpUlBnRmdPa2E0NjZTeU5MTy9CMFJt?=
+ =?utf-8?B?cUZlcmxNbWFHbjlGb2xQNlZBWlRRelIwbnM4dkN4aExhZHRYbW5oQXdpVFRZ?=
+ =?utf-8?B?TWRxVHVkbE1jVVpKWnhsanc4S3dSTFNyNVltaEdNQjlPUURXUTNPaHdsVG9S?=
+ =?utf-8?B?eG96ZVZFSVQ2TGdiSFBqQWFvalZGcnlXWWVHR1BTdUxzWktTbHFHMFhXRUhh?=
+ =?utf-8?B?b09Mbit3dFk3Yzg2LzAwNXF2M3R0bThDVkcvSzZqZDZYeVYvaDI0cjVXMzg2?=
+ =?utf-8?Q?38WmNmx6VbQEPYBPQbj48OvRh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed9216c7-500f-49bd-c604-08da9c69a36d
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 07:11:15.5913 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: f3DuJH1j2Vv5LVJdXfe2ol4tKB5UPthfhlY8EhhHjRI64BAzT90Cn7u6CgdGs6TX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6353
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,65 +124,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: linux-wireless@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
+ linaro-mm-sig@lists.linaro.org, Jakub Kicinski <kuba@kernel.org>,
+ David Sterba <dsterba@suse.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jacob Shin <jacob.shin@amd.com>, linux-kernel@vger.kernel.org,
+ Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
+ netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>, linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/09/2022 15:37, Dmitry Baryshkov wrote:
-> Add DPU and MDSS schemas to describe MDSS and DPU blocks on the Qualcomm
-> SM8250 platform.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  .../bindings/display/msm/mdss-common.yaml     |   4 +-
->  .../bindings/display/msm/qcom,sm8250-dpu.yaml |  92 ++++++++++++++++
->  .../display/msm/qcom,sm8250-mdss.yaml         | 103 ++++++++++++++++++
->  3 files changed, 197 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-> index 2a476bd0215e..27d7242657b2 100644
-> --- a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-> @@ -27,11 +27,11 @@ properties:
->  
->    clocks:
->      minItems: 2
-> -    maxItems: 3
-> +    maxItems: 4
->  
->    clock-names:
->      minItems: 2
-> -    maxItems: 3
-> +    maxItems: 4
->  
->    interrupts:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
-> new file mode 100644
-> index 000000000000..9ff8a265c85f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
-> @@ -0,0 +1,92 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/msm/qcom,sm8250-dpu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm SM8250 Display DPU
-> +
-> +maintainers:
-> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> +
-> +$ref: /schemas/display/msm/dpu-common.yaml#
+Am 22.09.22 um 05:10 schrieb Kees Cook:
+> Hi,
+>
+> This series fixes up the cases where callers of ksize() use it to
+> opportunistically grow their buffer sizes, which can run afoul of the
+> __alloc_size hinting that CONFIG_UBSAN_BOUNDS and CONFIG_FORTIFY_SOURCE
+> use to perform dynamic buffer bounds checking.
 
-Same problem as in other bindings.
+Good cleanup, but one question: What other use cases we have for ksize() 
+except the opportunistically growth of buffers?
+
+Of hand I can't see any.
+
+So when this patch set is about to clean up this use case it should 
+probably also take care to remove ksize() or at least limit it so that 
+it won't be used for this use case in the future.
+
+Regards,
+Christian.
 
 
-Best regards,
-Krzysztof
+>   Quoting the first patch:
+>
+>
+> In the effort to help the compiler reason about buffer sizes, the
+> __alloc_size attribute was added to allocators. This improves the scope
+> of the compiler's ability to apply CONFIG_UBSAN_BOUNDS and (in the near
+> future) CONFIG_FORTIFY_SOURCE. For most allocations, this works well,
+> as the vast majority of callers are not expecting to use more memory
+> than what they asked for.
+>
+> There is, however, one common exception to this: anticipatory resizing
+> of kmalloc allocations. These cases all use ksize() to determine the
+> actual bucket size of a given allocation (e.g. 128 when 126 was asked
+> for). This comes in two styles in the kernel:
+>
+> 1) An allocation has been determined to be too small, and needs to be
+>     resized. Instead of the caller choosing its own next best size, it
+>     wants to minimize the number of calls to krealloc(), so it just uses
+>     ksize() plus some additional bytes, forcing the realloc into the next
+>     bucket size, from which it can learn how large it is now. For example:
+>
+> 	data = krealloc(data, ksize(data) + 1, gfp);
+> 	data_len = ksize(data);
+>
+> 2) The minimum size of an allocation is calculated, but since it may
+>     grow in the future, just use all the space available in the chosen
+>     bucket immediately, to avoid needing to reallocate later. A good
+>     example of this is skbuff's allocators:
+>
+> 	data = kmalloc_reserve(size, gfp_mask, node, &pfmemalloc);
+> 	...
+> 	/* kmalloc(size) might give us more room than requested.
+> 	 * Put skb_shared_info exactly at the end of allocated zone,
+> 	 * to allow max possible filling before reallocation.
+> 	 */
+> 	osize = ksize(data);
+>          size = SKB_WITH_OVERHEAD(osize);
+>
+> In both cases, the "how large is the allocation?" question is answered
+> _after_ the allocation, where the compiler hinting is not in an easy place
+> to make the association any more. This mismatch between the compiler's
+> view of the buffer length and the code's intention about how much it is
+> going to actually use has already caused problems[1]. It is possible to
+> fix this by reordering the use of the "actual size" information.
+>
+> We can serve the needs of users of ksize() and still have accurate buffer
+> length hinting for the compiler by doing the bucket size calculation
+> _before_ the allocation. Code can instead ask "how large an allocation
+> would I get for a given size?".
+>
+> Introduce kmalloc_size_roundup(), to serve this function so we can start
+> replacing the "anticipatory resizing" uses of ksize().
+>
+> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FClangBuiltLinux%2Flinux%2Fissues%2F1599&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C491e7c24ddc64e9e505b08da9c47fe36%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637994130356907320%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=te%2BJ46%2B8L8oBTyGS3C7ueORFYI%2BhMRbfEoflVErr4k0%3D&amp;reserved=0
+>      https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FKSPP%2Flinux%2Fissues%2F183&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C491e7c24ddc64e9e505b08da9c47fe36%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637994130356907320%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=lrOCZN6EE%2BnDBA5DfOqteQt0nKCbJJ9bxlh2F13%2B3Es%3D&amp;reserved=0
+> -------
+>
+> And after adding kmalloc_size_roundup(), put it to use with the various
+> ksize() callers, restore the previously removed __alloc_size hint,
+> and fix the use of __malloc annotations.
+>
+> I tried to trim the CC list on this series since it got rather long. I
+> kept all the suggested mailing lists, though. :)
+>
+> Thanks!
+>
+> -Kees
+>
+> Kees Cook (12):
+>    slab: Introduce kmalloc_size_roundup()
+>    skbuff: Proactively round up to kmalloc bucket size
+>    net: ipa: Proactively round up to kmalloc bucket size
+>    btrfs: send: Proactively round up to kmalloc bucket size
+>    dma-buf: Proactively round up to kmalloc bucket size
+>    coredump: Proactively round up to kmalloc bucket size
+>    igb: Proactively round up to kmalloc bucket size
+>    openvswitch: Proactively round up to kmalloc bucket size
+>    x86/microcode/AMD: Track patch allocation size explicitly
+>    iwlwifi: Track scan_cmd allocation size explicitly
+>    slab: Remove __malloc attribute from realloc functions
+>    slab: Restore __alloc_size attribute to __kmalloc_track_caller
+>
+>   arch/x86/include/asm/microcode.h              |  1 +
+>   arch/x86/kernel/cpu/microcode/amd.c           |  3 +-
+>   drivers/dma-buf/dma-resv.c                    |  9 +++-
+>   drivers/net/ethernet/intel/igb/igb_main.c     |  1 +
+>   drivers/net/ipa/gsi_trans.c                   |  7 ++-
+>   drivers/net/wireless/intel/iwlwifi/dvm/dev.h  |  1 +
+>   drivers/net/wireless/intel/iwlwifi/dvm/scan.c | 10 +++-
+>   drivers/net/wireless/intel/iwlwifi/mvm/mvm.h  |  3 +-
+>   drivers/net/wireless/intel/iwlwifi/mvm/ops.c  |  3 +-
+>   drivers/net/wireless/intel/iwlwifi/mvm/scan.c |  6 +--
+>   fs/btrfs/send.c                               | 11 +++--
+>   fs/coredump.c                                 |  7 ++-
+>   include/linux/compiler_types.h                | 13 ++----
+>   include/linux/slab.h                          | 46 ++++++++++++++++---
+>   mm/slab_common.c                              | 17 +++++++
+>   net/core/skbuff.c                             | 34 +++++++-------
+>   net/openvswitch/flow_netlink.c                |  4 +-
+>   17 files changed, 125 insertions(+), 51 deletions(-)
+>
 
