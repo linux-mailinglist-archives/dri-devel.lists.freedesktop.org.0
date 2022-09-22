@@ -2,111 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5855E5867
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 04:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C105E58A1
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 04:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A8010E0F3;
-	Thu, 22 Sep 2022 02:11:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5D3610EA3E;
+	Thu, 22 Sep 2022 02:36:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1anam02on2055.outbound.protection.outlook.com [40.107.96.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28E1010E0A2;
- Thu, 22 Sep 2022 02:11:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JrpKtJFv1MGDPQAc/xb8FSTrKmSFZsqad8zLdrwnnIrdu/OR1Dc+WpjS9kzMv8nrsyxqIQ/mggj3qNXKAtUm9WsWkZuLPfHo/nDhSF+8aJw/vf24V50qp5THGLaoC8bNIF+8mAptwxU/DFsrRwa6t6gv0PP5w7birYSnUjPLee98D6vtKvPgzAAaeavb1ECleoqVoK/vj9cFDw//zb3ysoI98bftm5jiPo/dOD/eIQuaQbIUZbohrH/9mIi+ZLiUOptaOhMbDetP/g80sz8cmHtM8ZOgI0O0Cax6NwSZkuDeQDT2qWVj9mkU4iaZp4XS/6T2/NakdRjEupZWRUOisw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QHMT15LZxhIZUie8UncLLPRTGLhw3Qx6F7+kF4zKJZw=;
- b=m0E0FNC/HxLi+PhuLEPo4U+nQ4XhKt6ruc2U+QjT01eE/GtWdTI1EBNvBW0+ivL5lHojoEzUcDPTBDmaC/iqndhn7AWykmYx+rxkKDm3xQf/dxRo/G4HdlhKmZwbfReKFS7I4aUjw4I/MUUOxgVvWwRflnXrEf6VX6YeFUC7j05gnuPrC5TL1gOBk3pMhtOF5HUOKp1nKmnvc3IkqSkWZiWX62IkVszmmJ3gWFkOCg/h6TPFzLt8dM6D/FpMiS7KhFrVVGbo+GsMP4lPSAfNS+fPbzSgOJrd6loGC/AkGPEnErwTIj38/QWcIvl9BJSyLELk5A2hpSZBo6geoA2FHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QHMT15LZxhIZUie8UncLLPRTGLhw3Qx6F7+kF4zKJZw=;
- b=k0PSarQKeWgL6EcN9BtIjEE8wckSbnXIXPHpJVl8u8aokqidhGQ8YpAgNrxI+4j5MOPOEpCkdYqndtVi1A/nzX27Kjd3XorDKcV8gzFbiHPjfd3ppneWp4zPIoskgwZSkUUULoBaj2bv/JxW0Ju6SBPUDVMsk02wR4eUrL6ehwQ=
-Received: from DM5PR12MB2469.namprd12.prod.outlook.com (2603:10b6:4:af::38) by
- BL1PR12MB5729.namprd12.prod.outlook.com (2603:10b6:208:384::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.16; Thu, 22 Sep
- 2022 02:11:27 +0000
-Received: from DM5PR12MB2469.namprd12.prod.outlook.com
- ([fe80::78b6:27fc:c590:d2c0]) by DM5PR12MB2469.namprd12.prod.outlook.com
- ([fe80::78b6:27fc:c590:d2c0%7]) with mapi id 15.20.5654.017; Thu, 22 Sep 2022
- 02:11:27 +0000
-From: "Chen, Guchun" <Guchun.Chen@amd.com>
-To: Li Zhong <floridsleeves@gmail.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v1] drivers:amdgpu: check the return value of
- amdgpu_bo_kmap
-Thread-Topic: [PATCH v1] drivers:amdgpu: check the return value of
- amdgpu_bo_kmap
-Thread-Index: AQHYziKAMtaMF6SWRk2Y7Yh4Qc99X63qtGNw
-Date: Thu, 22 Sep 2022 02:11:27 +0000
-Message-ID: <DM5PR12MB2469A1B22EF0441216E1B40BF14E9@DM5PR12MB2469.namprd12.prod.outlook.com>
-References: <20220922012719.1676315-1-floridsleeves@gmail.com>
-In-Reply-To: <20220922012719.1676315-1-floridsleeves@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM5PR12MB2469:EE_|BL1PR12MB5729:EE_
-x-ms-office365-filtering-correlation-id: 11560900-9036-4db3-1dab-08da9c3fc1f1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rRR1cIhcXcl0xAs7+xGSWpRn30afscb25pMhqxrIpW7dXOhnUDhlpH6qihTV9JPe5Q12tuLKzCnfeWEIFTt1EfLfSgx3bNpchB2qcRjnbp+A4mY0lwU7NQgbK6KSqFZ8lowCKNaaip0TSQjav7Jc5OAIWVjnsndyVV+uPfZh1K8RTBXlfTBSoeK8HzFqzb7yeN5c2e23uFB13GCc14HaiL4l8s+WMEfqRk/Whcyo8ks7PPfxj+mwuaD6xNIFvREmOiJusU3aMw3X8T5e/o8OIVP69E31E6SrnhIDdEsl9WqzLQ1MRJ9qwzuMnLL85s/VdxTieaZntbayPlDZ7vb0ccA0LxxW44djaZYF+TOhIa1mxIQbZuNCB8lzsofEXw8uA/nezZ/0zEit6oaEUNheQaEQ9TEzHk8U4fvo+WaneJHo0xmne2klHf+Ekskltw+10KzA2t2MNf2MjVL460eXPZTmFPm8LV5ZG1lpKf9o+H+ftdONuTEPDGPuyRSBDqUCHvFys6mbfR9bshUCoqXo2R/0+GPmkZ5vQj29Y8YbrudNQWrL6pgaIbLuJZECIC3+hE3E5VyiBgemt1y3SQoPsDeVhdkcHMOLdHIvIVC6GRttCYIYw3N1BUfvjSS57o9zgWdjyryf4JhIwFi/QFZDilPlL/swCgjcwuQkvtUj2YgJC+PihKdQDs/vi4/XIA0QFVEvnetOFbDReyvAP79wbmdAbavUWE6GxYMZO5eUa0xRdwUVGC1p0MCZh+nZt+FDdFw9OLpzrbdtgA1Z/efl9Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB2469.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(346002)(39860400002)(376002)(366004)(396003)(451199015)(55016003)(33656002)(38100700002)(122000001)(86362001)(76116006)(66556008)(54906003)(66476007)(66446008)(64756008)(8676002)(66946007)(41300700001)(4326008)(110136005)(2906002)(38070700005)(316002)(5660300002)(52536014)(8936002)(186003)(83380400001)(478600001)(71200400001)(53546011)(26005)(7696005)(6506007)(9686003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+ZihsZugTkmxS/WFyQ5u/ICWvR4e548/+TU2b9OVubrSHAu173NbWIvHQ1/J?=
- =?us-ascii?Q?HOGlU9JGC36g0sJwplHG5Oi3iSNiDwEw/bCNa1lSsTZhtaol6xDiEn9iofyE?=
- =?us-ascii?Q?tP3XKP2OUD9r6ITPn596NAbT/ud2NQbHnawKq8R+hXF2i/eNDBen/12go+tq?=
- =?us-ascii?Q?NZKrgmneWEAL8wc/Vg1NL7lnw7YlJgmIPDDauTgeRYRVgi9OxVIlE7nXEQtU?=
- =?us-ascii?Q?l1o5djc+5iakFzrgdQIUcWzwYryNKzmJNgTo/kdf+xox7JGGJzVyQX/YfI/5?=
- =?us-ascii?Q?30dSrL1XKFnoDaQOckUea1W4fi1TJhILBw2cujrj6FOjy6Df//v5vX8eg0gd?=
- =?us-ascii?Q?27GHqbteqrfDi1yvkpRtLa+Hy7GAnGSXuatdzAX1uM5FsMuI3Cy3SmA1K8Jz?=
- =?us-ascii?Q?x0ffasRY3lhx3yXbo4VKQn3SFXlmi+vwgO/VpFBxcWZyJM9ZNCVSFzLypMya?=
- =?us-ascii?Q?Sk2caV00jfkmonUUFNqvC/D3RevalaSp8lv1Xm6MZflBvPvHD9FKGU8Y55RU?=
- =?us-ascii?Q?0oB6V7HlKxys2lt1FAfaZy3qm0LPMASx1bi393hqYi7n80jXUDt+90kUmQBL?=
- =?us-ascii?Q?UZSVeAxweyesSHC6VsPOm4cv4nItx5I87mA0ayC8ldZxLCyUD7DpUuMgEWxK?=
- =?us-ascii?Q?MTsUo4M1BUCsXgo5f5IsiZEgrxyVzVelG5GxKAk65Ca5EvJtDCqvNm0XqIV+?=
- =?us-ascii?Q?YLjVIeTZdCyjad14cHSTLOkHZzSveftNYzxEbSKRoYdKZ9kkz/IAybG71/Kg?=
- =?us-ascii?Q?cPGRZ6cX86VRvouT7fseWOdvSb3VJ9OFE18Xw5xAKTSjGhQJxMDPhWRkJs3X?=
- =?us-ascii?Q?igYben6h4n1G6bVrfqhbIjqG94azRvSTh4+vFoo3w6Y9ttWbEcWX76MNkt2r?=
- =?us-ascii?Q?S2KPidVHjP/Tvz4un7XnKmDOG2S10S0KXp7hdydKP5ppQrBZ+KhsjnnZXtgp?=
- =?us-ascii?Q?53ZsWRo2Lo6HUxKB4vnCJY/YUkTAiKRGJw5r+wNXOZDD1Xq0hLj6KFljjLg0?=
- =?us-ascii?Q?ncP5d4nU7sd0ZU+bJhOonzY4jv5chzmpBPT40ztX2s3MJYYSaWVTYbhYmDnC?=
- =?us-ascii?Q?mr6vXVFgiyxT0jaYAmzVPxelTWp1hzAXD5Zby9tMdXXj47eyWAajI6XC5QUV?=
- =?us-ascii?Q?jm/j/JQnQ4OQO+l8gR5iS1GcS9k4GCKIkG6qSLgLw0W2ORz3jjxUq4z+pMh+?=
- =?us-ascii?Q?4uX3ljxTOg4QlXHaAnx22igQgGjRXWblVwg9ay5WkcpHHaB0Z4BvrAufbMR7?=
- =?us-ascii?Q?dm6mPQXMKItgfXpAc7Bmx6/z7+yVBMoI1lJi8o9TIp8j3ZXJby3yPOnhYI9z?=
- =?us-ascii?Q?0pqdHoTDG1bGiMAryabAeAkewHeGfMJi4NRTz0WrvFRsBjdwXyMa5pMsi6SC?=
- =?us-ascii?Q?JGmXbUW//8BI6lRwPmGkqSDP1Dk8s7fg9Lof8muvIJnpvXjTyrBsJBLSet/4?=
- =?us-ascii?Q?F7mcAZoFMn6UKGokSSuxcj2U8K1nON2m8SF7XrvoXec8X+voDytGt3s3mV8A?=
- =?us-ascii?Q?oblP7wFFkHFpPGJPwbsK+FDgD/4QBS6BTQZue8hV3P28ir+CBUxd1AWJbd+b?=
- =?us-ascii?Q?BdL5Lf0qzs86bnPpUcL3gIXpIs/dgTqf7whRT+Qv?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1C8410EA3E
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 02:36:26 +0000 (UTC)
+X-UUID: 2d4f77de57904dadb515626b63d2e0ac-20220922
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=FjK3+xpCe9u1MNFb+0HGnTV+whYp7DGiShsoGVeYjKA=; 
+ b=cQNCiX/l0pmhvRPC7YkptnRyY+0hmrp62MXb6jHRBOBh1nH/dpVH8Gpq41xAW3SWV65rBm9GoBgrEJnIkizmkHD163oonOvwuDnV4Ok3rfCbyU8K8EJAF1xF8yCENtzwt3ivQzVRACW4+yYflf6wAB27SreCfOqtDTYOMXm8i3M=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:67e78b02-ecc9-424f-8d89-f0c9ca927c99, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:39a5ff1, CLOUDID:fa0fc7af-12a8-4d8e-859c-1b6ce09c0eab,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 2d4f77de57904dadb515626b63d2e0ac-20220922
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1808761196; Thu, 22 Sep 2022 10:36:19 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 22 Sep 2022 10:36:17 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Thu, 22 Sep 2022 10:36:17 +0800
+Message-ID: <a3f98aa1d3d10b76b1fb5e6c2e3d64cedd0bf127.camel@mediatek.com>
+Subject: Re: [PATCH 01/18] phy: mediatek: add a new helper to update bitfield
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Vinod Koul <vkoul@kernel.org>
+Date: Thu, 22 Sep 2022 10:36:17 +0800
+In-Reply-To: <2d13b383-7d25-240b-bdbb-e53848df4d47@collabora.com>
+References: <20220920090038.15133-1-chunfeng.yun@mediatek.com>
+ <20220920090038.15133-2-chunfeng.yun@mediatek.com>
+ <2d13b383-7d25-240b-bdbb-e53848df4d47@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2469.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11560900-9036-4db3-1dab-08da9c3fc1f1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2022 02:11:27.6398 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JTrkwhP26KCXj2h04eNWIQaNh/7RhynXxiZvLGW8OE+hZzgI/QXAt4L/TP/STNqxM+NLnSv18/tjS/TWJW5/8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5729
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,69 +66,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jiapeng.chong@linux.alibaba.com" <jiapeng.chong@linux.alibaba.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, "airlied@linux.ie" <airlied@linux.ie>, "Lazar,
- Lijo" <Lijo.Lazar@amd.com>, "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "Powell, Darren" <Darren.Powell@amd.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Quan, Evan" <Evan.Quan@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>
+Cc: Jitao Shi <jitao.shi@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
+ linux-phy@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Stanley
+ Chu <stanley.chu@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Perhaps you need to update the prefix of patch subject to 'drm/amd/pm: chec=
-k return value ...'.
+On Wed, 2022-09-21 at 10:15 +0200, AngeloGioacchino Del Regno wrote:
+> Il 20/09/22 11:00, Chunfeng Yun ha scritto:
+> > Due to FIELD_PREP() macro can be used to prepare a bitfield value,
+> > local ones can be remove; add the new helper to make bitfield
+> > update
+> > easier.
+> > 
+> > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> > ---
+> >   drivers/phy/mediatek/phy-mtk-io.h | 7 +++++++
+> >   1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/drivers/phy/mediatek/phy-mtk-io.h
+> > b/drivers/phy/mediatek/phy-mtk-io.h
+> > index 500fcdab165d..a723d4afc9b4 100644
+> > --- a/drivers/phy/mediatek/phy-mtk-io.h
+> > +++ b/drivers/phy/mediatek/phy-mtk-io.h
+> > @@ -8,6 +8,7 @@
+> >   #ifndef __PHY_MTK_H__
+> >   #define __PHY_MTK_H__
+> >   
+> > +#include <linux/bitfield.h>
+> >   #include <linux/io.h>
+> >   
+> >   static inline void mtk_phy_clear_bits(void __iomem *reg, u32
+> > bits)
+> > @@ -35,4 +36,10 @@ static inline void mtk_phy_update_bits(void
+> > __iomem *reg, u32 mask, u32 val)
+> >   	writel(tmp, reg);
+> >   }
+> >   
+> > +/* field @mask should be constant and continuous */
+> 
+> "Field @mask shall be [...]"
+>               ^^^^^
+Ok, will modify it
 
-With above addressed, it's: Acked-by: Guchun Chen <guchun.chen@amd.com>
+> 
+> > +static inline void mtk_phy_update_field(void __iomem *reg, u32
+> > mask, u32 val)
+> 
+> ...so, (void __iomem *reg, const u32 mask, u32 val)
+Maybe no need const, @mask will be checked it in compile time when
+use FIELD_PREP(), means @mask is a constant value, but not a variable.
 
-Regards,
-Guchun
+Thanks
 
------Original Message-----
-From: Li Zhong <floridsleeves@gmail.com>=20
-Sent: Thursday, September 22, 2022 9:27 AM
-To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
-Cc: jiapeng.chong@linux.alibaba.com; Powell, Darren <Darren.Powell@amd.com>=
-; Chen, Guchun <Guchun.Chen@amd.com>; Limonciello, Mario <Mario.Limonciello=
-@amd.com>; Quan, Evan <Evan.Quan@amd.com>; Lazar, Lijo <Lijo.Lazar@amd.com>=
-; daniel@ffwll.ch; airlied@linux.ie; Pan, Xinhui <Xinhui.Pan@amd.com>; Koen=
-ig, Christian <Christian.Koenig@amd.com>; Deucher, Alexander <Alexander.Deu=
-cher@amd.com>; Li Zhong <floridsleeves@gmail.com>
-Subject: [PATCH v1] drivers:amdgpu: check the return value of amdgpu_bo_kma=
-p
-
-amdgpu_bo_kmap() returns error when fails to map buffer object. Add the err=
-or check and propagate the error.
-
-Signed-off-by: Li Zhong <floridsleeves@gmail.com>
----
- drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu=
-/drm/amd/pm/powerplay/amd_powerplay.c
-index 1eb4e613b27a..ec055858eb95 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-@@ -1485,6 +1485,7 @@ static int pp_get_prv_buffer_details(void *handle, vo=
-id **addr, size_t *size)  {
- 	struct pp_hwmgr *hwmgr =3D handle;
- 	struct amdgpu_device *adev =3D hwmgr->adev;
-+	int err;
-=20
- 	if (!addr || !size)
- 		return -EINVAL;
-@@ -1492,7 +1493,9 @@ static int pp_get_prv_buffer_details(void *handle, vo=
-id **addr, size_t *size)
- 	*addr =3D NULL;
- 	*size =3D 0;
- 	if (adev->pm.smu_prv_buffer) {
--		amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
-+		err =3D amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
-+		if (err)
-+			return err;
- 		*size =3D adev->pm.smu_prv_buffer_size;
- 	}
-=20
---
-2.25.1
+> 
+> > +{
+> > +	mtk_phy_update_bits(reg, mask, FIELD_PREP(mask, val));
+> > +}
+> > +
+> >   #endif
+> 
+> 
 
