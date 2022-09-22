@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A949A5E5BC8
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:04:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 871975E5BD0
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:05:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E849210E2F7;
-	Thu, 22 Sep 2022 07:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B451E10E3F9;
+	Thu, 22 Sep 2022 07:05:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 572EB10E2F7
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:04:31 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id x27so13240347lfu.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 00:04:31 -0700 (PDT)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5484C10E427
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:05:43 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id s10so9842482ljp.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 00:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=6AOWL8X+6363yl6dlkzkEYMc1TNcmq2VygjKTCBzm64=;
- b=bKHOfDZXtMpt20Subxu34+Lu5GEWthnW5vWbQiZd2mWo9MuEdinnZCTL41VaMH+5YA
- j+BtZuHj0f5UCku2oXQvitvnGdhstHYYf7FYqqlV3wD6KLqi8Lwf2dLw+xybPogs0F65
- GsEFETmLMZXbLODHYV4TJb1CE7rEfJWP9Yer/P6SGzJ5pGsfzFq7jj39IEN+lz1YIqRu
- SNSNgDFmS4rtv+nl/90YeII1yFQRFV2hBU+bUWEoyc1JX0zC0KhbALg3RdphN0RA23pv
- ZI0dzd1PSwXsESE4gN235sETE/HdTh00uW/Uhbvz2PujcXaFucIbGQLo2JT0iNfTrfXM
- GICQ==
+ bh=Y8T+rgCLvbEN+WeN/wV06ekzw8aNybyo9Cr933g/thc=;
+ b=PRwS4EvB12v+rkGdwNVdlMLqAgVT+QiU52+kqqCtnAX4fThsHK1wiNaT2jYDt8pR7K
+ DsUuvhKEiWW2nTL68D8Mp8gtKcZ8YPRVCXPREfUbLwp+tcccKIUG8XR7yXba/V2tGbU9
+ miVdHY2V1AsbAwXiEQuN9XFYAlZqKS6aj6VmKqh9P1OYNVokSIrG/F2tI/baVgJ7AhaP
+ D9wQUOzAdt6RjkyMHZQfy3mm0+lrsPkpuONisuFht0kQk3izosEkS4cwPYcXMRh4tXZs
+ WBrKAeVM5Rwc0tFvSyLByRuvV5QSEmxq7hNTif2aJ6WLuK/yI0BdvuCwhws3mXmY2PjC
+ 9Nzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=6AOWL8X+6363yl6dlkzkEYMc1TNcmq2VygjKTCBzm64=;
- b=xSisFY7xnd5zlhdBnHnrIYVBYrDG7KhgUkszLeh3ErpUqmHePxbDuS60KkK9VpJYs3
- BSLVz0A5TLFq2wAh2TRI6gMFNkp3scpUtjJWmtJYj/f5KCmv3Y3swf1y9uO9JFulri1f
- 09O2JY9YjImAGkBmKa1aT5t5IrvR6mzdxE5Wig7dBOzjIz+pTQ2qfweqp9YRO4skzcnr
- u55l+u4f1Fw3ItzHDtHt+psKB7q7XWeG0YD6nA8RoRrutvCgBbNrMf8FSw7ljB9On6tT
- IPw99B26yLO6HcC3oCVcIkFICg5/kIndfEi3dmodiH+s1DSe6wrzvK7nHHFZO468H7pb
- c60Q==
-X-Gm-Message-State: ACrzQf2zVOd5p+c6S1+kE9bwBlcwUkJsLeklAEVE/JYjYmOqRh0dC7/p
- JyRaU2L9cS9dqIe8HCg5UlNh/A==
-X-Google-Smtp-Source: AMsMyM7ywOFavyrwCMGphDto/G9dJRxjhNMo43envFpFsgAU1P4TxjX58T9WeF7u2TcHGBNlDv1A5g==
-X-Received: by 2002:a05:6512:2304:b0:49b:24a:f0cf with SMTP id
- o4-20020a056512230400b0049b024af0cfmr709077lfu.373.1663830269640; 
- Thu, 22 Sep 2022 00:04:29 -0700 (PDT)
+ bh=Y8T+rgCLvbEN+WeN/wV06ekzw8aNybyo9Cr933g/thc=;
+ b=o8NuFdWskJ81b7nZSXAyiRie4agRAAVsfOR+idNC4JEeDVLxUVDnjCMZ6Qmq/7DjlH
+ ekzt4ccU31Wcs8HOID/O3osGAjlDfPUFAzCILl8S0KAUJaCxi+FxocYW7+45lw7tKtXa
+ gzUot1SXjkbEGkPmePRZytOrHkfMqipnZ6MAmuRaxiyS4r9dEJVi6Y9K3UqKRY800rJL
+ mKZh3DtgF6s3lcckYGpI/AvTJn0hRunEAwAIuihsyypeAWReNnuyQEPYH7mqI94rGbhy
+ JwuylLdWOjFW0R+QAR7+X0dulZte2LNeV/ubl7CnFU3MBfe5CGi5ucmZNyKizykZiMmo
+ 1esQ==
+X-Gm-Message-State: ACrzQf1LnndIJ0IgvZAy9pt0l4uNx1J0qOWmjV1LW1C3t3rT2Bf9DVaD
+ qnZ/Bx5mG+YnDgDSSE+nLaKZRA==
+X-Google-Smtp-Source: AMsMyM4vAPpJFJDThr0SWQMffyaNAZzsYUD4b943d8K2YixFXmOh73l/deLZmkGyJnJrbcLPijtecw==
+X-Received: by 2002:a05:651c:1546:b0:26c:61c6:d053 with SMTP id
+ y6-20020a05651c154600b0026c61c6d053mr603586ljp.218.1663830341671; 
+ Thu, 22 Sep 2022 00:05:41 -0700 (PDT)
 Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
  [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- f7-20020a056512360700b004994117b0fdsm782114lfs.281.2022.09.22.00.04.28
+ r17-20020a2e8e31000000b0026c687f9f7bsm491417ljk.107.2022.09.22.00.05.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 00:04:29 -0700 (PDT)
-Message-ID: <02b60bf8-70ac-eb7b-33d7-1c9b7a6f0a54@linaro.org>
-Date: Thu, 22 Sep 2022 09:04:28 +0200
+ Thu, 22 Sep 2022 00:05:41 -0700 (PDT)
+Message-ID: <84c599c7-421a-78ed-b33e-ce1a4bd4356e@linaro.org>
+Date: Thu, 22 Sep 2022 09:05:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
@@ -95,31 +95,29 @@ On 15/09/2022 15:37, Dmitry Baryshkov wrote:
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-
-(...)
-
-> -  "#interrupt-cells":
-> -    const: 1
-> -
->    iommus:
-> -    items:
-> -      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port0
-> -      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port1
-> -
-> -  ranges: true
-> +    maxItems: 2
+>  .../bindings/display/msm/dpu-msm8998.yaml     | 41 +--------
+>  .../bindings/display/msm/dpu-qcm2290.yaml     | 51 ++----------
+>  .../bindings/display/msm/dpu-sc7180.yaml      | 50 ++---------
+>  .../bindings/display/msm/dpu-sc7280.yaml      | 50 ++---------
+>  .../bindings/display/msm/dpu-sdm845.yaml      | 54 ++----------
+>  .../bindings/display/msm/mdss-common.yaml     | 83 +++++++++++++++++++
+>  6 files changed, 111 insertions(+), 218 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+> index 200eeace1c71..67791dbc3b5d 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+> @@ -14,20 +14,13 @@ description: |
+>    sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
+>    bindings of MDSS and DPU are mentioned for MSM8998 target.
 >  
->    interconnects:
-> -    items:
-> -      - description: Interconnect path from mdp0 port to the data bus
-> -      - description: Interconnect path from mdp1 port to the data bus
-> +    maxItems: 2
 
-I think this is not equivalent now, because you have in total minItems:1
-and maxItems:2, while in past minItems was 2.
+missing allOf
 
-The same might apply to iommus. clocks look good.
-
+> +$ref: /schemas/display/msm/mdss-common.yaml#
+> +
+>  properties:
 Best regards,
 Krzysztof
 
