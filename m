@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD9E5E67E9
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:00:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2F05E67EB
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:00:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F097310EC50;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7363310EC4E;
 	Thu, 22 Sep 2022 16:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2F010E36A;
- Thu, 22 Sep 2022 13:48:18 +0000 (UTC)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MYGj05XQWzlWvP;
- Thu, 22 Sep 2022 21:44:04 +0800 (CST)
+X-Greylist: delayed 952 seconds by postgrey-1.36 at gabe;
+ Thu, 22 Sep 2022 14:05:27 UTC
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F28410E35A
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 14:05:27 +0000 (UTC)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MYGkX1KN9z14S1L;
+ Thu, 22 Sep 2022 21:45:24 +0800 (CST)
 Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 22 Sep 2022 21:48:13 +0800
+ 15.1.2375.31; Thu, 22 Sep 2022 21:49:32 +0800
 Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
  (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
- 2022 21:48:12 +0800
+ 2022 21:49:31 +0800
 From: Liu Shixin <liushixin2@huawei.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>
-Subject: [PATCH] drm/msm/dpu: use DEFINE_SHOW_ATTRIBUTE to simplify
- dpu_regset32
-Date: Thu, 22 Sep 2022 22:21:47 +0800
-Message-ID: <20220922142147.3246649-1-liushixin2@huawei.com>
+To: Thierry Reding <thierry.reding@gmail.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] gpu: host1x: use DEFINE_SHOW_ATTRIBUTE to simplify
+ host1x_debug/host1x_debug_all
+Date: Thu, 22 Sep 2022 22:23:16 +0800
+Message-ID: <20220922142316.3247255-1-liushixin2@huawei.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm100009.china.huawei.com (7.185.36.113)
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 22 Sep 2022 16:00:00 +0000
@@ -53,8 +53,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liu Shixin <liushixin2@huawei.com>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org, Liu
+ Shixin <liushixin2@huawei.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -63,52 +63,62 @@ No functional change.
 
 Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ drivers/gpu/host1x/debug.c | 28 +++-------------------------
+ 1 file changed, 3 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 5e6e2626151e..f3660cd14f4f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -194,7 +194,7 @@ struct dpu_debugfs_regset32 {
- 	struct dpu_kms *dpu_kms;
- };
+diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
+index 34c2e36d09e9..6649b04b7131 100644
+--- a/drivers/gpu/host1x/debug.c
++++ b/drivers/gpu/host1x/debug.c
+@@ -140,7 +140,7 @@ static void show_all(struct host1x *m, struct output *o, bool show_fifo)
+ 	}
+ }
  
--static int _dpu_debugfs_show_regset32(struct seq_file *s, void *data)
-+static int dpu_regset32_show(struct seq_file *s, void *data)
+-static int host1x_debug_show_all(struct seq_file *s, void *unused)
++static int host1x_debug_all_show(struct seq_file *s, void *unused)
  {
- 	struct dpu_debugfs_regset32 *regset = s->private;
- 	struct dpu_kms *dpu_kms = regset->dpu_kms;
-@@ -227,19 +227,7 @@ static int _dpu_debugfs_show_regset32(struct seq_file *s, void *data)
+ 	struct output o = {
+ 		.fn = write_to_seqfile,
+@@ -151,6 +151,7 @@ static int host1x_debug_show_all(struct seq_file *s, void *unused)
+ 
+ 	return 0;
+ }
++DEFINE_SHOW_ATTRIBUTE(host1x_debug_all);
+ 
+ static int host1x_debug_show(struct seq_file *s, void *unused)
+ {
+@@ -163,30 +164,7 @@ static int host1x_debug_show(struct seq_file *s, void *unused)
  
  	return 0;
  }
 -
--static int dpu_debugfs_open_regset32(struct inode *inode,
--		struct file *file)
+-static int host1x_debug_open_all(struct inode *inode, struct file *file)
 -{
--	return single_open(file, _dpu_debugfs_show_regset32, inode->i_private);
+-	return single_open(file, host1x_debug_show_all, inode->i_private);
 -}
 -
--static const struct file_operations dpu_fops_regset32 = {
--	.open =		dpu_debugfs_open_regset32,
--	.read =		seq_read,
--	.llseek =	seq_lseek,
--	.release =	single_release,
+-static const struct file_operations host1x_debug_all_fops = {
+-	.open = host1x_debug_open_all,
+-	.read = seq_read,
+-	.llseek = seq_lseek,
+-	.release = single_release,
 -};
-+DEFINE_SHOW_ATTRIBUTE(dpu_regset32);
+-
+-static int host1x_debug_open(struct inode *inode, struct file *file)
+-{
+-	return single_open(file, host1x_debug_show, inode->i_private);
+-}
+-
+-static const struct file_operations host1x_debug_fops = {
+-	.open = host1x_debug_open,
+-	.read = seq_read,
+-	.llseek = seq_lseek,
+-	.release = single_release,
+-};
++DEFINE_SHOW_ATTRIBUTE(host1x_debug);
  
- void dpu_debugfs_create_regset32(const char *name, umode_t mode,
- 		void *parent,
-@@ -259,7 +247,7 @@ void dpu_debugfs_create_regset32(const char *name, umode_t mode,
- 	regset->blk_len = length;
- 	regset->dpu_kms = dpu_kms;
- 
--	debugfs_create_file(name, mode, parent, regset, &dpu_fops_regset32);
-+	debugfs_create_file(name, mode, parent, regset, &dpu_regset32_fops);
- }
- 
- static int dpu_kms_debugfs_init(struct msm_kms *kms, struct drm_minor *minor)
+ static void host1x_debugfs_init(struct host1x *host1x)
+ {
 -- 
 2.25.1
 
