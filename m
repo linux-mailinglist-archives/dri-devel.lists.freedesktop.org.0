@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931375E6845
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:20:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F0E5E6847
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:20:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3921E10EBBB;
-	Thu, 22 Sep 2022 16:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCAD410ECA0;
+	Thu, 22 Sep 2022 16:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3C6210EA6E;
- Thu, 22 Sep 2022 16:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663863602; x=1695399602;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=9bR1B1OTC/uHI6AAIK1zAZ0Yh/+qK5s6tyvFakEUkEI=;
- b=hDctBAqgKqSzENIMCpaD2XoYuPhezQi3TYtQsi5k+qOCvu+SIA/M8pvR
- fEAnyE9aQUhHoCCfu8DAY/LpVr5/KGsGfrqwQyCq0eEoXUuhX6IVJwQ1C
- dFiT9URqdx2WY9hiI2OV0Xi6iVS0kCvzMKN4Y7t4BSD8oikbZlYCJ3dia
- D0DUi3yqMaSuV6N2cnNBz0pcKbeUYwb4xa0Z3U2u2QvQ9cccIGLY9v4LL
- oMUVbn9xDfJSuWYZSNHkLQPZIfVpMyI81hlFNOSbq4fU+5ML7z7siK5UL
- W4KMbH21/LV7krQQHIUMN4/y2pIBWcUQ4ivBKMSH2eQkx4QWZFDuyvXba A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="299064534"
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="299064534"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 09:18:33 -0700
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="795151695"
-Received: from jmhendri-mobl.ger.corp.intel.com (HELO [10.252.3.12])
- ([10.252.3.12])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 09:18:30 -0700
-Message-ID: <1072ee80-13fb-dc72-5416-c7fdded3c80c@intel.com>
-Date: Thu, 22 Sep 2022 17:18:28 +0100
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88FF10EA6E
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 16:20:04 +0000 (UTC)
+Received: from [192.168.1.138] ([37.4.248.18]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MDQmW-1oS5WK1kYw-00ASPa; Thu, 22 Sep 2022 18:19:58 +0200
+Message-ID: <9c5f17f7-f400-7806-8499-1f9b77e1f66a@i2se.com>
+Date: Thu, 22 Sep 2022 18:19:57 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.1
-Subject: Re: [Intel-gfx] [RFC v4 03/14] drm/i915/vm_bind: Expose
- i915_gem_object_max_page_size()
-Content-Language: en-GB
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
- <20220921070945.27764-4-niranjana.vishwanathapura@intel.com>
- <578445bc-d804-3f1d-a32d-51cac9460351@linux.intel.com>
- <20220921180040.GD28263@nvishwa1-DESK>
- <e02e34ef-0dca-d61d-e5c4-a6f002baf434@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <e02e34ef-0dca-d61d-e5c4-a6f002baf434@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: Raspberry Pi 3 Model B+ hangs in vc4_hdmi_runtime_resume()
+Content-Language: en-US
+To: Marc Kleine-Budde <mkl@pengutronix.de>, Emma Anholt <emma@anholt.net>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-rpi-kernel@lists.infradead.org
+References: <20220922145448.w3xfywkn5ecak2et@pengutronix.de>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20220922145448.w3xfywkn5ecak2et@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:RrFC1jWMYZL0Pk7BVJu812FFhQFxqDPUm529A7b+avoWLohiEN9
+ pH7MOFUPfrgcsXE9gEkSa9wktkCRynH0jUJfkoqnmdpDpcymCMvnIRMopLKyjvsA7q0glki
+ ld3TVzNvjJpelKAUzC3Fvlhk6elAnddZN/Ggmj2YmzmA+uNDHqmlaEaFlsW24PBj7TPQfJn
+ nK1XJy9uiEkb5xoYSx9/Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7q5y2rDcB40=:zAWesKnInlFIK5iZwJnFVT
+ hjfgUFwVMzGPCALbwsSN3XHGdIEXhXW9fJKi74OwY5cBoiB9NTcPhGQYs/jgk/2IzxirczvLe
+ jyOud7hsAAq/kOegZ381JckGDhXXEvrRh8G+vUY6D4ARjAuqQlM1GOC7IFYFSlzQaNZto3Cyo
+ CeA93iB1jOQHDbe72jZ8CnI1KP67dcaR+fCRpZ2ll9NQPPhEdln092CS1eTwMQg6GQrOUbm7r
+ XD96jmlJQE1ImUpwQxWBhwi0xYsP+ACjbLECmV/sG+yXFv6MmvTf8BZmhlR5JveVXZJs0e/9H
+ svrSZS22PW/W3yV+E+8tB7u/hnBTWOqXsZAXAhOmefOK5xJHBRCF3FzF6ExfIBkVjiz5Ue7hz
+ RnriElsI1Ehhjm+B6IUveQmE4aQY+aF6EEFi1fsxBSK03ukJTmkhXzI28vP0I0DVB7hQFQ8fC
+ X2NPceBrCifu9++SdfK8IyRHB22eAr3mHLgFNEInlpFvE5ZoC9zq4DsCqGMhQ0M4j85RqXvbk
+ ujWMtbvYR/WklW0pSbVGh8KK66mrglMAWOfxHBEuWr4wb/EfPp5rE8D1V4t87EYpa1Xd9it8Q
+ 2CoV8FPQSRAQMi2L9/E1LcKoSYMPybD9eiI1EWSWuH5q0ZViBr+EiGTzACz281L1NeyBic3Xo
+ 53QgO2OoNUb/8trIVPJMomyQIKnx2Vl7lM9zFB8SeqltSKzfwQXChR86BzWBLlXNMx1tn0kHL
+ s2uvQ/Npyl+My+4OOT7famHG94S5B6bEK2yTDIap17ilpDjcqJd0omdASlPLsZbLkWEsL8GhC
+ TAWwUxB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,133 +60,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/09/2022 09:09, Tvrtko Ursulin wrote:
-> 
-> On 21/09/2022 19:00, Niranjana Vishwanathapura wrote:
->> On Wed, Sep 21, 2022 at 10:13:12AM +0100, Tvrtko Ursulin wrote:
->>>
->>> On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
->>>> Expose i915_gem_object_max_page_size() function non-static
->>>> which will be used by the vm_bind feature.
->>>>
->>>> Signed-off-by: Niranjana Vishwanathapura 
->>>> <niranjana.vishwanathapura@intel.com>
->>>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>>> ---
->>>>  drivers/gpu/drm/i915/gem/i915_gem_create.c | 20 +++++++++++++++-----
->>>>  drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
->>>>  2 files changed, 17 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>>> index 33673fe7ee0a..3b3ab4abb0a3 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>>> @@ -11,14 +11,24 @@
->>>>  #include "pxp/intel_pxp.h"
->>>>  #include "i915_drv.h"
->>>> +#include "i915_gem_context.h"
->>>
->>> I can't spot that you are adding any code which would need this? 
->>> I915_GTT_PAGE_SIZE_4K? It is in intel_gtt.h.
->>
->> This include should have been added in a later patch for calling
->> i915_gem_vm_lookup(). But got added here while patch refactoring.
->> Will fix.
->>
->>>
->>>>  #include "i915_gem_create.h"
->>>>  #include "i915_trace.h"
->>>>  #include "i915_user_extensions.h"
->>>> -static u32 object_max_page_size(struct intel_memory_region 
->>>> **placements,
->>>> -                unsigned int n_placements)
->>>> +/**
->>>> + * i915_gem_object_max_page_size() - max of min_page_size of the 
->>>> regions
->>>> + * @placements:  list of regions
->>>> + * @n_placements: number of the placements
->>>> + *
->>>> + * Calculates the max of the min_page_size of a list of placements 
->>>> passed in.
->>>> + *
->>>> + * Return: max of the min_page_size
->>>> + */
->>>> +u32 i915_gem_object_max_page_size(struct intel_memory_region 
->>>> **placements,
->>>> +                  unsigned int n_placements)
->>>>  {
->>>> -    u32 max_page_size = 0;
->>>> +    u32 max_page_size = I915_GTT_PAGE_SIZE_4K;
->>>>      int i;
->>>>      for (i = 0; i < n_placements; i++) {
->>>> @@ -28,7 +38,6 @@ static u32 object_max_page_size(struct 
->>>> intel_memory_region **placements,
->>>>          max_page_size = max_t(u32, max_page_size, mr->min_page_size);
->>>>      }
->>>> -    GEM_BUG_ON(!max_page_size);
->>>>      return max_page_size;
->>>>  }
->>>> @@ -99,7 +108,8 @@ __i915_gem_object_create_user_ext(struct 
->>>> drm_i915_private *i915, u64 size,
->>>>      i915_gem_flush_free_objects(i915);
->>>> -    size = round_up(size, object_max_page_size(placements, 
->>>> n_placements));
->>>> +    size = round_up(size, i915_gem_object_max_page_size(placements,
->>>> +                                n_placements));
->>>>      if (size == 0)
->>>>          return ERR_PTR(-EINVAL);
->>>
->>> Because of the changes above this path is now unreachable. I suppose 
->>> it was meant to tell the user "you have supplied no placements"? But 
->>> then GEM_BUG_ON (which you remove) used to be wrong.
->>>
->>
->> Yah, looks like an existing problem. May be this "size == 0" check
->> should have been made before we do the round_up()? ie., check input 
->> 'size'
->> paramter is not 0?
->> I think for now, I will remove this check as it was unreachable anyhow.
-> 
-> Hm that's true as well. i915_gem_create_ext_ioctl ensures at least one 
-> placement and internal callers do as well.
-> 
-> To be safe, instead of removing maybe move to before "size = " and 
-> change to "if (GEM_WARN_ON(n_placements == 0))"? Not sure.. Matt any 
-> thoughts here given the changes in this patch?
+Hi Marc,
 
-The check is also to reject a zero sized object with args->size = 0, i.e 
-round_up(0, PAGE_SIZE) == 0. So for sure that is still needed here.
-
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->>
->> Niranjana
->>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>> index 7317d4102955..8c97bddad921 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>> @@ -47,6 +47,8 @@ static inline bool i915_gem_object_size_2big(u64 
->>>> size)
->>>>  }
->>>>  void i915_gem_init__objects(struct drm_i915_private *i915);
->>>> +u32 i915_gem_object_max_page_size(struct intel_memory_region 
->>>> **placements,
->>>> +                  unsigned int n_placements);
->>>>  void i915_objects_module_exit(void);
->>>>  int i915_objects_module_init(void);
+Am 22.09.22 um 16:54 schrieb Marc Kleine-Budde:
+> Hello,
+>
+> I'm on a Raspberry Pi 3 Model B+ running current Debian testing ARM64,
+> using Debian's v5.19 kernel (Debian's v5.18 was working flawless).
+>
+> | [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd034]
+> | [    0.000000] Linux version 5.19.0-1-arm64 (debian-kernel@lists.debian.org) (gcc-11 (Debian 11.3.0-5) 11.3.0, GNU ld (GNU Binutils for Debian) 2.38.90.20220713) #1 SMP Debian 5.19.6-1 (2022-0
+> 9-01)
+> | [    0.000000] Machine model: Raspberry Pi 3 Model B+
+> | [    3.747500] raspberrypi-firmware soc:firmware: Attached to firmware from 2022-03-24T13:21:11
+>
+> As soon a the vc4 module is loaded the following warnings hits 4
+> times, then the machine stops.
+additionally to Maxime's reply, could you also please provide md5sum and 
+filesize of your bcm2837-rpi-3-b-plus.dtb
