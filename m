@@ -1,68 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6115E5CE4
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 10:06:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 640155E5D15
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 10:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E02C910E234;
-	Thu, 22 Sep 2022 08:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEBB710E1B8;
+	Thu, 22 Sep 2022 08:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D54C10EA6F
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 08:06:13 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CF8731F388;
- Thu, 22 Sep 2022 08:06:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663833971; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1kcsOHDh2p7nChNst12Hxc0pHwS2JQyiBVmmobHF3T0=;
- b=yh/AozUveqQhKxehU/OqKEadCFAvcYFhe8il1t/PtvxPOwaOF1+XDTvjPGCRE6SXITt1N0
- raR64G3tvIv8ks6NvuULMyvZReJMWDHgzGuavvIDdycV2oghGYGNH6YF86YlgtY+z5o7ZK
- qkihHBmTi+llo/mSUtSIhLv+L7hVV8o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663833971;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1kcsOHDh2p7nChNst12Hxc0pHwS2JQyiBVmmobHF3T0=;
- b=Tdw+PW2TAW0IspQU3cPBoo2eYvZd7mDkXetL8UN3LG9MYSI2Ttd/H7ZK2pUZD3cd9d9l6e
- 1zWmM/iwmPFnhVDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A77E13AA5;
- Thu, 22 Sep 2022 08:06:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id FZPZIHMXLGOyWQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 22 Sep 2022 08:06:11 +0000
-Message-ID: <5338647a-0005-8d86-2ac0-7610ffe6c6b3@suse.de>
-Date: Thu, 22 Sep 2022 10:06:11 +0200
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C64310E1B8;
+ Thu, 22 Sep 2022 08:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663834160; x=1695370160;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=YDd3V9UIbaHmr4qoDS4H+4JoILB+OcNJiOfB/Fu99eg=;
+ b=b9o6wMHJqJSAvKBNBhTHuURFJGtIgisid0TpDATO3cVP+0pWW+sqYAiK
+ vIaiQpefGCBotKbDZYnkSb3v6kCeRk3MFsjhuBZ2hqjcuasco+sLQ27Eu
+ NP/rmlKRSDGzGjNsTko7N7s5jOYorwZ9Wa3PPAHk5vqcjajH0d11gHSSe
+ 2NoM4gSnQpiqSW3tgv7z8/R1MuEZ9RYOskV0sfAW8oScqJ+rolhQNInaU
+ gkCc2vXx6VMNnhb3gFKMEgCmeNofVuBvs3UqnsxMi2kfyyJT1rYLpOjL4
+ 2Y+eCeGx+BzIDt4vuaqPBm46IOfPCN8TWQno2UnQj3DvS706T3ikhcTdo A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="300218941"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="300218941"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 01:09:20 -0700
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="864762894"
+Received: from mmorri2-mobl.ger.corp.intel.com (HELO [10.213.205.83])
+ ([10.213.205.83])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 01:09:18 -0700
+Message-ID: <e02e34ef-0dca-d61d-e5c4-a6f002baf434@linux.intel.com>
+Date: Thu, 22 Sep 2022 09:09:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
+Subject: Re: [Intel-gfx] [RFC v4 03/14] drm/i915/vm_bind: Expose
+ i915_gem_object_max_page_size()
 Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-11-tzimmermann@suse.de>
- <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
- <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
- <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
- <e6326381-0f5e-1fe3-e72e-fdfa804e6574@suse.de>
- <20220922072803.giqo6dhqktnyjncv@houat>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220922072803.giqo6dhqktnyjncv@houat>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------eK2CnmllzDOHV1T9CtYT4Rq4"
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
+References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+ <20220921070945.27764-4-niranjana.vishwanathapura@intel.com>
+ <578445bc-d804-3f1d-a32d-51cac9460351@linux.intel.com>
+ <20220921180040.GD28263@nvishwa1-DESK>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220921180040.GD28263@nvishwa1-DESK>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,91 +65,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, deller@gmx.de,
- linuxppc-dev@lists.ozlabs.org, mark.cave-ayland@ilande.co.uk,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- Geert Uytterhoeven <geert@linux-m68k.org>, mpe@ellerman.id.au,
- paulus@samba.org, msuchanek@suse.de, sam@ravnborg.org
+Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ matthew.auld@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------eK2CnmllzDOHV1T9CtYT4Rq4
-Content-Type: multipart/mixed; boundary="------------5fn0IKrHyZqYD6pzq7BGY8pR";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, javierm@redhat.com,
- airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, sam@ravnborg.org,
- msuchanek@suse.de, mpe@ellerman.id.au, paulus@samba.org,
- mark.cave-ayland@ilande.co.uk, linux-fbdev@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org
-Message-ID: <5338647a-0005-8d86-2ac0-7610ffe6c6b3@suse.de>
-Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-11-tzimmermann@suse.de>
- <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
- <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
- <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
- <e6326381-0f5e-1fe3-e72e-fdfa804e6574@suse.de>
- <20220922072803.giqo6dhqktnyjncv@houat>
-In-Reply-To: <20220922072803.giqo6dhqktnyjncv@houat>
 
---------------5fn0IKrHyZqYD6pzq7BGY8pR
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 21/09/2022 19:00, Niranjana Vishwanathapura wrote:
+> On Wed, Sep 21, 2022 at 10:13:12AM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
+>>> Expose i915_gem_object_max_page_size() function non-static
+>>> which will be used by the vm_bind feature.
+>>>
+>>> Signed-off-by: Niranjana Vishwanathapura 
+>>> <niranjana.vishwanathapura@intel.com>
+>>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>> ---
+>>>  drivers/gpu/drm/i915/gem/i915_gem_create.c | 20 +++++++++++++++-----
+>>>  drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
+>>>  2 files changed, 17 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>> index 33673fe7ee0a..3b3ab4abb0a3 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>> @@ -11,14 +11,24 @@
+>>>  #include "pxp/intel_pxp.h"
+>>>  #include "i915_drv.h"
+>>> +#include "i915_gem_context.h"
+>>
+>> I can't spot that you are adding any code which would need this? 
+>> I915_GTT_PAGE_SIZE_4K? It is in intel_gtt.h.
+> 
+> This include should have been added in a later patch for calling
+> i915_gem_vm_lookup(). But got added here while patch refactoring.
+> Will fix.
+> 
+>>
+>>>  #include "i915_gem_create.h"
+>>>  #include "i915_trace.h"
+>>>  #include "i915_user_extensions.h"
+>>> -static u32 object_max_page_size(struct intel_memory_region 
+>>> **placements,
+>>> -                unsigned int n_placements)
+>>> +/**
+>>> + * i915_gem_object_max_page_size() - max of min_page_size of the 
+>>> regions
+>>> + * @placements:  list of regions
+>>> + * @n_placements: number of the placements
+>>> + *
+>>> + * Calculates the max of the min_page_size of a list of placements 
+>>> passed in.
+>>> + *
+>>> + * Return: max of the min_page_size
+>>> + */
+>>> +u32 i915_gem_object_max_page_size(struct intel_memory_region 
+>>> **placements,
+>>> +                  unsigned int n_placements)
+>>>  {
+>>> -    u32 max_page_size = 0;
+>>> +    u32 max_page_size = I915_GTT_PAGE_SIZE_4K;
+>>>      int i;
+>>>      for (i = 0; i < n_placements; i++) {
+>>> @@ -28,7 +38,6 @@ static u32 object_max_page_size(struct 
+>>> intel_memory_region **placements,
+>>>          max_page_size = max_t(u32, max_page_size, mr->min_page_size);
+>>>      }
+>>> -    GEM_BUG_ON(!max_page_size);
+>>>      return max_page_size;
+>>>  }
+>>> @@ -99,7 +108,8 @@ __i915_gem_object_create_user_ext(struct 
+>>> drm_i915_private *i915, u64 size,
+>>>      i915_gem_flush_free_objects(i915);
+>>> -    size = round_up(size, object_max_page_size(placements, 
+>>> n_placements));
+>>> +    size = round_up(size, i915_gem_object_max_page_size(placements,
+>>> +                                n_placements));
+>>>      if (size == 0)
+>>>          return ERR_PTR(-EINVAL);
+>>
+>> Because of the changes above this path is now unreachable. I suppose 
+>> it was meant to tell the user "you have supplied no placements"? But 
+>> then GEM_BUG_ON (which you remove) used to be wrong.
+>>
+> 
+> Yah, looks like an existing problem. May be this "size == 0" check
+> should have been made before we do the round_up()? ie., check input 'size'
+> paramter is not 0?
+> I think for now, I will remove this check as it was unreachable anyhow.
 
-SGkNCg0KQW0gMjIuMDkuMjIgdW0gMDk6Mjggc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBP
-biBUaHUsIFNlcCAyMiwgMjAyMiBhdCAwODo0MjoyM0FNICswMjAwLCBUaG9tYXMgWmltbWVy
-bWFubiB3cm90ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMjEuMDkuMjIgdW0gMTg6NDggc2Nocmll
-YiBHZWVydCBVeXR0ZXJob2V2ZW46DQo+Pj4gSGkgVGhvbWFzLA0KPj4+DQo+Pj4gT24gV2Vk
-LCBTZXAgMjEsIDIwMjIgYXQgMjo1NSBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
-bm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pj4+IEFtIDA1LjA4LjIyIHVtIDAyOjE5IHNjaHJpZWIg
-QmVuamFtaW4gSGVycmVuc2NobWlkdDoNCj4+Pj4+IE9uIFdlZCwgMjAyMi0wNy0yMCBhdCAx
-NjoyNyArMDIwMCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4+Pj4gKyNpZiAhZGVm
-aW5lZChDT05GSUdfUFBDKQ0KPj4+Pj4+ICtzdGF0aWMgaW5saW5lIHZvaWQgb3V0Xzgodm9p
-ZCBfX2lvbWVtICphZGRyLCBpbnQgdmFsKQ0KPj4+Pj4+ICt7IH0NCj4+Pj4+PiArc3RhdGlj
-IGlubGluZSB2b2lkIG91dF9sZTMyKHZvaWQgX19pb21lbSAqYWRkciwgaW50IHZhbCkNCj4+
-Pj4+PiAreyB9DQo+Pj4+Pj4gK3N0YXRpYyBpbmxpbmUgdW5zaWduZWQgaW50IGluX2xlMzIo
-Y29uc3Qgdm9pZCBfX2lvbWVtICphZGRyKQ0KPj4+Pj4+ICt7DQo+Pj4+Pj4gKyAgICAgICBy
-ZXR1cm4gMDsNCj4+Pj4+PiArfQ0KPj4+Pj4+ICsjZW5kaWYNCj4+Pj4+DQo+Pj4+PiBUaGVz
-ZSBndXlzIGNvdWxkIGp1c3QgYmUgcmVwbGFjZWQgd2l0aCByZWFkYi93cml0ZWwvcmVhZGwg
-cmVzcGVjdGl2ZWx5DQo+Pj4+PiAoYmV3YXJlIG9mIHRoZSBhcmd1bWVudCBzd2FwKS4NCj4+
-Pj4NCj4+Pj4gSSBvbmx5IGFkZGVkIHRoZW0gZm9yIENPTVBJTEVfVEVTVC4gVGhlcmUgYXBw
-ZWFycyB0byBiZSBubyBwb3J0YWJsZQ0KPj4+PiBpbnRlcmZhY2UgdGhhdCBpbXBsZW1lbnRz
-IG91dF9sZTMyKCkgYW5kIGluX2xlMzIoKT8NCj4+Pg0KPj4+IGlvd3JpdGUzMigpIGFuZCBp
-b3JlYWQzMigpPw0KPj4NCj4+IERvIHRoZXkgYWx3YXlzIHVzZSBsaXR0bGUgZW5kaWFuLCBh
-cyB0aGVzZSAqX2xlMzIgaGVscGVycyBkbz8gSSB0aG91Z2ggdGhleQ0KPj4gdXNlIGhvc3Qg
-Ynl0ZSBvcmRlci4NCj4gDQo+IFRoZXkgdXNlIGVpdGhlciBvdXRsIG9yIHdyaXRlbCB1bmRl
-ciB0aGUgaG9vZCwgd2hpY2ggYXJlIGFsd2F5cyBsaXR0bGUtZW5kaWFuDQoNCkkgc2VlLiBJ
-J2xsIHJlcGxhY2UgdGhlIGN1c3RvbSBoZWxwZXJzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
-cw0KDQo+IA0KPiBNYXhpbWUNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
-IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Hm that's true as well. i915_gem_create_ext_ioctl ensures at least one 
+placement and internal callers do as well.
 
---------------5fn0IKrHyZqYD6pzq7BGY8pR--
+To be safe, instead of removing maybe move to before "size = " and 
+change to "if (GEM_WARN_ON(n_placements == 0))"? Not sure.. Matt any 
+thoughts here given the changes in this patch?
 
---------------eK2CnmllzDOHV1T9CtYT4Rq4
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Tvrtko
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMsF3MFAwAAAAAACgkQlh/E3EQov+Ad
-cxAAsjbRMFc4kEbDJdUrM2wUw6ogdQwOVjiyug5+wx91IN3z+J1WC5XJSY5VHABBPNEwN8oycX5X
-yy1plLHS0BLjXFWgt9X1SS+wQ9SuHswQsaFuCPsXxjDKeVDD6ieFll4rQ2E8BPqlonpFNrXMdlax
-vOZU+2CKdURD+GVvUWJab7tsL6v2Ggm9Kb1vfIdxX5Bd6cEHUryx7hCSm4IpRv8V3F67i5oY9yYd
-IjbN0jXuAT4FATEOUf55y2xs4upspI+S6QCM0mFdM0Ij5JMsGwKWLYt7B6Uz1k6c5DCuGjhNl2LG
-JFIFMGbiSEO4AnQRLsjz33c18Z4nfQY8cnLHt+IFQqvRrfiXUu72ZXV0DQOW490gqAaN1W+o1tR2
-XU5jKSBlqjf6R0ooDsv9Vbu73/AeR4qoFINoDMMMpEmwIFXdKRwA6CHEdMxrTELSm2RpPl0C6C3i
-I6KP4DlUgzH6LZ3My8B6ym8TtKHWNz8WwR5qfGGafgQjuvulZZVRArUIM+yqC+py2PeJ7Eqb0d2r
-4xK11y309lE3zYNXkKXz25sWmQR5U32+ncixTRwRLqTqiTB//m58Zf7AbR0MVSJofHjfcXkyLTQW
-vpsT4Ap/JkRJMr2BqXnnUffOIwDCdJmXMSOyZrn9fC9doIGleosLVsLs5W0h0GyDgb3SVQbcQiD4
-NdA=
-=llRm
------END PGP SIGNATURE-----
-
---------------eK2CnmllzDOHV1T9CtYT4Rq4--
+> 
+> Niranjana
+> 
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> index 7317d4102955..8c97bddad921 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> @@ -47,6 +47,8 @@ static inline bool i915_gem_object_size_2big(u64 size)
+>>>  }
+>>>  void i915_gem_init__objects(struct drm_i915_private *i915);
+>>> +u32 i915_gem_object_max_page_size(struct intel_memory_region 
+>>> **placements,
+>>> +                  unsigned int n_placements);
+>>>  void i915_objects_module_exit(void);
+>>>  int i915_objects_module_init(void);
