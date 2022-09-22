@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D36F5E5C4B
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE4E5E5C55
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B78C10E0B4;
-	Thu, 22 Sep 2022 07:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF3710EA57;
+	Thu, 22 Sep 2022 07:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA7910E11B
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 21:51:08 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id b75so7323528pfb.7
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 14:51:08 -0700 (PDT)
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47E4D8921E;
+ Thu, 22 Sep 2022 01:27:32 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ s14-20020a17090a6e4e00b0020057c70943so652908pjm.1; 
+ Wed, 21 Sep 2022 18:27:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date;
- bh=7Ccja+Ag2s+Qx2euqE4TqyyHiW0JG6WL4KMv9BkP7TQ=;
- b=o27w7GMus1TONUU/SoB082WN/uf+lNQ2Iym3idx65q8KoSHVUQQI8jsvxpawcZrJci
- k8NDe2y3UPCg8TbAVh6bLPDvuqVEd+QBeGxByeSpsAVQ6Uan8L7A/5nNjU67BJ5uDBUZ
- uf8lNM2DETblxnOdpYo9fo9/XXJ11XvrVlp3DyGl9XHicGA14ZFW+dzMO/YFe88QE4OC
- UfrtYOlByYtcvY4n+Cx8lB0v/pTQ5EFIUDx2B4vUm8Y2lPAqKLKurwbdsqXTzrI4T0c9
- VjhxcZ/exPeRS35ntaalmQzh7Rbvxm3jL2HnKbbwvHb/K5VD8QBzART3+A4Sc65Ba5oa
- cp4A==
+ bh=Nn/xaYDr70nfIgJ9YO/J5RCYgkbZZtOIDhcd1yX3ucQ=;
+ b=ijl3DG/F/T8LrNkohZukB7Ha4rpNVsYgaiJCuTqk6YSYBh2O/Qipty55Mp0Z8/T77L
+ GJ/yFQ1nXMencxNxhzEF87a11t0Ymk44foaOZ2CN+e3rMrB2qjpoSAhDejKnqRnh/fuo
+ F4l88/YtIFC1asSQJ8NlmveD5Pg/ShBdm1bK8jXj+zPKtaQieikdM4L9NyFO5/nritGd
+ 3DImhY2Zf4KPQduCOMIUAXWv1vY1uT4QnFpFj2vu0l/41MlfTCTY/MYcL55udWtrY8PK
+ FcPz17l8d3u7nuC3mnoP9rbSTJfo4gBcIsHqYKJCocdEuPnku2WJ8ndLZhvX3LoCHcIW
+ BGcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=7Ccja+Ag2s+Qx2euqE4TqyyHiW0JG6WL4KMv9BkP7TQ=;
- b=dPP0oDjrWAQxTdaKu5bbskrjURuJe3/xLYb0Ynr++QPXbA9PsjoLwSnhHzGFxsNC5w
- NqPMRvcDNvogSCKWa0QfVLsWc/GfMUjsibxw6Pw6PH+xVFGggTr/XXzaBNY4snCrikPD
- FWV/gt9Be9QocHnegDyvCMox7ZIasY9RglPI/33Si0WER/86QK+NAttw6r9R3InGm/JZ
- WRXg9OaI4nwiv8Iyz33Yb6ArULv1rGw1aueZrvpzpdCbgcjC+vS4wHiTeoNRym0KbJI/
- kimX5Qc+C1iFaAjIpMa/x+5gsGjP8Hc78uVBcGwgpeS8y2nw3f/JyoLeJwYUWT/Zcx6J
- +ttA==
-X-Gm-Message-State: ACrzQf2NdpFFrwItVAs/qEXFJntnlfeTUUV4nldfqMb5HlB9IOKRNmAT
- zh55hQdfTfkohS0rj26G0UY=
-X-Google-Smtp-Source: AMsMyM4amkubcVbp27k9HQ0LdyI21SlkbR+waW6/7V2e5QqwqFFQ6NLWGW5B04PVH9BcWFGZQ/CMLQ==
-X-Received: by 2002:a62:8403:0:b0:540:c1e4:fb31 with SMTP id
- k3-20020a628403000000b00540c1e4fb31mr239166pfd.85.1663797067443; 
- Wed, 21 Sep 2022 14:51:07 -0700 (PDT)
+ bh=Nn/xaYDr70nfIgJ9YO/J5RCYgkbZZtOIDhcd1yX3ucQ=;
+ b=NcCIjBXHgUvTpPB84kPP0j8WffnjU84y+qcjhTcyMNBbPzGQcg9SSVxXKvKj0OJfUR
+ eCrswCN4HM83AOBH3BMXOJox1lAm27iYk07Q72zIFl8xSAinUR6DmR959/A/ArrOIjql
+ K5EVYIyc2SU0wSVfXm4rLPZMvOicvsQQaS1hkPzhbaF6kON4bA2rhwG/1WDqz+pEQayO
+ eHh5E0yJZcNk/1Nsf+p3b/PCVq1ZcWUoCs0W3Ql/7JIgMYnvqTH55qUGFmVsNnG1AAzK
+ ExBLOzPhZ8cO9lH6ZR+kgBjm75/rRFcNcn0TJXzbYUG+0v/f+hNMME9IBcG2gr5UzhvI
+ O97w==
+X-Gm-Message-State: ACrzQf0nrAapJnOg1BH08ImIDmP+m6AcqtV6Iu5Eo4QYrUQxcp2J+izq
+ MM3n5xgwITiSZ8hNrib8RVV1hbdBWHyySw==
+X-Google-Smtp-Source: AMsMyM5TfJLNWJSq/FsUmvKPRz4vhiY7w/WNIT+Tr3OomHvIiUFyp8KLViLkJxk0fltCucrHeWPqUg==
+X-Received: by 2002:a17:90a:cc9:b0:203:ab27:78c7 with SMTP id
+ 9-20020a17090a0cc900b00203ab2778c7mr12336745pjt.123.1663810051382; 
+ Wed, 21 Sep 2022 18:27:31 -0700 (PDT)
 Received: from localhost.localdomain (lily-optiplex-3070.dynamic.ucsd.edu.
  [2607:f720:1300:3033::1:4dd]) by smtp.googlemail.com with ESMTPSA id
- f1-20020a170902684100b00178a58f0ad5sm2582707pln.33.2022.09.21.14.51.05
+ n15-20020a63e04f000000b0043b565cb57csm2551492pgj.73.2022.09.21.18.27.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 14:51:06 -0700 (PDT)
+ Wed, 21 Sep 2022 18:27:30 -0700 (PDT)
 From: Li Zhong <floridsleeves@gmail.com>
-To: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v1] drivers:adp8870_bl: check the return value of adp8870_write
-Date: Wed, 21 Sep 2022 14:50:49 -0700
-Message-Id: <20220921215049.1658796-1-floridsleeves@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Subject: [PATCH v1] drivers:amdgpu: check the return value of amdgpu_bo_kmap
+Date: Wed, 21 Sep 2022 18:27:19 -0700
+Message-Id: <20220922012719.1676315-1-floridsleeves@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,37 +70,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingoohan1@gmail.com, deller@gmx.de, lee@kernel.org,
- daniel.thompson@linaro.org, Li Zhong <floridsleeves@gmail.com>
+Cc: jiapeng.chong@linux.alibaba.com, Xinhui.Pan@amd.com, guchun.chen@amd.com,
+ airlied@linux.ie, lijo.lazar@amd.com, mario.limonciello@amd.com,
+ darren.powell@amd.com, alexander.deucher@amd.com, evan.quan@amd.com,
+ christian.koenig@amd.com, Li Zhong <floridsleeves@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check and propagate the return value of adp8870_write() when it fails,
-which is possible when SMBus writing byte fails.
+amdgpu_bo_kmap() returns error when fails to map buffer object. Add the
+error check and propagate the error.
 
 Signed-off-by: Li Zhong <floridsleeves@gmail.com>
 ---
- drivers/video/backlight/adp8870_bl.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/adp8870_bl.c b/drivers/video/backlight/adp8870_bl.c
-index 8b5213a39527..0eb4ae2ff592 100644
---- a/drivers/video/backlight/adp8870_bl.c
-+++ b/drivers/video/backlight/adp8870_bl.c
-@@ -567,9 +567,13 @@ static ssize_t adp8870_store(struct device *dev, const char *buf,
- 		return ret;
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+index 1eb4e613b27a..ec055858eb95 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+@@ -1485,6 +1485,7 @@ static int pp_get_prv_buffer_details(void *handle, void **addr, size_t *size)
+ {
+ 	struct pp_hwmgr *hwmgr = handle;
+ 	struct amdgpu_device *adev = hwmgr->adev;
++	int err;
  
- 	mutex_lock(&data->lock);
--	adp8870_write(data->client, reg, val);
-+	ret = adp8870_write(data->client, reg, val);
- 	mutex_unlock(&data->lock);
- 
-+	if (ret) {
-+		return ret;
-+	}
-+
- 	return count;
- }
+ 	if (!addr || !size)
+ 		return -EINVAL;
+@@ -1492,7 +1493,9 @@ static int pp_get_prv_buffer_details(void *handle, void **addr, size_t *size)
+ 	*addr = NULL;
+ 	*size = 0;
+ 	if (adev->pm.smu_prv_buffer) {
+-		amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
++		err = amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
++		if (err)
++			return err;
+ 		*size = adev->pm.smu_prv_buffer_size;
+ 	}
  
 -- 
 2.25.1
