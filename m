@@ -1,47 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3696E5E67F5
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:00:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F655E64B5
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:09:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECBE10EC5B;
-	Thu, 22 Sep 2022 16:00:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3727110EB2B;
+	Thu, 22 Sep 2022 14:09:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEBD310EB19
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 13:17:39 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MYG130lFMzMpRd;
- Thu, 22 Sep 2022 21:12:55 +0800 (CST)
-Received: from kwepemm600014.china.huawei.com (7.193.23.54) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 22 Sep 2022 21:17:37 +0800
-Received: from huawei.com (10.90.53.225) by kwepemm600014.china.huawei.com
- (7.193.23.54) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
- 2022 21:17:37 +0800
-From: Zhang Qilong <zhangqilong3@huawei.com>
-To: <heiko@sntech.de>, <hjc@rock-chips.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-rockchip@lists.infradead.org>
-Subject: [PATCH -next 2/2] drm/rockchip: fix PM usage counter unbalance in
- poweron
-Date: Thu, 22 Sep 2022 21:21:07 +0800
-Message-ID: <20220922132107.105419-3-zhangqilong3@huawei.com>
-X-Mailer: git-send-email 2.26.0.106.g9fadedd
-In-Reply-To: <20220922132107.105419-1-zhangqilong3@huawei.com>
-References: <20220922132107.105419-1-zhangqilong3@huawei.com>
+X-Greylist: delayed 591 seconds by postgrey-1.36 at gabe;
+ Thu, 22 Sep 2022 14:09:04 UTC
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B706C10EB30
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 14:09:04 +0000 (UTC)
+Received: from localhost.localdomain (95.49.29.188.neoplus.adsl.tpnet.pl
+ [95.49.29.188])
+ by m-r1.th.seeweb.it (Postfix) with ESMTPA id EBAC11FF07;
+ Thu, 22 Sep 2022 15:59:06 +0200 (CEST)
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
+To: ~postmarketos/upstreaming@lists.sr.ht
+Subject: [PATCH v2 1/2] dt-bindings: display/panel: Add Sony Tama TD4353 JDI
+ display panel
+Date: Thu, 22 Sep 2022 15:58:59 +0200
+Message-Id: <20220922135902.129760-1-konrad.dybcio@somainline.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.225]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemm600014.china.huawei.com (7.193.23.54)
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Thu, 22 Sep 2022 16:00:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,57 +40,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@linux.ie>, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ linux-kernel@vger.kernel.org, jamipkettunen@somainline.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ martin.botka@somainline.org, dri-devel@lists.freedesktop.org,
+ angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-pm_runtime_get_sync will increment pm usage counter even it failed.
-Forgetting to putting operation will result in reference leak here.
-We fix it by replacing it with the newest pm_runtime_resume_and_get
-to keep usage counter balanced.
+Add bindings for the display panel used on some Sony Xperia XZ2 and XZ2
+Compact smartphones.
 
-Fixes:34cc0aa254560 ("drm/rockchip: Add support for Rockchip Soc LVDS")
-Fixes:cca1705c3d895 ("drm/rockchip: lvds: Add PX30 support")
-Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
 ---
- drivers/gpu/drm/rockchip/rockchip_lvds.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Changes since v1:
+- remove device-specific compatibles in favour of panel-common
+height/width-mm properties
+- fix indentation in the example
+ .../display/panel/sony,td4353-jdi.yaml        | 82 +++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-index 5a284332ec49..68f6ebb33460 100644
---- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-@@ -152,7 +152,7 @@ static int rk3288_lvds_poweron(struct rockchip_lvds *lvds)
- 		DRM_DEV_ERROR(lvds->dev, "failed to enable lvds pclk %d\n", ret);
- 		return ret;
- 	}
--	ret = pm_runtime_get_sync(lvds->dev);
-+	ret = pm_runtime_resume_and_get(lvds->dev);
- 	if (ret < 0) {
- 		DRM_DEV_ERROR(lvds->dev, "failed to get pm runtime: %d\n", ret);
- 		clk_disable(lvds->pclk);
-@@ -336,16 +336,20 @@ static int px30_lvds_poweron(struct rockchip_lvds *lvds)
- {
- 	int ret;
- 
--	ret = pm_runtime_get_sync(lvds->dev);
-+	ret = pm_runtime_resume_and_get(lvds->dev);
- 	if (ret < 0) {
- 		DRM_DEV_ERROR(lvds->dev, "failed to get pm runtime: %d\n", ret);
- 		return ret;
- 	}
- 
- 	/* Enable LVDS mode */
--	return regmap_update_bits(lvds->grf, PX30_LVDS_GRF_PD_VO_CON1,
-+	ret = regmap_update_bits(lvds->grf, PX30_LVDS_GRF_PD_VO_CON1,
- 				  PX30_LVDS_MODE_EN(1) | PX30_LVDS_P2S_EN(1),
- 				  PX30_LVDS_MODE_EN(1) | PX30_LVDS_P2S_EN(1));
-+	if (ret)
-+		pm_runtime_put(lvds->dev);
+diff --git a/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+new file mode 100644
+index 000000000000..7915c993e83e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+@@ -0,0 +1,82 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/sony,td4353-jdi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	return ret;
- }
- 
- static void px30_lvds_poweroff(struct rockchip_lvds *lvds)
++title: Sony TD4353 JDI 5 / 5.7" 2160x1080 MIPI-DSI Panel
++
++maintainers:
++  - Konrad Dybcio <konrad.dybcio@somainline.org>
++
++description: |
++  The Sony TD4353 JDI is a 5 (XZ2c) / 5.7 (XZ2) inch 2160x1080
++  MIPI-DSI panel, used in Xperia XZ2 and XZ2 Compact smartphones.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: sony,td4353-jdi-tama
++
++  reg: true
++
++  backlight: true
++
++  vddio-supply:
++    description: VDDIO 1.8V supply
++
++  vsp-supply:
++    description: Positive 5.5V supply
++
++  vsn-supply:
++    description: Negative 5.5V supply
++
++  preset-gpios:
++    description: Display panel reset pin
++
++  treset-gpios:
++    description: Touch panel reset pin
++
++  port: true
++
++required:
++  - compatible
++  - reg
++  - vddio-supply
++  - vsp-supply
++  - vsn-supply
++  - preset-gpios
++  - treset-gpios
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel: panel@0 {
++            compatible = "sony,td4353-jdi-tama";
++            reg = <0>;
++
++            backlight = <&pmi8998_wled>;
++            vddio-supply = <&vreg_l14a_1p8>;
++            vsp-supply = <&lab>;
++            vsn-supply = <&ibb>;
++            preset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
++            treset-gpios = <&tlmm 99 GPIO_ACTIVE_HIGH>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi0_out>;
++                };
++            };
++        };
++    };
++...
 -- 
-2.25.1
+2.37.3
 
