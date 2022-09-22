@@ -2,68 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11A65E66EC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 17:21:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0335E6748
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 17:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6064110EC0B;
-	Thu, 22 Sep 2022 15:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 747B710EC2A;
+	Thu, 22 Sep 2022 15:37:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31C6510EC0A
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 15:21:36 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id x29so11430270ljq.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 08:21:36 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4214310EC29
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 15:37:43 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id z25so15359126lfr.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 08:37:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=G2tn8FkiA4QtG75xuiqZmLv7ElA87FmtU3DNYDf0oEQ=;
- b=gvtOtWwbd6XN7lgeIP4TcEsuTjvhDaz6SCfI5YZ1QCOvoifx/6Tv9EwRay+ZlQlzuk
- uuFokyZYzwce10lvYBft9Za6AamLCeVayMeFL1NHuERDEzgzrvdV7272uRHACK7xR6cU
- gXh5SuFUCY+AscEmRfjHBGeJZvejJCBOQaw9+mySxDSy/sU5dqWaJ+e4yJAU90t5O5GD
- jjTMynCKnVYTgfyAjee+g+jHLgR/fYRZi8EjMJ5QWXUnkfNvc/fCzSTOjQCUqXOwDseg
- 7lfcH2kck+YAkOhEVpoBEI5q+BHsHd7lWRR9KstIk+IymtgbGYdhO20XI2IUNjiyMgXU
- 4h7Q==
+ bh=zdGItr5ICc4vlhS3KGwufw/Y8w2UR5ZVlts6EctynGI=;
+ b=cYwW6ohqGr+JtPJ/CQ4fzXi+ot92VVnYo0FHuXQI76jbm8+6lgnVm/+IBi5NLIuAJp
+ kxZ2IXhyaFXUtcVSx6vOBG5nCGulreB7JY3l7+kgMlntGfGGUYdxNf4zhJGDvLfzBNZj
+ yffbR7QxgOGesk1up0TsxpFaSg3SIHIQsGmWH+obHSl6VIRewS62cXjxHRfTYSWhTT4I
+ c14V4UraiU52gm+7TgaCeOQU0hsbgoWEfgHezZ/Ug6+jjqd4WNg/HZoY1Cuc1HX1s6tB
+ 95/xM/6e58bs5qpZu/Eg8t3clreVhFcU9ISgFZVBQNhwZ7Ejl6uMNpLQPjEyZ7ENEv0p
+ bljA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=G2tn8FkiA4QtG75xuiqZmLv7ElA87FmtU3DNYDf0oEQ=;
- b=Wq4CKGoRi3lBfsuQDa5/rC4VmVJQU5uauTGLGwHCw1IjALZf1rqbmpqipcoc6ET9rc
- Wd6VVGRtQndPk1wYBFUO6YTsK478Lv02VDXJ3XtrHiwXzpilJ05plY1eVJKuNpUKje60
- IW2KqqxfjNzpjCwEzyldsYSHDiByPcsSNa7cbQH18/m9pFYh2nx7Ml2N6H2xyouHrI5k
- QnkngBFCvImjOoAJWuNUFb2zKj0zYVY0QVlrwSeo3oJznfa3aF5Rx3xFBiA2fithdx+Z
- 58h1mrTnzkR8GabRhV4AYn11ZnQQoxkWzBevWU5SucYN9ZJh7vdXtbzbteAWkWept/eb
- agSw==
-X-Gm-Message-State: ACrzQf3hGMuQoHyUP3jwl6O5YWlagZgzFwSbULL69U4+S/UDRTiRhx7P
- t3JLK863SlAgn6Yv8vyZD1k+iQ==
-X-Google-Smtp-Source: AMsMyM4j9ZJPh60peGli03Ceol3vlKlTckxECwq4CxNGTazKeqt1QdZGVrjF+gHjFYIiAGq0IxbYng==
-X-Received: by 2002:a2e:8e27:0:b0:26c:259:e4d2 with SMTP id
- r7-20020a2e8e27000000b0026c0259e4d2mr1357778ljk.215.1663860094410; 
- Thu, 22 Sep 2022 08:21:34 -0700 (PDT)
+ bh=zdGItr5ICc4vlhS3KGwufw/Y8w2UR5ZVlts6EctynGI=;
+ b=IcC+noGBqZ7f/++2J1NfIHkU9onkJknv//gG4x+TNbEV6NOF2k1Wcczj6gT39h+ROV
+ OO19bh32yVVR1DZZDPFWtMul6+jwW1PKZlNqx2VfvnNotpTWsfSGgWE7KQ8I5a+3SyTf
+ v/jPbYBWKnrBWLKbbKOPVhVBz1DpIYnAEpE6IeFhS5FjLW2OTBW1E/QB1Va3GSx5OH/w
+ DRFzqyVV/KhUsrVNA6QPwGjqM2n6YJDZWWW3bc7oURMJ1gfph8stAvL0YtkG7mu647G4
+ VINRAapA91HTHYseFawShaFhmxI0cpD33bTUOAHeSE4Al1ylQJqSZKpq9toh56dIGRyq
+ IXmA==
+X-Gm-Message-State: ACrzQf0I99qSTp12exoKnxGShEauSqCAyorbUV+cqpFcWTmPtGvKdgtV
+ bGk1ZA5avWuH4KdUWrJKyMC7vw==
+X-Google-Smtp-Source: AMsMyM7h9wDWsyUiqMcRTiNhG8QJKDH4ATtOFz8lkYELII3NUCIdQoLWizMQQQXkal5Hd6Zg8Y51zg==
+X-Received: by 2002:a05:6512:2251:b0:496:c3b9:c18d with SMTP id
+ i17-20020a056512225100b00496c3b9c18dmr1389520lfu.403.1663861061448; 
+ Thu, 22 Sep 2022 08:37:41 -0700 (PDT)
 Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
  [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- t13-20020ac24c0d000000b0048b064707ebsm985686lfq.103.2022.09.22.08.21.33
+ g4-20020a056512118400b0049f907b9ba9sm982317lfr.226.2022.09.22.08.37.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 08:21:33 -0700 (PDT)
-Message-ID: <825bb400-fc7e-8564-f8d3-d294114b1ba7@linaro.org>
-Date: Thu, 22 Sep 2022 17:21:33 +0200
+ Thu, 22 Sep 2022 08:37:40 -0700 (PDT)
+Message-ID: <acd9ff20-a07b-05ab-6f4b-34e3e8b1cae8@linaro.org>
+Date: Thu, 22 Sep 2022 17:37:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v2 1/2] dt-bindings: display/panel: Add Sony Tama TD4353
- JDI display panel
+Subject: Re: [PATCH v2 1/7] dt-bindings: msm/dp: Add SDM845 and SC8280XP
+ compatibles
 Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht
-References: <20220922135902.129760-1-konrad.dybcio@somainline.org>
- <02f44228-866a-f096-1e90-dfbd31660491@linaro.org>
- <e9d55a49-e3c6-a6b2-43e1-8e643dc49d58@somainline.org>
+To: Bjorn Andersson <andersson@kernel.org>
+References: <20220916200028.25009-1-quic_bjorande@quicinc.com>
+ <20220916200028.25009-2-quic_bjorande@quicinc.com>
+ <1641e41c-08c7-859b-644a-28d966fb00f3@linaro.org>
+ <20220919211832.6b3buqxrnfp6yjjg@builder.lan>
+ <6b242b44-b657-c7a6-63ca-465c7031376f@linaro.org>
+ <20220922001429.zqfap3clprvlo6jo@builder.lan>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <e9d55a49-e3c6-a6b2-43e1-8e643dc49d58@somainline.org>
+In-Reply-To: <20220922001429.zqfap3clprvlo6jo@builder.lan>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,31 +81,64 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- jamipkettunen@somainline.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, martin.botka@somainline.org,
- dri-devel@lists.freedesktop.org, angelogioacchino.delregno@somainline.org,
- marijn.suijten@somainline.org, Sam Ravnborg <sam@ravnborg.org>
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/09/2022 17:16, Konrad Dybcio wrote:
+On 22/09/2022 02:14, Bjorn Andersson wrote:
+> On Tue, Sep 20, 2022 at 09:09:13AM +0200, Krzysztof Kozlowski wrote:
+>> On 19/09/2022 23:18, Bjorn Andersson wrote:
+>>> On Sat, Sep 17, 2022 at 06:03:27PM +0100, Krzysztof Kozlowski wrote:
+>>>> On 16/09/2022 21:00, Bjorn Andersson wrote:
+>>>>> From: Bjorn Andersson <bjorn.andersson@linaro.org>
+>>>>>
+>>>>> Add compatibles for the DisplayPort and Embedded DisplayPort blocks in
+>>>>> Qualcomm SDM845 and SC8280XP platforms.
+>>>>>
+>>>>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+>>>>> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+>>>>
+>>>> No need for quicinc SoB (unless you also take ownership).
+>>>>
+>>>
+>>> It's my understanding that both needs to be there. Bjorn @ Linaro
+>>> authored the patch and the author must certify its origin, but as the
+>>> submitter I must certify its origin.
 >>
->> How about bringing them closer to common GPIOs:
->> panel-reset-gpios
->> ?
+>> It's the same person. There are no two Bjorns (unless there are :) ), so
+>> you certify with old email. SoB chain is coming from people, not email
+>> addresses.
 >>
->>> +    description: Display panel reset pin
->>> +
->>> +  treset-gpios:
->>
->> touch-reset-gpios
->>
-> I can do that. I will however wait with resending in case somebody has comments
-> on the .c driver.
+> 
+> IANAL, but I don't think it's the same person. I can't use my old
+> signature to certify the origin in a contribution today and I can't
+> claim authorship of something Linaro did.
 
-Sure, makes sense.
+Fine with me.
+
+> 
+>> And it is not only my understanding of SoB chain.
+>> https://lore.kernel.org/all/YuKcBO5JatwRYQJ3@kroah.com/
+>>
+> 
+> Again, IANAL, but I think the situation is different given AMD and
+> Xilinx relationship.
+
+Hm, I am not sure how it is different. We might know or we might know
+the change of ownership. Maybe the change of owner came with copyrights,
+maybe not (someone else bought them). I don't know, there can be many
+cases here. I interpret Greg's point there as in SoB statement - the
+person, not email address, certifies.
+
+Anyway, this is not a blocker for the patch.
+
 
 Best regards,
 Krzysztof
