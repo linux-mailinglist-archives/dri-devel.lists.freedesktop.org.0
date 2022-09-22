@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5938C5E611D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 13:31:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC485E6126
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 13:33:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C842E10EAE1;
-	Thu, 22 Sep 2022 11:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0B4B10EAE2;
+	Thu, 22 Sep 2022 11:33:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC2EC10EAE1
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 11:30:38 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id o2so14119805lfc.10
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 04:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Nws0gXLCbPL6X9KoHrtPIHCoOBfOHKZJmB1WauEIFW4=;
- b=Cm4/iCt/4HPFS3Z+l8YA5dr9YKfLde/mEP/bKpfnK8EDu3fqU5JcxrXnl4xV51GOfw
- VBMgy9stx2JauU/DneaXoYQTVxEkn4rGkKYnQ+kLM5LnpmEKdUfuH82cnpaQrNrWSpO5
- DIUupurOi7wGq6ccpfWFxgZGIbBHgbkKfRfg7qp2p5ib72xs/mS69bMPaW4cVagHVG8i
- ebn2Kvfx+cehUdop8aAgjqZGgC1er3Mn8b4o31uIzZenXVNEnUkUSqShTmgvMK+Hly5u
- czKDoKeRri7PEPh9nSBgSd9IaiY83cqbdc9DzEVxHd9YvHFcaZ/o1LeNyngrOGqjCq49
- l9XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Nws0gXLCbPL6X9KoHrtPIHCoOBfOHKZJmB1WauEIFW4=;
- b=LY9IMOm8CuhI4QZnr+nJkOUxQIPoFM5QqZg0sSzKkHcAhw2qCOPSg9uywmwM6Juo0L
- vP3e3bjULyjNvDi4IPKjD2Hp5DBII0ejXNE9AMLeqxdYkGADB4Fqhm4kKojEqBWC4qIi
- TknMnpM2Grzrd+efLgrxuP0ZHdiyrrcxXXHwJM+wcQzLvYorkqe9SoQBrx6Q3DK/XVNW
- 6MM7xFWPU2d6VviV8jlECFXR9pmh8W8Ml0jKY8Vn3tXb8PoOOOeVabe3dRArBtyr6ENz
- 7QcwPerxbXD3q5ynz8vzfy1QDVdQ1o9yrlKNCwC/u8VdO6K2Q8FjdPBg/i9xXqeT0m8y
- 5X6w==
-X-Gm-Message-State: ACrzQf11OdzotPvUsUA5g6rFHBGDL6XYDr34BHABS/wjilCgIqbEvEp+
- 71aeJu5ByOin4XFQkMtR3ndY0A==
-X-Google-Smtp-Source: AMsMyM4fDheMKM/auohpHSKGpGB20FTYUF2o5KeB20hodt+Cz1FbODPDnrWnGrb7OXwt5uSew3/bzg==
-X-Received: by 2002:a05:6512:310:b0:496:a0ca:1613 with SMTP id
- t16-20020a056512031000b00496a0ca1613mr1155642lfp.394.1663846222847; 
- Thu, 22 Sep 2022 04:30:22 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- c4-20020ac25304000000b004996fbfd75esm898527lfh.71.2022.09.22.04.30.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 04:30:22 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 5/5] drm/msm: mdss add support for SM8450
-Date: Thu, 22 Sep 2022 14:30:16 +0300
-Message-Id: <20220922113016.355188-6-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220922113016.355188-1-dmitry.baryshkov@linaro.org>
-References: <20220922113016.355188-1-dmitry.baryshkov@linaro.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B17C410EAD5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 11:33:10 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5A342219BD;
+ Thu, 22 Sep 2022 11:33:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663846389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=TQvMpeIy7cygWqyqnF1hlTB6kVkyGdVkV1T4Po87npQ=;
+ b=yoCkJLCmKv8hjDuBTEAxfYkwO6rYLGOkvlqDKfieQD/MWidBdDOIkYYwaaJ7h8WDuBmMWZ
+ LITnul/r2/iXXtdkY5HoAfduyI+T2LSHgeM6m5nRqyEZkLUlhxDqEX0FbkN6ZkR4Ac0XFK
+ wC2Ob+za9ideUna+yvUTh439N8PnN5I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663846389;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=TQvMpeIy7cygWqyqnF1hlTB6kVkyGdVkV1T4Po87npQ=;
+ b=lnoHL8kIiwZUq//J3yGz5E0Z7C2tvQq9m6s6ry3OE1hQZ5cUlAjIjFI34WZfpzqR7yS3hD
+ D+ESSk4MRR3L2sBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 081CB13AA5;
+ Thu, 22 Sep 2022 11:33:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id KAsVAfVHLGPyPAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Sep 2022 11:33:09 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de,
+ maxime@cerno.tech, sam@ravnborg.org, msuchanek@suse.de, mpe@ellerman.id.au,
+ benh@kernel.crashing.org, paulus@samba.org, geert@linux-m68k.org,
+ mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v3 0/4] drm: Add driver for PowerPC OF displays
+Date: Thu, 22 Sep 2022 13:33:02 +0200
+Message-Id: <20220922113306.11251-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,45 +64,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the MDSS block on SM8450 platform.
+PowerPC's Open Firmware offers a simple display buffer for graphics
+output. Add ofdrm, a DRM driver for the device. As with the existing
+simpledrm driver, the graphics hardware is pre-initialized by the
+firmware. The driver only provides blitting, no actual DRM modesetting
+is possible.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_mdss.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+For version 3 of this patchset, all preparatory changes have been
+merged into the DRM codebase. Only ofdrm changes are left.
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index e13c5c12b775..9e011762396b 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -219,6 +219,13 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
- 	case DPU_HW_VER_720:
- 		writel_relaxed(0x101e, msm_mdss->mmio + UBWC_STATIC);
- 		break;
-+	case DPU_HW_VER_810:
-+		/* FIXME: merge with 6.0.0? */
-+		/* TODO: 0x102e for LP_DDR4 */
-+		writel_relaxed(0x103e, msm_mdss->mmio + UBWC_STATIC);
-+		writel_relaxed(2, msm_mdss->mmio + UBWC_CTRL_2);
-+		writel_relaxed(1, msm_mdss->mmio + UBWC_PREDICTION_MODE);
-+		break;
- 	}
- 
- 	return ret;
-@@ -447,6 +454,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,sc8180x-mdss" },
- 	{ .compatible = "qcom,sm8150-mdss" },
- 	{ .compatible = "qcom,sm8250-mdss" },
-+	{ .compatible = "qcom,sm8450-mdss" },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, mdss_dt_match);
+Patch 1 adds ofdrm, which has again been significantly reworked.
+The FWFB library has been removed infavor of various functions in
+existing DRM helper libraries. Ofdrm now supports damage iterators
+and synchronization for imported GEM BOs.
+
+Patches 2 to 4 add support for color management. The code has been
+taken from fbdev's offb. I have no hardware available for testing the
+functionality. Qemu's stdvga apparently does not support gamma tables
+in RGB modes. I verified that the color management code is executed
+by running Gnome's night-mode settings, but the display's color tone
+does not change.
+
+Thomas Zimmermann (4):
+  drm/ofdrm: Add ofdrm for Open Firmware framebuffers
+  drm/ofdrm: Add CRTC state
+  drm/ofdrm: Add per-model device function
+  drm/ofdrm: Support color management
+
+ MAINTAINERS                   |    1 +
+ drivers/gpu/drm/tiny/Kconfig  |   13 +
+ drivers/gpu/drm/tiny/Makefile |    1 +
+ drivers/gpu/drm/tiny/ofdrm.c  | 1351 +++++++++++++++++++++++++++++++++
+ drivers/video/fbdev/Kconfig   |    1 +
+ 5 files changed, 1367 insertions(+)
+ create mode 100644 drivers/gpu/drm/tiny/ofdrm.c
+
+
+base-commit: a7d5d07d5ac5ac58ec81932b3f732e3127d17af9
 -- 
-2.35.1
+2.37.3
 
