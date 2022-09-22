@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5242E5E67F4
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89655E67E2
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:00:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89BC110EC57;
-	Thu, 22 Sep 2022 16:00:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 304E510E231;
+	Thu, 22 Sep 2022 16:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 X-Greylist: delayed 568 seconds by postgrey-1.36 at gabe;
  Thu, 22 Sep 2022 12:52:46 UTC
-Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch
- [IPv6:2001:1600:4:17::8fac])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A97410EB04
+Received: from smtp-bc08.mail.infomaniak.ch (smtp-bc08.mail.infomaniak.ch
+ [45.157.188.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 625BC10E343
  for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 12:52:46 +0000 (UTC)
 Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
- by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MYFLs2jySzMqJ30;
+ by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MYFLs5Y7wzMpp4G;
  Thu, 22 Sep 2022 14:43:17 +0200 (CEST)
 Received: from philippe-pc.toradex.int (unknown [31.10.206.125])
- by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MYFLs0bwZzx4;
+ by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MYFLs37m5z3g;
  Thu, 22 Sep 2022 14:43:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=pschenker.ch;
  s=20220412; t=1663850597;
- bh=+OIz10N0TA8uuQex2ybW9n6SGAbwcDokvY4GhIEiPro=;
+ bh=txqoeLVu69b7SOW8ljUizaUSKTWyveLWsrFwR5lKTZI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=av5JMroOBKiey1Rx1ox6FjGZK+pgv1N0kM2fJGIJQoRKGafLPwBJVCoDSFa6SUGqI
- g8ADwi3jh/0D6nX3yIlEH1zclnikto68pCqs73JC6BBfYefSo8s2zfn9iOqaowkshn
- S/dK2UHJ0GuyVRFlJjqXjav6u9iF4sZRgbKJVCPo=
+ b=gqXxNIlL6AAoK9a3rCfNjZFvJTXM3EeeCKG/LoCE4RdufGOn/vPayg6nQVe49HvJl
+ Z/bsE+axEzj4hajsbXbHi6l4pzFUNCxYMfVmP+Tqd62wgbZpybTU/8eEnFPQRibe1x
+ yR+jMUzfDnQTgZLF0ESsMRtggq/eurbjkk/cKXxQ=
 From: Philippe Schenker <dev@pschenker.ch>
 To: dri-devel@lists.freedesktop.org,
  Adrien Grassein <adrien.grassein@gmail.com>
-Subject: [PATCH 3/4] drm/bridge: lt8912b: fix corrupted image output
-Date: Thu, 22 Sep 2022 14:43:05 +0200
-Message-Id: <20220922124306.34729-4-dev@pschenker.ch>
+Subject: [PATCH 4/4] drm/bridge: lt8912b: clarify lvds output status
+Date: Thu, 22 Sep 2022 14:43:06 +0200
+Message-Id: <20220922124306.34729-5-dev@pschenker.ch>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220922124306.34729-1-dev@pschenker.ch>
 References: <20220922124306.34729-1-dev@pschenker.ch>
@@ -65,38 +65,66 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-Correct I2C address for the register list in lt8912_write_lvds_config(),
-these registers are on the first I2C address (0x48), the current
-function is just writing garbage to the wrong registers and this creates
-multiple issues (artifacts and output completely corrupted) on some HDMI
-displays.
+Add comments on the lt8912_write_lvds_config() config to document the
+current settings and to make it clear that this is a hardcoded
+configuration not relevant for the HDMI output (could be removed without
+affecting the HDMI port).
 
-Correct I2C address comes from Lontium documentation and it is the one
-used on other out-of-tree LT8912B drivers [1].
+No changes on the actual register writes.
 
-[1] https://github.com/boundarydevices/linux/blob/boundary-imx_5.10.x_2.0.0/drivers/video/lt8912.c#L296
-
-Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
 Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 Signed-off-by: Philippe Schenker <philippe.schenker@toradex.com>
 ---
 
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 26 ++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-index 6a4bb7422176..5968f4af190b 100644
+index 5968f4af190b..3e870d45f881 100644
 --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
 +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -188,7 +188,7 @@ static int lt8912_write_lvds_config(struct lt8912 *lt)
- 		{0x03, 0xff},
- 	};
- 
--	return regmap_multi_reg_write(lt->regmap[I2C_CEC_DSI], seq, ARRAY_SIZE(seq));
-+	return regmap_multi_reg_write(lt->regmap[I2C_MAIN], seq, ARRAY_SIZE(seq));
+@@ -165,24 +165,32 @@ static int lt8912_write_rxlogicres_config(struct lt8912 *lt)
+ 	return ret;
  };
  
- static inline struct lt8912 *bridge_to_lt8912(struct drm_bridge *b)
++/* enable LVDS output with some hardcoded configuration, not required for the HDMI output */
+ static int lt8912_write_lvds_config(struct lt8912 *lt)
+ {
+ 	const struct reg_sequence seq[] = {
++		// lvds power up
+ 		{0x44, 0x30},
+ 		{0x51, 0x05},
+-		{0x50, 0x24},
+-		{0x51, 0x2d},
+-		{0x52, 0x04},
+-		{0x69, 0x0e},
++
++		// core pll bypass
++		{0x50, 0x24}, // cp=50uA
++		{0x51, 0x2d}, // Pix_clk as reference, second order passive LPF PLL
++		{0x52, 0x04}, // loopdiv=0, use second-order PLL
++		{0x69, 0x0e}, // CP_PRESET_DIV_RATIO
+ 		{0x69, 0x8e},
+ 		{0x6a, 0x00},
+-		{0x6c, 0xb8},
++		{0x6c, 0xb8}, // RGD_CP_SOFT_K_EN,RGD_CP_SOFT_K[13:8]
+ 		{0x6b, 0x51},
+-		{0x04, 0xfb},
++
++		{0x04, 0xfb}, // core pll reset
+ 		{0x04, 0xff},
+-		{0x7f, 0x00},
+-		{0xa8, 0x13},
+-		{0x02, 0xf7},
++
++		// scaler bypass
++		{0x7f, 0x00}, // disable scaler
++		{0xa8, 0x13}, // 0x13: JEIDA, 0x33: VESA
++
++		{0x02, 0xf7}, // lvds pll reset
+ 		{0x02, 0xff},
+ 		{0x03, 0xcf},
+ 		{0x03, 0xff},
 -- 
 2.37.3
 
