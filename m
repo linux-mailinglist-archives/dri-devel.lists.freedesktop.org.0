@@ -1,123 +1,131 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AF75E6FEA
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 00:46:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D599B5E7018
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 01:10:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 038B510E1D5;
-	Thu, 22 Sep 2022 22:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F9110E2BA;
+	Thu, 22 Sep 2022 23:10:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from na01-obe.outbound.protection.outlook.com
- (mail-eastus2azlp170110002.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:c110::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15D9810E1D5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 22:46:19 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-eopbgr60079.outbound.protection.outlook.com [40.107.6.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9534510E2BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 23:10:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FwpYlHF/JR4HUXxoESKfJLWP/KO5fUTkdyPRRmu8K+ajo9tWVQ6FCbcfPZlu4JIxPBHDJfkSGjIPlTbcdcFBeKz8Nfq8lQkujJkDzMa4NJRdzp79MXOpGe3XCvRonmQh34hcQBSkBeuo28+FK65y9KNk+8R1Vk9Q2M+G+iA9sy1a0uCTijtsXQZ2hfG+yYHJE6+Q0JxHAoKXXfqz4Sa5O9VpSKEGftiEK+v7SASz/6bd9zHhTLrec8C6JGxefH6JZT5/bADwVUPAbLLTOha+uflxIGc9RzoNjpA3DgFFs/cwGKpYpGMWEmAvPIE3ECukEFOVGbZXFWJ4QbxADeydTQ==
+ b=SjEySSiKbQ58HDFL8iCaxXLwFwRolndK/8OLk9JtyD9ffE3Z2aUWw287Qw2Hlm3+GXIITRzI71rZKMu8W5htVKPWlqGKtu0YTIK/TlhQFbytuqScAiGaAIef5jIPVvnnr0ULPaqt0GN43LnqIFiUhV79aePCnoPk7MduMxJbbhE8dKZfXwQYHqKticw/YsKGzMhYP5B83Q+jDf8L+CQxeoaechSaEmGL49FOfBpZ8QJMDbmAU+0hlfPM3majH9aJ2fpF19eRENVKJPtQGOYaMkDpAoU0Dwwk3hLZmiQGxKyqTpkVo+BvygOJtlU6ihPrKKxSNLMUnrRVO40e0c3FeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ciErrPeXvmubG0f6HC5COvoekUzJIRr8wIAPrRnpd4Q=;
- b=hqaQUWYZCYm6K4VUlt5PusEQzNvREGxBfe/ieel/2P3c1PxGWK5MYCV5Ly44lXUpZwFs+ZgBop9ddhqVWhUn2acKy/8SxUUtU07UcJRgqIDFnTS+oB+jV2pfcre6bEuIFw6qcqBo4YggaoqKC6z1kjDS9f0aFJkfTWjQkCZIYU0oE3bJ/rFcfQGbMcSgYT/6iuV2q894A1jU2BXMJipSM9gSLAFu+OsFWjh+m/Ge4scBvy+U2pMzaj0fm3e5PighgdMpJD4rSreOL/2s6y8i/JCL6BdYwaVHhXI3bSOROODnSnMq3DKg3ixnxGtqD5TgI+abKBjtO8f9notoXa6vtQ==
+ bh=X8ztYgJHHpEohfPsiNOFJc+dwZRhHcoJ4H0Rz8hT6B4=;
+ b=PC1wumOfWZHJeMuiS99xHYThMrgWvymsHgdqgq5A0+hWagT1UJSx8FjQio2y1NvYS83T+rM1zlfK4JPpwdtKpnzOvQAobx5tZ5C3LQNRbT2E+Sgpv3VbDAGSbBzL9SVRxQLzd2PYRYFj3fKXoux7Vaeu3oH1gTgng/853A20avpuHlFLeLcSI0+aNAzwAF3Mry5GP1qNIfrr/bLxvRVjkrwFz2y6ll4XwQXGkEtOj6203no5ItkIVqTNAVTsrf8Nv/962y6bgKXMEEaQ1C9I8RmF/YPJ5Ac1jk3xxnwhJECkpI5mQ+0kP5Zcg9N9xXc1eq84mRom19KIQ2ZoSgaqJQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ciErrPeXvmubG0f6HC5COvoekUzJIRr8wIAPrRnpd4Q=;
- b=f/3DQm88U7phVc0afKIsX4M2qGeBOKenI7YzlOo3wKppvvvogoqbbXMIpV+xUcs1QhBUoXN870OPht4psEf0Mn2c4kFk5qVXAA2g/fyP3JmEZ9HRR80LQU1bPm+QRgypvKjbp8d9q8vtqUWrhFARj+I+yU/RmMMtagokJe/BzbU=
-Received: from BYAPR21MB1688.namprd21.prod.outlook.com (2603:10b6:a02:bf::26)
- by PH0PR21MB2062.namprd21.prod.outlook.com (2603:10b6:510:ab::6) with
+ bh=X8ztYgJHHpEohfPsiNOFJc+dwZRhHcoJ4H0Rz8hT6B4=;
+ b=wDSPjWROLNEbYXv9nW1dKTwfvO0C8vPfr6IVNUIAwwSA8/WSZvRvCj/EYvEmR8pojKvl3Tcl4mubqak3MIU6vS963PP9XsD7AWx7g8milR55ifjib7hUPrHlNqLzVvjEMCPgLZMiJ2GYH3+EkyOQ5soDy+0+paB3Wcqr+X7wVBSD1S+iBqduf0s+Pz8soYvIVv8jqsABHtQYELxw0u5qXuE3kfq3it0gD9+Mw/fZd3s7oU6qOL1a5DEjp/NH3B1V00Kg9oJyphZZDxdRTuy/XEG0specxaOFlpDH/J0A8y+imDZCHzRQLphl3ogqGwK+ENetzRYQVsJPASxAAwSK+Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
+ by DB8PR03MB6252.eurprd03.prod.outlook.com (2603:10a6:10:131::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.9; Thu, 22 Sep
- 2022 22:46:14 +0000
-Received: from BYAPR21MB1688.namprd21.prod.outlook.com
- ([fe80::17f5:70e:721f:df7e]) by BYAPR21MB1688.namprd21.prod.outlook.com
- ([fe80::17f5:70e:721f:df7e%4]) with mapi id 15.20.5676.007; Thu, 22 Sep 2022
- 22:46:14 +0000
-From: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-To: Saurabh Sengar <ssengar@linux.microsoft.com>, Saurabh Singh Sengar
- <ssengar@microsoft.com>, "drawat.floss@gmail.com" <drawat.floss@gmail.com>,
- "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] drm/hyperv: Don't overwrite dirt_needed value set by host
-Thread-Topic: [PATCH] drm/hyperv: Don't overwrite dirt_needed value set by host
-Thread-Index: AQHYxrzuab2WaEtpTkGefKGEEbz+BK3sHEIg
-Date: Thu, 22 Sep 2022 22:46:13 +0000
-Message-ID: <BYAPR21MB1688F42554CEB542E760F3B5D74E9@BYAPR21MB1688.namprd21.prod.outlook.com>
-References: <1662996766-19304-1-git-send-email-ssengar@linux.microsoft.com>
-In-Reply-To: <1662996766-19304-1-git-send-email-ssengar@linux.microsoft.com>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.18; Thu, 22 Sep
+ 2022 23:10:09 +0000
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::204a:de22:b651:f86d]) by DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::204a:de22:b651:f86d%6]) with mapi id 15.20.5654.014; Thu, 22 Sep 2022
+ 23:10:08 +0000
+From: Sean Anderson <sean.anderson@seco.com>
+Subject: Re: [BUG] ls1046a: eDMA does not transfer data from I2C
+To: Leo Li <leoyang.li@nxp.com>, Robin Murphy <robin.murphy@arm.com>,
+ Oleksij Rempel <linux@rempel-privat.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Vinod Koul <vkoul@kernel.org>,
+ "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ Laurentiu Tudor <laurentiu.tudor@nxp.com>
+References: <38974aab-06d0-f5ff-d359-5eedd2f3bb3e@seco.com>
+ <5ef51421-e6b0-edd5-6b6e-439b47b794a8@arm.com>
+ <9b20569d-7855-0031-3552-090ff7880cec@seco.com>
+ <afc8b784-25bc-5c52-7377-ea901a908ca8@seco.com>
+ <50a63241-1ee3-e0c5-1faa-2f2734774874@seco.com>
+ <DBBPR04MB629834F56595A84723E4031F8F4C9@DBBPR04MB6298.eurprd04.prod.outlook.com>
+ <c96c620d-a8a7-2aa6-452e-65e3e1fe79ab@seco.com>
+Message-ID: <29a09f45-24f9-68be-bdc2-8691af41b5db@seco.com>
+Date: Thu, 22 Sep 2022 19:10:03 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <c96c620d-a8a7-2aa6-452e-65e3e1fe79ab@seco.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=2cf5fe52-d0b9-4cef-ba0f-c6b727250160;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-09-22T22:44:26Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR21MB1688:EE_|PH0PR21MB2062:EE_
-x-ms-office365-filtering-correlation-id: efcfbc1f-ffe1-46ab-cff4-08da9cec40d7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: u9+8G1NkrfI9IQQNUbretSnnt3/QjB17xyINgp3nfQdRUCv5RpZmOPW+LvnarPBRn6Y1y3L1/OO8epG/29XJutXT+4TcYy1yCXfjsYTzq1Wc4CrrJUzAvBHSB7vcDLG04icJhE+glfQAoIzWXBjXbQhWe4pra/8UhzSJja5BZCHsyzOLj/Pk5YWDc7ZCaW0TNvaLH7KskhtGvJpnDRb5+q8F/kLkWm5/4As9R5fkeleZWQPWNC5n5bbyxA95CFMNcHeqPSn3Ue1rEkHxTx3xnly7cWAU8kA4+z9Ip16wODlhjvXZhvV6jEu/qFlGLeoCnkrx8I8kOrW9TIMtcExc5QlaKU0Q5WxsTLnoQ9Ufddq+dyhuIKqPIlTHam/s8Bu/EH8nydYzNQWbo11pmuq/VsndDY9L0dmKb8riOSHKApZKpg4UHCA5CC3GO7qFjE01343iBRDwy7J2RnEs8IxsUCCaxSaVMsw7x3deVT4nr5drXZmEbhQ8wiUhms3eUG1+tFC8kNl8WOgUlEOR/hoaqVDXG4YcLOxkwdIpwUwbjhH9eRg7QotgKvTgsPtxyoivzEHcJ3ixt6ISk7GQD+AcaSR4OD0oSIp+3OUP68G25zWIy12zsGH6Ebw1So2uYpTTrk3p2CUJFibfRj32buYo0iwsa56iqUW7qwDVmpwptSqM8FTzrimKooxOJRKrdn8jHaMesBJhuEUGgKlHsBjJ023jiLSOHN4lXUi13p8os/XXY2bAAGh1nUio6nvr8cF42mc3CcU3rj5krHEzL5xHNDX2T/rKa9tCp1JwKLEkwff8vHvfAZGI3dtks9ccuNcU
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR21MB1688.namprd21.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(346002)(396003)(39860400002)(136003)(376002)(451199015)(8990500004)(5660300002)(8676002)(2906002)(41300700001)(71200400001)(33656002)(6506007)(26005)(7696005)(38100700002)(66476007)(9686003)(64756008)(66556008)(66446008)(66946007)(76116006)(8936002)(52536014)(86362001)(316002)(10290500003)(38070700005)(110136005)(478600001)(82960400001)(82950400001)(55016003)(122000001)(186003)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ODg912/8dsCA2XdB23dg6BpwH9a58vzCAwNKSlAUsLhXy005evTgfM+rYrFy?=
- =?us-ascii?Q?H7+zSdTH+ocblJLnsNha5RULIyvgKyhu4Jtkc6vj50KDlBpEc6CsqGUkWy6v?=
- =?us-ascii?Q?5dwt0u2C8/MmteGtu6Ie+SJ0vR/ZZpOHrg1sNhpQ37IkSlg2Tjh3R+wKrTa1?=
- =?us-ascii?Q?MX5q7GQff86JRMvObRrUQhBtQQdhDJxZq08QJYzwrw6gpKS+esU393JMza78?=
- =?us-ascii?Q?GQG8xNAApxLZXHu1TNadhvfGjskT229J8qWHBUWzq8WxXa1RBRTKwzLQisnV?=
- =?us-ascii?Q?TCTj9pN7yylXh6rmWZUF/cIeG+IdXwm8ifJhsKNCgMOcFaZQ+QKqzY+64KfK?=
- =?us-ascii?Q?g9FqLz6Bmj8lA2hVkP+qMpYGydIE1KOsjZZTxacPZKD449n+n4rA/5dpbGJV?=
- =?us-ascii?Q?G8KF4IoLrOvWe2M7nvKJxgBVLW69CcQD7fHUDjVdnAeVPcx+7aycd3dfbzJH?=
- =?us-ascii?Q?Ae5Neh/0U8LKrpaLAPR6hMtCJN/QPUmcIpa1gCg9eIne3AIZa3H9GbdlkdR/?=
- =?us-ascii?Q?IcamSi90XmYg7S5Me30FihRAdIKt5XChVO9Hvnx8LuIbQx+asoTUpeItF+ha?=
- =?us-ascii?Q?VZsrhSXR9pSEH18N1WcTGXZIHoog/Cs64E3Qdzb0MvSVFTaMFPKh8AmKqKJn?=
- =?us-ascii?Q?pbuz+VliTNiD5xcXNDyxOWBMZuZs+GBHi7zpLLea5FC1Pz1T07WfcVmbkzHF?=
- =?us-ascii?Q?tUMnnGnPU7qyAV++pmr0254U7FC0DhuZV7DlfHK7MLbvFI9OMLefFV+e7Dtl?=
- =?us-ascii?Q?yrRq2SfJVofRHLJVTGnfblEPqWIiYrZ29AVjcuN4CgJde90uu98xusQTuhg3?=
- =?us-ascii?Q?fE3LHujrKpPsWpAadve86CjEK6YM75cHoCGsJ4YRkDpPQpanxezy1KYdYJlM?=
- =?us-ascii?Q?zCJdyjnpjN8RrPsV4z0mgqseUTDKrBZCY2sR0X+AnnAemtCgijHmJ88vxFr4?=
- =?us-ascii?Q?smi950I2kWXlUtxFOgB2gIIon9yBtrAyVoMGR3F3I4egbDEnyCJUH3VBK1jq?=
- =?us-ascii?Q?18lNWMNPtPYMMzBFgqU0OsuJQybZZUyM9aA5dyH9Ox4QsbKQOYgwG8vHl+Ss?=
- =?us-ascii?Q?QF2ZwGsDC5P1ZhTPQNzRWmvjZT2MtGnlC3PxR/BE2HrcS//cPiD/U3SG0r84?=
- =?us-ascii?Q?OTMYLLNpGTA3N/A0vaCW6ajl+YOlviGLxOck1LWon15g6N/Z4rDAqAvgM2YH?=
- =?us-ascii?Q?Gktp/XKb4bExqpR+yJIschIDqD5CTtjXV7/P7Lyo739mJWU1l2ReMoXJqaVX?=
- =?us-ascii?Q?P0srnIppyDoudgFeiwRvh+GpOOKtMfG2VZO25Th8lFtoUwClg2C2XcVcYI7b?=
- =?us-ascii?Q?RxKZRN9iDIDcbAeaq1KA37qSWOaKjEZ25y/gpMofQ+caBjAYEuuj9nonz0rv?=
- =?us-ascii?Q?jVkqYkJVD1q7WHv3BwklTGrCwyjnIUGgAUL/P6SGJRqbMiYSJvfAL5ODfA6E?=
- =?us-ascii?Q?MCWGvG6UApfJs2xCMvZMaKzQEWYfPuO3/p+vwmgmhLYpAsNoX7zPtH+7AW62?=
- =?us-ascii?Q?ADKjMQnKfzkzu/cH/OhuEXe2SwPZXM4MoEvRSo9Ri+tPDTleBCM3lC4stUHG?=
- =?us-ascii?Q?P331l+kdcR7+boG1N9RQKBAiKmbiokSDx8hvIOa3SX3Nz4By+hnWJCnFRLHA?=
- =?us-ascii?Q?ww=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0220.namprd13.prod.outlook.com
+ (2603:10b6:208:2bf::15) To DB7PR03MB4972.eurprd03.prod.outlook.com
+ (2603:10a6:10:7d::22)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB7PR03MB4972:EE_|DB8PR03MB6252:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53b83159-bae1-4d3b-9d7f-08da9cef97eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cSwWCVNWSa1I7aH1BKyG83Qk8RlXBRUzFGJNFwXxJJ59qVx5pvkqa+hohlcpEtJ4VjV9f/gRFUrvY0N0F6AzxaAy4G5RggIzMG1pL4//UipVbOgB4JG3wRHMd/AL4TBj2MMkxIqEpkQemcHStJz/CDRGFWfnYj8fEbc7y/LWzor5/rW5Oekcc2nn1cF/0I64ev6D0T2Igl6bcQblb5KGFCPQqRPrYpuMuQFryUCmBbd2fHI3qXKET1Jr+Ks9vkizCPVU7hVzb9VqIadaWtJ/2EzGHZ6A4JIq0fDFEkdfJ8LmxjvN5yrCKYFoeZzxuZ4RyNI6ohY5u2z2sTBe1bwYwAbh9xcJdFTAvzlCagF+6ZqxJ+aXZh01aYh4LzEwZuslawnQ0gD+IJZfyfyV5tueNiOvbHVBzz1rVvEgZX+5ffplYAs8Y2WOMEKoRe4xPw6Z4utuznSkLyjVXABCaOfX+FEBVCaX/lJgC1N71caijJVWY0lXQtjZctvg29bJDcsbLVMXYZgZgYTpiNSsVMFrf0h4Td1M1SFtuYwxsDoC18uMQdEhe5lZ3xuZMhUJP/xNrHcqS9O6g24eBnYXTbqL3M3wqrFc4o50Sukf1v+aUI9yPDZd8CLaYjvZ2DhbUIt8JizdWHbK8GDFnFp9C6SUf07DXLiIEdxkJ72pU3Ib9tFSeArybSPeg/EgQ347FT3TbsLvJKfYXJu2qi33bwYUtBD5PhidSko0vNsdWBeNz9lSqOioZIjv6YmX8EEeMnwEvBXGVZGEk8u9qsa7bCd0s0r/vKPkKWunevgrrBhxTEqcl5+aYNBriPe6IWE1if1hCxep5q5+/kCK8doN+BaRyNdjUwEQHNidJZQdadFrKFaR3skKUOwFVTYcJTuO2zRn
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB7PR03MB4972.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(366004)(396003)(376002)(39850400004)(136003)(346002)(451199015)(44832011)(38100700002)(5660300002)(38350700002)(7416002)(8936002)(83380400001)(54906003)(2906002)(186003)(4326008)(8676002)(6666004)(53546011)(52116002)(478600001)(2616005)(966005)(36756003)(6486002)(26005)(6512007)(110136005)(66574015)(66946007)(66476007)(66556008)(31686004)(41300700001)(86362001)(6506007)(316002)(31696002)(43740500002)(45980500001)(505234007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZG5QWkpoWGlVUDJ2VGJlOXhNbGFucEFaeEQ5NmFlZ0pRMnFsYTlwbTdNVUJz?=
+ =?utf-8?B?emJNYUxmclVuZVV6dXl4VmRpekx2QXNNUVFneFZmdWgrdWhlOWQyK0YyMWR6?=
+ =?utf-8?B?UnQ5WUtRSHYwcmxEaTVVOExGcnJQbVlHNUZOUGlLQ3NWVjhGQk0wVWpkaW81?=
+ =?utf-8?B?NThIaHQzV000b0xiT1REeGlNL0lLOUpES2dhMUZKTlh5Vy95d2xTeFYrejN0?=
+ =?utf-8?B?NTVjNlI0RlJMRHU2ZGZsNlc4cnhSeWxQNGZpME91UzlyNTJqRUxFd2dUb1cw?=
+ =?utf-8?B?Z2NUVjVZQkdnZExLcWkxRFp3aWpwNEM3eWxWcjVuSkxwWW1ndVpPdVZ4Qzcv?=
+ =?utf-8?B?S2doVWZVUUtJbmpmZ2xBMHluTmVycm44anhaMHNMWE5XSVkxeCtKQzFuYy9Z?=
+ =?utf-8?B?YXlFWWY3dmtDUHhROTJ4QjVNdzVOOUJ1MkZnMWhNbGJoWDhWSFBYb0dXbFA5?=
+ =?utf-8?B?RlNUWE9rWkpWdzBZcFErTGt4cnJNVnNXU0Q5THpHLzBaTWQzVnlmTFZRRFI3?=
+ =?utf-8?B?aWJEU2JZbWM2MkNDWVU3NDlVeTVwemZnNGhBT1oxdU1rVWw3aW52dmM5M3J6?=
+ =?utf-8?B?aEUyM2FoOWJ3VTlqQk9Hd3VCeXRocHpYbnpseVJyWWQ1NElHU3NwQ2d5UWxu?=
+ =?utf-8?B?c3hNVkc2bmpHK1o5WVYrWVRnWDh6RU8yT243S08wbWdSOGw4T2dvT2N3UXZ2?=
+ =?utf-8?B?ZDMzcmVlUG9FNUFUQnp3WkpPQUFQdlJ4aDZrZkkyRFZsRlBJVkJYMjM4WlpB?=
+ =?utf-8?B?bjFWbyt0bTlvU2YrM0dPcHZSR3drNndUWEdQT084NW9manIzMjBydlpTQ1Rm?=
+ =?utf-8?B?aUxrdWluMXBzc0tkczJWZ0Zwc3NmRXRhOEtXSTNwL0hYZTdLTHZtMHRZK3I3?=
+ =?utf-8?B?NzUyYWhRMWgrWWg5SWhnRW9Ld21YMncrSDQrL05Bb2VqSVpXSHNjSHVQSENk?=
+ =?utf-8?B?Z0txZ3dLNnIvL25YRDE5clJmME4vU09KMnhFRW93ZXEvc1VkbmFYYStpenE4?=
+ =?utf-8?B?TzJMV21QRzJQVm80d1pxenY3aXN5YWdNdi9ROGhteHhpZklPSHpMWTRTc3pT?=
+ =?utf-8?B?RGpaTFh2YjQzMlR1Q1NNbUtxcEx6SzlyNjNMOGlLZmFXUzN2QUZaYUdDVlZZ?=
+ =?utf-8?B?K0tUWHU3NHA4d2Jid1dYN2JkbHBHSG1hMzFRK3lNVnRxTER4QjhZakVkREkz?=
+ =?utf-8?B?QjRjOVJqZDdEdnZBc2VvUEFpNC9EWWxiU1RCZEFvMVpCdloyZGpMVmFTR0xw?=
+ =?utf-8?B?SUdPNk9aVTFpUmJOSHdmTE5aZitnZzV4QzNmazY1TXlucWxlR0JteG1JNXcw?=
+ =?utf-8?B?bG85UzdlUmdhOG13TkxseHNNYVZmQ0FOSjZFcFpKcnllekJRTHl2dE4yWGtL?=
+ =?utf-8?B?a1liek4rUWVJQUQ3dTNsZDZMZXVJMTBEbnhvaXBZeWJOenRSTTZIak11ZU1O?=
+ =?utf-8?B?NVhvWExYcGZOay9PVzcyT2VldmZxRXRmWmxDNXlOYjhBTGhmWUliQTZtVW5D?=
+ =?utf-8?B?aDBMNHI0M1ZlSG05UGN1bGtyc1RxZm9KZjF3cWlNcWYrT1M1V3BEbWh0MzZl?=
+ =?utf-8?B?RDJhcjMvTGlMM0NFNFBUS005dzRzcm92eGZ4am9VaU1aOS9zUmN0Y1hFYm5F?=
+ =?utf-8?B?UXN4ZlJHakxmREY0MDduZldhb0JFV3Q3VCswTzZoRjg5THJKbjB0ZjZzWkEr?=
+ =?utf-8?B?N3p3dzFxNlJWSEJtT3hOb051dWxWdFlkMUhXOGpaWDVmcEp1dWVndHpITW44?=
+ =?utf-8?B?bzQyZlUxc05uRWdZMDk4MW1LUDVBTWZ5MWJWSG5iTE5KU1NweVlKOEtYdm0x?=
+ =?utf-8?B?bDViOU5hbUVMTHF3T0dwSm1wWGVmbXIrSU9XbGZZV1A4V0tVUjFPSkJvREdh?=
+ =?utf-8?B?QmpoTUsvdXlNUjVDSGtXWTQrSUk2RCs5emc1VEdjT3pvcTlHbVUvaUdPRnNT?=
+ =?utf-8?B?TDdxOS9vVVVsb0dXV1cyZGMvNTJTeWdDcVBCdHJyaEZJWXY0OUVtU1lYejZy?=
+ =?utf-8?B?UGU5ZFlVdDJHeHVQaWtPWGdDamFKTGtzM29oMTJSY1hZTDY3bnpSMHlFeWpo?=
+ =?utf-8?B?aW13U2g4T21GVEZzSFFMNFNFV3gxTUpKNTdtck1WZGJucXhLUVlTaStHZS9U?=
+ =?utf-8?B?Qy9sQkJwRi9PejhJYjMvTDcycDVDTWFFTFRpQVNIbTVtMWpzOWs5bU9OcGlG?=
+ =?utf-8?B?cEE9PQ==?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53b83159-bae1-4d3b-9d7f-08da9cef97eb
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1688.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efcfbc1f-ffe1-46ab-cff4-08da9cec40d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2022 22:46:14.0134 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wjtZWWwBag1WieLsgr7AWmAnw0AjOVqLj7xKVh0HFk+mAz4mhEdYNPnv1Ysip+jJpz2Y1VLkmgLJyrYZmGY4s0+lpkwl/fBMYQAQyEMHs2E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR21MB2062
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 23:10:08.7514 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t7JzW0AcLZDdv9pn/ha4FuimPgMNhwvgmw4fGahuIy/vBPtYW38TyxxY8BMnNSVdUEaO6c8PdvQpa1cn657tPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR03MB6252
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,40 +138,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Joy Zou <joy.zou@nxp.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Saurabh Sengar <ssengar@linux.microsoft.com> Sent: Monday, September =
-12, 2022 8:33 AM
->=20
-> Existing code is causing a race condition where dirt_needed value is
-> already set by the host and gets overwritten with default value. Remove
-> this default setting of dirt_needed, to avoid overwriting the value
-> received in the channel callback set by vmbus_open. Removing this
-> setting also means the default value for dirt_needed is changed to false
-> as it's allocated by kzalloc which is similar to legacy hyperv_fb driver.
->=20
-> Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-> ---
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 2 --
->  1 file changed, 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index 4a8941fa0815..57d49a08b37f 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -198,8 +198,6 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
->  	if (ret)
->  		drm_warn(dev, "Failed to update vram location.\n");
->=20
-> -	hv->dirt_needed =3D true;
-> -
->  	ret =3D hyperv_mode_config_init(hv);
->  	if (ret)
->  		goto err_vmbus_close;
-> --
-> 2.31.1
 
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 
+On 9/20/22 7:05 PM, Sean Anderson wrote:
+> 
+> 
+> On 9/20/22 6:49 PM, Leo Li wrote:
+>> 
+>> 
+>>> -----Original Message-----
+>>> From: Sean Anderson <sean.anderson@seco.com>
+>>> Sent: Tuesday, September 20, 2022 11:21 AM
+>>> To: Robin Murphy <robin.murphy@arm.com>; Oleksij Rempel
+>>> <linux@rempel-privat.de>; Pengutronix Kernel Team
+>>> <kernel@pengutronix.de>; linux-i2c@vger.kernel.org; linux-arm-kernel
+>>> <linux-arm-kernel@lists.infradead.org>; Vinod Koul <vkoul@kernel.org>;
+>>> dmaengine@vger.kernel.org; Leo Li <leoyang.li@nxp.com>; Laurentiu Tudor
+>>> <laurentiu.tudor@nxp.com>
+>>> Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>; dri-
+>>> devel@lists.freedesktop.org; Christian König <christian.koenig@amd.com>;
+>>> linaro-mm-sig@lists.linaro.org; Shawn Guo <shawnguo@kernel.org>; Sumit
+>>> Semwal <sumit.semwal@linaro.org>; Joy Zou <joy.zou@nxp.com>; linux-
+>>> media@vger.kernel.org
+>>> Subject: Re: [BUG] ls1046a: eDMA does not transfer data from I2C
+>>> 
+>>> 
+>>> 
+>>> On 9/20/22 11:44 AM, Sean Anderson wrote:
+>>> >
+>>> >
+>>> > On 9/20/22 11:24 AM, Sean Anderson wrote:
+>>> >>
+>>> >>
+>>> >> On 9/20/22 6:07 AM, Robin Murphy wrote:
+>>> >>> On 2022-09-19 23:24, Sean Anderson wrote:
+>>> >>>> Hi all,
+>>> >>>>
+>>> >>>> I discovered a bug in either imx_i2c or fsl-edma on the LS1046A
+>>> >>>> where no data is read in i2c_imx_dma_read except for the last two
+>>> >>>> bytes (which are not read using DMA). This is perhaps best
+>>> >>>> illustrated with the following example:
+>>> >>>>
+>>> >>>> # hexdump -C /sys/bus/nvmem/devices/0-00540/nvmem
+>>> >>>> [  308.914884] i2c i2c-0: ffff000809380000 0x0000000889380000
+>>> 0x00000000f5401000 ffff000075401000
+>>> >>>> [  308.923529] src= 2180004 dst=f5401000 attr=   0 soff=   0 nbytes=1
+>>> slast=       0
+>>> >>>> [  308.923529] citer=  7e biter=  7e doff=   1 dlast_sga=       0
+>>> >>>> [  308.923529] major_int=1 disable_req=1 enable_sg=0 [  308.942113]
+>>> >>>> fsl-edma 2c00000.edma: vchan 000000001b4371fc: txd
+>>> >>>> 00000000d9dd26c5[4]: submitted [  308.974049] fsl-edma
+>>> >>>> 2c00000.edma: txd 00000000d9dd26c5[4]: marked complete [
+>>> >>>> 308.981339] i2c i2c-0: ffff000809380000 = [2e 2e 2f 2e 2e 2f 2e 2e
+>>> >>>> 2f 64 65 76 69 63 65 73 2f 70 6c 61 74 66 6f 72 6d 2f 73 6f 63 2f 32 31 38 30
+>>> 30 30 30 2e 69 32 63 2f 69 32 63 2d 30 2f 30 2d 30 30 35 34 2f 30 2d 30 30 35 34
+>>> 30 00 00] [  309.002226] i2c i2c-0: ffff000075401000 = [2e 2e 2f 2e 2e 2f 2e 2e 2f
+>>> 64 65 76 69 63 65 73 2f 70 6c 61 74 66 6f 72 6d 2f 73 6f 63 2f 32 31 38 30 30 30 30
+>>> 2e 69 32 63 2f 69 32 63 2d 30 2f 30 2d 30 30 35 34 2f 30 2d 30 30 35 34 30 00 00]
+>>> [  309.024649] i2c i2c-0: ffff000809380080 0x0000000889380080
+>>> 0x00000000f5401800 ffff000075401800
+>>> >>>> [  309.033270] src= 2180004 dst=f5401800 attr=   0 soff=   0 nbytes=1
+>>> slast=       0
+>>> >>>> [  309.033270] citer=  7e biter=  7e doff=   1 dlast_sga=       0
+>>> >>>> [  309.033270] major_int=1 disable_req=1 enable_sg=0 [  309.051633]
+>>> >>>> fsl-edma 2c00000.edma: vchan 000000001b4371fc: txd
+>>> >>>> 00000000d9dd26c5[5]: submitted [  309.083526] fsl-edma
+>>> >>>> 2c00000.edma: txd 00000000d9dd26c5[5]: marked complete [
+>>> >>>> 309.090807] i2c i2c-0: ffff000809380080 = [00 00 00 00 00 00 00 00
+>>> >>>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>> >>>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>> >>>> 00 00 00 00 00 00 00 00 00 00 00 00] [  309.111694] i2c i2c-0:
+>>> >>>> ffff000075401800 = [00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>> >>>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>> >>>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>> >>>> 00 00 00 00]
+>>> >>>> 00000000  2e 2e 2f 2e 2e 2f 2e 2e  2f 64 65 76 69 63 65 73
+>>> >>>> |../../../devices|
+>>> >>>> 00000010  2f 70 6c 61 74 66 6f 72  6d 2f 73 6f 63 2f 32 31
+>>> >>>> |/platform/soc/21|
+>>> >>>> 00000020  38 30 30 30 30 2e 69 32  63 2f 69 32 63 2d 30 2f
+>>> >>>> |80000.i2c/i2c-0/|
+>>> >>>> 00000030  30 2d 30 30 35 34 2f 30  2d 30 30 35 34 30 00 00
+>>> >>>> |0-0054/0-00540..|
+>>> >>>> 00000040  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>>> >>>> |................|
+>>> >>>> *
+>>> >>>> 00000070  00 00 00 00 00 00 00 00  00 00 00 00 00 00 ff ff
+>>> >>>> |................|
+>>> >>>> 00000080  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>>> >>>> |................|
+>>> >>>> *
+>>> >>>> 000000f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 ff 5b
+>>> >>>> |...............[|
+>>> >>>> 00000100
+>>> >>>>
+>>> >>>> (patch with my debug prints appended below)
+>>> >>>>
+>>> >>>> Despite the DMA completing successfully, no data was copied into
+>>> >>>> the buffer, leaving the original (now junk) contents. I probed the
+>>> >>>> I2C bus with an oscilloscope, and I verified that the transfer did indeed
+>>> occur.
+>>> >>>> The timing between submission and completion seems reasonable for
+>>> >>>> the bus speed (50 kHz for whatever reason).
+>>> >>>>
+>>> >>>> I had a look over the I2C driver, and nothing looked obviously
+>>> >>>> incorrect. If anyone has ideas on what to try, I'm more than willing.
+>>> >>>
+>>> >>> Is the DMA controller cache-coherent? I see the mainline LS1046A DT
+>>> doesn't have a "dma-coherent" property for it, but the behaviour is entirely
+>>> consistent with that being wrong - dma_map_single() cleans the cache,
+>>> coherent DMA write hits the still-present cache lines, dma_unmap_single()
+>>> invalidates the cache, and boom, the data is gone and you read back the
+>>> previous content of the buffer that was cleaned out to DRAM beforehand.
+>>> >>
+>>> >> I've tried both with and without [1] applied. I also tried removing
+>>> >> the call to dma_unmap_single, but to no effect.
+>>> >
+>>> > Actually, I wasn't updating my device tree like I thought...
+>>> >
+>>> > Turns out I2C works only *without* this patch.
+>>> >
+>>> > So maybe the eDMA is not coherent?
+>>> 
+>>> It seems like this might be the case. From the reference manual:
+>>> 
+>>> > All transactions from eDMA are tagged as snoop configuration if the
+>>> > SCFG_SNPCNFGCR[eDMASNP] bit is set. Refer Snoop Configuration
+>>> Register
+>>> > (SCFG_SNPCNFGCR) for details.
+>>> 
+>>> But there is no such bit in this register on the LS1046A. On the LS1043A, this
+>>> bit does exist, but on the LS1046A it is reserved. I read the register, and
+>>> found the bit was 0. Perhaps eDMA was intended to be coherent, but there
+>>> was a hardware bug?
+>> 
+>> Thanks for the findings.  I don't know the reason why this bit is reserved on LS1046a either.  It should have a similar design as LS1043a.
+> 
+> Funnily enough, this bit is not set for the LS1043A either [1]. So maybe
+> this is a U-Boot bug? I'll test this tomorrow.
+
+OK, this looks like it fixes things. I'll submit a patch to U-Boot. But
+this bit should really be documented in the LS1046A manual as well.
+
+--Sean
+
+> [1] https://source.denx.de/u-boot/u-boot/-/blob/master/arch/arm/cpu/armv8/fsl-layerscape/soc.c#L680
+> 
+>>> 
+>>> If this is the case, then I think dma-coherent should be left out of the top-
+>>> level /soc node. Instead, the qdma, sata, usb, and emmc nodes should have
+>>> dma-coherent added.
+>>> 
+>>> Li/Laurentiu, what are your thoughts?
+>> 
+>> Then looks like it is not correct to say all devices on the bus is coherent.  But as we have the new "dma-noncoherent" property now and most of the devices are actually coherent, we probably can keep the bus as dma-coherent and mark exceptions with dma-noncoherent?
+> 
+> Neat, I didn't know about that.
+> 
+> Yes, that sounds good. For the moment, only i2c0 uses DMA, so we will
+> only need it there. At some point, someone should send a patch enabling
+> it for the rest of the I2C devices, as well as the LPUARTs and SPIs.
