@@ -1,74 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E2B5E6549
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:27:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B195E6546
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 16:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3725710EB7F;
-	Thu, 22 Sep 2022 14:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A6210EB78;
+	Thu, 22 Sep 2022 14:27:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3CE910EB6C;
- Thu, 22 Sep 2022 14:26:52 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 7F6242B05B1F;
- Thu, 22 Sep 2022 10:26:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 22 Sep 2022 10:26:52 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12FAA10EB71;
+ Thu, 22 Sep 2022 14:27:00 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id C6B0C2B05B1D;
+ Thu, 22 Sep 2022 10:26:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 22 Sep 2022 10:26:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1663856809; x=
- 1663864009; bh=2NnjqCO4NMItXEoc0zbBHgLZ+xECh6BN8zUKWTW55Ys=; b=O
- Fur9YXofY21mq8/gyq5m9k34T3BnkOm/lebs2fS/9lQTv9OZ7qJtpPiqUG/i5qSW
- q2UPOYfEr2wAcKPH5kxFHiyvywyaS38jogfrFu/Yzr7fZlwJ/39soTMEVGEsaCd6
- 6pThEloiLC9+9fTlOK08KvQsqgT68CW0uhJKWue45pkGAnq+HPnBlCZlpj6Z1gDz
- kTww85DYX9CrT6JnACTDL0d3ExE2QaFHKsnknm2UIXQgL/HamkG9E2nedNBdHbGY
- fEbtp9vprjVk65lSRw0gWRN0+e0AfEJl+Zu9otf56xlmnzOIaArAKeCY+NXdbAL7
- 59BrLEON2azateYkI/tNw==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1663856816; x=
+ 1663864016; bh=jwz+ufkNT4RwFC1qE/qYHHRxmTxaMQhMtKio8e8RCO4=; b=k
+ WthkSxJGwTqg7B8UZr2QYekK9lNpVbE4mlgOABGJ2KwdF9xlPZ0Nn2sdcmqj1Y1J
+ gxzr401RJvXFiyFySZZge17mhnsAc3vdADTj/F1hcQwcxum20fmcuPWsGNeHR++X
+ 800ftB6re853EZw4l1RNFKfq565umhMN2Vxi5DhzRcjJXVyYIax6/cdt4FikybDJ
+ Zp76t6li/eiwvheS68Qh8TfORgTHE6S/oKtTb0vNkC3FP9vUtE6D+f7S7bD7PLqT
+ h0JTQ/lhOONIWD8hnVBhwSyYRl4k5sAkNgKpv3lSprOW8IbQMFKM8zH997mQAmwB
+ b3HmWuRApnr8DIc2gW1VQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1663856809; x=
- 1663864009; bh=2NnjqCO4NMItXEoc0zbBHgLZ+xECh6BN8zUKWTW55Ys=; b=m
- q59E+H7i2lBNJMivDIRlLGh3hl9lsuqkFmc2YXlPPNy6wgNkQ3IUC+ijgUOkEfXD
- SOlC4HnisJ3BE62GnoH021mV8S6k73OsV6Vg2YXxFIJGHfUO0X5stLjJjfVMHzb1
- WCjLniWIf2BNdZoPeISf4i0JB3zt4qj+DVgepXHI+iWt+fdiUTw0ZKBKa6Hk67JQ
- NUY5NCjWsPkKusIY0fLROVbnxwW2ipm8lUd/n00z8tG0bTcm/ZL6HnC7ah11UIaf
- QvyuoplKNyigAVeqX6hB6Hkp0sIjGYm/2RzGaGmlTsusp3nq7ic5bZl67WIeZiwe
- QUN0Xnl415RGVmqjRv3Jw==
-X-ME-Sender: <xms:qHAsY6YZvi7sGk4TN9koFC6XE2l6q7Z-FkDN3PozE84W06hTEET-4w>
- <xme:qHAsY9Yr-pL1e2rFnAt9xTofZw-82IfEBGdByZoekLNl4NmxN2bWzYVsqYtcKivGG
- Sb-bE6u2SHL2z1M66E>
-X-ME-Received: <xmr:qHAsY09Gj0x-JUtQyGSENOA2cb3-nWKx6iptrd0gbTIugDriGADJVrpZ0Mg>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1663856816; x=
+ 1663864016; bh=jwz+ufkNT4RwFC1qE/qYHHRxmTxaMQhMtKio8e8RCO4=; b=H
+ z9aJWg7FxXEUG6ai7wCGhXtcH2Xfenpj8of/aSOzT9uxVt0gJrmGxxNCaqIecfJ4
+ fd+isDf1c8v+WL9NrcuGGyfzE3RMAUQr9c1Wq5zAlRoW05X+JKIlji6m0FcF0EB9
+ AxdWk+0fOrpfo7reDffuWCUcAbR0Tkhf/P9HKMmoMO+FJv8T2ZRkBuaLI/Pit365
+ mlaFG/D+WKcuUsockm1EjqJXpaVbm2yqXtaFhZSH2J3fZkZlzd3+GQgIT1/CnT0P
+ OkZeMGU2xzIjavmvdyhlvbEA7AmsXXG0/QQIR8Zm/z3d7P4gYJ5lYBKKsWuVak6i
+ mdYWptg0BNWzcjsyU410Q==
+X-ME-Sender: <xms:sHAsYzOCeg0tROaT_j6J3TdFnlCTfRoQztWe8kWJqgdm4FZMIgcaGw>
+ <xme:sHAsY99dHVcIYv7Ql96I5swc5nSnfPXlll8j9EBS0iMImEdWNNEkdmKfm6hqwOr4K
+ Ke5Gi4TRam199Ojy3A>
+X-ME-Received: <xmr:sHAsYySqy1zTWOr2U45OOPkRe5vK7bRnXi29328MGLzGwXtRxv_YEStg4vk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefgedgudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
- jeeltdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ jeeltdevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:qHAsY8pV4-lMfalNqce6-1mUcXDuSFPpwEIwSv7OclRsRnbsswlskQ>
- <xmx:qHAsY1rHWlNlPZKHoFySSgILPGPZYrONgq0GvLQz1FHE0akS_QvEIA>
- <xmx:qHAsY6RZoGAn4o74U40lgvnYSjlfYAyPWhC5P07OAh0effV2s-Angg>
- <xmx:qXAsY4WyHY9vun7PbQ2put0dBdKs3Ng4SogAhvMi4Qx-_0UKFm0QzaqH4zw>
+X-ME-Proxy: <xmx:sHAsY3s1p9NMJuIGkJMuVfHb03s7JkAhTDg-odC44-a2-Id1JsCPyA>
+ <xmx:sHAsY7cL5ottEd0zsapT-4QiPJb5XDgxQ1eXCt0rj_EGbYaItFv1oQ>
+ <xmx:sHAsYz0DFD9W83eDRdT5O4OvuHGkogKtHkjMdWPfIsSzK7UTLRERxw>
+ <xmx:sHAsYypV0nKUydVGyEcsWDEpzFprvzmJGnIi-cEDoFOVWkWe9_J4JzqNq0s>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Sep 2022 10:26:48 -0400 (EDT)
+ 22 Sep 2022 10:26:55 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 22 Sep 2022 16:25:28 +0200
-Subject: [PATCH v2 11/33] drm/modes: Only consider bpp and refresh before
- options
+Date: Thu, 22 Sep 2022 16:25:29 +0200
+Subject: [PATCH v2 12/33] drm/modes: parse_cmdline: Add support for named modes
+ containing dashes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20220728-rpi-analog-tv-properties-v2-11-f733a0ed9f90@cerno.tech>
+Message-Id: <20220728-rpi-analog-tv-properties-v2-12-f733a0ed9f90@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
 In-Reply-To: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -83,11 +83,11 @@ To: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
 X-Mailer: b4 0.10.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1592; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=ehH+i59Vs/OowDE5NFRENhDEDWKHnp2mavFJ4/wcEk8=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk6BQEdq/PX9K6y2R4w8bddEENn17rOqilr9H5FnZWSzXwW
- l1TfUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgIlMa2Jk2HqaR3mjKMvhis2sDY5Ktv
- HPj959KqvW2PH0yBePOpbgJQz/y1xTmidsqzKZWla2cOPyjNP3Vp+rXOH7TsZEPPXbo+3reQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1059; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=Ce7gNsshIO6NX55u/tgmO2tT97mlvVnxqv2Q70Rq8gA=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk6BQGR2f6vTLfOce1Tf/c2YcfK1KDF6yLux0os9nn2V3yN
+ W2NkRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACYSm83wV5z//6Yip8nV7kuKeARWyx
+ dpiOeXHrWP3smlt+da1oxPUowMz8z2PunkvRDE0H7h2rdLvJNlP72a8fxHrNJWm4Wff//UYQEA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,53 +106,33 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some video= options might have a value that contains a dash. However, the
-command line parsing mode considers all dashes as the separator between the
-mode and the bpp count.
+From: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Let's rework the parsing code a bit to only consider a dash as the bpp
-separator if it before a comma, the options separator.
+It is fairly common for named video modes to contain dashes (e.g.
+"tt-mid" on Atari, "dblntsc-ff" on Amiga).  Currently such mode names
+are not recognized, as the dash is considered to be a separator between
+mode name and bpp.
 
-A follow-up patch will add a unit-test for this once such an option is
-introduced.
+Fix this by skipping any dashes that are not followed immediately by a
+digit when looking for the separator.
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 76ab700f56ff..8742ee078fe6 100644
+index 8742ee078fe6..a1964e08c38f 100644
 --- a/drivers/gpu/drm/drm_modes.c
 +++ b/drivers/gpu/drm/drm_modes.c
-@@ -2275,20 +2275,22 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+@@ -2284,6 +2284,8 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
  
- 	name = mode_option;
- 
-+	/* Locate the start of named options */
-+	options_ptr = strchr(name, ',');
-+	if (options_ptr)
-+		options_off = options_ptr - name;
-+	else
-+		options_off = strlen(name);
-+
  	/* Try to locate the bpp and refresh specifiers, if any */
--	bpp_ptr = strchr(name, '-');
-+	bpp_ptr = strnchr(name, options_off, '-');
+ 	bpp_ptr = strnchr(name, options_off, '-');
++	while (bpp_ptr && !isdigit(bpp_ptr[1]))
++		bpp_ptr = strnchr(bpp_ptr + 1, options_off, '-');
  	if (bpp_ptr)
  		bpp_off = bpp_ptr - name;
  
--	refresh_ptr = strchr(name, '@');
-+	refresh_ptr = strnchr(name, options_off, '@');
- 	if (refresh_ptr)
- 		refresh_off = refresh_ptr - name;
- 
--	/* Locate the start of named options */
--	options_ptr = strchr(name, ',');
--	if (options_ptr)
--		options_off = options_ptr - name;
--
- 	/* Locate the end of the name / resolution, and parse it */
- 	if (bpp_ptr) {
- 		mode_end = bpp_off;
 
 -- 
 b4 0.10.0
