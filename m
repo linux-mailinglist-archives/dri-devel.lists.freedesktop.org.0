@@ -1,73 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335325E579F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 02:50:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5855E5867
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 04:11:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8841810EA1C;
-	Thu, 22 Sep 2022 00:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19A8010E0F3;
+	Thu, 22 Sep 2022 02:11:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5F7D10EA1D;
- Thu, 22 Sep 2022 00:49:50 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28LNmFSx005027;
- Thu, 22 Sep 2022 00:49:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=QdoABD93UTh1JVoxckKw2fQKUXrYi04PTjvhk1tQxcg=;
- b=bMMJK+SBX0dJDE1ndc+Wq716Nd8MQKNv8ahOWju4MSswHbZGYQNkq1e1M/Zn1zA56/QW
- z6hYeToNRc2Aqwo9YFHlLv4c/I4p0xP01PWOZFv0CR8jDQnRaEEjPzjVyGvNvAQmcg7w
- CKMSescvRNV3hssEQStE1dsmGh1qsZzmBwESEGagTovUxHO9c5Ubaj9LCFWYadgQ1a0r
- PnfJxhh7lVgVyncUmL1XaWEf1wZGCR+vusZi+W3k0xbnu//YLR8tTxOGmsFUayP35bZj
- pEEbWp0g9z2Rs/dmMV+/m0LlkNsJfaNomp+P71K3oX1lLLQ/Y/DbYFfLIq5N/YnDWDVR MQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jr4ge1r8h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Sep 2022 00:49:45 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28M0njce016531
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Sep 2022 00:49:45 GMT
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Wed, 21 Sep 2022 17:49:44 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/msm/dsi: implement opp table based check for
- dsi_mgr_bridge_mode_valid()
-Date: Wed, 21 Sep 2022 17:49:28 -0700
-Message-ID: <1663807768-23969-2-git-send-email-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1663807768-23969-1-git-send-email-quic_abhinavk@quicinc.com>
-References: <1663807768-23969-1-git-send-email-quic_abhinavk@quicinc.com>
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2055.outbound.protection.outlook.com [40.107.96.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28E1010E0A2;
+ Thu, 22 Sep 2022 02:11:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JrpKtJFv1MGDPQAc/xb8FSTrKmSFZsqad8zLdrwnnIrdu/OR1Dc+WpjS9kzMv8nrsyxqIQ/mggj3qNXKAtUm9WsWkZuLPfHo/nDhSF+8aJw/vf24V50qp5THGLaoC8bNIF+8mAptwxU/DFsrRwa6t6gv0PP5w7birYSnUjPLee98D6vtKvPgzAAaeavb1ECleoqVoK/vj9cFDw//zb3ysoI98bftm5jiPo/dOD/eIQuaQbIUZbohrH/9mIi+ZLiUOptaOhMbDetP/g80sz8cmHtM8ZOgI0O0Cax6NwSZkuDeQDT2qWVj9mkU4iaZp4XS/6T2/NakdRjEupZWRUOisw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QHMT15LZxhIZUie8UncLLPRTGLhw3Qx6F7+kF4zKJZw=;
+ b=m0E0FNC/HxLi+PhuLEPo4U+nQ4XhKt6ruc2U+QjT01eE/GtWdTI1EBNvBW0+ivL5lHojoEzUcDPTBDmaC/iqndhn7AWykmYx+rxkKDm3xQf/dxRo/G4HdlhKmZwbfReKFS7I4aUjw4I/MUUOxgVvWwRflnXrEf6VX6YeFUC7j05gnuPrC5TL1gOBk3pMhtOF5HUOKp1nKmnvc3IkqSkWZiWX62IkVszmmJ3gWFkOCg/h6TPFzLt8dM6D/FpMiS7KhFrVVGbo+GsMP4lPSAfNS+fPbzSgOJrd6loGC/AkGPEnErwTIj38/QWcIvl9BJSyLELk5A2hpSZBo6geoA2FHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QHMT15LZxhIZUie8UncLLPRTGLhw3Qx6F7+kF4zKJZw=;
+ b=k0PSarQKeWgL6EcN9BtIjEE8wckSbnXIXPHpJVl8u8aokqidhGQ8YpAgNrxI+4j5MOPOEpCkdYqndtVi1A/nzX27Kjd3XorDKcV8gzFbiHPjfd3ppneWp4zPIoskgwZSkUUULoBaj2bv/JxW0Ju6SBPUDVMsk02wR4eUrL6ehwQ=
+Received: from DM5PR12MB2469.namprd12.prod.outlook.com (2603:10b6:4:af::38) by
+ BL1PR12MB5729.namprd12.prod.outlook.com (2603:10b6:208:384::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.16; Thu, 22 Sep
+ 2022 02:11:27 +0000
+Received: from DM5PR12MB2469.namprd12.prod.outlook.com
+ ([fe80::78b6:27fc:c590:d2c0]) by DM5PR12MB2469.namprd12.prod.outlook.com
+ ([fe80::78b6:27fc:c590:d2c0%7]) with mapi id 15.20.5654.017; Thu, 22 Sep 2022
+ 02:11:27 +0000
+From: "Chen, Guchun" <Guchun.Chen@amd.com>
+To: Li Zhong <floridsleeves@gmail.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v1] drivers:amdgpu: check the return value of
+ amdgpu_bo_kmap
+Thread-Topic: [PATCH v1] drivers:amdgpu: check the return value of
+ amdgpu_bo_kmap
+Thread-Index: AQHYziKAMtaMF6SWRk2Y7Yh4Qc99X63qtGNw
+Date: Thu, 22 Sep 2022 02:11:27 +0000
+Message-ID: <DM5PR12MB2469A1B22EF0441216E1B40BF14E9@DM5PR12MB2469.namprd12.prod.outlook.com>
+References: <20220922012719.1676315-1-floridsleeves@gmail.com>
+In-Reply-To: <20220922012719.1676315-1-floridsleeves@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM5PR12MB2469:EE_|BL1PR12MB5729:EE_
+x-ms-office365-filtering-correlation-id: 11560900-9036-4db3-1dab-08da9c3fc1f1
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rRR1cIhcXcl0xAs7+xGSWpRn30afscb25pMhqxrIpW7dXOhnUDhlpH6qihTV9JPe5Q12tuLKzCnfeWEIFTt1EfLfSgx3bNpchB2qcRjnbp+A4mY0lwU7NQgbK6KSqFZ8lowCKNaaip0TSQjav7Jc5OAIWVjnsndyVV+uPfZh1K8RTBXlfTBSoeK8HzFqzb7yeN5c2e23uFB13GCc14HaiL4l8s+WMEfqRk/Whcyo8ks7PPfxj+mwuaD6xNIFvREmOiJusU3aMw3X8T5e/o8OIVP69E31E6SrnhIDdEsl9WqzLQ1MRJ9qwzuMnLL85s/VdxTieaZntbayPlDZ7vb0ccA0LxxW44djaZYF+TOhIa1mxIQbZuNCB8lzsofEXw8uA/nezZ/0zEit6oaEUNheQaEQ9TEzHk8U4fvo+WaneJHo0xmne2klHf+Ekskltw+10KzA2t2MNf2MjVL460eXPZTmFPm8LV5ZG1lpKf9o+H+ftdONuTEPDGPuyRSBDqUCHvFys6mbfR9bshUCoqXo2R/0+GPmkZ5vQj29Y8YbrudNQWrL6pgaIbLuJZECIC3+hE3E5VyiBgemt1y3SQoPsDeVhdkcHMOLdHIvIVC6GRttCYIYw3N1BUfvjSS57o9zgWdjyryf4JhIwFi/QFZDilPlL/swCgjcwuQkvtUj2YgJC+PihKdQDs/vi4/XIA0QFVEvnetOFbDReyvAP79wbmdAbavUWE6GxYMZO5eUa0xRdwUVGC1p0MCZh+nZt+FDdFw9OLpzrbdtgA1Z/efl9Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2469.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(346002)(39860400002)(376002)(366004)(396003)(451199015)(55016003)(33656002)(38100700002)(122000001)(86362001)(76116006)(66556008)(54906003)(66476007)(66446008)(64756008)(8676002)(66946007)(41300700001)(4326008)(110136005)(2906002)(38070700005)(316002)(5660300002)(52536014)(8936002)(186003)(83380400001)(478600001)(71200400001)(53546011)(26005)(7696005)(6506007)(9686003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+ZihsZugTkmxS/WFyQ5u/ICWvR4e548/+TU2b9OVubrSHAu173NbWIvHQ1/J?=
+ =?us-ascii?Q?HOGlU9JGC36g0sJwplHG5Oi3iSNiDwEw/bCNa1lSsTZhtaol6xDiEn9iofyE?=
+ =?us-ascii?Q?tP3XKP2OUD9r6ITPn596NAbT/ud2NQbHnawKq8R+hXF2i/eNDBen/12go+tq?=
+ =?us-ascii?Q?NZKrgmneWEAL8wc/Vg1NL7lnw7YlJgmIPDDauTgeRYRVgi9OxVIlE7nXEQtU?=
+ =?us-ascii?Q?l1o5djc+5iakFzrgdQIUcWzwYryNKzmJNgTo/kdf+xox7JGGJzVyQX/YfI/5?=
+ =?us-ascii?Q?30dSrL1XKFnoDaQOckUea1W4fi1TJhILBw2cujrj6FOjy6Df//v5vX8eg0gd?=
+ =?us-ascii?Q?27GHqbteqrfDi1yvkpRtLa+Hy7GAnGSXuatdzAX1uM5FsMuI3Cy3SmA1K8Jz?=
+ =?us-ascii?Q?x0ffasRY3lhx3yXbo4VKQn3SFXlmi+vwgO/VpFBxcWZyJM9ZNCVSFzLypMya?=
+ =?us-ascii?Q?Sk2caV00jfkmonUUFNqvC/D3RevalaSp8lv1Xm6MZflBvPvHD9FKGU8Y55RU?=
+ =?us-ascii?Q?0oB6V7HlKxys2lt1FAfaZy3qm0LPMASx1bi393hqYi7n80jXUDt+90kUmQBL?=
+ =?us-ascii?Q?UZSVeAxweyesSHC6VsPOm4cv4nItx5I87mA0ayC8ldZxLCyUD7DpUuMgEWxK?=
+ =?us-ascii?Q?MTsUo4M1BUCsXgo5f5IsiZEgrxyVzVelG5GxKAk65Ca5EvJtDCqvNm0XqIV+?=
+ =?us-ascii?Q?YLjVIeTZdCyjad14cHSTLOkHZzSveftNYzxEbSKRoYdKZ9kkz/IAybG71/Kg?=
+ =?us-ascii?Q?cPGRZ6cX86VRvouT7fseWOdvSb3VJ9OFE18Xw5xAKTSjGhQJxMDPhWRkJs3X?=
+ =?us-ascii?Q?igYben6h4n1G6bVrfqhbIjqG94azRvSTh4+vFoo3w6Y9ttWbEcWX76MNkt2r?=
+ =?us-ascii?Q?S2KPidVHjP/Tvz4un7XnKmDOG2S10S0KXp7hdydKP5ppQrBZ+KhsjnnZXtgp?=
+ =?us-ascii?Q?53ZsWRo2Lo6HUxKB4vnCJY/YUkTAiKRGJw5r+wNXOZDD1Xq0hLj6KFljjLg0?=
+ =?us-ascii?Q?ncP5d4nU7sd0ZU+bJhOonzY4jv5chzmpBPT40ztX2s3MJYYSaWVTYbhYmDnC?=
+ =?us-ascii?Q?mr6vXVFgiyxT0jaYAmzVPxelTWp1hzAXD5Zby9tMdXXj47eyWAajI6XC5QUV?=
+ =?us-ascii?Q?jm/j/JQnQ4OQO+l8gR5iS1GcS9k4GCKIkG6qSLgLw0W2ORz3jjxUq4z+pMh+?=
+ =?us-ascii?Q?4uX3ljxTOg4QlXHaAnx22igQgGjRXWblVwg9ay5WkcpHHaB0Z4BvrAufbMR7?=
+ =?us-ascii?Q?dm6mPQXMKItgfXpAc7Bmx6/z7+yVBMoI1lJi8o9TIp8j3ZXJby3yPOnhYI9z?=
+ =?us-ascii?Q?0pqdHoTDG1bGiMAryabAeAkewHeGfMJi4NRTz0WrvFRsBjdwXyMa5pMsi6SC?=
+ =?us-ascii?Q?JGmXbUW//8BI6lRwPmGkqSDP1Dk8s7fg9Lof8muvIJnpvXjTyrBsJBLSet/4?=
+ =?us-ascii?Q?F7mcAZoFMn6UKGokSSuxcj2U8K1nON2m8SF7XrvoXec8X+voDytGt3s3mV8A?=
+ =?us-ascii?Q?oblP7wFFkHFpPGJPwbsK+FDgD/4QBS6BTQZue8hV3P28ir+CBUxd1AWJbd+b?=
+ =?us-ascii?Q?BdL5Lf0qzs86bnPpUcL3gIXpIs/dgTqf7whRT+Qv?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: lqfj3OcwOeAVAU4y6kIsNSrCZq1w2XV3
-X-Proofpoint-ORIG-GUID: lqfj3OcwOeAVAU4y6kIsNSrCZq1w2XV3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-21_13,2022-09-20_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 adultscore=0 suspectscore=0
- clxscore=1015 mlxscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209220003
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2469.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11560900-9036-4db3-1dab-08da9c3fc1f1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2022 02:11:27.6398 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JTrkwhP26KCXj2h04eNWIQaNh/7RhynXxiZvLGW8OE+hZzgI/QXAt4L/TP/STNqxM+NLnSv18/tjS/TWJW5/8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5729
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,61 +119,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com
+Cc: "jiapeng.chong@linux.alibaba.com" <jiapeng.chong@linux.alibaba.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, "airlied@linux.ie" <airlied@linux.ie>, "Lazar,
+ Lijo" <Lijo.Lazar@amd.com>, "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+ "Powell, Darren" <Darren.Powell@amd.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Quan, Evan" <Evan.Quan@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently there is no protection against a user trying to set
-an unsupported mode on DSI. Implement a check based on the opp
-table whether the byte clock for the mode can be supported by
-validating whether an opp table entry exists.
+Perhaps you need to update the prefix of patch subject to 'drm/amd/pm: chec=
+k return value ...'.
 
-For devices which have not added opp table support yet, skip
-this check otherwise it will break bootup on those devices.
+With above addressed, it's: Acked-by: Guchun Chen <guchun.chen@amd.com>
 
-Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/15
-Reported-by: Rob Clark <robdclark@gmail.com>
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Regards,
+Guchun
+
+-----Original Message-----
+From: Li Zhong <floridsleeves@gmail.com>=20
+Sent: Thursday, September 22, 2022 9:27 AM
+To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
+Cc: jiapeng.chong@linux.alibaba.com; Powell, Darren <Darren.Powell@amd.com>=
+; Chen, Guchun <Guchun.Chen@amd.com>; Limonciello, Mario <Mario.Limonciello=
+@amd.com>; Quan, Evan <Evan.Quan@amd.com>; Lazar, Lijo <Lijo.Lazar@amd.com>=
+; daniel@ffwll.ch; airlied@linux.ie; Pan, Xinhui <Xinhui.Pan@amd.com>; Koen=
+ig, Christian <Christian.Koenig@amd.com>; Deucher, Alexander <Alexander.Deu=
+cher@amd.com>; Li Zhong <floridsleeves@gmail.com>
+Subject: [PATCH v1] drivers:amdgpu: check the return value of amdgpu_bo_kma=
+p
+
+amdgpu_bo_kmap() returns error when fails to map buffer object. Add the err=
+or check and propagate the error.
+
+Signed-off-by: Li Zhong <floridsleeves@gmail.com>
 ---
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 3a1417397283..87b518c42965 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -450,6 +450,29 @@ static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
- 	int id = dsi_mgr_bridge_get_id(bridge);
- 	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
- 	struct mipi_dsi_host *host = msm_dsi->host;
-+	struct platform_device *pdev = msm_dsi->pdev;
-+	struct dev_pm_opp *opp;
-+	struct opp_table *opp_tbl;
-+	unsigned long byte_clk_rate;
-+
-+	byte_clk_rate = dsi_byte_clk_get_rate(host, IS_BONDED_DSI(), mode);
-+
-+	/*
-+	 * first check if there is an opp table available for the calculated
-+	 * byte clock and then check DSC related info. Some devices have not
-+	 * added support for OPP table. Skip the check for those.
-+	 */
-+	opp_tbl = dev_pm_opp_get_opp_table(&pdev->dev);
-+	if (opp_tbl) {
-+		opp = dev_pm_opp_find_freq_ceil(&pdev->dev, &byte_clk_rate);
-+		if (IS_ERR(opp)) {
-+			pr_err("opp table not found for freq %lu err: %ld\n",
-+					byte_clk_rate, PTR_ERR(opp));
-+			return PTR_ERR(opp);
-+		}
-+		dev_pm_opp_put(opp);
-+		dev_pm_opp_put_opp_table(opp_tbl);
-+	}
- 
- 	return msm_dsi_host_check_dsc(host, mode);
- }
--- 
-2.7.4
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu=
+/drm/amd/pm/powerplay/amd_powerplay.c
+index 1eb4e613b27a..ec055858eb95 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+@@ -1485,6 +1485,7 @@ static int pp_get_prv_buffer_details(void *handle, vo=
+id **addr, size_t *size)  {
+ 	struct pp_hwmgr *hwmgr =3D handle;
+ 	struct amdgpu_device *adev =3D hwmgr->adev;
++	int err;
+=20
+ 	if (!addr || !size)
+ 		return -EINVAL;
+@@ -1492,7 +1493,9 @@ static int pp_get_prv_buffer_details(void *handle, vo=
+id **addr, size_t *size)
+ 	*addr =3D NULL;
+ 	*size =3D 0;
+ 	if (adev->pm.smu_prv_buffer) {
+-		amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
++		err =3D amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
++		if (err)
++			return err;
+ 		*size =3D adev->pm.smu_prv_buffer_size;
+ 	}
+=20
+--
+2.25.1
 
