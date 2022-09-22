@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81A45E68C8
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4A55E69CB
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 19:41:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA00310EA82;
-	Thu, 22 Sep 2022 16:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D52610E26F;
+	Thu, 22 Sep 2022 17:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9226D10EA82;
- Thu, 22 Sep 2022 16:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663865185; x=1695401185;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=pk9k/lnB01bsityjYPeT0Kap6UyKDdhsL5XRgVPhBMA=;
- b=CX79auJtKxLGe0TpJQDCJsXrF+9V64isbLUeFcSuW4IVkRKs7q6bTumO
- DpQKIsADuGosHSriwB03cKv+Y36zuhGIeAZB10niDT+EoHMueZWxcgiTh
- zx8RZOYOVIN739eWXUzaFWRM7XGYwA3a7obuQoLzVb1q4AY2aJ3aTFhNs
- RYCu4G3A0uq7r4Xzuiqn8Wux2qWygBUzzFwKS3+dARGC914/yKXupR2FC
- YIDEd8HIyukQITM/ml1Dn4FGP23e6PtsQb+dCH0fY2e86QyQZaNXTpUWo
- aCb85Nh2xeVS1UaIrB17HVY1iCIPQVu866UthFYBRt4zY4oFhGw2Hv7QU Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="364340470"
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="364340470"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 09:46:24 -0700
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="948668594"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 09:46:24 -0700
-Date: Thu, 22 Sep 2022 09:46:03 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [Intel-gfx] [RFC v4 03/14] drm/i915/vm_bind: Expose
- i915_gem_object_max_page_size()
-Message-ID: <20220922164601.GH28263@nvishwa1-DESK>
-References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
- <20220921070945.27764-4-niranjana.vishwanathapura@intel.com>
- <578445bc-d804-3f1d-a32d-51cac9460351@linux.intel.com>
- <20220921180040.GD28263@nvishwa1-DESK>
- <e02e34ef-0dca-d61d-e5c4-a6f002baf434@linux.intel.com>
- <1072ee80-13fb-dc72-5416-c7fdded3c80c@intel.com>
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
+ [IPv6:2607:f8b0:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B93B10E074
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 17:41:19 +0000 (UTC)
+Received: by mail-il1-x12c.google.com with SMTP id y15so5276674ilq.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 10:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=AsxpWsr5dzcIncNfx/+Sw1HyEwfMiBKVAKBEW7wNeQA=;
+ b=HG1BCa9aD7EruuXSP8vfBpl2xSAcB9NgvDE4n3t4WegezK8iPhrhfTbs3Xxfdxp/aP
+ 0j4XfOQ90rYJJLxvR5Fxutq+CKSR+3NwG5g3gHNWC0rGeSJkCPwM1qeiyt5MoX9kie1E
+ Ogc+09wvN660uSYqTrtW/DY7BHEKikOuBqjuMNkdFuICid58Qmi9sfyROy/V1LgkIpE7
+ e2Nv1gEo4Vp0GQpWl3bRqM1059jceqcIcZbW6os/ZnPJ8J1PnWKNgSi8e2+WYP/WJpYk
+ +8abyMsCFGIX1fgDuD8Pv5kCGUDjVFxUFNtnD5auEWqa0LNmLWv9bnrrUipYT443cCtB
+ +LNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=AsxpWsr5dzcIncNfx/+Sw1HyEwfMiBKVAKBEW7wNeQA=;
+ b=Gpc3yoR56yyD+g8bmSC0XwPTSxwRsWjHr4ytH48Uf6dbgRMuOvMKTKH00Z0JgJ4B4d
+ dJFmRyN8vt3hoRHCtTKaED21QXLkJ8ewHqfgbSuG365GHrvSar7nwHJYoXBaciPKXy1K
+ /hJEdv9uaVSThL1QlBa0qTLXrMmlYV6TEdYyRVx6/nya3aPbR13nHBzFCrQ5Zh/Pgt+m
+ sD6Uunxu1lVaNDE85hqlcRs3a8I/Sn3bcGTawQHsWFVXr6IoU8embjBExXoKavq3pgEp
+ IykCQ6An+wVxHmZYT9gSGw9kvaJcQF7Y7CFTYiyAd8u1ME7jOzxVBhjia1UhfKN3ee5j
+ 6S7g==
+X-Gm-Message-State: ACrzQf2SuKfht2q9YiZB8L77yl2sH5Y+gbrRQqaoJyPXrn8BF/a2y795
+ tEiIw4kxsfks26ZnW5GDMr9ROBwkE8I+A69J3Nk=
+X-Google-Smtp-Source: AMsMyM5Iawxjt3SoOGTNllk8NVk3tyvcsl1U/lS7sz1j/GB7JoPgBuMEGvT0T6zJ1tbupUccXP7nLvzrv1dgRwQijjQ=
+X-Received: by 2002:a05:6e02:152a:b0:2f6:58ae:ff0c with SMTP id
+ i10-20020a056e02152a00b002f658aeff0cmr2429401ilu.237.1663868478589; Thu, 22
+ Sep 2022 10:41:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1072ee80-13fb-dc72-5416-c7fdded3c80c@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20220922031013.2150682-1-keescook@chromium.org>
+ <20220922031013.2150682-12-keescook@chromium.org>
+ <CANiq72=m9VngFH9jE3s0RV7MpjX0a=ekJN4pZwcDksBkSRR_1w@mail.gmail.com>
+ <202209220855.B8DA16E@keescook>
+In-Reply-To: <202209220855.B8DA16E@keescook>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 22 Sep 2022 19:41:07 +0200
+Message-ID: <CANiq72=unhDJOGTg+ja4UdVRp8sG7Wc+_rqQhvJideA=WNjbFA@mail.gmail.com>
+Subject: Re: [PATCH 11/12] slab: Remove __malloc attribute from realloc
+ functions
+To: Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,143 +67,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, paulo.r.zanoni@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- thomas.hellstrom@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: Feng Tang <feng.tang@intel.com>, linux-wireless@vger.kernel.org,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
+ linaro-mm-sig@lists.linaro.org, Jakub Kicinski <kuba@kernel.org>,
+ David Sterba <dsterba@suse.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@suse.cz>, Hao Luo <haoluo@google.com>,
+ Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Pekka Enberg <penberg@kernel.org>,
+ Daniel Micay <danielmicay@gmail.com>, netdev@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 22, 2022 at 05:18:28PM +0100, Matthew Auld wrote:
->On 22/09/2022 09:09, Tvrtko Ursulin wrote:
->>
->>On 21/09/2022 19:00, Niranjana Vishwanathapura wrote:
->>>On Wed, Sep 21, 2022 at 10:13:12AM +0100, Tvrtko Ursulin wrote:
->>>>
->>>>On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
->>>>>Expose i915_gem_object_max_page_size() function non-static
->>>>>which will be used by the vm_bind feature.
->>>>>
->>>>>Signed-off-by: Niranjana Vishwanathapura 
->>>>><niranjana.vishwanathapura@intel.com>
->>>>>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>>>>---
->>>>> drivers/gpu/drm/i915/gem/i915_gem_create.c | 20 +++++++++++++++-----
->>>>> drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
->>>>> 2 files changed, 17 insertions(+), 5 deletions(-)
->>>>>
->>>>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c 
->>>>>b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>>>>index 33673fe7ee0a..3b3ab4abb0a3 100644
->>>>>--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>>>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>>>>@@ -11,14 +11,24 @@
->>>>> #include "pxp/intel_pxp.h"
->>>>> #include "i915_drv.h"
->>>>>+#include "i915_gem_context.h"
->>>>
->>>>I can't spot that you are adding any code which would need this? 
->>>>I915_GTT_PAGE_SIZE_4K? It is in intel_gtt.h.
->>>
->>>This include should have been added in a later patch for calling
->>>i915_gem_vm_lookup(). But got added here while patch refactoring.
->>>Will fix.
->>>
->>>>
->>>>> #include "i915_gem_create.h"
->>>>> #include "i915_trace.h"
->>>>> #include "i915_user_extensions.h"
->>>>>-static u32 object_max_page_size(struct intel_memory_region 
->>>>>**placements,
->>>>>-                unsigned int n_placements)
->>>>>+/**
->>>>>+ * i915_gem_object_max_page_size() - max of min_page_size of 
->>>>>the regions
->>>>>+ * @placements:  list of regions
->>>>>+ * @n_placements: number of the placements
->>>>>+ *
->>>>>+ * Calculates the max of the min_page_size of a list of 
->>>>>placements passed in.
->>>>>+ *
->>>>>+ * Return: max of the min_page_size
->>>>>+ */
->>>>>+u32 i915_gem_object_max_page_size(struct intel_memory_region 
->>>>>**placements,
->>>>>+                  unsigned int n_placements)
->>>>> {
->>>>>-    u32 max_page_size = 0;
->>>>>+    u32 max_page_size = I915_GTT_PAGE_SIZE_4K;
->>>>>     int i;
->>>>>     for (i = 0; i < n_placements; i++) {
->>>>>@@ -28,7 +38,6 @@ static u32 object_max_page_size(struct 
->>>>>intel_memory_region **placements,
->>>>>         max_page_size = max_t(u32, max_page_size, mr->min_page_size);
->>>>>     }
->>>>>-    GEM_BUG_ON(!max_page_size);
->>>>>     return max_page_size;
->>>>> }
->>>>>@@ -99,7 +108,8 @@ __i915_gem_object_create_user_ext(struct 
->>>>>drm_i915_private *i915, u64 size,
->>>>>     i915_gem_flush_free_objects(i915);
->>>>>-    size = round_up(size, object_max_page_size(placements, 
->>>>>n_placements));
->>>>>+    size = round_up(size, i915_gem_object_max_page_size(placements,
->>>>>+                                n_placements));
->>>>>     if (size == 0)
->>>>>         return ERR_PTR(-EINVAL);
->>>>
->>>>Because of the changes above this path is now unreachable. I 
->>>>suppose it was meant to tell the user "you have supplied no 
->>>>placements"? But then GEM_BUG_ON (which you remove) used to be 
->>>>wrong.
->>>>
->>>
->>>Yah, looks like an existing problem. May be this "size == 0" check
->>>should have been made before we do the round_up()? ie., check 
->>>input 'size'
->>>paramter is not 0?
->>>I think for now, I will remove this check as it was unreachable anyhow.
->>
->>Hm that's true as well. i915_gem_create_ext_ioctl ensures at least 
->>one placement and internal callers do as well.
->>
->>To be safe, instead of removing maybe move to before "size = " and 
->>change to "if (GEM_WARN_ON(n_placements == 0))"? Not sure.. Matt any 
->>thoughts here given the changes in this patch?
+On Thu, Sep 22, 2022 at 5:56 PM Kees Cook <keescook@chromium.org> wrote:
 >
->The check is also to reject a zero sized object with args->size = 0, 
->i.e round_up(0, PAGE_SIZE) == 0. So for sure that is still needed 
->here.
+> I wasn't sure if this "composite macro" was sane there, especially since
+> it would be using __malloc before it was defined, etc. Would you prefer
+> I move it?
 
-Thanks Matt.
-Yah, we could check for "size == 0" before we round_up, but doing it
-after like here should be just fine. Will keep it as is.
+Hmm... On one hand, they end up being attributes, so it could make
+sense to have them there (after all, the big advantage of that header
+is that there is no `#ifdef` nest like in others, and that it is only
+for attributes).
 
-Niranjana
+On the other hand, you are right that the file so far is intended to
+be as simple as possible (`__always_inline` having an extra `inline`
+and `fallthrough` would be closest outliers), so if we do it, I would
+prefer to do so in an independent series that carries its own rationale.
 
->
->>
->>Regards,
->>
->>Tvrtko
->>
->>>
->>>Niranjana
->>>
->>>>Regards,
->>>>
->>>>Tvrtko
->>>>
->>>>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h 
->>>>>b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>index 7317d4102955..8c97bddad921 100644
->>>>>--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>@@ -47,6 +47,8 @@ static inline bool 
->>>>>i915_gem_object_size_2big(u64 size)
->>>>> }
->>>>> void i915_gem_init__objects(struct drm_i915_private *i915);
->>>>>+u32 i915_gem_object_max_page_size(struct intel_memory_region 
->>>>>**placements,
->>>>>+                  unsigned int n_placements);
->>>>> void i915_objects_module_exit(void);
->>>>> int i915_objects_module_init(void);
+So I would leave the patch as it is here.
+
+Cheers,
+Miguel
