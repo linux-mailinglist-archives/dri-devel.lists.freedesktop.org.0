@@ -2,65 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A12D5E63FA
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 15:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAAA45E646C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 15:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 793AD10E367;
-	Thu, 22 Sep 2022 13:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5BFC10EB29;
+	Thu, 22 Sep 2022 13:57:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7304D10E36A
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 13:45:23 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id g2so6187762qkk.1
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 06:45:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ieee.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=lTLxj593wgb0rSkyx/kVpkcZN0XitEmW0vMjErWHotA=;
- b=FyJaKv2cOaRg6P7yvu8zs1jVRm/8RMTbc6dfECJ+ZO5o/HmyZWXx30/9G58nVbrc5b
- uilHyUda0dD/kYG1qtguthEwDaL9y8JeP+HPCBHfMWclRlKZoOK/NXZxzGUfoaxervvy
- D0TcePhLr6rEHe3E5Hlf5A5QN/T9th71F+ymU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=lTLxj593wgb0rSkyx/kVpkcZN0XitEmW0vMjErWHotA=;
- b=1QbBbeZ35D3iACKmWB6oF/FoYSHHX3RyhxRTwdWDbaE2rsV8wkIrtbG99rAmkyqhxm
- lwsmwdQDomCq4sCrdce2ijWI0Q63TVl7Do3GKf4+0LdJ8hbJ/SEniMi35spj4UbG9fCh
- FO41kygT8hzjwtxPjYNtqJcNvAWv5O/f3Yc3FrwFnUhFK1cpqlDRlgpa2r2Z8D8l0oa0
- n6I5rfVpwMWJ9yrAycFaY1NpFKXUXIRSuGZN4nPTzeXEMgECh4mbxgNloHyo5z4IS0hb
- xZYao1Gy4VQmCsvT33RQ8MRmiG8RDi5uM68mkxKMQDXqOiWgV2fCRuLLfa82HOHeUF0H
- rQow==
-X-Gm-Message-State: ACrzQf3N5AZxLjBa7ydZIskaqHPe80z0HdhTtQIT0ruAYJrBXG5Tah52
- Y5nP/spSxNrnotUmNd3i/5ITzw==
-X-Google-Smtp-Source: AMsMyM6DBqbYqDsHBnddfGDZuwycGpoIY7LinhBIG4+l+K0bdEu/uf1UKptO3KnL1trAn9LU6bZY/Q==
-X-Received: by 2002:a05:620a:f15:b0:6cf:2130:88e3 with SMTP id
- v21-20020a05620a0f1500b006cf213088e3mr2093263qkl.519.1663854322211; 
- Thu, 22 Sep 2022 06:45:22 -0700 (PDT)
-Received: from [172.22.22.4] ([98.61.227.136])
- by smtp.googlemail.com with ESMTPSA id
- w7-20020ac857c7000000b0035bbb6268e2sm3902332qta.67.2022.09.22.06.45.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 06:45:21 -0700 (PDT)
-Message-ID: <4d75a9fd-1b94-7208-9de8-5a0102223e68@ieee.org>
-Date: Thu, 22 Sep 2022 08:45:19 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE7B810E37F;
+ Thu, 22 Sep 2022 13:56:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663855019; x=1695391019;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=n9v7jhqzVglFOlhIKu0oZoDqXBjAh+k21zLXX4NdBwk=;
+ b=NY+ro4Pk86ZvaUcY823muC1qAjFH7rfO4NYo+dRbZ53TlKl5qjKw63a3
+ lS1oFJGLSHwkumaeXgqsBAUtZcbuCkdYwq3CtadQRmz2sOvYfmqeUePTg
+ m+C8aWMEN1AC1jk83C3oDdLX01DUwE1Xj0jBB5sVa531E3UnfNm4It15t
+ oG/21UsehJcm/BUTTNa7dBH8SalLtxcVv8mSuzj8sxtEeZh6ZSI29JJRf
+ gaBM27b6iUnz5HnwkRmbXZnWjmOK59Y0Q7pBsz4fqyyT1UKNfjmZciKus
+ iAU0orqIj487vNwP8+p1r5oHEp6JHuL7Dm7z6uyIgOxdnuPG48rs9Bta1 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="386588418"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="386588418"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 06:56:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="795098421"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga005.jf.intel.com with ESMTP; 22 Sep 2022 06:56:59 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 06:56:58 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 06:56:58 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 22 Sep 2022 06:56:58 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.104)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 22 Sep 2022 06:56:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q0HG+aZb2bdY7NgBUw+V6h8+jAoTI/C0mcocjDfxz1KzGBB6bNN2MiqUeJ+pcHoW5xMnbHX9a69gXYvWk7uTr/3PCMnqhwnBbuo2CaFlovFpk3Js1WK3nK9+XB0eRMOmRuWGTaAUnqa7vVjjYXb59auvgMFWkv8YvTpjBlAhCv6YCcpEiYQAs4n2kBGrK/qA9BfLOvJ5NyrOHAj6H+9TceYhGDB1IXIK0t0by1gZGChyVG7mYpnZUfVjPgEnBuCc1IFhBXglU5ZOUetio7tLLWpHHtfz5JGFaepE4UeecfEKrHGOHG9Wl0sRzNbsy9XnYvCUQBEllgGR51DvPMdLVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9Thv2RiwOHL3KqYenQkNEktHGqxUTjddsrzcRmsg5WQ=;
+ b=kFTASc4zpMAnbZgCaLnu+4Z5Fx24tRe/OOp8UbjyZ5um9g8eiV8QvU5d6xb/8SN5tWEv0ES3XqovX5+qmerRpqFwE6u3+R11a/JwSe32JmZopNjrE0l1rc9S55yHfjrZ8jMbqOJmlad6ypDwXobrIdaf/pyVShL077Wqbz5T5ISNAv5meYuWzossVF6Joelv3Akwzwd6oAKmFM5ucpX81/wXAJcF239cHHYlxyBAeo0+CnHNUrtGvqIrUP0cAAM+tudmWeI93krKPeq7izvWVJrXaoCG6nBedJVepOyQ1LaIem3mWE7bjHJF5J/7u9q6MKNqhFay+sp1YWhTiIzuqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SN7PR11MB6559.namprd11.prod.outlook.com (2603:10b6:806:26d::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.16; Thu, 22 Sep
+ 2022 13:56:56 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7246:dc8c:c81f:5a10]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7246:dc8c:c81f:5a10%3]) with mapi id 15.20.5632.026; Thu, 22 Sep 2022
+ 13:56:56 +0000
+Date: Thu, 22 Sep 2022 06:56:54 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: "Iddamsetty, Aravind" <aravind.iddamsetty@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915/mtl: enable local stolen memory
+Message-ID: <20220922135654.a5s3hamrocvqsef7@ldmartin-desk2.lan>
+X-Patchwork-Hint: comment
+References: <20220920071940.3775059-1-aravind.iddamsetty@intel.com>
+ <20220920083149.pfgk62ugajc7trth@ldmartin-desk2.lan>
+ <20220920200512.pjjehlrebcr63uf2@ldmartin-desk2.lan>
+ <e5d340f9-848a-4bf8-29a3-2bbdbcf7ed4a@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e5d340f9-848a-4bf8-29a3-2bbdbcf7ed4a@intel.com>
+X-ClientProxiedBy: SJ0PR13CA0059.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::34) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 03/12] net: ipa: Proactively round up to kmalloc bucket
- size
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>, Vlastimil Babka <vbabka@suse.cz>
-References: <20220922031013.2150682-1-keescook@chromium.org>
- <20220922031013.2150682-4-keescook@chromium.org>
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <20220922031013.2150682-4-keescook@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SN7PR11MB6559:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1502f0cf-3d87-4e90-3144-08da9ca24fae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2MSOEonv3BDHz1km2K+WV/MifhyEM2cn9kNyNuiqE3IdL/HOSXGulzU1a3WEUaPi3lo7v/OoAufJ4mg3VI6ptpp3uc/fVaOgF5Dl30AggjC9yoQeoQFXNHBb6nlSd1oV6KUohz9Sf9ZK5dZOzw2OiutNC3UjiUwMF7zbs+L+PLziIDfz0jdVcT4zbfgli206E+hZqX5LmWHOxkNJ2SbTgpBAaaYViASSCQ26VSYHsoNr0hdUVeyOX4ypq1UdfwQWyyMwLYnZ23BMsY5KIKw5D95FJC3ExZdNNeCdSckqRSyqAwQvf5+OTz86rNizFusnnRSgAT8W6HGsYWCqCued3PMYW4FiM3NQtGu6qHhqZzA5p4J518+6FO3IXOisNBOBoCb7w+w/QSplHzKRXjVF+4EkTtRtITJu2LkDgNFggxk6ZKGyYpRFbheihc2oXO4XqL3uH7A6XJOnrD1SOSH6fRZjrDfQzxVPoY3uuBn2/3/bMmW+rpvtMCM7tD/R3NPDB82m5FSeyN7Tk9OH23NoOPoxXrzGSifsqpWQWoXaNvpeRN+IR0lig/WBuyejWpCFdjsNw/oGQIz34inSf+q91WJ/psQSnrjiPzPMq9XMELIi4YBa8D5nhHMLKfbzxD15RVAMYmOnyaAMzw43NLlasH2uOXhgrvy2bp8ee6kfG+I=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(136003)(396003)(346002)(376002)(366004)(39860400002)(451199015)(83380400001)(6506007)(41300700001)(186003)(1076003)(82960400001)(9686003)(6512007)(26005)(86362001)(38100700002)(36756003)(66946007)(450100002)(4326008)(66476007)(8936002)(66556008)(316002)(6862004)(5660300002)(6636002)(8676002)(2906002)(6486002)(966005)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?s0pULyH4DyhdATs8wK2e18gQjkSofTXx3En0rK17yeMTJvWRo9JN3xzHKA?=
+ =?iso-8859-1?Q?cv9PayaVUkL+RSzkRl7vbRARV0i7WHVL1agX2RNeOuPc37VGpFShlWhgwf?=
+ =?iso-8859-1?Q?eo/9Ezht/Pi+cGLuDf9B0mcKMbzzMeM4f88Y0Ls4G8WkjAZRwqUpJJLR0R?=
+ =?iso-8859-1?Q?F2X80RfEZgMq3OIeJwRCyeZZgJZjjG2Wy/eWVBDWJW2D2jMTaC8RLj0VBG?=
+ =?iso-8859-1?Q?5VGimhq2PXbPHl61ZpuJePT+TO1YwccMYz19lBt4xTywiOd0SNfRxllJ9f?=
+ =?iso-8859-1?Q?796B22W/otigplGF3FpFpYPyEr49Mvc1Is4+4tWCDeWPG3CSbJrBlmGh8l?=
+ =?iso-8859-1?Q?ekScu0EQGoXU7sfxm1FMQBmul9MP/Fngr5zefUJkw7x3rGznshFsy7Z0JR?=
+ =?iso-8859-1?Q?QDQdIX8dlFxrNlZnT9nECxnxS7cfxuvh/LH1eC2C5S6ugbCpn4AIOS0mPv?=
+ =?iso-8859-1?Q?10YYjk4/0THMQ/2XSvpSYvGHl1uWfgiO59Nxd7+f7TUJwnnaASZR+bjcge?=
+ =?iso-8859-1?Q?RCh4DDb/ismZ3QYgSfHf+49Ohoos1dVEfMYpsnXEgOykC3Tt43nD6Hv/zK?=
+ =?iso-8859-1?Q?eSNuTtKrAEvH8xPZxx2uNGhJP0PqLHzeyVUB5TTqiKk4t0o+pYkAJJSD7v?=
+ =?iso-8859-1?Q?D6W3BfCtwfPMmP68uJaLlwV+nEIQlBbpcW4IUCN+dbiTo5nooV6VoL3MA8?=
+ =?iso-8859-1?Q?gyvHoFUOeU9Q7WoMywpUpXMGifrkzWb0EpuC5ZMSfrHYd/zJKScvWc8hiS?=
+ =?iso-8859-1?Q?dtVheXlqsC+Lj9sV5VaLKRV0xYoHu7pEMbRyK2gRgZbRofnJiFiPFe84sj?=
+ =?iso-8859-1?Q?q6AvFw1HYweQEXz616OzWV2DDlsNLoF+hz7zXGKxywrvqDeUJhVCh7P3JK?=
+ =?iso-8859-1?Q?d3C4pA+cwCdMrVDIXx50GLjCQ3lxaPM7x3lfhV8h8ivkBiHnoKw8m+zA6k?=
+ =?iso-8859-1?Q?6ZhY7kXRgQZvaBhC6Uu/iW4PfdtVHFIXa5DogLqiSTzJJA/UYwsq/EwdE/?=
+ =?iso-8859-1?Q?mqQn+DepSUuF4TdW8qZ/i5TfNKrb4FG2de8yZXesEFQCzi5lc70zvBhHqI?=
+ =?iso-8859-1?Q?7NqiFtrzE/1a1Jf+Gwu8igdkK4wqvKyDTKbXt5052HjOX6/C8zXLn5tyiR?=
+ =?iso-8859-1?Q?2TTCo/Uml++RbK+J8iMg4m7fE0/a6FSOvRx1WITVj/oUEZKKewfyTMbMe/?=
+ =?iso-8859-1?Q?5NPwYJBeDnvPTzSW0r3SEndReZSocvssdFDtnF9kwJJH/QH5tYiq/Cfvgw?=
+ =?iso-8859-1?Q?jN0WNE+osvjDbQrirlbGTTFqbx+ap4kG5WaS+ozTaTtneJeYG81zjjhzGl?=
+ =?iso-8859-1?Q?CeU5+AXGmNSC22hRJwqxBQ07iKviOkJEBbkjkdA6NmBgeWAWvF9RhKTssP?=
+ =?iso-8859-1?Q?XJmjJ59M3jOpAg46uWUa7pEMXRSQrznCDwWK+H+FJFb4ysvzFDYZBtEIJM?=
+ =?iso-8859-1?Q?x5CYIR6ARfCDy5VYLq8azmG3vjy/3oKW/nYHcnmMe1lSqDBMUMr/GA04kc?=
+ =?iso-8859-1?Q?TQVSPpkKxsv76/sD6KQVO1HNFf6hg+3j14W++xL9f/AY1y+90DyyQJVwpA?=
+ =?iso-8859-1?Q?/pd/4rZUaoEjPrjqGqDIZ9tY6UMXNPrBje5E4zVGlVuRJEOhze8Vx4zMRP?=
+ =?iso-8859-1?Q?1VZeMP7r6xmk/G3Zxewxdj+dUalpcKi3Z4dPTH8UTCMeof8+sg+8bNxg?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1502f0cf-3d87-4e90-3144-08da9ca24fae
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 13:56:56.3672 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hTsWxJIUuwEC2Yp0PAbGj6HHM7zoCbJczCogyTDKBc6MInwbJ23Oy4q+sWU0RwZJmggs7C2KE3qoLEp2EnihruXLtobELo3fV7atODp0NQo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6559
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,80 +151,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
- linaro-mm-sig@lists.linaro.org, Jakub Kicinski <kuba@kernel.org>,
- David Sterba <dsterba@suse.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jacob Shin <jacob.shin@amd.com>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Pekka Enberg <penberg@kernel.org>,
- Daniel Micay <danielmicay@gmail.com>, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-btrfs@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/21/22 10:10 PM, Kees Cook wrote:
-> Instead of discovering the kmalloc bucket size _after_ allocation, round
-> up proactively so the allocation is explicitly made for the full size,
-> allowing the compiler to correctly reason about the resulting size of
-> the buffer through the existing __alloc_size() hint.
-> 
-> Cc: Alex Elder <elder@kernel.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: netdev@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->   drivers/net/ipa/gsi_trans.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/ipa/gsi_trans.c b/drivers/net/ipa/gsi_trans.c
-> index 18e7e8c405be..cec968854dcf 100644
-> --- a/drivers/net/ipa/gsi_trans.c
-> +++ b/drivers/net/ipa/gsi_trans.c
-> @@ -89,6 +89,7 @@ int gsi_trans_pool_init(struct gsi_trans_pool *pool, size_t size, u32 count,
->   			u32 max_alloc)
->   {
->   	void *virt;
-> +	size_t allocate;
+On Wed, Sep 21, 2022 at 12:00:38PM +0530, Iddamsetty, Aravind wrote:
+>replying here for earlier comments too.
+>
+>On 21-09-2022 01:35, Lucas De Marchi wrote:
+>> On Tue, Sep 20, 2022 at 01:31:49AM -0700, Lucas De Marchi wrote:
+>>> On Tue, Sep 20, 2022 at 12:49:40PM +0530, Aravind Iddamsetty wrote:
+>>>> As an integrated GPU, MTL does not have local memory and
+>>>> HAS_LMEM() returns false.  However the platform's stolen memory
+>>>> is presented via BAR2 (i.e., the BAR we traditionally consider
+>>>> to be the LMEM BAR) and should be managed by the driver the same
+>>>> way that local memory is on dgpu platforms (which includes
+>>>> setting the "lmem" bit on page table entries).  We use the term
+>>>> "local stolen memory" to refer to this model.
+>>>>
+>>>> Cc: Matt Roper <matthew.d.roper@intel.com>
+>>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>>>
+>>>> Signed-off-by: CQ Tang <cq.tang@intel.com>
+>>>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+>>>> Original-author: CQ Tang
+>>>> ---
+>>>> drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 113 +++++++++++++++++----
+>>>> drivers/gpu/drm/i915/gt/intel_ggtt.c       |   2 +-
+>>>> drivers/gpu/drm/i915/i915_drv.h            |   3 +
+>>>> 3 files changed, 100 insertions(+), 18 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>>>> b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>>>> index acc561c0f0aa..bad5250fb764 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>>>> @@ -77,6 +77,19 @@ void i915_gem_stolen_remove_node(struct
+>>>> drm_i915_private *i915,
+>>>>     mutex_unlock(&i915->mm.stolen_lock);
+>>>> }
+>>>>
+>>>> +static bool is_dsm_invalid(struct drm_i915_private *i915, struct
+>>>> resource *dsm)
+>>>> +{
+>>>> +    if (!HAS_BAR2_SMEM_STOLEN(i915)) {
+>>>
+>>> I called a similar function as is_dsm_valid() in
+>>> https://patchwork.freedesktop.org/series/108620/
+>>>
+>>> sounds weird  with "invalid" and the double negation on return early
+>>> style.
+>
+>sure, will change it hope i can use that from your patch.
 
-I don't care about this but the reverse Christmas tree
-convention would put the "allocate" variable definition
-above "virt".
+that patch is now pushed, so now you can reuse it.
 
-Whether you fix that or not, this patch looks good to me.
-
-Reviewed-by: Alex Elder <elder@linaro.org>
-
->   	if (!size)
->   		return -EINVAL;
-> @@ -104,13 +105,15 @@ int gsi_trans_pool_init(struct gsi_trans_pool *pool, size_t size, u32 count,
->   	 * If there aren't enough entries starting at the free index,
->   	 * we just allocate free entries from the beginning of the pool.
->   	 */
-> -	virt = kcalloc(count + max_alloc - 1, size, GFP_KERNEL);
-> +	allocate = size_mul(count + max_alloc - 1, size);
-> +	allocate = kmalloc_size_roundup(allocate);
-> +	virt = kzalloc(allocate, GFP_KERNEL);
->   	if (!virt)
->   		return -ENOMEM;
->   
->   	pool->base = virt;
->   	/* If the allocator gave us any extra memory, use it */
-> -	pool->count = ksize(pool->base) / size;
-> +	pool->count = allocate / size;
->   	pool->free = 0;
->   	pool->max_alloc = max_alloc;
->   	pool->size = size;
-
+Lucas De Marchi
