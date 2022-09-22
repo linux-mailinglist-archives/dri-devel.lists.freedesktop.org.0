@@ -1,76 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5458B5E5933
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 05:11:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B2D5E5976
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 05:17:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 449C810EA49;
-	Thu, 22 Sep 2022 03:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2081F10EA50;
+	Thu, 22 Sep 2022 03:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3D6D10E0E2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 03:10:30 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id x1so7544908plv.5
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Sep 2022 20:10:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=qxVZgozpxUqw/OCmt2hiw12U/0MyvSZtu5qBBtiyWvw=;
- b=YceqUeE5vYLBI4ZX8VHDnLZLf4LI9m/umYwz5bsG0CsZBYwVRKID0Xij6KROSl4WW+
- /TrR0tpL0v+DF8mfo3NenZgJCDlxojKf81TDxbqYAGTS/Z+tsMmbhRNDYO79WP6ExIu9
- zC6fMXi3wRzqyMx5oelK9O9SszqI+SIirgmsc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=qxVZgozpxUqw/OCmt2hiw12U/0MyvSZtu5qBBtiyWvw=;
- b=UoF4X+CfQt7TkSZ0tJTMpTUYWMgcWfvq9mdPPHnp5QeqqxBPlggSjOwa1+ptwdKLaW
- wESdkImWKHXZcLp4JrVPwSz27IZi8VR3DtCzjqUiwTFwG063NY5vLQB2Mhkh+rWNdgoO
- wmQ2pRoTyd5VzAwUEHYD+8IUUfKcpEwpU1OGMOctxknL7lQ+WFkm5iknFnwXho9N7dob
- cCQ1uR47cLbattSy7q1xvqyYJlDIHilN1txIN6C+lMX+EyYqru1IjL2FU9s9V940PCM8
- 6GrJZ2vtl8slOOfROvZzWYTwWGMCkoRLlfMIe4PSmIaQux+dVwSjTW/Sff46k+C2GZWc
- BfeA==
-X-Gm-Message-State: ACrzQf2NwtHgAYPOCJ/vEtaNack5OKyGVsT4ShFOtoQrDGzgbJwygONl
- BML6plav91jz5/Y90uDFPp35Cw==
-X-Google-Smtp-Source: AMsMyM5eu+CoD5QA+YWTzFQPQA65ZAQe9wx2y8um8qAtQyx/81XSGYYdjISHnZdAlryk2cpvPh097g==
-X-Received: by 2002:a17:902:7e83:b0:177:e667:7841 with SMTP id
- z3-20020a1709027e8300b00177e6677841mr1282723pla.18.1663816230671; 
- Wed, 21 Sep 2022 20:10:30 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- w23-20020a1709026f1700b001783a917b9asm673159plk.127.2022.09.21.20.10.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 20:10:26 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH 12/12] slab: Restore __alloc_size attribute to
- __kmalloc_track_caller
-Date: Wed, 21 Sep 2022 20:10:13 -0700
-Message-Id: <20220922031013.2150682-13-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220922031013.2150682-1-keescook@chromium.org>
-References: <20220922031013.2150682-1-keescook@chromium.org>
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1539; h=from:subject;
- bh=OIiXewiJtJloKAX8DOwo5WpUjhu8p3BhQEgjb94POmU=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjK9IUphiC6b+jlnve6/WNpL7tI32u/OY+d1HLdPMo
- annUuq2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYyvSFAAKCRCJcvTf3G3AJlTRD/
- 9zGxikcJjFFHdBDIRC8el1bT8i8MIl1Oz2r6j4svUQE/cn0btongvxnGDbygRuZC43lwApaQa0M8Pt
- AvmL/hvvYmdFiuzN6An0FZ4ORvTCLn1uzH4EirSEKQxkllpH0r1YW2hqSLpqcaY86iquT8vB02Tv16
- e13SWQA7nA1/QWGk0qUxi0YLrW0hOtkH2mg2fITcspULau1LHMsUmc37gU0TbvIrbx9hN87N2NnOzz
- alo6xwbNstj0cru/3QyQ5TJdhcVKP54qndI7drNEdhl8YWC7CNhwu0vFdbZ/LfLgxO2PtTl9nz23b0
- fDmn0WywY/tJQOqhYvvIWsDN69+iEub68yvR3WWj2bKYgwuaZ89nPNObeP4LOThYNTFoEclKMY7Rja
- jkOQc8wAtgZmSKL9TVY3alYeLpe9CQJEnOq4oSVlfTwIftpgULM6xBq459EK/qrpUHyyV8vmzyoEjv
- Pz/49h7U3Q7bYxnoWIkIniYWWT6d9d1DH3MtHi4eCTaj2iVTLdQRLx7Zw2/KJ4VvLPA3/587G7zFdJ
- OzdFQo4VVfEuH6S3EaIPg5mtVX0AbNqQxBEV1EkPNU2qQK6x6coo691bRHOWqgucqydaoj3YDERK1B
- 3pAijp4vU8wsUovuHXrgjKcWnIuVw656YURrFma1ktTDOShGFqP+WQ5kIpqw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp;
- fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 671AD10EA4D;
+ Thu, 22 Sep 2022 03:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663816653; x=1695352653;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=s0fFFyKt5iK1v4en5n8rXzybDM0okkvkrSw5q2Q2Jt8=;
+ b=mtWaTikUNrKszh8TuIWxA8PDL9UFUkSQ3Ae4dAdUTzeCPnzq9jYg6VFh
+ j5BmInrAwrkTuLUpmJMXTmFCvcishOYmh5F+XzPGgKyHzjLCuyJRGBWPf
+ DFCJ74Gmx3XoWuyA3Q+3IYsH9BSPla2V1jj1T+eaAo0LcpigMRvK/sqra
+ Tm4XdAFkQWvEIdr8b9pteHkIKd/0EWp8BPIlfgVHRL5AvxVmjrfQdHRgZ
+ HRlp8hi93Y7CDDY2o5PNdMamfoYvjm4u+QsRzIe6hPX7n/BDtTTkYdxI7
+ krag4OfqvfBgun5AlW5MxMWKbjOrjlZTINMO746Y+fPXnZm/8MWZYKyZp Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="280555210"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="280555210"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 20:17:32 -0700
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="597258255"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.181.182])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 20:17:32 -0700
+Date: Wed, 21 Sep 2022 20:17:31 -0700
+Message-ID: <87fsgkm71w.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+Subject: Re: [PATCH 5/7] drm/i915/hwmon: Expose card reactive critical power
+In-Reply-To: <d8af316e-6e1e-98db-e25b-273c734634f6@intel.com>
+References: <20220916150054.807590-1-badal.nilawar@intel.com>	<20220916150054.807590-6-badal.nilawar@intel.com>	<d8af316e-6e1e-98db-e25b-273c734634f6@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,61 +58,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, Jacob Shin <jacob.shin@amd.com>,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
- Josef Bacik <josef@toxicpanda.com>, linaro-mm-sig@lists.linaro.org,
- Jakub Kicinski <kuba@kernel.org>, David Sterba <dsterba@suse.com>,
- Andrew Morton <akpm@linux-foundation.org>, Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Pekka Enberg <penberg@kernel.org>,
- Daniel Micay <danielmicay@gmail.com>, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-btrfs@vger.kernel.org
+Cc: linux-hwmon@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, jon.ewins@intel.com,
+ Badal Nilawar <badal.nilawar@intel.com>, riana.tauro@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With skbuff's post-allocation use of ksize() rearranged to use
-kmalloc_size_round() prior to allocation, the compiler can correctly
-reason about the size of these allocations. The prior mismatch had caused
-buffer overflow mitigations to erroneously fire under CONFIG_UBSAN_BOUNDS,
-requiring a partial revert of the __alloc_size attributes. Restore the
-attribute that had been removed in commit 93dd04ab0b2b ("slab: remove
-__alloc_size attribute from __kmalloc_track_caller").
+On Wed, 21 Sep 2022 08:07:15 -0700, Gupta, Anshuman wrote:
+>
 
-Cc: Pekka Enberg <penberg@kernel.org>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-mm@kvack.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- include/linux/slab.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hi Anshuman,
 
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index ac3832b50dbb..dd50ed7207c9 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -693,7 +693,8 @@ static inline __alloc_size(1, 2) void *kcalloc(size_t n, size_t size, gfp_t flag
-  * allocator where we care about the real place the memory allocation
-  * request comes from.
-  */
--extern void *__kmalloc_track_caller(size_t size, gfp_t flags, unsigned long caller);
-+extern void *__kmalloc_track_caller(size_t size, gfp_t flags, unsigned long caller)
-+				   __alloc_size(1);
- #define kmalloc_track_caller(size, flags) \
- 	__kmalloc_track_caller(size, flags, _RET_IP_)
- 
--- 
-2.34.1
+> > diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> > index 55c35903adca..956e5298ef1e 100644
+> > --- a/drivers/gpu/drm/i915/i915_reg.h
+> > +++ b/drivers/gpu/drm/i915/i915_reg.h
+> > @@ -6644,6 +6644,12 @@
+> >   #define   DG1_PCODE_STATUS			0x7E
+> >   #define     DG1_UNCORE_GET_INIT_STATUS		0x0
+> >   #define     DG1_UNCORE_INIT_STATUS_COMPLETE	0x1
+> > +#define   PCODE_POWER_SETUP			0x7C
+> > +#define     POWER_SETUP_SUBCOMMAND_READ_I1	0x4
+> > +#define     POWER_SETUP_SUBCOMMAND_WRITE_I1	0x5
+> > +#define	    POWER_SETUP_I1_WATTS		REG_BIT(31)
+> > +#define	    POWER_SETUP_I1_SHIFT		6	/* 10.6 fixed point format */
+> Could please add some comment to explain, why POWER_SETUP_I1_SHIFT  = 6,
+> what is excatly 10.6 fixed point format ?
+> With that.
+> Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
 
+10.6 fixed point format means a 16 bit number is represented as x.y where x
+are the top 10 bits and y are the bottom 6 bits. The float value of this 16
+bit number is (x + (y / 2^6)), so (x + (y / 64)). For example the number
+0x8008 will have the value (1 * 2^9 + 8 / 2^6) == 512.125. Note that the
+hexadecimal number 0x8008 == 32776 and 512.125 == 32776 / 64 which is why
+POWER_SETUP_I1_SHIFT is 6 (2^6 == 64).
+
+Similarly, the 8.8 fixed point format is explained in
+gt/intel_gt_sysfs_pm.c. Do you think this needs a comment? I thought "10.6
+fixed point format" is a sufficient hint (fixed point numbers are fairly
+well known).
+
+An even trickier data format is in the patch "drm/i915/hwmon: Expose
+power1_max_interval" in hwm_power1_max_interval_show() but I think I have a
+long comment there.
+
+Thanks.
+--
+Ashutosh
