@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017425E6116
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 13:30:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A621B5E6118
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 13:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC34310EAD3;
-	Thu, 22 Sep 2022 11:30:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBF5910EAD2;
+	Thu, 22 Sep 2022 11:30:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A905710EAC9
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 11:30:24 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id a10so10678356ljq.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 04:30:24 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D44D410EACC
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 11:30:25 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id o2so14119709lfc.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 04:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=47vvp11+W20l4C4N5v2oL7Eb2wQVc5MT8hndh5rEnUo=;
- b=fwM+BJ+9XUsoh6Y9ytE96dizU38naJkzLE2buKeHJiv9K2z3DqcZNJgOt+u7Z0DJQG
- ADhgdhu0pcVuEhaVDGC1sasxzwJ4v6BlFa7W0NidFnVtNF+b0jbgSimUyRsBXs8ajG59
- mxg57rx+1XV0sveG4u7y33F3yrtIM382HDFCIJlDDHZvMuX6RY+yB9Vw7IVg+1+3eBf9
- MnPUeGNQVIUthhQPwJfUOG8Lijz+XUv6ieqZT/s5GdtA0IfgBTWrUKoJSAwUbG1wcRjM
- bgrLudtejV9m0lWJ60jGmXfm99QK9YrOJGWdrs9VL+WucAC4l+it35+YmCONtWknehKs
- +/PA==
+ bh=583h6KF71HUgEtsvHt8C5CKBAKwnaZE+xGmKl57ijJU=;
+ b=E8GoP/tqY9uLEMc+tulq9xPDQzcwCP/+S+MWgvUhZAnhqeQImOfBvEHy2q1TEonW8o
+ FqPgyAgR+wuOOiVLKTgokDZKt5Vym/eB9MduxCahabbIqlG4+AgITrgrtQ9hD6rAGYPu
+ 356/O6rCQt0sdStYuOgcv0pZDC+KtfFnS6gelhcBQ6t4+mJyiagvN3z+rK2gBXAYdukl
+ 4+MiOZZLjqOMhJLSXQ2ZHKqe7OA0rfPow/gljAmt7OdZxs+9K2YXKkgBODuAPECTokOS
+ GyQ7cPHFyPLGGgVyJjWhbwFV5Ibd5FnokeLYBJGBDn4wU62xsCVxs5Q1nXxyGKpUjxd5
+ B4Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=47vvp11+W20l4C4N5v2oL7Eb2wQVc5MT8hndh5rEnUo=;
- b=qp2Y2vhTYg+btdFx9FVtT6ajxPyrN5V+9wPMsrxdejtQCH8VPk+5ZVkni2UhGUeobt
- 8zUgtiJcwZFgE9MnT7DkExXytwM0ZqK9LgocZ2l4VwHOaJQW/xT41c525p+brjGjS/D2
- Kj1zTi3I5D+rMWRFLRZ4LDDdcedBh9jnbjYHEFp7oSPiXVE5r1Zm1w4n6lP1DhTg0vJV
- s5yOR4pSm/Lq1JIfLPDSr5gGVy+alW9zshOO6dBiF9fcJIPazoGSuK5VJwHD7ZIeLwD0
- FyDcz0DNCPqLjW0tchZRaxy8H2JsapXJdrRF1S//RGSmWkv2nsJ77pjHqzgK1ZCCCCtG
- Zs7A==
-X-Gm-Message-State: ACrzQf3zTKeJwffidhhcZdM+BJQOZDZhuVyD4IOqwMmoSoZ5SyI0mb+p
- /BgVKS70JGDiIWikvxxve0nDgg==
-X-Google-Smtp-Source: AMsMyM47XG+fS8A7DyjTZd0TauZkFtNVv0/q18OyWaGukjimZ/J4f7PRXHMUu8Iv2LnBnMA1lIX8oQ==
-X-Received: by 2002:a05:651c:160a:b0:25a:62a4:9085 with SMTP id
- f10-20020a05651c160a00b0025a62a49085mr947493ljq.214.1663846220415; 
- Thu, 22 Sep 2022 04:30:20 -0700 (PDT)
+ bh=583h6KF71HUgEtsvHt8C5CKBAKwnaZE+xGmKl57ijJU=;
+ b=p9Y9SXmgGpl2uD3co7moD6u1Ha8nolAJLsc+UngTjKsCfwVhuMRMl96XAcm5aGNo43
+ 8TGXR/1g5c5AGZ0YYxjK0cqmj8JN9oL4wzc06gt0j3BX9vigIkyBfN7XoSzgRshqPv7o
+ Z6UvCiXHhLxbg1uQs3WmXFnAjCh7N4S3Tkk2WnJkCGHbOI5No8LqRk18hel+6ZTO6zV5
+ BwWVaS1ZIEU6x1neJJgUeObQ2J2jVtLlTCTyaEpTkE3ksvhc4DdqYOiwzSFlUS+Z22ie
+ C5BMPjOR/v2zAco83qnyH4q475rvlI9xLzzdVfT17upzybQ3dYLf/pI+nEDepqFQbTfY
+ ADbQ==
+X-Gm-Message-State: ACrzQf0dVZ3Bk0NsOrqdmW4/bsjIAsf5PvarsFBgV/7eNYl3N9oC1Lqw
+ Xue//SUGk8iN2P4Oxxl7EKPQgQ==
+X-Google-Smtp-Source: AMsMyM7/FvoCj8lHHs9X09maj/umN/CcXQani3boBysW4Q3s/DFvafrWo+nlKexuhyzWwblDO14kIQ==
+X-Received: by 2002:a05:6512:150a:b0:49f:1b3d:889f with SMTP id
+ bq10-20020a056512150a00b0049f1b3d889fmr1131655lfb.75.1663846221338; 
+ Thu, 22 Sep 2022 04:30:21 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- c4-20020ac25304000000b004996fbfd75esm898527lfh.71.2022.09.22.04.30.19
+ c4-20020ac25304000000b004996fbfd75esm898527lfh.71.2022.09.22.04.30.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 04:30:19 -0700 (PDT)
+ Thu, 22 Sep 2022 04:30:20 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 2/5] drm/msm/dsi: add support for DSI 2.6.0
-Date: Thu, 22 Sep 2022 14:30:13 +0300
-Message-Id: <20220922113016.355188-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 3/5] drm/msm/dpu: add support for MDP_TOP blackhole
+Date: Thu, 22 Sep 2022 14:30:14 +0300
+Message-Id: <20220922113016.355188-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220922113016.355188-1-dmitry.baryshkov@linaro.org>
 References: <20220922113016.355188-1-dmitry.baryshkov@linaro.org>
@@ -76,39 +76,50 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for DSI 2.6.0 (block used on sm8450).
+On sm8450 a register block was removed from MDP TOP. Accessing it during
+snapshotting results in NoC errors / immediate reboot. Skip accessing
+these registers during snapshot.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_cfg.c | 2 ++
- drivers/gpu/drm/msm/dsi/dsi_cfg.h | 1 +
- 2 files changed, 3 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        | 11 +++++++++--
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-index 7e97c239ed48..59a4cc95a251 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-@@ -300,6 +300,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
- 		&sc7180_dsi_cfg, &msm_dsi_6g_v2_host_ops},
- 	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_5_0,
- 		&sc7280_dsi_cfg, &msm_dsi_6g_v2_host_ops},
-+	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_6_0,
-+		&sdm845_dsi_cfg, &msm_dsi_6g_v2_host_ops},
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 38aa38ab1568..4730f8268f2a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -92,6 +92,7 @@ enum {
+ 	DPU_MDP_UBWC_1_0,
+ 	DPU_MDP_UBWC_1_5,
+ 	DPU_MDP_AUDIO_SELECT,
++	DPU_MDP_PERIPH_0_REMOVED,
+ 	DPU_MDP_MAX
  };
  
- const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-index 8f04e685a74e..95957fab499d 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-@@ -25,6 +25,7 @@
- #define MSM_DSI_6G_VER_MINOR_V2_4_0	0x20040000
- #define MSM_DSI_6G_VER_MINOR_V2_4_1	0x20040001
- #define MSM_DSI_6G_VER_MINOR_V2_5_0	0x20050000
-+#define MSM_DSI_6G_VER_MINOR_V2_6_0	0x20060000
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 5e6e2626151e..b0bb693c10ac 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -939,8 +939,15 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
+ 		msm_disp_snapshot_add_block(disp_state, cat->wb[i].len,
+ 				dpu_kms->mmio + cat->wb[i].base, "wb_%d", i);
  
- #define MSM_DSI_V2_VER_MINOR_8064	0x0
+-	msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len,
+-			dpu_kms->mmio + cat->mdp[0].base, "top");
++	if (top->caps->features & BIT(DPU_MDP_PERIPH_0_REMOVED)) {
++		msm_disp_snapshot_add_block(disp_state, 0x380,
++				dpu_kms->mmio + cat->mdp[0].base, "top");
++		msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len - 0x3a8,
++				dpu_kms->mmio + cat->mdp[0].base + 0x3a8, "top_2");
++	} else {
++		msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len,
++				dpu_kms->mmio + cat->mdp[0].base, "top");
++	}
  
+ 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+ }
 -- 
 2.35.1
 
