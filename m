@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C885C5E5C3D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:20:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A67A5E5C49
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 793C610E5BD;
-	Thu, 22 Sep 2022 07:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E022610E0C2;
+	Thu, 22 Sep 2022 07:22:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B095910EA55
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:20:50 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id j16so13219362lfg.1
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 00:20:50 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85F3810E0C2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:22:55 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id z25so13232395lfr.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 00:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=TPd1M8oBjHnNozp05d671P5pFiuRlsalsS4w6miNryU=;
- b=DEJqWRMQjOJQ8++nLzN9KbMQNg31pNbXrNYPjUYeHJxeulmWbiO3uwjEydrBT8enpx
- 5sS2fPSXu9nqh8I/U4KFSjfV3G927s/rv1tqmj11Z2hF3kMbAnVU2AD+yP09o57fyrB4
- 3cJUgnwaYKiaus3XEQp1bZ/IX9OrFDM730VMEIsL18ne6cBc8bpe+z91516vR0rgCpTP
- AiRjBaf+dMkrbqac4f8myV0JWSpk4Ag1fPfLQclSe47PPYVhP9hqgVE/2t3wrtFREca9
- Dd1w0tMisqyJRSHK931fl/LPYRhJH7/SXY2e8WeY+Ypjx66EOWYGyniBFn6hR7Q3Zlzw
- uVSg==
+ bh=JDY3wyLD4djHNv21bBZZzvFe5rrOQU/pLSj/gQsk7Ps=;
+ b=XwHK0QxbkukB+0pfeLp3iJq83T4xdeHh69DQgP8mfmueJLRE765/q+ase9/sNnJs21
+ gef4QcYwhvGMJ5I1rOMv4c8iBQEkec5oCScXqe7tEEAh1hYgL/KDHOgUqd+Y2D7/j3qh
+ ZQ4uIoPTMlwg/4tS9A7ZZFfoIDVQ2RJjSyPcTigutEkwRe1QNvQ7h9X83DJcBahprX+J
+ dZNgSRwzevigqAap02exRBv78XIlWrdN6evViK4G4y3mTDz+ei4bVP1lYTyUF1vdPNZA
+ 0xD8F3pll7zdcIu5IlxU0TFQmobM5M56Pr+dXMaCNQmKgBXoiyoGaTwzgD0iXpKJUQQ8
+ OP0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=TPd1M8oBjHnNozp05d671P5pFiuRlsalsS4w6miNryU=;
- b=fhN8omFIvG02fwL/HYUs+lheOKtFi4fSx8EOlJsbs3jqpEe/9FbgZr5lBGiwdf4Qvm
- RcIj5xjTCZ/cOlxFWZyrqftMjvX7hvFUHKtkHujHuF8FLYL0N3Ee34WyRGDVH8cnf9bQ
- yoo6A64HdFPiWy49VlDsnGGItmQ7+L0AbiAW5I20Q9+aquqWhkZ3mIzt/4Au8xVbsbpk
- mo3i2SuStxbfGlr/AlzmRowsrh6xO35yHzHuZVgnOt8l0O62R6Ei+g3tUsnm4DLfzZ2e
- mmusEEuXuvr8OOfCQs13dOOwSj3Mzta/GSsX7PzsPpDt0w0xBEns8CvOLOEtbZavGdgn
- 9I3Q==
-X-Gm-Message-State: ACrzQf0rv3IYGsAqov9tOkbB0y36G8QXEIRnGFbnfeYJGBepuJUBw4ee
- qikpQ26m9NLTnnrFHqjH3ZxzLw==
-X-Google-Smtp-Source: AMsMyM55t1rNZFbd9M//L345bj9ZqSPstb512C/ND5LsTPVxSfYeiy0p88QI81OjW4xD1dRYCtEUEg==
-X-Received: by 2002:a05:6512:3187:b0:49e:6607:3a75 with SMTP id
- i7-20020a056512318700b0049e66073a75mr681890lfe.28.1663831249033; 
- Thu, 22 Sep 2022 00:20:49 -0700 (PDT)
+ bh=JDY3wyLD4djHNv21bBZZzvFe5rrOQU/pLSj/gQsk7Ps=;
+ b=IdLdOa4REtB7NV3lYoDrz3NjulB7cWfQuC94E+ikZLG4diCCPAOt65OzU4AXqcg4zb
+ jZBJJSICBpS+xKEU0R5AW2OBzuH37yPbOlROliicCy7ssjOFGwp+dhAi/Zgdcc0mhlZJ
+ RNWT5rQ8dJnz0/pOaXCv5gqKnNF0N/2KD+msLHyUKCpu9LRR2qVyd/alt+bKFxCJFHN4
+ 5iJ0iQIIIJp1J80TPG7LgnmNNgWZiUxuySF1pZBY3+ARhRtKjV1hMcn2dPdNakg/15p0
+ +jN/DYm/+FTP+cyFCH9YwdqWoSwvMq1XohfyUAQrc+W3ogVhCsPE2fXOTZ+DIpPhFDE7
+ +hfQ==
+X-Gm-Message-State: ACrzQf0KgfFr/rUoGcRbRyTDXjr78QqmUFa/6xenBbr4/YBDmJ/vKAnS
+ FT7+VfuaKy3qnzLwwmHNtQQrgw==
+X-Google-Smtp-Source: AMsMyM5+A2X0Idpf2Cy8iDaQZo+BvsjA2Xr5j4lwWyGuafVss0uDTPYm+TtzlvtHMoansllc4Ccy/w==
+X-Received: by 2002:a05:6512:b9a:b0:499:b537:fe60 with SMTP id
+ b26-20020a0565120b9a00b00499b537fe60mr785618lfv.319.1663831373857; 
+ Thu, 22 Sep 2022 00:22:53 -0700 (PDT)
 Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
  [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- u9-20020a199209000000b00492e570e036sm801300lfd.54.2022.09.22.00.20.47
+ i20-20020a198c54000000b004946c3cf53fsm804450lfj.59.2022.09.22.00.22.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 00:20:48 -0700 (PDT)
-Message-ID: <a0a3c427-c851-ae5d-4010-e94740bf9f6e@linaro.org>
-Date: Thu, 22 Sep 2022 09:20:47 +0200
+ Thu, 22 Sep 2022 00:22:53 -0700 (PDT)
+Message-ID: <11592bcd-eec7-7cc0-86c6-8f440b6af447@linaro.org>
+Date: Thu, 22 Sep 2022 09:22:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v1 17/17] drm/mediatek: Add mt8195-dpi support to drm_drv
+Subject: Re: [PATCH v1 16/17] drm/mediatek: dpi: Add mt8195 hdmi to DPI driver
 Content-Language: en-US
 To: Guillaume Ranquet <granquet@baylibre.com>, Vinod Koul <vkoul@kernel.org>, 
  Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
@@ -67,9 +67,9 @@ To: Guillaume Ranquet <granquet@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
  Kishon Vijay Abraham I <kishon@ti.com>,
  Matthias Brugger <matthias.bgg@gmail.com>
 References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-17-4844816c9808@baylibre.com>
+ <20220919-v1-16-4844816c9808@baylibre.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220919-v1-17-4844816c9808@baylibre.com>
+In-Reply-To: <20220919-v1-16-4844816c9808@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,22 +93,24 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 19/09/2022 18:56, Guillaume Ranquet wrote:
-> Add dpi support to enable the HDMI path.
+> Add the DPI1 hdmi path support in mtk dpi driver
 > 
 > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 72049a530ae1..27f029ca760b 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -820,6 +820,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
->  	  .data = (void *)MTK_DPI },
->  	{ .compatible = "mediatek,mt8192-dpi",
->  	  .data = (void *)MTK_DPI },
-> +	{ .compatible = "mediatek,mt8195-dpi",
-> +	  .data = (void *)MTK_DPI },
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index 630a4e301ef6..91212b7610e8 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -15,7 +15,10 @@
+>  #include <linux/of_graph.h>
+>  #include <linux/pinctrl/consumer.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/reset.h>
+>  #include <linux/types.h>
+> +#include <linux/regmap.h>
+> +#include <linux/mfd/syscon.h>
 
-It's compatible with the others. You don't need more compatibles.
+Why do you need these headers in this patch?
 
 Best regards,
 Krzysztof
